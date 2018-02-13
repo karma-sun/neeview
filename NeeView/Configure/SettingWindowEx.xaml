@@ -1,14 +1,14 @@
-﻿<Window x:Class="NeeView.SettingWindowEx"
+﻿<Window x:Class="NeeView.Configure.SettingWindowEx"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:NeeView"
+        xmlns:local="clr-namespace:NeeView.Configure"
         xmlns:nwp="clr-namespace:NeeView.Windows.Property"
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}"
-        FontSize="16"
-        Title="SettingWindowEx" Height="768" Width="1024">
+        FontSize="14"
+        Title="SettingWindowEx" Height="704" Width="960">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -34,7 +34,7 @@
             <Style TargetType="TextBox">
                 <Setter Property="HorizontalAlignment" Value="Stretch"/>
             </Style>
-            
+
         </ResourceDictionary>
     </Window.Resources>
     <DockPanel UseLayoutRounding="True">
@@ -54,9 +54,7 @@
 
         <TextBlock DockPanel.Dock="Top" Text="{Binding ElementName=IndexTree, Path=SelectedItem.DispPage.Header}" FontSize="32" Margin="20"/>
 
-        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Margin="0">
-            <ContentControl x:Name="PageContent"  Margin="20,0,20,20" Content="{Binding ElementName=IndexTree, Path=SelectedItem.DispPage.Content}" MinWidth="256"/>
-        </ScrollViewer>
+        <ContentControl Grid.Column="1" x:Name="PageContent" Content="{Binding ElementName=IndexTree, Path=SelectedItem.DispPage.Content}" />
 
     </DockPanel>
 </Window>

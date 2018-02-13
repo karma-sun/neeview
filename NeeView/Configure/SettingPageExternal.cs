@@ -21,7 +21,7 @@ namespace NeeView.Configure
 
     public class SettingPageExternalGeneral : SettingPage
     {
-        public SettingPageExternalGeneral() : base("全般")
+        public SettingPageExternalGeneral() : base("外部連携全般")
         {
             this.Items = new List<SettingItem>
             {

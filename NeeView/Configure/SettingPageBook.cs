@@ -23,7 +23,7 @@ namespace NeeView.Configure
 
     public class SettingPageBookGeneral : SettingPage
     {
-        public SettingPageBookGeneral() : base("全般")
+        public SettingPageBookGeneral() : base("ブック全般")
         {
             this.Items = new List<SettingItem>
             {

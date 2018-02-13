@@ -18,26 +18,12 @@
 
         <DockPanel>
 
-            <DockPanel DockPanel.Dock="Bottom">
+            <DockPanel DockPanel.Dock="Bottom" LastChildFill="False">
                 <Button x:Name="ResetGestureSettingButton" DockPanel.Dock="Right" Content="すべて初期化..." MinWidth="110" Height="30" Margin="8" Padding="5,0" VerticalAlignment="Bottom" Click="ResetGestureSettingButton_Click" ToolTip="すべてのコマンド設定を初期化します"/>
-                <WrapPanel>
-                    <WrapPanel.Style>
-                        <Style TargetType="WrapPanel">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=CommandListView, Path=SelectedValue}" Value="{x:Null}">
-                                    <Setter Property="IsEnabled" Value="False"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </WrapPanel.Style>
-                    <Button x:Name="ShortCutSettingButton" Content="ショートカット設定" MinWidth="110" Height="30" Margin="8" Padding="5,0" Click="ShortCutSettingButton_Click"/>
-                    <Button x:Name="MouseGestureSettingButton" Content="ジェスチャー設定" MinWidth="110" Height="30" Margin="8" Padding="5,0" Click="MouseGestureSettingButton_Click"/>
-                    <Button x:Name="TouchGestureSettingButton" Content="タッチ設定" MinWidth="110" Height="30" Margin="8" Padding="5,0" Click="TouchGestureSettingButton_Click"/>
-                    <Button x:Name="CommandParameterSettingButton" Content="パラメーター設定" MinWidth="110" Height="30" Margin="8" Padding="5,0" Command="{Binding ParameterSettingCommand}"/>
-                </WrapPanel>
             </DockPanel>
 
             <ListView x:Name="CommandListView" ItemsSource="{Binding Source={StaticResource CommandSource}}" SelectionChanged="CommandListView_SelectionChanged"
+                              BorderThickness="0"
                               VirtualizingStackPanel.IsVirtualizing="True"
                               VirtualizingStackPanel.ScrollUnit="Pixel"
                               VirtualizingStackPanel.VirtualizationMode="Recycling">
@@ -49,6 +35,12 @@
                 <ListView.GroupStyle>
                     <GroupStyle HeaderTemplate="{StaticResource listGroupTemplate}"/>
                 </ListView.GroupStyle>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                
                 <ListView.View>
                     <GridView>
 

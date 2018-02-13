@@ -32,7 +32,7 @@ namespace NeeView.Configure
 
     public class SettingPageEnvironmentGeneral : SettingPage
     {
-        public SettingPageEnvironmentGeneral() : base("全般")
+        public SettingPageEnvironmentGeneral() : base("環境全般")
         {
             this.Items = new List<SettingItem>
             {
@@ -51,20 +51,19 @@ namespace NeeView.Configure
 
     public class SettingPageEnvironmentSetup : SettingPage
     {
-        public SettingPageEnvironmentSetup() : base("起動設定")
+        public SettingPageEnvironmentSetup() : base("起動")
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("起動設定",
+                new SettingItemSection("起動",
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsMultiBootEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveWindowPlacement))),
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsRestoreSecondWindow)))
-                    {
-                        IsEnabled = new IsEnabledPropertyValue(App.Current, nameof(App.IsSaveWindowPlacement))
-                    },
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveFullScreen))),
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsOpenLastBook))),
                     new SettingItemProperty(PropertyMemberElement.Create(SlideShow.Current, nameof(SlideShow.IsAutoPlaySlideShow)))),
+            
+                new SettingItemSection("詳細設定",
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsRestoreSecondWindow)))),
             };
         }
     }
@@ -90,7 +89,10 @@ namespace NeeView.Configure
                     new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.SupportFileTypes))),
                     new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.LockTime))),
                     new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.IsPreExtract))),
-                    new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.PreExtractSolidSize)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.PreExtractSolidSize))))
+                {
+                    IsEnabled = new IsEnabledPropertyValue(ArchiverManager.Current, nameof(ArchiverManager.IsEnabled)),
+                },
             };
         }
     }
@@ -101,11 +103,14 @@ namespace NeeView.Configure
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("機能",
-                    new SettingItemProperty(PropertyMemberElement.Create(ArchiverManager.Current, nameof(ArchiverManager.IsPdfEnabled)))),
-
-                new SettingItemSection("詳細設定",
-                    new SettingItemProperty(PropertyMemberElement.Create(PdfArchiverProfile.Current, nameof(PdfArchiverProfile.RenderSize)))),
+                new SettingItemGroup(
+                    new SettingItemSection("機能",
+                        new SettingItemProperty(PropertyMemberElement.Create(ArchiverManager.Current, nameof(ArchiverManager.IsPdfEnabled)))),
+                    new SettingItemSection("詳細設定",
+                        new SettingItemProperty(PropertyMemberElement.Create(PdfArchiverProfile.Current, nameof(PdfArchiverProfile.RenderSize)))))
+                {
+                    IsEnabled = new IsEnabledPropertyValue(ArchiverManager.Current, nameof(ArchiverManager.IsEnabled)),
+                },
             };
         }
     }
@@ -140,23 +145,25 @@ namespace NeeView.Configure
         /// <summary>
         /// RemoveHistory command.
         /// </summary>
-        public RelayCommand RemoveHistory
+        public RelayCommand<UIElement> RemoveHistory
         {
-            get { return _RemoveHistory = _RemoveHistory ?? new RelayCommand(RemoveHistory_Executed); }
+            get { return _RemoveHistory = _RemoveHistory ?? new RelayCommand<UIElement>(RemoveHistory_Executed); }
         }
 
         //
-        private RelayCommand _RemoveHistory;
+        private RelayCommand<UIElement> _RemoveHistory;
 
         //
-        private void RemoveHistory_Executed()
+        private void RemoveHistory_Executed(UIElement element)
         {
             BookHistory.Current.Clear();
 
-            // TODO:
-            //var dialog = new MessageDialog("", "履歴を削除しました");
-            //dialog.Owner = this;
-            //dialog.ShowDialog();
+            var dialog = new MessageDialog("", "履歴を削除しました");
+            if (element != null)
+            {
+                dialog.Owner = Window.GetWindow(element);
+            }
+            dialog.ShowDialog();
         }
 
         #endregion
@@ -181,15 +188,16 @@ namespace NeeView.Configure
         /// <summary>
         /// RemoveAllData command.
         /// </summary>
-        private RelayCommand _RemoveAllData;
-        public RelayCommand RemoveAllData
+        private RelayCommand<UIElement> _RemoveAllData;
+        public RelayCommand<UIElement> RemoveAllData
         {
-            get { return _RemoveAllData = _RemoveAllData ?? new RelayCommand(RemoveAllData_Executed); }
+            get { return _RemoveAllData = _RemoveAllData ?? new RelayCommand<UIElement>(RemoveAllData_Executed); }
         }
 
-        private void RemoveAllData_Executed()
+        private void RemoveAllData_Executed(UIElement element)
         {
-            throw new NotImplementedException();
+            var window = element != null ? Window.GetWindow(element) : null;
+            Config.Current.RemoveApplicationData(window);
         }
 
         #endregion

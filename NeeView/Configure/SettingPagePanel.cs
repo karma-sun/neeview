@@ -21,7 +21,7 @@ namespace NeeView.Configure
 
     public class SettingPagePanelGeneral : SettingPage
     {
-        public SettingPagePanelGeneral() : base("全般")
+        public SettingPagePanelGeneral() : base("パネル全般")
         {
             this.Items = new List<SettingItem>
             {

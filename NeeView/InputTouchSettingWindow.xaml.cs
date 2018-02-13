@@ -30,7 +30,7 @@ namespace NeeView
     /// </summary>
     public partial class InputTouchSettingWindow : Window
     {
-        private InputTouchSettingViewModel _vm;
+        private InputTouchSettingVM _vm;
 
         //
         public InputTouchSettingWindow(InputTouchSettingContext context)
@@ -39,7 +39,7 @@ namespace NeeView
 
             this.GestureBox.PreviewMouseLeftButtonUp += GestureBox_PreviewMouseLeftButtonUp;
 
-            _vm = new InputTouchSettingViewModel(context, this.GestureBox);
+            _vm = new InputTouchSettingVM(context, this.GestureBox);
             DataContext = _vm;
 
             // ESCでウィンドウを閉じる
@@ -74,7 +74,7 @@ namespace NeeView
     /// <summary>
     /// MouseGestureSetting ViewModel
     /// </summary>
-    public class InputTouchSettingViewModel : BindableBase
+    public class InputTouchSettingVM : BindableBase
     {
         //
         private InputTouchSettingContext _context;
@@ -117,7 +117,7 @@ namespace NeeView
         /// </summary>
         /// <param name="context"></param>
         /// <param name="gestureSender"></param>
-        public InputTouchSettingViewModel(InputTouchSettingContext context, FrameworkElement gestureSender)
+        public InputTouchSettingVM(InputTouchSettingContext context, FrameworkElement gestureSender)
         {
             _context = context;
 

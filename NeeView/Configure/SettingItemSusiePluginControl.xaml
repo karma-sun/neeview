@@ -26,9 +26,6 @@
                 </i:Interaction.Behaviors>
                 <CheckBox VerticalAlignment="Center" IsChecked="{Binding IsEnable}"/>
                 <Grid Width="20" VerticalAlignment="Center" Margin="2">
-                    <!--
-                                                    Command="{x:Static local:SettingWindow.SusiePluginConfigCommand}" CommandParameter="{Binding}"
-                    -->
                     <Button Style="{StaticResource IconButton}"
                                                     Command="{Binding OpenConfigurationDlg}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
                                                     Visibility="{Binding HasConfigurationDlg, Converter={StaticResource BooleanToVisibilityConverter}}" >
@@ -52,6 +49,7 @@
         <Style TargetType="ListBox">
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
             <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="BorderBrush" Value="LightGray"/>
             <Setter Property="ItemTemplate" Value="{StaticResource SusiePlugin}"/>
             <Setter Property="Margin" Value="0,4,0,0"/>
             <Setter Property="AllowDrop" Value="True"/>
@@ -60,35 +58,11 @@
         </Style>
 
     </UserControl.Resources>
-    <Grid x:Name="Root">
 
-        <ListBox x:Name="PluginListBox" MinHeight="64" MinWidth="64">
-            <i:Interaction.Behaviors>
-                <local:IgnoreMouseWheelBehavior />
-            </i:Interaction.Behaviors>
-        </ListBox>
+    <ListBox x:Name="Root" MinHeight="64" MinWidth="64">
+        <i:Interaction.Behaviors>
+            <local:IgnoreMouseWheelBehavior />
+        </i:Interaction.Behaviors>
+    </ListBox>
 
-        <!--
-        <TabControl Margin="0,4">
-
-            <TabItem Header="画像プラグイン">
-                <ListBox x:Name="INPluginListView" ItemsSource="{Binding Susie.INPluginList}" Tag="{Binding Susie.INPluginList}" MinHeight="64" MinWidth="64">
-                    <i:Interaction.Behaviors>
-                        <local:IgnoreMouseWheelBehavior />
-                    </i:Interaction.Behaviors>
-                </ListBox>
-            </TabItem>
-
-            <TabItem Header="書庫プラグイン">
-                <ListBox x:Name="AMPluginListView" ItemsSource="{Binding Susie.AMPluginList}" Tag="{Binding Susie.AMPluginList}" MinHeight="64" MinWidth="64">
-                    <i:Interaction.Behaviors>
-                        <local:IgnoreMouseWheelBehavior />
-                    </i:Interaction.Behaviors>
-                </ListBox>
-            </TabItem>
-
-        </TabControl>
-        -->
-
-    </Grid>
 </UserControl>

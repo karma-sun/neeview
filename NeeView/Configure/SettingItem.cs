@@ -122,11 +122,11 @@ namespace NeeView.Configure
 
         protected override UIElement CreateContentInner()
         {
-            var stackPanel = new StackPanel();
+            var dockPanel = new DockPanel();
 
             if (IsEnabledTrigger != null || VisibleTrigger != null)
             {
-                var style = new Style(typeof(StackPanel));
+                var style = new Style(typeof(DockPanel));
 
                 if (IsEnabledTrigger != null)
                 {
@@ -168,15 +168,17 @@ namespace NeeView.Configure
                     style.Triggers.Add(dataTrigger);
                 }
 
-                stackPanel.Style = style;
+                dockPanel.Style = style;
             }
+
 
             foreach (var content in CreateChildContenCollection())
             {
-                stackPanel.Children.Add(content);
+                DockPanel.SetDock(content, Dock.Top);
+                dockPanel.Children.Add(content);
             }
 
-            return stackPanel;
+            return dockPanel;
         }
 
         protected IEnumerable<UIElement> CreateChildContenCollection()
@@ -214,20 +216,39 @@ namespace NeeView.Configure
 
         protected override UIElement CreateContentInner()
         {
-            var stackPanel = new StackPanel()
+            var dockPanel = new DockPanel()
             {
                 Margin = new Thickness(0, 10, 0, 10),
                 UseLayoutRounding = true,
             };
 
             var title = new Grid();
-            title.Children.Add(new TextBlock()
+
+
+            var titleTextBlock = new TextBlock()
             {
                 Text = this.Header,
                 FontSize = 24.0,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 VerticalAlignment = VerticalAlignment.Bottom,
-            });
+            };
+            {
+                var style = new Style(typeof(TextBlock));
+                var trigger = new Trigger()
+                {
+                    Property = UIElement.IsEnabledProperty,
+                    Value = false,
+                };
+                trigger.Setters.Add(new Setter()
+                {
+                    Property = UIElement.OpacityProperty,
+                    Value = 0.5,
+                });
+                style.Triggers.Add(trigger);
+                titleTextBlock.Style = style;
+            }
+            title.Children.Add(titleTextBlock);
+
             if (!string.IsNullOrWhiteSpace(this.Tips))
             {
                 var popup = new HelpPopupControl()
@@ -243,19 +264,21 @@ namespace NeeView.Configure
                 };
                 title.Children.Add(popup);
             }
-            stackPanel.Children.Add(title);
+            DockPanel.SetDock(title, Dock.Top);
+            dockPanel.Children.Add(title);
 
-            var subStackPanel = new StackPanel()
+            var subDockPanel = new DockPanel()
             {
                 Margin = new Thickness(0, 5, 0, 5),
             };
             foreach (var content in CreateChildContenCollection())
             {
-                subStackPanel.Children.Add(content);
+                DockPanel.SetDock(content, Dock.Top);
+                subDockPanel.Children.Add(content);
             }
-            stackPanel.Children.Add(subStackPanel);
+            dockPanel.Children.Add(subDockPanel);
 
-            return stackPanel;
+            return dockPanel;
         }
     }
 
@@ -355,6 +378,10 @@ namespace NeeView.Configure
                 Content = _buttonContent,
                 Command = _command,
             };
+
+            // 自身をコマンドパラメータとする
+            button.CommandParameter = button;
+
             return new SettingItemControl(this.Header, this.Tips, button, false);
         }
     }

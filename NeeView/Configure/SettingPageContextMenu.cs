@@ -19,8 +19,10 @@ namespace NeeView.Configure
 
     class SettingPageContextMenuEdit : SettingPage
     {
-        public SettingPageContextMenuEdit() : base("設定")
+        public SettingPageContextMenuEdit() : base("コンテキストメニュー設定")
         {
+            this.IsScrollEnabled = false;
+
             this.Items = new List<SettingItem>
             {
                 new SettingItemContextMenu(),

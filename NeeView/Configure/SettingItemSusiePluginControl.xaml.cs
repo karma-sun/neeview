@@ -52,8 +52,8 @@ namespace NeeView
             this.Root.DataContext = SusieContext.Current.Susie;
 
             var binding = new Binding(pluginType == Susie.SusiePluginType.Image ? nameof(Susie.Susie.INPluginList) : nameof(Susie.Susie.AMPluginList));
-            BindingOperations.SetBinding(this.PluginListBox, ListBox.ItemsSourceProperty, binding);
-            BindingOperations.SetBinding(this.PluginListBox, ListBox.TagProperty, binding);
+            BindingOperations.SetBinding(this.Root, ListBox.ItemsSourceProperty, binding);
+            BindingOperations.SetBinding(this.Root, ListBox.TagProperty, binding);
         }
 
         // プラグインリスト：ドロップ受付判定

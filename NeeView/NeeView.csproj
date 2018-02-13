@@ -147,6 +147,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CommandParameterControl.xaml.cs">
+      <DependentUpon>CommandParameterControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CommandParameterControlViewModel.cs" />
+    <Compile Include="Configure\EditCommandWindow.xaml.cs">
+      <DependentUpon>EditCommandWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Configure\SettingPageBook.cs" />
     <Compile Include="Configure\SettingPageContextMenu.cs" />
     <Compile Include="Configure\SettingPageCommand.cs" />
@@ -190,6 +197,18 @@
     <Compile Include="Configure\SettingPage.cs" />
     <Compile Include="Configure\SettingWindowModel.cs" />
     <Compile Include="Configure\WarningText.cs" />
+    <Compile Include="InputGestureSettingControl.xaml.cs">
+      <DependentUpon>InputGestureSettingControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InputGestureSettingControlViewModel.cs" />
+    <Compile Include="InputTouchSettingControl.xaml.cs">
+      <DependentUpon>InputTouchSettingControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InputTouchSettingViewModel.cs" />
+    <Compile Include="MouseGestureSettingControl.xaml.cs">
+      <DependentUpon>MouseGestureSettingControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MouseGestureSettingViewModel.cs" />
     <Compile Include="_NeeView\AliasNameAttribute.cs" />
     <Compile Include="AnyKey.cs" />
     <Compile Include="App.Exception.cs" />
@@ -745,6 +764,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="CommandParameterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Configure\EditCommandWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\AddressBarView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -776,6 +803,14 @@
     <Page Include="Controls\VideoSlider.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="InputGestureSettingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InputTouchSettingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="InputTouchSettingWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -818,6 +853,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Configure\SettingWindowEx.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MouseGestureSettingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

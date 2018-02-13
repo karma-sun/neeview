@@ -993,7 +993,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void RemoveAllData_Click(object sender, RoutedEventArgs e)
         {
-            Config.Current.RemoveApplicationData();
+            Config.Current.RemoveApplicationData(null);
         }
 
         #region Command

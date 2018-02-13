@@ -19,8 +19,10 @@ namespace NeeView.Configure
 
     class SettingPageCommandGeneral : SettingPage
     {
-        public SettingPageCommandGeneral() : base("設定")
+        public SettingPageCommandGeneral() : base("コマンド設定")
         {
+            this.IsScrollEnabled = false;
+
             this.Items = new List<SettingItem>
             {
                 new SettingItemCommand(),

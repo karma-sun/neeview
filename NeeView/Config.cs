@@ -334,14 +334,14 @@ namespace NeeView
         public event EventHandler LocalApplicationDataRemoved;
 
         //
-        public void RemoveApplicationData()
+        public void RemoveApplicationData(Window owner)
         {
             var text = "ユーザデータを削除します。よろしいですか？\n\n以下のデータが削除されます\n- 設定ファイル\n- 履歴ファイル\n- ブックマークファイル\n- ページマークファイル\n- キャッシュファイル";
 
             var dialog = new MessageDialog(text, "ユーザデータを削除します。");
             dialog.Commands.Add(UICommands.Remove);
             dialog.Commands.Add(UICommands.Cancel);
-            var result = dialog.ShowDialog();
+            var result = dialog.ShowDialog(owner);
 
             if (result == UICommands.Remove)
             {
@@ -351,13 +351,13 @@ namespace NeeView
                 try
                 {
                     this.RemoveApplicationDataCore();
-                    new MessageDialog("ユーザデータを削除しました。NeeViewを終了します。", "削除しました。").ShowDialog();
+                    new MessageDialog("ユーザデータを削除しました。NeeViewを終了します。", "削除しました。").ShowDialog(owner);
 
                     LocalApplicationDataRemoved?.Invoke(this, null);
                 }
                 catch (Exception ex)
                 {
-                    new MessageDialog(ex.Message, "削除できません。").ShowDialog();
+                    new MessageDialog(ex.Message, "削除できません。").ShowDialog(owner);
                 }
             }
         }

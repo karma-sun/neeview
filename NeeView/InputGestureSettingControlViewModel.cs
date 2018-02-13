@@ -12,10 +12,27 @@ namespace NeeView
     /// <summary>
     /// 
     /// </summary>
-    public class InputGestureSettingWindowVM : BindableBase
+    public class GestureToken
+    {
+        // ジェスチャー文字列（１ジェスチャー）
+        public string Gesture { get; set; }
+
+        // 競合しているコマンド群
+        public List<CommandType> Conflicts { get; set; }
+
+        // 競合メッセージ
+        public string OverlapsText { get; set; }
+
+        public bool IsConflict => Conflicts != null && Conflicts.Count > 0;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class InputGestureSettingWindowViewModel : BindableBase
     {
         // すべてのコマンドのショートカット
-        private Dictionary<CommandType, string> _sources;
+        private Dictionary<CommandType, CommandElement.Memento> _sources;
 
         // 編集するコマンド
         public CommandType Command { get; set; }
@@ -37,9 +54,9 @@ namespace NeeView
         /// <summary>
         /// constructor
         /// </summary>
-        public InputGestureSettingWindowVM(Dictionary<CommandType, string> sources, CommandType command)
+        public InputGestureSettingWindowViewModel(CommandTable.Memento memento, CommandType command)
         {
-            _sources = sources;
+            _sources = memento.Elements;
             Command = command;
             Header = $"ショートカット設定 - {Command.ToDispString()}";
 
@@ -52,9 +69,9 @@ namespace NeeView
         public void UpdateGestures()
         {
             var items = new ObservableCollection<GestureToken>();
-            if (!string.IsNullOrEmpty(_sources[Command]))
+            if (!string.IsNullOrEmpty(_sources[Command].ShortCutKey))
             {
-                foreach (var gesture in _sources[Command].Split(','))
+                foreach (var gesture in _sources[Command].ShortCutKey.Split(','))
                 {
                     if (gesture == "") continue;
                     var element = CreateShortCutElement(gesture);
@@ -74,7 +91,7 @@ namespace NeeView
             var element = new GestureToken() { Gesture = gesture };
 
             var overlaps = _sources
-                .Where(e => !string.IsNullOrEmpty(e.Value) && e.Key != Command && e.Value.Split(',').Contains(gesture))
+                .Where(e => !string.IsNullOrEmpty(e.Value.ShortCutKey) && e.Key != Command && e.Value.ShortCutKey.Split(',').Contains(gesture))
                 .Select(e => e.Key)
                 .ToList();
 
@@ -120,7 +137,7 @@ namespace NeeView
         /// </summary>
         public void Flush()
         {
-            _sources[Command] = GestureTokens.Count > 0
+            _sources[Command].ShortCutKey = GestureTokens.Count > 0
                 ? string.Join(",", GestureTokens.Select(e => e.Gesture))
                 : null;
         }
@@ -149,8 +166,8 @@ namespace NeeView
                 {
                     if (!conflictItem.IsChecked)
                     {
-                        var newGesture = string.Join(",", _sources[conflictItem.Command].Split(',').Where(i => i != item.Gesture));
-                        _sources[conflictItem.Command] = string.IsNullOrEmpty(newGesture) ? null : newGesture;
+                        var newGesture = string.Join(",", _sources[conflictItem.Command].ShortCutKey.Split(',').Where(i => i != item.Gesture));
+                        _sources[conflictItem.Command].ShortCutKey = string.IsNullOrEmpty(newGesture) ? null : newGesture;
                     }
                 }
                 UpdateGestures();

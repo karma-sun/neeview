@@ -23,7 +23,7 @@ namespace NeeView.Configure
 
     public class SettingPageManipurateGeneral : SettingPage
     {
-        public SettingPageManipurateGeneral() : base("全般")
+        public SettingPageManipurateGeneral() : base("画像操作全般")
         {
             this.Items = new List<SettingItem>
             {

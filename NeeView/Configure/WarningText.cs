@@ -1,4 +1,4 @@
-﻿namespace NeeView
+﻿namespace NeeView.Configure
 {
     /// <summary>
     /// 警告付きテキスト

@@ -1,65 +1,18 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeLaboratory.Windows.Input;
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace NeeView
 {
     /// <summary>
-    /// MouseGestureSettingWindow.xaml の相互作用ロジック
-    /// </summary>
-    public partial class MouseGestureSettingWindow : Window
-    {
-        private MouseGestureSettingVM _vm;
-
-        //
-        public MouseGestureSettingWindow(MouseGestureSettingContext context)
-        {
-            InitializeComponent();
-
-            _vm = new MouseGestureSettingVM(context, this.GestureBox);
-            DataContext = _vm;
-
-            // ESCでウィンドウを閉じる
-            this.InputBindings.Add(new KeyBinding(new RelayCommand(Close), new KeyGesture(Key.Escape)));
-        }
-
-        //
-        private void OkButton_Click(object sender, RoutedEventArgs e)
-        {
-            _vm.Decide();
-
-            this.DialogResult = true;
-            this.Close();
-        }
-
-        //
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-    }
-
-    /// <summary>
     /// MouseGestureSetting ViewModel
     /// </summary>
-    public class MouseGestureSettingVM : BindableBase
+    public class MouseGestureSettingViewModel : BindableBase
     {
-        //
-        private MouseGestureSettingContext _context;
+        private Dictionary<CommandType, CommandElement.Memento> _sources;
+        private CommandType _key;
 
         //
         private TouchInputForGestureEditor _touchGesture;
@@ -94,18 +47,14 @@ namespace NeeView
 
 
         /// <summary>
-        /// Window Title
-        /// </summary>
-        public string Header => _context.Header ?? _context.Command.ToDispString();
-
-        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="context"></param>
         /// <param name="gestureSender"></param>
-        public MouseGestureSettingVM(MouseGestureSettingContext context, FrameworkElement gestureSender)
+        public MouseGestureSettingViewModel(CommandTable.Memento memento, CommandType key, FrameworkElement gestureSender)
         {
-            _context = context;
+            _sources = memento.Elements;
+            _key = key;
 
             _touchGesture = new TouchInputForGestureEditor(gestureSender);
             _touchGesture.Gesture.GestureProgressed += Gesture_MouseGestureProgressed;
@@ -113,7 +62,7 @@ namespace NeeView
             _mouseGesture = new MouseInputForGestureEditor(gestureSender);
             _mouseGesture.Gesture.GestureProgressed += Gesture_MouseGestureProgressed;
 
-            OriginalGesture = _context.Gesture;
+            OriginalGesture = _sources[_key].MouseGesture;
         }
 
         /// <summary>
@@ -140,8 +89,8 @@ namespace NeeView
 
             if (!string.IsNullOrEmpty(token.Gesture))
             {
-                token.Conflicts = _context.Gestures
-                    .Where(i => i.Key != _context.Command && i.Value == token.Gesture)
+                token.Conflicts = _sources
+                    .Where(i => i.Key != _key && i.Value.MouseGesture == token.Gesture)
                     .Select(i => i.Key)
                     .ToList();
 
@@ -158,9 +107,9 @@ namespace NeeView
         /// <summary>
         /// 決定
         /// </summary>
-        public void Decide()
+        public void Flush()
         {
-            _context.Gesture = NewGesture;
+            _sources[_key].MouseGesture = NewGesture;
         }
 
 
@@ -175,40 +124,8 @@ namespace NeeView
 
         private void ClearCommand_Executed()
         {
-            _context.Gesture = null;
+            _sources[_key].MouseGesture = null;
             _mouseGesture.Gesture.Reset();
-        }
-    }
-
-
-    /// <summary>
-    /// MouseGestureSetting Model
-    /// </summary>
-    public class MouseGestureSettingContext
-    {
-        /// <summary>
-        /// 表示名。nullの場合はCommand名を使用する
-        /// </summary>
-        public string Header { get; set; }
-
-        /// <summary>
-        /// 設定対象のコマンド
-        /// </summary>
-        public CommandType Command { get; set; }
-
-        /// <summary>
-        /// 全てのコマンドのジェスチャー。競合判定に使用する
-        /// </summary>
-        public Dictionary<CommandType, string> Gestures { get; set; }
-
-
-        /// <summary>
-        /// Property: Gesture
-        /// </summary>
-        public string Gesture
-        {
-            get { return Gestures[Command]; }
-            set { if (Gestures[Command] != value) { Gestures[Command] = value; } }
         }
     }
 }

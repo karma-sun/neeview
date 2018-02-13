@@ -399,11 +399,11 @@ namespace NeeView
         // 設定ウィンドウを開く
         public void OpenSettingWindow()
         {
-            if (SettingWindowEx.Current != null) return;
+            if (Configure.SettingWindowEx.Current != null) return;
 
             if (!Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
             {
-                var dialog = new SettingWindowEx(new SettingWindowModel());
+                var dialog = new Configure.SettingWindowEx(new SettingWindowModel());
                 dialog.Owner = App.Current.MainWindow;
                 dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                 dialog.Show();

@@ -22,13 +22,23 @@ namespace NeeView.Configure
 
     public class SettingPageSusieGeneral : SettingPage
     {
-        public SettingPageSusieGeneral() : base("全般")
+        public SettingPageSusieGeneral() : base("Susie全般")
         {
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection("全般",
                     new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.IsEnableSusie))),
-                    new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.SusiePluginPath)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.SusiePluginPath)))
+                    {
+                        IsEnabled = new IsEnabledPropertyValue(SusieContext.Current, nameof(SusieContext.IsEnableSusie)),
+                    }),
+
+                new SettingItemSection("優先設定",
+                    new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.IsFirstOrderSusieImage))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.IsFirstOrderSusieArchive))))
+                {
+                    IsEnabled = new IsEnabledPropertyValue(SusieContext.Current, nameof(SusieContext.IsEnableSusie)),
+                },
             };
         }
     }
@@ -37,11 +47,15 @@ namespace NeeView.Configure
     {
         public SettingPageSusieINPlugin() : base("画像プラグイン")
         {
+            this.IsScrollEnabled = false;
+
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("Susie画像プラグイン",
-                    new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.IsFirstOrderSusieImage))),
-                    new SettingItemSusiePlugin(Susie.SusiePluginType.Image)),
+                new SettingItemGroup(
+                    new SettingItemSusiePlugin(Susie.SusiePluginType.Image))
+                {
+                    IsEnabled = new IsEnabledPropertyValue(SusieContext.Current, nameof(SusieContext.IsEnableSusie)),
+                },
             };
         }
     }
@@ -50,11 +64,15 @@ namespace NeeView.Configure
     {
         public SettingPageSusieAMPlugin() : base("書庫プラグイン")
         {
+            this.IsScrollEnabled = false;
+
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("Susie書庫プラグイン",
-                    new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.IsFirstOrderSusieArchive))),
-                    new SettingItemSusiePlugin(Susie.SusiePluginType.Archive)),
+                new SettingItemGroup(
+                    new SettingItemSusiePlugin(Susie.SusiePluginType.Archive))
+                {
+                    IsEnabled = new IsEnabledPropertyValue(SusieContext.Current, nameof(SusieContext.IsEnableSusie)),
+                }
             };
         }
     }

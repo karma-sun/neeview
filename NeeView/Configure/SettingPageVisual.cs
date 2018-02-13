@@ -28,7 +28,7 @@ namespace NeeView.Configure
 
     public class SettingPageVisualGeneral : SettingPage
     {
-        public SettingPageVisualGeneral() : base("全般")
+        public SettingPageVisualGeneral() : base("表示全般")
         {
             this.Items = new List<SettingItem>
             {
@@ -164,15 +164,22 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
         /// <summary>
         /// RemoveCache command.
         /// </summary>
-        private RelayCommand _RemoveCache;
-        public RelayCommand RemoveCache
+        private RelayCommand<UIElement> _RemoveCache;
+        public RelayCommand<UIElement> RemoveCache
         {
-            get { return _RemoveCache = _RemoveCache ?? new RelayCommand(RemoveCache_Executed); }
+            get { return _RemoveCache = _RemoveCache ?? new RelayCommand<UIElement>(RemoveCache_Executed); }
         }
 
-        private void RemoveCache_Executed()
+        private void RemoveCache_Executed(UIElement element)
         {
-            throw new NotImplementedException();
+            ThumbnailCache.Current.Remove();
+
+            var dialog = new MessageDialog("", "キャッシュを削除しました");
+            if (element != null)
+            {
+                dialog.Owner = Window.GetWindow(element);
+            }
+            dialog.ShowDialog();
         }
 
         #endregion

@@ -122,11 +122,16 @@ namespace NeeView
         }
 
         //
-        public new UICommand ShowDialog()
+        public UICommand ShowDialog(Window owner)
         {
             _resultCommand = null;
 
             InitializeButtons();
+
+            if (owner != null)
+            {
+                this.Owner = owner;
+            }
 
             return (base.ShowDialog() != null)
                 ? _resultCommand
@@ -134,10 +139,9 @@ namespace NeeView
         }
 
         //
-        public async Task<UICommand> ShowDialogAsync()
+        public new UICommand ShowDialog( )
         {
-            await Task.Yield();
-            return ShowDialog();
+            return ShowDialog(null);
         }
 
         //

@@ -63,6 +63,11 @@ namespace NeeView.Configure
             get { return _content ?? (_content = CreateContent()); }
         }
 
+        /// <summary>
+        /// スクロールビュー？
+        /// </summary>
+        public bool IsScrollEnabled { get; set; } = true;
+
 
         /// <summary>
         /// 表示ページ。
@@ -81,18 +86,34 @@ namespace NeeView.Configure
                 return null;
             }
 
-            var stackPanel = new StackPanel();
+            var dockPanel = new DockPanel();
+            dockPanel.MinWidth = 256;
 
             foreach (var item in this.Items)
             {
                 var itemContent = item.CreateContent();
                 if (itemContent != null)
                 {
-                    stackPanel.Children.Add(itemContent);
+                    DockPanel.SetDock(itemContent, Dock.Top);
+                    dockPanel.Children.Add(itemContent);
                 }
             }
 
-            return stackPanel;
+            if (this.IsScrollEnabled)
+            {
+                dockPanel.Margin = new Thickness(20, 0, 20, 20);
+                dockPanel.LastChildFill = false;
+
+                var scrollViewer = new ScrollViewer();
+                scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+                scrollViewer.Content = dockPanel;
+                return scrollViewer;
+            }
+            else
+            {
+                dockPanel.Margin = new Thickness(20, 0, 0, 0);
+                return dockPanel;
+            }
         }
     }
 

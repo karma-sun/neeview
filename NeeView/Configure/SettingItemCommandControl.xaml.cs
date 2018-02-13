@@ -5,6 +5,7 @@ using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,17 +32,11 @@ namespace NeeView
             this.Root.DataContext = this;
 
             // 初期化
-            _commandMemento = CommandTable.Current.CreateMemento();
             CommandCollection = new ObservableCollection<CommandParam>();
             UpdateCommandList();
         }
 
-        // TODO: 反映をメインウィンドウアクティブ化したタイミングにする
-        // ##
-        private CommandTable.Memento _commandMemento;
 
-
-        #region Command
 
         // コマンド一覧用パラメータ
         public class CommandParam : BindableBase
@@ -64,7 +59,6 @@ namespace NeeView
             public bool IsShowMessage { get; set; }
             public string Tips { get; set; }
 
-            public string ParameterJson { get; set; }
             public bool HasParameter { get; set; }
             public CommandType ParameterShareCommandType { get; set; }
             public bool IsShareParameter => ParameterShareCommandType != CommandType.None;
@@ -75,117 +69,6 @@ namespace NeeView
         public ObservableCollection<CommandParam> CommandCollection { get; set; }
 
 
-        #region ParameterSettingCommand
-        private RelayCommand _parameterSettingCommand;
-        public RelayCommand ParameterSettingCommand
-        {
-            get { return _parameterSettingCommand = _parameterSettingCommand ?? new RelayCommand(ParameterSettingCommand_Executed, ParameterSettingCommand_CanExecute); }
-        }
-
-        private bool ParameterSettingCommand_CanExecute()
-        {
-            var command = (CommandParam)this.CommandListView.SelectedValue;
-            return (command != null && command.HasParameter && !command.IsShareParameter);
-        }
-
-        private void ParameterSettingCommand_Executed()
-        {
-            var command = (CommandParam)this.CommandListView.SelectedValue;
-            EditCommandParameter(command);
-        }
-        #endregion
-
-
-
-        // ショートカットキー設定ボタン処理
-        private void ShortCutSettingButton_Click(object sender, RoutedEventArgs e)
-        {
-            var value = (CommandParam)this.CommandListView.SelectedValue;
-
-
-            var gestures = CommandCollection.ToDictionary(i => i.Key, i => i.ShortCut);
-            var key = value.Key;
-            var dialog = new InputGestureSettingWindow(gestures, key);
-
-            //var dialog = new InputGestureSettingWindow (CommandCollection, value);
-            dialog.Owner = Window.GetWindow(this);
-            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            var result = dialog.ShowDialog();
-            if (result == true)
-            {
-                foreach (var item in CommandCollection)
-                {
-                    item.ShortCut = gestures[item.Key];
-                }
-
-                UpdateCommandListShortCut();
-                this.CommandListView.Items.Refresh();
-
-                //// コマンド反映
-                RestoreCommand();
-            }
-        }
-
-        // マウスジェスチャー設定ボタン処理
-        private void MouseGestureSettingButton_Click(object sender, RoutedEventArgs e)
-        {
-            var value = (CommandParam)this.CommandListView.SelectedValue;
-
-            var context = new MouseGestureSettingContext();
-            context.Command = value.Key;
-            context.Gestures = CommandCollection.ToDictionary(i => i.Key, i => i.MouseGesture);
-
-            var dialog = new MouseGestureSettingWindow(context);
-            dialog.Owner = Window.GetWindow(this);
-            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            var result = dialog.ShowDialog();
-            if (result == true)
-            {
-                foreach (var item in CommandCollection)
-                {
-                    item.MouseGesture = context.Gestures[item.Key];
-                }
-
-                UpdateCommandListMouseGesture();
-                this.CommandListView.Items.Refresh();
-
-                //// コマンド反映
-                RestoreCommand();
-            }
-        }
-
-
-        /// <summary>
-        /// タッチ設定
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TouchGestureSettingButton_Click(object sender, RoutedEventArgs e)
-        {
-            var value = (CommandParam)this.CommandListView.SelectedValue;
-
-            var context = new InputTouchSettingContext();
-            context.Command = value.Key;
-            context.Gestures = CommandCollection.ToDictionary(i => i.Key, i => i.TouchGesture);
-
-            var dialog = new InputTouchSettingWindow(context);
-            dialog.Owner = Window.GetWindow(this);
-            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            var result = dialog.ShowDialog();
-            if (result == true)
-            {
-                foreach (var item in CommandCollection)
-                {
-                    item.TouchGesture = context.Gestures[item.Key];
-                }
-
-                UpdateCommandListTouchGesture();
-                this.CommandListView.Items.Refresh();
-
-                //// コマンド反映
-                RestoreCommand();
-            }
-        }
 
 
 
@@ -199,33 +82,14 @@ namespace NeeView
 
             if (result == true)
             {
-                ////Setting.CommandMememto = dialog.CreateCommandMemento();
-                _commandMemento = dialog.CreateCommandMemento();
+                // TODO: 遅延反映
+                CommandTable.Current.Restore(dialog.CreateCommandMemento());
+
                 UpdateCommandList();
                 this.CommandListView.Items.Refresh();
-
-                //// コマンド反映
-                RestoreCommand();
             }
         }
 
-        /// <summary>
-        /// コマンド反映 ##
-        /// </summary>
-        private void RestoreCommand()
-        {
-            //// コマンド設定反映
-            foreach (var command in CommandCollection)
-            {
-                _commandMemento[command.Key].ShortCutKey = command.ShortCut;
-                _commandMemento[command.Key].MouseGesture = command.MouseGesture;
-                _commandMemento[command.Key].TouchGesture = command.TouchGesture;
-                _commandMemento[command.Key].IsShowMessage = command.IsShowMessage;
-                _commandMemento[command.Key].Parameter = command.ParameterJson;
-            }
-
-            CommandTable.Current.Restore(_commandMemento);
-        }
 
         // コマンド一覧 更新
         private void UpdateCommandList()
@@ -235,27 +99,25 @@ namespace NeeView
             {
                 if (element.Key.IsDisable()) continue;
 
-                ////var memento = Setting.CommandMememto[element.Key];
-                var memento = _commandMemento[element.Key];
+                var command = element.Value;
 
                 var item = new CommandParam()
                 {
                     Key = element.Key,
-                    Group = element.Value.Group,
-                    Header = element.Value.Text,
-                    ShortCut = memento.ShortCutKey,
-                    MouseGesture = memento.MouseGesture,
-                    TouchGesture = memento.TouchGesture,
-                    IsShowMessage = memento.IsShowMessage,
-                    Tips = element.Value.NoteToTips(),
+                    Group = command.Group,
+                    Header = command.Text,
+                    ShortCut = command.ShortCutKey,
+                    MouseGesture = command.MouseGesture,
+                    TouchGesture = command.TouchGesture,
+                    IsShowMessage = command.IsShowMessage,
+                    Tips = command.NoteToTips(),
                 };
 
-                if (element.Value.HasParameter)
+                if (command.HasParameter)
                 {
                     item.HasParameter = true;
-                    item.ParameterJson = memento.Parameter;
 
-                    var share = element.Value.DefaultParameter as ShareCommandParameter;
+                    var share = command.DefaultParameter as ShareCommandParameter;
                     if (share != null)
                     {
                         item.ParameterShareCommandType = share.CommandType;
@@ -317,7 +179,6 @@ namespace NeeView
             }
         }
 
-
         // コマンド一覧 マウスジェスチャー更新
         private void UpdateCommandListMouseGesture()
         {
@@ -346,7 +207,6 @@ namespace NeeView
                 }
             }
         }
-
 
         // コマンド一覧 タッチ更新
         private void UpdateCommandListTouchGesture()
@@ -394,6 +254,7 @@ namespace NeeView
         }
 
 
+
         //
         private void EditCommandParameterButton_Clock(object sender, RoutedEventArgs e)
         {
@@ -401,35 +262,36 @@ namespace NeeView
             EditCommandParameter(command);
         }
 
+
         private void EditCommandParameter(CommandParam command)
         {
-            if (command != null && command.HasParameter && !command.IsShareParameter)
+            var dialog = new Configure.EditCommandWindow();
+            dialog.Initialize(command.Key, Configure.EditCommandWindowTab.Parameter);
+            dialog.Owner = Window.GetWindow(this);
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            if (dialog.ShowDialog() == true)
             {
-                var source = CommandTable.Current[command.Key];
-                var parameterDfault = source.DefaultParameter;
-
-                var parameter = command.ParameterJson != null
-                    ? (CommandParameter)Json.Deserialize(command.ParameterJson, source.DefaultParameter.GetType())
-                    : parameterDfault.Clone();
-
-                var context = new PropertyDocument(parameter);
-                context.Name = command.Header;
-
-                var dialog = new CommandParameterWindow(context, parameterDfault);
-                dialog.Owner = Window.GetWindow(this);
-                dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                if (dialog.ShowDialog() == true)
-                {
-                    command.ParameterJson = Json.Serialize(context.Source, context.Source.GetType());
-                }
+                // TODO: any?
             }
         }
 
-        private void CommandListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            ParameterSettingCommand.RaiseCanExecuteChanged();
-        }
 
-        #endregion
+        private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var item = ((ListViewItem)sender).Content as CommandParam;
+            if (item == null)
+            {
+                return;
+            }
+
+            var dialog = new Configure.EditCommandWindow();
+            dialog.Initialize(item.Key);
+            dialog.Owner = Window.GetWindow(this);
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            if (dialog.ShowDialog() == true)
+            {
+                // TODO: any?
+            }
+        }
     }
 }

@@ -20,7 +20,7 @@ namespace NeeView
         }
 
         //
-        [PropertyMember("ファイル削除確認", Tips = "ファイル削除時に確認ダイアログを表示します")]
+        [PropertyMember("ファイル削除時に確認ダイアログを表示する")]
         public bool IsRemoveConfirmed { get; set; } = true;
 
         /// <summary>

@@ -42,15 +42,15 @@ namespace NeeView
         public string LastAddress { get; set; }
 
         // 履歴制限
-        [PropertyMember("保存数", Tips = "数による保持制限が履歴ファイルに適用されます\nアプリ動作中の履歴は制限されません")]
+        [PropertyMember("保存数上限")]
         public int LimitSize { get; set; }
 
         // 履歴制限(時間)
-        [PropertyMember("保存期間", Tips = "期間による保持制限が履歴ファイルに適用されます&#xa;アプリ動作中の履歴は制限されません")]
+        [PropertyMember("保存期間")]
         public TimeSpan LimitSpan { get; set; }
 
         // フォルダーリストの情報記憶
-        [PropertyMember("フォルダー状態を保存する", Tips = "最後に開いていた場所、各フォルダーの並び順等の情報を保存します")]
+        [PropertyMember("最後に開いていた場所、各フォルダーの並び順等の情報を保存する")]
         public bool IsKeepFolderStatus { get; set; } = true;
 
 

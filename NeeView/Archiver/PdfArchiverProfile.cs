@@ -26,7 +26,7 @@ namespace NeeView
         /// <summary>
         /// RendeSize property.
         /// </summary>
-        [PropertyMember("PDFページ標準サイズ", Tips = "PDFのページを画像化するときのサイズです")]
+        [PropertyMember("PDFページ標準サイズ", Tips = "通常は表示サイズにあわせてレンダリングしなおしますが、下限はこの標準サイズになります。 より小さくなる場合には縮小して表示します。")]
         public Size RenderSize { get; set; } = new Size(1024, 1024);
 
         //

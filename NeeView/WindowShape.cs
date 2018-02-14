@@ -36,8 +36,13 @@ namespace NeeView
     /// </summary>
     public enum WindowChromeFrame
     {
-        WindowFrame, // ウィンドウフレームを使用
+        [AliasName("なし")]
         None,
+
+        [AliasName("システム標準")]
+        WindowFrame,
+
+        [AliasName("枠線")]
         Line,
     }
 
@@ -87,7 +92,7 @@ namespace NeeView
         /// </summary>
         private bool _isWindows7;
 
-        private WindowChromeFrame _WindowChromeFrame;
+        private WindowChromeFrame _windowChromeFrame = WindowChromeFrame.WindowFrame;
         private Thickness _windowBorderThickness;
         private bool _isCaptionVisible = true;
         private bool _isTopmost;
@@ -143,7 +148,7 @@ namespace NeeView
         }
 
         #endregion
-        
+
         #region Events
 
         /// <summary>
@@ -152,25 +157,26 @@ namespace NeeView
         public event EventHandler StateChanged;
 
         #endregion
-        
+
         #region Properties
 
         /// <summary>
         /// WindowChromeFrame property.
         /// </summary>
+        [PropertyMember("タイトルバー非表示でのウィンドウ枠")]
         public WindowChromeFrame WindowChromeFrame
         {
-            get { return _WindowChromeFrame; }
+            get { return _windowChromeFrame; }
             set
             {
-                if (_WindowChromeFrame != value)
+                if (_windowChromeFrame != value)
                 {
-                    _WindowChromeFrame = value;
+                    _windowChromeFrame = value;
                     Reflesh();
                 }
             }
         }
-        
+
         /// <summary>
         /// WindowBorderThickness property.
         /// </summary>

@@ -27,9 +27,9 @@ namespace NeeView
     public partial class MainWindow : Window
     {
         public static MainWindow Current { get; private set; }
-        
+
         private MainWindowViewModel _vm;
-        
+
 
         #region コンストラクターと初期化処理
 
@@ -322,7 +322,7 @@ namespace NeeView
         }
 
         #endregion
-        
+
         #region タイマーによる非アクティブ監視
 
         // タイマーディスパッチ
@@ -404,7 +404,7 @@ namespace NeeView
         }
 
         #endregion
-        
+
         #region ウィンドウ状態コマンド
 
         /// <summary>
@@ -448,7 +448,7 @@ namespace NeeView
         }
 
         #endregion
-        
+
         #region ウィンドウイベント処理
 
 
@@ -633,6 +633,7 @@ namespace NeeView
             // Window Border
             WindowShape.Current?.UpdateWindowBorderThickness();
 
+#if false
             // ウィンドウサイズのDPI非追従
             if (App.Current.IsIgnoreWindowDpi && this.WindowState == WindowState.Normal)
             {
@@ -646,6 +647,7 @@ namespace NeeView
                     this.Height = newHeight;
                 }));
             }
+#endif
         }
 
         //
@@ -813,7 +815,7 @@ namespace NeeView
         {
             _isDartyThumbnailListLayout = true;
         }
-        
+
 
         /// <summary>
         /// レイアウト更新フレーム処理

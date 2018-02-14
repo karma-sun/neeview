@@ -1490,7 +1490,7 @@ namespace NeeView
 
             // フォルダーの再帰
             [DataMember]
-            [PropertyMember("サブフォルダーを読み込む", Tips = "開くフォルダー以下の全ての画像ファイルをまとめて表示することになりますので、フォルダーの場所によってはとても処理が重くなります")]
+            [PropertyMember("サブフォルダーを読み込む", Tips = "開くフォルダー以下を全て検索するため、フォルダーの場所によっては処理が重くなります。")]
             public bool IsRecursiveFolder { get; set; }
 
             // ページ並び順

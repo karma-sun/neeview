@@ -13,18 +13,6 @@
 
                 <DockPanel DockPanel.Dock="Bottom">
                     <Grid DockPanel.Dock="Top">
-                        <DockPanel LastChildFill="False" HorizontalAlignment="Left">
-                            <DockPanel.Style>
-                                <Style TargetType="DockPanel">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding ElementName=DragActionListView, Path=SelectedValue}" Value="{x:Null}">
-                                            <Setter Property="IsEnabled" Value="False"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </DockPanel.Style>
-                            <Button x:Name="DragActionSettingButton" Content="ドラッグ操作設定" MinWidth="120" Height="30" Margin="8" Padding="5,0" Click="DragActionSettingButton_Click"/>
-                        </DockPanel>
                         <Button x:Name="ResetDragSettingButton" Content="すべて初期化..." MinWidth="120" Height="30" Margin="8" Padding="5,0" HorizontalAlignment="Right" Click="ResetDragActionSettingButton_Click" ToolTip="すべてのドラッグ操作設定を初期化します"/>
                     </Grid>
 

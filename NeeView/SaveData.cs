@@ -53,6 +53,7 @@ namespace NeeView
         {
             var setting = new Setting();
 
+            App.Current.WindowChromeFrame = WindowShape.Current.WindowChromeFrame;
             setting.App = App.Current.CreateMemento();
 
             setting.SusieMemento = SusieContext.Current.CreateMemento();

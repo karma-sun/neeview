@@ -103,11 +103,11 @@ namespace NeeView
         #region Properties
 
         // 「ブックを開く」ダイアログを現在の場所を基準にして開く
-        [PropertyMember("「開く」を現在開いているブックの場所から始める", Tips = "[ファイル] >[開く]で開くフォルダーです\nドラッグ＆ドロップや履歴から開いた場所も基準になります")]
+        [PropertyMember("「ファイルを開く」でのファイル選択ダイアログの開始場所を現在開いているブックの場所にする")]
         public bool IsOpenbookAtCurrentPlace { get; set; }
 
         //
-        [PropertyEnum("テーマカラー", Tips = "パネル等のテーマカラーを指定します", IsVisible = false)]
+        [PropertyEnum("テーマカラー")]
         public PanelColor PanelColor
         {
             get { return _panelColor; }
@@ -185,7 +185,7 @@ namespace NeeView
         /// IsVisibleWindowTitle property.
         /// タイトルバーが表示されておらず、スライダーにフォーカスがある場合等にキャンバスにタイトルを表示する
         /// </summary>
-        [PropertyMember("フルスクリーン時、スライダー表示にあわせてウィンドウタイトルを表示する", Tips = "フルスクリーン等、タイトルバーが表示されない時に表示エリアに代わりにウィンドウタイトルを表示します")]
+        [PropertyMember("タイトルバーが表示されない時に、表示エリアにウィンドウタイトルを表示する")]
         public bool IsVisibleWindowTitle
         {
             get { return _IsVisibleWindowTitle; }
@@ -219,7 +219,7 @@ namespace NeeView
         /// <summary>
         /// IsVisibleBusy property.
         /// </summary>
-        [PropertyMember("処理中マークの表示", Tips = "画像読み込み処理中マークを画面左上に表示する")]
+        [PropertyMember("画像読み込み処理中マークを画面左上に表示する")]
         public bool IsVisibleBusy
         {
             get { return _isVisibleBusy; }

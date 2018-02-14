@@ -29,14 +29,14 @@ namespace NeeView
         #region Properties
 
         // 読み込みデータのサイズ制限適用フラグ
-        [PropertyMember("読み込み画像サイズ制限", Tips = "「最大画像サイズ」を上限として読み込み画像を縮小します。速度、メモリ節約用の設定です")]
+        [PropertyMember("読み込み画像サイズ制限", Tips = "「最大画像サイズ」を上限として読み込み画像を縮小します。速度、メモリ節約用の設定です。")]
         public bool IsLimitSourceSize { get; set; }
 
         // 画像処理の最大サイズ
         // リサイズフィルターで使用される。
         // IsLimitSourceSize フラグがONのときには、読み込みサイズにもこの制限が適用される
         private Size _MaximumSize = new Size(4096, 4096);
-        [PropertyMember("最大画像サイズ", Tips = "フィルターで拡大される最大画像サイズです。「読み込み画像サイズ制限」フラグがONの場合にはこのサイズに読み込み画像自体を縮小します")]
+        [PropertyMember("最大画像サイズ", Tips = "リサイズフィルターで拡大される最大画像サイズです。")]
         public Size MaximumSize
         {
             get { return _MaximumSize; }
@@ -71,7 +71,7 @@ namespace NeeView
         /// IsMagicScaleSimdEnabled property.
         /// </summary>
         private bool _IsMagicScaleSimdEnabled = true;
-        [PropertyMember("リサイズフィルター処理にSIMDを使用する", Tips = "リサイズフィルター処理にSIMDを使用します")]
+        [PropertyMember("リサイズフィルター処理にSIMDを使用する")]
         public bool IsMagicScaleSimdEnabled
         {
             get { return _IsMagicScaleSimdEnabled; }

@@ -29,7 +29,7 @@ namespace NeeView.Configure
                     new SettingItemProperty(PropertyMemberElement.Create(BookOperation.Current.ClipboardUtility, nameof(ClipboardUtility.MultiPageOption))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookOperation.Current.ClipboardUtility, nameof(ClipboardUtility.ArchiveOption)))),
 
-                new SettingItemSection("ブラウザからのドラッグ&ドロップ", "Webブラウザからの画像ドロップに関連する設定です",
+                new SettingItemSection("ブラウザからのドラッグ&ドロップ",
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.DownloadPath))) { IsStretch = true }),
 
                 new SettingItemSection("ファイル保存", "画像を保存するコマンドの設定です",
@@ -44,7 +44,7 @@ namespace NeeView.Configure
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("外部アプリ設定",  "「外部アプリで起動」コマンドで使用するアプリを指定します",
+                new SettingItemSection("外部アプリ設定",
                     new SettingItemProperty(PropertyMemberElement.Create(BookOperation.Current.ExternalApplication, nameof(ExternalApplication.ProgramType))),
                     new SettingItemGroup(
                         new SettingItemProperty(PropertyMemberElement.Create(BookOperation.Current.ExternalApplication, nameof(ExternalApplication.Command))) { IsStretch = true },

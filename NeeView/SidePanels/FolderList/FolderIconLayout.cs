@@ -15,8 +15,11 @@ namespace NeeView
     /// </summary>
     public enum FolderIconLayout
     {
-        Default, // 項目の右端
-        Explorer, // Explorer風
+        [AliasName("標準")]
+        Default,
+
+        [AliasName("エクスプローラー風")]
+        Explorer,
     }
 
     /// <summary>

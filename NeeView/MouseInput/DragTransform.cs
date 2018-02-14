@@ -73,7 +73,7 @@ namespace NeeView
 
 
         // 回転スナップ。0で無効
-        [PropertyMember("回転スナップ", Tips = "回転の単位")]
+        [PropertyMember("回転スナップ")]
         public double AngleFrequency { get; set; } = 0;
 
 

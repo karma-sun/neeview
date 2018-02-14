@@ -124,7 +124,7 @@ namespace NeeView
         /// フォルダーアイコン表示位置
         /// </summary>
         private FolderIconLayout _folderIconLayout = FolderIconLayout.Default;
-        [PropertyMember("ファイルアイコンを左に表示する", Tips = "ファイルアイコンをファイル名の左に表示するようにします")]
+        [PropertyMember("ファイルアイコンのレイアウト")]
         public FolderIconLayout FolderIconLayout
         {
             get { return _folderIconLayout; }
@@ -166,7 +166,7 @@ namespace NeeView
         /// 追加されたファイルを挿入する？
         /// OFFの場合はリスト末尾に追加する
         /// </summary>
-        [PropertyMember("フォルダーリスト追加ファイルは挿入", Tips = "フォルダーリストで追加されたファイルを現在のソート順で挿入します。\nFalseのときはリストの終端に追加します。")]
+        [PropertyMember("追加ファイルはソート位置に挿入する", Tips = "フォルダーリストはリアルタイムに情報を反映します。この設定がONの場合、追加されたファイルを現在のソート順位置に挿入します。OFFの場合はリストの終端に追加します。")]
         public bool IsInsertItem { get; set; } = true;
 
         /// <summary>

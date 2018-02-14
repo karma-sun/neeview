@@ -53,19 +53,19 @@ namespace NeeView
             Current = this;
         }
 
-        [PropertyEnum("通知を", Tips = "開いたブック名の表示等の通知の表示方法を指定します")]
+        [PropertyEnum("開いたブック名の表示等の通知")]
         public ShowMessageStyle NoticeShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
 
-        [PropertyEnum("コマンド実行を", Tips = "コマンド実行メッセージの表示方法を指定します")]
+        [PropertyEnum("コマンド実行メッセージの表示")]
         public ShowMessageStyle CommandShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
 
-        [PropertyEnum("ジェスチャーを", Tips = "ジェスチャーの状態の表示方法を指定します")]
+        [PropertyEnum("ジェスチャーの状態の表示")]
         public ShowMessageStyle GestureShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
 
-        [PropertyEnum("Now Loading を", Tips = "Now Loading の表示方法を指定します")]
+        [PropertyEnum("Now Loading の表示")]
         public ShowMessageStyle NowLoadingShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
 
-        [PropertyEnum("ビュー操作を", Tips = "ドラッグ操作によるスケール変更等の情報表示方法を指定します")]
+        [PropertyEnum("ドラッグ操作によるスケール変更等の情報表示")]
         public ShowMessageStyle ViewTransformShowMessageStyle { get; set; } = ShowMessageStyle.None;
 
 

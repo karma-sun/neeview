@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace NeeView.Configure
 {
@@ -222,18 +223,12 @@ namespace NeeView.Configure
                 UseLayoutRounding = true,
             };
 
-            var title = new Grid();
-
-
-            var titleTextBlock = new TextBlock()
+            var title = new StackPanel()
             {
-                Text = this.Header,
-                FontSize = 24.0,
-                HorizontalAlignment = HorizontalAlignment.Left,
-                VerticalAlignment = VerticalAlignment.Bottom,
+                Margin = new Thickness(0, 5, 0, 10),
             };
             {
-                var style = new Style(typeof(TextBlock));
+                var style = new Style(typeof(StackPanel));
                 var trigger = new Trigger()
                 {
                     Property = UIElement.IsEnabledProperty,
@@ -245,25 +240,30 @@ namespace NeeView.Configure
                     Value = 0.5,
                 });
                 style.Triggers.Add(trigger);
-                titleTextBlock.Style = style;
+                title.Style = style;
             }
+
+            var titleTextBlock = new TextBlock()
+            {
+                Text = this.Header,
+                FontSize = 24.0,
+                HorizontalAlignment = HorizontalAlignment.Left,
+            };
             title.Children.Add(titleTextBlock);
 
             if (!string.IsNullOrWhiteSpace(this.Tips))
             {
-                var popup = new HelpPopupControl()
+                var tips = new TextBlock()
                 {
-                    PopupContent = new TextBlock()
-                    {
-                        Text = this.Tips,
-                        FontSize = 12,
-                        Margin = new Thickness(10, 0, 0, 0)
-                    },
-                    HorizontalAlignment = HorizontalAlignment.Right,
-                    VerticalAlignment = VerticalAlignment.Bottom,
+                    Text = this.Tips,
+                    Foreground = Brushes.Gray,
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    TextWrapping = TextWrapping.Wrap,
+                    Margin = new Thickness(0, 5, 0, 0),
                 };
-                title.Children.Add(popup);
+                title.Children.Add(tips);
             }
+            
             DockPanel.SetDock(title, Dock.Top);
             dockPanel.Children.Add(title);
 
@@ -363,15 +363,41 @@ namespace NeeView.Configure
             {
                 Content = _buttonContent,
                 Command = _command,
-                Padding = new Thickness(20,10,20,10),
+                Padding = new Thickness(10, 5, 10, 5),
                 MinWidth = 150,
-                HorizontalAlignment = HorizontalAlignment.Left,
+                HorizontalAlignment = HorizontalAlignment.Right,
             };
 
             // 自身をコマンドパラメータとする
             button.CommandParameter = button;
 
             return new SettingItemControl(this.Header, this.Tips, button, false);
+        }
+    }
+
+
+    /// <summary>
+    /// 説明項目
+    /// </summary>
+    public class SettingItemNote : SettingItem
+    {
+        private string _text;
+
+        public SettingItemNote(string text) : base(null)
+        {
+            _text = text;
+        }
+
+        protected override UIElement CreateContentInner()
+        {
+            var textBlock = new TextBlock()
+            {
+                Text = _text,
+                Background = Brushes.LightGray,
+                Padding = new Thickness(20),
+                Margin = new Thickness(0,20,0,20),
+            };
+            return textBlock;
         }
     }
 

@@ -20,7 +20,7 @@ namespace NeeView
 
         public bool IsHintCloneDefault { get; set; } = true;
 
-        [PropertyRange("JPEG品質", 5, 100, TickFrequency =5, Tips = "変換が必要な場合にのみ使用されます")]
+        [PropertyRange("JPEG品質", 5, 100, TickFrequency =5, Tips = "変換が必要な場合にのみ使用されます。")]
         public int QualityLevel { get; set; } = 80;
 
         public string ExportFolder { get; set; } = null;

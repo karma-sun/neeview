@@ -43,11 +43,18 @@ namespace NeeView
         /// <summary>
         /// MinimumScale property.
         /// </summary>
-        [PropertyMember("ルーペ最小倍率", Tips = "ルーペの最小倍率です")]
+        [PropertyRange("ルーペ最小倍率", 1, 20, TickFrequency = 1.0, IsEditable = true)]
         public double MinimumScale
         {
             get { return _minimumScale; }
-            set { if (_minimumScale != value) { _minimumScale = value; RaisePropertyChanged(); } }
+            set
+            {
+                if (_minimumScale != value)
+                {
+                    _minimumScale = value;
+                    RaisePropertyChanged();
+                }
+            }
         }
 
         private double _minimumScale = 2.0;
@@ -55,11 +62,18 @@ namespace NeeView
         /// <summary>
         /// MaximumScale property.
         /// </summary>
-        [PropertyMember("ルーペ最大倍率", Tips = "ルーペの最大倍率です")]
+        [PropertyRange("ルーペ最大倍率", 1, 20, TickFrequency = 1.0, IsEditable = true)]
         public double MaximumScale
         {
             get { return _maximumScale; }
-            set { if (_maximumScale != value) { _maximumScale = Math.Max(value, _minimumScale); RaisePropertyChanged(); } }
+            set
+            {
+                if (_maximumScale != value)
+                {
+                    _maximumScale = value;
+                    RaisePropertyChanged();
+                }
+            }
         }
 
         private double _maximumScale = 10.0;
@@ -68,7 +82,7 @@ namespace NeeView
         /// <summary>
         /// DefaultScale property.
         /// </summary>
-        [PropertyMember("ルーペ標準倍率", Tips = "ルーペの初期倍率です")]
+        [PropertyRange("ルーペ標準倍率", 1, 20, TickFrequency = 1.0, IsEditable = true)]
         public double DefaultScale
         {
             get { return _loupe.DefaultScale; }
@@ -76,7 +90,7 @@ namespace NeeView
             {
                 if (_loupe.DefaultScale != value)
                 {
-                    _loupe.DefaultScale = MathUtility.Clamp(value, _minimumScale, MaximumScale);
+                    _loupe.DefaultScale = value;
                     RaisePropertyChanged();
                 }
             }
@@ -86,11 +100,11 @@ namespace NeeView
         /// <summary>
         /// ScaleStep property.
         /// </summary>
-        [PropertyMember("ルーペ倍率変化単位", Tips = "ルーペ倍率をこの値で変化させます")]
+        [PropertyRange("ルーペ倍率変化単位", 0.1, 5.0, TickFrequency = 0.1, IsEditable = true)]
         public double ScaleStep
         {
             get { return _scaleStep; }
-            set { if (_scaleStep != value) { _scaleStep = value; RaisePropertyChanged(); } }
+            set { if (_scaleStep != value) { _scaleStep = Math.Max(value, 0.0); RaisePropertyChanged(); } }
         }
 
         private double _scaleStep = 1.0;
@@ -98,7 +112,7 @@ namespace NeeView
         /// <summary>
         /// IsResetByRestart property.
         /// </summary>
-        [PropertyMember("ルーペ倍率リセット", Tips = "ルーペを開始するたびに標準倍率に戻します")]
+        [PropertyMember("ルーペを標準倍率で開始する", Tips = "OFFの場合、前回の倍率を引き継ぎます。")]
         public bool IsResetByRestart
         {
             get { return _isResetByRestart; }
@@ -110,7 +124,7 @@ namespace NeeView
         /// <summary>
         /// IsResetByPageChanged property.
         /// </summary>
-        [PropertyMember("ルーペページ切り替え解除", Tips = "ページを切り替えるとルーペを解除します")]
+        [PropertyMember("ページを移動したらルーペを解除する")]
         public bool IsResetByPageChanged
         {
             get { return _isResetByPageChanged; }

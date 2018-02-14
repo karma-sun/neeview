@@ -25,7 +25,7 @@ namespace NeeView
         /// <summary>
         /// IsUseExifDateTime property.
         /// </summary>
-        [PropertyMember("EXIFの日時を使用する", Tips = "ファイル情報パネルでの表示に限ります。日付順のソートには影響しません")]
+        [PropertyMember("EXIFの日時を使用する", Tips = "ファイル情報パネルでの表示に限ります。フォルダーリストでの日付順ソートには影響しません")]
         public bool IsUseExifDateTime
         {
             get { return _IsUseExifDateTime; }
@@ -38,7 +38,7 @@ namespace NeeView
         /// <summary>
         /// IsVisibleBitsPerPixel property.
         /// </summary>
-        [PropertyMember("1ピクセルあたりのビット数を表示する", Tips = "画像サイズにピクセル深度(bit)も表示します")]
+        [PropertyMember("画像サイズにピクセルあたりのビット数を表示する")]
         public bool IsVisibleBitsPerPixel
         {
             get { return _IsVisibleBitsPerPixel; }
@@ -51,7 +51,7 @@ namespace NeeView
         /// <summary>
         /// IsVisibleLoader property.
         /// </summary>
-        [PropertyMember("ローダー情報を表示する", Tips = "使用されたアーカイバー、画像デコーダー名を表示します")]
+        [PropertyMember("使用されたアーカイバー、画像デコーダー名を表示する")]
         public bool IsVisibleLoader
         {
             get { return _IsVisibleLoader; }
@@ -63,7 +63,7 @@ namespace NeeView
         /// <summary>
         /// IsVisibleFilePath property.
         /// </summary>
-        [PropertyMember("ファイルパスを表示する", Tips = "アーカイブ内のファイルパスを表示します")]
+        [PropertyMember("圧縮ファイル内のファイルパスを表示する")]
         public bool IsVisibleFilePath
         {
             get { return _IsVisibleFilePath; }

@@ -101,7 +101,7 @@
                             <CheckBox x:Name="ArchiveSupportedCheckBox" Style="{StaticResource ItemCheckBox}" Content="圧縮ファイルをサポートする"
                               ToolTip="圧縮ファイル内のファイルを表示できるようにします"
                               IsChecked="{Binding Setting.Memento.ArchiverManager.IsEnabled}" />
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="圧縮ファイルに含まれる圧縮ファイルをすべて展開する"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="多重圧縮ファイルをすべて展開する"
                               ToolTip="OFFにした場合、含まれる圧縮ファイルはサブフォルダ扱いになります"
                               IsEnabled="{Binding ElementName=ArchiveSupportedCheckBox, Path=IsChecked}"
                               IsChecked="{Binding Setting.Memento.BookHub.IsArchiveRecursive}" />
@@ -821,7 +821,7 @@
 
                         <TextBlock Text="保存設定" Style="{StaticResource Header}" />
                         <StackPanel Style="{StaticResource Phrase}">
-                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="圧縮ファイルに含まれる圧縮ファイルを履歴に保存する"
+                            <CheckBox Style="{StaticResource ItemCheckBox}" Content="多重圧縮ファイルを履歴に保存する"
                                       IsChecked="{Binding Setting.Memento.BookHub.IsInnerArchiveHistoryEnabled}" />
                             <CheckBox Style="{StaticResource ItemCheckBox}" Content="UNCパスを履歴に保存する"
                                       ToolTip="\\コンピュータ名\~ のようなネットワーク上のパスです"

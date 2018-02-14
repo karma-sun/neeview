@@ -251,13 +251,13 @@ namespace NeeView
 
 
         // 再帰を確認する
-        [PropertyMember("ページがない場合、サブフォルダーも読み込むか問い合わせる", Tips = "フォルダー形式のブックを開いた時に表示可能なページがなく、かつサブフォルダーが存在する場合に\nサブフォルダーも読み込むかを問い合わせるダイアログを表示します。")]
+        [PropertyMember("ページがない場合、サブフォルダーも読み込むか問い合わせる", Tips = "ブックを開いた時に表示可能なページがなく、かつサブフォルダーが存在する場合にサブフォルダーも読み込むかを問い合わせるダイアログを表示します。")]
         public bool IsConfirmRecursive { get; set; }
 
 
         // 自動再帰
         private bool _isAutoRecursive = true;
-        [PropertyMember("ページがなくサブフォルダーが１つだけ存在する場合にサブフォルダーを読み込む", Tips = "フォルダー形式のブックで機能します")]
+        [PropertyMember("ページがなくサブフォルダーが１つだけ存在する場合にサブフォルダーを読み込む")]
         public bool IsAutoRecursive
         {
             get { return _isAutoRecursive; }
@@ -273,7 +273,7 @@ namespace NeeView
         /// IsAutoRecursiveWithAllFiles property.
         /// </summary>
         private bool _isAutoRecursiveWithAllFiles = true;
-        [PropertyMember("ページ外ファイルも含めて判定する", Tips = "画像ファイル以外が存在する場合はサブフォルダーを読み込みません")]
+        [PropertyMember("ページ外ファイルも含めて判定する", Tips = "ページとなるファイル以外が存在する場合は自動判定を行いません。")]
         public bool IsAutoRecursiveWithAllFiles
         {
             get { return _isAutoRecursiveWithAllFiles; }
@@ -288,7 +288,7 @@ namespace NeeView
         /// アーカイブの自動再帰展開
         /// </summary>
         private bool _isArchiveRecursive = true;
-        [PropertyMember("圧縮ファイルに含まれる圧縮ファイルをすべて展開する", Tips = "FFにした場合、含まれる圧縮ファイルはサブフォルダ扱いになります")]
+        [PropertyMember("多重圧縮ファイルをすべて展開する", Tips = "OFFにした場合、含まれる圧縮ファイルはサブフォルダー扱いになります。")]
         public bool IsArchiveRecursive
         {
             get { return _isArchiveRecursive; }
@@ -298,13 +298,13 @@ namespace NeeView
         /// <summary>
         /// アーカイブ内アーカイブの履歴保存
         /// </summary>
-        [PropertyMember("圧縮ファイルに含まれる圧縮ファイルを履歴に保存する")]
+        [PropertyMember("多重圧縮ファイル履歴に保存する")]
         public bool IsInnerArchiveHistoryEnabled { get; set; }
 
         /// <summary>
         /// UNCパスの履歴保存
         /// </summary>
-        [PropertyMember("UNCパスを履歴に保存する", Tips = "\\\\コンピュータ名\\~ のようなネットワーク上のパスです")]
+        [PropertyMember("UNCパスを履歴に保存する", Tips = "\\\\コンピュータ名\\~ のようなネットワーク上のパスでも履歴に保存します。")]
         public bool IsUncHistoryEnabled { get; set; }
 
         /// <summary>
@@ -747,7 +747,7 @@ namespace NeeView
 
         //
         private bool _historyEntry;
-        [PropertyMember("履歴登録開始ページ操作回数", Tips = "この回数のページ移動操作をしたら履歴に登録するようにする。")]
+        [PropertyMember("履歴登録開始ページ操作回数", Tips = "この回数以上のページ移動操作をしたら履歴に登録します。")]
         public int HistoryEntryPageCount { get; set; } = 1;
 
         // 履歴登録可
@@ -927,7 +927,7 @@ namespace NeeView
             public int HistoryEntryPageCount { get; set; }
 
             [DataMember, DefaultValue(true)]
-            [PropertyMember("圧縮ファイルに含まれる圧縮ファイルをすべて展開する", Tips = "FFにした場合、含まれる圧縮ファイルはサブフォルダ扱いになります", IsVisible = false)]
+            [PropertyMember("多重圧縮ファイルをすべて展開する", Tips = "OFFにした場合、含まれる圧縮ファイルはサブフォルダ扱いになります", IsVisible = false)]
             public bool IsArchiveRecursive { get; set; }
 
             [DataMember]

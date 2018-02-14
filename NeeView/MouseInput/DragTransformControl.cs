@@ -116,27 +116,27 @@ namespace NeeView
         #region Properties
 
         // View変換情報表示のスケール表示をオリジナルサイズ基準にする
-        [PropertyMember("ビュー操作のスケール表示をオリジナルサイズ基準にする", Tips = "スケール表示を元画像サイズに対する表示倍率にします。\n２ページ表示の場合は若い番号のページを基準にします")]
+        [PropertyMember("ビュー操作のスケール表示をオリジナル画像サイズ基準にする", Tips = "2ページ表示の場合は若い番号のページを基準にします。")]
         public bool IsOriginalScaleShowMessage { get; set; }
 
         // 回転、拡縮をコンテンツの中心基準にする
-        [PropertyMember("回転、拡大縮小、反転の基準を画像の中心にする", Tips = "OFFの時は、ウィンドウの中心をそのまま中心とします")]
+        [PropertyMember("回転、拡大縮小、反転の基準を画像の中心にする", Tips = "OFFの時は、ウィンドウの中心をそのまま中心とします。")]
         public bool IsControlCenterImage { get; set; }
 
         // 拡大率キープ
-        [PropertyMember("ページを変更しても拡縮をキープする", Tips = "OFFの時は、ページを切り替える度にリセットされます")]
+        [PropertyMember("ページを変更しても拡縮を維持する")]
         public bool IsKeepScale { get; set; }
 
         // 回転キープ
-        [PropertyMember("ページを変更しても回転をキープする", Tips = "OFFの時は、ページを切り替える度にリセットされます。\n自動回転有効時は機能しません")]
+        [PropertyMember("ページを変更しても回転を維持する", Tips = "自動回転有効時はこの設定は機能しません。")]
         public bool IsKeepAngle { get; set; }
 
         // 反転キープ
-        [PropertyMember("ページを変更しても反転をキープする", Tips = "OFFの時は、ページを切り替える度にリセットされます")]
+        [PropertyMember("ページを変更しても反転を維持する")]
         public bool IsKeepFlip { get; set; }
 
         // 表示開始時の基準
-        [PropertyMember("表示開始位置を画像の中心基準にする", Tips = "OFFの時は、見開きモードによって右上基準、左上基準になります")]
+        [PropertyMember("表示開始位置を画像の中心基準にする", Tips = "OFFの時は、見開き方向によって右上基準、左上基準になります。")]
         public bool IsViewStartPositionCenter { get; set; }
 
         // 開始時の基準

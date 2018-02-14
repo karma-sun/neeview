@@ -44,7 +44,7 @@ namespace NeeView
         /// <summary>
         /// 自動GCフラグ
         /// </summary>
-        [PropertyMember("メモリ開放をシステムに任せる", Tips = "OFFの時は画像非表示単位でメモリ開放を行います")]
+        [PropertyMember("メモリ開放をシステムに任せる", Tips = "OFFの時はページ切り替え毎にメモリ開放を行います")]
         public bool IsAutoGC { get; set; } = true;
 
         #endregion

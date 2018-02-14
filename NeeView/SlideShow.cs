@@ -72,7 +72,7 @@ namespace NeeView
         /// <summary>
         /// スライドショーの表示間隔(秒)
         /// </summary>
-        [PropertyMember("表示間隔(秒)", Tips = "スライドが切り替わる時間です。")]
+        [PropertyMember("スライドを切り替える時間(秒)")]
         public double SlideShowInterval
         {
             get { return _SlideShowInterval; }

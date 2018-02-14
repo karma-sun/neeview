@@ -83,7 +83,7 @@ namespace NeeView
         /// <summary>
         /// ページ番号の表示
         /// </summary>
-        [PropertyMember("ページ番号を表示する", Tips = "サムネイルにページ番号を表示します")]
+        [PropertyMember("ページ番号を表示する")]
         public bool IsVisibleThumbnailNumber
         {
             get { return _isVisibleThumbnailNumber; }
@@ -99,7 +99,7 @@ namespace NeeView
         /// <summary>
         /// サムネイル台紙の表示
         /// </summary>
-        [PropertyMember("背景を表示する", Tips = "自動的に隠される設定の場合にサムネイルリストの背景を表示します")]
+        [PropertyMember("背景を表示する", Tips = "自動的に隠される設定の場合にサムネイルリストの背景を表示します。")]
         public bool IsVisibleThumbnailPlate
         {
             get { return _isVisibleThumbnailPlate; }
@@ -143,7 +143,7 @@ namespace NeeView
         /// <summary>
         /// スクロールビュータッチ操作の終端挙動
         /// </summary>
-        [PropertyMember("サムネイルリストタッチスクロールの終端バウンド", Tips = "サムネイルリストのタッチスクロール操作での終端跳ね返り挙動の有効/無効を設定します")]
+        [PropertyMember("サムネイルリストタッチスクロールの終端バウンド")]
         public bool IsManipulationBoundaryFeedbackEnabled { get; set; } = true;
 
         /// <summary>

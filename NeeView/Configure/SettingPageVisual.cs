@@ -38,7 +38,7 @@ namespace NeeView.Configure
 
                 new SettingItemSection("詳細設定",
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.AutoHideDelayTime))),
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.WindowChromeFrame)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(WindowShape.Current, nameof(WindowShape.WindowChromeFrame)))),
             };
         }
     }
@@ -63,19 +63,20 @@ namespace NeeView.Configure
     public class SettingPageVisualWindowTitile : SettingPage
     {
         readonly static string _windowTitleFormatTips = $@"フォーマットの説明
-$Book -- 開いているブック名
-$Page -- 現在ページ番号
-$PageMax-- 最大ページ番号
-$ViewScale-- ビュー操作による表示倍率(%)
-$FullName[LR]-- パスを含むファイル名
-$Name[LR]-- ファイル名
-$Size[LR]-- ファイルサイズ(ex. 100×100)
-$SizeEx[LR]-- ファイルサイズ + ピクセルビット数(ex. 100×100×24)
-$Scale[LR]-- 画像の表示倍率(%)
 
-""◯◯◯[LR]"" は、1ページ用、2ページ用で変数名が変わることを示します
-例えば $Name は1ページ用、 $NameL は２ページ左用、 $NameR は2ページ右用になります
-$Name は2ページ表示時には主となるページ(ページ番号の小さい方)になります";
+$Book  開いているブック名
+$Page  現在ページ番号
+$PageMax  最大ページ番号
+$ViewScale  ビュー操作による表示倍率(%)
+$FullName[LR]  パスを含むファイル名
+$Name[LR]  ファイル名
+$Size[LR]  ファイルサイズ(ex. 100×100)
+$SizeEx[LR]  ファイルサイズ + ピクセルビット数(ex. 100×100×24)
+$Scale[LR]  画像の表示倍率(%)
+
+""◯◯◯[LR]"" は、1ページ用、2ページ用で変数名が変わることを示します。
+例えば $Name は1ページ用、 $NameL は２ページ左用、 $NameR は2ページ右用になります。
+$Name は2ページ表示時には主となるページ(ページ番号の小さい方)になります。";
 
         public SettingPageVisualWindowTitile() : base("ウィンドウタイトル")
         {
@@ -84,7 +85,9 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
                 new SettingItemSection("表示",
                     new SettingItemProperty(PropertyMemberElement.Create(WindowTitle.Current, nameof(WindowTitle.WindowTitleFormat1))) {IsStretch = true },
                     new SettingItemProperty(PropertyMemberElement.Create(WindowTitle.Current, nameof(WindowTitle.WindowTitleFormat2))) {IsStretch = true },
-                    new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsVisibleWindowTitle)))) {Tips = _windowTitleFormatTips },
+                    new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsVisibleWindowTitle)))),
+
+                new SettingItemNote(_windowTitleFormatTips),
             };
         }
     }
@@ -122,7 +125,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
 
                 new SettingItemSection("キャッシュ",
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.IsCacheEnabled))),
-                    new SettingItemButton("サムネイルキャッシュを", "削除する",  RemoveCache)),
+                    new SettingItemButton("サムネイルキャッシュを削除する", "削除する",  RemoveCache)),
 
                new SettingItemSection("詳細設定",
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.Format))),

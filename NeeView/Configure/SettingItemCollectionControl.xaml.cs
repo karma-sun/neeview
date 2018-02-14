@@ -36,9 +36,14 @@ namespace NeeView.Configure
             DependencyProperty.Register("Collection", typeof(StringCollection), typeof(SettingItemCollectionControl), new PropertyMetadata(null));
 
 
+        public string AddDialogTitle { get; set; }
+        public string AddDialogHeader { get; set; }
+
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new AddParameterDialog();
+            dialog.Title = AddDialogTitle ?? "項目の追加";
+            dialog.Header = AddDialogHeader;
             dialog.Owner = Window.GetWindow(this);
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             var result = dialog.ShowDialog();

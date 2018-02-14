@@ -83,7 +83,7 @@ namespace NeeView
 
 
         // アーカイバー有効/無効
-        [PropertyMember("圧縮ファイルをサポートする", Tips = "圧縮ファイルを閲覧できるようにします")]
+        [PropertyMember("圧縮ファイル対応")]
         public bool IsEnabled
         {
             get { return _isEnabled; }
@@ -107,7 +107,7 @@ namespace NeeView
         /// ExcludePattern property.
         /// </summary>
         private string _excludePattern;
-        [PropertyMember("除外する圧縮ファイルのパターン", Tips = ".NETの正規表現で指定します")]
+        [PropertyMember("除外する圧縮ファイルのパターン", Tips = ".NETの正規表現で指定します。大文字小文字は区別しません。")]
         public string ExcludePattern
         {
             get { return _excludePattern; }

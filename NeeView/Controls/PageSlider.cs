@@ -132,7 +132,7 @@ namespace NeeView
         /// サムネイルリストとスライダーの連動
         /// サムネイルリスト表示時に限りサムネイルリストのみに連動し表示は変化しない(マウスを離したときに決定)
         /// </summary>
-        [PropertyMember("スライダーでのリアルタイム変化はサムネイルリストにのみ適用", Tips = "スライダーでサムネイルを選択し、決定した時に画像が切り替わります")]
+        [PropertyMember("スライダーでのリアルタイム変化はサムネイルリストにのみ適用", Tips = "決定した時にページを切り替えます。")]
         public bool IsSliderLinkedThumbnailList
         {
             get { return _IsSliderLinkedThumbnailList; }

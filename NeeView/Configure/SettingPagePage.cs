@@ -25,7 +25,7 @@ namespace NeeView.Configure
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("既定のページ設定", "「ページ設定の初期化」で使用される設定です",
+                new SettingItemSection("既定のページ設定", "「ページ設定の初期化」で使用される設定です。",
                     new SettingItemProperty(PropertyMemberElement.Create(BookSetting.Current.BookMementoDefault, nameof(Book.Memento.PageMode))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookSetting.Current.BookMementoDefault, nameof(Book.Memento.BookReadOrder))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookSetting.Current.BookMementoDefault, nameof(Book.Memento.IsSupportedDividePage))),
@@ -44,7 +44,7 @@ namespace NeeView.Configure
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("履歴、ブックマークから復元するページ設定項目", "開いたことがあるブックの場合、前回の情報から設定の復元をします。\n復元しない項目は、既定のページ設定もしくは直前の設定が使用されます",
+                new SettingItemSection("履歴、ブックマークから復元するページ設定項目", "開いたことがあるブックの場合、前回の情報から設定の復元をします。復元しない項目は、既定のページ設定もしくは直前の設定が使用されます",
                     new SettingItemProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.Page))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.PageMode))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.BookReadOrder))),

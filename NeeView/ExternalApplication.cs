@@ -172,7 +172,7 @@ namespace NeeView
 
         // コマンド
         [DataMember]
-        [PropertyPath( "プログラム", Tips = "指定がない場合は拡張子に関連付けられたアプリを起動します", Filter = "EXE|*.exe|すべてのファイル|*.*")]
+        [PropertyPath( "プログラム", Tips = "指定がない場合は拡張子に関連付けられたアプリを起動します。", Filter = "EXE|*.exe|すべてのファイル|*.*")]
         public string Command { get; set; }
 
         // コマンドパラメータ
@@ -183,7 +183,7 @@ namespace NeeView
 
         // プロトコル
         [DataMember]
-        [PropertyMember("プロトコル", Tips = "$File はファイルパスに置換されます。\n$Uri はURIエスケープされたファイルパスに置換されます。")]
+        [PropertyMember("プロトコル", Tips = "$File はファイルパスに置換されます。$Uri はURIエスケープされたファイルパスに置換されます。")]
         public string Protocol { get; set; }
 
         // 複数ページのときの動作

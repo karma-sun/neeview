@@ -7,6 +7,7 @@ using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -61,7 +62,7 @@ namespace NeeView
         }
 
         // ネットワークアクセス許可
-        [PropertyMember("ネットワークアスセス許可", Tips = "ネットワークアクセスを許可します。\n(バージョンウィンドウからのバージョン更新確認、各種WEBリンク)", IsAppxVisible = false)]
+        [PropertyMember("ネットワークアスセス許可", Tips = "バージョンウィンドウからのバージョン更新確認、オンラインヘルプ等のWEBリンクにのみネットワークを使用します。", IsAppxVisible = false)]
         public bool IsNetworkEnabled
         {
             get { return _isNetworkEnalbe; }
@@ -69,19 +70,19 @@ namespace NeeView
         }
 
         // 画像のDPI非対応
-        [PropertyMember("画像のドットバイドット表示", Tips = "画像をオリジナルサイズで表示する場合にDPIに依存せずにディスプレイのピクセルと一致させます")]
+        [PropertyMember("画像のドットバイドット表示", Tips = "オリジナルサイズで表示する場合、DPIに依存せずにディスプレイのピクセルと一致させます。")]
         public bool IsIgnoreImageDpi { get; set; } = true;
 
         // ウィンドウサイズのDPI非対応
-        [PropertyMember("ウィンドウサイズのDPI非対応", Tips = "DPI変更にウィンドウサイズを追従させません")]
+        [PropertyMember("ウィンドウサイズのDPI非対応", Tips = "異なるDPIのディスプレイ間の移動でウィンドウサイズをDPIに追従させません")]
         public bool IsIgnoreWindowDpi { get; set; }
 
         // 複数ウィンドウの座標復元
-        [PropertyMember("２つめのウィンドウ座標の復元", Tips = "重複起動される場合にウィンドウ座標の復元を適用する。falseにすると2つめのウィンドウは初期座標で表示されます")]
+        [PropertyMember("2つめのウィンドウ座標の復元", Tips = "重複起動した場合もウィンドウ座標を復元します。OFFの場合は初期座標で表示されます。")]
         public bool IsRestoreSecondWindow { get; set; } = true;
 
         // 履歴、ブックマーク、ページマークを保存しない
-        [PropertyMember("履歴、ブックマーク、ページマークを保存しない", Tips = "履歴、ブックマーク、ページマークの情報がファイルに一切保存されなくなります")]
+        [PropertyMember("履歴、ブックマーク、ページマークをファイル保存しない")]
         public bool IsDisableSave { get; set; }
 
         // パネルやメニューが自動的に消えるまでの時間(秒)
@@ -89,16 +90,16 @@ namespace NeeView
         public double AutoHideDelayTime { get; set; } = 1.0;
 
         // ウィンドウクローム枠
-        [PropertyEnum("タイトルバー非表示でのウィンドウ枠", Tips = "タイトルバー非表示時のウィンドウ枠表示方法です")]
+        [PropertyMember("タイトルバー非表示でのウィンドウ枠")]
         public WindowChromeFrame WindowChromeFrame { get; set; } = WindowChromeFrame.Line;
 
         // 前回開いていたブックを開く
-        [PropertyMember("前回開いていたブックを開く", Tips = "起動時に前回開いていたブックを開きます", IsVisible = false)]
+        [PropertyMember("開いていたブックを復元する", IsVisible = false)]
         public bool IsOpenLastBook { get; set; }
 
         // ダウンロードファイル置き場
         [DefaultValue("")]
-        [PropertyPath("ダウンロードフォルダ", Tips = "ブラウザ等がらドロップした画像の保存場所です。\n指定がない場合は一時フォルダーが使用されます", IsVisible = false, IsDirectory = true)]
+        [PropertyPath("ダウンロードフォルダ", Tips = "ブラウザ等がらドロップした画像の保存場所です。指定がない場合は一時フォルダーが使用されます。", IsVisible = false, IsDirectory = true)]
         public string DownloadPath { get; set; }
 
         #endregion
@@ -159,6 +160,7 @@ namespace NeeView
             private void Deserializing(StreamingContext c)
             {
                 this.IsRestoreSecondWindow = true;
+                this.WindowChromeFrame = WindowChromeFrame.Line;
             }
         }
 

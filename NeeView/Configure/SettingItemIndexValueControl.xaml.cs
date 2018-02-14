@@ -27,21 +27,24 @@ namespace NeeView
             set { SetValue(IndexValueProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for IndexValue.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IndexValueProperty =
-            DependencyProperty.Register("IndexValue", typeof(IIndexValue), typeof(SettingItemIndexValueControl), new PropertyMetadata(null, IndexValue_Changed));
+            DependencyProperty.Register("IndexValue", typeof(IIndexValue), typeof(SettingItemIndexValueControl), new PropertyMetadata(null));
 
-        private static void IndexValue_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+
+        public bool IsEditable
         {
-            if (d is SettingItemIndexValueControl control)
-            {
-                control.Root.DataContext = control.IndexValue;
-            }
+            get { return (bool)GetValue(IsEditableProperty); }
+            set { SetValue(IsEditableProperty, value); }
         }
+
+        public static readonly DependencyProperty IsEditableProperty =
+            DependencyProperty.Register("IsEditable", typeof(bool), typeof(SettingItemIndexValueControl), new PropertyMetadata(false));
+
 
         public SettingItemIndexValueControl()
         {
             InitializeComponent();
+            this.Root.DataContext = this;
         }
     }
 }

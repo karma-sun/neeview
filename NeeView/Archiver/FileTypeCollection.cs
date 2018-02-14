@@ -20,31 +20,21 @@ namespace NeeView
         {
         }
 
-        // 文字列から設定
-        public override void FromString(string exts)
+        public override void Add(string token)
         {
-            if (exts == null) return;
-
-            var list = new List<string>();
-            foreach (var token in exts.Split(';'))
+            var ext = token?.Trim().TrimStart('.').ToLower();
+            if (string.IsNullOrWhiteSpace(ext))
             {
-                var ext = token.Trim().TrimStart('.').ToLower();
-                if (!string.IsNullOrWhiteSpace(ext)) list.Add("." + ext);
+                return;
             }
 
-            _items = list;
-        }
-
-        // 追加
-        public void AddString(string ext)
-        {
-            if (ext == null) return;
-
-            ext = "." + ext.Trim().TrimStart('.').ToLower();
-            if (!_items.Contains(ext))
+            ext = "." + ext;
+            if (Contains(ext))
             {
-                _items.Add(ext);
+                return;
             }
+
+            base.Add(ext);
         }
     }
 }

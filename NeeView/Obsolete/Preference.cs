@@ -307,8 +307,8 @@ namespace NeeView
                 SevenZipArchiverProfile.Current.X86DllPath = this.loader_archiver_7z_dllpath;
                 SevenZipArchiverProfile.Current.X64DllPath = this.loader_archiver_7z_dllpath_x64;
                 SevenZipArchiverProfile.Current.SupportFileTypes.FromString(this.loader_archiver_7z_supprtfiletypes);
-                SevenZipArchiverProfile.Current.SupportFileTypes.AddString(".cbr");
-                SevenZipArchiverProfile.Current.SupportFileTypes.AddString(".cbz");
+                SevenZipArchiverProfile.Current.SupportFileTypes.Add(".cbr");
+                SevenZipArchiverProfile.Current.SupportFileTypes.Add(".cbz");
                 SevenZipArchiverProfile.Current.LockTime = this.loader_archiver_7z_locktime;
 
                 ThumbnailProfile.Current.Quality = this.thumbnail_quality;

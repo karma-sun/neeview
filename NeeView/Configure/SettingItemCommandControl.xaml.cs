@@ -41,24 +41,14 @@ namespace NeeView
         // コマンド一覧用パラメータ
         public class CommandParam : BindableBase
         {
-            public CommandType Key { get; set; }
-            public string Group { get; set; }
-            public string Header { get; set; }
+            public CommandElement Command { get; set; }
 
-            public string ShortCut { get; set; }
+            public CommandType Key { get; set; }
             public string ShortCutNote { get; set; }
             public ObservableCollection<GestureElement> ShortCuts { get; set; } = new ObservableCollection<GestureElement>();
-
-            public string MouseGesture { get; set; }
             public GestureElement MouseGestureElement { get; set; }
-
-            public string TouchGesture { get; set; }
             public string TouchGestureNote { get; set; }
             public ObservableCollection<GestureElement> TouchGestures { get; set; } = new ObservableCollection<GestureElement>();
-
-            public bool IsShowMessage { get; set; }
-            public string Tips { get; set; }
-
             public bool HasParameter { get; set; }
             public CommandType ParameterShareCommandType { get; set; }
             public bool IsShareParameter => ParameterShareCommandType != CommandType.None;
@@ -104,13 +94,7 @@ namespace NeeView
                 var item = new CommandParam()
                 {
                     Key = element.Key,
-                    Group = command.Group,
-                    Header = command.Text,
-                    ShortCut = command.ShortCutKey,
-                    MouseGesture = command.MouseGesture,
-                    TouchGesture = command.TouchGesture,
-                    IsShowMessage = command.IsShowMessage,
-                    Tips = command.NoteToTips(),
+                    Command = command,
                 };
 
                 if (command.HasParameter)
@@ -141,13 +125,13 @@ namespace NeeView
             {
                 item.ShortCutNote = null;
 
-                if (!string.IsNullOrEmpty(item.ShortCut))
+                if (!string.IsNullOrEmpty(item.Command.ShortCutKey))
                 {
                     var shortcuts = new ObservableCollection<GestureElement>();
-                    foreach (var key in item.ShortCut.Split(','))
+                    foreach (var key in item.Command.ShortCutKey.Split(','))
                     {
                         var overlaps = CommandCollection
-                            .Where(e => !string.IsNullOrEmpty(e.ShortCut) && e.Key != item.Key && e.ShortCut.Split(',').Contains(key))
+                            .Where(e => !string.IsNullOrEmpty(e.Command.ShortCutKey) && e.Key != item.Key && e.Command.ShortCutKey.Split(',').Contains(key))
                             .Select(e => $"「{e.Key.ToDispString()}」")
                             .ToList();
 
@@ -184,15 +168,15 @@ namespace NeeView
         {
             foreach (var item in CommandCollection)
             {
-                if (!string.IsNullOrEmpty(item.MouseGesture))
+                if (!string.IsNullOrEmpty(item.Command.MouseGesture))
                 {
                     var overlaps = CommandCollection
-                        .Where(e => e.Key != item.Key && e.MouseGesture == item.MouseGesture)
+                        .Where(e => e.Key != item.Key && e.Command.MouseGesture == item.Command.MouseGesture)
                         .Select(e => $"「{e.Key.ToDispString()}」")
                         .ToList();
 
                     var element = new GestureElement();
-                    element.Gesture = item.MouseGesture;
+                    element.Gesture = item.Command.MouseGesture;
                     element.IsConflict = overlaps.Count > 0;
                     if (overlaps.Count > 0)
                     {
@@ -215,13 +199,13 @@ namespace NeeView
             {
                 item.TouchGestureNote = null;
 
-                if (!string.IsNullOrEmpty(item.TouchGesture))
+                if (!string.IsNullOrEmpty(item.Command.TouchGesture))
                 {
                     var elements = new ObservableCollection<GestureElement>();
-                    foreach (var key in item.TouchGesture.Split(','))
+                    foreach (var key in item.Command.TouchGesture.Split(','))
                     {
                         var overlaps = CommandCollection
-                            .Where(e => !string.IsNullOrEmpty(e.TouchGesture) && e.Key != item.Key && e.TouchGesture.Split(',').Contains(key))
+                            .Where(e => !string.IsNullOrEmpty(e.Command.TouchGesture) && e.Key != item.Key && e.Command.TouchGesture.Split(',').Contains(key))
                             .Select(e => $"「{e.Key.ToDispString()}」")
                             .ToList();
 
@@ -273,6 +257,8 @@ namespace NeeView
             {
                 // TODO: any?
             }
+
+            UpdateCommandList();
         }
 
 
@@ -292,6 +278,8 @@ namespace NeeView
             {
                 // TODO: any?
             }
+
+            UpdateCommandList();
         }
     }
 }

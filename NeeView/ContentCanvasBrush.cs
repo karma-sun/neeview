@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,6 +78,7 @@ namespace NeeView
         /// CustomBackground property.
         /// </summary>
         private BrushSource _customBackground = new BrushSource();
+        [PropertyMember("カスタム背景", Tips = "背景を「カスタム背景」にした時に適用される設定です。")]
         public BrushSource CustomBackground
         {
             get { return _customBackground; }
@@ -85,25 +87,41 @@ namespace NeeView
                 if (_customBackground != value)
                 {
                     _customBackground = value ?? new BrushSource();
-                    CustomBackgroundBrush = _customBackground.CreateBackBrush();
-                    CustomBackgroundFrontBrush = _customBackground.CreateFrontBrush();
-                    if (Background == BackgroundStyle.Custom)
-                    {
-                        UpdateBackgroundBrush();
-                    }
+                    UpdateCustomBackgroundBrush();
+                    _customBackground.PropertyChanged += (s, e) => UpdateCustomBackgroundBrush();
                 }
+            }
+        }
+
+        //
+        private void UpdateCustomBackgroundBrush()
+        {
+            _customBackgroundBrush = null;
+            _customBackgroundFrontBrush = null;
+            if (Background == BackgroundStyle.Custom)
+            {
+                UpdateBackgroundBrush();
             }
         }
 
         /// <summary>
         /// カスタム背景
         /// </summary>
-        public Brush CustomBackgroundBrush { get; set; }
+        private Brush _customBackgroundBrush;
+        public Brush CustomBackgroundBrush
+        {
+            get { return _customBackgroundBrush ?? (_customBackgroundBrush = _customBackground?.CreateBackBrush()); }
+        }
+
 
         /// <summary>
         /// カスタム背景
         /// </summary>
-        public Brush CustomBackgroundFrontBrush { get; set; }
+        private Brush _customBackgroundFrontBrush;
+        public Brush CustomBackgroundFrontBrush
+        {
+            get { return _customBackgroundFrontBrush ?? (_customBackgroundFrontBrush = _customBackground?.CreateFrontBrush()); }
+        }
 
         /// <summary>
         /// チェック模様

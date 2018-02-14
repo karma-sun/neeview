@@ -147,12 +147,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BackgroundSettingControl.xaml.cs">
+      <DependentUpon>BackgroundSettingControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CommandParameterControl.xaml.cs">
       <DependentUpon>CommandParameterControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="CommandParameterControlViewModel.cs" />
+    <Compile Include="Configure\AddParameterDialog.xaml.cs">
+      <DependentUpon>AddParameterDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Configure\EditCommandWindow.xaml.cs">
       <DependentUpon>EditCommandWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Configure\FormattedTextBlock.cs" />
+    <Compile Include="Configure\SettingItemCollectionControl.xaml.cs">
+      <DependentUpon>SettingItemCollectionControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Configure\SettingPageBook.cs" />
     <Compile Include="Configure\SettingPageContextMenu.cs" />
@@ -760,6 +770,10 @@
     <Compile Include="_NeeView\Windows\Property\PropertyMemberAttribute.cs" />
     <Compile Include="_NeeView\Windows\Property\PropertyValue.cs" />
     <Compile Include="_NeeView\Windows\StyleInteraction.cs" />
+    <Page Include="BackgroundSettingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="BackupSelectControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -768,7 +782,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Configure\AddParameterDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Configure\EditCommandWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Configure\SettingItemCollectionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

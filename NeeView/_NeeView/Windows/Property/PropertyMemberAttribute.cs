@@ -40,6 +40,8 @@ namespace NeeView.Windows.Property
         public double Minimum { get; set; }
         public double Maximum { get; set; }
         public double TickFrequency { get; set; }
+        public bool IsEditable { get; set; }
+        public string Format { get; set; }
 
         public PropertyRangeAttribute(double min, double max)
         {

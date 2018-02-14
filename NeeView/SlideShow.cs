@@ -72,7 +72,7 @@ namespace NeeView
         /// <summary>
         /// スライドショーの表示間隔(秒)
         /// </summary>
-        [PropertyMember("表示間隔")]
+        [PropertyMember("表示間隔(秒)", Tips = "スライドが切り替わる時間です。")]
         public double SlideShowInterval
         {
             get { return _SlideShowInterval; }
@@ -85,7 +85,7 @@ namespace NeeView
         /// <summary>
         /// カーソルでスライドを止める.
         /// </summary>
-        [PropertyMember("マウス移動で表示間隔リセット", Tips = "マウスを動かすと表示間隔タイマーがリセットされます\nOFFの時は、クリック等明確なアクションでのみリセットされます")]
+        [PropertyMember("マウス移動で表示間隔リセット", Tips = "OFFの時は、クリック等明確なアクションでのみリセットされます。")]
         public bool IsCancelSlideByMouseMove
         {
             get { return _IsCancelSlideByMouseMove; }

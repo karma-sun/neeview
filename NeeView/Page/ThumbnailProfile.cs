@@ -46,11 +46,11 @@ namespace NeeView
         /// 画像品質
         /// </summary>
         private int _quality = 80;
-        [PropertyMember("サムネイル品質", Tips = "サムネイルフォーマットがJpegの場合の品質です。1-100で指定します")]
+        [PropertyRange("サムネイル品質", 5, 100, TickFrequency = 5, Tips = "サムネイルフォーマットがJpegの場合の品質です。")]
         public int Quality
         {
             get { return _quality; }
-            set { _quality = MathUtility.Clamp(value, 1, 100); }
+            set { _quality = MathUtility.Clamp(value, 5, 100); }
         }
 
         [PropertyMember("サムネイルキャッシュを使用する", Tips = "ブックサムネイルをキャッシュします。キャッシュファイルはCache.dbです")]
@@ -63,7 +63,7 @@ namespace NeeView
         public int BookCapacity { get; set; } = 200;
 
         private int _bannerWidth = 200;
-        [PropertyMember("バナーサイズ", Tips = "パネルのバナー表示での画像の横幅です。縦幅は横幅の1/4になります。\nサムネイル画像を流用しているため、大きいサイズほど画像が荒くなります")]
+        [PropertyRange("バナーサイズ", 0, 512, TickFrequency = 16, Tips = "パネルのバナー表示での画像の横幅です。縦幅は横幅の1/4になります。\nサムネイル画像を流用しているため、大きいサイズほど画像が荒くなります")]
         public int BannerWidth
         {
             get { return _bannerWidth; }
@@ -81,7 +81,7 @@ namespace NeeView
         /// ThumbnailWidth property.
         /// </summary>
         private int _thumbnailWidth = 50;
-        [PropertyMember("ブックサムネイルサイズ", Tips = "パネルのコンテンツ表示でのサムネイルサイズです。")]
+        [PropertyRange("ブックサムネイルサイズ", 0, 256, TickFrequency = 16, Format = "{0}×{0}", Tips = "パネルのコンテンツ表示でのサムネイルサイズです。")]
         public int ThumbnailWidth
         {
             get { return _thumbnailWidth; }

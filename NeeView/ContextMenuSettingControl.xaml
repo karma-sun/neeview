@@ -222,8 +222,11 @@
                     <DockPanel.Resources>
                         <Style TargetType="Button">
                             <Setter Property="Margin" Value="10,2,0,2"/>
+                            <Setter Property="Padding" Value="10,5"/>
                             <Setter Property="Width" Value="80"/>
-                            <Setter Property="Height" Value="28"/>
+                            <!--
+                            <Setter Property="MinHeight" Value="28"/>
+                            -->
                         </Style>
                     </DockPanel.Resources>
 
@@ -242,7 +245,7 @@
 
                             <Button DockPanel.Dock="Bottom" x:Name="ResetButton" Content="初期化" Click="ResetButton_Click"/>
                         </DockPanel>
-                            <TreeView x:Name="ContextMenuTreeView"
+                            <TreeView x:Name="ContextMenuTreeView" BorderBrush="LightGray"
                                       HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                       ItemsSource="{Binding Root.Children}" ItemTemplate="{StaticResource treeViewTemplate}" Padding="5" >
                             </TreeView>

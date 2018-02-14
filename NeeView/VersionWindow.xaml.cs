@@ -66,7 +66,7 @@ namespace NeeView
                 int version = (int)value;
                 int minor = version / 100;
                 int build = version % 100;
-                var process = Config.Current.IsX64 ? "64bit" : "32bit";
+                var process = Config.IsX64 ? "64bit" : "32bit";
 
                 return $"1.{minor}" + ((build > 0) ? $".{build}" : "") + $" ({process})";
             }

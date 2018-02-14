@@ -33,41 +33,14 @@ namespace NeeView.Configure
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection("背景",
-                    new SettingItemButton("カスタム背景", "設定", EditCustomBackground)),
+                    new SettingItemProperty(PropertyMemberElement.Create(ContentCanvasBrush.Current, nameof(ContentCanvasBrush.CustomBackground)),
+                        new BackgroundSettingControl(ContentCanvasBrush.Current.CustomBackground))),
 
                 new SettingItemSection("詳細設定",
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.AutoHideDelayTime))),
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.WindowChromeFrame)))),
             };
         }
-
-        #region Commands
-
-        /// <summary>
-        /// EditCustomBackground command.
-        /// </summary>
-        public RelayCommand EditCustomBackground
-        {
-            get { return _EditCustomBackground = _EditCustomBackground ?? new RelayCommand(EditCustomBackground_Executed); }
-        }
-
-        //
-        private RelayCommand _EditCustomBackground;
-
-        //
-        private void EditCustomBackground_Executed()
-        {
-            var dialog = new BackgroundSettingWindow(ContentCanvasBrush.Current.CustomBackground.Clone());
-            dialog.Owner = SettingWindowEx.Current;
-            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            var result = dialog.ShowDialog();
-            if (result == true)
-            {
-                ContentCanvasBrush.Current.CustomBackground = dialog.Result;
-            }
-        }
-
-        #endregion
     }
 
     public class SettingPageVisualNotify : SettingPage
@@ -136,7 +109,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
             this.Items = new List<SettingItem>
             {
                  new SettingItemSection("サムネイルリスト",
-                    new SettingItemThumbnailSize(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.ThumbnailSize))),
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.ThumbnailSize))),
                     new SettingItemProperty(PropertyMemberElement.Create(PageSlider.Current, nameof(PageSlider.IsSliderLinkedThumbnailList))),
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsVisibleThumbnailNumber))),
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsVisibleThumbnailPlate))),
@@ -195,7 +168,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
                 new SettingItemSection("全般",
                     new SettingItemProperty(PropertyMemberElement.Create(SlideShow.Current, nameof(SlideShow.IsSlideShowByLoop))),
                     new SettingItemProperty(PropertyMemberElement.Create(SlideShow.Current, nameof(SlideShow.IsCancelSlideByMouseMove))),
-                    new SettingItemIndexValue<double>(PropertyMemberElement.Create(SlideShow.Current, nameof(SlideShow.SlideShowInterval)), new SlideShowInterval())),
+                    new SettingItemIndexValue<double>(PropertyMemberElement.Create(SlideShow.Current, nameof(SlideShow.SlideShowInterval)), new SlideShowInterval(), true)),
             };
         }
     }

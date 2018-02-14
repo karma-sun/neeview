@@ -473,7 +473,7 @@ namespace NeeView
                     MouseGesture = memento.MouseGesture,
                     TouchGesture = memento.TouchGesture,
                     IsShowMessage = memento.IsShowMessage,
-                    Tips = element.Value.NoteToTips(),
+                    Tips = element.Value.Tips, // NoteToTips(),
                 };
 
                 if (element.Value.HasParameter)

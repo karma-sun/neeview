@@ -25,15 +25,12 @@
     <DataTemplate DataType="{x:Type local:PropertyValue_Integer}">
         <TextBox Text="{Binding Value}"/>
     </DataTemplate>
-
+    
     <DataTemplate DataType="{x:Type local:PropertyValue_IntegerRange}">
         <DockPanel>
             <TextBox DockPanel.Dock="Right" Text="{Binding Value}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0"/>
-            <Grid x:Name="StretchArea">
-                <Slider Value="{Binding Value}" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" SmallChange="{Binding SmallChange}" LargeChange="{Binding LargeChange}" 
-                        TickFrequency="{Binding TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center"
-                        Width="{Binding ElementName=StretchArea, Path=ActualWidth}" MaxWidth="300" HorizontalAlignment="Right"/>
-            </Grid>
+            <Slider Value="{Binding Value}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}" SmallChange="{Binding Range.SmallChange}" LargeChange="{Binding Range.LargeChange}" 
+                        TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
         </DockPanel>
     </DataTemplate>
 
@@ -44,11 +41,8 @@
     <DataTemplate DataType="{x:Type local:PropertyValue_DoubleRange}">
         <DockPanel>
             <TextBox DockPanel.Dock="Right" Text="{Binding Value}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0"/>
-            <Grid x:Name="StretchArea">
-                <Slider Value="{Binding Value}" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" SmallChange="{Binding SmallChange}" LargeChange="{Binding LargeChange}" 
-                        TickFrequency="{Binding TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center"
-                        Width="{Binding ElementName=StretchArea, Path=ActualWidth}" MaxWidth="300" HorizontalAlignment="Right"/>
-            </Grid>
+            <Slider Value="{Binding Value}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}" SmallChange="{Binding Range.SmallChange}" LargeChange="{Binding Range.LargeChange}" 
+                        TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
         </DockPanel>
     </DataTemplate>
 

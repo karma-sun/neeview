@@ -49,6 +49,7 @@
                         <!--
                         <Setter Property="Icon" Value="/NeeView;component/Resources/1x1.png"/>
                         -->
+                        <Setter Property="FontSize" Value="15"/>
                     </Style>
 
                     <!-- CheckerBrush -->

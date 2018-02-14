@@ -47,22 +47,50 @@
         </DataTemplate>
 
         <Style TargetType="ListBox">
-            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
-            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="BorderBrush" Value="LightGray"/>
             <Setter Property="ItemTemplate" Value="{StaticResource SusiePlugin}"/>
-            <Setter Property="Margin" Value="0,4,0,0"/>
+            <Setter Property="Margin" Value="0,2"/>
             <Setter Property="AllowDrop" Value="True"/>
             <EventSetter Event="PreviewDragOver"  Handler="PluginListView_PreviewDragOver"/>
             <EventSetter Event="Drop" Handler="PluginListView_Drop"/>
         </Style>
 
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="5,2"/>
+            <Setter Property="Padding" Value="10,5"/>
+            <Setter Property="Width" Value="80"/>
+        </Style>
+
     </UserControl.Resources>
 
-    <ListBox x:Name="Root" MinHeight="64" MinWidth="64">
-        <i:Interaction.Behaviors>
-            <local:IgnoreMouseWheelBehavior />
-        </i:Interaction.Behaviors>
-    </ListBox>
+    <DockPanel x:Name="Root" Margin="0,0,5,5">
+
+        <StackPanel DockPanel.Dock="Right">
+            <StackPanel.Resources>
+                <Style TargetType="StackPanel">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding ElementName=PluginList, Path=SelectedItem}" Value="{x:Null}">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </StackPanel.Resources>
+            <Button x:Name="ConfigButton" Content="設定" Command="{Binding ConfigCommand}"/>
+            <Button x:Name="UpButton" Content="上へ" Command="{Binding MoveUpCommand}"/>
+            <Button x:Name="DownButton" Content="下へ" Command="{Binding MoveDownCommand}"/>
+        </StackPanel>
+
+        <ListBox x:Name="PluginList" MinHeight="64" MinWidth="64" ItemsSource="{Binding SusiePluginCollection}" Tag="{Binding SusiePluginCollection}" SelectionChanged="PluginList_SelectionChanged">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <EventSetter Event="MouseDoubleClick" Handler="ListBoxItem_MouseDoubleClick"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+
+    </DockPanel>
 
 </UserControl>

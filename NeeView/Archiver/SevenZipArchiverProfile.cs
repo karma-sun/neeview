@@ -19,10 +19,10 @@ namespace NeeView
             Current = this;
         }
 
-        [PropertyPath("7z.dll(32bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります")]
+        [PropertyPath("7z.dll(32bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります", Filter = "DLL|*.dll")]
         public string X86DllPath { get; set; } = "";
 
-        [PropertyPath("7z.dll(64bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります")]
+        [PropertyPath("7z.dll(64bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります", Filter = "DLL|*.dll")]
         public string X64DllPath { get; set; } = "";
 
         [PropertyMember("7z.dllで展開する圧縮ファイルの拡張子", Tips = ";(セミコロン)区切りでサポートする拡張子を羅列します。\n拡張子は .zip のように指定します")]
@@ -108,8 +108,8 @@ namespace NeeView
             // compatible before ver.25
             if (memento._Version < Config.GenerateProductVersionNumber(1, 25, 0))
             {
-                this.SupportFileTypes.AddString(".cbr");
-                this.SupportFileTypes.AddString(".cbz");
+                this.SupportFileTypes.Add(".cbr");
+                this.SupportFileTypes.Add(".cbz");
             }
         }
         #endregion

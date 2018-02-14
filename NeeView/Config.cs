@@ -247,7 +247,7 @@ namespace NeeView
         /// <summary>
         /// x86/x64判定
         /// </summary>
-        public bool IsX64
+        public static bool IsX64
         {
             get { return IntPtr.Size == 8; }
         }

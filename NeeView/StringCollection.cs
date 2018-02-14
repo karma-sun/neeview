@@ -5,6 +5,7 @@
 
 
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace NeeView
@@ -12,7 +13,7 @@ namespace NeeView
     /// <summary>
     /// 文字列コレクション
     /// </summary>
-    public class StringCollection
+    public class StringCollection : ObservableCollection<string>
     {
         //
         public StringCollection()
@@ -25,25 +26,35 @@ namespace NeeView
             FromString(items);
         }
 
-        protected List<string> _items = new List<string>();
-        
         //
-        public string this[int index]
+        public StringCollection(IEnumerable<string> items) : base(items)
         {
-            get { return _items[index]; }
-            set { _items[index] = value; }
         }
 
         //
-        public bool Contains(string item)
+        public new virtual void Add(string item)
         {
-            return _items.Contains(item);
+            base.Add(item);
+        }
+
+        //
+        public new virtual bool Remove(string item)
+        {
+            return base.Remove(item);
         }
 
         //
         public void FromCollection(IEnumerable<string> items)
         {
-            _items = new List<string>(items);
+            Clear();
+
+            if (items != null)
+            {
+                foreach (var item in items)
+                {
+                    Add(item);
+                }
+            }
         }
 
         /// <summary>
@@ -52,8 +63,7 @@ namespace NeeView
         /// <param name="items"></param>
         public virtual void FromString(string items)
         {
-            if (items == null) return;
-            _items = items.Split(';').Select(e => e.Trim()).ToList();
+            FromCollection(items?.Split(';').Select(e => e.Trim()));
         }
 
         /// <summary>
@@ -62,7 +72,7 @@ namespace NeeView
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Join(";", _items);
+            return string.Join(";", this);
         }
     }
 

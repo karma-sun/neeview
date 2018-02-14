@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeLaboratory;
 using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
 using System;
@@ -64,11 +65,19 @@ namespace NeeView
         /// <summary>
         /// サムネイルサイズ
         /// </summary>
-        [PropertyMember("ページサムネイルサイズ")]
+        [PropertyRange("ページサムネイルサイズ", 16, 256, TickFrequency = 16, Format = "{0}×{0}")]
         public double ThumbnailSize
         {
             get { return _thumbnailSize; }
-            set { if (_thumbnailSize != value) { _thumbnailSize = value; RaisePropertyChanged(); } }
+            set
+            {
+                value = MathUtility.Clamp(value, 16, 256);
+                if (_thumbnailSize != value)
+                {
+                    _thumbnailSize = value;
+                    RaisePropertyChanged();
+                }
+            }
         }
 
         /// <summary>

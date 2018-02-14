@@ -34,7 +34,7 @@ namespace NeeView.Configure
 
                 new SettingItemSection("ファイル保存", "画像を保存するコマンドの設定です",
                     new SettingItemProperty(PropertyMemberElement.Create(ExporterProfile.Current, nameof(ExporterProfile.IsEnableExportFolder))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ExporterProfile.Current, nameof(ExporterProfile.QualityLevel))) { IsStretch = true }),
+                    new SettingItemProperty(PropertyMemberElement.Create(ExporterProfile.Current, nameof(ExporterProfile.QualityLevel)))),
             };
         }
     }

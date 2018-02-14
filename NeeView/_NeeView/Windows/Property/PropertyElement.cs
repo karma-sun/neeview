@@ -129,10 +129,10 @@ namespace NeeView.Windows.Property
             switch (typeCode)
             {
                 case TypeCode.Int32:
-                    this.TypeValue = new PropertyValue_IntegerRange(this, (int)attribute.Minimum, (int)attribute.Maximum, (int)attribute.TickFrequency);
+                    this.TypeValue = new PropertyValue_IntegerRange(this, new RangeProfile(true, attribute.Minimum, attribute.Maximum, attribute.TickFrequency, attribute.IsEditable, attribute.Format));
                     break;
                 case TypeCode.Double:
-                    this.TypeValue = new PropertyValue_DoubleRange(this, attribute.Minimum, attribute.Maximum, attribute.TickFrequency);
+                    this.TypeValue = new PropertyValue_DoubleRange(this, new RangeProfile(false, attribute.Minimum, attribute.Maximum, attribute.TickFrequency, attribute.IsEditable, attribute.Format));
                     break;
                 default:
                     throw new NotSupportedException();

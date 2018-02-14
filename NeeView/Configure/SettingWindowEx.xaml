@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:NeeView.Configure"
         xmlns:nvp="clr-namespace:NeeView.Windows.Property"
         xmlns:nvc="clr-namespace:NeeView.Windows.Controls"
+        xmlns:nvd="clr-namespace:NeeView.Windows.Data"
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}"
         FontSize="15"
@@ -16,6 +17,8 @@
                 <ResourceDictionary Source="/_NeeView/Windows/Property/PropertyValueTemplateDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <nvd:NotBoolToVisiblityConverter x:Key="NotBoolToVisiblityConverter"/>
             <local:BooleanToSwitchStringConverter x:Key="BooleanToSwitchStringConverter"/>
 
             <DataTemplate DataType="{x:Type nvp:PropertyValue_Boolean}">
@@ -23,6 +26,25 @@
                     <nvc:ToggleSwitch IsChecked="{Binding Value}" Height="20" HorizontalAlignment="Left" CheckedBrush="{DynamicResource NVButtonForeground}"/>
                     <TextBlock Margin="10,0" VerticalAlignment="Center" Text="{Binding Value, Converter={StaticResource BooleanToSwitchStringConverter}}"/>
                 </StackPanel>
+            </DataTemplate>
+            
+            <DataTemplate x:Key="RangeValueDataTemplate">
+                <StackPanel>
+                    <StackPanel>
+                        <TextBox Text="{Binding Value}" Visibility="{Binding Range.IsEditable, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <local:FormattedTextBlock Value="{Binding Value}" Format="{Binding Range.Format}" Visibility="{Binding Range.IsEditable, Converter={StaticResource NotBoolToVisiblityConverter}}" />
+                    </StackPanel>
+                    <Slider Value="{Binding Value}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}" SmallChange="{Binding Range.SmallChange}" LargeChange="{Binding Range.LargeChange}" 
+                        TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True" Margin="0,5,0,0"/>
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type nvp:PropertyValue_IntegerRange}">
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource RangeValueDataTemplate}"/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type nvp:PropertyValue_DoubleRange}">
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource RangeValueDataTemplate}"/>
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type nvp:PropertyTitleElement}">
@@ -53,7 +75,7 @@
 
         </ResourceDictionary>
     </Window.Resources>
-    
+
     <DockPanel UseLayoutRounding="True">
 
         <TreeView x:Name="IndexTree" DockPanel.Dock="Left" Width="200" ItemsSource="{Binding Model.Pages}" BorderThickness="0" Margin="20,20,0,20">

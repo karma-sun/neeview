@@ -167,7 +167,7 @@ namespace NeeView
         {
             if (s_isLibraryInitialized) return;
 
-            string dllPath = Config.Current.IsX64 ? SevenZipArchiverProfile.Current.X64DllPath : SevenZipArchiverProfile.Current.X86DllPath;
+            string dllPath = Config.IsX64 ? SevenZipArchiverProfile.Current.X64DllPath : SevenZipArchiverProfile.Current.X86DllPath;
             if (string.IsNullOrWhiteSpace(dllPath))
             {
                 dllPath = System.IO.Path.Combine(Config.Current.LibrariesPlatformPath, "7z.dll");

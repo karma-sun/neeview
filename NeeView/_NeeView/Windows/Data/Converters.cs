@@ -36,7 +36,7 @@ namespace NeeView.Windows.Data
         {
             if ((bool)value)
             {
-                return Visibility.Hidden;
+                return Visibility.Collapsed;
             }
             else
             {

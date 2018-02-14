@@ -11,176 +11,178 @@
             <local:MouseGestureToDispTextConverter x:Key="MouseGestureToDispTextConverter"/>
             <CollectionViewSource x:Key="CommandSource" Source="{Binding CommandCollection}">
                 <CollectionViewSource.GroupDescriptions>
-                    <PropertyGroupDescription PropertyName="Group" />
+                    <PropertyGroupDescription PropertyName="Command.Group" />
                 </CollectionViewSource.GroupDescriptions>
             </CollectionViewSource>
         </Grid.Resources>
 
-        <DockPanel>
+        <DockPanel Margin="0,0,5,5">
 
             <DockPanel DockPanel.Dock="Bottom" LastChildFill="False">
-                <Button x:Name="ResetGestureSettingButton" DockPanel.Dock="Right" Content="すべて初期化..." MinWidth="110" Height="30" Margin="8" Padding="5,0" VerticalAlignment="Bottom" Click="ResetGestureSettingButton_Click" ToolTip="すべてのコマンド設定を初期化します"/>
+                <Button x:Name="ResetGestureSettingButton" DockPanel.Dock="Right" Content="すべて初期化..." MinWidth="110" Height="30" Margin="0,5" Padding="5,0" VerticalAlignment="Bottom" Click="ResetGestureSettingButton_Click" ToolTip="すべてのコマンド設定を初期化します"/>
             </DockPanel>
 
-            <ListView x:Name="CommandListView" ItemsSource="{Binding Source={StaticResource CommandSource}}" 
+            <Border BorderThickness="0" BorderBrush="LightGray">
+                <ListView x:Name="CommandListView" ItemsSource="{Binding Source={StaticResource CommandSource}}" 
                               BorderThickness="0"
                               VirtualizingStackPanel.IsVirtualizing="True"
                               VirtualizingStackPanel.ScrollUnit="Pixel"
                               VirtualizingStackPanel.VirtualizationMode="Recycling">
-                <ListView.Resources>
-                    <DataTemplate x:Key="listGroupTemplate">
-                        <TextBlock Text="{Binding Name}" FontWeight="Bold" Margin="0,8,0,4" />
-                    </DataTemplate>
-                </ListView.Resources>
-                <ListView.GroupStyle>
-                    <GroupStyle HeaderTemplate="{StaticResource listGroupTemplate}"/>
-                </ListView.GroupStyle>
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem">
-                        <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
-                    </Style>
-                </ListView.ItemContainerStyle>
-                
-                <ListView.View>
-                    <GridView>
+                    <ListView.Resources>
+                        <DataTemplate x:Key="listGroupTemplate">
+                            <TextBlock Text="{Binding Name}" FontWeight="Bold" Margin="0,8,0,4" />
+                        </DataTemplate>
+                    </ListView.Resources>
+                    <ListView.GroupStyle>
+                        <GroupStyle HeaderTemplate="{StaticResource listGroupTemplate}"/>
+                    </ListView.GroupStyle>
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
 
-                        <GridViewColumn>
-                            <GridViewColumn.Header>
-                                <TextBlock Text="表示" ToolTip="コマンド実行時のメッセージ表示ON/OFF"/>
-                            </GridViewColumn.Header>
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <CheckBox IsChecked="{Binding IsShowMessage}" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                    <ListView.View>
+                        <GridView>
 
-                        <GridViewColumn Header="コマンド" Width="200" >
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <DockPanel >
-                                        <Grid DockPanel.Dock="Left" Width="20" VerticalAlignment="Center" Margin="2">
-                                            <Button Click="EditCommandParameterButton_Clock" Tag="{Binding}" ToolTipService.ShowOnDisabled="True">
-                                                <Button.Style>
-                                                    <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
+                            <GridViewColumn>
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="表示" ToolTip="コマンド実行時のメッセージ表示ON/OFF"/>
+                                </GridViewColumn.Header>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding Command.IsShowMessage}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="コマンド" Width="200" >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DockPanel >
+                                            <Grid DockPanel.Dock="Left" Width="20" VerticalAlignment="Center" Margin="2">
+                                                <Button Click="EditCommandParameterButton_Clock" Tag="{Binding}" ToolTipService.ShowOnDisabled="True">
+                                                    <Button.Style>
+                                                        <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding HasParameter}" Value="False">
+                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding IsShareParameter}" Value="True">
+                                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                                    <Setter Property="ToolTip" Value="{Binding ShareTips}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Button.Style>
+                                                    <Image Width="14" Height="14" Source="{StaticResource ic_setting_24px}"/>
+                                                </Button>
+                                            </Grid>
+                                            <TextBlock Text="{Binding Command.Text}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Command.Tips}"/>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="ショートカット" Width="180">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ItemsControl ItemsSource="{Binding ShortCuts}"  ToolTip="{Binding ShortCutNote}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Image Source="{StaticResource ic_warning_48px}" Width="12" Margin="0,0,2,0" VerticalAlignment="Center">
+                                                            <Image.Style>
+                                                                <Style TargetType="Image">
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Path=IsConflict}" Value="False">
+                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Image.Style>
+                                                        </Image>
+                                                        <StackPanel Orientation="Horizontal" Margin="0,0,2,0" VerticalAlignment="Center">
+                                                            <TextBlock Text="{Binding Gesture}"/>
+                                                            <TextBlock Text="{Binding Splitter}"/>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="ジェスチャー" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" ToolTip="{Binding MouseGestureElement.Note}">
+                                            <Image Source="{StaticResource ic_warning_48px}" Width="12" Margin="0,0,2,2" VerticalAlignment="Center">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
                                                         <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding HasParameter}" Value="False">
+                                                            <DataTrigger Binding="{Binding Path=MouseGestureElement.IsConflict}" Value="False">
                                                                 <Setter Property="Visibility" Value="Collapsed"/>
-                                                            </DataTrigger>
-                                                            <DataTrigger Binding="{Binding IsShareParameter}" Value="True">
-                                                                <Setter Property="IsEnabled" Value="False"/>
-                                                                <Setter Property="ToolTip" Value="{Binding ShareTips}" />
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
-                                                </Button.Style>
-                                                <Image Width="14" Height="14" Source="{StaticResource ic_setting_24px}"/>
-                                            </Button>
-                                        </Grid>
-                                        <TextBlock Text="{Binding Header}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Tips}"/>
-                                    </DockPanel>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                                                </Image.Style>
+                                            </Image>
 
-                        <GridViewColumn Header="ショートカット" Width="180">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <ItemsControl ItemsSource="{Binding ShortCuts}"  ToolTip="{Binding ShortCutNote}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel Orientation="Horizontal" />
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Image Source="{StaticResource ic_warning_48px}" Width="12" Margin="0,0,2,0" VerticalAlignment="Center">
-                                                        <Image.Style>
-                                                            <Style TargetType="Image">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding Path=IsConflict}" Value="False">
-                                                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Image.Style>
-                                                    </Image>
-                                                    <StackPanel Orientation="Horizontal" Margin="0,0,2,0" VerticalAlignment="Center">
-                                                        <TextBlock Text="{Binding Gesture}"/>
-                                                        <TextBlock Text="{Binding Splitter}"/>
-                                                    </StackPanel>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
-                        <GridViewColumn Header="ジェスチャー" Width="100">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <StackPanel Orientation="Horizontal" ToolTip="{Binding MouseGestureElement.Note}">
-                                        <Image Source="{StaticResource ic_warning_48px}" Width="12" Margin="0,0,2,2" VerticalAlignment="Center">
-                                            <Image.Style>
-                                                <Style TargetType="Image">
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Path=MouseGestureElement.IsConflict}" Value="False">
-                                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Image.Style>
-                                        </Image>
-
-                                        <TextBlock Text="{Binding MouseGestureElement.Gesture, Converter={StaticResource MouseGestureToDispTextConverter}}"
+                                            <TextBlock Text="{Binding MouseGestureElement.Gesture, Converter={StaticResource MouseGestureToDispTextConverter}}"
                                                            TextTrimming="CharacterEllipsis" FontFamily="Meiryo"
                                                            Margin="0,0,2,0" VerticalAlignment="Center"/>
-                                    </StackPanel>
+                                        </StackPanel>
 
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
 
-                        <GridViewColumn Header="タッチ" Width="120">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <ItemsControl ItemsSource="{Binding TouchGestures}"  ToolTip="{Binding TouchGestureNote}">
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <StackPanel Orientation="Horizontal" />
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <Image Source="{StaticResource ic_warning_48px}" Width="12" Margin="0,0,2,0" VerticalAlignment="Center">
-                                                        <Image.Style>
-                                                            <Style TargetType="Image">
-                                                                <Style.Triggers>
-                                                                    <DataTrigger Binding="{Binding Path=IsConflict}" Value="False">
-                                                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                                                    </DataTrigger>
-                                                                </Style.Triggers>
-                                                            </Style>
-                                                        </Image.Style>
-                                                    </Image>
-                                                    <StackPanel Orientation="Horizontal" Margin="0,0,2,0" VerticalAlignment="Center">
-                                                        <TextBlock Text="{Binding Gesture}"/>
-                                                        <TextBlock Text="{Binding Splitter}"/>
+                            <GridViewColumn Header="タッチ" Width="120">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ItemsControl ItemsSource="{Binding TouchGestures}"  ToolTip="{Binding TouchGestureNote}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Image Source="{StaticResource ic_warning_48px}" Width="12" Margin="0,0,2,0" VerticalAlignment="Center">
+                                                            <Image.Style>
+                                                                <Style TargetType="Image">
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Path=IsConflict}" Value="False">
+                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Image.Style>
+                                                        </Image>
+                                                        <StackPanel Orientation="Horizontal" Margin="0,0,2,0" VerticalAlignment="Center">
+                                                            <TextBlock Text="{Binding Gesture}"/>
+                                                            <TextBlock Text="{Binding Splitter}"/>
+                                                        </StackPanel>
                                                     </StackPanel>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                    </ItemsControl>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
 
-                    </GridView>
-                </ListView.View>
-            </ListView>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Border>
         </DockPanel>
 
     </Grid>

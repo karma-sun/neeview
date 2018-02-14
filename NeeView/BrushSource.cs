@@ -142,6 +142,11 @@ namespace NeeView
         /// <returns></returns>
         private Brush CreateImageBrush(BrushType type)
         {
+            if (string.IsNullOrEmpty(this.ImageFileName))
+            {
+                return Brushes.Transparent;
+            }
+
             try
             {
                 var bmpImage = new BitmapImage();

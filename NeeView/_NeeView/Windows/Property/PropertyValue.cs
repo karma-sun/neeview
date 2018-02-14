@@ -248,64 +248,104 @@ namespace NeeView.Windows.Property
         }
     }
 
-    //
-    public class PropertyValue_IntegerRange : PropertyValue_Integer
-    {
-        private int _tickFrequency;
 
-        public int Minimum { get; set; }
-        public int Maximum { get; set; }
-        public int SmallChange => (Maximum - Minimum) / 10;
-        public int LargeChange => (Maximum - Minimum) / 4;
-        public int TickFrequency
+    /// <summary>
+    /// スライダー用パラメータ
+    /// </summary>
+    public class RangeProfile
+    {
+        #region Fields
+
+        private bool _isInteger;
+
+        #endregion
+
+        #region Constructors
+
+        public RangeProfile(bool isInteger, double min, double max)
         {
-            get
+            _isInteger = isInteger;
+            this.Minimum = min;
+            this.Maximum = max;
+        }
+
+        public RangeProfile(bool isInteger, double min, double max, double tickFrequency, bool isEditable, string format)
+        {
+            _isInteger = isInteger;
+            this.Minimum = min;
+            this.Maximum = max;
+            this.TickFrequency = tickFrequency;
+            this.IsEditable = isEditable;
+            this.Format = format;
+        }
+
+        #endregion
+
+        #region Properties
+
+        public double Minimum { get; private set; }
+        public double Maximum { get; private set; }
+        public double SmallChange => CastValue((Maximum - Minimum) * 0.1);
+        public double LargeChange => CastValue((Maximum - Minimum) * 0.25);
+
+        private double _tickFrequency;
+        public double TickFrequency
+        {
+            get { return _tickFrequency <= 0.0 ? CastValue((Maximum - Minimum) * 0.01) : _tickFrequency; }
+            private set { _tickFrequency = value; }
+        }
+
+        /// <summary>
+        /// スライダーだけでなく直接値の編集が可能
+        /// </summary>
+        public bool IsEditable { get; private set; }
+
+        /// <summary>
+        /// 表示文字列フォーマット
+        /// </summary>
+        public string Format { get; private set; }
+
+        #endregion
+
+        #region Methods
+
+        /// <summary>
+        /// 整数型ならば1以上の整数にキャスト
+        /// </summary>
+        private double CastValue(double source)
+        {
+            if (_isInteger)
             {
-                if (_tickFrequency <= 0)
-                {
-                    var delta = (Maximum - Minimum) * 0.01;
-                    return delta < 2.0 ? 1 : (int)delta;
-                }
-                else
-                {
-                    return _tickFrequency;
-                }
+                return _tickFrequency < 2.0 ? 1.0 : (int)source;
             }
-            set
+            else
             {
-                _tickFrequency = value;
+                return source;
             }
         }
 
-        public PropertyValue_IntegerRange(PropertyMemberElement setter, int min, int max, int tickFrequency) : base(setter)
+        #endregion
+    }
+    
+    //
+    public class PropertyValue_IntegerRange : PropertyValue_Integer
+    {
+        public RangeProfile Range { get; private set; }
+
+        public PropertyValue_IntegerRange(PropertyMemberElement setter, RangeProfile range) : base(setter)
         {
-            Minimum = min;
-            Maximum = max;
-            _tickFrequency = tickFrequency;
+            this.Range = range;
         }
     }
 
     //
     public class PropertyValue_DoubleRange : PropertyValue_Double
     {
-        private double _tickFrequency;
+        public RangeProfile Range { get; private set; }
 
-        public double Minimum { get; set; }
-        public double Maximum { get; set; }
-        public double SmallChange => (Maximum - Minimum) * 0.1;
-        public double LargeChange => (Maximum - Minimum) * 0.25;
-
-        public double TickFrequency
+        public PropertyValue_DoubleRange(PropertyMemberElement setter, RangeProfile range) : base(setter)
         {
-            get { return _tickFrequency <= 0.0 ? (Maximum - Minimum) * 0.01 : _tickFrequency; }
-            set { _tickFrequency = value; }
-        }
-
-        public PropertyValue_DoubleRange(PropertyMemberElement setter, double min, double max, double tickFrequency) : base(setter)
-        {
-            this.Minimum = min;
-            this.Maximum = max;
-            _tickFrequency = tickFrequency;
+            this.Range = range;
         }
     }
 

@@ -106,14 +106,29 @@ namespace Susie
         }
 
         //
-        private void OpenConfigurationDlg_Executed(Window owner)
+        public void OpenConfigurationDlg_Executed(Window owner)
         {
-            int result = ConfigurationDlg(owner);
+            int result = 0;
+
+            try
+            {
+                result = ConfigurationDlg(owner);
+            }
+            catch
+            {
+                result = -1;
+            }
 
             // 設定ウィンドウが呼び出せなかった場合はアバウト画面でお茶を濁す
             if (result < 0)
             {
-                AboutDlg(owner);
+                try
+                {
+                    AboutDlg(owner);
+                }
+                catch
+                {
+                }
             }
         }
 

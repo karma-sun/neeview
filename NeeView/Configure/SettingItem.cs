@@ -288,6 +288,7 @@ namespace NeeView.Configure
     public class SettingItemProperty : SettingItem
     {
         private PropertyMemberElement _element;
+        private object _content;
 
         public SettingItemProperty(PropertyMemberElement element) : base(element?.ToString())
         {
@@ -295,37 +296,19 @@ namespace NeeView.Configure
             _element = element;
         }
 
+        public SettingItemProperty(PropertyMemberElement element, object content) : this(element)
+        {
+            _content = content;
+        }
+
         public bool IsStretch { get; set; }
 
         protected override UIElement CreateContentInner()
         {
-            return new SettingItemControl(_element.Name, _element.Tips ?? this.Tips, _element.TypeValue, this.IsStretch);
+            return new SettingItemControl(_element.Name, _element.Tips ?? this.Tips, _content ?? _element.TypeValue, this.IsStretch);
         }
     }
 
-    /// <summary>
-    /// サムネイルサイズに特化した設定項目
-    /// TODO: RangeValueの一種。汎用化を。
-    /// </summary>
-    public class SettingItemThumbnailSize : SettingItem
-    {
-        private PropertyMemberElement _element;
-
-        public SettingItemThumbnailSize(PropertyMemberElement element) : base(element?.ToString())
-        {
-            Debug.Assert(element != null);
-            _element = element;
-        }
-
-        protected override UIElement CreateContentInner()
-        {
-            var content = new SettingItemThumbnailSizeControl()
-            {
-                PropertyValue = (PropertyValue_Double)_element.TypeValue,
-            };
-            return new SettingItemControl(_element.Name, _element.Tips ?? this.Tips, content, true);
-        }
-    }
 
     /// <summary>
     /// IndexValueに対応したプロパティの設定項目
@@ -334,13 +317,15 @@ namespace NeeView.Configure
     {
         private PropertyMemberElement _element;
         private IndexValue<T> _indexValue;
+        private bool _isEditable;
 
-        public SettingItemIndexValue(PropertyMemberElement element, IndexValue<T> indexValue) : base(element?.ToString())
+        public SettingItemIndexValue(PropertyMemberElement element, IndexValue<T> indexValue, bool isEditable) : base(element?.ToString())
         {
             Debug.Assert(element != null);
 
             _element = element;
             _indexValue = indexValue;
+            _isEditable = isEditable;
 
             _indexValue.Property = (PropertyValue<T, PropertyMemberElement>)_element.TypeValue;
         }
@@ -349,10 +334,11 @@ namespace NeeView.Configure
         {
             var content = new SettingItemIndexValueControl()
             {
-                IndexValue = _indexValue
+                IndexValue = _indexValue,
+                IsEditable = _isEditable,
             };
 
-            return new SettingItemControl(_element.Name, _element.Tips ?? this.Tips, content, true);
+            return new SettingItemControl(_element.Name, _element.Tips ?? this.Tips, content, false);
         }
     }
 
@@ -377,6 +363,9 @@ namespace NeeView.Configure
             {
                 Content = _buttonContent,
                 Command = _command,
+                Padding = new Thickness(20,10,20,10),
+                MinWidth = 150,
+                HorizontalAlignment = HorizontalAlignment.Left,
             };
 
             // 自身をコマンドパラメータとする

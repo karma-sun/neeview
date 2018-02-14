@@ -70,10 +70,18 @@ namespace NeeView
         public string Note { get; set; }
 
         // コマンド説明をTips用文字列に変換
+        /*
         public string NoteToTips()
         {
             return new Regex(@"<[\w/]+>").Replace(Note, "\"").Replace("。", "\n");
         }
+        */
+
+        private static Regex _tipsRegex = new Regex(@"<[\w/]+>", RegexOptions.Compiled);
+
+        // コマンド説明(Tips用)
+        public string Tips => _tipsRegex.Replace(Note, "\"").Replace("。", "\n");
+
 
 
         // コマンドパラメータ標準

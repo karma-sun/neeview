@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}"
         FontSize="15"
-        Title="SettingWindowEx" Height="704" Width="960">
+        Title="設定" Height="704" Width="960">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -21,8 +21,16 @@
             <nvd:NotBoolToVisiblityConverter x:Key="NotBoolToVisiblityConverter"/>
             <local:BooleanToSwitchStringConverter x:Key="BooleanToSwitchStringConverter"/>
 
+            <Style x:Key="DisableStyle" TargetType="FrameworkElement">
+                <Style.Triggers>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value="0.5"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
             <DataTemplate DataType="{x:Type nvp:PropertyValue_Boolean}">
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" Style="{StaticResource DisableStyle}">
                     <nvc:ToggleSwitch IsChecked="{Binding Value}" Height="20" HorizontalAlignment="Left" CheckedBrush="{DynamicResource NVButtonForeground}"/>
                     <TextBlock Margin="10,0" VerticalAlignment="Center" Text="{Binding Value, Converter={StaticResource BooleanToSwitchStringConverter}}"/>
                 </StackPanel>

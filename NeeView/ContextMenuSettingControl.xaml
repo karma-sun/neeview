@@ -218,7 +218,7 @@
         <Border BorderBrush="Gray" BorderThickness="0" Margin="0">
             <Grid>
 
-                <DockPanel Margin="5">
+                <DockPanel Margin="5,5,10,10">
                     <DockPanel.Resources>
                         <Style TargetType="Button">
                             <Setter Property="Margin" Value="10,2,0,2"/>

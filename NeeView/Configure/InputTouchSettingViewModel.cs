@@ -1,83 +1,20 @@
-﻿// Copyright (c) 2016-2018 Mitsuhiro Ito (nee)
-//
-// This software is released under the MIT License.
-// http://opensource.org/licenses/mit-license.php
-
+﻿using NeeLaboratory.ComponentModel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using NeeLaboratory.Windows.Input;
-using NeeLaboratory.ComponentModel;
-using System.Globalization;
+using System.Linq;
+using System.Windows;
 
 namespace NeeView
 {
-    /// <summary>
-    ///  InputToucheSettingWindow.xaml の相互作用ロジック
-    /// </summary>
-    public partial class InputTouchSettingWindow : Window
-    {
-        private InputTouchSettingVM _vm;
-
-        //
-        public InputTouchSettingWindow(InputTouchSettingContext context)
-        {
-            InitializeComponent();
-
-            this.GestureBox.PreviewMouseLeftButtonUp += GestureBox_PreviewMouseLeftButtonUp;
-
-            _vm = new InputTouchSettingVM(context, this.GestureBox);
-            DataContext = _vm;
-
-            // ESCでウィンドウを閉じる
-            this.InputBindings.Add(new KeyBinding(new RelayCommand(Close), new KeyGesture(Key.Escape)));
-        }
-
-        //
-        private void GestureBox_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            var width = this.GestureBox.ActualWidth;
-            var pos = e.GetPosition(this.GestureBox);
-
-            _vm.SetTouchGesture(pos, this.GestureBox.ActualWidth, this.GestureBox.ActualHeight);
-        }
-
-        //
-        private void OkButton_Click(object sender, RoutedEventArgs e)
-        {
-            _vm.Decide();
-
-            this.DialogResult = true;
-            this.Close();
-        }
-
-        //
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-    }
 
     /// <summary>
     /// MouseGestureSetting ViewModel
     /// </summary>
-    public class InputTouchSettingVM : BindableBase
+    public class InputTouchSettingViewModel : BindableBase
     {
-        //
-        private InputTouchSettingContext _context;
+        private Dictionary<CommandType, CommandElement.Memento> _sources;
+        private CommandType _key;
 
         /// <summary>
         /// GestureElements property.
@@ -105,23 +42,19 @@ namespace NeeView
 
         //
         public TouchAreaMap TouchAreaMap { get; set; }
-        
 
-        /// <summary>
-        /// Window Title
-        /// </summary>
-        public string Header => _context.Header ?? _context.Command.ToDispString();
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="context"></param>
         /// <param name="gestureSender"></param>
-        public InputTouchSettingVM(InputTouchSettingContext context, FrameworkElement gestureSender)
+        public InputTouchSettingViewModel(CommandTable.Memento memento, CommandType key, FrameworkElement gestureSender)
         {
-            _context = context;
+            _sources = memento.Elements;
+            _key = key;
 
-            this.TouchAreaMap = new TouchAreaMap(_context.Gesture);
+            this.TouchAreaMap = new TouchAreaMap(_sources[_key].TouchGesture);
             UpdateGestureToken(this.TouchAreaMap);
         }
 
@@ -151,8 +84,8 @@ namespace NeeView
                 var shortcuts = new ObservableCollection<GestureElement>();
                 foreach (var key in gestures.Split(','))
                 {
-                    var overlaps = _context.Gestures
-                        .Where(i => i.Key != _context.Command && i.Value.Split(',').Contains(key))
+                    var overlaps = _sources
+                        .Where(i => i.Key != _key && i.Value.TouchGesture.Split(',').Contains(key))
                         .Select(e => $"「{e.Key.ToDispString()}」")
                         .ToList();
 
@@ -187,44 +120,12 @@ namespace NeeView
         /// <summary>
         /// 決定
         /// </summary>
-        public void Decide()
+        public void Flush()
         {
-            _context.Gesture = this.TouchAreaMap.ToString();
+            _sources[_key].TouchGesture = this.TouchAreaMap.ToString();
         }
     }
 
-
-    /// <summary>
-    /// MouseGestureSetting Model
-    /// </summary>
-    public class InputTouchSettingContext
-    {
-        /// <summary>
-        /// 表示名。nullの場合はCommand名を使用する
-        /// </summary>
-        public string Header { get; set; }
-
-        /// <summary>
-        /// 設定対象のコマンド
-        /// </summary>
-        public CommandType Command { get; set; }
-
-        /// <summary>
-        /// 全てのコマンドのジェスチャー。競合判定に使用する
-        /// </summary>
-        public Dictionary<CommandType, string> Gestures { get; set; }
-
-
-        /// <summary>
-        /// Property: Gesture
-        /// </summary>
-        public string Gesture
-        {
-            get { return Gestures[Command]; }
-            set { if (Gestures[Command] != value) { Gestures[Command] = value; } }
-        }
-    }
-    
 
     /// <summary>
     /// タッチエリア管理用
@@ -280,23 +181,4 @@ namespace NeeView
         }
     }
 
-
-    /// <summary>
-    /// タッチエリアを背景色に変換
-    /// </summary>
-    public class TouchAreaToBrush : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            var map = (TouchAreaMap)value;
-            var gesture = (TouchGesture)parameter;
-
-            return map[gesture] ? Brushes.SteelBlue : Brushes.AliceBlue;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
 }

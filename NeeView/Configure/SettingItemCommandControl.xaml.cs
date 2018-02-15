@@ -21,6 +21,16 @@ using System.Windows.Shapes;
 
 namespace NeeView
 {
+    // TODO: 整備
+    public class GestureElement
+    {
+        public string Gesture { get; set; }
+        public bool IsConflict { get; set; }
+        public string Splitter { get; set; }
+        public string Note { get; set; }
+    }
+
+
     /// <summary>
     /// SettingItemCommandControl.xaml の相互作用ロジック
     /// </summary>

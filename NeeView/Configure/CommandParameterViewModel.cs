@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace NeeView
 {
-    public class CommandParameterControlViewModel : BindableBase
+    public class CommandParameterViewModel : BindableBase
     {
         private Dictionary<CommandType, CommandElement.Memento> _sources;
         private CommandType _key;
@@ -25,7 +25,7 @@ namespace NeeView
 
 
 
-        public CommandParameterControlViewModel(CommandTable.Memento memento, CommandType key)
+        public CommandParameterViewModel(CommandTable.Memento memento, CommandType key)
         {
             _sources = memento.Elements;
             _key = key;

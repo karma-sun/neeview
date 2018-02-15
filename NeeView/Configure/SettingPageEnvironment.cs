@@ -139,9 +139,9 @@ namespace NeeView.Configure
                     new SettingItemIndexValue<int>(PropertyMemberElement.Create(BookHistory.Current, nameof(BookHistory.LimitSize)), new HistoryLimitSize(), false),
                     new SettingItemIndexValue<TimeSpan>(PropertyMemberElement.Create(BookHistory.Current, nameof(BookHistory.LimitSpan)), new HistoryLimitSpan(), false)),
 
-                new SettingItemSection("履歴削除", 
+                new SettingItemSection("履歴削除",
                     new SettingItemGroup(
-                        new SettingItemButton("履歴を削除する", "削除する",  RemoveHistory))),
+                        new SettingItemButton("履歴を削除する", RemoveHistory) { IsContentOnly = true })),
 
                 new SettingItemSection("詳細設定",
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsDisableSave)))),
@@ -175,6 +175,65 @@ namespace NeeView.Configure
         }
 
         #endregion
+
+        #region IndexValues
+
+        /// <summary>
+        /// 履歴サイズテーブル
+        /// </summary>
+        public class HistoryLimitSize : IndexIntValue
+        {
+            private static List<int> _values = new List<int>
+        {
+            0, 1, 10, 20, 50, 100, 200, 500, 1000, -1
+        };
+
+            public HistoryLimitSize() : base(_values)
+            {
+            }
+
+            //
+            public HistoryLimitSize(int value) : base(_values)
+            {
+                Value = value;
+            }
+
+            //
+            public override string ValueString => Value == -1 ? "制限なし" : Value.ToString();
+        }
+
+        /// <summary>
+        /// 履歴期限テーブル
+        /// </summary>
+        public class HistoryLimitSpan : IndexTimeSpanValue
+        {
+            private static List<TimeSpan> _values = new List<TimeSpan>() {
+                TimeSpan.FromDays(1),
+                TimeSpan.FromDays(2),
+                TimeSpan.FromDays(3),
+                TimeSpan.FromDays(7),
+                TimeSpan.FromDays(15),
+                TimeSpan.FromDays(30),
+                TimeSpan.FromDays(100),
+                default(TimeSpan),
+            };
+
+            //
+            public HistoryLimitSpan() : base(_values)
+            {
+            }
+
+            //
+            public HistoryLimitSpan(TimeSpan value) : base(_values)
+            {
+                Value = value;
+            }
+
+            //
+            public override string ValueString => Value == default(TimeSpan) ? "制限なし" : $"{Value.Days}日前まで";
+        }
+
+        #endregion
     }
 
     public class SettingPageEnvironmentRemove : SettingPage
@@ -183,11 +242,11 @@ namespace NeeView.Configure
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("ユーザーデータ",
-                    new SettingItemButton("全てのユーザーデータを削除する", new WarningText("削除する"), RemoveAllData)
-                    {
-                        Tips = "ユーザデータを削除し、アプリケーションを終了します。\nアンインストール前に履歴等を完全に削除したい場合に使用します",
-                    }),
+                new SettingItemSection("ユーザーデータ削除",
+                    new SettingItemButton("全てのユーザーデータを削除する", RemoveAllData) { IsContentOnly = true })
+                {
+                    Tips = "ユーザーデータを削除し、アプリケーションを終了します。アンインストール前に履歴等を完全に削除したい場合に使用します。",
+                },
             };
         }
 

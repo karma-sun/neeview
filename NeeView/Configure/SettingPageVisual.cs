@@ -125,7 +125,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
 
                 new SettingItemSection("キャッシュ",
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.IsCacheEnabled))),
-                    new SettingItemButton("サムネイルキャッシュを削除する", "削除する",  RemoveCache)),
+                    new SettingItemButton("キャッシュ削除", "サムネイルキャッシュを削除する",  RemoveCache)),
 
                new SettingItemSection("詳細設定",
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.Format))),
@@ -150,7 +150,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
         {
             ThumbnailCache.Current.Remove();
 
-            var dialog = new MessageDialog("", "キャッシュを削除しました");
+            var dialog = new MessageDialog("", "サムネイルキャッシュを削除しました");
             if (element != null)
             {
                 dialog.Owner = Window.GetWindow(element);
@@ -174,5 +174,37 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
                     new SettingItemIndexValue<double>(PropertyMemberElement.Create(SlideShow.Current, nameof(SlideShow.SlideShowInterval)), new SlideShowInterval(), true)),
             };
         }
+
+
+        #region IndexValue
+
+        /// <summary>
+        /// スライドショー インターバルテーブル
+        /// </summary>
+        public class SlideShowInterval : IndexDoubleValue
+        {
+            private static List<double> _values = new List<double>
+        {
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 45, 60, 90, 120, 180, 240, 300
+        };
+
+            //
+            public SlideShowInterval() : base(_values)
+            {
+                IsValueSyncIndex = false;
+            }
+
+            //
+            public SlideShowInterval(double value) : base(_values)
+            {
+                IsValueSyncIndex = false;
+                Value = value;
+            }
+
+            //
+            public override string ValueString => $"{Value}秒";
+        }
+
+        #endregion
     }
 }

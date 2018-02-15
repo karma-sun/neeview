@@ -29,7 +29,7 @@ namespace NeeView
     /// <summary>
     /// 
     /// </summary>
-    public class InputGestureSettingWindowViewModel : BindableBase
+    public class InputGestureSettingViewModel : BindableBase
     {
         // すべてのコマンドのショートカット
         private Dictionary<CommandType, CommandElement.Memento> _sources;
@@ -54,7 +54,7 @@ namespace NeeView
         /// <summary>
         /// constructor
         /// </summary>
-        public InputGestureSettingWindowViewModel(CommandTable.Memento memento, CommandType command)
+        public InputGestureSettingViewModel(CommandTable.Memento memento, CommandType command)
         {
             _sources = memento.Elements;
             Command = command;

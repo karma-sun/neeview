@@ -39,6 +39,32 @@ namespace NeeView.Configure
                     new SettingItemIndexValue<double>(PropertyMemberElement.Create(DragTransform.Current, nameof(DragTransform.AngleFrequency)), new AngleFrequency(), false)),
             };
         }
+
+        /// <summary>
+        /// ビュー回転スナップ値
+        /// </summary>
+        public class AngleFrequency : IndexDoubleValue
+        {
+            private static List<double> _values = new List<double>
+        {
+            0, 5, 10, 15, 20, 30, 45, 60, 90
+        };
+
+            //
+            public AngleFrequency() : base(_values)
+            {
+            }
+
+            //
+            public AngleFrequency(double value) : base(_values)
+            {
+                Value = value;
+            }
+
+
+            //
+            public override string ValueString => Value == 0 ? "無段階" : $"{Value}度";
+        }
     }
 
     public class SettingPageManipurateMouse : SettingPage

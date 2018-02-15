@@ -11,7 +11,7 @@ using System.Linq;
 
 namespace NeeView
 {
-    public class ContextMenuSettingControlViewModel : BindableBase
+    public class ContextMenuSettingViewModel : BindableBase
     {
         private MenuTree _root;
         public MenuTree Root
@@ -25,7 +25,7 @@ namespace NeeView
 
         private ContextMenuSetting _contextMenuSetting;
 
-        public ContextMenuSettingControlViewModel()
+        public ContextMenuSettingViewModel()
         {
             if (CommandTable.Current == null) return;
 

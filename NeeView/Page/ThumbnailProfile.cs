@@ -53,13 +53,13 @@ namespace NeeView
             set { _quality = MathUtility.Clamp(value, 5, 100); }
         }
 
-        [PropertyMember("サムネイルキャッシュを使用する", Tips = "ブックサムネイルをキャッシュします。キャッシュファイルはCache.dbです")]
+        [PropertyMember("サムネイルキャッシュを使用する", Tips = "ブックサムネイルをキャッシュします。")]
         public bool IsCacheEnabled { get; set; } = true;
 
-        [PropertyMember("ページサムネイル容量", Tips = "メモリ上のページサムネイルの保持枚数です。ブックを閉じると全てクリアされます")]
+        [PropertyMember("ページサムネイル容量", Tips = "メモリ上のページサムネイルの保持枚数です。ブックを閉じると全て破棄されます。")]
         public int PageCapacity { get; set; } = 1000;
 
-        [PropertyMember("ブックサムネイル容量", Tips = "フォルダーリスト等でのメモリ上のサムネイル保持枚数です")]
+        [PropertyMember("ブックサムネイル容量", Tips = "フォルダーリスト等でのメモリ上のサムネイル保持枚数です。")]
         public int BookCapacity { get; set; } = 200;
 
         private int _bannerWidth = 200;

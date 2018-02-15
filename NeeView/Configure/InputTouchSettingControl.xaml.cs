@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
@@ -51,4 +52,24 @@ namespace NeeView
         }
     }
 
+
+
+    /// <summary>
+    /// タッチエリアを背景色に変換
+    /// </summary>
+    public class TouchAreaToBrush : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var map = (TouchAreaMap)value;
+            var gesture = (TouchGesture)parameter;
+
+            return map[gesture] ? Brushes.SteelBlue : Brushes.AliceBlue;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

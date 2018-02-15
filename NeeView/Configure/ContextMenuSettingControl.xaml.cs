@@ -48,13 +48,13 @@ namespace NeeView
 
 
         //
-        private ContextMenuSettingControlViewModel _vm;
+        private ContextMenuSettingViewModel _vm;
 
         public ContextMenuSettingControl()
         {
             InitializeComponent();
 
-            _vm = new ContextMenuSettingControlViewModel();
+            _vm = new ContextMenuSettingViewModel();
             this.Root.DataContext = _vm;
 
             this.CommandBindings.Add(new CommandBinding(AddCommand, Add_Exec));

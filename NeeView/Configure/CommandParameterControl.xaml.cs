@@ -32,7 +32,7 @@ namespace NeeView
 
         #endregion
 
-        private CommandParameterControlViewModel _vm;
+        private CommandParameterViewModel _vm;
 
         public CommandParameterControl()
         {
@@ -43,7 +43,7 @@ namespace NeeView
         {
             InitializeComponent();
 
-            _vm = new CommandParameterControlViewModel(memento, key);
+            _vm = new CommandParameterViewModel(memento, key);
             this.DataContext = _vm;
 
             this.IsAny = _vm.PropertyDocument != null;

@@ -399,42 +399,12 @@ namespace NeeView
         // 設定ウィンドウを開く
         public void OpenSettingWindow()
         {
-            if (Configure.SettingWindowEx.Current != null) return;
+            if (Configure.SettingWindow.Current != null) return;
 
-            if (!Keyboard.Modifiers.HasFlag(ModifierKeys.Control))
-            {
-                var dialog = new Configure.SettingWindowEx(new SettingWindowModel());
-                dialog.Owner = App.Current.MainWindow;
-                dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                dialog.Show();
-            }
-            else
-            {
-                var setting = SaveData.Current.CreateSetting();
-                var history = BookHistory.Current.CreateMemento(false);
-
-                // スライドショー停止
-                SlideShow.Current.PauseSlideShow();
-
-                var dialog = new SettingWindow(setting, history);
-                dialog.Owner = App.Current.MainWindow;
-                dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                var result = dialog.ShowDialog();
-
-                if (result == true)
-                {
-                    SaveData.Current.RestoreSetting(setting, false);
-                    WindowShape.Current.CreateSnapMemento();
-                    SaveData.Current.SaveSetting();
-                    BookHistory.Current.Restore(history, false);
-
-                    // 現在ページ再読込
-                    BookHub.Current.ReLoad();
-                }
-
-                // スライドショー再開
-                SlideShow.Current.ResumeSlideShow();
-            }
+            var dialog = new Configure.SettingWindow(new SettingWindowModel());
+            dialog.Owner = App.Current.MainWindow;
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            dialog.Show();
         }
 
 

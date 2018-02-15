@@ -350,6 +350,14 @@ namespace NeeView.Configure
         private object _buttonContent;
         private ICommand _command;
 
+        public bool IsContentOnly { get; set; }
+
+        public SettingItemButton(string header, ICommand command)
+            : base(header)
+        {
+            _command = command;
+        }
+
         public SettingItemButton(string header, object buttonContent, ICommand command)
             : base(header)
         {
@@ -357,21 +365,31 @@ namespace NeeView.Configure
             _command = command;
         }
 
+
+
         protected override UIElement CreateContentInner()
         {
             var button = new Button()
             {
-                Content = _buttonContent,
+                Content = _buttonContent ?? this.Header,
                 Command = _command,
-                Padding = new Thickness(10, 5, 10, 5),
+                Padding = new Thickness(20,10,20,10),
                 MinWidth = 150,
-                HorizontalAlignment = HorizontalAlignment.Right,
+                HorizontalAlignment = HorizontalAlignment.Left,
             };
 
             // 自身をコマンドパラメータとする
             button.CommandParameter = button;
 
-            return new SettingItemControl(this.Header, this.Tips, button, false);
+            if (this.IsContentOnly)
+            {
+                button.Margin = new Thickness(0, 5, 0, 5);
+                return button;
+            }
+            else
+            {
+                return new SettingItemControl(this.Header, this.Tips, button, true);
+            }
         }
     }
 
@@ -465,22 +483,6 @@ namespace NeeView.Configure
             };
 
             return control;
-        }
-    }
-
-
-    /// <summary>
-    /// 詳細設定項目
-    /// </summary>
-    public class SettingItemPreference : SettingItem
-    {
-        public SettingItemPreference() : base(null)
-        {
-        }
-
-        protected override UIElement CreateContentInner()
-        {
-            return new SettingItemPreferenceControl();
         }
     }
 }

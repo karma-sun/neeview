@@ -15,23 +15,23 @@ using System.Windows.Shapes;
 namespace NeeView.Configure
 {
     /// <summary>
-    /// SettingWindowEx.xaml の相互作用ロジック
+    /// SettingWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class SettingWindowEx : Window
+    public partial class SettingWindow : Window
     {
         /// <summary>
         /// このウィンドウが存在する間だけ設定されるインスタンス
         /// </summary>
-        public static SettingWindowEx Current { get; private set; }
+        public static SettingWindow Current { get; private set; }
 
         public SettingWindowViewModel _vm;
 
-        public SettingWindowEx()
+        public SettingWindow()
         {
             InitializeComponent();
         }
 
-        public SettingWindowEx(SettingWindowModel model)
+        public SettingWindow(SettingWindowModel model)
         {
             InitializeComponent();
 

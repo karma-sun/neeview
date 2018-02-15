@@ -20,7 +20,7 @@ namespace NeeView
     /// </summary>
     public partial class InputGestureSettingControl : UserControl
     {
-        private InputGestureSettingWindowViewModel _vm;
+        private InputGestureSettingViewModel _vm;
 
         //
         public InputGestureSettingControl()
@@ -31,7 +31,7 @@ namespace NeeView
         //
         public void Initialize(CommandTable.Memento memento, CommandType key)
         {
-            _vm = new InputGestureSettingWindowViewModel(memento, key);
+            _vm = new InputGestureSettingViewModel(memento, key);
             this.DataContext = _vm;
         }
 

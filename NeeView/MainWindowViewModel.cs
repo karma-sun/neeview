@@ -297,6 +297,7 @@ namespace NeeView
         /// </summary>
         public void Activated()
         {
+            RoutedCommandTable.Current.InitializeInputGestures();
             UpdateContextMenu();
         }
 

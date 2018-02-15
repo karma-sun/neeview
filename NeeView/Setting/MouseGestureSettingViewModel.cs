@@ -62,7 +62,8 @@ namespace NeeView.Setting
             _mouseGesture = new MouseInputForGestureEditor(gestureSender);
             _mouseGesture.Gesture.GestureProgressed += Gesture_MouseGestureProgressed;
 
-            OriginalGesture = _sources[_key].MouseGesture;
+            OriginalGesture = NewGesture = _sources[_key].MouseGesture;
+            UpdateGestureToken(NewGesture);
         }
 
         /// <summary>

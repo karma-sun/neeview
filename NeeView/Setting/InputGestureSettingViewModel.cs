@@ -24,6 +24,8 @@ namespace NeeView.Setting
         public string OverlapsText { get; set; }
 
         public bool IsConflict => Conflicts != null && Conflicts.Count > 0;
+
+        public bool IsExist => !string.IsNullOrEmpty(this.Gesture);
     }
 
     /// <summary>

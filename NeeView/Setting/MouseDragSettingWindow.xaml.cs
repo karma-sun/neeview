@@ -84,9 +84,6 @@ namespace NeeView.Setting
         //
         private MouseDragSettingContext _context;
 
-        //
-        //private MouseInputManagerForGestureEditor _mouseGesture;
-
         /// <summary>
         /// Property: DragToken
         /// </summary>
@@ -127,12 +124,10 @@ namespace NeeView.Setting
         {
             _context = context;
 
-            //_mouseGesture = new MouseInputManagerForGestureEditor(gestureSender);
-            //_mouseGesture.Gesture.MouseGestureProgressed += Gesture_MouseGestureProgressed;
-
             gestureSender.MouseDown += GestureSender_MouseDown;
 
-            OriginalDrag = _context.Gesture;
+            OriginalDrag = NewDrag = _context.Gesture;
+            UpdateGestureToken(NewDrag);
         }
 
         private void GestureSender_MouseDown(object sender, MouseButtonEventArgs e)
@@ -141,20 +136,6 @@ namespace NeeView.Setting
 
             UpdateGestureToken(dragKey.ToString());
         }
-
-
-        /*
-        /// <summary>
-        /// Gesture Changed
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Gesture_MouseGestureProgressed(object sender, MouseGestureEventArgs e)
-        {
-            NewDrag = e.Sequence.ToString();
-            UpdateGestureToken(NewDrag);
-        }
-        */
 
 
         /// <summary>
@@ -206,8 +187,7 @@ namespace NeeView.Setting
 
         private void ClearCommand_Executed()
         {
-            _context.Gesture = null;
-            //_mouseGesture.Gesture.Reset();
+            UpdateGestureToken(null);
         }
     }
 

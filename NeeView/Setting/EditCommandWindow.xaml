@@ -16,6 +16,11 @@
             <Button x:Name="ButtonOk" DockPanel.Dock="Right" Content="OK" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom" Width="75" Height="28" Click="ButtonOk_Click"/>
         </DockPanel>
         <TabControl Margin="5">
+            <TabItem x:Name="GeneralTab" Header="全般">
+                <StackPanel Margin="10,20">
+                    <CheckBox Content="コマンド実行時にメッセージを表示する" IsChecked="{Binding IsShowMessage}"/>
+                </StackPanel>
+            </TabItem>
             <TabItem x:Name="InputGestureTab" Header="ショートカット">
                 <local:InputGestureSettingControl x:Name="InputGesture"/>
             </TabItem>

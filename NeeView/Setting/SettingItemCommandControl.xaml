@@ -9,12 +9,14 @@
              d:DesignHeight="480" d:DesignWidth="640">
     <Grid x:Name="Root">
         <Grid.Resources>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <nv:MouseGestureToDispTextConverter x:Key="MouseGestureToDispTextConverter"/>
             <CollectionViewSource x:Key="CommandSource" Source="{Binding CommandCollection}">
                 <CollectionViewSource.GroupDescriptions>
                     <PropertyGroupDescription PropertyName="Command.Group" />
                 </CollectionViewSource.GroupDescriptions>
             </CollectionViewSource>
+
         </Grid.Resources>
 
         <DockPanel>
@@ -39,6 +41,7 @@
                     </ListView.GroupStyle>
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                             <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
                         </Style>
                     </ListView.ItemContainerStyle>
@@ -46,22 +49,11 @@
                     <ListView.View>
                         <GridView>
 
-                            <GridViewColumn>
-                                <GridViewColumn.Header>
-                                    <TextBlock Text="表示" ToolTip="コマンド実行時のメッセージ表示ON/OFF"/>
-                                </GridViewColumn.Header>
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <CheckBox IsChecked="{Binding Command.IsShowMessage}" />
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
                             <GridViewColumn Header="コマンド" Width="200" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <DockPanel >
-                                            <Grid DockPanel.Dock="Left" Width="20" VerticalAlignment="Center" Margin="2">
+                                        <DockPanel>
+                                            <Grid DockPanel.Dock="Left" Width="16" VerticalAlignment="Center">
                                                 <Button Click="EditCommandParameterButton_Clock" Tag="{Binding}" ToolTipService.ShowOnDisabled="True">
                                                     <Button.Style>
                                                         <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
@@ -79,19 +71,35 @@
                                                     <Image Width="14" Height="14" Source="{StaticResource ic_setting_24px}"/>
                                                 </Button>
                                             </Grid>
-                                            <TextBlock Text="{Binding Command.Text}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Command.Tips}"/>
+                                            <TextBlock Text="{Binding Command.Text}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Command.Tips}" Margin="2,0"/>
                                         </DockPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
+                            <GridViewColumn>
+                                <GridViewColumn.Header>
+                                    <TextBlock Text="表示" ToolTip="コマンド実行時のメッセージ表示ON/OFF"/>
+                                </GridViewColumn.Header>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="✓" Visibility="{Binding Command.IsShowMessage, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                        <!--
+                                        <Image Width="16" Source="{StaticResource ic_done_24x_black}" Visibility="{Binding Command.IsShowMessage, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                        <CheckBox IsChecked="{Binding Command.IsShowMessage}" />
+                                        -->
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+
                             <GridViewColumn Header="ショートカット" Width="180">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <ItemsControl ItemsSource="{Binding ShortCuts}"  ToolTip="{Binding ShortCutNote}">
+                                        <ItemsControl ItemsSource="{Binding ShortCuts}"  ToolTip="{Binding ShortCutNote}" Background="Transparent" Tag="@shortcut">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
-                                                    <StackPanel Orientation="Horizontal" />
+                                                    <StackPanel Orientation="Horizontal"/>
                                                 </ItemsPanelTemplate>
                                             </ItemsControl.ItemsPanel>
                                             <ItemsControl.ItemTemplate>
@@ -123,7 +131,7 @@
                             <GridViewColumn Header="ジェスチャー" Width="100">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <StackPanel Orientation="Horizontal" ToolTip="{Binding MouseGestureElement.Note}">
+                                        <StackPanel Orientation="Horizontal" ToolTip="{Binding MouseGestureElement.Note}"  Background="Transparent" Tag="@gesture">
                                             <Image Source="{StaticResource ic_warning_48px}" Width="12" Margin="0,0,2,2" VerticalAlignment="Center">
                                                 <Image.Style>
                                                     <Style TargetType="Image">
@@ -140,7 +148,6 @@
                                                            TextTrimming="CharacterEllipsis" FontFamily="Meiryo"
                                                            Margin="0,0,2,0" VerticalAlignment="Center"/>
                                         </StackPanel>
-
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -148,7 +155,7 @@
                             <GridViewColumn Header="タッチ" Width="120">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <ItemsControl ItemsSource="{Binding TouchGestures}"  ToolTip="{Binding TouchGestureNote}">
+                                        <ItemsControl ItemsSource="{Binding TouchGestures}"  ToolTip="{Binding TouchGestureNote}" Background="Transparent" Tag="@touch">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
                                                     <StackPanel Orientation="Horizontal" />

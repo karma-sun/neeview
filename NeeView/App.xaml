@@ -582,6 +582,20 @@
                         </DrawingImage.Drawing>
                     </DrawingImage>
 
+                    <DrawingImage x:Key="ic_done_24x_black">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="#FF222222" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M19.6000003814697,5.59999990463257L21,7 9,19 3.40000009536743,13.3999996185303 4.80000019073486,12 9,16.2000007629395 19.6000003814697,5.59999990463257z" />
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
                     <DrawingImage x:Key="ic_check_circle_24px">
                         <DrawingImage.Drawing>
                             <DrawingGroup Opacity="1">
@@ -701,7 +715,7 @@
                         </DrawingImage.Drawing>
                     </DrawingImage>
 
-                    
+
                     
                     <!-- IconButton Style -->
                     <Style x:Key="IconButton" TargetType="{x:Type Button}">

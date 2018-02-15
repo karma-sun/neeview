@@ -26,6 +26,19 @@ namespace NeeView
         TypeC, // クリックでページ送り
     };
 
+    public class CommandChangedEventArgs : EventArgs
+    {
+        /// <summary>
+        /// キーバインド反映を保留
+        /// </summary>
+        public bool OnHold;
+
+        public CommandChangedEventArgs(bool onHold)
+        {
+            this.OnHold = onHold;
+        }
+    }
+
     /// <summary>
     /// コマンド設定テーブル
     /// </summary>
@@ -68,7 +81,7 @@ namespace NeeView
 
 
         //
-        public event EventHandler Changed;
+        public event EventHandler<CommandChangedEventArgs> Changed;
 
 
         // コマンドリスト
@@ -1915,7 +1928,7 @@ namespace NeeView
             }
 
             // 無効な命令にダミー設定
-            foreach(var ignore in CommandTypeExtensions.IgnoreCommandTypes)
+            foreach (var ignore in CommandTypeExtensions.IgnoreCommandTypes)
             {
                 var element = new CommandElement();
                 element.Group = "dummy";
@@ -1977,7 +1990,14 @@ namespace NeeView
         }
 
         //
-        public void Restore(Memento memento)
+        public void Restore(Memento memento, bool onHold)
+        {
+            RestoreInner(memento);
+            Changed?.Invoke(this, new CommandChangedEventArgs(onHold));
+        }
+
+        //
+        private void RestoreInner(Memento memento)
         {
             if (memento == null) return;
 
@@ -2017,10 +2037,6 @@ namespace NeeView
             }
 
 #pragma warning restore CS0612
-
-
-            //
-            Changed?.Invoke(this, null);
         }
 
         #endregion

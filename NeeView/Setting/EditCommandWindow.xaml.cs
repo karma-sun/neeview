@@ -1,5 +1,7 @@
-﻿using System;
+﻿using NeeLaboratory.Windows.Input;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +19,7 @@ namespace NeeView.Setting
     public enum EditCommandWindowTab
     {
         Default,
+        General,
         InputGesture,
         MouseGesture,
         InputTouch,
@@ -26,20 +29,52 @@ namespace NeeView.Setting
     /// <summary>
     /// EditCommandWindow.xaml の相互作用ロジック
     /// </summary>
-    public partial class EditCommandWindow : Window
+    public partial class EditCommandWindow : Window, INotifyPropertyChanged
     {
+        #region PropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
+        {
+            PropertyChanged += (s, e) => { if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName) handler?.Invoke(s, e); };
+        }
+
+        #endregion
+
         private CommandTable.Memento _memento;
+        private CommandType _key;
         
         public EditCommandWindow()
         {
             InitializeComponent();
+            this.DataContext = this;
         }
+
+        /// <summary>
+        /// IsShowMessage property.
+        /// </summary>
+        private bool _isShowMessage;
+        public bool IsShowMessage
+        {
+            get { return _isShowMessage; }
+            set { if (_isShowMessage != value) { _isShowMessage = value; RaisePropertyChanged(); } }
+        }
+
 
         public void Initialize(CommandType key,  EditCommandWindowTab start = EditCommandWindowTab.Default)
         {
             _memento = CommandTable.Current.CreateMemento();
+            _key = key;
 
             this.Title = $"{key.ToDispString()} - コマンド設定";
+
+            this.IsShowMessage = _memento.Elements[key].IsShowMessage;
 
             this.InputGesture.Initialize(_memento, key);
             this.MouseGesture.Initialize(_memento, key);
@@ -48,6 +83,9 @@ namespace NeeView.Setting
 
             switch(start)
             {
+                case EditCommandWindowTab.General:
+                    this.GeneralTab.IsSelected = true;
+                    break;
                 case EditCommandWindowTab.InputGesture:
                     this.InputGestureTab.IsSelected = true;
                     break;
@@ -61,6 +99,9 @@ namespace NeeView.Setting
                     this.ParameterTab.IsSelected = true;
                     break;
             }
+
+            // ESCでウィンドウを閉じる
+            this.InputBindings.Add(new KeyBinding(new RelayCommand(Close), new KeyGesture(Key.Escape)));
         }
 
         private void ButtonOk_Click(object sender, RoutedEventArgs e)
@@ -69,7 +110,10 @@ namespace NeeView.Setting
             this.MouseGesture.Flush();
             this.InputTouch.Flush();
             this.Parameter.Flush();
-            CommandTable.Current.Restore(_memento);
+            _memento.Elements[_key].IsShowMessage = this.IsShowMessage;
+
+            CommandTable.Current.Restore(_memento, true);
+
             Close();
         }
 

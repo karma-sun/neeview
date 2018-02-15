@@ -82,8 +82,7 @@ namespace NeeView.Setting
 
             if (result == true)
             {
-                // TODO: 遅延反映
-                CommandTable.Current.Restore(dialog.CreateCommandMemento());
+                CommandTable.Current.Restore(dialog.CreateCommandMemento(), true);
 
                 UpdateCommandList();
                 this.CommandListView.Items.Refresh();
@@ -168,7 +167,7 @@ namespace NeeView.Setting
                 }
                 else
                 {
-                    item.ShortCuts = new ObservableCollection<GestureElement>();
+                    item.ShortCuts = new ObservableCollection<GestureElement>() { new GestureElement() };
                 }
             }
         }
@@ -242,7 +241,7 @@ namespace NeeView.Setting
                 }
                 else
                 {
-                    item.TouchGestures = new ObservableCollection<GestureElement>();
+                    item.TouchGestures = new ObservableCollection<GestureElement>() { new GestureElement() };
                 }
             }
         }
@@ -280,8 +279,29 @@ namespace NeeView.Setting
                 return;
             }
 
+            // カーソル位置から初期TABを選択
+            var listViewItem = (ListViewItem)sender;
+            var hitResult = VisualTreeHelper.HitTest(listViewItem, e.GetPosition(listViewItem));
+            var tag = GetAncestorTag(hitResult?.VisualHit, "@");
+            EditCommandWindowTab tab;
+            switch (tag)
+            {
+                default:
+                    tab = EditCommandWindowTab.Default;
+                    break;
+                case "@shortcut":
+                    tab = EditCommandWindowTab.InputGesture;
+                    break;
+                case "@gesture":
+                    tab = EditCommandWindowTab.MouseGesture;
+                    break;
+                case "@touch":
+                    tab = EditCommandWindowTab.InputTouch;
+                    break;
+            }
+
             var dialog = new Setting.EditCommandWindow();
-            dialog.Initialize(item.Key);
+            dialog.Initialize(item.Key, tab);
             dialog.Owner = Window.GetWindow(this);
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             if (dialog.ShowDialog() == true)
@@ -291,5 +311,25 @@ namespace NeeView.Setting
 
             UpdateCommandList();
         }
+
+        /// <summary>
+        /// ビジュアルツリーの親に定義されている文字列タグを取得。
+        /// </summary>
+        /// <param name="obj">検索開始要素</param>
+        /// <param name="prefix">文字列のプレフィックス</param>
+        /// <returns></returns>
+        private string GetAncestorTag(DependencyObject obj, string prefix)
+        {
+            while (obj != null)
+            {
+                var tag = (obj as FrameworkElement).Tag as string;
+                if (tag != null && tag.StartsWith(prefix)) return tag;
+
+                obj = VisualTreeHelper.GetParent(obj);
+            }
+
+            return null;
+        }
+
     }
 }

@@ -38,8 +38,8 @@ namespace NeeView
         //
         private MainWindow _window;
         private CommandTable _commandTable;
-
         private Dictionary<Key, bool> _usedKeyMap;
+        private bool _isDarty;
 
         //
         public RoutedCommandTable(MainWindow window, CommandTable commandTable)
@@ -56,13 +56,26 @@ namespace NeeView
             }
 
             // コマンド変更でショートカット変更
-            _commandTable.Changed +=
-                (s, e) => InitializeInputGestures();
+            _commandTable.Changed += CommandTable_Changed;
+        }
+
+        //
+        private void CommandTable_Changed(object sender, CommandChangedEventArgs e)
+        {
+            _isDarty = true;
+
+            if (!e.OnHold)
+            {
+                InitializeInputGestures();
+            }
         }
 
         // InputGesture設定
         public void InitializeInputGestures()
         {
+            if (!_isDarty) return;
+            _isDarty = false;
+
             // Touch
             var touch = TouchInput.Current;
 

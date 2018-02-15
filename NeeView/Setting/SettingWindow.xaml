@@ -1,0 +1,100 @@
+﻿<Window x:Class="NeeView.Setting.SettingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NeeView.Setting"
+        xmlns:nvp="clr-namespace:NeeView.Windows.Property"
+        xmlns:nvc="clr-namespace:NeeView.Windows.Controls"
+        xmlns:nvd="clr-namespace:NeeView.Windows.Data"
+        mc:Ignorable="d"
+        Style="{StaticResource ToolWindowStyle}"
+        FontSize="15"
+        Title="設定" Height="704" Width="960">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/_NeeView/Windows/Property/PropertyValueTemplateDictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+            <nvd:NotBoolToVisiblityConverter x:Key="NotBoolToVisiblityConverter"/>
+            <local:BooleanToSwitchStringConverter x:Key="BooleanToSwitchStringConverter"/>
+
+            <Style x:Key="DisableStyle" TargetType="FrameworkElement">
+                <Style.Triggers>
+                    <Trigger Property="IsEnabled" Value="False">
+                        <Setter Property="Opacity" Value="0.5"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <DataTemplate DataType="{x:Type nvp:PropertyValue_Boolean}">
+                <StackPanel Orientation="Horizontal" Style="{StaticResource DisableStyle}">
+                    <nvc:ToggleSwitch IsChecked="{Binding Value}" Height="20" HorizontalAlignment="Left" CheckedBrush="{DynamicResource NVButtonForeground}"/>
+                    <TextBlock Margin="10,0" VerticalAlignment="Center" Text="{Binding Value, Converter={StaticResource BooleanToSwitchStringConverter}}"/>
+                </StackPanel>
+            </DataTemplate>
+            
+            <DataTemplate x:Key="RangeValueDataTemplate">
+                <StackPanel>
+                    <StackPanel>
+                        <TextBox Text="{Binding Value}" Visibility="{Binding Range.IsEditable, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                        <local:FormattedTextBlock Value="{Binding Value}" Format="{Binding Range.Format}" Visibility="{Binding Range.IsEditable, Converter={StaticResource NotBoolToVisiblityConverter}}" />
+                    </StackPanel>
+                    <Slider Value="{Binding Value}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}" SmallChange="{Binding Range.SmallChange}" LargeChange="{Binding Range.LargeChange}" 
+                        TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True" Margin="0,5,0,0"/>
+                </StackPanel>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type nvp:PropertyValue_IntegerRange}">
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource RangeValueDataTemplate}"/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type nvp:PropertyValue_DoubleRange}">
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource RangeValueDataTemplate}"/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type nvp:PropertyTitleElement}">
+                <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" FontWeight="Bold" Margin="0,10,0,5" />
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type nvp:PropertyMemberElement}">
+                <nvp:PropertyControl Header="{Binding Name}" Value="{Binding TypeValue}" Tips="{Binding Tips}"
+                                     ColumnRate="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=ColumnRate}"/>
+            </DataTemplate>
+
+            <Style TargetType="TextBox">
+                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            </Style>
+
+            <Style x:Key="ToggleSwitchStyle" TargetType="nvc:ToggleSwitch">
+                <Setter Property="Fill" Value="{DynamicResource NVBackground}"/>
+                <Setter Property="Stroke" Value="{DynamicResource NVForeground}"/>
+                <Setter Property="CheckedBrush" Value="{DynamicResource NVButtonForeground}"/>
+            </Style>
+
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <DockPanel UseLayoutRounding="True">
+
+        <TreeView x:Name="IndexTree" DockPanel.Dock="Left" Width="200" ItemsSource="{Binding Model.Pages}" BorderThickness="0" Margin="20,20,0,20">
+            <TreeView.Resources>
+                <Style TargetType="TreeViewItem">
+                    <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
+                </Style>
+            </TreeView.Resources>
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate DataType="local:SettingPage" ItemsSource="{Binding Children}">
+                    <TextBlock Text="{Binding Header}" />
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+
+        <TextBlock DockPanel.Dock="Top" Text="{Binding ElementName=IndexTree, Path=SelectedItem.DispPage.Header}" FontSize="32" Margin="20"/>
+
+        <ContentControl x:Name="PageContent" Content="{Binding ElementName=IndexTree, Path=SelectedItem.DispPage.Content}" />
+
+    </DockPanel>
+</Window>

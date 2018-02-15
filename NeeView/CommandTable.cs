@@ -651,15 +651,6 @@ namespace NeeView
             }
 
 
-            // ToggleHideTitleBar
-            // 欠番
-            {
-                var element = new CommandElement();
-                element.Group = "dummy";
-                element.Text = "dummy";
-                element.Execute = (s, e) => { return; };
-                _elements[CommandType.ToggleHideTitleBar] = element;
-            }
             // ToggleVisibleTitleBar
             {
                 var element = new CommandElement();
@@ -820,24 +811,6 @@ namespace NeeView
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => new Binding(nameof(_models.FolderList.IsFolderSearchBoxVisible)) { Source = _models.FolderList, Mode = BindingMode.OneWay };
                 _elements[CommandType.ToggleVisibleFolderSearchBox] = element;
-            }
-            //
-            // TogglePanelStyle (欠番)
-            {
-                var element = new CommandElement();
-                element.Group = "dummy";
-                element.Text = "dummy";
-                element.Execute = (s, e) => { return; };
-                _elements[CommandType.TogglePanelStyle] = element;
-            }
-            //
-            // TogglePageListStyle (欠番)
-            {
-                var element = new CommandElement();
-                element.Group = "dummy";
-                element.Text = "dummy";
-                element.Execute = (s, e) => { return; };
-                _elements[CommandType.TogglePageListStyle] = element;
             }
 
             // ToggleVisibleThumbnailList
@@ -1613,15 +1586,6 @@ namespace NeeView
             }
 
 
-            // Bookmark
-            // 欠番
-            {
-                var element = new CommandElement();
-                element.Group = "dummy";
-                element.Text = "dummy";
-                element.Execute = (s, e) => { return; };
-                _elements[CommandType.Bookmark] = element;
-            }
             // ToggleBookmark
             {
                 var element = new CommandElement();
@@ -1722,18 +1686,6 @@ namespace NeeView
             }
 
 
-
-            // ToggleEffectGrayscale
-            // 欠番
-            {
-                var element = new CommandElement();
-                element.Group = "dummy";
-                element.Text = "(なし)";
-                element.Execute = (s, e) => { return; };
-                element.CanExecute = () => false;
-                _elements[CommandType.ToggleEffectGrayscale] = element;
-            }
-
             // ToggleCustomSize
             {
                 var element = new CommandElement();
@@ -1824,16 +1776,6 @@ namespace NeeView
                 _elements[CommandType.LoupeOff] = element;
             }
 
-
-            // ToggleIsReverseSort
-            // 欠番
-            {
-                var element = new CommandElement();
-                element.Group = "dummy";
-                element.Text = "dummy";
-                element.Execute = (s, e) => { return; };
-                _elements[CommandType.ToggleIsReverseSort] = element;
-            }
 
             // OpenSettingWindow
             {
@@ -1970,6 +1912,16 @@ namespace NeeView
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => SaveData.Current.ImportBackup();
                 _elements[CommandType.ImportBackup] = element;
+            }
+
+            // 無効な命令にダミー設定
+            foreach(var ignore in CommandTypeExtensions.IgnoreCommandTypes)
+            {
+                var element = new CommandElement();
+                element.Group = "dummy";
+                element.Text = "dummy";
+                element.Execute = (s, e) => { return; };
+                _elements[ignore] = element;
             }
 
             // 並び替え

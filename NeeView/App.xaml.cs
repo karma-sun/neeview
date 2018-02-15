@@ -103,7 +103,7 @@ namespace NeeView
             // 設定ファイルの読み込み
             new SaveData();
             SaveData.Current.LoadSetting(Option.SettingFilename);
-            var setting = SaveData.Current.Setting;
+            var setting = SaveData.Current.UserSetting;
 
             // restore
             Restore(setting.App);

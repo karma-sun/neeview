@@ -1,0 +1,33 @@
+﻿<Window x:Class="NeeView.Setting.EditCommandWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NeeView.Setting"
+        xmlns:nv="clr-namespace:NeeView"
+        mc:Ignorable="d"
+        Style="{StaticResource ToolDialogStyle}"
+        UseLayoutRounding="True"
+        FontSize="14"
+        Title="EditCommandWindow" Height="480" Width="640">
+    <DockPanel Margin="5">
+        <DockPanel DockPanel.Dock="Bottom" LastChildFill="False">
+            <Button x:Name="ButtonCancel" DockPanel.Dock="Right" Content="Cancel" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom" Width="75" Height="28" Click="ButtonCancel_Click"/>
+            <Button x:Name="ButtonOk" DockPanel.Dock="Right" Content="OK" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom" Width="75" Height="28" Click="ButtonOk_Click"/>
+        </DockPanel>
+        <TabControl Margin="5">
+            <TabItem x:Name="InputGestureTab" Header="ショートカット">
+                <local:InputGestureSettingControl x:Name="InputGesture"/>
+            </TabItem>
+            <TabItem x:Name="MouseGestureTab" Header="ジェスチャー">
+                <local:MouseGestureSettingControl x:Name="MouseGesture"/>
+            </TabItem>
+            <TabItem x:Name="InputTouchTab" Header="タッチ">
+                <local:InputTouchSettingControl x:Name="InputTouch"/>
+            </TabItem>
+            <TabItem x:Name="ParameterTab" Header="パラメータ">
+                <local:CommandParameterControl x:Name="Parameter"/>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>

@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="NeeView.Setting.SettingItemIndexValueControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeeView.Setting"
+             xmlns:nvd="clr-namespace:NeeView.Windows.Data"
+             mc:Ignorable="d"
+             d:DesignHeight="50" d:DesignWidth="300">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <nvd:NotBoolToVisiblityConverter x:Key="NotBoolToVisiblityConverter"/>
+    </UserControl.Resources>
+    
+    <StackPanel x:Name="Root">
+        <TextBox Text="{Binding IndexValue.Value}" Visibility="{Binding IsEditable, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        <TextBlock Text="{Binding IndexValue.ValueString}" HorizontalAlignment="Left" Visibility="{Binding IsEditable, Converter={StaticResource NotBoolToVisiblityConverter}}" />
+        <Slider Value="{Binding IndexValue.Index}" Minimum="0" Maximum="{Binding IndexValue.IndexMax}" TickFrequency="1" Margin="0,5,0,0"/>
+    </StackPanel>
+</UserControl>

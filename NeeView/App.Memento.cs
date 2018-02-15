@@ -191,7 +191,7 @@ namespace NeeView
 
 #pragma warning disable CS0612
 
-        public void RestoreCompatible(Setting setting)
+        public void RestoreCompatible(UserSetting setting)
         {
             // compatible before ver.23
             if (setting._Version < Config.GenerateProductVersionNumber(1, 23, 0))

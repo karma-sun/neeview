@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="NeeView.Setting.MouseGestureSettingControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeeView.Setting"
+             xmlns:nv="clr-namespace:NeeView"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.Resources>
+            <nv:MouseGestureToDispTextConverter x:Key="MouseGestureToDispTextConverter"/>
+        </Grid.Resources>
+        
+        <DockPanel Margin="10">
+            <DockPanel DockPanel.Dock="Bottom">
+                <TextBlock Text="新しい設定" VerticalAlignment="Center" MinWidth="90"/>
+
+                <Button DockPanel.Dock="Right" Width="20" VerticalAlignment="Center" Margin="2" Command="{Binding ClearCommand}">
+                    <TextBlock Text="✕" VerticalAlignment="Center"/>
+                </Button>
+
+                <DockPanel ToolTip="{Binding GestureToken.OverlapsText}">
+
+                    <Image Source="{StaticResource ic_warning_48px}" Width="12" Margin="0,0,2,2" VerticalAlignment="Center">
+                        <Image.Style>
+                            <Style TargetType="Image">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=GestureToken.IsConflict}" Value="False">
+                                        <Setter Property="Visibility" Value="Hidden"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
+                    </Image>
+
+                    <TextBox x:Name="GestureText" Margin="2" IsReadOnly="True" FontFamily="Meiryo" VerticalAlignment="Center"
+                         Text="{Binding GestureToken.Gesture, Converter={StaticResource MouseGestureToDispTextConverter}}"/>
+                </DockPanel>
+
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Bottom">
+                <TextBlock Text="現在の設定"  VerticalAlignment="Center" MinWidth="90"/>
+                <Grid Width="12" Margin="0,0,2,2"/>
+                <TextBox DockPanel.Dock="Bottom" x:Name="OldGestureText" Margin="2" FontFamily="Meiryo" VerticalAlignment="Center" IsReadOnly="True" IsHitTestVisible="False" BorderBrush="Transparent"
+                           Text="{Binding OriginalGesture, Converter={StaticResource MouseGestureToDispTextConverter}}" />
+            </DockPanel>
+
+            <Grid DockPanel.Dock="Top">
+                <ToggleButton HorizontalAlignment="Right" x:Name="WindowHelp" Margin="0" Width="20" Height="20" Style="{StaticResource IconToggleButton}">
+                    <Image Width="14" Height="14" Source="{StaticResource ic_help_24px}"/>
+                </ToggleButton>
+            </Grid>
+            <Popup IsOpen="{Binding ElementName=WindowHelp, Path=IsChecked}" PlacementTarget="{Binding ElementName=WindowHelp}" Placement="Top" HorizontalAlignment="Right">
+                <Border BorderBrush="Gray" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}">
+                    <TextBlock Margin="10">
+                                水色の枠内でマウスジェスチャーを入力します<LineBreak/>
+                                マウスジェスチャーはマウス右ボタンを押しながらのドラッグ操作です<LineBreak/>
+                                左クリックを最後のジェスチャーキーとして登録可能です
+                    </TextBlock>
+                </Border>
+            </Popup>
+
+
+            <Grid x:Name="GestureBox" Margin="2" Background="AliceBlue">
+                <TextBlock Text="ここでジェスチャー入力&#10;(右ボタンを押しながらドラッグ)" VerticalAlignment="Center" TextAlignment="Center" Foreground="Gray"/>
+            </Grid>
+        </DockPanel>
+
+    </Grid>
+</UserControl>

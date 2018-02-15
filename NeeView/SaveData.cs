@@ -21,7 +21,7 @@ namespace NeeView
     {
         public static SaveData Current { get; private set; }
 
-        public Setting Setting { get; set; }
+        public UserSetting UserSetting { get; set; }
 
         public bool IsEnableSave { get; set; } = true;
 
@@ -49,9 +49,9 @@ namespace NeeView
         }
 
         // アプリ設定作成
-        public Setting CreateSetting()
+        public UserSetting CreateSetting()
         {
-            var setting = new Setting();
+            var setting = new UserSetting();
 
             App.Current.WindowChromeFrame = WindowShape.Current.WindowChromeFrame;
             setting.App = App.Current.CreateMemento();
@@ -66,7 +66,7 @@ namespace NeeView
         }
 
         // アプリ設定反映
-        public void RestoreSetting(Setting setting, bool fromLoad)
+        public void RestoreSetting(UserSetting setting, bool fromLoad)
         {
             App.Current.Restore(setting.App);
             WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
@@ -81,7 +81,7 @@ namespace NeeView
 #pragma warning disable CS0612
 
         //
-        public void RestoreSettingCompatible(Setting setting, bool fromLoad)
+        public void RestoreSettingCompatible(UserSetting setting, bool fromLoad)
         {
             if (setting == null) return;
 
@@ -124,7 +124,7 @@ namespace NeeView
 
 
         // 履歴読み込み
-        public void LoadHistory(Setting setting)
+        public void LoadHistory(UserSetting setting)
         {
             BookHistory.Memento memento;
 
@@ -172,7 +172,7 @@ namespace NeeView
 
 
         // ブックマーク読み込み
-        public void LoadBookmark(Setting setting)
+        public void LoadBookmark(UserSetting setting)
         {
             BookmarkCollection.Memento memento;
 
@@ -200,7 +200,7 @@ namespace NeeView
         }
 
         // ページマーク読み込み
-        public void LoadPagemark(Setting setting)
+        public void LoadPagemark(UserSetting setting)
         {
             PagemarkCollection.Memento memento;
 
@@ -330,19 +330,19 @@ namespace NeeView
             {
                 try
                 {
-                    this.Setting = Setting.Load(filename);
+                    this.UserSetting = UserSetting.Load(filename);
                 }
                 catch (Exception e)
                 {
                     Debug.WriteLine(e.Message);
                     new MessageDialog("設定の読み込みに失敗しました。初期設定で起動します。", "設定の読み込みに失敗しました。").ShowDialog();
 
-                    this.Setting = new Setting();
+                    this.UserSetting = new UserSetting();
                 }
             }
             else
             {
-                this.Setting = new Setting();
+                this.UserSetting = new UserSetting();
             }
         }
 
@@ -452,7 +452,7 @@ namespace NeeView
         // バックアップファイル復元
         public void LoadBackupFile(string filename)
         {
-            Setting setting = null;
+            UserSetting setting = null;
             BookHistory.Memento history = null;
             BookmarkCollection.Memento bookmark = null;
             PagemarkCollection.Memento pagemark = null;
@@ -503,7 +503,7 @@ namespace NeeView
                 {
                     using (var stream = settingEntry.Open())
                     {
-                        setting = Setting.Load(stream);
+                        setting = UserSetting.Load(stream);
                     }
                 }
 
@@ -532,6 +532,8 @@ namespace NeeView
                 }
             }
 
+            bool recoverySettingWindow = MainWindowModel.Current.CloseSettingWindow();
+
             // 適用
             if (setting != null)
             {
@@ -555,6 +557,11 @@ namespace NeeView
             if (pagemark != null)
             {
                 PagemarkCollection.Current.Restore(pagemark);
+            }
+
+            if (recoverySettingWindow)
+            {
+                MainWindowModel.Current.OpenSettingWindow();
             }
         }
 

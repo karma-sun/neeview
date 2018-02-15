@@ -47,7 +47,7 @@ namespace NeeView
             InitializeWindowPlacement();
 
             new WindowShape(this);
-            WindowShape.Current.SnapMemento = SaveData.Current.Setting.WindowShape;
+            WindowShape.Current.SnapMemento = SaveData.Current.UserSetting.WindowShape;
 
             // Models初期化
             var models = new Models(this);
@@ -166,7 +166,7 @@ namespace NeeView
             // セカンドプロセスはウィンドウ形状を継承しない
             if (Config.Current.IsSecondProcess && !App.Current.IsRestoreSecondWindow) return;
 
-            WindowPlacement.Current.Restore(SaveData.Current.Setting.WindowPlacement);
+            WindowPlacement.Current.Restore(SaveData.Current.UserSetting.WindowPlacement);
         }
 
         /// <summary>

@@ -280,7 +280,7 @@ namespace NeeView
             // Chrome反映
             WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
 
-            var setting = SaveData.Current.Setting;
+            var setting = SaveData.Current.UserSetting;
 
             // 設定反映
             SaveData.Current.RestoreSetting(setting, true);
@@ -295,7 +295,7 @@ namespace NeeView
             // ページマーク読込
             SaveData.Current.LoadPagemark(setting);
 
-            SaveData.Current.Setting = null; // ロード設定破棄
+            SaveData.Current.UserSetting = null; // ロード設定破棄
 
 
             // フォルダーを開く
@@ -399,12 +399,26 @@ namespace NeeView
         // 設定ウィンドウを開く
         public void OpenSettingWindow()
         {
-            if (Configure.SettingWindow.Current != null) return;
+            if (Setting.SettingWindow.Current != null) return;
 
-            var dialog = new Configure.SettingWindow(new Configure.SettingWindowModel());
+            var dialog = new Setting.SettingWindow(new Setting.SettingWindowModel());
             dialog.Owner = App.Current.MainWindow;
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             dialog.Show();
+        }
+
+        // 設定ウィンドウを閉じる
+        public bool CloseSettingWindow()
+        {
+            if (Setting.SettingWindow.Current != null)
+            {
+                Setting.SettingWindow.Current.Close();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
 

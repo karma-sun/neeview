@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using System;
 using System.Collections.Generic;
 
 namespace NeeView
@@ -65,6 +66,7 @@ namespace NeeView
         ToggleHideMenu,
         ToggleHidePageSlider,
         ToggleHidePanel,
+        [Obsolete]
         ToggleHideTitleBar, // 欠番
         ToggleVisibleTitleBar,
         ToggleVisibleAddressBar,
@@ -77,7 +79,10 @@ namespace NeeView
         ToggleVisibleHistoryList,
         ToggleVisiblePageList,
         ToggleVisibleFolderSearchBox,
+
+        [Obsolete]
         TogglePanelStyle, // 欠番
+        [Obsolete]
         TogglePageListStyle, // 欠番
 
         ToggleVisibleThumbnailList,
@@ -136,7 +141,9 @@ namespace NeeView
 
         SetDefaultPageSetting,
 
+        [Obsolete]
         Bookmark, // 欠番
+
         ToggleBookmark,
         PrevBookmark,
         NextBookmark,
@@ -147,6 +154,7 @@ namespace NeeView
         PrevPagemarkInBook,
         NextPagemarkInBook,
 
+        [Obsolete]
         ToggleIsReverseSort, // 欠番
 
         ViewScrollUp,
@@ -166,6 +174,7 @@ namespace NeeView
         ViewFlipVerticalOff,
         ViewReset,
 
+        [Obsolete]
         ToggleEffectGrayscale, // 欠番
 
         ToggleCustomSize,
@@ -189,6 +198,8 @@ namespace NeeView
 
     public static class CommandTypeExtensions
     {
+#pragma warning disable CS0612
+
         // 無効なコマンドID
         public static List<CommandType> IgnoreCommandTypes = new List<CommandType>()
         {
@@ -199,6 +210,9 @@ namespace NeeView
             CommandType.TogglePanelStyle,
             CommandType.TogglePageListStyle,
         };
+
+#pragma warning restore CS0612
+
 
         // TODO: 判定法整備
         public static bool IsDisable(this CommandType type)

@@ -147,71 +147,72 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Configure\BackgroundSettingControl.xaml.cs">
+    <Compile Include="Setting\BackgroundSettingControl.xaml.cs">
       <DependentUpon>BackgroundSettingControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Configure\CommandParameterControl.xaml.cs">
+    <Compile Include="Setting\CommandParameterControl.xaml.cs">
       <DependentUpon>CommandParameterControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Configure\CommandParameterViewModel.cs" />
-    <Compile Include="Configure\AddParameterDialog.xaml.cs">
+    <Compile Include="Setting\CommandParameterViewModel.cs" />
+    <Compile Include="Setting\AddParameterDialog.xaml.cs">
       <DependentUpon>AddParameterDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Configure\EditCommandWindow.xaml.cs">
+    <Compile Include="Setting\EditCommandWindow.xaml.cs">
       <DependentUpon>EditCommandWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Configure\FormattedTextBlock.cs" />
-    <Compile Include="Configure\SettingItemCollectionControl.xaml.cs">
+    <Compile Include="Setting\FormattedTextBlock.cs" />
+    <Compile Include="Setting\SettingItemCollectionControl.xaml.cs">
       <DependentUpon>SettingItemCollectionControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Configure\SettingPageBook.cs" />
-    <Compile Include="Configure\SettingPageContextMenu.cs" />
-    <Compile Include="Configure\SettingPageCommand.cs" />
-    <Compile Include="Configure\SettingPageEnvironment.cs" />
-    <Compile Include="Configure\SettingPageExternal.cs" />
-    <Compile Include="Configure\SettingPageManipurate.cs" />
-    <Compile Include="Configure\SettingPagePage.cs" />
-    <Compile Include="Configure\SettingPagePanel.cs" />
-    <Compile Include="Configure\SettingPageSusie.cs" />
-    <Compile Include="Configure\SettingPageVisual.cs" />
-    <Compile Include="Configure\ContextMenuSettingViewModel.cs" />
-    <Compile Include="Configure\HelpPopupControl.xaml.cs">
+    <Compile Include="Setting\SettingPageBook.cs" />
+    <Compile Include="Setting\SettingPageContextMenu.cs" />
+    <Compile Include="Setting\SettingPageCommand.cs" />
+    <Compile Include="Setting\SettingPageEnvironment.cs" />
+    <Compile Include="Setting\SettingPageExternal.cs" />
+    <Compile Include="Setting\SettingPageManipurate.cs" />
+    <Compile Include="Setting\SettingPagePage.cs" />
+    <Compile Include="Setting\SettingPagePanel.cs" />
+    <Compile Include="Setting\SettingPageSusie.cs" />
+    <Compile Include="Setting\SettingPageVisual.cs" />
+    <Compile Include="Setting\ContextMenuSettingViewModel.cs" />
+    <Compile Include="Setting\HelpPopupControl.xaml.cs">
       <DependentUpon>HelpPopupControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Configure\PropertyValue.cs" />
-    <Compile Include="Configure\SettingItem.cs" />
-    <Compile Include="Configure\SettingItemCommandControl.xaml.cs">
+    <Compile Include="Setting\PropertyValue.cs" />
+    <Compile Include="Setting\SettingItem.cs" />
+    <Compile Include="Setting\SettingItemCommandControl.xaml.cs">
       <DependentUpon>SettingItemCommandControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Configure\SettingItemContextMenuControl.xaml.cs">
+    <Compile Include="Setting\SettingItemContextMenuControl.xaml.cs">
       <DependentUpon>SettingItemContextMenuControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Configure\SettingItemControl.xaml.cs">
+    <Compile Include="Setting\SettingItemControl.xaml.cs">
       <DependentUpon>SettingItemControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Configure\SettingItemIndexValueControl.xaml.cs">
+    <Compile Include="Setting\SettingItemIndexValueControl.xaml.cs">
       <DependentUpon>SettingItemIndexValueControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Configure\SettingItemSusiePluginControl.xaml.cs">
+    <Compile Include="Setting\SettingItemSusiePluginControl.xaml.cs">
       <DependentUpon>SettingItemSusiePluginControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Configure\SettingMouseDragControl.xaml.cs">
+    <Compile Include="Setting\SettingMouseDragControl.xaml.cs">
       <DependentUpon>SettingMouseDragControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Configure\SettingPage.cs" />
-    <Compile Include="Configure\SettingWindowModel.cs" />
-    <Compile Include="Configure\InputGestureSettingControl.xaml.cs">
+    <Compile Include="Setting\SettingPage.cs" />
+    <Compile Include="Setting\SettingWindowModel.cs" />
+    <Compile Include="Setting\InputGestureSettingControl.xaml.cs">
       <DependentUpon>InputGestureSettingControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Configure\InputGestureSettingViewModel.cs" />
-    <Compile Include="Configure\InputTouchSettingControl.xaml.cs">
+    <Compile Include="Setting\InputGestureSettingViewModel.cs" />
+    <Compile Include="Setting\InputTouchSettingControl.xaml.cs">
       <DependentUpon>InputTouchSettingControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Configure\InputTouchSettingViewModel.cs" />
-    <Compile Include="Configure\MouseGestureSettingControl.xaml.cs">
+    <Compile Include="Setting\InputTouchSettingViewModel.cs" />
+    <Compile Include="Setting\MouseGestureSettingControl.xaml.cs">
       <DependentUpon>MouseGestureSettingControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Configure\MouseGestureSettingViewModel.cs" />
+    <Compile Include="Setting\MouseGestureSettingViewModel.cs" />
+    <Compile Include="UserSetting.cs" />
     <Compile Include="_NeeView\AliasNameAttribute.cs" />
     <Compile Include="AnyKey.cs" />
     <Compile Include="App.Exception.cs" />
@@ -268,10 +269,10 @@
     <Compile Include="Picture\SizeExtensions.cs" />
     <Compile Include="Picture\SusiePictureStream.cs" />
     <Compile Include="SearchEnginecs.cs" />
-    <Compile Include="Configure\SettingWindow.xaml.cs">
+    <Compile Include="Setting\SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Configure\SettingWindowViewModel.cs" />
+    <Compile Include="Setting\SettingWindowViewModel.cs" />
     <Compile Include="SidePanels\FolderList\FolderEntryCollection.cs" />
     <Compile Include="SidePanels\FolderList\FolderArchiveCollection.cs" />
     <Compile Include="SidePanels\FolderList\FolderSearchCollection.cs" />
@@ -491,7 +492,7 @@
     <Compile Include="OpenSourceControls\ComboColorPicker.xaml.cs">
       <DependentUpon>ComboColorPicker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Configure\CommandResetWindow.xaml.cs">
+    <Compile Include="Setting\CommandResetWindow.xaml.cs">
       <DependentUpon>CommandResetWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="DelayAction.cs" />
@@ -539,7 +540,7 @@
     </Compile>
     <Compile Include="Logger.cs" />
     <Compile Include="MemoryControl.cs" />
-    <Compile Include="Configure\MouseDragSettingWindow.xaml.cs">
+    <Compile Include="Setting\MouseDragSettingWindow.xaml.cs">
       <DependentUpon>MouseDragSettingWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="MouseInput\MouseInputHelper.cs" />
@@ -577,7 +578,7 @@
     <Compile Include="SliderTextBox.xaml.cs">
       <DependentUpon>SliderTextBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Configure\ResolveConflictDialog.xaml.cs">
+    <Compile Include="Setting\ResolveConflictDialog.xaml.cs">
       <DependentUpon>ResolveConflictDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\Pagemark\PagemarkListViewl.xaml.cs">
@@ -592,7 +593,7 @@
     <Compile Include="CommandTable.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="ContextMenuSetting.cs" />
-    <Compile Include="Configure\ContextMenuSettingControl.xaml.cs">
+    <Compile Include="Setting\ContextMenuSettingControl.xaml.cs">
       <DependentUpon>ContextMenuSettingControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Loupe.xaml.cs">
@@ -615,7 +616,7 @@
     </Compile>
     <Compile Include="Page\ArchivePage.cs" />
     <Compile Include="Obsolete\Preference.cs" />
-    <Compile Include="Configure\RenameWindow.xaml.cs">
+    <Compile Include="Setting\RenameWindow.xaml.cs">
       <DependentUpon>RenameWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ReplaceString.cs" />
@@ -677,7 +678,6 @@
     <Compile Include="SaveWindow.xaml.cs">
       <DependentUpon>SaveWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Setting.cs" />
     <Compile Include="Archiver\SusieArchiver.cs" />
     <Compile Include="SusieContext.cs" />
     <Compile Include="Susie\Susie.cs" />
@@ -740,7 +740,7 @@
     <Compile Include="_NeeView\Windows\Property\PropertyMemberAttribute.cs" />
     <Compile Include="_NeeView\Windows\Property\PropertyValue.cs" />
     <Compile Include="_NeeView\Windows\StyleInteraction.cs" />
-    <Page Include="Configure\BackgroundSettingControl.xaml">
+    <Page Include="Setting\BackgroundSettingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -748,19 +748,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Configure\CommandParameterControl.xaml">
+    <Page Include="Setting\CommandParameterControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Configure\AddParameterDialog.xaml">
+    <Page Include="Setting\AddParameterDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Configure\EditCommandWindow.xaml">
+    <Page Include="Setting\EditCommandWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Configure\SettingItemCollectionControl.xaml">
+    <Page Include="Setting\SettingItemCollectionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -792,47 +792,47 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Configure\InputGestureSettingControl.xaml">
+    <Page Include="Setting\InputGestureSettingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Configure\InputTouchSettingControl.xaml">
+    <Page Include="Setting\InputTouchSettingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Configure\HelpPopupControl.xaml">
+    <Page Include="Setting\HelpPopupControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Configure\SettingItemCommandControl.xaml">
+    <Page Include="Setting\SettingItemCommandControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Configure\SettingItemContextMenuControl.xaml">
+    <Page Include="Setting\SettingItemContextMenuControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Configure\SettingItemControl.xaml">
+    <Page Include="Setting\SettingItemControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Configure\SettingItemIndexValueControl.xaml">
+    <Page Include="Setting\SettingItemIndexValueControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Configure\SettingItemSusiePluginControl.xaml">
+    <Page Include="Setting\SettingItemSusiePluginControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Configure\SettingMouseDragControl.xaml">
+    <Page Include="Setting\SettingMouseDragControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Configure\SettingWindow.xaml">
+    <Page Include="Setting\SettingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Configure\MouseGestureSettingControl.xaml">
+    <Page Include="Setting\MouseGestureSettingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -904,7 +904,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Configure\CommandResetWindow.xaml">
+    <Page Include="Setting\CommandResetWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -928,7 +928,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Configure\MouseDragSettingWindow.xaml">
+    <Page Include="Setting\MouseDragSettingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -940,7 +940,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Configure\ResolveConflictDialog.xaml">
+    <Page Include="Setting\ResolveConflictDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -952,7 +952,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Configure\ContextMenuSettingControl.xaml">
+    <Page Include="Setting\ContextMenuSettingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1000,7 +1000,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Configure\RenameWindow.xaml">
+    <Page Include="Setting\RenameWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

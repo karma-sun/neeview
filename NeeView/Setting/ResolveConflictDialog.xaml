@@ -1,0 +1,50 @@
+﻿<!--
+    Copyright (c) 2016-2018 Mitsuhiro Ito (nee)
+
+    This software is released under the MIT License.
+    http://opensource.org/licenses/mit-license.php
+-->
+
+<Window x:Class="NeeView.Setting.ResolveConflictDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NeeView.Setting"
+        mc:Ignorable="d"
+        Style="{StaticResource ToolDialogStyle}"
+        SizeToContent="Height" MinHeight="150" Width="400"
+        Title="{Binding Title}">
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type local:ConflictItem}">
+            <RadioButton Content="{Binding Name}" IsChecked="{Binding IsChecked}" GroupName="SelectGroup" Margin="5"/>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <DockPanel Margin="5">
+
+            <StackPanel DockPanel.Dock="Top" Margin="5" Orientation="Horizontal">
+                <TextBlock Text="{Binding Gesture}" Background="#EEE" Foreground="#222" Padding="10,2" VerticalAlignment="Center"/>
+                <TextBlock Text="で実行するコマンドを１つだけ選択してください" Margin="5,0" VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+                <StackPanel.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Margin" Value="5"/>
+                        <Setter Property="Padding" Value="10,5"/>
+                        <Setter Property="MinWidth" Value="80"/>
+                    </Style>
+                </StackPanel.Resources>
+                <Button x:Name="OKButton" Content="OK" Click="OKButton_Click"/>
+                <Button x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click"/>
+            </StackPanel>
+
+            <Grid Margin="10,5">
+                <ItemsControl ItemsSource="{Binding Conflicts}" Margin="10"/>
+            </Grid>
+        </DockPanel>
+    </Grid>
+</Window>

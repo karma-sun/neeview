@@ -23,8 +23,6 @@ namespace NeeView.Windows.Property
 
         public bool IsVisible { get; set; } = true;
 
-        public bool IsAppxVisible { get; set; } = true;
-
         public PropertyMemberAttribute() { }
         public PropertyMemberAttribute(string name) { Name = name; }
 
@@ -53,20 +51,6 @@ namespace NeeView.Windows.Property
         {
             Minimum = min;
             Maximum = max;
-        }
-
-        public override PropertyMemberElement CreateContent(object source, PropertyInfo info)
-        {
-            return new PropertyMemberElement(source, info, this);
-        }
-    }
-
-    // TODO: 廃止予定 (PropertyMemberAttributeで代用可能)
-    [AttributeUsage(AttributeTargets.Property)]
-    public class PropertyEnumAttribute : PropertyMemberAttribute
-    {
-        public PropertyEnumAttribute(string name) : base(name)
-        {
         }
 
         public override PropertyMemberElement CreateContent(object source, PropertyInfo info)

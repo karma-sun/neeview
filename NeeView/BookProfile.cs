@@ -63,13 +63,13 @@ namespace NeeView
         /// <summary>
         /// 先読みモード
         /// </summary>
-        [PropertyEnum("先読み", Tips = "先読みは前後のページを保持するためメモリを消費します。「自動」にすると画像サイズに応じで先読み有効無効を切り替えます。「先読みする(開放なし)」は読み込んだ画像を破棄しない最もメモリを消費するモードです。")]
+        [PropertyMember("先読み", Tips = "先読みは前後のページを保持するためメモリを消費します。「自動」にすると画像サイズに応じで先読み有効無効を切り替えます。「先読みする(開放なし)」は読み込んだ画像を破棄しない最もメモリを消費するモードです。")]
         public PreLoadMode PreLoadMode { get; set; } = PreLoadMode.AutoPreLoad;
 
         /// <summary>
         /// 先読み自動判定許サイズ
         /// </summary>
-        [PropertyMember(Name = "自動先読み判定用画像サイズ", Tips = "自動先読みモードで使用します。この面積より大きい画像で先読みが無効になります。2ページ表示の場合は2ページの合計面積で判定されます。")]
+        [PropertyMember("自動先読み判定用画像サイズ", Tips = "自動先読みモードで使用します。この面積より大きい画像で先読みが無効になります。2ページ表示の場合は2ページの合計面積で判定されます。")]
         public Size PreloadLimitSize { get; set; } = new Size(4096, 4096);
 
         /// <summary>
@@ -134,39 +134,30 @@ namespace NeeView
         public class Memento
         {
             [DataMember, DefaultValue(true)]
-            [PropertyMember("ページ送り優先", Tips = "ページの表示を待たずにページ送りを実行します", IsVisible = false)]
             public bool IsPrioritizePageMove { get; set; }
 
             [DataMember, DefaultValue(true)]
-            [PropertyMember("ページ送りコマンドの重複許可", Tips = "発行されたページ移動コマンドを全て実行します。\nOFFの場合は重複したページ送りコマンドはキャンセルされます", IsVisible = false)]
             public bool IsMultiplePageMove { get; set; }
 
             [DataMember, DefaultValue("__MACOSX;.DS_Store")]
-            [PropertyMember("ページ除外パス", Tips = ";(セミコロン)区切りで除外するパス名を羅列します。「サポート外ファイルもページに含める」設定では無効です")]
             public string ExcludePath { get; set; }
 
             [DataMember, DefaultValue(1.0)]
-            [PropertyEnum("先読み", Tips = "先読みは前後のページを保持するためメモリを消費します&#xa;「自動」にすると画像サイズに応じで先読み有効無効を切り替えます&#xa;「先読みする(開放なし)」は読み込んだ画像を開放しない最もメモリを消費するモードです", IsVisible = false)]
             public PreLoadMode PreLoadMode { get; set; }
 
             [DataMember, DefaultValue(typeof(Size), "4096,4096")]
-            [PropertyMember(Name = "自動先読み判定用画像サイズ", Tips = "自動先読みモードで使用します。この面積より大きい画像で先読みが無効になります\n2ページ表示の場合は2ページの合計面積で判定されます")]
             public Size PreloadLimitSize { get; set; }
 
             [DataMember, DefaultValue(1.0)]
-            [PropertyMember("横長画像を判定するための縦横比(横 / 縦)", Tips = "「横長ページを分割する」で使用されます")]
             public double WideRatio { get; set; }
 
             [DataMember, DefaultValue(false)]
-            [PropertyMember("アニメーションGIFを再生する", Tips = "MediaPlayerの機能を利用し、アニメーションGIF再生を行います。長時間のGIFでメモリ消費の問題が発生する可能性があります。", IsVisible = false)]
             public bool IsEnableAnimatedGif { get; set; }
 
             [DataMember, DefaultValue(false)]
-            [PropertyMember("サポート外ファイルもページに含める", Tips = "画像として表示できないファイルやフォルダーもページとして表示します", IsVisible = false)]
             public bool IsEnableNoSupportFile { get; set; }
 
             [DataMember, DefaultValue(LoadingPageView.PreThumbnail)]
-            [PropertyEnum("読み込み中ページの表示方法", Tips = "ページの読み込みが完了するまでに表示しておくものを指定します。\n- None ... なし(灰色)\n- PreThumbnail ... 直前のサムネイル\n- PreImage ... 直前の画像。一番メモリを消費します")]
             public LoadingPageView LoadingPageView { get; set; }
 
 

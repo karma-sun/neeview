@@ -340,27 +340,21 @@ namespace NeeView
             public bool IsVisibleLoupeInfo { get; set; }
 
             [DataMember, DefaultValue(2.0)]
-            [PropertyMember("ルーペ標準倍率", Tips = "ルーペの初期倍率です")]
             public double DefaultScale { get; set; }
 
             [DataMember, DefaultValue(2.0)]
-            [PropertyMember("ルーペ最小倍率", Tips = "ルーペの最小倍率です")]
             public double MinimumScale { get; set; }
 
             [DataMember, DefaultValue(10.0)]
-            [PropertyMember("ルーペ最大倍率", Tips = "ルーペの最大倍率です")]
             public double MaximumScale { get; set; }
 
             [DataMember, DefaultValue(1.0)]
-            [PropertyMember("ルーペ倍率変化単位", Tips = "ルーペ倍率をこの値で変化させます")]
             public double ScaleStep { get; set; }
 
             [DataMember, DefaultValue(false)]
-            [PropertyMember("ルーペ倍率リセット", Tips = "ルーペを開始するたびに標準倍率に戻します")]
             public bool IsResetByRestart { get; set; }
 
             [DataMember, DefaultValue(true)]
-            [PropertyMember("ルーペページ切り替え解除", Tips = "ページを切り替えるとルーペを解除します")]
             public bool IsResetByPageChanged { get; set; }
         }
 

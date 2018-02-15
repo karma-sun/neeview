@@ -196,7 +196,7 @@ namespace NeeView
         private int _scroll;
 
         [DataMember]
-        [PropertyMember(Name = "垂直方向へのスクロール許可", Tips = "軸方向にスクロールできない場合は軸に垂直な方向へスクロースを行う")]
+        [PropertyMember("垂直方向へのスクロール許可", Tips = "軸方向にスクロールできない場合は軸に垂直な方向へスクロースを行う")]
         public bool AllowCrossScroll { get; set; } = true;
 
         [OnDeserializing]
@@ -294,7 +294,7 @@ namespace NeeView
     [DataContract]
     public class AutoRotateCommandParameter : CommandParameter
     {
-        [PropertyEnum("回転方向", Tips ="自動回転する方向")]
+        [PropertyMember("回転方向", Tips ="自動回転する方向")]
         public AutoRotateType AutoRotateType { get; set; }
 
         // 保存用

@@ -973,7 +973,6 @@ namespace NeeView
             public string Home { get; set; }
 
             [DataMember, DefaultValue(true)]
-            [PropertyMember("フォルダーリスト追加ファイルは挿入", Tips = "フォルダーリストで追加されたファイルを現在のソート順で挿入します。\nFalseのときはリストの終端に追加します。")]
             public bool IsInsertItem { get; set; }
 
             [DataMember]

@@ -357,11 +357,9 @@ namespace NeeView
             public bool IsEnabled { get; set; }
 
             [DataMember, DefaultValue(true)]
-            [PropertyMember("PDF対応")]
             public bool IsPdfEnabled { get; set; }
 
             [DataMember, DefaultValue(_defaultExcludePattern)]
-            [PropertyMember("除外する圧縮ファイルのパターン", Tips = ".NETの正規表現で指定します")]
             public string ExcludePattern { get; set; }
 
             #region Constructors

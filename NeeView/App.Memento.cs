@@ -46,15 +46,15 @@ namespace NeeView
         #region Properties
 
         // マルチブートを許可する
-        [PropertyMember("多重起動を許可する", IsVisible = false)]
+        [PropertyMember("多重起動を許可する")]
         public bool IsMultiBootEnabled { get; set; }
 
         // フルスクリーン状態を復元する
-        [PropertyMember("フルスクリーン状態を復元する", IsVisible = false)]
+        [PropertyMember("フルスクリーン状態を復元する")]
         public bool IsSaveFullScreen { get; set; }
 
         // ウィンドウ座標を復元する
-        [PropertyMember("ウィンドウ座標を復元する", IsVisible = false)]
+        [PropertyMember("ウィンドウ座標を復元する")]
         public bool IsSaveWindowPlacement
         {
             get { return _isSaveWindowPlacement; }
@@ -62,7 +62,7 @@ namespace NeeView
         }
 
         // ネットワークアクセス許可
-        [PropertyMember("ネットワークアスセス許可", Tips = "バージョンウィンドウからのバージョン更新確認、オンラインヘルプ等のWEBリンクにのみネットワークを使用します。", IsAppxVisible = false)]
+        [PropertyMember("ネットワークアスセス許可", Tips = "バージョンウィンドウからのバージョン更新確認、オンラインヘルプ等のWEBリンクにのみネットワークを使用します。")]
         public bool IsNetworkEnabled
         {
             get { return _isNetworkEnalbe; }
@@ -94,12 +94,12 @@ namespace NeeView
         public WindowChromeFrame WindowChromeFrame { get; set; } = WindowChromeFrame.Line;
 
         // 前回開いていたブックを開く
-        [PropertyMember("開いていたブックを復元する", IsVisible = false)]
+        [PropertyMember("開いていたブックを復元する")]
         public bool IsOpenLastBook { get; set; }
 
         // ダウンロードファイル置き場
         [DefaultValue("")]
-        [PropertyPath("ダウンロードフォルダ", Tips = "ブラウザ等がらドロップした画像の保存場所です。指定がない場合は一時フォルダーが使用されます。", IsVisible = false, IsDirectory = true)]
+        [PropertyPath("ダウンロードフォルダ", Tips = "ブラウザ等がらドロップした画像の保存場所です。指定がない場合は一時フォルダーが使用されます。", IsDirectory = true)]
         public string DownloadPath { get; set; }
 
         #endregion
@@ -109,51 +109,39 @@ namespace NeeView
         public class Memento
         {
             [DataMember, DefaultValue(false)]
-            [PropertyMember("多重起動を許可する", IsVisible = false)]
             public bool IsMultiBootEnabled { get; set; }
 
             [DataMember, DefaultValue(false)]
-            [PropertyMember("フルスクリーン状態を復元する", IsVisible = false)]
             public bool IsSaveFullScreen { get; set; }
 
             [DataMember, DefaultValue(false)]
-            [PropertyMember("ウィンドウ座標を復元する", IsVisible = false)]
             public bool IsSaveWindowPlacement { get; set; }
 
             [DataMember, DefaultValue(true)]
-            [PropertyMember("ネットワークアスセス許可", Tips = "ネットワークアクセスを許可します。\n(バージョンウィンドウからのバージョン更新確認、各種WEBリンク)", IsAppxVisible = false)]
             public bool IsNetworkEnabled { get; set; }
 
             [DataMember, DefaultValue(false)]
-            [PropertyMember("履歴、ブックマーク、ページマークを保存しない", Tips = "履歴、ブックマーク、ページマークの情報がファイルに一切保存されなくなります")]
             public bool IsDisableSave { get; set; }
 
             [DataMember, DefaultValue(true)]
-            [PropertyMember("画像のドットバイドット表示", Tips = "画像をオリジナルサイズで表示する場合にDPIに依存せずにディスプレイのピクセルと一致させます")]
             public bool IsIgnoreImageDpi { get; set; }
 
             [DataMember, DefaultValue(false)]
-            [PropertyMember("ウィンドウサイズのDPI非対応", Tips = "DPI変更にウィンドウサイズを追従させません")]
             public bool IsIgnoreWindowDpi { get; set; }
 
             [DataMember, DefaultValue(true)]
-            [PropertyMember("２つめのウィンドウ座標の復元", Tips = "重複起動される場合にウィンドウ座標の復元を適用する。falseにすると2つめのウィンドウは初期座標で表示されます")]
             public bool IsRestoreSecondWindow { get; set; }
 
             [DataMember, DefaultValue(WindowChromeFrame.Line)]
-            [PropertyEnum("タイトルバー非表示でのウィンドウ枠", Tips = "タイトルバー非表示時のウィンドウ枠表示方法です")]
             public WindowChromeFrame WindowChromeFrame { get; set; }
 
             [DataMember, DefaultValue(1.0)]
-            [PropertyMember("パネルやメニューが自動的に消えるまでの時間(秒)")]
             public double AutoHideDelayTime { get; set; }
 
             [DataMember, DefaultValue(false)]
-            [PropertyMember("前回開いていたブックを開く", Tips = "起動時に前回開いていたブックを開きます", IsVisible = false)]
             public bool IsOpenLastBook { get; set; }
 
             [DataMember, DefaultValue("")]
-            [PropertyPath("ダウンロードフォルダ", Tips = "ブラウザ等がらドロップした画像の保存場所です。\n既定では一時フォルダを使用します。", IsVisible = false, IsDirectory = true)]
             public string DownloadPath { get; set; }
 
             [OnDeserializing]

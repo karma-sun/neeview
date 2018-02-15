@@ -39,7 +39,7 @@ namespace NeeView
         /// <summary>
         /// 画像フォーマット
         /// </summary>
-        [PropertyEnum("サムネイル画像フォーマット", Tips = "Pngは劣化がなく最高品質ですが、Jpegより多くのメモリを消費します")]
+        [PropertyMember("サムネイル画像フォーマット", Tips = "Pngは劣化がなく最高品質ですが、Jpegより多くのメモリを消費します")]
         public BitmapImageFormat Format { get; set; } = BitmapImageFormat.Jpeg;
 
         /// <summary>
@@ -150,35 +150,27 @@ namespace NeeView
         public class Memento
         {
             [DataMember, DefaultValue(BitmapImageFormat.Jpeg)]
-            [PropertyEnum("サムネイルフォーマット", Tips = "サムネイル画像のフォーマットです。Pngは劣化がなく最高品質ですが、Jpegより多くのメモリを消費します")]
             public BitmapImageFormat Format { get; set; } = BitmapImageFormat.Jpeg;
 
             [DataMember, DefaultValue(80)]
-            [PropertyMember("サムネイル品質", Tips = "サムネイルフォーマットがJpegの場合の品質です。1-100で指定します")]
             public int Quality { get; set; }
 
             [DataMember, DefaultValue(true)]
-            [PropertyMember("サムネイルキャッシュを使用する", Tips = "ブックサムネイルをキャッシュします。キャッシュファイルはCache.dbです")]
             public bool IsCacheEnabled { get; set; }
 
             [DataMember, DefaultValue(1000)]
-            [PropertyMember("ページサムネイル容量", Tips = "ページサムネイル保持枚数です。ブックを閉じると全てクリアされます")]
             public int PageCapacity { get; set; }
 
             [DataMember, DefaultValue(200)]
-            [PropertyMember("ブックサムネイル容量", Tips = "フォルダーリスト等でのサムネイル保持枚数です")]
             public int BookCapacity { get; set; }
 
             [DataMember, DefaultValue(50)]
-            [PropertyMember("ブックサムネイルサイズ", Tips = "パネルのコンテンツ表示でのサムネイルサイズです。")]
             public int ThumbnailWidth { get; set; }
 
             [DataMember, DefaultValue(true)]
-            [PropertyMember("ブックサムネイルのポップアップ", Tips = "サムネイルにカーソルを合わせるとポップアップで大きめのサムネイル画像が表示されます。")]
             public bool IsThumbnailPopup { get; set; }
 
             [DataMember, DefaultValue(200)]
-            [PropertyMember("バナーサイズ", Tips = "パネルのバナー表示での画像の横幅です。縦幅は横幅の1/4になります。\nサムネイル画像を流用しているため、大きいサイズほど画像が荒くなります")]
             public int BannerWidth { get; set; }
 
 

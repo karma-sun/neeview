@@ -41,12 +41,9 @@ namespace NeeView
         public class Memento
         {
             [DataMember, DefaultValue(true)]
-            [PropertyMember("ファイル削除確認", Tips = "ファイル削除時に確認ダイアログを表示します")]
             public bool IsRemoveConfirmed { get; set; }
 
             [DataMember, DefaultValue(true)]
-            //[PropertyMember("ファイル操作許可", Tips = "削除や名前変更等のファイル操作コマンドを使用可能にします"
-            //    , Flags = PropertyMemberFlag.None)]
             public bool IsEnabled { get; set; }
         }
 

@@ -111,7 +111,7 @@ namespace NeeView
         /// <summary>
         /// 起動時の自動開始
         /// </summary>
-        [PropertyMember("スライドショーの再生を開始する", IsVisible = false)]
+        [PropertyMember("スライドショーの再生を開始する")]
         public bool IsAutoPlaySlideShow { get; set; }
 
 
@@ -251,7 +251,6 @@ namespace NeeView
             public bool IsSlideShowByLoop { get; set; }
 
             [DataMember, DefaultValue(false)]
-            [PropertyMember("スライドショーの再生を開始する", IsVisible = false)]
             public bool IsAutoPlaySlideShow { get; set; }
         }
 

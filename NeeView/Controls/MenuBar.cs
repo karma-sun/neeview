@@ -133,7 +133,6 @@ namespace NeeView
         public class Memento
         {
             [DataMember, DefaultValue(false)]
-            [PropertyMember("フルスクリーン時のタイトルバー操作", Tips = "フルスクリーン時のメニュー上でのタイトルバー操作(ダブルクリックやドラッグ)を有効にします")]
             public bool CaptionEmulateInFullScreen { get; set; }
         }
 

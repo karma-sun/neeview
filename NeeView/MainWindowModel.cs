@@ -107,7 +107,7 @@ namespace NeeView
         public bool IsOpenbookAtCurrentPlace { get; set; }
 
         //
-        [PropertyEnum("テーマカラー")]
+        [PropertyMember("テーマカラー")]
         public PanelColor PanelColor
         {
             get { return _panelColor; }
@@ -480,7 +480,6 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            [PropertyEnum("テーマカラー", Tips = "パネル等のテーマカラーを指定します", IsVisible = false)]
             public PanelColor PanelColor { get; set; }
             [DataMember]
             public ContextMenuSetting ContextMenuSetting { get; set; }
@@ -498,11 +497,9 @@ namespace NeeView
             public bool IsVisibleWindowTitle { get; set; }
 
             [DataMember, DefaultValue(true)]
-            [PropertyMember("処理中マークの表示", Tips = "画像読み込み処理中マークを画面左上に表示する")]
             public bool IsVisibleBusy { get; set; }
 
             [DataMember, DefaultValue(false)]
-            [PropertyMember("「開く」を現在開いているブックの場所から始める", Tips = "[ファイル] >[開く]で開くフォルダーです\nドラッグ＆ドロップや履歴から開いた場所も基準になります")]
             public bool IsOpenbookAtCurrentPlace { get; set; }
 
             [OnDeserializing]

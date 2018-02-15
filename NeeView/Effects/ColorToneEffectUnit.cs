@@ -28,7 +28,7 @@ namespace NeeView.Effects
         /// Property: DarkColor
         /// </summary>
         [IgnoreDataMember]
-        [PropertyMember()]
+        [PropertyMember]
         [DefaultValue(typeof(Color), "#FF338000")]
         public Color DarkColor
         {
@@ -50,7 +50,7 @@ namespace NeeView.Effects
         /// Property: LightColor
         /// </summary>
         [IgnoreDataMember]
-        [PropertyMember()]
+        [PropertyMember]
         [DefaultValue(typeof(Color), "#FFFFE580")]
         public Color LightColor
         {

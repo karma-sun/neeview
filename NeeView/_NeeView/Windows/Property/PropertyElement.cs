@@ -56,15 +56,8 @@ namespace NeeView.Windows.Property
             Tips = attribute.Tips;
             IsVisible = attribute.IsVisible;
 
-            // Appxでは非表示
-            if (!attribute.IsAppxVisible && Config.Current.IsAppxPackage)
-            {
-                this.IsVisible = false;
-            }
-
             this.Default = GetDefaultValue(source, info);
             this.IsObsolete = GetObsoleteAttribute(info) != null;
-
 
             _info = info;
         }
@@ -139,20 +132,6 @@ namespace NeeView.Windows.Property
             }
         }
 
-        // enum
-        public PropertyMemberElement(object source, PropertyInfo info, PropertyEnumAttribute attribute)
-        {
-            Initialize(source, info, attribute);
-
-            if (_info.PropertyType.IsEnum)
-            {
-                this.TypeValue = new PropertyValue_Enum(this, _info.PropertyType);
-            }
-            else
-            {
-                throw new InvalidOperationException("not enum");
-            }
-        }
 
         //
         public PropertyMemberElement(object source, PropertyInfo info, PropertyPathAttribute attribute)

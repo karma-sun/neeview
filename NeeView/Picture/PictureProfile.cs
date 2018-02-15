@@ -132,11 +132,9 @@ namespace NeeView
         public class Memento
         {
             [DataMember, DefaultValue(false)]
-            [PropertyMember("読み込み画像サイズ制限", Tips = "「最大画像サイズ」を上限として読み込み画像を縮小します。速度、メモリ節約用の設定です")]
             public bool IsLimitSourceSize { get; set; }
 
             [DataMember, DefaultValue(typeof(Size), "4096,4096")]
-            [PropertyMember("最大画像サイズ", Tips = "フィルターで拡大される最大画像サイズです。「読み込み画像サイズ制限」フラグがONの場合にはこのサイズに読み込み画像自体を縮小します")]
             public Size Maximum { get; set; }
 
             [DataMember]
@@ -146,7 +144,6 @@ namespace NeeView
             public PictureCustomSize.Memento CustomSize { get; set; }
 
             [DataMember, DefaultValue(true)]
-            [PropertyMember("リサイズフィルター処理にSIMDを使用する", Tips = "リサイズフィルター処理にSIMDを使用します")]
             public bool IsMagicScaleSimdEnabled { get; set; }
 
             #region Constructors

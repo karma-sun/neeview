@@ -298,7 +298,6 @@ namespace NeeView
             [DataMember]
             public bool IsVisibleThumbnailPlate { get; set; }
             [DataMember, DefaultValue(true)]
-            [PropertyMember("サムネイルリストタッチスクロールの終端バウンド", Tips = "サムネイルリストのタッチスクロール操作での終端跳ね返り挙動の有効/無効を設定します")]
             public bool IsManipulationBoundaryFeedbackEnabled { get; set; }
             [DataMember]
             public bool IsSelectedCenter { get; set; }

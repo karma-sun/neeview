@@ -433,7 +433,6 @@ namespace NeeView
         public class Memento
         {
             [DataMember, DefaultValue(2)]
-            [PropertyMember("画像読み込みに使用するスレッド数", Tips = "有効値は1～4です")]
             public int WorkerSize { get; set; }
         }
 

@@ -78,7 +78,7 @@ namespace NeeView
         #region Properties
 
         // ページ終端でのアクション
-        [PropertyEnum("ページの終端を超えて移動しようとした時の挙動")]
+        [PropertyMember("ページの終端を超えて移動しようとした時の挙動")]
         public PageEndAction PageEndAction { get; set; }
 
         /// <summary>

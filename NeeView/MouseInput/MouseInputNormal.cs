@@ -216,11 +216,9 @@ namespace NeeView
             public LongButtonDownMode LongLeftButtonDownMode { get; set; }
 
             [DataMember, DefaultValue(1.0)]
-            [PropertyMember("長押し判定時間(秒)", Tips = "長押しの判定時間です", IsVisible = false)]
             public double LongLeftButtonDownTime { get; set; }
 
             [DataMember, DefaultValue(true)]
-            [PropertyMember("マウスジェスチャー有効", Tips = "マウスジェスチャー入力を有効にします")]
             public bool IsGestureEnabled { get; set; }
 
             [OnDeserializing]

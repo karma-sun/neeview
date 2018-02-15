@@ -923,11 +923,9 @@ namespace NeeView
             public bool IsAutoRecursiveWithAllFiles { get; set; }
 
             [DataMember, DefaultValue(1)]
-            [PropertyMember("履歴登録開始ページ操作回数", Tips = "この回数のページ移動操作をしたら履歴に登録するようにする。")]
             public int HistoryEntryPageCount { get; set; }
 
             [DataMember, DefaultValue(true)]
-            [PropertyMember("多重圧縮ファイルをすべて展開する", Tips = "OFFにした場合、含まれる圧縮ファイルはサブフォルダ扱いになります", IsVisible = false)]
             public bool IsArchiveRecursive { get; set; }
 
             [DataMember]

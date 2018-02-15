@@ -185,13 +185,10 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
-
             [DataMember, DefaultValue(30.0)]
-            [PropertyMember("マウスジェスチャー判定の最小移動距離(X)", Tips = "この距離(pixel)移動して初めてジェスチャー開始と判定されます")]
             public double GestureMinimumDistanceX { get; set; }
 
             [DataMember, DefaultValue(30.0)]
-            [PropertyMember("マウスジェスチャー判定の最小移動距離(Y)", Tips = "この距離(pixel)移動して初めてジェスチャー開始と判定されます")]
             public double GestureMinimumDistanceY { get; set; }
         }
 

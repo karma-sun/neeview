@@ -66,7 +66,6 @@ namespace NeeView
         public class Memento
         {
             [DataMember, DefaultValue(typeof(Size), "1920,1080")]
-            [PropertyMember(Name = "PDF画像標準サイズ", Tips = "PDFのページはこの大きさに収まるサイズで画像化されます", IsVisible = false)]
             public Size RenderSize { get; set; }
 
             [Obsolete, DataMember]

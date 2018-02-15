@@ -1,14 +1,15 @@
-﻿<UserControl x:Class="NeeView.SettingItemCommandControl"
+﻿<UserControl x:Class="NeeView.Configure.SettingItemCommandControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:NeeView"
+             xmlns:local="clr-namespace:NeeView.Configure"
+             xmlns:nv="clr-namespace:NeeView"
              mc:Ignorable="d" 
              d:DesignHeight="480" d:DesignWidth="640">
     <Grid x:Name="Root">
         <Grid.Resources>
-            <local:MouseGestureToDispTextConverter x:Key="MouseGestureToDispTextConverter"/>
+            <nv:MouseGestureToDispTextConverter x:Key="MouseGestureToDispTextConverter"/>
             <CollectionViewSource x:Key="CommandSource" Source="{Binding CommandCollection}">
                 <CollectionViewSource.GroupDescriptions>
                     <PropertyGroupDescription PropertyName="Command.Group" />

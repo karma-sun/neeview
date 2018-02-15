@@ -1,9 +1,10 @@
-﻿<UserControl x:Class="NeeView.InputGestureSettingControl"
+﻿<UserControl x:Class="NeeView.Configure.InputGestureSettingControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:NeeView"
+             xmlns:local="clr-namespace:NeeView.Configure"
+             xmlns:nv="clr-namespace:NeeView"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="460">
 
@@ -17,7 +18,7 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <local:IsNullConverter x:Key="IsNullConverter"/>
+        <nv:IsNullConverter x:Key="IsNullConverter"/>
     </UserControl.Resources>
 
     <Border BorderBrush="Gray" BorderThickness="1" Margin="5">

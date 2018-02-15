@@ -12,7 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NeeView
+namespace NeeView.Configure
 {
     /// <summary>
     /// CommandParameterControl.xaml の相互作用ロジック

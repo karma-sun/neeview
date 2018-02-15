@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Data;
 
-namespace NeeView
+namespace NeeView.Configure
 {
     /// <summary>
     /// 実値とBinding値をまとめて管理し、コントロールのプロパティに適用する。

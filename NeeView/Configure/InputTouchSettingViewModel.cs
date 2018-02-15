@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 
-namespace NeeView
+namespace NeeView.Configure
 {
 
     /// <summary>

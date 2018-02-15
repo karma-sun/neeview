@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NeeView
+namespace NeeView.Configure
 {
     /// <summary>
     /// 

@@ -401,7 +401,7 @@ namespace NeeView
         {
             if (Configure.SettingWindow.Current != null) return;
 
-            var dialog = new Configure.SettingWindow(new SettingWindowModel());
+            var dialog = new Configure.SettingWindow(new Configure.SettingWindowModel());
             dialog.Owner = App.Current.MainWindow;
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             dialog.Show();

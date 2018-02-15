@@ -7,7 +7,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace NeeView
+namespace NeeView.Configure
 {
     /// <summary>
     /// 設定画面 ViewModel

@@ -17,16 +17,16 @@
         </DockPanel>
         <TabControl Margin="5">
             <TabItem x:Name="InputGestureTab" Header="ショートカット">
-                <nv:InputGestureSettingControl x:Name="InputGesture"/>
+                <local:InputGestureSettingControl x:Name="InputGesture"/>
             </TabItem>
             <TabItem x:Name="MouseGestureTab" Header="ジェスチャー">
-                <nv:MouseGestureSettingControl x:Name="MouseGesture"/>
+                <local:MouseGestureSettingControl x:Name="MouseGesture"/>
             </TabItem>
             <TabItem x:Name="InputTouchTab" Header="タッチ">
-                <nv:InputTouchSettingControl x:Name="InputTouch"/>
+                <local:InputTouchSettingControl x:Name="InputTouch"/>
             </TabItem>
             <TabItem x:Name="ParameterTab" Header="パラメータ">
-                <nv:CommandParameterControl x:Name="Parameter"/>
+                <local:CommandParameterControl x:Name="Parameter"/>
             </TabItem>
         </TabControl>
     </DockPanel>

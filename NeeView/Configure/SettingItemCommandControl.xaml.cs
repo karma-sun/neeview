@@ -19,7 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NeeView
+namespace NeeView.Configure
 {
     // TODO: 整備
     public class GestureElement

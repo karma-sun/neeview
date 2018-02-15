@@ -3,7 +3,7 @@ using NeeView.Data;
 using NeeView.Windows.Property;
 using System.Collections.Generic;
 
-namespace NeeView
+namespace NeeView.Configure
 {
     public class CommandParameterViewModel : BindableBase
     {

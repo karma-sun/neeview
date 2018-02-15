@@ -105,6 +105,7 @@ namespace NeeView.Setting
                 dockPanel.LastChildFill = false;
 
                 var scrollViewer = new ScrollViewer();
+                scrollViewer.PanningMode = PanningMode.VerticalOnly;
                 scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
                 scrollViewer.Content = dockPanel;
                 return scrollViewer;

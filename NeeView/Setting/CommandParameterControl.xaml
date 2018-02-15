@@ -42,6 +42,6 @@
 
         </DockPanel>
 
-        <TextBlock x:Name="EmptyText" Text="パラメータはありません" Margin="10" Foreground="Gray"/>
+        <TextBlock x:Name="EmptyText" Text="パラメーターはありません" Margin="10" Foreground="Gray"/>
     </Grid>
 </UserControl>

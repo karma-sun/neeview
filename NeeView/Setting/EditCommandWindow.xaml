@@ -16,21 +16,46 @@
             <Button x:Name="ButtonOk" DockPanel.Dock="Right" Content="OK" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom" Width="75" Height="28" Click="ButtonOk_Click"/>
         </DockPanel>
         <TabControl Margin="5">
-            <TabItem x:Name="GeneralTab" Header="全般">
+            <TabItem x:Name="GeneralTab">
+                <TabItem.Header>
+                    <Grid MinWidth="60" MinHeight="30">
+                        <TextBlock Text="全般"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </TabItem.Header>
                 <StackPanel Margin="10,20">
                     <CheckBox Content="コマンド実行時にメッセージを表示する" IsChecked="{Binding IsShowMessage}"/>
                 </StackPanel>
             </TabItem>
-            <TabItem x:Name="InputGestureTab" Header="ショートカット">
+            <TabItem x:Name="InputGestureTab">
+                <TabItem.Header>
+                    <Grid MinWidth="60" MinHeight="30">
+                        <TextBlock Text="ショートカット"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </TabItem.Header>
                 <local:InputGestureSettingControl x:Name="InputGesture"/>
             </TabItem>
-            <TabItem x:Name="MouseGestureTab" Header="ジェスチャー">
+            <TabItem x:Name="MouseGestureTab">
+                <TabItem.Header>
+                    <Grid MinWidth="60" MinHeight="30">
+                        <TextBlock Text="ジェスチャー"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </TabItem.Header>
                 <local:MouseGestureSettingControl x:Name="MouseGesture"/>
             </TabItem>
-            <TabItem x:Name="InputTouchTab" Header="タッチ">
+            <TabItem x:Name="InputTouchTab">
+                <TabItem.Header>
+                    <Grid MinWidth="60" MinHeight="30">
+                        <TextBlock Text="タッチ"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </TabItem.Header>
                 <local:InputTouchSettingControl x:Name="InputTouch"/>
             </TabItem>
-            <TabItem x:Name="ParameterTab" Header="パラメータ">
+            <TabItem x:Name="ParameterTab">
+                <TabItem.Header>
+                    <Grid MinWidth="60" MinHeight="30">
+                        <TextBlock Text="パラメーター"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                </TabItem.Header>
                 <local:CommandParameterControl x:Name="Parameter"/>
             </TabItem>
         </TabControl>

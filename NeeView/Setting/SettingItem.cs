@@ -263,7 +263,7 @@ namespace NeeView.Setting
                 };
                 title.Children.Add(tips);
             }
-            
+
             DockPanel.SetDock(title, Dock.Top);
             dockPanel.Children.Add(title);
 
@@ -306,6 +306,34 @@ namespace NeeView.Setting
         protected override UIElement CreateContentInner()
         {
             return new SettingItemControl(_element.Name, _element.Tips ?? this.Tips, _content ?? _element.TypeValue, this.IsStretch);
+        }
+    }
+
+    /// <summary>
+    /// フォント選択
+    /// </summary>
+    public class SettingItemPropertyFont : SettingItem
+    {
+        private PropertyMemberElement _element;
+
+        public SettingItemPropertyFont(PropertyMemberElement element) : base(element?.ToString())
+        {
+            Debug.Assert(element != null);
+            _element = element;
+        }
+
+        protected override UIElement CreateContentInner()
+        {
+            var comboBox = new ComboBox();
+            var currentLang = System.Windows.Markup.XmlLanguage.GetLanguage(System.Globalization.CultureInfo.CurrentCulture.IetfLanguageTag);
+            var fonts = Fonts.SystemFontFamilies.Select(v => v.FamilyNames.FirstOrDefault(o => o.Key == currentLang).Value ?? v.Source);
+            comboBox.ItemsSource = fonts;
+            comboBox.IsEditable = false;
+
+            var binding = new Binding(nameof(PropertyValue_String.Value)) { Source = _element.TypeValue as PropertyValue_String };
+            BindingOperations.SetBinding(comboBox, ComboBox.SelectedItemProperty, binding);
+
+            return new SettingItemControl(_element.Name, _element.Tips ?? this.Tips, comboBox, false);
         }
     }
 
@@ -373,7 +401,7 @@ namespace NeeView.Setting
             {
                 Content = _buttonContent ?? this.Header,
                 Command = _command,
-                Padding = new Thickness(20,10,20,10),
+                Padding = new Thickness(20, 10, 20, 10),
                 MinWidth = 150,
                 HorizontalAlignment = HorizontalAlignment.Left,
             };
@@ -413,7 +441,7 @@ namespace NeeView.Setting
                 Text = _text,
                 Background = Brushes.LightGray,
                 Padding = new Thickness(20),
-                Margin = new Thickness(0,20,0,20),
+                Margin = new Thickness(0, 20, 0, 20),
             };
             return textBlock;
         }

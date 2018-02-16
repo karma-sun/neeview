@@ -52,6 +52,11 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
         </Style>
+        
+        <Style TargetType="TextBlock" x:Key="FoolderNameWrapped" BasedOn="{StaticResource FolderName}">
+            <Setter Property="TextWrapping" Value="{DynamicResource PanelTextWrapping}"/>
+            <Setter Property="MinWidth" Value="256"/>
+        </Style>
 
         <Style TargetType="TextBlock" x:Key="FolderParameter">
             <Setter Property="Margin" Value="5,0"/>
@@ -86,7 +91,7 @@
                     <local:FolderListIcon DockPanel.Dock="Right" />
                     <local:FolderListThumbnail DataContext="{Binding ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                     <StackPanel VerticalAlignment="Center">
-                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="NoWrap" HorizontalAlignment="Left"/>
+                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FoolderNameWrapped}" HorizontalAlignment="Left"/>
                         <TextBlock x:Name="LastUpdateTime" Style="{StaticResource FolderParameter}" Text="{Binding ArchivePage.LastWriteTime, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}" />
                         <TextBlock x:Name="FileSize" Style="{StaticResource FolderParameter}" Text="{Binding ArchivePage.Length, Converter={StaticResource FileSizeToStringConverter}}" />
                     </StackPanel>
@@ -103,7 +108,7 @@
                     <StackPanel VerticalAlignment="Center">
                         <DockPanel>
                             <local:FolderIcon DockPanel.Dock="Left" />
-                            <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="NoWrap" HorizontalAlignment="Left"/>
+                            <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FoolderNameWrapped}" HorizontalAlignment="Left"/>
                         </DockPanel>
                         <TextBlock x:Name="LastUpdateTime" Style="{StaticResource FolderParameter}" Text="{Binding ArchivePage.LastWriteTime, StringFormat={}{0:yyyy/MM/dd HH:mm:ss}}" />
                         <TextBlock x:Name="FileSize" Style="{StaticResource FolderParameter}" Text="{Binding ArchivePage.Length, Converter={StaticResource FileSizeToStringConverter}}" />
@@ -118,7 +123,7 @@
                 <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
                     <DockPanel DockPanel.Dock="Bottom" Margin="2" >
                         <local:FolderListIcon DockPanel.Dock="Right"/>
-                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" Margin="0" />
+                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FoolderNameWrapped}" Margin="0" />
                     </DockPanel>
                     <local:FolderListBanner DataContext="{Binding ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                 </DockPanel>
@@ -132,7 +137,7 @@
                     <DockPanel DockPanel.Dock="Bottom" Margin="2" >
                         <local:FolderListIconMark DockPanel.Dock="Right"/>
                         <local:FolderIcon DockPanel.Dock="Left" />
-                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" />
+                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FoolderNameWrapped}" />
                     </DockPanel>
                     <local:FolderListBanner DataContext="{Binding ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                 </DockPanel>

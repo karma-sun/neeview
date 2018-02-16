@@ -60,8 +60,8 @@
                     <DockPanel>
                         <local:FolderListThumbnail DataContext="{Binding Value.ArchivePage.Thumbnail}" />
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock x:Name="Place" Style="{StaticResource FolderParameter}" Text="{Binding Value.ArchivePage.Entry.RootArchiverName}" HorizontalAlignment="Left" />
-                            <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="NoWrap"/>
+                            <TextBlock x:Name="Place" Style="{StaticResource FolderParameter}" Text="{Binding Value.ArchivePage.Content.Entry.RootArchiverName}" HorizontalAlignment="Left" />
+                            <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="{DynamicResource PanelTextWrapping}" MinWidth="256"/>
                         </StackPanel>
                     </DockPanel>
                 </DockPanel>
@@ -76,7 +76,7 @@
                 </i:Interaction.Behaviors>
                 <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
                     <DockPanel DockPanel.Dock="Bottom" Margin="2" >
-                        <TextBlock Style="{StaticResource FolderName}" TextAlignment="Left"/>
+                        <TextBlock Style="{StaticResource FolderName}" TextAlignment="Left" TextWrapping="{DynamicResource PanelTextWrapping}" MinWidth="256"/>
                     </DockPanel>
                     <local:FolderListBanner DataContext="{Binding Value.ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                 </DockPanel>
@@ -86,6 +86,7 @@
     </UserControl.Resources>
 
     <ListBox x:Name="ListBox" Focusable="False"
+                 FontFamily="{DynamicResource PanelFontFamily}" FontSize="{DynamicResource PanelFontSize}"
                  Background="Transparent"
                  Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
                  FocusVisualStyle="{StaticResource NVFocusVisual}"

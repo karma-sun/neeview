@@ -1,6 +1,10 @@
 ﻿using NeeView.Effects;
 using NeeView.Windows.Property;
 using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace NeeView.Setting
 {
@@ -26,12 +30,20 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                  new SettingItemSection("表示",
-                    new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsHidePanelInFullscreen))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.IsThumbnailPopup)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsHidePanelInFullscreen)))),
 
                 new SettingItemSection("操作",
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.IsLeftRightKeyEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.IsManipulationBoundaryFeedbackEnabled)))),
+
+                new SettingItemSection("詳細設定",
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.ThumbnailWidth))),
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.IsThumbnailPopup))),
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.BannerWidth))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.FontSize))),
+                    new SettingItemPropertyFont(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.FontFamily))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.IsTextWrapped)))),
+
             };
         }
     }

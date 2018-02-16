@@ -10,7 +10,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace NeeView
 {
@@ -63,6 +65,75 @@ namespace NeeView
 
         //
         private SidePanelGroup _right;
+
+
+        /// <summary>
+        /// FontSize property.
+        /// </summary>
+        private double _fontSize = 15.0;
+        [PropertyRange("リスト項目のフォントサイズ", 8, 24, TickFrequency = 1, IsEditable = true)]
+        public double FontSize
+        {
+            get { return _fontSize; }
+            set
+            {
+                if (_fontSize != value)
+                {
+                    _fontSize = Math.Max(1, value);
+                    App.Current.Resources["PanelFontSize"] = _fontSize;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        // システム標準フォント名
+        private static string _defaultFontName = SystemFonts.MessageFontFamily.ToString();
+
+        /// <summary>
+        /// FontFamily property.
+        /// </summary>
+        private string _fontFamily;
+        [PropertyMember("リスト項目のフォント")]
+        public string FontFamily
+        {
+            get { return _fontFamily ?? _defaultFontName; }
+            set
+            {
+                if (_fontFamily != value)
+                {
+                    try
+                    {
+                        _fontFamily = value == _defaultFontName ? null : value;
+                        var fontFamily = _fontFamily == null ? null : new FontFamily(_fontFamily);
+                        App.Current.Resources["PanelFontFamily"] = fontFamily;
+                        RaisePropertyChanged();
+                    }
+                    catch
+                    {
+                        // nop.
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// IsTextWrap property.
+        /// </summary>
+        private bool _isTextWrapped;
+        [PropertyMember("リスト項目のファイル名を折り返して表示する", Tips="コンテンツ表示、バナー表示の場合のみ有効です。")]
+        public bool IsTextWrapped
+        {
+            get { return _isTextWrapped; }
+            set
+            {
+                if (_isTextWrapped != value)
+                {
+                    _isTextWrapped = value;
+                    App.Current.Resources["PanelTextWrapping"] = _isTextWrapped ? TextWrapping.Wrap : TextWrapping.NoWrap;
+                    RaisePropertyChanged();
+                }
+            }
+        }
 
 
         /// <summary>
@@ -179,10 +250,26 @@ namespace NeeView
             public bool IsManipulationBoundaryFeedbackEnabled { get; set; }
 
             [DataMember]
+            public double FontSize { get; set; }
+
+            [DataMember]
+            public string FontFamily { get; set; }
+
+            [DataMember]
+            public bool IsTextWrapped { get; set; }
+
+            [DataMember]
             public SidePanelGroup.Memento Left { get; set; }
 
             [DataMember]
             public SidePanelGroup.Memento Right { get; set; }
+
+
+            [OnDeserializing]
+            public void OnDeserializing(StreamingContext context)
+            {
+                FontSize = 15.0;
+            }
         }
 
         /// <summary>
@@ -194,9 +281,12 @@ namespace NeeView
             var memento = new Memento();
 
             memento.IsSideBarVisible = this.IsSideBarVisible;
+            memento.IsManipulationBoundaryFeedbackEnabled = this.IsManipulationBoundaryFeedbackEnabled;
+            memento.FontSize = this.FontSize;
+            memento.FontFamily = this.FontFamily;
+            memento.IsTextWrapped = this.IsTextWrapped;
             memento.Left = Left.CreateMemento();
             memento.Right = Right.CreateMemento();
-            memento.IsManipulationBoundaryFeedbackEnabled = this.IsManipulationBoundaryFeedbackEnabled;
 
             return memento;
         }
@@ -218,6 +308,9 @@ namespace NeeView
             // memento反映
             this.IsSideBarVisible = memento.IsSideBarVisible;
             this.IsManipulationBoundaryFeedbackEnabled = memento.IsManipulationBoundaryFeedbackEnabled;
+            this.FontSize = memento.FontSize;
+            this.FontFamily = memento.FontFamily;
+            this.IsTextWrapped = memento.IsTextWrapped;
             _left.Restore(memento.Left, panels);
             _right.Restore(memento.Right, panels);
 

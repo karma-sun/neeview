@@ -37,7 +37,7 @@
                 <GroupBox Header="ショートカット初期設定" Margin="5">
                     <StackPanel Margin="5">
                         <ComboBox Margin="5" ItemsSource="{Binding InputScemeList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding InputSceme}"/>
-                        <TextBlock Margin="5" Text="{Binding InputScemeNote}"/>
+                        <TextBlock Margin="5" Text="{Binding InputScemeNote}" TextWrapping="Wrap"/>
                     </StackPanel>
                 </GroupBox>
             </DockPanel>

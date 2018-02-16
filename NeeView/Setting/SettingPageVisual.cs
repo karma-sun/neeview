@@ -119,10 +119,6 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsSelectedCenter))),
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsManipulationBoundaryFeedbackEnabled)))),
 
-                new SettingItemSection("パネルでの表示",
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.ThumbnailWidth))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.BannerWidth)))),
-
                 new SettingItemSection("キャッシュ",
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.IsCacheEnabled))),
                     new SettingItemButton("キャッシュ削除", "サムネイルキャッシュを削除する",  RemoveCache)),

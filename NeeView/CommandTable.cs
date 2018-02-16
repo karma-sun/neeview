@@ -412,7 +412,7 @@ namespace NeeView
                 element.Note = "画像の表示サイズを順番に切り替えます";
                 element.ShortCutKey = "LeftButton+WheelDown";
                 element.Execute = (s, e) => _models.ContentCanvas.StretchMode = _models.ContentCanvas.GetToggleStretchMode((ToggleStretchModeCommandParameter)element.Parameter);
-                element.ExecuteMessage = e => _models.ContentCanvas.GetToggleStretchMode((ToggleStretchModeCommandParameter)element.Parameter).ToDispString();
+                element.ExecuteMessage = e => _models.ContentCanvas.GetToggleStretchMode((ToggleStretchModeCommandParameter)element.Parameter).ToAliasName();
                 element.DefaultParameter = new ToggleStretchModeCommandParameter() { IsLoop = true };
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleStretchMode] = element;
@@ -425,7 +425,7 @@ namespace NeeView
                 element.Note = "画像の表示サイズを順番に切り替えます(逆順)";
                 element.ShortCutKey = "LeftButton+WheelUp";
                 element.Execute = (s, e) => _models.ContentCanvas.StretchMode = _models.ContentCanvas.GetToggleStretchModeReverse((ToggleStretchModeCommandParameter)element.Parameter);
-                element.ExecuteMessage = e => _models.ContentCanvas.GetToggleStretchModeReverse((ToggleStretchModeCommandParameter)element.Parameter).ToDispString();
+                element.ExecuteMessage = e => _models.ContentCanvas.GetToggleStretchModeReverse((ToggleStretchModeCommandParameter)element.Parameter).ToAliasName();
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ToggleStretchMode };
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleStretchModeReverse] = element;
@@ -541,7 +541,7 @@ namespace NeeView
                 element.Text = "背景を切り替える";
                 element.Note = "背景を順番に切り替えます";
                 element.Execute = (s, e) => _models.ContentCanvasBrush.Background = _models.ContentCanvasBrush.Background.GetToggle();
-                element.ExecuteMessage = e => _models.ContentCanvasBrush.Background.GetToggle().ToDispString();
+                element.ExecuteMessage = e => _models.ContentCanvasBrush.Background.GetToggle().ToAliasName();
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleBackground] = element;
             }
@@ -1330,7 +1330,7 @@ namespace NeeView
                 element.Text = "ブックの並び順を切り替える";
                 element.Note = "ブックの並び順を順番に切り替えます";
                 element.Execute = (s, e) => _models.FolderList.ToggleFolderOrder();
-                element.ExecuteMessage = e => _models.FolderList.GetFolderOrder().GetToggle().ToDispString();
+                element.ExecuteMessage = e => _models.FolderList.GetFolderOrder().GetToggle().ToAliasName();
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleFolderOrder] = element;
             }
@@ -1387,7 +1387,7 @@ namespace NeeView
                 element.Note = "1ページ表示/2ページ表示を切り替えます";
                 element.CanExecute = () => true;
                 element.Execute = (s, e) => _models.BookSetting.TogglePageMode();
-                element.ExecuteMessage = e => _models.BookSetting.BookMemento.PageMode.GetToggle().ToDispString();
+                element.ExecuteMessage = e => _models.BookSetting.BookMemento.PageMode.GetToggle().ToAliasName();
                 element.IsShowMessage = true;
                 _elements[CommandType.TogglePageMode] = element;
             }
@@ -1425,7 +1425,7 @@ namespace NeeView
                 element.Note = "右開き、左開きを切り替えます";
                 element.CanExecute = () => true;
                 element.Execute = (s, e) => _models.BookSetting.ToggleBookReadOrder();
-                element.ExecuteMessage = e => _models.BookSetting.BookMemento.BookReadOrder.GetToggle().ToDispString();
+                element.ExecuteMessage = e => _models.BookSetting.BookMemento.BookReadOrder.GetToggle().ToAliasName();
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleBookReadOrder] = element;
             }
@@ -1527,7 +1527,7 @@ namespace NeeView
                 element.Note = "ページの並び順を順番に切り替えます";
                 element.CanExecute = () => true;
                 element.Execute = (s, e) => _models.BookSetting.ToggleSortMode();
-                element.ExecuteMessage = e => _models.BookSetting.BookMemento.SortMode.GetToggle().ToDispString();
+                element.ExecuteMessage = e => _models.BookSetting.BookMemento.SortMode.GetToggle().ToAliasName();
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleSortMode] = element;
             }

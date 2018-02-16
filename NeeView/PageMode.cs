@@ -28,18 +28,6 @@ namespace NeeView
             return (PageMode)(((int)mode + 1) % Enum.GetNames(typeof(PageMode)).Length);
         }
 
-        //
-        public static Dictionary<PageMode, string> PageModeList { get; } = new Dictionary<PageMode, string>
-        {
-            [PageMode.SinglePage] = "1ページ表示",
-            [PageMode.WidePage] = "2ページ表示",
-        };
-
-        public static string ToDispString(this PageMode mode)
-        {
-            return PageModeList[mode];
-        }
-
         public static int Size(this PageMode mode)
         {
             return mode == PageMode.WidePage ? 2 : 1;

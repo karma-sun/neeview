@@ -20,48 +20,46 @@ namespace NeeView.Effects
     //
     public enum EffectType
     {
+        [AliasName("なし")]
         None,
+
+        [AliasName("レベル補正")]
         Level,
+
+        [AliasName("色相、彩度、明度")]
         Hsv,
+
+        [AliasName("色選択")]
         ColorSelect,
+
+        [AliasName("ぼかし")]
         Blur,
+
+        [AliasName("ブルーム")]
         Bloom,
+
+        [AliasName("モノクローム")]
         Monochrome,
+
+        [AliasName("カラートーン")]
         ColorTone,
+
+        [AliasName("シャープ")]
         Sharpen,
+
+        [AliasName("エンボス")]
         Embossed,
+
+        [AliasName("ピクセレート")]
         Pixelate,
+
+        [AliasName("拡大鏡")]
         Magnify,
+
+        [AliasName("波紋")]
         Ripple,
+
+        [AliasName("渦巻き")]
         Swirl,
-    }
-
-    public static class EffectTypeExtensions
-    {
-        // 有効なエフェクトタイプ
-        public static Dictionary<EffectType, string> EffectTypeNames { get; private set; } = new Dictionary<EffectType, string>
-        {
-            ////[EffectType.None] = "なし (標準)",
-            [EffectType.Level] = "レベル補正",
-            [EffectType.Hsv] = "色相、彩度、明度",
-            [EffectType.ColorSelect] = "色選択",
-            [EffectType.Blur] = "ぼかし",
-            [EffectType.Bloom] = "ブルーム",
-            [EffectType.Monochrome] = "モノクローム",
-            [EffectType.ColorTone] = "カラートーン",
-            [EffectType.Sharpen] = "シャープ",
-            [EffectType.Embossed] = "エンボス",
-            [EffectType.Pixelate] = "ピクセレート",
-            [EffectType.Magnify] = "拡大鏡",
-            [EffectType.Ripple] = "波紋",
-            [EffectType.Swirl] = "渦巻き",
-        };
-
-
-        public static string ToDispString(this EffectType self)
-        {
-            EffectTypeNames.TryGetValue(self, out string name);
-            return name ?? self.ToString();
-        }
     }
 }

@@ -22,13 +22,7 @@ namespace NeeView
     /// </summary>
     public class PageListViewModel : BindableBase
     {
-
-        public Dictionary<PageNameFormat, string> FormatList { get; } = new Dictionary<PageNameFormat, string>
-        {
-            [PageNameFormat.None] = "そのまま",
-            [PageNameFormat.Smart] = "標準表示",
-            [PageNameFormat.NameOnly] = "名前のみ",
-        };
+        public Dictionary<PageNameFormat, string> FormatList { get; } = AliasNameExtensions.GetAliasNameDictionary<PageNameFormat>();
 
         #region Property: Format
         private PageNameFormat _format = PageNameFormat.Smart;
@@ -39,8 +33,7 @@ namespace NeeView
         }
         #endregion
 
-
-        public Dictionary<PageSortMode, string> PageSortModeList => PageSortModeExtension.PageSortModeList;
+        public Dictionary<PageSortMode, string> PageSortModeList { get; } =  AliasNameExtensions.GetAliasNameDictionary<PageSortMode>(); 
 
         #region Property: Title
         private string _title;

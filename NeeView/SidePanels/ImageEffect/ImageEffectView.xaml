@@ -11,7 +11,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
-             xmlns:le="clr-namespace:NeeView.Effects"
              xmlns:nvp="clr-namespace:NeeView.Windows.Property"
              xmlns:nvc="clr-namespace:NeeView.Windows.Controls"
              mc:Ignorable="d" 
@@ -177,7 +176,7 @@
                 <StackPanel  Visibility="{Binding Model.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <DockPanel Margin="0,5">
                         <ComboBox DockPanel.Dock="Right" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}"  Background="{DynamicResource NVBackground}"
-                              ItemsSource="{x:Static le:EffectTypeExtensions.EffectTypeNames}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.EffectType}"/>
+                              ItemsSource="{Binding EffectTypeList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.EffectType}"/>
                         <TextBlock Text="種類" VerticalAlignment="Center" />
                     </DockPanel>
                     <Grid Margin="0,10">

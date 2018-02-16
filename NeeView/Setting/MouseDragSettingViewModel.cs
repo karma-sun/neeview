@@ -89,7 +89,7 @@ namespace NeeView.Setting
 
                 if (token.Conflicts.Count > 0)
                 {
-                    token.OverlapsText = string.Join("", token.Conflicts.Select(i => $"「{i.ToLabel()}」")) + "と競合しています";
+                    token.OverlapsText = string.Join("", token.Conflicts.Select(i => $"「{i.ToAliasName()}」")) + "と競合しています";
                 }
             }
 

@@ -18,39 +18,39 @@ namespace NeeView
     // ドラッグアクションの種類
     public enum DragActionType
     {
+        [AliasName("なし")]
         None,
+
+        [AliasName("ジェスチャー")]
         Gesture,
+
+        [AliasName("移動")]
         Move,
+
+        [AliasName("移動(スケール依存)")]
         MoveScale,
+
+        [AliasName("回転")]
         Angle,
+
+        [AliasName("拡大縮小")]
         Scale,
+
+        [AliasName("移動(スケール依存)")]
         ScaleSlider,
+
+        [AliasName("左右反転")]
         FlipHorizontal,
+
+        [AliasName("上下反転")]
         FlipVertical,
+
+        [AliasName("ウィンドウ移動")]
         WindowMove,
     }
 
     public static class DragActionTypeExtension
     {
-        public static Dictionary<DragActionType, string> LabelList { get; } = new Dictionary<DragActionType, string>
-        {
-            [DragActionType.None] = "なし",
-            [DragActionType.Gesture] = "ジェスチャー",
-            [DragActionType.Move] = "移動",
-            [DragActionType.MoveScale] = "移動(スケール依存)",
-            [DragActionType.Angle] = "回転",
-            [DragActionType.Scale] = "拡大縮小",
-            [DragActionType.ScaleSlider] = "拡大縮小(スライド式)",
-            [DragActionType.FlipHorizontal] = "左右反転",
-            [DragActionType.FlipVertical] = "上下反転",
-            [DragActionType.WindowMove] = "ウィンドウ移動",
-        };
-
-        public static string ToLabel(this DragActionType action)
-        {
-            return LabelList[action];
-        }
-
         public static Dictionary<DragActionType, string> TipsList = new Dictionary<DragActionType, string>()
         {
             [DragActionType.None] = null,

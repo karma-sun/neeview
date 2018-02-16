@@ -16,9 +16,16 @@ namespace NeeView
     /// </summary>
     public enum FolderOrder
     {
+        [AliasName("ブック列は名前順")]
         FileName,
+
+        [AliasName("ブック列は日付順")]
         TimeStamp,
+
+        [AliasName("ブック列はサイズ順")]
         Size,
+
+        [AliasName("ブック列はシャッフル")]
         Random,
     }
 
@@ -27,19 +34,6 @@ namespace NeeView
         public static FolderOrder GetToggle(this FolderOrder mode)
         {
             return (FolderOrder)(((int)mode + 1) % Enum.GetNames(typeof(FolderOrder)).Length);
-        }
-
-        public static string ToDispString(this FolderOrder mode)
-        {
-            switch (mode)
-            {
-                case FolderOrder.FileName: return "ブック列は名前順";
-                case FolderOrder.TimeStamp: return "ブック列は日付順";
-                case FolderOrder.Size: return "ブック列はサイズ順";
-                case FolderOrder.Random: return "ブック列はシャッフル";
-                default:
-                    throw new NotSupportedException();
-            }
         }
 
         public static Dictionary<FolderOrder, string> FolderOrderList { get; } = new Dictionary<FolderOrder, string>

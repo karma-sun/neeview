@@ -20,28 +20,7 @@ namespace NeeView
                 .FirstOrDefault()?.AliasName ?? value.ToString();
         }
 
-        public static Dictionary<PreLoadMode, string> AliasNameDictionary()
-        {
-            return Enum.GetValues(typeof(PreLoadMode))
-                .Cast<PreLoadMode>()
-                .ToDictionary(e => e, e => e.ToAliasName());
-        }
-
-        public static Dictionary<T, string> AliasNameDictionary<T>()
-            where T : struct
-        {
-            var type = typeof(T);
-
-            return Enum.GetValues(type)
-                .Cast<T>()
-                .ToDictionary(e => e, e => type
-                    .GetField(e.ToString())
-                    .GetCustomAttributes(typeof(AliasNameAttribute), false)
-                    .Cast<AliasNameAttribute>()
-                    .FirstOrDefault()?.AliasName ?? e.ToString());
-        }
-
-        public static Dictionary<Enum, string> AliasNameList(this Type type)
+        public static Dictionary<Enum, string> AliasNameDictionary(this Type type)
         {
             if (!type.IsEnum) throw new ArgumentException("not enum", nameof(type));
 
@@ -50,5 +29,7 @@ namespace NeeView
                 .ToDictionary(e => e, e => e.ToAliasName());
         }
     }
+
+
 }
 

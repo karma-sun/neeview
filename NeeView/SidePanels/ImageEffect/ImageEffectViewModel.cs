@@ -6,6 +6,7 @@
 using NeeLaboratory.ComponentModel;
 using NeeView.Effects;
 using NeeView.Windows.Property;
+using System.Collections.Generic;
 using System.ComponentModel;
 
 namespace NeeView
@@ -58,6 +59,8 @@ namespace NeeView
         //
         public PropertyDocument CustomSizeProfile { get; set; }
 
+        //
+        public Dictionary<EffectType, string> EffectTypeList { get; } = AliasNameExtensions.GetAliasNameDictionary<EffectType>();
 
         // TODO: これモデルじゃね？
         public void ResetValue()

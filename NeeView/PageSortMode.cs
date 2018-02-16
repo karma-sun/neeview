@@ -36,22 +36,5 @@ namespace NeeView
         {
             return (PageSortMode)(((int)mode + 1) % Enum.GetNames(typeof(PageSortMode)).Length);
         }
-
-        //
-        public static Dictionary<PageSortMode, string> PageSortModeList { get; } = new Dictionary<PageSortMode, string>
-        {
-            [PageSortMode.FileName] = "ファイル名昇順",
-            [PageSortMode.FileNameDescending] = "ファイル名降順",
-            [PageSortMode.TimeStamp] = "日付昇順",
-            [PageSortMode.TimeStampDescending] = "日付降順",
-            [PageSortMode.Random] = "シャッフル",
-        };
-
-        //
-        public static string ToDispString(this PageSortMode mode)
-        {
-            return PageSortModeList[mode];
-        }
-
     }
 }

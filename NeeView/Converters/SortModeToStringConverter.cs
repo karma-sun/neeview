@@ -15,7 +15,7 @@ namespace NeeView
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             PageSortMode mode = (PageSortMode)value;
-            return mode.ToDispString();
+            return mode.ToAliasName();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

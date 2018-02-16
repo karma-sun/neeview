@@ -14,13 +14,26 @@ namespace NeeView
     // 画像のストレッチモード
     public enum PageStretchMode
     {
-        None, // もとの大きさ
-        Inside,  // もとの大きさ、大きい場合はウィンドウサイズに合わせる
-        Outside, // もとの大きさ、小さい場合はウィンドウサイズに合わせる
-        Uniform, // ウィンドウサイズに合わせる
-        UniformToFill, // ウィンドウいっぱいに広げる
-        UniformToSize, // 面積をウィンドウに合わせる
-        UniformToVertical, // 高さをウィンドウに合わせる
+        [AliasName(PageStretchModeExtension.PageStretchMode_None)]
+        None,
+
+        [AliasName(PageStretchModeExtension.PageStretchMode_Inside)]
+        Inside,
+
+        [AliasName(PageStretchModeExtension.PageStretchMode_Outside)]
+        Outside,
+
+        [AliasName(PageStretchModeExtension.PageStretchMode_Uniform)]
+        Uniform,
+
+        [AliasName(PageStretchModeExtension.PageStretchMode_UniformToFill)]
+        UniformToFill,
+
+        [AliasName(PageStretchModeExtension.PageStretchMode_UniformToSize)]
+        UniformToSize,
+
+        [AliasName(PageStretchModeExtension.PageStretchMode_UniformToVertical)]
+        UniformToVertical,
     }
 
     public static class PageStretchModeExtension
@@ -32,23 +45,5 @@ namespace NeeView
         public const string PageStretchMode_UniformToFill = "ウィンドウいっぱいに広げる";
         public const string PageStretchMode_UniformToSize = "面積をウィンドウに合わせる";
         public const string PageStretchMode_UniformToVertical = "高さをウィンドウに合わせる";
-
-        // 表示名
-        private static Dictionary<PageStretchMode, string> s_dispStrings = new Dictionary<PageStretchMode, string>
-        {
-            [PageStretchMode.None] = PageStretchMode_None,
-            [PageStretchMode.Inside] = PageStretchMode_Inside,
-            [PageStretchMode.Outside] = PageStretchMode_Outside,
-            [PageStretchMode.Uniform] = PageStretchMode_Uniform,
-            [PageStretchMode.UniformToFill] = PageStretchMode_UniformToFill,
-            [PageStretchMode.UniformToSize] = PageStretchMode_UniformToSize,
-            [PageStretchMode.UniformToVertical] = PageStretchMode_UniformToVertical,
-        };
-
-        // 表示名取得
-        public static string ToDispString(this PageStretchMode mode)
-        {
-            return s_dispStrings[mode];
-        }
     }
 }

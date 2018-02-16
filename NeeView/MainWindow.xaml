@@ -256,7 +256,7 @@
                                         <!-- caption -->
                                         <TextBlock x:Name="PageCaption" VerticalAlignment="Top" HorizontalAlignment="Left"
                                                    Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
-                                                   Text="{Binding WindowTitle.Title}" FontSize="16" Foreground="White"
+                                                   Text="{Binding WindowTitle.Title}" Foreground="White"
                                                    Padding="20,5"
                                                    Background="#88000000">
                                             <TextBlock.Style>
@@ -282,7 +282,7 @@
                                                 Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
                                                 Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
                                                 Background="#88000000">
-                                                <TextBlock Padding="20,5"  FontSize="16" Foreground="White" Text="{Binding ScaleX, StringFormat={}×{0:.0}}"/>
+                                                <TextBlock Padding="20,5" Foreground="White" Text="{Binding ScaleX, StringFormat={}×{0:.0}}"/>
                                             </Grid>
                                         </Grid>
 

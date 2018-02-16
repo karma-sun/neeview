@@ -17,7 +17,6 @@
              d:DesignHeight="800" d:DesignWidth="300" MinWidth="200" 
              Background="{DynamicResource NVBackground}"
              Foreground="{DynamicResource NVForeground}"
-             FontSize="15"
              >
 
     <UserControl.Resources>
@@ -62,7 +61,7 @@
             <StackPanel Margin="5,10,0,10" >
 
                 <StackPanel Margin="0,5" Orientation="Horizontal">
-                    <TextBlock FontSize="15" Text="エフェクト" Foreground="Gray" VerticalAlignment="Center" Margin="2,0"/>
+                    <TextBlock Text="エフェクト" Foreground="Gray" VerticalAlignment="Center" Margin="2,0"/>
                 </StackPanel>
 
                 <Separator Background="#4888" Margin="0,10"/>
@@ -86,7 +85,7 @@
                             </Style>
                         </Grid.Resources>
 
-                        <nvp:PropertyInspector Document="{Binding CustomSizeProfile}" FontSize="15" IsResetButtonVisible="False" >
+                        <nvp:PropertyInspector Document="{Binding CustomSizeProfile}" IsResetButtonVisible="False" >
                             <nvp:PropertyInspector.Style>
                                 <Style TargetType="nvp:PropertyInspector">
                                     <Style.Triggers>
@@ -147,7 +146,7 @@
                             </Style>
                         </Grid.Resources>
 
-                        <nvp:PropertyInspector x:Name="inspectorF" Document="{Binding UnsharpMaskProfile}" FontSize="15" IsResetButtonVisible="False" >
+                        <nvp:PropertyInspector x:Name="inspectorF" Document="{Binding UnsharpMaskProfile}" IsResetButtonVisible="False" >
                             <nvp:PropertyInspector.Style>
                                 <Style TargetType="nvp:PropertyInspector">
                                     <Style.Triggers>
@@ -190,7 +189,7 @@
                                 <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture"/>
                             </Style>
                         </Grid.Resources>
-                        <nvp:PropertyInspector x:Name="inspector" Document="{Binding Model.EffectParameters}" FontSize="15"
+                        <nvp:PropertyInspector x:Name="inspector" Document="{Binding Model.EffectParameters}"
                                        IsResetButtonVisible="True"
                                        IsHsvMode="{Binding Model.IsHsvMode}">
                             <nvp:PropertyInspector.Style>

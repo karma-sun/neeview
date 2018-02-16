@@ -13,7 +13,7 @@
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
         Foreground="#222"
-        Style="{StaticResource ToolDialogStyle}"
+        Style="{StaticResource ToolWindowStyle}"
         Title="このアプリについて" Height="280" Width="440" ResizeMode="NoResize">
     <Window.Resources>
 
@@ -60,7 +60,7 @@
                     <Image DockPanel.Dock="Left" Margin="40,0"  Width="64" Height="64" Source="{Binding Icon}" UseLayoutRounding="True" VerticalAlignment="Center"/>
                     <StackPanel DockPanel.Dock="Top" Margin="0,0,10,0" VerticalAlignment="Center">
                         <TextBlock Text="{Binding ApplicationName}" FontSize="32" FontFamily="Trebuchet MS"/>
-                        <TextBlock Text="{Binding Checker.CurrentVersion, Converter={StaticResource VersionToStringConverter}}" FontSize="15" />
+                        <TextBlock Text="{Binding Checker.CurrentVersion, Converter={StaticResource VersionToStringConverter}}" />
                     </StackPanel>
                 </DockPanel>
                 <StackPanel HorizontalAlignment="Center" Visibility="{Binding IsCheckerEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,5,0,0" >

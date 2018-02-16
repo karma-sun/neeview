@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView.Setting"
         mc:Ignorable="d"
-        Style="{StaticResource ToolDialogStyle}"
+        Style="{StaticResource ToolWindowStyle}"
         UseLayoutRounding="True"
         Title="AddParameterDialog" Height="164" Width="400" WindowStyle="ToolWindow">
     <DockPanel Margin="5">

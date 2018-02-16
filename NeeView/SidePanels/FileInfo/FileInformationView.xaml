@@ -21,10 +21,6 @@
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
-        <Style TargetType="TextBox">
-            <Setter Property="FontSize" Value="15"/>
-        </Style>
-
         <Style x:Key="BlackStyle" TargetType="UserControl">
             <Setter Property="Background" Value="#FF101010"/>
             <Setter Property="Foreground" Value="White"/>
@@ -77,7 +73,7 @@
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
-                    <TextBlock Margin="8,5" FontSize="15" Text="フォルダーを開く" Foreground="{StaticResource NVButtonForeground}"/>
+                    <TextBlock Margin="8,5" Text="フォルダーを開く" Foreground="{StaticResource NVButtonForeground}"/>
                 </Button>
 
                 <StackPanel x:Name="GroupLoader" Visibility="{Binding LoaderVisibility}">

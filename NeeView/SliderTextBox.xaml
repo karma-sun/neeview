@@ -12,7 +12,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
-             FontFamily="Arial" FontSize="14"
+             FontFamily="Arial"
              d:DesignHeight="300" d:DesignWidth="300">
 
     <Grid x:Name="Root" MouseLeftButtonDown="SliderTextBox_MouseLeftButtonDown" IsHitTestVisible="True">

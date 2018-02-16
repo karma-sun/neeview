@@ -12,6 +12,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
+        Style="{StaticResource ToolWindowStyle}" 
         UseLayoutRounding="True"
         Title="MessageDialog" ResizeMode="NoResize" SizeToContent="Height" Width="600" WindowStyle="ToolWindow">
 

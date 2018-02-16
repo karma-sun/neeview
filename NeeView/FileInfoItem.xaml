@@ -19,11 +19,9 @@
         <Style x:Key="Title" TargetType="TextBlock">
             <Setter Property="Margin" Value="2,0,0,0"/>
             <Setter Property="Foreground" Value="Gray"/>
-            <Setter Property="FontSize" Value="15" />
         </Style>
 
         <Style x:Key="Body" TargetType="TextBox">
-            <Setter Property="FontSize" Value="15" />
             <Setter Property="Background" Value="Transparent"/>
             <EventSetter Event="PreviewMouseLeftButtonDown" Handler="TextBox_PreviewMouseLeftButtonDown"/>
             <EventSetter Event="GotFocus" Handler="TextBox_GotFocus"/>
@@ -34,7 +32,6 @@
             </Style.Triggers>
         </Style>
         <Style x:Key="BodyEmpty" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="15" />
             <Setter Property="Margin" Value="2,0,0,0"/>
             <Setter Property="Visibility" Value="Collapsed"/>
             <Style.Triggers>

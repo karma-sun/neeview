@@ -12,7 +12,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView.Setting"
         mc:Ignorable="d"
-        Style="{StaticResource ToolDialogStyle}"
+        Style="{StaticResource ToolWindowStyle}"
         Title="ドラッグ操作設定" Height="280" Width="500">
 
     <Grid>

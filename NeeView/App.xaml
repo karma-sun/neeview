@@ -23,11 +23,11 @@
                     <system:Double x:Key="InfoTextFontSize">24.0</system:Double>
 
                     <!-- Banner Size -->
-                    <system:Double x:Key="BannerWidth">200.0</system:Double>
-                    <system:Double x:Key="BannerHeight">50.0</system:Double>
+                    <system:Double x:Key="BannerWidth">192.0</system:Double>
+                    <system:Double x:Key="BannerHeight">48.0</system:Double>
 
-                    <system:Double x:Key="ThumbnailWidth">50</system:Double>
-                    <system:Double x:Key="ThumbnailHeight">60</system:Double>
+                    <system:Double x:Key="ThumbnailWidth">48</system:Double>
+                    <system:Double x:Key="ThumbnailHeight">58</system:Double>
 
                     <!-- Panel ListBox ScrollUnit -->
                     <ScrollUnit x:Key="PanelScrollUnit">Pixel</ScrollUnit>
@@ -35,7 +35,10 @@
 
                     <!-- Window Style -->
                     <Style x:Key="DefaultWindowStyle" TargetType="Window">
-                        <!-- <Setter Property="FontFamily" Value="Meiryo"/> -->
+                        <!--
+                        <Setter Property="FontFamily" Value="Meiryo"/>
+                        -->
+                        <Setter Property="FontSize" Value="15"/>
                     </Style>
 
                     <!-- Tool Window Style -->
@@ -43,13 +46,12 @@
                         <Setter Property="ShowInTaskbar" Value="False"/>
                     </Style>
 
-                    <!-- Tool Dialog Style -->
+                    <!-- Tool Dialog Style : 未使用 -->
                     <Style x:Key="ToolDialogStyle" TargetType="Window" BasedOn="{StaticResource DefaultWindowStyle}">
                         <Setter Property="ShowInTaskbar" Value="False"/>
                         <!--
                         <Setter Property="Icon" Value="/NeeView;component/Resources/1x1.png"/>
                         -->
-                        <Setter Property="FontSize" Value="15"/>
                     </Style>
 
                     <!-- CheckerBrush -->

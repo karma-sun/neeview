@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:NeeView.Setting"
         xmlns:nv="clr-namespace:NeeView"
         mc:Ignorable="d"
-        Style="{StaticResource ToolDialogStyle}"
+        Style="{StaticResource ToolWindowStyle}"
         UseLayoutRounding="True"
         FontSize="14"
         Title="EditCommandWindow" Height="480" Width="640">

@@ -17,18 +17,12 @@
 
     <UserControl.Resources>
 
-        <!-- Default TextBlock -->
-        <Style TargetType="TextBlock">
-            <Setter Property="FontSize" Value="15"/>
-        </Style>
-
         <RoutedCommand x:Key="xRemoveDommand" />
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
         <Style x:Key="ItemStyle" TargetType="TextBlock">
             <Setter Property="Margin" Value="5,0"/>
-            <Setter Property="FontSize" Value="15"/>
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Center"/>

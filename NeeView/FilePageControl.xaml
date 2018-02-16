@@ -17,7 +17,7 @@
                 <Ellipse Width="100" Height="100" Fill="Gray" />
                 <TextBlock x:Name="IconTextBlock" Text="2" FontFamily="Wingdings" FontSize="64" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FFFFFFFF"/>
             </Grid>
-            <TextBlock x:Name="FileNameTextBlock" Text="FileName" FontSize="16" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="0,8"
+            <TextBlock x:Name="FileNameTextBlock" Text="FileName" HorizontalAlignment="Center" TextWrapping="Wrap" Margin="0,8"
                        Foreground="{Binding DefaultBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilePageControl}}}"/>
             <TextBlock x:Name="MessageTextBlock" Text="Message Message Message" HorizontalAlignment="Center" TextWrapping="Wrap"
                        Foreground="{Binding DefaultBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FilePageControl}}}"/>

@@ -12,7 +12,6 @@
         xmlns:local="clr-namespace:NeeView"
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}"
-        FontSize="15"
         Background="{DynamicResource NVBackground}"
         Foreground="{DynamicResource NVForeground}"
         Title="印刷" Height="600" Width="800" ResizeMode="CanResizeWithGrip">

@@ -40,7 +40,6 @@ namespace NeeView.Setting
         public CommandType Command { get; set; }
 
         /// <summary>
-        /// Property: GestureTokens
         /// ショートカットテキストのリスト
         /// </summary>
         private ObservableCollection<GestureToken> _gestureTokens;

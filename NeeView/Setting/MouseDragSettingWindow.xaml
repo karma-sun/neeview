@@ -13,15 +13,14 @@
         xmlns:local="clr-namespace:NeeView.Setting"
         mc:Ignorable="d"
         Style="{StaticResource ToolDialogStyle}"
-        Title="{Binding Header, StringFormat={}ドラッグ操作設定 - {0}}" Height="250" Width="500">
+        Title="ドラッグ操作設定" Height="280" Width="500">
 
     <Grid>
-        <DockPanel Margin="10,10,10,43">
+        <DockPanel Margin="10,10,10,55">
             <DockPanel DockPanel.Dock="Bottom">
                 <TextBlock Text="新しい設定" VerticalAlignment="Center" MinWidth="90"/>
 
-                <Button DockPanel.Dock="Right" Width="20" VerticalAlignment="Center" Margin="2" Command="{Binding ClearCommand}">
-                    <TextBlock Text="✕" VerticalAlignment="Center"/>
+                <Button DockPanel.Dock="Right" VerticalAlignment="Center" Margin="2"  Content="クリア" Padding="10,2" Command="{Binding ClearCommand}">
                 </Button>
 
                 <DockPanel ToolTip="{Binding DragToken.OverlapsText}">

@@ -175,7 +175,7 @@ namespace NeeView
     public class StretchModeCommandParameter : CommandParameter
     {
         // 属性に説明文
-        [PropertyMember("オリジナルサイズとの切り替え", Tips = "既に指定のスケールモードの場合、オリジナルサイズにする")]
+        [PropertyMember("オリジナルサイズとの切り替え", Tips = "既に指定のスケールモードの場合はオリジナルサイズにします。")]
         public bool IsToggle { get; set; }
     }
 
@@ -187,7 +187,7 @@ namespace NeeView
     {
         // 属性に説明文
         [DataMember]
-        [PropertyRange("移動量(%)", 0, 100, Tips = "一度の操作でスクロールするする画面に対する割合(0-100)")]
+        [PropertyRange("移動量(%)", 0, 100, Tips = "一度の操作でスクロールするする画面に対する割合(0-100)です。")]
         public int Scroll
         {
             get { return _scroll; }
@@ -196,7 +196,7 @@ namespace NeeView
         private int _scroll;
 
         [DataMember]
-        [PropertyMember("垂直方向へのスクロール許可", Tips = "軸方向にスクロールできない場合は軸に垂直な方向へスクロースを行う")]
+        [PropertyMember("垂直方向へのスクロール許可", Tips = "軸方向にスクロールできない場合は軸に垂直な方向へスクロースを行います。")]
         public bool AllowCrossScroll { get; set; } = true;
 
         [OnDeserializing]
@@ -213,7 +213,7 @@ namespace NeeView
     public class ViewScaleCommandParameter : CommandParameter
     {
         // 属性に説明文
-        [PropertyRange("拡大率(%)", 0, 100, Tips = "一度の操作で拡大する割合(0-100)")]
+        [PropertyRange("拡大率(%)", 0, 100, Tips = "一度の操作で拡大する割合です。(0-100)")]
         public int Scale
         {
             get { return _scale; }
@@ -228,7 +228,7 @@ namespace NeeView
     public class ViewRotateCommandParameter : CommandParameter
     {
         // 属性に説明文
-        [PropertyRange("回転角度", 0, 180, Tips = "一度の操作で回転する角度(0-180)")]
+        [PropertyRange("回転角度", 0, 180, Tips = "一度の操作で回転する角度です。(0-180)")]
         public int Angle
         {
             get { return _angle; }
@@ -237,7 +237,7 @@ namespace NeeView
         private int _angle;
 
         // 属性に説明文
-        [PropertyMember("表示サイズ適用", Tips = "回転後に表示サイズを再適用する")]
+        [PropertyMember("表示サイズ適用", Tips = "回転後に表示サイズを再適用します。")]
         public bool IsStretch { get; set; }
     }
 
@@ -261,7 +261,7 @@ namespace NeeView
     public class ScrollPageCommandParameter : CommandParameter
     {
         [DataMember]
-        [PropertyMember("N字スクロール", Tips = "縦スクロール可能な場合、縦方向にもスクロールします。\n縦横スクロールが可能な場合、N字を描くようにスクロールします")]
+        [PropertyMember("N字スクロール", Tips = "縦スクロール可能な場合、縦方向にもスクロールします。縦横スクロールが可能な場合、N字を描くようにスクロールします。")]
         public bool IsNScroll { get; set; }
 
         [DataMember]
@@ -269,11 +269,11 @@ namespace NeeView
         public bool IsAnimation { get; set; }
 
         [DataMember]
-        [PropertyMember("最小スクロール距離", Tips = "このピクセル幅以上スクロールできる場合のみスクロールします")]
+        [PropertyMember("最小スクロール距離", Tips = "このピクセル幅以上スクロールできる場合のみスクロールします。")]
         public double Margin { get; set; }
 
         [DataMember]
-        [PropertyRange("移動量(%)", 0, 100, Tips = "一度の操作でスクロールするする画面に対する割合(0-100)")]
+        [PropertyRange("移動量(%)", 0, 100, Tips = "一度の操作でスクロールするする画面に対する割合です。(0-100)")]
         public int Scroll
         {
             get { return _scroll; }
@@ -294,7 +294,7 @@ namespace NeeView
     [DataContract]
     public class AutoRotateCommandParameter : CommandParameter
     {
-        [PropertyMember("回転方向", Tips ="自動回転する方向")]
+        [PropertyMember("回転方向", Tips ="自動回転する方向です。")]
         public AutoRotateType AutoRotateType { get; set; }
 
         // 保存用

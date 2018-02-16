@@ -100,11 +100,11 @@ namespace NeeView
         #region Properties
 
         //
-        [PropertyMember("タッチ操作ピンチ最小判定距離", Tips = "タッチ操作での回転、拡大縮小と判定される最小の２タッチ間の距離です")]
+        [PropertyMember("タッチ操作ピンチ最小判定距離", Tips = "タッチ操作での回転、拡大縮小と判定される最小の２タッチ間の距離です。")]
         public double MinimumManipulationRadius { get; set; } = 80.0;
 
         //
-        [PropertyMember("タッチ操作ピンチ最小変化距離", Tips = "タッチ操作での回転、拡大縮小が有効になる最小操作距離です")]
+        [PropertyMember("タッチ操作ピンチ最小変化距離", Tips = "タッチ操作での回転、拡大縮小が有効になる最小操作距離です。")]
         public double MinimumManipulationDistance { get; set; } = 30.0;
 
         //

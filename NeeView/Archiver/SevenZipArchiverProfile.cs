@@ -35,7 +35,7 @@ namespace NeeView
         public bool IsUnlockMode { get; set; }
 
         // 事前展開
-        [PropertyMember("7z.dllでは全て事前展開する", Tips = "ブックを閲覧する時に一時フォルダーに全て事前展開してページ送りを高速化します。OFFにすると、ソリッド圧縮ファイルの場合のみ事前展開を行います。")]
+        [PropertyMember("7z.dllでは全て事前展開する", Tips = "ブックを閲覧する時に一時フォルダーに全て事前展開してページ送りを高速化します。OFFにするとソリッド圧縮ファイルの場合のみ事前展開を行います。")]
         public bool IsPreExtract { get; set; }
 
         // 事前展開サイズ上限

@@ -39,7 +39,7 @@ namespace NeeView
         /// <summary>
         /// 画像フォーマット
         /// </summary>
-        [PropertyMember("サムネイル画像フォーマット", Tips = "Pngは劣化がなく最高品質ですが、Jpegより多くのメモリを消費します")]
+        [PropertyMember("サムネイル画像フォーマット", Tips = "Pngは高品質ですが、Jpegより多くのメモリを消費します。")]
         public BitmapImageFormat Format { get; set; } = BitmapImageFormat.Jpeg;
 
         /// <summary>
@@ -62,7 +62,7 @@ namespace NeeView
         [PropertyMember("ブックサムネイル容量", Tips = "フォルダーリスト等でのメモリ上のサムネイル保持枚数です。")]
         public int BookCapacity { get; set; } = 200;
 
-        private int _bannerWidth = 200;
+        private int _bannerWidth = 192;
         [PropertyRange("バナーサイズ", 0, 512, TickFrequency = 16, Tips = "パネルのバナー表示での画像の横幅です。縦幅は横幅の1/4になります。サムネイル画像を流用しているため大きいサイズほど画像が荒くなります。")]
         public int BannerWidth
         {
@@ -80,7 +80,7 @@ namespace NeeView
         /// <summary>
         /// ThumbnailWidth property.
         /// </summary>
-        private int _thumbnailWidth = 50;
+        private int _thumbnailWidth = 48;
         [PropertyRange("ブックサムネイルサイズ", 0, 256, TickFrequency = 16, Format = "{0}×{0}", Tips = "パネルのコンテンツ表示でのサムネイルサイズです。")]
         public int ThumbnailWidth
         {

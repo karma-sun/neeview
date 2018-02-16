@@ -29,7 +29,7 @@ namespace NeeView
         #region Properties
 
         // 読み込みデータのサイズ制限適用フラグ
-        [PropertyMember("読み込み画像サイズ制限", Tips = "「最大画像サイズ」を上限として読み込み画像を縮小します。速度、メモリ節約用の設定です。")]
+        [PropertyMember("読み込み画像サイズ制限", Tips = "「最大画像サイズ」を上限として読み込み画像を縮小します。速度、メモリ節約用の設定です。この制限を適用して読み込まれた画像である場合、ファイル情報のサイズ欄に\"*\"が表示されます。")]
         public bool IsLimitSourceSize { get; set; }
 
         // 画像処理の最大サイズ

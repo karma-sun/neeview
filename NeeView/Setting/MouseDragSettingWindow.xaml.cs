@@ -3,12 +3,10 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
-using NeeLaboratory.ComponentModel;
 using NeeLaboratory.Windows.Input;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -28,12 +26,24 @@ namespace NeeView.Setting
     public partial class MouseDragSettingWindow : Window
     {
         private MouseDragSettingViewModel _vm;
+        private DragActionTable.Memento _memento;
+        private DragActionType _key;
 
-        public MouseDragSettingWindow(MouseDragSettingContext context)
+        public MouseDragSettingWindow()
         {
             InitializeComponent();
+        }
 
-            _vm = new MouseDragSettingViewModel(context, this.GestureBox);
+
+        //
+        public void Initialize(DragActionType key)
+        {
+            _memento = DragActionTable.Current.CreateMemento();
+            _key = key;
+
+            this.Title = $"{_key.ToLabel()} - ドラッグ操作設定";
+
+            _vm = new MouseDragSettingViewModel(_memento, _key, this.GestureBox);
             DataContext = _vm;
 
             // ESCでウィンドウを閉じる
@@ -44,6 +54,7 @@ namespace NeeView.Setting
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
             _vm.Decide();
+            DragActionTable.Current.Restore(_memento);
 
             this.DialogResult = true;
             this.Close();
@@ -73,153 +84,5 @@ namespace NeeView.Setting
         public string OverlapsText { get; set; }
 
         public bool IsConflict => Conflicts != null && Conflicts.Count > 0;
-    }
-
-
-    /// <summary>
-    /// MouseDragSetting ViewModel
-    /// </summary>
-    public class MouseDragSettingViewModel : BindableBase
-    {
-        //
-        private MouseDragSettingContext _context;
-
-        /// <summary>
-        /// Property: DragToken
-        /// </summary>
-        private DragToken _dragToken = new DragToken();
-        public DragToken DragToken
-        {
-            get { return _dragToken; }
-            set { if (_dragToken != value) { _dragToken = value; RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
-        /// Property: Original Drag
-        /// </summary>
-        public string OriginalDrag { get; set; }
-
-        /// <summary>
-        /// NewGesture property.
-        /// </summary>
-        private string _NewDrag;
-        public string NewDrag
-        {
-            get { return _NewDrag; }
-            set { if (_NewDrag != value) { _NewDrag = value; RaisePropertyChanged(); } }
-        }
-
-
-        /// <summary>
-        /// Window Title
-        /// </summary>
-        public string Header => _context.Header ?? _context.Command.ToLabel();
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="gestureSender"></param>
-        public MouseDragSettingViewModel(MouseDragSettingContext context, FrameworkElement gestureSender)
-        {
-            _context = context;
-
-            gestureSender.MouseDown += GestureSender_MouseDown;
-
-            OriginalDrag = NewDrag = _context.Gesture;
-            UpdateGestureToken(NewDrag);
-        }
-
-        private void GestureSender_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            var dragKey = new DragKey(MouseButtonBitsExtensions.Create(e), Keyboard.Modifiers);
-
-            UpdateGestureToken(dragKey.ToString());
-        }
-
-
-        /// <summary>
-        /// Update Gesture Information
-        /// </summary>
-        /// <param name="gesture"></param>
-        public void UpdateGestureToken(string gesture)
-        {
-            NewDrag = gesture;
-
-            // Check Conflict
-            var token = new DragToken();
-            token.Gesture = gesture;
-
-            if (!string.IsNullOrEmpty(token.Gesture))
-            {
-                token.Conflicts = _context.Gestures
-                    .Where(i => i.Key != _context.Command && i.Value == token.Gesture)
-                    .Select(i => i.Key)
-                    .ToList();
-
-                if (token.Conflicts.Count > 0)
-                {
-                    token.OverlapsText = string.Join("", token.Conflicts.Select(i => $"「{i.ToLabel()}」")) + "と競合しています";
-                }
-            }
-
-            DragToken = token;
-        }
-
-
-        /// <summary>
-        /// 決定
-        /// </summary>
-        public void Decide()
-        {
-            _context.Gesture = NewDrag;
-        }
-
-
-        /// <summary>
-        /// Command: ClearCommand
-        /// </summary>
-        private RelayCommand _clearCommand;
-        public RelayCommand ClearCommand
-        {
-            get { return _clearCommand = _clearCommand ?? new RelayCommand(ClearCommand_Executed); }
-        }
-
-        private void ClearCommand_Executed()
-        {
-            UpdateGestureToken(null);
-        }
-    }
-
-
-    /// <summary>
-    /// MouseDragSetting Model
-    /// </summary>
-    public class MouseDragSettingContext
-    {
-        /// <summary>
-        /// 表示名。nullの場合はCommand名を使用する
-        /// </summary>
-        public string Header { get; set; }
-
-        /// <summary>
-        /// 設定対象のコマンド
-        /// </summary>
-        public DragActionType Command { get; set; }
-
-        /// <summary>
-        /// 全てのコマンドの操作。競合判定に使用する
-        /// </summary>
-        public Dictionary<DragActionType, string> Gestures { get; set; }
-
-
-        /// <summary>
-        /// Property: Gesture
-        /// </summary>
-        public string Gesture
-        {
-            get { return Gestures[Command]; }
-            set { if (Gestures[Command] != value) { Gestures[Command] = value; } }
-        }
     }
 }

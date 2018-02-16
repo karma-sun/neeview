@@ -139,7 +139,7 @@ namespace NeeView
         /// IsEnabled property.
         /// </summary>
         private bool _isEnabled = true;
-        [PropertyMember("タッチ操作を有効にする", Tips = "OFFのときは標準のマウス操作として機能します")]
+        [PropertyMember("タッチ操作を有効にする", Tips = "OFFにすると標準のマウス操作として機能します。")]
         public bool IsEnabled
         {
             get { return _isEnabled; }

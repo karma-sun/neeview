@@ -46,7 +46,7 @@ namespace NeeView
 
 
         //
-        [PropertyMember("マウスジェスチャー判定の最小移動距離(X)", Tips = "この距離(pixel)移動して初めてジェスチャー開始と判定されます")]
+        [PropertyMember("マウスジェスチャー判定の最小移動距離(X)", Tips = "この距離(pixel)移動して初めてジェスチャー開始と判定されます。")]
         public double GestureMinimumDistanceX
         {
             get { return _gesture.GestureMinimumDistanceX; }
@@ -54,7 +54,7 @@ namespace NeeView
         }
 
         //
-        [PropertyMember("マウスジェスチャー判定の最小移動距離(Y)", Tips = "この距離(pixel)移動して初めてジェスチャー開始と判定されます")]
+        [PropertyMember("マウスジェスチャー判定の最小移動距離(Y)", Tips = "この距離(pixel)移動して初めてジェスチャー開始と判定されます。")]
         public double GestureMinimumDistanceY
         {
             get { return _gesture.GestureMinimumDistanceY; }

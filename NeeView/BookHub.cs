@@ -288,7 +288,7 @@ namespace NeeView
         /// アーカイブの自動再帰展開
         /// </summary>
         private bool _isArchiveRecursive = true;
-        [PropertyMember("再帰圧縮ファイルをすべて展開する", Tips = "OFFにした場合、含まれる圧縮ファイルはサブフォルダー扱いになります。")]
+        [PropertyMember("再帰圧縮ファイルをすべて展開する", Tips = "OFFにすると含まれる圧縮ファイルはサブフォルダー扱いになります。")]
         public bool IsArchiveRecursive
         {
             get { return _isArchiveRecursive; }
@@ -298,13 +298,13 @@ namespace NeeView
         /// <summary>
         /// アーカイブ内アーカイブの履歴保存
         /// </summary>
-        [PropertyMember("再帰圧縮ファイル履歴に保存する")]
+        [PropertyMember("再帰圧縮ファイルを履歴に保存する")]
         public bool IsInnerArchiveHistoryEnabled { get; set; }
 
         /// <summary>
         /// UNCパスの履歴保存
         /// </summary>
-        [PropertyMember("UNCパスを履歴に保存する", Tips = "\\\\コンピュータ名\\~ のようなネットワーク上のパスでも履歴に保存します。")]
+        [PropertyMember("UNCパスを履歴に保存する", Tips = "\\\\コンピューター名\\~ のようなネットワーク上のパスを履歴に保存します。")]
         public bool IsUncHistoryEnabled { get; set; }
 
         /// <summary>
@@ -382,7 +382,7 @@ namespace NeeView
                     {
                         if (this.Book?.NotFoundStartPage != null)
                         {
-                            InfoMessage.Current.SetMessage(InfoMessageType.Notify, $"{LoosePath.GetFileName(this.Book.NotFoundStartPage)} が見つかりません", null, 2.0);
+                            InfoMessage.Current.SetMessage(InfoMessageType.Notify, $"{LoosePath.GetFileName(this.Book.NotFoundStartPage)} を開けません", null, 2.0);
                         }
                         else
                         {

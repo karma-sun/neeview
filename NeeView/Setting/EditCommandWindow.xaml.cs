@@ -114,6 +114,7 @@ namespace NeeView.Setting
 
             CommandTable.Current.Restore(_memento, true);
 
+            this.DialogResult = true;
             Close();
         }
 

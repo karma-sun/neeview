@@ -16,9 +16,7 @@
             <DockPanel DockPanel.Dock="Bottom">
                 <TextBlock Text="新しい設定" VerticalAlignment="Center" MinWidth="90"/>
 
-                <Button DockPanel.Dock="Right" Width="20" VerticalAlignment="Center" Margin="2" Command="{Binding ClearCommand}">
-                    <TextBlock Text="✕" VerticalAlignment="Center"/>
-                </Button>
+                <Button DockPanel.Dock="Right" VerticalAlignment="Center" Margin="2" Padding="10,2" Content="クリア" Command="{Binding ClearCommand}"/>
 
                 <DockPanel ToolTip="{Binding GestureToken.OverlapsText}">
 

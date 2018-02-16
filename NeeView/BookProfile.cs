@@ -57,13 +57,13 @@ namespace NeeView
         /// <summary>
         /// ページ移動命令重複許可
         /// </summary>
-        [PropertyMember("ページ移動コマンドの重複許可", Tips = "発行されたページ移動コマンドを全て実行します。OFFの場合は重複したページ移動コマンドはキャンセルされます。")]
+        [PropertyMember("ページ移動コマンドの重複許可", Tips = "発行されたページ移動コマンドを全て実行します。OFFにすると重複したページ移動コマンドはキャンセルされます。")]
         public bool IsMultiplePageMove { get; set; } = true;
 
         /// <summary>
         /// 先読みモード
         /// </summary>
-        [PropertyMember("先読み", Tips = "先読みは前後のページを保持するためメモリを消費します。「自動」にすると画像サイズに応じで先読み有効無効を切り替えます。「先読みする(開放なし)」は読み込んだ画像を破棄しない最もメモリを消費するモードです。")]
+        [PropertyMember("先読み", Tips = "先読みは前後のページを保持するためメモリを消費します。「自動先読み」にすると画像サイズに応じで先読み有効無効を切り替えます。「先読みする(開放なし)」は読み込んだ画像を破棄しない最もメモリを消費するモードです。")]
         public PreLoadMode PreLoadMode { get; set; } = PreLoadMode.AutoPreLoad;
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace NeeView
         public StringCollection Excludes { get; set; } = new StringCollection("__MACOSX;.DS_Store");
 
         // GIFアニメ有効
-        [PropertyMember("アニメーションGIFを再生する", Tips = "MediaPlayerの機能を利用し、アニメーションGIF再生を行います。長時間のGIFでメモリ消費の問題が発生する可能性があります。")]
+        [PropertyMember("アニメーションGIFを再生する", Tips = "アニメーションGIF再生を行います。長時間のGIFでメモリ消費の問題が発生する可能性があります。")]
         public bool IsEnableAnimatedGif { get; set; }
 
         // サポート外ファイル有効
@@ -101,7 +101,7 @@ namespace NeeView
         public bool IsEnableNoSupportFile { get; set; }
 
         // ページ読み込み中表示
-        [PropertyMember("読み込み中ページの表示方法", Tips = "ページの読み込みが完了するまでに表示しておくものを指定します。「直前のページの画像」が一番メモリを消費します。")]
+        [PropertyMember("読み込み中ページの表示方法", Tips = "ページの読み込みが完了するまでに表示するものを指定します。「直前のページの画像」が一番メモリを消費します。")]
         public LoadingPageView LoadingPageView { get; set; } = LoadingPageView.PreThumbnail;
 
         #endregion

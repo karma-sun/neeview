@@ -334,9 +334,11 @@ namespace NeeView
             {
                 case nameof(_model.IsVisibleHistoryMark):
                     FolderItem.IsVisibleHistoryMark = _model.IsVisibleHistoryMark;
+                    this.FolderCollection?.RefleshIcon(null);
                     break;
                 case nameof(_model.IsVisibleBookmarkMark):
                     FolderItem.IsVisibleBookmarkMark = _model.IsVisibleBookmarkMark;
+                    this.FolderCollection?.RefleshIcon(null);
                     break;
                 case nameof(_model.FolderIconLayout):
                 case nameof(_model.PanelListItemStyle):

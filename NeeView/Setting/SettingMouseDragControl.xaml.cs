@@ -30,15 +30,9 @@ namespace NeeView.Setting
             this.Root.DataContext = this;
         }
 
-        #region DragAction
-
-        // TODO: ひとまず動作のため。本来はMementoでなく、直接現在データを編集する
-        private DragActionTable.Memento _memento;
 
         public void Initialize()
         {
-            _memento = DragActionTable.Current.CreateMemento();
-
             // ドラッグアクション一覧作成
             DragActionCollection = new ObservableCollection<DragActionParam>();
             UpdateDragActionList();
@@ -48,18 +42,10 @@ namespace NeeView.Setting
         public class DragActionParam : BindableBase
         {
             public DragActionType Key { get; set; }
-            public string Header { get; set; }
-            public bool IsLocked { get; set; }
+            public DragAction DragAction { get; set; }
 
-
-            private string _dragAction;
-            public string DragAction
-            {
-                get { return _dragAction; }
-                set { if (_dragAction != value) { _dragAction = value; RaisePropertyChanged(); } }
-            }
-
-            public string Tips { get; set; }
+            public string Header => Key.ToLabel();
+            public string Tips => Key.ToTips();
         }
 
         // コマンド一覧
@@ -77,16 +63,10 @@ namespace NeeView.Setting
             DragActionCollection.Clear();
             foreach (var element in DragActionTable.Current)
             {
-                ////var memento = Setting.DragActionMemento[element.Key];
-                var memento = _memento[element.Key];
-
                 var item = new DragActionParam()
                 {
                     Key = element.Key,
-                    Header = element.Key.ToLabel(),
-                    IsLocked = element.Value.IsLocked,
-                    DragAction = memento.Key,
-                    Tips = element.Key.ToTips(),
+                    DragAction = element.Value,
                 };
 
                 DragActionCollection.Add(item);
@@ -120,7 +100,7 @@ namespace NeeView.Setting
         //
         private void OpenDragActionSettingDialog(DragActionParam value)
         {
-            if (value.IsLocked)
+            if (value.DragAction.IsLocked)
             {
                 var dlg = new MessageDialog("", "この操作は変更できません");
                 dlg.Owner = GetOwner();
@@ -128,25 +108,15 @@ namespace NeeView.Setting
                 return;
             }
 
-            var context = new MouseDragSettingContext();
-            context.Command = value.Key;
-            context.Gestures = DragActionCollection.ToDictionary(i => i.Key, i => i.DragAction);
-
-            var dialog = new MouseDragSettingWindow(context);
+            var dialog = new MouseDragSettingWindow();
+            dialog.Initialize(value.Key);
             dialog.Owner = GetOwner();
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             var result = dialog.ShowDialog();
+
             if (result == true)
             {
-                foreach (var item in DragActionCollection)
-                {
-                    item.DragAction = context.Gestures[item.Key];
-                }
-
                 this.DragActionListView.Items.Refresh();
-
-                //// ##
-                Restore();
             }
         }
 
@@ -161,27 +131,11 @@ namespace NeeView.Setting
 
             if (answer == UICommands.Yes)
             {
-                ////Setting.DragActionMemento = DragActionTable.CreateDefaultMemento();
-                _memento = DragActionTable.CreateDefaultMemento();
+                var memento = DragActionTable.CreateDefaultMemento();
+                DragActionTable.Current.Restore(memento);
 
-                UpdateDragActionList();
                 this.DragActionListView.Items.Refresh();
-
-                //// ##
-                Restore();
             }
         }
-
-        // ##
-        private void Restore ()
-        {
-            foreach (var dragAction in DragActionCollection)
-            {
-                _memento[dragAction.Key].Key = dragAction.DragAction;
-            }
-            DragActionTable.Current.Restore(_memento);
-        }
-
-        #endregion
     }
 }

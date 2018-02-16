@@ -112,7 +112,7 @@ namespace NeeView
         /// <summary>
         /// IsResetByRestart property.
         /// </summary>
-        [PropertyMember("ルーペを標準倍率で開始する", Tips = "OFFの場合、前回の倍率を引き継ぎます。")]
+        [PropertyMember("ルーペを標準倍率で開始する", Tips = "OFFにすると前回の倍率を引き継ぎます。")]
         public bool IsResetByRestart
         {
             get { return _isResetByRestart; }

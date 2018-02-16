@@ -85,7 +85,7 @@ namespace NeeView
         /// <summary>
         /// カーソルでスライドを止める.
         /// </summary>
-        [PropertyMember("マウス移動で表示間隔リセット", Tips = "OFFの時は、クリック等明確なアクションでのみリセットされます。")]
+        [PropertyMember("マウス移動で表示間隔リセット", Tips = "OFFにするとクリック等明確なアクションでのみリセットされます。")]
         public bool IsCancelSlideByMouseMove
         {
             get { return _IsCancelSlideByMouseMove; }
@@ -98,7 +98,7 @@ namespace NeeView
         /// <summary>
         /// ループ再生フラグ
         /// </summary>
-        [PropertyMember("ループ再生", Tips = "最終ページまで再生したら先頭ページに戻ります")]
+        [PropertyMember("ループ再生", Tips = "最終ページまで再生したら先頭ページに戻ります。")]
         public bool IsSlideShowByLoop
         {
             get { return _IsSlideShowByLoop; }

@@ -412,6 +412,7 @@ namespace NeeView
         {
             if (Setting.SettingWindow.Current != null)
             {
+                Setting.SettingWindow.Current.AllowSave = false;
                 Setting.SettingWindow.Current.Close();
                 return true;
             }

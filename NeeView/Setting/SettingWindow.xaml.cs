@@ -41,6 +41,21 @@ namespace NeeView.Setting
             _vm = new SettingWindowViewModel(model);
             this.DataContext = _vm;
         }
+
+        /// <summary>
+        /// 設定画面を閉じる時にデータ保存するフラグ
+        /// </summary>
+        public bool AllowSave { get; set; } = true;
+
+        //
+        private void SettingWindow_Closed(object sender, EventArgs e)
+        {
+            if (this.AllowSave)
+            {
+                WindowShape.Current.CreateSnapMemento();
+                SaveData.Current.SaveSetting();
+            }
+        }
     }
 
     public class BooleanToSwitchStringConverter : IValueConverter

@@ -655,6 +655,12 @@ namespace NeeView
         {
             // 閉じる前にウィンドウサイズ保存
             WindowShape.Current.CreateSnapMemento();
+            
+            // 設定ウィンドウの保存動作を無効化
+            if (Setting.SettingWindow.Current != null)
+            {
+                Setting.SettingWindow.Current.AllowSave = false;
+            }
         }
 
         //

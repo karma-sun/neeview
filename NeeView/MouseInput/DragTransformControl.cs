@@ -120,7 +120,7 @@ namespace NeeView
         public bool IsOriginalScaleShowMessage { get; set; }
 
         // 回転、拡縮をコンテンツの中心基準にする
-        [PropertyMember("回転、拡大縮小、反転の基準を画像の中心にする", Tips = "OFFの時は、ウィンドウの中心をそのまま中心とします。")]
+        [PropertyMember("回転、拡大縮小、反転の基準を画像の中心にする", Tips = "OFFにすると表示の中心を基準にします。")]
         public bool IsControlCenterImage { get; set; }
 
         // 拡大率キープ
@@ -136,7 +136,7 @@ namespace NeeView
         public bool IsKeepFlip { get; set; }
 
         // 表示開始時の基準
-        [PropertyMember("表示開始位置を画像の中心基準にする", Tips = "OFFの時は、見開き方向によって右上基準、左上基準になります。")]
+        [PropertyMember("表示開始位置を画像の中心基準にする", Tips = "OFFにすると見開き方向によって右上基準、左上基準になります。")]
         public bool IsViewStartPositionCenter { get; set; }
 
         // 開始時の基準

@@ -44,7 +44,7 @@ namespace NeeView.Setting
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("履歴、ブックマークから復元するページ設定項目", "開いたことがあるブックの場合、前回の情報から設定の復元をします。復元しない項目は、既定のページ設定もしくは直前の設定が使用されます",
+                new SettingItemSection("履歴、ブックマークから復元するページ設定項目", "開いたことがあるブックの場合、前回の情報から設定の復元をします。復元しない項目は既定のページ設定もしくは直前の設定が使用されます。",
                     new SettingItemProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.Page))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.PageMode))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.BookReadOrder))),

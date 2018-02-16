@@ -252,25 +252,23 @@ namespace NeeView.Setting
         private void EditCommandParameterButton_Clock(object sender, RoutedEventArgs e)
         {
             var command = (sender as Button)?.Tag as CommandParam;
-            EditCommandParameter(command);
+            EditCommand(command.Key, EditCommandWindowTab.Parameter);
         }
 
-
-        private void EditCommandParameter(CommandParam command)
+        //
+        private void EditCommand(CommandType key, EditCommandWindowTab tab)
         {
-            var dialog = new Setting.EditCommandWindow();
-            dialog.Initialize(command.Key, Setting.EditCommandWindowTab.Parameter);
+            var dialog = new EditCommandWindow();
+            dialog.Initialize(key, tab);
             dialog.Owner = Window.GetWindow(this);
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             if (dialog.ShowDialog() == true)
             {
-                // TODO: any?
+                UpdateCommandList();
             }
-
-            UpdateCommandList();
         }
 
-
+        //
         private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             var item = ((ListViewItem)sender).Content as CommandParam;
@@ -300,16 +298,7 @@ namespace NeeView.Setting
                     break;
             }
 
-            var dialog = new Setting.EditCommandWindow();
-            dialog.Initialize(item.Key, tab);
-            dialog.Owner = Window.GetWindow(this);
-            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            if (dialog.ShowDialog() == true)
-            {
-                // TODO: any?
-            }
-
-            UpdateCommandList();
+            EditCommand(item.Key, tab);
         }
 
         /// <summary>

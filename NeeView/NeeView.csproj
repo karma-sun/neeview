@@ -161,6 +161,7 @@
       <DependentUpon>EditCommandWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Setting\FormattedTextBlock.cs" />
+    <Compile Include="Setting\MouseDragSettingViewModel.cs" />
     <Compile Include="Setting\SettingItemCollectionControl.xaml.cs">
       <DependentUpon>SettingItemCollectionControl.xaml</DependentUpon>
     </Compile>

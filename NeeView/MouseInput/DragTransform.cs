@@ -64,7 +64,7 @@ namespace NeeView
 
         // ウィンドウ枠内の移動に制限するフラグ
         private bool _isLimitMove = true;
-        [PropertyMember("移動をウィンドウ内に制限する", Tips = "マウスドラッグによる移動を制限します")]
+        [PropertyMember("移動をウィンドウ内に制限する")]
         public bool IsLimitMove
         {
             get { return _isLimitMove; }

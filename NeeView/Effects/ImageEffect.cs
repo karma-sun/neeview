@@ -87,7 +87,7 @@ namespace NeeView.Effects
         /// Property: IsHsvMode
         /// </summary>
         private bool _isHsvMode;
-        [PropertyMember("色設定をHSVで行う", Tips = "色パラメータの設定をHSV(色相、彩度、輝度)で設定します。OFFの場合はRGBです。")]
+        [PropertyMember("色設定をHSVで行う", Tips = "色パラメータの設定をHSV(色相、彩度、輝度)で設定します。OFFにするとRGBです。")]
         public bool IsHsvMode
         {
             get { return _isHsvMode; }

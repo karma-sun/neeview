@@ -229,6 +229,16 @@ namespace NeeView.Windows.Controls
             this.thumbTranslate.X = 0.0;
         }
 
+        //
+        private void ToggleSwitch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
+                IsChecked = !IsChecked;
+                e.Handled = true;
+            }
+        }
+        
         #endregion
     }
 }

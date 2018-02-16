@@ -58,14 +58,14 @@ namespace NeeView.Setting
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("起動",
+                new SettingItemSection("起動", "この設定は、設定ウィンドウを閉じた後に反映されます。",
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsMultiBootEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveWindowPlacement))),
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveFullScreen))),
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsOpenLastBook))),
                     new SettingItemProperty(PropertyMemberElement.Create(SlideShow.Current, nameof(SlideShow.IsAutoPlaySlideShow)))),
 
-                new SettingItemSection("詳細設定",
+                new SettingItemSection("詳細設定", "この設定は、設定ウィンドウを閉じた後に反映されます。",
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsRestoreSecondWindow)))),
             };
         }
@@ -248,7 +248,7 @@ namespace NeeView.Setting
                 new SettingItemSection("ユーザーデータ削除",
                     new SettingItemButton("全てのユーザーデータを削除する", RemoveAllData) { IsContentOnly = true })
                 {
-                    Tips = "ユーザーデータを削除し、アプリケーションを終了します。アンインストール前に履歴等を完全に削除したい場合に使用します。",
+                    Tips = "ユーザーデータを削除してアプリケーションを終了します。アンインストール前に履歴等を完全に削除したい場合に使用します。",
                 },
             };
         }

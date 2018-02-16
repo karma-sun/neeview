@@ -62,7 +62,7 @@ namespace NeeView
         }
 
         // ネットワークアクセス許可
-        [PropertyMember("ネットワークアスセス許可", Tips = "バージョンウィンドウからのバージョン更新確認、オンラインヘルプ等のWEBリンクにのみネットワークを使用します。")]
+        [PropertyMember("ネットワークアスセス許可", Tips = "このアプリでは、「このアプリについて」ダイアログからのバージョン更新確認とオンラインヘルプ等のWEBリンクのみにネットワークを使用します。")]
         public bool IsNetworkEnabled
         {
             get { return _isNetworkEnalbe; }
@@ -78,7 +78,7 @@ namespace NeeView
         public bool IsIgnoreWindowDpi { get; set; }
 
         // 複数ウィンドウの座標復元
-        [PropertyMember("2つめのウィンドウ座標の復元", Tips = "重複起動した場合もウィンドウ座標を復元します。OFFの場合は初期座標で表示されます。")]
+        [PropertyMember("2つめのウィンドウ座標の復元", Tips = "重複起動した場合もウィンドウ座標を復元します。OFFにすると初期座標で表示されます。")]
         public bool IsRestoreSecondWindow { get; set; } = true;
 
         // 履歴、ブックマーク、ページマークを保存しない

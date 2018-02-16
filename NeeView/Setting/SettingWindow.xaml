@@ -10,6 +10,7 @@
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}"
         FontSize="15"
+        Closed="SettingWindow_Closed"
         Title="設定" Height="704" Width="960">
     <Window.Resources>
         <ResourceDictionary>
@@ -94,7 +95,7 @@
 
         <TextBlock DockPanel.Dock="Top" Text="{Binding ElementName=IndexTree, Path=SelectedItem.DispPage.Header}" FontSize="32" Margin="20"/>
 
-        <ContentControl x:Name="PageContent" Content="{Binding ElementName=IndexTree, Path=SelectedItem.DispPage.Content}" />
+        <ContentControl x:Name="PageContent" Content="{Binding ElementName=IndexTree, Path=SelectedItem.DispPage.Content}" Focusable="False" />
 
     </DockPanel>
 </Window>

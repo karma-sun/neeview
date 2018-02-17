@@ -554,16 +554,6 @@ namespace NeeView
         }
 
 
-        // サムネイル要求
-        public void RequestThumbnail(int start, int count, int margin, int direction)
-        {
-            if (this.PanelListItemStyle.HasThumbnail())
-            {
-                ThumbnailManager.Current.RequestThumbnail(FolderCollection.Items, QueueElementPriority.FolderThumbnail, start, count, margin, direction);
-            }
-        }
-
-
         // ブックの読み込み
         public void LoadBook(string path)
         {

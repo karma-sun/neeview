@@ -270,15 +270,6 @@ namespace NeeView
             BookHistory.Current.Remove(item.Memento.Place);
         }
 
-        // サムネイル要求
-        public void RequestThumbnail(int start, int count, int margin, int direction)
-        {
-            if (_model.PanelListItemStyle.HasThumbnail())
-            {
-                ThumbnailManager.Current.RequestThumbnail(Items, QueueElementPriority.HistoryThumbnail, start, count, margin, direction);
-            }
-        }
-
         /// <summary>
         /// RemoveAllCommand command
         /// </summary>

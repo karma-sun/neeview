@@ -27,13 +27,24 @@ namespace NeeView
     /// </summary>
     public partial class FolderListBox : UserControl
     {
+        #region Fields
+
         public static readonly RoutedCommand LoadWithRecursiveCommand = new RoutedCommand("LoadWithRecursiveCommand", typeof(FolderListBox));
         public static readonly RoutedCommand OpenExplorerCommand = new RoutedCommand("OpenExplorerCommand", typeof(FolderListBox));
         public static readonly RoutedCommand CopyCommand = new RoutedCommand("CopyCommand", typeof(FolderListBox));
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(FolderListBox));
         public static readonly RoutedCommand RenameCommand = new RoutedCommand("RenameCommand", typeof(FolderListBox));
 
+        private FolderListViewModel _vm;
+        private ListBoxThumbnailLoader _thumbnailLoader;
+        private bool _lastFocusRequest;
+        private bool _storeFocus;
 
+        #endregion
+
+        #region Constructors
+
+        // static construcotr
         static FolderListBox()
         {
             CopyCommand.InputGestures.Add(new KeyGesture(Key.C, ModifierKeys.Control));
@@ -41,6 +52,7 @@ namespace NeeView
             RenameCommand.InputGestures.Add(new KeyGesture(Key.F2));
         }
 
+        //
         public FolderListBox()
         {
             InitializeComponent();
@@ -62,27 +74,20 @@ namespace NeeView
             this.ListBox.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
 
             this.ListBox.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(ListBox_ScrollChanged));
-            _thumbnailHelper = new ThumbnailHelper(this.ListBox, _vm.Model.RequestThumbnail);
+            _thumbnailLoader = new ListBoxThumbnailLoader(this.ListBox, QueueElementPriority.FolderThumbnail);
+
         }
 
+        #endregion
 
-        //
-        private FolderListViewModel _vm;
+        #region Properties
 
+        // フォーカス可能フラグ
+        public bool IsFocusEnabled { get; set; } = true;
 
-        // TODO: Behaviour化できないかな？
-        private ThumbnailHelper _thumbnailHelper;
-
-
-        // サムネイルの更新要求 (テスト用)
-        public void UpdateThumbnail()
-        {
-            _thumbnailHelper.UpdateThumbnails(1);
-        }
-
+        #endregion
 
         #region RoutedCommand
-
 
         /// <summary>
         /// サブフォルダーを読み込む？
@@ -265,35 +270,7 @@ namespace NeeView
 
         #endregion
 
-
-        /// <summary>
-        /// スクロール変更イベント処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ListBox_ScrollChanged(object sender, ScrollChangedEventArgs e)
-        {
-            // リネームキャンセル
-            ((MainWindow)App.Current.MainWindow).RenameManager.Stop();
-        }
-
-
-        #region list event process
-
-        // 最後のフォーカスフラグ
-        // ロード前のフォーカス設定を反映させるため
-        private bool _lastFocusRequest;
-
-        /// <summary>
-        /// IsFocusEnabled property.
-        /// </summary>
-        private bool _IsFocusEnabled = true;
-        public bool IsFocusEnabled
-        {
-            get { return _IsFocusEnabled; }
-            set { if (_IsFocusEnabled != value) { _IsFocusEnabled = value; } }
-        }
-
+        #region Methods
 
         /// <summary>
         /// フォーカス取得
@@ -323,14 +300,11 @@ namespace NeeView
             }
         }
 
-        //
-        private bool _storeFocus;
 
         /// <summary>
         /// 選択項目フォーカス状態を取得
         /// リスト項目変更前処理。
         /// </summary>
-        /// <returns></returns>
         public void StoreFocus()
         {
             var index = this.ListBox.SelectedIndex;
@@ -355,10 +329,17 @@ namespace NeeView
                 var isSuccess = lbi?.Focus();
             }
 
-            _thumbnailHelper.UpdateThumbnails(1);
+            _thumbnailLoader.Load();
         }
 
-
+        /// <summary>
+        /// スクロール変更イベント処理
+        /// </summary>
+        private void ListBox_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            // リネームキャンセル
+            ((MainWindow)App.Current.MainWindow).RenameManager.Stop();
+        }
 
         //
         private void FolderList_Loaded(object sender, RoutedEventArgs e)
@@ -519,6 +500,4 @@ namespace NeeView
 
         #endregion
     }
-
-
 }

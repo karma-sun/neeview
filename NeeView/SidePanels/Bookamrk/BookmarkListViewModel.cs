@@ -199,16 +199,6 @@ namespace NeeView
             BookmarkCollection.Current.Remove(item.Value.Memento.Place);
         }
 
-        // サムネイル要求
-        public void RequestThumbnail(int start, int count, int margin, int direction)
-        {
-            if (Bookmark == null) return;
-            if (_model.PanelListItemStyle.HasThumbnail())
-            {
-                ThumbnailManager.Current.RequestThumbnail(Bookmark.Items, QueueElementPriority.BookmarkThumbnail, start, count, margin, direction);
-            }
-        }
-
         /// <summary>
         /// ListBoxContent property.
         /// </summary>

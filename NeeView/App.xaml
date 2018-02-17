@@ -31,8 +31,9 @@
                     <!-- Panel ListBox -->
                     <ScrollUnit x:Key="PanelScrollUnit">Pixel</ScrollUnit>
                     <FontFamily x:Key="PanelFontFamily"/>
-                    <system:Double x:Key="PanelFontSize">16</system:Double>
+                    <system:Double x:Key="PanelFontSize">15</system:Double>
                     <TextWrapping x:Key="PanelTextWrapping">NoWrap</TextWrapping>
+                    <system:Double x:Key="PanelTextWrappedHeight">41.9</system:Double>
 
                     <!-- Window Style -->
                     <Style x:Key="DefaultWindowStyle" TargetType="Window">

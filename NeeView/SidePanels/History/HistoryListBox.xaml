@@ -4,7 +4,7 @@
     This software is released under the MIT License.
     http://opensource.org/licenses/mit-license.php
 -->
-    
+
 <UserControl x:Class="NeeView.HistoryListBox"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -42,7 +42,9 @@
 
         <!-- Normal History -->
         <DataTemplate x:Key="NormalHistory">
-            <TextBlock Style="{StaticResource FolderName}"/>
+            <Grid MinHeight="20">
+                <TextBlock Style="{StaticResource FolderName}"/>
+            </Grid>
         </DataTemplate>
 
         <!-- Picture History -->
@@ -53,7 +55,7 @@
                         <local:FolderListThumbnail DataContext="{Binding ArchivePage.Thumbnail}"/>
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock x:Name="Place" Style="{StaticResource FolderParameter}" Text="{Binding ArchivePage.Content.Entry.RootArchiverName}" />
-                            <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="{DynamicResource PanelTextWrapping}" MinWidth="256"/>
+                            <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
                         </StackPanel>
                     </DockPanel>
                 </DockPanel>
@@ -64,8 +66,8 @@
         <DataTemplate x:Key="BannerHistory">
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                 <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
-                    <DockPanel DockPanel.Dock="Bottom" Margin="2" >
-                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" Margin="0" TextWrapping="{DynamicResource PanelTextWrapping}" MinWidth="256"/>
+                    <DockPanel DockPanel.Dock="Bottom" Margin="2">
+                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}" Margin="0"/>
                     </DockPanel>
                     <local:FolderListBanner DataContext="{Binding ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                 </DockPanel>

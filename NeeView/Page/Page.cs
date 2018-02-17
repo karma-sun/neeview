@@ -92,6 +92,17 @@ namespace NeeView
         // ファイル情報：ファイルサイズ
         public long Length => Entry.Length;
 
+        // ファイル情報
+        public string Detail
+        {
+            get
+            {
+                var timeString = $"{LastWriteTime:yyyy/MM/dd HH:mm:ss}";
+                var sizeString = FileSizeToStringConverter.ByteToDispString(Length);
+                return timeString + (string.IsNullOrEmpty(sizeString) ? "" : " / " + sizeString);
+            }
+        }
+
         // コンテンツ幅
         public double Width => Size.Width;
 

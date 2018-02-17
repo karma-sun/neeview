@@ -43,11 +43,12 @@
 
         <!-- Normal Bookmark -->
         <DataTemplate x:Key="NormalBookmark">
-            <TextBlock Style="{StaticResource FolderName}" TextAlignment="Left">
-            <i:Interaction.Behaviors>
-                <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:BookmarkListBox.DragDropFormat}" DragDropData="{Binding}" />
-            </i:Interaction.Behaviors>
-            </TextBlock>
+            <Grid MinHeight="20">
+                <i:Interaction.Behaviors>
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:BookmarkListBox.DragDropFormat}" DragDropData="{Binding}" />
+                </i:Interaction.Behaviors>
+                <TextBlock Style="{StaticResource FolderName}"/>
+            </Grid>
         </DataTemplate>
 
         <!-- Picture Bookmark -->
@@ -61,7 +62,7 @@
                         <local:FolderListThumbnail DataContext="{Binding Value.ArchivePage.Thumbnail}" />
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock x:Name="Place" Style="{StaticResource FolderParameter}" Text="{Binding Value.ArchivePage.Content.Entry.RootArchiverName}" HorizontalAlignment="Left" />
-                            <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="{DynamicResource PanelTextWrapping}" MinWidth="256"/>
+                            <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
                         </StackPanel>
                     </DockPanel>
                 </DockPanel>
@@ -76,7 +77,7 @@
                 </i:Interaction.Behaviors>
                 <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
                     <DockPanel DockPanel.Dock="Bottom" Margin="2" >
-                        <TextBlock Style="{StaticResource FolderName}" TextAlignment="Left" TextWrapping="{DynamicResource PanelTextWrapping}" MinWidth="256"/>
+                        <TextBlock Style="{StaticResource FolderName}" TextAlignment="Left" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}" Margin="0"/>
                     </DockPanel>
                     <local:FolderListBanner DataContext="{Binding Value.ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                 </DockPanel>
@@ -138,5 +139,5 @@
         </ListBox.Resources>
 
     </ListBox>
-    
+
 </UserControl>

@@ -56,14 +56,16 @@
         </Style>
 
         <DataTemplate x:Key="TextTemplate">
-            <TextBlock Style="{Binding ElementName=ListBox, Path=DataContext.Format, Converter={StaticResource PageNameConverter}}"/>
+            <Grid MinHeight="20">
+                <TextBlock Style="{Binding ElementName=ListBox, Path=DataContext.Format, Converter={StaticResource PageNameConverter}}"/>
+            </Grid>
         </DataTemplate>
 
         <DataTemplate x:Key="PictureTemplate">
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                 <DockPanel Margin="2" LastChildFill="False">
                     <local:FolderListThumbnail DataContext="{Binding Thumbnail}"/>
-                    <TextBlock Style="{Binding ElementName=ListBox, Path=DataContext.Format, Converter={StaticResource PageNameConverter}}" TextWrapping="{DynamicResource PanelTextWrapping}" MinWidth="256"/>
+                    <TextBlock Style="{Binding ElementName=ListBox, Path=DataContext.Format, Converter={StaticResource PageNameConverter}}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
                 </DockPanel>
             </Border>
         </DataTemplate>
@@ -72,7 +74,7 @@
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                 <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
                     <DockPanel DockPanel.Dock="Bottom" Margin="2" >
-                        <TextBlock Style="{Binding ElementName=ListBox, Path=DataContext.Format, Converter={StaticResource PageNameConverter}}" TextWrapping="{DynamicResource PanelTextWrapping}" MinWidth="256"/>
+                        <TextBlock Style="{Binding ElementName=ListBox, Path=DataContext.Format, Converter={StaticResource PageNameConverter}}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}" Margin="0" />
                     </DockPanel>
                     <local:FolderListBanner DataContext="{Binding Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                 </DockPanel>

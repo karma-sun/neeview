@@ -201,16 +201,6 @@ namespace NeeView
             await FileIO.Current.RemoveFile(page);
         }
 
-        // サムネイル要求
-        public void RequestThumbnail(int start, int count, int margin, int direction)
-        {
-            if (_model.PanelListItemStyle.HasThumbnail())
-            {
-                ThumbnailManager.Current.RequestThumbnail(_model.PageCollection, QueueElementPriority.PageListThumbnail, start, count, margin, direction);
-            }
-        }
-
-
         /// <summary>
         /// ListBoxContent property.
         /// </summary>

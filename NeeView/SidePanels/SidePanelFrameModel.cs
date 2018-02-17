@@ -8,9 +8,11 @@ using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -22,119 +24,39 @@ namespace NeeView
     /// </summary>
     public class SidePanelFrameModel : BindableBase
     {
-        /// <summary>
-        /// IsSideBarVisible property.
-        /// </summary>
-        public bool IsSideBarVisible
-        {
-            get { return _IsSideBarVisible; }
-            set { if (_IsSideBarVisible != value) { _IsSideBarVisible = value; RaisePropertyChanged(); } }
-        }
+        #region Fields
 
-        //
         private bool _IsSideBarVisible;
-
-
-        // スクロールビュータッチ操作の終端挙動
-        [PropertyMember("パネルタッチスクロールの終端バウンド")]
-        public bool IsManipulationBoundaryFeedbackEnabled { get; set; }
-
-
-
-        /// <summary>
-        /// Left property.
-        /// </summary>
-        public SidePanelGroup Left
-        {
-            get { return _left; }
-            set { if (_left != value) { _left = value; RaisePropertyChanged(); } }
-        }
-
-        //
+        private bool _isVisibleLocked;
         private SidePanelGroup _left;
-
-
-        /// <summary>
-        /// Right property.
-        /// </summary>
-        public SidePanelGroup Right
-        {
-            get { return _right; }
-            set { if (_right != value) { _right = value; RaisePropertyChanged(); } }
-        }
-
-        //
         private SidePanelGroup _right;
 
-
-        /// <summary>
-        /// FontSize property.
-        /// </summary>
+        private string _fontName = SystemFonts.MessageFontFamily.Source;
         private double _fontSize = 15.0;
-        [PropertyRange("リスト項目のフォントサイズ", 8, 24, TickFrequency = 1, IsEditable = true)]
-        public double FontSize
-        {
-            get { return _fontSize; }
-            set
-            {
-                if (_fontSize != value)
-                {
-                    _fontSize = Math.Max(1, value);
-                    App.Current.Resources["PanelFontSize"] = _fontSize;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        // システム標準フォント名
-        private static string _defaultFontName = SystemFonts.MessageFontFamily.ToString();
-
-        /// <summary>
-        /// FontFamily property.
-        /// </summary>
-        private string _fontFamily;
-        [PropertyMember("リスト項目のフォント")]
-        public string FontFamily
-        {
-            get { return _fontFamily ?? _defaultFontName; }
-            set
-            {
-                if (_fontFamily != value)
-                {
-                    try
-                    {
-                        _fontFamily = value == _defaultFontName ? null : value;
-                        var fontFamily = _fontFamily == null ? null : new FontFamily(_fontFamily);
-                        App.Current.Resources["PanelFontFamily"] = fontFamily;
-                        RaisePropertyChanged();
-                    }
-                    catch
-                    {
-                        // nop.
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// IsTextWrap property.
-        /// </summary>
         private bool _isTextWrapped;
-        [PropertyMember("リスト項目のファイル名を折り返して表示する", Tips="コンテンツ表示、バナー表示の場合のみ有効です。")]
-        public bool IsTextWrapped
+
+        #endregion
+
+        #region Constructors
+
+        public SidePanelFrameModel()
         {
-            get { return _isTextWrapped; }
-            set
-            {
-                if (_isTextWrapped != value)
-                {
-                    _isTextWrapped = value;
-                    App.Current.Resources["PanelTextWrapping"] = _isTextWrapped ? TextWrapping.Wrap : TextWrapping.NoWrap;
-                    RaisePropertyChanged();
-                }
-            }
+            // initialize resource parameter
+            SetFontFamilyResource(_fontName);
+            SetFontSizeResource(_fontSize);
+            SetIsTextWrappedResource(_isTextWrapped);
+            UpdateTextWrappedHeightResource();
+
+            _left = new SidePanelGroup();
+            _left.PropertyChanged += Left_PropertyChanged;
+
+            _right = new SidePanelGroup();
+            _right.PropertyChanged += Right_PropertyChanged;
         }
 
+        #endregion
+
+        #region Events
 
         /// <summary>
         /// パネル選択変更イベント.
@@ -149,29 +71,158 @@ namespace NeeView
         /// </summary>
         public event EventHandler ContentChanged;
 
-        /// <summary>
-        /// コンストラクター
-        /// </summary>
-        public SidePanelFrameModel()
-        {
-            _left = new SidePanelGroup();
-            _left.PropertyChanged += Left_PropertyChanged;
+        #endregion
 
-            _right = new SidePanelGroup();
-            _right.PropertyChanged += Right_PropertyChanged;
+        #region Properties
+
+        // サイドバー表示フラグ
+        public bool IsSideBarVisible
+        {
+            get { return _IsSideBarVisible; }
+            set { if (_IsSideBarVisible != value) { _IsSideBarVisible = value; RaisePropertyChanged(); } }
         }
 
-
-        /// <summary>
-        /// IsVisibleLocked property.
-        /// </summary>
+        // サイドバー表示ロック。自動非表示にならないようにする
         public bool IsVisibleLocked
         {
             get { return _isVisibleLocked; }
             set { if (_isVisibleLocked != value) { _isVisibleLocked = value; RaisePropertyChanged(); } }
         }
 
-        private bool _isVisibleLocked;
+
+        [PropertyMember("パネルタッチスクロールの終端バウンド")]
+        public bool IsManipulationBoundaryFeedbackEnabled { get; set; }
+
+        // Left Panel
+        public SidePanelGroup Left
+        {
+            get { return _left; }
+            set { if (_left != value) { _left = value; RaisePropertyChanged(); } }
+        }
+
+        // Right Panel
+        public SidePanelGroup Right
+        {
+            get { return _right; }
+            set { if (_right != value) { _right = value; RaisePropertyChanged(); } }
+        }
+
+
+        [PropertyMember("リスト項目のフォント")]
+        public string FontName
+        {
+            get
+            {
+                return _fontName;
+            }
+            set
+            {
+                value = value ?? SystemFonts.MessageFontFamily.Source;
+                if (_fontName != value)
+                {
+                    try
+                    {
+                        _fontName = value;
+                        SetFontFamilyResource(_fontName);
+                        UpdateTextWrappedHeightResource();
+                        RaisePropertyChanged();
+                    }
+                    catch
+                    {
+                        // nop.
+                    }
+                }
+            }
+        }
+
+
+        [PropertyRange("リスト項目のフォントサイズ", 8, 24, TickFrequency = 1, IsEditable = true)]
+        public double FontSize
+        {
+            get { return _fontSize; }
+            set
+            {
+                value = Math.Max(1, value);
+                if (_fontSize != value)
+                {
+                    _fontSize = value;
+                    SetFontSizeResource(_fontSize);
+                    UpdateTextWrappedHeightResource();
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+
+        [PropertyMember("リスト項目のファイル名を折り返して表示する", Tips = "コンテンツ表示、バナー表示の場合のみ有効です。")]
+        public bool IsTextWrapped
+        {
+            get { return _isTextWrapped; }
+            set
+            {
+                if (_isTextWrapped != value)
+                {
+                    _isTextWrapped = value;
+                    SetIsTextWrappedResource(_isTextWrapped);
+                    UpdateTextWrappedHeightResource();
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        #endregion
+
+        #region Methods
+
+        // リソースにFontFamily適用
+        private void SetFontFamilyResource(string fontName)
+        {
+            var fontFamily = fontName != null ? new FontFamily(fontName) : SystemFonts.MessageFontFamily;
+            App.Current.Resources["PanelFontFamily"] = fontFamily;
+        }
+
+       // リソースにFontSize適用
+        private void SetFontSizeResource(double fontSize)
+        {
+            App.Current.Resources["PanelFontSize"] = fontSize;
+        }
+
+        // リソースにTextWrapping適用
+        private void SetIsTextWrappedResource(bool isWrapped)
+        {
+            App.Current.Resources["PanelTextWrapping"] = isWrapped ? TextWrapping.Wrap : TextWrapping.NoWrap;
+        }
+
+        // calc 2 line textbox height
+        private void UpdateTextWrappedHeightResource()
+        {
+            if (_isTextWrapped)
+            {
+                // 実際にTextBlockを作成して計算する
+                var textBlock = new TextBlock()
+                {
+                    Text = "AAA\nBBB",
+                    FontSize = this.FontSize,
+                };
+                if (_fontName != null)
+                {
+                    textBlock.FontFamily = new FontFamily(_fontName);
+                };
+                var panel = new StackPanel();
+                panel.Children.Add(textBlock);
+                var area = new Size(256, 256);
+                panel.Measure(area);
+                panel.Arrange(new Rect(area));
+                //panel.UpdateLayout();
+                double height = (int)textBlock.ActualHeight + 1.0;
+
+                App.Current.Resources["PanelTextWrappedHeight"] = height;
+            }
+            else
+            {
+                App.Current.Resources["PanelTextWrappedHeight"] = double.NaN;
+            }
+        }
 
 
         /// <summary>
@@ -237,6 +288,7 @@ namespace NeeView
             }
         }
 
+        #endregion
 
         #region Memento
 
@@ -250,10 +302,10 @@ namespace NeeView
             public bool IsManipulationBoundaryFeedbackEnabled { get; set; }
 
             [DataMember]
-            public double FontSize { get; set; }
+            public string FontName { get; set; }
 
             [DataMember]
-            public string FontFamily { get; set; }
+            public double FontSize { get; set; }
 
             [DataMember]
             public bool IsTextWrapped { get; set; }
@@ -282,8 +334,8 @@ namespace NeeView
 
             memento.IsSideBarVisible = this.IsSideBarVisible;
             memento.IsManipulationBoundaryFeedbackEnabled = this.IsManipulationBoundaryFeedbackEnabled;
+            memento.FontName = this.FontName;
             memento.FontSize = this.FontSize;
-            memento.FontFamily = this.FontFamily;
             memento.IsTextWrapped = this.IsTextWrapped;
             memento.Left = Left.CreateMemento();
             memento.Right = Right.CreateMemento();
@@ -308,8 +360,8 @@ namespace NeeView
             // memento反映
             this.IsSideBarVisible = memento.IsSideBarVisible;
             this.IsManipulationBoundaryFeedbackEnabled = memento.IsManipulationBoundaryFeedbackEnabled;
+            this.FontName = memento.FontName;
             this.FontSize = memento.FontSize;
-            this.FontFamily = memento.FontFamily;
             this.IsTextWrapped = memento.IsTextWrapped;
             _left.Restore(memento.Left, panels);
             _right.Restore(memento.Right, panels);

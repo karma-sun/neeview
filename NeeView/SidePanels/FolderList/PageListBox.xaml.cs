@@ -32,7 +32,7 @@ namespace NeeView
         private PageListViewModel _vm;
 
         //
-        private ThumbnailHelper _thumbnailHelper;
+        private ListBoxThumbnailLoader _thumbnailLoader;
 
 
         // static constructor
@@ -58,7 +58,7 @@ namespace NeeView
             // タッチスクロール操作の終端挙動抑制
             this.ListBox.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
 
-            _thumbnailHelper = new ThumbnailHelper(this.ListBox, _vm.RequestThumbnail);
+            _thumbnailLoader = new ListBoxThumbnailLoader(this.ListBox, QueueElementPriority.PageListThumbnail);
         }
 
 

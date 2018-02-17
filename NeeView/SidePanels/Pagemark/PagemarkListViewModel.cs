@@ -163,17 +163,6 @@ namespace NeeView
             _model.UpdatePagemark(mark);
         }
 
-        // サムネイル要求
-        public void RequestThumbnail(int start, int count, int margin, int direction)
-        {
-            if (Pagemarks == null) return;
-            if (_model.PanelListItemStyle.HasThumbnail())
-            {
-                ThumbnailManager.Current.RequestThumbnail(Pagemarks.Marks, QueueElementPriority.PagemarkThumbnail, start, count, margin, direction);
-            }
-        }
-
-
         /// <summary>
         /// 無効なページマークを削除.
         /// </summary>

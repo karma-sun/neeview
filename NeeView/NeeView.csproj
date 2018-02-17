@@ -147,6 +147,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ListBoxThumbnailLoader.cs" />
     <Compile Include="Setting\BackgroundSettingControl.xaml.cs">
       <DependentUpon>BackgroundSettingControl.xaml</DependentUpon>
     </Compile>
@@ -621,7 +622,6 @@
       <DependentUpon>RenameWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ReplaceString.cs" />
-    <Compile Include="ThumbnailHelper.cs" />
     <Compile Include="ThumbnailManager.cs" />
     <Compile Include="_NeeView\Drawing\DrawingExtensions.cs" />
     <Compile Include="_NeeView\Media\Imaging\BitmapSourceExtensions.cs" />

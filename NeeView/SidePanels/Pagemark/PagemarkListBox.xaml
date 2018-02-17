@@ -23,18 +23,30 @@
         <RoutedCommand x:Key="xRemoveDommand" />
 
         <Style TargetType="TextBlock" x:Key="PagemarkName">
+            <Setter Property="Text" Value="{Binding PageShort}"/>
+            <Setter Property="ToolTip" Value="{Binding Detail}"/>
+            <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
+            <Setter Property="ToolTipService.BetweenShowDelay" Value="1000"/>
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
         </Style>
 
+        <Style TargetType="TextBlock" x:Key="PagemarkParameter">
+            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="Gray"/>
+            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        </Style>
+
         <!-- Normal Pagemark -->
         <DataTemplate x:Key="NormalPagemark">
-            <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PageShort}" ToolTip="{Binding Detail}" ToolTipService.InitialShowDelay="1000" ToolTipService.BetweenShowDelay="1000" >
+            <Grid MinHeight="20">
                 <i:Interaction.Behaviors>
                     <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:PagemarkListBox.DragDropFormat}" DragDropData="{Binding}" />
                 </i:Interaction.Behaviors>
-            </TextBlock>
+                <TextBlock Style="{StaticResource PagemarkName}"/>
+            </Grid>
         </DataTemplate>
 
         <!-- Picture Pagemark -->
@@ -47,8 +59,8 @@
                     <DockPanel>
                         <local:FolderListThumbnail DataContext="{Binding ArchivePage.Thumbnail}"/>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PlaceShort}" Foreground="Gray" />
-                            <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PageShort}" ToolTip="{Binding Detail}" ToolTipService.InitialShowDelay="1000" ToolTipService.BetweenShowDelay="1000" TextWrapping="{DynamicResource PanelTextWrapping}" MinWidth="256"/>
+                            <TextBlock Style="{StaticResource PagemarkParameter}" Text="{Binding PlaceShort}" Foreground="Gray" />
+                            <TextBlock Style="{StaticResource PagemarkName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
                         </StackPanel>
                     </DockPanel>
                 </DockPanel>
@@ -63,7 +75,7 @@
                 </i:Interaction.Behaviors>
                 <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
                     <DockPanel DockPanel.Dock="Bottom" Margin="2" >
-                        <TextBlock Style="{StaticResource PagemarkName}" Text="{Binding PageShort}" ToolTip="{Binding Detail}" ToolTipService.InitialShowDelay="1000" ToolTipService.BetweenShowDelay="1000" TextWrapping="{DynamicResource PanelTextWrapping}" MinWidth="256"/>
+                        <TextBlock Style="{StaticResource PagemarkName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}" Margin="0"/>
                     </DockPanel>
                     <local:FolderListBanner DataContext="{Binding ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                 </DockPanel>

@@ -28,7 +28,7 @@ namespace NeeView
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(HistoryListBox));
 
         private HistoryListViewModel _vm;
-        private ThumbnailHelper _thumbnailHelper;
+        private ListBoxThumbnailLoader _thumbnailLoader;
 
 
         //
@@ -48,7 +48,7 @@ namespace NeeView
             // タッチスクロール操作の終端挙動抑制
             this.ListBox.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
 
-            _thumbnailHelper = new ThumbnailHelper(this.ListBox, _vm.RequestThumbnail);
+            _thumbnailLoader = new ListBoxThumbnailLoader(this.ListBox, QueueElementPriority.HistoryThumbnail);
         }
 
 
@@ -84,7 +84,7 @@ namespace NeeView
                 lbi?.Focus();
             }
 
-            _thumbnailHelper.UpdateThumbnails(1);
+            _thumbnailLoader.Load();
         }
 
         #region command

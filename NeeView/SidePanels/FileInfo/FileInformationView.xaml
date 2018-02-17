@@ -21,14 +21,6 @@
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
-        <Style x:Key="BlackStyle" TargetType="UserControl">
-            <Setter Property="Background" Value="#FF101010"/>
-            <Setter Property="Foreground" Value="White"/>
-        </Style>
-        <Style x:Key="WhiteStyle" TargetType="UserControl">
-            <Setter Property="Background" Value="#FFF8F8F8"/>
-            <Setter Property="Foreground" Value="Black"/>
-        </Style>
     </UserControl.Resources>
 
     <Grid>

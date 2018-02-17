@@ -23,17 +23,16 @@ namespace NeeView
     /// <summary>
     /// PageListBox.xaml の相互作用ロジック
     /// </summary>
-    public partial class PageListBox : UserControl
+    public partial class PageListBox : UserControl, IPageListPanel
     {
-        // delete command
-        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(PageListBox));
+        #region Fields
 
-        //
         private PageListViewModel _vm;
-
-        //
         private ListBoxThumbnailLoader _thumbnailLoader;
 
+        #endregion
+
+        #region Constructors
 
         // static constructor
         static PageListBox()
@@ -53,14 +52,33 @@ namespace NeeView
             _vm = vm;
             this.DataContext = _vm;
 
-            this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec, Remove_CanExec));
+            InitializeCommand();
 
             // タッチスクロール操作の終端挙動抑制
             this.ListBox.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
 
-            _thumbnailLoader = new ListBoxThumbnailLoader(this.ListBox, QueueElementPriority.PageListThumbnail);
+            _thumbnailLoader = new ListBoxThumbnailLoader(this, QueueElementPriority.PageListThumbnail);
         }
 
+        #endregion
+
+        #region IPageListPanel support
+
+        ListBox IPageListPanel.PageListBox => this.ListBox;
+
+        public bool IsThumbnailVisibled => _vm.Model.IsThumbnailVisibled;
+
+        #endregion
+
+        #region Commands
+
+        // delete command
+        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(PageListBox));
+
+        private void InitializeCommand()
+        {
+            this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec, Remove_CanExec));
+        }
 
         //
         private void Remove_CanExec(object sender, CanExecuteRoutedEventArgs e)
@@ -79,6 +97,9 @@ namespace NeeView
             }
         }
 
+        #endregion
+
+        #region Methods
 
         //
         public void FocusSelectedItem()
@@ -151,5 +172,7 @@ namespace NeeView
                 FocusSelectedItem();
             }
         }
+
+        #endregion
     }
 }

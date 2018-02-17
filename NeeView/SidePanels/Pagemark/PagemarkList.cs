@@ -16,27 +16,8 @@ namespace NeeView
 {
     public class PagemarkList : BindableBase
     {
-        /// <summary>
-        /// PanelListItemStyle property.
-        /// </summary>
-        public PanelListItemStyle PanelListItemStyle
-        {
-            get { return _panelListItemStyle; }
-            set { if (_panelListItemStyle != value) { _panelListItemStyle = value; RaisePropertyChanged(); } }
-        }
-
-        //
         private PanelListItemStyle _panelListItemStyle;
-
-
-        // メッセージ通知
-        ////public event EventHandler<string> InfoMessage;
-
-
-        //
         private BookHub _bookHub;
-
-        //
         private BookOperation _bookOperation;
 
         //
@@ -44,6 +25,29 @@ namespace NeeView
         {
             _bookHub = bookHub;
             _bookOperation = bookOperation;
+        }
+
+
+        public PanelListItemStyle PanelListItemStyle
+        {
+            get { return _panelListItemStyle; }
+            set { if (_panelListItemStyle != value) { _panelListItemStyle = value; RaisePropertyChanged(); } }
+        }
+
+        public bool IsThumbnailVisibled
+        {
+            get
+            {
+                switch (_panelListItemStyle)
+                {
+                    default:
+                        return false;
+                    case PanelListItemStyle.Content:
+                        return ThumbnailProfile.Current.ThumbnailWidth > 0.0;
+                    case PanelListItemStyle.Banner:
+                        return ThumbnailProfile.Current.BannerWidth > 0.0;
+                }
+            }
         }
 
 

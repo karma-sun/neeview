@@ -25,17 +25,19 @@ namespace NeeView
     /// <summary>
     /// BookmarkListBox.xaml の相互作用ロジック
     /// </summary>
-    public partial class BookmarkListBox : UserControl
+    public partial class BookmarkListBox : UserControl, IPageListPanel
     {
-        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(BookmarkListBox));
+        #region Fields
 
         public static string DragDropFormat = $"{Config.Current.ProcessId}.BookmarkItem";
 
-
         private BookmarkListViewModel _vm;
-
         private ListBoxThumbnailLoader _thumbnailLoader;
+        private bool _storeFocus;
 
+        #endregion
+
+        #region Constructors
 
         public BookmarkListBox()
         {
@@ -47,17 +49,34 @@ namespace NeeView
             _vm = vm;
             this.DataContext = vm;
 
-            RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
-            this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
+            InitialieCommand();
 
             // タッチスクロール操作の終端挙動抑制
             this.ListBox.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
 
-            _thumbnailLoader = new ListBoxThumbnailLoader(this.ListBox, QueueElementPriority.BookmarkThumbnail);
+            _thumbnailLoader = new ListBoxThumbnailLoader(this, QueueElementPriority.BookmarkThumbnail);
         }
 
+        #endregion
 
-        //
+        #region IPageListPanel Supprt
+
+        public ListBox PageListBox => this.ListBox;
+
+        public bool IsThumbnailVisibled => _vm.Model.IsThumbnailVisibled;
+
+        #endregion
+
+        #region Commands
+
+        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(BookmarkListBox));
+
+        private void InitialieCommand()
+        {
+            RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
+            this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
+        }
+
         public void Remove_Exec(object sender, ExecutedRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as BookMementoUnitNode;
@@ -67,9 +86,9 @@ namespace NeeView
             }
         }
 
+        #endregion
 
-        //
-        private bool _storeFocus;
+        #region Methods
 
         //
         public void StoreFocus()
@@ -93,8 +112,20 @@ namespace NeeView
             }
         }
 
+        //
+        public void FocusSelectedItem()
+        {
+            if (this.ListBox.SelectedIndex < 0) return;
 
-        #region event method
+            this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
+
+            ListBoxItem lbi = (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(this.ListBox.SelectedIndex));
+            lbi?.Focus();
+        }
+
+        #endregion
+
+        #region Event Methods
 
         // 同期
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
@@ -166,17 +197,6 @@ namespace NeeView
 
                 FocusSelectedItem();
             }
-        }
-
-        //
-        public void FocusSelectedItem()
-        {
-            if (this.ListBox.SelectedIndex < 0) return;
-
-            this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
-
-            ListBoxItem lbi = (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(this.ListBox.SelectedIndex));
-            lbi?.Focus();
         }
 
         #endregion

@@ -23,15 +23,18 @@ namespace NeeView
     /// <summary>
     /// HistoryListBox.xaml の相互作用ロジック
     /// </summary>
-    public partial class HistoryListBox : UserControl
+    public partial class HistoryListBox : UserControl, IPageListPanel
     {
-        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(HistoryListBox));
+        #region Fields
 
         private HistoryListViewModel _vm;
         private ListBoxThumbnailLoader _thumbnailLoader;
+        private bool _storeFocus;
 
+        #endregion
 
-        //
+        #region Constructors
+
         public HistoryListBox()
         {
             InitializeComponent();
@@ -42,18 +45,46 @@ namespace NeeView
             _vm = vm;
             this.DataContext = vm;
 
-            RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
-            this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
+            InitializeCommand();
 
             // タッチスクロール操作の終端挙動抑制
             this.ListBox.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
 
-            _thumbnailLoader = new ListBoxThumbnailLoader(this.ListBox, QueueElementPriority.HistoryThumbnail);
+            _thumbnailLoader = new ListBoxThumbnailLoader(this, QueueElementPriority.HistoryThumbnail);
         }
 
+        #endregion
+        
+        #region IPageListBox support
 
-        //
-        private bool _storeFocus;
+        public ListBox PageListBox => this.ListBox;
+
+        public bool IsThumbnailVisibled => _vm.Model.IsThumbnailVisibled;
+
+        #endregion
+
+        #region Commands
+
+        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(HistoryListBox));
+
+        public void InitializeCommand()
+        {
+            RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
+            this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
+        }
+
+        public void Remove_Exec(object sender, ExecutedRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as BookMementoUnit;
+            if (item != null)
+            {
+                _vm.Remove(item);
+            }
+        }
+
+        #endregion
+
+        #region Methods
 
         /// <summary>
         /// 選択項目フォーカス状態を取得
@@ -87,20 +118,20 @@ namespace NeeView
             _thumbnailLoader.Load();
         }
 
-        #region command
-
-        public void Remove_Exec(object sender, ExecutedRoutedEventArgs e)
+        // フォーカス
+        public void FocusSelectedItem()
         {
-            var item = (sender as ListBox)?.SelectedItem as BookMementoUnit;
-            if (item != null)
-            {
-                _vm.Remove(item);
-            }
+            if (this.ListBox.SelectedIndex < 0) return;
+
+            this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
+
+            ListBoxItem lbi = (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(this.ListBox.SelectedIndex));
+            lbi?.Focus();
         }
 
         #endregion
 
-        #region event method
+        #region Event Methods
 
         // 履歴項目決定
         private void HistoryListItem_MouseSingleClick(object sender, MouseButtonEventArgs e)
@@ -151,16 +182,6 @@ namespace NeeView
         }
 
 
-        // フォーカス
-        public void FocusSelectedItem()
-        {
-            if (this.ListBox.SelectedIndex < 0) return;
-
-            this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
-
-            ListBoxItem lbi = (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(this.ListBox.SelectedIndex));
-            lbi?.Focus();
-        }
 
         // 選択項目が表示されるようにスクロールする
         private void HistoryListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

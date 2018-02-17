@@ -17,23 +17,53 @@ namespace NeeView
 {
     public class PageList : BindableBase
     {
-        /// <summary>
-        /// PanelListItemStyle property.
-        /// </summary>
+        #region Fields
+
+        private PanelListItemStyle _panelListItemStyle;
+
+        #endregion
+
+        #region Constructors
+
+        public PageList(BookHub bookHub, BookOperation bookOperation)
+        {
+            this.BookHub = bookHub;
+            this.BookOperation = bookOperation;
+
+            this.BookOperation.AddPropertyChanged(nameof(BookOperation.PageList),
+                (s, e) => RaisePropertyChanged(nameof(PageCollection)));
+        }
+
+        #endregion
+
+        #region Properties
+
+        //
         public PanelListItemStyle PanelListItemStyle
         {
             get { return _panelListItemStyle; }
             set { if (_panelListItemStyle != value) { _panelListItemStyle = value; RaisePropertyChanged(); } }
         }
 
-        //
-        private PanelListItemStyle _panelListItemStyle;
-
-
+        // サムネイル画像が表示される？？
+        public bool IsThumbnailVisibled
+        {
+            get
+            {
+                switch (_panelListItemStyle)
+                {
+                    default:
+                        return false;
+                    case PanelListItemStyle.Content:
+                        return ThumbnailProfile.Current.ThumbnailWidth > 0.0;
+                    case PanelListItemStyle.Banner:
+                        return ThumbnailProfile.Current.BannerWidth > 0.0;
+                }
+            }
+        }
 
         // ページリスト(表示部用)
         public ObservableCollection<Page> PageCollection => BookOperation.PageList;
-
 
         /// <summary>
         /// 一度だけフォーカスするフラグ
@@ -46,16 +76,7 @@ namespace NeeView
         //
         public BookOperation BookOperation { get; private set; }
 
-        //
-        public PageList(BookHub bookHub, BookOperation bookOperation)
-        {
-            this.BookHub = bookHub;
-            this.BookOperation = bookOperation;
-
-            this.BookOperation.AddPropertyChanged(nameof(BookOperation.PageList),
-                (s, e) => RaisePropertyChanged(nameof(PageCollection)));
-        }
-
+        #endregion
 
         #region Memento
         [DataContract]

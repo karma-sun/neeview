@@ -22,24 +22,15 @@ namespace NeeView
     /// </summary>
     public class ArchivePage : Page
     {
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="entry"></param>
-        /// <param name="entryName"></param>
         public ArchivePage(ArchiveEntry entry)
         {
             Entry = entry;
             Content = new ArchiveContent(Entry);
         }
 
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="path"></param>
         public ArchivePage(string path)
         {
-            /// ArchiveEntryは遅延生成する
+            // ArchiveEntryは遅延生成する
             Content = new ArchiveContent(path);
         }
     }

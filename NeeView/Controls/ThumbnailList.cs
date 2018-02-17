@@ -65,7 +65,7 @@ namespace NeeView
         /// <summary>
         /// サムネイルサイズ
         /// </summary>
-        [PropertyRange("ページサムネイルサイズ", 16, 256, TickFrequency = 16, Format = "{0}×{0}")]
+        [PropertyRange("ページサムネイルサイズ", 16, 256, TickFrequency = 8, Format = "{0}×{0}")]
         public double ThumbnailSize
         {
             get { return _thumbnailSize; }

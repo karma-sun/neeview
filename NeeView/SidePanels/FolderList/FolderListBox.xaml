@@ -123,8 +123,8 @@
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                 <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
                     <DockPanel DockPanel.Dock="Bottom" Margin="2" >
-                        <local:FolderListIconMark DockPanel.Dock="Right"/>
-                        <local:FolderIcon DockPanel.Dock="Left" />
+                        <local:FolderListIconMark DockPanel.Dock="Right" VerticalAlignment="Top"/>
+                        <local:FolderIcon DockPanel.Dock="Left" VerticalAlignment="Top" />
                         <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderNameBanner}" />
                     </DockPanel>
                     <local:FolderListBanner DataContext="{Binding ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>

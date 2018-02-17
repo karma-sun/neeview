@@ -25,17 +25,19 @@ namespace NeeView
     /// <summary>
     /// PagemarkListBox.xaml の相互作用ロジック
     /// </summary>
-    public partial class PagemarkListBox : UserControl
+    public partial class PagemarkListBox : UserControl, IPageListPanel
     {
-        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(PagemarkListBox));
+        #region Fields
 
         public static string DragDropFormat = $"{Config.Current.ProcessId}.PagemarkItem";
 
-
         private PagemarkListViewModel _vm;
-
         private ListBoxThumbnailLoader _thumbnailLoader;
+        private bool _storeFocus;
 
+        #endregion
+
+        #region Constructors
 
         public PagemarkListBox()
         {
@@ -47,16 +49,34 @@ namespace NeeView
             _vm = vm;
             this.DataContext = _vm;
 
-            RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
-            this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
+            InitializeCommand();
 
             // タッチスクロール操作の終端挙動抑制
             this.ListBox.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
 
-            _thumbnailLoader = new ListBoxThumbnailLoader(this.ListBox, QueueElementPriority.PagemarkThumbnail);
+            _thumbnailLoader = new ListBoxThumbnailLoader(this, QueueElementPriority.PagemarkThumbnail);
         }
 
-        //
+        #endregion
+
+        #region IPageListPanel Support
+
+        public ListBox PageListBox => this.ListBox;
+
+        public bool IsThumbnailVisibled => _vm.Model.IsThumbnailVisibled;
+
+        #endregion
+
+        #region Commands
+
+        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(PagemarkListBox));
+
+        public void InitializeCommand()
+        {
+            RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
+            this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
+        }
+
         public void Remove_Exec(object sender, ExecutedRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as Pagemark;
@@ -66,8 +86,9 @@ namespace NeeView
             }
         }
 
+        #endregion
 
-        private bool _storeFocus;
+        #region Methods
 
         //
         public void StoreFocus()
@@ -91,10 +112,9 @@ namespace NeeView
             }
         }
 
+        #endregion
 
-
-        #region EventMethod
-
+        #region Event Methods
 
         // 同期
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
@@ -181,5 +201,6 @@ namespace NeeView
         }
 
         #endregion
+
     }
 }

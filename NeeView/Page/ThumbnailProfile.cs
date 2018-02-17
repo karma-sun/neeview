@@ -62,8 +62,8 @@ namespace NeeView
         [PropertyMember("ブックサムネイル容量", Tips = "フォルダーリスト等でのメモリ上のサムネイル保持枚数です。")]
         public int BookCapacity { get; set; } = 200;
 
-        private int _bannerWidth = 192;
-        [PropertyRange("バナーサイズ", 0, 512, TickFrequency = 16, Tips = "パネルのバナー表示での画像の横幅です。縦幅は横幅の1/4になります。サムネイル画像を流用しているため大きいサイズほど画像が荒くなります。")]
+        private int _bannerWidth = 200;
+        [PropertyRange("バナーサイズ", 0, 512, TickFrequency = 8, Tips = "パネルのバナー表示での画像の横幅です。縦幅は横幅の1/4になります。サムネイル画像を流用しているため大きいサイズほど画像が荒くなります。")]
         public int BannerWidth
         {
             get { return _bannerWidth; }
@@ -81,7 +81,7 @@ namespace NeeView
         /// ThumbnailWidth property.
         /// </summary>
         private int _thumbnailWidth = 48;
-        [PropertyRange("ブックサムネイルサイズ", 0, 256, TickFrequency = 16, Format = "{0}×{0}", Tips = "パネルのコンテンツ表示でのサムネイルサイズです。")]
+        [PropertyRange("ブックサムネイルサイズ", 0, 256, TickFrequency = 8, Format = "{0}×{0}", Tips = "パネルのコンテンツ表示でのサムネイルサイズです。")]
         public int ThumbnailWidth
         {
             get { return _thumbnailWidth; }
@@ -164,7 +164,7 @@ namespace NeeView
             [DataMember, DefaultValue(200)]
             public int BookCapacity { get; set; }
 
-            [DataMember, DefaultValue(50)]
+            [DataMember, DefaultValue(48)]
             public int ThumbnailWidth { get; set; }
 
             [DataMember, DefaultValue(true)]
@@ -177,7 +177,8 @@ namespace NeeView
             [OnDeserializing]
             private void Deserializing(StreamingContext context)
             {
-                ThumbnailWidth = 50;
+                ThumbnailWidth = 48;
+                BannerWidth = 200;
                 IsThumbnailPopup = true;
             }
         }

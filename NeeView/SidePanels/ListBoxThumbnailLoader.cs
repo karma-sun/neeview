@@ -17,22 +17,21 @@ namespace NeeView
 {
     /// <summary>
     /// ListBoxのページサムネイルを読み込む機能
-    /// TODO: Behavior化
     /// </summary>
     public class ListBoxThumbnailLoader
     {
-        private ListBox _listBox;
+        private IPageListPanel _panel;
         private QueueElementPriority _priority;
         private VirtualizingStackPanel _virtualizingStackPanel;
 
-        public ListBoxThumbnailLoader(ListBox listBox, QueueElementPriority priority)
+        public ListBoxThumbnailLoader(IPageListPanel panelListBox, QueueElementPriority priority)
         {
-            _listBox = listBox;
+            _panel = panelListBox;
             _priority = priority;
 
-            _listBox.Loaded += ListBox_Loaded; ;
-            _listBox.IsVisibleChanged += ListBox_IsVisibleChanged; ;
-            _listBox.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(ListBox_ScrollChanged));
+            _panel.PageListBox.Loaded += ListBox_Loaded; ;
+            _panel.PageListBox.IsVisibleChanged += ListBox_IsVisibleChanged; ;
+            _panel.PageListBox.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(ListBox_ScrollChanged));
         }
 
         private void ListBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -54,10 +53,15 @@ namespace NeeView
         }
 
         public void Load()
-        { 
+        {
+            if (!_panel.IsThumbnailVisibled)
+            {
+                return;
+            }
+
             if (_virtualizingStackPanel == null)
             {
-                _virtualizingStackPanel = VisualTreeUtility.FindVisualChild<VirtualizingStackPanel>(_listBox);
+                _virtualizingStackPanel = VisualTreeUtility.FindVisualChild<VirtualizingStackPanel>(_panel.PageListBox);
                 if (_virtualizingStackPanel == null)
                 {
                     return;

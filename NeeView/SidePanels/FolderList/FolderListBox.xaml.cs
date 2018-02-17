@@ -25,15 +25,9 @@ namespace NeeView
     /// <summary>
     /// FolderListBox.xaml の相互作用ロジック
     /// </summary>
-    public partial class FolderListBox : UserControl
+    public partial class FolderListBox : UserControl, IPageListPanel
     {
         #region Fields
-
-        public static readonly RoutedCommand LoadWithRecursiveCommand = new RoutedCommand("LoadWithRecursiveCommand", typeof(FolderListBox));
-        public static readonly RoutedCommand OpenExplorerCommand = new RoutedCommand("OpenExplorerCommand", typeof(FolderListBox));
-        public static readonly RoutedCommand CopyCommand = new RoutedCommand("CopyCommand", typeof(FolderListBox));
-        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(FolderListBox));
-        public static readonly RoutedCommand RenameCommand = new RoutedCommand("RenameCommand", typeof(FolderListBox));
 
         private FolderListViewModel _vm;
         private ListBoxThumbnailLoader _thumbnailLoader;
@@ -47,9 +41,7 @@ namespace NeeView
         // static construcotr
         static FolderListBox()
         {
-            CopyCommand.InputGestures.Add(new KeyGesture(Key.C, ModifierKeys.Control));
-            RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
-            RenameCommand.InputGestures.Add(new KeyGesture(Key.F2));
+            InitialieCommandStatic();
         }
 
         //
@@ -64,18 +56,13 @@ namespace NeeView
             _vm = vm;
             this.DataContext = vm;
 
-            this.ListBox.CommandBindings.Add(new CommandBinding(LoadWithRecursiveCommand, LoadWithRecursive_Executed, LoadWithRecursive_CanExecute));
-            this.ListBox.CommandBindings.Add(new CommandBinding(OpenExplorerCommand, OpenExplorer_Executed));
-            this.ListBox.CommandBindings.Add(new CommandBinding(CopyCommand, Copy_Executed, Copy_CanExecute));
-            this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Executed, FileCommand_CanExecute));
-            this.ListBox.CommandBindings.Add(new CommandBinding(RenameCommand, Rename_Executed, FileCommand_CanExecute));
+            InitializeCommand();
 
             // タッチスクロール操作の終端挙動抑制
             this.ListBox.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
 
             this.ListBox.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(ListBox_ScrollChanged));
-            _thumbnailLoader = new ListBoxThumbnailLoader(this.ListBox, QueueElementPriority.FolderThumbnail);
-
+            _thumbnailLoader = new ListBoxThumbnailLoader(this, QueueElementPriority.FolderThumbnail);
         }
 
         #endregion
@@ -87,7 +74,39 @@ namespace NeeView
 
         #endregion
 
-        #region RoutedCommand
+        #region IPanelListBox Support
+
+        //
+        public ListBox PageListBox => this.ListBox;
+
+        // サムネイルが表示されている？
+        public bool IsThumbnailVisibled => _vm.Model.IsThumbnailVisibled;
+
+        #endregion
+
+        #region Commands
+
+        public static readonly RoutedCommand LoadWithRecursiveCommand = new RoutedCommand("LoadWithRecursiveCommand", typeof(FolderListBox));
+        public static readonly RoutedCommand OpenExplorerCommand = new RoutedCommand("OpenExplorerCommand", typeof(FolderListBox));
+        public static readonly RoutedCommand CopyCommand = new RoutedCommand("CopyCommand", typeof(FolderListBox));
+        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(FolderListBox));
+        public static readonly RoutedCommand RenameCommand = new RoutedCommand("RenameCommand", typeof(FolderListBox));
+
+        private static void InitialieCommandStatic()
+        {
+            CopyCommand.InputGestures.Add(new KeyGesture(Key.C, ModifierKeys.Control));
+            RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
+            RenameCommand.InputGestures.Add(new KeyGesture(Key.F2));
+        }
+
+        private void InitializeCommand()
+        {
+            this.ListBox.CommandBindings.Add(new CommandBinding(LoadWithRecursiveCommand, LoadWithRecursive_Executed, LoadWithRecursive_CanExecute));
+            this.ListBox.CommandBindings.Add(new CommandBinding(OpenExplorerCommand, OpenExplorer_Executed));
+            this.ListBox.CommandBindings.Add(new CommandBinding(CopyCommand, Copy_Executed, Copy_CanExecute));
+            this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Executed, FileCommand_CanExecute));
+            this.ListBox.CommandBindings.Add(new CommandBinding(RenameCommand, Rename_Executed, FileCommand_CanExecute));
+        }
 
         /// <summary>
         /// サブフォルダーを読み込む？
@@ -266,7 +285,6 @@ namespace NeeView
                 System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + path + "\"");
             }
         }
-
 
         #endregion
 

@@ -110,14 +110,29 @@ namespace NeeView
         //
         public FolderPanelModel FolderPanel { get; private set; }
 
-        /// <summary>
-        /// PanelListItemStyle property.
-        /// </summary>
+        //
         private PanelListItemStyle _panelListItemStyle;
         public PanelListItemStyle PanelListItemStyle
         {
             get { return _panelListItemStyle; }
             set { if (_panelListItemStyle != value) { _panelListItemStyle = value; RaisePropertyChanged(); } }
+        }
+
+        // サムネイル画像が表示される？？
+        public bool IsThumbnailVisibled
+        {
+            get
+            {
+                switch (_panelListItemStyle)
+                {
+                    default:
+                        return false;
+                    case PanelListItemStyle.Content:
+                        return ThumbnailProfile.Current.ThumbnailWidth > 0.0;
+                    case PanelListItemStyle.Banner:
+                        return ThumbnailProfile.Current.BannerWidth > 0.0;
+                }
+            }
         }
 
         /// <summary>
@@ -822,9 +837,6 @@ namespace NeeView
                 this.SearchHistory.RemoveAt(this.SearchHistory.Count - 1);
             }
         }
-
-
-
 
         #endregion
 

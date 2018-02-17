@@ -16,21 +16,7 @@ namespace NeeView
 {
     public class BookmarkList : BindableBase
     {
-        /// <summary>
-        /// PanelListItemStyle property.
-        /// </summary>
-        public PanelListItemStyle PanelListItemStyle
-        {
-            get { return _panelListItemStyle; }
-            set { if (_panelListItemStyle != value) { _panelListItemStyle = value; RaisePropertyChanged(); } }
-        }
-
-        //
         private PanelListItemStyle _panelListItemStyle;
-        
-
-        //
-        public BookHub BookHub { get; private set; }
 
         //
         public BookmarkList(BookHub bookHub)
@@ -38,7 +24,32 @@ namespace NeeView
             this.BookHub = bookHub;
         }
 
+        //
+        public PanelListItemStyle PanelListItemStyle
+        {
+            get { return _panelListItemStyle; }
+            set { if (_panelListItemStyle != value) { _panelListItemStyle = value; RaisePropertyChanged(); } }
+        }
 
+        // サムネイル画像が表示される？？
+        public bool IsThumbnailVisibled
+        {
+            get
+            {
+                switch (_panelListItemStyle)
+                {
+                    default:
+                        return false;
+                    case PanelListItemStyle.Content:
+                        return ThumbnailProfile.Current.ThumbnailWidth > 0.0;
+                    case PanelListItemStyle.Banner:
+                        return ThumbnailProfile.Current.BannerWidth > 0.0;
+                }
+            }
+        }
+
+        //
+        public BookHub BookHub { get; private set; }
 
         #region Command
 
@@ -80,8 +91,6 @@ namespace NeeView
         }
 
         #endregion
-
-
 
         #region Memento
         [DataContract]

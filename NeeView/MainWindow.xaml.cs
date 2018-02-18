@@ -821,7 +821,7 @@ namespace NeeView
         }
 
         /// <summary>
-        /// メニューエリアレイアウト苦心
+        /// メニューエリアレイアウト更新。
         /// </summary>
         private void UpdateMenuAreaLayout()
         {

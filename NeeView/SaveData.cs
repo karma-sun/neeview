@@ -244,6 +244,34 @@ namespace NeeView
         }
 
 
+        /// <summary>
+        /// アプリ強制終了でもファイルがなるべく破壊されないような保存
+        /// </summary>
+        private void SafetySave(Action<string> save, string path, bool isBackup)
+        {
+            var tmp = path + ".tmp";
+            if (File.Exists(tmp))
+            {
+                File.Delete(tmp);
+            }
+
+            save(tmp);
+
+            var old = path + ".old";
+            lock (App.Current.Lock)
+            {
+                if (File.Exists(old))
+                {
+                    File.Delete(old);
+                }
+                File.Move(path, old);
+                File.Move(tmp, path);
+                if (!isBackup)
+                {
+                    File.Delete(old);
+                }
+            }
+        }
 
         // アプリ設定保存
         public void SaveSetting()
@@ -265,7 +293,7 @@ namespace NeeView
             try
             {
                 // 設定をファイルに保存
-                setting.Save(App.Current.Option.SettingFilename);
+                SafetySave(setting.Save, App.Current.Option.SettingFilename, App.Current.IsSettingBackup);
             }
             catch { }
 
@@ -283,7 +311,7 @@ namespace NeeView
                 {
                     // 履歴をファイルに保存
                     var bookHistoryMemento = BookHistory.Current.CreateMemento(true);
-                    bookHistoryMemento.Save(_historyFileName);
+                    SafetySave(bookHistoryMemento.Save, _historyFileName, false);
                 }
             }
             catch { }
@@ -299,7 +327,7 @@ namespace NeeView
                 {
                     // ブックマークをファイルに保存
                     var bookmarkMemento = BookmarkCollection.Current.CreateMemento(true);
-                    bookmarkMemento.Save(_bookmarkFileName);
+                    SafetySave(bookmarkMemento.Save, _bookmarkFileName, false);
                 }
             }
             catch { }
@@ -315,7 +343,7 @@ namespace NeeView
                 {
                     // ページマークをファイルに保存
                     var pagemarkMemento = PagemarkCollection.Current.CreateMemento(true);
-                    pagemarkMemento.Save(_pagemarkFileName);
+                    SafetySave(pagemarkMemento.Save, _pagemarkFileName, false);
                 }
             }
             catch { }

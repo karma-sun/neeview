@@ -147,6 +147,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Archiver\MediaArchiver.cs" />
+    <Compile Include="Page\MediaContent.cs" />
     <Compile Include="SidePanels\IPageListPanel.cs" />
     <Compile Include="SidePanels\ListBoxThumbnailLoader.cs" />
     <Compile Include="Setting\BackgroundSettingControl.xaml.cs">
@@ -216,6 +218,7 @@
     </Compile>
     <Compile Include="Setting\MouseGestureSettingViewModel.cs" />
     <Compile Include="UserSetting.cs" />
+    <Compile Include="ViewContent\MediaViewContent.cs" />
     <Compile Include="_NeeLaboratory\ComponentModel\ObjectExtensions.cs" />
     <Compile Include="_NeeView\AliasNameAttribute.cs" />
     <Compile Include="AnyKey.cs" />

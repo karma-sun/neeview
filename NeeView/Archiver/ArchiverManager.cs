@@ -36,6 +36,7 @@ namespace NeeView
             [ArchiverType.SevenZipArchiver] = SevenZipArchiverProfile.Current.SupportFileTypes,
             [ArchiverType.ZipArchiver] = new FileTypeCollection(".zip"),
             [ArchiverType.PdfArchiver] = new FileTypeCollection(".pdf"),
+            [ArchiverType.MediaArchiver] = MediaArchiverProfile.Current.SupportFileTypes,
             [ArchiverType.SusieArchiver] = SusieContext.Current.ArchiveExtensions,
         };
 
@@ -142,6 +143,11 @@ namespace NeeView
                 ArchiverType.ZipArchiver,
             };
 
+            if (MediaArchiverProfile.Current.IsSupported)
+            {
+                order.Insert(0, ArchiverType.MediaArchiver);
+            }
+
             if (this.IsPdfEnabled)
             {
                 order.Add(ArchiverType.PdfArchiver);
@@ -234,6 +240,8 @@ namespace NeeView
                     return new SevenZipArchiverProxy(path, source, isRoot, isAll);
                 case ArchiverType.PdfArchiver:
                     return new PdfArchiver(path, source, isRoot);
+                case ArchiverType.MediaArchiver:
+                    return new MediaArchiver(path, source, isRoot);
                 case ArchiverType.SusieArchiver:
                     return new SusieArchiver(path, source, isRoot);
                 default:
@@ -353,7 +361,7 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
-            [DataMember]
+            [DataMember, DefaultValue(true)]
             public bool IsEnabled { get; set; }
 
             [DataMember, DefaultValue(true)]
@@ -361,8 +369,6 @@ namespace NeeView
 
             [DataMember, DefaultValue(_defaultExcludePattern)]
             public string ExcludePattern { get; set; }
-
-            #region Constructors
 
             public Memento()
             {
@@ -381,8 +387,6 @@ namespace NeeView
                 this.IsPdfEnabled = true;
                 this.ExcludePattern = _defaultExcludePattern;
             }
-
-            #endregion
         }
 
         //

@@ -89,6 +89,11 @@ namespace NeeView
             {
                 return ViewContentType.Anime;
             }
+            // メディア
+            else if (Content is MediaContent)
+            {
+                return ViewContentType.Media;
+            }
             // 画像
             else if (Content is BitmapContent)
             {
@@ -195,6 +200,7 @@ namespace NeeView
         Message,
         Bitmap,
         Anime,
+        Media,
         Pdf,
         Thumbnail,
     }

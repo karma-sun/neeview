@@ -45,6 +45,20 @@ namespace NeeView
     }
 
     /// <summary>
+    /// MediaPlayer ページ
+    /// </summary>
+    public class MediaPage : Page
+    {
+        public MediaPage(ArchiveEntry entry)
+        {
+            Entry = entry;
+
+            Content = new MediaContent(entry);
+            Content.Loaded += (s, e) => Loaded?.Invoke(this, null);
+        }
+    }
+
+    /// <summary>
     /// PDFページ
     /// </summary>
     public class PdfPage : Page

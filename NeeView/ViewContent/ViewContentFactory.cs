@@ -39,6 +39,9 @@ namespace NeeView
                 case ViewContentType.Anime:
                     viewContent = AnimatedViewContent.Create(source, oldViewContent);
                     break;
+                case ViewContentType.Media:
+                    viewContent = MediaViewContent.Create(source, oldViewContent);
+                    break;
                 case ViewContentType.Pdf:
                     viewContent = PdfViewContent.Create(source, oldViewContent);
                     break;

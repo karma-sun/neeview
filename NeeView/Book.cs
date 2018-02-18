@@ -462,7 +462,11 @@ namespace NeeView
 
             if (entry.IsImage())
             {
-                if (entry.Archiver is PdfArchiver)
+                if (entry.Archiver is MediaArchiver)
+                {
+                    page = new MediaPage(entry);
+                }
+                else if (entry.Archiver is PdfArchiver)
                 {
                     page = new PdfPage(entry);
                 }

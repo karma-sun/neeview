@@ -189,7 +189,7 @@ namespace NeeView
         /// ファイル更新日
         /// </summary>
         public DateTime? LastWriteTime { get; set; }
-        
+
         /// <summary>
         /// ファイルシステム所属判定
         /// </summary>
@@ -263,7 +263,7 @@ namespace NeeView
         /// <param name="isKeepFileName">エントリー名をファイル名にする</param>
         public FileProxy ExtractToTemp(bool isKeepFileName = false)
         {
-            if (this.Archiver is FolderArchive)
+            if (this.Archiver is FolderArchive || this.Archiver is MediaArchiver)
             {
                 return new FileProxy(GetFileSystemPath());
             }
@@ -302,12 +302,12 @@ namespace NeeView
         }
 
         /// <summary>
-        /// このエントリが画像であるか拡張子から判定
+        /// このエントリが画像であるか拡張子から判定。
+        /// MediaArchiverは無条件で画像と認識
         /// </summary>
-        /// <returns></returns>
         public bool IsImage()
         {
-            return PictureProfile.Current.IsSupported(this.EntryName);
+            return (this.Archiver is MediaArchiver) || PictureProfile.Current.IsSupported(this.EntryName);
         }
 
         /// <summary>

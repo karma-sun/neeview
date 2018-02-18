@@ -35,6 +35,7 @@ namespace NeeView
         public PagemarkCollection PagemarkCollection { get; private set; }
         public SevenZipArchiverProfile SevenZipArchiverProfile { get; private set; }
         public PdfArchiverProfile PdfArchiverProfile { get; private set; }
+        public MediaArchiverProfile MediaArchiverProfile { get; private set; }
         public ArchiverManager ArchiverManager { get; private set; }
         ////public BitmapLoaderManager BitmapLoaderManager { get; private set; }
         public DragActionTable DragActionTable { get; private set; }
@@ -120,6 +121,7 @@ namespace NeeView
             PagemarkCollection = new PagemarkCollection();
             SevenZipArchiverProfile = new SevenZipArchiverProfile();
             PdfArchiverProfile = new PdfArchiverProfile();
+            MediaArchiverProfile = new MediaArchiverProfile();
             ArchiverManager = new ArchiverManager();
             DragActionTable = new DragActionTable();
             ThumbnailProfile = new ThumbnailProfile();

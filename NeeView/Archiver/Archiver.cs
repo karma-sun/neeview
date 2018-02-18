@@ -26,6 +26,7 @@ namespace NeeView
         SevenZipArchiver,
         PdfArchiver,
         SusieArchiver,
+        MediaArchiver,
 
         DefaultArchiver = ZipArchiver
     }

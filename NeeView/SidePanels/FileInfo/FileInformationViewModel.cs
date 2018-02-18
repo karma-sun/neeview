@@ -222,7 +222,7 @@ namespace NeeView
                 Archiver = info.Archiver;
 
                 // デコーダ
-                Decoder = (bitmapContent is AnimatedContent) ? "MediaPlayer" : info.Decoder;
+                Decoder = (bitmapContent is AnimatedContent || bitmapContent is MediaContent) ? "MediaPlayer" : info.Decoder;
             }
             else
             {

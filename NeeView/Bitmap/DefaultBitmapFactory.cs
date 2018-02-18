@@ -113,7 +113,7 @@ namespace NeeView
         }
 
         //
-        private BitmapEncoder CreateEncoder(BitmapImageFormat format, int quality)
+        public static BitmapEncoder CreateEncoder(BitmapImageFormat format, int quality)
         {
             switch (format)
             {

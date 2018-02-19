@@ -125,25 +125,7 @@ namespace NeeView
         // 履歴読み込み
         public void LoadHistory(Setting setting)
         {
-            BookHistory.Memento memento;
-
-            if (System.IO.File.Exists(_historyFileName))
-            {
-                try
-                {
-                    memento = BookHistory.Memento.Load(_historyFileName);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.Message);
-                    new MessageDialog($"原因: {e.Message}", "履歴の読み込みに失敗しました").ShowDialog();
-                    memento = new BookHistory.Memento();
-                }
-            }
-            else
-            {
-                memento = new BookHistory.Memento();
-            }
+            BookHistory.Memento memento = SafetyLoad(BookHistory.Memento.Load, _historyFileName, "履歴の読み込みに失敗しました", "履歴の読み込みに失敗しました。");
 
 #pragma warning disable CS0612
 
@@ -173,26 +155,7 @@ namespace NeeView
         // ブックマーク読み込み
         public void LoadBookmark(Setting setting)
         {
-            BookmarkCollection.Memento memento;
-
-            // ブックマーク読み込み
-            if (System.IO.File.Exists(_bookmarkFileName))
-            {
-                try
-                {
-                    memento = BookmarkCollection.Memento.Load(_bookmarkFileName);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.Message);
-                    new MessageDialog($"原因: {e.Message}", "ブックマークの読み込みに失敗しました").ShowDialog();
-                    memento = new BookmarkCollection.Memento();
-                }
-            }
-            else
-            {
-                memento = new BookmarkCollection.Memento();
-            }
+            BookmarkCollection.Memento memento = SafetyLoad(BookmarkCollection.Memento.Load, _bookmarkFileName, "ブックマークの読み込みに失敗しました", "ブックマークの読み込みに失敗しました。");
 
             // ブックマーク反映
             BookmarkCollection.Current.Restore(memento);
@@ -201,80 +164,31 @@ namespace NeeView
         // ページマーク読み込み
         public void LoadPagemark(Setting setting)
         {
-            PagemarkCollection.Memento memento;
-
-            // 読込ファイル名確定
-            string filename = null;
-            if (System.IO.File.Exists(_pagemarkFileName))
+            // 旧ファイル名の変更
+            try
             {
-                filename = _pagemarkFileName;
+                if (!File.Exists(_pagemarkFileName) && File.Exists(_oldPagemarkFileName))
+                {
+                    File.Move(_oldPagemarkFileName, _pagemarkFileName);
+                }
             }
-            else if (System.IO.File.Exists(_oldPagemarkFileName))
-            {
-                filename = _oldPagemarkFileName;
-            }
+            catch { }
 
             // ページマーク読み込み
-            if (filename != null)
-            {
-                try
-                {
-                    memento = PagemarkCollection.Memento.Load(filename);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.Message);
-                    new MessageDialog($"原因: {e.Message}", "ページマークの読み込みに失敗しました").ShowDialog();
-                    memento = new PagemarkCollection.Memento();
-                }
-
-                // 旧ファイル名の変更
-                if (filename == _oldPagemarkFileName)
-                {
-                    System.IO.File.Move(filename, _pagemarkFileName);
-                }
-            }
-            else
-            {
-                memento = new PagemarkCollection.Memento();
-            }
+            PagemarkCollection.Memento memento = SafetyLoad(PagemarkCollection.Memento.Load, _pagemarkFileName, "ページマークの読み込みに失敗しました", "ページマークの読み込みに失敗しました。");
 
             // ページマーク反映
             PagemarkCollection.Current.Restore(memento);
         }
 
-
-        /// <summary>
-        /// アプリ強制終了でもファイルがなるべく破壊されないような保存
-        /// </summary>
-        private void SafetySave(Action<string> save, string path, bool isBackup)
+        // アプリ設定読み込み
+        public void LoadSetting(string filename)
         {
-            var tmp = path + ".tmp";
-            if (File.Exists(tmp))
-            {
-                File.Delete(tmp);
-            }
-
-            save(tmp);
-
-            var old = path + ".old";
-            lock (App.Current.Lock)
-            {
-                if (File.Exists(old))
-                {
-                    File.Delete(old);
-                }
-                File.Move(path, old);
-                File.Move(tmp, path);
-                if (!isBackup)
-                {
-                    File.Delete(old);
-                }
-            }
+            this.Setting = SafetyLoad(Setting.Load, filename, "設定の読み込みに失敗しました。初期設定で起動します。", "設定の読み込みに失敗しました。");
         }
 
-        // アプリ設定保存
-        public void SaveSetting()
+        // 全データ保存
+        public void SaveAll()
         {
             if (!IsEnableSave) return;
 
@@ -305,7 +219,7 @@ namespace NeeView
                 if (disableSave)
                 {
                     // 履歴ファイルを削除
-                    FileIO.Current.RemoveFile(_historyFileName);
+                    FileIO.RemoveFile(_historyFileName);
                 }
                 else
                 {
@@ -321,7 +235,7 @@ namespace NeeView
                 if (disableSave)
                 {
                     // ブックマークファイルを削除
-                    FileIO.Current.RemoveFile(_bookmarkFileName);
+                    FileIO.RemoveFile(_bookmarkFileName);
                 }
                 else
                 {
@@ -337,7 +251,7 @@ namespace NeeView
                 if (disableSave)
                 {
                     // ページマークファイルを削除
-                    FileIO.Current.RemoveFile(_pagemarkFileName);
+                    FileIO.RemoveFile(_pagemarkFileName);
                 }
                 else
                 {
@@ -349,29 +263,91 @@ namespace NeeView
             catch { }
         }
 
-        // アプリ設定読み込み
-        public void LoadSetting(string filename)
-        {
-            // 設定の読み込み
-            if (System.IO.File.Exists(filename))
-            {
-                try
-                {
-                    this.Setting = Setting.Load(filename);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.Message);
-                    new MessageDialog("設定の読み込みに失敗しました。初期設定で起動します。", "設定の読み込みに失敗しました。").ShowDialog();
 
-                    this.Setting = new Setting();
+
+        /// <summary>
+        /// アプリ強制終了でもファイルがなるべく破壊されないような保存
+        /// </summary>
+        private void SafetySave(Action<string> save, string path, bool isBackup)
+        {
+            try
+            {
+                var oldPath = path + ".old";
+                var tmpPath = path + ".tmp";
+
+                FileIO.RemoveFile(tmpPath);
+                save(tmpPath);
+
+                lock (App.Current.Lock)
+                {
+                    var newFile = new FileInfo(tmpPath);
+                    var oldFile = new FileInfo(path);
+
+                    if (oldFile.Exists)
+                    {
+                        FileIO.RemoveFile(oldPath);
+                        oldFile.MoveTo(oldPath);
+                    }
+
+                    newFile.MoveTo(path);
+
+                    if (!isBackup)
+                    {
+                        FileIO.RemoveFile(oldPath);
+                    }
                 }
             }
-            else
+            catch (Exception ex)
             {
-                this.Setting = new Setting();
+                Debug.WriteLine(ex.Message);
             }
         }
+
+        /// <summary>
+        /// 正規ファイルの読み込みに失敗したらバックアップからの復元を試みる
+        /// </summary>
+        private T SafetyLoad<T>(Func<string, T> load, string path, string failedMessage, string failedTitle)
+            where T : new()
+        {
+            var old = path + ".old";
+
+            try
+            {
+                if (File.Exists(path))
+                {
+                    try
+                    {
+                        return load(path);
+                    }
+                    catch
+                    {
+                        if (File.Exists(old))
+                        {
+                            return load(old);
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                }
+                else if (File.Exists(old))
+                {
+                    return load(old);
+                }
+                else
+                {
+                    return new T();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                new MessageDialog(failedMessage, failedTitle).ShowDialog();
+                return new T();
+            }
+        }
+
 
         #region Backup
 
@@ -410,7 +386,7 @@ namespace NeeView
         public void SaveBackupFile(string filename)
         {
             // 保存
-            SaveSetting();
+            SaveAll();
 
             try
             {
@@ -436,7 +412,7 @@ namespace NeeView
                     }
                 }
             }
-            catch(Exception)
+            catch (Exception)
             {
                 // 中途半端なファイルは削除
                 if (File.Exists(filename))

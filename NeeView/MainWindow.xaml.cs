@@ -663,7 +663,7 @@ namespace NeeView
             _timer.Stop();
 
             // 設定保存
-            SaveData.Current.SaveSetting();
+            SaveData.Current.SaveAll();
 
             // テンポラリファイル破棄
             Temporary.RemoveTempFolder();

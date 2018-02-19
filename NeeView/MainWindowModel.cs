@@ -409,7 +409,7 @@ namespace NeeView
             {
                 SaveData.Current.RestoreSetting(setting, false);
                 WindowShape.Current.CreateSnapMemento();
-                SaveData.Current.SaveSetting();
+                SaveData.Current.SaveAll();
                 BookHistory.Current.Restore(history, false);
 
                 // 現在ページ再読込

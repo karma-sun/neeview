@@ -17,6 +17,8 @@ namespace NeeView
     /// </summary>
     public class AnimatedViewContent : BitmapViewContent
     {
+        private TextBlock _errorMessageTextBlock;
+
         #region Constructors
 
         public AnimatedViewContent(ViewPage source, ViewContent old) : base(source, old)
@@ -57,10 +59,10 @@ namespace NeeView
 
             //
             var media = new MediaElement();
-            media.Source = new Uri(((AnimatedContent)Content).FileProxy.Path);
             media.MediaEnded += (s, e_) => media.Position = TimeSpan.FromMilliseconds(1);
-            media.MediaFailed += (s, e_) => { throw new ApplicationException("MediaElementで致命的エラー", e_.ErrorException); };
+            media.MediaFailed += Media_MediaFailed;
             media.SetBinding(RenderOptions.BitmapScalingModeProperty, parameter.BitmapScalingMode);
+            media.Source = new Uri(((AnimatedContent)Content).FileProxy.Path);
 
             var brush = new VisualBrush();
             brush.Visual = media;
@@ -71,10 +73,22 @@ namespace NeeView
             canvas.Fill = brush;
             canvas.SetBinding(Rectangle.VisibilityProperty, parameter.AnimationPlayerVisibility);
 
-            //
+            _errorMessageTextBlock = new TextBlock()
+            {
+                Background = Brushes.Black,
+                Foreground = Brushes.White,
+                Padding = new Thickness(40, 20, 40, 20),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                FontSize = 20,
+                TextWrapping = TextWrapping.Wrap,
+                Visibility = Visibility.Collapsed,
+            };
+
             var grid = new Grid();
             if (image != null) grid.Children.Add(image);
             grid.Children.Add(canvas);
+            grid.Children.Add(_errorMessageTextBlock);
 
             return grid;
         }
@@ -83,6 +97,13 @@ namespace NeeView
         public override bool Rebuild(double scale)
         {
             return true;
+        }
+
+        //
+        private void Media_MediaFailed(object sender, ExceptionRoutedEventArgs e)
+        {
+            _errorMessageTextBlock.Text = e.ErrorException != null ? e.ErrorException.Message : "再生エラー";
+            _errorMessageTextBlock.Visibility = Visibility.Visible;
         }
 
         #endregion

@@ -102,6 +102,9 @@ namespace NeeView
         [PropertyPath("ダウンロードフォルダ", Tips = "ブラウザ等がらドロップした画像の保存場所です。指定がない場合は一時フォルダーが使用されます。", IsDirectory = true)]
         public string DownloadPath { get; set; }
 
+        [PropertyMember("ユーザー設定ファイルのバックアップを作る", Tips ="保存データのバックアップを作成します。ファイル名は UserSetting.xaml.old です。更新タイミングは、設定ウィンドウを閉じた時と、アプリを終了した時です。")]
+        public bool IsSettingBackup { get; set; } = true;
+
         #endregion
 
         #region Memento
@@ -144,11 +147,15 @@ namespace NeeView
             [DataMember, DefaultValue("")]
             public string DownloadPath { get; set; }
 
+            [DataMember, DefaultValue(true)]
+            public bool IsSettingBackup { get; set; }
+
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
             {
                 this.IsRestoreSecondWindow = true;
                 this.WindowChromeFrame = WindowChromeFrame.Line;
+                this.IsSettingBackup = true;
             }
         }
 
@@ -168,6 +175,7 @@ namespace NeeView
             memento.IsOpenLastBook = this.IsOpenLastBook;
             memento.DownloadPath = this.DownloadPath;
             memento.IsRestoreSecondWindow = this.IsRestoreSecondWindow;
+            memento.IsSettingBackup = this.IsSettingBackup;
             return memento;
         }
 
@@ -187,6 +195,7 @@ namespace NeeView
             this.IsOpenLastBook = memento.IsOpenLastBook;
             this.DownloadPath = memento.DownloadPath;
             this.IsRestoreSecondWindow = memento.IsRestoreSecondWindow;
+            this.IsSettingBackup = memento.IsSettingBackup;
         }
 
 #pragma warning disable CS0612

@@ -42,6 +42,9 @@ namespace NeeView
         // オプション設定
         public CommandLineOption Option { get; private set; }
 
+        // システムロック
+        public object Lock { get; } = new object();
+
         #endregion
 
         #region TickCount
@@ -197,7 +200,10 @@ namespace NeeView
             {
                 System.Threading.Thread.Sleep(5000);
                 Debug.WriteLine("Environment_Exit");
-                System.Environment.Exit(0);
+                lock (this.Lock)
+                {
+                    System.Environment.Exit(0);
+                }
             });
 
             Debug.WriteLine("Application_Exit");

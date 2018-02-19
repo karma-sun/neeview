@@ -28,12 +28,9 @@ namespace NeeView
         }
 
         // ファイル削除
-        public void RemoveFile(string filename)
+        public static void RemoveFile(string filename)
         {
-            if (System.IO.File.Exists(filename))
-            {
-                System.IO.File.Delete(filename);
-            }
+            new FileInfo(filename).Delete();
         }
 
 

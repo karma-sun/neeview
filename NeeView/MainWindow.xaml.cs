@@ -676,7 +676,7 @@ namespace NeeView
             _timer.Stop();
 
             // 設定保存
-            SaveData.Current.SaveSetting();
+            SaveData.Current.SaveAll();
 
             // テンポラリファイル破棄
             Temporary.RemoveTempFolder();
@@ -834,7 +834,7 @@ namespace NeeView
         }
 
         /// <summary>
-        /// メニューエリアレイアウト苦心
+        /// メニューエリアレイアウト更新。
         /// </summary>
         private void UpdateMenuAreaLayout()
         {

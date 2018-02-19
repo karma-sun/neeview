@@ -19,7 +19,7 @@ namespace NeeView
     /// <summary>
     /// ページ表示用コンテンツ
     /// </summary>
-    public class ViewContent : BindableBase
+    public class ViewContent : BindableBase, IDisposable
     {
         #region Properties, Fields
 
@@ -258,6 +258,29 @@ namespace NeeView
         /// <param name="mode"></param>
         /// <param name="viewScale"></param>
         public virtual void SetViewMode(ContentViewMode mode, double viewScale) { }
+
+        #endregion
+
+        #region IDisposable Support
+
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
 
         #endregion
     }

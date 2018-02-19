@@ -25,6 +25,7 @@ namespace NeeView
         /// <param name="entry"></param>
         public AnimatedContent(ArchiveEntry entry) : base(entry)
         {
+            IsAnimated = true;
         }
 
         /// <summary>

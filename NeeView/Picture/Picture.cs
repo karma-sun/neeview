@@ -98,6 +98,8 @@ namespace NeeView
         // リサイズ
         public bool Resize(Size size)
         {
+            if (this.BitmapSource == null) return false;
+
             size = size.IsEmpty ? this.PictureInfo.Size : size;
 
             if (_archiveEntry.Archiver is PdfArchiver)
@@ -145,13 +147,10 @@ namespace NeeView
         {
             if (this.Thumbnail != null) return this.Thumbnail;
 
-            ////var sw = Stopwatch.StartNew();
+            if (this.BitmapSource == null) return null;
 
             var thumbnailSize = ThumbnailProfile.Current.GetThumbnailSize(this.PictureInfo.Size);
             this.Thumbnail = PictureFactory.Current.CreateThumbnail(_archiveEntry, this.RawData, thumbnailSize, this.BitmapSource);
-
-            ////sw.Stop();
-            ////Debug.WriteLine($"Thumbnail: {sw.ElapsedMilliseconds}ms, {this.Thumbnail.Length / 1024}KB");
 
             return this.Thumbnail;
         }

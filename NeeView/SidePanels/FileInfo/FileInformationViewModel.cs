@@ -195,7 +195,14 @@ namespace NeeView
                 ThumbnailBitmap.Set(bitmapContent.Thumbnail);
 
                 // 画像サイズ表示
-                ImageSize = $"{info.OriginalSize.Width} x {info.OriginalSize.Height}" + (info.IsLimited ? "*" : "") + (_model.IsVisibleBitsPerPixel ? $" ({info.BitsPerPixel}bit)" : "");
+                if (info.OriginalSize.Width <= 0 || info.OriginalSize.Height < 0)
+                {
+                    ImageSize = null;
+                }
+                else
+                {
+                    ImageSize = $"{info.OriginalSize.Width} x {info.OriginalSize.Height}" + (info.IsLimited ? "*" : "") + (_model.IsVisibleBitsPerPixel ? $" ({info.BitsPerPixel}bit)" : "");
+                }
 
                 // ファイルサイズ表示
                 FileSize = info.Length > 0 ? string.Format("{0:#,0} KB", info.Length > 0 ? (info.Length + 1023) / 1024 : 0) : null;

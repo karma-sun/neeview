@@ -136,6 +136,10 @@ namespace NeeView
         /// <returns></returns>
         private async Task<Picture> LoadPictureAsync(CancellationToken token)
         {
+            if (this.Entry.Archiver != null && this.Entry.Archiver is MediaArchiver)
+            {
+                return null;
+            }
             if (this.Entry.IsArchivePath)
             {
                 using (var entry = await ArchiveFileSystem.CreateArchiveEntry(this.Entry.FullPath, token))
@@ -169,6 +173,11 @@ namespace NeeView
         {
             if (System.IO.Directory.Exists(entry.FullPath) || ArchiverManager.Current.IsSupported(entry.FullPath))
             {
+                if (ArchiverManager.Current.GetSupportedType(entry.FullPath) == ArchiverType.MediaArchiver)
+                {
+                    return null;
+                }
+
                 using (var archiver = await ArchiverManager.Current.CreateArchiverAsync(entry, true, false, token))
                 {
                     bool isRecursive = !archiver.IsFileSystem && BookHub.Current.IsArchiveRecursive;

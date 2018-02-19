@@ -22,9 +22,18 @@ namespace NeeView
     {
         public static FileInformation Current { get; private set; }
 
-        /// <summary>
-        /// IsUseExifDateTime property.
-        /// </summary>
+        #region Fields
+
+        private bool _IsUseExifDateTime;
+        private bool _IsVisibleBitsPerPixel;
+        private bool _IsVisibleLoader;
+        private bool _IsVisibleFilePath;
+        private ViewContent _viewContent;
+
+        #endregion
+
+        #region Properties
+
         [PropertyMember("EXIFの日時を使用する", Tips = "ファイル情報パネルでの表示に限ります。フォルダーリストでの日付順ソートには影響しません")]
         public bool IsUseExifDateTime
         {
@@ -32,12 +41,6 @@ namespace NeeView
             set { if (_IsUseExifDateTime != value) { _IsUseExifDateTime = value; RaisePropertyChanged(); } }
         }
 
-        private bool _IsUseExifDateTime;
-
-
-        /// <summary>
-        /// IsVisibleBitsPerPixel property.
-        /// </summary>
         [PropertyMember("画像サイズにピクセルあたりのビット数を表示する")]
         public bool IsVisibleBitsPerPixel
         {
@@ -45,12 +48,6 @@ namespace NeeView
             set { if (_IsVisibleBitsPerPixel != value) { _IsVisibleBitsPerPixel = value; RaisePropertyChanged(); } }
         }
 
-        private bool _IsVisibleBitsPerPixel;
-
-
-        /// <summary>
-        /// IsVisibleLoader property.
-        /// </summary>
         [PropertyMember("使用されたアーカイバー、画像デコーダー名を表示する")]
         public bool IsVisibleLoader
         {
@@ -58,11 +55,6 @@ namespace NeeView
             set { if (_IsVisibleLoader != value) { _IsVisibleLoader = value; RaisePropertyChanged(); } }
         }
 
-        private bool _IsVisibleLoader;
-
-        /// <summary>
-        /// IsVisibleFilePath property.
-        /// </summary>
         [PropertyMember("圧縮ファイル内のファイルパスを表示する")]
         public bool IsVisibleFilePath
         {
@@ -70,26 +62,17 @@ namespace NeeView
             set { if (_IsVisibleFilePath != value) { _IsVisibleFilePath = value; RaisePropertyChanged(); } }
         }
 
-        private bool _IsVisibleFilePath;
-
-
-
-
-        /// <summary>
-        /// ViewContent property.
-        /// </summary>
+        //
         public ViewContent ViewContent
         {
             get { return _viewContent; }
             set { if (_viewContent != value) { _viewContent = value; RaisePropertyChanged(); } }
         }
 
-        private ViewContent _viewContent;
+        #endregion
 
+        #region Constructors
 
-        /// <summary>
-        /// constructor
-        /// </summary>
         public FileInformation(ContentCanvas contentCanvas)
         {
             Current = this;
@@ -98,7 +81,21 @@ namespace NeeView
                 (s, e) => ViewContent = contentCanvas.MainContent);
         }
 
+        #endregion
 
+        #region Methods
+
+        /// <summary>
+        /// 表示更新
+        /// </summary>
+        public void Flush()
+        {
+            RaisePropertyChanged(nameof(ViewContent));
+        }
+
+        #endregion
+
+        #region Memento
 
         [DataContract]
         public class Memento
@@ -133,6 +130,8 @@ namespace NeeView
             IsVisibleLoader = memento.IsVisibleLoader;
             IsVisibleFilePath = memento.IsVisibleFilePath;
         }
+
+        #endregion
     }
 
 

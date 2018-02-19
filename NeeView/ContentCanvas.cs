@@ -32,7 +32,7 @@ namespace NeeView
     }
 
     //
-    public class ContentCanvas : BindableBase
+    public class ContentCanvas : BindableBase, IDisposable
     {
         public static ContentCanvas Current { get; private set; }
 
@@ -335,7 +335,7 @@ namespace NeeView
                 {
                     pdfContent.Picture?.Resize(size1);
                 }
-                else if (content is BitmapContent bitmapContent && PictureProfile.Current.IsResizeFilterEnabled)
+                else if (content is BitmapContent bitmapContent && !content.IsAnimated && PictureProfile.Current.IsResizeFilterEnabled)
                 {
                     bitmapContent.Picture?.Resize(size1);
                 }
@@ -673,6 +673,37 @@ namespace NeeView
         #endregion
 
         #endregion
+
+        #region IDisposable Support
+
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    if (this.Contents != null)
+                    {
+                        foreach (var content in this.Contents)
+                        {
+                            content.Dispose();
+                        }
+                    }
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        #endregion
+
 
         #region Memento
         [DataContract]

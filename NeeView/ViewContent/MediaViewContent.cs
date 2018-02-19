@@ -40,6 +40,11 @@ namespace NeeView
         }
 
 
+        //
+        private MediaPlayer _player;
+        private VideoDrawing _videoDrawing;
+        private TextBlock _errorMessageTextBlock;
+
         /// <summary>
         /// アニメーションビュー生成
         /// </summary>
@@ -48,38 +53,101 @@ namespace NeeView
         /// <returns></returns>
         private new FrameworkElement CreateView(ViewPage source, ViewContentParameters parameter)
         {
-            //
-            var image = base.CreateView(source, parameter);
-            image?.SetBinding(Rectangle.VisibilityProperty, parameter.AnimationImageVisibility);
+            _player = new MediaPlayer();
 
-            //
-            var media = new MediaElement();
-            media.Source = new Uri(((MediaContent)Content).FileProxy.Path);
-            media.MediaEnded += (s, e_) => media.Position = TimeSpan.FromMilliseconds(1);
-            media.MediaFailed += (s, e_) => { throw new ApplicationException("MediaElementで致命的エラー", e_.ErrorException); };
-            media.SetBinding(RenderOptions.BitmapScalingModeProperty, parameter.BitmapScalingMode);
+            _videoDrawing = new VideoDrawing()
+            {
+                Player = _player,
+                Rect = new Rect(this.Content.Size),
+              
+            };
+            var brush = new DrawingBrush()
+            {
+                Drawing = _videoDrawing,
+                Stretch = Stretch.Fill,
+                Viewbox = source.GetViewBox()
+            };
+            var rectangle = new Rectangle()
+            {
+                Fill = brush
+            };
 
-            var brush = new VisualBrush();
-            brush.Visual = media;
-            brush.Stretch = Stretch.Fill;
-            brush.Viewbox = source.GetViewBox();
+            _errorMessageTextBlock = new TextBlock()
+            {
+                Background = Brushes.Black,
+                Foreground = Brushes.White,
+                Padding = new Thickness(40, 20, 40, 20),
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                FontSize = 20,
+                TextWrapping = TextWrapping.Wrap,
+                Visibility = Visibility.Collapsed,
+            };
 
-            var canvas = new Rectangle();
-            canvas.Fill = brush;
-            canvas.SetBinding(Rectangle.VisibilityProperty, parameter.AnimationPlayerVisibility);
-
-            //
             var grid = new Grid();
-            if (image != null) grid.Children.Add(image);
-            grid.Children.Add(canvas);
+            grid.Children.Add(rectangle);
+            grid.Children.Add(_errorMessageTextBlock);
+
+            //
+            _player.MediaFailed += Media_MediaFailed;
+            _player.MediaOpened += Media_MediaOpened;
+            _player.MediaEnded += (s, e_) => _player.Position = TimeSpan.FromMilliseconds(1);
+
+            grid.Unloaded += Grid_Unloaded;
+
+            //
+            _player.Open(new Uri(((MediaContent)Content).FileProxy.Path));
+            _player.Play();
 
             return grid;
         }
 
         //
+        private void Grid_Unloaded(object sender, RoutedEventArgs e)
+        {
+            _player?.Stop();
+        }
+
+
+
+        //
+        //private void Media_MediaOpened(object sender, RoutedEventArgs e)
+        private void Media_MediaOpened(object sender, EventArgs e)
+        {
+            var content = this.Content as MediaContent;
+            if (content == null) return;
+
+            var size = new Size(_player.NaturalVideoWidth, _player.NaturalVideoHeight);
+            content.SetSize(size);
+            _videoDrawing.Rect = new Rect(size);
+
+            ContentCanvas.Current.UpdateContentSize();
+            FileInformation.Current.Flush();
+        }
+
+        //
+        //private void Media_MediaFailed(object sender, ExceptionRoutedEventArgs e)
+        private void Media_MediaFailed(object sender, ExceptionEventArgs e)
+        {
+            _errorMessageTextBlock.Text = e.ErrorException != null ? e.ErrorException.Message : "再生エラー";
+            _errorMessageTextBlock.Visibility = Visibility.Visible;
+        }
+
+
+        //
         public override bool Rebuild(double scale)
         {
             return true;
+        }
+
+        #endregion
+
+        #region IDisposable Support
+
+        protected override void Dispose(bool disposing)
+        {
+            _player?.Stop();
+            base.Dispose(disposing);
         }
 
         #endregion

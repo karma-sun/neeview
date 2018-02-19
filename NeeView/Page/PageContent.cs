@@ -119,6 +119,10 @@ namespace NeeView
         /// </summary>
         public virtual bool IsLoaded => true;
 
+        /// <summary>
+        /// アニメーション？
+        /// </summary>
+        public bool IsAnimated { get; protected set; }
 
 
         /// <summary>

@@ -666,6 +666,8 @@ namespace NeeView
         //
         private void MainWindow_Closed(object sender, EventArgs e)
         {
+            ContentCanvas.Current.Dispose();
+
             //
             Models.Current.StopEngine();
 

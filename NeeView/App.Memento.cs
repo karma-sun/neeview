@@ -39,6 +39,7 @@ namespace NeeView
         #region Fields
 
         private bool _isNetworkEnalbe = true;
+        private bool _isSettingBackup;
         private bool _isSaveWindowPlacement;
 
         #endregion
@@ -65,8 +66,8 @@ namespace NeeView
         [PropertyMember("ネットワークアスセス許可", Tips = "このアプリでは、「このアプリについて」ダイアログからのバージョン更新確認とオンラインヘルプ等のWEBリンクのみにネットワークを使用します。")]
         public bool IsNetworkEnabled
         {
-            get { return _isNetworkEnalbe; }
-            set { _isNetworkEnalbe = Config.Current.IsAppxPackage ? true : value; } // Appxは強制ON
+            get { return _isNetworkEnalbe || Config.Current.IsAppxPackage; } // Appxは強制ON
+            set { _isNetworkEnalbe = value; }
         }
 
         // 画像のDPI非対応
@@ -101,6 +102,13 @@ namespace NeeView
         [DefaultValue("")]
         [PropertyPath("ダウンロードフォルダ", Tips = "ブラウザ等がらドロップした画像の保存場所です。指定がない場合は一時フォルダーが使用されます。", IsDirectory = true)]
         public string DownloadPath { get; set; }
+
+        [PropertyMember("ユーザー設定ファイルのバックアップを作る", Tips = "設定ファイルのバックアップを作成し、もし通常の設定ファイルが読み込めない場合に代わりに読み込みます。ファイル名は UserSetting.xaml.old です。更新タイミングは、設定ウィンドウを閉じた時と、アプリを終了した時です。")]
+        public bool IsSettingBackup
+        {
+            get { return _isSettingBackup || Config.Current.IsAppxPackage; }  // Appxは強制ON
+            set { _isSettingBackup = value; }
+        }
 
         #endregion
 
@@ -144,6 +152,9 @@ namespace NeeView
             [DataMember, DefaultValue("")]
             public string DownloadPath { get; set; }
 
+            [DataMember, DefaultValue(false)]
+            public bool IsSettingBackup { get; set; }
+
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
             {
@@ -168,6 +179,7 @@ namespace NeeView
             memento.IsOpenLastBook = this.IsOpenLastBook;
             memento.DownloadPath = this.DownloadPath;
             memento.IsRestoreSecondWindow = this.IsRestoreSecondWindow;
+            memento.IsSettingBackup = this.IsSettingBackup;
             return memento;
         }
 
@@ -187,6 +199,7 @@ namespace NeeView
             this.IsOpenLastBook = memento.IsOpenLastBook;
             this.DownloadPath = memento.DownloadPath;
             this.IsRestoreSecondWindow = memento.IsRestoreSecondWindow;
+            this.IsSettingBackup = memento.IsSettingBackup;
         }
 
 #pragma warning disable CS0612

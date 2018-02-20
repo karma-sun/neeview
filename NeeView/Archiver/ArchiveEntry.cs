@@ -284,22 +284,12 @@ namespace NeeView
         /// ファイルシステムを含む
         /// </summary>
         /// <returns></returns>
-        public bool IsArchive()
+        public bool IsArchive(bool allowMedia = true)
         {
             bool isAllowFileSystem = this.Archiver == null || this.Archiver.IsFileSystem;
-            return ArchiverManager.Current.IsSupported(EntryName, isAllowFileSystem);
+            return ArchiverManager.Current.IsSupported(EntryName, isAllowFileSystem, allowMedia);
         }
 
-        /// <summary>
-        /// このエントリがアーカイブであるかを拡張子から判定
-        /// ファイルシステムは除外
-        /// </summary>
-        /// <returns></returns>
-        public bool IsArchiveFile()
-        {
-            bool isAllowFileSystem = this.Archiver == null;
-            return ArchiverManager.Current.IsSupported(EntryName, isAllowFileSystem);
-        }
 
         /// <summary>
         /// このエントリが画像であるか拡張子から判定。

@@ -23,11 +23,7 @@ namespace NeeView
 
         public override List<ArchiveEntry> GetEntries(CancellationToken token)
         {
-            // まだ必要ないか？
-            //var player = new MediaPlayer();
-            //player.Open(new Uri(this.FullPath));
-
-            var fileInfo = new FileInfo(this.FullPath);
+            var fileInfo = new FileInfo(this.Path);
 
             var entry = new ArchiveEntry()
             {

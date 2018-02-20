@@ -31,6 +31,23 @@ namespace NeeView
         DefaultArchiver = ZipArchiver
     }
 
+    public static class ArchiverTypeExtensions
+    {
+        // 再帰圧縮ファイルが可能なアーカイブであるか
+        public static bool IsRecursiveSupported(this ArchiverType self)
+        {
+            switch(self)
+            {
+                case ArchiverType.PdfArchiver:
+                case ArchiverType.MediaArchiver:
+                    return false;
+                default:
+                    return true;
+            }
+        }
+
+    }
+
 
     /// <summary>
     /// アーカイバー基底クラス

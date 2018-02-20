@@ -170,14 +170,14 @@ namespace NeeView
 
 
         // サポートしているアーカイバーがあるか判定
-        public bool IsSupported(string fileName, bool isAllowFileSystem = true)
+        public bool IsSupported(string fileName, bool isAllowFileSystem = true, bool isAllowMedia = true)
         {
-            return GetSupportedType(fileName, isAllowFileSystem) != ArchiverType.None;
+            return GetSupportedType(fileName, isAllowFileSystem, isAllowMedia) != ArchiverType.None;
         }
 
 
         // サポートしているアーカイバーを取得
-        public ArchiverType GetSupportedType(string fileName, bool isArrowFileSystem = true)
+        public ArchiverType GetSupportedType(string fileName, bool isArrowFileSystem = true, bool isAllowMedia = true)
         {
             if (isArrowFileSystem && (fileName.Last() == '\\' || fileName.Last() == '/'))
             {
@@ -198,7 +198,7 @@ namespace NeeView
                 {
                     if (_supprtedFileTypes[type].Contains(ext))
                     {
-                        return type;
+                        return (isAllowMedia || type != ArchiverType.MediaArchiver) ? type : ArchiverType.None;
                     }
                 }
             }

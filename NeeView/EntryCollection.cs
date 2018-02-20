@@ -167,10 +167,10 @@ namespace NeeView
                 // 対象ファイル以外を除外
                 if (!IsAutoRecursiveWithAllFiles && !_isSupportAllFile)
                 {
-                    entries = entries.Where(e => e.IsArchive() || e.IsImage()).ToList();
+                    entries = entries.Where(e => e.IsArchive(false) || e.IsImage()).ToList();
                 }
 
-                if (IsAutoRecursive && entries.Count == 1 && entries.First().IsArchive())
+                if (IsAutoRecursive && entries.Count == 1 && entries.First().IsArchive(false))
                 {
                     var subArchiver = await CreateArchiverAsync(entries.First(), token);
                     if (subArchiver != null)
@@ -222,7 +222,7 @@ namespace NeeView
 
             foreach (var entry in entries)
             {
-                if (entry.IsArchive() && isRecursive)
+                if (entry.IsArchive(false) && isRecursive)
                 {
                     var subArchiver = await CreateArchiverAsync(entry, token);
                     if (subArchiver != null)
@@ -236,7 +236,7 @@ namespace NeeView
                 {
                     collection.Add(entry);
                 }
-                else if (entry.IsArchive())
+                else if (entry.IsArchive(false))
                 {
                     SkippedArchiveCount++;
                 }
@@ -269,7 +269,7 @@ namespace NeeView
 
             if (isRecursive)
             {
-                foreach (var entry in entries.Where(e => e.IsArchive()))
+                foreach (var entry in entries.Where(e => e.IsArchive(false)))
                 {
                     var subArchiver = await CreateArchiverAsync(entry, token);
                     if (subArchiver != null)
@@ -304,7 +304,7 @@ namespace NeeView
             if (isRecursive)
             {
                 var folder = entries
-                    .Where(e => e.IsArchive() && entryName.StartsWith(LoosePath.TrimEnd(e.EntryFullName)))
+                    .Where(e => e.IsArchive(false) && entryName.StartsWith(LoosePath.TrimEnd(e.EntryFullName)))
                     .OrderByDescending(e => e.EntryName.Length)
                     .FirstOrDefault();
 

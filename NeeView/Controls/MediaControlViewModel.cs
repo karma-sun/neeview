@@ -28,6 +28,7 @@ namespace NeeView
             if (e.IsValid)
             {
                 Operator = new MediaPlayerOperator(e.MediaPlayer);
+                Operator.MediaEnded += Operator_MediaEnded;
                 Operator.Open(e.Uri);
             }
             else
@@ -36,6 +37,11 @@ namespace NeeView
             }
 
             MediaPlayerOperator.Current = Operator;
+        }
+
+        private void Operator_MediaEnded(object sender, System.EventArgs e)
+        {
+            BookOperation.Current.Book?.RaisePageTerminatedEvent(1);
         }
 
         public void SetScrubbing(bool isScrubbing)

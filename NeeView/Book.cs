@@ -1444,6 +1444,15 @@ namespace NeeView
 
         #endregion
 
+        #region 動画再生用
+
+        public void RaisePageTerminatedEvent(int direction)
+        {
+            PageTerminated?.Invoke(this, new PageTerminatedEventArgs(direction));
+        }
+
+        #endregion
+
         #endregion
 
         #region Memento

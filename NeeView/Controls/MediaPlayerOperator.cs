@@ -57,9 +57,12 @@ namespace NeeView
             _timer.Start();
         }
 
-
-
         #endregion
+
+        /// <summary>
+        /// 再生が終端に達したときのイベント
+        /// </summary>
+        public event EventHandler MediaEnded;
 
         #region Properties
 
@@ -280,6 +283,7 @@ namespace NeeView
             {
                 Pause();
                 this.Position = 1.0;
+                MediaEnded?.Invoke(this, null);
             }
         }
 
@@ -316,7 +320,7 @@ namespace NeeView
 
             if (_duration.HasTimeSpan)
             {
-                _position = _player.Position.TotalMilliseconds / _totalMilliseconds;
+                _position = NeeLaboratory.MathUtility.Clamp(_player.Position.TotalMilliseconds / _totalMilliseconds, 0.0, 1.0);
                 RaisePropertyChanged(nameof(Position));
                 RaisePropertyChanged(nameof(DispTime));
             }
@@ -356,13 +360,31 @@ namespace NeeView
             IsPlaying = false;
         }
 
-        // コマンドによる移動
-        public void AddPositionMilliseconds(double ms)
+        /// <summary>
+        /// コマンドによる移動
+        /// </summary>
+        /// <param name="ms"></param>
+        /// <returns>終端を超える場合はtrue</returns>
+        public bool AddPositionMilliseconds(double ms)
         {
-            if (_disposed) return;
-            if (!_duration.HasTimeSpan) return;
+            if (_disposed) return false;
+            if (!_duration.HasTimeSpan) return false;
 
-            SetPosition(NeeLaboratory.MathUtility.Clamp(_position + ms / _totalMilliseconds, 0.0, 1.0));
+            var t0 = _position * _totalMilliseconds;
+            var t1 = t0 + ms;
+
+            SetPosition(NeeLaboratory.MathUtility.Clamp(t1 / _totalMilliseconds, 0.0, 1.0));
+
+            if (ms < 0.0 && t0 < 500.0)
+            {
+                return true;
+            }
+            if (ms > 0.0 && t1 > _totalMilliseconds)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         // コマンドによる移動[0..1]
@@ -426,6 +448,7 @@ namespace NeeView
             {
                 if (disposing)
                 {
+                    MediaEnded = null;
                     _timer.Stop();
                     _player.Stop();
                     _player.MediaOpened -= Player_MediaOpened;

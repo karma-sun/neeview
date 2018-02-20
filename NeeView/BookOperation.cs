@@ -426,13 +426,17 @@ namespace NeeView
                     SlideShow.Current.IsPlayingSlideShow = false;
                 }
 
-                else if (e.Direction < 0)
+                // 本の場合のみ処理。メディアでは不要
+                else if (this.Book != null && !this.Book.IsMedia)
                 {
-                    InfoMessage.Current.SetMessage(InfoMessageType.Notify, "最初のページです");
-                }
-                else
-                {
-                    InfoMessage.Current.SetMessage(InfoMessageType.Notify, "最後のページです");
+                    if (e.Direction < 0)
+                    {
+                        InfoMessage.Current.SetMessage(InfoMessageType.Notify, "最初のページです");
+                    }
+                    else
+                    {
+                        InfoMessage.Current.SetMessage(InfoMessageType.Notify, "最後のページです");
+                    }
                 }
             }
         }
@@ -448,10 +452,17 @@ namespace NeeView
             PageRemoved?.Invoke(sender, e);
         }
 
-        // ページ移動量をメディアの時間移動量に変換
-        private double GetMediaPositionDelta(int pageNumber)
+        // ページ移動量をメディアの時間移動量に変換して移動
+        private void MoveMediaPage(int delta)
         {
-            return pageNumber * MediaControl.Current.PageSeconds * 1000.0;
+            if (MediaPlayerOperator.Current == null) return;
+
+            var isTerminated = MediaPlayerOperator.Current.AddPositionMilliseconds(delta * MediaControl.Current.PageSeconds * 1000.0);
+
+            if (isTerminated)
+            {
+                this.Book?.RaisePageTerminatedEvent(delta < 0 ? -1 : 1);
+            }
         }
 
         // 前のページに移動
@@ -461,7 +472,7 @@ namespace NeeView
 
             if (this.Book.IsMedia)
             {
-                MediaPlayerOperator.Current?.AddPositionMilliseconds(GetMediaPositionDelta(-1));
+                MoveMediaPage(-1);
             }
             else
             {
@@ -476,7 +487,7 @@ namespace NeeView
 
             if (this.Book.IsMedia)
             {
-                MediaPlayerOperator.Current?.AddPositionMilliseconds(GetMediaPositionDelta(+1));
+                MoveMediaPage(+1);
             }
             else
             {
@@ -491,7 +502,7 @@ namespace NeeView
 
             if (this.Book.IsMedia)
             {
-                MediaPlayerOperator.Current?.AddPositionMilliseconds(GetMediaPositionDelta(-1));
+                MoveMediaPage(-1);
             }
             else
             {
@@ -506,7 +517,7 @@ namespace NeeView
 
             if (this.Book.IsMedia)
             {
-                MediaPlayerOperator.Current?.AddPositionMilliseconds(GetMediaPositionDelta(+1));
+                MoveMediaPage(+1);
             }
             else
             {
@@ -521,7 +532,7 @@ namespace NeeView
 
             if (this.Book.IsMedia)
             {
-                MediaPlayerOperator.Current?.AddPositionMilliseconds(GetMediaPositionDelta(-size));
+                MoveMediaPage(-size);
             }
             else
             {
@@ -536,7 +547,7 @@ namespace NeeView
 
             if (this.Book.IsMedia)
             {
-                MediaPlayerOperator.Current?.AddPositionMilliseconds(GetMediaPositionDelta(+size));
+                MoveMediaPage(+size);
             }
             else
             {

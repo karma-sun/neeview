@@ -9,19 +9,6 @@ using System.Windows.Media;
 
 namespace NeeView
 {
-    public class MediaArchiverProfile
-    {
-        public static MediaArchiverProfile Current { get; private set; }
-
-        public MediaArchiverProfile()
-        {
-            Current = this;
-        }
-
-        public bool IsSupported { get; set; } = true;
-
-        public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".avi;.mp4;.mkv");
-    }
 
     public class MediaArchiver : Archiver
     {

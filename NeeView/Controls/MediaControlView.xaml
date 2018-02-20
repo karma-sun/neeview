@@ -205,7 +205,16 @@
         </DockPanel>
 
         <DockPanel VerticalAlignment="Bottom">
-            <local:VideoSlider Value="{Binding Operator.Position}" DragStarted="VideoSlider_DragStarted" DragCompleted="VideoSlider_DragCompleted"/>
+            <DockPanel.Style>
+                <Style TargetType="DockPanel">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Operator.DurationHasTimeSpan}" Value="False">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DockPanel.Style>
+            <local:VideoSlider Value="{Binding Operator.Position}" DragStarted="VideoSlider_DragStarted" DragCompleted="VideoSlider_DragCompleted" />
         </DockPanel>
 
 

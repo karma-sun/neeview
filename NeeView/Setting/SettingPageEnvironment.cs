@@ -19,6 +19,7 @@ namespace NeeView.Setting
                 new SettingPageEnvironmentSetup(),
                 new SettingPageArchiveGeneral(),
                 new SettingPageArchivePdf(),
+                new SettingPageArchiveMedia(),
                 new SettingPageHistory(),
             };
 
@@ -121,6 +122,24 @@ namespace NeeView.Setting
                         new SettingItemProperty(PropertyMemberElement.Create(ArchiverManager.Current, nameof(ArchiverManager.IsPdfEnabled)))),
                     new SettingItemSection("詳細設定",
                         new SettingItemProperty(PropertyMemberElement.Create(PdfArchiverProfile.Current, nameof(PdfArchiverProfile.RenderSize)))))
+                {
+                    IsEnabled = new IsEnabledPropertyValue(ArchiverManager.Current, nameof(ArchiverManager.IsEnabled)),
+                },
+            };
+        }
+    }
+
+    public class SettingPageArchiveMedia : SettingPage
+    {
+        public SettingPageArchiveMedia() : base("動画")
+        {
+            this.Items = new List<SettingItem>
+            {
+                new SettingItemGroup(
+                    new SettingItemSection("機能",
+                        new SettingItemProperty(PropertyMemberElement.Create(MediaArchiverProfile.Current, nameof(MediaArchiverProfile.IsSupported)))),
+                    new SettingItemSection("詳細設定",
+                        new SettingItemProperty(PropertyMemberElement.Create(MediaArchiverProfile.Current, nameof(MediaArchiverProfile.SupportFileTypes)), new SettingItemCollectionControl() { Collection = MediaArchiverProfile.Current.SupportFileTypes, AddDialogHeader = "拡張子" })))
                 {
                     IsEnabled = new IsEnabledPropertyValue(ArchiverManager.Current, nameof(ArchiverManager.IsEnabled)),
                 },

@@ -79,7 +79,6 @@ namespace NeeView
         //
         public PageSlider PageSlider { get; private set; }
         public MediaControl MediaControl { get; private set; }
-        public MediaPlayerProfile MediaPlayerProfile { get; private set; }
         public ThumbnailList ThumbnailList { get; private set; }
         public AddressBar AddressBar { get; private set; }
         public MenuBar MenuBar { get; private set; }
@@ -170,7 +169,6 @@ namespace NeeView
             this.ThumbnailList = new ThumbnailList(this.BookOperation, this.BookHub);
             this.PageSlider = new PageSlider(this.BookOperation, this.BookSetting, this.BookHub, this.ThumbnailList);
             this.MediaControl = new MediaControl();
-            this.MediaPlayerProfile = new MediaPlayerProfile();
             this.AddressBar = new AddressBar();
             this.MenuBar = new MenuBar();
             this.NowLoading = new NowLoading();
@@ -231,6 +229,8 @@ namespace NeeView
             [DataMember]
             public PdfArchiverProfile.Memento PdfArchiverProfile { get; set; }
             [DataMember]
+            public MediaArchiverProfile.Memento MediaArchiverProfile { get; set; }
+            [DataMember]
             public ArchiverManager.Memento ArchiverManager { get; set; }
             [DataMember]
             public ThumbnailProfile.Memento ThumbnailProfile { get; set; }
@@ -268,6 +268,8 @@ namespace NeeView
             public WindowTitle.Memento WindowTitle { get; set; }
             [DataMember]
             public PageSlider.Memento PageSlider { get; set; }
+            [DataMember]
+            public MediaControl.Memento MediaControl { get; set; }
             [DataMember]
             public ThumbnailList.Memento ThumbnailList { get; set; }
             [DataMember]
@@ -314,6 +316,7 @@ namespace NeeView
             memento.ImageFilter = this.ImageFilter.CreateMemento();
             memento.SevenZipArchiverProfile = this.SevenZipArchiverProfile.CreateMemento();
             memento.PdfArchiverProfile = this.PdfArchiverProfile.CreateMemento();
+            memento.MediaArchiverProfile = this.MediaArchiverProfile.CreateMemento();
             memento.ArchiverManager = this.ArchiverManager.CreateMemento();
             memento.ThumbnailProfile = this.ThumbnailProfile.CreateMemento();
             memento.ExporterProfile = this.ExporterProfile.CreateMemento();
@@ -333,6 +336,7 @@ namespace NeeView
             memento.SlideShow = this.SlideShow.CreateMemento();
             memento.WindowTitle = this.WindowTitle.CreateMemento();
             memento.PageSlider = this.PageSlider.CreateMemento();
+            memento.MediaControl = this.MediaControl.CreateMemento();
             memento.ThumbnailList = this.ThumbnailList.CreateMemento();
             memento.MenuBar = this.MenuBar.CreateMemento();
             memento.SidePanelProfile = this.SidePanelProfile.CreateMemento();
@@ -359,6 +363,7 @@ namespace NeeView
             this.ImageFilter.Restore(memento.ImageFilter);
             this.SevenZipArchiverProfile.Restore(memento.SevenZipArchiverProfile);
             this.PdfArchiverProfile.Restore(memento.PdfArchiverProfile);
+            this.MediaArchiverProfile.Restore(memento.MediaArchiverProfile);
             this.ArchiverManager.Restore(memento.ArchiverManager);
             this.ThumbnailProfile.Restore(memento.ThumbnailProfile);
             this.ExporterProfile.Restore(memento.ExporterProfile);
@@ -378,6 +383,7 @@ namespace NeeView
             this.SlideShow.Restore(memento.SlideShow);
             this.WindowTitle.Restore(memento.WindowTitle);
             this.PageSlider.Restore(memento.PageSlider);
+            this.MediaControl.Restore(memento.MediaControl);
             this.ThumbnailList.Restore(memento.ThumbnailList);
             this.MenuBar.Restore(memento.MenuBar);
             this.SidePanelProfile.Restore(memento.SidePanelProfile);

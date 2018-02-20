@@ -1,26 +1,11 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Property;
 using System;
+using System.Runtime.Serialization;
 using System.Windows.Media;
 
 namespace NeeView
 {
-    public class MediaPlayerProfile : BindableBase
-    {
-        public static MediaPlayerProfile Current { get; private set; }
-
-        public MediaPlayerProfile()
-        {
-            Current = this;
-        }
-
-        public bool IsMuted { get; set; }
-
-        public double Volume { get; set; } = 0.5;
-
-        public bool IsRepat { get; set; }
-    }
-
-
     public class MediaControl : BindableBase
     {
         public static MediaControl Current { get; private set; }
@@ -35,6 +20,28 @@ namespace NeeView
         }
 
         public event EventHandler<MediaPlayerChanged> Changed;
+
+        private bool _isMuted;
+        public bool IsMuted
+        {
+            get { return _isMuted; }
+            set { if (_isMuted != value) { _isMuted = value; RaisePropertyChanged(); } }
+        }
+
+        private double _volume = 0.5;
+        public double Volume
+        {
+            get { return _volume; }
+            set { if (_volume != value) { _volume = value; RaisePropertyChanged(); } }
+        }
+
+        private bool _isRepeat;
+        public bool IsRepeat
+        {
+            get { return _isRepeat; }
+            set { if (_isRepeat != value) { _isRepeat = value; RaisePropertyChanged(); } }
+        }
+
 
         private void ContentCanvas_ContentChanged(object sender, EventArgs e)
         {
@@ -66,6 +73,46 @@ namespace NeeView
                 Changed?.Invoke(this, new MediaPlayerChanged());
             }
         }
+
+        #region Memento
+
+        [DataContract]
+        public class Memento
+        {
+            [DataMember]
+            public bool IsMuted { get; set; }
+
+            [DataMember]
+            public double Volume { get; set; }
+
+            [DataMember]
+            public bool IsRepeat { get; set; }
+        }
+
+        //
+        public Memento CreateMemento()
+        {
+            var memento = new Memento();
+
+            memento.IsMuted = this.IsMuted;
+            memento.Volume = this.Volume;
+            memento.IsRepeat = this.IsRepeat;
+
+            return memento;
+        }
+
+        //
+        public void Restore(Memento memento)
+        {
+            if (memento == null) return;
+
+            this.IsMuted = memento.IsMuted;
+            this.Volume = memento.Volume;
+            this.IsRepeat = memento.IsRepeat;
+        }
+
+        #endregion
+
     }
 
     /// <summary>

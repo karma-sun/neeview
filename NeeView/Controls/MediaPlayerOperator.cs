@@ -42,9 +42,9 @@ namespace NeeView
             _player.MediaOpened += Player_MediaOpened;
             _player.MediaEnded += Player_MediaEnded;
 
-            this.IsMuted = MediaPlayerProfile.Current.IsMuted;
-            this.Volume = MediaPlayerProfile.Current.Volume;
-            this.IsRepeat = MediaPlayerProfile.Current.IsRepat;
+            this.IsMuted = MediaControl.Current.IsMuted;
+            this.Volume = MediaControl.Current.Volume;
+            this.IsRepeat = MediaControl.Current.IsRepeat;
 
             _timer = new DispatcherTimer(DispatcherPriority.Normal, App.Current.Dispatcher);
             _timer.Interval = TimeSpan.FromSeconds(0.1);
@@ -77,8 +77,14 @@ namespace NeeView
                     _duration = value;
                     TotalMilliseconds = _duration.TimeSpan.TotalMilliseconds;
                     RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(DurationHasTimeSpan));
                 }
             }
+        }
+
+        public bool DurationHasTimeSpan
+        {
+            get { return _duration.HasTimeSpan; }
         }
 
         public double TotalMilliseconds
@@ -115,7 +121,7 @@ namespace NeeView
                     UpdateVolume();
                     RaisePropertyChanged();
 
-                    MediaPlayerProfile.Current.Volume = _volume;
+                    MediaControl.Current.Volume = _volume;
                 }
             }
         }
@@ -162,7 +168,7 @@ namespace NeeView
                     _isRepeat = value;
                     RaisePropertyChanged();
 
-                    MediaPlayerProfile.Current.IsRepat = _isRepeat;
+                    MediaControl.Current.IsRepeat = _isRepeat;
                 }
             }
         }
@@ -174,7 +180,7 @@ namespace NeeView
             {
                 _player.IsMuted = value;
                 RaisePropertyChanged();
-                MediaPlayerProfile.Current.IsMuted = _player.IsMuted;
+                MediaControl.Current.IsMuted = _player.IsMuted;
             }
         }
 
@@ -291,6 +297,7 @@ namespace NeeView
         {
             if (_disposed) return;
             if (_isScrubbing) return;
+            if (!_duration.HasTimeSpan) return;
 
             _position = _player.Position.TotalMilliseconds / _totalMilliseconds;
             RaisePropertyChanged(nameof(Position));

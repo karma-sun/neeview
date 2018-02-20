@@ -25,7 +25,7 @@ namespace NeeView
         [PropertyPath("7z.dll(64bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります。", Filter = "DLL|*.dll")]
         public string X64DllPath { get; set; } = "";
 
-        [PropertyMember("7z.dllで展開する圧縮ファイルの拡張子")]
+        [PropertyMember("7z.dllで展開する圧縮ファイルの拡張子", Tips =".zip を追加すると、zipファイルも7z.dllを使用して展開されるようになります。")]
         public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".7z;.rar;.lzh;.cbr;.cbz");
 
         [PropertyMember("7z.dllがファイルをロックする時間(秒)", Tips = "この時間アクセスがなければロックを解除します。-1でロックを保持したままになります。")]

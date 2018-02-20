@@ -20,21 +20,22 @@ namespace NeeView
         {
         }
 
-        public override void Add(string token)
+        public override string Add(string token)
         {
             var ext = token?.Trim().TrimStart('.').ToLower();
             if (string.IsNullOrWhiteSpace(ext))
             {
-                return;
+                return null;
             }
 
             ext = "." + ext;
             if (Contains(ext))
             {
-                return;
+                return ext;
             }
 
             base.Add(ext);
+            return ext;
         }
     }
 }

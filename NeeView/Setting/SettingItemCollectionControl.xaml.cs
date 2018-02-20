@@ -49,10 +49,11 @@ namespace NeeView.Setting
             var result = dialog.ShowDialog();
             if (result == true)
             {
-                this.Collection.Add(dialog.Input);
+                var fixeInput = this.Collection.Add(dialog.Input);
+                this.Collection.Sort();
                 this.CollectionListBox.Items.Refresh();
-                this.CollectionListBox.SelectedItem = dialog.Input;
-                this.CollectionListBox.ScrollIntoView(dialog.Input);
+                this.CollectionListBox.SelectedItem = fixeInput;
+                this.CollectionListBox.ScrollIntoView(fixeInput);
             }
         }
 

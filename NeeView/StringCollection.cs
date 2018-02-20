@@ -32,15 +32,22 @@ namespace NeeView
         }
 
         //
-        public new virtual void Add(string item)
+        public new virtual string Add(string item)
         {
             base.Add(item);
+            return item;
         }
 
         //
         public new virtual bool Remove(string item)
         {
             return base.Remove(item);
+        }
+
+        //
+        public void Sort()
+        {
+            FromCollection(this.OrderBy(e => e).ToList());
         }
 
         //
@@ -63,7 +70,7 @@ namespace NeeView
         /// <param name="items"></param>
         public virtual void FromString(string items)
         {
-            FromCollection(items?.Split(';').Select(e => e.Trim()));
+            FromCollection(items?.Split(';').Select(e => e.Trim()).OrderBy(e => e));
         }
 
         /// <summary>

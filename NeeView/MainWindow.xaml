@@ -86,7 +86,7 @@
 
             <local:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter"/>
 
-
+            
             <!-- MenuItem History -->
 
             <local:FullPathToFileNameConverter x:Key="FullPathToFileNameConverter"/>
@@ -167,7 +167,10 @@
 
                         <!-- スライダー -->
                         <ContentControl x:Name="DockPageSliderSocket" DockPanel.Dock="Bottom" IsTabStop="False">
-                            <local:PageSliderView x:Name="SliderArea" />
+                            <Grid x:Name="SliderArea">
+                                <local:PageSliderView x:Name="PageSliderView" VerticalAlignment="Bottom"/>
+                                <local:MediaControlView x:Name="MediaControlView" VerticalAlignment="Bottom"/>
+                            </Grid>
                         </ContentControl>
 
                         <!-- サムネイルリスト -->

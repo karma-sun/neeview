@@ -38,9 +38,15 @@ namespace NeeView
         /// </summary>
         public MainWindow()
         {
-            Current = this;
-
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// 初期化
+        /// </summary>
+        public void Initialize()
+        {
+            Current = this;
 
             // Window状態初期化、復元
             new WindowPlacement(this);
@@ -58,8 +64,9 @@ namespace NeeView
             this.DataContext = _vm;
 
             // 各コントロールとモデルを関連付け
-            this.SliderArea.Source = models.PageSlider;
-            this.SliderArea.FocusTo = this.MainView;
+            this.PageSliderView.Source = models.PageSlider;
+            this.PageSliderView.FocusTo = this.MainView;
+            this.MediaControlView.Source = models.MediaControl;
             this.ThumbnailListArea.Source = models.ThumbnailList;
             this.AddressBar.Source = models.AddressBar;
             this.MenuBar.Source = models.MenuBar;
@@ -91,6 +98,9 @@ namespace NeeView
 
             models.SidePanel.ResetFocus +=
                 (s, e) => ResetFocus();
+
+            models.ContentCanvas.AddPropertyChanged(nameof(ContentCanvas.IsMediaContent),
+                (s, e) => DartyPageSliderLayout());
 
             this.AddressBar.IsAddressTextBoxFocusedChanged +=
                 (s, e) => UpdateMenuLayerVisibility();
@@ -655,7 +665,7 @@ namespace NeeView
         {
             // 閉じる前にウィンドウサイズ保存
             WindowShape.Current.CreateSnapMemento();
-            
+
             // 設定ウィンドウの保存動作を無効化
             if (Setting.SettingWindow.Current != null)
             {
@@ -884,6 +894,17 @@ namespace NeeView
                 this.LayerPageSliderSocket.Content = this.SliderArea;
             }
 
+            // visibility
+            if (ContentCanvas.Current.IsMediaContent)
+            {
+                this.MediaControlView.Visibility = Visibility.Visible;
+                this.PageSliderView.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                this.MediaControlView.Visibility = Visibility.Collapsed;
+                this.PageSliderView.Visibility = Visibility.Visible;
+            }
 
             // ステータスレイヤー
             StatusLayerVisibility.SetDelayVisibility(Visibility.Collapsed, 0);
@@ -912,7 +933,7 @@ namespace NeeView
             }
 
             // サムネイルリスト
-            this.ThumbnailListArea.Visibility = ThumbnailList.Current.IsEnableThumbnailList ? Visibility.Visible : Visibility.Collapsed;
+            this.ThumbnailListArea.Visibility = ThumbnailList.Current.IsEnableThumbnailList && !ContentCanvas.Current.IsMediaContent ? Visibility.Visible : Visibility.Collapsed;
             this.ThumbnailListArea.DartyThumbnailList();
         }
 

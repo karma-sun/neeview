@@ -81,6 +81,7 @@ namespace NeeView
 
             // メインウィンドウ起動
             var mainWindow = new MainWindow();
+            mainWindow.Initialize();
             mainWindow.Show();
 
             MessageDialog.IsShowInTaskBar = false;

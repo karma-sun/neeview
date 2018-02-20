@@ -174,8 +174,26 @@ namespace NeeView
         public ViewContent MainContent
         {
             get { return _mainContent; }
-            set { if (_mainContent != value) { _mainContent = value; RaisePropertyChanged(); } }
+            set
+            {
+                if (_mainContent != value)
+                {
+                    _mainContent = value;
+                    RaisePropertyChanged();
+
+                    this.IsMediaContent = _mainContent is MediaViewContent;
+                }
+            }
         }
+
+        // メインコンテンツがメディアコンテンツ？
+        private bool _isMediaContent;
+        public bool IsMediaContent
+        {
+            get { return _isMediaContent; }
+            set { if (_isMediaContent != value) { _isMediaContent = value; RaisePropertyChanged(); } }
+        }
+
 
         // コンテンツマージン
         private Thickness _contentsMargin;
@@ -188,7 +206,7 @@ namespace NeeView
         // 2ページコンテンツの隙間
         private double _contentSpace = -1.0;
         [DefaultValue(-1.0)]
-        [PropertyRange("2ページ間の距離", -32, 32, TickFrequency = 1,  Tips = "ページとページの隙間の長さを設定します。マイナス値は重なることを意味します。各ページにスケールがかかるため、0でちょうど隙間がなくなることは稀です。")]
+        [PropertyRange("2ページ間の距離", -32, 32, TickFrequency = 1, Tips = "ページとページの隙間の長さを設定します。マイナス値は重なることを意味します。各ページにスケールがかかるため、0でちょうど隙間がなくなることは稀です。")]
         public double ContentsSpace
         {
             get { return _contentSpace; }

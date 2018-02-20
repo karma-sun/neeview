@@ -113,6 +113,63 @@ namespace NeeView
             }
         }
 
+
+        public double ThumbSize
+        {
+            get { return (double)GetValue(ThumbSizeProperty); }
+            set { SetValue(ThumbSizeProperty, value); }
+        }
+
+        public static readonly DependencyProperty ThumbSizeProperty =
+            DependencyProperty.Register("ThumbSize", typeof(double), typeof(VideoSlider), new PropertyMetadata(25.0, OnThumbSizeChanged));
+
+        private static void OnThumbSizeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is VideoSlider control)
+            {
+                control.UpdateSliderLayout();
+            }
+        }
+
+
+        public Brush SliderBrush
+        {
+            get { return (Brush)GetValue(SliderBrushProperty); }
+            set { SetValue(SliderBrushProperty, value); }
+        }
+
+        public static readonly DependencyProperty SliderBrushProperty =
+            DependencyProperty.Register("SliderBrush", typeof(Brush), typeof(VideoSlider), new PropertyMetadata(Brushes.SteelBlue, OnSliderBrushChanged));
+
+        private static void OnSliderBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is VideoSlider control)
+            {
+                control.UpdateSliderLayout();
+            }
+        }
+
+
+        public Brush Fill
+        {
+            get { return (Brush)GetValue(FillProperty); }
+            set { SetValue(FillProperty, value); }
+        }
+
+        public static readonly DependencyProperty FillProperty =
+            DependencyProperty.Register("Fill", typeof(Brush), typeof(VideoSlider), new PropertyMetadata(Brushes.Transparent, OnFillChanged));
+
+        private static void OnFillChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is VideoSlider control)
+            {
+                control.Thumb.Background = control.Fill;
+            }
+        }
+
+
+
+
         #endregion
 
         #region Constructors
@@ -178,7 +235,7 @@ namespace NeeView
         private void Root_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var pos = e.GetPosition(this.Root);
-            SetValuePosition(pos.X - 12.5);
+            SetValuePosition(pos.X - this.ThumbSize * 0.5);
 
             this.Thumb.UpdateLayout(); // 座標をここで反映させる
 
@@ -205,7 +262,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void Thumb_DragStarted(object sender, DragStartedEventArgs e)
         {
-            this.Thumb.Background = new SolidColorBrush(Colors.SteelBlue);
+            this.Thumb.Background = this.SliderBrush;
 
             DragStartedEventArgs args = new DragStartedEventArgs(e.HorizontalOffset, e.VerticalOffset);
             args.RoutedEvent = VideoSlider.DragStartedEvent;
@@ -219,7 +276,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void Thumb_DragCompleted(object sender, DragCompletedEventArgs e)
         {
-            this.Thumb.Background = new SolidColorBrush(Colors.Transparent);
+            this.Thumb.Background = this.Fill;
 
             UpdateThumbPosition();
 
@@ -284,7 +341,7 @@ namespace NeeView
         private void UpdateThumbPosition(double value)
         {
             double min = 0.0;
-            double max = this.Root.ActualWidth - 25.0;
+            double max = this.Root.ActualWidth - this.ThumbSize;
 
             var x = Maximum > Minimum
                 ? GetReversedValue(value) * (max - min) / (Maximum - Minimum) + min
@@ -300,7 +357,7 @@ namespace NeeView
         private double GetValueFromPosition(double x)
         {
             double min = 0.0;
-            double max = this.Root.ActualWidth - 25.0;
+            double max = this.Root.ActualWidth - this.ThumbSize;
 
             var value = GetReversedValue(x * (Maximum - Minimum) / (max - min) + Minimum);
 
@@ -313,8 +370,18 @@ namespace NeeView
         // 表示の更新
         private void UpdateSliderLayout()
         {
-            this.LeftTrac.Fill = this.IsDirectionReversed ? _grayTruchBrush : Brushes.SteelBlue;
-            this.RightTrack.Fill = this.IsDirectionReversed ? Brushes.SteelBlue : _grayTruchBrush;
+            this.LeftTrac.Fill = this.IsDirectionReversed ? _grayTruchBrush : this.SliderBrush;
+            this.RightTrack.Fill = this.IsDirectionReversed ? this.SliderBrush : _grayTruchBrush;
+
+            this.LeftTrac.Margin = new Thickness(this.ThumbSize * 0.5, 0, -1, 0);
+            this.RightTrack.Margin = new Thickness(-1, 0, this.ThumbSize * 0.5, 0);
+
+            this.Thumb.Foreground = this.SliderBrush;
+            this.Thumb.Width = this.ThumbSize;
+            this.Thumb.Height = this.ThumbSize;
+            this.ThumbColumn.Width = new GridLength(this.ThumbSize);
+            this.RootCanvas.Height = this.ThumbSize;
+
             UpdateThumbPosition();
         }
 

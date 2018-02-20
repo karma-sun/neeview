@@ -78,6 +78,8 @@ namespace NeeView
 
         //
         public PageSlider PageSlider { get; private set; }
+        public MediaControl MediaControl { get; private set; }
+        public MediaPlayerProfile MediaPlayerProfile { get; private set; }
         public ThumbnailList ThumbnailList { get; private set; }
         public AddressBar AddressBar { get; private set; }
         public MenuBar MenuBar { get; private set; }
@@ -167,6 +169,8 @@ namespace NeeView
 
             this.ThumbnailList = new ThumbnailList(this.BookOperation, this.BookHub);
             this.PageSlider = new PageSlider(this.BookOperation, this.BookSetting, this.BookHub, this.ThumbnailList);
+            this.MediaControl = new MediaControl();
+            this.MediaPlayerProfile = new MediaPlayerProfile();
             this.AddressBar = new AddressBar();
             this.MenuBar = new MenuBar();
             this.NowLoading = new NowLoading();

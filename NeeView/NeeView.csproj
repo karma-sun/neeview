@@ -148,6 +148,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Archiver\MediaArchiver.cs" />
+    <Compile Include="Controls\MediaControl.cs" />
+    <Compile Include="Controls\MediaControlView.xaml.cs">
+      <DependentUpon>MediaControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MediaControlViewModel.cs" />
+    <Compile Include="Controls\MediaPlayerOperator.cs" />
     <Compile Include="Page\MediaContent.cs" />
     <Compile Include="SidePanels\IPageListPanel.cs" />
     <Compile Include="SidePanels\ListBoxThumbnailLoader.cs" />
@@ -579,6 +585,7 @@
     <Compile Include="_NeeView\Threading\Tasks\TaskUtils.cs" />
     <Compile Include="_NeeView\Collections\Generic\EnumerableExtensions.cs" />
     <Compile Include="_NeeView\IO\FileShortcut.cs" />
+    <Compile Include="Converters\BooleanToCustomVisibilityConverter.cs" />
     <Compile Include="_NeeView\Windows\VectorExtensions.cs" />
     <Compile Include="IndexValue.cs" />
     <Compile Include="_NeeLaboratory\Windows\Media\VisualTreeUtility.cs" />
@@ -746,6 +753,10 @@
     <Compile Include="_NeeView\Windows\Property\PropertyMemberAttribute.cs" />
     <Compile Include="_NeeView\Windows\Property\PropertyValue.cs" />
     <Compile Include="_NeeView\Windows\StyleInteraction.cs" />
+    <Page Include="Controls\MediaControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Setting\BackgroundSettingControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

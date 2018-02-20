@@ -3,22 +3,50 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeLaboratory.ComponentModel;
+using NeeLaboratory.Windows.Input;
 using System;
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace NeeView
 {
     public class MediaViewContent : BitmapViewContent
     {
+        #region Fields
+
+        private MediaPlayer _player;
+        private VideoDrawing _videoDrawing;
+        private TextBlock _errorMessageTextBlock;
+
+        #endregion
+
         #region Constructors
 
         public MediaViewContent(ViewPage source, ViewContent old) : base(source, old)
         {
         }
+
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// コントロールがUnloadされたときのイベント
+        /// </summary>
+        public event EventHandler Unloaded;
+
+        #endregion
+
+        #region Properties
+
+        public MediaPlayer MediaPlayer => _player;
+
+        public Uri MediaUri => new Uri(((MediaContent)Content).FileProxy.Path);
 
         #endregion
 
@@ -40,11 +68,6 @@ namespace NeeView
         }
 
 
-        //
-        private MediaPlayer _player;
-        private VideoDrawing _videoDrawing;
-        private TextBlock _errorMessageTextBlock;
-
         /// <summary>
         /// アニメーションビュー生成
         /// </summary>
@@ -59,7 +82,7 @@ namespace NeeView
             {
                 Player = _player,
                 Rect = new Rect(this.Content.Size),
-              
+
             };
             var brush = new DrawingBrush()
             {
@@ -95,23 +118,29 @@ namespace NeeView
 
             grid.Unloaded += Grid_Unloaded;
 
-            //
-            _player.Open(new Uri(((MediaContent)Content).FileProxy.Path));
-            _player.Play();
+            //// 再生開始はMediaControlViewで行うので、ここでは実行しない
+            ////_player.Open(new Uri(((MediaContent)Content).FileProxy.Path));
+            ////_player.Play();
 
             return grid;
         }
 
         //
-        private void Grid_Unloaded(object sender, RoutedEventArgs e)
+        private void CloseMediaPlayer()
         {
+            Unloaded?.Invoke(this, null);
+
             _player?.Stop();
+            _player?.Close();
         }
 
-
+        //
+        private void Grid_Unloaded(object sender, RoutedEventArgs e)
+        {
+            CloseMediaPlayer();
+        }
 
         //
-        //private void Media_MediaOpened(object sender, RoutedEventArgs e)
         private void Media_MediaOpened(object sender, EventArgs e)
         {
             var content = this.Content as MediaContent;
@@ -126,7 +155,6 @@ namespace NeeView
         }
 
         //
-        //private void Media_MediaFailed(object sender, ExceptionRoutedEventArgs e)
         private void Media_MediaFailed(object sender, ExceptionEventArgs e)
         {
             _errorMessageTextBlock.Text = e.ErrorException != null ? e.ErrorException.Message : "再生エラー";
@@ -146,7 +174,7 @@ namespace NeeView
 
         protected override void Dispose(bool disposing)
         {
-            _player?.Stop();
+            CloseMediaPlayer();
             base.Dispose(disposing);
         }
 
@@ -163,4 +191,6 @@ namespace NeeView
 
         #endregion
     }
+
+
 }

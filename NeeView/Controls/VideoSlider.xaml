@@ -16,13 +16,12 @@
 
     <Grid x:Name="Root" Background="Transparent"
           SizeChanged="Root_SizeChanged"
-          MouseLeftButtonDown="Root_MouseLeftButtonDown"
-          >
+          MouseLeftButtonDown="Root_MouseLeftButtonDown">
 
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition x:Name="LeftTracColumn" Width="50"/>
-                <ColumnDefinition Width="25"/>
+                <ColumnDefinition x:Name="ThumbColumn" Width="25"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
@@ -31,15 +30,13 @@
         </Grid>
         
         <Canvas x:Name="RootCanvas" VerticalAlignment="Center" Height="25">
-
-            <Thumb Canvas.Left="50" Canvas.Top="0" Height="25" Name="Thumb"  Width="25" Background="Transparent"
+            <Thumb x:Name="Thumb" Canvas.Left="50" Canvas.Top="0" Height="25"  Width="25" Background="Transparent" Foreground="SteelBlue"
                DragCompleted="Thumb_DragCompleted"
                DragStarted="Thumb_DragStarted"
-               DragDelta="Thumb_DragDelta"
-               >
+               DragDelta="Thumb_DragDelta">
                 <Thumb.Template>
                     <ControlTemplate TargetType="Thumb">
-                        <Ellipse Fill="{TemplateBinding Background}" Width="25" Height="25" Stroke="SteelBlue" StrokeThickness="3" />
+                        <Ellipse Fill="{TemplateBinding Background}" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Stroke="{TemplateBinding Foreground}" StrokeThickness="3" />
                     </ControlTemplate>
                 </Thumb.Template>
             </Thumb>

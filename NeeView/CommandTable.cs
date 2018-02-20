@@ -202,7 +202,7 @@ namespace NeeView
                 writer.WriteLine(HtmlHelpUtility.CraeteHeader("NeeView Command List"));
                 writer.WriteLine("<body><h1>NeeView コマンド一覧</h1>");
 
-                writer.WriteLine("<p>操作が割り当てられていないコマンドは「設定ウィンドウ」の「コマンド」タブで設定することで使用可能です</p>");
+                writer.WriteLine("<p>操作が割り当てられていないコマンドは「設定ウィンドウ」の「コマンド設定」で設定することで使用可能です</p>");
 
                 // グループごとに出力
                 foreach (var pair in groups)
@@ -252,6 +252,7 @@ namespace NeeView
                 _elements[CommandType.None] = element;
             }
 
+
             // LoadAs
             {
                 var element = new CommandElement();
@@ -296,7 +297,7 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "ファイル";
                 element.Text = "外部アプリで開く";
-                element.Note = "表示されている画像を外部アプリで開きます。設定ウィンドウの<code>外部連携</code>でアプリを設定します";
+                element.Note = "表示されている画像を外部アプリで開きます。設定ウィンドウの<code>外部アプリ</code>でアプリを設定します";
                 element.Execute = (s, e) => _models.BookOperation.OpenApplication();
                 element.CanExecute = () => _models.BookOperation.CanOpenFilePlace();
                 element.IsShowMessage = false;
@@ -1322,6 +1323,17 @@ namespace NeeView
                 _elements[CommandType.NextHistory] = element;
             }
 
+            // ToggleMediaPlay
+            {
+                var element = new CommandElement();
+                element.Group = "動画";
+                element.Text = "動画再生/停止";
+                element.Note = "動画の再生と停止を切り替えます";
+                element.IsShowMessage = false;
+                element.CanExecute = () => _book.Book != null && _book.Book.IsMedia;
+                element.Execute = (s, e) => _models.BookOperation.ToggleMediaPlay();
+                _elements[CommandType.ToggleMediaPlay] = element;
+            }
 
             // ToggleFolderOrder
             {

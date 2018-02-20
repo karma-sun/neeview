@@ -256,6 +256,9 @@ namespace NeeView
         // この本のアーカイバ
         public Archiver Archiver { get; private set; }
 
+        // メディアアーカイバ？
+        public bool IsMedia => Archiver is MediaArchiver; 
+
         // 開始ページ
         public string StartEntry { get; private set; }
 

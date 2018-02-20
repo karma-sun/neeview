@@ -15,8 +15,6 @@ namespace NeeView
     {
         None, // 
 
-        //OpenContextMenu,
-
         OpenSettingWindow,
         OpenSettingFilesFolder,
         OpenVersionWindow,
@@ -49,6 +47,8 @@ namespace NeeView
         NextSizePage,
         FirstPage,
         LastPage,
+
+        ToggleMediaPlay,
 
         PrevFolder,
         NextFolder,

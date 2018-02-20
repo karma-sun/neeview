@@ -448,60 +448,158 @@ namespace NeeView
             PageRemoved?.Invoke(sender, e);
         }
 
+        // ページ移動量をメディアの時間移動量に変換
+        private double GetMediaPositionDelta(int pageNumber)
+        {
+            return pageNumber * MediaControl.Current.PageSeconds * 1000.0;
+        }
 
         // 前のページに移動
         public void PrevPage()
         {
-            this.Book?.PrevPage();
+            if (this.Book == null) return;
+
+            if (this.Book.IsMedia)
+            {
+                MediaPlayerOperator.Current?.AddPositionMilliseconds(GetMediaPositionDelta(-1));
+            }
+            else
+            {
+                this.Book.PrevPage();
+            }
         }
 
         // 次のページに移動
         public void NextPage()
         {
-            this.Book?.NextPage();
+            if (this.Book == null) return;
+
+            if (this.Book.IsMedia)
+            {
+                MediaPlayerOperator.Current?.AddPositionMilliseconds(GetMediaPositionDelta(+1));
+            }
+            else
+            {
+                this.Book.NextPage();
+            }
         }
 
         // 1ページ前に移動
         public void PrevOnePage()
         {
-            this.Book?.PrevPage(1);
+            if (this.Book == null) return;
+
+            if (this.Book.IsMedia)
+            {
+                MediaPlayerOperator.Current?.AddPositionMilliseconds(GetMediaPositionDelta(-1));
+            }
+            else
+            {
+                this.Book.PrevPage(1);
+            }
         }
 
         // 1ページ後に移動
         public void NextOnePage()
         {
-            this.Book?.NextPage(1);
+            if (this.Book == null) return;
+
+            if (this.Book.IsMedia)
+            {
+                MediaPlayerOperator.Current?.AddPositionMilliseconds(GetMediaPositionDelta(+1));
+            }
+            else
+            {
+                this.Book?.NextPage(1);
+            }
         }
 
         // 指定ページ数前に移動
         public void PrevSizePage(int size)
         {
-            this.Book?.PrevPage(size);
+            if (this.Book == null) return;
+
+            if (this.Book.IsMedia)
+            {
+                MediaPlayerOperator.Current?.AddPositionMilliseconds(GetMediaPositionDelta(-size));
+            }
+            else
+            {
+                this.Book.PrevPage(size);
+            }
         }
 
         // 指定ページ数後に移動
         public void NextSizePage(int size)
         {
-            this.Book?.NextPage(size);
+            if (this.Book == null) return;
+
+            if (this.Book.IsMedia)
+            {
+                MediaPlayerOperator.Current?.AddPositionMilliseconds(GetMediaPositionDelta(+size));
+            }
+            else
+            {
+                this.Book.NextPage(size);
+            }
         }
 
 
         // 最初のページに移動
         public void FirstPage()
         {
-            this.Book?.FirstPage();
+            if (this.Book == null) return;
+
+            if (this.Book.IsMedia)
+            {
+                MediaPlayerOperator.Current?.SetPosition(0.0);
+            }
+            else
+            {
+                this.Book.FirstPage();
+            }
         }
 
         // 最後のページに移動
         public void LastPage()
         {
-            this.Book?.LastPage();
+            if (this.Book == null) return;
+
+            if (this.Book.IsMedia)
+            {
+                MediaPlayerOperator.Current?.SetPosition(1.0);
+            }
+            else
+            {
+                this.Book.LastPage();
+            }
         }
 
         // 指定ページに移動
         public void JumpPage(Page page)
         {
             if (_isEnabled && page != null) this.Book?.JumpPage(page);
+        }
+
+        // 動画再生ON/OFF
+        public bool ToggleMediaPlay()
+        {
+            if (this.Book != null && this.Book.IsMedia)
+            {
+                if (MediaPlayerOperator.Current.IsPlaying)
+                {
+                    MediaPlayerOperator.Current.Pause();
+                }
+                else
+                {
+                    MediaPlayerOperator.Current.Play();
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         // スライドショー用：次のページへ移動
@@ -575,13 +673,13 @@ namespace NeeView
         // ページマーク登録可能？
         public bool CanPagemark()
         {
-            return (this.Book != null);
+            return this.Book != null && !this.Book.IsMedia;
         }
 
         // マーカー切り替え
         public void TogglePagemark()
         {
-            if (!_isEnabled || this.Book == null) return;
+            if (!_isEnabled || this.Book == null || this.Book.IsMedia) return;
 
             if (Current.Book.Place.StartsWith(Temporary.TempDirectory))
             {

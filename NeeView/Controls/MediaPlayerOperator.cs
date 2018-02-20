@@ -1,6 +1,7 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeLaboratory.Windows.Input;
 using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -12,10 +13,15 @@ namespace NeeView
     /// </summary>
     public class MediaPlayerOperator : BindableBase, IDisposable
     {
+        /// <summary>
+        /// 現在有効なMediaPlayerOperator。
+        /// シングルトンではない。
+        /// </summary>
+        public static MediaPlayerOperator Current { get; set; }
+
         #region Fields
 
         private MediaPlayer _player;
-        private Rect _rect;
         private Duration _duration;
         private DispatcherTimer _timer;
         private bool _isActive;
@@ -26,6 +32,7 @@ namespace NeeView
         private bool _isPlaying;
         private bool _isRepeat;
         private bool _isScrubbing;
+        private double _delay;
 
         #endregion
 
@@ -37,8 +44,6 @@ namespace NeeView
 
             _player.ScrubbingEnabled = false;
 
-            _rect = new Rect(0, 0, 704, 396);
-
             _player.MediaOpened += Player_MediaOpened;
             _player.MediaEnded += Player_MediaEnded;
 
@@ -48,8 +53,11 @@ namespace NeeView
 
             _timer = new DispatcherTimer(DispatcherPriority.Normal, App.Current.Dispatcher);
             _timer.Interval = TimeSpan.FromSeconds(0.1);
-            _timer.Tick += new EventHandler(DispatcherTimer_Tick);
+            _timer.Tick += DispatcherTimer_Tick;
+            _timer.Start();
         }
+
+
 
         #endregion
 
@@ -59,12 +67,6 @@ namespace NeeView
         {
             get { return _player; }
             set { if (_player != value) { _player = value; RaisePropertyChanged(); } }
-        }
-
-        public Rect Rect
-        {
-            get { return _rect; }
-            set { if (_rect != value) { _rect = value; RaisePropertyChanged(); } }
         }
 
         public Duration Duration
@@ -200,7 +202,6 @@ namespace NeeView
                         if (_isScrubbing)
                         {
                             _player.Pause();
-                            _player.ScrubbingEnabled = true;
                             UpdateVolume();
                         }
                         else
@@ -208,7 +209,6 @@ namespace NeeView
                             if (_isPlaying)
                             {
                                 _player.Play();
-                                _player.ScrubbingEnabled = false;
                                 UpdateVolume();
                             }
                         }
@@ -279,35 +279,56 @@ namespace NeeView
             else
             {
                 Pause();
+                this.Position = 1.0;
             }
         }
 
         private void Player_MediaOpened(object sender, EventArgs e)
         {
-            _rect = new Rect(new Size(_player.NaturalVideoWidth, _player.NaturalVideoHeight));
-            _volume = _player.Volume;
             Duration = _player.NaturalDuration;
             RaisePropertyChanged(null);
 
-            // 自動再生開始
-            Play();
+            Debug.WriteLine($"{_player.IsBuffering}, {_player.BufferingProgress}, {_player.DownloadProgress}");
+
+            // 画面がちらつくことがあるので、少し待ってから再生開始
+            _delay = 500;
+            _timer.Tick += DispatcherTimer_StartTick;
         }
 
+
+        // 遅延再生開始用のタイマー処理
+        private void DispatcherTimer_StartTick(object sender, EventArgs e)
+        {
+            _delay -= _timer.Interval.TotalMilliseconds;
+            if (_delay < 0.0)
+            {
+                _timer.Tick -= DispatcherTimer_StartTick;
+                Play();
+                _player.ScrubbingEnabled = true;
+            }
+        }
+
+        // 通常用タイマー処理
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
             if (_disposed) return;
-            if (_isScrubbing) return;
-            if (!_duration.HasTimeSpan) return;
+            if (!_isActive || _isScrubbing) return;
 
-            _position = _player.Position.TotalMilliseconds / _totalMilliseconds;
-            RaisePropertyChanged(nameof(Position));
-            RaisePropertyChanged(nameof(DispTime));
+            if (_duration.HasTimeSpan)
+            {
+                _position = _player.Position.TotalMilliseconds / _totalMilliseconds;
+                RaisePropertyChanged(nameof(Position));
+                RaisePropertyChanged(nameof(DispTime));
+            }
+
+            SetPosition_Tick(_timer.Interval.TotalMilliseconds);
         }
 
         public void Open(Uri uri)
         {
             if (_disposed) return;
 
+            _player.Volume = 0.0;
             _player.Open(uri);
         }
 
@@ -316,7 +337,6 @@ namespace NeeView
             if (_disposed) return;
 
             _player.Play();
-            _timer.Start();
             _isActive = true;
             IsPlaying = true;
 
@@ -328,35 +348,77 @@ namespace NeeView
             UpdateVolume();
         }
 
-        public void Stop()
-        {
-            if (_disposed) return;
-
-            _player.Stop();
-            _timer.Stop();
-            _isActive = false;
-            IsPlaying = false;
-        }
-
         public void Pause()
         {
             if (_disposed) return;
 
             _player.Pause();
-            _timer.Stop();
             IsPlaying = false;
+        }
+
+        // コマンドによる移動
+        public void AddPositionMilliseconds(double ms)
+        {
+            if (_disposed) return;
+            if (!_duration.HasTimeSpan) return;
+
+            SetPosition(NeeLaboratory.MathUtility.Clamp(_position + ms / _totalMilliseconds, 0.0, 1.0));
+        }
+
+        // コマンドによる移動[0..1]
+        public void SetPosition(double position)
+        {
+            if (_disposed) return;
+            if (!_duration.HasTimeSpan) return;
+
+            if (position >= 1.0 && !_isRepeat)
+            {
+                Pause();
+                this.Position = 1.0;
+            }
+            else
+            {
+                _delay = 500;
+                UpdateVolume();
+
+                _player.Pause();
+                this.Position = position;
+            }
+        }
+
+        // 移動による遅延再生処理用
+        private void SetPosition_Tick(double ms)
+        {
+            if (_delay <= 0.0) return;
+
+            // scrubbing 発生のため、遅延再生無効
+            if (_isScrubbing)
+            {
+                _delay = 0.0;
+                return;
+            }
+
+            _delay -= ms;
+            if (_delay <= 0.0)
+            {
+                if (_isPlaying)
+                {
+                    _player.Play();
+                    UpdateVolume();
+                }
+            }
         }
 
         private void UpdateVolume()
         {
-            _player.Volume = _isScrubbing ? 0.0 : _volume;
+            _player.Volume = _isScrubbing || _delay > 0.0 ? 0.0 : _volume;
         }
 
         #endregion
 
         #region IDisposable Support
 
-        private bool _disposed = false; 
+        private bool _disposed = false;
 
         protected virtual void Dispose(bool disposing)
         {
@@ -364,7 +426,8 @@ namespace NeeView
             {
                 if (disposing)
                 {
-                    Stop();
+                    _timer.Stop();
+                    _player.Stop();
                     _player.MediaOpened -= Player_MediaOpened;
                     _player.MediaEnded -= Player_MediaEnded;
                 }

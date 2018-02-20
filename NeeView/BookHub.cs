@@ -421,7 +421,7 @@ namespace NeeView
 
             ResetPropertyChanged();
 
-            Debug.WriteLine("BokHub Disposing...");
+            Debug.WriteLine("BookHub Disposing...");
 
             // 開いているブックを閉じる(5秒待つ。それ以上は待たない)
             Task.Run(async () => await RequestUnload(false).WaitAsync()).Wait(5000);
@@ -523,6 +523,9 @@ namespace NeeView
         /// <returns></returns>
         public async Task LoadAsync(BookHubCommandLoadArgs args, CancellationToken token)
         {
+            // 再生中のメディアをPAUSE
+            App.Current?.Dispatcher.Invoke(() => MediaPlayerOperator.Current?.Pause());
+
             // 本の変更開始通知
             App.Current?.Dispatcher.Invoke(() => BookChanging?.Invoke(this, null));
 

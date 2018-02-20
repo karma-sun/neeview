@@ -34,6 +34,8 @@ namespace NeeView
             {
                 Operator = null;
             }
+
+            MediaPlayerOperator.Current = Operator;
         }
 
         public void SetScrubbing(bool isScrubbing)

@@ -21,26 +21,15 @@ namespace NeeView
 
         public event EventHandler<MediaPlayerChanged> Changed;
 
-        private bool _isMuted;
-        public bool IsMuted
-        {
-            get { return _isMuted; }
-            set { if (_isMuted != value) { _isMuted = value; RaisePropertyChanged(); } }
-        }
 
-        private double _volume = 0.5;
-        public double Volume
-        {
-            get { return _volume; }
-            set { if (_volume != value) { _volume = value; RaisePropertyChanged(); } }
-        }
+        public bool IsMuted { get; set; }
 
-        private bool _isRepeat;
-        public bool IsRepeat
-        {
-            get { return _isRepeat; }
-            set { if (_isRepeat != value) { _isRepeat = value; RaisePropertyChanged(); } }
-        }
+        public double Volume { get; set; } = 0.5;
+
+        public bool IsRepeat { get; set; }
+
+        [PropertyMember("ページ移動での変化時間(秒)")]
+        public double PageSeconds { get; set; } = 10.0;
 
 
         private void ContentCanvas_ContentChanged(object sender, EventArgs e)
@@ -87,6 +76,9 @@ namespace NeeView
 
             [DataMember]
             public bool IsRepeat { get; set; }
+
+            [DataMember]
+            public double PageSeconds { get; set; }
         }
 
         //
@@ -97,6 +89,7 @@ namespace NeeView
             memento.IsMuted = this.IsMuted;
             memento.Volume = this.Volume;
             memento.IsRepeat = this.IsRepeat;
+            memento.PageSeconds = this.PageSeconds;
 
             return memento;
         }
@@ -109,6 +102,7 @@ namespace NeeView
             this.IsMuted = memento.IsMuted;
             this.Volume = memento.Volume;
             this.IsRepeat = memento.IsRepeat;
+            this.PageSeconds = memento.PageSeconds;
         }
 
         #endregion

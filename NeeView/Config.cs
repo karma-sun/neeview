@@ -128,7 +128,17 @@ namespace NeeView
             return major << 16 | minor << 8;
         }
 
+        // プロダクトバージョン(int)からメジャーバージョンを取得
+        public static int GetMajorVersionNumber(int versionNumber)
+        {
+            return (versionNumber >> 16) & 0xff;
+        }
 
+        // プロダクトバージョン(int)からマイナーバージョンを取得
+        public static int GetMinorVersionNumber(int versionNumber)
+        {
+            return (versionNumber >> 8) & 0xff;
+        }
 
 
         /// <summary>

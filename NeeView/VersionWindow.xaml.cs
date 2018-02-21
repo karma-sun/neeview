@@ -64,11 +64,11 @@ namespace NeeView
             if (value is int)
             {
                 int version = (int)value;
-                int minor = version / 100;
-                int build = version % 100;
+                int major = Config.GetMajorVersionNumber(version);
+                int minor = Config.GetMinorVersionNumber(version);
                 var process = Config.IsX64 ? "64bit" : "32bit";
 
-                return $"1.{minor}" + ((build > 0) ? $".{build}" : "") + $" ({process})";
+                return $"{major}.{minor}" + $" ({process})";
             }
             return null;
         }
@@ -169,7 +169,7 @@ namespace NeeView
         {
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var ver = FileVersionInfo.GetVersionInfo(assembly.Location);
-            CurrentVersion = ver.FileMinorPart * 100;
+            CurrentVersion = Config.GenerateProductVersionNumber(ver.FileMajorPart, ver.FileMinorPart, 0);
 
 #if DEBUG
             // for Debug
@@ -209,14 +209,15 @@ namespace NeeView
                     ////extension = ".msi";
 #endif
 
-                    var regex = new Regex(@"NeeView1\.(?<minor>\d+)(?<arch>-[^\.]+)?" + extension);
+                    var regex = new Regex(@"NeeView(?<major>\d+)\.(?<minor>\d+)(?<arch>-[^\.]+)?" + extension);
                     var matches = regex.Matches(text);
                     if (matches.Count <= 0) throw new ApplicationException("更新ページのフォーマットが想定されているものと異なります");
                     foreach (Match match in matches)
                     {
+                        var major = int.Parse(match.Groups["major"].Value);
                         var minor = int.Parse(match.Groups["minor"].Value);
-                        var version = minor * 100;
-                        Debug.WriteLine($"NeeView 1.{minor} - {version}: {match.Groups["arch"]?.Value}");
+                        var version = Config.GenerateProductVersionNumber(major, minor, 0);
+                        Debug.WriteLine($"NeeView {major}.{minor} - {version:x8}: {match.Groups["arch"]?.Value}");
                         if (LastVersion < version) LastVersion = version;
                     }
 

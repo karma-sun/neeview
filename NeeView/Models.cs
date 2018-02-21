@@ -33,6 +33,7 @@ namespace NeeView
         public BookHistory BookHistory { get; private set; }
         public BookmarkCollection BookmarkCollection { get; private set; }
         public PagemarkCollection PagemarkCollection { get; private set; }
+        public ZipArchiverProfile ZipArchiverProfile { get; private set; }
         public SevenZipArchiverProfile SevenZipArchiverProfile { get; private set; }
         public PdfArchiverProfile PdfArchiverProfile { get; private set; }
         public MediaArchiverProfile MediaArchiverProfile { get; private set; }
@@ -120,6 +121,7 @@ namespace NeeView
             BookHistory = new BookHistory();
             BookmarkCollection = new BookmarkCollection();
             PagemarkCollection = new PagemarkCollection();
+            ZipArchiverProfile = new ZipArchiverProfile();
             SevenZipArchiverProfile = new SevenZipArchiverProfile();
             PdfArchiverProfile = new PdfArchiverProfile();
             MediaArchiverProfile = new MediaArchiverProfile();
@@ -225,6 +227,8 @@ namespace NeeView
             [DataMember]
             public PictureProfile.Memento PictureProfile { get; set; }
             [DataMember]
+            public ZipArchiverProfile.Memento ZipArchiverProfile { get; set; }
+            [DataMember]
             public SevenZipArchiverProfile.Memento SevenZipArchiverProfile { get; set; }
             [DataMember]
             public PdfArchiverProfile.Memento PdfArchiverProfile { get; set; }
@@ -314,6 +318,7 @@ namespace NeeView
             memento.JobEngine = this.JobEngine.CreateMemento();
             memento.PictureProfile = this.PictureProfile.CreateMemento();
             memento.ImageFilter = this.ImageFilter.CreateMemento();
+            memento.ZipArchiverProfile = this.ZipArchiverProfile.CreateMemento();
             memento.SevenZipArchiverProfile = this.SevenZipArchiverProfile.CreateMemento();
             memento.PdfArchiverProfile = this.PdfArchiverProfile.CreateMemento();
             memento.MediaArchiverProfile = this.MediaArchiverProfile.CreateMemento();
@@ -361,6 +366,7 @@ namespace NeeView
             this.JobEngine.Restore(memento.JobEngine);
             this.PictureProfile.Restore(memento.PictureProfile);
             this.ImageFilter.Restore(memento.ImageFilter);
+            this.ZipArchiverProfile.Restore(memento.ZipArchiverProfile);
             this.SevenZipArchiverProfile.Restore(memento.SevenZipArchiverProfile);
             this.PdfArchiverProfile.Restore(memento.PdfArchiverProfile);
             this.MediaArchiverProfile.Restore(memento.MediaArchiverProfile);

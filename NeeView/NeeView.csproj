@@ -149,6 +149,7 @@
     </ApplicationDefinition>
     <Compile Include="Archiver\MediaArchiver.cs" />
     <Compile Include="Archiver\MediaArchiverProfile.cs" />
+    <Compile Include="Archiver\ZipArchiverProfile.cs" />
     <Compile Include="Controls\MediaControl.cs" />
     <Compile Include="Controls\MediaControlView.xaml.cs">
       <DependentUpon>MediaControlView.xaml</DependentUpon>

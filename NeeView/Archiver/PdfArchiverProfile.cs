@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeLaboratory;
+using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
 using System;
 using System.ComponentModel;
@@ -13,9 +14,11 @@ using System.Windows;
 namespace NeeView
 {
     //
-    public class PdfArchiverProfile
+    public class PdfArchiverProfile : BindableBase
     {
         public static PdfArchiverProfile Current { get; private set; }
+
+        private bool _isEnabled = true;
 
         //
         public PdfArchiverProfile()
@@ -23,11 +26,20 @@ namespace NeeView
             Current = this;
         }
 
-        /// <summary>
-        /// RendeSize property.
-        /// </summary>
+
+        [PropertyMember("PDFを使用する")]
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); } }
+        }
+
+        [PropertyMember("PDFファイルの拡張子")]
+        public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".pfd");
+
         [PropertyMember("PDFページ標準サイズ", Tips = "通常は表示サイズにあわせてレンダリングしなおしますが、下限はこの標準サイズになります。 より小さくなる場合には縮小して表示します。")]
         public Size RenderSize { get; set; } = new Size(1024, 1024);
+
 
         //
         public void Validate()
@@ -65,11 +77,21 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
+            [DataMember, DefaultValue(true)]
+            public bool IsEnabled { get; set; }
+
             [DataMember, DefaultValue(typeof(Size), "1920,1080")]
             public Size RenderSize { get; set; }
 
             [Obsolete, DataMember]
             public Size RenderMaxSize { get; set; }
+
+
+            [OnDeserializing]
+            public void OnDeserializing(StreamingContext c)
+            {
+                this.InitializePropertyDefaultValues();
+            }
 
 #pragma warning disable CS0612
 
@@ -90,6 +112,7 @@ namespace NeeView
         public Memento CreateMemento()
         {
             var memento = new Memento();
+            memento.IsEnabled = this.IsEnabled;
             memento.RenderSize = this.RenderSize;
             return memento;
         }
@@ -98,6 +121,8 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             if (memento == null) return;
+
+            this.IsEnabled = memento.IsEnabled;
             this.RenderSize = memento.RenderSize;
 
             Validate();

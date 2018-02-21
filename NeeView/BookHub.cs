@@ -1074,7 +1074,8 @@ namespace NeeView
             // compatible before ver.23
             if (memento._Version < Config.GenerateProductVersionNumber(1, 23, 0))
             {
-                ArchiverManager.Current.IsEnabled = memento.IsSupportArchiveFile;
+                ////対応が難しいため設定を引き継がない
+                ////ArchiverManager.Current.IsEnabled = memento.IsSupportArchiveFile;
 
                 BookProfile.Current.PreLoadMode = memento.PreLoadMode;
                 BookProfile.Current.IsEnableAnimatedGif = memento.IsEnableAnimatedGif;

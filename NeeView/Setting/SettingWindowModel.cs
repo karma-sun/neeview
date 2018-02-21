@@ -39,17 +39,13 @@ namespace NeeView.Setting
             _pages = new List<SettingPage>();
 
             _pages.Add(new SettingPageEnvironment() { IsSelected = true });
+            _pages.Add(new SettingPageFeature());
             _pages.Add(new SettingPageBook());
             _pages.Add(new SettingPagePage());
             _pages.Add(new SettingPageVisual());
             _pages.Add(new SettingPagePanel());
             _pages.Add(new SettingPageManipurate());
             _pages.Add(new SettingPageExternal());
-
-            if (SusieContext.IsSupportedSusie)
-            {
-                _pages.Add(new SettingPageSusie());
-            }
 
             _pages.Add(new SettingPageCommand());
             _pages.Add(new SettingPageContextMenu());

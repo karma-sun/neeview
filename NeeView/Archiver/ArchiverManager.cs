@@ -34,16 +34,16 @@ namespace NeeView
         private Dictionary<ArchiverType, FileTypeCollection> _supprtedFileTypes = new Dictionary<ArchiverType, FileTypeCollection>()
         {
             [ArchiverType.SevenZipArchiver] = SevenZipArchiverProfile.Current.SupportFileTypes,
-            [ArchiverType.ZipArchiver] = new FileTypeCollection(".zip"),
+            [ArchiverType.ZipArchiver] = ZipArchiverProfile.Current.SupportFileTypes,
             [ArchiverType.PdfArchiver] = new FileTypeCollection(".pdf"),
             [ArchiverType.MediaArchiver] = MediaArchiverProfile.Current.SupportFileTypes,
             [ArchiverType.SusieArchiver] = SusieContext.Current.ArchiveExtensions,
         };
 
-        /// <summary>
-        /// アーカイバの適用順
-        /// </summary>
+        // アーカイバの適用順
         private List<ArchiverType> _orderList;
+        private bool _isDartyOrderList = true;
+
 
         /// <summary>
         /// デフォルト除外パターン
@@ -54,8 +54,6 @@ namespace NeeView
         /// 除外パターンの正規表現
         /// </summary>
         private Regex _excludeRegex;
-
-        private bool _isEnabled;
 
         #endregion
 
@@ -70,11 +68,17 @@ namespace NeeView
 
             this.ExcludePattern = _defaultExcludePattern;
 
+            ZipArchiverProfile.Current.AddPropertyChanged(nameof(ZipArchiverProfile.IsEnabled),
+                (s, e) => UpdateOrderList());
+            SevenZipArchiverProfile.Current.AddPropertyChanged(nameof(MediaArchiverProfile.IsEnabled),
+                (s, e) => UpdateOrderList());
+            PdfArchiverProfile.Current.AddPropertyChanged(nameof(PdfArchiverProfile.IsEnabled),
+                (s, e) => UpdateOrderList());
+            MediaArchiverProfile.Current.AddPropertyChanged(nameof(MediaArchiverProfile.IsEnabled),
+                (s, e) => UpdateOrderList());
             SusieContext.Current.AddPropertyChanged(nameof(SusieContext.IsEnabled),
                 (s, e) => UpdateOrderList());
             SusieContext.Current.AddPropertyChanged(nameof(SusieContext.IsFirstOrderSusieArchive),
-                (s, e) => UpdateOrderList());
-            MediaArchiverProfile.Current.AddPropertyChanged(nameof(MediaArchiverProfile.IsEnabled),
                 (s, e) => UpdateOrderList());
 
             UpdateOrderList();
@@ -85,24 +89,19 @@ namespace NeeView
         #region Properties
 
 
-        // アーカイバー有効/無効
-        [PropertyMember("圧縮ファイル対応")]
-        public bool IsEnabled
+        // 対応アーカイブ検索用リスト
+        private List<ArchiverType> OrderList
         {
-            get { return _isEnabled; }
-            set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); } }
-        }
+            get
+            {
+                if (_isDartyOrderList)
+                {
+                    _isDartyOrderList = false;
+                    _orderList = CreateOrderList();
+                }
 
-
-        /// <summary>
-        /// IsPdfEnabled property.
-        /// </summary>
-        private bool _isPdfEnabled = true;
-        [PropertyMember("PDF対応")]
-        public bool IsPdfEnabled
-        {
-            get { return _isPdfEnabled; }
-            set { if (_isPdfEnabled != value) { _isPdfEnabled = value; UpdateOrderList(); RaisePropertyChanged(); } }
+                return _orderList;
+            }
         }
 
 
@@ -135,24 +134,35 @@ namespace NeeView
             }
         }
 
-
-        // 検索順を更新
+        //
         private void UpdateOrderList()
         {
-            var order = new List<ArchiverType>()
+            _isDartyOrderList = true;
+        }
+
+        // 検索順を更新
+        private List<ArchiverType> CreateOrderList()
+        {
+            var order = new List<ArchiverType>();
+
+            if (ZipArchiverProfile.Current.IsEnabled)
             {
-                ArchiverType.SevenZipArchiver,
-                ArchiverType.ZipArchiver,
-            };
+                order.Add(ArchiverType.ZipArchiver);
+            }
+
+            if (SevenZipArchiverProfile.Current.IsEnabled)
+            {
+                order.Add(ArchiverType.SevenZipArchiver);
+            }
+
+            if (PdfArchiverProfile.Current.IsEnabled)
+            {
+                order.Add(ArchiverType.PdfArchiver);
+            }
 
             if (MediaArchiverProfile.Current.IsEnabled)
             {
-                order.Insert(0, ArchiverType.MediaArchiver);
-            }
-
-            if (this.IsPdfEnabled)
-            {
-                order.Add(ArchiverType.PdfArchiver);
+                order.Add(ArchiverType.MediaArchiver);
             }
 
             if (SusieContext.Current.IsEnabled)
@@ -167,7 +177,7 @@ namespace NeeView
                 }
             }
 
-            _orderList = order;
+            return order;
         }
 
 
@@ -186,22 +196,19 @@ namespace NeeView
                 return ArchiverType.FolderArchive;
             }
 
-            if (IsEnabled)
+            // 除外判定
+            if (_excludeRegex != null && _excludeRegex.IsMatch(fileName))
             {
-                // 除外判定
-                if (_excludeRegex != null && _excludeRegex.IsMatch(fileName))
-                {
-                    return ArchiverType.None;
-                }
+                return ArchiverType.None;
+            }
 
-                string ext = LoosePath.GetExtension(fileName);
+            string ext = LoosePath.GetExtension(fileName);
 
-                foreach (var type in _orderList)
+            foreach (var type in this.OrderList)
+            {
+                if (_supprtedFileTypes[type].Contains(ext))
                 {
-                    if (_supprtedFileTypes[type].Contains(ext))
-                    {
-                        return (isAllowMedia || type != ArchiverType.MediaArchiver) ? type : ArchiverType.None;
-                    }
+                    return (isAllowMedia || type != ArchiverType.MediaArchiver) ? type : ArchiverType.None;
                 }
             }
 
@@ -363,31 +370,21 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
+            [DataMember]
+            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+
+            [Obsolete]
             [DataMember, DefaultValue(true)]
             public bool IsEnabled { get; set; }
-
-            [DataMember, DefaultValue(true)]
-            public bool IsPdfEnabled { get; set; }
 
             [DataMember, DefaultValue(_defaultExcludePattern)]
             public string ExcludePattern { get; set; }
 
-            public Memento()
-            {
-                Constructor();
-            }
 
             [OnDeserializing]
             private void OnDeserializing(StreamingContext context)
             {
-                Constructor();
-            }
-
-            private void Constructor()
-            {
-                this.IsEnabled = true;
-                this.IsPdfEnabled = true;
-                this.ExcludePattern = _defaultExcludePattern;
+                this.InitializePropertyDefaultValues();
             }
         }
 
@@ -395,8 +392,6 @@ namespace NeeView
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.IsEnabled = this.IsEnabled;
-            memento.IsPdfEnabled = this.IsPdfEnabled;
             memento.ExcludePattern = this.ExcludePattern;
             return memento;
         }
@@ -405,11 +400,22 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.IsEnabled = memento.IsEnabled;
-            this.IsPdfEnabled = memento.IsPdfEnabled;
             this.ExcludePattern = memento.ExcludePattern ?? _defaultExcludePattern;
-        }
-        #endregion
 
+            // compatible before ver.29
+            if (memento._Version < Config.GenerateProductVersionNumber(1, 29, 0))
+            {
+                if (!memento.IsEnabled)
+                {
+                    ZipArchiverProfile.Current.IsEnabled = false;
+                    SevenZipArchiverProfile.Current.IsEnabled = false;
+                    PdfArchiverProfile.Current.IsEnabled = false;
+                    MediaArchiverProfile.Current.IsEnabled = false;
+                    SusieContext.Current.IsEnableSusie = false;
+                }
+            }
+        }
+
+        #endregion
     }
 }

@@ -17,15 +17,32 @@ namespace NeeView.Setting
             {
                 new SettingPageEnvironmentGeneral(),
                 new SettingPageEnvironmentSetup(),
-                new SettingPageArchiveGeneral(),
-                new SettingPageArchivePdf(),
-                new SettingPageArchiveMedia(),
                 new SettingPageHistory(),
             };
 
             if (Config.Current.IsUseLocalApplicationDataFolder && !Config.Current.IsAppxPackage)
             {
                 this.Children.Add(new SettingPageEnvironmentRemove());
+            }
+        }
+    }
+
+    // 
+    public class SettingPageFeature : SettingPage
+    {
+        public SettingPageFeature() : base("対応形式")
+        {
+            this.Children = new List<SettingPage>
+            {
+                new SettingPageArchiverZip(),
+                new SettingPageArchiverSevenZip(),
+                new SettingPageArchivePdf(),
+                new SettingPageArchiveMedia(),
+            };
+
+            if (SusieContext.IsSupportedSusie)
+            {
+                this.Children.Add(new SettingPageSusie());
             }
         }
     }
@@ -41,6 +58,7 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.PanelColor)))),
 
                 new SettingItemSection("詳細設定",
+                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsArchiveRecursive))),
                     new SettingItemProperty(PropertyMemberElement.Create(FileIOProfile.Current, nameof(FileIOProfile.IsRemoveConfirmed))),
                     new SettingItemProperty(PropertyMemberElement.Create(MenuBar.Current, nameof(MenuBar.IsCaptionEmulateInFullScreen))),
                     new SettingItemProperty(PropertyMemberElement.Create(MemoryControl.Current, nameof(MemoryControl.IsAutoGC))),
@@ -74,21 +92,39 @@ namespace NeeView.Setting
         }
     }
 
-
-    public class SettingPageArchiveGeneral : SettingPage
+    public class SettingPageArchiverZip : SettingPage
     {
-        public SettingPageArchiveGeneral() : base("圧縮ファイル")
+        public SettingPageArchiverZip() : base("標準圧縮ファイル")
         {
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection("機能",
-                    new SettingItemProperty(PropertyMemberElement.Create(ArchiverManager.Current, nameof(ArchiverManager.IsEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsArchiveRecursive)))
-                    {
-                        IsEnabled = new IsEnabledPropertyValue(ArchiverManager.Current, nameof(ArchiverManager.IsEnabled)),
-                    }),
+                    new SettingItemProperty(PropertyMemberElement.Create(ZipArchiverProfile.Current, nameof(ZipArchiverProfile.IsEnabled)))),
 
                 new SettingItemSection("詳細設定",
+                    new SettingItemProperty(PropertyMemberElement.Create(ZipArchiverProfile.Current, nameof(ZipArchiverProfile.SupportFileTypes)), new SettingItemCollectionControl() { Collection = ZipArchiverProfile.Current.SupportFileTypes, AddDialogHeader = "拡張子" }))
+                {
+                    IsEnabled = new IsEnabledPropertyValue(ZipArchiverProfile.Current, nameof(ZipArchiverProfile.IsEnabled)),
+                }
+            };
+        }
+    }
+
+
+    public class SettingPageArchiverSevenZip : SettingPage
+    {
+        public SettingPageArchiverSevenZip() : base("7-Zip")
+        {
+            this.Items = new List<SettingItem>
+            {
+                new SettingItemSection("機能",
+                    new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.IsEnabled)))),
+
+                new SettingItemSection("詳細設定",
+                    new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.SupportFileTypes)), new SettingItemCollectionControl() { Collection = SevenZipArchiverProfile.Current.SupportFileTypes, AddDialogHeader = "拡張子" }),
+                    new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.PreExtractSolidSize))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.LockTime))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.IsPreExtract))),
                     new SettingItemProperty(PropertyMemberElement.Create(ArchiverManager.Current, nameof(ArchiverManager.ExcludePattern))) { IsStretch = true },
                     new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.X86DllPath)))
                     {
@@ -99,14 +135,10 @@ namespace NeeView.Setting
                     {
                         Visibility = new VisibilityPropertyValue(Config.IsX64 ? Visibility.Visible : Visibility.Collapsed),
                         IsStretch = true
-                    },
-                    new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.SupportFileTypes)), new SettingItemCollectionControl() { Collection = SevenZipArchiverProfile.Current.SupportFileTypes, AddDialogHeader = "拡張子" }),
-                    new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.LockTime))),
-                    new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.IsPreExtract))),
-                    new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.PreExtractSolidSize))))
+                    })
                 {
-                    IsEnabled = new IsEnabledPropertyValue(ArchiverManager.Current, nameof(ArchiverManager.IsEnabled)),
-                },
+                    IsEnabled = new IsEnabledPropertyValue(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.IsEnabled)),
+                }
             };
         }
     }
@@ -117,14 +149,14 @@ namespace NeeView.Setting
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemGroup(
-                    new SettingItemSection("機能",
-                        new SettingItemProperty(PropertyMemberElement.Create(ArchiverManager.Current, nameof(ArchiverManager.IsPdfEnabled)))),
-                    new SettingItemSection("詳細設定",
-                        new SettingItemProperty(PropertyMemberElement.Create(PdfArchiverProfile.Current, nameof(PdfArchiverProfile.RenderSize)))))
+                new SettingItemSection("機能",
+                    new SettingItemProperty(PropertyMemberElement.Create(PdfArchiverProfile.Current, nameof(PdfArchiverProfile.IsEnabled)))),
+
+                new SettingItemSection("詳細設定",
+                    new SettingItemProperty(PropertyMemberElement.Create(PdfArchiverProfile.Current, nameof(PdfArchiverProfile.RenderSize))))
                 {
-                    IsEnabled = new IsEnabledPropertyValue(ArchiverManager.Current, nameof(ArchiverManager.IsEnabled)),
-                },
+                    IsEnabled = new IsEnabledPropertyValue(PdfArchiverProfile.Current, nameof(PdfArchiverProfile.IsEnabled)),
+                }
             };
         }
     }
@@ -135,15 +167,15 @@ namespace NeeView.Setting
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemGroup(
-                    new SettingItemSection("機能",
-                        new SettingItemProperty(PropertyMemberElement.Create(MediaArchiverProfile.Current, nameof(MediaArchiverProfile.IsEnabled)))),
-                    new SettingItemSection("詳細設定",
-                        new SettingItemProperty(PropertyMemberElement.Create(MediaArchiverProfile.Current, nameof(MediaArchiverProfile.SupportFileTypes)), new SettingItemCollectionControl() { Collection = MediaArchiverProfile.Current.SupportFileTypes, AddDialogHeader = "拡張子" })),
-                        new SettingItemProperty(PropertyMemberElement.Create(MediaControl.Current, nameof(MediaControl.PageSeconds))))
+                new SettingItemSection("機能",
+                    new SettingItemProperty(PropertyMemberElement.Create(MediaArchiverProfile.Current, nameof(MediaArchiverProfile.IsEnabled)))),
+
+                new SettingItemSection("詳細設定",
+                    new SettingItemProperty(PropertyMemberElement.Create(MediaArchiverProfile.Current, nameof(MediaArchiverProfile.SupportFileTypes)), new SettingItemCollectionControl() { Collection = MediaArchiverProfile.Current.SupportFileTypes, AddDialogHeader = "拡張子" }),
+                    new SettingItemProperty(PropertyMemberElement.Create(MediaControl.Current, nameof(MediaControl.PageSeconds))))
                 {
-                    IsEnabled = new IsEnabledPropertyValue(ArchiverManager.Current, nameof(ArchiverManager.IsEnabled)),
-                },
+                    IsEnabled = new IsEnabledPropertyValue(MediaArchiverProfile.Current, nameof(MediaArchiverProfile.IsEnabled)),
+                }
             };
         }
     }

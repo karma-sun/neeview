@@ -1,22 +1,29 @@
-﻿using NeeView.Windows.Property;
+﻿using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Property;
 using System.Runtime.Serialization;
 
 namespace NeeView
 {
-    public class MediaArchiverProfile
+    public class MediaArchiverProfile : BindableBase
     {
         public static MediaArchiverProfile Current { get; private set; }
+
+        private bool _isEnabled;
 
         public MediaArchiverProfile()
         {
             Current = this;
         }
 
-        [PropertyMember("動画のサポート")]
-        public bool IsSupported { get; set; } = true;
+        [PropertyMember("動画を使用する")]
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); } }
+        }
 
         [PropertyMember("動画ファイルの拡張子", Tips = "Windows Media Player で再生できるものが、おおよそ再生可能です。")]
-        public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".asf;.avi;.mpg;.mpeg;.mpe;.mp4;.mp4v;.mkv;.mov;.wmv");
+        public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".asf;.avi;.mp4;.mkv;.mov;.wmv");
 
         #region Memento
 
@@ -24,7 +31,7 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public bool IsSupported { get; set; }
+            public bool IsEnabled { get; set; }
 
             [DataMember]
             public string SupportFileTypes { get; set; }
@@ -35,7 +42,7 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento.IsSupported = this.IsSupported;
+            memento.IsEnabled = this.IsEnabled;
             memento.SupportFileTypes = this.SupportFileTypes.ToString();
 
             return memento;
@@ -46,7 +53,7 @@ namespace NeeView
         {
             if (memento == null) return;
 
-            this.IsSupported = memento.IsSupported;
+            this.IsEnabled = memento.IsEnabled;
             this.SupportFileTypes.FromString(memento.SupportFileTypes.ToString());
         }
 

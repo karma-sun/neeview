@@ -114,7 +114,18 @@ namespace NeeView
             try
             {
                 var picture = await LoadPictureAsync(token);
-                Thumbnail.Initialize(picture?.CreateThumbnail());
+                if (picture == null)
+                {
+                    Thumbnail.Initialize(null);
+                }
+                else if (picture.Type == ThumbnailType.Unique)
+                {
+                    Thumbnail.Initialize(picture.Picture.CreateThumbnail());
+                }
+                else
+                {
+                    Thumbnail.Initialize(picture.Type);
+                }
             }
             catch (OperationCanceledException)
             {
@@ -126,7 +137,26 @@ namespace NeeView
                 Debug.WriteLine($"LoadThumbnail: {e.Message}");
                 Thumbnail.Initialize(null);
             }
+        }
 
+        /// <summary>
+        /// 画像、もしくはサムネイルタイプを指定するもの
+        /// </summary>
+        public class ThumbnailPicture
+        {
+            public ThumbnailType Type { get; set; }
+            public Picture Picture { get; set; }
+
+            public ThumbnailPicture(ThumbnailType type)
+            {
+                Type = type;
+            }
+
+            public ThumbnailPicture(Picture picture)
+            {
+                Type = ThumbnailType.Unique;
+                Picture = picture;
+            }
         }
 
         /// <summary>
@@ -134,11 +164,11 @@ namespace NeeView
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        private async Task<Picture> LoadPictureAsync(CancellationToken token)
+        private async Task<ThumbnailPicture> LoadPictureAsync(CancellationToken token)
         {
             if (this.Entry.Archiver != null && this.Entry.Archiver is MediaArchiver)
             {
-                return null;
+                return new ThumbnailPicture(ThumbnailType.Media);
             }
             if (this.Entry.IsArchivePath)
             {
@@ -150,7 +180,7 @@ namespace NeeView
                     }
                     else
                     {
-                        return await LoadPictureAsync(entry, PictureCreateOptions.CreateThumbnail, token);
+                        return new ThumbnailPicture(await LoadPictureAsync(entry, PictureCreateOptions.CreateThumbnail, token));
                     }
                 }
             }
@@ -169,13 +199,13 @@ namespace NeeView
         /// <param name="entryName"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        private async Task<Picture> LoadArchivePictureAsync(ArchiveEntry entry, CancellationToken token)
+        private async Task<ThumbnailPicture> LoadArchivePictureAsync(ArchiveEntry entry, CancellationToken token)
         {
             if (System.IO.Directory.Exists(entry.FullPath) || ArchiverManager.Current.IsSupported(entry.FullPath))
             {
                 if (ArchiverManager.Current.GetSupportedType(entry.FullPath) == ArchiverType.MediaArchiver)
                 {
-                    return null;
+                    return new ThumbnailPicture(ThumbnailType.Media);
                 }
 
                 using (var archiver = await ArchiverManager.Current.CreateArchiverAsync(entry, true, false, token))
@@ -188,7 +218,7 @@ namespace NeeView
 
                         if (select != null)
                         {
-                            return await LoadPictureAsync(select, PictureCreateOptions.CreateThumbnail, token);
+                            return new ThumbnailPicture(await LoadPictureAsync(select, PictureCreateOptions.CreateThumbnail, token));
                         }
                         else
                         {
@@ -199,7 +229,7 @@ namespace NeeView
             }
             else
             {
-                return await LoadPictureAsync(entry, PictureCreateOptions.CreateThumbnail, token);
+                return new ThumbnailPicture(await LoadPictureAsync(entry, PictureCreateOptions.CreateThumbnail, token));
             }
         }
     }

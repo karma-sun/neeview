@@ -457,7 +457,7 @@ namespace NeeView
         {
             if (MediaPlayerOperator.Current == null) return;
 
-            var isTerminated = MediaPlayerOperator.Current.AddPositionMilliseconds(delta * MediaControl.Current.PageSeconds * 1000.0);
+            var isTerminated = MediaPlayerOperator.Current.AddPosition(TimeSpan.FromSeconds(delta * MediaControl.Current.PageSeconds));
 
             if (isTerminated)
             {
@@ -563,7 +563,7 @@ namespace NeeView
 
             if (this.Book.IsMedia)
             {
-                MediaPlayerOperator.Current?.SetPosition(0.0);
+                MediaPlayerOperator.Current?.SetPositionFirst();
             }
             else
             {
@@ -578,7 +578,7 @@ namespace NeeView
 
             if (this.Book.IsMedia)
             {
-                MediaPlayerOperator.Current?.SetPosition(1.0);
+                MediaPlayerOperator.Current?.SetPositionLast();
             }
             else
             {

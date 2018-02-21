@@ -29,7 +29,7 @@ namespace NeeView
             {
                 Operator = new MediaPlayerOperator(e.MediaPlayer);
                 Operator.MediaEnded += Operator_MediaEnded;
-                Operator.Open(e.Uri);
+                Operator.Open(e.Uri, e.IsLastStart);
             }
             else
             {

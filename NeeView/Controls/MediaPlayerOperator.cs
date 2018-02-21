@@ -1,4 +1,5 @@
-﻿using NeeLaboratory.ComponentModel;
+﻿using NeeLaboratory;
+using NeeLaboratory.ComponentModel;
 using NeeLaboratory.Windows.Input;
 using System;
 using System.Diagnostics;
@@ -22,16 +23,20 @@ namespace NeeView
         #region Fields
 
         private MediaPlayer _player;
-        private Duration _duration;
         private DispatcherTimer _timer;
-        private bool _isActive;
+
+        private bool _isLastStart;
         private bool _isTimeLeftDisp;
-        private double _totalMilliseconds = 1.0;
-        private double _position;
-        private double _volume = 0.5;
+
+        private Duration _duration;
+        private TimeSpan _durationTimeSpan = TimeSpan.FromMilliseconds(1.0);
+        private TimeSpan _position;
+
+        private bool _isActive;
         private bool _isPlaying;
         private bool _isRepeat;
         private bool _isScrubbing;
+        private double _volume = 0.5;
         private double _delay;
 
         #endregion
@@ -42,10 +47,11 @@ namespace NeeView
         {
             _player = player;
 
-            _player.ScrubbingEnabled = false;
+            _player.ScrubbingEnabled = true;
 
             _player.MediaOpened += Player_MediaOpened;
             _player.MediaEnded += Player_MediaEnded;
+            _player.MediaFailed += Player_MediaFailed;
 
             this.IsMuted = MediaControl.Current.IsMuted;
             this.Volume = MediaControl.Current.Volume;
@@ -56,6 +62,7 @@ namespace NeeView
             _timer.Tick += DispatcherTimer_Tick;
             _timer.Start();
         }
+
 
         #endregion
 
@@ -80,7 +87,7 @@ namespace NeeView
                 if (_duration != value)
                 {
                     _duration = value;
-                    TotalMilliseconds = _duration.TimeSpan.TotalMilliseconds;
+                    _durationTimeSpan = MathUtility.Max(_duration.HasTimeSpan ? _duration.TimeSpan : TimeSpan.Zero, TimeSpan.FromMilliseconds(1.0));
                     RaisePropertyChanged();
                     RaisePropertyChanged(nameof(DurationHasTimeSpan));
                 }
@@ -92,26 +99,37 @@ namespace NeeView
             get { return _duration.HasTimeSpan; }
         }
 
-        public double TotalMilliseconds
-        {
-            get { return _totalMilliseconds; }
-            private set { _totalMilliseconds = Math.Max(1.0, value); }
-        }
 
-        // [0..1]
-        public double Position
+        public TimeSpan Position
         {
             get { return _position; }
             set
             {
                 if (_position != value)
                 {
-                    _position = value;
-                    _player.Position = TimeSpan.FromMilliseconds(_position * _totalMilliseconds);
-                    RaisePropertyChanged();
-                    RaisePropertyChanged(nameof(DispTime));
+                    SetPositionInner(value);
+
+                    if (_duration.HasTimeSpan)
+                    {
+                        _player.Position = _position;
+                    }
                 }
             }
+        }
+
+        private void SetPositionInner(TimeSpan position)
+        {
+            _position = MathUtility.Clamp(position, TimeSpan.Zero, _durationTimeSpan);
+            RaisePropertyChanged();
+            RaisePropertyChanged(nameof(PositionRate));
+            RaisePropertyChanged(nameof(DispTime));
+        }
+
+        // [0..1] for slider
+        public double PositionRate
+        {
+            get { return (double)_position.Ticks / _durationTimeSpan.Ticks; }
+            set { this.Position = TimeSpan.FromTicks((long)(_durationTimeSpan.Ticks * value)); }
         }
 
         // [0..1]
@@ -143,19 +161,20 @@ namespace NeeView
             {
                 if (!_duration.HasTimeSpan) return null;
 
-                var now = TimeSpan.FromMilliseconds(_position * _totalMilliseconds);
-                var total = _duration.TimeSpan;
+                var now = _position;
+                var total = _durationTimeSpan;
                 var left = total - now;
 
-                var totalString = total.Hours > 0 ? $"{total.Hours}:{total.Minutes:00}:{total.Seconds:00}" : $"{total.Minutes}:{total.Seconds:00}";
+                var totalString = total.GetHours() > 0 ? $"{total.GetHours()}:{total.Minutes:00}:{total.Seconds:00}" : $"{total.Minutes}:{total.Seconds:00}";
 
                 var nowString = _isTimeLeftDisp
-                    ? left.Hours > 0 ? $"-{left.Hours}:{left.Minutes:00}:{left.Seconds:00}" : $"-{left.Minutes}:{left.Seconds:00}"
-                    : now.Hours > 0 ? $"{now.Hours}:{now.Minutes:00}:{now.Seconds:00}" : $"{now.Minutes}:{now.Seconds:00}";
+                    ? left.GetHours() > 0 ? $"-{left.GetHours()}:{left.Minutes:00}:{left.Seconds:00}" : $"-{left.Minutes}:{left.Seconds:00}"
+                    : now.GetHours() > 0 ? $"{now.GetHours()}:{now.Minutes:00}:{now.Seconds:00}" : $"{now.Minutes}:{now.Seconds:00}";
 
                 return nowString + " / " + totalString;
             }
         }
+
 
         public bool IsPlaying
         {
@@ -209,11 +228,7 @@ namespace NeeView
                         }
                         else
                         {
-                            if (_isPlaying)
-                            {
-                                _player.Play();
-                                UpdateVolume();
-                            }
+                            Resume();
                         }
                     }
 
@@ -273,16 +288,25 @@ namespace NeeView
 
         #region Methods
 
+
+        private void Player_MediaFailed(object sender, ExceptionEventArgs e)
+        {
+            Dispose();
+        }
+
         private void Player_MediaEnded(object sender, EventArgs e)
         {
             if (_isRepeat)
             {
-                _player.Position = TimeSpan.FromMilliseconds(1.0);
             }
             else
             {
-                Pause();
-                this.Position = 1.0;
+                Debug.WriteLine($"END");
+                _player.Pause();
+                if (_duration.HasTimeSpan)
+                {
+                    _player.Position = _durationTimeSpan;
+                }
                 MediaEnded?.Invoke(this, null);
             }
         }
@@ -290,13 +314,21 @@ namespace NeeView
         private void Player_MediaOpened(object sender, EventArgs e)
         {
             Duration = _player.NaturalDuration;
-            RaisePropertyChanged(null);
 
-            Debug.WriteLine($"{_player.IsBuffering}, {_player.BufferingProgress}, {_player.DownloadProgress}");
-
-            // 画面がちらつくことがあるので、少し待ってから再生開始
-            _delay = 500;
-            _timer.Tick += DispatcherTimer_StartTick;
+            if (_isLastStart && _duration.HasTimeSpan)
+            {
+                // 最終フレームからの開始
+                _player.Position = _duration.TimeSpan;
+                Play();
+                SetPositionLast();
+            }
+            else
+            {
+                // 最初からの開始
+                // 画面がちらつくことがあるので、少し待ってから再生開始
+                _delay = 500;
+                _timer.Tick += DispatcherTimer_StartTick;
+            }
         }
 
 
@@ -308,7 +340,6 @@ namespace NeeView
             {
                 _timer.Tick -= DispatcherTimer_StartTick;
                 Play();
-                _player.ScrubbingEnabled = true;
             }
         }
 
@@ -320,17 +351,17 @@ namespace NeeView
 
             if (_duration.HasTimeSpan)
             {
-                _position = NeeLaboratory.MathUtility.Clamp(_player.Position.TotalMilliseconds / _totalMilliseconds, 0.0, 1.0);
-                RaisePropertyChanged(nameof(Position));
-                RaisePropertyChanged(nameof(DispTime));
+                SetPositionInner(_player.Position);
             }
 
-            SetPosition_Tick(_timer.Interval.TotalMilliseconds);
+            Delay_Tick(_timer.Interval.TotalMilliseconds);
         }
 
-        public void Open(Uri uri)
+        public void Open(Uri uri, bool isLastStart)
         {
             if (_disposed) return;
+
+            _isLastStart = isLastStart;
 
             _player.Volume = 0.0;
             _player.Open(uri);
@@ -340,16 +371,12 @@ namespace NeeView
         {
             if (_disposed) return;
 
-            _player.Play();
             _isActive = true;
-            IsPlaying = true;
 
-            if (_position >= 1.0)
-            {
-                _player.Position = TimeSpan.FromMilliseconds(1.0);
-            }
-
+            _player.Play();
             UpdateVolume();
+
+            this.IsPlaying = true;
         }
 
         public void Pause()
@@ -357,29 +384,30 @@ namespace NeeView
             if (_disposed) return;
 
             _player.Pause();
+
             IsPlaying = false;
         }
 
         /// <summary>
         /// コマンドによる移動
         /// </summary>
-        /// <param name="ms"></param>
+        /// <param name="delta"></param>
         /// <returns>終端を超える場合はtrue</returns>
-        public bool AddPositionMilliseconds(double ms)
+        public bool AddPosition(TimeSpan delta)
         {
             if (_disposed) return false;
             if (!_duration.HasTimeSpan) return false;
 
-            var t0 = _position * _totalMilliseconds;
-            var t1 = t0 + ms;
+            var t0 = _position;
+            var t1 = _position + delta;
 
-            SetPosition(NeeLaboratory.MathUtility.Clamp(t1 / _totalMilliseconds, 0.0, 1.0));
+            SetPosition(t1);
 
-            if (ms < 0.0 && t0 < 500.0)
+            if (delta < TimeSpan.Zero && t0 < TimeSpan.FromSeconds(0.5))
             {
                 return true;
             }
-            if (ms > 0.0 && t1 > _totalMilliseconds)
+            if (delta >TimeSpan.Zero && t1 > _durationTimeSpan)
             {
                 return true;
             }
@@ -387,33 +415,35 @@ namespace NeeView
             return false;
         }
 
+        public void SetPositionFirst()
+        {
+            SetPosition(TimeSpan.Zero);
+        }
+
+        public void SetPositionLast()
+        {
+            SetPosition(_durationTimeSpan);
+        }
+
         // コマンドによる移動[0..1]
-        public void SetPosition(double position)
+        public void SetPosition(TimeSpan position)
         {
             if (_disposed) return;
             if (!_duration.HasTimeSpan) return;
 
-            if (position >= 1.0 && !_isRepeat)
-            {
-                Pause();
-                this.Position = 1.0;
-            }
-            else
-            {
-                _delay = 500;
-                UpdateVolume();
+            _delay = 500;
+            UpdateVolume();
 
-                _player.Pause();
-                this.Position = position;
-            }
+            _player.Pause();
+            this.Position = position;
         }
 
         // 移動による遅延再生処理用
-        private void SetPosition_Tick(double ms)
+        private void Delay_Tick(double ms)
         {
+            if (_disposed) return;
             if (_delay <= 0.0) return;
 
-            // scrubbing 発生のため、遅延再生無効
             if (_isScrubbing)
             {
                 _delay = 0.0;
@@ -423,14 +453,23 @@ namespace NeeView
             _delay -= ms;
             if (_delay <= 0.0)
             {
-                if (_isPlaying)
-                {
-                    _player.Play();
-                    UpdateVolume();
-                }
+                Resume();
             }
         }
 
+        //
+        private void Resume()
+        {
+            if (_disposed) return;
+
+            if (_isPlaying && (_isRepeat || _position < _durationTimeSpan))
+            {
+                _player.Play();
+                UpdateVolume();
+            }
+        }
+
+        //
         private void UpdateVolume()
         {
             _player.Volume = _isScrubbing || _delay > 0.0 ? 0.0 : _volume;
@@ -451,6 +490,7 @@ namespace NeeView
                     MediaEnded = null;
                     _timer.Stop();
                     _player.Stop();
+                    _player.MediaFailed -= Player_MediaFailed;
                     _player.MediaOpened -= Player_MediaOpened;
                     _player.MediaEnded -= Player_MediaEnded;
                 }
@@ -466,5 +506,13 @@ namespace NeeView
 
         #endregion
 
+    }
+
+    public static class TimeSpanExtensions
+    {
+        public static int GetHours(this TimeSpan timeSpan)
+        {
+            return Math.Abs(timeSpan.Days * 24 + timeSpan.Hours);
+        }
     }
 }

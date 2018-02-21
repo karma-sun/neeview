@@ -59,6 +59,9 @@ namespace NeeView
             var models = new Models(this);
             models.StartEngine();
 
+            // 固定画像初期化
+            Thumbnail.InitializeBasicImages();
+
             // MainWindow : ViewModel
             _vm = new MainWindowViewModel(models.MainWindowModel);
             this.DataContext = _vm;
@@ -158,7 +161,7 @@ namespace NeeView
             this.MouseLeftButtonDown += (s, e) => this.RenameManager.Stop();
             this.MouseRightButtonDown += (s, e) => this.RenameManager.Stop();
             this.Deactivated += (s, e) => this.RenameManager.Stop();
-
+            
             // frame event
             CompositionTarget.Rendering += OnRendering;
 

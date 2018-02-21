@@ -59,6 +59,11 @@ namespace NeeView
         // 生成時点での有効判定
         public bool IsValid { get; }
 
+        /// <summary>
+        /// メディア用。最後から再生開始
+        /// </summary>
+        public bool IsLastStart { get; set; }
+
         #endregion
 
         #region Methods

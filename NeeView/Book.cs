@@ -38,6 +38,9 @@ namespace NeeView
         // Disposed
         private volatile bool _isDisposed;
 
+        // 初期化オプション
+        private BookLoadOption _option;
+
         // 先読み可能フラグ
         private bool _canPreLoad = true;
 
@@ -257,7 +260,7 @@ namespace NeeView
         public Archiver Archiver { get; private set; }
 
         // メディアアーカイバ？
-        public bool IsMedia => Archiver is MediaArchiver; 
+        public bool IsMedia => Archiver is MediaArchiver;
 
         // 開始ページ
         public string StartEntry { get; private set; }
@@ -319,6 +322,8 @@ namespace NeeView
         {
             Debug.Assert(Place == null);
             ////Debug.WriteLine($"OPEN: {address.Place}, {address.EntryName}, {address.Archiver.Path}");
+            
+            _option = option;
 
             // ソリッド書庫の事前展開を許可してアーカイバ再生性
             var archiver = ArchiverManager.Current.CreateArchiver(address.Archiver.Path, address.Archiver.Source, true, true);
@@ -327,12 +332,12 @@ namespace NeeView
             var start = address.EntryName;
 
             // リカーシブオプションフラグ
-            if (option.HasFlag(BookLoadOption.NotRecursive))
+            if (_option.HasFlag(BookLoadOption.NotRecursive))
             {
                 IsRecursiveFolder = false;
-                option &= ~BookLoadOption.Recursive;
+                _option &= ~BookLoadOption.Recursive;
             }
-            else if (option.HasFlag(BookLoadOption.Recursive))
+            else if (_option.HasFlag(BookLoadOption.Recursive))
             {
                 IsRecursiveFolder = true;
             }
@@ -340,13 +345,13 @@ namespace NeeView
             // リカーシブフラグ
             if (IsRecursiveFolder)
             {
-                option |= BookLoadOption.Recursive;
+                _option |= BookLoadOption.Recursive;
             }
 
             // 圧縮ファイル再帰
-            if (!address.Archiver.IsFileSystem && option.HasFlag(BookLoadOption.ArchiveRecursive))
+            if (!address.Archiver.IsFileSystem && _option.HasFlag(BookLoadOption.ArchiveRecursive))
             {
-                option |= BookLoadOption.Recursive;
+                _option |= BookLoadOption.Recursive;
             }
 
             PagePosition position = FirstPosition();
@@ -355,7 +360,7 @@ namespace NeeView
             this.Archiver = archiver;
             _trashBox.Add(archiver);
 
-            this.Pages = await ReadArchiveAsync2(archiver, option, token);
+            this.Pages = await ReadArchiveAsync2(archiver, _option, token);
 
 
             // Pages initialize
@@ -371,19 +376,19 @@ namespace NeeView
             Sort();
 
             // スタートページ取得
-            if ((option & BookLoadOption.FirstPage) == BookLoadOption.FirstPage)
+            if ((_option & BookLoadOption.FirstPage) == BookLoadOption.FirstPage)
             {
                 position = FirstPosition();
                 direction = 1;
             }
-            else if ((option & BookLoadOption.LastPage) == BookLoadOption.LastPage)
+            else if ((_option & BookLoadOption.LastPage) == BookLoadOption.LastPage)
             {
                 position = LastPosition();
                 direction = -1;
             }
             else
             {
-                int index = (start != null) ? Pages.FindIndex(e => e.FullPath == start) : 0;
+                int index = !string.IsNullOrEmpty(start) ? Pages.FindIndex(e => e.FullPath == start) : 0;
                 if (index < 0)
                 {
                     this.NotFoundStartPage = start;
@@ -1035,7 +1040,7 @@ namespace NeeView
         // 分割モード有効判定
         private bool IsEnableDividePage(int index)
         {
-            return (PageMode == PageMode.SinglePage && IsSupportedDividePage && IsWide(Pages[index]));
+            return (PageMode == PageMode.SinglePage && !IsMedia && IsSupportedDividePage && IsWide(Pages[index]));
         }
 
         // 表示コンテンツソースと、それに対応したコンテキスト作成
@@ -1079,8 +1084,15 @@ namespace NeeView
             var contentsSource = new List<ViewPage>();
             foreach (var v in infos)
             {
-                var page = Pages[v.Position.Index];
-                contentsSource.Add(new ViewPage(page, v));
+                var viewPage = new ViewPage(Pages[v.Position.Index], v);
+
+                // メディア用。最終ページからの表示指示の場合のフラグ設定
+                if (IsMedia && _option.HasFlag(BookLoadOption.LastPage))
+                {
+                    viewPage.IsLastStart = true;
+                }
+
+                contentsSource.Add(viewPage);
             }
 
 

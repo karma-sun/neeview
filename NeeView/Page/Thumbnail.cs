@@ -65,7 +65,7 @@ namespace NeeView
         /// <summary>
         /// ユニークイメージ？
         /// </summary>
-        public bool IsUniqueImage => _image != null && _image != _emptyImage;
+        public bool IsUniqueImage => _image != null && _image != _emptyImage && _image != _mediaImage;
 
 
         /// <summary>
@@ -115,13 +115,33 @@ namespace NeeView
             SaveCacheAsync();
         }
 
+
+
+        /// <summary>
+        /// サムネイル基本タイプから初期化
+        /// </summary>
+        /// <param name="type"></param>
+        internal void Initialize(ThumbnailType type)
+        {
+            switch (type)
+            {
+                default:
+                case ThumbnailType.Empty:
+                    Image = _emptyImage;
+                    break;
+                case ThumbnailType.Media:
+                    Image = _mediaImage;
+                    break;
+            }
+        }
+
         /// <summary>
         /// キャッシュに保存
         /// </summary>
         internal void SaveCacheAsync()
         {
             if (!IsCacheEnabled || _header == null) return;
-            if (_image == null || _image == _emptyImage) return;
+            if (_image == null || _image == _emptyImage || _image == _mediaImage) return;
 
             Task.Run(() =>
             {
@@ -162,6 +182,10 @@ namespace NeeView
                 if (_image == _emptyImage)
                 {
                     return EmptyBitmapSource;
+                }
+                else if (_image == _mediaImage)
+                {
+                    return MediaBitmapSource;
                 }
                 else
                 {
@@ -208,6 +232,15 @@ namespace NeeView
         }
 
 
+        /// <summary>
+        /// イメージ初期化
+        /// UIスレッドで実行すること。
+        /// </summary>
+        public static void InitializeBasicImages()
+        {
+            var image0 = EmptyBitmapSource;
+            var image1 = MediaBitmapSource;
+        }
 
         /// <summary>
         /// Empty Image Key
@@ -224,11 +257,51 @@ namespace NeeView
             {
                 if (_emptyBitmapSource == null)
                 {
-                    Uri resourceUri = new Uri("/Resources/Empty.png", UriKind.Relative);
-                    _emptyBitmapSource = new BitmapImage(resourceUri);
+                    _emptyBitmapSource = CreatetResourceBitmapImage("/Resources/Empty.png");
                 }
                 return _emptyBitmapSource;
             }
         }
+
+        /// <summary>
+        /// Media Image Key
+        /// </summary>
+        public static byte[] _mediaImage = System.Text.Encoding.ASCII.GetBytes("MEDIA!");
+
+        /// <summary>
+        /// MediaBitmapSource
+        /// </summary>
+        private static BitmapSource _mediaBitmapSource;
+        public static BitmapSource MediaBitmapSource
+        {
+            get
+            {
+                if (_mediaBitmapSource == null)
+                {
+                    _mediaBitmapSource = CreatetResourceBitmapImage("/Resources/Media.png");
+                }
+                return _mediaBitmapSource;
+            }
+        }
+
+        private static BitmapImage CreatetResourceBitmapImage(string path)
+        {
+            var uri = new Uri("pack://application:,,," + path);
+            var bitmap = new BitmapImage(uri);
+            bitmap.Freeze();
+
+            return bitmap;
+        }
+    }
+
+
+    /// <summary>
+    /// サムネイル種類
+    /// </summary>
+    public enum ThumbnailType
+    {
+        Unique,
+        Empty,
+        Media,
     }
 }

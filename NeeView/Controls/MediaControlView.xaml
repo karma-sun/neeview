@@ -214,7 +214,7 @@
                     </Style.Triggers>
                 </Style>
             </DockPanel.Style>
-            <local:VideoSlider Value="{Binding Operator.Position}" DragStarted="VideoSlider_DragStarted" DragCompleted="VideoSlider_DragCompleted" />
+            <local:VideoSlider Value="{Binding Operator.PositionRate}" DragStarted="VideoSlider_DragStarted" DragCompleted="VideoSlider_DragCompleted" />
         </DockPanel>
 
 

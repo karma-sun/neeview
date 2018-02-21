@@ -66,6 +66,10 @@ namespace NeeView
                 RaiseLoaded();
                 RaiseChanged();
             }
+
+            // サムネイル作成
+            if (Thumbnail.IsValid) return;
+            Thumbnail.Initialize(ThumbnailType.Media);
         }
     }
 #pragma warning restore 

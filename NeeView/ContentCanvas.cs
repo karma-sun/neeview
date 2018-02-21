@@ -330,7 +330,9 @@ namespace NeeView
             }
 
             // 表示サイズ計算
-            var result = _contentSizeCalcurator.GetFixedContentSize(sizes);
+            var result = MainContent is MediaViewContent
+                ? _contentSizeCalcurator.GetFixedContentSize(sizes, 0.0)
+                : _contentSizeCalcurator.GetFixedContentSize(sizes);
 
             // スケール維持？
             var scale = _dragTransformControl.IsKeepScale ? _dragTransform.Scale : 1.0;
@@ -394,7 +396,14 @@ namespace NeeView
         /// <returns></returns>
         public double GetAutoRotateAngle()
         {
-            return _contentSizeCalcurator.GetAutoRotateAngle(GetContentSizeList());
+            if (MainContent is MediaViewContent)
+            {
+                return 0.0;
+            }
+            else
+            {
+                return _contentSizeCalcurator.GetAutoRotateAngle(GetContentSizeList());
+            }
         }
 
         /// <summary>

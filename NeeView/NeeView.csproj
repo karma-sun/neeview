@@ -1134,6 +1134,7 @@
     <Content Include="Effects\Shaders\ColorSelectEffect.fx" />
     <Content Include="Effects\Shaders\HsvEffect.fx" />
     <Content Include="Effects\Shaders\LevelEffect.fx" />
+    <Resource Include="Resources\Media.png" />
     <Resource Include="Resources\AppS.ico" />
     <Resource Include="Resources\Empty.png" />
   </ItemGroup>

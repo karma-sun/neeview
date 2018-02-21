@@ -74,6 +74,8 @@ namespace NeeView
                 (s, e) => UpdateOrderList());
             SusieContext.Current.AddPropertyChanged(nameof(SusieContext.IsFirstOrderSusieArchive),
                 (s, e) => UpdateOrderList());
+            MediaArchiverProfile.Current.AddPropertyChanged(nameof(MediaArchiverProfile.IsEnabled),
+                (s, e) => UpdateOrderList());
 
             UpdateOrderList();
         }
@@ -143,7 +145,7 @@ namespace NeeView
                 ArchiverType.ZipArchiver,
             };
 
-            if (MediaArchiverProfile.Current.IsSupported)
+            if (MediaArchiverProfile.Current.IsEnabled)
             {
                 order.Insert(0, ArchiverType.MediaArchiver);
             }

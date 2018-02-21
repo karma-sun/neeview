@@ -48,6 +48,8 @@ namespace NeeView
 
         public Uri MediaUri => new Uri(((MediaContent)Content).FileProxy.Path);
 
+        public bool IsLastStart => this.Source.IsLastStart;
+
         #endregion
 
         #region Methods

@@ -46,7 +46,7 @@ namespace NeeView
             {
                 _viewContent = mediaViewContent;
                 _viewContent.Unloaded += ViewContent_Unloaded;
-                Changed?.Invoke(this, new MediaPlayerChanged(_viewContent.MediaPlayer, _viewContent.MediaUri));
+                Changed?.Invoke(this, new MediaPlayerChanged(_viewContent.MediaPlayer, _viewContent.MediaUri, _viewContent.IsLastStart));
             }
             else
             {
@@ -118,14 +118,16 @@ namespace NeeView
         {
         }
 
-        public MediaPlayerChanged(MediaPlayer player, Uri uri)
+        public MediaPlayerChanged(MediaPlayer player, Uri uri, bool isLastStart)
         {
             MediaPlayer = player;
             Uri = uri;
+            IsLastStart = isLastStart;
         }
 
         public MediaPlayer MediaPlayer { get; set; }
         public Uri Uri { get; set; }
+        public bool IsLastStart { get; set; }
         public bool IsValid => MediaPlayer != null;
     }
 }

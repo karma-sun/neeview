@@ -137,7 +137,7 @@ namespace NeeView.Setting
             {
                 new SettingItemGroup(
                     new SettingItemSection("機能",
-                        new SettingItemProperty(PropertyMemberElement.Create(MediaArchiverProfile.Current, nameof(MediaArchiverProfile.IsSupported)))),
+                        new SettingItemProperty(PropertyMemberElement.Create(MediaArchiverProfile.Current, nameof(MediaArchiverProfile.IsEnabled)))),
                     new SettingItemSection("詳細設定",
                         new SettingItemProperty(PropertyMemberElement.Create(MediaArchiverProfile.Current, nameof(MediaArchiverProfile.SupportFileTypes)), new SettingItemCollectionControl() { Collection = MediaArchiverProfile.Current.SupportFileTypes, AddDialogHeader = "拡張子" })),
                         new SettingItemProperty(PropertyMemberElement.Create(MediaControl.Current, nameof(MediaControl.PageSeconds))))

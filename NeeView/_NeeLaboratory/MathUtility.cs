@@ -19,6 +19,26 @@ namespace NeeLaboratory
         }
 
         //
+        public static bool WithinRange<T>(this T val, T min, T max) where T : IComparable<T>
+        {
+            if (val.CompareTo(min) < 0) return false;
+            else if (val.CompareTo(max) > 0) return false;
+            else return true;
+        }
+
+        //
+        public static T Max<T>(this T v0, T v1) where T : IComparable<T>
+        {
+            return v0.CompareTo(v1) > 0 ? v0 : v1;
+        }
+
+        //
+        public static T Min<T>(this T v0, T v1) where T : IComparable<T>
+        {
+            return v0.CompareTo(v1) < 0 ? v0 : v1;
+        }
+
+        //
         public static double Lerp(double v0, double v1, double rate)
         {
             return v0 + (v1 - v0) * rate;

@@ -30,7 +30,7 @@ namespace NeeView
                 Archiver = this,
                 Id = 0,
                 Instance = null,
-                RawEntryName = "",
+                RawEntryName = LoosePath.GetFileName(this.EntryName),
                 Length = fileInfo.Length,
                 LastWriteTime = fileInfo.LastWriteTime,
             };
@@ -40,7 +40,7 @@ namespace NeeView
 
         public override bool IsSupported()
         {
-            return MediaArchiverProfile.Current.IsSupported;
+            return MediaArchiverProfile.Current.IsEnabled;
         }
 
         public override Stream OpenStream(ArchiveEntry entry)
@@ -51,7 +51,8 @@ namespace NeeView
 
         public override string GetFileSystemPath(ArchiveEntry entry)
         {
-            return System.IO.Path.Combine(Path, entry.EntryName);
+            // エントリのパスはダミーなのでアーカイブのパスのみ返す
+            return Path;
         }
 
         public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)

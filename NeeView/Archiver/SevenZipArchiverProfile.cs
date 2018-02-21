@@ -83,7 +83,7 @@ namespace NeeView
             [OnDeserializing]
             private void Deserializing(StreamingContext context)
             {
-                this.PreExtractSolidSize = 1000;
+                this.InitializePropertyDefaultValues();
             }
         }
 

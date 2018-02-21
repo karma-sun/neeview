@@ -11,6 +11,9 @@ $vspath = & $vswhere -property installationPath
 $editbin = "$vspath\VC\Tools\MSVC\14.12.25827\bin\HostX64\x86\editbin.exe"
 
 & $editbin /LARGEADDRESSAWARE $target
-
+if ($? -ne $true)
+{
+    exit 1
+}
 
 

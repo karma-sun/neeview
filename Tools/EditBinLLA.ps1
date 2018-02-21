@@ -8,7 +8,7 @@ $scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path
 $vswhere = "$scriptPath\vswhere.exe"
 
 $vspath = & $vswhere -property installationPath
-$editbin = "$vspath\VC\Tools\MSVC\14.10.25017\bin\HostX64\x86\editbin.exe"
+$editbin = "$vspath\VC\Tools\MSVC\14.12.25827\bin\HostX64\x86\editbin.exe"
 
 & $editbin /LARGEADDRESSAWARE $target
 

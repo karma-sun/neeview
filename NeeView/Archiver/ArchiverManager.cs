@@ -402,6 +402,8 @@ namespace NeeView
             if (memento == null) return;
             this.ExcludePattern = memento.ExcludePattern ?? _defaultExcludePattern;
 
+#pragma warning disable CS0612
+
             // compatible before ver.29
             if (memento._Version < Config.GenerateProductVersionNumber(1, 29, 0))
             {
@@ -414,6 +416,8 @@ namespace NeeView
                     SusieContext.Current.IsEnableSusie = false;
                 }
             }
+
+#pragma warning restore CS0612
         }
 
         #endregion

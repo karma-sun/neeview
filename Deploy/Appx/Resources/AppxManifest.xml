@@ -55,6 +55,19 @@
           </uap:FileTypeAssociation>
         </uap:Extension>
         <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="neeview-media">
+            <uap:Logo>Assets\Square44x44FileLogo.png</uap:Logo>
+            <uap:SupportedFileTypes>
+              <uap:FileType>.asf</uap:FileType>
+              <uap:FileType>.avi</uap:FileType>
+              <uap:FileType>.mp4</uap:FileType>
+              <uap:FileType>.mkv</uap:FileType>
+              <uap:FileType>.mov</uap:FileType>
+              <uap:FileType>.wmv</uap:FileType>
+            </uap:SupportedFileTypes>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
+        <uap:Extension Category="windows.fileTypeAssociation">
           <uap:FileTypeAssociation Name="neeview-image">
             <uap:Logo>Assets\Square44x44FileLogo.png</uap:Logo>
             <uap:SupportedFileTypes>

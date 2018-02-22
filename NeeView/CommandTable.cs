@@ -1001,8 +1001,8 @@ namespace NeeView
                 element.Note = "画像を拡大します";
                 element.ShortCutKey = "RightButton+WheelUp";
                 element.IsShowMessage = false;
-                element.DefaultParameter = new ViewScaleCommandParameter() { Scale = 20 };
-                element.Execute = (s, e) => _models.DragTransformControl.ScaleUp(((ViewScaleCommandParameter)element.Parameter).Scale / 100.0);
+                element.DefaultParameter = new ViewScaleCommandParameter() { Scale = 20, IsSnapDefaultScale = true };
+                element.Execute = (s, e) => { var param = (ViewScaleCommandParameter)element.Parameter; _models.DragTransformControl.ScaleUp(param.Scale / 100.0, param.IsSnapDefaultScale); };
                 _elements[CommandType.ViewScaleUp] = element;
             }
             // ViewScaleDown
@@ -1014,7 +1014,8 @@ namespace NeeView
                 element.ShortCutKey = "RightButton+WheelDown";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewScaleUp };
-                element.Execute = (s, e) => _models.DragTransformControl.ScaleDown(((ViewScaleCommandParameter)element.Parameter).Scale / 100.0);
+                ////element.Execute = (s, e) => _models.DragTransformControl.ScaleDown(((ViewScaleCommandParameter)element.Parameter).Scale / 100.0);
+                element.Execute = (s, e) => { var param = (ViewScaleCommandParameter)element.Parameter; _models.DragTransformControl.ScaleDown(param.Scale / 100.0, param.IsSnapDefaultScale); };
                 _elements[CommandType.ViewScaleDown] = element;
             }
             // ViewRotateLeft

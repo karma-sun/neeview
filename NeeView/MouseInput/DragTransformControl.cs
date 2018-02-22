@@ -628,19 +628,33 @@ namespace NeeView
 
         #region Scale method
         // 拡大コマンド
-        public void ScaleUp(double scaleDelta)
+        public void ScaleUp(double scaleDelta, bool isSnap)
         {
             _baseScale = _transform.Scale;
             _basePosition = _transform.Position;
-            DoScale(_baseScale * (1.0 + scaleDelta));
+
+            var scale = _baseScale * (1.0 + scaleDelta);
+            if (isSnap && _baseScale < 0.99 && scale > 0.99)
+            {
+                scale = 1.0;
+            }
+
+            DoScale(scale);
         }
 
         // 縮小コマンド
-        public void ScaleDown(double scaleDelta)
+        public void ScaleDown(double scaleDelta, bool isSnap)
         {
             _baseScale = _transform.Scale;
             _basePosition = _transform.Position;
-            DoScale(_baseScale / (1.0 + scaleDelta));
+
+            var scale = _baseScale / (1.0 + scaleDelta);
+            if (isSnap && _baseScale > 1.01 && scale < 1.01)
+            {
+                scale = 1.0;
+            }
+
+            DoScale(scale);
         }
         #endregion
 

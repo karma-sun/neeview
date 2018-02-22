@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
@@ -220,6 +221,16 @@ namespace NeeView
             set { _scale = MathUtility.Clamp(value, 0, 100); }
         }
         private int _scale;
+
+        [DataMember, DefaultValue(true)]
+        [PropertyMember("100%スナップ", Tips = "拡大縮小で必ず100%を経由するようにします。")]
+        public bool IsSnapDefaultScale { get; set; } = true;
+
+        [OnDeserializing]
+        private void OnDeserializing(StreamingContext context)
+        {
+            this.IsSnapDefaultScale = true;
+        }
     }
 
     /// <summary>
@@ -294,7 +305,7 @@ namespace NeeView
     [DataContract]
     public class AutoRotateCommandParameter : CommandParameter
     {
-        [PropertyMember("回転方向", Tips ="自動回転する方向です。")]
+        [PropertyMember("回転方向", Tips = "自動回転する方向です。")]
         public AutoRotateType AutoRotateType { get; set; }
 
         // 保存用

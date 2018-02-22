@@ -84,6 +84,16 @@ namespace NeeView
         /// 再帰しない
         /// </summary>
         NotRecursive = (1 << 13),
+
+        /// <summary>
+        /// このアドレスはブックです
+        /// </summary>
+        IsBook = (1 << 14),
+
+        /// <summary>
+        /// このアドレスはページです
+        /// </summary>
+        IsPage = (1 << 15),
     };
 
 }

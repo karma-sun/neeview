@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -57,17 +58,19 @@ namespace NeeView
         /// <param name="isArchiveRecursive">アーカイブ自動展開</param>
         /// <param name="token">キャンセルトークン</param>
         /// <returns></returns>
-        public async Task InitializeAsync(string path, string entryName, bool isArchiveRecursive, CancellationToken token)
+        public async Task InitializeAsync(string path, string entryName, BookLoadOption option,  bool isArchiveRecursive, CancellationToken token)
         {
             _archiveEntry = await ArchiveFileSystem.CreateArchiveEntry(path, token);
 
             if (entryName != null)
             {
+                Debug.Assert(!option.HasFlag(BookLoadOption.IsBook));
                 this.Archiver = await ArchiverManager.Current.CreateArchiverAsync(_archiveEntry, true, false, token);
                 this.EntryName = entryName;
             }
             else if (Directory.Exists(path) || ArchiverManager.Current.IsSupported(_archiveEntry.FullPath))
             {
+                Debug.Assert(!option.HasFlag(BookLoadOption.IsPage));
                 this.Archiver = await ArchiverManager.Current.CreateArchiverAsync(_archiveEntry, true, false, token);
                 this.EntryName = null;
             }
@@ -89,8 +92,16 @@ namespace NeeView
             }
             else
             {
-                this.Archiver = new FolderArchive(Path.GetDirectoryName(_archiveEntry.FullPath), null, true);
-                this.EntryName = Path.GetFileName(_archiveEntry.EntryName);
+                if (option.HasFlag(BookLoadOption.IsBook))
+                {
+                    this.Archiver = new FolderArchive(_archiveEntry.FullPath, null, true);
+                    this.EntryName = null;
+                }
+                else
+                {
+                    this.Archiver = new FolderArchive(Path.GetDirectoryName(_archiveEntry.FullPath), null, true);
+                    this.EntryName = Path.GetFileName(_archiveEntry.EntryName);
+                }
             }
         }
 

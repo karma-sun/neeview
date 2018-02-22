@@ -76,7 +76,7 @@ namespace NeeView
                 path = shortcut.TargetPath;
             }
 
-            BookHub.Current.RequestLoad(path, null, option, true);
+            BookHub.Current.RequestLoad(path, null, option | BookLoadOption.IsBook, true);
         }
     }
 }

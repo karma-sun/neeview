@@ -105,7 +105,7 @@ namespace NeeView
         PreLoad,
 
         [AliasName("先読みする(開放なし)")]
-        PreLoadNoUnload, 
+        PreLoadNoUnload,
     }
 
     //
@@ -540,7 +540,7 @@ namespace NeeView
                 // address
                 using (var address = new BookAddress())
                 {
-                    await address.InitializeAsync(args.Path, args.StartEntry, this.IsArchiveRecursive, token);
+                    await address.InitializeAsync(args.Path, args.StartEntry, args.Option, this.IsArchiveRecursive, token);
 
                     // Now Loading ON
                     NotifyLoading(args.Path);
@@ -708,7 +708,7 @@ namespace NeeView
                 // イベント設定
                 book.ViewContentsChanged += OnViewContentsChanged;
                 book.NextContentsChanged += OnNextContentsChanged;
-                book.DartyBook += (s, e) => RequestLoad(Address, null, BookLoadOption.ReLoad, false);
+                book.DartyBook += (s, e) => RequestLoad(Address, null, BookLoadOption.ReLoad | BookLoadOption.IsBook, false);
 
                 // 開始
                 BookUnit.Book.Start();
@@ -735,8 +735,8 @@ namespace NeeView
                 BookUnit = null;
 
                 // 履歴から消去
-                BookHistory.Current.Remove(address.Place);
-                MenuBar.Current.UpdateLastFiles();
+                ////BookHistory.Current.Remove(address.Place);
+                ////MenuBar.Current.UpdateLastFiles();
 
                 throw new ApplicationException($"{address.Place} の読み込みに失敗しました。\n{e.Message}", e);
             }
@@ -827,6 +827,11 @@ namespace NeeView
 
             _requestLoadCount++;
 
+            if ((option & (BookLoadOption.IsBook | BookLoadOption.IsPage)) == 0 && IsArchiveMaybe(path))
+            {
+                option |= BookLoadOption.IsBook;
+            }
+
             var command = new BookHubCommandLoad(this, new BookHubCommandLoadArgs()
             {
                 Path = path,
@@ -880,7 +885,7 @@ namespace NeeView
             if (_isLoading || Address == null) return;
 
             var options = BookUnit != null ? (BookUnit.LoadOptions & BookLoadOption.KeepHistoryOrder) | BookLoadOption.Resume : BookLoadOption.None;
-            RequestLoad(Address, null, options, true);
+            RequestLoad(Address, null, options | BookLoadOption.IsBook, true);
         }
 
 
@@ -904,6 +909,15 @@ namespace NeeView
                 return _bookSetting.GetSetting(null, null, option);
             }
         }
+
+        /// <summary>
+        /// パスのみでアーカイブであるかをおおよそ判定
+        /// </summary>
+        private bool IsArchiveMaybe(string path)
+        {
+            return (System.IO.Directory.Exists(path) || (!BookProfile.Current.IsEnableNoSupportFile && !PictureProfile.Current.IsSupported(path) && System.IO.Path.GetExtension(path).ToLower() != ".lnk"));
+        }
+
 
         #region Memento
 

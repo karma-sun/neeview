@@ -373,7 +373,7 @@ namespace NeeView
                 if (isContinue && requestLoadCount == _bookHub.RequestLoadCount)
                 {
                     RenameHistory(src, dst);
-                    _bookHub.RequestLoad(dst, null, BookLoadOption.Resume, false);
+                    _bookHub.RequestLoad(dst, null, BookLoadOption.Resume | BookLoadOption.IsBook, false);
                 }
 
                 return true;

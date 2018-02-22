@@ -72,7 +72,7 @@ namespace NeeView
         private void MoveToHistory_Executed(string item)
         {
             if (item == null) return;
-            BookHub.Current.RequestLoad(item, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe, true);
+            BookHub.Current.RequestLoad(item, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe | BookLoadOption.IsBook, true);
         }
     }
 }

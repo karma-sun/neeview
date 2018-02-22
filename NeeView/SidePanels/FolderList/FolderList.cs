@@ -579,7 +579,7 @@ namespace NeeView
         // ブックの読み込み
         public void LoadBook(string path, BookLoadOption option)
         {
-            _bookHub.RequestLoad(path, null, option, false);
+            _bookHub.RequestLoad(path, null, option | BookLoadOption.IsBook, false);
         }
 
 
@@ -651,7 +651,7 @@ namespace NeeView
             if (item != null)
             {
                 await SetPlaceAsync(_place, item.Path, FolderSetPlaceOption.IsUpdateHistory);
-                _bookHub.RequestLoad(item.TargetPath, null, options, false);
+                _bookHub.RequestLoad(item.TargetPath, null, options | BookLoadOption.IsBook, false);
                 return true;
             }
 

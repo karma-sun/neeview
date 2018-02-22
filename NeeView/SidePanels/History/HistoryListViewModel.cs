@@ -230,7 +230,7 @@ namespace NeeView
         public void Load(string path)
         {
             if (path == null) return;
-            _bookHub?.RequestLoad(path, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SkipSamePlace, true);
+            _bookHub?.RequestLoad(path, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SkipSamePlace | BookLoadOption.IsBook, true);
         }
 
 

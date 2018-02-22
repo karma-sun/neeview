@@ -328,7 +328,7 @@ namespace NeeView
             string place = BookHistory.Current.LastAddress;
             if (place != null || System.IO.Directory.Exists(place) || System.IO.File.Exists(place))
             {
-                BookHub.Current.RequestLoad(place, null, BookLoadOption.Resume, true);
+                BookHub.Current.RequestLoad(place, null, BookLoadOption.Resume | BookLoadOption.IsBook, true);
             }
         }
 

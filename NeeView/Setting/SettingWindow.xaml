@@ -9,6 +9,7 @@
         xmlns:nvd="clr-namespace:NeeView.Windows.Data"
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}"
+        ShowInTaskbar ="True"
         Closed="SettingWindow_Closed"
         Title="設定" Height="704" Width="960">
     <Window.Resources>

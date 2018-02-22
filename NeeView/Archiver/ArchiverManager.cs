@@ -81,7 +81,7 @@ namespace NeeView
             SusieContext.Current.AddPropertyChanged(nameof(SusieContext.IsFirstOrderSusieArchive),
                 (s, e) => UpdateOrderList());
 
-            UpdateOrderList();
+            _orderList = CreateOrderList();
         }
 
         #endregion
@@ -254,7 +254,7 @@ namespace NeeView
                 case ArchiverType.SusieArchiver:
                     return new SusieArchiver(path, source, isRoot);
                 default:
-                    throw new ArgumentException("no support ArchvierType.", nameof(type));
+                    throw new ArgumentException("対応するアーカイバーがありません。");
             }
         }
 

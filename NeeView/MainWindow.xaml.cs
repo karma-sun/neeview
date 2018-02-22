@@ -156,12 +156,13 @@ namespace NeeView
             // key event for window
             this.PreviewKeyDown += MainWindow_PreviewKeyDown;
             this.PreviewKeyUp += MainWindow_PreviewKeyUp;
+            this.KeyDown += MainWindow_KeyDown;
 
             // cancel rename triggers
             this.MouseLeftButtonDown += (s, e) => this.RenameManager.Stop();
             this.MouseRightButtonDown += (s, e) => this.RenameManager.Stop();
             this.Deactivated += (s, e) => this.RenameManager.Stop();
-            
+
             // frame event
             CompositionTarget.Rendering += OnRendering;
 
@@ -569,6 +570,16 @@ namespace NeeView
         {
             // AnyKey
             _vm.Model.AnyKey.KeyUp(e.Key);
+        }
+
+        // 
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            // ALTキーのメニュー操作無効
+            if (_vm.Model.IsIgnoreAccessKey && Keyboard.Modifiers == ModifierKeys.Alt)
+            {
+                e.Handled = true;
+            }
         }
 
 

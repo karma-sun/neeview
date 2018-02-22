@@ -108,6 +108,7 @@ namespace NeeView.Setting
                 scrollViewer.PanningMode = PanningMode.VerticalOnly;
                 scrollViewer.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
                 scrollViewer.Content = dockPanel;
+                scrollViewer.Focusable = false;
                 return scrollViewer;
             }
             else

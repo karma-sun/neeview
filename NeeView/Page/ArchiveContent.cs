@@ -120,7 +120,7 @@ namespace NeeView
                 }
                 else if (picture.Type == ThumbnailType.Unique)
                 {
-                    Thumbnail.Initialize(picture.Picture.CreateThumbnail());
+                    Thumbnail.Initialize(picture.Picture?.CreateThumbnail());
                 }
                 else
                 {

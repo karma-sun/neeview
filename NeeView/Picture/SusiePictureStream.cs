@@ -18,6 +18,8 @@ namespace NeeView
         // 対象に応じてファイルからの読み込みかメモリからの読み込みかを変更
         public NamedStream Create(ArchiveEntry entry)
         {
+            if (!PictureProfile.Current.IsSusieSupported(entry.EntryName)) return null;
+
             if (entry.IsFileSystem)
             {
                 return Create(entry.GetFileSystemPath(), entry);

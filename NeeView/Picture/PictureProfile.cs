@@ -110,11 +110,25 @@ namespace NeeView
 
         #region Methods
 
-        // 対応拡張子判定
+        // 対応拡張子判定 (ALL)
         public bool IsSupported(string fileName)
         {
             return _fileExtension.IsSupported(fileName);
         }
+
+        // 対応拡張子判定 (標準)
+        public bool IsDefaultSupported(string fileName)
+        {
+            return _fileExtension.IsDefaultSupported(fileName);
+        }
+
+        // 対応拡張子判定 (Susie)
+        public bool IsSusieSupported(string fileName)
+        {
+            return _fileExtension.IsSusieSupported(fileName);
+        }
+
+
 
         // 最大サイズ内におさまるサイズを返す
         public Size CreateFixedSize(Size size)

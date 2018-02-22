@@ -85,6 +85,22 @@ namespace NeeView
             return false;
         }
 
+        // サポートしている拡張子か (標準)
+        public bool IsDefaultSupported(string fileName)
+        {
+            string ext = LoosePath.GetExtension(fileName);
+            return _defaultExtensoins.Contains(ext);
+        }
+
+        // サポートしている拡張子か (Susie)
+        public bool IsSusieSupported(string fileName)
+        {
+            if (!SusieContext.Current.IsEnabled) return false;
+
+            string ext = LoosePath.GetExtension(fileName);
+            return _susieExtensions.Contains(ext);
+        }
+
         #endregion
     }
 }

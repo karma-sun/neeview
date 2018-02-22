@@ -16,7 +16,7 @@ namespace NeeView
             Current = this;
         }
 
-        [PropertyMember("標準の圧縮ファイル展開を使用する")]
+        [PropertyMember("標準機能によるZIP圧縮ファイル展開を使用する")]
         public bool IsEnabled
         {
             get { return _isEnabled; }

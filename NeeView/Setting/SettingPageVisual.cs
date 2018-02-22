@@ -17,10 +17,15 @@ namespace NeeView.Setting
             this.Children = new List<SettingPage>
             {
                 new SettingPageVisualGeneral(),
-                new SettingPageVisualWindowTitile(),
-                new SettingPageVisualNotify(),
-                new SettingPageVisualSlider(),
+                new SettingPageVisualFont(),
                 new SettingPageVisualThumbnail(),
+                new SettingPageVisualNotify(),
+                new SettingPageVisualWindowTitile(),
+                new SettingPageVisualSlider(),
+                new SettingPagePanelGeneral(),
+                new SettingPagePanelFolderList(),
+                new SettingPagePanelFileInfo(),
+                new SettingPagePanelEffect(),
                 new SettingPageVisualSlideshow(),
             };
         }
@@ -32,6 +37,9 @@ namespace NeeView.Setting
         {
             this.Items = new List<SettingItem>
             {
+                new SettingItemSection("テーマ",
+                    new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.PanelColor)))),
+
                 new SettingItemSection("背景",
                     new SettingItemProperty(PropertyMemberElement.Create(ContentCanvasBrush.Current, nameof(ContentCanvasBrush.CustomBackground)),
                         new BackgroundSettingControl(ContentCanvasBrush.Current.CustomBackground))),
@@ -41,6 +49,78 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(WindowShape.Current, nameof(WindowShape.WindowChromeFrame)))),
             };
         }
+    }
+
+    public class SettingPageVisualFont : SettingPage
+    {
+        public SettingPageVisualFont() : base("フォント")
+        {
+            this.Items = new List<SettingItem>
+            {
+                new SettingItemSection("リスト項目のフォント",
+                    new SettingItemPropertyFont(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.FontName))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.FontSize))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.IsTextWrapped)))),
+            };
+        }
+    }
+
+    public class SettingPageVisualThumbnail : SettingPage
+    {
+        public SettingPageVisualThumbnail() : base("サムネイル")
+        {
+            this.Items = new List<SettingItem>
+            {
+
+                new SettingItemSection("サイドパネルのサムネイル",
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.ThumbnailWidth))),
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.IsThumbnailPopup))),
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.BannerWidth)))),
+
+                 new SettingItemSection("サムネイルリスト",
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.ThumbnailSize))),
+                    new SettingItemProperty(PropertyMemberElement.Create(PageSlider.Current, nameof(PageSlider.IsSliderLinkedThumbnailList))),
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsVisibleThumbnailNumber))),
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsVisibleThumbnailPlate))),
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsSelectedCenter))),
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsManipulationBoundaryFeedbackEnabled)))),
+
+                new SettingItemSection("キャッシュ",
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.IsCacheEnabled))),
+                    new SettingItemButton("キャッシュ削除", "サムネイルキャッシュを削除する",  RemoveCache)),
+
+               new SettingItemSection("詳細設定",
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.Format))),
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.Quality))),
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.BookCapacity))),
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.PageCapacity)))),
+            };
+        }
+
+        #region Commands
+
+        /// <summary>
+        /// RemoveCache command.
+        /// </summary>
+        private RelayCommand<UIElement> _RemoveCache;
+        public RelayCommand<UIElement> RemoveCache
+        {
+            get { return _RemoveCache = _RemoveCache ?? new RelayCommand<UIElement>(RemoveCache_Executed); }
+        }
+
+        private void RemoveCache_Executed(UIElement element)
+        {
+            ThumbnailCache.Current.Remove();
+
+            var dialog = new MessageDialog("", "サムネイルキャッシュを削除しました");
+            if (element != null)
+            {
+                dialog.Owner = Window.GetWindow(element);
+            }
+            dialog.ShowDialog();
+        }
+
+        #endregion
     }
 
     public class SettingPageVisualNotify : SettingPage
@@ -105,58 +185,72 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
         }
     }
 
-    public class SettingPageVisualThumbnail : SettingPage
+    public class SettingPagePanelGeneral : SettingPage
     {
-        public SettingPageVisualThumbnail() : base("サムネイル")
+        public SettingPagePanelGeneral() : base("サイドパネル全般")
         {
             this.Items = new List<SettingItem>
             {
-                 new SettingItemSection("サムネイルリスト",
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.ThumbnailSize))),
-                    new SettingItemProperty(PropertyMemberElement.Create(PageSlider.Current, nameof(PageSlider.IsSliderLinkedThumbnailList))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsVisibleThumbnailNumber))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsVisibleThumbnailPlate))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsSelectedCenter))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsManipulationBoundaryFeedbackEnabled)))),
+                 new SettingItemSection("表示",
+                    new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsHidePanelInFullscreen)))),
 
-                new SettingItemSection("キャッシュ",
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.IsCacheEnabled))),
-                    new SettingItemButton("キャッシュ削除", "サムネイルキャッシュを削除する",  RemoveCache)),
-
-               new SettingItemSection("詳細設定",
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.Format))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.Quality))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.PageCapacity))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.BookCapacity)))),
+                new SettingItemSection("操作",
+                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.IsLeftRightKeyEnabled))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.IsManipulationBoundaryFeedbackEnabled)))),
             };
         }
-
-        #region Commands
-
-        /// <summary>
-        /// RemoveCache command.
-        /// </summary>
-        private RelayCommand<UIElement> _RemoveCache;
-        public RelayCommand<UIElement> RemoveCache
-        {
-            get { return _RemoveCache = _RemoveCache ?? new RelayCommand<UIElement>(RemoveCache_Executed); }
-        }
-
-        private void RemoveCache_Executed(UIElement element)
-        {
-            ThumbnailCache.Current.Remove();
-
-            var dialog = new MessageDialog("", "サムネイルキャッシュを削除しました");
-            if (element != null)
-            {
-                dialog.Owner = Window.GetWindow(element);
-            }
-            dialog.ShowDialog();
-        }
-
-        #endregion
     }
 
+    public class SettingPagePanelFolderList : SettingPage
+    {
+        public SettingPagePanelFolderList() : base("フォルダーリスト")
+        {
+            this.Items = new List<SettingItem>
+            {
+                 new SettingItemSection("全般",
+                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.Home))) {IsStretch = true},
+                    new SettingItemProperty(PropertyMemberElement.Create(BookHistory.Current, nameof(BookHistory.IsKeepFolderStatus)))),
+
+                new SettingItemSection("表示",
+                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsVisibleBookmarkMark))),
+                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsVisibleHistoryMark))),
+                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.FolderIconLayout)))),
+
+                new SettingItemSection("詳細設定",
+                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsInsertItem)))),
+            };
+        }
+    }
+
+    public class SettingPagePanelFileInfo : SettingPage
+    {
+        public SettingPagePanelFileInfo() : base("ファイル情報パネル")
+        {
+            this.Items = new List<SettingItem>
+            {
+                new SettingItemSection("表示",
+                    new SettingItemProperty(PropertyMemberElement.Create(FileInformation.Current, nameof(FileInformation.IsVisibleFilePath))),
+                    new SettingItemProperty(PropertyMemberElement.Create(FileInformation.Current, nameof(FileInformation.IsUseExifDateTime))),
+                    new SettingItemProperty(PropertyMemberElement.Create(FileInformation.Current, nameof(FileInformation.IsVisibleBitsPerPixel))),
+                    new SettingItemProperty(PropertyMemberElement.Create(FileInformation.Current, nameof(FileInformation.IsVisibleLoader)))),
+            };
+        }
+    }
+
+    public class SettingPagePanelEffect : SettingPage
+    {
+        public SettingPagePanelEffect() : base("エフェクトパネル")
+        {
+            this.Items = new List<SettingItem>
+            {
+                new SettingItemSection("表示",
+                    new SettingItemProperty(PropertyMemberElement.Create(ImageEffect.Current, nameof(ImageEffect.IsHsvMode)))),
+
+                new SettingItemSection("詳細設定",
+                    new SettingItemProperty(PropertyMemberElement.Create(PictureProfile.Current, nameof(PictureProfile.IsMagicScaleSimdEnabled)))),
+            };
+        }
+    }
 
     public class SettingPageVisualSlideshow : SettingPage
     {

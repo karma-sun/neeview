@@ -90,7 +90,7 @@ namespace NeeView
         }
 
 
-        [PropertyMember("パネルタッチスクロールの終端バウンド")]
+        [PropertyMember("サイドパネルタッチスクロールの終端バウンド")]
         public bool IsManipulationBoundaryFeedbackEnabled { get; set; }
 
         // Left Panel

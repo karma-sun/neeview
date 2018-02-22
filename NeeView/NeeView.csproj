@@ -157,6 +157,8 @@
     <Compile Include="Controls\MediaControlViewModel.cs" />
     <Compile Include="Controls\MediaPlayerOperator.cs" />
     <Compile Include="Page\MediaContent.cs" />
+    <Compile Include="Setting\SettingPageArchiver.cs" />
+    <Compile Include="Setting\SettingPageHistory.cs" />
     <Compile Include="SidePanels\IPageListPanel.cs" />
     <Compile Include="SidePanels\ListBoxThumbnailLoader.cs" />
     <Compile Include="Setting\BackgroundSettingControl.xaml.cs">
@@ -184,7 +186,6 @@
     <Compile Include="Setting\SettingPageExternal.cs" />
     <Compile Include="Setting\SettingPageManipurate.cs" />
     <Compile Include="Setting\SettingPagePage.cs" />
-    <Compile Include="Setting\SettingPagePanel.cs" />
     <Compile Include="Setting\SettingPageSusie.cs" />
     <Compile Include="Setting\SettingPageVisual.cs" />
     <Compile Include="Setting\ContextMenuSettingViewModel.cs" />

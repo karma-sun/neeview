@@ -171,7 +171,7 @@ namespace NeeView
         /// <summary>
         /// フルスクリーン時にパネルを隠す
         /// </summary>
-        [PropertyMember("フルスクリーンのときにパネルを自動的に隠す")]
+        [PropertyMember("フルスクリーンのときにサイドパネルを自動的に隠す")]
         public bool IsHidePanelInFullscreen
         {
             get { return _IsHidePanelInFullscreen; }

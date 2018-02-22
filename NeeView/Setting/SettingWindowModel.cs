@@ -39,12 +39,12 @@ namespace NeeView.Setting
             _pages = new List<SettingPage>();
 
             _pages.Add(new SettingPageEnvironment() { IsSelected = true });
-            _pages.Add(new SettingPageFeature());
+            _pages.Add(new SettingPageArchiver());
+            _pages.Add(new SettingPageVisual());
+            _pages.Add(new SettingPageManipurate());
             _pages.Add(new SettingPageBook());
             _pages.Add(new SettingPagePage());
-            _pages.Add(new SettingPageVisual());
-            _pages.Add(new SettingPagePanel());
-            _pages.Add(new SettingPageManipurate());
+            _pages.Add(new SettingPageHistory());
             _pages.Add(new SettingPageExternal());
 
             _pages.Add(new SettingPageCommand());

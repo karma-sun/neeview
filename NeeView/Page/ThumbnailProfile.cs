@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeLaboratory;
+using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
 using PhotoSauce.MagicScaler;
 using System;
@@ -63,7 +64,7 @@ namespace NeeView
         public int BookCapacity { get; set; } = 200;
 
         private int _bannerWidth = 200;
-        [PropertyRange("バナーサイズ", 0, 512, TickFrequency = 8, Tips = "パネルのバナー表示での画像の横幅です。縦幅は横幅の1/4になります。サムネイル画像を流用しているため大きいサイズほど画像が荒くなります。")]
+        [PropertyRange("バナーサイズ", 0, 512, TickFrequency = 8, Tips = "バナー表示での画像の横幅です。縦幅は横幅の1/4になります。サムネイル画像を流用しているため大きいサイズほど画像が荒くなります。")]
         public int BannerWidth
         {
             get { return _bannerWidth; }
@@ -80,8 +81,8 @@ namespace NeeView
         /// <summary>
         /// ThumbnailWidth property.
         /// </summary>
-        private int _thumbnailWidth = 48;
-        [PropertyRange("ブックサムネイルサイズ", 0, 256, TickFrequency = 8, Format = "{0}×{0}", Tips = "パネルのコンテンツ表示でのサムネイルサイズです。")]
+        private int _thumbnailWidth = 75;
+        [PropertyRange("ブックサムネイルサイズ", 0, 256, TickFrequency = 8, Format = "{0}×{0}", Tips = "フォルダーリストのコンテンツ表示でのサムネイルサイズです。")]
         public int ThumbnailWidth
         {
             get { return _thumbnailWidth; }
@@ -164,7 +165,7 @@ namespace NeeView
             [DataMember, DefaultValue(200)]
             public int BookCapacity { get; set; }
 
-            [DataMember, DefaultValue(48)]
+            [DataMember, DefaultValue(64)]
             public int ThumbnailWidth { get; set; }
 
             [DataMember, DefaultValue(true)]
@@ -177,9 +178,7 @@ namespace NeeView
             [OnDeserializing]
             private void Deserializing(StreamingContext context)
             {
-                ThumbnailWidth = 48;
-                BannerWidth = 200;
-                IsThumbnailPopup = true;
+                this.InitializePropertyDefaultValues();
             }
         }
 

@@ -11,13 +11,12 @@ namespace NeeView.Setting
 {
     public class SettingPageEnvironment : SettingPage
     {
-        public SettingPageEnvironment() : base("環境")
+        public SettingPageEnvironment() : base("全般")
         {
             this.Children = new List<SettingPage>
             {
-                new SettingPageEnvironmentGeneral(),
                 new SettingPageEnvironmentSetup(),
-                new SettingPageHistory(),
+                new SettingPageEnvironmentDetail(),
             };
 
             if (Config.Current.IsUseLocalApplicationDataFolder && !Config.Current.IsAppxPackage)
@@ -27,36 +26,31 @@ namespace NeeView.Setting
         }
     }
 
-    // 
-    public class SettingPageFeature : SettingPage
+    public class SettingPageEnvironmentSetup : SettingPage
     {
-        public SettingPageFeature() : base("対応形式")
-        {
-            this.Children = new List<SettingPage>
-            {
-                new SettingPageArchiverZip(),
-                new SettingPageArchiverSevenZip(),
-                new SettingPageArchivePdf(),
-                new SettingPageArchiveMedia(),
-            };
-
-            if (SusieContext.IsSupportedSusie)
-            {
-                this.Children.Add(new SettingPageSusie());
-            }
-        }
-    }
-
-
-    public class SettingPageEnvironmentGeneral : SettingPage
-    {
-        public SettingPageEnvironmentGeneral() : base("環境全般")
+        public SettingPageEnvironmentSetup() : base("起動設定")
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("テーマ",
-                    new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.PanelColor)))),
+                new SettingItemSection("起動設定", "※この設定は、設定ウィンドウを閉じた後に反映されます。",
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsMultiBootEnabled))),
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveWindowPlacement))),
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveFullScreen))),
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsOpenLastBook))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SlideShow.Current, nameof(SlideShow.IsAutoPlaySlideShow)))),
 
+                new SettingItemSection("詳細設定", "※この設定は、設定ウィンドウを閉じた後に反映されます。",
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsRestoreSecondWindow)))),
+            };
+        }
+    }
+
+    public class SettingPageEnvironmentDetail : SettingPage
+    {
+        public SettingPageEnvironmentDetail() : base("詳細設定")
+        {
+            this.Items = new List<SettingItem>
+            {
                 new SettingItemSection("詳細設定",
                     new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsArchiveRecursive))),
                     new SettingItemProperty(PropertyMemberElement.Create(FileIOProfile.Current, nameof(FileIOProfile.IsRemoveConfirmed))),
@@ -71,226 +65,6 @@ namespace NeeView.Setting
                     ////new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsIgnoreWindowDpi)))),
             };
         }
-    }
-
-    public class SettingPageEnvironmentSetup : SettingPage
-    {
-        public SettingPageEnvironmentSetup() : base("起動")
-        {
-            this.Items = new List<SettingItem>
-            {
-                new SettingItemSection("起動", "この設定は、設定ウィンドウを閉じた後に反映されます。",
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsMultiBootEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveWindowPlacement))),
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveFullScreen))),
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsOpenLastBook))),
-                    new SettingItemProperty(PropertyMemberElement.Create(SlideShow.Current, nameof(SlideShow.IsAutoPlaySlideShow)))),
-
-                new SettingItemSection("詳細設定", "この設定は、設定ウィンドウを閉じた後に反映されます。",
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsRestoreSecondWindow)))),
-            };
-        }
-    }
-
-    public class SettingPageArchiverZip : SettingPage
-    {
-        public SettingPageArchiverZip() : base("標準圧縮ファイル")
-        {
-            this.Items = new List<SettingItem>
-            {
-                new SettingItemSection("機能",
-                    new SettingItemProperty(PropertyMemberElement.Create(ZipArchiverProfile.Current, nameof(ZipArchiverProfile.IsEnabled)))),
-
-                new SettingItemSection("詳細設定",
-                    new SettingItemProperty(PropertyMemberElement.Create(ZipArchiverProfile.Current, nameof(ZipArchiverProfile.SupportFileTypes)), new SettingItemCollectionControl() { Collection = ZipArchiverProfile.Current.SupportFileTypes, AddDialogHeader = "拡張子" }))
-                {
-                    IsEnabled = new IsEnabledPropertyValue(ZipArchiverProfile.Current, nameof(ZipArchiverProfile.IsEnabled)),
-                }
-            };
-        }
-    }
-
-
-    public class SettingPageArchiverSevenZip : SettingPage
-    {
-        public SettingPageArchiverSevenZip() : base("7-Zip")
-        {
-            this.Items = new List<SettingItem>
-            {
-                new SettingItemSection("機能",
-                    new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.IsEnabled)))),
-
-                new SettingItemSection("詳細設定",
-                    new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.SupportFileTypes)), new SettingItemCollectionControl() { Collection = SevenZipArchiverProfile.Current.SupportFileTypes, AddDialogHeader = "拡張子" }),
-                    new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.PreExtractSolidSize))),
-                    new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.LockTime))),
-                    new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.IsPreExtract))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ArchiverManager.Current, nameof(ArchiverManager.ExcludePattern))) { IsStretch = true },
-                    new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.X86DllPath)))
-                    {
-                        Visibility = new VisibilityPropertyValue(Config.IsX64 ? Visibility.Collapsed : Visibility.Visible),
-                        IsStretch = true,
-                    },
-                    new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.X64DllPath)))
-                    {
-                        Visibility = new VisibilityPropertyValue(Config.IsX64 ? Visibility.Visible : Visibility.Collapsed),
-                        IsStretch = true
-                    })
-                {
-                    IsEnabled = new IsEnabledPropertyValue(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.IsEnabled)),
-                }
-            };
-        }
-    }
-
-    public class SettingPageArchivePdf : SettingPage
-    {
-        public SettingPageArchivePdf() : base("PDF")
-        {
-            this.Items = new List<SettingItem>
-            {
-                new SettingItemSection("機能",
-                    new SettingItemProperty(PropertyMemberElement.Create(PdfArchiverProfile.Current, nameof(PdfArchiverProfile.IsEnabled)))),
-
-                new SettingItemSection("詳細設定",
-                    new SettingItemProperty(PropertyMemberElement.Create(PdfArchiverProfile.Current, nameof(PdfArchiverProfile.RenderSize))))
-                {
-                    IsEnabled = new IsEnabledPropertyValue(PdfArchiverProfile.Current, nameof(PdfArchiverProfile.IsEnabled)),
-                }
-            };
-        }
-    }
-
-    public class SettingPageArchiveMedia : SettingPage
-    {
-        public SettingPageArchiveMedia() : base("動画")
-        {
-            this.Items = new List<SettingItem>
-            {
-                new SettingItemSection("機能",
-                    new SettingItemProperty(PropertyMemberElement.Create(MediaArchiverProfile.Current, nameof(MediaArchiverProfile.IsEnabled)))),
-
-                new SettingItemSection("詳細設定",
-                    new SettingItemProperty(PropertyMemberElement.Create(MediaArchiverProfile.Current, nameof(MediaArchiverProfile.SupportFileTypes)), new SettingItemCollectionControl() { Collection = MediaArchiverProfile.Current.SupportFileTypes, AddDialogHeader = "拡張子" }),
-                    new SettingItemProperty(PropertyMemberElement.Create(MediaControl.Current, nameof(MediaControl.PageSeconds))))
-                {
-                    IsEnabled = new IsEnabledPropertyValue(MediaArchiverProfile.Current, nameof(MediaArchiverProfile.IsEnabled)),
-                }
-            };
-        }
-    }
-
-
-    public class SettingPageHistory : SettingPage
-    {
-        public SettingPageHistory() : base("履歴設定")
-        {
-            this.Items = new List<SettingItem>
-            {
-                new SettingItemSection("全般",
-                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.HistoryEntryPageCount))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsInnerArchiveHistoryEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsUncHistoryEnabled)))),
-
-                new SettingItemSection("履歴保存数制限", "履歴ファイルに保存される履歴数上限を設定します。アプリ動作中の履歴は制限されません。",
-                    new SettingItemIndexValue<int>(PropertyMemberElement.Create(BookHistory.Current, nameof(BookHistory.LimitSize)), new HistoryLimitSize(), false),
-                    new SettingItemIndexValue<TimeSpan>(PropertyMemberElement.Create(BookHistory.Current, nameof(BookHistory.LimitSpan)), new HistoryLimitSpan(), false)),
-
-                new SettingItemSection("履歴削除",
-                    new SettingItemGroup(
-                        new SettingItemButton("履歴を削除する", RemoveHistory) { IsContentOnly = true })),
-
-                new SettingItemSection("詳細設定",
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsDisableSave)))),
-            };
-        }
-
-        #region Commands
-
-        /// <summary>
-        /// RemoveHistory command.
-        /// </summary>
-        public RelayCommand<UIElement> RemoveHistory
-        {
-            get { return _RemoveHistory = _RemoveHistory ?? new RelayCommand<UIElement>(RemoveHistory_Executed); }
-        }
-
-        //
-        private RelayCommand<UIElement> _RemoveHistory;
-
-        //
-        private void RemoveHistory_Executed(UIElement element)
-        {
-            BookHistory.Current.Clear();
-
-            var dialog = new MessageDialog("", "履歴を削除しました");
-            if (element != null)
-            {
-                dialog.Owner = Window.GetWindow(element);
-            }
-            dialog.ShowDialog();
-        }
-
-        #endregion
-
-        #region IndexValues
-
-        /// <summary>
-        /// 履歴サイズテーブル
-        /// </summary>
-        public class HistoryLimitSize : IndexIntValue
-        {
-            private static List<int> _values = new List<int>
-        {
-            0, 1, 10, 20, 50, 100, 200, 500, 1000, -1
-        };
-
-            public HistoryLimitSize() : base(_values)
-            {
-            }
-
-            //
-            public HistoryLimitSize(int value) : base(_values)
-            {
-                Value = value;
-            }
-
-            //
-            public override string ValueString => Value == -1 ? "制限なし" : Value.ToString();
-        }
-
-        /// <summary>
-        /// 履歴期限テーブル
-        /// </summary>
-        public class HistoryLimitSpan : IndexTimeSpanValue
-        {
-            private static List<TimeSpan> _values = new List<TimeSpan>() {
-                TimeSpan.FromDays(1),
-                TimeSpan.FromDays(2),
-                TimeSpan.FromDays(3),
-                TimeSpan.FromDays(7),
-                TimeSpan.FromDays(15),
-                TimeSpan.FromDays(30),
-                TimeSpan.FromDays(100),
-                default(TimeSpan),
-            };
-
-            //
-            public HistoryLimitSpan() : base(_values)
-            {
-            }
-
-            //
-            public HistoryLimitSpan(TimeSpan value) : base(_values)
-            {
-                Value = value;
-            }
-
-            //
-            public override string ValueString => Value == default(TimeSpan) ? "制限なし" : $"{Value.Days}日前まで";
-        }
-
-        #endregion
     }
 
     public class SettingPageEnvironmentRemove : SettingPage
@@ -326,4 +100,7 @@ namespace NeeView.Setting
 
         #endregion
     }
+
+
+
 }

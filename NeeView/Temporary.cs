@@ -35,6 +35,7 @@ namespace NeeView
             TempDirectory = Path.Combine(Path.GetTempPath(), TempDirectoryBaseName) + processId.ToString();
             TempDownloadDirectory = Path.Combine(Temporary.TempDirectory, "(一時フォルダー)");
             TempSystemDirectory = Path.Combine(Temporary.TempDirectory, "System");
+            TempCacheDirectory = Path.Combine(Temporary.TempDirectory, "Cache");
         }
 
         // アプリのテンポラリフォルダー(BaseName)
@@ -48,6 +49,9 @@ namespace NeeView
 
         // アプリのシステムテンポラリフォルダー
         public static string TempSystemDirectory { get; private set; }
+
+        // アプリのキャッシュテンポラリフォルダー
+        public static string TempCacheDirectory { get; private set; }
 
 
         // テンポラリファイル名用のカウンタ
@@ -81,17 +85,17 @@ namespace NeeView
         public static string CreateTempFileName(string name)
         {
             // 専用フォルダー作成
-            Directory.CreateDirectory(TempDirectory);
+            Directory.CreateDirectory(TempCacheDirectory);
 
             // 名前の修正
             var validName = LoosePath.ValidFileName(name);
 
             // ファイル名作成
-            string tempFileName = Path.Combine(TempDirectory, validName);
+            string tempFileName = Path.Combine(TempCacheDirectory, validName);
             int count = 1;
             while (File.Exists(tempFileName) || Directory.Exists(tempFileName))
             {
-                tempFileName = Path.Combine(TempDirectory, Path.GetFileNameWithoutExtension(validName) + $"-{count++}" + Path.GetExtension(validName));
+                tempFileName = Path.Combine(TempCacheDirectory, Path.GetFileNameWithoutExtension(validName) + $"-{count++}" + Path.GetExtension(validName));
             }
 
             return tempFileName;

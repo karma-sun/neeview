@@ -60,7 +60,8 @@ namespace NeeView.Setting
                 new SettingItemSection("リスト項目のフォント",
                     new SettingItemPropertyFont(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.FontName))),
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.FontSize))),
-                    new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.IsTextWrapped)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.IsTextWrapped))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.NoteOpacity)))),
             };
         }
     }

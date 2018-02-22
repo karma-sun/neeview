@@ -229,6 +229,7 @@ namespace NeeView
                         else
                         {
                             Resume();
+                            _player.Position = _position;
                         }
                     }
 

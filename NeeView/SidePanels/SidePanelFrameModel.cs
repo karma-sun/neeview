@@ -34,6 +34,7 @@ namespace NeeView
         private string _fontName = SystemFonts.MessageFontFamily.Source;
         private double _fontSize = 15.0;
         private bool _isTextWrapped;
+        private double _noteOpacity = 0.5;
 
         #endregion
 
@@ -46,6 +47,7 @@ namespace NeeView
             SetFontSizeResource(_fontSize);
             SetIsTextWrappedResource(_isTextWrapped);
             UpdateTextWrappedHeightResource();
+            UpdateNoteOpacityResource();
 
             _left = new SidePanelGroup();
             _left.PropertyChanged += Left_PropertyChanged;
@@ -169,7 +171,22 @@ namespace NeeView
                 }
             }
         }
-
+        
+        [PropertyRange("リスト項目の補足テキストの透明度", 0.0, 1.0, Tips ="コンテンツ表示での補足テキストの透明度です。")]
+        public double NoteOpacity
+        {
+            get { return _noteOpacity; }
+            set
+            {
+                if (_noteOpacity != value)
+                {
+                    _noteOpacity = value;
+                    UpdateNoteOpacityResource();
+                    RaisePropertyChanged();
+                }
+            }
+        }
+        
         #endregion
 
         #region Methods
@@ -191,6 +208,12 @@ namespace NeeView
         private void SetIsTextWrappedResource(bool isWrapped)
         {
             App.Current.Resources["PanelTextWrapping"] = isWrapped ? TextWrapping.Wrap : TextWrapping.NoWrap;
+        }
+
+        // リソースにNoteOpacity適用
+        private void UpdateNoteOpacityResource()
+        {
+            App.Current.Resources["PanelNoteOpacity"] = _noteOpacity;
         }
 
         // calc 2 line textbox height
@@ -298,17 +321,20 @@ namespace NeeView
             [DataMember]
             public bool IsSideBarVisible { get; set; }
 
-            [DataMember, DefaultValue(false)]
+            [DataMember]
             public bool IsManipulationBoundaryFeedbackEnabled { get; set; }
 
             [DataMember]
             public string FontName { get; set; }
 
-            [DataMember]
+            [DataMember, DefaultValue(15)]
             public double FontSize { get; set; }
 
             [DataMember]
             public bool IsTextWrapped { get; set; }
+
+            [DataMember, DefaultValue(0.5)]
+            public double NoteOpacity { get; set; }
 
             [DataMember]
             public SidePanelGroup.Memento Left { get; set; }
@@ -320,7 +346,7 @@ namespace NeeView
             [OnDeserializing]
             public void OnDeserializing(StreamingContext context)
             {
-                FontSize = 15.0;
+                this.InitializePropertyDefaultValues();
             }
         }
 
@@ -337,6 +363,7 @@ namespace NeeView
             memento.FontName = this.FontName;
             memento.FontSize = this.FontSize;
             memento.IsTextWrapped = this.IsTextWrapped;
+            memento.NoteOpacity = this.NoteOpacity;
             memento.Left = Left.CreateMemento();
             memento.Right = Right.CreateMemento();
 
@@ -363,6 +390,7 @@ namespace NeeView
             this.FontName = memento.FontName;
             this.FontSize = memento.FontSize;
             this.IsTextWrapped = memento.IsTextWrapped;
+            this.NoteOpacity = memento.NoteOpacity;
             _left.Restore(memento.Left, panels);
             _right.Restore(memento.Right, panels);
 

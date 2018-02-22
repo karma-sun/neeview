@@ -46,19 +46,11 @@ namespace NeeView
 
 
         //
-        [PropertyMember("マウスジェスチャー判定の最小移動距離(X)", Tips = "この距離(pixel)移動して初めてジェスチャー開始と判定されます。")]
-        public double GestureMinimumDistanceX
+        [PropertyMember("マウスジェスチャー判定の最小移動距離", Tips = "この距離(pixel)移動して初めてジェスチャー開始と判定されます。")]
+        public double GestureMinimumDistance
         {
-            get { return _gesture.GestureMinimumDistanceX; }
-            set { _gesture.GestureMinimumDistanceX = value; }
-        }
-
-        //
-        [PropertyMember("マウスジェスチャー判定の最小移動距離(Y)", Tips = "この距離(pixel)移動して初めてジェスチャー開始と判定されます。")]
-        public double GestureMinimumDistanceY
-        {
-            get { return _gesture.GestureMinimumDistanceY; }
-            set { _gesture.GestureMinimumDistanceY = value; }
+            get { return _gesture.GestureMinimumDistance; }
+            set { _gesture.GestureMinimumDistance = value; }
         }
 
         //
@@ -185,19 +177,15 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
-            [DataMember, DefaultValue(30.0)]
-            public double GestureMinimumDistanceX { get; set; }
-
-            [DataMember, DefaultValue(30.0)]
-            public double GestureMinimumDistanceY { get; set; }
+            [DataMember(Name = "GestureMinimumDistanceX"), DefaultValue(30.0)]
+            public double GestureMinimumDistance { get; set; }
         }
 
         //
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.GestureMinimumDistanceX = this.GestureMinimumDistanceX;
-            memento.GestureMinimumDistanceY = this.GestureMinimumDistanceY;
+            memento.GestureMinimumDistance = this.GestureMinimumDistance;
             return memento;
         }
 
@@ -205,8 +193,7 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.GestureMinimumDistanceX = memento.GestureMinimumDistanceX;
-            this.GestureMinimumDistanceY = memento.GestureMinimumDistanceY;
+            this.GestureMinimumDistance = memento.GestureMinimumDistance;
         }
         #endregion
 

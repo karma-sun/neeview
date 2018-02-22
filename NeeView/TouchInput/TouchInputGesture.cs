@@ -41,8 +41,7 @@ namespace NeeView
         public TouchInputGesture(TouchInputContext context) : base(context)
         {
             _gesture = new MouseGestureSequenceTracker();
-            _gesture.GestureMinimumDistanceX = 16.0;
-            _gesture.GestureMinimumDistanceY = 16.0;
+            _gesture.GestureMinimumDistance = 16.0;
             _gesture.GestureProgressed += (s, e) => GestureProgressed.Invoke(this, new MouseGestureEventArgs(_gesture.Sequence));
         }
 
@@ -65,19 +64,11 @@ namespace NeeView
         #region Properties
 
         //
-        [PropertyMember("タッチドラッグ判定の最小移動距離(X)", Tips = "この距離を移動して初めてドラッグ開始と判定されます。")]
-        public double GestureMinimumDistanceX
+        [PropertyMember("タッチドラッグ判定の最小移動距離", Tips = "この距離を移動して初めてドラッグ開始と判定されます。")]
+        public double GestureMinimumDistance
         {
-            get { return _gesture.GestureMinimumDistanceX; }
-            set { _gesture.GestureMinimumDistanceX = value; }
-        }
-
-        //
-        [PropertyMember("タッチドラッグ判定の最小移動距離(Y)", Tips = "この距離を移動して初めてドラッグ開始と判定されます。")]
-        public double GestureMinimumDistanceY
-        {
-            get { return _gesture.GestureMinimumDistanceY; }
-            set { _gesture.GestureMinimumDistanceY = value; }
+            get { return _gesture.GestureMinimumDistance; }
+            set { _gesture.GestureMinimumDistance = value; }
         }
 
 
@@ -172,20 +163,15 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
-
-            [DataMember, DefaultValue(16.0)]
-            public double GestureMinimumDistanceX { get; set; }
-
-            [DataMember, DefaultValue(16.0)]
-            public double GestureMinimumDistanceY { get; set; }
+            [DataMember(Name = "GestureMinimumDistanceX"), DefaultValue(16.0)]
+            public double GestureMinimumDistance { get; set; }
         }
 
         //
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.GestureMinimumDistanceX = this.GestureMinimumDistanceX;
-            memento.GestureMinimumDistanceY = this.GestureMinimumDistanceY;
+            memento.GestureMinimumDistance = this.GestureMinimumDistance;
             return memento;
         }
 
@@ -193,8 +179,7 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.GestureMinimumDistanceX = memento.GestureMinimumDistanceX;
-            this.GestureMinimumDistanceY = memento.GestureMinimumDistanceY;
+            this.GestureMinimumDistance = memento.GestureMinimumDistance;
         }
         #endregion
     }

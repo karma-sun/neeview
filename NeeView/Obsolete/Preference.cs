@@ -291,8 +291,7 @@ namespace NeeView
 
                 MouseInput.Current.Normal.LongLeftButtonDownTime = this.input_longbuttondown_time;
 
-                MouseInput.Current.Gesture.GestureMinimumDistanceX = this.input_gesture_minimumdistance_x;
-                MouseInput.Current.Gesture.GestureMinimumDistanceY = this.input_gesture_minimumdistance_y;
+                MouseInput.Current.Gesture.GestureMinimumDistance = this.input_gesture_minimumdistance_x;
 
                 MouseInput.Current.Loupe.MinimumScale = this.loupe_scale_min;
                 MouseInput.Current.Loupe.MaximumScale = this.loupe_scale_max;

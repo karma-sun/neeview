@@ -82,8 +82,7 @@ namespace NeeView.Setting
 
                 new SettingItemSection("詳細設定",
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Normal, nameof(MouseInputNormal.IsGestureEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Gesture, nameof(MouseInputGesture.GestureMinimumDistanceX))),
-                    new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Gesture, nameof(MouseInputGesture.GestureMinimumDistanceY)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Gesture, nameof(MouseInputGesture.GestureMinimumDistance)))),
             };
         }
     }
@@ -106,8 +105,7 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(TouchInput.Current.Drag.Manipulation, nameof(TouchDragManipulation.IsScaleEnabled)))),
 
                 new SettingItemSection("詳細設定",
-                    new SettingItemProperty(PropertyMemberElement.Create(TouchInput.Current.Gesture, nameof(TouchInputGesture.GestureMinimumDistanceX))),
-                    new SettingItemProperty(PropertyMemberElement.Create(TouchInput.Current.Gesture, nameof(TouchInputGesture.GestureMinimumDistanceY))),
+                    new SettingItemProperty(PropertyMemberElement.Create(TouchInput.Current.Gesture, nameof(TouchInputGesture.GestureMinimumDistance))),
                     new SettingItemProperty(PropertyMemberElement.Create(TouchInput.Current.Drag.Manipulation, nameof(TouchDragManipulation.MinimumManipulationRadius))),
                     new SettingItemProperty(PropertyMemberElement.Create(TouchInput.Current.Drag.Manipulation, nameof(TouchDragManipulation.MinimumManipulationDistance))))
                 

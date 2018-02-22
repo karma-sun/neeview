@@ -52,8 +52,7 @@ namespace NeeView
             [MouseGestureDirection.Left] = new Vector(-1, 0)
         };
 
-        private double _gestureMinimumDistanceX = 30.0;
-        private double _gestureMinimumDistanceY = 30.0;
+        private double _gestureMinimumDistance = 30.0;
 
         private MouseGestureSequence _sequence;
         private MouseGestureDirection _direction;
@@ -84,21 +83,11 @@ namespace NeeView
         /// <summary>
         /// GestureMinimumDistanceX property.
         /// </summary>
-        public double GestureMinimumDistanceX
+        public double GestureMinimumDistance
         {
-            get { return _gestureMinimumDistanceX; }
-            set { _gestureMinimumDistanceX = Math.Max(value, SystemParameters.MinimumHorizontalDragDistance); }
+            get { return _gestureMinimumDistance; }
+            set { _gestureMinimumDistance = Math.Max(value, SystemParameters.MinimumHorizontalDragDistance); }
         }
-
-        /// <summary>
-        /// GestureMinimumDistanceY property.
-        /// </summary>
-        public double GestureMinimumDistanceY
-        {
-            get { return _gestureMinimumDistanceY; }
-            set { _gestureMinimumDistanceY = Math.Max(value, SystemParameters.MinimumVerticalDragDistance); }
-        }
-
 
         /// <summary>
         /// 初期化
@@ -122,7 +111,7 @@ namespace NeeView
             var v1 = point - _origin;
 
             // 一定距離未満は判定しない
-            if (Math.Abs(v1.X) < GestureMinimumDistanceX && Math.Abs(v1.Y) < GestureMinimumDistanceY) return;
+            if (Math.Abs(v1.X) < GestureMinimumDistance && Math.Abs(v1.Y) < GestureMinimumDistance) return;
 
             // 方向を決める
             // 斜め方向は以前の方向とする

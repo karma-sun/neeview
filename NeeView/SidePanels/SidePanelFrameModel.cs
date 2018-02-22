@@ -26,7 +26,7 @@ namespace NeeView
     {
         #region Fields
 
-        private bool _IsSideBarVisible;
+        private bool _IsSideBarVisible = true;
         private bool _isVisibleLocked;
         private SidePanelGroup _left;
         private SidePanelGroup _right;
@@ -171,8 +171,8 @@ namespace NeeView
                 }
             }
         }
-        
-        [PropertyRange("リスト項目の補足テキストの透明度", 0.0, 1.0, Tips ="コンテンツ表示での補足テキストの透明度です。")]
+
+        [PropertyRange("リスト項目の補足テキストの透明度", 0.0, 1.0, Tips = "コンテンツ表示での補足テキストの透明度です。")]
         public double NoteOpacity
         {
             get { return _noteOpacity; }
@@ -186,7 +186,7 @@ namespace NeeView
                 }
             }
         }
-        
+
         #endregion
 
         #region Methods
@@ -198,7 +198,7 @@ namespace NeeView
             App.Current.Resources["PanelFontFamily"] = fontFamily;
         }
 
-       // リソースにFontSize適用
+        // リソースにFontSize適用
         private void SetFontSizeResource(double fontSize)
         {
             App.Current.Resources["PanelFontSize"] = fontSize;
@@ -318,7 +318,7 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
-            [DataMember]
+            [DataMember, DefaultValue(true)]
             public bool IsSideBarVisible { get; set; }
 
             [DataMember]

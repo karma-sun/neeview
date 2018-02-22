@@ -78,7 +78,7 @@ namespace NeeView
         //
         private bool _IsHidePanelInFullscreen = true;
         private bool _IsVisibleWindowTitle = true;
-        private bool _isVisibleAddressBar;
+        private bool _isVisibleAddressBar = true;
         private bool _isVisibleBusy = true;
 
 
@@ -244,7 +244,7 @@ namespace NeeView
         // 何かキーが押されているか
         public AnyKey AnyKey { get; } = new AnyKey();
 
-        [PropertyMember("アクセスキーを無効にする", Tips ="Altキーによるメニュー操作を無効にしてコマンドのショートカットでAltキーを使いやすくします。")]
+        [PropertyMember("アクセスキーを無効にする", Tips = "Altキーによるメニュー操作を無効にしてコマンドのショートカットでAltキーを使いやすくします。")]
         public bool IsIgnoreAccessKey { get; set; }
 
         #endregion
@@ -503,7 +503,7 @@ namespace NeeView
             public ContextMenuSetting ContextMenuSetting { get; set; }
             [DataMember]
             public bool IsHideMenu { get; set; }
-            [DataMember]
+            [DataMember, DefaultValue(true)]
             public bool IsVisibleAddressBar { get; set; }
             [DataMember]
             public bool IsHidePanel { get; set; }

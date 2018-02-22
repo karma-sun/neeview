@@ -49,11 +49,11 @@ namespace NeeView
                 MathUtility.Clamp(this.RenderSize.Height, 256, PictureProfile.Current.MaximumSize.Height));
         }
 
-       /// <summary>
-       /// 適切な描写サイズを生成する
-       /// </summary>
-       /// <param name="size">希望するサイズ</param>
-       /// <returns></returns>
+        /// <summary>
+        /// 適切な描写サイズを生成する
+        /// </summary>
+        /// <param name="size">希望するサイズ</param>
+        /// <returns></returns>
         public Size CreateFixedSize(Size size)
         {
             if (size.IsEmpty)
@@ -83,7 +83,7 @@ namespace NeeView
             [DataMember, DefaultValue(typeof(Size), "1920,1080")]
             public Size RenderSize { get; set; }
 
-            [Obsolete, DataMember]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public Size RenderMaxSize { get; set; }
 
 

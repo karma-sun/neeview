@@ -373,12 +373,11 @@ namespace NeeView
             [DataMember]
             public int _Version { get; set; } = Config.Current.ProductVersionNumber;
 
-            [Obsolete]
-            [DataMember, DefaultValue(true)]
-            public bool IsEnabled { get; set; }
-
             [DataMember, DefaultValue(_defaultExcludePattern)]
             public string ExcludePattern { get; set; }
+
+            [Obsolete, DataMember(EmitDefaultValue = false)]
+            public bool IsEnabled { get; set; }
 
 
             [OnDeserializing]

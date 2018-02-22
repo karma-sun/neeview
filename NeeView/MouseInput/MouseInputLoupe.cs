@@ -336,7 +336,8 @@ namespace NeeView
 
             [DataMember]
             public bool IsLoupeCenter { get; set; }
-            [Obsolete, DataMember]
+
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsVisibleLoupeInfo { get; set; }
 
             [DataMember, DefaultValue(2.0)]

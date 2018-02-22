@@ -84,17 +84,17 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
-            [Obsolete, DataMember]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsOriginalScaleShowMessage { get; set; }
-            [Obsolete, DataMember]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsControlCenterImage { get; set; }
-            [Obsolete, DataMember]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsKeepScale { get; set; }
-            [Obsolete, DataMember]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsKeepAngle { get; set; }
-            [Obsolete, DataMember]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsKeepFlip { get; set; }
-            [Obsolete, DataMember]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsViewStartPositionCenter { get; set; }
         }
 

@@ -50,8 +50,10 @@ namespace NeeView
         // ウィンドウタイトルフォーマット
         private const string WindowTitleFormat1Default = "$Book($Page/$PageMax) - $FullName";
         private const string WindowTitleFormat2Default = "$Book($Page/$PageMax) - $FullNameL | $NameR";
+        private const string WindowTitleFormatMediaDefault = "$Book";
         private string _windowTitleFormat1 = WindowTitleFormat1Default;
         private string _windowTitleFormat2 = WindowTitleFormat2Default;
+        private string _windowTitleFormatMedia = WindowTitleFormatMediaDefault;
 
         // コンテンツキャンバス
         // TODO: ここで保持するものか？
@@ -115,8 +117,7 @@ namespace NeeView
                 value = string.IsNullOrEmpty(value) ? WindowTitleFormat1Default : value;
                 if (_windowTitleFormat1 != value)
                 {
-                    _windowTitleFormat1 = value;
-                    _windowTitleFormatter.SetFilter(_windowTitleFormat1 + " " + _windowTitleFormat2);
+                    UpdateFomatterFilter();
                     UpdateWindowTitle(WindowTitleMask.None);
                 }
             }
@@ -135,7 +136,24 @@ namespace NeeView
                 if (_windowTitleFormat2 != value)
                 {
                     _windowTitleFormat2 = value;
-                    _windowTitleFormatter.SetFilter(_windowTitleFormat1 + " " + _windowTitleFormat2);
+                    UpdateFomatterFilter();
+                    UpdateWindowTitle(WindowTitleMask.None);
+                }
+            }
+        }
+
+
+        [PropertyMember("動画用")]
+        public string WindowTitleFormatMedia
+        {
+            get { return _windowTitleFormatMedia; }
+            set
+            {
+                value = string.IsNullOrEmpty(value) ? WindowTitleFormatMediaDefault : value;
+                if (_windowTitleFormatMedia != value)
+                {
+                    _windowTitleFormatMedia = value;
+                    UpdateFomatterFilter();
                     UpdateWindowTitle(WindowTitleMask.None);
                 }
             }
@@ -155,7 +173,14 @@ namespace NeeView
 
 
         #region Methods
-        
+
+
+        // フォーマットの使用キーワード更新
+        private void UpdateFomatterFilter()
+        {
+            _windowTitleFormatter.SetFilter(_windowTitleFormat1 + " " + _windowTitleFormat2 + " " + _windowTitleFormatMedia);
+        }
+
         /// <summary>
         /// ドラッグ操作により画像スケールが変更されたときの処理
         /// </summary>
@@ -208,7 +233,9 @@ namespace NeeView
             var Contents = _contentCanvas.Contents;
             var _viewScale = DragTransform.Current.Scale;
 
-            string format = Contents[1].IsValid ? WindowTitleFormat2 : WindowTitleFormat1;
+            string format = MainContent is MediaViewContent
+                ? WindowTitleFormatMedia
+                : Contents[1].IsValid ? WindowTitleFormat2 : WindowTitleFormat1;
 
             bool isMainContent0 = MainContent == Contents[0];
 
@@ -284,21 +311,14 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
-            private string _windowTitleFormat1;
             [DataMember]
-            public string WindowTitleFormat1
-            {
-                get { return _windowTitleFormat1; }
-                set { _windowTitleFormat1 = string.IsNullOrEmpty(value) ? WindowTitleFormat1Default : value; }
-            }
+            public string WindowTitleFormat1 { get; set; }
 
-            private string _windowTitleFormat2;
             [DataMember]
-            public string WindowTitleFormat2
-            {
-                get { return _windowTitleFormat2; }
-                set { _windowTitleFormat2 = string.IsNullOrEmpty(value) ? WindowTitleFormat2Default : value; }
-            }
+            public string WindowTitleFormat2 { get; set; }
+
+            [DataMember]
+            public string WindowTitleFormatMedia { get; set; }
         }
 
         //
@@ -307,6 +327,7 @@ namespace NeeView
             var memento = new Memento();
             memento.WindowTitleFormat1 = this.WindowTitleFormat1;
             memento.WindowTitleFormat2 = this.WindowTitleFormat2;
+            memento.WindowTitleFormatMedia = this.WindowTitleFormatMedia;
             return memento;
         }
 
@@ -316,6 +337,7 @@ namespace NeeView
             if (memento == null) return;
             this.WindowTitleFormat1 = memento.WindowTitleFormat1;
             this.WindowTitleFormat2 = memento.WindowTitleFormat2;
+            this.WindowTitleFormatMedia = memento.WindowTitleFormatMedia;
         }
 
         #endregion

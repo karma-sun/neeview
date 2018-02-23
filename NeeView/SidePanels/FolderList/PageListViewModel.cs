@@ -22,128 +22,18 @@ namespace NeeView
     /// </summary>
     public class PageListViewModel : BindableBase
     {
-        public Dictionary<PageNameFormat, string> FormatList { get; } = AliasNameExtensions.GetAliasNameDictionary<PageNameFormat>();
+        #region Fields
 
-        #region Property: Format
-        private PageNameFormat _format = PageNameFormat.Smart;
-        public PageNameFormat Format
-        {
-            get { return _format; }
-            set { _format = value; RaisePropertyChanged(); }
-        }
-        #endregion
-
-        public Dictionary<PageSortMode, string> PageSortModeList { get; } =  AliasNameExtensions.GetAliasNameDictionary<PageSortMode>(); 
-
-        #region Property: Title
         private string _title;
-        public string Title
-        {
-            get { return _title; }
-            set { _title = value; RaisePropertyChanged(); }
-        }
-        #endregion
-
-        #region Property: PageSortMode
         private PageSortMode _pageSortMode;
-        public PageSortMode PageSortMode
-        {
-            get { return _pageSortMode; }
-            set { _pageSortMode = value; BookSetting.Current.SetSortMode(value); }
-        }
-        #endregion
-
-        #region Property: SelectedItem
         private Page _selectedItem;
-        public Page SelectedItem
-        {
-            get { return _selectedItem; }
-            set { _selectedItem = value; RaisePropertyChanged(); }
-        }
-        #endregion
-
-
-        #region MoreMenu
-
-        /// <summary>
-        /// MoreMenu property.
-        /// </summary>
-        public ContextMenu MoreMenu
-        {
-            get { return _MoreMenu; }
-            set { if (_MoreMenu != value) { _MoreMenu = value; RaisePropertyChanged(); } }
-        }
-
-        //
-        private ContextMenu _MoreMenu;
-
-
-        //
-        private void InitializeMoreMenu()
-        {
-            var menu = new ContextMenu();
-            menu.Items.Add(CreateListItemStyleMenuItem("一覧表示", PanelListItemStyle.Normal));
-            menu.Items.Add(CreateListItemStyleMenuItem("コンテンツ表示", PanelListItemStyle.Content));
-            menu.Items.Add(CreateListItemStyleMenuItem("バナー表示", PanelListItemStyle.Banner));
-
-            this.MoreMenu = menu;
-        }
-
-        //
-        private MenuItem CreateListItemStyleMenuItem(string header, PanelListItemStyle style)
-        {
-            var item = new MenuItem();
-            item.Header = header;
-            item.Command = SetListItemStyle;
-            item.CommandParameter = style;
-            var binding = new Binding(nameof(_model.PanelListItemStyle))
-            {
-                Converter = _PanelListItemStyleToBooleanConverter,
-                ConverterParameter = style,
-                Source = _model
-            };
-            item.SetBinding(MenuItem.IsCheckedProperty, binding);
-
-            return item;
-        }
-
-
-        private PanelListItemStyleToBooleanConverter _PanelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
-
-
-        /// <summary>
-        /// SetListItemStyle command.
-        /// </summary>
-        public RelayCommand<PanelListItemStyle> SetListItemStyle
-        {
-            get { return _SetListItemStyle = _SetListItemStyle ?? new RelayCommand<PanelListItemStyle>(SetListItemStyle_Executed); }
-        }
-
-        //
-        private RelayCommand<PanelListItemStyle> _SetListItemStyle;
-
-        //
-        private void SetListItemStyle_Executed(PanelListItemStyle style)
-        {
-            _model.PanelListItemStyle = style;
-        }
-
-
-        #endregion
-
-        /// <summary>
-        /// Model property.
-        /// </summary>
-        public PageList Model
-        {
-            get { return _model; }
-            set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
-        }
-
         private PageList _model;
+        private PageListBox _listBoxContent;
 
+        #endregion
 
-        //
+        #region Constructors
+
         public PageListViewModel(PageList model)
         {
             _model = model;
@@ -156,6 +46,108 @@ namespace NeeView
 
             Reflesh();
         }
+
+        #endregion
+
+        #region Properties
+
+        public Dictionary<PageNameFormat, string> FormatList { get; } = AliasNameExtensions.GetAliasNameDictionary<PageNameFormat>();
+
+        public Dictionary<PageSortMode, string> PageSortModeList { get; } =  AliasNameExtensions.GetAliasNameDictionary<PageSortMode>();
+
+        public string Title
+        {
+            get { return _title; }
+            set { _title = value; RaisePropertyChanged(); }
+        }
+
+        public PageSortMode PageSortMode
+        {
+            get { return _pageSortMode; }
+            set { _pageSortMode = value; BookSetting.Current.SetSortMode(value); }
+        }
+
+        public Page SelectedItem
+        {
+            get { return _selectedItem; }
+            set { _selectedItem = value; RaisePropertyChanged(); }
+        }
+
+        public PageList Model
+        {
+            get { return _model; }
+            set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
+        }
+
+        public PageListBox ListBoxContent
+        {
+            get { return _listBoxContent; }
+            set { if (_listBoxContent != value) { _listBoxContent = value; RaisePropertyChanged(); } }
+        }
+
+        #endregion
+
+        #region MoreMenu
+
+        // fields
+
+        private ContextMenu _moreMenu;
+        private PanelListItemStyleToBooleanConverter _panelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
+
+        // properties
+
+        public ContextMenu MoreMenu
+        {
+            get { return _moreMenu; }
+            set { if (_moreMenu != value) { _moreMenu = value; RaisePropertyChanged(); } }
+        }
+
+        // methods
+
+        private void InitializeMoreMenu()
+        {
+            var menu = new ContextMenu();
+            menu.Items.Add(CreateListItemStyleMenuItem("一覧表示", PanelListItemStyle.Normal));
+            menu.Items.Add(CreateListItemStyleMenuItem("コンテンツ表示", PanelListItemStyle.Content));
+            menu.Items.Add(CreateListItemStyleMenuItem("バナー表示", PanelListItemStyle.Banner));
+
+            this.MoreMenu = menu;
+        }
+
+        private MenuItem CreateListItemStyleMenuItem(string header, PanelListItemStyle style)
+        {
+            var item = new MenuItem();
+            item.Header = header;
+            item.Command = SetListItemStyle;
+            item.CommandParameter = style;
+            var binding = new Binding(nameof(_model.PanelListItemStyle))
+            {
+                Converter = _panelListItemStyleToBooleanConverter,
+                ConverterParameter = style,
+                Source = _model
+            };
+            item.SetBinding(MenuItem.IsCheckedProperty, binding);
+
+            return item;
+        }
+
+        // commands
+
+        private RelayCommand<PanelListItemStyle> _setListItemStyle;
+        public RelayCommand<PanelListItemStyle> SetListItemStyle
+        {
+            get { return _setListItemStyle = _setListItemStyle ?? new RelayCommand<PanelListItemStyle>(SetListItemStyle_Executed); }
+        }
+
+        private void SetListItemStyle_Executed(PanelListItemStyle style)
+        {
+            _model.PanelListItemStyle = style;
+        }
+
+
+        #endregion
+
+        #region Methods
 
         //
         private void BookHub_ViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
@@ -181,13 +173,11 @@ namespace NeeView
             App.Current?.Dispatcher.Invoke(() => this.ListBoxContent.FocusSelectedItem());
         }
 
-
         //
         public void Jump(Page page)
         {
             _model.BookOperation.JumpPage(page);
         }
-
 
         //
         public bool CanRemove(Page page)
@@ -201,21 +191,12 @@ namespace NeeView
             await FileIO.Current.RemoveFile(page);
         }
 
-        /// <summary>
-        /// ListBoxContent property.
-        /// </summary>
-        public PageListBox ListBoxContent
-        {
-            get { return _listBoxContent; }
-            set { if (_listBoxContent != value) { _listBoxContent = value; RaisePropertyChanged(); } }
-        }
-
-        private PageListBox _listBoxContent;
-
+        //
         private void UpdateListBoxContent()
         {
             this.ListBoxContent = new PageListBox(this);
         }
 
+        #endregion
     }
 }

@@ -20,6 +20,7 @@ namespace NeeView
         #region Fields
 
         private PanelListItemStyle _panelListItemStyle;
+        private PageNameFormat _format = PageNameFormat.Smart;
 
         #endregion
 
@@ -38,11 +39,22 @@ namespace NeeView
 
         #region Properties
 
-        //
+        /// <summary>
+        /// ページリストのリスト項目表示形式
+        /// </summary>
         public PanelListItemStyle PanelListItemStyle
         {
             get { return _panelListItemStyle; }
             set { if (_panelListItemStyle != value) { _panelListItemStyle = value; RaisePropertyChanged(); } }
+        }
+
+        /// <summary>
+        /// ページ名表示形式
+        /// </summary>
+        public PageNameFormat Format
+        {
+            get { return _format; }
+            set { _format = value; RaisePropertyChanged(); }
         }
 
         // サムネイル画像が表示される？？
@@ -84,6 +96,9 @@ namespace NeeView
         {
             [DataMember]
             public PanelListItemStyle PanelListItemStyle { get; set; }
+
+            [DataMember]
+            public PageNameFormat Format { get; set; }
         }
 
         //
@@ -91,6 +106,7 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.PanelListItemStyle = this.PanelListItemStyle;
+            memento.Format = this.Format;
             return memento;
         }
 
@@ -99,6 +115,7 @@ namespace NeeView
         {
             if (memento == null) return;
             this.PanelListItemStyle = memento.PanelListItemStyle;
+            this.Format = memento.Format;
         }
         #endregion
     }

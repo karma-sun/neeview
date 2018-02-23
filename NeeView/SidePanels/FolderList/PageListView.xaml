@@ -28,7 +28,7 @@
                 </ToggleButton>
                 <WrapPanel>
                     <ComboBox x:Name="FormatComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}"
-                          ItemsSource="{Binding FormatList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding Format, Delay=1}"
+                          ItemsSource="{Binding FormatList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding Model.Format, Delay=1}"
                           VerticalAlignment="Center">
                     </ComboBox>
                     <ComboBox x:Name="PageSortComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}"

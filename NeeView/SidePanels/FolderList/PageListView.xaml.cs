@@ -45,14 +45,14 @@ namespace NeeView
 
     public enum PageNameFormat
     {
-        [AliasName("そのまま")]
-        None,
-
         [AliasName("標準表示")]
         Smart,
 
         [AliasName("名前のみ")]
         NameOnly,
+
+        [AliasName("そのまま")]
+        Raw,
     }
 
 
@@ -73,7 +73,7 @@ namespace NeeView
                 switch (format)
                 {
                     default:
-                    case PageNameFormat.None:
+                    case PageNameFormat.Raw:
                         return DefaultTextStyle;
                     case PageNameFormat.Smart:
                         return SmartTextStyle;

@@ -26,6 +26,12 @@ namespace NeeView
         [AliasName("日付降順")]
         TimeStampDescending,
 
+        [AliasName("サイズ昇順")]
+        Size,
+
+        [AliasName("サイズ降順")]
+        SizeDescending,
+
         [AliasName("シャッフル")]
         Random,
     }

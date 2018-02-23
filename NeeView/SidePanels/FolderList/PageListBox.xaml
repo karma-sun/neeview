@@ -43,6 +43,13 @@
             <Setter Property="Text" Value="{Binding LastName}"/>
         </Style>
 
+        <Style TargetType="TextBlock" x:Key="FolderParameter">
+            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Opacity" Value="{DynamicResource PanelNoteOpacity}"/>
+            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        </Style>
+
         <local:PageNameConverter x:Key="PageNameConverter"
                                  SmartTextStyle="{StaticResource SmartTextStyle}"
                                  DefaultTextStyle="{StaticResource DefaultTextStyle}"
@@ -65,7 +72,10 @@
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                 <DockPanel Margin="2" LastChildFill="False">
                     <local:FolderListThumbnail DataContext="{Binding Thumbnail}"/>
-                    <TextBlock Style="{Binding ElementName=ListBox, Path=DataContext.Model.Format, Converter={StaticResource PageNameConverter}}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Style="{StaticResource FolderParameter}" Text="{Binding Detail}"/>
+                        <TextBlock Style="{Binding ElementName=ListBox, Path=DataContext.Model.Format, Converter={StaticResource PageNameConverter}}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
+                    </StackPanel>
                 </DockPanel>
             </Border>
         </DataTemplate>

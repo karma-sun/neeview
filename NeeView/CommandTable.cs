@@ -1621,6 +1621,28 @@ namespace NeeView
                 element.IsShowMessage = true;
                 _elements[CommandType.SetSortModeTimeStampDescending] = element;
             }
+            // SetSortModeSize
+            {
+                var element = new CommandElement();
+                element.Group = "ページ列";
+                element.Text = "ファイルサイズ昇順";
+                element.Note = "ページの並び順をファイルサイズ昇順にします";
+                element.Execute = (s, e) => _models.BookSetting.SetSortMode(PageSortMode.Size);
+                element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.Size);
+                element.IsShowMessage = true;
+                _elements[CommandType.SetSortModeSize] = element;
+            }
+            // SetSortModeSizeDescending
+            {
+                var element = new CommandElement();
+                element.Group = "ページ列";
+                element.Text = "ファイルサイズ降順";
+                element.Note = "ページの並び順をファイルサイズ降順にします";
+                element.Execute = (s, e) => _models.BookSetting.SetSortMode(PageSortMode.SizeDescending);
+                element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.SizeDescending);
+                element.IsShowMessage = true;
+                _elements[CommandType.SetSortModeSizeDescending] = element;
+            }
             // SetSortModeRandom
             {
                 var element = new CommandElement();

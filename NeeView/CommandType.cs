@@ -242,6 +242,10 @@ namespace NeeView
         [EnumMember]
         SetSortModeTimeStampDescending,
         [EnumMember]
+        SetSortModeSize,
+        [EnumMember]
+        SetSortModeSizeDescending,
+        [EnumMember]
         SetSortModeRandom,
 
         [EnumMember]

@@ -1249,6 +1249,12 @@ namespace NeeView
                 case PageSortMode.TimeStampDescending:
                     Pages.Sort((a, b) => CompareDateTimeOrder(b, a, Win32Api.StrCmpLogicalW));
                     break;
+                case PageSortMode.Size:
+                    Pages.Sort((a, b) => CompareSizeOrder(a, b, Win32Api.StrCmpLogicalW));
+                    break;
+                case PageSortMode.SizeDescending:
+                    Pages.Sort((a, b) => CompareSizeOrder(b, a, Win32Api.StrCmpLogicalW));
+                    break;
                 case PageSortMode.Random:
                     var random = new Random();
                     Pages = Pages.OrderBy(e => random.Next()).ToList();
@@ -1287,6 +1293,17 @@ namespace NeeView
         {
             if (p1.Entry.LastWriteTime != p2.Entry.LastWriteTime)
                 return CompareDateTime(p1.Entry.LastWriteTime, p2.Entry.LastWriteTime);
+            else if (p1.FullPath != p2.FullPath)
+                return CompareFileName(p1.FullPath, p2.FullPath, compare);
+            else
+                return p1.Entry.Id - p2.Entry.Id;
+        }
+
+        // サイズ, ファイル名, ID の順で比較
+        private static int CompareSizeOrder(Page p1, Page p2, Func<string, string, int> compare)
+        {
+            if (p1.Entry.Length != p2.Entry.Length)
+                return p1.Entry.Length < p2.Entry.Length ? -1 : 1;
             else if (p1.FullPath != p2.FullPath)
                 return CompareFileName(p1.FullPath, p2.FullPath, compare);
             else

@@ -289,7 +289,7 @@ namespace NeeView
                 BookProfile.Current.WideRatio = this.view_image_wideratio;
                 BookProfile.Current.Excludes.FromString(this.loader_archiver_exclude);
 
-                MouseInput.Current.Normal.LongLeftButtonDownTime = this.input_longbuttondown_time;
+                MouseInput.Current.Normal.LongButtonDownTime = this.input_longbuttondown_time;
 
                 MouseInput.Current.Gesture.GestureMinimumDistance = this.input_gesture_minimumdistance_x;
 

@@ -3,6 +3,7 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
 using System;
 using System.ComponentModel;
@@ -14,23 +15,54 @@ using System.Windows.Threading;
 
 namespace NeeView
 {
+    public enum LongButtonMask
+    {
+        [AliasName("左ボタン")]
+        Left,
+        [AliasName("右ボタン")]
+        Right,
+        [AliasName("全てのボタン")]
+        All,
+    }
+
+    public static class LingButtonMasExtensions
+    {
+        public static MouseButtonBits ToMouseButtonBits(this LongButtonMask self)
+        {
+            switch (self)
+            {
+                default:
+                case LongButtonMask.Left:
+                    return MouseButtonBits.LeftButton;
+                case LongButtonMask.Right:
+                    return MouseButtonBits.RightButton;
+                case LongButtonMask.All:
+                    return MouseButtonBits.All;
+            }
+        }
+    }
+
     /// <summary>
     /// マウス通常入力状態
     /// </summary>
     public class MouseInputNormal : MouseInputBase
     {
-        // 左クリック長押しモード
-        private LongButtonDownMode _longLeftButtonDownMode = LongButtonDownMode.Loupe;
-        [PropertyMember("左ボタンの長押し動作")]
-        public LongButtonDownMode LongLeftButtonDownMode
+        private LongButtonDownMode _longButtonDownMode = LongButtonDownMode.Loupe;
+        [PropertyMember("長押しモード")]
+        public LongButtonDownMode LongButtonDownMode
         {
-            get { return _longLeftButtonDownMode; }
-            set { _longLeftButtonDownMode = value; RaisePropertyChanged(); }
+            get { return _longButtonDownMode; }
+            set { _longButtonDownMode = value; RaisePropertyChanged(); }
         }
 
-        // 長押し判定時間(秒)
-        [PropertyRange("長押し判定時間(秒)", 0.1, 2.0, TickFrequency = 0.1, Tips ="長押しと判定されるまで押し続ける時間です。")]
-        public double LongLeftButtonDownTime { get; set; } = 1.0;
+        [PropertyMember("長押しボタン")]
+        public LongButtonMask LongButtonMask { get; set; }
+
+        [PropertyRange("長押し判定時間(秒)", 0.1, 2.0, TickFrequency = 0.1, Tips = "長押しと判定される時間です。")]
+        public double LongButtonDownTime { get; set; } = 1.0;
+
+        [PropertyRange("リピート間隔(秒)", 0.01, 1.0, TickFrequency = 0.01, Tips = "リピート入力でのリピート時間です。")]
+        public double LongButtonRepeatTime { get; set; } = 0.1;
 
         // マウスジェスチャー有効
         [PropertyMember("マウスジェスチャー有効")]
@@ -46,6 +78,9 @@ namespace NeeView
         /// </summary>
         private DispatcherTimer _timer = new DispatcherTimer();
 
+        private DispatcherTimer _timerRepeat = new DispatcherTimer();
+        private MouseButtonEventArgs _mouseButtonEventArgs;
+
         /// <summary>
         /// コンストラクター
         /// </summary>
@@ -54,6 +89,9 @@ namespace NeeView
         {
             _timer.Interval = TimeSpan.FromMilliseconds(1000);
             _timer.Tick += OnTimeout;
+
+            _timerRepeat.Interval = TimeSpan.FromMilliseconds(50);
+            _timerRepeat.Tick += TimerRepeat_Tick;
         }
 
         /// <summary>
@@ -65,15 +103,32 @@ namespace NeeView
         {
             _timer.Stop();
 
-            if (CreateMouseButtonBits() == MouseButtonBits.LeftButton && Keyboard.Modifiers == ModifierKeys.None)
+            if ((CreateMouseButtonBits() & LongButtonMask.ToMouseButtonBits()) == 0)
             {
-                // 左ボタン単体長押しならルーペモードへ
-                if (this.LongLeftButtonDownMode == LongButtonDownMode.Loupe)
-                {
+                return;
+            }
+
+            switch (LongButtonDownMode)
+            {
+                case LongButtonDownMode.Loupe:
                     SetState(MouseInputState.Loupe, true);
-                }
+                    break;
+
+                case LongButtonDownMode.Repeat:
+                    MouseButtonChanged?.Invoke(sender, _mouseButtonEventArgs); // 最初のコマンド発行
+                    _timerRepeat.Interval = TimeSpan.FromSeconds(LongButtonRepeatTime);
+                    _timerRepeat.Start();
+                    break;
             }
         }
+
+        //
+        private void TimerRepeat_Tick(object sender, EventArgs e)
+        {
+            // リピートコマンド発行
+            MouseButtonChanged?.Invoke(sender, _mouseButtonEventArgs);
+        }
+
 
         /// <summary>
         /// 状態開始
@@ -93,6 +148,7 @@ namespace NeeView
         public override void OnClosed(FrameworkElement sender)
         {
             _timer.Stop();
+            _timerRepeat.Stop();
         }
 
 
@@ -116,6 +172,8 @@ namespace NeeView
 
             _context.StartPoint = e.GetPosition(_context.Sender);
 
+            _timerRepeat.Stop();
+
             // ダブルクリック？
             if (e.ClickCount >= 2)
             {
@@ -127,6 +185,7 @@ namespace NeeView
                     _isButtonDown = false;
 
                     _timer.Stop();
+                    _timerRepeat.Stop();
 
                     return;
                 }
@@ -135,8 +194,11 @@ namespace NeeView
             if (e.StylusDevice == null)
             {
                 // 長押し判定開始
-                _timer.Interval = TimeSpan.FromSeconds(this.LongLeftButtonDownTime);
+                _timer.Interval = TimeSpan.FromSeconds(this.LongButtonDownTime);
                 _timer.Start();
+
+                // リピート用にパラメータ保存
+                _mouseButtonEventArgs = new MouseButtonEventArgs(e.MouseDevice, e.Timestamp, e.ChangedButton);
             }
         }
 
@@ -157,6 +219,7 @@ namespace NeeView
             _isButtonDown = false;
 
             _timer.Stop();
+            _timerRepeat.Stop();
         }
 
         /// <summary>
@@ -174,6 +237,7 @@ namespace NeeView
             _isButtonDown = false;
 
             _timer.Stop();
+            _timerRepeat.Stop();
         }
 
 
@@ -212,11 +276,17 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
-            [DataMember]
-            public LongButtonDownMode LongLeftButtonDownMode { get; set; }
+            [DataMember(Name = "LongLeftButtonDownMode")]
+            public LongButtonDownMode LongButtonDownMode { get; set; }
 
-            [DataMember, DefaultValue(1.0)]
-            public double LongLeftButtonDownTime { get; set; }
+            [DataMember]
+            public LongButtonMask LongButtonMask { get; set; }
+
+            [DataMember(Name = "LongLeftButtonDownTime"), DefaultValue(1.0)]
+            public double LongButtonDownTime { get; set; }
+
+            [DataMember, DefaultValue(0.1)]
+            public double LongButtonRepeatTime { get; set; }
 
             [DataMember, DefaultValue(true)]
             public bool IsGestureEnabled { get; set; }
@@ -224,7 +294,7 @@ namespace NeeView
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
             {
-                this.IsGestureEnabled = true;
+                this.InitializePropertyDefaultValues();
             }
         }
 
@@ -232,8 +302,10 @@ namespace NeeView
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.LongLeftButtonDownMode = this.LongLeftButtonDownMode;
-            memento.LongLeftButtonDownTime = this.LongLeftButtonDownTime;
+            memento.LongButtonDownMode = this.LongButtonDownMode;
+            memento.LongButtonMask = this.LongButtonMask;
+            memento.LongButtonDownTime = this.LongButtonDownTime;
+            memento.LongButtonRepeatTime = this.LongButtonRepeatTime;
             memento.IsGestureEnabled = this.IsGestureEnabled;
             return memento;
         }
@@ -242,8 +314,10 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
-            this.LongLeftButtonDownTime = memento.LongLeftButtonDownTime;
+            this.LongButtonDownMode = memento.LongButtonDownMode;
+            this.LongButtonMask = memento.LongButtonMask;
+            this.LongButtonDownTime = memento.LongButtonDownTime;
+            this.LongButtonRepeatTime = memento.LongButtonRepeatTime;
             this.IsGestureEnabled = memento.IsGestureEnabled;
         }
         #endregion

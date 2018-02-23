@@ -317,7 +317,7 @@ namespace NeeView
                 models.DragTransform.IsLimitMove = memento.IsLimitMove;
                 models.DragTransform.AngleFrequency = memento.AngleFrequency;
 
-                models.MouseInput.Normal.LongLeftButtonDownMode = memento.LongLeftButtonDownMode;
+                models.MouseInput.Normal.LongButtonDownMode = memento.LongLeftButtonDownMode;
                 models.MouseInput.Loupe.IsLoupeCenter = memento.IsLoupeCenter;
                 models.LoupeTransform.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
                 models.DragTransformControl.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;

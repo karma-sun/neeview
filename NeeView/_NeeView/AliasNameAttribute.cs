@@ -43,6 +43,17 @@ namespace NeeView
                 .Cast<T>()
                 .ToDictionary(e => e, e => GetAliasName(e));
         }
+
+
+        public static string GetTips<T>(T value)
+            where T : struct
+        {
+            return value.GetType()
+                .GetField(value.ToString())
+                .GetCustomAttributes(typeof(AliasNameAttribute), false)
+                .Cast<AliasNameAttribute>()
+                .FirstOrDefault()?.Tips;
+        }
     }
 }
 

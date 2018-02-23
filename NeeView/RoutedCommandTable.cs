@@ -192,7 +192,10 @@ namespace NeeView
             {
                 command.Execute(null, _window);
                 CommandExecuted?.Invoke(this, new CommandExecutedEventArgs() { Gesture = gesture });
-                x.Handled = true;
+                if (x.RoutedEvent != null)
+                {
+                    x.Handled = true;
+                }
 
                 /*
                 if (gesture is MouseGesture mouse)

@@ -11,8 +11,11 @@ namespace NeeView
         [AliasName("なし")]
         None,
 
-        [AliasName("ルーペ", Tips = "一時的に画像を拡大表示します\nルーペ表示中にホイール操作で拡大率を変更できます")]
-        Loupe
+        [AliasName("ルーペ", Tips = "一時的に画像を拡大表示します。ルーペ表示中にホイール操作で拡大率を変更できます。")]
+        Loupe,
+
+        [AliasName("リピート入力", Tips ="クリックを連続した挙動になり、対応したコマンドを連続発行します。")]
+        Repeat,
     }
 
     //
@@ -20,13 +23,7 @@ namespace NeeView
     {
         public static string ToTips(this LongButtonDownMode element)
         {
-            switch (element)
-            {
-                default:
-                    return null;
-                case LongButtonDownMode.Loupe:
-                    return "一時的に画像を拡大表示します\nルーペ表示中にホイール操作で拡大率を変更できます";
-            }
+            return AliasNameExtensions.GetTips(element);
         }
     }
 

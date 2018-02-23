@@ -23,6 +23,7 @@ namespace NeeView
         RightButton = (1 << MouseButton.Right),
         XButton1 = (1 << MouseButton.XButton1),
         XButton2 = (1 << MouseButton.XButton2),
+        All = LeftButton | MiddleButton | RightButton | XButton1 | XButton2,
     }
 
     public static class MouseButtonBitsExtensions

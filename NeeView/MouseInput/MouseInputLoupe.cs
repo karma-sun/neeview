@@ -241,7 +241,7 @@ namespace NeeView
         {
             if (_isLongDownMode)
             {
-                if (e.ChangedButton == MouseButton.Left)
+                if (MouseButtonBitsExtensions.Create(e) == MouseButtonBits.None)
                 {
                     // ルーペ解除
                     ResetState();

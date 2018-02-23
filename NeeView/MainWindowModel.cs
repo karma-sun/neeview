@@ -402,7 +402,15 @@ namespace NeeView
         // 設定ウィンドウを開く
         public void OpenSettingWindow()
         {
-            if (Setting.SettingWindow.Current != null) return;
+            if (Setting.SettingWindow.Current != null)
+            {
+                if (Setting.SettingWindow.Current.WindowState == WindowState.Minimized)
+                {
+                    Setting.SettingWindow.Current.WindowState = WindowState.Normal;
+                }
+                Setting.SettingWindow.Current.Activate();
+                return;
+            }
 
             var dialog = new Setting.SettingWindow(new Setting.SettingWindowModel());
             dialog.Owner = App.Current.MainWindow;

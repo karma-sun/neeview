@@ -6,10 +6,12 @@
 
 using NeeView.IO;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows.Data;
 
 namespace NeeView
@@ -20,7 +22,7 @@ namespace NeeView
     public class FolderEntryCollection : FolderCollection, IDisposable
     {
         #region Fields
-        
+
         // ファイルシステム監視
         private FileSystemWatcher _fileSystemWatcher;
 
@@ -83,6 +85,14 @@ namespace NeeView
                             .Select(e => CreateFolderItem(e))
                             .ToList();
 
+                        // RAR連番フィルター
+                        if (FolderList.Current.IsMultipleRarFilterEnabled)
+                        {
+                            var groups = archives.Select(e => new MultipleArchive(e)).GroupBy(e => e.Key);
+                            var part0 = groups.Where(e => e.Key == null).Cast<IEnumerable<MultipleArchive>>().FirstOrDefault() ?? Enumerable.Empty<MultipleArchive>();
+                            var part1 = groups.Where(e => e.Key != null).Select(g => g.OrderBy(e => e.PartNumber).First());
+                            archives = part0.Concat(part1).Select(e => e.FolderItem).ToList();
+                        }
 
                         var items = directories
                             .Concat(directoryShortcuts)
@@ -90,6 +100,11 @@ namespace NeeView
                             .Concat(archiveShortcuts)
                             .Where(e => e != null);
 
+                        // 除外フィルター
+                        if (FolderList.Current.ExcludeRegex != null)
+                        {
+                            items = items.Where(e => !FolderList.Current.ExcludeRegex.IsMatch(e.Name));
+                        }
 
                         var list = Sort(items).ToList();
 
@@ -100,7 +115,7 @@ namespace NeeView
 
                         this.Items = new ObservableCollection<FolderItem>(list);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         Debug.WriteLine(ex.Message);
                         this.Items = new ObservableCollection<FolderItem>() { CreateFolderItemEmpty() };
@@ -119,6 +134,30 @@ namespace NeeView
         #endregion
 
         #region Methods
+
+        // 分割アーカイブフィルタ用
+        private class MultipleArchive
+        {
+            // .partXX.rar のみ対応
+            private static Regex _regex = new Regex(@"^(.+)\.part(\d+)\.rar$", RegexOptions.IgnoreCase | RegexOptions.Compiled);
+
+            public FolderItem FolderItem { get; set; }
+            public string Key { get; set; }
+            public int PartNumber { get; set; }
+
+            public bool IsPart => Key != null;
+
+            public MultipleArchive(FolderItem folderItem)
+            {
+                FolderItem = folderItem;
+                var match = _regex.Match(folderItem.Name);
+                if (match.Success)
+                {
+                    Key = match.Groups[1].Value;
+                    PartNumber = int.Parse(match.Groups[2].Value);
+                }
+            }
+        }
 
         /// <summary>
         /// ファイルシステム監視初期化
@@ -184,7 +223,7 @@ namespace NeeView
                 _fileSystemWatcher.EnableRaisingEvents = true;
             }
         }
-        
+
         /// <summary>
         /// ファイル生成イベント処理
         /// </summary>
@@ -204,7 +243,7 @@ namespace NeeView
         {
             RequestDelete(e.FullPath);
         }
-        
+
         /// <summary>
         /// ファイル名変更イベント処理
         /// </summary>

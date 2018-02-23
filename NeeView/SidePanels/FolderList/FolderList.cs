@@ -14,6 +14,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -168,7 +169,6 @@ namespace NeeView
             set { if (_isVisibleBookmarkMark != value) { _isVisibleBookmarkMark = value; RaisePropertyChanged(); } }
         }
 
-        /// </summary>
         private string _home;
         [PropertyPath("ホームの場所", IsDirectory = true)]
         public string Home
@@ -183,6 +183,42 @@ namespace NeeView
         /// </summary>
         [PropertyMember("追加ファイルはソート位置に挿入する", Tips = "フォルダーリストはリアルタイムに情報を反映します。この設定がONの場合、追加されたファイルを現在のソート順位置に挿入します。OFFにするとリストの終端に追加します。")]
         public bool IsInsertItem { get; set; } = true;
+
+
+        [PropertyMember("表示からRAR分割ファイルをフィルター", Tips = ".part(数字).rar というRAR分割ファイルの場合に、数字が一番小さいファイルのみをリストに表示します。")]
+        public bool IsMultipleRarFilterEnabled { get; set; }
+
+
+        private string _excludePattern;
+        [PropertyMember("表示から除外するファイル名のパターン", Tips = ".NETの正規表現で指定します。大文字小文字は区別されません。")]
+        public string ExcludePattern
+        {
+            get { return _excludePattern; }
+            set
+            {
+                if (_excludePattern != value)
+                {
+                    _excludePattern = value;
+
+                    try
+                    {
+                        _excludeRegex = string.IsNullOrWhiteSpace(_excludePattern) ? null : new Regex(_excludePattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
+                    }
+                    catch(Exception ex)
+                    {
+                        Debug.WriteLine($"FolderList exclute: {ex.Message}");
+                        _excludePattern = null;
+                    }
+
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(ExcludeRegex));
+                }
+            }
+        }
+
+        // 除外パターンの正規表現
+        private Regex _excludeRegex;
+        public Regex ExcludeRegex => _excludeRegex;
 
         /// <summary>
         /// フォルダーコレクション
@@ -977,13 +1013,20 @@ namespace NeeView
             [DataMember, DefaultValue(true)]
             public bool IsInsertItem { get; set; }
 
+            [DataMember, DefaultValue(true)]
+            public bool IsFolderSearchBoxVisible { get; set; }
+
             [DataMember]
-            public bool IsFolderSearchBoxVisible { get; set; } = true;
+            public bool IsMultipleRarFilterEnabled { get; set; }
+
+            [DataMember]
+            public string ExcludePattern { get; set; }
+
 
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
             {
-                IsFolderSearchBoxVisible = true;
+                this.InitializePropertyDefaultValues();
             }
         }
 
@@ -998,6 +1041,8 @@ namespace NeeView
             memento.Home = this.Home;
             memento.IsInsertItem = this.IsInsertItem;
             memento.IsFolderSearchBoxVisible = this.IsFolderSearchBoxVisible;
+            memento.IsMultipleRarFilterEnabled = this.IsMultipleRarFilterEnabled;
+            memento.ExcludePattern = this.ExcludePattern;
             return memento;
         }
 
@@ -1013,28 +1058,11 @@ namespace NeeView
             this.Home = memento.Home;
             this.IsInsertItem = memento.IsInsertItem;
             this.IsFolderSearchBoxVisible = memento.IsFolderSearchBoxVisible;
-
-            // Preference反映
-            ///RaisePropertyChanged(nameof(FolderIconLayout));
+            this.IsMultipleRarFilterEnabled = memento.IsMultipleRarFilterEnabled;
+            this.ExcludePattern = memento.ExcludePattern;
         }
 
         #endregion
     }
 
-
-
-
-    /// <summary>
-    /// 旧フォルダーリスト設定。
-    /// 互換性のために残してあります
-    /// </summary>
-    [DataContract]
-    public class FolderListSetting
-    {
-        [DataMember]
-        public bool IsVisibleHistoryMark { get; set; }
-
-        [DataMember]
-        public bool IsVisibleBookmarkMark { get; set; }
-    }
 }

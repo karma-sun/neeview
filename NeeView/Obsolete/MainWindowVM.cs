@@ -28,6 +28,19 @@ namespace NeeView
     [Obsolete]
     public class MainWindowVM
     {
+        /// <summary>
+        /// 旧フォルダーリスト設定。
+        /// </summary>
+        [Obsolete, DataContract]
+        public class FolderListSetting
+        {
+            [DataMember]
+            public bool IsVisibleHistoryMark { get; set; }
+
+            [DataMember]
+            public bool IsVisibleBookmarkMark { get; set; }
+        }
+
         #region Memento
 
         [Obsolete, DataContract]

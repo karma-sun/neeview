@@ -44,17 +44,6 @@ namespace NeeView
         private List<ArchiverType> _orderList;
         private bool _isDartyOrderList = true;
 
-
-        /// <summary>
-        /// デフォルト除外パターン
-        /// </summary>
-        private const string _defaultExcludePattern = @"\.part([2-9]|\d\d+)\.rar$";
-
-        /// <summary>
-        /// 除外パターンの正規表現
-        /// </summary>
-        private Regex _excludeRegex;
-
         #endregion
 
         #region Constructors
@@ -65,8 +54,6 @@ namespace NeeView
         public ArchiverManager()
         {
             Current = this;
-
-            this.ExcludePattern = _defaultExcludePattern;
 
             ZipArchiverProfile.Current.AddPropertyChanged(nameof(ZipArchiverProfile.IsEnabled),
                 (s, e) => UpdateOrderList());
@@ -81,13 +68,13 @@ namespace NeeView
             SusieContext.Current.AddPropertyChanged(nameof(SusieContext.IsFirstOrderSusieArchive),
                 (s, e) => UpdateOrderList());
 
-            _orderList = CreateOrderList();
+            // 検索順初期化
+            var tmp = OrderList;
         }
 
         #endregion
 
         #region Properties
-
 
         // 対応アーカイブ検索用リスト
         private List<ArchiverType> OrderList
@@ -96,43 +83,17 @@ namespace NeeView
             {
                 if (_isDartyOrderList)
                 {
-                    _isDartyOrderList = false;
                     _orderList = CreateOrderList();
+                    _isDartyOrderList = false;
                 }
 
                 return _orderList;
             }
         }
 
-
-        /// <summary>
-        /// ExcludePattern property.
-        /// </summary>
-        private string _excludePattern;
-        [PropertyMember("除外する圧縮ファイルのパターン", Tips = ".NETの正規表現で指定します。大文字小文字は区別しません。")]
-        public string ExcludePattern
-        {
-            get { return _excludePattern; }
-            set { if (_excludePattern != value) { _excludePattern = value; UpdateExcludeRegex(); RaisePropertyChanged(); } }
-        }
-
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// 除外パターンを更新
-        /// </summary>
-        private void UpdateExcludeRegex()
-        {
-            try
-            {
-                _excludeRegex = new Regex(_excludePattern, RegexOptions.IgnoreCase);
-            }
-            catch
-            {
-            }
-        }
 
         //
         private void UpdateOrderList()
@@ -194,12 +155,6 @@ namespace NeeView
             if (isArrowFileSystem && (fileName.Last() == '\\' || fileName.Last() == '/'))
             {
                 return ArchiverType.FolderArchive;
-            }
-
-            // 除外判定
-            if (_excludeRegex != null && _excludeRegex.IsMatch(fileName))
-            {
-                return ArchiverType.None;
             }
 
             string ext = LoosePath.GetExtension(fileName);
@@ -373,9 +328,6 @@ namespace NeeView
             [DataMember]
             public int _Version { get; set; } = Config.Current.ProductVersionNumber;
 
-            [DataMember, DefaultValue(_defaultExcludePattern)]
-            public string ExcludePattern { get; set; }
-
             [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsEnabled { get; set; }
 
@@ -390,16 +342,15 @@ namespace NeeView
         //
         public Memento CreateMemento()
         {
-            var memento = new Memento();
-            memento.ExcludePattern = this.ExcludePattern;
-            return memento;
+            return null;
+            ////var memento = new Memento();
+            ////return memento;
         }
 
         //
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.ExcludePattern = memento.ExcludePattern ?? _defaultExcludePattern;
 
 #pragma warning disable CS0612
 

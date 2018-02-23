@@ -56,6 +56,11 @@ namespace NeeView.Setting
                 SaveData.Current.SaveAll();
             }
         }
+
+        private void Window_Deactivated(object sender, EventArgs e)
+        {
+            this.PageContent.Focus();
+        }
     }
 
     public class BooleanToSwitchStringConverter : IValueConverter

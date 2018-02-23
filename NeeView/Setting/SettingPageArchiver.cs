@@ -55,7 +55,6 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.PreExtractSolidSize))),
                     new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.LockTime))),
                     new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.IsPreExtract))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ArchiverManager.Current, nameof(ArchiverManager.ExcludePattern))) { IsStretch = true },
                     new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.X86DllPath)))
                     {
                         Visibility = new VisibilityPropertyValue(Config.IsX64 ? Visibility.Collapsed : Visibility.Visible),

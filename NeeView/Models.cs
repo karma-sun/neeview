@@ -405,8 +405,6 @@ namespace NeeView
         }
 
 
-#pragma warning disable CS0612
-
         public void ResoreCompatible(Memento memento)
         {
             if (memento == null) return;
@@ -414,15 +412,14 @@ namespace NeeView
             //
             this.BookHub.RestoreCompatible(memento.BookHub);
 
+#pragma warning disable CS0612
             // compatible before ver.23
             if (memento._Version < Config.GenerateProductVersionNumber(1, 23, 0))
             {
                 this.RoutedCommandTable.RestoreCompatible(memento.RoutedCommandTable);
             }
-        }
-
 #pragma warning restore CS0612
-
+        }
 
         #endregion
     }

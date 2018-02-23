@@ -219,7 +219,9 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.FolderIconLayout)))),
 
                 new SettingItemSection("詳細設定",
-                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsInsertItem)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsInsertItem))),
+                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsMultipleRarFilterEnabled))),
+                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.ExcludePattern))) { IsStretch = true }),
             };
         }
     }

@@ -191,23 +191,27 @@ namespace NeeView
         {
             switch (FolderOrder)
             {
-                case FolderOrder.TimeStamp:
-                    return source.OrderBy(e => e.Type).ThenBy(e => e, new ComparerTimeStamp());
-                case FolderOrder.Size:
-                    return source.OrderBy(e => e.Type).ThenBy(e => e, new ComparerSize());
+                default:
+                case FolderOrder.FileNameAscending:
+                    return source.OrderBy(e => e.Type).ThenBy(e => e, new ComparerFileName());
+                case FolderOrder.FileNameDescending:
+                    return source.OrderBy(e => e.Type).ThenByDescending(e => e, new ComparerFileName());
+                case FolderOrder.TimeStampAscending:
+                    return source.OrderBy(e => e.Type).ThenBy(e => e.LastWriteTime).ThenBy(e => e, new ComparerFileName());
+                case FolderOrder.TimeStampDescending:
+                    return source.OrderBy(e => e.Type).ThenByDescending(e => e.LastWriteTime).ThenBy(e => e, new ComparerFileName());
+                case FolderOrder.SizeAscending:
+                    return source.OrderBy(e => e.Type).ThenBy(e => e.Length).ThenBy(e => e, new ComparerFileName());
+                case FolderOrder.SizeDescending:
+                    return source.OrderBy(e => e.Type).ThenByDescending(e => e.Length).ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.Random:
                     var random = new Random(RandomSeed);
                     return source.OrderBy(e => e.Type).ThenBy(e => random.Next());
-                default:
-                case FolderOrder.FileName:
-                    return source.OrderBy(e => e.Type).ThenBy(e => e, new ComparerFileName());
             }
         }
 
-        #region Comparer for Sort
-
         /// <summary>
-        /// ソート用：名前で比較
+        /// ソート用：名前で比較(昇順)
         /// </summary>
         public class ComparerFileName : IComparer<FolderItem>
         {
@@ -217,37 +221,6 @@ namespace NeeView
             }
         }
 
-        /// <summary>
-        /// ソート用：サイズで比較
-        /// </summary>
-        public class ComparerSize : IComparer<FolderItem>
-        {
-            public int Compare(FolderItem x, FolderItem y)
-            {
-                int diff = y.Length.CompareTo(x.Length);
-                if (diff != 0)
-                    return diff;
-                else
-                    return Win32Api.StrCmpLogicalW(x.Name, y.Name);
-            }
-        }
-
-        /// <summary>
-        /// ソート用：日時で比較
-        /// </summary>
-        public class ComparerTimeStamp : IComparer<FolderItem>
-        {
-            public int Compare(FolderItem x, FolderItem y)
-            {
-                int diff = y.LastWriteTime.CompareTo(x.LastWriteTime);
-                if (diff != 0)
-                    return diff;
-                else
-                    return Win32Api.StrCmpLogicalW(x.Name, y.Name);
-            }
-        }
-
-        #endregion
 
         /// <summary>
         /// アイコンの表示更新

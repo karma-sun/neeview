@@ -5,194 +5,336 @@
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace NeeView
 {
     /// <summary>
     /// コマンドの種類
     /// </summary>
+    [DataContract]
     public enum CommandType
     {
+        [EnumMember]
         None, // 
 
+        [EnumMember]
         OpenSettingWindow,
+        [EnumMember]
         OpenSettingFilesFolder,
+        [EnumMember]
         OpenVersionWindow,
+        [EnumMember]
         CloseApplication,
 
+        [EnumMember]
         LoadAs,
+        [EnumMember]
         ReLoad,
+        [EnumMember]
         Unload,
+        [EnumMember]
         OpenApplication,
+        [EnumMember]
         OpenFilePlace,
+        [EnumMember]
         Export,
+        [EnumMember]
         Print,
+        [EnumMember]
         DeleteFile,
+        [EnumMember]
         CopyFile,
+        [EnumMember]
         CopyImage,
+        [EnumMember]
         Paste,
+        [EnumMember]
         OpenContextMenu,
 
+        [EnumMember]
         ClearHistory,
 
+        [EnumMember]
         PrevPage,
+        [EnumMember]
         NextPage,
+        [EnumMember]
         PrevOnePage,
+        [EnumMember]
         NextOnePage,
+        [EnumMember]
         PrevScrollPage,
+        [EnumMember]
         NextScrollPage,
+        [EnumMember]
         MovePageWithCursor,
 
+        [EnumMember]
         PrevSizePage,
+        [EnumMember]
         NextSizePage,
+        [EnumMember]
         FirstPage,
+        [EnumMember]
         LastPage,
 
+        [EnumMember]
         ToggleMediaPlay,
 
+        [EnumMember]
         PrevFolder,
+        [EnumMember]
         NextFolder,
 
+        [EnumMember]
         PrevHistory,
+        [EnumMember]
         NextHistory,
 
+        [EnumMember]
         ToggleFolderOrder,
-        SetFolderOrderByFileName,
-        SetFolderOrderByTimeStamp,
-        SetFolderOrderBySize,
+        
+        [EnumMember(Value = "SetFolderOrderByFileName")]
+        SetFolderOrderByFileNameA,
+        [EnumMember]
+        SetFolderOrderByFileNameD,
+        [EnumMember]
+        SetFolderOrderByTimeStampA,
+        [EnumMember(Value = "SetFolderOrderByTimeStamp")]
+        SetFolderOrderByTimeStampD,
+        [EnumMember]
+        SetFolderOrderBySizeA,
+        [EnumMember(Value = "SetFolderOrderBySize")]
+        SetFolderOrderBySizeD,
+        [EnumMember]
         SetFolderOrderByRandom,
 
+        [EnumMember]
         ToggleTopmost,
+        [EnumMember]
         ToggleHideMenu,
+        [EnumMember]
         ToggleHidePageSlider,
+        [EnumMember]
         ToggleHidePanel,
-        [Obsolete]
+        [Obsolete, EnumMember]
         ToggleHideTitleBar, // 欠番
+        [EnumMember]
         ToggleVisibleTitleBar,
+        [EnumMember]
         ToggleVisibleAddressBar,
+        [EnumMember]
         ToggleVisibleSideBar,
+        [EnumMember]
         ToggleVisibleFileInfo,
+        [EnumMember]
         ToggleVisibleEffectInfo,
+        [EnumMember]
         ToggleVisibleFolderList,
+        [EnumMember]
         ToggleVisibleBookmarkList,
+        [EnumMember]
         ToggleVisiblePagemarkList,
+        [EnumMember]
         ToggleVisibleHistoryList,
+        [EnumMember]
         ToggleVisiblePageList,
+        [EnumMember]
         ToggleVisibleFolderSearchBox,
 
-        [Obsolete]
+        [Obsolete,EnumMember]
         TogglePanelStyle, // 欠番
-        [Obsolete]
+        [Obsolete,EnumMember]
         TogglePageListStyle, // 欠番
 
+        [EnumMember]
         ToggleVisibleThumbnailList,
+        [EnumMember]
         ToggleHideThumbnailList,
 
+        [EnumMember]
         ToggleFullScreen,
+        [EnumMember]
         SetFullScreen,
+        [EnumMember]
         CancelFullScreen,
+        [EnumMember]
         ToggleWindowMinimize,
+        [EnumMember]
         ToggleWindowMaximize,
 
+        [EnumMember]
         ShowHiddenPanels,
 
+        [EnumMember]
         ToggleSlideShow,
 
+        [EnumMember]
         ToggleStretchMode,
+        [EnumMember]
         ToggleStretchModeReverse,
+        [EnumMember]
         SetStretchModeNone,
+        [EnumMember]
         SetStretchModeInside,
+        [EnumMember]
         SetStretchModeOutside,
+        [EnumMember]
         SetStretchModeUniform,
+        [EnumMember]
         SetStretchModeUniformToFill,
+        [EnumMember]
         SetStretchModeUniformToSize,
+        [EnumMember]
         SetStretchModeUniformToVertical,
 
+        [EnumMember]
         ToggleIsEnabledNearestNeighbor,
 
+        [EnumMember]
         ToggleBackground,
+        [EnumMember]
         SetBackgroundBlack,
+        [EnumMember]
         SetBackgroundWhite,
+        [EnumMember]
         SetBackgroundAuto,
+        [EnumMember]
         SetBackgroundCheck,
+        [EnumMember]
         SetBackgroundCustom,
 
+        [EnumMember]
         TogglePageMode,
+        [EnumMember]
         SetPageMode1,
+        [EnumMember]
         SetPageMode2,
 
+        [EnumMember]
         ToggleBookReadOrder,
+        [EnumMember]
         SetBookReadOrderRight,
+        [EnumMember]
         SetBookReadOrderLeft,
 
+        [EnumMember]
         ToggleIsSupportedDividePage,
+        [EnumMember]
         ToggleIsSupportedWidePage,
+        [EnumMember]
         ToggleIsSupportedSingleFirstPage,
+        [EnumMember]
         ToggleIsSupportedSingleLastPage,
 
+        [EnumMember]
         ToggleIsRecursiveFolder,
 
+        [EnumMember]
         ToggleSortMode,
+        [EnumMember]
         SetSortModeFileName,
+        [EnumMember]
         SetSortModeFileNameDescending,
+        [EnumMember]
         SetSortModeTimeStamp,
+        [EnumMember]
         SetSortModeTimeStampDescending,
+        [EnumMember]
         SetSortModeRandom,
 
+        [EnumMember]
         SetDefaultPageSetting,
 
-        [Obsolete]
+        [Obsolete, EnumMember]
         Bookmark, // 欠番
 
+        [EnumMember]
         ToggleBookmark,
+        [EnumMember]
         PrevBookmark,
+        [EnumMember]
         NextBookmark,
 
+        [EnumMember]
         TogglePagemark,
+        [EnumMember]
         PrevPagemark,
+        [EnumMember]
         NextPagemark,
+        [EnumMember]
         PrevPagemarkInBook,
+        [EnumMember]
         NextPagemarkInBook,
 
-        [Obsolete]
+        [Obsolete,EnumMember]
         ToggleIsReverseSort, // 欠番
 
+        [EnumMember]
         ViewScrollUp,
+        [EnumMember]
         ViewScrollDown,
+        [EnumMember]
         ViewScrollLeft,
+        [EnumMember]
         ViewScrollRight,
+        [EnumMember]
         ViewScaleUp,
+        [EnumMember]
         ViewScaleDown,
+        [EnumMember]
         ViewRotateLeft,
+        [EnumMember]
         ViewRotateRight,
+        [EnumMember]
         ToggleIsAutoRotate,
+        [EnumMember]
         ToggleViewFlipHorizontal,
+        [EnumMember]
         ViewFlipHorizontalOn,
+        [EnumMember]
         ViewFlipHorizontalOff,
+        [EnumMember]
         ToggleViewFlipVertical,
+        [EnumMember]
         ViewFlipVerticalOn,
+        [EnumMember]
         ViewFlipVerticalOff,
+        [EnumMember]
         ViewReset,
 
-        [Obsolete]
+        [Obsolete,EnumMember]
         ToggleEffectGrayscale, // 欠番
 
+        [EnumMember]
         ToggleCustomSize,
 
+        [EnumMember]
         ToggleResizeFilter,
+        [EnumMember]
         ToggleEffect,
 
+        [EnumMember]
         ToggleIsLoupe,
+        [EnumMember]
         LoupeOn,
+        [EnumMember]
         LoupeOff,
 
+        [EnumMember]
         TogglePermitFileCommand,
 
+        [EnumMember]
         HelpOnline,
+        [EnumMember]
         HelpCommandList,
+        [EnumMember]
         HelpMainMenu,
 
+        [EnumMember]
         ExportBackup,
+        [EnumMember]
         ImportBackup
     }
 

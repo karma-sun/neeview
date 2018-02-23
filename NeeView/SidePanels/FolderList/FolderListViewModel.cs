@@ -163,8 +163,8 @@ namespace NeeView
         /// <summary>
         /// コンボボックス用リスト
         /// </summary>
-        public Dictionary<FolderOrder, string> FolderOrderList => FolderOrderExtension.FolderOrderList;
-
+        public Dictionary<FolderOrder, string> FolderOrderList => AliasNameExtensions.GetAliasNameDictionary<FolderOrder>();
+        
         /// <summary>
         /// MoreMenu property.
         /// </summary>

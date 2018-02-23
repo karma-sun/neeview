@@ -1347,38 +1347,71 @@ namespace NeeView
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleFolderOrder] = element;
             }
-            // SetFolderOrderByFileName
+            // SetFolderOrderByFileNameA
             {
                 var element = new CommandElement();
                 element.Group = "ブック列";
-                element.Text = "ブック列はファイル名順";
+                element.Text = "ブック列はファイル名順昇順";
                 element.Note = "ブックの並びを名前順(昇順)にします";
-                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.FileName);
-                element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.FileName);
+                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.FileNameAscending);
+                element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.FileNameAscending);
                 element.IsShowMessage = true;
-                _elements[CommandType.SetFolderOrderByFileName] = element;
+                _elements[CommandType.SetFolderOrderByFileNameA] = element;
             }
-            // SetFolderOrderByTimeStamp
+            // SetFolderOrderByFileNameD
             {
                 var element = new CommandElement();
                 element.Group = "ブック列";
-                element.Text = "ブック列は日付順";
+                element.Text = "ブック列はファイル名順降順";
+                element.Note = "ブックの並びを名前順(降順)にします";
+                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.FileNameDescending);
+                element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.FileNameDescending);
+                element.IsShowMessage = true;
+                _elements[CommandType.SetFolderOrderByFileNameD] = element;
+            }
+            // SetFolderOrderByTimeStampA
+            {
+                var element = new CommandElement();
+                element.Group = "ブック列";
+                element.Text = "ブック列は日付昇順";
+                element.Note = "ブックの並びを日付順(昇順)にします";
+                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.TimeStampAscending);
+                element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.TimeStampAscending);
+                element.IsShowMessage = true;
+                _elements[CommandType.SetFolderOrderByTimeStampA] = element;
+            }
+            // SetFolderOrderByTimeStampD
+            {
+                var element = new CommandElement();
+                element.Group = "ブック列";
+                element.Text = "ブック列は日付降順";
                 element.Note = "ブックの並びを日付順(降順)にします";
-                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.TimeStamp);
-                element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.TimeStamp);
+                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.TimeStampDescending);
+                element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.TimeStampDescending);
                 element.IsShowMessage = true;
-                _elements[CommandType.SetFolderOrderByTimeStamp] = element;
+                _elements[CommandType.SetFolderOrderByTimeStampD] = element;
             }
-            // SetFolderOrderBySize
+            // SetFolderOrderBySizeA
             {
                 var element = new CommandElement();
                 element.Group = "ブック列";
-                element.Text = "ブック列はサイズ順";
-                element.Note = "ブックの並びをサイズ順(降順)にします";
-                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.Size);
-                element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.Size);
+                element.Text = "ブック列はサイズ昇順";
+                element.Note = "ブックの並びをサイズ順(昇順)にします";
+                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.SizeAscending);
+                element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.SizeAscending);
                 element.IsShowMessage = true;
-                _elements[CommandType.SetFolderOrderBySize] = element;
+                _elements[CommandType.SetFolderOrderBySizeA] = element;
+            }
+            // SetFolderOrderBySizeD
+            {
+                var element = new CommandElement();
+                element.Group = "ブック列";
+                element.Text = "ブック列はサイズ降順";
+                element.Note = "ブックの並びをサイズ順(降順)にします";
+                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.SizeDescending);
+                element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.SizeDescending);
+                element.IsShowMessage = true;
+                _elements[CommandType.SetFolderOrderBySizeD] = element;
             }
             // SetFolderOrderByRandom
             {

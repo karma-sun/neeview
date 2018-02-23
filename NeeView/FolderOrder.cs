@@ -6,6 +6,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,18 +15,35 @@ namespace NeeView
     /// <summary>
     /// フォルダーの並び
     /// </summary>
+    [DataContract]
     public enum FolderOrder
     {
-        [AliasName("ブック列は名前順")]
-        FileName,
+        [EnumMember(Value = "FileName")]
+        [AliasName("名前昇順")]
+        FileNameAscending,
 
-        [AliasName("ブック列は日付順")]
-        TimeStamp,
+        [EnumMember]
+        [AliasName("名前降順")]
+        FileNameDescending,
 
-        [AliasName("ブック列はサイズ順")]
-        Size,
+        [EnumMember]
+        [AliasName("日付昇順")]
+        TimeStampAscending,
 
-        [AliasName("ブック列はシャッフル")]
+        [EnumMember(Value = "TimeStamp")]
+        [AliasName("日付降順")]
+        TimeStampDescending,
+
+        [EnumMember]
+        [AliasName("サイズ昇順")]
+        SizeAscending,
+
+        [EnumMember(Value = "Size")]
+        [AliasName("サイズ降順")]
+        SizeDescending,
+
+        [EnumMember]
+        [AliasName("シャッフル")]
         Random,
     }
 
@@ -35,13 +53,5 @@ namespace NeeView
         {
             return (FolderOrder)(((int)mode + 1) % Enum.GetNames(typeof(FolderOrder)).Length);
         }
-
-        public static Dictionary<FolderOrder, string> FolderOrderList { get; } = new Dictionary<FolderOrder, string>
-        {
-            [FolderOrder.FileName] = "名前順",
-            [FolderOrder.TimeStamp] = "日付順",
-            [FolderOrder.Size] = "サイズ順",
-            [FolderOrder.Random] = "シャッフル",
-        };
     }
 }

@@ -276,24 +276,21 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
         public class SlideShowInterval : IndexDoubleValue
         {
             private static List<double> _values = new List<double>
-        {
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 45, 60, 90, 120, 180, 240, 300
-        };
+            {
+                1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 15, 20, 30, 45, 60, 90, 120, 180, 240, 300
+            };
 
-            //
             public SlideShowInterval() : base(_values)
             {
                 IsValueSyncIndex = false;
             }
 
-            //
             public SlideShowInterval(double value) : base(_values)
             {
                 IsValueSyncIndex = false;
                 Value = value;
             }
 
-            //
             public override string ValueString => $"{Value}秒";
         }
 

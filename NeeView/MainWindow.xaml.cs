@@ -576,7 +576,7 @@ namespace NeeView
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
             // ALTキーのメニュー操作無効
-            if (_vm.Model.IsIgnoreAccessKey && Keyboard.Modifiers == ModifierKeys.Alt)
+            if (!_vm.Model.IsAccessKeyEnabled && Keyboard.Modifiers == ModifierKeys.Alt)
             {
                 e.Handled = true;
             }

@@ -244,8 +244,8 @@ namespace NeeView
         // 何かキーが押されているか
         public AnyKey AnyKey { get; } = new AnyKey();
 
-        [PropertyMember("アクセスキーを無効にする", Tips = "Altキーによるメニュー操作を無効にしてコマンドのショートカットでAltキーを使いやすくします。")]
-        public bool IsIgnoreAccessKey { get; set; }
+        [PropertyMember("アクセスキーの許可", Tips = "OFFにすると、Altキーによるシステム操作が無効になりコマンドのショートカットでAltキーの誤動作がなくなります。")]
+        public bool IsAccessKeyEnabled { get; set; } = true;
 
         #endregion
 
@@ -517,8 +517,8 @@ namespace NeeView
             public bool IsVisibleBusy { get; set; }
             [DataMember, DefaultValue(false)]
             public bool IsOpenbookAtCurrentPlace { get; set; }
-            [DataMember]
-            public bool IsIgnoreAccessKey { get; set; }
+            [DataMember, DefaultValue(true)]
+            public bool IsAccessKeyEnabled { get; set; }
 
             [OnDeserializing]
             private void OnDeserializing(StreamingContext c)
@@ -543,7 +543,7 @@ namespace NeeView
             memento.IsVisibleWindowTitle = this.IsVisibleWindowTitle;
             memento.IsVisibleBusy = this.IsVisibleBusy;
             memento.IsOpenbookAtCurrentPlace = this.IsOpenbookAtCurrentPlace;
-            memento.IsIgnoreAccessKey = this.IsIgnoreAccessKey;
+            memento.IsAccessKeyEnabled = this.IsAccessKeyEnabled;
 
             return memento;
         }
@@ -564,7 +564,7 @@ namespace NeeView
             this.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
             this.IsVisibleBusy = memento.IsVisibleBusy;
             this.IsOpenbookAtCurrentPlace = memento.IsOpenbookAtCurrentPlace;
-            this.IsIgnoreAccessKey = memento.IsIgnoreAccessKey;
+            this.IsAccessKeyEnabled = memento.IsAccessKeyEnabled;
         }
 
         #endregion

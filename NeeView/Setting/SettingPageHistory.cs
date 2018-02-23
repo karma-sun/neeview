@@ -24,7 +24,7 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection("全般",
-                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.HistoryEntryPageCount))),
+                    new SettingItemIndexValue<int>(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.HistoryEntryPageCount)), new HistoryEntryPageCount(), true),
                     new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsInnerArchiveHistoryEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsUncHistoryEnabled)))),
 
@@ -71,27 +71,53 @@ namespace NeeView.Setting
 
         #region IndexValues
 
+        #region IndexValue
+
+        /// <summary>
+        /// 履歴登録開始テーブル
+        /// </summary>
+        public class HistoryEntryPageCount : IndexIntValue
+        {
+            private static List<int> _values = new List<int>
+            {
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 20, 50, 100,
+            };
+
+            public HistoryEntryPageCount() : base(_values)
+            {
+                IsValueSyncIndex = false;
+            }
+
+            public HistoryEntryPageCount(int value) : base(_values)
+            {
+                IsValueSyncIndex = false;
+                Value = value;
+            }
+
+            public override string ValueString => $"{Value}ページ";
+        }
+
+        #endregion
+
         /// <summary>
         /// 履歴サイズテーブル
         /// </summary>
         public class HistoryLimitSize : IndexIntValue
         {
             private static List<int> _values = new List<int>
-        {
-            0, 1, 10, 20, 50, 100, 200, 500, 1000, -1
-        };
+            {
+                0, 1, 10, 20, 50, 100, 200, 500, 1000, -1
+            };
 
             public HistoryLimitSize() : base(_values)
             {
             }
 
-            //
             public HistoryLimitSize(int value) : base(_values)
             {
                 Value = value;
             }
 
-            //
             public override string ValueString => Value == -1 ? "制限なし" : Value.ToString();
         }
 
@@ -111,18 +137,15 @@ namespace NeeView.Setting
                 default(TimeSpan),
             };
 
-            //
             public HistoryLimitSpan() : base(_values)
             {
             }
 
-            //
             public HistoryLimitSpan(TimeSpan value) : base(_values)
             {
                 Value = value;
             }
 
-            //
             public override string ValueString => Value == default(TimeSpan) ? "制限なし" : $"{Value.Days}日前まで";
         }
 

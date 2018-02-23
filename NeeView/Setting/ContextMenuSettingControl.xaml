@@ -223,7 +223,7 @@
                         <Style TargetType="Button">
                             <Setter Property="Margin" Value="10,2,0,2"/>
                             <Setter Property="Padding" Value="10,5"/>
-                            <Setter Property="Width" Value="80"/>
+                            <Setter Property="Width" Value="100"/>
                             <!--
                             <Setter Property="MinHeight" Value="28"/>
                             -->

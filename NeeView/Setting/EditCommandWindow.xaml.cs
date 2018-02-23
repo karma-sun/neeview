@@ -66,6 +66,8 @@ namespace NeeView.Setting
             set { if (_isShowMessage != value) { _isShowMessage = value; RaisePropertyChanged(); } }
         }
 
+        public string Note { get; private set; }
+
 
         public void Initialize(CommandType key,  EditCommandWindowTab start = EditCommandWindowTab.Default)
         {
@@ -74,7 +76,10 @@ namespace NeeView.Setting
 
             this.Title = $"{key.ToDispString()} - コマンド設定";
 
+            this.Note = CommandTable.Current[key].Note;
             this.IsShowMessage = _memento.Elements[key].IsShowMessage;
+
+            key.ToDispLongString();
 
             this.InputGesture.Initialize(_memento, key);
             this.MouseGesture.Initialize(_memento, key);

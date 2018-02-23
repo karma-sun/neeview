@@ -48,6 +48,7 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Opacity" Value="{DynamicResource PanelNoteOpacity}"/>
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+            <Setter Property="Visibility" Value="{DynamicResource PanelNoteVisibility}"/>
         </Style>
 
         <local:PageNameConverter x:Key="PageNameConverter"

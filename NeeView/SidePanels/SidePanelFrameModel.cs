@@ -214,6 +214,7 @@ namespace NeeView
         private void UpdateNoteOpacityResource()
         {
             App.Current.Resources["PanelNoteOpacity"] = _noteOpacity;
+            App.Current.Resources["PanelNoteVisibility"] = _noteOpacity <= 0.0 ? Visibility.Collapsed : Visibility.Visible;
         }
 
         // calc 2 line textbox height

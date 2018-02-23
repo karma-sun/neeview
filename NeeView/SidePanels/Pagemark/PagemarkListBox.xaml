@@ -37,6 +37,7 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Opacity" Value="{DynamicResource PanelNoteOpacity}"/>
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+            <Setter Property="Visibility" Value="{DynamicResource PanelNoteVisibility}"/>
         </Style>
 
         <!-- Normal Pagemark -->
@@ -59,7 +60,7 @@
                     <DockPanel>
                         <local:FolderListThumbnail DataContext="{Binding ArchivePage.Thumbnail}"/>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Style="{StaticResource PagemarkParameter}" Text="{Binding PlaceShort}" Foreground="Gray" />
+                            <TextBlock Style="{StaticResource PagemarkParameter}" Text="{Binding PlaceShort}"/>
                             <TextBlock Style="{StaticResource PagemarkName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
                         </StackPanel>
                     </DockPanel>

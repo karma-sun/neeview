@@ -22,9 +22,13 @@
                         <TextBlock Text="全般"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                 </TabItem.Header>
-                <StackPanel Margin="10,20">
-                    <CheckBox Content="コマンド実行時にメッセージを表示する" IsChecked="{Binding IsShowMessage}"/>
-                </StackPanel>
+                <DockPanel Margin="10,20">
+                    <CheckBox DockPanel.Dock="Top" Content="コマンド実行時にメッセージを表示する" IsChecked="{Binding IsShowMessage}"/>
+                    <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
+                        <TextBlock Text="コマンドの説明" FontWeight="Bold"/>
+                        <TextBlock Text="{Binding Note}" Padding="10"/>
+                    </StackPanel>
+                </DockPanel>
             </TabItem>
             <TabItem x:Name="InputGestureTab">
                 <TabItem.Header>

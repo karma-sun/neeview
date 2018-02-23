@@ -35,6 +35,7 @@
                     <TextWrapping x:Key="PanelTextWrapping">NoWrap</TextWrapping>
                     <system:Double x:Key="PanelTextWrappedHeight">41.9</system:Double>
                     <system:Double x:Key="PanelNoteOpacity">0.5</system:Double>
+                    <Visibility x:Key="PanelNoteVisibility">Visible</Visibility>
 
                     <!-- Window Style -->
                     <Style x:Key="DefaultWindowStyle" TargetType="Window">

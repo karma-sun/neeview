@@ -750,7 +750,7 @@ namespace NeeView
 
         //
         private bool _historyEntry;
-        [PropertyMember("履歴登録開始ページ操作回数", Tips = "この回数以上のページ移動操作をしたら履歴に登録します。")]
+        [PropertyMember("履歴登録開始ページ操作回数", Tips = "この回数以上のページ移動操作、もしくは最終ページ表示で履歴に登録します。")]
         public int HistoryEntryPageCount { get; set; } = 1;
 
         // 履歴登録可

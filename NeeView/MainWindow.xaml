@@ -257,11 +257,11 @@
                                         </Grid>
 
                                         <!-- caption -->
-                                        <TextBlock x:Name="PageCaption" VerticalAlignment="Top" HorizontalAlignment="Left"
+                                        <TextBlock x:Name="PageCaption" VerticalAlignment="Top" HorizontalAlignment="Stretch"
                                                    Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
-                                                   Text="{Binding WindowTitle.Title}" Foreground="White"
+                                                   Text="{Binding WindowTitle.Title}" Foreground="{DynamicResource NVForeground}"
                                                    Padding="20,5"
-                                                   Background="#88000000">
+                                                   Background="{DynamicResource NVBackground}">
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
                                                     <Setter Property="Visibility" Value="Collapsed"/>

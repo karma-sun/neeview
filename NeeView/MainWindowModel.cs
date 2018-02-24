@@ -244,7 +244,7 @@ namespace NeeView
         // 何かキーが押されているか
         public AnyKey AnyKey { get; } = new AnyKey();
 
-        [PropertyMember("アクセスキーの許可", Tips = "OFFにすると、Altキーによるシステム操作が無効になりコマンドのショートカットでAltキーの誤動作がなくなります。")]
+        [PropertyMember("アクセスキーの許可", Tips = "OFFにすると、Altキーによるシステム操作が無効になりコマンドのショートカットで使用したときの誤動作がなくなります。")]
         public bool IsAccessKeyEnabled { get; set; } = true;
 
         #endregion

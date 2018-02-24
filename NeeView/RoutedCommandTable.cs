@@ -14,6 +14,7 @@ namespace NeeView
         public InputGesture Gesture { get; set; }
     }
 
+
     /// <summary>
     /// コマンド集 ： RoutedCommand
     /// </summary>
@@ -21,27 +22,18 @@ namespace NeeView
     {
         public static RoutedCommandTable Current { get; private set; }
 
-        public event EventHandler Changed;
+        #region Fields
 
-        public event EventHandler<CommandExecutedEventArgs> CommandExecuted;
-
-        //
-        public Dictionary<CommandType, RoutedUICommand> Commands { get; set; } = new Dictionary<CommandType, RoutedUICommand>();
-
-        // インテグザ
-        public RoutedUICommand this[CommandType key]
-        {
-            get { return Commands[key]; }
-            set { Commands[key] = value; }
-        }
-
-        //
         private MainWindow _window;
         private CommandTable _commandTable;
         private Dictionary<Key, bool> _usedKeyMap;
         private bool _isDarty;
+        private List<EventHandler<KeyEventArgs>> _imeKeyHandlers = new List<EventHandler<KeyEventArgs>>();
 
-        //
+        #endregion
+
+        #region Constructors
+
         public RoutedCommandTable(MainWindow window, CommandTable commandTable)
         {
             Current = this;
@@ -59,6 +51,33 @@ namespace NeeView
             _commandTable.Changed += CommandTable_Changed;
         }
 
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// コマンドテーブルが更新されたときのイベント
+        /// </summary>
+        public event EventHandler Changed;
+
+        /// <summary>
+        /// コマンドが実行されたときのイベント
+        /// </summary>
+        public event EventHandler<CommandExecutedEventArgs> CommandExecuted;
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// コマンド辞書
+        /// </summary>
+        public Dictionary<CommandType, RoutedUICommand> Commands { get; set; } = new Dictionary<CommandType, RoutedUICommand>();
+
+        #endregion
+
+        #region Methods
+
         //
         private void CommandTable_Changed(object sender, CommandChangedEventArgs e)
         {
@@ -69,6 +88,7 @@ namespace NeeView
                 InitializeInputGestures();
             }
         }
+
 
         // InputGesture設定
         public void InitializeInputGestures()
@@ -97,7 +117,6 @@ namespace NeeView
                 }
             }
 
-
             // Mouse / Keyboard
             var mouse = MouseInput.Current;
 
@@ -105,6 +124,7 @@ namespace NeeView
 
             MouseGestureCommandCollection.Current.Clear();
 
+            var imeKeyHandlers = new List<EventHandler<KeyEventArgs>>();
             var mouseNormalHandlers = new List<EventHandler<MouseButtonEventArgs>>();
             var mouseExtraHndlers = new List<EventHandler<MouseButtonEventArgs>>();
 
@@ -116,12 +136,11 @@ namespace NeeView
                 {
                     if (gesture is MouseGesture mouseClick)
                     {
-                        mouseNormalHandlers.Add((s, x) => MouseButtonCommandExecute(s, x, gesture, command.Value));
+                        mouseNormalHandlers.Add((s, x) => InputGestureCommandExecute(s, x, gesture, command.Value));
                     }
                     else if (gesture is MouseExGesture)
                     {
-                        mouseExtraHndlers.Add((s, x) => MouseButtonCommandExecute(s, x, gesture, command.Value));
-                        //mouseExtraHndlers.Add((s, x) => { if (!x.Handled && gesture.Matches(this, x)) { command.Value.Execute(null, _window); x.Handled = true; } });
+                        mouseExtraHndlers.Add((s, x) => InputGestureCommandExecute(s, x, gesture, command.Value));
                     }
                     else if (gesture is MouseWheelGesture)
                     {
@@ -129,6 +148,10 @@ namespace NeeView
                     }
                     else
                     {
+                        if (gesture.HasImeKey())
+                        {
+                            imeKeyHandlers.Add((s, x) => InputGestureCommandExecute(s, x, gesture, command.Value));
+                        }
                         command.Value.InputGestures.Add(gesture);
                     }
                 }
@@ -141,16 +164,16 @@ namespace NeeView
                 }
             }
 
+            _imeKeyHandlers = imeKeyHandlers;
+
             // 拡張マウス入力から先に処理を行う
             foreach (var lambda in mouseExtraHndlers.Concat(mouseNormalHandlers))
             {
                 mouse.MouseButtonChanged += lambda;
             }
 
-            //
             InitialzeUsedKeyMap();
 
-            //
             Changed?.Invoke(this, null);
         }
 
@@ -185,8 +208,18 @@ namespace NeeView
             return _usedKeyMap != null ? _usedKeyMap[key] : false;
         }
 
-        //
-        private void MouseButtonCommandExecute(object sender, MouseButtonEventArgs x, InputGesture gesture, RoutedUICommand command)
+        // IMEキーコマンドを直接実行
+        public void ExecuteImeKeyGestureCommand(object sender, KeyEventArgs args)
+        {
+            foreach (var handle in _imeKeyHandlers)
+            {
+                if (args.Handled) return;
+                handle.Invoke(sender, args);
+            }
+        }
+
+        // コマンドのジェスチャー判定と実行
+        private void InputGestureCommandExecute(object sender, InputEventArgs x, InputGesture gesture, RoutedUICommand command)
         {
             if (!x.Handled && gesture.Matches(this, x))
             {
@@ -196,23 +229,10 @@ namespace NeeView
                 {
                     x.Handled = true;
                 }
-
-                /*
-                if (gesture is MouseGesture mouse)
-                {
-                    Debug.WriteLine($"{command.Text}: {mouse.MouseAction}");
-                }
-                else if (gesture is MouseExGesture mouseEx)
-                {
-                    Debug.WriteLine($"{command.Text}: EX.{mouseEx.MouseExAction}");
-                }
-                */
             }
         }
 
-        /// <summary>
-        /// wheel command
-        /// </summary>
+        // ホイールの回転数に応じたコマンド実行
         private void WheelCommandExecute(RoutedUICommand command, MouseWheelEventArgs arg)
         {
             int turn = MouseInputHelper.DeltaCount(arg);
@@ -224,7 +244,6 @@ namespace NeeView
                 command.Execute(null, _window);
             }
         }
-
 
         // コマンド実行 
         // CommandTableを純粋なコマンド定義のみにするため、コマンド実行に伴う処理はここで定義している
@@ -284,6 +303,7 @@ namespace NeeView
             return command;
         }
 
+        #endregion
 
         #region Memento
         // compatible before ver.23

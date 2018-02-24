@@ -96,7 +96,7 @@
 
         <TextBlock DockPanel.Dock="Top" Text="{Binding ElementName=IndexTree, Path=SelectedItem.DispPage.Header}" FontSize="32" Margin="20"/>
 
-        <ContentControl x:Name="PageContent" Content="{Binding ElementName=IndexTree, Path=SelectedItem.DispPage.Content}" IsTabStop="False" />
+        <ContentControl x:Name="PageContent" Content="{Binding ElementName=IndexTree, Path=SelectedItem.DispPage.Content}" IsTabStop="False" FocusVisualStyle="{x:Null}" />
 
     </DockPanel>
 </Window>

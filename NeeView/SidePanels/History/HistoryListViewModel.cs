@@ -97,7 +97,7 @@ namespace NeeView
         {
             var item = new MenuItem();
             item.Header = header;
-            item.Command = RoutedCommandTable.Current[command];
+            item.Command = RoutedCommandTable.Current.Commands[command];
             item.CommandParameter = MenuCommandTag.Tag; // コマンドがメニューからであることをパラメータで伝えてみる
             if (CommandTable.Current[command].CreateIsCheckedBinding != null)
             {

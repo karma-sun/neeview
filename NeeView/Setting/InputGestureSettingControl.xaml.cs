@@ -50,12 +50,19 @@ namespace NeeView.Setting
 
             // TAB, ALT+にも対応
             var key = e.Key == Key.System ? e.SystemKey : e.Key;
-            //Debug.WriteLine($"{Keyboard.Modifiers}+{e.Key}({key})");
+
+            // 一部 IME Key 対応
+            if (e.Key == Key.ImeProcessed && e.ImeProcessedKey.IsImeKey())
+            {
+                key = e.ImeProcessedKey;
+            }
+
+            ////Debug.WriteLine($"{Keyboard.Modifiers}+{e.Key}({key})");
 
             Key[] ignoreKeys = new Key[]
             {
                 Key.System, Key.LeftShift, Key.LeftCtrl, Key.RightShift, Key.RightCtrl, Key.LWin, Key.RWin, Key.LeftAlt, Key.RightAlt,
-                Key.ImeProcessed, Key.ImeNonConvert, Key.ImeModeChange, Key.ImeConvert, Key.ImeAccept,
+                Key.ImeProcessed, Key.ImeModeChange, Key.ImeAccept,
                 Key.Apps, Key.NumLock
             };
 

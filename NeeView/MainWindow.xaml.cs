@@ -563,6 +563,12 @@ namespace NeeView
 
             // AnyKey
             _vm.Model.AnyKey.KeyDown(e.Key);
+
+            // 一部 IMEKey のっとり
+            if (e.Key == Key.ImeProcessed &&  e.ImeProcessedKey.IsImeKey())
+            {
+                RoutedCommandTable.Current.ExecuteImeKeyGestureCommand(sender, e);
+            }
         }
 
         // 

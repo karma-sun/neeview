@@ -122,6 +122,9 @@ namespace NeeView
         [PropertyRange("ルーペ移動速度", 0.0, 10.0, TickFrequency = 0.1, Format ="×{0:0.0}")]
         public double Speed { get; set; } = 1.0;
 
+        [PropertyMember("Escキーでルーペを解除する")]
+        public bool IsEscapeKeyEnabled { get; set; } = true;
+
         #endregion
 
         #region Methods
@@ -297,7 +300,7 @@ namespace NeeView
         public override void OnKeyDown(object sender, KeyEventArgs e)
         {
             // ESC で 状態解除
-            if (e.Key == Key.Escape)
+            if (IsEscapeKeyEnabled && e.Key == Key.Escape)
             {
                 // ルーペ解除
                 ResetState();
@@ -345,6 +348,9 @@ namespace NeeView
             [DataMember, DefaultValue(1.0)]
             public double Speed { get; set; }
 
+            [DataMember, DefaultValue(true)]
+            public bool IsEscapeKeyEnabled { get; set; }
+
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
             {
@@ -365,6 +371,7 @@ namespace NeeView
             memento.IsResetByPageChanged = this.IsResetByPageChanged;
             memento.IsWheelScalingEnabled = this.IsWheelScalingEnabled;
             memento.Speed = this.Speed;
+            memento.IsEscapeKeyEnabled = this.IsEscapeKeyEnabled;
 
             return memento;
         }
@@ -382,6 +389,7 @@ namespace NeeView
             this.IsResetByPageChanged = memento.IsResetByPageChanged;
             this.IsWheelScalingEnabled = memento.IsWheelScalingEnabled;
             this.Speed = memento.Speed;
+            this.IsEscapeKeyEnabled = memento.IsEscapeKeyEnabled;
 
 #pragma warning disable CS0612
 

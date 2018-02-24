@@ -868,6 +868,12 @@ namespace NeeView
 
             _commandEngine.Enqueue(command);
 
+            // ルーペモードは解除
+            if (MouseInput.Current.IsLoupeMode)
+            {
+                MouseInput.Current.IsLoupeMode = false;
+            }
+
             return command;
         }
 

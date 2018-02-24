@@ -115,7 +115,11 @@ namespace NeeView
                     break;
 
                 case LongButtonDownMode.Repeat:
-                    MouseButtonChanged?.Invoke(sender, _mouseButtonEventArgs); // 最初のコマンド発行
+                    // 最初のコマンド発行
+                    MouseButtonChanged?.Invoke(sender, _mouseButtonEventArgs);
+                    // その後の操作は全て無効
+                    _isButtonDown = false;
+
                     _timerRepeat.Interval = TimeSpan.FromSeconds(LongButtonRepeatTime);
                     _timerRepeat.Start();
                     break;
@@ -209,6 +213,9 @@ namespace NeeView
         /// <param name="e"></param>
         public override void OnMouseButtonUp(object sender, MouseButtonEventArgs e)
         {
+            _timer.Stop();
+            _timerRepeat.Stop();
+
             if (!_isButtonDown) return;
 
             // コマンド決定
@@ -217,9 +224,6 @@ namespace NeeView
 
             // その後の操作は全て無効
             _isButtonDown = false;
-
-            _timer.Stop();
-            _timerRepeat.Stop();
         }
 
         /// <summary>

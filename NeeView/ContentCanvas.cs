@@ -304,6 +304,12 @@ namespace NeeView
             // コンテンツサイズ更新
             UpdateContentSize(angle);
 
+            // ルーペ解除
+            if (MouseInput.Current.Loupe.IsResetByPageChanged)
+            {
+                MouseInput.Current.IsLoupeMode = false;
+            }
+
             // 座標初期化
             ResetTransform(false, e != null ? e.ViewPageCollection.Range.Direction : 0, NextViewOrigin);
             NextViewOrigin = DragViewOrigin.None;
@@ -372,16 +378,9 @@ namespace NeeView
         // TODO: ルーペ操作との関係
         public void ResetTransform(bool isForce, int pageDirection, DragViewOrigin viewOrigin)
         {
-            // ルーペ解除。ここ？
-            if (MouseInput.Current.Loupe.IsResetByPageChanged)
-            {
-                MouseInput.Current.IsLoupeMode = false;
-            }
-
             // ルーペでない場合は初期化
             if (!MouseInput.Current.IsLoupeMode)
             {
-                // 
                 _dragTransformControl.SetMouseDragSetting(pageDirection, viewOrigin, BookSetting.Current.BookMemento.BookReadOrder);
 
                 // リセット
@@ -499,7 +498,7 @@ namespace NeeView
         }
 
 
-        #region スケールモード
+#region スケールモード
 
         // トグル
         public PageStretchMode GetToggleStretchMode(ToggleStretchModeCommandParameter param)
@@ -561,9 +560,9 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
-        #region 回転コマンド
+#region 回転コマンド
 
         //
         public bool ToggleAutoRotate()
@@ -587,9 +586,9 @@ namespace NeeView
             if (parameter.IsStretch) ContentCanvas.Current.UpdateContentSize(_dragTransform.Angle);
         }
 
-        #endregion
+#endregion
 
-        #region クリップボード関連
+#region クリップボード関連
 
         //
         private BitmapSource CurrentBitmapSource
@@ -619,9 +618,9 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
-        #region 印刷
+#region 印刷
 
         /// <summary>
         /// 印刷可能判定
@@ -697,11 +696,11 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region IDisposable Support
+#region IDisposable Support
 
         private bool _disposedValue = false;
 
@@ -729,10 +728,10 @@ namespace NeeView
             Dispose(true);
         }
 
-        #endregion
+#endregion
 
 
-        #region Memento
+#region Memento
         [DataContract]
         public class Memento
         {
@@ -770,6 +769,6 @@ namespace NeeView
             //UpdateContentSize(); // 不要？
         }
 
-        #endregion
+#endregion
     }
 }

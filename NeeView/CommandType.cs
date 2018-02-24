@@ -325,6 +325,10 @@ namespace NeeView
         LoupeOn,
         [EnumMember]
         LoupeOff,
+        [EnumMember]
+        LoupeScaleUp,
+        [EnumMember]
+        LoupeScaleDown,
 
         [EnumMember]
         TogglePermitFileCommand,

@@ -4,6 +4,7 @@
 // http://opensource.org/licenses/mit-license.php
 
 using NeeLaboratory;
+using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
 using System;
 using System.ComponentModel;
@@ -19,19 +20,32 @@ namespace NeeView
     /// </summary>
     public class MouseInputLoupe : MouseInputBase
     {
+        #region Fields
+
         private LoupeTransform _loupe;
-
-        /// <summary>
-        /// ルーペ開始座標
-        /// </summary>
         private Point _loupeBasePosition;
-
-
-
-        /// <summary>
-        /// IsLoupeCenter property.
-        /// </summary>
         private bool _IsLoupeCenter;
+        private double _minimumScale = 2.0;
+        private double _maximumScale = 10.0;
+        private double _scaleStep = 1.0;
+        private bool _isResetByRestart = false;
+        private bool _isResetByPageChanged = true;
+        private bool _isLongDownMode;
+        private bool _isButtonDown;
+
+        #endregion
+
+        #region Constructors
+
+        public MouseInputLoupe(MouseInputContext context) : base(context)
+        {
+            _loupe = LoupeTransform.Current;
+        }
+
+        #endregion
+
+        #region Properties
+
         [PropertyMember("開始時カーソル位置を画面中心にする")]
         public bool IsLoupeCenter
         {
@@ -39,10 +53,6 @@ namespace NeeView
             set { if (_IsLoupeCenter != value) { _IsLoupeCenter = value; RaisePropertyChanged(); } }
         }
 
-
-        /// <summary>
-        /// MinimumScale property.
-        /// </summary>
         [PropertyRange("ルーペ最小倍率", 1, 20, TickFrequency = 1.0, IsEditable = true)]
         public double MinimumScale
         {
@@ -57,11 +67,6 @@ namespace NeeView
             }
         }
 
-        private double _minimumScale = 2.0;
-
-        /// <summary>
-        /// MaximumScale property.
-        /// </summary>
         [PropertyRange("ルーペ最大倍率", 1, 20, TickFrequency = 1.0, IsEditable = true)]
         public double MaximumScale
         {
@@ -76,12 +81,6 @@ namespace NeeView
             }
         }
 
-        private double _maximumScale = 10.0;
-
-
-        /// <summary>
-        /// DefaultScale property.
-        /// </summary>
         [PropertyRange("ルーペ標準倍率", 1, 20, TickFrequency = 1.0, IsEditable = true)]
         public double DefaultScale
         {
@@ -96,10 +95,6 @@ namespace NeeView
             }
         }
 
-
-        /// <summary>
-        /// ScaleStep property.
-        /// </summary>
         [PropertyRange("ルーペ倍率変化単位", 0.1, 5.0, TickFrequency = 0.1, IsEditable = true)]
         public double ScaleStep
         {
@@ -107,11 +102,6 @@ namespace NeeView
             set { if (_scaleStep != value) { _scaleStep = Math.Max(value, 0.0); RaisePropertyChanged(); } }
         }
 
-        private double _scaleStep = 1.0;
-
-        /// <summary>
-        /// IsResetByRestart property.
-        /// </summary>
         [PropertyMember("ルーペを標準倍率で開始する", Tips = "OFFにすると前回の倍率を引き継ぎます。")]
         public bool IsResetByRestart
         {
@@ -119,11 +109,6 @@ namespace NeeView
             set { if (_isResetByRestart != value) { _isResetByRestart = value; RaisePropertyChanged(); } }
         }
 
-        private bool _isResetByRestart = false;
-
-        /// <summary>
-        /// IsResetByPageChanged property.
-        /// </summary>
         [PropertyMember("ページを移動したらルーペを解除する")]
         public bool IsResetByPageChanged
         {
@@ -131,31 +116,15 @@ namespace NeeView
             set { if (_isResetByPageChanged != value) { _isResetByPageChanged = value; RaisePropertyChanged(); } }
         }
 
-        private bool _isResetByPageChanged = true;
+        [PropertyMember("ルーペ使用時、ホイール操作でルーペ倍率を変更する", Tips = "ホイール操作が割り当てられているコマンドは無効になります。")]
+        public bool IsWheelScalingEnabled { get; set; } = true;
 
+        [PropertyRange("ルーペ移動速度", 0.0, 10.0, TickFrequency = 0.1, Format ="×{0:0.0}")]
+        public double Speed { get; set; } = 1.0;
 
+        #endregion
 
-
-        /// <summary>
-        /// コンストラクター
-        /// </summary>
-        /// <param name="context"></param>
-        public MouseInputLoupe(MouseInputContext context) : base(context)
-        {
-            _loupe = LoupeTransform.Current;
-        }
-
-
-        /// <summary>
-        /// 長押しモード？
-        /// 長押しモードの場合、全てのマウス操作がルーペ専属になる
-        /// </summary>
-        private bool _isLongDownMode;
-
-        /// <summary>
-        /// ボタン押されている？
-        /// </summary>
-        private bool _isButtonDown;
+        #region Methods
 
         /// <summary>
         /// 状態開始処理
@@ -268,7 +237,7 @@ namespace NeeView
         public override void OnMouseMove(object sender, MouseEventArgs e)
         {
             var point = e.GetPosition(_context.Sender);
-            _loupe.Position = _loupeBasePosition - (point - _context.StartPoint);
+            _loupe.Position = _loupeBasePosition - (point - _context.StartPoint) * Speed;
 
             e.Handled = true;
         }
@@ -280,17 +249,28 @@ namespace NeeView
         /// <param name="e"></param>
         public override void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            // TODO: 長押しでない時の他のホイール操作のあつかい
-            if (e.Delta > 0)
+            if (IsWheelScalingEnabled)
             {
-                LoupeZoomIn();
+                if (e.Delta > 0)
+                {
+                    LoupeZoomIn();
+                }
+                else
+                {
+                    LoupeZoomOut();
+                }
+
+                e.Handled = true;
             }
             else
             {
-                LoupeZoomOut();
-            }
+                // コマンド決定
+                // ホイールがメインキー、それ以外は装飾キー
+                MouseWheelChanged?.Invoke(sender, e);
 
-            e.Handled = true;
+                // その後の操作は全て無効
+                _isButtonDown = false;
+            }
         }
 
         /// <summary>
@@ -326,6 +306,7 @@ namespace NeeView
             }
         }
 
+        #endregion
 
         #region Memento
         [DataContract]
@@ -357,6 +338,18 @@ namespace NeeView
 
             [DataMember, DefaultValue(true)]
             public bool IsResetByPageChanged { get; set; }
+
+            [DataMember, DefaultValue(true)]
+            public bool IsWheelScalingEnabled { get; set; }
+
+            [DataMember, DefaultValue(1.0)]
+            public double Speed { get; set; }
+
+            [OnDeserializing]
+            private void Deserializing(StreamingContext c)
+            {
+                this.InitializePropertyDefaultValues();
+            }
         }
 
         //
@@ -370,6 +363,8 @@ namespace NeeView
             memento.ScaleStep = this.ScaleStep;
             memento.IsResetByRestart = this.IsResetByRestart;
             memento.IsResetByPageChanged = this.IsResetByPageChanged;
+            memento.IsWheelScalingEnabled = this.IsWheelScalingEnabled;
+            memento.Speed = this.Speed;
 
             return memento;
         }
@@ -385,6 +380,8 @@ namespace NeeView
             this.ScaleStep = memento.ScaleStep;
             this.IsResetByRestart = memento.IsResetByRestart;
             this.IsResetByPageChanged = memento.IsResetByPageChanged;
+            this.IsWheelScalingEnabled = memento.IsWheelScalingEnabled;
+            this.Speed = memento.Speed;
 
 #pragma warning disable CS0612
 
@@ -398,6 +395,5 @@ namespace NeeView
 
         }
         #endregion
-
     }
 }

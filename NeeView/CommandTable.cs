@@ -1192,7 +1192,7 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "移動";
                 element.Text = "スクロール＋前のページに戻る";
-                element.Note = "ページ前方向に画像をスクロールさせます。スクロールできない場合は前ページに移動します";
+                element.Note = "ページ前方向に画像をスクロールさせます。スクロールできない場合は前ページに移動します。ルーペ使用時はページ移動のみ行います。";
                 element.ShortCutKey = "WheelUp";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ScrollPageCommandParameter() { IsNScroll = true, IsAnimation = true, Margin = 50, Scroll = 100 };
@@ -1205,7 +1205,7 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = "移動";
                 element.Text = "スクロール＋次のページへ進む";
-                element.Note = "ページ次方向に画像をスクロールさせます。スクロールできない場合は次ページに移動します";
+                element.Note = "ページ次方向に画像をスクロールさせます。スクロールできない場合は次ページに移動します。ルーペ使用時はページ移動のみ行います。";
                 element.ShortCutKey = "WheelDown";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.PrevScrollPage };
@@ -1857,6 +1857,29 @@ namespace NeeView
                 _elements[CommandType.LoupeOff] = element;
             }
 
+            // LoupeScaleUp
+            {
+                var element = new CommandElement();
+                element.Group = "ビュー操作";
+                element.Text = "ルーペ倍率拡大";
+                element.Note = "ルーペ倍率を拡大します。ルーペ使用時のみ機能します。";
+                element.CanExecute = () => _models.MouseInput.IsLoupeMode; 
+                element.IsShowMessage = false;
+                element.Execute = (s, e) => _models.MouseInput.Loupe.LoupeZoomIn();
+                _elements[CommandType.LoupeScaleUp] = element;
+            }
+
+            // LoupeScaleDown
+            {
+                var element = new CommandElement();
+                element.Group = "ビュー操作";
+                element.Text = "ルーペ倍率縮小";
+                element.Note = "ルーペ倍率を縮小します。ルーペ使用時のみ機能します。";
+                element.CanExecute = () => _models.MouseInput.IsLoupeMode; 
+                element.IsShowMessage = false;
+                element.Execute = (s, e) => _models.MouseInput.Loupe.LoupeZoomOut();
+                _elements[CommandType.LoupeScaleDown] = element;
+            }
 
             // OpenSettingWindow
             {

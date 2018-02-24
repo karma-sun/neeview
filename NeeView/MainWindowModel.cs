@@ -368,13 +368,16 @@ namespace NeeView
         }
 
 
-        // スクロール＋前のページに戻る
+        /// <summary>
+        /// スクロール＋前のページに戻る。
+        /// ルーペ使用時はページ移動のみ行う。
+        /// </summary>
         public void PrevScrollPage()
         {
             var parameter = (ScrollPageCommandParameter)CommandTable.Current[CommandType.PrevScrollPage].Parameter;
 
             int bookReadDirection = (BookSetting.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
-            bool isScrolled = DragTransformControl.Current.ScrollN(-1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation, parameter.Scroll / 100.0);
+            bool isScrolled = MouseInput.Current.IsLoupeMode ? false : DragTransformControl.Current.ScrollN(-1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation, parameter.Scroll / 100.0);
 
             if (!isScrolled)
             {
@@ -383,13 +386,16 @@ namespace NeeView
             }
         }
 
-        // スクロール＋次のページに進む
+        /// <summary>
+        /// スクロール＋次のページに進む。
+        /// ルーペ使用時はページ移動のみ行う。
+        /// </summary>
         public void NextScrollPage()
         {
             var parameter = (ScrollPageCommandParameter)CommandTable.Current[CommandType.NextScrollPage].Parameter;
 
             int bookReadDirection = (BookSetting.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
-            bool isScrolled = DragTransformControl.Current.ScrollN(+1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation, parameter.Scroll / 100.0);
+            bool isScrolled = MouseInput.Current.IsLoupeMode ? false : DragTransformControl.Current.ScrollN(+1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation, parameter.Scroll / 100.0);
 
             if (!isScrolled)
             {

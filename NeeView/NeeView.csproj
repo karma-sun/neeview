@@ -229,6 +229,7 @@
     <Compile Include="Setting\MouseGestureSettingViewModel.cs" />
     <Compile Include="UserSetting.cs" />
     <Compile Include="ViewContent\MediaViewContent.cs" />
+    <Compile Include="_NeeView\Runtime\Serialization\WebEnum.cs" />
     <Compile Include="_NeeLaboratory\ComponentModel\ObjectExtensions.cs" />
     <Compile Include="_NeeView\AliasNameAttribute.cs" />
     <Compile Include="AnyKey.cs" />

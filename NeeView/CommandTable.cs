@@ -1863,7 +1863,7 @@ namespace NeeView
                 element.Group = "ビュー操作";
                 element.Text = "ルーペ倍率拡大";
                 element.Note = "ルーペ倍率を拡大します。ルーペ使用時のみ機能します。";
-                element.CanExecute = () => _models.MouseInput.IsLoupeMode; 
+                element.CanExecute = () => _models.MouseInput.IsLoupeMode;
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _models.MouseInput.Loupe.LoupeZoomIn();
                 _elements[CommandType.LoupeScaleUp] = element;
@@ -1875,7 +1875,7 @@ namespace NeeView
                 element.Group = "ビュー操作";
                 element.Text = "ルーペ倍率縮小";
                 element.Note = "ルーペ倍率を縮小します。ルーペ使用時のみ機能します。";
-                element.CanExecute = () => _models.MouseInput.IsLoupeMode; 
+                element.CanExecute = () => _models.MouseInput.IsLoupeMode;
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _models.MouseInput.Loupe.LoupeZoomOut();
                 _elements[CommandType.LoupeScaleDown] = element;
@@ -2042,18 +2042,52 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
-            [DataMember]
-            public Dictionary<CommandType, CommandElement.Memento> Elements { get; set; } = new Dictionary<CommandType, CommandElement.Memento>();
+            // V2: Enum型キーは前方互換性に難があるため、文字列化して保存する
+
+            [Obsolete, DataMember(Name = "Elements", EmitDefaultValue = false)]
+            private Dictionary<CommandType, CommandElement.Memento> _elementsV1;
+
+            [DataMember(Name = "ElementsV2")]
+            private Dictionary<string, CommandElement.Memento> _elementsV2;
 
             [DataMember]
             public bool IsReversePageMoveGesture { get; set; }
 
-            //
-            public CommandElement.Memento this[CommandType type]
+            public Dictionary<CommandType, CommandElement.Memento> Elements { get; set; } = new Dictionary<CommandType, CommandElement.Memento>();
+
+
+            [OnSerializing]
+            internal void OnSerializing(StreamingContext context)
             {
-                get { return Elements[type]; }
-                set { Elements[type] = value; }
+                _elementsV2 = Elements.ToDictionary(e => e.Key.ToString(), e => e.Value);
             }
+
+            [OnDeserialized]
+            internal void OnDeserialized(StreamingContext context)
+            {
+                Elements = new Dictionary<CommandType, CommandElement.Memento>();
+
+#pragma warning disable CS0612
+                if (_elementsV1 != null)
+                {
+                    Elements = _elementsV1;
+                    _elementsV1 = null;
+                }
+#pragma warning restore CS0612
+
+                if (_elementsV2 != null)
+                {
+                    foreach (var element in _elementsV2)
+                    {
+                        if (Enum.TryParse(element.Key, out CommandType key))
+                        {
+                            Elements[key] = element.Value;
+                        }
+                    }
+                    _elementsV2 = null;
+                }
+            }
+
 
             //
             public Memento Clone()
@@ -2104,7 +2138,6 @@ namespace NeeView
 
 
 #pragma warning disable CS0612
-
             // ToggleStrechModeの復元(1.14互換用)
             if (_elements[CommandType.ToggleStretchMode].IsToggled)
             {
@@ -2126,7 +2159,6 @@ namespace NeeView
                     flags[item.Key] = _elements[item.Value].IsToggled;
                 }
             }
-
 #pragma warning restore CS0612
         }
 

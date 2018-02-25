@@ -63,9 +63,14 @@ namespace NeeView
             var list = new List<ArchiveEntry>();
 
             var directory = new DirectoryInfo(Path);
-            foreach (var info in directory.EnumerateFiles())
+            foreach (var info in directory.EnumerateFileSystemInfos())
             {
                 token.ThrowIfCancellationRequested();
+
+                if ((info.Attributes & FileAttributes.Hidden) != 0)
+                {
+                    continue;
+                }
 
                 var name = info.FullName.Substring(prefixLen).TrimStart('\\', '/');
                 list.Add(new ArchiveEntry()
@@ -73,21 +78,7 @@ namespace NeeView
                     Archiver = this,
                     Id = list.Count,
                     RawEntryName = name,
-                    Length = info.Length,
-                    LastWriteTime = info.LastWriteTime,
-                });
-            }
-            foreach (var info in directory.EnumerateDirectories())
-            {
-                token.ThrowIfCancellationRequested();
-
-                var name = info.FullName.Substring(prefixLen).TrimStart('\\', '/') + "\\";
-                list.Add(new ArchiveEntry()
-                {
-                    Archiver = this,
-                    Id = list.Count,
-                    RawEntryName = name,
-                    Length = -1,
+                    Length = (info is FileInfo fileInfo) ? fileInfo.Length : -1,
                     LastWriteTime = info.LastWriteTime,
                 });
             }

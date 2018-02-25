@@ -117,11 +117,11 @@ namespace NeeView
         {
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
 
-            e.CanExecute = item == null
+            e.CanExecute = item == null || item.Attributes.AnyFlag(FolderItemAttribute.Drive | FolderItemAttribute.Empty)
                 ? false
                 : BookHub.Current.IsArchiveRecursive
                     ? item.Attributes.HasFlag(FolderItemAttribute.Directory)
-                    : !item.Attributes.AnyFlag(FolderItemAttribute.Drive | FolderItemAttribute.Empty);
+                    : ArchiverManager.Current.GetSupportedType(item.TargetPath).IsRecursiveSupported();
         }
 
 

@@ -41,6 +41,11 @@ namespace NeeView.Setting
 
         #endregion
 
+        #region Fields
+
+        private Susie.SusiePluginType _pluginType;
+
+        #endregion
 
         #region Constructors
 
@@ -54,29 +59,20 @@ namespace NeeView.Setting
         public SettingItemSusiePluginControl(Susie.SusiePluginType pluginType)
         {
             InitializeComponent();
-            this.Root.DataContext = this; // SusieContext.Current.Susie;
+            this.Root.DataContext = this;
 
-#if false
-            this.SusiePluginCollection = pluginType == Susie.SusiePluginType.Image ? SusieContext.Current.Susie.INPluginList : SusieContext.Current.Susie.AMPluginList;
-#else
+            _pluginType = pluginType;
+
             var binding = new Binding(pluginType == Susie.SusiePluginType.Image ? nameof(Susie.Susie.INPluginList) : nameof(Susie.Susie.AMPluginList))
             {
                 Source = SusieContext.Current.Susie
             };
             BindingOperations.SetBinding(this.PluginList, ListBox.ItemsSourceProperty, binding);
             BindingOperations.SetBinding(this.PluginList, ListBox.TagProperty, binding);
-#endif
         }
 
         #endregion
-
-        #region Properties
-
-        //
-        //public ObservableCollection<Susie.SusiePlugin> SusiePluginCollection { get; private set; }
-
-        #endregion
-
+        
         #region Commands
 
         //
@@ -140,6 +136,8 @@ namespace NeeView.Setting
 
         #endregion
 
+        #region Methods
+
         // プラグインリスト：ドロップ受付判定
         private void PluginListView_PreviewDragOver(object sender, DragEventArgs e)
         {
@@ -157,7 +155,6 @@ namespace NeeView.Setting
         }
 
 
-
         // 選択項目変更
         private void PluginList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -173,5 +170,21 @@ namespace NeeView.Setting
                 item.OpenConfigurationDlg_Executed(Window.GetWindow(this));
             }
         }
+
+        // 有効/無効チェックボックス
+        private void CheckBox_Changed(object sender, RoutedEventArgs e)
+        {
+            // 対応拡張子の更新
+            if (_pluginType == Susie.SusiePluginType.Image)
+            {
+                SusieContext.Current.UpdateImageExtensions();
+            }
+            else
+            {
+                SusieContext.Current.UpdateArchiveExtensions();
+            }
+        }
+
+        #endregion
     }
 }

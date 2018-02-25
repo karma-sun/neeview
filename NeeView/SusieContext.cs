@@ -169,7 +169,7 @@ namespace NeeView
 
             // Susie対応拡張子更新
             UpdateImageExtensions();
-            UpdateSusieExtensions();
+            UpdateArchiveExtensions();
         }
 
 
@@ -191,7 +191,7 @@ namespace NeeView
 
 
         // Susie画像プラグインのサポート拡張子を更新
-        private void UpdateImageExtensions()
+        public void UpdateImageExtensions()
         {
             var list = new List<string>();
             foreach (var plugin in _susie.INPluginList)
@@ -207,7 +207,7 @@ namespace NeeView
         }
 
         // Susies書庫プラグインのサポート拡張子を更新
-        public void UpdateSusieExtensions()
+        public void UpdateArchiveExtensions()
         {
             var list = new List<string>();
             foreach (var plugin in _susie.AMPluginList)

@@ -306,8 +306,9 @@ namespace NeeView
         public void MovePageWithCursor(FrameworkElement target)
         {
             var point = Mouse.GetPosition(target);
+            var orientation = (CommandTable.Current.IsReversePageMove && _model.IsLeftToRightSlider()) ? -1 : 1;
 
-            if (point.X < target.ActualWidth * 0.5)
+            if (point.X * orientation < target.ActualWidth * 0.5 * orientation)
             {
                 BookOperation.Current.NextPage();
             }

@@ -88,7 +88,7 @@ namespace NeeView
         {
             if (_commands.ContainsKey(gestureText))
             {
-                var routedCommand = RoutedCommandTable.Current.GetFixedRoutedCommand(_commands[gestureText]);
+                var routedCommand = RoutedCommandTable.Current.Commands[_commands[gestureText]];
                 if (routedCommand != null && routedCommand.CanExecute(null, null))
                 {
                     routedCommand.Execute(null, null);
@@ -105,7 +105,7 @@ namespace NeeView
             var gesture = sequence.ToDispString();
 
             var commandType = GetCommand(sequence);
-            var commandName = commandType.IsDisable() ? null : RoutedCommandTable.Current.GetFixedRoutedCommand(commandType)?.Text;
+            var commandName = commandType.IsDisable() ? null : RoutedCommandTable.Current.GetFixedRoutedCommand(commandType, true)?.Text;
 
             if (string.IsNullOrEmpty(gesture) && string.IsNullOrEmpty(commandName)) return;
 

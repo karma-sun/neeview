@@ -318,12 +318,12 @@ namespace NeeView
             {
                 if (commandTable[type].CanExecute != null)
                 {
-                    this.CommandBindings.Add(new CommandBinding(commands[type], (t, e) => RoutedCommandTable.Current.Execute(type, e.Source, e.Parameter),
+                    this.CommandBindings.Add(new CommandBinding(commands[type], (t, e) => RoutedCommandTable.Current.Execute(type, e.Source, CommandParameterArgs.Create(e.Parameter)),
                         (t, e) => e.CanExecute = commandTable[type].CanExecute()));
                 }
                 else
                 {
-                    this.CommandBindings.Add(new CommandBinding(commands[type], (t, e) => RoutedCommandTable.Current.Execute(type, e.Source, e.Parameter),
+                    this.CommandBindings.Add(new CommandBinding(commands[type], (t, e) => RoutedCommandTable.Current.Execute(type, e.Source, CommandParameterArgs.Create(e.Parameter)),
                         CanExecute));
                 }
             }

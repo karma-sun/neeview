@@ -504,6 +504,22 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// 現在のスライダー方向を取得
+        /// </summary>
+        /// <returns></returns>
+        public bool IsLeftToRightSlider()
+        {
+            if (ContentCanvas.Current.IsMediaContent)
+            {
+                return true;
+            }
+            else
+            {
+                return !PageSlider.Current.IsSliderDirectionReversed;
+            }
+        }
+
         #endregion
 
         #region Memento

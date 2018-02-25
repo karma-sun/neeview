@@ -3,9 +3,12 @@
 // This software is released under the MIT License.
 // http://opensource.org/licenses/mit-license.php
 
+using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Property;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -42,10 +45,46 @@ namespace NeeView
     /// <summary>
     /// コマンド設定テーブル
     /// </summary>
-    public class CommandTable : IEnumerable<KeyValuePair<CommandType, CommandElement>>
+    public class CommandTable : BindableBase, IEnumerable<KeyValuePair<CommandType, CommandElement>>
     {
         // SystemObject
         public static CommandTable Current { get; private set; }
+
+        #region Fields
+
+        private static Memento s_defaultMemento;
+
+        private Dictionary<CommandType, CommandElement> _elements;
+        private Models _models;
+        private BookHub _book;
+        private bool _isReversePageMove;
+        private bool _isReversePageMoveWheel;
+
+        #endregion
+
+        #region Constructors
+
+        // コンストラクタ
+        public CommandTable()
+        {
+            if (Current != null) throw new InvalidOperationException();
+            Current = this;
+
+            InitializeCommandTable();
+        }
+
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// コマンドテーブルが変更された
+        /// </summary>
+        public event EventHandler<CommandChangedEventArgs> Changed;
+
+        #endregion
+
+        #region Properties
 
         // インテグザ
         public CommandElement this[CommandType key]
@@ -58,11 +97,24 @@ namespace NeeView
             set { _elements[key] = value; }
         }
 
-        //
-        public bool TryGetValue(CommandType key, out CommandElement command)
+
+        [PropertyMember("スライダー方向によってページ移動コマンドの移動方向を入れ替える", Tips = "スライダーが左から右方向のときにページ移動方向を逆にします。")]
+        public bool IsReversePageMove
         {
-            return _elements.TryGetValue(key, out command);
+            get { return _isReversePageMove; }
+            set { if (_isReversePageMove != value) { _isReversePageMove = value; RaisePropertyChanged(); } }
         }
+
+        [PropertyMember("ホイール操作でもページ移動コマンドの移動方向を入れ替える", Tips = "ホイール操作のみ対応の選択ができます。")]
+        public bool IsReversePageMoveWheel
+        {
+            get { return _isReversePageMoveWheel; }
+            set { if (_isReversePageMoveWheel != value) { _isReversePageMoveWheel = value; RaisePropertyChanged(); } }
+        }
+
+        #endregion
+
+        #region IEnumerable Support
 
         // Enumerator
         public IEnumerator<KeyValuePair<CommandType, CommandElement>> GetEnumerator()
@@ -79,26 +131,15 @@ namespace NeeView
             return this.GetEnumerator();
         }
 
+        #endregion
+
+        #region Methods
 
         //
-        public event EventHandler<CommandChangedEventArgs> Changed;
-
-
-        // コマンドリスト
-        private Dictionary<CommandType, CommandElement> _elements;
-
-        // コマンドターゲット
-        private Models _models;
-        private BookHub _book;
-
-        // 初期設定
-        private static Memento s_defaultMemento;
-
-        /// <summary>
-        /// 本を開く方向でページ送りコマンドを反転
-        /// </summary>
-        public bool IsReversePageMoveGesture { get; set; }
-
+        public bool TryGetValue(CommandType key, out CommandElement command)
+        {
+            return _elements.TryGetValue(key, out command);
+        }
 
         /// <summary>
         /// 初期設定生成
@@ -224,15 +265,9 @@ namespace NeeView
             System.Diagnostics.Process.Start(fileName);
         }
 
+        #endregion
 
-        // コンストラクタ
-        public CommandTable()
-        {
-            if (Current != null) throw new InvalidOperationException();
-            Current = this;
-
-            InitializeCommandTable();
-        }
+        #region Methods: Initialize
 
         /// <summary>
         /// コマンドテーブル初期化
@@ -2035,13 +2070,16 @@ namespace NeeView
             s_defaultMemento = CreateMemento();
         }
 
+        #endregion
 
         #region Memento
 
-        // 
         [DataContract]
         public class Memento
         {
+            [DataMember]
+            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+
             // V2: Enum型キーは前方互換性に難があるため、文字列化して保存する
 
             [Obsolete, DataMember(Name = "Elements", EmitDefaultValue = false)]
@@ -2050,8 +2088,11 @@ namespace NeeView
             [DataMember(Name = "ElementsV2")]
             private Dictionary<string, CommandElement.Memento> _elementsV2;
 
+            [DataMember, DefaultValue(true)]
+            public bool IsReversePageMove { get; set; }
+
             [DataMember]
-            public bool IsReversePageMoveGesture { get; set; }
+            public bool IsReversePageMoveWheel { get; set; }
 
             public Dictionary<CommandType, CommandElement.Memento> Elements { get; set; } = new Dictionary<CommandType, CommandElement.Memento>();
 
@@ -2060,6 +2101,12 @@ namespace NeeView
             internal void OnSerializing(StreamingContext context)
             {
                 _elementsV2 = Elements.ToDictionary(e => e.Key.ToString(), e => e.Value);
+            }
+
+            [OnDeserializing]
+            private void OnDeserializing(StreamingContext c)
+            {
+                this.InitializePropertyDefaultValues();
             }
 
             [OnDeserialized]
@@ -2088,8 +2135,6 @@ namespace NeeView
                 }
             }
 
-
-            //
             public Memento Clone()
             {
                 var memento = (Memento)this.MemberwiseClone();
@@ -2109,7 +2154,8 @@ namespace NeeView
                 memento.Elements.Add(pair.Key, pair.Value.CreateMemento());
             }
 
-            memento.IsReversePageMoveGesture = this.IsReversePageMoveGesture;
+            memento.IsReversePageMove = this.IsReversePageMove;
+            memento.IsReversePageMoveWheel = this.IsReversePageMoveWheel;
 
             return memento;
         }
@@ -2134,7 +2180,8 @@ namespace NeeView
                 }
             }
 
-            this.IsReversePageMoveGesture = memento.IsReversePageMoveGesture;
+            this.IsReversePageMove = memento.IsReversePageMove;
+            this.IsReversePageMoveWheel = memento.IsReversePageMoveWheel;
 
 
 #pragma warning disable CS0612
@@ -2160,6 +2207,13 @@ namespace NeeView
                 }
             }
 #pragma warning restore CS0612
+
+            // compatible before ver.29
+            if (memento._Version < Config.GenerateProductVersionNumber(1, 29, 0))
+            {
+                // ver.29以前はデフォルトOFF
+                this.IsReversePageMove = false;
+            }
         }
 
         #endregion

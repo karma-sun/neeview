@@ -238,36 +238,35 @@ namespace NeeView
             int turn = MouseInputHelper.DeltaCount(arg);
 
             // Debug.WriteLine($"WheelCommand: {turn}({arg.Delta})");
-
+            var param = new CommandParameterArgs(null, CommandTable.Current.IsReversePageMoveWheel);
             for (int i = 0; i < turn; i++)
             {
-                command.Execute(null, _window);
+                command.Execute(param, _window);
             }
         }
 
         // コマンド実行 
         // CommandTableを純粋なコマンド定義のみにするため、コマンド実行に伴う処理はここで定義している
-        public void Execute(CommandType type, object sender, object param)
+        public void Execute(CommandType type, object sender, CommandParameterArgs param)
         {
-            var command = _commandTable[GetFixedCommandType(type)];
+            param = param ?? CommandParameterArgs.Null;
+            var command = _commandTable[GetFixedCommandType(type, param.AllowRecursive)];
 
             // 通知
             if (command.IsShowMessage)
             {
-                string message = command.ExecuteMessage(param);
+                string message = command.ExecuteMessage(param.Parameter);
                 InfoMessage.Current.SetMessage(InfoMessageType.Command, message);
             }
 
             // 実行
-            command.Execute(sender, param);
+            command.Execute(sender, param.Parameter);
         }
 
-        // ペアコマンドとの交換
-        public CommandType GetFixedCommandType(CommandType commandType)
+        // スライダー方向によって移動コマンドを入れ替える
+        public CommandType GetFixedCommandType(CommandType commandType, bool allowRecursive)
         {
-            // TODO: ホイール操作も逆転してしまい、使用に問題があるため保留
-#if false
-            if (CommandTable.Current.IsReversePageMoveGesture && BookSetting.Current.BookMemento.BookReadOrder == PageReadOrder.LeftToRight)
+            if (allowRecursive && CommandTable.Current.IsReversePageMove && MainWindowModel.Current.IsLeftToRightSlider())
             {
                 var command = _commandTable[commandType];
                 if (command.PairPartner != CommandType.None)
@@ -284,22 +283,19 @@ namespace NeeView
             {
                 return commandType;
             }
-#else
-            return commandType;
-#endif
         }
 
         //
-        public CommandElement GetFixedCommandElement(CommandType commandType)
+        public CommandElement GetFixedCommandElement(CommandType commandType, bool allowRecursive)
         {
-            _commandTable.TryGetValue(GetFixedCommandType(commandType), out CommandElement command);
+            _commandTable.TryGetValue(GetFixedCommandType(commandType, allowRecursive), out CommandElement command);
             return command;
         }
 
         //
-        public RoutedUICommand GetFixedRoutedCommand(CommandType commandType)
+        public RoutedUICommand GetFixedRoutedCommand(CommandType commandType, bool allowRecursive)
         {
-            this.Commands.TryGetValue(GetFixedCommandType(commandType), out RoutedUICommand command);
+            this.Commands.TryGetValue(GetFixedCommandType(commandType, allowRecursive), out RoutedUICommand command);
             return command;
         }
 
@@ -326,5 +322,52 @@ namespace NeeView
 
 
         #endregion
+    }
+
+    /// <summary>
+    /// コマンドパラメータ引数管理用
+    /// </summary>
+    public class CommandParameterArgs
+    {
+        public CommandParameterArgs(object param)
+        {
+            Parameter = param;
+            AllowRecursive = true;
+        }
+
+        public CommandParameterArgs(object param, bool allowRecursive)
+        {
+            Parameter = param;
+            AllowRecursive = allowRecursive;
+        }
+
+
+        /// <summary>
+        /// 標準パラメータ
+        /// </summary>
+        public static CommandParameterArgs Null { get; } = new CommandParameterArgs(null);
+
+        /// <summary>
+        /// パラメータ本体
+        /// </summary>
+        public object Parameter { get; set; }
+
+        /// <summary>
+        /// スライダー方向でのコマンド入れ替え許可
+        /// </summary>
+        public bool AllowRecursive { get; set; }
+
+
+        public static CommandParameterArgs Create(object param)
+        {
+            if (param is CommandParameterArgs parameterArgs)
+            {
+                return parameterArgs;
+            }
+            else
+            {
+                return new CommandParameterArgs(param);
+            }
+        }
     }
 }

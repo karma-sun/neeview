@@ -227,7 +227,15 @@ namespace NeeView
                     var subArchiver = await CreateArchiverAsync(entry, token);
                     if (subArchiver != null)
                     {
-                        collection.AddRange(await CollectRecursiveAsync(subArchiver, isRecursive, token));
+                        var subCollection = await CollectRecursiveAsync(subArchiver, isRecursive, token);
+                        if (subCollection.Count > 0)
+                        {
+                            collection.AddRange(subCollection);
+                        }
+                        else if (_isSupportAllFile)
+                        {
+                            collection.Add(entry);
+                        }
                         continue;
                     }
                 }

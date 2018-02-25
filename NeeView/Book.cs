@@ -322,7 +322,7 @@ namespace NeeView
         {
             Debug.Assert(Place == null);
             ////Debug.WriteLine($"OPEN: {address.Place}, {address.EntryName}, {address.Archiver.Path}");
-            
+
             _option = option;
 
             // ソリッド書庫の事前展開を許可してアーカイバ再生性
@@ -1281,7 +1281,7 @@ namespace NeeView
         private static int CompareFileNameOrder(Page p1, Page p2, Func<string, string, int> compare)
         {
             if (p1.FullPath != p2.FullPath)
-                return CompareFileName(p1.FullPath, p2.FullPath, compare);
+                return CompareFileName(p1, p2, compare);
             else if (p1.Entry.LastWriteTime != p2.Entry.LastWriteTime)
                 return CompareDateTime(p1.Entry.LastWriteTime, p2.Entry.LastWriteTime);
             else
@@ -1294,7 +1294,7 @@ namespace NeeView
             if (p1.Entry.LastWriteTime != p2.Entry.LastWriteTime)
                 return CompareDateTime(p1.Entry.LastWriteTime, p2.Entry.LastWriteTime);
             else if (p1.FullPath != p2.FullPath)
-                return CompareFileName(p1.FullPath, p2.FullPath, compare);
+                return CompareFileName(p1, p2, compare);
             else
                 return p1.Entry.Id - p2.Entry.Id;
         }
@@ -1305,21 +1305,33 @@ namespace NeeView
             if (p1.Entry.Length != p2.Entry.Length)
                 return p1.Entry.Length < p2.Entry.Length ? -1 : 1;
             else if (p1.FullPath != p2.FullPath)
-                return CompareFileName(p1.FullPath, p2.FullPath, compare);
+                return CompareFileName(p1, p2, compare);
             else
                 return p1.Entry.Id - p2.Entry.Id;
         }
 
         // ファイル名比較. ディレクトリを優先する
-        private static int CompareFileName(string s1, string s2, Func<string, string, int> compare)
+        private static int CompareFileName(Page p1, Page p2, Func<string, string, int> compare)
         {
-            string d1 = LoosePath.GetDirectoryName(s1);
-            string d2 = LoosePath.GetDirectoryName(s2);
+            var g1 = p1.FullPathTokens;
+            var g2 = p2.FullPathTokens;
 
-            if (d1 == d2)
-                return compare(s1, s2);
-            else
-                return compare(d1, d2);
+            var limit = Math.Min(g1.Length, g2.Length);
+            for (int i = 0; i < limit; ++i)
+            {
+                if (g1[i] != g2[i])
+                {
+                    var d1 = i + 1 == g1.Length ? p1.Entry.IsDirectory : true;
+                    var d2 = i + 1 == g2.Length ? p2.Entry.IsDirectory : true;
+                    if (d1 != d2)
+                    {
+                        return d1 ? -1 : 1;
+                    }
+                    return compare(g1[i], g2[i]);
+                }
+            }
+
+            return g1.Length - g2.Length;
         }
 
         // 日付比較。null対応

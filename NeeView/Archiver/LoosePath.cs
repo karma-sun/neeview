@@ -28,6 +28,13 @@ namespace NeeView
         }
 
         //
+        public static string[] Split(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return new string[0];
+            return s.Split(s_separator, StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        //
         public static string GetFileName(string s)
         {
             if (string.IsNullOrEmpty(s)) return "";

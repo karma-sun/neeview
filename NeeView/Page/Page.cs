@@ -77,6 +77,9 @@ namespace NeeView
         // ページ名：フルパス
         public string FullPath => Entry?.EntryFullName;
 
+        // ページ名：ソート用分割
+        public string[] FullPathTokens => LoosePath.Split(Entry?.EntryFullName);
+
         // ページ名：プレフィックス
         public string Prefix { get; set; }
 

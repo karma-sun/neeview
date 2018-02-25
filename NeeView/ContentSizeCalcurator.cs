@@ -52,7 +52,7 @@ namespace NeeView
         #endregion
 
         #region Methods
-        
+
         /// <summary>
         /// コンテンツ表示サイズを計算。
         /// 角度は自動回転から求める。
@@ -189,18 +189,18 @@ namespace NeeView
 
             // 2ページ合わせたコンテンツの表示サイズを求める
             Size content;
-            if (c1.IsZero())
+
+            // どちらもImageでない
+            if (c0.Width < 0.1 && c1.Width < 0.1)
+            {
+                return new Size[] { c0, c1 };
+            }
+            else if (c1.IsZero())
             {
                 content = c0;
             }
             else
             {
-                // どちらもImageでない
-                if (c0.Width < 0.1 && c1.Width < 0.1)
-                {
-                    return new Size[] { c0, c1 };
-                }
-
                 if (c0.Width == 0) c0 = c1;
                 if (c1.Width == 0) c1 = c0;
 

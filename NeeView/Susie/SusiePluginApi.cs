@@ -39,7 +39,7 @@ namespace Susie
         private static void FixFPU()
         {
             // add desired values
-            _controlfp(_MCW_EM, EM_INVALID);
+            _controlfp(_MCW_EM, EM_INVALID | EM_ZERODIVIDE);
         }
 
         // DLLハンドル

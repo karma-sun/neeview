@@ -137,7 +137,13 @@ namespace NeeView
             double rate1 = 1.0;
 
             // 2ページ合わせたコンテンツの表示サイズを求める
-            if (c1.IsZero())
+
+            // どちらもImageでない
+            if (c0.Width < 0.1 && c1.Width < 0.1)
+            {
+                return new Size(1.0, 1.0);
+            }
+            else if (c1.IsZero())
             {
                 return c0;
             }
@@ -148,12 +154,6 @@ namespace NeeView
             }
             else
             {
-                // どちらもImageでない
-                if (c0.Width < 0.1 && c1.Width < 0.1)
-                {
-                    return new Size(1.0, 1.0);
-                }
-
                 if (c0.Width == 0) c0 = c1;
                 if (c1.Width == 0) c1 = c0;
 

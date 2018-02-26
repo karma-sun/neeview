@@ -44,6 +44,8 @@ namespace NeeView
         [EnumMember]
         DeleteFile,
         [EnumMember]
+        DeleteBook,
+        [EnumMember]
         CopyFile,
         [EnumMember]
         CopyImage,

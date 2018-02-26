@@ -53,106 +53,22 @@ namespace NeeView
 
         #region Remove
 
-        /// <summary>
-        /// ファイルを削除
-        /// </summary>
-        /// <param name="info"></param>
-        public async Task<bool> RemoveAsync(FolderItem info)
-        {
-            if (info.IsEmpty) return false;
-
-            if (FileIOProfile.Current.IsRemoveConfirmed)
-            {
-                bool isDirectory = System.IO.Directory.Exists(info.Path);
-                string itemType = isDirectory ? "フォルダー" : "ファイル";
-
-                var dockPanel = new DockPanel();
-
-                var message = new TextBlock();
-                message.Text = $"この{itemType}をごみ箱に移動しますか？";
-                message.Margin = new Thickness(0, 0, 0, 10);
-                DockPanel.SetDock(message, Dock.Top);
-                dockPanel.Children.Add(message);
-
-                var thumbnail = new Image();
-                thumbnail.SnapsToDevicePixels = true;
-                thumbnail.Source = info.Icon;
-                thumbnail.Width = 32;
-                thumbnail.Height = 32;
-                thumbnail.Margin = new Thickness(0, 0, 4, 0);
-                dockPanel.Children.Add(thumbnail);
-
-                var textblock = new TextBlock();
-                textblock.Text = info.Path;
-                textblock.VerticalAlignment = VerticalAlignment.Bottom;
-                textblock.Margin = new Thickness(0, 0, 0, 2);
-                dockPanel.Children.Add(textblock);
-
-                //
-                var dialog = new MessageDialog(dockPanel, $"{itemType}を削除します");
-                dialog.Commands.Add(UICommands.Remove);
-                dialog.Commands.Add(UICommands.Cancel);
-                var answer = dialog.ShowDialog();
-
-                if (answer != UICommands.Remove) return false;
-            }
-
-            return await RemoveFileAsync(info.Path);
-        }
-
-        // ファイル削除可能？
-        public bool CanRemoveFile(Page page)
+        // ページ削除可能？
+        public bool CanRemovePage(Page page)
         {
             if (page == null) return false;
             if (!page.Entry.IsFileSystem) return false;
-            return (File.Exists(page.GetFilePlace()));
+
+            var path = page.GetFilePlace();
+            return (File.Exists(path) || Directory.Exists(path));
         }
 
-        // ファイルを削除する
-        public async Task RemoveFile(Page page)
+        // ページを削除する
+        public async Task RemovePageAsync(Page page)
         {
             if (page == null) return;
 
-            var path = page.GetFilePlace();
-
-            if (FileIOProfile.Current.IsRemoveConfirmed)
-            {
-                bool isDirectory = System.IO.Directory.Exists(path);
-                string itemType = isDirectory ? "フォルダー" : "ファイル";
-
-                // ビジュアル作成
-                var dockPanel = new DockPanel();
-
-                var message = new TextBlock();
-                message.Text = $"この{itemType}をごみ箱に移動しますか？";
-                message.Margin = new System.Windows.Thickness(0, 0, 0, 10);
-                DockPanel.SetDock(message, Dock.Top);
-                dockPanel.Children.Add(message);
-
-                var thumbnail = await new PageVisual(page).CreateVisualContentAsync(new System.Windows.Size(64, 64), true);
-                if (thumbnail != null)
-                {
-                    thumbnail.Margin = new System.Windows.Thickness(0, 0, 20, 0);
-                    dockPanel.Children.Add(thumbnail);
-                }
-
-                var textblock = new TextBlock();
-                textblock.Text = Path.GetFileName(path);
-                textblock.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
-                textblock.Margin = new System.Windows.Thickness(0, 0, 0, 2);
-                dockPanel.Children.Add(textblock);
-
-                //
-                var dialog = new MessageDialog(dockPanel, $"{itemType}を削除します");
-                dialog.Commands.Add(UICommands.Remove);
-                dialog.Commands.Add(UICommands.Cancel);
-                var answer = dialog.ShowDialog();
-
-                if (answer != UICommands.Remove) return;
-            }
-
-            // 削除実行
-            bool isRemoved = await RemoveFileAsync(path);
+            bool isRemoved = await RemoveAsync(page.GetFilePlace(), "ページを削除します", async () => await new PageVisual(page).CreateVisualContentAsync(new System.Windows.Size(64, 64), true));
 
             var book = BookHub.Current.Book;
 
@@ -163,9 +79,70 @@ namespace NeeView
             }
         }
 
+        // ファイルを削除
+        public async Task<bool> RemoveAsync(string path, string title = null, Func<Task<FrameworkElement>> createThumbnailAsync = null)
+        {
+            if (path == null) return false;
 
-        // ファイルを削除する
-        public async Task<bool> RemoveFileAsync(string path)
+            bool isFile = System.IO.File.Exists(path);
+            bool isDirectory = System.IO.Directory.Exists(path);
+            if (!isFile && !isDirectory) return false;
+
+            if (FileIOProfile.Current.IsRemoveConfirmed)
+            {
+                string typeName = isDirectory ? "フォルダー" : "ファイル";
+
+                var dockPanel = new DockPanel();
+
+                var message = new TextBlock();
+                message.Text = $"この{typeName}をごみ箱に移動しますか？";
+                message.Margin = new Thickness(0, 0, 0, 10);
+                DockPanel.SetDock(message, Dock.Top);
+                dockPanel.Children.Add(message);
+
+                FrameworkElement thumbnail = null;
+                if (createThumbnailAsync != null)
+                {
+                    thumbnail = await createThumbnailAsync();
+                }
+                if (thumbnail == null)
+                {
+                    thumbnail = new Image
+                    {
+                        SnapsToDevicePixels = true,
+                        Source = NeeLaboratory.IO.FileSystem.GetTypeIconSource(path, NeeLaboratory.IO.FileSystem.IconSize.Normal),
+                        Width = 32,
+                        Height = 32
+                    };
+                }
+
+                if (thumbnail != null)
+                {
+                    thumbnail.Margin = new Thickness(0, 0, 10, 0);
+                    dockPanel.Children.Add(thumbnail);
+                }
+
+                var textblock = new TextBlock();
+                textblock.Text = path;
+                textblock.VerticalAlignment = VerticalAlignment.Bottom;
+                textblock.TextWrapping = TextWrapping.Wrap;
+                textblock.Margin = new Thickness(0, 0, 0, 2);
+                dockPanel.Children.Add(textblock);
+
+                //
+                var dialog = new MessageDialog(dockPanel, title ?? $"{typeName}を削除します");
+                dialog.Commands.Add(UICommands.Remove);
+                dialog.Commands.Add(UICommands.Cancel);
+                var answer = dialog.ShowDialog();
+
+                if (answer != UICommands.Remove) return false;
+            }
+
+            return await RemoveAsyncInner(path);
+        }
+
+        // ファイルを削除 コア
+        private async Task<bool> RemoveAsyncInner(string path)
         {
             var _bookHub = BookHub.Current;
             int retryCount = 1;
@@ -226,25 +203,10 @@ namespace NeeView
 
         #region Rename
 
-        /// <summary>
-        /// リネーム用にトリミングされたファイル名生成
-        /// </summary>
-        /// <param name="newName"></param>
-        /// <returns></returns>
-        public static string FixedRenameFileName(string newName)
-        {
-            return newName?.Trim().TrimEnd(' ', '.');
-        }
-
-        /// <summary>
-        /// ファイル名前変更
-        /// </summary>
-        /// <param name="file"></param>
-        /// <param name="newName"></param>
-        /// <returns></returns>
+        // ファイル名前変更
         public async Task<string> RenameAsync(FolderItem file, string newName)
         {
-            newName = FixedRenameFileName(newName);
+            newName = newName?.Trim().TrimEnd(' ', '.');
 
             // ファイル名に使用できない
             if (string.IsNullOrWhiteSpace(newName))
@@ -333,14 +295,13 @@ namespace NeeView
             }
 
             // 名前変更実行
-            var result = await RenameFileAsync(src, dst);
+            var result = await RenameAsyncInner(src, dst);
 
             return result ? dst : null;
         }
 
-
-        // ファイルの名前を変える
-        public async Task<bool> RenameFileAsync(string src, string dst)
+        // ファイル名前変更 コア
+        private async Task<bool> RenameAsyncInner(string src, string dst)
         {
             var _bookHub = BookHub.Current;
             int retryCount = 1;

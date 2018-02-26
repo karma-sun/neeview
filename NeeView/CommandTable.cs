@@ -368,7 +368,7 @@ namespace NeeView
                 element.Group = "ファイル";
                 element.Text = "印刷";
                 element.MenuText = "印刷(_P)...";
-                element.Note = "画像を印刷します";
+                element.Note = "画像を印刷します。";
                 element.ShortCutKey = "Ctrl+P";
                 //element.Execute = (s, e) => _VM.Print();
                 element.CanExecute = () => _models.ContentCanvas.CanPrint();
@@ -381,12 +381,24 @@ namespace NeeView
                 element.Group = "ファイル";
                 element.Text = "ファイルを削除";
                 element.MenuText = "削除(_D)";
-                element.Note = "ファイルを削除します。圧縮ファイルの場合は削除できません ";
+                element.Note = "ファイルを削除します。圧縮ファイルの場合は削除できません。 ";
                 element.ShortCutKey = "Delete";
                 element.Execute = (s, e) => _models.BookOperation.DeleteFile();
                 element.CanExecute = () => _models.BookOperation.CanDeleteFile();
                 element.IsShowMessage = false;
                 _elements[CommandType.DeleteFile] = element;
+            }
+            // DeleteBook
+            {
+                var element = new CommandElement();
+                element.Group = "ファイル";
+                element.Text = "ブックを削除";
+                element.MenuText = "ブック削除(_D)";
+                element.Note = "現在閲覧中のフォルダーまたは圧縮ファイルを削除します。 ";
+                element.Execute = (s, e) => _models.BookOperation.DeleteBook();
+                element.CanExecute = () => _models.BookOperation.CanDeleteBook();
+                element.IsShowMessage = false;
+                _elements[CommandType.DeleteBook] = element;
             }
             // CopyFile
             {
@@ -394,7 +406,7 @@ namespace NeeView
                 element.Group = "ファイル";
                 element.Text = "ファイルをコピー";
                 element.MenuText = "コピー(_C)";
-                element.Note = "ファイルをクリップボードにコピーします";
+                element.Note = "ファイルをクリップボードにコピーします。";
                 element.ShortCutKey = "Ctrl+C";
                 element.Execute = (s, e) => _models.BookOperation.CopyToClipboard();
                 element.CanExecute = () => _models.BookOperation.CanOpenFilePlace();

@@ -255,7 +255,7 @@ namespace NeeView
         // 現在表示しているページのファイル削除可能？
         public bool CanDeleteFile()
         {
-            return FileIOProfile.Current.IsEnabled && FileIO.Current.CanRemoveFile(Book?.GetViewPage());
+            return FileIOProfile.Current.IsEnabled && FileIO.Current.CanRemovePage(Book?.GetViewPage());
         }
 
         // 現在表示しているページのファイルを削除する
@@ -263,11 +263,31 @@ namespace NeeView
         {
             if (CanDeleteFile())
             {
-                await FileIO.Current.RemoveFile(Book?.GetViewPage());
+                await FileIO.Current.RemovePageAsync(Book?.GetViewPage());
             }
         }
 
         #endregion
+
+        #region BookCommand : ブック削除
+
+        // 現在表示しているブックの削除可能？
+        public bool CanDeleteBook()
+        {
+            return FileIOProfile.Current.IsEnabled && Book != null && (File.Exists(Book.Place) || Directory.Exists(Book.Place));
+        }
+
+        // 現在表示しているブックを削除する
+        public async void DeleteBook()
+        {
+            if (CanDeleteBook())
+            {
+                await FileIO.Current.RemoveAsync(Book.Place, "ブックを削除します");
+            }
+        }
+
+        #endregion
+
 
         #region BookCommand : ページ出力
 

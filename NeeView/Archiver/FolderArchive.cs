@@ -77,7 +77,7 @@ namespace NeeView
                 {
                     Archiver = this,
                     Id = list.Count,
-                    RawEntryName = name,
+                    RawEntryName = name + (info.Attributes.HasFlag(FileAttributes.Directory) ? "\\" : ""),
                     Length = (info is FileInfo fileInfo) ? fileInfo.Length : -1,
                     LastWriteTime = info.LastWriteTime,
                 });

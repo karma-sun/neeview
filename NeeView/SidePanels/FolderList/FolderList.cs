@@ -291,7 +291,7 @@ namespace NeeView
         public string SearchKeyword
         {
             get { return _searchKeyword; }
-            set { if (_searchKeyword != value) { _searchKeyword = value; RaisePropertyChanged(); var task = UpdateFolderCollectionAsync(null, false); } }
+            set { if (_searchKeyword != value) { _searchKeyword = value; RaisePropertyChanged(); var task = UpdateFolderCollectionAsync(false); } }
         }
 
         /// <summary>
@@ -752,10 +752,16 @@ namespace NeeView
         /// <summary>
         /// コレクション更新
         /// </summary>
+        public async Task<bool> UpdateFolderCollectionAsync(bool isForce)
+        {
+            return await UpdateFolderCollectionAsync(Place, isForce);
+        }
+
+        /// <summary>
+        /// コレクション更新
+        /// </summary>
         public async Task<bool> UpdateFolderCollectionAsync(string place, bool isForce)
         {
-            place = place ?? Place;
-
             try
             {
                 BusyChanged?.Invoke(this, new BusyChangedEventArgs(true));

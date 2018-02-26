@@ -77,7 +77,7 @@ namespace NeeView
             }
             else
             {
-                return this.Path;
+                return LoosePath.TrimEnd(this.Path);
             }
         }
 

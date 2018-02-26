@@ -182,13 +182,13 @@ namespace NeeView
         //
         public bool CanRemove(Page page)
         {
-            return FileIO.Current.CanRemoveFile(page);
+            return FileIO.Current.CanRemovePage(page);
         }
 
         //
         public async Task Remove(Page page)
         {
-            await FileIO.Current.RemoveFile(page);
+            await FileIO.Current.RemovePageAsync(page);
         }
 
         //

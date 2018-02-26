@@ -183,9 +183,9 @@ namespace NeeView
         public async void Remove_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
-            if (item != null)
+            if (item != null && !item.IsEmpty)
             {
-                var removed = await FileIO.Current.RemoveAsync(item);
+                var removed = await FileIO.Current.RemoveAsync(item.Path, "ブックを削除します");
                 if (removed)
                 {
                     _vm.FolderCollection?.RequestDelete(item.Path);

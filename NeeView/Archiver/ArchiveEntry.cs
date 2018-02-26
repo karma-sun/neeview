@@ -212,21 +212,6 @@ namespace NeeView
         }
 
         /// <summary>
-        /// 本来のファイルシステムでのパスを返す
-        /// </summary>
-        /// <returns></returns>
-        public string GetSourceFileSystemPath()
-        {
-            if (this.Archiver == null)
-            {
-                return this.EntryName;
-            }
-
-            // 最初のアーカイブパスを取得
-            return this.Archiver.GetSourceFileSystemPath();
-        }
-
-        /// <summary>
         /// ストリームを開く
         /// </summary>
         /// <returns>Stream</returns>
@@ -286,8 +271,12 @@ namespace NeeView
         /// <returns></returns>
         public bool IsArchive(bool allowMedia = true)
         {
-            bool isAllowFileSystem = this.Archiver == null || this.Archiver.IsFileSystem;
-            return ArchiverManager.Current.IsSupported(EntryName, isAllowFileSystem, allowMedia);
+            if (this.IsFileSystem && this.IsDirectory)
+            {
+                return true;
+            }
+
+            return ArchiverManager.Current.IsSupported(EntryName, false, allowMedia);
         }
 
 
@@ -311,9 +300,9 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
-        #region IDisposable Support
+#region IDisposable Support
         private bool disposedValue = false; // 重複する呼び出しを検出するには
 
         protected virtual void Dispose(bool disposing)
@@ -347,7 +336,7 @@ namespace NeeView
             // TODO: 上のファイナライザーがオーバーライドされる場合は、次の行のコメントを解除してください。
             // GC.SuppressFinalize(this);
         }
-        #endregion
+#endregion
 
     }
 

@@ -24,7 +24,14 @@ namespace NeeView
         public static string TrimEnd(string s)
         {
             if (string.IsNullOrEmpty(s)) return "";
-            return s.TrimEnd(s_separator);
+
+            if (s_separator.Contains(s.Last()))
+            {
+                s = s.TrimEnd(s_separator);
+                if (s.Last() == ':') s += "\\";
+            }
+
+            return s;
         }
 
         //
@@ -56,7 +63,7 @@ namespace NeeView
 
             var parts = s.Split(s_separator, StringSplitOptions.RemoveEmptyEntries).ToList();
             if (parts.Count <= 1) return "";
-            
+
             parts.RemoveAt(parts.Count - 1);
             var path = GetHeadSeparators(s) + string.Join("\\", parts);
             if (parts.Count == 1 && path.Last() == ':') path += "\\";

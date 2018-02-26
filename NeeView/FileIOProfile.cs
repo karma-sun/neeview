@@ -14,26 +14,24 @@ namespace NeeView
     {
         public static FileIOProfile Current { get; private set; }
 
+        private bool _isEnabled = true;
+
+
         public FileIOProfile()
         {
             Current = this;
         }
 
-        //
+
         [PropertyMember("ファイル削除時に確認ダイアログを表示する")]
         public bool IsRemoveConfirmed { get; set; } = true;
 
-        /// <summary>
-        /// IsEnabled property.
-        /// </summary>
+        [PropertyMember("ファイル操作有効")]
         public bool IsEnabled
         {
             get { return _isEnabled; }
             set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); } }
         }
-
-        private bool _isEnabled = true;
-
 
 
         #region Memento

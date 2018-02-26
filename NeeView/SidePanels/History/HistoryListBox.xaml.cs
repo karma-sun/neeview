@@ -5,6 +5,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -174,9 +175,10 @@ namespace NeeView
             if (_vm.Visibility == Visibility.Visible)
             {
                 _vm.UpdateItems();
+                this.ListBox.UpdateLayout();
+                if (this.ListBox.SelectedIndex < 0) this.ListBox.SelectedIndex = 0;
 
                 await Task.Yield();
-                if (this.ListBox.SelectedIndex < 0) this.ListBox.SelectedIndex = 0;
                 FocusSelectedItem();
             }
         }

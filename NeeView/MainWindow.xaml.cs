@@ -565,7 +565,7 @@ namespace NeeView
             _vm.Model.AnyKey.KeyDown(e.Key);
 
             // 一部 IMEKey のっとり
-            if (e.Key == Key.ImeProcessed &&  e.ImeProcessedKey.IsImeKey())
+            if (e.Key == Key.ImeProcessed && e.ImeProcessedKey.IsImeKey())
             {
                 RoutedCommandTable.Current.ExecuteImeKeyGestureCommand(sender, e);
             }
@@ -815,7 +815,10 @@ namespace NeeView
         /// </summary>
         private void ResetFocus()
         {
-            this.Dispatcher.BeginInvoke((Action)(() => this.MainView.Focus()));
+            this.Dispatcher.BeginInvoke((Action)(() =>
+            {
+                this.MainView.Focus();
+            }));
         }
 
 
@@ -1082,20 +1085,19 @@ namespace NeeView
             this.RootDockPanel.Children.Insert(0, new DevPageList());
             this.RootDockPanel.Children.Insert(1, new DevInfo());
 
-            this.PreviewKeyDown += Debug_PreviewKeyDown;
-        }
-
-        // [開発用] 開発操作
-        private void Debug_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.F12)
+            this.PreviewKeyDown += (s, e) =>
             {
-                Debug_CheckFocus();
-            }
+                if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.F12)
+                {
+                    Debug_CheckFocus();
+                    e.Handled = true;
+                }
+            };
         }
 
         // [開発用] 現在のフォーカスを取得
-        private void Debug_CheckFocus()
+        [Conditional("DEBUG")]
+        public void Debug_CheckFocus()
         {
             var element = FocusManager.GetFocusedElement(this);
             var fwelement = element as FrameworkElement;

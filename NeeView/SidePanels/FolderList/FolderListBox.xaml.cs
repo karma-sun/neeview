@@ -298,6 +298,7 @@ namespace NeeView
         {
             _lastFocusRequest = isFocus;
 
+            if (this.ListBox.SelectedIndex < 0) this.ListBox.SelectedIndex = 0;
             if (this.ListBox.SelectedIndex < 0) return;
 
             // 選択項目が表示されるようにスクロール
@@ -306,15 +307,7 @@ namespace NeeView
             if (isFocus && this.IsFocusEnabled)
             {
                 ListBoxItem lbi = (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(this.ListBox.SelectedIndex));
-                if (lbi == null) return;
-
-                var isFocused = lbi.Focus();
-
-                // フォーカスできない場合にはディスパッチャーで再実行
-                if (!isFocused)
-                {
-                    this.Dispatcher.BeginInvoke((Action)(() => { if (this.IsFocusEnabled) lbi.Focus(); }));
-                }
+                lbi?.Focus();
             }
         }
 
@@ -524,6 +517,6 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
     }
 }

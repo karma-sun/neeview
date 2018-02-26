@@ -186,7 +186,7 @@ namespace NeeView
 
 
         // 表示/非表示イベント
-        private void BookmarkListBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private async void BookmarkListBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if (e.NewValue as bool? == true)
             {
@@ -195,6 +195,7 @@ namespace NeeView
                     this.ListBox.SelectedIndex = 0;
                 }
 
+                await Task.Yield();
                 FocusSelectedItem();
             }
         }

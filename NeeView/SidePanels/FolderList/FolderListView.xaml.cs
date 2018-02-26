@@ -126,8 +126,9 @@ namespace NeeView
         }
 
         //
-        private void FolderListView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private async void FolderListView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            await Task.Yield();
             _vm.IsVisibleChanged((bool)e.NewValue);
         }
 

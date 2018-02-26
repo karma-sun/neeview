@@ -206,7 +206,10 @@ namespace NeeView
         {
             ToggleSelectedPanel(FolderListPanel, byMenu);
             RaisePanelPropertyChanged();
-            ResetFocus?.Invoke(this, null);
+            if (!IsVisibleFolderList)
+            {
+                ResetFocus?.Invoke(this, null);
+            }
             return IsVisibleFolderList;
         }
 
@@ -278,7 +281,10 @@ namespace NeeView
         {
             ToggleSelectedPanel(HistoryPanel, byMenu);
             RaisePanelPropertyChanged();
-            ResetFocus?.Invoke(this, null);
+            if (!IsVisibleHistoryList)
+            {
+                ResetFocus?.Invoke(this, null);
+            }
             return IsVisibleHistoryList;
         }
 
@@ -295,7 +301,10 @@ namespace NeeView
         {
             ToggleSelectedPanel(BookmarkPanel, byMenu);
             RaisePanelPropertyChanged();
-            ResetFocus?.Invoke(this, null);
+            if (!IsVisibleBookmarkList)
+            {
+                ResetFocus?.Invoke(this, null);
+            }
             return IsVisibleBookmarkList;
         }
 
@@ -312,7 +321,10 @@ namespace NeeView
         {
             ToggleSelectedPanel(PagemarkPanel, byMenu);
             RaisePanelPropertyChanged();
-            ResetFocus?.Invoke(this, null);
+            if (!IsVisiblePagemarkList)
+            {
+                ResetFocus?.Invoke(this, null);
+            }
             return IsVisiblePagemarkList;
         }
 

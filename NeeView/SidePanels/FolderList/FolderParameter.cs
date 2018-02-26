@@ -106,13 +106,29 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
-            [DataMember]
+            [DataMember(Name = "FolderOrder", EmitDefaultValue = false)]
+            private FolderOrderV1 _folderOrderV1;
+
+            [DataMember(Name = "FolderOrderV2")]
             public FolderOrder FolderOrder { get; set; }
+
             [DataMember]
             public bool IsFolderRecursive { get; set; }
 
             public static Memento Default = new Memento();
+
             public bool IsDefault => (FolderOrder == Default.FolderOrder && IsFolderRecursive == Default.IsFolderRecursive);
+
+
+            [OnDeserialized]
+            internal void OnDeserialized(StreamingContext context)
+            {
+                if (_folderOrderV1 != default(FolderOrderV1))
+                {
+                    FolderOrder = _folderOrderV1.ToV2();
+                    _folderOrderV1 = default(FolderOrderV1);
+                }
+            }
         }
 
         //

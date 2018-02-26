@@ -1400,8 +1400,8 @@ namespace NeeView
                 element.Group = "ブック列";
                 element.Text = "ブック列はファイル名順昇順";
                 element.Note = "ブックの並びを名前順(昇順)にします";
-                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.FileNameAscending);
-                element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.FileNameAscending);
+                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.FileName);
+                element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.FileName);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderByFileNameA] = element;
             }
@@ -1422,8 +1422,8 @@ namespace NeeView
                 element.Group = "ブック列";
                 element.Text = "ブック列は日付昇順";
                 element.Note = "ブックの並びを日付順(昇順)にします";
-                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.TimeStampAscending);
-                element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.TimeStampAscending);
+                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.TimeStamp);
+                element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.TimeStamp);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderByTimeStampA] = element;
             }
@@ -1444,8 +1444,8 @@ namespace NeeView
                 element.Group = "ブック列";
                 element.Text = "ブック列はサイズ昇順";
                 element.Note = "ブックの並びをサイズ順(昇順)にします";
-                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.SizeAscending);
-                element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.SizeAscending);
+                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.Size);
+                element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.Size);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderBySizeA] = element;
             }

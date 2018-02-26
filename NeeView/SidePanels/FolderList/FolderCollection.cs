@@ -192,15 +192,15 @@ namespace NeeView
             switch (FolderOrder)
             {
                 default:
-                case FolderOrder.FileNameAscending:
+                case FolderOrder.FileName:
                     return source.OrderBy(e => e.Type).ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.FileNameDescending:
                     return source.OrderBy(e => e.Type).ThenByDescending(e => e, new ComparerFileName());
-                case FolderOrder.TimeStampAscending:
+                case FolderOrder.TimeStamp:
                     return source.OrderBy(e => e.Type).ThenBy(e => e.LastWriteTime).ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.TimeStampDescending:
                     return source.OrderBy(e => e.Type).ThenByDescending(e => e.LastWriteTime).ThenBy(e => e, new ComparerFileName());
-                case FolderOrder.SizeAscending:
+                case FolderOrder.Size:
                     return source.OrderBy(e => e.Type).ThenBy(e => e.Length).ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.SizeDescending:
                     return source.OrderBy(e => e.Type).ThenByDescending(e => e.Length).ThenBy(e => e, new ComparerFileName());

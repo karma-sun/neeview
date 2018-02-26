@@ -62,6 +62,9 @@ namespace NeeView
         /// </summary>
         private SearchEngine _searchEngine;
 
+        //
+        private CancellationTokenSource _updateFolderCancellationTokenSource;
+
         #endregion
 
         #region Constructors
@@ -204,7 +207,7 @@ namespace NeeView
                     {
                         _excludeRegex = string.IsNullOrWhiteSpace(_excludePattern) ? null : new Regex(_excludePattern, RegexOptions.IgnoreCase | RegexOptions.Compiled);
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         Debug.WriteLine($"FolderList exclute: {ex.Message}");
                         _excludePattern = null;
@@ -249,7 +252,7 @@ namespace NeeView
         /// <summary>
         /// 検索許可？
         /// </summary>
-        public bool IsFolderSearchEnabled => _place != null && !(FolderCollection is FolderArchiveCollection);
+        public bool IsFolderSearchEnabled => Place != null && !(FolderCollection is FolderArchiveCollection);
 
         /// <summary>
         /// SelectedItem property.
@@ -264,7 +267,7 @@ namespace NeeView
         /// <summary>
         /// 現在のフォルダー
         /// </summary>
-        private string _place;
+        public string Place => this.FolderCollection?.Place;
 
         /// <summary>
         /// フォルダー履歴
@@ -288,7 +291,7 @@ namespace NeeView
         public string SearchKeyword
         {
             get { return _searchKeyword; }
-            set { if (_searchKeyword != value) { _searchKeyword = value; RaisePropertyChanged(); var task = UpdateFolderCollectionAsync(false); } }
+            set { if (_searchKeyword != value) { _searchKeyword = value; RaisePropertyChanged(); var task = UpdateFolderCollectionAsync(null, false); } }
         }
 
         /// <summary>
@@ -406,42 +409,42 @@ namespace NeeView
                 _searchEngine = null;
 
                 // 検索キーワードクリア
-                if (this.FolderCollection == null || place != _place || options.HasFlag(FolderSetPlaceOption.ClearSearchKeyword))
+                if (this.FolderCollection == null || place != Place || options.HasFlag(FolderSetPlaceOption.ClearSearchKeyword))
                 {
                     _searchKeyword = "";
                     RaisePropertyChanged(nameof(SearchKeyword));
                 }
 
-                // 場所変更
-                _place = place;
-
                 // FolderCollection 更新
-                await UpdateFolderCollectionAsync(true);
-
-                this.SelectedItem = FixedItem(select);
-
-                RaiseSelectedItemChanged(options.HasFlag(FolderSetPlaceOption.IsFocus));
-
-                // 最終フォルダー更新
-                BookHistory.Current.LastFolder = _place;
-
-                // 履歴追加
-                if (options.HasFlag(FolderSetPlaceOption.IsUpdateHistory))
+                var isSuccess = await UpdateFolderCollectionAsync(place, true);
+                if (isSuccess)
                 {
-                    if (_place != this.History.GetCurrent())
+                    this.SelectedItem = FixedItem(select);
+
+                    RaiseSelectedItemChanged(options.HasFlag(FolderSetPlaceOption.IsFocus));
+
+                    // 最終フォルダー更新
+                    BookHistory.Current.LastFolder = Place;
+
+                    // 履歴追加
+                    if (options.HasFlag(FolderSetPlaceOption.IsUpdateHistory))
                     {
-                        this.History.Add(_place);
+                        if (Place != this.History.GetCurrent())
+                        {
+                            this.History.Add(Place);
+                        }
                     }
+
+                    PlaceChanged?.Invoke(this, null);
                 }
             }
             else
             {
                 // 選択項目のみ変更
                 this.SelectedItem = FixedItem(select);
+                PlaceChanged?.Invoke(this, null);
             }
 
-            // 変更通知
-            PlaceChanged?.Invoke(this, null);
         }
 
         /// <summary>
@@ -552,7 +555,7 @@ namespace NeeView
 
             _isDarty = force || this.FolderCollection.IsDarty();
 
-            await SetPlaceAsync(_place, null, FolderSetPlaceOption.IsUpdateHistory);
+            await SetPlaceAsync(Place, null, FolderSetPlaceOption.IsUpdateHistory);
         }
 
 
@@ -686,7 +689,7 @@ namespace NeeView
             var item = this.GetFolderItem(direction);
             if (item != null)
             {
-                await SetPlaceAsync(_place, item.Path, FolderSetPlaceOption.IsUpdateHistory);
+                await SetPlaceAsync(Place, item.Path, FolderSetPlaceOption.IsUpdateHistory);
                 _bookHub.RequestLoad(item.TargetPath, null, options | BookLoadOption.IsBook, false);
                 return true;
             }
@@ -706,141 +709,9 @@ namespace NeeView
         /// 検索キーワードの正規化
         /// </summary>
         /// <returns></returns>
-        private string GetFixedSearchKeyword() => _searchKeyword?.Trim();
-
-
-        /// <summary>
-        /// コレクション更新
-        /// </summary>
-        /// <param name="isForce">強制更新</param>
-        /// <returns></returns>
-        public async Task UpdateFolderCollectionAsync(bool isForce)
+        private string GetFixedSearchKeyword()
         {
-            try
-            {
-                BusyChanged?.Invoke(this, new BusyChangedEventArgs(true));
-                await UpdateFolderCollectionAsyncInner(isForce);
-            }
-            finally
-            {
-                BusyChanged?.Invoke(this, new BusyChangedEventArgs(false));
-            }
-        }
-
-        /// <summary>
-        /// コレクション更新
-        /// </summary>
-        /// <param name="isForce"></param>
-        /// <returns></returns>
-        private async Task UpdateFolderCollectionAsyncInner(bool isForce)
-        {
-            // 検索処理は停止
-            _searchEngine?.CancelSearch();
-
-            var keyword = GetFixedSearchKeyword();
-
-            if (!string.IsNullOrEmpty(keyword))
-            {
-                await UpdateSearchFolderCollectionAsync(keyword, isForce);
-            }
-            else if (_place == null || Directory.Exists(_place))
-            {
-                await UpdateEntryFolderCollectionAsync(isForce);
-            }
-            else
-            {
-                await UpdateArchiveFolderCollectionAsync(isForce);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="isForce"></param>
-        /// <returns></returns>
-        public async Task UpdateEntryFolderCollectionAsync(bool isForce)
-        {
-            // 同じリストは作らない
-            if (!isForce && this.FolderCollection != null && this.FolderCollection.Place == _place && this.FolderCollection is FolderEntryCollection) return;
-
-            var collection = await Task.Run(() => CreateEntryCollection(_place));
-            InitializeCollectionEvent(collection);
-
-            this.FolderCollection = collection;
-        }
-
-        /// <summary>
-        /// 検索結果リストとしてFolderListを更新
-        /// </summary>
-        /// <param name="keyword"></param>
-        /// <param name="isForce"></param>
-        /// <returns></returns>
-        public async Task UpdateSearchFolderCollectionAsync(string keyword, bool isForce)
-        {
-            // 同じリストは作らない
-            if (!isForce && this.FolderCollection != null && (this.FolderCollection is FolderSearchCollection e && e.SearchKeyword == keyword)) return;
-
-            try
-            {
-                _searchEngine = _searchEngine ?? new SearchEngine(_place);
-
-                var option = new NeeLaboratory.IO.Search.SearchOption() { AllowFolder = true, IsOptionEnabled = true };
-                var result = await _searchEngine.SearchAsync(keyword, option);
-
-                var collection = CreateSearchCollection(_place, result);
-                InitializeCollectionEvent(collection);
-
-                this.FolderCollection = collection;
-            }
-            catch (OperationCanceledException)
-            {
-                ////Debug.WriteLine($"Search: Canceled.");
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Search Exception: {ex.Message}");
-                _searchEngine?.Dispose();
-                _searchEngine = null;
-            }
-        }
-
-        /// <summary>
-        /// アーカイブフォルダー
-        /// </summary>
-        /// <param name="isForce"></param>
-        /// <returns></returns>
-        public async Task UpdateArchiveFolderCollectionAsync(bool isForce)
-        {
-            // 同じリストは作らない
-            if (!isForce && this.FolderCollection != null && this.FolderCollection.Place == _place && this.FolderCollection is FolderArchiveCollection) return;
-
-            try
-            {
-                using (var entry = await ArchiveFileSystem.CreateArchiveEntry(_place, CancellationToken.None))
-                {
-                    var collection = CreateArchiveCollection(_place, await ArchiverManager.Current.CreateArchiverAsync(entry, false, false, CancellationToken.None));
-                    InitializeCollectionEvent(collection);
-                    this.FolderCollection = collection;
-                }
-            }
-            // アーカイブパスが展開できない場合、実在パスでの展開を行う
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Cannot open: {ex.Message}");
-                _place = ArchiveFileSystem.GetExistDirectoryName(_place);
-                await UpdateFolderCollectionAsyncInner(isForce);
-            }
-        }
-
-
-        /// <summary>
-        /// フォルダーコレクションのイベント設定
-        /// </summary>
-        /// <param name="collection"></param>
-        private void InitializeCollectionEvent(FolderCollection collection)
-        {
-            collection.ParameterChanged += async (s, e) => await RefleshAsync(true);
-            collection.Deleting += FolderCollection_Deleting;
+            return _searchKeyword?.Trim();
         }
 
         /// <summary>
@@ -876,13 +747,157 @@ namespace NeeView
 
         #endregion
 
+        #region UpdateFolderCollection
+
+        /// <summary>
+        /// コレクション更新
+        /// </summary>
+        public async Task<bool> UpdateFolderCollectionAsync(string place, bool isForce)
+        {
+            place = place ?? Place;
+
+            try
+            {
+                BusyChanged?.Invoke(this, new BusyChangedEventArgs(true));
+
+                _updateFolderCancellationTokenSource?.Cancel();
+                _updateFolderCancellationTokenSource = new CancellationTokenSource();
+
+                var collection = await CreateFolderCollectionAsync(place, isForce, _updateFolderCancellationTokenSource.Token);
+
+                if (collection != null && !_updateFolderCancellationTokenSource.Token.IsCancellationRequested)
+                {
+                    collection.ParameterChanged += async (s, e) => await RefleshAsync(true);
+                    collection.Deleting += FolderCollection_Deleting;
+                    this.FolderCollection = collection;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                Debug.WriteLine($"UpdateFolderCollectionAsync: Canceled: {place}");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"UpdateFolderCollectionAsync: {ex.Message}");
+                return false;
+            }
+            finally
+            {
+                BusyChanged?.Invoke(this, new BusyChangedEventArgs(false));
+            }
+        }
+
+        /// <summary>
+        /// コレクション作成
+        /// </summary>
+        private async Task<FolderCollection> CreateFolderCollectionAsync(string place, bool isForce, CancellationToken token)
+        {
+            // 検索処理は停止
+            _searchEngine?.CancelSearch();
+
+            var keyword = GetFixedSearchKeyword();
+
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                return await CreateSearchFolderCollectionAsync(place, keyword, isForce, token);
+            }
+            else if (place == null || Directory.Exists(place))
+            {
+                return await CreateEntryFolderCollectionAsync(place, isForce, token);
+            }
+            else
+            {
+                return await CreateArchiveFolderCollectionAsync(place, isForce, token);
+            }
+        }
+
+        // 通常フォルダーコレクション作成
+        private async Task<FolderCollection> CreateEntryFolderCollectionAsync(string place, bool isForce, CancellationToken token)
+        {
+            if (!isForce && this.FolderCollection != null && this.FolderCollection.Place == place && this.FolderCollection is FolderEntryCollection)
+            {
+                return null;
+            }
+
+            var collection = await Task.Run(() => CreateEntryCollection(place));
+            token.ThrowIfCancellationRequested();
+
+            return collection;
+        }
+
+        // 検索コレクション作成
+        private async Task<FolderCollection> CreateSearchFolderCollectionAsync(string place, string keyword, bool isForce, CancellationToken token)
+        {
+            if (!isForce && this.FolderCollection != null && (this.FolderCollection is FolderSearchCollection e && e.SearchKeyword == keyword))
+            {
+                return null;
+            }
+
+            try
+            {
+                _searchEngine = _searchEngine ?? new SearchEngine(place);
+
+                var option = new NeeLaboratory.IO.Search.SearchOption() { AllowFolder = true, IsOptionEnabled = true };
+                var result = await _searchEngine.SearchAsync(keyword, option);
+                token.ThrowIfCancellationRequested();
+
+                var collection = CreateSearchCollection(place, result);
+                return collection;
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Search Exception: {ex.Message}");
+                _searchEngine?.Dispose();
+                _searchEngine = null;
+                throw;
+            }
+        }
+
+        // アーカイブフォルダーコレクション作成
+        public async Task<FolderCollection> CreateArchiveFolderCollectionAsync(string place, bool isForce, CancellationToken token)
+        {
+            if (!isForce && this.FolderCollection != null && this.FolderCollection.Place == place && this.FolderCollection is FolderArchiveCollection)
+            {
+                return null;
+            }
+
+            try
+            {
+                using (var entry = await ArchiveFileSystem.CreateArchiveEntry(place, token))
+                {
+                    var collection = CreateArchiveCollection(place, await ArchiverManager.Current.CreateArchiverAsync(entry, false, false, token));
+                    token.ThrowIfCancellationRequested();
+                    return collection;
+                }
+            }
+            catch (Exception ex)
+            {
+                // アーカイブパスが展開できない場合、実在パスでの展開を行う
+                Debug.WriteLine($"Cannot open: {ex.Message}");
+                place = ArchiveFileSystem.GetExistDirectoryName(place);
+                return await CreateFolderCollectionAsync(place, isForce, token);
+            }
+        }
+
+        #endregion
+
         #region Commands
 
 
         public void SetHome_Executed()
         {
             if (_bookHub == null) return;
-            this.Home = _place;
+            this.Home = Place;
         }
 
         //
@@ -944,19 +959,19 @@ namespace NeeView
         //
         public bool MoveToParent_CanExecute()
         {
-            return (_place != null);
+            return (Place != null);
         }
 
         //
         public async void MoveToParent_Execute()
         {
-            if (_place == null) return;
+            if (Place == null) return;
 
             var parent = this.FolderCollection is FolderArchiveCollection collection
                 ? collection.GetParentPlace()
-                : Path.GetDirectoryName(_place);
+                : Path.GetDirectoryName(Place);
 
-            await SetPlaceAsync(parent, _place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
+            await SetPlaceAsync(parent, Place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
         }
 
         //
@@ -969,14 +984,14 @@ namespace NeeView
                 var parent = _bookHub?.Book?.Archiver?.Parent?.FullPath ?? LoosePath.GetDirectoryName(place);
 
                 _isDarty = true; // 強制更新
-                await SetPlaceAsync(parent, place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
+                await SetPlaceAsync(parent, place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory | FolderSetPlaceOption.ClearSearchKeyword);
 
                 RaiseSelectedItemChanged(true);
             }
-            else if (_place != null)
+            else if (Place != null)
             {
                 _isDarty = true; // 強制更新
-                await SetPlaceAsync(_place, null, FolderSetPlaceOption.IsFocus);
+                await SetPlaceAsync(Place, null, FolderSetPlaceOption.IsFocus);
 
                 RaiseSelectedItemChanged(true);
             }

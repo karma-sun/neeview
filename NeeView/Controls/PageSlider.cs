@@ -49,7 +49,7 @@ namespace NeeView
         #region Fields
 
         private SliderIndexLayout _SliderIndexLayout = SliderIndexLayout.Right;
-        private SliderDirection _sliderDirection = SliderDirection.RightToLeft;
+        private SliderDirection _sliderDirection = SliderDirection.SyncBookReadDirection;
         private bool _isSliderDirectionReversed;
         private bool _IsSliderLinkedThumbnailList = true;
         private int _pageNumber;
@@ -82,7 +82,7 @@ namespace NeeView
         }
 
         #endregion
-        
+
         #region Properties
 
         /// <summary>
@@ -252,12 +252,21 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
-            [DataMember]
+            [DataMember, DefaultValue(SliderIndexLayout.Right)]
             public SliderIndexLayout SliderIndexLayout { get; set; }
-            [DataMember]
+
+            [DataMember, DefaultValue(SliderDirection.SyncBookReadDirection)]
             public SliderDirection SliderDirection { get; set; }
-            [DataMember]
+
+            [DataMember, DefaultValue(true)]
             public bool IsSliderLinkedThumbnailList { get; set; }
+
+
+            [OnDeserializing]
+            private void Deserializing(StreamingContext c)
+            {
+                this.InitializePropertyDefaultValues();
+            }
         }
 
         //

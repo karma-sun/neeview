@@ -294,7 +294,7 @@ namespace NeeView
         //
         private async void Search_Executed()
         {
-            await _model.UpdateFolderCollectionAsync(true);
+            await _model.UpdateFolderCollectionAsync(null, true);
         }
 
         /// <summary>
@@ -526,7 +526,7 @@ namespace NeeView
         /// <returns></returns>
         public async Task SearchAsync()
         {
-            await _model.UpdateFolderCollectionAsync(false);
+            await _model.UpdateFolderCollectionAsync(null, false);
         }
 
         /// <summary>

@@ -98,14 +98,14 @@ namespace NeeView
         }
 
 
-        [PropertyMember("スライダー方向によってページ移動コマンドの移動方向を入れ替える", Tips = "スライダーが左から右方向のときにページ移動方向を逆にします。")]
+        [PropertyMember("スライダー方向によってページ移動コマンドの移動方向を入れ替える(全般)", Tips = "スライダーが左から右方向のときにページ移動方向を逆にします。")]
         public bool IsReversePageMove
         {
             get { return _isReversePageMove; }
             set { if (_isReversePageMove != value) { _isReversePageMove = value; RaisePropertyChanged(); } }
         }
 
-        [PropertyMember("ホイール操作でもページ移動コマンドの移動方向を入れ替える", Tips = "ホイール操作のみ対応の選択ができます。")]
+        [PropertyMember("スライダー方向によってページ移動コマンドの移動方向を入れ替える(ホイール操作)", Tips = "ホイール操作のみ対応の選択ができます。")]
         public bool IsReversePageMoveWheel
         {
             get { return _isReversePageMoveWheel; }

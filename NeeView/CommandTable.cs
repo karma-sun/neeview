@@ -105,7 +105,7 @@ namespace NeeView
             set { if (_isReversePageMove != value) { _isReversePageMove = value; RaisePropertyChanged(); } }
         }
 
-        [PropertyMember("ホイール操作で入れ替える", Tips = "ホイール操作のみ対応の選択ができます。")]
+        [PropertyMember("ホイール操作のときに入れ替える", Tips = "ホイール操作のみ対応の選択ができます。")]
         public bool IsReversePageMoveWheel
         {
             get { return _isReversePageMoveWheel; }

@@ -37,7 +37,7 @@ namespace NeeView
         [PropertyMember("PDFファイルの拡張子")]
         public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".pfd");
 
-        [PropertyMember("PDFページ標準サイズ", Tips = "通常は表示サイズにあわせてレンダリングしなおしますが、下限はこの標準サイズになります。 より小さくなる場合には縮小して表示します。")]
+        [PropertyMember("PDFページ標準サイズ", Tips = "通常は表示サイズにあわせてレンダリングしますが、下限はこの標準サイズになります。 より小さくなる場合には縮小して表示します。")]
         public Size RenderSize { get; set; } = new Size(1024, 1024);
 
 

@@ -158,6 +158,9 @@
     <Compile Include="Controls\MediaPlayerOperator.cs" />
     <Compile Include="InputGesture\ImeKeyUtility.cs" />
     <Compile Include="Page\MediaContent.cs" />
+    <Compile Include="Setting\SettingItemSubControl.xaml.cs">
+      <DependentUpon>SettingItemSubControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Setting\SettingPageArchiver.cs" />
     <Compile Include="Setting\SettingPageHistory.cs" />
     <Compile Include="SidePanels\IPageListPanel.cs" />
@@ -833,6 +836,10 @@
     <Page Include="Setting\SettingItemContextMenuControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Setting\SettingItemSubControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Setting\SettingItemControl.xaml">
       <SubType>Designer</SubType>

@@ -41,6 +41,8 @@ namespace NeeView.Windows.Property
     {
         public S Setter { get; set; }
 
+        public string Name => Setter.Name;
+
         public PropertyValue(S setter)
         {
             Setter = setter;

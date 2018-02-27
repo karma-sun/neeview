@@ -225,7 +225,7 @@ namespace NeeView.Setting
 
             var title = new StackPanel()
             {
-                Margin = new Thickness(0, 5, 0, 10),
+                Margin = new Thickness(0, 15, 0, 0),
             };
             {
                 var style = new Style(typeof(StackPanel));
@@ -308,6 +308,34 @@ namespace NeeView.Setting
             return new SettingItemControl(_element.Name, _element.Tips ?? this.Tips, _content ?? _element.TypeValue, this.IsStretch);
         }
     }
+
+    /// <summary>
+    /// PropertyMemberElement を補足設定項目としたもの
+    /// </summary>
+    public class SettingItemSubProperty : SettingItem
+    {
+        private PropertyMemberElement _element;
+        private object _content;
+
+        public SettingItemSubProperty(PropertyMemberElement element) : base(element?.ToString())
+        {
+            Debug.Assert(element != null);
+            _element = element;
+        }
+
+        public SettingItemSubProperty(PropertyMemberElement element, object content) : this(element)
+        {
+            _content = content;
+        }
+
+        public bool IsStretch { get; set; } = true;
+
+        protected override UIElement CreateContentInner()
+        {
+            return new SettingItemSubControl(_element.Name, _element.Tips ?? this.Tips, _content ?? _element.TypeValue, this.IsStretch);
+        }
+    }
+
 
     /// <summary>
     /// フォント選択

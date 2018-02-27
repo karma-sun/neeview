@@ -28,7 +28,7 @@ namespace NeeView.Setting
                 new SettingItemSection("詳細設定",
                     new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsAccessKeyEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(CommandTable.Current, nameof(CommandTable.IsReversePageMove))),
-                    new SettingItemProperty(PropertyMemberElement.Create(CommandTable.Current, nameof(CommandTable.IsReversePageMoveWheel)))
+                    new SettingItemSubProperty(PropertyMemberElement.Create(CommandTable.Current, nameof(CommandTable.IsReversePageMoveWheel)))
                     {
                         IsEnabled = new IsEnabledPropertyValue(CommandTable.Current, nameof(CommandTable.IsReversePageMove)),
                     }),

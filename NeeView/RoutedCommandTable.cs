@@ -271,7 +271,7 @@ namespace NeeView
                 var command = _commandTable[commandType];
                 if (command.PairPartner != CommandType.None)
                 {
-                    Debug.WriteLine($"SwapCommand: {commandType} to {command.PairPartner}");
+                    ////Debug.WriteLine($"SwapCommand: {commandType} to {command.PairPartner}");
                     return command.PairPartner;
                 }
                 else

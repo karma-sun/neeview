@@ -768,6 +768,69 @@ namespace NeeView
             return false;
         }
 
+
+#if false
+        #region CruiseFolder
+
+        public async Task<bool> CruiseFolder(int direction, BookLoadOption options)
+        {
+            var item = this.GetFolderItem(direction);
+            if (item != null)
+            {
+                await CruiseFolderNext(this.FolderCollection, item);
+            }
+        }
+
+        public async Task<FolderItem> CruiseFolderNext(FolderCollection collection, FolderItem item, CancellationToken token)
+        {
+            // サブフォルダーでの先頭
+            using (var subCollection = await CreateCollection(item, token))
+            {
+                if (subCollection != null)
+                {
+                    var target = await FindFirstEntry(subCollection);
+                    if (target != null) return item;
+                }
+            }
+
+            return await CruiseFolderNextPrent(collection, item, token);
+        }
+
+        public async Task<FolderItem> CruiseFolderNextPrent(FolderCollection collection, FolderItem item, CancellationToken token)
+        {
+
+            // 現フォルダーの次の項目
+
+            // 親のフォルダーへ
+        }
+
+
+        private async Task<FolderItem> FindFirstEntry(FolderCollection collection)
+        {
+            if (collection == null) return null;
+
+            foreach (var item in collection.Items)
+            {
+                if (await item.AnyPage()) return item;
+            }
+
+            return null;
+        }
+
+        public async Task<FolderCollection> CreateCollection(FolderItem item, CancellationToken token)
+        {
+            if (!CanMoveTo(item))
+            {
+                return null;
+            }
+
+            var collection = await CreateFolderCollectionWithoutSearchAsync(item.TargetPath, true, token);
+            return collection;
+        }
+
+        #endregion
+#endif
+
         #endregion
 
         #region UpdateFolderCollection

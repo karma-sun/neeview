@@ -73,7 +73,7 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
 
-                new SettingItemSection("サイドパネルのサムネイル",
+                new SettingItemSection("リスト項目のサムネイル",
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.ThumbnailWidth))),
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.IsThumbnailPopup))),
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.BannerWidth)))),

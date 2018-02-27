@@ -15,7 +15,7 @@ namespace NeeView
     /// <summary>
     /// フォルダーの並び(互換用)
     /// </summary>
-    [DataContract(Name ="FolderOrder")]
+    [Obsolete, DataContract(Name ="FolderOrder")]
     public enum FolderOrderV1
     {
         [EnumMember]
@@ -65,6 +65,7 @@ namespace NeeView
 
     public static class FolderOrderExtension
     {
+        [Obsolete]
         public static FolderOrder ToV2(this FolderOrderV1 mode)
         {
             switch(mode)

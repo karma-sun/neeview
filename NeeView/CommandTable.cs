@@ -57,7 +57,7 @@ namespace NeeView
         private Dictionary<CommandType, CommandElement> _elements;
         private Models _models;
         private BookHub _book;
-        private bool _isReversePageMove;
+        private bool _isReversePageMove = true;
         private bool _isReversePageMoveWheel;
 
         #endregion

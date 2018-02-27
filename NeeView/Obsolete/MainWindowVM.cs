@@ -1,9 +1,4 @@
-﻿// Copyright (c) 2016-2018 Mitsuhiro Ito (nee)
-//
-// This software is released under the MIT License.
-// http://opensource.org/licenses/mit-license.php
-
-using NeeView.Windows.Controls;
+﻿using NeeView.Windows.Controls;
 using NeeLaboratory.Windows.Input;
 using System;
 using System.Collections.Generic;

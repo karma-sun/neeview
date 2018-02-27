@@ -745,6 +745,29 @@ namespace NeeView
             }
         }
 
+
+        /// <summary>
+        /// フォルダー移動可能判定
+        /// </summary>
+        public bool CanMoveTo(FolderItem item)
+        {
+            if (item != null && item.IsReady)
+            {
+                if (item.IsDirectory)
+                {
+                    return true;
+                }
+
+                var archiveType = ArchiverManager.Current.GetSupportedType(item.TargetPath, false);
+                if (!BookHub.Current.IsArchiveRecursive && archiveType.IsRecursiveSupported())
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         #endregion
 
         #region UpdateFolderCollection
@@ -813,7 +836,16 @@ namespace NeeView
             {
                 return await CreateSearchFolderCollectionAsync(place, keyword, isForce, token);
             }
-            else if (place == null || Directory.Exists(place))
+            else
+            {
+                return await CreateFolderCollectionWithoutSearchAsync(place, isForce, token);
+            }
+        }
+
+        //
+        private async Task<FolderCollection> CreateFolderCollectionWithoutSearchAsync(string place, bool isForce, CancellationToken token)
+        {
+            if (place == null || Directory.Exists(place))
             {
                 return await CreateEntryFolderCollectionAsync(place, isForce, token);
             }
@@ -891,7 +923,7 @@ namespace NeeView
                 // アーカイブパスが展開できない場合、実在パスでの展開を行う
                 Debug.WriteLine($"Cannot open: {ex.Message}");
                 place = ArchiveFileSystem.GetExistDirectoryName(place);
-                return await CreateFolderCollectionAsync(place, isForce, token);
+                return await CreateEntryFolderCollectionAsync(place, isForce, token);
             }
         }
 

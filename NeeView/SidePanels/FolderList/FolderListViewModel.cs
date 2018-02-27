@@ -537,6 +537,19 @@ namespace NeeView
             _model.UpdateSearchHistory();
         }
 
+
+        /// <summary>
+        /// 可能な場合のみ、フォルダー移動
+        /// </summary>
+        /// <param name="folderInfo"></param>
+        public void MoveToSafety(FolderItem folderInfo)
+        {
+            if (_model.CanMoveTo(folderInfo))
+            {
+                MoveTo.Execute(folderInfo.TargetPath);
+            }
+        }
+
         #endregion
     }
 

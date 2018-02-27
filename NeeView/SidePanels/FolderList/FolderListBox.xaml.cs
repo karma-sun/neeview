@@ -427,21 +427,7 @@ namespace NeeView
         private void FolderListItem_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var folderInfo = (sender as ListBoxItem)?.Content as FolderItem;
-            if (folderInfo != null && folderInfo.IsReady)
-            {
-                if (folderInfo.IsDirectory)
-                {
-                    _vm.MoveTo.Execute(folderInfo.TargetPath);
-                }
-                else
-                {
-                    var archiveType = ArchiverManager.Current.GetSupportedType(folderInfo.TargetPath, false);
-                    if (!BookHub.Current.IsArchiveRecursive && archiveType.IsRecursiveSupported())
-                    {
-                        _vm.MoveTo.Execute(folderInfo.TargetPath);
-                    }
-                }
-            }
+            _vm.MoveToSafety(folderInfo);
 
             e.Handled = true;
         }
@@ -459,10 +445,7 @@ namespace NeeView
             }
             else if (isLRKeyEnabled && e.Key == Key.Right) // →
             {
-                if (folderInfo != null && folderInfo.IsDirectory && folderInfo.IsReady)
-                {
-                    _vm.MoveTo.Execute(folderInfo.TargetPath);
-                }
+                _vm.MoveToSafety(folderInfo);
                 e.Handled = true;
             }
             else if ((isLRKeyEnabled && e.Key == Key.Left) || e.Key == Key.Back) // ← Backspace
@@ -517,6 +500,6 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
     }
 }

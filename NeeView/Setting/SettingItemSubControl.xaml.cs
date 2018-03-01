@@ -31,12 +31,11 @@ namespace NeeView.Setting
         {
             InitializeComponent();
 
-            this.Header.Text = header;
             this.ContentValue.Content = content;
 
             if (!string.IsNullOrWhiteSpace(tips))
             {
-                this.Header.ToolTip = tips;
+                this.ToolTip = tips;
             }
 
             if (!isContentStretch)

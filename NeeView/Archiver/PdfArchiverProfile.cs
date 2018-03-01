@@ -15,6 +15,9 @@ namespace NeeView
 
         private bool _isEnabled = true;
 
+        private Size _renderSize = new Size(1920, 1080);
+
+
         //
         public PdfArchiverProfile()
         {
@@ -32,16 +35,20 @@ namespace NeeView
         [PropertyMember("PDFファイルの拡張子")]
         public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".pfd");
 
-        [PropertyMember("PDFページ標準サイズ", Tips = "通常は表示サイズにあわせてレンダリングしますが、下限はこの標準サイズになります。 より小さくなる場合には縮小して表示します。")]
-        public Size RenderSize { get; set; } = new Size(1024, 1024);
-
-
-        //
-        public void Validate()
+        [PropertyMember("PDFページ標準サイズ", Tips = "通常は表示サイズにあわせてレンダリングしますが、下限はこの標準サイズになります。 より小さくなる場合には縮小して表示します。上限は「最大画像サイズ」です。")]
+        public Size RenderSize
         {
-            this.RenderSize = new Size(
-                MathUtility.Clamp(this.RenderSize.Width, 256, PictureProfile.Current.MaximumSize.Width),
-                MathUtility.Clamp(this.RenderSize.Height, 256, PictureProfile.Current.MaximumSize.Height));
+            get { return _renderSize; }
+            set
+            {
+                if (_renderSize != value)
+                {
+                    _renderSize = new Size(
+                        MathUtility.Clamp(value.Width, 256, PictureProfile.Current.MaximumSize.Width),
+                        MathUtility.Clamp(value.Height, 256, PictureProfile.Current.MaximumSize.Height));
+                    RaisePropertyChanged();
+                }
+            }
         }
 
         /// <summary>
@@ -119,8 +126,6 @@ namespace NeeView
 
             this.IsEnabled = memento.IsEnabled;
             this.RenderSize = memento.RenderSize;
-
-            Validate();
         }
         #endregion
     }

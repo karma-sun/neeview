@@ -112,6 +112,7 @@ namespace NeeView
                 value = string.IsNullOrEmpty(value) ? WindowTitleFormat1Default : value;
                 if (_windowTitleFormat1 != value)
                 {
+                    _windowTitleFormat1 = value;
                     UpdateFomatterFilter();
                     UpdateWindowTitle(WindowTitleMask.None);
                 }
@@ -165,7 +166,6 @@ namespace NeeView
         }
 
         #endregion
-
 
         #region Methods
 
@@ -299,7 +299,6 @@ namespace NeeView
         }
 
         #endregion
-
 
         #region Memento
 

@@ -19,15 +19,15 @@
         </Style>
 
         <DataTemplate DataType="{x:Type nvp:PropertyValue_Boolean}">
-            <CheckBox IsChecked="{Binding Value}"  VerticalAlignment="Center"/>
+            <CheckBox IsChecked="{Binding Value}"  Content="{Binding Name}"  VerticalAlignment="Center" VerticalContentAlignment="Center"/>
         </DataTemplate>
 
     </UserControl.Resources>
 
     <Border x:Name="Root" BorderBrush="WhiteSmoke" BorderThickness="0,0,0,0" Background="Transparent">
+        
         <DockPanel Margin="0,5,0,0" MinWidth="300" >
             <ContentControl x:Name="ContentValue"  VerticalAlignment="Center" Focusable="False" Margin="0"/>
-            <TextBlock x:Name="Header" TextWrapping="Wrap" VerticalAlignment="Center" Margin="5,0" Style="{StaticResource EnabledTextBlockStyle}"/>
         </DockPanel>
     </Border>
 </UserControl>

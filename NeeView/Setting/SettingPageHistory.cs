@@ -36,6 +36,9 @@ namespace NeeView.Setting
                     new SettingItemGroup(
                         new SettingItemButton("履歴を削除する", RemoveHistory) { IsContentOnly = true })),
 
+                new SettingItemSection("フォルダーリスト",
+                    new SettingItemProperty(PropertyMemberElement.Create(BookHistory.Current, nameof(BookHistory.IsKeepFolderStatus)))),
+
                 new SettingItemSection("詳細設定",
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsDisableSave)))),
             };

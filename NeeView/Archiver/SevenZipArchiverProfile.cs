@@ -31,7 +31,7 @@ namespace NeeView
         public string X64DllPath { get; set; } = "";
 
         [PropertyMember("圧縮ファイルの拡張子")]
-        public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".7z;.rar;.lzh;.cbr;.cbz");
+        public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".7z;.cb7;.cbr;.cbz;.lzh;.rar;.zip");
 
         [PropertyMember("ファイルをロックする時間(秒)", Tips = "この時間アクセスがなければロックを解除します。-1でロックを保持したままになります。")]
         public double LockTime { get; set; } = -1.0;

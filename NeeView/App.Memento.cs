@@ -78,7 +78,7 @@ namespace NeeView
         public bool IsRestoreSecondWindow { get; set; } = true;
 
         // 履歴、ブックマーク、ページマークを保存しない
-        [PropertyMember("履歴、ブックマーク、ページマークをファイル保存しない")]
+        [PropertyMember("履歴、ブックマーク、ページマークをファイル保存しない", Tips ="履歴系の情報を一切保存しなくなります。")]
         public bool IsDisableSave { get; set; }
 
         // パネルやメニューが自動的に消えるまでの時間(秒)

@@ -28,6 +28,8 @@ namespace NeeView
 
             _contentCanvas.ContentChanged +=
                 (s, e) => UpdateBackgroundBrush();
+
+            this.CustomBackground = new BrushSource();
         }
 
         //
@@ -72,7 +74,7 @@ namespace NeeView
         /// <summary>
         /// CustomBackground property.
         /// </summary>
-        private BrushSource _customBackground = new BrushSource();
+        private BrushSource _customBackground;
         [PropertyMember("カスタム背景", Tips = "背景を「カスタム背景」にした時に適用される設定です。")]
         public BrushSource CustomBackground
         {

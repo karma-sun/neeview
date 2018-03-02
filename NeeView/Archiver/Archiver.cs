@@ -28,7 +28,7 @@ namespace NeeView
 
     public static class ArchiverTypeExtensions
     {
-        // 再帰圧縮ファイルが可能なアーカイブであるか
+        // 多重圧縮ファイルが可能なアーカイブであるか
         public static bool IsRecursiveSupported(this ArchiverType self)
         {
             switch(self)
@@ -326,7 +326,7 @@ namespace NeeView
 
         /// <summary>
         /// 所属している場所を得る
-        /// 再帰圧縮フォルダーの場合は最上位のアーカイブの場所になる
+        /// 多重圧縮フォルダーの場合は最上位のアーカイブの場所になる
         /// </summary>
         /// <returns>ファイルパス</returns>
         public string GetPlace()

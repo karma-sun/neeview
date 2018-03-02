@@ -283,7 +283,7 @@ namespace NeeView
         /// アーカイブの自動再帰展開
         /// </summary>
         private bool _isArchiveRecursive = true;
-        [PropertyMember("再帰圧縮ファイルをすべて展開する", Tips = "OFFにすると含まれる圧縮ファイルはサブフォルダー扱いになります。")]
+        [PropertyMember("多重圧縮ファイルをすべて展開する", Tips = "OFFにすると含まれる圧縮ファイルはサブフォルダー扱いになります。")]
         public bool IsArchiveRecursive
         {
             get { return _isArchiveRecursive; }
@@ -293,7 +293,7 @@ namespace NeeView
         /// <summary>
         /// アーカイブ内アーカイブの履歴保存
         /// </summary>
-        [PropertyMember("再帰圧縮ファイルを履歴に保存する")]
+        [PropertyMember("多重圧縮ファイルを履歴に保存する")]
         public bool IsInnerArchiveHistoryEnabled { get; set; }
 
         /// <summary>

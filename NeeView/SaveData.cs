@@ -26,6 +26,8 @@ namespace NeeView
 
         private string _oldPagemarkFileName { get; set; }
 
+        private object _saveLock = new object();
+
         public const string UserSettingFileName = "UserSetting.xml";
         public const string HistoryFileName = "History.xml";
         public const string BookmarkFileName = "Bookmark.xml";
@@ -188,6 +190,15 @@ namespace NeeView
         {
             if (!IsEnableSave) return;
 
+            lock (_saveLock)
+            {
+                Debug.WriteLine(">> SAVE");
+                SaveAllInner();
+            }
+        }
+
+        private void SaveAllInner()
+        {
             // 現在の本を履歴に登録
             BookHub.Current.SaveBookMemento(); // TODO: タイミングに問題有り？
 

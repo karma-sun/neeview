@@ -35,7 +35,7 @@ namespace NeeView
         [PropertyMember("PDFファイルの拡張子")]
         public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".pfd");
 
-        [PropertyMember("PDFページ標準サイズ", Tips = "通常は表示サイズにあわせてレンダリングしますが、下限はこの標準サイズになります。 より小さくなる場合には縮小して表示します。上限は「最大画像サイズ」です。")]
+        [PropertyMember("PDFページ標準サイズ", Tips = "通常は表示サイズにあわせてレンダリングしますが、下限はこの標準サイズになります。 より小さくなる場合には縮小して表示します。")]
         public Size RenderSize
         {
             get { return _renderSize; }
@@ -44,10 +44,22 @@ namespace NeeView
                 if (_renderSize != value)
                 {
                     _renderSize = new Size(
-                        MathUtility.Clamp(value.Width, 256, PictureProfile.Current.MaximumSize.Width),
-                        MathUtility.Clamp(value.Height, 256, PictureProfile.Current.MaximumSize.Height));
+                        Math.Max(value.Width, 256),
+                        Math.Max(value.Height, 256));
                     RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(SizeLimitedRenderSize));
                 }
+            }
+        }
+
+        // 最大画像サイズで制限したサイズ
+        public Size SizeLimitedRenderSize
+        {
+            get
+            {
+                return new Size(
+                    Math.Min(_renderSize.Width, PictureProfile.Current.MaximumSize.Width),
+                    Math.Min(_renderSize.Height, PictureProfile.Current.MaximumSize.Height));
             }
         }
 
@@ -60,11 +72,11 @@ namespace NeeView
         {
             if (size.IsEmpty)
             {
-                size = this.RenderSize;
+                size = this.SizeLimitedRenderSize;
             }
-            else if (this.RenderSize.IsContains(size))
+            else if (this.SizeLimitedRenderSize.IsContains(size))
             {
-                size = size.Uniformed(this.RenderSize);
+                size = size.Uniformed(this.SizeLimitedRenderSize);
             }
             else if (!PictureProfile.Current.MaximumSize.IsContains(size))
             {

@@ -127,7 +127,7 @@ namespace NeeView
         private Size GetRenderSize(PdfDocument pdfDocument, int page)
         {
             var size = SizeExtensions.FromDrawingSize(pdfDocument.PageSizes[page]);
-            return size.Uniformed(PdfArchiverProfile.Current.RenderSize);
+            return size.Uniformed(PdfArchiverProfile.Current.SizeLimitedRenderSize);
         }
 
 

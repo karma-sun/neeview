@@ -1,9 +1,4 @@
-﻿// Copyright (c) 2016-2018 Mitsuhiro Ito (nee)
-//
-// This software is released under the MIT License.
-// http://opensource.org/licenses/mit-license.php
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -132,7 +127,7 @@ namespace NeeView
         private Size GetRenderSize(PdfDocument pdfDocument, int page)
         {
             var size = SizeExtensions.FromDrawingSize(pdfDocument.PageSizes[page]);
-            return size.Uniformed(PdfArchiverProfile.Current.RenderSize);
+            return size.Uniformed(PdfArchiverProfile.Current.SizeLimitedRenderSize);
         }
 
 

@@ -1,9 +1,4 @@
-﻿// Copyright (c) 2016-2018 Mitsuhiro Ito (nee)
-//
-// This software is released under the MIT License.
-// http://opensource.org/licenses/mit-license.php
-
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -30,6 +25,8 @@ namespace NeeView
         private string _pagemarkFileName { get; set; }
 
         private string _oldPagemarkFileName { get; set; }
+
+        private object _saveLock = new object();
 
         public const string UserSettingFileName = "UserSetting.xml";
         public const string HistoryFileName = "History.xml";
@@ -193,6 +190,15 @@ namespace NeeView
         {
             if (!IsEnableSave) return;
 
+            lock (_saveLock)
+            {
+                Debug.WriteLine(">> SAVE");
+                SaveAllInner();
+            }
+        }
+
+        private void SaveAllInner()
+        {
             // 現在の本を履歴に登録
             BookHub.Current.SaveBookMemento(); // TODO: タイミングに問題有り？
 

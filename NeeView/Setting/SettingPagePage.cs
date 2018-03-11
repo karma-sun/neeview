@@ -48,15 +48,15 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(BookSetting.Current, nameof(BookSetting.IsUseBookMementoDefault)))),
 
                 new SettingItemSection("履歴、ブックマークから復元するページ設定項目", "開いたことがあるブックの場合、前回の情報から設定の復元をします。復元しない項目は既定のページ設定もしくは直前の設定が使用されます。",
-                    new SettingItemProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.Page))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.PageMode))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.BookReadOrder))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.IsSupportedDividePage))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.IsSupportedWidePage))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.IsSupportedSingleFirstPage))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.IsSupportedSingleLastPage))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.IsRecursiveFolder))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.SortMode)))),
+                    new SettingItemSubProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.Page))),
+                    new SettingItemSubProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.PageMode))),
+                    new SettingItemSubProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.BookReadOrder))),
+                    new SettingItemSubProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.IsSupportedDividePage))),
+                    new SettingItemSubProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.IsSupportedWidePage))),
+                    new SettingItemSubProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.IsSupportedSingleFirstPage))),
+                    new SettingItemSubProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.IsSupportedSingleLastPage))),
+                    new SettingItemSubProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.IsRecursiveFolder))),
+                    new SettingItemSubProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.SortMode)))),
             };
         }
     }

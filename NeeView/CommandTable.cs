@@ -1,9 +1,4 @@
-﻿// Copyright (c) 2016-2018 Mitsuhiro Ito (nee)
-//
-// This software is released under the MIT License.
-// http://opensource.org/licenses/mit-license.php
-
-using NeeLaboratory.ComponentModel;
+﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
 using System;
 using System.Collections;
@@ -57,7 +52,7 @@ namespace NeeView
         private Dictionary<CommandType, CommandElement> _elements;
         private Models _models;
         private BookHub _book;
-        private bool _isReversePageMove;
+        private bool _isReversePageMove = true;
         private bool _isReversePageMoveWheel;
 
         #endregion
@@ -1049,7 +1044,7 @@ namespace NeeView
                 element.ShortCutKey = "RightButton+WheelUp";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ViewScaleCommandParameter() { Scale = 20, IsSnapDefaultScale = true };
-                element.Execute = (s, e) => { var param = (ViewScaleCommandParameter)element.Parameter; _models.DragTransformControl.ScaleUp(param.Scale / 100.0, param.IsSnapDefaultScale); };
+                element.Execute = (s, e) => { var param = (ViewScaleCommandParameter)element.Parameter; _models.DragTransformControl.ScaleUp(param.Scale / 100.0, param.IsSnapDefaultScale, _models.ContentCanvas.MainContentScale); };
                 _elements[CommandType.ViewScaleUp] = element;
             }
             // ViewScaleDown
@@ -1061,8 +1056,7 @@ namespace NeeView
                 element.ShortCutKey = "RightButton+WheelDown";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewScaleUp };
-                ////element.Execute = (s, e) => _models.DragTransformControl.ScaleDown(((ViewScaleCommandParameter)element.Parameter).Scale / 100.0);
-                element.Execute = (s, e) => { var param = (ViewScaleCommandParameter)element.Parameter; _models.DragTransformControl.ScaleDown(param.Scale / 100.0, param.IsSnapDefaultScale); };
+                element.Execute = (s, e) => { var param = (ViewScaleCommandParameter)element.Parameter; _models.DragTransformControl.ScaleDown(param.Scale / 100.0, param.IsSnapDefaultScale, _models.ContentCanvas.MainContentScale); };
                 _elements[CommandType.ViewScaleDown] = element;
             }
             // ViewRotateLeft

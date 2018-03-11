@@ -50,6 +50,7 @@
               <uap:FileType>.7z</uap:FileType>
               <uap:FileType>.cbr</uap:FileType>
               <uap:FileType>.cbz</uap:FileType>
+              <uap:FileType>.cb7</uap:FileType>
               <uap:FileType>.pdf</uap:FileType>
             </uap:SupportedFileTypes>
           </uap:FileTypeAssociation>

@@ -1,11 +1,4 @@
-﻿<!--
-    Copyright (c) 2016-2018 Mitsuhiro Ito (nee)
-
-    This software is released under the MIT License.
-    http://opensource.org/licenses/mit-license.php
--->
-
-<UserControl x:Class="NeeView.FileInfoItem"
+﻿<UserControl x:Class="NeeView.FileInfoItem"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 

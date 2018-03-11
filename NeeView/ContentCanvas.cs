@@ -1,9 +1,4 @@
-﻿// Copyright (c) 2016-2018 Mitsuhiro Ito (nee)
-//
-// This software is released under the MIT License.
-// http://opensource.org/licenses/mit-license.php
-
-using NeeLaboratory.ComponentModel;
+﻿using NeeLaboratory.ComponentModel;
 using NeeView.Effects;
 using NeeView.Windows.Property;
 using System;
@@ -228,6 +223,9 @@ namespace NeeView
             get { return _contentAngle; }
             set { if (_contentAngle != value) { _contentAngle = value; RaisePropertyChanged(); } }
         }
+
+        // メインコンテンツのオリジナル表示スケール
+        public double MainContentScale => MainContent != null ? MainContent.Scale * Config.Current.Dpi.DpiScaleX : 0.0;
 
         #endregion
 
@@ -498,7 +496,7 @@ namespace NeeView
         }
 
 
-#region スケールモード
+        #region スケールモード
 
         // トグル
         public PageStretchMode GetToggleStretchMode(ToggleStretchModeCommandParameter param)
@@ -560,9 +558,9 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
-#region 回転コマンド
+        #region 回転コマンド
 
         //
         public bool ToggleAutoRotate()
@@ -586,9 +584,9 @@ namespace NeeView
             if (parameter.IsStretch) ContentCanvas.Current.UpdateContentSize(_dragTransform.Angle);
         }
 
-#endregion
+        #endregion
 
-#region クリップボード関連
+        #region クリップボード関連
 
         //
         private BitmapSource CurrentBitmapSource
@@ -618,9 +616,9 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
-#region 印刷
+        #region 印刷
 
         /// <summary>
         /// 印刷可能判定
@@ -696,11 +694,11 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
-#endregion
+        #endregion
 
-#region IDisposable Support
+        #region IDisposable Support
 
         private bool _disposedValue = false;
 
@@ -728,10 +726,10 @@ namespace NeeView
             Dispose(true);
         }
 
-#endregion
+        #endregion
 
 
-#region Memento
+        #region Memento
         [DataContract]
         public class Memento
         {
@@ -769,6 +767,6 @@ namespace NeeView
             //UpdateContentSize(); // 不要？
         }
 
-#endregion
+        #endregion
     }
 }

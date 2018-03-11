@@ -1,9 +1,4 @@
-﻿// Copyright (c) 2016-2018 Mitsuhiro Ito (nee)
-//
-// This software is released under the MIT License.
-// http://opensource.org/licenses/mit-license.php
-
-using NeeLaboratory;
+﻿using NeeLaboratory;
 using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
 using PhotoSauce.MagicScaler;
@@ -81,7 +76,7 @@ namespace NeeView
         /// <summary>
         /// ThumbnailWidth property.
         /// </summary>
-        private int _thumbnailWidth = 75;
+        private int _thumbnailWidth = 64;
         [PropertyRange("ブックサムネイルサイズ", 0, 256, TickFrequency = 8, Format = "{0}×{0}", Tips = "フォルダーリストのコンテンツ表示でのサムネイルサイズです。")]
         public int ThumbnailWidth
         {

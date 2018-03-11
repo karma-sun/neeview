@@ -1,9 +1,4 @@
-﻿// Copyright (c) 2016-2018 Mitsuhiro Ito (nee)
-//
-// This software is released under the MIT License.
-// http://opensource.org/licenses/mit-license.php
-
-using NeeView.Windows.Property;
+﻿using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -83,7 +78,7 @@ namespace NeeView
         public bool IsRestoreSecondWindow { get; set; } = true;
 
         // 履歴、ブックマーク、ページマークを保存しない
-        [PropertyMember("履歴、ブックマーク、ページマークをファイル保存しない")]
+        [PropertyMember("履歴、ブックマーク、ページマークをファイル保存しない", Tips ="履歴系の情報を一切保存しなくなります。")]
         public bool IsDisableSave { get; set; }
 
         // パネルやメニューが自動的に消えるまでの時間(秒)

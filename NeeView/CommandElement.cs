@@ -1,9 +1,4 @@
-﻿// Copyright (c) 2016-2018 Mitsuhiro Ito (nee)
-//
-// This software is released under the MIT License.
-// http://opensource.org/licenses/mit-license.php
-
-using NeeView.Data;
+﻿using NeeView.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;

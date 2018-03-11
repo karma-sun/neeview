@@ -1,9 +1,4 @@
-﻿// Copyright (c) 2016-2018 Mitsuhiro Ito (nee)
-//
-// This software is released under the MIT License.
-// http://opensource.org/licenses/mit-license.php
-
-using NeeLaboratory;
+﻿using NeeLaboratory;
 using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
 using System;
@@ -19,6 +14,9 @@ namespace NeeView
         public static PdfArchiverProfile Current { get; private set; }
 
         private bool _isEnabled = true;
+
+        private Size _renderSize = new Size(1920, 1080);
+
 
         //
         public PdfArchiverProfile()
@@ -38,15 +36,31 @@ namespace NeeView
         public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".pfd");
 
         [PropertyMember("PDFページ標準サイズ", Tips = "通常は表示サイズにあわせてレンダリングしますが、下限はこの標準サイズになります。 より小さくなる場合には縮小して表示します。")]
-        public Size RenderSize { get; set; } = new Size(1024, 1024);
-
-
-        //
-        public void Validate()
+        public Size RenderSize
         {
-            this.RenderSize = new Size(
-                MathUtility.Clamp(this.RenderSize.Width, 256, PictureProfile.Current.MaximumSize.Width),
-                MathUtility.Clamp(this.RenderSize.Height, 256, PictureProfile.Current.MaximumSize.Height));
+            get { return _renderSize; }
+            set
+            {
+                if (_renderSize != value)
+                {
+                    _renderSize = new Size(
+                        Math.Max(value.Width, 256),
+                        Math.Max(value.Height, 256));
+                    RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(SizeLimitedRenderSize));
+                }
+            }
+        }
+
+        // 最大画像サイズで制限したサイズ
+        public Size SizeLimitedRenderSize
+        {
+            get
+            {
+                return new Size(
+                    Math.Min(_renderSize.Width, PictureProfile.Current.MaximumSize.Width),
+                    Math.Min(_renderSize.Height, PictureProfile.Current.MaximumSize.Height));
+            }
         }
 
         /// <summary>
@@ -58,11 +72,11 @@ namespace NeeView
         {
             if (size.IsEmpty)
             {
-                size = this.RenderSize;
+                size = this.SizeLimitedRenderSize;
             }
-            else if (this.RenderSize.IsContains(size))
+            else if (this.SizeLimitedRenderSize.IsContains(size))
             {
-                size = size.Uniformed(this.RenderSize);
+                size = size.Uniformed(this.SizeLimitedRenderSize);
             }
             else if (!PictureProfile.Current.MaximumSize.IsContains(size))
             {
@@ -124,8 +138,6 @@ namespace NeeView
 
             this.IsEnabled = memento.IsEnabled;
             this.RenderSize = memento.RenderSize;
-
-            Validate();
         }
         #endregion
     }

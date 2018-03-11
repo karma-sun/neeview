@@ -1,11 +1,4 @@
-﻿// Copyright (c) 2016-2018 Mitsuhiro Ito (nee)
-//
-// This software is released under the MIT License.
-// http://opensource.org/licenses/mit-license.php
-
-// from http://stackoverflow.com/questions/11703833/dragmove-and-maximize
-
-using NeeLaboratory.ComponentModel;
+﻿using NeeLaboratory.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

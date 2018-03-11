@@ -1,9 +1,4 @@
-﻿// Copyright (c) 2016-2018 Mitsuhiro Ito (nee)
-//
-// This software is released under the MIT License.
-// http://opensource.org/licenses/mit-license.php
-
-using NeeView.Windows.Property;
+﻿using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -628,30 +623,62 @@ namespace NeeView
 
         #region Scale method
         // 拡大コマンド
-        public void ScaleUp(double scaleDelta, bool isSnap)
+        public void ScaleUp(double scaleDelta, bool isSnap, double originalScale)
         {
             _baseScale = _transform.Scale;
             _basePosition = _transform.Position;
 
             var scale = _baseScale * (1.0 + scaleDelta);
-            if (isSnap && _baseScale < 0.99 && scale > 0.99)
+
+            if (isSnap)
             {
-                scale = 1.0;
+                if (this.IsOriginalScaleShowMessage && originalScale > 0.0)
+                {
+                    // original scale 100% snap
+                    if (_baseScale * originalScale < 0.99 && scale * originalScale > 0.99)
+                    {
+                        scale = 1.0 / originalScale;
+                    }
+                }
+                else
+                {
+                    // visual scale 100% snap
+                    if (_baseScale < 0.99 && scale > 0.99)
+                    {
+                        scale = 1.0;
+                    }
+                }
             }
 
             DoScale(scale);
         }
 
         // 縮小コマンド
-        public void ScaleDown(double scaleDelta, bool isSnap)
+        public void ScaleDown(double scaleDelta, bool isSnap, double originalScale)
         {
             _baseScale = _transform.Scale;
             _basePosition = _transform.Position;
 
             var scale = _baseScale / (1.0 + scaleDelta);
-            if (isSnap && _baseScale > 1.01 && scale < 1.01)
+
+            if (isSnap)
             {
-                scale = 1.0;
+                if (this.IsOriginalScaleShowMessage && originalScale > 0.0)
+                {
+                    // original scale 100% snap
+                    if (_baseScale * originalScale > 1.01 && scale * originalScale < 1.01)
+                    {
+                        scale = 1.0 / originalScale;
+                    }
+                }
+                else
+                {
+                    // visual scale 100% snap
+                    if (_baseScale > 1.01 && scale < 1.01)
+                    {
+                        scale = 1.0;
+                    }
+                }
             }
 
             DoScale(scale);

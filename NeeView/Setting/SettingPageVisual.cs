@@ -73,7 +73,7 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
 
-                new SettingItemSection("サイドパネルのサムネイル",
+                new SettingItemSection("リスト項目のサムネイル",
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.ThumbnailWidth))),
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.IsThumbnailPopup))),
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.BannerWidth)))),
@@ -210,8 +210,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
             this.Items = new List<SettingItem>
             {
                  new SettingItemSection("全般",
-                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.Home))) {IsStretch = true},
-                    new SettingItemProperty(PropertyMemberElement.Create(BookHistory.Current, nameof(BookHistory.IsKeepFolderStatus)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.Home))) {IsStretch = true}),
 
                 new SettingItemSection("表示",
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsVisibleBookmarkMark))),

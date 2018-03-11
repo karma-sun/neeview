@@ -1,9 +1,4 @@
-﻿// Copyright (c) 2016-2018 Mitsuhiro Ito (nee)
-//
-// This software is released under the MIT License.
-// http://opensource.org/licenses/mit-license.php
-
-using NeeLaboratory.ComponentModel;
+﻿using NeeLaboratory.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -117,6 +112,7 @@ namespace NeeView
                 value = string.IsNullOrEmpty(value) ? WindowTitleFormat1Default : value;
                 if (_windowTitleFormat1 != value)
                 {
+                    _windowTitleFormat1 = value;
                     UpdateFomatterFilter();
                     UpdateWindowTitle(WindowTitleMask.None);
                 }
@@ -170,7 +166,6 @@ namespace NeeView
         }
 
         #endregion
-
 
         #region Methods
 
@@ -304,7 +299,6 @@ namespace NeeView
         }
 
         #endregion
-
 
         #region Memento
 

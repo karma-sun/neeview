@@ -1,9 +1,4 @@
-﻿// Copyright (c) 2016-2018 Mitsuhiro Ito (nee)
-//
-// This software is released under the MIT License.
-// http://opensource.org/licenses/mit-license.php
-
-using NeeLaboratory.ComponentModel;
+﻿using NeeLaboratory.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -315,7 +310,7 @@ namespace NeeView
             switch (ActionType)
             {
                 case TransformActionType.Scale:
-                    string scaleText = DragTransformControl.Current.IsOriginalScaleShowMessage && mainContent.IsValid
+                    string scaleText = DragTransformControl.Current.IsOriginalScaleShowMessage && mainContent != null && mainContent.IsValid
                         ? $"{(int)(transform.Scale * mainContent.Scale * Config.Current.Dpi.DpiScaleX * 100 + 0.1)}%"
                         : $"{(int)(transform.Scale * 100.0 + 0.1)}%";
                     infoMessage.SetMessage(InfoMessageType.ViewTransform, scaleText);

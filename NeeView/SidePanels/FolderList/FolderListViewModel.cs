@@ -539,7 +539,7 @@ namespace NeeView
         /// <param name="folderInfo"></param>
         public void MoveToSafety(FolderItem folderInfo)
         {
-            if (_model.CanMoveTo(folderInfo))
+            if (folderInfo != null && folderInfo.CanOpenFolder())
             {
                 MoveTo.Execute(folderInfo.TargetPath);
             }

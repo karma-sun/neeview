@@ -59,34 +59,66 @@ namespace NeeView
         ArchiveEntry,
     }
 
+
     /// <summary>
     /// フォルダー情報
     /// フォルダーリストの１項目の情報 
     /// </summary>
     public class FolderItem : BindableBase, IHasPage
     {
+        // TODO: プロパティ多すぎ！
+
+        #region Properties
+
         public FolderItemAttribute Attributes { get; set; }
 
-        /// <summary>
-        /// 種類。ソート用
-        /// </summary>
+        // 種類。ソート用
         public FolderItemType Type { get; set; }
 
-
-        /// <summary>
-        /// Path property.
-        /// </summary>
-        private string _Path;
-        public string Path
+        private string _place;
+        public string Place
         {
-            get { return _Path; }
-            set { if (_Path != value) { _Path = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(Name)); } }
+            get { return _place; }
+            set
+            {
+                if (SetProperty(ref _place, value))
+                {
+                    RaisePropertyChanged(nameof(Path));
+                }
+            }
         }
 
-        /// <summary>
-        /// TargetPath property.
-        /// 実体へのパス。nullの場合はパスと同じ
-        /// </summary>
+        private string _name;
+        public string Name
+        {
+            get
+            {
+                if ((Attributes & FolderItemAttribute.Drive) == FolderItemAttribute.Drive)
+                {
+                    return Path;
+                }
+                else if (IsEmpty)
+                {
+                    return "表示できるファイルはありません";
+                }
+                else
+                {
+                    return IsShortcut ? System.IO.Path.GetFileNameWithoutExtension(_name) : _name;
+                }
+            }
+            set
+            {
+                if (SetProperty(ref _name, value))
+                {
+                    RaisePropertyChanged(nameof(Path));
+                }
+            }
+        }
+
+        // パス
+        public string Path => LoosePath.Combine(_place, _name);
+
+        // 実体へのパス。nullの場合は Path と同じ
         private string _targetPath;
         public string TargetPath
         {
@@ -94,17 +126,12 @@ namespace NeeView
             set { if (_targetPath != value) { _targetPath = value; RaisePropertyChanged(); } }
         }
 
-
-        /// <summary>
-        /// ArchiveEntry property.
-        /// </summary>
         private ArchiveEntry _archiveEntry;
         public ArchiveEntry ArchiveEntry
         {
             get { return _archiveEntry; }
             set { if (_archiveEntry != value) { _archiveEntry = value; RaisePropertyChanged(); } }
         }
-
 
         /// <summary>
         /// 最終更新日
@@ -115,8 +142,6 @@ namespace NeeView
         /// ファイルサイズ
         /// </summary>
         public long Length { get; set; }
-
-        public string ParentPath => System.IO.Path.GetDirectoryName(Path);
 
         public bool IsDrive => (Attributes & FolderItemAttribute.Drive) == FolderItemAttribute.Drive;
         public bool IsDirectory => (Attributes & FolderItemAttribute.Directory) == FolderItemAttribute.Directory;
@@ -130,11 +155,12 @@ namespace NeeView
         /// </summary>
         public bool IsEditable => (this.Attributes & (FolderItemAttribute.Empty | FolderItemAttribute.Drive | FolderItemAttribute.ArchiveEntry)) == 0;
 
+        /// <summary>
+        /// アクセス可能？(ドライブの準備ができているか)
+        /// </summary>
         public bool IsReady { get; set; }
 
-
         /// <summary>
-        /// IsRecursived property.
         /// フォルダーリストのコンテキストメニュー用
         /// </summary>
         private bool _isRecursived;
@@ -144,33 +170,8 @@ namespace NeeView
             set { if (_isRecursived != value) { _isRecursived = value; RaisePropertyChanged(); } }
         }
 
-        /// <summary>
-        /// IsRecursived 更新
-        /// </summary>
-        /// <param name="isDefaultRecursive"></param>
-        public void UpdateIsRecursived(bool isDefaultRecursive)
-        {
-            var option = isDefaultRecursive ? BookLoadOption.DefaultRecursive : BookLoadOption.None;
-            var memento = BookHub.Current.GetLastestBookMemento(this.TargetPath, option);
-            this.IsRecursived = memento.IsRecursiveFolder;
-        }
-
-
-
         public static bool IsVisibleHistoryMark { get; set; } = true;
         public static bool IsVisibleBookmarkMark { get; set; } = true;
-
-        // エクスプローラーへのドラッグオブジェクト
-        public DataObject GetFileDragData()
-        {
-            return new DataObject(DataFormats.FileDrop, new string[] { this.Path });
-        }
-
-        // パスの存在チェック
-        public bool IsExist()
-        {
-            return IsDirectory ? Directory.Exists(Path) : File.Exists(Path);
-        }
 
         // アイコンオーバーレイの種類を返す
         private FolderItemIconOverlay _iconOverlay = FolderItemIconOverlay.Uninitialized;
@@ -186,27 +187,8 @@ namespace NeeView
             }
         }
 
-        private void UpdateOverlay()
-        {
-            var unit = BookMementoCollection.Current.Find(TargetPath);
-
-            if (IsVisibleBookmarkMark && unit?.BookmarkNode != null)
-                _iconOverlay = FolderItemIconOverlay.Star;
-            else if (IsVisibleHistoryMark && unit?.HistoryNode != null)
-                _iconOverlay = FolderItemIconOverlay.Checked;
-            else
-                _iconOverlay = FolderItemIconOverlay.None;
-        }
-
         public bool IsOverlayStar => IconOverlay == FolderItemIconOverlay.Star;
         public bool IsOverlayChecked => IconOverlay == FolderItemIconOverlay.Checked;
-
-        // アイコンオーバーレイの変更を通知
-        public void NotifyIconOverlayChanged()
-        {
-            UpdateOverlay();
-            RaisePropertyChanged("");
-        }
 
         private BitmapSource _icon;
         public BitmapSource Icon
@@ -234,27 +216,7 @@ namespace NeeView
             }
         }
 
-        public string Name
-        {
-            get
-            {
-                if ((Attributes & FolderItemAttribute.Drive) == FolderItemAttribute.Drive)
-                {
-                    return Path;
-                }
-                else if (IsEmpty)
-                {
-                    return "表示できるファイルはありません"; //// IsDirectoryNotFound ? "フォルダーが存在しません" : "表示できるファイルはありません";
-                }
-                else
-                {
-                    return IsShortcut ? System.IO.Path.GetFileNameWithoutExtension(Path) : LoosePath.GetFileName(Path);
-                }
-            }
-        }
-
         // サムネイル用
-        #region Property: ArchivePage
         private ArchivePage _archivePage;
         public ArchivePage ArchivePage
         {
@@ -277,12 +239,6 @@ namespace NeeView
             set { _archivePage = value; RaisePropertyChanged(); }
         }
 
-        //
-        private void Thumbnail_Touched(object sender, EventArgs e)
-        {
-            var thumbnail = (Thumbnail)sender;
-            BookThumbnailPool.Current.Add(thumbnail);
-        }
         #endregion
 
         #region IHasPage Supprt
@@ -298,11 +254,102 @@ namespace NeeView
 
         #endregion
 
+        #region Methods
+
+        /// <summary>
+        /// IsRecursived 更新
+        /// </summary>
+        public void UpdateIsRecursived(bool isDefaultRecursive)
+        {
+            var option = isDefaultRecursive ? BookLoadOption.DefaultRecursive : BookLoadOption.None;
+            var memento = BookHub.Current.GetLastestBookMemento(this.TargetPath, option);
+            this.IsRecursived = memento.IsRecursiveFolder;
+        }
+
+        // エクスプローラーへのドラッグオブジェクト
+        public DataObject GetFileDragData()
+        {
+            return new DataObject(DataFormats.FileDrop, new string[] { this.Path });
+        }
+
+        // パスの存在チェック
+        public bool IsExist()
+        {
+            return IsDirectory ? Directory.Exists(Path) : File.Exists(Path);
+        }
+
+
+        private void UpdateOverlay()
+        {
+            var unit = BookMementoCollection.Current.Find(TargetPath);
+
+            if (IsVisibleBookmarkMark && unit?.BookmarkNode != null)
+                _iconOverlay = FolderItemIconOverlay.Star;
+            else if (IsVisibleHistoryMark && unit?.HistoryNode != null)
+                _iconOverlay = FolderItemIconOverlay.Checked;
+            else
+                _iconOverlay = FolderItemIconOverlay.None;
+        }
+
+
+        // アイコンオーバーレイの変更を通知
+        public void NotifyIconOverlayChanged()
+        {
+            UpdateOverlay();
+            RaisePropertyChanged("");
+        }
+
+        //
+        private void Thumbnail_Touched(object sender, EventArgs e)
+        {
+            var thumbnail = (Thumbnail)sender;
+            BookThumbnailPool.Current.Add(thumbnail);
+        }
+
+        /// <summary>
+        /// 有効なページを持っているか判定
+        /// </summary>
+        /// <returns></returns>
+        public async Task<bool> HasAnyPageAsync()
+        {
+            // TODO: 実装。フォルダーの場合はページの有無をチェック、アーカイブの場合は判定せずtrue。
+            await Task.Yield();
+
+            if (this.IsEmpty) return false;
+
+            return true;
+        }
+
+
+        /// <summary>
+        /// フォルダーとして展開可能？
+        /// </summary>
+        public bool CanOpenFolder()
+        {
+            if (IsReady)
+            {
+                if (IsDirectory)
+                {
+                    return true;
+                }
+
+                var archiveType = ArchiverManager.Current.GetSupportedType(TargetPath, false);
+                if (!BookHub.Current.IsArchiveRecursive && archiveType.IsRecursiveSupported())
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         //
         public override string ToString()
         {
             return $"FolderItem: {Path}";
         }
+
+        #endregion
     }
 
 }

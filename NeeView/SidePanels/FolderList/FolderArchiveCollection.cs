@@ -51,15 +51,25 @@ namespace NeeView
 
         #endregion
 
+        #region Properties
+
+        public Archiver Archiver => _archiver;
+
+        #endregion
+
         #region Methods
 
         /// <summary>
         /// フォルダーリスト上での親フォルダーを取得
         /// </summary>
         /// <returns></returns>
-        public string GetParentPlace()
+        public override string GetParentPlace()
         {
-            if (_archiver == null)
+            if (Place == null)
+            {
+                return null;
+            }
+            else if (_archiver == null)
             {
                 return ArchiverManager.Current.GetExistPathName(this.Place);
             }
@@ -84,7 +94,8 @@ namespace NeeView
             {
                 Type = FolderItemType.ArchiveEntry,
                 ArchiveEntry = entry,
-                Path = entry.FullPath,
+                Place = entry.Archiver.FullPath,
+                Name = entry.EntryName,
                 LastWriteTime = entry.LastWriteTime ?? default(DateTime),
                 Length = entry.Length,
                 Attributes = FolderItemAttribute.ArchiveEntry,

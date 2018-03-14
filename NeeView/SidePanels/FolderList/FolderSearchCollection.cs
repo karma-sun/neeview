@@ -54,6 +54,8 @@ namespace NeeView
         /// </summary>
         public string SearchKeyword => _searchResult?.Keyword;
 
+        public override string Meta => _searchResult?.Keyword;
+
         #endregion
 
         #region Methods
@@ -93,7 +95,8 @@ namespace NeeView
                 return new FolderItem()
                 {
                     Type = FolderItemType.Directory,
-                    Path = nodeContent.Path,
+                    Place = Path.GetDirectoryName(nodeContent.Path),
+                    Name = Path.GetFileName(nodeContent.Path),
                     LastWriteTime = nodeContent.FileInfo.LastWriteTime,
                     Length = -1,
                     Attributes = FolderItemAttribute.Directory,
@@ -119,7 +122,8 @@ namespace NeeView
                     return new FolderItem()
                     {
                         Type = FolderItemType.File,
-                        Path = nodeContent.Path,
+                        Place = Path.GetDirectoryName(nodeContent.Path),
+                        Name = Path.GetFileName(nodeContent.Path),
                         LastWriteTime = nodeContent.FileInfo.LastWriteTime,
                         Length = nodeContent.FileInfo.Size,
                         IsReady = true

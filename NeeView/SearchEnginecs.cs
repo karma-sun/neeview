@@ -12,7 +12,7 @@ namespace NeeView
     /// <summary>
     /// 検索エンジン
     /// </summary>
-    class SearchEngine : IDisposable
+    public class SearchEngine : IDisposable
     {
         #region Fields
 
@@ -44,6 +44,8 @@ namespace NeeView
         //
         public SearchEngine(string path)
         {
+            Path = path;
+
             ////Debug.WriteLine($"SearchEngine: {path}");
             _engine = new NeeLaboratory.IO.Search.SearchEngine();
             _engine.Context.NodeFilter = NodeFilter;
@@ -55,13 +57,13 @@ namespace NeeView
 
         #region Properties
 
-        //
         public bool IsBusy => _engine != null && _engine.State != SearchCommandEngineState.Idle;
+
+        public string Path { get; private set; }
 
         #endregion
 
         #region Methods
-
 
         /// <summary>
         /// インデックスフィルタ

@@ -113,9 +113,23 @@ namespace NeeView
         /// </summary>
         public bool IsValid => Items != null;
 
+        /// <summary>
+        /// 場所の補足情報.
+        /// FolderSearchCollectionでは検索キーワードが設定される
+        /// </summary>
+        public virtual string Meta { get; }
+
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// 一致判定
+        /// </summary>
+        public bool IsSame(string place, string meta)
+        {
+            return Place == place && Meta == meta;
+        }
 
         /// <summary>
         /// 更新が必要？
@@ -148,6 +162,7 @@ namespace NeeView
             return (item != null) ? Items.IndexOf(item) : -1;
         }
 
+
         /// <summary>
         /// パスから項目取得
         /// </summary>
@@ -166,6 +181,54 @@ namespace NeeView
         {
             return Items.FirstOrDefault();
         }
+
+        /// <summary>
+        /// 有効な先頭項目を取得
+        /// </summary>
+        public FolderItem FirstFolderOrDefault()
+        {
+            return Items.FirstOrDefault(e => !e.IsEmpty);
+        }
+
+        /// <summary>
+        /// 有効な末端項目を取得
+        /// </summary>
+        public FolderItem LastFolderOrDefault()
+        {
+            return Items.LastOrDefault(e => !e.IsEmpty);
+        }
+
+        /// <summary>
+        /// 親の場所を取得
+        /// </summary>
+        public virtual string GetParentPlace()
+        {
+            if (Place == null) return null;
+            return Path.GetDirectoryName(Place);
+        }
+
+        /// <summary>
+        /// 前の項目を取得
+        /// </summary>
+        /// <param name="item">基準となる項目</param>
+        /// <returns>前の項目。存在しない場合はnull</returns>
+        public FolderItem GetPrevious(FolderItem item)
+        {
+            var index = IndexOfPath(item.Path);
+            return (index > 0) ? Items[index - 1] : null;
+        }
+
+        /// <summary>
+        /// 次の項目を取得
+        /// </summary>
+        /// <param name="item">基準となる項目</param>
+        /// <returns>次の項目。存在しない場合はnull</returns>
+        public FolderItem GetNext(FolderItem item)
+        {
+            var index = IndexOfPath(item.Path);
+            return (index >= 0 && index < Items.Count - 1) ? Items[index + 1] : null;
+        }
+
 
         /// <summary>
         /// パスがリストに含まれるか判定
@@ -478,7 +541,10 @@ namespace NeeView
                 return;
             }
 
-            item.Path = path;
+            // 名前部分
+            if (string.Compare(path, 0, item.Place, 0, item.Place.Length) != 0) throw new ArgumentException("remame exception: difference place");
+
+            item.Name = LoosePath.GetFileName(path, item.Place);
         }
 
         #endregion
@@ -494,7 +560,8 @@ namespace NeeView
             return new FolderItem()
             {
                 Type = FolderItemType.Empty,
-                Path = Place + "\\.",
+                Place = Place,
+                Name = ".",
                 Attributes = FolderItemAttribute.Empty,
             };
         }
@@ -543,7 +610,8 @@ namespace NeeView
             {
                 return new FolderItem()
                 {
-                    Path = e.Name,
+                    Place = null,
+                    Name = e.Name,
                     Attributes = FolderItemAttribute.Directory | FolderItemAttribute.Drive,
                     IsReady = e.IsReady,
                 };
@@ -566,7 +634,8 @@ namespace NeeView
                 return new FolderItem()
                 {
                     Type = FolderItemType.Directory,
-                    Path = e.FullName,
+                    Place = Place,
+                    Name = e.Name,
                     LastWriteTime = e.LastWriteTime,
                     Length = -1,
                     Attributes = FolderItemAttribute.Directory,
@@ -591,7 +660,8 @@ namespace NeeView
                 return new FolderItem()
                 {
                     Type = FolderItemType.File,
-                    Path = e.FullName,
+                    Place = Place,
+                    Name = e.Name,
                     LastWriteTime = e.LastWriteTime,
                     Length = e.Length,
                     IsReady = true
@@ -630,7 +700,8 @@ namespace NeeView
             if (info != null)
             {
                 info.Type = type;
-                info.Path = e.SourcePath;
+                info.Place = Path.GetDirectoryName(e.SourcePath);
+                info.Name = Path.GetFileName(e.SourcePath);
                 info.TargetPath = e.TargetPath;
                 info.Attributes = info.Attributes | FolderItemAttribute.Shortcut;
             }

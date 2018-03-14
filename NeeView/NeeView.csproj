@@ -163,6 +163,9 @@
     </Compile>
     <Compile Include="Setting\SettingPageArchiver.cs" />
     <Compile Include="Setting\SettingPageHistory.cs" />
+    <Compile Include="SidePanels\FolderList\FolderCollectionFactory.cs" />
+    <Compile Include="SidePanels\FolderList\FolderNode.cs" />
+    <Compile Include="SidePanels\FolderList\FolderSearchEngine.cs" />
     <Compile Include="SidePanels\IPageListPanel.cs" />
     <Compile Include="SidePanels\ListBoxThumbnailLoader.cs" />
     <Compile Include="Setting\BackgroundSettingControl.xaml.cs">

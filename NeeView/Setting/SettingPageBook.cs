@@ -80,10 +80,13 @@ namespace NeeView.Setting
 
     public class SettingPageBookSendPage : SettingPage
     {
-        public SettingPageBookSendPage() : base("ページ移動")
+        public SettingPageBookSendPage() : base("移動")
         {
             this.Items = new List<SettingItem>
             {
+                new SettingItemSection("ブック移動",
+                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsCruise)))),
+
                 new SettingItemSection("ページ移動",
                     new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.IsPrioritizePageMove))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.IsMultiplePageMove))),

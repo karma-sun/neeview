@@ -55,10 +55,10 @@ namespace NeeView
         /// <summary>
         /// 検索エンジン
         /// </summary>
-        private SearchEngine _searchEngine;
+        private FolderSearchEngine _searchEngine;
 
-        //
         private CancellationTokenSource _updateFolderCancellationTokenSource;
+        private CancellationTokenSource _cruiseFolderCancellationTokenSource;
 
         #endregion
 
@@ -72,6 +72,9 @@ namespace NeeView
         public FolderList(BookHub bookHub, FolderPanelModel folderPanel)
         {
             Current = this;
+
+            _searchEngine = new FolderSearchEngine();
+            FolderCollectionFactory.Current.SearchEngine = _searchEngine;
 
             this.FolderPanel = folderPanel;
             _bookHub = bookHub;
@@ -185,6 +188,10 @@ namespace NeeView
 
         [PropertyMember("表示からRAR分割ファイルをフィルター", Tips = ".part(数字).rar というRAR分割ファイルの場合に、数字が一番小さいファイルのみをリストに表示します。")]
         public bool IsMultipleRarFilterEnabled { get; set; }
+
+
+        [PropertyMember("ブック移動を巡回移動にする", Tips = "フォルダーの親子を含めた移動を行います。フォルダーリストが検索結果である場合には適用されません。")]
+        public bool IsCruise { get; set; }
 
 
         private string _excludePattern;
@@ -341,8 +348,8 @@ namespace NeeView
         /// <param name="folder"></param>
         private void SavePlace(FolderItem folder)
         {
-            if (folder == null || folder.ParentPath == null) return;
-            _lastPlaceDictionary[folder.ParentPath] = folder.Path;
+            if (folder == null || folder.Place == null) return;
+            _lastPlaceDictionary[folder.Place] = folder.Path;
         }
 
         /// <summary>
@@ -399,10 +406,6 @@ namespace NeeView
             {
                 _isDarty = false;
 
-                // 検索エンジン停止
-                _searchEngine?.Dispose();
-                _searchEngine = null;
-
                 // 検索キーワードクリア
                 if (this.FolderCollection == null || place != Place || options.HasFlag(FolderSetPlaceOption.ClearSearchKeyword))
                 {
@@ -451,49 +454,6 @@ namespace NeeView
         private bool CheckFolderListUpdateneNcessary(string place, bool releaseSearchMode)
         {
             return (_isDarty || this.FolderCollection == null || place != this.FolderCollection.Place || (releaseSearchMode && this.FolderCollection is FolderSearchCollection));
-        }
-
-
-        /// <summary>
-        /// FolderCollection 作成
-        /// </summary>
-        /// <param name="place"></param>
-        /// <returns></returns>
-        private FolderCollection CreateEntryCollection(string place)
-        {
-            try
-            {
-                return new FolderEntryCollection(place);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-
-                // 救済措置。取得に失敗した時はカレントディレクトリに移動
-                return new FolderEntryCollection(Environment.CurrentDirectory);
-            }
-        }
-
-        /// <summary>
-        /// FolderCollection作成(検索結果)
-        /// </summary>
-        /// <param name="searchResult"></param>
-        /// <returns></returns>
-        private FolderCollection CreateSearchCollection(string place, NeeLaboratory.IO.Search.SearchResultWatcher searchResult)
-        {
-            return new FolderSearchCollection(place, searchResult);
-        }
-
-
-        /// <summary>
-        /// FolderCollection作成(書庫内アーカイブリスト)
-        /// </summary>
-        /// <param name="place"></param>
-        /// <param name="archiver"></param>
-        /// <returns></returns>
-        private FolderCollection CreateArchiveCollection(string place, Archiver archiver)
-        {
-            return new FolderArchiveCollection(place, archiver);
         }
 
 
@@ -581,7 +541,6 @@ namespace NeeView
         /// 現在開いているフォルダーで更新(弱)
         /// e.isKeepPlaceが有効の場合、フォルダーは移動せず現在選択項目のみの移動を試みる
         /// </summary>
-        /// <param name="e"></param>
         public async Task SyncWeak(FolderListSyncArguments e)
         {
             if (e != null && e.isKeepPlace)
@@ -602,7 +561,6 @@ namespace NeeView
             this.FolderCollection?.RefleshIcon(path);
         }
 
-
         // ブックの読み込み
         public void LoadBook(string path)
         {
@@ -615,7 +573,6 @@ namespace NeeView
         {
             _bookHub.RequestLoad(path, null, option | BookLoadOption.IsBook, false);
         }
-
 
         // 現在の場所のフォルダーの並び順
         public FolderOrder FolderOrder
@@ -642,7 +599,6 @@ namespace NeeView
             return this.FolderCollection.FolderParameter.FolderOrder;
         }
 
-
         /// <summary>
         /// フォルダーの並びを順番に切り替える
         /// </summary>
@@ -651,45 +607,6 @@ namespace NeeView
             if (this.FolderCollection == null) return;
             this.FolderCollection.FolderParameter.FolderOrder.GetToggle();
             RaisePropertyChanged(nameof(FolderOrder));
-        }
-
-        // 次のフォルダーに移動
-        public async Task NextFolder(BookLoadOption option = BookLoadOption.None)
-        {
-            if (_bookHub.IsBusy()) return; // 相対移動の場合はキャンセルしない
-            var result = await MoveFolder(+1, option);
-            if (result != true)
-            {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "次のブックはありません");
-            }
-        }
-
-        // 前のフォルダーに移動
-        public async Task PrevFolder(BookLoadOption option = BookLoadOption.None)
-        {
-            if (_bookHub.IsBusy()) return; // 相対移動の場合はキャンセルしない
-            var result = await MoveFolder(-1, option);
-            if (result != true)
-            {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "前のブックはありません");
-            }
-        }
-
-
-        /// <summary>
-        /// コマンドの「前のフォルダーに移動」「次のフォルダーへ移動」に対応
-        /// </summary>
-        public async Task<bool> MoveFolder(int direction, BookLoadOption options)
-        {
-            var item = this.GetFolderItem(direction);
-            if (item != null)
-            {
-                await SetPlaceAsync(Place, item.Path, FolderSetPlaceOption.IsUpdateHistory);
-                _bookHub.RequestLoad(item.TargetPath, null, options | BookLoadOption.IsBook, false);
-                return true;
-            }
-
-            return false;
         }
 
         /// <summary>
@@ -703,7 +620,6 @@ namespace NeeView
         /// <summary>
         /// 検索キーワードの正規化
         /// </summary>
-        /// <returns></returns>
         private string GetFixedSearchKeyword()
         {
             return _searchKeyword?.Trim();
@@ -740,91 +656,104 @@ namespace NeeView
             }
         }
 
+        #endregion
+
+        #region MoveFolder
+
+        // 次のフォルダーに移動
+        public async Task NextFolder(BookLoadOption option = BookLoadOption.None)
+        {
+            if (_bookHub.IsBusy()) return; // 相対移動の場合はキャンセルしない
+            var result = await MoveFolder(+1, option);
+            if (result != true)
+            {
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "次のブックはありません");
+            }
+        }
+
+        // 前のフォルダーに移動
+        public async Task PrevFolder(BookLoadOption option = BookLoadOption.None)
+        {
+            if (_bookHub.IsBusy()) return; // 相対移動の場合はキャンセルしない
+            var result = await MoveFolder(-1, option);
+            if (result != true)
+            {
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "前のブックはありません");
+            }
+        }
+
 
         /// <summary>
-        /// フォルダー移動可能判定
+        /// コマンドの「前のフォルダーに移動」「次のフォルダーへ移動」に対応
         /// </summary>
-        public bool CanMoveTo(FolderItem item)
+        public async Task<bool> MoveFolder(int direction, BookLoadOption options)
         {
-            if (item != null && item.IsReady)
+            var isCruise = IsCruise && !(this.FolderCollection is FolderSearchCollection);
+
+            if (isCruise)
             {
-                if (item.IsDirectory)
-                {
-                    return true;
-                }
-
-                var archiveType = ArchiverManager.Current.GetSupportedType(item.TargetPath, false);
-                if (!BookHub.Current.IsArchiveRecursive && archiveType.IsRecursiveSupported())
-                {
-                    return true;
-                }
+                return await MoveCruiseFolder(direction, options);
             }
-
-            return false;
+            else
+            {
+                return await MoveNextFolder(direction, options);
+            }
         }
 
-
-#if false
-        #region CruiseFolder
-
-        public async Task<bool> CruiseFolder(int direction, BookLoadOption options)
+        /// <summary>
+        /// 通常フォルダー移動
+        /// </summary>
+        public async Task<bool> MoveNextFolder(int direction, BookLoadOption options)
         {
             var item = this.GetFolderItem(direction);
-            if (item != null)
+            if (item == null) return false;
+
+            await SetPlaceAsync(this.FolderCollection.Place, item.Path, FolderSetPlaceOption.IsUpdateHistory);
+            _bookHub.RequestLoad(item.TargetPath, null, options | BookLoadOption.IsBook, false);
+            return true;
+        }
+
+
+        /// <summary>
+        /// 巡回フォルダー移動
+        /// </summary>
+        public async Task<bool> MoveCruiseFolder(int direction, BookLoadOption options)
+        {
+            var item = this.SelectedItem;
+            if (item == null) return false;
+
+            _cruiseFolderCancellationTokenSource?.Cancel();
+            _cruiseFolderCancellationTokenSource = new CancellationTokenSource();
+            var cancel = _cruiseFolderCancellationTokenSource.Token;
+
+            try
             {
-                await CruiseFolderNext(this.FolderCollection, item);
+                var node = new FolderNode(this.FolderCollection, item);
+                var next = (direction < 0) ? await node.CruisePrev(cancel) : await node.CruiseNext(cancel);
+                if (next == null) return false;
+
+                await SetPlaceAsync(next.Content.Place, next.Content.Path, FolderSetPlaceOption.IsUpdateHistory);
+                _bookHub.RequestLoad(next.Content.TargetPath, null, options | BookLoadOption.IsBook, false);
+                return true;
+            }
+            catch (OperationCanceledException)
+            {
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Cruise Exception: {ex.Message}");
+                return false;
             }
         }
 
-        public async Task<FolderItem> CruiseFolderNext(FolderCollection collection, FolderItem item, CancellationToken token)
+        /// <summary>
+        /// 巡回フォルダー移動キャンセル
+        /// </summary>
+        public void CancelMoveCruiseFolder()
         {
-            // サブフォルダーでの先頭
-            using (var subCollection = await CreateCollection(item, token))
-            {
-                if (subCollection != null)
-                {
-                    var target = await FindFirstEntry(subCollection);
-                    if (target != null) return item;
-                }
-            }
-
-            return await CruiseFolderNextPrent(collection, item, token);
+            _cruiseFolderCancellationTokenSource?.Cancel();
         }
-
-        public async Task<FolderItem> CruiseFolderNextPrent(FolderCollection collection, FolderItem item, CancellationToken token)
-        {
-
-            // 現フォルダーの次の項目
-
-            // 親のフォルダーへ
-        }
-
-
-        private async Task<FolderItem> FindFirstEntry(FolderCollection collection)
-        {
-            if (collection == null) return null;
-
-            foreach (var item in collection.Items)
-            {
-                if (await item.AnyPage()) return item;
-            }
-
-            return null;
-        }
-
-        public async Task<FolderCollection> CreateCollection(FolderItem item, CancellationToken token)
-        {
-            if (!CanMoveTo(item))
-            {
-                return null;
-            }
-
-            var collection = await CreateFolderCollectionWithoutSearchAsync(item.TargetPath, true, token);
-            return collection;
-        }
-
-        #endregion
-#endif
 
         #endregion
 
@@ -885,103 +814,20 @@ namespace NeeView
         /// </summary>
         private async Task<FolderCollection> CreateFolderCollectionAsync(string place, bool isForce, CancellationToken token)
         {
-            // 検索処理は停止
-            _searchEngine?.CancelSearch();
+            var factory = FolderCollectionFactory.Current;
 
             var keyword = GetFixedSearchKeyword();
-
             if (!string.IsNullOrEmpty(keyword))
             {
-                return await CreateSearchFolderCollectionAsync(place, keyword, isForce, token);
+                if (!isForce && FolderCollection is FolderSearchCollection && FolderCollection.IsSame(place, keyword)) return null;
+                factory.SearchEngine.CancelSearch();
+                return await factory.CreateSearchFolderCollectionAsync(place, keyword, token);
             }
             else
             {
-                return await CreateFolderCollectionWithoutSearchAsync(place, isForce, token);
-            }
-        }
-
-        //
-        private async Task<FolderCollection> CreateFolderCollectionWithoutSearchAsync(string place, bool isForce, CancellationToken token)
-        {
-            if (place == null || Directory.Exists(place))
-            {
-                return await CreateEntryFolderCollectionAsync(place, isForce, token);
-            }
-            else
-            {
-                return await CreateArchiveFolderCollectionAsync(place, isForce, token);
-            }
-        }
-
-        // 通常フォルダーコレクション作成
-        private async Task<FolderCollection> CreateEntryFolderCollectionAsync(string place, bool isForce, CancellationToken token)
-        {
-            if (!isForce && this.FolderCollection != null && this.FolderCollection.Place == place && this.FolderCollection is FolderEntryCollection)
-            {
-                return null;
-            }
-
-            var collection = await Task.Run(() => CreateEntryCollection(place));
-            token.ThrowIfCancellationRequested();
-
-            return collection;
-        }
-
-        // 検索コレクション作成
-        private async Task<FolderCollection> CreateSearchFolderCollectionAsync(string place, string keyword, bool isForce, CancellationToken token)
-        {
-            if (!isForce && this.FolderCollection != null && (this.FolderCollection is FolderSearchCollection e && e.SearchKeyword == keyword))
-            {
-                return null;
-            }
-
-            try
-            {
-                _searchEngine = _searchEngine ?? new SearchEngine(place);
-
-                var option = new NeeLaboratory.IO.Search.SearchOption() { AllowFolder = true, IsOptionEnabled = true };
-                var result = await _searchEngine.SearchAsync(keyword, option);
-                token.ThrowIfCancellationRequested();
-
-                var collection = CreateSearchCollection(place, result);
-                return collection;
-            }
-            catch (OperationCanceledException)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Search Exception: {ex.Message}");
-                _searchEngine?.Dispose();
-                _searchEngine = null;
-                throw;
-            }
-        }
-
-        // アーカイブフォルダーコレクション作成
-        public async Task<FolderCollection> CreateArchiveFolderCollectionAsync(string place, bool isForce, CancellationToken token)
-        {
-            if (!isForce && this.FolderCollection != null && this.FolderCollection.Place == place && this.FolderCollection is FolderArchiveCollection)
-            {
-                return null;
-            }
-
-            try
-            {
-                using (var entry = await ArchiveFileSystem.CreateArchiveEntry(place, token))
-                {
-                    var collection = CreateArchiveCollection(place, await ArchiverManager.Current.CreateArchiverAsync(entry, false, false, token));
-                    token.ThrowIfCancellationRequested();
-                    return collection;
-                }
-            }
-            catch (Exception ex)
-            {
-                // アーカイブパスが展開できない場合、実在パスでの展開を行う
-                Debug.WriteLine($"Cannot open: {ex.Message}");
-                place = ArchiveFileSystem.GetExistDirectoryName(place);
-                return await CreateEntryFolderCollectionAsync(place, isForce, token);
+                if (!isForce && !(FolderCollection is FolderSearchCollection) && FolderCollection.IsSame(place, null)) return null;
+                factory.SearchEngine.Reset();
+                return await factory.CreateFolderCollectionAsync(place, token);
             }
         }
 
@@ -1063,12 +909,10 @@ namespace NeeView
         {
             if (Place == null) return;
 
-            var parent = this.FolderCollection is FolderArchiveCollection collection
-                ? collection.GetParentPlace()
-                : Path.GetDirectoryName(Place);
-
+            var parent = this.FolderCollection?.GetParentPlace();
             await SetPlaceAsync(parent, Place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
         }
+
 
         //
         public async void Sync_Executed()
@@ -1133,6 +977,9 @@ namespace NeeView
             [DataMember]
             public string ExcludePattern { get; set; }
 
+            [DataMember]
+            public bool IsCruise { get; set; }
+
 
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
@@ -1154,6 +1001,8 @@ namespace NeeView
             memento.IsFolderSearchBoxVisible = this.IsFolderSearchBoxVisible;
             memento.IsMultipleRarFilterEnabled = this.IsMultipleRarFilterEnabled;
             memento.ExcludePattern = this.ExcludePattern;
+            memento.IsCruise = this.IsCruise;
+
             return memento;
         }
 
@@ -1171,6 +1020,7 @@ namespace NeeView
             this.IsFolderSearchBoxVisible = memento.IsFolderSearchBoxVisible;
             this.IsMultipleRarFilterEnabled = memento.IsMultipleRarFilterEnabled;
             this.ExcludePattern = memento.ExcludePattern;
+            this.IsCruise = memento.IsCruise;
         }
 
         #endregion

@@ -43,6 +43,15 @@ namespace NeeView
             return s.Split(s_separator, StringSplitOptions.RemoveEmptyEntries).Last();
         }
 
+        // place部をディレクトリーとみなしたファイル名取得
+        public static string GetFileName(string s, string place)
+        {
+            if (string.IsNullOrEmpty(s)) return "";
+            if (string.IsNullOrEmpty(place)) return s;
+            if (string.Compare(s, 0, place, 0, place.Length) != 0) throw new ArgumentException("s not contain place");
+            return s.Substring(place.Length).TrimStart(s_separator);
+        }
+
         //
         public static string GetPathRoot(string s)
         {

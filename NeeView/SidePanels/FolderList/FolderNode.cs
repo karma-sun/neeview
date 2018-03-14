@@ -198,7 +198,7 @@ namespace NeeView
                 path = Content.TargetPath;
             }
 
-            using (var collection = await FolderCollectionFactory.Current.CreateFolderCollectionAsync(path, cancel))
+            using (var collection = await FolderCollectionFactory.Current.CreateFolderCollectionAsync(path, false, cancel))
             {
                 var children = collection.Items
                     .Where(e => !e.IsEmpty)

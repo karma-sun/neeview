@@ -22,20 +22,20 @@ namespace NeeView
         #region Methods
 
         // フォルダーコレクション作成
-        public async Task<FolderCollection> CreateFolderCollectionAsync(string place, CancellationToken token)
+        public async Task<FolderCollection> CreateFolderCollectionAsync(string place, bool isActive, CancellationToken token)
         {
             if (place == null || Directory.Exists(place))
             {
-                return await CreateEntryFolderCollectionAsync(place, token);
+                return await CreateEntryFolderCollectionAsync(place, isActive, token);
             }
             else
             {
-                return await CreateArchiveFolderCollectionAsync(place, token);
+                return await CreateArchiveFolderCollectionAsync(place, isActive, token);
             }
         }
 
         // 検索コレクション作成
-        public async Task<FolderCollection> CreateSearchFolderCollectionAsync(string place, string keyword, CancellationToken token)
+        public async Task<FolderCollection> CreateSearchFolderCollectionAsync(string place, string keyword, bool isActive, CancellationToken token)
         {
             if (SearchEngine == null) throw new InvalidOperationException("SearchEngine not initialized.");
 
@@ -44,7 +44,7 @@ namespace NeeView
                 var result = await SearchEngine.SearchAsync(place, keyword);
                 token.ThrowIfCancellationRequested();
 
-                var collection = CreateSearchCollection(place, result);
+                var collection = CreateSearchCollection(place, result, isActive);
                 return collection;
             }
             catch (OperationCanceledException)
@@ -54,22 +54,22 @@ namespace NeeView
         }
 
         // 通常フォルダーコレクション作成
-        private async Task<FolderCollection> CreateEntryFolderCollectionAsync(string place, CancellationToken token)
+        private async Task<FolderCollection> CreateEntryFolderCollectionAsync(string place, bool isActive, CancellationToken token)
         {
-            var collection = await Task.Run(() => CreateEntryCollection(place));
+            var collection = await Task.Run(() => CreateEntryCollection(place, isActive));
             token.ThrowIfCancellationRequested();
 
             return collection;
         }
 
         // アーカイブフォルダーコレクション作成
-        public async Task<FolderCollection> CreateArchiveFolderCollectionAsync(string place, CancellationToken token)
+        public async Task<FolderCollection> CreateArchiveFolderCollectionAsync(string place, bool isActive, CancellationToken token)
         {
             try
             {
                 using (var entry = await ArchiveFileSystem.CreateArchiveEntry(place, token))
                 {
-                    var collection = CreateArchiveCollection(place, await ArchiverManager.Current.CreateArchiverAsync(entry, false, false, token));
+                    var collection = CreateArchiveCollection(place, await ArchiverManager.Current.CreateArchiverAsync(entry, false, false, token), isActive);
                     token.ThrowIfCancellationRequested();
                     return collection;
                 }
@@ -79,25 +79,25 @@ namespace NeeView
                 // アーカイブパスが展開できない場合、実在パスでの展開を行う
                 Debug.WriteLine($"Cannot open: {ex.Message}");
                 place = ArchiveFileSystem.GetExistDirectoryName(place);
-                return await CreateEntryFolderCollectionAsync(place, token);
+                return await CreateEntryFolderCollectionAsync(place, isActive, token);
             }
         }
 
         /// <summary>
         /// FolderCollection 作成
         /// </summary>
-        private FolderCollection CreateEntryCollection(string place)
+        private FolderCollection CreateEntryCollection(string place, bool isActive)
         {
             try
             {
-                return new FolderEntryCollection(place);
+                return new FolderEntryCollection(place, isActive);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
 
                 // 救済措置。取得に失敗した時はカレントディレクトリに移動
-                return new FolderEntryCollection(Environment.CurrentDirectory);
+                return new FolderEntryCollection(Environment.CurrentDirectory, isActive);
             }
         }
 
@@ -105,17 +105,17 @@ namespace NeeView
         /// <summary>
         /// FolderCollection作成(書庫内アーカイブリスト)
         /// </summary>
-        public FolderCollection CreateArchiveCollection(string place, Archiver archiver)
+        public FolderCollection CreateArchiveCollection(string place, Archiver archiver, bool isActive)
         {
-            return new FolderArchiveCollection(place, archiver);
+            return new FolderArchiveCollection(place, archiver, isActive);
         }
 
         /// <summary>
         /// FolderCollection作成(検索結果)
         /// </summary>
-        private FolderCollection CreateSearchCollection(string place, NeeLaboratory.IO.Search.SearchResultWatcher searchResult)
+        private FolderCollection CreateSearchCollection(string place, NeeLaboratory.IO.Search.SearchResultWatcher searchResult, bool isActive)
         {
-            return new FolderSearchCollection(place, searchResult);
+            return new FolderSearchCollection(place, searchResult, isActive);
         }
 
         #endregion

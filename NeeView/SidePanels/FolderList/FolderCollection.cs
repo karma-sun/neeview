@@ -24,35 +24,27 @@ namespace NeeView
     {
         #region Fields
 
-        /// <summary>
-        /// Collection
-        /// </summary>
-        private ObservableCollection<FolderItem> _items;
-
-        /// <summary>
-        /// コマンド処理エンジン
-        /// </summary>
         private Jobs.SingleJobEngine _engine;
 
-        /// <summary>
-        /// 
-        /// </summary>
         private object _lock = new object();
 
         #endregion
 
         #region Constructors
 
-        protected FolderCollection(string place)
+        protected FolderCollection(string place, bool isStartEngine)
         {
             this.Place = place;
 
             this.FolderParameter = new FolderParameter(place);
             this.FolderParameter.PropertyChanged += (s, e) => ParameterChanged?.Invoke(s, null);
 
-            _engine = new Jobs.SingleJobEngine();
-            _engine.JobError += JobEngine_Error;
-            _engine.StartEngine();
+            if (isStartEngine)
+            {
+                _engine = new Jobs.SingleJobEngine();
+                _engine.JobError += JobEngine_Error;
+                _engine.StartEngine();
+            }
         }
 
         #endregion
@@ -82,11 +74,7 @@ namespace NeeView
         /// <summary>
         /// Collection本体
         /// </summary>
-        public ObservableCollection<FolderItem> Items
-        {
-            get { return _items; }
-            protected set { _items = value; }
-        }
+        public ObservableCollection<FolderItem> Items { get; protected set; }
 
         /// <summary>
         /// フォルダーの場所
@@ -322,7 +310,7 @@ namespace NeeView
         /// <param name="path"></param>
         public void RequestCreate(string path)
         {
-            _engine.Enqueue(new CreateJob(this, path, false));
+            _engine?.Enqueue(new CreateJob(this, path, false));
         }
 
         /// <summary>
@@ -331,7 +319,7 @@ namespace NeeView
         /// <param name="path"></param>
         public void RequestDelete(string path)
         {
-            _engine.Enqueue(new DeleteJob(this, path, false));
+            _engine?.Enqueue(new DeleteJob(this, path, false));
         }
 
         /// <summary>
@@ -346,7 +334,7 @@ namespace NeeView
                 return;
             }
 
-            _engine.Enqueue(new RenameJob(this, oldPath, path, false));
+            _engine?.Enqueue(new RenameJob(this, oldPath, path, false));
         }
 
         #region Job.Create

@@ -23,7 +23,7 @@ namespace NeeView
         /// constructor
         /// </summary>
         /// <param name="place"></param>
-        public FolderArchiveCollection(string place, Archiver archiver) : base(place)
+        public FolderArchiveCollection(string place, Archiver archiver, bool isActive) : base(place, isActive)
         {
             _archiver = archiver;
 

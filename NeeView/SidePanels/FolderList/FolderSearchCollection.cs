@@ -26,7 +26,7 @@ namespace NeeView
         /// constructor
         /// </summary>
         /// <param name="place"></param>
-        public FolderSearchCollection(string place, NeeLaboratory.IO.Search.SearchResultWatcher searchResult) : base(place)
+        public FolderSearchCollection(string place, NeeLaboratory.IO.Search.SearchResultWatcher searchResult, bool isActive) : base(place, isActive)
         {
             var items = searchResult.Items
                 .Select(e => CreateFolderItem(e))

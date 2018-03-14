@@ -28,7 +28,7 @@ namespace NeeView
         /// constructor
         /// </summary>
         /// <param name="place"></param>
-        public FolderEntryCollection(string place) : base(place)
+        public FolderEntryCollection(string place, bool isActive) : base(place, isActive)
         {
             if (string.IsNullOrWhiteSpace(Place))
             {
@@ -120,9 +120,12 @@ namespace NeeView
 
             BindingOperations.EnableCollectionSynchronization(this.Items, new object());
 
-            // フォルダー監視
-            InitializeWatcher(Place);
-            StartWatch();
+            if (isActive)
+            {
+                // フォルダー監視
+                InitializeWatcher(Place);
+                StartWatch();
+            }
         }
 
         #endregion

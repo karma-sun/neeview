@@ -821,13 +821,13 @@ namespace NeeView
             {
                 if (!isForce && FolderCollection is FolderSearchCollection && FolderCollection.IsSame(place, keyword)) return null;
                 factory.SearchEngine.CancelSearch();
-                return await factory.CreateSearchFolderCollectionAsync(place, keyword, token);
+                return await factory.CreateSearchFolderCollectionAsync(place, keyword, true, token);
             }
             else
             {
                 if (!isForce && !(FolderCollection is FolderSearchCollection) && FolderCollection.IsSame(place, null)) return null;
                 factory.SearchEngine.Reset();
-                return await factory.CreateFolderCollectionAsync(place, token);
+                return await factory.CreateFolderCollectionAsync(place, true, token);
             }
         }
 

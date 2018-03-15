@@ -11,20 +11,24 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
+    /// <summary>
+    /// SevenZipSharp のインスタンス管理。
+    /// 頻繁にアクセスされる場合にインスタンスを使い回すようにしてアクセスを高速化する。
+    /// </summary>
     public class SevenZipSource : IDisposable
     {
-        private SevenZipExtractor _extractor;
+        #region Fields
 
+        private SevenZipExtractor _extractor;
         private string _fileName;
         private Stream _stream;
-
-        public bool IsStream => _stream != null;
-
         private object _lock;
-
         private DelayAction _delayClose;
 
-        //
+        #endregion
+
+        #region Constructors
+
         public SevenZipSource(string fileName, object lockObject)
         {
             _fileName = fileName;
@@ -32,7 +36,6 @@ namespace NeeView
             Initialize();
         }
 
-        //
         public SevenZipSource(Stream stream, object lockObject)
         {
             _stream = stream;
@@ -40,7 +43,16 @@ namespace NeeView
             Initialize();
         }
 
-        //
+        #endregion
+
+        #region Properties
+
+        public bool IsStream => _stream != null;
+
+        #endregion
+
+        #region Methods
+
         private void Initialize()
         {
             if (SevenZipArchiverProfile.Current.LockTime > 0)
@@ -49,7 +61,6 @@ namespace NeeView
             }
         }
 
-        //
         private void DelayClose()
         {
             lock (_lock)
@@ -58,8 +69,6 @@ namespace NeeView
             }
         }
 
-
-        //
         public SevenZipExtractor Open()
         {
             _delayClose?.Cancel();
@@ -72,7 +81,6 @@ namespace NeeView
             return _extractor;
         }
 
-        //
         public void Close(bool isForce = false)
         {
             if (_extractor != null)
@@ -89,35 +97,54 @@ namespace NeeView
             }
         }
 
-        //
-        private bool _isDisposed;
+        #endregion
 
-        //
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    _delayClose?.Cancel();
+                }
+
+                // 投げっぱなし
+                Task.Run(() =>
+                {
+                    lock (_lock)
+                    {
+                        Close(true);
+                        _stream = null;
+                    }
+                });
+
+                disposedValue = true;
+            }
+        }
+
+        ~SevenZipSource()
+        {
+            Dispose(false);
+        }
+
         public void Dispose()
         {
-            if (_isDisposed) return;
-            _isDisposed = true;
-
-            _delayClose?.Cancel();
-
-            // 投げっぱなし
-            Task.Run(() =>
-            {
-                lock (_lock)
-                {
-                    Close(true);
-                    _stream = null;
-                }
-            });
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
+        #endregion
     }
 
 
-
+    /// <summary>
+    /// SevenZipSharpのインスタンスアクセサ
+    /// </summary>
     public class SevenZipDescriptor : IDisposable
     {
         private SevenZipSource _source;
-
         private SevenZipExtractor _extractor;
 
         public SevenZipDescriptor(SevenZipSource source)
@@ -149,15 +176,12 @@ namespace NeeView
     /// </summary>
     public class SevenZipArchiver : Archiver
     {
-        public override string ToString()
-        {
-            return "7-Zip";
-        }
-
+        #region Statics
 
         private static bool s_isLibraryInitialized;
 
-        //
+        private static object s_lock = new object();
+
         public static void InitializeLibrary()
         {
             if (s_isLibraryInitialized) return;
@@ -176,16 +200,16 @@ namespace NeeView
             s_isLibraryInitialized = true;
         }
 
+        #endregion
 
-        private static object s_lock = new object();
-
-
+        #region Fields
 
         private SevenZipSource _source;
         private Stream _stream;
 
-        private bool _isDisposed;
+        #endregion
 
+        #region Constructors
 
         public SevenZipArchiver(string path, ArchiveEntry source, bool isRoot) : base(path, source, isRoot)
         {
@@ -194,29 +218,18 @@ namespace NeeView
             _source = new SevenZipSource(Path, s_lock);
         }
 
-        //
+        #endregion
+
+        #region Methods
+
+        public override string ToString()
+        {
+            return "7-Zip";
+        }
+
         public override void Unlock()
         {
             _source?.Close(true);
-        }
-
-        //
-        public override bool IsDisposed => _isDisposed;
-
-        // 廃棄処理
-        public override void Dispose()
-        {
-            _isDisposed = true;
-
-            lock (s_lock)
-            {
-                _source?.Dispose();
-                _source = null;
-                _stream?.Dispose();
-                _stream = null;
-            }
-
-            base.Dispose();
         }
 
 
@@ -320,5 +333,30 @@ namespace NeeView
                 }
             }
         }
+
+        #endregion
+
+        #region IDisposable Support
+
+        protected override void Dispose(bool disposing)
+        {
+            if (!_isDisposed)
+            {
+                if (disposing)
+                {
+                    lock (s_lock)
+                    {
+                        _source?.Dispose();
+                        _source = null;
+                        _stream?.Dispose();
+                        _stream = null;
+                    }
+                }
+            }
+
+            base.Dispose(disposing);
+        }
+
+        #endregion
     }
 }

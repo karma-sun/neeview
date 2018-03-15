@@ -18,8 +18,6 @@ namespace NeeView
         private Archiver _archiver;
         private bool _isAll;
 
-        private bool _isDisposed;
-
         #endregion
 
         #region Constructors
@@ -33,15 +31,8 @@ namespace NeeView
 
         #endregion
 
-        #region Properties
-
-        public override bool IsDisposed => _isDisposed;
-
-        #endregion
-
         #region Medhods
 
-        //
         public override List<ArchiveEntry> GetEntries(CancellationToken token)
         {
             if (_isDisposed) throw new ApplicationException("Archive already colosed.");
@@ -83,7 +74,6 @@ namespace NeeView
             return _archiver.GetEntries(token);
         }
 
-        //
         private bool IsSolid()
         {
             using (var extractor = new SevenZipExtractor(this.Path))
@@ -97,7 +87,6 @@ namespace NeeView
             return true;
         }
 
-        //
         public override Stream OpenStream(ArchiveEntry entry)
         {
             if (_isDisposed) throw new ApplicationException("Archive already colosed.");
@@ -106,7 +95,6 @@ namespace NeeView
             return _archiver.OpenStream(entry);
         }
 
-        //
         public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
             if (_isDisposed) throw new ApplicationException("Archive already colosed.");
@@ -115,7 +103,6 @@ namespace NeeView
             _archiver.ExtractToFile(entry, exportFileName, isOverwrite);
         }
 
-        //
         public override void SetRootFlag(bool flag)
         {
             base.SetRootFlag(flag);
@@ -125,15 +112,22 @@ namespace NeeView
             }
         }
 
-        //
-        public override void Dispose()
+        #endregion
+
+        #region IDisposable Support
+
+        protected override void Dispose(bool disposing)
         {
-            _isDisposed = true;
+            if (!_isDisposed)
+            {
+                if (disposing)
+                {
+                    _archiver?.Dispose();
+                    _archiver = null;
+                }
+            }
 
-            _archiver?.Dispose();
-            _archiver = null;
-
-            base.Dispose();
+            base.Dispose(disposing);
         }
 
         #endregion

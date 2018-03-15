@@ -17,26 +17,19 @@ namespace NeeView
     /// </summary>
     public class ZipArchiver : Archiver
     {
-        private bool _isDisposed;
+        #region Constructors
 
-        public override string ToString()
-        {
-            return ".Net ZipArchiver";
-        }
-
-        // コンストラクタ
         public ZipArchiver(string path, ArchiveEntry source, bool isRoot) : base(path, source, isRoot)
         {
         }
 
-        //
-        public override bool IsDisposed => _isDisposed;
+        #endregion
 
-        // Dispose
-        public override void Dispose()
+        #region Methods
+
+        public override string ToString()
         {
-            _isDisposed = true;
-            base.Dispose();
+            return ".Net ZipArchiver";
         }
 
         // サポート判定
@@ -155,6 +148,8 @@ namespace NeeView
                 archiveEntry.ExtractToFile(exportFileName, isOverwrite);
             }
         }
+
+        #endregion
     }
 
     //

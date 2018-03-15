@@ -22,25 +22,11 @@ namespace NeeView
     /// </summary>
     public class PdfArchiver : Archiver
     {
-        #region Fields
-
-        private bool _isDisposed;
-
-        #endregion
-
         #region Constructors
 
-        // コンストラクタ
         public PdfArchiver(string path, ArchiveEntry source, bool isRoot) : base(path, source, isRoot)
         {
         }
-
-        #endregion
-
-        #region Properties
-
-        //
-        public override bool IsDisposed => _isDisposed;
 
         #endregion
 
@@ -49,13 +35,6 @@ namespace NeeView
         public override string ToString()
         {
             return "Pdfium";
-        }
-
-        // Dispose
-        public override void Dispose()
-        {
-            _isDisposed = true;
-            base.Dispose();
         }
 
         // サポート判定
@@ -155,7 +134,6 @@ namespace NeeView
                 return pdfDocument.Render(entry.Id, (int)size.Width, (int)size.Height, 96, 96, false);
             }
         }
-
 
         #endregion
     }

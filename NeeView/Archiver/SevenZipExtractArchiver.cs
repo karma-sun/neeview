@@ -24,7 +24,6 @@ namespace NeeView
 
         #region Constructors
 
-        //
         public SevenZipExtractArchiver(string path, ArchiveEntry source, bool isRoot) : base(path, source, isRoot)
         {
             SevenZipArchiver.InitializeLibrary();
@@ -37,14 +36,12 @@ namespace NeeView
 
         public override string ToString() => "7-Zip extractor";
 
-        //
         public override bool IsFileSystem { get; } = false;
 
         #endregion
 
         #region Methods
 
-        // リスト取得
         public override List<ArchiveEntry> GetEntries(CancellationToken token)
         {
             if (_isDisposed) throw new ApplicationException("Archive already colosed.");
@@ -94,19 +91,16 @@ namespace NeeView
             return list;
         }
 
-        //
         public override bool IsSupported()
         {
             return true;
         }
 
-        // ファイルパス取得
         public override string GetFileSystemPath(ArchiveEntry entry)
         {
             return (string)entry.Instance;
         }
 
-        //
         public override Stream OpenStream(ArchiveEntry entry)
         {
             if (_isDisposed) throw new ApplicationException("Archive already colosed.");
@@ -114,7 +108,6 @@ namespace NeeView
             return new FileStream(GetFileSystemPath(entry), FileMode.Open, FileAccess.Read);
         }
 
-        //
         public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
             if (_isDisposed) throw new ApplicationException("Archive already colosed.");
@@ -122,28 +115,20 @@ namespace NeeView
             File.Copy(GetFileSystemPath(entry), exportFileName, isOverwrite);
         }
 
-        //
         private void Open(CancellationToken token)
         {
             if (IsDisposed || _temp != null) return;
 
-            // make temp folder
             var directory = Temporary.CreateCountedTempFileName("arc", "");
-
-            ////var sw = Stopwatch.StartNew();
 
             using (var extractor = new SevenZipExtractor(this.Path))
             {
                 extractor.ExtractArchiveTemp(directory);
             }
 
-            ////sw.Stop();
-            ////Debug.WriteLine($"Extract: {sw.ElapsedMilliseconds}ms");
-
             _temp = directory;
         }
 
-        //
         private void Close()
         {
             if (_temp == null) return;
@@ -167,42 +152,20 @@ namespace NeeView
 
         #region IDisposable Support
 
-        private bool _isDisposed = false; // 重複する呼び出しを検出するには
-
-        public override bool IsDisposed => _isDisposed;
-
-        protected virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (!_isDisposed)
             {
                 if (disposing)
                 {
-                    // マネージ状態を破棄します (マネージ オブジェクト)。
                 }
 
-                // アンマネージ リソース (アンマネージ オブジェクト) を解放し、下のファイナライザーをオーバーライドします。
-                // 大きなフィールドを null に設定します。
                 Close();
-
-                _isDisposed = true;
             }
+
+            base.Dispose(disposing);
         }
 
-        // 上の Dispose(bool disposing) にアンマネージ リソースを解放するコードが含まれる場合にのみ、ファイナライザーをオーバーライドします。
-        ~SevenZipExtractArchiver()
-        {
-            // このコードを変更しないでください。クリーンアップ コードを上の Dispose(bool disposing) に記述します。
-            Dispose(false);
-        }
-
-        // このコードは、破棄可能なパターンを正しく実装できるように追加されました。
-        public override void Dispose()
-        {
-            // このコードを変更しないでください。クリーンアップ コードを上の Dispose(bool disposing) に記述します。
-            Dispose(true);
-            // 上のファイナライザーがオーバーライドされる場合は、次の行のコメントを解除してください。
-            GC.SuppressFinalize(this);
-        }
         #endregion
     }
 }

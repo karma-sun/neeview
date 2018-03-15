@@ -9,12 +9,17 @@ using System.Windows.Media;
 
 namespace NeeView
 {
-
     public class MediaArchiver : Archiver
     {
+        #region Constructors
+
         public MediaArchiver(string path, ArchiveEntry source, bool isRoot) : base(path, source, isRoot)
         {
         }
+
+        #endregion
+
+        #region Methods
 
         public override string ToString()
         {
@@ -59,18 +64,6 @@ namespace NeeView
         {
             if (_isDisposed) throw new ApplicationException("Archive already colosed.");
             File.Copy(GetFileSystemPath(entry), exportFileName, isOverwrite);
-        }
-
-        #region IDisposable Support
-
-        private bool _isDisposed;
-
-        public override bool IsDisposed => _isDisposed;
-
-        public override void Dispose()
-        {
-            _isDisposed = true;
-            base.Dispose();
         }
 
         #endregion

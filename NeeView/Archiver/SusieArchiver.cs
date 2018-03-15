@@ -14,30 +14,26 @@ namespace NeeView
     /// </summary>
     public class SusieArchiver : Archiver
     {
-        public override string ToString()
-        {
-            return _susiePlugin.Name ?? "(none)";
-        }
+        #region Fields
 
         private Susie.SusiePlugin _susiePlugin;
-
         private object _lock = new object();
 
-        private bool _isDisposed;
+        #endregion
 
-        // コンストラクタ
+        #region Constructors
+
         public SusieArchiver(string path, ArchiveEntry source, bool isRoot) : base(path, source, isRoot)
         {
         }
 
-        //
-        public override bool IsDisposed => _isDisposed;
+        #endregion
 
-        //
-        public override void Dispose()
+        #region Methods
+
+        public override string ToString()
         {
-            _isDisposed = true;
-            base.Dispose();
+            return _susiePlugin.Name ?? "(none)";
         }
 
         // サポート判定
@@ -172,5 +168,7 @@ namespace NeeView
                 }
             }
         }
+
+        #endregion
     }
 }

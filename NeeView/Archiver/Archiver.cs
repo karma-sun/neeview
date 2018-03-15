@@ -10,51 +10,64 @@ using System.Threading.Tasks;
 namespace NeeView
 {
     /// <summary>
-    /// アーカイバーの種類
-    /// </summary>
-    public enum ArchiverType
-    {
-        None,
-
-        FolderArchive,
-        ZipArchiver,
-        SevenZipArchiver,
-        PdfArchiver,
-        SusieArchiver,
-        MediaArchiver,
-
-        DefaultArchiver = ZipArchiver
-    }
-
-    public static class ArchiverTypeExtensions
-    {
-        // 多重圧縮ファイルが可能なアーカイブであるか
-        public static bool IsRecursiveSupported(this ArchiverType self)
-        {
-            switch(self)
-            {
-                case ArchiverType.PdfArchiver:
-                case ArchiverType.MediaArchiver:
-                    return false;
-                default:
-                    return true;
-            }
-        }
-
-    }
-
-
-    /// <summary>
     /// アーカイバー基底クラス
     /// </summary>
     public abstract class Archiver : ITrash
     {
+        #region Constructors
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="path">アーカイブ実体へのパス</param>
+        /// <param name="source">基となるエントリ</param>
+        /// <param name="isRoot">ルートアーカイバとする</param>
+        public Archiver(string path, ArchiveEntry source, bool isRoot)
+        {
+            Path = path;
+            RootFlag = isRoot;
+
+            if (source != null)
+            {
+                Parent = source.Archiver;
+                EntryName = source.EntryName;
+                Id = source.Id;
+                LastWriteTime = source.LastWriteTime;
+                Length = source.Length;
+
+                this.Source = source;
+            }
+
+            else
+            {
+                EntryName = LoosePath.GetFileName(Path);
+
+                var directoryInfo = new DirectoryInfo(Path);
+                if (directoryInfo.Exists)
+                {
+                    Length = -1;
+                    LastWriteTime = directoryInfo.LastWriteTime;
+                    return;
+                }
+
+                var fileInfo = new FileInfo(Path);
+                if (fileInfo.Exists)
+                {
+                    Length = fileInfo.Length;
+                    LastWriteTime = fileInfo.LastWriteTime;
+                    return;
+                }
+            }
+        }
+
+        #endregion
+
+        #region Properties
+
         // アーカイブ実体のパス
         public string Path { get; protected set; }
 
-        /// <summary>
-        /// 内部アーカイブのテンポラリファイル。インスタンス保持用
-        /// </summary>
+        // 内部アーカイブのテンポラリファイル。インスタンス保持用
         public TempFile TempFile { get; set; }
 
         // ファイルシステムの場合はtrue
@@ -62,40 +75,6 @@ namespace NeeView
 
         // ファイルシステムでのパスを取得
         public virtual string GetFileSystemPath(ArchiveEntry entry) { return null; }
-
-        // 本来のファイルシスでのパスを取得
-        public string GetSourceFileSystemPath()
-        {
-            if (IsCompressedChild())
-            {
-                return this.Parent.GetSourceFileSystemPath();
-            }
-            else
-            {
-                return LoosePath.TrimEnd(this.Path);
-            }
-        }
-
-        // 圧縮ファイルの一部？
-        public bool IsCompressedChild()
-        {
-            if (this.Parent != null)
-            {
-                if (this.Parent is FolderArchive)
-                {
-                    return this.Parent.IsCompressedChild();
-                }
-                else
-                {
-                    return true;
-                }
-            }
-            else
-            {
-                return false;
-            }
-        }
-
 
         // 対応判定
         public abstract bool IsSupported();
@@ -162,57 +141,47 @@ namespace NeeView
         /// </summary>
         public string FullPath => Parent == null ? Path : LoosePath.Combine(Parent.FullPath, EntryName);
 
-
         /// <summary>
         /// 識別名
         /// </summary>
         public string Ident => (Parent == null || Parent is FolderArchive) ? Path : LoosePath.Combine(Parent.Ident, $"{Id}.{EntryName}");
 
+        #endregion
 
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="path">アーカイブ実体へのパス</param>
-        /// <param name="source">基となるエントリ</param>
-        /// <param name="isRoot">ルートアーカイバとする</param>
-        public Archiver(string path, ArchiveEntry source, bool isRoot)
+        #region Methods
+
+        // 本来のファイルシスでのパスを取得
+        public string GetSourceFileSystemPath()
         {
-            Path = path;
-            RootFlag = isRoot;
-
-            if (source != null)
+            if (IsCompressedChild())
             {
-                Parent = source.Archiver;
-                EntryName = source.EntryName;
-                Id = source.Id;
-                LastWriteTime = source.LastWriteTime;
-                Length = source.Length;
-
-                this.Source = source;
+                return this.Parent.GetSourceFileSystemPath();
             }
-
             else
             {
-                EntryName = LoosePath.GetFileName(Path);
-
-                var directoryInfo = new DirectoryInfo(Path);
-                if (directoryInfo.Exists)
-                {
-                    Length = -1;
-                    LastWriteTime = directoryInfo.LastWriteTime;
-                    return;
-                }
-
-                var fileInfo = new FileInfo(Path);
-                if (fileInfo.Exists)
-                {
-                    Length = fileInfo.Length;
-                    LastWriteTime = fileInfo.LastWriteTime;
-                    return;
-                }
+                return LoosePath.TrimEnd(this.Path);
             }
         }
 
+        // 圧縮ファイルの一部？
+        public bool IsCompressedChild()
+        {
+            if (this.Parent != null)
+            {
+                if (this.Parent is FolderArchive)
+                {
+                    return this.Parent.IsCompressedChild();
+                }
+                else
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         /// <summary>
         /// ファイルロック解除
@@ -270,7 +239,7 @@ namespace NeeView
         {
             return GetEntries(token);
         }
-        
+
         /// <summary>
         /// アーカイブエントリのみ取得(同期)
         /// </summary>
@@ -351,7 +320,6 @@ namespace NeeView
             }
         }
 
-
         /// <summary>
         /// ルートフラグ設定
         /// </summary>
@@ -361,19 +329,44 @@ namespace NeeView
             this.RootFlag = flag;
         }
 
+        #endregion
 
+        #region ITrush Support
+        public bool IsDisposed => _isDisposed;
+        #endregion
 
-        public virtual bool IsDisposed => true;
+        #region IDisposable Support
+        protected bool _isDisposed { get; private set; }
 
-        // 廃棄処理
-        public virtual void Dispose()
+        protected virtual void Dispose(bool disposing)
         {
-            this.TempFile = null;
+            if (!_isDisposed)
+            {
+                if (disposing)
+                {
+                }
+
+                this.TempFile = null;
+
+                _isDisposed = true;
+            }
         }
+
+        ~Archiver()
+        {
+            Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+        #endregion
     }
 
     /// <summary>
-    /// 拡張メソッド
+    /// Archiver 拡張メソッド
     /// </summary>
     public static class ArchiverExtensions
     {
@@ -394,10 +387,6 @@ namespace NeeView
 
             list.AddRange(entries);
         }
-
     }
-
-
-
 }
 

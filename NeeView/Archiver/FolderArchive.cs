@@ -14,32 +14,26 @@ namespace NeeView
     /// </summary>
     public class FolderArchive : Archiver
     {
-        public override string ToString()
-        {
-            return "フォルダー";
-        }
+        #region Constructors
 
-        //
-        public override bool IsFileSystem { get; } = true;
-
-        //
-        private bool _isDisposed;
-
-        // コンストラクタ
         public FolderArchive(string path, ArchiveEntry source, bool isRoot) : base(path, source, isRoot)
         {
         }
 
-        //
-        public override bool IsDisposed => _isDisposed;
+        #endregion
 
-        //
-        public override void Dispose()
+        #region Properties
+
+        public override bool IsFileSystem { get; } = true;
+
+        #endregion
+
+        #region Methods
+
+        public override string ToString()
         {
-            _isDisposed = true;
-            base.Dispose();
+            return "フォルダー";
         }
-
 
         // サポート判定
         public override bool IsSupported()
@@ -103,6 +97,7 @@ namespace NeeView
 
             File.Copy(GetFileSystemPath(entry), exportFileName, isOverwrite);
         }
-    }
 
+        #endregion
+    }
 }

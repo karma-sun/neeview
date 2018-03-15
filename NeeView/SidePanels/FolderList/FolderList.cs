@@ -82,6 +82,7 @@ namespace NeeView
             _bookHub.FolderListSync += async (s, e) => await SyncWeak(e);
             _bookHub.HistoryChanged += (s, e) => RefleshIcon(e.Key);
             _bookHub.BookmarkChanged += (s, e) => RefleshIcon(e.Key);
+            _bookHub.LoadRequested += (s, e) => CancelMoveCruiseFolder();
         }
 
         #endregion
@@ -719,6 +720,8 @@ namespace NeeView
         /// </summary>
         public async Task<bool> MoveCruiseFolder(int direction, BookLoadOption options)
         {
+            // TODO: NowLoad表示をどうしよう。BookHubに処理を移してそこで行う？
+
             var item = this.SelectedItem;
             if (item == null) return false;
 

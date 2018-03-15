@@ -181,6 +181,9 @@ namespace NeeView
         public event EventHandler BookChanging;
         public event EventHandler<BookMementoType> BookChanged;
 
+        // 新しいロードリクエスト
+        public event EventHandler<string> LoadRequested;
+
         // ロード中通知
         public event EventHandler<string> Loading;
 
@@ -815,6 +818,8 @@ namespace NeeView
             }
 
             path = GetNormalizePathName(path);
+
+            LoadRequested?.Invoke(this, path);
 
             if (Book?.Place == path && option.HasFlag(BookLoadOption.SkipSamePlace)) return null;
 

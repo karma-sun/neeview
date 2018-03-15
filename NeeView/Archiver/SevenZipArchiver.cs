@@ -180,8 +180,6 @@ namespace NeeView
 
         private static bool s_isLibraryInitialized;
 
-        private static object s_lock = new object();
-
         public static void InitializeLibrary()
         {
             if (s_isLibraryInitialized) return;
@@ -204,6 +202,7 @@ namespace NeeView
 
         #region Fields
 
+        private object _lock = new object();
         private SevenZipSource _source;
         private Stream _stream;
 
@@ -215,7 +214,7 @@ namespace NeeView
         {
             InitializeLibrary();
 
-            _source = new SevenZipSource(Path, s_lock);
+            _source = new SevenZipSource(Path, _lock);
         }
 
         #endregion
@@ -249,7 +248,7 @@ namespace NeeView
             var list = new List<ArchiveEntry>();
             var directoryEntries = new List<ArchiveEntry>();
 
-            lock (s_lock)
+            lock (_lock)
             {
                 if (_source == null) throw new ApplicationException("Archive already colosed.");
 
@@ -298,7 +297,7 @@ namespace NeeView
         {
             if (_isDisposed) throw new ApplicationException("Archive already colosed.");
 
-            lock (s_lock)
+            lock (_lock)
             {
                 if (_source == null) throw new ApplicationException("Archive already colosed.");
 
@@ -324,7 +323,7 @@ namespace NeeView
         {
             if (_isDisposed) throw new ApplicationException("Archive already colosed.");
 
-            lock (s_lock)
+            lock (_lock)
             {
                 using (var extractor = new SevenZipExtractor(Path)) // 専用extractor
                 using (Stream fs = new FileStream(exportFileName, FileMode.Create, FileAccess.Write))
@@ -344,7 +343,7 @@ namespace NeeView
             {
                 if (disposing)
                 {
-                    lock (s_lock)
+                    lock (_lock)
                     {
                         _source?.Dispose();
                         _source = null;

@@ -1100,15 +1100,30 @@ namespace NeeView
                 BookProfile.Current.PreLoadMode = memento.PreLoadMode;
                 BookProfile.Current.IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
                 BookProfile.Current.IsEnableNoSupportFile = memento.IsEnableNoSupportFile;
+                BookSetting.Current.IsUseBookMementoDefault = memento.IsUseBookMementoDefault;
 
                 BookOperation.Current.PageEndAction = memento.PageEndAction;
-                BookOperation.Current.ExternalApplication = memento.ExternalApplication.Clone();
-                BookOperation.Current.ClipboardUtility = memento.ClipboardUtility.Clone();
 
-                BookSetting.Current.BookMemento = memento.BookMemento.Clone();
-                BookSetting.Current.BookMementoDefault = memento.BookMementoDefault.Clone();
-                BookSetting.Current.IsUseBookMementoDefault = memento.IsUseBookMementoDefault;
-                BookSetting.Current.HistoryMementoFilter = memento.HistoryMementoFilter;
+                if (memento.ExternalApplication != null)
+                {
+                    BookOperation.Current.ExternalApplication = memento.ExternalApplication.Clone();
+                }
+                if (memento.ClipboardUtility != null)
+                {
+                    BookOperation.Current.ClipboardUtility = memento.ClipboardUtility.Clone();
+                }
+                if (memento.BookMemento != null)
+                {
+                    BookSetting.Current.BookMemento = memento.BookMemento.Clone();
+                }
+                if (memento.BookMementoDefault != null)
+                {
+                    BookSetting.Current.BookMementoDefault = memento.BookMementoDefault.Clone();
+                }
+                if (memento.HistoryMementoFilter != null)
+                {
+                    BookSetting.Current.HistoryMementoFilter = memento.HistoryMementoFilter;
+                }
 
                 FolderList.Current.Home = memento.Home;
             }

@@ -78,7 +78,7 @@ namespace NeeView
         public bool IsRestoreSecondWindow { get; set; } = true;
 
         // 履歴、ブックマーク、ページマークを保存しない
-        [PropertyMember("履歴、ブックマーク、ページマークをファイル保存しない", Tips ="履歴系の情報を一切保存しなくなります。")]
+        [PropertyMember("履歴、ブックマーク、ページマークをファイル保存しない", Tips = "履歴系の情報を一切保存しなくなります。")]
         public bool IsDisableSave { get; set; }
 
         // パネルやメニューが自動的に消えるまでの時間(秒)
@@ -204,9 +204,12 @@ namespace NeeView
             // compatible before ver.23
             if (setting._Version < Config.GenerateProductVersionNumber(1, 23, 0))
             {
-                this.IsMultiBootEnabled = !setting.ViewMemento.IsDisableMultiBoot;
-                this.IsSaveFullScreen = setting.ViewMemento.IsSaveFullScreen;
-                this.IsSaveWindowPlacement = setting.ViewMemento.IsSaveWindowPlacement;
+                if (setting.ViewMemento != null)
+                {
+                    this.IsMultiBootEnabled = !setting.ViewMemento.IsDisableMultiBoot;
+                    this.IsSaveFullScreen = setting.ViewMemento.IsSaveFullScreen;
+                    this.IsSaveWindowPlacement = setting.ViewMemento.IsSaveWindowPlacement;
+                }
             }
 
             // Preferenceの復元 (APP)

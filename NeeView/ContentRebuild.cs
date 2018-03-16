@@ -22,10 +22,27 @@ namespace NeeView
                 this.Locker = locker;
             }
 
+            #region IDisposable Support
+            private bool _disposedValue = false;
+
+            protected virtual void Dispose(bool disposing)
+            {
+                if (!_disposedValue)
+                {
+                    if (disposing)
+                    {
+                        this.Locker?.Unlock(this);
+                    }
+
+                    _disposedValue = true;
+                }
+            }
+
             public void Dispose()
             {
-                this.Locker?.Unlock(this);
+                Dispose(true);
             }
+            #endregion
         }
 
         private List<Key> _keys = new List<Key>();
@@ -62,15 +79,17 @@ namespace NeeView
 
         #region Win32API
 
-        // ウィンドウメッセージ
-        const int WM_SIZE = 0x0005;
-        const int WM_ENTERSIZEMOVE = 0x0231;
-        const int WM_EXITSIZEMOVE = 0x0232;
+        internal static class NativeMethods
+        {
+            // ウィンドウメッセージ
+            public const int WM_SIZE = 0x0005;
+            public const int WM_ENTERSIZEMOVE = 0x0231;
+            public const int WM_EXITSIZEMOVE = 0x0232;
 
-        // Win32API の PostMessage 関数のインポート
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        private static extern bool PostMessage(IntPtr hWnd, Int32 Msg, IntPtr wParam, IntPtr lParam);
-
+            // Win32API の PostMessage 関数のインポート
+            [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+            public static extern bool PostMessage(IntPtr hWnd, Int32 Msg, IntPtr wParam, IntPtr lParam);
+        }
 
         #endregion
 
@@ -159,10 +178,10 @@ namespace NeeView
         {
             switch (msg)
             {
-                case WM_ENTERSIZEMOVE:
+                case NativeMethods.WM_ENTERSIZEMOVE:
                     _isResizingWindow = true;
                     break;
-                case WM_EXITSIZEMOVE:
+                case NativeMethods.WM_EXITSIZEMOVE:
                     _isResizingWindow = false;
                     break;
             }

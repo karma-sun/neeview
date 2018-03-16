@@ -43,7 +43,7 @@ namespace NeeView
     /// <summary>
     /// フォルダーリスト更新イベントパラメーター
     /// </summary>
-    public class FolderListSyncArguments
+    public class FolderListSyncEventArgs : EventArgs
     {
         /// <summary>
         /// フォルダーリストで選択されて欲しい項目のパス
@@ -139,18 +139,51 @@ namespace NeeView
             => Book?.Place;
     }
 
+    public class BookChangedEventArgs : EventArgs
+    {
+        public BookChangedEventArgs(BookMementoType type)
+        {
+            BookMementoType = type;
+        }
+
+        public BookMementoType BookMementoType { get; set; }
+    }
+
+    public class BookHubPathEventArgs : EventArgs
+    {
+        public BookHubPathEventArgs(string path)
+        {
+            Path = path;
+        }
+
+        public string Path { get; set; }
+    }
+
+    public class BookHubMessageEventArgs : EventArgs
+    {
+        public BookHubMessageEventArgs(string message)
+        {
+            Message = message;
+        }
+
+        public string Message { get; set; }
+    }
+
     /// <summary>
     /// 本の管理
     /// ロード、本の操作はここを通す
     /// </summary>
-    public class BookHub : BindableBase, IEngine
+    public sealed class BookHub : BindableBase, IEngine, IDisposable
     {
         public static BookHub Current { get; private set; }
 
         #region NormalizePathname
 
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        private static extern int GetLongPathName(string shortPath, StringBuilder longPath, int longPathLength);
+        internal static class NativeMethods
+        {
+            [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+            public static extern int GetLongPathName(string shortPath, StringBuilder longPath, int longPathLength);
+        }
 
         // パス名の正規化
         private static string GetNormalizePathName(string source)
@@ -163,7 +196,7 @@ namespace NeeView
             source = new System.Text.RegularExpressions.Regex(@":$").Replace(source, ":\\");
 
             StringBuilder longPath = new StringBuilder(1024);
-            if (0 == GetLongPathName(source, longPath, longPath.Capacity))
+            if (0 == NativeMethods.GetLongPathName(source, longPath, longPath.Capacity))
             {
                 return source;
             }
@@ -179,13 +212,13 @@ namespace NeeView
 
         // 本の変更通知
         public event EventHandler BookChanging;
-        public event EventHandler<BookMementoType> BookChanged;
+        public event EventHandler<BookChangedEventArgs> BookChanged;
 
         // 新しいロードリクエスト
-        public event EventHandler<string> LoadRequested;
+        public event EventHandler<BookHubPathEventArgs> LoadRequested;
 
         // ロード中通知
-        public event EventHandler<string> Loading;
+        public event EventHandler<BookHubPathEventArgs> Loading;
 
         // ViewContentsの変更通知
         public event EventHandler<ViewPageCollectionChangedEventArgs> ViewContentsChanged;
@@ -194,13 +227,13 @@ namespace NeeView
         public event EventHandler<ViewPageCollectionChangedEventArgs> NextContentsChanged;
 
         // 空ページメッセージ
-        public event EventHandler<string> EmptyMessage;
+        public event EventHandler<BookHubMessageEventArgs> EmptyMessage;
 
         // フォルダー列更新要求
-        public event EventHandler<FolderListSyncArguments> FolderListSync;
+        public event EventHandler<FolderListSyncEventArgs> FolderListSync;
 
         // 履歴リスト更新要求
-        public event EventHandler<string> HistoryListSync;
+        public event EventHandler<BookHubPathEventArgs> HistoryListSync;
 
         // 履歴に追加、削除された
         public event EventHandler<BookMementoCollectionChangedArgs> HistoryChanged;
@@ -215,7 +248,7 @@ namespace NeeView
 
         public void SetEmptyMessage(string message)
         {
-            EmptyMessage?.Invoke(this, message);
+            EmptyMessage?.Invoke(this, new BookHubMessageEventArgs(message));
         }
 
         public void SetInfoMessage(string message)
@@ -384,7 +417,7 @@ namespace NeeView
                         }
                         else
                         {
-                            InfoMessage.Current.SetMessage(InfoMessageType.Notify, LoosePath.GetFileName(Address), null, 2.0, e);
+                            InfoMessage.Current.SetMessage(InfoMessageType.Notify, LoosePath.GetFileName(Address), null, 2.0, e.BookMementoType);
                         }
                     });
                 };
@@ -406,6 +439,8 @@ namespace NeeView
         //
         public void StopEngine()
         {
+            if (_disposedValue) return;
+
             // いろんなイベントをクリア
             this.AddressChanged = null;
             this.BookChanging = null;
@@ -493,7 +528,7 @@ namespace NeeView
                 App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, null));
 
                 // 本の変更通知
-                App.Current?.Dispatcher.Invoke(() => BookChanged?.Invoke(this, BookMementoType.None));
+                App.Current?.Dispatcher.Invoke(() => BookChanged?.Invoke(this, new BookChangedEventArgs(BookMementoType.None)));
             }
 
             if (param.Message != null)
@@ -509,7 +544,7 @@ namespace NeeView
         private void NotifyLoading(string path)
         {
             this.IsLoading = (path != null);
-            App.Current?.Dispatcher.Invoke(() => Loading?.Invoke(this, path));
+            App.Current?.Dispatcher.Invoke(() => Loading?.Invoke(this, new BookHubPathEventArgs(path)));
         }
 
         /// <summary>
@@ -547,17 +582,17 @@ namespace NeeView
                     if (args.IsRefleshFolderList)
                     {
                         var parent = address.Archiver.GetParentPlace();
-                        App.Current?.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = address.Place, Parent = address.Archiver.GetParentPlace(), isKeepPlace = false }));
+                        App.Current?.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncEventArgs() { Path = address.Place, Parent = address.Archiver.GetParentPlace(), isKeepPlace = false }));
                     }
                     else if ((args.Option & BookLoadOption.SelectFoderListMaybe) != 0)
                     {
-                        App.Current?.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncArguments() { Path = address.Place, Parent = address.Archiver.GetParentPlace(), isKeepPlace = true }));
+                        App.Current?.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncEventArgs() { Path = address.Place, Parent = address.Archiver.GetParentPlace(), isKeepPlace = true }));
                     }
 
                     // 履歴リスト更新
                     if ((args.Option & BookLoadOption.SelectHistoryMaybe) != 0)
                     {
-                        App.Current?.Dispatcher.Invoke(() => HistoryListSync?.Invoke(this, address.Place));
+                        App.Current?.Dispatcher.Invoke(() => HistoryListSync?.Invoke(this, new BookHubPathEventArgs(address.Place)));
                     }
 
                     // 本の設定
@@ -581,12 +616,12 @@ namespace NeeView
                 App.Current?.Dispatcher.Invoke(() => _bookSetting.RaiseSettingChanged());
 
                 // 本の変更通知
-                App.Current?.Dispatcher.Invoke(() => BookChanged?.Invoke(this, BookUnit.BookMementoType));
+                App.Current?.Dispatcher.Invoke(() => BookChanged?.Invoke(this, new BookChangedEventArgs(BookUnit.BookMementoType)));
 
                 // ページがなかった時の処理
                 if (Book.Pages.Count <= 0)
                 {
-                    App.Current?.Dispatcher.Invoke(() => EmptyMessage?.Invoke(this, $"\"{Book.Place}\" には読み込めるファイルがありません"));
+                    App.Current?.Dispatcher.Invoke(() => EmptyMessage?.Invoke(this, new BookHubMessageEventArgs($"\"{Book.Place}\" には読み込めるファイルがありません")));
 
                     if (IsConfirmRecursive && (args.Option & BookLoadOption.ReLoad) == 0 && !Book.IsRecursiveFolder && Book.SubFolderCount > 0)
                     {
@@ -601,18 +636,18 @@ namespace NeeView
             catch (Exception e)
             {
                 // ファイル読み込み失敗通知
-                EmptyMessage?.Invoke(this, e.Message);
+                EmptyMessage?.Invoke(this, new BookHubMessageEventArgs(e.Message));
 
                 // 現在表示されているコンテンツを無効
                 App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewPageCollectionChangedEventArgs(new ViewPageCollection())));
 
                 // 本の変更通知
-                App.Current?.Dispatcher.Invoke(() => BookChanged?.Invoke(this, BookMementoType.None));
+                App.Current?.Dispatcher.Invoke(() => BookChanged?.Invoke(this, new BookChangedEventArgs(BookMementoType.None)));
 
                 // 履歴リスト更新
                 if ((args.Option & BookLoadOption.SelectHistoryMaybe) != 0)
                 {
-                    App.Current?.Dispatcher.Invoke(() => HistoryListSync?.Invoke(this, Address));
+                    App.Current?.Dispatcher.Invoke(() => HistoryListSync?.Invoke(this, new BookHubPathEventArgs(Address)));
                 }
             }
             finally
@@ -819,7 +854,7 @@ namespace NeeView
 
             path = GetNormalizePathName(path);
 
-            LoadRequested?.Invoke(this, path);
+            LoadRequested?.Invoke(this, new BookHubPathEventArgs(path));
 
             if (Book?.Place == path && option.HasFlag(BookLoadOption.SkipSamePlace)) return null;
 
@@ -923,6 +958,20 @@ namespace NeeView
         {
             return (System.IO.Directory.Exists(path) || (!BookProfile.Current.IsEnableNoSupportFile && !PictureProfile.Current.IsSupported(path) && System.IO.Path.GetExtension(path).ToLower() != ".lnk"));
         }
+
+        #region IDisposable Support
+        private bool _disposedValue;
+
+        public void Dispose()
+        {
+            if (_disposedValue) return;
+
+            StopEngine();
+            _commandEngine.Dispose();
+
+            _disposedValue = true;
+        }
+        #endregion
 
 
         #region Memento

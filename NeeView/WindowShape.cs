@@ -52,11 +52,14 @@ namespace NeeView
 
         #region NativeApi
 
-        [DllImport("user32.dll")]
-        private static extern IntPtr FindWindow(string className, string windowTitle);
+        internal static class NativeMethods
+        {
+            [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+            public static extern IntPtr FindWindow(string className, string windowTitle);
 
-        [DllImport("user32.dll")]
-        private static extern int SetForegroundWindow(IntPtr hwnd);
+            [DllImport("user32.dll")]
+            public static extern int SetForegroundWindow(IntPtr hwnd);
+        }
 
         #endregion
 
@@ -427,8 +430,8 @@ namespace NeeView
             //_window.Visibility = Visibility.Hidden;
             //_window.Visibility = Visibility.Visible;
 
-            IntPtr hTaskbarWnd = FindWindow("Shell_TrayWnd", null);
-            SetForegroundWindow(hTaskbarWnd);
+            IntPtr hTaskbarWnd = NativeMethods.FindWindow("Shell_TrayWnd", null);
+            NativeMethods.SetForegroundWindow(hTaskbarWnd);
             _window.Activate();
         }
 

@@ -86,11 +86,14 @@ namespace NeeView
 
         #region NativeApi
 
-        [DllImport("user32.dll")]
-        public static extern bool SetWindowPlacement(IntPtr hWnd, [In] ref WINDOWPLACEMENT lpwndpl);
+        internal static class NativeMethods
+        {
+            [DllImport("user32.dll")]
+            public static extern bool SetWindowPlacement(IntPtr hWnd, [In] ref WINDOWPLACEMENT lpwndpl);
 
-        [DllImport("user32.dll")]
-        public static extern bool GetWindowPlacement(IntPtr hWnd, out WINDOWPLACEMENT lpwndpl);
+            [DllImport("user32.dll")]
+            public static extern bool GetWindowPlacement(IntPtr hWnd, out WINDOWPLACEMENT lpwndpl);
+        }
 
         #endregion
 
@@ -140,7 +143,7 @@ namespace NeeView
                 placement.normalPosition.Bottom = placement.normalPosition.Top + (int)(this.Height * Config.Current.Dpi.DpiScaleY + 0.5);
                 //Debug.WriteLine($">>>> Restore.WIDTH: {placement.normalPosition.Right - placement.normalPosition.Left}, DPI: {Config.Current.Dpi.DpiScaleX}");
 
-                SetWindowPlacement(hwnd, ref placement);
+                NativeMethods.SetWindowPlacement(hwnd, ref placement);
             }
         }
 
@@ -156,7 +159,7 @@ namespace NeeView
             var hwnd = new WindowInteropHelper(_window).Handle;
             if (hwnd == IntPtr.Zero) return;
 
-            GetWindowPlacement(hwnd, out WINDOWPLACEMENT placement);
+            NativeMethods.GetWindowPlacement(hwnd, out WINDOWPLACEMENT placement);
 
             this.Width = (placement.normalPosition.Right - placement.normalPosition.Left) / Config.Current.Dpi.DpiScaleX;
             this.Height = (placement.normalPosition.Bottom - placement.normalPosition.Top) / Config.Current.Dpi.DpiScaleY;

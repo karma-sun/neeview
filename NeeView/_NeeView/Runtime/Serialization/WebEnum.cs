@@ -32,13 +32,13 @@ namespace NeeView.Runtime.Serialization
         }
 
         [OnSerializing]
-        internal void OnSerializing(StreamingContext context)
+        private void OnSerializing(StreamingContext context)
         {
             Name = Value.ToString();
         }
 
         [OnDeserialized]
-        internal void OnDeserialized(StreamingContext context)
+        private void OnDeserialized(StreamingContext context)
         {
             if ((!string.IsNullOrEmpty(Name)) && (Enum.IsDefined(typeof(T), Name)))
             {

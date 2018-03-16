@@ -114,8 +114,6 @@ namespace NeeView.Data
 
 
 
-
-
         /// <summary>
         /// シリアライズ(GZip)
         /// </summary>
@@ -131,19 +129,36 @@ namespace NeeView.Data
                 serializer.WriteObject(inStream, element);
 
                 // 出力用ストリーム
-                using (var outStream = new System.IO.MemoryStream())
+                GZipStream gzout = null;
+                System.IO.MemoryStream outStream = null;
+                try
                 {
+                    outStream = new System.IO.MemoryStream();
+
                     // 出力用ストリームに gzip ストリームのフィルターを付ける
-                    using (GZipStream gzout = new GZipStream(outStream, CompressionMode.Compress))
-                    {
-                        inStream.Seek(0, System.IO.SeekOrigin.Begin);
-                        inStream.CopyTo(gzout);
-                    }
+                    gzout = new GZipStream(outStream, CompressionMode.Compress);
+
+                    inStream.Seek(0, System.IO.SeekOrigin.Begin);
+                    inStream.CopyTo(gzout);
 
                     return outStream.ToArray();
                 }
+                finally
+                {
+                    if (gzout != null)
+                    {
+                        gzout.Dispose();
+                        outStream = null;
+                    }
+
+                    if (outStream != null)
+                    {
+                        outStream.Dispose();
+                    }
+                }
             }
         }
+
 
         /// <summary>
         /// デシリアライズ(GZip)
@@ -152,23 +167,19 @@ namespace NeeView.Data
         /// <returns></returns>
         public static T DeserializeGZip<T>(byte[] buff) where T : class
         {
-            // 入力用ストリーム
-            using (var inStream = new System.IO.MemoryStream(buff))
+            // 出力用ストリーム
+            using (var outStream = new System.IO.MemoryStream())
             {
-                // 出力用ストリーム
-                using (var outStream = new System.IO.MemoryStream())
+                // 入力用ストリームに gzip ストリームのフィルターを付ける
+                using (GZipStream gzin = new GZipStream(new System.IO.MemoryStream(buff), CompressionMode.Decompress))
                 {
-                    // 入力用ストリームに gzip ストリームのフィルターを付ける
-                    using (GZipStream gzin = new GZipStream(inStream, CompressionMode.Decompress))
-                    {
-                        gzin.CopyTo(outStream);
-                    }
-
-                    // JSON Deserialize
-                    var serializer = new DataContractJsonSerializer(typeof(T));
-                    outStream.Seek(0, System.IO.SeekOrigin.Begin);
-                    return (T)serializer.ReadObject(outStream);
+                    gzin.CopyTo(outStream);
                 }
+
+                // JSON Deserialize
+                var serializer = new DataContractJsonSerializer(typeof(T));
+                outStream.Seek(0, System.IO.SeekOrigin.Begin);
+                return (T)serializer.ReadObject(outStream);
             }
         }
 

@@ -78,7 +78,7 @@ namespace NeeView
                 OnNextContentsChanged;
 
             _bookHub.EmptyMessage +=
-                (s, e) => EmptyPageMessage = e;
+                (s, e) => EmptyPageMessage = e.Message;
         }
 
         #endregion

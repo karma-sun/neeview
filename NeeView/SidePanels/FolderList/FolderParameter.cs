@@ -116,7 +116,7 @@ namespace NeeView
 
 
             [OnDeserialized]
-            internal void OnDeserialized(StreamingContext context)
+            private void OnDeserialized(StreamingContext context)
             {
 #pragma warning disable CS0612
                 if (_folderOrderV1 != default(FolderOrderV1))

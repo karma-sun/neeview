@@ -399,24 +399,21 @@ namespace NeeView
             try
             {
                 // 保存されたファイルをzipにまとめて出力
-                using (FileStream zipToOpen = new FileStream(filename, FileMode.Create, FileAccess.ReadWrite))
+                using (ZipArchive archive = new ZipArchive(new FileStream(filename, FileMode.Create, FileAccess.ReadWrite), ZipArchiveMode.Update))
                 {
-                    using (ZipArchive archive = new ZipArchive(zipToOpen, ZipArchiveMode.Update))
-                    {
-                        archive.CreateEntryFromFile(App.Current.Option.SettingFilename, UserSettingFileName);
+                    archive.CreateEntryFromFile(App.Current.Option.SettingFilename, UserSettingFileName);
 
-                        if (File.Exists(_historyFileName))
-                        {
-                            archive.CreateEntryFromFile(_historyFileName, HistoryFileName);
-                        }
-                        if (File.Exists(_bookmarkFileName))
-                        {
-                            archive.CreateEntryFromFile(_bookmarkFileName, BookmarkFileName);
-                        }
-                        if (File.Exists(_pagemarkFileName))
-                        {
-                            archive.CreateEntryFromFile(_pagemarkFileName, PagemarkFileName);
-                        }
+                    if (File.Exists(_historyFileName))
+                    {
+                        archive.CreateEntryFromFile(_historyFileName, HistoryFileName);
+                    }
+                    if (File.Exists(_bookmarkFileName))
+                    {
+                        archive.CreateEntryFromFile(_bookmarkFileName, BookmarkFileName);
+                    }
+                    if (File.Exists(_pagemarkFileName))
+                    {
+                        archive.CreateEntryFromFile(_pagemarkFileName, PagemarkFileName);
                     }
                 }
             }

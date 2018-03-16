@@ -52,6 +52,7 @@ namespace NeeView
     /// <summary>
     /// ViewContentが生成できなかったときの例外
     /// </summary>
+    [Serializable]
     public class ViewContentFactoryException : Exception
     {
         public ViewContentFactoryException()

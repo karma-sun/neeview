@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Susie
 {
+    [Serializable]
     public class SpiException : ApplicationException
     {
         public SpiException(string msg, SusiePlugin spi) : base($"[{System.IO.Path.GetFileName(spi.FileName)}] {msg}")
@@ -115,7 +116,7 @@ namespace Susie
         {
             SusiePlugin = spi;
 
-            string shortPath = Win32Api.GetShortPathName(archiveFileName);
+            string shortPath = NativeMethods.GetShortPathName(archiveFileName);
             foreach (var entry in entries)
             {
                 this.Add(new ArchiveEntry(spi, shortPath, entry));

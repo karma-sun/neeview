@@ -20,7 +20,7 @@ namespace NeeView
         Drive = (1 << 1),
         Empty = (1 << 2),
         Shortcut = (1 << 3),
-        ArchiveEntry = (1<<4),
+        ArchiveEntry = (1 << 4),
     }
 
     /// <summary>

@@ -214,7 +214,7 @@ namespace NeeView
         }
 
         // 本が変更された
-        private void OnBookChanged(object sender, BookMementoType bookmarkType)
+        private void OnBookChanged(object sender, BookChangedEventArgs e)
         {
             RaisePropertyChanged(nameof(ThumbnailListVisibility));
             Refleshed?.Invoke(this, null);

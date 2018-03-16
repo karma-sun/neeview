@@ -16,14 +16,18 @@ using System.Windows.Threading;
 
 namespace NeeView
 {
-
-    public delegate void LogEventHandler(string log);
-
+    #region 開発用
+    public class LogEventArgs : EventArgs
+    {
+        public string Log { get; set; }
+        public LogEventArgs(string log) => Log = log;
+    }
+    #endregion
 
     /// <summary>
     /// ジョブ
     /// </summary>
-    public class Job
+    public class Job : IDisposable
     {
         // シリアル番号(開発用)
         public int SerialNumber { get; set; }
@@ -35,7 +39,8 @@ namespace NeeView
         public object Sender { get; set; }
 
         // 完了フラグ
-        public ManualResetEventSlim Completed { get; set; } = new ManualResetEventSlim();
+        private ManualResetEventSlim _completed = new ManualResetEventSlim();
+        public ManualResetEventSlim Completed => _completed;
 
         // キャンセルトークン
         public CancellationToken CancellationToken { get; set; }
@@ -43,6 +48,27 @@ namespace NeeView
         // コマンド
         public IJobCommand Command { get; set; }
 
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _completed.Dispose();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
 
         #region 開発用
 
@@ -50,12 +76,12 @@ namespace NeeView
         public bool IsDebug { get; set; }
 
         //
-        public LogEventHandler Logged;
+        public event EventHandler<LogEventArgs> Logged;
 
         //
         public void Log(string msg)
         {
-            Logged?.Invoke(msg);
+            Logged?.Invoke(this, new LogEventArgs(msg));
             if (IsDebug) Debug.WriteLine(msg);
         }
 
@@ -76,7 +102,7 @@ namespace NeeView
     /// 登録済みジョブ情報
     /// 登録後はこのインスタンスを介して制御する
     /// </summary>
-    public class JobRequest
+    public class JobRequest : IDisposable
     {
         private JobEngine _jobEngine;
         private Job _job;
@@ -97,7 +123,7 @@ namespace NeeView
             _job.CancellationToken = _cancellationTokenSource.Token;
             Priority = priority;
 
-            _job.Logged += (e) => Logged?.Invoke(e);
+            _job.Logged += (s, e) => Logged?.Invoke(s, e);
         }
 
         // キャンセル
@@ -140,10 +166,34 @@ namespace NeeView
             await Task.Run(() => _job.Completed.Wait(token));
         }
 
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    if (_cancellationTokenSource != null)
+                    {
+                        _cancellationTokenSource.Dispose();
+                    }
+                }
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
+
         #region 開発用
 
-        public event LogEventHandler Logged;
-
+        public event EventHandler<LogEventArgs> Logged;
 
         #endregion
     }
@@ -516,17 +566,6 @@ namespace NeeView
             _context.JobChanged += Context_JobChanged;
         }
 
-        /// <summary>
-        /// Dispose
-        /// </summary>
-        public void Dispose()
-        {
-            if (_context != null)
-            {
-                _context.JobChanged -= Context_JobChanged;
-            }
-        }
-
         //
         private void Context_JobChanged(object sender, EventArgs e)
         {
@@ -608,7 +647,7 @@ namespace NeeView
 
                 IsBusy = true;
 
-                job.Logged($"{job.SerialNumber}: Job...");
+                job.Log($"{job.SerialNumber}: Job...");
 
                 if (!job.CancellationToken.IsCancellationRequested)
                 {
@@ -616,11 +655,11 @@ namespace NeeView
                     try
                     {
                         await job.Command.ExecuteAsync(job.Completed, job.CancellationToken);
-                        job.Logged($"{job.SerialNumber}: Job done.");
+                        job.Log($"{job.SerialNumber}: Job done.");
                     }
                     catch (OperationCanceledException)
                     {
-                        job.Logged($"{job.SerialNumber}: Job canceled");
+                        job.Log($"{job.SerialNumber}: Job canceled");
                     }
                     catch (Exception ex)
                     {
@@ -630,7 +669,7 @@ namespace NeeView
                 }
                 else
                 {
-                    job.Logged($"{job.SerialNumber}: Job canceled");
+                    job.Log($"{job.SerialNumber}: Job canceled");
                 }
 
 
@@ -640,6 +679,41 @@ namespace NeeView
 
             Debug.WriteLine("Task: Exit.");
         }
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    if (_context != null)
+                    {
+                        _context.JobChanged -= Context_JobChanged;
+                    }
+
+                    if (_cancellationTokenSource != null)
+                    {
+                        _cancellationTokenSource.Dispose();
+                    }
+
+                    if (_event != null)
+                    {
+                        _event.Dispose();
+                    }
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
 
     }
 }

@@ -29,7 +29,7 @@ namespace NeeLaboratory.Threading.Jobs
     /// Job基底
     /// キャンセル、終了待機対応
     /// </summary>
-    public abstract class JobBase : IJob
+    public abstract class JobBase : IJob, IDisposable
     {
         #region Fields
 
@@ -169,6 +169,28 @@ namespace NeeLaboratory.Threading.Jobs
         }
 
         #endregion
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _complete.Dispose();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 
 
@@ -195,5 +217,19 @@ namespace NeeLaboratory.Threading.Jobs
         {
             _tokenSource.Cancel();
         }
+
+        #region IDisposable Support
+
+        protected override void Dispose(bool disposing)
+        {
+            if (!disposing)
+            {
+                _tokenSource.Dispose();
+            }
+
+            base.Dispose(disposing);
+        }
+
+        #endregion
     }
 }

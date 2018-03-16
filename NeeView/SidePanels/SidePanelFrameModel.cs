@@ -340,7 +340,7 @@ namespace NeeView
 
 
             [OnDeserializing]
-            public void OnDeserializing(StreamingContext context)
+            private void OnDeserializing(StreamingContext context)
             {
                 this.InitializePropertyDefaultValues();
             }

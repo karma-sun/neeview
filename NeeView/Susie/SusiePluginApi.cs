@@ -16,22 +16,25 @@ namespace Susie
     /// </summary>
     public class SusiePluginApi : IDisposable
     {
-        [DllImport("msvcrt.dll", CallingConvention = CallingConvention.Cdecl)]
-        private extern static uint _controlfp(uint newcw, uint mask);
+        internal static class NativeMethods
+        {
+            [DllImport("msvcrt.dll", CallingConvention = CallingConvention.Cdecl)]
+            public extern static uint _controlfp(uint newcw, uint mask);
 
-        private const uint _MCW_EM = 0x0008001f;
-        public const uint EM_INVALID = 0x00000010;
-        public const uint EM_DENORMAL = 0x00080000;
-        public const uint EM_ZERODIVIDE = 0x00000008;
-        public const uint EM_OVERFLOW = 0x00000004;
-        public const uint EM_UNDERFLOW = 0x00000002;
-        public const uint EM_INEXACT = 0x00000001;
+            public const uint _MCW_EM = 0x0008001f;
+            public const uint EM_INVALID = 0x00000010;
+            public const uint EM_DENORMAL = 0x00080000;
+            public const uint EM_ZERODIVIDE = 0x00000008;
+            public const uint EM_OVERFLOW = 0x00000004;
+            public const uint EM_UNDERFLOW = 0x00000002;
+            public const uint EM_INEXACT = 0x00000001;
+        }
 
         // FPUのリセット
         private static void FixFPU()
         {
             // add desired values
-            _controlfp(_MCW_EM, EM_INVALID | EM_ZERODIVIDE);
+            NativeMethods._controlfp(NativeMethods._MCW_EM, NativeMethods.EM_INVALID | NativeMethods.EM_ZERODIVIDE);
         }
 
         // DLLハンドル
@@ -61,7 +64,7 @@ namespace Susie
         private IntPtr Open(string fileName)
         {
             Close();
-            hModule = Win32Api.LoadLibrary(fileName);
+            this.hModule = global::Susie.NativeMethods.LoadLibrary(fileName);
             return hModule;
         }
 
@@ -73,7 +76,7 @@ namespace Susie
             if (hModule != IntPtr.Zero)
             {
                 _apiDelegateList.Clear();
-                Win32Api.FreeLibrary(hModule);
+                global::Susie.NativeMethods.FreeLibrary(this.hModule);
                 hModule = IntPtr.Zero;
 
                 FixFPU();
@@ -128,7 +131,7 @@ namespace Susie
         {
             if (hModule == null) throw new InvalidOperationException();
 
-            IntPtr add = Win32Api.GetProcAddress(hModule, name);
+            IntPtr add = global::Susie.NativeMethods.GetProcAddress(this.hModule, name);
             return (add != IntPtr.Zero);
         }
 
@@ -143,7 +146,7 @@ namespace Susie
         {
             if (!_apiDelegateList.ContainsKey(typeof(T)))
             {
-                IntPtr add = Win32Api.GetProcAddress(hModule, procName);
+                IntPtr add = global::Susie.NativeMethods.GetProcAddress(this.hModule, procName);
                 if (add == IntPtr.Zero) throw new NotSupportedException("not support " + procName);
                 _apiDelegateList.Add(typeof(T), Marshal.GetDelegateForFunctionPointer<T>(add));
             }
@@ -268,7 +271,7 @@ namespace Susie
                 {
                     var list = new List<ArchiveFileInfoRaw>();
 
-                    IntPtr p = Win32Api.LocalLock(hInfo);
+                    IntPtr p = global::Susie.NativeMethods.LocalLock(hInfo);
                     while (true)
                     {
                         ArchiveFileInfoRaw fileInfo = Marshal.PtrToStructure<ArchiveFileInfoRaw>(p);
@@ -282,8 +285,8 @@ namespace Susie
             }
             finally
             {
-                Win32Api.LocalUnlock(hInfo);
-                Win32Api.LocalFree(hInfo);
+                global::Susie.NativeMethods.LocalUnlock(hInfo);
+                global::Susie.NativeMethods.LocalFree(hInfo);
             }
 
             return null;
@@ -312,8 +315,8 @@ namespace Susie
                 int ret = getFile(file, (int)entry.position, out hBuff, 0x0100, ProgressCallbackDummy, 0); // 0x0100 > File To Memory
                 if (ret == 0)
                 {
-                    IntPtr pBuff = Win32Api.LocalLock(hBuff);
-                    var buffSize = (int)Win32Api.LocalSize(hBuff);
+                    IntPtr pBuff = global::Susie.NativeMethods.LocalLock(hBuff);
+                    var buffSize = (int)global::Susie.NativeMethods.LocalSize(hBuff);
                     if (buffSize ==0) throw new ApplicationException("Memory error.");
                     if (buffSize != (int)entry.filesize)
                     {
@@ -327,8 +330,8 @@ namespace Susie
             }
             finally
             {
-                Win32Api.LocalUnlock(hBuff);
-                Win32Api.LocalFree(hBuff);
+                global::Susie.NativeMethods.LocalUnlock(hBuff);
+                global::Susie.NativeMethods.LocalFree(hBuff);
             }
         }
 
@@ -373,20 +376,20 @@ namespace Susie
                 int ret = getPicture(buff, buff.Length, 0x01, out pHBInfo, out pHBm, ProgressCallbackDummy, 0);
                 if (ret == 0)
                 {
-                    IntPtr pBInfo = Win32Api.LocalLock(pHBInfo);
-                    int pBInfoSize = (int)Win32Api.LocalSize(pHBInfo);
-                    IntPtr pBm = Win32Api.LocalLock(pHBm);
-                    int pBmSize = (int)Win32Api.LocalSize(pHBm);
+                    IntPtr pBInfo = global::Susie.NativeMethods.LocalLock(pHBInfo);
+                    int pBInfoSize = (int)global::Susie.NativeMethods.LocalSize(pHBInfo);
+                    IntPtr pBm = global::Susie.NativeMethods.LocalLock(pHBm);
+                    int pBmSize = (int)global::Susie.NativeMethods.LocalSize(pHBm);
                     return CraeteBitmapImage(pBInfo, pBInfoSize, pBm, pBmSize);
                 }
                 return null;
             }
             finally
             {
-                Win32Api.LocalUnlock(pHBInfo);
-                Win32Api.LocalUnlock(pHBm);
-                Win32Api.LocalFree(pHBInfo);
-                Win32Api.LocalFree(pHBm);
+                global::Susie.NativeMethods.LocalUnlock(pHBInfo);
+                global::Susie.NativeMethods.LocalUnlock(pHBm);
+                global::Susie.NativeMethods.LocalFree(pHBInfo);
+                global::Susie.NativeMethods.LocalFree(pHBm);
             }
         }
 
@@ -408,20 +411,20 @@ namespace Susie
                 int ret = getPicture(filename, 0, 0x00, out pHBInfo, out pHBm, ProgressCallbackDummy, 0);
                 if (ret == 0)
                 {
-                    IntPtr pBInfo = Win32Api.LocalLock(pHBInfo);
-                    int pBInfoSize = (int)Win32Api.LocalSize(pHBInfo);
-                    IntPtr pBm = Win32Api.LocalLock(pHBm);
-                    int pBmSize = (int)Win32Api.LocalSize(pHBm);
+                    IntPtr pBInfo = global::Susie.NativeMethods.LocalLock(pHBInfo);
+                    int pBInfoSize = (int)global::Susie.NativeMethods.LocalSize(pHBInfo);
+                    IntPtr pBm = global::Susie.NativeMethods.LocalLock(pHBm);
+                    int pBmSize = (int)global::Susie.NativeMethods.LocalSize(pHBm);
                     return CraeteBitmapImage(pBInfo, pBInfoSize, pBm, pBmSize);
                 }
                 return null;
             }
             finally
             {
-                Win32Api.LocalUnlock(pHBInfo);
-                Win32Api.LocalUnlock(pHBm);
-                Win32Api.LocalFree(pHBInfo);
-                Win32Api.LocalFree(pHBm);
+                global::Susie.NativeMethods.LocalUnlock(pHBInfo);
+                global::Susie.NativeMethods.LocalUnlock(pHBm);
+                global::Susie.NativeMethods.LocalFree(pHBInfo);
+                global::Susie.NativeMethods.LocalFree(pHBm);
             }
         }
 

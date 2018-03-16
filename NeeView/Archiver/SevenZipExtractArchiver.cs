@@ -44,7 +44,7 @@ namespace NeeView
 
         public override List<ArchiveEntry> GetEntries(CancellationToken token)
         {
-            if (_isDisposed) throw new ApplicationException("Archive already colosed.");
+            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
 
             Open(token);
 
@@ -103,14 +103,14 @@ namespace NeeView
 
         public override Stream OpenStream(ArchiveEntry entry)
         {
-            if (_isDisposed) throw new ApplicationException("Archive already colosed.");
+            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
 
             return new FileStream(GetFileSystemPath(entry), FileMode.Open, FileAccess.Read);
         }
 
         public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
-            if (_isDisposed) throw new ApplicationException("Archive already colosed.");
+            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
 
             File.Copy(GetFileSystemPath(entry), exportFileName, isOverwrite);
         }
@@ -154,7 +154,7 @@ namespace NeeView
 
         protected override void Dispose(bool disposing)
         {
-            if (!_isDisposed)
+            if (!_disposedValue)
             {
                 if (disposing)
                 {

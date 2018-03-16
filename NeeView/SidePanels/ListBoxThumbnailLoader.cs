@@ -24,9 +24,9 @@ namespace NeeView
             _panel = panelListBox;
             _priority = priority;
 
-            _panel.PageListBox.Loaded += ListBox_Loaded; ;
-            _panel.PageListBox.IsVisibleChanged += ListBox_IsVisibleChanged; ;
-            _panel.PageListBox.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(ListBox_ScrollChanged));
+            _panel.PageCollectionListBox.Loaded += ListBox_Loaded; ;
+            _panel.PageCollectionListBox.IsVisibleChanged += ListBox_IsVisibleChanged; ;
+            _panel.PageCollectionListBox.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(ListBox_ScrollChanged));
         }
 
         private void ListBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -56,7 +56,7 @@ namespace NeeView
 
             if (_virtualizingStackPanel == null)
             {
-                _virtualizingStackPanel = VisualTreeUtility.FindVisualChild<VirtualizingStackPanel>(_panel.PageListBox);
+                _virtualizingStackPanel = VisualTreeUtility.FindVisualChild<VirtualizingStackPanel>(_panel.PageCollectionListBox);
                 if (_virtualizingStackPanel == null)
                 {
                     return;

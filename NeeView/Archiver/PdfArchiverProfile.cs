@@ -102,7 +102,7 @@ namespace NeeView
 
 
             [OnDeserializing]
-            public void OnDeserializing(StreamingContext c)
+            private void OnDeserializing(StreamingContext c)
             {
                 this.InitializePropertyDefaultValues();
             }
@@ -110,7 +110,7 @@ namespace NeeView
 #pragma warning disable CS0612
 
             [OnDeserialized]
-            public void OnDeserialized(StreamingContext c)
+            private void OnDeserialized(StreamingContext c)
             {
                 if (this.RenderSize == default(Size))
                 {

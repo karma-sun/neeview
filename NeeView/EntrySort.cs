@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,6 +13,12 @@ namespace NeeView
     /// </summary>
     public static class EntrySort
     {
+        internal static partial class NativeMethods
+        {
+            [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
+            public static extern int StrCmpLogicalW(string psz1, string psz2);
+        }
+
         // TODO: 入力されたentriesを変更しないようにする
         /// <summary>
         /// ソート実行
@@ -26,16 +33,16 @@ namespace NeeView
             switch (sortMode)
             {
                 case PageSortMode.FileName:
-                    entries.Sort((a, b) => CompareFileNameOrder(a, b, Win32Api.StrCmpLogicalW));
+                    entries.Sort((a, b) => CompareFileNameOrder(a, b, NativeMethods.StrCmpLogicalW));
                     break;
                 case PageSortMode.FileNameDescending:
-                    entries.Sort((a, b) => CompareFileNameOrder(b, a, Win32Api.StrCmpLogicalW));
+                    entries.Sort((a, b) => CompareFileNameOrder(b, a, NativeMethods.StrCmpLogicalW));
                     break;
                 case PageSortMode.TimeStamp:
-                    entries.Sort((a, b) => CompareDateTimeOrder(a, b, Win32Api.StrCmpLogicalW));
+                    entries.Sort((a, b) => CompareDateTimeOrder(a, b, NativeMethods.StrCmpLogicalW));
                     break;
                 case PageSortMode.TimeStampDescending:
-                    entries.Sort((a, b) => CompareDateTimeOrder(b, a, Win32Api.StrCmpLogicalW));
+                    entries.Sort((a, b) => CompareDateTimeOrder(b, a, NativeMethods.StrCmpLogicalW));
                     break;
                 case PageSortMode.Random:
                     var random = new Random();

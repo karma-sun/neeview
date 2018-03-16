@@ -17,7 +17,7 @@ namespace NeeView
             Current = this;
 
             BookHub.Current.Loading +=
-                (s, e) => IsDispNowLoading = e != null;
+                (s, e) => IsDispNowLoading = e.Path != null;
         }
 
         /// <summary>

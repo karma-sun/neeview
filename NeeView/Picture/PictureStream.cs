@@ -15,7 +15,7 @@ namespace NeeView
     /// <summary>
     /// 名前とセットのストリーム
     /// </summary>
-    public class NamedStream : IDisposable
+    public sealed class NamedStream : IDisposable
     {
         public Stream Stream { get; set; }
         public string Name { get; set; }

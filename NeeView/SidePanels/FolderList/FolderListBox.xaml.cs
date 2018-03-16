@@ -72,7 +72,7 @@ namespace NeeView
         #region IPanelListBox Support
 
         //
-        public ListBox PageListBox => this.ListBox;
+        public ListBox PageCollectionListBox => this.ListBox;
 
         // サムネイルが表示されている？
         public bool IsThumbnailVisibled => _vm.Model.IsThumbnailVisibled;

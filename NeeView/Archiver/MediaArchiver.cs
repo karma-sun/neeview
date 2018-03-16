@@ -62,7 +62,7 @@ namespace NeeView
 
         public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
-            if (_isDisposed) throw new ApplicationException("Archive already colosed.");
+            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
             File.Copy(GetFileSystemPath(entry), exportFileName, isOverwrite);
         }
 

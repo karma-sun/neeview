@@ -32,40 +32,43 @@ namespace NeeView.IO
         private static readonly System.Windows.Forms.DataFormats.Format s_CFSTR_FILEDESCRIPTORW = System.Windows.Forms.DataFormats.GetFormat("FileGroupDescriptorW");
         private static readonly System.Windows.Forms.DataFormats.Format s_CFSTR_FILECONTENTS = System.Windows.Forms.DataFormats.GetFormat("FileContents");
 
-        [DllImport("Kernel32.dll", SetLastError = true)]
-        private static extern IntPtr GlobalAlloc(int uFlags, int dwBytes);
-        [DllImport("Kernel32.dll")]
-        private static extern IntPtr GlobalFree(IntPtr hMem);
-        [DllImport("Kernel32.dll", SetLastError = true)]
-        private static extern IntPtr GlobalLock(IntPtr hMem);
-        [DllImport("Kernel32.dll", SetLastError = true)]
-        private static extern IntPtr GlobalSize(IntPtr hMem);
-        [DllImport("Kernel32.dll")]
-        private static extern bool GlobalUnlock(IntPtr hMem);
-
-        [StructLayout(LayoutKind.Sequential, Pack = 4, CharSet = CharSet.Unicode)]
-        private struct FILEDESCRIPTORW
+        internal static class NativeMethods
         {
-            public int dwFlags;
-            public Guid clsid;
-            public long sizel;
-            public long pointl;
-            public int dwFileAttributes;
-            public FILETIME ftCreationTime;
-            public FILETIME ftLastAccessTime;
-            public FILETIME ftLastWriteTime;
-            public int nFileSizeHigh;
-            public uint nFileSizeLow;
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
-            public string cFileName;
-        }
+            [DllImport("Kernel32.dll", SetLastError = true)]
+            public static extern IntPtr GlobalAlloc(int uFlags, int dwBytes);
+            [DllImport("Kernel32.dll")]
+            public static extern IntPtr GlobalFree(IntPtr hMem);
+            [DllImport("Kernel32.dll", SetLastError = true)]
+            public static extern IntPtr GlobalLock(IntPtr hMem);
+            [DllImport("Kernel32.dll", SetLastError = true)]
+            public static extern IntPtr GlobalSize(IntPtr hMem);
+            [DllImport("Kernel32.dll")]
+            public static extern bool GlobalUnlock(IntPtr hMem);
 
-        [StructLayout(LayoutKind.Sequential, Pack = 4, CharSet = CharSet.Unicode)]
-        private struct FILEGROUPDESCRIPTORW
-        {
-            public int cItems;
-            [MarshalAs(UnmanagedType.ByValArray)]
-            public FILEDESCRIPTORW[] fgd;
+            [StructLayout(LayoutKind.Sequential, Pack = 4, CharSet = CharSet.Unicode)]
+            public struct FILEDESCRIPTORW
+            {
+                public int dwFlags;
+                public Guid clsid;
+                public long sizel;
+                public long pointl;
+                public int dwFileAttributes;
+                public FILETIME ftCreationTime;
+                public FILETIME ftLastAccessTime;
+                public FILETIME ftLastWriteTime;
+                public int nFileSizeHigh;
+                public uint nFileSizeLow;
+                [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 260)]
+                public string cFileName;
+            }
+
+            [StructLayout(LayoutKind.Sequential, Pack = 4, CharSet = CharSet.Unicode)]
+            public struct FILEGROUPDESCRIPTORW
+            {
+                public int cItems;
+                [MarshalAs(UnmanagedType.ByValArray)]
+                public FILEDESCRIPTORW[] fgd;
+            }
         }
 
         public static FileContents[] Get(System.Windows.IDataObject dataObject)
@@ -79,7 +82,7 @@ namespace NeeView.IO
             return fileDescriptor.fgd.Select((fgd, i) => new FileContents(fgd.cFileName, GetFileContent(dataObject, i))).ToArray();
         }
 
-        private static FILEGROUPDESCRIPTORW GetFileDescriptor(IComDataObject dataObject)
+        private static NativeMethods.FILEGROUPDESCRIPTORW GetFileDescriptor(IComDataObject dataObject)
         {
             var format = new FORMATETC
             {
@@ -94,11 +97,11 @@ namespace NeeView.IO
             Debug.Assert(medium.tymed == TYMED.TYMED_HGLOBAL && medium.unionmember != IntPtr.Zero && medium.pUnkForRelease == null);
             try
             {
-                return Marshal.PtrToStructure<FILEGROUPDESCRIPTORW>(GlobalLock(medium.unionmember));
+                return Marshal.PtrToStructure<NativeMethods.FILEGROUPDESCRIPTORW>(NativeMethods.GlobalLock(medium.unionmember));
             }
             finally
             {
-                GlobalFree(medium.unionmember);
+                NativeMethods.GlobalFree(medium.unionmember);
             }
         }
 
@@ -119,12 +122,12 @@ namespace NeeView.IO
             {
                 case TYMED.TYMED_HGLOBAL:
                     {
-                        var size = (long)GlobalSize(medium.unionmember);
+                        var size = (long)NativeMethods.GlobalSize(medium.unionmember);
                         Debug.Assert(size <= Int32.MaxValue);
                         var buffer = new byte[size];
-                        Marshal.Copy(GlobalLock(medium.unionmember), buffer, 0, buffer.Length);
-                        GlobalUnlock(medium.unionmember);
-                        GlobalFree(medium.unionmember);
+                        Marshal.Copy(NativeMethods.GlobalLock(medium.unionmember), buffer, 0, buffer.Length);
+                        NativeMethods.GlobalUnlock(medium.unionmember);
+                        NativeMethods.GlobalFree(medium.unionmember);
                         return buffer;
                     }
                 case TYMED.TYMED_ISTREAM:

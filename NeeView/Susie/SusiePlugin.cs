@@ -274,7 +274,7 @@ namespace Susie
             {
                 using (var api = Open())
                 {
-                    string shortPath = Win32Api.GetShortPathName(fileName);
+                    string shortPath = NativeMethods.GetShortPathName(fileName);
                     return api.IsSupported(shortPath, head);
                 }
             }
@@ -291,7 +291,7 @@ namespace Susie
             {
                 using (var api = Open())
                 {
-                    string shortPath = Win32Api.GetShortPathName(fileName);
+                    string shortPath = NativeMethods.GetShortPathName(fileName);
                     var entries = api.GetArchiveInfo(shortPath);
                     if (entries == null) throw new ApplicationException($"{this.Name}: 書庫情報の取得に失敗しました");
                     return new ArchiveEntryCollection(this, fileName, entries);
@@ -316,7 +316,7 @@ namespace Susie
             {
                 using (var api = Open())
                 {
-                    string shortPath = Win32Api.GetShortPathName(fileName);
+                    string shortPath = NativeMethods.GetShortPathName(fileName);
                     if (!api.IsSupported(shortPath, head)) return null;
                     var entries = api.GetArchiveInfo(shortPath);
                     if (entries == null) throw new ApplicationException($"{this.Name}: 書庫情報の取得に失敗しました");
@@ -371,7 +371,7 @@ namespace Susie
             {
                 using (var api = Open())
                 {
-                    string shortPath = Win32Api.GetShortPathName(fileName);
+                    string shortPath = NativeMethods.GetShortPathName(fileName);
                     if (!api.IsSupported(shortPath, head)) return null;
                     return api.GetPicture(shortPath);
                 }

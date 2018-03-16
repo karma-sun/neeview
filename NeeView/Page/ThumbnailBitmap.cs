@@ -12,7 +12,7 @@ namespace NeeView
     /// <summary>
     /// Thumbnail の BitmapSource化
     /// </summary>
-    public class ThumbnailBitmap : BindableBase, IDisposable
+    public class ThumbnailBitmap : BindableBase
     {
         /// <summary>
         /// BitmapSource property.
@@ -91,14 +91,6 @@ namespace NeeView
                 // BitmapSource生成 (非同期)
                 BitmapSource = await Task.Run(() => Thumbnail?.BitmapSource);
             }
-        }
-
-        /// <summary>
-        /// Dispose
-        /// </summary>
-        public void Dispose()
-        {
-            Reset();
         }
     }
 }

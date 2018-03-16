@@ -187,10 +187,10 @@ namespace NeeView
 
 
         //
-        private void BookHub_HistoryListSync(object sender, string e)
+        private void BookHub_HistoryListSync(object sender, BookHubPathEventArgs e)
         {
             this.ListBoxContent.StoreFocus();
-            SelectedItem = BookHistory.Current.Find(e);
+            SelectedItem = BookHistory.Current.Find(e.Path);
             this.ListBoxContent.RestoreFocus();
         }
 

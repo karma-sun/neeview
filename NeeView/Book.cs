@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
@@ -22,6 +23,12 @@ namespace NeeView
 
         #endregion
 
+        internal static partial class NativeMethods
+        {
+            [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
+            public static extern int StrCmpLogicalW(string psz1, string psz2);
+        }
+
         #region Fields
 
         // シリアル
@@ -29,9 +36,6 @@ namespace NeeView
 
         // テンポラリコンテンツ用ゴミ箱
         public TrashBox _trashBox = new TrashBox();
-
-        // Disposed
-        private volatile bool _isDisposed;
 
         // 初期化オプション
         private BookLoadOption _option;
@@ -122,7 +126,8 @@ namespace NeeView
         public int Serial { get; private set; }
 
         // 最初のコンテンツ表示フラグ
-        public ManualResetEventSlim ContentLoaded { get; } = new ManualResetEventSlim();
+        private ManualResetEventSlim _contentLoaded = new ManualResetEventSlim();
+        public ManualResetEventSlim ContentLoaded => _contentLoaded;
 
         // 見つからなかった開始ページ名。通知用。
         public string NotFoundStartPage { get; private set; }
@@ -965,7 +970,7 @@ namespace NeeView
         /// </summary>
         public void UpdateViewContents()
         {
-            if (_isDisposed) return;
+            if (_disposedValue) return;
 
             // update contents
             var sender = _viewPageSender;
@@ -994,7 +999,7 @@ namespace NeeView
         /// </summary>
         public void UpdateNextContents()
         {
-            if (_isDisposed) return;
+            if (_disposedValue) return;
 
             // 表示コンテンツ確定？
             if (!_viewPageCollection.IsValid) return;
@@ -1233,22 +1238,22 @@ namespace NeeView
             switch (SortMode)
             {
                 case PageSortMode.FileName:
-                    Pages.Sort((a, b) => CompareFileNameOrder(a, b, Win32Api.StrCmpLogicalW));
+                    Pages.Sort((a, b) => CompareFileNameOrder(a, b, NativeMethods.StrCmpLogicalW));
                     break;
                 case PageSortMode.FileNameDescending:
-                    Pages.Sort((a, b) => CompareFileNameOrder(b, a, Win32Api.StrCmpLogicalW));
+                    Pages.Sort((a, b) => CompareFileNameOrder(b, a, NativeMethods.StrCmpLogicalW));
                     break;
                 case PageSortMode.TimeStamp:
-                    Pages.Sort((a, b) => CompareDateTimeOrder(a, b, Win32Api.StrCmpLogicalW));
+                    Pages.Sort((a, b) => CompareDateTimeOrder(a, b, NativeMethods.StrCmpLogicalW));
                     break;
                 case PageSortMode.TimeStampDescending:
-                    Pages.Sort((a, b) => CompareDateTimeOrder(b, a, Win32Api.StrCmpLogicalW));
+                    Pages.Sort((a, b) => CompareDateTimeOrder(b, a, NativeMethods.StrCmpLogicalW));
                     break;
                 case PageSortMode.Size:
-                    Pages.Sort((a, b) => CompareSizeOrder(a, b, Win32Api.StrCmpLogicalW));
+                    Pages.Sort((a, b) => CompareSizeOrder(a, b, NativeMethods.StrCmpLogicalW));
                     break;
                 case PageSortMode.SizeDescending:
-                    Pages.Sort((a, b) => CompareSizeOrder(b, a, Win32Api.StrCmpLogicalW));
+                    Pages.Sort((a, b) => CompareSizeOrder(b, a, NativeMethods.StrCmpLogicalW));
                     break;
                 case PageSortMode.Random:
                     var random = new Random();
@@ -1447,39 +1452,6 @@ namespace NeeView
 
         #endregion
 
-        #region 終了処理
-
-        /// <summary>
-        /// 終了処理
-        /// </summary>
-        public void Dispose()
-        {
-            _isDisposed = true;
-
-            // さまざまなイベント停止
-            this.DartyBook = null;
-            this.PageChanged = null;
-            this.PageRemoved = null;
-            this.PagesSorted = null;
-            this.PageTerminated = null;
-            this.ThumbnailChanged = null;
-            this.ViewContentsChanged = null;
-
-            _viewPageCollection = new ViewPageCollection();
-
-            Pages?.ForEach(e => e?.Dispose());
-            _archivers?.ForEach(e => e.Dispose());
-            _trashBox?.CleanUp();
-
-            _commandEngine.StopEngine();
-
-            MemoryControl.Current.GarbageCollect();
-
-            ////Debug.WriteLine("Book: Disposed.");
-        }
-
-        #endregion
-
         #region 動画再生用
 
         public void RaisePageTerminatedEvent(int direction)
@@ -1487,6 +1459,60 @@ namespace NeeView
             PageTerminated?.Invoke(this, new PageTerminatedEventArgs(direction));
         }
 
+        #endregion
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    // さまざまなイベント停止
+                    this.DartyBook = null;
+                    this.PageChanged = null;
+                    this.PageRemoved = null;
+                    this.PagesSorted = null;
+                    this.PageTerminated = null;
+                    this.ThumbnailChanged = null;
+                    this.ViewContentsChanged = null;
+
+                    _viewPageCollection = new ViewPageCollection();
+
+                    if (Pages != null)
+                    {
+                        Pages.ForEach(e => e?.Reset());
+                    }
+                    if (_archivers != null)
+                    {
+                        _archivers.ForEach(e => e.Dispose());
+                    }
+
+                    if (_trashBox != null)
+                    {
+                        _trashBox.Dispose();
+                    }
+
+                    _commandEngine.Dispose();
+
+                    if (_contentLoaded != null)
+                    {
+                        _contentLoaded.Dispose();
+                    }
+
+                    MemoryControl.Current.GarbageCollect();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
         #endregion
 
         #endregion

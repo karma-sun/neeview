@@ -234,6 +234,7 @@
       <DependentUpon>MouseGestureSettingControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Setting\MouseGestureSettingViewModel.cs" />
+    <Compile Include="Susie\NativeMethods.cs" />
     <Compile Include="UserSetting.cs" />
     <Compile Include="ViewContent\MediaViewContent.cs" />
     <Compile Include="_NeeView\Runtime\Serialization\WebEnum.cs" />
@@ -709,14 +710,12 @@
     <Compile Include="Susie\SusieArchiveEntry.cs" />
     <Compile Include="Susie\SusiePlugin.cs" />
     <Compile Include="Susie\SusiePluginApi.cs" />
-    <Compile Include="Susie\Win32Api.cs" />
     <Compile Include="Temporary.cs" />
     <Compile Include="TrashBox.cs" />
     <Compile Include="VersionWindow.xaml.cs">
       <DependentUpon>VersionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewContent\ViewContent.cs" />
-    <Compile Include="Win32Api.cs" />
     <Compile Include="WIndowHelper.cs" />
     <Compile Include="Archiver\ZipArchiver.cs" />
     <Compile Include="_NeeView\IO\WshShell.cs" />

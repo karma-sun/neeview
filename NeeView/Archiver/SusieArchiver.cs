@@ -55,7 +55,7 @@ namespace NeeView
         // エントリーリストを得る
         public override List<ArchiveEntry> GetEntries(CancellationToken token)
         {
-            if (_isDisposed) throw new ApplicationException("Archive already colosed.");
+            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
 
             token.ThrowIfCancellationRequested();
 
@@ -111,7 +111,7 @@ namespace NeeView
         // エントリーのストリームを得る
         public override Stream OpenStream(ArchiveEntry entry)
         {
-            if (_isDisposed) throw new ApplicationException("Archive already colosed.");
+            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
 
             lock (_lock)
             {
@@ -125,7 +125,7 @@ namespace NeeView
         // ファイルに出力する
         public override void ExtractToFile(ArchiveEntry entry, string extractFileName, bool isOverwrite)
         {
-            if (_isDisposed) throw new ApplicationException("Archive already colosed.");
+            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
 
             var info = (Susie.ArchiveEntry)entry.Instance;
 

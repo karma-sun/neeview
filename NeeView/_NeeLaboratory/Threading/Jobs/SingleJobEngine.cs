@@ -277,7 +277,21 @@ namespace NeeLaboratory.Threading.Jobs
                 if (disposing)
                 {
                     StopEngine();
-                    _log?.Dispose();
+
+                    if (_log != null)
+                    {
+                        _log.Dispose();
+                    }
+
+                    if (_engineCancellationTokenSource != null)
+                    {
+                        _engineCancellationTokenSource.Dispose();
+                    }
+
+                    if (_readyQueue != null)
+                    {
+                        _readyQueue.Dispose();
+                    }
                 }
 
                 _disposedValue = true;

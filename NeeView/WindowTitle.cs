@@ -81,7 +81,7 @@ namespace NeeView
 #endif
 
             BookHub.Current.Loading +=
-                (s, e) => this.LoadingPath = e;
+                (s, e) => this.LoadingPath = e.Path;
 
             //
             UpdateWindowTitle(WindowTitleMask.All);

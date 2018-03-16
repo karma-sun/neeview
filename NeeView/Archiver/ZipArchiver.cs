@@ -60,13 +60,16 @@ namespace NeeView
         // エントリーリストを得る
         public override List<ArchiveEntry> GetEntries(CancellationToken token)
         {
-            if (_isDisposed) throw new ApplicationException("Archive already colosed.");
+            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
 
             var list = new List<ArchiveEntry>();
             var directoryEntries = new List<ArchiveEntry>();
 
-            using (var stream = new FileStream(Path, FileMode.Open, FileAccess.Read, FileShare.Read))
+            FileStream stream = null;
+            try
             {
+                stream = new FileStream(Path, FileMode.Open, FileAccess.Read, FileShare.Read);
+
                 // ヘッダチェック
                 if (!CheckSignature(stream))
                 {
@@ -76,6 +79,8 @@ namespace NeeView
                 // エントリー取得
                 using (var archiver = new ZipArchive(stream, ZipArchiveMode.Read))
                 {
+                    stream = null;
+
                     for (int id = 0; id < archiver.Entries.Count; ++id)
                     {
                         token.ThrowIfCancellationRequested();
@@ -110,6 +115,10 @@ namespace NeeView
                     }
                 }
             }
+            finally
+            {
+                stream?.Dispose();
+            }
 
             return list;
         }
@@ -117,7 +126,7 @@ namespace NeeView
         // エントリーのストリームを得る
         public override Stream OpenStream(ArchiveEntry entry)
         {
-            if (_isDisposed) throw new ApplicationException("Archive already colosed.");
+            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
 
             using (var archiver = ZipFile.OpenRead(Path))
             {
@@ -140,7 +149,7 @@ namespace NeeView
         //
         public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
-            if (_isDisposed) throw new ApplicationException("Archive already colosed.");
+            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
 
             using (var archiver = ZipFile.OpenRead(Path))
             {

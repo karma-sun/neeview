@@ -31,8 +31,7 @@ namespace NeeView
 
             var errorLogFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, "ErrorLog.txt");
 
-            using (var stream = new FileStream(errorLogFileName, FileMode.Create, FileAccess.Write))
-            using (var writer = new StreamWriter(stream))
+            using (var writer = new StreamWriter(new FileStream(errorLogFileName, FileMode.Create, FileAccess.Write)))
             {
                 writer.WriteLine($"{DateTime.Now}\n");
 

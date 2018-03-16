@@ -111,15 +111,35 @@ namespace NeeView
         /// <summary>
         /// is disposed
         /// </summary>
-        public bool IsDisposed { get; private set; }
+        public bool IsDisposed => _disposedValue;
 
-        /// <summary>
-        /// dispose
-        /// </summary>
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                }
+
+                CleanUp();
+
+                _disposedValue = true;
+            }
+        }
+
+        ~TrashBox()
+        {
+            Dispose(false);
+        }
+
         public void Dispose()
         {
-            CleanUp();
-            IsDisposed = true;
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
+        #endregion
     }
 }

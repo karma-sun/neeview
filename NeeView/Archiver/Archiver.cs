@@ -332,15 +332,15 @@ namespace NeeView
         #endregion
 
         #region ITrush Support
-        public bool IsDisposed => _isDisposed;
+        public bool IsDisposed => _disposedValue;
         #endregion
 
         #region IDisposable Support
-        protected bool _isDisposed { get; private set; }
+        protected bool _disposedValue { get; private set; }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!_isDisposed)
+            if (!_disposedValue)
             {
                 if (disposing)
                 {
@@ -348,7 +348,7 @@ namespace NeeView
 
                 this.TempFile = null;
 
-                _isDisposed = true;
+                _disposedValue = true;
             }
         }
 

@@ -117,7 +117,7 @@ namespace NeeView
             {
                 _jobRequest = JobEngine.Current.Add(this, _command, priority, keyCode);
                 ////if (_page.Index == 9 ) _jobRequest.SetDebug();
-                _jobRequest.Logged += (e) => _page.Message = e;
+                _jobRequest.Logged += (s, e) => _page.Message = e.Log;
                 _page.Message = $"{_jobRequest.Serial}: Open.1 ...({priority})";
             }
 

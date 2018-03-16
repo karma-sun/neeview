@@ -23,7 +23,7 @@ namespace NeeView
 
 
         // 設定の変更通知
-        public event EventHandler<string> SettingChanged;
+        public event EventHandler SettingChanged;
 
         // TODO: 応急処置
         public void RaiseSettingChanged()

@@ -7,32 +7,31 @@ using System.Threading.Tasks;
 
 namespace Susie
 {
-    public static class Win32Api
+    internal static class NativeMethods
     {
-        private const string KERNEL32 = "kernel32";
-
-        [DllImport(KERNEL32)]
+        [DllImport("kernel32", CharSet = CharSet.Unicode)]
         public extern static IntPtr LoadLibrary(string lpFileName);
 
-        [DllImport(KERNEL32)]
+        [DllImport("kernel32")]
         public extern static bool FreeLibrary(IntPtr hModule);
 
-        [DllImport(KERNEL32, CharSet = CharSet.Ansi)]
-        public extern static IntPtr GetProcAddress(IntPtr hModule, string lpProcName);
+        [DllImport("kernel32", CharSet = CharSet.Ansi, ExactSpelling = true, SetLastError = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        public extern static IntPtr GetProcAddress(IntPtr hModule, [MarshalAs(UnmanagedType.LPStr)] string lpProcName);
 
-        [DllImport(KERNEL32)]
+        [DllImport("kernel32")]
         public extern static IntPtr LocalLock(IntPtr hMem);
 
-        [DllImport(KERNEL32)]
+        [DllImport("kernel32")]
         public extern static bool LocalUnlock(IntPtr hMem);
 
-        [DllImport(KERNEL32)]
+        [DllImport("kernel32")]
         public extern static IntPtr LocalFree(IntPtr hMem);
 
-        [DllImport(KERNEL32)]
-        public extern static uint LocalSize(IntPtr hMem);
+        [DllImport("kernel32")]
+        [return: MarshalAs(UnmanagedType.SysUInt)]
+        public extern static UIntPtr LocalSize(IntPtr hMem);
 
-        [DllImport(KERNEL32, CharSet = CharSet.Auto)]
+        [DllImport("kernel32", CharSet = CharSet.Unicode)]
         public extern static int GetShortPathName(string longPath, StringBuilder shortPathBuffer, int bufferSize);
 
         // ショートパス名を求める
@@ -40,7 +39,7 @@ namespace Susie
         {
             int bufferSize = 260;
             StringBuilder shortPathBuffer = new StringBuilder(bufferSize);
-            Win32Api.GetShortPathName(longPath, shortPathBuffer, bufferSize);
+            NativeMethods.GetShortPathName(longPath, shortPathBuffer, bufferSize);
             string shortPath = shortPathBuffer.ToString();
             return shortPath;
         }

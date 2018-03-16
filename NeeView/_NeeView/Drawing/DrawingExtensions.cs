@@ -5,6 +5,7 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,10 +15,11 @@ namespace NeeView.Drawing
 {
     public static class DrawingExtensions
     {
-        #region Win32API
-        [System.Runtime.InteropServices.DllImport("gdi32.dll")]
-        public static extern bool DeleteObject(IntPtr hObject);
-        #endregion
+        internal static class NativeMethods
+        {
+            [DllImport("gdi32.dll")]
+            public static extern bool DeleteObject(IntPtr hObject);
+        }
 
         /// <summary>
         /// サムネイル作成 (System.Drawing版)
@@ -114,7 +116,7 @@ namespace NeeView.Drawing
             }
             finally
             {
-                DeleteObject(hBitmap);
+                NativeMethods.DeleteObject(hBitmap);
             }
         }
 

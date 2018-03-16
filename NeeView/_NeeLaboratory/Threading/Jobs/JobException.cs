@@ -5,6 +5,7 @@ namespace NeeLaboratory.Threading.Jobs
     /// <summary>
     /// JOB例外
     /// </summary>
+    [Serializable]
     public class JobException : Exception
     {
         #region Fields
@@ -12,6 +13,7 @@ namespace NeeLaboratory.Threading.Jobs
         /// <summary>
         /// 例外が発生したJOB
         /// </summary>
+        [NonSerialized]
         private IJob _job;
 
         #endregion

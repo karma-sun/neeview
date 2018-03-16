@@ -62,7 +62,7 @@ namespace NeeView
         /// セミコロン区切りの文字列を分解してコレクションにする
         /// </summary>
         /// <param name="items"></param>
-        public virtual void FromString(string items)
+        public void FromString(string items)
         {
             FromCollection(items?.Split(';').Select(e => e.Trim()).OrderBy(e => e));
         }

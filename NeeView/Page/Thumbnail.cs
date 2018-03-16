@@ -16,7 +16,7 @@ namespace NeeView
     /// サムネイル.
     /// Jpegで保持し、必要に応じてBitmapSourceを生成
     /// </summary>
-    public class Thumbnail : BindableBase, IDisposable
+    public class Thumbnail : BindableBase
     {
         /// <summary>
         /// 有効判定
@@ -216,18 +216,6 @@ namespace NeeView
         }
 
         /// <summary>
-        /// Dispose
-        /// </summary>
-        public void Dispose()
-        {
-            _image = null;
-            Changed = null;
-            Touched = null;
-            ResetPropertyChanged();
-        }
-
-
-        /// <summary>
         /// イメージ初期化
         /// UIスレッドで実行すること。
         /// </summary>
@@ -286,6 +274,14 @@ namespace NeeView
             bitmap.Freeze();
 
             return bitmap;
+        }
+
+        public void Reset()
+        {
+            _image = null;
+            Changed = null;
+            Touched = null;
+            ResetPropertyChanged();
         }
     }
 

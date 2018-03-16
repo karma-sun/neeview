@@ -20,29 +20,29 @@ namespace NeeView.Windows
     /// </summary>
     public static class CursorInfo
     {
-        /// <summary>
-        /// 現在のマウスカーソルのスクリーン座標を得ます
-        /// </summary>
-        /// <param name="pt"></param>
-        [DllImport("user32.dll")]
-        private static extern void GetCursorPos(out POINT pt);
-
-        /// <summary>
-        /// 画面上にある指定された点を、スクリーン座標からクライアント座標へ変換します。
-        /// </summary>
-        /// <param name="hwnd"></param>
-        /// <param name="pt"></param>
-        /// <returns></returns>
-        [DllImport("user32.dll")]
-        private static extern int ScreenToClient(IntPtr hwnd, ref POINT pt);
-
-        /// <summary>
-        /// 座標
-        /// </summary>
-        private struct POINT
+        internal static class NativeMethods
         {
-            public Int32 X;
-            public Int32 Y;
+            /// <summary>
+            /// 現在のマウスカーソルのスクリーン座標を得ます
+            /// </summary>
+            [DllImport("user32.dll", SetLastError = true)]
+            [return: MarshalAs(UnmanagedType.Bool)]
+            public static extern bool GetCursorPos(out POINT pt);
+
+            /// <summary>
+            /// 画面上にある指定された点を、スクリーン座標からクライアント座標へ変換します。
+            /// </summary>
+            [DllImport("user32.dll")]
+            public static extern int ScreenToClient(IntPtr hwnd, ref POINT pt);
+
+            /// <summary>
+            /// 座標
+            /// </summary>
+            public struct POINT
+            {
+                public Int32 X;
+                public Int32 Y;
+            }
         }
 
         /// <summary>
@@ -52,12 +52,12 @@ namespace NeeView.Windows
         /// <returns></returns>
         public static Point GetNowPosition(Visual visual)
         {
-            GetCursorPos(out POINT point);
+            NativeMethods.GetCursorPos(out NativeMethods.POINT point);
 
             var source = HwndSource.FromVisual(visual) as HwndSource;
             var hwnd = source.Handle;
 
-            ScreenToClient(hwnd, ref point);
+            NativeMethods.ScreenToClient(hwnd, ref point);
 
             var dpiScaleFactor = GetDpiScaleFactor(visual);
             return new Point(point.X / dpiScaleFactor.X, point.Y / dpiScaleFactor.Y);
@@ -70,7 +70,7 @@ namespace NeeView.Windows
         /// <returns></returns>
         public static Point GetNowScreenPosition()
         {
-            GetCursorPos(out POINT point);
+            NativeMethods.GetCursorPos(out NativeMethods.POINT point);
 
             var dpiScaleFactor = GetDpiScaleFactor(App.Current.MainWindow);
             return new Point(point.X / dpiScaleFactor.X, point.Y / dpiScaleFactor.Y);

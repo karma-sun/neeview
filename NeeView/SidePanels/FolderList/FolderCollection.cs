@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 using Jobs = NeeLaboratory.Threading.Jobs;
 using NeeView.IO;
+using System.Runtime.InteropServices;
 
 namespace NeeView
 {
@@ -110,6 +111,12 @@ namespace NeeView
         #endregion
 
         #region Methods
+
+        internal static partial class NativeMethods
+        {
+            [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
+            public static extern int StrCmpLogicalW(string psz1, string psz2);
+        }
 
         /// <summary>
         /// 一致判定
@@ -263,7 +270,7 @@ namespace NeeView
         {
             public int Compare(FolderItem x, FolderItem y)
             {
-                return Win32Api.StrCmpLogicalW(x.Name, y.Name);
+                return NativeMethods.StrCmpLogicalW(x.Name, y.Name);
             }
         }
 

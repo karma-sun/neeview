@@ -162,13 +162,30 @@ namespace NeeView
         #endregion
 
         #region IDisposable Support
+        private bool _disposedValue = false;
 
-        //
-        public void Dispose()
+        protected virtual void Dispose(bool disposing)
         {
-            Stop();
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    Stop();
+
+                    if (_engine != null)
+                    {
+                        _engine.Dispose();
+                    }
+                }
+
+                _disposedValue = true;
+            }
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+        }
         #endregion
     }
 }

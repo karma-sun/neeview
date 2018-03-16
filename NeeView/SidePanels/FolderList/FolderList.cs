@@ -34,7 +34,7 @@ namespace NeeView
 
 
     //
-    public class FolderList : BindableBase
+    public class FolderList : BindableBase, IDisposable
     {
         public static FolderList Current { get; private set; }
 
@@ -542,7 +542,7 @@ namespace NeeView
         /// 現在開いているフォルダーで更新(弱)
         /// e.isKeepPlaceが有効の場合、フォルダーは移動せず現在選択項目のみの移動を試みる
         /// </summary>
-        public async Task SyncWeak(FolderListSyncArguments e)
+        public async Task SyncWeak(FolderListSyncEventArgs e)
         {
             if (e != null && e.isKeepPlace)
             {
@@ -946,6 +946,31 @@ namespace NeeView
             this.FolderCollection.FolderParameter.IsFolderRecursive = !this.FolderCollection.FolderParameter.IsFolderRecursive;
         }
 
+        #endregion
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    if (_searchEngine != null)
+                    {
+                        _searchEngine.Dispose();
+                    }
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
         #endregion
 
         #region Memento

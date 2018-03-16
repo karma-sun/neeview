@@ -25,8 +25,14 @@ namespace NeeView
     {
         #region Native
 
-        [DllImport("kernel32", SetLastError = true)]
-        private static extern bool SetDllDirectory(string lpPathName);
+        internal static class NativeMethods
+        {
+            [DllImport("kernel32", CharSet = CharSet.Unicode, SetLastError = true)]
+            public static extern bool SetDllDirectory(string lpPathName);
+
+            [DllImport("user32.dll")]
+            public static extern bool AllowSetForegroundWindow(int dwProcessId);
+        }
 
         #endregion
 
@@ -90,7 +96,7 @@ namespace NeeView
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
             // DLL 検索パスから現在の作業ディレクトリ (CWD) を削除
-            SetDllDirectory("");
+            NativeMethods.SetDllDirectory("");
 
             // 環境初期化
             Config.Current.Initiallize();
@@ -156,7 +162,7 @@ namespace NeeView
                 {
                     try
                     {
-                        Win32Api.AllowSetForegroundWindow(serverProcess.Id);
+                        NativeMethods.AllowSetForegroundWindow(serverProcess.Id);
                         // IPCクライアント送信
                         IpcRemote.LoadAs(serverProcess.Id, Option.StartupPlace);
                     }

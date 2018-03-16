@@ -276,15 +276,15 @@ namespace NeeView
         /// <summary>
         /// ドロップ処理
         /// </summary>
-        /// <param name="args"></param>
-        private void Description_DragDrop(System.Windows.DragEventArgs args)
+        /// <param name="e"></param>
+        private void Description_DragDrop(object sender, DragEventArgs e)
         {
             try
             {
-                var panel = args.Data.GetData(DragDropFormat) as IPanel;
+                var panel = e.Data.GetData(DragDropFormat) as IPanel;
                 if (panel == null) return;
 
-                var index = GetItemInsertIndex(args);
+                var index = GetItemInsertIndex(e);
                 PanelDroped?.Invoke(this, new PanelDropedEventArgs(panel, index));
             }
             catch (Exception ex)
@@ -325,18 +325,18 @@ namespace NeeView
         /// <summary>
         /// ドロップ受け入れ判定
         /// </summary>
-        /// <param name="args"></param>
-        private void Description_DragOver(System.Windows.DragEventArgs args)
+        /// <param name="e"></param>
+        private void Description_DragOver(object sender, DragEventArgs e)
         {
-            if (args.AllowedEffects.HasFlag(DragDropEffects.Move))
+            if (e.AllowedEffects.HasFlag(DragDropEffects.Move))
             {
-                if (args.Data.GetDataPresent(DragDropFormat))
+                if (e.Data.GetDataPresent(DragDropFormat))
                 {
-                    args.Effects = DragDropEffects.Move;
+                    e.Effects = DragDropEffects.Move;
                     return;
                 }
             }
-            args.Effects = DragDropEffects.None;
+            e.Effects = DragDropEffects.None;
         }
 
         #endregion

@@ -356,22 +356,30 @@ namespace NeeView
             return archiver;
         }
 
+        #region ITrash Support
+        public bool IsDisposed => _disposedValue;
+        #endregion
 
+        #region IDisposable Support
+        private bool _disposedValue = false;
 
-        //
-        public bool IsDisposed { get; private set; }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _trashBox.Dispose();
+                }
 
-        /// <summary>
-        /// Dispose
-        /// </summary>
+                _disposedValue = true;
+            }
+        }
+
         public void Dispose()
         {
-            if (_trashBox.Any())
-            {
-                _trashBox.CleanUp();
-            }
-
-            IsDisposed = true;
+            Dispose(true);
         }
+        #endregion
     }
 }

@@ -8,7 +8,7 @@ namespace NeeView
     /// フォルダーリスト用検索エンジン
     /// 検索結果は同時に１つのみ存在
     /// </summary>
-    public class FolderSearchEngine
+    public class FolderSearchEngine : IDisposable
     {
         #region Fields
 
@@ -65,10 +65,37 @@ namespace NeeView
 
         public void Reset()
         {
-            _searchEngine?.Dispose();
-            _searchEngine = null;
+            if (_disposedValue) return;
+
+            if (_searchEngine != null)
+            {
+                _searchEngine.Dispose();
+                _searchEngine = null;
+            }
         }
 
+        #endregion
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    Reset();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
         #endregion
     }
 }

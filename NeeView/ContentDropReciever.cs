@@ -18,6 +18,7 @@ namespace NeeView
     ///  Drop Exception
     ///  ユーザに知らせるべき例外
     /// </summary>
+    [Serializable]
     public class DropException : Exception
     {
         public DropException()

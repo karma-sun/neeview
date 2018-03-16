@@ -7,7 +7,7 @@ namespace NeeView
     /// <summary>
     /// ジェスチャーイベントデータ
     /// </summary>
-    public class MouseGestureEventArgs
+    public class MouseGestureEventArgs : EventArgs
     {
         /// <summary>
         /// ジェスチャー

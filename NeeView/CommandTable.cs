@@ -2104,7 +2104,7 @@ namespace NeeView
 
 
             [OnSerializing]
-            internal void OnSerializing(StreamingContext context)
+            private void OnSerializing(StreamingContext context)
             {
                 _elementsV2 = Elements.ToDictionary(e => e.Key.ToString(), e => e.Value);
             }
@@ -2116,7 +2116,7 @@ namespace NeeView
             }
 
             [OnDeserialized]
-            internal void OnDeserialized(StreamingContext context)
+            private void OnDeserialized(StreamingContext context)
             {
                 Elements = new Dictionary<CommandType, CommandElement.Memento>();
 

@@ -10,7 +10,7 @@ namespace NeeView
         /// <summary>
         /// IHasPage 要素を持つ ListBox
         /// </summary>
-        ListBox PageListBox { get; }
+        ListBox PageCollectionListBox { get; }
 
         /// <summary>
         /// サムネイルが表示されているか

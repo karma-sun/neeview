@@ -20,12 +20,12 @@ namespace NeeView.Windows
         /// <summary>
         /// ドラッグオーバーイベント
         /// </summary>
-        public event Action<DragEventArgs> DragOver;
+        public event EventHandler<DragEventArgs> DragOver;
 
         /// <summary>
         /// ドロップイベント
         /// </summary>
-        public event Action<DragEventArgs> DragDrop;
+        public event EventHandler<DragEventArgs> DragDrop;
 
         /// <summary>
         /// ドラッグオーバー処理呼び出し
@@ -33,7 +33,7 @@ namespace NeeView.Windows
         /// <param name="dragEventArgs"></param>
         public void OnDragOver(DragEventArgs dragEventArgs)
         {
-            this.DragOver?.Invoke(dragEventArgs);
+            this.DragOver?.Invoke(this, dragEventArgs);
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace NeeView.Windows
         /// <param name="dragEventArgs"></param>
         public void OnDrop(DragEventArgs dragEventArgs)
         {
-            this.DragDrop?.Invoke(dragEventArgs);
+            this.DragDrop?.Invoke(this, dragEventArgs);
         }
     }
 

@@ -59,7 +59,7 @@ namespace NeeView
 
         #region IPageListPanel support
 
-        ListBox IPageListPanel.PageListBox => this.ListBox;
+        public ListBox PageCollectionListBox => this.ListBox;
 
         public bool IsThumbnailVisibled => _vm.Model.IsThumbnailVisibled;
 

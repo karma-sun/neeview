@@ -1070,8 +1070,7 @@ namespace NeeView
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
             {
-                HistoryEntryPageCount = 1;
-                IsArchiveRecursive = true;
+                this.InitializePropertyDefaultValues();
             }
 
 #pragma warning disable CS0612

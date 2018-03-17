@@ -22,7 +22,7 @@ namespace NeeView.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace NeeView.Properties {
         ///   このクラスで使用されているキャッシュされた ResourceManager インスタンスを返します。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("NeeView.Properties.Resources", typeof(Resources).Assembly);
@@ -51,12 +51,336 @@ namespace NeeView.Properties {
         ///   現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   File に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandGroupFile {
+            get {
+                return ResourceManager.GetString("CommandGroupFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open the file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandLoadAs {
+            get {
+                return ResourceManager.GetString("CommandLoadAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandLoadAsMenu {
+            get {
+                return ResourceManager.GetString("CommandLoadAsMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Select and open the compressed file or image file. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandLoadAsNote {
+            get {
+                return ResourceManager.GetString("CommandLoadAsNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Off に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlSwitchOff {
+            get {
+                return ResourceManager.GetString("ControlSwitchOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   On に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlSwitchOn {
+            get {
+                return ResourceManager.GetString("ControlSwitchOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   English に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumLanguageEnglish {
+            get {
+                return ResourceManager.GetString("EnumLanguageEnglish", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   日本語 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumLanguageJapanese {
+            get {
+                return ResourceManager.GetString("EnumLanguageJapanese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Time (in seconds) until panel and menu disappear automatically に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamAutoHideDelayTime {
+            get {
+                return ResourceManager.GetString("ParamAutoHideDelayTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Download folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamDownloadPath {
+            get {
+                return ResourceManager.GetString("ParamDownloadPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   It is a storage place of the image dropped by the browser etc. If not specified, temporary folder is used. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamDownloadPathTips {
+            get {
+                return ResourceManager.GetString("ParamDownloadPathTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Do not save history, bookmarks, pagemarks に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsDisableSave {
+            get {
+                return ResourceManager.GetString("ParamIsDisableSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Book information is not saved. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsDisableSaveTips {
+            get {
+                return ResourceManager.GetString("ParamIsDisableSaveTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Dot-by-dot display of image に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsIgnoreImageDpi {
+            get {
+                return ResourceManager.GetString("ParamIsIgnoreImageDpi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   When displaying in original size, make it match with display pixels without depending on DPI. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsIgnoreImageDpiTips {
+            get {
+                return ResourceManager.GetString("ParamIsIgnoreImageDpiTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Allow multiple activations に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsMultiBootEnabled {
+            get {
+                return ResourceManager.GetString("ParamIsMultiBootEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Allow network access に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsNetworkEnabled {
+            get {
+                return ResourceManager.GetString("ParamIsNetworkEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   In this application, we will use the network only for WEB links such as version update confirmation and online help from &quot;About&quot; dialog. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsNetworkEnabledTips {
+            get {
+                return ResourceManager.GetString("ParamIsNetworkEnabledTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Restore an open book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsOpenLastBook {
+            get {
+                return ResourceManager.GetString("ParamIsOpenLastBook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Restore the second window coordinates に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsRestoreSecondWindow {
+            get {
+                return ResourceManager.GetString("ParamIsRestoreSecondWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Also restore window coordinates when duplicates are activated. When set to OFF, it is displayed in the initial coordinates. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsRestoreSecondWindowTips {
+            get {
+                return ResourceManager.GetString("ParamIsRestoreSecondWindowTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Restore full screen state に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsSaveFullScreen {
+            get {
+                return ResourceManager.GetString("ParamIsSaveFullScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Restore window coordinates に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsSaveWindowPlacement {
+            get {
+                return ResourceManager.GetString("ParamIsSaveWindowPlacement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Make a backup of the user setting file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsSettingBackup {
+            get {
+                return ResourceManager.GetString("ParamIsSettingBackup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Make a backup of the configuration file and load it instead if the normal configuration file can not be read. The file name is UserSetting.xaml.old. The update timing is when you close the setting window and when you exit the application. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsSettingBackupTips {
+            get {
+                return ResourceManager.GetString("ParamIsSettingBackupTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Language に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamLanguage {
+            get {
+                return ResourceManager.GetString("ParamLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   * It is applied from the next startup. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamLanguageTips {
+            get {
+                return ResourceManager.GetString("ParamLanguageTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Window frame with title bar hidden に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamWindowChromeFrame {
+            get {
+                return ResourceManager.GetString("ParamWindowChromeFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   General に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageGeneral {
+            get {
+                return ResourceManager.GetString("SettingPageGeneral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Launch setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageGeneralBoot {
+            get {
+                return ResourceManager.GetString("SettingPageGeneralBoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Launch setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageGeneralBootBoot {
+            get {
+                return ResourceManager.GetString("SettingPageGeneralBootBoot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Advanced Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageGeneralBootBootDetail {
+            get {
+                return ResourceManager.GetString("SettingPageGeneralBootBootDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   * This setting will be reflected after closing the setting screen. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageGeneralBootBootDetailTips {
+            get {
+                return ResourceManager.GetString("SettingPageGeneralBootBootDetailTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   * This setting will be reflected after closing the setting screen. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageGeneralBootBootTips {
+            get {
+                return ResourceManager.GetString("SettingPageGeneralBootBootTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Advanced Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageGeneralDetail {
+            get {
+                return ResourceManager.GetString("SettingPageGeneralDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Advanced Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageGeneralDetailDetail {
+            get {
+                return ResourceManager.GetString("SettingPageGeneralDetailDetail", resourceCulture);
             }
         }
     }

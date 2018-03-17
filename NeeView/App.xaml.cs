@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -114,6 +115,8 @@ namespace NeeView
             Restore(setting.App);
             RestoreCompatible(setting);
 
+            // 言語適用
+            NeeView.Properties.Resources.Culture = CultureInfo.GetCultureInfo(Language.GetCultureName());
 
             // バージョン表示
             if (this.Option.IsVersion)

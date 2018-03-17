@@ -158,6 +158,7 @@
     <Compile Include="Controls\MediaControlViewModel.cs" />
     <Compile Include="Controls\MediaPlayerOperator.cs" />
     <Compile Include="InputGesture\ImeKeyUtility.cs" />
+    <Compile Include="Language.cs" />
     <Compile Include="Page\MediaContent.cs" />
     <Compile Include="Setting\SettingItemSubControl.xaml.cs">
       <DependentUpon>SettingItemSubControl.xaml</DependentUpon>
@@ -599,6 +600,7 @@
     <Compile Include="_NeeView\Collections\Generic\EnumerableExtensions.cs" />
     <Compile Include="_NeeView\IO\FileShortcut.cs" />
     <Compile Include="Converters\BooleanToCustomVisibilityConverter.cs" />
+    <Compile Include="_NeeView\ResourceService.cs" />
     <Compile Include="_NeeView\Windows\VectorExtensions.cs" />
     <Compile Include="IndexValue.cs" />
     <Compile Include="_NeeLaboratory\Windows\Media\VisualTreeUtility.cs" />
@@ -1104,8 +1106,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Properties\Resources.ja-JP.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="App.manifest">

@@ -67,7 +67,7 @@ namespace NeeView.Setting
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (bool)value ? "オン" : "オフ";
+            return (bool)value ? Properties.Resources.ControlSwitchOn : Properties.Resources.ControlSwitchOff;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

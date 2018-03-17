@@ -46,7 +46,7 @@
     
     mimetype: application/x-microsoft.net.object.binary.base64
     value   : The object must be serialized with 
-            : System.Serialization.Formatters.Binary.BinaryFormatter
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
     
     mimetype: application/x-microsoft.net.object.soap.base64
@@ -60,6 +60,7 @@
             : and then encoded with base64 encoding.
     -->
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
@@ -68,9 +69,10 @@
               <xsd:sequence>
                 <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="name" use="required" type="xsd:string" />
               <xsd:attribute name="type" type="xsd:string" />
               <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
@@ -85,9 +87,10 @@
                 <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
                 <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" msdata:Ordinal="1" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
               <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
               <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
@@ -109,9 +112,117 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ParamIsMultiBootEnabled" xml:space="preserve">
+    <value>Allow multiple activations</value>
+  </data>
+  <data name="SettingPageGeneral" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="ParamLanguage" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="ParamLanguageTips" xml:space="preserve">
+    <value>* It is applied from the next startup.</value>
+  </data>
+  <data name="SettingPageGeneralBoot" xml:space="preserve">
+    <value>Launch setting</value>
+  </data>
+  <data name="SettingPageGeneralDetail" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="EnumLanguageEnglish" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="EnumLanguageJapanese" xml:space="preserve">
+    <value>日本語</value>
+  </data>
+  <data name="SettingPageGeneralBootBoot" xml:space="preserve">
+    <value>Launch setting</value>
+  </data>
+  <data name="SettingPageGeneralBootBootTips" xml:space="preserve">
+    <value>* This setting will be reflected after closing the setting screen.</value>
+  </data>
+  <data name="SettingPageGeneralBootBootDetail" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPageGeneralBootBootDetailTips" xml:space="preserve">
+    <value>* This setting will be reflected after closing the setting screen.</value>
+  </data>
+  <data name="SettingPageGeneralDetailDetail" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="ControlSwitchOn" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="ControlSwitchOff" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="CommandGroupFile" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="CommandLoadAs" xml:space="preserve">
+    <value>Open the file</value>
+  </data>
+  <data name="CommandLoadAsMenu" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="CommandLoadAsNote" xml:space="preserve">
+    <value>Select and open the compressed file or image file.</value>
+  </data>
+  <data name="ParamIsSaveFullScreen" xml:space="preserve">
+    <value>Restore full screen state</value>
+  </data>
+  <data name="ParamIsSaveWindowPlacement" xml:space="preserve">
+    <value>Restore window coordinates</value>
+  </data>
+  <data name="ParamIsNetworkEnabled" xml:space="preserve">
+    <value>Allow network access</value>
+  </data>
+  <data name="ParamIsNetworkEnabledTips" xml:space="preserve">
+    <value>In this application, we will use the network only for WEB links such as version update confirmation and online help from "About" dialog.</value>
+  </data>
+  <data name="ParamIsIgnoreImageDpi" xml:space="preserve">
+    <value>Dot-by-dot display of image</value>
+  </data>
+  <data name="ParamIsIgnoreImageDpiTips" xml:space="preserve">
+    <value>When displaying in original size, make it match with display pixels without depending on DPI.</value>
+  </data>
+  <data name="ParamIsRestoreSecondWindow" xml:space="preserve">
+    <value>Restore the second window coordinates</value>
+  </data>
+  <data name="ParamIsRestoreSecondWindowTips" xml:space="preserve">
+    <value>Also restore window coordinates when duplicates are activated. When set to OFF, it is displayed in the initial coordinates.</value>
+  </data>
+  <data name="ParamIsDisableSave" xml:space="preserve">
+    <value>Do not save history, bookmarks, pagemarks</value>
+  </data>
+  <data name="ParamIsDisableSaveTips" xml:space="preserve">
+    <value>Book information is not saved.</value>
+  </data>
+  <data name="ParamAutoHideDelayTime" xml:space="preserve">
+    <value>Time (in seconds) until panel and menu disappear automatically</value>
+  </data>
+  <data name="ParamWindowChromeFrame" xml:space="preserve">
+    <value>Window frame with title bar hidden</value>
+  </data>
+  <data name="ParamIsOpenLastBook" xml:space="preserve">
+    <value>Restore an open book</value>
+  </data>
+  <data name="ParamDownloadPath" xml:space="preserve">
+    <value>Download folder</value>
+  </data>
+  <data name="ParamDownloadPathTips" xml:space="preserve">
+    <value>It is a storage place of the image dropped by the browser etc. If not specified, temporary folder is used.</value>
+  </data>
+  <data name="ParamIsSettingBackup" xml:space="preserve">
+    <value>Make a backup of the user setting file</value>
+  </data>
+  <data name="ParamIsSettingBackupTips" xml:space="preserve">
+    <value>Make a backup of the configuration file and load it instead if the normal configuration file can not be read. The file name is UserSetting.xaml.old. The update timing is when you close the setting window and when you exit the application.</value>
+  </data>
 </root>

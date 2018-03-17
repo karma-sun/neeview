@@ -28,7 +28,7 @@ namespace NeeView.Windows.Property
             Name = name;
         }
     }
-
+    
     /// <summary>
     /// プロパティ項目表示編集
     /// </summary>
@@ -47,8 +47,8 @@ namespace NeeView.Windows.Property
         private void Initialize(object source, PropertyInfo info, PropertyMemberAttribute attribute)
         {
             Source = source;
-            Name = attribute.Name ?? info.Name;
-            Tips = attribute.Tips;
+            Name = ResourceService.GetString(attribute.Name) ?? info.Name;
+            Tips = ResourceService.GetString(attribute.Tips);
             IsVisible = attribute.IsVisible;
 
             this.Default = GetDefaultValue(source, info);

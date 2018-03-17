@@ -8,11 +8,13 @@ namespace NeeView
     {
         public static string ToAliasName(this Enum value)
         {
-            return value.GetType()
+            var raw = value.GetType()
                 .GetField(value.ToString())
                 .GetCustomAttributes(typeof(AliasNameAttribute), false)
                 .Cast<AliasNameAttribute>()
-                .FirstOrDefault()?.AliasName ?? value.ToString();
+                .FirstOrDefault()?.AliasName;
+
+            return ResourceService.GetString(raw) ?? value.ToString();
         }
 
         public static Dictionary<Enum, string> AliasNameDictionary(this Type type)

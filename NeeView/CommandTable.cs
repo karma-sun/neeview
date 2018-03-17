@@ -286,10 +286,10 @@ namespace NeeView
             // LoadAs
             {
                 var element = new CommandElement();
-                element.Group = "ファイル";
-                element.Text = "ファイルを開く";
-                element.MenuText = "開く(_O)...";
-                element.Note = "圧縮ファイルか画像ファイルを選択して開きます";
+                element.Group = Properties.Resources.CommandGroupFile;
+                element.Text = Properties.Resources.CommandLoadAs;
+                element.MenuText = Properties.Resources.CommandLoadAsMenu + "(_O)...";
+                element.Note = Properties.Resources.CommandLoadAsNote;
                 element.ShortCutKey = "Ctrl+O";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _models.MainWindowModel.LoadAs();

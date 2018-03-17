@@ -11,7 +11,7 @@ namespace NeeView.Setting
 {
     public class SettingPageEnvironment : SettingPage
     {
-        public SettingPageEnvironment() : base("全般")
+        public SettingPageEnvironment() : base(Properties.Resources.SettingPageGeneral)
         {
             this.Children = new List<SettingPage>
             {
@@ -28,18 +28,18 @@ namespace NeeView.Setting
 
     public class SettingPageEnvironmentSetup : SettingPage
     {
-        public SettingPageEnvironmentSetup() : base("起動設定")
+        public SettingPageEnvironmentSetup() : base(Properties.Resources.SettingPageGeneralBoot)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("起動設定", "※この設定は、設定ウィンドウを閉じた後に反映されます。",
+                new SettingItemSection(Properties.Resources.SettingPageGeneralBootBoot, Properties.Resources.SettingPageGeneralBootBootTips,
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsMultiBootEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveWindowPlacement))),
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveFullScreen))),
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsOpenLastBook))),
                     new SettingItemProperty(PropertyMemberElement.Create(SlideShow.Current, nameof(SlideShow.IsAutoPlaySlideShow)))),
 
-                new SettingItemSection("詳細設定", "※この設定は、設定ウィンドウを閉じた後に反映されます。",
+                new SettingItemSection(Properties.Resources.SettingPageGeneralBootBootDetail, Properties.Resources.SettingPageGeneralBootBootDetailTips,
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsRestoreSecondWindow)))),
             };
         }
@@ -47,11 +47,12 @@ namespace NeeView.Setting
 
     public class SettingPageEnvironmentDetail : SettingPage
     {
-        public SettingPageEnvironmentDetail() : base("詳細設定")
+        public SettingPageEnvironmentDetail() : base(Properties.Resources.SettingPageGeneralDetail)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("詳細設定",
+                new SettingItemSection(Properties.Resources.SettingPageGeneralDetailDetail,
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.Language))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsArchiveRecursive))),
                     new SettingItemProperty(PropertyMemberElement.Create(FileIOProfile.Current, nameof(FileIOProfile.IsRemoveConfirmed))),
                     new SettingItemProperty(PropertyMemberElement.Create(MenuBar.Current, nameof(MenuBar.IsCaptionEmulateInFullScreen))),

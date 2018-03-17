@@ -7,9 +7,8 @@ namespace NeeView
     [AttributeUsage(AttributeTargets.Field, Inherited = false, AllowMultiple = false)]
     public sealed class AliasNameAttribute : Attribute
     {
-        public string AliasName { get; private set; }
-
-        public string Tips { get; set; }
+        public string AliasName;
+        public string Tips;
 
         public AliasNameAttribute(string aliasName)
         {
@@ -22,11 +21,13 @@ namespace NeeView
         public static string GetAliasName<T>(T value)
             where T : struct
         {
-            return value.GetType()
+            var raw = value.GetType()
                 .GetField(value.ToString())
                 .GetCustomAttributes(typeof(AliasNameAttribute), false)
                 .Cast<AliasNameAttribute>()
-                .FirstOrDefault()?.AliasName ?? value.ToString();
+                .FirstOrDefault()?.AliasName;
+
+            return ResourceService.GetString(raw) ?? value.ToString();
         }
 
         public static Dictionary<T, string> GetAliasNameDictionary<T>()

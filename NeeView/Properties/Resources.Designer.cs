@@ -700,6 +700,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Default に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumFolderIconLayoutDefault {
+            get {
+                return ResourceManager.GetString("EnumFolderIconLayoutDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Explorer style に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumFolderIconLayoutExplorer {
+            get {
+                return ResourceManager.GetString("EnumFolderIconLayoutExplorer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   English に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumLanguageEnglish {
@@ -1060,6 +1078,51 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Use EXIF ​​date and time に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFileInformationIsUseExifDateTime {
+            get {
+                return ResourceManager.GetString("ParamFileInformationIsUseExifDateTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   It is limited to display on the file information panel. It does not affect sorting by date. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFileInformationIsUseExifDateTimeTips {
+            get {
+                return ResourceManager.GetString("ParamFileInformationIsUseExifDateTimeTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display the number of bits per pixel in image size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFileInformationIsVisibleBitsPerPixel {
+            get {
+                return ResourceManager.GetString("ParamFileInformationIsVisibleBitsPerPixel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display the file path in the compressed file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFileInformationIsVisibleFilePath {
+            get {
+                return ResourceManager.GetString("ParamFileInformationIsVisibleFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display used archiver, image decoder name に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFileInformationIsVisibleLoader {
+            get {
+                return ResourceManager.GetString("ParamFileInformationIsVisibleLoader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Touch scroll termination bound on filmstrip に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamFilmStripIsManipulationBoundaryFeedbackEnabled {
@@ -1114,6 +1177,132 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Filename pattern to exclude from display に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFolderListExcludePattern {
+            get {
+                return ResourceManager.GetString("ParamFolderListExcludePattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   It is specified with .NET regular expression. Capital letters and lower case letters are not distinguished. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFolderListExcludePatternTips {
+            get {
+                return ResourceManager.GetString("ParamFolderListExcludePatternTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   File icon layout に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFolderListFolderIconLayout {
+            get {
+                return ResourceManager.GetString("ParamFolderListFolderIconLayout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Home location に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFolderListHome {
+            get {
+                return ResourceManager.GetString("ParamFolderListHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Enable Folder Cruise に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFolderListIsCruise {
+            get {
+                return ResourceManager.GetString("ParamFolderListIsCruise", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move the folder including the parent and child of the folder. It does not apply when the folder list is a search result. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFolderListIsCruiseTips {
+            get {
+                return ResourceManager.GetString("ParamFolderListIsCruiseTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Insert additional file at sort position に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFolderListIsInsertItem {
+            get {
+                return ResourceManager.GetString("ParamFolderListIsInsertItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The folder list reflects information in real time. If this setting is ON, inserts the added file in the current sort order position. When set to OFF, it is added to the end of the list. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFolderListIsInsertItemTips {
+            get {
+                return ResourceManager.GetString("ParamFolderListIsInsertItemTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Filter RAR split files from display に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFolderListIsMultipleRarFilterEnabled {
+            get {
+                return ResourceManager.GetString("ParamFolderListIsMultipleRarFilterEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   For an RAR split file called .part[number].rar, only the file with the smallest number is displayed in the list. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFolderListIsMultipleRarFilterEnabledTips {
+            get {
+                return ResourceManager.GetString("ParamFolderListIsMultipleRarFilterEnabledTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display bookmark symbols に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFolderListIsVisibleBookmarkMark {
+            get {
+                return ResourceManager.GetString("ParamFolderListIsVisibleBookmarkMark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ★ mark is displayed in the bookmarked book. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFolderListIsVisibleBookmarkMarkTips {
+            get {
+                return ResourceManager.GetString("ParamFolderListIsVisibleBookmarkMarkTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display history symbol に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFolderListIsVisibleHistoryMark {
+            get {
+                return ResourceManager.GetString("ParamFolderListIsVisibleHistoryMark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   A check mark is displayed in the book remaining in the history. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFolderListIsVisibleHistoryMarkTips {
+            get {
+                return ResourceManager.GetString("ParamFolderListIsVisibleHistoryMarkTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Number of page operations to start history registration に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamHistoryEntryPageCount {
@@ -1128,6 +1317,24 @@ namespace NeeView.Properties {
         public static string ParamHistoryEntryPageCountTips {
             get {
                 return ResourceManager.GetString("ParamHistoryEntryPageCountTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Perform color setting with HSV に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamImageEffectIsHsvMode {
+            get {
+                return ResourceManager.GetString("ParamImageEffectIsHsvMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the color parameter with HSV (Hue, Saturation, Brightness). When set to OFF, it becomes the setting with RGB. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamImageEffectIsHsvModeTips {
+            get {
+                return ResourceManager.GetString("ParamImageEffectIsHsvModeTips", resourceCulture);
             }
         }
         
@@ -1596,6 +1803,51 @@ namespace NeeView.Properties {
         public static string ParamPanelColor {
             get {
                 return ResourceManager.GetString("ParamPanelColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Load image size limit に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPictureProfileIsLimitSourceSize {
+            get {
+                return ResourceManager.GetString("ParamPictureProfileIsLimitSourceSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reduce the imported image with &quot;Maximum image size&quot; as the upper limit. It is setting for speed and memory saving. When this restriction is applied, &quot;*&quot; will be displayed in the size field of the file information if it is the loaded image. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPictureProfileIsLimitSourceSizeTips {
+            get {
+                return ResourceManager.GetString("ParamPictureProfileIsLimitSourceSizeTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Use SIMD for resize filtering に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPictureProfileIsMagicScaleSimdEnabled {
+            get {
+                return ResourceManager.GetString("ParamPictureProfileIsMagicScaleSimdEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Maximum image size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPictureProfileMaximumSize {
+            get {
+                return ResourceManager.GetString("ParamPictureProfileMaximumSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   This is the maximum image size enlarged by the resize filter. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPictureProfileMaximumSizeTips {
+            get {
+                return ResourceManager.GetString("ParamPictureProfileMaximumSizeTips", resourceCulture);
             }
         }
         
@@ -2257,6 +2509,87 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Effect panel に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPagePanelEffect {
+            get {
+                return ResourceManager.GetString("SettingPagePanelEffect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Advanced Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPagePanelEffectAdvance {
+            get {
+                return ResourceManager.GetString("SettingPagePanelEffectAdvance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPagePanelEffectVisual {
+            get {
+                return ResourceManager.GetString("SettingPagePanelEffectVisual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   File information panel に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPagePanelFileInfo {
+            get {
+                return ResourceManager.GetString("SettingPagePanelFileInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPagePanelFileInfoVisual {
+            get {
+                return ResourceManager.GetString("SettingPagePanelFileInfoVisual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Folder List に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPagePanelFolderList {
+            get {
+                return ResourceManager.GetString("SettingPagePanelFolderList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Advanced Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPagePanelFolderListAdvance {
+            get {
+                return ResourceManager.GetString("SettingPagePanelFolderListAdvance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   General に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPagePanelFolderListGeneral {
+            get {
+                return ResourceManager.GetString("SettingPagePanelFolderListGeneral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPagePanelFolderListVisual {
+            get {
+                return ResourceManager.GetString("SettingPagePanelFolderListVisual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   General Side Panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPagePanelGeneral {
@@ -2433,6 +2766,24 @@ namespace NeeView.Properties {
         public static string SettingPageVisualSliderSlider {
             get {
                 return ResourceManager.GetString("SettingPageVisualSliderSlider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Slideshow に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageVisualSlideshow {
+            get {
+                return ResourceManager.GetString("SettingPageVisualSlideshow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   General に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageVisualSlideshowGeneral {
+            get {
+                return ResourceManager.GetString("SettingPageVisualSlideshowGeneral", resourceCulture);
             }
         }
         

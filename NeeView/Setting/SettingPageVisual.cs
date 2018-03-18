@@ -189,19 +189,19 @@ namespace NeeView.Setting
 
     public class SettingPagePanelFolderList : SettingPage
     {
-        public SettingPagePanelFolderList() : base("フォルダーリスト")
+        public SettingPagePanelFolderList() : base(Properties.Resources.SettingPagePanelFolderList)
         {
             this.Items = new List<SettingItem>
             {
-                 new SettingItemSection("全般",
+                 new SettingItemSection(Properties.Resources.SettingPagePanelFolderListGeneral,
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.Home))) {IsStretch = true}),
 
-                new SettingItemSection("表示",
+                new SettingItemSection(Properties.Resources.SettingPagePanelFolderListVisual,
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsVisibleBookmarkMark))),
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsVisibleHistoryMark))),
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.FolderIconLayout)))),
 
-                new SettingItemSection("詳細設定",
+                new SettingItemSection(Properties.Resources.SettingPagePanelFolderListAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsInsertItem))),
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsMultipleRarFilterEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.ExcludePattern))) { IsStretch = true }),
@@ -211,11 +211,11 @@ namespace NeeView.Setting
 
     public class SettingPagePanelFileInfo : SettingPage
     {
-        public SettingPagePanelFileInfo() : base("ファイル情報パネル")
+        public SettingPagePanelFileInfo() : base(Properties.Resources.SettingPagePanelFileInfo)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("表示",
+                new SettingItemSection(Properties.Resources.SettingPagePanelFileInfoVisual,
                     new SettingItemProperty(PropertyMemberElement.Create(FileInformation.Current, nameof(FileInformation.IsVisibleFilePath))),
                     new SettingItemProperty(PropertyMemberElement.Create(FileInformation.Current, nameof(FileInformation.IsUseExifDateTime))),
                     new SettingItemProperty(PropertyMemberElement.Create(FileInformation.Current, nameof(FileInformation.IsVisibleBitsPerPixel))),
@@ -226,14 +226,14 @@ namespace NeeView.Setting
 
     public class SettingPagePanelEffect : SettingPage
     {
-        public SettingPagePanelEffect() : base("エフェクトパネル")
+        public SettingPagePanelEffect() : base(Properties.Resources.SettingPagePanelEffect)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("表示",
+                new SettingItemSection(Properties.Resources.SettingPagePanelEffectVisual,
                     new SettingItemProperty(PropertyMemberElement.Create(ImageEffect.Current, nameof(ImageEffect.IsHsvMode)))),
 
-                new SettingItemSection("詳細設定",
+                new SettingItemSection(Properties.Resources.SettingPagePanelEffectAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(PictureProfile.Current, nameof(PictureProfile.IsMagicScaleSimdEnabled)))),
             };
         }
@@ -241,11 +241,11 @@ namespace NeeView.Setting
 
     public class SettingPageVisualSlideshow : SettingPage
     {
-        public SettingPageVisualSlideshow() : base("スライドショー")
+        public SettingPageVisualSlideshow() : base(Properties.Resources.SettingPageVisualSlideshow)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("全般",
+                new SettingItemSection(Properties.Resources.SettingPageVisualSlideshowGeneral,
                     new SettingItemProperty(PropertyMemberElement.Create(SlideShow.Current, nameof(SlideShow.IsSlideShowByLoop))),
                     new SettingItemProperty(PropertyMemberElement.Create(SlideShow.Current, nameof(SlideShow.IsCancelSlideByMouseMove))),
                     new SettingItemIndexValue<double>(PropertyMemberElement.Create(SlideShow.Current, nameof(SlideShow.SlideShowInterval)), new SlideShowInterval(), true)),

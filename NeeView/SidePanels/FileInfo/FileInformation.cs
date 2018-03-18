@@ -29,28 +29,28 @@ namespace NeeView
 
         #region Properties
 
-        [PropertyMember("EXIFの日時を使用する", Tips = "ファイル情報パネルでの表示に限ります。フォルダーリストでの日付順ソートには影響しません")]
+        [PropertyMember("@ParamFileInformationIsUseExifDateTime", Tips = "@ParamFileInformationIsUseExifDateTimeTips")]
         public bool IsUseExifDateTime
         {
             get { return _IsUseExifDateTime; }
             set { if (_IsUseExifDateTime != value) { _IsUseExifDateTime = value; RaisePropertyChanged(); } }
         }
 
-        [PropertyMember("画像サイズにピクセルあたりのビット数を表示する")]
+        [PropertyMember("@ParamFileInformationIsVisibleBitsPerPixel")]
         public bool IsVisibleBitsPerPixel
         {
             get { return _IsVisibleBitsPerPixel; }
             set { if (_IsVisibleBitsPerPixel != value) { _IsVisibleBitsPerPixel = value; RaisePropertyChanged(); } }
         }
 
-        [PropertyMember("使用されたアーカイバー、画像デコーダー名を表示する")]
+        [PropertyMember("@ParamFileInformationIsVisibleLoader")]
         public bool IsVisibleLoader
         {
             get { return _IsVisibleLoader; }
             set { if (_IsVisibleLoader != value) { _IsVisibleLoader = value; RaisePropertyChanged(); } }
         }
 
-        [PropertyMember("圧縮ファイル内のファイルパスを表示する")]
+        [PropertyMember("@ParamFileInformationIsVisibleFilePath")]
         public bool IsVisibleFilePath
         {
             get { return _IsVisibleFilePath; }

@@ -1022,4 +1022,121 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamSidePanelIsLeftRightKeyEnabledTips" xml:space="preserve">
     <value>Activate left / right key operation on the side panel. In the folder list, move the folder hierarchically.</value>
   </data>
+  <data name="SettingPagePanelFolderList" xml:space="preserve">
+    <value>Folder List</value>
+  </data>
+  <data name="SettingPagePanelFolderListGeneral" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SettingPagePanelFolderListVisual" xml:space="preserve">
+    <value>Display</value>
+  </data>
+  <data name="SettingPagePanelFolderListAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPagePanelFileInfo" xml:space="preserve">
+    <value>File information panel</value>
+  </data>
+  <data name="SettingPagePanelFileInfoVisual" xml:space="preserve">
+    <value>Display</value>
+  </data>
+  <data name="SettingPagePanelEffect" xml:space="preserve">
+    <value>Effect panel</value>
+  </data>
+  <data name="SettingPagePanelEffectVisual" xml:space="preserve">
+    <value>Display</value>
+  </data>
+  <data name="SettingPagePanelEffectAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPageVisualSlideshow" xml:space="preserve">
+    <value>Slideshow</value>
+  </data>
+  <data name="SettingPageVisualSlideshowGeneral" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="ParamFolderListFolderIconLayout" xml:space="preserve">
+    <value>File icon layout</value>
+  </data>
+  <data name="ParamFolderListIsVisibleHistoryMark" xml:space="preserve">
+    <value>Display history symbol</value>
+  </data>
+  <data name="ParamFolderListIsVisibleHistoryMarkTips" xml:space="preserve">
+    <value>A check mark is displayed in the book remaining in the history.</value>
+  </data>
+  <data name="ParamFolderListIsVisibleBookmarkMark" xml:space="preserve">
+    <value>Display bookmark symbols</value>
+  </data>
+  <data name="ParamFolderListIsVisibleBookmarkMarkTips" xml:space="preserve">
+    <value>★ mark is displayed in the bookmarked book.</value>
+  </data>
+  <data name="ParamFolderListHome" xml:space="preserve">
+    <value>Home location</value>
+  </data>
+  <data name="ParamFolderListIsInsertItem" xml:space="preserve">
+    <value>Insert additional file at sort position</value>
+  </data>
+  <data name="ParamFolderListIsInsertItemTips" xml:space="preserve">
+    <value>The folder list reflects information in real time. If this setting is ON, inserts the added file in the current sort order position. When set to OFF, it is added to the end of the list.</value>
+  </data>
+  <data name="ParamFolderListIsMultipleRarFilterEnabled" xml:space="preserve">
+    <value>Filter RAR split files from display</value>
+  </data>
+  <data name="ParamFolderListIsMultipleRarFilterEnabledTips" xml:space="preserve">
+    <value>For an RAR split file called .part[number].rar, only the file with the smallest number is displayed in the list.</value>
+  </data>
+  <data name="ParamFolderListIsCruise" xml:space="preserve">
+    <value>Enable Folder Cruise</value>
+  </data>
+  <data name="ParamFolderListIsCruiseTips" xml:space="preserve">
+    <value>Move the folder including the parent and child of the folder. It does not apply when the folder list is a search result.</value>
+  </data>
+  <data name="ParamFolderListExcludePattern" xml:space="preserve">
+    <value>Filename pattern to exclude from display</value>
+  </data>
+  <data name="ParamFolderListExcludePatternTips" xml:space="preserve">
+    <value>It is specified with .NET regular expression. Capital letters and lower case letters are not distinguished.</value>
+  </data>
+  <data name="EnumFolderIconLayoutDefault" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="EnumFolderIconLayoutExplorer" xml:space="preserve">
+    <value>Explorer style</value>
+  </data>
+  <data name="ParamFileInformationIsUseExifDateTime" xml:space="preserve">
+    <value>Use EXIF ​​date and time</value>
+  </data>
+  <data name="ParamFileInformationIsUseExifDateTimeTips" xml:space="preserve">
+    <value>It is limited to display on the file information panel. It does not affect sorting by date.</value>
+  </data>
+  <data name="ParamFileInformationIsVisibleBitsPerPixel" xml:space="preserve">
+    <value>Display the number of bits per pixel in image size</value>
+  </data>
+  <data name="ParamFileInformationIsVisibleLoader" xml:space="preserve">
+    <value>Display used archiver, image decoder name</value>
+  </data>
+  <data name="ParamFileInformationIsVisibleFilePath" xml:space="preserve">
+    <value>Display the file path in the compressed file</value>
+  </data>
+  <data name="ParamImageEffectIsHsvMode" xml:space="preserve">
+    <value>Perform color setting with HSV</value>
+  </data>
+  <data name="ParamImageEffectIsHsvModeTips" xml:space="preserve">
+    <value>Set the color parameter with HSV (Hue, Saturation, Brightness). When set to OFF, it becomes the setting with RGB.</value>
+  </data>
+  <data name="ParamPictureProfileIsLimitSourceSize" xml:space="preserve">
+    <value>Load image size limit</value>
+  </data>
+  <data name="ParamPictureProfileIsLimitSourceSizeTips" xml:space="preserve">
+    <value>Reduce the imported image with "Maximum image size" as the upper limit. It is setting for speed and memory saving. When this restriction is applied, "*" will be displayed in the size field of the file information if it is the loaded image.</value>
+  </data>
+  <data name="ParamPictureProfileMaximumSize" xml:space="preserve">
+    <value>Maximum image size</value>
+  </data>
+  <data name="ParamPictureProfileMaximumSizeTips" xml:space="preserve">
+    <value>This is the maximum image size enlarged by the resize filter.</value>
+  </data>
+  <data name="ParamPictureProfileIsMagicScaleSimdEnabled" xml:space="preserve">
+    <value>Use SIMD for resize filtering</value>
+  </data>
 </root>

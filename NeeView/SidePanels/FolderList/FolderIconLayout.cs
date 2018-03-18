@@ -10,10 +10,10 @@ namespace NeeView
     /// </summary>
     public enum FolderIconLayout
     {
-        [AliasName("標準")]
+        [AliasName("@EnumFolderIconLayoutDefault")]
         Default,
 
-        [AliasName("エクスプローラー風")]
+        [AliasName("@EnumFolderIconLayoutExplorer")]
         Explorer,
     }
 

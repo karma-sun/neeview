@@ -115,7 +115,7 @@ namespace NeeView
         public bool IsOriginalScaleShowMessage { get; set; }
 
         // 回転、拡縮をコンテンツの中心基準にする
-        [PropertyMember("@ParamDragTransformIsControlCenterImage", Tips = "@ParamDragTransformIsControlCenterImage")]
+        [PropertyMember("@ParamDragTransformIsControlCenterImage", Tips = "@ParamDragTransformIsControlCenterImageTips")]
         public bool IsControlCenterImage { get; set; }
 
         // 拡大率キープ

@@ -142,7 +142,7 @@ namespace NeeView
         /// フォルダーアイコン表示位置
         /// </summary>
         private FolderIconLayout _folderIconLayout = FolderIconLayout.Default;
-        [PropertyMember("ファイルアイコンのレイアウト")]
+        [PropertyMember("@ParamFolderListFolderIconLayout")]
         public FolderIconLayout FolderIconLayout
         {
             get { return _folderIconLayout; }
@@ -153,7 +153,7 @@ namespace NeeView
         /// IsVisibleHistoryMark property.
         /// </summary>
         private bool _isVisibleHistoryMark = true;
-        [PropertyMember("履歴記号を表示する", Tips = "履歴に残っているブックにチェックマークを表示します")]
+        [PropertyMember("@ParamFolderListIsVisibleHistoryMark", Tips = "@ParamFolderListIsVisibleHistoryMarkTips")]
         public bool IsVisibleHistoryMark
         {
             get { return _isVisibleHistoryMark; }
@@ -164,7 +164,7 @@ namespace NeeView
         /// IsVisibleBookmarkMark property.
         /// </summary>
         private bool _isVisibleBookmarkMark = true;
-        [PropertyMember("ブックマーク記号を表示する", Tips = "ブックマークされているブックに★マークを表示します")]
+        [PropertyMember("@ParamFolderListIsVisibleBookmarkMark", Tips = "@ParamFolderListIsVisibleBookmarkMarkTips")]
         public bool IsVisibleBookmarkMark
         {
             get { return _isVisibleBookmarkMark; }
@@ -172,7 +172,7 @@ namespace NeeView
         }
 
         private string _home;
-        [PropertyPath("ホームの場所", IsDirectory = true)]
+        [PropertyPath("@ParamFolderListHome", IsDirectory = true)]
         public string Home
         {
             get { return _home; }
@@ -183,20 +183,20 @@ namespace NeeView
         /// 追加されたファイルを挿入する？
         /// OFFにするとリスト末尾に追加する
         /// </summary>
-        [PropertyMember("追加ファイルはソート位置に挿入する", Tips = "フォルダーリストはリアルタイムに情報を反映します。この設定がONの場合、追加されたファイルを現在のソート順位置に挿入します。OFFにするとリストの終端に追加します。")]
+        [PropertyMember("@ParamFolderListIsInsertItem", Tips = "@ParamFolderListIsInsertItemTips")]
         public bool IsInsertItem { get; set; } = true;
 
 
-        [PropertyMember("表示からRAR分割ファイルをフィルター", Tips = ".part(数字).rar というRAR分割ファイルの場合に、数字が一番小さいファイルのみをリストに表示します。")]
+        [PropertyMember("@ParamFolderListIsMultipleRarFilterEnabled", Tips = "@ParamFolderListIsMultipleRarFilterEnabledTips")]
         public bool IsMultipleRarFilterEnabled { get; set; }
 
 
-        [PropertyMember("ブック移動を巡回移動にする", Tips = "フォルダーの親子を含めた移動を行います。フォルダーリストが検索結果である場合には適用されません。")]
+        [PropertyMember("@ParamFolderListIsCruise", Tips = "@ParamFolderListIsCruiseTips")]
         public bool IsCruise { get; set; }
 
 
         private string _excludePattern;
-        [PropertyMember("表示から除外するファイル名のパターン", Tips = ".NETの正規表現で指定します。大文字小文字は区別されません。")]
+        [PropertyMember("@ParamFolderListExcludePattern", Tips = "@ParamFolderListExcludePatternTips")]
         public string ExcludePattern
         {
             get { return _excludePattern; }

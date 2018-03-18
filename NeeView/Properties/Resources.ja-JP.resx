@@ -1022,4 +1022,121 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamSidePanelIsLeftRightKeyEnabledTips" xml:space="preserve">
     <value>サイドパネルでの左右キー操作を有効にします。フォルダーリストではフォルダーの階層移動を行います。</value>
   </data>
+  <data name="SettingPagePanelFolderList" xml:space="preserve">
+    <value>フォルダーリスト</value>
+  </data>
+  <data name="SettingPagePanelFolderListGeneral" xml:space="preserve">
+    <value>全般</value>
+  </data>
+  <data name="SettingPagePanelFolderListVisual" xml:space="preserve">
+    <value>表示</value>
+  </data>
+  <data name="SettingPagePanelFolderListAdvance" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
+  <data name="SettingPagePanelFileInfo" xml:space="preserve">
+    <value>ファイル情報パネル</value>
+  </data>
+  <data name="SettingPagePanelFileInfoVisual" xml:space="preserve">
+    <value>表示</value>
+  </data>
+  <data name="SettingPagePanelEffect" xml:space="preserve">
+    <value>エフェクトパネル</value>
+  </data>
+  <data name="SettingPagePanelEffectVisual" xml:space="preserve">
+    <value>表示</value>
+  </data>
+  <data name="SettingPagePanelEffectAdvance" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
+  <data name="SettingPageVisualSlideshow" xml:space="preserve">
+    <value>スライドショー</value>
+  </data>
+  <data name="SettingPageVisualSlideshowGeneral" xml:space="preserve">
+    <value>全般</value>
+  </data>
+  <data name="ParamFolderListFolderIconLayout" xml:space="preserve">
+    <value>ファイルアイコンのレイアウト</value>
+  </data>
+  <data name="ParamFolderListIsVisibleHistoryMark" xml:space="preserve">
+    <value>履歴記号を表示する</value>
+  </data>
+  <data name="ParamFolderListIsVisibleHistoryMarkTips" xml:space="preserve">
+    <value>履歴に残っているブックにチェックマークを表示します。</value>
+  </data>
+  <data name="ParamFolderListIsVisibleBookmarkMark" xml:space="preserve">
+    <value>ブックマーク記号を表示する</value>
+  </data>
+  <data name="ParamFolderListIsVisibleBookmarkMarkTips" xml:space="preserve">
+    <value>ブックマークされているブックに★マークを表示します。</value>
+  </data>
+  <data name="ParamFolderListHome" xml:space="preserve">
+    <value>ホームの場所</value>
+  </data>
+  <data name="ParamFolderListIsInsertItem" xml:space="preserve">
+    <value>追加ファイルはソート位置に挿入する</value>
+  </data>
+  <data name="ParamFolderListIsInsertItemTips" xml:space="preserve">
+    <value>フォルダーリストはリアルタイムに情報を反映します。この設定がONの場合、追加されたファイルを現在のソート順位置に挿入します。OFFにするとリストの終端に追加します。</value>
+  </data>
+  <data name="ParamFolderListIsMultipleRarFilterEnabled" xml:space="preserve">
+    <value>表示からRAR分割ファイルをフィルター</value>
+  </data>
+  <data name="ParamFolderListIsMultipleRarFilterEnabledTips" xml:space="preserve">
+    <value>.part[数字].rar というRAR分割ファイルの場合に、数字が一番小さいファイルのみをリストに表示します。</value>
+  </data>
+  <data name="ParamFolderListIsCruise" xml:space="preserve">
+    <value>ブック移動を巡回移動にする</value>
+  </data>
+  <data name="ParamFolderListIsCruiseTips" xml:space="preserve">
+    <value>フォルダーの親子を含めた移動を行います。フォルダーリストが検索結果である場合には適用されません。</value>
+  </data>
+  <data name="ParamFolderListExcludePattern" xml:space="preserve">
+    <value>表示から除外するファイル名のパターン</value>
+  </data>
+  <data name="ParamFolderListExcludePatternTips" xml:space="preserve">
+    <value>.NETの正規表現で指定します。大文字小文字は区別されません。</value>
+  </data>
+  <data name="EnumFolderIconLayoutDefault" xml:space="preserve">
+    <value>標準</value>
+  </data>
+  <data name="EnumFolderIconLayoutExplorer" xml:space="preserve">
+    <value>エクスプローラー風</value>
+  </data>
+  <data name="ParamFileInformationIsUseExifDateTime" xml:space="preserve">
+    <value>EXIFの日時を使用する</value>
+  </data>
+  <data name="ParamFileInformationIsUseExifDateTimeTips" xml:space="preserve">
+    <value>ファイル情報パネルでの表示に限ります。日付順ソートには影響しません。</value>
+  </data>
+  <data name="ParamFileInformationIsVisibleBitsPerPixel" xml:space="preserve">
+    <value>画像サイズにピクセルあたりのビット数を表示する</value>
+  </data>
+  <data name="ParamFileInformationIsVisibleLoader" xml:space="preserve">
+    <value>使用されたアーカイバー、画像デコーダー名を表示する</value>
+  </data>
+  <data name="ParamFileInformationIsVisibleFilePath" xml:space="preserve">
+    <value>圧縮ファイル内のファイルパスを表示する</value>
+  </data>
+  <data name="ParamImageEffectIsHsvMode" xml:space="preserve">
+    <value>色設定をHSVで行う</value>
+  </data>
+  <data name="ParamImageEffectIsHsvModeTips" xml:space="preserve">
+    <value>色パラメータの設定をHSV(色相、彩度、輝度)で設定します。OFFにするとRGBでの設定になります。</value>
+  </data>
+  <data name="ParamPictureProfileIsLimitSourceSize" xml:space="preserve">
+    <value>読み込み画像サイズ制限</value>
+  </data>
+  <data name="ParamPictureProfileIsLimitSourceSizeTips" xml:space="preserve">
+    <value>「最大画像サイズ」を上限として読み込み画像を縮小します。速度、メモリ節約用の設定です。この制限を適用して読み込まれた画像である場合、ファイル情報のサイズ欄に「*」が表示されます。</value>
+  </data>
+  <data name="ParamPictureProfileMaximumSize" xml:space="preserve">
+    <value>最大画像サイズ</value>
+  </data>
+  <data name="ParamPictureProfileMaximumSizeTips" xml:space="preserve">
+    <value>リサイズフィルターで拡大される最大画像サイズです。</value>
+  </data>
+  <data name="ParamPictureProfileIsMagicScaleSimdEnabled" xml:space="preserve">
+    <value>リサイズフィルター処理にSIMDを使用する</value>
+  </data>
 </root>

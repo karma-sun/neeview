@@ -102,7 +102,7 @@ namespace NeeView.Setting
         {
             if (value.DragAction.IsLocked)
             {
-                var dlg = new MessageDialog("", "この操作は変更できません");
+                var dlg = new MessageDialog("", Properties.Resources.DialogDragActionLockedTitle);
                 dlg.Owner = GetOwner();
                 dlg.ShowDialog();
                 return;
@@ -123,7 +123,7 @@ namespace NeeView.Setting
         //
         private void ResetDragActionSettingButton_Click(object sender, RoutedEventArgs e)
         {
-            var dialog = new MessageDialog($"すべてのドラッグ操作を初期化します。よろしいですか？", "ドラッグ操作を初期化します");
+            var dialog = new MessageDialog(Properties.Resources.DialogDragActionReset, Properties.Resources.DialogDragActionResetTitle);
             dialog.Commands.Add(UICommands.Yes);
             dialog.Commands.Add(UICommands.No);
             dialog.Owner = GetOwner();

@@ -180,7 +180,7 @@ namespace NeeView
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
             if (item != null && !item.IsEmpty)
             {
-                var removed = await FileIO.Current.RemoveAsync(item.Path, "ブックを削除します");
+                var removed = await FileIO.Current.RemoveAsync(item.Path, Properties.Resources.DialogFileDeleteBookTitle);
                 if (removed)
                 {
                     _vm.FolderCollection?.RequestDelete(item.Path);

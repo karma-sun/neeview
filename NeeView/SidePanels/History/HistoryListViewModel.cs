@@ -11,6 +11,7 @@ using System.Linq;
 using System.Diagnostics;
 using NeeLaboratory.ComponentModel;
 using System.Threading;
+using NeeView.Properties;
 
 namespace NeeView
 {
@@ -279,11 +280,11 @@ namespace NeeView
         {
             if (BookHistory.Current.Items.Any())
             {
-                var dialog = new MessageDialog($"すべての履歴を削除します。よろしいですか？", "履歴を削除します");
-                dialog.Commands.Add(UICommands.Remove);
+                var dialog = new MessageDialog(Resources.DialogHistoryDeleteAll, Resources.DialogHistoryDeleteAllTitle);
+                dialog.Commands.Add(UICommands.Delete);
                 dialog.Commands.Add(UICommands.Cancel);
                 var answer = dialog.ShowDialog();
-                if (answer != UICommands.Remove) return;
+                if (answer != UICommands.Delete) return;
             }
 
             BookHistory.Current.RemoveAll();

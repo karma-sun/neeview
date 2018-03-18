@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using NeeLaboratory.ComponentModel;
 using NeeLaboratory.Windows.Input;
+using NeeView.Properties;
 using NeeView.Windows.Property;
 using System;
 using System.ComponentModel;
@@ -450,7 +451,7 @@ namespace NeeView
         {
             if (Config.Current.IsAppxPackage)
             {
-                new MessageDialog($"ストアアプリでは設定ファイルの場所を開くことができません", "このコマンドは使用できません").ShowDialog();
+                new MessageDialog(Resources.DialogOpenSettingFolderError, Resources.DialogOpenSettingFolderErrorTitle).ShowDialog();
                 return;
             }
 

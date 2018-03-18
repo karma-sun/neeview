@@ -113,7 +113,7 @@ namespace NeeView.Setting
         {
             ThumbnailCache.Current.Remove();
 
-            var dialog = new MessageDialog("", "サムネイルキャッシュを削除しました");
+            var dialog = new MessageDialog("", Properties.Resources.DialogCacheDeletedTitle);
             if (element != null)
             {
                 dialog.Owner = Window.GetWindow(element);

@@ -117,51 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ParamIsMultiBootEnabled" xml:space="preserve">
-    <value>Allow multiple activations</value>
-  </data>
-  <data name="SettingPageGeneral" xml:space="preserve">
-    <value>General</value>
-  </data>
-  <data name="ParamLanguage" xml:space="preserve">
-    <value>Language</value>
-  </data>
-  <data name="ParamLanguageTips" xml:space="preserve">
-    <value>* It is applied from the next startup.</value>
-  </data>
-  <data name="SettingPageGeneralBoot" xml:space="preserve">
-    <value>Launch setting</value>
-  </data>
-  <data name="SettingPageGeneralDetail" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
-  <data name="EnumLanguageEnglish" xml:space="preserve">
-    <value>English</value>
-  </data>
-  <data name="EnumLanguageJapanese" xml:space="preserve">
-    <value>日本語</value>
-  </data>
-  <data name="SettingPageGeneralBootBoot" xml:space="preserve">
-    <value>Launch setting</value>
-  </data>
-  <data name="SettingPageGeneralBootBootTips" xml:space="preserve">
-    <value>* This setting will be reflected after closing the setting screen.</value>
-  </data>
-  <data name="SettingPageGeneralBootBootDetail" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
-  <data name="SettingPageGeneralBootBootDetailTips" xml:space="preserve">
-    <value>* This setting will be reflected after closing the setting screen.</value>
-  </data>
-  <data name="SettingPageGeneralDetailDetail" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
-  <data name="ControlSwitchOn" xml:space="preserve">
-    <value>On</value>
-  </data>
-  <data name="ControlSwitchOff" xml:space="preserve">
-    <value>Off</value>
-  </data>
   <data name="CommandGroupFile" xml:space="preserve">
     <value>File</value>
   </data>
@@ -174,44 +129,56 @@
   <data name="CommandLoadAsNote" xml:space="preserve">
     <value>Select and open the compressed file or image file.</value>
   </data>
-  <data name="ParamIsSaveFullScreen" xml:space="preserve">
-    <value>Restore full screen state</value>
+  <data name="ControlSwitchOff" xml:space="preserve">
+    <value>Off</value>
   </data>
-  <data name="ParamIsSaveWindowPlacement" xml:space="preserve">
-    <value>Restore window coordinates</value>
+  <data name="ControlSwitchOn" xml:space="preserve">
+    <value>On</value>
   </data>
-  <data name="ParamIsNetworkEnabled" xml:space="preserve">
-    <value>Allow network access</value>
+  <data name="DialogBookmarkError" xml:space="preserve">
+    <value>Temporary folders can not be bookmarked</value>
   </data>
-  <data name="ParamIsNetworkEnabledTips" xml:space="preserve">
-    <value>In this application, we will use the network only for WEB links such as version update confirmation and online help from "About" dialog.</value>
+  <data name="DialogBookmarkErrorTitle" xml:space="preserve">
+    <value>Can not bookmark</value>
   </data>
-  <data name="ParamIsIgnoreImageDpi" xml:space="preserve">
-    <value>Dot-by-dot display of image</value>
+  <data name="DialogBootErrorTitle" xml:space="preserve">
+    <value>NeeView Startup error</value>
   </data>
-  <data name="ParamIsIgnoreImageDpiTips" xml:space="preserve">
-    <value>When displaying in original size, make it match with display pixels without depending on DPI.</value>
+  <data name="DialogBootOptionTitle" xml:space="preserve">
+    <value>NeeView Startup options</value>
   </data>
-  <data name="ParamIsRestoreSecondWindow" xml:space="preserve">
-    <value>Restore the second window coordinates</value>
+  <data name="DialogConfirmRecursive" xml:space="preserve">
+    <value>There is no file that can be read in "{0}". Do you also load subfolders or compressed files?</value>
   </data>
-  <data name="ParamIsRestoreSecondWindowTips" xml:space="preserve">
-    <value>Also restore window coordinates when duplicates are activated. When set to OFF, it is displayed in the initial coordinates.</value>
+  <data name="DialogConfirmRecursiveTitle" xml:space="preserve">
+    <value>Do you also read subfolders?</value>
   </data>
-  <data name="ParamIsDisableSave" xml:space="preserve">
-    <value>Do not save history, bookmarks, pagemarks</value>
+  <data name="DialogCopyErrorTitle" xml:space="preserve">
+    <value>Copy failed</value>
   </data>
-  <data name="ParamIsDisableSaveTips" xml:space="preserve">
-    <value>Book information is not saved.</value>
+  <data name="DialogImageExportError" xml:space="preserve">
+    <value>This image can not be output.</value>
+  </data>
+  <data name="DialogImageExportErrorTitle" xml:space="preserve">
+    <value>File save failed</value>
+  </data>
+  <data name="DialogOpenApplicationErrorTitle" xml:space="preserve">
+    <value>External application execution failed</value>
+  </data>
+  <data name="DialogPagemarkError" xml:space="preserve">
+    <value>Temporary folders can not be pagemarked</value>
+  </data>
+  <data name="DialogPagemarkErrorTitle" xml:space="preserve">
+    <value>Can not pagemark</value>
+  </data>
+  <data name="EnumLanguageEnglish" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="EnumLanguageJapanese" xml:space="preserve">
+    <value>日本語</value>
   </data>
   <data name="ParamAutoHideDelayTime" xml:space="preserve">
     <value>Time (in seconds) until panel and menu disappear automatically</value>
-  </data>
-  <data name="ParamWindowChromeFrame" xml:space="preserve">
-    <value>Window frame with title bar hidden</value>
-  </data>
-  <data name="ParamIsOpenLastBook" xml:space="preserve">
-    <value>Restore an open book</value>
   </data>
   <data name="ParamDownloadPath" xml:space="preserve">
     <value>Download folder</value>
@@ -219,10 +186,304 @@
   <data name="ParamDownloadPathTips" xml:space="preserve">
     <value>It is a storage place of the image dropped by the browser etc. If not specified, temporary folder is used.</value>
   </data>
+  <data name="ParamHistoryEntryPageCount" xml:space="preserve">
+    <value>Number of page operations to start history registration</value>
+  </data>
+  <data name="ParamHistoryEntryPageCountTips" xml:space="preserve">
+    <value>Register in history with page movement operation more than this count or last page display.</value>
+  </data>
+  <data name="ParamIsArchiveRecursive" xml:space="preserve">
+    <value>Expand all recursive compressed files</value>
+  </data>
+  <data name="ParamIsArchiveRecursiveTips" xml:space="preserve">
+    <value>If it is set to OFF, the included compressed file will be handled as subfolder.</value>
+  </data>
+  <data name="ParamIsAutoPlaySlideShow" xml:space="preserve">
+    <value>Start playing slideshow</value>
+  </data>
+  <data name="ParamIsAutoRecursive" xml:space="preserve">
+    <value>Load a subfolder if there is no page and only one subfolder exists</value>
+  </data>
+  <data name="ParamIsAutoRecursiveWithAllFiles" xml:space="preserve">
+    <value>Determine including out-of-page files</value>
+  </data>
+  <data name="ParamIsAutoRecursiveWithAllFilesTips" xml:space="preserve">
+    <value>Automatic judgment will not be performed if there are files other than files to become pages</value>
+  </data>
+  <data name="ParamIsCancelSlideByMouseMove" xml:space="preserve">
+    <value>Reset display interval with mouse move</value>
+  </data>
+  <data name="ParamIsCancelSlideByMouseMoveTips" xml:space="preserve">
+    <value>When set to OFF, it will only be reset by clear action such as clicking.</value>
+  </data>
+  <data name="ParamIsConfirmRecursive" xml:space="preserve">
+    <value>If there is no page, inquire whether to read the subfolder</value>
+  </data>
+  <data name="ParamIsConfirmRecursiveTips" xml:space="preserve">
+    <value>If there is no page that can be displayed when the book is opened, and a subfolder exists, a dialog is displayed asking whether to load the subfolder.</value>
+  </data>
+  <data name="ParamIsDisableSave" xml:space="preserve">
+    <value>Do not save history, bookmarks, pagemarks</value>
+  </data>
+  <data name="ParamIsDisableSaveTips" xml:space="preserve">
+    <value>Book information is not saved.</value>
+  </data>
+  <data name="ParamIsIgnoreImageDpi" xml:space="preserve">
+    <value>Dot-by-dot display of image</value>
+  </data>
+  <data name="ParamIsIgnoreImageDpiTips" xml:space="preserve">
+    <value>When displaying in original size, make it match with display pixels without depending on DPI.</value>
+  </data>
+  <data name="ParamIsInnerArchiveHistoryEnabled" xml:space="preserve">
+    <value>Save recursive compressed file in history</value>
+  </data>
+  <data name="ParamIsMultiBootEnabled" xml:space="preserve">
+    <value>Allow multiple activations</value>
+  </data>
+  <data name="ParamIsNetworkEnabled" xml:space="preserve">
+    <value>Allow network access</value>
+  </data>
+  <data name="ParamIsNetworkEnabledTips" xml:space="preserve">
+    <value>In this application, we will use the network only for WEB links such as version update confirmation and online help from "About" dialog.</value>
+  </data>
+  <data name="ParamIsOpenLastBook" xml:space="preserve">
+    <value>Restore an open book</value>
+  </data>
+  <data name="ParamIsRestoreSecondWindow" xml:space="preserve">
+    <value>Restore the second window coordinates</value>
+  </data>
+  <data name="ParamIsRestoreSecondWindowTips" xml:space="preserve">
+    <value>Also restore window coordinates when duplicates are activated. When set to OFF, it is displayed in the initial coordinates.</value>
+  </data>
+  <data name="ParamIsSaveFullScreen" xml:space="preserve">
+    <value>Restore full screen state</value>
+  </data>
+  <data name="ParamIsSaveWindowPlacement" xml:space="preserve">
+    <value>Restore window coordinates</value>
+  </data>
   <data name="ParamIsSettingBackup" xml:space="preserve">
     <value>Make a backup of the user setting file</value>
   </data>
   <data name="ParamIsSettingBackupTips" xml:space="preserve">
     <value>Make a backup of the configuration file and load it instead if the normal configuration file can not be read. The file name is UserSetting.xaml.old. The update timing is when you close the setting window and when you exit the application.</value>
+  </data>
+  <data name="ParamIsSlideShowByLoop" xml:space="preserve">
+    <value>Loop play</value>
+  </data>
+  <data name="ParamIsSlideShowByLoopTips" xml:space="preserve">
+    <value>After playing to the last page, it will return to the first page.</value>
+  </data>
+  <data name="ParamIsUncHistoryEnabled" xml:space="preserve">
+    <value>Save UNC path in history</value>
+  </data>
+  <data name="ParamIsUncHistoryEnabledTips" xml:space="preserve">
+    <value>Save the path on the network like "\\computer\~" in the history.</value>
+  </data>
+  <data name="ParamLanguage" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="ParamLanguageTips" xml:space="preserve">
+    <value>* It is applied from the next startup.</value>
+  </data>
+  <data name="ParamSlideShowInterval" xml:space="preserve">
+    <value>Display interval (sec)</value>
+  </data>
+  <data name="ParamWindowChromeFrame" xml:space="preserve">
+    <value>Window frame with title bar hidden</value>
+  </data>
+  <data name="SettingItemRemove" xml:space="preserve">
+    <value>Delete all data</value>
+  </data>
+  <data name="SettingItemRemoveTips" xml:space="preserve">
+    <value>Delete the user data and exit the application. It is used when you want to completely delete history etc. before uninstallation.</value>
+  </data>
+  <data name="SettingPageGeneral" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SettingPageGeneralBoot" xml:space="preserve">
+    <value>Launch setting</value>
+  </data>
+  <data name="SettingPageGeneralBootBoot" xml:space="preserve">
+    <value>Launch setting</value>
+  </data>
+  <data name="SettingPageGeneralBootBootDetail" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPageGeneralBootBootDetailTips" xml:space="preserve">
+    <value>* This setting will be reflected after closing the setting screen.</value>
+  </data>
+  <data name="SettingPageGeneralBootBootTips" xml:space="preserve">
+    <value>* This setting will be reflected after closing the setting screen.</value>
+  </data>
+  <data name="SettingPageGeneralDetail" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPageGeneralDetailDetail" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPageGeneralRemove" xml:space="preserve">
+    <value>Delete data</value>
+  </data>
+  <data name="SettingPageGeneralRemoveRemove" xml:space="preserve">
+    <value>Delete user data</value>
+  </data>
+  <data name="WordCause" xml:space="preserve">
+    <value>Cause</value>
+  </data>
+  <data name="WordCommand" xml:space="preserve">
+    <value>Command</value>
+  </data>
+  <data name="DialogDeleteApplicationData" xml:space="preserve">
+    <value>Delete user data. Are you sure?
+
+The following data will be deleted
+- Setting file
+- History file
+- Bookmark file
+- Pagemark file
+- Cache file</value>
+  </data>
+  <data name="DialogDeleteApplicationDataTitle" xml:space="preserve">
+    <value>Delete user data.</value>
+  </data>
+  <data name="DialogDeleteApplicationDataComplete" xml:space="preserve">
+    <value>User data deleted. Quit NeeView.</value>
+  </data>
+  <data name="DialogDeleteApplicationDataCompleteTitle" xml:space="preserve">
+    <value>It has been deleted.</value>
+  </data>
+  <data name="DialogDeleteApplicationDataErrorTitle" xml:space="preserve">
+    <value>It can not be deleted.</value>
+  </data>
+  <data name="DialogCopyImageErrorTitle" xml:space="preserve">
+    <value>Copy failed</value>
+  </data>
+  <data name="WordOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="WordYes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="WordNo" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="WordCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="WordDelete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="WordRetry" xml:space="preserve">
+    <value>Retry</value>
+  </data>
+  <data name="WordFolder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="WordFile" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="DialogFileDelete" xml:space="preserve">
+    <value>Do you want to move this {0} to Recycle Bin?</value>
+  </data>
+  <data name="DialogFileDeleteTitle" xml:space="preserve">
+    <value>Delete {0}</value>
+  </data>
+  <data name="DialogFileDeleteError" xml:space="preserve">
+    <value>Delete failed. Would you like to try again?</value>
+  </data>
+  <data name="DialogFileDeleteErrorTitle" xml:space="preserve">
+    <value>Delete failed. Would you like to retry?</value>
+  </data>
+  <data name="DialogFileRenameErrorTitle" xml:space="preserve">
+    <value>Can not rename</value>
+  </data>
+  <data name="DialogFileRenameInvalid" xml:space="preserve">
+    <value>The file name contains characters that can not be used.</value>
+  </data>
+  <data name="DialogFileRenameWrong" xml:space="preserve">
+    <value>The specified file name is invalid.</value>
+  </data>
+  <data name="DialogFileRenameWrongDevice" xml:space="preserve">
+    <value>The specified device name is invalid.</value>
+  </data>
+  <data name="DialogFileRenameExtensionTitle" xml:space="preserve">
+    <value>Change the extension</value>
+  </data>
+  <data name="DialogFileRenameExtension" xml:space="preserve">
+    <value>Changing the extension may make it impossible to use it.
+Is it OK? </value>
+  </data>
+  <data name="DialogFileRenameConfrictTitle" xml:space="preserve">
+    <value>A file with the same name exists</value>
+  </data>
+  <data name="DialogFileRenameConfrict" xml:space="preserve">
+    <value>{0} already exists.
+Would you like to rename it to {1}? </value>
+  </data>
+  <data name="DialogFileRenameFailedTitle" xml:space="preserve">
+    <value>Rename failed</value>
+  </data>
+  <data name="DialogFileRenameFailed" xml:space="preserve">
+    <value>Failed to change the name. Would you like to try again?</value>
+  </data>
+  <data name="WordRename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="DialogHistoryDeleteAll" xml:space="preserve">
+    <value>Delete all history. Is it OK?</value>
+  </data>
+  <data name="DialogHistoryDeleteAllTitle" xml:space="preserve">
+    <value>Delete history</value>
+  </data>
+  <data name="DialogOpenSettingFolderError" xml:space="preserve">
+    <value>The location of the setting file can not be opened with the store application</value>
+  </data>
+  <data name="DialogOpenSettingFolderErrorTitle" xml:space="preserve">
+    <value>This command can not be used</value>
+  </data>
+  <data name="DialogExportErrorTitle" xml:space="preserve">
+    <value>Export failed</value>
+  </data>
+  <data name="DialogImportErrorTitle" xml:space="preserve">
+    <value>Import failed</value>
+  </data>
+  <data name="DialogExportTitle" xml:space="preserve">
+    <value>Export all settings</value>
+  </data>
+  <data name="DialogImportTitle" xml:space="preserve">
+    <value>Import all settings</value>
+  </data>
+  <data name="WordImport" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="WordExport" xml:space="preserve">
+    <value>Export</value>
+  </data>
+  <data name="DialogImportSelectTitle" xml:space="preserve">
+    <value>Please select the item to be imported</value>
+  </data>
+  <data name="DialogDragActionLockedTitle" xml:space="preserve">
+    <value>This operation can not be changed</value>
+  </data>
+  <data name="DialogDragActionReset" xml:space="preserve">
+    <value>Initialize all drag operations. Is it OK?</value>
+  </data>
+  <data name="DialogDragActionResetTitle" xml:space="preserve">
+    <value>Initialize the drag operation</value>
+  </data>
+  <data name="DialogHistoryDeletedTitle" xml:space="preserve">
+    <value>Deleted history</value>
+  </data>
+  <data name="DialogCacheDeletedTitle" xml:space="preserve">
+    <value>Thumbnail cache deleted</value>
+  </data>
+  <data name="DialogHyperLinkFailedTitle" xml:space="preserve">
+    <value>Could not get link.</value>
+  </data>
+  <data name="DialogFileDeleteBookTitle" xml:space="preserve">
+    <value>Delete book</value>
+  </data>
+  <data name="DialogFileDeletePageTitle" xml:space="preserve">
+    <value>Delete page</value>
   </data>
 </root>

@@ -44,7 +44,7 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                new MessageDialog(ex.Message, "リンクが取得できませんでした。").ShowDialog();
+                new MessageDialog(ex.Message, Properties.Resources.DialogHyperLinkFailedTitle).ShowDialog();
             }
         }
     }

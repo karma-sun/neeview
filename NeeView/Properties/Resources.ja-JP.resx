@@ -117,45 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ParamIsMultiBootEnabled" xml:space="preserve">
-    <value>多重起動を許可する</value>
-  </data>
-  <data name="ParamLanguage" xml:space="preserve">
-    <value>言語</value>
-  </data>
-  <data name="ParamLanguageTips" xml:space="preserve">
-    <value>※次の起動から適用されます。</value>
-  </data>
-  <data name="SettingPageGeneral" xml:space="preserve">
-    <value>全般</value>
-  </data>
-  <data name="SettingPageGeneralBoot" xml:space="preserve">
-    <value>起動設定</value>
-  </data>
-  <data name="SettingPageGeneralDetail" xml:space="preserve">
-    <value>詳細設定</value>
-  </data>
-  <data name="SettingPageGeneralBootBoot" xml:space="preserve">
-    <value>起動設定</value>
-  </data>
-  <data name="SettingPageGeneralBootBootTips" xml:space="preserve">
-    <value>※この設定は、設定ウィンドウを閉じた後に反映されます。</value>
-  </data>
-  <data name="SettingPageGeneralBootBootDetail" xml:space="preserve">
-    <value>詳細設定</value>
-  </data>
-  <data name="SettingPageGeneralBootBootDetailTips" xml:space="preserve">
-    <value>※この設定は、設定ウィンドウを閉じた後に反映されます。</value>
-  </data>
-  <data name="SettingPageGeneralDetailDetail" xml:space="preserve">
-    <value>詳細設定</value>
-  </data>
-  <data name="ControlSwitchOn" xml:space="preserve">
-    <value>オン</value>
-  </data>
-  <data name="ControlSwitchOff" xml:space="preserve">
-    <value>オフ</value>
-  </data>
   <data name="CommandGroupFile" xml:space="preserve">
     <value>ファイル</value>
   </data>
@@ -168,44 +129,50 @@
   <data name="CommandLoadAsNote" xml:space="preserve">
     <value>圧縮ファイルか画像ファイルを選択して開きます。</value>
   </data>
-  <data name="ParamIsSaveFullScreen" xml:space="preserve">
-    <value>フルスクリーン状態を復元する</value>
+  <data name="ControlSwitchOff" xml:space="preserve">
+    <value>オフ</value>
   </data>
-  <data name="ParamIsSaveWindowPlacement" xml:space="preserve">
-    <value>ウィンドウ座標を復元する</value>
+  <data name="ControlSwitchOn" xml:space="preserve">
+    <value>オン</value>
   </data>
-  <data name="ParamIsNetworkEnabled" xml:space="preserve">
-    <value>ネットワークアスセス許可</value>
+  <data name="DialogBookmarkError" xml:space="preserve">
+    <value>一時フォルダーはブックマークできません</value>
   </data>
-  <data name="ParamIsNetworkEnabledTips" xml:space="preserve">
-    <value>このアプリでは、「このアプリについて」ダイアログからのバージョン更新確認とオンラインヘルプ等のWEBリンクのみにネットワークを使用します。</value>
+  <data name="DialogBookmarkErrorTitle" xml:space="preserve">
+    <value>ブックマークできません</value>
   </data>
-  <data name="ParamIsIgnoreImageDpi" xml:space="preserve">
-    <value>画像のドットバイドット表示</value>
+  <data name="DialogBootErrorTitle" xml:space="preserve">
+    <value>NeeView 起動エラー</value>
   </data>
-  <data name="ParamIsIgnoreImageDpiTips" xml:space="preserve">
-    <value>オリジナルサイズで表示する場合、DPIに依存せずにディスプレイのピクセルと一致させます。</value>
+  <data name="DialogBootOptionTitle" xml:space="preserve">
+    <value>NeeView 起動オプション</value>
   </data>
-  <data name="ParamIsRestoreSecondWindow" xml:space="preserve">
-    <value>2つめのウィンドウ座標の復元</value>
+  <data name="DialogConfirmRecursive" xml:space="preserve">
+    <value>"{0}" には読み込めるファイルがありません。サブフォルダーまたは圧縮ファイルも読み込みますか？</value>
   </data>
-  <data name="ParamIsRestoreSecondWindowTips" xml:space="preserve">
-    <value>重複起動した場合もウィンドウ座標を復元します。OFFにすると初期座標で表示されます。</value>
+  <data name="DialogConfirmRecursiveTitle" xml:space="preserve">
+    <value>サブフォルダーも読み込みますか？</value>
   </data>
-  <data name="ParamIsDisableSave" xml:space="preserve">
-    <value>履歴、ブックマーク、ページマークをファイル保存しない</value>
+  <data name="DialogCopyErrorTitle" xml:space="preserve">
+    <value>コピーに失敗しました</value>
   </data>
-  <data name="ParamIsDisableSaveTips" xml:space="preserve">
-    <value>ブック情報を一切保存しなくなります。</value>
+  <data name="DialogImageExportError" xml:space="preserve">
+    <value>この画像は出力できません。</value>
+  </data>
+  <data name="DialogImageExportErrorTitle" xml:space="preserve">
+    <value>ファイル保存に失敗しました</value>
+  </data>
+  <data name="DialogOpenApplicationErrorTitle" xml:space="preserve">
+    <value>外部アプリ実行に失敗しました</value>
+  </data>
+  <data name="DialogPagemarkError" xml:space="preserve">
+    <value>一時フォルダーはページマークできません</value>
+  </data>
+  <data name="DialogPagemarkErrorTitle" xml:space="preserve">
+    <value>ページマークできません</value>
   </data>
   <data name="ParamAutoHideDelayTime" xml:space="preserve">
     <value>パネルやメニューが自動的に消えるまでの時間(秒)</value>
-  </data>
-  <data name="ParamWindowChromeFrame" xml:space="preserve">
-    <value>タイトルバー非表示でのウィンドウ枠</value>
-  </data>
-  <data name="ParamIsOpenLastBook" xml:space="preserve">
-    <value>開いていたブックを復元する</value>
   </data>
   <data name="ParamDownloadPath" xml:space="preserve">
     <value>ダウンロードフォルダ</value>
@@ -213,10 +180,304 @@
   <data name="ParamDownloadPathTips" xml:space="preserve">
     <value>ブラウザ等がらドロップした画像の保存場所です。指定がない場合は一時フォルダーが使用されます。</value>
   </data>
+  <data name="ParamHistoryEntryPageCount" xml:space="preserve">
+    <value>履歴登録開始ページ操作回数</value>
+  </data>
+  <data name="ParamHistoryEntryPageCountTips" xml:space="preserve">
+    <value>この回数以上のページ移動操作、もしくは最終ページ表示で履歴に登録します。</value>
+  </data>
+  <data name="ParamIsArchiveRecursive" xml:space="preserve">
+    <value>多重圧縮ファイルをすべて展開する</value>
+  </data>
+  <data name="ParamIsArchiveRecursiveTips" xml:space="preserve">
+    <value>OFFにすると含まれる圧縮ファイルはサブフォルダー扱いになります。</value>
+  </data>
+  <data name="ParamIsAutoPlaySlideShow" xml:space="preserve">
+    <value>スライドショーの再生を開始する</value>
+  </data>
+  <data name="ParamIsAutoRecursive" xml:space="preserve">
+    <value>ページがなくサブフォルダーが１つだけ存在する場合にサブフォルダーを読み込む</value>
+  </data>
+  <data name="ParamIsAutoRecursiveWithAllFiles" xml:space="preserve">
+    <value>ページ外ファイルも含めて判定する</value>
+  </data>
+  <data name="ParamIsAutoRecursiveWithAllFilesTips" xml:space="preserve">
+    <value>ページとなるファイル以外が存在する場合は自動判定を行いません</value>
+  </data>
+  <data name="ParamIsCancelSlideByMouseMove" xml:space="preserve">
+    <value>マウス移動で表示間隔リセット</value>
+  </data>
+  <data name="ParamIsCancelSlideByMouseMoveTips" xml:space="preserve">
+    <value>OFFにするとクリック等明確なアクションでのみリセットされます。</value>
+  </data>
+  <data name="ParamIsConfirmRecursive" xml:space="preserve">
+    <value>ページがない場合、サブフォルダーも読み込むか問い合わせる</value>
+  </data>
+  <data name="ParamIsConfirmRecursiveTips" xml:space="preserve">
+    <value>ブックを開いた時に表示可能なページがなく、かつサブフォルダーが存在する場合にサブフォルダーも読み込むかを問い合わせるダイアログを表示します。</value>
+  </data>
+  <data name="ParamIsDisableSave" xml:space="preserve">
+    <value>履歴、ブックマーク、ページマークをファイル保存しない</value>
+  </data>
+  <data name="ParamIsDisableSaveTips" xml:space="preserve">
+    <value>ブック情報を一切保存しなくなります。</value>
+  </data>
+  <data name="ParamIsIgnoreImageDpi" xml:space="preserve">
+    <value>画像のドットバイドット表示</value>
+  </data>
+  <data name="ParamIsIgnoreImageDpiTips" xml:space="preserve">
+    <value>オリジナルサイズで表示する場合、DPIに依存せずにディスプレイのピクセルと一致させます。</value>
+  </data>
+  <data name="ParamIsInnerArchiveHistoryEnabled" xml:space="preserve">
+    <value>多重圧縮ファイルを履歴に保存する</value>
+  </data>
+  <data name="ParamIsMultiBootEnabled" xml:space="preserve">
+    <value>多重起動を許可する</value>
+  </data>
+  <data name="ParamIsNetworkEnabled" xml:space="preserve">
+    <value>ネットワークアスセス許可</value>
+  </data>
+  <data name="ParamIsNetworkEnabledTips" xml:space="preserve">
+    <value>このアプリでは、「このアプリについて」ダイアログからのバージョン更新確認とオンラインヘルプ等のWEBリンクのみにネットワークを使用します。</value>
+  </data>
+  <data name="ParamIsOpenLastBook" xml:space="preserve">
+    <value>開いていたブックを復元する</value>
+  </data>
+  <data name="ParamIsRestoreSecondWindow" xml:space="preserve">
+    <value>2つめのウィンドウ座標の復元</value>
+  </data>
+  <data name="ParamIsRestoreSecondWindowTips" xml:space="preserve">
+    <value>重複起動した場合もウィンドウ座標を復元します。OFFにすると初期座標で表示されます。</value>
+  </data>
+  <data name="ParamIsSaveFullScreen" xml:space="preserve">
+    <value>フルスクリーン状態を復元する</value>
+  </data>
+  <data name="ParamIsSaveWindowPlacement" xml:space="preserve">
+    <value>ウィンドウ座標を復元する</value>
+  </data>
   <data name="ParamIsSettingBackup" xml:space="preserve">
     <value>ユーザー設定ファイルのバックアップを作る</value>
   </data>
   <data name="ParamIsSettingBackupTips" xml:space="preserve">
     <value>設定ファイルのバックアップを作成し、もし通常の設定ファイルが読み込めない場合に代わりに読み込みます。ファイル名は UserSetting.xaml.old です。更新タイミングは、設定ウィンドウを閉じた時と、アプリを終了した時です。</value>
+  </data>
+  <data name="ParamIsSlideShowByLoop" xml:space="preserve">
+    <value>ループ再生</value>
+  </data>
+  <data name="ParamIsSlideShowByLoopTips" xml:space="preserve">
+    <value>最終ページまで再生したら先頭ページに戻ります。</value>
+  </data>
+  <data name="ParamIsUncHistoryEnabled" xml:space="preserve">
+    <value>UNCパスを履歴に保存する</value>
+  </data>
+  <data name="ParamIsUncHistoryEnabledTips" xml:space="preserve">
+    <value>\\コンピューター名\~ のようなネットワーク上のパスを履歴に保存します。</value>
+  </data>
+  <data name="ParamLanguage" xml:space="preserve">
+    <value>言語</value>
+  </data>
+  <data name="ParamLanguageTips" xml:space="preserve">
+    <value>※次の起動から適用されます。</value>
+  </data>
+  <data name="ParamSlideShowInterval" xml:space="preserve">
+    <value>スライドを切り替える時間(秒)</value>
+  </data>
+  <data name="ParamWindowChromeFrame" xml:space="preserve">
+    <value>タイトルバー非表示でのウィンドウ枠</value>
+  </data>
+  <data name="SettingItemRemove" xml:space="preserve">
+    <value>全てのデータを削除する</value>
+  </data>
+  <data name="SettingItemRemoveTips" xml:space="preserve">
+    <value>ユーザーデータを削除してアプリケーションを終了します。アンインストール前に履歴等を完全に削除したい場合に使用します。</value>
+  </data>
+  <data name="SettingPageGeneral" xml:space="preserve">
+    <value>全般</value>
+  </data>
+  <data name="SettingPageGeneralBoot" xml:space="preserve">
+    <value>起動設定</value>
+  </data>
+  <data name="SettingPageGeneralBootBoot" xml:space="preserve">
+    <value>起動設定</value>
+  </data>
+  <data name="SettingPageGeneralBootBootDetail" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
+  <data name="SettingPageGeneralBootBootDetailTips" xml:space="preserve">
+    <value>※この設定は、設定ウィンドウを閉じた後に反映されます。</value>
+  </data>
+  <data name="SettingPageGeneralBootBootTips" xml:space="preserve">
+    <value>※この設定は、設定ウィンドウを閉じた後に反映されます。</value>
+  </data>
+  <data name="SettingPageGeneralDetail" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
+  <data name="SettingPageGeneralDetailDetail" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
+  <data name="SettingPageGeneralRemove" xml:space="preserve">
+    <value>データの削除</value>
+  </data>
+  <data name="SettingPageGeneralRemoveRemove" xml:space="preserve">
+    <value>ユーザーデータ削除</value>
+  </data>
+  <data name="WordCause" xml:space="preserve">
+    <value>原因</value>
+  </data>
+  <data name="WordCommand" xml:space="preserve">
+    <value>コマンド</value>
+  </data>
+  <data name="DialogDeleteApplicationData" xml:space="preserve">
+    <value>ユーザーデータを削除します。よろしいですか？
+
+以下のデータが削除されます
+- 設定ファイル
+- 履歴ファイル
+- ブックマークファイル
+- ページマークファイル
+- キャッシュファイル</value>
+  </data>
+  <data name="DialogDeleteApplicationDataTitle" xml:space="preserve">
+    <value>ユーザーデータを削除します。</value>
+  </data>
+  <data name="DialogDeleteApplicationDataComplete" xml:space="preserve">
+    <value>ユーザーデータを削除しました。NeeViewを終了します。</value>
+  </data>
+  <data name="DialogDeleteApplicationDataCompleteTitle" xml:space="preserve">
+    <value>削除しました。</value>
+  </data>
+  <data name="DialogDeleteApplicationDataErrorTitle" xml:space="preserve">
+    <value>削除できません。</value>
+  </data>
+  <data name="DialogCopyImageErrorTitle" xml:space="preserve">
+    <value>コピーに失敗しました</value>
+  </data>
+  <data name="WordOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="WordYes" xml:space="preserve">
+    <value>はい</value>
+  </data>
+  <data name="WordNo" xml:space="preserve">
+    <value>いいえ</value>
+  </data>
+  <data name="WordCancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="WordDelete" xml:space="preserve">
+    <value>削除する</value>
+  </data>
+  <data name="WordRetry" xml:space="preserve">
+    <value>リトライ</value>
+  </data>
+  <data name="WordFolder" xml:space="preserve">
+    <value>フォルダー</value>
+  </data>
+  <data name="WordFile" xml:space="preserve">
+    <value>ファイル</value>
+  </data>
+  <data name="DialogFileDelete" xml:space="preserve">
+    <value>この{0}をごみ箱に移動しますか？</value>
+  </data>
+  <data name="DialogFileDeleteTitle" xml:space="preserve">
+    <value>{0}を削除します</value>
+  </data>
+  <data name="DialogFileDeleteError" xml:space="preserve">
+    <value>削除できませんでした。もう一度実行しますか？</value>
+  </data>
+  <data name="DialogFileDeleteErrorTitle" xml:space="preserve">
+    <value>削除できませんでした。リトライしますか？</value>
+  </data>
+  <data name="DialogFileRenameErrorTitle" xml:space="preserve">
+    <value>名前を変更できません</value>
+  </data>
+  <data name="DialogFileRenameInvalid" xml:space="preserve">
+    <value>ファイル名に使用できない文字が含まれています。</value>
+  </data>
+  <data name="DialogFileRenameWrong" xml:space="preserve">
+    <value>指定されたファイル名は無効です。</value>
+  </data>
+  <data name="DialogFileRenameWrongDevice" xml:space="preserve">
+    <value>指定されたデバイス名は無効です。</value>
+  </data>
+  <data name="DialogFileRenameExtensionTitle" xml:space="preserve">
+    <value>拡張子を変更します</value>
+  </data>
+  <data name="DialogFileRenameExtension" xml:space="preserve">
+    <value>拡張子を変更すると、使えなくなる可能性があります。
+よろしいですか？</value>
+  </data>
+  <data name="DialogFileRenameConfrictTitle" xml:space="preserve">
+    <value>同じ名前のファイルが存在しています</value>
+  </data>
+  <data name="DialogFileRenameConfrict" xml:space="preserve">
+    <value>{0} は既に存在しています。
+{1} に名前を変更しますか？</value>
+  </data>
+  <data name="DialogFileRenameFailedTitle" xml:space="preserve">
+    <value>名前を変更できませんでした</value>
+  </data>
+  <data name="DialogFileRenameFailed" xml:space="preserve">
+    <value>名前の変更に失敗しました。もう一度実行しますか？</value>
+  </data>
+  <data name="WordRename" xml:space="preserve">
+    <value>名前を変える</value>
+  </data>
+  <data name="DialogHistoryDeleteAll" xml:space="preserve">
+    <value>すべての履歴を削除します。よろしいですか？</value>
+  </data>
+  <data name="DialogHistoryDeleteAllTitle" xml:space="preserve">
+    <value>履歴を削除します</value>
+  </data>
+  <data name="DialogOpenSettingFolderError" xml:space="preserve">
+    <value>ストアアプリでは設定ファイルの場所を開くことができません</value>
+  </data>
+  <data name="DialogOpenSettingFolderErrorTitle" xml:space="preserve">
+    <value>このコマンドは使用できません</value>
+  </data>
+  <data name="DialogExportErrorTitle" xml:space="preserve">
+    <value>エクスポートに失敗しました</value>
+  </data>
+  <data name="DialogImportErrorTitle" xml:space="preserve">
+    <value>インポートに失敗しました</value>
+  </data>
+  <data name="DialogExportTitle" xml:space="preserve">
+    <value>全設定をエクスポート</value>
+  </data>
+  <data name="DialogImportTitle" xml:space="preserve">
+    <value>全設定をインポート</value>
+  </data>
+  <data name="WordImport" xml:space="preserve">
+    <value>インポート</value>
+  </data>
+  <data name="WordExport" xml:space="preserve">
+    <value>エクスポート</value>
+  </data>
+  <data name="DialogImportSelectTitle" xml:space="preserve">
+    <value>インポートする項目を選択してください</value>
+  </data>
+  <data name="DialogDragActionLockedTitle" xml:space="preserve">
+    <value>この操作は変更できません</value>
+  </data>
+  <data name="DialogDragActionReset" xml:space="preserve">
+    <value>すべてのドラッグ操作を初期化します。よろしいですか？</value>
+  </data>
+  <data name="DialogDragActionResetTitle" xml:space="preserve">
+    <value>ドラッグ操作を初期化します</value>
+  </data>
+  <data name="DialogHistoryDeletedTitle" xml:space="preserve">
+    <value>履歴を削除しました</value>
+  </data>
+  <data name="DialogCacheDeletedTitle" xml:space="preserve">
+    <value>サムネイルキャッシュを削除しました</value>
+  </data>
+  <data name="DialogHyperLinkFailedTitle" xml:space="preserve">
+    <value>リンクが取得できませんでした。</value>
+  </data>
+  <data name="DialogFileDeleteBookTitle" xml:space="preserve">
+    <value>ブックを削除します</value>
+  </data>
+  <data name="DialogFileDeletePageTitle" xml:space="preserve">
+    <value>ページを削除します</value>
   </data>
 </root>

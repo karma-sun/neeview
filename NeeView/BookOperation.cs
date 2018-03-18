@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Properties;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
@@ -277,7 +278,7 @@ namespace NeeView
         {
             if (CanDeleteBook())
             {
-                await FileIO.Current.RemoveAsync(Book.Place, "ブックを削除します");
+                await FileIO.Current.RemoveAsync(Book.Place, Resources.DialogFileDeleteBookTitle);
             }
         }
 
@@ -320,11 +321,11 @@ namespace NeeView
                     var message = "";
                     if (this.ExternalApplication.LastCall != null)
                     {
-                        message += $"コマンド: {this.ExternalApplication.LastCall}\n";
+                        message += $"{Resources.WordCommand}: {this.ExternalApplication.LastCall}\n";
                     }
-                    message += $"原因: {e.Message}";
+                    message += $"{Resources.WordCause}: {e.Message}";
 
-                    new MessageDialog(message, "外部アプリ実行に失敗しました").ShowDialog();
+                    new MessageDialog(message, Resources.DialogOpenApplicationErrorTitle).ShowDialog();
                 }
             }
         }
@@ -341,7 +342,7 @@ namespace NeeView
                 }
                 catch (Exception e)
                 {
-                    new MessageDialog($"原因: {e.Message}", "コピーに失敗しました").ShowDialog();
+                    new MessageDialog($"{Resources.WordCause}: {e.Message}", Resources.DialogCopyErrorTitle).ShowDialog();
                 }
             }
         }
@@ -385,13 +386,13 @@ namespace NeeView
                         }
                         catch (Exception e)
                         {
-                            new MessageDialog($"原因: {e.Message}", "ファイル保存に失敗しました").ShowDialog();
+                            new MessageDialog($"{Resources.WordCause}: {e.Message}", Resources.DialogExportErrorTitle).ShowDialog();
                         }
                     }
                 }
                 catch (Exception e)
                 {
-                    new MessageDialog($"この画像は出力できません。\n原因: {e.Message}", "ファイル保存に失敗しました").ShowDialog();
+                    new MessageDialog($"{Resources.DialogImageExportError}\n{Resources.WordCause}: {e.Message}", Resources.DialogImageExportErrorTitle).ShowDialog();
                     return;
                 }
             }
@@ -651,7 +652,7 @@ namespace NeeView
             {
                 if (BookUnit.Book.Place.StartsWith(Temporary.TempDirectory))
                 {
-                    new MessageDialog($"原因: 一時フォルダーはブックマークできません", "ブックマークできません").ShowDialog();
+                    new MessageDialog($"{Resources.WordCause}: {Resources.DialogBookmarkError}", Resources.DialogBookmarkErrorTitle).ShowDialog();
                 }
                 else
                 {
@@ -709,7 +710,7 @@ namespace NeeView
 
             if (Current.Book.Place.StartsWith(Temporary.TempDirectory))
             {
-                new MessageDialog($"原因: 一時フォルダーはページマークできません", "ページマークできません").ShowDialog();
+                new MessageDialog($"{Resources.WordCause}: {Resources.DialogPagemarkError}", Resources.DialogPagemarkErrorTitle).ShowDialog();
             }
 
             // マーク登録/解除

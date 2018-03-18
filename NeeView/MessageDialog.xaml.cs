@@ -35,12 +35,12 @@ namespace NeeView
     /// </summary>
     public static class UICommands
     {
-        public static UICommand OK { get; } = new UICommand("OK");
-        public static UICommand Yes { get; } = new UICommand("はい");
-        public static UICommand No { get; } = new UICommand("いいえ");
-        public static UICommand Cancel { get; } = new UICommand("キャンセル");
-        public static UICommand Remove { get; } = new UICommand("削除する");
-        public static UICommand Retry { get; } = new UICommand("リトライ");
+        public static UICommand OK { get; } = new UICommand(Properties.Resources.WordOK);
+        public static UICommand Yes { get; } = new UICommand(Properties.Resources.WordYes);
+        public static UICommand No { get; } = new UICommand(Properties.Resources.WordNo);
+        public static UICommand Cancel { get; } = new UICommand(Properties.Resources.WordCancel);
+        public static UICommand Delete { get; } = new UICommand(Properties.Resources.WordDelete);
+        public static UICommand Retry { get; } = new UICommand(Properties.Resources.WordRetry);
 
         // dialog.Commands.AddRange(...) のような使用を想定したセット
         public static List<UICommand> YesNo = new List<UICommand>() { Yes, No };

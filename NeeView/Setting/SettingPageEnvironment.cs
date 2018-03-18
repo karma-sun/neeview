@@ -19,9 +19,16 @@ namespace NeeView.Setting
                 new SettingPageEnvironmentDetail(),
             };
 
+
             if (Config.Current.IsUseLocalApplicationDataFolder && !Config.Current.IsAppxPackage)
             {
                 this.Children.Add(new SettingPageEnvironmentRemove());
+            }
+            else
+            {
+#if DEBUG
+                this.Children.Add(new SettingPageEnvironmentRemove());
+#endif
             }
         }
     }
@@ -70,14 +77,14 @@ namespace NeeView.Setting
 
     public class SettingPageEnvironmentRemove : SettingPage
     {
-        public SettingPageEnvironmentRemove() : base("データの削除")
+        public SettingPageEnvironmentRemove() : base(Properties.Resources.SettingPageGeneralRemove)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("ユーザーデータ削除",
-                    new SettingItemButton("全てのユーザーデータを削除する", RemoveAllData) { IsContentOnly = true })
+                new SettingItemSection(Properties.Resources.SettingPageGeneralRemoveRemove,
+                    new SettingItemButton(Properties.Resources.SettingItemRemove, RemoveAllData) { IsContentOnly = true })
                 {
-                    Tips = "ユーザーデータを削除してアプリケーションを終了します。アンインストール前に履歴等を完全に削除したい場合に使用します。",
+                    Tips = Properties.Resources.SettingItemRemoveTips,
                 },
             };
         }

@@ -67,7 +67,7 @@ namespace NeeView
         /// <summary>
         /// スライドショーの表示間隔(秒)
         /// </summary>
-        [PropertyMember("スライドを切り替える時間(秒)")]
+        [PropertyMember("@ParamSlideShowInterval")]
         public double SlideShowInterval
         {
             get { return _SlideShowInterval; }
@@ -80,7 +80,7 @@ namespace NeeView
         /// <summary>
         /// カーソルでスライドを止める.
         /// </summary>
-        [PropertyMember("マウス移動で表示間隔リセット", Tips = "OFFにするとクリック等明確なアクションでのみリセットされます。")]
+        [PropertyMember("@ParamIsCancelSlideByMouseMove", Tips = "@ParamIsCancelSlideByMouseMoveTips")]
         public bool IsCancelSlideByMouseMove
         {
             get { return _IsCancelSlideByMouseMove; }
@@ -93,7 +93,7 @@ namespace NeeView
         /// <summary>
         /// ループ再生フラグ
         /// </summary>
-        [PropertyMember("ループ再生", Tips = "最終ページまで再生したら先頭ページに戻ります。")]
+        [PropertyMember("@ParamIsSlideShowByLoop", Tips = "@ParamIsSlideShowByLoopTips")]
         public bool IsSlideShowByLoop
         {
             get { return _IsSlideShowByLoop; }
@@ -106,7 +106,7 @@ namespace NeeView
         /// <summary>
         /// 起動時の自動開始
         /// </summary>
-        [PropertyMember("スライドショーの再生を開始する")]
+        [PropertyMember("@ParamIsAutoPlaySlideShow")]
         public bool IsAutoPlaySlideShow { get; set; }
 
 

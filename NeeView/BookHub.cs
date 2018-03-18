@@ -282,13 +282,13 @@ namespace NeeView
 
 
         // 再帰を確認する
-        [PropertyMember("ページがない場合、サブフォルダーも読み込むか問い合わせる", Tips = "ブックを開いた時に表示可能なページがなく、かつサブフォルダーが存在する場合にサブフォルダーも読み込むかを問い合わせるダイアログを表示します。")]
+        [PropertyMember("@ParamIsConfirmRecursive", Tips = "@ParamIsConfirmRecursiveTips")]
         public bool IsConfirmRecursive { get; set; }
 
 
         // 自動再帰
         private bool _isAutoRecursive = true;
-        [PropertyMember("ページがなくサブフォルダーが１つだけ存在する場合にサブフォルダーを読み込む")]
+        [PropertyMember("@ParamIsAutoRecursive")]
         public bool IsAutoRecursive
         {
             get { return _isAutoRecursive; }
@@ -304,7 +304,7 @@ namespace NeeView
         /// IsAutoRecursiveWithAllFiles property.
         /// </summary>
         private bool _isAutoRecursiveWithAllFiles = true;
-        [PropertyMember("ページ外ファイルも含めて判定する", Tips = "ページとなるファイル以外が存在する場合は自動判定を行いません。")]
+        [PropertyMember("@ParamIsAutoRecursiveWithAllFiles", Tips = "@ParamIsAutoRecursiveWithAllFilesTips")]
         public bool IsAutoRecursiveWithAllFiles
         {
             get { return _isAutoRecursiveWithAllFiles; }
@@ -319,7 +319,7 @@ namespace NeeView
         /// アーカイブの自動再帰展開
         /// </summary>
         private bool _isArchiveRecursive = true;
-        [PropertyMember("多重圧縮ファイルをすべて展開する", Tips = "OFFにすると含まれる圧縮ファイルはサブフォルダー扱いになります。")]
+        [PropertyMember("@ParamIsArchiveRecursive", Tips = "@ParamIsArchiveRecursiveTips")]
         public bool IsArchiveRecursive
         {
             get { return _isArchiveRecursive; }
@@ -329,13 +329,13 @@ namespace NeeView
         /// <summary>
         /// アーカイブ内アーカイブの履歴保存
         /// </summary>
-        [PropertyMember("多重圧縮ファイルを履歴に保存する")]
+        [PropertyMember("@ParamIsInnerArchiveHistoryEnabled")]
         public bool IsInnerArchiveHistoryEnabled { get; set; }
 
         /// <summary>
         /// UNCパスの履歴保存
         /// </summary>
-        [PropertyMember("UNCパスを履歴に保存する", Tips = "\\\\コンピューター名\\~ のようなネットワーク上のパスを履歴に保存します。")]
+        [PropertyMember("@ParamIsUncHistoryEnabled", Tips = "@ParamIsUncHistoryEnabledTips")]
         public bool IsUncHistoryEnabled { get; set; }
 
         /// <summary>
@@ -661,7 +661,7 @@ namespace NeeView
         // 再帰読み込み確認
         private void ConfirmRecursive()
         {
-            var dialog = new MessageDialog($"\"{Book.Place}\" には読み込めるファイルがありません。サブフォルダーまたは圧縮ファイルも読み込みますか？", "サブフォルダーも読み込みますか？");
+            var dialog = new MessageDialog(string.Format(Properties.Resources.DialogConfirmRecursive, Book.Place), Properties.Resources.DialogConfirmRecursiveTitle);
             dialog.Commands.Add(UICommands.Yes);
             dialog.Commands.Add(UICommands.No);
             var result = dialog.ShowDialog();
@@ -783,7 +783,7 @@ namespace NeeView
 
         //
         private bool _historyEntry;
-        [PropertyMember("履歴登録開始ページ操作回数", Tips = "この回数以上のページ移動操作、もしくは最終ページ表示で履歴に登録します。")]
+        [PropertyMember("@ParamHistoryEntryPageCount", Tips = "@ParamHistoryEntryPageCountTips")]
         public int HistoryEntryPageCount { get; set; } = 1;
 
         // 履歴登録可

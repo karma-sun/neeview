@@ -86,7 +86,7 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                new MessageDialog(ex.Message, "NeeView 起動エラー").ShowDialog();
+                new MessageDialog(ex.Message, Properties.Resources.DialogBootErrorTitle).ShowDialog();
                 throw;
             }
 
@@ -122,13 +122,13 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                new MessageDialog(ex.Message, "NeeView 起動エラー").ShowDialog();
+                new MessageDialog(ex.Message, NeeView.Properties.Resources.DialogBootErrorTitle).ShowDialog();
                 throw;
             }
 
             if (option.IsHelp)
             {
-                new MessageDialog(GetCommandLineHelp(optionMap), "NeeView 起動オプション").ShowDialog();
+                new MessageDialog(GetCommandLineHelp(optionMap), NeeView.Properties.Resources.DialogBootOptionTitle).ShowDialog();
                 throw new ApplicationException("Disp CommandLine Help");
             }
 

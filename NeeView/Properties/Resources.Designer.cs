@@ -115,6 +115,456 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Temporary folders can not be bookmarked に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogBookmarkError {
+            get {
+                return ResourceManager.GetString("DialogBookmarkError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Can not bookmark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogBookmarkErrorTitle {
+            get {
+                return ResourceManager.GetString("DialogBookmarkErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   NeeView Startup error に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogBootErrorTitle {
+            get {
+                return ResourceManager.GetString("DialogBootErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   NeeView Startup options に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogBootOptionTitle {
+            get {
+                return ResourceManager.GetString("DialogBootOptionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Thumbnail cache deleted に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogCacheDeletedTitle {
+            get {
+                return ResourceManager.GetString("DialogCacheDeletedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   There is no file that can be read in &quot;{0}&quot;. Do you also load subfolders or compressed files? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogConfirmRecursive {
+            get {
+                return ResourceManager.GetString("DialogConfirmRecursive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Do you also read subfolders? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogConfirmRecursiveTitle {
+            get {
+                return ResourceManager.GetString("DialogConfirmRecursiveTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Copy failed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogCopyErrorTitle {
+            get {
+                return ResourceManager.GetString("DialogCopyErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Copy failed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogCopyImageErrorTitle {
+            get {
+                return ResourceManager.GetString("DialogCopyImageErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete user data. Are you sure?
+        ///
+        ///The following data will be deleted
+        ///- Setting file
+        ///- History file
+        ///- Bookmark file
+        ///- Pagemark file
+        ///- Cache file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogDeleteApplicationData {
+            get {
+                return ResourceManager.GetString("DialogDeleteApplicationData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   User data deleted. Quit NeeView. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogDeleteApplicationDataComplete {
+            get {
+                return ResourceManager.GetString("DialogDeleteApplicationDataComplete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   It has been deleted. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogDeleteApplicationDataCompleteTitle {
+            get {
+                return ResourceManager.GetString("DialogDeleteApplicationDataCompleteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   It can not be deleted. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogDeleteApplicationDataErrorTitle {
+            get {
+                return ResourceManager.GetString("DialogDeleteApplicationDataErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete user data. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogDeleteApplicationDataTitle {
+            get {
+                return ResourceManager.GetString("DialogDeleteApplicationDataTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   This operation can not be changed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogDragActionLockedTitle {
+            get {
+                return ResourceManager.GetString("DialogDragActionLockedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Initialize all drag operations. Is it OK? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogDragActionReset {
+            get {
+                return ResourceManager.GetString("DialogDragActionReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Initialize the drag operation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogDragActionResetTitle {
+            get {
+                return ResourceManager.GetString("DialogDragActionResetTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Export failed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogExportErrorTitle {
+            get {
+                return ResourceManager.GetString("DialogExportErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Export all settings に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogExportTitle {
+            get {
+                return ResourceManager.GetString("DialogExportTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Do you want to move this {0} to Recycle Bin? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogFileDelete {
+            get {
+                return ResourceManager.GetString("DialogFileDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogFileDeleteBookTitle {
+            get {
+                return ResourceManager.GetString("DialogFileDeleteBookTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete failed. Would you like to try again? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogFileDeleteError {
+            get {
+                return ResourceManager.GetString("DialogFileDeleteError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete failed. Would you like to retry? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogFileDeleteErrorTitle {
+            get {
+                return ResourceManager.GetString("DialogFileDeleteErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogFileDeletePageTitle {
+            get {
+                return ResourceManager.GetString("DialogFileDeletePageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogFileDeleteTitle {
+            get {
+                return ResourceManager.GetString("DialogFileDeleteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   {0} already exists.
+        ///Would you like to rename it to {1}?  に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogFileRenameConfrict {
+            get {
+                return ResourceManager.GetString("DialogFileRenameConfrict", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   A file with the same name exists に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogFileRenameConfrictTitle {
+            get {
+                return ResourceManager.GetString("DialogFileRenameConfrictTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Can not rename に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogFileRenameErrorTitle {
+            get {
+                return ResourceManager.GetString("DialogFileRenameErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Changing the extension may make it impossible to use it.
+        ///Is it OK?  に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogFileRenameExtension {
+            get {
+                return ResourceManager.GetString("DialogFileRenameExtension", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Change the extension に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogFileRenameExtensionTitle {
+            get {
+                return ResourceManager.GetString("DialogFileRenameExtensionTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Failed to change the name. Would you like to try again? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogFileRenameFailed {
+            get {
+                return ResourceManager.GetString("DialogFileRenameFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Rename failed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogFileRenameFailedTitle {
+            get {
+                return ResourceManager.GetString("DialogFileRenameFailedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The file name contains characters that can not be used. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogFileRenameInvalid {
+            get {
+                return ResourceManager.GetString("DialogFileRenameInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The specified file name is invalid. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogFileRenameWrong {
+            get {
+                return ResourceManager.GetString("DialogFileRenameWrong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The specified device name is invalid. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogFileRenameWrongDevice {
+            get {
+                return ResourceManager.GetString("DialogFileRenameWrongDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete all history. Is it OK? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogHistoryDeleteAll {
+            get {
+                return ResourceManager.GetString("DialogHistoryDeleteAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete history に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogHistoryDeleteAllTitle {
+            get {
+                return ResourceManager.GetString("DialogHistoryDeleteAllTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Deleted history に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogHistoryDeletedTitle {
+            get {
+                return ResourceManager.GetString("DialogHistoryDeletedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Could not get link. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogHyperLinkFailedTitle {
+            get {
+                return ResourceManager.GetString("DialogHyperLinkFailedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   This image can not be output. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogImageExportError {
+            get {
+                return ResourceManager.GetString("DialogImageExportError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   File save failed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogImageExportErrorTitle {
+            get {
+                return ResourceManager.GetString("DialogImageExportErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Import failed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogImportErrorTitle {
+            get {
+                return ResourceManager.GetString("DialogImportErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Please select the item to be imported に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogImportSelectTitle {
+            get {
+                return ResourceManager.GetString("DialogImportSelectTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Import all settings に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogImportTitle {
+            get {
+                return ResourceManager.GetString("DialogImportTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   External application execution failed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogOpenApplicationErrorTitle {
+            get {
+                return ResourceManager.GetString("DialogOpenApplicationErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The location of the setting file can not be opened with the store application に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogOpenSettingFolderError {
+            get {
+                return ResourceManager.GetString("DialogOpenSettingFolderError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   This command can not be used に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogOpenSettingFolderErrorTitle {
+            get {
+                return ResourceManager.GetString("DialogOpenSettingFolderErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Temporary folders can not be pagemarked に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogPagemarkError {
+            get {
+                return ResourceManager.GetString("DialogPagemarkError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Can not pagemark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogPagemarkErrorTitle {
+            get {
+                return ResourceManager.GetString("DialogPagemarkErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   English に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumLanguageEnglish {
@@ -160,6 +610,114 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Number of page operations to start history registration に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamHistoryEntryPageCount {
+            get {
+                return ResourceManager.GetString("ParamHistoryEntryPageCount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Register in history with page movement operation more than this count or last page display. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamHistoryEntryPageCountTips {
+            get {
+                return ResourceManager.GetString("ParamHistoryEntryPageCountTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Expand all recursive compressed files に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsArchiveRecursive {
+            get {
+                return ResourceManager.GetString("ParamIsArchiveRecursive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   If it is set to OFF, the included compressed file will be handled as subfolder. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsArchiveRecursiveTips {
+            get {
+                return ResourceManager.GetString("ParamIsArchiveRecursiveTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Start playing slideshow に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsAutoPlaySlideShow {
+            get {
+                return ResourceManager.GetString("ParamIsAutoPlaySlideShow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Load a subfolder if there is no page and only one subfolder exists に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsAutoRecursive {
+            get {
+                return ResourceManager.GetString("ParamIsAutoRecursive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Determine including out-of-page files に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsAutoRecursiveWithAllFiles {
+            get {
+                return ResourceManager.GetString("ParamIsAutoRecursiveWithAllFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Automatic judgment will not be performed if there are files other than files to become pages に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsAutoRecursiveWithAllFilesTips {
+            get {
+                return ResourceManager.GetString("ParamIsAutoRecursiveWithAllFilesTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reset display interval with mouse move に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsCancelSlideByMouseMove {
+            get {
+                return ResourceManager.GetString("ParamIsCancelSlideByMouseMove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   When set to OFF, it will only be reset by clear action such as clicking. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsCancelSlideByMouseMoveTips {
+            get {
+                return ResourceManager.GetString("ParamIsCancelSlideByMouseMoveTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   If there is no page, inquire whether to read the subfolder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsConfirmRecursive {
+            get {
+                return ResourceManager.GetString("ParamIsConfirmRecursive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   If there is no page that can be displayed when the book is opened, and a subfolder exists, a dialog is displayed asking whether to load the subfolder. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsConfirmRecursiveTips {
+            get {
+                return ResourceManager.GetString("ParamIsConfirmRecursiveTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Do not save history, bookmarks, pagemarks に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsDisableSave {
@@ -192,6 +750,15 @@ namespace NeeView.Properties {
         public static string ParamIsIgnoreImageDpiTips {
             get {
                 return ResourceManager.GetString("ParamIsIgnoreImageDpiTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save recursive compressed file in history に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsInnerArchiveHistoryEnabled {
+            get {
+                return ResourceManager.GetString("ParamIsInnerArchiveHistoryEnabled", resourceCulture);
             }
         }
         
@@ -286,6 +853,42 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Loop play に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsSlideShowByLoop {
+            get {
+                return ResourceManager.GetString("ParamIsSlideShowByLoop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   After playing to the last page, it will return to the first page. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsSlideShowByLoopTips {
+            get {
+                return ResourceManager.GetString("ParamIsSlideShowByLoopTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save UNC path in history に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsUncHistoryEnabled {
+            get {
+                return ResourceManager.GetString("ParamIsUncHistoryEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save the path on the network like &quot;\\computer\~&quot; in the history. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsUncHistoryEnabledTips {
+            get {
+                return ResourceManager.GetString("ParamIsUncHistoryEnabledTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Language に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamLanguage {
@@ -304,11 +907,38 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Display interval (sec) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamSlideShowInterval {
+            get {
+                return ResourceManager.GetString("ParamSlideShowInterval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Window frame with title bar hidden に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamWindowChromeFrame {
             get {
                 return ResourceManager.GetString("ParamWindowChromeFrame", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete all data に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingItemRemove {
+            get {
+                return ResourceManager.GetString("SettingItemRemove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete the user data and exit the application. It is used when you want to completely delete history etc. before uninstallation. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingItemRemoveTips {
+            get {
+                return ResourceManager.GetString("SettingItemRemoveTips", resourceCulture);
             }
         }
         
@@ -381,6 +1011,141 @@ namespace NeeView.Properties {
         public static string SettingPageGeneralDetailDetail {
             get {
                 return ResourceManager.GetString("SettingPageGeneralDetailDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete data に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageGeneralRemove {
+            get {
+                return ResourceManager.GetString("SettingPageGeneralRemove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete user data に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageGeneralRemoveRemove {
+            get {
+                return ResourceManager.GetString("SettingPageGeneralRemoveRemove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cancel に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordCancel {
+            get {
+                return ResourceManager.GetString("WordCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cause に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordCause {
+            get {
+                return ResourceManager.GetString("WordCause", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Command に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordCommand {
+            get {
+                return ResourceManager.GetString("WordCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordDelete {
+            get {
+                return ResourceManager.GetString("WordDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Export に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordExport {
+            get {
+                return ResourceManager.GetString("WordExport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   File に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordFile {
+            get {
+                return ResourceManager.GetString("WordFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordFolder {
+            get {
+                return ResourceManager.GetString("WordFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Import に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordImport {
+            get {
+                return ResourceManager.GetString("WordImport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   No に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordNo {
+            get {
+                return ResourceManager.GetString("WordNo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   OK に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordOK {
+            get {
+                return ResourceManager.GetString("WordOK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Rename に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordRename {
+            get {
+                return ResourceManager.GetString("WordRename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Retry に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordRetry {
+            get {
+                return ResourceManager.GetString("WordRetry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Yes に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordYes {
+            get {
+                return ResourceManager.GetString("WordYes", resourceCulture);
             }
         }
     }

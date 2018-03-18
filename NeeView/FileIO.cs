@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Properties;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -63,7 +64,7 @@ namespace NeeView
         {
             if (page == null) return;
 
-            bool isRemoved = await RemoveAsync(page.GetFilePlace(), "ページを削除します", async () => await new PageVisual(page).CreateVisualContentAsync(new System.Windows.Size(64, 64), true));
+            bool isRemoved = await RemoveAsync(page.GetFilePlace(), Resources.DialogFileDeletePageTitle, async () => await new PageVisual(page).CreateVisualContentAsync(new System.Windows.Size(64, 64), true));
 
             var book = BookHub.Current.Book;
 
@@ -85,12 +86,12 @@ namespace NeeView
 
             if (FileIOProfile.Current.IsRemoveConfirmed)
             {
-                string typeName = isDirectory ? "フォルダー" : "ファイル";
+                string typeName = isDirectory ? Resources.WordFolder : Resources.WordFile;
 
                 var dockPanel = new DockPanel();
 
                 var message = new TextBlock();
-                message.Text = $"この{typeName}をごみ箱に移動しますか？";
+                message.Text = string.Format(Resources.DialogFileDelete, typeName);
                 message.Margin = new Thickness(0, 0, 0, 10);
                 DockPanel.SetDock(message, Dock.Top);
                 dockPanel.Children.Add(message);
@@ -125,12 +126,12 @@ namespace NeeView
                 dockPanel.Children.Add(textblock);
 
                 //
-                var dialog = new MessageDialog(dockPanel, title ?? $"{typeName}を削除します");
-                dialog.Commands.Add(UICommands.Remove);
+                var dialog = new MessageDialog(dockPanel, title ?? string.Format(Resources.DialogFileDeleteTitle, typeName));
+                dialog.Commands.Add(UICommands.Delete);
                 dialog.Commands.Add(UICommands.Cancel);
                 var answer = dialog.ShowDialog();
 
-                if (answer != UICommands.Remove) return false;
+                if (answer != UICommands.Delete) return false;
             }
 
             return await RemoveAsyncInner(path);
@@ -176,7 +177,7 @@ namespace NeeView
                 }
                 else
                 {
-                    var dialog = new MessageDialog($"削除できませんでした。もう一度実行しますか？\n\n原因: {ex.Message}", "削除できませんでした。リトライしますか？");
+                    var dialog = new MessageDialog($"{Resources.DialogFileDeleteError}\n\n{Resources.WordCause}: {ex.Message}", Resources.DialogFileDeleteErrorTitle);
                     dialog.Commands.Add(UICommands.Retry);
                     dialog.Commands.Add(UICommands.Cancel);
                     var confirm = dialog.ShowDialog();
@@ -206,7 +207,7 @@ namespace NeeView
             // ファイル名に使用できない
             if (string.IsNullOrWhiteSpace(newName))
             {
-                var dialog = new MessageDialog($"指定されたファイル名は無効です。", "名前を変更できません");
+                var dialog = new MessageDialog(Resources.DialogFileRenameWrong, Resources.DialogFileRenameErrorTitle);
                 dialog.ShowDialog();
                 return null;
             }
@@ -218,7 +219,7 @@ namespace NeeView
             {
                 var invalids = string.Join(" ", newName.Where(e => invalidChars.Contains(e)).Distinct());
 
-                var dialog = new MessageDialog($"ファイル名に使用できない文字が含まれています。\n\n{invalids}", "名前を変更できません");
+                var dialog = new MessageDialog($"{Resources.DialogFileRenameInvalid}\n\n{invalids}", Resources.DialogFileRenameErrorTitle);
                 dialog.ShowDialog();
 
                 return null;
@@ -228,7 +229,7 @@ namespace NeeView
             var match = new Regex(@"^(CON|PRN|AUX|NUL|COM[0-9]|LPT[0-9])(\.|$)", RegexOptions.IgnoreCase).Match(newName);
             if (match.Success)
             {
-                var dialog = new MessageDialog($"指定されたデバイス名は無効です。\n\n{match.Groups[1].Value.ToUpper()}", "名前を変更できません");
+                var dialog = new MessageDialog($"{Resources.DialogFileRenameWrongDevice}\n\n{match.Groups[1].Value.ToUpper()}", Resources.DialogFileRenameErrorTitle);
                 dialog.ShowDialog();
                 return null;
             }
@@ -246,7 +247,7 @@ namespace NeeView
                 var dstExt = System.IO.Path.GetExtension(dst);
                 if (string.Compare(srcExt, dstExt, true) != 0)
                 {
-                    var dialog = new MessageDialog($"拡張子を変更すると、使えなくなる可能性があります。\nよろしいですか？", "拡張子を変更します");
+                    var dialog = new MessageDialog(Resources.DialogFileRenameExtension, Resources.DialogFileRenameExtensionTitle);
                     dialog.Commands.Add(UICommands.Yes);
                     dialog.Commands.Add(UICommands.No);
                     var answer = dialog.ShowDialog();
@@ -279,8 +280,8 @@ namespace NeeView
                 while (System.IO.File.Exists(dst) || System.IO.Directory.Exists(dst));
 
                 // 確認
-                var dialog = new MessageDialog($"{System.IO.Path.GetFileName(dstBase)} は既に存在しています。\n{System.IO.Path.GetFileName(dst)} に名前を変更しますか？", "同じ名前のファイルが存在しています");
-                dialog.Commands.Add(new UICommand("名前を変える"));
+                var dialog = new MessageDialog(string.Format(Resources.DialogFileRenameConfrict, Path.GetFileName(dstBase), Path.GetFileName(dst)), Resources.DialogFileRenameConfrictTitle);
+                dialog.Commands.Add(new UICommand(Resources.WordRename));
                 dialog.Commands.Add(UICommands.Cancel);
                 var answer = dialog.ShowDialog();
                 if (answer != dialog.Commands[0])
@@ -343,7 +344,7 @@ namespace NeeView
                     goto Retry;
                 }
 
-                var confirm = new MessageDialog($"名前の変更に失敗しました。もう一度実行しますか？\n\n{ex.Message}", "名前を変更できませんでした");
+                var confirm = new MessageDialog($"{Resources.DialogFileRenameFailed}\n\n{ex.Message}", Resources.DialogFileRenameFailedTitle);
                 confirm.Commands.Add(UICommands.Retry);
                 confirm.Commands.Add(UICommands.Cancel);
                 var answer = confirm.ShowDialog();

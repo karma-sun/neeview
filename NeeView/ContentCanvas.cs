@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Effects;
+using NeeView.Properties;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
@@ -612,7 +613,7 @@ namespace NeeView
             }
             catch (Exception e)
             {
-                new MessageDialog($"原因: {e.Message}", "コピーに失敗しました").ShowDialog();
+                new MessageDialog($"{Resources.WordCause}: {e.Message}", Resources.DialogCopyImageErrorTitle).ShowDialog();
             }
         }
 

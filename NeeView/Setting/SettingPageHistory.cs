@@ -62,7 +62,7 @@ namespace NeeView.Setting
         {
             BookHistory.Current.Clear();
 
-            var dialog = new MessageDialog("", "履歴を削除しました");
+            var dialog = new MessageDialog("", Properties.Resources.DialogHistoryDeletedTitle);
             if (element != null)
             {
                 dialog.Owner = Window.GetWindow(element);

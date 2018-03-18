@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using NeeView.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -374,7 +375,7 @@ namespace NeeView
             dialog.FileName = $"NeeView{Config.Current.ProductVersion}-{DateTime.Now.ToString("yyyyMMdd")}";
             dialog.DefaultExt = backupDialogDefaultExt;
             dialog.Filter = backupDialogFilder;
-            dialog.Title = "全設定をエクスポート";
+            dialog.Title = Resources.DialogExportTitle;
 
             if (dialog.ShowDialog(MainWindow.Current) == true)
             {
@@ -384,7 +385,7 @@ namespace NeeView
                 }
                 catch (Exception ex)
                 {
-                    new MessageDialog($"原因: {ex.Message}", "エクスポートに失敗しました").ShowDialog();
+                    new MessageDialog($"{Resources.WordCause}: {ex.Message}", Resources.DialogExportErrorTitle).ShowDialog();
                 }
             }
         }
@@ -442,7 +443,7 @@ namespace NeeView
             dialog.AddExtension = true;
             dialog.DefaultExt = backupDialogDefaultExt;
             dialog.Filter = backupDialogFilder;
-            dialog.Title = "全設定をインポート";
+            dialog.Title =  Resources.DialogImportTitle;
 
             if (dialog.ShowDialog(MainWindow.Current) == true)
             {
@@ -452,7 +453,7 @@ namespace NeeView
                 }
                 catch (Exception ex)
                 {
-                    new MessageDialog($"原因: {ex.Message}", "インポートに失敗しました").ShowDialog();
+                    new MessageDialog($"{Resources.WordCause}: {ex.Message}", Resources.DialogImportErrorTitle).ShowDialog();
                 }
             }
         }
@@ -466,7 +467,7 @@ namespace NeeView
             PagemarkCollection.Memento pagemark = null;
 
             var selector = new BackupSelectControl();
-            selector.FileNameTextBlock.Text = $"インポート: {Path.GetFileName(filename)}";
+            selector.FileNameTextBlock.Text = $"{Resources.WordImport}: {Path.GetFileName(filename)}";
 
             using (var archiver = ZipFile.OpenRead(filename))
             {
@@ -498,8 +499,8 @@ namespace NeeView
                         selector.PagemarkCheckBox.IsChecked = true;
                     }
 
-                    var dialog = new MessageDialog(selector, "インポートする項目を選択してください");
-                    dialog.Commands.Add(new UICommand("インポート"));
+                    var dialog = new MessageDialog(selector, Resources.DialogImportSelectTitle);
+                    dialog.Commands.Add(new UICommand(Resources.WordImport));
                     dialog.Commands.Add(UICommands.Cancel);
                     var answer = dialog.ShowDialog();
 

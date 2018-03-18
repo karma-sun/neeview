@@ -129,12 +129,6 @@
   <data name="CommandLoadAsNote" xml:space="preserve">
     <value>Select and open the compressed file or image file.</value>
   </data>
-  <data name="ControlSwitchOff" xml:space="preserve">
-    <value>Off</value>
-  </data>
-  <data name="ControlSwitchOn" xml:space="preserve">
-    <value>On</value>
-  </data>
   <data name="DialogBookmarkError" xml:space="preserve">
     <value>Temporary folders can not be bookmarked</value>
   </data>
@@ -485,5 +479,209 @@ Would you like to rename it to {1}? </value>
   </data>
   <data name="DialogFileDeletePageTitle" xml:space="preserve">
     <value>Delete page</value>
+  </data>
+  <data name="ParamIsRemoveConfirmed" xml:space="preserve">
+    <value>Display confirmation dialog at file deletion</value>
+  </data>
+  <data name="ParamIsFileOperationEnabled" xml:space="preserve">
+    <value>File operation enabled</value>
+  </data>
+  <data name="IsCaptionEmulateInFullScreen" xml:space="preserve">
+    <value>Title bar operation at full screen</value>
+  </data>
+  <data name="IsCaptionEmulateInFullScreenTips" xml:space="preserve">
+    <value>Enable the title bar operation (double click and drag) on ​​the menu at full screen. "</value>
+  </data>
+  <data name="WordMainMenu" xml:space="preserve">
+    <value>Main Menu</value>
+  </data>
+  <data name="WordItem" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="WordDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="WordOn" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="WordOff" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="IsAutoGC" xml:space="preserve">
+    <value>System manages memory</value>
+  </data>
+  <data name="IsAutoGCTips" xml:space="preserve">
+    <value>When it is OFF, memory is released every time page is switched</value>
+  </data>
+  <data name="SettingPageArchive" xml:space="preserve">
+    <value>Supported format</value>
+  </data>
+  <data name="SettingPageArchiveZip" xml:space="preserve">
+    <value>ZIP</value>
+  </data>
+  <data name="SettingPageArchiveZipFeature" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SettingPageArchiveZipAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="ParamZipArchiverIsEnabled" xml:space="preserve">
+    <value>Use ZIP compressed file expansion with standard function</value>
+  </data>
+  <data name="ParamZipArchiverSupportFileTypes" xml:space="preserve">
+    <value>Compressed file extension</value>
+  </data>
+  <data name="ParamZipArchiverSupportFileTypesTips" xml:space="preserve">
+    <value>Only zip format is supported.</value>
+  </data>
+  <data name="WordAdd" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="WordRemove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="DialogAddParameterTile" xml:space="preserve">
+    <value>Add item</value>
+  </data>
+  <data name="WordExtension" xml:space="preserve">
+    <value>Extension</value>
+  </data>
+  <data name="SettingPageArchiverSevenZip" xml:space="preserve">
+    <value>7-Zip</value>
+  </data>
+  <data name="SettingPageArchiverSevenZipFeature" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SettingPageArchiverSevenZipAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="ParamSevenZipArchiverIsEnabled" xml:space="preserve">
+    <value>Use compressed file expansion with 7-Zip</value>
+  </data>
+  <data name="ParamSevenZipArchiverX86DllPath" xml:space="preserve">
+    <value>Location of 7z.dll (32bit)</value>
+  </data>
+  <data name="ParamSevenZipArchiverX86DllPathTips" xml:space="preserve">
+    <value>Set this if you want to use another 7z.dll. To reflect, you need to reopen the application.</value>
+  </data>
+  <data name="ParamSevenZipArchiverX64DllPath" xml:space="preserve">
+    <value>Location of 7z.dll (64 bit)</value>
+  </data>
+  <data name="ParamSevenZipArchiverX64DllPathTips" xml:space="preserve">
+    <value>Set this if you want to use another 7z.dll. To reflect, you need to reopen the application.</value>
+  </data>
+  <data name="ParamSevenZipArchiverSupportFileTypes" xml:space="preserve">
+    <value>Compressed file extension</value>
+  </data>
+  <data name="ParamSevenZipArchiverLockTime" xml:space="preserve">
+    <value>Time to lock file (sec)</value>
+  </data>
+  <data name="ParamSevenZipArchiverLockTimeTips" xml:space="preserve">
+    <value>If you do not have access at this time, unlock it. -1 holds the lock.</value>
+  </data>
+  <data name="ParamSevenZipArchiverIsPreExtract" xml:space="preserve">
+    <value>Pre Extract</value>
+  </data>
+  <data name="ParamSevenZipArchiverIsPreExtractTips" xml:space="preserve">
+    <value>When you browse books, you can speed up page feed by pre-extracting everything to a temporary folder. When OFF, pre-extraction is performed only for solid compressed files.</value>
+  </data>
+  <data name="ParamSevenZipArchiverPreExtractSolidSize" xml:space="preserve">
+    <value>Maximum file size to be extracted in advance (MB)</value>
+  </data>
+  <data name="ParamSevenZipArchiverPreExtractSolidSizeTips" xml:space="preserve">
+    <value>Compressed files exceeding this size will not be pre-extracted. Set 0 to prohibit all pre-extraction.</value>
+  </data>
+  <data name="ControlFileNameBoxFileNote" xml:space="preserve">
+    <value>Please enter the path of the file</value>
+  </data>
+  <data name="ControlFileNameBoxDirectoryNote" xml:space="preserve">
+    <value>Please enter the folder path</value>
+  </data>
+  <data name="ControlFileNameBoxSelectFile" xml:space="preserve">
+    <value>Select file</value>
+  </data>
+  <data name="ControlFileNameBoxSelectDirectory" xml:space="preserve">
+    <value>Select folder</value>
+  </data>
+  <data name="SettingPageArchivePdf" xml:space="preserve">
+    <value>PDF</value>
+  </data>
+  <data name="SettingPageArchivePdfFeature" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SettingPageArchivePdfAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPageArchiveMedia" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="SettingPageArchiveMediaFeature" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SettingPageArchiveMediaAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="ParamArchiverPdfIsEnabled" xml:space="preserve">
+    <value>Use PDF</value>
+  </data>
+  <data name="ParamArchiverPdfSupportFileTypes" xml:space="preserve">
+    <value>PDF file extension</value>
+  </data>
+  <data name="ParamArchiverPdfRenderSize" xml:space="preserve">
+    <value>PDF page standard size</value>
+  </data>
+  <data name="ParamArchiverPdfRenderSizeTips" xml:space="preserve">
+    <value>Normally we will render according to the display size, but the lower limit will be this standard size. If it becomes smaller, it is reduced and displayed.</value>
+  </data>
+  <data name="ParamArchiverMediaIsEnabled" xml:space="preserve">
+    <value>Use video</value>
+  </data>
+  <data name="ParamArchiverMediaSupportFileTypes" xml:space="preserve">
+    <value>Video file extension</value>
+  </data>
+  <data name="ParamArchiverMediaSupportFileTypesTips" xml:space="preserve">
+    <value>Probably what you can play with Windows Media Player is playable.</value>
+  </data>
+  <data name="ParamPageSeconds" xml:space="preserve">
+    <value>Change time in page movement (seconds)</value>
+  </data>
+  <data name="SettingPageSusie" xml:space="preserve">
+    <value>Susie</value>
+  </data>
+  <data name="SettingPageSusieGeneral" xml:space="preserve">
+    <value>General Susie</value>
+  </data>
+  <data name="SettingPageSusieGeneralGeneral" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SettingPageSusieGeneralPriority" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="SettingPageSusieImagePlugin" xml:space="preserve">
+    <value>Image plug-in</value>
+  </data>
+  <data name="SettingPageSusieArchivePlugin" xml:space="preserve">
+    <value>Archive plug-in</value>
+  </data>
+  <data name="ParamSusieIsEnabled" xml:space="preserve">
+    <value>Use the Susie plugin</value>
+  </data>
+  <data name="ParamSusiePluginPath" xml:space="preserve">
+    <value>Plugin folder</value>
+  </data>
+  <data name="ParamSusieIsFirstOrderSusieImage" xml:space="preserve">
+    <value>Prioritize Susie plugin in image display</value>
+  </data>
+  <data name="ParamSusieIsFirstOrderSusieArchive" xml:space="preserve">
+    <value>Prioritize Susie plugin in compressed file expansion</value>
+  </data>
+  <data name="ControlSusiePluginListConfig" xml:space="preserve">
+    <value>Config</value>
+  </data>
+  <data name="ControlSusiePluginListUp" xml:space="preserve">
+    <value>Up</value>
+  </data>
+  <data name="ControlSusiePluginListDown" xml:space="preserve">
+    <value>Down</value>
   </data>
 </root>

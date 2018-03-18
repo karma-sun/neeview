@@ -9,7 +9,7 @@ namespace NeeView.Setting
 {
     public class SettingPageSusie : SettingPage
     {
-        public SettingPageSusie() : base("Susie")
+        public SettingPageSusie() : base(Properties.Resources.SettingPageSusie)
         {
             this.Children = new List<SettingPage>
             {
@@ -22,11 +22,11 @@ namespace NeeView.Setting
 
     public class SettingPageSusieGeneral : SettingPage
     {
-        public SettingPageSusieGeneral() : base("Susie全般")
+        public SettingPageSusieGeneral() : base(Properties.Resources.SettingPageSusieGeneral)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("全般",
+                new SettingItemSection(Properties.Resources.SettingPageSusieGeneralGeneral,
                     new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.IsEnableSusie))),
                     new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.SusiePluginPath)))
                     {
@@ -34,7 +34,7 @@ namespace NeeView.Setting
                         IsEnabled = new IsEnabledPropertyValue(SusieContext.Current, nameof(SusieContext.IsEnableSusie)),
                     }),
 
-                new SettingItemSection("優先設定",
+                new SettingItemSection(Properties.Resources.SettingPageSusieGeneralPriority,
                     new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.IsFirstOrderSusieImage))),
                     new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.IsFirstOrderSusieArchive))))
                 {
@@ -46,7 +46,7 @@ namespace NeeView.Setting
 
     public class SettingPageSusieINPlugin : SettingPage
     {
-        public SettingPageSusieINPlugin() : base("画像プラグイン")
+        public SettingPageSusieINPlugin() : base(Properties.Resources.SettingPageSusieImagePlugin)
         {
             this.IsScrollEnabled = false;
 
@@ -63,7 +63,7 @@ namespace NeeView.Setting
 
     public class SettingPageSusieAMPlugin : SettingPage
     {
-        public SettingPageSusieAMPlugin() : base("書庫プラグイン")
+        public SettingPageSusieAMPlugin() : base(Properties.Resources.SettingPageSusieArchivePlugin)
         {
             this.IsScrollEnabled = false;
 

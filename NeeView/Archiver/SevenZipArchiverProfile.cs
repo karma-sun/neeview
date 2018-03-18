@@ -17,34 +17,34 @@ namespace NeeView
             Current = this;
         }
 
-        [PropertyMember("7-Zipによる圧縮ファイル展開を使用する")]
+        [PropertyMember("@ParamSevenZipArchiverIsEnabled")]
         public bool IsEnabled
         {
             get { return _isEnabled; }
             set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); } }
         }
 
-        [PropertyPath("7z.dll(32bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります。", Filter = "DLL|*.dll")]
+        [PropertyPath("@ParamSevenZipArchiverX86DllPath", Tips = "@ParamSevenZipArchiverX86DllPathTips", Filter = "DLL|*.dll")]
         public string X86DllPath { get; set; } = "";
 
-        [PropertyPath("7z.dll(64bit)の場所", Tips = "別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります。", Filter = "DLL|*.dll")]
+        [PropertyPath("@ParamSevenZipArchiverX64DllPath", Tips = "@ParamSevenZipArchiverX64DllPathTips", Filter = "DLL|*.dll")]
         public string X64DllPath { get; set; } = "";
 
-        [PropertyMember("圧縮ファイルの拡張子")]
+        [PropertyMember("@ParamSevenZipArchiverSupportFileTypes")]
         public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".7z;.cb7;.cbr;.cbz;.lzh;.rar;.zip");
 
-        [PropertyMember("ファイルをロックする時間(秒)", Tips = "この時間アクセスがなければロックを解除します。-1でロックを保持したままになります。")]
+        [PropertyMember("@ParamSevenZipArchiverLockTime", Tips = "@ParamSevenZipArchiverLockTimeTips")]
         public double LockTime { get; set; } = -1.0;
 
         // 強制アンロックモード
         public bool IsUnlockMode { get; set; }
 
         // 事前展開
-        [PropertyMember("全て事前展開する", Tips = "ブックを閲覧する時に一時フォルダーに全て事前展開することでページ送りを高速化します。OFFにするとソリッド圧縮ファイルの場合のみ事前展開を行います。")]
+        [PropertyMember("@ParamSevenZipArchiverIsPreExtract", Tips = "@ParamSevenZipArchiverIsPreExtractTips")]
         public bool IsPreExtract { get; set; }
 
         // 事前展開サイズ上限
-        [PropertyMember("事前展開する最大ファイルサイズ(MB)", Tips = "このサイズを超える圧縮ファイルは事前展開を行いません。全ての事前展開を禁止する場合には0を設定します。")]
+        [PropertyMember("@ParamSevenZipArchiverPreExtractSolidSize", Tips = "@ParamSevenZipArchiverPreExtractSolidSizeTips")]
         public int PreExtractSolidSize { get; set; } = 1000;
 
         #region Memento

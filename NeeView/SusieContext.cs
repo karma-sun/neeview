@@ -70,7 +70,7 @@ namespace NeeView
         /// Susie 有効/無効設定
         /// 設定のみ。実際に有効かどうかは IsEnabled で判定する
         /// </summary>
-        [PropertyMember("Susieプラグインを使用する")]
+        [PropertyMember("@ParamSusieIsEnabled")]
         public bool IsEnableSusie
         {
             get { return _isEnableSusie; }
@@ -86,7 +86,7 @@ namespace NeeView
         }
 
         // Susie プラグインフォルダー
-        [PropertyPath("プラグインフォルダー", IsDirectory = true)]
+        [PropertyPath("@ParamSusiePluginPath", IsDirectory = true)]
         public string SusiePluginPath
         {
             get { return _susiePluginPath; }
@@ -101,7 +101,7 @@ namespace NeeView
         }
 
         // Susie 画像プラグイン 優先フラグ
-        [PropertyMember("画像表示でSusieプラグインを優先する")]
+        [PropertyMember("@ParamSusieIsFirstOrderSusieImage")]
         public bool IsFirstOrderSusieImage
         {
             get { return _isFirstOrderSusieImage; }
@@ -109,7 +109,7 @@ namespace NeeView
         }
 
         // Susie 書庫プラグイン 優先フラグ
-        [PropertyMember("圧縮ファイル展開でSusieプラグインを優先する")]
+        [PropertyMember("@ParamSusieIsFirstOrderSusieArchive")]
         public bool IsFirstOrderSusieArchive
         {
             get { return _isFirstOrderSusieArchive; }

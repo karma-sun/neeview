@@ -6,7 +6,7 @@ namespace NeeView.Setting
 {
     public class SettingPageArchiver : SettingPage
     {
-        public SettingPageArchiver() : base("対応形式")
+        public SettingPageArchiver() : base(Properties.Resources.SettingPageArchive)
         {
             this.Children = new List<SettingPage>
             {
@@ -25,15 +25,15 @@ namespace NeeView.Setting
 
     public class SettingPageArchiverZip : SettingPage
     {
-        public SettingPageArchiverZip() : base("ZIP")
+        public SettingPageArchiverZip() : base(Properties.Resources.SettingPageArchiveZip)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("機能",
+                new SettingItemSection(Properties.Resources.SettingPageArchiveZipFeature,
                     new SettingItemProperty(PropertyMemberElement.Create(ZipArchiverProfile.Current, nameof(ZipArchiverProfile.IsEnabled)))),
 
-                new SettingItemSection("詳細設定",
-                    new SettingItemProperty(PropertyMemberElement.Create(ZipArchiverProfile.Current, nameof(ZipArchiverProfile.SupportFileTypes)), new SettingItemCollectionControl() { Collection = ZipArchiverProfile.Current.SupportFileTypes, AddDialogHeader = "拡張子" }))
+                new SettingItemSection(Properties.Resources.SettingPageArchiveZipAdvance,
+                    new SettingItemProperty(PropertyMemberElement.Create(ZipArchiverProfile.Current, nameof(ZipArchiverProfile.SupportFileTypes)), new SettingItemCollectionControl() { Collection = ZipArchiverProfile.Current.SupportFileTypes, AddDialogHeader = Properties.Resources.WordExtension }))
                 {
                     IsEnabled = new IsEnabledPropertyValue(ZipArchiverProfile.Current, nameof(ZipArchiverProfile.IsEnabled)),
                 }
@@ -43,15 +43,15 @@ namespace NeeView.Setting
 
     public class SettingPageArchiverSevenZip : SettingPage
     {
-        public SettingPageArchiverSevenZip() : base("7-Zip")
+        public SettingPageArchiverSevenZip() : base(Properties.Resources.SettingPageArchiverSevenZip)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("機能",
+                new SettingItemSection(Properties.Resources.SettingPageArchiverSevenZipFeature,
                     new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.IsEnabled)))),
 
-                new SettingItemSection("詳細設定",
-                    new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.SupportFileTypes)), new SettingItemCollectionControl() { Collection = SevenZipArchiverProfile.Current.SupportFileTypes, AddDialogHeader = "拡張子" }),
+                new SettingItemSection(Properties.Resources.SettingPageArchiverSevenZipAdvance,
+                    new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.SupportFileTypes)), new SettingItemCollectionControl() { Collection = SevenZipArchiverProfile.Current.SupportFileTypes, AddDialogHeader = Properties.Resources.WordExtension }),
                     new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.LockTime))),
                     new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.IsPreExtract))),
                     new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.PreExtractSolidSize))),
@@ -74,14 +74,14 @@ namespace NeeView.Setting
 
     public class SettingPageArchivePdf : SettingPage
     {
-        public SettingPageArchivePdf() : base("PDF")
+        public SettingPageArchivePdf() : base(Properties.Resources.SettingPageArchivePdf)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("機能",
+                new SettingItemSection(Properties.Resources.SettingPageArchivePdfFeature,
                     new SettingItemProperty(PropertyMemberElement.Create(PdfArchiverProfile.Current, nameof(PdfArchiverProfile.IsEnabled)))),
 
-                new SettingItemSection("詳細設定",
+                new SettingItemSection(Properties.Resources.SettingPageArchivePdfAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(PdfArchiverProfile.Current, nameof(PdfArchiverProfile.RenderSize))))
                 {
                     IsEnabled = new IsEnabledPropertyValue(PdfArchiverProfile.Current, nameof(PdfArchiverProfile.IsEnabled)),
@@ -92,15 +92,15 @@ namespace NeeView.Setting
 
     public class SettingPageArchiveMedia : SettingPage
     {
-        public SettingPageArchiveMedia() : base("動画")
+        public SettingPageArchiveMedia() : base(Properties.Resources.SettingPageArchiveMedia)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("機能",
+                new SettingItemSection(Properties.Resources.SettingPageArchiveMediaFeature,
                     new SettingItemProperty(PropertyMemberElement.Create(MediaArchiverProfile.Current, nameof(MediaArchiverProfile.IsEnabled)))),
 
-                new SettingItemSection("詳細設定",
-                    new SettingItemProperty(PropertyMemberElement.Create(MediaArchiverProfile.Current, nameof(MediaArchiverProfile.SupportFileTypes)), new SettingItemCollectionControl() { Collection = MediaArchiverProfile.Current.SupportFileTypes, AddDialogHeader = "拡張子" }),
+                new SettingItemSection(Properties.Resources.SettingPageArchiveMediaAdvance,
+                    new SettingItemProperty(PropertyMemberElement.Create(MediaArchiverProfile.Current, nameof(MediaArchiverProfile.SupportFileTypes)), new SettingItemCollectionControl() { Collection = MediaArchiverProfile.Current.SupportFileTypes, AddDialogHeader = Properties.Resources.WordExtension }),
                     new SettingItemProperty(PropertyMemberElement.Create(MediaControl.Current, nameof(MediaControl.PageSeconds))))
                 {
                     IsEnabled = new IsEnabledPropertyValue(MediaArchiverProfile.Current, nameof(MediaArchiverProfile.IsEnabled)),

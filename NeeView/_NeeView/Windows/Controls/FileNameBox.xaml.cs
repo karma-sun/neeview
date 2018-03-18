@@ -15,8 +15,8 @@ namespace NeeView.Windows.Controls
     /// </summary>
     public partial class FileNameBox : UserControl
     {
-        private static string _defaultFileNote = "ファイルのパスを入力してください";
-        private static string _defaultDirectoryNote = "フォルダーのパスを入力してください";
+        private static string _defaultFileNote = Properties.Resources.ControlFileNameBoxFileNote;
+        private static string _defaultDirectoryNote = Properties.Resources.ControlFileNameBoxDirectoryNote;
 
         //
         public static readonly DependencyProperty TextProperty =
@@ -179,7 +179,7 @@ namespace NeeView.Windows.Controls
             if (IsDirectory)
             {
                 var dialog = new System.Windows.Forms.FolderBrowserDialog();
-                dialog.Description = Title ?? "フォルダー選択";
+                dialog.Description = Title ?? Properties.Resources.ControlFileNameBoxSelectDirectory;
                 dialog.SelectedPath = Text;
 
                 if (string.IsNullOrWhiteSpace(dialog.SelectedPath))
@@ -196,7 +196,7 @@ namespace NeeView.Windows.Controls
             else
             {
                 var dialog = new System.Windows.Forms.OpenFileDialog();
-                dialog.Title = Title ?? "ファイル選択";
+                dialog.Title = Title ?? Properties.Resources.ControlFileNameBoxSelectFile;
                 dialog.FileName = Text;
                 dialog.Filter = Filter;
 

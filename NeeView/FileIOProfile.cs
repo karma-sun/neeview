@@ -18,10 +18,10 @@ namespace NeeView
         }
 
 
-        [PropertyMember("ファイル削除時に確認ダイアログを表示する")]
+        [PropertyMember("@ParamIsRemoveConfirmed")]
         public bool IsRemoveConfirmed { get; set; } = true;
 
-        [PropertyMember("ファイル操作有効")]
+        [PropertyMember("@ParamIsFileOperationEnabled")]
         public bool IsEnabled
         {
             get { return _isEnabled; }

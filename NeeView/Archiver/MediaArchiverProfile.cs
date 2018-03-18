@@ -15,14 +15,14 @@ namespace NeeView
             Current = this;
         }
 
-        [PropertyMember("動画を使用する")]
+        [PropertyMember("@ParamArchiverMediaIsEnabled")]
         public bool IsEnabled
         {
             get { return _isEnabled; }
             set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); } }
         }
 
-        [PropertyMember("動画ファイルの拡張子", Tips = "Windows Media Player で再生できるものが、おおよそ再生可能です。")]
+        [PropertyMember("@ParamArchiverMediaSupportFileTypes", Tips = "@ParamArchiverMediaSupportFileTypesTips")]
         public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".asf;.avi;.mp4;.mkv;.mov;.wmv");
 
         #region Memento

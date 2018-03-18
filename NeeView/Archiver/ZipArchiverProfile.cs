@@ -16,14 +16,14 @@ namespace NeeView
             Current = this;
         }
 
-        [PropertyMember("標準機能によるZIP圧縮ファイル展開を使用する")]
+        [PropertyMember("@ParamZipArchiverIsEnabled")]
         public bool IsEnabled
         {
             get { return _isEnabled; }
             set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); } }
         }
 
-        [PropertyMember("圧縮ファイルの拡張子", Tips = "zip形式のみ対応しています。")]
+        [PropertyMember("@ParamZipArchiverSupportFileTypes", Tips = "@ParamZipArchiverSupportFileTypesTips")]
         public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".zip");
 
         #region Memento

@@ -59,6 +59,11 @@ namespace NeeView.Setting
         public SettingItemSusiePluginControl(Susie.SusiePluginType pluginType)
         {
             InitializeComponent();
+
+            this.ConfigButton.Content = Properties.Resources.ControlSusiePluginListConfig;
+            this.UpButton.Content = Properties.Resources.ControlSusiePluginListUp;
+            this.DownButton.Content = Properties.Resources.ControlSusiePluginListDown;
+
             this.Root.DataContext = this;
 
             _pluginType = pluginType;

@@ -22,6 +22,9 @@ namespace NeeView.Setting
         public AddParameterDialog()
         {
             InitializeComponent();
+
+            this.AddButton.Content = Properties.Resources.WordAdd;
+            this.CancelButton.Content = Properties.Resources.WordCancel;
         }
 
         #region DependencyProperties

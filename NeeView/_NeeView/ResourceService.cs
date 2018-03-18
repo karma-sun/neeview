@@ -17,11 +17,15 @@ namespace NeeView
             else
             {
                 var text = Properties.Resources.ResourceManager.GetString(key.Substring(1), Properties.Resources.Culture);
-                if (text == null)
+                if (text != null)
                 {
-                    Debug.WriteLine($"Error: Not found resource key: {key.Substring(1)}");
+                    return text;
                 }
-                return text;
+                else
+                { 
+                    Debug.WriteLine($"Error: Not found resource key: {key.Substring(1)}");
+                    return key;
+                }
             }
         }
     }

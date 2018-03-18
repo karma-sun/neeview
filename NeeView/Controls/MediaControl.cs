@@ -28,7 +28,7 @@ namespace NeeView
 
         public bool IsRepeat { get; set; }
 
-        [PropertyMember("ページ移動での変化時間(秒)")]
+        [PropertyMember("@ParamPageSeconds")]
         public double PageSeconds { get; set; } = 10.0;
 
 

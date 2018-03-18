@@ -23,6 +23,9 @@ namespace NeeView.Setting
         public SettingItemCollectionControl()
         {
             InitializeComponent();
+
+            this.AddButton.Content = Properties.Resources.WordAdd + "...";
+            this.RemoveButton.Content = Properties.Resources.WordRemove;
         }
 
 
@@ -42,7 +45,7 @@ namespace NeeView.Setting
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new AddParameterDialog();
-            dialog.Title = AddDialogTitle ?? "項目の追加";
+            dialog.Title = AddDialogTitle ?? Properties.Resources.DialogAddParameterTile;
             dialog.Header = AddDialogHeader;
             dialog.Owner = Window.GetWindow(this);
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;

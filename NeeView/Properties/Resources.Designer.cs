@@ -133,6 +133,79 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Mouse input here に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlEditDragInput {
+            get {
+                return ResourceManager.GetString("ControlEditDragInput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   New に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlEditDragNew {
+            get {
+                return ResourceManager.GetString("ControlEditDragNew", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Mouse button input in light blue frame.
+        ///You can not use right button drag because it is reserved with mouse gesture.  に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlEditDragNote {
+            get {
+                return ResourceManager.GetString("ControlEditDragNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Old に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlEditDragOld {
+            get {
+                return ResourceManager.GetString("ControlEditDragOld", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Drag operation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlEditDragTitle {
+            get {
+                return ResourceManager.GetString("ControlEditDragTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Command に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlEditMouseDragListHeaderCommand {
+            get {
+                return ResourceManager.GetString("ControlEditMouseDragListHeaderCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Drag operation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlEditMouseDragListHeaderDrag {
+            get {
+                return ResourceManager.GetString("ControlEditMouseDragListHeaderDrag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reset... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlEditMouseDragReset {
+            get {
+                return ResourceManager.GetString("ControlEditMouseDragReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Please enter the folder path に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ControlFileNameBoxDirectoryNote {
@@ -700,6 +773,96 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Rotation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumDragActionTypeAngle {
+            get {
+                return ResourceManager.GetString("EnumDragActionTypeAngle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flip horizontal に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumDragActionTypeFlipHorizontal {
+            get {
+                return ResourceManager.GetString("EnumDragActionTypeFlipHorizontal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flip vertical に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumDragActionTypeFlipVertical {
+            get {
+                return ResourceManager.GetString("EnumDragActionTypeFlipVertical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Gesture に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumDragActionTypeGesture {
+            get {
+                return ResourceManager.GetString("EnumDragActionTypeGesture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumDragActionTypeMove {
+            get {
+                return ResourceManager.GetString("EnumDragActionTypeMove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move (scale dependent) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumDragActionTypeMoveScale {
+            get {
+                return ResourceManager.GetString("EnumDragActionTypeMoveScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   None に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumDragActionTypeNone {
+            get {
+                return ResourceManager.GetString("EnumDragActionTypeNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scaling に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumDragActionTypeScale {
+            get {
+                return ResourceManager.GetString("EnumDragActionTypeScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scaling (horizontal slide) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumDragActionTypeScaleSlider {
+            get {
+                return ResourceManager.GetString("EnumDragActionTypeScaleSlider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumDragActionTypeWindowMove {
+            get {
+                return ResourceManager.GetString("EnumDragActionTypeWindowMove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Default に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumFolderIconLayoutDefault {
@@ -732,6 +895,33 @@ namespace NeeView.Properties {
         public static string EnumLanguageJapanese {
             get {
                 return ResourceManager.GetString("EnumLanguageJapanese", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   All buttons に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumLongButtonMaskAll {
+            get {
+                return ResourceManager.GetString("EnumLongButtonMaskAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Left button に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumLongButtonMaskLeft {
+            get {
+                return ResourceManager.GetString("EnumLongButtonMaskLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Right button に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumLongButtonMaskRight {
+            get {
+                return ResourceManager.GetString("EnumLongButtonMaskRight", resourceCulture);
             }
         }
         
@@ -817,6 +1007,42 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Touch view operation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumTouchActionDrag {
+            get {
+                return ResourceManager.GetString("EnumTouchActionDrag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Gesture に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumTouchActionGesture {
+            get {
+                return ResourceManager.GetString("EnumTouchActionGesture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Mouse drag operation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumTouchActionMouseDrag {
+            get {
+                return ResourceManager.GetString("EnumTouchActionMouseDrag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   None に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumTouchActionNone {
+            get {
+                return ResourceManager.GetString("EnumTouchActionNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Frame border に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumWindowChromeFrameLine {
@@ -876,6 +1102,51 @@ namespace NeeView.Properties {
         public static string IsCaptionEmulateInFullScreenTips {
             get {
                 return ResourceManager.GetString("IsCaptionEmulateInFullScreenTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Loupe に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LongButtonDownModeLoupe {
+            get {
+                return ResourceManager.GetString("LongButtonDownModeLoupe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Temporarily enlarge the image. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LongButtonDownModeLoupeTips {
+            get {
+                return ResourceManager.GetString("LongButtonDownModeLoupeTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   None に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LongButtonDownModeNone {
+            get {
+                return ResourceManager.GetString("LongButtonDownModeNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Repeat input に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LongButtonDownModeRepeat {
+            get {
+                return ResourceManager.GetString("LongButtonDownModeRepeat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Execute the command continuously. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LongButtonDownModeRepeatTips {
+            get {
+                return ResourceManager.GetString("LongButtonDownModeRepeatTips", resourceCulture);
             }
         }
         
@@ -988,6 +1259,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Rotating Snap に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamDragTransformAngleFrequency {
+            get {
+                return ResourceManager.GetString("ParamDragTransformAngleFrequency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Rotate, scaling, and invert the criteria as the center of the image に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamDragTransformIsControlCenterImage {
@@ -1038,6 +1318,15 @@ namespace NeeView.Properties {
         public static string ParamDragTransformIsKeepScale {
             get {
                 return ResourceManager.GetString("ParamDragTransformIsKeepScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move inside the window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamDragTransformIsLimitMove {
+            get {
+                return ResourceManager.GetString("ParamDragTransformIsLimitMove", resourceCulture);
             }
         }
         
@@ -1789,6 +2078,195 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Loupe standard magnification に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamLoupeDefaultScale {
+            get {
+                return ResourceManager.GetString("ParamLoupeDefaultScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Use the Esc key to release the loupe に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamLoupeIsEscapeKeyEnabled {
+            get {
+                return ResourceManager.GetString("ParamLoupeIsEscapeKeyEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   At the start, move the cursor position to the screen center に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamLoupeIsLoupeCenter {
+            get {
+                return ResourceManager.GetString("ParamLoupeIsLoupeCenter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Release the loupe after moving the page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamLoupeIsResetByPageChanged {
+            get {
+                return ResourceManager.GetString("ParamLoupeIsResetByPageChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Start loupe at standard magnification に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamLoupeIsResetByRestart {
+            get {
+                return ResourceManager.GetString("ParamLoupeIsResetByRestart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   When set to OFF, the previous magnification will be inherited. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamLoupeIsResetByRestartTips {
+            get {
+                return ResourceManager.GetString("ParamLoupeIsResetByRestartTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   When using a loupe, change the magnifying power by wheel operation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamLoupeIsWheelScalingEnabled {
+            get {
+                return ResourceManager.GetString("ParamLoupeIsWheelScalingEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Commands to which wheel operation is assigned are invalid. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamLoupeIsWheelScalingEnabledTips {
+            get {
+                return ResourceManager.GetString("ParamLoupeIsWheelScalingEnabledTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Loupe maximum magnification に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamLoupeMaximumScale {
+            get {
+                return ResourceManager.GetString("ParamLoupeMaximumScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Loupe minimum magnification に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamLoupeMinimumScale {
+            get {
+                return ResourceManager.GetString("ParamLoupeMinimumScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Loupe magnification change unit に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamLoupeScaleStep {
+            get {
+                return ResourceManager.GetString("ParamLoupeScaleStep", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Loupe Speed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamLoupeSpeed {
+            get {
+                return ResourceManager.GetString("ParamLoupeSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Minimum movement distance of mouse gesture determination に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMouseGestureMinimumDistance {
+            get {
+                return ResourceManager.GetString("ParamMouseGestureMinimumDistance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   It will be judged as gesture start only after moving this distance (pixel). に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMouseGestureMinimumDistanceTips {
+            get {
+                return ResourceManager.GetString("ParamMouseGestureMinimumDistanceTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Use mouse gesture に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMouseIsGestureEnabled {
+            get {
+                return ResourceManager.GetString("ParamMouseIsGestureEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Long press mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMouseLongButtonDownMode {
+            get {
+                return ResourceManager.GetString("ParamMouseLongButtonDownMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Long press decision time (sec) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMouseLongButtonDownTime {
+            get {
+                return ResourceManager.GetString("ParamMouseLongButtonDownTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   It is time to be judged to be long pressed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMouseLongButtonDownTimeTips {
+            get {
+                return ResourceManager.GetString("ParamMouseLongButtonDownTimeTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Long press button に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMouseLongButtonMask {
+            get {
+                return ResourceManager.GetString("ParamMouseLongButtonMask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Repeat interval (sec) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMouseLongButtonRepeatTime {
+            get {
+                return ResourceManager.GetString("ParamMouseLongButtonRepeatTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Repeat time with repeat input. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMouseLongButtonRepeatTimeTips {
+            get {
+                return ResourceManager.GetString("ParamMouseLongButtonRepeatTimeTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Change time in page movement (seconds) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamPageSeconds {
@@ -2212,6 +2690,114 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Single touch drag operation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamTouchDragAction {
+            get {
+                return ResourceManager.GetString("ParamTouchDragAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Minimum movement distance for touch drag judgment に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamTouchGestureMinimumDistance {
+            get {
+                return ResourceManager.GetString("ParamTouchGestureMinimumDistance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Dragging is judged to start for the first time by moving this distance. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamTouchGestureMinimumDistanceTips {
+            get {
+                return ResourceManager.GetString("ParamTouchGestureMinimumDistanceTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Long press Touch drag operation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamTouchHoldAction {
+            get {
+                return ResourceManager.GetString("ParamTouchHoldAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Enable rotation operation with multi-touch に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamTouchIsAngleEnabled {
+            get {
+                return ResourceManager.GetString("ParamTouchIsAngleEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Enable touch operation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamTouchIsEnabled {
+            get {
+                return ResourceManager.GetString("ParamTouchIsEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   When set to OFF, it functions as standard mouse operation. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamTouchIsEnabledTips {
+            get {
+                return ResourceManager.GetString("ParamTouchIsEnabledTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Enable sizing operation with pinch in and pinch out に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamTouchIsScaleEnabled {
+            get {
+                return ResourceManager.GetString("ParamTouchIsScaleEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Touch operation pinch minimum change distance に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamTouchMinimumManipulationDistance {
+            get {
+                return ResourceManager.GetString("ParamTouchMinimumManipulationDistance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   This is the minimum operating distance at which rotation and enlargement / reduction by touch operation are effective. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamTouchMinimumManipulationDistanceTips {
+            get {
+                return ResourceManager.GetString("ParamTouchMinimumManipulationDistanceTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Touch operation pinch minimum determination distance に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamTouchMinimumManipulationRadius {
+            get {
+                return ResourceManager.GetString("ParamTouchMinimumManipulationRadius", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   It is the distance between the minimum of 2 touches judged as rotation by touch operation, enlargement / reduction. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamTouchMinimumManipulationRadiusTips {
+            get {
+                return ResourceManager.GetString("ParamTouchMinimumManipulationRadiusTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Window frame with title bar hidden に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamWindowChromeFrame {
@@ -2505,6 +3091,132 @@ namespace NeeView.Properties {
         public static string SettingPageGeneralRemoveRemove {
             get {
                 return ResourceManager.GetString("SettingPageGeneralRemoveRemove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Image manipulation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageManipurate {
+            get {
+                return ResourceManager.GetString("SettingPageManipurate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Image manipulation General に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageManipurateGeneral {
+            get {
+                return ResourceManager.GetString("SettingPageManipurateGeneral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Advanced Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageManipurateGeneralAdvance {
+            get {
+                return ResourceManager.GetString("SettingPageManipurateGeneralAdvance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   View manipulation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageManipurateGeneralViewOperation {
+            get {
+                return ResourceManager.GetString("SettingPageManipurateGeneralViewOperation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Loupe に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageManipurateLoupe {
+            get {
+                return ResourceManager.GetString("SettingPageManipurateLoupe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Advanced Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageManipurateLoupeAdvance {
+            get {
+                return ResourceManager.GetString("SettingPageManipurateLoupeAdvance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   General に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageManipurateLoupeGeneral {
+            get {
+                return ResourceManager.GetString("SettingPageManipurateLoupeGeneral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Mouse operation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageManipurateMouse {
+            get {
+                return ResourceManager.GetString("SettingPageManipurateMouse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Advanced Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageManipurateMouseAdvance {
+            get {
+                return ResourceManager.GetString("SettingPageManipurateMouseAdvance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Mouse drag に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageManipurateMouseDrag {
+            get {
+                return ResourceManager.GetString("SettingPageManipurateMouseDrag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Mouse long press に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageManipurateMouseHold {
+            get {
+                return ResourceManager.GetString("SettingPageManipurateMouseHold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Touch operation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageManipurateTouch {
+            get {
+                return ResourceManager.GetString("SettingPageManipurateTouch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Advanced Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageManipurateTouchAdvance {
+            get {
+                return ResourceManager.GetString("SettingPageManipurateTouchAdvance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   General に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageManipurateTouchGeneral {
+            get {
+                return ResourceManager.GetString("SettingPageManipurateTouchGeneral", resourceCulture);
             }
         }
         
@@ -2918,11 +3630,29 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Clear に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordClear {
+            get {
+                return ResourceManager.GetString("WordClear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Command に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WordCommand {
             get {
                 return ResourceManager.GetString("WordCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   degree に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordDegree {
+            get {
+                return ResourceManager.GetString("WordDegree", resourceCulture);
             }
         }
         
@@ -3067,6 +3797,15 @@ namespace NeeView.Properties {
         public static string WordRetry {
             get {
                 return ResourceManager.GetString("WordRetry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Stepless に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordStepless {
+            get {
+                return ResourceManager.GetString("WordStepless", resourceCulture);
             }
         }
         

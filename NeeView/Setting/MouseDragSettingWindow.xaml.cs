@@ -36,7 +36,7 @@ namespace NeeView.Setting
             _memento = DragActionTable.Current.CreateMemento();
             _key = key;
 
-            this.Title = $"{_key.ToAliasName()} - ドラッグ操作設定";
+            this.Title = $"{_key.ToAliasName()} - {Properties.Resources.ControlEditDragTitle}";
 
             _vm = new MouseDragSettingViewModel(_memento, _key, this.GestureBox);
             DataContext = _vm;

@@ -9,7 +9,7 @@ namespace NeeView.Setting
 {
     public class SettingPageManipurate : SettingPage
     {
-        public SettingPageManipurate() : base("画像操作")
+        public SettingPageManipurate() : base(Properties.Resources.SettingPageManipurate)
         {
             this.Children = new List<SettingPage>
             {
@@ -23,11 +23,11 @@ namespace NeeView.Setting
 
     public class SettingPageManipurateGeneral : SettingPage
     {
-        public SettingPageManipurateGeneral() : base("画像操作全般")
+        public SettingPageManipurateGeneral() : base(Properties.Resources.SettingPageManipurateGeneral)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("ビュー操作",
+                new SettingItemSection(Properties.Resources.SettingPageManipurateGeneralViewOperation,
                     new SettingItemProperty(PropertyMemberElement.Create(DragTransform.Current, nameof(DragTransform.IsLimitMove))),
                     new SettingItemProperty(PropertyMemberElement.Create(DragTransformControl.Current, nameof(DragTransformControl.IsViewStartPositionCenter))),
                     new SettingItemProperty(PropertyMemberElement.Create(DragTransformControl.Current, nameof(DragTransformControl.IsControlCenterImage))),
@@ -35,7 +35,7 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(DragTransformControl.Current, nameof(DragTransformControl.IsKeepAngle))),
                     new SettingItemProperty(PropertyMemberElement.Create(DragTransformControl.Current, nameof(DragTransformControl.IsKeepFlip)))),
 
-                new SettingItemSection("詳細設定",
+                new SettingItemSection(Properties.Resources.SettingPageManipurateGeneralAdvance,
                     new SettingItemIndexValue<double>(PropertyMemberElement.Create(DragTransform.Current, nameof(DragTransform.AngleFrequency)), new AngleFrequency(), false)),
             };
         }
@@ -63,26 +63,26 @@ namespace NeeView.Setting
 
 
             //
-            public override string ValueString => Value == 0 ? "無段階" : $"{Value}度";
+            public override string ValueString => Value == 0 ? Properties.Resources.WordStepless : $"{Value} {Properties.Resources.WordDegree}";
         }
     }
 
     public class SettingPageManipurateMouse : SettingPage
     {
-        public SettingPageManipurateMouse() : base("マウス操作")
+        public SettingPageManipurateMouse() : base(Properties.Resources.SettingPageManipurateMouse)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("マウスドラッグ操作",
+                new SettingItemSection(Properties.Resources.SettingPageManipurateMouseDrag,
                     new SettingItemMouseDrag()),
 
-                new SettingItemSection("マウス長押し操作",
+                new SettingItemSection(Properties.Resources.SettingPageManipurateMouseHold,
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Normal, nameof(MouseInputNormal.LongButtonDownMode))),
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Normal, nameof(MouseInputNormal.LongButtonMask))),
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Normal, nameof(MouseInputNormal.LongButtonDownTime))),
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Normal, nameof(MouseInputNormal.LongButtonRepeatTime)))),
 
-                new SettingItemSection("詳細設定",
+                new SettingItemSection(Properties.Resources.SettingPageManipurateMouseAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Normal, nameof(MouseInputNormal.IsGestureEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Gesture, nameof(MouseInputGesture.GestureMinimumDistance)))),
             };
@@ -91,27 +91,25 @@ namespace NeeView.Setting
 
     public class SettingPageManipurateTouch : SettingPage
     {
-        public SettingPageManipurateTouch() : base("タッチ操作")
+        public SettingPageManipurateTouch() : base(Properties.Resources.SettingPageManipurateTouch)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("機能",
-                    new SettingItemProperty(PropertyMemberElement.Create(TouchInput.Current, nameof(TouchInput.IsEnabled)))),
+                new SettingItemSection(Properties.Resources.SettingPageManipurateTouchGeneral,
+                    new SettingItemProperty(PropertyMemberElement.Create(TouchInput.Current, nameof(TouchInput.IsEnabled))),
+                    new SettingItemGroup(
+                        new SettingItemProperty(PropertyMemberElement.Create(TouchInput.Current.Normal, nameof(TouchInputNormal.DragAction))),
+                        new SettingItemProperty(PropertyMemberElement.Create(TouchInput.Current.Normal, nameof(TouchInputNormal.HoldAction))),
+                        new SettingItemProperty(PropertyMemberElement.Create(TouchInput.Current.Drag.Manipulation, nameof(TouchDragManipulation.IsAngleEnabled))),
+                        new SettingItemProperty(PropertyMemberElement.Create(TouchInput.Current.Drag.Manipulation, nameof(TouchDragManipulation.IsScaleEnabled))))
+                    {
+                        IsEnabled = new IsEnabledPropertyValue(TouchInput.Current, nameof(TouchInput.IsEnabled)),
+                    }),
 
-                new SettingItemGroup(
-
-                new SettingItemSection("全般",
-                    new SettingItemProperty(PropertyMemberElement.Create(TouchInput.Current.Normal, nameof(TouchInputNormal.DragAction))),
-                    new SettingItemProperty(PropertyMemberElement.Create(TouchInput.Current.Normal, nameof(TouchInputNormal.HoldAction))),
-                    new SettingItemProperty(PropertyMemberElement.Create(TouchInput.Current.Drag.Manipulation, nameof(TouchDragManipulation.IsAngleEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(TouchInput.Current.Drag.Manipulation, nameof(TouchDragManipulation.IsScaleEnabled)))),
-
-                new SettingItemSection("詳細設定",
+                new SettingItemSection(Properties.Resources.SettingPageManipurateTouchAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(TouchInput.Current.Gesture, nameof(TouchInputGesture.GestureMinimumDistance))),
                     new SettingItemProperty(PropertyMemberElement.Create(TouchInput.Current.Drag.Manipulation, nameof(TouchDragManipulation.MinimumManipulationRadius))),
                     new SettingItemProperty(PropertyMemberElement.Create(TouchInput.Current.Drag.Manipulation, nameof(TouchDragManipulation.MinimumManipulationDistance))))
-                
-                )
                 {
                     IsEnabled = new IsEnabledPropertyValue(TouchInput.Current, nameof(TouchInput.IsEnabled)),
                 }
@@ -121,17 +119,17 @@ namespace NeeView.Setting
 
     public class SettingPageManipurateLoupe : SettingPage
     {
-        public SettingPageManipurateLoupe() : base("ルーペ")
+        public SettingPageManipurateLoupe() : base(Properties.Resources.SettingPageManipurateLoupe)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("全般",
+                new SettingItemSection(Properties.Resources.SettingPageManipurateLoupeGeneral,
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Loupe, nameof(MouseInputLoupe.IsResetByRestart))),
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Loupe, nameof(MouseInputLoupe.IsResetByPageChanged))),
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Loupe, nameof(MouseInputLoupe.IsWheelScalingEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Loupe, nameof(MouseInputLoupe.IsEscapeKeyEnabled)))),
 
-                new SettingItemSection("詳細設定",
+                new SettingItemSection(Properties.Resources.SettingPageManipurateLoupeAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Loupe, nameof(MouseInputLoupe.DefaultScale))),
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Loupe, nameof(MouseInputLoupe.MinimumScale))),
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Loupe, nameof(MouseInputLoupe.MaximumScale))),

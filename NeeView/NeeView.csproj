@@ -360,7 +360,6 @@
     <Compile Include="Converters\BooleanReverseConverter.cs" />
     <Compile Include="Converters\DpiScaleXInverseConverter.cs" />
     <Compile Include="Converters\DpiScaleYInverseConverter.cs" />
-    <Compile Include="Converters\DragActionTypeToTipsConverter.cs" />
     <Compile Include="Converters\EnumToBooleanConverter.cs" />
     <Compile Include="Converters\FileSizeToStringConverter.cs" />
     <Compile Include="Converters\FolderOrderToBooleanConverter.cs" />

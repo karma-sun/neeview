@@ -38,11 +38,11 @@ namespace NeeView
 
 
         /// ドラッグアクション
-        [PropertyMember("シングルタッチのドラッグ操作")]
+        [PropertyMember("@ParamTouchDragAction")]
         public TouchAction DragAction { get; set; } = TouchAction.Gesture;
 
         /// 長押しドラッグアクション
-        [PropertyMember("長押しタッチのドラッグ操作")]
+        [PropertyMember("@ParamTouchHoldAction")]
         public TouchAction HoldAction { get; set; } = TouchAction.Drag;
 
 

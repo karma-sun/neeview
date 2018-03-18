@@ -3,13 +3,13 @@
     // 長押しモード
     public enum LongButtonDownMode
     {
-        [AliasName("なし")]
+        [AliasName("@LongButtonDownModeNone")]
         None,
 
-        [AliasName("ルーペ", Tips = "一時的に画像を拡大表示します。ルーペ表示中にホイール操作で拡大率を変更できます。")]
+        [AliasName("@LongButtonDownModeLoupe", Tips = "@LongButtonDownModeLoupeTips")]
         Loupe,
 
-        [AliasName("リピート入力", Tips ="クリックを連続した挙動になり、対応したコマンドを連続発行します。")]
+        [AliasName("@LongButtonDownModeRepeat", Tips = "@LongButtonDownModeRepeatTips")]
         Repeat,
     }
 

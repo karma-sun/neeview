@@ -1139,4 +1139,251 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamPictureProfileIsMagicScaleSimdEnabled" xml:space="preserve">
     <value>Use SIMD for resize filtering</value>
   </data>
+  <data name="SettingPageManipurate" xml:space="preserve">
+    <value>Image manipulation</value>
+  </data>
+  <data name="SettingPageManipurateGeneral" xml:space="preserve">
+    <value>Image manipulation General</value>
+  </data>
+  <data name="SettingPageManipurateGeneralViewOperation" xml:space="preserve">
+    <value>View manipulation</value>
+  </data>
+  <data name="SettingPageManipurateGeneralAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPageManipurateMouse" xml:space="preserve">
+    <value>Mouse operation</value>
+  </data>
+  <data name="SettingPageManipurateMouseDrag" xml:space="preserve">
+    <value>Mouse drag</value>
+  </data>
+  <data name="SettingPageManipurateMouseHold" xml:space="preserve">
+    <value>Mouse long press</value>
+  </data>
+  <data name="SettingPageManipurateMouseAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPageManipurateTouch" xml:space="preserve">
+    <value>Touch operation</value>
+  </data>
+  <data name="SettingPageManipurateTouchGeneral" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SettingPageManipurateTouchAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPageManipurateLoupe" xml:space="preserve">
+    <value>Loupe</value>
+  </data>
+  <data name="SettingPageManipurateLoupeGeneral" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SettingPageManipurateLoupeAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="WordStepless" xml:space="preserve">
+    <value>Stepless</value>
+  </data>
+  <data name="WordDegree" xml:space="preserve">
+    <value>degree</value>
+  </data>
+  <data name="ParamDragTransformIsLimitMove" xml:space="preserve">
+    <value>Move inside the window</value>
+  </data>
+  <data name="ParamDragTransformAngleFrequency" xml:space="preserve">
+    <value>Rotating Snap</value>
+  </data>
+  <data name="ParamMouseLongButtonDownMode" xml:space="preserve">
+    <value>Long press mode</value>
+  </data>
+  <data name="ParamMouseLongButtonMask" xml:space="preserve">
+    <value>Long press button</value>
+  </data>
+  <data name="ParamMouseLongButtonDownTime" xml:space="preserve">
+    <value>Long press decision time (sec)</value>
+  </data>
+  <data name="ParamMouseLongButtonDownTimeTips" xml:space="preserve">
+    <value>It is time to be judged to be long pressed.</value>
+  </data>
+  <data name="ParamMouseLongButtonRepeatTime" xml:space="preserve">
+    <value>Repeat interval (sec)</value>
+  </data>
+  <data name="ParamMouseLongButtonRepeatTimeTips" xml:space="preserve">
+    <value>Repeat time with repeat input.</value>
+  </data>
+  <data name="ParamMouseIsGestureEnabled" xml:space="preserve">
+    <value>Use mouse gesture</value>
+  </data>
+  <data name="EnumLongButtonMaskLeft" xml:space="preserve">
+    <value>Left button</value>
+  </data>
+  <data name="EnumLongButtonMaskRight" xml:space="preserve">
+    <value>Right button</value>
+  </data>
+  <data name="EnumLongButtonMaskAll" xml:space="preserve">
+    <value>All buttons</value>
+  </data>
+  <data name="ParamMouseGestureMinimumDistance" xml:space="preserve">
+    <value>Minimum movement distance of mouse gesture determination</value>
+  </data>
+  <data name="ParamMouseGestureMinimumDistanceTips" xml:space="preserve">
+    <value>It will be judged as gesture start only after moving this distance (pixel).</value>
+  </data>
+  <data name="ParamTouchIsEnabled" xml:space="preserve">
+    <value>Enable touch operation</value>
+  </data>
+  <data name="ParamTouchIsEnabledTips" xml:space="preserve">
+    <value>When set to OFF, it functions as standard mouse operation.</value>
+  </data>
+  <data name="ParamTouchDragAction" xml:space="preserve">
+    <value>Single touch drag operation</value>
+  </data>
+  <data name="ParamTouchHoldAction" xml:space="preserve">
+    <value>Long press Touch drag operation</value>
+  </data>
+  <data name="ParamTouchMinimumManipulationRadius" xml:space="preserve">
+    <value>Touch operation pinch minimum determination distance</value>
+  </data>
+  <data name="ParamTouchMinimumManipulationRadiusTips" xml:space="preserve">
+    <value>It is the distance between the minimum of 2 touches judged as rotation by touch operation, enlargement / reduction.</value>
+  </data>
+  <data name="ParamTouchMinimumManipulationDistance" xml:space="preserve">
+    <value>Touch operation pinch minimum change distance</value>
+  </data>
+  <data name="ParamTouchMinimumManipulationDistanceTips" xml:space="preserve">
+    <value>This is the minimum operating distance at which rotation and enlargement / reduction by touch operation are effective.</value>
+  </data>
+  <data name="ParamTouchIsAngleEnabled" xml:space="preserve">
+    <value>Enable rotation operation with multi-touch</value>
+  </data>
+  <data name="ParamTouchIsScaleEnabled" xml:space="preserve">
+    <value>Enable sizing operation with pinch in and pinch out</value>
+  </data>
+  <data name="ParamTouchGestureMinimumDistance" xml:space="preserve">
+    <value>Minimum movement distance for touch drag judgment</value>
+  </data>
+  <data name="ParamTouchGestureMinimumDistanceTips" xml:space="preserve">
+    <value>Dragging is judged to start for the first time by moving this distance.</value>
+  </data>
+  <data name="EnumTouchActionNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="EnumTouchActionDrag" xml:space="preserve">
+    <value>Touch view operation</value>
+  </data>
+  <data name="EnumTouchActionMouseDrag" xml:space="preserve">
+    <value>Mouse drag operation</value>
+  </data>
+  <data name="EnumTouchActionGesture" xml:space="preserve">
+    <value>Gesture</value>
+  </data>
+  <data name="LongButtonDownModeNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="LongButtonDownModeLoupe" xml:space="preserve">
+    <value>Loupe</value>
+  </data>
+  <data name="LongButtonDownModeLoupeTips" xml:space="preserve">
+    <value>Temporarily enlarge the image.</value>
+  </data>
+  <data name="LongButtonDownModeRepeat" xml:space="preserve">
+    <value>Repeat input</value>
+  </data>
+  <data name="LongButtonDownModeRepeatTips" xml:space="preserve">
+    <value>Execute the command continuously.</value>
+  </data>
+  <data name="ControlEditMouseDragReset" xml:space="preserve">
+    <value>Reset...</value>
+  </data>
+  <data name="ControlEditMouseDragListHeaderCommand" xml:space="preserve">
+    <value>Command</value>
+  </data>
+  <data name="ControlEditMouseDragListHeaderDrag" xml:space="preserve">
+    <value>Drag operation</value>
+  </data>
+  <data name="EnumDragActionTypeNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="EnumDragActionTypeGesture" xml:space="preserve">
+    <value>Gesture</value>
+  </data>
+  <data name="EnumDragActionTypeMove" xml:space="preserve">
+    <value>Move</value>
+  </data>
+  <data name="EnumDragActionTypeMoveScale" xml:space="preserve">
+    <value>Move (scale dependent)</value>
+  </data>
+  <data name="EnumDragActionTypeAngle" xml:space="preserve">
+    <value>Rotation</value>
+  </data>
+  <data name="EnumDragActionTypeScale" xml:space="preserve">
+    <value>Scaling</value>
+  </data>
+  <data name="EnumDragActionTypeScaleSlider" xml:space="preserve">
+    <value>Scaling (horizontal slide)</value>
+  </data>
+  <data name="EnumDragActionTypeFlipHorizontal" xml:space="preserve">
+    <value>Flip horizontal</value>
+  </data>
+  <data name="EnumDragActionTypeFlipVertical" xml:space="preserve">
+    <value>Flip vertical</value>
+  </data>
+  <data name="EnumDragActionTypeWindowMove" xml:space="preserve">
+    <value>Move window</value>
+  </data>
+  <data name="ControlEditDragOld" xml:space="preserve">
+    <value>Old</value>
+  </data>
+  <data name="ControlEditDragNew" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="WordClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="ControlEditDragTitle" xml:space="preserve">
+    <value>Drag operation</value>
+  </data>
+  <data name="ControlEditDragInput" xml:space="preserve">
+    <value>Mouse input here</value>
+  </data>
+  <data name="ControlEditDragNote" xml:space="preserve">
+    <value>Mouse button input in light blue frame.
+You can not use right button drag because it is reserved with mouse gesture. </value>
+  </data>
+  <data name="ParamLoupeIsLoupeCenter" xml:space="preserve">
+    <value>At the start, move the cursor position to the screen center</value>
+  </data>
+  <data name="ParamLoupeMinimumScale" xml:space="preserve">
+    <value>Loupe minimum magnification</value>
+  </data>
+  <data name="ParamLoupeMaximumScale" xml:space="preserve">
+    <value>Loupe maximum magnification</value>
+  </data>
+  <data name="ParamLoupeDefaultScale" xml:space="preserve">
+    <value>Loupe standard magnification</value>
+  </data>
+  <data name="ParamLoupeScaleStep" xml:space="preserve">
+    <value>Loupe magnification change unit</value>
+  </data>
+  <data name="ParamLoupeIsResetByRestart" xml:space="preserve">
+    <value>Start loupe at standard magnification</value>
+  </data>
+  <data name="ParamLoupeIsResetByRestartTips" xml:space="preserve">
+    <value>When set to OFF, the previous magnification will be inherited.</value>
+  </data>
+  <data name="ParamLoupeIsResetByPageChanged" xml:space="preserve">
+    <value>Release the loupe after moving the page</value>
+  </data>
+  <data name="ParamLoupeIsWheelScalingEnabled" xml:space="preserve">
+    <value>When using a loupe, change the magnifying power by wheel operation</value>
+  </data>
+  <data name="ParamLoupeIsWheelScalingEnabledTips" xml:space="preserve">
+    <value>Commands to which wheel operation is assigned are invalid.</value>
+  </data>
+  <data name="ParamLoupeSpeed" xml:space="preserve">
+    <value>Loupe Speed</value>
+  </data>
+  <data name="ParamLoupeIsEscapeKeyEnabled" xml:space="preserve">
+    <value>Use the Esc key to release the loupe</value>
+  </data>
 </root>

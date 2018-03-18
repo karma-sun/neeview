@@ -6,6 +6,7 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:NeeView.Setting"
              xmlns:nv="clr-namespace:NeeView"
+             xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid x:Name="Root">
@@ -14,7 +15,7 @@
 
                 <DockPanel DockPanel.Dock="Bottom">
                     <Grid DockPanel.Dock="Top">
-                        <Button x:Name="ResetDragSettingButton" Content="すべて初期化..." MinWidth="120" Height="30" Margin="8" Padding="5,0" HorizontalAlignment="Right" Click="ResetDragActionSettingButton_Click" ToolTip="すべてのドラッグ操作設定を初期化します"/>
+                        <Button x:Name="ResetDragSettingButton" Content="{x:Static properties:Resources.ControlEditMouseDragReset}" MinWidth="120" Height="30" Margin="8" Padding="5,0" HorizontalAlignment="Right" Click="ResetDragActionSettingButton_Click" ToolTip="すべてのドラッグ操作設定を初期化します"/>
                     </Grid>
 
                 </DockPanel>
@@ -38,15 +39,15 @@
                     <ListView.View>
                         <GridView>
 
-                            <GridViewColumn Header="コマンド" Width="200" >
+                            <GridViewColumn Header="{x:Static properties:Resources.ControlEditMouseDragListHeaderCommand}" Width="200" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding Header}" TextTrimming="CharacterEllipsis" ToolTipService.ShowOnDisabled="True" ToolTip="{Binding Tips}"/>
+                                        <TextBlock Text="{Binding Header}" TextTrimming="CharacterEllipsis" ToolTipService.ShowOnDisabled="True"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Header="ドラッグ操作" Width="300" >
+                            <GridViewColumn Header="{x:Static properties:Resources.ControlEditMouseDragListHeaderDrag}" Width="300" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding DragAction.DragKey}" TextTrimming="CharacterEllipsis"/>

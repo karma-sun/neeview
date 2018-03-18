@@ -4,16 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView.Setting"
+        xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}"
-        Title="ドラッグ操作設定" Height="280" Width="500">
+        Title="{x:Static properties:Resources.ControlEditDragTitle}" Height="280" Width="500">
 
     <Grid>
         <DockPanel Margin="10,10,10,55">
             <DockPanel DockPanel.Dock="Bottom">
-                <TextBlock Text="新しい設定" VerticalAlignment="Center" MinWidth="90"/>
+                <TextBlock Text="{x:Static properties:Resources.ControlEditDragNew}" VerticalAlignment="Center" MinWidth="90"/>
 
-                <Button DockPanel.Dock="Right" VerticalAlignment="Center" Margin="2"  Content="クリア" Padding="10,2" Command="{Binding ClearCommand}">
+                <Button DockPanel.Dock="Right" VerticalAlignment="Center" Margin="2"  Content="{x:Static properties:Resources.WordClear}" Padding="10,2" Command="{Binding ClearCommand}">
                 </Button>
 
                 <DockPanel ToolTip="{Binding DragToken.OverlapsText}">
@@ -36,7 +37,7 @@
 
             </DockPanel>
             <DockPanel DockPanel.Dock="Bottom">
-                <TextBlock Text="現在の設定"  VerticalAlignment="Center" MinWidth="90"/>
+                <TextBlock Text="{x:Static properties:Resources.ControlEditDragOld}"  VerticalAlignment="Center" MinWidth="90"/>
                 <Grid Width="12" Margin="0,0,2,2"/>
                 <TextBox DockPanel.Dock="Bottom" x:Name="OldGestureText" Margin="2" VerticalAlignment="Center" IsReadOnly="True" IsHitTestVisible="False" BorderBrush="Transparent"
                            Text="{Binding OriginalDrag}" />
@@ -49,19 +50,17 @@
             </Grid>
             <Popup IsOpen="{Binding ElementName=WindowHelp, Path=IsChecked}" PlacementTarget="{Binding ElementName=WindowHelp}" Placement="Top" HorizontalAlignment="Right">
                 <Border BorderBrush="Gray" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}">
-                    <TextBlock Margin="10">
-                                水色の枠内でマウスボタン入力します<LineBreak/>
-                                右ボタンドラッグはマウスジェスチャーで予約されているため使用できません。
+                    <TextBlock Margin="10" Text="{x:Static properties:Resources.ControlEditDragNote}">
                     </TextBlock>
                 </Border>
             </Popup>
 
 
             <Grid x:Name="GestureBox" Margin="2" Background="AliceBlue">
-                <TextBlock Text="ここでマウス入力" VerticalAlignment="Center" TextAlignment="Center" Foreground="Gray"/>
+                <TextBlock Text="{x:Static properties:Resources.ControlEditDragInput}" VerticalAlignment="Center" TextAlignment="Center" Foreground="Gray"/>
             </Grid>
         </DockPanel>
-        <Button x:Name="OkButton" Content="OK" Width="80" Height="28" Margin="0,0,95,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="OkButton_Click"/>
-        <Button x:Name="CancelButton" Content="Cancel" Width="80" Height="28" Margin="0,0,10,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="CancelButton_Click"/>
+        <Button x:Name="OkButton" Content="{x:Static properties:Resources.WordOK}" Width="80" Height="28" Margin="0,0,95,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="OkButton_Click"/>
+        <Button x:Name="CancelButton" Content="{x:Static properties:Resources.WordCancel}" Width="80" Height="28" Margin="0,0,10,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="CancelButton_Click"/>
     </Grid>
 </Window>

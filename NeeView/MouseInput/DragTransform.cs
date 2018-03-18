@@ -59,7 +59,7 @@ namespace NeeView
 
         // ウィンドウ枠内の移動に制限するフラグ
         private bool _isLimitMove = true;
-        [PropertyMember("移動をウィンドウ内に制限する")]
+        [PropertyMember("@ParamDragTransformIsLimitMove")]
         public bool IsLimitMove
         {
             get { return _isLimitMove; }
@@ -68,7 +68,7 @@ namespace NeeView
 
 
         // 回転スナップ。0で無効
-        [PropertyMember("回転スナップ")]
+        [PropertyMember("@ParamDragTransformAngleFrequency")]
         public double AngleFrequency { get; set; } = 0;
 
 

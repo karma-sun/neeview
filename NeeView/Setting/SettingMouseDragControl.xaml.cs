@@ -43,9 +43,7 @@ namespace NeeView.Setting
         {
             public DragActionType Key { get; set; }
             public DragAction DragAction { get; set; }
-
             public string Header => Key.ToAliasName();
-            public string Tips => Key.ToTips();
         }
 
         // コマンド一覧

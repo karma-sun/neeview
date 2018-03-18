@@ -41,7 +41,7 @@ namespace NeeView
 
 
         //
-        [PropertyMember("マウスジェスチャー判定の最小移動距離", Tips = "この距離(pixel)移動して初めてジェスチャー開始と判定されます。")]
+        [PropertyMember("@ParamMouseGestureMinimumDistance", Tips = "@ParamMouseGestureMinimumDistanceTips")]
         public double GestureMinimumDistance
         {
             get { return _gesture.GestureMinimumDistance; }

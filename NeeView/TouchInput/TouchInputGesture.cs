@@ -59,7 +59,7 @@ namespace NeeView
         #region Properties
 
         //
-        [PropertyMember("タッチドラッグ判定の最小移動距離", Tips = "この距離を移動して初めてドラッグ開始と判定されます。")]
+        [PropertyMember("@ParamTouchGestureMinimumDistance", Tips = "@ParamTouchGestureMinimumDistanceTips")]
         public double GestureMinimumDistance
         {
             get { return _gesture.GestureMinimumDistance; }

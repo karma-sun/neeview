@@ -41,14 +41,14 @@ namespace NeeView
 
         #region Properties
 
-        [PropertyMember("開始時カーソル位置を画面中心にする")]
+        [PropertyMember("@ParamLoupeIsLoupeCenter")]
         public bool IsLoupeCenter
         {
             get { return _IsLoupeCenter; }
             set { if (_IsLoupeCenter != value) { _IsLoupeCenter = value; RaisePropertyChanged(); } }
         }
 
-        [PropertyRange("ルーペ最小倍率", 1, 20, TickFrequency = 1.0, IsEditable = true)]
+        [PropertyRange("@ParamLoupeMinimumScale", 1, 20, TickFrequency = 1.0, IsEditable = true)]
         public double MinimumScale
         {
             get { return _minimumScale; }
@@ -62,7 +62,7 @@ namespace NeeView
             }
         }
 
-        [PropertyRange("ルーペ最大倍率", 1, 20, TickFrequency = 1.0, IsEditable = true)]
+        [PropertyRange("@ParamLoupeMaximumScale", 1, 20, TickFrequency = 1.0, IsEditable = true)]
         public double MaximumScale
         {
             get { return _maximumScale; }
@@ -76,7 +76,7 @@ namespace NeeView
             }
         }
 
-        [PropertyRange("ルーペ標準倍率", 1, 20, TickFrequency = 1.0, IsEditable = true)]
+        [PropertyRange("@ParamLoupeDefaultScale", 1, 20, TickFrequency = 1.0, IsEditable = true)]
         public double DefaultScale
         {
             get { return _loupe.DefaultScale; }
@@ -90,34 +90,34 @@ namespace NeeView
             }
         }
 
-        [PropertyRange("ルーペ倍率変化単位", 0.1, 5.0, TickFrequency = 0.1, IsEditable = true)]
+        [PropertyRange("@ParamLoupeScaleStep", 0.1, 5.0, TickFrequency = 0.1, IsEditable = true)]
         public double ScaleStep
         {
             get { return _scaleStep; }
             set { if (_scaleStep != value) { _scaleStep = Math.Max(value, 0.0); RaisePropertyChanged(); } }
         }
 
-        [PropertyMember("ルーペを標準倍率で開始する", Tips = "OFFにすると前回の倍率を引き継ぎます。")]
+        [PropertyMember("@ParamLoupeIsResetByRestart", Tips = "@ParamLoupeIsResetByRestartTips")]
         public bool IsResetByRestart
         {
             get { return _isResetByRestart; }
             set { if (_isResetByRestart != value) { _isResetByRestart = value; RaisePropertyChanged(); } }
         }
 
-        [PropertyMember("ページを移動したらルーペを解除する")]
+        [PropertyMember("@ParamLoupeIsResetByPageChanged")]
         public bool IsResetByPageChanged
         {
             get { return _isResetByPageChanged; }
             set { if (_isResetByPageChanged != value) { _isResetByPageChanged = value; RaisePropertyChanged(); } }
         }
 
-        [PropertyMember("ルーペ使用時、ホイール操作でルーペ倍率を変更する", Tips = "ホイール操作が割り当てられているコマンドは無効になります。")]
+        [PropertyMember("@ParamLoupeIsWheelScalingEnabled", Tips = "@ParamLoupeIsWheelScalingEnabledTips")]
         public bool IsWheelScalingEnabled { get; set; } = true;
 
-        [PropertyRange("ルーペ移動速度", 0.0, 10.0, TickFrequency = 0.1, Format ="×{0:0.0}")]
+        [PropertyRange("@ParamLoupeSpeed", 0.0, 10.0, TickFrequency = 0.1, Format ="×{0:0.0}")]
         public double Speed { get; set; } = 1.0;
 
-        [PropertyMember("Escキーでルーペを解除する")]
+        [PropertyMember("@ParamLoupeIsEscapeKeyEnabled")]
         public bool IsEscapeKeyEnabled { get; set; } = true;
 
         #endregion

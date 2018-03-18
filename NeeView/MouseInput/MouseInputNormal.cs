@@ -12,11 +12,11 @@ namespace NeeView
 {
     public enum LongButtonMask
     {
-        [AliasName("左ボタン")]
+        [AliasName("@EnumLongButtonMaskLeft")]
         Left,
-        [AliasName("右ボタン")]
+        [AliasName("@EnumLongButtonMaskRight")]
         Right,
-        [AliasName("全てのボタン")]
+        [AliasName("@EnumLongButtonMaskAll")]
         All,
     }
 
@@ -43,24 +43,24 @@ namespace NeeView
     public class MouseInputNormal : MouseInputBase
     {
         private LongButtonDownMode _longButtonDownMode = LongButtonDownMode.Loupe;
-        [PropertyMember("長押しモード")]
+        [PropertyMember("@ParamMouseLongButtonDownMode")]
         public LongButtonDownMode LongButtonDownMode
         {
             get { return _longButtonDownMode; }
             set { _longButtonDownMode = value; RaisePropertyChanged(); }
         }
 
-        [PropertyMember("長押しボタン")]
+        [PropertyMember("@ParamMouseLongButtonMask")]
         public LongButtonMask LongButtonMask { get; set; }
 
-        [PropertyRange("長押し判定時間(秒)", 0.1, 2.0, TickFrequency = 0.1, Tips = "長押しと判定される時間です。")]
+        [PropertyRange("@ParamMouseLongButtonDownTime", 0.1, 2.0, TickFrequency = 0.1, Tips = "@ParamMouseLongButtonDownTimeTips")]
         public double LongButtonDownTime { get; set; } = 1.0;
 
-        [PropertyRange("リピート間隔(秒)", 0.01, 1.0, TickFrequency = 0.01, Tips = "リピート入力でのリピート時間です。")]
+        [PropertyRange("@ParamMouseLongButtonRepeatTime", 0.01, 1.0, TickFrequency = 0.01, Tips = "@ParamMouseLongButtonRepeatTimeTips")]
         public double LongButtonRepeatTime { get; set; } = 0.1;
 
         // マウスジェスチャー有効
-        [PropertyMember("マウスジェスチャー有効")]
+        [PropertyMember("@ParamMouseIsGestureEnabled")]
         public bool IsGestureEnabled { get; set; } = true;
 
         /// <summary>

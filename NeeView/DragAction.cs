@@ -13,57 +13,35 @@ namespace NeeView
     // ドラッグアクションの種類
     public enum DragActionType
     {
-        [AliasName("なし")]
+        [AliasName("@EnumDragActionTypeNone")]
         None,
 
-        [AliasName("ジェスチャー")]
+        [AliasName("@EnumDragActionTypeGesture")]
         Gesture,
 
-        [AliasName("移動")]
+        [AliasName("@EnumDragActionTypeMove")]
         Move,
 
-        [AliasName("移動(スケール依存)")]
+        [AliasName("@EnumDragActionTypeMoveScale")]
         MoveScale,
 
-        [AliasName("回転")]
+        [AliasName("@EnumDragActionTypeAngle")]
         Angle,
 
-        [AliasName("拡大縮小")]
+        [AliasName("@EnumDragActionTypeScale")]
         Scale,
 
-        [AliasName("移動(スケール依存)")]
+        [AliasName("@EnumDragActionTypeScaleSlider")]
         ScaleSlider,
 
-        [AliasName("左右反転")]
+        [AliasName("@EnumDragActionTypeFlipHorizontal")]
         FlipHorizontal,
 
-        [AliasName("上下反転")]
+        [AliasName("@EnumDragActionTypeFlipVertical")]
         FlipVertical,
 
-        [AliasName("ウィンドウ移動")]
+        [AliasName("@EnumDragActionTypeWindowMove")]
         WindowMove,
-    }
-
-    public static class DragActionTypeExtension
-    {
-        public static Dictionary<DragActionType, string> TipsList = new Dictionary<DragActionType, string>()
-        {
-            [DragActionType.None] = null,
-            [DragActionType.Gesture] = "マウス移動の組み合わせでコマンドを実行します",
-            [DragActionType.Move] = "ドラッグで画像を移動させます",
-            [DragActionType.MoveScale] = "画像の大きさに応じて移動速度を変えます",
-            [DragActionType.Angle] = "ドラッグで回転させます",
-            [DragActionType.Scale] = "ドラッグで拡縮。中心を基準に拡大率を変化させます",
-            [DragActionType.ScaleSlider] = "左右ドラッグで拡大率を変化させます",
-            [DragActionType.FlipHorizontal] = "左右ドラッグで左右反転させます",
-            [DragActionType.FlipVertical] = "上下ドラッグで上下反転させます",
-            [DragActionType.WindowMove] = "ドラッグでウィンドウを移動させます",
-        };
-
-        public static string ToTips(this DragActionType action)
-        {
-            return TipsList[action];
-        }
     }
 
     // ドラッグアクショングループ
@@ -109,7 +87,7 @@ namespace NeeView
         }
 
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento
@@ -157,7 +135,7 @@ namespace NeeView
             DragKey = new DragKey(element.Key);
         }
 
-        #endregion
+#endregion
     }
 
 
@@ -206,7 +184,7 @@ namespace NeeView
             { }
         }
 
-        #region IEquatable
+#region IEquatable
 
         /// <summary>
         /// 比較
@@ -293,7 +271,7 @@ namespace NeeView
             return !(a == b);
         }
 
-        #endregion
+#endregion
 
         public bool IsValid => MouseButtonBits != MouseButtonBits.None;
 

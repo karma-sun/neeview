@@ -22,13 +22,13 @@ namespace NeeView
     // 通知表示の種類
     public enum ShowMessageStyle
     {
-        [AliasName("表示しない")]
+        [AliasName("@EnumShowMessageStyleNone")]
         None,
 
-        [AliasName("表示する")]
+        [AliasName("@EnumShowMessageStyleNormal")]
         Normal,
 
-        [AliasName("小さく表示する")]
+        [AliasName("@EnumShowMessageStyleTiny")]
         Tiny,
     }
 
@@ -48,19 +48,19 @@ namespace NeeView
             Current = this;
         }
 
-        [PropertyMember("開いたブック名の表示等の通知")]
+        [PropertyMember("@ParamInfoMessageNoticeShowMessageStyle")]
         public ShowMessageStyle NoticeShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
 
-        [PropertyMember("コマンド実行メッセージの表示")]
+        [PropertyMember("@ParamInfoMessageCommandShowMessageStyle")]
         public ShowMessageStyle CommandShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
 
-        [PropertyMember("ジェスチャーの状態の表示")]
+        [PropertyMember("@ParamInfoMessageGestureShowMessageStyle")]
         public ShowMessageStyle GestureShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
 
-        [PropertyMember("Now Loading の表示")]
+        [PropertyMember("@ParamInfoMessageNowLoadingShowMessageStyle")]
         public ShowMessageStyle NowLoadingShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
 
-        [PropertyMember("ドラッグ操作によるスケール変更等の情報表示")]
+        [PropertyMember("@ParamInfoMessageViewTransformShowMessageStyle")]
         public ShowMessageStyle ViewTransformShowMessageStyle { get; set; } = ShowMessageStyle.None;
 
 

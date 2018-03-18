@@ -99,11 +99,11 @@ namespace NeeView
         #region Properties
 
         // 「ブックを開く」ダイアログを現在の場所を基準にして開く
-        [PropertyMember("「ファイルを開く」でのファイル選択ダイアログの開始場所を現在開いているブックの場所にする")]
+        [PropertyMember("@ParamIsOpenbookAtCurrentPlace")]
         public bool IsOpenbookAtCurrentPlace { get; set; }
 
         //
-        [PropertyMember("テーマカラー")]
+        [PropertyMember("@ParamPanelColor")]
         public PanelColor PanelColor
         {
             get { return _panelColor; }
@@ -167,7 +167,7 @@ namespace NeeView
         /// <summary>
         /// フルスクリーン時にパネルを隠す
         /// </summary>
-        [PropertyMember("フルスクリーンのときにサイドパネルを自動的に隠す")]
+        [PropertyMember("@ParamIsHidePanelInFullscreen")]
         public bool IsHidePanelInFullscreen
         {
             get { return _IsHidePanelInFullscreen; }
@@ -181,7 +181,7 @@ namespace NeeView
         /// IsVisibleWindowTitle property.
         /// タイトルバーが表示されておらず、スライダーにフォーカスがある場合等にキャンバスにタイトルを表示する
         /// </summary>
-        [PropertyMember("タイトルバーが表示されない時に、表示エリアにウィンドウタイトルを表示する")]
+        [PropertyMember("@ParamIsVisibleWindowTitle")]
         public bool IsVisibleWindowTitle
         {
             get { return _IsVisibleWindowTitle; }
@@ -215,7 +215,7 @@ namespace NeeView
         /// <summary>
         /// IsVisibleBusy property.
         /// </summary>
-        [PropertyMember("画像読み込み処理中マークを画面左上に表示する")]
+        [PropertyMember("@ParamIsVisibleBusy")]
         public bool IsVisibleBusy
         {
             get { return _isVisibleBusy; }
@@ -240,7 +240,7 @@ namespace NeeView
         // 何かキーが押されているか
         public AnyKey AnyKey { get; } = new AnyKey();
 
-        [PropertyMember("アクセスキーの許可", Tips = "OFFにすると、Altキーによるシステム操作が無効になりコマンドのショートカットで使用したときの誤動作がなくなります。")]
+        [PropertyMember("@ParamIsAccessKeyEnabled", Tips = "@ParamIsAccessKeyEnabledTips")]
         public bool IsAccessKeyEnabled { get; set; } = true;
 
         #endregion

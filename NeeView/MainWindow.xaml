@@ -166,7 +166,7 @@
                             </Grid>
                         </ContentControl>
 
-                        <!-- サムネイルリスト -->
+                        <!-- フィルムストリップ -->
                         <ContentControl x:Name="DockThumbnailListSocket" DockPanel.Dock="Bottom" IsTabStop="False">
                             <local:ThumbnailListView x:Name="ThumbnailListArea"/>
                         </ContentControl>

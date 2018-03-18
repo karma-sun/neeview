@@ -841,11 +841,11 @@ namespace NeeView
         private void DartyPageSliderLayout()
         {
             _isDartyPageSliderLayout = true;
-            _isDartyThumbnailListLayout = true; // サムネイルリストも更新
+            _isDartyThumbnailListLayout = true; // フィルムストリップも更新
         }
 
         /// <summary>
-        /// サムネイルリスト更新要求
+        /// フィルムストリップ更新要求
         /// </summary>
         private void DartyThumbnailListLayout()
         {
@@ -929,7 +929,7 @@ namespace NeeView
         }
 
         /// <summary>
-        /// サムネイルリストレイアウト更新
+        /// フィルムストリップレイアウト更新
         /// </summary>
         private void UpdateThumbnailListLayout()
         {
@@ -950,7 +950,7 @@ namespace NeeView
                 this.LayerThumbnailListSocket.Content = this.ThumbnailListArea;
             }
 
-            // サムネイルリスト
+            // フィルムストリップ
             this.ThumbnailListArea.Visibility = ThumbnailList.Current.IsEnableThumbnailList && !ContentCanvas.Current.IsMediaContent ? Visibility.Visible : Visibility.Collapsed;
             this.ThumbnailListArea.DartyThumbnailList();
         }

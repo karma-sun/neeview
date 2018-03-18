@@ -111,27 +111,27 @@ namespace NeeView
         #region Properties
 
         // View変換情報表示のスケール表示をオリジナルサイズ基準にする
-        [PropertyMember("ビュー操作のスケール表示をオリジナル画像サイズ基準にする", Tips = "2ページ表示の場合は若い番号のページを基準にします。")]
+        [PropertyMember("@ParamDragTransformIsOriginalScaleShowMessage", Tips = "@ParamDragTransformIsOriginalScaleShowMessageTips")]
         public bool IsOriginalScaleShowMessage { get; set; }
 
         // 回転、拡縮をコンテンツの中心基準にする
-        [PropertyMember("回転、拡大縮小、反転の基準を画像の中心にする", Tips = "OFFにすると表示の中心を基準にします。")]
+        [PropertyMember("@ParamDragTransformIsControlCenterImage", Tips = "@ParamDragTransformIsControlCenterImage")]
         public bool IsControlCenterImage { get; set; }
 
         // 拡大率キープ
-        [PropertyMember("ページを変更しても拡縮を維持する")]
+        [PropertyMember("@ParamDragTransformIsKeepScale")]
         public bool IsKeepScale { get; set; }
 
         // 回転キープ
-        [PropertyMember("ページを変更しても回転を維持する", Tips = "自動回転有効時はこの設定は機能しません。")]
+        [PropertyMember("@ParamDragTransformIsKeepAngle", Tips = "@ParamDragTransformIsKeepAngleTips")]
         public bool IsKeepAngle { get; set; }
 
         // 反転キープ
-        [PropertyMember("ページを変更しても反転を維持する")]
+        [PropertyMember("@ParamDragTransformIsKeepFlip")]
         public bool IsKeepFlip { get; set; }
 
         // 表示開始時の基準
-        [PropertyMember("表示開始位置を画像の中心基準にする", Tips = "OFFにすると見開き方向によって右上基準、左上基準になります。")]
+        [PropertyMember("@ParamDragTransformIsViewStartPositionCenter", Tips = "@ParamDragTransformIsViewStartPositionCenterTips")]
         public bool IsViewStartPositionCenter { get; set; }
 
         // 開始時の基準

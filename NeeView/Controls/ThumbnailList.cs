@@ -35,7 +35,7 @@ namespace NeeView
         #region Properties
 
         /// <summary>
-        /// サムネイルリスト表示
+        /// フィルムストリップ表示
         /// </summary>
         public bool IsEnableThumbnailList
         {
@@ -60,7 +60,7 @@ namespace NeeView
         /// <summary>
         /// サムネイルサイズ
         /// </summary>
-        [PropertyRange("ページサムネイルサイズ", 16, 256, TickFrequency = 8, Format = "{0}×{0}")]
+        [PropertyRange("@ParamFilmStripThumbnailSize", 16, 256, TickFrequency = 8, Format = "{0}×{0}")]
         public double ThumbnailSize
         {
             get { return _thumbnailSize; }
@@ -78,7 +78,7 @@ namespace NeeView
         /// <summary>
         /// ページ番号の表示
         /// </summary>
-        [PropertyMember("ページ番号を表示する")]
+        [PropertyMember("@ParamFilmStripIsVisibleThumbnailNumber")]
         public bool IsVisibleThumbnailNumber
         {
             get { return _isVisibleThumbnailNumber; }
@@ -94,7 +94,7 @@ namespace NeeView
         /// <summary>
         /// サムネイル台紙の表示
         /// </summary>
-        [PropertyMember("背景を表示する", Tips = "自動的に隠される設定の場合にサムネイルリストの背景を表示します。")]
+        [PropertyMember("@ParamFilmStripIsVisibleThumbnailPlate", Tips = "@ParamFilmStripIsVisibleThumbnailPlateTips")]
         public bool IsVisibleThumbnailPlate
         {
             get { return _isVisibleThumbnailPlate; }
@@ -102,7 +102,7 @@ namespace NeeView
         }
 
         /// <summary>
-        /// サムネイルリスト表示状態
+        /// フィルムストリップ表示状態
         /// </summary>
         public Visibility ThumbnailListVisibility => this.BookOperation.GetPageCount() > 0 ? Visibility.Visible : Visibility.Collapsed;
 
@@ -138,13 +138,13 @@ namespace NeeView
         /// <summary>
         /// スクロールビュータッチ操作の終端挙動
         /// </summary>
-        [PropertyMember("サムネイルリストタッチスクロールの終端バウンド")]
+        [PropertyMember("@ParamFilmStripIsManipulationBoundaryFeedbackEnabled")]
         public bool IsManipulationBoundaryFeedbackEnabled { get; set; } = true;
 
         /// <summary>
         /// 選択した項目が中央に表示されるようにスクロールする
         /// </summary>
-        [PropertyMember("選択した項目が中央に表示されるようにスクロールする")]
+        [PropertyMember("@ParamFilmStripIsSelectedCenter")]
         public bool IsSelectedCenter
         {
             get { return _isSelectedCenter; }
@@ -181,7 +181,7 @@ namespace NeeView
         #region Events
 
         /// <summary>
-        /// サムネイルリストの内容が更新された
+        /// フィルムストリップの内容が更新された
         /// </summary>
         public event EventHandler Refleshed;
 
@@ -239,7 +239,7 @@ namespace NeeView
 
             if (pageList == null || ThumbnailSize < 8.0) return;
 
-            // サムネイルリストが無効の場合、処理しない
+            // フィルムストリップが無効の場合、処理しない
             if (!IsEnableThumbnailList) return;
 
             // 本の切り替え中は処理しない

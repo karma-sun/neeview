@@ -10,26 +10,26 @@ namespace NeeView
     // スライダーの方向
     public enum SliderDirection
     {
-        [AliasName("▶ 左から右")]
+        [AliasName("@EnumSliderDirectionLeftToRight")]
         LeftToRight,
 
-        [AliasName("◀ 右から左")]
+        [AliasName("@EnumSliderDirectionRightToLeft")]
         RightToLeft,
 
-        [AliasName("本を開く方向に依存")]
+        [AliasName("@EnumSliderDirectionSyncBookReadDirection")]
         SyncBookReadDirection,
     }
 
     // スライダー数値表示の配置
     public enum SliderIndexLayout
     {
-        [AliasName("表示しない")]
+        [AliasName("@EnumSliderIndexLayoutNone")]
         None,
 
-        [AliasName("左")]
+        [AliasName("@EnumSliderIndexLayoutLeft")]
         Left,
 
-        [AliasName("右")]
+        [AliasName("@EnumSliderIndexLayoutRight")]
         Right,
     }
 
@@ -88,7 +88,7 @@ namespace NeeView
         /// <summary>
         /// ページ数表示位置
         /// </summary>
-        [PropertyMember("ページ数表示位置")]
+        [PropertyMember("@ParamSliderIndexLayout")]
         public SliderIndexLayout SliderIndexLayout
         {
             get { return _SliderIndexLayout; }
@@ -98,7 +98,7 @@ namespace NeeView
         /// <summary>
         /// スライダーの方向定義
         /// </summary>
-        [PropertyMember("スライダーの方向")]
+        [PropertyMember("@ParamSliderDirection")]
         public SliderDirection SliderDirection
         {
             get { return _sliderDirection; }
@@ -124,10 +124,10 @@ namespace NeeView
         }
 
         /// <summary>
-        /// サムネイルリストとスライダーの連動
-        /// サムネイルリスト表示時に限りサムネイルリストのみに連動し表示は変化しない(マウスを離したときに決定)
+        /// フィルムストリップとスライダーの連動
+        /// フィルムストリップ表示時に限りフィルムストリップのみに連動し表示は変化しない(マウスを離したときに決定)
         /// </summary>
-        [PropertyMember("スライダーでのリアルタイム変化はサムネイルリストにのみ適用", Tips = "決定した時にページを切り替えます。")]
+        [PropertyMember("@ParamSliderIsLinkedThumbnailList", Tips = "@ParamSliderIsLinkedThumbnailListTips")]
         public bool IsSliderLinkedThumbnailList
         {
             get { return _IsSliderLinkedThumbnailList; }
@@ -201,7 +201,7 @@ namespace NeeView
         }
 
         /// <summary>
-        /// スライドとサムネイルリストを連動させるかを判定
+        /// スライドとフィルムストリップを連動させるかを判定
         /// </summary>
         /// <returns></returns>
         private bool IsThumbnailLinked() => _thumbnailList.IsEnableThumbnailList && IsSliderLinkedThumbnailList;

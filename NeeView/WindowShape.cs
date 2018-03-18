@@ -31,13 +31,13 @@ namespace NeeView
     /// </summary>
     public enum WindowChromeFrame
     {
-        [AliasName("なし")]
+        [AliasName("@EnumWindowChromeFrameNone")]
         None,
 
-        [AliasName("システム標準")]
+        [AliasName("@EnumWindowChromeFrameNoneWindowFrame")]
         WindowFrame,
 
-        [AliasName("枠線")]
+        [AliasName("@EnumWindowChromeFrameLine")]
         Line,
     }
 
@@ -161,7 +161,7 @@ namespace NeeView
         /// <summary>
         /// WindowChromeFrame property.
         /// </summary>
-        [PropertyMember("タイトルバー非表示でのウィンドウ枠")]
+        [PropertyMember("@ParamWindowShapeChromeFrame")]
         public WindowChromeFrame WindowChromeFrame
         {
             get { return _windowChromeFrame; }

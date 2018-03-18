@@ -684,4 +684,342 @@ Would you like to rename it to {1}? </value>
   <data name="ControlSusiePluginListDown" xml:space="preserve">
     <value>Down</value>
   </data>
+  <data name="SettingPageVisual" xml:space="preserve">
+    <value>Visual</value>
+  </data>
+  <data name="SettingPageVisualGeneral" xml:space="preserve">
+    <value>Visual General</value>
+  </data>
+  <data name="SettingPageVisualGeneralTheme" xml:space="preserve">
+    <value>Theme</value>
+  </data>
+  <data name="SettingPageVisualGeneralBackground" xml:space="preserve">
+    <value>Background</value>
+  </data>
+  <data name="SettingPageVisualGeneralAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPageVisualFont" xml:space="preserve">
+    <value>Font</value>
+  </data>
+  <data name="SettingPageVisualFontPanel" xml:space="preserve">
+    <value>List item font</value>
+  </data>
+  <data name="SettingPageVisualThumbnail" xml:space="preserve">
+    <value>Thumbnail</value>
+  </data>
+  <data name="SettingPageVisualThumbnailPanel" xml:space="preserve">
+    <value>List item thumbnail</value>
+  </data>
+  <data name="SettingPageVisualThumbnailFilmStrip" xml:space="preserve">
+    <value>Film strip</value>
+  </data>
+  <data name="SettingPageVisualThumbnailCache" xml:space="preserve">
+    <value>Cacge</value>
+  </data>
+  <data name="SettingPageVisualThumbnailAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPageVisualThumbnailCacheClear" xml:space="preserve">
+    <value>Clear cache</value>
+  </data>
+  <data name="SettingPageVisualThumbnailCacheClearTips" xml:space="preserve">
+    <value>Clear thumbnail cache</value>
+  </data>
+  <data name="ParamIsOpenbookAtCurrentPlace" xml:space="preserve">
+    <value>Make the start position of the file selection dialog in "Open file" the location of the currently opened book</value>
+  </data>
+  <data name="ParamPanelColor" xml:space="preserve">
+    <value>Theme color</value>
+  </data>
+  <data name="ParamIsHidePanelInFullscreen" xml:space="preserve">
+    <value>Automatically hide the side panel when it is full screen</value>
+  </data>
+  <data name="ParamIsVisibleWindowTitle" xml:space="preserve">
+    <value>When the title bar is not displayed, the window title is displayed in the display area</value>
+  </data>
+  <data name="ParamIsVisibleBusy" xml:space="preserve">
+    <value>The image reading processing in progress mark is displayed on the upper left of the screen</value>
+  </data>
+  <data name="ParamIsAccessKeyEnabled" xml:space="preserve">
+    <value>Allow access key</value>
+  </data>
+  <data name="ParamIsAccessKeyEnabledTips" xml:space="preserve">
+    <value>If it is set to OFF, system operation by Alt key will be invalid and malfunction will be eliminated when used with command shortcut. "</value>
+  </data>
+  <data name="ParamCustomBackground" xml:space="preserve">
+    <value>Custom background</value>
+  </data>
+  <data name="ParamCustomBackgroundTips" xml:space="preserve">
+    <value>This setting is applied when the background is set to "custom background".</value>
+  </data>
+  <data name="ParamWindowShapeChromeFrame" xml:space="preserve">
+    <value>Window frame with title bar hidden</value>
+  </data>
+  <data name="EnumWindowChromeFrameNone" xml:space="preserve">
+    <value>Window frame with title bar hidden</value>
+  </data>
+  <data name="EnumWindowChromeFrameWindowFrame" xml:space="preserve">
+    <value>System standard</value>
+  </data>
+  <data name="EnumWindowChromeFrameLine" xml:space="preserve">
+    <value>Frame border</value>
+  </data>
+  <data name="ControlCustomBackgroundColor" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="ControlCustomBackgroundImage" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="ControlCustomBackgroundImageSelect" xml:space="preserve">
+    <value>Select image</value>
+  </data>
+  <data name="ControlCustomBackgroundImageSelectNote" xml:space="preserve">
+    <value>Please select an image file</value>
+  </data>
+  <data name="EnumBrushTypeSolidColor" xml:space="preserve">
+    <value>Solid color</value>
+  </data>
+  <data name="EnumBrushTypeImageTile" xml:space="preserve">
+    <value>Image tile</value>
+  </data>
+  <data name="EnumBrushTypeImageFill" xml:space="preserve">
+    <value>Enlarge and display the image</value>
+  </data>
+  <data name="EnumBrushTypeImageUniform" xml:space="preserve">
+    <value>Fit image to window size</value>
+  </data>
+  <data name="EnumBrushTypeImageUniformToFill" xml:space="preserve">
+    <value>Extend the image to the full window</value>
+  </data>
+  <data name="ParamListItemFontName" xml:space="preserve">
+    <value>List item font</value>
+  </data>
+  <data name="ParamListItemFontSize" xml:space="preserve">
+    <value>Font size of list items</value>
+  </data>
+  <data name="ParamListItemIsTextWrapped" xml:space="preserve">
+    <value>Wrap file names of list item</value>
+  </data>
+  <data name="ParamListItemIsTextWrappedTips" xml:space="preserve">
+    <value>It is valid only for content style and banner style.</value>
+  </data>
+  <data name="ParamListItemNoteOpacity" xml:space="preserve">
+    <value>Supplemental text transparency of list items</value>
+  </data>
+  <data name="ParamListItemNoteOpacityTips" xml:space="preserve">
+    <value>Transparency of supplemental text in content style.</value>
+  </data>
+  <data name="ParamSidePanelIsManipulationBoundaryFeedbackEnabled" xml:space="preserve">
+    <value>Touch scroll termination bound on side panel</value>
+  </data>
+  <data name="ParamThumbnailFormat" xml:space="preserve">
+    <value>Thumbnail image format</value>
+  </data>
+  <data name="ParamThumbnailFormatTips" xml:space="preserve">
+    <value>Png is high quality but consumes more memory than Jpeg.</value>
+  </data>
+  <data name="ParamThumbnailQuality" xml:space="preserve">
+    <value>Thumbnail quality</value>
+  </data>
+  <data name="ParamThumbnailQualityTips" xml:space="preserve">
+    <value>Quality when the thumbnail image format is Jpeg.</value>
+  </data>
+  <data name="ParamThumbnailIsCacheEnabled" xml:space="preserve">
+    <value>Use thumbnail cache</value>
+  </data>
+  <data name="ParamThumbnailIsCacheEnabledTips" xml:space="preserve">
+    <value>Cache the book thumbnail.</value>
+  </data>
+  <data name="ParamThumbnailPageCapacity" xml:space="preserve">
+    <value>Page Thumbnail Capacity</value>
+  </data>
+  <data name="ParamThumbnailPageCapacityTips" xml:space="preserve">
+    <value>This is the number of page thumbnails held in memory. Close the book and it will be discarded.</value>
+  </data>
+  <data name="ParamThumbnailBookCapacity" xml:space="preserve">
+    <value>Book Thumbnail Capacity</value>
+  </data>
+  <data name="ParamThumbnailBookCapacityTips" xml:space="preserve">
+    <value>This is the number of thumbnails held in the memory in the folder list etc.</value>
+  </data>
+  <data name="ParamThumbnailBannerWidth" xml:space="preserve">
+    <value>Banner size</value>
+  </data>
+  <data name="ParamThumbnailBannerWidthTips" xml:space="preserve">
+    <value>The width of the image in banner style. The vertical width is 1/4 of the horizontal width. Since thumbnail images are diverted, the larger the size, the rough the image.</value>
+  </data>
+  <data name="ParamThumbnailThumbnailWidth" xml:space="preserve">
+    <value>Book thumbnail size</value>
+  </data>
+  <data name="ParamThumbnailThumbnailWidthTips" xml:space="preserve">
+    <value>It is the thumbnail size in the folder list contents style.</value>
+  </data>
+  <data name="ParamThumbnailIsThumbnailPopup" xml:space="preserve">
+    <value>Book thumbnail popup</value>
+  </data>
+  <data name="ParamThumbnailIsThumbnailPopupTips" xml:space="preserve">
+    <value>When placing the cursor on the thumbnail, a large thumbnail image will be displayed in the popup.</value>
+  </data>
+  <data name="ParamFilmStripThumbnailSize" xml:space="preserve">
+    <value>Page thumbnail size</value>
+  </data>
+  <data name="ParamFilmStripIsVisibleThumbnailNumber" xml:space="preserve">
+    <value>Display page number</value>
+  </data>
+  <data name="ParamFilmStripIsVisibleThumbnailPlate" xml:space="preserve">
+    <value>Display background</value>
+  </data>
+  <data name="ParamFilmStripIsVisibleThumbnailPlateTips" xml:space="preserve">
+    <value>Display the background of the filmstrip in the case of automatically hidden settings</value>
+  </data>
+  <data name="ParamFilmStripIsManipulationBoundaryFeedbackEnabled" xml:space="preserve">
+    <value>Touch scroll termination bound on filmstrip</value>
+  </data>
+  <data name="ParamFilmStripIsSelectedCenter" xml:space="preserve">
+    <value>Scroll so that the selected item appears in the center</value>
+  </data>
+  <data name="ParamSliderIsLinkedThumbnailList" xml:space="preserve">
+    <value>Real time change with slider applies only to film strip</value>
+  </data>
+  <data name="ParamSliderIsLinkedThumbnailListTips" xml:space="preserve">
+    <value>Switch pages when decided.</value>
+  </data>
+  <data name="ParamSliderIndexLayout" xml:space="preserve">
+    <value>Page number display position</value>
+  </data>
+  <data name="ParamSliderDirection" xml:space="preserve">
+    <value>Slider Direction</value>
+  </data>
+  <data name="EnumSliderDirectionLeftToRight" xml:space="preserve">
+    <value>▶ Left to right</value>
+  </data>
+  <data name="EnumSliderDirectionRightToLeft" xml:space="preserve">
+    <value>◀ Right to left</value>
+  </data>
+  <data name="EnumSliderDirectionSyncBookReadDirection" xml:space="preserve">
+    <value>Depends on books</value>
+  </data>
+  <data name="EnumSliderIndexLayoutNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="EnumSliderIndexLayoutLeft" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="EnumSliderIndexLayoutRight" xml:space="preserve">
+    <value>Right</value>
+  </data>
+  <data name="SettingPageVisualNotify" xml:space="preserve">
+    <value>Notification</value>
+  </data>
+  <data name="SettingPageVisualNotifyDisplay" xml:space="preserve">
+    <value>Notification display</value>
+  </data>
+  <data name="SettingPageVisualWindowTitile" xml:space="preserve">
+    <value>Window Title</value>
+  </data>
+  <data name="SettingPageVisualWindowTitileDisplay" xml:space="preserve">
+    <value>Display</value>
+  </data>
+  <data name="SettingPageVisualSlider" xml:space="preserve">
+    <value>Slider</value>
+  </data>
+  <data name="SettingPageVisualSliderSlider" xml:space="preserve">
+    <value>Slider</value>
+  </data>
+  <data name="SettingPagePanelGeneral" xml:space="preserve">
+    <value>General Side Panel</value>
+  </data>
+  <data name="SettingPagePanelGeneralVisual" xml:space="preserve">
+    <value>Display</value>
+  </data>
+  <data name="SettingPagePanelGeneralOperation" xml:space="preserve">
+    <value>Operation</value>
+  </data>
+  <data name="SettingPageVisualWindowTitileNote" xml:space="preserve">
+    <value>Format Description
+
+$Book .. Name of the book
+$Page .. Current page number
+$PageMax .. Maximum page number
+$ViewScale .. Scale by view operation (%)
+$FullName[LR] .. File name including path
+$Name[LR] .. File name
+$Size[LR] .. File size (ex. 100 × 100)
+$SizeEx[LR] .. File size + number of pixel bits (ex. 100 × 100 × 24)
+$Scale[LR] .. Image scale (%)
+
+"◯◯◯[LR]" indicates that the variable name changes for 1 page or 2 pages.
+For example, $Name is for 1 page, $NameL is for 2 pages left, $NameR is for 2 pages right.
+$Name is the main page (the smaller page number) when displaying 2 pages. </value>
+  </data>
+  <data name="ParamInfoMessageNoticeShowMessageStyle" xml:space="preserve">
+    <value>Notice such as display of open book name</value>
+  </data>
+  <data name="ParamInfoMessageCommandShowMessageStyle" xml:space="preserve">
+    <value>Display command execution message</value>
+  </data>
+  <data name="ParamInfoMessageGestureShowMessageStyle" xml:space="preserve">
+    <value>Display of gesture status</value>
+  </data>
+  <data name="ParamInfoMessageNowLoadingShowMessageStyle" xml:space="preserve">
+    <value>View Now Loading</value>
+  </data>
+  <data name="ParamInfoMessageViewTransformShowMessageStyle" xml:space="preserve">
+    <value>Information display such as scale change by drag operation</value>
+  </data>
+  <data name="EnumShowMessageStyleNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="EnumShowMessageStyleNormal" xml:space="preserve">
+    <value>Visible</value>
+  </data>
+  <data name="EnumShowMessageStyleTiny" xml:space="preserve">
+    <value>Tiny</value>
+  </data>
+  <data name="ParamDragTransformIsOriginalScaleShowMessage" xml:space="preserve">
+    <value>Make the scale display of the view operation the original image size standard</value>
+  </data>
+  <data name="ParamDragTransformIsOriginalScaleShowMessageTips" xml:space="preserve">
+    <value>In case of 2 page display, we refer to the page with the younger number.</value>
+  </data>
+  <data name="ParamDragTransformIsControlCenterImage" xml:space="preserve">
+    <value>Rotate, scaling, and invert the criteria as the center of the image</value>
+  </data>
+  <data name="ParamDragTransformIsControlCenterImageTips" xml:space="preserve">
+    <value>When set to OFF, the center of the display is used as the reference.</value>
+  </data>
+  <data name="ParamDragTransformIsKeepScale" xml:space="preserve">
+    <value>Maintain scaling even when changing pages</value>
+  </data>
+  <data name="ParamDragTransformIsKeepAngle" xml:space="preserve">
+    <value>Keeping rotation even if you change the page</value>
+  </data>
+  <data name="ParamDragTransformIsKeepAngleTips" xml:space="preserve">
+    <value>This setting does not work when automatic rotation is enabled.</value>
+  </data>
+  <data name="ParamDragTransformIsKeepFlip" xml:space="preserve">
+    <value>Maintain reversal even when changing page</value>
+  </data>
+  <data name="ParamDragTransformIsViewStartPositionCenter" xml:space="preserve">
+    <value>Use the display start position as the center of the image</value>
+  </data>
+  <data name="ParamDragTransformIsViewStartPositionCenterTips" xml:space="preserve">
+    <value>When set to OFF, it becomes the upper right reference and the upper left reference depending on the spreading direction.</value>
+  </data>
+  <data name="ParamWindowTitleFormat1" xml:space="preserve">
+    <value>For 1 page</value>
+  </data>
+  <data name="ParamWindowTitleFormat2" xml:space="preserve">
+    <value>For 2 page</value>
+  </data>
+  <data name="ParamWindowTitleFormatMedia" xml:space="preserve">
+    <value>For video</value>
+  </data>
+  <data name="ParamSidePanelIsLeftRightKeyEnabled" xml:space="preserve">
+    <value>The left and right key input of the side panel is valid</value>
+  </data>
+  <data name="ParamSidePanelIsLeftRightKeyEnabledTips" xml:space="preserve">
+    <value>Activate left / right key operation on the side panel. In the folder list, move the folder hierarchically.</value>
+  </data>
 </root>

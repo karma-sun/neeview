@@ -35,31 +35,31 @@ namespace NeeView
         /// <summary>
         /// 画像フォーマット
         /// </summary>
-        [PropertyMember("サムネイル画像フォーマット", Tips = "Pngは高品質ですが、Jpegより多くのメモリを消費します。")]
+        [PropertyMember("@ParamThumbnailFormat", Tips = "@ParamThumbnailFormatTips")]
         public BitmapImageFormat Format { get; set; } = BitmapImageFormat.Jpeg;
 
         /// <summary>
         /// 画像品質
         /// </summary>
         private int _quality = 80;
-        [PropertyRange("サムネイル品質", 5, 100, TickFrequency = 5, Tips = "サムネイル画像フォーマットがJpegの場合の品質です。")]
+        [PropertyRange("@ParamThumbnailQuality", 5, 100, TickFrequency = 5, Tips = "@ParamThumbnailQualityTips")]
         public int Quality
         {
             get { return _quality; }
             set { _quality = MathUtility.Clamp(value, 5, 100); }
         }
 
-        [PropertyMember("サムネイルキャッシュを使用する", Tips = "ブックサムネイルをキャッシュします。")]
+        [PropertyMember("@ParamThumbnailIsCacheEnabled", Tips = "@ParamThumbnailIsCacheEnabledTips")]
         public bool IsCacheEnabled { get; set; } = true;
 
-        [PropertyMember("ページサムネイル容量", Tips = "メモリ上のページサムネイルの保持枚数です。ブックを閉じると全て破棄されます。")]
+        [PropertyMember("@ParamThumbnailPageCapacity", Tips = "@ParamThumbnailPageCapacityTips")]
         public int PageCapacity { get; set; } = 1000;
 
-        [PropertyMember("ブックサムネイル容量", Tips = "フォルダーリスト等でのメモリ上のサムネイル保持枚数です。")]
+        [PropertyMember("@ParamThumbnailBookCapacity", Tips = "@ParamThumbnailBookCapacityTips")]
         public int BookCapacity { get; set; } = 200;
 
         private int _bannerWidth = 200;
-        [PropertyRange("バナーサイズ", 0, 512, TickFrequency = 8, Tips = "バナー表示での画像の横幅です。縦幅は横幅の1/4になります。サムネイル画像を流用しているため大きいサイズほど画像が荒くなります。")]
+        [PropertyRange("@ParamThumbnailBannerWidth", 0, 512, TickFrequency = 8, Tips = "@ParamThumbnailBannerWidthTips")]
         public int BannerWidth
         {
             get { return _bannerWidth; }
@@ -77,7 +77,7 @@ namespace NeeView
         /// ThumbnailWidth property.
         /// </summary>
         private int _thumbnailWidth = 64;
-        [PropertyRange("ブックサムネイルサイズ", 0, 256, TickFrequency = 8, Format = "{0}×{0}", Tips = "フォルダーリストのコンテンツ表示でのサムネイルサイズです。")]
+        [PropertyRange("@ParamThumbnailThumbnailWidth", 0, 256, TickFrequency = 8, Format = "{0}×{0}", Tips = "@ParamThumbnailThumbnailWidthTips")]
         public int ThumbnailWidth
         {
             get { return _thumbnailWidth; }
@@ -95,7 +95,7 @@ namespace NeeView
         /// IsThumbnailPopup property.
         /// </summary>
         private bool _IsThumbnailPopup = true;
-        [PropertyMember("ブックサムネイルのポップアップ", Tips = "サムネイルにカーソルを合わせるとポップアップで大きめのサムネイル画像が表示されます。")]
+        [PropertyMember("@ParamThumbnailIsThumbnailPopup", Tips = "@ParamThumbnailIsThumbnailPopupTips")]
         public bool IsThumbnailPopup
         {
             get { return _IsThumbnailPopup; }

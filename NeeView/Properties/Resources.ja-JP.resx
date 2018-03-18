@@ -684,4 +684,342 @@
   <data name="ControlSusiePluginListDown" xml:space="preserve">
     <value>下へ</value>
   </data>
+  <data name="SettingPageVisual" xml:space="preserve">
+    <value>表示</value>
+  </data>
+  <data name="SettingPageVisualGeneral" xml:space="preserve">
+    <value>表示全般</value>
+  </data>
+  <data name="SettingPageVisualGeneralTheme" xml:space="preserve">
+    <value>テーマ</value>
+  </data>
+  <data name="SettingPageVisualGeneralBackground" xml:space="preserve">
+    <value>背景</value>
+  </data>
+  <data name="SettingPageVisualGeneralAdvance" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
+  <data name="SettingPageVisualFont" xml:space="preserve">
+    <value>フォント</value>
+  </data>
+  <data name="SettingPageVisualFontPanel" xml:space="preserve">
+    <value>リスト項目のフォント</value>
+  </data>
+  <data name="SettingPageVisualThumbnail" xml:space="preserve">
+    <value>サムネイル</value>
+  </data>
+  <data name="SettingPageVisualThumbnailPanel" xml:space="preserve">
+    <value>リスト項目のサムネイル</value>
+  </data>
+  <data name="SettingPageVisualThumbnailFilmStrip" xml:space="preserve">
+    <value>フィルムストリップ</value>
+  </data>
+  <data name="SettingPageVisualThumbnailCache" xml:space="preserve">
+    <value>キャッシュ</value>
+  </data>
+  <data name="SettingPageVisualThumbnailAdvance" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
+  <data name="SettingPageVisualThumbnailCacheClear" xml:space="preserve">
+    <value>キャッシュ削除</value>
+  </data>
+  <data name="SettingPageVisualThumbnailCacheClearTips" xml:space="preserve">
+    <value>サムネイルキャッシュを削除する</value>
+  </data>
+  <data name="ParamIsOpenbookAtCurrentPlace" xml:space="preserve">
+    <value>「ファイルを開く」でのファイル選択ダイアログの開始場所を現在開いているブックの場所にする</value>
+  </data>
+  <data name="ParamPanelColor" xml:space="preserve">
+    <value>テーマカラー</value>
+  </data>
+  <data name="ParamIsHidePanelInFullscreen" xml:space="preserve">
+    <value>フルスクリーンのときにサイドパネルを自動的に隠す</value>
+  </data>
+  <data name="ParamIsVisibleWindowTitle" xml:space="preserve">
+    <value>タイトルバーが表示されない時に、表示エリアにウィンドウタイトルを表示する</value>
+  </data>
+  <data name="ParamIsVisibleBusy" xml:space="preserve">
+    <value>画像読み込み処理中マークを画面左上に表示する</value>
+  </data>
+  <data name="ParamIsAccessKeyEnabled" xml:space="preserve">
+    <value>アクセスキーの許可</value>
+  </data>
+  <data name="ParamIsAccessKeyEnabledTips" xml:space="preserve">
+    <value>OFFにすると、Altキーによるシステム操作が無効になりコマンドのショートカットで使用したときの誤動作がなくなります。"</value>
+  </data>
+  <data name="ParamCustomBackground" xml:space="preserve">
+    <value>カスタム背景</value>
+  </data>
+  <data name="ParamCustomBackgroundTips" xml:space="preserve">
+    <value>背景を「カスタム背景」にした時に適用される設定です。</value>
+  </data>
+  <data name="ParamWindowShapeChromeFrame" xml:space="preserve">
+    <value>タイトルバー非表示でのウィンドウ枠</value>
+  </data>
+  <data name="EnumWindowChromeFrameNone" xml:space="preserve">
+    <value>なし</value>
+  </data>
+  <data name="EnumWindowChromeFrameWindowFrame" xml:space="preserve">
+    <value>システム標準</value>
+  </data>
+  <data name="EnumWindowChromeFrameLine" xml:space="preserve">
+    <value>枠線</value>
+  </data>
+  <data name="ControlCustomBackgroundColor" xml:space="preserve">
+    <value>色</value>
+  </data>
+  <data name="ControlCustomBackgroundImage" xml:space="preserve">
+    <value>画像</value>
+  </data>
+  <data name="ControlCustomBackgroundImageSelect" xml:space="preserve">
+    <value>画像の選択</value>
+  </data>
+  <data name="ControlCustomBackgroundImageSelectNote" xml:space="preserve">
+    <value>画像ファイルを選択してください</value>
+  </data>
+  <data name="EnumBrushTypeSolidColor" xml:space="preserve">
+    <value>単色</value>
+  </data>
+  <data name="EnumBrushTypeImageTile" xml:space="preserve">
+    <value>画像タイル</value>
+  </data>
+  <data name="EnumBrushTypeImageFill" xml:space="preserve">
+    <value>画像を拡大して表示</value>
+  </data>
+  <data name="EnumBrushTypeImageUniform" xml:space="preserve">
+    <value>画像をウインドウサイズに合わせる</value>
+  </data>
+  <data name="EnumBrushTypeImageUniformToFill" xml:space="preserve">
+    <value>画像をウインドウいっぱいに広げる</value>
+  </data>
+  <data name="ParamListItemFontName" xml:space="preserve">
+    <value>リスト項目のフォント</value>
+  </data>
+  <data name="ParamListItemFontSize" xml:space="preserve">
+    <value>リスト項目のフォントサイズ</value>
+  </data>
+  <data name="ParamListItemIsTextWrapped" xml:space="preserve">
+    <value>リスト項目のファイル名を折り返して表示する</value>
+  </data>
+  <data name="ParamListItemIsTextWrappedTips" xml:space="preserve">
+    <value>コンテンツ表示、バナー表示の場合のみ有効です。</value>
+  </data>
+  <data name="ParamListItemNoteOpacity" xml:space="preserve">
+    <value>リスト項目の補足テキストの透明度</value>
+  </data>
+  <data name="ParamListItemNoteOpacityTips" xml:space="preserve">
+    <value>コンテンツ表示での補足テキストの透明度です。</value>
+  </data>
+  <data name="ParamSidePanelIsManipulationBoundaryFeedbackEnabled" xml:space="preserve">
+    <value>サイドパネルタッチスクロールの終端バウンド</value>
+  </data>
+  <data name="ParamThumbnailFormat" xml:space="preserve">
+    <value>サムネイル画像フォーマット</value>
+  </data>
+  <data name="ParamThumbnailFormatTips" xml:space="preserve">
+    <value>Pngは高品質ですが、Jpegより多くのメモリを消費します。</value>
+  </data>
+  <data name="ParamThumbnailQuality" xml:space="preserve">
+    <value>サムネイル品質</value>
+  </data>
+  <data name="ParamThumbnailQualityTips" xml:space="preserve">
+    <value>サムネイル画像フォーマットがJpegの場合の品質です。</value>
+  </data>
+  <data name="ParamThumbnailIsCacheEnabled" xml:space="preserve">
+    <value>サムネイルキャッシュを使用する</value>
+  </data>
+  <data name="ParamThumbnailIsCacheEnabledTips" xml:space="preserve">
+    <value>ブックサムネイルをキャッシュします。</value>
+  </data>
+  <data name="ParamThumbnailPageCapacity" xml:space="preserve">
+    <value>ページサムネイル容量</value>
+  </data>
+  <data name="ParamThumbnailPageCapacityTips" xml:space="preserve">
+    <value>メモリ上のページサムネイルの保持枚数です。ブックを閉じると全て破棄されます。</value>
+  </data>
+  <data name="ParamThumbnailBookCapacity" xml:space="preserve">
+    <value>ブックサムネイル容量</value>
+  </data>
+  <data name="ParamThumbnailBookCapacityTips" xml:space="preserve">
+    <value>フォルダーリスト等でのメモリ上のサムネイル保持枚数です。</value>
+  </data>
+  <data name="ParamThumbnailBannerWidth" xml:space="preserve">
+    <value>バナーサイズ</value>
+  </data>
+  <data name="ParamThumbnailBannerWidthTips" xml:space="preserve">
+    <value>バナー表示での画像の横幅です。縦幅は横幅の1/4になります。サムネイル画像を流用しているため大きいサイズほど画像が荒くなります。</value>
+  </data>
+  <data name="ParamThumbnailThumbnailWidth" xml:space="preserve">
+    <value>ブックサムネイルサイズ</value>
+  </data>
+  <data name="ParamThumbnailThumbnailWidthTips" xml:space="preserve">
+    <value>フォルダーリストのコンテンツ表示でのサムネイルサイズです。</value>
+  </data>
+  <data name="ParamThumbnailIsThumbnailPopup" xml:space="preserve">
+    <value>ブックサムネイルのポップアップ</value>
+  </data>
+  <data name="ParamThumbnailIsThumbnailPopupTips" xml:space="preserve">
+    <value>サムネイルにカーソルを合わせるとポップアップで大きめのサムネイル画像が表示されます。</value>
+  </data>
+  <data name="ParamFilmStripThumbnailSize" xml:space="preserve">
+    <value>ページサムネイルサイズ</value>
+  </data>
+  <data name="ParamFilmStripIsVisibleThumbnailNumber" xml:space="preserve">
+    <value>ページ番号を表示する</value>
+  </data>
+  <data name="ParamFilmStripIsVisibleThumbnailPlate" xml:space="preserve">
+    <value>背景を表示する</value>
+  </data>
+  <data name="ParamFilmStripIsVisibleThumbnailPlateTips" xml:space="preserve">
+    <value>自動的に隠される設定の場合にフィルムストリップの背景を表示します</value>
+  </data>
+  <data name="ParamFilmStripIsManipulationBoundaryFeedbackEnabled" xml:space="preserve">
+    <value>フィルムストリップタッチスクロールの終端バウンド</value>
+  </data>
+  <data name="ParamFilmStripIsSelectedCenter" xml:space="preserve">
+    <value>選択した項目が中央に表示されるようにスクロールする</value>
+  </data>
+  <data name="ParamSliderIsLinkedThumbnailList" xml:space="preserve">
+    <value>スライダーでのリアルタイム変化はフィルムストリップにのみ適用</value>
+  </data>
+  <data name="ParamSliderIsLinkedThumbnailListTips" xml:space="preserve">
+    <value>決定した時にページを切り替えます。</value>
+  </data>
+  <data name="ParamSliderIndexLayout" xml:space="preserve">
+    <value>ページ数表示位置</value>
+  </data>
+  <data name="ParamSliderDirection" xml:space="preserve">
+    <value>スライダーの方向</value>
+  </data>
+  <data name="EnumSliderDirectionLeftToRight" xml:space="preserve">
+    <value>▶ 左から右</value>
+  </data>
+  <data name="EnumSliderDirectionRightToLeft" xml:space="preserve">
+    <value>◀ 右から左</value>
+  </data>
+  <data name="EnumSliderDirectionSyncBookReadDirection" xml:space="preserve">
+    <value>本を開く方向に依存</value>
+  </data>
+  <data name="EnumSliderIndexLayoutNone" xml:space="preserve">
+    <value>表示しない</value>
+  </data>
+  <data name="EnumSliderIndexLayoutLeft" xml:space="preserve">
+    <value>左</value>
+  </data>
+  <data name="EnumSliderIndexLayoutRight" xml:space="preserve">
+    <value>右</value>
+  </data>
+  <data name="SettingPageVisualNotify" xml:space="preserve">
+    <value>通知</value>
+  </data>
+  <data name="SettingPageVisualNotifyDisplay" xml:space="preserve">
+    <value>通知表示</value>
+  </data>
+  <data name="SettingPageVisualWindowTitile" xml:space="preserve">
+    <value>ウィンドウタイトル</value>
+  </data>
+  <data name="SettingPageVisualWindowTitileDisplay" xml:space="preserve">
+    <value>表示</value>
+  </data>
+  <data name="SettingPageVisualSlider" xml:space="preserve">
+    <value>スライダー</value>
+  </data>
+  <data name="SettingPageVisualSliderSlider" xml:space="preserve">
+    <value>スライダー</value>
+  </data>
+  <data name="SettingPagePanelGeneral" xml:space="preserve">
+    <value>サイドパネル全般</value>
+  </data>
+  <data name="SettingPagePanelGeneralVisual" xml:space="preserve">
+    <value>表示</value>
+  </data>
+  <data name="SettingPagePanelGeneralOperation" xml:space="preserve">
+    <value>操作</value>
+  </data>
+  <data name="SettingPageVisualWindowTitileNote" xml:space="preserve">
+    <value>フォーマットの説明
+
+$Book .. 開いているブック名
+$Page  .. 現在ページ番号
+$PageMax .. 最大ページ番号
+$ViewScale .. ビュー操作による表示倍率(%)
+$FullName[LR] .. パスを含むファイル名
+$Name[LR] .. ファイル名
+$Size[LR] .. ファイルサイズ(ex. 100×100)
+$SizeEx[LR] .. ファイルサイズ + ピクセルビット数(ex. 100×100×24)
+$Scale[LR] .. 画像の表示倍率(%)
+
+"◯◯◯[LR]" は、1ページ用、2ページ用で変数名が変わることを示します。
+例えば $Name は1ページ用、 $NameL は２ページ左用、 $NameR は2ページ右用になります。
+$Name は2ページ表示時には主となるページ(ページ番号の小さい方)になります。</value>
+  </data>
+  <data name="ParamInfoMessageNoticeShowMessageStyle" xml:space="preserve">
+    <value>開いたブック名の表示等の通知</value>
+  </data>
+  <data name="ParamInfoMessageCommandShowMessageStyle" xml:space="preserve">
+    <value>コマンド実行メッセージの表示</value>
+  </data>
+  <data name="ParamInfoMessageGestureShowMessageStyle" xml:space="preserve">
+    <value>ジェスチャーの状態の表示</value>
+  </data>
+  <data name="ParamInfoMessageNowLoadingShowMessageStyle" xml:space="preserve">
+    <value>Now Loading の表示</value>
+  </data>
+  <data name="ParamInfoMessageViewTransformShowMessageStyle" xml:space="preserve">
+    <value>ドラッグ操作によるスケール変更等の情報表示</value>
+  </data>
+  <data name="EnumShowMessageStyleNone" xml:space="preserve">
+    <value>表示しない</value>
+  </data>
+  <data name="EnumShowMessageStyleNormal" xml:space="preserve">
+    <value>表示する</value>
+  </data>
+  <data name="EnumShowMessageStyleTiny" xml:space="preserve">
+    <value>小さく表示する</value>
+  </data>
+  <data name="ParamDragTransformIsOriginalScaleShowMessage" xml:space="preserve">
+    <value>ビュー操作のスケール表示をオリジナル画像サイズ基準にする</value>
+  </data>
+  <data name="ParamDragTransformIsOriginalScaleShowMessageTips" xml:space="preserve">
+    <value>2ページ表示の場合は若い番号のページを基準にします。</value>
+  </data>
+  <data name="ParamDragTransformIsControlCenterImage" xml:space="preserve">
+    <value>回転、拡大縮小、反転の基準を画像の中心にする</value>
+  </data>
+  <data name="ParamDragTransformIsControlCenterImageTips" xml:space="preserve">
+    <value>OFFにすると表示の中心を基準にします。</value>
+  </data>
+  <data name="ParamDragTransformIsKeepScale" xml:space="preserve">
+    <value>ページを変更しても拡縮を維持する</value>
+  </data>
+  <data name="ParamDragTransformIsKeepAngle" xml:space="preserve">
+    <value>ページを変更しても回転を維持する</value>
+  </data>
+  <data name="ParamDragTransformIsKeepAngleTips" xml:space="preserve">
+    <value>自動回転有効時はこの設定は機能しません。</value>
+  </data>
+  <data name="ParamDragTransformIsKeepFlip" xml:space="preserve">
+    <value>ページを変更しても反転を維持する</value>
+  </data>
+  <data name="ParamDragTransformIsViewStartPositionCenter" xml:space="preserve">
+    <value>表示開始位置を画像の中心基準にする</value>
+  </data>
+  <data name="ParamDragTransformIsViewStartPositionCenterTips" xml:space="preserve">
+    <value>OFFにすると、見開き方向によって右上基準、左上基準になります。</value>
+  </data>
+  <data name="ParamWindowTitleFormat1" xml:space="preserve">
+    <value>1ページ用</value>
+  </data>
+  <data name="ParamWindowTitleFormat2" xml:space="preserve">
+    <value>2ページ用</value>
+  </data>
+  <data name="ParamWindowTitleFormatMedia" xml:space="preserve">
+    <value>動画用</value>
+  </data>
+  <data name="ParamSidePanelIsLeftRightKeyEnabled" xml:space="preserve">
+    <value>サイドパネルでの左右キー有効</value>
+  </data>
+  <data name="ParamSidePanelIsLeftRightKeyEnabledTips" xml:space="preserve">
+    <value>サイドパネルでの左右キー操作を有効にします。フォルダーリストではフォルダーの階層移動を行います。</value>
+  </data>
 </root>

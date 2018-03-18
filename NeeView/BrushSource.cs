@@ -14,11 +14,20 @@ namespace NeeView
     /// </summary>
     public enum BrushType
     {
-        SolidColor, // 単色
-        ImageTile, // 画像タイル
-        ImageFill, // 画像を拡大して表示
-        ImageUniform, // 画像をウインドウサイズに合わせる
-        ImageUniformToFill, // 縦横比をウインドウいっぱいに広げる
+        [AliasName("@EnumBrushTypeSolidColor")]
+        SolidColor,
+
+        [AliasName("@EnumBrushTypeImageTile")]
+        ImageTile,
+
+        [AliasName("@EnumBrushTypeImageFill")]
+        ImageFill,
+
+        [AliasName("@EnumBrushTypeImageUniform")]
+        ImageUniform,
+
+        [AliasName("@EnumBrushTypeImageUniformToFill")]
+        ImageUniformToFill,
     }
 
     /// <summary>
@@ -40,14 +49,7 @@ namespace NeeView
         }
 
         //
-        public static Dictionary<BrushType, string> BrushTypeList { get; } = new Dictionary<BrushType, string>()
-        {
-            [BrushType.SolidColor] = "単色",
-            [BrushType.ImageTile] = "画像タイル",
-            [BrushType.ImageFill] = "画像を拡大して表示",
-            [BrushType.ImageUniform] = "画像をウインドウサイズに合わせる",
-            [BrushType.ImageUniformToFill] = "画像をウインドウいっぱいに広げる",
-        };
+        public static Dictionary<BrushType, string> BrushTypeList => AliasNameExtensions.GetAliasNameDictionary<BrushType>();
 
         /// <summary>
         /// Color property.

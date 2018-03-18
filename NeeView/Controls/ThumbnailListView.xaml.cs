@@ -44,7 +44,7 @@ namespace NeeView
         private ThumbnailListViewModel _vm;
 
 
-        // サムネイルリストのパネルコントロール
+        // フィルムストリップのパネルコントロール
         private VirtualizingStackPanel _listPanel;
 
         /// <summary>

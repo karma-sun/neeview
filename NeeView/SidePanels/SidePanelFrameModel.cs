@@ -87,7 +87,7 @@ namespace NeeView
         }
 
 
-        [PropertyMember("サイドパネルタッチスクロールの終端バウンド")]
+        [PropertyMember("@ParamSidePanelIsManipulationBoundaryFeedbackEnabled")]
         public bool IsManipulationBoundaryFeedbackEnabled { get; set; }
 
         // Left Panel
@@ -105,7 +105,7 @@ namespace NeeView
         }
 
 
-        [PropertyMember("リスト項目のフォント")]
+        [PropertyMember("@ParamListItemFontName")]
         public string FontName
         {
             get
@@ -133,7 +133,7 @@ namespace NeeView
         }
 
 
-        [PropertyRange("リスト項目のフォントサイズ", 8, 24, TickFrequency = 1, IsEditable = true)]
+        [PropertyRange("@ParamListItemFontSize", 8, 24, TickFrequency = 1, IsEditable = true)]
         public double FontSize
         {
             get { return _fontSize; }
@@ -151,7 +151,7 @@ namespace NeeView
         }
 
 
-        [PropertyMember("リスト項目のファイル名を折り返して表示する", Tips = "コンテンツ表示、バナー表示の場合のみ有効です。")]
+        [PropertyMember("@ParamListItemIsTextWrapped", Tips = "@ParamListItemIsTextWrappedTips")]
         public bool IsTextWrapped
         {
             get { return _isTextWrapped; }
@@ -167,7 +167,7 @@ namespace NeeView
             }
         }
 
-        [PropertyRange("リスト項目の補足テキストの透明度", 0.0, 1.0, Tips = "コンテンツ表示での補足テキストの透明度です。")]
+        [PropertyRange("@ParamListItemNoteOpacity", 0.0, 1.0, Tips = "@ParamListItemNoteOpacityTips")]
         public double NoteOpacity
         {
             get { return _noteOpacity; }

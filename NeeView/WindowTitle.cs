@@ -103,7 +103,7 @@ namespace NeeView
         /// <summary>
         /// ウィンドウタイトルフォーマット 1P用
         /// </summary>
-        [PropertyMember("1ページ用")]
+        [PropertyMember("@ParamWindowTitleFormat1")]
         public string WindowTitleFormat1
         {
             get { return _windowTitleFormat1; }
@@ -122,7 +122,7 @@ namespace NeeView
         /// <summary>
         /// ウィンドウタイトルフォーマット 2P用
         /// </summary>
-        [PropertyMember("2ページ用")]
+        [PropertyMember("@ParamWindowTitleFormat2")]
         public string WindowTitleFormat2
         {
             get { return _windowTitleFormat2; }
@@ -139,7 +139,7 @@ namespace NeeView
         }
 
 
-        [PropertyMember("動画用")]
+        [PropertyMember("@ParamWindowTitleFormatMedia")]
         public string WindowTitleFormatMedia
         {
             get { return _windowTitleFormatMedia; }

@@ -12,7 +12,7 @@ namespace NeeView.Setting
 {
     public class SettingPageVisual : SettingPage
     {
-        public SettingPageVisual() : base("表示")
+        public SettingPageVisual() : base(Properties.Resources.SettingPageVisual)
         {
             this.Children = new List<SettingPage>
             {
@@ -33,18 +33,18 @@ namespace NeeView.Setting
 
     public class SettingPageVisualGeneral : SettingPage
     {
-        public SettingPageVisualGeneral() : base("表示全般")
+        public SettingPageVisualGeneral() : base(Properties.Resources.SettingPageVisualGeneral)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("テーマ",
+                new SettingItemSection(Properties.Resources.SettingPageVisualGeneralTheme,
                     new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.PanelColor)))),
 
-                new SettingItemSection("背景",
+                new SettingItemSection(Properties.Resources.SettingPageVisualGeneralBackground,
                     new SettingItemProperty(PropertyMemberElement.Create(ContentCanvasBrush.Current, nameof(ContentCanvasBrush.CustomBackground)),
                         new BackgroundSettingControl(ContentCanvasBrush.Current.CustomBackground))),
 
-                new SettingItemSection("詳細設定",
+                new SettingItemSection(Properties.Resources.SettingPageVisualGeneralAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.AutoHideDelayTime))),
                     new SettingItemProperty(PropertyMemberElement.Create(WindowShape.Current, nameof(WindowShape.WindowChromeFrame)))),
             };
@@ -53,11 +53,11 @@ namespace NeeView.Setting
 
     public class SettingPageVisualFont : SettingPage
     {
-        public SettingPageVisualFont() : base("フォント")
+        public SettingPageVisualFont() : base(Properties.Resources.SettingPageVisualFont)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("リスト項目のフォント",
+                new SettingItemSection(Properties.Resources.SettingPageVisualFontPanel,
                     new SettingItemPropertyFont(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.FontName))),
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.FontSize))),
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.IsTextWrapped))),
@@ -68,17 +68,17 @@ namespace NeeView.Setting
 
     public class SettingPageVisualThumbnail : SettingPage
     {
-        public SettingPageVisualThumbnail() : base("サムネイル")
+        public SettingPageVisualThumbnail() : base(Properties.Resources.SettingPageVisualThumbnail)
         {
             this.Items = new List<SettingItem>
             {
 
-                new SettingItemSection("リスト項目のサムネイル",
+                new SettingItemSection(Properties.Resources.SettingPageVisualThumbnailPanel,
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.ThumbnailWidth))),
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.IsThumbnailPopup))),
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.BannerWidth)))),
 
-                 new SettingItemSection("サムネイルリスト",
+                 new SettingItemSection(Properties.Resources.SettingPageVisualThumbnailFilmStrip,
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.ThumbnailSize))),
                     new SettingItemProperty(PropertyMemberElement.Create(PageSlider.Current, nameof(PageSlider.IsSliderLinkedThumbnailList))),
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsVisibleThumbnailNumber))),
@@ -86,11 +86,11 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsSelectedCenter))),
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsManipulationBoundaryFeedbackEnabled)))),
 
-                new SettingItemSection("キャッシュ",
+                new SettingItemSection(Properties.Resources.SettingPageVisualThumbnailCache,
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.IsCacheEnabled))),
-                    new SettingItemButton("キャッシュ削除", "サムネイルキャッシュを削除する",  RemoveCache)),
+                    new SettingItemButton(Properties.Resources.SettingPageVisualThumbnailCacheClear, Properties.Resources.SettingPageVisualThumbnailCacheClearTips,  RemoveCache)),
 
-               new SettingItemSection("詳細設定",
+               new SettingItemSection(Properties.Resources.SettingPageVisualThumbnailAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.Format))),
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.Quality))),
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.BookCapacity))),
@@ -126,11 +126,11 @@ namespace NeeView.Setting
 
     public class SettingPageVisualNotify : SettingPage
     {
-        public SettingPageVisualNotify() : base("通知")
+        public SettingPageVisualNotify() : base(Properties.Resources.SettingPageVisualNotify)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("通知表示",
+                new SettingItemSection(Properties.Resources.SettingPageVisualNotifyDisplay,
                     new SettingItemProperty(PropertyMemberElement.Create(InfoMessage.Current, nameof(InfoMessage.NoticeShowMessageStyle))),
                     new SettingItemProperty(PropertyMemberElement.Create(InfoMessage.Current, nameof(InfoMessage.CommandShowMessageStyle))),
                     new SettingItemProperty(PropertyMemberElement.Create(InfoMessage.Current, nameof(InfoMessage.GestureShowMessageStyle))),
@@ -143,44 +143,28 @@ namespace NeeView.Setting
 
     public class SettingPageVisualWindowTitile : SettingPage
     {
-        readonly static string _windowTitleFormatTips = $@"フォーマットの説明
-
-$Book  開いているブック名
-$Page  現在ページ番号
-$PageMax  最大ページ番号
-$ViewScale  ビュー操作による表示倍率(%)
-$FullName[LR]  パスを含むファイル名
-$Name[LR]  ファイル名
-$Size[LR]  ファイルサイズ(ex. 100×100)
-$SizeEx[LR]  ファイルサイズ + ピクセルビット数(ex. 100×100×24)
-$Scale[LR]  画像の表示倍率(%)
-
-""◯◯◯[LR]"" は、1ページ用、2ページ用で変数名が変わることを示します。
-例えば $Name は1ページ用、 $NameL は２ページ左用、 $NameR は2ページ右用になります。
-$Name は2ページ表示時には主となるページ(ページ番号の小さい方)になります。";
-
-        public SettingPageVisualWindowTitile() : base("ウィンドウタイトル")
+        public SettingPageVisualWindowTitile() : base(Properties.Resources.SettingPageVisualWindowTitile)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("表示",
+                new SettingItemSection(Properties.Resources.SettingPageVisualWindowTitileDisplay,
                     new SettingItemProperty(PropertyMemberElement.Create(WindowTitle.Current, nameof(WindowTitle.WindowTitleFormat1))) {IsStretch = true },
                     new SettingItemProperty(PropertyMemberElement.Create(WindowTitle.Current, nameof(WindowTitle.WindowTitleFormat2))) {IsStretch = true },
                     new SettingItemProperty(PropertyMemberElement.Create(WindowTitle.Current, nameof(WindowTitle.WindowTitleFormatMedia))) {IsStretch = true },
                     new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsVisibleWindowTitle)))),
 
-                new SettingItemNote(_windowTitleFormatTips),
+                new SettingItemNote(Properties.Resources.SettingPageVisualWindowTitileNote),
             };
         }
     }
 
     public class SettingPageVisualSlider : SettingPage
     {
-        public SettingPageVisualSlider() : base("スライダー")
+        public SettingPageVisualSlider() : base(Properties.Resources.SettingPageVisualSlider)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("スライダー",
+                new SettingItemSection(Properties.Resources.SettingPageVisualSliderSlider,
                     new SettingItemProperty(PropertyMemberElement.Create(PageSlider.Current, nameof(PageSlider.SliderDirection))),
                     new SettingItemProperty(PropertyMemberElement.Create(PageSlider.Current, nameof(PageSlider.SliderIndexLayout)))),
             };
@@ -189,14 +173,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
 
     public class SettingPagePanelGeneral : SettingPage
     {
-        public SettingPagePanelGeneral() : base("サイドパネル全般")
+        public SettingPagePanelGeneral() : base(Properties.Resources.SettingPagePanelGeneral)
         {
             this.Items = new List<SettingItem>
             {
-                 new SettingItemSection("表示",
+                 new SettingItemSection(Properties.Resources.SettingPagePanelGeneralVisual,
                     new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsHidePanelInFullscreen)))),
 
-                new SettingItemSection("操作",
+                new SettingItemSection(Properties.Resources.SettingPagePanelGeneralOperation,
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.IsLeftRightKeyEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.IsManipulationBoundaryFeedbackEnabled)))),
             };

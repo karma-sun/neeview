@@ -872,12 +872,12 @@ namespace NeeView
             // ToggleVisibleThumbnailList
             {
                 var element = new CommandElement();
-                element.Group = "サムネイルリスト";
-                element.Text = "サムネイルリストの表示ON/OFF";
-                element.MenuText = "サムネイルリスト";
-                element.Note = "サムネイルリスト表示/非表示を切り替えます";
+                element.Group = "フィルムストリップ";
+                element.Text = "フィルムストリップの表示ON/OFF";
+                element.MenuText = "フィルムストリップ";
+                element.Note = "フィルムストリップ表示/非表示を切り替えます";
                 element.IsShowMessage = false;
-                element.ExecuteMessage = e => _models.ThumbnailList.IsEnableThumbnailList ? "サムネイルリストを消す" : "サムネイルリストを表示する";
+                element.ExecuteMessage = e => _models.ThumbnailList.IsEnableThumbnailList ? "フィルムストリップを消す" : "フィルムストリップを表示する";
                 element.Execute = (s, e) => _models.ThumbnailList.ToggleVisibleThumbnailList();
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => new Binding(nameof(_models.ThumbnailList.IsEnableThumbnailList)) { Source = _models.ThumbnailList };
@@ -886,12 +886,12 @@ namespace NeeView
             // ToggleHideThumbnailList
             {
                 var element = new CommandElement();
-                element.Group = "サムネイルリスト";
-                element.Text = "サムネイルリストを自動的に隠すON/OFF";
-                element.MenuText = "サムネイルリストを自動的に隠す";
-                element.Note = "スライダーを使用している時だけサムネイルリストを表示するようにします";
+                element.Group = "フィルムストリップ";
+                element.Text = "フィルムストリップを自動的に隠すON/OFF";
+                element.MenuText = "フィルムストリップを自動的に隠す";
+                element.Note = "スライダーを使用している時だけフィルムストリップを表示するようにします";
                 element.IsShowMessage = false;
-                element.ExecuteMessage = e => _models.ThumbnailList.IsHideThumbnailList ? "サムネイルリストを表示する" : "サムネイルリストを自動的に隠す";
+                element.ExecuteMessage = e => _models.ThumbnailList.IsHideThumbnailList ? "フィルムストリップを表示する" : "フィルムストリップを自動的に隠す";
                 element.Execute = (s, e) => _models.ThumbnailList.ToggleHideThumbnailList();
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => new Binding(nameof(_models.ThumbnailList.IsHideThumbnailList)) { Source = _models.ThumbnailList };

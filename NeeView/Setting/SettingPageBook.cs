@@ -9,35 +9,35 @@ namespace NeeView.Setting
 {
     public class SettingPageBook : SettingPage
     {
-        public SettingPageBook() : base("ブック")
+        public SettingPageBook() : base(Properties.Resources.SettingPageBook)
         {
             this.Children = new List<SettingPage>
             {
                 new SettingPageBookGeneral(),
                 new SettingPageBookSubFolder(),
                 new SettingPageBookVisual(),
-                new SettingPageBookSendPage(),
+                new SettingPageBookMove(),
             };
         }
     }
 
     public class SettingPageBookGeneral : SettingPage
     {
-        public SettingPageBookGeneral() : base("ブック全般")
+        public SettingPageBookGeneral() : base(Properties.Resources.SettingPageBookGeneral)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("全般",
+                new SettingItemSection(Properties.Resources.SettingPageBookGeneralGeneral,
                     new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.IsEnableAnimatedGif))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.IsEnableNoSupportFile))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.PreLoadMode)))),
 
-                new SettingItemSection("詳細設定",
+                new SettingItemSection(Properties.Resources.SettingPageBookGeneralAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(JobEngine.Current, nameof(JobEngine.WorkerSize))),
                     new SettingItemProperty(PropertyMemberElement.Create(PictureProfile.Current, nameof(PictureProfile.MaximumSize))),
                     new SettingItemProperty(PropertyMemberElement.Create(PictureProfile.Current, nameof(PictureProfile.IsLimitSourceSize))),
                     new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsOpenbookAtCurrentPlace))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.Excludes)), new SettingItemCollectionControl() { Collection = BookProfile.Current.Excludes, AddDialogHeader="除外するパス" }),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.Excludes)), new SettingItemCollectionControl() { Collection = BookProfile.Current.Excludes, AddDialogHeader=Properties.Resources.WordExcludePath }),
                     new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.PreloadLimitSize))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.WideRatio)))),
             };
@@ -46,14 +46,14 @@ namespace NeeView.Setting
 
     public class SettingPageBookSubFolder : SettingPage
     {
-        public SettingPageBookSubFolder() : base("サブフォルダー")
+        public SettingPageBookSubFolder() : base(Properties.Resources.SettingPageBookSubFolder)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("サブフォルダー読み込み問い合わせ",
+                new SettingItemSection(Properties.Resources.SettingPageBookSubFolderConfirm,
                     new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsConfirmRecursive)))),
 
-                new SettingItemSection("サブフォルダー読み込み自動判定",
+                new SettingItemSection(Properties.Resources.SettingPageBookSubFolderAuto,
                     new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsAutoRecursive))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsAutoRecursiveWithAllFiles)))
                     {
@@ -65,11 +65,11 @@ namespace NeeView.Setting
 
     public class SettingPageBookVisual : SettingPage
     {
-        public SettingPageBookVisual() : base("ページ表示")
+        public SettingPageBookVisual() : base(Properties.Resources.SettingPageBookVisual)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("ページ表示",
+                new SettingItemSection(Properties.Resources.SettingPageBookVisualVisual,
                     new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsVisibleBusy))),
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsIgnoreImageDpi))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.LoadingPageView))),
@@ -78,16 +78,16 @@ namespace NeeView.Setting
         }
     }
 
-    public class SettingPageBookSendPage : SettingPage
+    public class SettingPageBookMove : SettingPage
     {
-        public SettingPageBookSendPage() : base("移動")
+        public SettingPageBookMove() : base(Properties.Resources.SettingPageBookMove)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("ブック移動",
+                new SettingItemSection(Properties.Resources.SettingPageBookMoveBook,
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsCruise)))),
 
-                new SettingItemSection("ページ移動",
+                new SettingItemSection(Properties.Resources.SettingPageBookMovePage,
                     new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.IsPrioritizePageMove))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.IsMultiplePageMove))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookOperation.Current, nameof(BookOperation.PageEndAction)))),

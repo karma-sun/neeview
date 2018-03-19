@@ -727,7 +727,7 @@ Would you like to rename it to {1}? </value>
     <value>Clear thumbnail cache</value>
   </data>
   <data name="ParamIsOpenbookAtCurrentPlace" xml:space="preserve">
-    <value>Make the start position of the file selection dialog in "Open file" the location of the currently opened book</value>
+    <value>Make the start position of the file selection dialog in "@CommandLoadAs" the location of the currently opened book</value>
   </data>
   <data name="ParamPanelColor" xml:space="preserve">
     <value>Theme color</value>
@@ -1128,7 +1128,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Load image size limit</value>
   </data>
   <data name="ParamPictureProfileIsLimitSourceSizeTips" xml:space="preserve">
-    <value>Reduce the imported image with "Maximum image size" as the upper limit. It is setting for speed and memory saving. When this restriction is applied, "*" will be displayed in the size field of the file information if it is the loaded image.</value>
+    <value>Reduce the imported image with "@ParamPictureProfileMaximumSize" as the upper limit. It is setting for speed and memory saving. When this restriction is applied, "*" will be displayed in the size field of the file information if it is the loaded image.</value>
   </data>
   <data name="ParamPictureProfileMaximumSize" xml:space="preserve">
     <value>Maximum image size</value>
@@ -1385,5 +1385,179 @@ You can not use right button drag because it is reserved with mouse gesture. </v
   </data>
   <data name="ParamLoupeIsEscapeKeyEnabled" xml:space="preserve">
     <value>Use the Esc key to release the loupe</value>
+  </data>
+  <data name="WindowSettingTitle" xml:space="preserve">
+    <value>Setting</value>
+  </data>
+  <data name="WindowAboutTitle" xml:space="preserve">
+    <value>About</value>
+  </data>
+  <data name="ControlAboutLicense" xml:space="preserve">
+    <value>License Information</value>
+  </data>
+  <data name="ControlAboutChangeLog" xml:space="preserve">
+    <value>Change Log</value>
+  </data>
+  <data name="ControlAboutProject" xml:space="preserve">
+    <value>Project Page</value>
+  </data>
+  <data name="ControlAboutDownload" xml:space="preserve">
+    <value>Go to download page</value>
+  </data>
+  <data name="ControlAboutChecking" xml:space="preserve">
+    <value>Checking the latest version ...</value>
+  </data>
+  <data name="ControlAboutWrongFormat" xml:space="preserve">
+    <value>The format of the update page is different from what is supposed</value>
+  </data>
+  <data name="ControlAboutLastest" xml:space="preserve">
+    <value>NeeView is the latest version</value>
+  </data>
+  <data name="ControlAboutUnknown" xml:space="preserve">
+    <value>NeeView is an unknown version</value>
+  </data>
+  <data name="ControlAboutFailed" xml:space="preserve">
+    <value>Update check failed</value>
+  </data>
+  <data name="ControlAboutNew" xml:space="preserve">
+    <value>A new version has been released</value>
+  </data>
+  <data name="SettingPageBook" xml:space="preserve">
+    <value>Book</value>
+  </data>
+  <data name="SettingPageBookGeneral" xml:space="preserve">
+    <value>Book General</value>
+  </data>
+  <data name="SettingPageBookGeneralGeneral" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SettingPageBookGeneralAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPageBookSubFolder" xml:space="preserve">
+    <value>Subfolder</value>
+  </data>
+  <data name="SettingPageBookSubFolderConfirm" xml:space="preserve">
+    <value>Confirm loading of subfolder</value>
+  </data>
+  <data name="SettingPageBookSubFolderAuto" xml:space="preserve">
+    <value>Automatic determination of subfolder loading</value>
+  </data>
+  <data name="SettingPageBookVisual" xml:space="preserve">
+    <value>Page View</value>
+  </data>
+  <data name="SettingPageBookVisualVisual" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="SettingPageBookMove" xml:space="preserve">
+    <value>Move</value>
+  </data>
+  <data name="SettingPageBookMoveBook" xml:space="preserve">
+    <value>Move book</value>
+  </data>
+  <data name="SettingPageBookMovePage" xml:space="preserve">
+    <value>Move pages</value>
+  </data>
+  <data name="EnumLoadingPageViewNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="EnumLoadingPageViewPreThumbnail" xml:space="preserve">
+    <value>Thumbnail of previous page</value>
+  </data>
+  <data name="EnumLoadingPageViewPreImage" xml:space="preserve">
+    <value>Image of previous page</value>
+  </data>
+  <data name="ParamBookIsPrioritizePageMove" xml:space="preserve">
+    <value>Page movement priority</value>
+  </data>
+  <data name="ParamBookIsPrioritizePageMoveTips" xml:space="preserve">
+    <value>Perform page movement without waiting for page display.</value>
+  </data>
+  <data name="ParamBookIsMultiplePageMove" xml:space="preserve">
+    <value>Accept duplication of page movement commands</value>
+  </data>
+  <data name="ParamBookIsMultiplePageMoveTips" xml:space="preserve">
+    <value>Execute all requested page move commands. If it is set to OFF, duplicate page move commands are canceled.</value>
+  </data>
+  <data name="ParamBookPreLoadMode" xml:space="preserve">
+    <value>Prefetching</value>
+  </data>
+  <data name="ParamBookPreLoadModeTips" xml:space="preserve">
+    <value>Prefetching conserves memory to hold previous and next pages. If you select "@EnumPreLoadModeAutoPreLoad", you can switch prefetch enable / disable according to image size. "@EnumPreLoadModePreLoadNoUnload" is the mode that consumes the most memory that does not discard the loaded image.</value>
+  </data>
+  <data name="ParamBookPreloadLimitSize" xml:space="preserve">
+    <value>Image size for automatic prefetching judgment</value>
+  </data>
+  <data name="ParamBookPreloadLimitSizeTips" xml:space="preserve">
+    <value>Used in automatic prefetching mode. Prefetching is disabled for images larger than this area. In the case of 2 page display, it is judged by the total area of ​​2 pages.</value>
+  </data>
+  <data name="ParamBookWideRatio" xml:space="preserve">
+    <value>Aspect ratio for determining horizontally long image (horizontal / vertical)</value>
+  </data>
+  <data name="ParamBookWideRatioTips" xml:space="preserve">
+    <value>It is used in "Split landscape page".</value>
+  </data>
+  <data name="ParamBookExcludes" xml:space="preserve">
+    <value>Page exclusion path</value>
+  </data>
+  <data name="ParamBookExcludesTips" xml:space="preserve">
+    <value>It is invalid for "@ParamBookIsEnableNoSupportFile" setting.</value>
+  </data>
+  <data name="ParamBookIsEnableAnimatedGif" xml:space="preserve">
+    <value>Play animated GIF</value>
+  </data>
+  <data name="ParamBookIsEnableAnimatedGifTips" xml:space="preserve">
+    <value>Perform animated GIF playback. Memory consumption problems may occur with long GIFs.</value>
+  </data>
+  <data name="ParamBookIsEnableNoSupportFile" xml:space="preserve">
+    <value>Include unsupported files on page</value>
+  </data>
+  <data name="ParamBookIsEnableNoSupportFileTips" xml:space="preserve">
+    <value>Files and folders that can not be displayed as images are also displayed as pages.</value>
+  </data>
+  <data name="ParamBookLoadingPageView" xml:space="preserve">
+    <value>How to display loading page</value>
+  </data>
+  <data name="ParamBookLoadingPageViewTips" xml:space="preserve">
+    <value>Specify what to display before the page loading is complete. "@EnumLoadingPageViewPreImage" consumes the most memory.</value>
+  </data>
+  <data name="EnumPageEndActionNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="EnumPageEndActionNextFolder" xml:space="preserve">
+    <value>Move to next book</value>
+  </data>
+  <data name="EnumPageEndActionLoop" xml:space="preserve">
+    <value>Loop</value>
+  </data>
+  <data name="EnumPreLoadModeNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="EnumPreLoadModeAutoPreLoad" xml:space="preserve">
+    <value>Automatic prefetching</value>
+  </data>
+  <data name="EnumPreLoadModePreLoad" xml:space="preserve">
+    <value>Prefetch</value>
+  </data>
+  <data name="EnumPreLoadModePreLoadNoUnload" xml:space="preserve">
+    <value>Prefetch (no release)</value>
+  </data>
+  <data name="ParamJobEngineWorkerSize" xml:space="preserve">
+    <value>Number of threads used for image loading</value>
+  </data>
+  <data name="ParamJobEngineWorkerSizeTips" xml:space="preserve">
+    <value>Valid values ​​are 1 to 4</value>
+  </data>
+  <data name="WordExcludePath" xml:space="preserve">
+    <value>Excluded path</value>
+  </data>
+  <data name="ParamContentCanvasContentsSpace" xml:space="preserve">
+    <value>Distance between two pages</value>
+  </data>
+  <data name="ParamContentCanvasContentsSpaceTips" xml:space="preserve">
+    <value>Sets the gap between page and page. Negative values ​​mean overlapping. Because each page is scaled, it is rare that there will be no gap just at 0.</value>
+  </data>
+  <data name="ParamBookOperationPageEndAction" xml:space="preserve">
+    <value>Behavior when trying to move past the end of the page</value>
   </data>
 </root>

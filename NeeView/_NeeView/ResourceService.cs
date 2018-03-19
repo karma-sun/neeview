@@ -1,9 +1,14 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
 
 namespace NeeView
 {
     internal static class ResourceService
     {
+        private static Regex _regexKey = new Regex(@"@\w+");
+
+
         /// <summary>
         /// @で始まる文字列はリソースキーとしてその値を返す。
         /// そうでない場合はそのまま返す。
@@ -16,17 +21,36 @@ namespace NeeView
             }
             else
             {
-                var text = Properties.Resources.ResourceManager.GetString(key.Substring(1), Properties.Resources.Culture);
+                var text = GetResourceString(key);
                 if (text != null)
                 {
-                    return text;
+                    return Replace(text);
                 }
                 else
-                { 
+                {
                     Debug.WriteLine($"Error: Not found resource key: {key.Substring(1)}");
                     return key;
                 }
             }
+        }
+
+        /// <summary>
+        /// @で始まる文字列をリソースキーとして文字列を入れ替える。
+        /// </summary>
+        public static string Replace(string s)
+        {
+            return _regexKey.Replace(s, m => GetResourceString(m.Value) ?? m.Value);
+        }
+
+        /// <summary>
+        /// リソースキーからリソース文字列取得
+        /// </summary>
+        /// <param name="key">@で始まるリソースキー</param>
+        /// <returns>存在しない場合はnull</returns>
+        public static string GetResourceString(string key)
+        {
+            if (key[0] != '@') return null;
+            return Properties.Resources.ResourceManager.GetString(key.Substring(1), Properties.Resources.Culture);
         }
     }
 }

@@ -74,13 +74,13 @@ namespace NeeView
     /// </summary>
     public enum PageEndAction
     {
-        [AliasName("そのまま")]
+        [AliasName("@EnumPageEndActionNone")]
         None,
 
-        [AliasName("次のブックに移動")]
+        [AliasName("@EnumPageEndActionNextFolder")]
         NextFolder,
 
-        [AliasName("ループする")]
+        [AliasName("@EnumPageEndActionLoop")]
         Loop,
     }
 
@@ -90,16 +90,16 @@ namespace NeeView
     /// </summary>
     public enum PreLoadMode
     {
-        [AliasName("先読み無し")]
+        [AliasName("@EnumPreLoadModeNone")]
         None,
 
-        [AliasName("自動先読み")]
+        [AliasName("@EnumPreLoadModeAutoPreLoad")]
         AutoPreLoad,
 
-        [AliasName("先読みする")]
+        [AliasName("@EnumPreLoadModePreLoad")]
         PreLoad,
 
-        [AliasName("先読みする(開放なし)")]
+        [AliasName("@EnumPreLoadModePreLoadNoUnload")]
         PreLoadNoUnload,
     }
 

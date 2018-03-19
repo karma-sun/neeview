@@ -7,12 +7,13 @@
         xmlns:nvp="clr-namespace:NeeView.Windows.Property"
         xmlns:nvc="clr-namespace:NeeView.Windows.Controls"
         xmlns:nvd="clr-namespace:NeeView.Windows.Data"
+        xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}"
         ShowInTaskbar ="True"
         Deactivated="Window_Deactivated"
         Closed="SettingWindow_Closed"
-        Title="設定" Height="704" Width="960">
+        Title="{x:Static properties:Resources.WindowSettingTitle}" Height="704" Width="960">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

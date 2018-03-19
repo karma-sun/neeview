@@ -4,10 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
+        xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
         Foreground="#222"
         Style="{StaticResource ToolWindowStyle}"
-        Title="このアプリについて" Height="280" Width="440" ResizeMode="NoResize">
+        Title="{x:Static properties:Resources.WindowAboutTitle}" Height="280" Width="440" ResizeMode="NoResize">
     <Window.Resources>
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -29,20 +30,20 @@
             </Grid.Resources>
 
             <TextBlock HorizontalAlignment="Left" Style="{StaticResource LinkedTextBlock}">
-                <Hyperlink NavigateUri="{Binding LicenseUri}" >
-                           ライセンス情報
+                <Hyperlink NavigateUri="{Binding LicenseUri}">
+                    <TextBlock Text="{x:Static properties:Resources.ControlAboutLicense}"/>
                 </Hyperlink>
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Center" Style="{StaticResource LinkedTextBlock}" IsEnabled="{Binding IsNetworkEnabled}">
                 <Hyperlink NavigateUri="{Binding ChangeLogUri}">
-                           更新履歴
+                    <TextBlock Text="{x:Static properties:Resources.ControlAboutChangeLog}"/>
                 </Hyperlink>
             </TextBlock>
 
             <TextBlock HorizontalAlignment="Right" Style="{StaticResource LinkedTextBlock}" IsEnabled="{Binding IsNetworkEnabled}">
                 <Hyperlink NavigateUri="{Binding ProjectUri}">
-                           プロジェクトページ
+                    <TextBlock Text="{x:Static properties:Resources.ControlAboutProject}"/>
                 </Hyperlink>
             </TextBlock>
         </Grid>
@@ -70,7 +71,9 @@
                         </TextBlock.Style>
                     </TextBlock>
                     <TextBlock HorizontalAlignment="Center" Margin="0,0,0,0" IsEnabled="{Binding IsNetworkEnabled}">
-                        <Hyperlink NavigateUri="{Binding Checker.DownloadUri}">ダウンロードページに移動する</Hyperlink>
+                        <Hyperlink NavigateUri="{Binding Checker.DownloadUri}">
+                            <TextBlock Text="{x:Static properties:Resources.ControlAboutDownload}"/>
+                        </Hyperlink>
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
                                 <Setter Property="Visibility" Value="Hidden"/>

@@ -727,7 +727,7 @@
     <value>サムネイルキャッシュを削除する</value>
   </data>
   <data name="ParamIsOpenbookAtCurrentPlace" xml:space="preserve">
-    <value>「ファイルを開く」でのファイル選択ダイアログの開始場所を現在開いているブックの場所にする</value>
+    <value>「@CommandLoadAs」でのファイル選択ダイアログの開始場所を現在開いているブックの場所にする</value>
   </data>
   <data name="ParamPanelColor" xml:space="preserve">
     <value>テーマカラー</value>
@@ -1128,7 +1128,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>読み込み画像サイズ制限</value>
   </data>
   <data name="ParamPictureProfileIsLimitSourceSizeTips" xml:space="preserve">
-    <value>「最大画像サイズ」を上限として読み込み画像を縮小します。速度、メモリ節約用の設定です。この制限を適用して読み込まれた画像である場合、ファイル情報のサイズ欄に「*」が表示されます。</value>
+    <value>「@ParamPictureProfileMaximumSize」を上限として読み込み画像を縮小します。速度、メモリ節約用の設定です。この制限を適用して読み込まれた画像である場合、ファイル情報のサイズ欄に「*」が表示されます。</value>
   </data>
   <data name="ParamPictureProfileMaximumSize" xml:space="preserve">
     <value>最大画像サイズ</value>
@@ -1385,5 +1385,179 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="ParamLoupeIsEscapeKeyEnabled" xml:space="preserve">
     <value>Escキーでルーペを解除する</value>
+  </data>
+  <data name="WindowSettingTitle" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="WindowAboutTitle" xml:space="preserve">
+    <value>このアプリについて</value>
+  </data>
+  <data name="ControlAboutLicense" xml:space="preserve">
+    <value>ライセンス情報</value>
+  </data>
+  <data name="ControlAboutChangeLog" xml:space="preserve">
+    <value>更新履歴</value>
+  </data>
+  <data name="ControlAboutProject" xml:space="preserve">
+    <value>プロジェクトページ</value>
+  </data>
+  <data name="ControlAboutDownload" xml:space="preserve">
+    <value>ダウンロードページに移動する</value>
+  </data>
+  <data name="ControlAboutChecking" xml:space="preserve">
+    <value>最新バージョンをチェック中...</value>
+  </data>
+  <data name="ControlAboutWrongFormat" xml:space="preserve">
+    <value>更新ページのフォーマットが想定されているものと異なります</value>
+  </data>
+  <data name="ControlAboutLastest" xml:space="preserve">
+    <value>NeeView は最新のバージョンです</value>
+  </data>
+  <data name="ControlAboutUnknown" xml:space="preserve">
+    <value>NeeView は未知のバージョンです</value>
+  </data>
+  <data name="ControlAboutFailed" xml:space="preserve">
+    <value>更新チェックに失敗しました</value>
+  </data>
+  <data name="ControlAboutNew" xml:space="preserve">
+    <value>新しいバージョンがリリースされています</value>
+  </data>
+  <data name="SettingPageBook" xml:space="preserve">
+    <value>ブック</value>
+  </data>
+  <data name="SettingPageBookGeneral" xml:space="preserve">
+    <value>ブック全般</value>
+  </data>
+  <data name="SettingPageBookGeneralGeneral" xml:space="preserve">
+    <value>全般</value>
+  </data>
+  <data name="SettingPageBookGeneralAdvance" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
+  <data name="SettingPageBookSubFolder" xml:space="preserve">
+    <value>サブフォルダー</value>
+  </data>
+  <data name="SettingPageBookSubFolderConfirm" xml:space="preserve">
+    <value>サブフォルダー読み込み問い合わせ</value>
+  </data>
+  <data name="SettingPageBookSubFolderAuto" xml:space="preserve">
+    <value>サブフォルダー読み込み自動判定</value>
+  </data>
+  <data name="SettingPageBookVisual" xml:space="preserve">
+    <value>ページ表示</value>
+  </data>
+  <data name="SettingPageBookVisualVisual" xml:space="preserve">
+    <value>表示</value>
+  </data>
+  <data name="SettingPageBookMove" xml:space="preserve">
+    <value>移動</value>
+  </data>
+  <data name="SettingPageBookMoveBook" xml:space="preserve">
+    <value>ブック移動</value>
+  </data>
+  <data name="SettingPageBookMovePage" xml:space="preserve">
+    <value>ページ移動</value>
+  </data>
+  <data name="EnumLoadingPageViewNone" xml:space="preserve">
+    <value>なし</value>
+  </data>
+  <data name="EnumLoadingPageViewPreThumbnail" xml:space="preserve">
+    <value>直前のページのサムネイル</value>
+  </data>
+  <data name="EnumLoadingPageViewPreImage" xml:space="preserve">
+    <value>直前のページの画像</value>
+  </data>
+  <data name="ParamBookIsPrioritizePageMove" xml:space="preserve">
+    <value>ページ移動優先</value>
+  </data>
+  <data name="ParamBookIsPrioritizePageMoveTips" xml:space="preserve">
+    <value>ページの表示を待たずにページ移動を実行します。</value>
+  </data>
+  <data name="ParamBookIsMultiplePageMove" xml:space="preserve">
+    <value>ページ移動コマンドの重複許可</value>
+  </data>
+  <data name="ParamBookIsMultiplePageMoveTips" xml:space="preserve">
+    <value>要求されたページ移動コマンドを全て実行します。OFFにすると重複したページ移動コマンドはキャンセルされます。</value>
+  </data>
+  <data name="ParamBookPreLoadMode" xml:space="preserve">
+    <value>先読み</value>
+  </data>
+  <data name="ParamBookPreLoadModeTips" xml:space="preserve">
+    <value>先読みは前後のページを保持するためメモリを消費します。「@EnumPreLoadModeAutoPreLoad」にすると画像サイズに応じで先読み有効無効を切り替えます。「@EnumPreLoadModePreLoadNoUnload」は読み込んだ画像を破棄しない最もメモリを消費するモードです。</value>
+  </data>
+  <data name="ParamBookPreloadLimitSize" xml:space="preserve">
+    <value>自動先読み判定用画像サイズ</value>
+  </data>
+  <data name="ParamBookPreloadLimitSizeTips" xml:space="preserve">
+    <value>自動先読みモードで使用します。この面積より大きい画像で先読みが無効になります。2ページ表示の場合は2ページの合計面積で判定されます。</value>
+  </data>
+  <data name="ParamBookWideRatio" xml:space="preserve">
+    <value>横長画像を判定するための縦横比(横 / 縦)</value>
+  </data>
+  <data name="ParamBookWideRatioTips" xml:space="preserve">
+    <value>「横長ページを分割する」で使用されます。</value>
+  </data>
+  <data name="ParamBookExcludes" xml:space="preserve">
+    <value>ページ除外パス</value>
+  </data>
+  <data name="ParamBookExcludesTips" xml:space="preserve">
+    <value>「@ParamBookIsEnableNoSupportFile」設定では無効です。</value>
+  </data>
+  <data name="ParamBookIsEnableAnimatedGif" xml:space="preserve">
+    <value>アニメーションGIFを再生する</value>
+  </data>
+  <data name="ParamBookIsEnableAnimatedGifTips" xml:space="preserve">
+    <value>アニメーションGIF再生を行います。長時間のGIFでメモリ消費の問題が発生する可能性があります。</value>
+  </data>
+  <data name="ParamBookIsEnableNoSupportFile" xml:space="preserve">
+    <value>サポート外ファイルもページに含める</value>
+  </data>
+  <data name="ParamBookIsEnableNoSupportFileTips" xml:space="preserve">
+    <value>画像として表示できないファイルやフォルダーもページとして表示します。</value>
+  </data>
+  <data name="ParamBookLoadingPageView" xml:space="preserve">
+    <value>読み込み中ページの表示方法</value>
+  </data>
+  <data name="ParamBookLoadingPageViewTips" xml:space="preserve">
+    <value>ページの読み込みが完了するまでに表示するものを指定します。「@EnumLoadingPageViewPreImage」が一番メモリを消費します。</value>
+  </data>
+  <data name="EnumPageEndActionNone" xml:space="preserve">
+    <value>そのまま</value>
+  </data>
+  <data name="EnumPageEndActionNextFolder" xml:space="preserve">
+    <value>次のブックに移動</value>
+  </data>
+  <data name="EnumPageEndActionLoop" xml:space="preserve">
+    <value>ループする</value>
+  </data>
+  <data name="EnumPreLoadModeNone" xml:space="preserve">
+    <value>先読み無し</value>
+  </data>
+  <data name="EnumPreLoadModeAutoPreLoad" xml:space="preserve">
+    <value>自動先読み</value>
+  </data>
+  <data name="EnumPreLoadModePreLoad" xml:space="preserve">
+    <value>先読みする</value>
+  </data>
+  <data name="EnumPreLoadModePreLoadNoUnload" xml:space="preserve">
+    <value>先読みする(開放なし)</value>
+  </data>
+  <data name="ParamJobEngineWorkerSize" xml:space="preserve">
+    <value>画像読み込みに使用するスレッド数</value>
+  </data>
+  <data name="ParamJobEngineWorkerSizeTips" xml:space="preserve">
+    <value>有効値は1～4です</value>
+  </data>
+  <data name="WordExcludePath" xml:space="preserve">
+    <value>除外するパス</value>
+  </data>
+  <data name="ParamContentCanvasContentsSpace" xml:space="preserve">
+    <value>2ページ間の距離</value>
+  </data>
+  <data name="ParamContentCanvasContentsSpaceTips" xml:space="preserve">
+    <value>ページとページの隙間を設定します。マイナス値は重なることを意味します。各ページにスケールがかかるため、0でちょうど隙間がなくなることは稀です。</value>
+  </data>
+  <data name="ParamBookOperationPageEndAction" xml:space="preserve">
+    <value>ページの終端を超えて移動しようとした時の挙動</value>
   </data>
 </root>

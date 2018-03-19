@@ -292,7 +292,7 @@ namespace NeeView
         /// <summary>
         /// WorkerSize property.
         /// </summary>
-        [PropertyMember("画像読み込みに使用するスレッド数", Tips = "有効値は1～4です")]
+        [PropertyMember("@ParamJobEngineWorkerSize", Tips = "@ParamJobEngineWorkerSizeTips")]
         public int WorkerSize
         {
             get { return _workerSize; }

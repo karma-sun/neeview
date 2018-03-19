@@ -181,7 +181,7 @@ namespace NeeView
             {
                 // チェック開始
                 LastVersion = 0; // CurrentVersion;
-                Message = "最新バージョンをチェック中...";
+                Message = Properties.Resources.ControlAboutChecking;
                 Task.Run(() => CheckVersion(Config.Current.PackageType));
             }
         }
@@ -206,7 +206,7 @@ namespace NeeView
 
                     var regex = new Regex(@"NeeView(?<major>\d+)\.(?<minor>\d+)(?<arch>-[^\.]+)?" + extension);
                     var matches = regex.Matches(text);
-                    if (matches.Count <= 0) throw new ApplicationException("更新ページのフォーマットが想定されているものと異なります");
+                    if (matches.Count <= 0) throw new ApplicationException(Properties.Resources.ControlAboutWrongFormat);
                     foreach (Match match in matches)
                     {
                         var major = int.Parse(match.Groups["major"].Value);
@@ -218,15 +218,15 @@ namespace NeeView
 
                     if (LastVersion == CurrentVersion)
                     {
-                        Message = "NeeView は最新のバージョンです";
+                        Message = Properties.Resources.ControlAboutLastest;
                     }
                     else if (LastVersion < CurrentVersion)
                     {
-                        Message = "NeeView は未知のバージョンです";
+                        Message = Properties.Resources.ControlAboutUnknown;
                     }
                     else
                     {
-                        Message = $"新しいバージョンがリリースされています";
+                        Message = Properties.Resources.ControlAboutNew;
                         IsExistNewVersion = true;
                         RaisePropertyChanged(nameof(IsExistNewVersion));
                     }
@@ -237,7 +237,7 @@ namespace NeeView
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                Message = "更新チェックに失敗しました";
+                Message = Properties.Resources.ControlAboutFailed;
             }
 
             _isCheching = false;

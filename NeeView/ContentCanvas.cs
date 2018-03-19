@@ -202,7 +202,7 @@ namespace NeeView
         // 2ページコンテンツの隙間
         private double _contentSpace = -1.0;
         [DefaultValue(-1.0)]
-        [PropertyRange("2ページ間の距離", -32, 32, TickFrequency = 1, Tips = "ページとページの隙間の長さを設定します。マイナス値は重なることを意味します。各ページにスケールがかかるため、0でちょうど隙間がなくなることは稀です。")]
+        [PropertyRange("@ParamContentCanvasContentsSpace", -32, 32, TickFrequency = 1, Tips = "@ParamContentCanvasContentsSpaceTips")]
         public double ContentsSpace
         {
             get { return _contentSpace; }

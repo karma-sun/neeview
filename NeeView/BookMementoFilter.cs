@@ -49,63 +49,63 @@ namespace NeeView
         public Dictionary<BookMementoBit, bool> Flags { get; set; }
 
 
-        [PropertyMember("ページ位置")]
+        [PropertyMember("@ParamBookFilterPage")]
         public bool Page
         {
             get { return Flags[BookMementoBit.Page]; }
             set { Flags[BookMementoBit.Page] = value; }
         }
 
-        [PropertyMember("1ページ表示/2ページ表示")]
+        [PropertyMember("@ParamBookFilterPageMode")]
         public bool PageMode
         {
             get { return Flags[BookMementoBit.PageMode]; }
             set { Flags[BookMementoBit.PageMode] = value; }
         }
 
-        [PropertyMember("右開き/左開き")]
+        [PropertyMember("@ParamBookFilterBookReadOrder")]
         public bool BookReadOrder
         {
             get { return Flags[BookMementoBit.BookReadOrder]; }
             set { Flags[BookMementoBit.BookReadOrder] = value; }
         }
 
-        [PropertyMember("横長ページを分割する")]
+        [PropertyMember("@ParamBookFilterIsSupportedDividePage")]
         public bool IsSupportedDividePage
         {
             get { return Flags[BookMementoBit.IsSupportedDividePage]; }
             set { Flags[BookMementoBit.IsSupportedDividePage] = value; }
         }
 
-        [PropertyMember("最初のページを単独表示")]
+        [PropertyMember("@ParamBookFilterIsSupportedSingleFirstPage")]
         public bool IsSupportedSingleFirstPage
         {
             get { return Flags[BookMementoBit.IsSupportedSingleFirstPage]; }
             set { Flags[BookMementoBit.IsSupportedSingleFirstPage] = value; }
         }
 
-        [PropertyMember("最後のページを単独表示")]
+        [PropertyMember("@ParamBookFilterIsSupportedSingleLastPage")]
         public bool IsSupportedSingleLastPage
         {
             get { return Flags[BookMementoBit.IsSupportedSingleLastPage]; }
             set { Flags[BookMementoBit.IsSupportedSingleLastPage] = value; }
         }
 
-        [PropertyMember("横長ページを2ページとみなす")]
+        [PropertyMember("@ParamBookFilterIsSupportedWidePage")]
         public bool IsSupportedWidePage
         {
             get { return Flags[BookMementoBit.IsSupportedWidePage]; }
             set { Flags[BookMementoBit.IsSupportedWidePage] = value; }
         }
 
-        [PropertyMember("サブフォルダーを読み込む")]
+        [PropertyMember("@ParamBookFilterIsRecursiveFolder")]
         public bool IsRecursiveFolder
         {
             get { return Flags[BookMementoBit.IsRecursiveFolder]; }
             set { Flags[BookMementoBit.IsRecursiveFolder] = value; }
         }
 
-        [PropertyMember("ページの並び順")]
+        [PropertyMember("@ParamBookFilterSortMode")]
         public bool SortMode
         {
             get { return Flags[BookMementoBit.SortMode]; }

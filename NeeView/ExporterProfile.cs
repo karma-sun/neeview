@@ -15,12 +15,12 @@ namespace NeeView
 
         public bool IsHintCloneDefault { get; set; } = true;
 
-        [PropertyRange("JPEG品質", 5, 100, TickFrequency =5, Tips = "変換が必要な場合にのみ使用されます。")]
+        [PropertyRange("@ParamExportImageQualityLevel", 5, 100, TickFrequency =5, Tips = "@ParamExportImageQualityLevelTips")]
         public int QualityLevel { get; set; } = 80;
 
         public string ExportFolder { get; set; } = null;
 
-        [PropertyMember("前回保存したフォルダーを記憶する")]
+        [PropertyMember("@ParamExportImageIsEnableExportFolder")]
         public bool IsEnableExportFolder { get; set; } = true;
 
 

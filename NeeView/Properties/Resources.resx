@@ -129,6 +129,97 @@
   <data name="CommandLoadAsNote" xml:space="preserve">
     <value>Select and open the compressed file or image file.</value>
   </data>
+  <data name="ControlAboutChangeLog" xml:space="preserve">
+    <value>Change Log</value>
+  </data>
+  <data name="ControlAboutChecking" xml:space="preserve">
+    <value>Checking the latest version ...</value>
+  </data>
+  <data name="ControlAboutDownload" xml:space="preserve">
+    <value>Go to download page</value>
+  </data>
+  <data name="ControlAboutFailed" xml:space="preserve">
+    <value>Update check failed</value>
+  </data>
+  <data name="ControlAboutLastest" xml:space="preserve">
+    <value>NeeView is the latest version</value>
+  </data>
+  <data name="ControlAboutLicense" xml:space="preserve">
+    <value>License Info</value>
+  </data>
+  <data name="ControlAboutNew" xml:space="preserve">
+    <value>A new version has been released</value>
+  </data>
+  <data name="ControlAboutProject" xml:space="preserve">
+    <value>Project Page</value>
+  </data>
+  <data name="ControlAboutUnknown" xml:space="preserve">
+    <value>NeeView is an unknown version</value>
+  </data>
+  <data name="ControlAboutWrongFormat" xml:space="preserve">
+    <value>The format of the update page is different from what is supposed</value>
+  </data>
+  <data name="ControlCustomBackgroundColor" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="ControlCustomBackgroundImage" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="ControlCustomBackgroundImageSelect" xml:space="preserve">
+    <value>Select image</value>
+  </data>
+  <data name="ControlCustomBackgroundImageSelectNote" xml:space="preserve">
+    <value>Please select an image file</value>
+  </data>
+  <data name="ControlEditDragInput" xml:space="preserve">
+    <value>Mouse input here</value>
+  </data>
+  <data name="ControlEditDragNew" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="ControlEditDragNote" xml:space="preserve">
+    <value>Mouse button input in light blue frame.
+You can not use right button drag because it is reserved with mouse gesture. </value>
+  </data>
+  <data name="ControlEditDragOld" xml:space="preserve">
+    <value>Old</value>
+  </data>
+  <data name="ControlEditDragTitle" xml:space="preserve">
+    <value>Drag operation</value>
+  </data>
+  <data name="ControlEditMouseDragListHeaderCommand" xml:space="preserve">
+    <value>Command</value>
+  </data>
+  <data name="ControlEditMouseDragListHeaderDrag" xml:space="preserve">
+    <value>Drag operation</value>
+  </data>
+  <data name="ControlEditMouseDragReset" xml:space="preserve">
+    <value>Reset...</value>
+  </data>
+  <data name="ControlFileNameBoxDirectoryNote" xml:space="preserve">
+    <value>Please enter the folder path</value>
+  </data>
+  <data name="ControlFileNameBoxFileNote" xml:space="preserve">
+    <value>Please enter the path of the file</value>
+  </data>
+  <data name="ControlFileNameBoxSelectDirectory" xml:space="preserve">
+    <value>Select folder</value>
+  </data>
+  <data name="ControlFileNameBoxSelectFile" xml:space="preserve">
+    <value>Select file</value>
+  </data>
+  <data name="ControlSusiePluginListConfig" xml:space="preserve">
+    <value>Config</value>
+  </data>
+  <data name="ControlSusiePluginListDown" xml:space="preserve">
+    <value>Down</value>
+  </data>
+  <data name="ControlSusiePluginListUp" xml:space="preserve">
+    <value>Up</value>
+  </data>
+  <data name="DialogAddParameterTile" xml:space="preserve">
+    <value>Add item</value>
+  </data>
   <data name="DialogBookmarkError" xml:space="preserve">
     <value>Temporary folders can not be bookmarked</value>
   </data>
@@ -141,6 +232,9 @@
   <data name="DialogBootOptionTitle" xml:space="preserve">
     <value>NeeView Startup options</value>
   </data>
+  <data name="DialogCacheDeletedTitle" xml:space="preserve">
+    <value>Thumbnail cache deleted</value>
+  </data>
   <data name="DialogConfirmRecursive" xml:space="preserve">
     <value>There is no file that can be read in "{0}". Do you also load subfolders or compressed files?</value>
   </data>
@@ -150,14 +244,131 @@
   <data name="DialogCopyErrorTitle" xml:space="preserve">
     <value>Copy failed</value>
   </data>
+  <data name="DialogCopyImageErrorTitle" xml:space="preserve">
+    <value>Copy failed</value>
+  </data>
+  <data name="DialogDeleteApplicationData" xml:space="preserve">
+    <value>Delete user data. Are you sure?
+
+The following data will be deleted
+- Setting file
+- History file
+- Bookmark file
+- Pagemark file
+- Cache file</value>
+  </data>
+  <data name="DialogDeleteApplicationDataComplete" xml:space="preserve">
+    <value>User data deleted. Quit NeeView.</value>
+  </data>
+  <data name="DialogDeleteApplicationDataCompleteTitle" xml:space="preserve">
+    <value>It has been deleted.</value>
+  </data>
+  <data name="DialogDeleteApplicationDataErrorTitle" xml:space="preserve">
+    <value>It can not be deleted.</value>
+  </data>
+  <data name="DialogDeleteApplicationDataTitle" xml:space="preserve">
+    <value>Delete user data.</value>
+  </data>
+  <data name="DialogDragActionLockedTitle" xml:space="preserve">
+    <value>This operation can not be changed</value>
+  </data>
+  <data name="DialogDragActionReset" xml:space="preserve">
+    <value>Initialize all drag operations. Is it OK?</value>
+  </data>
+  <data name="DialogDragActionResetTitle" xml:space="preserve">
+    <value>Initialize the drag operation</value>
+  </data>
+  <data name="DialogExportErrorTitle" xml:space="preserve">
+    <value>Export failed</value>
+  </data>
+  <data name="DialogExportTitle" xml:space="preserve">
+    <value>Export all settings</value>
+  </data>
+  <data name="DialogFileDelete" xml:space="preserve">
+    <value>Do you want to move this {0} to Recycle Bin?</value>
+  </data>
+  <data name="DialogFileDeleteBookTitle" xml:space="preserve">
+    <value>Delete book</value>
+  </data>
+  <data name="DialogFileDeleteError" xml:space="preserve">
+    <value>Delete failed. Would you like to try again?</value>
+  </data>
+  <data name="DialogFileDeleteErrorTitle" xml:space="preserve">
+    <value>Delete failed. Would you like to retry?</value>
+  </data>
+  <data name="DialogFileDeletePageTitle" xml:space="preserve">
+    <value>Delete page</value>
+  </data>
+  <data name="DialogFileDeleteTitle" xml:space="preserve">
+    <value>Delete {0}</value>
+  </data>
+  <data name="DialogFileRenameConfrict" xml:space="preserve">
+    <value>{0} already exists.
+Would you like to rename it to {1}? </value>
+  </data>
+  <data name="DialogFileRenameConfrictTitle" xml:space="preserve">
+    <value>A file with the same name exists</value>
+  </data>
+  <data name="DialogFileRenameErrorTitle" xml:space="preserve">
+    <value>Can not rename</value>
+  </data>
+  <data name="DialogFileRenameExtension" xml:space="preserve">
+    <value>Changing the extension may make it impossible to use it.
+Is it OK? </value>
+  </data>
+  <data name="DialogFileRenameExtensionTitle" xml:space="preserve">
+    <value>Change the extension</value>
+  </data>
+  <data name="DialogFileRenameFailed" xml:space="preserve">
+    <value>Failed to change the name. Would you like to try again?</value>
+  </data>
+  <data name="DialogFileRenameFailedTitle" xml:space="preserve">
+    <value>Rename failed</value>
+  </data>
+  <data name="DialogFileRenameInvalid" xml:space="preserve">
+    <value>The file name contains characters that can not be used.</value>
+  </data>
+  <data name="DialogFileRenameWrong" xml:space="preserve">
+    <value>The specified file name is invalid.</value>
+  </data>
+  <data name="DialogFileRenameWrongDevice" xml:space="preserve">
+    <value>The specified device name is invalid.</value>
+  </data>
+  <data name="DialogHistoryDeleteAll" xml:space="preserve">
+    <value>Delete all history. Is it OK?</value>
+  </data>
+  <data name="DialogHistoryDeleteAllTitle" xml:space="preserve">
+    <value>Delete history</value>
+  </data>
+  <data name="DialogHistoryDeletedTitle" xml:space="preserve">
+    <value>Deleted history</value>
+  </data>
+  <data name="DialogHyperLinkFailedTitle" xml:space="preserve">
+    <value>Could not get link.</value>
+  </data>
   <data name="DialogImageExportError" xml:space="preserve">
     <value>This image can not be output.</value>
   </data>
   <data name="DialogImageExportErrorTitle" xml:space="preserve">
     <value>File save failed</value>
   </data>
+  <data name="DialogImportErrorTitle" xml:space="preserve">
+    <value>Import failed</value>
+  </data>
+  <data name="DialogImportSelectTitle" xml:space="preserve">
+    <value>Please select the item to be imported</value>
+  </data>
+  <data name="DialogImportTitle" xml:space="preserve">
+    <value>Import all settings</value>
+  </data>
   <data name="DialogOpenApplicationErrorTitle" xml:space="preserve">
     <value>External application execution failed</value>
+  </data>
+  <data name="DialogOpenSettingFolderError" xml:space="preserve">
+    <value>The location of the setting file can not be opened with the store application</value>
+  </data>
+  <data name="DialogOpenSettingFolderErrorTitle" xml:space="preserve">
+    <value>This command can not be used</value>
   </data>
   <data name="DialogPagemarkError" xml:space="preserve">
     <value>Temporary folders can not be pagemarked</value>
@@ -165,14 +376,392 @@
   <data name="DialogPagemarkErrorTitle" xml:space="preserve">
     <value>Can not pagemark</value>
   </data>
+  <data name="EnumArchiveOptionTypeNone" xml:space="preserve">
+    <value>Do not execute</value>
+  </data>
+  <data name="EnumArchiveOptionTypeSendArchiveFile" xml:space="preserve">
+    <value>Pass the compressed file</value>
+  </data>
+  <data name="EnumArchiveOptionTypeSendExtractFile" xml:space="preserve">
+    <value>Pass the output file (temporary file)</value>
+  </data>
+  <data name="EnumBrushTypeImageFill" xml:space="preserve">
+    <value>Enlarge and display the image</value>
+  </data>
+  <data name="EnumBrushTypeImageTile" xml:space="preserve">
+    <value>Image tile</value>
+  </data>
+  <data name="EnumBrushTypeImageUniform" xml:space="preserve">
+    <value>Fit image to window size</value>
+  </data>
+  <data name="EnumBrushTypeImageUniformToFill" xml:space="preserve">
+    <value>Extend the image to the full window</value>
+  </data>
+  <data name="EnumBrushTypeSolidColor" xml:space="preserve">
+    <value>Solid color</value>
+  </data>
+  <data name="EnumDragActionTypeAngle" xml:space="preserve">
+    <value>Rotation</value>
+  </data>
+  <data name="EnumDragActionTypeFlipHorizontal" xml:space="preserve">
+    <value>Flip horizontal</value>
+  </data>
+  <data name="EnumDragActionTypeFlipVertical" xml:space="preserve">
+    <value>Flip vertical</value>
+  </data>
+  <data name="EnumDragActionTypeGesture" xml:space="preserve">
+    <value>Gesture</value>
+  </data>
+  <data name="EnumDragActionTypeMove" xml:space="preserve">
+    <value>Move</value>
+  </data>
+  <data name="EnumDragActionTypeMoveScale" xml:space="preserve">
+    <value>Move (scale dependent)</value>
+  </data>
+  <data name="EnumDragActionTypeNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="EnumDragActionTypeScale" xml:space="preserve">
+    <value>Scaling</value>
+  </data>
+  <data name="EnumDragActionTypeScaleSlider" xml:space="preserve">
+    <value>Scaling (horizontal slide)</value>
+  </data>
+  <data name="EnumDragActionTypeWindowMove" xml:space="preserve">
+    <value>Move window</value>
+  </data>
+  <data name="EnumExternalProgramTypeNormal" xml:space="preserve">
+    <value>External program</value>
+  </data>
+  <data name="EnumExternalProgramTypeProtocol" xml:space="preserve">
+    <value>Protocol</value>
+  </data>
+  <data name="EnumFolderIconLayoutDefault" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="EnumFolderIconLayoutExplorer" xml:space="preserve">
+    <value>Explorer style</value>
+  </data>
   <data name="EnumLanguageEnglish" xml:space="preserve">
     <value>English</value>
   </data>
   <data name="EnumLanguageJapanese" xml:space="preserve">
     <value>日本語</value>
   </data>
+  <data name="EnumLoadingPageViewNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="EnumLoadingPageViewPreImage" xml:space="preserve">
+    <value>Image of previous page</value>
+  </data>
+  <data name="EnumLoadingPageViewPreThumbnail" xml:space="preserve">
+    <value>Thumbnail of previous page</value>
+  </data>
+  <data name="EnumLongButtonMaskAll" xml:space="preserve">
+    <value>All buttons</value>
+  </data>
+  <data name="EnumLongButtonMaskLeft" xml:space="preserve">
+    <value>Left button</value>
+  </data>
+  <data name="EnumLongButtonMaskRight" xml:space="preserve">
+    <value>Right button</value>
+  </data>
+  <data name="EnumMultiPageOptionTypeOnce" xml:space="preserve">
+    <value>Execute only one page</value>
+  </data>
+  <data name="EnumMultiPageOptionTypeTwice" xml:space="preserve">
+    <value>Run both pages</value>
+  </data>
+  <data name="EnumPageEndActionLoop" xml:space="preserve">
+    <value>Loop</value>
+  </data>
+  <data name="EnumPageEndActionNextFolder" xml:space="preserve">
+    <value>Move to next book</value>
+  </data>
+  <data name="EnumPageEndActionNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="EnumPageModeSinglePage" xml:space="preserve">
+    <value>One page</value>
+  </data>
+  <data name="EnumPageModeWidePage" xml:space="preserve">
+    <value>Two page</value>
+  </data>
+  <data name="EnumPageReadOrderLeftToRight" xml:space="preserve">
+    <value>Left to right</value>
+  </data>
+  <data name="EnumPageReadOrderRightToLeft" xml:space="preserve">
+    <value>Right to left</value>
+  </data>
+  <data name="EnumPageSortModeFileName" xml:space="preserve">
+    <value>Name ascending order</value>
+  </data>
+  <data name="EnumPageSortModeFileNameDescending" xml:space="preserve">
+    <value>Name descending order</value>
+  </data>
+  <data name="EnumPageSortModeRandom" xml:space="preserve">
+    <value>Shuffle</value>
+  </data>
+  <data name="EnumPageSortModeSize" xml:space="preserve">
+    <value>Size ascending order</value>
+  </data>
+  <data name="EnumPageSortModeSizeDescending" xml:space="preserve">
+    <value>Size descending</value>
+  </data>
+  <data name="EnumPageSortModeTimeStamp" xml:space="preserve">
+    <value>Ascending date</value>
+  </data>
+  <data name="EnumPageSortModeTimeStampDescending" xml:space="preserve">
+    <value>Descending date</value>
+  </data>
+  <data name="EnumPreLoadModeAutoPreLoad" xml:space="preserve">
+    <value>Automatic prefetching</value>
+  </data>
+  <data name="EnumPreLoadModeNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="EnumPreLoadModePreLoad" xml:space="preserve">
+    <value>Prefetch</value>
+  </data>
+  <data name="EnumPreLoadModePreLoadNoUnload" xml:space="preserve">
+    <value>Prefetch (no release)</value>
+  </data>
+  <data name="EnumShowMessageStyleNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="EnumShowMessageStyleNormal" xml:space="preserve">
+    <value>Visible</value>
+  </data>
+  <data name="EnumShowMessageStyleTiny" xml:space="preserve">
+    <value>Tiny</value>
+  </data>
+  <data name="EnumSliderDirectionLeftToRight" xml:space="preserve">
+    <value>▶ Left to right</value>
+  </data>
+  <data name="EnumSliderDirectionRightToLeft" xml:space="preserve">
+    <value>◀ Right to left</value>
+  </data>
+  <data name="EnumSliderDirectionSyncBookReadDirection" xml:space="preserve">
+    <value>Depends on books</value>
+  </data>
+  <data name="EnumSliderIndexLayoutLeft" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="EnumSliderIndexLayoutNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="EnumSliderIndexLayoutRight" xml:space="preserve">
+    <value>Right</value>
+  </data>
+  <data name="EnumTouchActionDrag" xml:space="preserve">
+    <value>Touch view operation</value>
+  </data>
+  <data name="EnumTouchActionGesture" xml:space="preserve">
+    <value>Gesture</value>
+  </data>
+  <data name="EnumTouchActionMouseDrag" xml:space="preserve">
+    <value>Mouse drag operation</value>
+  </data>
+  <data name="EnumTouchActionNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="EnumWindowChromeFrameLine" xml:space="preserve">
+    <value>Frame border</value>
+  </data>
+  <data name="EnumWindowChromeFrameNone" xml:space="preserve">
+    <value>Window frame with title bar hidden</value>
+  </data>
+  <data name="EnumWindowChromeFrameWindowFrame" xml:space="preserve">
+    <value>System standard</value>
+  </data>
+  <data name="ExceptionNotSupportArchiveFolder" xml:space="preserve">
+    <value>Compressed file folders are not supported.</value>
+  </data>
+  <data name="IsAutoGC" xml:space="preserve">
+    <value>System manages memory</value>
+  </data>
+  <data name="IsAutoGCTips" xml:space="preserve">
+    <value>When it is OFF, memory is released every time page is switched</value>
+  </data>
+  <data name="IsCaptionEmulateInFullScreen" xml:space="preserve">
+    <value>Title bar operation at full screen</value>
+  </data>
+  <data name="IsCaptionEmulateInFullScreenTips" xml:space="preserve">
+    <value>Enable the title bar operation (double click and drag) on ​​the menu at full screen. "</value>
+  </data>
+  <data name="LongButtonDownModeLoupe" xml:space="preserve">
+    <value>Loupe</value>
+  </data>
+  <data name="LongButtonDownModeLoupeTips" xml:space="preserve">
+    <value>Temporarily enlarge the image.</value>
+  </data>
+  <data name="LongButtonDownModeNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="LongButtonDownModeRepeat" xml:space="preserve">
+    <value>Repeat input</value>
+  </data>
+  <data name="LongButtonDownModeRepeatTips" xml:space="preserve">
+    <value>Execute the command continuously.</value>
+  </data>
+  <data name="ParamArchiverMediaIsEnabled" xml:space="preserve">
+    <value>Use video</value>
+  </data>
+  <data name="ParamArchiverMediaSupportFileTypes" xml:space="preserve">
+    <value>Video file extension</value>
+  </data>
+  <data name="ParamArchiverMediaSupportFileTypesTips" xml:space="preserve">
+    <value>Probably what you can play with Windows Media Player is playable.</value>
+  </data>
+  <data name="ParamArchiverPdfIsEnabled" xml:space="preserve">
+    <value>Use PDF</value>
+  </data>
+  <data name="ParamArchiverPdfRenderSize" xml:space="preserve">
+    <value>PDF page standard size</value>
+  </data>
+  <data name="ParamArchiverPdfRenderSizeTips" xml:space="preserve">
+    <value>Normally we will render according to the display size, but the lower limit will be this standard size. If it becomes smaller, it is reduced and displayed.</value>
+  </data>
+  <data name="ParamArchiverPdfSupportFileTypes" xml:space="preserve">
+    <value>PDF file extension</value>
+  </data>
   <data name="ParamAutoHideDelayTime" xml:space="preserve">
     <value>Time (in seconds) until panel and menu disappear automatically</value>
+  </data>
+  <data name="ParamBookBookReadOrder" xml:space="preserve">
+    <value>Book Orientation</value>
+  </data>
+  <data name="ParamBookExcludes" xml:space="preserve">
+    <value>Page exclusion path</value>
+  </data>
+  <data name="ParamBookExcludesTips" xml:space="preserve">
+    <value>It is invalid for "@ParamBookIsEnableNoSupportFile" setting.</value>
+  </data>
+  <data name="ParamBookFilterBookReadOrder" xml:space="preserve">
+    <value>Book Orientation</value>
+  </data>
+  <data name="ParamBookFilterIsRecursiveFolder" xml:space="preserve">
+    <value>Load subfolder</value>
+  </data>
+  <data name="ParamBookFilterIsSupportedDividePage" xml:space="preserve">
+    <value>Split horizontally long page</value>
+  </data>
+  <data name="ParamBookFilterIsSupportedSingleFirstPage" xml:space="preserve">
+    <value>The first page alone</value>
+  </data>
+  <data name="ParamBookFilterIsSupportedSingleLastPage" xml:space="preserve">
+    <value>The last page alone</value>
+  </data>
+  <data name="ParamBookFilterIsSupportedWidePage" xml:space="preserve">
+    <value>Landscape page is regarded as 2 pages</value>
+  </data>
+  <data name="ParamBookFilterPage" xml:space="preserve">
+    <value>Page position</value>
+  </data>
+  <data name="ParamBookFilterPageMode" xml:space="preserve">
+    <value>Page Size Mode</value>
+  </data>
+  <data name="ParamBookFilterSortMode" xml:space="preserve">
+    <value>Order of pages</value>
+  </data>
+  <data name="ParamBookIsEnableAnimatedGif" xml:space="preserve">
+    <value>Play animated GIF</value>
+  </data>
+  <data name="ParamBookIsEnableAnimatedGifTips" xml:space="preserve">
+    <value>Perform animated GIF playback. Memory consumption problems may occur with long GIFs.</value>
+  </data>
+  <data name="ParamBookIsEnableNoSupportFile" xml:space="preserve">
+    <value>Include unsupported files on page</value>
+  </data>
+  <data name="ParamBookIsEnableNoSupportFileTips" xml:space="preserve">
+    <value>Files and folders that can not be displayed as images are also displayed as pages.</value>
+  </data>
+  <data name="ParamBookIsMultiplePageMove" xml:space="preserve">
+    <value>Accept duplication of page movement commands</value>
+  </data>
+  <data name="ParamBookIsMultiplePageMoveTips" xml:space="preserve">
+    <value>Execute all requested page move commands. If it is set to OFF, duplicate page move commands are canceled.</value>
+  </data>
+  <data name="ParamBookIsPrioritizePageMove" xml:space="preserve">
+    <value>Page movement priority</value>
+  </data>
+  <data name="ParamBookIsPrioritizePageMoveTips" xml:space="preserve">
+    <value>Perform page movement without waiting for page display.</value>
+  </data>
+  <data name="ParamBookIsRecursiveFolder" xml:space="preserve">
+    <value>Load subfolder</value>
+  </data>
+  <data name="ParamBookIsRecursiveFolderTips" xml:space="preserve">
+    <value>Because it searches all open folders and below, the processing becomes heavy depending on the location of the folder.</value>
+  </data>
+  <data name="ParamBookIsSupportedDividePage" xml:space="preserve">
+    <value>Split horizontally long page</value>
+  </data>
+  <data name="ParamBookIsSupportedSingleFirstPage" xml:space="preserve">
+    <value>The first page alone</value>
+  </data>
+  <data name="ParamBookIsSupportedSingleLastPage" xml:space="preserve">
+    <value>The last page alone</value>
+  </data>
+  <data name="ParamBookIsSupportedWidePage" xml:space="preserve">
+    <value>Landscape page is regarded as 2 pages</value>
+  </data>
+  <data name="ParamBookLoadingPageView" xml:space="preserve">
+    <value>How to display loading page</value>
+  </data>
+  <data name="ParamBookLoadingPageViewTips" xml:space="preserve">
+    <value>Specify what to display before the page loading is complete. "@EnumLoadingPageViewPreImage" consumes the most memory.</value>
+  </data>
+  <data name="ParamBookOperationPageEndAction" xml:space="preserve">
+    <value>Behavior when trying to move past the end of the page</value>
+  </data>
+  <data name="ParamBookPageMode" xml:space="preserve">
+    <value>Page Size Mode</value>
+  </data>
+  <data name="ParamBookPreloadLimitSize" xml:space="preserve">
+    <value>Image size for automatic prefetching judgment</value>
+  </data>
+  <data name="ParamBookPreloadLimitSizeTips" xml:space="preserve">
+    <value>Used in automatic prefetching mode. Prefetching is disabled for images larger than this area. In the case of 2 page display, it is judged by the total area of ​​2 pages.</value>
+  </data>
+  <data name="ParamBookPreLoadMode" xml:space="preserve">
+    <value>Prefetching</value>
+  </data>
+  <data name="ParamBookPreLoadModeTips" xml:space="preserve">
+    <value>Prefetching conserves memory to hold previous and next pages. If you select "@EnumPreLoadModeAutoPreLoad", you can switch prefetch enable / disable according to image size. "@EnumPreLoadModePreLoadNoUnload" is the mode that consumes the most memory that does not discard the loaded image.</value>
+  </data>
+  <data name="ParamBookSettingIsUseBookMementoDefault" xml:space="preserve">
+    <value>Apply default page settings to items that will not be restored when opening a workbook</value>
+  </data>
+  <data name="ParamBookSettingIsUseBookMementoDefaultTips" xml:space="preserve">
+    <value>When set to OFF, the previous set value is inherited.</value>
+  </data>
+  <data name="ParamBookSortMode" xml:space="preserve">
+    <value>Order of pages</value>
+  </data>
+  <data name="ParamBookWideRatio" xml:space="preserve">
+    <value>Aspect ratio for determining horizontally long image (horizontal / vertical)</value>
+  </data>
+  <data name="ParamBookWideRatioTips" xml:space="preserve">
+    <value>It is used in "Split landscape page".</value>
+  </data>
+  <data name="ParamClipboardArchiveOption" xml:space="preserve">
+    <value>For compressed files</value>
+  </data>
+  <data name="ParamClipboardMultiPageOption" xml:space="preserve">
+    <value>For 2 pages</value>
+  </data>
+  <data name="ParamContentCanvasContentsSpace" xml:space="preserve">
+    <value>Distance between two pages</value>
+  </data>
+  <data name="ParamContentCanvasContentsSpaceTips" xml:space="preserve">
+    <value>Sets the gap between page and page. Negative values ​​mean overlapping. Because each page is scaled, it is rare that there will be no gap just at 0.</value>
+  </data>
+  <data name="ParamCustomBackground" xml:space="preserve">
+    <value>Custom background</value>
+  </data>
+  <data name="ParamCustomBackgroundTips" xml:space="preserve">
+    <value>This setting is applied when the background is set to "custom background".</value>
   </data>
   <data name="ParamDownloadPath" xml:space="preserve">
     <value>Download folder</value>
@@ -180,11 +769,191 @@
   <data name="ParamDownloadPathTips" xml:space="preserve">
     <value>It is a storage place of the image dropped by the browser etc. If not specified, temporary folder is used.</value>
   </data>
+  <data name="ParamDragTransformAngleFrequency" xml:space="preserve">
+    <value>Rotating Snap</value>
+  </data>
+  <data name="ParamDragTransformIsControlCenterImage" xml:space="preserve">
+    <value>Rotate, scaling, and invert the criteria as the center of the image</value>
+  </data>
+  <data name="ParamDragTransformIsControlCenterImageTips" xml:space="preserve">
+    <value>When set to OFF, the center of the display is used as the reference.</value>
+  </data>
+  <data name="ParamDragTransformIsKeepAngle" xml:space="preserve">
+    <value>Keeping rotation even if you change the page</value>
+  </data>
+  <data name="ParamDragTransformIsKeepAngleTips" xml:space="preserve">
+    <value>This setting does not work when automatic rotation is enabled.</value>
+  </data>
+  <data name="ParamDragTransformIsKeepFlip" xml:space="preserve">
+    <value>Maintain reversal even when changing page</value>
+  </data>
+  <data name="ParamDragTransformIsKeepScale" xml:space="preserve">
+    <value>Maintain scaling even when changing pages</value>
+  </data>
+  <data name="ParamDragTransformIsLimitMove" xml:space="preserve">
+    <value>Move inside the window</value>
+  </data>
+  <data name="ParamDragTransformIsOriginalScaleShowMessage" xml:space="preserve">
+    <value>Make the scale display of the view operation the original image size standard</value>
+  </data>
+  <data name="ParamDragTransformIsOriginalScaleShowMessageTips" xml:space="preserve">
+    <value>In case of 2 page display, we refer to the page with the younger number.</value>
+  </data>
+  <data name="ParamDragTransformIsViewStartPositionCenter" xml:space="preserve">
+    <value>Use the display start position as the center of the image</value>
+  </data>
+  <data name="ParamDragTransformIsViewStartPositionCenterTips" xml:space="preserve">
+    <value>When set to OFF, it becomes the upper right reference and the upper left reference depending on the spreading direction.</value>
+  </data>
+  <data name="ParamExportImageIsEnableExportFolder" xml:space="preserve">
+    <value>Remember previously saved folder</value>
+  </data>
+  <data name="ParamExportImageQualityLevel" xml:space="preserve">
+    <value>JPEG quality</value>
+  </data>
+  <data name="ParamExportImageQualityLevelTips" xml:space="preserve">
+    <value>It is used only when conversion is required.</value>
+  </data>
+  <data name="ParamExternalArchiveOption" xml:space="preserve">
+    <value>For compressed files</value>
+  </data>
+  <data name="ParamExternalCommand" xml:space="preserve">
+    <value>Program</value>
+  </data>
+  <data name="ParamExternalCommandTips" xml:space="preserve">
+    <value>If not specified, launch the application associated with the extension.</value>
+  </data>
+  <data name="ParamExternalMultiPageOption" xml:space="preserve">
+    <value>For 2 pages</value>
+  </data>
+  <data name="ParamExternalParameter" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="ParamExternalProgramType" xml:space="preserve">
+    <value>Program Type</value>
+  </data>
+  <data name="ParamExternalProtocol" xml:space="preserve">
+    <value>Protocol</value>
+  </data>
+  <data name="ParamExternalProtocolTips" xml:space="preserve">
+    <value>$File will be replaced with the file path. $Uri is replaced with the URI escaped file path.</value>
+  </data>
+  <data name="ParamFileInformationIsUseExifDateTime" xml:space="preserve">
+    <value>Use EXIF ​​date and time</value>
+  </data>
+  <data name="ParamFileInformationIsUseExifDateTimeTips" xml:space="preserve">
+    <value>It is limited to display on the file information panel. It does not affect sorting by date.</value>
+  </data>
+  <data name="ParamFileInformationIsVisibleBitsPerPixel" xml:space="preserve">
+    <value>Display the number of bits per pixel in image size</value>
+  </data>
+  <data name="ParamFileInformationIsVisibleFilePath" xml:space="preserve">
+    <value>Display the file path in the compressed file</value>
+  </data>
+  <data name="ParamFileInformationIsVisibleLoader" xml:space="preserve">
+    <value>Display used archiver, image decoder name</value>
+  </data>
+  <data name="ParamFilmStripIsManipulationBoundaryFeedbackEnabled" xml:space="preserve">
+    <value>Touch scroll termination bound on filmstrip</value>
+  </data>
+  <data name="ParamFilmStripIsSelectedCenter" xml:space="preserve">
+    <value>Scroll so that the selected item appears in the center</value>
+  </data>
+  <data name="ParamFilmStripIsVisibleThumbnailNumber" xml:space="preserve">
+    <value>Display page number</value>
+  </data>
+  <data name="ParamFilmStripIsVisibleThumbnailPlate" xml:space="preserve">
+    <value>Display background</value>
+  </data>
+  <data name="ParamFilmStripIsVisibleThumbnailPlateTips" xml:space="preserve">
+    <value>Display the background of the filmstrip in the case of automatically hidden settings</value>
+  </data>
+  <data name="ParamFilmStripThumbnailSize" xml:space="preserve">
+    <value>Page thumbnail size</value>
+  </data>
+  <data name="ParamFolderListExcludePattern" xml:space="preserve">
+    <value>Filename pattern to exclude from display</value>
+  </data>
+  <data name="ParamFolderListExcludePatternTips" xml:space="preserve">
+    <value>It is specified with .NET regular expression. Capital letters and lower case letters are not distinguished.</value>
+  </data>
+  <data name="ParamFolderListFolderIconLayout" xml:space="preserve">
+    <value>File icon layout</value>
+  </data>
+  <data name="ParamFolderListHome" xml:space="preserve">
+    <value>Home location</value>
+  </data>
+  <data name="ParamFolderListIsCruise" xml:space="preserve">
+    <value>Enable Folder Cruise</value>
+  </data>
+  <data name="ParamFolderListIsCruiseTips" xml:space="preserve">
+    <value>Move the folder including the parent and child of the folder. It does not apply when the folder list is a search result.</value>
+  </data>
+  <data name="ParamFolderListIsInsertItem" xml:space="preserve">
+    <value>Insert additional file at sort position</value>
+  </data>
+  <data name="ParamFolderListIsInsertItemTips" xml:space="preserve">
+    <value>The folder list reflects information in real time. If this setting is ON, inserts the added file in the current sort order position. When set to OFF, it is added to the end of the list.</value>
+  </data>
+  <data name="ParamFolderListIsMultipleRarFilterEnabled" xml:space="preserve">
+    <value>Filter RAR split files from display</value>
+  </data>
+  <data name="ParamFolderListIsMultipleRarFilterEnabledTips" xml:space="preserve">
+    <value>For an RAR split file called .part[number].rar, only the file with the smallest number is displayed in the list.</value>
+  </data>
+  <data name="ParamFolderListIsVisibleBookmarkMark" xml:space="preserve">
+    <value>Display bookmark symbols</value>
+  </data>
+  <data name="ParamFolderListIsVisibleBookmarkMarkTips" xml:space="preserve">
+    <value>★ mark is displayed in the bookmarked book.</value>
+  </data>
+  <data name="ParamFolderListIsVisibleHistoryMark" xml:space="preserve">
+    <value>Display history symbol</value>
+  </data>
+  <data name="ParamFolderListIsVisibleHistoryMarkTips" xml:space="preserve">
+    <value>A check mark is displayed in the book remaining in the history.</value>
+  </data>
   <data name="ParamHistoryEntryPageCount" xml:space="preserve">
     <value>Number of page operations to start history registration</value>
   </data>
   <data name="ParamHistoryEntryPageCountTips" xml:space="preserve">
     <value>Register in history with page movement operation more than this count or last page display.</value>
+  </data>
+  <data name="ParamHistoryIsKeepFolderStatus" xml:space="preserve">
+    <value>Save information such as the last open place, the order of each folder, etc.</value>
+  </data>
+  <data name="ParamHistoryLimitSize" xml:space="preserve">
+    <value>Size limit</value>
+  </data>
+  <data name="ParamHistoryLimitSpan" xml:space="preserve">
+    <value>Retention period</value>
+  </data>
+  <data name="ParamImageEffectIsHsvMode" xml:space="preserve">
+    <value>Perform color setting with HSV</value>
+  </data>
+  <data name="ParamImageEffectIsHsvModeTips" xml:space="preserve">
+    <value>Set the color parameter with HSV (Hue, Saturation, Brightness). When set to OFF, it becomes the setting with RGB.</value>
+  </data>
+  <data name="ParamInfoMessageCommandShowMessageStyle" xml:space="preserve">
+    <value>Display command execution message</value>
+  </data>
+  <data name="ParamInfoMessageGestureShowMessageStyle" xml:space="preserve">
+    <value>Display of gesture status</value>
+  </data>
+  <data name="ParamInfoMessageNoticeShowMessageStyle" xml:space="preserve">
+    <value>Notice such as display of open book name</value>
+  </data>
+  <data name="ParamInfoMessageNowLoadingShowMessageStyle" xml:space="preserve">
+    <value>View Now Loading</value>
+  </data>
+  <data name="ParamInfoMessageViewTransformShowMessageStyle" xml:space="preserve">
+    <value>Information display such as scale change by drag operation</value>
+  </data>
+  <data name="ParamIsAccessKeyEnabled" xml:space="preserve">
+    <value>Allow access key</value>
+  </data>
+  <data name="ParamIsAccessKeyEnabledTips" xml:space="preserve">
+    <value>If it is set to OFF, system operation by Alt key will be invalid and malfunction will be eliminated when used with command shortcut. "</value>
   </data>
   <data name="ParamIsArchiveRecursive" xml:space="preserve">
     <value>Expand all recursive compressed files</value>
@@ -222,6 +991,12 @@
   <data name="ParamIsDisableSaveTips" xml:space="preserve">
     <value>Book information is not saved.</value>
   </data>
+  <data name="ParamIsFileOperationEnabled" xml:space="preserve">
+    <value>File operation enabled</value>
+  </data>
+  <data name="ParamIsHidePanelInFullscreen" xml:space="preserve">
+    <value>Automatically hide the side panel when it is full screen</value>
+  </data>
   <data name="ParamIsIgnoreImageDpi" xml:space="preserve">
     <value>Dot-by-dot display of image</value>
   </data>
@@ -240,8 +1015,14 @@
   <data name="ParamIsNetworkEnabledTips" xml:space="preserve">
     <value>In this application, we will use the network only for WEB links such as version update confirmation and online help from "About" dialog.</value>
   </data>
+  <data name="ParamIsOpenbookAtCurrentPlace" xml:space="preserve">
+    <value>Make the start position of the file selection dialog in "@CommandLoadAs" the location of the currently opened book</value>
+  </data>
   <data name="ParamIsOpenLastBook" xml:space="preserve">
     <value>Restore an open book</value>
+  </data>
+  <data name="ParamIsRemoveConfirmed" xml:space="preserve">
+    <value>Display confirmation dialog at file deletion</value>
   </data>
   <data name="ParamIsRestoreSecondWindow" xml:space="preserve">
     <value>Restore the second window coordinates</value>
@@ -273,23 +1054,410 @@
   <data name="ParamIsUncHistoryEnabledTips" xml:space="preserve">
     <value>Save the path on the network like "\\computer\~" in the history.</value>
   </data>
+  <data name="ParamIsVisibleBusy" xml:space="preserve">
+    <value>The image reading processing in progress mark is displayed on the upper left of the screen</value>
+  </data>
+  <data name="ParamIsVisibleWindowTitle" xml:space="preserve">
+    <value>When the title bar is not displayed, the window title is displayed in the display area</value>
+  </data>
+  <data name="ParamJobEngineWorkerSize" xml:space="preserve">
+    <value>Number of threads used for image loading</value>
+  </data>
+  <data name="ParamJobEngineWorkerSizeTips" xml:space="preserve">
+    <value>Valid values ​​are 1 to 4</value>
+  </data>
   <data name="ParamLanguage" xml:space="preserve">
     <value>Language</value>
   </data>
   <data name="ParamLanguageTips" xml:space="preserve">
     <value>* It is applied from the next startup.</value>
   </data>
+  <data name="ParamListItemFontName" xml:space="preserve">
+    <value>List item font</value>
+  </data>
+  <data name="ParamListItemFontSize" xml:space="preserve">
+    <value>Font size of list items</value>
+  </data>
+  <data name="ParamListItemIsTextWrapped" xml:space="preserve">
+    <value>Wrap file names of list item</value>
+  </data>
+  <data name="ParamListItemIsTextWrappedTips" xml:space="preserve">
+    <value>It is valid only for content style and banner style.</value>
+  </data>
+  <data name="ParamListItemNoteOpacity" xml:space="preserve">
+    <value>Supplemental text transparency of list items</value>
+  </data>
+  <data name="ParamListItemNoteOpacityTips" xml:space="preserve">
+    <value>Transparency of supplemental text in content style.</value>
+  </data>
+  <data name="ParamLoupeDefaultScale" xml:space="preserve">
+    <value>Loupe standard magnification</value>
+  </data>
+  <data name="ParamLoupeIsEscapeKeyEnabled" xml:space="preserve">
+    <value>Use the Esc key to release the loupe</value>
+  </data>
+  <data name="ParamLoupeIsLoupeCenter" xml:space="preserve">
+    <value>At the start, move the cursor position to the screen center</value>
+  </data>
+  <data name="ParamLoupeIsResetByPageChanged" xml:space="preserve">
+    <value>Release the loupe after moving the page</value>
+  </data>
+  <data name="ParamLoupeIsResetByRestart" xml:space="preserve">
+    <value>Start loupe at standard magnification</value>
+  </data>
+  <data name="ParamLoupeIsResetByRestartTips" xml:space="preserve">
+    <value>When set to OFF, the previous magnification will be inherited.</value>
+  </data>
+  <data name="ParamLoupeIsWheelScalingEnabled" xml:space="preserve">
+    <value>When using a loupe, change the magnifying power by wheel operation</value>
+  </data>
+  <data name="ParamLoupeIsWheelScalingEnabledTips" xml:space="preserve">
+    <value>Commands to which wheel operation is assigned are invalid.</value>
+  </data>
+  <data name="ParamLoupeMaximumScale" xml:space="preserve">
+    <value>Loupe maximum magnification</value>
+  </data>
+  <data name="ParamLoupeMinimumScale" xml:space="preserve">
+    <value>Loupe minimum magnification</value>
+  </data>
+  <data name="ParamLoupeScaleStep" xml:space="preserve">
+    <value>Loupe magnification change unit</value>
+  </data>
+  <data name="ParamLoupeSpeed" xml:space="preserve">
+    <value>Loupe Speed</value>
+  </data>
+  <data name="ParamMouseGestureMinimumDistance" xml:space="preserve">
+    <value>Minimum movement distance of mouse gesture determination</value>
+  </data>
+  <data name="ParamMouseGestureMinimumDistanceTips" xml:space="preserve">
+    <value>It will be judged as gesture start only after moving this distance (pixel).</value>
+  </data>
+  <data name="ParamMouseIsGestureEnabled" xml:space="preserve">
+    <value>Use mouse gesture</value>
+  </data>
+  <data name="ParamMouseLongButtonDownMode" xml:space="preserve">
+    <value>Long press mode</value>
+  </data>
+  <data name="ParamMouseLongButtonDownTime" xml:space="preserve">
+    <value>Long press decision time (sec)</value>
+  </data>
+  <data name="ParamMouseLongButtonDownTimeTips" xml:space="preserve">
+    <value>It is time to be judged to be long pressed.</value>
+  </data>
+  <data name="ParamMouseLongButtonMask" xml:space="preserve">
+    <value>Long press button</value>
+  </data>
+  <data name="ParamMouseLongButtonRepeatTime" xml:space="preserve">
+    <value>Repeat interval (sec)</value>
+  </data>
+  <data name="ParamMouseLongButtonRepeatTimeTips" xml:space="preserve">
+    <value>Repeat time with repeat input.</value>
+  </data>
+  <data name="ParamPageSeconds" xml:space="preserve">
+    <value>Change time in page movement (seconds)</value>
+  </data>
+  <data name="ParamPanelColor" xml:space="preserve">
+    <value>Theme color</value>
+  </data>
+  <data name="ParamPictureProfileIsLimitSourceSize" xml:space="preserve">
+    <value>Load image size limit</value>
+  </data>
+  <data name="ParamPictureProfileIsLimitSourceSizeTips" xml:space="preserve">
+    <value>Reduce the imported image with "@ParamPictureProfileMaximumSize" as the upper limit. It is setting for speed and memory saving. When this restriction is applied, "*" will be displayed in the size field of the file information if it is the loaded image.</value>
+  </data>
+  <data name="ParamPictureProfileIsMagicScaleSimdEnabled" xml:space="preserve">
+    <value>Use SIMD for resize filtering</value>
+  </data>
+  <data name="ParamPictureProfileMaximumSize" xml:space="preserve">
+    <value>Maximum image size</value>
+  </data>
+  <data name="ParamPictureProfileMaximumSizeTips" xml:space="preserve">
+    <value>This is the maximum image size enlarged by the resize filter.</value>
+  </data>
+  <data name="ParamSevenZipArchiverIsEnabled" xml:space="preserve">
+    <value>Use compressed file expansion with 7-Zip</value>
+  </data>
+  <data name="ParamSevenZipArchiverIsPreExtract" xml:space="preserve">
+    <value>Pre Extract</value>
+  </data>
+  <data name="ParamSevenZipArchiverIsPreExtractTips" xml:space="preserve">
+    <value>When you browse books, you can speed up page feed by pre-extracting everything to a temporary folder. When OFF, pre-extraction is performed only for solid compressed files.</value>
+  </data>
+  <data name="ParamSevenZipArchiverLockTime" xml:space="preserve">
+    <value>Time to lock file (sec)</value>
+  </data>
+  <data name="ParamSevenZipArchiverLockTimeTips" xml:space="preserve">
+    <value>If you do not have access at this time, unlock it. -1 holds the lock.</value>
+  </data>
+  <data name="ParamSevenZipArchiverPreExtractSolidSize" xml:space="preserve">
+    <value>Maximum file size to be extracted in advance (MB)</value>
+  </data>
+  <data name="ParamSevenZipArchiverPreExtractSolidSizeTips" xml:space="preserve">
+    <value>Compressed files exceeding this size will not be pre-extracted. Set 0 to prohibit all pre-extraction.</value>
+  </data>
+  <data name="ParamSevenZipArchiverSupportFileTypes" xml:space="preserve">
+    <value>Compressed file extension</value>
+  </data>
+  <data name="ParamSevenZipArchiverX64DllPath" xml:space="preserve">
+    <value>Location of 7z.dll (64 bit)</value>
+  </data>
+  <data name="ParamSevenZipArchiverX64DllPathTips" xml:space="preserve">
+    <value>Set this if you want to use another 7z.dll. To reflect, you need to reopen the application.</value>
+  </data>
+  <data name="ParamSevenZipArchiverX86DllPath" xml:space="preserve">
+    <value>Location of 7z.dll (32bit)</value>
+  </data>
+  <data name="ParamSevenZipArchiverX86DllPathTips" xml:space="preserve">
+    <value>Set this if you want to use another 7z.dll. To reflect, you need to reopen the application.</value>
+  </data>
+  <data name="ParamSidePanelIsLeftRightKeyEnabled" xml:space="preserve">
+    <value>The left and right key input of the side panel is valid</value>
+  </data>
+  <data name="ParamSidePanelIsLeftRightKeyEnabledTips" xml:space="preserve">
+    <value>Activate left / right key operation on the side panel. In the folder list, move the folder hierarchically.</value>
+  </data>
+  <data name="ParamSidePanelIsManipulationBoundaryFeedbackEnabled" xml:space="preserve">
+    <value>Touch scroll termination bound on side panel</value>
+  </data>
+  <data name="ParamSliderDirection" xml:space="preserve">
+    <value>Slider Direction</value>
+  </data>
+  <data name="ParamSliderIndexLayout" xml:space="preserve">
+    <value>Page number display position</value>
+  </data>
+  <data name="ParamSliderIsLinkedThumbnailList" xml:space="preserve">
+    <value>Real time change with slider applies only to film strip</value>
+  </data>
+  <data name="ParamSliderIsLinkedThumbnailListTips" xml:space="preserve">
+    <value>Switch pages when decided.</value>
+  </data>
   <data name="ParamSlideShowInterval" xml:space="preserve">
     <value>Display interval (sec)</value>
   </data>
+  <data name="ParamSusieIsEnabled" xml:space="preserve">
+    <value>Use the Susie plugin</value>
+  </data>
+  <data name="ParamSusieIsFirstOrderSusieArchive" xml:space="preserve">
+    <value>Prioritize Susie plugin in compressed file expansion</value>
+  </data>
+  <data name="ParamSusieIsFirstOrderSusieImage" xml:space="preserve">
+    <value>Prioritize Susie plugin in image display</value>
+  </data>
+  <data name="ParamSusiePluginPath" xml:space="preserve">
+    <value>Plugin folder</value>
+  </data>
+  <data name="ParamThumbnailBannerWidth" xml:space="preserve">
+    <value>Banner size</value>
+  </data>
+  <data name="ParamThumbnailBannerWidthTips" xml:space="preserve">
+    <value>The width of the image in banner style. The vertical width is 1/4 of the horizontal width. Since thumbnail images are diverted, the larger the size, the rough the image.</value>
+  </data>
+  <data name="ParamThumbnailBookCapacity" xml:space="preserve">
+    <value>Book Thumbnail Capacity</value>
+  </data>
+  <data name="ParamThumbnailBookCapacityTips" xml:space="preserve">
+    <value>This is the number of thumbnails held in the memory in the folder list etc.</value>
+  </data>
+  <data name="ParamThumbnailFormat" xml:space="preserve">
+    <value>Thumbnail image format</value>
+  </data>
+  <data name="ParamThumbnailFormatTips" xml:space="preserve">
+    <value>Png is high quality but consumes more memory than Jpeg.</value>
+  </data>
+  <data name="ParamThumbnailIsCacheEnabled" xml:space="preserve">
+    <value>Use thumbnail cache</value>
+  </data>
+  <data name="ParamThumbnailIsCacheEnabledTips" xml:space="preserve">
+    <value>Cache the book thumbnail.</value>
+  </data>
+  <data name="ParamThumbnailIsThumbnailPopup" xml:space="preserve">
+    <value>Book thumbnail popup</value>
+  </data>
+  <data name="ParamThumbnailIsThumbnailPopupTips" xml:space="preserve">
+    <value>When placing the cursor on the thumbnail, a large thumbnail image will be displayed in the popup.</value>
+  </data>
+  <data name="ParamThumbnailPageCapacity" xml:space="preserve">
+    <value>Page Thumbnail Capacity</value>
+  </data>
+  <data name="ParamThumbnailPageCapacityTips" xml:space="preserve">
+    <value>This is the number of page thumbnails held in memory. Close the book and it will be discarded.</value>
+  </data>
+  <data name="ParamThumbnailQuality" xml:space="preserve">
+    <value>Thumbnail quality</value>
+  </data>
+  <data name="ParamThumbnailQualityTips" xml:space="preserve">
+    <value>Quality when the thumbnail image format is Jpeg.</value>
+  </data>
+  <data name="ParamThumbnailThumbnailWidth" xml:space="preserve">
+    <value>Book thumbnail size</value>
+  </data>
+  <data name="ParamThumbnailThumbnailWidthTips" xml:space="preserve">
+    <value>It is the thumbnail size in the folder list contents style.</value>
+  </data>
+  <data name="ParamTouchDragAction" xml:space="preserve">
+    <value>Single touch drag operation</value>
+  </data>
+  <data name="ParamTouchGestureMinimumDistance" xml:space="preserve">
+    <value>Minimum movement distance for touch drag judgment</value>
+  </data>
+  <data name="ParamTouchGestureMinimumDistanceTips" xml:space="preserve">
+    <value>Dragging is judged to start for the first time by moving this distance.</value>
+  </data>
+  <data name="ParamTouchHoldAction" xml:space="preserve">
+    <value>Long press Touch drag operation</value>
+  </data>
+  <data name="ParamTouchIsAngleEnabled" xml:space="preserve">
+    <value>Enable rotation operation with multi-touch</value>
+  </data>
+  <data name="ParamTouchIsEnabled" xml:space="preserve">
+    <value>Enable touch operation</value>
+  </data>
+  <data name="ParamTouchIsEnabledTips" xml:space="preserve">
+    <value>When set to OFF, it functions as standard mouse operation.</value>
+  </data>
+  <data name="ParamTouchIsScaleEnabled" xml:space="preserve">
+    <value>Enable sizing operation with pinch in and pinch out</value>
+  </data>
+  <data name="ParamTouchMinimumManipulationDistance" xml:space="preserve">
+    <value>Touch operation pinch minimum change distance</value>
+  </data>
+  <data name="ParamTouchMinimumManipulationDistanceTips" xml:space="preserve">
+    <value>This is the minimum operating distance at which rotation and enlargement / reduction by touch operation are effective.</value>
+  </data>
+  <data name="ParamTouchMinimumManipulationRadius" xml:space="preserve">
+    <value>Touch operation pinch minimum determination distance</value>
+  </data>
+  <data name="ParamTouchMinimumManipulationRadiusTips" xml:space="preserve">
+    <value>It is the distance between the minimum of 2 touches judged as rotation by touch operation, enlargement / reduction.</value>
+  </data>
   <data name="ParamWindowChromeFrame" xml:space="preserve">
     <value>Window frame with title bar hidden</value>
+  </data>
+  <data name="ParamWindowShapeChromeFrame" xml:space="preserve">
+    <value>Window frame with title bar hidden</value>
+  </data>
+  <data name="ParamWindowTitleFormat1" xml:space="preserve">
+    <value>For 1 page</value>
+  </data>
+  <data name="ParamWindowTitleFormat2" xml:space="preserve">
+    <value>For 2 page</value>
+  </data>
+  <data name="ParamWindowTitleFormatMedia" xml:space="preserve">
+    <value>For video</value>
+  </data>
+  <data name="ParamZipArchiverIsEnabled" xml:space="preserve">
+    <value>Use ZIP compressed file expansion with standard function</value>
+  </data>
+  <data name="ParamZipArchiverSupportFileTypes" xml:space="preserve">
+    <value>Compressed file extension</value>
+  </data>
+  <data name="ParamZipArchiverSupportFileTypesTips" xml:space="preserve">
+    <value>Only zip format is supported.</value>
   </data>
   <data name="SettingItemRemove" xml:space="preserve">
     <value>Delete all data</value>
   </data>
   <data name="SettingItemRemoveTips" xml:space="preserve">
     <value>Delete the user data and exit the application. It is used when you want to completely delete history etc. before uninstallation.</value>
+  </data>
+  <data name="SettingPageArchive" xml:space="preserve">
+    <value>Supported format</value>
+  </data>
+  <data name="SettingPageArchiveMedia" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="SettingPageArchiveMediaAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPageArchiveMediaFeature" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SettingPageArchivePdf" xml:space="preserve">
+    <value>PDF</value>
+  </data>
+  <data name="SettingPageArchivePdfAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPageArchivePdfFeature" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SettingPageArchiverSevenZip" xml:space="preserve">
+    <value>7-Zip</value>
+  </data>
+  <data name="SettingPageArchiverSevenZipAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPageArchiverSevenZipFeature" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SettingPageArchiveZip" xml:space="preserve">
+    <value>ZIP</value>
+  </data>
+  <data name="SettingPageArchiveZipAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPageArchiveZipFeature" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SettingPageBook" xml:space="preserve">
+    <value>Book</value>
+  </data>
+  <data name="SettingPageBookGeneral" xml:space="preserve">
+    <value>Book General</value>
+  </data>
+  <data name="SettingPageBookGeneralAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPageBookGeneralGeneral" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SettingPageBookMove" xml:space="preserve">
+    <value>Move</value>
+  </data>
+  <data name="SettingPageBookMoveBook" xml:space="preserve">
+    <value>Move book</value>
+  </data>
+  <data name="SettingPageBookMovePage" xml:space="preserve">
+    <value>Move pages</value>
+  </data>
+  <data name="SettingPageBookSubFolder" xml:space="preserve">
+    <value>Subfolder</value>
+  </data>
+  <data name="SettingPageBookSubFolderAuto" xml:space="preserve">
+    <value>Automatic determination of subfolder loading</value>
+  </data>
+  <data name="SettingPageBookSubFolderConfirm" xml:space="preserve">
+    <value>Confirm loading of subfolder</value>
+  </data>
+  <data name="SettingPageBookVisual" xml:space="preserve">
+    <value>Page View</value>
+  </data>
+  <data name="SettingPageBookVisualVisual" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="SettingPageExternal" xml:space="preserve">
+    <value>External</value>
+  </data>
+  <data name="SettingPageExternalGeneral" xml:space="preserve">
+    <value>External General</value>
+  </data>
+  <data name="SettingPageExternalGeneralCopyToClipboard" xml:space="preserve">
+    <value>Copy files to clipboard</value>
+  </data>
+  <data name="SettingPageExternalGeneralFromBrowser" xml:space="preserve">
+    <value>Drag and drop from browser</value>
+  </data>
+  <data name="SettingPageExternalGeneralSave" xml:space="preserve">
+    <value>Save file</value>
+  </data>
+  <data name="SettingPageExternalGeneralSaveTips" xml:space="preserve">
+    <value>This is the setting of the command to save the image</value>
+  </data>
+  <data name="SettingPageExternalProgram" xml:space="preserve">
+    <value>External application</value>
+  </data>
+  <data name="SettingPageExternalProgramSetting" xml:space="preserve">
+    <value>External application</value>
   </data>
   <data name="SettingPageGeneral" xml:space="preserve">
     <value>General</value>
@@ -321,332 +1489,140 @@
   <data name="SettingPageGeneralRemoveRemove" xml:space="preserve">
     <value>Delete user data</value>
   </data>
-  <data name="WordCause" xml:space="preserve">
-    <value>Cause</value>
+  <data name="SettingPageHistory" xml:space="preserve">
+    <value>History</value>
   </data>
-  <data name="WordCommand" xml:space="preserve">
-    <value>Command</value>
+  <data name="SettingPageHistoryGeneral" xml:space="preserve">
+    <value>History General</value>
   </data>
-  <data name="DialogDeleteApplicationData" xml:space="preserve">
-    <value>Delete user data. Are you sure?
-
-The following data will be deleted
-- Setting file
-- History file
-- Bookmark file
-- Pagemark file
-- Cache file</value>
+  <data name="SettingPageHistoryGeneralAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
   </data>
-  <data name="DialogDeleteApplicationDataTitle" xml:space="preserve">
-    <value>Delete user data.</value>
-  </data>
-  <data name="DialogDeleteApplicationDataComplete" xml:space="preserve">
-    <value>User data deleted. Quit NeeView.</value>
-  </data>
-  <data name="DialogDeleteApplicationDataCompleteTitle" xml:space="preserve">
-    <value>It has been deleted.</value>
-  </data>
-  <data name="DialogDeleteApplicationDataErrorTitle" xml:space="preserve">
-    <value>It can not be deleted.</value>
-  </data>
-  <data name="DialogCopyImageErrorTitle" xml:space="preserve">
-    <value>Copy failed</value>
-  </data>
-  <data name="WordOK" xml:space="preserve">
-    <value>OK</value>
-  </data>
-  <data name="WordYes" xml:space="preserve">
-    <value>Yes</value>
-  </data>
-  <data name="WordNo" xml:space="preserve">
-    <value>No</value>
-  </data>
-  <data name="WordCancel" xml:space="preserve">
-    <value>Cancel</value>
-  </data>
-  <data name="WordDelete" xml:space="preserve">
-    <value>Delete</value>
-  </data>
-  <data name="WordRetry" xml:space="preserve">
-    <value>Retry</value>
-  </data>
-  <data name="WordFolder" xml:space="preserve">
-    <value>Folder</value>
-  </data>
-  <data name="WordFile" xml:space="preserve">
-    <value>File</value>
-  </data>
-  <data name="DialogFileDelete" xml:space="preserve">
-    <value>Do you want to move this {0} to Recycle Bin?</value>
-  </data>
-  <data name="DialogFileDeleteTitle" xml:space="preserve">
-    <value>Delete {0}</value>
-  </data>
-  <data name="DialogFileDeleteError" xml:space="preserve">
-    <value>Delete failed. Would you like to try again?</value>
-  </data>
-  <data name="DialogFileDeleteErrorTitle" xml:space="preserve">
-    <value>Delete failed. Would you like to retry?</value>
-  </data>
-  <data name="DialogFileRenameErrorTitle" xml:space="preserve">
-    <value>Can not rename</value>
-  </data>
-  <data name="DialogFileRenameInvalid" xml:space="preserve">
-    <value>The file name contains characters that can not be used.</value>
-  </data>
-  <data name="DialogFileRenameWrong" xml:space="preserve">
-    <value>The specified file name is invalid.</value>
-  </data>
-  <data name="DialogFileRenameWrongDevice" xml:space="preserve">
-    <value>The specified device name is invalid.</value>
-  </data>
-  <data name="DialogFileRenameExtensionTitle" xml:space="preserve">
-    <value>Change the extension</value>
-  </data>
-  <data name="DialogFileRenameExtension" xml:space="preserve">
-    <value>Changing the extension may make it impossible to use it.
-Is it OK? </value>
-  </data>
-  <data name="DialogFileRenameConfrictTitle" xml:space="preserve">
-    <value>A file with the same name exists</value>
-  </data>
-  <data name="DialogFileRenameConfrict" xml:space="preserve">
-    <value>{0} already exists.
-Would you like to rename it to {1}? </value>
-  </data>
-  <data name="DialogFileRenameFailedTitle" xml:space="preserve">
-    <value>Rename failed</value>
-  </data>
-  <data name="DialogFileRenameFailed" xml:space="preserve">
-    <value>Failed to change the name. Would you like to try again?</value>
-  </data>
-  <data name="WordRename" xml:space="preserve">
-    <value>Rename</value>
-  </data>
-  <data name="DialogHistoryDeleteAll" xml:space="preserve">
-    <value>Delete all history. Is it OK?</value>
-  </data>
-  <data name="DialogHistoryDeleteAllTitle" xml:space="preserve">
+  <data name="SettingPageHistoryGeneralDelete" xml:space="preserve">
     <value>Delete history</value>
   </data>
-  <data name="DialogOpenSettingFolderError" xml:space="preserve">
-    <value>The location of the setting file can not be opened with the store application</value>
+  <data name="SettingPageHistoryGeneralDeleteButton" xml:space="preserve">
+    <value>Delete history</value>
   </data>
-  <data name="DialogOpenSettingFolderErrorTitle" xml:space="preserve">
-    <value>This command can not be used</value>
+  <data name="SettingPageHistoryGeneralFolderList" xml:space="preserve">
+    <value>Folder List</value>
   </data>
-  <data name="DialogExportErrorTitle" xml:space="preserve">
-    <value>Export failed</value>
-  </data>
-  <data name="DialogImportErrorTitle" xml:space="preserve">
-    <value>Import failed</value>
-  </data>
-  <data name="DialogExportTitle" xml:space="preserve">
-    <value>Export all settings</value>
-  </data>
-  <data name="DialogImportTitle" xml:space="preserve">
-    <value>Import all settings</value>
-  </data>
-  <data name="WordImport" xml:space="preserve">
-    <value>Import</value>
-  </data>
-  <data name="WordExport" xml:space="preserve">
-    <value>Export</value>
-  </data>
-  <data name="DialogImportSelectTitle" xml:space="preserve">
-    <value>Please select the item to be imported</value>
-  </data>
-  <data name="DialogDragActionLockedTitle" xml:space="preserve">
-    <value>This operation can not be changed</value>
-  </data>
-  <data name="DialogDragActionReset" xml:space="preserve">
-    <value>Initialize all drag operations. Is it OK?</value>
-  </data>
-  <data name="DialogDragActionResetTitle" xml:space="preserve">
-    <value>Initialize the drag operation</value>
-  </data>
-  <data name="DialogHistoryDeletedTitle" xml:space="preserve">
-    <value>Deleted history</value>
-  </data>
-  <data name="DialogCacheDeletedTitle" xml:space="preserve">
-    <value>Thumbnail cache deleted</value>
-  </data>
-  <data name="DialogHyperLinkFailedTitle" xml:space="preserve">
-    <value>Could not get link.</value>
-  </data>
-  <data name="DialogFileDeleteBookTitle" xml:space="preserve">
-    <value>Delete book</value>
-  </data>
-  <data name="DialogFileDeletePageTitle" xml:space="preserve">
-    <value>Delete page</value>
-  </data>
-  <data name="ParamIsRemoveConfirmed" xml:space="preserve">
-    <value>Display confirmation dialog at file deletion</value>
-  </data>
-  <data name="ParamIsFileOperationEnabled" xml:space="preserve">
-    <value>File operation enabled</value>
-  </data>
-  <data name="IsCaptionEmulateInFullScreen" xml:space="preserve">
-    <value>Title bar operation at full screen</value>
-  </data>
-  <data name="IsCaptionEmulateInFullScreenTips" xml:space="preserve">
-    <value>Enable the title bar operation (double click and drag) on ​​the menu at full screen. "</value>
-  </data>
-  <data name="WordMainMenu" xml:space="preserve">
-    <value>Main Menu</value>
-  </data>
-  <data name="WordItem" xml:space="preserve">
-    <value>Item</value>
-  </data>
-  <data name="WordDescription" xml:space="preserve">
-    <value>Description</value>
-  </data>
-  <data name="WordOn" xml:space="preserve">
-    <value>On</value>
-  </data>
-  <data name="WordOff" xml:space="preserve">
-    <value>Off</value>
-  </data>
-  <data name="IsAutoGC" xml:space="preserve">
-    <value>System manages memory</value>
-  </data>
-  <data name="IsAutoGCTips" xml:space="preserve">
-    <value>When it is OFF, memory is released every time page is switched</value>
-  </data>
-  <data name="SettingPageArchive" xml:space="preserve">
-    <value>Supported format</value>
-  </data>
-  <data name="SettingPageArchiveZip" xml:space="preserve">
-    <value>ZIP</value>
-  </data>
-  <data name="SettingPageArchiveZipFeature" xml:space="preserve">
+  <data name="SettingPageHistoryGeneralGeneral" xml:space="preserve">
     <value>General</value>
   </data>
-  <data name="SettingPageArchiveZipAdvance" xml:space="preserve">
+  <data name="SettingPageHistoryGeneralLimit" xml:space="preserve">
+    <value>Number of records saved limit</value>
+  </data>
+  <data name="SettingPageHistoryGeneralLimitTips" xml:space="preserve">
+    <value>Sets the maximum number of history saved in the history file. The history during application operation is not limited.</value>
+  </data>
+  <data name="SettingPageManipurate" xml:space="preserve">
+    <value>Image manipulation</value>
+  </data>
+  <data name="SettingPageManipurateGeneral" xml:space="preserve">
+    <value>Image manipulation General</value>
+  </data>
+  <data name="SettingPageManipurateGeneralAdvance" xml:space="preserve">
     <value>Advanced Setting</value>
   </data>
-  <data name="ParamZipArchiverIsEnabled" xml:space="preserve">
-    <value>Use ZIP compressed file expansion with standard function</value>
+  <data name="SettingPageManipurateGeneralViewOperation" xml:space="preserve">
+    <value>View manipulation</value>
   </data>
-  <data name="ParamZipArchiverSupportFileTypes" xml:space="preserve">
-    <value>Compressed file extension</value>
+  <data name="SettingPageManipurateLoupe" xml:space="preserve">
+    <value>Loupe</value>
   </data>
-  <data name="ParamZipArchiverSupportFileTypesTips" xml:space="preserve">
-    <value>Only zip format is supported.</value>
+  <data name="SettingPageManipurateLoupeAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
   </data>
-  <data name="WordAdd" xml:space="preserve">
-    <value>Add</value>
-  </data>
-  <data name="WordRemove" xml:space="preserve">
-    <value>Remove</value>
-  </data>
-  <data name="DialogAddParameterTile" xml:space="preserve">
-    <value>Add item</value>
-  </data>
-  <data name="WordExtension" xml:space="preserve">
-    <value>Extension</value>
-  </data>
-  <data name="SettingPageArchiverSevenZip" xml:space="preserve">
-    <value>7-Zip</value>
-  </data>
-  <data name="SettingPageArchiverSevenZipFeature" xml:space="preserve">
+  <data name="SettingPageManipurateLoupeGeneral" xml:space="preserve">
     <value>General</value>
   </data>
-  <data name="SettingPageArchiverSevenZipAdvance" xml:space="preserve">
+  <data name="SettingPageManipurateMouse" xml:space="preserve">
+    <value>Mouse operation</value>
+  </data>
+  <data name="SettingPageManipurateMouseAdvance" xml:space="preserve">
     <value>Advanced Setting</value>
   </data>
-  <data name="ParamSevenZipArchiverIsEnabled" xml:space="preserve">
-    <value>Use compressed file expansion with 7-Zip</value>
+  <data name="SettingPageManipurateMouseDrag" xml:space="preserve">
+    <value>Mouse drag</value>
   </data>
-  <data name="ParamSevenZipArchiverX86DllPath" xml:space="preserve">
-    <value>Location of 7z.dll (32bit)</value>
+  <data name="SettingPageManipurateMouseHold" xml:space="preserve">
+    <value>Mouse long press</value>
   </data>
-  <data name="ParamSevenZipArchiverX86DllPathTips" xml:space="preserve">
-    <value>Set this if you want to use another 7z.dll. To reflect, you need to reopen the application.</value>
+  <data name="SettingPageManipurateTouch" xml:space="preserve">
+    <value>Touch operation</value>
   </data>
-  <data name="ParamSevenZipArchiverX64DllPath" xml:space="preserve">
-    <value>Location of 7z.dll (64 bit)</value>
+  <data name="SettingPageManipurateTouchAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
   </data>
-  <data name="ParamSevenZipArchiverX64DllPathTips" xml:space="preserve">
-    <value>Set this if you want to use another 7z.dll. To reflect, you need to reopen the application.</value>
-  </data>
-  <data name="ParamSevenZipArchiverSupportFileTypes" xml:space="preserve">
-    <value>Compressed file extension</value>
-  </data>
-  <data name="ParamSevenZipArchiverLockTime" xml:space="preserve">
-    <value>Time to lock file (sec)</value>
-  </data>
-  <data name="ParamSevenZipArchiverLockTimeTips" xml:space="preserve">
-    <value>If you do not have access at this time, unlock it. -1 holds the lock.</value>
-  </data>
-  <data name="ParamSevenZipArchiverIsPreExtract" xml:space="preserve">
-    <value>Pre Extract</value>
-  </data>
-  <data name="ParamSevenZipArchiverIsPreExtractTips" xml:space="preserve">
-    <value>When you browse books, you can speed up page feed by pre-extracting everything to a temporary folder. When OFF, pre-extraction is performed only for solid compressed files.</value>
-  </data>
-  <data name="ParamSevenZipArchiverPreExtractSolidSize" xml:space="preserve">
-    <value>Maximum file size to be extracted in advance (MB)</value>
-  </data>
-  <data name="ParamSevenZipArchiverPreExtractSolidSizeTips" xml:space="preserve">
-    <value>Compressed files exceeding this size will not be pre-extracted. Set 0 to prohibit all pre-extraction.</value>
-  </data>
-  <data name="ControlFileNameBoxFileNote" xml:space="preserve">
-    <value>Please enter the path of the file</value>
-  </data>
-  <data name="ControlFileNameBoxDirectoryNote" xml:space="preserve">
-    <value>Please enter the folder path</value>
-  </data>
-  <data name="ControlFileNameBoxSelectFile" xml:space="preserve">
-    <value>Select file</value>
-  </data>
-  <data name="ControlFileNameBoxSelectDirectory" xml:space="preserve">
-    <value>Select folder</value>
-  </data>
-  <data name="SettingPageArchivePdf" xml:space="preserve">
-    <value>PDF</value>
-  </data>
-  <data name="SettingPageArchivePdfFeature" xml:space="preserve">
+  <data name="SettingPageManipurateTouchGeneral" xml:space="preserve">
     <value>General</value>
   </data>
-  <data name="SettingPageArchivePdfAdvance" xml:space="preserve">
+  <data name="SettingPagePage" xml:space="preserve">
+    <value>Page setting</value>
+  </data>
+  <data name="SettingPagePageDefault" xml:space="preserve">
+    <value>Default page setting</value>
+  </data>
+  <data name="SettingPagePageDefaultSetting" xml:space="preserve">
+    <value>Default page setting</value>
+  </data>
+  <data name="SettingPagePageDefaultSettingTips" xml:space="preserve">
+    <value>This is the setting used in "Initialize page settings".</value>
+  </data>
+  <data name="SettingPagePageRecovery" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="SettingPagePageRecoveryItems" xml:space="preserve">
+    <value>Restore from history, bookmark page setting</value>
+  </data>
+  <data name="SettingPagePageRecoveryItemsTips" xml:space="preserve">
+    <value>In the case of a book that has been opened, we restore the settings from the previous information. For items not to be restored, default page setting or previous setting is used.</value>
+  </data>
+  <data name="SettingPagePageRecoveryUseDefault" xml:space="preserve">
+    <value>Use default page settings</value>
+  </data>
+  <data name="SettingPagePanelEffect" xml:space="preserve">
+    <value>Effect panel</value>
+  </data>
+  <data name="SettingPagePanelEffectAdvance" xml:space="preserve">
     <value>Advanced Setting</value>
   </data>
-  <data name="SettingPageArchiveMedia" xml:space="preserve">
-    <value>Video</value>
+  <data name="SettingPagePanelEffectVisual" xml:space="preserve">
+    <value>Display</value>
   </data>
-  <data name="SettingPageArchiveMediaFeature" xml:space="preserve">
+  <data name="SettingPagePanelFileInfo" xml:space="preserve">
+    <value>File information panel</value>
+  </data>
+  <data name="SettingPagePanelFileInfoVisual" xml:space="preserve">
+    <value>Display</value>
+  </data>
+  <data name="SettingPagePanelFolderList" xml:space="preserve">
+    <value>Folder List</value>
+  </data>
+  <data name="SettingPagePanelFolderListAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPagePanelFolderListGeneral" xml:space="preserve">
     <value>General</value>
   </data>
-  <data name="SettingPageArchiveMediaAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
+  <data name="SettingPagePanelFolderListVisual" xml:space="preserve">
+    <value>Display</value>
   </data>
-  <data name="ParamArchiverPdfIsEnabled" xml:space="preserve">
-    <value>Use PDF</value>
+  <data name="SettingPagePanelGeneral" xml:space="preserve">
+    <value>General Side Panel</value>
   </data>
-  <data name="ParamArchiverPdfSupportFileTypes" xml:space="preserve">
-    <value>PDF file extension</value>
+  <data name="SettingPagePanelGeneralOperation" xml:space="preserve">
+    <value>Operation</value>
   </data>
-  <data name="ParamArchiverPdfRenderSize" xml:space="preserve">
-    <value>PDF page standard size</value>
-  </data>
-  <data name="ParamArchiverPdfRenderSizeTips" xml:space="preserve">
-    <value>Normally we will render according to the display size, but the lower limit will be this standard size. If it becomes smaller, it is reduced and displayed.</value>
-  </data>
-  <data name="ParamArchiverMediaIsEnabled" xml:space="preserve">
-    <value>Use video</value>
-  </data>
-  <data name="ParamArchiverMediaSupportFileTypes" xml:space="preserve">
-    <value>Video file extension</value>
-  </data>
-  <data name="ParamArchiverMediaSupportFileTypesTips" xml:space="preserve">
-    <value>Probably what you can play with Windows Media Player is playable.</value>
-  </data>
-  <data name="ParamPageSeconds" xml:space="preserve">
-    <value>Change time in page movement (seconds)</value>
+  <data name="SettingPagePanelGeneralVisual" xml:space="preserve">
+    <value>Display</value>
   </data>
   <data name="SettingPageSusie" xml:space="preserve">
     <value>Susie</value>
+  </data>
+  <data name="SettingPageSusieArchivePlugin" xml:space="preserve">
+    <value>Archive plug-in</value>
   </data>
   <data name="SettingPageSusieGeneral" xml:space="preserve">
     <value>General Susie</value>
@@ -660,44 +1636,8 @@ Would you like to rename it to {1}? </value>
   <data name="SettingPageSusieImagePlugin" xml:space="preserve">
     <value>Image plug-in</value>
   </data>
-  <data name="SettingPageSusieArchivePlugin" xml:space="preserve">
-    <value>Archive plug-in</value>
-  </data>
-  <data name="ParamSusieIsEnabled" xml:space="preserve">
-    <value>Use the Susie plugin</value>
-  </data>
-  <data name="ParamSusiePluginPath" xml:space="preserve">
-    <value>Plugin folder</value>
-  </data>
-  <data name="ParamSusieIsFirstOrderSusieImage" xml:space="preserve">
-    <value>Prioritize Susie plugin in image display</value>
-  </data>
-  <data name="ParamSusieIsFirstOrderSusieArchive" xml:space="preserve">
-    <value>Prioritize Susie plugin in compressed file expansion</value>
-  </data>
-  <data name="ControlSusiePluginListConfig" xml:space="preserve">
-    <value>Config</value>
-  </data>
-  <data name="ControlSusiePluginListUp" xml:space="preserve">
-    <value>Up</value>
-  </data>
-  <data name="ControlSusiePluginListDown" xml:space="preserve">
-    <value>Down</value>
-  </data>
   <data name="SettingPageVisual" xml:space="preserve">
     <value>Visual</value>
-  </data>
-  <data name="SettingPageVisualGeneral" xml:space="preserve">
-    <value>Visual General</value>
-  </data>
-  <data name="SettingPageVisualGeneralTheme" xml:space="preserve">
-    <value>Theme</value>
-  </data>
-  <data name="SettingPageVisualGeneralBackground" xml:space="preserve">
-    <value>Background</value>
-  </data>
-  <data name="SettingPageVisualGeneralAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
   </data>
   <data name="SettingPageVisualFont" xml:space="preserve">
     <value>Font</value>
@@ -705,209 +1645,17 @@ Would you like to rename it to {1}? </value>
   <data name="SettingPageVisualFontPanel" xml:space="preserve">
     <value>List item font</value>
   </data>
-  <data name="SettingPageVisualThumbnail" xml:space="preserve">
-    <value>Thumbnail</value>
+  <data name="SettingPageVisualGeneral" xml:space="preserve">
+    <value>Visual General</value>
   </data>
-  <data name="SettingPageVisualThumbnailPanel" xml:space="preserve">
-    <value>List item thumbnail</value>
-  </data>
-  <data name="SettingPageVisualThumbnailFilmStrip" xml:space="preserve">
-    <value>Film strip</value>
-  </data>
-  <data name="SettingPageVisualThumbnailCache" xml:space="preserve">
-    <value>Cacge</value>
-  </data>
-  <data name="SettingPageVisualThumbnailAdvance" xml:space="preserve">
+  <data name="SettingPageVisualGeneralAdvance" xml:space="preserve">
     <value>Advanced Setting</value>
   </data>
-  <data name="SettingPageVisualThumbnailCacheClear" xml:space="preserve">
-    <value>Clear cache</value>
+  <data name="SettingPageVisualGeneralBackground" xml:space="preserve">
+    <value>Background</value>
   </data>
-  <data name="SettingPageVisualThumbnailCacheClearTips" xml:space="preserve">
-    <value>Clear thumbnail cache</value>
-  </data>
-  <data name="ParamIsOpenbookAtCurrentPlace" xml:space="preserve">
-    <value>Make the start position of the file selection dialog in "@CommandLoadAs" the location of the currently opened book</value>
-  </data>
-  <data name="ParamPanelColor" xml:space="preserve">
-    <value>Theme color</value>
-  </data>
-  <data name="ParamIsHidePanelInFullscreen" xml:space="preserve">
-    <value>Automatically hide the side panel when it is full screen</value>
-  </data>
-  <data name="ParamIsVisibleWindowTitle" xml:space="preserve">
-    <value>When the title bar is not displayed, the window title is displayed in the display area</value>
-  </data>
-  <data name="ParamIsVisibleBusy" xml:space="preserve">
-    <value>The image reading processing in progress mark is displayed on the upper left of the screen</value>
-  </data>
-  <data name="ParamIsAccessKeyEnabled" xml:space="preserve">
-    <value>Allow access key</value>
-  </data>
-  <data name="ParamIsAccessKeyEnabledTips" xml:space="preserve">
-    <value>If it is set to OFF, system operation by Alt key will be invalid and malfunction will be eliminated when used with command shortcut. "</value>
-  </data>
-  <data name="ParamCustomBackground" xml:space="preserve">
-    <value>Custom background</value>
-  </data>
-  <data name="ParamCustomBackgroundTips" xml:space="preserve">
-    <value>This setting is applied when the background is set to "custom background".</value>
-  </data>
-  <data name="ParamWindowShapeChromeFrame" xml:space="preserve">
-    <value>Window frame with title bar hidden</value>
-  </data>
-  <data name="EnumWindowChromeFrameNone" xml:space="preserve">
-    <value>Window frame with title bar hidden</value>
-  </data>
-  <data name="EnumWindowChromeFrameWindowFrame" xml:space="preserve">
-    <value>System standard</value>
-  </data>
-  <data name="EnumWindowChromeFrameLine" xml:space="preserve">
-    <value>Frame border</value>
-  </data>
-  <data name="ControlCustomBackgroundColor" xml:space="preserve">
-    <value>Color</value>
-  </data>
-  <data name="ControlCustomBackgroundImage" xml:space="preserve">
-    <value>Image</value>
-  </data>
-  <data name="ControlCustomBackgroundImageSelect" xml:space="preserve">
-    <value>Select image</value>
-  </data>
-  <data name="ControlCustomBackgroundImageSelectNote" xml:space="preserve">
-    <value>Please select an image file</value>
-  </data>
-  <data name="EnumBrushTypeSolidColor" xml:space="preserve">
-    <value>Solid color</value>
-  </data>
-  <data name="EnumBrushTypeImageTile" xml:space="preserve">
-    <value>Image tile</value>
-  </data>
-  <data name="EnumBrushTypeImageFill" xml:space="preserve">
-    <value>Enlarge and display the image</value>
-  </data>
-  <data name="EnumBrushTypeImageUniform" xml:space="preserve">
-    <value>Fit image to window size</value>
-  </data>
-  <data name="EnumBrushTypeImageUniformToFill" xml:space="preserve">
-    <value>Extend the image to the full window</value>
-  </data>
-  <data name="ParamListItemFontName" xml:space="preserve">
-    <value>List item font</value>
-  </data>
-  <data name="ParamListItemFontSize" xml:space="preserve">
-    <value>Font size of list items</value>
-  </data>
-  <data name="ParamListItemIsTextWrapped" xml:space="preserve">
-    <value>Wrap file names of list item</value>
-  </data>
-  <data name="ParamListItemIsTextWrappedTips" xml:space="preserve">
-    <value>It is valid only for content style and banner style.</value>
-  </data>
-  <data name="ParamListItemNoteOpacity" xml:space="preserve">
-    <value>Supplemental text transparency of list items</value>
-  </data>
-  <data name="ParamListItemNoteOpacityTips" xml:space="preserve">
-    <value>Transparency of supplemental text in content style.</value>
-  </data>
-  <data name="ParamSidePanelIsManipulationBoundaryFeedbackEnabled" xml:space="preserve">
-    <value>Touch scroll termination bound on side panel</value>
-  </data>
-  <data name="ParamThumbnailFormat" xml:space="preserve">
-    <value>Thumbnail image format</value>
-  </data>
-  <data name="ParamThumbnailFormatTips" xml:space="preserve">
-    <value>Png is high quality but consumes more memory than Jpeg.</value>
-  </data>
-  <data name="ParamThumbnailQuality" xml:space="preserve">
-    <value>Thumbnail quality</value>
-  </data>
-  <data name="ParamThumbnailQualityTips" xml:space="preserve">
-    <value>Quality when the thumbnail image format is Jpeg.</value>
-  </data>
-  <data name="ParamThumbnailIsCacheEnabled" xml:space="preserve">
-    <value>Use thumbnail cache</value>
-  </data>
-  <data name="ParamThumbnailIsCacheEnabledTips" xml:space="preserve">
-    <value>Cache the book thumbnail.</value>
-  </data>
-  <data name="ParamThumbnailPageCapacity" xml:space="preserve">
-    <value>Page Thumbnail Capacity</value>
-  </data>
-  <data name="ParamThumbnailPageCapacityTips" xml:space="preserve">
-    <value>This is the number of page thumbnails held in memory. Close the book and it will be discarded.</value>
-  </data>
-  <data name="ParamThumbnailBookCapacity" xml:space="preserve">
-    <value>Book Thumbnail Capacity</value>
-  </data>
-  <data name="ParamThumbnailBookCapacityTips" xml:space="preserve">
-    <value>This is the number of thumbnails held in the memory in the folder list etc.</value>
-  </data>
-  <data name="ParamThumbnailBannerWidth" xml:space="preserve">
-    <value>Banner size</value>
-  </data>
-  <data name="ParamThumbnailBannerWidthTips" xml:space="preserve">
-    <value>The width of the image in banner style. The vertical width is 1/4 of the horizontal width. Since thumbnail images are diverted, the larger the size, the rough the image.</value>
-  </data>
-  <data name="ParamThumbnailThumbnailWidth" xml:space="preserve">
-    <value>Book thumbnail size</value>
-  </data>
-  <data name="ParamThumbnailThumbnailWidthTips" xml:space="preserve">
-    <value>It is the thumbnail size in the folder list contents style.</value>
-  </data>
-  <data name="ParamThumbnailIsThumbnailPopup" xml:space="preserve">
-    <value>Book thumbnail popup</value>
-  </data>
-  <data name="ParamThumbnailIsThumbnailPopupTips" xml:space="preserve">
-    <value>When placing the cursor on the thumbnail, a large thumbnail image will be displayed in the popup.</value>
-  </data>
-  <data name="ParamFilmStripThumbnailSize" xml:space="preserve">
-    <value>Page thumbnail size</value>
-  </data>
-  <data name="ParamFilmStripIsVisibleThumbnailNumber" xml:space="preserve">
-    <value>Display page number</value>
-  </data>
-  <data name="ParamFilmStripIsVisibleThumbnailPlate" xml:space="preserve">
-    <value>Display background</value>
-  </data>
-  <data name="ParamFilmStripIsVisibleThumbnailPlateTips" xml:space="preserve">
-    <value>Display the background of the filmstrip in the case of automatically hidden settings</value>
-  </data>
-  <data name="ParamFilmStripIsManipulationBoundaryFeedbackEnabled" xml:space="preserve">
-    <value>Touch scroll termination bound on filmstrip</value>
-  </data>
-  <data name="ParamFilmStripIsSelectedCenter" xml:space="preserve">
-    <value>Scroll so that the selected item appears in the center</value>
-  </data>
-  <data name="ParamSliderIsLinkedThumbnailList" xml:space="preserve">
-    <value>Real time change with slider applies only to film strip</value>
-  </data>
-  <data name="ParamSliderIsLinkedThumbnailListTips" xml:space="preserve">
-    <value>Switch pages when decided.</value>
-  </data>
-  <data name="ParamSliderIndexLayout" xml:space="preserve">
-    <value>Page number display position</value>
-  </data>
-  <data name="ParamSliderDirection" xml:space="preserve">
-    <value>Slider Direction</value>
-  </data>
-  <data name="EnumSliderDirectionLeftToRight" xml:space="preserve">
-    <value>▶ Left to right</value>
-  </data>
-  <data name="EnumSliderDirectionRightToLeft" xml:space="preserve">
-    <value>◀ Right to left</value>
-  </data>
-  <data name="EnumSliderDirectionSyncBookReadDirection" xml:space="preserve">
-    <value>Depends on books</value>
-  </data>
-  <data name="EnumSliderIndexLayoutNone" xml:space="preserve">
-    <value>None</value>
-  </data>
-  <data name="EnumSliderIndexLayoutLeft" xml:space="preserve">
-    <value>Left</value>
-  </data>
-  <data name="EnumSliderIndexLayoutRight" xml:space="preserve">
-    <value>Right</value>
+  <data name="SettingPageVisualGeneralTheme" xml:space="preserve">
+    <value>Theme</value>
   </data>
   <data name="SettingPageVisualNotify" xml:space="preserve">
     <value>Notification</value>
@@ -915,26 +1663,44 @@ Would you like to rename it to {1}? </value>
   <data name="SettingPageVisualNotifyDisplay" xml:space="preserve">
     <value>Notification display</value>
   </data>
-  <data name="SettingPageVisualWindowTitile" xml:space="preserve">
-    <value>Window Title</value>
-  </data>
-  <data name="SettingPageVisualWindowTitileDisplay" xml:space="preserve">
-    <value>Display</value>
-  </data>
   <data name="SettingPageVisualSlider" xml:space="preserve">
     <value>Slider</value>
   </data>
   <data name="SettingPageVisualSliderSlider" xml:space="preserve">
     <value>Slider</value>
   </data>
-  <data name="SettingPagePanelGeneral" xml:space="preserve">
-    <value>General Side Panel</value>
+  <data name="SettingPageVisualSlideshow" xml:space="preserve">
+    <value>Slideshow</value>
   </data>
-  <data name="SettingPagePanelGeneralVisual" xml:space="preserve">
+  <data name="SettingPageVisualSlideshowGeneral" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SettingPageVisualThumbnail" xml:space="preserve">
+    <value>Thumbnail</value>
+  </data>
+  <data name="SettingPageVisualThumbnailAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPageVisualThumbnailCache" xml:space="preserve">
+    <value>Cacge</value>
+  </data>
+  <data name="SettingPageVisualThumbnailCacheClear" xml:space="preserve">
+    <value>Clear cache</value>
+  </data>
+  <data name="SettingPageVisualThumbnailCacheClearTips" xml:space="preserve">
+    <value>Clear thumbnail cache</value>
+  </data>
+  <data name="SettingPageVisualThumbnailFilmStrip" xml:space="preserve">
+    <value>Film strip</value>
+  </data>
+  <data name="SettingPageVisualThumbnailPanel" xml:space="preserve">
+    <value>List item thumbnail</value>
+  </data>
+  <data name="SettingPageVisualWindowTitile" xml:space="preserve">
+    <value>Window Title</value>
+  </data>
+  <data name="SettingPageVisualWindowTitileDisplay" xml:space="preserve">
     <value>Display</value>
-  </data>
-  <data name="SettingPagePanelGeneralOperation" xml:space="preserve">
-    <value>Operation</value>
   </data>
   <data name="SettingPageVisualWindowTitileNote" xml:space="preserve">
     <value>Format Description
@@ -953,611 +1719,94 @@ $Scale[LR] .. Image scale (%)
 For example, $Name is for 1 page, $NameL is for 2 pages left, $NameR is for 2 pages right.
 $Name is the main page (the smaller page number) when displaying 2 pages. </value>
   </data>
-  <data name="ParamInfoMessageNoticeShowMessageStyle" xml:space="preserve">
-    <value>Notice such as display of open book name</value>
-  </data>
-  <data name="ParamInfoMessageCommandShowMessageStyle" xml:space="preserve">
-    <value>Display command execution message</value>
-  </data>
-  <data name="ParamInfoMessageGestureShowMessageStyle" xml:space="preserve">
-    <value>Display of gesture status</value>
-  </data>
-  <data name="ParamInfoMessageNowLoadingShowMessageStyle" xml:space="preserve">
-    <value>View Now Loading</value>
-  </data>
-  <data name="ParamInfoMessageViewTransformShowMessageStyle" xml:space="preserve">
-    <value>Information display such as scale change by drag operation</value>
-  </data>
-  <data name="EnumShowMessageStyleNone" xml:space="preserve">
-    <value>None</value>
-  </data>
-  <data name="EnumShowMessageStyleNormal" xml:space="preserve">
-    <value>Visible</value>
-  </data>
-  <data name="EnumShowMessageStyleTiny" xml:space="preserve">
-    <value>Tiny</value>
-  </data>
-  <data name="ParamDragTransformIsOriginalScaleShowMessage" xml:space="preserve">
-    <value>Make the scale display of the view operation the original image size standard</value>
-  </data>
-  <data name="ParamDragTransformIsOriginalScaleShowMessageTips" xml:space="preserve">
-    <value>In case of 2 page display, we refer to the page with the younger number.</value>
-  </data>
-  <data name="ParamDragTransformIsControlCenterImage" xml:space="preserve">
-    <value>Rotate, scaling, and invert the criteria as the center of the image</value>
-  </data>
-  <data name="ParamDragTransformIsControlCenterImageTips" xml:space="preserve">
-    <value>When set to OFF, the center of the display is used as the reference.</value>
-  </data>
-  <data name="ParamDragTransformIsKeepScale" xml:space="preserve">
-    <value>Maintain scaling even when changing pages</value>
-  </data>
-  <data name="ParamDragTransformIsKeepAngle" xml:space="preserve">
-    <value>Keeping rotation even if you change the page</value>
-  </data>
-  <data name="ParamDragTransformIsKeepAngleTips" xml:space="preserve">
-    <value>This setting does not work when automatic rotation is enabled.</value>
-  </data>
-  <data name="ParamDragTransformIsKeepFlip" xml:space="preserve">
-    <value>Maintain reversal even when changing page</value>
-  </data>
-  <data name="ParamDragTransformIsViewStartPositionCenter" xml:space="preserve">
-    <value>Use the display start position as the center of the image</value>
-  </data>
-  <data name="ParamDragTransformIsViewStartPositionCenterTips" xml:space="preserve">
-    <value>When set to OFF, it becomes the upper right reference and the upper left reference depending on the spreading direction.</value>
-  </data>
-  <data name="ParamWindowTitleFormat1" xml:space="preserve">
-    <value>For 1 page</value>
-  </data>
-  <data name="ParamWindowTitleFormat2" xml:space="preserve">
-    <value>For 2 page</value>
-  </data>
-  <data name="ParamWindowTitleFormatMedia" xml:space="preserve">
-    <value>For video</value>
-  </data>
-  <data name="ParamSidePanelIsLeftRightKeyEnabled" xml:space="preserve">
-    <value>The left and right key input of the side panel is valid</value>
-  </data>
-  <data name="ParamSidePanelIsLeftRightKeyEnabledTips" xml:space="preserve">
-    <value>Activate left / right key operation on the side panel. In the folder list, move the folder hierarchically.</value>
-  </data>
-  <data name="SettingPagePanelFolderList" xml:space="preserve">
-    <value>Folder List</value>
-  </data>
-  <data name="SettingPagePanelFolderListGeneral" xml:space="preserve">
-    <value>General</value>
-  </data>
-  <data name="SettingPagePanelFolderListVisual" xml:space="preserve">
-    <value>Display</value>
-  </data>
-  <data name="SettingPagePanelFolderListAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
-  <data name="SettingPagePanelFileInfo" xml:space="preserve">
-    <value>File information panel</value>
-  </data>
-  <data name="SettingPagePanelFileInfoVisual" xml:space="preserve">
-    <value>Display</value>
-  </data>
-  <data name="SettingPagePanelEffect" xml:space="preserve">
-    <value>Effect panel</value>
-  </data>
-  <data name="SettingPagePanelEffectVisual" xml:space="preserve">
-    <value>Display</value>
-  </data>
-  <data name="SettingPagePanelEffectAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
-  <data name="SettingPageVisualSlideshow" xml:space="preserve">
-    <value>Slideshow</value>
-  </data>
-  <data name="SettingPageVisualSlideshowGeneral" xml:space="preserve">
-    <value>General</value>
-  </data>
-  <data name="ParamFolderListFolderIconLayout" xml:space="preserve">
-    <value>File icon layout</value>
-  </data>
-  <data name="ParamFolderListIsVisibleHistoryMark" xml:space="preserve">
-    <value>Display history symbol</value>
-  </data>
-  <data name="ParamFolderListIsVisibleHistoryMarkTips" xml:space="preserve">
-    <value>A check mark is displayed in the book remaining in the history.</value>
-  </data>
-  <data name="ParamFolderListIsVisibleBookmarkMark" xml:space="preserve">
-    <value>Display bookmark symbols</value>
-  </data>
-  <data name="ParamFolderListIsVisibleBookmarkMarkTips" xml:space="preserve">
-    <value>★ mark is displayed in the bookmarked book.</value>
-  </data>
-  <data name="ParamFolderListHome" xml:space="preserve">
-    <value>Home location</value>
-  </data>
-  <data name="ParamFolderListIsInsertItem" xml:space="preserve">
-    <value>Insert additional file at sort position</value>
-  </data>
-  <data name="ParamFolderListIsInsertItemTips" xml:space="preserve">
-    <value>The folder list reflects information in real time. If this setting is ON, inserts the added file in the current sort order position. When set to OFF, it is added to the end of the list.</value>
-  </data>
-  <data name="ParamFolderListIsMultipleRarFilterEnabled" xml:space="preserve">
-    <value>Filter RAR split files from display</value>
-  </data>
-  <data name="ParamFolderListIsMultipleRarFilterEnabledTips" xml:space="preserve">
-    <value>For an RAR split file called .part[number].rar, only the file with the smallest number is displayed in the list.</value>
-  </data>
-  <data name="ParamFolderListIsCruise" xml:space="preserve">
-    <value>Enable Folder Cruise</value>
-  </data>
-  <data name="ParamFolderListIsCruiseTips" xml:space="preserve">
-    <value>Move the folder including the parent and child of the folder. It does not apply when the folder list is a search result.</value>
-  </data>
-  <data name="ParamFolderListExcludePattern" xml:space="preserve">
-    <value>Filename pattern to exclude from display</value>
-  </data>
-  <data name="ParamFolderListExcludePatternTips" xml:space="preserve">
-    <value>It is specified with .NET regular expression. Capital letters and lower case letters are not distinguished.</value>
-  </data>
-  <data name="EnumFolderIconLayoutDefault" xml:space="preserve">
-    <value>Default</value>
-  </data>
-  <data name="EnumFolderIconLayoutExplorer" xml:space="preserve">
-    <value>Explorer style</value>
-  </data>
-  <data name="ParamFileInformationIsUseExifDateTime" xml:space="preserve">
-    <value>Use EXIF ​​date and time</value>
-  </data>
-  <data name="ParamFileInformationIsUseExifDateTimeTips" xml:space="preserve">
-    <value>It is limited to display on the file information panel. It does not affect sorting by date.</value>
-  </data>
-  <data name="ParamFileInformationIsVisibleBitsPerPixel" xml:space="preserve">
-    <value>Display the number of bits per pixel in image size</value>
-  </data>
-  <data name="ParamFileInformationIsVisibleLoader" xml:space="preserve">
-    <value>Display used archiver, image decoder name</value>
-  </data>
-  <data name="ParamFileInformationIsVisibleFilePath" xml:space="preserve">
-    <value>Display the file path in the compressed file</value>
-  </data>
-  <data name="ParamImageEffectIsHsvMode" xml:space="preserve">
-    <value>Perform color setting with HSV</value>
-  </data>
-  <data name="ParamImageEffectIsHsvModeTips" xml:space="preserve">
-    <value>Set the color parameter with HSV (Hue, Saturation, Brightness). When set to OFF, it becomes the setting with RGB.</value>
-  </data>
-  <data name="ParamPictureProfileIsLimitSourceSize" xml:space="preserve">
-    <value>Load image size limit</value>
-  </data>
-  <data name="ParamPictureProfileIsLimitSourceSizeTips" xml:space="preserve">
-    <value>Reduce the imported image with "@ParamPictureProfileMaximumSize" as the upper limit. It is setting for speed and memory saving. When this restriction is applied, "*" will be displayed in the size field of the file information if it is the loaded image.</value>
-  </data>
-  <data name="ParamPictureProfileMaximumSize" xml:space="preserve">
-    <value>Maximum image size</value>
-  </data>
-  <data name="ParamPictureProfileMaximumSizeTips" xml:space="preserve">
-    <value>This is the maximum image size enlarged by the resize filter.</value>
-  </data>
-  <data name="ParamPictureProfileIsMagicScaleSimdEnabled" xml:space="preserve">
-    <value>Use SIMD for resize filtering</value>
-  </data>
-  <data name="SettingPageManipurate" xml:space="preserve">
-    <value>Image manipulation</value>
-  </data>
-  <data name="SettingPageManipurateGeneral" xml:space="preserve">
-    <value>Image manipulation General</value>
-  </data>
-  <data name="SettingPageManipurateGeneralViewOperation" xml:space="preserve">
-    <value>View manipulation</value>
-  </data>
-  <data name="SettingPageManipurateGeneralAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
-  <data name="SettingPageManipurateMouse" xml:space="preserve">
-    <value>Mouse operation</value>
-  </data>
-  <data name="SettingPageManipurateMouseDrag" xml:space="preserve">
-    <value>Mouse drag</value>
-  </data>
-  <data name="SettingPageManipurateMouseHold" xml:space="preserve">
-    <value>Mouse long press</value>
-  </data>
-  <data name="SettingPageManipurateMouseAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
-  <data name="SettingPageManipurateTouch" xml:space="preserve">
-    <value>Touch operation</value>
-  </data>
-  <data name="SettingPageManipurateTouchGeneral" xml:space="preserve">
-    <value>General</value>
-  </data>
-  <data name="SettingPageManipurateTouchAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
-  <data name="SettingPageManipurateLoupe" xml:space="preserve">
-    <value>Loupe</value>
-  </data>
-  <data name="SettingPageManipurateLoupeGeneral" xml:space="preserve">
-    <value>General</value>
-  </data>
-  <data name="SettingPageManipurateLoupeAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
-  <data name="WordStepless" xml:space="preserve">
-    <value>Stepless</value>
-  </data>
-  <data name="WordDegree" xml:space="preserve">
-    <value>degree</value>
-  </data>
-  <data name="ParamDragTransformIsLimitMove" xml:space="preserve">
-    <value>Move inside the window</value>
-  </data>
-  <data name="ParamDragTransformAngleFrequency" xml:space="preserve">
-    <value>Rotating Snap</value>
-  </data>
-  <data name="ParamMouseLongButtonDownMode" xml:space="preserve">
-    <value>Long press mode</value>
-  </data>
-  <data name="ParamMouseLongButtonMask" xml:space="preserve">
-    <value>Long press button</value>
-  </data>
-  <data name="ParamMouseLongButtonDownTime" xml:space="preserve">
-    <value>Long press decision time (sec)</value>
-  </data>
-  <data name="ParamMouseLongButtonDownTimeTips" xml:space="preserve">
-    <value>It is time to be judged to be long pressed.</value>
-  </data>
-  <data name="ParamMouseLongButtonRepeatTime" xml:space="preserve">
-    <value>Repeat interval (sec)</value>
-  </data>
-  <data name="ParamMouseLongButtonRepeatTimeTips" xml:space="preserve">
-    <value>Repeat time with repeat input.</value>
-  </data>
-  <data name="ParamMouseIsGestureEnabled" xml:space="preserve">
-    <value>Use mouse gesture</value>
-  </data>
-  <data name="EnumLongButtonMaskLeft" xml:space="preserve">
-    <value>Left button</value>
-  </data>
-  <data name="EnumLongButtonMaskRight" xml:space="preserve">
-    <value>Right button</value>
-  </data>
-  <data name="EnumLongButtonMaskAll" xml:space="preserve">
-    <value>All buttons</value>
-  </data>
-  <data name="ParamMouseGestureMinimumDistance" xml:space="preserve">
-    <value>Minimum movement distance of mouse gesture determination</value>
-  </data>
-  <data name="ParamMouseGestureMinimumDistanceTips" xml:space="preserve">
-    <value>It will be judged as gesture start only after moving this distance (pixel).</value>
-  </data>
-  <data name="ParamTouchIsEnabled" xml:space="preserve">
-    <value>Enable touch operation</value>
-  </data>
-  <data name="ParamTouchIsEnabledTips" xml:space="preserve">
-    <value>When set to OFF, it functions as standard mouse operation.</value>
-  </data>
-  <data name="ParamTouchDragAction" xml:space="preserve">
-    <value>Single touch drag operation</value>
-  </data>
-  <data name="ParamTouchHoldAction" xml:space="preserve">
-    <value>Long press Touch drag operation</value>
-  </data>
-  <data name="ParamTouchMinimumManipulationRadius" xml:space="preserve">
-    <value>Touch operation pinch minimum determination distance</value>
-  </data>
-  <data name="ParamTouchMinimumManipulationRadiusTips" xml:space="preserve">
-    <value>It is the distance between the minimum of 2 touches judged as rotation by touch operation, enlargement / reduction.</value>
-  </data>
-  <data name="ParamTouchMinimumManipulationDistance" xml:space="preserve">
-    <value>Touch operation pinch minimum change distance</value>
-  </data>
-  <data name="ParamTouchMinimumManipulationDistanceTips" xml:space="preserve">
-    <value>This is the minimum operating distance at which rotation and enlargement / reduction by touch operation are effective.</value>
-  </data>
-  <data name="ParamTouchIsAngleEnabled" xml:space="preserve">
-    <value>Enable rotation operation with multi-touch</value>
-  </data>
-  <data name="ParamTouchIsScaleEnabled" xml:space="preserve">
-    <value>Enable sizing operation with pinch in and pinch out</value>
-  </data>
-  <data name="ParamTouchGestureMinimumDistance" xml:space="preserve">
-    <value>Minimum movement distance for touch drag judgment</value>
-  </data>
-  <data name="ParamTouchGestureMinimumDistanceTips" xml:space="preserve">
-    <value>Dragging is judged to start for the first time by moving this distance.</value>
-  </data>
-  <data name="EnumTouchActionNone" xml:space="preserve">
-    <value>None</value>
-  </data>
-  <data name="EnumTouchActionDrag" xml:space="preserve">
-    <value>Touch view operation</value>
-  </data>
-  <data name="EnumTouchActionMouseDrag" xml:space="preserve">
-    <value>Mouse drag operation</value>
-  </data>
-  <data name="EnumTouchActionGesture" xml:space="preserve">
-    <value>Gesture</value>
-  </data>
-  <data name="LongButtonDownModeNone" xml:space="preserve">
-    <value>None</value>
-  </data>
-  <data name="LongButtonDownModeLoupe" xml:space="preserve">
-    <value>Loupe</value>
-  </data>
-  <data name="LongButtonDownModeLoupeTips" xml:space="preserve">
-    <value>Temporarily enlarge the image.</value>
-  </data>
-  <data name="LongButtonDownModeRepeat" xml:space="preserve">
-    <value>Repeat input</value>
-  </data>
-  <data name="LongButtonDownModeRepeatTips" xml:space="preserve">
-    <value>Execute the command continuously.</value>
-  </data>
-  <data name="ControlEditMouseDragReset" xml:space="preserve">
-    <value>Reset...</value>
-  </data>
-  <data name="ControlEditMouseDragListHeaderCommand" xml:space="preserve">
-    <value>Command</value>
-  </data>
-  <data name="ControlEditMouseDragListHeaderDrag" xml:space="preserve">
-    <value>Drag operation</value>
-  </data>
-  <data name="EnumDragActionTypeNone" xml:space="preserve">
-    <value>None</value>
-  </data>
-  <data name="EnumDragActionTypeGesture" xml:space="preserve">
-    <value>Gesture</value>
-  </data>
-  <data name="EnumDragActionTypeMove" xml:space="preserve">
-    <value>Move</value>
-  </data>
-  <data name="EnumDragActionTypeMoveScale" xml:space="preserve">
-    <value>Move (scale dependent)</value>
-  </data>
-  <data name="EnumDragActionTypeAngle" xml:space="preserve">
-    <value>Rotation</value>
-  </data>
-  <data name="EnumDragActionTypeScale" xml:space="preserve">
-    <value>Scaling</value>
-  </data>
-  <data name="EnumDragActionTypeScaleSlider" xml:space="preserve">
-    <value>Scaling (horizontal slide)</value>
-  </data>
-  <data name="EnumDragActionTypeFlipHorizontal" xml:space="preserve">
-    <value>Flip horizontal</value>
-  </data>
-  <data name="EnumDragActionTypeFlipVertical" xml:space="preserve">
-    <value>Flip vertical</value>
-  </data>
-  <data name="EnumDragActionTypeWindowMove" xml:space="preserve">
-    <value>Move window</value>
-  </data>
-  <data name="ControlEditDragOld" xml:space="preserve">
-    <value>Old</value>
-  </data>
-  <data name="ControlEditDragNew" xml:space="preserve">
-    <value>New</value>
-  </data>
-  <data name="WordClear" xml:space="preserve">
-    <value>Clear</value>
-  </data>
-  <data name="ControlEditDragTitle" xml:space="preserve">
-    <value>Drag operation</value>
-  </data>
-  <data name="ControlEditDragInput" xml:space="preserve">
-    <value>Mouse input here</value>
-  </data>
-  <data name="ControlEditDragNote" xml:space="preserve">
-    <value>Mouse button input in light blue frame.
-You can not use right button drag because it is reserved with mouse gesture. </value>
-  </data>
-  <data name="ParamLoupeIsLoupeCenter" xml:space="preserve">
-    <value>At the start, move the cursor position to the screen center</value>
-  </data>
-  <data name="ParamLoupeMinimumScale" xml:space="preserve">
-    <value>Loupe minimum magnification</value>
-  </data>
-  <data name="ParamLoupeMaximumScale" xml:space="preserve">
-    <value>Loupe maximum magnification</value>
-  </data>
-  <data name="ParamLoupeDefaultScale" xml:space="preserve">
-    <value>Loupe standard magnification</value>
-  </data>
-  <data name="ParamLoupeScaleStep" xml:space="preserve">
-    <value>Loupe magnification change unit</value>
-  </data>
-  <data name="ParamLoupeIsResetByRestart" xml:space="preserve">
-    <value>Start loupe at standard magnification</value>
-  </data>
-  <data name="ParamLoupeIsResetByRestartTips" xml:space="preserve">
-    <value>When set to OFF, the previous magnification will be inherited.</value>
-  </data>
-  <data name="ParamLoupeIsResetByPageChanged" xml:space="preserve">
-    <value>Release the loupe after moving the page</value>
-  </data>
-  <data name="ParamLoupeIsWheelScalingEnabled" xml:space="preserve">
-    <value>When using a loupe, change the magnifying power by wheel operation</value>
-  </data>
-  <data name="ParamLoupeIsWheelScalingEnabledTips" xml:space="preserve">
-    <value>Commands to which wheel operation is assigned are invalid.</value>
-  </data>
-  <data name="ParamLoupeSpeed" xml:space="preserve">
-    <value>Loupe Speed</value>
-  </data>
-  <data name="ParamLoupeIsEscapeKeyEnabled" xml:space="preserve">
-    <value>Use the Esc key to release the loupe</value>
+  <data name="WindowAboutTitle" xml:space="preserve">
+    <value>About</value>
   </data>
   <data name="WindowSettingTitle" xml:space="preserve">
     <value>Setting</value>
   </data>
-  <data name="WindowAboutTitle" xml:space="preserve">
-    <value>About</value>
+  <data name="WordAdd" xml:space="preserve">
+    <value>Add</value>
   </data>
-  <data name="ControlAboutLicense" xml:space="preserve">
-    <value>License Information</value>
+  <data name="WordCancel" xml:space="preserve">
+    <value>Cancel</value>
   </data>
-  <data name="ControlAboutChangeLog" xml:space="preserve">
-    <value>Change Log</value>
+  <data name="WordCause" xml:space="preserve">
+    <value>Cause</value>
   </data>
-  <data name="ControlAboutProject" xml:space="preserve">
-    <value>Project Page</value>
+  <data name="WordClear" xml:space="preserve">
+    <value>Clear</value>
   </data>
-  <data name="ControlAboutDownload" xml:space="preserve">
-    <value>Go to download page</value>
+  <data name="WordCommand" xml:space="preserve">
+    <value>Command</value>
   </data>
-  <data name="ControlAboutChecking" xml:space="preserve">
-    <value>Checking the latest version ...</value>
+  <data name="WordDaysAgo" xml:space="preserve">
+    <value>{0} days ago</value>
   </data>
-  <data name="ControlAboutWrongFormat" xml:space="preserve">
-    <value>The format of the update page is different from what is supposed</value>
+  <data name="WordDegree" xml:space="preserve">
+    <value>degree</value>
   </data>
-  <data name="ControlAboutLastest" xml:space="preserve">
-    <value>NeeView is the latest version</value>
+  <data name="WordDelete" xml:space="preserve">
+    <value>Delete</value>
   </data>
-  <data name="ControlAboutUnknown" xml:space="preserve">
-    <value>NeeView is an unknown version</value>
-  </data>
-  <data name="ControlAboutFailed" xml:space="preserve">
-    <value>Update check failed</value>
-  </data>
-  <data name="ControlAboutNew" xml:space="preserve">
-    <value>A new version has been released</value>
-  </data>
-  <data name="SettingPageBook" xml:space="preserve">
-    <value>Book</value>
-  </data>
-  <data name="SettingPageBookGeneral" xml:space="preserve">
-    <value>Book General</value>
-  </data>
-  <data name="SettingPageBookGeneralGeneral" xml:space="preserve">
-    <value>General</value>
-  </data>
-  <data name="SettingPageBookGeneralAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
-  <data name="SettingPageBookSubFolder" xml:space="preserve">
-    <value>Subfolder</value>
-  </data>
-  <data name="SettingPageBookSubFolderConfirm" xml:space="preserve">
-    <value>Confirm loading of subfolder</value>
-  </data>
-  <data name="SettingPageBookSubFolderAuto" xml:space="preserve">
-    <value>Automatic determination of subfolder loading</value>
-  </data>
-  <data name="SettingPageBookVisual" xml:space="preserve">
-    <value>Page View</value>
-  </data>
-  <data name="SettingPageBookVisualVisual" xml:space="preserve">
-    <value>View</value>
-  </data>
-  <data name="SettingPageBookMove" xml:space="preserve">
-    <value>Move</value>
-  </data>
-  <data name="SettingPageBookMoveBook" xml:space="preserve">
-    <value>Move book</value>
-  </data>
-  <data name="SettingPageBookMovePage" xml:space="preserve">
-    <value>Move pages</value>
-  </data>
-  <data name="EnumLoadingPageViewNone" xml:space="preserve">
-    <value>None</value>
-  </data>
-  <data name="EnumLoadingPageViewPreThumbnail" xml:space="preserve">
-    <value>Thumbnail of previous page</value>
-  </data>
-  <data name="EnumLoadingPageViewPreImage" xml:space="preserve">
-    <value>Image of previous page</value>
-  </data>
-  <data name="ParamBookIsPrioritizePageMove" xml:space="preserve">
-    <value>Page movement priority</value>
-  </data>
-  <data name="ParamBookIsPrioritizePageMoveTips" xml:space="preserve">
-    <value>Perform page movement without waiting for page display.</value>
-  </data>
-  <data name="ParamBookIsMultiplePageMove" xml:space="preserve">
-    <value>Accept duplication of page movement commands</value>
-  </data>
-  <data name="ParamBookIsMultiplePageMoveTips" xml:space="preserve">
-    <value>Execute all requested page move commands. If it is set to OFF, duplicate page move commands are canceled.</value>
-  </data>
-  <data name="ParamBookPreLoadMode" xml:space="preserve">
-    <value>Prefetching</value>
-  </data>
-  <data name="ParamBookPreLoadModeTips" xml:space="preserve">
-    <value>Prefetching conserves memory to hold previous and next pages. If you select "@EnumPreLoadModeAutoPreLoad", you can switch prefetch enable / disable according to image size. "@EnumPreLoadModePreLoadNoUnload" is the mode that consumes the most memory that does not discard the loaded image.</value>
-  </data>
-  <data name="ParamBookPreloadLimitSize" xml:space="preserve">
-    <value>Image size for automatic prefetching judgment</value>
-  </data>
-  <data name="ParamBookPreloadLimitSizeTips" xml:space="preserve">
-    <value>Used in automatic prefetching mode. Prefetching is disabled for images larger than this area. In the case of 2 page display, it is judged by the total area of ​​2 pages.</value>
-  </data>
-  <data name="ParamBookWideRatio" xml:space="preserve">
-    <value>Aspect ratio for determining horizontally long image (horizontal / vertical)</value>
-  </data>
-  <data name="ParamBookWideRatioTips" xml:space="preserve">
-    <value>It is used in "Split landscape page".</value>
-  </data>
-  <data name="ParamBookExcludes" xml:space="preserve">
-    <value>Page exclusion path</value>
-  </data>
-  <data name="ParamBookExcludesTips" xml:space="preserve">
-    <value>It is invalid for "@ParamBookIsEnableNoSupportFile" setting.</value>
-  </data>
-  <data name="ParamBookIsEnableAnimatedGif" xml:space="preserve">
-    <value>Play animated GIF</value>
-  </data>
-  <data name="ParamBookIsEnableAnimatedGifTips" xml:space="preserve">
-    <value>Perform animated GIF playback. Memory consumption problems may occur with long GIFs.</value>
-  </data>
-  <data name="ParamBookIsEnableNoSupportFile" xml:space="preserve">
-    <value>Include unsupported files on page</value>
-  </data>
-  <data name="ParamBookIsEnableNoSupportFileTips" xml:space="preserve">
-    <value>Files and folders that can not be displayed as images are also displayed as pages.</value>
-  </data>
-  <data name="ParamBookLoadingPageView" xml:space="preserve">
-    <value>How to display loading page</value>
-  </data>
-  <data name="ParamBookLoadingPageViewTips" xml:space="preserve">
-    <value>Specify what to display before the page loading is complete. "@EnumLoadingPageViewPreImage" consumes the most memory.</value>
-  </data>
-  <data name="EnumPageEndActionNone" xml:space="preserve">
-    <value>None</value>
-  </data>
-  <data name="EnumPageEndActionNextFolder" xml:space="preserve">
-    <value>Move to next book</value>
-  </data>
-  <data name="EnumPageEndActionLoop" xml:space="preserve">
-    <value>Loop</value>
-  </data>
-  <data name="EnumPreLoadModeNone" xml:space="preserve">
-    <value>None</value>
-  </data>
-  <data name="EnumPreLoadModeAutoPreLoad" xml:space="preserve">
-    <value>Automatic prefetching</value>
-  </data>
-  <data name="EnumPreLoadModePreLoad" xml:space="preserve">
-    <value>Prefetch</value>
-  </data>
-  <data name="EnumPreLoadModePreLoadNoUnload" xml:space="preserve">
-    <value>Prefetch (no release)</value>
-  </data>
-  <data name="ParamJobEngineWorkerSize" xml:space="preserve">
-    <value>Number of threads used for image loading</value>
-  </data>
-  <data name="ParamJobEngineWorkerSizeTips" xml:space="preserve">
-    <value>Valid values ​​are 1 to 4</value>
+  <data name="WordDescription" xml:space="preserve">
+    <value>Description</value>
   </data>
   <data name="WordExcludePath" xml:space="preserve">
     <value>Excluded path</value>
   </data>
-  <data name="ParamContentCanvasContentsSpace" xml:space="preserve">
-    <value>Distance between two pages</value>
+  <data name="WordExport" xml:space="preserve">
+    <value>Export</value>
   </data>
-  <data name="ParamContentCanvasContentsSpaceTips" xml:space="preserve">
-    <value>Sets the gap between page and page. Negative values ​​mean overlapping. Because each page is scaled, it is rare that there will be no gap just at 0.</value>
+  <data name="WordExtension" xml:space="preserve">
+    <value>Extension</value>
   </data>
-  <data name="ParamBookOperationPageEndAction" xml:space="preserve">
-    <value>Behavior when trying to move past the end of the page</value>
+  <data name="WordFile" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="WordFolder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="WordImport" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="WordItem" xml:space="preserve">
+    <value>Item</value>
+  </data>
+  <data name="WordMainMenu" xml:space="preserve">
+    <value>Main Menu</value>
+  </data>
+  <data name="WordNo" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="WordNoLimit" xml:space="preserve">
+    <value>No Limit</value>
+  </data>
+  <data name="WordOff" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="WordOK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="WordOn" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="WordPage" xml:space="preserve">
+    <value>Page</value>
+  </data>
+  <data name="WordRemove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
+  <data name="WordRename" xml:space="preserve">
+    <value>Rename</value>
+  </data>
+  <data name="WordRetry" xml:space="preserve">
+    <value>Retry</value>
+  </data>
+  <data name="WordStepless" xml:space="preserve">
+    <value>Stepless</value>
+  </data>
+  <data name="WordYes" xml:space="preserve">
+    <value>Yes</value>
   </data>
 </root>

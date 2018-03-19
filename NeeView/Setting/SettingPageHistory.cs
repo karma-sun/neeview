@@ -8,7 +8,7 @@ namespace NeeView.Setting
 {
     public class SettingPageHistory : SettingPage
     {
-        public SettingPageHistory() : base("履歴")
+        public SettingPageHistory() : base(Properties.Resources.SettingPageHistory)
         {
             this.Children = new List<SettingPage>
             {
@@ -19,27 +19,27 @@ namespace NeeView.Setting
 
     public class SettingPageHistoryGeneral : SettingPage
     {
-        public SettingPageHistoryGeneral() : base("履歴全般")
+        public SettingPageHistoryGeneral() : base(Properties.Resources.SettingPageHistoryGeneral)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("全般",
+                new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralGeneral,
                     new SettingItemIndexValue<int>(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.HistoryEntryPageCount)), new HistoryEntryPageCount(), true),
                     new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsInnerArchiveHistoryEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsUncHistoryEnabled)))),
 
-                new SettingItemSection("履歴保存数制限", "履歴ファイルに保存される履歴数上限を設定します。アプリ動作中の履歴は制限されません。",
+                new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralLimit, Properties.Resources.SettingPageHistoryGeneralLimitTips,
                     new SettingItemIndexValue<int>(PropertyMemberElement.Create(BookHistory.Current, nameof(BookHistory.LimitSize)), new HistoryLimitSize(), false),
                     new SettingItemIndexValue<TimeSpan>(PropertyMemberElement.Create(BookHistory.Current, nameof(BookHistory.LimitSpan)), new HistoryLimitSpan(), false)),
 
-                new SettingItemSection("履歴削除",
+                new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralDelete,
                     new SettingItemGroup(
-                        new SettingItemButton("履歴を削除する", RemoveHistory) { IsContentOnly = true })),
+                        new SettingItemButton(Properties.Resources.SettingPageHistoryGeneralDeleteButton, RemoveHistory) { IsContentOnly = true })),
 
-                new SettingItemSection("フォルダーリスト",
+                new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralFolderList,
                     new SettingItemProperty(PropertyMemberElement.Create(BookHistory.Current, nameof(BookHistory.IsKeepFolderStatus)))),
 
-                new SettingItemSection("詳細設定",
+                new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsDisableSave)))),
             };
         }
@@ -97,7 +97,7 @@ namespace NeeView.Setting
                 Value = value;
             }
 
-            public override string ValueString => $"{Value}ページ";
+            public override string ValueString => $"{Value} {Properties.Resources.WordPage}";
         }
 
         #endregion
@@ -121,7 +121,7 @@ namespace NeeView.Setting
                 Value = value;
             }
 
-            public override string ValueString => Value == -1 ? "制限なし" : Value.ToString();
+            public override string ValueString => Value == -1 ? Properties.Resources.WordNoLimit : Value.ToString();
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace NeeView.Setting
                 Value = value;
             }
 
-            public override string ValueString => Value == default(TimeSpan) ? "制限なし" : $"{Value.Days}日前まで";
+            public override string ValueString => Value == default(TimeSpan) ? Properties.Resources.WordNoLimit : string.Format(Properties.Resources.WordDaysAgo, Value.Days);
         }
 
         #endregion

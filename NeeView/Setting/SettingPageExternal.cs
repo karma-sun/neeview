@@ -9,7 +9,7 @@ namespace NeeView.Setting
 {
     public class SettingPageExternal : SettingPage
     {
-        public SettingPageExternal() : base("外部連携")
+        public SettingPageExternal() : base(Properties.Resources.SettingPageExternal)
         {
             this.Children = new List<SettingPage>
             {
@@ -21,18 +21,18 @@ namespace NeeView.Setting
 
     public class SettingPageExternalGeneral : SettingPage
     {
-        public SettingPageExternalGeneral() : base("外部連携全般")
+        public SettingPageExternalGeneral() : base(Properties.Resources.SettingPageExternalGeneral)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("クリップボードへのファイルコピー",
+                new SettingItemSection(Properties.Resources.SettingPageExternalGeneralCopyToClipboard,
                     new SettingItemProperty(PropertyMemberElement.Create(BookOperation.Current.ClipboardUtility, nameof(ClipboardUtility.MultiPageOption))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookOperation.Current.ClipboardUtility, nameof(ClipboardUtility.ArchiveOption)))),
 
-                new SettingItemSection("ブラウザからのドラッグ&ドロップ",
+                new SettingItemSection(Properties.Resources.SettingPageExternalGeneralFromBrowser,
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.DownloadPath))) { IsStretch = true }),
 
-                new SettingItemSection("ファイル保存", "画像を保存するコマンドの設定です",
+                new SettingItemSection(Properties.Resources.SettingPageExternalGeneralSave, Properties.Resources.SettingPageExternalGeneralSaveTips,
                     new SettingItemProperty(PropertyMemberElement.Create(ExporterProfile.Current, nameof(ExporterProfile.IsEnableExportFolder))),
                     new SettingItemProperty(PropertyMemberElement.Create(ExporterProfile.Current, nameof(ExporterProfile.QualityLevel)))),
             };
@@ -40,11 +40,11 @@ namespace NeeView.Setting
     }
     public class SettingPageExternalProgram : SettingPage
     {
-        public SettingPageExternalProgram() : base("外部アプリ")
+        public SettingPageExternalProgram() : base(Properties.Resources.SettingPageExternalProgram)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("外部アプリ設定",
+                new SettingItemSection(Properties.Resources.SettingPageExternalProgramSetting,
                     new SettingItemProperty(PropertyMemberElement.Create(BookOperation.Current.ExternalApplication, nameof(ExternalApplication.ProgramType))),
                     new SettingItemGroup(
                         new SettingItemProperty(PropertyMemberElement.Create(BookOperation.Current.ExternalApplication, nameof(ExternalApplication.Command))) { IsStretch = true },

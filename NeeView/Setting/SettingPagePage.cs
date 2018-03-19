@@ -9,7 +9,7 @@ namespace NeeView.Setting
 {
     public class SettingPagePage : SettingPage
     {
-        public SettingPagePage() : base("ページ設定")
+        public SettingPagePage() : base(Properties.Resources.SettingPagePage)
         {
             this.Children = new List<SettingPage>
             {
@@ -21,11 +21,11 @@ namespace NeeView.Setting
 
     public class SettingPagePageDefault : SettingPage
     {
-        public SettingPagePageDefault() : base("既定のページ設定")
+        public SettingPagePageDefault() : base(Properties.Resources.SettingPagePageDefault)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("既定のページ設定", "「ページ設定の初期化」で使用される設定です。",
+                new SettingItemSection(Properties.Resources.SettingPagePageDefaultSetting, Properties.Resources.SettingPagePageDefaultSettingTips,
                     new SettingItemProperty(PropertyMemberElement.Create(BookSetting.Current.BookMementoDefault, nameof(Book.Memento.PageMode))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookSetting.Current.BookMementoDefault, nameof(Book.Memento.BookReadOrder))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookSetting.Current.BookMementoDefault, nameof(Book.Memento.IsSupportedDividePage))),
@@ -40,14 +40,14 @@ namespace NeeView.Setting
 
     public class SettingPagePageRecovery : SettingPage
     {
-        public SettingPagePageRecovery() : base("復元項目")
+        public SettingPagePageRecovery() : base(Properties.Resources.SettingPagePageRecovery)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("既定のページ設定の使用",
+                new SettingItemSection(Properties.Resources.SettingPagePageRecoveryUseDefault,
                     new SettingItemProperty(PropertyMemberElement.Create(BookSetting.Current, nameof(BookSetting.IsUseBookMementoDefault)))),
 
-                new SettingItemSection("履歴、ブックマークから復元するページ設定項目", "開いたことがあるブックの場合、前回の情報から設定の復元をします。復元しない項目は既定のページ設定もしくは直前の設定が使用されます。",
+                new SettingItemSection(Properties.Resources.SettingPagePageRecoveryItems, Properties.Resources.SettingPagePageRecoveryItemsTips,
                     new SettingItemSubProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.Page))),
                     new SettingItemSubProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.PageMode))),
                     new SettingItemSubProperty(PropertyMemberElement.Create(BookSetting.Current.HistoryMementoFilter, nameof(BookMementoFilter.BookReadOrder))),

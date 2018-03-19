@@ -62,7 +62,7 @@ namespace NeeView
         public BookMementoFilter HistoryMementoFilter { get; set; } = new BookMementoFilter(true);
 
         // 新しい本を開くときに標準設定にする？
-        [PropertyMember("ブックを開くときに復元されない項目には既定のページ設定を適用する", Tips ="OFFにすると直前の設定値を引き継ぎます。")]
+        [PropertyMember("@ParamBookSettingIsUseBookMementoDefault", Tips = "@ParamBookSettingIsUseBookMementoDefaultTips")]
         public bool IsUseBookMementoDefault { get; set; }
 
 

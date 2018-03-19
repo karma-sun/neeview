@@ -37,15 +37,15 @@ namespace NeeView
         public string LastAddress { get; set; }
 
         // 履歴制限
-        [PropertyMember("保存数上限")]
+        [PropertyMember("@ParamHistoryLimitSize")]
         public int LimitSize { get; set; }
 
         // 履歴制限(時間)
-        [PropertyMember("保存期間")]
+        [PropertyMember("@ParamHistoryLimitSpan")]
         public TimeSpan LimitSpan { get; set; }
 
         // フォルダーリストの情報記憶
-        [PropertyMember("最後に開いていた場所、各フォルダーの並び順等の情報を保存する")]
+        [PropertyMember("@ParamHistoryIsKeepFolderStatus")]
         public bool IsKeepFolderStatus { get; set; } = true;
 
 

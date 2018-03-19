@@ -1538,42 +1538,42 @@ namespace NeeView
 
             // 1ページ表示 or 2ページ表示
             [DataMember(Name = "PageModeV2")]
-            [PropertyMember("ページ表示")]
+            [PropertyMember("@ParamBookPageMode")]
             public PageMode PageMode { get; set; }
 
             // 右開き or 左開き
             [DataMember]
-            [PropertyMember("本を開く方向")]
+            [PropertyMember("@ParamBookBookReadOrder")]
             public PageReadOrder BookReadOrder { get; set; }
 
             // 横長ページ分割 (1ページモード)
             [DataMember]
-            [PropertyMember("横長ページを分割する")]
+            [PropertyMember("@ParamBookIsSupportedDividePage")]
             public bool IsSupportedDividePage { get; set; }
 
             // 最初のページを単独表示 
             [DataMember]
-            [PropertyMember("最初のページを単独表示")]
+            [PropertyMember("@ParamBookIsSupportedSingleFirstPage")]
             public bool IsSupportedSingleFirstPage { get; set; }
 
             // 最後のページを単独表示
             [DataMember]
-            [PropertyMember("最後のページを単独表示")]
+            [PropertyMember("@ParamBookIsSupportedSingleLastPage")]
             public bool IsSupportedSingleLastPage { get; set; }
 
             // 横長ページを2ページ分とみなす(2ページモード)
             [DataMember]
-            [PropertyMember("横長ページを2ページとみなす")]
+            [PropertyMember("@ParamBookIsSupportedWidePage")]
             public bool IsSupportedWidePage { get; set; } = true;
 
             // フォルダーの再帰
             [DataMember]
-            [PropertyMember("サブフォルダーを読み込む", Tips = "開くフォルダー以下を全て検索するため、フォルダーの場所によっては処理が重くなります。")]
+            [PropertyMember("@ParamBookIsRecursiveFolder", Tips = "@ParamBookIsRecursiveFolderTips")]
             public bool IsRecursiveFolder { get; set; }
 
             // ページ並び順
             [DataMember]
-            [PropertyMember("ページの並び順")]
+            [PropertyMember("@ParamBookSortMode")]
             public PageSortMode SortMode { get; set; }
 
             // 最終アクセス日

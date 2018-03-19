@@ -9,25 +9,25 @@ namespace NeeView
     // ページ整列
     public enum PageSortMode
     {
-        [AliasName("ファイル名昇順")]
+        [AliasName("@EnumPageSortModeFileName")]
         FileName,
 
-        [AliasName("ファイル名降順")]
+        [AliasName("@EnumPageSortModeFileNameDescending")]
         FileNameDescending,
 
-        [AliasName("日付昇順")]
+        [AliasName("@EnumPageSortModeTimeStamp")]
         TimeStamp,
 
-        [AliasName("日付降順")]
+        [AliasName("@EnumPageSortModeTimeStampDescending")]
         TimeStampDescending,
 
-        [AliasName("サイズ昇順")]
+        [AliasName("@EnumPageSortModeSize")]
         Size,
 
-        [AliasName("サイズ降順")]
+        [AliasName("@EnumPageSortModeSizeDescending")]
         SizeDescending,
 
-        [AliasName("シャッフル")]
+        [AliasName("@EnumPageSortModeRandom")]
         Random,
     }
 

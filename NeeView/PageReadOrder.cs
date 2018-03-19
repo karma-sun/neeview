@@ -9,10 +9,10 @@ namespace NeeView
     // 見開き時のページ並び
     public enum PageReadOrder
     {
-        [AliasName("右開き")]
+        [AliasName("@EnumPageReadOrderRightToLeft")]
         RightToLeft,
 
-        [AliasName("左開き")]
+        [AliasName("@EnumPageReadOrderLeftToRight")]
         LeftToRight,
     }
 

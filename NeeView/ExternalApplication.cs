@@ -14,33 +14,33 @@ namespace NeeView
     // プログラムの種類
     public enum ExternalProgramType
     {
-        [AliasName("外部プログラム")]
+        [AliasName("@EnumExternalProgramTypeNormal")]
         Normal,
 
-        [AliasName("プロトコル起動")]
+        [AliasName("@EnumExternalProgramTypeProtocol")]
         Protocol,
     }
 
     // 複数ページのときの動作
     public enum MultiPageOptionType
     {
-        [AliasName("1ページのみ実行する")]
+        [AliasName("@EnumMultiPageOptionTypeOnce")]
         Once,
 
-        [AliasName("2ページとも実行する")]
+        [AliasName("@EnumMultiPageOptionTypeTwice")]
         Twice,
     };
 
     // 圧縮ファイルの時の動作
     public enum ArchiveOptionType
     {
-        [AliasName("実行しない")]
+        [AliasName("@EnumArchiveOptionTypeNone")]
         None,
 
-        [AliasName("圧縮ファイルを渡す")]
+        [AliasName("@EnumArchiveOptionTypeSendArchiveFile")]
         SendArchiveFile,
 
-        [AliasName("出力したファイルを渡す(一時ファイル)")]
+        [AliasName("@EnumArchiveOptionTypeSendExtractFile")]
         SendExtractFile,
     }
 
@@ -50,12 +50,12 @@ namespace NeeView
     {
         // 複数ページのときの動作
         [DataMember]
-        [PropertyMember("2ページの場合")]
+        [PropertyMember("@ParamClipboardMultiPageOption")]
         public MultiPageOptionType MultiPageOption { get; set; }
 
         // 圧縮ファイルのときの動作
         [DataMember]
-        [PropertyMember("圧縮ファイルの場合")]
+        [PropertyMember("@ParamClipboardArchiveOption")]
         public ArchiveOptionType ArchiveOption { get; set; }
 
 
@@ -157,7 +157,7 @@ namespace NeeView
         /// ProgramType property.
         /// </summary>
         [DataMember]
-        [PropertyMember("種類")]
+        [PropertyMember("@ParamExternalProgramType")]
         public ExternalProgramType ProgramType
         {
             get { return _programType; }
@@ -167,28 +167,28 @@ namespace NeeView
 
         // コマンド
         [DataMember]
-        [PropertyPath( "プログラム", Tips = "指定がない場合は拡張子に関連付けられたアプリを起動します。", Filter = "EXE|*.exe|すべてのファイル|*.*")]
+        [PropertyPath("@ParamExternalCommand", Tips = "@ParamExternalCommandTips", Filter = "EXE|*.exe|All|*.*")]
         public string Command { get; set; }
 
         // コマンドパラメータ
         // $FILE = 渡されるファイルパス
         [DataMember]
-        [PropertyMember("パラメーター")]
+        [PropertyMember("@ParamExternalParameter")]
         public string Parameter { get; set; }
 
         // プロトコル
         [DataMember]
-        [PropertyMember("プロトコル", Tips = "$File はファイルパスに置換されます。$Uri はURIエスケープされたファイルパスに置換されます。")]
+        [PropertyMember("@ParamExternalProtocol", Tips = "@ParamExternalProtocolTips")]
         public string Protocol { get; set; }
 
         // 複数ページのときの動作
         [DataMember]
-        [PropertyMember("2ページの場合")]
+        [PropertyMember("@ParamExternalMultiPageOption")]
         public MultiPageOptionType MultiPageOption { get; set; }
 
         // 圧縮ファイルのときの動作
         [DataMember]
-        [PropertyMember("圧縮ファイルの場合")]
+        [PropertyMember("@ParamExternalArchiveOption")]
         public ArchiveOptionType ArchiveOption { get; set; }
 
         // 拡張子に関連付けられたアプリを起動するかの判定
@@ -261,7 +261,7 @@ namespace NeeView
                         case ArchiveOptionType.SendExtractFile:
                             if (page.Entry.IsDirectory)
                             {
-                                throw new ApplicationException($"圧縮ファイルのフォルダーは非対応です");
+                                throw new ApplicationException(Properties.Resources.ExceptionNotSupportArchiveFolder);
                             }
                             else
                             {

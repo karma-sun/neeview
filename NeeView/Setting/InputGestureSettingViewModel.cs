@@ -59,7 +59,7 @@ namespace NeeView.Setting
         {
             _sources = memento.Elements;
             Command = command;
-            Header = $"ショートカット設定 - {Command.ToDispString()}";
+            Header = $"{Command.ToDispString()} - {Properties.Resources.ControlEditShortcutTitle}";
 
             UpdateGestures();
         }
@@ -99,7 +99,7 @@ namespace NeeView.Setting
             if (overlaps.Count > 0)
             {
                 element.Conflicts = overlaps;
-                element.OverlapsText = string.Join("", overlaps.Select(e => $"「{e.ToDispString()}」")) + "と競合しています";
+                element.OverlapsText = string.Join("", overlaps.Select(e => string.Format(Properties.Resources.ControlCommandListConflictSingle, e.ToDispString())));
             }
 
             return element;

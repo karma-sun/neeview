@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView.Setting"
         xmlns:nv="clr-namespace:NeeView"
+        xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}"
         UseLayoutRounding="True"
@@ -12,20 +13,20 @@
         Title="EditCommandWindow" Height="480" Width="640">
     <DockPanel Margin="5">
         <DockPanel DockPanel.Dock="Bottom" LastChildFill="False">
-            <Button x:Name="ButtonCancel" DockPanel.Dock="Right" Content="Cancel" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom" Width="75" Height="28" Click="ButtonCancel_Click"/>
-            <Button x:Name="ButtonOk" DockPanel.Dock="Right" Content="OK" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom" Width="75" Height="28" Click="ButtonOk_Click"/>
+            <Button x:Name="ButtonCancel" DockPanel.Dock="Right" Content="{x:Static properties:Resources.WordCancel}" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom" Padding="10,0" MinWidth="75" Height="28" Click="ButtonCancel_Click"/>
+            <Button x:Name="ButtonOk" DockPanel.Dock="Right" Content="{x:Static properties:Resources.WordOK}" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom" Padding="10,0" MinWidth="75" Height="28" Click="ButtonOk_Click"/>
         </DockPanel>
         <TabControl Margin="5">
             <TabItem x:Name="GeneralTab">
                 <TabItem.Header>
                     <Grid MinWidth="60" MinHeight="30">
-                        <TextBlock Text="全般"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Static properties:Resources.ControlEditCommandTabGeneral}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                 </TabItem.Header>
                 <DockPanel Margin="10,20">
-                    <CheckBox DockPanel.Dock="Top" Content="コマンド実行時にメッセージを表示する" IsChecked="{Binding IsShowMessage}"/>
+                    <CheckBox DockPanel.Dock="Top" Content="{x:Static properties:Resources.ControlEditCommandVisible}" IsChecked="{Binding IsShowMessage}"/>
                     <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
-                        <TextBlock Text="コマンドの説明" FontWeight="Bold"/>
+                        <TextBlock Text="{x:Static properties:Resources.ControlEditCommandDescription}" FontWeight="Bold"/>
                         <TextBlock Text="{Binding Note}" Padding="10" TextWrapping="Wrap"/>
                     </StackPanel>
                 </DockPanel>
@@ -33,7 +34,7 @@
             <TabItem x:Name="InputGestureTab">
                 <TabItem.Header>
                     <Grid MinWidth="60" MinHeight="30">
-                        <TextBlock Text="ショートカット"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Static properties:Resources.ControlEditCommandTabShortcut}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                 </TabItem.Header>
                 <local:InputGestureSettingControl x:Name="InputGesture"/>
@@ -41,7 +42,7 @@
             <TabItem x:Name="MouseGestureTab">
                 <TabItem.Header>
                     <Grid MinWidth="60" MinHeight="30">
-                        <TextBlock Text="ジェスチャー"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Static properties:Resources.ControlEditCommandTabGesture}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                 </TabItem.Header>
                 <local:MouseGestureSettingControl x:Name="MouseGesture"/>
@@ -49,7 +50,7 @@
             <TabItem x:Name="InputTouchTab">
                 <TabItem.Header>
                     <Grid MinWidth="60" MinHeight="30">
-                        <TextBlock Text="タッチ"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Static properties:Resources.ControlEditCommandTabTouch}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                 </TabItem.Header>
                 <local:InputTouchSettingControl x:Name="InputTouch"/>
@@ -57,7 +58,7 @@
             <TabItem x:Name="ParameterTab">
                 <TabItem.Header>
                     <Grid MinWidth="60" MinHeight="30">
-                        <TextBlock Text="パラメーター"  HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Static properties:Resources.ControlEditCommandTabParameter}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Grid>
                 </TabItem.Header>
                 <local:CommandParameterControl x:Name="Parameter"/>

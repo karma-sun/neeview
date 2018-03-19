@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView.Setting"
              xmlns:nv="clr-namespace:NeeView"
+             xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     
@@ -58,11 +59,7 @@
             </Grid>
             <Popup IsOpen="{Binding ElementName=WindowHelp, Path=IsChecked}" PlacementTarget="{Binding ElementName=WindowHelp}" Placement="Top" HorizontalAlignment="Right">
                 <Border BorderBrush="Gray" BorderThickness="1" Background="{DynamicResource {x:Static SystemColors.InfoBrushKey}}">
-                    <TextBlock Margin="10">
-                                タッチするエリアを指定します。<LineBreak/>
-                                Centerがコマンドに割り当てられていない場合はその下のエリア(L1,L2,R1,R2)の判定が適用されます。<LineBreak/>
-                                フリック操作はジェスチャーで代用してください
-                    </TextBlock>
+                    <TextBlock Margin="10" Text="{x:Static properties:Resources.ControlEditTouchNote}"/>
                 </Border>
             </Popup>
 
@@ -105,7 +102,7 @@
                         <TextBlock Text="Center" Foreground="LightSteelBlue" HorizontalAlignment="Center"/>
                     </Grid>
                 </Grid>
-                <TextBlock Text="ここでタッチ入力" VerticalAlignment="Center" TextAlignment="Center" Foreground="LightSteelBlue"/>
+                <TextBlock Text="{x:Static properties:Resources.ControlEditTouchInput}" VerticalAlignment="Center" TextAlignment="Center" Foreground="LightSteelBlue"/>
             </Grid>
         </DockPanel>
 

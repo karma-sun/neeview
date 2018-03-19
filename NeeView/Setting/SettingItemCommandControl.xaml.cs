@@ -62,7 +62,7 @@ namespace NeeView.Setting
             public bool HasParameter { get; set; }
             public CommandType ParameterShareCommandType { get; set; }
             public bool IsShareParameter => ParameterShareCommandType != CommandType.None;
-            public string ShareTips => $"「{ParameterShareCommandType.ToDispString()}」とパラメータ共有です";
+            public string ShareTips => string.Format(Properties.Resources.ControlCommandListShare, ParameterShareCommandType.ToDispString());
         }
 
         // コマンド一覧
@@ -141,13 +141,13 @@ namespace NeeView.Setting
                     {
                         var overlaps = CommandCollection
                             .Where(e => !string.IsNullOrEmpty(e.Command.ShortCutKey) && e.Key != item.Key && e.Command.ShortCutKey.Split(',').Contains(key))
-                            .Select(e => $"「{e.Key.ToDispString()}」")
+                            .Select(e => e.Key.ToDispString())
                             .ToList();
 
                         if (overlaps.Count > 0)
                         {
                             if (item.ShortCutNote != null) item.ShortCutNote += "\n";
-                            item.ShortCutNote += $"{key} は {string.Join("", overlaps)} と競合しています";
+                            item.ShortCutNote += string.Format(Properties.Resources.ControlCommandListConflict, key, string.Join("", overlaps));
                         }
 
                         var element = new GestureElement();
@@ -181,7 +181,7 @@ namespace NeeView.Setting
                 {
                     var overlaps = CommandCollection
                         .Where(e => e.Key != item.Key && e.Command.MouseGesture == item.Command.MouseGesture)
-                        .Select(e => $"「{e.Key.ToDispString()}」")
+                        .Select(e => e.Key.ToDispString())
                         .ToList();
 
                     var element = new GestureElement();
@@ -189,7 +189,7 @@ namespace NeeView.Setting
                     element.IsConflict = overlaps.Count > 0;
                     if (overlaps.Count > 0)
                     {
-                        element.Note = $"{string.Join("", overlaps)} と競合しています";
+                        element.Note = string.Format(Properties.Resources.ControlCommandListConflictSingle, string.Join("", overlaps));
                     }
 
                     item.MouseGestureElement = element;
@@ -215,13 +215,13 @@ namespace NeeView.Setting
                     {
                         var overlaps = CommandCollection
                             .Where(e => !string.IsNullOrEmpty(e.Command.TouchGesture) && e.Key != item.Key && e.Command.TouchGesture.Split(',').Contains(key))
-                            .Select(e => $"「{e.Key.ToDispString()}」")
+                            .Select(e => e.Key.ToDispString())
                             .ToList();
 
                         if (overlaps.Count > 0)
                         {
                             if (item.TouchGestureNote != null) item.TouchGestureNote += "\n";
-                            item.TouchGestureNote += $"{key} は {string.Join("", overlaps)} と競合しています";
+                            item.TouchGestureNote += string.Format(Properties.Resources.ControlCommandListConflict, key, string.Join("", overlaps));
                         }
 
                         var element = new GestureElement();

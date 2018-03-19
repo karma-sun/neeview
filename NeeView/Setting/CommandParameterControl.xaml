@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView.Setting"
              xmlns:nlp="clr-namespace:NeeView.Windows.Property"
+             xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="200" d:DesignWidth="512">
     <Grid>
@@ -20,7 +21,7 @@
 
         <DockPanel x:Name="MainPanel" Margin="5">
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Style="{StaticResource NormalButtonStyle}" Content="初期化"  Click="ButtonReset_Click"/>
+                <Button Style="{StaticResource NormalButtonStyle}" Content="{x:Static properties:Resources.WordReset}"  Click="ButtonReset_Click"/>
             </StackPanel>
             
             <TextBlock DockPanel.Dock="Top" Text="{Binding Note}" Foreground="Crimson" Margin="0,5">
@@ -42,6 +43,6 @@
 
         </DockPanel>
 
-        <TextBlock x:Name="EmptyText" Text="パラメーターはありません" Margin="10" Foreground="Gray"/>
+        <TextBlock x:Name="EmptyText" Text="{x:Static properties:Resources.ControlEditParameterEmpty}" Margin="10" Foreground="Gray"/>
     </Grid>
 </UserControl>

@@ -74,7 +74,7 @@ namespace NeeView.Setting
             _memento = CommandTable.Current.CreateMemento();
             _key = key;
 
-            this.Title = $"{key.ToDispString()} - コマンド設定";
+            this.Title = $"{key.ToDispString()} - {Properties.Resources.ControlEditCommandTitle}";
 
             this.Note = CommandTable.Current[key].Note;
             this.IsShowMessage = _memento.Elements[key].IsShowMessage;

@@ -75,9 +75,10 @@ namespace NeeView.Setting
         private ResolveConflictDialogContext _context;
 
         // window title
-        public string Title => $"競合の解消 - {_context.Command.ToDispString()}";
+        public string Title => $"{_context.Command.ToDispString()} - {Properties.Resources.ControlResolveConflictTitle}";
 
-        public string Gesture => _context.Gesture;
+        ////public string Gesture => _context.Gesture;
+        public string Note => string.Format(Properties.Resources.ControlResolveConflictNote, _context.Gesture);
 
         public List<ConflictItem> Conflicts => _context.Conflicts;
 

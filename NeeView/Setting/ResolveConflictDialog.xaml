@@ -4,9 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView.Setting"
+        xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}"
-        SizeToContent="Height" MinHeight="150" Width="400"
+        SizeToContent="Height" MinHeight="150" Width="600"
         Title="{Binding Title}">
 
     <Window.Resources>
@@ -18,10 +19,14 @@
     <Grid>
         <DockPanel Margin="5">
 
+            <!--
             <StackPanel DockPanel.Dock="Top" Margin="5" Orientation="Horizontal">
                 <TextBlock Text="{Binding Gesture}" Background="#EEE" Foreground="#222" Padding="10,2" VerticalAlignment="Center"/>
                 <TextBlock Text="で実行するコマンドを１つだけ選択してください" Margin="5,0" VerticalAlignment="Center"/>
             </StackPanel>
+            -->
+
+            <TextBlock DockPanel.Dock="Top" Margin="5" Text="{Binding Note}" />
 
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
                 <StackPanel.Resources>
@@ -31,8 +36,8 @@
                         <Setter Property="MinWidth" Value="80"/>
                     </Style>
                 </StackPanel.Resources>
-                <Button x:Name="OKButton" Content="OK" Click="OKButton_Click"/>
-                <Button x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click"/>
+                <Button x:Name="OKButton" Content="{x:Static properties:Resources.WordOK}" Click="OKButton_Click"/>
+                <Button x:Name="CancelButton" Content="{x:Static properties:Resources.WordCancel}" Click="CancelButton_Click"/>
             </StackPanel>
 
             <Grid Margin="10,5">

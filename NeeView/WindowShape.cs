@@ -34,7 +34,7 @@ namespace NeeView
         [AliasName("@EnumWindowChromeFrameNone")]
         None,
 
-        [AliasName("@EnumWindowChromeFrameNoneWindowFrame")]
+        [AliasName("@EnumWindowChromeFrameWindowFrame")]
         WindowFrame,
 
         [AliasName("@EnumWindowChromeFrameLine")]

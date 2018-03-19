@@ -9,7 +9,7 @@ namespace NeeView.Setting
 {
     class SettingPageCommand : SettingPage
     {
-        public SettingPageCommand() : base("コマンド")
+        public SettingPageCommand() : base(Properties.Resources.SettingPageCommand)
         {
             this.Children = new List<SettingPage>
             {
@@ -21,11 +21,11 @@ namespace NeeView.Setting
 
     public class SettingPageCommandGeneral : SettingPage
     {
-        public SettingPageCommandGeneral() : base("コマンド全般")
+        public SettingPageCommandGeneral() : base(Properties.Resources.SettingPageCommandGeneral)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection("詳細設定",
+                new SettingItemSection(Properties.Resources.SettingPageCommandGeneralAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsAccessKeyEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(CommandTable.Current, nameof(CommandTable.IsReversePageMove))),
                     new SettingItemSubProperty(PropertyMemberElement.Create(CommandTable.Current, nameof(CommandTable.IsReversePageMoveWheel)))
@@ -38,7 +38,7 @@ namespace NeeView.Setting
 
     class SettingPageCommandMain : SettingPage
     {
-        public SettingPageCommandMain() : base("コマンド設定")
+        public SettingPageCommandMain() : base(Properties.Resources.SettingPageCommandMain)
         {
             this.IsScrollEnabled = false;
 

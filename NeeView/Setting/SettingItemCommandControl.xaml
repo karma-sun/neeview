@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView.Setting"
              xmlns:nv="clr-namespace:NeeView"
+             xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="480" d:DesignWidth="640">
     <Grid x:Name="Root">
@@ -49,7 +50,7 @@
                     <ListView.View>
                         <GridView>
 
-                            <GridViewColumn Header="コマンド" Width="200" >
+                            <GridViewColumn Header="{x:Static properties:Resources.ControlCommandListHeaderCommand}" Width="200" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <DockPanel>
@@ -79,7 +80,7 @@
 
                             <GridViewColumn>
                                 <GridViewColumn.Header>
-                                    <TextBlock Text="表示" ToolTip="コマンド実行時のメッセージ表示ON/OFF"/>
+                                    <TextBlock Text="{x:Static properties:Resources.ControlCommandListHeaderDisplay}" ToolTip="{x:Static properties:Resources.ControlCommandListHeaderDisplayTips}"/>
                                 </GridViewColumn.Header>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
@@ -93,7 +94,7 @@
                             </GridViewColumn>
 
 
-                            <GridViewColumn Header="ショートカット" Width="180">
+                            <GridViewColumn Header="{x:Static properties:Resources.ControlCommandListHeaderShortcut}" Width="180">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <ItemsControl ItemsSource="{Binding ShortCuts}"  ToolTip="{Binding ShortCutNote}" Background="Transparent" Tag="@shortcut">
@@ -128,7 +129,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Header="ジェスチャー" Width="100">
+                            <GridViewColumn Header="{x:Static properties:Resources.ControlCommandListHeaderGesture}" Width="100">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" ToolTip="{Binding MouseGestureElement.Note}"  Background="Transparent" Tag="@gesture">
@@ -152,7 +153,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Header="タッチ" Width="120">
+                            <GridViewColumn Header="{x:Static properties:Resources.ControlCommandListHeaderTouch}" Width="120">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <ItemsControl ItemsSource="{Binding TouchGestures}"  ToolTip="{Binding TouchGestureNote}" Background="Transparent" Tag="@touch">

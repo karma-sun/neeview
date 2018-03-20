@@ -15,10 +15,19 @@ namespace NeeView
 {
     public enum MenuElementType
     {
+        [AliasName("@EnumMenuElementTypeNone")]
         None,
+
+        [AliasName("@EnumMenuElementTypeGroup")]
         Group,
+
+        [AliasName("@EnumMenuElementTypeCommand")]
         Command,
+
+        [AliasName("@EnumMenuElementTypeHistory")]
         History,
+
+        [AliasName("@EnumMenuElementTypeSeparator")]
         Separator,
     }
 
@@ -90,16 +99,11 @@ namespace NeeView
                 switch (MenuElementType)
                 {
                     default:
+                        return $"《{MenuElementType.ToAliasName()}》";
                     case MenuElementType.None:
-                        return "(なし)";
-                    case MenuElementType.Group:
-                        return "《サブメニュー》";
+                        return $"({MenuElementType.ToAliasName()})";
                     case MenuElementType.Command:
                         return Command.ToDispLongString();
-                    case MenuElementType.History:
-                        return "《最近使ったブック》";
-                    case MenuElementType.Separator:
-                        return "《セパレーター》";
                 }
             }
         }
@@ -112,16 +116,11 @@ namespace NeeView
                 switch (MenuElementType)
                 {
                     default:
+                        return MenuElementType.ToAliasName();
                     case MenuElementType.None:
-                        return "(なし)";
-                    case MenuElementType.Group:
-                        return "サブメニュー";
+                        return $"({MenuElementType.ToAliasName()})";
                     case MenuElementType.Command:
                         return Command.ToMenuString();
-                    case MenuElementType.History:
-                        return "最近使ったブック";
-                    case MenuElementType.Separator:
-                        return "セパレーター";
                 }
             }
         }
@@ -383,7 +382,7 @@ namespace NeeView
                     case MenuElementType.Command:
                         return CommandTable.Current[Command].Note;
                     case MenuElementType.History:
-                        return "最近使ったブックの一覧から開きます";
+                        return Properties.Resources.MenuTreeHistory;
                     case MenuElementType.Separator:
                         return "";
                 }
@@ -422,7 +421,7 @@ namespace NeeView
                 MenuElementType = MenuElementType.Group,
                 Children = new ObservableCollection<MenuTree>()
                 {
-                    new MenuTree(MenuElementType.Group) { Name="ファイル(_F)", Children = new ObservableCollection<MenuTree>()
+                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeFile, Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { Command = CommandType.LoadAs },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.Unload },
@@ -440,7 +439,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { Command = CommandType.CloseApplication },
                     }},
-                    new MenuTree(MenuElementType.Group) { Name="表示(_V)", Children = new ObservableCollection<MenuTree>()
+                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeView, Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleFolderList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleBookmarkList },
@@ -464,7 +463,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleSlideShow },
                     }},
-                    new MenuTree(MenuElementType.Group) { Name="画像(_I)", Children = new ObservableCollection<MenuTree>()
+                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeImage, Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeNone },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeInside },
@@ -484,7 +483,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetBackgroundCheck },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetBackgroundCustom },
                     }},
-                    new MenuTree(MenuElementType.Group) { Name="移動(_J)", Children = new ObservableCollection<MenuTree>()
+                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeJump, Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { Command = CommandType.PrevPage },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.NextPage },
@@ -498,7 +497,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { Command = CommandType.PrevFolder },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.NextFolder },
                     }},
-                    new MenuTree(MenuElementType.Group) { Name="ページ(_P)", Children = new ObservableCollection<MenuTree>()
+                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreePage, Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetPageMode1 },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetPageMode2 },
@@ -524,7 +523,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetDefaultPageSetting },
                     }},
-                    new MenuTree(MenuElementType.Group) { Name="ブックマーク(_B)", Children = new ObservableCollection<MenuTree>()
+                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeBookmark, Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleBookmark },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.PrevBookmark },
@@ -536,7 +535,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { Command = CommandType.PrevPagemarkInBook},
                         new MenuTree(MenuElementType.Command) { Command = CommandType.NextPagemarkInBook },
                     }},
-                    new MenuTree(MenuElementType.Group) { Name="その他(_O)", Children = new ObservableCollection<MenuTree>()
+                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeOther, Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { Command = CommandType.OpenSettingWindow },
                         new MenuTree(MenuElementType.Separator),

@@ -1355,7 +1355,7 @@ Is it OK? </value>
     <value>Only zip format is supported.</value>
   </data>
   <data name="SettingItemRemove" xml:space="preserve">
-    <value>Delete all data</value>
+    <value>Delete all data...</value>
   </data>
   <data name="SettingItemRemoveTips" xml:space="preserve">
     <value>Delete the user data and exit the application. It is used when you want to completely delete history etc. before uninstallation.</value>
@@ -2001,7 +2001,7 @@ Please substitute gesture for flick operation. </value>
     <value>Open with an external application</value>
   </data>
   <data name="CommandOpenApplicationNote" xml:space="preserve">
-    <value>Open the displayed image with an external application. Set the application with "@SettingPageExternalProgram" of setting.</value>
+    <value>Open the displayed image with an external application. </value>
   </data>
   <data name="CommandOpenFilePlace" xml:space="preserve">
     <value>Open in explorer</value>
@@ -2511,7 +2511,7 @@ Please substitute gesture for flick operation. </value>
     <value>Only one page will move in the next direction.</value>
   </data>
   <data name="CommandPrevScrollPage" xml:space="preserve">
-    <value>Scroll + Previous</value>
+    <value>Scroll + Back</value>
   </data>
   <data name="CommandPrevScrollPageNote" xml:space="preserve">
     <value>Scroll the image forward in the page. If it is not possible to scroll, it will move to the previous page. When using a loupe, only move pages.</value>
@@ -3151,5 +3151,105 @@ Please substitute gesture for flick operation. </value>
   </data>
   <data name="CommandTogglePermitFileCommandOff" xml:space="preserve">
     <value>File operation disable</value>
+  </data>
+  <data name="EnumMenuElementTypeNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="EnumMenuElementTypeGroup" xml:space="preserve">
+    <value>Submenu</value>
+  </data>
+  <data name="EnumMenuElementTypeHistory" xml:space="preserve">
+    <value>Recent books</value>
+  </data>
+  <data name="EnumMenuElementTypeSeparator" xml:space="preserve">
+    <value>Separator</value>
+  </data>
+  <data name="EnumMenuElementTypeCommand" xml:space="preserve">
+    <value>Command</value>
+  </data>
+  <data name="MenuTreeHistory" xml:space="preserve">
+    <value>Open from the list of recent books</value>
+  </data>
+  <data name="MenuTreeFile" xml:space="preserve">
+    <value>_File</value>
+  </data>
+  <data name="MenuTreeView" xml:space="preserve">
+    <value>_View</value>
+  </data>
+  <data name="MenuTreeImage" xml:space="preserve">
+    <value>_Image</value>
+  </data>
+  <data name="MenuTreeJump" xml:space="preserve">
+    <value>_Jump</value>
+  </data>
+  <data name="MenuTreePage" xml:space="preserve">
+    <value>_Page</value>
+  </data>
+  <data name="MenuTreeBookmark" xml:space="preserve">
+    <value>_Bookmark</value>
+  </data>
+  <data name="MenuTreeOther" xml:space="preserve">
+    <value>_Otner</value>
+  </data>
+  <data name="ControlCommandListResetButton" xml:space="preserve">
+    <value>Reset...</value>
+  </data>
+  <data name="ControlCommandResetTypeA" xml:space="preserve">
+    <value>Standard setting</value>
+  </data>
+  <data name="ControlCommandResetTypeANote" xml:space="preserve">
+    <value>By clicking the mouse, "@CommandPrevPage" "@CommandNextPage".
+In the wheel operation, "@CommandPrevScrollPage" "@CommandNextScrollPage".</value>
+  </data>
+  <data name="ControlCommandResetTypeB" xml:space="preserve">
+    <value>Prioritize page feed by wheel</value>
+  </data>
+  <data name="ControlCommandResetTypeBNote" xml:space="preserve">
+    <value>In the wheel operation, "@CommandPrevPage" "@CommandNextPage".
+By right-click, "@CommandOpenContextMenu".
+Left click is undefined.</value>
+  </data>
+  <data name="ControlCommandResetTypeC" xml:space="preserve">
+    <value>Prioritize page feed by click</value>
+  </data>
+  <data name="ControlCommandResetTypeCNote" xml:space="preserve">
+    <value>By clicking the mouse, "@CommandPrevPage" "@CommandNextPage".
+In the wheel operation, "@CommandViewScrollUp" "@CommandViewScrollDown".</value>
+  </data>
+  <data name="ControlCommandResetTitle" xml:space="preserve">
+    <value>Reset command</value>
+  </data>
+  <data name="ControlCommandResetMessage" xml:space="preserve">
+    <value>Initialize all command settings. Is it OK?</value>
+  </data>
+  <data name="ControlCommandResetTypeTitle" xml:space="preserve">
+    <value>Shortcut initial setting</value>
+  </data>
+  <data name="SettingPageContextMenu" xml:space="preserve">
+    <value>Context menu</value>
+  </data>
+  <data name="SettingPageContextMenuEdit" xml:space="preserve">
+    <value>Context menu setting</value>
+  </data>
+  <data name="WordToUp" xml:space="preserve">
+    <value>Up</value>
+  </data>
+  <data name="WordToDown" xml:space="preserve">
+    <value>Down</value>
+  </data>
+  <data name="HelpCommandTitle" xml:space="preserve">
+    <value>NeeView Command List</value>
+  </data>
+  <data name="HelpCommandMessage" xml:space="preserve">
+    <value>Commands to which no operation is assigned can be used by setting with "command setting".</value>
+  </data>
+  <data name="WordShortcut" xml:space="preserve">
+    <value>Shortcut</value>
+  </data>
+  <data name="WordGesture" xml:space="preserve">
+    <value>Gesture</value>
+  </data>
+  <data name="WordTouch" xml:space="preserve">
+    <value>Touch</value>
   </data>
 </root>

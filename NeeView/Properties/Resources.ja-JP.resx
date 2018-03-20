@@ -1355,7 +1355,7 @@
     <value>zip形式のみ対応しています。</value>
   </data>
   <data name="SettingItemRemove" xml:space="preserve">
-    <value>全てのデータを削除する</value>
+    <value>全てのデータを削除する...</value>
   </data>
   <data name="SettingItemRemoveTips" xml:space="preserve">
     <value>ユーザーデータを削除してアプリケーションを終了します。アンインストール前に履歴等を完全に削除したい場合に使用します。</value>
@@ -1798,7 +1798,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>削除</value>
   </data>
   <data name="WordRename" xml:space="preserve">
-    <value>名前を変える</value>
+    <value>名前変更</value>
   </data>
   <data name="WordRetry" xml:space="preserve">
     <value>リトライ</value>
@@ -2001,7 +2001,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>外部アプリで開く</value>
   </data>
   <data name="CommandOpenApplicationNote" xml:space="preserve">
-    <value>表示されている画像を外部アプリで開きます。設定の @SettingPageExternalProgram でアプリを設定します。</value>
+    <value>表示されている画像を外部アプリで開きます。</value>
   </data>
   <data name="CommandOpenFilePlace" xml:space="preserve">
     <value>エクスプローラーで開く</value>
@@ -3151,5 +3151,105 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="CommandTogglePermitFileCommandOff" xml:space="preserve">
     <value>ファイル操作無効</value>
+  </data>
+  <data name="EnumMenuElementTypeNone" xml:space="preserve">
+    <value>なし</value>
+  </data>
+  <data name="EnumMenuElementTypeGroup" xml:space="preserve">
+    <value>サブメニュー</value>
+  </data>
+  <data name="EnumMenuElementTypeHistory" xml:space="preserve">
+    <value>最近使ったブック</value>
+  </data>
+  <data name="EnumMenuElementTypeSeparator" xml:space="preserve">
+    <value>セパレーター</value>
+  </data>
+  <data name="EnumMenuElementTypeCommand" xml:space="preserve">
+    <value>コマンド</value>
+  </data>
+  <data name="MenuTreeHistory" xml:space="preserve">
+    <value>最近使ったブックの一覧から開きます</value>
+  </data>
+  <data name="MenuTreeFile" xml:space="preserve">
+    <value>ファイル(_F)</value>
+  </data>
+  <data name="MenuTreeView" xml:space="preserve">
+    <value>表示(_V)</value>
+  </data>
+  <data name="MenuTreeImage" xml:space="preserve">
+    <value>画像(_I)</value>
+  </data>
+  <data name="MenuTreeJump" xml:space="preserve">
+    <value>移動(_J)</value>
+  </data>
+  <data name="MenuTreePage" xml:space="preserve">
+    <value>ページ(_P)</value>
+  </data>
+  <data name="MenuTreeBookmark" xml:space="preserve">
+    <value>ブックマーク(_B)"</value>
+  </data>
+  <data name="MenuTreeOther" xml:space="preserve">
+    <value>その他(_O)</value>
+  </data>
+  <data name="ControlCommandListResetButton" xml:space="preserve">
+    <value>初期化...</value>
+  </data>
+  <data name="ControlCommandResetTypeA" xml:space="preserve">
+    <value>標準設定</value>
+  </data>
+  <data name="ControlCommandResetTypeANote" xml:space="preserve">
+    <value>マウスクリックで「@CommandPrevPage」「@CommandNextPage」
+ホイール操作で「@CommandPrevScrollPage」「@CommandNextScrollPage」</value>
+  </data>
+  <data name="ControlCommandResetTypeB" xml:space="preserve">
+    <value>ホイールでのページ送り優先設定</value>
+  </data>
+  <data name="ControlCommandResetTypeBNote" xml:space="preserve">
+    <value>ホイール操作で「@CommandPrevPage」「@CommandNextPage」
+マウス右クリックで「@CommandOpenContextMenu」
+マウス左クリックは未定義</value>
+  </data>
+  <data name="ControlCommandResetTypeC" xml:space="preserve">
+    <value>クリックでのページ送り優先設定</value>
+  </data>
+  <data name="ControlCommandResetTypeCNote" xml:space="preserve">
+    <value>マウスクリックで「@CommandPrevPage」「@CommandNextPage」
+ホイール操作で「@CommandViewScrollUp」「@CommandViewScrollDown」</value>
+  </data>
+  <data name="ControlCommandResetTitle" xml:space="preserve">
+    <value>コマンド設定初期化</value>
+  </data>
+  <data name="ControlCommandResetMessage" xml:space="preserve">
+    <value>コマンドの設定を全て初期化します。よろしいですか？</value>
+  </data>
+  <data name="ControlCommandResetTypeTitle" xml:space="preserve">
+    <value>ショートカット初期設定</value>
+  </data>
+  <data name="SettingPageContextMenu" xml:space="preserve">
+    <value>コンテキストメニュー</value>
+  </data>
+  <data name="SettingPageContextMenuEdit" xml:space="preserve">
+    <value>コンテキストメニュー設定</value>
+  </data>
+  <data name="WordToUp" xml:space="preserve">
+    <value>上へ</value>
+  </data>
+  <data name="WordToDown" xml:space="preserve">
+    <value>下へ</value>
+  </data>
+  <data name="HelpCommandTitle" xml:space="preserve">
+    <value>NeeView コマンド一覧</value>
+  </data>
+  <data name="HelpCommandMessage" xml:space="preserve">
+    <value>操作が割り当てられていないコマンドは「コマンド設定」で設定することで使用可能です。</value>
+  </data>
+  <data name="WordShortcut" xml:space="preserve">
+    <value>ショートカット</value>
+  </data>
+  <data name="WordGesture" xml:space="preserve">
+    <value>ジェスチャー</value>
+  </data>
+  <data name="WordTouch" xml:space="preserve">
+    <value>タッチ</value>
   </data>
 </root>

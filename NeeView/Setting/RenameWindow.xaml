@@ -4,9 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView.Setting"
+        xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
         Style="{StaticResource ToolDialogStyle}"
-        Title="名前変更" Height="120" Width="400">
+        Title="{x:Static properties:Resources.WordRename}" Height="120" Width="400">
 
     <Window.Resources>
         <Style TargetType="Button">
@@ -18,12 +19,12 @@
     <DockPanel Margin="5" >
 
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
-            <Button x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click"/>
-            <Button x:Name="OKButton" Content="OK" Click="OKButton_Click"/>
-            <Button x:Name="ResetButton" Content="リセット" Click="ResetButton_Click"/>
+            <Button x:Name="CancelButton" Content="{x:Static properties:Resources.WordCancel}" Click="CancelButton_Click"/>
+            <Button x:Name="OKButton" Content="{x:Static properties:Resources.WordOK}" Click="OKButton_Click"/>
+            <Button x:Name="ResetButton" Content="{x:Static properties:Resources.WordReset}" Click="ResetButton_Click"/>
         </StackPanel>
         <Grid Margin="5">
-            <TextBox VerticalAlignment="Center" x:Name="NameTextBox" Text="{Binding Text, Mode=TwoWay}"/>
+            <TextBox VerticalAlignment="Center" x:Name="NameTextBox" Text="{Binding Text, Mode=TwoWay}" Padding="5"/>
         </Grid>
 
     </DockPanel>

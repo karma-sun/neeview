@@ -55,9 +55,9 @@ namespace NeeView.Setting
         /// </summary>
         public Dictionary<InputSceme, string> InputScemeList { get; } = new Dictionary<InputSceme, string>
         {
-            [InputSceme.TypeA] = "標準設定",
-            [InputSceme.TypeB] = "ホイールでのページ送り優先設定",
-            [InputSceme.TypeC] = "クリックでのページ送り優先設定"
+            [InputSceme.TypeA] = Properties.Resources.ControlCommandResetTypeA,
+            [InputSceme.TypeB] = Properties.Resources.ControlCommandResetTypeB,
+            [InputSceme.TypeC] = Properties.Resources.ControlCommandResetTypeC
         };
 
         /// <summary>
@@ -65,16 +65,9 @@ namespace NeeView.Setting
         /// </summary>
         public Dictionary<InputSceme, string> InputScemeNoteList { get; } = new Dictionary<InputSceme, string>
         {
-            [InputSceme.TypeA] =
-                "マウスクリックで「前のページに戻る」「次のページへ進む」\n" +
-                "ホイール操作で「スクロール＋前のページに戻る」「スクロール＋次のページへ進む」",
-            [InputSceme.TypeB] =
-                "ホイール操作で「前のページに戻る」「次のページへ進む」\n" +
-                "マウス右クリックで「コンテキストメニューを開く」\n" +
-                "マウス左クリックは未定義",
-            [InputSceme.TypeC] =
-                "マウスクリックで「前のページに戻る」「次のページへ進む」\n" +
-                "ホイール操作で「スクロール↑」「スクロール↓」",
+            [InputSceme.TypeA] = ResourceService.Replace(Properties.Resources.ControlCommandResetTypeANote),
+            [InputSceme.TypeB] = ResourceService.Replace(Properties.Resources.ControlCommandResetTypeBNote),
+            [InputSceme.TypeC] = ResourceService.Replace(Properties.Resources.ControlCommandResetTypeCNote),
         };
 
         /// <summary>

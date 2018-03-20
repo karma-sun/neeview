@@ -4,10 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView.Setting"
+        xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}"
         x:Name="MyWindow"
-        Title="コマンド設定初期化" Height="300" Width="500">
+        Title="{x:Static properties:Resources.ControlCommandResetTitle}" Height="300" Width="500">
     <Grid>
         <Grid.Resources>
             <Style x:Key="ButtonStyle" TargetType="Button">
@@ -19,15 +20,15 @@
 
         <DockPanel Margin="5">
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0">
-                <Button Style="{StaticResource ButtonStyle}" Content="OK" Command="{Binding OkCommand}" CommandParameter="{Binding ElementName=MyWindow}"/>
-                <Button Style="{StaticResource ButtonStyle}" Content="Cancel" Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=MyWindow}"/>
+                <Button Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordOK}" Command="{Binding OkCommand}" CommandParameter="{Binding ElementName=MyWindow}"/>
+                <Button Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordCancel}" Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=MyWindow}"/>
             </StackPanel>
             <DockPanel Margin="0">
                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10">
                     <Image Source="{StaticResource ic_warning_48px}" Width="20" Height="20" Margin="5"/>
-                    <TextBlock Text="コマンドの設定を全て初期化します。よろしいですか？" VerticalAlignment="Center"/>
+                    <TextBlock Text="{x:Static properties:Resources.ControlCommandResetMessage}" VerticalAlignment="Center"/>
                 </StackPanel>
-                <GroupBox Header="ショートカット初期設定" Margin="5">
+                <GroupBox Header="{x:Static properties:Resources.ControlCommandResetTypeTitle}" Margin="5">
                     <StackPanel Margin="5">
                         <ComboBox Margin="5" ItemsSource="{Binding InputScemeList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding InputSceme}"/>
                         <TextBlock Margin="5" Text="{Binding InputScemeNote}" TextWrapping="Wrap"/>

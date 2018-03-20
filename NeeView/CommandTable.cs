@@ -236,16 +236,16 @@ namespace NeeView
             using (var writer = new System.IO.StreamWriter(fileName, false))
             {
                 writer.WriteLine(HtmlHelpUtility.CraeteHeader("NeeView Command List"));
-                writer.WriteLine("<body><h1>NeeView コマンド一覧</h1>");
+                writer.WriteLine($"<body><h1>{Properties.Resources.HelpCommandTitle}</h1>");
 
-                writer.WriteLine("<p>操作が割り当てられていないコマンドは「設定ウィンドウ」の「コマンド設定」で設定することで使用可能です</p>");
+                writer.WriteLine($"<p>{Properties.Resources.HelpCommandMessage}</p>");
 
                 // グループごとに出力
                 foreach (var pair in groups)
                 {
                     writer.WriteLine($"<h3>{pair.Key}</h3>");
                     writer.WriteLine("<table>");
-                    writer.WriteLine($"<th>コマンド<th>ショートカット<th>ジェスチャー<th>タッチ<th>説明<tr>");
+                    writer.WriteLine($"<th>{Properties.Resources.WordCommand}<th>{Properties.Resources.WordShortcut}<th>{Properties.Resources.WordGesture}<th>{Properties.Resources.WordTouch}<th>{Properties.Resources.WordDescription}<tr>");
                     foreach (var command in pair.Value)
                     {
                         writer.WriteLine($"<td>{command.Text}<td>{command.ShortCutKey}<td>{new MouseGestureSequence(command.MouseGesture).ToDispString()}<td>{command.TouchGesture}<td>{command.Note}<tr>");
@@ -2071,23 +2071,6 @@ namespace NeeView
 
             // デフォルト設定として記憶
             s_defaultMemento = CreateMemento();
-
-#if false
-            //// ##
-            {
-                foreach (var element in _elements)
-                {
-                    var key = element.Key;
-                    var command = element.Value;
-                    Debug.WriteLine($"Command{key}\t\t{command.Text}");
-                    if (command.Text != command.MenuText)
-                    {
-                        Debug.WriteLine($"Command{key}Menu\t\t{command.MenuText}");
-                    }
-                    Debug.WriteLine($"Command{key}Note\t\t{command.Note}");
-                }
-            }
-#endif
         }
 
         #endregion

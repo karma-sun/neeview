@@ -8,7 +8,7 @@ namespace NeeView.Setting
 {
     class SettingPageContextMenu : SettingPage
     {
-        public SettingPageContextMenu() : base("コンテキストメニュー")
+        public SettingPageContextMenu() : base(Properties.Resources.SettingPageContextMenu)
         {
             this.Children = new List<SettingPage>
             {
@@ -19,7 +19,7 @@ namespace NeeView.Setting
 
     class SettingPageContextMenuEdit : SettingPage
     {
-        public SettingPageContextMenuEdit() : base("コンテキストメニュー設定")
+        public SettingPageContextMenuEdit() : base(Properties.Resources.SettingPageContextMenuEdit)
         {
             this.IsScrollEnabled = false;
 

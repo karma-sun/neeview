@@ -494,25 +494,25 @@ Is it OK? </value>
     <value>Right to left</value>
   </data>
   <data name="EnumPageSortModeFileName" xml:space="preserve">
-    <value>Name ascending order</value>
+    <value>Name Ascending</value>
   </data>
   <data name="EnumPageSortModeFileNameDescending" xml:space="preserve">
-    <value>Name descending order</value>
+    <value>Name Descending</value>
   </data>
   <data name="EnumPageSortModeRandom" xml:space="preserve">
     <value>Shuffle</value>
   </data>
   <data name="EnumPageSortModeSize" xml:space="preserve">
-    <value>Size ascending order</value>
+    <value>Size Ascending</value>
   </data>
   <data name="EnumPageSortModeSizeDescending" xml:space="preserve">
-    <value>Size descending</value>
+    <value>Size Descending</value>
   </data>
   <data name="EnumPageSortModeTimeStamp" xml:space="preserve">
-    <value>Ascending date</value>
+    <value>Date Ascending</value>
   </data>
   <data name="EnumPageSortModeTimeStampDescending" xml:space="preserve">
-    <value>Descending date</value>
+    <value>Date Descending</value>
   </data>
   <data name="EnumPreLoadModeAutoPreLoad" xml:space="preserve">
     <value>Automatic prefetching</value>
@@ -3251,5 +3251,296 @@ In the wheel operation, "@CommandViewScrollUp" "@CommandViewScrollDown".</value>
   </data>
   <data name="WordTouch" xml:space="preserve">
     <value>Touch</value>
+  </data>
+  <data name="FolderListTitlePlace" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="FolderListTitleSearch" xml:space="preserve">
+    <value>Find</value>
+  </data>
+  <data name="FolderListSubFolderTips" xml:space="preserve">
+    <value>Load subfolder</value>
+  </data>
+  <data name="FolderListHomeTips" xml:space="preserve">
+    <value>Go to Home</value>
+  </data>
+  <data name="FolderListHomeMenuSet" xml:space="preserve">
+    <value>Set this place home</value>
+  </data>
+  <data name="FolderListBackTips" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="FolderListNextTips" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="FolderListUpTips" xml:space="preserve">
+    <value>Up</value>
+  </data>
+  <data name="FolderListSyncTips" xml:space="preserve">
+    <value>Move to current book place</value>
+  </data>
+  <data name="FolderListMoreMenuSearchBox" xml:space="preserve">
+    <value>Search box</value>
+  </data>
+  <data name="FolderListMoreMenuPageList" xml:space="preserve">
+    <value>Page list</value>
+  </data>
+  <data name="WordStyleList" xml:space="preserve">
+    <value>List style</value>
+  </data>
+  <data name="WordStyleContent" xml:space="preserve">
+    <value>Content style</value>
+  </data>
+  <data name="WordStyleBanner" xml:space="preserve">
+    <value>Banner style</value>
+  </data>
+  <data name="FolderListMoreMenuSubfolder" xml:space="preserve">
+    <value>Load subfolders at this location</value>
+  </data>
+  <data name="EnumFolderOrderFileName" xml:space="preserve">
+    <value>Name Ascending</value>
+  </data>
+  <data name="EnumFolderOrderFileNameDescending" xml:space="preserve">
+    <value>Name Descending</value>
+  </data>
+  <data name="EnumFolderOrderTimeStamp" xml:space="preserve">
+    <value>Date Ascending</value>
+  </data>
+  <data name="EnumFolderOrderTimeStampDescending" xml:space="preserve">
+    <value>Date Descending</value>
+  </data>
+  <data name="EnumFolderOrderSize" xml:space="preserve">
+    <value>Size Ascending</value>
+  </data>
+  <data name="EnumFolderOrderSizeDescending" xml:space="preserve">
+    <value>Size Descending</value>
+  </data>
+  <data name="EnumFolderOrderRandom" xml:space="preserve">
+    <value>Shuffle</value>
+  </data>
+  <data name="FolderListItemMenuSubfolder" xml:space="preserve">
+    <value>Load subfolder</value>
+  </data>
+  <data name="FolderListItemMenuExplorer" xml:space="preserve">
+    <value>Open in explorer</value>
+  </data>
+  <data name="FolderListItemMenuCopy" xml:space="preserve">
+    <value>_Copy</value>
+  </data>
+  <data name="FolderListItemMenuDelete" xml:space="preserve">
+    <value>_Delete</value>
+  </data>
+  <data name="FolderListItemMenuRename" xml:space="preserve">
+    <value>Rena_me</value>
+  </data>
+  <data name="PageListItemMenuDelete" xml:space="preserve">
+    <value>_Delete</value>
+  </data>
+  <data name="EnumPageNameFormatSmart" xml:space="preserve">
+    <value>Smart</value>
+  </data>
+  <data name="EnumPageNameFormatNameOnly" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="EnumPageNameFormatRaw" xml:space="preserve">
+    <value>Raw</value>
+  </data>
+  <data name="FolderListName" xml:space="preserve">
+    <value>Folder list</value>
+  </data>
+  <data name="PageListName" xml:space="preserve">
+    <value>Page list</value>
+  </data>
+  <data name="FileInfoName" xml:space="preserve">
+    <value>File info</value>
+  </data>
+  <data name="BookmarkName" xml:space="preserve">
+    <value>Bookmark</value>
+  </data>
+  <data name="HistoryName" xml:space="preserve">
+    <value>History</value>
+  </data>
+  <data name="EffectName" xml:space="preserve">
+    <value>Effect</value>
+  </data>
+  <data name="PagemarkName" xml:space="preserve">
+    <value>Pagemark</value>
+  </data>
+  <data name="HistoryMenuDeleteInvalid" xml:space="preserve">
+    <value>Remove invalid history</value>
+  </data>
+  <data name="HistoryMenuDeleteAll" xml:space="preserve">
+    <value>Delete all</value>
+  </data>
+  <data name="HistoryItemMenuDelete" xml:space="preserve">
+    <value>_Remove history</value>
+  </data>
+  <data name="PagemarkMenuDeleteInvalid" xml:space="preserve">
+    <value>Remove invalid pagemark</value>
+  </data>
+  <data name="PagemarkItemMenuDelete" xml:space="preserve">
+    <value>_Remove pagemark</value>
+  </data>
+  <data name="BookmarkMenuDeleteInvalid" xml:space="preserve">
+    <value>Remove invalid bookmark</value>
+  </data>
+  <data name="BookmarkItemMenuDelete" xml:space="preserve">
+    <value>_Remove bookmark</value>
+  </data>
+  <data name="FolderInfoFileName" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="FolderInfoFilePath" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="FolderInfoDate" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="FolderInfoFileSize" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="FolderInfoImageSize" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="FolderInfoInfo" xml:space="preserve">
+    <value>Shot</value>
+  </data>
+  <data name="FolderInfoISO" xml:space="preserve">
+    <value>ISO</value>
+  </data>
+  <data name="FolderInfoDevice" xml:space="preserve">
+    <value>Device</value>
+  </data>
+  <data name="FolderInfoFolderPath" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="FolderInfoOpenFolder" xml:space="preserve">
+    <value>Open Folder</value>
+  </data>
+  <data name="FolderInfoArchiver" xml:space="preserve">
+    <value>Archiver</value>
+  </data>
+  <data name="FolderInfoDecoder" xml:space="preserve">
+    <value>Decoder</value>
+  </data>
+  <data name="FolderInfoDateFormat" xml:space="preserve">
+    <value>yyyy-MM-dd dddd H:mm</value>
+  </data>
+  <data name="EffectCustomSize" xml:space="preserve">
+    <value>Custom Size</value>
+  </data>
+  <data name="EffectLockAspect" xml:space="preserve">
+    <value>Lock aspect</value>
+  </data>
+  <data name="EffectKeepDot" xml:space="preserve">
+    <value>Keep dot</value>
+  </data>
+  <data name="EffectResizeFilter" xml:space="preserve">
+    <value>Resize filter</value>
+  </data>
+  <data name="EffectResizeInterpolation" xml:space="preserve">
+    <value>Interpolation</value>
+  </data>
+  <data name="EffectResizeUnsharp" xml:space="preserve">
+    <value>Unsharp mask</value>
+  </data>
+  <data name="EffectResizeReset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="EffectEffect" xml:space="preserve">
+    <value>Effect</value>
+  </data>
+  <data name="EffectEffectType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="ParamPictureCustomWidth" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="ParamPictureCustomHeight" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="ParamEffectHue" xml:space="preserve">
+    <value>Hue</value>
+  </data>
+  <data name="ParamEffectSaturation" xml:space="preserve">
+    <value>Saturation</value>
+  </data>
+  <data name="ParamEffectBrightness" xml:space="preserve">
+    <value>Brightness</value>
+  </data>
+  <data name="ParamImageFilterAmount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="ParamImageFilterRadius" xml:space="preserve">
+    <value>Radius</value>
+  </data>
+  <data name="ParamImageFilterThreshold" xml:space="preserve">
+    <value>Threshold</value>
+  </data>
+  <data name="ParamEffectRange" xml:space="preserve">
+    <value>Range</value>
+  </data>
+  <data name="ParamEffectCurve" xml:space="preserve">
+    <value>Curve</value>
+  </data>
+  <data name="WordResetLong" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="EnumEffectTypeNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="EnumEffectTypeLevel" xml:space="preserve">
+    <value>Level</value>
+  </data>
+  <data name="EnumEffectTypeHsv" xml:space="preserve">
+    <value>HSV</value>
+  </data>
+  <data name="EnumEffectTypeColorSelect" xml:space="preserve">
+    <value>Color select</value>
+  </data>
+  <data name="EnumEffectTypeBlur" xml:space="preserve">
+    <value>Blur</value>
+  </data>
+  <data name="EnumEffectTypeBloom" xml:space="preserve">
+    <value>Bloom</value>
+  </data>
+  <data name="EnumEffectTypeMonochrome" xml:space="preserve">
+    <value>Monochrome</value>
+  </data>
+  <data name="EnumEffectTypeColorTone" xml:space="preserve">
+    <value>Color tone</value>
+  </data>
+  <data name="EnumEffectTypeSharpen" xml:space="preserve">
+    <value>Sharpen</value>
+  </data>
+  <data name="EnumEffectTypeEmbossed" xml:space="preserve">
+    <value>Embossed</value>
+  </data>
+  <data name="EnumEffectTypePixelate" xml:space="preserve">
+    <value>Pixelate</value>
+  </data>
+  <data name="EnumEffectTypeMagnify" xml:space="preserve">
+    <value>Magnify</value>
+  </data>
+  <data name="EnumEffectTypeRipple" xml:space="preserve">
+    <value>Ripple</value>
+  </data>
+  <data name="EnumEffectTypeSwirl" xml:space="preserve">
+    <value>Swirl</value>
+  </data>
+  <data name="EnumBackgroundStyleBlack" xml:space="preserve">
+    <value>Black background</value>
+  </data>
+  <data name="EnumBackgroundStyleWhite" xml:space="preserve">
+    <value>White background</value>
+  </data>
+  <data name="EnumBackgroundStyleAuto" xml:space="preserve">
+    <value>Image colored background</value>
+  </data>
+  <data name="EnumBackgroundStyleCheck" xml:space="preserve">
+    <value>Checkered background</value>
+  </data>
+  <data name="EnumBackgroundStyleCustom" xml:space="preserve">
+    <value>Custom Background</value>
   </data>
 </root>

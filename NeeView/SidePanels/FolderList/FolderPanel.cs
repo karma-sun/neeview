@@ -16,7 +16,7 @@ namespace NeeView
 
         public Thickness IconMargin { get; private set; }
 
-        public string IconTips => "フォルダーリスト";
+        public string IconTips => Properties.Resources.FolderListName;
 
         private FolderPanelView _view;
         public FrameworkElement View => _view;

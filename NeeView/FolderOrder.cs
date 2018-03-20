@@ -30,31 +30,31 @@ namespace NeeView
     public enum FolderOrder
     {
         [EnumMember]
-        [AliasName("名前昇順")]
+        [AliasName("@EnumFolderOrderFileName")]
         FileName,
 
         [EnumMember]
-        [AliasName("名前降順")]
+        [AliasName("@EnumFolderOrderFileNameDescending")]
         FileNameDescending,
 
         [EnumMember]
-        [AliasName("日付昇順")]
+        [AliasName("@EnumFolderOrderTimeStamp")]
         TimeStamp,
 
         [EnumMember]
-        [AliasName("日付降順")]
+        [AliasName("@EnumFolderOrderTimeStampDescending")]
         TimeStampDescending,
 
         [EnumMember]
-        [AliasName("サイズ昇順")]
+        [AliasName("@EnumFolderOrderSize")]
         Size,
 
         [EnumMember]
-        [AliasName("サイズ降順")]
+        [AliasName("@EnumFolderOrderSizeDescending")]
         SizeDescending,
 
         [EnumMember]
-        [AliasName("シャッフル")]
+        [AliasName("@EnumFolderOrderRandom")]
         Random,
     }
 

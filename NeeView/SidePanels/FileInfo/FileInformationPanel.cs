@@ -19,7 +19,7 @@ namespace NeeView
 
         public Thickness IconMargin { get; private set; }
 
-        public string IconTips => "ファイル情報";
+        public string IconTips => Properties.Resources.FileInfoName;
 
         public FrameworkElement View { get; private set; }
 

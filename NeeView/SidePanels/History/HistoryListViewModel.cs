@@ -69,12 +69,12 @@ namespace NeeView
         private void InitializeMoreMenu()
         {
             var menu = new ContextMenu();
-            menu.Items.Add(CreateListItemStyleMenuItem("一覧表示", PanelListItemStyle.Normal));
-            menu.Items.Add(CreateListItemStyleMenuItem("コンテンツ表示", PanelListItemStyle.Content));
-            menu.Items.Add(CreateListItemStyleMenuItem("バナー表示", PanelListItemStyle.Banner));
+            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleList, PanelListItemStyle.Normal));
+            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleContent, PanelListItemStyle.Content));
+            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
             menu.Items.Add(new Separator());
-            menu.Items.Add(CreateCommandMenuItem("無効な履歴を削除", RemoveUnlinkedCommand));
-            menu.Items.Add(CreateCommandMenuItem("すべての履歴を削除", RemoveAllCommand));
+            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.HistoryMenuDeleteInvalid, RemoveUnlinkedCommand));
+            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.HistoryMenuDeleteAll, RemoveAllCommand));
             this.MoreMenu = menu;
         }
 

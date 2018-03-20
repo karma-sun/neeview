@@ -15,46 +15,46 @@ namespace NeeView.Effects
     //
     public enum EffectType
     {
-        [AliasName("なし")]
+        [AliasName("@EnumEffectTypeNone")]
         None,
 
-        [AliasName("レベル補正")]
+        [AliasName("@EnumEffectTypeLevel")]
         Level,
 
-        [AliasName("色相、彩度、明度")]
+        [AliasName("@EnumEffectTypeHsv")]
         Hsv,
 
-        [AliasName("色選択")]
+        [AliasName("@EnumEffectTypeColorSelect")]
         ColorSelect,
 
-        [AliasName("ぼかし")]
+        [AliasName("@EnumEffectTypeBlur")]
         Blur,
 
-        [AliasName("ブルーム")]
+        [AliasName("@EnumEffectTypeBloom")]
         Bloom,
 
-        [AliasName("モノクローム")]
+        [AliasName("@EnumEffectTypeMonochrome")]
         Monochrome,
 
-        [AliasName("カラートーン")]
+        [AliasName("@EnumEffectTypeColorTone")]
         ColorTone,
 
-        [AliasName("シャープ")]
+        [AliasName("@EnumEffectTypeSharpen")]
         Sharpen,
 
-        [AliasName("エンボス")]
+        [AliasName("@EnumEffectTypeEmbossed")]
         Embossed,
 
-        [AliasName("ピクセレート")]
+        [AliasName("@EnumEffectTypePixelate")]
         Pixelate,
 
-        [AliasName("拡大鏡")]
+        [AliasName("@EnumEffectTypeMagnify")]
         Magnify,
 
-        [AliasName("波紋")]
+        [AliasName("@EnumEffectTypeRipple")]
         Ripple,
 
-        [AliasName("渦巻き")]
+        [AliasName("@EnumEffectTypeSwirl")]
         Swirl,
     }
 }

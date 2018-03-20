@@ -9,19 +9,19 @@ namespace NeeView
     // 背景の種類
     public enum BackgroundStyle
     {
-        [AliasName("背景を黒色にする")]
+        [AliasName("@EnumBackgroundStyleBlack")]
         Black,
 
-        [AliasName("背景を白色にする")]
+        [AliasName("@EnumBackgroundStyleWhite")]
         White,
 
-        [AliasName("背景を画像に合わせた色にする")]
+        [AliasName("@EnumBackgroundStyleAuto")]
         Auto,
 
-        [AliasName("背景をチェック模様にする")]
+        [AliasName("@EnumBackgroundStyleCheck")]
         Check,
 
-        [AliasName("背景をカスタム背景にする")]
+        [AliasName("@EnumBackgroundStyleCustom")]
         Custom
     };
 

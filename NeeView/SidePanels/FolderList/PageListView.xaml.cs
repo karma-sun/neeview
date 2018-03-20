@@ -40,13 +40,13 @@ namespace NeeView
 
     public enum PageNameFormat
     {
-        [AliasName("標準表示")]
+        [AliasName("@EnumPageNameFormatSmart")]
         Smart,
 
-        [AliasName("名前のみ")]
+        [AliasName("@EnumPageNameFormatNameOnly")]
         NameOnly,
 
-        [AliasName("そのまま")]
+        [AliasName("@EnumPageNameFormatRaw")]
         Raw,
     }
 

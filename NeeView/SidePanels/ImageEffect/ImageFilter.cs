@@ -47,7 +47,7 @@ namespace NeeView
         /// UnsharpAmount property.
         /// 25-200
         /// </summary>
-        [PropertyRange("適応量", 25, 200)]
+        [PropertyRange("@ParamImageFilterAmount", 25, 200)]
         [DefaultValue(40)]
         public int Amount
         {
@@ -59,7 +59,7 @@ namespace NeeView
         /// UnsharpRadius property.
         /// 0.3-3.0
         /// </summary>
-        [PropertyRange("半径", 0.3, 3.0)]
+        [PropertyRange("@ParamImageFilterRadius", 0.3, 3.0)]
         [DefaultValue(1.5)]
         public double Radius
         {
@@ -71,7 +71,7 @@ namespace NeeView
         /// UnsharpThrethold property.
         /// 0-10
         /// </summary>
-        [PropertyRange("閾値", 0, 10)]
+        [PropertyRange("@ParamImageFilterThreshold", 0, 10)]
         [DefaultValue(0)]
         public int Threshold
         {

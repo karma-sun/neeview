@@ -24,7 +24,7 @@ namespace NeeView
 
         public Thickness IconMargin { get; private set; }
 
-        public string IconTips => "履歴";
+        public string IconTips => Properties.Resources.HistoryName;
 
         private HistoryListView _view;
         public FrameworkElement View => _view;

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
              xmlns:nwc="clr-namespace:NeeView.Windows.Controls"
+             xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance local:FolderListDataContext_Design, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300"
@@ -61,10 +62,10 @@
                     <TextBlock Foreground="Gray" Margin="2,0">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
-                                <Setter Property="Text" Value="場所"/>
+                                <Setter Property="Text" Value="{x:Static properties:Resources.FolderListTitlePlace}"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Model.IsFolderSearchCollection}" Value="True">
-                                        <Setter Property="Text" Value="検索"/>
+                                        <Setter Property="Text" Value="{x:Static properties:Resources.FolderListTitleSearch}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -74,7 +75,7 @@
                 <Grid x:Name="PlaceGrid">
                     <DockPanel HorizontalAlignment="Left">
                         <Image DockPanel.Dock="Right" Source="{StaticResource fic_recursive_folder_24px}" Width="12" Height="12" VerticalAlignment="Bottom" Margin="0,0,0,4"
-                           ToolTip="サブフォルダーを読み込む"
+                           ToolTip="{x:Static properties:Resources.FolderListSubFolderTips}"
                            Visibility="{Binding IsFolderRecursive, Converter={StaticResource BooleanToVisibilityConverter}}" />
                         <TextBlock Text="{Binding Place}" ToolTip="{Binding Place}" Margin="5,0" HorizontalAlignment="Right"/>
                     </DockPanel>
@@ -88,18 +89,18 @@
                 </ToggleButton>
                 <WrapPanel Orientation="Horizontal" MinWidth="90">
                     <Button x:Name="FolderHomeButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToHome}"
-                        ToolTip="ホームに移動">
+                        ToolTip="{x:Static properties:Resources.FolderListHomeTips}">
                         <Image Source="{StaticResource ic_home_24px_b}" Width="20" Height="20"/>
                         <Button.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="この場所をホームに設定する" Command="{Binding SetHome}"/>
+                                <MenuItem Header="{x:Static properties:Resources.FolderListHomeMenuSet}" Command="{Binding SetHome}"/>
                             </ContextMenu>
                         </Button.ContextMenu>
                     </Button>
                     <Button x:Name="FolderPrevButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToPrevious}"
                         ContextMenuService.Placement="Bottom"
                         ContextMenuOpening="FolderPrevButton_ContextMenuOpening"
-                        ToolTip="戻る">
+                        ToolTip="{x:Static properties:Resources.FolderListBackTips}">
                         <Image Source="{StaticResource ic_arrow_back_24px_b}" Width="16" Height="16"/>
                         <Button.ContextMenu>
                             <ContextMenu x:Name="FolderPrevButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}"/>
@@ -108,18 +109,18 @@
                     <Button x:Name="FolderNextButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToNext}"
                         ContextMenuService.Placement="Bottom"
                         ContextMenuOpening="FolderNextButton_ContextMenuOpening"
-                        ToolTip="進む">
+                        ToolTip="{x:Static properties:Resources.FolderListNextTips}">
                         <Image Source="{StaticResource ic_arrow_forward_24px_b}" Width="16" Height="16"/>
                         <Button.ContextMenu>
                             <ContextMenu x:Name="FolderNextButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}"/>
                         </Button.ContextMenu>
                     </Button>
                     <Button x:Name="FolderUpButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToUp}"
-                        ToolTip="上に移動">
+                        ToolTip="{x:Static properties:Resources.FolderListUpTips}">
                         <Image Source="{StaticResource ic_arrow_up_24px_b}" Width="16" Height="16"/>
                     </Button>
                     <Button x:Name="FolderSync" Style="{StaticResource FolderListButtonStyle}"  Command="{Binding Sync}"
-                        ToolTip="表示中のブックのある場所に移動">
+                        ToolTip="{x:Static properties:Resources.FolderListSyncTips}">
                         <Image Source="{StaticResource ic_sync_24px_b}" Width="20" Height="20"/>
                     </Button>
                     <ComboBox x:Name="FolderOrderComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}"

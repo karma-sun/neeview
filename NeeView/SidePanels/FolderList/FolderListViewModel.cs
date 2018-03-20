@@ -378,14 +378,14 @@ namespace NeeView
         private void InitializeMoreMenu(FolderPanelModel source)
         {
             var menu = new ContextMenu();
-            menu.Items.Add(CreateCommandMenuItem("検索ボックス", CommandType.ToggleVisibleFolderSearchBox, source));
-            menu.Items.Add(CreateCommandMenuItem("ページリスト", CommandType.ToggleVisiblePageList, source));
+            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuSearchBox, CommandType.ToggleVisibleFolderSearchBox, source));
+            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuPageList, CommandType.ToggleVisiblePageList, source));
             menu.Items.Add(new Separator());
-            menu.Items.Add(CreateListItemStyleMenuItem("一覧表示", PanelListItemStyle.Normal));
-            menu.Items.Add(CreateListItemStyleMenuItem("コンテンツ表示", PanelListItemStyle.Content));
-            menu.Items.Add(CreateListItemStyleMenuItem("バナー表示", PanelListItemStyle.Banner));
+            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleList, PanelListItemStyle.Normal));
+            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleContent, PanelListItemStyle.Content));
+            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
             menu.Items.Add(new Separator());
-            menu.Items.Add(CreateRecursiveFlagMenuItem("この場所ではサブフォルダーを読み込む"));
+            menu.Items.Add(CreateRecursiveFlagMenuItem(Properties.Resources.FolderListMoreMenuSubfolder));
 
             this.MoreMenu = menu;
         }

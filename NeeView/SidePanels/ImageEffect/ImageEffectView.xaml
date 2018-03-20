@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:NeeView"
              xmlns:nvp="clr-namespace:NeeView.Windows.Property"
              xmlns:nvc="clr-namespace:NeeView.Windows.Controls"
+             xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="300" MinWidth="200" 
              Background="{DynamicResource NVBackground}"
@@ -54,14 +55,14 @@
             <StackPanel Margin="5,10,0,10" >
 
                 <StackPanel Margin="0,5" Orientation="Horizontal">
-                    <TextBlock Text="エフェクト" Foreground="Gray" VerticalAlignment="Center" Margin="2,0"/>
+                    <TextBlock Text="{x:Static properties:Resources.EffectName}" Foreground="Gray" VerticalAlignment="Center" Margin="2,0"/>
                 </StackPanel>
 
                 <Separator Background="#4888" Margin="0,10"/>
 
                 <DockPanel Margin="0,5">
                     <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding PictureProfile.CustomSize.IsEnabled}" VerticalAlignment="Center"/>
-                    <TextBlock Text="サイズ指定" VerticalAlignment="Center" />
+                    <TextBlock Text="{x:Static properties:Resources.EffectCustomSize}" VerticalAlignment="Center" />
                 </DockPanel>
 
                 <StackPanel Visibility="{Binding PictureProfile.CustomSize.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -93,7 +94,7 @@
                     
                     <DockPanel Margin="15,0,0,5">
                         <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding PictureProfile.CustomSize.IsUniformed}" VerticalAlignment="Center" />
-                        <TextBlock Text="縦横比を維持" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Static properties:Resources.EffectLockAspect}" VerticalAlignment="Center"/>
                     </DockPanel>
 
                 </StackPanel>
@@ -103,14 +104,14 @@
 
                 <DockPanel Margin="0,5">
                     <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding ContentCanvas.IsEnabledNearestNeighbor}" VerticalAlignment="Center"/>
-                    <TextBlock Text="ドットのまま拡大" VerticalAlignment="Center" />
+                    <TextBlock Text="{x:Static properties:Resources.EffectKeepDot}" VerticalAlignment="Center" />
                 </DockPanel>
 
                 <Separator Background="#4888" Margin="0,10"/>
 
                 <DockPanel Margin="0,5">
                     <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding PictureProfile.IsResizeFilterEnabled}" VerticalAlignment="Center" />
-                    <TextBlock Text="リサイズフィルター" VerticalAlignment="Center" />
+                    <TextBlock Text="{x:Static properties:Resources.EffectResizeFilter}" VerticalAlignment="Center" />
                 </DockPanel>
 
                 <StackPanel Visibility="{Binding PictureProfile.IsResizeFilterEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -118,13 +119,13 @@
                     <DockPanel Margin="0,5">
                         <ComboBox  DockPanel.Dock="Right" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}"  Background="{DynamicResource NVBackground}"
                       ItemsSource="{x:Static local:ResizeInterpolationExtensions.ResizeInterpolationList}" SelectedValue="{Binding ImageFilter.ResizeInterpolation}"/>
-                        <TextBlock Text="補間法" VerticalAlignment="Center" />
+                        <TextBlock Text="{x:Static properties:Resources.EffectResizeInterpolation}" VerticalAlignment="Center" />
                     </DockPanel>
 
 
                     <DockPanel Margin="0,5">
                         <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding ImageFilter.Sharpen}" VerticalAlignment="Center" />
-                        <TextBlock Text="アンシャープマスク" VerticalAlignment="Center"/>
+                        <TextBlock Text="{x:Static properties:Resources.EffectResizeUnsharp}" VerticalAlignment="Center"/>
                     </DockPanel>
 
                     <Grid Margin="10,0,0,10" Visibility="{Binding ImageFilter.Sharpen, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -153,7 +154,7 @@
                     </Grid>
 
                     <Button x:Name="ResetButton" Style="{StaticResource IconButton}" HorizontalAlignment="Right" Margin="5" Click="Reset">
-                        <TextBlock Margin="5" Text="初期値に戻す" Foreground="{StaticResource NVButtonForeground}"/>
+                        <TextBlock Margin="5" Text="{x:Static properties:Resources.EffectResizeReset}" Foreground="{StaticResource NVButtonForeground}"/>
                     </Button>
                 </StackPanel>
 
@@ -162,14 +163,14 @@
 
                 <DockPanel Margin="0,5">
                     <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Model.IsEnabled}" VerticalAlignment="Center"/>
-                    <TextBlock Text="エフェクト" VerticalAlignment="Center" />
+                    <TextBlock Text="{x:Static properties:Resources.EffectEffect}" VerticalAlignment="Center" />
                 </DockPanel>
 
                 <StackPanel  Visibility="{Binding Model.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <DockPanel Margin="0,5">
                         <ComboBox DockPanel.Dock="Right" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}"  Background="{DynamicResource NVBackground}"
                               ItemsSource="{Binding EffectTypeList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.EffectType}"/>
-                        <TextBlock Text="種類" VerticalAlignment="Center" />
+                        <TextBlock Text="{x:Static properties:Resources.EffectEffectType}" VerticalAlignment="Center" />
                     </DockPanel>
                     <Grid Margin="0,10">
                         <Grid.Resources>

@@ -51,7 +51,7 @@ namespace NeeView
         /// <summary>
         /// カスタムサイズ：横幅
         /// </summary>
-        [PropertyRange("横幅", 16, 4096)]
+        [PropertyRange("@ParamPictureCustomWidth", 16, 4096)]
         [DefaultValue(256)]
         public int Width
         {
@@ -62,7 +62,7 @@ namespace NeeView
         /// <summary>
         /// カスタムサイズ：縦幅
         /// </summary>
-        [PropertyRange("縦幅", 16, 4096)]
+        [PropertyRange("@ParamPictureCustomHeight", 16, 4096)]
         [DefaultValue(256)]
         public int Height
         {

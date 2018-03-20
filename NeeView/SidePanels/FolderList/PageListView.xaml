@@ -16,7 +16,7 @@
         <StackPanel DockPanel.Dock="Top" Margin="5,0,5,2">
 
             <DockPanel>
-                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Width="30" ToolTip="設定" nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
+                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Width="30" nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
                     <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
                 </ToggleButton>
                 <WrapPanel>

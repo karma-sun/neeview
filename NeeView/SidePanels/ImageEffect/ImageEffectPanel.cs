@@ -23,7 +23,7 @@ namespace NeeView
 
         public Thickness IconMargin { get; private set; }
 
-        public string IconTips => "エフェクト";
+        public string IconTips => Properties.Resources.EffectName;
 
         public FrameworkElement View { get; private set; }
 

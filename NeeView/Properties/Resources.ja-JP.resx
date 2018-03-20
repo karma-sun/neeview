@@ -3252,4 +3252,295 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="WordTouch" xml:space="preserve">
     <value>タッチ</value>
   </data>
+  <data name="FolderListTitlePlace" xml:space="preserve">
+    <value>場所</value>
+  </data>
+  <data name="FolderListTitleSearch" xml:space="preserve">
+    <value>検索</value>
+  </data>
+  <data name="FolderListSubFolderTips" xml:space="preserve">
+    <value>サブフォルダーを読み込む</value>
+  </data>
+  <data name="FolderListHomeTips" xml:space="preserve">
+    <value>ホームに移動</value>
+  </data>
+  <data name="FolderListHomeMenuSet" xml:space="preserve">
+    <value>この場所をホームに設定する</value>
+  </data>
+  <data name="FolderListBackTips" xml:space="preserve">
+    <value>戻る</value>
+  </data>
+  <data name="FolderListNextTips" xml:space="preserve">
+    <value>進む</value>
+  </data>
+  <data name="FolderListUpTips" xml:space="preserve">
+    <value>上に移動</value>
+  </data>
+  <data name="FolderListSyncTips" xml:space="preserve">
+    <value>表示中のブックのある場所に移動</value>
+  </data>
+  <data name="FolderListMoreMenuSearchBox" xml:space="preserve">
+    <value>検索ボックス</value>
+  </data>
+  <data name="FolderListMoreMenuPageList" xml:space="preserve">
+    <value>ページリスト</value>
+  </data>
+  <data name="WordStyleList" xml:space="preserve">
+    <value>一覧表示</value>
+  </data>
+  <data name="WordStyleContent" xml:space="preserve">
+    <value>コンテンツ表示</value>
+  </data>
+  <data name="WordStyleBanner" xml:space="preserve">
+    <value>バナー表示</value>
+  </data>
+  <data name="FolderListMoreMenuSubfolder" xml:space="preserve">
+    <value>この場所ではサブフォルダーを読み込む</value>
+  </data>
+  <data name="EnumFolderOrderFileName" xml:space="preserve">
+    <value>名前昇順</value>
+  </data>
+  <data name="EnumFolderOrderFileNameDescending" xml:space="preserve">
+    <value>名前降順</value>
+  </data>
+  <data name="EnumFolderOrderTimeStamp" xml:space="preserve">
+    <value>日付昇順</value>
+  </data>
+  <data name="EnumFolderOrderTimeStampDescending" xml:space="preserve">
+    <value>日付降順</value>
+  </data>
+  <data name="EnumFolderOrderSize" xml:space="preserve">
+    <value>サイズ昇順</value>
+  </data>
+  <data name="EnumFolderOrderSizeDescending" xml:space="preserve">
+    <value>サイズ降順</value>
+  </data>
+  <data name="EnumFolderOrderRandom" xml:space="preserve">
+    <value>シャッフル</value>
+  </data>
+  <data name="FolderListItemMenuSubfolder" xml:space="preserve">
+    <value>サブフォルダーを読み込む</value>
+  </data>
+  <data name="FolderListItemMenuExplorer" xml:space="preserve">
+    <value>エクスプローラーで開く</value>
+  </data>
+  <data name="FolderListItemMenuCopy" xml:space="preserve">
+    <value>コピー(_C)</value>
+  </data>
+  <data name="FolderListItemMenuDelete" xml:space="preserve">
+    <value>削除(_D)</value>
+  </data>
+  <data name="FolderListItemMenuRename" xml:space="preserve">
+    <value>名前の変更(_M)</value>
+  </data>
+  <data name="PageListItemMenuDelete" xml:space="preserve">
+    <value>削除(_D)</value>
+  </data>
+  <data name="EnumPageNameFormatSmart" xml:space="preserve">
+    <value>標準表示</value>
+  </data>
+  <data name="EnumPageNameFormatNameOnly" xml:space="preserve">
+    <value>名前のみ</value>
+  </data>
+  <data name="EnumPageNameFormatRaw" xml:space="preserve">
+    <value>そのまま</value>
+  </data>
+  <data name="FolderListName" xml:space="preserve">
+    <value>フォルダーリスト</value>
+  </data>
+  <data name="PageListName" xml:space="preserve">
+    <value>ページリスト</value>
+  </data>
+  <data name="FileInfoName" xml:space="preserve">
+    <value>ファイル情報</value>
+  </data>
+  <data name="BookmarkName" xml:space="preserve">
+    <value>ブックマーク</value>
+  </data>
+  <data name="HistoryName" xml:space="preserve">
+    <value>履歴</value>
+  </data>
+  <data name="EffectName" xml:space="preserve">
+    <value>エフェクト</value>
+  </data>
+  <data name="PagemarkName" xml:space="preserve">
+    <value>ページマーク</value>
+  </data>
+  <data name="HistoryMenuDeleteInvalid" xml:space="preserve">
+    <value>無効な履歴を削除</value>
+  </data>
+  <data name="HistoryMenuDeleteAll" xml:space="preserve">
+    <value>すべての履歴を削除</value>
+  </data>
+  <data name="HistoryItemMenuDelete" xml:space="preserve">
+    <value>履歴から削除(_D)</value>
+  </data>
+  <data name="PagemarkMenuDeleteInvalid" xml:space="preserve">
+    <value>無効なページマークを削除</value>
+  </data>
+  <data name="PagemarkItemMenuDelete" xml:space="preserve">
+    <value>ページマークをはずす(_D)</value>
+  </data>
+  <data name="BookmarkMenuDeleteInvalid" xml:space="preserve">
+    <value>無効なブックマークを削除</value>
+  </data>
+  <data name="BookmarkItemMenuDelete" xml:space="preserve">
+    <value>ブックマークをはずす(_D)</value>
+  </data>
+  <data name="FolderInfoFileName" xml:space="preserve">
+    <value>ファイル名</value>
+  </data>
+  <data name="FolderInfoFilePath" xml:space="preserve">
+    <value>ファイルパス</value>
+  </data>
+  <data name="FolderInfoDate" xml:space="preserve">
+    <value>日付</value>
+  </data>
+  <data name="FolderInfoFileSize" xml:space="preserve">
+    <value>サイズ</value>
+  </data>
+  <data name="FolderInfoImageSize" xml:space="preserve">
+    <value>サイズ</value>
+  </data>
+  <data name="FolderInfoInfo" xml:space="preserve">
+    <value>撮影情報</value>
+  </data>
+  <data name="FolderInfoISO" xml:space="preserve">
+    <value>ISO</value>
+  </data>
+  <data name="FolderInfoDevice" xml:space="preserve">
+    <value>デバイス</value>
+  </data>
+  <data name="FolderInfoFolderPath" xml:space="preserve">
+    <value>フォルダーのパス</value>
+  </data>
+  <data name="FolderInfoOpenFolder" xml:space="preserve">
+    <value>フォルダーを開く</value>
+  </data>
+  <data name="FolderInfoArchiver" xml:space="preserve">
+    <value>アーカイバー</value>
+  </data>
+  <data name="FolderInfoDecoder" xml:space="preserve">
+    <value>デコーダー</value>
+  </data>
+  <data name="FolderInfoDateFormat" xml:space="preserve">
+    <value>yyyy年M月d日 dddd H:mm</value>
+  </data>
+  <data name="EffectCustomSize" xml:space="preserve">
+    <value>サイズ指定</value>
+  </data>
+  <data name="EffectLockAspect" xml:space="preserve">
+    <value>縦横比を維持</value>
+  </data>
+  <data name="EffectKeepDot" xml:space="preserve">
+    <value>ドットのまま拡大する</value>
+  </data>
+  <data name="EffectResizeFilter" xml:space="preserve">
+    <value>リサイズフィルター</value>
+  </data>
+  <data name="EffectResizeInterpolation" xml:space="preserve">
+    <value>補間法</value>
+  </data>
+  <data name="EffectResizeUnsharp" xml:space="preserve">
+    <value>アンシャープマスク</value>
+  </data>
+  <data name="EffectResizeReset" xml:space="preserve">
+    <value>初期値に戻す</value>
+  </data>
+  <data name="EffectEffect" xml:space="preserve">
+    <value>エフェクト</value>
+  </data>
+  <data name="EffectEffectType" xml:space="preserve">
+    <value>種類</value>
+  </data>
+  <data name="ParamPictureCustomWidth" xml:space="preserve">
+    <value>横幅</value>
+  </data>
+  <data name="ParamPictureCustomHeight" xml:space="preserve">
+    <value>縦幅</value>
+  </data>
+  <data name="ParamEffectHue" xml:space="preserve">
+    <value>色相</value>
+  </data>
+  <data name="ParamEffectSaturation" xml:space="preserve">
+    <value>彩度</value>
+  </data>
+  <data name="ParamEffectBrightness" xml:space="preserve">
+    <value>明度</value>
+  </data>
+  <data name="ParamImageFilterAmount" xml:space="preserve">
+    <value>適応量</value>
+  </data>
+  <data name="ParamImageFilterRadius" xml:space="preserve">
+    <value>半径</value>
+  </data>
+  <data name="ParamImageFilterThreshold" xml:space="preserve">
+    <value>閾値</value>
+  </data>
+  <data name="ParamEffectRange" xml:space="preserve">
+    <value>範囲</value>
+  </data>
+  <data name="ParamEffectCurve" xml:space="preserve">
+    <value>境界</value>
+  </data>
+  <data name="WordResetLong" xml:space="preserve">
+    <value>初期値に戻す</value>
+  </data>
+  <data name="EnumEffectTypeNone" xml:space="preserve">
+    <value>なし</value>
+  </data>
+  <data name="EnumEffectTypeLevel" xml:space="preserve">
+    <value>レベル補正</value>
+  </data>
+  <data name="EnumEffectTypeHsv" xml:space="preserve">
+    <value>色相、彩度、明度</value>
+  </data>
+  <data name="EnumEffectTypeColorSelect" xml:space="preserve">
+    <value>色選択</value>
+  </data>
+  <data name="EnumEffectTypeBlur" xml:space="preserve">
+    <value>ぼかし</value>
+  </data>
+  <data name="EnumEffectTypeBloom" xml:space="preserve">
+    <value>ブルーム</value>
+  </data>
+  <data name="EnumEffectTypeMonochrome" xml:space="preserve">
+    <value>モノクローム</value>
+  </data>
+  <data name="EnumEffectTypeColorTone" xml:space="preserve">
+    <value>カラートーン</value>
+  </data>
+  <data name="EnumEffectTypeSharpen" xml:space="preserve">
+    <value>シャープ</value>
+  </data>
+  <data name="EnumEffectTypeEmbossed" xml:space="preserve">
+    <value>エンボス</value>
+  </data>
+  <data name="EnumEffectTypePixelate" xml:space="preserve">
+    <value>ピクセレート</value>
+  </data>
+  <data name="EnumEffectTypeMagnify" xml:space="preserve">
+    <value>拡大鏡</value>
+  </data>
+  <data name="EnumEffectTypeRipple" xml:space="preserve">
+    <value>波紋</value>
+  </data>
+  <data name="EnumEffectTypeSwirl" xml:space="preserve">
+    <value>渦巻き</value>
+  </data>
+  <data name="EnumBackgroundStyleBlack" xml:space="preserve">
+    <value>背景を黒色にする</value>
+  </data>
+  <data name="EnumBackgroundStyleWhite" xml:space="preserve">
+    <value>背景を白色にする</value>
+  </data>
+  <data name="EnumBackgroundStyleAuto" xml:space="preserve">
+    <value>背景を画像に合わせた色にする</value>
+  </data>
+  <data name="EnumBackgroundStyleCheck" xml:space="preserve">
+    <value>背景をチェック模様にする</value>
+  </data>
+  <data name="EnumBackgroundStyleCustom" xml:space="preserve">
+    <value>背景をカスタム背景にする</value>
+  </data>
 </root>

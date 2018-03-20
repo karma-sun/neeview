@@ -20,7 +20,7 @@ namespace NeeView
 
         public Thickness IconMargin { get; private set; }
 
-        public string IconTips => "ページマーク";
+        public string IconTips => Properties.Resources.PagemarkName;
 
         public FrameworkElement View { get; private set; }
 

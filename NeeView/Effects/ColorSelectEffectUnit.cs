@@ -22,7 +22,7 @@ namespace NeeView.Effects
         /// Property: Hue
         /// </summary>
         [DataMember]
-        [PropertyRange("色相", 0.0, 360.0)]
+        [PropertyRange("@ParamEffectHue", 0.0, 360.0)]
         [DefaultValue(15.0)]
         public double Hue
         {
@@ -34,7 +34,7 @@ namespace NeeView.Effects
         /// Property: Range
         /// </summary>
         [DataMember]
-        [PropertyRange("範囲", 0.0, 1.0)]
+        [PropertyRange("@ParamEffectRange", 0.0, 1.0)]
         [DefaultValue(0.1)]
         public double Range
         {
@@ -46,7 +46,7 @@ namespace NeeView.Effects
         /// Property: Curve
         /// </summary>
         [DataMember]
-        [PropertyRange("境界", 0.0, 0.2, Tips ="色の境界のぼかし")]
+        [PropertyRange("@ParamEffectCurve", 0.0, 0.2)]
         [DefaultValue(0.1)]
         public double Curve
         {

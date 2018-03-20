@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
+             xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="300" MinWidth="100" 
              Background="{DynamicResource NVBackground}"
@@ -38,16 +39,16 @@
                 </Grid>
 
                 <!-- Parameters -->
-                <local:FileInfoItem x:Name="ItemFileName" Header="ファイル名" Text="{Binding Model.ViewContent.FileName}"/>
-                <local:FileInfoItem x:Name="ItemFilePath" Header="ファイルパス" Text="{Binding Model.ViewContent.FullPath}" Visibility="{Binding Model.IsVisibleFilePath, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                <local:FileInfoItem x:Name="ItemLastWriteTime" Header="日付" Text="{Binding LastWriteTime}"/>
-                <local:FileInfoItem x:Name="ItemFileSize" Header="サイズ" Text="{Binding FileSize}"/>
-                <local:FileInfoItem x:Name="ItemSize" Header="サイズ" Text="{Binding ImageSize}"/>
+                <local:FileInfoItem x:Name="ItemFileName" Header="{x:Static properties:Resources.FolderInfoFileName}" Text="{Binding Model.ViewContent.FileName}"/>
+                <local:FileInfoItem x:Name="ItemFilePath" Header="{x:Static properties:Resources.FolderInfoFilePath}" Text="{Binding Model.ViewContent.FullPath}" Visibility="{Binding Model.IsVisibleFilePath, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <local:FileInfoItem x:Name="ItemLastWriteTime" Header="{x:Static properties:Resources.FolderInfoDate}" Text="{Binding LastWriteTime}"/>
+                <local:FileInfoItem x:Name="ItemFileSize" Header="{x:Static properties:Resources.FolderInfoFileSize}" Text="{Binding FileSize}"/>
+                <local:FileInfoItem x:Name="ItemSize" Header="{x:Static properties:Resources.FolderInfoImageSize}" Text="{Binding ImageSize}"/>
 
-                <local:FileInfoItem x:Name="ItemShotInfo" Header="撮影情報" Text="{Binding ShotInfo}" />
-                <local:FileInfoItem x:Name="ItemISOSpeedRatings" Header="ISO" Text="{Binding ISOSpeedRatings}"/>
-                <local:FileInfoItem x:Name="ItemModel" Header="デバイス" Text="{Binding CameraModel}"/>
-                <local:FileInfoItem x:Name="ItemFilePlace" Header="フォルダーのパス" Text="{Binding Model.ViewContent.FolderPlace}"/>
+                <local:FileInfoItem x:Name="ItemShotInfo" Header="{x:Static properties:Resources.FolderInfoInfo}" Text="{Binding ShotInfo}" />
+                <local:FileInfoItem x:Name="ItemISOSpeedRatings" Header="{x:Static properties:Resources.FolderInfoISO}" Text="{Binding ISOSpeedRatings}"/>
+                <local:FileInfoItem x:Name="ItemModel" Header="{x:Static properties:Resources.FolderInfoDevice}" Text="{Binding CameraModel}"/>
+                <local:FileInfoItem x:Name="ItemFilePlace" Header="{x:Static properties:Resources.FolderInfoFolderPath}" Text="{Binding Model.ViewContent.FolderPlace}"/>
                 <Button x:Name="OpenPlaceButton" Command="{Binding OpenPlace}" HorizontalAlignment="Left" Margin="-5,-3,0,0">
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
@@ -58,12 +59,12 @@
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
-                    <TextBlock Margin="8,5" Text="フォルダーを開く" Foreground="{StaticResource NVButtonForeground}"/>
+                    <TextBlock Margin="8,5" Text="{x:Static properties:Resources.FolderInfoOpenFolder}" Foreground="{StaticResource NVButtonForeground}"/>
                 </Button>
 
                 <StackPanel x:Name="GroupLoader" Visibility="{Binding LoaderVisibility}">
-                    <local:FileInfoItem x:Name="ItemArchiver" Header="アーカイバー" Text="{Binding Archiver}" />
-                    <local:FileInfoItem x:Name="ItemDecoder" Header="デコーダー" Text="{Binding Decoder}"/>
+                    <local:FileInfoItem x:Name="ItemArchiver" Header="{x:Static properties:Resources.FolderInfoArchiver}" Text="{Binding Archiver}" />
+                    <local:FileInfoItem x:Name="ItemDecoder" Header="{x:Static properties:Resources.FolderInfoDecoder}" Text="{Binding Decoder}"/>
                 </StackPanel>
 
             </StackPanel>

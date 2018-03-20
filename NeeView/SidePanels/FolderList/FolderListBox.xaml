@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
+             xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance local:FolderListDataContext_Design, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300"
@@ -217,13 +218,13 @@
                     <Setter Property="ContextMenu">
                         <Setter.Value>
                             <ContextMenu>
-                                <MenuItem Header="サブフォルダーを読み込む" Command="{x:Static local:FolderListBox.LoadWithRecursiveCommand}" IsChecked="{Binding IsRecursived}"/>
+                                <MenuItem Header="{x:Static properties:Resources.FolderListItemMenuSubfolder}" Command="{x:Static local:FolderListBox.LoadWithRecursiveCommand}" IsChecked="{Binding IsRecursived}"/>
                                 <Separator/>
-                                <MenuItem Header="エクスプローラーで開く" Command="{x:Static local:FolderListBox.OpenExplorerCommand}"/>
-                                <MenuItem Header="コピー(C)" Command="{x:Static local:FolderListBox.CopyCommand}"/>
+                                <MenuItem Header="{x:Static properties:Resources.FolderListItemMenuExplorer}" Command="{x:Static local:FolderListBox.OpenExplorerCommand}"/>
+                                <MenuItem Header="{x:Static properties:Resources.FolderListItemMenuCopy}" Command="{x:Static local:FolderListBox.CopyCommand}"/>
                                 <Separator/>
-                                <MenuItem Header="削除(D)" Command="{x:Static local:FolderListBox.RemoveCommand}"/>
-                                <MenuItem Header="名前の変更(M)" Command="{x:Static local:FolderListBox.RenameCommand}"/>
+                                <MenuItem Header="{x:Static properties:Resources.FolderListItemMenuDelete}" Command="{x:Static local:FolderListBox.RemoveCommand}"/>
+                                <MenuItem Header="{x:Static properties:Resources.FolderListItemMenuRename}" Command="{x:Static local:FolderListBox.RenameCommand}"/>
                             </ContextMenu>
                         </Setter.Value>
                     </Setter>

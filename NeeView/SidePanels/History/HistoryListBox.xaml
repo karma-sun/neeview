@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
+             xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              Background="{DynamicResource NVBackground}"
@@ -111,7 +112,7 @@
                 <Setter Property="ContextMenu">
                     <Setter.Value>
                         <ContextMenu>
-                            <MenuItem Header="履歴から削除(D)" Command="{x:Static local:HistoryListBox.RemoveCommand}"/>
+                            <MenuItem Header="{x:Static properties:Resources.HistoryItemMenuDelete}" Command="{x:Static local:HistoryListBox.RemoveCommand}"/>
                         </ContextMenu>
                     </Setter.Value>
                 </Setter>

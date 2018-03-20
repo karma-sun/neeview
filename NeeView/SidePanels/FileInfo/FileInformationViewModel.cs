@@ -218,7 +218,7 @@ namespace NeeView
                 DateTime? lastWriteTime = (_model.IsUseExifDateTime && exif?.LastWriteTime != null)
                     ? exif.LastWriteTime
                     : info.LastWriteTime;
-                LastWriteTime = lastWriteTime?.ToString("yyyy年M月d日 dddd H:mm");
+                LastWriteTime = lastWriteTime?.ToString(NeeView.Properties.Resources.FolderInfoDateFormat);
 
                 // アーカイバー
                 Archiver = info.Archiver;

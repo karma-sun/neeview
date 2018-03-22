@@ -6494,6 +6494,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   _Copy に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FolderInfoMenuCopy {
+            get {
+                return ResourceManager.GetString("FolderInfoMenuCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Open Folder に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FolderInfoOpenFolder {

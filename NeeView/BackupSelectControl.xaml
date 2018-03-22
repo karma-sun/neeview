@@ -9,7 +9,7 @@
              d:DesignHeight="300" d:DesignWidth="400">
     <Grid>
         <StackPanel>
-            <TextBlock x:Name="FileNameTextBlock" Text="import：someone.nvzip" Margin="0"/>
+            <TextBlock x:Name="FileNameTextBlock" Text="import : someone.nvzip" Margin="0"/>
             <StackPanel Margin="10">
                 <CheckBox x:Name="UserSettingCheckBox" Content="{x:Static properties:Resources.ControlImportSetting}" IsEnabled="False"/>
                 <CheckBox x:Name="HistoryCheckBox" Content="{x:Static properties:Resources.ControlImportHistory}" IsEnabled="False"/>

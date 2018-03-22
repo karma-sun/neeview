@@ -3969,4 +3969,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="NotifyNoPages" xml:space="preserve">
     <value>{0} には読み込めるファイルがありません</value>
   </data>
+  <data name="FolderInfoMenuCopy" xml:space="preserve">
+    <value>コピー(_C)</value>
+  </data>
 </root>

@@ -17,8 +17,8 @@
         <StackPanel>
         <ListBox x:Name="CollectionListBox" Height="128" ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Collection}"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button x:Name="AddButton" Content="追加..." Click="AddButton_Click" />
-                <Button x:Name="RemoveButton" Content="削除" Click="RemoveButton_Click">
+                <Button x:Name="AddButton" Content="Add..." Click="AddButton_Click" />
+                <Button x:Name="RemoveButton" Content="Remove" Click="RemoveButton_Click">
                     <Button.Style>
                         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                             <Style.Triggers>

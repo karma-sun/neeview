@@ -32,14 +32,14 @@
             <Menu VerticalAlignment="Bottom"
                                           Background="White"
                                           Foreground="#222">
-                <MenuItem x:Name="MenuItemDev" Header="開発(_D)" Visibility="Collapsed">
-                    <MenuItem x:Name="MenuItemDevPageList" Header="ページリスト" IsCheckable="True" IsChecked="{Binding Development.IsVisibleDevPageList}" />
-                    <MenuItem x:Name="MenuItemDevInfo" Header="情報エリア" IsCheckable="True" IsChecked="{Binding Development.IsVisibleDevInfo}" />
-                    <MenuItem x:Name="MenuItemDevApplicationFolder" Header="アプリのフォルダーを開く" Click="MenuItemDevApplicationFolder_Click" />
-                    <MenuItem x:Name="MenuItemDevApplicationDataFolder" Header="アプリデータフォルダーを開く" Click="MenuItemDevApplicationDataFolder_Click" />
-                    <MenuItem x:Name="MenuItemDevCurrentFolder" Header="カレントフォルダーを開く" Click="MenuItemDevCurrentFolder_Click" />
-                    <MenuItem x:Name="MenuItemDevTempFolder" Header="テンポラリフォルダーを開く" Click="MenuItemDevTempFolder_Click" />
-                    <MenuItem x:Name="MenuItemDevButton" Header="テスト実行" Click="MenuItemDevButton_Click" />
+                <MenuItem x:Name="MenuItemDev" Header="_Develop" Visibility="Collapsed">
+                    <MenuItem x:Name="MenuItemDevPageList" Header="Page list" IsCheckable="True" IsChecked="{Binding Development.IsVisibleDevPageList}" />
+                    <MenuItem x:Name="MenuItemDevInfo" Header="Status area" IsCheckable="True" IsChecked="{Binding Development.IsVisibleDevInfo}" />
+                    <MenuItem x:Name="MenuItemDevApplicationFolder" Header="Open application folder" Click="MenuItemDevApplicationFolder_Click" />
+                    <MenuItem x:Name="MenuItemDevApplicationDataFolder" Header="Open data folder" Click="MenuItemDevApplicationDataFolder_Click" />
+                    <MenuItem x:Name="MenuItemDevCurrentFolder" Header="Open current folder" Click="MenuItemDevCurrentFolder_Click" />
+                    <MenuItem x:Name="MenuItemDevTempFolder" Header="Open temp folder" Click="MenuItemDevTempFolder_Click" />
+                    <MenuItem x:Name="MenuItemDevButton" Header="Go text" Click="MenuItemDevButton_Click" />
                 </MenuItem>
             </Menu>
         </DockPanel>

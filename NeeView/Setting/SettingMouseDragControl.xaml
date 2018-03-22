@@ -15,7 +15,7 @@
 
                 <DockPanel DockPanel.Dock="Bottom">
                     <Grid DockPanel.Dock="Top">
-                        <Button x:Name="ResetDragSettingButton" Content="{x:Static properties:Resources.ControlEditMouseDragReset}" MinWidth="120" Height="30" Margin="8" Padding="5,0" HorizontalAlignment="Right" Click="ResetDragActionSettingButton_Click" ToolTip="すべてのドラッグ操作設定を初期化します"/>
+                        <Button x:Name="ResetDragSettingButton" Content="{x:Static properties:Resources.ControlEditMouseDragReset}" MinWidth="120" Height="30" Margin="8" Padding="5,0" HorizontalAlignment="Right" Click="ResetDragActionSettingButton_Click"/>
                     </Grid>
 
                 </DockPanel>

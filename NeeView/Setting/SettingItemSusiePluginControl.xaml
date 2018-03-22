@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:NeeView.Setting"
              xmlns:susie="clr-namespace:Susie"
              xmlns:nw="clr-namespace:NeeView.Windows"
+             xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
@@ -78,9 +79,9 @@
                     </Style.Triggers>
                 </Style>
             </StackPanel.Resources>
-            <Button x:Name="ConfigButton" Content="設定" Command="{Binding ConfigCommand}"/>
-            <Button x:Name="UpButton" Content="上へ" Command="{Binding MoveUpCommand}"/>
-            <Button x:Name="DownButton" Content="下へ" Command="{Binding MoveDownCommand}"/>
+            <Button x:Name="ConfigButton" Content="{x:Static properties:Resources.ControlSusiePluginListConfig}" Command="{Binding ConfigCommand}"/>
+            <Button x:Name="UpButton" Content="{x:Static properties:Resources.ControlSusiePluginListUp}" Command="{Binding MoveUpCommand}"/>
+            <Button x:Name="DownButton" Content="{x:Static properties:Resources.ControlSusiePluginListDown}" Command="{Binding MoveDownCommand}"/>
         </StackPanel>
 
         <ListBox x:Name="PluginList" MinHeight="64" MinWidth="64" ItemsSource="{Binding SusiePluginCollection}" Tag="{Binding SusiePluginCollection}" SelectionChanged="PluginList_SelectionChanged">

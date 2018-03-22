@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView.Setting"
+        xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}"
         UseLayoutRounding="True"
@@ -17,8 +18,8 @@
             </Style>
         </DockPanel.Resources>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button x:Name="AddButton" Content="追加" Click="AddButton_Click"/>
-            <Button x:Name="CancelButton" Content="キャンセル" Click="CancelButton_Click"/>
+            <Button x:Name="AddButton" Content="{x:Static properties:Resources.WordAdd}" Click="AddButton_Click"/>
+            <Button x:Name="CancelButton" Content="{x:Static properties:Resources.WordCancel}" Click="CancelButton_Click"/>
         </StackPanel>
 
         <StackPanel VerticalAlignment="Top" Margin="5" FocusManager.FocusedElement="{Binding ElementName=InputTextBox}">

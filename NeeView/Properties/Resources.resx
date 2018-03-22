@@ -3975,4 +3975,7 @@ Details of the error are output to the following file.
   <data name="NotifyNoPages" xml:space="preserve">
     <value>{0} has no pages</value>
   </data>
+  <data name="FolderInfoMenuCopy" xml:space="preserve">
+    <value>_Copy</value>
+  </data>
 </root>

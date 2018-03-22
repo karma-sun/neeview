@@ -99,6 +99,11 @@
                         <File Id="fil5266A7AFDBE3C2D5D9EE25F1C6A4D0D1" KeyPath="yes" Source="$(var.LibrariesDir)\ja\System.Windows.Interactivity.resources.dll" />
                     </Component>
                 </Directory>
+                <Directory Id="dirFE0CDB84362EC844D704BA7868A472C8" Name="ja-JP">
+                    <Component Id="cmp9AC34FFE315750C746B9E441DD4DE751" Guid="*">
+                        <File Id="fil3A6EE1EE320DC44669A8C644D3B8438E" KeyPath="yes" Source="$(var.LibrariesDir)\ja-JP\NeeView.resources.dll" />
+                    </Component>
+                </Directory>
                 <Directory Id="dir0F7670AEA3B497D58CE9F2C66BE90264" Name="ko">
                     <Component Id="cmp82F8965B538FD4C767DDD98214D2E6FF" Guid="*">
                         <File Id="fil05149E2C505F21B2E5A09A627E7551E8" KeyPath="yes" Source="$(var.LibrariesDir)\ko\Microsoft.Expression.Effects.resources.dll" />
@@ -198,6 +203,7 @@
             <ComponentRef Id="cmpF73A18E13EBEC298F69C413F03309BAF" />
             <ComponentRef Id="cmp5CB5F004805438B85A517EF3367346B2" />
             <ComponentRef Id="cmpB2B588646548B6174DE086DCFF093B52" />
+            <ComponentRef Id="cmp9AC34FFE315750C746B9E441DD4DE751" />
             <ComponentRef Id="cmp82F8965B538FD4C767DDD98214D2E6FF" />
             <ComponentRef Id="cmp60E5C0B1F90A8D683100A3339324ADDD" />
             <ComponentRef Id="cmpB984F01B5404D40012F02C543DFA7CC0" />

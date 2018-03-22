@@ -101,7 +101,10 @@ $tempAssemblyInfoFile = [System.IO.Path]::GetTempFileName()
 # store AssemblyInfo.cs
 function Save-AssemblyInfo($projectFile, $assemblyInfoFile)
 {
+	Write-Host "Store: Copy-Item $projectFile $tempProjectFile"
 	Copy-Item $projectFile $tempProjectFile
+
+	Write-Host "Store: Copy-Item $assemblyInfoFile $tempAssemblyInfoFile"
 	Copy-Item $assemblyInfoFile $tempAssemblyInfoFile
 }
 
@@ -109,7 +112,10 @@ function Save-AssemblyInfo($projectFile, $assemblyInfoFile)
 # reset AssemblyInfo.cs
 function Restore-AssemblyInfo($projectFile, $assemblyInfoFile)
 {
+	Write-Host "Restore: Move-Item $tempProjectFile $projectFile -Force"
 	Move-Item $tempProjectFile $projectFile -Force
+
+	Write-Host "Restore: Move-Item $tempAssemblyInfoFile $assemblyInfoFile -Force"
 	Move-Item $tempAssemblyInfoFile $assemblyInfoFile -Force
 }
 
@@ -133,7 +139,6 @@ $assemblyInfoFile = "$projectDir\Properties\AssemblyInfo.cs"
 # build
 function Build-Project($arch, $assemblyVersion)
 {
-	Save-AssemblyInfo $projectFile $assemblyInfoFile
 	if ($arch -eq "x86")
 	{
 		$platform = "x86"
@@ -311,11 +316,11 @@ function New-Msi($arch, $packageDir, $packageMsi)
 
 
 	# make DllComponents.wxs
-	& $heat dir "$packageDir\Libraries" -cg DllComponents -ag -pog:Binaries -sfrag -var var.LibrariesDir -dr INSTALLFOLDER -out WixSource\DllComponents.wxs
-	if ($? -ne $true)
-	{
-		throw "heat error"
-	}
+	#& $heat dir "$packageDir\Libraries" -cg DllComponents -ag -pog:Binaries -sfrag -var var.LibrariesDir -dr INSTALLFOLDER -out WixSource\DllComponents.wxs
+	#if ($? -ne $true)
+	#{
+	#	throw "heat error"
+	#}
 
 	#-------------------------
 	# WiX
@@ -460,6 +465,7 @@ Remove-BuildObjects
 	
 # build
 Write-Host "`n[Build] ...`n" -fore Cyan
+Save-AssemblyInfo $projectFile $assemblyInfoFile
 Build-Project "x86" $assemblyVersion
 Build-Project "x64" $assemblyVersion
 Restore-AssemblyInfo  $projectFile $assemblyInfoFile

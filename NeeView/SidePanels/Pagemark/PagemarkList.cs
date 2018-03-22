@@ -71,7 +71,7 @@ namespace NeeView
 
             if (!PagemarkCollection.Current.CanMoveSelected(-1))
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "前のページマークはありません");
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyPagemarkPrevFailed);
                 return;
             }
 
@@ -86,7 +86,7 @@ namespace NeeView
 
             if (!PagemarkCollection.Current.CanMoveSelected(+1))
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "次のページマークはありません");
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyPagemarkNextFailed);
                 return;
             }
 

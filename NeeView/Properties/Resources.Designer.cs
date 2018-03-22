@@ -700,11 +700,29 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Next に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandMovePageWithCursorNext {
+            get {
+                return ResourceManager.GetString("CommandMovePageWithCursorNext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   The moving direction is determined by the mouse cursor position. If the cursor is on the left side of the window, go to the next page and if there is a cursor to the right, it will return to the previous page. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandMovePageWithCursorNote {
             get {
                 return ResourceManager.GetString("CommandMovePageWithCursorNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Back に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandMovePageWithCursorPrev {
+            get {
+                return ResourceManager.GetString("CommandMovePageWithCursorPrev", resourceCulture);
             }
         }
         
@@ -3859,20 +3877,29 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   &quot;{0}&quot; conflicts with &quot;{1}&quot; に類似しているローカライズされた文字列を検索します。
+        ///   Back に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ControlCommandListConflict {
+        public static string ControlAddressBarBack {
             get {
-                return ResourceManager.GetString("ControlCommandListConflict", resourceCulture);
+                return ResourceManager.GetString("ControlAddressBarBack", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Conflicting with &quot;{0}&quot; に類似しているローカライズされた文字列を検索します。
+        ///   Next に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ControlCommandListConflictSingle {
+        public static string ControlAddressBarNext {
             get {
-                return ResourceManager.GetString("ControlCommandListConflictSingle", resourceCulture);
+                return ResourceManager.GetString("ControlAddressBarNext", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reload に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlAddressBarReLoad {
+            get {
+                return ResourceManager.GetString("ControlAddressBarReLoad", resourceCulture);
             }
         }
         
@@ -4373,6 +4400,168 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Bookmark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlImportBookmark {
+            get {
+                return ResourceManager.GetString("ControlImportBookmark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   History に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlImportHistory {
+            get {
+                return ResourceManager.GetString("ControlImportHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Pagemark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlImportPagemark {
+            get {
+                return ResourceManager.GetString("ControlImportPagemark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlImportSetting {
+            get {
+                return ResourceManager.GetString("ControlImportSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlImportTitle {
+            get {
+                return ResourceManager.GetString("ControlImportTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Include background に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlPrintBackground {
+            get {
+                return ResourceManager.GetString("ControlPrintBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Print に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlPrintButtonPrint {
+            get {
+                return ResourceManager.GetString("ControlPrintButtonPrint", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Column に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlPrintColumn {
+            get {
+                return ResourceManager.GetString("ControlPrintColumn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Content に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlPrintContent {
+            get {
+                return ResourceManager.GetString("ControlPrintContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Horizontal alignment に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlPrintHorizontal {
+            get {
+                return ResourceManager.GetString("ControlPrintHorizontal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Keep dot に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlPrintKeepDot {
+            get {
+                return ResourceManager.GetString("ControlPrintKeepDot", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Margin (mm) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlPrintMargin {
+            get {
+                return ResourceManager.GetString("ControlPrintMargin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Orientation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlPrintOrientation {
+            get {
+                return ResourceManager.GetString("ControlPrintOrientation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Printer に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlPrintPrinter {
+            get {
+                return ResourceManager.GetString("ControlPrintPrinter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Row に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlPrintRow {
+            get {
+                return ResourceManager.GetString("ControlPrintRow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Number of sheets に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlPrintSheets {
+            get {
+                return ResourceManager.GetString("ControlPrintSheets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Print に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlPrintTitle {
+            get {
+                return ResourceManager.GetString("ControlPrintTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Vertical alignment に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlPrintVertival {
+            get {
+                return ResourceManager.GetString("ControlPrintVertival", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Please select only one command to execute with &quot;{0}&quot; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ControlResolveConflictNote {
@@ -4387,6 +4576,51 @@ namespace NeeView.Properties {
         public static string ControlResolveConflictTitle {
             get {
                 return ResourceManager.GetString("ControlResolveConflictTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save original file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlSaveOriginal {
+            get {
+                return ResourceManager.GetString("ControlSaveOriginal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save as... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlSaveSaveAs {
+            get {
+                return ResourceManager.GetString("ControlSaveSaveAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save image に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlSaveTitle {
+            get {
+                return ResourceManager.GetString("ControlSaveTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Combine two pages に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlSaveWidePage {
+            get {
+                return ResourceManager.GetString("ControlSaveWidePage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Include background に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlSaveWithBackground {
+            get {
+                return ResourceManager.GetString("ControlSaveWithBackground", resourceCulture);
             }
         }
         
@@ -5399,6 +5633,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Center に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumHorizontalAlignmentCenter {
+            get {
+                return ResourceManager.GetString("EnumHorizontalAlignmentCenter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Left に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumHorizontalAlignmentLeft {
+            get {
+                return ResourceManager.GetString("EnumHorizontalAlignmentLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Right に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumHorizontalAlignmentRight {
+            get {
+                return ResourceManager.GetString("EnumHorizontalAlignmentRight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   English に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumLanguageEnglish {
@@ -5606,6 +5867,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Landscape に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumPageOperationLandscape {
+            get {
+                return ResourceManager.GetString("EnumPageOperationLandscape", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Portrait に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumPageOperationPortrait {
+            get {
+                return ResourceManager.GetString("EnumPageOperationPortrait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Left to right に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumPageReadOrderLeftToRight {
@@ -5687,6 +5966,69 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Fit to window size if large に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumPageStretchModeInside {
+            get {
+                return ResourceManager.GetString("EnumPageStretchModeInside", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Original size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumPageStretchModeNone {
+            get {
+                return ResourceManager.GetString("EnumPageStretchModeNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Expand to window size if small に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumPageStretchModeOutside {
+            get {
+                return ResourceManager.GetString("EnumPageStretchModeOutside", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Fit to window size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumPageStretchModeUniform {
+            get {
+                return ResourceManager.GetString("EnumPageStretchModeUniform", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Extend it to fill the window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumPageStretchModeUniformToFill {
+            get {
+                return ResourceManager.GetString("EnumPageStretchModeUniformToFill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Fit the area size to the window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumPageStretchModeUniformToSize {
+            get {
+                return ResourceManager.GetString("EnumPageStretchModeUniformToSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Fit height to window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumPageStretchModeUniformToVertical {
+            get {
+                return ResourceManager.GetString("EnumPageStretchModeUniformToVertical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Automatic prefetching に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumPreLoadModeAutoPreLoad {
@@ -5719,6 +6061,42 @@ namespace NeeView.Properties {
         public static string EnumPreLoadModePreLoadNoUnload {
             get {
                 return ResourceManager.GetString("EnumPreLoadModePreLoadNoUnload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Image に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumPrintModeRawImage {
+            get {
+                return ResourceManager.GetString("EnumPrintModeRawImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   View に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumPrintModeView {
+            get {
+                return ResourceManager.GetString("EnumPrintModeView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   View with paper size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumPrintModeViewFill {
+            get {
+                return ResourceManager.GetString("EnumPrintModeViewFill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   View all に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumPrintModeViewStretch {
+            get {
+                return ResourceManager.GetString("EnumPrintModeViewStretch", resourceCulture);
             }
         }
         
@@ -5840,6 +6218,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Bottom に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumVerticalAlignmentBottom {
+            get {
+                return ResourceManager.GetString("EnumVerticalAlignmentBottom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Center に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumVerticalAlignmentCenter {
+            get {
+                return ResourceManager.GetString("EnumVerticalAlignmentCenter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Top に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumVerticalAlignmentTop {
+            get {
+                return ResourceManager.GetString("EnumVerticalAlignmentTop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Frame border に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumWindowChromeFrameLine {
@@ -5867,11 +6272,98 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   It is not an AppData folder, so it will not be deleted. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExceptionCannotDeleteData {
+            get {
+                return ResourceManager.GetString("ExceptionCannotDeleteData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   An error occurred. Quit the application.
+        ///
+        ///Cause: {0}
+        ///
+        ///Details of the error are output to the following file.
+        ///{1} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExceptionCritical {
+            get {
+                return ResourceManager.GetString("ExceptionCritical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Fatal error に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExceptionCriticalTitle {
+            get {
+                return ResourceManager.GetString("ExceptionCriticalTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   File not found &quot;{0}&quot; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExceptionFileNotFound {
+            get {
+                return ResourceManager.GetString("ExceptionFileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Failed to load image. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExceptionImageLoadFailed {
+            get {
+                return ResourceManager.GetString("ExceptionImageLoadFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Inconsistency of page data に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExceptionInconsistency {
+            get {
+                return ResourceManager.GetString("ExceptionInconsistency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Failed to read {0}.
+        ///{1}  に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExceptionLoadFailed {
+            get {
+                return ResourceManager.GetString("ExceptionLoadFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Compressed file folders are not supported. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ExceptionNotSupportArchiveFolder {
             get {
                 return ResourceManager.GetString("ExceptionNotSupportArchiveFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   {0} is not a ZIP file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExceptionNotZip {
+            get {
+                return ResourceManager.GetString("ExceptionNotZip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Failed to load image at Susie. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExceptionSusieLoadFailed {
+            get {
+                return ResourceManager.GetString("ExceptionSusieLoadFailed", resourceCulture);
             }
         }
         
@@ -6367,6 +6859,411 @@ namespace NeeView.Properties {
         public static string MenuTreeView {
             get {
                 return ResourceManager.GetString("MenuTreeView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   No next bookmark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyBookmarkNextFailed {
+            get {
+                return ResourceManager.GetString("NotifyBookmarkNextFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   No previous bookmark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyBookmarkPrevFailed {
+            get {
+                return ResourceManager.GetString("NotifyBookmarkPrevFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   No next book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyBookNextFailed {
+            get {
+                return ResourceManager.GetString("NotifyBookNextFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   No previous book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyBookPrevFailed {
+            get {
+                return ResourceManager.GetString("NotifyBookPrevFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   No pages に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyCannotDisplay {
+            get {
+                return ResourceManager.GetString("NotifyCannotDisplay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Conflicting with {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyConflict {
+            get {
+                return ResourceManager.GetString("NotifyConflict", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   &quot;{0}&quot; conflicts with {1} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyConflictWith {
+            get {
+                return ResourceManager.GetString("NotifyConflictWith", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Failed to load content に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyContentFailed {
+            get {
+                return ResourceManager.GetString("NotifyContentFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Dropped content に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyDropContent {
+            get {
+                return ResourceManager.GetString("NotifyDropContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   First page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyFirstPage {
+            get {
+                return ResourceManager.GetString("NotifyFirstPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   There is no pagemark before the current page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyFirstPagemark {
+            get {
+                return ResourceManager.GetString("NotifyFirstPagemark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flip horizontal に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyFlipHorizontal {
+            get {
+                return ResourceManager.GetString("NotifyFlipHorizontal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Flip vertical に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyFlipVertical {
+            get {
+                return ResourceManager.GetString("NotifyFlipVertical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   It is the latest history に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyHistoryLastest {
+            get {
+                return ResourceManager.GetString("NotifyHistoryLastest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   There is no history older than this に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyHistoryTerminal {
+            get {
+                return ResourceManager.GetString("NotifyHistoryTerminal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Last page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyLastPage {
+            get {
+                return ResourceManager.GetString("NotifyLastPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   There is no pagemark after the current page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyLastPagemark {
+            get {
+                return ResourceManager.GetString("NotifyLastPagemark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Failed to load bookmark. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyLoadBookmarkFailed {
+            get {
+                return ResourceManager.GetString("NotifyLoadBookmarkFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Failed to load bookmark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyLoadBookmarkFailedTitle {
+            get {
+                return ResourceManager.GetString("NotifyLoadBookmarkFailedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Failed to load history. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyLoadHistoryFailed {
+            get {
+                return ResourceManager.GetString("NotifyLoadHistoryFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Failed to load history に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyLoadHistoryFailedTitle {
+            get {
+                return ResourceManager.GetString("NotifyLoadHistoryFailedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   (Loading...) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyLoadingTitle {
+            get {
+                return ResourceManager.GetString("NotifyLoadingTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Failed to load pagemark. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyLoadPagemarkFailed {
+            get {
+                return ResourceManager.GetString("NotifyLoadPagemarkFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Failed to load pagemark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyLoadPagemarkFailedTitle {
+            get {
+                return ResourceManager.GetString("NotifyLoadPagemarkFailedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Failed to load settings. It starts up with the default setting. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyLoadSettingFailed {
+            get {
+                return ResourceManager.GetString("NotifyLoadSettingFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Failed to load setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyLoadSettingFailedTitle {
+            get {
+                return ResourceManager.GetString("NotifyLoadSettingFailedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   No files に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyNoFiles {
+            get {
+                return ResourceManager.GetString("NotifyNoFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Failed to output the file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyOutputFailed {
+            get {
+                return ResourceManager.GetString("NotifyOutputFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   No next pagemark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyPagemarkNextFailed {
+            get {
+                return ResourceManager.GetString("NotifyPagemarkNextFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   No previous pagemark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyPagemarkPrevFailed {
+            get {
+                return ResourceManager.GetString("NotifyPagemarkPrevFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Play failed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyPlayFailed {
+            get {
+                return ResourceManager.GetString("NotifyPlayFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   {0} is an unsupported argument type. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OptionErrorArgument {
+            get {
+                return ResourceManager.GetString("OptionErrorArgument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   An argument is required for {0}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OptionErrorArgumentEmpty {
+            get {
+                return ResourceManager.GetString("OptionErrorArgumentEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   You can not use {1} as an argument to {0}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OptionErrorArgumentFailed {
+            get {
+                return ResourceManager.GetString("OptionErrorArgumentFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   {0} is an unknown option. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OptionErrorArgumentUnknown {
+            get {
+                return ResourceManager.GetString("OptionErrorArgumentUnknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Specified configuration file does not exist に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OptionErrorFileNotFound {
+            get {
+                return ResourceManager.GetString("OptionErrorFileNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Start up without opening the image file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OptionIsBlank {
+            get {
+                return ResourceManager.GetString("OptionIsBlank", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Specify whether to start with full screen に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OptionIsFullScreen {
+            get {
+                return ResourceManager.GetString("OptionIsFullScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   This help is displayed に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OptionIsHelp {
+            get {
+                return ResourceManager.GetString("OptionIsHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Specify whether to start in a new window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OptionIsNewWindow {
+            get {
+                return ResourceManager.GetString("OptionIsNewWindow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Initialize window coordinates に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OptionIsResetPlacement {
+            get {
+                return ResourceManager.GetString("OptionIsResetPlacement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Specify whether to start a slideshow に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OptionIsSlideShow {
+            get {
+                return ResourceManager.GetString("OptionIsSlideShow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display version information に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OptionIsVersion {
+            get {
+                return ResourceManager.GetString("OptionIsVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Specify the path of the setting file (UserSetting.xml) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OptionSettingFilename {
+            get {
+                return ResourceManager.GetString("OptionSettingFilename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Indicates the end of option list. Subsequent arguments are considered file names. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OptionTerminater {
+            get {
+                return ResourceManager.GetString("OptionTerminater", resourceCulture);
             }
         }
         
@@ -6889,6 +7786,276 @@ namespace NeeView.Properties {
         public static string ParamCommandIsReversePageMoveWheelTips {
             get {
                 return ResourceManager.GetString("ParamCommandIsReversePageMoveWheelTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Direction of rotation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterAutoRotateOrientation {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterAutoRotateOrientation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Include the first and last pages に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterMovePagemarkIncludeTerminal {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterMovePagemarkIncludeTerminal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Loop に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterMovePagemarkLoop {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterMovePagemarkLoop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Number of moved pages に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterMoveSize {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterMoveSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Rotation angle に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterRotateAmount {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterRotateAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   It is an angle which rotates by one operation. (0-180) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterRotateAmountTips {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterRotateAmountTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Apply image stretch に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterRotateIsStretch {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterRotateIsStretch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Re-apply image stretch after rotation. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterRotateIsStretchTips {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterRotateIsStretchTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scale rate (%) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterScaleAmount {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterScaleAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   It is the rate of change by one operation. (0-100) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterScaleAmountTips {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterScaleAmountTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   100% snap に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterScaleSnapDefault {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterScaleSnapDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Make sure to zoom in and out by 100%. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterScaleSnapDefaultTips {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterScaleSnapDefaultTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Allow vertical scroll に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterScrollAllowCross {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterScrollAllowCross", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   If you can not scroll in the axial direction, sucrose in the direction perpendicular to the axis. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterScrollAllowCrossTips {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterScrollAllowCrossTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Amount of movement(%) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterScrollAmount {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterScrollAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The ratio (0-100) of the screen to scroll in one operation. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterScrollAmountTips {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterScrollAmountTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Amount of movement(%) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterScrollPageAmount {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterScrollPageAmount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The ratio to the screen to scroll in one operation. (0-100) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterScrollPageAmountTips {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterScrollPageAmountTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Smooth scroll に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterScrollPageAnimation {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterScrollPageAnimation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Minimum scrolling distance に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterScrollPageMargin {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterScrollPageMargin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scroll only if you can scroll above this pixel width. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterScrollPageMarginTips {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterScrollPageMarginTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   N-type scroll に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterScrollPageN {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterScrollPageN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   If vertically scrollable, scroll vertically as well. If you can scroll vertically and horizontally, scroll to draw N characters. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterScrollPageNTips {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterScrollPageNTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Parameter sharing に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterShare {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterShare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switching to original size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterStretchModeIsToggle {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterStretchModeIsToggle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   If the scale mode is already specified, it will be the original size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterStretchModeIsToggleTips {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterStretchModeIsToggleTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switchable mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterToggleStretchAllowTitle {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterToggleStretchAllowTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Loop に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterToggleStretchLoop {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterToggleStretchLoop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Loop setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterToggleStretchLoopTitle {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterToggleStretchLoopTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Parameters to share with &quot;{0}&quot; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandShare {
+            get {
+                return ResourceManager.GetString("ParamCommandShare", resourceCulture);
             }
         }
         
@@ -8032,6 +9199,24 @@ namespace NeeView.Properties {
         public static string ParamLoupeIsResetByRestartTips {
             get {
                 return ResourceManager.GetString("ParamLoupeIsResetByRestartTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display the magnification of loupe に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamLoupeIsVisibleLoupeInfo {
+            get {
+                return ResourceManager.GetString("ParamLoupeIsVisibleLoupeInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The magnification will be displayed on the upper right of the screen during loupe. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamLoupeIsVisibleLoupeInfoTips {
+            get {
+                return ResourceManager.GetString("ParamLoupeIsVisibleLoupeInfoTips", resourceCulture);
             }
         }
         
@@ -9912,6 +11097,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   &quot;{0}&quot; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TokenFormat {
+            get {
+                return ResourceManager.GetString("TokenFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///     に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string TokenSeparator {
+            get {
+                return ResourceManager.GetString("TokenSeparator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   About に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WindowAboutTitle {
@@ -10011,6 +11214,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Down に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordDown {
+            get {
+                return ResourceManager.GetString("WordDown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Embedded image に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordEmbeddedImage {
+            get {
+                return ResourceManager.GetString("WordEmbeddedImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Excluded path に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WordExcludePath {
@@ -10079,6 +11300,15 @@ namespace NeeView.Properties {
         public static string WordItem {
             get {
                 return ResourceManager.GetString("WordItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Left に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordLeft {
+            get {
+                return ResourceManager.GetString("WordLeft", resourceCulture);
             }
         }
         
@@ -10191,6 +11421,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Right に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordRight {
+            get {
+                return ResourceManager.GetString("WordRight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   sec に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordSec {
+            get {
+                return ResourceManager.GetString("WordSec", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Shortcut に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WordShortcut {
@@ -10259,6 +11507,15 @@ namespace NeeView.Properties {
         public static string WordToUp {
             get {
                 return ResourceManager.GetString("WordToUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Up に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordUp {
+            get {
+                return ResourceManager.GetString("WordUp", resourceCulture);
             }
         }
         

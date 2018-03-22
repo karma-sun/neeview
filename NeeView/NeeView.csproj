@@ -288,7 +288,6 @@
     <Compile Include="BookHistoryCommand.cs" />
     <Compile Include="BookSetting.cs" />
     <Compile Include="ContentCanvasBrush.cs" />
-    <Compile Include="Converters\TouchActionToTipsConverter.cs" />
     <Compile Include="MouseInput\DragTransformControl.cs" />
     <Compile Include="MouseInput\LoupeTransform.cs" />
     <Compile Include="Page\PdfContetnt.cs" />
@@ -352,7 +351,6 @@
       <DependentUpon>VideoSlider.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\AnytToFalseConverter.cs" />
-    <Compile Include="Converters\ApiVersionToApiTextConverter.cs" />
     <Compile Include="Converters\BackgroundStyleToBooleanConverter.cs" />
     <Compile Include="Converters\BannerSizeConverter.cs" />
     <Compile Include="Converters\BookMementoToTooltipConverter.cs" />

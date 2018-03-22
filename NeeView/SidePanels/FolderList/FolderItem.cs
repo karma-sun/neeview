@@ -99,7 +99,7 @@ namespace NeeView
                 }
                 else if (IsEmpty)
                 {
-                    return "表示できるファイルはありません";
+                    return Properties.Resources.NotifyNoFiles;
                 }
                 else
                 {

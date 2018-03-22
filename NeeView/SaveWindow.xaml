@@ -4,9 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
+        xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}"
-        Title="画像を保存" Height="300" Width="450">
+        Title="{x:Static properties:Resources.ControlSaveTitle}" Height="300" Width="450">
     <Window.Resources>
         <Style TargetType="Canvas">
             <Setter Property="Margin" Value="20"/>
@@ -21,8 +22,8 @@
         <DockPanel Margin="10">
 
             <DockPanel DockPanel.Dock="Bottom" LastChildFill="False">
-                <Button DockPanel.Dock="Right" x:Name="ButtonCancel" Content="Cancel" Click="ButtonCancel_Click" VerticalAlignment="Bottom"/>
-                <Button DockPanel.Dock="Right" x:Name="ButtonSave" Content="名前をつけて保存..." Click="ButtonSave_Click" VerticalAlignment="Bottom" />
+                <Button DockPanel.Dock="Right" x:Name="ButtonCancel" Content="{x:Static properties:Resources.WordCancel}" Click="ButtonCancel_Click" VerticalAlignment="Bottom"/>
+                <Button DockPanel.Dock="Right" x:Name="ButtonSave" Content="{x:Static properties:Resources.ControlSaveSaveAs}" Click="ButtonSave_Click" VerticalAlignment="Bottom" />
             </DockPanel>
 
             <WrapPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,4,0,10">
@@ -31,9 +32,9 @@
                         <Setter Property="Margin" Value="5,2,15,2"/>
                     </Style>
                 </WrapPanel.Resources>
-                <CheckBox IsChecked="{Binding IsHintClone}" Content="元ファイルのまま保存" />
-                <CheckBox IsEnabled="{Binding IsEnableDoubleImage}" IsChecked="{Binding IsHintDoubleImage}" Content="2ページを連結する" />
-                <CheckBox IsEnabled="{Binding IsEnableBackground}" IsChecked="{Binding IsHintBackground}" Content="背景を含める" />
+                <CheckBox IsChecked="{Binding IsHintClone}" Content="{x:Static properties:Resources.ControlSaveOriginal}" />
+                <CheckBox IsEnabled="{Binding IsEnableDoubleImage}" IsChecked="{Binding IsHintDoubleImage}" Content="{x:Static properties:Resources.ControlSaveWidePage}" />
+                <CheckBox IsEnabled="{Binding IsEnableBackground}" IsChecked="{Binding IsHintBackground}" Content="{x:Static properties:Resources.ControlSaveWithBackground}" />
             </WrapPanel>
 
             <TextBlock DockPanel.Dock="Bottom" x:Name="Image01Title" Text="{Binding ThumbnailTitle}" TextAlignment="Center" Margin="0,0,0,8"/>

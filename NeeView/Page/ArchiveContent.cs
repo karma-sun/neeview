@@ -33,7 +33,7 @@ namespace NeeView
             PageMessage = new PageMessage()
             {
                 Icon = FilePageIcon.Alart,
-                Message = "このページはサムネイル作成専用です",
+                Message = "For thumbnail creation only",
             };
 
             // エントリが有効でない場合の処理
@@ -54,7 +54,7 @@ namespace NeeView
             PageMessage = new PageMessage()
             {
                 Icon = FilePageIcon.Alart,
-                Message = "このページはサムネイル作成専用です",
+                Message = "For thumbnail creation only",
             };
         }
 

@@ -205,7 +205,7 @@ namespace NeeView
             var place = BookHub.Current.Book?.Place;
 
             if (_loadingPath != null)
-                Title = LoosePath.GetFileName(_loadingPath) + " (読込中)";
+                Title = LoosePath.GetFileName(_loadingPath) + " " + Properties.Resources.NotifyLoadingTitle;
 
             else if (place == null)
                 Title = _defaultWindowTitle;

@@ -668,7 +668,7 @@ namespace NeeView
             var result = await MoveFolder(+1, option);
             if (result != true)
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "次のブックはありません");
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyBookNextFailed);
             }
         }
 
@@ -679,7 +679,7 @@ namespace NeeView
             var result = await MoveFolder(-1, option);
             if (result != true)
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "前のブックはありません");
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyBookPrevFailed);
             }
         }
 

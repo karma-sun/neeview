@@ -42,7 +42,7 @@ namespace NeeView
             }
             else
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "これより古い履歴はありません");
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyHistoryTerminal);
             }
         }
 
@@ -59,14 +59,14 @@ namespace NeeView
             if (_bookHub.IsLoading) return;
 
             var unit = _bookHistory.Find(_bookHub.Address);
-            var next = unit?.HistoryNode?.Previous; // リストと履歴の方向は逆
+            var next = unit?.HistoryNode?.Previous; // リストと履歴の方向は逆 
             if (next != null)
             {
                 _bookHub.RequestLoad(next.Value.Memento.Place, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe | BookLoadOption.IsBook, true);
             }
             else
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "最新の履歴です");
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyHistoryLastest);
             }
         }
     }

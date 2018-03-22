@@ -21,9 +21,16 @@ namespace NeeView
     /// </summary>
     public enum PrintMode
     {
+        [AliasName("@EnumPrintModeRawImage")]
         RawImage,
+
+        [AliasName("@EnumPrintModeView")]
         View,
+
+        [AliasName("@EnumPrintModeViewFill")]
         ViewFill,
+
+        [AliasName("@EnumPrintModeViewStretch")]
         ViewStretch,
     }
 
@@ -64,8 +71,8 @@ namespace NeeView
         //
         public static Dictionary<PageOrientation, string> PageOrientationList { get; } = new Dictionary<PageOrientation, string>()
         {
-            [PageOrientation.Portrait] = "縦",
-            [PageOrientation.Landscape] = "横"
+            [PageOrientation.Portrait] = Properties.Resources.EnumPageOperationPortrait,
+            [PageOrientation.Landscape] = Properties.Resources.EnumPageOperationLandscape,
         };
 
         //
@@ -91,15 +98,7 @@ namespace NeeView
         }
 
         //
-        public Dictionary<PrintMode, string> PrintModeList { get; } = new Dictionary<PrintMode, string>()
-        {
-            [PrintMode.RawImage] = "画像を印刷", // 元画像、メインページのみ
-            [PrintMode.View] = "表示を印刷",
-            [PrintMode.ViewFill] = "用紙サイズで表示を印刷",
-            [PrintMode.ViewStretch] = "全体の表示を印刷",
-        };
-
-
+        public Dictionary<PrintMode, string> PrintModeList => AliasNameExtensions.GetAliasNameDictionary<PrintMode>();
 
         /// <summary>
         /// IsBackground property.
@@ -170,9 +169,9 @@ namespace NeeView
 
         public Dictionary<HorizontalAlignment, string> HorizontalAlignmentList { get; } = new Dictionary<HorizontalAlignment, string>()
         {
-            [HorizontalAlignment.Left] = "左詰め",
-            [HorizontalAlignment.Center] = "中央",
-            [HorizontalAlignment.Right] = "右詰め",
+            [HorizontalAlignment.Left] = Properties.Resources.EnumHorizontalAlignmentLeft,
+            [HorizontalAlignment.Center] = Properties.Resources.EnumHorizontalAlignmentCenter,
+            [HorizontalAlignment.Right] = Properties.Resources.EnumHorizontalAlignmentRight,
         };
 
         /// <summary>
@@ -188,9 +187,9 @@ namespace NeeView
 
         public Dictionary<VerticalAlignment, string> VerticalAlignmentList { get; } = new Dictionary<VerticalAlignment, string>()
         {
-            [VerticalAlignment.Top] = "上詰め",
-            [VerticalAlignment.Center] = "中央",
-            [VerticalAlignment.Bottom] = "下詰め",
+            [VerticalAlignment.Top] = Properties.Resources.EnumVerticalAlignmentTop,
+            [VerticalAlignment.Center] = Properties.Resources.EnumVerticalAlignmentCenter,
+            [VerticalAlignment.Bottom] = Properties.Resources.EnumVerticalAlignmentBottom,
         };
 
         /// <summary>

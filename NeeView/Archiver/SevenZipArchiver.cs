@@ -323,7 +323,7 @@ namespace NeeView
                     var archiveEntry = extractor.ArchiveFileData[entry.Id];
                     if (archiveEntry.FileName != entry.RawEntryName)
                     {
-                        throw new ApplicationException("ページデータの不整合");
+                        throw new ApplicationException(Properties.Resources.ExceptionInconsistency);
                     }
 
                     var ms = new MemoryStream();

@@ -54,8 +54,8 @@ namespace NeeView
             }
 
             string exceptionMessage = e.Exception is System.Reflection.TargetInvocationException ? e.Exception.InnerException?.Message : e.Exception.Message;
-            string message = $"エラーが発生しました。アプリを終了します。\n\n理由 : {exceptionMessage}\n\n次のファイルにエラーの詳細が出力されています。\n{errorLogFileName}";
-            MessageBox.Show(message, "強制終了", MessageBoxButton.OK, MessageBoxImage.Error);
+            string message = string.Format(NeeView.Properties.Resources.ExceptionCritical, exceptionMessage, errorLogFileName);
+            MessageBox.Show(message, NeeView.Properties.Resources.ExceptionCriticalTitle, MessageBoxButton.OK, MessageBoxImage.Error);
 
 #if DEBUG
 #else
@@ -87,7 +87,7 @@ namespace NeeView
             var exception = e.ExceptionObject as Exception;
             if (exception == null)
             {
-                MessageBox.Show("System.Exceptionとして扱えない例外");
+                ////MessageBox.Show("System.Exceptionとして扱えない例外");
                 return;
             }
             else

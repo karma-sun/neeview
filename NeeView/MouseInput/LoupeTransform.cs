@@ -62,7 +62,7 @@ namespace NeeView
         /// IsVisibleLoupeInfo property.
         /// </summary>
         private bool _IsVisibleLoupeInfo = true;
-        [PropertyMember("ルーペ倍率を表示する", Tips = "ルーペ時に右上に倍率が表示されます。倍率はマウスホイール操作で変更できます。")]
+        [PropertyMember("@ParamLoupeIsVisibleLoupeInfo", Tips = "@ParamLoupeIsVisibleLoupeInfoTips")]
         public bool IsVisibleLoupeInfo
         {
             get { return _IsVisibleLoupeInfo; }

@@ -7,18 +7,11 @@ namespace NeeView.Data
     [AttributeUsage(AttributeTargets.Property)]
     public class OptionMemberAttribute : OptionBaseAttribute
     {
-        // short option name
-        public string ShortName { get; set; }
-
-        // long option name
-        public string LongName { get; set; }
-
-        // 引数を省略した場合の既定値
-        public string Default { get; set; }
-
-        public bool HasParameter { get; set; }
-
-        public bool RequireParameter { get; set; }
+        public string ShortName;
+        public string LongName;
+        public string Default;
+        public bool HasParameter;
+        public bool RequireParameter;
 
         public OptionMemberAttribute() { }
         public OptionMemberAttribute(string shortName, string longName)
@@ -37,7 +30,7 @@ namespace NeeView.Data
         public string Default => _attribute.Default;
         public bool HasParameter => _attribute.HasParameter;
         public bool RequireParameter => _attribute.RequireParameter;
-        public string HelpText => _attribute.HelpText;
+        public string HelpText => ResourceService.GetString(_attribute.HelpText);
 
         public string PropertyName => _info.Name;
 
@@ -81,7 +74,7 @@ namespace NeeView.Data
                 case TypeCode.Double:
                     return "number";
                 default:
-                    throw new NotSupportedException($"{_info.PropertyType} はサポート外の引数型です。");
+                    throw new NotSupportedException(string.Format(Properties.Resources.OptionErrorArgument, _info.PropertyType));
             }
         }
 
@@ -117,11 +110,8 @@ namespace NeeView.Data
                     _info.SetValue(_source, double.Parse(value));
                     break;
                 default:
-                    throw new NotSupportedException($"{_info.PropertyType.Name} はサポート外の引数型です。");
+                    throw new NotSupportedException(string.Format(Properties.Resources.OptionErrorArgument, _info.PropertyType.Name));
             }
         }
     }
-
-
-
 }

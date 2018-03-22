@@ -92,12 +92,25 @@ function Set-AssemblyVersion($projectFile, $assemblyInfoFile, $title, $version)
 	$content | Out-File -Encoding UTF8 $assemblyInfoFile
 }
 
+
+#
+$tempProjectFile = [System.IO.Path]::GetTempFileName()
+$tempAssemblyInfoFile = [System.IO.Path]::GetTempFileName()
+
+#--------------------
+# store AssemblyInfo.cs
+function Save-AssemblyInfo($projectFile, $assemblyInfoFile)
+{
+	Copy-Item $projectFile $tempProjectFile
+	Copy-Item $assemblyInfoFile $tempAssemblyInfoFile
+}
+
 #--------------------
 # reset AssemblyInfo.cs
-function Reset-AssemblyInfo($projectFile, $assemblyInfoFile)
+function Restore-AssemblyInfo($projectFile, $assemblyInfoFile)
 {
-	& git checkout $projectFile 
-	& git checkout $assemblyInfoFile 
+	Move-Item $tempProjectFile $projectFile -Force
+	Move-Item $tempAssemblyInfoFile $assemblyInfoFile -Force
 }
 
 
@@ -120,6 +133,7 @@ $assemblyInfoFile = "$projectDir\Properties\AssemblyInfo.cs"
 # build
 function Build-Project($arch, $assemblyVersion)
 {
+	Save-AssemblyInfo $projectFile $assemblyInfoFile
 	if ($arch -eq "x86")
 	{
 		$platform = "x86"
@@ -165,7 +179,7 @@ function New-Package($productDir, $packageDir)
 
 
 	# copy language dll
-	$langs = "de","en","es","fr","it","ja","ko","ru","zh-Hans","zh-Hant","x64","x86"
+	$langs = "de","en","es","fr","it","ja","ja-JP","ko","ru","zh-Hans","zh-Hant","x64","x86"
 	foreach($lang in $langs)
 	{
 		Copy-Item "$productDir\$lang" $packageLibraryDir -Recurse
@@ -297,11 +311,11 @@ function New-Msi($arch, $packageDir, $packageMsi)
 
 
 	# make DllComponents.wxs
-	#& $heat dir "$packageDir\Libraries" -cg DllComponents -ag -pog:Binaries -sfrag -var var.LibrariesDir -dr INSTALLFOLDER -out WixSource\DllComponents.wxs
-	#if ($? -ne $true)
-	#{
-	#	throw "heat error"
-	#}
+	& $heat dir "$packageDir\Libraries" -cg DllComponents -ag -pog:Binaries -sfrag -var var.LibrariesDir -dr INSTALLFOLDER -out WixSource\DllComponents.wxs
+	if ($? -ne $true)
+	{
+		throw "heat error"
+	}
 
 	#-------------------------
 	# WiX
@@ -448,7 +462,7 @@ Remove-BuildObjects
 Write-Host "`n[Build] ...`n" -fore Cyan
 Build-Project "x86" $assemblyVersion
 Build-Project "x64" $assemblyVersion
-Reset-AssemblyInfo  $projectFile $assemblyInfoFile
+Restore-AssemblyInfo  $projectFile $assemblyInfoFile
 
 #
 Write-Host "`n[Package] ...`n" -fore Cyan

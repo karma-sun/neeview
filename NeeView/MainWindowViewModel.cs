@@ -320,11 +320,11 @@ namespace NeeView
 
             if (point.X < target.ActualWidth * 0.5)
             {
-                return "次のページ";
+                return Properties.Resources.CommandMovePageWithCursorNext;
             }
             else
             {
-                return "前のページ";
+                return Properties.Resources.CommandMovePageWithCursorPrev;
             }
         }
 

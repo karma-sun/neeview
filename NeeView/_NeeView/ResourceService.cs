@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace NeeView
@@ -51,6 +53,14 @@ namespace NeeView
         {
             if (key[0] != '@') return null;
             return Properties.Resources.ResourceManager.GetString(key.Substring(1), Properties.Resources.Culture);
+        }
+
+        /// <summary>
+        /// 連結単語文字列を生成
+        /// </summary>
+        public static string Join(IEnumerable<string> tokens)
+        {
+            return string.Join(Properties.Resources.TokenSeparator, tokens.Select(e => string.Format(Properties.Resources.TokenFormat, e)));
         }
     }
 }

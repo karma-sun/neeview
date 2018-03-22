@@ -447,11 +447,11 @@ namespace NeeView
                 {
                     if (e.Direction < 0)
                     {
-                        InfoMessage.Current.SetMessage(InfoMessageType.Notify, "最初のページです");
+                        InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyFirstPage);
                     }
                     else
                     {
-                        InfoMessage.Current.SetMessage(InfoMessageType.Notify, "最後のページです");
+                        InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyLastPage);
                     }
                 }
             }
@@ -778,7 +778,7 @@ namespace NeeView
             }
             else
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "現在ページより前のページマークはありません");
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyFirstPagemark);
             }
         }
 
@@ -794,7 +794,7 @@ namespace NeeView
             }
             else
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "現在ページより後のページマークはありません");
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyLastPagemark);
             }
         }
 

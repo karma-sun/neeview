@@ -10,13 +10,10 @@ namespace NeeView.Windows.Property
     [AttributeUsage(AttributeTargets.Property)]
     public class PropertyMemberAttribute : Attribute
     {
-        public string Name { get; set; }
-
-        public string Title { get; set; }
-
-        public string Tips { get; set; }
-
-        public bool IsVisible { get; set; } = true;
+        public string Name;
+        public string Title;
+        public string Tips;
+        public bool IsVisible = true;
 
         public PropertyMemberAttribute() { }
         public PropertyMemberAttribute(string name) { Name = name; }
@@ -30,11 +27,11 @@ namespace NeeView.Windows.Property
     [AttributeUsage(AttributeTargets.Property)]
     public class PropertyRangeAttribute : PropertyMemberAttribute
     {
-        public double Minimum { get; set; }
-        public double Maximum { get; set; }
-        public double TickFrequency { get; set; }
-        public bool IsEditable { get; set; }
-        public string Format { get; set; }
+        public double Minimum;
+        public double Maximum;
+        public double TickFrequency;
+        public bool IsEditable;
+        public string Format;
 
         public PropertyRangeAttribute(double min, double max)
         {
@@ -58,8 +55,8 @@ namespace NeeView.Windows.Property
     [AttributeUsage(AttributeTargets.Property)]
     public class PropertyPathAttribute : PropertyMemberAttribute
     {
-        public bool IsDirectory { get; set; }
-        public string Filter { get; set; }
+        public bool IsDirectory;
+        public string Filter;
 
         public PropertyPathAttribute(string name) : base(name)
         {

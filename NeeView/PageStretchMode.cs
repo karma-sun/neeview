@@ -9,36 +9,25 @@ namespace NeeView
     // 画像のストレッチモード
     public enum PageStretchMode
     {
-        [AliasName(PageStretchModeExtension.PageStretchMode_None)]
+        [AliasName("@EnumPageStretchModeNone")]
         None,
 
-        [AliasName(PageStretchModeExtension.PageStretchMode_Inside)]
+        [AliasName("@EnumPageStretchModeInside")]
         Inside,
 
-        [AliasName(PageStretchModeExtension.PageStretchMode_Outside)]
+        [AliasName("@EnumPageStretchModeOutside")]
         Outside,
 
-        [AliasName(PageStretchModeExtension.PageStretchMode_Uniform)]
+        [AliasName("@EnumPageStretchModeUniform")]
         Uniform,
 
-        [AliasName(PageStretchModeExtension.PageStretchMode_UniformToFill)]
+        [AliasName("@EnumPageStretchModeUniformToFill")]
         UniformToFill,
 
-        [AliasName(PageStretchModeExtension.PageStretchMode_UniformToSize)]
+        [AliasName("@EnumPageStretchModeUniformToSize")]
         UniformToSize,
 
-        [AliasName(PageStretchModeExtension.PageStretchMode_UniformToVertical)]
+        [AliasName("@EnumPageStretchModeUniformToVertical")]
         UniformToVertical,
-    }
-
-    public static class PageStretchModeExtension
-    {
-        public const string PageStretchMode_None = "オリジナルサイズ";
-        public const string PageStretchMode_Inside = "大きい場合ウィンドウサイズに合わせる";
-        public const string PageStretchMode_Outside = "小さい場合ウィンドウサイズに合わせる";
-        public const string PageStretchMode_Uniform = "ウィンドウサイズに合わせる";
-        public const string PageStretchMode_UniformToFill = "ウィンドウいっぱいに広げる";
-        public const string PageStretchMode_UniformToSize = "面積をウィンドウに合わせる";
-        public const string PageStretchMode_UniformToVertical = "高さをウィンドウに合わせる";
     }
 }

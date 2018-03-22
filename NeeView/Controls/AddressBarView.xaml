@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
+             xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
@@ -44,11 +45,11 @@
                         <Image.Style>
                             <Style TargetType="Image">
                                 <Setter Property="Source" Value="{StaticResource ic_looks_one_24px}"/>
-                                <Setter Property="ToolTip" Value="1ページ表示"/>
+                                <Setter Property="ToolTip" Value="{x:Static properties:Resources.EnumPageModeSinglePage}"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding BookSetting.PageMode}"  Value="WidePage">
                                         <Setter Property="Source" Value="{StaticResource ic_looks_two_24px}"/>
-                                        <Setter Property="ToolTip" Value="2ページ表示"/>
+                                        <Setter Property="ToolTip" Value="{x:Static properties:Resources.EnumPageModeWidePage}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -62,11 +63,11 @@
                             <Image.Style>
                                 <Style TargetType="Image">
                                     <Setter Property="Source" Value="{StaticResource ic_left_to_right_24px}"/>
-                                    <Setter Property="ToolTip" Value="左開き"/>
+                                    <Setter Property="ToolTip" Value="{x:Static properties:Resources.EnumPageReadOrderLeftToRight}"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding BookSetting.BookReadOrder}"  Value="RightToLeft">
                                             <Setter Property="Source" Value="{StaticResource ic_right_to_left_24px}"/>
-                                            <Setter Property="ToolTip" Value="右開き"/>
+                                            <Setter Property="ToolTip" Value="{x:Static properties:Resources.EnumPageReadOrderRightToLeft}"/>
                                         </DataTrigger>
                                     </Style.Triggers>
                                 </Style>
@@ -142,7 +143,7 @@
             <Button x:Name="PrevHistoryButton" Command="{Binding BookCommands[PrevHistory]}" Style="{StaticResource AddressIconButton}"
                                     ContextMenuService.Placement="Bottom"
                                     ContextMenuOpening="PrevHistoryButton_ContextMenuOpening"
-                                    ToolTip="戻る">
+                                    ToolTip="{x:Static properties:Resources.ControlAddressBarBack}">
                 <Image Source="{StaticResource ic_arrow_back_24px}" Width="16" Height="16" />
                 <Button.ContextMenu>
                     <ContextMenu ItemContainerStyle="{StaticResource HistoryContextMenuItemContainerStyle}" />
@@ -151,14 +152,14 @@
             <Button x:Name="NextHistoryButton" Command="{Binding BookCommands[NextHistory]}"  Style="{StaticResource AddressIconButton}"
                                     ContextMenuService.Placement="Bottom"
                                     ContextMenuOpening="NextHistoryButton_ContextMenuOpening"
-                                    ToolTip="進む">
+                                    ToolTip="{x:Static properties:Resources.ControlAddressBarNext}">
                 <Image Source="{StaticResource ic_arrow_forward_24px}" Width="16" Height="16" />
                 <Button.ContextMenu>
                     <ContextMenu ItemContainerStyle="{StaticResource HistoryContextMenuItemContainerStyle}" />
                 </Button.ContextMenu>
             </Button>
             <Button Command="{Binding BookCommands[ReLoad]}" Style="{StaticResource AddressIconButton}"
-                                    ToolTip="再読込">
+                                    ToolTip="{x:Static properties:Resources.ControlAddressBarReLoad}">
                 <Image Source="{StaticResource ic_reflesh_24px}" Width="16" Height="16" />
             </Button>
 

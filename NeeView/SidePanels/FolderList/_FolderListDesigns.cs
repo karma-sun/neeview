@@ -23,7 +23,7 @@ namespace NeeView
     /// </summary>
     public class FolderItem_Design
     {
-        public string Name => "ある晴れた昼下がり市場へ続く道荷馬車がゴトゴト子牛をのせてゆく";
+        public string Name => "A way to continue to a sunny afternoon afternoon market. The wagon trains a calf goby calf.";
 
         public bool IsDirectory => true;
         public bool IsShortcut => true;

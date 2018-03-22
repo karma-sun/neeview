@@ -319,10 +319,10 @@ namespace NeeView
                     infoMessage.SetMessage(InfoMessageType.ViewTransform, $"{(int)(transform.Angle)}°");
                     break;
                 case TransformActionType.FlipHorizontal:
-                    infoMessage.SetMessage(InfoMessageType.ViewTransform, "左右反転 " + (transform.IsFlipHorizontal ? "ON" : "OFF"));
+                    infoMessage.SetMessage(InfoMessageType.ViewTransform, Properties.Resources.NotifyFlipHorizontal + (transform.IsFlipHorizontal ? "ON" : "OFF"));
                     break;
                 case TransformActionType.FlipVertical:
-                    infoMessage.SetMessage(InfoMessageType.ViewTransform, "上下反転 " + (transform.IsFlipVertical ? "ON" : "OFF"));
+                    infoMessage.SetMessage(InfoMessageType.ViewTransform, Properties.Resources.NotifyFlipVertical + (transform.IsFlipVertical ? "ON" : "OFF"));
                     break;
                 case TransformActionType.LoupeScale:
                     if (LoupeTransform.Current.Scale != 1.0)

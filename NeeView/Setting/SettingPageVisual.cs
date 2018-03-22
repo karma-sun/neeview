@@ -276,7 +276,7 @@ namespace NeeView.Setting
                 Value = value;
             }
 
-            public override string ValueString => $"{Value}秒";
+            public override string ValueString => $"{Value}{Properties.Resources.WordSec}";
         }
 
         #endregion

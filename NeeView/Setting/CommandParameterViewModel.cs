@@ -37,7 +37,7 @@ namespace NeeView.Setting
                 _key = share.CommandType;
                 _defaultParameter = CommandTable.Current[_key].DefaultParameter;
 
-                this.Note = $"「{_key.ToDispString()}」と共通のパラメータです";
+                this.Note = string.Format(Properties.Resources.ParamCommandShare, _key.ToDispString());
             }
 
             if (_defaultParameter == null)

@@ -13,7 +13,7 @@ namespace NeeView.Data
     [AttributeUsage(AttributeTargets.Property)]
     public class OptionBaseAttribute : Attribute
     {
-        public string HelpText { get; set; }
+        public string HelpText;
     }
 
 
@@ -101,7 +101,7 @@ namespace NeeView.Data
                 text += $"{key} {keyValue}\n                {element.HelpText}\n";
             }
 
-            text += "--\n                オプションリストの終りを示す。これ以後の引数はファイル名とみなされます";
+            text += $"--\n                {Properties.Resources.OptionTerminater}";
 
             return text;
         }
@@ -138,7 +138,7 @@ namespace NeeView.Data
                         bool isLast = keys.Last() == key;
 
                         var element = GetElement(key);
-                        if (element == null) throw new ArgumentException($"{key} は未知のオプションです。");
+                        if (element == null) throw new ArgumentException(string.Format(Properties.Resources.OptionErrorArgumentUnknown, key));
 
                         if (!isLast)
                         {
@@ -198,10 +198,10 @@ namespace NeeView.Data
                 Debug.WriteLine($"Option: {item.Key} = {item.Value}");
 
                 var element = GetElement(item.Key);
-                if (element == null) throw new ArgumentException($"{item.Key} は未知のオプションです。");
+                if (element == null) throw new ArgumentException(string.Format(Properties.Resources.OptionErrorArgumentUnknown, item.Key));
 
                 var value = item.Value ?? element.Default;
-                if (value == null) throw new ArgumentException($"{item.Key} には引数が必要です。");
+                if (value == null) throw new ArgumentException(string.Format(Properties.Resources.OptionErrorArgumentEmpty, item.Key));
 
                 try
                 {
@@ -210,7 +210,7 @@ namespace NeeView.Data
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
-                    throw new ArgumentException($"{item.Key} の引数として {value} は使用できません。");
+                    throw new ArgumentException(string.Format(Properties.Resources.OptionErrorArgumentFailed, item.Key, value));
                 }
             }
 

@@ -86,13 +86,13 @@ namespace NeeView.Setting
                 {
                     var overlaps = _sources
                         .Where(i => i.Key != _key && i.Value.TouchGesture.Split(',').Contains(key))
-                        .Select(e => $"「{e.Key.ToDispString()}」")
+                        .Select(e => e.Key.ToDispLongString())
                         .ToList();
 
                     if (overlaps.Count > 0)
                     {
                         if (this.GestureTokenNote != null) this.GestureTokenNote += "\n";
-                        this.GestureTokenNote += $"{key} は {string.Join("", overlaps)} と競合しています";
+                        this.GestureTokenNote += string.Format(Properties.Resources.NotifyConflictWith, key, ResourceService.Join(overlaps));
                     }
 
                     var element = new GestureElement();

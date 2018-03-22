@@ -1854,11 +1854,8 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ControlCommandListShare" xml:space="preserve">
     <value>Parameter sharing with "{0}"</value>
   </data>
-  <data name="ControlCommandListConflict" xml:space="preserve">
-    <value>"{0}" conflicts with "{1}"</value>
-  </data>
-  <data name="ControlCommandListConflictSingle" xml:space="preserve">
-    <value>Conflicting with "{0}"</value>
+  <data name="NotifyConflictWith" xml:space="preserve">
+    <value>"{0}" conflicts with {1}</value>
   </data>
   <data name="ControlEditCommandTabGeneral" xml:space="preserve">
     <value>General</value>
@@ -3542,5 +3539,431 @@ In the wheel operation, "@CommandViewScrollUp" "@CommandViewScrollDown".</value>
   </data>
   <data name="EnumBackgroundStyleCustom" xml:space="preserve">
     <value>Custom Background</value>
+  </data>
+  <data name="ParamCommandParameterShare" xml:space="preserve">
+    <value>Parameter sharing</value>
+  </data>
+  <data name="ParamCommandParameterMoveSize" xml:space="preserve">
+    <value>Number of moved pages</value>
+  </data>
+  <data name="ParamCommandParameterToggleStretchLoop" xml:space="preserve">
+    <value>Loop</value>
+  </data>
+  <data name="ParamCommandParameterToggleStretchLoopTitle" xml:space="preserve">
+    <value>Loop setting</value>
+  </data>
+  <data name="ParamCommandParameterToggleStretchAllowTitle" xml:space="preserve">
+    <value>Switchable mode</value>
+  </data>
+  <data name="ParamCommandParameterStretchModeIsToggle" xml:space="preserve">
+    <value>Switching to original size</value>
+  </data>
+  <data name="ParamCommandParameterStretchModeIsToggleTips" xml:space="preserve">
+    <value>If the scale mode is already specified, it will be the original size</value>
+  </data>
+  <data name="ParamCommandParameterScrollAmount" xml:space="preserve">
+    <value>Amount of movement(%)</value>
+  </data>
+  <data name="ParamCommandParameterScrollAmountTips" xml:space="preserve">
+    <value>The ratio (0-100) of the screen to scroll in one operation.</value>
+  </data>
+  <data name="ParamCommandParameterScrollAllowCross" xml:space="preserve">
+    <value>Allow vertical scroll</value>
+  </data>
+  <data name="ParamCommandParameterScrollAllowCrossTips" xml:space="preserve">
+    <value>If you can not scroll in the axial direction, sucrose in the direction perpendicular to the axis.</value>
+  </data>
+  <data name="ParamCommandParameterScaleAmount" xml:space="preserve">
+    <value>Scale rate (%)</value>
+  </data>
+  <data name="ParamCommandParameterScaleAmountTips" xml:space="preserve">
+    <value>It is the rate of change by one operation. (0-100)</value>
+  </data>
+  <data name="ParamCommandParameterScaleSnapDefault" xml:space="preserve">
+    <value>100% snap</value>
+  </data>
+  <data name="ParamCommandParameterScaleSnapDefaultTips" xml:space="preserve">
+    <value>Make sure to zoom in and out by 100%.</value>
+  </data>
+  <data name="ParamCommandParameterRotateAmount" xml:space="preserve">
+    <value>Rotation angle</value>
+  </data>
+  <data name="ParamCommandParameterRotateAmountTips" xml:space="preserve">
+    <value>It is an angle which rotates by one operation. (0-180)</value>
+  </data>
+  <data name="ParamCommandParameterRotateIsStretch" xml:space="preserve">
+    <value>Apply image stretch</value>
+  </data>
+  <data name="ParamCommandParameterRotateIsStretchTips" xml:space="preserve">
+    <value>Re-apply image stretch after rotation.</value>
+  </data>
+  <data name="ParamCommandParameterMovePagemarkLoop" xml:space="preserve">
+    <value>Loop</value>
+  </data>
+  <data name="ParamCommandParameterMovePagemarkIncludeTerminal" xml:space="preserve">
+    <value>Include the first and last pages</value>
+  </data>
+  <data name="ParamCommandParameterScrollPageN" xml:space="preserve">
+    <value>N-type scroll</value>
+  </data>
+  <data name="ParamCommandParameterScrollPageNTips" xml:space="preserve">
+    <value>If vertically scrollable, scroll vertically as well. If you can scroll vertically and horizontally, scroll to draw N characters.</value>
+  </data>
+  <data name="ParamCommandParameterScrollPageAnimation" xml:space="preserve">
+    <value>Smooth scroll</value>
+  </data>
+  <data name="ParamCommandParameterScrollPageMargin" xml:space="preserve">
+    <value>Minimum scrolling distance</value>
+  </data>
+  <data name="ParamCommandParameterScrollPageMarginTips" xml:space="preserve">
+    <value>Scroll only if you can scroll above this pixel width.</value>
+  </data>
+  <data name="ParamCommandParameterScrollPageAmount" xml:space="preserve">
+    <value>Amount of movement(%)</value>
+  </data>
+  <data name="ParamCommandParameterScrollPageAmountTips" xml:space="preserve">
+    <value>The ratio to the screen to scroll in one operation. (0-100)</value>
+  </data>
+  <data name="ParamCommandParameterAutoRotateOrientation" xml:space="preserve">
+    <value>Direction of rotation</value>
+  </data>
+  <data name="EnumPageStretchModeNone" xml:space="preserve">
+    <value>Original size</value>
+  </data>
+  <data name="EnumPageStretchModeInside" xml:space="preserve">
+    <value>Fit to window size if large</value>
+  </data>
+  <data name="EnumPageStretchModeOutside" xml:space="preserve">
+    <value>Expand to window size if small</value>
+  </data>
+  <data name="EnumPageStretchModeUniform" xml:space="preserve">
+    <value>Fit to window size</value>
+  </data>
+  <data name="EnumPageStretchModeUniformToFill" xml:space="preserve">
+    <value>Extend it to fill the window</value>
+  </data>
+  <data name="EnumPageStretchModeUniformToSize" xml:space="preserve">
+    <value>Fit the area size to the window</value>
+  </data>
+  <data name="EnumPageStretchModeUniformToVertical" xml:space="preserve">
+    <value>Fit height to window</value>
+  </data>
+  <data name="ParamLoupeIsVisibleLoupeInfo" xml:space="preserve">
+    <value>Display the magnification of loupe</value>
+  </data>
+  <data name="ParamLoupeIsVisibleLoupeInfoTips" xml:space="preserve">
+    <value>The magnification will be displayed on the upper right of the screen during loupe.</value>
+  </data>
+  <data name="OptionIsHelp" xml:space="preserve">
+    <value>This help is displayed</value>
+  </data>
+  <data name="OptionIsVersion" xml:space="preserve">
+    <value>Display version information</value>
+  </data>
+  <data name="OptionSettingFilename" xml:space="preserve">
+    <value>Specify the path of the setting file (UserSetting.xml)</value>
+  </data>
+  <data name="OptionIsFullScreen" xml:space="preserve">
+    <value>Specify whether to start with full screen</value>
+  </data>
+  <data name="OptionIsBlank" xml:space="preserve">
+    <value>Start up without opening the image file</value>
+  </data>
+  <data name="OptionIsResetPlacement" xml:space="preserve">
+    <value>Initialize window coordinates</value>
+  </data>
+  <data name="OptionIsNewWindow" xml:space="preserve">
+    <value>Specify whether to start in a new window</value>
+  </data>
+  <data name="OptionIsSlideShow" xml:space="preserve">
+    <value>Specify whether to start a slideshow</value>
+  </data>
+  <data name="OptionErrorFileNotFound" xml:space="preserve">
+    <value>Specified configuration file does not exist</value>
+  </data>
+  <data name="OptionErrorArgument" xml:space="preserve">
+    <value>{0} is an unsupported argument type.</value>
+  </data>
+  <data name="OptionTerminater" xml:space="preserve">
+    <value>Indicates the end of option list. Subsequent arguments are considered file names.</value>
+  </data>
+  <data name="OptionErrorArgumentUnknown" xml:space="preserve">
+    <value>{0} is an unknown option.</value>
+  </data>
+  <data name="OptionErrorArgumentEmpty" xml:space="preserve">
+    <value>An argument is required for {0}.</value>
+  </data>
+  <data name="OptionErrorArgumentFailed" xml:space="preserve">
+    <value>You can not use {1} as an argument to {0}.</value>
+  </data>
+  <data name="ControlAddressBarBack" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="ControlAddressBarNext" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="ControlAddressBarReLoad" xml:space="preserve">
+    <value>Reload</value>
+  </data>
+  <data name="ControlSaveTitle" xml:space="preserve">
+    <value>Save image</value>
+  </data>
+  <data name="ControlSaveOriginal" xml:space="preserve">
+    <value>Save original file</value>
+  </data>
+  <data name="ControlSaveWidePage" xml:space="preserve">
+    <value>Combine two pages</value>
+  </data>
+  <data name="ControlSaveWithBackground" xml:space="preserve">
+    <value>Include background</value>
+  </data>
+  <data name="ControlSaveSaveAs" xml:space="preserve">
+    <value>Save as...</value>
+  </data>
+  <data name="ControlPrintTitle" xml:space="preserve">
+    <value>Print</value>
+  </data>
+  <data name="ControlPrintPrinter" xml:space="preserve">
+    <value>Printer</value>
+  </data>
+  <data name="ControlPrintButtonPrint" xml:space="preserve">
+    <value>Print</value>
+  </data>
+  <data name="ControlPrintOrientation" xml:space="preserve">
+    <value>Orientation</value>
+  </data>
+  <data name="ControlPrintContent" xml:space="preserve">
+    <value>Content</value>
+  </data>
+  <data name="ControlPrintBackground" xml:space="preserve">
+    <value>Include background</value>
+  </data>
+  <data name="ControlPrintKeepDot" xml:space="preserve">
+    <value>Keep dot</value>
+  </data>
+  <data name="ControlPrintHorizontal" xml:space="preserve">
+    <value>Horizontal alignment</value>
+  </data>
+  <data name="ControlPrintVertival" xml:space="preserve">
+    <value>Vertical alignment</value>
+  </data>
+  <data name="ControlPrintMargin" xml:space="preserve">
+    <value>Margin (mm)</value>
+  </data>
+  <data name="WordLeft" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="WordRight" xml:space="preserve">
+    <value>Right</value>
+  </data>
+  <data name="WordUp" xml:space="preserve">
+    <value>Up</value>
+  </data>
+  <data name="WordDown" xml:space="preserve">
+    <value>Down</value>
+  </data>
+  <data name="ControlPrintSheets" xml:space="preserve">
+    <value>Number of sheets</value>
+  </data>
+  <data name="ControlPrintColumn" xml:space="preserve">
+    <value>Column</value>
+  </data>
+  <data name="ControlPrintRow" xml:space="preserve">
+    <value>Row</value>
+  </data>
+  <data name="EnumPageOperationPortrait" xml:space="preserve">
+    <value>Portrait</value>
+  </data>
+  <data name="EnumPageOperationLandscape" xml:space="preserve">
+    <value>Landscape</value>
+  </data>
+  <data name="EnumPrintModeRawImage" xml:space="preserve">
+    <value>Image</value>
+  </data>
+  <data name="EnumPrintModeView" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="EnumPrintModeViewFill" xml:space="preserve">
+    <value>View with paper size</value>
+  </data>
+  <data name="EnumPrintModeViewStretch" xml:space="preserve">
+    <value>View all</value>
+  </data>
+  <data name="EnumHorizontalAlignmentLeft" xml:space="preserve">
+    <value>Left</value>
+  </data>
+  <data name="EnumHorizontalAlignmentCenter" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="EnumHorizontalAlignmentRight" xml:space="preserve">
+    <value>Right</value>
+  </data>
+  <data name="EnumVerticalAlignmentTop" xml:space="preserve">
+    <value>Top</value>
+  </data>
+  <data name="EnumVerticalAlignmentCenter" xml:space="preserve">
+    <value>Center</value>
+  </data>
+  <data name="EnumVerticalAlignmentBottom" xml:space="preserve">
+    <value>Bottom</value>
+  </data>
+  <data name="ExceptionCriticalTitle" xml:space="preserve">
+    <value>Fatal error</value>
+  </data>
+  <data name="ExceptionCritical" xml:space="preserve">
+    <value>An error occurred. Quit the application.
+
+Cause: {0}
+
+Details of the error are output to the following file.
+{1}</value>
+  </data>
+  <data name="ExceptionInconsistency" xml:space="preserve">
+    <value>Inconsistency of page data</value>
+  </data>
+  <data name="ExceptionNotZip" xml:space="preserve">
+    <value>{0} is not a ZIP file</value>
+  </data>
+  <data name="ControlImportTitle" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ControlImportSetting" xml:space="preserve">
+    <value>Setting</value>
+  </data>
+  <data name="ControlImportHistory" xml:space="preserve">
+    <value>History</value>
+  </data>
+  <data name="ControlImportBookmark" xml:space="preserve">
+    <value>Bookmark</value>
+  </data>
+  <data name="ControlImportPagemark" xml:space="preserve">
+    <value>Pagemark</value>
+  </data>
+  <data name="NotifyHistoryTerminal" xml:space="preserve">
+    <value>There is no history older than this</value>
+  </data>
+  <data name="NotifyHistoryLastest" xml:space="preserve">
+    <value>It is the latest history</value>
+  </data>
+  <data name="ExceptionLoadFailed" xml:space="preserve">
+    <value>Failed to read {0}.
+{1} </value>
+  </data>
+  <data name="NotifyFirstPage" xml:space="preserve">
+    <value>First page</value>
+  </data>
+  <data name="NotifyLastPage" xml:space="preserve">
+    <value>Last page</value>
+  </data>
+  <data name="NotifyFirstPagemark" xml:space="preserve">
+    <value>There is no pagemark before the current page</value>
+  </data>
+  <data name="NotifyLastPagemark" xml:space="preserve">
+    <value>There is no pagemark after the current page</value>
+  </data>
+  <data name="ExceptionCannotDeleteData" xml:space="preserve">
+    <value>It is not an AppData folder, so it will not be deleted.</value>
+  </data>
+  <data name="NotifyConflict" xml:space="preserve">
+    <value>Conflicting with {0}</value>
+  </data>
+  <data name="TokenFormat" xml:space="preserve">
+    <value>"{0}"</value>
+  </data>
+  <data name="TokenSeparator" xml:space="preserve">
+    <value> </value>
+  </data>
+  <data name="NotifyPlayFailed" xml:space="preserve">
+    <value>Play failed</value>
+  </data>
+  <data name="ExceptionImageLoadFailed" xml:space="preserve">
+    <value>Failed to load image.</value>
+  </data>
+  <data name="ExceptionSusieLoadFailed" xml:space="preserve">
+    <value>Failed to load image at Susie.</value>
+  </data>
+  <data name="ParamCommandShare" xml:space="preserve">
+    <value>Parameters to share with "{0}"</value>
+  </data>
+  <data name="WordSec" xml:space="preserve">
+    <value>sec</value>
+  </data>
+  <data name="ExceptionFileNotFound" xml:space="preserve">
+    <value>File not found "{0}"</value>
+  </data>
+  <data name="WordEmbeddedImage" xml:space="preserve">
+    <value>Embedded image</value>
+  </data>
+  <data name="CommandMovePageWithCursorNext" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="CommandMovePageWithCursorPrev" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="NotifyLoadHistoryFailedTitle" xml:space="preserve">
+    <value>Failed to load history</value>
+  </data>
+  <data name="NotifyLoadHistoryFailed" xml:space="preserve">
+    <value>Failed to load history.</value>
+  </data>
+  <data name="NotifyLoadBookmarkFailedTitle" xml:space="preserve">
+    <value>Failed to load bookmark</value>
+  </data>
+  <data name="NotifyLoadBookmarkFailed" xml:space="preserve">
+    <value>Failed to load bookmark.</value>
+  </data>
+  <data name="NotifyLoadPagemarkFailedTitle" xml:space="preserve">
+    <value>Failed to load pagemark</value>
+  </data>
+  <data name="NotifyLoadPagemarkFailed" xml:space="preserve">
+    <value>Failed to load pagemark.</value>
+  </data>
+  <data name="NotifyLoadSettingFailedTitle" xml:space="preserve">
+    <value>Failed to load setting</value>
+  </data>
+  <data name="NotifyLoadSettingFailed" xml:space="preserve">
+    <value>Failed to load settings. It starts up with the default setting.</value>
+  </data>
+  <data name="NotifyBookmarkPrevFailed" xml:space="preserve">
+    <value>No previous bookmark</value>
+  </data>
+  <data name="NotifyBookmarkNextFailed" xml:space="preserve">
+    <value>No next bookmark</value>
+  </data>
+  <data name="NotifyBookPrevFailed" xml:space="preserve">
+    <value>No previous book</value>
+  </data>
+  <data name="NotifyBookNextFailed" xml:space="preserve">
+    <value>No next book</value>
+  </data>
+  <data name="NotifyPagemarkPrevFailed" xml:space="preserve">
+    <value>No previous pagemark</value>
+  </data>
+  <data name="NotifyPagemarkNextFailed" xml:space="preserve">
+    <value>No next pagemark</value>
+  </data>
+  <data name="NotifyLoadingTitle" xml:space="preserve">
+    <value>(Loading...)</value>
+  </data>
+  <data name="NotifyCannotDisplay" xml:space="preserve">
+    <value>No pages</value>
+  </data>
+  <data name="NotifyNoFiles" xml:space="preserve">
+    <value>No files</value>
+  </data>
+  <data name="NotifyFlipHorizontal" xml:space="preserve">
+    <value>Flip horizontal</value>
+  </data>
+  <data name="NotifyFlipVertical" xml:space="preserve">
+    <value>Flip vertical</value>
+  </data>
+  <data name="NotifyContentFailed" xml:space="preserve">
+    <value>Failed to load content</value>
+  </data>
+  <data name="NotifyOutputFailed" xml:space="preserve">
+    <value>Failed to output the file</value>
+  </data>
+  <data name="NotifyDropContent" xml:space="preserve">
+    <value>Dropped content</value>
   </data>
 </root>

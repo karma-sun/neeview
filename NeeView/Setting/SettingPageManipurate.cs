@@ -125,6 +125,7 @@ namespace NeeView.Setting
             {
                 new SettingItemSection(Properties.Resources.SettingPageManipurateLoupeGeneral,
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Loupe, nameof(MouseInputLoupe.IsResetByRestart))),
+                    new SettingItemProperty(PropertyMemberElement.Create(LoupeTransform.Current, nameof(LoupeTransform.IsVisibleLoupeInfo))),
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Loupe, nameof(MouseInputLoupe.IsResetByPageChanged))),
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Loupe, nameof(MouseInputLoupe.IsWheelScalingEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Loupe, nameof(MouseInputLoupe.IsEscapeKeyEnabled)))),

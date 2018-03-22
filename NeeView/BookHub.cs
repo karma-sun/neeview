@@ -771,7 +771,7 @@ namespace NeeView
                 ////BookHistory.Current.Remove(address.Place);
                 ////MenuBar.Current.UpdateLastFiles();
 
-                throw new ApplicationException($"{address.Place} の読み込みに失敗しました。\n{e.Message}", e);
+                throw new ApplicationException(string.Format(Properties.Resources.ExceptionLoadFailed, address.Place, e.Message), e);
             }
 
             // 本の設定を退避

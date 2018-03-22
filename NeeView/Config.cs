@@ -317,7 +317,7 @@ namespace NeeView
             // LocalApplicationDataフォルダーを使用している場合のみ
             if (!IsUseLocalApplicationDataFolder)
             {
-                throw new ApplicationException("AppDataフォルダではないため、削除を行いません。");
+                throw new ApplicationException(Properties.Resources.ExceptionCannotDeleteData);
             }
 
             Debug.WriteLine("RemoveAllApplicationData ...");

@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:NeeView"
         xmlns:osc="clr-namespace:OpenSourceControls"
         xmlns:nwc="clr-namespace:NeeView.Windows.Controls"
+        xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
         x:Name="RootWindow"
         Style="{StaticResource DefaultWindowStyle}"
@@ -231,7 +232,7 @@
                                         <!-- empty pages message -->
                                         <Grid Visibility="{Binding ContentCanvas.IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True"  IsHitTestVisible="False">
                                             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-                                                <TextBlock  Text="表示できません" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding ContentCanvasBrush.ForegroundBrush}"/>
+                                                <TextBlock  Text="{x:Static  properties:Resources.NotifyCannotDisplay}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding ContentCanvasBrush.ForegroundBrush}"/>
 
                                                 <TextBlock Text="{Binding ContentCanvas.EmptyPageMessage}" Foreground="{Binding ContentCanvasBrush.ForegroundBrush}" HorizontalAlignment="Center" Margin="0,20,0,0" MinHeight="50" TextWrapping="Wrap" >
                                                     <TextBlock.Style>

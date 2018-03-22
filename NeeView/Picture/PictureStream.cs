@@ -122,7 +122,7 @@ namespace NeeView
                 }
             }
 
-            throw exception ?? new IOException("画像の読み込みに失敗しました。");
+            throw exception ?? new IOException(Properties.Resources.ExceptionImageLoadFailed);
         }
 
         #endregion

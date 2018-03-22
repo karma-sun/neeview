@@ -20,28 +20,28 @@ namespace NeeView
     //
     public class CommandLineOption
     {
-        [OptionMember("h", "help", Default = "true", HelpText = "このヘルプを表示します")]
+        [OptionMember("h", "help", Default = "true", HelpText = "@OptionIsHelp")]
         public bool IsHelp { get; set; }
 
-        [OptionMember("v", "version", Default = "true", HelpText = "バージョン情報を表示します")]
+        [OptionMember("v", "version", Default = "true", HelpText = "@OptionIsVersion")]
         public bool IsVersion { get; set; }
 
-        [OptionMember("x", "setting", HasParameter = true, RequireParameter = true, HelpText = "設定ファイル(UserSetting.xml)のパスを指定します")]
+        [OptionMember("x", "setting", HasParameter = true, RequireParameter = true, HelpText = "@OptionSettingFilename")]
         public string SettingFilename { get; set; }
 
-        [OptionMember("f", "fullscreen", Default = "on", HasParameter = true, HelpText = "フルスクリーンで起動するかを指定します")]
+        [OptionMember("f", "fullscreen", Default = "on", HasParameter = true, HelpText = "@OptionIsFullScreen")]
         public SwitchOption? IsFullScreen { get; set; }
 
-        [OptionMember("b", "blank", Default = "on", HelpText = "画像ファイルを開かずに起動します")]
+        [OptionMember("b", "blank", Default = "on", HelpText = "@OptionIsBlank")]
         public SwitchOption IsBlank { get; set; }
 
-        [OptionMember("r", "reset-placement", Default = "on", HelpText = "ウィンドウ座標を初期化します")]
+        [OptionMember("r", "reset-placement", Default = "on", HelpText = "@OptionIsResetPlacement")]
         public SwitchOption IsResetPlacement { get; set; }
 
-        [OptionMember("n", "new-window", Default = "on", HasParameter = true, HelpText = "新しいウィンドウで起動するかを指定します")]
+        [OptionMember("n", "new-window", Default = "on", HasParameter = true, HelpText = "@OptionIsNewWindow")]
         public SwitchOption? IsNewWindow { get; set; }
 
-        [OptionMember("s", "slideshow", Default = "on", HasParameter = true, HelpText = "スライドショウを開始するかを指定します")]
+        [OptionMember("s", "slideshow", Default = "on", HasParameter = true, HelpText = "@OptionIsSlideShow")]
         public SwitchOption? IsSlideShow { get; set; }
 
 
@@ -69,7 +69,7 @@ namespace NeeView
                     }
                     else
                     {
-                        throw new ArgumentException($"指定された設定ファイルが存在しません : {this.SettingFilename}");
+                        throw new ArgumentException($"{Properties.Resources.OptionErrorFileNotFound}: {this.SettingFilename}");
                     }
                 }
                 else

@@ -103,7 +103,7 @@ namespace NeeView.Windows.Property
                 {
                     if (attribute.Title != null)
                     {
-                        list.Add(new PropertyTitleElement(attribute.Title));
+                        list.Add(new PropertyTitleElement(ResourceService.GetString(attribute.Title)));
                     }
 
                     var element = attribute.CreateContent(source, info);

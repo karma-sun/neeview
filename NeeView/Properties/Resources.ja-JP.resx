@@ -425,7 +425,7 @@
     <value>拡大縮小</value>
   </data>
   <data name="EnumDragActionTypeScaleSlider" xml:space="preserve">
-    <value>拡大縮小(スライド)</value>
+    <value>拡大縮小(スライド式)</value>
   </data>
   <data name="EnumDragActionTypeWindowMove" xml:space="preserve">
     <value>ウィンドウ移動</value>
@@ -1854,11 +1854,8 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ControlCommandListShare" xml:space="preserve">
     <value>{0} とパラメータ共有です</value>
   </data>
-  <data name="ControlCommandListConflict" xml:space="preserve">
+  <data name="NotifyConflictWith" xml:space="preserve">
     <value>{0} は {1} と競合しています</value>
-  </data>
-  <data name="ControlCommandListConflictSingle" xml:space="preserve">
-    <value>{0} と競合しています</value>
   </data>
   <data name="ControlEditCommandTabGeneral" xml:space="preserve">
     <value>全般</value>
@@ -3186,7 +3183,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>ページ(_P)</value>
   </data>
   <data name="MenuTreeBookmark" xml:space="preserve">
-    <value>ブックマーク(_B)"</value>
+    <value>ブックマーク(_B)</value>
   </data>
   <data name="MenuTreeOther" xml:space="preserve">
     <value>その他(_O)</value>
@@ -3542,5 +3539,425 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="EnumBackgroundStyleCustom" xml:space="preserve">
     <value>背景をカスタム背景にする</value>
+  </data>
+  <data name="ParamCommandParameterShare" xml:space="preserve">
+    <value>パラメータ共有</value>
+  </data>
+  <data name="ParamCommandParameterMoveSize" xml:space="preserve">
+    <value>移動ページ数</value>
+  </data>
+  <data name="ParamCommandParameterToggleStretchLoop" xml:space="preserve">
+    <value>ループ</value>
+  </data>
+  <data name="ParamCommandParameterToggleStretchLoopTitle" xml:space="preserve">
+    <value>ループ設定</value>
+  </data>
+  <data name="ParamCommandParameterToggleStretchAllowTitle" xml:space="preserve">
+    <value>切り替え可能なモード</value>
+  </data>
+  <data name="ParamCommandParameterStretchModeIsToggle" xml:space="preserve">
+    <value>オリジナルサイズとの切り替え</value>
+  </data>
+  <data name="ParamCommandParameterStretchModeIsToggleTips" xml:space="preserve">
+    <value>既に指定のスケールモードの場合はオリジナルサイズにします</value>
+  </data>
+  <data name="ParamCommandParameterScrollAmount" xml:space="preserve">
+    <value>移動量(%)</value>
+  </data>
+  <data name="ParamCommandParameterScrollAmountTips" xml:space="preserve">
+    <value>一度の操作でスクロールするする画面に対する割合(0-100)です。</value>
+  </data>
+  <data name="ParamCommandParameterScrollAllowCross" xml:space="preserve">
+    <value>垂直方向へのスクロール許可</value>
+  </data>
+  <data name="ParamCommandParameterScrollAllowCrossTips" xml:space="preserve">
+    <value>軸方向にスクロールできない場合は軸に垂直な方向へスクロースを行います。</value>
+  </data>
+  <data name="ParamCommandParameterScaleAmount" xml:space="preserve">
+    <value>拡大率(%)</value>
+  </data>
+  <data name="ParamCommandParameterScaleAmountTips" xml:space="preserve">
+    <value>一度の操作で拡大する割合です。(0-100)</value>
+  </data>
+  <data name="ParamCommandParameterScaleSnapDefault" xml:space="preserve">
+    <value>100%スナップ</value>
+  </data>
+  <data name="ParamCommandParameterScaleSnapDefaultTips" xml:space="preserve">
+    <value>拡大縮小で必ず100%を経由するようにします。</value>
+  </data>
+  <data name="ParamCommandParameterRotateAmount" xml:space="preserve">
+    <value>回転角度</value>
+  </data>
+  <data name="ParamCommandParameterRotateAmountTips" xml:space="preserve">
+    <value>一度の操作で回転する角度です。(0-180)</value>
+  </data>
+  <data name="ParamCommandParameterRotateIsStretch" xml:space="preserve">
+    <value>表示サイズ適用</value>
+  </data>
+  <data name="ParamCommandParameterRotateIsStretchTips" xml:space="preserve">
+    <value>回転後に表示サイズを再適用します。</value>
+  </data>
+  <data name="ParamCommandParameterMovePagemarkLoop" xml:space="preserve">
+    <value>ループ</value>
+  </data>
+  <data name="ParamCommandParameterMovePagemarkIncludeTerminal" xml:space="preserve">
+    <value>最初と最後のページを含める</value>
+  </data>
+  <data name="ParamCommandParameterScrollPageN" xml:space="preserve">
+    <value>N字スクロール</value>
+  </data>
+  <data name="ParamCommandParameterScrollPageNTips" xml:space="preserve">
+    <value>縦スクロール可能な場合、縦方向にもスクロールします。縦横スクロールが可能な場合、N字を描くようにスクロールします。</value>
+  </data>
+  <data name="ParamCommandParameterScrollPageAnimation" xml:space="preserve">
+    <value>滑らかスクロール</value>
+  </data>
+  <data name="ParamCommandParameterScrollPageMargin" xml:space="preserve">
+    <value>最小スクロール距離</value>
+  </data>
+  <data name="ParamCommandParameterScrollPageMarginTips" xml:space="preserve">
+    <value>このピクセル幅以上スクロールできる場合のみスクロールします。</value>
+  </data>
+  <data name="ParamCommandParameterScrollPageAmount" xml:space="preserve">
+    <value>移動量(%)</value>
+  </data>
+  <data name="ParamCommandParameterScrollPageAmountTips" xml:space="preserve">
+    <value>一度の操作でスクロールするする画面に対する割合です。(0-100)</value>
+  </data>
+  <data name="ParamCommandParameterAutoRotateOrientation" xml:space="preserve">
+    <value>回転方向</value>
+  </data>
+  <data name="EnumPageStretchModeNone" xml:space="preserve">
+    <value>オリジナルサイズ</value>
+  </data>
+  <data name="EnumPageStretchModeInside" xml:space="preserve">
+    <value>大きい場合ウィンドウサイズに合わせる</value>
+  </data>
+  <data name="EnumPageStretchModeOutside" xml:space="preserve">
+    <value>小さい場合ウィンドウサイズに合わせる</value>
+  </data>
+  <data name="EnumPageStretchModeUniform" xml:space="preserve">
+    <value>ウィンドウサイズに合わせる</value>
+  </data>
+  <data name="EnumPageStretchModeUniformToFill" xml:space="preserve">
+    <value>ウィンドウいっぱいに広げる</value>
+  </data>
+  <data name="EnumPageStretchModeUniformToSize" xml:space="preserve">
+    <value>面積をウィンドウに合わせる</value>
+  </data>
+  <data name="EnumPageStretchModeUniformToVertical" xml:space="preserve">
+    <value>高さをウィンドウに合わせる</value>
+  </data>
+  <data name="ParamLoupeIsVisibleLoupeInfo" xml:space="preserve">
+    <value>ルーペ倍率を表示する</value>
+  </data>
+  <data name="ParamLoupeIsVisibleLoupeInfoTips" xml:space="preserve">
+    <value>ルーペ時に右上に倍率が表示されます。</value>
+  </data>
+  <data name="OptionIsHelp" xml:space="preserve">
+    <value>このヘルプを表示します</value>
+  </data>
+  <data name="OptionIsVersion" xml:space="preserve">
+    <value>バージョン情報を表示します</value>
+  </data>
+  <data name="OptionSettingFilename" xml:space="preserve">
+    <value>設定ファイル(UserSetting.xml)のパスを指定します</value>
+  </data>
+  <data name="OptionIsFullScreen" xml:space="preserve">
+    <value>フルスクリーンで起動するかを指定します</value>
+  </data>
+  <data name="OptionIsBlank" xml:space="preserve">
+    <value>画像ファイルを開かずに起動します</value>
+  </data>
+  <data name="OptionIsResetPlacement" xml:space="preserve">
+    <value>ウィンドウ座標を初期化します</value>
+  </data>
+  <data name="OptionIsNewWindow" xml:space="preserve">
+    <value>新しいウィンドウで起動するかを指定します</value>
+  </data>
+  <data name="OptionIsSlideShow" xml:space="preserve">
+    <value>スライドショウを開始するかを指定します</value>
+  </data>
+  <data name="OptionErrorFileNotFound" xml:space="preserve">
+    <value>指定された設定ファイルが存在しません。</value>
+  </data>
+  <data name="OptionErrorArgument" xml:space="preserve">
+    <value>{0} はサポート外の引数型です。</value>
+  </data>
+  <data name="OptionTerminater" xml:space="preserve">
+    <value>オプションリストの終りを示す。これ以後の引数はファイル名とみなされます</value>
+  </data>
+  <data name="OptionErrorArgumentUnknown" xml:space="preserve">
+    <value>{0} は未知のオプションです。</value>
+  </data>
+  <data name="OptionErrorArgumentEmpty" xml:space="preserve">
+    <value>{0} には引数が必要です。</value>
+  </data>
+  <data name="OptionErrorArgumentFailed" xml:space="preserve">
+    <value>{0} の引数として {1} は使用できません。</value>
+  </data>
+  <data name="ControlAddressBarBack" xml:space="preserve">
+    <value>戻る</value>
+  </data>
+  <data name="ControlAddressBarNext" xml:space="preserve">
+    <value>進む</value>
+  </data>
+  <data name="ControlAddressBarReLoad" xml:space="preserve">
+    <value>再読込</value>
+  </data>
+  <data name="ControlSaveTitle" xml:space="preserve">
+    <value>画像を保存</value>
+  </data>
+  <data name="ControlSaveOriginal" xml:space="preserve">
+    <value>元ファイルのまま保存</value>
+  </data>
+  <data name="ControlSaveWidePage" xml:space="preserve">
+    <value>2ページを連結する</value>
+  </data>
+  <data name="ControlSaveWithBackground" xml:space="preserve">
+    <value>背景を含める</value>
+  </data>
+  <data name="ControlSaveSaveAs" xml:space="preserve">
+    <value>名前をつけて保存...</value>
+  </data>
+  <data name="ControlPrintTitle" xml:space="preserve">
+    <value>印刷</value>
+  </data>
+  <data name="ControlPrintPrinter" xml:space="preserve">
+    <value>プリンター</value>
+  </data>
+  <data name="ControlPrintButtonPrint" xml:space="preserve">
+    <value>印刷</value>
+  </data>
+  <data name="ControlPrintOrientation" xml:space="preserve">
+    <value>印刷の向き</value>
+  </data>
+  <data name="ControlPrintContent" xml:space="preserve">
+    <value>印刷内容</value>
+  </data>
+  <data name="ControlPrintBackground" xml:space="preserve">
+    <value>背景を印刷する</value>
+  </data>
+  <data name="ControlPrintKeepDot" xml:space="preserve">
+    <value>ドットのまま印刷</value>
+  </data>
+  <data name="ControlPrintHorizontal" xml:space="preserve">
+    <value>水平位置</value>
+  </data>
+  <data name="ControlPrintVertival" xml:space="preserve">
+    <value>垂直位置</value>
+  </data>
+  <data name="ControlPrintMargin" xml:space="preserve">
+    <value>用紙余白 (mm)</value>
+  </data>
+  <data name="WordLeft" xml:space="preserve">
+    <value>左</value>
+  </data>
+  <data name="WordRight" xml:space="preserve">
+    <value>右</value>
+  </data>
+  <data name="WordUp" xml:space="preserve">
+    <value>上</value>
+  </data>
+  <data name="WordDown" xml:space="preserve">
+    <value>下</value>
+  </data>
+  <data name="ControlPrintSheets" xml:space="preserve">
+    <value>用紙枚数</value>
+  </data>
+  <data name="ControlPrintColumn" xml:space="preserve">
+    <value>横</value>
+  </data>
+  <data name="ControlPrintRow" xml:space="preserve">
+    <value>縦</value>
+  </data>
+  <data name="EnumPageOperationPortrait" xml:space="preserve">
+    <value>縦</value>
+  </data>
+  <data name="EnumPageOperationLandscape" xml:space="preserve">
+    <value>横</value>
+  </data>
+  <data name="EnumPrintModeRawImage" xml:space="preserve">
+    <value>画像を印刷</value>
+  </data>
+  <data name="EnumPrintModeView" xml:space="preserve">
+    <value>表示を印刷</value>
+  </data>
+  <data name="EnumPrintModeViewFill" xml:space="preserve">
+    <value>用紙サイズで表示を印刷</value>
+  </data>
+  <data name="EnumPrintModeViewStretch" xml:space="preserve">
+    <value>全体の表示を印刷</value>
+  </data>
+  <data name="EnumHorizontalAlignmentLeft" xml:space="preserve">
+    <value>左詰め</value>
+  </data>
+  <data name="EnumHorizontalAlignmentCenter" xml:space="preserve">
+    <value>中央</value>
+  </data>
+  <data name="EnumHorizontalAlignmentRight" xml:space="preserve">
+    <value>右詰め</value>
+  </data>
+  <data name="EnumVerticalAlignmentTop" xml:space="preserve">
+    <value>上詰め</value>
+  </data>
+  <data name="EnumVerticalAlignmentCenter" xml:space="preserve">
+    <value>中央</value>
+  </data>
+  <data name="EnumVerticalAlignmentBottom" xml:space="preserve">
+    <value>下詰め</value>
+  </data>
+  <data name="ExceptionCriticalTitle" xml:space="preserve">
+    <value>強制終了</value>
+  </data>
+  <data name="ExceptionCritical" xml:space="preserve">
+    <value>エラーが発生しました。アプリを終了します。
+
+理由 : {0}
+
+次のファイルにエラーの詳細が出力されています。
+{1}</value>
+  </data>
+  <data name="ExceptionInconsistency" xml:space="preserve">
+    <value>ページデータの不整合</value>
+  </data>
+  <data name="ExceptionNotZip" xml:space="preserve">
+    <value>{0} はZIPファイルではありません</value>
+  </data>
+  <data name="ControlImportSetting" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="ControlImportHistory" xml:space="preserve">
+    <value>履歴</value>
+  </data>
+  <data name="ControlImportBookmark" xml:space="preserve">
+    <value>ブックマーク</value>
+  </data>
+  <data name="ControlImportPagemark" xml:space="preserve">
+    <value>ページマーク</value>
+  </data>
+  <data name="NotifyHistoryTerminal" xml:space="preserve">
+    <value>これより古い履歴はありません</value>
+  </data>
+  <data name="NotifyHistoryLastest" xml:space="preserve">
+    <value>最新の履歴です</value>
+  </data>
+  <data name="ExceptionLoadFailed" xml:space="preserve">
+    <value>{0} の読み込みに失敗しました。
+{1}</value>
+  </data>
+  <data name="NotifyFirstPage" xml:space="preserve">
+    <value>最初のページです</value>
+  </data>
+  <data name="NotifyLastPage" xml:space="preserve">
+    <value>最後のページです</value>
+  </data>
+  <data name="NotifyFirstPagemark" xml:space="preserve">
+    <value>現在ページより前のページマークはありません</value>
+  </data>
+  <data name="NotifyLastPagemark" xml:space="preserve">
+    <value>現在ページより後のページマークはありません</value>
+  </data>
+  <data name="ExceptionCannotDeleteData" xml:space="preserve">
+    <value>AppDataフォルダではないため、削除を行いません。</value>
+  </data>
+  <data name="NotifyConflict" xml:space="preserve">
+    <value>{0} と競合しています</value>
+  </data>
+  <data name="TokenFormat" xml:space="preserve">
+    <value>「{0}」</value>
+  </data>
+  <data name="NotifyPlayFailed" xml:space="preserve">
+    <value>再生エラー</value>
+  </data>
+  <data name="ExceptionImageLoadFailed" xml:space="preserve">
+    <value>画像の読み込みに失敗しました。</value>
+  </data>
+  <data name="ExceptionSusieLoadFailed" xml:space="preserve">
+    <value>Susieでの画像取得に失敗しました。</value>
+  </data>
+  <data name="ParamCommandShare" xml:space="preserve">
+    <value>「{0}」と共通のパラメータです。</value>
+  </data>
+  <data name="WordSec" xml:space="preserve">
+    <value>秒</value>
+  </data>
+  <data name="ExceptionFileNotFound" xml:space="preserve">
+    <value>"{0}" が見つかりません</value>
+  </data>
+  <data name="WordEmbeddedImage" xml:space="preserve">
+    <value>HTML埋め込み画像</value>
+  </data>
+  <data name="CommandMovePageWithCursorNext" xml:space="preserve">
+    <value>次のページ</value>
+  </data>
+  <data name="CommandMovePageWithCursorPrev" xml:space="preserve">
+    <value>前のページ</value>
+  </data>
+  <data name="NotifyLoadHistoryFailedTitle" xml:space="preserve">
+    <value>履歴の読み込みに失敗しました</value>
+  </data>
+  <data name="NotifyLoadHistoryFailed" xml:space="preserve">
+    <value>履歴の読み込みに失敗しました。</value>
+  </data>
+  <data name="NotifyLoadBookmarkFailedTitle" xml:space="preserve">
+    <value>ブックマークの読み込みに失敗しました</value>
+  </data>
+  <data name="NotifyLoadBookmarkFailed" xml:space="preserve">
+    <value>ブックマークの読み込みに失敗しました。</value>
+  </data>
+  <data name="NotifyLoadPagemarkFailedTitle" xml:space="preserve">
+    <value>ページマークの読み込みに失敗しました</value>
+  </data>
+  <data name="NotifyLoadPagemarkFailed" xml:space="preserve">
+    <value>ページマークの読み込みに失敗しました。</value>
+  </data>
+  <data name="NotifyLoadSettingFailedTitle" xml:space="preserve">
+    <value>設定の読み込みに失敗しました</value>
+  </data>
+  <data name="NotifyLoadSettingFailed" xml:space="preserve">
+    <value>設定の読み込みに失敗しました。初期設定で起動します。</value>
+  </data>
+  <data name="NotifyBookmarkPrevFailed" xml:space="preserve">
+    <value>前のブックマークはありません</value>
+  </data>
+  <data name="NotifyBookmarkNextFailed" xml:space="preserve">
+    <value>次のブックマークはありません</value>
+  </data>
+  <data name="NotifyBookPrevFailed" xml:space="preserve">
+    <value>前のブックはありません</value>
+  </data>
+  <data name="NotifyBookNextFailed" xml:space="preserve">
+    <value>次のブックはありません</value>
+  </data>
+  <data name="NotifyPagemarkPrevFailed" xml:space="preserve">
+    <value>前のページマークはありません</value>
+  </data>
+  <data name="NotifyPagemarkNextFailed" xml:space="preserve">
+    <value>次のページマークはありません</value>
+  </data>
+  <data name="NotifyLoadingTitle" xml:space="preserve">
+    <value>(読込中)</value>
+  </data>
+  <data name="NotifyCannotDisplay" xml:space="preserve">
+    <value>表示できません</value>
+  </data>
+  <data name="NotifyNoFiles" xml:space="preserve">
+    <value>表示できるファイルはありません</value>
+  </data>
+  <data name="NotifyFlipHorizontal" xml:space="preserve">
+    <value>左右反転</value>
+  </data>
+  <data name="NotifyFlipVertical" xml:space="preserve">
+    <value>上下反転</value>
+  </data>
+  <data name="NotifyContentFailed" xml:space="preserve">
+    <value>コンテンツの読み込みに失敗しました</value>
+  </data>
+  <data name="NotifyOutputFailed" xml:space="preserve">
+    <value>ファイルの出力に失敗しました。</value>
+  </data>
+  <data name="NotifyDropContent" xml:space="preserve">
+    <value>ドロップされたコンテンツ</value>
   </data>
 </root>

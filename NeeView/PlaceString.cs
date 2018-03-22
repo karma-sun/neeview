@@ -18,7 +18,7 @@ namespace NeeView
         {
             if (_path == null)
             {
-                return "このPC";
+                return "PC";
             }
             else if (_path.StartsWith("http://") || _path.StartsWith("https://"))
             {
@@ -26,7 +26,7 @@ namespace NeeView
             }
             else if (_path.StartsWith("data:"))
             {
-                return "HTML埋め込み画像";
+                return Properties.Resources.WordEmbeddedImage;
             }
             else
             {

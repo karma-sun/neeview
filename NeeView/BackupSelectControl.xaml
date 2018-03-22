@@ -4,16 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
+             xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="400">
     <Grid>
         <StackPanel>
-            <TextBlock x:Name="FileNameTextBlock" Text="インポート：hogehoge.nvzip" Margin="0"/>
+            <TextBlock x:Name="FileNameTextBlock" Text="import：someone.nvzip" Margin="0"/>
             <StackPanel Margin="10">
-                <CheckBox x:Name="UserSettingCheckBox" Content="設定" IsEnabled="False"/>
-                <CheckBox x:Name="HistoryCheckBox" Content="履歴" IsEnabled="False"/>
-                <CheckBox x:Name="BookmarkCheckBox" Content="ブックマーク" IsEnabled="False"/>
-                <CheckBox x:Name="PagemarkCheckBox" Content="ページマーク" IsEnabled="False"/>
+                <CheckBox x:Name="UserSettingCheckBox" Content="{x:Static properties:Resources.ControlImportSetting}" IsEnabled="False"/>
+                <CheckBox x:Name="HistoryCheckBox" Content="{x:Static properties:Resources.ControlImportHistory}" IsEnabled="False"/>
+                <CheckBox x:Name="BookmarkCheckBox" Content="{x:Static properties:Resources.ControlImportBookmark}" IsEnabled="False"/>
+                <CheckBox x:Name="PagemarkCheckBox" Content="{x:Static properties:Resources.ControlImportPagemark}" IsEnabled="False"/>
             </StackPanel>
         </StackPanel>
     </Grid>

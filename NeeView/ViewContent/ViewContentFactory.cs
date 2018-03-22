@@ -27,7 +27,7 @@ namespace NeeView
                     // TODO: わたされたsourceはPageUnloadにかかわらず不変であるものが望ましい
                     if (viewContent.GetViewBrush() == null)
                     {
-                        throw new ViewContentFactoryException("このページはすでにアンロードされています。たぶん。");
+                        throw new ViewContentFactoryException("This page has already been unloaded. maybe.");
                     }
                     break;
                 case ViewContentType.Anime:

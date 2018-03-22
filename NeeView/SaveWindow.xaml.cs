@@ -180,7 +180,7 @@ namespace NeeView
                     dialog.FilterIndex = 3;
                 }
 
-                dialog.Filter = filter + "|全てのファイル|*.*";
+                dialog.Filter = filter + "|All|*.*";
             }
 
             if (dialog.ShowDialog(this) == true)

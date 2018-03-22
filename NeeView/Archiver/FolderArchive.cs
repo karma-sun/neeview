@@ -32,7 +32,7 @@ namespace NeeView
 
         public override string ToString()
         {
-            return "フォルダー";
+            return "Folder";
         }
 
         // サポート判定

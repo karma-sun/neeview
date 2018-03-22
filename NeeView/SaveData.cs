@@ -124,7 +124,7 @@ namespace NeeView
         // 履歴読み込み
         public void LoadHistory(UserSetting setting)
         {
-            BookHistory.Memento memento = SafetyLoad(BookHistory.Memento.Load, _historyFileName, "履歴の読み込みに失敗しました", "履歴の読み込みに失敗しました。");
+            BookHistory.Memento memento = SafetyLoad(BookHistory.Memento.Load, _historyFileName, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
 
 #pragma warning disable CS0612
 
@@ -154,7 +154,7 @@ namespace NeeView
         // ブックマーク読み込み
         public void LoadBookmark(UserSetting setting)
         {
-            BookmarkCollection.Memento memento = SafetyLoad(BookmarkCollection.Memento.Load, _bookmarkFileName, "ブックマークの読み込みに失敗しました", "ブックマークの読み込みに失敗しました。");
+            BookmarkCollection.Memento memento = SafetyLoad(BookmarkCollection.Memento.Load, _bookmarkFileName, Resources.NotifyLoadBookmarkFailed, Resources.NotifyLoadBookmarkFailedTitle);
 
             // ブックマーク反映
             BookmarkCollection.Current.Restore(memento);
@@ -174,7 +174,7 @@ namespace NeeView
             catch { }
 
             // ページマーク読み込み
-            PagemarkCollection.Memento memento = SafetyLoad(PagemarkCollection.Memento.Load, _pagemarkFileName, "ページマークの読み込みに失敗しました", "ページマークの読み込みに失敗しました。");
+            PagemarkCollection.Memento memento = SafetyLoad(PagemarkCollection.Memento.Load, _pagemarkFileName, Resources.NotifyLoadPagemarkFailed, Resources.NotifyLoadPagemarkFailedTitle);
 
             // ページマーク反映
             PagemarkCollection.Current.Restore(memento);
@@ -183,7 +183,7 @@ namespace NeeView
         // アプリ設定読み込み
         public void LoadSetting(string filename)
         {
-            this.UserSetting = SafetyLoad(UserSetting.Load, filename, "設定の読み込みに失敗しました。初期設定で起動します。", "設定の読み込みに失敗しました。");
+            this.UserSetting = SafetyLoad(UserSetting.Load, filename, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
         }
 
         // 全データ保存

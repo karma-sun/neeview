@@ -119,25 +119,6 @@ namespace NeeView
         }
 
         //
-        public string GetStatuMessage()
-        {
-            if (_engine == null) return "停止";
-
-            if (_engine.State == SearchCommandEngineState.Idle)
-            {
-                return "待機中";
-            }
-            else if (_engine.State == SearchCommandEngineState.Collect)
-            {
-                return $"{_engine.NodeCountMaybe:#,0} 個のインデックス作成中...";
-            }
-            else
-            {
-                return "処理中...";
-            }
-        }
-
-        //
         public async Task<SearchResultWatcher> SearchAsync(string keyword, NeeLaboratory.IO.Search.SearchOption option = null)
         {
             if (_engine == null) throw new InvalidOperationException();

@@ -73,7 +73,7 @@ namespace NeeView
                 // ヘッダチェック
                 if (!CheckSignature(stream))
                 {
-                    throw new FormatException($"{Path} はZIPファイルではありません");
+                    throw new FormatException(string.Format(Properties.Resources.ExceptionNotZip, Path));
                 }
 
                 // エントリー取得
@@ -133,7 +133,7 @@ namespace NeeView
                 ZipArchiveEntry archiveEntry = archiver.Entries[entry.Id];
                 if (archiveEntry.FullName != entry.RawEntryName)
                 {
-                    throw new ApplicationException("ページデータの不整合");
+                    throw new ApplicationException(Properties.Resources.ExceptionInconsistency);
                 }
 
                 using (var stream = archiveEntry.Open())

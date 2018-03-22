@@ -4,11 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NeeView"
+        xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}"
         Background="{DynamicResource NVBackground}"
         Foreground="{DynamicResource NVForeground}"
-        Title="印刷" Height="600" Width="800" ResizeMode="CanResizeWithGrip">
+        Title="{x:Static properties:Resources.ControlPrintTitle}" Height="600" Width="800" ResizeMode="CanResizeWithGrip">
     
     <Window.Resources>
         <Style x:Key="TextButton" TargetType="Button">
@@ -43,7 +44,7 @@
         </Style>
 
         <Style x:Key="BoxHeader" TargetType="TextBlock">
-            <Setter Property="MinWidth" Value="22"/>
+            <Setter Property="MinWidth" Value="40"/>
             <Setter Property="Padding" Value="2,0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="TextAlignment" Value="Right"/>
@@ -70,32 +71,32 @@
             <DockPanel Grid.Column="0" Margin="10">
 
                 <StackPanel DockPanel.Dock="Top" Style="{StaticResource ItemStack}">
-                    <TextBlock Style="{StaticResource Header}" Text="プリンター"/>
+                    <TextBlock Style="{StaticResource Header}" Text="{x:Static properties:Resources.ControlPrintPrinter}"/>
                     <Button Style="{StaticResource IconButton}" Command="{Binding PrintDialogCommand}" Foreground="{StaticResource NVButtonForeground}" HorizontalContentAlignment="Left">
                         <TextBlock Text="{Binding Model.PrintQueue.FullName}" MinWidth="50" TextTrimming="CharacterEllipsis" />
                     </Button>
                 </StackPanel>
 
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Style="{StaticResource TextButton}" Content="印刷" Command="{Binding PrintCommand}"/>
-                    <Button Style="{StaticResource TextButton}" Content="キャンセル" Command="{Binding CancelCommand}"/>
+                    <Button Style="{StaticResource TextButton}" Content="{x:Static properties:Resources.ControlPrintButtonPrint}" Command="{Binding PrintCommand}"/>
+                    <Button Style="{StaticResource TextButton}" Content="{x:Static properties:Resources.WordCancel}" Command="{Binding CancelCommand}"/>
                 </StackPanel>
                 <ScrollViewer Style="{StaticResource DarkScrollViewer}" VerticalScrollBarVisibility="Auto">
                     <StackPanel>
 
                         <DockPanel Style="{StaticResource ItemDock}">
                             <ComboBox DockPanel.Dock="Right" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" ItemsSource="{Binding Model.PageOrientationList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.PageOrientation}"/>
-                            <TextBlock Style="{StaticResource Header}" Text="印刷の向き"/>
+                            <TextBlock Style="{StaticResource Header}" Text="{x:Static properties:Resources.ControlPrintOrientation}"/>
                         </DockPanel>
 
                         <StackPanel Style="{StaticResource ItemStack}">
-                            <TextBlock Style="{StaticResource Header}"  Text="印刷内容"/>
+                            <TextBlock Style="{StaticResource Header}"  Text="{x:Static properties:Resources.ControlPrintContent}"/>
                             <ComboBox HorizontalAlignment="Right" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" ItemsSource="{Binding Model.PrintModeList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.PrintMode}"/>
                         </StackPanel>
 
                         <StackPanel Style="{StaticResource ItemStack}" Margin="20,0,0,5">
-                            <CheckBox Style="{StaticResource BodyCheckBox}" Content="背景を印刷する" IsChecked="{Binding Model.IsBackground}"/>
-                            <CheckBox Style="{StaticResource BodyCheckBox}" Content="ドットのまま印刷" IsChecked="{Binding Model.IsDotScale}"/>
+                            <CheckBox Style="{StaticResource BodyCheckBox}" Content="{x:Static properties:Resources.ControlPrintBackground}" IsChecked="{Binding Model.IsBackground}"/>
+                            <CheckBox Style="{StaticResource BodyCheckBox}" Content="{x:Static properties:Resources.ControlPrintKeepDot}" IsChecked="{Binding Model.IsDotScale}"/>
                         </StackPanel>
 
                         <Border BorderBrush="{DynamicResource NVDefaultBrush}" BorderThickness="0,0,0,0" Margin="0,10,0,0" UseLayoutRounding="True">
@@ -103,43 +104,43 @@
                                 <StackPanel Style="{StaticResource ItemStack}">
                                     <DockPanel>
                                         <ComboBox DockPanel.Dock="Right" Style="{StaticResource BodyComboBox}" ItemsSource="{Binding Model.HorizontalAlignmentList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.HorizontalAlignment}"/>
-                                        <TextBlock Style="{StaticResource Header}" Text="水平位置"/>
+                                        <TextBlock Style="{StaticResource Header}" Text="{x:Static properties:Resources.ControlPrintHorizontal}"/>
                                     </DockPanel>
                                     <DockPanel>
                                         <ComboBox DockPanel.Dock="Right" Style="{StaticResource BodyComboBox}" ItemsSource="{Binding Model.VerticalAlignmentList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.VerticalAlignment}"/>
-                                        <TextBlock Style="{StaticResource Header}" Text="垂直位置"/>
+                                        <TextBlock Style="{StaticResource Header}" Text="{x:Static properties:Resources.ControlPrintVertival}"/>
                                     </DockPanel>
                                 </StackPanel>
                                 <StackPanel Style="{StaticResource ItemStack}">
-                                    <TextBlock Style="{StaticResource Header}" Text="用紙余白 (mm)"/>
+                                    <TextBlock Style="{StaticResource Header}" Text="{x:Static properties:Resources.ControlPrintMargin}"/>
                                     <UniformGrid Columns="2" Rows="2" Margin="20,0,0,0">
                                         <DockPanel>
-                                            <TextBlock Style="{StaticResource BoxHeader}" Text="左"/>
+                                            <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.WordLeft}"/>
                                             <TextBox Text="{Binding Model.Margin.Left}" Margin="2"/>
                                         </DockPanel>
                                         <DockPanel>
-                                            <TextBlock Style="{StaticResource BoxHeader}" Text="右"/>
+                                            <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.WordRight}"/>
                                             <TextBox Text="{Binding Model.Margin.Right}" Margin="2"/>
                                         </DockPanel>
                                         <DockPanel>
-                                            <TextBlock Style="{StaticResource BoxHeader}" Text="上"/>
+                                            <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.WordUp}"/>
                                             <TextBox Text="{Binding Model.Margin.Top}" Margin="2"/>
                                         </DockPanel>
                                         <DockPanel>
-                                            <TextBlock Style="{StaticResource BoxHeader}" Text="下"/>
+                                            <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.WordDown}"/>
                                             <TextBox Text="{Binding Model.Margin.Bottom}" Margin="2" />
                                         </DockPanel>
                                     </UniformGrid>
 
                                     <StackPanel Style="{StaticResource ItemStack}">
-                                        <TextBlock Style="{StaticResource Header}" Text="用紙枚数"/>
+                                        <TextBlock Style="{StaticResource Header}" Text="{x:Static properties:Resources.ControlPrintSheets}"/>
                                         <UniformGrid Columns="2" Margin="20,0,0,0">
                                             <DockPanel>
-                                                <TextBlock Style="{StaticResource BoxHeader}" Text="横"/>
+                                                <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.ControlPrintColumn}"/>
                                                 <TextBox Text="{Binding Model.Columns}" Margin="2"/>
                                             </DockPanel>
                                             <DockPanel>
-                                                <TextBlock Style="{StaticResource BoxHeader}" Text="縦" />
+                                                <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.ControlPrintRow}" />
                                                 <TextBox Text="{Binding Model.Rows}" Margin="2"/>
                                             </DockPanel>
                                         </UniformGrid>

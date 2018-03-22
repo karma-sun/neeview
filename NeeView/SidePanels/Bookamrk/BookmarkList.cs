@@ -55,7 +55,7 @@ namespace NeeView
 
             if (!BookmarkCollection.Current.CanMoveSelected(-1))
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "前のブックマークはありません");
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyBookmarkPrevFailed);
                 return;
             }
 
@@ -74,7 +74,7 @@ namespace NeeView
 
             if (!BookmarkCollection.Current.CanMoveSelected(+1))
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, "次のブックマークはありません");
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyBookmarkNextFailed);
                 return;
             }
 

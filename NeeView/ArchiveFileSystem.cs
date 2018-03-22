@@ -37,7 +37,7 @@ namespace NeeView
                 }
                 catch (FileNotFoundException)
                 {
-                    throw new FileNotFoundException($"\"{path}\" が見つかりません");
+                    throw new FileNotFoundException(string.Format(Properties.Resources.ExceptionFileNotFound, path));
                 }
             }
         }

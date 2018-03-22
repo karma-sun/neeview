@@ -204,7 +204,7 @@ namespace NeeView
                 case ArchiverType.SusieArchiver:
                     return new SusieArchiver(path, source, isRoot);
                 default:
-                    throw new ArgumentException("対応するアーカイバーがありません。");
+                    throw new ArgumentException("Not support archive type.");
             }
         }
 

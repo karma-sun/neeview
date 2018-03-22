@@ -3960,4 +3960,13 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="NotifyDropContent" xml:space="preserve">
     <value>ドロップされたコンテンツ</value>
   </data>
+  <data name="ExceptionNotSupportedKey" xml:space="preserve">
+    <value>{0} キーと修飾キーの組み合わせは、{1} ではサポートされていません。</value>
+  </data>
+  <data name="NotifyCannotOpen" xml:space="preserve">
+    <value>{0} を開けません</value>
+  </data>
+  <data name="NotifyNoPages" xml:space="preserve">
+    <value>{0} には読み込めるファイルがありません</value>
+  </data>
 </root>

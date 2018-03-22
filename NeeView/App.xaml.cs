@@ -171,7 +171,7 @@ namespace NeeView
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine("起動を継続します。\n 理由：" + ex.Message);
+                        Debug.WriteLine(ex.Message);
                         serverProcess = null;
                     }
                 }
@@ -179,7 +179,7 @@ namespace NeeView
                 if (serverProcess != null)
                 {
                     // 起動を中止してプログラムを終了
-                    throw new ApplicationException("Because, already exist.");
+                    throw new ApplicationException("Already started.");
                 }
             }
 

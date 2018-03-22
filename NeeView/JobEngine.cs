@@ -593,7 +593,7 @@ namespace NeeView
                 {
                     Debug.WriteLine($"JOB EXCEPTION: {e.Message}");
                     Message = e.Message;
-                    Action<Exception> action = (exception) => { throw new ApplicationException("タスク内部エラー", exception); };
+                    Action<Exception> action = (exception) => { throw new ApplicationException("Task internal exception", exception); };
                     App.Current?.Dispatcher.BeginInvoke(action, e);
                 }
             },

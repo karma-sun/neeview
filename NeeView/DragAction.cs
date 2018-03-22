@@ -61,11 +61,6 @@ namespace NeeView
         public bool IsLocked { get; set; }
 
         /// <summary>
-        /// Name property.
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
         /// DragKey property.
         /// </summary>
         public DragKey DragKey { get; set; } = new DragKey();
@@ -329,13 +324,13 @@ namespace NeeView
                     continue;
                 }
 
-                throw new NotSupportedException($"'{source}' キーと修飾キーの組み合わせは、DragKey ではサポートされていません。");
+                throw new NotSupportedException(string.Format(Properties.Resources.ExceptionNotSupportedKey, source, "DragKey"));
             }
 
             //
             if (mouseButtonBits == MouseButtonBits.None)
             {
-                throw new NotSupportedException($"'{source}' キーと修飾キーの組み合わせは、DragKey ではサポートされていません。");
+                throw new NotSupportedException(string.Format(Properties.Resources.ExceptionNotSupportedKey, source, "DragKey"));
             }
 
             return new DragKey(mouseButtonBits, modifierKeys);

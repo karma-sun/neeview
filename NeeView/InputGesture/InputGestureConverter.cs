@@ -71,7 +71,7 @@ namespace NeeView
                 if (gesture != null) return gesture;
             }
 
-            Debug.WriteLine($"'{source}' キーと修飾キーの組み合わせはサポートされていません。");
+            Debug.WriteLine($"'The combination of {source} key and modifier key is not supported.");
             return null;
         }
 
@@ -114,7 +114,7 @@ namespace NeeView
                 }
                 catch (Exception e)
                 {
-                    Debug.WriteLine("(この例外は無視): " + e.Message);
+                    Debug.WriteLine("(Ignore this exception): " + e.Message);
                 }
             }
 
@@ -125,7 +125,7 @@ namespace NeeView
             }
             catch (Exception e)
             {
-                Debug.WriteLine("(この例外は無視): " + e.Message);
+                Debug.WriteLine("(Ignore this exception): " + e.Message);
             }
 
             return null;
@@ -145,7 +145,7 @@ namespace NeeView
             }
             catch (Exception e)
             {
-                Debug.WriteLine("(この例外は無視): " + e.Message);
+                Debug.WriteLine("(Ignore this exception): " + e.Message);
             }
 
             try
@@ -155,7 +155,7 @@ namespace NeeView
             }
             catch (Exception e)
             {
-                Debug.WriteLine("(この例外は無視): " + e.Message);
+                Debug.WriteLine("(Ignore this exception): " + e.Message);
             }
 
             return null;
@@ -175,7 +175,7 @@ namespace NeeView
             }
             catch (Exception e)
             {
-                Debug.WriteLine("(この例外は無視): " + e.Message);
+                Debug.WriteLine("(Ignore this exception): " + e.Message);
             }
 
             return null;

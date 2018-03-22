@@ -23,7 +23,7 @@ namespace NeeView.Data
             _info = info;
             _attribute = attribute;
 
-            if (info.PropertyType != typeof(List<string>)) throw new InvalidOperationException("The property of the OptionValues ​​attribute must be of type List<string>");
+            if (info.PropertyType != typeof(List<string>)) throw new InvalidOperationException("The property of the OptionValues attribute must be of type List<string>");
         }
 
         //

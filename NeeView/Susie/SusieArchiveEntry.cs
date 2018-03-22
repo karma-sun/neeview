@@ -66,7 +66,7 @@ namespace Susie
                 using (var api = _spi.Open())
                 {
                     var buff = api.GetFile(ArchiveShortFileName, _info);
-                    if (buff == null) throw new SpiException("抽出に失敗しました(M)", _spi);
+                    if (buff == null) throw new SpiException("Susie extraction failed (Type.M)", _spi);
                     return buff;
                 }
             }
@@ -80,7 +80,7 @@ namespace Susie
                 using (var api = _spi.Open())
                 {
                     int ret = api.GetFile(ArchiveShortFileName, _info, extractFolder);
-                    if (ret != 0) throw new SpiException($"抽出に失敗しました(F)", _spi);
+                    if (ret != 0) throw new SpiException("Susie extraction failed (Type.F)", _spi);
                 }
             }
         }

@@ -73,7 +73,7 @@ namespace NeeView
             Key action = Key.None;
             if (!Enum.TryParse(code, out action))
             {
-                throw new NotSupportedException($"'{source}' キーと修飾キーの組み合わせは、KeyGestureEx ではサポートされていません。");
+                throw new NotSupportedException(string.Format(Properties.Resources.ExceptionNotSupportedKey, source, "KeyGestureEx"));
             }
 
             ModifierKeys modifierKeys = ModifierKeys.None;
@@ -89,7 +89,7 @@ namespace NeeView
                     continue;
                 }
 
-                throw new NotSupportedException($"'{source}' キーと修飾キーの組み合わせは、KeyGestureEx ではサポートされていません。");
+                throw new NotSupportedException(string.Format(Properties.Resources.ExceptionNotSupportedKey, source, "KeyGestureEx"));
             }
 
             return new KeyExGesture(action, modifierKeys);

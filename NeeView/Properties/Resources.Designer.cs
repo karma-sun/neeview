@@ -6350,6 +6350,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   The combination of {0} key and modifier key is not supported in {1}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExceptionNotSupportedKey {
+            get {
+                return ResourceManager.GetString("ExceptionNotSupportedKey", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   {0} is not a ZIP file に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ExceptionNotZip {
@@ -6908,6 +6917,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Cannot open {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyCannotOpen {
+            get {
+                return ResourceManager.GetString("NotifyCannotOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Conflicting with {0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string NotifyConflict {
@@ -7102,6 +7120,15 @@ namespace NeeView.Properties {
         public static string NotifyNoFiles {
             get {
                 return ResourceManager.GetString("NotifyNoFiles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   {0} has no pages に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyNoPages {
+            get {
+                return ResourceManager.GetString("NotifyNoPages", resourceCulture);
             }
         }
         

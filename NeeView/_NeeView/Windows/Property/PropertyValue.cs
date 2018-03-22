@@ -12,11 +12,6 @@ namespace NeeView.Windows.Property
     //
     public abstract class PropertyValue
     {
-        public virtual string GetTypeString()
-        {
-            return "???";
-        }
-
         public virtual string GetValueString()
         {
             throw new NotSupportedException();
@@ -70,11 +65,6 @@ namespace NeeView.Windows.Property
         {
         }
 
-        public override string GetTypeString()
-        {
-            return "真偽値";
-        }
-
         public override void SetValueFromString(string value)
         {
             Value = bool.Parse(value);
@@ -86,11 +76,6 @@ namespace NeeView.Windows.Property
     {
         public PropertyValue_String(PropertyMemberElement setter) : base(setter)
         {
-        }
-
-        public override string GetTypeString()
-        {
-            return "文字列";
         }
 
         public override void SetValueFromString(string value)
@@ -106,11 +91,6 @@ namespace NeeView.Windows.Property
         {
         }
 
-        public override string GetTypeString()
-        {
-            return "整数値";
-        }
-
         public override void SetValueFromString(string value)
         {
             Value = int.Parse(value);
@@ -122,11 +102,6 @@ namespace NeeView.Windows.Property
     {
         public PropertyValue_Double(PropertyMemberElement setter) : base(setter)
         {
-        }
-
-        public override string GetTypeString()
-        {
-            return "実数値";
         }
 
         public override void SetValueFromString(string value)
@@ -156,11 +131,6 @@ namespace NeeView.Windows.Property
             this.Map = _type.AliasNameDictionary();
         }
 
-        public override string GetTypeString()
-        {
-            return "選択値";
-        }
-
         public override void SetValueFromString(string value)
         {
             Value = Enum.Parse(_type, value);
@@ -173,11 +143,6 @@ namespace NeeView.Windows.Property
     {
         public PropertyValue_Point(PropertyMemberElement setter) : base(setter)
         {
-        }
-
-        public override string GetTypeString()
-        {
-            return "座標";
         }
 
         public override void SetValueFromString(string value)
@@ -193,11 +158,6 @@ namespace NeeView.Windows.Property
         {
         }
 
-        public override string GetTypeString()
-        {
-            return "カラー";
-        }
-
         public override void SetValueFromString(string value)
         {
             Value = (Color)ColorConverter.ConvertFromString(value);
@@ -209,11 +169,6 @@ namespace NeeView.Windows.Property
     {
         public PropertyValue_Size(PropertyMemberElement setter) : base(setter)
         {
-        }
-
-        public override string GetTypeString()
-        {
-            return "サイズ";
         }
 
         public override void SetValueFromString(string value)
@@ -232,11 +187,6 @@ namespace NeeView.Windows.Property
     {
         public PropertyValue_TimeSpan(PropertyMemberElement setter) : base(setter)
         {
-        }
-
-        public override string GetTypeString()
-        {
-            return "期間";
         }
 
         public override void SetValueFromString(string value)
@@ -356,11 +306,6 @@ namespace NeeView.Windows.Property
         {
             IsDirectory = isDirectory;
             Filter = filter;
-        }
-
-        public override string GetTypeString()
-        {
-            return "ファイルの場所";
         }
     }
 }

@@ -3966,4 +3966,13 @@ Details of the error are output to the following file.
   <data name="NotifyDropContent" xml:space="preserve">
     <value>Dropped content</value>
   </data>
+  <data name="ExceptionNotSupportedKey" xml:space="preserve">
+    <value>The combination of {0} key and modifier key is not supported in {1}.</value>
+  </data>
+  <data name="NotifyCannotOpen" xml:space="preserve">
+    <value>Cannot open {0}</value>
+  </data>
+  <data name="NotifyNoPages" xml:space="preserve">
+    <value>{0} has no pages</value>
+  </data>
 </root>

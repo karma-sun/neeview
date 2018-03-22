@@ -28,7 +28,7 @@ namespace NeeView
 
             TempDirectoryBaseName = processName; //  asmprd.Product;
             TempDirectory = Path.Combine(Path.GetTempPath(), TempDirectoryBaseName) + processId.ToString();
-            TempDownloadDirectory = Path.Combine(Temporary.TempDirectory, "(一時フォルダー)");
+            TempDownloadDirectory = Path.Combine(Temporary.TempDirectory, "Temporary");
             TempSystemDirectory = Path.Combine(Temporary.TempDirectory, "System");
             TempCacheDirectory = Path.Combine(Temporary.TempDirectory, "Cache");
         }

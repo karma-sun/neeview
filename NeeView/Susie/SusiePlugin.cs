@@ -293,7 +293,7 @@ namespace Susie
                 {
                     string shortPath = NativeMethods.GetShortPathName(fileName);
                     var entries = api.GetArchiveInfo(shortPath);
-                    if (entries == null) throw new ApplicationException($"{this.Name}: 書庫情報の取得に失敗しました");
+                    if (entries == null) throw new ApplicationException($"{this.Name}: Failed to read archive information.");
                     return new ArchiveEntryCollection(this, fileName, entries);
                 }
             }
@@ -319,7 +319,7 @@ namespace Susie
                     string shortPath = NativeMethods.GetShortPathName(fileName);
                     if (!api.IsSupported(shortPath, head)) return null;
                     var entries = api.GetArchiveInfo(shortPath);
-                    if (entries == null) throw new ApplicationException($"{this.Name}: 書庫情報の取得に失敗しました");
+                    if (entries == null) throw new ApplicationException($"{this.Name}: Failed to read archive information.");
                     return new ArchiveEntryCollection(this, fileName, entries);
                 }
             }

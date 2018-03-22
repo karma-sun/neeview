@@ -7,7 +7,7 @@
         xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
         Style="{StaticResource ToolDialogStyle}"
-        Title="{x:Static properties:Resources.WordRename}" Height="120" Width="400">
+        Title="{x:Static properties:Resources.WordRename}" Height="128" Width="400">
 
     <Window.Resources>
         <Style TargetType="Button">
@@ -24,7 +24,7 @@
             <Button x:Name="ResetButton" Content="{x:Static properties:Resources.WordReset}" Click="ResetButton_Click"/>
         </StackPanel>
         <Grid Margin="5">
-            <TextBox VerticalAlignment="Center" x:Name="NameTextBox" Text="{Binding Text, Mode=TwoWay}" Padding="5"/>
+            <TextBox VerticalAlignment="Center" x:Name="NameTextBox" Text="{Binding Text, Mode=TwoWay}"/>
         </Grid>
 
     </DockPanel>

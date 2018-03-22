@@ -165,16 +165,9 @@ namespace NeeView.Windows.Property
         }
 
 
-        //
         public Type GetValueType()
         {
             return _info.PropertyType;
-        }
-
-        //
-        public string GetValueTypeString()
-        {
-            return TypeValue.GetTypeString();
         }
 
         public string GetValueString()

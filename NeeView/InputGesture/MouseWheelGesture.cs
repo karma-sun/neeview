@@ -102,7 +102,7 @@ namespace NeeView
 
             if (!Enum.TryParse(keys.Last(), out action))
             {
-                throw new NotSupportedException($"'{source}' キーと修飾キーの組み合わせは、MouseWheelGesture ではサポートされていません。");
+                throw new NotSupportedException(string.Format(Properties.Resources.ExceptionNotSupportedKey, source, "MouseWheelGesture"));
             }
 
             for (int i = 0; i < keys.Length - 1; ++i)
@@ -124,7 +124,7 @@ namespace NeeView
                     continue;
                 }
 
-                throw new NotSupportedException($"'{source}' キーと修飾キーの組み合わせは、MouseWheelGesture ではサポートされていません。");
+                throw new NotSupportedException(string.Format(Properties.Resources.ExceptionNotSupportedKey, source, "MouseWheelGesture"));
             }
 
             return new MouseWheelGesture(action, modifierKeys, modifierMouseButtons);

@@ -67,10 +67,6 @@ namespace NeeView
         //
         private static Regex _tipsRegex = new Regex(@"<[\w/]+>", RegexOptions.Compiled);
 
-        // コマンド説明(Tips用)
-        public string Tips => _tipsRegex.Replace(Note, "\"").Replace("。", "\n");
-
-
 
         // コマンドパラメータ標準
         public CommandParameter DefaultParameter { get; set; }

@@ -413,7 +413,7 @@ namespace NeeView
                     {
                         if (this.Book?.NotFoundStartPage != null)
                         {
-                            InfoMessage.Current.SetMessage(InfoMessageType.Notify, $"{LoosePath.GetFileName(this.Book.NotFoundStartPage)} を開けません", null, 2.0);
+                            InfoMessage.Current.SetMessage(InfoMessageType.Notify, string.Format(Properties.Resources.NotifyCannotOpen, LoosePath.GetFileName(this.Book.NotFoundStartPage)), null, 2.0);
                         }
                         else
                         {
@@ -621,7 +621,7 @@ namespace NeeView
                 // ページがなかった時の処理
                 if (Book.Pages.Count <= 0)
                 {
-                    App.Current?.Dispatcher.Invoke(() => EmptyMessage?.Invoke(this, new BookHubMessageEventArgs($"\"{Book.Place}\" には読み込めるファイルがありません")));
+                    App.Current?.Dispatcher.Invoke(() => EmptyMessage?.Invoke(this, new BookHubMessageEventArgs(string.Format(Properties.Resources.NotifyNoPages, Book.Place))));
 
                     if (IsConfirmRecursive && (args.Option & BookLoadOption.ReLoad) == 0 && !Book.IsRecursiveFolder && Book.SubFolderCount > 0)
                     {

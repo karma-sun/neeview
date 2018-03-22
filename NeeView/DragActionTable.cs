@@ -71,55 +71,46 @@ namespace NeeView
                 [DragActionType.Gesture] = new DragAction
                 {
                     IsLocked = true,
-                    Name = "ジェスチャー",
                     DragKey = new DragKey("RightButton"),
                 },
 
                 [DragActionType.Move] = new DragAction
                 {
-                    Name = "移動",
                     DragKey = new DragKey("LeftButton"),
                     Exec = (s, e) => _drag.DragMove(s, e),
                     Group = DragActionGroup.Move,
                 },
                 [DragActionType.MoveScale] = new DragAction
                 {
-                    Name = "移動(スケール依存)",
                     Exec = (s, e) => _drag.DragMoveScale(s, e),
                     Group = DragActionGroup.Move,
                 },
                 [DragActionType.Angle] = new DragAction
                 {
-                    Name = "回転",
                     DragKey = new DragKey("Shift+LeftButton"),
                     Exec = (s, e) => _drag.DragAngle(s, e),
                 },
                 [DragActionType.Scale] = new DragAction
                 {
-                    Name = "拡大縮小",
                     Exec = (s, e) => _drag.DragScale(s, e),
                 },
                 [DragActionType.ScaleSlider] = new DragAction
                 {
-                    Name = "拡大縮小(スライド式)",
                     DragKey = new DragKey("Ctrl+LeftButton"),
                     Exec = (s, e) => _drag.DragScaleSlider(s, e),
                 },
                 [DragActionType.FlipHorizontal] = new DragAction
                 {
-                    Name = "左右反転",
                     DragKey = new DragKey("Alt+LeftButton"),
                     Exec = (s, e) => _drag.DragFlipHorizontal(s, e),
                 },
                 [DragActionType.FlipVertical] = new DragAction
                 {
-                    Name = "上下反転",
                     Exec = (s, e) => _drag.DragFlipVertical(s, e),
                 },
 
                 [DragActionType.WindowMove] = new DragAction
                 {
-                    Name = "ウィンドウ移動",
                     DragKey = new DragKey("RightButton+LeftButton"),
                     Exec = (s, e) => _drag.DragWindowMove(s, e),
                 },

@@ -13,8 +13,8 @@ namespace NeeView.Setting
         {
             this.Children = new List<SettingPage>
             {
-                new SettingPageCommandMain(),
                 new SettingPageCommandGeneral(),
+                new SettingPageCommandMain(),
             };
         }
     }

@@ -853,7 +853,7 @@
     <value>Auto hide filmstrip</value>
   </data>
   <data name="CommandToggleIsAutoRotate" xml:space="preserve">
-    <value>Toggle auto rotate</value>
+    <value>Toggle auto rotation</value>
   </data>
   <data name="CommandToggleIsAutoRotateMenu" xml:space="preserve">
     <value>Auto rotate</value>
@@ -1582,9 +1582,6 @@ Please substitute gesture for flick operation. </value>
   <data name="ControlImportSetting" xml:space="preserve">
     <value>Setting</value>
   </data>
-  <data name="ControlImportTitle" xml:space="preserve">
-    <value />
-  </data>
   <data name="ControlPrintBackground" xml:space="preserve">
     <value>Include background</value>
   </data>
@@ -1967,25 +1964,25 @@ Is it OK? </value>
     <value>Explorer style</value>
   </data>
   <data name="EnumFolderOrderFileName" xml:space="preserve">
-    <value>Name Ascending</value>
+    <value>Name↑</value>
   </data>
   <data name="EnumFolderOrderFileNameDescending" xml:space="preserve">
-    <value>Name Descending</value>
+    <value>Name↓</value>
   </data>
   <data name="EnumFolderOrderRandom" xml:space="preserve">
     <value>Shuffle</value>
   </data>
   <data name="EnumFolderOrderSize" xml:space="preserve">
-    <value>Size Ascending</value>
+    <value>Size↑</value>
   </data>
   <data name="EnumFolderOrderSizeDescending" xml:space="preserve">
-    <value>Size Descending</value>
+    <value>Size↓</value>
   </data>
   <data name="EnumFolderOrderTimeStamp" xml:space="preserve">
-    <value>Date Ascending</value>
+    <value>Date↑</value>
   </data>
   <data name="EnumFolderOrderTimeStampDescending" xml:space="preserve">
-    <value>Date Descending</value>
+    <value>Date↓</value>
   </data>
   <data name="EnumHorizontalAlignmentCenter" xml:space="preserve">
     <value>Center</value>
@@ -2078,25 +2075,25 @@ Is it OK? </value>
     <value>Right to left</value>
   </data>
   <data name="EnumPageSortModeFileName" xml:space="preserve">
-    <value>Name Ascending</value>
+    <value>Name↑</value>
   </data>
   <data name="EnumPageSortModeFileNameDescending" xml:space="preserve">
-    <value>Name Descending</value>
+    <value>Name↓</value>
   </data>
   <data name="EnumPageSortModeRandom" xml:space="preserve">
     <value>Shuffle</value>
   </data>
   <data name="EnumPageSortModeSize" xml:space="preserve">
-    <value>Size Ascending</value>
+    <value>Size↑</value>
   </data>
   <data name="EnumPageSortModeSizeDescending" xml:space="preserve">
-    <value>Size Descending</value>
+    <value>Size↓</value>
   </data>
   <data name="EnumPageSortModeTimeStamp" xml:space="preserve">
-    <value>Date Ascending</value>
+    <value>Date↑</value>
   </data>
   <data name="EnumPageSortModeTimeStampDescending" xml:space="preserve">
-    <value>Date Descending</value>
+    <value>Date↓</value>
   </data>
   <data name="EnumPageStretchModeInside" xml:space="preserve">
     <value>Fit to window size if large</value>
@@ -2126,10 +2123,10 @@ Is it OK? </value>
     <value>None</value>
   </data>
   <data name="EnumPreLoadModePreLoad" xml:space="preserve">
-    <value>Prefetch</value>
+    <value>Preload</value>
   </data>
   <data name="EnumPreLoadModePreLoadNoUnload" xml:space="preserve">
-    <value>Prefetch (no release)</value>
+    <value>Preload (no release)</value>
   </data>
   <data name="EnumPrintModeRawImage" xml:space="preserve">
     <value>Image</value>
@@ -2153,10 +2150,10 @@ Is it OK? </value>
     <value>Tiny</value>
   </data>
   <data name="EnumSliderDirectionLeftToRight" xml:space="preserve">
-    <value>▶ Left to right</value>
+    <value>Left to right</value>
   </data>
   <data name="EnumSliderDirectionRightToLeft" xml:space="preserve">
-    <value>◀ Right to left</value>
+    <value>Right to left</value>
   </data>
   <data name="EnumSliderDirectionSyncBookReadDirection" xml:space="preserve">
     <value>Depends on books</value>
@@ -3593,7 +3590,7 @@ Details of the error are output to the following file.
     <value>* This setting will be reflected after closing the setting screen.</value>
   </data>
   <data name="SettingPageGeneralDetail" xml:space="preserve">
-    <value>Advanced Setting</value>
+    <value>Environment</value>
   </data>
   <data name="SettingPageGeneralDetailDetail" xml:space="preserve">
     <value>Advanced Setting</value>
@@ -3837,9 +3834,6 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="TokenFormat" xml:space="preserve">
     <value>"{0}"</value>
   </data>
-  <data name="TokenSeparator" xml:space="preserve">
-    <value> </value>
-  </data>
   <data name="WindowAboutTitle" xml:space="preserve">
     <value>About</value>
   </data>
@@ -3977,5 +3971,8 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="WordYes" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="SettingPageGeneralDetailLanguage" xml:space="preserve">
+    <value>Language</value>
   </data>
 </root>

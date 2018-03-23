@@ -10,7 +10,6 @@ namespace NeeView
     {
         private static Regex _regexKey = new Regex(@"@\w+");
 
-
         /// <summary>
         /// @で始まる文字列はリソースキーとしてその値を返す。
         /// そうでない場合はそのまま返す。
@@ -60,7 +59,7 @@ namespace NeeView
         /// </summary>
         public static string Join(IEnumerable<string> tokens)
         {
-            return string.Join(Properties.Resources.TokenSeparator, tokens.Select(e => string.Format(Properties.Resources.TokenFormat, e)));
+            return string.Join(" ", tokens.Select(e => string.Format(Properties.Resources.TokenFormat, e)));
         }
     }
 }

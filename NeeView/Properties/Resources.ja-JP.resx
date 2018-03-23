@@ -1964,25 +1964,25 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>エクスプローラー風</value>
   </data>
   <data name="EnumFolderOrderFileName" xml:space="preserve">
-    <value>名前昇順</value>
+    <value>名前↑</value>
   </data>
   <data name="EnumFolderOrderFileNameDescending" xml:space="preserve">
-    <value>名前降順</value>
+    <value>名前↓</value>
   </data>
   <data name="EnumFolderOrderRandom" xml:space="preserve">
     <value>シャッフル</value>
   </data>
   <data name="EnumFolderOrderSize" xml:space="preserve">
-    <value>サイズ昇順</value>
+    <value>サイズ↑</value>
   </data>
   <data name="EnumFolderOrderSizeDescending" xml:space="preserve">
-    <value>サイズ降順</value>
+    <value>サイズ↓</value>
   </data>
   <data name="EnumFolderOrderTimeStamp" xml:space="preserve">
-    <value>日付昇順</value>
+    <value>日付↑</value>
   </data>
   <data name="EnumFolderOrderTimeStampDescending" xml:space="preserve">
-    <value>日付降順</value>
+    <value>日付↓</value>
   </data>
   <data name="EnumHorizontalAlignmentCenter" xml:space="preserve">
     <value>中央</value>
@@ -2075,25 +2075,25 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>右開き</value>
   </data>
   <data name="EnumPageSortModeFileName" xml:space="preserve">
-    <value>ファイル名昇順</value>
+    <value>名前↑</value>
   </data>
   <data name="EnumPageSortModeFileNameDescending" xml:space="preserve">
-    <value>ファイル名降順</value>
+    <value>名前↓</value>
   </data>
   <data name="EnumPageSortModeRandom" xml:space="preserve">
     <value>シャッフル</value>
   </data>
   <data name="EnumPageSortModeSize" xml:space="preserve">
-    <value>サイズ昇順</value>
+    <value>サイズ↑</value>
   </data>
   <data name="EnumPageSortModeSizeDescending" xml:space="preserve">
-    <value>サイズ降順</value>
+    <value>サイズ↓</value>
   </data>
   <data name="EnumPageSortModeTimeStamp" xml:space="preserve">
-    <value>日付昇順</value>
+    <value>日付↑</value>
   </data>
   <data name="EnumPageSortModeTimeStampDescending" xml:space="preserve">
-    <value>日付降順</value>
+    <value>日付↓</value>
   </data>
   <data name="EnumPageStretchModeInside" xml:space="preserve">
     <value>大きい場合ウィンドウサイズに合わせる</value>
@@ -3590,7 +3590,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>※この設定は、設定ウィンドウを閉じた後に反映されます。</value>
   </data>
   <data name="SettingPageGeneralDetail" xml:space="preserve">
-    <value>詳細設定</value>
+    <value>環境</value>
   </data>
   <data name="SettingPageGeneralDetailDetail" xml:space="preserve">
     <value>詳細設定</value>
@@ -3971,5 +3971,8 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="WordYes" xml:space="preserve">
     <value>はい</value>
+  </data>
+  <data name="SettingPageGeneralDetailLanguage" xml:space="preserve">
+    <value>言語</value>
   </data>
 </root>

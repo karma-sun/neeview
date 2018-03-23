@@ -2266,7 +2266,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle auto rotate に類似しているローカライズされた文字列を検索します。
+        ///   Toggle auto rotation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleIsAutoRotate {
             get {
@@ -4436,15 +4436,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///    に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ControlImportTitle {
-            get {
-                return ResourceManager.GetString("ControlImportTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Include background に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ControlPrintBackground {
@@ -5570,7 +5561,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Name Ascending に類似しているローカライズされた文字列を検索します。
+        ///   Name↑ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumFolderOrderFileName {
             get {
@@ -5579,7 +5570,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Name Descending に類似しているローカライズされた文字列を検索します。
+        ///   Name↓ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumFolderOrderFileNameDescending {
             get {
@@ -5597,7 +5588,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Size Ascending に類似しているローカライズされた文字列を検索します。
+        ///   Size↑ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumFolderOrderSize {
             get {
@@ -5606,7 +5597,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Size Descending に類似しているローカライズされた文字列を検索します。
+        ///   Size↓ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumFolderOrderSizeDescending {
             get {
@@ -5615,7 +5606,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Date Ascending に類似しているローカライズされた文字列を検索します。
+        ///   Date↑ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumFolderOrderTimeStamp {
             get {
@@ -5624,7 +5615,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Date Descending に類似しているローカライズされた文字列を検索します。
+        ///   Date↓ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumFolderOrderTimeStampDescending {
             get {
@@ -5903,7 +5894,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Name Ascending に類似しているローカライズされた文字列を検索します。
+        ///   Name↑ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumPageSortModeFileName {
             get {
@@ -5912,7 +5903,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Name Descending に類似しているローカライズされた文字列を検索します。
+        ///   Name↓ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumPageSortModeFileNameDescending {
             get {
@@ -5930,7 +5921,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Size Ascending に類似しているローカライズされた文字列を検索します。
+        ///   Size↑ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumPageSortModeSize {
             get {
@@ -5939,7 +5930,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Size Descending に類似しているローカライズされた文字列を検索します。
+        ///   Size↓ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumPageSortModeSizeDescending {
             get {
@@ -5948,7 +5939,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Date Ascending に類似しているローカライズされた文字列を検索します。
+        ///   Date↑ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumPageSortModeTimeStamp {
             get {
@@ -5957,7 +5948,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Date Descending に類似しているローカライズされた文字列を検索します。
+        ///   Date↓ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumPageSortModeTimeStampDescending {
             get {
@@ -6047,7 +6038,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Prefetch に類似しているローカライズされた文字列を検索します。
+        ///   Preload に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumPreLoadModePreLoad {
             get {
@@ -6056,7 +6047,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Prefetch (no release) に類似しているローカライズされた文字列を検索します。
+        ///   Preload (no release) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumPreLoadModePreLoadNoUnload {
             get {
@@ -6128,7 +6119,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   ▶ Left to right に類似しているローカライズされた文字列を検索します。
+        ///   Left to right に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumSliderDirectionLeftToRight {
             get {
@@ -6137,7 +6128,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   ◀ Right to left に類似しているローカライズされた文字列を検索します。
+        ///   Right to left に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumSliderDirectionRightToLeft {
             get {
@@ -10436,7 +10427,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Advanced Setting に類似しているローカライズされた文字列を検索します。
+        ///   Environment に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageGeneralDetail {
             get {
@@ -10450,6 +10441,15 @@ namespace NeeView.Properties {
         public static string SettingPageGeneralDetailDetail {
             get {
                 return ResourceManager.GetString("SettingPageGeneralDetailDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Language に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageGeneralDetailLanguage {
+            get {
+                return ResourceManager.GetString("SettingPageGeneralDetailLanguage", resourceCulture);
             }
         }
         
@@ -11138,15 +11138,6 @@ namespace NeeView.Properties {
         public static string TokenFormat {
             get {
                 return ResourceManager.GetString("TokenFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///     に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string TokenSeparator {
-            get {
-                return ResourceManager.GetString("TokenSeparator", resourceCulture);
             }
         }
         

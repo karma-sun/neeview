@@ -94,21 +94,18 @@ namespace NeeView
             //
             using (var writer = new System.IO.StreamWriter(fileName, false))
             {
-                var regex = new Regex(@"\(_(\w)\)");
-                var regexReplace = @"($1)";
-
                 writer.WriteLine(HtmlHelpUtility.CraeteHeader("NeeView MainMenu List"));
 
                 writer.WriteLine($"<body><h1>NeeView {Properties.Resources.WordMainMenu}</h1>");
 
                 foreach (var pair in groups)
                 {
-                    writer.WriteLine($"<h3>{regex.Replace(pair.Key, regexReplace)}</h3>");
+                    writer.WriteLine($"<h3>{pair.Key.Replace("_", "")}</h3>");
                     writer.WriteLine("<table>");
                     writer.WriteLine($"<th>{Properties.Resources.WordItem}<th>{Properties.Resources.WordDescription}<tr>");
                     foreach (var item in pair.Value)
                     {
-                        string name = new string('　', item.Depth * 2) + regex.Replace(item.Element.Label, regexReplace);
+                        string name = new string('　', item.Depth * 2) + item.Element.DispLabel;
 
                         writer.WriteLine($"<td>{name}<td>{item.Element.Note}<tr>");
                     }

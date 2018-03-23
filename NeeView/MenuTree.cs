@@ -73,7 +73,6 @@ namespace NeeView
         [DataMember]
         public ObservableCollection<MenuTree> Children { get; set; }
 
-
         public MenuTree()
         {
         }
@@ -88,9 +87,12 @@ namespace NeeView
         public string Label
         {
             get { return Name ?? DefaultLabel; }
-            set { Name = (value == DefaultLabel) ? null : value; RaisePropertyChanged(); }
+            set { Name = (value == DefaultLabel) ? null : value; RaisePropertyChanged(); RaisePropertyChanged(nameof(DispLabel)); }
         }
         #endregion
+
+        public string DispLabel => Label?.Replace("_", "");
+
 
         public string DefaultLongLabel
         {

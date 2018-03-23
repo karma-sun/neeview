@@ -72,7 +72,7 @@
                                                     <Image Width="14" Height="14" Source="{StaticResource ic_setting_24px}"/>
                                                 </Button>
                                             </Grid>
-                                            <TextBlock Text="{Binding Command.Text}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Command.Tips}" Margin="2,0"/>
+                                            <TextBlock Text="{Binding Command.Text}" TextTrimming="CharacterEllipsis" Margin="2,0"/>
                                         </DockPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>

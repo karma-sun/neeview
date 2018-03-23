@@ -88,7 +88,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Full screen unlock に類似しているローカライズされた文字列を検索します。
+        ///   full screen OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandCancelFullScreen {
             get {
@@ -97,7 +97,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Unlock full screen. に類似しているローカライズされた文字列を検索します。
+        ///   Turn off fullscreen. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandCancelFullScreenNote {
             get {
@@ -124,7 +124,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Quit the application に類似しているローカライズされた文字列を検索します。
+        ///   Quit application に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandCloseApplication {
             get {
@@ -259,7 +259,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Save a file with a name に類似しているローカライズされた文字列を検索します。
+        ///   Save as に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandExport {
             get {
@@ -295,7 +295,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   _Save... に類似しているローカライズされた文字列を検索します。
+        ///   _Save as... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandExportMenu {
             get {
@@ -313,7 +313,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   First Page に類似しているローカライズされた文字列を検索します。
+        ///   First page に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandFirstPage {
             get {
@@ -376,7 +376,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Film strip に類似しているローカライズされた文字列を検索します。
+        ///   Filmstrip に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandGroupFilmStrip {
             get {
@@ -385,7 +385,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Image stretch に類似しているローカライズされた文字列を検索します。
+        ///   View stretch に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandGroupImageScale {
             get {
@@ -457,7 +457,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   View manipulation に類似しているローカライズされた文字列を検索します。
+        ///   View operation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandGroupViewManipulation {
             get {
@@ -475,7 +475,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display command help に類似しているローカライズされた文字列を検索します。
+        ///   Command help に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandHelpCommandList {
             get {
@@ -502,7 +502,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display main menu help に類似しているローカライズされた文字列を検索します。
+        ///   Main menu help に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandHelpMainMenu {
             get {
@@ -511,7 +511,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Main Menu Help に類似しているローカライズされた文字列を検索します。
+        ///   Main menu help に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandHelpMainMenuMenu {
             get {
@@ -574,7 +574,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Last Page に類似しているローカライズされた文字列を検索します。
+        ///   Last page に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandLastPage {
             get {
@@ -637,7 +637,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Loupe ON に類似しているローカライズされた文字列を検索します。
+        ///   Loupe に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandLoupeOn {
             get {
@@ -655,7 +655,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Loupe scale down に類似しているローカライズされた文字列を検索します。
+        ///   Loupe zoom out に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandLoupeScaleDown {
             get {
@@ -673,7 +673,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Loupe scale up に類似しているローカライズされた文字列を検索します。
+        ///   Loupe zoom in に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandLoupeScaleUp {
             get {
@@ -889,7 +889,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Open with an external application に類似しているローカライズされた文字列を検索します。
+        ///   External に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandOpenApplication {
             get {
@@ -1042,7 +1042,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Back bookmark に類似しているローカライズされた文字列を検索します。
+        ///   Prev bookmark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandPrevBookmark {
             get {
@@ -1060,7 +1060,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Back Book に類似しているローカライズされた文字列を検索します。
+        ///   Prev Book に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandPrevFolder {
             get {
@@ -1078,7 +1078,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Back History に類似しているローカライズされた文字列を検索します。
+        ///   Prev History に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandPrevHistory {
             get {
@@ -1096,7 +1096,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Back One に類似しているローカライズされた文字列を検索します。
+        ///   Prev One に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandPrevOnePage {
             get {
@@ -1114,7 +1114,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Back に類似しているローカライズされた文字列を検索します。
+        ///   Prev に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandPrevPage {
             get {
@@ -1123,7 +1123,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Back pagemark に類似しているローカライズされた文字列を検索します。
+        ///   Prev pagemark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandPrevPagemark {
             get {
@@ -1132,7 +1132,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Back pagemark in book に類似しているローカライズされた文字列を検索します。
+        ///   Prev pagemark in book に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandPrevPagemarkInBook {
             get {
@@ -1168,7 +1168,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Scroll + Back に類似しているローカライズされた文字列を検索します。
+        ///   Scroll + Prev に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandPrevScrollPage {
             get {
@@ -1186,7 +1186,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Back N に類似しているローカライズされた文字列を検索します。
+        ///   Prev N に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandPrevSizePage {
             get {
@@ -1393,7 +1393,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Name Ascending (Book) に類似しているローカライズされた文字列を検索します。
+        ///   Book Name Ascending に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetFolderOrderByFileNameA {
             get {
@@ -1411,7 +1411,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Name Descending (Book) に類似しているローカライズされた文字列を検索します。
+        ///   Book Name Descending に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetFolderOrderByFileNameD {
             get {
@@ -1429,7 +1429,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Shuffle (Book) に類似しているローカライズされた文字列を検索します。
+        ///   Book Shuffle に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetFolderOrderByRandom {
             get {
@@ -1447,7 +1447,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Size Ascending (Book) に類似しているローカライズされた文字列を検索します。
+        ///   Book Size Ascending に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetFolderOrderBySizeA {
             get {
@@ -1465,7 +1465,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Size Descending (Book) に類似しているローカライズされた文字列を検索します。
+        ///   Book Size Descending に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetFolderOrderBySizeD {
             get {
@@ -1483,7 +1483,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Date Ascending (Book) に類似しているローカライズされた文字列を検索します。
+        ///   Book Date Ascending に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetFolderOrderByTimeStampA {
             get {
@@ -1501,7 +1501,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Date Descending (Book) に類似しているローカライズされた文字列を検索します。
+        ///   Book Date Descending に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetFolderOrderByTimeStampD {
             get {
@@ -1519,7 +1519,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Make it full screen に類似しているローカライズされた文字列を検索します。
+        ///   Full screen に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetFullScreen {
             get {
@@ -1699,7 +1699,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Fit to window size if large に類似しているローカライズされた文字列を検索します。
+        ///   Fit to window if large に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetStretchModeInside {
             get {
@@ -1735,7 +1735,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Expand to window size if small に類似しているローカライズされた文字列を検索します。
+        ///   Fit to window if small に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetStretchModeOutside {
             get {
@@ -1753,7 +1753,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Fit to window size に類似しているローカライズされた文字列を検索します。
+        ///   Fit to window に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetStretchModeUniform {
             get {
@@ -1771,7 +1771,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Extend it to fill the window に類似しているローカライズされた文字列を検索します。
+        ///   Extend to window に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetStretchModeUniformToFill {
             get {
@@ -1789,7 +1789,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Fit the area size to the window に類似しているローカライズされた文字列を検索します。
+        ///   Fit to window area size に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetStretchModeUniformToSize {
             get {
@@ -1825,7 +1825,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display the panel only once. に類似しているローカライズされた文字列を検索します。
+        ///   Show panels  に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandShowHiddenPanels {
             get {
@@ -1834,7 +1834,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display panel once に類似しているローカライズされた文字列を検索します。
+        ///   Show panels  に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandShowHiddenPanelsMenu {
             get {
@@ -1870,7 +1870,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Bookmark registration / release に類似しているローカライズされた文字列を検索します。
+        ///   Toggle bookmark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleBookmark {
             get {
@@ -1933,7 +1933,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Specify size (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle custom size に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleCustomSize {
             get {
@@ -1942,7 +1942,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Specify size に類似しているローカライズされた文字列を検索します。
+        ///   Custom size に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleCustomSizeMenu {
             get {
@@ -1960,7 +1960,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Specify size OFF に類似しているローカライズされた文字列を検索します。
+        ///   Custom size OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleCustomSizeOff {
             get {
@@ -1969,7 +1969,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Specify size ON に類似しているローカライズされた文字列を検索します。
+        ///   Custom size に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleCustomSizeOn {
             get {
@@ -1978,7 +1978,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Effect (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle effect に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleEffect {
             get {
@@ -2014,7 +2014,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Effect ON に類似しているローカライズされた文字列を検索します。
+        ///   Effect に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleEffectOn {
             get {
@@ -2041,7 +2041,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Full screen (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle full screen に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleFullScreen {
             get {
@@ -2077,7 +2077,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Full screen ON に類似しているローカライズされた文字列を検索します。
+        ///   Full screen に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleFullScreenOn {
             get {
@@ -2086,7 +2086,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Automatically hide the menu (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle auto hide menu に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleHideMenu {
             get {
@@ -2095,7 +2095,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Automatically hide the menu に類似しているローカライズされた文字列を検索します。
+        ///   Auto hide menu に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleHideMenuMenu {
             get {
@@ -2113,7 +2113,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display menu に類似しているローカライズされた文字列を検索します。
+        ///   Auto hide menu OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleHideMenuOff {
             get {
@@ -2122,7 +2122,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Automatically hide the menu に類似しているローカライズされた文字列を検索します。
+        ///   Auto hide menu に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleHideMenuOn {
             get {
@@ -2131,7 +2131,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Automatically hide the slider (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle auto hide slider に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleHidePageSlider {
             get {
@@ -2140,7 +2140,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Automatically hide the slider に類似しているローカライズされた文字列を検索します。
+        ///   Auto hide slider に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleHidePageSliderMenu {
             get {
@@ -2158,7 +2158,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display slider に類似しているローカライズされた文字列を検索します。
+        ///   Auto hide slider OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleHidePageSliderOff {
             get {
@@ -2167,7 +2167,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Automatically hide the slider に類似しているローカライズされた文字列を検索します。
+        ///   Auto hide slider に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleHidePageSliderOn {
             get {
@@ -2176,7 +2176,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Automatically hide the panel (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle auto hide panels に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleHidePanel {
             get {
@@ -2185,7 +2185,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Automatically hide the panel に類似しているローカライズされた文字列を検索します。
+        ///   Auto hide panels に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleHidePanelMenu {
             get {
@@ -2203,7 +2203,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display panels に類似しているローカライズされた文字列を検索します。
+        ///   Auto hide panels OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleHidePanelOff {
             get {
@@ -2212,7 +2212,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Automatically hide the panels に類似しているローカライズされた文字列を検索します。
+        ///   Auto hide panels に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleHidePanelOn {
             get {
@@ -2221,7 +2221,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Automatically hide filmstrip (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle auto hide filmstrip に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleHideThumbnailList {
             get {
@@ -2230,7 +2230,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Automatically hide filmstrip に類似しているローカライズされた文字列を検索します。
+        ///   Auto hide filmstrip に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleHideThumbnailListMenu {
             get {
@@ -2248,7 +2248,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Show filmstrip に類似しているローカライズされた文字列を検索します。
+        ///   Auto hide filmstrip OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleHideThumbnailListOff {
             get {
@@ -2257,7 +2257,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Automatically hide filmstrip に類似しているローカライズされた文字列を検索します。
+        ///   Auto hide filmstrip に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleHideThumbnailListOn {
             get {
@@ -2266,7 +2266,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Auto rotation (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle auto rotate に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleIsAutoRotate {
             get {
@@ -2275,7 +2275,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Auto rotation に類似しているローカライズされた文字列を検索します。
+        ///   Auto rotate に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleIsAutoRotateMenu {
             get {
@@ -2293,7 +2293,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Auto rotation OFF に類似しているローカライズされた文字列を検索します。
+        ///   Auto rotate OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleIsAutoRotateOff {
             get {
@@ -2302,7 +2302,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Auto rotation ON に類似しているローカライズされた文字列を検索します。
+        ///   Auto rotate に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleIsAutoRotateOn {
             get {
@@ -2311,7 +2311,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Expanding while maintaining dots (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle keep dot に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleIsEnabledNearestNeighbor {
             get {
@@ -2320,7 +2320,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Expanding while maintaining dots に類似しているローカライズされた文字列を検索します。
+        ///   Keep dot に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleIsEnabledNearestNeighborMenu {
             get {
@@ -2338,7 +2338,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   To expand to high quality に類似しているローカライズされた文字列を検索します。
+        ///   Keep dot OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleIsEnabledNearestNeighborOff {
             get {
@@ -2356,7 +2356,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Loupe (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle loupe に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleIsLoupe {
             get {
@@ -2392,7 +2392,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Loupe ON に類似しているローカライズされた文字列を検索します。
+        ///   Loupe に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleIsLoupeOn {
             get {
@@ -2401,7 +2401,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Load subfolder に類似しているローカライズされた文字列を検索します。
+        ///   Load subfolders に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleIsRecursiveFolder {
             get {
@@ -2419,7 +2419,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Do not load subfolders に類似しているローカライズされた文字列を検索します。
+        ///   Load subfolders OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleIsRecursiveFolderOff {
             get {
@@ -2428,7 +2428,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Also load subfolders に類似しているローカライズされた文字列を検索します。
+        ///   Load subfolders に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleIsRecursiveFolderOn {
             get {
@@ -2437,7 +2437,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Split horizontally long page に類似しているローカライズされた文字列を検索します。
+        ///   Split wide page に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleIsSupportedDividePage {
             get {
@@ -2455,7 +2455,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Split horizontally long page OFF に類似しているローカライズされた文字列を検索します。
+        ///   Split wide page OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleIsSupportedDividePageOff {
             get {
@@ -2464,7 +2464,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Split horizontally long page に類似しているローカライズされた文字列を検索します。
+        ///   Split wide page に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleIsSupportedDividePageOn {
             get {
@@ -2473,7 +2473,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   The first page alone に類似しているローカライズされた文字列を検索します。
+        ///   First page alone に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleIsSupportedSingleFirstPage {
             get {
@@ -2509,7 +2509,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   The last page alone に類似しているローカライズされた文字列を検索します。
+        ///   Last page alone に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleIsSupportedSingleLastPage {
             get {
@@ -2545,7 +2545,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Landscape page is regarded as 2 pages に類似しているローカライズされた文字列を検索します。
+        ///   Wide is two page に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleIsSupportedWidePage {
             get {
@@ -2563,7 +2563,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Landscape page is regarded as 2 pages OFF に類似しているローカライズされた文字列を検索します。
+        ///   Wide is two page OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleIsSupportedWidePageOff {
             get {
@@ -2572,7 +2572,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Landscape page is regarded as 2 pages に類似しているローカライズされた文字列を検索します。
+        ///   Wide is two page に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleIsSupportedWidePageOn {
             get {
@@ -2581,7 +2581,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Video Play/Stop に類似しているローカライズされた文字列を検索します。
+        ///   Play/Stop に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleMediaPlay {
             get {
@@ -2599,7 +2599,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Pagemark registration / release に類似しているローカライズされた文字列を検索します。
+        ///   Toggle pagemark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandTogglePagemark {
             get {
@@ -2644,7 +2644,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle page display size に類似しているローカライズされた文字列を検索します。
+        ///   Toggle page mode に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandTogglePageMode {
             get {
@@ -2662,7 +2662,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   File operation (Enable/Disable) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle file operation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandTogglePermitFileCommand {
             get {
@@ -2689,7 +2689,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   File operation disable に類似しているローカライズされた文字列を検索します。
+        ///   Disable file operation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandTogglePermitFileCommandOff {
             get {
@@ -2698,7 +2698,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   File operation enabled に類似しているローカライズされた文字列を検索します。
+        ///   Enable file operation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandTogglePermitFileCommandOn {
             get {
@@ -2707,7 +2707,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Resize filter (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle resize filter に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleResizeFilter {
             get {
@@ -2743,7 +2743,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Resize filter ON に類似しているローカライズされた文字列を検索します。
+        ///   Resize filter に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleResizeFilterOn {
             get {
@@ -2752,7 +2752,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Slideshow (Play/Stop) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle slideshow に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleSlideShow {
             get {
@@ -2815,7 +2815,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Switch image stretch に類似しているローカライズされた文字列を検索します。
+        ///   Switch view stretch に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleStretchMode {
             get {
@@ -2824,7 +2824,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Switch the image stretch in order. に類似しているローカライズされた文字列を検索します。
+        ///   Switch the view stretch in order. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleStretchModeNote {
             get {
@@ -2833,7 +2833,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Switch image stretch (reverse) に類似しているローカライズされた文字列を検索します。
+        ///   Switch view stretch (reverse) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleStretchModeReverse {
             get {
@@ -2851,7 +2851,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Always on foreground (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle topmost に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleTopmost {
             get {
@@ -2860,7 +2860,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Always on foreground に類似しているローカライズされた文字列を検索します。
+        ///   Topmost に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleTopmostMenu {
             get {
@@ -2878,7 +2878,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Uncheck &quot;Always on foreground&quot; に類似しているローカライズされた文字列を検索します。
+        ///   Topmost OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleTopmostOff {
             get {
@@ -2887,7 +2887,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Always on foreground に類似しているローカライズされた文字列を検索します。
+        ///   Topmost に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleTopmostOn {
             get {
@@ -2896,7 +2896,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Flip horizontal (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle flip horizontal に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleViewFlipHorizontal {
             get {
@@ -2914,7 +2914,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Flip vertial (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle flip vertial に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleViewFlipVertical {
             get {
@@ -2932,7 +2932,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Address bar (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle address bar に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleAddressBar {
             get {
@@ -2959,7 +2959,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Hide the address bar に類似しているローカライズされた文字列を検索します。
+        ///   Address bar OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleAddressBarOff {
             get {
@@ -2968,7 +2968,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display address bar に類似しているローカライズされた文字列を検索します。
+        ///   Address bar に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleAddressBarOn {
             get {
@@ -2977,7 +2977,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Bookmark list (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle bookmark list に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleBookmarkList {
             get {
@@ -3004,7 +3004,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Hide bookmark list に類似しているローカライズされた文字列を検索します。
+        ///   Bookmark list OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleBookmarkListOff {
             get {
@@ -3013,7 +3013,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Show bookmark list に類似しているローカライズされた文字列を検索します。
+        ///   Bookmark list に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleBookmarkListOn {
             get {
@@ -3022,7 +3022,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Effect panel (ON/IFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle effect panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleEffectInfo {
             get {
@@ -3049,7 +3049,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Hide effect panel に類似しているローカライズされた文字列を検索します。
+        ///   Effect panel OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleEffectInfoOff {
             get {
@@ -3058,7 +3058,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Show effect panel に類似しているローカライズされた文字列を検索します。
+        ///   Effect panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleEffectInfoOn {
             get {
@@ -3067,7 +3067,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   File information (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle file information に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleFileInfo {
             get {
@@ -3094,7 +3094,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Hide file information に類似しているローカライズされた文字列を検索します。
+        ///   File information OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleFileInfoOff {
             get {
@@ -3103,7 +3103,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display file information に類似しているローカライズされた文字列を検索します。
+        ///   File information に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleFileInfoOn {
             get {
@@ -3112,7 +3112,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Folder list (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle folder list に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleFolderList {
             get {
@@ -3139,7 +3139,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Hide folder list に類似しているローカライズされた文字列を検索します。
+        ///   Folder list OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleFolderListOff {
             get {
@@ -3148,7 +3148,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display folder list に類似しているローカライズされた文字列を検索します。
+        ///   Folder list に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleFolderListOn {
             get {
@@ -3157,7 +3157,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Search box (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle search box に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleFolderSearchBox {
             get {
@@ -3166,7 +3166,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Search Box に類似しているローカライズされた文字列を検索します。
+        ///   Search box に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleFolderSearchBoxMenu {
             get {
@@ -3184,7 +3184,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Hide search box に類似しているローカライズされた文字列を検索します。
+        ///   Search box OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleFolderSearchBoxOff {
             get {
@@ -3193,7 +3193,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Show search box に類似しているローカライズされた文字列を検索します。
+        ///   Search box に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleFolderSearchBoxOn {
             get {
@@ -3202,7 +3202,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   History list (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle history list に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleHistoryList {
             get {
@@ -3229,7 +3229,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Hide history list に類似しているローカライズされた文字列を検索します。
+        ///   History list OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleHistoryListOff {
             get {
@@ -3238,7 +3238,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Show history list に類似しているローカライズされた文字列を検索します。
+        ///   History list に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleHistoryListOn {
             get {
@@ -3247,7 +3247,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Page list (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle page list に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisiblePageList {
             get {
@@ -3274,7 +3274,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Hide page list に類似しているローカライズされた文字列を検索します。
+        ///   Page list OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisiblePageListOff {
             get {
@@ -3283,7 +3283,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Show page list に類似しているローカライズされた文字列を検索します。
+        ///   Page list に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisiblePageListOn {
             get {
@@ -3292,7 +3292,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Pagemark list (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle pagemark list に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisiblePagemarkList {
             get {
@@ -3319,7 +3319,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Hide pagemark list に類似しているローカライズされた文字列を検索します。
+        ///   Pagemark list OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisiblePagemarkListOff {
             get {
@@ -3328,7 +3328,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Show pagemark list に類似しているローカライズされた文字列を検索します。
+        ///   Pagemark list に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisiblePagemarkListOn {
             get {
@@ -3337,7 +3337,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Side bar (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle side bar に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleSideBar {
             get {
@@ -3364,7 +3364,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Hide the sidebar に類似しているローカライズされた文字列を検索します。
+        ///   Side bar OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleSideBarOff {
             get {
@@ -3373,7 +3373,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Show sidebar に類似しているローカライズされた文字列を検索します。
+        ///   Side bar に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleSideBarOn {
             get {
@@ -3382,7 +3382,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Film strip (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle Filmstrip に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleThumbnailList {
             get {
@@ -3391,7 +3391,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Film strip に類似しているローカライズされた文字列を検索します。
+        ///   Filmstrip に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleThumbnailListMenu {
             get {
@@ -3400,7 +3400,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle visible / hide of the film strip. に類似しているローカライズされた文字列を検索します。
+        ///   Toggle visible / hide of the filmstrip. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleThumbnailListNote {
             get {
@@ -3409,7 +3409,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Hide film strip に類似しているローカライズされた文字列を検索します。
+        ///   Filmstrip OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleThumbnailListOff {
             get {
@@ -3418,7 +3418,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Show film strip に類似しているローカライズされた文字列を検索します。
+        ///   Filmstrip に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleThumbnailListOn {
             get {
@@ -3427,7 +3427,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Title bar (ON/OFF) に類似しているローカライズされた文字列を検索します。
+        ///   Toggle title bar に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleTitleBar {
             get {
@@ -3454,7 +3454,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Hide the title bar に類似しているローカライズされた文字列を検索します。
+        ///   Title bar OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleTitleBarOff {
             get {
@@ -3463,7 +3463,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display title bar に類似しているローカライズされた文字列を検索します。
+        ///   Title bar に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleTitleBarOn {
             get {
@@ -3472,7 +3472,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Maximize the window に類似しているローカライズされた文字列を検索します。
+        ///   Maximize window に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleWindowMaximize {
             get {
@@ -3499,7 +3499,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Minimize the window に類似しているローカライズされた文字列を検索します。
+        ///   Minimize window に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleWindowMinimize {
             get {
@@ -3571,7 +3571,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Flip horizontal ON に類似しているローカライズされた文字列を検索します。
+        ///   Flip horizontal に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandViewFlipHorizontalOn {
             get {
@@ -3607,7 +3607,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Flip vertial ON に類似しているローカライズされた文字列を検索します。
+        ///   Flip vertial に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandViewFlipVerticalOn {
             get {
@@ -3643,7 +3643,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Left rotation に類似しているローカライズされた文字列を検索します。
+        ///   Left rotate に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandViewRotateLeft {
             get {
@@ -3661,7 +3661,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Right rotation に類似しているローカライズされた文字列を検索します。
+        ///   Right rotate に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandViewRotateRight {
             get {
@@ -3679,7 +3679,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Scale down に類似しているローカライズされた文字列を検索します。
+        ///   Zoom out に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandViewScaleDown {
             get {
@@ -3697,7 +3697,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Scale up に類似しているローカライズされた文字列を検索します。
+        ///   Zoom in に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandViewScaleUp {
             get {
@@ -4151,7 +4151,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Command Setting に類似しているローカライズされた文字列を検索します。
+        ///   Command setting に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ControlEditCommandTitle {
             get {
@@ -6620,7 +6620,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Next に類似しているローカライズされた文字列を検索します。
+        ///   PC に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FolderListNextTips {
             get {
@@ -10031,7 +10031,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Supported format に類似しているローカライズされた文字列を検索します。
+        ///   File types に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageArchive {
             get {
@@ -10238,7 +10238,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Page View に類似しているローカライズされた文字列を検索します。
+        ///   Page view に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageBookVisual {
             get {
@@ -10283,7 +10283,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Command Setting に類似しているローカライズされた文字列を検索します。
+        ///   Edit commands に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageCommandMain {
             get {
@@ -10301,7 +10301,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Context menu setting に類似しているローカライズされた文字列を検索します。
+        ///   Edit context menu に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageContextMenuEdit {
             get {
@@ -10391,7 +10391,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Launch setting に類似しているローカライズされた文字列を検索します。
+        ///   Launch に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageGeneralBoot {
             get {
@@ -10553,7 +10553,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Image manipulation に類似しているローカライズされた文字列を検索します。
+        ///   View operation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageManipurate {
             get {
@@ -10562,7 +10562,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Image manipulation General に類似しているローカライズされた文字列を検索します。
+        ///   View operation General に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageManipurateGeneral {
             get {
@@ -10580,7 +10580,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   View manipulation に類似しているローカライズされた文字列を検索します。
+        ///   View operation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageManipurateGeneralViewOperation {
             get {
@@ -10679,7 +10679,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Page setting に類似しているローカライズされた文字列を検索します。
+        ///   Page に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPagePage {
             get {
@@ -10796,7 +10796,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Folder List に類似しているローカライズされた文字列を検索します。
+        ///   Folder list に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPagePanelFolderList {
             get {
@@ -10832,7 +10832,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   General Side Panel に類似しているローカライズされた文字列を検索します。
+        ///   Side panels に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPagePanelGeneral {
             get {
@@ -11093,7 +11093,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Window Title に類似しているローカライズされた文字列を検索します。
+        ///   Window title に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageVisualWindowTitile {
             get {
@@ -11102,7 +11102,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display に類似しているローカライズされた文字列を検索します。
+        ///   Format に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageVisualWindowTitileDisplay {
             get {

@@ -125,6 +125,14 @@ namespace NeeView.Setting
         }
 
         //
+        public void RenameNode(MenuTree target, string name)
+        {
+            target.Label = name;
+
+            Decide();
+        }
+
+        //
         public void MoveUp(MenuTree target)
         {
             var targetParent = target.GetParent(Root);

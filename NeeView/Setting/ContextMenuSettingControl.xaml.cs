@@ -116,7 +116,7 @@ namespace NeeView.Setting
             var result = dialog.ShowDialog();
             if (result == true)
             {
-                node.Label = param.Text;
+                _vm.RenameNode(node, param.Text);
             }
         }
 

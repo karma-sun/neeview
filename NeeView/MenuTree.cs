@@ -64,13 +64,13 @@ namespace NeeView
         #endregion
 
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public string Name { get; set; }
         [DataMember]
         public MenuElementType MenuElementType { get; set; }
         [DataMember]
         public CommandType Command { get; set; }
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public ObservableCollection<MenuTree> Children { get; set; }
 
         public MenuTree()

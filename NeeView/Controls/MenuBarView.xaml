@@ -39,7 +39,7 @@
                     <MenuItem x:Name="MenuItemDevApplicationDataFolder" Header="Open data folder" Click="MenuItemDevApplicationDataFolder_Click" />
                     <MenuItem x:Name="MenuItemDevCurrentFolder" Header="Open current folder" Click="MenuItemDevCurrentFolder_Click" />
                     <MenuItem x:Name="MenuItemDevTempFolder" Header="Open temp folder" Click="MenuItemDevTempFolder_Click" />
-                    <MenuItem x:Name="MenuItemDevButton" Header="Go text" Click="MenuItemDevButton_Click" />
+                    <MenuItem x:Name="MenuItemDevButton" Header="Go TEST" Click="MenuItemDevButton_Click" />
                 </MenuItem>
             </Menu>
         </DockPanel>

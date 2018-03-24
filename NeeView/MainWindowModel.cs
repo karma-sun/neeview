@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using NeeLaboratory;
 using NeeLaboratory.ComponentModel;
 using NeeLaboratory.Windows.Input;
 using NeeView.Properties;
@@ -416,6 +417,8 @@ namespace NeeView
 
             var dialog = new Setting.SettingWindow(new Setting.SettingWindowModel());
             dialog.Owner = App.Current.MainWindow;
+            dialog.Width = MathUtility.Clamp(App.Current.MainWindow.ActualWidth - 100, 640, 1280);
+            dialog.Height = MathUtility.Clamp(App.Current.MainWindow.ActualHeight - 100, 480, 2048);
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             dialog.Show();
         }

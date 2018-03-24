@@ -108,10 +108,12 @@ namespace NeeView
                 {
                     touch.TouchGestureChanged += (s, x) =>
                     {
-                        if (!x.TouchEventArgs.Handled && x.Gesture == gesture)
+                        if (command.Key == CommandType.TouchEmulate) return;
+
+                        if (!x.RoutedEventArgs.Handled && x.Gesture == gesture)
                         {
                             command.Value.Execute(null, _window);
-                            x.TouchEventArgs.Handled = true;
+                            x.RoutedEventArgs.Handled = true;
                         }
                     };
                 }
@@ -247,10 +249,10 @@ namespace NeeView
 
         // コマンド実行 
         // CommandTableを純粋なコマンド定義のみにするため、コマンド実行に伴う処理はここで定義している
-        public void Execute(CommandType type, object sender, CommandParameterArgs param)
+        public void Execute(object sender, ExecutedRoutedEventArgs e, CommandType type)
         {
-            param = param ?? CommandParameterArgs.Null;
-            var command = _commandTable[GetFixedCommandType(type, param.AllowRecursive)];
+            var param = CommandParameterArgs.Create(e.Parameter) ?? CommandParameterArgs.Null;
+            var command = _commandTable[GetFixedCommandType(type, param.AllowFlip)];
 
             // 通知
             if (command.IsShowMessage)
@@ -260,13 +262,13 @@ namespace NeeView
             }
 
             // 実行
-            command.Execute(sender, param.Parameter);
+            command.Execute(e.Source, e);
         }
 
         // スライダー方向によって移動コマンドを入れ替える
-        public CommandType GetFixedCommandType(CommandType commandType, bool allowRecursive)
+        public CommandType GetFixedCommandType(CommandType commandType, bool allowFlip)
         {
-            if (allowRecursive && CommandTable.Current.IsReversePageMove && MainWindowModel.Current.IsLeftToRightSlider())
+            if (allowFlip && CommandTable.Current.IsReversePageMove && MainWindowModel.Current.IsLeftToRightSlider())
             {
                 var command = _commandTable[commandType];
                 if (command.PairPartner != CommandType.None)
@@ -332,13 +334,13 @@ namespace NeeView
         public CommandParameterArgs(object param)
         {
             Parameter = param;
-            AllowRecursive = true;
+            AllowFlip = true;
         }
 
         public CommandParameterArgs(object param, bool allowRecursive)
         {
             Parameter = param;
-            AllowRecursive = allowRecursive;
+            AllowFlip = allowRecursive;
         }
 
 
@@ -355,7 +357,7 @@ namespace NeeView
         /// <summary>
         /// スライダー方向でのコマンド入れ替え許可
         /// </summary>
-        public bool AllowRecursive { get; set; }
+        public bool AllowFlip { get; set; }
 
 
         public static CommandParameterArgs Create(object param)

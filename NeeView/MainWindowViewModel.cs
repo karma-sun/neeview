@@ -295,38 +295,5 @@ namespace NeeView
             RoutedCommandTable.Current.InitializeInputGestures();
             UpdateContextMenu();
         }
-
-
-        // マウスの位置でページを送る
-        public void MovePageWithCursor(FrameworkElement target)
-        {
-            var point = Mouse.GetPosition(target);
-            var orientation = (CommandTable.Current.IsReversePageMove && _model.IsLeftToRightSlider()) ? -1 : 1;
-
-            if (point.X * orientation < target.ActualWidth * 0.5 * orientation)
-            {
-                BookOperation.Current.NextPage();
-            }
-            else
-            {
-                BookOperation.Current.PrevPage();
-            }
-        }
-
-        // マウスの位置でページを送る(メッセージ)
-        public string MovePageWithCursorMessage(FrameworkElement target)
-        {
-            var point = Mouse.GetPosition(target);
-
-            if (point.X < target.ActualWidth * 0.5)
-            {
-                return Properties.Resources.CommandMovePageWithCursorNext;
-            }
-            else
-            {
-                return Properties.Resources.CommandMovePageWithCursorPrev;
-            }
-        }
-
     }
 }

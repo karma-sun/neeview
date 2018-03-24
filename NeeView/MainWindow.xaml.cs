@@ -239,14 +239,6 @@ namespace NeeView
             commandTable[CommandType.ToggleWindowMaximize].Execute =
                 (s, e) => MainWindow_Maximize();
 
-            // move page with cursor position
-            commandTable[CommandType.MovePageWithCursor].CanExecute =
-                () => BookOperation.Current.IsValid;
-            commandTable[CommandType.MovePageWithCursor].Execute =
-                (s, e) => _vm.MovePageWithCursor(this.MainView);
-            commandTable[CommandType.MovePageWithCursor].ExecuteMessage =
-                (e) => _vm.MovePageWithCursorMessage(this.MainView);
-
             // print
             commandTable[CommandType.Print].Execute =
                 (s, e) => ContentCanvas.Current.Print(this, this.PageContents, this.MainContent.RenderTransform, this.MainView.ActualWidth, this.MainView.ActualHeight);
@@ -313,12 +305,12 @@ namespace NeeView
             {
                 if (commandTable[type].CanExecute != null)
                 {
-                    this.CommandBindings.Add(new CommandBinding(commands[type], (t, e) => RoutedCommandTable.Current.Execute(type, e.Source, CommandParameterArgs.Create(e.Parameter)),
-                        (t, e) => e.CanExecute = commandTable[type].CanExecute()));
+                    this.CommandBindings.Add(new CommandBinding(commands[type], (sender, e) => RoutedCommandTable.Current.Execute(sender, e, type),
+                        (sender, e) => e.CanExecute = commandTable[type].CanExecute()));
                 }
                 else
                 {
-                    this.CommandBindings.Add(new CommandBinding(commands[type], (t, e) => RoutedCommandTable.Current.Execute(type, e.Source, CommandParameterArgs.Create(e.Parameter)),
+                    this.CommandBindings.Add(new CommandBinding(commands[type], (sender, e) => RoutedCommandTable.Current.Execute(sender, e, type),
                         CanExecute));
                 }
             }

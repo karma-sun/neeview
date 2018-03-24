@@ -3975,4 +3975,16 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordYes" xml:space="preserve">
     <value>Yes</value>
   </data>
+  <data name="CommandTouchEmulate" xml:space="preserve">
+    <value>Touch emulate</value>
+  </data>
+  <data name="CommandTouchEmulateNote" xml:space="preserve">
+    <value>Execute the touch command at the mouse cursor position.</value>
+  </data>
+  <data name="WordPlay" xml:space="preserve">
+    <value>Play</value>
+  </data>
+  <data name="WordStop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
 </root>

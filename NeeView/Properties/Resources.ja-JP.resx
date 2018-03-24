@@ -3975,4 +3975,16 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordYes" xml:space="preserve">
     <value>はい</value>
   </data>
+  <data name="CommandTouchEmulate" xml:space="preserve">
+    <value>タッチエミュレート</value>
+  </data>
+  <data name="CommandTouchEmulateNote" xml:space="preserve">
+    <value>マウスカーソル位置のタッチコマンドを実行します。</value>
+  </data>
+  <data name="WordPlay" xml:space="preserve">
+    <value>再生</value>
+  </data>
+  <data name="WordStop" xml:space="preserve">
+    <value>停止</value>
+  </data>
 </root>

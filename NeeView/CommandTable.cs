@@ -758,7 +758,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandToggleVisibleFileInfoNote;
                 element.ShortCutKey = "I";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleFileInfo(e is MenuCommandTag);
+                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleFileInfo(e.Parameter is MenuCommandTag);
                 element.ExecuteMessage = e => _models.SidePanel.IsVisibleFileInfo ? Properties.Resources.CommandToggleVisibleFileInfoOff : Properties.Resources.CommandToggleVisibleFileInfoOn;
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleFileInfo)) { Source = _models.SidePanel };
@@ -773,7 +773,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandToggleVisibleEffectInfoNote;
                 element.ShortCutKey = "E";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleEffectInfo(e is MenuCommandTag);
+                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleEffectInfo(e.Parameter is MenuCommandTag);
                 element.ExecuteMessage = e => _models.SidePanel.IsVisibleEffectInfo ? Properties.Resources.CommandToggleVisibleEffectInfoOff : Properties.Resources.CommandToggleVisibleEffectInfoOn;
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleEffectInfo)) { Source = _models.SidePanel };
@@ -788,7 +788,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandToggleVisibleFolderListNote;
                 element.ShortCutKey = "F";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleFolderList(e is MenuCommandTag);
+                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleFolderList(e.Parameter is MenuCommandTag);
                 element.ExecuteMessage = e => _models.SidePanel.IsVisibleFolderList ? Properties.Resources.CommandToggleVisibleFolderListOff : Properties.Resources.CommandToggleVisibleFolderListOn;
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleFolderList)) { Source = _models.SidePanel };
@@ -803,7 +803,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandToggleVisibleBookmarkListNote;
                 element.ShortCutKey = "B";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleBookmarkList(e is MenuCommandTag);
+                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleBookmarkList(e.Parameter is MenuCommandTag);
                 element.ExecuteMessage = e => _models.SidePanel.IsVisibleBookmarkList ? Properties.Resources.CommandToggleVisibleBookmarkListOff : Properties.Resources.CommandToggleVisibleBookmarkListOn;
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleBookmarkList)) { Source = _models.SidePanel };
@@ -818,7 +818,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandToggleVisiblePagemarkListNote;
                 element.ShortCutKey = "M";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.SidePanel.ToggleVisiblePagemarkList(e is MenuCommandTag);
+                element.Execute = (s, e) => _models.SidePanel.ToggleVisiblePagemarkList(e.Parameter is MenuCommandTag);
                 element.ExecuteMessage = e => _models.SidePanel.IsVisiblePagemarkList ? Properties.Resources.CommandToggleVisiblePagemarkListOff : Properties.Resources.CommandToggleVisiblePagemarkListOn;
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisiblePagemarkList)) { Source = _models.SidePanel };
@@ -833,7 +833,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandToggleVisibleHistoryListNote;
                 element.ShortCutKey = "H";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleHistoryList(e is MenuCommandTag);
+                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleHistoryList(e.Parameter is MenuCommandTag);
                 element.ExecuteMessage = e => _models.SidePanel.IsVisibleHistoryList ? Properties.Resources.CommandToggleVisibleHistoryListOff : Properties.Resources.CommandToggleVisibleHistoryListOn;
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleHistoryList)) { Source = _models.SidePanel };
@@ -849,7 +849,7 @@ namespace NeeView
                 element.ShortCutKey = "P";
                 element.IsShowMessage = false;
                 element.ExecuteMessage = e => _models.SidePanel.IsVisiblePageListMenu ? Properties.Resources.CommandToggleVisiblePageListOff : Properties.Resources.CommandToggleVisiblePageListOn;
-                element.Execute = (s, e) => _models.SidePanel.ToggleVisiblePageList(e is MenuCommandTag);
+                element.Execute = (s, e) => _models.SidePanel.ToggleVisiblePageList(e.Parameter is MenuCommandTag);
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => new Binding(nameof(_models.FolderPanelModel.IsPageListVisible)) { Source = _models.FolderPanelModel, Mode = BindingMode.OneWay };
                 _elements[CommandType.ToggleVisiblePageList] = element;
@@ -863,7 +863,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandToggleVisibleFolderSearchBoxNote;
                 element.IsShowMessage = false;
                 element.ExecuteMessage = e => _models.SidePanel.IsVisibleFolderSearchBox ? Properties.Resources.CommandToggleVisibleFolderSearchBoxOff : Properties.Resources.CommandToggleVisibleFolderSearchBoxOn;
-                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleFolderSearchBox(e is MenuCommandTag);
+                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleFolderSearchBox(e.Parameter is MenuCommandTag);
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => new Binding(nameof(_models.FolderList.IsFolderSearchBoxVisible)) { Source = _models.FolderList, Mode = BindingMode.OneWay };
                 _elements[CommandType.ToggleVisibleFolderSearchBox] = element;
@@ -1254,15 +1254,7 @@ namespace NeeView
                 element.PairPartner = CommandType.PrevScrollPage;
                 _elements[CommandType.NextScrollPage] = element;
             }
-            // MovePageWithCursor
-            {
-                var element = new CommandElement();
-                element.Group = Properties.Resources.CommandGroupMove;
-                element.Text = Properties.Resources.CommandMovePageWithCursor;
-                element.Note = Properties.Resources.CommandMovePageWithCursorNote;
-                element.IsShowMessage = false;
-                _elements[CommandType.MovePageWithCursor] = element;
-            }
+
 
             // PrevSizePage
             {
@@ -1371,9 +1363,9 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupVideo;
                 element.Text = Properties.Resources.CommandToggleMediaPlay;
                 element.Note = Properties.Resources.CommandToggleMediaPlayNote;
-                element.IsShowMessage = false;
+                element.ExecuteMessage = e => _models.BookOperation.IsMediaPlaying() ? Properties.Resources.WordStop : Properties.Resources.WordPlay;
                 element.CanExecute = () => _book.Book != null && _book.Book.IsMedia;
-                element.Execute = (s, e) => _models.BookOperation.ToggleMediaPlay();
+                element.Execute = (s, e) => _models.BookOperation.ToggleMediaPlay(s, e);
                 _elements[CommandType.ToggleMediaPlay] = element;
             }
 
@@ -2055,6 +2047,18 @@ namespace NeeView
                 element.Execute = (s, e) => SaveData.Current.ImportBackup();
                 _elements[CommandType.ImportBackup] = element;
             }
+
+            // TouchEmulate
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupOther;
+                element.Text = Properties.Resources.CommandTouchEmulate;
+                element.Note = Properties.Resources.CommandTouchEmulateNote;
+                element.Execute = (s, e) => TouchInput.Current.Emulator.Execute(s, e);
+                element.IsShowMessage = false;
+                _elements[CommandType.TouchEmulate] = element;
+            }
+
 
             // 無効な命令にダミー設定
             foreach (var ignore in CommandTypeExtensions.IgnoreCommandTypes)

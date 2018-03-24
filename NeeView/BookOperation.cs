@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace NeeView
 {
@@ -608,9 +609,24 @@ namespace NeeView
             if (_isEnabled && page != null) this.Book?.JumpPage(page);
         }
 
-        // 動画再生ON/OFF
-        public bool ToggleMediaPlay()
+        // 動画再生中？
+        public bool IsMediaPlaying()
         {
+            if (this.Book != null && this.Book.IsMedia)
+            {
+                return MediaPlayerOperator.Current.IsPlaying;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        // 動画再生ON/OFF
+        public bool ToggleMediaPlay(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (e.Handled) return false;
+
             if (this.Book != null && this.Book.IsMedia)
             {
                 if (MediaPlayerOperator.Current.IsPlaying)
@@ -621,6 +637,7 @@ namespace NeeView
                 {
                     MediaPlayerOperator.Current.Play();
                 }
+                e.Handled = true;
                 return true;
             }
             else

@@ -1,21 +1,21 @@
 ﻿using System;
+using System.Windows;
 using System.Windows.Input;
 
 namespace NeeView
 {
-    //
     public class TouchGestureEventArgs : EventArgs
     {
-        public StylusEventArgs TouchEventArgs { get; set; }
+        public RoutedEventArgs RoutedEventArgs { get; set; }
         public TouchGesture Gesture { get; set; }
 
         public TouchGestureEventArgs()
         {
         }
 
-        public TouchGestureEventArgs(StylusEventArgs e, TouchGesture gesture)
+        public TouchGestureEventArgs(RoutedEventArgs e, TouchGesture gesture)
         {
-            this.TouchEventArgs = e;
+            this.RoutedEventArgs = e;
             this.Gesture = gesture;
         }
     }

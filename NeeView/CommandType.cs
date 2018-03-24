@@ -64,7 +64,7 @@ namespace NeeView
         PrevScrollPage,
         [EnumMember]
         NextScrollPage,
-        [EnumMember]
+        [Obsolete, EnumMember]
         MovePageWithCursor,
 
         [EnumMember]
@@ -340,7 +340,10 @@ namespace NeeView
         [EnumMember]
         ExportBackup,
         [EnumMember]
-        ImportBackup
+        ImportBackup,
+
+        [EnumMember]
+        TouchEmulate,
     }
 
     public static class CommandTypeExtensions
@@ -356,6 +359,7 @@ namespace NeeView
             CommandType.ToggleEffectGrayscale,
             CommandType.TogglePanelStyle,
             CommandType.TogglePageListStyle,
+            CommandType.MovePageWithCursor,
         };
 
 #pragma warning restore CS0612

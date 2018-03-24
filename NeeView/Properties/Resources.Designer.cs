@@ -3526,6 +3526,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Touch emulate に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandTouchEmulate {
+            get {
+                return ResourceManager.GetString("CommandTouchEmulate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Execute the touch command at the mouse cursor position. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandTouchEmulateNote {
+            get {
+                return ResourceManager.GetString("CommandTouchEmulateNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Close に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandUnload {
@@ -11403,6 +11421,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Play に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordPlay {
+            get {
+                return ResourceManager.GetString("WordPlay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Remove に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WordRemove {
@@ -11480,6 +11507,15 @@ namespace NeeView.Properties {
         public static string WordStepless {
             get {
                 return ResourceManager.GetString("WordStepless", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Stop に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordStop {
+            get {
+                return ResourceManager.GetString("WordStop", resourceCulture);
             }
         }
         

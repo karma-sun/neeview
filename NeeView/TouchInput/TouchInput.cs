@@ -53,6 +53,9 @@ namespace NeeView
             this.Normal.StateChanged += StateChanged;
             this.Normal.TouchGestureChanged += (s, e) => TouchGestureChanged?.Invoke(_sender, e);
 
+            this.Emulator = new TouchInputEmulator(_context);
+            this.Emulator.TouchGestureChanged += (s, e) => TouchGestureChanged?.Invoke(_sender, e);
+
 
             // initialize state
             _touchInputCollection = new Dictionary<TouchInputState, TouchInputBase>();
@@ -107,11 +110,16 @@ namespace NeeView
         /// </summary>
         public TouchInputDrag Drag { get; private set; }
 
-
         /// <summary>
         /// 状態：ジェスチャー
         /// </summary>
         public TouchInputGesture Gesture { get; private set; }
+
+        /// <summary>
+        /// エミュレート
+        /// </summary>
+        public TouchInputEmulator Emulator { get; private set; }
+
 
         /// <summary>
         /// 遷移テーブル

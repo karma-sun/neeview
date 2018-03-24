@@ -1420,7 +1420,7 @@
     <value>初期化...</value>
   </data>
   <data name="ControlCommandListShare" xml:space="preserve">
-    <value>{0} とパラメータ共有です</value>
+    <value>「{0}」とパラメーター共有です</value>
   </data>
   <data name="ControlCommandResetMessage" xml:space="preserve">
     <value>コマンドの設定を全て初期化します。よろしいですか？</value>
@@ -3595,6 +3595,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="SettingPageGeneralDetailDetail" xml:space="preserve">
     <value>詳細設定</value>
   </data>
+  <data name="SettingPageGeneralDetailLanguage" xml:space="preserve">
+    <value>言語</value>
+  </data>
   <data name="SettingPageGeneralRemove" xml:space="preserve">
     <value>データの削除</value>
   </data>
@@ -3971,8 +3974,5 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="WordYes" xml:space="preserve">
     <value>はい</value>
-  </data>
-  <data name="SettingPageGeneralDetailLanguage" xml:space="preserve">
-    <value>言語</value>
   </data>
 </root>

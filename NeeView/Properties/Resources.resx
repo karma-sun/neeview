@@ -3595,6 +3595,9 @@ Details of the error are output to the following file.
   <data name="SettingPageGeneralDetailDetail" xml:space="preserve">
     <value>Advanced Setting</value>
   </data>
+  <data name="SettingPageGeneralDetailLanguage" xml:space="preserve">
+    <value>Language</value>
+  </data>
   <data name="SettingPageGeneralRemove" xml:space="preserve">
     <value>Delete data</value>
   </data>
@@ -3971,8 +3974,5 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="WordYes" xml:space="preserve">
     <value>Yes</value>
-  </data>
-  <data name="SettingPageGeneralDetailLanguage" xml:space="preserve">
-    <value>Language</value>
   </data>
 </root>

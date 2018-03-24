@@ -1,6 +1,6 @@
 @echo off
 rem ---------------------------------
-rem Convert Resources
+rem crete .xmls from Project Resources.resx
 rem ---------------------------------
 
 echo.

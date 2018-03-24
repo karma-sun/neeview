@@ -82,10 +82,11 @@
 
     <DockPanel UseLayoutRounding="True">
 
-        <TreeView x:Name="IndexTree" DockPanel.Dock="Left" Width="250" ItemsSource="{Binding Model.Pages}" BorderThickness="0" Margin="20,20,0,20">
+        <TreeView x:Name="IndexTree" DockPanel.Dock="Left" Width="250" ItemsSource="{Binding Model.Pages}" BorderThickness="0" Margin="20,20,0,20" ItemContainerStyle="{StaticResource NVTreeViewItem}">
             <TreeView.Resources>
                 <Style TargetType="TreeViewItem">
                     <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
+                    <Setter Property="IsExpanded" Value="{Binding Path=IsExpanded, Mode=TwoWay}"/>
                 </Style>
             </TreeView.Resources>
             <TreeView.ItemTemplate>

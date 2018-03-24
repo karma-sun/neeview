@@ -1,6 +1,6 @@
 @echo off
 rem ---------------------------------
-rem Convert Resources
+rem create Project Resources.resx from .xmls
 rem ---------------------------------
 
 echo make Resources.resx

@@ -3,6 +3,7 @@ using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 
@@ -105,7 +106,7 @@ namespace NeeView
                     writer.WriteLine($"<th>{Properties.Resources.WordItem}<th>{Properties.Resources.WordDescription}<tr>");
                     foreach (var item in pair.Value)
                     {
-                        string name = new string('　', item.Depth * 2) + item.Element.DispLabel;
+                        string name = string.Concat(Enumerable.Repeat("&nbsp;", item.Depth * 2)) + item.Element.DispLabel;
 
                         writer.WriteLine($"<td>{name}<td>{item.Element.Note}<tr>");
                     }

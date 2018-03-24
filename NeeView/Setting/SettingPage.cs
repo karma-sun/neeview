@@ -55,6 +55,9 @@ namespace NeeView.Setting
             set { if (_isSelected != value) { _isSelected = value; RaisePropertyChanged(); } }
         }
 
+        // 最初から開いた状態にする
+        public bool IsExpanded { get; set; } = true;
+
         /// <summary>
         /// 表示コンテンツ
         /// </summary>

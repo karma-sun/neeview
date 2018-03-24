@@ -8780,7 +8780,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   If it is set to OFF, system operation by Alt key will be invalid and malfunction will be eliminated when used with command shortcut. &quot; に類似しているローカライズされた文字列を検索します。
+        ///   If it is set to OFF, system operation by Alt key will be invalid and malfunction will be eliminated when used with command shortcut. However Alt+F4 is always active. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsAccessKeyEnabledTips {
             get {

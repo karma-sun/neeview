@@ -3035,7 +3035,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>アクセスキーの許可</value>
   </data>
   <data name="ParamIsAccessKeyEnabledTips" xml:space="preserve">
-    <value>OFFにすると、Altキーによるシステム操作が無効になりコマンドのショートカットで使用したときの誤動作がなくなります。"</value>
+    <value>OFFにすると、Altキーによるシステム操作が無効になりコマンドのショートカットで使用したときの誤動作がなくなります。ただしAlt+F4は常に有効です。</value>
   </data>
   <data name="ParamIsArchiveRecursive" xml:space="preserve">
     <value>多重圧縮ファイルをすべて展開する</value>

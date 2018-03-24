@@ -3035,7 +3035,7 @@ Details of the error are output to the following file.
     <value>Allow access key</value>
   </data>
   <data name="ParamIsAccessKeyEnabledTips" xml:space="preserve">
-    <value>If it is set to OFF, system operation by Alt key will be invalid and malfunction will be eliminated when used with command shortcut. "</value>
+    <value>If it is set to OFF, system operation by Alt key will be invalid and malfunction will be eliminated when used with command shortcut. However Alt+F4 is always active.</value>
   </data>
   <data name="ParamIsArchiveRecursive" xml:space="preserve">
     <value>Expand all recursive compressed files</value>

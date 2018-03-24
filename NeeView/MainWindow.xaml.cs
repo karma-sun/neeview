@@ -568,8 +568,8 @@ namespace NeeView
         // 
         private void MainWindow_KeyDown(object sender, KeyEventArgs e)
         {
-            // ALTキーのメニュー操作無効
-            if (!_vm.Model.IsAccessKeyEnabled && Keyboard.Modifiers == ModifierKeys.Alt)
+            // ALTキーのメニュー操作無効 (Alt+F4は常に有効)
+            if (!_vm.Model.IsAccessKeyEnabled && (Keyboard.Modifiers == ModifierKeys.Alt && e.SystemKey != Key.F4))
             {
                 e.Handled = true;
             }

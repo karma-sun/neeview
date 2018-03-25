@@ -7,6 +7,7 @@
     <Logo>Assets\AppStoreLogo.png</Logo>
   </Properties>
   <Resources>
+    <Resource Language="en-us" />
     <Resource Language="ja-jp" />
     <Resource uap:Scale="100" />
     <Resource uap:Scale="125" />

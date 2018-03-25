@@ -2336,7 +2336,7 @@ Details of the error are output to the following file.
     <value>Up</value>
   </data>
   <data name="HelpCommandMessage" xml:space="preserve">
-    <value>Commands to which no operation is assigned can be used by setting with "command setting".</value>
+    <value>Commands to which no operation is assigned can be used by setting with "Edit commands".</value>
   </data>
   <data name="HelpCommandTitle" xml:space="preserve">
     <value>NeeView Command List</value>

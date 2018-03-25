@@ -5,7 +5,8 @@
 #   - pandoc
 
 Param(
-	[ValidateSet("All", "Zip", "Installer", "Appx")]$Target = "All"
+	[ValidateSet("All", "Zip", "Installer", "Appx")]$Target = "All",
+	[switch]$continue
 )
 
 # error to break
@@ -17,6 +18,9 @@ $ErrorActionPreference = "stop"
 #
 $product = 'NeeView'
 $config = 'Release'
+
+#
+$Win10SDK = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.16299.0\x64"
 
 
 #---------------------
@@ -302,25 +306,20 @@ function New-PackageAppend($packageDir)
 }
 
 
+
 #--------------------------
 # WiX
-function New-Msi($arch, $packageDir, $packageMsi)
+function New-Msi($packageDir, $packageMsi)
 {
 	$candle = $env:WIX + 'bin\candle.exe'
 	$light = $env:WIX + 'bin\light.exe'
-	$heat = $env:WIX +  'bin\heat.exe'
+	$heat = $env:WIX + 'bin\heat.exe'
+	$torch = $env:WIX + 'bin\torch.exe'
+	$wisubstg = "$Win10SDK\wisubstg.vbs"
+	$wilangid = "$Win10SDK\wilangid.vbs"
 
-	# wix object folder
-	$objDir = $packageDir + ".append\" + $arch
-	New-EmptyFolder $objDir
-
-
-	# make DllComponents.wxs
-	#& $heat dir "$packageDir\Libraries" -cg DllComponents -ag -pog:Binaries -sfrag -var var.LibrariesDir -dr INSTALLFOLDER -out WixSource\DllComponents.wxs
-	#if ($? -ne $true)
-	#{
-	#	throw "heat error"
-	#}
+	$1041Msi = "$packageAppendDir\1041.msi"
+	$1041Mst = "$packageAppendDir\1041.mst"
 
 	#-------------------------
 	# WiX
@@ -328,17 +327,62 @@ function New-Msi($arch, $packageDir, $packageMsi)
 
 	$ErrorActionPreference = "stop"
 
-	& $candle -d"Platform=$arch" -d"BuildVersion=$buildVersion" -d"ProductVersion=$version" -d"ContentDir=$packageDir\\" -d"AppendDir=$packageDir.append\\" -d"LibrariesDir=$packageDir\\Libraries" -ext WixNetFxExtension -out "$objDir\\"  WixSource\*.wxs
-	if ($? -ne $true)
+	function New-DllComponents
 	{
-		throw "candle error"
+		& $heat dir "$packageDir\Libraries" -cg DllComponents -ag -pog:Binaries -sfrag -var var.LibrariesDir -dr INSTALLFOLDER -out WixSource\DllComponents.wxs
+		if ($? -ne $true)
+		{
+			throw "heat error"
+		}
 	}
 
-	& $light -out "$packageMsi" -ext WixUIExtension -ext WixNetFxExtension -cultures:ja-JP "$objDir\*.wixobj"
+	function New-MsiSub($packageMsi, $culture)
+	{
+		Write-Host "$packageMsi : $culture" -fore Cyan
+		
+		$wixObjDir = "$packageAppendDir\obj.$culture"
+		New-EmptyFolder $wixObjDir
+
+		& $candle -d"BuildVersion=$buildVersion" -d"ProductVersion=$version" -d"ContentDir=$packageDir\\" -d"AppendDir=$packageDir.append\\" -d"LibrariesDir=$packageDir\\Libraries" -d"culture=$culture" -ext WixNetFxExtension -out "$wixObjDir\\"  WixSource\*.wxs
+		if ($? -ne $true)
+		{
+			throw "candle error"
+		}
+
+		& $light -out "$packageMsi" -ext WixUIExtension -ext WixNetFxExtension -cultures:$culture -loc WixSource\Language-$culture.wxl  "$wixObjDir\*.wixobj"
+		if ($? -ne $true)
+		{
+			throw "light error" 
+		}
+	}
+
+	#New-DllComponents
+
+	New-MsiSub $packageMsi "en-us"
+	New-MsiSub $1041Msi "ja-jp"
+
+	& $torch -p -t language $packageMsi $1041Msi -out $1041Mst
 	if ($? -ne $true)
 	{
-		throw "light error" 
+		throw "torch error"
 	}
+
+	#-------------------------
+	# WinSDK
+	#-------------------------
+
+	& cscript "$wisubstg" "$packageMsi" $1041Mst 1041
+	if ($? -ne $true)
+	{
+		throw "wisubstg.vbs error"
+	}
+
+	& cscript "$wilangid" "$packageMsi" Package 1033,1041
+	if ($? -ne $true)
+	{
+		throw "wilangid.vbs error"
+	}
+
 }
 
 
@@ -375,12 +419,18 @@ function New-Appx($arch, $appx)
 	$content | Out-File -Encoding UTF8 "$packageAppxFiles\AppxManifest.xml"
 
 
-	## re-package
-	$Win10SDK = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.15063.0\x86"
+	# re-package
 	& "$Win10SDK\makeappx.exe" pack /l /d "$packageAppxFiles" /p "$appx"
 	if ($? -ne $true)
 	{
 		throw "makeappx.exe error"
+	}
+
+	# signing
+	& "$Win10SDK\signtool.exe" sign -f "Appx/_neeview.pfx" -fd SHA256 -v "$appx"
+	if ($? -ne $true)
+	{
+		throw "signtool.exe error"
 	}
 }
 
@@ -409,13 +459,9 @@ function Remove-BuildObjects
 	{
 		Remove-Item $packageZip
 	}
-	if (Test-Path $packageX86Msi)
+	if (Test-Path $packageMsi)
 	{
-		Remove-Item $packageX86Msi
-	}
-	if (Test-Path $packageX64Msi)
-	{
-		Remove-Item $packageX64Msi
+		Remove-Item $packageMsi
 	}
 	if (Test-Path $packageAppxProduct)
 	{
@@ -449,31 +495,33 @@ $packageDir = "$product$version"
 $packageAppendDir = $packageDir + ".append"
 $packageX86Dir = "$product${version}-x86"
 $packageX64Dir = "$product${version}-x64"
-$packageZip = "$product$version.zip"
-#$packageMsi = "$product$version.msi"
-$packageX86Msi = "${product}S${version}.msi"
-$packageX64Msi = "${product}${version}.msi"
+$packageZip = "${product}${version}.zip"
+$packageMsi = "${product}${version}.msi"
 $packageAppxRoot = "Appx\$product"
 $packageAppxFiles = "$packageAppxRoot\PackageFiles"
 $packageAppxProduct = "$packageAppxRoot\PackageFiles\$product"
 $packageX86Appx = "${product}${version}-x86.appx"
 $packageX64Appx = "${product}${version}-x64.appx"
 
-# clear
-Write-Host "`n[Clear] ...`n" -fore Cyan
-Remove-BuildObjects
-	
-# build
-Write-Host "`n[Build] ...`n" -fore Cyan
-Save-AssemblyInfo $projectFile $assemblyInfoFile
-Build-Project "x86" $assemblyVersion
-Build-Project "x64" $assemblyVersion
-Restore-AssemblyInfo  $projectFile $assemblyInfoFile
 
-#
-Write-Host "`n[Package] ...`n" -fore Cyan
-New-Package $productX86Dir $packageX86Dir
-New-Package $productX64Dir $packageX64Dir
+if (-not $continue)
+{
+	# clear
+	Write-Host "`n[Clear] ...`n" -fore Cyan
+	Remove-BuildObjects
+	
+	# build
+	Write-Host "`n[Build] ...`n" -fore Cyan
+	Save-AssemblyInfo $projectFile $assemblyInfoFile
+	Build-Project "x86" $assemblyVersion
+	Build-Project "x64" $assemblyVersion
+	Restore-AssemblyInfo  $projectFile $assemblyInfoFile
+
+	#
+	Write-Host "`n[Package] ...`n" -fore Cyan
+	New-Package $productX86Dir $packageX86Dir
+	New-Package $productX64Dir $packageX64Dir
+}
 
 #
 if (($Target -eq "All") -or ($Target -eq "Zip"))
@@ -485,21 +533,20 @@ if (($Target -eq "All") -or ($Target -eq "Zip"))
 
 if (($Target -eq "All") -or ($Target -eq "Installer"))
 {
-	Write-Host "`[Installer] ...`n" -fore Cyan
+	Write-Host "`n[Installer] ...`n" -fore Cyan
 
 	New-PackageAppend $packageDir
-	New-Msi "x64" $packageDir $packageX64Msi
-	Write-Host "`nExport $packageX64Msi successed.`n" -fore Green
-	#New-Msi "x86" $packageDir $packageX86Msi
-	#Write-Host "`nExport $packageX86Msi successed.`n" -fore Green
+	New-Msi $packageDir $packageMsi
+
+	Write-Host "`nExport $packageMsi successed.`n" -fore Green
 }
 
 
 if (($Target -eq "All") -or ($Target -eq "Appx"))
 {
-	Write-Host "`[Appx] ...`n" -fore Cyan
+	Write-Host "`n[Appx] ...`n" -fore Cyan
 
-	if (Test-Path $packageAppxRoot)
+	if ((Test-Path $packageAppxRoot) -and (Test-Path "Appx/_Parameter.ps1"))
 	{
 		New-AppxReady
 		New-Appx "x64" $packageX64Appx
@@ -509,17 +556,24 @@ if (($Target -eq "All") -or ($Target -eq "Appx"))
 	}
 	else
 	{
-		Write-Host "`nWarning: not exist $packageAppxRoot. skip!`n" -fore Yellow
+		Write-Host "`nWarning: not exist make appx envionment. skip!`n" -fore Yellow
 	}
 }
 
 # current
-Write-Host "`[Current] ...`n" -fore Cyan
-if (-not (Test-Path $product))
+Write-Host "`n[Current] ...`n" -fore Cyan
+if (Test-Path $packageDir)
 {
-	New-Item $product -ItemType Directory
+	if (-not (Test-Path $product))
+	{
+		New-Item $product -ItemType Directory
+	}
+	Copy-Item "$packageDir\*" "$product\" -Recurse -Force
 }
-Copy-Item "$packageDir\*" "$product\" -Recurse -Force
+else
+{
+	Write-Host "`nWarning: not exist$packageDir. skip!`n" -fore Yellow
+}
 
 #--------------------------
 # saev buid version

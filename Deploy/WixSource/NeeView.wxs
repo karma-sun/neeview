@@ -5,48 +5,44 @@
 <?define Bits = "all" ?>
 <?define UpgradeCode = "1615bc9c-ddfd-4d61-9ac1-3ebc5c8787a8" ?>
 
+<?if $(var.culture) = "ja-jp" ?>
+  <?define codepage = "932" ?>
+<?else?>
+  <?define codepage = "1252" ?>
+<?endif?>
+
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
          xmlns:netfx="http://schemas.microsoft.com/wix/NetFxExtension">
-  <Product Id="*" Name="$(var.ProductName)" Version="$(var.BuildVersion)" Language="1041" Codepage="932" Manufacturer="NeeLaboratory" UpgradeCode="$(var.UpgradeCode)">
-    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" SummaryCodepage="932" Comments="$(var.ExeName) is picture viewer."/>
+  <Product Id="*" Name="$(var.ProductName)" Version="$(var.BuildVersion)" Language="!(loc.language)" Codepage="$(var.codepage)" Manufacturer="NeeLaboratory" UpgradeCode="$(var.UpgradeCode)">
+    <Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" SummaryCodepage="$(var.codepage)" Comments="$(var.ExeName) is picture viewer."/>
 
-    <MajorUpgrade DowngradeErrorMessage="新しいバージョンの $(var.ExeName) が既にインストール済です。" />
+    <MajorUpgrade DowngradeErrorMessage="!(loc.downgradeErrorMessage)" />
+
     <MediaTemplate EmbedCab="yes" CompressionLevel="high"/>
 
-    <!-- Features -->
     <Feature Id="ProductFeature" Title="NeeView System" Level="1" AllowAdvertise="no" Absent="disallow" Display="expand" ConfigurableDirectory="INSTALLFOLDER">
       <ComponentGroupRef Id="ProductComponents" />
       <ComponentGroupRef Id="DllComponents"/>
       <ComponentRef Id="AppStartMenuDirComponent" />
-
-      <Feature Id="NeeViewFeature" Title="NeeView" Description="標準版のNeeView実行ファイルです。Susieプラグインは使用できません。64bitOSでは64bitで動作します"
+      <Feature Id="NeeViewFeature" Title="NeeView" Description="!(loc.neeViewFeatureDescription)"
           Level="1" AllowAdvertise="no">
         <ComponentGroupRef Id="NeeViewComponents" />
       </Feature>
-
-      <Feature Id="NeeViewSFeature" Title="NeeViewS" Description="Susieプラグイン対応版のNeeView実行ファイルです。32bitで動作します"
+      <Feature Id="NeeViewSFeature" Title="NeeViewS" Description="!(loc.neeViewSFeatureDescription)"
           Level="1000" AllowAdvertise="no" >
         <ComponentGroupRef Id="NeeViewSComponents" />
       </Feature>
     </Feature>
 
-    <!-- インストーラーUI設定 -->
+    <!-- UI -->
     <UIRef Id="WixUI_MondoEx" />
     <UIRef Id="WixUI_ErrorProgressText" />
 
-    <!-- アドバタイズショートカットを無効にする -->
+    <!-- Disable advertise shortcuts -->
     <Property Id="DISABLEADVTSHORTCUTS" Value="1" />
 
-    <!-- コントロールパネルに表示されるアプリアイコン -->
+    <!-- The application icon displayed on the control panel -->
     <Property Id='ARPPRODUCTICON'>Icon_NeeView.exe</Property>
-
-    <!-- 条件: .Net version -->
-    <!--
-    <PropertyRef Id="WIX_IS_NETFRAMEWORK_462_OR_LATER_INSTALLED"/>
-    <Condition Message='このセットアップを実行するためには、.NET Framework 4.6.2以降 がインストールされている必要があります。'>
-      <![CDATA[Installed OR WIX_IS_NETFRAMEWORK_462_OR_LATER_INSTALLED]]>
-    </Condition>
-    -->
 
   </Product>
 

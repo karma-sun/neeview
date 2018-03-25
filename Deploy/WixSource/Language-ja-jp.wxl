@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="ja-jp" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <String Id="language">1041</String>
+    <String Id="codepage">932</String>
+    <String Id="downgradeErrorMessage">新しいバージョンのNeeViewが既にインストール済です。</String>
+    <String Id="neeViewFeatureDescription">標準版のNeeView実行ファイルです。Susieプラグインは使用できません。64bitOSでは64bitで動作します。</String>
+    <String Id="neeViewSFeatureDescription">Susieプラグイン対応版のNeeView実行ファイルです。32bitで動作します。</String>
+</WixLocalization>

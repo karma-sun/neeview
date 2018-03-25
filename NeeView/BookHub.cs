@@ -330,13 +330,13 @@ namespace NeeView
         /// アーカイブ内アーカイブの履歴保存
         /// </summary>
         [PropertyMember("@ParamIsInnerArchiveHistoryEnabled")]
-        public bool IsInnerArchiveHistoryEnabled { get; set; }
+        public bool IsInnerArchiveHistoryEnabled { get; set; } = true;
 
         /// <summary>
         /// UNCパスの履歴保存
         /// </summary>
         [PropertyMember("@ParamIsUncHistoryEnabled", Tips = "@ParamIsUncHistoryEnabledTips")]
-        public bool IsUncHistoryEnabled { get; set; }
+        public bool IsUncHistoryEnabled { get; set; } = true;
 
         /// <summary>
         /// 現在の本
@@ -784,7 +784,7 @@ namespace NeeView
         //
         private bool _historyEntry;
         [PropertyMember("@ParamHistoryEntryPageCount", Tips = "@ParamHistoryEntryPageCountTips")]
-        public int HistoryEntryPageCount { get; set; } = 1;
+        public int HistoryEntryPageCount { get; set; } = 0;
 
         // 履歴登録可
         private bool CanHistory()
@@ -994,16 +994,16 @@ namespace NeeView
             [DataMember(Order = 22)]
             public bool IsAutoRecursiveWithAllFiles { get; set; }
 
-            [DataMember, DefaultValue(1)]
+            [DataMember, DefaultValue(0)]
             public int HistoryEntryPageCount { get; set; }
 
             [DataMember, DefaultValue(true)]
             public bool IsArchiveRecursive { get; set; }
 
-            [DataMember]
+            [DataMember, DefaultValue(true)]
             public bool IsInnerArchiveHistoryEnabled { get; set; }
 
-            [DataMember]
+            [DataMember, DefaultValue(true)]
             public bool IsUncHistoryEnabled { get; set; }
 
             #region Obslete

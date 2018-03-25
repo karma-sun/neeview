@@ -58,7 +58,7 @@ namespace NeeView
         /// 先読みモード
         /// </summary>
         [PropertyMember("@ParamBookPreLoadMode", Tips = "@ParamBookPreLoadModeTips")]
-        public PreLoadMode PreLoadMode { get; set; } = PreLoadMode.AutoPreLoad;
+        public PreLoadMode PreLoadMode { get; set; } = PreLoadMode.PreLoad;
 
         /// <summary>
         /// 先読み自動判定許サイズ
@@ -136,7 +136,7 @@ namespace NeeView
             [DataMember, DefaultValue("__MACOSX;.DS_Store")]
             public string ExcludePath { get; set; }
 
-            [DataMember, DefaultValue(1.0)]
+            [DataMember, DefaultValue(PreLoadMode.PreLoad)]
             public PreLoadMode PreLoadMode { get; set; }
 
             [DataMember, DefaultValue(typeof(Size), "4096,4096")]
@@ -158,7 +158,7 @@ namespace NeeView
             [OnDeserializing]
             private void OnDeserializing(StreamingContext c)
             {
-                LoadingPageView = LoadingPageView.PreThumbnail;
+                this.InitializePropertyDefaultValues();
             }
         }
 

@@ -127,7 +127,7 @@
     <value>Bookmark</value>
   </data>
   <data name="CommandCancelFullScreen" xml:space="preserve">
-    <value>full screen OFF</value>
+    <value>Full screen OFF</value>
   </data>
   <data name="CommandCancelFullScreenNote" xml:space="preserve">
     <value>Turn off fullscreen.</value>
@@ -2353,16 +2353,16 @@ Details of the error are output to the following file.
   <data name="HistoryName" xml:space="preserve">
     <value>History</value>
   </data>
-  <data name="IsAutoGC" xml:space="preserve">
+  <data name="ParamIsAutoGC" xml:space="preserve">
     <value>System manages memory</value>
   </data>
-  <data name="IsAutoGCTips" xml:space="preserve">
+  <data name="ParamIsAutoGCTips" xml:space="preserve">
     <value>When it is OFF, memory is released every time page is switched</value>
   </data>
-  <data name="IsCaptionEmulateInFullScreen" xml:space="preserve">
+  <data name="ParamIsCaptionEmulateInFullScreen" xml:space="preserve">
     <value>Title bar operation at full screen</value>
   </data>
-  <data name="IsCaptionEmulateInFullScreenTips" xml:space="preserve">
+  <data name="ParamIsCaptionEmulateInFullScreenTips" xml:space="preserve">
     <value>Enable the title bar operation (double click and drag) on ​​the menu at full screen. "</value>
   </data>
   <data name="LongButtonDownModeLoupe" xml:space="preserve">
@@ -3986,5 +3986,8 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="WordStop" xml:space="preserve">
     <value>Stop</value>
+  </data>
+  <data name="HelpReadMeFile" xml:space="preserve">
+    <value>Readme.html</value>
   </data>
 </root>

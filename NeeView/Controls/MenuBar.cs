@@ -39,7 +39,7 @@ namespace NeeView
         #endregion
 
         //
-        [PropertyMember("@IsCaptionEmulateInFullScreen", Tips = "@IsCaptionEmulateInFullScreenTips")]
+        [PropertyMember("@ParamIsCaptionEmulateInFullScreen", Tips = "@ParamIsCaptionEmulateInFullScreenTips")]
         public bool IsCaptionEmulateInFullScreen { get; set; }
 
 

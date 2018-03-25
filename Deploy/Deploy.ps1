@@ -197,26 +197,65 @@ function New-Package($productDir, $packageDir)
 	#------------------------
 	# generate README.html
 
-	New-Readme $packageDir "ReadmeTemplate.md"
+	New-Readme $packageDir "en-us" $FALSE
+	New-Readme $packageDir "ja-jp" $FALSE
 }
 
 #----------------------
 # generate README.html
-function New-Readme($packageDir, $template)
+function New-Readme($packageDir, $culture, $isAppx)
 {
-	$readmeDir = $packageDir + "\readme"
+	$readmeSource = "Readme\$culture"
+
+	$readmeDir = $packageDir + "\readme.$culture"
+	
+
 	$temp = New-Item $readmeDir -ItemType Directory 
 
-	Copy-Item $template "$readmeDir/README.md"
+	Copy-Item "$readmeSource\Overview.md" $readmeDir
+	Copy-Item "$readmeSource\Susie.md" $readmeDir
+	Copy-Item "$readmeSource\Emvironment.md" $readmeDir
+	Copy-Item "$readmeSource\Contact.md" $readmeDir
+
 	Copy-Item "$solutionDir\LICENSE.md" $readmeDir
+	Copy-Item "$solutionDir\LICENSE.ja-jp.md" $readmeDir
 	Copy-Item "$solutionDir\THIRDPARTY_LICENSES.md" $readmeDir
 	Copy-Item "$solutionDir\NeeLaboratory.IO.Search\THIRDPARTY_LICENSES.md" "$readmeDir\NeeLaboratory.IO.Search_THIRDPARTY_LICENSES.md"
 
+	$susie = ""
+	if (-not $isAppx)
+	{
+		$susie = Get-Content -Path "$readmeDir/Susie.md" -Raw -Encoding UTF8
+	}
+
 	# edit README.md
-	Replace-Content "$readmeDir\README.md" "<VERSION/>" "$version"
+	Replace-Content "$readmeDir\Overview.md" "<VERSION/>" "$version"
+	Replace-Content "$readmeDir\Overview.md" "<SUSIE/>" "$susie"
+	Replace-Content "$readmeDir\Emvironment.md" "<VERSION/>" "$version"
+	Replace-Content "$readmeDir\Contact.md" "<VERSION/>" "$version"
+
+	$readmeHtml = "README.html"
+	$readmeEnvironment = ""
+	$readmeLicenseAppendix = ""
+
+	if (-not ($culture -eq "en-us"))
+	{
+		$readmeHtml = "README.$culture.html"
+	}
+
+	if ($culture -eq "ja-jp")
+	{
+		$readmeLicenseAppendix = """$readmeDir\LICENSE.ja-jp.md"""
+	}
+
+	if (-not $isAppx)
+	{
+		$readmeEnvironment = """$readmeDir\Emvironment.md"""
+	}
+
 
 	# markdown to html by pandoc
-	pandoc -s -t html5 -o "$packageDir\README.html" -H Style.html "$readmeDir\README.md" "$readmeDir\LICENSE.md" "$readmeDir\THIRDPARTY_LICENSES.md" "$readmeDir\NeeLaboratory.IO.Search_THIRDPARTY_LICENSES.md"
+	pandoc -s -t html5 -o "$packageDir\$readmeHtml" -H "Readme\Style.html" "$readmeDir\Overview.md" $readmeEnvironment "$readmeDir\Contact.md" "$readmeDir\LICENSE.md" $readmeLicenseAppendix "$readmeDir\THIRDPARTY_LICENSES.md" "$readmeDir\NeeLaboratory.IO.Search_THIRDPARTY_LICENSES.md"
 
 	Remove-Item $readmeDir -Recurse
 }
@@ -395,7 +434,8 @@ function New-AppxReady
 	New-ConfigForAppx $packageX64Dir "${product}.exe.config" $packageAppxProduct
 
 	# generate README.html
-	New-Readme $packageAppxProduct "ReadmeAppxTemplate.md"
+	New-Readme $packageAppxProduct "en-us" $TRUE
+	New-Readme $packageAppxProduct "ja-jp" $TRUE
 
 	# copy icons
 	Copy-Item "Appx\Resources\Assets\*.png" "$packageAppxFiles\Assets\" 

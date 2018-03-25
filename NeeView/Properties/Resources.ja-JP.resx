@@ -2353,16 +2353,16 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="HistoryName" xml:space="preserve">
     <value>履歴</value>
   </data>
-  <data name="IsAutoGC" xml:space="preserve">
+  <data name="ParamIsAutoGC" xml:space="preserve">
     <value>メモリ開放をシステムに任せる</value>
   </data>
-  <data name="IsAutoGCTips" xml:space="preserve">
+  <data name="ParamIsAutoGCTips" xml:space="preserve">
     <value>OFFの時はページ切り替え毎にメモリ開放を行います</value>
   </data>
-  <data name="IsCaptionEmulateInFullScreen" xml:space="preserve">
+  <data name="ParamIsCaptionEmulateInFullScreen" xml:space="preserve">
     <value>フルスクリーン時のタイトルバー操作</value>
   </data>
-  <data name="IsCaptionEmulateInFullScreenTips" xml:space="preserve">
+  <data name="ParamIsCaptionEmulateInFullScreenTips" xml:space="preserve">
     <value>フルスクリーン時のメニュー上でのタイトルバー操作(ダブルクリックやドラッグ)を有効にします。"</value>
   </data>
   <data name="LongButtonDownModeLoupe" xml:space="preserve">
@@ -3986,5 +3986,8 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="WordStop" xml:space="preserve">
     <value>停止</value>
+  </data>
+  <data name="HelpReadMeFile" xml:space="preserve">
+    <value>Readme.ja-jp.html</value>
   </data>
 </root>

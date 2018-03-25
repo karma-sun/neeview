@@ -88,7 +88,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   full screen OFF に類似しているローカライズされた文字列を検索します。
+        ///   Full screen OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandCancelFullScreen {
             get {
@@ -6683,7 +6683,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Commands to which no operation is assigned can be used by setting with &quot;command setting&quot;. に類似しているローカライズされた文字列を検索します。
+        ///   Commands to which no operation is assigned can be used by setting with &quot;Edit commands&quot;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string HelpCommandMessage {
             get {
@@ -6697,6 +6697,15 @@ namespace NeeView.Properties {
         public static string HelpCommandTitle {
             get {
                 return ResourceManager.GetString("HelpCommandTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Readme.html に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string HelpReadMeFile {
+            get {
+                return ResourceManager.GetString("HelpReadMeFile", resourceCulture);
             }
         }
         
@@ -6733,42 +6742,6 @@ namespace NeeView.Properties {
         public static string HistoryName {
             get {
                 return ResourceManager.GetString("HistoryName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   System manages memory に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string IsAutoGC {
-            get {
-                return ResourceManager.GetString("IsAutoGC", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   When it is OFF, memory is released every time page is switched に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string IsAutoGCTips {
-            get {
-                return ResourceManager.GetString("IsAutoGCTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Title bar operation at full screen に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string IsCaptionEmulateInFullScreen {
-            get {
-                return ResourceManager.GetString("IsCaptionEmulateInFullScreen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Enable the title bar operation (double click and drag) on ​​the menu at full screen. &quot; に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string IsCaptionEmulateInFullScreenTips {
-            get {
-                return ResourceManager.GetString("IsCaptionEmulateInFullScreenTips", resourceCulture);
             }
         }
         
@@ -8807,6 +8780,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   System manages memory に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsAutoGC {
+            get {
+                return ResourceManager.GetString("ParamIsAutoGC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   When it is OFF, memory is released every time page is switched に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsAutoGCTips {
+            get {
+                return ResourceManager.GetString("ParamIsAutoGCTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Start playing slideshow に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsAutoPlaySlideShow {
@@ -8857,6 +8848,24 @@ namespace NeeView.Properties {
         public static string ParamIsCancelSlideByMouseMoveTips {
             get {
                 return ResourceManager.GetString("ParamIsCancelSlideByMouseMoveTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Title bar operation at full screen に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsCaptionEmulateInFullScreen {
+            get {
+                return ResourceManager.GetString("ParamIsCaptionEmulateInFullScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Enable the title bar operation (double click and drag) on ​​the menu at full screen. &quot; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsCaptionEmulateInFullScreenTips {
+            get {
+                return ResourceManager.GetString("ParamIsCaptionEmulateInFullScreenTips", resourceCulture);
             }
         }
         

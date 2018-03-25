@@ -94,7 +94,7 @@ namespace NeeView
         //
         public VersionWindowVM()
         {
-            LicenseUri = "file://" + Config.Current.AssemblyLocation.Replace('\\', '/').TrimEnd('/') + "/README.html#license";
+            LicenseUri = "file://" + Config.Current.AssemblyLocation.Replace('\\', '/').TrimEnd('/') + $"/{Properties.Resources.HelpReadMeFile}#license";
 
 #if SUSIE
             this.Icon = GetIconBitmapFrame("/Resources/AppS.ico", 256);

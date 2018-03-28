@@ -81,6 +81,7 @@ namespace NeeView
             };
 
             var grid = new Grid();
+            grid.UseLayoutRounding = true;
             if (image != null) grid.Children.Add(image);
             grid.Children.Add(canvas);
             grid.Children.Add(_errorMessageTextBlock);

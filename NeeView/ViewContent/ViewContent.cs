@@ -186,6 +186,7 @@ namespace NeeView
             var parameter = new ViewContentParameters()
             {
                 ForegroundBrush = new Binding(nameof(ContentCanvasBrush.ForegroundBrush)) { Source = ContentCanvasBrush.Current },
+                PageBackgroundBrush = new Binding(nameof(ContentCanvasBrush.PageBackgroundBrush)) { Source = ContentCanvasBrush.Current },
                 BitmapScalingMode = new Binding(nameof(BitmapScalingMode)) { Source = this },
                 AnimationImageVisibility = new Binding(nameof(AnimationImageVisibility)) { Source = this },
                 AnimationPlayerVisibility = new Binding(nameof(AnimationPlayerVisibility)) { Source = this },
@@ -312,6 +313,7 @@ namespace NeeView
     public class ViewContentParameters
     {
         public Binding ForegroundBrush { get; set; }
+        public Binding PageBackgroundBrush { get; set; }
         public Binding BitmapScalingMode { get; set; }
         public Binding AnimationImageVisibility { get; set; }
         public Binding AnimationPlayerVisibility { get; set; }

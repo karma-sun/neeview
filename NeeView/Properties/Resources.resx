@@ -3990,4 +3990,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="HelpReadMeFile" xml:space="preserve">
     <value>Readme.html</value>
   </data>
+  <data name="ParamPageBackgroundColor" xml:space="preserve">
+    <value>Transparent image background color</value>
+  </data>
 </root>

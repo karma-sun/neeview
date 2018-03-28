@@ -3990,4 +3990,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="HelpReadMeFile" xml:space="preserve">
     <value>Readme.ja-jp.html</value>
   </data>
+  <data name="ParamPageBackgroundColor" xml:space="preserve">
+    <value>透過画像の背景色</value>
+  </data>
 </root>

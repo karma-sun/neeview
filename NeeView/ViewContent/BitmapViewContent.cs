@@ -67,6 +67,7 @@ namespace NeeView
             }
 
             var grid = new Grid();
+            grid.SetBinding(Grid.BackgroundProperty, parameter.PageBackgroundBrush);
             grid.UseLayoutRounding = true;
 
             _viewBitmap = bitmap;

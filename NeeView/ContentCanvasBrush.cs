@@ -2,6 +2,7 @@
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -43,6 +44,27 @@ namespace NeeView
             get { return _foregroundBrush; }
             set { if (_foregroundBrush != value) { _foregroundBrush = value; RaisePropertyChanged(); } }
         }
+
+        // ページの背景色。透過画像用
+        private Color _pageBackgroundColor = Colors.Transparent;
+        [PropertyMember("@ParamPageBackgroundColor")]
+        public Color PageBackgroundColor
+        {
+            get { return _pageBackgroundColor; }
+            set
+            {
+                if (SetProperty(ref _pageBackgroundColor, value))
+                {
+                    RaisePropertyChanged(nameof(PageBackgroundBrush));
+                }
+            }
+        }
+
+        public Brush PageBackgroundBrush
+        {
+            get { return new SolidColorBrush(_pageBackgroundColor); }
+        }
+
 
         // Backgroud Brush
         private Brush _backgroundBrush = Brushes.Black;
@@ -218,6 +240,14 @@ namespace NeeView
             public BackgroundStyle Background { get; set; }
             [DataMember]
             public BrushSource CustomBackground { get; set; }
+            [DataMember, DefaultValue(typeof(Color), "Transparent")]
+            public Color PageBackgroundColor { get; set; }
+
+            [OnDeserializing]
+            private void Deserializing(StreamingContext c)
+            {
+                this.InitializePropertyDefaultValues();
+            }
         }
 
         //
@@ -226,6 +256,7 @@ namespace NeeView
             var memento = new Memento();
             memento.CustomBackground = this.CustomBackground;
             memento.Background = this.Background;
+            memento.PageBackgroundColor = this.PageBackgroundColor;
             return memento;
         }
 
@@ -235,6 +266,7 @@ namespace NeeView
             if (memento == null) return;
             this.CustomBackground = memento.CustomBackground;
             this.Background = memento.Background;
+            this.PageBackgroundColor = memento.PageBackgroundColor;
         }
         #endregion
 

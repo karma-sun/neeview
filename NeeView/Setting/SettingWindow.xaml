@@ -7,6 +7,7 @@
         xmlns:nvp="clr-namespace:NeeView.Windows.Property"
         xmlns:nvc="clr-namespace:NeeView.Windows.Controls"
         xmlns:nvd="clr-namespace:NeeView.Windows.Data"
+        xmlns:osc="clr-namespace:OpenSourceControls"
         xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}"
@@ -38,7 +39,7 @@
                     <TextBlock Margin="10,0" VerticalAlignment="Center" Text="{Binding Value, Converter={StaticResource BooleanToSwitchStringConverter}}"/>
                 </StackPanel>
             </DataTemplate>
-            
+
             <DataTemplate x:Key="RangeValueDataTemplate">
                 <StackPanel>
                     <StackPanel>
@@ -57,6 +58,14 @@
             <DataTemplate DataType="{x:Type nvp:PropertyValue_DoubleRange}">
                 <ContentControl Content="{Binding}" ContentTemplate="{StaticResource RangeValueDataTemplate}"/>
             </DataTemplate>
+
+            <DataTemplate DataType="{x:Type nvp:PropertyValue_Color}">
+                <DockPanel>
+                    <TextBox Text="{Binding Value}" MinWidth="100" BorderThickness="1,1,0,1" Padding="0,0,2,0" VerticalContentAlignment="Center"/>
+                    <osc:ComboColorPicker SelectedColor="{Binding Value, Mode=TwoWay}"/>
+                </DockPanel>
+            </DataTemplate>
+
 
             <DataTemplate DataType="{x:Type nvp:PropertyTitleElement}">
                 <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" FontWeight="Bold" Margin="0,10,0,5" />

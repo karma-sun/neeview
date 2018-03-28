@@ -413,11 +413,11 @@ namespace NeeView
                     {
                         if (this.Book?.NotFoundStartPage != null)
                         {
-                            InfoMessage.Current.SetMessage(InfoMessageType.Notify, string.Format(Properties.Resources.NotifyCannotOpen, LoosePath.GetFileName(this.Book.NotFoundStartPage)), null, 2.0);
+                            InfoMessage.Current.SetMessage(InfoMessageType.BookName, string.Format(Properties.Resources.NotifyCannotOpen, LoosePath.GetFileName(this.Book.NotFoundStartPage)), null, 2.0);
                         }
                         else
                         {
-                            InfoMessage.Current.SetMessage(InfoMessageType.Notify, LoosePath.GetFileName(Address), null, 2.0, e.BookMementoType);
+                            InfoMessage.Current.SetMessage(InfoMessageType.BookName, LoosePath.GetFileName(Address), null, 2.0, e.BookMementoType);
                         }
                     });
                 };

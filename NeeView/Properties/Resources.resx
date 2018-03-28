@@ -1272,6 +1272,12 @@
   <data name="CommandToggleWindowMinimizeNote" xml:space="preserve">
     <value>Minimize the window.</value>
   </data>
+  <data name="CommandTouchEmulate" xml:space="preserve">
+    <value>Touch emulate</value>
+  </data>
+  <data name="CommandTouchEmulateNote" xml:space="preserve">
+    <value>Execute the touch command at the mouse cursor position.</value>
+  </data>
   <data name="CommandUnload" xml:space="preserve">
     <value>Close</value>
   </data>
@@ -2341,6 +2347,9 @@ Details of the error are output to the following file.
   <data name="HelpCommandTitle" xml:space="preserve">
     <value>NeeView Command List</value>
   </data>
+  <data name="HelpReadMeFile" xml:space="preserve">
+    <value>Readme.html</value>
+  </data>
   <data name="HistoryItemMenuDelete" xml:space="preserve">
     <value>_Remove history</value>
   </data>
@@ -2352,18 +2361,6 @@ Details of the error are output to the following file.
   </data>
   <data name="HistoryName" xml:space="preserve">
     <value>History</value>
-  </data>
-  <data name="ParamIsAutoGC" xml:space="preserve">
-    <value>System manages memory</value>
-  </data>
-  <data name="ParamIsAutoGCTips" xml:space="preserve">
-    <value>When it is OFF, memory is released every time page is switched</value>
-  </data>
-  <data name="ParamIsCaptionEmulateInFullScreen" xml:space="preserve">
-    <value>Title bar operation at full screen</value>
-  </data>
-  <data name="ParamIsCaptionEmulateInFullScreenTips" xml:space="preserve">
-    <value>Enable the title bar operation (double click and drag) on ​​the menu at full screen. "</value>
   </data>
   <data name="LongButtonDownModeLoupe" xml:space="preserve">
     <value>Loupe</value>
@@ -3016,20 +3013,23 @@ Details of the error are output to the following file.
   <data name="ParamImageFilterThreshold" xml:space="preserve">
     <value>Threshold</value>
   </data>
+  <data name="ParamInfoBookNameShowMessageStyle" xml:space="preserve">
+    <value>Show open book name</value>
+  </data>
   <data name="ParamInfoMessageCommandShowMessageStyle" xml:space="preserve">
-    <value>Display command execution message</value>
+    <value>Show command execution message</value>
   </data>
   <data name="ParamInfoMessageGestureShowMessageStyle" xml:space="preserve">
-    <value>Display of gesture status</value>
+    <value>Show gesture status</value>
   </data>
   <data name="ParamInfoMessageNoticeShowMessageStyle" xml:space="preserve">
-    <value>Notice such as display of open book name</value>
+    <value>General information</value>
   </data>
   <data name="ParamInfoMessageNowLoadingShowMessageStyle" xml:space="preserve">
-    <value>View Now Loading</value>
+    <value>Show Now Loading</value>
   </data>
   <data name="ParamInfoMessageViewTransformShowMessageStyle" xml:space="preserve">
-    <value>Information display such as scale change by drag operation</value>
+    <value>Sbow status change by drag operation</value>
   </data>
   <data name="ParamIsAccessKeyEnabled" xml:space="preserve">
     <value>Allow access key</value>
@@ -3042,6 +3042,12 @@ Details of the error are output to the following file.
   </data>
   <data name="ParamIsArchiveRecursiveTips" xml:space="preserve">
     <value>If it is set to OFF, the included compressed file will be handled as subfolder.</value>
+  </data>
+  <data name="ParamIsAutoGC" xml:space="preserve">
+    <value>System manages memory</value>
+  </data>
+  <data name="ParamIsAutoGCTips" xml:space="preserve">
+    <value>When it is OFF, memory is released every time page is switched</value>
   </data>
   <data name="ParamIsAutoPlaySlideShow" xml:space="preserve">
     <value>Start playing slideshow</value>
@@ -3060,6 +3066,12 @@ Details of the error are output to the following file.
   </data>
   <data name="ParamIsCancelSlideByMouseMoveTips" xml:space="preserve">
     <value>When set to OFF, it will only be reset by clear action such as clicking.</value>
+  </data>
+  <data name="ParamIsCaptionEmulateInFullScreen" xml:space="preserve">
+    <value>Title bar operation at full screen</value>
+  </data>
+  <data name="ParamIsCaptionEmulateInFullScreenTips" xml:space="preserve">
+    <value>Enable the title bar operation (double click and drag) on ​​the menu at full screen. "</value>
   </data>
   <data name="ParamIsConfirmRecursive" xml:space="preserve">
     <value>If there is no page, inquire whether to read the subfolder</value>
@@ -3240,6 +3252,9 @@ Details of the error are output to the following file.
   </data>
   <data name="ParamMouseLongButtonRepeatTimeTips" xml:space="preserve">
     <value>Repeat time with repeat input.</value>
+  </data>
+  <data name="ParamPageBackgroundColor" xml:space="preserve">
+    <value>Transparent image background color</value>
   </data>
   <data name="ParamPageSeconds" xml:space="preserve">
     <value>Change time in page movement (seconds)</value>
@@ -3924,6 +3939,9 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordPage" xml:space="preserve">
     <value>Page</value>
   </data>
+  <data name="WordPlay" xml:space="preserve">
+    <value>Play</value>
+  </data>
   <data name="WordRemove" xml:space="preserve">
     <value>Remove</value>
   </data>
@@ -3951,6 +3969,9 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordStepless" xml:space="preserve">
     <value>Stepless</value>
   </data>
+  <data name="WordStop" xml:space="preserve">
+    <value>Stop</value>
+  </data>
   <data name="WordStyleBanner" xml:space="preserve">
     <value>Banner style</value>
   </data>
@@ -3974,23 +3995,5 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="WordYes" xml:space="preserve">
     <value>Yes</value>
-  </data>
-  <data name="CommandTouchEmulate" xml:space="preserve">
-    <value>Touch emulate</value>
-  </data>
-  <data name="CommandTouchEmulateNote" xml:space="preserve">
-    <value>Execute the touch command at the mouse cursor position.</value>
-  </data>
-  <data name="WordPlay" xml:space="preserve">
-    <value>Play</value>
-  </data>
-  <data name="WordStop" xml:space="preserve">
-    <value>Stop</value>
-  </data>
-  <data name="HelpReadMeFile" xml:space="preserve">
-    <value>Readme.html</value>
-  </data>
-  <data name="ParamPageBackgroundColor" xml:space="preserve">
-    <value>Transparent image background color</value>
   </data>
 </root>

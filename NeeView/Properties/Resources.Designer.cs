@@ -8699,7 +8699,16 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display command execution message に類似しているローカライズされた文字列を検索します。
+        ///   Show open book name に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamInfoBookNameShowMessageStyle {
+            get {
+                return ResourceManager.GetString("ParamInfoBookNameShowMessageStyle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Show command execution message に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamInfoMessageCommandShowMessageStyle {
             get {
@@ -8708,7 +8717,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display of gesture status に類似しているローカライズされた文字列を検索します。
+        ///   Show gesture status に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamInfoMessageGestureShowMessageStyle {
             get {
@@ -8717,7 +8726,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Notice such as display of open book name に類似しているローカライズされた文字列を検索します。
+        ///   General information に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamInfoMessageNoticeShowMessageStyle {
             get {
@@ -8726,7 +8735,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   View Now Loading に類似しているローカライズされた文字列を検索します。
+        ///   Show Now Loading に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamInfoMessageNowLoadingShowMessageStyle {
             get {
@@ -8735,7 +8744,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Information display such as scale change by drag operation に類似しているローカライズされた文字列を検索します。
+        ///   Sbow status change by drag operation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamInfoMessageViewTransformShowMessageStyle {
             get {

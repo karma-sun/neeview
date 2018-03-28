@@ -1,4 +1,5 @@
-﻿using NeeView.Windows.Property;
+﻿using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,6 +14,7 @@ namespace NeeView
     public enum InfoMessageType
     {
         Notify,
+        BookName,
         Command,
         Gesture,
         Loading,
@@ -51,6 +53,9 @@ namespace NeeView
         [PropertyMember("@ParamInfoMessageNoticeShowMessageStyle")]
         public ShowMessageStyle NoticeShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
 
+        [PropertyMember("@ParamInfoBookNameShowMessageStyle")]
+        public ShowMessageStyle BookNameShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
+
         [PropertyMember("@ParamInfoMessageCommandShowMessageStyle")]
         public ShowMessageStyle CommandShowMessageStyle { get; set; } = ShowMessageStyle.Normal;
 
@@ -72,6 +77,8 @@ namespace NeeView
                 default:
                 case InfoMessageType.Notify:
                     return NoticeShowMessageStyle;
+                case InfoMessageType.BookName:
+                    return BookNameShowMessageStyle;
                 case InfoMessageType.Command:
                     return CommandShowMessageStyle;
                 case InfoMessageType.Gesture:
@@ -118,20 +125,29 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
-            [DataMember]
+            [DataMember, DefaultValue(ShowMessageStyle.Normal)]
             public ShowMessageStyle NoticeShowMessageStyle { get; set; }
 
-            [DataMember]
+            [DataMember, DefaultValue(ShowMessageStyle.Normal)]
+            public ShowMessageStyle BookNameShowMessageStyle { get; set; }
+
+            [DataMember, DefaultValue(ShowMessageStyle.Normal)]
             public ShowMessageStyle CommandShowMessageStyle { get; set; }
 
-            [DataMember]
+            [DataMember, DefaultValue(ShowMessageStyle.Normal)]
             public ShowMessageStyle GestureShowMessageStyle { get; set; }
 
-            [DataMember]
+            [DataMember, DefaultValue(ShowMessageStyle.Normal)]
             public ShowMessageStyle NowLoadingShowMessageStyle { get; set; }
 
-            [DataMember]
+            [DataMember, DefaultValue(ShowMessageStyle.None)]
             public ShowMessageStyle ViewTransformShowMessageStyle { get; set; }
+
+            [OnDeserializing]
+            private void Deserializing(StreamingContext c)
+            {
+                this.InitializePropertyDefaultValues();
+            }
         }
 
         //
@@ -140,6 +156,7 @@ namespace NeeView
             var memento = new Memento();
 
             memento.NoticeShowMessageStyle = this.NoticeShowMessageStyle;
+            memento.BookNameShowMessageStyle = this.BookNameShowMessageStyle;
             memento.CommandShowMessageStyle = this.CommandShowMessageStyle;
             memento.GestureShowMessageStyle = this.GestureShowMessageStyle;
             memento.NowLoadingShowMessageStyle = this.NowLoadingShowMessageStyle;
@@ -154,6 +171,7 @@ namespace NeeView
             if (memento == null) return;
 
             this.NoticeShowMessageStyle = memento.NoticeShowMessageStyle;
+            this.BookNameShowMessageStyle = memento.BookNameShowMessageStyle;
             this.CommandShowMessageStyle = memento.CommandShowMessageStyle;
             this.GestureShowMessageStyle = memento.GestureShowMessageStyle;
             this.NowLoadingShowMessageStyle = memento.NowLoadingShowMessageStyle;

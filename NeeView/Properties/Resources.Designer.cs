@@ -2086,6 +2086,51 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Grid に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleGrid {
+            get {
+                return ResourceManager.GetString("CommandToggleGrid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Grid に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleGridMenu {
+            get {
+                return ResourceManager.GetString("CommandToggleGridMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle visible / hide of grid. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleGridNote {
+            get {
+                return ResourceManager.GetString("CommandToggleGridNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Grid OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleGridOff {
+            get {
+                return ResourceManager.GetString("CommandToggleGridOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Grid に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleGridOn {
+            get {
+                return ResourceManager.GetString("CommandToggleGridOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle auto hide menu に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleHideMenu {
@@ -5143,6 +5188,15 @@ namespace NeeView.Properties {
         public static string EffectEffectType {
             get {
                 return ResourceManager.GetString("EffectEffectType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Grid に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EffectGrid {
+            get {
+                return ResourceManager.GetString("EffectGrid", resourceCulture);
             }
         }
         
@@ -8605,6 +8659,42 @@ namespace NeeView.Properties {
         public static string ParamFolderListIsVisibleHistoryMarkTips {
             get {
                 return ResourceManager.GetString("ParamFolderListIsVisibleHistoryMarkTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Color に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamGridLineColor {
+            get {
+                return ResourceManager.GetString("ParamGridLineColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Column に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamGridLineDivX {
+            get {
+                return ResourceManager.GetString("ParamGridLineDivX", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Raw に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamGridLineDivY {
+            get {
+                return ResourceManager.GetString("ParamGridLineDivY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Square に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamGridLineIsSquare {
+            get {
+                return ResourceManager.GetString("ParamGridLineIsSquare", resourceCulture);
             }
         }
         

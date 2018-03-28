@@ -170,6 +170,7 @@ namespace NeeView
         #endregion
 
 
+        public bool IsClosing { get; set; }
 
 
         /// <summary>
@@ -292,6 +293,8 @@ namespace NeeView
         /// </summary>
         public void Activated()
         {
+            if (IsClosing) return;
+
             RoutedCommandTable.Current.InitializeInputGestures();
             UpdateContextMenu();
         }
@@ -301,6 +304,8 @@ namespace NeeView
         /// </summary>
         public void Deactivated()
         {
+            if (IsClosing) return;
+
             BookOperation.Current.Unlock();
         }
     }

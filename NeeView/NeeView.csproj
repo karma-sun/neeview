@@ -157,6 +157,7 @@
     </Compile>
     <Compile Include="Controls\MediaControlViewModel.cs" />
     <Compile Include="Controls\MediaPlayerOperator.cs" />
+    <Compile Include="GridLine.cs" />
     <Compile Include="InputGesture\ImeKeyUtility.cs" />
     <Compile Include="Language.cs" />
     <Compile Include="Page\MediaContent.cs" />

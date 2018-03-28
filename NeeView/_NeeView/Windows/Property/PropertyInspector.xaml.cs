@@ -77,6 +77,17 @@ namespace NeeView.Windows.Property
             DependencyProperty.Register("ColumnRate", typeof(double), typeof(PropertyInspector), new PropertyMetadata(1.0 / 4.0));
 
 
+        public bool IsSwitchMode
+        {
+            get { return (bool)GetValue(IsSwitchModeProperty); }
+            set { SetValue(IsSwitchModeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsSwitchMode.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsSwitchModeProperty =
+            DependencyProperty.Register("IsSwitchMode", typeof(bool), typeof(PropertyInspector), new PropertyMetadata(false));
+
+
 
 
         /// <summary>

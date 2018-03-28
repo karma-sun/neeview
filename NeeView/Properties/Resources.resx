@@ -3996,4 +3996,34 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordYes" xml:space="preserve">
     <value>Yes</value>
   </data>
+  <data name="ParamGridLineDivX" xml:space="preserve">
+    <value>Column</value>
+  </data>
+  <data name="ParamGridLineDivY" xml:space="preserve">
+    <value>Raw</value>
+  </data>
+  <data name="ParamGridLineIsSquare" xml:space="preserve">
+    <value>Square</value>
+  </data>
+  <data name="ParamGridLineColor" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="CommandToggleGrid" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="CommandToggleGridNote" xml:space="preserve">
+    <value>Toggle visible / hide of grid.</value>
+  </data>
+  <data name="EffectGrid" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="CommandToggleGridOn" xml:space="preserve">
+    <value>Grid</value>
+  </data>
+  <data name="CommandToggleGridOff" xml:space="preserve">
+    <value>Grid OFF</value>
+  </data>
+  <data name="CommandToggleGridMenu" xml:space="preserve">
+    <value>Grid</value>
+  </data>
 </root>

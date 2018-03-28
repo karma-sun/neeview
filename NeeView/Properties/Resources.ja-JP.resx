@@ -3996,4 +3996,34 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordYes" xml:space="preserve">
     <value>はい</value>
   </data>
+  <data name="ParamGridLineDivX" xml:space="preserve">
+    <value>横分割数</value>
+  </data>
+  <data name="ParamGridLineDivY" xml:space="preserve">
+    <value>縦分割数</value>
+  </data>
+  <data name="ParamGridLineIsSquare" xml:space="preserve">
+    <value>正方形</value>
+  </data>
+  <data name="ParamGridLineColor" xml:space="preserve">
+    <value>色</value>
+  </data>
+  <data name="CommandToggleGrid" xml:space="preserve">
+    <value>グリッドON/OFF</value>
+  </data>
+  <data name="CommandToggleGridNote" xml:space="preserve">
+    <value>グリッドの表示/非表示を切り替えます。</value>
+  </data>
+  <data name="EffectGrid" xml:space="preserve">
+    <value>グリッド</value>
+  </data>
+  <data name="CommandToggleGridOn" xml:space="preserve">
+    <value>グリッドON</value>
+  </data>
+  <data name="CommandToggleGridOff" xml:space="preserve">
+    <value>グリッドOFF</value>
+  </data>
+  <data name="CommandToggleGridMenu" xml:space="preserve">
+    <value>グリッド</value>
+  </data>
 </root>

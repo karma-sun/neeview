@@ -162,6 +162,43 @@
                 <Separator Background="#4888" Margin="0,10"/>
 
                 <DockPanel Margin="0,5">
+                    <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding ContentCanvas.GridLine.IsEnabled}" VerticalAlignment="Center"/>
+                    <TextBlock Text="{x:Static properties:Resources.EffectGrid}" VerticalAlignment="Center" />
+                </DockPanel>
+
+                <StackPanel Visibility="{Binding ContentCanvas.GridLine.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+                    <Grid Margin="10,0,0,5">
+                        <Grid.Resources>
+                            <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
+                            </Style>
+                            <Style TargetType="TextBox">
+                                <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
+                                <Setter Property="Background" Value="{DynamicResource NVBaseBrush}"/>
+                                <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
+                                <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture"/>
+                            </Style>
+                        </Grid.Resources>
+
+                        <nvp:PropertyInspector Document="{Binding GridLineProfile}" IsResetButtonVisible="False" IsSwitchMode="True" >
+                            <nvp:PropertyInspector.Style>
+                                <Style TargetType="nvp:PropertyInspector">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding GridLineProfile}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </nvp:PropertyInspector.Style>
+                        </nvp:PropertyInspector>
+                    </Grid>
+
+                </StackPanel>
+
+
+                <Separator Background="#4888" Margin="0,10"/>
+
+                <DockPanel Margin="0,5">
                     <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding Model.IsEnabled}" VerticalAlignment="Center"/>
                     <TextBlock Text="{x:Static properties:Resources.EffectEffect}" VerticalAlignment="Center" />
                 </DockPanel>

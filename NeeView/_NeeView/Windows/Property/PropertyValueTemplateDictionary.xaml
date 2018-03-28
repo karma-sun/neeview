@@ -3,12 +3,33 @@
                     xmlns:nlc="clr-namespace:NeeView.Windows.Controls"
                     xmlns:local="clr-namespace:NeeView.Windows.Property">
 
+
     <DataTemplate DataType="{x:Type local:PropertyValue_Object}">
         <ContentControl Content="{Binding Value}" Foreground="Gray"/>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type local:PropertyValue_Boolean}">
-        <CheckBox IsChecked="{Binding Value}"/>
+        <ContentControl>
+            <ContentControl.Style>
+                <Style TargetType="ContentControl">
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <CheckBox IsChecked="{Binding Value}"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsSwitchMode, RelativeSource={RelativeSource AncestorType=UserControl,AncestorLevel=2}}" Value="True">
+                            <Setter Property="Content">
+                                <Setter.Value>
+                                    <nlc:ToggleSwitch IsChecked="{Binding Value}" VerticalAlignment="Center" Height="20" Fill="{DynamicResource NVBackground}" Stroke="{DynamicResource NVForeground}" CheckedBrush="{DynamicResource NVButtonForeground}" />
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type local:PropertyValue_String}">
@@ -18,7 +39,7 @@
     <DataTemplate DataType="{x:Type local:PropertyValue_Integer}">
         <TextBox Text="{Binding Value}"/>
     </DataTemplate>
-    
+
     <DataTemplate DataType="{x:Type local:PropertyValue_IntegerRange}">
         <DockPanel>
             <TextBox DockPanel.Dock="Right" Text="{Binding Value}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0"/>

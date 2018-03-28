@@ -1832,6 +1832,20 @@ namespace NeeView
                 _elements[CommandType.ToggleResizeFilter] = element;
             }
 
+            // ToggleGrid
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupEffect;
+                element.Text = Properties.Resources.CommandToggleGrid;
+                element.MenuText = Properties.Resources.CommandToggleGridMenu;
+                element.Note = Properties.Resources.CommandToggleGridNote;
+                element.CanExecute = () => true;
+                element.ExecuteMessage = e => _models.ContentCanvas.GridLine.IsEnabled ? Properties.Resources.CommandToggleGridOff : Properties.Resources.CommandToggleGridOn;
+                element.Execute = (s, e) => _models.ContentCanvas.GridLine.IsEnabled = !_models.ContentCanvas.GridLine.IsEnabled;
+                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.ContentCanvas.GridLine.IsEnabled)) { Mode = BindingMode.OneWay, Source = _models.ContentCanvas.GridLine };
+                _elements[CommandType.ToggleGrid] = element;
+            }
+
             // ToggleEffect
             {
                 var element = new CommandElement();

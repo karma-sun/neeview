@@ -19,6 +19,7 @@ namespace NeeView
 
             this.UnsharpMaskProfile = new PropertyDocument(_imageFilter.UnsharpMaskProfile);
             this.CustomSizeProfile = new PropertyDocument(PictureProfile.Current.CustomSize);
+            this.GridLineProfile = new PropertyDocument(ContentCanvas.Current.GridLine);
         }
 
 
@@ -53,6 +54,9 @@ namespace NeeView
 
         //
         public PropertyDocument CustomSizeProfile { get; set; }
+
+        //
+        public PropertyDocument GridLineProfile { get; set; }
 
         //
         public Dictionary<EffectType, string> EffectTypeList { get; } = AliasNameExtensions.GetAliasNameDictionary<EffectType>();

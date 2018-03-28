@@ -36,6 +36,7 @@ namespace NeeView.Setting
             InitializeComponent();
 
             Current = this;
+            this.Closing += SettingWindow_Closing;
             this.Closed += (s, e) => Current = null;
 
             _vm = new SettingWindowViewModel(model);
@@ -46,6 +47,13 @@ namespace NeeView.Setting
         /// 設定画面を閉じる時にデータ保存するフラグ
         /// </summary>
         public bool AllowSave { get; set; } = true;
+
+        //
+        private void SettingWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // 設定を閉じるとメインウィンドウが背後に隠れてしまう現象を抑制
+            MainWindow.Current?.Activate();
+        }
 
         //
         private void SettingWindow_Closed(object sender, EventArgs e)

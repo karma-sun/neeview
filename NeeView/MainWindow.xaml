@@ -81,7 +81,7 @@
 
             <local:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter"/>
 
-            
+
             <!-- MenuItem History -->
 
             <local:FullPathToFileNameConverter x:Key="FullPathToFileNameConverter"/>
@@ -212,10 +212,13 @@
                                                         </Style>
                                                     </Canvas.Resources>
                                                     <ContentControl x:Name="MainContent" IsTabStop="False">
-                                                        <StackPanel x:Name="PageContents" Orientation="Horizontal">
-                                                            <ContentControl x:Name="Content1" Content="{Binding Contents[1].View}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" Focusable="False" />
-                                                            <ContentControl x:Name="Content0" Content="{Binding Contents[0].View}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Focusable="False" Margin="{Binding ContentsMargin}"/>
-                                                        </StackPanel>
+                                                        <Grid>
+                                                            <StackPanel x:Name="PageContents" Orientation="Horizontal">
+                                                                <ContentControl x:Name="Content1" Content="{Binding Contents[1].View}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" Focusable="False" />
+                                                                <ContentControl x:Name="Content0" Content="{Binding Contents[0].View}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Focusable="False" Margin="{Binding ContentsMargin}"/>
+                                                            </StackPanel>
+                                                            <ContentControl Content="{Binding GridLine.Content}"/>
+                                                        </Grid>
                                                     </ContentControl>
                                                 </Canvas>
                                                 <!-- Pages Shadow (表示領域計算用) -->

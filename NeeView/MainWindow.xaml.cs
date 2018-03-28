@@ -676,6 +676,8 @@ namespace NeeView
         //
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            _vm.IsClosing = true;
+
             // 閉じる前にウィンドウサイズ保存
             WindowShape.Current.CreateSnapMemento();
 

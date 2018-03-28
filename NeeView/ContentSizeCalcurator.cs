@@ -14,6 +14,9 @@ namespace NeeView
         public List<Size> ContentSizeList { get; set; }
         public double ContentAngle { get; set; }
         public Thickness ContentsMargin { get; set; }
+
+        public double Width => ContentSizeList[0].Width + ContentSizeList[1].Width + ContentsMargin.Left;
+        public double Height => Math.Max(ContentSizeList[0].Height, ContentSizeList[1].Height);
     }
 
     /// <summary>

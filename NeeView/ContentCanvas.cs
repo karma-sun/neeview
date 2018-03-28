@@ -15,7 +15,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace NeeView
 {
@@ -227,6 +226,9 @@ namespace NeeView
 
         // メインコンテンツのオリジナル表示スケール
         public double MainContentScale => MainContent != null ? MainContent.Scale * Config.Current.Dpi.DpiScaleX : 0.0;
+
+        //
+        public GridLine GridLine { get; private set; } = new GridLine();
 
         #endregion
 
@@ -447,6 +449,8 @@ namespace NeeView
             }
 
             UpdateContentScalingMode();
+
+            this.GridLine.SetSize(result.Width, result.Height);
         }
 
 
@@ -742,6 +746,8 @@ namespace NeeView
             public double ContentsSpace { get; set; }
             [DataMember]
             public bool IsAutoRotate { get; set; }
+            [DataMember]
+            public GridLine.Memento GridLine { get; set; }
         }
 
         //
@@ -752,6 +758,7 @@ namespace NeeView
             memento.IsEnabledNearestNeighbor = this.IsEnabledNearestNeighbor;
             memento.ContentsSpace = this.ContentsSpace;
             memento.IsAutoRotate = this.IsAutoRotate;
+            memento.GridLine = this.GridLine.CreateMemento();
             return memento;
         }
 
@@ -763,6 +770,7 @@ namespace NeeView
             this.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
             this.ContentsSpace = memento.ContentsSpace;
             this.IsAutoRotate = memento.IsAutoRotate;
+            this.GridLine.Restore(memento.GridLine);
 
             //ResetTransform(true); // 不要？
             //UpdateContentSize(); // 不要？

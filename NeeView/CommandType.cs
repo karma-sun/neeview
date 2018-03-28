@@ -314,6 +314,8 @@ namespace NeeView
         [EnumMember]
         ToggleResizeFilter,
         [EnumMember]
+        ToggleGrid,
+        [EnumMember]
         ToggleEffect,
 
         [EnumMember]

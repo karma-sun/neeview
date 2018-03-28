@@ -267,7 +267,6 @@ namespace NeeView
                 SevenZipArchiverProfile.Current.SupportFileTypes.FromString(this.loader_archiver_7z_supprtfiletypes);
                 SevenZipArchiverProfile.Current.SupportFileTypes.Add(".cbr");
                 SevenZipArchiverProfile.Current.SupportFileTypes.Add(".cbz");
-                SevenZipArchiverProfile.Current.LockTime = this.loader_archiver_7z_locktime;
 
                 ThumbnailProfile.Current.Quality = this.thumbnail_quality;
                 ThumbnailProfile.Current.IsCacheEnabled = this.thumbnail_cache;

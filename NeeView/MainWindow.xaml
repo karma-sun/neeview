@@ -16,6 +16,7 @@
         Closed="MainWindow_Closed"
         Closing="MainWindow_Closing"
         Activated="MainWindow_Activated"
+        Deactivated="MainWindow_Deactivated"
         MouseLeave="MainWindow_MouseLeave"
         StateChanged="MainWindow_StateChanged"
         DpiChanged="MainWindow_DpiChanged">

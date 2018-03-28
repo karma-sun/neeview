@@ -23,7 +23,6 @@ namespace NeeView
         private string _fileName;
         private Stream _stream;
         private object _lock;
-        private DelayAction _delayClose;
 
         #endregion
 
@@ -55,10 +54,6 @@ namespace NeeView
 
         private void Initialize()
         {
-            if (SevenZipArchiverProfile.Current.LockTime > 0)
-            {
-                _delayClose = new DelayAction(App.Current.Dispatcher, TimeSpan.FromSeconds(0.5), DelayClose, TimeSpan.FromSeconds(SevenZipArchiverProfile.Current.LockTime));
-            }
         }
 
         private void DelayClose()
@@ -71,8 +66,6 @@ namespace NeeView
 
         public SevenZipExtractor Open()
         {
-            _delayClose?.Cancel();
-
             if (_extractor == null)
             {
                 _extractor = IsStream ? new SevenZipExtractor(_stream) : new SevenZipExtractor(_fileName);
@@ -85,14 +78,10 @@ namespace NeeView
         {
             if (_extractor != null)
             {
-                if (isForce || SevenZipArchiverProfile.Current.LockTime == 0 || SevenZipArchiverProfile.Current.IsUnlockMode)
+                if (isForce)
                 {
                     _extractor.Dispose();
                     _extractor = null;
-                }
-                else if (_delayClose != null)
-                {
-                    _delayClose.Request();
                 }
             }
         }
@@ -108,7 +97,6 @@ namespace NeeView
             {
                 if (disposing)
                 {
-                    _delayClose?.Cancel();
                 }
 
                 // 投げっぱなし
@@ -245,7 +233,11 @@ namespace NeeView
 
         public override void Unlock()
         {
-            _source?.Close(true);
+            // 直接の圧縮ファイルである場合のみアンロック
+            if (this.Parent == null || this.Parent is FolderArchive)
+            {
+                _source?.Close(true);
+            }
         }
 
 

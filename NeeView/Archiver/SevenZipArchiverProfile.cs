@@ -33,12 +33,6 @@ namespace NeeView
         [PropertyMember("@ParamSevenZipArchiverSupportFileTypes")]
         public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".7z;.cb7;.cbr;.cbz;.lzh;.rar;.zip");
 
-        [PropertyMember("@ParamSevenZipArchiverLockTime", Tips = "@ParamSevenZipArchiverLockTimeTips")]
-        public double LockTime { get; set; } = -1.0;
-
-        // 強制アンロックモード
-        public bool IsUnlockMode { get; set; }
-
         // 事前展開
         [PropertyMember("@ParamSevenZipArchiverIsPreExtract", Tips = "@ParamSevenZipArchiverIsPreExtractTips")]
         public bool IsPreExtract { get; set; }
@@ -66,9 +60,6 @@ namespace NeeView
             [DataMember, DefaultValue(".7z;.cb7;.cbr;.cbz;.lzh;.rar;.zip")]
             public string SupportFileTypes { get; set; }
 
-            [DataMember, DefaultValue(-1.0)]
-            public double LockTime { get; set; }
-
             [DataMember, DefaultValue(false)]
             public bool IsPreExtract { get; set; }
 
@@ -89,7 +80,6 @@ namespace NeeView
             memento.IsEnabled = this.IsEnabled;
             memento.X86DllPath = this.X86DllPath;
             memento.X64DllPath = this.X64DllPath;
-            memento.LockTime = this.LockTime;
             memento.SupportFileTypes = this.SupportFileTypes.ToString();
             memento.IsPreExtract = this.IsPreExtract;
             memento.PreExtractSolidSize = this.PreExtractSolidSize;
@@ -103,7 +93,6 @@ namespace NeeView
             this.IsEnabled = memento.IsEnabled;
             this.X86DllPath = memento.X86DllPath;
             this.X64DllPath = memento.X64DllPath;
-            this.LockTime = memento.LockTime;
             this.SupportFileTypes.FromString(memento.SupportFileTypes);
             this.IsPreExtract = memento.IsPreExtract;
             this.PreExtractSolidSize = memento.PreExtractSolidSize;

@@ -91,6 +91,8 @@ namespace NeeView
         //
         public void DartyThumbnailList(bool isUpdateNow = false)
         {
+            if (_vm == null) return;
+
             _isDartyThumbnailList = true;
 
             if (isUpdateNow || this.Root.IsVisible)

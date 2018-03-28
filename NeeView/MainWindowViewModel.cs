@@ -295,5 +295,13 @@ namespace NeeView
             RoutedCommandTable.Current.InitializeInputGestures();
             UpdateContextMenu();
         }
+
+        /// <summary>
+        /// ウィンドウが非アクティブ化したときの処理
+        /// </summary>
+        public void Deactivated()
+        {
+            BookOperation.Current.Unlock();
+        }
     }
 }

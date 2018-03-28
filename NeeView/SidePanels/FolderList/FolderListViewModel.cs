@@ -59,12 +59,6 @@ namespace NeeView
         private PanelListItemStyleToBooleanConverter _panelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
 
         //
-        private DragStart _dragStart;
-
-        //
-        private FolderItem _dragFolderItem;
-
-        //
         private static int _busyCounter;
 
         #endregion
@@ -110,7 +104,6 @@ namespace NeeView
                 Model_BusyChanged;
 
             InitializeMoreMenu(_model.FolderPanel);
-            InitializeDragStart();
 
             UpdateListContent();
         }
@@ -448,47 +441,6 @@ namespace NeeView
         private void SetListItemStyle_Executed(PanelListItemStyle style)
         {
             _model.PanelListItemStyle = style;
-        }
-
-        #endregion
-
-        #region DragStart
-
-        //
-        private void InitializeDragStart()
-        {
-            _dragStart = new DragStart();
-
-            // ドラッグ中のファイルロック禁止
-            _dragStart.Dragging +=
-                (s, e) =>
-                {
-                    SevenZipArchiverProfile.Current.IsUnlockMode = true;
-                    if (_dragFolderItem?.Path == BookOperation.Current.Place) BookOperation.Current.Unlock();
-                };
-
-            _dragStart.Dragged +=
-                (s, e) => SevenZipArchiverProfile.Current.IsUnlockMode = false;
-        }
-
-        //
-        public void Drag_MouseDown(object sender, MouseButtonEventArgs e, FolderItem folderItem)
-        {
-            if (!FileIOProfile.Current.IsEnabled) return;
-            _dragFolderItem = folderItem;
-            _dragStart.Drag_MouseDown(sender, e, folderItem.GetFileDragData(), DragDropEffects.All);
-        }
-
-        //
-        public void Drag_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            _dragStart.Drag_MouseUp(sender, e);
-        }
-
-        //
-        public void Drag_MouseMove(object sender, MouseEventArgs e)
-        {
-            _dragStart.Drag_MouseMove(sender, e);
         }
 
         #endregion

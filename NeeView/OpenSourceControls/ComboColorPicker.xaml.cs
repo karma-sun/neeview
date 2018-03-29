@@ -151,6 +151,7 @@ namespace OpenSourceControls
 
             // And some colors with transparency
             AddColor(Color.FromArgb(128, 0, 0, 0), "Black 50%");
+            AddColor(Color.FromArgb(128, 128, 128, 128), "Gray 50%");
             AddColor(Color.FromArgb(128, 255, 255, 255), "White 50%");
             AddColor(Color.FromArgb(128, 255, 0, 0), "Red 50%");
             AddColor(Color.FromArgb(128, 0, 255, 0), "Green 50%");

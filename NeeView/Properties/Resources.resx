@@ -1828,7 +1828,7 @@ Is it OK? </value>
   <data name="EffectKeepDot" xml:space="preserve">
     <value>Keep dot</value>
   </data>
-  <data name="EffectLockAspect" xml:space="preserve">
+  <data name="ParamPictureCustomLockAspect" xml:space="preserve">
     <value>Lock aspect</value>
   </data>
   <data name="EffectName" xml:space="preserve">

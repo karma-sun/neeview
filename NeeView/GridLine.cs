@@ -18,8 +18,16 @@ namespace NeeView
             set { if (SetProperty(ref _isEnabled, value)) RaisePropertyChanged(nameof(Content)); }
         }
 
+        private Color _color = Color.FromArgb(0x80, 0x80, 0x80, 0x80);
+        [PropertyMember("@ParamGridLineColor"), DefaultValue(typeof(Color), "#80808080")]
+        public Color Color
+        {
+            get { return _color; }
+            set { if (SetProperty(ref _color, value)) RaisePropertyChanged(nameof(Content)); }
+        }
+
         private int _divX = 8;
-        [PropertyRange("@ParamGridLineDivX", 1, 50, TickFrequency = 1)]
+        [PropertyRange("@ParamGridLineDivX", 1, 50, TickFrequency = 1), DefaultValue(8)]
         public int DivX
         {
             get { return _divX; }
@@ -27,7 +35,7 @@ namespace NeeView
         }
 
         private int _divY = 8;
-        [PropertyRange("@ParamGridLineDivY", 1, 50, TickFrequency = 1)]
+        [PropertyRange("@ParamGridLineDivY", 1, 50, TickFrequency = 1), DefaultValue(8)]
         public int DivY
         {
             get { return _divY; }
@@ -35,20 +43,13 @@ namespace NeeView
         }
 
         private bool _isSquare;
-        [PropertyMember("@ParamGridLineIsSquare")]
+        [PropertyMember("@ParamGridLineIsSquare"), DefaultValue(false)]
         public bool IsSquare
         {
             get { return _isSquare; }
             set { if (SetProperty(ref _isSquare, value)) RaisePropertyChanged(nameof(Content)); }
         }
 
-        private Color _color = Color.FromArgb(0x80, 0x80, 0x80, 0x80);
-        [PropertyMember("@ParamGridLineColor")]
-        public Color Color
-        {
-            get { return _color; }
-            set { if (SetProperty(ref _color, value)) RaisePropertyChanged(nameof(Content)); }
-        }
 
         private double _width;
         public double Width

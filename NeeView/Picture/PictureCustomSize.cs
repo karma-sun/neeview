@@ -31,15 +31,6 @@ namespace NeeView
         }
 
         /// <summary>
-        /// 縦横比を固定する
-        /// </summary>
-        public bool IsUniformed
-        {
-            get { return _IsUniformed; }
-            set { if (_IsUniformed != value) { _IsUniformed = value; RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
         /// カスタムサイズ
         /// </summary>
         public Size Size
@@ -68,6 +59,16 @@ namespace NeeView
         {
             get { return (int)_Size.Height; }
             set { if (value != _Size.Height) { Size = new Size(_Size.Width, value); } }
+        }
+
+        /// <summary>
+        /// 縦横比を固定する
+        /// </summary>
+        [PropertyMember("@ParamPictureCustomLockAspect")]
+        public bool IsUniformed
+        {
+            get { return _IsUniformed; }
+            set { if (_IsUniformed != value) { _IsUniformed = value; RaisePropertyChanged(); } }
         }
 
         #endregion

@@ -10,8 +10,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="300" MinWidth="200" 
              Background="{DynamicResource NVBackground}"
-             Foreground="{DynamicResource NVForeground}"
-             >
+             Foreground="{DynamicResource NVForeground}">
 
     <UserControl.Resources>
 
@@ -27,7 +26,7 @@
             <DataTemplate DataType="{x:Type nvp:PropertyValue_Boolean}">
                 <CheckBox IsChecked="{Binding Value}" Content="{Binding Value}" />
             </DataTemplate>
-            
+
             <Style x:Key="BlackStyle" TargetType="UserControl">
                 <Setter Property="Background" Value="#FF101010"/>
                 <Setter Property="Foreground" Value="White"/>
@@ -43,6 +42,16 @@
                 <Setter Property="CheckedBrush" Value="{DynamicResource NVButtonForeground}"/>
                 <Setter Property="Margin" Value="10,0"/>
                 <Setter Property="Height" Value="20"/>
+            </Style>
+
+            <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
+            </Style>
+
+            <Style TargetType="TextBox">
+                <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
+                <Setter Property="Background" Value="{DynamicResource NVBaseBrush}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
+                <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture"/>
             </Style>
 
         </ResourceDictionary>
@@ -65,38 +74,8 @@
                     <TextBlock Text="{x:Static properties:Resources.EffectCustomSize}" VerticalAlignment="Center" />
                 </DockPanel>
 
-                <StackPanel Visibility="{Binding PictureProfile.CustomSize.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
-
-                    <Grid Margin="10,0,0,5">
-                        <Grid.Resources>
-                            <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
-                            </Style>
-                            <Style TargetType="TextBox">
-                                <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
-                                <Setter Property="Background" Value="{DynamicResource NVBaseBrush}"/>
-                                <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
-                                <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture"/>
-                            </Style>
-                        </Grid.Resources>
-
-                        <nvp:PropertyInspector Document="{Binding CustomSizeProfile}" IsResetButtonVisible="False" >
-                            <nvp:PropertyInspector.Style>
-                                <Style TargetType="nvp:PropertyInspector">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding CustomSizeProfile}" Value="{x:Null}">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </nvp:PropertyInspector.Style>
-                        </nvp:PropertyInspector>
-                    </Grid>
-                    
-                    <DockPanel Margin="15,0,0,5">
-                        <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding PictureProfile.CustomSize.IsUniformed}" VerticalAlignment="Center" />
-                        <TextBlock Text="{x:Static properties:Resources.EffectLockAspect}" VerticalAlignment="Center"/>
-                    </DockPanel>
-
+                <StackPanel Margin="10,0,0,5" Visibility="{Binding PictureProfile.CustomSize.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <nvp:PropertyInspector Document="{Binding CustomSizeProfile}" IsResetButtonVisible="False"/>
                 </StackPanel>
 
                 <Separator Background="#4888" Margin="0,10"/>
@@ -118,10 +97,9 @@
 
                     <DockPanel Margin="0,5">
                         <ComboBox  DockPanel.Dock="Right" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}"  Background="{DynamicResource NVBackground}"
-                      ItemsSource="{x:Static local:ResizeInterpolationExtensions.ResizeInterpolationList}" SelectedValue="{Binding ImageFilter.ResizeInterpolation}"/>
+                                   ItemsSource="{x:Static local:ResizeInterpolationExtensions.ResizeInterpolationList}" SelectedValue="{Binding ImageFilter.ResizeInterpolation}"/>
                         <TextBlock Text="{x:Static properties:Resources.EffectResizeInterpolation}" VerticalAlignment="Center" />
                     </DockPanel>
-
 
                     <DockPanel Margin="0,5">
                         <nvc:ToggleSwitch DockPanel.Dock="Right" Style="{StaticResource ToggleSwitchStyle}" IsChecked="{Binding ImageFilter.Sharpen}" VerticalAlignment="Center" />
@@ -129,28 +107,7 @@
                     </DockPanel>
 
                     <Grid Margin="10,0,0,10" Visibility="{Binding ImageFilter.Sharpen, Converter={StaticResource BooleanToVisibilityConverter}}">
-                        <Grid.Resources>
-                            <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
-                            </Style>
-                            <Style TargetType="TextBox">
-                                <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
-                                <Setter Property="Background" Value="{DynamicResource NVBaseBrush}"/>
-                                <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
-                                <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture"/>
-                            </Style>
-                        </Grid.Resources>
-
-                        <nvp:PropertyInspector x:Name="inspectorF" Document="{Binding UnsharpMaskProfile}" IsResetButtonVisible="False" >
-                            <nvp:PropertyInspector.Style>
-                                <Style TargetType="nvp:PropertyInspector">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding UnsharpMaskProfile}" Value="{x:Null}">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </nvp:PropertyInspector.Style>
-                        </nvp:PropertyInspector>
+                        <nvp:PropertyInspector x:Name="inspectorF" Document="{Binding UnsharpMaskProfile}" IsResetButtonVisible="False"/>
                     </Grid>
 
                     <Button x:Name="ResetButton" Style="{StaticResource IconButton}" HorizontalAlignment="Right" Margin="5" Click="Reset">
@@ -166,35 +123,9 @@
                     <TextBlock Text="{x:Static properties:Resources.EffectGrid}" VerticalAlignment="Center" />
                 </DockPanel>
 
-                <StackPanel Visibility="{Binding ContentCanvas.GridLine.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
-
-                    <Grid Margin="10,0,0,5">
-                        <Grid.Resources>
-                            <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
-                            </Style>
-                            <Style TargetType="TextBox">
-                                <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
-                                <Setter Property="Background" Value="{DynamicResource NVBaseBrush}"/>
-                                <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
-                                <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture"/>
-                            </Style>
-                        </Grid.Resources>
-
-                        <nvp:PropertyInspector Document="{Binding GridLineProfile}" IsResetButtonVisible="False" IsSwitchMode="True" >
-                            <nvp:PropertyInspector.Style>
-                                <Style TargetType="nvp:PropertyInspector">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding GridLineProfile}" Value="{x:Null}">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </nvp:PropertyInspector.Style>
-                        </nvp:PropertyInspector>
-                    </Grid>
-
+                <StackPanel Margin="10,0,0,5" Visibility="{Binding ContentCanvas.GridLine.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <nvp:PropertyInspector Document="{Binding GridLineProfile}" IsResetButtonVisible="True"/>
                 </StackPanel>
-
 
                 <Separator Background="#4888" Margin="0,10"/>
 
@@ -210,16 +141,6 @@
                         <TextBlock Text="{x:Static properties:Resources.EffectEffectType}" VerticalAlignment="Center" />
                     </DockPanel>
                     <Grid Margin="0,10">
-                        <Grid.Resources>
-                            <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
-                            </Style>
-                            <Style TargetType="TextBox">
-                                <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
-                                <Setter Property="Background" Value="{DynamicResource NVBaseBrush}"/>
-                                <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
-                                <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture"/>
-                            </Style>
-                        </Grid.Resources>
                         <nvp:PropertyInspector x:Name="inspector" Document="{Binding Model.EffectParameters}"
                                        IsResetButtonVisible="True"
                                        IsHsvMode="{Binding Model.IsHsvMode}">

@@ -1828,7 +1828,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="EffectKeepDot" xml:space="preserve">
     <value>ドットのまま拡大する</value>
   </data>
-  <data name="EffectLockAspect" xml:space="preserve">
+  <data name="ParamPictureCustomLockAspect" xml:space="preserve">
     <value>縦横比を維持</value>
   </data>
   <data name="EffectName" xml:space="preserve">

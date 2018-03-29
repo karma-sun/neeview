@@ -8,6 +8,10 @@
              UseLayoutRounding="True"
              d:DesignHeight="30" d:DesignWidth="300">
 
+    <UserControl.Resources>
+        <local:PropertyValueTemplateSelector x:Key="PropertyValueTemplateSelector"/>
+    </UserControl.Resources>
+
     <Grid x:Name="Root" Margin="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="HeaderGridColumn" Width="1*" MinWidth="50"/>
@@ -18,7 +22,7 @@
                    ToolTip="{Binding Tips, RelativeSource={RelativeSource AncestorType=UserControl}}"
                    TextTrimming="CharacterEllipsis"/>
         <ContentControl  UseLayoutRounding="True" Grid.Column="1" VerticalAlignment="Center" Margin="5,0" IsTabStop="False"
-                        Content="{Binding Value, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                        Content="{Binding Value, RelativeSource={RelativeSource AncestorType=UserControl}}" ContentTemplateSelector="{StaticResource PropertyValueTemplateSelector}" />
     </Grid>
     
 </UserControl>

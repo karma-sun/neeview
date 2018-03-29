@@ -83,6 +83,14 @@ namespace NeeView.Windows.Property
         }
 
 
+        public void SetVisualType<T>(string visualType)
+        {
+            foreach(var proertyValue in  this.PropertyMembers.Select(e => e.TypeValue).Where(e => e is T))
+            {
+                proertyValue.VisualType = visualType;
+            }
+        }
+
 
 
         /// <summary>
@@ -154,4 +162,11 @@ namespace NeeView.Windows.Property
             return (ObsoleteAttribute)Attribute.GetCustomAttributes(info, typeof(ObsoleteAttribute)).FirstOrDefault();
         }
     }
+
+    public static class PropertyVisualType
+    {
+        public const string ToggleSwitch = "ToggleSwitch";
+        public const string ComboColorPicker = "ComboColorPicker";
+    }
+
 }

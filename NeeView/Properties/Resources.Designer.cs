@@ -5210,15 +5210,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Lock aspect に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string EffectLockAspect {
-            get {
-                return ResourceManager.GetString("EffectLockAspect", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Effect に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EffectName {
@@ -9541,6 +9532,15 @@ namespace NeeView.Properties {
         public static string ParamPictureCustomHeight {
             get {
                 return ResourceManager.GetString("ParamPictureCustomHeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Lock aspect に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPictureCustomLockAspect {
+            get {
+                return ResourceManager.GetString("ParamPictureCustomLockAspect", resourceCulture);
             }
         }
         

@@ -17,11 +17,15 @@ namespace NeeView.Windows.Property
             throw new NotSupportedException();
         }
 
-
         public virtual void SetValueFromString(string value)
         {
             throw new NotSupportedException();
         }
+
+        /// <summary>
+        /// 表示形式を指定する文字列
+        /// </summary>
+        public string VisualType { get; set; }
     }
 
 

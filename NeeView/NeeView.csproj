@@ -600,6 +600,7 @@
     <Compile Include="_NeeView\IO\FileShortcut.cs" />
     <Compile Include="Converters\BooleanToCustomVisibilityConverter.cs" />
     <Compile Include="_NeeView\ResourceService.cs" />
+    <Compile Include="_NeeView\Windows\Property\PropertyValueTemplateSelector.cs" />
     <Compile Include="_NeeView\Windows\VectorExtensions.cs" />
     <Compile Include="IndexValue.cs" />
     <Compile Include="_NeeLaboratory\Windows\Media\VisualTreeUtility.cs" />

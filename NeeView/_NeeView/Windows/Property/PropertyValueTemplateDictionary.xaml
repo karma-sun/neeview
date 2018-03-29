@@ -1,35 +1,15 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:nlc="clr-namespace:NeeView.Windows.Controls"
+                    xmlns:osc="clr-namespace:OpenSourceControls"
                     xmlns:local="clr-namespace:NeeView.Windows.Property">
-
 
     <DataTemplate DataType="{x:Type local:PropertyValue_Object}">
         <ContentControl Content="{Binding Value}" Foreground="Gray"/>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type local:PropertyValue_Boolean}">
-        <ContentControl>
-            <ContentControl.Style>
-                <Style TargetType="ContentControl">
-                    <Setter Property="Content">
-                        <Setter.Value>
-                            <CheckBox IsChecked="{Binding Value}"/>
-                        </Setter.Value>
-                    </Setter>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsSwitchMode, RelativeSource={RelativeSource AncestorType=UserControl,AncestorLevel=2}}" Value="True">
-                            <Setter Property="Content">
-                                <Setter.Value>
-                                    <nlc:ToggleSwitch IsChecked="{Binding Value}" VerticalAlignment="Center" Height="20" Fill="{DynamicResource NVBackground}" Stroke="{DynamicResource NVForeground}" CheckedBrush="{DynamicResource NVButtonForeground}" />
-                                </Setter.Value>
-                            </Setter>
-                            <Setter Property="HorizontalAlignment" Value="Right"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </ContentControl.Style>
-        </ContentControl>
+        <CheckBox IsChecked="{Binding Value}"/>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type local:PropertyValue_String}">
@@ -75,12 +55,23 @@
 
     <!-- TODO: IsHsvModeの参照の一般化 -->
     <DataTemplate DataType="{x:Type local:PropertyValue_Color}">
-        <nlc:ColorPicker Color="{Binding Value, Mode=TwoWay}"
-                                 IsHsvMode="{Binding IsHsvMode, RelativeSource={RelativeSource AncestorType=UserControl,AncestorLevel=2}}"/>
+        <nlc:ColorPicker Color="{Binding Value, Mode=TwoWay}" IsHsvMode="{Binding IsHsvMode, RelativeSource={RelativeSource AncestorType=UserControl,AncestorLevel=2}}"/>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type local:PropertyValue_FilePath}">
         <nlc:FileNameBox Text="{Binding Value, Mode=TwoWay}" Filter="{Binding Filter}" IsDirectory="{Binding IsDirectory}"/>
+    </DataTemplate>
+
+
+    <DataTemplate x:Key="PropertyValue_Boolean_ToggleSwitch">
+        <nlc:ToggleSwitch IsChecked="{Binding Value}" Height="20" HorizontalAlignment="Right" VerticalAlignment="Center" Fill="{DynamicResource NVBackground}" Stroke="{DynamicResource NVForeground}" CheckedBrush="{DynamicResource NVButtonForeground}"/>
+    </DataTemplate>
+
+    <DataTemplate x:Key="PropertyValue_Color_ComboColorPicker">
+        <DockPanel>
+            <TextBox Text="{Binding Value}" MinWidth="100" BorderThickness="1,1,0,1" Padding="0,0,2,0" VerticalContentAlignment="Center"/>
+            <osc:ComboColorPicker SelectedColor="{Binding Value, Mode=TwoWay}"/>
+        </DockPanel>
     </DataTemplate>
 
 </ResourceDictionary>

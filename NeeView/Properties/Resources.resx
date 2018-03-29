@@ -388,7 +388,7 @@
     <value>Page Scrolls the image in the next direction. If it is not possible to scroll, it will move to the next page. When using a loupe, only move pages.</value>
   </data>
   <data name="CommandNextSizePage" xml:space="preserve">
-    <value>Next N</value>
+    <value>Next num</value>
   </data>
   <data name="CommandNextSizePageNote" xml:space="preserve">
     <value>Move to the next direction by the set number of pages.</value>
@@ -493,7 +493,7 @@
     <value>Scroll the image forward in the page. If it is not possible to scroll, it will move to the previous page. When using a loupe, only move pages.</value>
   </data>
   <data name="CommandPrevSizePage" xml:space="preserve">
-    <value>Prev N</value>
+    <value>Prev num</value>
   </data>
   <data name="CommandPrevSizePageNote" xml:space="preserve">
     <value>It moves forward by the set number of pages.</value>
@@ -4025,5 +4025,11 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="CommandToggleGridMenu" xml:space="preserve">
     <value>Grid</value>
+  </data>
+  <data name="ParamCommandParameterScrollPageStop" xml:space="preserve">
+    <value>Scroll stop</value>
+  </data>
+  <data name="ParamCommandParameterScrollPageStopTips" xml:space="preserve">
+    <value>When it is executed continuously for a short time, it does not move the page.</value>
   </data>
 </root>

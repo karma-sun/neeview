@@ -4026,4 +4026,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="CommandToggleGridMenu" xml:space="preserve">
     <value>グリッド</value>
   </data>
+  <data name="ParamCommandParameterScrollPageStop" xml:space="preserve">
+    <value>スクロール停止</value>
+  </data>
+  <data name="ParamCommandParameterScrollPageStopTips" xml:space="preserve">
+    <value>短時間で連続で実行された時はページ移動を行いません。</value>
+  </data>
 </root>

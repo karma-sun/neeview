@@ -72,12 +72,13 @@ namespace NeeView
         private bool _isIsHidePageSlider;
         private bool _isHidePanel; // = true;
 
-        //
         private bool _IsHidePanelInFullscreen = true;
         private bool _IsVisibleWindowTitle = true;
         private bool _isVisibleAddressBar = true;
         private bool _isVisibleBusy = true;
 
+        private DateTime _scrollPageTime;
+        private const double _scrollPageMargin = 100.0;
 
         #endregion
 
@@ -378,9 +379,16 @@ namespace NeeView
 
             if (!isScrolled)
             {
-                ContentCanvas.Current.NextViewOrigin = (BookSetting.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightBottom : DragViewOrigin.LeftBottom;
-                BookOperation.Current.PrevPage();
+                var span = DateTime.Now - _scrollPageTime;
+                if (!parameter.IsStop || _scrollPageMargin < span.TotalMilliseconds)
+                {
+                    ContentCanvas.Current.NextViewOrigin = (BookSetting.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightBottom : DragViewOrigin.LeftBottom;
+                    BookOperation.Current.PrevPage();
+                    return;
+                }
             }
+
+            _scrollPageTime = DateTime.Now;
         }
 
         /// <summary>
@@ -396,9 +404,16 @@ namespace NeeView
 
             if (!isScrolled)
             {
-                ContentCanvas.Current.NextViewOrigin = (BookSetting.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightTop : DragViewOrigin.LeftTop;
-                BookOperation.Current.NextPage();
+                var span = DateTime.Now - _scrollPageTime;
+                if (!parameter.IsStop || _scrollPageMargin < span.TotalMilliseconds)
+                {
+                    ContentCanvas.Current.NextViewOrigin = (BookSetting.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightTop : DragViewOrigin.LeftTop;
+                    BookOperation.Current.NextPage();
+                    return;
+                }
             }
+
+            _scrollPageTime = DateTime.Now;
         }
 
 

@@ -871,7 +871,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Next N に類似しているローカライズされた文字列を検索します。
+        ///   Next num に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandNextSizePage {
             get {
@@ -1186,7 +1186,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Prev N に類似しているローカライズされた文字列を検索します。
+        ///   Prev num に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandPrevSizePage {
             get {
@@ -8056,6 +8056,24 @@ namespace NeeView.Properties {
         public static string ParamCommandParameterScrollPageNTips {
             get {
                 return ResourceManager.GetString("ParamCommandParameterScrollPageNTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scroll stop に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterScrollPageStop {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterScrollPageStop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   When it is executed continuously for a short time, it does not move the page. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterScrollPageStopTips {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterScrollPageStopTips", resourceCulture);
             }
         }
         

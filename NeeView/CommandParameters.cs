@@ -287,6 +287,11 @@ namespace NeeView
         }
         private int _scroll;
 
+        [DataMember]
+        [PropertyMember("@ParamCommandParameterScrollPageStop", Tips = "@ParamCommandParameterScrollPageStopTips" )]
+        public bool IsStop { get; set; }
+
+
         [OnDeserializing]
         private void OnDeserializing(StreamingContext context)
         {

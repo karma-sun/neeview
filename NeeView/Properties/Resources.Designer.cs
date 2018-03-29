@@ -4751,6 +4751,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Deletion of thumbnail cache failed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogCacheDeletedFailedTitle {
+            get {
+                return ResourceManager.GetString("DialogCacheDeletedFailedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Thumbnail cache deleted に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DialogCacheDeletedTitle {
@@ -9230,7 +9239,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Valid values ​​are 1 to 4 に類似しているローカライズされた文字列を検索します。
+        ///   The recommended value is 2 to 4 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamJobEngineWorkerSizeTips {
             get {

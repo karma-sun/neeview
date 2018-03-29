@@ -34,6 +34,11 @@ namespace NeeView
 
             InitializeComponent();
             this.Root.DataContext = _vm = new DevInfoViewModel();
+
+            _vm.WorkersChanged += (s, e) =>
+            {
+                this.items.Items.Refresh();
+            };
         }
 
         //
@@ -46,6 +51,20 @@ namespace NeeView
 
     public class DevInfoViewModel : BindableBase
     {
+        public DevInfoViewModel()
+        {
+            JobEngine.Current.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(JobEngine.Workers))
+                {
+                    WorkersChanged?.Invoke(this, null);
+                }
+            };
+        }
+
+        public event EventHandler WorkersChanged;
+
+
         public Development Development => Development.Current;
         public JobEngine JobEngine => JobEngine.Current;
         public DragTransform DragTransform => DragTransform.Current;

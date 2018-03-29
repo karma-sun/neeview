@@ -111,14 +111,26 @@ namespace NeeView.Setting
 
         private void RemoveCache_Executed(UIElement element)
         {
-            ThumbnailCache.Current.Remove();
-
-            var dialog = new MessageDialog("", Properties.Resources.DialogCacheDeletedTitle);
-            if (element != null)
+            try
             {
-                dialog.Owner = Window.GetWindow(element);
+                ThumbnailCache.Current.Remove();
+
+                var dialog = new MessageDialog("", Properties.Resources.DialogCacheDeletedTitle);
+                if (element != null)
+                {
+                    dialog.Owner = Window.GetWindow(element);
+                }
+                dialog.ShowDialog();
             }
-            dialog.ShowDialog();
+            catch(Exception ex)
+            {
+                var dialog = new MessageDialog(ex.Message, Properties.Resources.DialogCacheDeletedFailedTitle);
+                if (element != null)
+                {
+                    dialog.Owner = Window.GetWindow(element);
+                }
+                dialog.ShowDialog();
+            }
         }
 
         #endregion

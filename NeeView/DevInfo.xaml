@@ -7,17 +7,14 @@
              mc:Ignorable="d" 
              DockPanel.Dock="Bottom"
              d:DesignHeight="300" d:DesignWidth="300">
-    
+
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <local:PointToDispStringConverter x:Key="PointToDispStringConverter"/>
     </UserControl.Resources>
-    
-    <DockPanel x:Name="Root" Panel.ZIndex="100" Background="White"
-                  Visibility="{Binding Development.IsVisibleDevInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
 
+    <DockPanel x:Name="Root" Panel.ZIndex="100" Background="White" Visibility="{Binding Development.IsVisibleDevInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
         <TextBlock DockPanel.Dock="Top" Text="{Binding Message}"/>
-
         <TextBlock DockPanel.Dock="Top" Text="{Binding DragTransform.Position, Converter={StaticResource PointToDispStringConverter}}"/>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">
             <Button Content="Update" Width="100" Command="{Binding DevUpdateContentPosition}"/>
@@ -25,9 +22,12 @@
         </StackPanel>
         <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.JobCount}"/>
         <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Message}"/>
-        <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[0].Message}"/>
-        <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[1].Message}"/>
-        <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[2].Message}"/>
-        <TextBlock DockPanel.Dock="Top" Text="{Binding JobEngine.Workers[3].Message}"/>
+        <ItemsControl x:Name="items" ItemsSource="{Binding JobEngine.Workers}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Message}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </DockPanel>
 </UserControl>

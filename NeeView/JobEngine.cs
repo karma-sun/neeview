@@ -286,7 +286,7 @@ namespace NeeView
         private JobContext _context;
 
         // 最大ワーカー数
-        public readonly int _MaxWorkerSize = 4;
+        private readonly int _maxWorkerSize;
 
 
         /// <summary>
@@ -298,7 +298,7 @@ namespace NeeView
             get { return _workerSize; }
             set
             {
-                var size = MathUtility.Clamp(value, 1, _MaxWorkerSize);
+                var size = MathUtility.Clamp(value, 1, _maxWorkerSize);
                 if (_workerSize != size)
                 {
                     _workerSize = size;
@@ -319,10 +319,12 @@ namespace NeeView
         // コンストラクタ
         public JobEngine()
         {
+            _maxWorkerSize = Math.Max(4, Environment.ProcessorCount);
+
             Current = this;
 
             _context = new JobContext();
-            Workers = new JobWorker[_MaxWorkerSize];
+            Workers = new JobWorker[_maxWorkerSize];
         }
 
         private bool _isActive;
@@ -348,12 +350,12 @@ namespace NeeView
         // 稼働ワーカー数変更
         public void ChangeWorkerSize(int size)
         {
-            Debug.Assert(0 <= size && size <= _MaxWorkerSize);
+            Debug.Assert(0 <= size && size <= _maxWorkerSize);
             Debug.WriteLine("JobWorker: " + size);
 
             var primaryCount = (size > 2) ? 2 : size - 1;
 
-            for (int i = 0; i < _MaxWorkerSize; ++i)
+            for (int i = 0; i < _maxWorkerSize; ++i)
             {
                 if (i < size)
                 {
@@ -384,6 +386,7 @@ namespace NeeView
             // イベント待ち解除
             _context.RaiseJobChanged();
 
+            RaisePropertyChanged(nameof(Workers));
             NotifyStatusChanged();
         }
 
@@ -504,7 +507,7 @@ namespace NeeView
     /// <summary>
     /// ジョブワーカー
     /// </summary>
-    public class JobWorker : IDisposable
+    public class JobWorker : BindableBase, IDisposable
     {
         #region 開発用
 
@@ -518,14 +521,12 @@ namespace NeeView
         }
 
         // 状態メッセージ
-        #region Property: Message
         private string _message;
         public string Message
         {
             get { return _message; }
-            set { _message = value; NotifyStatusChanged(); }
+            set { if (SetProperty(ref _message, value)) NotifyStatusChanged(); }
         }
-        #endregion
 
         #endregion
 
@@ -601,8 +602,8 @@ namespace NeeView
 #else
             // sample: Thread版
             Thread t1;
-            t1 = new Thread(new ThreadStart(WorkerExecute));
-            t1.Priority = ThreadPriority.Normal;
+            t1 = new Thread(new ThreadStart(() => WorkerExecute()));
+            t1.Priority = IsPrimary ? ThreadPriority.Normal : ThreadPriority.BelowNormal;
             t1.IsBackground = true;
             t1.Start();
 #endif

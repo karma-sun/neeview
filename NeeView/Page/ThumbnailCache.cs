@@ -98,12 +98,15 @@ namespace NeeView
         /// <param name="filename"></param>
         internal void Open()
         {
-            if (_connection != null) return;
+            lock (_lock)
+            {
+                if (_connection != null) return;
 
-            _connection = new SQLiteConnection($"Data Source={_filename}");
-            _connection.Open();
+                _connection = new SQLiteConnection($"Data Source={_filename}");
+                _connection.Open();
 
-            CreateTable();
+                CreateTable();
+            }
         }
 
         /// <summary>
@@ -111,11 +114,14 @@ namespace NeeView
         /// </summary>
         internal void Close()
         {
-            if (_connection != null)
+            lock (_lock)
             {
-                _connection.Close();
-                _connection.Dispose();
-                _connection = null;
+                if (_connection != null)
+                {
+                    _connection.Close();
+                    _connection.Dispose();
+                    _connection = null;
+                }
             }
         }
 
@@ -227,7 +233,7 @@ namespace NeeView
         {
             if (!IsEnabled) return;
 
-            if (_connection == null) Open();
+            Open();
 
             using (SQLiteCommand command = _connection.CreateCommand())
             {
@@ -247,7 +253,7 @@ namespace NeeView
         {
             if (!IsEnabled) return null;
 
-            if (_connection == null) Open();
+            Open();
 
             using (SQLiteCommand command = _connection.CreateCommand())
             {

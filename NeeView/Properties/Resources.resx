@@ -3158,7 +3158,7 @@ Details of the error are output to the following file.
     <value>Number of threads used for image loading</value>
   </data>
   <data name="ParamJobEngineWorkerSizeTips" xml:space="preserve">
-    <value>Valid values ​​are 1 to 4</value>
+    <value>The recommended value is 2 to 4</value>
   </data>
   <data name="ParamLanguage" xml:space="preserve">
     <value>Language</value>
@@ -4031,5 +4031,8 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="ParamCommandParameterScrollPageStopTips" xml:space="preserve">
     <value>When it is executed continuously for a short time, it does not move the page.</value>
+  </data>
+  <data name="DialogCacheDeletedFailedTitle" xml:space="preserve">
+    <value>Deletion of thumbnail cache failed.</value>
   </data>
 </root>

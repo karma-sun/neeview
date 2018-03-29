@@ -3158,7 +3158,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>画像読み込みに使用するスレッド数</value>
   </data>
   <data name="ParamJobEngineWorkerSizeTips" xml:space="preserve">
-    <value>有効値は1～4です</value>
+    <value>推奨値は2～4です</value>
   </data>
   <data name="ParamLanguage" xml:space="preserve">
     <value>言語</value>
@@ -4031,5 +4031,8 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="ParamCommandParameterScrollPageStopTips" xml:space="preserve">
     <value>短時間で連続で実行された時はページ移動を行いません。</value>
+  </data>
+  <data name="DialogCacheDeletedFailedTitle" xml:space="preserve">
+    <value>サムネイルキャッシュの削除に失敗しました。</value>
   </data>
 </root>

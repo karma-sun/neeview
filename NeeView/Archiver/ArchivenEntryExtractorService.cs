@@ -15,18 +15,9 @@ namespace NeeView
     /// </summary>
     public class ArchivenEntryExtractorService
     {
-        /// <summary>
-        ///  現在のシステムオブジェクト
-        /// </summary>
-        public static ArchivenEntryExtractorService _current;
-        public static ArchivenEntryExtractorService Current
-        {
-            get
-            {
-                _current = _current ?? new ArchivenEntryExtractorService();
-                return _current;
-            }
-        }
+        public static ArchivenEntryExtractorService Current { get; } = new ArchivenEntryExtractorService();
+
+        #region Fields
 
         // lock object
         private object _lock = new object();
@@ -36,11 +27,13 @@ namespace NeeView
         /// </summary>
         private Dictionary<string, ArchiveEntryExtractor> _collection = new Dictionary<string, ArchiveEntryExtractor>();
 
+        #endregion
+
+        #region Methods
+
         /// <summary>
         /// 指定したキーが存在するか
         /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
         private bool Contains(string key)
         {
             {
@@ -51,7 +44,6 @@ namespace NeeView
         /// <summary>
         /// 指定したキーの削除
         /// </summary>
-        /// <param name="key"></param>
         /// <returns>削除されたオブジェクトを返す。ない場合はnull</returns>
         private ArchiveEntryExtractor Remove(string key)
         {
@@ -73,8 +65,6 @@ namespace NeeView
         /// <summary>
         /// キーの追加
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="extractor"></param>
         private void Add(string key, ArchiveEntryExtractor extractor)
         {
             lock (_lock)
@@ -88,14 +78,11 @@ namespace NeeView
         /// 展開
         /// テンポラリファイルはキャッシュを活用する
         /// </summary>
-        /// <param name="entry"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
         public async Task<TempFile> ExtractAsync(ArchiveEntry entry, CancellationToken token)
         {
             var tempFile = TempFileCache.Current.Get(entry.Ident);
             if (tempFile != null) return tempFile;
-            
+
             tempFile = new TempFile(await ExtractRawAsync(entry, token));
             TempFileCache.Current.Add(entry.Ident, tempFile);
             return tempFile;
@@ -105,8 +92,6 @@ namespace NeeView
         /// 展開
         /// ファイルはテンポラリに生成される
         /// </summary>
-        /// <param name="entry"></param>
-        /// <param name="token"></param>
         /// <returns>展開後されたファイル名</returns>
         public async Task<string> ExtractRawAsync(ArchiveEntry entry, CancellationToken token)
         {
@@ -143,8 +128,6 @@ namespace NeeView
         /// 展開後処理
         /// 不要ならば展開ファイルを削除
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Extractor_Completed(object sender, ArchiveEntryExtractorEventArgs e)
         {
             var key = (sender as ArchiveEntryExtractor)?.Entry.Ident;
@@ -160,6 +143,7 @@ namespace NeeView
                 }
             }
         }
+
+        #endregion
     }
-    
 }

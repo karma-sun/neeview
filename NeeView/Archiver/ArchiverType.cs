@@ -13,8 +13,6 @@
         PdfArchiver,
         SusieArchiver,
         MediaArchiver,
-
-        DefaultArchiver = ZipArchiver
     }
 
     public static class ArchiverTypeExtensions

@@ -13,17 +13,8 @@ namespace NeeView
     /// </summary>
     public class BitmapExif
     {
-        public string ShotInfo { get; set; }
-        public int ISOSpeedRatings { get; set; }
-        public string Maker { get; set; }
-        public string Model { get; set; }
-        public DateTime? LastWriteTime { get; set; }
+        #region Constructors
 
-        public Fraction ExposureTime { get; set; }
-        public Fraction FNumber { get; set; }
-        public Fraction FocalLength { get; set; }
-
-        //
         public BitmapExif(BitmapMetadata metadata)
         {
             if (metadata == null) return;
@@ -62,5 +53,22 @@ namespace NeeView
             }
             if (!string.IsNullOrEmpty(shotInfo)) ShotInfo = shotInfo;
         }
+
+        #endregion
+
+        #region Properties
+
+        public string ShotInfo { get; set; }
+        public int ISOSpeedRatings { get; set; }
+        public string Maker { get; set; }
+        public string Model { get; set; }
+        public DateTime? LastWriteTime { get; set; }
+
+        public Fraction ExposureTime { get; set; }
+        public Fraction FNumber { get; set; }
+        public Fraction FocalLength { get; set; }
+
+        #endregion
+
     }
 }

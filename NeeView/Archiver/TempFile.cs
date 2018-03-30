@@ -34,6 +34,8 @@ namespace NeeView
 
         #endregion
 
+        #region Methods
+
         /// <summary>
         /// 最終アクセス日時更新
         /// </summary>
@@ -41,6 +43,8 @@ namespace NeeView
         {
             this.LastAccessTime = DateTime.Now;
         }
+
+        #endregion
 
         #region ITrash Support
 

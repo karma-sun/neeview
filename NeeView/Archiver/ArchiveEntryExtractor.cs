@@ -23,16 +23,32 @@ namespace NeeView
     /// </summary>
     public class ArchiveEntryExtractor
     {
+        #region Fields
+
+        private Task _action;
+
+        #endregion
+
+
+        #region Constructors
+
+        public ArchiveEntryExtractor(ArchiveEntry entry)
+        {
+            Entry = entry;
+        }
+
+        #endregion
+
+        #region Events
+
         /// <summary>
         /// 展開完了イベント
         /// </summary>
         public event EventHandler<ArchiveEntryExtractorEventArgs> Completed;
 
-        /// <summary>
-        /// 非同期アクション
-        /// </summary>
-        //private Utility.AsynchronousAction _action;
-        private Task _action;
+        #endregion
+
+        #region Properties
 
         /// <summary>
         /// 元になるArchiveEntry
@@ -49,21 +65,10 @@ namespace NeeView
         /// </summary>
         public bool IsActive => _action != null;
 
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="entry"></param>
-        public ArchiveEntryExtractor(ArchiveEntry entry)
-        {
-            Entry = entry;
-        }
+        #endregion
 
-        /// <summary>
-        /// extractor
-        /// </summary>
-        /// <param name="path"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
+        #region Methods
+
         public async Task<string> ExtractAsync(string path, CancellationToken token)
         {
             ExtractFileName = path ?? throw new ArgumentNullException(nameof(path));
@@ -90,19 +95,15 @@ namespace NeeView
             return ExtractFileName;
         }
 
-        /// <summary>
-        /// wait
-        /// </summary>
-        /// <param name="token"></param>
-        /// <returns></returns>
         public async Task<string> WaitAsync(CancellationToken token)
         {
             Debug.Assert(_action != null);
 
-            //await _action.WaitAsync(token);
             await TaskUtils.WaitAsync(_action, token);
 
             return ExtractFileName;
         }
+
+        #endregion
     }
 }

@@ -16,6 +16,9 @@ namespace NeeView
         [PropertyMember("@ParamSidePanelIsLeftRightKeyEnabled", Tips = "@ParamSidePanelIsLeftRightKeyEnabledTips")]
         public bool IsLeftRightKeyEnabled { get; set; } = true;
 
+        [PropertyMember("@ParamSidePanelHitTestMargin", Tips = "@ParamSidePanelHitTestMarginTips")]
+        public double HitTestMargin { get; set; } = 32.0;
+
         #region Memento
 
         [DataContract]

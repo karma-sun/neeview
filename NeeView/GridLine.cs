@@ -122,7 +122,6 @@ namespace NeeView
                 canvas.Children.Add(CreatePath(new Point(0, i), new Point(Width, i), stroke));
             }
 
-
             return canvas;
         }
 

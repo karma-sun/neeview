@@ -75,9 +75,20 @@ namespace NeeView
         [PropertyMember("@ParamIsRestoreSecondWindow", Tips = "@ParamIsRestoreSecondWindowTips")]
         public bool IsRestoreSecondWindow { get; set; } = true;
 
-        // 履歴、ブックマーク、ページマークを保存しない
-        [PropertyMember("@ParamIsDisableSave", Tips = "@ParamIsDisableSaveTips")]
+        [Obsolete]
         public bool IsDisableSave { get; set; }
+
+        // 履歴データの保存
+        [PropertyMember("@ParamIsSaveHistory")]
+        public bool IsSaveHistory { get; set; }
+
+        // ブックマークの保存
+        [PropertyMember("@ParamIsSaveBookmark")]
+        public bool IsSaveBookmark { get; set; }
+
+        // ページマークの保存
+        [PropertyMember("@ParamIsSavePagemark")]
+        public bool IsSavePagemark { get; set; }
 
         // パネルやメニューが自動的に消えるまでの時間(秒)
         [PropertyMember("@ParamAutoHideDelayTime")]
@@ -113,6 +124,9 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
+            [DataMember]
+            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+
             [DataMember, DefaultValue(false)]
             public bool IsMultiBootEnabled { get; set; }
 
@@ -125,8 +139,18 @@ namespace NeeView
             [DataMember, DefaultValue(true)]
             public bool IsNetworkEnabled { get; set; }
 
-            [DataMember, DefaultValue(false)]
+            [Obsolete]
+            [DataMember(EmitDefaultValue = false)]
             public bool IsDisableSave { get; set; }
+
+            [DataMember, DefaultValue(true)]
+            public bool IsSaveHistory { get; set; }
+
+            [DataMember, DefaultValue(true)]
+            public bool IsSaveBookmark { get; set; }
+
+            [DataMember, DefaultValue(true)]
+            public bool IsSavePagemark { get; set; }
 
             [DataMember, DefaultValue(true)]
             public bool IsIgnoreImageDpi { get; set; }
@@ -163,6 +187,25 @@ namespace NeeView
 
                 this.Language = LanguageExtensions.GetLanguage(CultureInfo.CurrentCulture.Name);
             }
+
+#pragma warning disable CS0612
+
+            [OnDeserialized]
+            private void Deserialized(StreamingContext c)
+            {
+                // before ver.30
+                if (_Version < Config.GenerateProductVersionNumber(30, 0, 0))
+                {
+                    if (IsDisableSave)
+                    {
+                        IsSaveHistory = false;
+                        IsSaveBookmark = false;
+                        IsSavePagemark = false;
+                    }
+                }
+            }
+
+#pragma warning restore CS0612
         }
 
         //
@@ -174,7 +217,9 @@ namespace NeeView
             memento.IsSaveWindowPlacement = this.IsSaveWindowPlacement;
             memento.IsNetworkEnabled = this.IsNetworkEnabled;
             memento.IsIgnoreImageDpi = this.IsIgnoreImageDpi;
-            memento.IsDisableSave = this.IsDisableSave;
+            memento.IsSaveHistory = this.IsSaveHistory;
+            memento.IsSaveBookmark = this.IsSaveBookmark;
+            memento.IsSavePagemark = this.IsSavePagemark;
             memento.AutoHideDelayTime = this.AutoHideDelayTime;
             memento.WindowChromeFrame = this.WindowChromeFrame;
             memento.IsOpenLastBook = this.IsOpenLastBook;
@@ -194,7 +239,9 @@ namespace NeeView
             this.IsSaveWindowPlacement = memento.IsSaveWindowPlacement;
             this.IsNetworkEnabled = memento.IsNetworkEnabled;
             this.IsIgnoreImageDpi = memento.IsIgnoreImageDpi;
-            this.IsDisableSave = memento.IsDisableSave;
+            this.IsSaveHistory = memento.IsSaveHistory;
+            this.IsSaveBookmark = memento.IsSaveBookmark;
+            this.IsSavePagemark = memento.IsSavePagemark;
             this.AutoHideDelayTime = memento.AutoHideDelayTime;
             this.WindowChromeFrame = memento.WindowChromeFrame;
             this.IsOpenLastBook = memento.IsOpenLastBook;

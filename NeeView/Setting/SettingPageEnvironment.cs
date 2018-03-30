@@ -17,19 +17,8 @@ namespace NeeView.Setting
             {
                 new SettingPageEnvironmentDetail(),
                 new SettingPageEnvironmentSetup(),
+                new SettingPageEnvironmentSaveData(),
             };
-
-
-            if (Config.Current.IsUseLocalApplicationDataFolder && !Config.Current.IsAppxPackage)
-            {
-                this.Children.Add(new SettingPageEnvironmentRemove());
-            }
-            else
-            {
-#if DEBUG
-                this.Children.Add(new SettingPageEnvironmentRemove());
-#endif
-            }
         }
     }
 
@@ -77,16 +66,25 @@ namespace NeeView.Setting
         }
     }
 
-    public class SettingPageEnvironmentRemove : SettingPage
+
+    public class SettingPageEnvironmentSaveData : SettingPage
     {
-        public SettingPageEnvironmentRemove() : base(Properties.Resources.SettingPageGeneralRemove)
+        public SettingPageEnvironmentSaveData() : base(Properties.Resources.SettingPageGeneralSaveData)
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection(Properties.Resources.SettingPageGeneralRemoveRemove,
+                new SettingItemSection(Properties.Resources.SettingPageGeneralSaveDataTypes,
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveHistory))),
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveBookmark))),
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSavePagemark)))),
+
+                new SettingItemSection(Properties.Resources.SettingPageGeneralSaveDataRemove,
                     new SettingItemButton(Properties.Resources.SettingItemRemove, RemoveAllData) { IsContentOnly = true })
                 {
                     Tips = Properties.Resources.SettingItemRemoveTips,
+#if !DEBUG
+                    Visibility = new VisibilityPropertyValue(Config.Current.IsUseLocalApplicationDataFolder && !Config.Current.IsAppxPackage ? Visibility.Visible : Visibility.Collapsed)
+#endif
                 },
             };
         }
@@ -110,7 +108,4 @@ namespace NeeView.Setting
 
         #endregion
     }
-
-
-
 }

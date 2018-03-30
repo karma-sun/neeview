@@ -3079,12 +3079,6 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamIsConfirmRecursiveTips" xml:space="preserve">
     <value>ブックを開いた時に表示可能なページがなく、かつサブフォルダーが存在する場合にサブフォルダーも読み込むかを問い合わせるダイアログを表示します。</value>
   </data>
-  <data name="ParamIsDisableSave" xml:space="preserve">
-    <value>履歴、ブックマーク、ページマークをファイル保存しない</value>
-  </data>
-  <data name="ParamIsDisableSaveTips" xml:space="preserve">
-    <value>ブック情報を一切保存しなくなります。</value>
-  </data>
   <data name="ParamIsFileOperationEnabled" xml:space="preserve">
     <value>ファイル操作有効</value>
   </data>
@@ -3613,12 +3607,6 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="SettingPageGeneralDetailLanguage" xml:space="preserve">
     <value>言語</value>
   </data>
-  <data name="SettingPageGeneralRemove" xml:space="preserve">
-    <value>データの削除</value>
-  </data>
-  <data name="SettingPageGeneralRemoveRemove" xml:space="preserve">
-    <value>ユーザーデータ削除</value>
-  </data>
   <data name="SettingPageHistory" xml:space="preserve">
     <value>履歴</value>
   </data>
@@ -4040,5 +4028,23 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="ParamSidePanelHitTestMargin" xml:space="preserve">
     <value>パネル自動表示判定のエリア幅</value>
+  </data>
+  <data name="ParamIsSaveHistory" xml:space="preserve">
+    <value>履歴リストを保存する</value>
+  </data>
+  <data name="ParamIsSaveBookmark" xml:space="preserve">
+    <value>ブックマークリストを保存する</value>
+  </data>
+  <data name="ParamIsSavePagemark" xml:space="preserve">
+    <value>ページマークリストを保存する</value>
+  </data>
+  <data name="SettingPageGeneralSaveData" xml:space="preserve">
+    <value>保存データ</value>
+  </data>
+  <data name="SettingPageGeneralSaveDataTypes" xml:space="preserve">
+    <value>保存データ</value>
+  </data>
+  <data name="SettingPageGeneralSaveDataRemove" xml:space="preserve">
+    <value>データの削除</value>
   </data>
 </root>

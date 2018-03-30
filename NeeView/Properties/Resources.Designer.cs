@@ -9005,24 +9005,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Do not save history, bookmarks, pagemarks に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamIsDisableSave {
-            get {
-                return ResourceManager.GetString("ParamIsDisableSave", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Book information is not saved. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamIsDisableSaveTips {
-            get {
-                return ResourceManager.GetString("ParamIsDisableSaveTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   File operation enabled に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsFileOperationEnabled {
@@ -9140,11 +9122,38 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Save bookmark list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsSaveBookmark {
+            get {
+                return ResourceManager.GetString("ParamIsSaveBookmark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Restore full screen state に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsSaveFullScreen {
             get {
                 return ResourceManager.GetString("ParamIsSaveFullScreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save history list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsSaveHistory {
+            get {
+                return ResourceManager.GetString("ParamIsSaveHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save pagemark list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsSavePagemark {
+            get {
+                return ResourceManager.GetString("ParamIsSavePagemark", resourceCulture);
             }
         }
         
@@ -10625,20 +10634,29 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Delete data に類似しているローカライズされた文字列を検索します。
+        ///   Save data に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SettingPageGeneralRemove {
+        public static string SettingPageGeneralSaveData {
             get {
-                return ResourceManager.GetString("SettingPageGeneralRemove", resourceCulture);
+                return ResourceManager.GetString("SettingPageGeneralSaveData", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Delete user data に類似しているローカライズされた文字列を検索します。
+        ///   Delete data に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string SettingPageGeneralRemoveRemove {
+        public static string SettingPageGeneralSaveDataRemove {
             get {
-                return ResourceManager.GetString("SettingPageGeneralRemoveRemove", resourceCulture);
+                return ResourceManager.GetString("SettingPageGeneralSaveDataRemove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save data に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageGeneralSaveDataTypes {
+            get {
+                return ResourceManager.GetString("SettingPageGeneralSaveDataTypes", resourceCulture);
             }
         }
         

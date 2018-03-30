@@ -39,8 +39,10 @@ namespace NeeView.Setting
                 new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralFolderList,
                     new SettingItemProperty(PropertyMemberElement.Create(BookHistory.Current, nameof(BookHistory.IsKeepFolderStatus)))),
 
+#if false
                 new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralAdvance,
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsDisableSave)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveHistory)))),
+#endif
             };
         }
 

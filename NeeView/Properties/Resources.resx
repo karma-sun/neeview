@@ -3079,12 +3079,6 @@ Details of the error are output to the following file.
   <data name="ParamIsConfirmRecursiveTips" xml:space="preserve">
     <value>If there is no page that can be displayed when the book is opened, and a subfolder exists, a dialog is displayed asking whether to load the subfolder.</value>
   </data>
-  <data name="ParamIsDisableSave" xml:space="preserve">
-    <value>Do not save history, bookmarks, pagemarks</value>
-  </data>
-  <data name="ParamIsDisableSaveTips" xml:space="preserve">
-    <value>Book information is not saved.</value>
-  </data>
   <data name="ParamIsFileOperationEnabled" xml:space="preserve">
     <value>File operation enabled</value>
   </data>
@@ -3613,12 +3607,6 @@ Details of the error are output to the following file.
   <data name="SettingPageGeneralDetailLanguage" xml:space="preserve">
     <value>Language</value>
   </data>
-  <data name="SettingPageGeneralRemove" xml:space="preserve">
-    <value>Delete data</value>
-  </data>
-  <data name="SettingPageGeneralRemoveRemove" xml:space="preserve">
-    <value>Delete user data</value>
-  </data>
   <data name="SettingPageHistory" xml:space="preserve">
     <value>History</value>
   </data>
@@ -4040,5 +4028,23 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="ParamSidePanelHitTestMargin" xml:space="preserve">
     <value>Area width of automatic panel display judgment</value>
+  </data>
+  <data name="ParamIsSaveHistory" xml:space="preserve">
+    <value>Save history list</value>
+  </data>
+  <data name="ParamIsSaveBookmark" xml:space="preserve">
+    <value>Save bookmark list</value>
+  </data>
+  <data name="ParamIsSavePagemark" xml:space="preserve">
+    <value>Save pagemark list</value>
+  </data>
+  <data name="SettingPageGeneralSaveData" xml:space="preserve">
+    <value>Save data</value>
+  </data>
+  <data name="SettingPageGeneralSaveDataTypes" xml:space="preserve">
+    <value>Save data</value>
+  </data>
+  <data name="SettingPageGeneralSaveDataRemove" xml:space="preserve">
+    <value>Delete data</value>
   </data>
 </root>

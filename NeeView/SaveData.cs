@@ -219,53 +219,44 @@ namespace NeeView
             }
             catch { }
 
-            // 保存しないフラグ
-            bool disableSave = App.Current.IsDisableSave;
-
             try
             {
-                if (disableSave)
+                if (App.Current.IsSaveHistory)
                 {
-                    // 履歴ファイルを削除
-                    FileIO.RemoveFile(_historyFileName);
-                }
-                else
-                {
-                    // 履歴をファイルに保存
                     var bookHistoryMemento = BookHistory.Current.CreateMemento(true);
                     SafetySave(bookHistoryMemento.Save, _historyFileName, false);
                 }
+                else
+                {
+                    FileIO.RemoveFile(_historyFileName);
+                }
             }
             catch { }
 
             try
             {
-                if (disableSave)
+                if (App.Current.IsSaveBookmark)
                 {
-                    // ブックマークファイルを削除
-                    FileIO.RemoveFile(_bookmarkFileName);
-                }
-                else
-                {
-                    // ブックマークをファイルに保存
                     var bookmarkMemento = BookmarkCollection.Current.CreateMemento(true);
                     SafetySave(bookmarkMemento.Save, _bookmarkFileName, false);
                 }
+                else
+                {
+                    FileIO.RemoveFile(_bookmarkFileName);
+                }
             }
             catch { }
 
             try
             {
-                if (disableSave)
+                if (App.Current.IsSavePagemark)
                 {
-                    // ページマークファイルを削除
-                    FileIO.RemoveFile(_pagemarkFileName);
+                    var pagemarkMemento = PagemarkCollection.Current.CreateMemento(true);
+                    SafetySave(pagemarkMemento.Save, _pagemarkFileName, false);
                 }
                 else
                 {
-                    // ページマークをファイルに保存
-                    var pagemarkMemento = PagemarkCollection.Current.CreateMemento(true);
-                    SafetySave(pagemarkMemento.Save, _pagemarkFileName, false);
+                    FileIO.RemoveFile(_pagemarkFileName);
                 }
             }
             catch { }

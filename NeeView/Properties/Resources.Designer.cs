@@ -9635,6 +9635,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Sound when not able to move に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamSeCannotMove {
+            get {
+                return ResourceManager.GetString("ParamSeCannotMove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Use compressed file expansion with 7-Zip に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamSevenZipArchiverIsEnabled {
@@ -10360,6 +10369,15 @@ namespace NeeView.Properties {
         public static string SettingPageBookMove {
             get {
                 return ResourceManager.GetString("SettingPageBookMove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Advanced Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageBookMoveAdvance {
+            get {
+                return ResourceManager.GetString("SettingPageBookMoveAdvance", resourceCulture);
             }
         }
         

@@ -225,6 +225,8 @@ namespace NeeView
             [DataMember]
             public JobEngine.Memento JobEngine { get; set; }
             [DataMember]
+            public SoundPlayerService.Memento SoundPlayerService { get; set; }
+            [DataMember]
             public PictureProfile.Memento PictureProfile { get; set; }
             [DataMember]
             public ZipArchiverProfile.Memento ZipArchiverProfile { get; set; }
@@ -316,6 +318,7 @@ namespace NeeView
             memento.MemoryControl = this.MemoryControl.CreateMemento();
             memento.FileIOProfile = this.FileIOProfile.CreateMemento();
             memento.JobEngine = this.JobEngine.CreateMemento();
+            memento.SoundPlayerService = SoundPlayerService.Current.CreateMemento();
             memento.PictureProfile = this.PictureProfile.CreateMemento();
             memento.ImageFilter = this.ImageFilter.CreateMemento();
             memento.ZipArchiverProfile = this.ZipArchiverProfile.CreateMemento();
@@ -364,6 +367,7 @@ namespace NeeView
             this.MemoryControl.Restore(memento.MemoryControl);
             this.FileIOProfile.Restore(memento.FileIOProfile);
             this.JobEngine.Restore(memento.JobEngine);
+            SoundPlayerService.Current.Restore(memento.SoundPlayerService);
             this.PictureProfile.Restore(memento.PictureProfile);
             this.ImageFilter.Restore(memento.ImageFilter);
             this.ZipArchiverProfile.Restore(memento.ZipArchiverProfile);

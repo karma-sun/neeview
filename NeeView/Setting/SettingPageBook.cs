@@ -92,6 +92,9 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.IsPrioritizePageMove))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.IsMultiplePageMove))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookOperation.Current, nameof(BookOperation.PageEndAction)))),
+
+                new SettingItemSection(Properties.Resources.SettingPageBookMoveAdvance,
+                    new SettingItemProperty(PropertyMemberElement.Create(SoundPlayerService.Current, nameof(SoundPlayerService.SeCannotMove)))),
             };
         }
     }

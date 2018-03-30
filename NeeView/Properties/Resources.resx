@@ -4047,4 +4047,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="SettingPageGeneralSaveDataRemove" xml:space="preserve">
     <value>Delete data</value>
   </data>
+  <data name="SettingPageBookMoveAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="ParamSeCannotMove" xml:space="preserve">
+    <value>Sound when not able to move</value>
+  </data>
 </root>

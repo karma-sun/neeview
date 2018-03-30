@@ -448,10 +448,12 @@ namespace NeeView
                 {
                     if (e.Direction < 0)
                     {
+                        SoundPlayerService.Current.PlaySeCannotMove();
                         InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyFirstPage);
                     }
                     else
                     {
+                        SoundPlayerService.Current.PlaySeCannotMove();
                         InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyLastPage);
                     }
                 }

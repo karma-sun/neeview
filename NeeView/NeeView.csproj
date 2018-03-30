@@ -236,6 +236,7 @@
       <DependentUpon>MouseGestureSettingControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Setting\MouseGestureSettingViewModel.cs" />
+    <Compile Include="SoundPlayerService.cs" />
     <Compile Include="Susie\NativeMethods.cs" />
     <Compile Include="TouchInput\TouchInputEmulator.cs" />
     <Compile Include="UserSetting.cs" />

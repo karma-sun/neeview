@@ -668,6 +668,7 @@ namespace NeeView
             var result = await MoveFolder(+1, option);
             if (result != true)
             {
+                SoundPlayerService.Current.PlaySeCannotMove();
                 InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyBookNextFailed);
             }
         }
@@ -679,6 +680,7 @@ namespace NeeView
             var result = await MoveFolder(-1, option);
             if (result != true)
             {
+                SoundPlayerService.Current.PlaySeCannotMove();
                 InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyBookPrevFailed);
             }
         }

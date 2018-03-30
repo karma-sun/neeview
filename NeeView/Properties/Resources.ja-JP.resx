@@ -4047,4 +4047,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="SettingPageGeneralSaveDataRemove" xml:space="preserve">
     <value>データの削除</value>
   </data>
+  <data name="SettingPageBookMoveAdvance" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
+  <data name="ParamSeCannotMove" xml:space="preserve">
+    <value>移動できなかったときの効果音</value>
+  </data>
 </root>

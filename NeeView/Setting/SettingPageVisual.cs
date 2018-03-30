@@ -196,6 +196,9 @@ namespace NeeView.Setting
                 new SettingItemSection(Properties.Resources.SettingPagePanelGeneralOperation,
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.IsLeftRightKeyEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.IsManipulationBoundaryFeedbackEnabled)))),
+
+                new SettingItemSection(Properties.Resources.SettingPagePanelGeneralAdvance,
+                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.HitTestMargin)))),
             };
         }
     }

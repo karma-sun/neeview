@@ -229,12 +229,6 @@ namespace NeeView
         }
 
 
-        /// <summary>
-        /// パネル表示/非表示判定に使用される座標マージン
-        /// </summary>
-        protected const double _margin = 32;
-
-
         #region DropAccept
 
         /// <summary>
@@ -382,7 +376,7 @@ namespace NeeView
         /// <param name="limit"></param>
         internal void UpdateVisibility(Point point, Point limit)
         {
-            this.IsNearCursor = point.X < limit.X + _margin && !MainWindowModel.Current.IsFontAreaMouseOver;
+            this.IsNearCursor = point.X < limit.X + SidePanelProfile.Current.HitTestMargin && !MainWindowModel.Current.IsFontAreaMouseOver;
             UpdateForceVisibled();
         }
     }
@@ -403,7 +397,7 @@ namespace NeeView
         /// <param name="limit"></param>
         internal void UpdateVisibility(Point point, Point limit)
         {
-            this.IsNearCursor = point.X > limit.X - _margin && !MainWindowModel.Current.IsFontAreaMouseOver;
+            this.IsNearCursor = point.X > limit.X - SidePanelProfile.Current.HitTestMargin && !MainWindowModel.Current.IsFontAreaMouseOver;
             UpdateForceVisibled();
         }
     }

@@ -1,4 +1,5 @@
-﻿using NeeView.Windows.Property;
+﻿using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Property;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
@@ -16,7 +17,7 @@ namespace NeeView
         [PropertyMember("@ParamSidePanelIsLeftRightKeyEnabled", Tips = "@ParamSidePanelIsLeftRightKeyEnabledTips")]
         public bool IsLeftRightKeyEnabled { get; set; } = true;
 
-        [PropertyMember("@ParamSidePanelHitTestMargin", Tips = "@ParamSidePanelHitTestMarginTips")]
+        [PropertyMember("@ParamSidePanelHitTestMargin")]
         public double HitTestMargin { get; set; } = 32.0;
 
         #region Memento
@@ -26,6 +27,14 @@ namespace NeeView
         {
             [DataMember, DefaultValue(true)]
             public bool IsLeftRightKeyEnabled { get; set; }
+            [DataMember, DefaultValue(32.0)]
+            public double HitTestMargin { get; set; }
+
+            [OnDeserializing]
+            private void Deserializing(StreamingContext c)
+            {
+                this.InitializePropertyDefaultValues();
+            }
         }
 
         //
@@ -34,6 +43,7 @@ namespace NeeView
             var memento = new Memento();
 
             memento.IsLeftRightKeyEnabled = this.IsLeftRightKeyEnabled;
+            memento.HitTestMargin = this.HitTestMargin;
 
             return memento;
         }
@@ -44,6 +54,7 @@ namespace NeeView
             if (memento == null) return;
 
             this.IsLeftRightKeyEnabled = memento.IsLeftRightKeyEnabled;
+            this.HitTestMargin = memento.HitTestMargin;
         }
 
         #endregion

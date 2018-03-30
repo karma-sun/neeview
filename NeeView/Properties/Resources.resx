@@ -4035,4 +4035,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="DialogCacheDeletedFailedTitle" xml:space="preserve">
     <value>Deletion of thumbnail cache failed.</value>
   </data>
+  <data name="SettingPagePanelGeneralAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="ParamSidePanelHitTestMargin" xml:space="preserve">
+    <value>Area width of automatic panel display judgment</value>
+  </data>
 </root>

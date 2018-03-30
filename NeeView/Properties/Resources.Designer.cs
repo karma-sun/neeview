@@ -9734,6 +9734,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Area width of automatic panel display judgment に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamSidePanelHitTestMargin {
+            get {
+                return ResourceManager.GetString("ParamSidePanelHitTestMargin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   The left and right key input of the side panel is valid に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamSidePanelIsLeftRightKeyEnabled {
@@ -10999,6 +11008,15 @@ namespace NeeView.Properties {
         public static string SettingPagePanelGeneral {
             get {
                 return ResourceManager.GetString("SettingPagePanelGeneral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Advanced Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPagePanelGeneralAdvance {
+            get {
+                return ResourceManager.GetString("SettingPagePanelGeneralAdvance", resourceCulture);
             }
         }
         

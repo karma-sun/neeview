@@ -1034,6 +1034,9 @@ namespace NeeView
             [DataMember]
             public bool IsCruise { get; set; }
 
+            [DataMember]
+            public bool IsCloseBookWhenMove { get; set; }
+
 
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
@@ -1056,6 +1059,7 @@ namespace NeeView
             memento.IsMultipleRarFilterEnabled = this.IsMultipleRarFilterEnabled;
             memento.ExcludePattern = this.ExcludePattern;
             memento.IsCruise = this.IsCruise;
+            memento.IsCloseBookWhenMove = this.IsCloseBookWhenMove;
 
             return memento;
         }
@@ -1075,6 +1079,7 @@ namespace NeeView
             this.IsMultipleRarFilterEnabled = memento.IsMultipleRarFilterEnabled;
             this.ExcludePattern = memento.ExcludePattern;
             this.IsCruise = memento.IsCruise;
+            this.IsCloseBookWhenMove = memento.IsCloseBookWhenMove;
         }
 
         #endregion

@@ -69,7 +69,7 @@
 
     <DataTemplate x:Key="PropertyValue_Color_ComboColorPicker">
         <DockPanel>
-            <TextBox Text="{Binding Value}" MinWidth="100" BorderThickness="1,1,0,1" Padding="0,0,2,0" VerticalContentAlignment="Center"/>
+            <TextBox DockPanel.Dock="Right" Text="{Binding Value}" MinWidth="100" BorderThickness="1" VerticalContentAlignment="Center"/>
             <osc:ComboColorPicker SelectedColor="{Binding Value, Mode=TwoWay}"/>
         </DockPanel>
     </DataTemplate>

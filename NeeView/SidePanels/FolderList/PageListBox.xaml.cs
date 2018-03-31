@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,14 +42,15 @@ namespace NeeView
         {
             InitializeComponent();
         }
-        
+
         // constructor
         public PageListBox(PageListViewModel vm) : this()
         {
-            _vm = vm;
-            this.DataContext = _vm;
-
             InitializeCommand();
+
+            _vm = vm;
+            _vm.SelectedItemsChanged += (s, e) => UpdateSelectedItems();
+            this.DataContext = _vm;
 
             // タッチスクロール操作の終端挙動抑制
             this.ListBox.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
@@ -97,11 +100,33 @@ namespace NeeView
         #region Methods
 
         //
+        private void UpdateSelectedItems()
+        {
+            if (!this.ListBox.IsLoaded) return;
+            if (_vm.Model.PageCollection == null) return;
+            if (_vm.SelectedItems == null) return;
+
+            this.ListBox.UnselectAll();
+
+            foreach (var item in _vm.SelectedItems)
+            {
+                item.IsSelected = true;
+
+                this.ListBox.ScrollIntoView(item);
+
+                if (item != _vm.SelectedItems.Last())
+                {
+                    this.ListBox.UpdateLayout();
+                }
+            }
+        }
+
+        //
         public void FocusSelectedItem()
         {
             if (this.ListBox.SelectedIndex < 0) return;
 
-            this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
+            UpdateSelectedItems();
 
             if (_vm.Model.FocusAtOnce)
             {
@@ -114,11 +139,6 @@ namespace NeeView
         // フォルダーリスト 選択項目変更
         private void PageList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var listBox = sender as ListBox;
-            if (listBox != null && listBox.IsLoaded)
-            {
-                listBox.ScrollIntoView(listBox.SelectedItem);
-            }
         }
 
 
@@ -158,7 +178,6 @@ namespace NeeView
             }
         }
 
-        //
         private async void PaegList_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if ((bool)e.NewValue)
@@ -168,6 +187,12 @@ namespace NeeView
             }
         }
 
+        private void PageList_TargetUpdated(object sender, DataTransferEventArgs e)
+        {
+            UpdateSelectedItems();
+        }
+
         #endregion
+
     }
 }

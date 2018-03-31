@@ -146,6 +146,15 @@ namespace NeeView
         /// </summary>
         public Thumbnail Thumbnail => Content?.Thumbnail;
 
+        // 表示中フラグ。ページリスト、フィルムストリップ共用。
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set { SetProperty(ref _isSelected, value); }
+        }
+
+
 
         /// <summary>
         /// コンストラクタ

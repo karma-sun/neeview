@@ -96,11 +96,13 @@
                  FocusVisualStyle="{StaticResource NVFocusVisual}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  HorizontalContentAlignment="Stretch"
-                 ItemsSource="{Binding Model.PageCollection}"
+                 ItemsSource="{Binding Model.PageCollection, NotifyOnTargetUpdated=True}"
                  SelectedItem="{Binding SelectedItem}"
+                 SelectionMode="Multiple"
                  SelectionChanged="PageList_SelectionChanged"
                  KeyDown="PageList_KeyDown"
                  IsVisibleChanged="PaegList_IsVisibleChanged"
+                 TargetUpdated="PageList_TargetUpdated"
                  VirtualizingStackPanel.IsVirtualizing="True"
                  VirtualizingStackPanel.ScrollUnit="{StaticResource PanelScrollUnit}"
                  VirtualizingStackPanel.VirtualizationMode="Recycling"
@@ -133,6 +135,7 @@
                         </ContextMenu>
                     </Setter.Value>
                 </Setter>
+                <Setter Property="IsSelected" Value="{Binding IsSelected}" />
             </Style>
 
         </ListBox.Resources>

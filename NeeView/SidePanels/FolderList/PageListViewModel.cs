@@ -22,6 +22,7 @@ namespace NeeView
         private string _title;
         private PageSortMode _pageSortMode;
         private Page _selectedItem;
+        private List<Page> _selectedItems;
         private PageList _model;
         private PageListBox _listBoxContent;
 
@@ -44,11 +45,17 @@ namespace NeeView
 
         #endregion
 
+        #region Events
+
+        public event EventHandler SelectedItemsChanged;
+
+        #endregion
+
         #region Properties
 
         public Dictionary<PageNameFormat, string> FormatList { get; } = AliasNameExtensions.GetAliasNameDictionary<PageNameFormat>();
 
-        public Dictionary<PageSortMode, string> PageSortModeList { get; } =  AliasNameExtensions.GetAliasNameDictionary<PageSortMode>();
+        public Dictionary<PageSortMode, string> PageSortModeList { get; } = AliasNameExtensions.GetAliasNameDictionary<PageSortMode>();
 
         public string Title
         {
@@ -66,6 +73,12 @@ namespace NeeView
         {
             get { return _selectedItem; }
             set { _selectedItem = value; RaisePropertyChanged(); }
+        }
+
+        public List<Page> SelectedItems
+        {
+            get { return _selectedItems; }
+            set { if (SetProperty(ref _selectedItems, value)) SelectedItemsChanged?.Invoke(this, null); }
         }
 
         public PageList Model
@@ -150,11 +163,7 @@ namespace NeeView
             var contents = e?.ViewPageCollection?.Collection;
             if (contents == null) return;
 
-            var mainContent = contents.Count > 0 ? (contents.First().PagePart.Position < contents.Last().PagePart.Position ? contents.First() : contents.Last()) : null;
-            if (mainContent != null)
-            {
-                SelectedItem = mainContent.Page;
-            }
+            this.SelectedItems = contents.Where(i => i != null).Select(i => i.Page).ToList();
         }
 
         //

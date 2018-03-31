@@ -8591,6 +8591,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Close the book when changing the location に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFolderListIsCloseBookWhenMove {
+            get {
+                return ResourceManager.GetString("ParamFolderListIsCloseBookWhenMove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Enable Folder Cruise に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamFolderListIsCruise {

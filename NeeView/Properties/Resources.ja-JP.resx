@@ -4053,4 +4053,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamSeCannotMove" xml:space="preserve">
     <value>移動できなかったときの効果音</value>
   </data>
+  <data name="ParamFolderListIsCloseBookWhenMove" xml:space="preserve">
+    <value>場所を変更したときにブックを閉じる</value>
+  </data>
 </root>

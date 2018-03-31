@@ -4053,4 +4053,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamSeCannotMove" xml:space="preserve">
     <value>Sound when not able to move</value>
   </data>
+  <data name="ParamFolderListIsCloseBookWhenMove" xml:space="preserve">
+    <value>Close the book when changing the location</value>
+  </data>
 </root>

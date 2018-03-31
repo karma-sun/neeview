@@ -194,6 +194,9 @@ namespace NeeView
         [PropertyMember("@ParamFolderListIsCruise", Tips = "@ParamFolderListIsCruiseTips")]
         public bool IsCruise { get; set; }
 
+        [PropertyMember("@ParamFolderListIsCloseBookWhenMove")]
+        public bool IsCloseBookWhenMove { get; set; }
+
 
         private string _excludePattern;
         [PropertyMember("@ParamFolderListExcludePattern", Tips = "@ParamFolderListExcludePatternTips")]
@@ -854,6 +857,8 @@ namespace NeeView
 
             var place = GetFixedHome();
             await SetPlaceAsync(place, null, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory | FolderSetPlaceOption.IsTopSelect | FolderSetPlaceOption.ClearSearchKeyword);
+
+            CloseBookIfNecessary();
         }
 
 
@@ -861,6 +866,8 @@ namespace NeeView
         public async void MoveTo_Executed(string path)
         {
             await this.SetPlaceAsync(path, null, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
+
+            CloseBookIfNecessary();
         }
 
         //
@@ -877,6 +884,8 @@ namespace NeeView
             var place = this.History.GetPrevious();
             await SetPlaceAsync(place, null, FolderSetPlaceOption.IsFocus);
             this.History.Move(-1);
+
+            CloseBookIfNecessary();
         }
 
         //
@@ -893,6 +902,8 @@ namespace NeeView
             var place = this.History.GetNext();
             await SetPlaceAsync(place, null, FolderSetPlaceOption.IsFocus);
             this.History.Move(+1);
+
+            CloseBookIfNecessary();
         }
 
         //
@@ -901,6 +912,8 @@ namespace NeeView
             var place = this.History.GetHistory(item.Key);
             await SetPlaceAsync(place, null, FolderSetPlaceOption.IsFocus);
             this.History.SetCurrent(item.Key + 1);
+
+            CloseBookIfNecessary();
         }
 
         //
@@ -916,6 +929,8 @@ namespace NeeView
 
             var parent = this.FolderCollection?.GetParentPlace();
             await SetPlaceAsync(parent, Place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
+
+            CloseBookIfNecessary();
         }
 
 
@@ -946,6 +961,15 @@ namespace NeeView
         public void ToggleFolderRecursive_Executed()
         {
             this.FolderCollection.FolderParameter.IsFolderRecursive = !this.FolderCollection.FolderParameter.IsFolderRecursive;
+        }
+
+
+        private void CloseBookIfNecessary()
+        {
+            if (IsCloseBookWhenMove)
+            {
+                BookHub.Current.RequestUnload(true);
+            }
         }
 
         #endregion

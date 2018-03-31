@@ -578,37 +578,19 @@ namespace NeeView
         public void Run()
         {
             Message = $"Run";
-#if true
-            // Task版
-            var task = Task.Run(async () =>
-            {
-                try
-                {
-                    await WorkerExecute();
-                }
-                catch (OperationCanceledException)
-                {
-                    Debug.WriteLine($"JOB TASK CANCELED.");
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine($"JOB EXCEPTION: {e.Message}");
-                    Message = e.Message;
-                    Action<Exception> action = (exception) => { throw new ApplicationException("Task internal exception", exception); };
-                    App.Current?.Dispatcher.BeginInvoke(action, e);
-                }
-            },
-            _cancellationTokenSource.Token);
+
+#if false
+            // Thread版
+            var thread = new Thread(new ThreadStart(async () => await WorkerExecuteAsync()));
+            thread.Priority = IsPrimary ? ThreadPriority.Normal : ThreadPriority.BelowNormal;
+            thread.IsBackground = true;
+            thread.Name = "JobWorker";
+            thread.Start();
 #else
-            // sample: Thread版
-            Thread t1;
-            t1 = new Thread(new ThreadStart(() => WorkerExecute()));
-            t1.Priority = IsPrimary ? ThreadPriority.Normal : ThreadPriority.BelowNormal;
-            t1.IsBackground = true;
-            t1.Start();
+            // Task版
+            var task = Task.Run(async () => await WorkerExecuteAsync(), _cancellationTokenSource.Token);
 #endif
         }
-
 
         // ワーカータスク廃棄
         public void Cancel()
@@ -616,9 +598,28 @@ namespace NeeView
             _cancellationTokenSource.Cancel();
         }
 
+        // ワーカータスクメイン
+        private async Task WorkerExecuteAsync()
+        {
+            try
+            {
+                await WorkerExecuteAsyncCore();
+            }
+            catch (OperationCanceledException)
+            {
+                Debug.WriteLine($"JOB TASK CANCELED.");
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine($"JOB EXCEPTION: {e.Message}");
+                Message = e.Message;
+                Action<Exception> action = (exception) => { throw new ApplicationException("Task internal exception", exception); };
+                App.Current?.Dispatcher.BeginInvoke(action, e);
+            }
+        }
 
         // ワーカータスクメイン
-        private async Task WorkerExecute()
+        private async Task WorkerExecuteAsyncCore()
         {
             while (!_cancellationTokenSource.Token.IsCancellationRequested)
             {
@@ -681,7 +682,7 @@ namespace NeeView
             Debug.WriteLine("Task: Exit.");
         }
 
-        #region IDisposable Support
+#region IDisposable Support
         private bool _disposedValue = false;
 
         protected virtual void Dispose(bool disposing)
@@ -714,7 +715,7 @@ namespace NeeView
         {
             Dispose(true);
         }
-        #endregion
+#endregion
 
     }
 }

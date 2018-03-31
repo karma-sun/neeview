@@ -166,6 +166,12 @@ namespace NeeView
             }
         }
 
+        // 右クリク選択無効
+        private void PageListItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+        }
+
         // リストのキ入力
         private void PageList_KeyDown(object sender, KeyEventArgs e)
         {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -59,6 +60,7 @@ namespace NeeView
         private void Initialize()
         {
             _vm = new ThumbnailListViewModel(this.Source);
+            _vm.SelectedItemsChanged += ViewModel_SelectedItemsChanged;
             _vm.Model.Refleshed += (s, e) => OnPageListChanged();
             _vm.AddPropertyChanged(nameof(_vm.PageNumber), (s, e) => DartyThumbnailList());
 
@@ -66,6 +68,31 @@ namespace NeeView
 
             this.Root.DataContext = _vm;
         }
+
+        private async void ViewModel_SelectedItemsChanged(object sender, System.EventArgs e)
+        {
+            await Task.Yield();
+            UpdateSelectedItems();
+        }
+
+        //
+        private void UpdateSelectedItems()
+        {
+            if (!this.ThumbnailListBox.IsLoaded) return;
+            if (_vm.Items == null) return;
+            if (_vm.SelectedItems == null) return;
+
+            this.ThumbnailListBox.UnselectAll();
+
+            foreach (var item in _vm.SelectedItems)
+            {
+                item.IsSelectedAtFilmstrip = true;
+
+                this.ThumbnailListBox.ScrollIntoView(item);
+                this.ThumbnailListBox.UpdateLayout();
+            }
+        }
+
 
 
         private bool _isDartyThumbnailList = true;
@@ -291,6 +318,12 @@ namespace NeeView
                 _vm.Model.BookOperation.JumpPage(page);
                 e.Handled = true;
             }
+        }
+
+
+        private void ThumbnailListItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
         }
 
 

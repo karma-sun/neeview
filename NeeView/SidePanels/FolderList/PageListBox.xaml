@@ -127,6 +127,7 @@
             <Style TargetType="ListBoxItem">
                 <EventSetter Event="PreviewMouseLeftButtonUp" Handler="PageListItem_MouseSingleClick"/>
                 <EventSetter Event="KeyDown" Handler="PageListItem_KeyDown"/>
+                <EventSetter Event="PreviewMouseRightButtonDown" Handler="PageListItem_PreviewMouseRightButtonDown"/>
                 <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
                 <Setter Property="ContextMenu">
                     <Setter.Value>

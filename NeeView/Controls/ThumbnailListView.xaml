@@ -13,6 +13,7 @@
     
     <Grid x:Name="Root" Visibility="{Binding Model.ThumbnailListVisibility}" SizeChanged="ThumbnailListArea_SizeChanged" UseLayoutRounding="True" >
         <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding Items}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                             SelectionMode="Multiple"
                              UseLayoutRounding="True"
                              ScrollViewer.ScrollChanged="ThumbnailList_ScrollChanged"
                              KeyDown="ThumbnailListBox_KeyDown"
@@ -90,7 +91,9 @@
 
                 <Style TargetType="ListBoxItem">
                     <EventSetter Event="PreviewMouseLeftButtonUp" Handler="ThumbnailListItem_MouseSingleClick"/>
+                    <EventSetter Event="PreviewMouseRightButtonDown" Handler="ThumbnailListItem_PreviewMouseRightButtonDown"/>
                     <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                    <Setter Property="IsSelected" Value="{Binding IsSelectedAtFilmstrip}" />
                 </Style>
 
             </ListBox.Resources>

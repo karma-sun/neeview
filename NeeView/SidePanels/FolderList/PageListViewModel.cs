@@ -163,6 +163,14 @@ namespace NeeView
             var contents = e?.ViewPageCollection?.Collection;
             if (contents == null) return;
 
+            /*
+            var mainContent = contents.Count > 0 ? (contents.First().PagePart.Position < contents.Last().PagePart.Position ? contents.First() : contents.Last()) : null;
+            if (mainContent != null)
+            {
+                SelectedItem = mainContent.Page;
+            }
+            */
+
             this.SelectedItems = contents.Where(i => i != null).Select(i => i.Page).ToList();
         }
 

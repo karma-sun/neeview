@@ -1,4 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -34,8 +36,16 @@ namespace NeeView
 
             _model.AddPropertyChanged(nameof(model.PageNumber), (s, e) => RaisePropertyChanged(nameof(PageNumber)));
 
+            BookHub.Current.ViewContentsChanged += BookHub_ViewContentsChanged;
+
             UpdateItems();
         }
+
+        #endregion
+
+        #region Events
+
+        public event EventHandler SelectedItemsChanged; 
 
         #endregion
 
@@ -58,6 +68,15 @@ namespace NeeView
             get { return _items; }
             set { if (_items != value) { _items = value; RaisePropertyChanged(); } }
         }
+
+        //
+        private List<Page> _selectedItems;
+        public List<Page> SelectedItems
+        {
+            get { return _selectedItems; }
+            set { if (SetProperty(ref _selectedItems, value)) SelectedItemsChanged?.Invoke(this, null); }
+        }
+
 
         /// <summary>
         /// PageNumber property.
@@ -99,6 +118,15 @@ namespace NeeView
                 // 左から右
                 this.Items = _model.BookOperation.PageList;
             }
+        }
+
+        //
+        private void BookHub_ViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
+        {
+            var contents = e?.ViewPageCollection?.Collection;
+            if (contents == null) return;
+
+            this.SelectedItems = contents.Where(i => i != null).Select(i => i.Page).ToList();
         }
 
         // サムネイル要求

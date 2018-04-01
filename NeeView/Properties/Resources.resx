@@ -3988,7 +3988,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Column</value>
   </data>
   <data name="ParamGridLineDivY" xml:space="preserve">
-    <value>Raw</value>
+    <value>Row</value>
   </data>
   <data name="ParamGridLineIsSquare" xml:space="preserve">
     <value>Square</value>

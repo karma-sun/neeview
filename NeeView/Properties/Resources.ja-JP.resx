@@ -3985,10 +3985,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>はい</value>
   </data>
   <data name="ParamGridLineDivX" xml:space="preserve">
-    <value>横分割数</value>
+    <value>列</value>
   </data>
   <data name="ParamGridLineDivY" xml:space="preserve">
-    <value>縦分割数</value>
+    <value>行</value>
   </data>
   <data name="ParamGridLineIsSquare" xml:space="preserve">
     <value>正方形</value>

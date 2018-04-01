@@ -9,11 +9,11 @@
     <UserControl.Resources>
         <local:SliderDirectionToFlowDirectionConverter x:Key="SliderDirectionToFlowDirectionConverter"/>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:BooleanToVisibilityHiddenConverter x:Key="BooleanToVisibilityHiddenConverter"/>
     </UserControl.Resources>
-    
+
     <Grid x:Name="Root" Visibility="{Binding Model.ThumbnailListVisibility}" SizeChanged="ThumbnailListArea_SizeChanged" UseLayoutRounding="True" >
         <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding Items}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                             SelectionMode="Multiple"
                              UseLayoutRounding="True"
                              ScrollViewer.ScrollChanged="ThumbnailList_ScrollChanged"
                              KeyDown="ThumbnailListBox_KeyDown"
@@ -27,54 +27,57 @@
                              PreviewMouseWheel="ThumbnailListBox_MouseWheel"
                              Background="Transparent" BorderThickness="0">
             <ListBox.Resources>
-                
+
                 <Style TargetType="{x:Type ListBox}">
                     <Setter Property="Padding" Value="5,0" />
                     <Setter Property="ItemTemplate">
                         <Setter.Value>
                             <DataTemplate>
-                                <StackPanel Margin="5">
-                                    <Grid Width="{Binding ElementName=Root, Path=DataContext.Model.ThumbnailSize}" Height="{Binding ElementName=Root, Path=DataContext.Model.ThumbnailSize}">
-                                        <Ellipse Fill="Gray" Width="8" Height="8">
-                                            <Ellipse.Style>
-                                                <Style TargetType="Ellipse">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Thumbnail.BitmapSource}" Value="{x:Null}">
-                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Ellipse.Style>
-                                        </Ellipse>
-                                        <Image Source="{Binding Thumbnail.BitmapSource}" UseLayoutRounding="True"
+                                <DockPanel>
+                                    <Rectangle DockPanel.Dock="Bottom"  Margin="-1,0,-1,-1" Height="4" Fill="{StaticResource NVSelectedMarkBrush}" Visibility="{Binding IsVisibled, Converter={StaticResource BooleanToVisibilityHiddenConverter}}"/>
+                                    <StackPanel Margin="5"  Width="{Binding ElementName=Root, Path=DataContext.Model.ThumbnailSize}" MinWidth="32">
+                                        <Grid Width="{Binding ElementName=Root, Path=DataContext.Model.ThumbnailSize}" Height="{Binding ElementName=Root, Path=DataContext.Model.ThumbnailSize}">
+                                            <Ellipse Fill="Gray" Width="8" Height="8">
+                                                <Ellipse.Style>
+                                                    <Style TargetType="Ellipse">
+                                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Thumbnail.BitmapSource}" Value="{x:Null}">
+                                                                <Setter Property="Visibility" Value="Visible"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Ellipse.Style>
+                                            </Ellipse>
+                                            <Image Source="{Binding Thumbnail.BitmapSource}" UseLayoutRounding="True"
                                                            RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform">
-                                            <Image.Effect>
-                                                <DropShadowEffect ShadowDepth="2" Opacity="0.5" />
-                                            </Image.Effect>
-                                        </Image>
-                                    </Grid>
-                                    <TextBlock Height="16" FontSize="12" FontFamily="Arial" MinWidth="32" TextAlignment="Center"
+                                                <Image.Effect>
+                                                    <DropShadowEffect ShadowDepth="2" Opacity="0.5" />
+                                                </Image.Effect>
+                                            </Image>
+                                        </Grid>
+                                        <TextBlock Height="16" FontSize="12" FontFamily="Arial" MinWidth="32" TextAlignment="Center"
                                                            Visibility="{Binding ElementName=Root, Path=DataContext.Model.IsVisibleThumbnailNumber, Converter={StaticResource BooleanToVisibilityConverter}}"
                                                            VerticalAlignment="Center"  HorizontalAlignment="Center" Text="{Binding IndexPlusOne}" Padding="5,2">
-                                        <TextBlock.Style>
-                                            <Style TargetType="TextBlock">
-                                                <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding ElementName=Root, Path=DataContext.Model.IsVisibleThumbnailPlate}" Value="False">
-                                                        <Setter Property="Foreground" Value="White"/>
-                                                        <Setter Property="Effect">
-                                                            <Setter.Value>
-                                                                <DropShadowEffect ShadowDepth="0" Opacity="1"/>
-                                                            </Setter.Value>
-                                                        </Setter>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding ElementName=Root, Path=DataContext.Model.IsVisibleThumbnailPlate}" Value="False">
+                                                            <Setter Property="Foreground" Value="White"/>
+                                                            <Setter Property="Effect">
+                                                                <Setter.Value>
+                                                                    <DropShadowEffect ShadowDepth="0" Opacity="1"/>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
 
-                                            </Style>
-                                        </TextBlock.Style>
-                                    </TextBlock>
-                                </StackPanel>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </DockPanel>
                             </DataTemplate>
                         </Setter.Value>
                     </Setter>
@@ -91,9 +94,8 @@
 
                 <Style TargetType="ListBoxItem">
                     <EventSetter Event="PreviewMouseLeftButtonUp" Handler="ThumbnailListItem_MouseSingleClick"/>
-                    <EventSetter Event="PreviewMouseRightButtonDown" Handler="ThumbnailListItem_PreviewMouseRightButtonDown"/>
                     <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-                    <Setter Property="IsSelected" Value="{Binding IsSelectedAtFilmstrip}" />
+                    <Setter Property="Padding" Value="0"/>
                 </Style>
 
             </ListBox.Resources>

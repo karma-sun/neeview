@@ -146,20 +146,12 @@ namespace NeeView
         /// </summary>
         public Thumbnail Thumbnail => Content?.Thumbnail;
 
-        // ページリスト用選択フラグ
-        private bool _isSelected;
-        public bool IsSelected
+        // 表示中?
+        private bool _isVisibled;
+        public bool IsVisibled
         {
-            get { return _isSelected; }
-            set { SetProperty(ref _isSelected, value); }
-        }
-
-        // フィルムストリップ用選択フラグ
-        private bool _isSelectedAtFilmstrip;
-        public bool IsSelectedAtFilmstrip
-        {
-            get { return _isSelectedAtFilmstrip; }
-            set { SetProperty(ref _isSelectedAtFilmstrip, value); }
+            get { return _isVisibled; }
+            set { SetProperty(ref _isVisibled, value); }
         }
 
 

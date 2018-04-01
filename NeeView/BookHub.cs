@@ -811,6 +811,11 @@ namespace NeeView
                 }
             }
 
+            if (sender is Book book)
+            {
+                book.UpdateViewPages(this, e);
+            }
+
             ViewContentsChanged?.Invoke(sender, e);
         }
 

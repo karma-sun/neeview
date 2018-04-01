@@ -15,6 +15,7 @@
         <RoutedCommand x:Key="xRemoveDommand" />
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:BooleanToVisibilityHiddenConverter x:Key="BooleanToVisibilityHiddenConverter"/>
 
         <Style x:Key="ItemStyle" TargetType="TextBlock">
             <Setter Property="Margin" Value="5,0"/>
@@ -58,33 +59,47 @@
             <Setter Property="Source" Value="{Binding Thumbnail.BitmapSource}"/>
         </Style>
 
+        <Style TargetType="Rectangle" x:Key="SelectedStyle">
+            <Setter Property="Width" Value="4"/>
+            <Setter Property="Margin" Value="-1,-1,0,-1"/>
+            <Setter Property="Fill" Value="{StaticResource NVSelectedMarkBrush}"/>
+            <Setter Property="Visibility" Value="{Binding IsVisibled, Converter={StaticResource BooleanToVisibilityHiddenConverter}}"/>
+        </Style>
+        
         <DataTemplate x:Key="TextTemplate">
-            <Grid MinHeight="20">
+            <DockPanel MinHeight="20">
+                <Rectangle Style="{StaticResource SelectedStyle}"/>
                 <TextBlock Style="{Binding ElementName=ListBox, Path=DataContext.Model.Format, Converter={StaticResource PageNameConverter}}"/>
-            </Grid>
+            </DockPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="PictureTemplate">
-            <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
-                <DockPanel Margin="2" LastChildFill="False">
-                    <local:FolderListThumbnail DataContext="{Binding Thumbnail}"/>
-                    <StackPanel VerticalAlignment="Center">
-                        <TextBlock Style="{StaticResource FolderParameter}" Text="{Binding Detail}"/>
-                        <TextBlock Style="{Binding ElementName=ListBox, Path=DataContext.Model.Format, Converter={StaticResource PageNameConverter}}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
-                    </StackPanel>
-                </DockPanel>
-            </Border>
+            <DockPanel>
+                <Rectangle Style="{StaticResource SelectedStyle}"/>
+                <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
+                    <DockPanel Margin="2" LastChildFill="False">
+                        <local:FolderListThumbnail DataContext="{Binding Thumbnail}"/>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Style="{StaticResource FolderParameter}" Text="{Binding Detail}"/>
+                            <TextBlock Style="{Binding ElementName=ListBox, Path=DataContext.Model.Format, Converter={StaticResource PageNameConverter}}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
+                        </StackPanel>
+                    </DockPanel>
+                </Border>
+            </DockPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="BannerTemplate">
-            <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
-                <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
-                    <DockPanel DockPanel.Dock="Bottom" Margin="2" >
-                        <TextBlock Style="{Binding ElementName=ListBox, Path=DataContext.Model.Format, Converter={StaticResource PageNameConverter}}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}" Margin="0" />
+            <DockPanel>
+                <Rectangle Style="{StaticResource SelectedStyle}"/>
+                <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
+                    <DockPanel Margin="4,0" HorizontalAlignment="Stretch" LastChildFill="False">
+                        <DockPanel DockPanel.Dock="Bottom" Margin="2" >
+                            <TextBlock Style="{Binding ElementName=ListBox, Path=DataContext.Model.Format, Converter={StaticResource PageNameConverter}}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}" Margin="0" />
+                        </DockPanel>
+                        <local:FolderListBanner DataContext="{Binding Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                     </DockPanel>
-                    <local:FolderListBanner DataContext="{Binding Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
-                </DockPanel>
-            </Border>
+                </Border>
+            </DockPanel>
         </DataTemplate>
 
     </UserControl.Resources>
@@ -98,7 +113,6 @@
                  HorizontalContentAlignment="Stretch"
                  ItemsSource="{Binding Model.PageCollection, NotifyOnTargetUpdated=True}"
                  SelectedItem="{Binding SelectedItem}"
-                 SelectionMode="Multiple"
                  SelectionChanged="PageList_SelectionChanged"
                  KeyDown="PageList_KeyDown"
                  IsVisibleChanged="PaegList_IsVisibleChanged"
@@ -127,7 +141,7 @@
             <Style TargetType="ListBoxItem">
                 <EventSetter Event="PreviewMouseLeftButtonUp" Handler="PageListItem_MouseSingleClick"/>
                 <EventSetter Event="KeyDown" Handler="PageListItem_KeyDown"/>
-                <EventSetter Event="PreviewMouseRightButtonDown" Handler="PageListItem_PreviewMouseRightButtonDown"/>
+                <Setter Property="Padding" Value="0"/>
                 <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
                 <Setter Property="ContextMenu">
                     <Setter.Value>
@@ -136,7 +150,6 @@
                         </ContextMenu>
                     </Setter.Value>
                 </Setter>
-                <Setter Property="IsSelected" Value="{Binding IsSelected}" />
             </Style>
 
         </ListBox.Resources>

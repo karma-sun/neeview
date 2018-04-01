@@ -86,8 +86,6 @@ namespace NeeView
 
             foreach (var item in _vm.SelectedItems)
             {
-                item.IsSelectedAtFilmstrip = true;
-
                 this.ThumbnailListBox.ScrollIntoView(item);
                 this.ThumbnailListBox.UpdateLayout();
             }
@@ -318,12 +316,6 @@ namespace NeeView
                 _vm.Model.BookOperation.JumpPage(page);
                 e.Handled = true;
             }
-        }
-
-
-        private void ThumbnailListItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            e.Handled = true;
         }
 
 

@@ -106,18 +106,10 @@ namespace NeeView
             if (_vm.Model.PageCollection == null) return;
             if (_vm.SelectedItems == null) return;
 
-            this.ListBox.UnselectAll();
-
             foreach (var item in _vm.SelectedItems)
             {
-                item.IsSelected = true;
-
                 this.ListBox.ScrollIntoView(item);
-
-                if (item != _vm.SelectedItems.Last())
-                {
-                    this.ListBox.UpdateLayout();
-                }
+                this.ListBox.UpdateLayout();
             }
         }
 
@@ -164,12 +156,6 @@ namespace NeeView
                     e.Handled = true;
                 }
             }
-        }
-
-        // 右クリク選択無効
-        private void PageListItem_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            e.Handled = true;
         }
 
         // リストのキ入力

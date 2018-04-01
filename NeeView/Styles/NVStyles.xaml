@@ -22,6 +22,8 @@
     <SolidColorBrush x:Key="NVButtonCheckedBrush" Color="#44BBDDFF" />
     <SolidColorBrush x:Key="NVButtonPressedBrush" Color="#FFBBDDFF" />
 
+    <SolidColorBrush x:Key="NVSelectedMarkBrush" Color="Orange"/>
+
     <Style x:Key="NVFocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>

@@ -67,6 +67,9 @@ namespace NeeView
         // 先読みページコンテキスト
         private volatile ViewPageCollection _nextPageCollection = new ViewPageCollection();
 
+        // 表示中ページ
+        private List<Page> _viewPages = new List<Page>();
+
         // リソースを保持しておくページ
         private List<Page> _keepPages = new List<Page>();
 
@@ -981,7 +984,7 @@ namespace NeeView
             ////Debug.WriteLine($"now: {_viewPageCollection.Range}");
 
             // notice ViewContentsChanged
-            App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewPageCollectionChangedEventArgs(_viewPageCollection)));
+            App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewPageCollectionChangedEventArgs(viewContent)));
 
             // change page
             this.DisplayIndex = viewContent.Range.Min.Index;
@@ -992,6 +995,27 @@ namespace NeeView
 
             // コンテンツ準備完了
             ContentLoaded.Set();
+        }
+
+        /// <summary>
+        /// 表示中ページフラグ更新
+        /// </summary>
+        public void UpdateViewPages(object sender, ViewPageCollectionChangedEventArgs args)
+        {
+            var viewPages = args?.ViewPageCollection?.Collection.Where(e => e != null).Select(e => e.Page) ?? new List<Page>();
+            var hidePages = _viewPages.Where(e => !viewPages.Contains(e));
+
+            foreach(var page in viewPages)
+            {
+                page.IsVisibled = true;
+            }
+
+            foreach(var page in hidePages)
+            {
+                page.IsVisibled = false;
+            }
+
+            _viewPages = viewPages.ToList();
         }
 
         /// <summary>

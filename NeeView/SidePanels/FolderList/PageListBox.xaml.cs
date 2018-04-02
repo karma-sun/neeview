@@ -49,7 +49,7 @@ namespace NeeView
             InitializeCommand();
 
             _vm = vm;
-            _vm.SelectedItemsChanged += (s, e) => UpdateSelectedItems();
+            _vm.ViewItemsChanged += ViewModel_ViewItemsChanged;
             this.DataContext = _vm;
 
             // タッチスクロール操作の終端挙動抑制
@@ -99,17 +99,45 @@ namespace NeeView
 
         #region Methods
 
+        private void ViewModel_ViewItemsChanged(object sender, ViewItemsChangedEventArgs e)
+        {
+            UpdateViewItems(e.ViewItems, e.Direction);
+        }
+
         //
-        private void UpdateSelectedItems()
+        private void UpdateViewItems()
+        {
+            if (_vm.ViewItems == null) return;
+
+            UpdateViewItems(_vm.ViewItems, 0);
+        }
+
+        //
+        private void UpdateViewItems(List<Page> items, int direction)
         {
             if (!this.ListBox.IsLoaded) return;
             if (_vm.Model.PageCollection == null) return;
-            if (_vm.SelectedItems == null) return;
+            if (_vm.IsPageCollectionDarty) return;
 
-            foreach (var item in _vm.SelectedItems)
+            if (items.Count == 1)
             {
-                this.ListBox.ScrollIntoView(item);
-                this.ListBox.UpdateLayout();
+                this.ListBox.ScrollIntoView(items.First());
+            }
+            else if (direction < 0)
+            {
+                this.ListBox.ScrollIntoView(items.First());
+            }
+            else if (direction > 0)
+            {
+                this.ListBox.ScrollIntoView(items.Last());
+            }
+            else
+            {
+                foreach (var item in items)
+                {
+                    this.ListBox.ScrollIntoView(item);
+                    this.ListBox.UpdateLayout();
+                }
             }
         }
 
@@ -118,7 +146,7 @@ namespace NeeView
         {
             if (this.ListBox.SelectedIndex < 0) return;
 
-            UpdateSelectedItems();
+            UpdateViewItems();
 
             if (_vm.Model.FocusAtOnce)
             {
@@ -181,7 +209,8 @@ namespace NeeView
 
         private void PageList_TargetUpdated(object sender, DataTransferEventArgs e)
         {
-            UpdateSelectedItems();
+            _vm.IsPageCollectionDarty = false;
+            UpdateViewItems();
         }
 
         #endregion

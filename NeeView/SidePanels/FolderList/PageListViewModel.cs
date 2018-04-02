@@ -12,9 +12,18 @@ using System.Windows.Data;
 
 namespace NeeView
 {
-    /// <summary>
-    /// 
-    /// </summary>
+    public class ViewItemsChangedEventArgs : EventArgs
+    {
+        public ViewItemsChangedEventArgs(List<Page> pages, int direction)
+        {
+            this.ViewItems = pages;
+            this.Direction = direction;
+        }
+
+        public List<Page> ViewItems { get; set; }
+        public int Direction { get; set; }
+    }
+
     public class PageListViewModel : BindableBase
     {
         #region Fields
@@ -22,7 +31,7 @@ namespace NeeView
         private string _title;
         private PageSortMode _pageSortMode;
         private Page _selectedItem;
-        private List<Page> _selectedItems;
+        private List<Page> _viewItems;
         private PageList _model;
         private PageListBox _listBoxContent;
 
@@ -34,8 +43,11 @@ namespace NeeView
         {
             _model = model;
             _model.AddPropertyChanged(nameof(_model.PanelListItemStyle), (s, e) => UpdateListBoxContent());
+            _model.AddPropertyChanged(nameof(_model.PageCollection), PageList_UpdatePageCollection);
             _model.BookHub.ViewContentsChanged += BookHub_ViewContentsChanged;
             _model.BookOperation.BookChanged += (s, e) => Reflesh();
+
+            _viewItems = new List<Page>();
 
             InitializeMoreMenu();
             UpdateListBoxContent();
@@ -47,7 +59,7 @@ namespace NeeView
 
         #region Events
 
-        public event EventHandler SelectedItemsChanged;
+        public event EventHandler<ViewItemsChangedEventArgs> ViewItemsChanged;
 
         #endregion
 
@@ -75,10 +87,20 @@ namespace NeeView
             set { _selectedItem = value; RaisePropertyChanged(); }
         }
 
-        public List<Page> SelectedItems
+        public List<Page> ViewItems
         {
-            get { return _selectedItems; }
-            set { if (SetProperty(ref _selectedItems, value)) SelectedItemsChanged?.Invoke(this, null); }
+            get { return _viewItems; }
+            set
+            {
+                if (_viewItems.SequenceEqual(value)) return;
+
+                var removes = _viewItems.Where(e => !value.Contains(e));
+                var direction = removes.Any() ? removes.First().Index < value.First().Index ? +1 : -1 : 0;
+
+                _viewItems = value;
+
+                ViewItemsChanged?.Invoke(this, new ViewItemsChangedEventArgs(_viewItems, direction));
+            }
         }
 
         public PageList Model
@@ -92,6 +114,10 @@ namespace NeeView
             get { return _listBoxContent; }
             set { if (_listBoxContent != value) { _listBoxContent = value; RaisePropertyChanged(); } }
         }
+
+        // ページリスト切り替え直後はListBoxに反映されない。
+        // 反映されたらこのフラグをクリアする。
+        public bool IsPageCollectionDarty { get; set; }
 
         #endregion
 
@@ -157,6 +183,11 @@ namespace NeeView
 
         #region Methods
 
+        private void PageList_UpdatePageCollection(object sender, PropertyChangedEventArgs e)
+        {
+            IsPageCollectionDarty = true;
+        }
+
         //
         private void BookHub_ViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
         {
@@ -169,7 +200,7 @@ namespace NeeView
                 SelectedItem = mainContent.Page;
             }
 
-            this.SelectedItems = contents.Where(i => i != null).Select(i => i.Page).ToList();
+            this.ViewItems = contents.Where(i => i != null).Select(i => i.Page).OrderBy(i => i.Index).ToList();
         }
 
         //

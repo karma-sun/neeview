@@ -26,8 +26,7 @@ namespace NeeView
             this.BookHub = bookHub;
             this.BookOperation = bookOperation;
 
-            this.BookOperation.AddPropertyChanged(nameof(BookOperation.PageList),
-                (s, e) => RaisePropertyChanged(nameof(PageCollection)));
+            this.BookOperation.AddPropertyChanged(nameof(BookOperation.PageList), BookOperation_PageListChanged);
         }
 
         #endregion
@@ -82,6 +81,15 @@ namespace NeeView
 
         //
         public BookOperation BookOperation { get; private set; }
+
+        #endregion
+
+        #region Methods
+
+        private void BookOperation_PageListChanged(object sender, PropertyChangedEventArgs e)
+        {
+            RaisePropertyChanged(nameof(PageCollection));
+        }
 
         #endregion
 

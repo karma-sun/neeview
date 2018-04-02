@@ -18,6 +18,7 @@ namespace NeeView
 
         private ThumbnailList _model;
         private ObservableCollection<Page> _items;
+        private List<Page> _viewItems = new List<Page>();
 
         #endregion
 
@@ -45,7 +46,7 @@ namespace NeeView
 
         #region Events
 
-        public event EventHandler SelectedItemsChanged; 
+        public event EventHandler<ViewItemsChangedEventArgs> ViewItemsChanged; 
 
         #endregion
 
@@ -69,12 +70,43 @@ namespace NeeView
             set { if (_items != value) { _items = value; RaisePropertyChanged(); } }
         }
 
-        //
-        private List<Page> _selectedItems;
-        public List<Page> SelectedItems
+
+        private int _selectedIndex;
+        public int SelectedIndex
         {
-            get { return _selectedItems; }
-            set { if (SetProperty(ref _selectedItems, value)) SelectedItemsChanged?.Invoke(this, null); }
+            get { return _selectedIndex; }
+            set { if (_selectedIndex != value) { _selectedIndex = value; RaisePropertyChanged(); } }
+        }
+
+        private Page _selectedItem;
+        public Page SelectedItem
+        {
+            get { return _selectedItem; }
+            set { if (_selectedItem != value) { _selectedItem = value; RaisePropertyChanged(); } }
+        }
+
+
+
+        //
+        public List<Page> ViewItems
+        {
+            get { return _viewItems; }
+            set
+            {
+                if (_viewItems.SequenceEqual(value)) return;
+
+                var removes = _viewItems.Where(e => !value.Contains(e));
+                var direction = removes.Any() ? removes.First().Index < value.First().Index ? +1 : -1 : 0;
+
+                if (!_model.IsSliderDirectionReversed)
+                {
+                    direction = direction * -1;
+                }
+
+                _viewItems = value;
+
+                ViewItemsChanged?.Invoke(this, new ViewItemsChangedEventArgs(_viewItems, direction));
+            }
         }
 
 
@@ -126,7 +158,13 @@ namespace NeeView
             var contents = e?.ViewPageCollection?.Collection;
             if (contents == null) return;
 
-            this.SelectedItems = contents.Where(i => i != null).Select(i => i.Page).ToList();
+            var mainContent = contents.Count > 0 ? (contents.First().PagePart.Position < contents.Last().PagePart.Position ? contents.First() : contents.Last()) : null;
+            if (mainContent != null)
+            {
+                SelectedItem = mainContent.Page;
+            }
+
+            this.ViewItems = contents.Where(i => i != null).Select(i => i.Page).ToList();
         }
 
         // サムネイル要求

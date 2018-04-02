@@ -14,6 +14,7 @@
 
     <Grid x:Name="Root" Visibility="{Binding Model.ThumbnailListVisibility}" SizeChanged="ThumbnailListArea_SizeChanged" UseLayoutRounding="True" >
         <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding Items}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                             SelectedIndex="{Binding SelectedIndex}" SelectedItem="{Binding SelectedItem}"
                              UseLayoutRounding="True"
                              ScrollViewer.ScrollChanged="ThumbnailList_ScrollChanged"
                              KeyDown="ThumbnailListBox_KeyDown"

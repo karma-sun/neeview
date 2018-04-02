@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -60,26 +61,58 @@ namespace NeeView
         private void Initialize()
         {
             _vm = new ThumbnailListViewModel(this.Source);
-            _vm.SelectedItemsChanged += ViewModel_SelectedItemsChanged;
+            _vm.ViewItemsChanged += ViewModel_ViewItemsChanged;
             _vm.Model.Refleshed += (s, e) => OnPageListChanged();
-            _vm.AddPropertyChanged(nameof(_vm.PageNumber), (s, e) => DartyThumbnailList());
+            ////_vm.AddPropertyChanged(nameof(_vm.PageNumber), (s, e) => DartyThumbnailList());
+            ////_vm.AddPropertyChanged(nameof(_vm.PageNumber), (s, e) => _vm.SelectedIndex = _vm.PageNumber);
+
 
             this.ThumbnailListBox.ManipulationBoundaryFeedback += _vm.Model.ScrollViewer_ManipulationBoundaryFeedback;
 
             this.Root.DataContext = _vm;
         }
 
-        private async void ViewModel_SelectedItemsChanged(object sender, System.EventArgs e)
+        private void ViewModel_ViewItemsChanged(object sender, ViewItemsChangedEventArgs e)
         {
-            await Task.Yield();
-            UpdateSelectedItems();
+            //await Task.Yield();
+            //App.Current.Dispatcher.BeginInvoke((Action)(() => UpdateSelectedItems()));
+           UpdateViewItems(e.ViewItems, e.Direction);
         }
 
-        //
-        private void UpdateSelectedItems()
+        private void UpdateViewItems()
+        {
+            if (_vm.ViewItems == null) return;
+            UpdateViewItems(_vm.ViewItems, 0);
+        }
+
+        private void UpdateViewItems(List<Page> items, int direction)
         {
             if (!this.ThumbnailListBox.IsLoaded) return;
             if (_vm.Items == null) return;
+            //if (_vm.IsPageCollectionDarty) return;
+
+            if (items.Count == 1)
+            {
+                this.ThumbnailListBox.ScrollIntoView(items.First());
+            }
+            else if (direction < 0)
+            {
+                this.ThumbnailListBox.ScrollIntoView(items.First());
+            }
+            else if (direction > 0)
+            {
+                this.ThumbnailListBox.ScrollIntoView(items.Last());
+            }
+            else
+            {
+                foreach (var item in items)
+                {
+                    this.ThumbnailListBox.ScrollIntoView(item);
+                    this.ThumbnailListBox.UpdateLayout();
+                }
+            }
+
+            /*
             if (_vm.SelectedItems == null) return;
 
             this.ThumbnailListBox.UnselectAll();
@@ -89,6 +122,7 @@ namespace NeeView
                 this.ThumbnailListBox.ScrollIntoView(item);
                 this.ThumbnailListBox.UpdateLayout();
             }
+            */
         }
 
 
@@ -187,7 +221,8 @@ namespace NeeView
             else
             {
                 this.ThumbnailListBox.Width = double.NaN;
-                this.ThumbnailListBox.ScrollIntoView(this.ThumbnailListBox.SelectedItem);
+                ////this.ThumbnailListBox.ScrollIntoView(this.ThumbnailListBox.SelectedItem);
+                UpdateViewItems();
             }
 
             // ##
@@ -227,7 +262,8 @@ namespace NeeView
         {
             if (e.AddedItems.Count <= 0)
             {
-                this.ThumbnailListBox.SelectedIndex = _vm.PageNumber;
+                ////this.ThumbnailListBox.SelectedIndex = _vm.PageNumber;
+                _vm.SelectedIndex = _vm.PageNumber;
                 return;
             }
 
@@ -239,11 +275,11 @@ namespace NeeView
             // 端の表示調整
             if (this.ThumbnailListBox.Width > this.Root.ActualWidth)
             {
-                if (this.ThumbnailListBox.SelectedIndex <= 0)
+                if (_vm.SelectedIndex <= 0)
                 {
                     this.ThumbnailListBox.HorizontalAlignment = HorizontalAlignment.Left;
                 }
-                else if (this.ThumbnailListBox.SelectedIndex >= this.ThumbnailListBox.Items.Count - 1)
+                else if (_vm.SelectedIndex >= this.ThumbnailListBox.Items.Count - 1)
                 {
                     this.ThumbnailListBox.HorizontalAlignment = HorizontalAlignment.Right;
                 }
@@ -291,18 +327,18 @@ namespace NeeView
         //
         private void ThumbnailListBox_MoveSelectedIndex(int delta)
         {
-            if (_listPanel == null || this.ThumbnailListBox.SelectedIndex < 0) return;
+            if (_listPanel == null || _vm.SelectedIndex < 0) return;
 
             if (_listPanel.FlowDirection == FlowDirection.RightToLeft)
                 delta = -delta;
 
-            int index = this.ThumbnailListBox.SelectedIndex + delta;
+            int index = _vm.SelectedIndex + delta;
             if (index < 0)
                 index = 0;
             if (index >= this.ThumbnailListBox.Items.Count)
                 index = this.ThumbnailListBox.Items.Count - 1;
 
-            this.ThumbnailListBox.SelectedIndex = index;
+            _vm.SelectedIndex = index;
             this.ThumbnailListBox.ScrollIntoView(this.ThumbnailListBox.SelectedItem);
         }
 

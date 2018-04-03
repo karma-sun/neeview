@@ -95,7 +95,7 @@ namespace NeeView
                 if (_viewItems.SequenceEqual(value)) return;
 
                 var removes = _viewItems.Where(e => !value.Contains(e));
-                var direction = removes.Any() ? removes.First().Index < value.First().Index ? +1 : -1 : 0;
+                var direction = removes.Any() && value.Any() ? removes.First().Index < value.First().Index ? +1 : -1 : 0;
 
                 _viewItems = value;
 

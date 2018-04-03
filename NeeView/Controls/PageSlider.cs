@@ -1,9 +1,8 @@
 ﻿using NeeLaboratory.ComponentModel;
-using System;
 using System.Runtime.Serialization;
 using System.ComponentModel;
-using System.Diagnostics;
 using NeeView.Windows.Property;
+using System;
 
 namespace NeeView
 {
@@ -47,8 +46,6 @@ namespace NeeView
         private SliderDirection _sliderDirection = SliderDirection.SyncBookReadDirection;
         private bool _isSliderDirectionReversed;
         private bool _IsSliderLinkedThumbnailList = true;
-        private int _pageNumber;
-        private int _maxPageNumber;
         private BookSetting _bookSetting;
         private ThumbnailList _thumbnailList;
 
@@ -56,24 +53,21 @@ namespace NeeView
 
         #region Constructors
 
-        public PageSlider(BookOperation bookOperation, BookSetting bookSetting, BookHub bookHub, ThumbnailList thumbnailList)
+        public PageSlider(ThumbnailList thumbnailList, PageSelector pageSelector)
         {
             Current = this;
 
-            this.PageMarkers = new PageMarkers(bookOperation);
+            this.PageMarkers = new PageMarkers(BookOperation.Current);
 
-            this.BookOperation = bookOperation;
-            this.BookHub = bookHub;
-            _bookSetting = bookSetting;
+            _bookSetting = BookSetting.Current;
 
-            _bookSetting.SettingChanged +=
-                (s, e) => UpdateIsSliderDirectionReversed();
-
-            this.BookOperation.BookChanged += BookOperation_BookChanged;
-            this.BookOperation.PageChanged += BookOperation_PageChanged;
+            _bookSetting.SettingChanged += (s, e) => UpdateIsSliderDirectionReversed();
 
             _thumbnailList = thumbnailList;
             _thumbnailList.IsSliderDirectionReversed = this.IsSliderDirectionReversed;
+
+            PageSelector = pageSelector;
+            PageSelector.SelectionChanged += PageSelector_SelectionChanged;
         }
 
         #endregion
@@ -134,53 +128,36 @@ namespace NeeView
             set { if (_IsSliderLinkedThumbnailList != value) { _IsSliderLinkedThumbnailList = value; RaisePropertyChanged(); } }
         }
 
-        /// <summary>
-        /// スライダーが示すページ番号
-        /// </summary>
-        public int PageNumber
+        //
+        public PageSelector PageSelector { get; private set; }
+
+
+        public int SelectedIndex
         {
-            get { return _pageNumber; }
+            get { return PageSelector.SelectedIndex; }
             set
             {
-                if (_pageNumber != value)
+                if (!IsThumbnailLinked())
                 {
-                    SetPageNumber(value);
-
-                    // ページ切り替え命令発行
-                    if (!IsThumbnailLinked())
-                    {
-                        this.BookOperation.RequestPageIndex(this, _pageNumber);
-                    }
+                    PageSelector.SetSelectedIndex(this, value, false);
+                    PageSelector.Jump(this);
+                }
+                else
+                {
+                    PageSelector.SetSelectedIndex(this, value, true);
                 }
             }
         }
-
-        /// <summary>
-        /// MaxPageNumber property.
-        /// </summary>
-        public int MaxPageNumber
-        {
-            get { return _maxPageNumber; }
-            set
-            {
-                if (_maxPageNumber != value)
-                {
-                    _maxPageNumber = value;
-                    RaisePropertyChanged();
-                    _thumbnailList.MaxPageNumber = _maxPageNumber;
-                }
-            }
-        }
-
-        //
-        public BookOperation BookOperation { get; private set; }
-
-        //
-        public BookHub BookHub { get; private set; }
 
         #endregion
 
         #region Methods
+
+        private void PageSelector_SelectionChanged(object sender, EventArgs e)
+        {
+            if (sender == this) return;
+            RaisePropertyChanged(nameof(SelectedIndex));
+        }
 
         // スライダー方向更新
         private void UpdateIsSliderDirectionReversed()
@@ -203,41 +180,15 @@ namespace NeeView
         /// <summary>
         /// スライドとフィルムストリップを連動させるかを判定
         /// </summary>
-        /// <returns></returns>
-        private bool IsThumbnailLinked() => _thumbnailList.IsEnableThumbnailList && IsSliderLinkedThumbnailList;
+        public bool IsThumbnailLinked() => _thumbnailList.IsEnableThumbnailList && IsSliderLinkedThumbnailList;
 
-
-        // ページ番号設定
-        // プロパティはスライダーからの操作でページ切り替え命令を実行するため、純粋にスライダーの値を変化させる場合はこのメソッドを使用する
-        private void SetPageNumber(int num)
-        {
-            _pageNumber = num;
-            RaisePropertyChanged(nameof(PageNumber));
-            _thumbnailList.PageNumber = num;
-        }
-
-
-        private void BookOperation_PageChanged(object sender, PageChangedEventArgs e)
-        {
-            // スライダーによる変化の場合は更新しないようにする
-            if (sender == this) return;
-
-            this.SetPageNumber(this.BookOperation.GetPageIndex());
-        }
-
-        private void BookOperation_BookChanged(object sender, EventArgs e)
-        {
-            if (!this.BookOperation.IsValid) return;
-            this.MaxPageNumber = this.BookOperation.GetMaxPageIndex();
-            this.SetPageNumber(this.BookOperation.GetPageIndex());
-        }
 
         // ページ番号を決定し、コンテンツを切り替える
-        public void Decide(bool force)
+        public void Jump(bool force)
         {
             if (force || IsThumbnailLinked())
             {
-                this.BookOperation.RequestPageIndex(this, this.PageNumber);
+                PageSelector.Jump(this);
             }
         }
 
@@ -264,7 +215,6 @@ namespace NeeView
             }
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -274,7 +224,6 @@ namespace NeeView
             return memento;
         }
 
-        //
         public void Restore(Memento memento)
         {
             if (memento == null) return;
@@ -282,7 +231,6 @@ namespace NeeView
             this.SliderDirection = memento.SliderDirection;
             this.IsSliderLinkedThumbnailList = memento.IsSliderLinkedThumbnailList;
         }
-
 
         #endregion
     }

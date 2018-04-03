@@ -99,13 +99,13 @@ namespace NeeView
         //
         private void PageSlider_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            _vm.Decide(false);
+            _vm.Jump(false);
         }
 
         //
         private void PageSliderTextBox_ValueChanged(object sender, EventArgs e)
         {
-            _vm.Decide(true);
+            _vm.Jump(true);
         }
 
 

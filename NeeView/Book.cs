@@ -984,7 +984,7 @@ namespace NeeView
             ////Debug.WriteLine($"now: {_viewPageCollection.Range}");
 
             // notice ViewContentsChanged
-            App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewPageCollectionChangedEventArgs(viewContent)));
+            App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(sender, new ViewPageCollectionChangedEventArgs(viewContent)));
 
             // change page
             this.DisplayIndex = viewContent.Range.Min.Index;

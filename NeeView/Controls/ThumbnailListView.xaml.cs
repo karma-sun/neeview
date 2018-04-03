@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,8 @@ namespace NeeView
     /// </summary>
     public partial class ThumbnailListView : UserControl
     {
+        #region DependencyProperties
+
         public ThumbnailList Source
         {
             get { return (ThumbnailList)GetValue(SourceProperty); }
@@ -39,115 +42,97 @@ namespace NeeView
             }
         }
 
+        #endregion
 
-
-
-        //
-        private ThumbnailListViewModel _vm;
-
+        #region Fields
 
         // フィルムストリップのパネルコントロール
         private VirtualizingStackPanel _listPanel;
 
-        /// <summary>
-        /// 
-        /// </summary>
+        private ThumbnailListViewModel _vm;
+        private bool _isDartyThumbnailList = true;
+
+        #endregion
+
+        #region Constructors
+
         public ThumbnailListView()
         {
             InitializeComponent();
         }
 
-        //
+        #endregion
+
+        #region Methods
+
         private void Initialize()
         {
             _vm = new ThumbnailListViewModel(this.Source);
-            _vm.ViewItemsChanged += ViewModel_ViewItemsChanged;
-            _vm.Model.Refleshed += (s, e) => OnPageListChanged();
-            ////_vm.AddPropertyChanged(nameof(_vm.PageNumber), (s, e) => DartyThumbnailList());
-            ////_vm.AddPropertyChanged(nameof(_vm.PageNumber), (s, e) => _vm.SelectedIndex = _vm.PageNumber);
+            _vm.Model.ViewItemsChanged += ViewModel_ViewItemsChanged;
 
+            _vm.Model.AddPropertyChanged(nameof(_vm.Model.SelectedIndex), ViewModel_SelectedIdexChanged);
 
             this.ThumbnailListBox.ManipulationBoundaryFeedback += _vm.Model.ScrollViewer_ManipulationBoundaryFeedback;
 
             this.Root.DataContext = _vm;
         }
 
+        private void ViewModel_SelectedIdexChanged(object sender, PropertyChangedEventArgs e)
+        {
+            App.Current.Dispatcher.BeginInvoke((Action)(() => DartyThumbnailList()));
+        }
+
         private void ViewModel_ViewItemsChanged(object sender, ViewItemsChangedEventArgs e)
         {
-            //await Task.Yield();
-            //App.Current.Dispatcher.BeginInvoke((Action)(() => UpdateSelectedItems()));
-           UpdateViewItems(e.ViewItems, e.Direction);
+            UpdateViewItems(e.ViewItems, e.Direction);
         }
 
         private void UpdateViewItems()
         {
-            if (_vm.ViewItems == null) return;
-            UpdateViewItems(_vm.ViewItems, 0);
+            if (_vm.Model.ViewItems == null) return;
+            UpdateViewItems(_vm.Model.ViewItems, 0);
         }
 
         private void UpdateViewItems(List<Page> items, int direction)
         {
             if (!this.ThumbnailListBox.IsLoaded) return;
-            if (_vm.Items == null) return;
-            //if (_vm.IsPageCollectionDarty) return;
+            if (_vm.Model.Items == null) return;
+            if (_vm.Model.IsItemsDarty) return;
+            if (this.Visibility != Visibility.Visible) return;
 
             if (items.Count == 1)
             {
-                this.ThumbnailListBox.ScrollIntoView(items.First());
+                ScrollIntoView(items.First());
             }
             else if (direction < 0)
             {
-                this.ThumbnailListBox.ScrollIntoView(items.First());
+                ScrollIntoView(items.First());
             }
             else if (direction > 0)
             {
-                this.ThumbnailListBox.ScrollIntoView(items.Last());
+                ScrollIntoView(items.Last());
             }
             else
             {
                 foreach (var item in items)
                 {
-                    this.ThumbnailListBox.ScrollIntoView(item);
+                    ScrollIntoView(item);
                     this.ThumbnailListBox.UpdateLayout();
                 }
             }
-
-            /*
-            if (_vm.SelectedItems == null) return;
-
-            this.ThumbnailListBox.UnselectAll();
-
-            foreach (var item in _vm.SelectedItems)
-            {
-                this.ThumbnailListBox.ScrollIntoView(item);
-                this.ThumbnailListBox.UpdateLayout();
-            }
-            */
         }
 
+        private void ScrollIntoView(object item)
+        {
+            ////Debug.WriteLine($"ScrollInoView: {item}");
+            this.ThumbnailListBox.ScrollIntoView(item);
+        }
 
-
-        private bool _isDartyThumbnailList = true;
-
-        //
         private void ThumbnailListArea_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             DartyThumbnailList();
         }
 
-        /// <summary>
-        /// リスト刷新
-        /// </summary>
-        private void OnPageListChanged()
-        {
-            this.ThumbnailListBox.Items.Refresh();
-            this.ThumbnailListBox.UpdateLayout();
-            DartyThumbnailList();
-            LoadThumbnailList(+1);
-        }
-
-
-        //
         public void DartyThumbnailList(bool isUpdateNow = false)
         {
             if (_vm == null) return;
@@ -160,14 +145,11 @@ namespace NeeView
             }
         }
 
-        //
         public void UpdateThumbnailList()
         {
-            App.Current?.Dispatcher.Invoke(() => UpdateThumbnailList(_vm.PageNumber, _vm.MaxPageNumber));
+            UpdateThumbnailList(_vm.Model.SelectedIndex, _vm.Model.PageSelector.MaxIndex);
         }
 
-
-        //
         private void UpdateThumbnailList(int index, int indexMax)
         {
             if (_listPanel == null) return;
@@ -180,10 +162,6 @@ namespace NeeView
             // ここから
             if (!_isDartyThumbnailList) return;
             _isDartyThumbnailList = false;
-
-            // 選択
-            this.ThumbnailListBox.SelectedIndex = index;
-
 
             if (_vm.Model.IsSelectedCenter)
             {
@@ -217,23 +195,21 @@ namespace NeeView
                 // 表示項目先頭指定
                 var horizontalOffset = scrollUnit == ScrollUnit.Item ? topIndex : topIndex * itemWidth;
                 _listPanel.SetHorizontalOffset(horizontalOffset);
+
             }
             else
             {
                 this.ThumbnailListBox.Width = double.NaN;
-                ////this.ThumbnailListBox.ScrollIntoView(this.ThumbnailListBox.SelectedItem);
-                UpdateViewItems();
+                this.ThumbnailListBox.UpdateLayout();
+                ScrollIntoView(this.ThumbnailListBox.SelectedItem);
             }
 
-            // ##
             ////Debug.WriteLine(topIndex + " / " + this.ThumbnailListBox.Items.Count);
 
             // アライメント更新
             ThumbnailListBox_UpdateAlignment();
         }
 
-
-        //
         private double GetItemWidth()
         {
             if (_listPanel == null || _listPanel.Children.Count <= 0) return 0.0;
@@ -241,9 +217,58 @@ namespace NeeView
             return (_listPanel.Children[0] as ListBoxItem).ActualWidth;
         }
 
+        // サムネ更新。表示されているページのサムネの読み込み要求
+        private void LoadThumbnailList(int direction)
+        {
+            if (!this.Root.IsVisible) return;
+            if (_listPanel == null || !this.ThumbnailListBox.IsVisible || _listPanel.Children.Count <= 0) return;
+
+            var scrollUnit = VirtualizingStackPanel.GetScrollUnit(this.ThumbnailListBox);
+
+            int start;
+            int count;
+
+            if (scrollUnit == ScrollUnit.Item)
+            {
+                start = (int)_listPanel.HorizontalOffset;
+                count = (int)_listPanel.ViewportWidth;
+            }
+            else if (scrollUnit == ScrollUnit.Pixel)
+            {
+                var itemWidth = GetItemWidth();
+                if (itemWidth <= 0.0) return; // 項目の準備ができていない？
+                start = (int)(_listPanel.HorizontalOffset / itemWidth);
+                count = (int)(_listPanel.ViewportWidth / itemWidth) + 1;
+            }
+            else
+            {
+                return;
+            }
+
+            // タイミングにより計算値が不正になることがある対策
+            // 再現性が低い
+            if (count < 0)
+            {
+                Debug.WriteLine($"Error Value!: {count}");
+                return;
+            }
+
+            _vm.RequestThumbnail(start, count, 2, direction);
+        }
+
+        private void MoveSelectedIndex(int delta)
+        {
+            if (_listPanel == null || _vm.Model.SelectedIndex < 0) return;
+
+            if (_listPanel.FlowDirection == FlowDirection.RightToLeft)
+                delta = -delta;
+
+            _vm.MoveSelectedIndex(delta);
+        }
+
+        #endregion
 
         #region ThunbnailList event func
-
 
         private void ThumbnailListBox_Loaded(object sender, RoutedEventArgs e)
         {
@@ -257,29 +282,16 @@ namespace NeeView
             DartyThumbnailList();
         }
 
-        // TODO: 何度も来るのでいいかんじにする
-        private void ThumbnailListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.AddedItems.Count <= 0)
-            {
-                ////this.ThumbnailListBox.SelectedIndex = _vm.PageNumber;
-                _vm.SelectedIndex = _vm.PageNumber;
-                return;
-            }
-
-            ThumbnailListBox_UpdateAlignment();
-        }
-
         private void ThumbnailListBox_UpdateAlignment()
         {
             // 端の表示調整
             if (this.ThumbnailListBox.Width > this.Root.ActualWidth)
             {
-                if (_vm.SelectedIndex <= 0)
+                if (_vm.Model.SelectedIndex <= 0)
                 {
                     this.ThumbnailListBox.HorizontalAlignment = HorizontalAlignment.Left;
                 }
-                else if (_vm.SelectedIndex >= this.ThumbnailListBox.Items.Count - 1)
+                else if (_vm.Model.SelectedIndex >= this.ThumbnailListBox.Items.Count - 1)
                 {
                     this.ThumbnailListBox.HorizontalAlignment = HorizontalAlignment.Right;
                 }
@@ -314,46 +326,39 @@ namespace NeeView
         {
             // 決定
             if (e.Key == Key.Return)
-                _vm.Model.BookOperation.JumpPage(this.ThumbnailListBox.SelectedItem as Page);
+                BookOperation.Current.JumpPage(this.ThumbnailListBox.SelectedItem as Page);
             // 左右スクロールは自前で実装
             else if (e.Key == Key.Right)
-                ThumbnailListBox_MoveSelectedIndex(+1);
+                MoveSelectedIndex(+1);
             else if (e.Key == Key.Left)
-                ThumbnailListBox_MoveSelectedIndex(-1);
+                MoveSelectedIndex(-1);
 
             e.Handled = (e.Key == Key.Up || e.Key == Key.Down || e.Key == Key.Left || e.Key == Key.Right || e.Key == Key.Return);
         }
 
-        //
-        private void ThumbnailListBox_MoveSelectedIndex(int delta)
+
+        private void ThumbnailListBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (_listPanel == null || _vm.SelectedIndex < 0) return;
-
-            if (_listPanel.FlowDirection == FlowDirection.RightToLeft)
-                delta = -delta;
-
-            int index = _vm.SelectedIndex + delta;
-            if (index < 0)
-                index = 0;
-            if (index >= this.ThumbnailListBox.Items.Count)
-                index = this.ThumbnailListBox.Items.Count - 1;
-
-            _vm.SelectedIndex = index;
-            this.ThumbnailListBox.ScrollIntoView(this.ThumbnailListBox.SelectedItem);
+            if (!(bool)e.NewValue) return;
+            LoadThumbnailList(+1);
         }
 
-
-        // 履歴項目決定
-        private void ThumbnailListItem_MouseSingleClick(object sender, MouseButtonEventArgs e)
+        private void ThumbnailListBox_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            var page = (sender as ListBoxItem)?.Content as Page;
-            if (page != null)
-            {
-                _vm.Model.BookOperation.JumpPage(page);
-                e.Handled = true;
-            }
+            int count = MouseInputHelper.DeltaCount(e);
+            int delta = e.Delta < 0 ? +count : -count;
+            if (PageSlider.Current.IsSliderDirectionReversed) delta = -delta;
+            MoveSelectedIndex(delta);
+            e.Handled = true;
         }
 
+        private void ThumbnailListBox_TargetUpdated(object sender, DataTransferEventArgs e)
+        {
+            _vm.Model.IsItemsDarty = false;
+            _vm.FlushSelectedIndex();
+            UpdateViewItems();
+            LoadThumbnailList(+1);
+        }
 
         // スクロールしたらサムネ更新
         private void ThumbnailList_ScrollChanged(object sender, ScrollChangedEventArgs e)
@@ -364,66 +369,19 @@ namespace NeeView
             }
         }
 
-
-        // サムネ更新。表示されているページのサムネの読み込み要求
-        public void LoadThumbnailList(int direction)
+        // 履歴項目決定
+        private void ThumbnailListItem_MouseSingleClick(object sender, MouseButtonEventArgs e)
         {
-            if (!this.Root.IsVisible) return;
-            if (_listPanel == null || !this.ThumbnailListBox.IsVisible || _listPanel.Children.Count <= 0) return;
-
-            var scrollUnit = VirtualizingStackPanel.GetScrollUnit(this.ThumbnailListBox);
-
-            int start;
-            int count;
-
-            if (scrollUnit == ScrollUnit.Item)
+            var page = (sender as ListBoxItem)?.Content as Page;
+            if (page != null)
             {
-                start = (int)_listPanel.HorizontalOffset;
-                count = (int)_listPanel.ViewportWidth;
+                BookOperation.Current.JumpPage(page);
+                e.Handled = true;
             }
-            else if (scrollUnit == ScrollUnit.Pixel)
-            {
-                var itemWidth = (_listPanel.Children[0] as ListBoxItem).ActualWidth;
-                if (itemWidth <= 0.0) return; // 項目の準備ができていない？
-                start = (int)(_listPanel.HorizontalOffset / itemWidth);
-                count = (int)(_listPanel.ViewportWidth / itemWidth) + 1;
-            }
-            else
-            {
-                return;
-            }
-
-            // タイミングにより計算値が不正になることがある対策
-            // 再現性が低い
-            if (count < 0)
-            {
-                Debug.WriteLine($"Error Value!: {count}");
-                return;
-            }
-
-            _vm.RequestThumbnail(start, count, 2, direction);
-        }
-
-
-        //
-        private void ThumbnailListBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (!(bool)e.NewValue) return;
-            LoadThumbnailList(1);
-        }
-
-
-
-        private void ThumbnailListBox_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            int count = MouseInputHelper.DeltaCount(e);
-            int delta = e.Delta < 0 ? +count : -count;
-            if (PageSlider.Current.IsSliderDirectionReversed) delta = -delta;
-            ThumbnailListBox_MoveSelectedIndex(delta);
-            e.Handled = true;
         }
 
         #endregion
+
     }
 
 }

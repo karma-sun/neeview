@@ -22,7 +22,6 @@ namespace NeeView
         private SevenZipExtractor _extractor;
         private string _fileName;
         private Stream _stream;
-        private object _lock;
 
         #endregion
 
@@ -31,14 +30,12 @@ namespace NeeView
         public SevenZipSource(string fileName, object lockObject)
         {
             _fileName = fileName;
-            _lock = lockObject ?? new object();
             Initialize();
         }
 
         public SevenZipSource(Stream stream, object lockObject)
         {
             _stream = stream;
-            _lock = lockObject ?? new object();
             Initialize();
         }
 
@@ -56,14 +53,6 @@ namespace NeeView
         {
         }
 
-        private void DelayClose()
-        {
-            lock (_lock)
-            {
-                Close(true);
-            }
-        }
-
         public SevenZipExtractor Open()
         {
             if (_extractor == null)
@@ -76,13 +65,12 @@ namespace NeeView
 
         public void Close(bool isForce = false)
         {
-            if (_extractor != null)
+            if (_extractor == null) return;
+
+            if (isForce)
             {
-                if (isForce)
-                {
-                    _extractor.Dispose();
-                    _extractor = null;
-                }
+                _extractor.Dispose();
+                _extractor = null;
             }
         }
 
@@ -99,15 +87,8 @@ namespace NeeView
                 {
                 }
 
-                // 投げっぱなし
-                Task.Run(() =>
-                {
-                    lock (_lock)
-                    {
-                        Close(true);
-                        _stream = null;
-                    }
-                });
+                Close(true);
+                _stream = null;
 
                 disposedValue = true;
             }
@@ -236,7 +217,10 @@ namespace NeeView
             // 直接の圧縮ファイルである場合のみアンロック
             if (this.Parent == null || this.Parent is FolderArchive)
             {
-                _source?.Close(true);
+                lock (_lock)
+                {
+                    _source?.Close(true);
+                }
             }
         }
 

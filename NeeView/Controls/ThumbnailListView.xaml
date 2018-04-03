@@ -13,14 +13,14 @@
     </UserControl.Resources>
 
     <Grid x:Name="Root" Visibility="{Binding Model.ThumbnailListVisibility}" SizeChanged="ThumbnailListArea_SizeChanged" UseLayoutRounding="True" >
-        <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding Items}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                             SelectedIndex="{Binding SelectedIndex}" SelectedItem="{Binding SelectedItem}"
+        <ListBox x:Name="ThumbnailListBox" ItemsSource="{Binding Model.Items, NotifyOnTargetUpdated=True}" ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                             SelectedIndex="{Binding Model.SelectedIndex}"
+                             TargetUpdated="ThumbnailListBox_TargetUpdated"
                              UseLayoutRounding="True"
                              ScrollViewer.ScrollChanged="ThumbnailList_ScrollChanged"
                              KeyDown="ThumbnailListBox_KeyDown"
                              IsMouseCapturedChanged="ThumbnailListBox_IsMouseCapturedChanged"
                              IsVisibleChanged="ThumbnailListBox_IsVisibleChanged"
-                             SelectionChanged="ThumbnailListBox_SelectionChanged"
                              Loaded="ThumbnailListBox_Loaded"
                              HorizontalAlignment="Center"
                              VerticalAlignment="Bottom"

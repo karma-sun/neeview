@@ -168,8 +168,10 @@ namespace NeeView
             this.SlideShow = new SlideShow(this.BookHub, this.BookOperation, this.MouseInput);
             this.WindowTitle = new WindowTitle(this.ContentCanvas);
 
-            this.ThumbnailList = new ThumbnailList(this.BookOperation, this.BookHub);
-            this.PageSlider = new PageSlider(this.BookOperation, this.BookSetting, this.BookHub, this.ThumbnailList);
+            var pageSelector = new PageSelector();
+            this.ThumbnailList = new ThumbnailList(pageSelector);
+            this.PageSlider = new PageSlider(this.ThumbnailList, pageSelector);
+
             this.MediaControl = new MediaControl();
             this.AddressBar = new AddressBar();
             this.MenuBar = new MenuBar();

@@ -2,6 +2,8 @@
 using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -26,9 +28,34 @@ namespace NeeView
         private bool _isVisibleThumbnailNumber;
         private bool _isVisibleThumbnailPlate = true;
         private bool _isSliderDirectionReversed;
-        private int _PageNumber;
-        private int _MaxPageNumber;
         private bool _isSelectedCenter;
+        public ObservableCollection<Page> _items;
+        private List<Page> _viewItems = new List<Page>();
+
+        #endregion
+
+        #region Constructors 
+
+        public ThumbnailList(PageSelector pageSelector)
+        {
+            Current = this;
+
+            BookOperation.Current.BookChanging += BookOperator_BookChanging;
+            BookOperation.Current.BookChanged += BookOperator_BookChanged;
+            BookOperation.Current.PageListChanged += BookOperation_PageListChanged;
+
+            this.PageSelector = pageSelector;
+            PageSelector.SelectionChanged += PageSelector_SelectionChanged;
+            PageSelector.ViewContentsChanged += PageSelector_ViewContentsChanged;
+
+            UpdateItems();
+        }
+
+        #endregion
+
+        #region Events
+
+        public event EventHandler<ViewItemsChangedEventArgs> ViewItemsChanged;
 
         #endregion
 
@@ -104,7 +131,7 @@ namespace NeeView
         /// <summary>
         /// フィルムストリップ表示状態
         /// </summary>
-        public Visibility ThumbnailListVisibility => this.BookOperation.GetPageCount() > 0 ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility ThumbnailListVisibility => BookOperation.Current.GetPageCount() > 0 ? Visibility.Visible : Visibility.Collapsed;
 
         /// <summary>
         /// スライダー方向
@@ -113,27 +140,12 @@ namespace NeeView
         public bool IsSliderDirectionReversed
         {
             get { return _isSliderDirectionReversed; }
-            set { if (_isSliderDirectionReversed != value) { _isSliderDirectionReversed = value; RaisePropertyChanged(); Refleshed?.Invoke(this, null); } }
+            set { if (_isSliderDirectionReversed != value) { _isSliderDirectionReversed = value; RaisePropertyChanged(); UpdateItems(); } }
         }
 
 
-        /// <summary>
-        /// ページ番号
-        /// </summary>
-        public int PageNumber
-        {
-            get { return _PageNumber; }
-            set { if (_PageNumber != value) { _PageNumber = value; RaisePropertyChanged(); PageNumberChanged?.Invoke(this, null); } }
-        }
+        public PageSelector PageSelector { get; private set; }
 
-        /// <summary>
-        /// 最大ページ番号
-        /// </summary>
-        public int MaxPageNumber
-        {
-            get { return _MaxPageNumber; }
-            set { if (_MaxPageNumber != value) { _MaxPageNumber = value; RaisePropertyChanged(); PageNumberChanged?.Invoke(this, null); } }
-        }
 
         /// <summary>
         /// スクロールビュータッチ操作の終端挙動
@@ -151,90 +163,133 @@ namespace NeeView
             set { if (_isSelectedCenter != value) { _isSelectedCenter = value; RaisePropertyChanged(); } }
         }
 
-        //
-        public BookOperation BookOperation { get; private set; }
-        public BookHub BookHub { get; private set; }
-
-        #endregion
-
-        #region Constructors 
-
-        public ThumbnailList(BookOperation bookOperation, BookHub bookHub)
+        public ObservableCollection<Page> Items
         {
-            Current = this;
-
-            this.BookOperation = bookOperation;
-            this.BookHub = bookHub;
-
-            this.BookHub.BookChanging +=
-                OnBookChanging;
-
-            this.BookHub.BookChanged +=
-                OnBookChanged;
-
-            this.BookOperation.PagesSorted +=
-                OnPageListChanged;
+            get { return _items; }
+            set { if (_items != value) { _items = value; IsItemsDarty = true; RaisePropertyChanged(); } }
         }
 
-        #endregion
+        // コレクション切り替え直後はListBoxに反映されない。
+        // 反映されたらこのフラグをクリアする。
+        public bool IsItemsDarty { get; set; }
 
-        #region Events
+        public int SelectedIndex
+        {
+            get { return GetIndexWithDirectionReverse(PageSelector.SelectedIndex); }
+            set { PageSelector.SetSelectedIndex(this, GetIndexWithDirectionReverse(value), true); }
+        }
 
-        /// <summary>
-        /// フィルムストリップの内容が更新された
-        /// </summary>
-        public event EventHandler Refleshed;
+        public List<Page> ViewItems
+        {
+            get { return _viewItems; }
+            set
+            {
+                if (_viewItems.SequenceEqual(value)) return;
 
-        /// <summary>
-        /// ページ番号が更新された
-        /// </summary>
-        public event EventHandler PageNumberChanged;
+                var removes = _viewItems.Where(e => !value.Contains(e));
+                var direction = removes.Any() && value.Any() ? removes.First().Index < value.First().Index ? +1 : -1 : 0;
+
+                _viewItems = value;
+
+                ViewItemsChanged?.Invoke(this, new ViewItemsChangedEventArgs(_viewItems, direction));
+            }
+        }
 
         #endregion
 
         #region Methods
 
+        private void PageSelector_SelectionChanged(object sender, EventArgs e)
+        {
+            if (sender == this) return;
+            RaisePropertyChanged(nameof(SelectedIndex));
+        }
+
+        private void PageSelector_ViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
+        {
+            var contents = e?.ViewPageCollection?.Collection;
+            if (contents == null) return;
+
+            this.ViewItems = contents.Where(i => i != null).Select(i => i.Page).OrderBy(i => i.Index).ToList();
+        }
+
+        private int GetIndexWithDirectionReverse(int value)
+        {
+            return Math.Max(-1, IsSliderDirectionReversed ? PageSelector.MaxIndex - value : value);
+        }
+
         //
+        public void UpdateItems()
+        {
+            if (IsSliderDirectionReversed)
+            {
+                // 右から左
+                this.Items = BookOperation.Current.PageList != null ? new ObservableCollection<Page>(BookOperation.Current.PageList.Reverse()) : null;
+            }
+            else
+            {
+                // 左から右
+                this.Items = BookOperation.Current.PageList;
+            }
+        }
+
+        //
+        public void MoveSelectedIndex(int delta)
+        {
+            int index = SelectedIndex + delta;
+            if (index < 0)
+                index = 0;
+            if (index >= this.Items.Count)
+                index = this.Items.Count - 1;
+
+            SelectedIndex = index;
+            RaisePropertyChanged(nameof(SelectedIndex));
+        }
+
+        public void FlushSelectedIndex()
+        {
+            PageSelector.FlushSelectedIndex(this);
+            RaisePropertyChanged(nameof(SelectedIndex));
+        }
+
         public bool ToggleVisibleThumbnailList()
         {
             return IsEnableThumbnailList = !IsEnableThumbnailList;
         }
 
-        //
         public bool ToggleHideThumbnailList()
         {
             return IsHideThumbnailList = !IsHideThumbnailList;
         }
 
         // 本が変更される
-        private void OnBookChanging(object sender, EventArgs e)
+        private void BookOperator_BookChanging(object sender, EventArgs e)
         {
             // 未処理のサムネイル要求を解除
             JobEngine.Current.Clear(QueueElementPriority.PageThumbnail);
+            IsItemsDarty = true;
         }
 
         // 本が変更された
-        private void OnBookChanged(object sender, BookChangedEventArgs e)
+        private void BookOperator_BookChanged(object sender, BookChangedEventArgs e)
         {
-            RaisePropertyChanged(nameof(ThumbnailListVisibility));
-            Refleshed?.Invoke(this, null);
         }
 
-        // ページの並び順が変更された
-        private void OnPageListChanged(object sender, EventArgs e)
+        private void BookOperation_PageListChanged(object sender, EventArgs e)
         {
-            JobEngine.Current.Clear(QueueElementPriority.PageThumbnail);
-
-            App.Current.Dispatcher.BeginInvoke((Action)(() =>
-                {
-                    RaisePropertyChanged(nameof(ThumbnailListVisibility));
-                    Refleshed?.Invoke(this, null);
-                }));
+            UpdateItems();
+            RaisePropertyChanged(nameof(ThumbnailListVisibility));
         }
 
         // サムネイル要求
         public void RequestThumbnail(int start, int count, int margin, int direction)
         {
+            if (IsSliderDirectionReversed)
+            {
+                start = PageSelector.MaxIndex - (start + count - 1);
+                direction = -direction;
+            }
+
             var pageList = BookOperation.Current.PageList;
 
             if (pageList == null || ThumbnailSize < 8.0) return;
@@ -243,7 +298,7 @@ namespace NeeView
             if (!IsEnableThumbnailList) return;
 
             // 本の切り替え中は処理しない
-            if (!this.BookOperation.IsEnabled) return;
+            if (!BookOperation.Current.IsEnabled) return;
 
             //Debug.WriteLine($"> RequestThumbnail: {start} - {start + count - 1}");
 
@@ -304,7 +359,6 @@ namespace NeeView
             }
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -318,7 +372,6 @@ namespace NeeView
             return memento;
         }
 
-        //
         public void Restore(Memento memento)
         {
             if (memento == null) return;

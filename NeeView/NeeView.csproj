@@ -157,6 +157,7 @@
     </Compile>
     <Compile Include="Controls\MediaControlViewModel.cs" />
     <Compile Include="Controls\MediaPlayerOperator.cs" />
+    <Compile Include="Controls\PageSelector.cs" />
     <Compile Include="Converters\BooleanToBrushConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityHiddenConverter.cs" />
     <Compile Include="GridLine.cs" />

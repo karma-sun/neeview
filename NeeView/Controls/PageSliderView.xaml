@@ -22,7 +22,7 @@
             
             <Grid Height="30">
                 <local:VideoSlider x:Name="Slider"
-                                   Maximum="{Binding Model.MaxPageNumber}" Value="{Binding Model.PageNumber}"
+                                   Maximum="{Binding Model.PageSelector.MaxIndex}" Value="{Binding Model.SelectedIndex}"
                                    IsDirectionReversed="{Binding Model.IsSliderDirectionReversed}" Focusable="False"
                                    PreviewMouseLeftButtonUp="PageSlider_PreviewMouseLeftButtonUp"/>
                 <local:PageMarkersView x:Name="PageMarkersView" IsHitTestVisible="False" />

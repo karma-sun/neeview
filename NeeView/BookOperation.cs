@@ -43,29 +43,30 @@ namespace NeeView
             Current = this;
 
             _bookHub = bookHub;
-
-            _bookHub.BookChanged +=
-                (s, e) => SetBook(_bookHub.BookUnit);
-
-            _bookHub.Loading +=
-                (s, e) =>
-                {
-                    if (_bookHub.IsLoading) IsEnabled = false;
-                };
+            _bookHub.BookChanging += BookHub_BookChanging;
+            _bookHub.BookChanged += BookHub_BookChanged;
         }
+
+
 
         #endregion
 
         #region Events
 
+        // ブックが変更される
+        public event EventHandler BookChanging;
+
         // ブックが変更された
-        public event EventHandler BookChanged;
+        public event EventHandler<BookChangedEventArgs> BookChanged;
 
         // ページが変更された
         public event EventHandler<PageChangedEventArgs> PageChanged;
 
         // ページがソートされた
         public event EventHandler PagesSorted;
+
+        // ページリストが変更された
+        public event EventHandler PageListChanged;
 
         // ページが削除された
         public event EventHandler<PageChangedEventArgs> PageRemoved;
@@ -87,35 +88,21 @@ namespace NeeView
             set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); } }
         }
 
-        /// <summary>
-        /// Book property.
-        /// </summary>
         public BookUnit BookUnit
         {
             get { return _bookUnit; }
-            set { if (_bookUnit != value) { _bookUnit = value; RaisePropertyChanged(); } }
+            private set { if (_bookUnit != value) { _bookUnit = value; RaisePropertyChanged(); } }
         }
 
-        //
         public Book Book => _bookUnit?.Book;
 
-        //
         public string Place => _bookUnit?.Book.Place;
 
-        //
         public bool IsValid => _bookUnit != null;
 
-        /// <summary>
-        /// PaageList
-        /// </summary>
         public ObservableCollection<Page> PageList
         {
             get { return _pageList; }
-            set
-            {
-                _pageList = value;
-                RaisePropertyChanged();
-            }
         }
 
         /// <summary>
@@ -140,13 +127,21 @@ namespace NeeView
 
         #region Methods
 
+
+        private void BookHub_BookChanging(object sender, EventArgs e)
+        {
+            // ブック操作無効
+            IsEnabled = false;
+
+            BookChanging?.Invoke(sender, e);
+        }
+
         /// <summary>
         /// 本の更新
         /// </summary>
-        /// <param name="bookUnit"></param>
-        public void SetBook(BookUnit bookUnit)
+        private void BookHub_BookChanged(object sender, BookChangedEventArgs e)
         {
-            this.BookUnit = bookUnit;
+            this.BookUnit = _bookHub.BookUnit;
 
             if (this.BookUnit != null)
             {
@@ -164,18 +159,21 @@ namespace NeeView
             UpdatePagemark();
 
             // ページリスト更新
-            UpdatePageList();
+            UpdatePageList(false);
 
             // ブック操作有効
             IsEnabled = true;
 
-            BookChanged?.Invoke(this, null);
+            BookChanged?.Invoke(sender, e);
+
+            // ページリスト更新通知
+            PageListChanged?.Invoke(this, null);
         }
 
         //
         private void Book_PagesSorted(object sender, EventArgs e)
         {
-            UpdatePageList();
+            UpdatePageList(true);
             PagesSorted?.Invoke(this, e);
         }
 
@@ -195,10 +193,18 @@ namespace NeeView
         // いや、ListBoxを独立させ、それ自体を作り直す方向で？んー？
         // 問い合わせがいいな。
         // 問い合わせといえば、BitmapImageでOutOfMemoryが取得できない問題も。
-        public void UpdatePageList()
+        public void UpdatePageList(bool raisePageListChanged)
         {
             var pages = this.Book?.Pages;
-            PageList = pages != null ? new ObservableCollection<Page>(pages) : null;
+            var pageList = pages != null ? new ObservableCollection<Page>(pages) : null;
+
+            if (SetProperty(ref _pageList, pageList, nameof(PageList)))
+            {
+                if (raisePageListChanged)
+                {
+                    PageListChanged?.Invoke(this, null);
+                }
+            }
 
             RaisePropertyChanged(nameof(IsPagemark));
         }
@@ -467,7 +473,7 @@ namespace NeeView
             // ページマーカーから削除
             RemovePagemark(new Pagemark(this.Book.Place, e.Page.FullPath));
 
-            UpdatePageList();
+            UpdatePageList(true);
             PageRemoved?.Invoke(sender, e);
         }
 

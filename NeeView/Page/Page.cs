@@ -355,6 +355,12 @@ namespace NeeView
         #endregion
 
 
+        // ToString
+        public override string ToString()
+        {
+            return LastName != null ? "Page." + LastName : base.ToString();
+        }
+
 
         // ファイルの場所を取得
         public string GetFilePlace()

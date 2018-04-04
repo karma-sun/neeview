@@ -68,8 +68,21 @@ namespace NeeView
         public string Name { get; set; }
         [DataMember]
         public MenuElementType MenuElementType { get; set; }
-        [DataMember]
+
+        [DataMember(Name = "Command")]
+        public string CommandString
+        {
+            get { return Command.ToString(); }
+            set
+            {
+                if (Enum.TryParse(value, out CommandType command))
+                {
+                    Command = command;
+                }
+            }
+        }
         public CommandType Command { get; set; }
+
         [DataMember(EmitDefaultValue = false)]
         public ObservableCollection<MenuTree> Children { get; set; }
 

@@ -118,27 +118,34 @@ namespace NeeView
             if (!this.ListBox.IsLoaded) return;
             if (_vm.Model.PageCollection == null) return;
             if (_vm.IsPageCollectionDarty) return;
+            if (!this.IsVisible) return;
 
             if (items.Count == 1)
             {
-                this.ListBox.ScrollIntoView(items.First());
+                ScrollIntoView(items.First());
             }
             else if (direction < 0)
             {
-                this.ListBox.ScrollIntoView(items.First());
+                ScrollIntoView(items.First());
             }
             else if (direction > 0)
             {
-                this.ListBox.ScrollIntoView(items.Last());
+                ScrollIntoView(items.Last());
             }
             else
             {
                 foreach (var item in items)
                 {
-                    this.ListBox.ScrollIntoView(item);
+                    ScrollIntoView(item);
                     this.ListBox.UpdateLayout();
                 }
             }
+        }
+
+        private void ScrollIntoView(object item)
+        {
+            ////Debug.WriteLine($"PL:ScrollIntoView: {item}");
+            this.ListBox.ScrollIntoView(item);
         }
 
         //

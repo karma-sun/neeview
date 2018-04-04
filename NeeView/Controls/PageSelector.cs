@@ -108,7 +108,8 @@ namespace NeeView
             var mainContent = contents.Count > 0 ? (contents.First().PagePart.Position < contents.Last().PagePart.Position ? contents.First() : contents.Last()) : null;
             if (mainContent != null)
             {
-                SetSelectedIndex(sender, mainContent.Page.Index, true);
+                SetSelectedIndex(sender, mainContent.Page.Index, false);
+                SelectionChanged?.Invoke(sender, null);
             }
 
             ViewContentsChanged?.Invoke(sender, e);

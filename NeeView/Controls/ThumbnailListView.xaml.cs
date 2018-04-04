@@ -98,7 +98,7 @@ namespace NeeView
             if (!this.ThumbnailListBox.IsLoaded) return;
             if (_vm.Model.Items == null) return;
             if (_vm.Model.IsItemsDarty) return;
-            if (this.Visibility != Visibility.Visible) return;
+            if (!this.IsVisible) return;
 
             if (items.Count == 1)
             {
@@ -124,7 +124,7 @@ namespace NeeView
 
         private void ScrollIntoView(object item)
         {
-            ////Debug.WriteLine($"ScrollInoView: {item}");
+            //Debug.WriteLine($"FS:ScrollInoView: {item}");
             this.ThumbnailListBox.ScrollIntoView(item);
         }
 
@@ -156,10 +156,6 @@ namespace NeeView
 
             if (!_vm.Model.IsEnableThumbnailList) return;
 
-            // リストボックス項目と同期がまだ取れていなければ処理しない
-            //if (indexMax + 1 != this.ThumbnailListBox.Items.Count) return;
-
-            // ここから
             if (!_isDartyThumbnailList) return;
             _isDartyThumbnailList = false;
 

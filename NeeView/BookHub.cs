@@ -287,7 +287,7 @@ namespace NeeView
 
 
         // 自動再帰
-        private bool _isAutoRecursive = true;
+        private bool _isAutoRecursive = false;
         [PropertyMember("@ParamIsAutoRecursive")]
         public bool IsAutoRecursive
         {

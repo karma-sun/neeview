@@ -17,10 +17,11 @@ namespace NeeView.Setting
             this.Children = new List<SettingPage>
             {
                 new SettingPageVisualGeneral(),
-                new SettingPageVisualFont(),
-                new SettingPageVisualThumbnail(),
                 new SettingPageVisualNotify(),
+                new SettingPageVisualFont(),
                 new SettingPageVisualWindowTitile(),
+                new SettingPageVisualThumbnail(),
+                new SettingPageVisualFilmstrip(),
                 new SettingPageVisualSlider(),
                 new SettingPagePanelGeneral(),
                 new SettingPagePanelFolderList(),
@@ -72,19 +73,10 @@ namespace NeeView.Setting
         {
             this.Items = new List<SettingItem>
             {
-
                 new SettingItemSection(Properties.Resources.SettingPageVisualThumbnailPanel,
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.ThumbnailWidth))),
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.IsThumbnailPopup))),
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.BannerWidth)))),
-
-                 new SettingItemSection(Properties.Resources.SettingPageVisualThumbnailFilmStrip,
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.ThumbnailSize))),
-                    new SettingItemProperty(PropertyMemberElement.Create(PageSlider.Current, nameof(PageSlider.IsSliderLinkedThumbnailList))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsVisibleThumbnailNumber))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsVisibleThumbnailPlate))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsSelectedCenter))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsManipulationBoundaryFeedbackEnabled)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageVisualThumbnailCache,
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.IsCacheEnabled))),
@@ -123,6 +115,61 @@ namespace NeeView.Setting
                 dialog.ShowDialog();
             }
             catch(Exception ex)
+            {
+                var dialog = new MessageDialog(ex.Message, Properties.Resources.DialogCacheDeletedFailedTitle);
+                if (element != null)
+                {
+                    dialog.Owner = Window.GetWindow(element);
+                }
+                dialog.ShowDialog();
+            }
+        }
+
+        #endregion
+    }
+
+
+    public class SettingPageVisualFilmstrip : SettingPage
+    {
+        public SettingPageVisualFilmstrip() : base(Properties.Resources.SettingPageVisualFilmstrip)
+        {
+            this.Items = new List<SettingItem>
+            {
+                 new SettingItemSection(Properties.Resources.SettingPageVisualFilmstripFilmstrip,
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.ThumbnailSize))),
+                    new SettingItemProperty(PropertyMemberElement.Create(PageSlider.Current, nameof(PageSlider.IsSliderLinkedThumbnailList))),
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsVisibleThumbnailNumber))),
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsVisibleThumbnailPlate))),
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsSelectedCenter))),
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsManipulationBoundaryFeedbackEnabled)))),
+            };
+        }
+
+        #region Commands
+
+        /// <summary>
+        /// RemoveCache command.
+        /// </summary>
+        private RelayCommand<UIElement> _RemoveCache;
+        public RelayCommand<UIElement> RemoveCache
+        {
+            get { return _RemoveCache = _RemoveCache ?? new RelayCommand<UIElement>(RemoveCache_Executed); }
+        }
+
+        private void RemoveCache_Executed(UIElement element)
+        {
+            try
+            {
+                ThumbnailCache.Current.Remove();
+
+                var dialog = new MessageDialog("", Properties.Resources.DialogCacheDeletedTitle);
+                if (element != null)
+                {
+                    dialog.Owner = Window.GetWindow(element);
+                }
+                dialog.ShowDialog();
+            }
+            catch (Exception ex)
             {
                 var dialog = new MessageDialog(ex.Message, Properties.Resources.DialogCacheDeletedFailedTitle);
                 if (element != null)

@@ -3808,7 +3808,10 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="SettingPageVisualThumbnailCacheClearTips" xml:space="preserve">
     <value>サムネイルキャッシュを削除する</value>
   </data>
-  <data name="SettingPageVisualThumbnailFilmStrip" xml:space="preserve">
+  <data name="SettingPageVisualFilmstrip" xml:space="preserve">
+    <value>フィルムストリップ</value>
+  </data>
+  <data name="SettingPageVisualFilmstripFilmstrip" xml:space="preserve">
     <value>フィルムストリップ</value>
   </data>
   <data name="SettingPageVisualThumbnailPanel" xml:space="preserve">

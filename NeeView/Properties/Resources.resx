@@ -3808,8 +3808,11 @@ Details of the error are output to the following file.
   <data name="SettingPageVisualThumbnailCacheClearTips" xml:space="preserve">
     <value>Clear thumbnail cache</value>
   </data>
-  <data name="SettingPageVisualThumbnailFilmStrip" xml:space="preserve">
-    <value>Film strip</value>
+  <data name="SettingPageVisualFilmstrip" xml:space="preserve">
+    <value>Filmstrip</value>
+  </data>
+  <data name="SettingPageVisualFilmstripFilmstrip" xml:space="preserve">
+    <value>Filmstrip</value>
   </data>
   <data name="SettingPageVisualThumbnailPanel" xml:space="preserve">
     <value>List item thumbnail</value>

@@ -11147,6 +11147,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Filmstrip に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageVisualFilmstrip {
+            get {
+                return ResourceManager.GetString("SettingPageVisualFilmstrip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Filmstrip に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageVisualFilmstripFilmstrip {
+            get {
+                return ResourceManager.GetString("SettingPageVisualFilmstripFilmstrip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Font に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageVisualFont {
@@ -11296,15 +11314,6 @@ namespace NeeView.Properties {
         public static string SettingPageVisualThumbnailCacheClearTips {
             get {
                 return ResourceManager.GetString("SettingPageVisualThumbnailCacheClearTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Film strip に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string SettingPageVisualThumbnailFilmStrip {
-            get {
-                return ResourceManager.GetString("SettingPageVisualThumbnailFilmStrip", resourceCulture);
             }
         }
         

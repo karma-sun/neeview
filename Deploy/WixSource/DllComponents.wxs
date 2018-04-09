@@ -103,6 +103,9 @@
                     <Component Id="cmp9AC34FFE315750C746B9E441DD4DE751" Guid="*">
                         <File Id="fil3A6EE1EE320DC44669A8C644D3B8438E" KeyPath="yes" Source="$(var.LibrariesDir)\ja-JP\NeeView.resources.dll" />
                     </Component>
+                    <Component Id="cmp471FE19C21E9117DE5B221F5A056F836" Guid="*">
+                        <File Id="fil0105543F6C78D804A6AC1CFA641515B9" KeyPath="yes" Source="$(var.LibrariesDir)\ja-JP\NeeViewS.resources.dll" />
+                    </Component>
                 </Directory>
                 <Directory Id="dir0F7670AEA3B497D58CE9F2C66BE90264" Name="ko">
                     <Component Id="cmp82F8965B538FD4C767DDD98214D2E6FF" Guid="*">
@@ -204,6 +207,7 @@
             <ComponentRef Id="cmp5CB5F004805438B85A517EF3367346B2" />
             <ComponentRef Id="cmpB2B588646548B6174DE086DCFF093B52" />
             <ComponentRef Id="cmp9AC34FFE315750C746B9E441DD4DE751" />
+            <ComponentRef Id="cmp471FE19C21E9117DE5B221F5A056F836" />
             <ComponentRef Id="cmp82F8965B538FD4C767DDD98214D2E6FF" />
             <ComponentRef Id="cmp60E5C0B1F90A8D683100A3339324ADDD" />
             <ComponentRef Id="cmpB984F01B5404D40012F02C543DFA7CC0" />

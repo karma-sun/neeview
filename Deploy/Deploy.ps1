@@ -265,8 +265,10 @@ function New-Readme($packageDir, $culture, $isAppx)
 function New-Zip
 {
 	Copy-Item $packageX64Dir $packageDir -Recurse
+
 	Copy-Item "$packageX86Dir\*.exe" $packageDir
 	Copy-Item "$packageX86Dir\*.exe.config" $packageDir
+	Copy-Item "$packageX86Dir\Libraries\ja-JP\NeeViewS.resources.dll" "$packageDir\Libraries\ja-JP"
 
 	Compress-Archive $packageDir -DestinationPath $packageZip
 }
@@ -395,6 +397,7 @@ function New-Msi($packageDir, $packageMsi)
 		}
 	}
 
+	### Create DllComponents.wxs
 	#New-DllComponents
 
 	New-MsiSub $packageMsi "en-us"

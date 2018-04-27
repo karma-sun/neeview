@@ -999,6 +999,11 @@ namespace NeeView
             {
                 this.LayerMenuSocket.Visibility = MenuLayerVisibility.Visibility;
             };
+
+            App.Current.AddPropertyChanged(nameof(App.AutoHideDelayTime), (s, e) =>
+            {
+                MenuLayerVisibility.DefaultDelayTime = App.Current.AutoHideDelayTime;
+            });
         }
 
         /// <summary>
@@ -1041,6 +1046,11 @@ namespace NeeView
                     this.ThumbnailListArea.UpdateThumbnailList();
                 }
             };
+
+            App.Current.AddPropertyChanged(nameof(App.AutoHideDelayTime), (s, e) =>
+            {
+                StatusLayerVisibility.DefaultDelayTime = App.Current.AutoHideDelayTime;
+            });
         }
 
         /// <summary>

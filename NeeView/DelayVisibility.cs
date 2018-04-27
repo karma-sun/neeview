@@ -12,28 +12,14 @@ namespace NeeView
 {
     public class DelayVisibility : BindableBase
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        public event EventHandler Changed;
+        #region Fields
 
-
-        /// <summary>
-        /// MenuLayerVisibility property.
-        /// </summary>
-        public Visibility Visibility
-        {
-            get { return Get(); }
-            set { Set(value); }
-        }
-
-        //
         private DelayValue<Visibility> _visibility;
 
-        //
-        public double DefaultDelayTime { get; set; } = 1.0;
+        #endregion
 
-        //
+        #region Constructors
+
         public DelayVisibility()
         {
             _visibility = new DelayValue<Visibility>(Visibility.Collapsed);
@@ -44,29 +30,49 @@ namespace NeeView
             };
         }
 
-        //
+        #endregion
+
+        #region Events
+
+        public event EventHandler Changed;
+
+        #endregion
+
+        #region Properties
+
+        public Visibility Visibility
+        {
+            get { return Get(); }
+            set { Set(value); }
+        }
+
+        public double DefaultDelayTime { get; set; } = 1.0;
+
+        #endregion
+
+        #region Methods
+
         public Visibility Get()
         {
             return _visibility.Value;
         }
 
-        //
         public void Set(Visibility visibility)
         {
             var delay = this.DefaultDelayTime * 1000;
             _visibility.SetValue(visibility, visibility == Visibility.Visible ? 0 : delay);
         }
 
-        //
         public void SetDelayVisibility(Visibility visibility, int ms)
         {
-            _visibility.SetValue(visibility, ms);
+            _visibility.SetValue(visibility, visibility == Visibility.Visible ? 0 : ms);
         }
 
-        //
         public string ToDetail()
         {
             return _visibility.ToDetail();
         }
+
+        #endregion
     }
 }

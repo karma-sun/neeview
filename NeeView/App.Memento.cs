@@ -38,6 +38,7 @@ namespace NeeView
         private bool _isNetworkEnalbe = true;
         private bool _isSettingBackup;
         private bool _isSaveWindowPlacement;
+        private double _AutoHideDelayTime = 1.0;
 
         #endregion
 
@@ -92,7 +93,11 @@ namespace NeeView
 
         // パネルやメニューが自動的に消えるまでの時間(秒)
         [PropertyMember("@ParamAutoHideDelayTime")]
-        public double AutoHideDelayTime { get; set; } = 1.0;
+        public double AutoHideDelayTime
+        {
+            get { return _AutoHideDelayTime; }
+            set { if (_AutoHideDelayTime != value) { _AutoHideDelayTime = value; RaisePropertyChanged(); } }
+        }
 
         // ウィンドウクローム枠
         [PropertyMember("@ParamWindowChromeFrame")]

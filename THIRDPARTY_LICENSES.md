@@ -4,9 +4,9 @@
 
 DLL: 7z.dll
 
-* Copyright (C) 1999-2016 Igor Pavlov.
+* Copyright (C) 1999-2018 Igor Pavlov.
 * URL: [7-Zip](http://www.7-zip.org/)
-* License: [GNU LGPL + unRAR restriction](http://www.7-zip.org/license.txt)
+* License: [GNU LGPL + BSD 3-clause License + unRAR restriction](http://www.7-zip.org/license.txt)
 
 ### SevenZipSharp
 

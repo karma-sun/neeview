@@ -2393,7 +2393,7 @@ Details of the error are output to the following file.
     <value>_Jump</value>
   </data>
   <data name="MenuTreeOther" xml:space="preserve">
-    <value>_Otner</value>
+    <value>_Other</value>
   </data>
   <data name="MenuTreePage" xml:space="preserve">
     <value>_Page</value>

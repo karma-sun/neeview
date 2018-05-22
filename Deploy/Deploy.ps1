@@ -344,6 +344,10 @@ function New-PackageAppend($packageDir)
 	# configure customize
 	New-ConfigForMsi $packageDir "${product}.exe.config" $packageAppendDir
 	New-ConfigForMsi $packageDir "${product}S.exe.config" $packageAppendDir
+
+	# icons
+	Copy-Item "$projectDir\Resources\App.ico" $packageAppendDir
+	Copy-Item "$projectDir\Resources\AppS.ico" $packageAppendDir
 }
 
 

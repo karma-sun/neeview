@@ -75,7 +75,7 @@
       <Component Guid="*">
         <File Source="$(var.ContentDir)NeeView.exe" KeyPath="yes" Checksum="yes" >
           <netfx:NativeImage Id="ngen_NeeView.exe" Platform="all" Priority="0"/>
-          <Shortcut Id="MyMenuShortcut" Directory="AppStartMenuDir" Name="NeeView" WorkingDirectory="INSTALLFOLDER" Icon="App.ico" Advertise="yes"/>
+          <Shortcut Id="MyMenuShortcut" Directory="AppStartMenuDir" Name="NeeView" WorkingDirectory="INSTALLFOLDER" Advertise="yes"/>
         </File>
       </Component>
       <Component>
@@ -87,7 +87,7 @@
       <Component Guid="*">
         <File Source="$(var.ContentDir)NeeViewS.exe" KeyPath="yes" Checksum="yes" >
           <netfx:NativeImage Id="ngen_NeeViewS.exe" Platform="32bit" Priority="0"/>
-          <Shortcut Id="MyMenuShortcutS" Directory="AppStartMenuDir" Name="NeeViewS" WorkingDirectory="INSTALLFOLDER" Icon="AppS.ico" Advertise="yes"/>
+          <Shortcut Id="MyMenuShortcutS" Directory="AppStartMenuDir" Name="NeeViewS" WorkingDirectory="INSTALLFOLDER" Advertise="yes"/>
         </File>
       </Component>
       <Component>
@@ -97,8 +97,6 @@
 
     <!-- icon -->
     <Icon Id="App.ico" SourceFile="$(var.AppendDir)App.ico" />
-    <Icon Id="AppS.ico" SourceFile="$(var.AppendDir)AppS.ico" />
-
 
     <!-- startmenu dir -->
     <DirectoryRef Id="AppStartMenuDir">

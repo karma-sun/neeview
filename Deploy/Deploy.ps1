@@ -347,7 +347,6 @@ function New-PackageAppend($packageDir)
 
 	# icons
 	Copy-Item "$projectDir\Resources\App.ico" $packageAppendDir
-	Copy-Item "$projectDir\Resources\AppS.ico" $packageAppendDir
 }
 
 

@@ -35,7 +35,7 @@ namespace NeeView.Effects
         /// Property: White
         /// </summary>
         [DataMember]
-        [PropertyRange("Name", 0, 1)]
+        [PropertyRange("White", 0, 1)]
         [DefaultValue(1.0)]
         public double White
         {

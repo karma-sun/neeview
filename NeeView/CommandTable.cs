@@ -1300,7 +1300,7 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = Properties.Resources.CommandGroupMove;
                 element.Text = Properties.Resources.CommandLastPage;
-                element.Note = Properties.Resources.CommandFirstPageNote;
+                element.Note = Properties.Resources.CommandLastPageNote;
                 element.ShortCutKey = "Ctrl+Left";
                 element.MouseGesture = "UL";
                 element.Execute = (s, e) => _models.BookOperation.LastPage();

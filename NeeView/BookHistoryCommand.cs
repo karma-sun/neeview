@@ -36,7 +36,7 @@ namespace NeeView
             if (_bookHub.IsLoading || _bookHistory.Count <= 0) return;
 
             var node = _bookHistory.FindNode(_bookHub.Address);
-            var previous = node == null ? BookHistoryCollection.Current.First : node?.Next.Value; // リストと履歴の方向は逆
+            var previous = node == null ? BookHistoryCollection.Current.First.Value : node?.Next.Value; // リストと履歴の方向は逆
 
             if (previous != null)
             {

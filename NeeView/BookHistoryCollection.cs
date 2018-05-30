@@ -12,9 +12,6 @@ using System.Xml;
 
 namespace NeeView
 {
-    /// <summary>
-    /// 履歴
-    /// </summary>
     public class BookHistoryCollection : BindableBase
     {
         public static BookHistoryCollection Current { get; private set; } = new BookHistoryCollection();
@@ -30,7 +27,6 @@ namespace NeeView
         public BookHistoryCollection()
         {
             Current = this;
-            Items = new LinkedList<BookHistory>();
 
             HistoryChanged += (s, e) => RaisePropertyChanged(nameof(Count));
         }
@@ -46,8 +42,7 @@ namespace NeeView
         #region Prperties
 
         // 履歴コレクション
-        // 膨大な数で変更が頻繁に行われるのでLinkedList
-        public LinkedList<BookHistory> Items { get; set; }
+        public LinkedDicionary<string, BookHistory> Items { get; set; } = new LinkedDicionary<string, BookHistory>();
 
         // 履歴制限
         [PropertyMember("@ParamHistoryLimitSize")]
@@ -65,7 +60,7 @@ namespace NeeView
         public int Count => Items.Count;
 
         // 先頭の要素
-        public BookHistory First => Items.First();
+        public LinkedListNode<BookHistory> First => Items.First;
 
         #endregion
 
@@ -141,7 +136,8 @@ namespace NeeView
             {
                 // TODO: 検索負荷が重いので、unit関連付けの遅延処理を
                 var unit = BookMementoCollection.Current.Get(item.Place);
-                Items.AddLast(new BookHistory(unit, item.LastAccessTime));
+                var newItem = new BookHistory(unit, item.LastAccessTime);
+                Items.AddLastRaw(newItem.Place, newItem);
             }
 
             HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Load, null));
@@ -153,7 +149,7 @@ namespace NeeView
         {
             if (place == null) return false;
 
-            return Items.Any(e => e.Place == place);
+            return Items.ContainsKey(place);
         }
 
 
@@ -162,19 +158,7 @@ namespace NeeView
         {
             if (place == null) return null;
 
-            // TODO: キャッシュによる高速化？いや、Dictionaryとの合わせ技で。
-
-            var it = Items.First;
-            while (it != null)
-            {
-                if (it.Value.Place == place)
-                {
-                    return it;
-                }
-                it = it.Next;
-            }
-
-            return null;
+            return Items.Find(place);
         }
 
         public BookHistory Find(string place)
@@ -212,11 +196,7 @@ namespace NeeView
                     }
                     else
                     {
-                        if (node.List != null)
-                        {
-                            Items.Remove(node);
-                        }
-                        Items.AddFirst(node);
+                        Items.AddFirst(node.Value.Place, node.Value);
                         HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, memento.Place));
                     }
                 }
@@ -235,7 +215,7 @@ namespace NeeView
             var node = FindNode(place);
             if (node != null)
             {
-                Items.Remove(node);
+                Items.Remove(place);
                 HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, place));
             }
         }
@@ -267,7 +247,7 @@ namespace NeeView
             foreach (var node in unlinked)
             {
                 Debug.WriteLine($"HistoryRemove: {node.Value.Place}");
-                Items.Remove(node);
+                Items.Remove(node.Value.Place);
             }
 
             HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, null));
@@ -404,14 +384,6 @@ namespace NeeView
 #pragma warning restore CS0612
             }
 
-#if false
-        // もういらんだろう
-        // 結合
-        public void Merge(Memento memento)
-        {
-            OldItems = OldItems.Concat(memento?.OldItems).Distinct(new Book.MementoPlaceCompare()).ToList();
-        }
-#endif
 
             // ファイルに保存
             public void Save(string path)
@@ -503,7 +475,6 @@ namespace NeeView
 #pragma warning restore CS0612
 
         }
-
 
         // 履歴数制限
         private IEnumerable<BookHistory> Limit(IEnumerable<BookHistory> source)

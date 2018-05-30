@@ -168,6 +168,7 @@
     <Compile Include="GridLine.cs" />
     <Compile Include="InputGesture\ImeKeyUtility.cs" />
     <Compile Include="Language.cs" />
+    <Compile Include="LinkedDicionary.cs" />
     <Compile Include="Page\MediaContent.cs" />
     <Compile Include="Setting\SettingItemSubControl.xaml.cs">
       <DependentUpon>SettingItemSubControl.xaml</DependentUpon>

@@ -91,7 +91,7 @@
                  ItemsSource="{Binding Pagemarks.Items}"
                  SelectedItem="{Binding Pagemarks.SelectedItem}"
                  KeyDown="PagemarkList_KeyDown"
-                 Tag="{Binding Pagemarks.Marks}"
+                 Tag="{Binding Pagemarks.Items}"
                  IsVisibleChanged="PagemarkListBox_IsVisibleChanged"
                  AllowDrop="True"
                  PreviewDragOver="PagemarkListBox_PreviewDragOver"

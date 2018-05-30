@@ -7,8 +7,13 @@ using System.Windows.Data;
 
 namespace NeeView
 {
+    public interface IBookListItem : IHasPage
+    {
+        BookMementoUnit Unit { get; set; }
+    }
+
     [DataContract]
-    public class BookHistory : IEquatable<BookHistory>, IHasPage
+    public class BookHistory : IEquatable<BookHistory>, IBookListItem
     {
         public BookHistory()
         {
@@ -34,22 +39,15 @@ namespace NeeView
         [DataMember]
         public DateTime LastAccessTime { get; set; }
 
+        public string Detail => Place + "\n" + LastAccessTime;
+
+        #region IBookListItem Support
 
         public BookMementoUnit Unit { get; set; }
 
-        #region IBookListItem support
-
-        public string Name => Unit.Memento.Name;
-
-        public ArchivePage ArchivePage => Unit.ArchivePage;
-
-        #endregion
-
-        #region IHasPage Support
-
         public Page GetPage()
         {
-            return ArchivePage;
+            return Unit.ArchivePage;
         }
 
         #endregion

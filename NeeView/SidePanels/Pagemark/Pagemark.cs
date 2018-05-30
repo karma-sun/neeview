@@ -7,7 +7,7 @@ namespace NeeView
     /// ページマーカー
     /// </summary>
     [DataContract]
-    public class Pagemark : IEquatable<Pagemark>, IHasPage
+    public class Pagemark : IEquatable<Pagemark>, IBookListItem
     {
         [DataMember]
         public string Place { get; set; }
@@ -15,15 +15,10 @@ namespace NeeView
         [DataMember]
         public string EntryName { get; private set; }
 
-        //
-        public BookMementoUnit Unit { get; set; }
-
-        //
         public string PlaceShort => LoosePath.GetFileName(Place);
-        //
+
         public string PageShort => LoosePath.GetFileName(EntryName);
 
-        // for ToolTops
         public string Detail => Place + "\n" + EntryName;
 
         [OnDeserialized]
@@ -87,10 +82,17 @@ namespace NeeView
 
         #endregion
 
-        #region for Thumbnail
+        #region IBookListItem Support
 
-        // サムネイル用。保存しません
-        #region Property: ArchivePage
+        public BookMementoUnit Unit { get; set; }
+
+        public Page GetPage()
+        {
+            return ArchivePage;
+        }
+
+        #region for Page Thumbnail
+
         private volatile ArchivePage _archivePage;
         public ArchivePage ArchivePage
         {
@@ -105,24 +107,11 @@ namespace NeeView
                 return _archivePage;
             }
         }
-        #endregion
 
-        //
         private void Thumbnail_Touched(object sender, EventArgs e)
         {
             var thumbnail = (Thumbnail)sender;
             BookThumbnailPool.Current.Add(thumbnail);
-        }
-
-        #region IHasPage Support
-
-        /// <summary>
-        /// ページ取得
-        /// </summary>
-        /// <returns></returns>
-        public Page GetPage()
-        {
-            return ArchivePage;
         }
 
         #endregion

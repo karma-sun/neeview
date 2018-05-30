@@ -367,7 +367,6 @@
     <Compile Include="Converters\AnytToFalseConverter.cs" />
     <Compile Include="Converters\BackgroundStyleToBooleanConverter.cs" />
     <Compile Include="Converters\BannerSizeConverter.cs" />
-    <Compile Include="Converters\BookMementoToTooltipConverter.cs" />
     <Compile Include="Converters\BookReadOrderToBooleanConverter.cs" />
     <Compile Include="Converters\BooleanReverseConverter.cs" />
     <Compile Include="Converters\DpiScaleXInverseConverter.cs" />

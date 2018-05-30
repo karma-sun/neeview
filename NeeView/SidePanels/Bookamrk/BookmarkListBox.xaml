@@ -15,8 +15,6 @@
 
     <UserControl.Resources>
 
-        <RoutedCommand x:Key="xRemoveDommand" />
-
         <Style TargetType="TextBlock" x:Key="FolderName">
             <Setter Property="Text" Value="{Binding Unit.Memento.Name}"/>
             <Setter Property="ToolTip" Value="{Binding Unit.Memento.Place}"/>

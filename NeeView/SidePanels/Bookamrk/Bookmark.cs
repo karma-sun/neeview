@@ -5,7 +5,7 @@ namespace NeeView
 {
     // TODO: IEquatableが不完全
     [DataContract]
-    public class Bookmark : IEquatable<Bookmark>, IHasPage
+    public class Bookmark : IEquatable<Bookmark>, IBookListItem
     {
         public Bookmark()
         {
@@ -25,8 +25,6 @@ namespace NeeView
         [DataMember]
         public string Place { get; set; }
 
-        //
-        public BookMementoUnit Unit { get; set; }
 
         #region IEquatable support
 
@@ -57,7 +55,9 @@ namespace NeeView
 
         #endregion
 
-        #region IHasPage Support
+        #region IBookListItem Support
+
+        public BookMementoUnit Unit { get; set; }
 
         public Page GetPage()
         {

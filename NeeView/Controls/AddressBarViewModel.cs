@@ -52,7 +52,7 @@ namespace NeeView
         //
         internal List<string> GetHistory(int direction, int size)
         {
-            return BookHistory.Current.ListUp(BookHub.Current.BookUnit?.Address, direction, size);
+            return BookHistoryCollection.Current.ListUp(BookHub.Current.BookUnit?.Address, direction, size);
         }
 
         /// <summary>

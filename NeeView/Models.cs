@@ -29,8 +29,7 @@ namespace NeeView
 
         public SusieContext SusieContext { get; private set; }
         public PictureProfile PictureProfile { get; private set; }
-        public BookMementoCollection BookMementoCollection { get; private set; }
-        public BookHistory BookHistory { get; private set; }
+        public BookHistoryCollection BookHistoryCollection { get; private set; }
         public BookmarkCollection BookmarkCollection { get; private set; }
         public PagemarkCollection PagemarkCollection { get; private set; }
         public ZipArchiverProfile ZipArchiverProfile { get; private set; }
@@ -117,8 +116,7 @@ namespace NeeView
 
             SusieContext = new SusieContext();
             PictureProfile = new PictureProfile();
-            BookMementoCollection = new BookMementoCollection();
-            BookHistory = new BookHistory();
+            BookHistoryCollection = BookHistoryCollection.Current;
             BookmarkCollection = new BookmarkCollection();
             PagemarkCollection = new PagemarkCollection();
             ZipArchiverProfile = new ZipArchiverProfile();
@@ -187,7 +185,7 @@ namespace NeeView
             this.FileInformation = new FileInformation(this.ContentCanvas);
             this.ImageEffect = new ImageEffect();
 
-            this.BookHistoryCommand = new BookHistoryCommand(this.BookHistory, this.BookHub);
+            this.BookHistoryCommand = new BookHistoryCommand(this.BookHistoryCollection, this.BookHub);
 
             this.SidePanel = new SidePanel(this);
 

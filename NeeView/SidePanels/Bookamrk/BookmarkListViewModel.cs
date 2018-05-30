@@ -183,7 +183,7 @@ namespace NeeView
         }
 
 
-        public void Remove(BookMementoUnitNode item)
+        public void Remove(Bookmark item)
         {
             if (item == null) return;
 
@@ -191,7 +191,7 @@ namespace NeeView
             Bookmark.SelectedItem = Bookmark.GetNeighbor(item);
             this.ListBoxContent.RestoreFocus();
 
-            BookmarkCollection.Current.Remove(item.Value.Memento.Place);
+            BookmarkCollection.Current.Remove(item.Place);
         }
 
         /// <summary>

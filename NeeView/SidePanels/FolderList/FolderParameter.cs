@@ -85,13 +85,13 @@ namespace NeeView
         //
         private void Save()
         {
-            BookHistory.Current.SetFolderMemento(Path, CreateMemento());
+            BookHistoryCollection.Current.SetFolderMemento(Path, CreateMemento());
         }
 
         //
         private void Load()
         {
-            var memento = BookHistory.Current.GetFolderMemento(Path);
+            var memento = BookHistoryCollection.Current.GetFolderMemento(Path);
             Restore(memento);
         }
 

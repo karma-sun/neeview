@@ -1601,6 +1601,7 @@ namespace NeeView
             public PageSortMode SortMode { get; set; }
 
             // 最終アクセス日
+            [Obsolete]
             [DataMember(Order = 12, EmitDefaultValue = false)]
             public DateTime LastAccessTime { get; set; }
 
@@ -1673,7 +1674,6 @@ namespace NeeView
             {
                 Place = null;
                 Page = null;
-                LastAccessTime = default(DateTime);
             }
 
             // バリデートされたクローン

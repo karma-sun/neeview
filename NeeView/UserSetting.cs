@@ -59,8 +59,9 @@ namespace NeeView
         [Obsolete, DataMember(Order = 17, EmitDefaultValue = false)]
         public ImageEffect.Memento ImageEffectMemento { get; set; } // no used (ver.22)
 
-        [Obsolete, DataMember(Order = 9999, EmitDefaultValue = false)]
-        public BookHistory.Memento BookHistoryMemento { set; get; } // no used
+        // ver.31より廃止
+        ////[Obsolete, DataMember(Order = 9999, EmitDefaultValue = false)]
+        ////public BookHistoryCollection.Memento BookHistoryMemento { set; get; } // no used
 
         #endregion
 

@@ -51,8 +51,8 @@ namespace NeeView
         // TODO: Historyで管理すべき
 
         // 最近使ったフォルダー
-        private List<Book.Memento> _lastFiles = new List<Book.Memento>();
-        public List<Book.Memento> LastFiles
+        private List<string> _lastFiles = new List<string>();
+        public List<string> LastFiles
         {
             get { return _lastFiles; }
             set { _lastFiles = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsEnableLastFiles)); }
@@ -64,7 +64,7 @@ namespace NeeView
         // 最近使ったファイル 更新
         public void UpdateLastFiles()
         {
-            LastFiles = BookHistory.Current.ListUp(10);
+            LastFiles = BookHistoryCollection.Current.ListUp(10);
         }
 
         #endregion

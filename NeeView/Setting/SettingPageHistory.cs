@@ -29,15 +29,15 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsUncHistoryEnabled)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralLimit, Properties.Resources.SettingPageHistoryGeneralLimitTips,
-                    new SettingItemIndexValue<int>(PropertyMemberElement.Create(BookHistory.Current, nameof(BookHistory.LimitSize)), new HistoryLimitSize(), false),
-                    new SettingItemIndexValue<TimeSpan>(PropertyMemberElement.Create(BookHistory.Current, nameof(BookHistory.LimitSpan)), new HistoryLimitSpan(), false)),
+                    new SettingItemIndexValue<int>(PropertyMemberElement.Create(BookHistoryCollection.Current, nameof(BookHistoryCollection.LimitSize)), new HistoryLimitSize(), false),
+                    new SettingItemIndexValue<TimeSpan>(PropertyMemberElement.Create(BookHistoryCollection.Current, nameof(BookHistoryCollection.LimitSpan)), new HistoryLimitSpan(), false)),
 
                 new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralDelete,
                     new SettingItemGroup(
                         new SettingItemButton(Properties.Resources.SettingPageHistoryGeneralDeleteButton, RemoveHistory) { IsContentOnly = true })),
 
                 new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralFolderList,
-                    new SettingItemProperty(PropertyMemberElement.Create(BookHistory.Current, nameof(BookHistory.IsKeepFolderStatus)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookHistoryCollection.Current, nameof(BookHistoryCollection.IsKeepFolderStatus)))),
 
 #if false
                 new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralAdvance,
@@ -62,7 +62,7 @@ namespace NeeView.Setting
         //
         private void RemoveHistory_Executed(UIElement element)
         {
-            BookHistory.Current.Clear();
+            BookHistoryCollection.Current.Clear();
 
             var dialog = new MessageDialog("", Properties.Resources.DialogHistoryDeletedTitle);
             if (element != null)

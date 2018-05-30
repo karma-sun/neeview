@@ -54,7 +54,8 @@ namespace NeeView
             bool isJumped = _bookOperation.JumpPagemarkInPlace(mark);
             if (!isJumped)
             {
-                _bookHub.RequestLoad(mark.Place, mark.EntryName, BookLoadOption.IsPage, true);
+                var options = mark.EntryName != null ? BookLoadOption.IsPage : BookLoadOption.None;
+                _bookHub.RequestLoad(mark.Place, mark.EntryName, options, true);
             }
         }
 

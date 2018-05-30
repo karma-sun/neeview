@@ -57,7 +57,7 @@ namespace NeeView
         //
         public bool IsBookmark
         {
-            get { return BookMementoCollection.Current.Find(Address)?.BookmarkNode != null; }
+            get { return BookmarkCollection.Current.Contains(Address); }
         }
 
 

@@ -103,16 +103,16 @@ namespace NeeView
             else
             {
                 // 過去の情報
-                unit = unit ?? BookMementoCollection.Current.Find(place);
+                unit = unit ?? BookMementoCollection.Current.Get(place);
                 if (unit != null && unit.Memento.Place == place)
                 {
                     // ブックマーク
-                    if (unit.BookmarkNode != null)
+                    if (BookmarkCollection.Current.Contains(unit.Place))
                     {
                         memento = unit.Memento.Clone();
                     }
                     // 履歴
-                    else if (unit.HistoryNode != null)
+                    else if (BookHistoryCollection.Current.Contains(unit.Place))
                     {
                         memento = unit.Memento.Clone();
                     }

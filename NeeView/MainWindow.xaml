@@ -87,9 +87,9 @@
             <local:FullPathToFileNameConverter x:Key="FullPathToFileNameConverter"/>
 
             <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
-                <Setter Property="Header" Value="{Binding Path=Place, Converter={StaticResource FullPathToFileNameConverter}}"/>
+                <Setter Property="Header" Value="{Binding Path=., Converter={StaticResource FullPathToFileNameConverter}}"/>
                 <Setter Property="Command" Value="{x:Static local:LoadCommand.Command}"/>
-                <Setter Property="CommandParameter" Value="{Binding Path=Place}" />
+                <Setter Property="CommandParameter" Value="{Binding Path=.}" />
                 <Setter Property="InputGestureText" Value=""/>
             </Style>
 

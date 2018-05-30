@@ -124,30 +124,19 @@ namespace NeeView
         // 履歴読み込み
         public void LoadHistory(UserSetting setting)
         {
-            BookHistory.Memento memento = SafetyLoad(BookHistory.Memento.Load, _historyFileName, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
-
-#pragma warning disable CS0612
-
-            // compatible: 設定ファイルに残っている履歴をマージ
-            if (setting.BookHistoryMemento != null)
-            {
-                memento.Merge(setting.BookHistoryMemento);
-            }
-
-#pragma warning restore CS0612
-
+            BookHistoryCollection.Memento memento = SafetyLoad(BookHistoryCollection.Memento.Load, _historyFileName, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
             RestoreHistory(memento);
         }
 
         // 履歴反映
-        private void RestoreHistory(BookHistory.Memento memento)
+        private void RestoreHistory(BookHistoryCollection.Memento memento)
         {
             // 履歴反映
-            BookHistory.Current.Restore(memento, true);
+            BookHistoryCollection.Current.Restore(memento, true);
             MenuBar.Current.UpdateLastFiles();
 
             // フォルダーリストの場所に反映
-            Models.Current.FolderList.ResetPlace(BookHistory.Current.LastFolder);
+            Models.Current.FolderList.ResetPlace(BookHistoryCollection.Current.LastFolder);
         }
 
 
@@ -223,7 +212,7 @@ namespace NeeView
             {
                 if (App.Current.IsSaveHistory)
                 {
-                    var bookHistoryMemento = BookHistory.Current.CreateMemento(true);
+                    var bookHistoryMemento = BookHistoryCollection.Current.CreateMemento(true);
                     SafetySave(bookHistoryMemento.Save, _historyFileName, false);
                 }
                 else
@@ -348,7 +337,7 @@ namespace NeeView
         }
 
 
-        #region Backup
+#region Backup
 
         private const string backupDialogDefaultExt = ".nvzip";
         private const string backupDialogFilder = "NeeView Backup (.nvzip)|*.nvzip";
@@ -453,7 +442,7 @@ namespace NeeView
         public void LoadBackupFile(string filename)
         {
             UserSetting setting = null;
-            BookHistory.Memento history = null;
+            BookHistoryCollection.Memento history = null;
             BookmarkCollection.Memento bookmark = null;
             PagemarkCollection.Memento pagemark = null;
 
@@ -511,7 +500,7 @@ namespace NeeView
                 {
                     using (var stream = historyEntry.Open())
                     {
-                        history = BookHistory.Memento.Load(stream);
+                        history = BookHistoryCollection.Memento.Load(stream);
                     }
                 }
 
@@ -565,6 +554,6 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
     }
 }

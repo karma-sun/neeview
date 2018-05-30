@@ -18,8 +18,8 @@
         <RoutedCommand x:Key="xRemoveDommand" />
 
         <Style TargetType="TextBlock" x:Key="FolderName">
-            <Setter Property="Text" Value="{Binding Value.Memento.Name}"/>
-            <Setter Property="ToolTip" Value="{Binding Value.Memento.Place}"/>
+            <Setter Property="Text" Value="{Binding Unit.Memento.Name}"/>
+            <Setter Property="ToolTip" Value="{Binding Unit.Memento.Place}"/>
             <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
             <Setter Property="ToolTipService.BetweenShowDelay" Value="1000"/>
             <Setter Property="Margin" Value="5,0"/>
@@ -55,9 +55,9 @@
                 </i:Interaction.Behaviors>
                 <DockPanel Margin="2">
                     <DockPanel>
-                        <local:FolderListThumbnail DataContext="{Binding Value.ArchivePage.Thumbnail}" />
+                        <local:FolderListThumbnail DataContext="{Binding Unit.ArchivePage.Thumbnail}" />
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock x:Name="Place" Style="{StaticResource FolderParameter}" Text="{Binding Value.ArchivePage.Content.Entry.RootArchiverName}" HorizontalAlignment="Left" />
+                            <TextBlock x:Name="Place" Style="{StaticResource FolderParameter}" Text="{Binding Unit.ArchivePage.Content.Entry.RootArchiverName}" HorizontalAlignment="Left" />
                             <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
                         </StackPanel>
                     </DockPanel>
@@ -75,7 +75,7 @@
                     <DockPanel DockPanel.Dock="Bottom" Margin="2" >
                         <TextBlock Style="{StaticResource FolderName}" TextAlignment="Left" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}" Margin="0"/>
                     </DockPanel>
-                    <local:FolderListBanner DataContext="{Binding Value.ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
+                    <local:FolderListBanner DataContext="{Binding Unit.ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                 </DockPanel>
             </Border>
         </DataTemplate>

@@ -19,9 +19,21 @@ namespace NeeView
     {
         public static PagemarkCollection Current { get; private set; }
 
-        // ページマークされているブック情報
-        private ObservableCollection<BookMementoUnitNode> _items;
-        public ObservableCollection<BookMementoUnitNode> Items
+        #region Constructors
+
+        public PagemarkCollection()
+        {
+            Current = this;
+
+            Items = new ObservableCollection<Pagemark>();
+        }
+
+        #endregion
+
+        #region Properties
+
+        private ObservableCollection<Pagemark> _items;
+        public ObservableCollection<Pagemark> Items
         {
             get { return _items; }
             private set
@@ -31,217 +43,6 @@ namespace NeeView
                 RaisePropertyChanged();
             }
         }
-
-        //
-        public PagemarkCollection()
-        {
-            Current = this;
-
-            Items = new ObservableCollection<BookMementoUnitNode>();
-            Marks = new ObservableCollection<Pagemark>();
-        }
-
-        // クリア
-        public void Clear()
-        {
-            // new
-            foreach (var node in Items)
-            {
-                node.Value.PagemarkNode = null;
-            }
-            Items.Clear();
-        }
-
-
-        // 設定
-        public void Load(IEnumerable<Book.Memento> items)
-        {
-            Clear();
-
-            //
-            foreach (var item in items)
-            {
-                var unit = BookMementoCollection.Current.Find(item.Place);
-
-                if (unit == null)
-                {
-                    unit = new BookMementoUnit();
-
-                    unit.Memento = item;
-                    unit.PagemarkNode = new BookMementoUnitNode(unit);
-                    Items.Add(unit.PagemarkNode);
-
-                    BookMementoCollection.Current.Add(unit);
-                }
-                else
-                {
-                    unit.Memento = item;
-                    unit.PagemarkNode = new BookMementoUnitNode(unit);
-                    Items.Add(unit.PagemarkNode);
-                }
-            }
-        }
-
-
-        // 追加
-        private BookMementoUnit Add(BookMementoUnit unit, Book.Memento memento)
-        {
-            if (memento == null) return unit;
-
-            try
-            {
-                if (unit == null)
-                {
-                    unit = new BookMementoUnit();
-
-                    unit.Memento = memento;
-
-                    unit.PagemarkNode = new BookMementoUnitNode(unit);
-                    Items.Add(unit.PagemarkNode);
-
-                    BookMementoCollection.Current.Add(unit);
-                }
-                else if (unit.PagemarkNode != null)
-                {
-                    unit.Memento = memento;
-                }
-                else
-                {
-                    unit.Memento = memento;
-
-                    unit.PagemarkNode = new BookMementoUnitNode(unit);
-                    Items.Add(unit.PagemarkNode);
-                }
-
-                return unit;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-                return null;
-            }
-        }
-
-
-        // 削除
-        private BookMementoUnit Remove(string place)
-        {
-            return Remove(BookMementoCollection.Current.Find(place));
-        }
-
-        // 削除
-        private BookMementoUnit Remove(BookMementoUnit unit)
-        {
-            if (unit != null && unit.PagemarkNode != null)
-            {
-                Items.Remove(unit.PagemarkNode);
-                unit.PagemarkNode = null;
-            }
-            return unit;
-        }
-
-
-        /// <summary>
-        /// 無効なページマークを削除.
-        /// 現在の実装ではブックの有無のみ判定
-        /// </summary>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        public async Task RemoveUnlinkedAsync(CancellationToken token)
-        {
-            // 削除項目収集
-            var unlinked = new List<BookMementoUnitNode>();
-            foreach (var item in this.Items)
-            {
-                if (!(await ArchiveFileSystem.ExistsAsync(item.Value.Memento.Place, token)))
-                {
-                    unlinked.Add(item);
-                }
-            }
-
-            // 削除実行
-            foreach (var node in unlinked)
-            {
-                var place = node.Value.Memento.Place;
-
-                Debug.WriteLine($"PagemarkRemove.Book: {place}");
-                Items.Remove(node);
-                node.Value.PagemarkNode = null;
-
-                foreach (var page in Marks.Where(e => e.Place == place).ToList())
-                {
-                    Debug.WriteLine($"PagemarkRemove.Page: {place} - {page.EntryName}");
-                    Marks.Remove(page);
-                }
-            }
-        }
-
-
-        // 更新
-        public void Update(Book book)
-        {
-            if (book?.Place == null) return;
-            if (book.Pages.Count <= 0) return;
-
-            Update(BookMementoCollection.Current.Find(book.Place), book.CreateMemento());
-        }
-
-        // 更新
-        public BookMementoUnit Update(BookMementoUnit unit, Book.Memento memento)
-        {
-            if (memento == null) return unit;
-            Debug.Assert(unit == null || unit.Memento.Place == memento.Place);
-
-            if (_marks.Any(e => e.Place == memento.Place))
-            {
-                return Add(unit, memento);
-            }
-            else
-            {
-                return Remove(unit);
-            }
-        }
-
-        // Marksに存在しないItemを削除
-        public void Validate()
-        {
-            var removes = Items.Where(item => !_marks.Any(e => e.Place == item.Value.Memento.Place)).ToList();
-            removes.ForEach(e => Remove(e.Value));
-        }
-
-        // 検索
-        public BookMementoUnit Find(string place)
-        {
-            if (place == null) return null;
-            var unit = BookMementoCollection.Current.Find(place);
-            return unit?.PagemarkNode != null ? unit : null;
-        }
-
-        // 名前変更
-        public void Rename(string src, string dst)
-        {
-            if (src == null || dst == null) return;
-
-            foreach (var mark in Marks.Where(e => e.Place == src))
-            {
-                mark.Place = dst;
-            }
-        }
-
-
-        // ====
-        private ObservableCollection<Pagemark> _marks;
-        public ObservableCollection<Pagemark> Marks
-        {
-            get { return _marks; }
-            private set
-            {
-                _marks = value;
-                BindingOperations.EnableCollectionSynchronization(_marks, new object());
-                RaisePropertyChanged();
-            }
-        }
-
 
         private Pagemark _selectedItem;
         public Pagemark SelectedItem
@@ -257,22 +58,115 @@ namespace NeeView
             }
         }
 
+        #endregion
+
+        #region Methods
+
+        // クリア
+        public void Clear()
+        {
+            Items.Clear();
+        }
+
+
+        public void Load(IEnumerable<Book.Memento> items, IEnumerable<Pagemark> marks)
+        {
+            Clear();
+
+            var units = new List<BookMementoUnit>();
+            foreach (var item in items)
+            {
+                var unit = BookMementoCollection.Current.Set(item);
+                units.Add(unit);
+            }
+
+            foreach (var mark in marks)
+            {
+                var unit = units.FirstOrDefault(e => e.Place == mark.Place);
+                if (unit != null)
+                {
+                    Items.Add(new Pagemark(unit, mark.EntryName));
+                }
+            }
+        }
+
+        /// <summary>
+        /// 無効なページマークを削除.
+        /// 現在の実装ではブックの有無のみ判定
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public async Task RemoveUnlinkedAsync(CancellationToken token)
+        {
+            // 削除項目収集
+            var unlinked = new List<Pagemark>();
+            foreach (var mark in this.Items)
+            {
+                if (!(await ArchiveFileSystem.ExistsAsync(mark.Place, token)))
+                {
+                    unlinked.Add(mark);
+                }
+            }
+
+            // 削除実行
+            foreach (var pagemark in unlinked)
+            {
+                var place = pagemark.Unit.Memento.Place;
+
+                Debug.WriteLine($"PagemarkRemove: {pagemark.Place} - {pagemark.EntryName}");
+                Items.Remove(pagemark);
+            }
+        }
+
+        //
+        public bool Contains(string place, string page)
+        {
+            return Items.Any(e => e.Place == place && e.EntryName == page);
+        }
+
+        // 検索
+        public Pagemark Find(string place, string page)
+        {
+            return Items.FirstOrDefault(e => e.Place == place && e.EntryName == page);
+        }
+
+        // 検索
+        public BookMementoUnit FindUnit(string place)
+        {
+            if (place == null) return null;
+
+            var item = Items.FirstOrDefault(e => e.Place == place);
+            return item?.Unit;
+        }
+
+        // 名前変更
+        public void Rename(string src, string dst)
+        {
+            if (src == null || dst == null) return;
+
+            foreach (var mark in Items.Where(e => e.Place == src))
+            {
+                mark.Place = dst;
+            }
+        }
+
+
 
         // となりを取得
         public Pagemark GetNeighbor(Pagemark mark)
         {
-            if (Marks == null || Marks.Count <= 0) return null;
+            if (Items == null || Items.Count <= 0) return null;
 
-            int index = Marks.IndexOf(mark);
-            if (index < 0) return Marks[0];
+            int index = Items.IndexOf(mark);
+            if (index < 0) return Items[0];
 
-            if (index + 1 < Marks.Count)
+            if (index + 1 < Items.Count)
             {
-                return Marks[index + 1];
+                return Items[index + 1];
             }
             else if (index > 0)
             {
-                return Marks[index - 1];
+                return Items[index - 1];
             }
             else
             {
@@ -290,12 +184,12 @@ namespace NeeView
         {
             if (SelectedItem == null)
             {
-                return Marks.Count > 0;
+                return Items.Count > 0;
             }
             else
             {
-                int index = Marks.IndexOf(SelectedItem) + direction;
-                return (index >= 0 && index < Marks.Count);
+                int index = Items.IndexOf(SelectedItem) + direction;
+                return (index >= 0 && index < Items.Count);
             }
         }
 
@@ -308,14 +202,14 @@ namespace NeeView
         {
             if (SelectedItem == null)
             {
-                SelectedItem = direction >= 0 ? Marks.FirstOrDefault() : Marks.LastOrDefault();
+                SelectedItem = direction >= 0 ? Items.FirstOrDefault() : Items.LastOrDefault();
             }
             else
             {
-                int index = Marks.IndexOf(SelectedItem) + direction;
-                if (index >= 0 && index < Marks.Count)
+                int index = Items.IndexOf(SelectedItem) + direction;
+                if (index >= 0 && index < Items.Count)
                 {
-                    SelectedItem = Marks[index];
+                    SelectedItem = Items[index];
                 }
             }
 
@@ -346,9 +240,10 @@ namespace NeeView
         /// <param name="mark"></param>
         public void Add(Pagemark mark)
         {
-            if (!Marks.Contains(mark))
+            if (!Items.Contains(mark))
             {
-                Marks.Add(mark);
+                ////Marks.Add(mark);
+                Items.Insert(0, mark);
             }
         }
 
@@ -358,7 +253,7 @@ namespace NeeView
         /// <param name="mark"></param>
         public void Remove(Pagemark mark)
         {
-            Marks.Remove(mark);
+            Items.Remove(mark);
         }
 
 
@@ -369,7 +264,7 @@ namespace NeeView
         /// <returns></returns>
         public bool Toggle(Pagemark mark)
         {
-            var index = Marks.IndexOf(mark);
+            var index = Items.IndexOf(mark);
             if (index < 0)
             {
                 Add(mark);
@@ -389,7 +284,7 @@ namespace NeeView
         /// <returns></returns>
         public List<Pagemark> Collect(string place)
         {
-            return Marks.Where(e => e.Place == place).ToList();
+            return Items.Where(e => e.Place == place).ToList();
         }
 
         /// <summary>
@@ -400,8 +295,10 @@ namespace NeeView
         /// <returns></returns>
         public Pagemark Search(string place, string entryName)
         {
-            return Marks.FirstOrDefault(e => e.Place == place && e.EntryName == entryName);
+            return Items.FirstOrDefault(e => e.Place == place && e.EntryName == entryName);
         }
+
+        #endregion
 
 
         #region Memento
@@ -413,15 +310,22 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public List<Book.Memento> Items { get; set; }
+            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
 
             [DataMember]
             public List<Pagemark> Marks { get; set; }
 
+            [Obsolete]
+            [DataMember(Name = "Items", EmitDefaultValue = false)]
+            public List<Book.Memento> OldBooks { get; set; }
+
+            [DataMember]
+            public List<Book.Memento> Books { get; set; }
+
             private void Constructor()
             {
-                Items = new List<Book.Memento>();
                 Marks = new List<Pagemark>();
+                Books = new List<Book.Memento>();
             }
 
             public Memento()
@@ -435,11 +339,23 @@ namespace NeeView
                 Constructor();
             }
 
-            // 結合
-            public void Merge(Memento memento)
+            [OnDeserialized]
+            private void Deserialized(StreamingContext c)
             {
-                Items = Items.Concat(memento?.Items).Distinct(new Book.MementoPlaceCompare()).ToList();
+#pragma warning disable CS0612
+                if (_Version < Config.GenerateProductVersionNumber(31, 0, 0))
+                {
+                    Books = OldBooks ?? new List<Book.Memento>();
+                    foreach (var book in Books)
+                    {
+                        book.LastAccessTime = default(DateTime);
+                    }
+
+                    OldBooks = null;
+                }
+#pragma warning restore CS0612
             }
+
 
             // ファイルに保存
             public void Save(string path)
@@ -478,17 +394,15 @@ namespace NeeView
         // memento作成
         public Memento CreateMemento(bool removeTemporary)
         {
-            Validate();
-
             var memento = new Memento();
 
-            memento.Items = removeTemporary
-                ? this.Items.Select(e => e.Value.Memento).Where(e => !e.Place.StartsWith(Temporary.TempDirectory)).ToList()
-                : this.Items.Select(e => e.Value.Memento).ToList();
+            memento.Books = removeTemporary
+                ? this.Items.Select(e => e.Unit.Memento).Distinct().Where(e => !e.Place.StartsWith(Temporary.TempDirectory)).ToList()
+                : this.Items.Select(e => e.Unit.Memento).Distinct().ToList();
 
             memento.Marks = removeTemporary
-                ? this.Marks.Where(e => !e.Place.StartsWith(Temporary.TempDirectory)).ToList()
-                : this.Marks.ToList();
+                ? this.Items.Where(e => !e.Place.StartsWith(Temporary.TempDirectory)).ToList()
+                : this.Items.ToList();
 
             return memento;
         }
@@ -496,128 +410,10 @@ namespace NeeView
         // memento適用
         public void Restore(Memento memento)
         {
-            this.Marks = new ObservableCollection<Pagemark>(memento.Marks);
-
-            this.Load(memento.Items);
+            this.Load(memento.Books, memento.Marks);
         }
 
         #endregion
     }
 
-    /// <summary>
-    /// ページマーカー
-    /// </summary>
-    [DataContract]
-    public class Pagemark : IEquatable<Pagemark>, IHasPage
-    {
-        [DataMember]
-        public string Place { get; set; }
-
-        [DataMember]
-        public string EntryName { get; private set; }
-
-        //
-        public string PlaceShort => LoosePath.GetFileName(Place);
-        //
-        public string PageShort => LoosePath.GetFileName(EntryName);
-
-        // for ToolTops
-        public string Detail => Place + "\n" + EntryName;
-
-        [OnDeserialized]
-        private void Deserialized(StreamingContext c)
-        {
-            this.EntryName = LoosePath.NormalizeSeparator(this.EntryName);
-        }
-
-        #region Constructroes
-
-        public Pagemark()
-        { }
-
-        public Pagemark(string place, string page)
-        {
-            Place = place;
-            EntryName = page;
-        }
-
-        #endregion
-
-        #region IEqualable Support
-
-        //otherと自分自身が等価のときはtrueを返す
-        public bool Equals(Pagemark other)
-        {
-            //objがnullのときは、等価でない
-            if (other == null)
-            {
-                return false;
-            }
-
-            //Numberで比較する
-            return (this.Place == other.Place && this.EntryName == other.EntryName);
-        }
-
-        //objと自分自身が等価のときはtrueを返す
-        public override bool Equals(object obj)
-        {
-            //objがnullか、型が違うときは、等価でない
-            if (obj == null || this.GetType() != obj.GetType())
-            {
-                return false;
-            }
-
-            return this.Equals((Pagemark)obj);
-        }
-
-        //Equalsがtrueを返すときに同じ値を返す
-        public override int GetHashCode()
-        {
-            return this.Place.GetHashCode() ^ this.EntryName.GetHashCode();
-        }
-
-        #endregion
-
-        #region for Thumbnail
-
-        // サムネイル用。保存しません
-        #region Property: ArchivePage
-        private volatile ArchivePage _archivePage;
-        public ArchivePage ArchivePage
-        {
-            get
-            {
-                if (_archivePage == null)
-                {
-                    _archivePage = new ArchivePage(LoosePath.Combine(Place, EntryName));
-                    _archivePage.Thumbnail.IsCacheEnabled = true;
-                    _archivePage.Thumbnail.Touched += Thumbnail_Touched;
-                }
-                return _archivePage;
-            }
-        }
-        #endregion
-
-        //
-        private void Thumbnail_Touched(object sender, EventArgs e)
-        {
-            var thumbnail = (Thumbnail)sender;
-            BookThumbnailPool.Current.Add(thumbnail);
-        }
-
-        #region IHasPage Support
-
-        /// <summary>
-        /// ページ取得
-        /// </summary>
-        /// <returns></returns>
-        public Page GetPage()
-        {
-            return ArchivePage;
-        }
-
-        #endregion
-
-        #endregion
-    }
 }

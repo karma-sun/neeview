@@ -72,9 +72,10 @@ namespace NeeView
             this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
         }
 
+
         public void Remove_Exec(object sender, ExecutedRoutedEventArgs e)
         {
-            var item = (sender as ListBox)?.SelectedItem as BookMementoUnitNode;
+            var item = (sender as ListBox)?.SelectedItem as Bookmark;
             if (item != null)
             {
                 _vm.Remove(item);
@@ -131,10 +132,10 @@ namespace NeeView
         // 履歴項目決定
         private void BookmarkListItem_MouseSingleClick(object sender, MouseButtonEventArgs e)
         {
-            var historyItem = (sender as ListBoxItem)?.Content as BookMementoUnitNode;
+            var historyItem = (sender as ListBoxItem)?.Content as Bookmark;
             if (historyItem != null)
             {
-                _vm.Load(historyItem.Value.Memento.Place);
+                _vm.Load(historyItem.Place);
                 e.Handled = true;
             }
         }
@@ -142,11 +143,11 @@ namespace NeeView
         // 履歴項目決定(キー)
         private void BookmarkListItem_KeyDown(object sender, KeyEventArgs e)
         {
-            var historyItem = (sender as ListBoxItem)?.Content as BookMementoUnitNode;
+            var historyItem = (sender as ListBoxItem)?.Content as Bookmark;
             {
                 if (e.Key == Key.Return)
                 {
-                    _vm.Load(historyItem.Value.Memento.Place);
+                    _vm.Load(historyItem.Place);
                     e.Handled = true;
                 }
             }
@@ -171,10 +172,10 @@ namespace NeeView
 
         private void BookmarkListBox_Drop(object sender, DragEventArgs e)
         {
-            var list = (sender as ListBox).Tag as ObservableCollection<BookMementoUnitNode>;
+            var list = (sender as ListBox).Tag as ObservableCollection<Bookmark>;
             if (list != null)
             {
-                ListBoxDragSortExtension.Drop<BookMementoUnitNode>(sender, e, DragDropFormat, list);
+                ListBoxDragSortExtension.Drop<Bookmark>(sender, e, DragDropFormat, list);
                 e.Handled = true;
             }
         }

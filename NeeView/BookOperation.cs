@@ -681,7 +681,8 @@ namespace NeeView
                 }
                 else
                 {
-                    BookUnit.BookMementoUnit = BookmarkCollection.Current.Toggle(BookUnit.BookMementoUnit, Book.CreateMemento());
+                    // TODO: BookMementoUnitは開いたときに取得。不変。nullになはらないようにする。
+                    BookUnit.BookMementoUnit = BookmarkCollection.Current.Toggle(Book.CreateMemento());
                     RaisePropertyChanged(nameof(IsBookmark));
                 }
             }
@@ -692,14 +693,7 @@ namespace NeeView
         {
             get
             {
-                if (BookUnit?.BookMementoUnit != null && BookUnit.BookMementoUnit.Memento.Place == Book.Place)
-                {
-                    return BookUnit.BookMementoUnit.BookmarkNode != null;
-                }
-                else
-                {
-                    return false;
-                }
+                return BookmarkCollection.Current.Contains(Book?.Place);
             }
         }
 
@@ -740,7 +734,8 @@ namespace NeeView
 
             // マーク登録/解除
             // TODO: 登録時にサムネイルキャッシュにも登録
-            PagemarkCollection.Current.Toggle(new Pagemark(this.Book.Place, this.Book.GetViewPage().FullPath));
+            var unit = BookMementoCollection.Current.Set(this.Book.CreateMemento());
+            PagemarkCollection.Current.Toggle(new Pagemark(unit, this.Book.GetViewPage().FullPath) );
 
             // 更新
             UpdatePagemark();

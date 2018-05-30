@@ -4,15 +4,15 @@ using System.Windows.Data;
 namespace NeeView
 {
     // Tooltip表示用コンバータ
-    [ValueConversion(typeof(Book.Memento), typeof(string))]
+    [ValueConversion(typeof(BookHistory), typeof(string))]
     public class BookMementoToTooltipConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            if (value is Book.Memento)
+            if (value is BookHistory)
             {
-                var bookMemento = (Book.Memento)value;
-                return bookMemento.LastAccessTime == default(DateTime) ? bookMemento.Place : bookMemento.Place + "\n" + bookMemento.LastAccessTime;
+                var record = (BookHistory)value;
+                return record.LastAccessTime == default(DateTime) ? record.Place : record.Place + "\n" + record.LastAccessTime;
             }
             else
             {

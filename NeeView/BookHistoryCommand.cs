@@ -8,11 +8,11 @@ namespace NeeView
 {
     public class BookHistoryCommand 
     {
-        private BookHistory _bookHistory;
+        private BookHistoryCollection _bookHistory;
         private BookHub _bookHub;
 
         //
-        public BookHistoryCommand(BookHistory bookHistory, BookHub bookHub)
+        public BookHistoryCommand(BookHistoryCollection bookHistory, BookHub bookHub)
         {
             _bookHistory = bookHistory;
             _bookHub = bookHub;
@@ -21,11 +21,13 @@ namespace NeeView
         // 履歴を戻ることができる？
         public bool CanPrevHistory()
         {
-            var unit = _bookHistory.Find(_bookHub.Address);
+            var node = _bookHistory.FindNode(_bookHub.Address);
+
             // 履歴が存在するなら真
-            if (unit == null && BookHistory.Current.Count > 0) return true;
+            if (node == null && BookHistoryCollection.Current.Count > 0) return true;
+
             // 現在の履歴位置より古いものがあれば真。リストと履歴の方向は逆
-            return unit?.HistoryNode != null && unit.HistoryNode.Next != null;
+            return node != null && node.Next != null;
         }
 
         // 履歴を戻る
@@ -33,12 +35,12 @@ namespace NeeView
         {
             if (_bookHub.IsLoading || _bookHistory.Count <= 0) return;
 
-            var unit = _bookHistory.Find(_bookHub.Address);
-            var previous = unit == null ? BookHistory.Current.First : unit.HistoryNode?.Next.Value; // リストと履歴の方向は逆
+            var node = _bookHistory.FindNode(_bookHub.Address);
+            var previous = node == null ? BookHistoryCollection.Current.First : node?.Next.Value; // リストと履歴の方向は逆
 
             if (previous != null)
             {
-                _bookHub.RequestLoad(previous.Memento.Place, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe | BookLoadOption.IsBook, true);
+                _bookHub.RequestLoad(previous.Place, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe | BookLoadOption.IsBook, true);
             }
             else
             {
@@ -49,8 +51,8 @@ namespace NeeView
         // 履歴を進めることができる？
         public bool CanNextHistory()
         {
-            var unit = _bookHistory.Find(_bookHub.Address);
-            return (unit?.HistoryNode != null && unit.HistoryNode.Previous != null); // リストと履歴の方向は逆
+            var node = _bookHistory.FindNode(_bookHub.Address);
+            return (node != null && node.Previous != null); // リストと履歴の方向は逆
         }
 
         // 履歴を進める
@@ -58,11 +60,11 @@ namespace NeeView
         {
             if (_bookHub.IsLoading) return;
 
-            var unit = _bookHistory.Find(_bookHub.Address);
-            var next = unit?.HistoryNode?.Previous; // リストと履歴の方向は逆 
+            var unit = _bookHistory.FindNode(_bookHub.Address);
+            var next = unit?.Previous; // リストと履歴の方向は逆 
             if (next != null)
             {
-                _bookHub.RequestLoad(next.Value.Memento.Place, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe | BookLoadOption.IsBook, true);
+                _bookHub.RequestLoad(next.Value.Place, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe | BookLoadOption.IsBook, true);
             }
             else
             {

@@ -15,8 +15,8 @@
         <local:BookMementoToTooltipConverter x:Key="BookMementoToTooltipConverter"/>
 
         <Style TargetType="TextBlock" x:Key="FolderName">
-            <Setter Property="Text" Value="{Binding Memento.Name}"/>
-            <Setter Property="ToolTip" Value="{Binding Memento, Converter={StaticResource BookMementoToTooltipConverter}}"/>
+            <Setter Property="Text" Value="{Binding Name}"/>
+            <Setter Property="ToolTip" Value="{Binding ., Converter={StaticResource BookMementoToTooltipConverter}}"/>
             <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
             <Setter Property="ToolTipService.BetweenShowDelay" Value="1000"/>
             <Setter Property="Margin" Value="5,0"/>

@@ -88,7 +88,7 @@
                  FocusVisualStyle="{StaticResource NVFocusVisual}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  HorizontalContentAlignment="Stretch"
-                 ItemsSource="{Binding Pagemarks.Marks}"
+                 ItemsSource="{Binding Pagemarks.Items}"
                  SelectedItem="{Binding Pagemarks.SelectedItem}"
                  KeyDown="PagemarkList_KeyDown"
                  Tag="{Binding Pagemarks.Marks}"

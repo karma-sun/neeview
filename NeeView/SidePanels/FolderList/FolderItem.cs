@@ -281,11 +281,9 @@ namespace NeeView
 
         private void UpdateOverlay()
         {
-            var unit = BookMementoCollection.Current.Find(TargetPath);
-
-            if (IsVisibleBookmarkMark && unit?.BookmarkNode != null)
+            if (IsVisibleBookmarkMark && BookmarkCollection.Current.Contains(TargetPath))
                 _iconOverlay = FolderItemIconOverlay.Star;
-            else if (IsVisibleHistoryMark && unit?.HistoryNode != null)
+            else if (IsVisibleHistoryMark && BookHistoryCollection.Current.Contains(TargetPath))
                 _iconOverlay = FolderItemIconOverlay.Checked;
             else
                 _iconOverlay = FolderItemIconOverlay.None;

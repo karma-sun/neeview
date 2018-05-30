@@ -21,8 +21,8 @@ namespace NeeView
     public class HistoryListViewModel : BindableBase 
     {
         #region Property: Items
-        private ObservableCollection<BookMementoUnit> _items;
-        public ObservableCollection<BookMementoUnit> Items
+        private ObservableCollection<BookHistory> _items;
+        public ObservableCollection<BookHistory> Items
         {
             get { return _items; }
             set { _items = value; RaisePropertyChanged(); }
@@ -31,8 +31,8 @@ namespace NeeView
 
 
         #region Property: SelectedItem
-        private BookMementoUnit _selectedItem;
-        public BookMementoUnit SelectedItem
+        private BookHistory _selectedItem;
+        public BookHistory SelectedItem
         {
             get { return _selectedItem; }
             set { _selectedItem = value; RaisePropertyChanged(); }
@@ -191,7 +191,7 @@ namespace NeeView
         private void BookHub_HistoryListSync(object sender, BookHubPathEventArgs e)
         {
             this.ListBoxContent.StoreFocus();
-            SelectedItem = BookHistory.Current.Find(e.Path);
+            SelectedItem = BookHistoryCollection.Current.Find(e.Path);
             this.ListBoxContent.RestoreFocus();
         }
 
@@ -215,7 +215,7 @@ namespace NeeView
                 App.Current.Dispatcher.Invoke(() => this.ListBoxContent.StoreFocus());
 
                 var item = SelectedItem;
-                Items = new ObservableCollection<BookMementoUnit>(BookHistory.Current.Items);
+                Items = new ObservableCollection<BookHistory>(BookHistoryCollection.Current.Items);
                 SelectedItem = Items.Count > 0 ? item : null;
 
                 App.Current.Dispatcher.Invoke(() => this.ListBoxContent.RestoreFocus());
@@ -231,7 +231,7 @@ namespace NeeView
 
 
         // となりを取得
-        public BookMementoUnit GetNeighbor(BookMementoUnit item)
+        public BookHistory GetNeighbor(BookHistory item)
         {
             if (Items == null || Items.Count <= 0) return null;
 
@@ -253,7 +253,7 @@ namespace NeeView
         }
 
         //
-        public void Remove(BookMementoUnit item)
+        public void Remove(BookHistory item)
         {
             if (item == null) return;
 
@@ -263,7 +263,7 @@ namespace NeeView
             this.ListBoxContent.RestoreFocus();
 
             // 削除
-            BookHistory.Current.Remove(item.Memento.Place);
+            BookHistoryCollection.Current.Remove(item.Place);
         }
 
         /// <summary>
@@ -278,7 +278,7 @@ namespace NeeView
 
         private void RemoveAll_Executed()
         {
-            if (BookHistory.Current.Items.Any())
+            if (BookHistoryCollection.Current.Items.Any())
             {
                 var dialog = new MessageDialog(Resources.DialogHistoryDeleteAll, Resources.DialogHistoryDeleteAllTitle);
                 dialog.Commands.Add(UICommands.Delete);
@@ -287,7 +287,7 @@ namespace NeeView
                 if (answer != UICommands.Delete) return;
             }
 
-            BookHistory.Current.RemoveAll();
+            BookHistoryCollection.Current.RemoveAll();
         }
 
 
@@ -305,7 +305,7 @@ namespace NeeView
         //
         private async void RemoveUnlinkedCommand_Executed()
         {
-            await BookHistory.Current.RemoveUnlinkedAsync(CancellationToken.None);
+            await BookHistoryCollection.Current.RemoveUnlinkedAsync(CancellationToken.None);
         }
 
 

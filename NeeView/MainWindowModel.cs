@@ -326,7 +326,7 @@ namespace NeeView
         {
             if (!App.Current.IsOpenLastBook) return;
 
-            string place = BookHistory.Current.LastAddress;
+            string place = BookHistoryCollection.Current.LastAddress;
             if (place != null || System.IO.Directory.Exists(place) || System.IO.File.Exists(place))
             {
                 BookHub.Current.RequestLoad(place, null, BookLoadOption.Resume | BookLoadOption.IsBook, true);
@@ -487,7 +487,7 @@ namespace NeeView
         // TODO: 直接変更し、最近使ったファイルはイベントで更新すべき
         public void ClearHistory()
         {
-            BookHistory.Current.Clear();
+            BookHistoryCollection.Current.Clear();
             MenuBar.Current.UpdateLastFiles();
         }
 

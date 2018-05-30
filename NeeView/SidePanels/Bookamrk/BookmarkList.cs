@@ -62,7 +62,7 @@ namespace NeeView
             var unit = BookmarkCollection.Current.MoveSelected(-1);
             if (unit != null)
             {
-                BookHub.RequestLoad(unit.Value.Memento.Place, null, BookLoadOption.SkipSamePlace | BookLoadOption.IsBook, true);
+                BookHub.RequestLoad(unit.Place, null, BookLoadOption.SkipSamePlace | BookLoadOption.IsBook, true);
             }
         }
 
@@ -81,7 +81,7 @@ namespace NeeView
             var unit = BookmarkCollection.Current.MoveSelected(+1);
             if (unit != null)
             {
-                BookHub.RequestLoad(unit.Value.Memento.Place, null, BookLoadOption.SkipSamePlace | BookLoadOption.IsBook, true);
+                BookHub.RequestLoad(unit.Place, null, BookLoadOption.SkipSamePlace | BookLoadOption.IsBook, true);
             }
         }
 

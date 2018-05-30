@@ -151,6 +151,11 @@
     <Compile Include="Archiver\MediaArchiver.cs" />
     <Compile Include="Archiver\MediaArchiverProfile.cs" />
     <Compile Include="Archiver\ZipArchiverProfile.cs" />
+    <Compile Include="BookHistory.cs" />
+    <Compile Include="BookHistoryCollection.cs" />
+    <Compile Include="BookMementoCollectionChangedArgs.cs" />
+    <Compile Include="BookMementoCollection.cs" />
+    <Compile Include="BookMementoUnit.cs" />
     <Compile Include="Controls\MediaControl.cs" />
     <Compile Include="Controls\MediaControlView.xaml.cs">
       <DependentUpon>MediaControlView.xaml</DependentUpon>
@@ -169,6 +174,8 @@
     </Compile>
     <Compile Include="Setting\SettingPageArchiver.cs" />
     <Compile Include="Setting\SettingPageHistory.cs" />
+    <Compile Include="SidePanels\Bookamrk\Bookmark.cs" />
+    <Compile Include="SidePanels\Bookamrk\BookmarkCollection.cs" />
     <Compile Include="SidePanels\FolderList\FolderCollectionFactory.cs" />
     <Compile Include="SidePanels\FolderList\FolderNode.cs" />
     <Compile Include="SidePanels\FolderList\FolderSearchEngine.cs" />
@@ -239,6 +246,7 @@
       <DependentUpon>MouseGestureSettingControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Setting\MouseGestureSettingViewModel.cs" />
+    <Compile Include="SidePanels\Pagemark\Pagemark.cs" />
     <Compile Include="SoundPlayerService.cs" />
     <Compile Include="Susie\NativeMethods.cs" />
     <Compile Include="TouchInput\TouchInputEmulator.cs" />
@@ -618,11 +626,9 @@
       <DependentUpon>PagemarkListViewl.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\Pagemark\PagemarkCollection.cs" />
-    <Compile Include="SidePanels\Bookamrk\BookmarkCollection.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkListView.xaml.cs">
       <DependentUpon>BookmarkListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BookMementoCollection.cs" />
     <Compile Include="CommandTable.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="ContextMenuSetting.cs" />
@@ -681,7 +687,6 @@
     <Compile Include="Page\BitmapPage.cs" />
     <Compile Include="Bitmap\BitmapSourceExtension.cs" />
     <Compile Include="Book.cs" />
-    <Compile Include="BookHistory.cs" />
     <Compile Include="BookHub.cs" />
     <Compile Include="CommandElement.cs" />
     <Compile Include="CommandType.cs" />

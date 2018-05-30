@@ -426,7 +426,7 @@ namespace NeeView
                     RaiseSelectedItemChanged(options.HasFlag(FolderSetPlaceOption.IsFocus));
 
                     // 最終フォルダー更新
-                    BookHistory.Current.LastFolder = Place;
+                    BookHistoryCollection.Current.LastFolder = Place;
 
                     // 履歴追加
                     if (options.HasFlag(FolderSetPlaceOption.IsUpdateHistory))

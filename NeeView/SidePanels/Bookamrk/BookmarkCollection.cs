@@ -1,17 +1,16 @@
-﻿using System;
+﻿using NeeLaboratory.ComponentModel;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
-using System.Collections.ObjectModel;
-using System.Windows.Data;
-using System.ComponentModel;
-using System.Diagnostics;
-using NeeLaboratory.ComponentModel;
-using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Data;
+using System.Xml;
 
 namespace NeeView
 {
@@ -19,12 +18,27 @@ namespace NeeView
     {
         public static BookmarkCollection Current { get; private set; }
 
-        //
+
+        #region Constructors
+
+        public BookmarkCollection()
+        {
+            Current = this;
+            Items = new ObservableCollection<Bookmark>();
+        }
+
+        #endregion
+
+        #region Events
+
         public event EventHandler<BookMementoCollectionChangedArgs> BookmarkChanged;
 
-        // ブックマーク
-        private ObservableCollection<BookMementoUnitNode> _items;
-        public ObservableCollection<BookMementoUnitNode> Items
+        #endregion
+
+        #region Properties
+
+        private ObservableCollection<Bookmark> _items;
+        public ObservableCollection<Bookmark> Items
         {
             get { return _items; }
             private set
@@ -35,63 +49,43 @@ namespace NeeView
             }
         }
 
-        /// <summary>
-        /// SelectedItem Property
-        /// </summary>
-        private BookMementoUnitNode _selectedItem;
-        public BookMementoUnitNode SelectedItem
+        private Bookmark _selectedItem;
+        public Bookmark SelectedItem
         {
             get { return _selectedItem; }
             set { _selectedItem = value; RaisePropertyChanged(); }
         }
 
-        //
-        public BookmarkCollection()
-        {
-            Current = this;
-            Items = new ObservableCollection<BookMementoUnitNode>();
-        }
+        #endregion
+
+
+        #region Methods
 
         // クリア
         public void Clear()
         {
-            // new
-            foreach (var node in Items)
-            {
-                node.Value.BookmarkNode = null;
-            }
             Items.Clear();
+
+            // TODO: GabageCollection
 
             BookmarkChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Clear, null));
         }
 
 
         // 設定
-        public void Load(IEnumerable<Book.Memento> items)
+        public void Load(IEnumerable<Bookmark> items, IEnumerable<Book.Memento> books)
         {
             Clear();
 
-            //
+            foreach (var book in books)
+            {
+                BookMementoCollection.Current.Set(book);
+            }
+
             foreach (var item in items)
             {
-                var unit = BookMementoCollection.Current.Find(item.Place);
-
-                if (unit == null)
-                {
-                    unit = new BookMementoUnit();
-
-                    unit.Memento = item;
-                    unit.BookmarkNode = new BookMementoUnitNode(unit);
-                    Items.Add(unit.BookmarkNode);
-
-                    BookMementoCollection.Current.Add(unit);
-                }
-                else
-                {
-                    unit.Memento = item;
-                    unit.BookmarkNode = new BookMementoUnitNode(unit);
-                    Items.Add(unit.BookmarkNode);
-                }
+                var unit = BookMementoCollection.Current.Get(item.Place);
+                Items.Add(new Bookmark(unit));
             }
 
             BookmarkChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Load, null));
@@ -99,36 +93,21 @@ namespace NeeView
 
 
         // 追加
-        public BookMementoUnit Add(BookMementoUnit unit, Book.Memento memento)
+        public BookMementoUnit Add(Book.Memento memento)
         {
-            if (memento == null) return unit;
+            if (memento == null) return null;
 
             try
             {
-                if (unit == null)
+                var unit = BookMementoCollection.Current.Set(memento);
+
+                if (Items.Contains(new Bookmark(memento.Place)))
                 {
-                    unit = new BookMementoUnit();
-
-                    unit.Memento = memento;
-
-                    unit.BookmarkNode = new BookMementoUnitNode(unit);
-                    Items.Add(unit.BookmarkNode);
-
-                    BookMementoCollection.Current.Add(unit);
-                    BookmarkChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, memento.Place));
-                }
-                else if (unit.BookmarkNode != null)
-                {
-                    unit.Memento = memento;
                     BookmarkChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Update, memento.Place));
                 }
                 else
                 {
-                    unit.Memento = memento;
-
-                    unit.BookmarkNode = new BookMementoUnitNode(unit);
-                    Items.Add(unit.BookmarkNode);
-
+                    Items.Insert(0, new Bookmark(unit));
                     BookmarkChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, memento.Place));
                 }
 
@@ -141,40 +120,51 @@ namespace NeeView
             }
         }
 
-        // ブックマーク状態切り替え
-        public BookMementoUnit Toggle(BookMementoUnit unit, Book.Memento memento)
+        // ブックマーク？
+        public bool Contains(string place)
         {
-            if (unit == null || unit.BookmarkNode == null)
+            if (place == null) return false;
+
+            return Items.Contains(new Bookmark(place));
+        }
+
+        // ブックマーク状態切り替え
+        // TODO: unitを返す必要はないだろ。boolだな。
+        public BookMementoUnit Toggle(Book.Memento memento)
+        {
+            if (memento == null) return null;
+
+            var node = Find(memento.Place);
+            if (node == null)
             {
-                return Add(unit, memento);
+                var unit = Add(memento);
+                return unit;
             }
             else
             {
-                return Remove(unit.Memento.Place);
+                Remove(node.Place);
+                return node.Unit;
             }
         }
 
+
         // 削除
-        public BookMementoUnit Remove(string place)
+        public void Remove(string place)
         {
-            var unit = BookMementoCollection.Current.Find(place);
-            if (unit != null && unit.BookmarkNode != null)
+            if (Items.Remove(new Bookmark(place)))
             {
-                Items.Remove(unit.BookmarkNode);
-                unit.BookmarkNode = null;
                 BookmarkChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, place));
             }
-            return unit;
         }
 
         // 無効なブックマークを削除
         public async Task RemoveUnlinkedAsync(CancellationToken token)
         {
             // 削除項目収集
-            var unlinked = new List<BookMementoUnitNode>();
+            var unlinked = new List<Bookmark>();
             foreach (var item in this.Items)
             {
-                if (!(await ArchiveFileSystem.ExistsAsync(item.Value.Memento.Place, token)))
+                if (!(await ArchiveFileSystem.ExistsAsync(item.Place, token)))
                 {
                     unlinked.Add(item);
                 }
@@ -183,46 +173,30 @@ namespace NeeView
             // 削除実行
             foreach (var node in unlinked)
             {
-                Debug.WriteLine($"BookmarkRemove: {node.Value.Memento.Place}");
+                Debug.WriteLine($"BookmarkRemove: {node.Place}");
                 Items.Remove(node);
-                node.Value.BookmarkNode = null;
             }
             BookmarkChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, null));
         }
 
-        // 更新
-        public void Update(Book book)
-        {
-            if (book?.Place == null) return;
-            if (book.Pages.Count <= 0) return;
-
-            Update(BookMementoCollection.Current.Find(book.Place), book.CreateMemento());
-        }
-
-        // 更新
-        public void Update(BookMementoUnit unit, Book.Memento memento)
-        {
-            if (memento == null) return;
-            Debug.Assert(unit == null || unit.Memento.Place == memento.Place);
-
-            if (unit != null && unit.BookmarkNode != null)
-            {
-                unit.Memento = memento;
-                BookmarkChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Update, memento.Place));
-            }
-        }
-
-        // 検索
-        public BookMementoUnit Find(string place)
+        public Bookmark Find(string place)
         {
             if (place == null) return null;
-            var unit = BookMementoCollection.Current.Find(place);
-            return unit?.BookmarkNode != null ? unit : null;
+
+            return Items.FirstOrDefault(e => e.Place == place);
+        }
+
+
+        public BookMementoUnit FindUnit(string place)
+        {
+            if (place == null) return null;
+
+            return Find(place)?.Unit;
         }
 
 
         // となりを取得
-        public BookMementoUnitNode GetNeighbor(BookMementoUnitNode item)
+        public Bookmark GetNeighbor(Bookmark item)
         {
             if (Items == null || Items.Count <= 0) return null;
 
@@ -244,11 +218,6 @@ namespace NeeView
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="direction"></param>
-        /// <returns></returns>
         public bool CanMoveSelected(int direction)
         {
             if (SelectedItem == null)
@@ -268,7 +237,7 @@ namespace NeeView
         /// </summary>
         /// <param name="direction"></param>
         /// <returns></returns>
-        public BookMementoUnitNode MoveSelected(int direction)
+        public Bookmark MoveSelected(int direction)
         {
             if (SelectedItem == null)
             {
@@ -286,6 +255,7 @@ namespace NeeView
             return SelectedItem;
         }
 
+        #endregion
 
         #region Memento
 
@@ -296,11 +266,22 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public List<Book.Memento> Items { get; set; }
+            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+
+            [DataMember]
+            public List<Bookmark> Marks { get; set; }
+
+            [DataMember(EmitDefaultValue = false)]
+            public List<Book.Memento> Books { get; set; }
+
+            [Obsolete]
+            [DataMember(Name = "Items", EmitDefaultValue = false)]
+            public List<Book.Memento> OldBooks { get; set; }
 
             private void Constructor()
             {
-                Items = new List<Book.Memento>();
+                Marks = new List<Bookmark>();
+                Books = new List<Book.Memento>();
             }
 
             public Memento()
@@ -314,10 +295,26 @@ namespace NeeView
                 Constructor();
             }
 
-            // 結合
-            public void Merge(Memento memento)
+
+            [OnDeserialized]
+            private void Deserialized(StreamingContext c)
             {
-                Items = Items.Concat(memento?.Items).Distinct(new Book.MementoPlaceCompare()).ToList();
+#pragma warning disable CS0612
+                if (_Version < Config.GenerateProductVersionNumber(31, 0, 0))
+                {
+                    Marks = OldBooks != null
+                        ? OldBooks.Select(e => new Bookmark() { Place = e.Place }).ToList()
+                        : new List<Bookmark>();
+
+                    Books = OldBooks ?? new List<Book.Memento>();
+                    foreach (var book in Books)
+                    {
+                        book.LastAccessTime = default(DateTime);
+                    }
+
+                    OldBooks = null;
+                }
+#pragma warning restore CS0612
             }
 
             // ファイルに保存
@@ -358,12 +355,18 @@ namespace NeeView
         public Memento CreateMemento(bool forSave)
         {
             var memento = new Memento();
-            memento.Items = this.Items.Select(e => e.Value.Memento).ToList();
+
             if (forSave)
             {
-                // テンポラリフォルダーを除外
-                memento.Items.RemoveAll((e) => e.Place.StartsWith(Temporary.TempDirectory));
+                // without temp folder
+                memento.Marks = this.Items.Where(e => !e.Place.StartsWith(Temporary.TempDirectory)).ToList();
             }
+            else
+            {
+                memento.Marks = this.Items.ToList();
+            }
+
+            memento.Books = memento.Marks.Select(e => e.Unit.Memento).Distinct().ToList();
 
             return memento;
         }
@@ -371,7 +374,7 @@ namespace NeeView
         // memento適用
         public void Restore(Memento memento)
         {
-            this.Load(memento.Items);
+            this.Load(memento.Marks, memento.Books);
         }
 
         #endregion

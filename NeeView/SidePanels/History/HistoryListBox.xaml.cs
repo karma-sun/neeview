@@ -71,7 +71,7 @@ namespace NeeView
 
         public void Remove_Exec(object sender, ExecutedRoutedEventArgs e)
         {
-            var item = (sender as ListBox)?.SelectedItem as BookMementoUnit;
+            var item = (sender as ListBox)?.SelectedItem as BookHistory;
             if (item != null)
             {
                 _vm.Remove(item);
@@ -132,20 +132,20 @@ namespace NeeView
         // 履歴項目決定
         private void HistoryListItem_MouseSingleClick(object sender, MouseButtonEventArgs e)
         {
-            var historyItem = ((sender as ListBoxItem)?.Content as BookMementoUnit).Memento;
+            var item = ((sender as ListBoxItem)?.Content as BookHistory);
 
-            _vm.Load(historyItem?.Place);
+            _vm.Load(item?.Place);
             e.Handled = true;
         }
 
         // 履歴項目決定(キー)
         private void HistoryListItem_KeyDown(object sender, KeyEventArgs e)
         {
-            var historyItem = ((sender as ListBoxItem)?.Content as BookMementoUnit).Memento;
+            var item = ((sender as ListBoxItem)?.Content as BookHistory);
 
             if (e.Key == Key.Return)
             {
-                _vm.Load(historyItem?.Place);
+                _vm.Load(item?.Place);
                 e.Handled = true;
             }
         }

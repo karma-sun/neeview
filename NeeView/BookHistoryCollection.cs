@@ -172,9 +172,9 @@ namespace NeeView
         }
 
         // 履歴追加
-        public BookHistory Add(Book.Memento memento, bool isKeepOrder)
+        public void Add(Book.Memento memento, bool isKeepOrder)
         {
-            if (memento == null) return null;
+            if (memento == null) return;
 
             try
             {
@@ -200,12 +200,10 @@ namespace NeeView
                         HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, memento.Place));
                     }
                 }
-                return node.Value;
             }
             catch (Exception e)
             {
                 Debug.WriteLine(e.Message);
-                return null;
             }
         }
 

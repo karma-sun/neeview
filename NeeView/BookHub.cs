@@ -109,7 +109,6 @@ namespace NeeView
         public Book Book { get; set; }
 
         public BookLoadOption LoadOptions { get; set; }
-        public BookMementoUnit BookMementoUnit { get; set; }
 
         public BookUnit(Book book)
         {
@@ -488,18 +487,20 @@ namespace NeeView
             var memento = CreateBookMemento();
             if (memento == null) return;
 
-            SaveBookMemento(BookUnit.BookMementoUnit, memento, BookUnit.IsKeepHistoryOrder);
+            SaveBookMemento(memento, BookUnit.IsKeepHistoryOrder);
         }
 
-        private void SaveBookMemento(BookMementoUnit unit, Book.Memento memento, bool isKeepHistoryOrder)
+        private void SaveBookMemento(Book.Memento memento, bool isKeepHistoryOrder)
         {
             if (memento == null) return;
 
             // 情報更新
+            var unit = BookMementoCollection.Current.Get(memento.Place);
             if (unit != null)
             {
                 unit.Memento = memento;
             }
+
 
             // 履歴の保存
             if (CanHistory())
@@ -735,7 +736,6 @@ namespace NeeView
                 // カレントを設定し、開始する
                 BookUnit = new BookUnit(book);
                 BookUnit.LoadOptions = option;
-                BookUnit.BookMementoUnit = unit;
 
                 // イベント設定
                 book.ViewContentsChanged += OnViewContentsChanged;
@@ -806,7 +806,7 @@ namespace NeeView
                 if (!_historyEntry && CanHistory())
                 {
                     _historyEntry = true;
-                    BookUnit.BookMementoUnit = BookHistoryCollection.Current.Add(Book?.CreateMemento(), BookUnit.IsKeepHistoryOrder)?.Unit;
+                    BookHistoryCollection.Current.Add(Book?.CreateMemento(), BookUnit.IsKeepHistoryOrder);
                 }
             }
 

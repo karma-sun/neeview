@@ -129,21 +129,20 @@ namespace NeeView
         }
 
         // ブックマーク状態切り替え
-        // TODO: unitを返す必要はないだろ。boolだな。
-        public BookMementoUnit Toggle(Book.Memento memento)
+        public bool Toggle(Book.Memento memento)
         {
-            if (memento == null) return null;
+            if (memento == null) return false;
 
             var node = Find(memento.Place);
             if (node == null)
             {
                 var unit = Add(memento);
-                return unit;
+                return true;
             }
             else
             {
                 Remove(node.Place);
-                return node.Unit;
+                return false;
             }
         }
 

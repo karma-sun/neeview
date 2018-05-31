@@ -681,8 +681,7 @@ namespace NeeView
                 }
                 else
                 {
-                    // TODO: BookMementoUnitは開いたときに取得。不変。nullになはらないようにする。
-                    BookUnit.BookMementoUnit = BookmarkCollection.Current.Toggle(Book.CreateMemento());
+                    BookmarkCollection.Current.Toggle(Book.CreateMemento());
                     RaisePropertyChanged(nameof(IsBookmark));
                 }
             }

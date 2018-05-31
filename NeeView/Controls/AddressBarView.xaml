@@ -12,10 +12,9 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <local:SortModeToStringConverter x:Key="SortModeToStringConverter"/>
         <local:SortModeToVisibilityConverter x:Key="SortModeToVisibilityConverter"/>
-        <local:FullPathToFileNameConverter x:Key="FullPathToFileNameConverter"/>
 
         <Style x:Key="HistoryContextMenuItemContainerStyle" TargetType="MenuItem">
-            <Setter Property="Header" Value="{Binding Converter={StaticResource FullPathToFileNameConverter}}"/>
+            <Setter Property="Header" Value="{Binding ShortName}"/>
             <Setter Property="Command" Value="{Binding DataContext.MoveToHistory, RelativeSource={RelativeSource FindAncestor, AncestorType=ContextMenu}}" />
             <Setter Property="CommandParameter" Value="{Binding}" />
         </Style>

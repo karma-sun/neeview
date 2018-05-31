@@ -51,8 +51,8 @@ namespace NeeView
         // TODO: Historyで管理すべき
 
         // 最近使ったフォルダー
-        private List<string> _lastFiles = new List<string>();
-        public List<string> LastFiles
+        private List<BookHistory> _lastFiles = new List<BookHistory>();
+        public List<BookHistory> LastFiles
         {
             get { return _lastFiles; }
             set { _lastFiles = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(IsEnableLastFiles)); }

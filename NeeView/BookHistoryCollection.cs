@@ -255,9 +255,9 @@ namespace NeeView
 
 
         // 最近使った履歴のリストアップ
-        public List<string> ListUp(int size)
+        public List<BookHistory> ListUp(int size)
         {
-            return Items.Take(size).Select(e => e.Place).ToList();
+            return Items.Take(size).ToList();
         }
 
         /// <summary>
@@ -267,16 +267,16 @@ namespace NeeView
         /// <param name="direction">方向</param>
         /// <param name="size">取得サイズ</param>
         /// <returns></returns>
-        internal List<string> ListUp(string current, int direction, int size)
+        internal List<BookHistory> ListUp(string current, int direction, int size)
         {
-            var list = new List<string>();
+            var list = new List<BookHistory>();
 
             var now = FindNode(current);
             var node = now ?? Items.First;
 
             if (now == null && node != null && direction < 0)
             {
-                list.Add(node.Value.Place);
+                list.Add(node.Value);
             }
 
             for (int i = 0; i < size; i++)
@@ -284,7 +284,7 @@ namespace NeeView
                 node = direction < 0 ? node?.Next : node?.Previous; // リストと履歴の方向は逆
 
                 if (node == null) break;
-                list.Add(node.Value.Place);
+                list.Add(node.Value);
             }
 
             return list;

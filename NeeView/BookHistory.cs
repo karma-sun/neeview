@@ -13,7 +13,7 @@ namespace NeeView
     }
 
     [DataContract]
-    public class BookHistory : IEquatable<BookHistory>, IBookListItem
+    public class BookHistory : IBookListItem
     {
         public BookHistory()
         {
@@ -41,6 +41,13 @@ namespace NeeView
 
         public string Detail => Place + "\n" + LastAccessTime;
 
+        public string ShortName => Unit.Memento.Name;
+
+        public override string ToString()
+        {
+            return Place ?? base.ToString();
+        }
+
         #region IBookListItem Support
 
         public BookMementoUnit Unit { get; set; }
@@ -48,36 +55,6 @@ namespace NeeView
         public Page GetPage()
         {
             return Unit.ArchivePage;
-        }
-
-        #endregion
-
-        #region IEquatable support
-
-        public bool Equals(BookHistory other)
-        {
-            if (other == null)
-            {
-                return false;
-            }
-
-            return this.Place == other.Place;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj == null || this.GetType() != obj.GetType())
-            {
-                return false;
-            }
-
-            return this.Equals((BookHistory)obj);
-        }
-
-        //Equalsがtrueを返すときに同じ値を返す
-        public override int GetHashCode()
-        {
-            return this.Place.GetHashCode();
         }
 
         #endregion

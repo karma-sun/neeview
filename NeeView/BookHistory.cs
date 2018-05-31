@@ -19,12 +19,6 @@ namespace NeeView
         {
         }
 
-        public BookHistory(string place, DateTime lastAccessTime)
-        {
-            Place = place;
-            LastAccessTime = lastAccessTime;
-        }
-
         public BookHistory(BookMementoUnit unit, DateTime lastAccessTime)
         {
             Place = unit.Place;

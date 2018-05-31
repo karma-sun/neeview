@@ -84,8 +84,7 @@ namespace NeeView
 
             foreach (var item in items)
             {
-                var unit = BookMementoCollection.Current.Get(item.Place);
-                Items.Add(new Bookmark(unit));
+                Items.Add(new Bookmark() { Place = item.Place });
             }
 
             BookmarkChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Load, null));
@@ -101,7 +100,7 @@ namespace NeeView
             {
                 var unit = BookMementoCollection.Current.Set(memento);
 
-                if (Items.Contains(new Bookmark(memento.Place)))
+                if (Contains(memento.Place))
                 {
                     BookmarkChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Update, memento.Place));
                 }
@@ -125,7 +124,7 @@ namespace NeeView
         {
             if (place == null) return false;
 
-            return Items.Contains(new Bookmark(place));
+            return Items.Any(e => e.Place == place);
         }
 
         // ブックマーク状態切り替え
@@ -150,7 +149,7 @@ namespace NeeView
         // 削除
         public void Remove(string place)
         {
-            if (Items.Remove(new Bookmark(place)))
+            if (Items.Remove(Find(place)))
             {
                 BookmarkChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, place));
             }

@@ -132,7 +132,7 @@ namespace NeeView
 
             foreach (var item in items)
             {
-                var newItem = new BookHistory(item.Place, item.LastAccessTime);
+                var newItem = new BookHistory() { Place = item.Place, LastAccessTime = item.LastAccessTime };
                 Items.AddLastRaw(newItem.Place, newItem);
             }
 

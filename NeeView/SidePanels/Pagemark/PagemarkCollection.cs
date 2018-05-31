@@ -62,31 +62,23 @@ namespace NeeView
 
         #region Methods
 
-        // クリア
         public void Clear()
         {
             Items.Clear();
         }
 
-
-        public void Load(IEnumerable<Book.Memento> items, IEnumerable<Pagemark> marks)
+        public void Load(IEnumerable<Pagemark> items, IEnumerable<Book.Memento> books)
         {
             Clear();
 
-            var units = new List<BookMementoUnit>();
-            foreach (var item in items)
+            foreach (var book in books)
             {
-                var unit = BookMementoCollection.Current.Set(item);
-                units.Add(unit);
+                BookMementoCollection.Current.Set(book);
             }
 
-            foreach (var mark in marks)
+            foreach (var item in items)
             {
-                var unit = units.FirstOrDefault(e => e.Place == mark.Place);
-                if (unit != null)
-                {
-                    Items.Add(new Pagemark(unit, mark.EntryName));
-                }
+                Items.Add(new Pagemark() { Place = item.Place, EntryName = item.EntryName });
             }
         }
 
@@ -94,8 +86,6 @@ namespace NeeView
         /// 無効なページマークを削除.
         /// 現在の実装ではブックの有無のみ判定
         /// </summary>
-        /// <param name="token"></param>
-        /// <returns></returns>
         public async Task RemoveUnlinkedAsync(CancellationToken token)
         {
             // 削除項目収集
@@ -119,15 +109,15 @@ namespace NeeView
         }
 
         //
-        public bool Contains(string place, string page)
+        public bool Contains(string place, string entryName)
         {
-            return Items.Any(e => e.Place == place && e.EntryName == page);
+            return Items.Any(e => e.Place == place && e.EntryName == entryName);
         }
 
         // 検索
-        public Pagemark Find(string place, string page)
+        public Pagemark Find(string place, string entryName)
         {
-            return Items.FirstOrDefault(e => e.Place == place && e.EntryName == page);
+            return Items.FirstOrDefault(e => e.Place == place && e.EntryName == entryName);
         }
 
         // 検索
@@ -149,8 +139,6 @@ namespace NeeView
                 mark.Place = dst;
             }
         }
-
-
 
         // となりを取得
         public Pagemark GetNeighbor(Pagemark mark)
@@ -174,12 +162,6 @@ namespace NeeView
             }
         }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="direction"></param>
-        /// <returns></returns>
         public bool CanMoveSelected(int direction)
         {
             if (SelectedItem == null)
@@ -193,11 +175,6 @@ namespace NeeView
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="direction"></param>
-        /// <returns></returns>
         public Pagemark MoveSelected(int direction)
         {
             if (SelectedItem == null)
@@ -219,15 +196,12 @@ namespace NeeView
         /// <summary>
         /// 指定のマーカーに移動。存在しなければ移動しない
         /// </summary>
-        /// <param name="place"></param>
-        /// <param name="entryName"></param>
-        /// <returns></returns>
         public Pagemark Move(string place, string entryName)
         {
-            var mark = Search(place, entryName);
-            if (mark != null)
+            var item = Find(place, entryName);
+            if (item != null)
             {
-                SelectedItem = mark;
+                SelectedItem = item;
             }
 
             return SelectedItem;
@@ -237,42 +211,37 @@ namespace NeeView
         /// <summary>
         /// マーカー追加
         /// </summary>
-        /// <param name="mark"></param>
-        public void Add(Pagemark mark)
+        public void Add(Book.Memento memento)
         {
-            if (!Items.Contains(mark))
+            if (!Contains(memento.Place, memento.Page))
             {
-                ////Marks.Add(mark);
-                Items.Insert(0, mark);
+                var item = new Pagemark(BookMementoCollection.Current.Set(memento), memento.Page);
+                Items.Insert(0, item);
             }
         }
 
         /// <summary>
         /// マーカー削除
         /// </summary>
-        /// <param name="mark"></param>
-        public void Remove(Pagemark mark)
+        public void Remove(string place, string entryName)
         {
-            Items.Remove(mark);
+            Items.Remove(Find(place, entryName));
         }
 
 
         /// <summary>
         /// マーカー追加/削除
         /// </summary>
-        /// <param name="mark"></param>
-        /// <returns></returns>
-        public bool Toggle(Pagemark mark)
+        public bool Toggle(Book.Memento memento)
         {
-            var index = Items.IndexOf(mark);
-            if (index < 0)
+            if (!Contains(memento.Place, memento.Page))
             {
-                Add(mark);
+                Add(memento);
                 return true;
             }
             else
             {
-                Remove(mark);
+                Remove(memento.Place, memento.Page);
                 return false;
             }
         }
@@ -285,17 +254,6 @@ namespace NeeView
         public List<Pagemark> Collect(string place)
         {
             return Items.Where(e => e.Place == place).ToList();
-        }
-
-        /// <summary>
-        /// マーカーの検索
-        /// </summary>
-        /// <param name="place"></param>
-        /// <param name="entryName"></param>
-        /// <returns></returns>
-        public Pagemark Search(string place, string entryName)
-        {
-            return Items.FirstOrDefault(e => e.Place == place && e.EntryName == entryName);
         }
 
         #endregion
@@ -410,7 +368,7 @@ namespace NeeView
         // memento適用
         public void Restore(Memento memento)
         {
-            this.Load(memento.Books, memento.Marks);
+            this.Load(memento.Marks, memento.Books);
         }
 
         #endregion

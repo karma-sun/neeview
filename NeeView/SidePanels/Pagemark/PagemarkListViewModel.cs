@@ -153,7 +153,7 @@ namespace NeeView
             Pagemarks.SelectedItem = Pagemarks.GetNeighbor(mark);
             this.ListBoxContent.RestoreFocus();
 
-            PagemarkCollection.Current.Remove(mark);
+            PagemarkCollection.Current.Remove(mark.Place, mark.EntryName);
 
             _model.UpdatePagemark(mark);
         }

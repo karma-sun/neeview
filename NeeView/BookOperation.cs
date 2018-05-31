@@ -471,7 +471,7 @@ namespace NeeView
         private void Book_PageRemoved(object sender, PageChangedEventArgs e)
         {
             // ページマーカーから削除
-            RemovePagemark(new Pagemark(this.Book.Place, e.Page.FullPath));
+            RemovePagemark(this.Book.Place, e.Page.FullPath);
 
             UpdatePageList(true);
             PageRemoved?.Invoke(sender, e);
@@ -733,8 +733,7 @@ namespace NeeView
 
             // マーク登録/解除
             // TODO: 登録時にサムネイルキャッシュにも登録
-            var unit = BookMementoCollection.Current.Set(this.Book.CreateMemento());
-            PagemarkCollection.Current.Toggle(new Pagemark(unit, this.Book.GetViewPage().FullPath) );
+            PagemarkCollection.Current.Toggle(Book.CreateMemento());
 
             // 更新
             UpdatePagemark();
@@ -742,20 +741,19 @@ namespace NeeView
 
 
         // マーカー削除
-        public void RemovePagemark(Pagemark mark)
+        public void RemovePagemark(string place, string entryName)
         {
-            PagemarkCollection.Current.Remove(mark);
-            UpdatePagemark(mark);
+            PagemarkCollection.Current.Remove(place, entryName);
+            UpdatePagemark(place, entryName);
         }
 
         /// <summary>
         /// マーカー表示更新
         /// </summary>
-        /// <param name="mark">変更や削除されたマーカー</param>
-        public void UpdatePagemark(Pagemark mark)
+        public void UpdatePagemark(string place, string entryName)
         {
             // 現在ブックに影響のある場合のみ更新
-            if (this.Book?.Place == mark.Place)
+            if (this.Book?.Place == place)
             {
                 UpdatePagemark();
             }

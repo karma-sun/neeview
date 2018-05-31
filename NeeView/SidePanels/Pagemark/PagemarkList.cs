@@ -62,7 +62,7 @@ namespace NeeView
         //
         internal void UpdatePagemark(Pagemark mark)
         {
-            _bookOperation.UpdatePagemark(mark);
+            _bookOperation.UpdatePagemark(mark.Place, mark.EntryName);
         }
 
         //

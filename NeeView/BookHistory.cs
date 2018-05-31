@@ -19,11 +19,10 @@ namespace NeeView
         {
         }
 
-        public BookHistory(BookMementoUnit unit)
+        public BookHistory(string place, DateTime lastAccessTime)
         {
-            Place = unit.Place;
-            LastAccessTime = DateTime.Now;
-            Unit = unit;
+            Place = place;
+            LastAccessTime = lastAccessTime;
         }
 
         public BookHistory(BookMementoUnit unit, DateTime lastAccessTime)
@@ -50,7 +49,12 @@ namespace NeeView
 
         #region IBookListItem Support
 
-        public BookMementoUnit Unit { get; set; }
+        private BookMementoUnit _unit;
+        public BookMementoUnit Unit
+        {
+            get { return _unit = _unit ?? BookMementoCollection.Current.Get(Place); }
+            set { _unit = value; }
+        }
 
         public Page GetPage()
         {

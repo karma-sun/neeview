@@ -287,7 +287,7 @@ namespace NeeView
                 if (answer != UICommands.Delete) return;
             }
 
-            BookHistoryCollection.Current.RemoveAll();
+            BookHistoryCollection.Current.Clear();
         }
 
 

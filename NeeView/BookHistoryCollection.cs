@@ -116,9 +116,7 @@ namespace NeeView
         public void Clear()
         {
             Items.Clear();
-
-            // TODO: mark & sweap による BookMementoCollectionの掃除？
-
+            BookMementoCollection.Current.CleanUp();
             HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Clear, null));
         }
 
@@ -134,9 +132,7 @@ namespace NeeView
 
             foreach (var item in items)
             {
-                // TODO: 検索負荷が重いので、unit関連付けの遅延処理を
-                var unit = BookMementoCollection.Current.Get(item.Place);
-                var newItem = new BookHistory(unit, item.LastAccessTime);
+                var newItem = new BookHistory(item.Place, item.LastAccessTime);
                 Items.AddLastRaw(newItem.Place, newItem);
             }
 
@@ -186,7 +182,7 @@ namespace NeeView
                 }
                 else
                 {
-                    node = node ?? new LinkedListNode<BookHistory>(new BookHistory(BookMementoCollection.Current.Set(memento)));
+                    node = node ?? new LinkedListNode<BookHistory>(new BookHistory(BookMementoCollection.Current.Set(memento), DateTime.Now));
                     node.Value.Unit.Memento = memento;
                     node.Value.LastAccessTime = DateTime.Now;
 
@@ -216,16 +212,6 @@ namespace NeeView
                 Items.Remove(place);
                 HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, place));
             }
-        }
-
-        // 全履歴削除
-        public void RemoveAll()
-        {
-            Items.Clear();
-
-            BookMementoCollection.Current.CleanUp();
-
-            HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, null));
         }
 
         // 無効な履歴削除

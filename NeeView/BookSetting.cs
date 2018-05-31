@@ -89,33 +89,21 @@ namespace NeeView
         /// </summary>
         /// <param name="place">場所</param>
         /// <param name="lastest">現在の情報</param>
-        /// <param name="unit">過去の情報</param>
         /// <returns></returns>
-        public Book.Memento CreateLastestBookMemento(string place, Book.Memento lastest, BookMementoUnit unit)
+        public Book.Memento CreateLastestBookMemento(string place, Book.Memento lastest)
         {
             Book.Memento memento = null;
 
-            // 現在開いているブック
             if (lastest?.Place == place)
             {
                 memento = lastest.Clone();
             }
             else
             {
-                // 過去の情報
-                unit = unit ?? BookMementoCollection.Current.Get(place);
-                if (unit != null && unit.Memento.Place == place)
+                var unit = BookMementoCollection.Current.GetValid(place);
+                if (unit != null)
                 {
-                    // ブックマーク
-                    if (BookmarkCollection.Current.Contains(unit.Place))
-                    {
-                        memento = unit.Memento.Clone();
-                    }
-                    // 履歴
-                    else if (BookHistoryCollection.Current.Contains(unit.Place))
-                    {
-                        memento = unit.Memento.Clone();
-                    }
+                    memento = unit.Memento.Clone();
                 }
             }
 

@@ -596,14 +596,13 @@ namespace NeeView
                     }
 
                     // 本の設定
-                    var unit = BookMementoCollection.Current.GetValid(address.Place);
-                    var memory = _bookSetting.CreateLastestBookMemento(address.Place, lastBookMemento, unit);
+                    var memory = _bookSetting.CreateLastestBookMemento(address.Place, lastBookMemento);
                     var setting = _bookSetting.GetSetting(address.Place, memory, args.Option);
 
                     address.EntryName = address.EntryName ?? LoosePath.NormalizeSeparator(setting.Page);
 
                     // Load本体
-                    await LoadAsyncCore(address, args.Option, setting, unit, token);
+                    await LoadAsyncCore(address, args.Option, setting, token);
                 }
 
                 // Now Loading OFF
@@ -679,14 +678,8 @@ namespace NeeView
         /// <param name="path">本のパス</param>
         /// <param name="startEntry">開始エントリ</param>
         /// <param name="option">読み込みオプション</param>
-        private async Task LoadAsyncCore(BookAddress address, BookLoadOption option, Book.Memento setting, BookMementoUnit unit, CancellationToken token)
+        private async Task LoadAsyncCore(BookAddress address, BookLoadOption option, Book.Memento setting, CancellationToken token)
         {
-            // 履歴に登録済の場合は履歴先頭に移動させる
-            if (BookHistoryCollection.Current.Contains(unit?.Place) && (option & BookLoadOption.KeepHistoryOrder) == 0)
-            {
-                BookHistoryCollection.Current.Add(unit.Memento, false);
-            }
-
             // 新しい本を作成
             var book = new Book();
 
@@ -942,8 +935,7 @@ namespace NeeView
             if (place != null)
             {
                 var bookMemento = this.Book?.Place == place ? this.Book.CreateMemento() : null;
-                var unit = BookMementoCollection.Current.GetValid(place);
-                var memory = _bookSetting.CreateLastestBookMemento(place, bookMemento, unit);
+                var memory = _bookSetting.CreateLastestBookMemento(place, bookMemento);
                 return _bookSetting.GetSetting(place, memory, option);
             }
             else

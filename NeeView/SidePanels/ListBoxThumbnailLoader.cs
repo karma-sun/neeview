@@ -64,7 +64,7 @@ namespace NeeView
             }
 
             // 有効な ListBoxItem 収集
-            var items = _virtualizingStackPanel.Children.Cast<ListBoxItem>().Select(i => i.DataContext).OfType<IHasPage>().ToList();
+            var items = _panel.CollectPageList(_virtualizingStackPanel.Children.Cast<ListBoxItem>().Select(i => i.DataContext)).ToList();
 
             // 未処理の要求を解除
             JobEngine.Current.Clear(_priority);

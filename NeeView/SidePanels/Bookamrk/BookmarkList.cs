@@ -11,22 +11,26 @@ namespace NeeView
 {
     public class BookmarkList : BindableBase
     {
-        private PanelListItemStyle _panelListItemStyle;
+        public static BookmarkList Current { get; set; }
 
-        //
-        public BookmarkList(BookHub bookHub)
+        private PanelListItemStyle _panelListItemStyle;
+        private BookmarkListBoxModel _listBox;
+
+
+        public BookmarkList()
         {
-            this.BookHub = bookHub;
+            Current = this;
+
+            this.ListBox = new BookmarkListBoxModel();
         }
 
-        //
+
         public PanelListItemStyle PanelListItemStyle
         {
             get { return _panelListItemStyle; }
             set { if (_panelListItemStyle != value) { _panelListItemStyle = value; RaisePropertyChanged(); } }
         }
 
-        // サムネイル画像が表示される？？
         public bool IsThumbnailVisibled
         {
             get
@@ -43,51 +47,31 @@ namespace NeeView
             }
         }
 
-        //
-        public BookHub BookHub { get; private set; }
+        public BookmarkListBoxModel ListBox
+        {
+            get { return _listBox; }
+            set { SetProperty(ref _listBox, value); }
+        }
 
-        #region Command
 
-        // ブックマークを戻る
         public void PrevBookmark()
         {
-            if (BookHub.IsLoading) return;
-
-            if (!BookmarkCollection.Current.CanMoveSelected(-1))
-            {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyBookmarkPrevFailed);
-                return;
-            }
-
-            var unit = BookmarkCollection.Current.MoveSelected(-1);
-            if (unit != null)
-            {
-                BookHub.RequestLoad(unit.Place, null, BookLoadOption.SkipSamePlace | BookLoadOption.IsBook, true);
-            }
+            ListBox?.PrevBookmark();
         }
 
-
-        // ブックマークを進む
         public void NextBookmark()
         {
-            if (BookHub.IsLoading) return;
-
-            if (!BookmarkCollection.Current.CanMoveSelected(+1))
-            {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyBookmarkNextFailed);
-                return;
-            }
-
-            var unit = BookmarkCollection.Current.MoveSelected(+1);
-            if (unit != null)
-            {
-                BookHub.RequestLoad(unit.Place, null, BookLoadOption.SkipSamePlace | BookLoadOption.IsBook, true);
-            }
+            ListBox?.NextBookmark();
         }
 
-        #endregion
+        public void Toggle(string place)
+        {
+            ListBox.Toggle(place);
+        }
+
 
         #region Memento
+
         [DataContract]
         public class Memento
         {
@@ -95,7 +79,6 @@ namespace NeeView
             public PanelListItemStyle PanelListItemStyle { get; set; }
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -103,12 +86,12 @@ namespace NeeView
             return memento;
         }
 
-        //
         public void Restore(Memento memento)
         {
             if (memento == null) return;
             this.PanelListItemStyle = memento.PanelListItemStyle;
         }
+
         #endregion
     }
 }

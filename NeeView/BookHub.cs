@@ -241,7 +241,7 @@ namespace NeeView
         public event EventHandler<BookMementoCollectionChangedArgs> HistoryChanged;
 
         // ブックマークにに追加、削除された
-        public event EventHandler<BookMementoCollectionChangedArgs> BookmarkChanged;
+        public event EventHandler<BookmarkCollectionChangedEventArgs> BookmarkChanged;
 
         // アドレスが変更された
         public event EventHandler AddressChanged;
@@ -469,7 +469,7 @@ namespace NeeView
 
 
         //現在開いているブックの設定作成
-        private Book.Memento CreateBookMemento()
+        public Book.Memento CreateBookMemento()
         {
             return (BookUnit != null && BookUnit.Book.Pages.Count > 0) ? BookUnit.Book.CreateMemento() : null;
         }

@@ -1,7 +1,8 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Collections.Generic;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -19,169 +20,51 @@ namespace NeeView
         public static BookmarkCollection Current { get; private set; }
 
 
-        #region Constructors
-
         public BookmarkCollection()
         {
             Current = this;
-            Items = new ObservableCollection<Bookmark>();
+            Items = new TreeListNode<IBookmarkEntry>();
         }
 
-        #endregion
 
-        #region Events
+        public event EventHandler<BookmarkCollectionChangedEventArgs> BookmarkChanged;
 
-        public event EventHandler<BookMementoCollectionChangedArgs> BookmarkChanged;
 
-        #endregion
-
-        #region Properties
-
-        private ObservableCollection<Bookmark> _items;
-        public ObservableCollection<Bookmark> Items
+        private TreeListNode<IBookmarkEntry> _items;
+        public TreeListNode<IBookmarkEntry> Items
         {
             get { return _items; }
-            private set
-            {
-                _items = value;
-                BindingOperations.EnableCollectionSynchronization(_items, new object());
-                RaisePropertyChanged();
-            }
+            set { SetProperty(ref _items, value); }
         }
 
-        private Bookmark _selectedItem;
-        public Bookmark SelectedItem
-        {
-            get { return _selectedItem; }
-            set { _selectedItem = value; RaisePropertyChanged(); }
-        }
 
-        #endregion
-
-
-        #region Methods
-
-        // クリア
         public void Clear()
         {
             Items.Clear();
+            BookMementoCollection.Current.CleanUp();
 
-            // TODO: GabageCollection
-
-            BookmarkChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Clear, null));
+            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
 
-        // 設定
-        public void Load(IEnumerable<Bookmark> items, IEnumerable<Book.Memento> books)
+        public void Load(TreeListNode<IBookmarkEntry> nodes, IEnumerable<Book.Memento> books)
         {
-            Clear();
-
             foreach (var book in books)
             {
                 BookMementoCollection.Current.Set(book);
             }
 
-            foreach (var item in items)
-            {
-                Items.Add(new Bookmark() { Place = item.Place });
-            }
+            Items = nodes;
 
-            BookmarkChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Load, null));
+            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace));
         }
 
-
-        // 追加
-        public BookMementoUnit Add(Book.Memento memento)
-        {
-            if (memento == null) return null;
-
-            try
-            {
-                var unit = BookMementoCollection.Current.Set(memento);
-
-                if (Contains(memento.Place))
-                {
-                    BookmarkChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Update, memento.Place));
-                }
-                else
-                {
-                    Items.Insert(0, new Bookmark(unit));
-                    BookmarkChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, memento.Place));
-                }
-
-                return unit;
-            }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-                return null;
-            }
-        }
-
-        // ブックマーク？
-        public bool Contains(string place)
-        {
-            if (place == null) return false;
-
-            return Items.Any(e => e.Place == place);
-        }
-
-        // ブックマーク状態切り替え
-        public bool Toggle(Book.Memento memento)
-        {
-            if (memento == null) return false;
-
-            var node = Find(memento.Place);
-            if (node == null)
-            {
-                var unit = Add(memento);
-                return true;
-            }
-            else
-            {
-                Remove(node.Place);
-                return false;
-            }
-        }
-
-
-        // 削除
-        public void Remove(string place)
-        {
-            if (Items.Remove(Find(place)))
-            {
-                BookmarkChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, place));
-            }
-        }
-
-        // 無効なブックマークを削除
-        public async Task RemoveUnlinkedAsync(CancellationToken token)
-        {
-            // 削除項目収集
-            var unlinked = new List<Bookmark>();
-            foreach (var item in this.Items)
-            {
-                if (!(await ArchiveFileSystem.ExistsAsync(item.Place, token)))
-                {
-                    unlinked.Add(item);
-                }
-            }
-
-            // 削除実行
-            foreach (var node in unlinked)
-            {
-                Debug.WriteLine($"BookmarkRemove: {node.Place}");
-                Items.Remove(node);
-            }
-            BookmarkChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, null));
-        }
 
         public Bookmark Find(string place)
         {
             if (place == null) return null;
 
-            return Items.FirstOrDefault(e => e.Place == place);
+            return Items.Select(e => e.Value).OfType<Bookmark>().FirstOrDefault(e => e.Place == place);
         }
 
 
@@ -193,81 +76,102 @@ namespace NeeView
         }
 
 
-        // となりを取得
-        public Bookmark GetNeighbor(Bookmark item)
+        public TreeListNode<IBookmarkEntry> FindNode(IBookmarkEntry entry)
         {
-            if (Items == null || Items.Count <= 0) return null;
+            if (entry == null) return null;
 
-            int index = Items.IndexOf(item);
-            if (index < 0) return Items[0];
+            return Items.FirstOrDefault(e => e.Value == entry);
+        }
 
-            if (index + 1 < Items.Count)
+
+        public bool Contains(string place)
+        {
+            if (place == null) return false;
+
+            return Find(place) != null;
+        }
+
+
+        public void AddFirst(IBookmarkEntry item)
+        {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+
+            Items.Root.Insert(0, item);
+            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
+        }
+
+
+        public bool Remove(TreeListNode<IBookmarkEntry> node)
+        {
+            if (node == null) throw new ArgumentNullException(nameof(node));
+            if (node.Root != Items.Root) throw new InvalidOperationException();
+
+            if (node.RemoveSelf())
             {
-                return Items[index + 1];
-            }
-            else if (index > 0)
-            {
-                return Items[index - 1];
+                BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, node.Value));
+                return true;
             }
             else
             {
-                return item;
+                return false;
             }
         }
 
 
-        public bool CanMoveSelected(int direction)
+        // 無効な履歴削除
+        public async Task RemoveUnlinkedAsync(CancellationToken token)
         {
-            if (SelectedItem == null)
-            {
-                return Items.Count > 0;
-            }
-            else
-            {
-                return direction > 0
-                    ? SelectedItem != Items.Last()
-                    : SelectedItem != Items.First();
-            }
-        }
+            await Task.Yield();
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="direction"></param>
-        /// <returns></returns>
-        public Bookmark MoveSelected(int direction)
-        {
-            if (SelectedItem == null)
+            // 削除項目収集
+            var unlinked = new List<TreeListNode<IBookmarkEntry>>();
+            foreach (var node in Items.Where(e => e.Value is Bookmark))
             {
-                SelectedItem = direction >= 0 ? Items.FirstOrDefault() : Items.LastOrDefault();
-            }
-            else
-            {
-                int index = Items.IndexOf(SelectedItem) + direction;
-                if (index >= 0 && index < Items.Count)
+                var bookmark = (Bookmark)node.Value;
+                if (!(await ArchiveFileSystem.ExistsAsync(bookmark.Place, token)))
                 {
-                    SelectedItem = Items[index];
+                    unlinked.Add(node);
                 }
             }
 
-            return SelectedItem;
+            // 削除実行
+            if (unlinked.Count > 0)
+            {
+                foreach (var node in unlinked)
+                {
+                    var bookmark = (Bookmark)node.Value;
+                    Debug.WriteLine($"BookmarkRemove: {bookmark.Place}");
+                    node.RemoveSelf();
+                }
+
+                BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace));
+            }
         }
 
-        #endregion
+
+        public void Move(TreeListNode<IBookmarkEntry> item, TreeListNode<IBookmarkEntry> target, int direction)
+        {
+            if (item == target) return;
+
+            item.RemoveSelf();
+            target.Parent.Insert(target, direction, item);
+
+            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item.Value));
+        }
+
 
         #region Memento
 
-        /// <summary>
-        /// 履歴Memento
-        /// </summary>
         [DataContract]
+        [KnownType(typeof(Bookmark))]
+        [KnownType(typeof(BookmarkFolder))]
         public class Memento
         {
             [DataMember]
             public int _Version { get; set; } = Config.Current.ProductVersionNumber;
 
             [DataMember]
-            public List<Bookmark> Marks { get; set; }
+            public TreeListNode<IBookmarkEntry> Nodes { get; set; }
 
             [DataMember(EmitDefaultValue = false)]
             public List<Book.Memento> Books { get; set; }
@@ -278,7 +182,7 @@ namespace NeeView
 
             private void Constructor()
             {
-                Marks = new List<Bookmark>();
+                Nodes = new TreeListNode<IBookmarkEntry>();
                 Books = new List<Book.Memento>();
             }
 
@@ -300,9 +204,11 @@ namespace NeeView
 #pragma warning disable CS0612
                 if (_Version < Config.GenerateProductVersionNumber(31, 0, 0))
                 {
-                    Marks = OldBooks != null
-                        ? OldBooks.Select(e => new Bookmark() { Place = e.Place }).ToList()
-                        : new List<Bookmark>();
+                    Nodes = new TreeListNode<IBookmarkEntry>();
+                    foreach (var book in OldBooks)
+                    {
+                        Nodes.Add(new Bookmark() { Place = book.Place });
+                    }
 
                     Books = OldBooks ?? new List<Book.Memento>();
                     foreach (var book in Books)
@@ -353,18 +259,8 @@ namespace NeeView
         public Memento CreateMemento(bool forSave)
         {
             var memento = new Memento();
-
-            if (forSave)
-            {
-                // without temp folder
-                memento.Marks = this.Items.Where(e => !e.Place.StartsWith(Temporary.TempDirectory)).ToList();
-            }
-            else
-            {
-                memento.Marks = this.Items.ToList();
-            }
-
-            memento.Books = memento.Marks.Select(e => e.Unit.Memento).Distinct().ToList();
+            memento.Nodes = Items;
+            memento.Books = Items.Select(e => e.Value).OfType<Bookmark>().Select(e => e.Unit.Memento).Distinct().ToList();
 
             return memento;
         }
@@ -372,7 +268,7 @@ namespace NeeView
         // memento適用
         public void Restore(Memento memento)
         {
-            this.Load(memento.Marks, memento.Books);
+            this.Load(memento.Nodes, memento.Books);
         }
 
         #endregion

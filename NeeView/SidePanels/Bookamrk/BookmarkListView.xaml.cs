@@ -23,13 +23,11 @@ namespace NeeView
     {
         private BookmarkListViewModel _vm;
         
-        //
         public BookmarkListView()
         {
             InitializeComponent();
         }
 
-        //
         public BookmarkListView(BookmarkList model) : this()
         {
             _vm = new BookmarkListViewModel(model);

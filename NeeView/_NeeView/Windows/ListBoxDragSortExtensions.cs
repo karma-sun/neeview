@@ -76,6 +76,52 @@ namespace NeeView.Windows
             items.Move(oldIndex, newIndex);
         }
 
+
+        public static DropInfo<T> GetDropInfo<T>(object sender, DragEventArgs e, string format, ObservableCollection<T> items)
+            where T : class
+        {
+            var listBox = sender as ListBox;
+
+            // ドラッグオブジェクト
+            var item = GetData<T>(e, format);
+            if (item == null) return null;
+
+            // ドラッグオブジェクトが所属しているリスト判定
+            if (items.Count <= 0 || !items.Contains(item)) return null;
+
+            var dropPos = e.GetPosition(listBox);
+            int oldIndex = items.IndexOf(item);
+            int newIndex = items.Count - 1;
+            for (int i = 0; i < items.Count; i++)
+            {
+                var listBoxItem = listBox.ItemContainerGenerator.ContainerFromIndex(i) as ListBoxItem;
+                if (listBoxItem == null) continue;
+
+                var pos = listBoxItem.TranslatePoint(new Point(0, listBoxItem.ActualHeight), listBox);
+                if (dropPos.Y < pos.Y)
+                {
+                    ////newIndex = i;
+                    ////break;
+
+                    return new DropInfo<T>()
+                    {
+                        DragItem = item,
+                        DropItem = listBoxItem.DataContext as T,
+                        Position = 1.0 - (pos.Y - dropPos.Y) / listBoxItem.ActualHeight,
+                    };
+                }
+            }
+
+            ////items.Move(oldIndex, newIndex);
+            return new DropInfo<T>()
+            {
+                DragItem = item,
+                DropItem = items.Last(),
+                Position = 1.0,
+            };
+        }
+
+
         //
         private static T GetData<T>(DragEventArgs e, string format)
             where T : class
@@ -90,5 +136,14 @@ namespace NeeView.Windows
                 return null;
             }
         }
+    }
+
+
+    public class DropInfo<T>
+        where T : class
+    {
+        public T DragItem { get; set; }
+        public T DropItem { get; set; }
+        public double Position { get; set; }
     }
 }

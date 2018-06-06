@@ -18,26 +18,18 @@ namespace NeeView
     {
         #region Fields
 
-        //
         private BookmarkList _model;
-
-        //
         private CancellationTokenSource _removeUnlinkedCommandCancellationToken;
-
-        //
         private BookmarkListBox _listBoxContent;
 
         #endregion
 
         #region Constructors
 
-        //
         public BookmarkListViewModel(BookmarkList model)
         {
             _model = model;
             _model.AddPropertyChanged(nameof(_model.PanelListItemStyle), (s, e) => UpdateListBoxContent());
-
-            BookHub = _model.BookHub;
 
             InitializeMoreMenu();
 
@@ -48,13 +40,6 @@ namespace NeeView
 
         #region Properties
 
-        public BookHub BookHub { get; private set; }
-
-        public BookmarkCollection Bookmark => BookmarkCollection.Current;
-
-        /// <summary>
-        /// Model property.
-        /// </summary>
         public BookmarkList Model
         {
             get { return _model; }
@@ -138,32 +123,24 @@ namespace NeeView
 
         #region Commands
 
-        /// <summary>
-        /// SetListItemStyle command.
-        /// </summary>
         private RelayCommand<PanelListItemStyle> _SetListItemStyle;
         public RelayCommand<PanelListItemStyle> SetListItemStyle
         {
             get { return _SetListItemStyle = _SetListItemStyle ?? new RelayCommand<PanelListItemStyle>(SetListItemStyle_Executed); }
         }
 
-        //
         private void SetListItemStyle_Executed(PanelListItemStyle style)
         {
             _model.PanelListItemStyle = style;
         }
 
 
-        /// <summary>
-        /// 無効なブックマークを削除するコマンド
-        /// </summary>
         private RelayCommand _removeUnlinkedCommand;
         public RelayCommand RemoveUnlinkedCommand
         {
             get { return _removeUnlinkedCommand = _removeUnlinkedCommand ?? new RelayCommand(RemoveUnlinkedCommand_Executed); }
         }
 
-        //
         private async void RemoveUnlinkedCommand_Executed()
         {
             // 直前の命令はキャンセル
@@ -176,27 +153,6 @@ namespace NeeView
 
         #region Methods
 
-        //
-        public void Load(string path)
-        {
-            BookHub?.RequestLoad(path, null, BookLoadOption.SkipSamePlace | BookLoadOption.IsBook, true);
-        }
-
-
-        public void Remove(Bookmark item)
-        {
-            if (item == null) return;
-
-            this.ListBoxContent.StoreFocus();
-            Bookmark.SelectedItem = Bookmark.GetNeighbor(item);
-            this.ListBoxContent.RestoreFocus();
-
-            BookmarkCollection.Current.Remove(item.Place);
-        }
-
-        /// <summary>
-        /// ListBoxContent property.
-        /// </summary>
         public BookmarkListBox ListBoxContent
         {
             get { return _listBoxContent; }
@@ -205,7 +161,7 @@ namespace NeeView
 
         private void UpdateListBoxContent()
         {
-            this.ListBoxContent = new BookmarkListBox(this);
+            ListBoxContent = new BookmarkListBox(new BookmarkListBoxViewModel(Model.ListBox));
         }
 
         #endregion

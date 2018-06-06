@@ -77,6 +77,8 @@ namespace NeeView
         // サムネイルが表示されている？
         public bool IsThumbnailVisibled => _vm.Model.IsThumbnailVisibled;
 
+        public IEnumerable<IHasPage> CollectPageList(IEnumerable<object> objs) => objs.OfType<IHasPage>();
+        
         #endregion
 
         #region Commands

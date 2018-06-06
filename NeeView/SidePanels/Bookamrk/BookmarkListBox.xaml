@@ -16,8 +16,8 @@
     <UserControl.Resources>
 
         <Style TargetType="TextBlock" x:Key="FolderName">
-            <Setter Property="Text" Value="{Binding Unit.Memento.Name}"/>
-            <Setter Property="ToolTip" Value="{Binding Unit.Memento.Place}"/>
+            <Setter Property="Text" Value="{Binding Value.Name}"/>
+            <Setter Property="ToolTip" Value="{Binding Value.Detail}"/>
             <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
             <Setter Property="ToolTipService.BetweenShowDelay" Value="1000"/>
             <Setter Property="Margin" Value="5,0"/>
@@ -33,7 +33,9 @@
             <Setter Property="Visibility" Value="{DynamicResource PanelNoteVisibility}"/>
         </Style>
 
+        <!--
         <local:FileSizeToStringConverter x:Key="FileSizeToStringConverter"/>
+        -->
 
         <!-- Normal Bookmark -->
         <DataTemplate x:Key="NormalBookmark">
@@ -53,9 +55,9 @@
                 </i:Interaction.Behaviors>
                 <DockPanel Margin="2">
                     <DockPanel>
-                        <local:FolderListThumbnail DataContext="{Binding Unit.ArchivePage.Thumbnail}" />
+                        <local:FolderListThumbnail DataContext="{Binding Value.Unit.ArchivePage.Thumbnail}" />
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock x:Name="Place" Style="{StaticResource FolderParameter}" Text="{Binding Unit.ArchivePage.Content.Entry.RootArchiverName}" HorizontalAlignment="Left" />
+                            <TextBlock x:Name="Place" Style="{StaticResource FolderParameter}" Text="{Binding Value.Unit.ArchivePage.Content.Entry.RootArchiverName}" HorizontalAlignment="Left" />
                             <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
                         </StackPanel>
                     </DockPanel>
@@ -73,7 +75,7 @@
                     <DockPanel DockPanel.Dock="Bottom" Margin="2" >
                         <TextBlock Style="{StaticResource FolderName}" TextAlignment="Left" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}" Margin="0"/>
                     </DockPanel>
-                    <local:FolderListBanner DataContext="{Binding Unit.ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
+                    <local:FolderListBanner DataContext="{Binding Value.Unit.ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                 </DockPanel>
             </Border>
         </DataTemplate>
@@ -87,10 +89,10 @@
                  FocusVisualStyle="{StaticResource NVFocusVisual}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  HorizontalContentAlignment="Stretch"
-                 ItemsSource="{Binding Bookmark.Items}"
-                 SelectedItem="{Binding Bookmark.SelectedItem}"
+                 ItemsSource="{Binding Model.Items}"
+                 SelectedItem="{Binding Model.SelectedItem}"
                  KeyDown="BookmarkList_KeyDown"
-                 Tag="{Binding Bookmark.Items}"
+                 Tag="{Binding Model.Items}"
                  IsVisibleChanged="BookmarkListBox_IsVisibleChanged"
                  AllowDrop="True"
                  PreviewDragOver="BookmarkListBox_PreviewDragOver"

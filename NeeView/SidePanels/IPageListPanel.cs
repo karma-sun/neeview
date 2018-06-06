@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Collections.Generic;
+using System.Windows.Controls;
 
 namespace NeeView
 {
@@ -16,5 +17,10 @@ namespace NeeView
         /// サムネイルが表示されているか
         /// </summary>
         bool IsThumbnailVisibled { get; }
+
+        /// <summary>
+        /// ページの収集
+        /// </summary>
+        IEnumerable<IHasPage> CollectPageList(IEnumerable<object> objs);
     }
 }

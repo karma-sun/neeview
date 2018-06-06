@@ -12,6 +12,7 @@ using System.Diagnostics;
 using NeeLaboratory.ComponentModel;
 using System.Threading;
 using NeeView.Properties;
+using System.Threading.Tasks;
 
 namespace NeeView
 {
@@ -20,6 +21,9 @@ namespace NeeView
     /// </summary>
     public class HistoryListViewModel : BindableBase 
     {
+        //
+        private CancellationTokenSource _removeUnlinkedCommandCancellationToken;
+
         #region Property: Items
         private ObservableCollection<BookHistory> _items;
         public ObservableCollection<BookHistory> Items
@@ -305,8 +309,12 @@ namespace NeeView
         //
         private async void RemoveUnlinkedCommand_Executed()
         {
-            await BookHistoryCollection.Current.RemoveUnlinkedAsync(CancellationToken.None);
+            // 直前の命令はキャンセル
+            _removeUnlinkedCommandCancellationToken?.Cancel();
+            _removeUnlinkedCommandCancellationToken = new CancellationTokenSource();
+            await BookHistoryCollection.Current.RemoveUnlinkedAsync(_removeUnlinkedCommandCancellationToken.Token);
         }
+
 
 
         /// <summary>

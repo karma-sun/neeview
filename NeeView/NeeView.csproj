@@ -153,6 +153,7 @@
     <Compile Include="Archiver\ZipArchiverProfile.cs" />
     <Compile Include="BookHistory.cs" />
     <Compile Include="BookHistoryCollection.cs" />
+    <Compile Include="SidePanels\Bookamrk\BookmarkCollectionChangedArgs.cs" />
     <Compile Include="BookMementoCollectionChangedArgs.cs" />
     <Compile Include="BookMementoCollection.cs" />
     <Compile Include="BookMementoUnit.cs" />
@@ -177,6 +178,10 @@
     <Compile Include="Setting\SettingPageHistory.cs" />
     <Compile Include="SidePanels\Bookamrk\Bookmark.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkCollection.cs" />
+    <Compile Include="SidePanels\Bookamrk\BookmarkList.cs" />
+    <Compile Include="SidePanels\Bookamrk\BookmarkListBoxModel.cs" />
+    <Compile Include="SidePanels\Bookamrk\BookmarkListBoxViewModel.cs" />
+    <Compile Include="_NeeView\Collections\Generic\TreeListNode.cs" />
     <Compile Include="SidePanels\FolderList\FolderCollectionFactory.cs" />
     <Compile Include="SidePanels\FolderList\FolderNode.cs" />
     <Compile Include="SidePanels\FolderList\FolderSearchEngine.cs" />
@@ -439,7 +444,6 @@
     <Compile Include="NormalInfoMessageViewModel.cs" />
     <Compile Include="RoutedCommandTable.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkListViewModel.cs" />
-    <Compile Include="SidePanels\Bookamrk\BookmarkList.cs" />
     <Compile Include="BrushSource.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkPanel.cs" />
     <Compile Include="SidePanels\FileInfo\FileInformationPanel.cs" />

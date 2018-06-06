@@ -3,6 +3,7 @@ using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -81,7 +82,24 @@ namespace NeeView
 
             _bookHub.FolderListSync += async (s, e) => await SyncWeak(e);
             _bookHub.HistoryChanged += (s, e) => RefleshIcon(e.Key);
-            _bookHub.BookmarkChanged += (s, e) => RefleshIcon(e.Key);
+
+            _bookHub.BookmarkChanged += (s, e) =>
+            {
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Reset:
+                    case NotifyCollectionChangedAction.Replace:
+                        RefleshIcon(null);
+                        break;
+                    default:
+                        if (e.Item is Bookmark bookmark)
+                        {
+                            RefleshIcon(bookmark.Place);
+                        }
+                        break;
+                }
+            };
+
             _bookHub.LoadRequested += (s, e) => CancelMoveCruiseFolder();
         }
 

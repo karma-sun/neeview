@@ -681,7 +681,7 @@ namespace NeeView
                 }
                 else
                 {
-                    BookmarkCollection.Current.Toggle(Book.CreateMemento());
+                    BookmarkList.Current.Toggle(Book.Place);
                     RaisePropertyChanged(nameof(IsBookmark));
                 }
             }

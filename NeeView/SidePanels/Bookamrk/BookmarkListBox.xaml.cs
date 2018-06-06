@@ -1,4 +1,5 @@
-﻿using NeeView.Windows;
+﻿using NeeView.Collections.Generic;
+using NeeView.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -26,7 +27,7 @@ namespace NeeView
 
         public static string DragDropFormat = $"{Config.Current.ProcessId}.BookmarkItem";
 
-        private BookmarkListViewModel _vm;
+        private BookmarkListBoxViewModel _vm;
         private ListBoxThumbnailLoader _thumbnailLoader;
         private bool _storeFocus;
 
@@ -39,7 +40,7 @@ namespace NeeView
             InitializeComponent();
         }
 
-        public BookmarkListBox(BookmarkListViewModel vm) : this()
+        public BookmarkListBox(BookmarkListBoxViewModel vm) : this()
         {
             _vm = vm;
             this.DataContext = vm;
@@ -50,7 +51,12 @@ namespace NeeView
             this.ListBox.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
 
             _thumbnailLoader = new ListBoxThumbnailLoader(this, QueueElementPriority.BookmarkThumbnail);
+
+            this.Loaded += BookmarkListBox_Loaded;
+            this.Unloaded += BookmarkListBox_Unloaded;
         }
+
+
 
         #endregion
 
@@ -59,6 +65,9 @@ namespace NeeView
         public ListBox PageCollectionListBox => this.ListBox;
 
         public bool IsThumbnailVisibled => _vm.Model.IsThumbnailVisibled;
+
+        public IEnumerable<IHasPage> CollectPageList(IEnumerable<object> objs) => objs.OfType<TreeListNode<IBookmarkEntry>>().Select(e => e.Value);
+
 
         #endregion
 
@@ -72,10 +81,9 @@ namespace NeeView
             this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
         }
 
-
         public void Remove_Exec(object sender, ExecutedRoutedEventArgs e)
         {
-            var item = (sender as ListBox)?.SelectedItem as Bookmark;
+            var item = (sender as ListBox)?.SelectedItem as TreeListNode<IBookmarkEntry>;
             if (item != null)
             {
                 _vm.Remove(item);
@@ -86,7 +94,30 @@ namespace NeeView
 
         #region Methods
 
-        //
+        private void BookmarkListBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            _vm.Changing += List_Changing;
+            _vm.Changed += List_Changed;
+            _vm.Loaded();
+        }
+
+        private void BookmarkListBox_Unloaded(object sender, RoutedEventArgs e)
+        {
+            _vm.Changing -= List_Changing;
+            _vm.Changed -= List_Changed;
+            _vm.Unloaded();
+        }
+
+        private void List_Changing(object sender, EventArgs e)
+        {
+            StoreFocus();
+        }
+
+        private void List_Changed(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke((Action)(() => RestoreFocus()));
+        }
+
         public void StoreFocus()
         {
             var index = this.ListBox.SelectedIndex;
@@ -95,7 +126,6 @@ namespace NeeView
             _storeFocus = lbi != null ? lbi.IsFocused : false;
         }
 
-        //
         public void RestoreFocus()
         {
             if (_storeFocus)
@@ -108,7 +138,6 @@ namespace NeeView
             }
         }
 
-        //
         public void FocusSelectedItem()
         {
             if (this.ListBox.SelectedIndex < 0) return;
@@ -132,10 +161,10 @@ namespace NeeView
         // 履歴項目決定
         private void BookmarkListItem_MouseSingleClick(object sender, MouseButtonEventArgs e)
         {
-            var historyItem = (sender as ListBoxItem)?.Content as Bookmark;
-            if (historyItem != null)
+            var item = (sender as ListBoxItem)?.Content as TreeListNode<IBookmarkEntry>;
+            if (item != null)
             {
-                _vm.Load(historyItem.Place);
+                _vm.Decide(item);
                 e.Handled = true;
             }
         }
@@ -143,11 +172,11 @@ namespace NeeView
         // 履歴項目決定(キー)
         private void BookmarkListItem_KeyDown(object sender, KeyEventArgs e)
         {
-            var historyItem = (sender as ListBoxItem)?.Content as Bookmark;
+            var historyItem = (sender as ListBoxItem)?.Content as TreeListNode<IBookmarkEntry>;
             {
                 if (e.Key == Key.Return)
                 {
-                    _vm.Load(historyItem.Place);
+                    _vm.Decide(historyItem);
                     e.Handled = true;
                 }
             }
@@ -172,10 +201,14 @@ namespace NeeView
 
         private void BookmarkListBox_Drop(object sender, DragEventArgs e)
         {
-            var list = (sender as ListBox).Tag as ObservableCollection<Bookmark>;
+            var list = (sender as ListBox).Tag as ObservableCollection<TreeListNode<IBookmarkEntry>>;
             if (list != null)
             {
-                ListBoxDragSortExtension.Drop<Bookmark>(sender, e, DragDropFormat, list);
+                ////ListBoxDragSortExtension.Drop<TreeListNode<IBookmarkEntry>>(sender, e, DragDropFormat, list);
+
+                var dropInfo = ListBoxDragSortExtension.GetDropInfo(sender, e, DragDropFormat, list);
+                _vm.Move(dropInfo);
+
                 e.Handled = true;
             }
         }

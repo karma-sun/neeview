@@ -9,6 +9,7 @@ namespace NeeView
 {
     public interface IBookListItem : IHasPage
     {
+        Thumbnail Thumbnail { get; }
         BookMementoUnit Unit { get; set; }
     }
 
@@ -42,6 +43,8 @@ namespace NeeView
         }
 
         #region IBookListItem Support
+
+        public Thumbnail Thumbnail => Unit.ArchivePage.Thumbnail;
 
         private BookMementoUnit _unit;
         public BookMementoUnit Unit

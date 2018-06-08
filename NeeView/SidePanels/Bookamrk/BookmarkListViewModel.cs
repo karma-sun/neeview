@@ -46,6 +46,8 @@ namespace NeeView
             set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
         }
 
+        public bool IsBusy => _listBoxContent != null ? _listBoxContent.IsRenaming : false;
+
         #endregion
 
         #region MoreMenu
@@ -70,6 +72,8 @@ namespace NeeView
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleList, PanelListItemStyle.Normal));
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleContent, PanelListItemStyle.Content));
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
+            menu.Items.Add(new Separator());
+            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.WordNewFolder, NewFolderCommand));
             menu.Items.Add(new Separator());
             menu.Items.Add(CreateCommandMenuItem(Properties.Resources.BookmarkMenuDeleteInvalid, RemoveUnlinkedCommand));
             this.MoreMenu = menu;
@@ -148,6 +152,32 @@ namespace NeeView
             _removeUnlinkedCommandCancellationToken = new CancellationTokenSource();
             await BookmarkCollection.Current.RemoveUnlinkedAsync(_removeUnlinkedCommandCancellationToken.Token);
         }
+
+        private RelayCommand _newFolderCommand;
+        public RelayCommand NewFolderCommand
+        {
+            get { return _newFolderCommand = _newFolderCommand ?? new RelayCommand(NewDirectory_Executed); }
+        }
+
+        private void NewDirectory_Executed()
+        {
+            _model.ListBox.NewFolder();
+        }
+
+
+        private RelayCommand _addBookmarkCommand;
+        public RelayCommand AddBookmarkCommand
+        {
+            get { return _addBookmarkCommand = _addBookmarkCommand ?? new RelayCommand(AddBookmark_Executed); }
+        }
+
+        private void AddBookmark_Executed()
+        {
+            _model.ListBox.AddBookmark();
+        }
+
+
+
 
         #endregion
 

@@ -63,16 +63,26 @@ namespace NeeView
 
         public void Decide(TreeListNode<IBookmarkEntry> item)
         {
-            if (item.Value is Bookmark bookmark)
+            switch (item.Value)
             {
-                BookHub.Current.RequestLoad(bookmark.Place, null, BookLoadOption.SkipSamePlace | BookLoadOption.IsBook, true);
+                case Bookmark bookmark:
+                    BookHub.Current.RequestLoad(bookmark.Place, null, BookLoadOption.SkipSamePlace | BookLoadOption.IsBook, true);
+                    break;
+                case BookmarkFolder folder:
+                    if (item.Children.Count > 0)
+                    {
+                        item.IsExpanded = !item.IsExpanded;
+                        Refresh();
+                    }
+                    break;
             }
         }
 
         private void Refresh()
         {
             Changing?.Invoke(this, null);
-            Items = new ObservableCollection<TreeListNode<IBookmarkEntry>>(BookmarkCollection.Current.Items);
+            var collection = BookmarkCollection.Current.Items.GetExpandedCollection();
+            Items = new ObservableCollection<TreeListNode<IBookmarkEntry>>(collection);
             Changed?.Invoke(this, null);
         }
 
@@ -128,6 +138,22 @@ namespace NeeView
         {
             int selectedIndex = Items.IndexOf(SelectedItem);
 
+            if (item.Value is BookmarkFolder)
+            {
+                var count = item.Count(e => e.Value is Bookmark);
+                if (count > 0)
+                {
+                    var dialog = new MessageDialog(string.Format(Properties.Resources.DialogBookmarkFolderDelete, count), string.Format(Properties.Resources.DialogBookmarkFolderDeleteTitle, item.Value.Name));
+                    dialog.Commands.Add(UICommands.Delete);
+                    dialog.Commands.Add(UICommands.Cancel);
+                    var answer = dialog.ShowDialog();
+                    if (answer != UICommands.Delete)
+                    {
+                        return false;
+                    }
+                }
+            }
+
             bool isRemoved = BookmarkCollection.Current.Remove(item);
             if (isRemoved)
             {
@@ -142,6 +168,25 @@ namespace NeeView
             }
 
             return isRemoved;
+        }
+
+        //
+        public void AddBookmark()
+        {
+            var place = BookHub.Current.Book?.Place;
+            if (place == null)
+            {
+                return;
+            }
+
+            var node = FindNode(place);
+            if (node == null)
+            {
+                Add(place);
+                node = FindNode(place);
+            }
+
+            SelectedItem = node;
         }
 
         // TODO: ここでToggleは漠然としすぎている。もっと上位で判定すべきか
@@ -182,20 +227,51 @@ namespace NeeView
             if (dropInfo.DragItem == dropInfo.DropItem) return;
 
             var item = dropInfo.DragItem;
-
+            var target = dropInfo.DropItem;
 
             var indexFrom = Items.IndexOf(dropInfo.DragItem);
             var indexTo = Items.IndexOf(dropInfo.DropItem);
 
-            if (indexFrom < indexTo)
+
+            const double margine = 0.25;
+
+            if (target.Value is BookmarkFolder folder)
             {
-                BookmarkCollection.Current.Move(item, dropInfo.DropItem, +1);
+                if (dropInfo.Position < margine)
+                {
+                    BookmarkCollection.Current.Move(item, target, -1);
+                }
+                else if (dropInfo.Position > (1.0 - margine) && !target.IsExpanded)
+                {
+                    BookmarkCollection.Current.Move(item, target, +1);
+                }
+                else
+                {
+                    BookmarkCollection.Current.MoveToChild(item, target);
+                }
             }
             else
             {
-                BookmarkCollection.Current.Move(item, dropInfo.DropItem, -1);
+                if (target.GetNext() == null && dropInfo.Position > (1.0 - margine))
+                {
+                    BookmarkCollection.Current.Move(item, target, +1);
+                }
+                else if (indexFrom < indexTo)
+                {
+                    BookmarkCollection.Current.Move(item, target, +1);
+                }
+                else
+                {
+                    BookmarkCollection.Current.Move(item, target, -1);
+                }
             }
         }
+
+        internal void NewFolder()
+        {
+            BookmarkCollection.Current.AddFirst(new BookmarkFolder() { Name = Properties.Resources.WordNewFolder });
+        }
+
 
 
         // ブックマークを戻る

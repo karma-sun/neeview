@@ -33,5 +33,7 @@ namespace NeeView
             _vm = new BookmarkListViewModel(model);
             this.DockPanel.DataContext = _vm;
         }
+
+        public bool IsBusy => _vm != null ? _vm.IsBusy : false;
     }
 }

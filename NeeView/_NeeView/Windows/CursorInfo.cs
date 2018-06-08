@@ -48,7 +48,7 @@ namespace NeeView.Windows
         /// <summary>
         /// 現在のマウスカーソル座標を取得
         /// </summary>
-        /// <param name="visual"></param>
+        /// <param name="visual">ハンドルを取得するためのビジュアル要素</param>
         /// <returns></returns>
         public static Point GetNowPosition(Visual visual)
         {

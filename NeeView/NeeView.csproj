@@ -153,6 +153,14 @@
     <Compile Include="Archiver\ZipArchiverProfile.cs" />
     <Compile Include="BookHistory.cs" />
     <Compile Include="BookHistoryCollection.cs" />
+    <Compile Include="Controls\ExpandedMark.xaml.cs">
+      <DependentUpon>ExpandedMark.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Converters\BooleanConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="FileIcon.cs" />
+    <Compile Include="Page\ConstContent.cs" />
+    <Compile Include="Page\ConstPage.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkCollectionChangedArgs.cs" />
     <Compile Include="BookMementoCollectionChangedArgs.cs" />
     <Compile Include="BookMementoCollection.cs" />
@@ -165,7 +173,6 @@
     <Compile Include="Controls\MediaPlayerOperator.cs" />
     <Compile Include="Controls\PageSelector.cs" />
     <Compile Include="Converters\BooleanToBrushConverter.cs" />
-    <Compile Include="Converters\BooleanToVisibilityHiddenConverter.cs" />
     <Compile Include="GridLine.cs" />
     <Compile Include="InputGesture\ImeKeyUtility.cs" />
     <Compile Include="Language.cs" />
@@ -178,6 +185,7 @@
     <Compile Include="Setting\SettingPageHistory.cs" />
     <Compile Include="SidePanels\Bookamrk\Bookmark.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkCollection.cs" />
+    <Compile Include="SidePanels\Bookamrk\BookmarkFolder.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkList.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkListBoxModel.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkListBoxViewModel.cs" />
@@ -258,6 +266,7 @@
     <Compile Include="TouchInput\TouchInputEmulator.cs" />
     <Compile Include="UserSetting.cs" />
     <Compile Include="ViewContent\MediaViewContent.cs" />
+    <Compile Include="_NeeView\IO\FileIcon.cs" />
     <Compile Include="_NeeView\Runtime\Serialization\WebEnum.cs" />
     <Compile Include="_NeeLaboratory\ComponentModel\ObjectExtensions.cs" />
     <Compile Include="_NeeView\AliasNameAttribute.cs" />
@@ -614,7 +623,6 @@
     <Compile Include="_NeeView\Threading\Tasks\TaskUtils.cs" />
     <Compile Include="_NeeView\Collections\Generic\EnumerableExtensions.cs" />
     <Compile Include="_NeeView\IO\FileShortcut.cs" />
-    <Compile Include="Converters\BooleanToCustomVisibilityConverter.cs" />
     <Compile Include="_NeeView\ResourceService.cs" />
     <Compile Include="_NeeView\Windows\Property\PropertyValueTemplateSelector.cs" />
     <Compile Include="_NeeView\Windows\VectorExtensions.cs" />
@@ -779,6 +787,10 @@
     <Compile Include="_NeeView\Windows\Property\PropertyMemberAttribute.cs" />
     <Compile Include="_NeeView\Windows\Property\PropertyValue.cs" />
     <Compile Include="_NeeView\Windows\StyleInteraction.cs" />
+    <Page Include="Controls\ExpandedMark.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\MediaControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

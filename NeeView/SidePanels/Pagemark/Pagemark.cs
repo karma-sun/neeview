@@ -42,6 +42,8 @@ namespace NeeView
 
         #region IBookListItem Support
 
+        public Thumbnail Thumbnail => ArchivePage.Thumbnail;
+
         private BookMementoUnit _unit;
         public BookMementoUnit Unit
         {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace NeeView.Collections.Generic
@@ -10,6 +11,7 @@ namespace NeeView.Collections.Generic
     {
         private TreeListNode<T> _parent;
         private List<TreeListNode<T>> _children;
+        private bool _isExpanded;
         private T _value;
 
         public TreeListNode()
@@ -25,12 +27,27 @@ namespace NeeView.Collections.Generic
 
         public TreeListNode<T> Parent => _parent;
 
-        [DataMember]
         public List<TreeListNode<T>> Children
         {
             get => _children;
             private set => _children = value;
         }
+
+        [DataMember(Name = "Children", EmitDefaultValue = false)]
+        private List<TreeListNode<T>> _NullableChildren
+        {
+            get => _children == null || _children.Count == 0 ? null : _children;
+            set => _children = value ?? new List<TreeListNode<T>>();
+        }
+
+        [DataMember(EmitDefaultValue = false)]
+        public bool IsExpanded
+        {
+            get => _isExpanded && IsExpandEnabled;
+            set => _isExpanded = value;
+        }
+
+        public bool IsExpandEnabled => Children.Count > 0;
 
         [DataMember]
         public T Value
@@ -52,6 +69,13 @@ namespace NeeView.Collections.Generic
             {
                 child._parent = this;
             }
+        }
+
+        public bool ParentContains(TreeListNode<T> target)
+        {
+            if (target == null) throw new ArgumentNullException(nameof(target));
+
+            return _parent == null ? false : _parent == target ? true : _parent.ParentContains(target);
         }
 
         public TreeListNode<T> Find(T value)
@@ -147,6 +171,38 @@ namespace NeeView.Collections.Generic
             }
         }
 
+        public TreeListNode<T> GetPrev()
+        {
+            if (_parent == null) return null;
+
+            var index = _parent._children.IndexOf(this);
+            return _parent.Children.ElementAtOrDefault(index - 1);
+        }
+
+        public TreeListNode<T> GetNext()
+        {
+            if (_parent == null) return null;
+
+            var index = _parent._children.IndexOf(this);
+            return _parent.Children.ElementAtOrDefault(index + 1);
+        }
+
+        public IEnumerable<TreeListNode<T>> GetExpandedCollection()
+        {
+            foreach (var child in _children)
+            {
+                yield return child;
+
+                if (child._isExpanded)
+                {
+                    foreach (var node in child.GetExpandedCollection())
+                    {
+                        yield return node;
+                    }
+                }
+            }
+        }
+
 
         #region IEnumerable support
 
@@ -159,7 +215,7 @@ namespace NeeView.Collections.Generic
                 yield return child;
 
                 var enumerator = child.GetEnumerator();
-                if (enumerator.MoveNext())
+                while (enumerator.MoveNext())
                 {
                     yield return enumerator.Current;
                 }

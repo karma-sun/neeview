@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace NeeView
@@ -52,6 +53,7 @@ namespace NeeView
                         Touched?.Invoke(this, null);
                         RaisePropertyChanged(nameof(BitmapSource));
                         RaisePropertyChanged(nameof(IsUniqueImage));
+                        RaisePropertyChanged(nameof(Background));
                     }
                 }
             }
@@ -60,13 +62,31 @@ namespace NeeView
         /// <summary>
         /// ユニークイメージ？
         /// </summary>
-        public bool IsUniqueImage => _image != null && _image != _emptyImage && _image != _mediaImage;
+        public bool IsUniqueImage => _image != null && _image != _emptyImage && _image != _mediaImage && _image != _folderImage;
 
 
         /// <summary>
         /// View用Bitmapプロパティ
         /// </summary>
         public BitmapSource BitmapSource => CreateBitmap();
+
+        /// <summary>
+        /// View用Bitmapの背景プロパティ
+        /// </summary>
+        public Brush Background
+        {
+            get
+            {
+                if (_image == _mediaImage)
+                {
+                    return _mediaBackground;
+                }
+                else
+                {
+                    return Brushes.Transparent;
+                }
+            }
+        }
 
         /// <summary>
         /// 寿命間利用シリアルナンバー
@@ -127,6 +147,9 @@ namespace NeeView
                 case ThumbnailType.Media:
                     Image = _mediaImage;
                     break;
+                case ThumbnailType.Folder:
+                    Image = _folderImage;
+                    break;
             }
         }
 
@@ -136,7 +159,7 @@ namespace NeeView
         internal void SaveCacheAsync()
         {
             if (!IsCacheEnabled || _header == null) return;
-            if (_image == null || _image == _emptyImage || _image == _mediaImage) return;
+            if (_image == null || _image == _emptyImage || _image == _mediaImage || _image == _folderImage) return;
 
             Task.Run(() =>
             {
@@ -181,6 +204,10 @@ namespace NeeView
                 else if (_image == _mediaImage)
                 {
                     return MediaBitmapSource;
+                }
+                else if (_image == _folderImage)
+                {
+                    return FolderBitmapSource;
                 }
                 else
                 {
@@ -251,6 +278,8 @@ namespace NeeView
         /// </summary>
         public static byte[] _mediaImage = System.Text.Encoding.ASCII.GetBytes("MEDIA!");
 
+        public static SolidColorBrush _mediaBackground = new SolidColorBrush(Color.FromRgb(0x3A, 0x3A, 0x3A));
+
         /// <summary>
         /// MediaBitmapSource
         /// </summary>
@@ -276,6 +305,25 @@ namespace NeeView
             return bitmap;
         }
 
+
+        public static byte[] _folderImage = System.Text.Encoding.ASCII.GetBytes("FOLDER!");
+
+        private BitmapSource _folderBitmapSource;
+        public BitmapSource FolderBitmapSource
+        {
+            get
+            {
+                if (_folderBitmapSource == null)
+                {
+                    var icons = new DirectoryIconBitmap(@"dummy\");
+                    _folderBitmapSource = icons.GetBitmapSource(256.0);
+                }
+                return _folderBitmapSource;
+            }
+        }
+
+
+
         public void Reset()
         {
             _image = null;
@@ -294,5 +342,6 @@ namespace NeeView
         Unique,
         Empty,
         Media,
+        Folder,
     }
 }

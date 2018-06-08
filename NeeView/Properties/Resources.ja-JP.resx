@@ -118,7 +118,13 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="BookmarkItemMenuDelete" xml:space="preserve">
-    <value>ブックマークをはずす(_D)</value>
+    <value>ブックマークをはずす(_R)</value>
+  </data>
+  <data name="BookmarkItemMenuDeleteFolder" xml:space="preserve">
+    <value>フォルダーを削除(_D)</value>
+  </data>
+  <data name="BookmarkItemMenuRename" xml:space="preserve">
+    <value>名前の変更(_M)</value>
   </data>
   <data name="BookmarkMenuDeleteInvalid" xml:space="preserve">
     <value>無効なブックマークを削除</value>
@@ -2549,7 +2555,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>ページリスト</value>
   </data>
   <data name="PagemarkItemMenuDelete" xml:space="preserve">
-    <value>ページマークをはずす(_D)</value>
+    <value>ページマークをはずす(_R)</value>
   </data>
   <data name="PagemarkMenuDeleteInvalid" xml:space="preserve">
     <value>無効なページマークを削除</value>
@@ -4058,5 +4064,17 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="ParamFolderListIsCloseBookWhenMove" xml:space="preserve">
     <value>場所を変更したときにブックを閉じる</value>
+  </data>
+  <data name="WordNewFolder" xml:space="preserve">
+    <value>新しいフォルダー</value>
+  </data>
+  <data name="DialogBookmarkFolderDelete" xml:space="preserve">
+    <value>含まれる {0} 個のブックマークも削除されます。削除しますか？</value>
+  </data>
+  <data name="DialogBookmarkFolderDeleteTitle" xml:space="preserve">
+    <value>ブックマークフォルダー「{0}」を削除します</value>
+  </data>
+  <data name="BookmarkListAddTips" xml:space="preserve">
+    <value>ブックマークを追加</value>
   </data>
 </root>

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 
 namespace NeeView
@@ -33,6 +32,8 @@ namespace NeeView
         public string Name => Unit.Memento.Name;
         public string Detail => Unit.Memento.Place;
 
+        public Thumbnail Thumbnail => Unit.ArchivePage.Thumbnail;
+
         private BookMementoUnit _unit;
         public BookMementoUnit Unit
         {
@@ -46,41 +47,5 @@ namespace NeeView
         }
 
         #endregion
-    }
-
-
-    [DataContract]
-    public class BookmarkFolder : IBookmarkEntry
-    {
-        public string Name { get; set; }
-        public string Detail => "TODO: tips";
-
-        public BookMementoUnit Unit { get => null; set => throw new NotImplementedException(); }
-
-        public Page GetPage()
-        {
-            return ArchivePage;
-        }
-
-        private volatile ArchivePage _archivePage;
-        public ArchivePage ArchivePage
-        {
-            get
-            {
-                if (_archivePage == null)
-                {
-                    _archivePage = new ArchivePage(path: null); //// LoosePath.Combine(Place, EntryName));
-                    _archivePage.Thumbnail.IsCacheEnabled = true;
-                    _archivePage.Thumbnail.Touched += Thumbnail_Touched;
-                }
-                return _archivePage;
-            }
-        }
-
-        private void Thumbnail_Touched(object sender, EventArgs e)
-        {
-            var thumbnail = (Thumbnail)sender;
-            BookThumbnailPool.Current.Add(thumbnail);
-        }
     }
 }

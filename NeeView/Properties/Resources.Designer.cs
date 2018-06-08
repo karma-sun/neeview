@@ -70,6 +70,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   _Delete folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookmarkItemMenuDeleteFolder {
+            get {
+                return ResourceManager.GetString("BookmarkItemMenuDeleteFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Rena_me に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookmarkItemMenuRename {
+            get {
+                return ResourceManager.GetString("BookmarkItemMenuRename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Add bookmark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookmarkListAddTips {
+            get {
+                return ResourceManager.GetString("BookmarkListAddTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Remove invalid bookmark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookmarkMenuDeleteInvalid {
@@ -4733,6 +4760,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   The {0} bookmarks included are also deleted. Do you want to delete it? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogBookmarkFolderDelete {
+            get {
+                return ResourceManager.GetString("DialogBookmarkFolderDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete the bookmark folder &quot;{0}&quot; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogBookmarkFolderDeleteTitle {
+            get {
+                return ResourceManager.GetString("DialogBookmarkFolderDeleteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   NeeView Startup error に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DialogBootErrorTitle {
@@ -6890,7 +6935,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   _Otner に類似しているローカライズされた文字列を検索します。
+        ///   _Other に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string MenuTreeOther {
             get {
@@ -11579,6 +11624,15 @@ namespace NeeView.Properties {
         public static string WordMainMenu {
             get {
                 return ResourceManager.GetString("WordMainMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   New Folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordNewFolder {
+            get {
+                return ResourceManager.GetString("WordNewFolder", resourceCulture);
             }
         }
         

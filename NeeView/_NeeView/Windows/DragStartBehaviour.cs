@@ -1,5 +1,6 @@
 ﻿// from https://github.com/takanemu/WPFDragAndDropSample
 
+using NeeLaboratory.Windows.Media;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -103,6 +104,20 @@ namespace NeeView.Windows
 
 
         /// <summary>
+        /// ドラッグ先
+        /// </summary>
+        public FrameworkElement Target
+        {
+            get { return (FrameworkElement)GetValue(TargetProperty); }
+            set { SetValue(TargetProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Target.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TargetProperty =
+            DependencyProperty.Register("Target", typeof(FrameworkElement), typeof(DragStartBehavior), new PropertyMetadata(null));
+
+
+        /// <summary>
         /// ドラッグ有効
         /// </summary>
         public bool IsDragEnable
@@ -115,7 +130,7 @@ namespace NeeView.Windows
         public static readonly DependencyProperty IsDragEnableProperty =
             DependencyProperty.Register("IsDragEnable", typeof(bool), typeof(DragStartBehavior), new UIPropertyMetadata(true));
 
-        
+
         /// <summary>
         /// ドラッグイベント処理セット
         /// </summary>
@@ -129,7 +144,7 @@ namespace NeeView.Windows
         public static readonly DependencyProperty DescriptionProperty =
             DependencyProperty.Register("Description", typeof(DragStartDescription), typeof(DragStartBehavior), new PropertyMetadata(null));
 
-        
+
 
         /// <summary>
         /// 初期化
@@ -194,7 +209,7 @@ namespace NeeView.Windows
                 return;
             }
             var point = e.GetPosition(this.AssociatedObject);
-            
+
             if (CheckDistance(point, _origin) && _dragGhost == null)
             {
                 // アクティブWindowの直下のContentに対して、Adornerを付加する
@@ -264,6 +279,40 @@ namespace NeeView.Windows
                 var point = CursorInfo.GetNowPosition((Visual)_dragItem);
                 _dragGhost.LeftOffset = point.X;
                 _dragGhost.TopOffset = point.Y;
+            }
+
+            if (this.Target != null)
+            {
+                AutoScroll(this.Target, e);
+            }
+        }
+
+        /// <summary>
+        /// ドラッグがターゲットの外にある時に自動スクロールさせる
+        /// </summary>
+        /// <param name="container"></param>
+        /// <param name="e"></param>
+        private void AutoScroll(FrameworkElement container, QueryContinueDragEventArgs e)
+        {
+            ScrollViewer scrollViewer = VisualTreeUtility.FindVisualChild<ScrollViewer>(container);
+            if (scrollViewer == null)
+            {
+                return;
+            }
+
+            var root = (FrameworkElement)Window.GetWindow(container).Content;
+            var cursor = CursorInfo.GetNowPosition(root);
+
+            var point = root.TranslatePoint(cursor, container);
+            double offset = _dragGhost != null ? _dragGhost.ActualHeight * 0.5 : 20.0;
+
+            if (point.Y < 0.0)
+            {
+                scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - offset);
+            }
+            else if (point.Y > container.ActualHeight)
+            {
+                scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset + offset);
             }
         }
     }

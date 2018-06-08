@@ -120,6 +120,12 @@
   <data name="BookmarkItemMenuDelete" xml:space="preserve">
     <value>_Remove bookmark</value>
   </data>
+  <data name="BookmarkItemMenuDeleteFolder" xml:space="preserve">
+    <value>_Delete folder</value>
+  </data>
+  <data name="BookmarkItemMenuRename" xml:space="preserve">
+    <value>Rena_me</value>
+  </data>
   <data name="BookmarkMenuDeleteInvalid" xml:space="preserve">
     <value>Remove invalid bookmark</value>
   </data>
@@ -4058,5 +4064,17 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="ParamFolderListIsCloseBookWhenMove" xml:space="preserve">
     <value>Close the book when changing the location</value>
+  </data>
+  <data name="WordNewFolder" xml:space="preserve">
+    <value>New Folder</value>
+  </data>
+  <data name="DialogBookmarkFolderDelete" xml:space="preserve">
+    <value>The {0} bookmarks included are also deleted. Do you want to delete it?</value>
+  </data>
+  <data name="DialogBookmarkFolderDeleteTitle" xml:space="preserve">
+    <value>Delete the bookmark folder "{0}"</value>
+  </data>
+  <data name="BookmarkListAddTips" xml:space="preserve">
+    <value>Add bookmark</value>
   </data>
 </root>

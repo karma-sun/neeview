@@ -1,8 +1,11 @@
-﻿using NeeView.Collections.Generic;
+﻿using NeeLaboratory.Windows.Media;
+using NeeView.Collections.Generic;
 using NeeView.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,6 +38,11 @@ namespace NeeView
 
         #region Constructors
 
+        static BookmarkListBox()
+        {
+            InitializeCommandStatic();
+        }
+
         public BookmarkListBox()
         {
             InitializeComponent();
@@ -60,6 +68,8 @@ namespace NeeView
 
         #endregion
 
+        public bool IsRenaming { get; private set; }
+
         #region IPageListPanel Supprt
 
         public ListBox PageCollectionListBox => this.ListBox;
@@ -73,13 +83,20 @@ namespace NeeView
 
         #region Commands
 
-        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(BookmarkListBox));
+        private static void InitializeCommandStatic()
+        {
+            RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
+            RenameCommand.InputGestures.Add(new KeyGesture(Key.F2));
+        }
 
         private void InitialieCommand()
         {
-            RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
             this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
+            this.ListBox.CommandBindings.Add(new CommandBinding(RenameCommand, Rename_Executed));
         }
+
+
+        public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(BookmarkListBox));
 
         public void Remove_Exec(object sender, ExecutedRoutedEventArgs e)
         {
@@ -89,6 +106,45 @@ namespace NeeView
                 _vm.Remove(item);
             }
         }
+
+
+        public static readonly RoutedCommand RenameCommand = new RoutedCommand("RenameCommand", typeof(BookmarkListBox));
+
+        public void Rename_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var listView = sender as ListBox;
+
+            var item = (sender as ListBox)?.SelectedItem as TreeListNode<IBookmarkEntry>;
+            if (item != null && item.Value is BookmarkFolder folder)
+            {
+                var listViewItem = VisualTreeUtility.GetListBoxItemFromItem(listView, item);
+                var textBlock = VisualTreeUtility.FindVisualChild<TextBlock>(listViewItem, "FileNameTextBlock");
+
+                if (textBlock != null)
+                {
+                    var rename = new RenameControl() { Target = textBlock };
+                    rename.Closing += (s, ev) =>
+                    {
+                        if (ev.OldValue != ev.NewValue)
+                        {
+                            folder.Name = ev.NewValue;
+                        }
+                    };
+                    rename.Closed += (s, ev) =>
+                    {
+                        listViewItem.Focus();
+                    };
+                    rename.Close += (s, ev) =>
+                    {
+                        IsRenaming = false;
+                    };
+
+                    ((MainWindow)Application.Current.MainWindow).RenameManager.Open(rename);
+                    IsRenaming = true;
+                }
+            }
+        }
+
 
         #endregion
 
@@ -152,11 +208,47 @@ namespace NeeView
 
         #region Event Methods
 
+
+
         // 同期
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
             // nop.                
         }
+
+
+        //
+        private void BookmarkListItem_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var container = sender as ListBoxItem;
+            if (container == null)
+            {
+                return;
+            }
+
+            var item = container.DataContext as TreeListNode<IBookmarkEntry>;
+            if (item == null)
+            {
+                e.Handled = true;
+                return;
+            }
+
+            var contextMenu = container.ContextMenu;
+            contextMenu.Items.Clear();
+
+            switch (item.Value)
+            {
+                case Bookmark bookmark:
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookmarkItemMenuDelete, Command = RemoveCommand });
+                    break;
+
+                case BookmarkFolder folder:
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookmarkItemMenuDeleteFolder, Command = RemoveCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookmarkItemMenuRename, Command = RenameCommand });
+                    break;
+            }
+        }
+
 
         // 履歴項目決定
         private void BookmarkListItem_MouseSingleClick(object sender, MouseButtonEventArgs e)
@@ -194,6 +286,8 @@ namespace NeeView
             }
         }
 
+
+
         private void BookmarkListBox_PreviewDragOver(object sender, DragEventArgs e)
         {
             ListBoxDragSortExtension.PreviewDragOver(sender, e, DragDropFormat);
@@ -229,7 +323,32 @@ namespace NeeView
             }
         }
 
-        #endregion
+        private void BookmarkListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (this.ListBox.SelectedIndex < 0) return;
+            this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
+        }
 
+        #endregion
+    }
+
+    public class DepthToWidthConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is int depth)
+            {
+                return depth * 32;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -45,7 +45,7 @@
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                 <DockPanel Margin="2">
                     <DockPanel>
-                        <local:FolderListThumbnail DataContext="{Binding Unit.ArchivePage.Thumbnail}"/>
+                        <local:FolderListThumbnail DataContext="{Binding Thumbnail}"/>
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock x:Name="Place" Style="{StaticResource FolderParameter}" Text="{Binding Unit.ArchivePage.Content.Entry.RootArchiverName}" />
                             <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
@@ -62,7 +62,7 @@
                     <DockPanel DockPanel.Dock="Bottom" Margin="2">
                         <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}" Margin="0"/>
                     </DockPanel>
-                    <local:FolderListBanner DataContext="{Binding Unit.ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
+                    <local:FolderListBanner DataContext="{Binding Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                 </DockPanel>
             </Border>
         </DataTemplate>

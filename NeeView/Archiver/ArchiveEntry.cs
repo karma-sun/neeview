@@ -71,6 +71,8 @@ namespace NeeView
 
         #region Properties
 
+        public static ArchiveEntry Empty { get; } = new ArchiveEntry();
+
         /// <summary>
         /// 所属アーカイバー.
         /// nullの場合、このエントリはファイルパスを示す

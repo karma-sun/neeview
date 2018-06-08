@@ -9,13 +9,23 @@
              d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"
              d:DesignHeight="256" d:DesignWidth="256">
 
-    <Rectangle ToolTipService.IsEnabled="{Binding IsUniqueImage}" Width="{DynamicResource BannerWidth}" Height="{DynamicResource BannerHeight}">
-        <Rectangle.Fill>
-            <VisualBrush Stretch="UniformToFill" Viewbox="0,0,1,0.6" >
-                <VisualBrush.Visual>
-                    <Image Source="{Binding BitmapSource}"/>
-                </VisualBrush.Visual>
-            </VisualBrush>
-        </Rectangle.Fill>
-    </Rectangle>
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:BooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" True="Collapsed" False="Visible"/>
+    </UserControl.Resources>
+
+    <Grid ToolTipService.IsEnabled="{Binding IsUniqueImage}" Width="{DynamicResource BannerWidth}" Height="{DynamicResource BannerHeight}">
+        <Rectangle Visibility="{Binding IsUniqueImage, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Rectangle.Fill>
+                <VisualBrush Stretch="UniformToFill" Viewbox="0,0,1,0.6" >
+                    <VisualBrush.Visual>
+                        <Image Source="{Binding BitmapSource}"/>
+                    </VisualBrush.Visual>
+                </VisualBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Grid Visibility="{Binding IsUniqueImage, Converter={StaticResource InvertBooleanToVisibilityConverter}}" Background="{Binding Background}">
+            <Image Source="{Binding BitmapSource}" HorizontalAlignment="Left" OpacityMask="#FF3A3A3A"/>
+        </Grid>
+    </Grid>
 </UserControl>

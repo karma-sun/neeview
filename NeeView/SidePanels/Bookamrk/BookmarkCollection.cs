@@ -152,9 +152,23 @@ namespace NeeView
         public void Move(TreeListNode<IBookmarkEntry> item, TreeListNode<IBookmarkEntry> target, int direction)
         {
             if (item == target) return;
+            if (target.ParentContains(item)) return; // TODO: 例外にすべき？
 
             item.RemoveSelf();
             target.Parent.Insert(target, direction, item);
+
+            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item.Value));
+        }
+
+
+        public void MoveToChild(TreeListNode<IBookmarkEntry> item, TreeListNode<IBookmarkEntry> target)
+        {
+            if (item == target) return;
+            if (target.ParentContains(item)) return; // TODO: 例外にすべき？
+
+            item.RemoveSelf();
+            target.Insert(0, item);
+            target.IsExpanded = true;
 
             BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item.Value));
         }

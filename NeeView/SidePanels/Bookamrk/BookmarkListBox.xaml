@@ -33,29 +33,31 @@
             <Setter Property="Visibility" Value="{DynamicResource PanelNoteVisibility}"/>
         </Style>
 
-        <!--
-        <local:FileSizeToStringConverter x:Key="FileSizeToStringConverter"/>
-        -->
+        <local:DepthToWidthConverter x:Key="DepthToWidthConverter"/>
 
         <!-- Normal Bookmark -->
         <DataTemplate x:Key="NormalBookmark">
-            <Grid MinHeight="20">
+            <DockPanel MinHeight="20">
                 <i:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:BookmarkListBox.DragDropFormat}" DragDropData="{Binding}" />
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:BookmarkListBox.DragDropFormat}" DragDropData="{Binding}" Target="{Binding ElementName=ListBox}"/>
                 </i:Interaction.Behaviors>
-                <TextBlock Style="{StaticResource FolderName}"/>
-            </Grid>
+                <Grid Width="{Binding Depth, Converter={StaticResource DepthToWidthConverter}}"/>
+                <local:ExpandedMark IsExpanded="{Binding IsExpanded}" IsEnabled="{Binding IsExpandEnabled}"/>
+                <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}"/>
+            </DockPanel>
         </DataTemplate>
 
         <!-- Picture Bookmark -->
         <DataTemplate x:Key="PictureBookmark">
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1" Background="Transparent">
                 <i:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:BookmarkListBox.DragDropFormat}" DragDropData="{Binding}" />
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:BookmarkListBox.DragDropFormat}" DragDropData="{Binding}" Target="{Binding ElementName=ListBox}"/>
                 </i:Interaction.Behaviors>
                 <DockPanel Margin="2">
+                    <Grid Width="{Binding Depth, Converter={StaticResource DepthToWidthConverter}}"/>
+                    <local:ExpandedMark IsExpanded="{Binding IsExpanded}" IsEnabled="{Binding IsExpandEnabled}"/>
                     <DockPanel>
-                        <local:FolderListThumbnail DataContext="{Binding Value.Unit.ArchivePage.Thumbnail}" />
+                        <local:FolderListThumbnail DataContext="{Binding Value.Thumbnail}" />
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock x:Name="Place" Style="{StaticResource FolderParameter}" Text="{Binding Value.Unit.ArchivePage.Content.Entry.RootArchiverName}" HorizontalAlignment="Left" />
                             <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
@@ -69,13 +71,15 @@
         <DataTemplate x:Key="BannerBookmark">
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                 <i:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:BookmarkListBox.DragDropFormat}" DragDropData="{Binding}" />
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:BookmarkListBox.DragDropFormat}" DragDropData="{Binding}" Target="{Binding ElementName=ListBox}"/>
                 </i:Interaction.Behaviors>
                 <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
+                    <Grid Width="{Binding Depth, Converter={StaticResource DepthToWidthConverter}}"/>
+                    <local:ExpandedMark IsExpanded="{Binding IsExpanded}" IsEnabled="{Binding IsExpandEnabled}"/>
                     <DockPanel DockPanel.Dock="Bottom" Margin="2" >
-                        <TextBlock Style="{StaticResource FolderName}" TextAlignment="Left" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}" Margin="0"/>
+                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextAlignment="Left" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}" Margin="0"/>
                     </DockPanel>
-                    <local:FolderListBanner DataContext="{Binding Value.Unit.ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
+                    <local:FolderListBanner DataContext="{Binding Value.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                 </DockPanel>
             </Border>
         </DataTemplate>
@@ -91,6 +95,7 @@
                  HorizontalContentAlignment="Stretch"
                  ItemsSource="{Binding Model.Items}"
                  SelectedItem="{Binding Model.SelectedItem}"
+                 SelectionChanged="BookmarkListBox_SelectionChanged"
                  KeyDown="BookmarkList_KeyDown"
                  Tag="{Binding Model.Items}"
                  IsVisibleChanged="BookmarkListBox_IsVisibleChanged"
@@ -118,21 +123,19 @@
             </Style>
         </ListBox.Style>
 
-        <ListBox.Resources>
+        <ListBox.ItemContainerStyle>
             <Style TargetType="ListBoxItem">
                 <EventSetter Event="PreviewMouseLeftButtonUp" Handler="BookmarkListItem_MouseSingleClick"/>
                 <EventSetter Event="KeyDown" Handler="BookmarkListItem_KeyDown"/>
+                <EventSetter Event="ContextMenuOpening" Handler="BookmarkListItem_ContextMenuOpening"/>
                 <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
-
                 <Setter Property="ContextMenu">
                     <Setter.Value>
-                        <ContextMenu>
-                            <MenuItem Header="{x:Static properties:Resources.BookmarkItemMenuDelete}" Command="{x:Static local:BookmarkListBox.RemoveCommand}"/>
-                        </ContextMenu>
+                        <ContextMenu/>
                     </Setter.Value>
                 </Setter>
             </Style>
-        </ListBox.Resources>
+        </ListBox.ItemContainerStyle>
 
     </ListBox>
 

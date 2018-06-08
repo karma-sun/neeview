@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="NeeView.ExpandedMark"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeeView"
+             mc:Ignorable="d" 
+             d:DesignHeight="100" d:DesignWidth="100">
+    <Grid Width="20" Height="20">
+        <Grid x:Name="Root" Margin="4">
+            <Path  x:Name="Expanded" Data="M0,0 L10,10 20,0" Stroke="{DynamicResource NVForeground}" StrokeThickness="2" VerticalAlignment="Center" HorizontalAlignment="Center"  Visibility="Collapsed"/>
+            <Path x:Name="NotExpanded" Data="M0,0 L10,10 0,20" Stroke="{DynamicResource NVForeground}" StrokeThickness="2" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Grid>
+    </Grid>
+</UserControl>

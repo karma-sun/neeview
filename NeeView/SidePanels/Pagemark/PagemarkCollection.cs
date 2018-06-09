@@ -437,7 +437,7 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.Nodes = Items;
-            memento.Books = Items.Select(e => e.Value).OfType<Bookmark>().Select(e => e.Unit.Memento).Distinct().ToList();
+            memento.Books = Items.Select(e => e.Value).OfType<Pagemark>().Select(e => e.Unit.Memento).Distinct().ToList();
 
             // TODO: removeTemporary は登録時に
             if (removeTemporary)

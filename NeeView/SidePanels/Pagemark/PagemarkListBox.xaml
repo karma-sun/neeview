@@ -18,8 +18,8 @@
         <RoutedCommand x:Key="xRemoveDommand" />
 
         <Style TargetType="TextBlock" x:Key="PagemarkName">
-            <Setter Property="Text" Value="{Binding PageShort}"/>
-            <Setter Property="ToolTip" Value="{Binding Detail}"/>
+            <Setter Property="Text" Value="{Binding Value.Name}"/>
+            <Setter Property="ToolTip" Value="{Binding Value.Detail}"/>
             <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
             <Setter Property="ToolTipService.BetweenShowDelay" Value="1000"/>
             <Setter Property="Margin" Value="5,0"/>
@@ -35,45 +35,53 @@
             <Setter Property="Visibility" Value="{DynamicResource PanelNoteVisibility}"/>
         </Style>
 
+        <local:DepthToWidthConverter x:Key="DepthToWidthConverter"/>
+
         <!-- Normal Pagemark -->
         <DataTemplate x:Key="NormalPagemark">
-            <Grid MinHeight="20">
+            <DockPanel MinHeight="20">
                 <i:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:PagemarkListBox.DragDropFormat}" DragDropData="{Binding}" />
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:PagemarkListBox.DragDropFormat}" DragDropData="{Binding}" Target="{Binding ElementName=ListBox}"/>
                 </i:Interaction.Behaviors>
-                <TextBlock Style="{StaticResource PagemarkName}"/>
-            </Grid>
+                <Grid Width="{Binding Depth, Converter={StaticResource DepthToWidthConverter}}"/>
+                <local:ExpandedMark IsExpanded="{Binding IsExpanded}" IsEnabled="{Binding IsExpandEnabled}"/>
+                <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource PagemarkName}"/>
+            </DockPanel>
         </DataTemplate>
 
         <!-- Picture Pagemark -->
         <DataTemplate x:Key="PicturePagemark">
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1" Background="Transparent">
                 <i:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:PagemarkListBox.DragDropFormat}" DragDropData="{Binding}" />
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:PagemarkListBox.DragDropFormat}" DragDropData="{Binding}" Target="{Binding ElementName=ListBox}" />
                 </i:Interaction.Behaviors>
                 <DockPanel Margin="2">
+                    <Grid Width="{Binding Depth, Converter={StaticResource DepthToWidthConverter}}"/>
+                    <local:ExpandedMark IsExpanded="{Binding IsExpanded}" IsEnabled="{Binding IsExpandEnabled}"/>
                     <DockPanel>
-                        <local:FolderListThumbnail DataContext="{Binding Thumbnail}"/>
+                        <local:FolderListThumbnail DataContext="{Binding Value.Thumbnail}"/>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Style="{StaticResource PagemarkParameter}" Text="{Binding PlaceShort}"/>
-                            <TextBlock Style="{StaticResource PagemarkName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
+                            <TextBlock Style="{StaticResource PagemarkParameter}" Text="{Binding Value.Note}"/>
+                            <TextBlock  x:Name="FileNameTextBlock" Style="{StaticResource PagemarkName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
                         </StackPanel>
                     </DockPanel>
                 </DockPanel>
             </Border>
         </DataTemplate>
 
-        <!-- Banner Bookmark -->
+        <!-- Banner Pagemark -->
         <DataTemplate x:Key="BannerPagemark">
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                 <i:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:PagemarkListBox.DragDropFormat}" DragDropData="{Binding}" />
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:PagemarkListBox.DragDropFormat}" DragDropData="{Binding}" Target="{Binding ElementName=ListBox}"/>
                 </i:Interaction.Behaviors>
                 <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
+                    <Grid Width="{Binding Depth, Converter={StaticResource DepthToWidthConverter}}"/>
+                    <local:ExpandedMark IsExpanded="{Binding IsExpanded}" IsEnabled="{Binding IsExpandEnabled}"/>
                     <DockPanel DockPanel.Dock="Bottom" Margin="2" >
-                        <TextBlock Style="{StaticResource PagemarkName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}" Margin="0"/>
+                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource PagemarkName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}" Margin="0"/>
                     </DockPanel>
-                    <local:FolderListBanner DataContext="{Binding Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
+                    <local:FolderListBanner DataContext="{Binding Value.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                 </DockPanel>
             </Border>
         </DataTemplate>
@@ -88,10 +96,10 @@
                  FocusVisualStyle="{StaticResource NVFocusVisual}"
                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  HorizontalContentAlignment="Stretch"
-                 ItemsSource="{Binding Pagemarks.Items}"
-                 SelectedItem="{Binding Pagemarks.SelectedItem}"
+                 ItemsSource="{Binding Model.Items}"
+                 SelectedItem="{Binding Model.SelectedItem}"
                  KeyDown="PagemarkList_KeyDown"
-                 Tag="{Binding Pagemarks.Items}"
+                 Tag="{Binding Model.Items}"
                  IsVisibleChanged="PagemarkListBox_IsVisibleChanged"
                  AllowDrop="True"
                  PreviewDragOver="PagemarkListBox_PreviewDragOver"
@@ -117,21 +125,19 @@
             </Style>
         </ListBox.Style>
 
-        <ListBox.Resources>
+        <ListBox.ItemContainerStyle>
             <Style TargetType="ListBoxItem">
                 <EventSetter Event="PreviewMouseLeftButtonUp" Handler="PagemarkListItem_MouseSingleClick"/>
                 <EventSetter Event="KeyDown" Handler="PagemarkListItem_KeyDown"/>
+                <EventSetter Event="ContextMenuOpening" Handler="PagemarkListItem_ContextMenuOpening"/>
                 <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
-
                 <Setter Property="ContextMenu">
                     <Setter.Value>
-                        <ContextMenu>
-                            <MenuItem Header="{x:Static properties:Resources.PagemarkItemMenuDelete}" Command="{x:Static local:PagemarkListBox.RemoveCommand}"/>
-                        </ContextMenu>
+                        <ContextMenu/>
                     </Setter.Value>
                 </Setter>
             </Style>
-        </ListBox.Resources>
+        </ListBox.ItemContainerStyle>
 
     </ListBox>
 

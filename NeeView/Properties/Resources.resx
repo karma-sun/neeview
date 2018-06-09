@@ -4077,4 +4077,19 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="BookmarkListAddTips" xml:space="preserve">
     <value>Add bookmark</value>
   </data>
+  <data name="DialogPagemarkFolderDelete" xml:space="preserve">
+    <value>The {0} pagemarks included are also deleted. Do you want to delete it?</value>
+  </data>
+  <data name="DialogPagemarkFolderDeleteTitle" xml:space="preserve">
+    <value>Delete the pagemark folder "{0}"</value>
+  </data>
+  <data name="PagemarkListAddTips" xml:space="preserve">
+    <value>Add pagemark</value>
+  </data>
+  <data name="PagemarkItemMenuDeleteFolder" xml:space="preserve">
+    <value>_Delete folder</value>
+  </data>
+  <data name="PagemarkItemMenuRename" xml:space="preserve">
+    <value>Rena_me</value>
+  </data>
 </root>

@@ -181,7 +181,7 @@ namespace NeeView
             this.PageList = new PageList(this.BookHub, this.BookOperation);
             this.HistoryList = new HistoryList(this.BookHub);
             this.BookmarkList = new BookmarkList();
-            this.PagemarkList = new PagemarkList(this.BookHub, this.BookOperation);
+            this.PagemarkList = new PagemarkList();
             this.FileInformation = new FileInformation(this.ContentCanvas);
             this.ImageEffect = new ImageEffect();
 

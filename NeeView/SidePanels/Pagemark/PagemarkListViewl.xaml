@@ -24,6 +24,10 @@
                 <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Height ="30" Width="30" nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
                     <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
                 </ToggleButton>
+
+                <Button x:Name="AddPagemark" Style="{StaticResource IconButton}" Height="30" Width="30" Command="{Binding AddPagemarkCommand}" ToolTip="{x:Static properties:Resources.PagemarkListAddTips}">
+                    <Image Source="{StaticResource ic_add_24px}" Width="16" Height="16"/>
+                </Button>
             </DockPanel>
         </StackPanel>
 

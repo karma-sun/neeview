@@ -1,11 +1,10 @@
 ﻿using NeeLaboratory.ComponentModel;
-using System;
 using System.Runtime.Serialization;
 
 namespace NeeView
 {
     [DataContract]
-    public class BookmarkFolder : BindableBase, IBookmarkEntry
+    public class PagemarkFolder : BindableBase, IPagemarkEntry
     {
         private string _name;
 
@@ -21,19 +20,13 @@ namespace NeeView
 
         public Thumbnail Thumbnail => ConstPage.Thumbnail;
 
-
         public Page GetPage()
         {
             return ConstPage;
         }
 
         private volatile ConstPage _constPage;
-        public ConstPage ConstPage
-        {
-            get
-            {
-                return _constPage != null ? _constPage : _constPage = new ConstPage(ThumbnailType.Folder);
-            }
-        }
+        public ConstPage ConstPage => _constPage != null ? _constPage : _constPage = new ConstPage(ThumbnailType.Folder);
     }
+
 }

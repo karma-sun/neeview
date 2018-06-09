@@ -86,7 +86,7 @@ namespace NeeView
         /// アーカイブエントリー
         /// </summary>
         private ArchiveEntry _entry;
-        public ArchiveEntry Entry
+        public virtual ArchiveEntry Entry
         {
             get { return _entry; }
             protected set { if (_entry != value) { _entry = value; RaisePropertyChanged(); } }

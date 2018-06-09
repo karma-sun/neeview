@@ -59,7 +59,7 @@
                     <DockPanel>
                         <local:FolderListThumbnail DataContext="{Binding Value.Thumbnail}" />
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock x:Name="Place" Style="{StaticResource FolderParameter}" Text="{Binding Value.Unit.ArchivePage.Content.Entry.RootArchiverName}" HorizontalAlignment="Left" />
+                            <TextBlock x:Name="Place" Style="{StaticResource FolderParameter}" Text="{Binding Value.Note}" HorizontalAlignment="Left" />
                             <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
                         </StackPanel>
                     </DockPanel>

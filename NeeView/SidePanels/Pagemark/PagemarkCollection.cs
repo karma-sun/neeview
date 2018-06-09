@@ -12,6 +12,8 @@ using System.Diagnostics;
 using NeeLaboratory.ComponentModel;
 using System.IO;
 using System.Threading;
+using NeeView.Collections.Generic;
+using System.Collections.Specialized;
 
 namespace NeeView
 {
@@ -19,66 +21,126 @@ namespace NeeView
     {
         public static PagemarkCollection Current { get; private set; }
 
-        #region Constructors
+
+        // Constructors
 
         public PagemarkCollection()
         {
             Current = this;
 
-            Items = new ObservableCollection<Pagemark>();
+            Items = new TreeListNode<IPagemarkEntry>();
         }
 
-        #endregion
 
-        #region Properties
+        // Events
 
-        private ObservableCollection<Pagemark> _items;
-        public ObservableCollection<Pagemark> Items
+        public event EventHandler<PagemarkCollectionChangedEventArgs> PagemarkChanged;
+
+
+        // Properties
+
+        private TreeListNode<IPagemarkEntry> _items;
+        public TreeListNode<IPagemarkEntry> Items
         {
             get { return _items; }
-            private set
-            {
-                _items = value;
-                BindingOperations.EnableCollectionSynchronization(_items, new object());
-                RaisePropertyChanged();
-            }
+            set { SetProperty(ref _items, value); }
         }
 
-        private Pagemark _selectedItem;
-        public Pagemark SelectedItem
-        {
-            get { return _selectedItem; }
-            set
-            {
-                if (_selectedItem != value)
-                {
-                    _selectedItem = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
 
-        #endregion
-
-        #region Methods
+        // Methods
 
         public void Clear()
         {
             Items.Clear();
+            BookMementoCollection.Current.CleanUp();
+
+            PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
-        public void Load(IEnumerable<Pagemark> items, IEnumerable<Book.Memento> books)
-        {
-            Clear();
 
+        public void Load(TreeListNode<IPagemarkEntry> nodes, IEnumerable<Book.Memento> books)
+        {
             foreach (var book in books)
             {
                 BookMementoCollection.Current.Set(book);
             }
 
-            foreach (var item in items)
+            Items = nodes;
+
+            PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace));
+        }
+
+
+        public Pagemark Find(string place, string entryName)
+        {
+            if (place == null) return null;
+            if (entryName == null) return null;
+
+            return Items.Select(e => e.Value).OfType<Pagemark>().FirstOrDefault(e => e.Place == place && e.EntryName == entryName);
+        }
+
+
+        public BookMementoUnit FindUnit(string place)
+        {
+            if (place == null) return null;
+
+            return Items.Select(e => e.Value).OfType<Pagemark>().FirstOrDefault(e => e.Place == place)?.Unit;
+        }
+
+
+        public TreeListNode<IPagemarkEntry> FindNode(string place, string entryName)
+        {
+            if (place == null) return null;
+            if (entryName == null) return null;
+
+            return Items.FirstOrDefault(e => e.Value is Pagemark pagemark && pagemark.Place == place && pagemark.EntryName == entryName);
+        }
+
+
+        public TreeListNode<IPagemarkEntry> FindNode(IPagemarkEntry entry)
+        {
+            if (entry == null) return null;
+
+            return Items.FirstOrDefault(e => e.Value == entry);
+        }
+
+
+        public bool Contains(string place, string entryName)
+        {
+            if (place == null) return false;
+
+            return Find(place, entryName) != null;
+        }
+
+
+        public List<Pagemark> Collect(string place)
+        {
+            return Items.Select(e => e.Value).OfType<Pagemark>().Where(e => e.Place == place).ToList();
+        }
+
+
+        public void AddFirst(IPagemarkEntry item)
+        {
+            if (item == null) throw new ArgumentNullException(nameof(item));
+
+            Items.Root.Insert(0, item);
+            PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
+        }
+
+
+        public bool Remove(TreeListNode<IPagemarkEntry> node)
+        {
+            if (node == null) throw new ArgumentNullException(nameof(node));
+            if (node.Root != Items.Root) throw new InvalidOperationException();
+
+            if (node.RemoveSelf())
             {
-                Items.Add(new Pagemark() { Place = item.Place, EntryName = item.EntryName });
+                PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, node.Value));
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -88,57 +150,79 @@ namespace NeeView
         /// </summary>
         public async Task RemoveUnlinkedAsync(CancellationToken token)
         {
+            await Task.Yield();
+
             // 削除項目収集
-            var unlinked = new List<Pagemark>();
-            foreach (var mark in this.Items)
+            // TODO: 重複するBOOKを再検索しないようにする
+            var unlinked = new List<TreeListNode<IPagemarkEntry>>();
+            foreach (var node in this.Items.Where(e => e.Value is Pagemark))
             {
-                if (!(await ArchiveFileSystem.ExistsAsync(mark.Place, token)))
+                var pagemark = (Pagemark)node.Value;
+                if (!(await ArchiveFileSystem.ExistsAsync(pagemark.Place, token)))
                 {
-                    unlinked.Add(mark);
+                    unlinked.Add(node);
                 }
             }
 
             // 削除実行
-            foreach (var pagemark in unlinked)
+            foreach (var node in unlinked)
             {
-                var place = pagemark.Unit.Memento.Place;
-
+                var pagemark = (Pagemark)node.Value;
                 Debug.WriteLine($"PagemarkRemove: {pagemark.Place} - {pagemark.EntryName}");
-                Items.Remove(pagemark);
+                node.RemoveSelf();
             }
+
+            PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace));
         }
 
-        //
-        public bool Contains(string place, string entryName)
+
+        public void Move(TreeListNode<IPagemarkEntry> item, TreeListNode<IPagemarkEntry> target, int direction)
         {
-            return Items.Any(e => e.Place == place && e.EntryName == entryName);
+            if (item == target) return;
+            if (target.ParentContains(item)) return; // TODO: 例外にすべき？
+
+            item.RemoveSelf();
+            target.Parent.Insert(target, direction, item);
+
+            PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item.Value));
         }
 
-        // 検索
-        public Pagemark Find(string place, string entryName)
+
+        public void MoveToChild(TreeListNode<IPagemarkEntry> item, TreeListNode<IPagemarkEntry> target)
         {
-            return Items.FirstOrDefault(e => e.Place == place && e.EntryName == entryName);
+            if (item == target) return;
+            if (target.ParentContains(item)) return; // TODO: 例外にすべき？
+
+            item.RemoveSelf();
+            target.Insert(0, item);
+            target.IsExpanded = true;
+
+            PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item.Value));
         }
 
-        // 検索
-        public BookMementoUnit FindUnit(string place)
-        {
-            if (place == null) return null;
 
-            var item = Items.FirstOrDefault(e => e.Place == place);
-            return item?.Unit;
-        }
 
         // 名前変更
+        // TODO: BookMementoUnitやBookmark、Historyも？
         public void Rename(string src, string dst)
         {
+            // TODO:
+            /*
             if (src == null || dst == null) return;
 
-            foreach (var mark in Items.Where(e => e.Place == src))
+            foreach (var mark in Items.Select(e => e.Value).OfType<Pagemark>())
             {
-                mark.Place = dst;
+                if (mark.Place == src)
+                {
+                    mark.Place = dst;
+                }
             }
+            */
         }
+
+
+#if false
+
 
         // となりを取得
         public Pagemark GetNeighbor(Pagemark mark)
@@ -246,43 +330,35 @@ namespace NeeView
             }
         }
 
-        /// <summary>
-        /// 指定フォルダーのマーカー収集
-        /// </summary>
-        /// <param name="place"></param>
-        /// <returns></returns>
-        public List<Pagemark> Collect(string place)
-        {
-            return Items.Where(e => e.Place == place).ToList();
-        }
-
-        #endregion
+#endif
 
 
         #region Memento
 
-        /// <summary>
-        /// 履歴Memento
-        /// </summary>
         [DataContract]
+        [KnownType(typeof(Pagemark))]
+        [KnownType(typeof(PagemarkFolder))]
         public class Memento
         {
             [DataMember]
             public int _Version { get; set; } = Config.Current.ProductVersionNumber;
 
             [DataMember]
-            public List<Pagemark> Marks { get; set; }
-
-            [Obsolete]
-            [DataMember(Name = "Items", EmitDefaultValue = false)]
-            public List<Book.Memento> OldBooks { get; set; }
+            public TreeListNode<IPagemarkEntry> Nodes { get; set; }
 
             [DataMember]
             public List<Book.Memento> Books { get; set; }
 
+            [Obsolete, DataMember(EmitDefaultValue = false)]
+            public List<Pagemark> Marks { get; set; }
+
+            [Obsolete, DataMember(Name = "Items", EmitDefaultValue = false)]
+            public List<Book.Memento> OldBooks { get; set; }
+
+
             private void Constructor()
             {
-                Marks = new List<Pagemark>();
+                Nodes = new TreeListNode<IPagemarkEntry>();
                 Books = new List<Book.Memento>();
             }
 
@@ -303,12 +379,19 @@ namespace NeeView
 #pragma warning disable CS0612
                 if (_Version < Config.GenerateProductVersionNumber(31, 0, 0))
                 {
+                    Nodes = new TreeListNode<IPagemarkEntry>();
+                    foreach (var mark in Marks ?? new List<Pagemark>())
+                    {
+                        Nodes.Add(mark);
+                    }
+
                     Books = OldBooks ?? new List<Book.Memento>();
                     foreach (var book in Books)
                     {
                         book.LastAccessTime = default(DateTime);
                     }
 
+                    Marks = null;
                     OldBooks = null;
                 }
 #pragma warning restore CS0612
@@ -353,7 +436,16 @@ namespace NeeView
         public Memento CreateMemento(bool removeTemporary)
         {
             var memento = new Memento();
+            memento.Nodes = Items;
+            memento.Books = Items.Select(e => e.Value).OfType<Bookmark>().Select(e => e.Unit.Memento).Distinct().ToList();
 
+            // TODO: removeTemporary は登録時に
+            if (removeTemporary)
+            {
+                Debug.WriteLine("Warning: not support removeTemporary parameter at PagemarkCollection.CreateMemento()");
+            }
+
+            /*
             memento.Books = removeTemporary
                 ? this.Items.Select(e => e.Unit.Memento).Distinct().Where(e => !e.Place.StartsWith(Temporary.TempDirectory)).ToList()
                 : this.Items.Select(e => e.Unit.Memento).Distinct().ToList();
@@ -361,6 +453,7 @@ namespace NeeView
             memento.Marks = removeTemporary
                 ? this.Items.Where(e => !e.Place.StartsWith(Temporary.TempDirectory)).ToList()
                 : this.Items.ToList();
+            */
 
             return memento;
         }
@@ -368,7 +461,7 @@ namespace NeeView
         // memento適用
         public void Restore(Memento memento)
         {
-            this.Load(memento.Marks, memento.Books);
+            this.Load(memento.Nodes, memento.Books);
         }
 
         #endregion

@@ -733,7 +733,7 @@ namespace NeeView
 
             // マーク登録/解除
             // TODO: 登録時にサムネイルキャッシュにも登録
-            PagemarkCollection.Current.Toggle(Book.CreateMemento());
+            PagemarkList.Current.Toggle(Book.Place, Book.GetViewPage().FullPath);
 
             // 更新
             UpdatePagemark();
@@ -743,7 +743,7 @@ namespace NeeView
         // マーカー削除
         public void RemovePagemark(string place, string entryName)
         {
-            PagemarkCollection.Current.Remove(place, entryName);
+            PagemarkList.Current.Remove(place, entryName);
             UpdatePagemark(place, entryName);
         }
 
@@ -791,7 +791,7 @@ namespace NeeView
             if (result != null)
             {
                 // ページマーク更新
-                PagemarkCollection.Current.Move(this.Book.Place, result.FileName);
+                PagemarkList.Current.Jump(this.Book.Place, result.FileName);
             }
             else
             {
@@ -807,7 +807,7 @@ namespace NeeView
             if (result != null)
             {
                 // ページマーク更新
-                PagemarkCollection.Current.Move(this.Book.Place, result.FileName);
+                PagemarkList.Current.Jump(this.Book.Place, result.FileName);
             }
             else
             {

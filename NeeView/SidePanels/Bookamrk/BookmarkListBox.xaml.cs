@@ -298,8 +298,6 @@ namespace NeeView
             var list = (sender as ListBox).Tag as ObservableCollection<TreeListNode<IBookmarkEntry>>;
             if (list != null)
             {
-                ////ListBoxDragSortExtension.Drop<TreeListNode<IBookmarkEntry>>(sender, e, DragDropFormat, list);
-
                 var dropInfo = ListBoxDragSortExtension.GetDropInfo(sender, e, DragDropFormat, list);
                 _vm.Move(dropInfo);
 
@@ -336,9 +334,9 @@ namespace NeeView
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is int depth)
+            if (value is int depth && depth > 0)
             {
-                return depth * 32;
+                return (depth - 1) * 32;
             }
             else
             {

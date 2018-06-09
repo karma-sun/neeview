@@ -11,15 +11,18 @@ namespace NeeView
 {
     public class PagemarkList : BindableBase
     {
-        private PanelListItemStyle _panelListItemStyle;
-        private BookHub _bookHub;
-        private BookOperation _bookOperation;
+        public static PagemarkList Current { get; set; }
 
-        //
-        public PagemarkList(BookHub bookHub, BookOperation bookOperation)
+        private PanelListItemStyle _panelListItemStyle;
+        private PagemarkListBoxModel _listBox;
+
+
+
+        public PagemarkList()
         {
-            _bookHub = bookHub;
-            _bookOperation = bookOperation;
+            Current = this;
+
+            _listBox = new PagemarkListBoxModel();
         }
 
 
@@ -45,54 +48,39 @@ namespace NeeView
             }
         }
 
-
-        //
-        public void RequestLoad(Pagemark mark)
+        public PagemarkListBoxModel ListBox
         {
-            if (mark == null) return;
-
-            bool isJumped = _bookOperation.JumpPagemarkInPlace(mark);
-            if (!isJumped)
-            {
-                var options = mark.EntryName != null ? BookLoadOption.IsPage : BookLoadOption.None;
-                _bookHub.RequestLoad(mark.Place, mark.EntryName, options, true);
-            }
+            get { return _listBox; }
+            set { SetProperty(ref _listBox, value); }
         }
 
-        //
-        internal void UpdatePagemark(Pagemark mark)
+        public void Jump(string place, string entryName)
         {
-            _bookOperation.UpdatePagemark(mark.Place, mark.EntryName);
+            ListBox.Jump(place, entryName);
         }
 
-        //
         public void PrevPagemark()
         {
-            if (_bookHub.IsLoading) return;
-
-            if (!PagemarkCollection.Current.CanMoveSelected(-1))
-            {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyPagemarkPrevFailed);
-                return;
-            }
-
-            Pagemark mark = PagemarkCollection.Current.MoveSelected(-1);
-            RequestLoad(mark);
+            ListBox?.PrevPagemark();
         }
 
-        //
         public void NextPagemark()
         {
-            if (_bookHub.IsLoading) return;
+            ListBox?.NextPagemark();
+        }
 
-            if (!PagemarkCollection.Current.CanMoveSelected(+1))
+        public void Toggle(string place, string entryName)
+        {
+            ListBox.Toggle(place, entryName);
+        }
+
+        public void Remove(string place, string entryName)
+        {
+            var node = PagemarkCollection.Current.FindNode(place, entryName);
+            if (node != null)
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyPagemarkNextFailed);
-                return;
+                ListBox.Remove(node);
             }
-
-            Pagemark mark = PagemarkCollection.Current.MoveSelected(+1);
-            RequestLoad(mark);
         }
 
 
@@ -104,7 +92,6 @@ namespace NeeView
             public PanelListItemStyle PanelListItemStyle { get; set; }
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -112,7 +99,6 @@ namespace NeeView
             return memento;
         }
 
-        //
         public void Restore(Memento memento)
         {
             if (memento == null) return;

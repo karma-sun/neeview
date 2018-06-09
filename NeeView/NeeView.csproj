@@ -189,6 +189,10 @@
     <Compile Include="SidePanels\Bookamrk\BookmarkList.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkListBoxModel.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkListBoxViewModel.cs" />
+    <Compile Include="SidePanels\Pagemark\PagemarkCollectionChangedEventArgs.cs" />
+    <Compile Include="SidePanels\Pagemark\PagemarkFolder.cs" />
+    <Compile Include="SidePanels\Pagemark\PagemarkListBoxModel.cs" />
+    <Compile Include="SidePanels\Pagemark\PagemarkListBoxViewModel.cs" />
     <Compile Include="_NeeView\Collections\Generic\TreeListNode.cs" />
     <Compile Include="SidePanels\FolderList\FolderCollectionFactory.cs" />
     <Compile Include="SidePanels\FolderList\FolderNode.cs" />

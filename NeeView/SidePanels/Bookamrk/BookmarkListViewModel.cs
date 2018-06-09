@@ -176,9 +176,6 @@ namespace NeeView
             _model.ListBox.AddBookmark();
         }
 
-
-
-
         #endregion
 
         #region Methods

@@ -3,72 +3,69 @@ using NeeView.Collections.Generic;
 using NeeView.Windows;
 using System;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Diagnostics;
 using System.Linq;
 
 namespace NeeView
 {
-    public class BookmarkListBoxModel : BindableBase
+    public class PagemarkListBoxModel : BindableBase
     {
-        #region Fields
+        // Fields
 
-        private ObservableCollection<TreeListNode<IBookmarkEntry>> _items;
-        private TreeListNode<IBookmarkEntry> _selectedItem;
+        private ObservableCollection<TreeListNode<IPagemarkEntry>> _items;
+        private TreeListNode<IPagemarkEntry> _selectedItem;
 
-        #endregion
 
-        #region Constructors
+        // Constructors
 
-        public BookmarkListBoxModel()
+        public PagemarkListBoxModel()
         {
-            BookmarkCollection.Current.BookmarkChanged += BookmarkCollection_BookmarkChanged;
+            PagemarkCollection.Current.PagemarkChanged += PagemarkCollection_PagemarkChanged;
         }
 
-        #endregion
 
-        #region Events
+        // Events
 
         public event EventHandler Changing;
         public event EventHandler Changed;
 
-        #endregion
-
-        #region Properties
-
-        public ObservableCollection<TreeListNode<IBookmarkEntry>> Items
+        public ObservableCollection<TreeListNode<IPagemarkEntry>> Items
         {
             get { return _items; }
             set { SetProperty(ref _items, value); }
         }
 
-        public TreeListNode<IBookmarkEntry> SelectedItem
+        public TreeListNode<IPagemarkEntry> SelectedItem
         {
             get { return _selectedItem; }
             set { SetProperty(ref _selectedItem, value); }
         }
 
         // TODO: この参照方向はどうなの？
-        public bool IsThumbnailVisibled => BookmarkList.Current.IsThumbnailVisibled;
-        public PanelListItemStyle PanelListItemStyle => BookmarkList.Current.PanelListItemStyle;
+        public bool IsThumbnailVisibled => PagemarkList.Current.IsThumbnailVisibled;
+        public PanelListItemStyle PanelListItemStyle => PagemarkList.Current.PanelListItemStyle;
 
-        #endregion
 
-        #region Methods
+        // Methods
 
-        private void BookmarkCollection_BookmarkChanged(object sender, BookmarkCollectionChangedEventArgs e)
+        private void PagemarkCollection_PagemarkChanged(object sender, PagemarkCollectionChangedEventArgs e)
         {
             Refresh();
         }
 
-        public void Decide(TreeListNode<IBookmarkEntry> item)
+        public void Decide(TreeListNode<IPagemarkEntry> item)
         {
             switch (item.Value)
             {
-                case Bookmark bookmark:
-                    BookHub.Current.RequestLoad(bookmark.Place, null, BookLoadOption.SkipSamePlace | BookLoadOption.IsBook, true);
+                case Pagemark pagemark:
+
+                    bool isJumped = BookOperation.Current.JumpPagemarkInPlace(pagemark);
+                    if (!isJumped)
+                    {
+                        var options = pagemark.EntryName != null ? BookLoadOption.IsPage : BookLoadOption.None;
+                        BookHub.Current.RequestLoad(pagemark.Place, pagemark.EntryName, options, true);
+                    }
                     break;
-                case BookmarkFolder folder:
+                case PagemarkFolder folder:
                     if (item.Children.Count > 0)
                     {
                         item.IsExpanded = !item.IsExpanded;
@@ -81,47 +78,16 @@ namespace NeeView
         private void Refresh()
         {
             Changing?.Invoke(this, null);
-            var collection = BookmarkCollection.Current.Items.GetExpandedCollection();
-            Items = new ObservableCollection<TreeListNode<IBookmarkEntry>>(collection);
+            var collection = PagemarkCollection.Current.Items.GetExpandedCollection();
+            Items = new ObservableCollection<TreeListNode<IPagemarkEntry>>(collection);
             Changed?.Invoke(this, null);
         }
 
-        // TODO: Find系はいらない？Collectionと同じ？
-
-        public Bookmark Find(string place)
-        {
-            if (place == null) return null;
-
-            return BookmarkCollection.Current.Items.Select(e => e.Value).OfType<Bookmark>().FirstOrDefault(e => e.Place == place);
-        }
-
-        public BookMementoUnit FindUnit(string place)
-        {
-            if (place == null) return null;
-
-            return Find(place)?.Unit;
-        }
-
-        public TreeListNode<IBookmarkEntry> FindNode(string place)
-        {
-            if (place == null) return null;
-
-            return BookmarkCollection.Current.Items.FirstOrDefault(e => e.Value is Bookmark bookmark ? bookmark.Place == place : false);
-        }
-
-        public bool Contains(string place)
-        {
-            if (place == null) return false;
-
-            return Find(place) != null;
-        }
-
-
-        public void Add(string place)
+        public void Add(string place, string entryName)
         {
             if (place == null) throw new ArgumentNullException(nameof(place));
 
-            if (Contains(place))
+            if (PagemarkCollection.Current.Contains(place, entryName))
             {
                 return;
             }
@@ -134,80 +100,7 @@ namespace NeeView
 
             // TODO: place指定でのunit取得をもっとスマートにできそう
             var unit = BookMementoCollection.Current.GetValid(place) ?? BookMementoCollection.Current.Set(CreateBookMemento(place));
-            BookmarkCollection.Current.AddFirst(new Bookmark(unit));
-        }
-
-        public bool Remove(TreeListNode<IBookmarkEntry> item)
-        {
-            int selectedIndex = Items.IndexOf(SelectedItem);
-
-            if (item.Value is BookmarkFolder)
-            {
-                var count = item.Count(e => e.Value is Bookmark);
-                if (count > 0)
-                {
-                    var dialog = new MessageDialog(string.Format(Properties.Resources.DialogBookmarkFolderDelete, count), string.Format(Properties.Resources.DialogBookmarkFolderDeleteTitle, item.Value.Name));
-                    dialog.Commands.Add(UICommands.Delete);
-                    dialog.Commands.Add(UICommands.Cancel);
-                    var answer = dialog.ShowDialog();
-                    if (answer != UICommands.Delete)
-                    {
-                        return false;
-                    }
-                }
-            }
-
-            bool isRemoved = BookmarkCollection.Current.Remove(item);
-            if (isRemoved)
-            {
-                if (selectedIndex >= 0 && !Items.Contains(SelectedItem))
-                {
-                    selectedIndex = selectedIndex < Items.Count ? selectedIndex : Items.Count - 1;
-                    if (selectedIndex >= 0)
-                    {
-                        SelectedItem = Items[selectedIndex];
-                    }
-                }
-            }
-
-            return isRemoved;
-        }
-
-        //
-        public void AddBookmark()
-        {
-            var place = BookHub.Current.Book?.Place;
-            if (place == null)
-            {
-                return;
-            }
-
-            var node = FindNode(place);
-            if (node == null)
-            {
-                Add(place);
-                node = FindNode(place);
-            }
-
-            SelectedItem = node;
-        }
-
-        // TODO: ここでToggleは漠然としすぎている。もっと上位で判定すべきか
-        public bool Toggle(string place)
-        {
-            if (place == null) return false;
-
-            var node = FindNode(place);
-            if (node == null)
-            {
-                Add(place);
-                return true;
-            }
-            else
-            {
-                Remove(node);
-                return false;
-            }
+            PagemarkCollection.Current.AddFirst(new Pagemark(unit, entryName));
         }
 
         // 指定したブックの設定作成
@@ -225,7 +118,100 @@ namespace NeeView
             return memento;
         }
 
-        public void Move(DropInfo<TreeListNode<IBookmarkEntry>> dropInfo)
+        public bool Remove(TreeListNode<IPagemarkEntry> item)
+        {
+            int selectedIndex = Items.IndexOf(SelectedItem);
+
+            if (item.Value is PagemarkFolder)
+            {
+                var count = item.Count(e => e.Value is Pagemark);
+                if (count > 0)
+                {
+                    var dialog = new MessageDialog(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), string.Format(Properties.Resources.DialogPagemarkFolderDeleteTitle, item.Value.Name));
+                    dialog.Commands.Add(UICommands.Delete);
+                    dialog.Commands.Add(UICommands.Cancel);
+                    var answer = dialog.ShowDialog();
+                    if (answer != UICommands.Delete)
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            bool isRemoved = PagemarkCollection.Current.Remove(item);
+            if (isRemoved)
+            {
+                if (selectedIndex >= 0 && !Items.Contains(SelectedItem))
+                {
+                    selectedIndex = selectedIndex < Items.Count ? selectedIndex : Items.Count - 1;
+                    if (selectedIndex >= 0)
+                    {
+                        SelectedItem = Items[selectedIndex];
+                    }
+                }
+            }
+
+            return isRemoved;
+        }
+
+        // 追加ボタンの動作。ここでいいのか？
+        public void AddPagemark()
+        {
+            var place = BookHub.Current.Book?.Place;
+            if (place == null)
+            {
+                return;
+            }
+
+            var entryName = BookHub.Current.Book.GetViewPage()?.FullPath; ;
+            if (entryName == null)
+            {
+                return;
+            }
+
+            var node = PagemarkCollection.Current.FindNode(place, entryName);
+            if (node == null)
+            {
+                Add(place, entryName);
+                node = PagemarkCollection.Current.FindNode(place, entryName);
+            }
+
+            SelectedItem = node;
+        }
+
+        // TODO: ここでToggleは漠然としすぎている。もっと上位で判定すべきか
+        public bool Toggle(string place, string entryName)
+        {
+            if (place == null) return false;
+
+            var node = PagemarkCollection.Current.FindNode(place, entryName);
+            if (node == null)
+            {
+                Add(place, entryName);
+                return true;
+            }
+            else
+            {
+                Remove(node);
+                return false;
+            }
+        }
+
+
+        /// <summary>
+        /// 指定のマーカーに移動。存在しなければ移動しない
+        /// </summary>
+        public void Jump(string place, string entryName)
+        {
+            var node = PagemarkCollection.Current.FindNode(place, entryName);
+            if (node != null)
+            {
+                SelectedItem = node;
+            }
+        }
+
+
+        public void Move(DropInfo<TreeListNode<IPagemarkEntry>> dropInfo)
         {
             if (dropInfo == null) return;
             if (dropInfo.DragItem == dropInfo.DropItem) return;
@@ -239,99 +225,96 @@ namespace NeeView
 
             const double margine = 0.25;
 
-            if (target.Value is BookmarkFolder folder)
+            if (target.Value is PagemarkFolder folder)
             {
                 if (dropInfo.Position < margine)
                 {
-                    BookmarkCollection.Current.Move(item, target, -1);
+                    PagemarkCollection.Current.Move(item, target, -1);
                 }
                 else if (dropInfo.Position > (1.0 - margine) && !target.IsExpanded)
                 {
-                    BookmarkCollection.Current.Move(item, target, +1);
+                    PagemarkCollection.Current.Move(item, target, +1);
                 }
                 else
                 {
-                    BookmarkCollection.Current.MoveToChild(item, target);
+                    PagemarkCollection.Current.MoveToChild(item, target);
                 }
             }
             else
             {
                 if (target.GetNext() == null && dropInfo.Position > (1.0 - margine))
                 {
-                    BookmarkCollection.Current.Move(item, target, +1);
+                    PagemarkCollection.Current.Move(item, target, +1);
                 }
                 else if (indexFrom < indexTo)
                 {
-                    BookmarkCollection.Current.Move(item, target, +1);
+                    PagemarkCollection.Current.Move(item, target, +1);
                 }
                 else
                 {
-                    BookmarkCollection.Current.Move(item, target, -1);
+                    PagemarkCollection.Current.Move(item, target, -1);
                 }
             }
         }
 
         internal void NewFolder()
         {
-            BookmarkCollection.Current.AddFirst(new BookmarkFolder() { Name = Properties.Resources.WordNewFolder });
+            PagemarkCollection.Current.AddFirst(new PagemarkFolder() { Name = Properties.Resources.WordNewFolder });
         }
 
 
-
-        // ブックマークを戻る
-        public void PrevBookmark()
+        public void PrevPagemark()
         {
             if (BookHub.Current.IsLoading) return;
 
             if (!CanMoveSelected(-1))
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyBookmarkPrevFailed);
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyPagemarkPrevFailed);
                 return;
             }
 
             if (MoveSelected(-1))
             {
-                if (SelectedItem?.Value is Bookmark bookmark)
+                if (SelectedItem?.Value is Pagemark)
                 {
-                    BookHub.Current.RequestLoad(bookmark.Place, null, BookLoadOption.SkipSamePlace | BookLoadOption.IsBook, true);
+                    Decide(SelectedItem);
                 }
             }
         }
 
-        // ブックマークを進む
-        public void NextBookmark()
+        public void NextPagemark()
         {
             if (BookHub.Current.IsLoading) return;
 
             if (!CanMoveSelected(+1))
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyBookmarkNextFailed);
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyPagemarkNextFailed);
                 return;
             }
 
             if (MoveSelected(+1))
             {
-                if (SelectedItem?.Value is Bookmark bookmark)
+                if (SelectedItem?.Value is Pagemark)
                 {
-                    BookHub.Current.RequestLoad(bookmark.Place, null, BookLoadOption.SkipSamePlace | BookLoadOption.IsBook, true);
+                    Decide(SelectedItem);
                 }
             }
         }
 
         public bool CanMoveSelected(int direction)
         {
-            var bookmarks = Items.Where(e => e.Value is Bookmark);
+            var pagemarks = Items.Where(e => e.Value is Pagemark);
 
             if (SelectedItem == null)
             {
-                return bookmarks.Count() > 0;
+                return pagemarks.Count() > 0;
             }
             else
             {
                 var index = Items.IndexOf(SelectedItem);
                 return direction > 0
-                    ? index < Items.IndexOf(bookmarks.Last())
-                    : index > Items.IndexOf(bookmarks.First());
+                    ? index < Items.IndexOf(pagemarks.Last())
+                    : index > Items.IndexOf(pagemarks.First());
             }
         }
 
@@ -341,8 +324,8 @@ namespace NeeView
 
             if (SelectedItem == null)
             {
-                var bookmarks = Items.Where(e => e.Value is Bookmark);
-                var node = direction >= 0 ? bookmarks.FirstOrDefault() : bookmarks.LastOrDefault();
+                var pagemarks = Items.Where(e => e.Value is Pagemark);
+                var node = direction >= 0 ? pagemarks.FirstOrDefault() : pagemarks.LastOrDefault();
                 if (node != null)
                 {
                     SelectedItem = node;
@@ -351,7 +334,7 @@ namespace NeeView
             }
             else
             {
-                var node = GetNeighborBookmark(SelectedItem, direction);
+                var node = GetNeighborPagemark(SelectedItem, direction);
                 if (node != null)
                 {
                     SelectedItem = node;
@@ -362,7 +345,7 @@ namespace NeeView
             return false;
         }
 
-        private TreeListNode<IBookmarkEntry> GetNeighborBookmark(TreeListNode<IBookmarkEntry> item, int direction)
+        private TreeListNode<IPagemarkEntry> GetNeighborPagemark(TreeListNode<IPagemarkEntry> item, int direction)
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
             if (direction == 0) throw new ArgumentOutOfRangeException(nameof(direction));
@@ -386,13 +369,12 @@ namespace NeeView
                     return null;
                 }
                 var node = Items[index];
-                if (node.Value is Bookmark)
+                if (node.Value is Pagemark)
                 {
                     return node;
                 }
             }
         }
-    }
 
-    #endregion
+    }
 }

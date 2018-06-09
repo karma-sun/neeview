@@ -20,6 +20,8 @@ namespace NeeView
         public static BookmarkCollection Current { get; private set; }
 
 
+        // Constructors
+
         public BookmarkCollection()
         {
             Current = this;
@@ -27,8 +29,12 @@ namespace NeeView
         }
 
 
+        // Events
+
         public event EventHandler<BookmarkCollectionChangedEventArgs> BookmarkChanged;
 
+
+        // Properties
 
         private TreeListNode<IBookmarkEntry> _items;
         public TreeListNode<IBookmarkEntry> Items
@@ -37,6 +43,8 @@ namespace NeeView
             set { SetProperty(ref _items, value); }
         }
 
+
+        // Methods
 
         public void Clear()
         {
@@ -270,6 +278,7 @@ namespace NeeView
         }
 
         // memento作成
+        // TODO: forSave parameter
         public Memento CreateMemento(bool forSave)
         {
             var memento = new Memento();

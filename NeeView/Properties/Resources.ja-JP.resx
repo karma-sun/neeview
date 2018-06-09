@@ -4077,4 +4077,19 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="BookmarkListAddTips" xml:space="preserve">
     <value>ブックマークを追加</value>
   </data>
+  <data name="DialogPagemarkFolderDelete" xml:space="preserve">
+    <value>含まれる {0} 個のページマークも削除されます。削除しますか？</value>
+  </data>
+  <data name="DialogPagemarkFolderDeleteTitle" xml:space="preserve">
+    <value>ページマークフォルダー「{0}」を削除します</value>
+  </data>
+  <data name="PagemarkListAddTips" xml:space="preserve">
+    <value>ページマークを追加</value>
+  </data>
+  <data name="PagemarkItemMenuDeleteFolder" xml:space="preserve">
+    <value>フォルダーを削除(_D)</value>
+  </data>
+  <data name="PagemarkItemMenuRename" xml:space="preserve">
+    <value>名前の変更(_M)</value>
+  </data>
 </root>

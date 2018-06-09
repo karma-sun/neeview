@@ -11,14 +11,49 @@ using System.Windows.Input;
 
 namespace NeeView
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public class PagemarkListViewModel : BindableBase
     {
         public PagemarkCollection Pagemarks => PagemarkCollection.Current;
 
+
+        // Fields
+
+        private PagemarkList _model;
+        private PagemarkListBox _listBoxContent;
+
+
+        // Constructors
+
+        public PagemarkListViewModel(PagemarkList model)
+        {
+            _model = model;
+            _model.AddPropertyChanged(nameof(_model.PanelListItemStyle), (s, e) => UpdateListBoxContent());
+
+            InitializeMoreMenu();
+
+            UpdateListBoxContent();
+        }
+        
+
+        // Properties
+
+        public PagemarkList Model
+        {
+            get { return _model; }
+            set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
+        }
+
+        public PagemarkListBox ListBoxContent
+        {
+            get { return _listBoxContent; }
+            set { if (_listBoxContent != value) { _listBoxContent = value; RaisePropertyChanged(); } }
+        }
+
+
         #region MoreMenu
+
+        private PanelListItemStyleToBooleanConverter _PanelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
+
 
         /// <summary>
         /// MoreMenu property.
@@ -40,6 +75,8 @@ namespace NeeView
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleList, PanelListItemStyle.Normal));
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleContent, PanelListItemStyle.Content));
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
+            menu.Items.Add(new Separator());
+            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.WordNewFolder, NewFolderCommand));
             menu.Items.Add(new Separator());
             menu.Items.Add(CreateCommandMenuItem(Properties.Resources.PagemarkMenuDeleteInvalid, RemoveUnlinkedCommand));
 
@@ -91,104 +128,64 @@ namespace NeeView
         }
 
 
-        private PanelListItemStyleToBooleanConverter _PanelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
+        #endregion
 
+        
+        // Commands
 
-        /// <summary>
-        /// SetListItemStyle command.
-        /// </summary>
+        private RelayCommand<PanelListItemStyle> _SetListItemStyle;
         public RelayCommand<PanelListItemStyle> SetListItemStyle
         {
             get { return _SetListItemStyle = _SetListItemStyle ?? new RelayCommand<PanelListItemStyle>(SetListItemStyle_Executed); }
         }
 
-        //
-        private RelayCommand<PanelListItemStyle> _SetListItemStyle;
-
-        //
         private void SetListItemStyle_Executed(PanelListItemStyle style)
         {
             _model.PanelListItemStyle = style;
         }
 
-        #endregion
 
-        /// <summary>
-        /// Model property.
-        /// </summary>
-        public PagemarkList Model
-        {
-            get { return _model; }
-            set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
-        }
-
-        //
-        private PagemarkList _model;
-
-
-
-        //
-        public PagemarkListViewModel(PagemarkList model)
-        {
-            _model = model;
-            _model.AddPropertyChanged(nameof(_model.PanelListItemStyle), (s, e) => UpdateListBoxContent());
-
-            InitializeMoreMenu();
-
-            UpdateListBoxContent();
-        }
-
-        //
-        public void Load(Pagemark mark)
-        {
-            _model.RequestLoad(mark);
-        }
-
-        //
-        public void Remove(Pagemark mark)
-        {
-            if (mark == null) return;
-
-            this.ListBoxContent.StoreFocus();
-            Pagemarks.SelectedItem = Pagemarks.GetNeighbor(mark);
-            this.ListBoxContent.RestoreFocus();
-
-            PagemarkCollection.Current.Remove(mark.Place, mark.EntryName);
-
-            _model.UpdatePagemark(mark);
-        }
-
-        /// <summary>
-        /// 無効なページマークを削除.
-        /// </summary>
+        private RelayCommand _removeUnlinkedCommand;
         public RelayCommand RemoveUnlinkedCommand
         {
             get { return _removeUnlinkedCommand = _removeUnlinkedCommand ?? new RelayCommand(RemoveUnlinkedCommand_Executed); }
         }
 
-        //
-        private RelayCommand _removeUnlinkedCommand;
-
-        //
         private async void RemoveUnlinkedCommand_Executed()
         {
             await PagemarkCollection.Current.RemoveUnlinkedAsync(CancellationToken.None);
         }
 
-        /// <summary>
-        /// ListBoxContent property.
-        /// </summary>
-        public PagemarkListBox ListBoxContent
+
+        private RelayCommand _newFolderCommand;
+        public RelayCommand NewFolderCommand
         {
-            get { return _listBoxContent; }
-            set { if (_listBoxContent != value) { _listBoxContent = value; RaisePropertyChanged(); } }
+            get { return _newFolderCommand = _newFolderCommand ?? new RelayCommand(NewDirectory_Executed); }
         }
 
-        private PagemarkListBox _listBoxContent;
+        private void NewDirectory_Executed()
+        {
+            _model.ListBox.NewFolder();
+        }
+
+
+        private RelayCommand _addPagemarkCommand;
+        public RelayCommand AddPagemarkCommand
+        {
+            get { return _addPagemarkCommand = _addPagemarkCommand ?? new RelayCommand(AddPagemark_Executed); }
+        }
+
+        private void AddPagemark_Executed()
+        {
+            _model.ListBox.AddPagemark();
+        }
+
+
+        // Methods
 
         private void UpdateListBoxContent()
         {
-            this.ListBoxContent = new PagemarkListBox(this);
+            this.ListBoxContent = new PagemarkListBox(new PagemarkListBoxViewModel(Model.ListBox));
         }
     }
 }

@@ -5219,6 +5219,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   The {0} pagemarks included are also deleted. Do you want to delete it? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogPagemarkFolderDelete {
+            get {
+                return ResourceManager.GetString("DialogPagemarkFolderDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete the pagemark folder &quot;{0}&quot; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogPagemarkFolderDeleteTitle {
+            get {
+                return ResourceManager.GetString("DialogPagemarkFolderDeleteTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Custom Size に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EffectCustomSize {
@@ -7408,6 +7426,33 @@ namespace NeeView.Properties {
         public static string PagemarkItemMenuDelete {
             get {
                 return ResourceManager.GetString("PagemarkItemMenuDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Delete folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PagemarkItemMenuDeleteFolder {
+            get {
+                return ResourceManager.GetString("PagemarkItemMenuDeleteFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Rena_me に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PagemarkItemMenuRename {
+            get {
+                return ResourceManager.GetString("PagemarkItemMenuRename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Add pagemark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PagemarkListAddTips {
+            get {
+                return ResourceManager.GetString("PagemarkListAddTips", resourceCulture);
             }
         }
         

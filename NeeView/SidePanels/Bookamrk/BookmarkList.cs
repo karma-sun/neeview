@@ -21,7 +21,7 @@ namespace NeeView
         {
             Current = this;
 
-            this.ListBox = new BookmarkListBoxModel();
+            _listBox = new BookmarkListBoxModel();
         }
 
 

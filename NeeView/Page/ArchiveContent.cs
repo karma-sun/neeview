@@ -58,6 +58,27 @@ namespace NeeView
             };
         }
 
+
+        /// <summary>
+        /// Entry.
+        /// </summary>
+        public override ArchiveEntry Entry
+        {
+            get
+            {
+                if (base.Entry == null)
+                {
+                    base.Entry = new ArchiveEntry(_path);
+                }
+                return base.Entry;
+            }
+            protected set
+            {
+                base.Entry = value;
+            }
+        }
+
+
         /// <summary>
         /// コンテンツロードは非サポート
         /// </summary>
@@ -74,19 +95,7 @@ namespace NeeView
         /// </summary>
         public override void InitializeThumbnail()
         {
-            InitializeArchiveEntry();
             Thumbnail.Initialize(Entry, null);
-        }
-
-        /// <summary>
-        /// エントリー初期化
-        /// </summary>
-        private void InitializeArchiveEntry()
-        {
-            if (this.Entry == null)
-            {
-                this.Entry = new ArchiveEntry(_path);
-            }
         }
 
         /// <summary>
@@ -96,8 +105,6 @@ namespace NeeView
         /// <returns></returns>
         public override async Task LoadThumbnailAsync(CancellationToken token)
         {
-            InitializeArchiveEntry();
-
             if (Thumbnail.IsValid) return;
 
             if (!Entry.IsValid && !Entry.IsArchivePath)

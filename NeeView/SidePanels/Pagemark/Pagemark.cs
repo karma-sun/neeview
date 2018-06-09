@@ -3,11 +3,18 @@ using System.Runtime.Serialization;
 
 namespace NeeView
 {
+    public interface IPagemarkEntry : IBookListItem
+    {
+        string Name { get; }
+        string Note { get; }
+        string Detail { get; }
+    }
+
     /// <summary>
     /// ページマーカー
     /// </summary>
     [DataContract]
-    public class Pagemark : IBookListItem
+    public class Pagemark : IPagemarkEntry
     {
         public Pagemark()
         {
@@ -27,12 +34,6 @@ namespace NeeView
         [DataMember]
         public string EntryName { get; set; }
 
-        public string PlaceShort => LoosePath.GetFileName(Place);
-
-        public string PageShort => LoosePath.GetFileName(EntryName);
-
-        public string Detail => Place + "\n" + EntryName;
-
 
         [OnDeserialized]
         private void Deserialized(StreamingContext c)
@@ -41,6 +42,10 @@ namespace NeeView
         }
 
         #region IBookListItem Support
+
+        public string Name => LoosePath.GetFileName(EntryName);
+        public string Note => LoosePath.GetFileName(Place);
+        public string Detail => Place + "\n" + EntryName;
 
         public Thumbnail Thumbnail => ArchivePage.Thumbnail;
 
@@ -55,8 +60,6 @@ namespace NeeView
         {
             return ArchivePage;
         }
-
-        #region for Page Thumbnail
 
         private volatile ArchivePage _archivePage;
         public ArchivePage ArchivePage
@@ -78,8 +81,6 @@ namespace NeeView
             var thumbnail = (Thumbnail)sender;
             BookThumbnailPool.Current.Add(thumbnail);
         }
-
-        #endregion
 
         #endregion
     }

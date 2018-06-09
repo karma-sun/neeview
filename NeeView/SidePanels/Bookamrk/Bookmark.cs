@@ -6,6 +6,7 @@ namespace NeeView
     public interface IBookmarkEntry : IBookListItem
     {
         string Name { get; }
+        string Note { get; }
         string Detail { get; }
     }
 
@@ -30,6 +31,7 @@ namespace NeeView
         #region IBookListItem Support
 
         public string Name => Unit.Memento.Name;
+        public string Note => Unit.ArchivePage.Content.Entry.RootArchiverName;
         public string Detail => Unit.Memento.Place;
 
         public Thumbnail Thumbnail => Unit.ArchivePage.Thumbnail;

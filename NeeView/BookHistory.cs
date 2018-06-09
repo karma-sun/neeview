@@ -10,7 +10,6 @@ namespace NeeView
     public interface IBookListItem : IHasPage
     {
         Thumbnail Thumbnail { get; }
-        BookMementoUnit Unit { get; set; }
     }
 
     [DataContract]

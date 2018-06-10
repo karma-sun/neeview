@@ -64,7 +64,7 @@ namespace NeeView
     /// フォルダー情報
     /// フォルダーリストの１項目の情報 
     /// </summary>
-    public class FolderItem : BindableBase, IHasPage
+    public class FolderItem : BindableBase, IBookListItem
     {
         // TODO: プロパティ多すぎ！
 
@@ -241,12 +241,14 @@ namespace NeeView
 
         #endregion
 
-        #region IHasPage Supprt
+        #region IBookListItem Supprt
 
-        /// <summary>
-        /// ページ取得
-        /// </summary>
-        /// <returns></returns>
+        public string Note => ArchivePage.Note;
+
+        public string Detail => Name;
+
+        public Thumbnail Thumbnail => ArchivePage.Thumbnail;
+
         public Page GetPage()
         {
             return ArchivePage;

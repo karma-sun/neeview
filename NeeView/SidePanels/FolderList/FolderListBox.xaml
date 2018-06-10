@@ -21,7 +21,7 @@
         <Style TargetType="TextBlock" x:Key="FolderName">
             <Setter Property="Text" Value="{Binding Name}"/>
             <Setter Property="ToolTipService.IsEnabled" Value="{Binding ElementName=ListBox, Path=DataContext.IsRenaming, Converter={StaticResource BooleanReverseConverter}}"/>
-            <Setter Property="ToolTip" Value="{Binding Name}"/>
+            <Setter Property="ToolTip" Value="{Binding Detail}"/>
             <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
             <Setter Property="ToolTipService.BetweenShowDelay" Value="1000"/>
             <Setter Property="Margin" Value="5,0"/>
@@ -75,9 +75,9 @@
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                 <DockPanel LastChildFill="False" Margin="2">
                     <local:FolderListIcon DockPanel.Dock="Right" />
-                    <local:FolderListThumbnail DataContext="{Binding ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
+                    <local:FolderListThumbnail DataContext="{Binding Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                     <StackPanel VerticalAlignment="Center">
-                        <TextBlock Style="{StaticResource FolderParameter}" Text="{Binding ArchivePage.Detail}"/>
+                        <TextBlock Style="{StaticResource FolderParameter}" Text="{Binding Note}"/>
                         <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderNameContent}"/>
                     </StackPanel>
                 </DockPanel>
@@ -89,9 +89,9 @@
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                 <DockPanel LastChildFill="False" Margin="2">
                     <local:FolderListIconMark DockPanel.Dock="Right" />
-                    <local:FolderListThumbnail DataContext="{Binding ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
+                    <local:FolderListThumbnail DataContext="{Binding Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                     <StackPanel VerticalAlignment="Center">
-                        <TextBlock Style="{StaticResource FolderParameter}" Text="{Binding ArchivePage.Detail}"/>
+                        <TextBlock Style="{StaticResource FolderParameter}" Text="{Binding Note}"/>
                         <DockPanel>
                             <local:FolderIcon DockPanel.Dock="Left" VerticalAlignment="Top" />
                             <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderNameContent}"  VerticalAlignment="Top"/>
@@ -109,7 +109,7 @@
                         <local:FolderListIcon DockPanel.Dock="Right"/>
                         <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderNameBanner}" Margin="0" />
                     </DockPanel>
-                    <local:FolderListBanner DataContext="{Binding ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
+                    <local:FolderListBanner DataContext="{Binding Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                 </DockPanel>
             </Border>
         </DataTemplate>
@@ -123,7 +123,7 @@
                         <local:FolderIcon DockPanel.Dock="Left" VerticalAlignment="Top" />
                         <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderNameBanner}" />
                     </DockPanel>
-                    <local:FolderListBanner DataContext="{Binding ArchivePage.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
+                    <local:FolderListBanner DataContext="{Binding Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                 </DockPanel>
             </Border>
         </DataTemplate>

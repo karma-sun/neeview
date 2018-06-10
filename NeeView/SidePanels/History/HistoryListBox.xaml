@@ -13,7 +13,7 @@
     <UserControl.Resources>
 
         <Style TargetType="TextBlock" x:Key="FolderName">
-            <Setter Property="Text" Value="{Binding Unit.Memento.Name}"/>
+            <Setter Property="Text" Value="{Binding Name}"/>
             <Setter Property="ToolTip" Value="{Binding Detail}"/>
             <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
             <Setter Property="ToolTipService.BetweenShowDelay" Value="1000"/>
@@ -47,7 +47,7 @@
                     <DockPanel>
                         <local:FolderListThumbnail DataContext="{Binding Thumbnail}"/>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock x:Name="Place" Style="{StaticResource FolderParameter}" Text="{Binding Unit.ArchivePage.Content.Entry.RootArchiverName}" />
+                            <TextBlock x:Name="Place" Style="{StaticResource FolderParameter}" Text="{Binding Note}" />
                             <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
                         </StackPanel>
                     </DockPanel>

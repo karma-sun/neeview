@@ -22,7 +22,7 @@
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="ToolTip" Value="{Binding FullPath}"/>
+            <Setter Property="ToolTip" Value="{Binding Detail}"/>
             <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
             <Setter Property="ToolTipService.BetweenShowDelay" Value="1000"/>
         </Style>
@@ -80,7 +80,7 @@
                     <DockPanel Margin="2" LastChildFill="False">
                         <local:FolderListThumbnail DataContext="{Binding Thumbnail}"/>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Style="{StaticResource FolderParameter}" Text="{Binding Detail}"/>
+                            <TextBlock Style="{StaticResource FolderParameter}" Text="{Binding Note}"/>
                             <TextBlock Style="{Binding ElementName=ListBox, Path=DataContext.Model.Format, Converter={StaticResource PageNameConverter}}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
                         </StackPanel>
                     </DockPanel>

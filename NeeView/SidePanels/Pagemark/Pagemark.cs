@@ -6,9 +6,6 @@ namespace NeeView
 {
     public interface IPagemarkEntry : IBookListItem
     {
-        string Name { get; }
-        string Note { get; }
-        string Detail { get; }
     }
 
     /// <summary>

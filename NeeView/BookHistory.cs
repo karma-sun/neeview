@@ -10,6 +10,9 @@ namespace NeeView
 {
     public interface IBookListItem : IHasPage
     {
+        string Name { get; }
+        string Note { get; }
+        string Detail { get; }
         Thumbnail Thumbnail { get; }
     }
 
@@ -47,9 +50,6 @@ namespace NeeView
         [DataMember]
         public DateTime LastAccessTime { get; set; }
 
-        public string Detail => Place + "\n" + LastAccessTime;
-
-        public string ShortName => Unit.Memento.Name;
 
         public override string ToString()
         {
@@ -57,6 +57,10 @@ namespace NeeView
         }
 
         #region IBookListItem Support
+
+        public string Name => Unit.Memento.Name;
+        public string Note => Unit.ArchivePage.Content.Entry.RootArchiverName;
+        public string Detail => Place + "\n" + LastAccessTime;
 
         public Thumbnail Thumbnail => Unit.ArchivePage.Thumbnail;
 

@@ -75,6 +75,15 @@ namespace NeeView
             }
         }
 
+        public void Expand(TreeListNode<IPagemarkEntry> item, bool isExpanded)
+        {
+            if (item.IsExpandEnabled && item.IsExpanded != isExpanded)
+            {
+                item.IsExpanded = isExpanded;
+                Refresh();
+            }
+        }
+
         private void Refresh()
         {
             Changing?.Invoke(this, null);

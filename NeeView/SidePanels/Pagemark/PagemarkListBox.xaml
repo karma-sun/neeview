@@ -98,6 +98,7 @@
                  HorizontalContentAlignment="Stretch"
                  ItemsSource="{Binding Model.Items}"
                  SelectedItem="{Binding Model.SelectedItem}"
+                 SelectionChanged="PagemarkListBox_SelectionChanged"
                  KeyDown="PagemarkList_KeyDown"
                  Tag="{Binding Model.Items}"
                  IsVisibleChanged="PagemarkListBox_IsVisibleChanged"

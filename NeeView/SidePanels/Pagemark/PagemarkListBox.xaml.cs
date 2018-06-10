@@ -4,6 +4,7 @@ using NeeView.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -172,26 +173,28 @@ namespace NeeView
             Dispatcher.BeginInvoke((Action)(() => RestoreFocus()));
         }
 
-        //
         public void StoreFocus()
         {
             var index = this.ListBox.SelectedIndex;
-
             ListBoxItem lbi = index >= 0 ? (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(index)) : null;
             _storeFocus = lbi != null ? lbi.IsFocused : false;
         }
 
-        //
         public void RestoreFocus()
         {
             if (_storeFocus)
             {
-                this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
-
-                var index = this.ListBox.SelectedIndex;
-                var lbi = index >= 0 ? (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(index)) : null;
-                lbi?.Focus();
+                FocusSelectedItem();
             }
+        }
+
+        public void FocusSelectedItem()
+        {
+            if (this.ListBox.SelectedIndex < 0) return;
+
+            this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
+            ListBoxItem lbi = (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(this.ListBox.SelectedIndex));
+            lbi?.Focus();
         }
 
         #endregion
@@ -239,10 +242,11 @@ namespace NeeView
         // 履歴項目決定
         private void PagemarkListItem_MouseSingleClick(object sender, MouseButtonEventArgs e)
         {
-            var historyItem = (sender as ListBoxItem)?.Content as TreeListNode<IPagemarkEntry>;
-            if (historyItem != null)
+            var item = (sender as ListBoxItem)?.Content as TreeListNode<IPagemarkEntry>;
+            if (item != null)
             {
-                _vm.Decide(historyItem);
+                FocusSelectedItem();
+                _vm.Decide(item);
                 e.Handled = true;
             }
         }
@@ -250,12 +254,26 @@ namespace NeeView
         // 履歴項目決定(キー)
         private void PagemarkListItem_KeyDown(object sender, KeyEventArgs e)
         {
-            var historyItem = (sender as ListBoxItem)?.Content as TreeListNode<IPagemarkEntry>;
+            var item = (sender as ListBoxItem)?.Content as TreeListNode<IPagemarkEntry>;
             {
                 if (e.Key == Key.Return)
                 {
-                    _vm.Decide(historyItem);
+                    FocusSelectedItem();
+                    _vm.Decide(item);
                     e.Handled = true;
+                }
+                else if (item.Value is PagemarkFolder)
+                {
+                    if (e.Key == Key.Left)
+                    {
+                        _vm.Expand(item, false);
+                        e.Handled = true;
+                    }
+                    else if (e.Key == Key.Right)
+                    {
+                        _vm.Expand(item, true);
+                        e.Handled = true;
+                    }
                 }
             }
         }
@@ -305,16 +323,12 @@ namespace NeeView
             }
         }
 
-        //
-        public void FocusSelectedItem()
+        private void PagemarkListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (this.ListBox.SelectedIndex < 0) return;
-
             this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
-
-            ListBoxItem lbi = (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(this.ListBox.SelectedIndex));
-            lbi?.Focus();
         }
+
 
         #endregion
 

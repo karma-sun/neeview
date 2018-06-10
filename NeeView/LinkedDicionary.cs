@@ -24,8 +24,8 @@ namespace NeeView
             if (node == null)
             {
                 node = new LinkedListNode<TValue>(item);
-                _list.AddFirst(node);
                 _map.Add(key, node);
+                _list.AddFirst(node);
             }
             else
             {
@@ -41,8 +41,8 @@ namespace NeeView
             if (node == null)
             {
                 node = new LinkedListNode<TValue>(item);
-                _list.AddLast(node);
                 _map.Add(key, node);
+                _list.AddLast(node);
             }
             else
             {
@@ -56,8 +56,8 @@ namespace NeeView
         public void AddLastRaw(TKey key, TValue item)
         {
             var node = new LinkedListNode<TValue>(item);
-            _list.AddLast(node);
             _map.Add(key, node);
+            _list.AddLast(node);
         }
 
         public LinkedListNode<TValue> Find(TKey key)
@@ -75,6 +75,21 @@ namespace NeeView
             {
                 _list.Remove(node);
                 _map.Remove(key);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool Remap(TKey src, TKey dst)
+        {
+            var node = Find(src);
+            if (node != null)
+            {
+                _map.Remove(src);
+                _map.Add(dst, node);
                 return true;
             }
             else

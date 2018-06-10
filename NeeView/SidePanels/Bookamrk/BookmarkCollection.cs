@@ -182,6 +182,18 @@ namespace NeeView
         }
 
 
+        public void Rename(string src, string dst)
+        {
+            foreach (var item in Items)
+            {
+                if (item.Value is Bookmark bookmark && bookmark.Place == src)
+                {
+                    bookmark.Place = dst;
+                }
+            }
+        }
+
+
         #region Memento
 
         [DataContract]

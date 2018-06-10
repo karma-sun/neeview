@@ -1,6 +1,7 @@
 ﻿using NeeView.Properties;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -326,11 +327,19 @@ namespace NeeView
                     System.IO.File.Move(src, dst);
                 }
 
-                // 閉じた本を開き直す
-                if (isContinue && requestLoadCount == _bookHub.RequestLoadCount)
+
+                try
                 {
-                    RenameHistory(src, dst);
-                    _bookHub.RequestLoad(dst, null, BookLoadOption.Resume | BookLoadOption.IsBook, false);
+                    // 閉じた本を開き直す
+                    if (isContinue && requestLoadCount == _bookHub.RequestLoadCount)
+                    {
+                        RenameHistory(src, dst);
+                        _bookHub.RequestLoad(dst, null, BookLoadOption.Resume | BookLoadOption.IsBook, false);
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
                 }
 
                 return true;
@@ -358,13 +367,13 @@ namespace NeeView
                     return false;
                 }
             }
+
         }
 
         // 履歴上のファイル名変更
         private void RenameHistory(string src, string dst)
         {
             BookMementoCollection.Current.Rename(src, dst);
-            PagemarkCollection.Current.Rename(src, dst);
         }
 
         #endregion

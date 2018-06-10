@@ -177,7 +177,6 @@ namespace NeeView
         public void StoreFocus()
         {
             var index = this.ListBox.SelectedIndex;
-
             ListBoxItem lbi = index >= 0 ? (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(index)) : null;
             _storeFocus = lbi != null ? lbi.IsFocused : false;
         }
@@ -186,11 +185,7 @@ namespace NeeView
         {
             if (_storeFocus)
             {
-                this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
-
-                var index = this.ListBox.SelectedIndex;
-                var lbi = index >= 0 ? (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(index)) : null;
-                lbi?.Focus();
+                FocusSelectedItem();
             }
         }
 
@@ -199,7 +194,6 @@ namespace NeeView
             if (this.ListBox.SelectedIndex < 0) return;
 
             this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
-
             ListBoxItem lbi = (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(this.ListBox.SelectedIndex));
             lbi?.Focus();
         }
@@ -256,6 +250,7 @@ namespace NeeView
             var item = (sender as ListBoxItem)?.Content as TreeListNode<IBookmarkEntry>;
             if (item != null)
             {
+                FocusSelectedItem();
                 _vm.Decide(item);
                 e.Handled = true;
             }
@@ -264,12 +259,26 @@ namespace NeeView
         // 履歴項目決定(キー)
         private void BookmarkListItem_KeyDown(object sender, KeyEventArgs e)
         {
-            var historyItem = (sender as ListBoxItem)?.Content as TreeListNode<IBookmarkEntry>;
+            var item = (sender as ListBoxItem)?.Content as TreeListNode<IBookmarkEntry>;
             {
                 if (e.Key == Key.Return)
                 {
-                    _vm.Decide(historyItem);
+                    FocusSelectedItem();
+                    _vm.Decide(item);
                     e.Handled = true;
+                }
+                else if (item.Value is BookmarkFolder)
+                {
+                    if (e.Key == Key.Left)
+                    {
+                        _vm.Expand(item, false);
+                        e.Handled = true;
+                    }
+                    else if (e.Key == Key.Right)
+                    {
+                        _vm.Expand(item, true);
+                        e.Handled = true;
+                    }
                 }
             }
         }

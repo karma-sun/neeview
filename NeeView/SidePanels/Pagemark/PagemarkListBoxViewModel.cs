@@ -47,6 +47,11 @@ namespace NeeView
             Model.Decide(item);
         }
 
+        public void Expand(TreeListNode<IPagemarkEntry> item, bool isExpanded)
+        {
+            Model.Expand(item, isExpanded);
+        }
+
         public void Remove(TreeListNode<IPagemarkEntry> item)
         {
             Model.Remove(item);

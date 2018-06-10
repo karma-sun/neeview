@@ -48,6 +48,7 @@ namespace NeeView
             set { SetProperty(ref _selectedItem, value); }
         }
 
+
         // TODO: この参照方向はどうなの？
         public bool IsThumbnailVisibled => BookmarkList.Current.IsThumbnailVisibled;
         public PanelListItemStyle PanelListItemStyle => BookmarkList.Current.PanelListItemStyle;
@@ -75,6 +76,15 @@ namespace NeeView
                         Refresh();
                     }
                     break;
+            }
+        }
+
+        public void Expand(TreeListNode<IBookmarkEntry> item, bool isExpanded)
+        {
+            if (item.IsExpandEnabled &&  item.IsExpanded != isExpanded)
+            {
+                item.IsExpanded = isExpanded;
+                Refresh();
             }
         }
 

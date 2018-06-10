@@ -201,136 +201,17 @@ namespace NeeView
         }
 
 
-
-        // 名前変更
-        // TODO: BookMementoUnitやBookmark、Historyも？
         public void Rename(string src, string dst)
         {
-            // TODO:
-            /*
-            if (src == null || dst == null) return;
-
-            foreach (var mark in Items.Select(e => e.Value).OfType<Pagemark>())
+            foreach (var item in Items)
             {
-                if (mark.Place == src)
+                if (item.Value is Pagemark pagemark && pagemark.Place == src)
                 {
-                    mark.Place = dst;
+                    pagemark.Place = dst;
                 }
             }
-            */
         }
 
-
-#if false
-
-
-        // となりを取得
-        public Pagemark GetNeighbor(Pagemark mark)
-        {
-            if (Items == null || Items.Count <= 0) return null;
-
-            int index = Items.IndexOf(mark);
-            if (index < 0) return Items[0];
-
-            if (index + 1 < Items.Count)
-            {
-                return Items[index + 1];
-            }
-            else if (index > 0)
-            {
-                return Items[index - 1];
-            }
-            else
-            {
-                return mark;
-            }
-        }
-
-        public bool CanMoveSelected(int direction)
-        {
-            if (SelectedItem == null)
-            {
-                return Items.Count > 0;
-            }
-            else
-            {
-                int index = Items.IndexOf(SelectedItem) + direction;
-                return (index >= 0 && index < Items.Count);
-            }
-        }
-
-        public Pagemark MoveSelected(int direction)
-        {
-            if (SelectedItem == null)
-            {
-                SelectedItem = direction >= 0 ? Items.FirstOrDefault() : Items.LastOrDefault();
-            }
-            else
-            {
-                int index = Items.IndexOf(SelectedItem) + direction;
-                if (index >= 0 && index < Items.Count)
-                {
-                    SelectedItem = Items[index];
-                }
-            }
-
-            return SelectedItem;
-        }
-
-        /// <summary>
-        /// 指定のマーカーに移動。存在しなければ移動しない
-        /// </summary>
-        public Pagemark Move(string place, string entryName)
-        {
-            var item = Find(place, entryName);
-            if (item != null)
-            {
-                SelectedItem = item;
-            }
-
-            return SelectedItem;
-        }
-
-
-        /// <summary>
-        /// マーカー追加
-        /// </summary>
-        public void Add(Book.Memento memento)
-        {
-            if (!Contains(memento.Place, memento.Page))
-            {
-                var item = new Pagemark(BookMementoCollection.Current.Set(memento), memento.Page);
-                Items.Insert(0, item);
-            }
-        }
-
-        /// <summary>
-        /// マーカー削除
-        /// </summary>
-        public void Remove(string place, string entryName)
-        {
-            Items.Remove(Find(place, entryName));
-        }
-
-
-        /// <summary>
-        /// マーカー追加/削除
-        /// </summary>
-        public bool Toggle(Book.Memento memento)
-        {
-            if (!Contains(memento.Place, memento.Page))
-            {
-                Add(memento);
-                return true;
-            }
-            else
-            {
-                Remove(memento.Place, memento.Page);
-                return false;
-            }
-        }
-
-#endif
 
 
         #region Memento

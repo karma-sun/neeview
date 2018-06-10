@@ -125,15 +125,22 @@ namespace NeeView
         {
             Clear();
 
-            foreach(var book in books)
+            foreach (var book in books)
             {
                 BookMementoCollection.Current.Set(book);
             }
 
             foreach (var item in items)
             {
-                var newItem = new BookHistory() { Place = item.Place, LastAccessTime = item.LastAccessTime };
-                Items.AddLastRaw(newItem.Place, newItem);
+                try
+                {
+                    var newItem = new BookHistory() { Place = item.Place, LastAccessTime = item.LastAccessTime };
+                    Items.AddLastRaw(newItem.Place, newItem);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
             }
 
             HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Load, null));
@@ -276,6 +283,19 @@ namespace NeeView
             return list;
         }
 
+
+        public void Rename(string src, string dst)
+        {
+            var item = Items.Find(src);
+            if (item != null)
+            {
+                Items.Remove(dst);
+                Items.Remap(src, dst);
+                item.Value.Place = dst;
+                HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Add, dst));
+            }
+        }
+
         #endregion
 
 
@@ -360,7 +380,7 @@ namespace NeeView
                         : new List<BookHistory>();
 
                     Books = OldBooks ?? new List<Book.Memento>();
-                    foreach(var book in Books)
+                    foreach (var book in Books)
                     {
                         book.LastAccessTime = default(DateTime);
                     }

@@ -47,6 +47,11 @@ namespace NeeView
             Model.Decide(item);
         }
 
+        public void Expand(TreeListNode<IBookmarkEntry> item, bool isExpanded)
+        {
+            Model.Expand(item, isExpanded);
+        }
+
         public void Remove(TreeListNode<IBookmarkEntry> item)
         {
             Model.Remove(item);
@@ -56,5 +61,6 @@ namespace NeeView
         {
             Model.Move(dropInfo);
         }
+
     }
 }

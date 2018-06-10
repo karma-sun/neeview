@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeLaboratory.ComponentModel;
+using System;
 using System.Runtime.Serialization;
 
 namespace NeeView
@@ -14,8 +15,11 @@ namespace NeeView
     /// ページマーカー
     /// </summary>
     [DataContract]
-    public class Pagemark : IPagemarkEntry
+    public class Pagemark : BindableBase, IPagemarkEntry
     {
+        private string _place;
+
+
         public Pagemark()
         {
         }
@@ -29,7 +33,19 @@ namespace NeeView
 
 
         [DataMember]
-        public string Place { get; set; }
+        public string Place
+        {
+            get { return _place; }
+            set
+            {
+                if (SetProperty(ref _place, value))
+                {
+                    _unit = null;
+                    RaisePropertyChanged(null);
+                }
+            }
+        }
+
 
         [DataMember]
         public string EntryName { get; set; }
@@ -52,8 +68,8 @@ namespace NeeView
         private BookMementoUnit _unit;
         public BookMementoUnit Unit
         {
-            get { return _unit = _unit ?? BookMementoCollection.Current.Get(Place); }
-            set { _unit = value; }
+            get { return _unit = _unit ?? BookMementoCollection.Current.Set(Place); }
+            private set { _unit = value; }
         }
 
         public Page GetPage()

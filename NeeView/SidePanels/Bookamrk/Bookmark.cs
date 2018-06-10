@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using NeeLaboratory.ComponentModel;
+using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 
 namespace NeeView
@@ -11,8 +12,10 @@ namespace NeeView
     }
 
     [DataContract]
-    public class Bookmark : IBookmarkEntry
+    public class Bookmark : BindableBase, IBookmarkEntry
     {
+        private string _place;
+
         public Bookmark()
         {
         }
@@ -25,7 +28,19 @@ namespace NeeView
 
 
         [DataMember]
-        public string Place { get; set; }
+        public string Place
+        {
+            get { return _place; }
+            set
+            {
+                if (SetProperty(ref _place, value))
+                {
+                    _unit = null;
+                    RaisePropertyChanged(null);
+                }
+            }
+        }
+
 
 
         #region IBookListItem Support
@@ -39,8 +54,8 @@ namespace NeeView
         private BookMementoUnit _unit;
         public BookMementoUnit Unit
         {
-            get { return _unit = _unit ?? BookMementoCollection.Current.Get(Place); }
-            set { _unit = value; }
+            get { return _unit = _unit ?? BookMementoCollection.Current.Set(Place); }
+            private set { _unit = value; }
         }
 
         public Page GetPage()

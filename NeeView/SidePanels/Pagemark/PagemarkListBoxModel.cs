@@ -107,24 +107,8 @@ namespace NeeView
                 return;
             }
 
-            // TODO: place指定でのunit取得をもっとスマートにできそう
-            var unit = BookMementoCollection.Current.GetValid(place) ?? BookMementoCollection.Current.Set(CreateBookMemento(place));
+            var unit = BookMementoCollection.Current.Set(place);
             PagemarkCollection.Current.AddFirst(new Pagemark(unit, entryName));
-        }
-
-        // 指定したブックの設定作成
-        // TODO: ここではない。 BookHubか？
-        private Book.Memento CreateBookMemento(string place)
-        {
-            if (place == null) throw new ArgumentNullException();
-
-            var memento = BookHub.Current.CreateBookMemento();
-            if (memento == null || memento.Place != place)
-            {
-                memento = BookSetting.Current.BookMementoDefault.Clone();
-                memento.Place = place;
-            }
-            return memento;
         }
 
         public bool Remove(TreeListNode<IPagemarkEntry> item)

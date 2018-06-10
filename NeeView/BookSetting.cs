@@ -141,6 +141,21 @@ namespace NeeView
         }
 
 
+        // ブック設定の作成
+        // 開いているブックならばその設定を取得する
+        public Book.Memento CreateBookMemento(string place)
+        {
+            if (place == null) throw new ArgumentNullException();
+
+            var memento = BookHub.Current.CreateBookMemento();
+            if (memento == null || memento.Place != place)
+            {
+                memento = BookMementoDefault.Clone();
+                memento.Place = place;
+            }
+            return memento;
+        }
+
 
         #region BookSetting
 

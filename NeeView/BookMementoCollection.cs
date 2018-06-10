@@ -22,23 +22,8 @@ namespace NeeView
             }
             else
             {
-                return Set(BookMementoUnit.Create(CreateBookMemento(place)));
+                return Set(BookMementoUnit.Create(BookSetting.Current.CreateBookMemento(place)));
             }
-        }
-
-        // 指定したブックの設定作成
-        // TODO: ここではない。 BookHubか？
-        private Book.Memento CreateBookMemento(string place)
-        {
-            if (place == null) throw new ArgumentNullException();
-
-            var memento = BookHub.Current.CreateBookMemento();
-            if (memento == null || memento.Place != place)
-            {
-                memento = BookSetting.Current.BookMementoDefault.Clone();
-                memento.Place = place;
-            }
-            return memento;
         }
 
         public BookMementoUnit Set(Book.Memento memento)

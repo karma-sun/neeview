@@ -158,7 +158,7 @@
     </Compile>
     <Compile Include="Converters\BooleanConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="FileIcon.cs" />
+    <Compile Include="FileIconCollection.cs" />
     <Compile Include="Page\ConstContent.cs" />
     <Compile Include="Page\ConstPage.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkCollectionChangedArgs.cs" />

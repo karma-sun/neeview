@@ -7,6 +7,14 @@ using System.Linq;
 
 namespace NeeView.IO
 {
+    public enum FileIconType
+    {
+        File,
+        FileType,
+        DirectoryType,
+    }
+
+
     // from https://www.ipentec.com/document/csharp-shell-namespace-get-big-icon-from-file-path
     public class FileIcon
     {
@@ -35,6 +43,8 @@ namespace NeeView.IO
             [DllImport("user32.dll", CharSet = CharSet.Auto)]
             [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool DestroyIcon(IntPtr hIcon);
+
+            public const int S_OK = 0;
 
             //SHFILEINFO
             [Flags]
@@ -234,6 +244,7 @@ namespace NeeView.IO
             };
         }
 
+
         public enum IconSize
         {
             Large = NativeMethods.SHIL.SHIL_LARGE,
@@ -241,6 +252,21 @@ namespace NeeView.IO
             ExtraLarge = NativeMethods.SHIL.SHIL_EXTRALARGE,
             Jumbo = NativeMethods.SHIL.SHIL_JUMBO,
         };
+
+        public static BitmapSource CreateIcon(string filename, FileIconType iconType, IconSize iconSize)
+        {
+            switch (iconType)
+            {
+                case FileIconType.DirectoryType:
+                    return CreateDirectoryTypeIcon(filename, iconSize);
+                case FileIconType.FileType:
+                    return CreateFileTypeIcon(filename, iconSize);
+                case FileIconType.File:
+                    return CreateFileIcon(filename, iconSize);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(iconType));
+            }
+        }
 
         public static BitmapSource CreateDirectoryTypeIcon(string filename, IconSize iconSize)
         {
@@ -267,7 +293,7 @@ namespace NeeView.IO
             IntPtr hImg = NativeMethods.SHGetFileInfo(filename, attribute, out shinfo, (uint)Marshal.SizeOf(typeof(NativeMethods.SHFILEINFO)), NativeMethods.SHGFI.SHGFI_SYSICONINDEX | flags);
 
             NativeMethods.IImageList imglist = null;
-            int rsult = NativeMethods.SHGetImageList(currentshil, ref NativeMethods.IID_IImageList, out imglist);
+            int hResult = NativeMethods.SHGetImageList(currentshil, ref NativeMethods.IID_IImageList, out imglist);
 
             IntPtr hicon = IntPtr.Zero;
             imglist.GetIcon(shinfo.iIcon, (int)NativeMethods.ImageListDrawItemConstants.ILD_TRANSPARENT, ref hicon);
@@ -275,6 +301,62 @@ namespace NeeView.IO
             NativeMethods.DestroyIcon(hicon);
 
             return bitmapSource;
+        }
+
+
+        public static List<BitmapSource> CreateIconCollection(string filename, FileIconType iconType)
+        {
+            switch (iconType)
+            {
+                case FileIconType.DirectoryType:
+                    return CreateDirectoryTypeIconCollection(filename);
+                case FileIconType.FileType:
+                    return CreateFileTypeIconCollection(filename);
+                case FileIconType.File:
+                    return CreateFileIconCollection(filename);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(iconType));
+            }
+        }
+
+        public static List<BitmapSource> CreateDirectoryTypeIconCollection(string filename)
+        {
+            return CreateFileIconCollection(filename, NativeMethods.FILE_ATTRIBUTE.FILE_ATTRIBUTE_DIRECTORY, NativeMethods.SHGFI.SHGFI_USEFILEATTRIBUTES);
+        }
+
+        public static List<BitmapSource> CreateFileTypeIconCollection(string filename)
+        {
+            return CreateFileIconCollection(System.IO.Path.GetExtension(filename), 0, NativeMethods.SHGFI.SHGFI_USEFILEATTRIBUTES);
+        }
+
+        public static List<BitmapSource> CreateFileIconCollection(string filename)
+        {
+            return CreateFileIconCollection(filename, 0, 0);
+        }
+
+        private static List<BitmapSource> CreateFileIconCollection(string filename, NativeMethods.FILE_ATTRIBUTE attribute, NativeMethods.SHGFI flags)
+        {
+            NativeMethods.SHFILEINFO shinfo = new NativeMethods.SHFILEINFO();
+
+            IntPtr hImg = NativeMethods.SHGetFileInfo(filename, attribute, out shinfo, (uint)Marshal.SizeOf(typeof(NativeMethods.SHFILEINFO)), NativeMethods.SHGFI.SHGFI_SYSICONINDEX | flags);
+
+            var bitmaps = new List<BitmapSource>();
+
+            foreach (NativeMethods.SHIL currentshil in Enum.GetValues(typeof(NativeMethods.SHIL)))
+            {
+                int hResult = NativeMethods.SHGetImageList(currentshil, ref NativeMethods.IID_IImageList, out NativeMethods.IImageList imglist);
+                if (hResult == NativeMethods.S_OK)
+                {
+                    IntPtr hicon = IntPtr.Zero;
+                    imglist.GetIcon(shinfo.iIcon, (int)NativeMethods.ImageListDrawItemConstants.ILD_TRANSPARENT, ref hicon);
+                    BitmapSource bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(hicon, System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                    NativeMethods.DestroyIcon(hicon);
+
+                    bitmaps.Add(bitmapSource);
+                }
+            }
+
+            return bitmaps;
         }
     }
 

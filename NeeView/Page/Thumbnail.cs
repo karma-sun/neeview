@@ -315,8 +315,7 @@ namespace NeeView
             {
                 if (_folderBitmapSource == null)
                 {
-                    var icons = new DirectoryIconBitmap(@"dummy\");
-                    _folderBitmapSource = icons.GetBitmapSource(256.0);
+                    _folderBitmapSource = FileIconCollection.Current.CreateDefaultFolderIcon(256);
                 }
                 return _folderBitmapSource;
             }

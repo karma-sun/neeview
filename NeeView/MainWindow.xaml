@@ -84,24 +84,10 @@
 
             <!-- MenuItem History -->
             <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
-                <Setter Property="Header" Value="{Binding Path=ShortName}"/> 
+                <Setter Property="Header" Value="{Binding Path=Name}"/> 
                 <Setter Property="Command" Value="{x:Static local:LoadCommand.Command}"/>
                 <Setter Property="CommandParameter" Value="{Binding Path=Place}" />
                 <Setter Property="InputGestureText" Value=""/>
-            </Style>
-
-            <Style x:Key="HistoryMenuItemStyle" TargetType="MenuItem">
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding ElementName=LastFilesHeader, Path=ItemsSource.Count}" Value="0" >
-                        <Setter Property="IsEnabled" Value="False"/>
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-
-            <Style x:Key="HistoryContextMenuItemContainerStyle" TargetType="MenuItem">
-                <Setter Property="Header" Value="{Binding Converter={StaticResource FullPathToFileNameConverter}}"/>
-                <Setter Property="Command" Value="{Binding DataContext.MoveToHistory, RelativeSource={RelativeSource FindAncestor, AncestorType=ContextMenu}}" />
-                <Setter Property="CommandParameter" Value="{Binding}" />
             </Style>
 
         </ResourceDictionary>

@@ -14,7 +14,7 @@
         <local:SortModeToVisibilityConverter x:Key="SortModeToVisibilityConverter"/>
 
         <Style x:Key="HistoryContextMenuItemContainerStyle" TargetType="MenuItem">
-            <Setter Property="Header" Value="{Binding ShortName}"/>
+            <Setter Property="Header" Value="{Binding Name}"/>
             <Setter Property="Command" Value="{Binding DataContext.MoveToHistory, RelativeSource={RelativeSource FindAncestor, AncestorType=ContextMenu}}" />
             <Setter Property="CommandParameter" Value="{Binding}" />
         </Style>

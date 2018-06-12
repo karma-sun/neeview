@@ -1,45 +1,77 @@
-﻿// from Stack Overflow 
-// URL: http://ja.stackoverflow.com/questions/23202/bitmapdecoder-%E3%81%8C%E3%82%B5%E3%83%9D%E3%83%BC%E3%83%88%E3%81%97%E3%81%A6%E3%81%84%E3%82%8B%E7%94%BB%E5%83%8F%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%AE%E7%A8%AE%E9%A1%9E%E6%8B%A1%E5%BC%B5%E5%AD%90%E3%82%92%E5%85%A8%E3%81%A6%E5%8F%96%E5%BE%97%E3%81%97%E3%81%9F%E3%81%84
-// License: CC BY-SA 3.0
-
-using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NeeView
 {
-    public static class WicDecoders
+    class WicDecoders
     {
-        /// <summary>
-        /// WICデコーダーリスト取得
-        /// </summary>
-        /// <returns>デコーダー名とその対応拡張子の辞書</returns>
-        public static Dictionary<string, string> ListUp()
+        private class NativeMethods
         {
-            var dictionary = new Dictionary<string, string>();
+            [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Auto)]
+            private static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPTStr)] string lpFileName);
 
-            //string root = @"SOFTWARE\WOW6432Node\Classes\CLSID\";
-            string root = @"SOFTWARE\Classes\";
+            [DllImport("NeeView.Interop.dll", CharSet = CharSet.Unicode)]
+            [return: MarshalAs(UnmanagedType.I1)]
+            public static extern bool NVGetImageCodecInfo(uint index, StringBuilder friendryName, StringBuilder fileExtensions);
 
-            // WICBitmapDecodersの一覧を開く
-            var decoders = Registry.LocalMachine.OpenSubKey(root + @"CLSID\{7ED96837-96F0-4812-B211-F13C24117ED3}\Instance");
-            foreach (var clsId in decoders.GetSubKeyNames())
+            [DllImport("NeeView.Interop.dll")]
+            public static extern void NVCloseImageCodecInfo();
+
+            static NativeMethods()
             {
-                try
+                if (!TryLoadNativeLibrary(AppDomain.CurrentDomain.RelativeSearchPath))
                 {
-                    // コーデックのレジストリを開く
-                    var codec = Registry.LocalMachine.OpenSubKey(root + @"CLSID\" + clsId);
-                    string name = codec.GetValue("FriendlyName").ToString();
-                    string extensions = codec.GetValue("FileExtensions").ToString().ToLower();
-                    dictionary.Add(name, extensions);
+                    TryLoadNativeLibrary(Path.GetDirectoryName(typeof(NativeMethods).Assembly.Location));
                 }
-                catch { }
             }
 
-            return dictionary;
+            private static bool TryLoadNativeLibrary(string path)
+            {
+                if (path == null)
+                {
+                    return false;
+                }
+
+                path = Path.Combine(path, IntPtr.Size == 4 ? "x86" : "x64");
+                path = Path.Combine(path, "NeeView.Interop.dll");
+
+                Debug.WriteLine($"LoadLibrary: {path}");
+                return File.Exists(path) && LoadLibrary(path) != IntPtr.Zero;
+            }
+        }
+
+        /// <summary>
+        /// Collect WIC Decoders
+        /// </summary>
+        /// <returns>friendlyName to fileExtensions dictionary</returns>
+        public static Dictionary<string, string> ListUp()
+        {
+            var collection = new Dictionary<string, string>();
+
+            var friendlyName = new StringBuilder(1024);
+            var fileExtensions = new StringBuilder(1024);
+            for (uint i = 0; NativeMethods.NVGetImageCodecInfo(i, friendlyName, fileExtensions); ++i)
+            {
+                ////Debug.WriteLine($"{friendryName}: {fileExtensions}");
+                var key = friendlyName.ToString();
+                if (collection.ContainsKey(key))
+                {
+                    collection[key] = collection[key].TrimEnd(',') + ',' + fileExtensions.ToString().ToLower();
+                }
+                else
+                {
+                    collection.Add(key, fileExtensions.ToString().ToLower());
+                }
+            }
+            NativeMethods.NVCloseImageCodecInfo();
+
+            return collection;
         }
     }
 }

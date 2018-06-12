@@ -159,6 +159,7 @@
     <Compile Include="Converters\BooleanConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="FileIconCollection.cs" />
+    <Compile Include="Picture\WicDecoders.cs" />
     <Compile Include="Page\ConstContent.cs" />
     <Compile Include="Page\ConstPage.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkCollectionChangedArgs.cs" />
@@ -679,7 +680,6 @@
     <Compile Include="_NeeView\Drawing\DrawingExtensions.cs" />
     <Compile Include="_NeeView\Media\Imaging\BitmapSourceExtensions.cs" />
     <Compile Include="_NeeView\Data\Json.cs" />
-    <Compile Include="Picture\WicDecoders.cs" />
     <Compile Include="ContentDropReciever.cs" />
     <Compile Include="_NeeView\IO\FileContents.cs" />
     <Compile Include="BackgroundStyle.cs" />
@@ -1180,6 +1180,12 @@
     <Content Include="Effects\Shaders\ColorSelectEffect.fx" />
     <Content Include="Effects\Shaders\HsvEffect.fx" />
     <Content Include="Effects\Shaders\LevelEffect.fx" />
+    <Content Include="x64\NeeView.Interop.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x86\NeeView.Interop.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resources\Media.png" />
     <Resource Include="Resources\AppS.ico" />
     <Resource Include="Resources\Empty.png" />

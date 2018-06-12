@@ -25,10 +25,7 @@ namespace NeeView
 
             static NativeMethods()
             {
-                if (!TryLoadNativeLibrary(AppDomain.CurrentDomain.RelativeSearchPath))
-                {
-                    TryLoadNativeLibrary(Path.GetDirectoryName(typeof(NativeMethods).Assembly.Location));
-                }
+                TryLoadNativeLibrary(Config.Current.LibrariesPath);
             }
 
             private static bool TryLoadNativeLibrary(string path)

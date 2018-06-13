@@ -4092,4 +4092,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="PagemarkItemMenuRename" xml:space="preserve">
     <value>Rena_me</value>
   </data>
+  <data name="NotifyHeifHelp" xml:space="preserve">
+    <value>In order to display the HEIF image it is necessary to install the additional codec "HEIF Image Extensions".</value>
+  </data>
+  <data name="WordOpenStore" xml:space="preserve">
+    <value>Open Microsoft Store</value>
+  </data>
+  <data name="NotifyNotSupportedFileType" xml:space="preserve">
+    <value>Not supported file type: {0}</value>
+  </data>
 </root>

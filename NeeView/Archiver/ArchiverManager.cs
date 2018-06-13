@@ -14,6 +14,28 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
+    public class NotSupportedFileTypeException : Exception
+    {
+        public NotSupportedFileTypeException() { }
+
+        public NotSupportedFileTypeException(string extension) : base(string.Format(Properties.Resources.NotifyNotSupportedFileType, extension))
+        {
+            Extension = extension;
+        }
+
+        public NotSupportedFileTypeException(string extension, string message) : base(message)
+        {
+            Extension = extension;
+        }
+
+        public NotSupportedFileTypeException(string extension, string message, Exception inner) : base(message)
+        {
+            Extension = extension;
+        }
+
+        public string Extension { get; set; }
+    }
+
     /// <summary>
     /// アーカイバーマネージャ
     /// </summary>
@@ -204,7 +226,9 @@ namespace NeeView
                 case ArchiverType.SusieArchiver:
                     return new SusieArchiver(path, source, isRoot);
                 default:
-                    throw new ArgumentException("Not support archive type.");
+                    ////throw new ArgumentException("Not support archive type.");
+                    string extension = LoosePath.GetExtension(path);
+                    throw new NotSupportedFileTypeException(extension);
             }
         }
 

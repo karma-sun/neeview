@@ -38,7 +38,6 @@ namespace NeeView
                 path = Path.Combine(path, IntPtr.Size == 4 ? "x86" : "x64");
                 path = Path.Combine(path, "NeeView.Interop.dll");
 
-                Debug.WriteLine($"LoadLibrary: {path}");
                 return File.Exists(path) && LoadLibrary(path) != IntPtr.Zero;
             }
         }

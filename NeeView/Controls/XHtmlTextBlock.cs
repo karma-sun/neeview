@@ -1,0 +1,108 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Xml;
+using System.Xml.Linq;
+
+namespace NeeView
+{
+    public class XHtmlTextBlock : TextBlock
+    {
+        public string Source
+        {
+            get { return (string)GetValue(SourceProperty); }
+            set { SetValue(SourceProperty, value); }
+        }
+
+        public static readonly DependencyProperty SourceProperty =
+            DependencyProperty.Register("Source", typeof(string), typeof(XHtmlTextBlock), new PropertyMetadata(null, SourcePropertyChanged));
+
+        private static void SourcePropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is XHtmlTextBlock control)
+            {
+                control.Refresh();
+            }
+        }
+
+
+        private void Refresh()
+        {
+            this.Inlines.Clear();
+
+            if (string.IsNullOrWhiteSpace(Source)) return;
+
+            var document = XDocument.Parse("<xhtml>" + Source + "</xhtml>");
+
+            try
+            {
+                var inlines = ConvertFromChildren(document.Root);
+                this.Inlines.AddRange(inlines);
+            }
+            catch (Exception ex)
+            {
+                this.Inlines.Add(new Run(ex.Message));
+                this.Inlines.Add(new LineBreak());
+                this.Inlines.Add(new Run(Source));
+            }
+        }
+
+        private IEnumerable<Inline> ConvertFromChildren(XElement root)
+        {
+            return root.Nodes().Select(e => ConvertFrom(e));
+        }
+
+        private Inline ConvertFrom(XNode root)
+        {
+            if (root is XElement element)
+            {
+                switch (element.Name.ToString())
+                {
+                    case "a":
+                        var hyperlink = new Hyperlink();
+                        try
+                        {
+                            hyperlink.NavigateUri = new Uri(element.Attribute("href").Value);
+                        }
+                        catch (Exception ex)
+                        {
+                            throw new XmlException($"Wrong \"<a href=...>\" format.", ex);
+                        }
+                        hyperlink.Inlines.AddRange(ConvertFromChildren(element));
+                        return hyperlink;
+                    case "b":
+                        var bold = new Bold();
+                        bold.Inlines.AddRange(ConvertFromChildren(element));
+                        return bold;
+                    case "i":
+                        var italic = new Italic();
+                        italic.Inlines.AddRange(ConvertFromChildren(element));
+                        return italic;
+                    case "u":
+                        var underline = new Underline();
+                        underline.Inlines.AddRange(ConvertFromChildren(element));
+                        return underline;
+                    case "br":
+                        return new LineBreak();
+                    default:
+                        throw new XmlException($"Not support tag: {element.Name}");
+                }
+            }
+            else if (root is XText text)
+            {
+                var run = new Run(text.Value);
+                return run;
+            }
+            else
+            {
+                throw new XmlException($"Not support node type: {root.NodeType}");
+            }
+        }
+    }
+}

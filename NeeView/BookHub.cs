@@ -259,6 +259,8 @@ namespace NeeView
         }
 
 
+        private Toast _bookHubToast;
+
         /// <summary>
         /// ロード可能フラグ
         /// </summary>
@@ -384,7 +386,6 @@ namespace NeeView
             {
                 _address = value;
                 AddressChanged?.Invoke(this, null);
-                BookHistoryCollection.Current.LastAddress = _address;
             }
         }
 
@@ -523,6 +524,7 @@ namespace NeeView
             if (param.IsClearViewContent)
             {
                 Address = null;
+                BookHistoryCollection.Current.LastAddress = null;
 
                 // 現在表示されているコンテンツを無効
                 App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, null));
@@ -568,6 +570,14 @@ namespace NeeView
             // 現在の本を開放
             await UnloadAsync(new BookHubCommandUnloadArgs() { IsClearViewContent = false });
 
+            string place = args.Path;
+
+            if (_bookHubToast != null)
+            {
+                _bookHubToast.Cancel();
+                _bookHubToast = null;
+            }
+
             try
             {
                 // address
@@ -600,7 +610,8 @@ namespace NeeView
                     var setting = _bookSetting.GetSetting(address.Place, memory, args.Option);
 
                     address.EntryName = address.EntryName ?? LoosePath.NormalizeSeparator(setting.Page);
-
+                    place = address.FullPath;
+                    
                     // Load本体
                     await LoadAsyncCore(address, args.Option, setting, token);
                 }
@@ -632,10 +643,19 @@ namespace NeeView
             {
                 // nop.
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 // ファイル読み込み失敗通知
-                EmptyMessage?.Invoke(this, new BookHubMessageEventArgs(e.Message));
+                var message = string.Format(Properties.Resources.ExceptionLoadFailed, place, ex.Message);
+                EmptyMessage?.Invoke(this, new BookHubMessageEventArgs(message));
+
+                // for .heic
+                if (ex is NotSupportedFileTypeException exc && exc.Extension == ".heic" && Config.Current.IsWindows10())
+                {
+                    _bookHubToast = new Toast(Properties.Resources.NotifyHeifHelp, null, App.Current.IsNetworkEnabled ? Properties.Resources.WordOpenStore : null);
+                    _bookHubToast.Confirmed += (s, e) => System.Diagnostics.Process.Start(@"ms-windows-store://pdp/?ProductId=9pmmsr1cgpwg");
+                    ToastService.Current.Regist(_bookHubToast);
+                }
 
                 // 現在表示されているコンテンツを無効
                 App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewPageCollectionChangedEventArgs(new ViewPageCollection())));
@@ -750,26 +770,29 @@ namespace NeeView
                 // 後始末
                 BookUnit?.Book?.Dispose();
                 BookUnit = null;
+                BookHistoryCollection.Current.LastAddress = null;
 
                 throw;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // 後始末
                 BookUnit?.Book?.Dispose();
                 BookUnit = null;
+                BookHistoryCollection.Current.LastAddress = null;
 
                 // 履歴から消去
                 ////BookHistory.Current.Remove(address.Place);
                 ////MenuBar.Current.UpdateLastFiles();
 
-                throw new ApplicationException(string.Format(Properties.Resources.ExceptionLoadFailed, address.Place, e.Message), e);
+                throw;
             }
 
             // 本の設定を退避
             _bookSetting.BookMemento = this.Book.CreateMemento();
 
             Address = BookUnit.Book.Place;
+            BookHistoryCollection.Current.LastAddress = Address;
         }
 
 

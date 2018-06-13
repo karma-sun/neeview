@@ -198,7 +198,7 @@ namespace NeeView
         public SidePanel SidePanel => SidePanel.Current;
         public ContentCanvas ContentCanvas => ContentCanvas.Current;
         public LoupeTransform LoupeTransform => LoupeTransform.Current;
-
+        public ToastService ToastService => ToastService.Current;
 
         /// <summary>
         /// Model property.

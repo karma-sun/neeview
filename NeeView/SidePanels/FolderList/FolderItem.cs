@@ -243,11 +243,11 @@ namespace NeeView
 
         #region IBookListItem Supprt
 
-        public string Note => ArchivePage.Note;
+        public string Note => ArchivePage?.Note;
 
         public string Detail => Name;
 
-        public Thumbnail Thumbnail => ArchivePage.Thumbnail;
+        public Thumbnail Thumbnail => ArchivePage?.Thumbnail;
 
         public Page GetPage()
         {

@@ -156,6 +156,12 @@
     <Compile Include="Controls\ExpandedMark.xaml.cs">
       <DependentUpon>ExpandedMark.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Toast.cs" />
+    <Compile Include="Controls\ToastCard.xaml.cs">
+      <DependentUpon>ToastCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ToastService.cs" />
+    <Compile Include="Controls\XHtmlTextBlock.cs" />
     <Compile Include="Converters\BooleanConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="FileIconCollection.cs" />
@@ -796,6 +802,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\MediaControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ToastCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

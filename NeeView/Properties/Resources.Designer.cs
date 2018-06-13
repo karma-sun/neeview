@@ -7106,6 +7106,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   In order to display the HEIF image it is necessary to install the additional codec &quot;HEIF Image Extensions&quot;. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyHeifHelp {
+            get {
+                return ResourceManager.GetString("NotifyHeifHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   It is the latest history に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string NotifyHistoryLastest {
@@ -7237,6 +7246,15 @@ namespace NeeView.Properties {
         public static string NotifyNoPages {
             get {
                 return ResourceManager.GetString("NotifyNoPages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Not supported file type: {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyNotSupportedFileType {
+            get {
+                return ResourceManager.GetString("NotifyNotSupportedFileType", resourceCulture);
             }
         }
         
@@ -11723,6 +11741,15 @@ namespace NeeView.Properties {
         public static string WordOn {
             get {
                 return ResourceManager.GetString("WordOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open Microsoft Store に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordOpenStore {
+            get {
+                return ResourceManager.GetString("WordOpenStore", resourceCulture);
             }
         }
         

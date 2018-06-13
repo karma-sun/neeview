@@ -68,6 +68,15 @@ namespace NeeView
             }
         }
 
+
+        // OSVersion
+        public bool IsWindows10()
+        {
+            var os = System.Environment.OSVersion;
+            return os.Version.Major == 10;
+        }
+
+
         /// <summary>
         /// プロセスID
         /// </summary>

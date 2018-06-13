@@ -4092,4 +4092,13 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="PagemarkItemMenuRename" xml:space="preserve">
     <value>名前の変更(_M)</value>
   </data>
+  <data name="NotifyHeifHelp" xml:space="preserve">
+    <value>HEIF画像を表示するには追加のコーデック「HEIF Image Extensions」をインストールする必要があります。</value>
+  </data>
+  <data name="WordOpenStore" xml:space="preserve">
+    <value>Microsoft Store を開く</value>
+  </data>
+  <data name="NotifyNotSupportedFileType" xml:space="preserve">
+    <value>サポートされていないファイルの種類です: {0}</value>
+  </data>
 </root>

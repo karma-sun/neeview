@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="NeeView.Setting.SettingItemImageCollection"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:nv="clr-namespace:NeeView"
+             xmlns:local="clr-namespace:NeeView.Setting"
+             xmlns:properties="clr-namespace:NeeView.Properties"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style TargetType="Hyperlink">
+            <EventSetter Event="RequestNavigate"  Handler="Hyperlink_RequestNavigate"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel>
+            <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" Height="200">
+                <ItemsControl ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Collection}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Vertical" ItemWidth="100" />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
+            <TextBlock x:Name="HeifHelp" Margin="0,10">
+                <Run Text="{x:Static properties:Resources.NotifyHeifHelp}"/>
+                <LineBreak/>
+                <Hyperlink x:Name="OpenStore" IsEnabled="{Binding App.IsNetworkEnabled}" NavigateUri="{x:Static nv:PictureProfile.HEIFImageExtensions}"><Run Text="{x:Static properties:Resources.WordOpenStore}"/></Hyperlink>
+            </TextBlock>
+        </StackPanel>
+    </Grid>
+</UserControl>

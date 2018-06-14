@@ -10,6 +10,7 @@ namespace NeeView.Setting
         {
             this.Children = new List<SettingPage>
             {
+                new SettingPageImage(),
                 new SettingPageArchiverZip(),
                 new SettingPageArchiverSevenZip(),
                 new SettingPageArchivePdf(),
@@ -20,6 +21,18 @@ namespace NeeView.Setting
             {
                 this.Children.Add(new SettingPageSusie());
             }
+        }
+    }
+
+    public class SettingPageImage : SettingPage
+    {
+        public SettingPageImage() : base(Properties.Resources.SettingPageImage)
+        {
+            this.Items = new List<SettingItem>
+            {
+                new SettingItemSection(Properties.Resources.SettingPageImageCollection,
+                    new SettingItemProperty(PropertyMemberElement.Create(PictureProfile.Current, nameof(PictureProfile.SupportFileTypes)), new SettingItemImageCollection() { Collection = PictureProfile.Current.SupportFileTypes }) { IsStretch = true })
+            };
         }
     }
 

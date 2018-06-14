@@ -14,6 +14,9 @@ namespace NeeView
         // 
         public static PictureProfile Current { get; private set; }
 
+        //
+        public static readonly Uri HEIFImageExtensions = new Uri(@"ms-windows-store://pdp/?ProductId=9pmmsr1cgpwg");
+
         #region Fields
 
         // 有効ファイル拡張子
@@ -22,6 +25,10 @@ namespace NeeView
         #endregion
 
         #region Properties
+
+        [PropertyMember("@ParamPictureProfileExtensions")]
+        public FileTypeCollection SupportFileTypes => _fileExtension.DefaultExtensions;
+
 
         // 読み込みデータのサイズ制限適用フラグ
         [PropertyMember("@ParamPictureProfileIsLimitSourceSize", Tips = "@ParamPictureProfileIsLimitSourceSizeTips")]

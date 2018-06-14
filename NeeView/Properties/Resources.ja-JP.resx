@@ -4101,4 +4101,13 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="NotifyNotSupportedFileType" xml:space="preserve">
     <value>サポートされていないファイルの種類です: {0}</value>
   </data>
+  <data name="SettingPageImage" xml:space="preserve">
+    <value>画像</value>
+  </data>
+  <data name="SettingPageImageCollection" xml:space="preserve">
+    <value>サポートしている画像形式</value>
+  </data>
+  <data name="ParamPictureProfileExtensions" xml:space="preserve">
+    <value>画像ファイルの拡張子</value>
+  </data>
 </root>

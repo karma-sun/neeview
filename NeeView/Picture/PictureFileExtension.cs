@@ -24,6 +24,8 @@ namespace NeeView
 
         #endregion
 
+        public FileTypeCollection DefaultExtensions => _defaultExtensoins;
+
         #region Methods
 
         // デフォルトローダーのサポート拡張子を更新

@@ -65,7 +65,7 @@ namespace NeeView
         public bool IsNetworkEnabled
         {
             get { return _isNetworkEnalbe || Config.Current.IsAppxPackage; } // Appxは強制ON
-            set { _isNetworkEnalbe = value; }
+            set { if (_isNetworkEnalbe != value) { _isNetworkEnalbe = value; RaisePropertyChanged(); } }
         }
 
         // 画像のDPI非対応

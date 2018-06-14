@@ -156,6 +156,9 @@
     <Compile Include="Controls\ExpandedMark.xaml.cs">
       <DependentUpon>ExpandedMark.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Setting\SettingItemImageCollection.xaml.cs">
+      <DependentUpon>SettingItemImageCollection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Toast.cs" />
     <Compile Include="Controls\ToastCard.xaml.cs">
       <DependentUpon>ToastCard.xaml</DependentUpon>
@@ -870,6 +873,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Setting\HelpPopupControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Setting\SettingItemImageCollection.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -15,6 +15,10 @@ namespace NeeView
         {
         }
 
+        public FileTypeCollection(IEnumerable<string> exts) : base(exts)
+        {
+        }
+
         public override string Add(string token)
         {
             var ext = token?.Trim().TrimStart('.').ToLower();

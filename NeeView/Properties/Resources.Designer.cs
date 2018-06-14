@@ -9707,6 +9707,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Image file extensions に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPictureProfileExtensions {
+            get {
+                return ResourceManager.GetString("ParamPictureProfileExtensions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Load image size limit に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamPictureProfileIsLimitSourceSize {
@@ -10873,6 +10882,24 @@ namespace NeeView.Properties {
         public static string SettingPageHistoryGeneralLimitTips {
             get {
                 return ResourceManager.GetString("SettingPageHistoryGeneralLimitTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Image に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageImage {
+            get {
+                return ResourceManager.GetString("SettingPageImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Supported image formats に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageImageCollection {
+            get {
+                return ResourceManager.GetString("SettingPageImageCollection", resourceCulture);
             }
         }
         

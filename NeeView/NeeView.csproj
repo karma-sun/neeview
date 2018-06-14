@@ -156,6 +156,12 @@
     <Compile Include="Controls\ExpandedMark.xaml.cs">
       <DependentUpon>ExpandedMark.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PageSortModeIcon.xaml.cs">
+      <DependentUpon>PageSortModeIcon.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PageSortModePalette.xaml.cs">
+      <DependentUpon>PageSortModePalette.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Setting\SettingItemImageCollection.xaml.cs">
       <DependentUpon>SettingItemImageCollection.xaml</DependentUpon>
     </Compile>
@@ -805,6 +811,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\MediaControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\PageSortModeIcon.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\PageSortModePalette.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

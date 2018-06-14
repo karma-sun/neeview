@@ -45,14 +45,14 @@ namespace NeeView
             _model.AddPropertyChanged(nameof(_model.PanelListItemStyle), (s, e) => UpdateListBoxContent());
             _model.AddPropertyChanged(nameof(_model.PageCollection), PageList_UpdatePageCollection);
             _model.BookHub.ViewContentsChanged += BookHub_ViewContentsChanged;
-            _model.BookOperation.BookChanged += (s, e) => Reflesh();
+            _model.BookOperation.BookChanged += (s, e) => Refresh();
 
             _viewItems = new List<Page>();
 
             InitializeMoreMenu();
             UpdateListBoxContent();
 
-            Reflesh();
+            Refresh();
         }
 
         #endregion
@@ -186,6 +186,7 @@ namespace NeeView
         private void PageList_UpdatePageCollection(object sender, PropertyChangedEventArgs e)
         {
             IsPageCollectionDarty = true;
+            RefreshPageSortMode();
         }
 
         //
@@ -204,14 +205,18 @@ namespace NeeView
         }
 
         //
-        private void Reflesh()
+        private void Refresh()
         {
             Title = System.IO.Path.GetFileName(_model.BookOperation.Book?.Place);
+            RefreshPageSortMode();
+            App.Current?.Dispatcher.Invoke(() => this.ListBoxContent.FocusSelectedItem());
+        }
 
+        //
+        private void RefreshPageSortMode()
+        {
             _pageSortMode = BookSetting.Current.BookMemento.SortMode;
             RaisePropertyChanged(nameof(PageSortMode));
-
-            App.Current?.Dispatcher.Invoke(() => this.ListBoxContent.FocusSelectedItem());
         }
 
         //

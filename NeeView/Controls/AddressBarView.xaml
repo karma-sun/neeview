@@ -18,9 +18,9 @@
             <Setter Property="Command" Value="{Binding DataContext.MoveToHistory, RelativeSource={RelativeSource FindAncestor, AncestorType=ContextMenu}}" />
             <Setter Property="CommandParameter" Value="{Binding}" />
         </Style>
-        
+
     </UserControl.Resources>
-    
+
     <Grid x:Name="Root" MinHeight="36">
         <Grid.Resources>
             <Style x:Key="AddressIconButton" TargetType="Button" BasedOn="{StaticResource IconButton}">
@@ -75,67 +75,21 @@
                     </Grid>
                 </Button>
 
-
-                <Button Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[ToggleSortMode]}" 
-                                        ToolTip="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToStringConverter}}">
-
+                <Button x:Name="PageSortModeButton" Style="{StaticResource AddressIconButton}"
+                        Click="PageSortModeButton_Click"
+                        ToolTip="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToStringConverter}}">
                     <Grid Width="20" Height="20">
-                        <Grid.Resources>
-                            <Style TargetType="Grid">
-                                <Setter Property="Width" Value="16"/>
-                                <Setter Property="Height" Value="16"/>
-                            </Style>
-                            <Style TargetType="Image" x:Key="MainImage">
-                                <Setter Property="Width" Value="12"/>
-                                <Setter Property="Height" Value="12"/>
-                                <Setter Property="VerticalAlignment" Value="Bottom"/>
-                                <Setter Property="HorizontalAlignment" Value="Left"/>
-                            </Style>
-                            <Style TargetType="Image" x:Key="SubImage">
-                                <Setter Property="Width" Value="8"/>
-                                <Setter Property="Height" Value="8"/>
-                                <Setter Property="VerticalAlignment" Value="Top"/>
-                                <Setter Property="HorizontalAlignment" Value="Right"/>
-                            </Style>
-
-                        </Grid.Resources>
-
-                        <Grid Visibility="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToVisibilityConverter},ConverterParameter=Random}" d:IsHidden="True">
-                            <Image Width="16" Height="16" Source="{StaticResource ic_shuffle_24px}"/>
-                        </Grid>
-
-                        <Grid Visibility="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToVisibilityConverter},ConverterParameter=FileName}" d:IsHidden="True">
-                            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_name_24px}"/>
-                            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_up_24px}"/>
-                        </Grid>
-
-                        <Grid Visibility="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToVisibilityConverter},ConverterParameter=FileNameDescending}" d:IsHidden="True">
-                            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_name_24px}"/>
-                            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_down_24px}"/>
-                        </Grid>
-
-                        <Grid Visibility="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToVisibilityConverter},ConverterParameter=TimeStamp}" d:IsHidden="True">
-                            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_time_24px}" Width="15" Height="15" Margin="-2,0,0,-2"/>
-                            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_up_24px}"/>
-                        </Grid>
-
-                        <Grid Visibility="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToVisibilityConverter},ConverterParameter=TimeStampDescending}" d:IsHidden="True">
-                            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_time_24px}" Width="15" Height="15" Margin="-2,0,0,-2"/>
-                            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_down_24px}"/>
-                        </Grid>
-
-                        <Grid Visibility="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToVisibilityConverter},ConverterParameter=Size}" d:IsHidden="True">
-                            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_size_24px}" Width="15" Height="15" Margin="0,0,0,-2"/>
-                            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_up_24px}"/>
-                        </Grid>
-
-                        <Grid Visibility="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToVisibilityConverter},ConverterParameter=SizeDescending}">
-                            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_size_24px}" Width="15" Height="15" Margin="0,0,0,-2"/>
-                            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_down_24px}"/>
-                        </Grid>
-
+                        <local:PageSortModeIcon PageSortMode="{Binding BookSetting.SortMode}"/>
                     </Grid>
                 </Button>
+                <Popup x:Name="PageSortModePopup" PlacementTarget="{Binding ElementName=PageSortModeButton}" StaysOpen="False" AllowsTransparency="True">
+                    <Grid Margin="5">
+                        <Grid.Effect>
+                            <DropShadowEffect Opacity="0.5" ShadowDepth="2"/>
+                        </Grid.Effect>
+                        <local:PageSortModePalette IsOpen="{Binding ElementName=PageSortModePopup, Path=IsOpen, Mode=TwoWay}"/>
+                    </Grid>
+                </Popup>
 
             </StackPanel>
 

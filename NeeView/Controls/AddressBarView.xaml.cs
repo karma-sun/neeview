@@ -99,5 +99,10 @@ namespace NeeView
             if (menu == null) return;
             menu.ItemsSource = _vm.GetHistory(+1, 10);
         }
+
+        private void PageSortModeButton_Click(object sender, RoutedEventArgs e)
+        {
+            PageSortModePopup.IsOpen = true;
+        }
     }
 }

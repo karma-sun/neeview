@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="NeeView.PageSortModeIcon"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeeView"
+             mc:Ignorable="d" 
+             d:DesignHeight="64" d:DesignWidth="64">
+    <UserControl.Resources>
+
+        <Style TargetType="Image" x:Key="MainImage">
+            <Setter Property="Width" Value="12"/>
+            <Setter Property="Height" Value="12"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+        
+        <Style TargetType="Image" x:Key="SubImage">
+            <Setter Property="Width" Value="8"/>
+            <Setter Property="Height" Value="8"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+        </Style>
+
+        <Grid x:Key="IconRandom">
+            <Image Width="16" Height="16" Source="{StaticResource ic_shuffle_24px}"/>
+        </Grid>
+
+        <Grid x:Key="IconFileName">
+            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_name_24px}"/>
+            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_up_24px}"/>
+        </Grid>
+
+        <Grid x:Key="IconFileNameDescending">
+            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_name_24px}"/>
+            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_down_24px}"/>
+        </Grid>
+
+        <Grid x:Key="IconTimeStamp">
+            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_time_24px}" Width="15" Height="15" Margin="-2,0,0,-2"/>
+            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_up_24px}"/>
+        </Grid>
+
+        <Grid x:Key="IconTimeStampDescending">
+            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_time_24px}" Width="15" Height="15" Margin="-2,0,0,-2"/>
+            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_down_24px}"/>
+        </Grid>
+
+        <Grid x:Key="IconSize">
+            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_size_24px}" Width="15" Height="15" Margin="0,0,0,-2"/>
+            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_up_24px}"/>
+        </Grid>
+
+        <Grid x:Key="IconSizeDescending">
+            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_size_24px}" Width="15" Height="15" Margin="0,0,0,-2"/>
+            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_down_24px}"/>
+        </Grid>
+    </UserControl.Resources>
+
+    <ContentControl x:Name="Root" Content="{StaticResource IconFileName}" Width="16" Height="16" Focusable="False"/>
+</UserControl>

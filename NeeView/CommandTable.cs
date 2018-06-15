@@ -893,7 +893,7 @@ namespace NeeView
                 element.IsShowMessage = false;
                 element.ExecuteMessage = e => _models.ThumbnailList.IsHideThumbnailList ? Properties.Resources.CommandToggleHideThumbnailListOff : Properties.Resources.CommandToggleHideThumbnailListOn;
                 element.Execute = (s, e) => _models.ThumbnailList.ToggleHideThumbnailList();
-                element.CanExecute = () => true;
+                element.CanExecute = () => _models.ThumbnailList.IsEnableThumbnailList;
                 element.CreateIsCheckedBinding = () => new Binding(nameof(_models.ThumbnailList.IsHideThumbnailList)) { Source = _models.ThumbnailList };
                 _elements[CommandType.ToggleHideThumbnailList] = element;
             }

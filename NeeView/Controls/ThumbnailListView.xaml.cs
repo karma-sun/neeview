@@ -171,7 +171,7 @@ namespace NeeView
                 double panelWidth = this.Root.ActualWidth;
 
                 // 表示項目数を計算 (なるべく奇数)
-                int itemsCount = (int)(panelWidth / itemWidth) / 2 * 2 + 1;
+                int itemsCount = (int)(panelWidth / itemWidth) / 2 * 2 + 3;
                 if (itemsCount < 1) itemsCount = 1;
 
                 // 表示先頭項目

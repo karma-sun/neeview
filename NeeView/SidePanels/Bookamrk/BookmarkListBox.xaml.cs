@@ -166,7 +166,7 @@ namespace NeeView
 
         private void List_Changing(object sender, EventArgs e)
         {
-            StoreFocus();
+            Dispatcher.Invoke(() =>StoreFocus());
         }
 
         private void List_Changed(object sender, EventArgs e)

@@ -1408,7 +1408,17 @@ namespace NeeView
         /// <param name="pageNames"></param>
         public void SetMarkers(IEnumerable<string> pageNames)
         {
-            this.Markers = pageNames.Select(e => Pages.FirstOrDefault(page => page.FullPath == e)).Where(e => e != null).ToList();
+            var oldies = Markers;
+            Markers = pageNames.Select(e => Pages.FirstOrDefault(page => page.FullPath == e)).Where(e => e != null).ToList();
+
+            foreach(var page in oldies.Where(e => !Markers.Contains(e)))
+            {
+                page.IsPagemark = false;
+            }
+            foreach(var page in Markers)
+            {
+                page.IsPagemark = true;
+            }
         }
 
         /// <summary>

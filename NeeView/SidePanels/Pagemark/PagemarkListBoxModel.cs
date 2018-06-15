@@ -3,6 +3,7 @@ using NeeView.Collections.Generic;
 using NeeView.Windows;
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 
 namespace NeeView
@@ -49,7 +50,22 @@ namespace NeeView
 
         private void PagemarkCollection_PagemarkChanged(object sender, PagemarkCollectionChangedEventArgs e)
         {
-            Refresh();
+            TreeListNode<IPagemarkEntry> selectedItem = null;
+
+            if (e.Action == NotifyCollectionChangedAction.Remove && SelectedItem == e.Item)
+            {
+                int selectedIndex = Items.IndexOf(SelectedItem);
+                if (selectedIndex >= 0)
+                {
+                    selectedIndex = selectedIndex < Items.Count - 1 ? selectedIndex + 1 : Items.Count - 1;
+                    if (selectedIndex >= 0)
+                    {
+                        selectedItem = Items[selectedIndex];
+                    }
+                }
+            }
+
+            Refresh(selectedItem);
         }
 
         public void Decide(TreeListNode<IPagemarkEntry> item)
@@ -84,31 +100,16 @@ namespace NeeView
             }
         }
 
-        private void Refresh()
+        private void Refresh(TreeListNode<IPagemarkEntry> selectedItem = null)
         {
             Changing?.Invoke(this, null);
             var collection = PagemarkCollection.Current.Items.GetExpandedCollection();
             Items = new ObservableCollection<TreeListNode<IPagemarkEntry>>(collection);
+            if (selectedItem != null)
+            {
+                SelectedItem = selectedItem;
+            }
             Changed?.Invoke(this, null);
-        }
-
-        public void Add(string place, string entryName)
-        {
-            if (place == null) throw new ArgumentNullException(nameof(place));
-
-            if (PagemarkCollection.Current.Contains(place, entryName))
-            {
-                return;
-            }
-
-            if (place.StartsWith(Temporary.TempDirectory))
-            {
-                // TODO: テンポラリは登録できない通知
-                return;
-            }
-
-            var unit = BookMementoCollection.Current.Set(place);
-            PagemarkCollection.Current.AddFirst(new Pagemark(unit, entryName));
         }
 
         public bool Remove(TreeListNode<IPagemarkEntry> item)
@@ -120,6 +121,7 @@ namespace NeeView
                 var count = item.Count(e => e.Value is Pagemark);
                 if (count > 0)
                 {
+                    // TODO: トースター化
                     var dialog = new MessageDialog(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), string.Format(Properties.Resources.DialogPagemarkFolderDeleteTitle, item.Value.Name));
                     dialog.Commands.Add(UICommands.Delete);
                     dialog.Commands.Add(UICommands.Cancel);
@@ -131,62 +133,31 @@ namespace NeeView
                 }
             }
 
-            bool isRemoved = PagemarkCollection.Current.Remove(item);
-            if (isRemoved)
-            {
-                if (selectedIndex >= 0 && !Items.Contains(SelectedItem))
-                {
-                    selectedIndex = selectedIndex < Items.Count ? selectedIndex : Items.Count - 1;
-                    if (selectedIndex >= 0)
-                    {
-                        SelectedItem = Items[selectedIndex];
-                    }
-                }
-            }
 
-            return isRemoved;
+            return PagemarkCollection.Current.Remove(item);
         }
 
-        // 追加ボタンの動作。ここでいいのか？
-        public void AddPagemark()
+
+        public void SetSelectedItem(string place, string entryName)
         {
-            var place = BookHub.Current.Book?.Place;
-            if (place == null)
+            var node = PagemarkCollection.Current.FindNode(place, entryName);
+            if (node == null)
             {
                 return;
             }
 
-            var entryName = BookHub.Current.Book.GetViewPage()?.FullPath; ;
-            if (entryName == null)
+            if (Items.Contains(node))
             {
-                return;
-            }
-
-            var node = PagemarkCollection.Current.FindNode(place, entryName);
-            if (node == null)
-            {
-                Add(place, entryName);
-                node = PagemarkCollection.Current.FindNode(place, entryName);
-            }
-
-            SelectedItem = node;
-        }
-
-        // TODO: ここでToggleは漠然としすぎている。もっと上位で判定すべきか
-        public bool Toggle(string place, string entryName)
-        {
-            if (place == null) return false;
-
-            var node = PagemarkCollection.Current.FindNode(place, entryName);
-            if (node == null)
-            {
-                Add(place, entryName);
-                return true;
+                SelectedItem = node;
             }
             else
             {
-                Remove(node);
-                return false;
+                for (var parent = node.Parent; parent != null; parent = parent.Parent)
+                {
+                    parent.IsExpanded = true;
+                }
+                Refresh();
+                SelectedItem = node;
             }
         }
 

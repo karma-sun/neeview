@@ -177,7 +177,7 @@ namespace NeeView
 
         private void AddPagemark_Executed()
         {
-            _model.ListBox.AddPagemark();
+            _model.AddPagemark();
         }
 
 

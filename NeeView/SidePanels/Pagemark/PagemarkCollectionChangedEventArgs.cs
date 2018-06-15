@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Collections.Generic;
+using System;
 using System.Collections.Specialized;
 
 namespace NeeView
@@ -6,14 +7,14 @@ namespace NeeView
     public class PagemarkCollectionChangedEventArgs : EventArgs
     {
         public NotifyCollectionChangedAction Action { get; set; }
-        public IPagemarkEntry Item { get; set; }
+        public TreeListNode<IPagemarkEntry> Item { get; set; }
 
         public PagemarkCollectionChangedEventArgs(NotifyCollectionChangedAction action)
         {
             Action = action;
         }
 
-        public PagemarkCollectionChangedEventArgs(NotifyCollectionChangedAction action, IPagemarkEntry item)
+        public PagemarkCollectionChangedEventArgs(NotifyCollectionChangedAction action, TreeListNode<IPagemarkEntry> item)
         {
             Action = action;
             Item = item;

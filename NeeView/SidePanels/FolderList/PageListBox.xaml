@@ -65,10 +65,19 @@
             <Setter Property="Fill" Value="{StaticResource NVSelectedMarkBrush}"/>
             <Setter Property="Visibility" Value="{Binding IsVisibled, Converter={StaticResource BooleanToVisibilityHiddenConverter}}"/>
         </Style>
-        
+
+        <Style TargetType="Image" x:Key="PagemarkIconStyle">
+            <Setter Property="Width" Value="12"/>
+            <Setter Property="Height" Value="12"/>
+            <Setter Property="Source" Value="{StaticResource ic_bookmark_24px}"/>
+            <Setter Property="Visibility" Value="{Binding IsPagemark, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Setter Property="Margin" Value="3" />
+        </Style>
+
         <DataTemplate x:Key="TextTemplate">
             <DockPanel MinHeight="20">
                 <Rectangle Style="{StaticResource SelectedStyle}"/>
+                <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}"/>
                 <TextBlock Style="{Binding ElementName=ListBox, Path=DataContext.Model.Format, Converter={StaticResource PageNameConverter}}"/>
             </DockPanel>
         </DataTemplate>
@@ -79,6 +88,7 @@
                 <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                     <DockPanel Margin="2" LastChildFill="False">
                         <local:FolderListThumbnail DataContext="{Binding Thumbnail}"/>
+                        <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}"/>
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Style="{StaticResource FolderParameter}" Text="{Binding Note}"/>
                             <TextBlock Style="{Binding ElementName=ListBox, Path=DataContext.Model.Format, Converter={StaticResource PageNameConverter}}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
@@ -94,6 +104,7 @@
                 <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                     <DockPanel Margin="4,0" HorizontalAlignment="Stretch" LastChildFill="False">
                         <DockPanel DockPanel.Dock="Bottom" Margin="2" >
+                            <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}"/>
                             <TextBlock Style="{Binding ElementName=ListBox, Path=DataContext.Model.Format, Converter={StaticResource PageNameConverter}}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}" Margin="0" />
                         </DockPanel>
                         <local:FolderListBanner DataContext="{Binding Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>

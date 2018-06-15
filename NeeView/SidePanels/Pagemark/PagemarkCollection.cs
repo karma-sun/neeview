@@ -123,8 +123,9 @@ namespace NeeView
         {
             if (item == null) throw new ArgumentNullException(nameof(item));
 
-            Items.Root.Insert(0, item);
-            PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
+            var node = new TreeListNode<IPagemarkEntry>(item);
+            Items.Root.Insert(0, node);
+            PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, node));
         }
 
 
@@ -135,7 +136,7 @@ namespace NeeView
 
             if (node.RemoveSelf())
             {
-                PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, node.Value));
+                PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, node));
                 return true;
             }
             else
@@ -184,7 +185,7 @@ namespace NeeView
             item.RemoveSelf();
             target.Parent.Insert(target, direction, item);
 
-            PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item.Value));
+            PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item));
         }
 
 
@@ -197,7 +198,7 @@ namespace NeeView
             target.Insert(0, item);
             target.IsExpanded = true;
 
-            PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item.Value));
+            PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item));
         }
 
 

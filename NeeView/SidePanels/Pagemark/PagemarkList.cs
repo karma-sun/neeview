@@ -69,17 +69,12 @@ namespace NeeView
             ListBox?.NextPagemark();
         }
 
-        public void Toggle(string place, string entryName)
+        public void AddPagemark()
         {
-            ListBox.Toggle(place, entryName);
-        }
-
-        public void Remove(string place, string entryName)
-        {
-            var node = PagemarkCollection.Current.FindNode(place, entryName);
-            if (node != null)
+            var pagemark = BookOperation.Current.AddPagemark();
+            if (pagemark != null)
             {
-                ListBox.Remove(node);
+                ListBox.SetSelectedItem(pagemark.Place, pagemark.EntryName); 
             }
         }
 

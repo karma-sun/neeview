@@ -4,6 +4,7 @@ using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -37,7 +38,6 @@ namespace NeeView
 
         #region Constructors
 
-        //
         public BookOperation(BookHub bookHub)
         {
             Current = this;
@@ -45,8 +45,9 @@ namespace NeeView
             _bookHub = bookHub;
             _bookHub.BookChanging += BookHub_BookChanging;
             _bookHub.BookChanged += BookHub_BookChanged;
-        }
 
+            PagemarkCollection.Current.PagemarkChanged += PagemarkCollection_PagemarkChanged;
+        }
 
 
         #endregion
@@ -704,6 +705,25 @@ namespace NeeView
         public event EventHandler PagemarkChanged;
 
         //
+        private void PagemarkCollection_PagemarkChanged(object sender, PagemarkCollectionChangedEventArgs e)
+        {
+            switch(e.Action)
+            {
+                case NotifyCollectionChangedAction.Replace:
+                case NotifyCollectionChangedAction.Reset:
+                    UpdatePagemark();
+                    break;
+                case NotifyCollectionChangedAction.Add:
+                case NotifyCollectionChangedAction.Remove:
+                    if (e.Item.Value is Pagemark pagemark && pagemark.Place == Place)
+                    {
+                        UpdatePagemark();
+                    }
+                    break;
+            }
+        }
+
+        //
         public bool IsPagemark
         {
             get { return IsMarked(); }
@@ -722,40 +742,77 @@ namespace NeeView
         }
 
         // マーカー切り替え
-        public void TogglePagemark()
+        public Pagemark TogglePagemark()
         {
-            if (!_isEnabled || this.Book == null || this.Book.IsMedia) return;
+            if (!_isEnabled || this.Book == null || this.Book.IsMedia) return null;
 
+            // ignore temporary directory
             if (Current.Book.Place.StartsWith(Temporary.TempDirectory))
             {
+                // TODO: トースター化
                 new MessageDialog($"{Resources.WordCause}: {Resources.DialogPagemarkError}", Resources.DialogPagemarkErrorTitle).ShowDialog();
+                return null;
             }
 
-            // マーク登録/解除
             // TODO: 登録時にサムネイルキャッシュにも登録
-            PagemarkList.Current.Toggle(Book.Place, Book.GetViewPage().FullPath);
 
-            // 更新
-            UpdatePagemark();
+            var place = Book.Place;
+            var entryName = Book.GetViewPage().FullPath;
+            var node = PagemarkCollection.Current.FindNode(place, entryName);
+            if (node == null)
+            {
+                var unit = BookMementoCollection.Current.Set(place);
+                var pagemark = new Pagemark(unit, entryName);
+                PagemarkCollection.Current.AddFirst(pagemark);
+                return pagemark;
+            }
+            else
+            {
+                PagemarkCollection.Current.Remove(node);
+                return null;
+            }
         }
 
+        //
+        public Pagemark AddPagemark()
+        {
+            if (!_isEnabled || this.Book == null || this.Book.IsMedia) return null;
+
+            // ignore temporary directory
+            if (Current.Book.Place.StartsWith(Temporary.TempDirectory))
+            {
+                // TODO: トースター化
+                new MessageDialog($"{Resources.WordCause}: {Resources.DialogPagemarkError}", Resources.DialogPagemarkErrorTitle).ShowDialog();
+                return null;
+            }
+
+            var place = Book.Place;
+            var entryName = Book.GetViewPage().FullPath;
+            var node = PagemarkCollection.Current.FindNode(place, entryName);
+            if (node == null)
+            {
+                var unit = BookMementoCollection.Current.Set(place);
+                var pagemark = new Pagemark(unit, entryName);
+                PagemarkCollection.Current.AddFirst(pagemark);
+                return pagemark;
+            }
+            else
+            {
+                return node.Value as Pagemark;
+            }
+        }
 
         // マーカー削除
-        public void RemovePagemark(string place, string entryName)
+        public bool RemovePagemark(string place, string entryName)
         {
-            PagemarkList.Current.Remove(place, entryName);
-            UpdatePagemark(place, entryName);
-        }
-
-        /// <summary>
-        /// マーカー表示更新
-        /// </summary>
-        public void UpdatePagemark(string place, string entryName)
-        {
-            // 現在ブックに影響のある場合のみ更新
-            if (this.Book?.Place == place)
+            var node = PagemarkCollection.Current.FindNode(place, entryName);
+            if (node != null)
             {
-                UpdatePagemark();
+                return PagemarkCollection.Current.Remove(node);
+            }
+            else
+            {
+                return false;
             }
         }
 

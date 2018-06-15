@@ -198,8 +198,21 @@ namespace NeeView
                 node = FindNode(place);
             }
 
-            SelectedItem = node;
+            if (Items.Contains(node))
+            {
+                SelectedItem = node;
+            }
+            else
+            {
+                for (var parent = node.Parent; parent != null; parent = parent.Parent)
+                {
+                    parent.IsExpanded = true;
+                }
+                Refresh();
+                SelectedItem = node;
+            }
         }
+
 
         // TODO: ここでToggleは漠然としすぎている。もっと上位で判定すべきか
         public bool Toggle(string place)

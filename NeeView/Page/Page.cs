@@ -144,6 +144,14 @@ namespace NeeView
         }
 
 
+        private bool _isPagemark;
+        public bool IsPagemark
+        {
+            get { return _isPagemark; }
+            set { SetProperty(ref _isPagemark, value); }
+        }
+
+
         /// <summary>
         /// コンストラクタ
         /// </summary>

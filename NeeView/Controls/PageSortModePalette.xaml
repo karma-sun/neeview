@@ -15,8 +15,9 @@
                  ItemsSource="{Binding PageSortModeList}">
 
             <ListBox.Resources>
+                <local:SortModeToStringConverter x:Key="SortModeToStringConverter"/>
                 <DataTemplate DataType="{x:Type local:PageSortMode}">
-                    <Grid>
+                    <Grid ToolTip="{Binding Converter={StaticResource SortModeToStringConverter}}">
                         <local:PageSortModeIcon PageSortMode="{Binding}" Margin="5"/>
                     </Grid>
                 </DataTemplate>

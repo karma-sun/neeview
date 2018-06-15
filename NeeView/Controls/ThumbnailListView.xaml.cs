@@ -350,6 +350,7 @@ namespace NeeView
 
         private void ThumbnailListBox_TargetUpdated(object sender, DataTransferEventArgs e)
         {
+            if (_vm == null) return;
             _vm.Model.IsItemsDarty = false;
             _vm.FlushSelectedIndex();
             UpdateViewItems();

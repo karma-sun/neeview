@@ -447,6 +447,18 @@ namespace NeeView
                 _elements[CommandType.ClearHistory] = element;
             }
 
+            // ClearHistoryInPlace
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupFile;
+                element.Text = Properties.Resources.CommandClearHistoryInPlace;
+                element.Note = Properties.Resources.CommandClearHistoryInPlaceNote;
+                element.Execute = (s, e) => _models.FolderList.ClearHistory();
+                element.IsShowMessage = true;
+                _elements[CommandType.ClearHistoryInPlace] = element;
+            }
+
+
             // ToggleStretchMode
             {
                 var element = new CommandElement();

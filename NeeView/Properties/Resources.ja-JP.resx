@@ -4110,4 +4110,13 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamPictureProfileExtensions" xml:space="preserve">
     <value>画像ファイルの拡張子</value>
   </data>
+  <data name="FolderListMoreMenuClearHistory" xml:space="preserve">
+    <value>この場所の履歴をすべて削除</value>
+  </data>
+  <data name="CommandClearHistoryInPlace" xml:space="preserve">
+    <value>現在の場所の履歴削除</value>
+  </data>
+  <data name="CommandClearHistoryInPlaceNote" xml:space="preserve">
+    <value>フォルダリストの現在の場所にあるすべての履歴を削除する</value>
+  </data>
 </root>

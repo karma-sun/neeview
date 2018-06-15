@@ -51,6 +51,8 @@ namespace NeeView
 
         [EnumMember]
         ClearHistory,
+        [EnumMember]
+        ClearHistoryInPlace,
 
         [EnumMember]
         PrevPage,

@@ -678,6 +678,14 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// 現在の場所の履歴を削除
+        /// </summary>
+        public void ClearHistory()
+        {
+            BookHistoryCollection.Current.RemovePlace(this.Place);
+        }
+
         #endregion
 
         #region MoveFolder

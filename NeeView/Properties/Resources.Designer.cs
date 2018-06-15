@@ -142,6 +142,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Delete history in place に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandClearHistoryInPlace {
+            get {
+                return ResourceManager.GetString("CommandClearHistoryInPlace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete all history in the current location of the Folder List. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandClearHistoryInPlaceNote {
+            get {
+                return ResourceManager.GetString("CommandClearHistoryInPlaceNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Delete all history. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandClearHistoryNote {
@@ -6706,6 +6724,15 @@ namespace NeeView.Properties {
         public static string FolderListItemMenuSubfolder {
             get {
                 return ResourceManager.GetString("FolderListItemMenuSubfolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete all history of this place に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FolderListMoreMenuClearHistory {
+            get {
+                return ResourceManager.GetString("FolderListMoreMenuClearHistory", resourceCulture);
             }
         }
         

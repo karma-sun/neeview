@@ -379,6 +379,8 @@ namespace NeeView
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
             menu.Items.Add(new Separator());
             menu.Items.Add(CreateRecursiveFlagMenuItem(Properties.Resources.FolderListMoreMenuSubfolder));
+            menu.Items.Add(new Separator());
+            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuClearHistory, CommandType.ClearHistoryInPlace, source));
 
             this.MoreMenu = menu;
         }
@@ -390,6 +392,15 @@ namespace NeeView
             item.Header = header;
             item.Command = ToggleFolderRecursive;
             item.SetBinding(MenuItem.IsCheckedProperty, new Binding("FolderCollection.FolderParameter.IsFolderRecursive"));
+            return item;
+        }
+
+        //
+        private MenuItem CreateCommandMenuItem(string header, ICommand command)
+        {
+            var item = new MenuItem();
+            item.Header = header;
+            item.Command = command;
             return item;
         }
 

@@ -4110,4 +4110,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamPictureProfileExtensions" xml:space="preserve">
     <value>Image file extensions</value>
   </data>
+  <data name="FolderListMoreMenuClearHistory" xml:space="preserve">
+    <value>Delete all history of this place</value>
+  </data>
+  <data name="CommandClearHistoryInPlace" xml:space="preserve">
+    <value>Delete history in place</value>
+  </data>
+  <data name="CommandClearHistoryInPlaceNote" xml:space="preserve">
+    <value>Delete all history in the current location of the Folder List.</value>
+  </data>
 </root>

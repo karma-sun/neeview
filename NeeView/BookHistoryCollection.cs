@@ -221,6 +221,30 @@ namespace NeeView
             }
         }
 
+        // 指定場所にあるすべてのブックの履歴を削除
+        internal void RemovePlace(string place)
+        {
+            var unlinked = new List<LinkedListNode<BookHistory>>();
+            for (var node = this.Items.First; node != null; node = node.Next)
+            {
+                if (LoosePath.GetDirectoryName(node.Value.Place) == place)  
+                {
+                    unlinked.Add(node);
+                }
+            }
+
+            if (unlinked.Any())
+            {
+                foreach (var node in unlinked)
+                {
+                    Debug.WriteLine($"HistoryRemove: {node.Value.Place}");
+                    Items.Remove(node.Value.Place);
+                }
+
+                HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, null));
+            }
+        }
+
         // 無効な履歴削除
         public async Task RemoveUnlinkedAsync(CancellationToken token)
         {
@@ -236,14 +260,16 @@ namespace NeeView
                 }
             }
 
-            // 削除実行
-            foreach (var node in unlinked)
+            if (unlinked.Any())
             {
-                Debug.WriteLine($"HistoryRemove: {node.Value.Place}");
-                Items.Remove(node.Value.Place);
-            }
+                foreach (var node in unlinked)
+                {
+                    Debug.WriteLine($"HistoryRemove: {node.Value.Place}");
+                    Items.Remove(node.Value.Place);
+                }
 
-            HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, null));
+                HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, null));
+            }
         }
 
 

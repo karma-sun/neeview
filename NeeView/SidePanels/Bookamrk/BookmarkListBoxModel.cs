@@ -4,6 +4,7 @@ using NeeView.Windows;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 
@@ -29,8 +30,8 @@ namespace NeeView
 
         #region Events
 
-        public event EventHandler Changing;
-        public event EventHandler Changed;
+        public event CollectionChangeEventHandler Changing;
+        public event CollectionChangeEventHandler Changed;
 
         #endregion
 
@@ -90,10 +91,10 @@ namespace NeeView
 
         private void Refresh()
         {
-            Changing?.Invoke(this, null);
+            Changing?.Invoke(this, new CollectionChangeEventArgs(CollectionChangeAction.Refresh, null));
             var collection = BookmarkCollection.Current.Items.GetExpandedCollection();
             Items = new ObservableCollection<TreeListNode<IBookmarkEntry>>(collection);
-            Changed?.Invoke(this, null);
+            Changed?.Invoke(this, new CollectionChangeEventArgs(CollectionChangeAction.Refresh, null));
         }
 
         // TODO: Find系はいらない？Collectionと同じ？
@@ -289,6 +290,7 @@ namespace NeeView
             var node = new TreeListNode<IBookmarkEntry>(new BookmarkFolder() { Name = Properties.Resources.WordNewFolder });
             BookmarkCollection.Current.AddFirst(node);
             SelectedItem = node;
+            Changed?.Invoke(this, new CollectionChangeEventArgs(CollectionChangeAction.Add, node));
         }
 
 

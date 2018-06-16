@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using NeeLaboratory.ComponentModel;
 using NeeView.Collections.Generic;
 using NeeView.Windows;
@@ -12,8 +13,8 @@ namespace NeeView
             Model = model;
         }
 
-        public event EventHandler Changing;
-        public event EventHandler Changed;
+        public event CollectionChangeEventHandler Changing;
+        public event CollectionChangeEventHandler Changed;
 
 
         public BookmarkListBoxModel Model { get; private set; }
@@ -31,12 +32,12 @@ namespace NeeView
             Model.Changed -= Model_Changed;
         }
 
-        private void Model_Changing(object sender, EventArgs e)
+        private void Model_Changing(object sender, CollectionChangeEventArgs e)
         {
             Changing?.Invoke(sender, e);
         }
 
-        private void Model_Changed(object sender, EventArgs e)
+        private void Model_Changed(object sender, CollectionChangeEventArgs e)
         {
             Changed?.Invoke(sender, e);
         }

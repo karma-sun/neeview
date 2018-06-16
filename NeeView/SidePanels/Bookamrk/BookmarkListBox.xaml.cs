@@ -4,6 +4,7 @@ using NeeView.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -57,6 +58,8 @@ namespace NeeView
 
             // タッチスクロール操作の終端挙動抑制
             this.ListBox.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
+
+            this.ListBox.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(BookmarkListBox_ScrollChanged));
 
             _thumbnailLoader = new ListBoxThumbnailLoader(this, QueueElementPriority.BookmarkThumbnail);
 
@@ -112,9 +115,14 @@ namespace NeeView
 
         public void Rename_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var listView = sender as ListBox;
-
             var item = (sender as ListBox)?.SelectedItem as TreeListNode<IBookmarkEntry>;
+            Rename(item);
+        }
+
+        private void Rename(TreeListNode<IBookmarkEntry> item)
+        {
+            var listView = this.ListBox;
+
             if (item != null && item.Value is BookmarkFolder folder)
             {
                 var listViewItem = VisualTreeUtility.GetListBoxItemFromItem(listView, item);
@@ -164,14 +172,34 @@ namespace NeeView
             _vm.Unloaded();
         }
 
-        private void List_Changing(object sender, EventArgs e)
+        private void List_Changing(object sender, CollectionChangeEventArgs e)
         {
             Dispatcher.Invoke(() =>StoreFocus());
         }
 
-        private void List_Changed(object sender, EventArgs e)
+        private void List_Changed(object sender, CollectionChangeEventArgs e)
         {
-            Dispatcher.BeginInvoke((Action)(() => RestoreFocus()));
+            if (e.Action == CollectionChangeAction.Refresh)
+            {
+                Dispatcher.BeginInvoke((Action)(() => RestoreFocus()));
+            }
+
+            // if new folder, enter rename mode.
+            else if (e.Action == CollectionChangeAction.Add)
+            {
+                if (e.Element is TreeListNode<IBookmarkEntry> node)
+                {
+                    if (node.Value is BookmarkFolder)
+                    {
+                        Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            this.ListBox.ScrollIntoView(node);
+                            this.ListBox.UpdateLayout();
+                            Rename(node);
+                        }));
+                    }
+                }
+            }
         }
 
         public void StoreFocus()
@@ -334,6 +362,11 @@ namespace NeeView
         {
             if (this.ListBox.SelectedIndex < 0) return;
             this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
+        }
+
+        private void BookmarkListBox_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            ((MainWindow)App.Current.MainWindow).RenameManager.Stop();
         }
 
         #endregion

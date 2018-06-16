@@ -4,6 +4,7 @@ using NeeView.Windows;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 
 namespace NeeView
@@ -26,8 +27,8 @@ namespace NeeView
 
         // Events
 
-        public event EventHandler Changing;
-        public event EventHandler Changed;
+        public event CollectionChangeEventHandler Changing;
+        public event CollectionChangeEventHandler Changed;
 
         public ObservableCollection<TreeListNode<IPagemarkEntry>> Items
         {
@@ -102,14 +103,14 @@ namespace NeeView
 
         private void Refresh(TreeListNode<IPagemarkEntry> selectedItem = null)
         {
-            Changing?.Invoke(this, null);
+            Changing?.Invoke(this, new CollectionChangeEventArgs(CollectionChangeAction.Refresh, null));
             var collection = PagemarkCollection.Current.Items.GetExpandedCollection();
             Items = new ObservableCollection<TreeListNode<IPagemarkEntry>>(collection);
             if (selectedItem != null)
             {
                 SelectedItem = selectedItem;
             }
-            Changed?.Invoke(this, null);
+            Changed?.Invoke(this, new CollectionChangeEventArgs(CollectionChangeAction.Refresh, null));
         }
 
         public bool Remove(TreeListNode<IPagemarkEntry> item)
@@ -226,6 +227,7 @@ namespace NeeView
             var node = new TreeListNode<IPagemarkEntry>(new PagemarkFolder() { Name = Properties.Resources.WordNewFolder });
             PagemarkCollection.Current.AddFirst(node);
             SelectedItem = node;
+            Changed?.Invoke(this, new CollectionChangeEventArgs(CollectionChangeAction.Add, node));
         }
 
 

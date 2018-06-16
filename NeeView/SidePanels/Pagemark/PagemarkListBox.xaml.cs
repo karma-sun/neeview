@@ -4,6 +4,7 @@ using NeeView.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -56,6 +57,8 @@ namespace NeeView
 
             // タッチスクロール操作の終端挙動抑制
             this.ListBox.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
+
+            this.ListBox.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(PagemarkListBox_ScrollChanged));
 
             _thumbnailLoader = new ListBoxThumbnailLoader(this, QueueElementPriority.PagemarkThumbnail);
 
@@ -111,9 +114,13 @@ namespace NeeView
 
         public void Rename_Executed(object sender, ExecutedRoutedEventArgs e)
         {
-            var listView = sender as ListBox;
-
             var item = (sender as ListBox)?.SelectedItem as TreeListNode<IPagemarkEntry>;
+            Rename(item);
+        }
+
+        private void Rename(TreeListNode<IPagemarkEntry> item)
+        {
+            var listView = this.ListBox;
             if (item != null && item.Value is PagemarkFolder folder)
             {
                 var listViewItem = VisualTreeUtility.GetListBoxItemFromItem(listView, item);
@@ -163,14 +170,34 @@ namespace NeeView
             _vm.Unloaded();
         }
 
-        private void List_Changing(object sender, EventArgs e)
+        private void List_Changing(object sender, CollectionChangeEventArgs e)
         {
             Dispatcher.Invoke(() => StoreFocus());
         }
 
-        private void List_Changed(object sender, EventArgs e)
+        private void List_Changed(object sender, CollectionChangeEventArgs e)
         {
-            Dispatcher.BeginInvoke((Action)(() => RestoreFocus()));
+            if (e.Action == CollectionChangeAction.Refresh)
+            {
+                Dispatcher.BeginInvoke((Action)(() => RestoreFocus()));
+            }
+
+            // if new folder, enter rename mode.
+            else if (e.Action == CollectionChangeAction.Add)
+            {
+                if (e.Element is TreeListNode<IPagemarkEntry> node)
+                {
+                    if (node.Value is PagemarkFolder)
+                    {
+                        Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            this.ListBox.ScrollIntoView(node);
+                            this.ListBox.UpdateLayout();
+                            Rename(node);
+                        }));
+                    }
+                }
+            }
         }
 
         public void StoreFocus()
@@ -329,6 +356,10 @@ namespace NeeView
             this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
         }
 
+        private void PagemarkListBox_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            ((MainWindow)App.Current.MainWindow).RenameManager.Stop();
+        }
 
         #endregion
 

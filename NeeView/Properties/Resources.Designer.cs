@@ -4778,7 +4778,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   The {0} bookmarks included are also deleted. Do you want to delete it? に類似しているローカライズされた文字列を検索します。
+        ///   The {0} bookmarks included are also deleted. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DialogBookmarkFolderDelete {
             get {
@@ -5237,7 +5237,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   The {0} pagemarks included are also deleted. Do you want to delete it? に類似しているローカライズされた文字列を検索します。
+        ///   The {0} pagemarks included are also deleted. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DialogPagemarkFolderDelete {
             get {
@@ -11858,6 +11858,15 @@ namespace NeeView.Properties {
         public static string WordResetLong {
             get {
                 return ResourceManager.GetString("WordResetLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Restore に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordRestore {
+            get {
+                return ResourceManager.GetString("WordRestore", resourceCulture);
             }
         }
         

@@ -159,14 +159,11 @@ namespace NeeView
                 var count = item.Count(e => e.Value is Bookmark);
                 if (count > 0)
                 {
-                    var dialog = new MessageDialog(string.Format(Properties.Resources.DialogBookmarkFolderDelete, count), string.Format(Properties.Resources.DialogBookmarkFolderDeleteTitle, item.Value.Name));
-                    dialog.Commands.Add(UICommands.Delete);
-                    dialog.Commands.Add(UICommands.Cancel);
-                    var answer = dialog.ShowDialog();
-                    if (answer != UICommands.Delete)
+                    var memento = new TreeListNodeMemento<IBookmarkEntry>(item);
+                    ToastService.Current.Show(new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), Properties.Resources.WordRestore, () =>
                     {
-                        return false;
-                    }
+                        BookmarkCollection.Current.Restore(memento);
+                    }));
                 }
             }
 

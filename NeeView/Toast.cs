@@ -18,21 +18,22 @@ namespace NeeView
             DisplayTime = displayTime;
         }
 
-        public Toast(string message, string caption, string buttonContext, TimeSpan displayTime)
+        public Toast(string message, string buttonContext, Action buttonAction)
         {
             Message = message;
-            DisplayTime = displayTime;
-            Caption = caption;
+            DisplayTime = LongDisplayTime;
             ButtonContent = buttonContext;
+            ButtonAction = buttonAction;
         }
-
-        public event EventHandler Confirmed;
 
         public string Caption { get; private set; }
         public string Message { get; private set; }
         public string ButtonContent { get; private set; }
+        public Action ButtonAction { get; private set; }
         public TimeSpan DisplayTime { get; private set; } = DefaultDisplayTime;
+
         public bool IsCanceled { get; private set; }
+
 
         public void Cancel()
         {
@@ -43,7 +44,7 @@ namespace NeeView
         public void RaiseConfirmedEvent()
         {
             if (IsCanceled) return;
-            Confirmed?.Invoke(this, null);
+            ButtonAction?.Invoke();
         }
     }
 }

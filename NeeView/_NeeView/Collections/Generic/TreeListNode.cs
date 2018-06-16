@@ -83,6 +83,11 @@ namespace NeeView.Collections.Generic
             return _children.Find(e => EqualityComparer<T>.Default.Equals(e.Value, value));
         }
 
+        public int GetIndex()
+        {
+            return _parent._children.IndexOf(this);
+        }
+
         public void Add(T value)
         {
             Add(new TreeListNode<T>(value));
@@ -224,4 +229,23 @@ namespace NeeView.Collections.Generic
 
         #endregion
     }
+
+
+    public class TreeListNodeMemento<T>
+    {
+        public TreeListNodeMemento(TreeListNode<T> node)
+        {
+            if (node == null) throw new ArgumentNullException(nameof(node));
+            if (node.Parent == null) throw new InvalidOperationException("Parent is null.");
+
+            Node = node;
+            Parent = node.Parent;
+            Index = node.GetIndex();
+        }
+
+        public TreeListNode<T> Node { get; private set; }
+        public TreeListNode<T> Parent { get; private set; }
+        public int Index { get; private set; }
+    }
+
 }

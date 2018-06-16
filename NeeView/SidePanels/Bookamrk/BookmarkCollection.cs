@@ -105,7 +105,16 @@ namespace NeeView
             if (node == null) throw new ArgumentNullException(nameof(node));
 
             Items.Root.Insert(0, node);
-            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, node.Value));
+            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, node));
+        }
+
+
+        public void Restore(TreeListNodeMemento<IBookmarkEntry> memento)
+        {
+            if (memento == null) throw new ArgumentNullException(nameof(memento));
+
+            memento.Parent.Insert(memento.Index, memento.Node);
+            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, memento.Node));
         }
 
 
@@ -116,7 +125,7 @@ namespace NeeView
 
             if (node.RemoveSelf())
             {
-                BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, node.Value));
+                BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, node));
                 return true;
             }
             else
@@ -165,7 +174,7 @@ namespace NeeView
             item.RemoveSelf();
             target.Parent.Insert(target, direction, item);
 
-            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item.Value));
+            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item));
         }
 
 
@@ -178,7 +187,7 @@ namespace NeeView
             target.Insert(0, item);
             target.IsExpanded = true;
 
-            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item.Value));
+            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item));
         }
 
 

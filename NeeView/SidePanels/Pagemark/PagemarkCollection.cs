@@ -129,6 +129,15 @@ namespace NeeView
         }
 
 
+        public void Restore(TreeListNodeMemento<IPagemarkEntry> memento)
+        {
+            if (memento == null) throw new ArgumentNullException(nameof(memento));
+
+            memento.Parent.Insert(memento.Index, memento.Node);
+            PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, memento.Node));
+        }
+
+
         public bool Remove(TreeListNode<IPagemarkEntry> node)
         {
             if (node == null) throw new ArgumentNullException(nameof(node));

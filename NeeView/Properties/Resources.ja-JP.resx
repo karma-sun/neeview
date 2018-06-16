@@ -4069,7 +4069,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>新しいフォルダー</value>
   </data>
   <data name="DialogBookmarkFolderDelete" xml:space="preserve">
-    <value>含まれる {0} 個のブックマークも削除されます。削除しますか？</value>
+    <value>含まれる {0} 個のブックマークを削除しました。</value>
   </data>
   <data name="DialogBookmarkFolderDeleteTitle" xml:space="preserve">
     <value>ブックマークフォルダー「{0}」を削除します</value>
@@ -4078,7 +4078,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>ブックマークを追加</value>
   </data>
   <data name="DialogPagemarkFolderDelete" xml:space="preserve">
-    <value>含まれる {0} 個のページマークも削除されます。削除しますか？</value>
+    <value>含まれる {0} 個のページマークを削除しました。</value>
   </data>
   <data name="DialogPagemarkFolderDeleteTitle" xml:space="preserve">
     <value>ページマークフォルダー「{0}」を削除します</value>
@@ -4118,5 +4118,8 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="CommandClearHistoryInPlaceNote" xml:space="preserve">
     <value>フォルダリストの現在の場所にあるすべての履歴を削除する</value>
+  </data>
+  <data name="WordRestore" xml:space="preserve">
+    <value>元に戻す</value>
   </data>
 </root>

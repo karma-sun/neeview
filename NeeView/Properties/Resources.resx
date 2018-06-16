@@ -4069,7 +4069,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>New Folder</value>
   </data>
   <data name="DialogBookmarkFolderDelete" xml:space="preserve">
-    <value>The {0} bookmarks included are also deleted. Do you want to delete it?</value>
+    <value>The {0} bookmarks included are also deleted.</value>
   </data>
   <data name="DialogBookmarkFolderDeleteTitle" xml:space="preserve">
     <value>Delete the bookmark folder "{0}"</value>
@@ -4078,7 +4078,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Add bookmark</value>
   </data>
   <data name="DialogPagemarkFolderDelete" xml:space="preserve">
-    <value>The {0} pagemarks included are also deleted. Do you want to delete it?</value>
+    <value>The {0} pagemarks included are also deleted.</value>
   </data>
   <data name="DialogPagemarkFolderDeleteTitle" xml:space="preserve">
     <value>Delete the pagemark folder "{0}"</value>
@@ -4118,5 +4118,8 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="CommandClearHistoryInPlaceNote" xml:space="preserve">
     <value>Delete all history in the current location of the Folder List.</value>
+  </data>
+  <data name="WordRestore" xml:space="preserve">
+    <value>Restore</value>
   </data>
 </root>

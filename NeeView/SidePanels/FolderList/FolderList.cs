@@ -92,7 +92,7 @@ namespace NeeView
                         RefleshIcon(null);
                         break;
                     default:
-                        if (e.Item is Bookmark bookmark)
+                        if (e.Item.Value is Bookmark bookmark)
                         {
                             RefleshIcon(bookmark.Place);
                         }

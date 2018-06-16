@@ -119,11 +119,11 @@ namespace NeeView
         }
 
 
-        public void AddFirst(IPagemarkEntry item)
+        public void AddFirst(TreeListNode<IPagemarkEntry> node)
         {
-            if (item == null) throw new ArgumentNullException(nameof(item));
+            if (node == null) throw new ArgumentNullException(nameof(node));
+            if (node.Root == null) throw new InvalidOperationException();
 
-            var node = new TreeListNode<IPagemarkEntry>(item);
             Items.Root.Insert(0, node);
             PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, node));
         }

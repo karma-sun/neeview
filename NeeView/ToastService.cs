@@ -31,7 +31,7 @@ namespace NeeView
             set { SetProperty(ref _toastCard, value); }
         }
 
-        public void Regist(Toast toast)
+        public void Show(Toast toast)
         {
             _queue.Enqueue(toast);
 

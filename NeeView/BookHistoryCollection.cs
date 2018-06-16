@@ -470,6 +470,15 @@ namespace NeeView
                 memento.Items = Limit(this.Items.Where(e => !e.Place.StartsWith(Temporary.TempDirectory))).ToList();
                 memento.Books = memento.Items.Select(e => e.Unit.Memento).ToList();
 
+                if (memento.LastFolder != null && memento.LastFolder.StartsWith(Temporary.TempDirectory))
+                {
+                    memento.LastFolder = null;
+                }
+                if (memento.LastAddress != null && memento.LastAddress.StartsWith(Temporary.TempDirectory))
+                {
+                    memento.LastAddress = null;
+                }
+
                 // フォルダー保存制限
                 if (!memento.IsKeepFolderStatus)
                 {

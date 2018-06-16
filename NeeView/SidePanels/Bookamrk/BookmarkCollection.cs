@@ -100,12 +100,12 @@ namespace NeeView
         }
 
 
-        public void AddFirst(IBookmarkEntry item)
+        public void AddFirst(TreeListNode<IBookmarkEntry> node)
         {
-            if (item == null) throw new ArgumentNullException(nameof(item));
+            if (node == null) throw new ArgumentNullException(nameof(node));
 
-            Items.Root.Insert(0, item);
-            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
+            Items.Root.Insert(0, node);
+            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, node.Value));
         }
 
 

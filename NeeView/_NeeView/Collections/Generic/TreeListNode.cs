@@ -97,11 +97,6 @@ namespace NeeView.Collections.Generic
             _children.Add(node);
         }
 
-        public void Insert(int index, T value)
-        {
-            Insert(index, new TreeListNode<T>(value));
-        }
-
         public void Insert(int index, TreeListNode<T> node)
         {
             if (index < 0 || index > _children.Count) throw new ArgumentOutOfRangeException(nameof(index));

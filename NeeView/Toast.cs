@@ -4,14 +4,24 @@ namespace NeeView
 {
     public class Toast
     {
+        public static TimeSpan DefaultDisplayTime { get; } = TimeSpan.FromSeconds(5);
+        public static TimeSpan LongDisplayTime { get; } = TimeSpan.FromSeconds(10);
+
         public Toast(string message)
         {
             Message = message;
         }
 
-        public Toast(string message, string caption, string buttonContext)
+        public Toast(string message, TimeSpan displayTime)
         {
             Message = message;
+            DisplayTime = displayTime;
+        }
+
+        public Toast(string message, string caption, string buttonContext, TimeSpan displayTime)
+        {
+            Message = message;
+            DisplayTime = displayTime;
             Caption = caption;
             ButtonContent = buttonContext;
         }
@@ -21,7 +31,7 @@ namespace NeeView
         public string Caption { get; private set; }
         public string Message { get; private set; }
         public string ButtonContent { get; private set; }
-        public TimeSpan DisplayTime { get; private set; } = new TimeSpan(0, 0, 10);
+        public TimeSpan DisplayTime { get; private set; } = DefaultDisplayTime;
         public bool IsCanceled { get; private set; }
 
         public void Cancel()

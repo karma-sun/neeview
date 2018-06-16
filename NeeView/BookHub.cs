@@ -652,9 +652,9 @@ namespace NeeView
                 // for .heic
                 if (ex is NotSupportedFileTypeException exc && exc.Extension == ".heic" && Config.Current.IsWindows10())
                 {
-                    _bookHubToast = new Toast(Properties.Resources.NotifyHeifHelp, null, App.Current.IsNetworkEnabled ? Properties.Resources.WordOpenStore : null);
+                    _bookHubToast = new Toast(Properties.Resources.NotifyHeifHelp, null, App.Current.IsNetworkEnabled ? Properties.Resources.WordOpenStore : null, Toast.LongDisplayTime);
                     _bookHubToast.Confirmed += (s, e) => System.Diagnostics.Process.Start(PictureProfile.HEIFImageExtensions.OriginalString);
-                    ToastService.Current.Regist(_bookHubToast);
+                    ToastService.Current.Show(_bookHubToast);
                 }
 
                 // 現在表示されているコンテンツを無効

@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Collections.Generic;
 using NeeView.Properties;
 using NeeView.Windows.Property;
 using System;
@@ -676,15 +677,8 @@ namespace NeeView
         {
             if (CanBookmark())
             {
-                if (BookUnit.Book.Place.StartsWith(Temporary.TempDirectory))
-                {
-                    new MessageDialog($"{Resources.WordCause}: {Resources.DialogBookmarkError}", Resources.DialogBookmarkErrorTitle).ShowDialog();
-                }
-                else
-                {
-                    BookmarkList.Current.Toggle(Book.Place);
-                    RaisePropertyChanged(nameof(IsBookmark));
-                }
+                BookmarkList.Current.Toggle(Book.Place);
+                RaisePropertyChanged(nameof(IsBookmark));
             }
         }
 
@@ -707,7 +701,7 @@ namespace NeeView
         //
         private void PagemarkCollection_PagemarkChanged(object sender, PagemarkCollectionChangedEventArgs e)
         {
-            switch(e.Action)
+            switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Replace:
                 case NotifyCollectionChangedAction.Reset:
@@ -746,29 +740,16 @@ namespace NeeView
         {
             if (!_isEnabled || this.Book == null || this.Book.IsMedia) return null;
 
-            // ignore temporary directory
-            if (Current.Book.Place.StartsWith(Temporary.TempDirectory))
-            {
-                // TODO: トースター化
-                new MessageDialog($"{Resources.WordCause}: {Resources.DialogPagemarkError}", Resources.DialogPagemarkErrorTitle).ShowDialog();
-                return null;
-            }
-
-            // TODO: 登録時にサムネイルキャッシュにも登録
-
             var place = Book.Place;
             var entryName = Book.GetViewPage().FullPath;
             var node = PagemarkCollection.Current.FindNode(place, entryName);
             if (node == null)
             {
-                var unit = BookMementoCollection.Current.Set(place);
-                var pagemark = new Pagemark(unit, entryName);
-                PagemarkCollection.Current.AddFirst(pagemark);
-                return pagemark;
+                return AddPagemark(place, entryName);
             }
             else
             {
-                PagemarkCollection.Current.Remove(node);
+                RemovePagemark(place, entryName);
                 return null;
             }
         }
@@ -778,22 +759,28 @@ namespace NeeView
         {
             if (!_isEnabled || this.Book == null || this.Book.IsMedia) return null;
 
+            var place = Book.Place;
+            var entryName = Book.GetViewPage().FullPath;
+            return AddPagemark(place, entryName);
+        }
+
+        //
+        public Pagemark AddPagemark(string place, string entryName)
+        {
             // ignore temporary directory
-            if (Current.Book.Place.StartsWith(Temporary.TempDirectory))
+            if (place.StartsWith(Temporary.TempDirectory))
             {
-                // TODO: トースター化
-                new MessageDialog($"{Resources.WordCause}: {Resources.DialogPagemarkError}", Resources.DialogPagemarkErrorTitle).ShowDialog();
+                ToastService.Current.Show(new Toast(Resources.DialogPagemarkError));
                 return null;
             }
 
-            var place = Book.Place;
-            var entryName = Book.GetViewPage().FullPath;
             var node = PagemarkCollection.Current.FindNode(place, entryName);
             if (node == null)
             {
+                // TODO: 登録時にサムネイルキャッシュにも登録
                 var unit = BookMementoCollection.Current.Set(place);
                 var pagemark = new Pagemark(unit, entryName);
-                PagemarkCollection.Current.AddFirst(pagemark);
+                PagemarkCollection.Current.AddFirst(new TreeListNode<IPagemarkEntry>(pagemark));
                 return pagemark;
             }
             else
@@ -890,10 +877,10 @@ namespace NeeView
             return false;
         }
 
-        #endregion
+#endregion
 
 
-        #region Memento
+#region Memento
         [DataContract]
         public class Memento
         {
@@ -925,7 +912,7 @@ namespace NeeView
             this.ExternalApplication = memento.ExternalApplication?.Clone();
             this.ClipboardUtility = memento.ClipboardUtility?.Clone();
         }
-        #endregion
+#endregion
 
     }
 

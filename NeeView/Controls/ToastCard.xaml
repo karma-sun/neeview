@@ -35,7 +35,7 @@
             <DockPanel Margin="10,0">
                 <Button x:Name="ConfirmButton" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Foreground="White" Background="{StaticResource NVButtonForeground}" BorderThickness="0"  Padding="30,5" Content="__ConfirmButton__" Click="ConfirmButton_Click"/>
                 <TextBlock x:Name="Caption" DockPanel.Dock="Top" Foreground="White" FontWeight="Bold" TextWrapping="Wrap" Text="__Caption__"/>
-                <local:XHtmlTextBlock x:Name="Message" Margin="0,0,0,10" Foreground="#DDD" TextWrapping="Wrap" Source="__Message__"/>
+                <local:XHtmlTextBlock x:Name="Message" Margin="0,0,0,10"  VerticalAlignment="Center" Foreground="#DDD" TextWrapping="Wrap" Source="__Message__"/>
             </DockPanel>
         </DockPanel>
     </Grid>

@@ -327,7 +327,7 @@ namespace NeeView
             if (!App.Current.IsOpenLastBook) return;
 
             string place = BookHistoryCollection.Current.LastAddress;
-            if (place != null || System.IO.Directory.Exists(place) || System.IO.File.Exists(place))
+            if (place != null) 
             {
                 BookHub.Current.RequestLoad(place, null, BookLoadOption.Resume | BookLoadOption.IsBook, true);
             }

@@ -81,7 +81,7 @@ namespace NeeView
 
         public void Expand(TreeListNode<IBookmarkEntry> item, bool isExpanded)
         {
-            if (item.IsExpandEnabled &&  item.IsExpanded != isExpanded)
+            if (item.IsExpandEnabled && item.IsExpanded != isExpanded)
             {
                 item.IsExpanded = isExpanded;
                 Refresh();
@@ -127,23 +127,26 @@ namespace NeeView
         }
 
 
-        public void Add(string place)
+        public TreeListNode<IBookmarkEntry> Add(string place)
         {
             if (place == null) throw new ArgumentNullException(nameof(place));
 
             if (Contains(place))
             {
-                return;
+                return null;
             }
 
             if (place.StartsWith(Temporary.TempDirectory))
             {
-                // TODO: テンポラリは登録できない通知
-                return;
+                ToastService.Current.Show(new Toast(Properties.Resources.DialogBookmarkError));
+                return null;
             }
 
             var unit = BookMementoCollection.Current.Set(place);
-            BookmarkCollection.Current.AddFirst(new Bookmark(unit));
+            var node = new TreeListNode<IBookmarkEntry>(new Bookmark(unit));
+            BookmarkCollection.Current.AddFirst(node);
+
+            return node;
         }
 
         public bool Remove(TreeListNode<IBookmarkEntry> item)
@@ -194,8 +197,11 @@ namespace NeeView
             var node = FindNode(place);
             if (node == null)
             {
-                Add(place);
-                node = FindNode(place);
+                node = Add(place);
+                if (node == null)
+                {
+                    return;
+                }
             }
 
             if (Items.Contains(node))
@@ -222,8 +228,8 @@ namespace NeeView
             var node = FindNode(place);
             if (node == null)
             {
-                Add(place);
-                return true;
+                node = Add(place);
+                return node != null;
             }
             else
             {
@@ -280,7 +286,9 @@ namespace NeeView
 
         internal void NewFolder()
         {
-            BookmarkCollection.Current.AddFirst(new BookmarkFolder() { Name = Properties.Resources.WordNewFolder });
+            var node = new TreeListNode<IBookmarkEntry>(new BookmarkFolder() { Name = Properties.Resources.WordNewFolder });
+            BookmarkCollection.Current.AddFirst(node);
+            SelectedItem = node;
         }
 
 

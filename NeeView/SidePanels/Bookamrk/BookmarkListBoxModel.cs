@@ -16,6 +16,7 @@ namespace NeeView
 
         private ObservableCollection<TreeListNode<IBookmarkEntry>> _items;
         private TreeListNode<IBookmarkEntry> _selectedItem;
+        private Toast _toast;
 
         #endregion
 
@@ -61,6 +62,12 @@ namespace NeeView
         private void BookmarkCollection_BookmarkChanged(object sender, BookmarkCollectionChangedEventArgs e)
         {
             Refresh();
+
+            if (_toast != null)
+            {
+                _toast.Cancel();
+                _toast = null;
+            }
         }
 
         public void Decide(TreeListNode<IBookmarkEntry> item)
@@ -153,23 +160,21 @@ namespace NeeView
         public bool Remove(TreeListNode<IBookmarkEntry> item)
         {
             int selectedIndex = Items.IndexOf(SelectedItem);
-
-            if (item.Value is BookmarkFolder)
-            {
-                var count = item.Count(e => e.Value is Bookmark);
-                if (count > 0)
-                {
-                    var memento = new TreeListNodeMemento<IBookmarkEntry>(item);
-                    ToastService.Current.Show(new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), Properties.Resources.WordRestore, () =>
-                    {
-                        BookmarkCollection.Current.Restore(memento);
-                    }));
-                }
-            }
+            var memento = new TreeListNodeMemento<IBookmarkEntry>(item);
 
             bool isRemoved = BookmarkCollection.Current.Remove(item);
             if (isRemoved)
             {
+                if (item.Value is BookmarkFolder)
+                {
+                    var count = item.Count(e => e.Value is Bookmark);
+                    if (count > 0)
+                    {
+                        _toast = new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), Properties.Resources.WordRestore, () => BookmarkCollection.Current.Restore(memento));
+                        ToastService.Current.Show(_toast);
+                    }
+                }
+
                 if (selectedIndex >= 0 && !Items.Contains(SelectedItem))
                 {
                     selectedIndex = selectedIndex < Items.Count ? selectedIndex : Items.Count - 1;

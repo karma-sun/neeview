@@ -15,7 +15,7 @@ namespace NeeView
 
         private ObservableCollection<TreeListNode<IPagemarkEntry>> _items;
         private TreeListNode<IPagemarkEntry> _selectedItem;
-
+        private Toast _toast;
 
         // Constructors
 
@@ -67,6 +67,12 @@ namespace NeeView
             }
 
             Refresh(selectedItem);
+
+            if (_toast != null)
+            {
+                _toast.Cancel();
+                _toast = null;
+            }
         }
 
         public void Decide(TreeListNode<IPagemarkEntry> item)
@@ -115,23 +121,25 @@ namespace NeeView
 
         public bool Remove(TreeListNode<IPagemarkEntry> item)
         {
-            int selectedIndex = Items.IndexOf(SelectedItem);
+            var memento = new TreeListNodeMemento<IPagemarkEntry>(item);
 
-            if (item.Value is PagemarkFolder)
+            var isRemoved = PagemarkCollection.Current.Remove(item);
+            if (isRemoved)
             {
-                var count = item.Count(e => e.Value is Pagemark);
-                if (count > 0)
+                if (item.Value is PagemarkFolder)
                 {
-                    var memento = new TreeListNodeMemento<IPagemarkEntry>(item);
-                    ToastService.Current.Show(new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), Properties.Resources.WordRestore, () =>
+                    var count = item.Count(e => e.Value is Pagemark);
+                    if (count > 0)
                     {
-                        PagemarkCollection.Current.Restore(memento);
-                    }));
+                        _toast = new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), Properties.Resources.WordRestore, () => PagemarkCollection.Current.Restore(memento));
+                        ToastService.Current.Show(_toast);
+                    }
                 }
             }
 
-            return PagemarkCollection.Current.Remove(item);
+            return isRemoved;
         }
+
 
         public void SetSelectedItem(string place, string entryName)
         {

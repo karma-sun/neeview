@@ -97,6 +97,9 @@
             <Setter Property="HorizontalAlignment" Value="Stretch"/>
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <EventSetter Event="MouseLeftButtonUp" Handler="PanelIconItemsControl_MouseLeftButtonUp"/>
         </Style>
 
         <Style x:Key="PanelGridStyle" TargetType="Grid">
@@ -132,7 +135,8 @@
         <DockPanel>
 
             <Grid DockPanel.Dock="Left" Visibility="{Binding VM.IsSideBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid x:Name="LeftIconGrid" Style="{StaticResource PanelIconGridStyle}" Visibility="{Binding VM.Left.Visibility}" AllowDrop="True">
+                <Grid x:Name="LeftIconGrid" Style="{StaticResource PanelIconGridStyle}" Visibility="{Binding VM.Left.Visibility}" AllowDrop="True"
+                      MouseLeftButtonUp="LeftIconGrid_MouseLeftButtonUp">
 
                     <i:Interaction.Behaviors>
                         <nw:DragAcceptBehavior Description="{Binding VM.Left.Description}" />
@@ -140,7 +144,6 @@
 
                     <Grid Margin="0,32,0,0">
                         <ItemsControl x:Name="LeftIconList" Style="{StaticResource PanelIconItemsControlStyle}"
-                              VerticalAlignment="Stretch"
                               Margin="{Binding PanelMargin}"
                               ItemTemplate="{StaticResource LeftPanelIconTemplate}"
                               ItemsSource="{Binding VM.Left.Panel.Panels}">
@@ -150,7 +153,8 @@
             </Grid>
 
             <Grid DockPanel.Dock="Right" Visibility="{Binding VM.IsSideBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid x:Name="RightIconGrid" Style="{StaticResource PanelIconGridStyle}" Visibility="{Binding VM.Right.Visibility}" AllowDrop="True">
+                <Grid x:Name="RightIconGrid" Style="{StaticResource PanelIconGridStyle}" Visibility="{Binding VM.Right.Visibility}" AllowDrop="True"
+                      MouseLeftButtonUp="RightIconGrid_MouseLeftButtonUp">
 
                     <i:Interaction.Behaviors>
                         <nw:DragAcceptBehavior Description="{Binding VM.Right.Description}" />

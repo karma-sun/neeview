@@ -398,5 +398,20 @@ namespace NeeView
         {
             _vm.Right.ResetDelayHide();
         }
+
+        private void LeftIconGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            _vm.Left.Panel.Toggle();
+        }
+
+        private void RightIconGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            _vm.Right.Panel.Toggle();
+        }
+
+        private void PanelIconItemsControl_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            e.Handled = true;
+        }
     }
 }

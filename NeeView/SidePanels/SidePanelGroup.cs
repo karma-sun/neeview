@@ -31,6 +31,7 @@ namespace NeeView
             set { if (_panels != value) { _panels = value; RaisePropertyChanged(); } }
         }
 
+
         /// <summary>
         /// SelectedPanel property.
         /// </summary>
@@ -38,7 +39,28 @@ namespace NeeView
         public IPanel SelectedPanel
         {
             get { return _selectedPanel; }
-            set { if (_selectedPanel != value) { _selectedPanel = value; RaisePropertyChanged(); } }
+            set
+            {
+                if (_selectedPanel != value)
+                {
+                    _selectedPanel = value;
+                    RaisePropertyChanged();
+
+                    if (_selectedPanel != null)
+                    {
+                        _lastSelectedPane = _selectedPanel;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 最新の有効な選択パネル
+        /// </summary>
+        private IPanel _lastSelectedPane;
+        public IPanel LastSelectedPanel
+        {
+            get { return _panels.Contains(_lastSelectedPane) ? _lastSelectedPane : _panels.FirstOrDefault(); }
         }
 
         /// <summary>
@@ -134,6 +156,15 @@ namespace NeeView
             {
                 SelectedPanel = SelectedPanel != content ? content : null;
             }
+        }
+
+        /// <summary>
+        /// Toggle.
+        /// 余白クリック時の切り替え
+        /// </summary>
+        public void Toggle()
+        {
+            SelectedPanel = SelectedPanel == null ? LastSelectedPanel : null;
         }
 
         /// <summary>

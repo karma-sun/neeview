@@ -165,7 +165,7 @@
                               Style="{StaticResource NVComboBoxEditable}"
                               IsKeyboardFocusWithinChanged="SearchBox_IsKeyboardFocusWithinChanged"
                               Foreground="{DynamicResource NVForeground}" Background="{DynamicResource NVBaseBrush}"
-                              VerticalAlignment="Center" KeyDown="SearchBox_KeyDown" ItemsSource="{Binding Model.SearchHistory}" IsTextSearchCaseSensitive="True"
+                              VerticalAlignment="Center" KeyDown="SearchBox_KeyDown" ItemsSource="{Binding Model.BookHistory.SearchHistory}" IsTextSearchCaseSensitive="True"
                               IsEditable="True" BorderThickness="0" BorderBrush="red">
                         <ComboBox.ItemContainerStyle>
                             <Style TargetType="ComboBoxItem">

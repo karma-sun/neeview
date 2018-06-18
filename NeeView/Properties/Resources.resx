@@ -4137,4 +4137,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="NotifyJumpTimeLabel" xml:space="preserve">
     <value>Time ({0} - {1})</value>
   </data>
+  <data name="ParamHistoryIsKeepSearchHistory" xml:space="preserve">
+    <value>Save search history</value>
+  </data>
 </root>

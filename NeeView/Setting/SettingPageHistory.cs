@@ -37,7 +37,8 @@ namespace NeeView.Setting
                         new SettingItemButton(Properties.Resources.SettingPageHistoryGeneralDeleteButton, RemoveHistory) { IsContentOnly = true })),
 
                 new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralFolderList,
-                    new SettingItemProperty(PropertyMemberElement.Create(BookHistoryCollection.Current, nameof(BookHistoryCollection.IsKeepFolderStatus)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookHistoryCollection.Current, nameof(BookHistoryCollection.IsKeepFolderStatus))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookHistoryCollection.Current, nameof(BookHistoryCollection.IsKeepSearchHistory)))),
 
 #if false
                 new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralAdvance,

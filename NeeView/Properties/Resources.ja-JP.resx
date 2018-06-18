@@ -4137,4 +4137,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="NotifyJumpTimeLabel" xml:space="preserve">
     <value>時間 ({0} - {1})</value>
   </data>
+  <data name="ParamHistoryIsKeepSearchHistory" xml:space="preserve">
+    <value>検索履歴を保存する</value>
+  </data>
 </root>

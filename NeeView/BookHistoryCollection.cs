@@ -2,6 +2,7 @@
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -56,6 +57,10 @@ namespace NeeView
         [PropertyMember("@ParamHistoryIsKeepFolderStatus")]
         public bool IsKeepFolderStatus { get; set; } = true;
 
+        // 検索履歴の情報記憶
+        [PropertyMember("@ParamHistoryIsKeepSearchHistory")]
+        public bool IsKeepSearchHistory { get; set; } = true;
+
         // 要素数
         public int Count => Items.Count;
 
@@ -71,6 +76,14 @@ namespace NeeView
 
         // 最後に開いたフォルダー
         public string LastAddress { get; set; }
+
+        // 検索履歴
+        private ObservableCollection<string> _searchHistory = new ObservableCollection<string>();
+        public ObservableCollection<string> SearchHistory
+        {
+            get { return _searchHistory; }
+            set { SetProperty(ref _searchHistory, value); }
+        }
 
         #endregion
 
@@ -100,6 +113,36 @@ namespace NeeView
             FolderParameter.Memento memento;
             _folders.TryGetValue(path, out memento);
             return memento ?? FolderParameter.Memento.Default;
+        }
+
+        /// <summary>
+        /// 検索履歴登録
+        /// </summary>
+        public void AddSearchHistory(string keyword)
+        {
+            if (string.IsNullOrWhiteSpace(keyword)) return;
+
+            if (SearchHistory.Count <= 0)
+            {
+                SearchHistory.Add(keyword);
+            }
+            else if (SearchHistory.First() != keyword)
+            {
+                int index = SearchHistory.IndexOf(keyword);
+                if (index > 0)
+                {
+                    SearchHistory.Move(index, 0);
+                }
+                else
+                {
+                    SearchHistory.Insert(0, keyword);
+                }
+            }
+
+            while (SearchHistory.Count > 6)
+            {
+                SearchHistory.RemoveAt(this.SearchHistory.Count - 1);
+            }
         }
 
         #endregion
@@ -227,7 +270,7 @@ namespace NeeView
             var unlinked = new List<LinkedListNode<BookHistory>>();
             for (var node = this.Items.First; node != null; node = node.Next)
             {
-                if (LoosePath.GetDirectoryName(node.Value.Place) == place)  
+                if (LoosePath.GetDirectoryName(node.Value.Place) == place)
                 {
                     unlinked.Add(node);
                 }
@@ -341,7 +384,7 @@ namespace NeeView
 
             [Obsolete]
             [DataMember(Name = "History", EmitDefaultValue = false)]
-            public List<Book.Memento> OldBooks { get; set; }
+            public List<Book.Memento> OldBooks { get; set; } // no used (ver.31)
 
             [DataMember]
             public List<Book.Memento> Books { get; set; }
@@ -364,6 +407,11 @@ namespace NeeView
             [DataMember]
             public string LastAddress { get; set; }
 
+            [DataMember]
+            public bool IsKeepSearchHistory { get; set; }
+
+            [DataMember(EmitDefaultValue = false)]
+            public List<string> SearchHistory { get; set; }
 
             // no used
             [Obsolete, DataMember(Order = 8, EmitDefaultValue = false)]
@@ -377,6 +425,7 @@ namespace NeeView
                 Books = new List<Book.Memento>();
                 LimitSize = -1;
                 IsKeepFolderStatus = true;
+                IsKeepSearchHistory = true;
             }
 
             public Memento()
@@ -464,6 +513,8 @@ namespace NeeView
             memento.LimitSpan = this.LimitSpan;
             memento.IsKeepFolderStatus = IsKeepFolderStatus;
             memento.LastAddress = App.Current.IsOpenLastBook ? this.LastAddress : null;
+            memento.IsKeepSearchHistory = IsKeepSearchHistory;
+            memento.SearchHistory = this.SearchHistory.Any() ? this.SearchHistory.ToList() : null;
 
             if (forSave)
             {
@@ -479,11 +530,15 @@ namespace NeeView
                     memento.LastAddress = null;
                 }
 
-                // フォルダー保存制限
                 if (!memento.IsKeepFolderStatus)
                 {
                     memento.Folders = null;
                     memento.LastFolder = null;
+                }
+
+                if (!memento.IsKeepSearchHistory)
+                {
+                    memento.SearchHistory = null;
                 }
             }
             else
@@ -503,7 +558,13 @@ namespace NeeView
             _folders = memento.Folders ?? _folders;
             this.LimitSize = memento.LimitSize;
             this.LimitSpan = memento.LimitSpan;
-            IsKeepFolderStatus = memento.IsKeepFolderStatus;
+            this.IsKeepFolderStatus = memento.IsKeepFolderStatus;
+            this.IsKeepSearchHistory = memento.IsKeepSearchHistory;
+
+            if (this.IsKeepSearchHistory)
+            {
+                this.SearchHistory = memento.SearchHistory != null ? new ObservableCollection<string>(memento.SearchHistory) : new ObservableCollection<string>();
+            }
 
             this.Load(fromLoad ? Limit(memento.Items) : memento.Items, memento.Books);
 

@@ -8924,6 +8924,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Save search history に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamHistoryIsKeepSearchHistory {
+            get {
+                return ResourceManager.GetString("ParamHistoryIsKeepSearchHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Size limit に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamHistoryLimitSize {

@@ -318,15 +318,8 @@ namespace NeeView
             set { if (_searchKeyword != value) { _searchKeyword = value; RaisePropertyChanged(); var task = UpdateFolderCollectionAsync(false); } }
         }
 
-        /// <summary>
-        /// SearchHistory property.
-        /// </summary>
-        private ObservableCollection<string> _searchHistory = new ObservableCollection<string>();
-        public ObservableCollection<string> SearchHistory
-        {
-            get { return _searchHistory; }
-            set { if (_searchHistory != value) { _searchHistory = value; RaisePropertyChanged(); } }
-        }
+        // 履歴情報のバインド用
+        public BookHistoryCollection BookHistory => BookHistoryCollection.Current;
 
         #endregion
 
@@ -653,29 +646,7 @@ namespace NeeView
         public void UpdateSearchHistory()
         {
             var keyword = GetFixedSearchKeyword();
-            if (string.IsNullOrWhiteSpace(keyword)) return;
-
-            if (this.SearchHistory.Count <= 0)
-            {
-                this.SearchHistory.Add(keyword);
-            }
-            else if (this.SearchHistory.First() != keyword)
-            {
-                int index = this.SearchHistory.IndexOf(keyword);
-                if (index > 0)
-                {
-                    this.SearchHistory.Move(index, 0);
-                }
-                else
-                {
-                    this.SearchHistory.Insert(0, keyword);
-                }
-            }
-
-            while (this.SearchHistory.Count > 6)
-            {
-                this.SearchHistory.RemoveAt(this.SearchHistory.Count - 1);
-            }
+            BookHistoryCollection.Current.AddSearchHistory(keyword);
         }
 
         /// <summary>

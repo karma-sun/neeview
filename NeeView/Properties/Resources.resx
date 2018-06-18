@@ -4122,4 +4122,19 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordRestore" xml:space="preserve">
     <value>Restore</value>
   </data>
+  <data name="CommandJumpPage" xml:space="preserve">
+    <value>Jump page</value>
+  </data>
+  <data name="CommandJumpPageNote" xml:space="preserve">
+    <value>Enter the page number and move.</value>
+  </data>
+  <data name="WordJump" xml:space="preserve">
+    <value>Jump</value>
+  </data>
+  <data name="NotifyJumpPageLabel" xml:space="preserve">
+    <value>Page number ({0} - {1})</value>
+  </data>
+  <data name="NotifyJumpTimeLabel" xml:space="preserve">
+    <value>Time ({0} - {1})</value>
+  </data>
 </root>

@@ -619,6 +619,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Jump page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandJumpPage {
+            get {
+                return ResourceManager.GetString("CommandJumpPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Enter the page number and move. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandJumpPageNote {
+            get {
+                return ResourceManager.GetString("CommandJumpPageNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Last page に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandLastPage {
@@ -7160,6 +7178,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Page number ({0} - {1}) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyJumpPageLabel {
+            get {
+                return ResourceManager.GetString("NotifyJumpPageLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Time ({0} - {1}) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyJumpTimeLabel {
+            get {
+                return ResourceManager.GetString("NotifyJumpTimeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Last page に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string NotifyLastPage {
@@ -11520,7 +11556,7 @@ namespace NeeView.Properties {
         ///$Scale[LR] .. Image scale (%)
         ///
         ///&quot;◯◯◯[LR]&quot; indicates that the variable name changes for 1 page or 2 pages.
-        ///For example, $Name is for 1 page, $NameL is for 2 pages left, $NameR is  [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///For example, $Name is for 1 page, $NameL is for 2 pages left, $NameR is for 2 pages r [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageVisualWindowTitileNote {
             get {
@@ -11723,6 +11759,15 @@ namespace NeeView.Properties {
         public static string WordItem {
             get {
                 return ResourceManager.GetString("WordItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Jump に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordJump {
+            get {
+                return ResourceManager.GetString("WordJump", resourceCulture);
             }
         }
         

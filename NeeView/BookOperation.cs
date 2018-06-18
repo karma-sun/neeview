@@ -613,6 +613,31 @@ namespace NeeView
             }
         }
 
+        // ページを指定して移動
+        public void JumpPage()
+        {
+            if (this.Book == null || this.Book.IsMedia) return;
+
+            var dialogModel = new PageSelecteDialogModel()
+            {
+                Value = this.Book.GetViewPageindex() + 1,
+                Min = 1,
+                Max = this.Book.Pages.Count
+            };
+
+            var dialog = new PageSelectDialog(dialogModel);
+            dialog.Owner = MainWindow.Current;
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+            var result = dialog.ShowDialog();
+
+            if (result == true)
+            {
+                var page = this.Book.GetPage(dialogModel.Value - 1);
+                this.Book.JumpPage(page);
+            }
+        }
+
         // 指定ページに移動
         public void JumpPage(Page page)
         {
@@ -877,10 +902,10 @@ namespace NeeView
             return false;
         }
 
-#endregion
+        #endregion
 
 
-#region Memento
+        #region Memento
         [DataContract]
         public class Memento
         {
@@ -912,7 +937,7 @@ namespace NeeView
             this.ExternalApplication = memento.ExternalApplication?.Clone();
             this.ClipboardUtility = memento.ClipboardUtility?.Clone();
         }
-#endregion
+        #endregion
 
     }
 

@@ -156,6 +156,11 @@
     <Compile Include="Controls\ExpandedMark.xaml.cs">
       <DependentUpon>ExpandedMark.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PageSelectDialog.xaml.cs">
+      <DependentUpon>PageSelectDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\PageSelectDialogViewModel.cs" />
+    <Compile Include="Controls\PageSelecteDialogModel.cs" />
     <Compile Include="Controls\PageSortModeIcon.xaml.cs">
       <DependentUpon>PageSortModeIcon.xaml</DependentUpon>
     </Compile>
@@ -811,6 +816,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\MediaControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\PageSelectDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

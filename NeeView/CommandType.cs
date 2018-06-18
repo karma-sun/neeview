@@ -66,6 +66,8 @@ namespace NeeView
         PrevScrollPage,
         [EnumMember]
         NextScrollPage,
+        [EnumMember]
+        JumpPage,
         [Obsolete, EnumMember]
         MovePageWithCursor,
 

@@ -56,7 +56,7 @@ namespace NeeView
         // PropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "") => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-                
+
         //
         public List<UICommand> Commands { get; private set; } = new List<UICommand>();
 
@@ -134,7 +134,7 @@ namespace NeeView
         }
 
         //
-        public new UICommand ShowDialog( )
+        public new UICommand ShowDialog()
         {
             return ShowDialog(null);
         }
@@ -162,7 +162,7 @@ namespace NeeView
             }
 
             // Focus
-            if (DefaultCommandIndex >= 0 && DefaultCommandIndex <this.ButtonPanel.Children.Count)
+            if (DefaultCommandIndex >= 0 && DefaultCommandIndex < this.ButtonPanel.Children.Count)
             {
                 this.ButtonPanel.Children[DefaultCommandIndex].Focus();
             }
@@ -173,6 +173,7 @@ namespace NeeView
         {
             var button = new Button()
             {
+                Style = App.Current.Resources["NVDialogButtonStyle"] as Style,
                 Content = command.Label,
                 Command = ButtonClickedCommand,
                 CommandParameter = command,
@@ -180,31 +181,39 @@ namespace NeeView
 
             if (isDefault)
             {
-                button.Foreground = Brushes.White;
-                button.Background = Brushes.RoyalBlue;
+                button.Foreground = App.Current.Resources["NVDialogButtonForeground"] as Brush;
+                button.Background = App.Current.Resources["NVDialogButtonBackground"] as Brush;
             }
 
             return button;
         }
 
+        //
+        private void MesageDialog_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                this.Close();
+            }
+        }
 
         /// <summary>
         /// ButtonClickedCommand command.
         /// </summary>
+        private RelayCommand<UICommand> _ButtonClickedCommand;
         public RelayCommand<UICommand> ButtonClickedCommand
         {
-            get { return _ButtonClickedCommand = _ButtonClickedCommand ?? new RelayCommand<UICommand>(ButtonClickedCommand_Executed); }
-        }
+            get
+            {
+                return _ButtonClickedCommand = _ButtonClickedCommand ?? new RelayCommand<UICommand>(Execute);
 
-        //
-        private RelayCommand<UICommand> _ButtonClickedCommand;
-
-        //
-        private void ButtonClickedCommand_Executed(UICommand command)
-        {
-            _resultCommand = command;
-            this.DialogResult = true;
-            this.Close();
+                void Execute(UICommand command)
+                {
+                    _resultCommand = command;
+                    this.DialogResult = true;
+                    this.Close();
+                }
+            }
         }
     }
 }

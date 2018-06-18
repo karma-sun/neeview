@@ -1267,6 +1267,17 @@ namespace NeeView
                 _elements[CommandType.NextScrollPage] = element;
             }
 
+            // JumpPage
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupMove;
+                element.Text = Properties.Resources.CommandJumpPage;
+                element.Note = Properties.Resources.CommandJumpPageNote;
+                element.IsShowMessage = false;
+                element.Execute = (s, e) => _models.BookOperation.JumpPage();
+                _elements[CommandType.JumpPage] = element;
+            }
+
 
             // PrevSizePage
             {

@@ -1,0 +1,28 @@
+﻿<Window x:Class="NeeView.PageSelectDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NeeView"
+        xmlns:properties="clr-namespace:NeeView.Properties"
+        mc:Ignorable="d"
+        MouseWheel="PageSelectDialog_MouseWheel"
+        KeyDown="PageSelectDialog_KeyDown"
+        Style="{StaticResource ToolWindowStyle}" 
+        Title="{Binding Caption, Mode=OneTime}" Height="180" Width="400" ResizeMode="NoResize" WindowStyle="ToolWindow">
+    <Grid>
+        <DockPanel Margin="20">
+            <StackPanel DockPanel.Dock="Bottom" HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button Style="{StaticResource NVDialogButtonStyle}" Foreground="{StaticResource NVDialogButtonForeground}" Background="{StaticResource NVDialogButtonBackground}" Content="{x:Static properties:Resources.WordJump}"
+                        Command="{Binding DecideCommand}"/>
+                <Button Style="{StaticResource NVDialogButtonStyle}" Content="{x:Static properties:Resources.WordCancel}"
+                        Command="{Binding CancelCommand}"/>
+            </StackPanel>
+            <StackPanel VerticalAlignment="Center">
+                <TextBlock x:Name="Label" Text="{Binding Label, Mode=OneTime}"/>
+                <TextBox x:Name="InputValueTextBox" Margin="0,5" Text="{Binding InputValue, UpdateSourceTrigger=PropertyChanged}"
+                         KeyDown="InputValueTextBox_KeyDown"/>
+            </StackPanel>
+        </DockPanel>
+    </Grid>
+</Window>

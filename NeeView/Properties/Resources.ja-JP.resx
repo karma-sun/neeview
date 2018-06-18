@@ -4122,4 +4122,19 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordRestore" xml:space="preserve">
     <value>元に戻す</value>
   </data>
+  <data name="CommandJumpPage" xml:space="preserve">
+    <value>指定ページに移動</value>
+  </data>
+  <data name="CommandJumpPageNote" xml:space="preserve">
+    <value>ページ番号を指定して移動します。</value>
+  </data>
+  <data name="WordJump" xml:space="preserve">
+    <value>移動</value>
+  </data>
+  <data name="NotifyJumpPageLabel" xml:space="preserve">
+    <value>ページ番号 ({0} - {1})</value>
+  </data>
+  <data name="NotifyJumpTimeLabel" xml:space="preserve">
+    <value>時間 ({0} - {1})</value>
+  </data>
 </root>

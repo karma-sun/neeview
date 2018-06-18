@@ -854,7 +854,7 @@ namespace NeeView
         private bool AllowUnload() => BookProfile.Current.PreLoadMode != PreLoadMode.PreLoadNoUnload;
 
         // ページ番号のクランプ
-        private int ClampPageNumber(int index)
+        public int ClampPageNumber(int index)
         {
             if (index > Pages.Count - 1) index = Pages.Count - 1;
             if (index < 0) index = 0;

@@ -7,49 +7,13 @@
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}" 
         UseLayoutRounding="True"
+        KeyDown="MesageDialog_KeyDown"
         Title="MessageDialog" ResizeMode="NoResize" SizeToContent="Height" Width="600" WindowStyle="ToolWindow">
 
-    <Window.Resources>
-        <Style TargetType="Button">
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="MinWidth" Value="100"/>
-            <Setter Property="Height" Value="40" />
-            <Setter Property="Padding" Value="20,10"/>
-            <Setter Property="Margin" Value="20,0,0,0"/>
-
-            <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="root" BorderBrush="Transparent" Background="{TemplateBinding Background}" BorderThickness="2">
-                            <Grid>
-                                <Rectangle x:Name="fill" Fill="Transparent"/>
-                                <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                            </Grid>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="BorderBrush" TargetName="root" Value="#444"/>
-                            </Trigger>
-                            <Trigger Property="IsPressed" Value="True">
-                                <Setter Property="Fill" TargetName="fill" Value="#8FFF"/>
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Opacity" TargetName="root" Value="0.25"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-    </Window.Resources>
-
     <DockPanel Margin="30,20" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-
         <StackPanel x:Name="ButtonPanel" DockPanel.Dock="Bottom" HorizontalAlignment="Right" Orientation="Horizontal" Margin="0,20,0,0">
-            <Button Content="OK" Foreground="White" Background="RoyalBlue"/>
+            <Button Style="{StaticResource NVDialogButtonStyle}"  Content="OK" Foreground="{StaticResource NVDialogButtonForeground}" Background="{StaticResource NVDialogButtonBackground}"/>
         </StackPanel>
-
         <TextBlock x:Name="Caption" DockPanel.Dock="Top" Text="Title" TextWrapping="Wrap" FontSize="24" Margin="0,5"/>
         <ContentControl x:Name="Message" Margin="0,5" IsTabStop="False" Content="Content"/>
     </DockPanel>

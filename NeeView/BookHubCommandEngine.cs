@@ -41,7 +41,7 @@ namespace NeeView
         public string Path { get; set; }
         public string StartEntry { get; set; }
         public BookLoadOption Option { get; set; }
-        public bool IsRefleshFolderList { get; set; }
+        public bool IsRefreshFolderList { get; set; }
     }
 
     /// <summary>

@@ -44,6 +44,8 @@ namespace NeeView
         [OptionMember("s", "slideshow", Default = "on", HasParameter = true, HelpText = "@OptionIsSlideShow")]
         public SwitchOption? IsSlideShow { get; set; }
 
+        [OptionMember("o", "folderlist", HasParameter = true, RequireParameter = true, HelpText = "@OptionFolderList")]
+        public string FolderList { get; set; }
 
 
         [OptionValues]
@@ -143,6 +145,7 @@ namespace NeeView
                 + "Example:\n"
                 + "                NeeView.exe -f\n"
                 + "                NeeView.exe -fs E:\\Pictures\n"
+                + "                NeeView.exe -o \"E:\\Pictures?search=foobar\"\n"
                 + "                NeeView.exe --setting=\"C:\\Sample\\CustomUserSetting.xml\" --new-window=off";
         }
 

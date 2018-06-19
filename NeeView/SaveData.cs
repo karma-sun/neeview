@@ -337,7 +337,7 @@ namespace NeeView
         }
 
 
-#region Backup
+        #region Backup
 
         private const string backupDialogDefaultExt = ".nvzip";
         private const string backupDialogFilder = "NeeView Backup (.nvzip)|*.nvzip";
@@ -423,7 +423,7 @@ namespace NeeView
             dialog.AddExtension = true;
             dialog.DefaultExt = backupDialogDefaultExt;
             dialog.Filter = backupDialogFilder;
-            dialog.Title =  Resources.DialogImportTitle;
+            dialog.Title = Resources.DialogImportTitle;
 
             if (dialog.ShowDialog(MainWindow.Current) == true)
             {
@@ -554,6 +554,6 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
     }
 }

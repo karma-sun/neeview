@@ -33,6 +33,39 @@ namespace NeeView
         }
     }
 
+    /// <summary>
+    /// パスのクエリパラメータを分解する
+    /// </summary>
+    public class QueryPath
+    {
+        const string _query = "?search=";
+
+        public string Path { get; private set; }
+        public string Search { get; private set; }
+
+        public string Source => Search == null ? Path : Path + _query + Search;
+
+        public QueryPath(string source)
+        {
+            if (source == null)
+            {
+                return;
+            }
+
+            var index = source.IndexOf(_query);
+            if (index >= 0)
+            {
+                Path = source.Substring(0, index);
+                Search = source.Substring(index + _query.Length);
+            }
+            else
+            {
+                Path = source;
+                Search = null;
+            }
+        }
+    }
+
 
     //
     public class FolderList : BindableBase, IDisposable
@@ -390,9 +423,9 @@ namespace NeeView
         /// nullを指定した場合、HOMEフォルダに移動。
         /// </summary>
         /// <param name="place"></param>
-        public void ResetPlace(string place)
+        public void ResetPlace(string queryPath)
         {
-            var task = SetPlaceAsync(place ?? GetFixedHome(), null, FolderSetPlaceOption.IsUpdateHistory);
+            var task = SetPlaceAsync(queryPath ?? GetFixedHome(), null, FolderSetPlaceOption.IsUpdateHistory);
         }
 
         /// <summary>
@@ -400,10 +433,14 @@ namespace NeeView
         /// </summary>
         /// <param name="place">フォルダーパス</param>
         /// <param name="select">初期選択項目</param>
-        public async Task SetPlaceAsync(string place, string select, FolderSetPlaceOption options)
+        public async Task SetPlaceAsync(string queryPath, string select, FolderSetPlaceOption options)
         {
             // 現在フォルダーの情報を記憶
             SavePlace(GetFolderItem(0));
+
+            var query = new QueryPath(queryPath);
+            var place = query.Path;
+            var keyword = query.Search;
 
             // 初期項目
             if (select == null && place != null)
@@ -417,12 +454,19 @@ namespace NeeView
             }
 
             // 更新が必要であれば、新しいFolderListBoxを作成する
-            if (CheckFolderListUpdateneNcessary(place, options.HasFlag(FolderSetPlaceOption.ClearSearchKeyword)))
+            if (keyword != null || CheckFolderListUpdateneNcessary(place, options.HasFlag(FolderSetPlaceOption.ClearSearchKeyword)))
             {
                 _isDarty = false;
 
+                // 検索キーワード設定
+                if (keyword != null)
+                {
+                    _searchKeyword = keyword;
+                    RaisePropertyChanged(nameof(SearchKeyword));
+                    UpdateSearchHistory();
+                }
                 // 検索キーワードクリア
-                if (this.FolderCollection == null || place != Place || options.HasFlag(FolderSetPlaceOption.ClearSearchKeyword))
+                else if (this.FolderCollection == null || place != Place || options.HasFlag(FolderSetPlaceOption.ClearSearchKeyword))
                 {
                     _searchKeyword = "";
                     RaisePropertyChanged(nameof(SearchKeyword));

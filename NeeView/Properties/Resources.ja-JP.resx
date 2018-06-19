@@ -126,6 +126,9 @@
   <data name="BookmarkItemMenuRename" xml:space="preserve">
     <value>名前の変更(_M)</value>
   </data>
+  <data name="BookmarkListAddTips" xml:space="preserve">
+    <value>ブックマークを追加</value>
+  </data>
   <data name="BookmarkMenuDeleteInvalid" xml:space="preserve">
     <value>無効なブックマークを削除</value>
   </data>
@@ -140,6 +143,12 @@
   </data>
   <data name="CommandClearHistory" xml:space="preserve">
     <value>履歴を消去</value>
+  </data>
+  <data name="CommandClearHistoryInPlace" xml:space="preserve">
+    <value>現在の場所の履歴削除</value>
+  </data>
+  <data name="CommandClearHistoryInPlaceNote" xml:space="preserve">
+    <value>フォルダリストの現在の場所にあるすべての履歴を削除する</value>
   </data>
   <data name="CommandClearHistoryNote" xml:space="preserve">
     <value>履歴を全て削除します。</value>
@@ -293,6 +302,12 @@
   </data>
   <data name="CommandImportBackupNote" xml:space="preserve">
     <value>バックアップファイルから復元項目を選んで復元します。</value>
+  </data>
+  <data name="CommandJumpPage" xml:space="preserve">
+    <value>指定ページに移動</value>
+  </data>
+  <data name="CommandJumpPageNote" xml:space="preserve">
+    <value>ページ番号を指定して移動します。</value>
   </data>
   <data name="CommandLastPage" xml:space="preserve">
     <value>最後のページへ移動</value>
@@ -797,6 +812,21 @@
   </data>
   <data name="CommandToggleFullScreenOn" xml:space="preserve">
     <value>フルスクリーンON</value>
+  </data>
+  <data name="CommandToggleGrid" xml:space="preserve">
+    <value>グリッドON/OFF</value>
+  </data>
+  <data name="CommandToggleGridMenu" xml:space="preserve">
+    <value>グリッド</value>
+  </data>
+  <data name="CommandToggleGridNote" xml:space="preserve">
+    <value>グリッドの表示/非表示を切り替えます。</value>
+  </data>
+  <data name="CommandToggleGridOff" xml:space="preserve">
+    <value>グリッドOFF</value>
+  </data>
+  <data name="CommandToggleGridOn" xml:space="preserve">
+    <value>グリッドON</value>
   </data>
   <data name="CommandToggleHideMenu" xml:space="preserve">
     <value>メニューを自動的に隠すON/OFF</value>
@@ -1672,11 +1702,20 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="DialogBookmarkErrorTitle" xml:space="preserve">
     <value>ブックマークできません</value>
   </data>
+  <data name="DialogBookmarkFolderDelete" xml:space="preserve">
+    <value>含まれる {0} 個のブックマークを削除しました。</value>
+  </data>
+  <data name="DialogBookmarkFolderDeleteTitle" xml:space="preserve">
+    <value>ブックマークフォルダー「{0}」を削除します</value>
+  </data>
   <data name="DialogBootErrorTitle" xml:space="preserve">
     <value>NeeView 起動エラー</value>
   </data>
   <data name="DialogBootOptionTitle" xml:space="preserve">
     <value>NeeView 起動オプション</value>
+  </data>
+  <data name="DialogCacheDeletedFailedTitle" xml:space="preserve">
+    <value>サムネイルキャッシュの削除に失敗しました。</value>
   </data>
   <data name="DialogCacheDeletedTitle" xml:space="preserve">
     <value>サムネイルキャッシュを削除しました</value>
@@ -1822,6 +1861,12 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="DialogPagemarkErrorTitle" xml:space="preserve">
     <value>ページマークできません</value>
   </data>
+  <data name="DialogPagemarkFolderDelete" xml:space="preserve">
+    <value>含まれる {0} 個のページマークを削除しました。</value>
+  </data>
+  <data name="DialogPagemarkFolderDeleteTitle" xml:space="preserve">
+    <value>ページマークフォルダー「{0}」を削除します</value>
+  </data>
   <data name="EffectCustomSize" xml:space="preserve">
     <value>サイズ指定</value>
   </data>
@@ -1831,11 +1876,11 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="EffectEffectType" xml:space="preserve">
     <value>種類</value>
   </data>
+  <data name="EffectGrid" xml:space="preserve">
+    <value>グリッド</value>
+  </data>
   <data name="EffectKeepDot" xml:space="preserve">
     <value>ドットのまま拡大する</value>
-  </data>
-  <data name="ParamPictureCustomLockAspect" xml:space="preserve">
-    <value>縦横比を維持</value>
   </data>
   <data name="EffectName" xml:space="preserve">
     <value>エフェクト</value>
@@ -2317,6 +2362,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="FolderListItemMenuSubfolder" xml:space="preserve">
     <value>サブフォルダーを読み込む</value>
   </data>
+  <data name="FolderListMoreMenuClearHistory" xml:space="preserve">
+    <value>この場所の履歴をすべて削除</value>
+  </data>
   <data name="FolderListMoreMenuPageList" xml:space="preserve">
     <value>ページリスト</value>
   </data>
@@ -2449,11 +2497,20 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="NotifyFlipVertical" xml:space="preserve">
     <value>上下反転</value>
   </data>
+  <data name="NotifyHeifHelp" xml:space="preserve">
+    <value>HEIF画像を表示するには追加のコーデック「HEIF Image Extensions」をインストールする必要があります。</value>
+  </data>
   <data name="NotifyHistoryLastest" xml:space="preserve">
     <value>最新の履歴です</value>
   </data>
   <data name="NotifyHistoryTerminal" xml:space="preserve">
     <value>これより古い履歴はありません</value>
+  </data>
+  <data name="NotifyJumpPageLabel" xml:space="preserve">
+    <value>ページ番号 ({0} - {1})</value>
+  </data>
+  <data name="NotifyJumpTimeLabel" xml:space="preserve">
+    <value>時間 ({0} - {1})</value>
   </data>
   <data name="NotifyLastPage" xml:space="preserve">
     <value>最後のページです</value>
@@ -2494,6 +2551,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="NotifyNoPages" xml:space="preserve">
     <value>{0} には読み込めるファイルがありません</value>
   </data>
+  <data name="NotifyNotSupportedFileType" xml:space="preserve">
+    <value>サポートされていないファイルの種類です: {0}</value>
+  </data>
   <data name="NotifyOutputFailed" xml:space="preserve">
     <value>ファイルの出力に失敗しました。</value>
   </data>
@@ -2520,6 +2580,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="OptionErrorFileNotFound" xml:space="preserve">
     <value>指定された設定ファイルが存在しません。</value>
+  </data>
+  <data name="OptionFolderList" xml:space="preserve">
+    <value>指定された場所のフォルダーリストを開きます。"?search="を追加することで検索キーワードも指定できます</value>
   </data>
   <data name="OptionIsBlank" xml:space="preserve">
     <value>画像ファイルを開かずに起動します</value>
@@ -2556,6 +2619,15 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="PagemarkItemMenuDelete" xml:space="preserve">
     <value>ページマークをはずす(_R)</value>
+  </data>
+  <data name="PagemarkItemMenuDeleteFolder" xml:space="preserve">
+    <value>フォルダーを削除(_D)</value>
+  </data>
+  <data name="PagemarkItemMenuRename" xml:space="preserve">
+    <value>名前の変更(_M)</value>
+  </data>
+  <data name="PagemarkListAddTips" xml:space="preserve">
+    <value>ページマークを追加</value>
   </data>
   <data name="PagemarkMenuDeleteInvalid" xml:space="preserve">
     <value>無効なページマークを削除</value>
@@ -2791,6 +2863,12 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamCommandParameterScrollPageNTips" xml:space="preserve">
     <value>縦スクロール可能な場合、縦方向にもスクロールします。縦横スクロールが可能な場合、N字を描くようにスクロールします。</value>
   </data>
+  <data name="ParamCommandParameterScrollPageStop" xml:space="preserve">
+    <value>スクロール停止</value>
+  </data>
+  <data name="ParamCommandParameterScrollPageStopTips" xml:space="preserve">
+    <value>短時間で連続で実行された時はページ移動を行いません。</value>
+  </data>
   <data name="ParamCommandParameterShare" xml:space="preserve">
     <value>パラメータ共有</value>
   </data>
@@ -2959,6 +3037,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamFolderListHome" xml:space="preserve">
     <value>ホームの場所</value>
   </data>
+  <data name="ParamFolderListIsCloseBookWhenMove" xml:space="preserve">
+    <value>場所を変更したときにブックを閉じる</value>
+  </data>
   <data name="ParamFolderListIsCruise" xml:space="preserve">
     <value>ブック移動を巡回移動にする</value>
   </data>
@@ -2989,6 +3070,18 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamFolderListIsVisibleHistoryMarkTips" xml:space="preserve">
     <value>履歴に残っているブックにチェックマークを表示します。</value>
   </data>
+  <data name="ParamGridLineColor" xml:space="preserve">
+    <value>色</value>
+  </data>
+  <data name="ParamGridLineDivX" xml:space="preserve">
+    <value>列</value>
+  </data>
+  <data name="ParamGridLineDivY" xml:space="preserve">
+    <value>行</value>
+  </data>
+  <data name="ParamGridLineIsSquare" xml:space="preserve">
+    <value>正方形</value>
+  </data>
   <data name="ParamHistoryEntryPageCount" xml:space="preserve">
     <value>履歴登録開始ページ操作回数</value>
   </data>
@@ -2997,6 +3090,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="ParamHistoryIsKeepFolderStatus" xml:space="preserve">
     <value>最後に開いていた場所、各フォルダーの並び順等の情報を保存する</value>
+  </data>
+  <data name="ParamHistoryIsKeepSearchHistory" xml:space="preserve">
+    <value>検索履歴を保存する</value>
   </data>
   <data name="ParamHistoryLimitSize" xml:space="preserve">
     <value>保存数上限</value>
@@ -3124,8 +3220,17 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamIsRestoreSecondWindowTips" xml:space="preserve">
     <value>重複起動した場合もウィンドウ座標を復元します。OFFにすると初期座標で表示されます。</value>
   </data>
+  <data name="ParamIsSaveBookmark" xml:space="preserve">
+    <value>ブックマークリストを保存する</value>
+  </data>
   <data name="ParamIsSaveFullScreen" xml:space="preserve">
     <value>フルスクリーン状態を復元する</value>
+  </data>
+  <data name="ParamIsSaveHistory" xml:space="preserve">
+    <value>履歴リストを保存する</value>
+  </data>
+  <data name="ParamIsSavePagemark" xml:space="preserve">
+    <value>ページマークリストを保存する</value>
   </data>
   <data name="ParamIsSaveWindowPlacement" xml:space="preserve">
     <value>ウィンドウ座標を復元する</value>
@@ -3265,8 +3370,14 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamPictureCustomHeight" xml:space="preserve">
     <value>縦幅</value>
   </data>
+  <data name="ParamPictureCustomLockAspect" xml:space="preserve">
+    <value>縦横比を維持</value>
+  </data>
   <data name="ParamPictureCustomWidth" xml:space="preserve">
     <value>横幅</value>
+  </data>
+  <data name="ParamPictureProfileExtensions" xml:space="preserve">
+    <value>画像ファイルの拡張子</value>
   </data>
   <data name="ParamPictureProfileIsLimitSourceSize" xml:space="preserve">
     <value>読み込み画像サイズ制限</value>
@@ -3282,6 +3393,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="ParamPictureProfileMaximumSizeTips" xml:space="preserve">
     <value>リサイズフィルターで拡大される最大画像サイズです。</value>
+  </data>
+  <data name="ParamSeCannotMove" xml:space="preserve">
+    <value>移動できなかったときの効果音</value>
   </data>
   <data name="ParamSevenZipArchiverIsEnabled" xml:space="preserve">
     <value>7-Zipによる圧縮ファイル展開を使用する</value>
@@ -3318,6 +3432,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="ParamSevenZipArchiverX86DllPathTips" xml:space="preserve">
     <value>別の7z.dllを使用したい場合に設定します。反映にはアプリを開き直す必要があります。</value>
+  </data>
+  <data name="ParamSidePanelHitTestMargin" xml:space="preserve">
+    <value>パネル自動表示判定のエリア幅</value>
   </data>
   <data name="ParamSidePanelIsLeftRightKeyEnabled" xml:space="preserve">
     <value>サイドパネルでの左右キー有効</value>
@@ -3523,6 +3640,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="SettingPageBookMove" xml:space="preserve">
     <value>移動</value>
   </data>
+  <data name="SettingPageBookMoveAdvance" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
   <data name="SettingPageBookMoveBook" xml:space="preserve">
     <value>ブック移動</value>
   </data>
@@ -3613,6 +3733,15 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="SettingPageGeneralDetailLanguage" xml:space="preserve">
     <value>言語</value>
   </data>
+  <data name="SettingPageGeneralSaveData" xml:space="preserve">
+    <value>保存データ</value>
+  </data>
+  <data name="SettingPageGeneralSaveDataRemove" xml:space="preserve">
+    <value>データの削除</value>
+  </data>
+  <data name="SettingPageGeneralSaveDataTypes" xml:space="preserve">
+    <value>保存データ</value>
+  </data>
   <data name="SettingPageHistory" xml:space="preserve">
     <value>履歴</value>
   </data>
@@ -3639,6 +3768,12 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="SettingPageHistoryGeneralLimitTips" xml:space="preserve">
     <value>履歴ファイルに保存される履歴数上限を設定します。アプリ動作中の履歴は制限されません。</value>
+  </data>
+  <data name="SettingPageImage" xml:space="preserve">
+    <value>画像</value>
+  </data>
+  <data name="SettingPageImageCollection" xml:space="preserve">
+    <value>サポートしている画像形式</value>
   </data>
   <data name="SettingPageManipurate" xml:space="preserve">
     <value>画像操作</value>
@@ -3736,6 +3871,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="SettingPagePanelGeneral" xml:space="preserve">
     <value>サイドパネル全般</value>
   </data>
+  <data name="SettingPagePanelGeneralAdvance" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
   <data name="SettingPagePanelGeneralOperation" xml:space="preserve">
     <value>操作</value>
   </data>
@@ -3762,6 +3900,12 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="SettingPageVisual" xml:space="preserve">
     <value>表示</value>
+  </data>
+  <data name="SettingPageVisualFilmstrip" xml:space="preserve">
+    <value>フィルムストリップ</value>
+  </data>
+  <data name="SettingPageVisualFilmstripFilmstrip" xml:space="preserve">
+    <value>フィルムストリップ</value>
   </data>
   <data name="SettingPageVisualFont" xml:space="preserve">
     <value>フォント</value>
@@ -3813,12 +3957,6 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="SettingPageVisualThumbnailCacheClearTips" xml:space="preserve">
     <value>サムネイルキャッシュを削除する</value>
-  </data>
-  <data name="SettingPageVisualFilmstrip" xml:space="preserve">
-    <value>フィルムストリップ</value>
-  </data>
-  <data name="SettingPageVisualFilmstripFilmstrip" xml:space="preserve">
-    <value>フィルムストリップ</value>
   </data>
   <data name="SettingPageVisualThumbnailPanel" xml:space="preserve">
     <value>リスト項目のサムネイル</value>
@@ -3912,11 +4050,17 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordItem" xml:space="preserve">
     <value>項目</value>
   </data>
+  <data name="WordJump" xml:space="preserve">
+    <value>移動</value>
+  </data>
   <data name="WordLeft" xml:space="preserve">
     <value>左</value>
   </data>
   <data name="WordMainMenu" xml:space="preserve">
     <value>メインメニュー</value>
+  </data>
+  <data name="WordNewFolder" xml:space="preserve">
+    <value>新しいフォルダー</value>
   </data>
   <data name="WordNo" xml:space="preserve">
     <value>いいえ</value>
@@ -3932,6 +4076,9 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="WordOn" xml:space="preserve">
     <value>オン</value>
+  </data>
+  <data name="WordOpenStore" xml:space="preserve">
+    <value>Microsoft Store を開く</value>
   </data>
   <data name="WordPage" xml:space="preserve">
     <value>ページ</value>
@@ -3950,6 +4097,9 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="WordResetLong" xml:space="preserve">
     <value>初期値に戻す</value>
+  </data>
+  <data name="WordRestore" xml:space="preserve">
+    <value>元に戻す</value>
   </data>
   <data name="WordRetry" xml:space="preserve">
     <value>リトライ</value>
@@ -3992,152 +4142,5 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="WordYes" xml:space="preserve">
     <value>はい</value>
-  </data>
-  <data name="ParamGridLineDivX" xml:space="preserve">
-    <value>列</value>
-  </data>
-  <data name="ParamGridLineDivY" xml:space="preserve">
-    <value>行</value>
-  </data>
-  <data name="ParamGridLineIsSquare" xml:space="preserve">
-    <value>正方形</value>
-  </data>
-  <data name="ParamGridLineColor" xml:space="preserve">
-    <value>色</value>
-  </data>
-  <data name="CommandToggleGrid" xml:space="preserve">
-    <value>グリッドON/OFF</value>
-  </data>
-  <data name="CommandToggleGridNote" xml:space="preserve">
-    <value>グリッドの表示/非表示を切り替えます。</value>
-  </data>
-  <data name="EffectGrid" xml:space="preserve">
-    <value>グリッド</value>
-  </data>
-  <data name="CommandToggleGridOn" xml:space="preserve">
-    <value>グリッドON</value>
-  </data>
-  <data name="CommandToggleGridOff" xml:space="preserve">
-    <value>グリッドOFF</value>
-  </data>
-  <data name="CommandToggleGridMenu" xml:space="preserve">
-    <value>グリッド</value>
-  </data>
-  <data name="ParamCommandParameterScrollPageStop" xml:space="preserve">
-    <value>スクロール停止</value>
-  </data>
-  <data name="ParamCommandParameterScrollPageStopTips" xml:space="preserve">
-    <value>短時間で連続で実行された時はページ移動を行いません。</value>
-  </data>
-  <data name="DialogCacheDeletedFailedTitle" xml:space="preserve">
-    <value>サムネイルキャッシュの削除に失敗しました。</value>
-  </data>
-  <data name="SettingPagePanelGeneralAdvance" xml:space="preserve">
-    <value>詳細設定</value>
-  </data>
-  <data name="ParamSidePanelHitTestMargin" xml:space="preserve">
-    <value>パネル自動表示判定のエリア幅</value>
-  </data>
-  <data name="ParamIsSaveHistory" xml:space="preserve">
-    <value>履歴リストを保存する</value>
-  </data>
-  <data name="ParamIsSaveBookmark" xml:space="preserve">
-    <value>ブックマークリストを保存する</value>
-  </data>
-  <data name="ParamIsSavePagemark" xml:space="preserve">
-    <value>ページマークリストを保存する</value>
-  </data>
-  <data name="SettingPageGeneralSaveData" xml:space="preserve">
-    <value>保存データ</value>
-  </data>
-  <data name="SettingPageGeneralSaveDataTypes" xml:space="preserve">
-    <value>保存データ</value>
-  </data>
-  <data name="SettingPageGeneralSaveDataRemove" xml:space="preserve">
-    <value>データの削除</value>
-  </data>
-  <data name="SettingPageBookMoveAdvance" xml:space="preserve">
-    <value>詳細設定</value>
-  </data>
-  <data name="ParamSeCannotMove" xml:space="preserve">
-    <value>移動できなかったときの効果音</value>
-  </data>
-  <data name="ParamFolderListIsCloseBookWhenMove" xml:space="preserve">
-    <value>場所を変更したときにブックを閉じる</value>
-  </data>
-  <data name="WordNewFolder" xml:space="preserve">
-    <value>新しいフォルダー</value>
-  </data>
-  <data name="DialogBookmarkFolderDelete" xml:space="preserve">
-    <value>含まれる {0} 個のブックマークを削除しました。</value>
-  </data>
-  <data name="DialogBookmarkFolderDeleteTitle" xml:space="preserve">
-    <value>ブックマークフォルダー「{0}」を削除します</value>
-  </data>
-  <data name="BookmarkListAddTips" xml:space="preserve">
-    <value>ブックマークを追加</value>
-  </data>
-  <data name="DialogPagemarkFolderDelete" xml:space="preserve">
-    <value>含まれる {0} 個のページマークを削除しました。</value>
-  </data>
-  <data name="DialogPagemarkFolderDeleteTitle" xml:space="preserve">
-    <value>ページマークフォルダー「{0}」を削除します</value>
-  </data>
-  <data name="PagemarkListAddTips" xml:space="preserve">
-    <value>ページマークを追加</value>
-  </data>
-  <data name="PagemarkItemMenuDeleteFolder" xml:space="preserve">
-    <value>フォルダーを削除(_D)</value>
-  </data>
-  <data name="PagemarkItemMenuRename" xml:space="preserve">
-    <value>名前の変更(_M)</value>
-  </data>
-  <data name="NotifyHeifHelp" xml:space="preserve">
-    <value>HEIF画像を表示するには追加のコーデック「HEIF Image Extensions」をインストールする必要があります。</value>
-  </data>
-  <data name="WordOpenStore" xml:space="preserve">
-    <value>Microsoft Store を開く</value>
-  </data>
-  <data name="NotifyNotSupportedFileType" xml:space="preserve">
-    <value>サポートされていないファイルの種類です: {0}</value>
-  </data>
-  <data name="SettingPageImage" xml:space="preserve">
-    <value>画像</value>
-  </data>
-  <data name="SettingPageImageCollection" xml:space="preserve">
-    <value>サポートしている画像形式</value>
-  </data>
-  <data name="ParamPictureProfileExtensions" xml:space="preserve">
-    <value>画像ファイルの拡張子</value>
-  </data>
-  <data name="FolderListMoreMenuClearHistory" xml:space="preserve">
-    <value>この場所の履歴をすべて削除</value>
-  </data>
-  <data name="CommandClearHistoryInPlace" xml:space="preserve">
-    <value>現在の場所の履歴削除</value>
-  </data>
-  <data name="CommandClearHistoryInPlaceNote" xml:space="preserve">
-    <value>フォルダリストの現在の場所にあるすべての履歴を削除する</value>
-  </data>
-  <data name="WordRestore" xml:space="preserve">
-    <value>元に戻す</value>
-  </data>
-  <data name="CommandJumpPage" xml:space="preserve">
-    <value>指定ページに移動</value>
-  </data>
-  <data name="CommandJumpPageNote" xml:space="preserve">
-    <value>ページ番号を指定して移動します。</value>
-  </data>
-  <data name="WordJump" xml:space="preserve">
-    <value>移動</value>
-  </data>
-  <data name="NotifyJumpPageLabel" xml:space="preserve">
-    <value>ページ番号 ({0} - {1})</value>
-  </data>
-  <data name="NotifyJumpTimeLabel" xml:space="preserve">
-    <value>時間 ({0} - {1})</value>
-  </data>
-  <data name="ParamHistoryIsKeepSearchHistory" xml:space="preserve">
-    <value>検索履歴を保存する</value>
   </data>
 </root>

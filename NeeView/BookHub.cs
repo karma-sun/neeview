@@ -589,7 +589,7 @@ namespace NeeView
                     NotifyLoading(args.Path);
 
                     // フォルダーリスト更新
-                    if (args.IsRefleshFolderList)
+                    if (args.IsRefreshFolderList)
                     {
                         var parent = address.Archiver.GetParentPlace();
                         App.Current?.Dispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncEventArgs() { Path = address.Place, Parent = address.Archiver.GetParentPlace(), isKeepPlace = false }));
@@ -848,16 +848,15 @@ namespace NeeView
         private volatile int _requestLoadCount;
         public int RequestLoadCount => _requestLoadCount;
 
-
         /// <summary>
         /// リクエスト：フォルダーを開く
         /// </summary>
         /// <param name="path"></param>
         /// <param name="start"></param>
         /// <param name="option"></param>
-        /// <param name="isRefleshFolderList"></param>
+        /// <param name="isRefreshFolderList"></param>
         /// <returns></returns>
-        public BookHubCommandLoad RequestLoad(string path, string start, BookLoadOption option, bool isRefleshFolderList)
+        public BookHubCommandLoad RequestLoad(string path, string start, BookLoadOption option, bool isRefreshFolderList)
         {
             if (!this.IsEnabled) return null;
 
@@ -891,7 +890,7 @@ namespace NeeView
                 Path = path,
                 StartEntry = start,
                 Option = option,
-                IsRefleshFolderList = isRefleshFolderList
+                IsRefreshFolderList = isRefreshFolderList
             });
 
             _commandEngine.Enqueue(command);

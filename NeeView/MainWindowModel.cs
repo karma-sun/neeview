@@ -296,22 +296,31 @@ namespace NeeView
             // ページマーク読込
             SaveData.Current.LoadPagemark(setting);
 
-            SaveData.Current.UserSetting = null; // ロード設定破棄
+            // ロード設定破棄
+            SaveData.Current.UserSetting = null;
 
 
-            // フォルダーを開く
+            // ブックを開く
             if (App.Current.Option.IsBlank != SwitchOption.on)
             {
+                bool isRefreshFolderList = App.Current.Option.FolderList == null;
                 if (App.Current.Option.StartupPlace != null)
                 {
                     // 起動引数の場所で開く
-                    BookHub.Current.RequestLoad(App.Current.Option.StartupPlace, null, BookLoadOption.None, true);
+                    BookHub.Current.RequestLoad(App.Current.Option.StartupPlace, null, BookLoadOption.None, isRefreshFolderList);
                 }
                 else
                 {
                     // 最後に開いたフォルダーを復元する
-                    LoadLastFolder();
+                    LoadLastFolder(isRefreshFolderList);
                 }
+            }
+
+            // 指定されたフォルダーリストの場所を反映
+            if (App.Current.Option.FolderList != null)
+            {
+                Models.Current.FolderList.ResetPlace(App.Current.Option.FolderList);
+                Models.Current.SidePanel.IsVisibleFolderList = true;
             }
 
             // スライドショーの自動再生
@@ -322,14 +331,14 @@ namespace NeeView
         }
 
         // 最後に開いたフォルダーを開く
-        private void LoadLastFolder()
+        private void LoadLastFolder(bool isRefreshFolderList)
         {
             if (!App.Current.IsOpenLastBook) return;
 
             string place = BookHistoryCollection.Current.LastAddress;
-            if (place != null) 
+            if (place != null)
             {
-                BookHub.Current.RequestLoad(place, null, BookLoadOption.Resume | BookLoadOption.IsBook, true);
+                BookHub.Current.RequestLoad(place, null, BookLoadOption.Resume | BookLoadOption.IsBook, isRefreshFolderList);
             }
         }
 

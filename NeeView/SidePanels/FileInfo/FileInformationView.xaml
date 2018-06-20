@@ -6,8 +6,7 @@
              xmlns:local="clr-namespace:NeeView"
              xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
-             d:DesignHeight="800" d:DesignWidth="300" MinWidth="100" 
-             Background="{DynamicResource NVBackground}"
+             d:DesignHeight="800" d:DesignWidth="300" MinWidth="100"
              Foreground="{DynamicResource NVForeground}"
              >
 

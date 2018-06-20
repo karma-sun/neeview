@@ -9995,6 +9995,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Panel opacity に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamSidePanelOpacity {
+            get {
+                return ResourceManager.GetString("ParamSidePanelOpacity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Slider Direction に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamSliderDirection {
@@ -11426,6 +11435,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Opacity に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageVisualGeneralOpacity {
+            get {
+                return ResourceManager.GetString("SettingPageVisualGeneralOpacity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Theme に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageVisualGeneralTheme {
@@ -11574,7 +11592,7 @@ namespace NeeView.Properties {
         ///$Scale[LR] .. Image scale (%)
         ///
         ///&quot;◯◯◯[LR]&quot; indicates that the variable name changes for 1 page or 2 pages.
-        ///For example, $Name is for 1 page, $NameL is for 2 pages left, $NameR is  [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
+        ///For example, $Name is for 1 page, $NameL is for 2 pages left, $NameR is for 2 pages r [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageVisualWindowTitileNote {
             get {

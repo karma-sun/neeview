@@ -85,7 +85,7 @@
         </DataTemplate>
 
         <Style x:Key="PanelIconGridStyle" TargetType="Grid">
-            <Setter Property="Background" Value="{Binding IconBackground}"/>
+            <Setter Property="Background" Value="{Binding Profile.IconBackgroundBrush}"/>
             <Setter Property="Width" Value="40"/>
             <Setter Property="Visibility" Value="{Binding IsSideBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             <Setter Property="UseLayoutRounding" Value="True"/>
@@ -103,12 +103,12 @@
         </Style>
 
         <Style x:Key="PanelGridStyle" TargetType="Grid">
-            <Setter Property="Background" Value="{Binding PanelBackground}"/>
+            <Setter Property="Background" Value="{Binding Profile.BackgroundBrush}"/>
         </Style>
 
         <Style x:Key="PanelGridSplitterStyle" TargetType="GridSplitter">
             <Setter Property="Width" Value="{Binding PanelIconGridWidth}"/>
-            <Setter Property="Background" Value="{Binding PanelBackground}"/>
+            <Setter Property="Background" Value="{Binding Profile.BackgroundBrush}"/>
         </Style>
 
         <Style x:Key="NVVerticalBevelGrip" TargetType="{x:Type osc:DockPanelSplitter}">
@@ -116,7 +116,7 @@
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type osc:DockPanelSplitter}">
-                        <Grid SnapsToDevicePixels="True" Background="{Binding PanelBackground}"/>
+                        <Grid SnapsToDevicePixels="True" Background="{Binding Profile.BackgroundBrush}"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>

@@ -58,9 +58,6 @@ namespace NeeView
         //
         private PanelListItemStyleToBooleanConverter _panelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
 
-        //
-        private static int _busyCounter;
-
         #endregion
 
         #region Constructor
@@ -100,9 +97,6 @@ namespace NeeView
             _model.CollectionChanged +=
                 Model_CollectionChanged;
 
-            _model.BusyChanged +=
-                Model_BusyChanged;
-
             InitializeMoreMenu(_model.FolderPanel);
 
             UpdateListContent();
@@ -133,6 +127,7 @@ namespace NeeView
         }
 
         //
+        public SidePanelProfile Profile => SidePanelProfile.Current;
         public FolderCollection FolderCollection => _model.FolderCollection;
         public bool IsFolderRecursive => _model.FolderCollection != null ? _model.FolderCollection.FolderParameter.IsFolderRecursive : false;
         public string Place => _model.FolderCollection?.PlaceDispString;
@@ -344,26 +339,6 @@ namespace NeeView
             RaisePropertyChanged(nameof(Place));
             RaisePropertyChanged(nameof(PlaceRaw));
         }
-
-        /// <summary>
-        /// リスト更新中
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Model_BusyChanged(object sender, BusyChangedEventArgs e)
-        {
-            _busyCounter += e.IsBusy ? +1 : -1;
-            if (_busyCounter <= 0)
-            {
-                this.ListContent.BusyFadeContent.Content = null;
-                _busyCounter = 0;
-            }
-            else if (_busyCounter > 0 && this.ListContent.BusyFadeContent.Content == null)
-            {
-                this.ListContent.BusyFadeContent.Content = new BusyFadeView();
-            }
-        }
-
 
         #region MoreMenu
 

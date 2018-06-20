@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Diagnostics;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 
 namespace NeeView
 {
@@ -35,6 +36,8 @@ namespace NeeView
         /// </summary>
         private FolderListViewModel _vm;
 
+        private int _busyCounter;
+
         //
         public FolderListView()
         {
@@ -50,6 +53,7 @@ namespace NeeView
             this.DockPanel.DataContext = _vm;
 
             model.SearchBoxFocus += FolderList_SearchBoxFocus;
+            model.BusyChanged += FolderList_BusyChanged;
         }
 
         /// <summary>
@@ -65,6 +69,31 @@ namespace NeeView
             {
                 _requestSearchBoxFocus = true;
                 var task = FocustSearchBoxAsync(); // 非同期
+            }
+        }
+
+
+        /// <summary>
+        /// リスト更新中
+        /// </summary>
+        private void FolderList_BusyChanged(object sender, BusyChangedEventArgs e)
+        {
+            _busyCounter += e.IsBusy ? +1 : -1;
+            if (_busyCounter <= 0)
+            {
+                this.ListContent.IsHitTestVisible = true;
+                this.ListContent.BeginAnimation(UIElement.OpacityProperty, null);
+                this.ListContent.Opacity = 1.0;
+
+                this.BusyFadeContent.Content = null;
+                _busyCounter = 0;
+            }
+            else if (_busyCounter > 0 && this.BusyFadeContent.Content == null)
+            {
+                this.ListContent.IsHitTestVisible = false;
+                this.ListContent.BeginAnimation(UIElement.OpacityProperty, new DoubleAnimation(0.0, TimeSpan.FromSeconds(0.5)) { BeginTime = TimeSpan.FromSeconds(1.0) });
+
+                this.BusyFadeContent.Content = new BusyFadeView();
             }
         }
 

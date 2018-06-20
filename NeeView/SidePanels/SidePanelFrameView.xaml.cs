@@ -179,6 +179,11 @@ namespace NeeView
             }
         }
 
+
+        //
+        public SidePanelProfile Profile => SidePanelProfile.Current;
+
+
         /// <summary>
         /// VM property.
         /// </summary>

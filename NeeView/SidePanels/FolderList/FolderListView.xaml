@@ -9,7 +9,6 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance local:FolderListDataContext_Design, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300"
-             Background="{DynamicResource NVBackground}"
              Foreground="{DynamicResource NVForeground}">
 
     <UserControl.Resources>
@@ -150,7 +149,7 @@
                             <DataTrigger Binding="{Binding Model.IsFolderSearchEnabled}" Value="False">
                                 <Setter Property="IsEnabled" Value="False"/>
                                 <Setter Property="BorderBrush" Value="{DynamicResource NVBackground}"/>
-                            </DataTrigger> 
+                            </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </Border.Style>
@@ -184,8 +183,10 @@
 
         </StackPanel>
 
-        <ContentControl Content="{Binding ListContent}"/>
-
+        <Grid>
+            <ContentControl x:Name="ListContent" Content="{Binding ListContent}"/>
+            <ContentControl x:Name="BusyFadeContent"/>
+        </Grid>
 
     </DockPanel>
 </UserControl>

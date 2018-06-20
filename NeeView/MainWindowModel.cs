@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace NeeView
 {
@@ -93,8 +94,15 @@ namespace NeeView
 
             // Window Shape
             WindowShape.Current.AddPropertyChanged(nameof(WindowShape.Current.IsFullScreen),
-                (s, e) => RaisePropertyChanged(nameof(CanHidePanel)));
+                (s, e) => RefreshCanHidePanel());
         }
+
+        #endregion
+
+        #region Events
+
+        public event EventHandler ThemeColorChanged;
+        public event EventHandler CanHidePanelChanged;
 
         #endregion
 
@@ -109,7 +117,13 @@ namespace NeeView
         public PanelColor PanelColor
         {
             get { return _panelColor; }
-            set { if (_panelColor != value) { _panelColor = value; RaisePropertyChanged(); } }
+            set
+            {
+                if (SetProperty(ref _panelColor, value))
+                {
+                    UpdateThemeColor();
+                }
+            }
         }
 
         //
@@ -162,7 +176,7 @@ namespace NeeView
             {
                 _isHidePanel = value;
                 RaisePropertyChanged();
-                RaisePropertyChanged(nameof(CanHidePanel));
+                RefreshCanHidePanel();
             }
         }
 
@@ -173,11 +187,27 @@ namespace NeeView
         public bool IsHidePanelInFullscreen
         {
             get { return _IsHidePanelInFullscreen; }
-            set { if (_IsHidePanelInFullscreen != value) { _IsHidePanelInFullscreen = value; RaisePropertyChanged(); RaisePropertyChanged(nameof(CanHidePanel)); } }
+            set { if (_IsHidePanelInFullscreen != value) { _IsHidePanelInFullscreen = value; RaisePropertyChanged(); RefreshCanHidePanel(); } }
         }
 
         // パネルを自動的に隠せるか
-        public bool CanHidePanel => IsHidePanel || (IsHidePanelInFullscreen && WindowShape.Current.IsFullScreen);
+        private bool _CanHidePanel;
+        public bool CanHidePanel
+        {
+            get { return _CanHidePanel; }
+            private set
+            {
+                if (SetProperty(ref _CanHidePanel, value))
+                {
+                    CanHidePanelChanged?.Invoke(this, null);
+                }
+            }
+        }
+
+        public void RefreshCanHidePanel()
+        {
+            CanHidePanel = IsHidePanel || (IsHidePanelInFullscreen && WindowShape.Current.IsFullScreen);
+        }
 
         /// <summary>
         /// IsVisibleWindowTitle property.
@@ -248,6 +278,43 @@ namespace NeeView
         #endregion
 
         #region Methods
+
+        //
+        public void UpdateThemeColor()
+        {
+            if (App.Current == null) return;
+
+            if (PanelColor == PanelColor.Dark)
+            {
+                App.Current.Resources["NVBackgroundFade"] = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
+                App.Current.Resources["NVBackground"] = new SolidColorBrush(Color.FromRgb(0x22, 0x22, 0x22));
+                App.Current.Resources["NVForeground"] = new SolidColorBrush(Color.FromRgb(0xEE, 0xEE, 0xEE));
+                App.Current.Resources["NVBaseBrush"] = new SolidColorBrush(Color.FromRgb(0x28, 0x28, 0x28));
+                App.Current.Resources["NVDefaultBrush"] = new SolidColorBrush(Color.FromRgb(0x55, 0x55, 0x55));
+                App.Current.Resources["NVMouseOverBrush"] = new SolidColorBrush(Color.FromRgb(0xAA, 0xAA, 0xAA));
+                App.Current.Resources["NVPressedBrush"] = new SolidColorBrush(Color.FromRgb(0xDD, 0xDD, 0xDD));
+                App.Current.Resources["NVCheckMarkBrush"] = new SolidColorBrush(Color.FromRgb(0x90, 0xEE, 0x90));
+                App.Current.Resources["NVPanelIconBackground"] = new SolidColorBrush(Color.FromRgb(0x33, 0x33, 0x33));
+                App.Current.Resources["NVPanelIconForeground"] = new SolidColorBrush(Color.FromRgb(0xEE, 0xEE, 0xEE));
+                App.Current.Resources["NVFolderPen"] = null;
+            }
+            else
+            {
+                App.Current.Resources["NVBackgroundFade"] = new SolidColorBrush(Color.FromRgb(0xFF, 0xFF, 0xFF));
+                App.Current.Resources["NVBackground"] = new SolidColorBrush(Color.FromRgb(0xF8, 0xF8, 0xF8));
+                App.Current.Resources["NVForeground"] = new SolidColorBrush(Color.FromRgb(0x22, 0x22, 0x22));
+                App.Current.Resources["NVBaseBrush"] = new SolidColorBrush(Color.FromRgb(0xEE, 0xEE, 0xEE));
+                App.Current.Resources["NVDefaultBrush"] = new SolidColorBrush(Color.FromRgb(0xDD, 0xDD, 0xDD));
+                App.Current.Resources["NVMouseOverBrush"] = new SolidColorBrush(Color.FromRgb(0x88, 0x88, 0x88));
+                App.Current.Resources["NVPressedBrush"] = new SolidColorBrush(Color.FromRgb(0x55, 0x55, 0x55));
+                App.Current.Resources["NVCheckMarkBrush"] = new SolidColorBrush(Color.FromRgb(0x44, 0xBB, 0x44));
+                App.Current.Resources["NVPanelIconBackground"] = new SolidColorBrush(Color.FromRgb(0xE0, 0xE0, 0xE0));
+                App.Current.Resources["NVPanelIconForeground"] = new SolidColorBrush(Color.FromRgb(0x44, 0x44, 0x44));
+                App.Current.Resources["NVFolderPen"] = new Pen(new SolidColorBrush(Color.FromRgb(0xDE, 0xB9, 0x82)), 1);
+            }
+
+            ThemeColorChanged?.Invoke(this, null);
+        }
 
         //
         public bool ToggleHideMenu()

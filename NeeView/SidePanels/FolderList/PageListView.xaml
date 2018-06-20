@@ -7,7 +7,6 @@
              xmlns:nwc="clr-namespace:NeeView.Windows.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
-             Background="{DynamicResource NVBackground}"
              Foreground="{DynamicResource NVForeground}">
 
 

@@ -4143,4 +4143,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordYes" xml:space="preserve">
     <value>Yes</value>
   </data>
+  <data name="SettingPageVisualGeneralOpacity" xml:space="preserve">
+    <value>Opacity</value>
+  </data>
+  <data name="ParamSidePanelOpacity" xml:space="preserve">
+    <value>Panel opacity</value>
+  </data>
 </root>

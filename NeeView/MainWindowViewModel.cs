@@ -66,7 +66,6 @@ namespace NeeView
 
         #endregion
 
-
         #region Window Icon
 
         // ウィンドウアイコン：標準
@@ -87,58 +86,6 @@ namespace NeeView
             => SlideShow.Current.IsPlayingSlideShow ? _windowIconPlay : _windowIconDefault;
 
         #endregion
-
-
-        #region テーマカラー
-
-        //
-        public void UpdatePanelColor()
-        {
-            if (App.Current == null) return;
-
-            int alpha = _panelOpacity * 0xFF / 100;
-            if (alpha > 0xff) alpha = 0xff;
-            if (alpha < 0x00) alpha = 0x00;
-            if (_model.PanelColor == PanelColor.Dark)
-            {
-                App.Current.Resources["NVBackgroundFade"] = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
-                App.Current.Resources["NVBackground"] = new SolidColorBrush(Color.FromArgb((byte)alpha, 0x22, 0x22, 0x22));
-                App.Current.Resources["NVForeground"] = new SolidColorBrush(Color.FromRgb(0xEE, 0xEE, 0xEE));
-                App.Current.Resources["NVBaseBrush"] = new SolidColorBrush(Color.FromArgb((byte)alpha, 0x28, 0x28, 0x28));
-                App.Current.Resources["NVDefaultBrush"] = new SolidColorBrush(Color.FromRgb(0x55, 0x55, 0x55));
-                App.Current.Resources["NVMouseOverBrush"] = new SolidColorBrush(Color.FromRgb(0xAA, 0xAA, 0xAA));
-                App.Current.Resources["NVPressedBrush"] = new SolidColorBrush(Color.FromRgb(0xDD, 0xDD, 0xDD));
-                App.Current.Resources["NVCheckMarkBrush"] = new SolidColorBrush(Color.FromRgb(0x90, 0xEE, 0x90));
-                App.Current.Resources["NVPanelIconBackground"] = new SolidColorBrush(Color.FromRgb(0x33, 0x33, 0x33));
-                App.Current.Resources["NVPanelIconForeground"] = new SolidColorBrush(Color.FromRgb(0xEE, 0xEE, 0xEE));
-                App.Current.Resources["NVFolderPen"] = null;
-            }
-            else
-            {
-                App.Current.Resources["NVBackgroundFade"] = new SolidColorBrush(Color.FromRgb(0xFF, 0xFF, 0xFF));
-                App.Current.Resources["NVBackground"] = new SolidColorBrush(Color.FromArgb((byte)alpha, 0xF8, 0xF8, 0xF8));
-                App.Current.Resources["NVForeground"] = new SolidColorBrush(Color.FromRgb(0x22, 0x22, 0x22));
-                App.Current.Resources["NVBaseBrush"] = new SolidColorBrush(Color.FromArgb((byte)alpha, 0xEE, 0xEE, 0xEE));
-                App.Current.Resources["NVDefaultBrush"] = new SolidColorBrush(Color.FromRgb(0xDD, 0xDD, 0xDD));
-                App.Current.Resources["NVMouseOverBrush"] = new SolidColorBrush(Color.FromRgb(0x88, 0x88, 0x88));
-                App.Current.Resources["NVPressedBrush"] = new SolidColorBrush(Color.FromRgb(0x55, 0x55, 0x55));
-                App.Current.Resources["NVCheckMarkBrush"] = new SolidColorBrush(Color.FromRgb(0x44, 0xBB, 0x44));
-                App.Current.Resources["NVPanelIconBackground"] = new SolidColorBrush(Color.FromRgb(0xE0, 0xE0, 0xE0));
-                App.Current.Resources["NVPanelIconForeground"] = new SolidColorBrush(Color.FromRgb(0x44, 0x44, 0x44));
-                App.Current.Resources["NVFolderPen"] = new Pen(new SolidColorBrush(Color.FromRgb(0xDE, 0xB9, 0x82)), 1);
-            }
-        }
-
-        // パネルの透明度(未使用)
-        private int _panelOpacity = 100;
-        public int PanelOpacity
-        {
-            get { return _panelOpacity; }
-            set { _panelOpacity = value; UpdatePanelColor(); RaisePropertyChanged(); }
-        }
-
-        #endregion
-
 
         #region コンテキストメニュー
 
@@ -223,9 +170,6 @@ namespace NeeView
             // mainwindow model
             _model = model;
 
-            _model.AddPropertyChanged(nameof(_model.PanelColor),
-                (s, e) => UpdatePanelColor());
-
             _model.AddPropertyChanged(nameof(_model.ContextMenuSetting),
                 (s, e) => UpdateContextMenu());
 
@@ -239,7 +183,6 @@ namespace NeeView
                 (s, e) => UpdateSidePanelMargin());
 
             // 初期化
-            UpdatePanelColor();
             UpdateContextMenu();
 
 

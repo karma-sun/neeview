@@ -11,7 +11,10 @@
             <DoubleAnimation Storyboard.TargetProperty="Opacity" BeginTime="0:0:1" From="0" To="1" Duration="0:0:0.5"/>
         </Storyboard>
     </UserControl.Resources>
-    <Grid Background="{DynamicResource NVBackground}" Opacity="0">
+    <!--
+    Background="{DynamicResource NVBackground}"
+    -->
+    <Grid Opacity="0">
         <Grid.Triggers>
             <EventTrigger RoutedEvent="Loaded">
                 <BeginStoryboard Storyboard="{StaticResource FadeInAnimation}"/>

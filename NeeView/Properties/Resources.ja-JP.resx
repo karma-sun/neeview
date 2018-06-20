@@ -4143,4 +4143,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordYes" xml:space="preserve">
     <value>はい</value>
   </data>
+  <data name="SettingPageVisualGeneralOpacity" xml:space="preserve">
+    <value>透明度</value>
+  </data>
+  <data name="ParamSidePanelOpacity" xml:space="preserve">
+    <value>パネル透明度</value>
+  </data>
 </root>

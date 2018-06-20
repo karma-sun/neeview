@@ -41,6 +41,9 @@ namespace NeeView.Setting
                 new SettingItemSection(Properties.Resources.SettingPageVisualGeneralTheme,
                     new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.PanelColor)))),
 
+                new SettingItemSection(Properties.Resources.SettingPageVisualGeneralOpacity,
+                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.Opacity)))),
+
                 new SettingItemSection(Properties.Resources.SettingPageVisualGeneralBackground,
                     new SettingItemProperty(PropertyMemberElement.Create(ContentCanvasBrush.Current, nameof(ContentCanvasBrush.CustomBackground)),
                         new BackgroundSettingControl(ContentCanvasBrush.Current.CustomBackground))),

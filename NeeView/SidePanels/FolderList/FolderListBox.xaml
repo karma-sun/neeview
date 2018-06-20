@@ -8,7 +8,6 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance local:FolderListDataContext_Design, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300"
-             Background="{DynamicResource NVBackground}"
              Foreground="{DynamicResource NVForeground}">
 
     <UserControl.Resources>
@@ -232,8 +231,7 @@
             </ListBox.ItemContainerStyle>
 
         </ListBox>
-
-        <ContentControl x:Name="BusyFadeContent"/>
+        
     </Grid>
 
 </UserControl>

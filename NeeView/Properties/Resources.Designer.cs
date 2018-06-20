@@ -10004,6 +10004,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   It is effective in auto-hide mode. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamSidePanelOpacityTips {
+            get {
+                return ResourceManager.GetString("ParamSidePanelOpacityTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Slider Direction に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamSliderDirection {
@@ -10036,6 +10045,24 @@ namespace NeeView.Properties {
         public static string ParamSliderIsLinkedThumbnailListTips {
             get {
                 return ResourceManager.GetString("ParamSliderIsLinkedThumbnailListTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Slider opacity に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamSliderOpacity {
+            get {
+                return ResourceManager.GetString("ParamSliderOpacity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   It is effective in auto-hide mode. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamSliderOpacityTips {
+            get {
+                return ResourceManager.GetString("ParamSliderOpacityTips", resourceCulture);
             }
         }
         

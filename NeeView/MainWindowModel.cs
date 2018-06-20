@@ -71,7 +71,9 @@ namespace NeeView
         private ContextMenuSetting _contextMenuSetting = new ContextMenuSetting();
         private bool _isHideMenu;
         private bool _isIsHidePageSlider;
+        private bool _canHidePageSlider;
         private bool _isHidePanel; // = true;
+        private bool _canHidePanel;
 
         private bool _IsHidePanelInFullscreen = true;
         private bool _IsVisibleWindowTitle = true;
@@ -80,6 +82,9 @@ namespace NeeView
 
         private DateTime _scrollPageTime;
         private const double _scrollPageMargin = 100.0;
+
+        private double _sliderOpacity = 1.0;
+        private SolidColorBrush _sliderBackground;
 
         #endregion
 
@@ -94,7 +99,17 @@ namespace NeeView
 
             // Window Shape
             WindowShape.Current.AddPropertyChanged(nameof(WindowShape.Current.IsFullScreen),
-                (s, e) => RefreshCanHidePanel());
+                (s, e) =>
+                {
+                    RefreshCanHidePanel();
+                    RefreshCanHidePageSlider();
+                });
+
+            RefreshCanHidePanel();
+            RefreshCanHidePageSlider();
+
+            RefreshThemeColor();
+            RefreshSliderBrushes();
         }
 
         #endregion
@@ -112,7 +127,7 @@ namespace NeeView
         [PropertyMember("@ParamIsOpenbookAtCurrentPlace")]
         public bool IsOpenbookAtCurrentPlace { get; set; }
 
-        //
+        // テーマカラー
         [PropertyMember("@ParamPanelColor")]
         public PanelColor PanelColor
         {
@@ -121,9 +136,30 @@ namespace NeeView
             {
                 if (SetProperty(ref _panelColor, value))
                 {
-                    UpdateThemeColor();
+                    RefreshThemeColor();
                 }
             }
+        }
+
+        // スライダー透明度
+        [PropertyPercent("@ParamSliderOpacity", Tips = "@ParamSliderOpacityTips")]
+        public double SliderOpacity
+        {
+            get { return _sliderOpacity; }
+            set
+            {
+                if (SetProperty(ref _sliderOpacity, value))
+                {
+                    RefreshSliderBrushes();
+                }
+            }
+        }
+
+        // スライダー背景ブラシ
+        public SolidColorBrush SliderBackground
+        {
+            get { return _sliderBackground; }
+            private set { SetProperty(ref _sliderBackground, value); }
         }
 
         //
@@ -161,12 +197,21 @@ namespace NeeView
             {
                 _isIsHidePageSlider = value;
                 RaisePropertyChanged();
-                RaisePropertyChanged(nameof(CanHidePageSlider));
+                RefreshCanHidePageSlider();
             }
         }
 
-        //
-        public bool CanHidePageSlider => IsHidePageSlider || WindowShape.Current.IsFullScreen;
+        public bool CanHidePageSlider
+        {
+            get { return _canHidePageSlider; }
+            set
+            {
+                if (SetProperty(ref _canHidePageSlider, value))
+                {
+                    RefreshSliderBrushes();
+                }
+            }
+        }
 
         // パネルを自動的に隠す
         public bool IsHidePanel
@@ -191,22 +236,16 @@ namespace NeeView
         }
 
         // パネルを自動的に隠せるか
-        private bool _CanHidePanel;
         public bool CanHidePanel
         {
-            get { return _CanHidePanel; }
+            get { return _canHidePanel; }
             private set
             {
-                if (SetProperty(ref _CanHidePanel, value))
+                if (SetProperty(ref _canHidePanel, value))
                 {
                     CanHidePanelChanged?.Invoke(this, null);
                 }
             }
-        }
-
-        public void RefreshCanHidePanel()
-        {
-            CanHidePanel = IsHidePanel || (IsHidePanelInFullscreen && WindowShape.Current.IsFullScreen);
         }
 
         /// <summary>
@@ -280,7 +319,7 @@ namespace NeeView
         #region Methods
 
         //
-        public void UpdateThemeColor()
+        public void RefreshThemeColor()
         {
             if (App.Current == null) return;
 
@@ -313,7 +352,40 @@ namespace NeeView
                 App.Current.Resources["NVFolderPen"] = new Pen(new SolidColorBrush(Color.FromRgb(0xDE, 0xB9, 0x82)), 1);
             }
 
+            RefreshSliderBrushes();
+
             ThemeColorChanged?.Invoke(this, null);
+        }
+
+        private void RefreshSliderBrushes()
+        {
+            var opacity = CanHidePageSlider ? _sliderOpacity : 1.0;
+            SliderBackground = CreatePanelBrush((SolidColorBrush)App.Current.Resources["NVBaseBrush"], opacity);
+        }
+
+        private SolidColorBrush CreatePanelBrush(SolidColorBrush source, double opacity)
+        {
+            if (opacity < 1.0)
+            {
+                var color = source.Color;
+                color.A = (byte)NeeLaboratory.MathUtility.Clamp((int)(opacity * 0xFF), 0x00, 0xFF);
+                return new SolidColorBrush(color);
+            }
+            else
+            {
+                return source;
+            }
+        }
+
+
+        private void RefreshCanHidePageSlider()
+        {
+            CanHidePageSlider = IsHidePageSlider || WindowShape.Current.IsFullScreen;
+        }
+
+        public void RefreshCanHidePanel()
+        {
+            CanHidePanel = IsHidePanel || (IsHidePanelInFullscreen && WindowShape.Current.IsFullScreen);
         }
 
         //
@@ -639,6 +711,8 @@ namespace NeeView
             public bool IsOpenbookAtCurrentPlace { get; set; }
             [DataMember, DefaultValue(true)]
             public bool IsAccessKeyEnabled { get; set; }
+            [DataMember, DefaultValue(1.0)]
+            public double SliderOpacity { get; set; }
 
             [OnDeserializing]
             private void OnDeserializing(StreamingContext c)
@@ -664,6 +738,7 @@ namespace NeeView
             memento.IsVisibleBusy = this.IsVisibleBusy;
             memento.IsOpenbookAtCurrentPlace = this.IsOpenbookAtCurrentPlace;
             memento.IsAccessKeyEnabled = this.IsAccessKeyEnabled;
+            memento.SliderOpacity = this.SliderOpacity;
 
             return memento;
         }
@@ -685,6 +760,7 @@ namespace NeeView
             this.IsVisibleBusy = memento.IsVisibleBusy;
             this.IsOpenbookAtCurrentPlace = memento.IsOpenbookAtCurrentPlace;
             this.IsAccessKeyEnabled = memento.IsAccessKeyEnabled;
+            this.SliderOpacity = memento.SliderOpacity;
         }
 
         #endregion

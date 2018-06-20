@@ -4149,4 +4149,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamSidePanelOpacity" xml:space="preserve">
     <value>Panel opacity</value>
   </data>
+  <data name="ParamSidePanelOpacityTips" xml:space="preserve">
+    <value>It is effective in auto-hide mode.</value>
+  </data>
+  <data name="ParamSliderOpacity" xml:space="preserve">
+    <value>Slider opacity</value>
+  </data>
+  <data name="ParamSliderOpacityTips" xml:space="preserve">
+    <value>It is effective in auto-hide mode.</value>
+  </data>
 </root>

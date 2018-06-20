@@ -84,7 +84,7 @@
 
             <!-- MenuItem History -->
             <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
-                <Setter Property="Header" Value="{Binding Path=Name}"/> 
+                <Setter Property="Header" Value="{Binding Path=Name}"/>
                 <Setter Property="Command" Value="{x:Static local:LoadCommand.Command}"/>
                 <Setter Property="CommandParameter" Value="{Binding Path=Place}" />
                 <Setter Property="InputGestureText" Value=""/>
@@ -229,7 +229,7 @@
                                                    Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
                                                    Text="{Binding WindowTitle.Title}" Foreground="{DynamicResource NVForeground}"
                                                    Padding="20,5"
-                                                   Background="{DynamicResource NVBackground}">
+                                                   Background="{Binding Model.SliderBackground}">
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
                                                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -301,13 +301,15 @@
                 <!-- Status Layer -->
                 <DockPanel x:Name="LayerStatusArea" VerticalAlignment="Bottom" Visibility="Collapsed" MouseEnter="LayerStatusArea_MouseEnter" MouseLeave="LayerStatusArea_MouseLeave">
                     <Grid DockPanel.Dock="Bottom" Height="{Binding ElementName=DockStatusArea, Path=ActualHeight}"/>
-                    <ContentControl x:Name="LayerPageSliderSocket" DockPanel.Dock="Bottom" IsTabStop="False"/>
+                    <Grid DockPanel.Dock="Bottom" Background="{Binding Model.SliderBackground}">
+                        <ContentControl x:Name="LayerPageSliderSocket" IsTabStop="False"/>
+                    </Grid>
                     <Grid DockPanel.Dock="Bottom">
                         <Grid.Style>
                             <Style TargetType="Grid">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding ThumbnailList.IsVisibleThumbnailPlate}" Value="True">
-                                        <Setter Property="Background" Value="{DynamicResource NVBaseBrush}"/>
+                                        <Setter Property="Background" Value="{Binding Model.SliderBackground}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>

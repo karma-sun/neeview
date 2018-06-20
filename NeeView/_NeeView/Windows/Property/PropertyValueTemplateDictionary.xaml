@@ -40,6 +40,14 @@
         </DockPanel>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type local:PropertyValue_Percent}">
+        <DockPanel>
+            <TextBox DockPanel.Dock="Right" Text="{Binding Percent, StringFormat={}{0}%}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0"/>
+            <Slider Value="{Binding Percent}" Minimum="0" Maximum="100" SmallChange="5" LargeChange="20" 
+                        TickFrequency="1" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
+        </DockPanel>
+    </DataTemplate>
+
 
     <DataTemplate DataType="{x:Type local:PropertyValue_Enum}">
         <ComboBox ItemsSource="{Binding Map}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding SelectedValue}"/>

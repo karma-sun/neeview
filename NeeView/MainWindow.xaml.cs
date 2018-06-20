@@ -899,7 +899,7 @@ namespace NeeView
             _isDartyPageSliderLayout = false;
 
             // menu hide
-            bool isPageSliderDock = !MainWindowModel.Current.IsHidePageSlider && !WindowShape.Current.IsFullScreen;
+            bool isPageSliderDock = !MainWindowModel.Current.CanHidePageSlider;
 
             if (isPageSliderDock)
             {

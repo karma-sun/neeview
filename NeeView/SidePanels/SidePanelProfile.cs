@@ -11,7 +11,7 @@ namespace NeeView
         public static SidePanelProfile Current { get; private set; }
 
 
-        private double _opacity = 0.95;
+        private double _opacity = 1.0;
         private SolidColorBrush _backgroundBrush;
         private SolidColorBrush _baseBrush;
         private SolidColorBrush _iconBackgroundBrush;
@@ -34,7 +34,7 @@ namespace NeeView
         [PropertyMember("@ParamSidePanelHitTestMargin")]
         public double HitTestMargin { get; set; } = 32.0;
 
-        [PropertyRange(0.0, 1.0, Name = "@ParamSidePanelOpacity")]
+        [PropertyPercent("@ParamSidePanelOpacity", Tips = "@ParamSidePanelOpacityTips")]
         public double Opacity
         {
             get { return _opacity; }
@@ -99,7 +99,7 @@ namespace NeeView
             public bool IsLeftRightKeyEnabled { get; set; }
             [DataMember, DefaultValue(32.0)]
             public double HitTestMargin { get; set; }
-            [DataMember, DefaultValue(0.95)]
+            [DataMember, DefaultValue(1.0)]
             public double Opacity { get; set; }
 
             [OnDeserializing]

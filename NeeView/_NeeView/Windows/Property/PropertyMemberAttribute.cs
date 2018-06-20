@@ -51,6 +51,22 @@ namespace NeeView.Windows.Property
         }
     }
 
+    /// <summary>
+    /// double range: 0.0 - 1.0
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Property)]
+    public class PropertyPercentAttribute : PropertyMemberAttribute
+    {
+        public PropertyPercentAttribute(string name) : base(name)
+        {
+        }
+
+        public override PropertyMemberElement CreateContent(object source, PropertyInfo info)
+        {
+            return new PropertyMemberElement(source, info, this);
+        }
+    }
+
 
     [AttributeUsage(AttributeTargets.Property)]
     public class PropertyPathAttribute : PropertyMemberAttribute

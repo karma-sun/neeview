@@ -10,7 +10,7 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
     
-    <Grid x:Name="Root"  Background="{DynamicResource NVBaseBrush}" MouseWheel="SliderArea_MouseWheel" UseLayoutRounding="True">
+    <Grid x:Name="Root" MouseWheel="SliderArea_MouseWheel" UseLayoutRounding="True">
         <DockPanel Visibility="{Binding PageSliderVisibility}">
             <local:SliderTextBox x:Name="PageSliderTextBox" DockPanel.Dock="{Binding SliderIndexDock}" 
                                        Visibility="{Binding IsSliderWithIndex, Converter={StaticResource BooleanToVisibilityConverter}}"

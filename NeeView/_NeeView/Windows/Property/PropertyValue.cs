@@ -301,6 +301,20 @@ namespace NeeView.Windows.Property
     }
 
     //
+    public class PropertyValue_Percent : PropertyValue_Double
+    {
+        public double Percent
+        {
+            get { return Value * 100.0; }
+            set { Value = value / 100.0; }
+        }
+
+        public PropertyValue_Percent(PropertyMemberElement setter) : base(setter)
+        {
+        }
+    }
+
+    //
     public class PropertyValue_FilePath : PropertyValue_String
     {
         public bool IsDirectory { get; set; }

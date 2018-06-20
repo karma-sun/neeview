@@ -28,7 +28,7 @@ namespace NeeView.Windows.Property
             Name = name;
         }
     }
-    
+
     /// <summary>
     /// プロパティ項目表示編集
     /// </summary>
@@ -127,6 +127,21 @@ namespace NeeView.Windows.Property
             }
         }
 
+        //
+        public PropertyMemberElement(object source, PropertyInfo info, PropertyPercentAttribute attribute)
+        {
+            Initialize(source, info, attribute);
+
+            TypeCode typeCode = Type.GetTypeCode(_info.PropertyType);
+            switch (typeCode)
+            {
+                case TypeCode.Double:
+                    this.TypeValue = new PropertyValue_Percent(this);
+                    break;
+                default:
+                    throw new NotSupportedException();
+            }
+        }
 
         //
         public PropertyMemberElement(object source, PropertyInfo info, PropertyPathAttribute attribute)

@@ -4147,6 +4147,15 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>透明度</value>
   </data>
   <data name="ParamSidePanelOpacity" xml:space="preserve">
-    <value>パネル透明度</value>
+    <value>パネル不透明度</value>
+  </data>
+  <data name="ParamSidePanelOpacityTips" xml:space="preserve">
+    <value>自動非表示の場合に有効です。</value>
+  </data>
+  <data name="ParamSliderOpacity" xml:space="preserve">
+    <value>スライダー不透明度</value>
+  </data>
+  <data name="ParamSliderOpacityTips" xml:space="preserve">
+    <value>自動非表示の場合に有効です。</value>
   </data>
 </root>

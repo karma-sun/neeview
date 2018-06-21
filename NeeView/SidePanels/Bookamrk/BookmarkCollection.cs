@@ -221,7 +221,7 @@ namespace NeeView
 
             [Obsolete]
             [DataMember(Name = "Items", EmitDefaultValue = false)]
-            public List<Book.Memento> OldBooks { get; set; }
+            public List<Book.Memento> OldBooks { get; set; } // no used (ver.31)
 
             private void Constructor()
             {

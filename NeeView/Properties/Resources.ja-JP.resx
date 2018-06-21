@@ -4158,4 +4158,31 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamSliderOpacityTips" xml:space="preserve">
     <value>自動非表示の場合に有効です。</value>
   </data>
+  <data name="CommandToggleVisibleFolderQuickAccess" xml:space="preserve">
+    <value>クイックアスセスの表示ON/OFF</value>
+  </data>
+  <data name="CommandToggleVisibleFolderQuickAccessMenu" xml:space="preserve">
+    <value>クイックアクセス</value>
+  </data>
+  <data name="CommandToggleVisibleFolderQuickAccessNote" xml:space="preserve">
+    <value>クイックアクセスの表示/非表示を切り替えます。フォルダーリストは表示状態になります。</value>
+  </data>
+  <data name="CommandToggleVisibleFolderQuickAccessOff" xml:space="preserve">
+    <value>クイックアクセスを消す</value>
+  </data>
+  <data name="CommandToggleVisibleFolderQuickAccessOn" xml:space="preserve">
+    <value>クイックアクセスを表示する</value>
+  </data>
+  <data name="FolderListMoreMenuQuickAccess" xml:space="preserve">
+    <value>クイックアクセス</value>
+  </data>
+  <data name="FolderListMoreMenuAddQuickAccess" xml:space="preserve">
+    <value>クイックアクセスに追加</value>
+  </data>
+  <data name="QuickAccessItemMenuDelete" xml:space="preserve">
+    <value>クイックアクセスからはずす</value>
+  </data>
+  <data name="WordSearchWord" xml:space="preserve">
+    <value>検索ワード</value>
+  </data>
 </root>

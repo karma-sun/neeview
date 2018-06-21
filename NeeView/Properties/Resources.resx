@@ -4158,4 +4158,31 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamSliderOpacityTips" xml:space="preserve">
     <value>It is effective in auto-hide mode.</value>
   </data>
+  <data name="CommandToggleVisibleFolderQuickAccess" xml:space="preserve">
+    <value>Toggle Quick access</value>
+  </data>
+  <data name="CommandToggleVisibleFolderQuickAccessMenu" xml:space="preserve">
+    <value>Quick access</value>
+  </data>
+  <data name="CommandToggleVisibleFolderQuickAccessNote" xml:space="preserve">
+    <value>Toggle visible / hide of the Quick access. The folder list is displayed.</value>
+  </data>
+  <data name="CommandToggleVisibleFolderQuickAccessOff" xml:space="preserve">
+    <value>Quick access OFF</value>
+  </data>
+  <data name="CommandToggleVisibleFolderQuickAccessOn" xml:space="preserve">
+    <value>Quick access</value>
+  </data>
+  <data name="FolderListMoreMenuQuickAccess" xml:space="preserve">
+    <value>Quick access</value>
+  </data>
+  <data name="FolderListMoreMenuAddQuickAccess" xml:space="preserve">
+    <value>Add to Quick access</value>
+  </data>
+  <data name="QuickAccessItemMenuDelete" xml:space="preserve">
+    <value>Remove from Quick access</value>
+  </data>
+  <data name="WordSearchWord" xml:space="preserve">
+    <value>Search word</value>
+  </data>
 </root>

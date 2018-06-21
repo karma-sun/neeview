@@ -880,6 +880,20 @@ namespace NeeView
                 element.CreateIsCheckedBinding = () => new Binding(nameof(_models.FolderList.IsFolderSearchBoxVisible)) { Source = _models.FolderList, Mode = BindingMode.OneWay };
                 _elements[CommandType.ToggleVisibleFolderSearchBox] = element;
             }
+            // ToggleVisibleFolderQuickAccess
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupPanel;
+                element.Text = Properties.Resources.CommandToggleVisibleFolderQuickAccess;
+                element.MenuText = Properties.Resources.CommandToggleVisibleFolderQuickAccessMenu;
+                element.Note = Properties.Resources.CommandToggleVisibleFolderQuickAccessNote;
+                element.IsShowMessage = false;
+                element.ExecuteMessage = e => _models.SidePanel.IsVisibleFolderQuickAccess ? Properties.Resources.CommandToggleVisibleFolderQuickAccessOff : Properties.Resources.CommandToggleVisibleFolderQuickAccessOn;
+                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleFolderQuickAccess(e.Parameter is MenuCommandTag);
+                element.CanExecute = () => true;
+                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.FolderList.IsQuickAccessVisible)) { Source = _models.FolderList, Mode = BindingMode.OneWay };
+                _elements[CommandType.ToggleVisibleFolderQuickAccess] = element;
+            }
 
             // ToggleVisibleThumbnailList
             {

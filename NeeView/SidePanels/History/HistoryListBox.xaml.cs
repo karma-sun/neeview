@@ -31,6 +31,11 @@ namespace NeeView
 
         #region Constructors
 
+        static HistoryListBox()
+        {
+            InitializeCommandStatic();
+        }
+
         public HistoryListBox()
         {
             InitializeComponent();
@@ -65,9 +70,13 @@ namespace NeeView
 
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(HistoryListBox));
 
-        public void InitializeCommand()
+        public static void InitializeCommandStatic()
         {
             RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
+        }
+
+        public void InitializeCommand()
+        {
             this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec));
         }
 

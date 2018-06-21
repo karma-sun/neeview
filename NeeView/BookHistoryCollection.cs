@@ -382,10 +382,6 @@ namespace NeeView
             [DataMember(Name = "Histories")]
             public List<BookHistory> Items { get; set; }
 
-            [Obsolete]
-            [DataMember(Name = "History", EmitDefaultValue = false)]
-            public List<Book.Memento> OldBooks { get; set; } // no used (ver.31)
-
             [DataMember]
             public List<Book.Memento> Books { get; set; }
 
@@ -413,10 +409,16 @@ namespace NeeView
             [DataMember(EmitDefaultValue = false)]
             public List<string> SearchHistory { get; set; }
 
+            [DataMember]
+            public QuickAccessCollection.Memento QuickAccess { get; set; }
+
             // no used
             [Obsolete, DataMember(Order = 8, EmitDefaultValue = false)]
             public Dictionary<string, FolderOrder> FolderOrders { get; set; } // no used (ver.22)
 
+            [Obsolete]
+            [DataMember(Name = "History", EmitDefaultValue = false)]
+            public List<Book.Memento> OldBooks { get; set; } // no used (ver.31)
 
             //
             private void Constructor()
@@ -516,6 +518,9 @@ namespace NeeView
             memento.IsKeepSearchHistory = IsKeepSearchHistory;
             memento.SearchHistory = this.SearchHistory.Any() ? this.SearchHistory.ToList() : null;
 
+            // QuickAccess情報もここに保存する
+            memento.QuickAccess = QuickAccessCollection.Current.CreateMemento();
+
             if (forSave)
             {
                 memento.Items = Limit(this.Items.Where(e => !e.Place.StartsWith(Temporary.TempDirectory))).ToList();
@@ -576,6 +581,7 @@ namespace NeeView
             }
 #pragma warning restore CS0612
 
+            QuickAccessCollection.Current.Restore(memento.QuickAccess);
         }
 
         // 履歴数制限

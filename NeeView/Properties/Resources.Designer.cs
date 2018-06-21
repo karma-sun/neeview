@@ -3265,6 +3265,51 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle Quick access に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleVisibleFolderQuickAccess {
+            get {
+                return ResourceManager.GetString("CommandToggleVisibleFolderQuickAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Quick access に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleVisibleFolderQuickAccessMenu {
+            get {
+                return ResourceManager.GetString("CommandToggleVisibleFolderQuickAccessMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle visible / hide of the Quick access. The folder list is displayed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleVisibleFolderQuickAccessNote {
+            get {
+                return ResourceManager.GetString("CommandToggleVisibleFolderQuickAccessNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Quick access OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleVisibleFolderQuickAccessOff {
+            get {
+                return ResourceManager.GetString("CommandToggleVisibleFolderQuickAccessOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Quick access に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleVisibleFolderQuickAccessOn {
+            get {
+                return ResourceManager.GetString("CommandToggleVisibleFolderQuickAccessOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle search box に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleFolderSearchBox {
@@ -6746,6 +6791,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Add to Quick access に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FolderListMoreMenuAddQuickAccess {
+            get {
+                return ResourceManager.GetString("FolderListMoreMenuAddQuickAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Delete all history of this place に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FolderListMoreMenuClearHistory {
@@ -6760,6 +6814,15 @@ namespace NeeView.Properties {
         public static string FolderListMoreMenuPageList {
             get {
                 return ResourceManager.GetString("FolderListMoreMenuPageList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Quick access に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FolderListMoreMenuQuickAccess {
+            get {
+                return ResourceManager.GetString("FolderListMoreMenuQuickAccess", resourceCulture);
             }
         }
         
@@ -10436,6 +10499,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Remove from Quick access に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string QuickAccessItemMenuDelete {
+            get {
+                return ResourceManager.GetString("QuickAccessItemMenuDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Delete all data... に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingItemRemove {
@@ -11993,6 +12065,15 @@ namespace NeeView.Properties {
         public static string WordRight {
             get {
                 return ResourceManager.GetString("WordRight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Search word に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordSearchWord {
+            get {
+                return ResourceManager.GetString("WordSearchWord", resourceCulture);
             }
         }
         

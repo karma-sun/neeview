@@ -295,6 +295,19 @@ namespace NeeView
             _model.SearchKeyword = "";
         }
 
+        private RelayCommand _AddQuickAccess;
+        public RelayCommand AddQuickAccess
+        {
+            get
+            {
+                return _AddQuickAccess = _AddQuickAccess ?? new RelayCommand(Executed);
+
+                void Executed()
+                {
+                    _model.AddQuickAccess();
+                }
+            }
+        }
 
         #endregion
 
@@ -347,12 +360,14 @@ namespace NeeView
         {
             var menu = new ContextMenu();
             menu.Items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuSearchBox, CommandType.ToggleVisibleFolderSearchBox, source));
+            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuQuickAccess, CommandType.ToggleVisibleFolderQuickAccess, source));
             menu.Items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuPageList, CommandType.ToggleVisiblePageList, source));
             menu.Items.Add(new Separator());
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleList, PanelListItemStyle.Normal));
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleContent, PanelListItemStyle.Content));
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
             menu.Items.Add(new Separator());
+            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuAddQuickAccess, AddQuickAccess));
             menu.Items.Add(CreateRecursiveFlagMenuItem(Properties.Resources.FolderListMoreMenuSubfolder));
             menu.Items.Add(new Separator());
             menu.Items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuClearHistory, CommandType.ClearHistoryInPlace, source));

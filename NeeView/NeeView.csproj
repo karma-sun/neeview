@@ -185,6 +185,13 @@
     <Compile Include="Setting\SettingItemImageCollection.xaml.cs">
       <DependentUpon>SettingItemImageCollection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SidePanels\FolderList\QueryPath.cs" />
+    <Compile Include="SidePanels\FolderList\QuickAccess.cs" />
+    <Compile Include="SidePanels\FolderList\QuickAccessCollection.cs" />
+    <Compile Include="SidePanels\FolderList\QuickAccessListBox.xaml.cs">
+      <DependentUpon>QuickAccessListBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SidePanels\FolderList\QuickAccessListBoxViewModel.cs" />
     <Compile Include="Toast.cs" />
     <Compile Include="Controls\ToastCard.xaml.cs">
       <DependentUpon>ToastCard.xaml</DependentUpon>
@@ -959,6 +966,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SidePanels\FolderList\PageListBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SidePanels\FolderList\QuickAccessListBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

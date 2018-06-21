@@ -16,45 +16,91 @@ namespace NeeView
     /// </summary>
     public partial class FolderListView : UserControl
     {
-        /// <summary>
-        /// requested focus serch box
-        /// </summary>
-        private volatile bool _requestSearchBoxFocus;
+        #region Fields
 
-        /// <summary>
-        /// is renaming ?
-        /// </summary>
+        private volatile bool _requestSearchBoxFocus;
+        private volatile bool _requestQuickAccessFocus;
+
         public bool IsRenaming => _vm.IsRenaming;
 
-        /// <summary>
-        /// is SearchBox focused ?
-        /// </summary>
         public bool IsSearchBoxFocused => this.SearchBox.IsKeyboardFocusWithin;
 
-        /// <summary>
-        /// view model
-        /// </summary>
         private FolderListViewModel _vm;
 
         private int _busyCounter;
 
-        //
+        #endregion
+
+
+        #region Constructors
+
         public FolderListView()
         {
             InitializeComponent();
         }
 
-        /// <summary>
-        /// constructor
-        /// </summary>
         public FolderListView(FolderList model) : this()
         {
             _vm = new FolderListViewModel(model);
             this.DockPanel.DataContext = _vm;
 
             model.SearchBoxFocus += FolderList_SearchBoxFocus;
+            model.QuickAccessFocus += FolderList_QuickAccessFocus;
             model.BusyChanged += FolderList_BusyChanged;
         }
+
+        #endregion
+
+
+        /// <summary>
+        /// クイックアクセスへのフォーカス要求
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void FolderList_QuickAccessFocus(object sender, System.IO.ErrorEventArgs e)
+        {
+            if (!_vm.Model.IsQuickAccessVisible) return;
+
+            if (!_requestQuickAccessFocus)
+            {
+                _requestQuickAccessFocus = true;
+                var task = FocustQuickAccessAsync(); // 非同期
+            }
+        }
+
+        /// <summary>
+        /// クイックアクセスへのフォーカス処理
+        /// 準備ができるまで遅延して処理を行う
+        /// </summary>
+        private async Task FocustQuickAccessAsync()
+        {
+            // 表示が間に合わない場合があるので繰り返しトライする
+            while (_requestQuickAccessFocus && _vm.Model.IsFolderSearchBoxVisible)
+            {
+                var quickAccess = this.QuickAccessListBox;
+                if (quickAccess != null && quickAccess.IsLoaded && quickAccess.IsVisible && this.IsVisible)
+                {
+                    if (quickAccess.FocusSelectedItem())
+                    {
+                        var isFocused = quickAccess.IsKeyboardFocusWithin;
+                        //Debug.WriteLine($"Focus: {isFocused}");
+                        if (isFocused) break;
+                    }
+                    else
+                    {
+                        //Debug.WriteLine($"No Focus.");
+                        break;
+                    }
+                }
+
+                //Debug.WriteLine($"Focus: ready...");
+                await Task.Delay(100);
+            }
+
+            _requestQuickAccessFocus = false;
+            //Debug.WriteLine($"Focus: done.");
+        }
+
 
         /// <summary>
         /// 検索ボックスのフォーカス要求処理
@@ -201,6 +247,14 @@ namespace NeeView
             if (!this.SearchBox.IsKeyboardFocusWithin)
             {
                 _vm.UpdateSearchHistory();
+            }
+        }
+
+        private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (e.HeightChanged)
+            {
+                _vm.Model.AreaHeight = e.NewSize.Height;
             }
         }
     }

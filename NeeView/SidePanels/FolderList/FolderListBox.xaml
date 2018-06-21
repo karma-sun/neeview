@@ -132,6 +132,7 @@
 
     <Grid>
         <ListBox x:Name="ListBox" Focusable="True"
+                MinHeight="0"
                 FontFamily="{DynamicResource PanelFontFamily}" FontSize="{DynamicResource PanelFontSize}"
                 Background="Transparent"
                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"

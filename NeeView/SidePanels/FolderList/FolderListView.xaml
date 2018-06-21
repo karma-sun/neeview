@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:NeeView"
              xmlns:nwc="clr-namespace:NeeView.Windows.Controls"
              xmlns:properties="clr-namespace:NeeView.Properties"
+             xmlns:osc="clr-namespace:OpenSourceControls"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance local:FolderListDataContext_Design, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300"
@@ -47,6 +48,17 @@
         </Style>
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
+        <Style x:Key="NVHorizontalBevelGrip" TargetType="{x:Type osc:DockPanelSplitter}">
+            <Setter Property="Thickness" Value="6"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type osc:DockPanelSplitter}">
+                        <Grid SnapsToDevicePixels="True" Background="{DynamicResource  NVBaseBrush}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
     </UserControl.Resources>
 
@@ -183,10 +195,16 @@
 
         </StackPanel>
 
-        <Grid>
-            <ContentControl x:Name="ListContent" Content="{Binding ListContent}"/>
-            <ContentControl x:Name="BusyFadeContent"/>
-        </Grid>
+        <DockPanel SizeChanged="Grid_SizeChanged">
+            <local:QuickAccessListBox DockPanel.Dock="Top" x:Name="QuickAccessListBox" Height="{Binding Model.QuickAccessAreaHeight, Mode=TwoWay}"
+                                      Visibility="{Binding Model.IsQuickAccessVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <osc:DockPanelSplitter x:Name="LeftPanelSplitter" DockPanel.Dock="Top" Style="{StaticResource NVHorizontalBevelGrip}" ProportionalResize="False" UseLayoutRounding="True" IsTabStop="False"
+                                   Visibility="{Binding Model.IsQuickAccessVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Grid>
+                <ContentControl x:Name="ListContent" Content="{Binding ListContent}"/>
+                <ContentControl x:Name="BusyFadeContent"/>
+            </Grid>
+        </DockPanel>
 
     </DockPanel>
 </UserControl>

@@ -13,6 +13,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace NeeView
 {
@@ -30,39 +31,6 @@ namespace NeeView
         public BusyChangedEventArgs(bool isBusy)
         {
             this.IsBusy = isBusy;
-        }
-    }
-
-    /// <summary>
-    /// パスのクエリパラメータを分解する
-    /// </summary>
-    public class QueryPath
-    {
-        const string _query = "?search=";
-
-        public string Path { get; private set; }
-        public string Search { get; private set; }
-
-        public string Source => Search == null ? Path : Path + _query + Search;
-
-        public QueryPath(string source)
-        {
-            if (source == null)
-            {
-                return;
-            }
-
-            var index = source.IndexOf(_query);
-            if (index >= 0)
-            {
-                Path = source.Substring(0, index);
-                Search = source.Substring(index + _query.Length);
-            }
-            else
-            {
-                Path = source;
-                Search = null;
-            }
         }
     }
 
@@ -151,6 +119,8 @@ namespace NeeView
 
         // 検索ボックスにフォーカスを
         public event EventHandler SearchBoxFocus;
+
+        public event ErrorEventHandler QuickAccessFocus;
 
         /// <summary>
         /// リスト更新処理中イベント
@@ -353,6 +323,52 @@ namespace NeeView
 
         // 履歴情報のバインド用
         public BookHistoryCollection BookHistory => BookHistoryCollection.Current;
+
+
+        /// <summary>
+        /// クイックアクセスエリアの表示
+        /// </summary>
+        private bool _isQuickAccessVisible = false;
+        public bool IsQuickAccessVisible
+        {
+            get { return _isQuickAccessVisible; }
+            set { SetProperty(ref _isQuickAccessVisible, value); }
+        }
+
+        /// <summary>
+        /// クイックアクセスエリアの高さ
+        /// </summary>
+        private double _quickAccessAreaHeight = 32.0 - 6.0;
+        public double QuickAccessAreaHeight
+        {
+            get { return _quickAccessAreaHeight; }
+            set
+            {
+                var height = Math.Max(Math.Min(value, _areaHeight - 32.0), 32.0 - 6.0);
+                SetProperty(ref _quickAccessAreaHeight, height);
+            }
+        }
+
+        /// <summary>
+        /// フォルダーリストエリアの高さ
+        /// クイックアクセスエリアの高さ計算用
+        /// </summary>
+        private double _areaHeight = double.PositiveInfinity;
+        public double AreaHeight
+        {
+            get { return _areaHeight; }
+            set
+            {
+                if (SetProperty(ref _areaHeight, value))
+                {
+                    // 再設定する
+                    QuickAccessAreaHeight = _quickAccessAreaHeight;
+                }
+            }
+        }
+
+
+
 
         #endregion
 
@@ -677,6 +693,14 @@ namespace NeeView
         }
 
         /// <summary>
+        /// クイックアクセスにフォーカス要求
+        /// </summary>
+        public void RaiseQuickAccessFocus()
+        {
+            QuickAccessFocus?.Invoke(this, null);
+        }
+
+        /// <summary>
         /// 検索キーワードの正規化
         /// </summary>
         private string GetFixedSearchKeyword()
@@ -885,6 +909,15 @@ namespace NeeView
         #region Commands
 
 
+        public void AddQuickAccess()
+        {
+            IsQuickAccessVisible = true;
+
+            var item = new QuickAccess(new QueryPath(Place, GetFixedSearchKeyword()).FullPath);
+            QuickAccessCollection.Current.Add(item);
+        }
+
+        //
         public void SetHome_Executed()
         {
             if (_bookHub == null) return;
@@ -1078,6 +1111,11 @@ namespace NeeView
             [DataMember]
             public bool IsCloseBookWhenMove { get; set; }
 
+            [DataMember]
+            public double QuickAccessAreaHeight { get; set; }
+
+            [DataMember, DefaultValue(false)]
+            public bool IsQuickAccessVisible { get; set; }
 
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
@@ -1101,6 +1139,8 @@ namespace NeeView
             memento.ExcludePattern = this.ExcludePattern;
             memento.IsCruise = this.IsCruise;
             memento.IsCloseBookWhenMove = this.IsCloseBookWhenMove;
+            memento.QuickAccessAreaHeight = this.QuickAccessAreaHeight;
+            memento.IsQuickAccessVisible = this.IsQuickAccessVisible;
 
             return memento;
         }
@@ -1121,6 +1161,8 @@ namespace NeeView
             this.ExcludePattern = memento.ExcludePattern;
             this.IsCruise = memento.IsCruise;
             this.IsCloseBookWhenMove = memento.IsCloseBookWhenMove;
+            this.QuickAccessAreaHeight = memento.QuickAccessAreaHeight;
+            this.IsQuickAccessVisible = memento.IsQuickAccessVisible;
         }
 
         #endregion

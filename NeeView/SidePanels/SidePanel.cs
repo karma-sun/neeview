@@ -240,8 +240,6 @@ namespace NeeView
         /// <summary>
         /// 検索ボックス表示切り替え
         /// </summary>
-        /// <param name="byMenu"></param>
-        /// <returns></returns>
         public bool ToggleVisibleFolderSearchBox(bool byMenu)
         {
             var model = _models.FolderList;
@@ -262,6 +260,33 @@ namespace NeeView
             return model.IsFolderSearchBoxVisible;
         }
 
+        /// <summary>
+        /// クイックアクセス表示状態
+        /// </summary>
+        public bool IsVisibleFolderQuickAccess => _models.FolderList.IsQuickAccessVisible && IsVisibleFolderList;
+
+        /// <summary>
+        /// クイックアクセス表示状態切替
+        /// </summary>
+        public bool ToggleVisibleFolderQuickAccess(bool byMenu)
+        {
+            var model = _models.FolderList;
+
+            if (byMenu || !model.IsQuickAccessVisible || IsVisiblePanel(FolderListPanel))
+            {
+                model.IsQuickAccessVisible = !IsVisibleFolderQuickAccess;
+            }
+            SetSelectedPanel(FolderListPanel, true);
+            RaisePanelPropertyChanged();
+
+            // フォーカス要求
+            if (!byMenu && model.IsQuickAccessVisible)
+            {
+                model.RaiseQuickAccessFocus();
+            }
+
+            return model.IsQuickAccessVisible;
+        }
 
 
         // 履歴リスト表示ON/OFF

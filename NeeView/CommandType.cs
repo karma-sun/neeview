@@ -143,6 +143,8 @@ namespace NeeView
         ToggleVisiblePageList,
         [EnumMember]
         ToggleVisibleFolderSearchBox,
+        [EnumMember]
+        ToggleVisibleFolderQuickAccess,
 
         [Obsolete,EnumMember]
         TogglePanelStyle, // 欠番

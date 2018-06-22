@@ -19,18 +19,18 @@
                 <TextBlock FontFamily="Meyrio" Text="★" FontSize="18" Foreground="{StaticResource NVStarMarkBrush}" VerticalAlignment="Center" />
                 <TextBlock Text="{x:Static properties:Resources.BookmarkName}" Foreground="Gray" VerticalAlignment="Center" Margin="2,0"/>
             </StackPanel>
-            <DockPanel LastChildFill="False">
-                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Height ="30" Width="30" nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
+            <DockPanel LastChildFill="False" KeyboardNavigation.TabNavigation="Local">
+                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Height ="30" Width="30" nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}" TabIndex="2">
                     <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
                 </ToggleButton>
 
-                <Button x:Name="AddBookmark" Style="{StaticResource IconButton}" Height="30" Width="30" Command="{Binding AddBookmarkCommand}" ToolTip="{x:Static properties:Resources.BookmarkListAddTips}">
+                <Button x:Name="AddBookmark" Style="{StaticResource IconButton}" Height="30" Width="30" Command="{Binding AddBookmarkCommand}" ToolTip="{x:Static properties:Resources.BookmarkListAddTips}" TabIndex="1">
                     <Image Source="{StaticResource ic_add_24px}" Width="16" Height="16"/>
                 </Button>
             </DockPanel>
         </StackPanel>
 
-        <ContentControl Content="{Binding ListBoxContent}"/>
+        <ContentControl Content="{Binding ListBoxContent}" Focusable="False"/>
 
     </DockPanel>
 </UserControl>

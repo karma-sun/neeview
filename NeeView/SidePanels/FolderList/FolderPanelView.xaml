@@ -33,12 +33,12 @@
             </RowDefinition>
         </Grid.RowDefinitions>
 
-        <ContentControl x:Name="FolderList" Grid.Row="0"/>
+        <ContentControl x:Name="FolderList" Grid.Row="0" Focusable="False"/>
 
         <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Height="6" Background="{DynamicResource NVBaseBrush}" Focusable="False" 
                       Visibility="{Binding Model.IsPageListVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-        <ContentControl x:Name="PageList" Grid.Row="2"
+        <ContentControl x:Name="PageList" Grid.Row="2" Focusable="False"
                         Visibility="{Binding Model.IsPageListVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
     </Grid>
 </UserControl>

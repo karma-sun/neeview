@@ -14,16 +14,16 @@
 
         <StackPanel DockPanel.Dock="Top" Margin="5,0,5,2">
 
-            <DockPanel>
-                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Width="30" nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
+            <DockPanel KeyboardNavigation.TabNavigation ="Local" >
+                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Width="30" nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}" TabIndex="2">
                     <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
                 </ToggleButton>
                 <WrapPanel>
-                    <ComboBox x:Name="FormatComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}"
+                    <ComboBox x:Name="FormatComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" TabIndex="1"
                           ItemsSource="{Binding FormatList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding Model.Format, Delay=1}"
                           VerticalAlignment="Center">
                     </ComboBox>
-                    <ComboBox x:Name="PageSortComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}"
+                    <ComboBox x:Name="PageSortComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" TabIndex="1"
                           ItemsSource="{Binding PageSortModeList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding PageSortMode, Delay=1}"
                           VerticalAlignment="Center">
                     </ComboBox>
@@ -31,7 +31,7 @@
             </DockPanel>
         </StackPanel>
 
-        <ContentControl Content="{Binding ListBoxContent}"/>
+        <ContentControl Content="{Binding ListBoxContent}" Focusable="False"/>
 
     </DockPanel>
 

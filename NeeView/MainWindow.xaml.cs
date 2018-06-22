@@ -1104,9 +1104,38 @@ namespace NeeView
         [Conditional("DEBUG")]
         public void Debug_CheckFocus()
         {
-            var element = FocusManager.GetFocusedElement(this);
-            var fwelement = element as FrameworkElement;
-            Debug.WriteLine($"FOCUS: {element}({element?.GetType()})({fwelement?.Name})");
+            var element = FocusManager.GetFocusedElement(this) as Visual;
+            ElementWalk(element);
+            Debug.WriteLine(".");
+
+            void ElementWalk(Visual e)
+            {
+                if (e == null) return;
+
+                var name = (e as FrameworkElement)?.Name;
+
+                var typename = e.GetType().ToString();
+                var valuestring = e.ToString();
+
+                if (typename == valuestring)
+                {
+                    Debug.WriteLine($"FocusTree: {name} ({typename})");
+                }
+                else if (valuestring.StartsWith(typename))
+                {
+                    Debug.WriteLine($"FocusTree: {name} ({valuestring})");
+                }
+                else
+                {
+                    Debug.WriteLine($"FocusTree: {name} ({typename}: {valuestring})");
+                }
+
+                var parent = VisualTreeHelper.GetParent(e) as Visual;
+                if (parent != null)
+                {
+                    ElementWalk(parent);
+                }
+            }
         }
 
         #endregion

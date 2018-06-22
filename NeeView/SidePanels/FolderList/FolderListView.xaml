@@ -93,13 +93,13 @@
                 </Grid>
             </StackPanel>
 
-            <DockPanel>
-                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource FolderListToggleButtonStyle}"  VerticalAlignment="Center" 
+            <DockPanel KeyboardNavigation.TabNavigation="Local">
+                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource FolderListToggleButtonStyle}"  VerticalAlignment="Center" TabIndex="2"
                               nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
                     <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
                 </ToggleButton>
                 <WrapPanel Orientation="Horizontal" MinWidth="90">
-                    <Button x:Name="FolderHomeButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToHome}"
+                    <Button x:Name="FolderHomeButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToHome}" TabIndex="1"
                         ToolTip="{x:Static properties:Resources.FolderListHomeTips}">
                         <Image Source="{StaticResource ic_home_24px_b}" Width="20" Height="20"/>
                         <Button.ContextMenu>
@@ -108,7 +108,7 @@
                             </ContextMenu>
                         </Button.ContextMenu>
                     </Button>
-                    <Button x:Name="FolderPrevButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToPrevious}"
+                    <Button x:Name="FolderPrevButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToPrevious}" TabIndex="1"
                         ContextMenuService.Placement="Bottom"
                         ContextMenuOpening="FolderPrevButton_ContextMenuOpening"
                         ToolTip="{x:Static properties:Resources.FolderListBackTips}">
@@ -117,7 +117,7 @@
                             <ContextMenu x:Name="FolderPrevButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}"/>
                         </Button.ContextMenu>
                     </Button>
-                    <Button x:Name="FolderNextButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToNext}"
+                    <Button x:Name="FolderNextButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToNext}" TabIndex="1"
                         ContextMenuService.Placement="Bottom"
                         ContextMenuOpening="FolderNextButton_ContextMenuOpening"
                         ToolTip="{x:Static properties:Resources.FolderListNextTips}">
@@ -126,15 +126,15 @@
                             <ContextMenu x:Name="FolderNextButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}"/>
                         </Button.ContextMenu>
                     </Button>
-                    <Button x:Name="FolderUpButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToUp}"
+                    <Button x:Name="FolderUpButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToUp}" TabIndex="1"
                         ToolTip="{x:Static properties:Resources.FolderListUpTips}">
                         <Image Source="{StaticResource ic_arrow_up_24px_b}" Width="16" Height="16"/>
                     </Button>
-                    <Button x:Name="FolderSync" Style="{StaticResource FolderListButtonStyle}"  Command="{Binding Sync}"
+                    <Button x:Name="FolderSync" Style="{StaticResource FolderListButtonStyle}"  Command="{Binding Sync}" TabIndex="1"
                         ToolTip="{x:Static properties:Resources.FolderListSyncTips}">
                         <Image Source="{StaticResource ic_sync_24px_b}" Width="20" Height="20"/>
                     </Button>
-                    <ComboBox x:Name="FolderOrderComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}"
+                    <ComboBox x:Name="FolderOrderComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" TabIndex="1"
                           ItemsSource="{Binding FolderOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding FolderCollection.FolderParameter.FolderOrder, Delay=1}"
                           VerticalAlignment="Center">
                     </ComboBox>
@@ -165,14 +165,14 @@
                         </Style.Triggers>
                     </Style>
                 </Border.Style>
-                <DockPanel >
-                    <Button x:Name="ClearSearchButton" DockPanel.Dock="Right" VerticalAlignment="Center" Style="{StaticResource FolderListButtonStyle}" Width="24" Command="{Binding ClearSearch}">
+                <DockPanel KeyboardNavigation.TabNavigation="Local">
+                    <Button x:Name="ClearSearchButton" DockPanel.Dock="Right" VerticalAlignment="Center" Style="{StaticResource FolderListButtonStyle}" Width="24" Command="{Binding ClearSearch}" TabIndex="3">
                         <Image Source="{StaticResource ic_clear_24px_b}" Width="12" Height="12"/>
                     </Button>
-                    <Button x:Name="SearchButton" DockPanel.Dock="Right" VerticalAlignment="Center" Style="{StaticResource FolderListButtonStyle}" Width="24" Command="{Binding Search}">
+                    <Button x:Name="SearchButton" DockPanel.Dock="Right" VerticalAlignment="Center" Style="{StaticResource FolderListButtonStyle}" Width="24" Command="{Binding Search}" TabIndex="2">
                         <Image Source="{StaticResource ic_search_24px_b}" Width="16" Height="16"/>
                     </Button>
-                    <ComboBox x:Name="SearchBox" Text="{Binding Model.SearchKeyword, Delay=500, UpdateSourceTrigger=PropertyChanged}" 
+                    <ComboBox x:Name="SearchBox" Text="{Binding Model.SearchKeyword, Delay=500, UpdateSourceTrigger=PropertyChanged}" TabIndex="1"
                               Style="{StaticResource NVComboBoxEditable}"
                               IsKeyboardFocusWithinChanged="SearchBox_IsKeyboardFocusWithinChanged"
                               Foreground="{DynamicResource NVForeground}" Background="{DynamicResource NVBaseBrush}"
@@ -201,8 +201,8 @@
             <osc:DockPanelSplitter x:Name="LeftPanelSplitter" DockPanel.Dock="Top" Style="{StaticResource NVHorizontalBevelGrip}" ProportionalResize="False" UseLayoutRounding="True" IsTabStop="False"
                                    Visibility="{Binding Model.IsQuickAccessVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             <Grid>
-                <ContentControl x:Name="ListContent" Content="{Binding ListContent}"/>
-                <ContentControl x:Name="BusyFadeContent"/>
+                <ContentControl x:Name="ListContent" Content="{Binding ListContent}" Focusable="False"/>
+                <ContentControl x:Name="BusyFadeContent" Focusable="False"/>
             </Grid>
         </DockPanel>
 

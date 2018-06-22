@@ -43,7 +43,7 @@
             </DockPanel>
         </StackPanel>
 
-        <ContentControl Content="{Binding ListBoxContent}"/>
+        <ContentControl Content="{Binding ListBoxContent}" Focusable="False"/>
 
     </DockPanel>
 </UserControl>

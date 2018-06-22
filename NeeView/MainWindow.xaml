@@ -127,7 +127,7 @@
                 <DockPanel>
 
                     <!-- メニューエリア-->
-                    <ContentControl x:Name="DockMenuSocket" DockPanel.Dock="Top" IsTabStop="False" MouseEnter="DockMenuSocket_MouseEnter" MouseLeave="DockMenuSocket_MouseLeave">
+                    <ContentControl x:Name="DockMenuSocket" DockPanel.Dock="Top" Focusable="False" MouseEnter="DockMenuSocket_MouseEnter" MouseLeave="DockMenuSocket_MouseLeave">
                         <Grid x:Name="MenuArea">
                             <StackPanel>
                                 <!-- メニューバー-->
@@ -296,7 +296,7 @@
 
 
                 <!-- Menu Layer -->
-                <ContentControl x:Name="LayerMenuSocket" VerticalAlignment="Top" Visibility="Collapsed" IsTabStop="False" MouseEnter="LayerMenuSocket_MouseEnter" MouseLeave="LayerMenuSocket_MouseLeave"/>
+                <ContentControl x:Name="LayerMenuSocket" VerticalAlignment="Top" Visibility="Collapsed" Focusable="False" MouseEnter="LayerMenuSocket_MouseEnter" MouseLeave="LayerMenuSocket_MouseLeave"/>
 
                 <!-- Status Layer -->
                 <DockPanel x:Name="LayerStatusArea" VerticalAlignment="Bottom" Visibility="Collapsed" MouseEnter="LayerStatusArea_MouseEnter" MouseLeave="LayerStatusArea_MouseLeave">
@@ -328,7 +328,7 @@
                 <local:RenameManager x:Name="RenameManager" d:IsHidden="True"/>
 
                 <!-- Toast -->
-                <ContentControl Content="{Binding ToastService.ToastCard}"/>
+                <ContentControl Content="{Binding ToastService.ToastCard}" Focusable="False"/>
 
             </Grid>
 

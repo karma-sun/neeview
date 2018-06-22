@@ -82,7 +82,7 @@ namespace NeeView
             models.MainWindowModel.AddPropertyChanged(nameof(MainWindowModel.IsHideMenu),
                 (s, e) => DartyMenuAreaLayout());
 
-            models.MainWindowModel.AddPropertyChanged(nameof(MainWindowModel.IsHidePageSlider),
+            models.MainWindowModel.AddPropertyChanged(nameof(MainWindowModel.CanHidePageSlider),
                 (s, e) => DartyPageSliderLayout());
 
             models.MainWindowModel.AddPropertyChanged(nameof(MainWindowModel.IsPanelVisibleLocked),

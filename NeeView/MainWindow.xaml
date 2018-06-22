@@ -229,7 +229,7 @@
                                                    Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
                                                    Text="{Binding WindowTitle.Title}" Foreground="{DynamicResource NVForeground}"
                                                    Padding="20,5"
-                                                   Background="{Binding Model.SliderBackground}">
+                                                   Background="{Binding Model.SliderBackgroundGlass}">
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
                                                     <Setter Property="Visibility" Value="Collapsed"/>

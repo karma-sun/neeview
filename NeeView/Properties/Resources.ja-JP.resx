@@ -3937,6 +3937,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="SettingPageVisualSliderSlider" xml:space="preserve">
     <value>スライダー</value>
   </data>
+  <data name="SettingPageVisualSliderVisual" xml:space="preserve">
+    <value>表示</value>
+  </data>
   <data name="SettingPageVisualSlideshow" xml:space="preserve">
     <value>スライドショー</value>
   </data>
@@ -4187,5 +4190,8 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="ParamWindowShapeIsFullScreenWithTaskBar" xml:space="preserve">
     <value>フルスクリーンのときにタスクバー領域を覆わない</value>
+  </data>
+  <data name="ParamIsHidePageSliderInFullscreen" xml:space="preserve">
+    <value>フルスクリーンのときにスライダーを自動的に隠す</value>
   </data>
 </root>

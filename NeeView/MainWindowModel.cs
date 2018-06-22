@@ -75,6 +75,7 @@ namespace NeeView
         private bool _isHidePanel; // = true;
         private bool _canHidePanel;
 
+        private bool _IsHidePageSliderInFullscreen = true;
         private bool _IsHidePanelInFullscreen = true;
         private bool _IsVisibleWindowTitle = true;
         private bool _isVisibleAddressBar = true;
@@ -85,6 +86,7 @@ namespace NeeView
 
         private double _sliderOpacity = 1.0;
         private SolidColorBrush _sliderBackground;
+        private SolidColorBrush _sliderBackgroundGlass;
 
         #endregion
 
@@ -162,6 +164,14 @@ namespace NeeView
             private set { SetProperty(ref _sliderBackground, value); }
         }
 
+        // スライダー背景ブラス(常に不透明度適用)
+        public SolidColorBrush SliderBackgroundGlass
+        {
+            get { return _sliderBackgroundGlass; }
+            set { SetProperty(ref _sliderBackgroundGlass, value); }
+        }
+
+
         //
         public ContextMenuSetting ContextMenuSetting
         {
@@ -199,6 +209,16 @@ namespace NeeView
                 RaisePropertyChanged();
                 RefreshCanHidePageSlider();
             }
+        }
+
+        /// <summary>
+        /// フルスクリーン時にスライダーを隠す
+        /// </summary>
+        [PropertyMember("@ParamIsHidePageSliderInFullscreen")]
+        public bool IsHidePageSliderInFullscreen
+        {
+            get { return _IsHidePageSliderInFullscreen; }
+            set { if (_IsHidePageSliderInFullscreen != value) { _IsHidePageSliderInFullscreen = value; RaisePropertyChanged(); RefreshCanHidePageSlider(); } }
         }
 
         public bool CanHidePageSlider
@@ -359,8 +379,11 @@ namespace NeeView
 
         private void RefreshSliderBrushes()
         {
-            var opacity = CanHidePageSlider ? _sliderOpacity : 1.0;
-            SliderBackground = CreatePanelBrush((SolidColorBrush)App.Current.Resources["NVBaseBrush"], opacity);
+            var original = (SolidColorBrush)App.Current.Resources["NVBaseBrush"];
+            var glass = CreatePanelBrush(original, _sliderOpacity);
+
+            SliderBackground = CanHidePageSlider ? glass : original;
+            SliderBackgroundGlass = glass;
         }
 
         private SolidColorBrush CreatePanelBrush(SolidColorBrush source, double opacity)
@@ -380,7 +403,7 @@ namespace NeeView
 
         private void RefreshCanHidePageSlider()
         {
-            CanHidePageSlider = IsHidePageSlider || WindowShape.Current.IsFullScreen;
+            CanHidePageSlider = IsHidePageSlider || (IsHidePageSliderInFullscreen && WindowShape.Current.IsFullScreen);
         }
 
         public void RefreshCanHidePanel()
@@ -699,7 +722,7 @@ namespace NeeView
             public bool IsVisibleAddressBar { get; set; }
             [DataMember]
             public bool IsHidePanel { get; set; }
-            [DataMember]
+            [DataMember, DefaultValue(true)]
             public bool IsHidePanelInFullscreen { get; set; }
             [DataMember]
             public bool IsHidePageSlider { get; set; }
@@ -713,6 +736,8 @@ namespace NeeView
             public bool IsAccessKeyEnabled { get; set; }
             [DataMember, DefaultValue(1.0)]
             public double SliderOpacity { get; set; }
+            [DataMember, DefaultValue(true)]
+            public bool IsHidePageSliderInFullscreen { get; set; }
 
             [OnDeserializing]
             private void OnDeserializing(StreamingContext c)
@@ -739,6 +764,7 @@ namespace NeeView
             memento.IsOpenbookAtCurrentPlace = this.IsOpenbookAtCurrentPlace;
             memento.IsAccessKeyEnabled = this.IsAccessKeyEnabled;
             memento.SliderOpacity = this.SliderOpacity;
+            memento.IsHidePageSliderInFullscreen = this.IsHidePageSliderInFullscreen;
 
             return memento;
         }
@@ -761,6 +787,7 @@ namespace NeeView
             this.IsOpenbookAtCurrentPlace = memento.IsOpenbookAtCurrentPlace;
             this.IsAccessKeyEnabled = memento.IsAccessKeyEnabled;
             this.SliderOpacity = memento.SliderOpacity;
+            this.IsHidePageSliderInFullscreen = memento.IsHidePageSliderInFullscreen;
         }
 
         #endregion

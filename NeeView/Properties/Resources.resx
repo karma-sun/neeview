@@ -3937,6 +3937,9 @@ Details of the error are output to the following file.
   <data name="SettingPageVisualSliderSlider" xml:space="preserve">
     <value>Slider</value>
   </data>
+  <data name="SettingPageVisualSliderVisual" xml:space="preserve">
+    <value>Visual</value>
+  </data>
   <data name="SettingPageVisualSlideshow" xml:space="preserve">
     <value>Slideshow</value>
   </data>
@@ -4187,5 +4190,8 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="ParamWindowShapeIsFullScreenWithTaskBar" xml:space="preserve">
     <value>Do not cover the task bar area at full screen</value>
+  </data>
+  <data name="ParamIsHidePageSliderInFullscreen" xml:space="preserve">
+    <value>Automatically hide the slider when it is full screen</value>
   </data>
 </root>

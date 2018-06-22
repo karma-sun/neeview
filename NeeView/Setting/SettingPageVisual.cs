@@ -229,7 +229,8 @@ namespace NeeView.Setting
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection(Properties.Resources.SettingPageVisualSliderSlider,
+                new SettingItemSection(Properties.Resources.SettingPageVisualSliderVisual,
+                    new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsHidePageSliderInFullscreen))),
                     new SettingItemProperty(PropertyMemberElement.Create(PageSlider.Current, nameof(PageSlider.SliderDirection))),
                     new SettingItemProperty(PropertyMemberElement.Create(PageSlider.Current, nameof(PageSlider.SliderIndexLayout)))),
             };

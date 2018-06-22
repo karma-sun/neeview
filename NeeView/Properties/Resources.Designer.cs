@@ -9275,6 +9275,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Automatically hide the slider when it is full screen に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsHidePageSliderInFullscreen {
+            get {
+                return ResourceManager.GetString("ParamIsHidePageSliderInFullscreen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Automatically hide the side panel when it is full screen に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsHidePanelInFullscreen {
@@ -11593,6 +11602,15 @@ namespace NeeView.Properties {
         public static string SettingPageVisualSliderSlider {
             get {
                 return ResourceManager.GetString("SettingPageVisualSliderSlider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Visual に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageVisualSliderVisual {
+            get {
+                return ResourceManager.GetString("SettingPageVisualSliderVisual", resourceCulture);
             }
         }
         

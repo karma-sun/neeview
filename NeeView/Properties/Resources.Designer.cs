@@ -10445,6 +10445,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Do not cover the task bar area at full screen に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamWindowShapeIsFullScreenWithTaskBar {
+            get {
+                return ResourceManager.GetString("ParamWindowShapeIsFullScreenWithTaskBar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   For 1 page に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamWindowTitleFormat1 {

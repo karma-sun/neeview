@@ -4185,4 +4185,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordSearchWord" xml:space="preserve">
     <value>Search word</value>
   </data>
+  <data name="ParamWindowShapeIsFullScreenWithTaskBar" xml:space="preserve">
+    <value>Do not cover the task bar area at full screen</value>
+  </data>
 </root>

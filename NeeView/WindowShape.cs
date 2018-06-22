@@ -95,6 +95,7 @@ namespace NeeView
         private bool _isCaptionVisible = true;
         private bool _isTopmost;
         private bool _isFullScreen;
+        private bool _isFullScreenWithTaskBar;
         private WindowChrome _windowChrome;
         private WindowStateEx _state;
         private bool _IsEnabled;
@@ -218,6 +219,15 @@ namespace NeeView
             get { return _isFullScreen; }
             private set { if (_isFullScreen != value) { _isFullScreen = value; RaisePropertyChanged(); } }
         }
+
+        [PropertyMember("@ParamWindowShapeIsFullScreenWithTaskBar")]
+        public bool IsFullScreenWithTaskBar
+        {
+            get { return _isFullScreenWithTaskBar; }
+            set { SetProperty(ref _isFullScreenWithTaskBar, value); }
+        }
+
+
 
         /// <summary>
         /// 現在のWindowChrome
@@ -526,10 +536,18 @@ namespace NeeView
             //Debug.WriteLine("ToFullScreen");
             BeginEdit();
 
-            _window.ResizeMode = ResizeMode.NoResize;
-            if (_window.WindowState == WindowState.Maximized) _window.WindowState = WindowState.Normal;
-            _window.WindowStyle = WindowStyle.None;
-            _window.WindowState = WindowState.Maximized;
+            if (_isFullScreenWithTaskBar)
+            {
+                _window.WindowState = WindowState.Maximized;
+                _window.WindowStyle = WindowStyle.None;
+            }
+            else
+            {
+                _window.ResizeMode = ResizeMode.NoResize;
+                if (_window.WindowState == WindowState.Maximized) _window.WindowState = WindowState.Normal;
+                _window.WindowStyle = WindowStyle.None;
+                _window.WindowState = WindowState.Maximized;
+            }
 
             this.WindowChrome = null;
             UpdateWindowBorderThickness();
@@ -590,6 +608,9 @@ namespace NeeView
             [DataMember]
             public bool IsTopMost { get; set; }
 
+            [DataMember]
+            public bool IsFullScreenWithTaskBar { get; set; }
+
             //
             public Memento Clone()
             {
@@ -616,6 +637,7 @@ namespace NeeView
             memento.State = this.State;
             memento.IsCaptionVisible = this.IsCaptionVisible;
             memento.IsTopMost = this.IsTopmost;
+            memento.IsFullScreenWithTaskBar = this.IsFullScreenWithTaskBar;
 
             return memento;
         }
@@ -628,6 +650,7 @@ namespace NeeView
             _isTopmost = memento.IsTopMost;
             _isCaptionVisible = memento.IsCaptionVisible;
             _state = memento.State;
+            _isFullScreenWithTaskBar = memento.IsFullScreenWithTaskBar;
         }
 
         #endregion

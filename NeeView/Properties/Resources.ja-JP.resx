@@ -4185,4 +4185,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordSearchWord" xml:space="preserve">
     <value>検索ワード</value>
   </data>
+  <data name="ParamWindowShapeIsFullScreenWithTaskBar" xml:space="preserve">
+    <value>フルスクリーンのときにタスクバー領域を覆わない</value>
+  </data>
 </root>

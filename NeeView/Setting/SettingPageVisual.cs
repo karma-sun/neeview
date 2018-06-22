@@ -51,6 +51,7 @@ namespace NeeView.Setting
 
                 new SettingItemSection(Properties.Resources.SettingPageVisualGeneralAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.AutoHideDelayTime))),
+                    new SettingItemProperty(PropertyMemberElement.Create(WindowShape.Current, nameof(WindowShape.IsFullScreenWithTaskBar))),
                     new SettingItemProperty(PropertyMemberElement.Create(WindowShape.Current, nameof(WindowShape.WindowChromeFrame)))),
             };
         }

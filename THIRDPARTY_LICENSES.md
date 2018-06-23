@@ -59,6 +59,14 @@ DLL: PhotoSauce.MagicScaler.dll
 * URL: [PhotoSauce](http://photosauce.net/)
 * License: [Apache License 2.0](https://github.com/saucecontrol/PhotoSauce/blob/master/license)
 
+### .NET corefx
+
+DLL: System.Buffers.dll, etc...
+
+* Copyright (c) .NET Foundation and Contributors
+* URL: [.NET](https://dot.net)
+* License[MIT License](https://github.com/dotnet/corefx/blob/master/LICENSE.TXT)
+
 ### Icon Fonts
 
 ICON: pushpin, etc...

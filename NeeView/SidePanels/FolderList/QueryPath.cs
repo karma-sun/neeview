@@ -50,11 +50,11 @@
         {
             if (Search != null)
             {
-                return LoosePath.GetFileName(Path) + " (" + Search + ")";
+                return LoosePath.GetDispName(Path) + " (" + Search + ")";
             }
             else
             {
-                return LoosePath.GetFileName(Path);
+                return LoosePath.GetDispName(Path);
             }
         }
 

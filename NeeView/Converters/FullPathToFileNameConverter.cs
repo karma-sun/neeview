@@ -12,7 +12,7 @@ namespace NeeView
             if (value is string)
             {
                 string path = (string)value;
-                return new PlaceString(path).ToString();
+                return LoosePath.GetDispName(path);
             }
             else
             {

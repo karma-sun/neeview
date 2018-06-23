@@ -383,7 +383,6 @@
     <Compile Include="HtmlParseUtility.cs" />
     <Compile Include="_NeeLaboratory\MathUtility.cs" />
     <Compile Include="Picture\PictureFormat.cs" />
-    <Compile Include="PlaceString.cs" />
     <Compile Include="_NeeLaboratory\IO\PathUtility.cs" />
     <Compile Include="_NeeLaboratory\IO\FileSystem.cs" />
     <Compile Include="_NeeLaboratory\IEngine.cs" />

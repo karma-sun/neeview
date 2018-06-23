@@ -140,5 +140,31 @@ namespace NeeView
 
             return slashCount > 0 ? new string('\\', slashCount) : "";
         }
+
+        // 表示用のファイル名生成
+        public static string GetDispName(string s)
+        {
+            if (s == null)
+            {
+                return "PC";
+            }
+            else if (s.StartsWith("http://") || s.StartsWith("https://"))
+            {
+                return new Uri(s).Host;
+            }
+            else if (s.StartsWith("data:"))
+            {
+                return Properties.Resources.WordEmbeddedImage;
+            }
+            else
+            {
+                var name = LoosePath.GetFileName(s);
+                if (s.Length <= 3 && name.Length == 2 && name[1] == ':')
+                {
+                    name += '\\';
+                }
+                return name;
+            }
+        }
     }
 }

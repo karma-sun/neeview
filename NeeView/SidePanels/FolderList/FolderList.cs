@@ -456,7 +456,7 @@ namespace NeeView
 
             var query = new QueryPath(queryPath);
             var place = query.Path;
-            var keyword = query.Search;
+            var keyword = query.Search ?? "";
 
             // 初期項目
             if (select == null && place != null)
@@ -470,21 +470,14 @@ namespace NeeView
             }
 
             // 更新が必要であれば、新しいFolderListBoxを作成する
-            if (keyword != null || CheckFolderListUpdateneNcessary(place, options.HasFlag(FolderSetPlaceOption.ClearSearchKeyword)))
+            if (CheckFolderListUpdateneNcessary(place, keyword, options))
             {
                 _isDarty = false;
 
-                // 検索キーワード設定
-                if (keyword != null)
+                // 検索キーワードクリア
+                if (this.FolderCollection == null || place != Place || options.HasFlag(FolderSetPlaceOption.ResetKeyword))
                 {
                     _searchKeyword = keyword;
-                    RaisePropertyChanged(nameof(SearchKeyword));
-                    UpdateSearchHistory();
-                }
-                // 検索キーワードクリア
-                else if (this.FolderCollection == null || place != Place || options.HasFlag(FolderSetPlaceOption.ClearSearchKeyword))
-                {
-                    _searchKeyword = "";
                     RaisePropertyChanged(nameof(SearchKeyword));
                 }
 
@@ -517,20 +510,25 @@ namespace NeeView
                 this.SelectedItem = FixedItem(select);
                 PlaceChanged?.Invoke(this, null);
             }
-
         }
 
         /// <summary>
         /// リストの更新必要性チェック
         /// </summary>
-        /// <param name="place"></param>
-        /// <param name="releaseSearchMode">検索モード解除</param>
-        /// <returns></returns>
-        private bool CheckFolderListUpdateneNcessary(string place, bool releaseSearchMode)
+        private bool CheckFolderListUpdateneNcessary(string place, string keyword, FolderSetPlaceOption options)
         {
-            return (_isDarty || this.FolderCollection == null || place != this.FolderCollection.Place || (releaseSearchMode && this.FolderCollection is FolderSearchCollection));
-        }
+            if (_isDarty || this.FolderCollection == null || place != this.FolderCollection.Place)
+            {
+                return true;
+            }
 
+            if (options.HasFlag(FolderSetPlaceOption.ResetKeyword) && keyword != _searchKeyword)
+            {
+                return true;
+            }
+
+            return false;
+        }
 
         /// <summary>
         /// フォルダーリスト項目変更前処理
@@ -930,7 +928,7 @@ namespace NeeView
             if (_bookHub == null) return;
 
             var place = GetFixedHome();
-            await SetPlaceAsync(place, null, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory | FolderSetPlaceOption.IsTopSelect | FolderSetPlaceOption.ClearSearchKeyword);
+            await SetPlaceAsync(place, null, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory | FolderSetPlaceOption.IsTopSelect | FolderSetPlaceOption.ResetKeyword);
 
             CloseBookIfNecessary();
         }
@@ -1018,7 +1016,7 @@ namespace NeeView
                 var parent = _bookHub?.Book?.Archiver?.Parent?.FullPath ?? LoosePath.GetDirectoryName(place);
 
                 _isDarty = true; // 強制更新
-                await SetPlaceAsync(parent, place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory | FolderSetPlaceOption.ClearSearchKeyword);
+                await SetPlaceAsync(parent, place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory | FolderSetPlaceOption.ResetKeyword);
 
                 RaiseSelectedItemChanged(true);
             }

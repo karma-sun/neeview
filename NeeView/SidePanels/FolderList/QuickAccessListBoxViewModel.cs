@@ -42,7 +42,8 @@ namespace NeeView
 
         public void Decide(QuickAccess item)
         {
-            FolderList.Current.ResetPlace(item.Path);
+            // 非同期で更新
+            var task = FolderList.Current.SetPlaceAsync(item.Path, null, FolderSetPlaceOption.IsUpdateHistory | FolderSetPlaceOption.ResetKeyword);
         }
 
         public bool Remove(QuickAccess item)

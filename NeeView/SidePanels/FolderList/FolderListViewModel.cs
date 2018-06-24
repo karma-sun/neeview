@@ -42,7 +42,7 @@ namespace NeeView
         IsFocus = (1 << 0),
         IsUpdateHistory = (1 << 1),
         IsTopSelect = (1 << 3),
-        ClearSearchKeyword = (1 << 4),
+        ResetKeyword = (1 << 4),
     }
 
     /// <summary>

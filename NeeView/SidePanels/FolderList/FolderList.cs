@@ -479,6 +479,10 @@ namespace NeeView
                 {
                     _searchKeyword = keyword;
                     RaisePropertyChanged(nameof(SearchKeyword));
+                    if (keyword != "")
+                    {
+                        UpdateSearchHistory();
+                    }
                 }
 
                 // FolderCollection 更新

@@ -34,7 +34,7 @@ namespace NeeView
                 return;
             }
 
-            Items.Add(item);
+            Items.Insert(0, item);
             CollectionChanged?.Invoke(this, new CollectionChangeEventArgs(CollectionChangeAction.Add, item));
         }
 

@@ -81,15 +81,15 @@ namespace NeeView
 
         // 履歴データの保存
         [PropertyMember("@ParamIsSaveHistory")]
-        public bool IsSaveHistory { get; set; }
+        public bool IsSaveHistory { get; set; } = true;
 
         // ブックマークの保存
         [PropertyMember("@ParamIsSaveBookmark")]
-        public bool IsSaveBookmark { get; set; }
+        public bool IsSaveBookmark { get; set; } = true;
 
         // ページマークの保存
         [PropertyMember("@ParamIsSavePagemark")]
-        public bool IsSavePagemark { get; set; }
+        public bool IsSavePagemark { get; set; } = true;
 
         // パネルやメニューが自動的に消えるまでの時間(秒)
         [PropertyMember("@ParamAutoHideDelayTime")]

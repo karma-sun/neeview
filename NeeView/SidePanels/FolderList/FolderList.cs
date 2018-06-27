@@ -913,6 +913,12 @@ namespace NeeView
 
         public void AddQuickAccess()
         {
+            if (Place.StartsWith(Temporary.TempDirectory))
+            {
+                ToastService.Current.Show(new Toast(Properties.Resources.DialogQuickAccessTempError));
+                return;
+            }
+
             IsQuickAccessVisible = true;
 
             var item = new QuickAccess(new QueryPath(Place, GetFixedSearchKeyword()).FullPath);

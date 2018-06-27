@@ -5318,6 +5318,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Temporary folders can not be added to Quick access. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogQuickAccessTempError {
+            get {
+                return ResourceManager.GetString("DialogQuickAccessTempError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Custom Size に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EffectCustomSize {

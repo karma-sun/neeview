@@ -4194,4 +4194,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamIsHidePageSliderInFullscreen" xml:space="preserve">
     <value>Automatically hide the slider when it is full screen</value>
   </data>
+  <data name="DialogQuickAccessTempError" xml:space="preserve">
+    <value>Temporary folders can not be added to Quick access.</value>
+  </data>
 </root>

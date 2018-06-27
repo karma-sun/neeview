@@ -4194,4 +4194,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamIsHidePageSliderInFullscreen" xml:space="preserve">
     <value>フルスクリーンのときにスライダーを自動的に隠す</value>
   </data>
+  <data name="DialogQuickAccessTempError" xml:space="preserve">
+    <value>一時フォルダーはクイックアクセスに追加できません</value>
+  </data>
 </root>

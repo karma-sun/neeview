@@ -148,7 +148,7 @@
     <value>現在の場所の履歴削除</value>
   </data>
   <data name="CommandClearHistoryInPlaceNote" xml:space="preserve">
-    <value>フォルダリストの現在の場所にあるすべての履歴を削除する</value>
+    <value>フォルダーリストの現在の場所にあるすべての履歴を削除する</value>
   </data>
   <data name="CommandClearHistoryNote" xml:space="preserve">
     <value>履歴を全て削除します。</value>

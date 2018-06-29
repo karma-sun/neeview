@@ -338,7 +338,7 @@ namespace NeeView
         /// <summary>
         /// クイックアクセスエリアの高さ
         /// </summary>
-        private double _quickAccessAreaHeight = 32.0 - 6.0;
+        private double _quickAccessAreaHeight = 72.0;
         public double QuickAccessAreaHeight
         {
             get { return _quickAccessAreaHeight; }
@@ -1119,7 +1119,7 @@ namespace NeeView
             [DataMember]
             public bool IsCloseBookWhenMove { get; set; }
 
-            [DataMember]
+            [DataMember, DefaultValue(72.0)]
             public double QuickAccessAreaHeight { get; set; }
 
             [DataMember, DefaultValue(false)]

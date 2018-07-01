@@ -367,9 +367,9 @@ namespace NeeView
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleContent, PanelListItemStyle.Content));
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
             menu.Items.Add(new Separator());
-            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuAddQuickAccess, AddQuickAccess));
             menu.Items.Add(CreateRecursiveFlagMenuItem(Properties.Resources.FolderListMoreMenuSubfolder));
             menu.Items.Add(new Separator());
+            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuAddQuickAccess, AddQuickAccess));
             menu.Items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuClearHistory, CommandType.ClearHistoryInPlace, source));
 
             this.MoreMenu = menu;

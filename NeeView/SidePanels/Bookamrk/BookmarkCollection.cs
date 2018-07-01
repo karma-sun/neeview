@@ -219,6 +219,9 @@ namespace NeeView
             [DataMember(EmitDefaultValue = false)]
             public List<Book.Memento> Books { get; set; }
 
+            [DataMember]
+            public QuickAccessCollection.Memento QuickAccess { get; set; }
+
             [Obsolete]
             [DataMember(Name = "Items", EmitDefaultValue = false)]
             public List<Book.Memento> OldBooks { get; set; } // no used (ver.31)
@@ -306,12 +309,17 @@ namespace NeeView
             memento.Nodes = Items;
             memento.Books = Items.Select(e => e.Value).OfType<Bookmark>().Select(e => e.Unit.Memento).Distinct().ToList();
 
+            // QuickAccess情報もここに保存する
+            memento.QuickAccess = QuickAccessCollection.Current.CreateMemento();
+
             return memento;
         }
 
         // memento適用
         public void Restore(Memento memento)
         {
+            QuickAccessCollection.Current.Restore(memento.QuickAccess);
+
             this.Load(memento.Nodes, memento.Books);
         }
 

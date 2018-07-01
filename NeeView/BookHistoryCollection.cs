@@ -409,9 +409,6 @@ namespace NeeView
             [DataMember(EmitDefaultValue = false)]
             public List<string> SearchHistory { get; set; }
 
-            [DataMember]
-            public QuickAccessCollection.Memento QuickAccess { get; set; }
-
             // no used
             [Obsolete, DataMember(Order = 8, EmitDefaultValue = false)]
             public Dictionary<string, FolderOrder> FolderOrders { get; set; } // no used (ver.22)
@@ -518,9 +515,6 @@ namespace NeeView
             memento.IsKeepSearchHistory = IsKeepSearchHistory;
             memento.SearchHistory = this.SearchHistory.Any() ? this.SearchHistory.ToList() : null;
 
-            // QuickAccess情報もここに保存する
-            memento.QuickAccess = QuickAccessCollection.Current.CreateMemento();
-
             if (forSave)
             {
                 memento.Items = Limit(this.Items.Where(e => !e.Place.StartsWith(Temporary.TempDirectory))).ToList();
@@ -580,8 +574,6 @@ namespace NeeView
                 _folders = memento.FolderOrders.ToDictionary(e => e.Key, e => new FolderParameter.Memento() { FolderOrder = e.Value });
             }
 #pragma warning restore CS0612
-
-            QuickAccessCollection.Current.Restore(memento.QuickAccess);
         }
 
         // 履歴数制限

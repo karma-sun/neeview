@@ -12,16 +12,6 @@ namespace NeeView
     /// </summary>
     public class DragArea
     {
-        // ビューエリアサイズ
-        public Size View { get; private set; }
-
-        // ターゲット領域
-        public Rect Target { get; private set; }
-
-        // ビューエリアオーバー情報
-        public Rect Over { get; private set; }
-
-        // コンストラクタ
         public DragArea(FrameworkElement view, FrameworkElement target)
         {
             View = new Size(view.ActualWidth, view.ActualHeight);
@@ -36,6 +26,22 @@ namespace NeeView
             };
         }
 
+        /// <summary>
+        /// ビューエリアサイズ
+        /// </summary>
+        public Size View { get; private set; }
+
+        /// <summary>
+        /// ターゲットエリア
+        /// </summary>
+        public Rect Target { get; private set; }
+
+        /// <summary>
+        /// ビューエリアオーバー情報.
+        /// X,Y はターゲットがビューエリアからマイナスにはみ出している場合のみその値を記憶する。
+        /// Width,Height はターゲットサイズがビューエリアサイズを超える差分を記憶する。
+        /// </summary>
+        public Rect Over { get; private set; }
 
         // コントロールの表示RECTを取得
         public static Rect GetRealSize(FrameworkElement target, FrameworkElement parent)

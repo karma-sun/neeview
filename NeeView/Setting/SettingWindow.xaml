@@ -99,7 +99,7 @@
 
     <DockPanel UseLayoutRounding="True">
 
-        <TreeView x:Name="IndexTree" DockPanel.Dock="Left" Width="250" ItemsSource="{Binding Model.Pages}" BorderThickness="0" Margin="20,20,0,20" ItemContainerStyle="{StaticResource NVTreeViewItem}">
+        <TreeView x:Name="IndexTree" DockPanel.Dock="Left" Width="250" ItemsSource="{Binding Model.Pages}" BorderThickness="0" Margin="20,20,0,20" ItemContainerStyle="{StaticResource NVTreeViewItemWide}">
             <TreeView.Resources>
                 <Style TargetType="TreeViewItem">
                     <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />

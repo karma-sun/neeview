@@ -360,7 +360,7 @@ namespace NeeView
         {
             var menu = new ContextMenu();
             menu.Items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuSearchBox, CommandType.ToggleVisibleFolderSearchBox, source));
-            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuQuickAccess, CommandType.ToggleVisibleFolderQuickAccess, source));
+            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.WordFoldersTree, CommandType.ToggleVisibleFoldersTree, source));
             menu.Items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuPageList, CommandType.ToggleVisiblePageList, source));
             menu.Items.Add(new Separator());
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleList, PanelListItemStyle.Normal));

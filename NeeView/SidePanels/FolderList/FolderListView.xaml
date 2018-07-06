@@ -196,10 +196,11 @@
         </StackPanel>
 
         <DockPanel SizeChanged="Grid_SizeChanged">
-            <local:QuickAccessListBox DockPanel.Dock="Top" x:Name="QuickAccessListBox" Height="{Binding Model.QuickAccessAreaHeight, Mode=TwoWay}"
-                                      Visibility="{Binding Model.IsQuickAccessVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <local:FolderTreeView DockPanel.Dock="Top" x:Name="FolderTree" Height="{Binding Model.FolderTreeAreaHeight, Mode=TwoWay}"
+                                      Visibility="{Binding Model.IsFolderTreeVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+
             <osc:DockPanelSplitter x:Name="LeftPanelSplitter" DockPanel.Dock="Top" Style="{StaticResource NVHorizontalBevelGrip}" ProportionalResize="False" UseLayoutRounding="True" IsTabStop="False"
-                                   Visibility="{Binding Model.IsQuickAccessVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                                   Visibility="{Binding Model.IsFolderTreeVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             <Grid>
                 <ContentControl x:Name="ListContent" Content="{Binding ListContent}" Focusable="False"/>
                 <ContentControl x:Name="BusyFadeContent" Focusable="False"/>

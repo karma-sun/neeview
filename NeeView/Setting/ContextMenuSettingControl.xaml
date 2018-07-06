@@ -70,7 +70,7 @@
 
                             <Button DockPanel.Dock="Bottom" x:Name="ResetButton" Content="{x:Static properties:Resources.WordReset}" Click="ResetButton_Click"/>
                         </DockPanel>
-                            <TreeView x:Name="ContextMenuTreeView" BorderBrush="LightGray" ItemContainerStyle="{StaticResource NVTreeViewItem}"
+                            <TreeView x:Name="ContextMenuTreeView" BorderBrush="LightGray" ItemContainerStyle="{StaticResource NVTreeViewItemWide}"
                                       HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                       ItemsSource="{Binding Root.Children}" ItemTemplate="{StaticResource treeViewTemplate}" Padding="5" >
                             </TreeView>

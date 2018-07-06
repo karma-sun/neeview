@@ -29,11 +29,6 @@ namespace NeeView
         {
             if (item is null) throw new ArgumentNullException(nameof(item));
 
-            if (Items.Contains(item))
-            {
-                return;
-            }
-
             Items.Insert(0, item);
             CollectionChanged?.Invoke(this, new CollectionChangeEventArgs(CollectionChangeAction.Add, item));
         }
@@ -41,6 +36,21 @@ namespace NeeView
         public bool Remove(QuickAccess item)
         {
             if (item is null) throw new ArgumentNullException(nameof(item));
+
+            var index = Items.IndexOf(item);
+            if (index < 0) throw new ArgumentOutOfRangeException(nameof(item));
+
+            if (item.IsSelected)
+            {
+                if (index + 1 < Items.Count)
+                {
+                    Items[index + 1].IsSelected = true;
+                }
+                else if (index - 1 >= 0)
+                {
+                    Items[index - 1].IsSelected = true;
+                }
+            }
 
             var isRemoved = Items.Remove(item);
             CollectionChanged?.Invoke(this, new CollectionChangeEventArgs(CollectionChangeAction.Remove, item));

@@ -1,0 +1,97 @@
+﻿<UserControl x:Class="NeeView.FolderTreeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeeView"
+             xmlns:nw="clr-namespace:NeeView.Windows"
+             Foreground="{DynamicResource NVForeground}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+
+        <!-- https://www.onlinewebfonts.com/icon/425378 -->
+        <DrawingImage x:Key="ic_pushpin">
+            <DrawingImage.Drawing>
+                <DrawingGroup Opacity="1">
+                    <DrawingGroup.Children>
+                        <DrawingGroup Opacity="1" Transform="1,0,0,-1,0,960">
+                            <DrawingGroup.Children>
+                                <GeometryDrawing Brush="{DynamicResource NVDefaultBrush}" Pen="{x:Null}">
+                                    <GeometryDrawing.Geometry>
+                                        <PathGeometry FillRule="Nonzero" Figures="M0,0L280,203 588,510 800,300 800,600 1079,867 1115,832C1124.33337402344,822 1136,817 1150,817 1164,817 1175.66662597656,822 1185,832 1195,842 1200,853.666687011719 1200,867 1200,881 1195,893 1185,903L902,1185C892.666687011719,1195 881,1200 867,1200 853.666687011719,1200 842,1195 832,1185 822,1175.66662597656 817,1164 817,1150 817,1136 822,1124.33337402344 832,1115L867,1079 600,800 300,800 510,588 203,280 0,0z" />
+                                    </GeometryDrawing.Geometry>
+                                </GeometryDrawing>
+                            </DrawingGroup.Children>
+                        </DrawingGroup>
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+    </UserControl.Resources>
+
+    <Grid x:Name="Root">
+        <TreeView x:Name="TreeView"
+                  Style="{StaticResource NVTreeView}"
+                  Foreground="{DynamicResource NVForeground}" Background="Transparent" BorderThickness="0"
+                  ItemsSource="{Binding Model.Items}"
+                  AllowDrop="True"
+                  DragEnter="TreeView_DragEnter"
+                  DragLeave="TreeView_DragLeave"
+                  PreviewDragOver="TreeView_PreviewDragOver"
+                  Drop="TreeView_Drop"
+                  VirtualizingStackPanel.ScrollUnit="Pixel"
+                  VirtualizingStackPanel.IsVirtualizing="True"
+                  VirtualizingStackPanel.VirtualizationMode="Recycling">
+
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}"
+                       BasedOn="{StaticResource NVTreeViewItem}">
+                    <Setter Property="ContextMenu">
+                        <Setter.Value>
+                            <ContextMenu/>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                    <EventSetter Event="ContextMenuOpening" Handler="TreeViewItem_ContextMenuOpening"/>
+                    <EventSetter Event="MouseRightButtonDown" Handler="TreeViewItem_MouseRightButtonDown"/>
+                    <EventSetter Event="MouseLeftButtonUp" Handler="TreeViewItem_MouseLeftButtonUp"/>
+                    <EventSetter Event="KeyDown" Handler="TreeViewItem_KeyDown"/>
+                    <EventSetter Event="Selected" Handler="TreeViewItem_Selected" />
+                </Style>
+            </TreeView.ItemContainerStyle>
+
+            <TreeView.Resources>
+                <HierarchicalDataTemplate DataType="{x:Type local:RootQuickAccessTreeItem}" ItemsSource="{Binding Collection.Items}">
+                    <DockPanel>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DockPanel>
+                </HierarchicalDataTemplate>
+
+                <HierarchicalDataTemplate DataType="{x:Type local:QuickAccess}">
+                    <DockPanel ToolTip="{Binding Detail}" MinHeight="20">
+                        <i:Interaction.Behaviors>
+                            <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:FolderTreeView.DragDropFormat}" DragDropData="{Binding}" Target="{Binding ElementName=TreeView}"
+                                                  Description="{Binding ElementName=Root, Path=DataContext.DragStartDescription}"/>
+                        </i:Interaction.Behaviors>
+                        <Image DockPanel.Dock="Right" Width="16" Height="16" Source="{StaticResource ic_pushpin}" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding Name}" VerticalAlignment="Center" Margin="5,0"/>
+                    </DockPanel>
+                </HierarchicalDataTemplate>
+
+                <HierarchicalDataTemplate DataType="{x:Type local:RootFolderTreeItem}" ItemsSource="{Binding Children}">
+                    <TextBlock Text="{Binding Name}"/>
+                </HierarchicalDataTemplate>
+
+                <HierarchicalDataTemplate DataType="{x:Type local:FolderTreeItem}" ItemsSource="{Binding Children}">
+                    <TextBlock Text="{Binding Name}"/>
+                </HierarchicalDataTemplate>
+            </TreeView.Resources>
+
+        </TreeView>
+    </Grid>
+</UserControl>

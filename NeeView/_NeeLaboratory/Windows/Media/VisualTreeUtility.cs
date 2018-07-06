@@ -185,6 +185,29 @@ namespace NeeLaboratory.Windows.Media
 
         #endregion
 
+
+        /// <summary>
+        /// DependencyObject から、型、名前を指定して親コントロールを取得する
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static T GetParentElement<T>(DependencyObject obj)
+            where T : class
+        {
+            var element = obj;
+            while (element != null)
+            {
+                element = VisualTreeHelper.GetParent(element);
+                if (element is T item)
+                {
+                    return item;
+                }
+            }
+
+            return null;
+        }
+
         /// <summary>
         /// DependencyObject から、型、名前を指定してコントロールを取得する
         /// </summary>

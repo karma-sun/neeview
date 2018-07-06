@@ -19,7 +19,6 @@ namespace NeeView
         #region Fields
 
         private volatile bool _requestSearchBoxFocus;
-        private volatile bool _requestQuickAccessFocus;
 
         public bool IsRenaming => _vm.IsRenaming;
 
@@ -45,7 +44,7 @@ namespace NeeView
             this.DockPanel.DataContext = _vm;
 
             model.SearchBoxFocus += FolderList_SearchBoxFocus;
-            model.QuickAccessFocus += FolderList_QuickAccessFocus;
+            model.FolderTreeFocus += FolderList_FolderTreeFocus;
             model.BusyChanged += FolderList_BusyChanged;
         }
 
@@ -53,52 +52,15 @@ namespace NeeView
 
 
         /// <summary>
-        /// クイックアクセスへのフォーカス要求
+        /// フォルダーツリーへのフォーカス要求
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void FolderList_QuickAccessFocus(object sender, System.IO.ErrorEventArgs e)
+        private void FolderList_FolderTreeFocus(object sender, System.IO.ErrorEventArgs e)
         {
-            if (!_vm.Model.IsQuickAccessVisible) return;
+            if (!_vm.Model.IsFolderTreeVisible) return;
 
-            if (!_requestQuickAccessFocus)
-            {
-                _requestQuickAccessFocus = true;
-                var task = FocustQuickAccessAsync(); // 非同期
-            }
-        }
-
-        /// <summary>
-        /// クイックアクセスへのフォーカス処理
-        /// 準備ができるまで遅延して処理を行う
-        /// </summary>
-        private async Task FocustQuickAccessAsync()
-        {
-            // 表示が間に合わない場合があるので繰り返しトライする
-            while (_requestQuickAccessFocus && _vm.Model.IsFolderSearchBoxVisible)
-            {
-                var quickAccess = this.QuickAccessListBox;
-                if (quickAccess != null && quickAccess.IsLoaded && quickAccess.IsVisible && this.IsVisible)
-                {
-                    if (quickAccess.FocusSelectedItem())
-                    {
-                        var isFocused = quickAccess.IsKeyboardFocusWithin;
-                        //Debug.WriteLine($"Focus: {isFocused}");
-                        if (isFocused) break;
-                    }
-                    else
-                    {
-                        //Debug.WriteLine($"No Focus.");
-                        break;
-                    }
-                }
-
-                //Debug.WriteLine($"Focus: ready...");
-                await Task.Delay(100);
-            }
-
-            _requestQuickAccessFocus = false;
-            //Debug.WriteLine($"Focus: done.");
+            this.FolderTree.FocusSelectedItem();
         }
 
 

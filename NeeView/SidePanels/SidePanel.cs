@@ -261,31 +261,31 @@ namespace NeeView
         }
 
         /// <summary>
-        /// クイックアクセス表示状態
+        /// フォルダーツリー表示状態
         /// </summary>
-        public bool IsVisibleFolderQuickAccess => _models.FolderList.IsQuickAccessVisible && IsVisibleFolderList;
+        public bool IsVisibleFolderTree => _models.FolderList.IsFolderTreeVisible && IsVisibleFolderList;
 
         /// <summary>
-        /// クイックアクセス表示状態切替
+        /// フォルダーツリー表示状態切替
         /// </summary>
-        public bool ToggleVisibleFolderQuickAccess(bool byMenu)
+        public bool ToggleVisibleFolderTree(bool byMenu)
         {
             var model = _models.FolderList;
 
-            if (byMenu || !model.IsQuickAccessVisible || IsVisiblePanel(FolderListPanel))
+            if (byMenu || !model.IsFolderTreeVisible || IsVisiblePanel(FolderListPanel))
             {
-                model.IsQuickAccessVisible = !IsVisibleFolderQuickAccess;
+                model.IsFolderTreeVisible = !IsVisibleFolderTree;
             }
             SetSelectedPanel(FolderListPanel, true);
             RaisePanelPropertyChanged();
 
             // フォーカス要求
-            if (!byMenu && model.IsQuickAccessVisible)
+            if (!byMenu && model.IsFolderTreeVisible)
             {
-                model.RaiseQuickAccessFocus();
+                model.RaiseFolderTreeFocus();
             }
 
-            return model.IsQuickAccessVisible;
+            return model.IsFolderTreeVisible;
         }
 
 

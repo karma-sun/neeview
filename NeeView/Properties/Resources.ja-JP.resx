@@ -4161,29 +4161,26 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamSliderOpacityTips" xml:space="preserve">
     <value>自動非表示の場合に有効です。</value>
   </data>
-  <data name="CommandToggleVisibleFolderQuickAccess" xml:space="preserve">
-    <value>クイックアスセスの表示ON/OFF</value>
+  <data name="CommandToggleVisibleFoldersTree" xml:space="preserve">
+    <value>フォルダーツリーの表示ON/OFF</value>
   </data>
-  <data name="CommandToggleVisibleFolderQuickAccessMenu" xml:space="preserve">
-    <value>クイックアクセス</value>
+  <data name="CommandToggleVisibleFoldersTreeMenu" xml:space="preserve">
+    <value>フォルダーツリー</value>
   </data>
-  <data name="CommandToggleVisibleFolderQuickAccessNote" xml:space="preserve">
-    <value>クイックアクセスの表示/非表示を切り替えます。フォルダーリストは表示状態になります。</value>
+  <data name="CommandToggleVisibleFoldersTreeNote" xml:space="preserve">
+    <value>フォルダーツリーの表示/非表示を切り替えます。フォルダーリストは表示状態になります。</value>
   </data>
-  <data name="CommandToggleVisibleFolderQuickAccessOff" xml:space="preserve">
-    <value>クイックアクセスを消す</value>
+  <data name="CommandToggleVisibleFoldersTreeOff" xml:space="preserve">
+    <value>フォルダーツリーを消す</value>
   </data>
-  <data name="CommandToggleVisibleFolderQuickAccessOn" xml:space="preserve">
-    <value>クイックアクセスを表示する</value>
+  <data name="CommandToggleVisibleFoldersTreeOn" xml:space="preserve">
+    <value>フォルダーツリーを表示する</value>
   </data>
-  <data name="FolderListMoreMenuQuickAccess" xml:space="preserve">
-    <value>クイックアクセス</value>
+  <data name="WordFoldersTree" xml:space="preserve">
+    <value>フォルダーツリー</value>
   </data>
   <data name="FolderListMoreMenuAddQuickAccess" xml:space="preserve">
     <value>クイックアクセスに追加</value>
-  </data>
-  <data name="QuickAccessItemMenuDelete" xml:space="preserve">
-    <value>クイックアクセスからはずす</value>
   </data>
   <data name="WordSearchWord" xml:space="preserve">
     <value>検索ワード</value>
@@ -4196,5 +4193,20 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="DialogQuickAccessTempError" xml:space="preserve">
     <value>一時フォルダーはクイックアクセスに追加できません</value>
+  </data>
+  <data name="FolderTreeMenuAddCurrentQuickAccess" xml:space="preserve">
+    <value>現在の場所をクイックアクセスに追加</value>
+  </data>
+  <data name="FolderTreeMenuAddQuickAccess" xml:space="preserve">
+    <value>クイックアクセスに追加</value>
+  </data>
+  <data name="WordQuickAccess" xml:space="preserve">
+    <value>クイックアクセス</value>
+  </data>
+  <data name="WordLocalDisk" xml:space="preserve">
+    <value>ローカルディスク</value>
+  </data>
+  <data name="FolderTreeMenuRemoveQuickAccess" xml:space="preserve">
+    <value>クイックアクセスからはずす</value>
   </data>
 </root>

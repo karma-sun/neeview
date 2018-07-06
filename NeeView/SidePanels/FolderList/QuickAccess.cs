@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace NeeView
 {
     [DataContract]
-    public class QuickAccess : BindableBase, IEquatable<QuickAccess>
+    public class QuickAccess : BindableBase, ITreeViewNode
     {
         private string _path;
 
@@ -31,53 +31,28 @@ namespace NeeView
             get { return new QueryPath(_path).ToDetailString(); }
         }
 
+        #region ITreeViewNode Support
+
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set { SetProperty(ref _isSelected, value); }
+        }
+
+        public bool IsExpanded
+        {
+            get { return false; }
+            set { }
+        }
+
+        #endregion
+
         public override string ToString()
         {
             return Name;
         }
 
-        #region IEquatable Suport
-
-        public override bool Equals(object obj)
-        {
-            return this.Equals(obj as QuickAccess);
-        }
-
-        public bool Equals(QuickAccess other)
-        {
-            if (other == null)
-            {
-                return false;
-            }
-
-            return _path == other._path;
-        }
-
-        public override int GetHashCode()
-        {
-            return _path != null ? _path.GetHashCode() : 0;
-        }
-
-        public static bool operator ==(QuickAccess lhs, QuickAccess rhs)
-        {
-            if (lhs is null)
-            {
-                if (rhs is null)
-                {
-                    return true;
-                }
-
-                return false;
-            }
-            return lhs.Equals(rhs);
-        }
-
-        public static bool operator !=(QuickAccess lhs, QuickAccess rhs)
-        {
-            return !(lhs == rhs);
-        }
-
-        #endregion
     }
 
 

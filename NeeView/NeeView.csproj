@@ -45,6 +45,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -185,13 +186,15 @@
     <Compile Include="Setting\SettingItemImageCollection.xaml.cs">
       <DependentUpon>SettingItemImageCollection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SidePanels\FolderList\FolderTreeModel.cs" />
+    <Compile Include="SidePanels\FolderList\FolderTreeNodes.cs" />
+    <Compile Include="SidePanels\FolderList\FolderTreeView.xaml.cs">
+      <DependentUpon>FolderTreeView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SidePanels\FolderList\FolderTreeViewModel.cs" />
     <Compile Include="SidePanels\FolderList\QueryPath.cs" />
     <Compile Include="SidePanels\FolderList\QuickAccess.cs" />
     <Compile Include="SidePanels\FolderList\QuickAccessCollection.cs" />
-    <Compile Include="SidePanels\FolderList\QuickAccessListBox.xaml.cs">
-      <DependentUpon>QuickAccessListBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SidePanels\FolderList\QuickAccessListBoxViewModel.cs" />
     <Compile Include="Toast.cs" />
     <Compile Include="Controls\ToastCard.xaml.cs">
       <DependentUpon>ToastCard.xaml</DependentUpon>
@@ -236,6 +239,7 @@
     <Compile Include="SidePanels\Pagemark\PagemarkFolder.cs" />
     <Compile Include="SidePanels\Pagemark\PagemarkListBoxModel.cs" />
     <Compile Include="SidePanels\Pagemark\PagemarkListBoxViewModel.cs" />
+    <Compile Include="TreeViewItemHelper.cs" />
     <Compile Include="_NeeView\Collections\Generic\TreeListNode.cs" />
     <Compile Include="SidePanels\FolderList\FolderCollectionFactory.cs" />
     <Compile Include="SidePanels\FolderList\FolderNode.cs" />
@@ -964,11 +968,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SidePanels\FolderList\PageListBox.xaml">
+    <Page Include="SidePanels\FolderList\FolderTreeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SidePanels\FolderList\QuickAccessListBox.xaml">
+    <Page Include="SidePanels\FolderList\PageListBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

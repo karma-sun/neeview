@@ -120,7 +120,7 @@ namespace NeeView
         // 検索ボックスにフォーカスを
         public event EventHandler SearchBoxFocus;
 
-        public event ErrorEventHandler QuickAccessFocus;
+        public event ErrorEventHandler FolderTreeFocus;
 
         /// <summary>
         /// リスト更新処理中イベント
@@ -326,26 +326,26 @@ namespace NeeView
 
 
         /// <summary>
-        /// クイックアクセスエリアの表示
+        /// フォルダーツリーの表示
         /// </summary>
-        private bool _isQuickAccessVisible = false;
-        public bool IsQuickAccessVisible
+        private bool _isFolderTreeVisible = true;
+        public bool IsFolderTreeVisible
         {
-            get { return _isQuickAccessVisible; }
-            set { SetProperty(ref _isQuickAccessVisible, value); }
+            get { return _isFolderTreeVisible; }
+            set { SetProperty(ref _isFolderTreeVisible, value); }
         }
 
         /// <summary>
-        /// クイックアクセスエリアの高さ
+        /// フォルダーツリーエリアの高さ
         /// </summary>
-        private double _quickAccessAreaHeight = 72.0;
-        public double QuickAccessAreaHeight
+        private double _folderTreeAreaHeight = 72.0;
+        public double FolderTreeAreaHeight
         {
-            get { return _quickAccessAreaHeight; }
+            get { return _folderTreeAreaHeight; }
             set
             {
                 var height = Math.Max(Math.Min(value, _areaHeight - 32.0), 32.0 - 6.0);
-                SetProperty(ref _quickAccessAreaHeight, height);
+                SetProperty(ref _folderTreeAreaHeight, height);
             }
         }
 
@@ -362,7 +362,7 @@ namespace NeeView
                 if (SetProperty(ref _areaHeight, value))
                 {
                     // 再設定する
-                    QuickAccessAreaHeight = _quickAccessAreaHeight;
+                    FolderTreeAreaHeight = _folderTreeAreaHeight;
                 }
             }
         }
@@ -442,6 +442,17 @@ namespace NeeView
         public void ResetPlace(string queryPath)
         {
             var task = SetPlaceAsync(queryPath ?? GetFixedHome(), null, FolderSetPlaceOption.IsUpdateHistory);
+        }
+
+        /// <summary>
+        /// フォルダーリスト更新要求
+        /// </summary>
+        /// <param name="queryPath"></param>
+        /// <param name="select"></param>
+        /// <param name="options"></param>
+        public void RequestPlace(string queryPath, string select, FolderSetPlaceOption options)
+        {
+            var task = SetPlaceAsync(queryPath, select, options);
         }
 
         /// <summary>
@@ -695,11 +706,11 @@ namespace NeeView
         }
 
         /// <summary>
-        /// クイックアクセスにフォーカス要求
+        /// フォルダーツリーにフォーカス要求
         /// </summary>
-        public void RaiseQuickAccessFocus()
+        public void RaiseFolderTreeFocus()
         {
-            QuickAccessFocus?.Invoke(this, null);
+            FolderTreeFocus?.Invoke(this, null);
         }
 
         /// <summary>
@@ -910,19 +921,15 @@ namespace NeeView
 
         #region Commands
 
-
         public void AddQuickAccess()
         {
-            if (Place.StartsWith(Temporary.TempDirectory))
-            {
-                ToastService.Current.Show(new Toast(Properties.Resources.DialogQuickAccessTempError));
-                return;
-            }
+            IsFolderTreeVisible = true;
+            FolderTreeModel.Current.AddQuickAccess(GetCurentQueryPath());
+        }
 
-            IsQuickAccessVisible = true;
-
-            var item = new QuickAccess(new QueryPath(Place, GetFixedSearchKeyword()).FullPath);
-            QuickAccessCollection.Current.Add(item);
+        public string GetCurentQueryPath()
+        {
+            return new QueryPath(Place, GetFixedSearchKeyword()).FullPath;
         }
 
         //
@@ -1120,10 +1127,10 @@ namespace NeeView
             public bool IsCloseBookWhenMove { get; set; }
 
             [DataMember, DefaultValue(72.0)]
-            public double QuickAccessAreaHeight { get; set; }
+            public double FolderTreeAreaHeight { get; set; }
 
-            [DataMember, DefaultValue(false)]
-            public bool IsQuickAccessVisible { get; set; }
+            [DataMember, DefaultValue(true)]
+            public bool IsFolderTreeVisible { get; set; }
 
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
@@ -1147,8 +1154,8 @@ namespace NeeView
             memento.ExcludePattern = this.ExcludePattern;
             memento.IsCruise = this.IsCruise;
             memento.IsCloseBookWhenMove = this.IsCloseBookWhenMove;
-            memento.QuickAccessAreaHeight = this.QuickAccessAreaHeight;
-            memento.IsQuickAccessVisible = this.IsQuickAccessVisible;
+            memento.FolderTreeAreaHeight = this.FolderTreeAreaHeight;
+            memento.IsFolderTreeVisible = this.IsFolderTreeVisible;
 
             return memento;
         }
@@ -1169,8 +1176,8 @@ namespace NeeView
             this.ExcludePattern = memento.ExcludePattern;
             this.IsCruise = memento.IsCruise;
             this.IsCloseBookWhenMove = memento.IsCloseBookWhenMove;
-            this.QuickAccessAreaHeight = memento.QuickAccessAreaHeight;
-            this.IsQuickAccessVisible = memento.IsQuickAccessVisible;
+            this.FolderTreeAreaHeight = memento.FolderTreeAreaHeight;
+            this.IsFolderTreeVisible = memento.IsFolderTreeVisible;
         }
 
         #endregion

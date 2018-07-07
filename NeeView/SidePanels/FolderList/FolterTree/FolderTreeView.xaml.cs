@@ -27,6 +27,7 @@ namespace NeeView
     {
         public static string DragDropFormat = $"{Config.Current.ProcessId}.TreeViewItem";
 
+
         private FolderTreeViewModel _vm;
 
         public FolderTreeView()

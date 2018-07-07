@@ -31,6 +31,8 @@ namespace NeeView
             ValidateProductInfo(assembly);
         }
 
+        public event EventHandler DpiChanged;
+
         /// <summary>
         /// DPI(アプリ値)
         /// </summary>
@@ -60,6 +62,7 @@ namespace NeeView
             if (RawDpi.DpiScaleX != dpi.DpiScaleX || RawDpi.DpiScaleY != dpi.DpiScaleY)
             {
                 RawDpi = dpi;
+                DpiChanged?.Invoke(this, null);
                 return true;
             }
             else

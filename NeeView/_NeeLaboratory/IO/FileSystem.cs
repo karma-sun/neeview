@@ -63,7 +63,7 @@ namespace NeeLaboratory.IO
             public const uint FILE_ATTRIBUTE_OFFLINE = 0x1000;
 
             // SHGetFileInfo関数で使用する構造体
-            [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+            [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
             public struct SHFILEINFO
             {
                 public IntPtr hIcon;

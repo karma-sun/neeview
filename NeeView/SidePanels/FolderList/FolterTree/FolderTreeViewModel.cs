@@ -1,6 +1,7 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows;
 using System;
+using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
@@ -19,6 +20,7 @@ namespace NeeView
         public FolderTreeModel Model { get; set; }
 
         public DragStartDescription DragStartDescription { get; set; }
+
 
 
         public void SelectRootQuickAccess()

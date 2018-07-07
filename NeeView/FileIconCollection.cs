@@ -15,14 +15,16 @@ namespace NeeView
 
         private struct Key : IEquatable<Key>
         {
-            public Key(string filename, FileIconType iconType)
+            public Key(string filename, FileIconType iconType, bool allowJumbo)
             {
                 FileName = filename;
                 IconType = iconType;
+                AllowJumbo = allowJumbo;
             }
 
             public string FileName { get; private set; }
             public FileIconType IconType { get; private set; }
+            public bool AllowJumbo { get; private set; }
 
             #region IEquatable Support
 
@@ -37,7 +39,7 @@ namespace NeeView
 
             public bool Equals(Key other)
             {
-                return IconType == other.IconType && FileName == other.FileName;
+                return IconType == other.IconType && FileName == other.FileName && AllowJumbo == other.AllowJumbo;
             }
 
             public override int GetHashCode()
@@ -68,36 +70,36 @@ namespace NeeView
 
         public BitmapSource CreateDefaultFileIcon(double width)
         {
-            return CreateFileIcon("__dummy__", FileIconType.FileType, width);
+            return CreateFileIcon("__dummy__", FileIconType.FileType, width, true, true);
         }
 
         public BitmapSource CreateDefaultFolderIcon(double width)
         {
-            return CreateFileIcon("__dummy__", FileIconType.DirectoryType, width);
+            return CreateFileIcon("__dummy__", FileIconType.DirectoryType, width, true, true);
         }
 
-        public BitmapSource CreateFileIcon(string filename, FileIconType iconType, double width)
+        public BitmapSource CreateFileIcon(string filename, FileIconType iconType, double width, bool allowJumbo, bool useCache)
         {
-            var collection = CreateFileIconCollection(filename, iconType);
-            return collection.GetBitmapSource(width);
+            var collection = CreateFileIconCollection(filename, iconType, allowJumbo, useCache);
+            return collection.GetBitmapSource(width * Config.Current.RawDpi.DpiScaleX);
         }
 
-        private  BitmapSourceCollection CreateFileIconCollection(string filename, FileIconType iconType)
+        private  BitmapSourceCollection CreateFileIconCollection(string filename, FileIconType iconType, bool allowJumbo, bool useCache)
         {
             if (iconType == FileIconType.FileType)
             {
                 filename = System.IO.Path.GetExtension(filename);
             }
 
-            var key = new Key(filename, iconType);
-            if (_caches.TryGetValue(key, out BitmapSourceCollection collection))
+            var key = new Key(filename, iconType, allowJumbo);
+            if (useCache && _caches.TryGetValue(key, out BitmapSourceCollection collection))
             {
                 return collection;
             }
 
-            var bitmaps = FileIcon.CreateIconCollection(filename, iconType);
+            var bitmaps = FileIcon.CreateIconCollection(filename, iconType, allowJumbo);
             collection = new BitmapSourceCollection(bitmaps);
-            if (iconType == FileIconType.DirectoryType || iconType == FileIconType.FileType)
+            if (useCache && iconType == FileIconType.DirectoryType || iconType == FileIconType.FileType)
             {
                 _caches.Add(key, collection);
             }

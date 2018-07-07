@@ -2,13 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
     public class FolderTreeModel : BindableBase
     {
         public static FolderTreeModel Current { get; } = new FolderTreeModel();
- 
+
         private RootQuickAccessTreeItem _rootQuickAccess;
 
         public FolderTreeModel()
@@ -19,14 +20,74 @@ namespace NeeView
             Items.Add(_rootQuickAccess);
             Items.Add(new RootFolderTreeItem());
 
+            Config.Current.DpiChanged += Config_DpiChanged;
+
             QuickAccessCollection.Current.CollectionChanged += QuickAccess_CollectionChanged;
         }
-
 
         public event EventHandler SelectedItemChanged;
 
 
         public List<ITreeViewNode> Items { get; set; }
+
+        public BitmapSource FolderIcon => FileIconCollection.Current.CreateDefaultFolderIcon(16.0);
+
+
+        private void Config_DpiChanged(object sender, EventArgs e)
+        {
+            RaisePropertyChanged(nameof(FolderIcon));
+
+            var it = GetNodeWalker(Items);
+            while (it.MoveNext())
+            {
+                switch (it.Current)
+                {
+                    case FolderTreeItem folder:
+                        folder.RefreshIcon();
+                        break;
+                }
+            }
+        }
+
+        private static IEnumerator<ITreeViewNode> GetNodeWalker(IEnumerable<ITreeViewNode> collection)
+        {
+            if (collection == null)
+            {
+                yield break;
+            }
+
+            foreach (var item in collection)
+            {
+                yield return item;
+
+                switch (item)
+                {
+                    case RootQuickAccessTreeItem rootQuickAccess:
+                        foreach (var child in rootQuickAccess.Collection.Items)
+                        {
+                            yield return child;
+                        }
+                        break;
+
+                    case QuickAccess QuickAccess:
+                        break;
+
+                    case TreeViewNodeBase node:
+                        if (node.IsChildrenValid)
+                        {
+                            var it = GetNodeWalker(node.Children);
+                            while (it.MoveNext())
+                            {
+                                yield return it.Current;
+                            }
+                        }
+                        break;
+
+                    default:
+                        throw new NotSupportedException();
+                }
+            }
+        }
 
 
         private void QuickAccess_CollectionChanged(object sender, System.ComponentModel.CollectionChangeEventArgs e)

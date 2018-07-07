@@ -20,7 +20,7 @@ namespace NeeView.IO
     {
         internal static class NativeMethods
         {
-            [DllImport("shell32.dll")]
+            [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
             public static extern IntPtr SHGetFileInfo(string pszPath, FILE_ATTRIBUTE dwFileAttribs, out SHFILEINFO psfi, uint cbFileInfo, SHGFI uFlags);
 
             [DllImport("shell32.dll", EntryPoint = "#727")]
@@ -40,7 +40,7 @@ namespace NeeView.IO
             public static extern IntPtr ImageList_GetIcon(IntPtr himl, int i, int flags);
 
             // DestroyIcon関数
-            [DllImport("user32.dll", CharSet = CharSet.Auto)]
+            [DllImport("user32.dll")]
             [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool DestroyIcon(IntPtr hIcon);
 
@@ -304,37 +304,39 @@ namespace NeeView.IO
         }
 
 
-        public static List<BitmapSource> CreateIconCollection(string filename, FileIconType iconType)
+        public static List<BitmapSource> CreateIconCollection(string filename, FileIconType iconType, bool allowJumbo)
         {
             switch (iconType)
             {
                 case FileIconType.DirectoryType:
-                    return CreateDirectoryTypeIconCollection(filename);
+                    return CreateDirectoryTypeIconCollection(filename, allowJumbo);
                 case FileIconType.FileType:
-                    return CreateFileTypeIconCollection(filename);
+                    return CreateFileTypeIconCollection(filename, allowJumbo);
                 case FileIconType.File:
-                    return CreateFileIconCollection(filename);
+                    return CreateFileIconCollection(filename, allowJumbo);
                 default:
                     throw new ArgumentOutOfRangeException(nameof(iconType));
             }
         }
 
-        public static List<BitmapSource> CreateDirectoryTypeIconCollection(string filename)
+        public static List<BitmapSource> CreateDirectoryTypeIconCollection(string filename, bool allowJumbo)
         {
-            return CreateFileIconCollection(filename, NativeMethods.FILE_ATTRIBUTE.FILE_ATTRIBUTE_DIRECTORY, NativeMethods.SHGFI.SHGFI_USEFILEATTRIBUTES);
+            return CreateFileIconCollection(filename, NativeMethods.FILE_ATTRIBUTE.FILE_ATTRIBUTE_DIRECTORY, NativeMethods.SHGFI.SHGFI_USEFILEATTRIBUTES, allowJumbo);
         }
 
-        public static List<BitmapSource> CreateFileTypeIconCollection(string filename)
+        public static List<BitmapSource> CreateFileTypeIconCollection(string filename, bool allowJumbo)
         {
-            return CreateFileIconCollection(System.IO.Path.GetExtension(filename), 0, NativeMethods.SHGFI.SHGFI_USEFILEATTRIBUTES);
+            return CreateFileIconCollection(System.IO.Path.GetExtension(filename), 0, NativeMethods.SHGFI.SHGFI_USEFILEATTRIBUTES, allowJumbo);
         }
 
-        public static List<BitmapSource> CreateFileIconCollection(string filename)
+        public static List<BitmapSource> CreateFileIconCollection(string filename, bool allowJumbo)
         {
-            return CreateFileIconCollection(filename, 0, 0);
+            return CreateFileIconCollection(filename, 0, 0, allowJumbo);
         }
 
-        private static List<BitmapSource> CreateFileIconCollection(string filename, NativeMethods.FILE_ATTRIBUTE attribute, NativeMethods.SHGFI flags)
+
+
+        private static List<BitmapSource> CreateFileIconCollection(string filename, NativeMethods.FILE_ATTRIBUTE attribute, NativeMethods.SHGFI flags, bool allowJumbo)
         {
             NativeMethods.SHFILEINFO shinfo = new NativeMethods.SHFILEINFO();
 
@@ -342,9 +344,10 @@ namespace NeeView.IO
 
             var bitmaps = new List<BitmapSource>();
 
-            foreach (NativeMethods.SHIL currentshil in Enum.GetValues(typeof(NativeMethods.SHIL)))
+            var shils = Enum.GetValues(typeof(NativeMethods.SHIL)).Cast<NativeMethods.SHIL>().Where(e => allowJumbo || e != NativeMethods.SHIL.SHIL_JUMBO);
+            foreach (var shil in shils)
             {
-                int hResult = NativeMethods.SHGetImageList(currentshil, ref NativeMethods.IID_IImageList, out NativeMethods.IImageList imglist);
+                int hResult = NativeMethods.SHGetImageList(shil, ref NativeMethods.IID_IImageList, out NativeMethods.IImageList imglist);
                 if (hResult == NativeMethods.S_OK)
                 {
                     IntPtr hicon = IntPtr.Zero;

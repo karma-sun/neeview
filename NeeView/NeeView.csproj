@@ -191,15 +191,18 @@
     <Compile Include="Setting\SettingItemImageCollection.xaml.cs">
       <DependentUpon>SettingItemImageCollection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SidePanels\FolderList\FolderTreeModel.cs" />
-    <Compile Include="SidePanels\FolderList\FolderTreeNodes.cs" />
-    <Compile Include="SidePanels\FolderList\FolderTreeView.xaml.cs">
+    <Compile Include="SidePanels\FolderList\FolterTree\DriveTreeItem.cs" />
+    <Compile Include="SidePanels\FolderList\FolterTree\FolderTreeItem.cs" />
+    <Compile Include="SidePanels\FolderList\FolterTree\FolderTreeModel.cs" />
+    <Compile Include="SidePanels\FolderList\FolterTree\FolderTreeNodes.cs" />
+    <Compile Include="SidePanels\FolderList\FolterTree\FolderTreeView.xaml.cs">
       <DependentUpon>FolderTreeView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SidePanels\FolderList\FolderTreeViewModel.cs" />
+    <Compile Include="SidePanels\FolderList\FolterTree\FolderTreeViewModel.cs" />
     <Compile Include="SidePanels\FolderList\QueryPath.cs" />
     <Compile Include="SidePanels\FolderList\QuickAccess.cs" />
     <Compile Include="SidePanels\FolderList\QuickAccessCollection.cs" />
+    <Compile Include="SidePanels\FolderList\FolterTree\RootFolderTreeItem.cs" />
     <Compile Include="Toast.cs" />
     <Compile Include="Controls\ToastCard.xaml.cs">
       <DependentUpon>ToastCard.xaml</DependentUpon>
@@ -247,7 +250,7 @@
     <Compile Include="TreeViewItemHelper.cs" />
     <Compile Include="_NeeView\Collections\Generic\TreeListNode.cs" />
     <Compile Include="SidePanels\FolderList\FolderCollectionFactory.cs" />
-    <Compile Include="SidePanels\FolderList\FolderNode.cs" />
+    <Compile Include="SidePanels\FolderList\FolterTree\FolderNode.cs" />
     <Compile Include="SidePanels\FolderList\FolderSearchEngine.cs" />
     <Compile Include="SidePanels\IPageListPanel.cs" />
     <Compile Include="SidePanels\ListBoxThumbnailLoader.cs" />
@@ -973,7 +976,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SidePanels\FolderList\FolderTreeView.xaml">
+    <Page Include="SidePanels\FolderList\FolterTree\FolderTreeView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

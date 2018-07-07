@@ -87,6 +87,10 @@
                     <TextBlock Text="{Binding Name}"/>
                 </HierarchicalDataTemplate>
 
+                <HierarchicalDataTemplate DataType="{x:Type local:DriveTreeItem}" ItemsSource="{Binding Children}">
+                    <TextBlock Text="{Binding DriveName}"/>
+                </HierarchicalDataTemplate>
+
                 <HierarchicalDataTemplate DataType="{x:Type local:FolderTreeItem}" ItemsSource="{Binding Children}">
                     <TextBlock Text="{Binding Name}"/>
                 </HierarchicalDataTemplate>

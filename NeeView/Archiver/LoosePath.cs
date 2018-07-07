@@ -12,7 +12,7 @@ namespace NeeView
     /// </summary>
     public static class LoosePath
     {
-        private static char[] s_separator = new char[] { '\\', '/' };
+        public static char[] Separator = new char[] { '\\', '/' };
 
 
         //
@@ -20,9 +20,9 @@ namespace NeeView
         {
             if (string.IsNullOrEmpty(s)) return "";
 
-            if (s_separator.Contains(s.Last()))
+            if (Separator.Contains(s.Last()))
             {
-                s = s.TrimEnd(s_separator);
+                s = s.TrimEnd(Separator);
                 if (s.Last() == ':') s += "\\";
             }
 
@@ -33,14 +33,14 @@ namespace NeeView
         public static string[] Split(string s)
         {
             if (string.IsNullOrEmpty(s)) return new string[0];
-            return s.Split(s_separator, StringSplitOptions.RemoveEmptyEntries);
+            return s.Split(Separator, StringSplitOptions.RemoveEmptyEntries);
         }
 
         //
         public static string GetFileName(string s)
         {
             if (string.IsNullOrEmpty(s)) return "";
-            return s.Split(s_separator, StringSplitOptions.RemoveEmptyEntries).Last();
+            return s.Split(Separator, StringSplitOptions.RemoveEmptyEntries).Last();
         }
 
         // place部をディレクトリーとみなしたファイル名取得
@@ -49,14 +49,14 @@ namespace NeeView
             if (string.IsNullOrEmpty(s)) return "";
             if (string.IsNullOrEmpty(place)) return s;
             if (string.Compare(s, 0, place, 0, place.Length) != 0) throw new ArgumentException("s not contain place");
-            return s.Substring(place.Length).TrimStart(s_separator);
+            return s.Substring(place.Length).TrimStart(Separator);
         }
 
         //
         public static string GetPathRoot(string s)
         {
             if (string.IsNullOrEmpty(s)) return "";
-            var parts = s.Split(s_separator, 2);
+            var parts = s.Split(Separator, 2);
             return parts.First();
         }
 
@@ -65,7 +65,7 @@ namespace NeeView
         {
             if (string.IsNullOrEmpty(s)) return "";
 
-            var parts = s.Split(s_separator, StringSplitOptions.RemoveEmptyEntries).ToList();
+            var parts = s.Split(Separator, StringSplitOptions.RemoveEmptyEntries).ToList();
             if (parts.Count <= 1) return "";
 
             parts.RemoveAt(parts.Count - 1);
@@ -93,7 +93,7 @@ namespace NeeView
             else if (string.IsNullOrEmpty(s2))
                 return s1;
             else
-                return s1.TrimEnd(s_separator) + "\\" + s2.TrimStart(s_separator);
+                return s1.TrimEnd(Separator) + "\\" + s2.TrimStart(Separator);
         }
 
         // ファイル名として使えない文字を置換

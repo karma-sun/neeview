@@ -6,7 +6,7 @@ using System.Linq;
 namespace NeeView
 {
     // root folder
-    public class RootFolderTreeItem : TreeViewNodeBase, IDisposable
+    public class RootFolderTreeItem : FolderTreeNode, IDisposable
     {
         public RootFolderTreeItem()
         {
@@ -15,17 +15,46 @@ namespace NeeView
 
         public string Name => "PC";
 
-        protected override void RefreshChildren()
+        public override string Key => "";
+
+
+        public override void RefreshChildren()
         {
             Children = new ObservableCollection<ITreeViewNode>(DriveInfo.GetDrives()
                 .Select(e => new DriveTreeItem(e)));
         }
 
+        /// <summary>
+        /// 指定パスまで展開した状態で初期化する
+        /// </summary>
+        public void SyncFolder(string path)
+        {
+            this.RefreshChildren();
+
+            if (path != null)
+            {
+                var node = GetFolderTreeNode(path, true, true) as FolderTreeItem;
+                if (node != null)
+                {
+                    var parent = node.Parent;
+                    while (parent != null)
+                    {
+                        parent.IsExpanded = true;
+                        parent = parent.Parent;
+                    }
+
+                    node.IsSelected = true;
+                    this.IsExpanded = true;
+                }
+            }
+        }
+
+
         public void Terminate()
         {
             if (_children != null)
             {
-                foreach(var child in _children)
+                foreach (var child in _children)
                 {
                     if (child is FolderTreeItem folder)
                     {
@@ -62,5 +91,6 @@ namespace NeeView
             Dispose(true);
         }
         #endregion
+
     }
 }

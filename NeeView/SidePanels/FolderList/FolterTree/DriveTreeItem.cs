@@ -21,7 +21,7 @@ namespace NeeView
 
         public string DriveName { get; private set; }
 
-        ///public BitmapSource Icon => FileIconCollection.Current.CreateFileIcon(Path, IO.FileIconType.File, 16.0, false, false);
+        public override string Key => Name.TrimEnd(LoosePath.Separator);
 
 
         #region FilesSystemWatcher
@@ -135,6 +135,17 @@ namespace NeeView
                 Debug.WriteLine("Skip rename");
             }
         }
+
+        private FolderTreeItem GetFolderTreeItem(string path)
+        {
+            if (path.StartsWith(Name))
+            {
+                path = path.Substring(Name.Length);
+            }
+
+            return GetFolderTreeNode(path, false, false) as FolderTreeItem;
+        }
+
         #endregion
 
         #region IDisposable Support

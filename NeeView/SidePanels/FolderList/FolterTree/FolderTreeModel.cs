@@ -11,14 +11,16 @@ namespace NeeView
         public static FolderTreeModel Current { get; } = new FolderTreeModel();
 
         private RootQuickAccessTreeItem _rootQuickAccess;
+        private RootFolderTreeItem _rootFolder;
 
         public FolderTreeModel()
         {
             _rootQuickAccess = new RootQuickAccessTreeItem();
+            _rootFolder = new RootFolderTreeItem();
 
             Items = new List<ITreeViewNode>();
             Items.Add(_rootQuickAccess);
-            Items.Add(new RootFolderTreeItem());
+            Items.Add(_rootFolder);
 
             Config.Current.DpiChanged += Config_DpiChanged;
 
@@ -37,10 +39,9 @@ namespace NeeView
         {
             RaisePropertyChanged(nameof(FolderIcon));
 
-            var it = GetNodeWalker(Items);
-            while (it.MoveNext())
-            {
-                switch (it.Current)
+            foreach(var item in GetNodeWalker(Items))
+            { 
+                switch (item)
                 {
                     case FolderTreeItem folder:
                         folder.RefreshIcon();
@@ -49,7 +50,7 @@ namespace NeeView
             }
         }
 
-        private static IEnumerator<ITreeViewNode> GetNodeWalker(IEnumerable<ITreeViewNode> collection)
+        private static IEnumerable<ITreeViewNode> GetNodeWalker(IEnumerable<ITreeViewNode> collection)
         {
             if (collection == null)
             {
@@ -75,10 +76,9 @@ namespace NeeView
                     case TreeViewNodeBase node:
                         if (node.IsChildrenValid)
                         {
-                            var it = GetNodeWalker(node.Children);
-                            while (it.MoveNext())
+                            foreach(var child in GetNodeWalker(node.Children))
                             {
-                                yield return it.Current;
+                                yield return child;
                             }
                         }
                         break;
@@ -125,7 +125,7 @@ namespace NeeView
 
         private void SetFolderListPlace(string path)
         {
-            // TODO: リクエストの重複がありうる。キャンセル処理が必要
+            // TODO: リクエストの重複がありうる。キャンセル処理が必要?
             FolderList.Current.RequestPlace(path, null, FolderSetPlaceOption.IsUpdateHistory | FolderSetPlaceOption.ResetKeyword);
         }
 
@@ -194,6 +194,11 @@ namespace NeeView
                 return;
             }
             QuickAccessCollection.Current.Items.Move(srcIndex, dstIndex);
+        }
+
+        public void SyncFolder(string place)
+        {
+            _rootFolder.SyncFolder(place);
         }
     }
 }

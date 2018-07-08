@@ -97,15 +97,17 @@ namespace NeeView
         {
             this.TreeView.Focus();
         }
-        
+
         private void TreeViewItem_Selected(object sender, RoutedEventArgs e)
         {
+#if false
             // scroll into view
             if (sender is TreeViewItem item)
             {
                 item.BringIntoView();
                 e.Handled = true;
             }
+#endif
         }
 
         private void TreeViewItem_MouseRightButtonDown(object sender, MouseButtonEventArgs e)

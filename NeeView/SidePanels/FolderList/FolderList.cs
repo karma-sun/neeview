@@ -1044,6 +1044,8 @@ namespace NeeView
 
                 RaiseSelectedItemChanged(true);
             }
+
+            FolderTreeModel.Current.SyncFolder(Place);
         }
 
         //

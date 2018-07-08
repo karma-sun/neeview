@@ -194,6 +194,7 @@
     <Compile Include="SidePanels\FolderList\FolterTree\DriveTreeItem.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\FolderTreeItem.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\FolderTreeModel.cs" />
+    <Compile Include="SidePanels\FolderList\FolterTree\FolderTreeNode.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\FolderTreeNodes.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\FolderTreeView.xaml.cs">
       <DependentUpon>FolderTreeView.xaml</DependentUpon>

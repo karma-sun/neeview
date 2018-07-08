@@ -9,7 +9,7 @@ using System.Windows.Media.Imaging;
 namespace NeeView
 {
     // folder
-    public class FolderTreeItem : TreeViewNodeBase
+    public class FolderTreeItem : FolderTreeNode
     {
         public FolderTreeItem(FolderTreeItem parent, string name)
         {
@@ -31,6 +31,8 @@ namespace NeeView
             }
         }
 
+        public override string Key => Name;
+
         public FolderTreeItem Parent { get; set; }
 
         public string Path => Parent != null ? LoosePath.Combine(Parent.Path, Name) : Name;
@@ -44,7 +46,7 @@ namespace NeeView
             public static extern int StrCmpLogicalW(string psz1, string psz2);
         }
 
-        protected override void RefreshChildren()
+        public override void RefreshChildren()
         {
             var directory = new DirectoryInfo(Path);
 
@@ -54,7 +56,7 @@ namespace NeeView
                     .Where(e => (e.Attributes & FileAttributes.Hidden) == 0)
                     .Select(e => new FolderTreeItem(this, e.Name)));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }
@@ -63,41 +65,6 @@ namespace NeeView
         public void RefreshIcon()
         {
             RaisePropertyChanged(nameof(Icon));
-        }
-
-        /// <summary>
-        /// 現在インスタンス化されている指定パスのFolderTreeItemを取得する
-        /// </summary>
-        public FolderTreeItem GetFolderTreeItem(string path)
-        {
-            var tokens = path.TrimEnd(LoosePath.Separator).Split(LoosePath.Separator);
-            return GetFolderTreeItem(tokens, 0);
-        }
-
-        /// <summary>
-        /// 現在インスタンス化されている指定パスのFolderTreeItemを取得する
-        /// </summary>
-        public FolderTreeItem GetFolderTreeItem(string[] tokens, int depth)
-        {
-            if (tokens == null) throw new ArgumentNullException(nameof(tokens));
-
-            if (tokens.Length - 1 < depth || Name.TrimEnd(LoosePath.Separator) != tokens[depth])
-            {
-                return null;
-            }
-
-            if (tokens.Length - 1 == depth)
-            {
-                return this;
-            }
-
-            var folder = _children?.Cast<FolderTreeItem>().FirstOrDefault(e => e.Name.TrimEnd(LoosePath.Separator) == tokens[depth + 1]);
-            if (folder != null)
-            {
-                return folder.GetFolderTreeItem(tokens, depth + 1);
-            }
-
-            return null;
         }
 
         public void Add(string name)
@@ -122,7 +89,7 @@ namespace NeeView
                 folder.Parent = null;
             }
         }
-        
+
         public void Rename(string oldName, string name)
         {
             if (_children == null) return;
@@ -148,7 +115,7 @@ namespace NeeView
             var oldIndex = _children.IndexOf(child);
             if (oldIndex < 0) return;
 
-            for (int index=0; index<_children.Count; ++index)
+            for (int index = 0; index < _children.Count; ++index)
             {
                 var folder = (FolderTreeItem)_children[index];
                 if (folder == child) continue;

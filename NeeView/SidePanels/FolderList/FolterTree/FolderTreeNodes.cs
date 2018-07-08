@@ -19,7 +19,7 @@ namespace NeeView
     /// TreeViewNode基底.
     /// Childrenの遅延生成に対応
     /// </summary>
-    public class TreeViewNodeBase : BindableBase, ITreeViewNode
+    public abstract class TreeViewNodeBase : BindableBase, ITreeViewNode
     {
         private bool _isChildrenInitialized;
 
@@ -62,9 +62,7 @@ namespace NeeView
 
         public bool IsChildrenValid => _children != null;
 
-        protected virtual void RefreshChildren()
-        {
-        }
+        public abstract void RefreshChildren();
     }
 
     #endregion

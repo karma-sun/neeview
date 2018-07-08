@@ -102,7 +102,7 @@
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType="{x:Type local:QuickAccess}">
-                    <DockPanel ToolTip="{Binding Detail}" MinHeight="20">
+                    <DockPanel>
                         <i:Interaction.Behaviors>
                             <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:FolderTreeView.DragDropFormat}" DragDropData="{Binding}" Target="{Binding ElementName=TreeView}"
                                                   Description="{Binding ElementName=Root, Path=DataContext.DragStartDescription}"/>

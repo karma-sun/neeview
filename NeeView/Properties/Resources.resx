@@ -4209,4 +4209,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="FolderTreeMenuRemoveQuickAccess" xml:space="preserve">
     <value>Remove from Quick access</value>
   </data>
+  <data name="ParamListItemFolderTreeFontSize" xml:space="preserve">
+    <value>Font size of Folder tree</value>
+  </data>
 </root>

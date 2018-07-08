@@ -27,6 +27,7 @@ namespace NeeView
         private SidePanelGroup _right;
 
         private string _fontName = SystemFonts.MessageFontFamily.Source;
+        private double _folderTreeFontSize = 12;
         private double _fontSize = 15.0;
         private bool _isTextWrapped;
         private double _noteOpacity = 0.5;
@@ -40,6 +41,7 @@ namespace NeeView
             // initialize resource parameter
             SetFontFamilyResource(_fontName);
             SetFontSizeResource(_fontSize);
+            SetFolderTreeFontSizeResource(_folderTreeFontSize);
             SetIsTextWrappedResource(_isTextWrapped);
             UpdateTextWrappedHeightResource();
             UpdateNoteOpacityResource();
@@ -133,7 +135,7 @@ namespace NeeView
         }
 
 
-        [PropertyRange("@ParamListItemFontSize", 8, 24, TickFrequency = 1, IsEditable = true)]
+        [PropertyRange("@ParamListItemFontSize", 8, 24, TickFrequency = 0.5, IsEditable = true)]
         public double FontSize
         {
             get { return _fontSize; }
@@ -145,6 +147,22 @@ namespace NeeView
                     _fontSize = value;
                     SetFontSizeResource(_fontSize);
                     UpdateTextWrappedHeightResource();
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        [PropertyRange("@ParamListItemFolderTreeFontSize", 8, 24, TickFrequency = 0.5, IsEditable = true)]
+        public double FolderTreeFontSize
+        {
+            get { return _folderTreeFontSize; }
+            set
+            {
+                value = Math.Max(1, value);
+                if (_folderTreeFontSize != value)
+                {
+                    _folderTreeFontSize = value;
+                    SetFolderTreeFontSizeResource(_folderTreeFontSize);
                     RaisePropertyChanged();
                 }
             }
@@ -197,6 +215,12 @@ namespace NeeView
         private void SetFontSizeResource(double fontSize)
         {
             App.Current.Resources["PanelFontSize"] = fontSize;
+        }
+
+        // リソースにFolderTreeFontSize適用
+        private void SetFolderTreeFontSizeResource(double fontSize)
+        {
+            App.Current.Resources["FolderTreeFontSize"] = fontSize;
         }
 
         // リソースにTextWrapping適用
@@ -326,6 +350,10 @@ namespace NeeView
             [DataMember, DefaultValue(15)]
             public double FontSize { get; set; }
 
+
+            [DataMember, DefaultValue(12)]
+            public double FolderTreeFontSize { get; set; }
+
             [DataMember]
             public bool IsTextWrapped { get; set; }
 
@@ -358,6 +386,7 @@ namespace NeeView
             memento.IsManipulationBoundaryFeedbackEnabled = this.IsManipulationBoundaryFeedbackEnabled;
             memento.FontName = this.FontName;
             memento.FontSize = this.FontSize;
+            memento.FolderTreeFontSize = this.FolderTreeFontSize;
             memento.IsTextWrapped = this.IsTextWrapped;
             memento.NoteOpacity = this.NoteOpacity;
             memento.Left = Left.CreateMemento();
@@ -385,6 +414,7 @@ namespace NeeView
             this.IsManipulationBoundaryFeedbackEnabled = memento.IsManipulationBoundaryFeedbackEnabled;
             this.FontName = memento.FontName;
             this.FontSize = memento.FontSize;
+            this.FolderTreeFontSize = memento.FolderTreeFontSize;
             this.IsTextWrapped = memento.IsTextWrapped;
             this.NoteOpacity = memento.NoteOpacity;
             _left.Restore(memento.Left, panels);

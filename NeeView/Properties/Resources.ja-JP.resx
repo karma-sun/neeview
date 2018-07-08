@@ -4207,6 +4207,9 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>ローカルディスク</value>
   </data>
   <data name="FolderTreeMenuRemoveQuickAccess" xml:space="preserve">
-    <value>クイックアクセスからはずす</value>
+    <value>クイックアクセスから外す</value>
+  </data>
+  <data name="ParamListItemFolderTreeFontSize" xml:space="preserve">
+    <value>フォルダーツリーのフォントサイズ</value>
   </data>
 </root>

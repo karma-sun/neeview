@@ -9572,6 +9572,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Font size of Folder tree に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamListItemFolderTreeFontSize {
+            get {
+                return ResourceManager.GetString("ParamListItemFolderTreeFontSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   List item font に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamListItemFontName {

@@ -32,6 +32,7 @@
                     <ScrollUnit x:Key="PanelScrollUnit">Pixel</ScrollUnit>
                     <FontFamily x:Key="PanelFontFamily"/>
                     <system:Double x:Key="PanelFontSize">15</system:Double>
+                    <system:Double x:Key="FolderTreeFontSize">12</system:Double>
                     <TextWrapping x:Key="PanelTextWrapping">NoWrap</TextWrapping>
                     <system:Double x:Key="PanelTextWrappedHeight">41.9</system:Double>
                     <system:Double x:Key="PanelNoteOpacity">0.5</system:Double>

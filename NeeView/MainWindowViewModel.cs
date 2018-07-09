@@ -173,10 +173,10 @@ namespace NeeView
             _model.AddPropertyChanged(nameof(_model.ContextMenuSetting),
                 (s, e) => UpdateContextMenu());
 
-            _model.AddPropertyChanged(nameof(_model.IsHideMenu),
+            _model.AddPropertyChanged(nameof(_model.CanHideMenu),
                 (s, e) => UpdateSidePanelMargin());
 
-            _model.AddPropertyChanged(nameof(_model.IsHidePageSlider),
+            _model.AddPropertyChanged(nameof(_model.CanHidePageSlider),
                 (s, e) => UpdateSidePanelMargin());
 
             _model.AddPropertyChanged(nameof(_model.CanHidePanel),

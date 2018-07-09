@@ -85,6 +85,7 @@ namespace NeeView
             public const int WM_SIZE = 0x0005;
             public const int WM_ENTERSIZEMOVE = 0x0231;
             public const int WM_EXITSIZEMOVE = 0x0232;
+            public const int WM_DEVICECHANGE = 0x0219;
 
             // Win32API の PostMessage 関数のインポート
             [DllImport("user32.dll", CharSet = CharSet.Unicode)]
@@ -92,6 +93,8 @@ namespace NeeView
         }
 
         #endregion
+
+        public event EventHandler DeviceChanged;
 
         #region Fields
 
@@ -183,6 +186,9 @@ namespace NeeView
                     break;
                 case NativeMethods.WM_EXITSIZEMOVE:
                     _isResizingWindow = false;
+                    break;
+                case NativeMethods.WM_DEVICECHANGE:
+                    DeviceChanged?.Invoke(this, null);
                     break;
             }
             return IntPtr.Zero;

@@ -33,9 +33,7 @@ namespace NeeView
 
         public override string Key => Name;
 
-        public FolderTreeItem Parent { get; set; }
-
-        public string Path => Parent != null ? LoosePath.Combine(Parent.Path, Name) : Name;
+        public string Path => Parent is FolderTreeItem parent ? LoosePath.Combine(parent.Path, Name) : Name;
 
         public BitmapSource Icon => FileIconCollection.Current.CreateFileIcon(Path, IO.FileIconType.File, 16.0, false, false);
 
@@ -59,6 +57,7 @@ namespace NeeView
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
+                OnException(this, ex);
             }
         }
 

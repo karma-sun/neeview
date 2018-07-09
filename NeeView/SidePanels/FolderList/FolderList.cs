@@ -218,6 +218,8 @@ namespace NeeView
         [PropertyMember("@ParamFolderListIsCloseBookWhenMove")]
         public bool IsCloseBookWhenMove { get; set; }
 
+        [PropertyMember("@ParamFolderListIsSyncFolderTree")]
+        public bool IsSyncFolderTree { get; set; }
 
         private string _excludePattern;
         [PropertyMember("@ParamFolderListExcludePattern", Tips = "@ParamFolderListExcludePatternTips")]
@@ -1045,7 +1047,10 @@ namespace NeeView
                 RaiseSelectedItemChanged(true);
             }
 
-            FolderTreeModel.Current.SyncFolder(Place);
+            if (IsSyncFolderTree)
+            {
+                FolderTreeModel.Current.SyncFolder(Place);
+            }
         }
 
         //
@@ -1134,6 +1139,9 @@ namespace NeeView
             [DataMember, DefaultValue(true)]
             public bool IsFolderTreeVisible { get; set; }
 
+            [DataMember]
+            public bool IsSyncFolderTree { get; set; }
+
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
             {
@@ -1158,6 +1166,7 @@ namespace NeeView
             memento.IsCloseBookWhenMove = this.IsCloseBookWhenMove;
             memento.FolderTreeAreaHeight = this.FolderTreeAreaHeight;
             memento.IsFolderTreeVisible = this.IsFolderTreeVisible;
+            memento.IsSyncFolderTree = this.IsSyncFolderTree;
 
             return memento;
         }
@@ -1180,6 +1189,7 @@ namespace NeeView
             this.IsCloseBookWhenMove = memento.IsCloseBookWhenMove;
             this.FolderTreeAreaHeight = memento.FolderTreeAreaHeight;
             this.IsFolderTreeVisible = memento.IsFolderTreeVisible;
+            this.IsSyncFolderTree = memento.IsSyncFolderTree;
         }
 
         #endregion

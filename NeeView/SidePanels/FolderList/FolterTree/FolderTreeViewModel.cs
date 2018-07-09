@@ -48,5 +48,9 @@ namespace NeeView
             Model.MoveQuickAccess(src, dst);
         }
 
+        internal void RefreshFolder()
+        {
+            Model.RefreshFolder();
+        }
     }
 }

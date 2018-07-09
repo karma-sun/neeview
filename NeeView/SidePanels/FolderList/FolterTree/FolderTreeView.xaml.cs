@@ -80,6 +80,22 @@ namespace NeeView
             }
         }
 
+        private RelayCommand _RefreshFolderCommand;
+        public RelayCommand RefreshFolderCommand
+        {
+            get
+            {
+                return _RefreshFolderCommand = _RefreshFolderCommand ?? new RelayCommand(Execute);
+
+                void Execute()
+                {
+                    _vm.RefreshFolder();
+                }
+            }
+        }
+
+
+
         #endregion
 
         public bool FocusSelectedItem()
@@ -180,6 +196,10 @@ namespace NeeView
 
                 case QuickAccess quickAccess:
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderTreeMenuRemoveQuickAccess, Command = RemoveCommand });
+                    break;
+
+                case RootFolderTreeItem rootFolder:
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderTreeMenuRefreshFolder, Command = RefreshFolderCommand });
                     break;
 
                 case FolderTreeItem folder:

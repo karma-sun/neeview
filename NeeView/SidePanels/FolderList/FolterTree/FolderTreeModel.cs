@@ -200,5 +200,16 @@ namespace NeeView
         {
             _rootFolder.SyncFolder(place);
         }
+
+        public  void RefreshFolder()
+        {
+            _rootFolder.Refresh();
+        }
+
+        public void RefreshDrives()
+        {
+            _rootFolder.UpdateDrives();
+        }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Media.Imaging;
@@ -10,13 +11,47 @@ namespace NeeView
     {
         private FileSystemWatcher _fileSystemWatcher;
 
-
-        public DriveTreeItem(DriveInfo drive) : base(null, drive.Name)
+        private static readonly Dictionary<DriveType, string> _driveTypeNames = new Dictionary<DriveType, string>
         {
-            DriveName = (string.IsNullOrEmpty(drive.VolumeLabel) ? Properties.Resources.WordLocalDisk : drive.VolumeLabel) + " (" + drive.Name.TrimEnd('\\') + ")";
+            [DriveType.Unknown] = "",
+            [DriveType.NoRootDirectory] = "",
+            [DriveType.Removable] = Properties.Resources.WordRemovableDrive,
+            [DriveType.Fixed] = Properties.Resources.WordFixedDrive,
+            [DriveType.Network] = Properties.Resources.WordNetworkDrive,
+            [DriveType.CDRom] = Properties.Resources.WordCDRomDrive,
+            [DriveType.Ram] = Properties.Resources.WordRamDrive,
+        };
 
-            InitializeWatcher(drive.Name);
-            StartWatch();
+        public DriveTreeItem(RootFolderTreeItem parent, DriveInfo drive) : base(null, drive.Name)
+        {
+            Parent = parent;
+
+            try
+            {
+                if (drive.IsReady)
+                {
+                    DriveName = string.Format("{0} ({1})", string.IsNullOrEmpty(drive.VolumeLabel) ? _driveTypeNames[drive.DriveType] : drive.VolumeLabel, drive.Name.TrimEnd('\\'));
+
+                    InitializeWatcher(drive.Name);
+                    StartWatch();
+                }
+                else
+                {
+                    DriveName = string.Format("{0} ({1})", _driveTypeNames[drive.DriveType], drive.Name.TrimEnd('\\'));
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+
+                DriveName = string.Format("{0} ({1})", _driveTypeNames[drive.DriveType], drive.Name.TrimEnd('\\'));
+            }
+
+            if (drive.DriveType != DriveType.Fixed)
+            {
+                DelayCreateChildren();
+            }
+
         }
 
         public string DriveName { get; private set; }
@@ -138,12 +173,7 @@ namespace NeeView
 
         private FolderTreeItem GetFolderTreeItem(string path)
         {
-            if (path.StartsWith(Name))
-            {
-                path = path.Substring(Name.Length);
-            }
-
-            return GetFolderTreeNode(path, false, false) as FolderTreeItem;
+            return Parent?.GetFolderTreeNode(path, false, false) as FolderTreeItem;
         }
 
         #endregion
@@ -157,6 +187,7 @@ namespace NeeView
             {
                 if (disposing)
                 {
+                    Parent = null;
                     TerminateWatcher();
                 }
                 _disposedValue = true;

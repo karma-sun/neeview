@@ -22,6 +22,7 @@ namespace NeeView
     public abstract class TreeViewNodeBase : BindableBase, ITreeViewNode
     {
         private bool _isChildrenInitialized;
+        private bool _delayCreateChildren;
 
         public TreeViewNodeBase()
         {
@@ -38,7 +39,15 @@ namespace NeeView
         public bool IsExpanded
         {
             get { return _isExpanded; }
-            set { SetProperty(ref _isExpanded, value); }
+            set
+            {
+                SetProperty(ref _isExpanded, value);
+                if (_isExpanded == true && !_isChildrenInitialized)
+                {
+                    _isChildrenInitialized = true;
+                    Task.Run(() => RefreshChildren());
+                }
+            }
         }
 
         protected ObservableCollection<ITreeViewNode> _children;
@@ -46,7 +55,7 @@ namespace NeeView
         {
             get
             {
-                if (!_isChildrenInitialized)
+                if (!_isChildrenInitialized && !_delayCreateChildren)
                 {
                     _isChildrenInitialized = true;
                     Task.Run(() => RefreshChildren());
@@ -56,6 +65,7 @@ namespace NeeView
             set
             {
                 _isChildrenInitialized = true;
+                _delayCreateChildren = false;
                 SetProperty(ref _children, value);
             }
         }
@@ -63,6 +73,14 @@ namespace NeeView
         public bool IsChildrenValid => _children != null;
 
         public abstract void RefreshChildren();
+
+        public void DelayCreateChildren()
+        {
+            if (!_isChildrenInitialized)
+            {
+                _delayCreateChildren = true;
+            }
+        }
     }
 
     #endregion

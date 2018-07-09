@@ -8,6 +8,7 @@ namespace NeeView
     {
         public abstract string Key { get; }
 
+        public FolderTreeNode Parent { get; set; }
 
         /// <summary>
         /// 指定パスのFolderTreeINodeを取得
@@ -49,5 +50,11 @@ namespace NeeView
 
             return asFarAsPossible ? this : null;
         }
+
+        protected virtual void OnException(FolderTreeNode sender, Exception e)
+        {
+            Parent?.OnException(sender, e);
+        }
+
     }
 }

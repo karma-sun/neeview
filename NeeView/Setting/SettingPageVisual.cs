@@ -276,6 +276,7 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsInsertItem))),
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsMultipleRarFilterEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.ExcludePattern))) { IsStretch = true }),
+                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsSyncFolderTree))),
             };
         }
     }

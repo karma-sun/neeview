@@ -6926,6 +6926,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Reload に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FolderTreeMenuRefreshFolder {
+            get {
+                return ResourceManager.GetString("FolderTreeMenuRefreshFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Remove from Quick access に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FolderTreeMenuRemoveQuickAccess {
@@ -8920,6 +8929,15 @@ namespace NeeView.Properties {
         public static string ParamFolderListIsMultipleRarFilterEnabledTips {
             get {
                 return ResourceManager.GetString("ParamFolderListIsMultipleRarFilterEnabledTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Synchronize Folder tree with sync button に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFolderListIsSyncFolderTree {
+            get {
+                return ResourceManager.GetString("ParamFolderListIsSyncFolderTree", resourceCulture);
             }
         }
         
@@ -11808,6 +11826,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   CD-ROM drive に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordCDRomDrive {
+            get {
+                return ResourceManager.GetString("WordCDRomDrive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Clear に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WordClear {
@@ -11916,6 +11943,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Local disk に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordFixedDrive {
+            get {
+                return ResourceManager.GetString("WordFixedDrive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Folder に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WordFolder {
@@ -11979,20 +12015,20 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Local disk に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string WordLocalDisk {
-            get {
-                return ResourceManager.GetString("WordLocalDisk", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Main Menu に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WordMainMenu {
             get {
                 return ResourceManager.GetString("WordMainMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Netword drive に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordNetworkDrive {
+            get {
+                return ResourceManager.GetString("WordNetworkDrive", resourceCulture);
             }
         }
         
@@ -12083,6 +12119,24 @@ namespace NeeView.Properties {
         public static string WordQuickAccess {
             get {
                 return ResourceManager.GetString("WordQuickAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   RAM disk に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordRamDrive {
+            get {
+                return ResourceManager.GetString("WordRamDrive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Removable disk に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordRemovableDrive {
+            get {
+                return ResourceManager.GetString("WordRemovableDrive", resourceCulture);
             }
         }
         

@@ -4203,7 +4203,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordQuickAccess" xml:space="preserve">
     <value>Quick access</value>
   </data>
-  <data name="WordLocalDisk" xml:space="preserve">
+  <data name="WordFixedDrive" xml:space="preserve">
     <value>Local disk</value>
   </data>
   <data name="FolderTreeMenuRemoveQuickAccess" xml:space="preserve">
@@ -4211,5 +4211,23 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="ParamListItemFolderTreeFontSize" xml:space="preserve">
     <value>Font size of Folder tree</value>
+  </data>
+  <data name="ParamFolderListIsSyncFolderTree" xml:space="preserve">
+    <value>Synchronize Folder tree with sync button</value>
+  </data>
+  <data name="WordRemovableDrive" xml:space="preserve">
+    <value>Removable disk</value>
+  </data>
+  <data name="WordNetworkDrive" xml:space="preserve">
+    <value>Netword drive</value>
+  </data>
+  <data name="WordCDRomDrive" xml:space="preserve">
+    <value>CD-ROM drive</value>
+  </data>
+  <data name="WordRamDrive" xml:space="preserve">
+    <value>RAM disk</value>
+  </data>
+  <data name="FolderTreeMenuRefreshFolder" xml:space="preserve">
+    <value>Reload</value>
   </data>
 </root>

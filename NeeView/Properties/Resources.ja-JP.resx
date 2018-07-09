@@ -4203,7 +4203,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordQuickAccess" xml:space="preserve">
     <value>クイックアクセス</value>
   </data>
-  <data name="WordLocalDisk" xml:space="preserve">
+  <data name="WordFixedDrive" xml:space="preserve">
     <value>ローカルディスク</value>
   </data>
   <data name="FolderTreeMenuRemoveQuickAccess" xml:space="preserve">
@@ -4211,5 +4211,23 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="ParamListItemFolderTreeFontSize" xml:space="preserve">
     <value>フォルダーツリーのフォントサイズ</value>
+  </data>
+  <data name="ParamFolderListIsSyncFolderTree" xml:space="preserve">
+    <value>同期ボタンでフォルダーツリーを同期する</value>
+  </data>
+  <data name="WordRemovableDrive" xml:space="preserve">
+    <value>リムーバブルディスク</value>
+  </data>
+  <data name="WordNetworkDrive" xml:space="preserve">
+    <value>ネットワークドライブ</value>
+  </data>
+  <data name="WordCDRomDrive" xml:space="preserve">
+    <value>CD-ROMドライブ</value>
+  </data>
+  <data name="WordRamDrive" xml:space="preserve">
+    <value>RAMディスク</value>
+  </data>
+  <data name="FolderTreeMenuRefreshFolder" xml:space="preserve">
+    <value>再読み込み</value>
   </data>
 </root>

@@ -249,6 +249,7 @@
     <Compile Include="SidePanels\Pagemark\PagemarkListBoxModel.cs" />
     <Compile Include="SidePanels\Pagemark\PagemarkListBoxViewModel.cs" />
     <Compile Include="TreeViewItemHelper.cs" />
+    <Compile Include="WindowMessage.cs" />
     <Compile Include="_NeeView\Collections\Generic\TreeListNode.cs" />
     <Compile Include="SidePanels\FolderList\FolderCollectionFactory.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\FolderNode.cs" />

@@ -4222,7 +4222,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>ネットワークドライブ</value>
   </data>
   <data name="WordCDRomDrive" xml:space="preserve">
-    <value>CD-ROMドライブ</value>
+    <value>ディスクドライブ</value>
   </data>
   <data name="WordRamDrive" xml:space="preserve">
     <value>RAMディスク</value>

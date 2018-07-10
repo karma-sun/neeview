@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
     // drive
-    public class DriveTreeItem : FolderTreeItem, IDisposable
+    public class DriveTreeItem : FolderTreeItem
     {
-        private FileSystemWatcher _fileSystemWatcher;
+        private static Toast _toast;
 
         private static readonly Dictionary<DriveType, string> _driveTypeNames = new Dictionary<DriveType, string>
         {
@@ -22,183 +23,77 @@ namespace NeeView
             [DriveType.Ram] = Properties.Resources.WordRamDrive,
         };
 
-        public DriveTreeItem(RootFolderTreeItem parent, DriveInfo drive) : base(null, drive.Name)
+        public DriveTreeItem(DriveInfo drive) : base(null, drive.Name)
         {
-            Parent = parent;
+            Initialize(drive);
+        }
 
-            try
+
+        private string _driveName;
+        public string DriveName
+        {
+            get { return _driveName; }
+            set { SetProperty(ref _driveName, value); }
+        }
+
+        public override string Key => Name.TrimEnd(LoosePath.Separator);
+
+
+        private void Initialize(DriveInfo drive)
+        {
+            var driveName = string.Format("{0} ({1})", _driveTypeNames[drive.DriveType], drive.Name.TrimEnd('\\'));
+
+            if (drive.IsReady)
             {
-                if (drive.IsReady)
+                try
                 {
-                    DriveName = string.Format("{0} ({1})", string.IsNullOrEmpty(drive.VolumeLabel) ? _driveTypeNames[drive.DriveType] : drive.VolumeLabel, drive.Name.TrimEnd('\\'));
-
-                    InitializeWatcher(drive.Name);
-                    StartWatch();
+                    driveName = string.Format("{0} ({1})", string.IsNullOrEmpty(drive.VolumeLabel) ? _driveTypeNames[drive.DriveType] : drive.VolumeLabel, drive.Name.TrimEnd('\\'));
                 }
-                else
+                catch (Exception ex)
                 {
-                    DriveName = string.Format("{0} ({1})", _driveTypeNames[drive.DriveType], drive.Name.TrimEnd('\\'));
+                    Debug.WriteLine(ex.Message);
                 }
             }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
 
-                DriveName = string.Format("{0} ({1})", _driveTypeNames[drive.DriveType], drive.Name.TrimEnd('\\'));
-            }
+            DriveName = driveName;
 
             if (drive.DriveType != DriveType.Fixed)
             {
                 DelayCreateChildren();
             }
-
         }
 
-        public string DriveName { get; private set; }
-
-        public override string Key => Name.TrimEnd(LoosePath.Separator);
-
-
-        #region FilesSystemWatcher
-
-        private void InitializeWatcher(string path)
+        public void Refresh()
         {
-            _fileSystemWatcher = new FileSystemWatcher();
+            ResetChildren(true);
 
-            try
+            var drive = DriveInfo.GetDrives().FirstOrDefault(e => e.Name == this.Name);
+            if (drive != null)
             {
-                _fileSystemWatcher.Path = path;
-                _fileSystemWatcher.IncludeSubdirectories = true;
-                _fileSystemWatcher.NotifyFilter = NotifyFilters.DirectoryName;
-                _fileSystemWatcher.Created += Watcher_Creaded;
-                _fileSystemWatcher.Deleted += Watcher_Deleted;
-                _fileSystemWatcher.Renamed += Watcher_Renamed;
-                _fileSystemWatcher.Error += Watcher_Error;
+                Initialize(drive);
             }
-            catch (Exception e)
-            {
-                Debug.WriteLine(e.Message);
-                _fileSystemWatcher.Dispose();
-                _fileSystemWatcher = null;
-            }
+
+            RaisePropertyChanged(nameof(Icon));
         }
 
-        private void Watcher_Error(object sender, ErrorEventArgs e)
+        protected override void OnException(FolderTreeNode sender, Exception e)
         {
-            var ex = e.GetException();
-            Debug.WriteLine($"FileSystemWatcher Error!! : {ex.ToString()} : {ex.Message}");
-
-            // recoverty...
-            ////var path = _fileSystemWatcher.Path;
-            ////TerminateWatcher();
-            ////InitializeWatcher(path);
-        }
-
-        private void TerminateWatcher()
-        {
-            if (_fileSystemWatcher != null)
+            if (sender is FolderTreeItem folder)
             {
-                _fileSystemWatcher.EnableRaisingEvents = false;
-                _fileSystemWatcher.Error -= Watcher_Error;
-                _fileSystemWatcher.Created -= Watcher_Creaded;
-                _fileSystemWatcher.Deleted -= Watcher_Deleted;
-                _fileSystemWatcher.Renamed -= Watcher_Renamed;
-                _fileSystemWatcher.Dispose();
-                _fileSystemWatcher = null;
-            }
-        }
+                _toast?.Cancel();
+                _toast = new Toast(e.Message);
+                ToastService.Current.Show(_toast);
 
-        private void StartWatch()
-        {
-            if (_fileSystemWatcher != null)
-            {
-                _fileSystemWatcher.EnableRaisingEvents = true;
-            }
-        }
-
-        private void Watcher_Creaded(object sender, FileSystemEventArgs e)
-        {
-            Debug.WriteLine("Create: " + e.FullPath);
-
-            var path = LoosePath.GetDirectoryName(e.FullPath);
-
-            var parent = GetFolderTreeItem(path);
-            if (parent != null)
-            {
-                var name = LoosePath.GetFileName(e.FullPath);
-                App.Current.Dispatcher.BeginInvoke((Action)(() => parent.Add(name)));
-            }
-            else
-            {
-                Debug.WriteLine("Skip create");
-            }
-        }
-
-        private void Watcher_Deleted(object sender, FileSystemEventArgs e)
-        {
-            Debug.WriteLine("Delete: " + e.FullPath);
-
-            var path = LoosePath.GetDirectoryName(e.FullPath);
-
-            var parent = GetFolderTreeItem(path);
-            if (parent != null)
-            {
-                var name = LoosePath.GetFileName(e.FullPath);
-                App.Current.Dispatcher.BeginInvoke((Action)(() => parent.Remove(name)));
-            }
-            else
-            {
-                Debug.WriteLine("Skip delete");
-            }
-        }
-
-        private void Watcher_Renamed(object sender, RenamedEventArgs e)
-        {
-            Debug.WriteLine("Rename: " + e.OldFullPath + " -> " + e.FullPath);
-
-            var path = LoosePath.GetDirectoryName(e.OldFullPath);
-
-            var parent = GetFolderTreeItem(path);
-            if (parent != null)
-            {
-                var oldName = LoosePath.GetFileName(e.OldFullPath);
-                var name = LoosePath.GetFileName(e.FullPath);
-                App.Current.Dispatcher.BeginInvoke((Action)(() => parent.Rename(oldName, name)));
-            }
-            else
-            {
-                Debug.WriteLine("Skip rename");
-            }
-        }
-
-        private FolderTreeItem GetFolderTreeItem(string path)
-        {
-            return Parent?.GetFolderTreeNode(path, false, false) as FolderTreeItem;
-        }
-
-        #endregion
-
-        #region IDisposable Support
-        private bool _disposedValue = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposedValue)
-            {
-                if (disposing)
+                var driveInfo = DriveInfo.GetDrives().FirstOrDefault(d => d.Name == this.Name);
+                if (driveInfo != null)
                 {
-                    Parent = null;
-                    TerminateWatcher();
+                    if (!driveInfo.IsReady)
+                    {
+                        Refresh();
+                    }
                 }
-                _disposedValue = true;
             }
         }
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-        #endregion
 
     }
 }

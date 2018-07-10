@@ -45,7 +45,7 @@ namespace NeeView
                 if (_isExpanded == true && !_isChildrenInitialized)
                 {
                     _isChildrenInitialized = true;
-                    Task.Run(() => RefreshChildren());
+                    RefreshChildren();
                 }
             }
         }
@@ -71,6 +71,16 @@ namespace NeeView
         }
 
         public bool IsChildrenValid => _children != null;
+
+        public void ResetChildren(bool isDelay)
+        {
+            IsExpanded = false;
+
+            _isChildrenInitialized = false;
+            _delayCreateChildren = isDelay;
+            _children = null;
+            RaisePropertyChanged(nameof(Children));
+        }
 
         public abstract void RefreshChildren();
 

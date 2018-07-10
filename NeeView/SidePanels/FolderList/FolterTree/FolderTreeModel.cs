@@ -206,10 +206,5 @@ namespace NeeView
             _rootFolder.Refresh();
         }
 
-        public void RefreshDrives()
-        {
-            _rootFolder.UpdateDrives();
-        }
-
     }
 }

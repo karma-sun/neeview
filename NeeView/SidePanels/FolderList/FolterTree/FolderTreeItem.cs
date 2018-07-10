@@ -33,7 +33,11 @@ namespace NeeView
 
         public override string Key => Name;
 
-        public string Path => Parent is FolderTreeItem parent ? LoosePath.Combine(parent.Path, Name) : Name;
+        public FolderTreeItem Parent { get; set; }
+
+        public string Path => Parent != null ? LoosePath.Combine(Parent.Path, Name) : Name;
+
+        public DriveTreeItem Drive => this is DriveTreeItem drive ? drive : Parent?.Drive;
 
         public BitmapSource Icon => FileIconCollection.Current.CreateFileIcon(Path, IO.FileIconType.File, 16.0, false, false);
 
@@ -42,6 +46,11 @@ namespace NeeView
         {
             [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
             public static extern int StrCmpLogicalW(string psz1, string psz2);
+        }
+
+        protected virtual void OnException(FolderTreeNode sender, Exception e)
+        {
+            Parent?.OnException(sender, e);
         }
 
         public override void RefreshChildren()
@@ -70,16 +79,22 @@ namespace NeeView
         {
             if (_children == null) return;
 
-            Debug.WriteLine($"ADD: " + name);
+            ////Debug.WriteLine($"ADD: " + name);
 
-            var folder = new FolderTreeItem(this, name);
-            _children.Add(folder);
-            Sort(folder);
+            var folder = _children.Cast<FolderTreeItem>().FirstOrDefault(e => e.Name == name);
+            if (folder == null)
+            {
+                folder = new FolderTreeItem(this, name);
+                _children.Add(folder);
+                Sort(folder);
+            }
         }
 
         public void Remove(string name)
         {
             if (_children == null) return;
+
+            ////Debug.WriteLine($"REMOVE: " + name);
 
             var folder = _children.Cast<FolderTreeItem>().FirstOrDefault(e => e.Name == name);
             if (folder != null)
@@ -93,7 +108,7 @@ namespace NeeView
         {
             if (_children == null) return;
 
-            Debug.WriteLine($"RENAME: " + oldName + " -> " + name);
+            ////Debug.WriteLine($"RENAME: " + oldName + " -> " + name);
 
             var folder = _children.Cast<FolderTreeItem>().FirstOrDefault(e => e.Name == oldName);
             if (folder != null)

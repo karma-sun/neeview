@@ -4222,7 +4222,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Netword drive</value>
   </data>
   <data name="WordCDRomDrive" xml:space="preserve">
-    <value>CD-ROM drive</value>
+    <value>Disk drive</value>
   </data>
   <data name="WordRamDrive" xml:space="preserve">
     <value>RAM disk</value>

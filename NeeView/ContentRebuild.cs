@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -77,25 +78,6 @@ namespace NeeView
         // system object
         public static ContentRebuild Current { get; private set; }
 
-        #region Win32API
-
-        internal static class NativeMethods
-        {
-            // ウィンドウメッセージ
-            public const int WM_SIZE = 0x0005;
-            public const int WM_ENTERSIZEMOVE = 0x0231;
-            public const int WM_EXITSIZEMOVE = 0x0232;
-            public const int WM_DEVICECHANGE = 0x0219;
-
-            // Win32API の PostMessage 関数のインポート
-            [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-            public static extern bool PostMessage(IntPtr hWnd, Int32 Msg, IntPtr wParam, IntPtr lParam);
-        }
-
-        #endregion
-
-        public event EventHandler DeviceChanged;
-
         #region Fields
 
         // ウィンドウリサイズ中かどうか
@@ -131,6 +113,9 @@ namespace NeeView
 
             // サイズ指定状態監視
             PictureProfile.Current.CustomSize.PropertyChanged += (s, e) => RequestWithResize();
+
+            WindowMessage.Current.EnterSizeMove += (s, e) => _isResizingWindow = true;
+            WindowMessage.Current.ExitSizeMove += (s, e) => _isResizingWindow = false;
         }
 
         #endregion
@@ -166,34 +151,6 @@ namespace NeeView
         #endregion
 
         #region Medhots
-
-        // ウィンドウプロシージャ初期化
-        // ウィンドウリサイズ中を監視
-        public void InitinalizeWinProc(Window window)
-        {
-            // ウィンドウプロシージャ監視
-            var hsrc = HwndSource.FromVisual(window) as HwndSource;
-            hsrc.AddHook(WndProc);
-        }
-
-        // ウィンドウプロシージャ
-        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
-        {
-            switch (msg)
-            {
-                case NativeMethods.WM_ENTERSIZEMOVE:
-                    _isResizingWindow = true;
-                    break;
-                case NativeMethods.WM_EXITSIZEMOVE:
-                    _isResizingWindow = false;
-                    break;
-                case NativeMethods.WM_DEVICECHANGE:
-                    DeviceChanged?.Invoke(this, null);
-                    break;
-            }
-            return IntPtr.Zero;
-        }
-
 
         /// <summary>
         /// フレーム処理

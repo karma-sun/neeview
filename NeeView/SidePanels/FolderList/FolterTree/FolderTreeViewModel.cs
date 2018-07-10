@@ -50,7 +50,7 @@ namespace NeeView
 
         internal void RefreshFolder()
         {
-            Model.RefreshFolder();
+            Model.RefreshDirectory();
         }
     }
 }

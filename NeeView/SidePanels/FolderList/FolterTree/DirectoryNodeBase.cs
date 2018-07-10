@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace NeeView
 {
-    public abstract class FolderTreeNode : TreeViewNodeBase
+    public abstract class DirectoryNodeBase : FolderTreeNodeBase
     {
         public abstract string Key { get; }
 
@@ -16,7 +16,7 @@ namespace NeeView
         /// <param name="createChildren">まだ生成されていなければChildrenを生成する</param>
         /// <param name="asFarAsPossible">指定パスが存在しない場合、存在する上位フォルダーを返す</param>
         /// <returns></returns>
-        public FolderTreeNode GetFolderTreeNode(string path, bool createChildren, bool asFarAsPossible)
+        public DirectoryNodeBase GetDirectoryNode(string path, bool createChildren, bool asFarAsPossible)
         {
             if (path == null) throw new ArgumentNullException(nameof(path));
 
@@ -27,7 +27,7 @@ namespace NeeView
         /// <summary>
         /// 指定パスのFolderTreeNodeを取得
         /// </summary>
-        public FolderTreeNode GetFolderTreeNode(Stack<string> pathTokens, bool createChildren, bool asFarAsPossible)
+        public DirectoryNodeBase GetFolderTreeNode(Stack<string> pathTokens, bool createChildren, bool asFarAsPossible)
         {
             if (pathTokens.Count == 0)
             {
@@ -41,7 +41,7 @@ namespace NeeView
                 RefreshChildren();
             }
 
-            var child = _children?.Cast<FolderTreeNode>().FirstOrDefault(e => e.Key == token);
+            var child = _children?.Cast<DirectoryNodeBase>().FirstOrDefault(e => e.Key == token);
             if (child != null)
             {
                 return child.GetFolderTreeNode(pathTokens, createChildren, asFarAsPossible);

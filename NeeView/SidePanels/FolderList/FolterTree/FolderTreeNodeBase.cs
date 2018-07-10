@@ -7,24 +7,16 @@ using System.Windows.Data;
 
 namespace NeeView
 {
-    #region TreeViewNodeBase
-
-    public interface ITreeViewNode
-    {
-        bool IsSelected { get; set; }
-        bool IsExpanded { get; set; }
-    }
-
     /// <summary>
     /// TreeViewNode基底.
     /// Childrenの遅延生成に対応
     /// </summary>
-    public abstract class TreeViewNodeBase : BindableBase, ITreeViewNode
+    public abstract class FolderTreeNodeBase : BindableBase, IFolderTreeNode
     {
         private bool _isChildrenInitialized;
         private bool _delayCreateChildren;
 
-        public TreeViewNodeBase()
+        public FolderTreeNodeBase()
         {
         }
 
@@ -50,8 +42,8 @@ namespace NeeView
             }
         }
 
-        protected ObservableCollection<ITreeViewNode> _children;
-        public virtual ObservableCollection<ITreeViewNode> Children
+        protected ObservableCollection<IFolderTreeNode> _children;
+        public virtual ObservableCollection<IFolderTreeNode> Children
         {
             get
             {
@@ -92,37 +84,4 @@ namespace NeeView
             }
         }
     }
-
-    #endregion
-
-    #region QuickAccesTree
-
-    // root Quick Access
-    public class RootQuickAccessTreeItem : BindableBase, ITreeViewNode
-    {
-        public RootQuickAccessTreeItem()
-        {
-        }
-
-        public string Name { set; get; } = Properties.Resources.WordQuickAccess;
-
-        private bool _isSelected;
-        public bool IsSelected
-        {
-            get { return _isSelected; }
-            set { SetProperty(ref _isSelected, value); }
-        }
-
-        private bool _IsExpanded = true;
-        public bool IsExpanded
-        {
-            get { return _IsExpanded; }
-            set { SetProperty(ref _IsExpanded, value); }
-        }
-
-        public QuickAccessCollection Collection => QuickAccessCollection.Current;
-    }
-
-#endregion
-
 }

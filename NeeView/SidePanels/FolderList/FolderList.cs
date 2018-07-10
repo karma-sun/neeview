@@ -1049,7 +1049,7 @@ namespace NeeView
 
             if (IsSyncFolderTree)
             {
-                FolderTreeModel.Current.SyncFolder(Place);
+                FolderTreeModel.Current.SyncDirectory(Place);
             }
         }
 

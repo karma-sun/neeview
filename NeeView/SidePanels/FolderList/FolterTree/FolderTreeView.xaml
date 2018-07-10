@@ -94,7 +94,7 @@
             </TreeView.ItemContainerStyle>
 
             <TreeView.Resources>
-                <HierarchicalDataTemplate DataType="{x:Type local:RootQuickAccessTreeItem}" ItemsSource="{Binding Collection.Items}">
+                <HierarchicalDataTemplate DataType="{x:Type local:RootQuickAccessNode}" ItemsSource="{Binding Collection.Items}">
                     <DockPanel>
                         <Image Style="{StaticResource IconImageStyle}" Source="{StaticResource ic_pushpin}"/>
                         <TextBlock Style="{StaticResource NodeTextBlockStyle}" Text="{Binding Name}"/>
@@ -112,21 +112,21 @@
                     </DockPanel>
                 </HierarchicalDataTemplate>
 
-                <HierarchicalDataTemplate DataType="{x:Type local:RootFolderTreeItem}" ItemsSource="{Binding Children}">
+                <HierarchicalDataTemplate DataType="{x:Type local:RootDirectoryNode}" ItemsSource="{Binding Children}">
                     <DockPanel>
                         <Image Style="{StaticResource IconImageStyle}" Source="{StaticResource ic_desktop_windows_24px}"/>
                         <TextBlock Style="{StaticResource NodeTextBlockStyle}" Text="{Binding Name}"/>
                     </DockPanel>
                 </HierarchicalDataTemplate>
 
-                <HierarchicalDataTemplate DataType="{x:Type local:DriveTreeItem}" ItemsSource="{Binding Children}">
+                <HierarchicalDataTemplate DataType="{x:Type local:DriveDirectoryNode}" ItemsSource="{Binding Children}">
                     <DockPanel>
                         <Image Style="{StaticResource IconImageStyle}" Source="{Binding Icon}"/>
                         <TextBlock Style="{StaticResource NodeTextBlockStyle}" Text="{Binding DriveName}"/>
                     </DockPanel>
                 </HierarchicalDataTemplate>
 
-                <HierarchicalDataTemplate DataType="{x:Type local:FolderTreeItem}" ItemsSource="{Binding Children}">
+                <HierarchicalDataTemplate DataType="{x:Type local:DirectoryNode}" ItemsSource="{Binding Children}">
                     <DockPanel>
                         <Image Style="{StaticResource IconImageStyle}" Source="{Binding Icon}"/>
                         <TextBlock Style="{StaticResource NodeTextBlockStyle}" Text="{Binding Name}"/>

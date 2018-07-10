@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace NeeView
 {
     [DataContract]
-    public class QuickAccess : BindableBase, ITreeViewNode
+    public class QuickAccess : BindableBase, IFolderTreeNode
     {
         private string _path;
 

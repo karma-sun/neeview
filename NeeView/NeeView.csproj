@@ -191,19 +191,21 @@
     <Compile Include="Setting\SettingItemImageCollection.xaml.cs">
       <DependentUpon>SettingItemImageCollection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SidePanels\FolderList\FolterTree\DriveTreeItem.cs" />
-    <Compile Include="SidePanels\FolderList\FolterTree\FolderTreeItem.cs" />
+    <Compile Include="SidePanels\FolderList\FolterTree\DirectoryNode.cs" />
+    <Compile Include="SidePanels\FolderList\FolterTree\DirectoryNodeBase.cs" />
+    <Compile Include="SidePanels\FolderList\FolterTree\DriveDirectoryNode.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\FolderTreeModel.cs" />
-    <Compile Include="SidePanels\FolderList\FolterTree\FolderTreeNode.cs" />
-    <Compile Include="SidePanels\FolderList\FolterTree\FolderTreeNodes.cs" />
+    <Compile Include="SidePanels\FolderList\FolterTree\FolderTreeNodeBase.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\FolderTreeView.xaml.cs">
       <DependentUpon>FolderTreeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\FolderList\FolterTree\FolderTreeViewModel.cs" />
+    <Compile Include="SidePanels\FolderList\FolterTree\IFolderTreeNode.cs" />
+    <Compile Include="SidePanels\FolderList\FolterTree\RootDirectoryNode.cs" />
+    <Compile Include="SidePanels\FolderList\FolterTree\RootQuickAccessNode.cs" />
     <Compile Include="SidePanels\FolderList\QueryPath.cs" />
     <Compile Include="SidePanels\FolderList\QuickAccess.cs" />
     <Compile Include="SidePanels\FolderList\QuickAccessCollection.cs" />
-    <Compile Include="SidePanels\FolderList\FolterTree\RootFolderTreeItem.cs" />
     <Compile Include="Toast.cs" />
     <Compile Include="Controls\ToastCard.xaml.cs">
       <DependentUpon>ToastCard.xaml</DependentUpon>
@@ -252,7 +254,7 @@
     <Compile Include="WindowMessage.cs" />
     <Compile Include="_NeeView\Collections\Generic\TreeListNode.cs" />
     <Compile Include="SidePanels\FolderList\FolderCollectionFactory.cs" />
-    <Compile Include="SidePanels\FolderList\FolterTree\FolderNode.cs" />
+    <Compile Include="SidePanels\FolderList\FolderNode.cs" />
     <Compile Include="SidePanels\FolderList\FolderSearchEngine.cs" />
     <Compile Include="SidePanels\IPageListPanel.cs" />
     <Compile Include="SidePanels\ListBoxThumbnailLoader.cs" />

@@ -36,7 +36,7 @@ namespace NeeView
         public bool IsAlive { get; set; }
     }
 
-    public enum FolderChangeType
+    public enum DirectoryChangeType
     {
         Created = 1,
         Deleted = 2,
@@ -45,16 +45,16 @@ namespace NeeView
         All = 15
     }
 
-    public class FolderChangedEventArgs : EventArgs
+    public class DirectoryChangedEventArgs : EventArgs
     {
-        public FolderChangedEventArgs(FolderChangeType changeType, string fullPath, string oldFullpath)
+        public DirectoryChangedEventArgs(DirectoryChangeType changeType, string fullPath, string oldFullpath)
         {
-            if (changeType == FolderChangeType.All) throw new ArgumentOutOfRangeException(nameof(changeType));
+            if (changeType == DirectoryChangeType.All) throw new ArgumentOutOfRangeException(nameof(changeType));
 
             ChangeType = changeType;
             FullPath = fullPath ?? throw new ArgumentNullException(nameof(fullPath));
 
-            if (changeType == FolderChangeType.Renamed)
+            if (changeType == DirectoryChangeType.Renamed)
             {
                 OldFullPath = oldFullpath ?? throw new ArgumentNullException(nameof(oldFullpath));
 
@@ -65,13 +65,13 @@ namespace NeeView
             }
         }
 
-        public FolderChangedEventArgs(FolderChangeType changeType, string fullPath) : this(changeType, fullPath, null)
+        public DirectoryChangedEventArgs(DirectoryChangeType changeType, string fullPath) : this(changeType, fullPath, null)
         {
-            if (changeType == FolderChangeType.Renamed) throw new InvalidOperationException();
+            if (changeType == DirectoryChangeType.Renamed) throw new InvalidOperationException();
         }
 
 
-        public FolderChangeType ChangeType { get; set; }
+        public DirectoryChangeType ChangeType { get; set; }
         public string FullPath { get; set; }
         public string OldFullPath { get; set; }
     }
@@ -216,7 +216,7 @@ namespace NeeView
 
         public event EventHandler<DriveChangedEventArgs> DriveChanged;
         public event EventHandler<MediaChangedEventArgs> MediaChanged;
-        public event EventHandler<FolderChangedEventArgs> FolderChanged;
+        public event EventHandler<DirectoryChangedEventArgs> DirectoryChanged;
         public event EventHandler EnterSizeMove;
         public event EventHandler ExitSizeMove;
 
@@ -311,7 +311,7 @@ namespace NeeView
                         var path = PIDLToString(shNotify.dwItem1);
                         if (!string.IsNullOrEmpty(path))
                         {
-                            FolderChanged?.Invoke(this, new FolderChangedEventArgs(FolderChangeType.Created, path));
+                            DirectoryChanged?.Invoke(this, new DirectoryChangedEventArgs(DirectoryChangeType.Created, path));
                         }
                     }
                     break;
@@ -321,7 +321,7 @@ namespace NeeView
                         var path = PIDLToString(shNotify.dwItem1);
                         if (!string.IsNullOrEmpty(path))
                         {
-                            FolderChanged?.Invoke(this, new FolderChangedEventArgs(FolderChangeType.Deleted, path));
+                            DirectoryChanged?.Invoke(this, new DirectoryChangedEventArgs(DirectoryChangeType.Deleted, path));
                         }
                     }
                     break;
@@ -333,7 +333,7 @@ namespace NeeView
                         if (!string.IsNullOrEmpty(path1) && path1 != path2)
                         {
                             // path1 is new, path2 is old, maybe.
-                            FolderChanged?.Invoke(this, new FolderChangedEventArgs(FolderChangeType.Renamed, path2, path1));
+                            DirectoryChanged?.Invoke(this, new DirectoryChangedEventArgs(DirectoryChangeType.Renamed, path2, path1));
                         }
                     }
                     break;

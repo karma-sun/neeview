@@ -7,8 +7,7 @@ using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
-    // drive
-    public class DriveTreeItem : FolderTreeItem
+    public class DriveDirectoryNode : DirectoryNode
     {
         private static Toast _toast;
 
@@ -23,7 +22,7 @@ namespace NeeView
             [DriveType.Ram] = Properties.Resources.WordRamDrive,
         };
 
-        public DriveTreeItem(DriveInfo drive) : base(null, drive.Name)
+        public DriveDirectoryNode(DriveInfo drive) : base(null, drive.Name)
         {
             Initialize(drive);
         }
@@ -76,9 +75,9 @@ namespace NeeView
             RaisePropertyChanged(nameof(Icon));
         }
 
-        protected override void OnException(FolderTreeNode sender, Exception e)
+        protected override void OnException(DirectoryNode sender, Exception e)
         {
-            if (sender is FolderTreeItem folder)
+            if (sender is DirectoryNode directory)
             {
                 _toast?.Cancel();
                 _toast = new Toast(e.Message);

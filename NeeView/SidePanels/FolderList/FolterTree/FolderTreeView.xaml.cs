@@ -190,7 +190,7 @@ namespace NeeView
 
             switch (viewItem.DataContext)
             {
-                case RootQuickAccessTreeItem rootQuickAccess:
+                case RootQuickAccessNode rootQuickAccess:
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderTreeMenuAddCurrentQuickAccess, Command = AddQuickAccessCommand });
                     break;
 
@@ -198,11 +198,11 @@ namespace NeeView
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderTreeMenuRemoveQuickAccess, Command = RemoveCommand });
                     break;
 
-                case RootFolderTreeItem rootFolder:
+                case RootDirectoryNode rootFolder:
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderTreeMenuRefreshFolder, Command = RefreshFolderCommand });
                     break;
 
-                case FolderTreeItem folder:
+                case DirectoryNode folder:
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderTreeMenuAddQuickAccess, Command = AddQuickAccessCommand });
                     break;
 

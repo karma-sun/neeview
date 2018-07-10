@@ -6,16 +6,15 @@ using System.Linq;
 
 namespace NeeView
 {
-    // root folder
-    public class RootFolderTreeItem : FolderTreeNode
+    public class RootDirectoryNode : DirectoryNodeBase
     {
-        public RootFolderTreeItem()
+        public RootDirectoryNode()
         {
             IsExpanded = true;
 
             WindowMessage.Current.DriveChanged += WindowMessage_DriveChanged;
             WindowMessage.Current.MediaChanged += WindowMessage_MediaChanged;
-            WindowMessage.Current.FolderChanged += WindowMessage_FolderChanged;
+            WindowMessage.Current.DirectoryChanged += WindowMessage_DirectoryChanged;
         }
 
         public string Name => "PC";
@@ -30,8 +29,8 @@ namespace NeeView
 
         public override void RefreshChildren()
         {
-            Children = new ObservableCollection<ITreeViewNode>(DriveInfo.GetDrives()
-                .Select(e => new DriveTreeItem(e)));
+            Children = new ObservableCollection<IFolderTreeNode>(DriveInfo.GetDrives()
+                .Select(e => new DriveDirectoryNode(e)));
         }
 
         private void WindowMessage_DriveChanged(object sender, DriveChangedEventArgs e)
@@ -52,7 +51,7 @@ namespace NeeView
                     }
                     else
                     {
-                        var drive = _children.Cast<DriveTreeItem>().FirstOrDefault(d => d.Name == e.Name);
+                        var drive = _children.Cast<DriveDirectoryNode>().FirstOrDefault(d => d.Name == e.Name);
                         if (drive != null)
                         {
                             _children.Remove(drive);
@@ -71,7 +70,7 @@ namespace NeeView
             if (driveInfo == null) return;
             if (_children == null) return;
 
-            var drive = _children.Cast<DriveTreeItem>().FirstOrDefault(d => d.Name == driveInfo.Name);
+            var drive = _children.Cast<DriveDirectoryNode>().FirstOrDefault(d => d.Name == driveInfo.Name);
             if (drive != null)
             {
                 drive.Refresh();
@@ -80,15 +79,15 @@ namespace NeeView
 
             for (int index = 0; index < _children.Count; ++index)
             {
-                if (string.Compare(driveInfo.Name, ((DriveTreeItem)_children[index]).Name) < 0)
+                if (string.Compare(driveInfo.Name, ((DriveDirectoryNode)_children[index]).Name) < 0)
                 {
-                    _children.Insert(index, new DriveTreeItem(driveInfo));
+                    _children.Insert(index, new DriveDirectoryNode(driveInfo));
                     break;
                 }
 
                 if (index == _children.Count - 1)
                 {
-                    _children.Add(new DriveTreeItem(driveInfo));
+                    _children.Add(new DriveDirectoryNode(driveInfo));
                     break;
                 }
             }
@@ -103,7 +102,7 @@ namespace NeeView
             {
                 try
                 {
-                    var drive = _children.Cast<DriveTreeItem>().FirstOrDefault(d => d.Name == e.Name);
+                    var drive = _children.Cast<DriveDirectoryNode>().FirstOrDefault(d => d.Name == e.Name);
                     if (drive == null)
                     {
                         return;
@@ -119,7 +118,7 @@ namespace NeeView
         }
 
 
-        private void WindowMessage_FolderChanged(object sender, FolderChangedEventArgs e)
+        private void WindowMessage_DirectoryChanged(object sender, DirectoryChangedEventArgs e)
         {
             App.Current.Dispatcher.BeginInvoke((Action)(() =>
             {
@@ -127,14 +126,14 @@ namespace NeeView
                 {
                     switch (e.ChangeType)
                     {
-                        case FolderChangeType.Created:
-                            Folder_Creaded(e.FullPath);
+                        case DirectoryChangeType.Created:
+                            Directory_Creaded(e.FullPath);
                             break;
-                        case FolderChangeType.Deleted:
-                            Folder_Deleted(e.FullPath);
+                        case DirectoryChangeType.Deleted:
+                            Directory_Deleted(e.FullPath);
                             break;
-                        case FolderChangeType.Renamed:
-                            Folder_Renamed(e.OldFullPath, e.FullPath);
+                        case DirectoryChangeType.Renamed:
+                            Directory_Renamed(e.OldFullPath, e.FullPath);
                             break;
                     }
                 }
@@ -145,13 +144,13 @@ namespace NeeView
             }));
         }
 
-        private void Folder_Creaded(string fullpath)
+        private void Directory_Creaded(string fullpath)
         {
             ////Debug.WriteLine("Create: " + fullpath);
 
             var directory = LoosePath.GetDirectoryName(fullpath);
 
-            var parent = GetFolderTreeItem(directory);
+            var parent = GetDirectoryNode(directory);
             if (parent != null)
             {
                 var name = LoosePath.GetFileName(fullpath);
@@ -163,13 +162,13 @@ namespace NeeView
             }
         }
 
-        private void Folder_Deleted(string fullpath)
+        private void Directory_Deleted(string fullpath)
         {
             ////Debug.WriteLine("Delete: " + fullpath);
 
             var directory = LoosePath.GetDirectoryName(fullpath);
 
-            var parent = GetFolderTreeItem(directory);
+            var parent = GetDirectoryNode(directory);
             if (parent != null)
             {
                 var name = LoosePath.GetFileName(fullpath);
@@ -181,13 +180,13 @@ namespace NeeView
             }
         }
 
-        private void Folder_Renamed(string oldFullpath, string fullpath)
+        private void Directory_Renamed(string oldFullpath, string fullpath)
         {
             ////Debug.WriteLine("Rename: " + oldFullpath + " -> " + fullpath);
 
             var directory = LoosePath.GetDirectoryName(oldFullpath);
 
-            var parent = GetFolderTreeItem(directory);
+            var parent = GetDirectoryNode(directory);
             if (parent != null)
             {
                 var oldName = LoosePath.GetFileName(oldFullpath);
@@ -200,9 +199,9 @@ namespace NeeView
             }
         }
 
-        private FolderTreeItem GetFolderTreeItem(string path)
+        private DirectoryNode GetDirectoryNode(string path)
         {
-            return GetFolderTreeNode(path, false, false) as FolderTreeItem;
+            return GetDirectoryNode(path, false, false) as DirectoryNode;
         }
 
 
@@ -210,13 +209,13 @@ namespace NeeView
         /// <summary>
         /// 指定パスまで展開した状態で初期化する
         /// </summary>
-        public void SyncFolder(string path)
+        public void SyncDirectory(string path)
         {
             this.RefreshChildren();
 
             if (path != null)
             {
-                var node = GetFolderTreeNode(path, true, true) as FolderTreeItem;
+                var node = GetDirectoryNode(path, true, true) as DirectoryNode;
                 if (node != null)
                 {
                     var parent = node.Parent;

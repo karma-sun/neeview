@@ -10,15 +10,15 @@ namespace NeeView
     {
         public static FolderTreeModel Current { get; } = new FolderTreeModel();
 
-        private RootQuickAccessTreeItem _rootQuickAccess;
-        private RootFolderTreeItem _rootFolder;
+        private RootQuickAccessNode _rootQuickAccess;
+        private RootDirectoryNode _rootFolder;
 
         public FolderTreeModel()
         {
-            _rootQuickAccess = new RootQuickAccessTreeItem();
-            _rootFolder = new RootFolderTreeItem();
+            _rootQuickAccess = new RootQuickAccessNode();
+            _rootFolder = new RootDirectoryNode();
 
-            Items = new List<ITreeViewNode>();
+            Items = new List<IFolderTreeNode>();
             Items.Add(_rootQuickAccess);
             Items.Add(_rootFolder);
 
@@ -30,7 +30,7 @@ namespace NeeView
         public event EventHandler SelectedItemChanged;
 
 
-        public List<ITreeViewNode> Items { get; set; }
+        public List<IFolderTreeNode> Items { get; set; }
 
         public BitmapSource FolderIcon => FileIconCollection.Current.CreateDefaultFolderIcon(16.0);
 
@@ -43,14 +43,14 @@ namespace NeeView
             { 
                 switch (item)
                 {
-                    case FolderTreeItem folder:
+                    case DirectoryNode folder:
                         folder.RefreshIcon();
                         break;
                 }
             }
         }
 
-        private static IEnumerable<ITreeViewNode> GetNodeWalker(IEnumerable<ITreeViewNode> collection)
+        private static IEnumerable<IFolderTreeNode> GetNodeWalker(IEnumerable<IFolderTreeNode> collection)
         {
             if (collection == null)
             {
@@ -63,7 +63,7 @@ namespace NeeView
 
                 switch (item)
                 {
-                    case RootQuickAccessTreeItem rootQuickAccess:
+                    case RootQuickAccessNode rootQuickAccess:
                         foreach (var child in rootQuickAccess.Collection.Items)
                         {
                             yield return child;
@@ -73,7 +73,7 @@ namespace NeeView
                     case QuickAccess QuickAccess:
                         break;
 
-                    case TreeViewNodeBase node:
+                    case FolderTreeNodeBase node:
                         if (node.IsChildrenValid)
                         {
                             foreach(var child in GetNodeWalker(node.Children))
@@ -114,10 +114,10 @@ namespace NeeView
                 case QuickAccess quickAccess:
                     SetFolderListPlace(quickAccess.Path);
                     break;
-                case RootFolderTreeItem rootFolder:
+                case RootDirectoryNode rootFolder:
                     SetFolderListPlace("");
                     break;
-                case FolderTreeItem folder:
+                case DirectoryNode folder:
                     SetFolderListPlace(folder.Path);
                     break;
             }
@@ -134,11 +134,11 @@ namespace NeeView
         {
             switch (item)
             {
-                case RootQuickAccessTreeItem rootQuickAccess:
+                case RootQuickAccessNode rootQuickAccess:
                     AddQuickAccess(FolderList.Current.GetCurentQueryPath());
                     break;
 
-                case FolderTreeItem folder:
+                case DirectoryNode folder:
                     AddQuickAccess(folder.Path);
                     break;
             }
@@ -196,12 +196,12 @@ namespace NeeView
             QuickAccessCollection.Current.Items.Move(srcIndex, dstIndex);
         }
 
-        public void SyncFolder(string place)
+        public void SyncDirectory(string place)
         {
-            _rootFolder.SyncFolder(place);
+            _rootFolder.SyncDirectory(place);
         }
 
-        public  void RefreshFolder()
+        public  void RefreshDirectory()
         {
             _rootFolder.Refresh();
         }

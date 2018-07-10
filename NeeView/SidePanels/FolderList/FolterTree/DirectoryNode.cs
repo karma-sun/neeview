@@ -8,10 +8,9 @@ using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
-    // folder
-    public class FolderTreeItem : FolderTreeNode
+    public class DirectoryNode : DirectoryNodeBase
     {
-        public FolderTreeItem(FolderTreeItem parent, string name)
+        public DirectoryNode(DirectoryNode parent, string name)
         {
             Parent = parent;
             Name = name;
@@ -33,11 +32,11 @@ namespace NeeView
 
         public override string Key => Name;
 
-        public FolderTreeItem Parent { get; set; }
+        public DirectoryNode Parent { get; set; }
 
         public string Path => Parent != null ? LoosePath.Combine(Parent.Path, Name) : Name;
 
-        public DriveTreeItem Drive => this is DriveTreeItem drive ? drive : Parent?.Drive;
+        public DriveDirectoryNode Drive => this is DriveDirectoryNode drive ? drive : Parent?.Drive;
 
         public BitmapSource Icon => FileIconCollection.Current.CreateFileIcon(Path, IO.FileIconType.File, 16.0, false, false);
 
@@ -48,7 +47,7 @@ namespace NeeView
             public static extern int StrCmpLogicalW(string psz1, string psz2);
         }
 
-        protected virtual void OnException(FolderTreeNode sender, Exception e)
+        protected virtual void OnException(DirectoryNode sender, Exception e)
         {
             Parent?.OnException(sender, e);
         }
@@ -59,9 +58,9 @@ namespace NeeView
 
             try
             {
-                Children = new ObservableCollection<ITreeViewNode>(directory.GetDirectories()
+                Children = new ObservableCollection<IFolderTreeNode>(directory.GetDirectories()
                     .Where(e => (e.Attributes & FileAttributes.Hidden) == 0)
-                    .Select(e => new FolderTreeItem(this, e.Name)));
+                    .Select(e => new DirectoryNode(this, e.Name)));
             }
             catch (Exception ex)
             {
@@ -81,12 +80,12 @@ namespace NeeView
 
             ////Debug.WriteLine($"ADD: " + name);
 
-            var folder = _children.Cast<FolderTreeItem>().FirstOrDefault(e => e.Name == name);
-            if (folder == null)
+            var directory = _children.Cast<DirectoryNode>().FirstOrDefault(e => e.Name == name);
+            if (directory == null)
             {
-                folder = new FolderTreeItem(this, name);
-                _children.Add(folder);
-                Sort(folder);
+                directory = new DirectoryNode(this, name);
+                _children.Add(directory);
+                Sort(directory);
             }
         }
 
@@ -96,11 +95,11 @@ namespace NeeView
 
             ////Debug.WriteLine($"REMOVE: " + name);
 
-            var folder = _children.Cast<FolderTreeItem>().FirstOrDefault(e => e.Name == name);
-            if (folder != null)
+            var directory = _children.Cast<DirectoryNode>().FirstOrDefault(e => e.Name == name);
+            if (directory != null)
             {
-                _children.Remove(folder);
-                folder.Parent = null;
+                _children.Remove(directory);
+                directory.Parent = null;
             }
         }
 
@@ -110,11 +109,11 @@ namespace NeeView
 
             ////Debug.WriteLine($"RENAME: " + oldName + " -> " + name);
 
-            var folder = _children.Cast<FolderTreeItem>().FirstOrDefault(e => e.Name == oldName);
-            if (folder != null)
+            var directory = _children.Cast<DirectoryNode>().FirstOrDefault(e => e.Name == oldName);
+            if (directory != null)
             {
-                folder.Name = name;
-                Sort(folder);
+                directory.Name = name;
+                Sort(directory);
             }
         }
 
@@ -122,7 +121,7 @@ namespace NeeView
         /// 指定した子を適切な位置に並び替える
         /// </summary>
         /// <param name="child"></param>
-        private void Sort(FolderTreeItem child)
+        private void Sort(DirectoryNode child)
         {
             if (_children == null) return;
 
@@ -131,10 +130,10 @@ namespace NeeView
 
             for (int index = 0; index < _children.Count; ++index)
             {
-                var folder = (FolderTreeItem)_children[index];
-                if (folder == child) continue;
+                var directory = (DirectoryNode)_children[index];
+                if (directory == child) continue;
 
-                if (NativeMethods.StrCmpLogicalW(child.Name, folder.Name) < 0)
+                if (NativeMethods.StrCmpLogicalW(child.Name, directory.Name) < 0)
                 {
                     if (oldIndex != index - 1)
                     {

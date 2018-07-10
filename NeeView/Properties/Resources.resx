@@ -1185,20 +1185,14 @@
   <data name="CommandToggleVisibleFolderListOn" xml:space="preserve">
     <value>Folder list</value>
   </data>
-  <data name="CommandToggleVisibleFolderSearchBox" xml:space="preserve">
-    <value>Toggle search box</value>
+  <data name="CommandFocusFolderSearchBox" xml:space="preserve">
+    <value>Focus Search box</value>
   </data>
-  <data name="CommandToggleVisibleFolderSearchBoxMenu" xml:space="preserve">
+  <data name="CommandFocusFolderSearchBoxMenu" xml:space="preserve">
     <value>Search box</value>
   </data>
-  <data name="CommandToggleVisibleFolderSearchBoxNote" xml:space="preserve">
-    <value>Toggle visible / hide of the search box. The folder list is displayed.</value>
-  </data>
-  <data name="CommandToggleVisibleFolderSearchBoxOff" xml:space="preserve">
-    <value>Search box OFF</value>
-  </data>
-  <data name="CommandToggleVisibleFolderSearchBoxOn" xml:space="preserve">
-    <value>Search box</value>
+  <data name="CommandFocusFolderSearchBoxNote" xml:space="preserve">
+    <value>Focus Search box. The folder list is displayed.</value>
   </data>
   <data name="CommandToggleVisibleHistoryList" xml:space="preserve">
     <value>Toggle history list</value>
@@ -4180,7 +4174,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Folders tree</value>
   </data>
   <data name="FolderListMoreMenuAddQuickAccess" xml:space="preserve">
-    <value>Add to Quick access</value>
+    <value>Add this place to Quick access</value>
   </data>
   <data name="WordSearchWord" xml:space="preserve">
     <value>Search word</value>
@@ -4213,7 +4207,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Font size of Folder tree</value>
   </data>
   <data name="ParamFolderListIsSyncFolderTree" xml:space="preserve">
-    <value>Synchronize Folder tree with sync button</value>
+    <value>Synchronize Folders tree with sync button</value>
   </data>
   <data name="WordRemovableDrive" xml:space="preserve">
     <value>Removable disk</value>
@@ -4229,5 +4223,11 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="FolderTreeMenuRefreshFolder" xml:space="preserve">
     <value>Reload</value>
+  </data>
+  <data name="WordPageList" xml:space="preserve">
+    <value>Page list</value>
+  </data>
+  <data name="FolderTreeMenuExplorer" xml:space="preserve">
+    <value>Open in explorer</value>
   </data>
 </root>

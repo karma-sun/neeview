@@ -1185,20 +1185,14 @@
   <data name="CommandToggleVisibleFolderListOn" xml:space="preserve">
     <value>フォルダーリストを表示する</value>
   </data>
-  <data name="CommandToggleVisibleFolderSearchBox" xml:space="preserve">
-    <value>検索ボックスの表示ON/OFF</value>
+  <data name="CommandFocusFolderSearchBox" xml:space="preserve">
+    <value>検索ボックスにフォーカスを移す</value>
   </data>
-  <data name="CommandToggleVisibleFolderSearchBoxMenu" xml:space="preserve">
+  <data name="CommandFocusFolderSearchBoxMenu" xml:space="preserve">
     <value>検索ボックス</value>
   </data>
-  <data name="CommandToggleVisibleFolderSearchBoxNote" xml:space="preserve">
-    <value>検索ボックスの表示/非表示を切り替えます。フォルダーリストは表示状態になります。</value>
-  </data>
-  <data name="CommandToggleVisibleFolderSearchBoxOff" xml:space="preserve">
-    <value>検索ボックスを消す</value>
-  </data>
-  <data name="CommandToggleVisibleFolderSearchBoxOn" xml:space="preserve">
-    <value>検索ボックスを表示する</value>
+  <data name="CommandFocusFolderSearchBoxNote" xml:space="preserve">
+    <value>検索ボックスにフォーカスを移します。フォルダーリストは表示状態になります。</value>
   </data>
   <data name="CommandToggleVisibleHistoryList" xml:space="preserve">
     <value>履歴リストの表示ON/OFF</value>
@@ -4180,7 +4174,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>フォルダーツリー</value>
   </data>
   <data name="FolderListMoreMenuAddQuickAccess" xml:space="preserve">
-    <value>クイックアクセスに追加</value>
+    <value>この場所をクイックアクセスに追加</value>
   </data>
   <data name="WordSearchWord" xml:space="preserve">
     <value>検索ワード</value>
@@ -4229,5 +4223,11 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="FolderTreeMenuRefreshFolder" xml:space="preserve">
     <value>再読み込み</value>
+  </data>
+  <data name="WordPageList" xml:space="preserve">
+    <value>ページリスト</value>
+  </data>
+  <data name="FolderTreeMenuExplorer" xml:space="preserve">
+    <value>エクスプローラーで開く</value>
   </data>
 </root>

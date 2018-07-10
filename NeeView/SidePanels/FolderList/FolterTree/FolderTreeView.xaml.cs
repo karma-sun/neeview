@@ -94,6 +94,25 @@ namespace NeeView
             }
         }
 
+        private RelayCommand _OpenExplorerCommand;
+        public RelayCommand OpenExplorerCommand
+        {
+            get
+            {
+                return _OpenExplorerCommand = _OpenExplorerCommand ?? new RelayCommand(Execute);
+
+                void Execute()
+                {
+                    var item = this.TreeView.SelectedItem as DirectoryNode;
+                    if (item != null)
+                    {
+                        System.Diagnostics.Process.Start("explorer.exe", item.Path);
+                    }
+                }
+            }
+        }
+
+
 
 
         #endregion
@@ -203,6 +222,7 @@ namespace NeeView
                     break;
 
                 case DirectoryNode folder:
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderTreeMenuExplorer, Command = OpenExplorerCommand });
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderTreeMenuAddQuickAccess, Command = AddQuickAccessCommand });
                     break;
 

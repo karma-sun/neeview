@@ -376,6 +376,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Focus Search box に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandFocusFolderSearchBox {
+            get {
+                return ResourceManager.GetString("CommandFocusFolderSearchBox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Search box に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandFocusFolderSearchBoxMenu {
+            get {
+                return ResourceManager.GetString("CommandFocusFolderSearchBoxMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Focus Search box. The folder list is displayed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandFocusFolderSearchBoxNote {
+            get {
+                return ResourceManager.GetString("CommandFocusFolderSearchBoxNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Background に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandGroupBackground {
@@ -3261,51 +3288,6 @@ namespace NeeView.Properties {
         public static string CommandToggleVisibleFolderListOn {
             get {
                 return ResourceManager.GetString("CommandToggleVisibleFolderListOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle search box に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleFolderSearchBox {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleFolderSearchBox", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Search box に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleFolderSearchBoxMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleFolderSearchBoxMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of the search box. The folder list is displayed. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleFolderSearchBoxNote {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleFolderSearchBoxNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Search box OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleFolderSearchBoxOff {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleFolderSearchBoxOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Search box に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleFolderSearchBoxOn {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleFolderSearchBoxOn", resourceCulture);
             }
         }
         
@@ -6800,7 +6782,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Add to Quick access に類似しているローカライズされた文字列を検索します。
+        ///   Add this place to Quick access に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FolderListMoreMenuAddQuickAccess {
             get {
@@ -6922,6 +6904,15 @@ namespace NeeView.Properties {
         public static string FolderTreeMenuAddQuickAccess {
             get {
                 return ResourceManager.GetString("FolderTreeMenuAddQuickAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open in explorer に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FolderTreeMenuExplorer {
+            get {
+                return ResourceManager.GetString("FolderTreeMenuExplorer", resourceCulture);
             }
         }
         
@@ -8933,7 +8924,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Synchronize Folder tree with sync button に類似しているローカライズされた文字列を検索します。
+        ///   Synchronize Folders tree with sync button に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamFolderListIsSyncFolderTree {
             get {
@@ -11826,7 +11817,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   CD-ROM drive に類似しているローカライズされた文字列を検索します。
+        ///   Disk drive に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WordCDRomDrive {
             get {
@@ -12101,6 +12092,15 @@ namespace NeeView.Properties {
         public static string WordPage {
             get {
                 return ResourceManager.GetString("WordPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Page list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordPageList {
+            get {
+                return ResourceManager.GetString("WordPageList", resourceCulture);
             }
         }
         

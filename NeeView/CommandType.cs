@@ -142,10 +142,12 @@ namespace NeeView
         [EnumMember]
         ToggleVisiblePageList,
         [EnumMember]
-        ToggleVisibleFolderSearchBox,
-        [EnumMember]
         ToggleVisibleFoldersTree,
+        [EnumMember]
+        FocusFolderSearchBox,
 
+        [Obsolete, EnumMember]
+        ToggleVisibleFolderSearchBox, // 欠番
         [Obsolete,EnumMember]
         ToggleVisibleFolderQuickAccess, // 欠番
         [Obsolete,EnumMember]
@@ -367,6 +369,7 @@ namespace NeeView
             CommandType.ToggleIsReverseSort,
             CommandType.ToggleHideTitleBar,
             CommandType.ToggleEffectGrayscale,
+            CommandType.ToggleVisibleFolderSearchBox,
             CommandType.ToggleVisibleFolderQuickAccess,
             CommandType.TogglePanelStyle,
             CommandType.TogglePageListStyle,

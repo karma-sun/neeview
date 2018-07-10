@@ -237,27 +237,11 @@ namespace NeeView
         /// </summary>
         public bool IsVisibleFolderSearchBox => _models.FolderList.IsFolderSearchBoxVisible && IsVisibleFolderList;
 
-        /// <summary>
-        /// 検索ボックス表示切り替え
-        /// </summary>
-        public bool ToggleVisibleFolderSearchBox(bool byMenu)
+
+        //
+        public void FocusFolderSearchBox(bool byMenu)
         {
-            var model = _models.FolderList;
-
-            if (byMenu || !model.IsFolderSearchBoxVisible || IsVisiblePanel(FolderListPanel))
-            {
-                model.IsFolderSearchBoxVisible = !IsVisibleFolderSearchBox;
-            }
-            SetSelectedPanel(FolderListPanel, true);
-            RaisePanelPropertyChanged();
-
-            // フォーカス要求
-            if (!byMenu && model.IsFolderSearchBoxVisible)
-            {
-                model.RaiseSearchBoxFocus();
-            }
-
-            return model.IsFolderSearchBoxVisible;
+            _models.FolderList.RaiseSearchBoxFocus();
         }
 
         /// <summary>
@@ -348,6 +332,6 @@ namespace NeeView
             return IsVisiblePagemarkList;
         }
 
-        #endregion
+#endregion
     }
 }

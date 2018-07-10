@@ -866,20 +866,6 @@ namespace NeeView
                 element.CreateIsCheckedBinding = () => new Binding(nameof(_models.FolderPanelModel.IsPageListVisible)) { Source = _models.FolderPanelModel, Mode = BindingMode.OneWay };
                 _elements[CommandType.ToggleVisiblePageList] = element;
             }
-            // ToggleVisibleFolderSearchBox
-            {
-                var element = new CommandElement();
-                element.Group = Properties.Resources.CommandGroupPanel;
-                element.Text = Properties.Resources.CommandToggleVisibleFolderSearchBox;
-                element.MenuText = Properties.Resources.CommandToggleVisibleFolderSearchBoxMenu;
-                element.Note = Properties.Resources.CommandToggleVisibleFolderSearchBoxNote;
-                element.IsShowMessage = false;
-                element.ExecuteMessage = e => _models.SidePanel.IsVisibleFolderSearchBox ? Properties.Resources.CommandToggleVisibleFolderSearchBoxOff : Properties.Resources.CommandToggleVisibleFolderSearchBoxOn;
-                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleFolderSearchBox(e.Parameter is MenuCommandTag);
-                element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.FolderList.IsFolderSearchBoxVisible)) { Source = _models.FolderList, Mode = BindingMode.OneWay };
-                _elements[CommandType.ToggleVisibleFolderSearchBox] = element;
-            }
             // ToggleVisibleFoldersTree
             {
                 var element = new CommandElement();
@@ -893,6 +879,18 @@ namespace NeeView
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => new Binding(nameof(_models.FolderList.IsFolderTreeVisible)) { Source = _models.FolderList, Mode = BindingMode.OneWay };
                 _elements[CommandType.ToggleVisibleFoldersTree] = element;
+            }
+            // FocusFolderSearchBox
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupPanel;
+                element.Text = Properties.Resources.CommandFocusFolderSearchBox;
+                element.MenuText = Properties.Resources.CommandFocusFolderSearchBoxMenu;
+                element.Note = Properties.Resources.CommandFocusFolderSearchBoxNote;
+                element.IsShowMessage = false;
+                element.Execute = (s, e) => _models.SidePanel.FocusFolderSearchBox(e.Parameter is MenuCommandTag);
+                element.CanExecute = () => true;
+                _elements[CommandType.FocusFolderSearchBox] = element;
             }
 
             // ToggleVisibleThumbnailList
@@ -2182,6 +2180,15 @@ namespace NeeView
 
                 if (_elementsV2 != null)
                 {
+                    if (_Version < Config.GenerateProductVersionNumber(1, 32, 0))
+                    {
+                        var oldKey = "ToggleVisibleFolderSearchBox";
+                        if (_elementsV2.TryGetValue(oldKey, out CommandElement.Memento memento))
+                        {
+                            _elementsV2[CommandType.FocusFolderSearchBox.ToString()] = memento;
+                        }
+                    }
+
                     foreach (var element in _elementsV2)
                     {
                         if (Enum.TryParse(element.Key, out CommandType key))

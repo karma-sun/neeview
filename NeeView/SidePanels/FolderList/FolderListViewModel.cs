@@ -309,6 +309,10 @@ namespace NeeView
             }
         }
 
+        public ICommand ToggleVisiblePageList => RoutedCommandTable.Current.Commands[CommandType.ToggleVisiblePageList];
+
+        public ICommand ToggleVisibleFoldersTree => RoutedCommandTable.Current.Commands[CommandType.ToggleVisibleFoldersTree];
+
         #endregion
 
         #region Methods
@@ -359,10 +363,6 @@ namespace NeeView
         private void InitializeMoreMenu(FolderPanelModel source)
         {
             var menu = new ContextMenu();
-            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuSearchBox, CommandType.ToggleVisibleFolderSearchBox, source));
-            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.WordFoldersTree, CommandType.ToggleVisibleFoldersTree, source));
-            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuPageList, CommandType.ToggleVisiblePageList, source));
-            menu.Items.Add(new Separator());
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleList, PanelListItemStyle.Normal));
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleContent, PanelListItemStyle.Content));
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));

@@ -306,12 +306,7 @@ namespace NeeView
         /// <summary>
         /// IsFolderSearchVisible property.
         /// </summary>
-        private bool _IsFolderSearchVisible = true;
-        public bool IsFolderSearchBoxVisible
-        {
-            get { return _IsFolderSearchVisible; }
-            set { if (_IsFolderSearchVisible != value) { _IsFolderSearchVisible = value; RaisePropertyChanged(); if (!_IsFolderSearchVisible) this.SearchKeyword = ""; } }
-        }
+        public bool IsFolderSearchBoxVisible => true;
 
         /// <summary>
         /// SearchKeyword property.
@@ -1118,9 +1113,6 @@ namespace NeeView
             [DataMember, DefaultValue(true)]
             public bool IsInsertItem { get; set; }
 
-            [DataMember, DefaultValue(true)]
-            public bool IsFolderSearchBoxVisible { get; set; }
-
             [DataMember]
             public bool IsMultipleRarFilterEnabled { get; set; }
 
@@ -1159,7 +1151,6 @@ namespace NeeView
             memento.IsVisibleBookmarkMark = this.IsVisibleBookmarkMark;
             memento.Home = this.Home;
             memento.IsInsertItem = this.IsInsertItem;
-            memento.IsFolderSearchBoxVisible = this.IsFolderSearchBoxVisible;
             memento.IsMultipleRarFilterEnabled = this.IsMultipleRarFilterEnabled;
             memento.ExcludePattern = this.ExcludePattern;
             memento.IsCruise = this.IsCruise;
@@ -1182,7 +1173,6 @@ namespace NeeView
             this.IsVisibleBookmarkMark = memento.IsVisibleBookmarkMark;
             this.Home = memento.Home;
             this.IsInsertItem = memento.IsInsertItem;
-            this.IsFolderSearchBoxVisible = memento.IsFolderSearchBoxVisible;
             this.IsMultipleRarFilterEnabled = memento.IsMultipleRarFilterEnabled;
             this.ExcludePattern = memento.ExcludePattern;
             this.IsCruise = memento.IsCruise;

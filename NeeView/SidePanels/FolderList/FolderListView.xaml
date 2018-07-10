@@ -28,6 +28,34 @@
             </DrawingImage.Drawing>
         </DrawingImage>
 
+        <DrawingImage x:Key="ic_treeview">
+            <DrawingImage.Drawing>
+                <DrawingGroup Opacity="1">
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}">
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry FillRule="Nonzero" Figures="M990,379.4L990,21.1L631.8,21.1L631.8,186.4L368.2,348.6L368.2,293.1L10,293.1L10,651.4L368.2,651.4L368.2,585.3L631.8,781L631.8,978.9L990,978.9L990,620.6L631.8,620.6L631.8,702.3L368.2,506.5L368.2,422.8L631.8,260.7L631.8,379.4z" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="ic_photo_library_24px">
+            <DrawingImage.Drawing>
+                <DrawingGroup Opacity="1">
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}">
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry FillRule="Nonzero" Figures="M22,16L22,4C22,2.9,21.1,2,20,2L8,2C6.9,2,6,2.9,6,4L6,16C6,17.1,6.9,18,8,18L20,18C21.1,18,22,17.1,22,16z M11,12L13.03,14.71 16,11 20,16 8,16 11,12z M2,6L2,20C2,21.1,2.9,22,4,22L18,22 18,20 4,20 4,6 2,6z" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
         <Style x:Key="FolderListButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
             <Setter Property="Width" Value="28"/>
             <Setter Property="Height" Value="28"/>
@@ -94,10 +122,20 @@
             </StackPanel>
 
             <DockPanel KeyboardNavigation.TabNavigation="Local">
-                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource FolderListToggleButtonStyle}"  VerticalAlignment="Center" TabIndex="2"
+                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource FolderListToggleButtonStyle}"  VerticalAlignment="Center" TabIndex="4"
                               nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
                     <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
                 </ToggleButton>
+                <Button x:Name="PageListButton" DockPanel.Dock="Right" Style="{StaticResource FolderListButtonStyle}"  VerticalAlignment="Center" TabIndex="3"
+                        ToolTip="{x:Static properties:Resources.WordPageList}"
+                        Command="{Binding ToggleVisiblePageList}">
+                    <Image Source="{StaticResource ic_photo_library_24px}" Width="16" Height="16"/>
+                </Button>
+                <Button x:Name="FoderTreeButton" DockPanel.Dock="Right" Style="{StaticResource FolderListButtonStyle}"  VerticalAlignment="Center" TabIndex="2"
+                        ToolTip="{x:Static properties:Resources.WordFoldersTree}"
+                        Command="{Binding ToggleVisibleFoldersTree}">
+                    <Image Source="{StaticResource ic_treeview}" Width="16" Height="16"/>
+                </Button>
                 <WrapPanel Orientation="Horizontal" MinWidth="90">
                     <Button x:Name="FolderHomeButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToHome}" TabIndex="1"
                         ToolTip="{x:Static properties:Resources.FolderListHomeTips}">

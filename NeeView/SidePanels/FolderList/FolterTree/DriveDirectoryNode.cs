@@ -9,8 +9,6 @@ namespace NeeView
 {
     public class DriveDirectoryNode : DirectoryNode
     {
-        private static Toast _toast;
-
         private static readonly Dictionary<DriveType, string> _driveTypeNames = new Dictionary<DriveType, string>
         {
             [DriveType.Unknown] = "",
@@ -56,9 +54,17 @@ namespace NeeView
 
             DriveName = driveName;
 
-            if (drive.DriveType != DriveType.Fixed)
+            DelayCreateChildren();
+
+            switch(drive.DriveType)
             {
-                DelayCreateChildren();
+                case DriveType.Fixed:
+                case DriveType.Removable:
+                case DriveType.Ram:
+                    break;
+                default:
+                    IsDelayCreateChildremAll = true;
+                    break;
             }
         }
 
@@ -75,24 +81,27 @@ namespace NeeView
             RaisePropertyChanged(nameof(Icon));
         }
 
-        protected override void OnException(DirectoryNode sender, Exception e)
+        protected override void OnException(DirectoryNode sender, NotifyCrateDirectoryChildrenExcepionEventArgs e)
         {
             if (sender is DirectoryNode directory)
             {
-                _toast?.Cancel();
-                _toast = new Toast(e.Message);
-                ToastService.Current.Show(_toast);
+                FolderTreeModel.Current.ShowToast(e.Exception.Message);
 
-                var driveInfo = DriveInfo.GetDrives().FirstOrDefault(d => d.Name == this.Name);
-                if (driveInfo != null)
+                if (e.IsRefresh)
                 {
-                    if (!driveInfo.IsReady)
+                    var driveInfo = DriveInfo.GetDrives().FirstOrDefault(d => d.Name == this.Name);
+                    if (driveInfo != null)
                     {
-                        Refresh();
+                        if (!driveInfo.IsReady)
+                        {
+                            Refresh();
+                        }
                     }
                 }
             }
         }
 
     }
+
 }
+

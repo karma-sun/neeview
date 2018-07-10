@@ -23,14 +23,21 @@ namespace NeeView
 
         public void Refresh()
         {
-            this.RefreshChildren();
+            this.RefreshChildren(true);
             this.IsExpanded = true;
         }
 
-        public override void RefreshChildren()
+        public override void RefreshChildren(bool isForce)
         {
-            Children = new ObservableCollection<IFolderTreeNode>(DriveInfo.GetDrives()
-                .Select(e => new DriveDirectoryNode(e)));
+            try
+            {
+                Children = new ObservableCollection<IFolderTreeNode>(DriveInfo.GetDrives()
+                    .Select(e => new DriveDirectoryNode(e)));
+            }
+            catch(Exception ex)
+            {
+                FolderTreeModel.Current.ShowToast(ex.Message);
+            }
         }
 
         private void WindowMessage_DriveChanged(object sender, DriveChangedEventArgs e)
@@ -211,7 +218,7 @@ namespace NeeView
         /// </summary>
         public void SyncDirectory(string path)
         {
-            this.RefreshChildren();
+            this.RefreshChildren(true);
 
             if (path != null)
             {

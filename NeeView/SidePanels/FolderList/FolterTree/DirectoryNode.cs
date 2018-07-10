@@ -10,10 +10,25 @@ namespace NeeView
 {
     public class DirectoryNode : DirectoryNodeBase
     {
+        internal static partial class NativeMethods
+        {
+            [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
+            public static extern int StrCmpLogicalW(string psz1, string psz2);
+        }
+
         public DirectoryNode(DirectoryNode parent, string name)
         {
             Parent = parent;
             Name = name;
+        }
+
+        public DirectoryNode(DirectoryNode parent, string name, bool isDelayAll) : this(parent, name)
+        { 
+            if (isDelayAll)
+            {
+                IsDelayCreateChildremAll = true;
+                DelayCreateChildren();
+            }
         }
 
         private string _name;
@@ -38,21 +53,18 @@ namespace NeeView
 
         public DriveDirectoryNode Drive => this is DriveDirectoryNode drive ? drive : Parent?.Drive;
 
-        public BitmapSource Icon => FileIconCollection.Current.CreateFileIcon(Path, IO.FileIconType.File, 16.0, false, false);
+        public BitmapSource Icon => FileIconCollection.Current.CreateFileIcon(Path, IO.FileIconType.Directory, 16.0, false, false);
+
+        public bool IsDelayCreateChildremAll { get; set; }
 
 
-        internal static partial class NativeMethods
-        {
-            [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
-            public static extern int StrCmpLogicalW(string psz1, string psz2);
-        }
 
-        protected virtual void OnException(DirectoryNode sender, Exception e)
+        protected virtual void OnException(DirectoryNode sender, NotifyCrateDirectoryChildrenExcepionEventArgs e)
         {
             Parent?.OnException(sender, e);
         }
 
-        public override void RefreshChildren()
+        public override void RefreshChildren(bool isForce)
         {
             var directory = new DirectoryInfo(Path);
 
@@ -60,12 +72,19 @@ namespace NeeView
             {
                 Children = new ObservableCollection<IFolderTreeNode>(directory.GetDirectories()
                     .Where(e => (e.Attributes & FileAttributes.Hidden) == 0)
-                    .Select(e => new DirectoryNode(this, e.Name)));
+                    .Select(e => new DirectoryNode(this, e.Name, IsDelayCreateChildremAll)));
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                OnException(this, ex);
+
+                DelayCreateChildren();
+
+                if (isForce)
+                {
+                    var isDriveRefresh = !(ex is UnauthorizedAccessException || ex is System.Security.SecurityException);
+                    OnException(this, new NotifyCrateDirectoryChildrenExcepionEventArgs(ex, isDriveRefresh));
+                }
             }
         }
 
@@ -83,7 +102,7 @@ namespace NeeView
             var directory = _children.Cast<DirectoryNode>().FirstOrDefault(e => e.Name == name);
             if (directory == null)
             {
-                directory = new DirectoryNode(this, name);
+                directory = new DirectoryNode(this, name, IsDelayCreateChildremAll);
                 _children.Add(directory);
                 Sort(directory);
             }
@@ -145,4 +164,18 @@ namespace NeeView
 
         }
     }
+
+
+    public class NotifyCrateDirectoryChildrenExcepionEventArgs : EventArgs
+    {
+        public NotifyCrateDirectoryChildrenExcepionEventArgs(Exception exception, bool isRefresh)
+        {
+            Exception = exception;
+            IsRefresh = isRefresh;
+        }
+
+        public Exception Exception { get; set; }
+        public bool IsRefresh { get; set; }
+    }
+
 }

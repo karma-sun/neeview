@@ -16,6 +16,8 @@ namespace NeeView
         private bool _isChildrenInitialized;
         private bool _delayCreateChildren;
 
+        private static ObservableCollection<IFolderTreeNode> _dummyChildren = new ObservableCollection<IFolderTreeNode>() { new DummyNode() };
+
         public FolderTreeNodeBase()
         {
         }
@@ -37,7 +39,7 @@ namespace NeeView
                 if (_isExpanded == true && !_isChildrenInitialized)
                 {
                     _isChildrenInitialized = true;
-                    RefreshChildren();
+                    RefreshChildren(true);
                 }
             }
         }
@@ -50,9 +52,9 @@ namespace NeeView
                 if (!_isChildrenInitialized && !_delayCreateChildren)
                 {
                     _isChildrenInitialized = true;
-                    Task.Run(() => RefreshChildren());
+                    Task.Run(() => RefreshChildren(false));
                 }
-                return _children;
+                return _delayCreateChildren ? _dummyChildren : _children;
             }
             set
             {
@@ -62,7 +64,7 @@ namespace NeeView
             }
         }
 
-        public bool IsChildrenValid => _children != null;
+        public ObservableCollection<IFolderTreeNode> ChildrenRaw => _children;
 
         public void ResetChildren(bool isDelay)
         {
@@ -74,14 +76,22 @@ namespace NeeView
             RaisePropertyChanged(nameof(Children));
         }
 
-        public abstract void RefreshChildren();
+        /// <param name="isForce">falseの場合、生成失敗ののときはExpandされるまで遅延させる</param>
+        public abstract void RefreshChildren(bool isForce);
 
         public void DelayCreateChildren()
         {
-            if (!_isChildrenInitialized)
-            {
-                _delayCreateChildren = true;
-            }
+            IsExpanded = false;
+            _isChildrenInitialized = false;
+            _delayCreateChildren = true;
         }
     }
+
+    // dummy node
+    public class DummyNode : IFolderTreeNode
+    {
+        public bool IsSelected { get => false; set { } }
+        public bool IsExpanded { get => false; set { } }
+    }
 }
+

@@ -231,8 +231,7 @@ namespace NeeView
             var notifyEntry = new NativeMethods.SHChangeNotifyEntry() { pIdl = IntPtr.Zero, Recursively = true };
             var notifyId = NativeMethods.SHChangeNotifyRegister(hsrc.Handle,
                                                   NativeMethods.SHCNRF.ShellLevel,
-                                                  NativeMethods.SHCNE.SHCNE_DRIVEADD | NativeMethods.SHCNE.SHCNE_DRIVEREMOVED
-                                                  | NativeMethods.SHCNE.SHCNE_MEDIAINSERTED | NativeMethods.SHCNE.SHCNE_MEDIAREMOVED
+                                                  NativeMethods.SHCNE.SHCNE_MEDIAINSERTED | NativeMethods.SHCNE.SHCNE_MEDIAREMOVED
                                                   | NativeMethods.SHCNE.SHCNE_MKDIR | NativeMethods.SHCNE.SHCNE_RMDIR | NativeMethods.SHCNE.SHCNE_RENAMEFOLDER,
                                                   NativeMethods.WM_SHNOTIFY,
                                                   1,
@@ -254,6 +253,9 @@ namespace NeeView
                     case NativeMethods.WM_EXITSIZEMOVE:
                         ExitSizeMove?.Invoke(this, null);
                         break;
+                    case NativeMethods.WM_DEVICECHANGE:
+                        OnDeviceChange(wParam, lParam);
+                        break;
                     case NativeMethods.WM_SHNOTIFY:
                         OnSHNotify(wParam, lParam);
                         break;
@@ -268,6 +270,47 @@ namespace NeeView
         }
 
 
+        //
+        private void OnDeviceChange(IntPtr wParam, IntPtr lParam)
+        {
+            if (lParam == IntPtr.Zero)
+            {
+                return;
+            }
+
+            var volume = (NativeMethods.DEV_BROADCAST_VOLUME)Marshal.PtrToStructure(lParam, typeof(NativeMethods.DEV_BROADCAST_VOLUME));
+            var driveName = UnitMaskToDriveName(volume.dbcv_unitmask);
+            if (driveName == null)
+            {
+                return;
+            }
+
+            switch ((NativeMethods.DBT)wParam.ToInt32())
+            {
+                case NativeMethods.DBT.DBT_DEVICEARRIVAL:
+                    ////Debug.WriteLine("DBT_DEVICEARRIVAL");
+                    DriveChanged?.Invoke(this, new DriveChangedEventArgs(driveName, true));
+                    break;
+                case NativeMethods.DBT.DBT_DEVICEREMOVECOMPLETE:
+                    ////Debug.WriteLine("DBT_DEVICEREMOVECOMPLETE");
+                    DriveChanged?.Invoke(this, new DriveChangedEventArgs(driveName, false));
+                    break;
+            }
+        }
+
+        private string UnitMaskToDriveName(uint unitmask)
+        {
+            for(int i=0; i<32; ++i)
+            {
+                if ((unitmask >> i & 1) == 1)
+                {
+                    return ((char)('A' + i)).ToString() + ":\\";
+                }
+            }
+
+            return null;
+        }
+
         // TODO: 重い処理が多いので、集積かBeginInvokeかする。
         private void OnSHNotify(IntPtr wParam, IntPtr lParam)
         {
@@ -279,20 +322,6 @@ namespace NeeView
 
             switch (shcne)
             {
-                case NativeMethods.SHCNE.SHCNE_DRIVEADD:
-                    {
-                        var path = PIDLToString(shNotify.dwItem1);
-                        DriveChanged?.Invoke(this, new DriveChangedEventArgs(path, true));
-                    }
-                    break;
-
-                case NativeMethods.SHCNE.SHCNE_DRIVEREMOVED:
-                    {
-                        var path = PIDLToString(shNotify.dwItem1);
-                        DriveChanged?.Invoke(this, new DriveChangedEventArgs(path, false));
-                    }
-                    break;
-
                 case NativeMethods.SHCNE.SHCNE_MEDIAINSERTED:
                     {
                         var path = PIDLToString(shNotify.dwItem1);

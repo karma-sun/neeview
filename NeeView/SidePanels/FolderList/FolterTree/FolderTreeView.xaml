@@ -132,6 +132,10 @@
                         <TextBlock Style="{StaticResource NodeTextBlockStyle}" Text="{Binding Name}"/>
                     </DockPanel>
                 </HierarchicalDataTemplate>
+
+                <HierarchicalDataTemplate DataType="{x:Type local:DummyNode}" ItemsSource="{Binding Children}">
+                    <Grid Height="0" Visibility="Collapsed"/>
+                </HierarchicalDataTemplate>
             </TreeView.Resources>
 
         </TreeView>

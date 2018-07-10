@@ -38,7 +38,7 @@ namespace NeeView
 
             if (_children == null && createChildren)
             {
-                RefreshChildren();
+                RefreshChildren(true);
             }
 
             var child = _children?.Cast<DirectoryNodeBase>().FirstOrDefault(e => e.Key == token);

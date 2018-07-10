@@ -10,6 +10,7 @@ namespace NeeView.IO
     public enum FileIconType
     {
         File,
+        Directory,
         FileType,
         DirectoryType,
     }
@@ -261,6 +262,8 @@ namespace NeeView.IO
                     return CreateDirectoryTypeIcon(filename, iconSize);
                 case FileIconType.FileType:
                     return CreateFileTypeIcon(filename, iconSize);
+                case FileIconType.Directory:
+                    return CreateDirectoryIcon(filename, iconSize);
                 case FileIconType.File:
                     return CreateFileIcon(filename, iconSize);
                 default:
@@ -278,6 +281,12 @@ namespace NeeView.IO
         {
             var currentshil = (NativeMethods.SHIL)iconSize;
             return CreateFileIcon(System.IO.Path.GetExtension(filename), currentshil, 0, NativeMethods.SHGFI.SHGFI_USEFILEATTRIBUTES);
+        }
+
+        public static BitmapSource CreateDirectoryIcon(string filename, IconSize iconSize)
+        {
+            var currentshil = (NativeMethods.SHIL)iconSize;
+            return CreateFileIcon(filename, currentshil, NativeMethods.FILE_ATTRIBUTE.FILE_ATTRIBUTE_DIRECTORY, 0);
         }
 
         public static BitmapSource CreateFileIcon(string filename, IconSize iconSize)
@@ -312,6 +321,8 @@ namespace NeeView.IO
                     return CreateDirectoryTypeIconCollection(filename, allowJumbo);
                 case FileIconType.FileType:
                     return CreateFileTypeIconCollection(filename, allowJumbo);
+                case FileIconType.Directory:
+                    return CreateDirectoryIconCollection(filename, allowJumbo);
                 case FileIconType.File:
                     return CreateFileIconCollection(filename, allowJumbo);
                 default:
@@ -327,6 +338,12 @@ namespace NeeView.IO
         public static List<BitmapSource> CreateFileTypeIconCollection(string filename, bool allowJumbo)
         {
             return CreateFileIconCollection(System.IO.Path.GetExtension(filename), 0, NativeMethods.SHGFI.SHGFI_USEFILEATTRIBUTES, allowJumbo);
+        }
+
+        public static List<BitmapSource> CreateDirectoryIconCollection(string filename, bool allowJumbo)
+        {
+            var flags = System.IO.Directory.Exists(filename) ? 0 : NativeMethods.SHGFI.SHGFI_USEFILEATTRIBUTES;
+            return CreateFileIconCollection(filename, NativeMethods.FILE_ATTRIBUTE.FILE_ATTRIBUTE_DIRECTORY, flags, allowJumbo);
         }
 
         public static List<BitmapSource> CreateFileIconCollection(string filename, bool allowJumbo)

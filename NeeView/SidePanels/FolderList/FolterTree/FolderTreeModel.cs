@@ -12,6 +12,7 @@ namespace NeeView
 
         private RootQuickAccessNode _rootQuickAccess;
         private RootDirectoryNode _rootFolder;
+        private Toast _toast;
 
         public FolderTreeModel()
         {
@@ -74,9 +75,9 @@ namespace NeeView
                         break;
 
                     case FolderTreeNodeBase node:
-                        if (node.IsChildrenValid)
+                        if (node.ChildrenRaw != null)
                         {
-                            foreach(var child in GetNodeWalker(node.Children))
+                            foreach(var child in GetNodeWalker(node.ChildrenRaw))
                             {
                                 yield return child;
                             }
@@ -206,5 +207,11 @@ namespace NeeView
             _rootFolder.Refresh();
         }
 
+        public void ShowToast(string message)
+        {
+            _toast?.Cancel();
+            _toast = new Toast(message);
+            ToastService.Current.Show(_toast);
+        }
     }
 }

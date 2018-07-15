@@ -418,5 +418,15 @@ namespace NeeView
         {
             e.Handled = true;
         }
+
+        private void DragStartBehavior_DragBegin(object sender, MouseEventArgs e)
+        {
+            _vm.DragBegin(sender, e);
+        }
+
+        private void DragStartBehavior_DragEnd(object sender, MouseEventArgs e)
+        {
+            _vm.DragEnd(sender, e);
+        }
     }
 }

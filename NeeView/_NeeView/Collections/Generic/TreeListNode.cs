@@ -1,53 +1,109 @@
-﻿using System;
+﻿using NeeLaboratory.ComponentModel;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
 
 namespace NeeView.Collections.Generic
 {
     [DataContract]
-    public class TreeListNode<T> : IEnumerable<TreeListNode<T>>
+    public class TreeListNode<T> : BindableBase, IEnumerable<TreeListNode<T>>, IHasValue<T>
     {
         private TreeListNode<T> _parent;
-        private List<TreeListNode<T>> _children;
+        private ObservableCollection<TreeListNode<T>> _children;
         private bool _isExpanded;
         private T _value;
 
         public TreeListNode()
         {
-            _children = new List<TreeListNode<T>>();
+            _children = new ObservableCollection<TreeListNode<T>>();
         }
 
         public TreeListNode(T value)
         {
-            _children = new List<TreeListNode<T>>();
+            _children = new ObservableCollection<TreeListNode<T>>();
             _value = value;
         }
 
         public TreeListNode<T> Parent => _parent;
 
-        public List<TreeListNode<T>> Children
+        public ObservableCollection<TreeListNode<T>> Children
         {
             get => _children;
             private set => _children = value;
         }
 
         [DataMember(Name = "Children", EmitDefaultValue = false)]
-        private List<TreeListNode<T>> _NullableChildren
+        private ObservableCollection<TreeListNode<T>> _NullableChildren
         {
             get => _children == null || _children.Count == 0 ? null : _children;
-            set => _children = value ?? new List<TreeListNode<T>>();
+            set => _children = value ?? new ObservableCollection<TreeListNode<T>>();
         }
+
+
+        public TreeListNode<T> Previous
+        {
+            get
+            {
+                if (_parent == null) return null;
+
+                var index = _parent._children.IndexOf(this);
+                return _parent.Children.ElementAtOrDefault(index - 1);
+            }
+        }
+
+        public TreeListNode<T> Next
+        {
+            get
+            {
+                if (_parent == null) return null;
+
+                var index = _parent._children.IndexOf(this);
+                return _parent.Children.ElementAtOrDefault(index + 1);
+            }
+        }
+
+        /// <summary>
+        /// 階層コレクション
+        /// </summary>
+        public IEnumerable<TreeListNode<T>> Hierarchy
+        {
+            get
+            {
+                return HierarchyReverse.Reverse();
+            }
+        }
+
+        public IEnumerable<TreeListNode<T>> HierarchyReverse
+        {
+            get
+            {
+                yield return this;
+                for (var parent = Parent; parent != null; parent = parent.Parent)
+                {
+                    yield return parent;
+                }
+            }
+        }
+
+        public bool CanExpand => Children.Count > 0;
 
         [DataMember(EmitDefaultValue = false)]
         public bool IsExpanded
         {
-            get => _isExpanded && IsExpandEnabled;
-            set => _isExpanded = value;
+            get { return _isExpanded; }
+            set { SetProperty(ref _isExpanded, value); }
         }
 
-        public bool IsExpandEnabled => Children.Count > 0;
+        private bool _IsSelected;
+        public bool IsSelected
+        {
+            get { return _IsSelected; }
+            set { SetProperty(ref _IsSelected, value); }
+        }
+
 
         [DataMember]
         public T Value
@@ -63,7 +119,7 @@ namespace NeeView.Collections.Generic
         [OnDeserialized]
         private void Deserialized(StreamingContext c)
         {
-            _children = _children ?? new List<TreeListNode<T>>();
+            _children = _children ?? new ObservableCollection<TreeListNode<T>>();
 
             foreach (var child in _children)
             {
@@ -80,7 +136,7 @@ namespace NeeView.Collections.Generic
 
         public TreeListNode<T> Find(T value)
         {
-            return _children.Find(e => EqualityComparer<T>.Default.Equals(e.Value, value));
+            return _children.FirstOrDefault(e => EqualityComparer<T>.Default.Equals(e.Value, value));
         }
 
         public int GetIndex()
@@ -171,22 +227,6 @@ namespace NeeView.Collections.Generic
             }
         }
 
-        public TreeListNode<T> GetPrev()
-        {
-            if (_parent == null) return null;
-
-            var index = _parent._children.IndexOf(this);
-            return _parent.Children.ElementAtOrDefault(index - 1);
-        }
-
-        public TreeListNode<T> GetNext()
-        {
-            if (_parent == null) return null;
-
-            var index = _parent._children.IndexOf(this);
-            return _parent.Children.ElementAtOrDefault(index + 1);
-        }
-
         public IEnumerable<TreeListNode<T>> GetExpandedCollection()
         {
             foreach (var child in _children)
@@ -201,6 +241,42 @@ namespace NeeView.Collections.Generic
                     }
                 }
             }
+        }
+
+        public void ExpandParent()
+        {
+            for (var parent = Parent; parent != null; parent = parent.Parent)
+            {
+                parent.IsExpanded = true;
+            }
+        }
+
+
+        public bool CompareOrder(TreeListNode<T> x, TreeListNode<T> y)
+        {
+            if (x == null) throw new ArgumentNullException();
+            if (y == null) throw new ArgumentNullException();
+
+
+            var parentsX = x.Hierarchy.ToList();
+            var parentsY = y.Hierarchy.ToList();
+
+            var limit = Math.Min(parentsX.Count, parentsY.Count);
+
+            for (int depth = 0; depth < limit; ++depth)
+            {
+                if (parentsX[depth] != parentsY[depth])
+                {
+                    if (depth == 0) throw new ArgumentOutOfRangeException();
+
+                    var parent = parentsX[depth - 1];
+                    var indexX = parent.Children.IndexOf(parentsX[depth]);
+                    var indexY = parent.Children.IndexOf(parentsY[depth]);
+                    return indexX < indexY;
+                }
+            }
+
+            return parentsX.Count < parentsY.Count;
         }
 
 

@@ -13,7 +13,6 @@ namespace NeeView
             Model = model;
         }
 
-        public event CollectionChangeEventHandler Changing;
         public event CollectionChangeEventHandler Changed;
 
 
@@ -22,19 +21,12 @@ namespace NeeView
 
         internal void Loaded()
         {
-            Model.Changing += Model_Changing;
             Model.Changed += Model_Changed;
         }
 
         internal void Unloaded()
         {
-            Model.Changing -= Model_Changing;
             Model.Changed -= Model_Changed;
-        }
-
-        private void Model_Changing(object sender, CollectionChangeEventArgs e)
-        {
-            Changing?.Invoke(sender, e);
         }
 
         private void Model_Changed(object sender, CollectionChangeEventArgs e)

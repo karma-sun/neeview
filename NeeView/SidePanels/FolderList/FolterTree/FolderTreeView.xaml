@@ -105,7 +105,7 @@
                     <DockPanel>
                         <i:Interaction.Behaviors>
                             <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:FolderTreeView.DragDropFormat}" DragDropData="{Binding}" Target="{Binding ElementName=TreeView}"
-                                                  Description="{Binding ElementName=Root, Path=DataContext.DragStartDescription}"/>
+                                                  DragBegin="DragStartBehavior_DragBegin"/>
                         </i:Interaction.Behaviors>
                         <Image Style="{StaticResource IconImageStyle}" Source="{Binding ElementName=Root, Path=DataContext.Model.FolderIcon}"/>
                         <TextBlock Style="{StaticResource NodeTextBlockStyle}" Text="{Binding Name}"/>

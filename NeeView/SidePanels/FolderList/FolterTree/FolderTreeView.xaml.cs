@@ -35,7 +35,6 @@ namespace NeeView
             InitializeComponent();
 
             _vm = new FolderTreeViewModel();
-            InitializeDragDrop();
 
             _vm.SelectedItemChanged += ViewModel_SelectedItemChanged;
 
@@ -236,9 +235,9 @@ namespace NeeView
 
         private DependencyObject _lastDropTarget;
 
-        private void InitializeDragDrop()
+        private void DragStartBehavior_DragBegin(object sender, MouseEventArgs e)
         {
-            _vm.DragStartDescription.DragStart += (s, e) => _lastDropTarget = null;
+            _lastDropTarget = null;
         }
 
         private void TreeView_DragEnter(object sender, DragEventArgs e)
@@ -334,6 +333,8 @@ namespace NeeView
         }
 
         #endregion
+
+
     }
 
 

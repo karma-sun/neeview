@@ -126,11 +126,6 @@ namespace NeeView
         /// </summary>
         public RightPanelViewModel Right { get; private set; }
 
-        /// <summary>
-        /// ドラッグ開始設定
-        /// </summary>
-        public DragStartDescription DragStartDescription { get; private set; }
-
 
         /// <summary>
         /// コンストラクター
@@ -151,10 +146,6 @@ namespace NeeView
             Right = new RightPanelViewModel(_model.Right, rightItemsControl);
             Right.PropertyChanged += Right_PropertyChanged;
             Right.PanelDroped += Right_PanelDroped;
-
-            DragStartDescription = new DragStartDescription();
-            DragStartDescription.DragStart += DragStartDescription_DragStart;
-            DragStartDescription.DragEnd += DragStartDescription_DragEnd;
         }
 
         /// <summary>
@@ -180,9 +171,7 @@ namespace NeeView
         /// ドラッグ開始イベント処理.
         /// 強制的にパネル表示させる
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DragStartDescription_DragStart(object sender, EventArgs e)
+        public void DragBegin(object sender, EventArgs e)
         {
             Left.IsDragged = true;
             Right.IsDragged = true;
@@ -191,9 +180,7 @@ namespace NeeView
         /// <summary>
         /// ドラッグ終了イベント処理
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DragStartDescription_DragEnd(object sender, EventArgs e)
+        public void DragEnd(object sender, EventArgs e)
         {
             Left.IsDragged = false;
             Right.IsDragged = false;

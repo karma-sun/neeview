@@ -2,6 +2,7 @@
 using NeeView.Collections.Generic;
 using NeeView.Windows;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
@@ -12,57 +13,58 @@ namespace NeeView
 {
     public class BookmarkListBoxModel : BindableBase
     {
-        #region Fields
+        // Fields
 
-        private ObservableCollection<TreeListNode<IBookmarkEntry>> _items;
         private TreeListNode<IBookmarkEntry> _selectedItem;
         private Toast _toast;
 
-        #endregion
 
-        #region Constructors
+        // Constructors
 
         public BookmarkListBoxModel()
         {
             BookmarkCollection.Current.BookmarkChanged += BookmarkCollection_BookmarkChanged;
         }
 
-        #endregion
 
-        #region Events
+        // Events
 
-        public event CollectionChangeEventHandler Changing;
         public event CollectionChangeEventHandler Changed;
+        public event EventHandler SelectedItemChanged;
 
-        #endregion
 
-        #region Properties
+        // Properties
 
-        public ObservableCollection<TreeListNode<IBookmarkEntry>> Items
-        {
-            get { return _items; }
-            set { SetProperty(ref _items, value); }
-        }
+        public BookmarkList BookmarkList => BookmarkList.Current;
+
+        public BookmarkCollection BookmarkCollection => BookmarkCollection.Current;
 
         public TreeListNode<IBookmarkEntry> SelectedItem
         {
             get { return _selectedItem; }
-            set { SetProperty(ref _selectedItem, value); }
+            set
+            {
+                if (_selectedItem != null && _selectedItem != value)
+                {
+                    _selectedItem.IsSelected = false;
+                }
+
+                if (SetProperty(ref _selectedItem, value))
+                {
+                    if (_selectedItem != null)
+                    {
+                        _selectedItem.IsSelected = true;
+                    }
+                }
+            }
         }
 
 
-        // TODO: この参照方向はどうなの？
-        public bool IsThumbnailVisibled => BookmarkList.Current.IsThumbnailVisibled;
-        public PanelListItemStyle PanelListItemStyle => BookmarkList.Current.PanelListItemStyle;
 
-        #endregion
-
-        #region Methods
+        // Methods
 
         private void BookmarkCollection_BookmarkChanged(object sender, BookmarkCollectionChangedEventArgs e)
         {
-            Refresh();
-
             if (_toast != null)
             {
                 _toast.Cancel();
@@ -77,31 +79,15 @@ namespace NeeView
                 case Bookmark bookmark:
                     BookHub.Current.RequestLoad(bookmark.Place, null, BookLoadOption.SkipSamePlace | BookLoadOption.IsBook, true);
                     break;
-                case BookmarkFolder folder:
-                    if (item.Children.Count > 0)
-                    {
-                        item.IsExpanded = !item.IsExpanded;
-                        Refresh();
-                    }
-                    break;
             }
         }
 
         public void Expand(TreeListNode<IBookmarkEntry> item, bool isExpanded)
         {
-            if (item.IsExpandEnabled && item.IsExpanded != isExpanded)
+            if (item.CanExpand && item.IsExpanded != isExpanded)
             {
                 item.IsExpanded = isExpanded;
-                Refresh();
             }
-        }
-
-        private void Refresh()
-        {
-            Changing?.Invoke(this, new CollectionChangeEventArgs(CollectionChangeAction.Refresh, null));
-            var collection = BookmarkCollection.Current.Items.GetExpandedCollection();
-            Items = new ObservableCollection<TreeListNode<IBookmarkEntry>>(collection);
-            Changed?.Invoke(this, new CollectionChangeEventArgs(CollectionChangeAction.Refresh, null));
         }
 
         // TODO: Find系はいらない？Collectionと同じ？
@@ -159,7 +145,8 @@ namespace NeeView
 
         public bool Remove(TreeListNode<IBookmarkEntry> item)
         {
-            int selectedIndex = Items.IndexOf(SelectedItem);
+            var next = item.Next ?? item.Previous ?? item.Parent;
+
             var memento = new TreeListNodeMemento<IBookmarkEntry>(item);
 
             bool isRemoved = BookmarkCollection.Current.Remove(item);
@@ -175,20 +162,16 @@ namespace NeeView
                     }
                 }
 
-                if (selectedIndex >= 0 && !Items.Contains(SelectedItem))
+                if (next != null)
                 {
-                    selectedIndex = selectedIndex < Items.Count ? selectedIndex : Items.Count - 1;
-                    if (selectedIndex >= 0)
-                    {
-                        SelectedItem = Items[selectedIndex];
-                    }
+                    SelectedItem = next;
                 }
             }
 
             return isRemoved;
         }
 
-        //
+
         public void AddBookmark()
         {
             var place = BookHub.Current.Book?.Place;
@@ -207,17 +190,9 @@ namespace NeeView
                 }
             }
 
-            if (Items.Contains(node))
+            if (node != null)
             {
-                SelectedItem = node;
-            }
-            else
-            {
-                for (var parent = node.Parent; parent != null; parent = parent.Parent)
-                {
-                    parent.IsExpanded = true;
-                }
-                Refresh();
+                node.ExpandParent();
                 SelectedItem = node;
             }
         }
@@ -244,24 +219,20 @@ namespace NeeView
         public void Move(DropInfo<TreeListNode<IBookmarkEntry>> dropInfo)
         {
             if (dropInfo == null) return;
-            if (dropInfo.DragItem == dropInfo.DropItem) return;
+            if (dropInfo.Data == dropInfo.DropTarget) return;
 
-            var item = dropInfo.DragItem;
-            var target = dropInfo.DropItem;
+            var item = dropInfo.Data;
+            var target = dropInfo.DropTarget;
 
-            var indexFrom = Items.IndexOf(dropInfo.DragItem);
-            var indexTo = Items.IndexOf(dropInfo.DropItem);
-
-
-            const double margine = 0.25;
+            const double margin = 0.33;
 
             if (target.Value is BookmarkFolder folder)
             {
-                if (dropInfo.Position < margine)
+                if (dropInfo.Position < margin)
                 {
                     BookmarkCollection.Current.Move(item, target, -1);
                 }
-                else if (dropInfo.Position > (1.0 - margine) && !target.IsExpanded)
+                else if (dropInfo.Position > (1.0 - margin) && !target.IsExpanded)
                 {
                     BookmarkCollection.Current.Move(item, target, +1);
                 }
@@ -272,11 +243,11 @@ namespace NeeView
             }
             else
             {
-                if (target.GetNext() == null && dropInfo.Position > (1.0 - margine))
+                if (target.Next == null && dropInfo.Position > (1.0 - margin))
                 {
                     BookmarkCollection.Current.Move(item, target, +1);
                 }
-                else if (indexFrom < indexTo)
+                else if (item.CompareOrder(item, target))
                 {
                     BookmarkCollection.Current.Move(item, target, +1);
                 }
@@ -302,18 +273,19 @@ namespace NeeView
         {
             if (BookHub.Current.IsLoading) return;
 
-            if (!CanMoveSelected(-1))
+            var node = GetNeighborBookmark(SelectedItem, -1);
+            if (node != null)
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyBookmarkPrevFailed);
-                return;
-            }
-
-            if (MoveSelected(-1))
-            {
-                if (SelectedItem?.Value is Bookmark bookmark)
+                SelectedItem = node;
+                if (node.Value is Bookmark bookmark)
                 {
                     BookHub.Current.RequestLoad(bookmark.Place, null, BookLoadOption.SkipSamePlace | BookLoadOption.IsBook, true);
                 }
+                SelectedItemChanged?.Invoke(this, null);
+            }
+            else
+            {
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyBookmarkPrevFailed);
             }
         }
 
@@ -322,96 +294,60 @@ namespace NeeView
         {
             if (BookHub.Current.IsLoading) return;
 
-            if (!CanMoveSelected(+1))
+            var node = GetNeighborBookmark(SelectedItem, +1);
+            if (node != null)
             {
-                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyBookmarkNextFailed);
-                return;
-            }
-
-            if (MoveSelected(+1))
-            {
-                if (SelectedItem?.Value is Bookmark bookmark)
+                SelectedItem = node;
+                if (node.Value is Bookmark bookmark)
                 {
                     BookHub.Current.RequestLoad(bookmark.Place, null, BookLoadOption.SkipSamePlace | BookLoadOption.IsBook, true);
                 }
-            }
-        }
-
-        public bool CanMoveSelected(int direction)
-        {
-            var bookmarks = Items.Where(e => e.Value is Bookmark);
-
-            if (SelectedItem == null)
-            {
-                return bookmarks.Count() > 0;
+                SelectedItemChanged?.Invoke(this, null);
             }
             else
             {
-                var index = Items.IndexOf(SelectedItem);
-                return direction > 0
-                    ? index < Items.IndexOf(bookmarks.Last())
-                    : index > Items.IndexOf(bookmarks.First());
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyBookmarkNextFailed);
             }
-        }
-
-        public bool MoveSelected(int direction)
-        {
-            if (direction == 0) throw new ArgumentOutOfRangeException(nameof(direction));
-
-            if (SelectedItem == null)
-            {
-                var bookmarks = Items.Where(e => e.Value is Bookmark);
-                var node = direction >= 0 ? bookmarks.FirstOrDefault() : bookmarks.LastOrDefault();
-                if (node != null)
-                {
-                    SelectedItem = node;
-                    return true;
-                }
-            }
-            else
-            {
-                var node = GetNeighborBookmark(SelectedItem, direction);
-                if (node != null)
-                {
-                    SelectedItem = node;
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         private TreeListNode<IBookmarkEntry> GetNeighborBookmark(TreeListNode<IBookmarkEntry> item, int direction)
         {
-            if (item == null) throw new ArgumentNullException(nameof(item));
             if (direction == 0) throw new ArgumentOutOfRangeException(nameof(direction));
 
-            if (Items == null || Items.Count <= 0)
+            if (item == null)
             {
-                return null;
+                var bookmarks = BookmarkCollection.Current.Items.GetExpandedCollection().Where(e => e.Value is Bookmark).ToList();
+                return direction >= 0 ? bookmarks.FirstOrDefault() : bookmarks.LastOrDefault();
             }
-
-            int index = Items.IndexOf(item);
-            if (index < 0)
+            else
             {
-                return null;
-            }
-
-            while (true)
-            {
-                index = index + direction;
-                if (index < 0 || index >= Items.Count)
+                var bookmarks = BookmarkCollection.Current.Items.GetExpandedCollection().Where(e => e.Value is Bookmark || e == item).ToList();
+                if (bookmarks.Count <= 0)
                 {
                     return null;
                 }
-                var node = Items[index];
-                if (node.Value is Bookmark)
+                int index = bookmarks.IndexOf(item);
+                if (index < 0)
                 {
-                    return node;
+                    return null;
                 }
+                return bookmarks.ElementAtOrDefault(index + direction);
             }
         }
-    }
 
-    #endregion
+        public int IndexOfSelectedItem()
+        {
+            return IndexOfExpanded(SelectedItem);
+        }
+
+        public int IndexOfExpanded(TreeListNode<IBookmarkEntry> item)
+        {
+            if (item == null)
+            {
+                return -1;
+            }
+
+            return BookmarkCollection.Current.Items.GetExpandedCollection().IndexOf(item);
+        }
+    }
 }

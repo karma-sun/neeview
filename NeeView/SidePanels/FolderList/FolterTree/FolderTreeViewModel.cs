@@ -10,7 +10,6 @@ namespace NeeView
         public FolderTreeViewModel()
         {
             Model = FolderTreeModel.Current;
-            DragStartDescription = new DragStartDescription();
 
             Model.SelectedItemChanged += (s, e) => SelectedItemChanged?.Invoke(s, e);
         }
@@ -18,9 +17,6 @@ namespace NeeView
         public event EventHandler SelectedItemChanged;
 
         public FolderTreeModel Model { get; set; }
-
-        public DragStartDescription DragStartDescription { get; set; }
-
 
 
         public void SelectRootQuickAccess()

@@ -251,7 +251,9 @@
     <Compile Include="SidePanels\Pagemark\PagemarkListBoxModel.cs" />
     <Compile Include="SidePanels\Pagemark\PagemarkListBoxViewModel.cs" />
     <Compile Include="TreeViewItemHelper.cs" />
+    <Compile Include="VirtualCollection.cs" />
     <Compile Include="WindowMessage.cs" />
+    <Compile Include="_NeeView\Collections\Generic\IHasValue.cs" />
     <Compile Include="_NeeView\Collections\Generic\TreeListNode.cs" />
     <Compile Include="SidePanels\FolderList\FolderCollectionFactory.cs" />
     <Compile Include="SidePanels\FolderList\FolderNode.cs" />
@@ -686,6 +688,7 @@
     <Compile Include="_NeeView\Collections\Generic\EnumerableExtensions.cs" />
     <Compile Include="_NeeView\IO\FileShortcut.cs" />
     <Compile Include="_NeeView\ResourceService.cs" />
+    <Compile Include="_NeeView\Windows\DropInfo.cs" />
     <Compile Include="_NeeView\Windows\Property\PropertyValueTemplateSelector.cs" />
     <Compile Include="_NeeView\Windows\VectorExtensions.cs" />
     <Compile Include="IndexValue.cs" />

@@ -18,39 +18,6 @@ using System.Windows.Media;
 namespace NeeView.Windows
 {
     /// <summary>
-    /// ViewModelとBehaviorの橋渡し処理
-    /// </summary>
-    public sealed class DragStartDescription
-    {
-        /// <summary>
-        /// ドラッグ開始イベント
-        /// </summary>
-        public event EventHandler<MouseEventArgs> DragStart;
-
-        /// <summary>
-        /// ドラッグ終了イベント
-        /// </summary>
-        public event EventHandler<MouseEventArgs> DragEnd;
-
-        /// <summary>
-        /// ドラッグ開始処理呼び出し
-        /// </summary>
-        public void OnDragStart(object sender, MouseEventArgs e)
-        {
-            this.DragStart?.Invoke(sender, e);
-        }
-
-        /// <summary>
-        /// ドラッグ終了処理呼び出し
-        /// </summary>
-        public void OnDragEnd(object sender, MouseEventArgs e)
-        {
-            this.DragEnd?.Invoke(sender, e);
-        }
-    }
-
-
-    /// <summary>
     /// ドラッグ対象オブジェクト用ビヘイビア
     /// <see cref="http://b.starwing.net/?p=131"/>
     /// </summary>
@@ -61,6 +28,18 @@ namespace NeeView.Windows
         private IInputElement _dragItem;
         private Point _dragStartPos;
         private DragAdorner _dragGhost;
+
+
+        /// <summary>
+        /// ドラッグ開始イベント
+        /// </summary>
+        public event EventHandler<MouseEventArgs> DragBegin;
+
+        /// <summary>
+        /// ドラッグ終了イベント
+        /// </summary>
+        public event EventHandler<MouseEventArgs> DragEnd;
+
 
         /// <summary>
         /// ドラッグアンドドロップ操作の効果
@@ -104,7 +83,8 @@ namespace NeeView.Windows
 
 
         /// <summary>
-        /// ドラッグ先
+        /// ドラッグ先.
+        /// 範囲外にドラッグされたときにターゲットをスクロールさせる
         /// </summary>
         public FrameworkElement Target
         {
@@ -129,21 +109,6 @@ namespace NeeView.Windows
         // Using a DependencyProperty as the backing store for DragDropFormat.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsDragEnableProperty =
             DependencyProperty.Register("IsDragEnable", typeof(bool), typeof(DragStartBehavior), new UIPropertyMetadata(true));
-
-
-        /// <summary>
-        /// ドラッグイベント処理セット
-        /// </summary>
-        public DragStartDescription Description
-        {
-            get { return (DragStartDescription)GetValue(DescriptionProperty); }
-            set { SetValue(DescriptionProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for Description.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty DescriptionProperty =
-            DependencyProperty.Register("Description", typeof(DragStartDescription), typeof(DragStartBehavior), new PropertyMetadata(null));
-
 
 
         /// <summary>
@@ -215,7 +180,7 @@ namespace NeeView.Windows
                 // アクティブWindowの直下のContentに対して、Adornerを付加する
                 var window = Application.Current.Windows.OfType<Window>().FirstOrDefault(w => w.IsActive);
 
-                this.Description?.OnDragStart(sender, e);
+                DragBegin?.Invoke(sender, e);
 
                 if (window != null)
                 {
@@ -236,7 +201,7 @@ namespace NeeView.Windows
                 _dragGhost = null;
                 _dragItem = null;
 
-                this.Description?.OnDragEnd(sender, e);
+                DragEnd?.Invoke(sender, e);
             }
         }
 

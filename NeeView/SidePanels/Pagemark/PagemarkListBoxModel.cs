@@ -100,7 +100,7 @@ namespace NeeView
 
         public void Expand(TreeListNode<IPagemarkEntry> item, bool isExpanded)
         {
-            if (item.IsExpandEnabled && item.IsExpanded != isExpanded)
+            if (item.CanExpand && item.IsExpanded != isExpanded)
             {
                 item.IsExpanded = isExpanded;
                 Refresh();
@@ -181,13 +181,13 @@ namespace NeeView
         public void Move(DropInfo<TreeListNode<IPagemarkEntry>> dropInfo)
         {
             if (dropInfo == null) return;
-            if (dropInfo.DragItem == dropInfo.DropItem) return;
+            if (dropInfo.Data == dropInfo.DropTarget) return;
 
-            var item = dropInfo.DragItem;
-            var target = dropInfo.DropItem;
+            var item = dropInfo.Data;
+            var target = dropInfo.DropTarget;
 
-            var indexFrom = Items.IndexOf(dropInfo.DragItem);
-            var indexTo = Items.IndexOf(dropInfo.DropItem);
+            var indexFrom = Items.IndexOf(dropInfo.Data);
+            var indexTo = Items.IndexOf(dropInfo.DropTarget);
 
 
             const double margine = 0.25;
@@ -209,7 +209,7 @@ namespace NeeView
             }
             else
             {
-                if (target.GetNext() == null && dropInfo.Position > (1.0 - margine))
+                if (target.Next == null && dropInfo.Position > (1.0 - margine))
                 {
                     PagemarkCollection.Current.Move(item, target, +1);
                 }

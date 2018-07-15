@@ -51,7 +51,7 @@ namespace NeeView.Windows
             var listBox = sender as ListBox;
 
             // ドラッグオブジェクト
-            var item = GetData<T>(e, format);
+            var item = e.Data.GetData(format) as T;
             if (item == null) return;
 
             // ドラッグオブジェクトが所属しているリスト判定
@@ -83,7 +83,7 @@ namespace NeeView.Windows
             var listBox = sender as ListBox;
 
             // ドラッグオブジェクト
-            var item = GetData<T>(e, format);
+            var item = e.Data.GetData(format) as T;
             if (item == null) return null;
 
             // ドラッグオブジェクトが所属しているリスト判定
@@ -100,50 +100,12 @@ namespace NeeView.Windows
                 var pos = listBoxItem.TranslatePoint(new Point(0, listBoxItem.ActualHeight), listBox);
                 if (dropPos.Y < pos.Y)
                 {
-                    ////newIndex = i;
-                    ////break;
-
-                    return new DropInfo<T>()
-                    {
-                        DragItem = item,
-                        DropItem = listBoxItem.DataContext as T,
-                        Position = 1.0 - (pos.Y - dropPos.Y) / listBoxItem.ActualHeight,
-                    };
+                    return new DropInfo<T>(item, listBoxItem.DataContext as T, 1.0 - (pos.Y - dropPos.Y) / listBoxItem.ActualHeight);
                 }
             }
 
-            ////items.Move(oldIndex, newIndex);
-            return new DropInfo<T>()
-            {
-                DragItem = item,
-                DropItem = items.Last(),
-                Position = 1.0,
-            };
-        }
-
-
-        //
-        private static T GetData<T>(DragEventArgs e, string format)
-            where T : class
-        {
-            try
-            {
-                return e.Data.GetData(format) as T;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Drop failed: {ex.Message}");
-                return null;
-            }
+            return new DropInfo<T>(item, items.Last(), 1.0);
         }
     }
 
-
-    public class DropInfo<T>
-        where T : class
-    {
-        public T DragItem { get; set; }
-        public T DropItem { get; set; }
-        public double Position { get; set; }
-    }
 }

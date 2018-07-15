@@ -67,7 +67,7 @@
                 </Grid>
                 <i:Interaction.Behaviors>
                     <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:SidePanelViewModel.DragDropFormat}" DragDropData="{Binding}"
-                                             Description="{Binding ElementName=Root, Path=DataContext.VM.DragStartDescription}"/>
+                                          DragBegin="DragStartBehavior_DragBegin" DragEnd="DragStartBehavior_DragEnd"/>
                 </i:Interaction.Behaviors>
             </Button>
         </DataTemplate>
@@ -79,7 +79,7 @@
                 </Grid>
                 <i:Interaction.Behaviors>
                     <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:SidePanelViewModel.DragDropFormat}" DragDropData="{Binding}"
-                                             Description="{Binding ElementName=Root, Path=DataContext.VM.DragStartDescription}"/>
+                                          DragBegin="DragStartBehavior_DragBegin" DragEnd="DragStartBehavior_DragEnd"/>
                 </i:Interaction.Behaviors>
             </Button>
         </DataTemplate>

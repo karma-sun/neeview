@@ -14,7 +14,7 @@ namespace NeeView
     /// <summary>
     /// 
     /// </summary>
-    public class BookmarkListViewModel : BindableBase
+    public class BookmarkListViewModel : BindableBase, IDisposable
     {
         #region Fields
 
@@ -183,14 +183,43 @@ namespace NeeView
         public BookmarkListBox ListBoxContent
         {
             get { return _listBoxContent; }
-            set { if (_listBoxContent != value) { _listBoxContent = value; RaisePropertyChanged(); } }
+            set
+            {
+                if (_listBoxContent != value)
+                {
+                    _listBoxContent?.Dispose();
+                    _listBoxContent = value; RaisePropertyChanged();
+                }
+            }
         }
 
         private void UpdateListBoxContent()
         {
             ListBoxContent = new BookmarkListBox(new BookmarkListBoxViewModel(Model.ListBox));
         }
-
         #endregion
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _listBoxContent?.Dispose();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
+
     }
 }

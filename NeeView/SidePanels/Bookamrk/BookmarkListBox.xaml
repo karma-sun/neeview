@@ -32,110 +32,96 @@
             <Setter Property="Visibility" Value="{DynamicResource PanelNoteVisibility}"/>
         </Style>
 
-        <local:DepthToWidthConverter x:Key="DepthToWidthConverter"/>
 
         <!-- Normal Bookmark -->
-        <DataTemplate x:Key="NormalBookmark">
-            <DockPanel MinHeight="20">
+        <HierarchicalDataTemplate x:Key="NormalBookmark" ItemsSource="{Binding Children}">
+            <Grid MinHeight="20">
                 <i:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:BookmarkListBox.DragDropFormat}" DragDropData="{Binding}" Target="{Binding ElementName=ListBox}"/>
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:BookmarkListBox.DragDropFormat}" DragDropData="{Binding}" Target="{Binding ElementName=TreeView}" DragBegin="DragStartBehavior_DragBegin" />
                 </i:Interaction.Behaviors>
-                <Grid Width="{Binding Depth, Converter={StaticResource DepthToWidthConverter}}"/>
-                <local:ExpandedMark IsExpanded="{Binding IsExpanded}" IsEnabled="{Binding IsExpandEnabled}"/>
                 <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}"/>
-            </DockPanel>
-        </DataTemplate>
+            </Grid>
+        </HierarchicalDataTemplate>
 
         <!-- Picture Bookmark -->
-        <DataTemplate x:Key="PictureBookmark">
+        <HierarchicalDataTemplate x:Key="PictureBookmark" ItemsSource="{Binding Children}">
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1" Background="Transparent">
                 <i:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:BookmarkListBox.DragDropFormat}" DragDropData="{Binding}" Target="{Binding ElementName=ListBox}"/>
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:BookmarkListBox.DragDropFormat}" DragDropData="{Binding}" Target="{Binding ElementName=TreeView}" DragBegin="DragStartBehavior_DragBegin"/>
                 </i:Interaction.Behaviors>
                 <DockPanel Margin="2">
-                    <Grid Width="{Binding Depth, Converter={StaticResource DepthToWidthConverter}}"/>
-                    <local:ExpandedMark IsExpanded="{Binding IsExpanded}" IsEnabled="{Binding IsExpandEnabled}"/>
-                    <DockPanel>
-                        <local:FolderListThumbnail DataContext="{Binding Value.Thumbnail}" />
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock x:Name="Place" Style="{StaticResource FolderParameter}" Text="{Binding Value.Note}" HorizontalAlignment="Left" />
-                            <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
-                        </StackPanel>
-                    </DockPanel>
+                    <local:FolderListThumbnail DataContext="{Binding Value.Thumbnail}" />
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock x:Name="Place" Style="{StaticResource FolderParameter}" Text="{Binding Value.Note}" HorizontalAlignment="Left" />
+                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
+                    </StackPanel>
                 </DockPanel>
             </Border>
-        </DataTemplate>
+        </HierarchicalDataTemplate>
 
         <!-- Banner Bookmark -->
-        <DataTemplate x:Key="BannerBookmark">
+        <HierarchicalDataTemplate x:Key="BannerBookmark" ItemsSource="{Binding Children}">
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                 <i:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:BookmarkListBox.DragDropFormat}" DragDropData="{Binding}" Target="{Binding ElementName=ListBox}"/>
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:BookmarkListBox.DragDropFormat}" DragDropData="{Binding}" Target="{Binding ElementName=TreeView}" DragBegin="DragStartBehavior_DragBegin"/>
                 </i:Interaction.Behaviors>
                 <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
-                    <Grid Width="{Binding Depth, Converter={StaticResource DepthToWidthConverter}}"/>
-                    <local:ExpandedMark IsExpanded="{Binding IsExpanded}" IsEnabled="{Binding IsExpandEnabled}"/>
-                    <DockPanel DockPanel.Dock="Bottom" Margin="2" >
-                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextAlignment="Left" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}" Margin="0"/>
-                    </DockPanel>
+                    <TextBlock DockPanel.Dock="Bottom" x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextAlignment="Left" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}" Margin="2"/>
                     <local:FolderListBanner DataContext="{Binding Value.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                 </DockPanel>
             </Border>
-        </DataTemplate>
+        </HierarchicalDataTemplate>
 
     </UserControl.Resources>
 
-    <ListBox x:Name="ListBox" Focusable="False"
-                 FontFamily="{DynamicResource PanelFontFamily}" FontSize="{DynamicResource PanelFontSize}"
-                 Background="Transparent"
-                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                 FocusVisualStyle="{StaticResource NVFocusVisual}"
-                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 HorizontalContentAlignment="Stretch"
-                 ItemsSource="{Binding Model.Items}"
-                 SelectedItem="{Binding Model.SelectedItem}"
-                 SelectionChanged="BookmarkListBox_SelectionChanged"
-                 KeyDown="BookmarkList_KeyDown"
-                 Tag="{Binding Model.Items}"
-                 IsVisibleChanged="BookmarkListBox_IsVisibleChanged"
-                 AllowDrop="True"
-                 PreviewDragOver="BookmarkListBox_PreviewDragOver"
-                 Drop="BookmarkListBox_Drop"
-                 VirtualizingStackPanel.IsVirtualizing="True"
-                 VirtualizingStackPanel.ScrollUnit="{StaticResource PanelScrollUnit}"
-                 VirtualizingStackPanel.VirtualizationMode="Recycling"
-                 >
+    <TreeView x:Name="TreeView"
+              Foreground="{DynamicResource NVForeground}" Background="Transparent" BorderThickness="0"
+              ItemsSource="{Binding Model.BookmarkCollection.Items.Children}"
+              SelectedItemChanged="TreeView_SelectedItemChanged"
+              IsVisibleChanged="TreeView_IsVisibleChanged"
+              KeyDown="TreeVew_KeyDown"
+              AllowDrop="True"
+              DragEnter="TreeView_DragEnter"
+              PreviewDragOver="TreeView_PreviewDragOver"
+              Drop="TreeView_Drop"
+              VirtualizingStackPanel.ScrollUnit="Pixel"
+              VirtualizingStackPanel.IsVirtualizing="True"
+              VirtualizingStackPanel.VirtualizationMode="Recycling">
 
-        <ListBox.Style>
-            <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
+        <TreeView.Style>
+            <Style TargetType="TreeView" BasedOn="{StaticResource NVTreeView}">
                 <Style.Triggers>
-                    <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Normal">
+                    <DataTrigger Binding="{Binding Model.BookmarkList.PanelListItemStyle, Mode=OneTime}" Value="Normal">
                         <Setter Property="ItemTemplate" Value="{StaticResource NormalBookmark}"/>
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Content">
+                    <DataTrigger Binding="{Binding Model.BookmarkList.PanelListItemStyle, Mode=OneTime}" Value="Content">
                         <Setter Property="ItemTemplate" Value="{StaticResource PictureBookmark}"/>
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Banner">
+                    <DataTrigger Binding="{Binding Model.BookmarkList.PanelListItemStyle, Mode=OneTime}" Value="Banner">
                         <Setter Property="ItemTemplate" Value="{StaticResource BannerBookmark}"/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
-        </ListBox.Style>
+        </TreeView.Style>
 
-        <ListBox.ItemContainerStyle>
-            <Style TargetType="ListBoxItem">
-                <EventSetter Event="PreviewMouseLeftButtonUp" Handler="BookmarkListItem_MouseSingleClick"/>
-                <EventSetter Event="KeyDown" Handler="BookmarkListItem_KeyDown"/>
-                <EventSetter Event="ContextMenuOpening" Handler="BookmarkListItem_ContextMenuOpening"/>
-                <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
+        <TreeView.ItemContainerStyle>
+            <Style TargetType="{x:Type TreeViewItem}"
+                       BasedOn="{StaticResource NVTreeViewItem}">
                 <Setter Property="ContextMenu">
                     <Setter.Value>
                         <ContextMenu/>
                     </Setter.Value>
                 </Setter>
+                <EventSetter Event="ContextMenuOpening" Handler="TreeViewItem_ContextMenuOpening"/>
+                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                <EventSetter Event="MouseRightButtonDown" Handler="TreeViewItem_MouseRightButtonDown"/>
+                <EventSetter Event="MouseLeftButtonUp" Handler="TreeViewItem_MouseLeftButtonUp"/>
+                <EventSetter Event="KeyDown" Handler="TreeViewItem_KeyDown"/>
+                <EventSetter Event="Selected" Handler="TreeViewItem_Selected" />
             </Style>
-        </ListBox.ItemContainerStyle>
+        </TreeView.ItemContainerStyle>
 
-    </ListBox>
+    </TreeView>
 
 </UserControl>

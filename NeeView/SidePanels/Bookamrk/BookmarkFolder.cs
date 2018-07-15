@@ -19,7 +19,14 @@ namespace NeeView
         public string Note => null;
         public string Detail => null;
 
-        public Thumbnail Thumbnail => ConstPage.Thumbnail;
+        public Thumbnail Thumbnail
+        {
+            get
+            {
+                ConstPage.LoadThumbnail(QueueElementPriority.BookmarkThumbnail);
+                return ConstPage.Thumbnail;
+            }
+        }
 
 
         public Page GetPage()

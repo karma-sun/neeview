@@ -11,7 +11,7 @@ using System.Windows.Input;
 
 namespace NeeView
 {
-    public class PagemarkListViewModel : BindableBase
+    public class PagemarkListViewModel : BindableBase, IDisposable
     {
         public PagemarkCollection Pagemarks => PagemarkCollection.Current;
 
@@ -19,6 +19,7 @@ namespace NeeView
         // Fields
 
         private PagemarkList _model;
+        private CancellationTokenSource _removeUnlinkedCommandCancellationToken;
         private PagemarkListBox _listBoxContent;
 
 
@@ -46,8 +47,18 @@ namespace NeeView
         public PagemarkListBox ListBoxContent
         {
             get { return _listBoxContent; }
-            set { if (_listBoxContent != value) { _listBoxContent = value; RaisePropertyChanged(); } }
+            set
+            {
+                if (_listBoxContent != value)
+                {
+                    _listBoxContent?.Dispose();
+                    _listBoxContent = value;
+                    RaisePropertyChanged();
+                }
+            }
         }
+
+        public bool IsBusy => _listBoxContent != null ? _listBoxContent.IsRenaming : false;
 
 
         #region MoreMenu
@@ -153,7 +164,10 @@ namespace NeeView
 
         private async void RemoveUnlinkedCommand_Executed()
         {
-            await PagemarkCollection.Current.RemoveUnlinkedAsync(CancellationToken.None);
+            // 直前の命令はキャンセル
+            _removeUnlinkedCommandCancellationToken?.Cancel();
+            _removeUnlinkedCommandCancellationToken = new CancellationTokenSource();
+            await PagemarkCollection.Current.RemoveUnlinkedAsync(_removeUnlinkedCommandCancellationToken.Token);
         }
 
 
@@ -185,7 +199,30 @@ namespace NeeView
 
         private void UpdateListBoxContent()
         {
-            this.ListBoxContent = new PagemarkListBox(new PagemarkListBoxViewModel(Model.ListBox));
+            ListBoxContent = new PagemarkListBox(new PagemarkListBoxViewModel(Model.ListBox));
         }
+
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _listBoxContent?.Dispose();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 }

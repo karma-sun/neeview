@@ -14,8 +14,6 @@
 
     <UserControl.Resources>
 
-        <RoutedCommand x:Key="xRemoveDommand" />
-
         <Style TargetType="TextBlock" x:Key="PagemarkName">
             <Setter Property="Text" Value="{Binding Value.Name}"/>
             <Setter Property="ToolTip" Value="{Binding Value.Detail}"/>
@@ -34,60 +32,102 @@
             <Setter Property="Visibility" Value="{DynamicResource PanelNoteVisibility}"/>
         </Style>
 
-        <local:DepthToWidthConverter x:Key="DepthToWidthConverter"/>
 
         <!-- Normal Pagemark -->
-        <DataTemplate x:Key="NormalPagemark">
-            <DockPanel MinHeight="20">
+        <HierarchicalDataTemplate x:Key="NormalPagemark" ItemsSource="{Binding Children}">
+            <Grid MinHeight="20">
                 <i:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:PagemarkListBox.DragDropFormat}" DragDropData="{Binding}" Target="{Binding ElementName=ListBox}"/>
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:PagemarkListBox.DragDropFormat}" DragDropData="{Binding}"
+                                          Target="{Binding ElementName=TreeView}" DragBegin="DragStartBehavior_DragBegin"/>
                 </i:Interaction.Behaviors>
-                <Grid Width="{Binding Depth, Converter={StaticResource DepthToWidthConverter}}"/>
-                <local:ExpandedMark IsExpanded="{Binding IsExpanded}" IsEnabled="{Binding IsExpandEnabled}"/>
                 <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource PagemarkName}"/>
-            </DockPanel>
-        </DataTemplate>
+            </Grid>
+        </HierarchicalDataTemplate>
 
         <!-- Picture Pagemark -->
-        <DataTemplate x:Key="PicturePagemark">
+        <HierarchicalDataTemplate x:Key="PicturePagemark" ItemsSource="{Binding Children}">
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1" Background="Transparent">
                 <i:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:PagemarkListBox.DragDropFormat}" DragDropData="{Binding}" Target="{Binding ElementName=ListBox}" />
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:PagemarkListBox.DragDropFormat}" DragDropData="{Binding}"
+                                          Target="{Binding ElementName=TreeView}" DragBegin="DragStartBehavior_DragBegin"/>
                 </i:Interaction.Behaviors>
                 <DockPanel Margin="2">
-                    <Grid Width="{Binding Depth, Converter={StaticResource DepthToWidthConverter}}"/>
-                    <local:ExpandedMark IsExpanded="{Binding IsExpanded}" IsEnabled="{Binding IsExpandEnabled}"/>
-                    <DockPanel>
-                        <local:FolderListThumbnail DataContext="{Binding Value.Thumbnail}"/>
-                        <StackPanel VerticalAlignment="Center">
-                            <TextBlock Style="{StaticResource PagemarkParameter}" Text="{Binding Value.Note}"/>
-                            <TextBlock  x:Name="FileNameTextBlock" Style="{StaticResource PagemarkName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
-                        </StackPanel>
-                    </DockPanel>
+                    <local:FolderListThumbnail DataContext="{Binding Value.Thumbnail}"/>
+                    <StackPanel VerticalAlignment="Center">
+                        <TextBlock Style="{StaticResource PagemarkParameter}" Text="{Binding Value.Note}"/>
+                        <TextBlock  x:Name="FileNameTextBlock" Style="{StaticResource PagemarkName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
+                    </StackPanel>
                 </DockPanel>
             </Border>
-        </DataTemplate>
+        </HierarchicalDataTemplate>
 
         <!-- Banner Pagemark -->
-        <DataTemplate x:Key="BannerPagemark">
+        <HierarchicalDataTemplate x:Key="BannerPagemark" ItemsSource="{Binding Children}">
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                 <i:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:PagemarkListBox.DragDropFormat}" DragDropData="{Binding}" Target="{Binding ElementName=ListBox}"/>
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:PagemarkListBox.DragDropFormat}" DragDropData="{Binding}"
+                                          Target="{Binding ElementName=TreeView}" DragBegin="DragStartBehavior_DragBegin"/>
                 </i:Interaction.Behaviors>
                 <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
-                    <Grid Width="{Binding Depth, Converter={StaticResource DepthToWidthConverter}}"/>
-                    <local:ExpandedMark IsExpanded="{Binding IsExpanded}" IsEnabled="{Binding IsExpandEnabled}"/>
-                    <DockPanel DockPanel.Dock="Bottom" Margin="2" >
-                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource PagemarkName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}" Margin="0"/>
-                    </DockPanel>
+                    <TextBlock DockPanel.Dock="Bottom" x:Name="FileNameTextBlock" Style="{StaticResource PagemarkName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}" Margin="2"/>
                     <local:FolderListBanner DataContext="{Binding Value.Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
                 </DockPanel>
             </Border>
-        </DataTemplate>
+        </HierarchicalDataTemplate>
 
     </UserControl.Resources>
 
+    <TreeView x:Name="TreeView"
+              Foreground="{DynamicResource NVForeground}" Background="Transparent" BorderThickness="0"
+              ItemsSource="{Binding Model.PagemarkCollection.Items.Children}"
+              SelectedItemChanged="TreeView_SelectedItemChanged"
+              IsVisibleChanged="TreeView_IsVisibleChanged"
+              KeyDown="TreeVew_KeyDown"
+              AllowDrop="True"
+              DragEnter="TreeView_DragEnter"
+              PreviewDragOver="TreeView_PreviewDragOver"
+              Drop="TreeView_Drop"
+              VirtualizingStackPanel.ScrollUnit="Pixel"
+              VirtualizingStackPanel.IsVirtualizing="True"
+              VirtualizingStackPanel.VirtualizationMode="Recycling">
 
+        <TreeView.Style>
+            <Style TargetType="TreeView" BasedOn="{StaticResource NVTreeView}">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Model.PagemarkList.PanelListItemStyle, Mode=OneTime}" Value="Normal">
+                        <Setter Property="ItemTemplate" Value="{StaticResource NormalPagemark}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Model.PagemarkList.PanelListItemStyle, Mode=OneTime}" Value="Content">
+                        <Setter Property="ItemTemplate" Value="{StaticResource PicturePagemark}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Model.PagemarkList.PanelListItemStyle, Mode=OneTime}" Value="Banner">
+                        <Setter Property="ItemTemplate" Value="{StaticResource BannerPagemark}"/>
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </TreeView.Style>
+
+        <TreeView.ItemContainerStyle>
+            <Style TargetType="{x:Type TreeViewItem}"
+                       BasedOn="{StaticResource NVTreeViewItem}">
+                <Setter Property="ContextMenu">
+                    <Setter.Value>
+                        <ContextMenu/>
+                    </Setter.Value>
+                </Setter>
+                <EventSetter Event="ContextMenuOpening" Handler="TreeViewItem_ContextMenuOpening"/>
+                <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+                <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+                <EventSetter Event="MouseRightButtonDown" Handler="TreeViewItem_MouseRightButtonDown"/>
+                <EventSetter Event="MouseLeftButtonUp" Handler="TreeViewItem_MouseLeftButtonUp"/>
+                <EventSetter Event="KeyDown" Handler="TreeViewItem_KeyDown"/>
+                <EventSetter Event="Selected" Handler="TreeViewItem_Selected" />
+            </Style>
+        </TreeView.ItemContainerStyle>
+
+    </TreeView>
+
+    <!--
     <ListBox x:Name="ListBox" Focusable="False"
                  FontFamily="{DynamicResource PanelFontFamily}" FontSize="{DynamicResource PanelFontSize}"
                  Background="Transparent"
@@ -140,5 +180,5 @@
         </ListBox.ItemContainerStyle>
 
     </ListBox>
-
+-->
 </UserControl>

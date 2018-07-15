@@ -46,6 +46,20 @@ namespace NeeView
             set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
         }
 
+        public BookmarkListBox ListBoxContent
+        {
+            get { return _listBoxContent; }
+            set
+            {
+                if (_listBoxContent != value)
+                {
+                    _listBoxContent?.Dispose();
+                    _listBoxContent = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
         public bool IsBusy => _listBoxContent != null ? _listBoxContent.IsRenaming : false;
 
         #endregion
@@ -180,23 +194,11 @@ namespace NeeView
 
         #region Methods
 
-        public BookmarkListBox ListBoxContent
-        {
-            get { return _listBoxContent; }
-            set
-            {
-                if (_listBoxContent != value)
-                {
-                    _listBoxContent?.Dispose();
-                    _listBoxContent = value; RaisePropertyChanged();
-                }
-            }
-        }
-
         private void UpdateListBoxContent()
         {
             ListBoxContent = new BookmarkListBox(new BookmarkListBoxViewModel(Model.ListBox));
         }
+
         #endregion
 
         #region IDisposable Support

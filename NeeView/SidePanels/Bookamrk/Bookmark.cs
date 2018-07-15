@@ -24,7 +24,6 @@ namespace NeeView
             Unit = unit;
         }
 
-
         [DataMember]
         public string Place
         {
@@ -38,8 +37,6 @@ namespace NeeView
                 }
             }
         }
-
-
 
         #region IBookListItem Support
 

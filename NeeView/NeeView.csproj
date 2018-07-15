@@ -699,8 +699,8 @@
     <Compile Include="Setting\ResolveConflictDialog.xaml.cs">
       <DependentUpon>ResolveConflictDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SidePanels\Pagemark\PagemarkListViewl.xaml.cs">
-      <DependentUpon>PagemarkListViewl.xaml</DependentUpon>
+    <Compile Include="SidePanels\Pagemark\PagemarkListView.xaml.cs">
+      <DependentUpon>PagemarkListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\Pagemark\PagemarkCollection.cs" />
     <Compile Include="SidePanels\Bookamrk\BookmarkListView.xaml.cs">
@@ -1091,7 +1091,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SidePanels\Pagemark\PagemarkListViewl.xaml">
+    <Page Include="SidePanels\Pagemark\PagemarkListView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

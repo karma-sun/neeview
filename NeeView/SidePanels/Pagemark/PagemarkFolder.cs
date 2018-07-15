@@ -18,7 +18,15 @@ namespace NeeView
         public string Note => null;
         public string Detail => null;
 
-        public Thumbnail Thumbnail => ConstPage.Thumbnail;
+        public Thumbnail Thumbnail
+        {
+            get
+            {
+                ConstPage.LoadThumbnail(QueueElementPriority.BookmarkThumbnail);
+                return ConstPage.Thumbnail;
+            }
+        }
+
 
         public Page GetPage()
         {
@@ -26,7 +34,13 @@ namespace NeeView
         }
 
         private volatile ConstPage _constPage;
-        public ConstPage ConstPage => _constPage != null ? _constPage : _constPage = new ConstPage(ThumbnailType.Folder);
+        public ConstPage ConstPage
+        {
+            get
+            {
+                return _constPage != null ? _constPage : _constPage = new ConstPage(ThumbnailType.Folder);
+            }
+        }
     }
 
 }

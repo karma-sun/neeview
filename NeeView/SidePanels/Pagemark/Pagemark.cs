@@ -8,14 +8,10 @@ namespace NeeView
     {
     }
 
-    /// <summary>
-    /// ページマーカー
-    /// </summary>
     [DataContract]
-    public class Pagemark : BindableBase, IPagemarkEntry
+    public class Pagemark : BindableBase, IPagemarkEntry, IVirtualItem
     {
         private string _place;
-
 
         public Pagemark()
         {
@@ -60,7 +56,17 @@ namespace NeeView
         public string Note => LoosePath.GetFileName(Place);
         public string Detail => Place + "\n" + EntryName;
 
-        public Thumbnail Thumbnail => ArchivePage.Thumbnail;
+        public Thumbnail Thumbnail
+        {
+            get
+            {
+                if (PagemarkList.Current.IsThumbnailVisibled)
+                {
+                    PagemarkListVertualCollection.Current.Attach(this);
+                }
+                return ArchivePage.Thumbnail;
+            }
+        }
 
         private BookMementoUnit _unit;
         public BookMementoUnit Unit
@@ -96,6 +102,35 @@ namespace NeeView
         }
 
         #endregion
+
+        #region IVirtualItem
+
+        // TODO: これはPageで保持するべきか？
+        private JobRequest _jobRequest;
+
+        public int DetachCount { get; set; }
+
+        public void Attached()
+        {
+            /// Debug.WriteLine($"Attach: {Name}");
+            _jobRequest?.Cancel();
+            _jobRequest = ArchivePage.LoadThumbnail(QueueElementPriority.BookmarkThumbnail);
+        }
+
+        public void Detached()
+        {
+            ////Debug.WriteLine($"Detach: {Name}");
+            _jobRequest?.Cancel();
+            _jobRequest = null;
+        }
+
+        #endregion
+
+        public override string ToString()
+        {
+            return base.ToString() + " Name:" + Name;
+        }
+
     }
 
 }

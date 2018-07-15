@@ -245,9 +245,9 @@ namespace NeeView.Collections.Generic
 
         public void ExpandParent()
         {
-            for (var parent = Parent; parent != null; parent = parent.Parent)
+            foreach(var node in Hierarchy.Where(e => e != this))
             {
-                parent.IsExpanded = true;
+                node.IsExpanded = true;
             }
         }
 

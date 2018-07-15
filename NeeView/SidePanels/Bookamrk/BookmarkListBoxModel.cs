@@ -59,8 +59,7 @@ namespace NeeView
             }
         }
 
-
-
+        
         // Methods
 
         private void BookmarkCollection_BookmarkChanged(object sender, BookmarkCollectionChangedEventArgs e)
@@ -89,6 +88,36 @@ namespace NeeView
                 item.IsExpanded = isExpanded;
             }
         }
+
+        public bool Remove(TreeListNode<IBookmarkEntry> item)
+        {
+            var next = item.Next ?? item.Previous ?? item.Parent;
+
+            var memento = new TreeListNodeMemento<IBookmarkEntry>(item);
+
+            bool isRemoved = BookmarkCollection.Current.Remove(item);
+            if (isRemoved)
+            {
+                if (item.Value is BookmarkFolder)
+                {
+                    var count = item.Count(e => e.Value is Bookmark);
+                    if (count > 0)
+                    {
+                        _toast = new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), Properties.Resources.WordRestore, () => BookmarkCollection.Current.Restore(memento));
+                        ToastService.Current.Show(_toast);
+                    }
+                }
+
+                if (next != null)
+                {
+                    SelectedItem = next;
+                }
+            }
+
+            return isRemoved;
+        }
+
+        #region Boomark Special
 
         // TODO: Find系はいらない？Collectionと同じ？
 
@@ -143,35 +172,6 @@ namespace NeeView
             return node;
         }
 
-        public bool Remove(TreeListNode<IBookmarkEntry> item)
-        {
-            var next = item.Next ?? item.Previous ?? item.Parent;
-
-            var memento = new TreeListNodeMemento<IBookmarkEntry>(item);
-
-            bool isRemoved = BookmarkCollection.Current.Remove(item);
-            if (isRemoved)
-            {
-                if (item.Value is BookmarkFolder)
-                {
-                    var count = item.Count(e => e.Value is Bookmark);
-                    if (count > 0)
-                    {
-                        _toast = new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), Properties.Resources.WordRestore, () => BookmarkCollection.Current.Restore(memento));
-                        ToastService.Current.Show(_toast);
-                    }
-                }
-
-                if (next != null)
-                {
-                    SelectedItem = next;
-                }
-            }
-
-            return isRemoved;
-        }
-
-
         public void AddBookmark()
         {
             var place = BookHub.Current.Book?.Place;
@@ -194,9 +194,10 @@ namespace NeeView
             {
                 node.ExpandParent();
                 SelectedItem = node;
+
+                SelectedItemChanged?.Invoke(this, null);
             }
         }
-
 
         // TODO: ここでToggleは漠然としすぎている。もっと上位で判定すべきか
         public bool Toggle(string place)
@@ -215,6 +216,8 @@ namespace NeeView
                 return false;
             }
         }
+
+        #endregion
 
         public void Move(DropInfo<TreeListNode<IBookmarkEntry>> dropInfo)
         {

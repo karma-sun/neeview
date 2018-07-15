@@ -14,6 +14,14 @@ namespace NeeView
 {
     public class PagemarkPanel : BindableBase, IPanel
     {
+        public PagemarkPanel(PagemarkList model)
+        {
+            _view = new PagemarkListView(model);
+
+            Icon = App.Current.MainWindow.Resources["pic_bookmark_24px"] as ImageSource;
+            IconMargin = new Thickness(10);
+        }
+
         public string TypeCode => nameof(PagemarkPanel);
 
         public ImageSource Icon { get; private set; }
@@ -22,20 +30,11 @@ namespace NeeView
 
         public string IconTips => Properties.Resources.PagemarkName;
 
-        public FrameworkElement View { get; private set; }
+        private PagemarkListView _view;
+        public FrameworkElement View => _view;
 
-        public bool IsVisibleLock => false;
+        public bool IsVisibleLock => _view.IsBusy;
 
         public PanelPlace DefaultPlace => PanelPlace.Left;
-
-
-        //
-        public PagemarkPanel(PagemarkList model)
-        {
-            View = new PagemarkListViewl(model);
-
-            Icon = App.Current.MainWindow.Resources["pic_bookmark_24px"] as ImageSource;
-            IconMargin = new Thickness(10);
-        }
     }
 }

@@ -13,7 +13,6 @@ namespace NeeView
     {
         // Fields
 
-        private ObservableCollection<TreeListNode<IPagemarkEntry>> _items;
         private TreeListNode<IPagemarkEntry> _selectedItem;
         private Toast _toast;
 
@@ -27,47 +26,41 @@ namespace NeeView
 
         // Events
 
-        public event CollectionChangeEventHandler Changing;
         public event CollectionChangeEventHandler Changed;
+        public event EventHandler SelectedItemChanged;
 
-        public ObservableCollection<TreeListNode<IPagemarkEntry>> Items
-        {
-            get { return _items; }
-            set { SetProperty(ref _items, value); }
-        }
+
+        // Properties
+
+        public PagemarkList PagemarkList => PagemarkList.Current;
+
+        public PagemarkCollection PagemarkCollection => PagemarkCollection.Current;
 
         public TreeListNode<IPagemarkEntry> SelectedItem
         {
             get { return _selectedItem; }
-            set { SetProperty(ref _selectedItem, value); }
-        }
+            set
+            {
+                if (_selectedItem != null && _selectedItem != value)
+                {
+                    _selectedItem.IsSelected = false;
+                }
 
-        // TODO: この参照方向はどうなの？
-        public bool IsThumbnailVisibled => PagemarkList.Current.IsThumbnailVisibled;
-        public PanelListItemStyle PanelListItemStyle => PagemarkList.Current.PanelListItemStyle;
+                if (SetProperty(ref _selectedItem, value))
+                {
+                    if (_selectedItem != null)
+                    {
+                        _selectedItem.IsSelected = true;
+                    }
+                }
+            }
+        }
 
 
         // Methods
 
         private void PagemarkCollection_PagemarkChanged(object sender, PagemarkCollectionChangedEventArgs e)
         {
-            TreeListNode<IPagemarkEntry> selectedItem = null;
-
-            if (e.Action == NotifyCollectionChangedAction.Remove && SelectedItem == e.Item)
-            {
-                int selectedIndex = Items.IndexOf(SelectedItem);
-                if (selectedIndex >= 0)
-                {
-                    selectedIndex = selectedIndex < Items.Count - 1 ? selectedIndex + 1 : Items.Count - 1;
-                    if (selectedIndex >= 0)
-                    {
-                        selectedItem = Items[selectedIndex];
-                    }
-                }
-            }
-
-            Refresh(selectedItem);
-
             if (_toast != null)
             {
                 _toast.Cancel();
@@ -80,19 +73,11 @@ namespace NeeView
             switch (item.Value)
             {
                 case Pagemark pagemark:
-
                     bool isJumped = BookOperation.Current.JumpPagemarkInPlace(pagemark);
                     if (!isJumped)
                     {
                         var options = pagemark.EntryName != null ? BookLoadOption.IsPage : BookLoadOption.None;
                         BookHub.Current.RequestLoad(pagemark.Place, pagemark.EntryName, options, true);
-                    }
-                    break;
-                case PagemarkFolder folder:
-                    if (item.Children.Count > 0)
-                    {
-                        item.IsExpanded = !item.IsExpanded;
-                        Refresh();
                     }
                     break;
             }
@@ -103,24 +88,14 @@ namespace NeeView
             if (item.CanExpand && item.IsExpanded != isExpanded)
             {
                 item.IsExpanded = isExpanded;
-                Refresh();
             }
         }
 
-        private void Refresh(TreeListNode<IPagemarkEntry> selectedItem = null)
-        {
-            Changing?.Invoke(this, new CollectionChangeEventArgs(CollectionChangeAction.Refresh, null));
-            var collection = PagemarkCollection.Current.Items.GetExpandedCollection();
-            Items = new ObservableCollection<TreeListNode<IPagemarkEntry>>(collection);
-            if (selectedItem != null)
-            {
-                SelectedItem = selectedItem;
-            }
-            Changed?.Invoke(this, new CollectionChangeEventArgs(CollectionChangeAction.Refresh, null));
-        }
 
         public bool Remove(TreeListNode<IPagemarkEntry> item)
         {
+            var next = item.Next ?? item.Previous ?? item.Parent;
+
             var memento = new TreeListNodeMemento<IPagemarkEntry>(item);
 
             var isRemoved = PagemarkCollection.Current.Remove(item);
@@ -135,11 +110,17 @@ namespace NeeView
                         ToastService.Current.Show(_toast);
                     }
                 }
+
+                if (next != null)
+                {
+                    SelectedItem = next;
+                }
             }
 
             return isRemoved;
         }
 
+        #region Pagemark Special
 
         public void SetSelectedItem(string place, string entryName)
         {
@@ -149,19 +130,10 @@ namespace NeeView
                 return;
             }
 
-            if (Items.Contains(node))
-            {
-                SelectedItem = node;
-            }
-            else
-            {
-                for (var parent = node.Parent; parent != null; parent = parent.Parent)
-                {
-                    parent.IsExpanded = true;
-                }
-                Refresh();
-                SelectedItem = node;
-            }
+            node.ExpandParent();
+            SelectedItem = node;
+
+            SelectedItemChanged?.Invoke(this, null);
         }
 
 
@@ -173,10 +145,14 @@ namespace NeeView
             var node = PagemarkCollection.Current.FindNode(place, entryName);
             if (node != null)
             {
+                node.ExpandParent();
                 SelectedItem = node;
+
+                SelectedItemChanged?.Invoke(this, null);
             }
         }
 
+        #endregion
 
         public void Move(DropInfo<TreeListNode<IPagemarkEntry>> dropInfo)
         {
@@ -186,11 +162,7 @@ namespace NeeView
             var item = dropInfo.Data;
             var target = dropInfo.DropTarget;
 
-            var indexFrom = Items.IndexOf(dropInfo.Data);
-            var indexTo = Items.IndexOf(dropInfo.DropTarget);
-
-
-            const double margine = 0.25;
+            const double margine = 0.33;
 
             if (target.Value is PagemarkFolder folder)
             {
@@ -213,7 +185,7 @@ namespace NeeView
                 {
                     PagemarkCollection.Current.Move(item, target, +1);
                 }
-                else if (indexFrom < indexTo)
+                else if (item.CompareOrder(item, target))
                 {
                     PagemarkCollection.Current.Move(item, target, +1);
                 }
@@ -233,118 +205,92 @@ namespace NeeView
         }
 
 
+
+
+        // ページマークを戻る
         public void PrevPagemark()
         {
             if (BookHub.Current.IsLoading) return;
 
-            if (!CanMoveSelected(-1))
+            var node = GetNeighborPagemark(SelectedItem, -1);
+            if (node != null)
+            {
+                SelectedItem = node;
+
+                if (node.Value is Pagemark)
+                {
+                    Decide(node);
+                }
+
+                SelectedItemChanged?.Invoke(this, null);
+            }
+            else
             {
                 InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyPagemarkPrevFailed);
-                return;
-            }
-
-            if (MoveSelected(-1))
-            {
-                if (SelectedItem?.Value is Pagemark)
-                {
-                    Decide(SelectedItem);
-                }
             }
         }
 
+        // ページマークを進む
         public void NextPagemark()
         {
             if (BookHub.Current.IsLoading) return;
 
-            if (!CanMoveSelected(+1))
+            var node = GetNeighborPagemark(SelectedItem, +1);
+            if (node != null)
+            {
+                SelectedItem = node;
+
+                if (node.Value is Pagemark)
+                {
+                    Decide(node);
+                }
+
+                SelectedItemChanged?.Invoke(this, null);
+            }
+            else
             {
                 InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyPagemarkNextFailed);
-                return;
             }
-
-            if (MoveSelected(+1))
-            {
-                if (SelectedItem?.Value is Pagemark)
-                {
-                    Decide(SelectedItem);
-                }
-            }
-        }
-
-        public bool CanMoveSelected(int direction)
-        {
-            var pagemarks = Items.Where(e => e.Value is Pagemark);
-
-            if (SelectedItem == null)
-            {
-                return pagemarks.Count() > 0;
-            }
-            else
-            {
-                var index = Items.IndexOf(SelectedItem);
-                return direction > 0
-                    ? index < Items.IndexOf(pagemarks.Last())
-                    : index > Items.IndexOf(pagemarks.First());
-            }
-        }
-
-        public bool MoveSelected(int direction)
-        {
-            if (direction == 0) throw new ArgumentOutOfRangeException(nameof(direction));
-
-            if (SelectedItem == null)
-            {
-                var pagemarks = Items.Where(e => e.Value is Pagemark);
-                var node = direction >= 0 ? pagemarks.FirstOrDefault() : pagemarks.LastOrDefault();
-                if (node != null)
-                {
-                    SelectedItem = node;
-                    return true;
-                }
-            }
-            else
-            {
-                var node = GetNeighborPagemark(SelectedItem, direction);
-                if (node != null)
-                {
-                    SelectedItem = node;
-                    return true;
-                }
-            }
-
-            return false;
         }
 
         private TreeListNode<IPagemarkEntry> GetNeighborPagemark(TreeListNode<IPagemarkEntry> item, int direction)
         {
-            if (item == null) throw new ArgumentNullException(nameof(item));
             if (direction == 0) throw new ArgumentOutOfRangeException(nameof(direction));
 
-            if (Items == null || Items.Count <= 0)
+            if (item == null)
             {
-                return null;
+                var pagemarks = PagemarkCollection.Current.Items.GetExpandedCollection().Where(e => e.Value is Pagemark).ToList();
+                return direction >= 0 ? pagemarks.FirstOrDefault() : pagemarks.LastOrDefault();
             }
-
-            int index = Items.IndexOf(item);
-            if (index < 0)
+            else
             {
-                return null;
-            }
-
-            while (true)
-            {
-                index = index + direction;
-                if (index < 0 || index >= Items.Count)
+                var pagemarks = PagemarkCollection.Current.Items.GetExpandedCollection().Where(e => e.Value is Pagemark || e == item).ToList();
+                if (pagemarks.Count <= 0)
                 {
                     return null;
                 }
-                var node = Items[index];
-                if (node.Value is Pagemark)
+                int index = pagemarks.IndexOf(item);
+                if (index < 0)
                 {
-                    return node;
+                    return null;
                 }
+                return pagemarks.ElementAtOrDefault(index + direction);
             }
         }
 
+        public int IndexOfSelectedItem()
+        {
+            return IndexOfExpanded(SelectedItem);
+        }
+
+        public int IndexOfExpanded(TreeListNode<IPagemarkEntry> item)
+        {
+            if (item == null)
+            {
+                return -1;
+            }
+
+            return PagemarkCollection.Current.Items.GetExpandedCollection().IndexOf(item);
+        }
     }
 }

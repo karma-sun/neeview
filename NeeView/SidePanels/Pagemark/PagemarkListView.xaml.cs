@@ -19,20 +19,22 @@ namespace NeeView
     /// <summary>
     /// PagemarkListViewl.xaml の相互作用ロジック
     /// </summary>
-    public partial class PagemarkListViewl : UserControl
+    public partial class PagemarkListView : UserControl
     {
         private PagemarkListViewModel _vm;
 
 
-        public PagemarkListViewl()
+        public PagemarkListView()
         {
             InitializeComponent();
         }
 
-        public PagemarkListViewl(PagemarkList model) : this()
+        public PagemarkListView(PagemarkList model) : this()
         {
             _vm = new PagemarkListViewModel(model);
             this.DockPanel.DataContext = _vm;
         }
+
+        public bool IsBusy => _vm != null ? _vm.IsBusy : false;
     }
 }

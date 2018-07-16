@@ -192,7 +192,6 @@ namespace NeeView
 
             if (node != null)
             {
-                node.ExpandParent();
                 SelectedItem = node;
 
                 SelectedItemChanged?.Invoke(this, null);

@@ -243,15 +243,6 @@ namespace NeeView.Collections.Generic
             }
         }
 
-        public void ExpandParent()
-        {
-            foreach(var node in Hierarchy.Where(e => e != this))
-            {
-                node.IsExpanded = true;
-            }
-        }
-
-
         public bool CompareOrder(TreeListNode<T> x, TreeListNode<T> y)
         {
             if (x == null) throw new ArgumentNullException();

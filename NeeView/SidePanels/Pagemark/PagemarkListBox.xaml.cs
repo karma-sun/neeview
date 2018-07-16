@@ -189,7 +189,7 @@ namespace NeeView
             }
         }
 
-        private void ScrollIntoView()
+        private void ScrollIntoViewX()
         {
             if (!this.TreeView.IsVisible)
             {
@@ -197,6 +197,64 @@ namespace NeeView
             }
 
             var index = _vm.Model.IndexOfSelectedItem();
+            if (index < 0)
+            {
+                return;
+            }
+
+            var item = VisualTreeUtility.FindVisualChild<TreeViewItem>(this.TreeView);
+            var header = VisualTreeUtility.FindVisualChild<Border>(item, "Bd");
+
+            if (header != null)
+            {
+                var unitHeight = header.ActualHeight;
+                var scrollVerticalOffset = unitHeight * index;
+
+                var scrollViewer = VisualTreeUtility.GetChildElement<ScrollViewer>(this.TreeView);
+                if (scrollViewer != null)
+                {
+                    if (scrollVerticalOffset - scrollViewer.ActualHeight + unitHeight > scrollViewer.VerticalOffset)
+                    {
+                        scrollViewer.ScrollToVerticalOffset(scrollVerticalOffset - scrollViewer.ActualHeight + unitHeight);
+                    }
+                    else if (scrollVerticalOffset < scrollViewer.VerticalOffset)
+                    {
+                        scrollViewer.ScrollToVerticalOffset(scrollVerticalOffset);
+                    }
+                }
+            }
+        }
+
+        private void ScrollIntoView()
+        {
+            if (!this.TreeView.IsVisible)
+            {
+                return;
+            }
+
+            var selectedItem = _vm.Model.SelectedItem;
+            if (selectedItem == null)
+            {
+                return;
+            }
+
+            ItemsControl container = this.TreeView;
+            foreach (var parent in selectedItem.Hierarchy.Skip(1))
+            {
+                ScrollIntoView(parent);
+                parent.IsExpanded = true;
+                this.TreeView.UpdateLayout();
+            }
+        }
+
+        private void ScrollIntoView(TreeListNode<IPagemarkEntry> entry)
+        {
+            if (!this.TreeView.IsVisible)
+            {
+                return;
+            }
+
+            var index = _vm.Model.IndexOfExpanded(entry);
             if (index < 0)
             {
                 return;

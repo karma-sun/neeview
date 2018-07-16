@@ -8,6 +8,7 @@
     <SolidColorBrush x:Key="NVForeground" Color="#FFF" />
     <SolidColorBrush x:Key="NVBaseBrush" Color="#222" />
     <SolidColorBrush x:Key="NVDefaultBrush" Color="#555" />
+    <SolidColorBrush x:Key="NVSuppresstBrush" Color="#888" />
     <SolidColorBrush x:Key="NVMouseOverBrush" Color="#AAA" />
     <SolidColorBrush x:Key="NVPressedBrush" Color="#DDD" />
     <SolidColorBrush x:Key="NVCheckMarkBrush" Color="LightGreen" />
@@ -750,11 +751,12 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
                     <Grid Width="15" Height="13" Background="Transparent">
-                        <Path x:Name="ExpandPath" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="1,1,1,1" Fill="Gray" Data="M 4 0 L 8 4 L 4 8 Z"/>
+                        <Path x:Name="ExpandPath" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="1,1,1,1" Stroke="{DynamicResource NVSuppresstBrush}" Data="M 0 0 L 4 4 L 0 8" StrokeThickness="2"/>
                     </Grid>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter Property="Data" TargetName="ExpandPath" Value="M 0 4 L 8 4 L 4 8 Z"/>
+                            <Setter Property="Data" TargetName="ExpandPath" Value="M 0 4 L 4 8 L 8 4" />
+                            <Setter Property="Stroke" TargetName="ExpandPath" Value="{DynamicResource NVPressedBrush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

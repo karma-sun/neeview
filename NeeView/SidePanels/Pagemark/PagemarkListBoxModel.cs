@@ -130,9 +130,7 @@ namespace NeeView
                 return;
             }
 
-            node.ExpandParent();
             SelectedItem = node;
-
             SelectedItemChanged?.Invoke(this, null);
         }
 
@@ -145,9 +143,7 @@ namespace NeeView
             var node = PagemarkCollection.Current.FindNode(place, entryName);
             if (node != null)
             {
-                node.ExpandParent();
                 SelectedItem = node;
-
                 SelectedItemChanged?.Invoke(this, null);
             }
         }

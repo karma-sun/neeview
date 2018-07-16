@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -198,7 +199,29 @@ namespace NeeView
                 return;
             }
 
-            var index = _vm.Model.IndexOfSelectedItem();
+            var selectedItem = _vm.Model.SelectedItem;
+            if (selectedItem == null)
+            {
+                return;
+            }
+
+            ItemsControl container = this.TreeView;
+            foreach (var parent in selectedItem.Hierarchy.Skip(1))
+            {
+                ScrollIntoView(parent);
+                parent.IsExpanded = true;
+                this.TreeView.UpdateLayout();
+            }
+        }
+
+        private void ScrollIntoView(TreeListNode<IBookmarkEntry> entry)
+        {
+            if (!this.TreeView.IsVisible)
+            {
+                return;
+            }
+
+            var index = _vm.Model.IndexOfExpanded(entry);
             if (index < 0)
             {
                 return;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Collections.Generic;
+using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
@@ -83,11 +84,23 @@ namespace NeeView
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var item = value as TreeViewItem;
-            if (item == null)
+            if (!(value is TreeViewItem item))
+            {
                 return new Thickness(0);
+            }
 
-            return new Thickness(Length * item.GetDepth(), 0, 0, 0);
+            var length = Length;
+
+            if (item.DataContext is TreeListNode<IBookmarkEntry> && BookmarkList.Current.PanelListItemStyle != PanelListItemStyle.Normal)
+            {
+                length = length * 2;
+            }
+            else if (item.DataContext is TreeListNode<IPagemarkEntry> && PagemarkList.Current.PanelListItemStyle != PanelListItemStyle.Normal)
+            {
+                length = length * 2;
+            }
+
+            return new Thickness(length * item.GetDepth(), 0, 0, 0);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -19,7 +19,7 @@ namespace NeeView
     /// <summary>
     /// FolderListPanel.xaml の相互作用ロジック
     /// </summary>
-    public partial class FolderPanelView : UserControl 
+    public partial class FolderPanelView : UserControl
     {
         private FolderPanelViewModel _vm;
 
@@ -47,6 +47,16 @@ namespace NeeView
 
         //
         public bool IsVisibleLock => _folderList.IsRenaming || _folderList.IsSearchBoxFocused;
+
+        private void Root_KeyDown(object sender, KeyEventArgs e)
+        {
+            bool isLRKeyEnabled = SidePanelProfile.Current.IsLeftRightKeyEnabled;
+
+            if (e.Key == Key.Up || e.Key == Key.Down || (isLRKeyEnabled && (e.Key == Key.Left || e.Key == Key.Right)) || e.Key == Key.Return || e.Key == Key.Delete)
+            {
+                e.Handled = true;
+            }
+        }
     }
 
 

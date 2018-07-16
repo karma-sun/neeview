@@ -50,7 +50,7 @@ namespace NeeView
                 {
                     if (e.IsAlive)
                     {
-                        var driveInfo = DriveInfo.GetDrives().FirstOrDefault(d => d.Name == e.Name);
+                        var driveInfo = CreateDriveInfo(e.Name);
                         if (driveInfo != null)
                         {
                             AddDrive(driveInfo);
@@ -98,6 +98,16 @@ namespace NeeView
                     break;
                 }
             }
+        }
+
+        private DriveInfo CreateDriveInfo(string name)
+        {
+            if (System.IO.Directory.GetLogicalDrives().Contains(name))
+            {
+                return new DriveInfo(name);
+            }
+
+            return null;
         }
 
 

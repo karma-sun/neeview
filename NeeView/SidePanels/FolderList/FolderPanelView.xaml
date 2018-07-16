@@ -13,8 +13,7 @@
     </UserControl.Resources>
 
 
-    <Grid x:Name="Root">
-
+    <Grid x:Name="Root" KeyDown="Root_KeyDown">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="{Binding Model.FolderListGridLength0, Mode=TwoWay}" MinHeight="32">

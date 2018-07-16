@@ -56,7 +56,7 @@ namespace NeeView
 
             DelayCreateChildren();
 
-            switch(drive.DriveType)
+            switch (drive.DriveType)
             {
                 case DriveType.Fixed:
                 case DriveType.Removable:
@@ -72,11 +72,8 @@ namespace NeeView
         {
             ResetChildren(true);
 
-            var drive = DriveInfo.GetDrives().FirstOrDefault(e => e.Name == this.Name);
-            if (drive != null)
-            {
-                Initialize(drive);
-            }
+            var driveInfo = new DriveInfo(this.Name);
+            Initialize(driveInfo);
 
             RaisePropertyChanged(nameof(Icon));
         }
@@ -89,13 +86,10 @@ namespace NeeView
 
                 if (e.IsRefresh)
                 {
-                    var driveInfo = DriveInfo.GetDrives().FirstOrDefault(d => d.Name == this.Name);
-                    if (driveInfo != null)
+                    var driveInfo = new DriveInfo(this.Name);
+                    if (!driveInfo.IsReady)
                     {
-                        if (!driveInfo.IsReady)
-                        {
-                            Refresh();
-                        }
+                        Refresh();
                     }
                 }
             }

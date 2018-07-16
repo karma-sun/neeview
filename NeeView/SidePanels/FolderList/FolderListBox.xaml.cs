@@ -393,10 +393,6 @@ namespace NeeView
                 _vm.MoveToUp.Execute(null);
                 e.Handled = true;
             }
-            else if (e.Key == Key.Up || e.Key == Key.Down || (isLRKeyEnabled && (e.Key == Key.Left || e.Key == Key.Right)) || e.Key == Key.Return || e.Key == Key.Delete)
-            {
-                e.Handled = true;
-            }
         }
 
         private void FolderList_SelectionChanged(object sender, SelectionChangedEventArgs e)

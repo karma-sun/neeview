@@ -12,16 +12,20 @@ namespace NeeView
 
         private RootQuickAccessNode _rootQuickAccess;
         private RootDirectoryNode _rootFolder;
+        private RootBookmarkFolderNode _rootBookmarkFolder;
+
         private Toast _toast;
 
         public FolderTreeModel()
         {
             _rootQuickAccess = new RootQuickAccessNode();
             _rootFolder = new RootDirectoryNode();
+            _rootBookmarkFolder = new RootBookmarkFolderNode();
 
             Items = new List<IFolderTreeNode>();
             Items.Add(_rootQuickAccess);
             Items.Add(_rootFolder);
+            Items.Add(_rootBookmarkFolder);
 
             Config.Current.DpiChanged += Config_DpiChanged;
 
@@ -120,6 +124,9 @@ namespace NeeView
                     break;
                 case DirectoryNode folder:
                     SetFolderListPlace(folder.Path);
+                    break;
+                case BookmarkFolderNode bookmarkFolder:
+                    SetFolderListPlace(bookmarkFolder.Path);
                     break;
             }
         }

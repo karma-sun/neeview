@@ -88,8 +88,8 @@ namespace NeeView
             {
                 switch (e.Action)
                 {
-                    case NotifyCollectionChangedAction.Reset:
-                    case NotifyCollectionChangedAction.Replace:
+                    case EntryCollectionChangedAction.Reset:
+                    case EntryCollectionChangedAction.Replace:
                         RefleshIcon(null);
                         break;
                     default:
@@ -281,7 +281,7 @@ namespace NeeView
         /// <summary>
         /// 検索許可？
         /// </summary>
-        public bool IsFolderSearchEnabled => Place != null && !(FolderCollection is FolderArchiveCollection);
+        public bool IsFolderSearchEnabled => Place != null && !(FolderCollection is FolderArchiveCollection) && !(FolderCollection is BookmarkFolderCollection);
 
         /// <summary>
         /// SelectedItem property.
@@ -459,8 +459,21 @@ namespace NeeView
         /// <param name="select">初期選択項目</param>
         public async Task SetPlaceAsync(string queryPath, string select, FolderSetPlaceOption options)
         {
+            if (FolderCollection is BookmarkFolderCollection)
+            {
+                if (queryPath != null && !queryPath.StartsWith(Bookmark.Scheme) && select != null)
+                {
+                    var node = BookmarkCollection.Current.FindNode(select);
+                    if (node != null && node.Parent != null)
+                    {
+                        queryPath = node.Parent.CreatePath(Bookmark.Scheme);
+                        select = node.CreatePath(Bookmark.Scheme);
+                    }
+                }
+            }
+
             // 現在フォルダーの情報を記憶
-            SavePlace(GetFolderItem(0));
+            SavePlace(GetFolderItem(this.SelectedItem, 0));
 
             var query = new QueryPath(queryPath);
             var place = query.Path;
@@ -605,11 +618,11 @@ namespace NeeView
         /// </summary>
         /// <param name="offset">選択項目から前後した項目を指定</param>
         /// <returns></returns>
-        internal FolderItem GetFolderItem(int offset)
+        internal FolderItem GetFolderItem(FolderItem item, int offset)
         {
             if (this.FolderCollection?.Items == null) return null;
 
-            int index = this.FolderCollection.Items.IndexOf(this.SelectedItem);
+            int index = this.FolderCollection.Items.IndexOf(item);
             if (index < 0) return null;
 
             int next = (this.FolderCollection.FolderParameter.FolderOrder == FolderOrder.Random)
@@ -649,6 +662,9 @@ namespace NeeView
         // ブックの読み込み
         public void LoadBook(string path)
         {
+            if (path == null) return;
+            if (path.StartsWith(Bookmark.Scheme)) return;
+
             BookLoadOption option = BookLoadOption.SkipSamePlace | (this.FolderCollection.FolderParameter.IsFolderRecursive ? BookLoadOption.DefaultRecursive : BookLoadOption.None);
             LoadBook(path, option);
         }
@@ -786,8 +802,17 @@ namespace NeeView
         /// </summary>
         public async Task<bool> MoveNextFolder(int direction, BookLoadOption options)
         {
-            var item = this.GetFolderItem(direction);
-            if (item == null) return false;
+            var item = this.SelectedItem;
+
+            do
+            {
+                item = this.GetFolderItem(item, direction);
+                if (item == null)
+                {
+                    return false;
+                }
+            }
+            while (item.Attributes.AnyFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Pagemark) && item.Attributes.HasFlag(FolderItemAttribute.Directory));
 
             await SetPlaceAsync(this.FolderCollection.Place, item.Path, FolderSetPlaceOption.IsUpdateHistory);
             _bookHub.RequestLoad(item.TargetPath, null, options | BookLoadOption.IsBook, false);
@@ -807,16 +832,17 @@ namespace NeeView
 
             _cruiseFolderCancellationTokenSource?.Cancel();
             _cruiseFolderCancellationTokenSource = new CancellationTokenSource();
-            var cancel = _cruiseFolderCancellationTokenSource.Token;
 
             try
             {
                 var node = new FolderNode(this.FolderCollection, item);
+                var cancel = _cruiseFolderCancellationTokenSource.Token;
                 var next = (direction < 0) ? await node.CruisePrev(cancel) : await node.CruiseNext(cancel);
                 if (next == null) return false;
 
                 await SetPlaceAsync(next.Content.Place, next.Content.Path, FolderSetPlaceOption.IsUpdateHistory);
                 _bookHub.RequestLoad(next.Content.TargetPath, null, options | BookLoadOption.IsBook, false);
+
                 return true;
             }
             catch (OperationCanceledException)
@@ -1005,13 +1031,14 @@ namespace NeeView
         //
         public bool MoveToParent_CanExecute()
         {
-            return (Place != null);
+            return (Place != null && Place.TrimEnd(LoosePath.Separator) != Bookmark.Scheme);
         }
 
         //
         public async void MoveToParent_Execute()
         {
             if (Place == null) return;
+            if (Place.TrimEnd(LoosePath.Separator) == Bookmark.Scheme) return;
 
             var parent = this.FolderCollection?.GetParentPlace();
             await SetPlaceAsync(parent, Place, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);

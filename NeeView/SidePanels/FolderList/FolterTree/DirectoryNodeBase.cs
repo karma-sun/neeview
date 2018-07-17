@@ -8,7 +8,6 @@ namespace NeeView
     {
         public abstract string Key { get; }
 
-
         /// <summary>
         /// 指定パスのFolderTreeINodeを取得
         /// </summary>
@@ -20,7 +19,7 @@ namespace NeeView
         {
             if (path == null) throw new ArgumentNullException(nameof(path));
 
-            var pathTokens = new Stack<string>(path.TrimEnd(LoosePath.Separator).Split(LoosePath.Separator).Reverse());
+            var pathTokens = new Stack<string>(path.Trim(LoosePath.Separator).Split(LoosePath.Separator).Reverse());
             return GetFolderTreeNode(pathTokens, createChildren, asFarAsPossible);
         }
 

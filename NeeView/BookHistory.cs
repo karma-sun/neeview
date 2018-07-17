@@ -8,9 +8,8 @@ using System.Windows.Data;
 
 namespace NeeView
 {
-    public interface IBookListItem : IHasPage
+    public interface IBookListItem : IHasPage, IHasName
     {
-        string Name { get; }
         string Note { get; }
         string Detail { get; }
         Thumbnail Thumbnail { get; }

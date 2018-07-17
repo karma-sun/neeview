@@ -78,7 +78,7 @@ namespace NeeView
         public bool IsThumbnailVisibled => _vm.Model.IsThumbnailVisibled;
 
         public IEnumerable<IHasPage> CollectPageList(IEnumerable<object> objs) => objs.OfType<IHasPage>();
-        
+
         #endregion
 
         #region Commands
@@ -180,7 +180,7 @@ namespace NeeView
         public async void Remove_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
-            if (item != null && !item.IsEmpty)
+            if (item != null && item.IsFileSystem())
             {
                 var removed = await FileIO.Current.RemoveAsync(item.Path, Properties.Resources.DialogFileDeleteBookTitle);
                 if (removed)
@@ -200,7 +200,7 @@ namespace NeeView
             var listView = sender as ListBox;
 
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
-            if (item != null && (item.Attributes & FolderItemAttribute.Empty) != FolderItemAttribute.Empty)
+            if (item != null && item.IsFileSystem())
             {
                 var listViewItem = VisualTreeUtility.GetListBoxItemFromItem(listView, item);
                 var textBlock = VisualTreeUtility.FindVisualChild<TextBlock>(listViewItem, "FileNameTextBlock");
@@ -278,7 +278,8 @@ namespace NeeView
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
             if (item != null)
             {
-                var path = (item.Attributes & (FolderItemAttribute.ArchiveEntry | FolderItemAttribute.Empty)) != 0 ? ArchiverManager.Current.GetExistPathName(item.Path) : item.Path;
+                var path = item.IsFileSystem() ? item.Path : item.TargetPath;
+                path = (item.Attributes & (FolderItemAttribute.ArchiveEntry | FolderItemAttribute.Empty)) != 0 ? ArchiverManager.Current.GetExistPathName(path) : path;
                 System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + path + "\"");
             }
         }
@@ -484,12 +485,60 @@ namespace NeeView
         /// <param name="e"></param>
         private void FolderListItem_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
-            var item = (sender as ListBoxItem)?.Content as FolderItem;
-            if (item != null)
+            var container = sender as ListBoxItem;
+            if (container == null)
             {
-                // サブフォルダー読み込みの状態を更新
-                var isDefaultRecursive = _vm.FolderCollection != null ? _vm.FolderCollection.FolderParameter.IsFolderRecursive : false;
-                item.UpdateIsRecursived(isDefaultRecursive);
+                return;
+            }
+
+            var item = container.Content as FolderItem;
+            if (item == null)
+            {
+                return;
+            }
+
+            // サブフォルダー読み込みの状態を更新
+            var isDefaultRecursive = _vm.FolderCollection != null ? _vm.FolderCollection.FolderParameter.IsFolderRecursive : false;
+            item.UpdateIsRecursived(isDefaultRecursive);
+
+            // コンテキストメニュー生成
+
+            var contextMenu = container.ContextMenu;
+            if (contextMenu == null)
+            {
+                return;
+            }
+
+            contextMenu.Items.Clear();
+
+            if (item.Attributes.HasFlag(FolderItemAttribute.Bookmark))
+            {
+                if (item.IsDirectory)
+                {
+                    ////contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuDelete, Command = RemoveCommand });
+                    ////contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuRename, Command = RenameCommand });
+                    e.Handled = true;
+                }
+                else
+                {
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuSubfolder, Command = LoadWithRecursiveCommand, IsChecked = item.IsRecursived });
+                    contextMenu.Items.Add(new Separator());
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuExplorer, Command = OpenExplorerCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuCopy, Command = CopyCommand });
+                    ////contextMenu.Items.Add(new Separator());
+                    ////contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuDelete, Command = RemoveCommand });
+                    ////contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuRename, Command = RenameCommand });
+                }
+            }
+            else
+            {
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuSubfolder, Command = LoadWithRecursiveCommand, IsChecked = item.IsRecursived });
+                contextMenu.Items.Add(new Separator());
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuExplorer, Command = OpenExplorerCommand });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuCopy, Command = CopyCommand });
+                contextMenu.Items.Add(new Separator());
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuDelete, Command = RemoveCommand });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuRename, Command = RenameCommand });
             }
         }
 

@@ -12,7 +12,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
 
-    
+
     <UserControl.Resources>
 
         <!-- https://www.onlinewebfonts.com/icon/425378 -->
@@ -58,7 +58,7 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="5,0"/>
         </Style>
-        
+
     </UserControl.Resources>
 
     <Grid x:Name="Root">
@@ -94,6 +94,11 @@
             </TreeView.ItemContainerStyle>
 
             <TreeView.Resources>
+
+                <HierarchicalDataTemplate DataType="{x:Type local:DummyNode}" ItemsSource="{Binding Children}">
+                    <Grid Height="0" Visibility="Collapsed"/>
+                </HierarchicalDataTemplate>
+
                 <HierarchicalDataTemplate DataType="{x:Type local:RootQuickAccessNode}" ItemsSource="{Binding Collection.Items}">
                     <DockPanel>
                         <Image Style="{StaticResource IconImageStyle}" Source="{StaticResource ic_pushpin}"/>
@@ -133,9 +138,21 @@
                     </DockPanel>
                 </HierarchicalDataTemplate>
 
-                <HierarchicalDataTemplate DataType="{x:Type local:DummyNode}" ItemsSource="{Binding Children}">
-                    <Grid Height="0" Visibility="Collapsed"/>
+
+                <HierarchicalDataTemplate DataType="{x:Type local:RootBookmarkFolderNode}" ItemsSource="{Binding Children}">
+                    <DockPanel>
+                        <Image Style="{StaticResource IconImageStyle}" Source="{StaticResource ic_stars_24px}"/>
+                        <TextBlock Style="{StaticResource NodeTextBlockStyle}" Text="{Binding SchemeName}"/>
+                    </DockPanel>
                 </HierarchicalDataTemplate>
+
+                <HierarchicalDataTemplate DataType="{x:Type local:BookmarkFolderNode}" ItemsSource="{Binding Children}">
+                    <DockPanel>
+                        <Image Style="{StaticResource IconImageStyle}" Source="{Binding ElementName=Root, Path=DataContext.Model.FolderIcon}"/>
+                        <TextBlock Style="{StaticResource NodeTextBlockStyle}" Text="{Binding Name}"/>
+                    </DockPanel>
+                </HierarchicalDataTemplate>
+
             </TreeView.Resources>
 
         </TreeView>

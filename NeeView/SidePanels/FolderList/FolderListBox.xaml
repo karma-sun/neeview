@@ -217,15 +217,7 @@
                     <Setter Property="VerticalContentAlignment" Value="Center"/>
                     <Setter Property="ContextMenu">
                         <Setter.Value>
-                            <ContextMenu>
-                                <MenuItem Header="{x:Static properties:Resources.FolderListItemMenuSubfolder}" Command="{x:Static local:FolderListBox.LoadWithRecursiveCommand}" IsChecked="{Binding IsRecursived}"/>
-                                <Separator/>
-                                <MenuItem Header="{x:Static properties:Resources.FolderListItemMenuExplorer}" Command="{x:Static local:FolderListBox.OpenExplorerCommand}"/>
-                                <MenuItem Header="{x:Static properties:Resources.FolderListItemMenuCopy}" Command="{x:Static local:FolderListBox.CopyCommand}"/>
-                                <Separator/>
-                                <MenuItem Header="{x:Static properties:Resources.FolderListItemMenuDelete}" Command="{x:Static local:FolderListBox.RemoveCommand}"/>
-                                <MenuItem Header="{x:Static properties:Resources.FolderListItemMenuRename}" Command="{x:Static local:FolderListBox.RenameCommand}"/>
-                            </ContextMenu>
+                            <ContextMenu/>
                         </Setter.Value>
                     </Setter>
                 </Style>

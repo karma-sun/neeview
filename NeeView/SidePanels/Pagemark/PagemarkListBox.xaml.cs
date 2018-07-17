@@ -406,6 +406,11 @@ namespace NeeView
                 return;
             }
 
+            if (!container.IsSelected)
+            {
+                return;
+            }
+
             var item = container.DataContext as TreeListNode<IPagemarkEntry>;
             if (item == null)
             {

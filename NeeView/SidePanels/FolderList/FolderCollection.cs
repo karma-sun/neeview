@@ -392,7 +392,7 @@ namespace NeeView
         }
 
         //
-        private void CreateItem(FolderItem item)
+        protected void CreateItem(FolderItem item)
         {
             if (item == null) return;
 
@@ -476,7 +476,7 @@ namespace NeeView
         }
 
         //
-        private void DeleteItem(FolderItem item)
+        protected void DeleteItem(FolderItem item)
         {
             if (item == null) return;
 
@@ -539,7 +539,13 @@ namespace NeeView
             // 名前部分
             if (string.Compare(path, 0, item.Place, 0, item.Place.Length) != 0) throw new ArgumentException("remame exception: difference place");
 
-            item.Name = LoosePath.GetFileName(path, item.Place);
+            RenameItem(item, LoosePath.GetFileName(path, item.Place));
+        }
+
+        //
+        protected void RenameItem(FolderItem item, string newName)
+        {
+            item.Name = newName;
         }
 
         #endregion

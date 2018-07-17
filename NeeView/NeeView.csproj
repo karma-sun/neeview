@@ -191,6 +191,8 @@
     <Compile Include="Setting\SettingItemImageCollection.xaml.cs">
       <DependentUpon>SettingItemImageCollection.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SidePanels\FolderList\BookmarkFolderCollection.cs" />
+    <Compile Include="SidePanels\FolderList\FolterTree\BookmarkFolderNode.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\DirectoryNode.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\DirectoryNodeBase.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\DriveDirectoryNode.cs" />

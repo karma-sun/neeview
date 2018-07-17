@@ -46,12 +46,17 @@ namespace NeeView
 
         // Methods
 
+        public void RaiseBookmarkChangedEvent(BookmarkCollectionChangedEventArgs e)
+        {
+            BookmarkChanged?.Invoke(this, e);
+        }
+
         public void Clear()
         {
             Items.Clear();
             BookMementoCollection.Current.CleanUp();
 
-            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Reset));
         }
 
 
@@ -64,7 +69,7 @@ namespace NeeView
 
             Items = nodes;
 
-            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace));
+            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Replace));
         }
 
 
@@ -91,6 +96,55 @@ namespace NeeView
             return Items.FirstOrDefault(e => e.Value == entry);
         }
 
+        public TreeListNode<IBookmarkEntry> FindNode(string path)
+        {
+            if (path == null) return null;
+
+            if (path.StartsWith(Bookmark.Scheme))
+            {
+                path = path.Substring(Bookmark.Scheme.Length).Trim(LoosePath.Separator);
+
+                if (path == "")
+                {
+                    return Items;
+                }
+
+                return FindNode(Items, path.Split(LoosePath.Separator));
+            }
+            else
+            {
+                return Items.FirstOrDefault(e => e.Value is Bookmark bookmark && bookmark.Place == path);
+            }
+        }
+
+        private TreeListNode<IBookmarkEntry> FindNode(TreeListNode<IBookmarkEntry> node, IEnumerable<string> pathTokens)
+        {
+            if (pathTokens == null)
+            {
+                return null;
+            }
+
+            if (!pathTokens.Any())
+            {
+                return node;
+            }
+
+            var name = pathTokens.First();
+            var child = node.Children.FirstOrDefault(e => e.Value.Name == name);
+            if (child != null)
+            {
+                return FindNode(child, pathTokens.Skip(1));
+            }
+
+            return null;
+        }
+
+
+        public static string CreatePath(TreeListNode<IBookmarkEntry> node)
+        {
+            return Bookmark.Scheme + "\\" + string.Join("\\", node.Hierarchy.Select(e => e.Value).Cast<IBookmarkEntry>());
+        }
+
 
         public bool Contains(string place)
         {
@@ -105,7 +159,7 @@ namespace NeeView
             if (node == null) throw new ArgumentNullException(nameof(node));
 
             Items.Root.Insert(0, node);
-            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, node));
+            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, node.Parent, node));
         }
 
 
@@ -114,7 +168,7 @@ namespace NeeView
             if (memento == null) throw new ArgumentNullException(nameof(memento));
 
             memento.Parent.Insert(memento.Index, memento.Node);
-            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, memento.Node));
+            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, memento.Node.Parent, memento.Node));
         }
 
 
@@ -123,9 +177,10 @@ namespace NeeView
             if (node == null) throw new ArgumentNullException(nameof(node));
             if (node.Root != Items.Root) throw new InvalidOperationException();
 
+            var parent = node.Parent;
             if (node.RemoveSelf())
             {
-                BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, node));
+                BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Remove, parent, node));
                 return true;
             }
             else
@@ -161,7 +216,7 @@ namespace NeeView
                     node.RemoveSelf();
                 }
 
-                BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace));
+                BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Replace));
             }
         }
 
@@ -171,10 +226,25 @@ namespace NeeView
             if (item == target) return;
             if (target.ParentContains(item)) return; // TODO: 例外にすべき？
 
-            item.RemoveSelf();
-            target.Parent.Insert(target, direction, item);
+            bool isChangeDirectory = item.Parent != target.Parent;
 
-            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item));
+            var parent = item.Parent;
+            var oldIndex = parent.Children.IndexOf(item);
+            item.RemoveSelf();
+            if (isChangeDirectory)
+            {
+                BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Remove, parent, item));
+            }
+
+            target.Parent.Insert(target, direction, item);
+            if (isChangeDirectory)
+            {
+                BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, item.Parent, item));
+            }
+            else
+            {
+                BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Move, item.Parent, item) { OldIndex = oldIndex });
+            }
         }
 
 
@@ -183,11 +253,13 @@ namespace NeeView
             if (item == target) return;
             if (target.ParentContains(item)) return; // TODO: 例外にすべき？
 
+            var parent = item.Parent;
             item.RemoveSelf();
+            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Remove, parent, item));
+
             target.Insert(0, item);
             target.IsExpanded = true;
-
-            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, item));
+            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, item.Parent, item));
         }
 
 
@@ -324,5 +396,27 @@ namespace NeeView
         }
 
         #endregion
+    }
+
+
+    public static class TreeListNodeExtensions
+    {
+        public static string CreatePath<T>(this TreeListNode<T> node, string scheme)
+            where T : IHasName
+        {
+            var path = string.Join("\\", node.Hierarchy.Select(e => e.Value).OfType<T>().Select(e => e.Name));
+            if (scheme != null)
+            {
+                if (string.IsNullOrEmpty(path))
+                {
+                    path = scheme + "\\";
+                }
+                else
+                {
+                    path = LoosePath.Combine(scheme, path);
+                }
+            }
+            return path;
+        }
     }
 }

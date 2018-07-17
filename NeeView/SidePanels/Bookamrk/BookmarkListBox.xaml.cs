@@ -175,6 +175,7 @@ namespace NeeView
                         if (ev.OldValue != ev.NewValue)
                         {
                             folder.Name = ev.NewValue;
+                            BookmarkCollection.Current.RaiseBookmarkChangedEvent(new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Rename, item.Parent, item) { OldName = ev.OldValue });
                         }
                     };
                     rename.Closed += (s, ev) =>
@@ -368,6 +369,11 @@ namespace NeeView
         {
             var container = sender as TreeViewItem;
             if (container == null)
+            {
+                return;
+            }
+
+            if (!container.IsSelected)
             {
                 return;
             }

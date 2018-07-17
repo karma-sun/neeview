@@ -5,13 +5,21 @@ using System.Runtime.Serialization;
 
 namespace NeeView
 {
-    public interface IBookmarkEntry : IBookListItem
+    public interface IHasName
+    {
+        string Name { get; }
+    }
+
+    public interface IBookmarkEntry : IBookListItem, IHasName
     {
     }
+
 
     [DataContract]
     public class Bookmark : BindableBase, IBookmarkEntry, IVirtualItem
     {
+        public static string Scheme => "bookmark:";
+
         private string _place;
 
         public Bookmark()

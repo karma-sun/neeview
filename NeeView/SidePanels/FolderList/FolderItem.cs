@@ -21,6 +21,8 @@ namespace NeeView
         Empty = (1 << 2),
         Shortcut = (1 << 3),
         ArchiveEntry = (1 << 4),
+        Bookmark = (1 << 5),
+        Pagemark = (1 << 6),
     }
 
     /// <summary>
@@ -70,6 +72,8 @@ namespace NeeView
 
         #region Properties
 
+        public object Source { get; set; }
+
         public FolderItemAttribute Attributes { get; set; }
 
         // 種類。ソート用
@@ -89,7 +93,7 @@ namespace NeeView
         }
 
         private string _name;
-        public string Name
+        public virtual string Name
         {
             get
             {
@@ -217,33 +221,43 @@ namespace NeeView
         }
 
         // サムネイル用
-        private ArchivePage _archivePage;
-        public ArchivePage ArchivePage
+        private Page _archivePage;
+        public Page ArchivePage
         {
             get
             {
-                if (_archivePage == null && !IsDrive && !IsEmpty)
+                if (_archivePage == null)
                 {
-                    var entry = this.ArchiveEntry ?? new ArchiveEntry()
+                    if (Attributes.AnyFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Pagemark) && Attributes.HasFlag(FolderItemAttribute.Directory))
                     {
-                        RawEntryName = TargetPath,
-                        Length = this.Length,
-                        LastWriteTime = this.LastWriteTime,
-                    };
-                    _archivePage = new ArchivePage(entry);
-                    _archivePage.Thumbnail.IsCacheEnabled = true;
-                    _archivePage.Thumbnail.Touched += Thumbnail_Touched;
+                        _archivePage = new ConstPage(ThumbnailType.Folder);
+                    }
+                    else if (!IsDrive && !IsEmpty)
+                    {
+                        var entry = this.ArchiveEntry ?? new ArchiveEntry()
+                        {
+                            RawEntryName = TargetPath,
+                            Length = this.Length,
+                            LastWriteTime = this.LastWriteTime,
+                        };
+                        _archivePage = new ArchivePage(entry);
+                        _archivePage.Thumbnail.IsCacheEnabled = true;
+                        _archivePage.Thumbnail.Touched += Thumbnail_Touched;
+                    }
                 }
                 return _archivePage;
             }
             set { _archivePage = value; RaisePropertyChanged(); }
         }
 
+
+
+
         #endregion
 
         #region IBookListItem Supprt
 
-        public string Note => ArchivePage?.Note;
+        public string Note => IsFileSystem() || !IsDirectory ? ArchivePage?.Note : null;
 
         public string Detail => Name;
 
@@ -257,6 +271,16 @@ namespace NeeView
         #endregion
 
         #region Methods
+
+        public bool IsBookmark()
+        {
+            return (Attributes & FolderItemAttribute.Bookmark) != 0;
+        }
+
+        public bool IsFileSystem()
+        {
+            return (Attributes & (FolderItemAttribute.Bookmark | FolderItemAttribute.Pagemark | FolderItemAttribute.Empty | FolderItemAttribute.None)) == 0;
+        }
 
         /// <summary>
         /// IsRecursived 更新

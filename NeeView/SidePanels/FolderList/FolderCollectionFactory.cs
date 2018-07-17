@@ -24,7 +24,11 @@ namespace NeeView
         // フォルダーコレクション作成
         public async Task<FolderCollection> CreateFolderCollectionAsync(string place, bool isActive, CancellationToken token)
         {
-            if (place == null || Directory.Exists(place))
+            if (place != null && place.StartsWith(Bookmark.Scheme))
+            {
+                return CreateBookmarkFolderCollection(place, isActive);
+            }
+            else if (place == null || Directory.Exists(place))
             {
                 return await CreateEntryFolderCollectionAsync(place, isActive, token);
             }
@@ -116,6 +120,14 @@ namespace NeeView
         private FolderCollection CreateSearchCollection(string place, NeeLaboratory.IO.Search.SearchResultWatcher searchResult, bool isActive)
         {
             return new FolderSearchCollection(place, searchResult, isActive);
+        }
+
+        /// <summary>
+        /// FolderCollecion作成(ブックマーク)
+        /// </summary>
+        private FolderCollection CreateBookmarkFolderCollection(string place, bool isActive)
+        {
+            return new BookmarkFolderCollection(place);
         }
 
         #endregion

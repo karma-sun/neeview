@@ -48,7 +48,7 @@ namespace NeeView
             }
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Events
 
@@ -108,7 +108,7 @@ namespace NeeView
         /// </summary>
         public virtual string Meta { get; }
 
-        #endregion
+        #endregion Properties
 
         #region Methods
 
@@ -429,7 +429,7 @@ namespace NeeView
             }
         }
 
-        #endregion
+        #endregion Job.Create
 
         #region Job.Delete
 
@@ -491,7 +491,7 @@ namespace NeeView
             }
         }
 
-        #endregion
+        #endregion Job.Delete
 
         #region Job.Rename
 
@@ -548,9 +548,9 @@ namespace NeeView
             item.Name = newName;
         }
 
-        #endregion
+        #endregion Job.Rename
 
-        #region Methods.CreateFilderItems
+        #region Methods.CreateFolderItems
 
         /// <summary>
         /// 空のFolderItemを作成
@@ -710,7 +710,7 @@ namespace NeeView
             return info;
         }
 
-        #endregion CreateFolderItems
+        #endregion Methods.CreateFolderItems
 
         #endregion Methods
 

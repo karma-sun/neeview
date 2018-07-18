@@ -172,10 +172,32 @@ namespace NeeView
                     var rename = new RenameControl() { Target = textBlock };
                     rename.Closing += (s, ev) =>
                     {
-                        if (ev.OldValue != ev.NewValue)
+                        var newName = ev.NewValue.Trim();
+                        if (string.IsNullOrEmpty(newName))
                         {
-                            folder.Name = ev.NewValue;
-                            BookmarkCollection.Current.RaiseBookmarkChangedEvent(new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Rename, item.Parent, item) { OldName = ev.OldValue });
+                            newName = ev.OldValue;
+                        }
+
+                        if (ev.OldValue != newName)
+                        {
+                            var conflict = item.Parent.Children.FirstOrDefault(e => e != item && e.Value is BookmarkFolder && e.Value.Name == newName);
+                            if (conflict != null)
+                            {
+                                var dialog = new MessageDialog(string.Format(Properties.Resources.DialogMergeFolder, newName), Properties.Resources.DialogMergeFolderTitle);
+                                dialog.Commands.Add(UICommands.Yes);
+                                dialog.Commands.Add(UICommands.No);
+                                var result = dialog.ShowDialog();
+
+                                if (result == UICommands.Yes)
+                                {
+                                    BookmarkCollection.Current.Merge(item, conflict);
+                                }
+                            }
+                            else
+                            { 
+                                folder.Name = newName;
+                                BookmarkCollection.Current.RaiseBookmarkChangedEvent(new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Rename, item.Parent, item) { OldName = ev.OldValue });
+                            }
                         }
                     };
                     rename.Closed += (s, ev) =>

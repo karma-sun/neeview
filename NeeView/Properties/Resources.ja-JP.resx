@@ -4251,4 +4251,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamFolderTreeLayout" xml:space="preserve">
     <value>フォルダーツリーの配置</value>
   </data>
+  <data name="DialogMergeFolderTitle" xml:space="preserve">
+    <value>フォルダーを統合しますか？</value>
+  </data>
+  <data name="DialogMergeFolder" xml:space="preserve">
+    <value>{0} にフォルダーを統合します。</value>
+  </data>
 </root>

@@ -280,7 +280,7 @@ namespace NeeView
             if (item != null)
             {
                 var path = item.IsFileSystem() ? item.Path : item.TargetPath;
-                path = (item.Attributes & (FolderItemAttribute.ArchiveEntry | FolderItemAttribute.Empty)) != 0 ? ArchiverManager.Current.GetExistPathName(path) : path;
+                path = item.Attributes.AnyFlag(FolderItemAttribute.Bookmark |FolderItemAttribute.ArchiveEntry | FolderItemAttribute.Empty) ? ArchiverManager.Current.GetExistPathName(path) : path;
                 System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + path + "\"");
             }
         }

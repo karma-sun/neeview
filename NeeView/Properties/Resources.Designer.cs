@@ -5237,6 +5237,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Consolidate folders into {0}. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogMergeFolder {
+            get {
+                return ResourceManager.GetString("DialogMergeFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Do you want to merge folders? に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogMergeFolderTitle {
+            get {
+                return ResourceManager.GetString("DialogMergeFolderTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   External application execution failed に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DialogOpenApplicationErrorTitle {

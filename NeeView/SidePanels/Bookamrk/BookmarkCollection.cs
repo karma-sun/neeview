@@ -263,6 +263,34 @@ namespace NeeView
         }
 
 
+        public void Merge(TreeListNode<IBookmarkEntry> item, TreeListNode<IBookmarkEntry> target)
+        {
+            if (!(item.Value is BookmarkFolder && target.Value is BookmarkFolder)) throw new ArgumentException();
+
+            var parent = item.Parent;
+            if (item.RemoveSelf())
+            {
+                BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Remove, parent, item));
+            }
+
+            foreach (var child in item.Children.ToList())
+            {
+                child.RemoveSelf();
+                if (child.Value is BookmarkFolder)
+                {
+                    var conflict = target.Children.FirstOrDefault(e => e.Value is BookmarkFolder && e.Value.Name == child.Value.Name);
+                    if (conflict != null)
+                    {
+                        Merge(child, conflict);
+                        continue;
+                    }
+                }
+
+                target.Add(child);
+                BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, target, child));
+            }
+        }
+
         public void Rename(string src, string dst)
         {
             foreach (var item in Items)
@@ -271,6 +299,62 @@ namespace NeeView
                 {
                     bookmark.Place = dst;
                 }
+            }
+        }
+
+
+        public string GetValidateFolderName(IEnumerable<string> names, string name, string defaultName)
+        {
+            name = name.TrimEnd();
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                name = defaultName;
+            }
+            if (names.Contains(name))
+            {
+                int count = 1;
+                string newName = name;
+                do
+                {
+                    newName = $"{name} ({++count})";
+                }
+                while (names.Contains(newName));
+                name = newName;
+            }
+
+            return name;
+        }
+
+
+        private void ValidateFolderName(TreeListNode<IBookmarkEntry> node)
+        {
+            var names = new List<string>();
+
+            foreach (var child in node.Children.Where(e => e.Value is BookmarkFolder))
+            {
+                ValidateFolderName(child);
+
+                var folder = ((BookmarkFolder)child.Value);
+
+                var name = folder.Name.TrimEnd();
+                if (string.IsNullOrWhiteSpace(name))
+                {
+                    name = "_";
+                }
+                if (names.Contains(name))
+                {
+                    int count = 1;
+                    string newName = name;
+                    do
+                    {
+                        newName = $"{name} ({++count})";
+                    }
+                    while (names.Contains(newName));
+                    name = newName;
+                }
+                names.Add(name);
+
+                folder.Name = name;
             }
         }
 
@@ -391,6 +475,11 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             QuickAccessCollection.Current.Restore(memento.QuickAccess);
+
+            if (memento._Version < Config.GenerateProductVersionNumber(32, 0, 0))
+            {
+                ValidateFolderName(memento.Nodes);
+            }
 
             this.Load(memento.Nodes, memento.Books);
         }

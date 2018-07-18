@@ -59,7 +59,7 @@ namespace NeeView
             }
         }
 
-        
+
         // Methods
 
         private void BookmarkCollection_BookmarkChanged(object sender, BookmarkCollectionChangedEventArgs e)
@@ -232,37 +232,73 @@ namespace NeeView
             {
                 if (dropInfo.Position < margin)
                 {
-                    BookmarkCollection.Current.Move(item, target, -1);
+                    Move(item, target, -1);
                 }
                 else if (dropInfo.Position > (1.0 - margin) && !target.IsExpanded)
                 {
-                    BookmarkCollection.Current.Move(item, target, +1);
+                    Move(item, target, +1);
                 }
                 else
                 {
-                    BookmarkCollection.Current.MoveToChild(item, target);
+                    MoveToChild(item, target);
                 }
             }
             else
             {
                 if (target.Next == null && dropInfo.Position > (1.0 - margin))
                 {
-                    BookmarkCollection.Current.Move(item, target, +1);
+                    Move(item, target, +1);
                 }
                 else if (item.CompareOrder(item, target))
                 {
-                    BookmarkCollection.Current.Move(item, target, +1);
+                    Move(item, target, +1);
                 }
                 else
                 {
-                    BookmarkCollection.Current.Move(item, target, -1);
+                    Move(item, target, -1);
                 }
             }
         }
 
+        private void Move(TreeListNode<IBookmarkEntry> item, TreeListNode<IBookmarkEntry> target, int direction)
+        {
+            if (item.Value is BookmarkFolder && item.Parent != target.Parent)
+            {
+                var conflict = target.Parent.Children.FirstOrDefault(e => e.Value is BookmarkFolder && e.Value.Name == item.Value.Name);
+                if (conflict != null)
+                {
+                    BookmarkCollection.Current.Merge(item, conflict);
+                    return;
+                }
+            }
+
+            BookmarkCollection.Current.Move(item, target, direction);
+        }
+
+        private void MoveToChild(TreeListNode<IBookmarkEntry> item, TreeListNode<IBookmarkEntry> target)
+        {
+            if (item.Value is BookmarkFolder && item.Parent != target)
+            {
+                var conflict = target.Children.FirstOrDefault(e => e.Value is BookmarkFolder && e.Value.Name == item.Value.Name);
+                if (conflict != null)
+                {
+                    BookmarkCollection.Current.Merge(item, conflict);
+                    return;
+                }
+            }
+
+            BookmarkCollection.Current.MoveToChild(item, target);
+        }
+
+
+
+
+
         internal void NewFolder()
         {
-            var node = new TreeListNode<IBookmarkEntry>(new BookmarkFolder() { Name = Properties.Resources.WordNewFolder });
+            var ignoreNames = BookmarkCollection.Current.Items.Children.Where(e => e.Value is BookmarkFolder).Select(e => e.Value.Name);
+            var name = BookmarkCollection.Current.GetValidateFolderName(ignoreNames, Properties.Resources.WordNewFolder, Properties.Resources.WordNewFolder);
+            var node = new TreeListNode<IBookmarkEntry>(new BookmarkFolder() { Name = name });
             BookmarkCollection.Current.AddFirst(node);
             SelectedItem = node;
             Changed?.Invoke(this, new CollectionChangeEventArgs(CollectionChangeAction.Add, node));

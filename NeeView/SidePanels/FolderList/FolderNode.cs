@@ -46,7 +46,8 @@ namespace NeeView
                 parent._archiver = archiveCollection.Archiver;
             }
 
-            var index = parent.Children.FindIndex(e => e.Name == content.Name);
+            // 重複名はターゲットで区別する
+            var index = parent.Children.FindIndex(e => e.Name == content.Name && e.Content.TargetPath == content.TargetPath);
             if (index < 0) throw new ArgumentException("collection dont have content");
 
             this.Parent = parent;
@@ -101,7 +102,7 @@ namespace NeeView
                 if (parent != null)
                 {
                     var name = LoosePath.GetFileName(FullName, parent.FullName);
-                    var index = parent.Children.FindIndex(e => e.Name == name);
+                    var index = parent.Children.FindIndex(e => e.Name == name); // 重複名は区別できていない
                     if (index < 0) throw new KeyNotFoundException();
 
                     lock (_lock)

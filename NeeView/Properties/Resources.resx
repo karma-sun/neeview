@@ -4251,4 +4251,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamFolderTreeLayout" xml:space="preserve">
     <value>Folder tree layout</value>
   </data>
+  <data name="DialogMergeFolderTitle" xml:space="preserve">
+    <value>Do you want to merge folders?</value>
+  </data>
+  <data name="DialogMergeFolder" xml:space="preserve">
+    <value>Consolidate folders into {0}.</value>
+  </data>
 </root>

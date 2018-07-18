@@ -88,6 +88,8 @@
             </Setter>
         </Style>
 
+        <local:FolderTreeLayoutToBooleanConverter x:Key="FolderTreeLayoutToBooleanConverter"/>
+
     </UserControl.Resources>
 
 
@@ -135,6 +137,12 @@
                         ToolTip="{x:Static properties:Resources.WordFoldersTree}"
                         Command="{Binding ToggleVisibleFoldersTree}">
                     <Image Source="{StaticResource ic_treeview}" Width="16" Height="16"/>
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="{x:Static properties:Resources.FolderTreeLayoutTop}" IsCheckable="True" IsChecked="{Binding Model.FolderTreeLayout, Converter={StaticResource FolderTreeLayoutToBooleanConverter}, ConverterParameter={x:Static local:FolderTreeLayout.Top}}"/>
+                            <MenuItem Header="{x:Static properties:Resources.FolderTreeLayoutLeft}" IsCheckable="True" IsChecked="{Binding Model.FolderTreeLayout, Converter={StaticResource FolderTreeLayoutToBooleanConverter}, ConverterParameter={x:Static local:FolderTreeLayout.Left}}"/>
+                        </ContextMenu>
+                    </Button.ContextMenu>
                 </Button>
                 <WrapPanel Orientation="Horizontal" MinWidth="90">
                     <Button x:Name="FolderHomeButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToHome}" TabIndex="1"
@@ -232,12 +240,25 @@
             </Border>
 
         </StackPanel>
-
+        
         <DockPanel SizeChanged="Grid_SizeChanged">
-            <local:FolderTreeView DockPanel.Dock="Top" x:Name="FolderTree" Height="{Binding Model.FolderTreeAreaHeight, Mode=TwoWay}"
-                                      Visibility="{Binding Model.IsFolderTreeVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <local:FolderTreeView DockPanel.Dock="{Binding Model.FolderTreeDock}" x:Name="FolderTree"
+                                  Visibility="{Binding Model.IsFolderTreeVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <local:FolderTreeView.Style>
+                    <Style TargetType="{x:Type local:FolderTreeView}">
+                        <Style.Triggers>
+                            <Trigger Property="DockPanel.Dock" Value="Top">
+                                <Setter Property="Height" Value="{Binding Model.FolderTreeAreaHeight, Mode=TwoWay}"/>
+                            </Trigger>
+                            <Trigger Property="DockPanel.Dock" Value="Left">
+                                <Setter Property="Width" Value="{Binding Model.FolderTreeAreaWidth, Mode=TwoWay}"/>
+                            </Trigger>
+                        </Style.Triggers>    
+                    </Style>
+                </local:FolderTreeView.Style>
+            </local:FolderTreeView>
 
-            <osc:DockPanelSplitter x:Name="LeftPanelSplitter" DockPanel.Dock="Top" Style="{StaticResource NVHorizontalBevelGrip}" ProportionalResize="False" UseLayoutRounding="True" IsTabStop="False"
+            <osc:DockPanelSplitter x:Name="LeftPanelSplitter" DockPanel.Dock="{Binding Model.FolderTreeDock}" Style="{StaticResource NVHorizontalBevelGrip}" ProportionalResize="False" UseLayoutRounding="True" IsTabStop="False"
                                    Visibility="{Binding Model.IsFolderTreeVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
             <Grid>
                 <ContentControl x:Name="ListContent" Content="{Binding ListContent}" Focusable="False"/>

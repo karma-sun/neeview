@@ -78,7 +78,7 @@ namespace NeeView
         }
     }
 
-    public class LeftMarginMultiplierConverter : IValueConverter
+    public class TreeViewLeftMarginMultiplierConverter : IValueConverter
     {
         public double Length { get; set; }
 
@@ -108,4 +108,37 @@ namespace NeeView
             throw new System.NotImplementedException();
         }
     }
+
+
+    public class TreeViewIndentConverter : IValueConverter
+    {
+        public double Length { get; set; }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (!(value is TreeViewItem item))
+            {
+                return 0.0;
+            }
+
+            var length = Length;
+
+            if (item.DataContext is TreeListNode<IBookmarkEntry> && BookmarkList.Current.PanelListItemStyle != PanelListItemStyle.Normal)
+            {
+                length = length * 2;
+            }
+            else if (item.DataContext is TreeListNode<IPagemarkEntry> && PagemarkList.Current.PanelListItemStyle != PanelListItemStyle.Normal)
+            {
+                length = length * 2;
+            }
+
+            return length * item.GetDepth();
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+
 }

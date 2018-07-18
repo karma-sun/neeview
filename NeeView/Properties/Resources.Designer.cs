@@ -6890,6 +6890,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Place to the left に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FolderTreeLayoutLeft {
+            get {
+                return ResourceManager.GetString("FolderTreeLayoutLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Place to the top に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FolderTreeLayoutTop {
+            get {
+                return ResourceManager.GetString("FolderTreeLayoutTop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Add current place to Quick access に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FolderTreeMenuAddCurrentQuickAccess {
@@ -7165,6 +7183,15 @@ namespace NeeView.Properties {
         public static string NotifyCannotOpen {
             get {
                 return ResourceManager.GetString("NotifyCannotOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   {0} is a bookmark folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyCannotOpenBookmarkFolder {
+            get {
+                return ResourceManager.GetString("NotifyCannotOpenBookmarkFolder", resourceCulture);
             }
         }
         
@@ -8965,6 +8992,15 @@ namespace NeeView.Properties {
         public static string ParamFolderListIsVisibleHistoryMarkTips {
             get {
                 return ResourceManager.GetString("ParamFolderListIsVisibleHistoryMarkTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Folder tree layout に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamFolderTreeLayout {
+            get {
+                return ResourceManager.GetString("ParamFolderTreeLayout", resourceCulture);
             }
         }
         
@@ -11417,6 +11453,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Folder tree に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPagePanelFolderListTree {
+            get {
+                return ResourceManager.GetString("SettingPagePanelFolderListTree", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Display に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPagePanelFolderListVisual {
@@ -11799,6 +11844,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Bookmark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordBookmark {
+            get {
+                return ResourceManager.GetString("WordBookmark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Cancel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WordCancel {
@@ -12101,6 +12155,15 @@ namespace NeeView.Properties {
         public static string WordPageList {
             get {
                 return ResourceManager.GetString("WordPageList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Pagemark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordPagemark {
+            get {
+                return ResourceManager.GetString("WordPagemark", resourceCulture);
             }
         }
         

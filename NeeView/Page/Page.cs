@@ -19,7 +19,7 @@ namespace NeeView
     /// <summary>
     /// ページ
     /// </summary>
-    public abstract class Page : BindableBase, IBookListItem 
+    public abstract class Page : BindableBase, IBookListItem
     {
         #region 開発用
 
@@ -52,7 +52,12 @@ namespace NeeView
 
 
         // アーカイブエントリ
-        public ArchiveEntry Entry { get; protected set; }
+        private ArchiveEntry _entry;
+        public ArchiveEntry Entry
+        {
+            get { return _entry; }
+            protected set { SetProperty(ref _entry, value); }
+        }
 
         // ページ番号
         public int Index { get; set; }

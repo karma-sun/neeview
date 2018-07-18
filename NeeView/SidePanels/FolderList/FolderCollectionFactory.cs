@@ -26,7 +26,7 @@ namespace NeeView
         {
             if (place != null && place.StartsWith(Bookmark.Scheme))
             {
-                return CreateBookmarkFolderCollection(place, isActive);
+                return await CreateBookmarkFolderCollectionAsync(place, isActive, token);
             }
             else if (place == null || Directory.Exists(place))
             {
@@ -61,6 +61,15 @@ namespace NeeView
         private async Task<FolderCollection> CreateEntryFolderCollectionAsync(string place, bool isActive, CancellationToken token)
         {
             var collection = await Task.Run(() => CreateEntryCollection(place, isActive));
+            token.ThrowIfCancellationRequested();
+
+            return collection;
+        }
+
+        // ブックマークフォルダーコレクション作成
+        private async Task<FolderCollection> CreateBookmarkFolderCollectionAsync(string place, bool isActive, CancellationToken token)
+        {
+            var collection = await Task.Run(() => CreateBookmarkFolderCollection(place, isActive));
             token.ThrowIfCancellationRequested();
 
             return collection;

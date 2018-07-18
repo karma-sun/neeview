@@ -4230,4 +4230,25 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="FolderTreeMenuExplorer" xml:space="preserve">
     <value>Open in explorer</value>
   </data>
+  <data name="WordBookmark" xml:space="preserve">
+    <value>Bookmark</value>
+  </data>
+  <data name="NotifyCannotOpenBookmarkFolder" xml:space="preserve">
+    <value>{0} is a bookmark folder</value>
+  </data>
+  <data name="WordPagemark" xml:space="preserve">
+    <value>Pagemark</value>
+  </data>
+  <data name="SettingPagePanelFolderListTree" xml:space="preserve">
+    <value>Folder tree</value>
+  </data>
+  <data name="FolderTreeLayoutTop" xml:space="preserve">
+    <value>Place to the top</value>
+  </data>
+  <data name="FolderTreeLayoutLeft" xml:space="preserve">
+    <value>Place to the left</value>
+  </data>
+  <data name="ParamFolderTreeLayout" xml:space="preserve">
+    <value>Folder tree layout</value>
+  </data>
 </root>

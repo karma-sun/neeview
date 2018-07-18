@@ -137,7 +137,7 @@ namespace NeeView
 
         public override string Name => Bookmark.Scheme + "\\";
 
-        public string SchemeName => "@WordBookmark";
+        public string SchemeName => Properties.Resources.WordBookmark;
 
         public RootBookmarkFolderNode() : base(null, BookmarkCollection.Current.Items)
         {

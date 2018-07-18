@@ -7,6 +7,17 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
+    public class BookAddressException : Exception
+    {
+        public BookAddressException(string message) : base(message)
+        {
+        }
+
+        public BookAddressException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+    }
+
     /// <summary>
     /// アーカイブパスに対応したブックアドレス
     /// </summary>
@@ -53,8 +64,21 @@ namespace NeeView
         /// <param name="isArchiveRecursive">アーカイブ自動展開</param>
         /// <param name="token">キャンセルトークン</param>
         /// <returns></returns>
-        public async Task InitializeAsync(string path, string entryName, BookLoadOption option,  bool isArchiveRecursive, CancellationToken token)
+        public async Task InitializeAsync(string path, string entryName, BookLoadOption option, bool isArchiveRecursive, CancellationToken token)
         {
+            if (path.StartsWith(Bookmark.Scheme))
+            {
+                var node = BookmarkCollection.Current.FindNode(path);
+                switch (node.Value)
+                {
+                    case Bookmark bookmark:
+                        path = bookmark.Place;
+                        break;
+                    case BookmarkFolder folder:
+                        throw new BookAddressException(string.Format(Properties.Resources.NotifyCannotOpenBookmarkFolder, path));
+                }
+            }
+
             _archiveEntry = await ArchiveFileSystem.CreateArchiveEntry(path, token);
 
             if (entryName != null)

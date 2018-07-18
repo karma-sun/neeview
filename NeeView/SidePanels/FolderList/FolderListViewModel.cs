@@ -43,6 +43,7 @@ namespace NeeView
         IsUpdateHistory = (1 << 1),
         IsTopSelect = (1 << 3),
         ResetKeyword = (1 << 4),
+        Refresh = (1 << 5),
     }
 
     /// <summary>

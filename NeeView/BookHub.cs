@@ -645,9 +645,16 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                // ファイル読み込み失敗通知
-                var message = string.Format(Properties.Resources.ExceptionLoadFailed, place, ex.Message);
-                EmptyMessage?.Invoke(this, new BookHubMessageEventArgs(message));
+                if (ex is BookAddressException)
+                {
+                    EmptyMessage?.Invoke(this, new BookHubMessageEventArgs(ex.Message));
+                }
+                else
+                {
+                    // ファイル読み込み失敗通知
+                    var message = string.Format(Properties.Resources.ExceptionLoadFailed, place, ex.Message);
+                    EmptyMessage?.Invoke(this, new BookHubMessageEventArgs(message));
+                }
 
                 // for .heic
                 if (ex is NotSupportedFileTypeException exc && exc.Extension == ".heic" && Config.Current.IsWindows10())

@@ -141,7 +141,7 @@
 
                 <HierarchicalDataTemplate DataType="{x:Type local:RootBookmarkFolderNode}" ItemsSource="{Binding Children}">
                     <DockPanel>
-                        <Image Style="{StaticResource IconImageStyle}" Source="{StaticResource ic_stars_24px}"/>
+                        <Image Style="{StaticResource IconImageStyle}" Source="{StaticResource ic_grade_24px}"/>
                         <TextBlock Style="{StaticResource NodeTextBlockStyle}" Text="{Binding SchemeName}"/>
                     </DockPanel>
                 </HierarchicalDataTemplate>

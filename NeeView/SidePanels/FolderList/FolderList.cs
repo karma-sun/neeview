@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -14,6 +15,8 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace NeeView
 {
@@ -34,6 +37,37 @@ namespace NeeView
         }
     }
 
+    public enum FolderTreeLayout
+    {
+        [AliasName("@FolderTreeLayoutTop")]
+        Top,
+        [AliasName("@FolderTreeLayoutLeft")]
+        Left,
+    };
+
+
+    //
+    public class FolderTreeLayoutToBooleanConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is FolderTreeLayout layout0 && parameter is FolderTreeLayout layout1)
+            {
+                return (layout0 == layout1);
+            }
+            return false;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is Boolean flag && parameter is FolderTreeLayout layout1)
+            {
+                return flag ? layout1 : FolderTreeLayout.Top;
+            }
+
+            return Dock.Top;
+        }
+    }
 
     //
     public class FolderList : BindableBase, IDisposable
@@ -332,6 +366,62 @@ namespace NeeView
             set { SetProperty(ref _isFolderTreeVisible, value); }
         }
 
+
+
+        private FolderTreeLayout _FolderTreeLayout;
+        [PropertyMember("@ParamFolderTreeLayout")]
+        public FolderTreeLayout FolderTreeLayout
+        {
+            get { return _FolderTreeLayout; }
+            set
+            {
+                if (SetProperty(ref _FolderTreeLayout, value))
+                {
+                    RaisePropertyChanged(nameof(FolderTreeDock));
+                    RaisePropertyChanged(nameof(FolderTreeAreaWidth));
+                    RaisePropertyChanged(nameof(FolderTreeAreaHeight));
+                }
+            }
+        }
+
+        public Dock FolderTreeDock
+        {
+            get { return FolderTreeLayout == FolderTreeLayout.Left ? Dock.Left : Dock.Top; }
+        }
+
+        /// <summary>
+        /// フォルダーツリーエリアの幅
+        /// </summary>
+        private double _folderTreeAreaWidth = 192.0;
+        public double FolderTreeAreaWidth
+        {
+            get { return _folderTreeAreaWidth; }
+            set
+            {
+                var width = Math.Max(Math.Min(value, _areaWidth - 32.0), 32.0 - 6.0);
+                SetProperty(ref _folderTreeAreaWidth, width);
+            }
+        }
+
+        /// <summary>
+        /// フォルダーリストエリアの幅
+        /// クイックアクセスエリアの幅計算用
+        /// </summary>
+        private double _areaWidth = double.PositiveInfinity;
+        public double AreaWidth
+        {
+            get { return _areaWidth; }
+            set
+            {
+                if (SetProperty(ref _areaWidth, value))
+                {
+                    // 再設定する
+                    FolderTreeAreaWidth = _folderTreeAreaWidth;
+                }
+            }
+        }
+
+
         /// <summary>
         /// フォルダーツリーエリアの高さ
         /// </summary>
@@ -542,7 +632,7 @@ namespace NeeView
         /// </summary>
         private bool CheckFolderListUpdateneNcessary(string place, string keyword, FolderSetPlaceOption options)
         {
-            if (_isDarty || this.FolderCollection == null || place != this.FolderCollection.Place)
+            if (_isDarty || this.FolderCollection == null || place != this.FolderCollection.Place || options.HasFlag(FolderSetPlaceOption.Refresh))
             {
                 return true;
             }
@@ -611,8 +701,6 @@ namespace NeeView
             await SetPlaceAsync(Place, null, FolderSetPlaceOption.IsUpdateHistory);
         }
 
-
-
         /// <summary>
         /// 選択項目を基準とした項目取得
         /// </summary>
@@ -663,7 +751,6 @@ namespace NeeView
         public void LoadBook(string path)
         {
             if (path == null) return;
-            if (path.StartsWith(Bookmark.Scheme)) return;
 
             BookLoadOption option = BookLoadOption.SkipSamePlace | (this.FolderCollection.FolderParameter.IsFolderRecursive ? BookLoadOption.DefaultRecursive : BookLoadOption.None);
             LoadBook(path, option);
@@ -802,17 +889,11 @@ namespace NeeView
         /// </summary>
         public async Task<bool> MoveNextFolder(int direction, BookLoadOption options)
         {
-            var item = this.SelectedItem;
-
-            do
+            var item = this.GetFolderItem(this.SelectedItem, direction);
+            if (item == null)
             {
-                item = this.GetFolderItem(item, direction);
-                if (item == null)
-                {
-                    return false;
-                }
+                return false;
             }
-            while (item.Attributes.AnyFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Pagemark) && item.Attributes.HasFlag(FolderItemAttribute.Directory));
 
             await SetPlaceAsync(this.FolderCollection.Place, item.Path, FolderSetPlaceOption.IsUpdateHistory);
             _bookHub.RequestLoad(item.TargetPath, null, options | BookLoadOption.IsBook, false);
@@ -1152,8 +1233,14 @@ namespace NeeView
             [DataMember]
             public bool IsCloseBookWhenMove { get; set; }
 
+            [DataMember]
+            public FolderTreeLayout FolderTreeLayout { get; set; }
+
             [DataMember, DefaultValue(72.0)]
             public double FolderTreeAreaHeight { get; set; }
+
+            [DataMember, DefaultValue(192.0)]
+            public double FolderTreeAreaWidth { get; set; }
 
             [DataMember, DefaultValue(true)]
             public bool IsFolderTreeVisible { get; set; }
@@ -1182,7 +1269,9 @@ namespace NeeView
             memento.ExcludePattern = this.ExcludePattern;
             memento.IsCruise = this.IsCruise;
             memento.IsCloseBookWhenMove = this.IsCloseBookWhenMove;
+            memento.FolderTreeLayout = this.FolderTreeLayout;
             memento.FolderTreeAreaHeight = this.FolderTreeAreaHeight;
+            memento.FolderTreeAreaWidth = this.FolderTreeAreaWidth;
             memento.IsFolderTreeVisible = this.IsFolderTreeVisible;
             memento.IsSyncFolderTree = this.IsSyncFolderTree;
 
@@ -1204,7 +1293,9 @@ namespace NeeView
             this.ExcludePattern = memento.ExcludePattern;
             this.IsCruise = memento.IsCruise;
             this.IsCloseBookWhenMove = memento.IsCloseBookWhenMove;
+            this.FolderTreeLayout = memento.FolderTreeLayout;
             this.FolderTreeAreaHeight = memento.FolderTreeAreaHeight;
+            this.FolderTreeAreaWidth = memento.FolderTreeAreaWidth;
             this.IsFolderTreeVisible = memento.IsFolderTreeVisible;
             this.IsSyncFolderTree = memento.IsSyncFolderTree;
         }

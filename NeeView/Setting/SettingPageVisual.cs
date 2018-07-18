@@ -271,6 +271,9 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsVisibleHistoryMark))),
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.FolderIconLayout)))),
 
+                new SettingItemSection(Properties.Resources.SettingPagePanelFolderListTree,
+                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.FolderTreeLayout)))),
+
                 new SettingItemSection(Properties.Resources.SettingPagePanelFolderListAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsCloseBookWhenMove))),
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsInsertItem))),

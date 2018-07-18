@@ -107,7 +107,7 @@ namespace NeeView
 
                 case EntryCollectionChangedAction.Replace:
                 case EntryCollectionChangedAction.Reset:
-                    // TODO: ブックマークの先頭に移動
+                    FolderList.Current.RequestPlace(Bookmark.Scheme + "\\", null, FolderSetPlaceOption.IsUpdateHistory | FolderSetPlaceOption.ResetKeyword | FolderSetPlaceOption.Refresh);
                     break;
             }
         }
@@ -145,11 +145,7 @@ namespace NeeView
 
                 case Bookmark bookmark:
 
-                    FileSystemInfo info = new DirectoryInfo(bookmark.Place);
-                    if (!info.Exists)
-                    {
-                        info = new FileInfo(bookmark.Place);
-                    }
+                    var archiveEntry = new ArchiveEntry(bookmark.Place);
 
                     return new FolderItem()
                     {
@@ -158,8 +154,9 @@ namespace NeeView
                         Place = LoosePath.GetDirectoryName(node.CreatePath(Bookmark.Scheme)),
                         TargetPath = bookmark.Place,
                         Name = bookmark.Name,
-                        LastWriteTime = info.LastWriteTime,
-                        Length = info is FileInfo fileInfo ? fileInfo.Length : -1,
+                        ArchiveEntry = archiveEntry,
+                        LastWriteTime = archiveEntry.LastWriteTime ?? default,
+                        Length = archiveEntry.Length,
                         Attributes = FolderItemAttribute.Bookmark,
                         IsReady = true
                     };

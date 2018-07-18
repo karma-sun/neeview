@@ -4230,4 +4230,25 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="FolderTreeMenuExplorer" xml:space="preserve">
     <value>エクスプローラーで開く</value>
   </data>
+  <data name="WordBookmark" xml:space="preserve">
+    <value>ブックマーク</value>
+  </data>
+  <data name="NotifyCannotOpenBookmarkFolder" xml:space="preserve">
+    <value>{0} はブックマークフォルダーです</value>
+  </data>
+  <data name="WordPagemark" xml:space="preserve">
+    <value>ページマーク</value>
+  </data>
+  <data name="SettingPagePanelFolderListTree" xml:space="preserve">
+    <value>フォルダーツリー</value>
+  </data>
+  <data name="FolderTreeLayoutTop" xml:space="preserve">
+    <value>上に配置</value>
+  </data>
+  <data name="FolderTreeLayoutLeft" xml:space="preserve">
+    <value>左に配置</value>
+  </data>
+  <data name="ParamFolderTreeLayout" xml:space="preserve">
+    <value>フォルダーツリーの配置</value>
+  </data>
 </root>

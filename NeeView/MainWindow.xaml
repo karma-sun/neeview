@@ -28,6 +28,7 @@
 
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="SidePanels/PanelIconDictionary.xaml"/>
+                <ResourceDictionary Source="SidePanels/FolderList/FolderListIconDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <!-- Styling the DockPanelSplitter -->

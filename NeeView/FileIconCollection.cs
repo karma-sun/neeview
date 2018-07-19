@@ -134,13 +134,15 @@ namespace NeeView
 
         public void Add(BitmapSource source)
         {
+            if (source == null) return;
+
             Frames.Add(source);
             Frames.Sort((x, y) => x.PixelWidth - y.PixelWidth);
         }
 
         public BitmapSource GetBitmapSource()
         {
-            return Frames.Last();
+            return Frames.LastOrDefault();
         }
 
         public BitmapSource GetBitmapSource(double width)
@@ -153,7 +155,7 @@ namespace NeeView
                 }
             }
 
-            return Frames.Last();
+            return Frames.LastOrDefault();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using NeeLaboratory.ComponentModel;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Media.Imaging;
 
@@ -44,14 +45,9 @@ namespace NeeView
         {
             RaisePropertyChanged(nameof(FolderIcon));
 
-            foreach(var item in GetNodeWalker(Items))
-            { 
-                switch (item)
-                {
-                    case DirectoryNode folder:
-                        folder.RefreshIcon();
-                        break;
-                }
+            foreach (var item in GetNodeWalker(Items))
+            {
+                item.RefreshIcon();
             }
         }
 
@@ -66,22 +62,17 @@ namespace NeeView
             {
                 yield return item;
 
+                foreach(var child in GetNodeWalker(item.Children))
+                {
+                    yield return child;
+                }
+
                 switch (item)
                 {
-                    case RootQuickAccessNode rootQuickAccess:
-                        foreach (var child in rootQuickAccess.Collection.Items)
-                        {
-                            yield return child;
-                        }
-                        break;
-
-                    case QuickAccess QuickAccess:
-                        break;
-
                     case FolderTreeNodeBase node:
                         if (node.ChildrenRaw != null)
                         {
-                            foreach(var child in GetNodeWalker(node.ChildrenRaw))
+                            foreach (var child in GetNodeWalker(node.ChildrenRaw))
                             {
                                 yield return child;
                             }
@@ -89,7 +80,11 @@ namespace NeeView
                         break;
 
                     default:
-                        throw new NotSupportedException();
+                        foreach (var child in GetNodeWalker(item.Children))
+                        {
+                            yield return child;
+                        }
+                        break;
                 }
             }
         }
@@ -99,7 +94,7 @@ namespace NeeView
         {
             if (e.Action == System.ComponentModel.CollectionChangeAction.Add)
             {
-                if (e.Element is QuickAccess quickAccess)
+                if (e.Element is QuickAccessNode quickAccess)
                 {
                     quickAccess.IsSelected = true;
                     SelectedItemChanged?.Invoke(this, null);
@@ -116,15 +111,25 @@ namespace NeeView
         {
             switch (item)
             {
-                case QuickAccess quickAccess:
-                    SetFolderListPlace(quickAccess.Path);
+                case QuickAccessNode quickAccess:
+                    SetFolderListPlace(quickAccess.QuickAccess.Path);
                     break;
+
                 case RootDirectoryNode rootFolder:
                     SetFolderListPlace("");
                     break;
+
+                case DriveDirectoryNode drive:
+                    if (drive.IsReady)
+                    {
+                        SetFolderListPlace(drive.Path);
+                    }
+                    break;
+
                 case DirectoryNode folder:
                     SetFolderListPlace(folder.Path);
                     break;
+
                 case BookmarkFolderNode bookmarkFolder:
                     SetFolderListPlace(bookmarkFolder.Path);
                     break;
@@ -165,8 +170,12 @@ namespace NeeView
             var item = QuickAccessCollection.Current.Items.FirstOrDefault(e => e.Path == path);
             if (item != null)
             {
-                item.IsSelected = true;
-                SelectedItemChanged?.Invoke(this, null);
+                var node = _rootQuickAccess.Children.FirstOrDefault(e => ((QuickAccessNode)e).QuickAccess == item);
+                if (node != null)
+                {
+                    node.IsSelected = true;
+                    SelectedItemChanged?.Invoke(this, null);
+                }
                 return;
             }
 
@@ -178,30 +187,31 @@ namespace NeeView
         {
             switch (item)
             {
-                case QuickAccess quickAccess:
-                    QuickAccessCollection.Current.Remove(quickAccess);
+                case QuickAccessNode quickAccess:
+                    _rootQuickAccess.SelectNext(quickAccess);
+                    QuickAccessCollection.Current.Remove(quickAccess.QuickAccess);
                     break;
             }
         }
 
 
-        public void MoveQuickAccess(QuickAccess src, QuickAccess dst)
+        public void MoveQuickAccess(QuickAccessNode src, QuickAccessNode dst)
         {
             if (src == dst)
             {
                 return;
             }
-            var srcIndex = QuickAccessCollection.Current.Items.IndexOf(src);
+            var srcIndex = QuickAccessCollection.Current.Items.IndexOf(src.QuickAccess);
             if (srcIndex < 0)
             {
                 return;
             }
-            var dstIndex = QuickAccessCollection.Current.Items.IndexOf(dst);
+            var dstIndex = QuickAccessCollection.Current.Items.IndexOf(dst.QuickAccess);
             if (dstIndex < 0)
             {
                 return;
             }
-            QuickAccessCollection.Current.Items.Move(srcIndex, dstIndex);
+            QuickAccessCollection.Current.Move(srcIndex, dstIndex);
         }
 
         public void SyncDirectory(string place)
@@ -209,7 +219,7 @@ namespace NeeView
             _rootFolder.SyncDirectory(place);
         }
 
-        public  void RefreshDirectory()
+        public void RefreshDirectory()
         {
             _rootFolder.Refresh();
         }

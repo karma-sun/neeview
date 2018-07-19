@@ -1,13 +1,12 @@
 ﻿using NeeView.Collections.Generic;
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace NeeView
 {
@@ -28,6 +27,10 @@ namespace NeeView
             _source = source;
         }
 
+        public override string DispName { get => Name; set { } }
+
+        public override ImageSource Icon => FileIconCollection.Current.CreateDefaultFolderIcon(16.0);
+        
         public TreeListNode<IBookmarkEntry> Source => _source;
 
         public BookmarkFolderNode Parent
@@ -128,119 +131,6 @@ namespace NeeView
             }
 
         }
-    }
-
-
-    public class RootBookmarkFolderNode : BookmarkFolderNode
-    {
-        public override string Key => "";
-
-        public override string Name => Bookmark.Scheme + "\\";
-
-        public string SchemeName => Properties.Resources.WordBookmark;
-
-        public RootBookmarkFolderNode() : base(null, BookmarkCollection.Current.Items)
-        {
-            BookmarkCollection.Current.BookmarkChanged += BookmarkCollection_BookmarkChanged;
-        }
-
-        private void BookmarkCollection_BookmarkChanged(object sender, BookmarkCollectionChangedEventArgs e)
-        {
-            switch (e.Action)
-            {
-                case EntryCollectionChangedAction.Reset:
-                case EntryCollectionChangedAction.Replace:
-                    _source = BookmarkCollection.Current.Items;
-                    RefreshChildren(true);
-                    RaisePropertyChanged(nameof(Children));
-                    break;
-
-                case EntryCollectionChangedAction.Add:
-                    Directory_Creaded(e.Parent, e.Item);
-                    break;
-
-                case EntryCollectionChangedAction.Remove:
-                    Directory_Deleted(e.Parent, e.Item);
-                    break;
-
-                case EntryCollectionChangedAction.Rename:
-                    Directory_Renamed(e.Parent, e.Item);
-                    break;
-
-            }
-        }
-
-        private void Directory_Creaded(TreeListNode<IBookmarkEntry> parent, TreeListNode<IBookmarkEntry> item)
-        {
-            if (!(item.Value is BookmarkFolder folder))
-            {
-                return;
-            }
-
-            Debug.WriteLine("Create: " + item.CreatePath(null));
-
-            var node = GetDirectoryNode(parent.CreatePath(null));
-            if (node != null)
-            {
-                App.Current.Dispatcher.BeginInvoke((Action)(() => node.Add(item)));
-            }
-            else
-            {
-                Debug.WriteLine("Skip create");
-            }
-        }
-
-        private void Directory_Deleted(TreeListNode<IBookmarkEntry> parent, TreeListNode<IBookmarkEntry> item)
-        {
-            if (!(item.Value is BookmarkFolder folder))
-            {
-                return;
-            }
-
-            Debug.WriteLine("Delete: " + item.CreatePath(null));
-
-            var node = GetDirectoryNode(parent.CreatePath(null));
-            if (node != null)
-            {
-                App.Current.Dispatcher.BeginInvoke((Action)(() => node.Remove(item)));
-            }
-            else
-            {
-                Debug.WriteLine("Skip delete");
-            }
-        }
-
-        private void Directory_Renamed(TreeListNode<IBookmarkEntry> parent, TreeListNode<IBookmarkEntry> item)
-        {
-            if (!(item.Value is BookmarkFolder folder))
-            {
-                return;
-            }
-
-            Debug.WriteLine("Rename: " + item.CreatePath(null));
-
-            var node = GetDirectoryNode(parent.CreatePath(null));
-            if (node != null)
-            {
-                App.Current.Dispatcher.BeginInvoke((Action)(() => node.Rename(item)));
-            }
-            else
-            {
-                Debug.WriteLine("Skip rename");
-            }
-        }
-
-        private BookmarkFolderNode GetDirectoryNode(string path)
-        {
-            if (string.IsNullOrEmpty(path))
-            {
-                return this;
-            }
-
-            return GetDirectoryNode(path, false, false) as BookmarkFolderNode;
-        }
-
-
     }
 
 }

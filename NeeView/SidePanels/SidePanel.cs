@@ -254,11 +254,16 @@ namespace NeeView
         /// </summary>
         public bool ToggleVisibleFolderTree(bool byMenu)
         {
+            return SetVisibleFolderTree(byMenu, !IsVisibleFolderTree);
+        }
+
+        public bool SetVisibleFolderTree(bool byMenu, bool isVisible)
+        { 
             var model = _models.FolderList;
 
             if (byMenu || !model.IsFolderTreeVisible || IsVisiblePanel(FolderListPanel))
             {
-                model.IsFolderTreeVisible = !IsVisibleFolderTree;
+                model.IsFolderTreeVisible = isVisible;
             }
             SetSelectedPanel(FolderListPanel, true);
             RaisePanelPropertyChanged();

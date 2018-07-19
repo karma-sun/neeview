@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace NeeView
 {
     [DataContract]
-    public class QuickAccess : BindableBase, IFolderTreeNode
+    public class QuickAccess : BindableBase
     {
         private string _path;
 
@@ -18,7 +18,14 @@ namespace NeeView
         public string Path
         {
             get { return _path; }
-            private set { SetProperty(ref _path, value); }
+            private set
+            {
+                if (SetProperty(ref _path, value))
+                {
+                    RaisePropertyChanged(nameof(Name));
+                    RaisePropertyChanged(nameof(Detail));
+                }
+            }
         }
 
         public string Name
@@ -30,23 +37,6 @@ namespace NeeView
         {
             get { return new QueryPath(_path).ToDetailString(); }
         }
-
-        #region ITreeViewNode Support
-
-        private bool _isSelected;
-        public bool IsSelected
-        {
-            get { return _isSelected; }
-            set { SetProperty(ref _isSelected, value); }
-        }
-
-        public bool IsExpanded
-        {
-            get { return false; }
-            set { }
-        }
-
-        #endregion
 
         public override string ToString()
         {

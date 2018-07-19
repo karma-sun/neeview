@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace NeeView
 {
@@ -66,6 +67,15 @@ namespace NeeView
 
         public ObservableCollection<IFolderTreeNode> ChildrenRaw => _children;
 
+        public abstract string DispName { get; set; }
+
+        public abstract ImageSource Icon { get; }
+
+        public virtual void RefreshIcon()
+        {
+            RaisePropertyChanged(nameof(Icon));
+        }
+
         public void ResetChildren(bool isDelay)
         {
             IsExpanded = false;
@@ -92,6 +102,15 @@ namespace NeeView
     {
         public bool IsSelected { get => false; set { } }
         public bool IsExpanded { get => false; set { } }
+
+        public ObservableCollection<IFolderTreeNode> Children { get => null; set { } }
+
+        public string DispName => null;
+        public ImageSource Icon => null;
+
+        public void RefreshIcon()
+        {
+        }
     }
 }
 

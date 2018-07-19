@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace NeeView
@@ -23,13 +24,17 @@ namespace NeeView
         }
 
         public DirectoryNode(DirectoryNode parent, string name, bool isDelayAll) : this(parent, name)
-        { 
+        {
             if (isDelayAll)
             {
                 IsDelayCreateChildremAll = true;
                 DelayCreateChildren();
             }
         }
+
+        public override string DispName { get => Name; set { } }
+
+        public override ImageSource Icon => FileIconCollection.Current.CreateFileIcon(Path, IO.FileIconType.Directory, 16.0, false, false);
 
         private string _name;
         public string Name
@@ -53,7 +58,7 @@ namespace NeeView
 
         public DriveDirectoryNode Drive => this is DriveDirectoryNode drive ? drive : Parent?.Drive;
 
-        public BitmapSource Icon => FileIconCollection.Current.CreateFileIcon(Path, IO.FileIconType.Directory, 16.0, false, false);
+
 
         public bool IsDelayCreateChildremAll { get; set; }
 
@@ -62,6 +67,10 @@ namespace NeeView
         protected virtual void OnException(DirectoryNode sender, NotifyCrateDirectoryChildrenExcepionEventArgs e)
         {
             Parent?.OnException(sender, e);
+        }
+
+        protected virtual void OnChildrenChanged(DirectoryNode sender, EventArgs e)
+        {
         }
 
         public override void RefreshChildren(bool isForce)
@@ -73,6 +82,8 @@ namespace NeeView
                 Children = new ObservableCollection<IFolderTreeNode>(directory.GetDirectories()
                     .Where(e => (e.Attributes & FileAttributes.Hidden) == 0)
                     .Select(e => new DirectoryNode(this, e.Name, IsDelayCreateChildremAll)));
+
+                OnChildrenChanged(this, null);
             }
             catch (Exception ex)
             {
@@ -86,11 +97,6 @@ namespace NeeView
                     OnException(this, new NotifyCrateDirectoryChildrenExcepionEventArgs(ex, isDriveRefresh));
                 }
             }
-        }
-
-        public void RefreshIcon()
-        {
-            RaisePropertyChanged(nameof(Icon));
         }
 
         public void Add(string name)

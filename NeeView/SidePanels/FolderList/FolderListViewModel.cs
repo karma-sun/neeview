@@ -159,7 +159,7 @@ namespace NeeView
             set { if (_MoreMenu != value) { _MoreMenu = value; RaisePropertyChanged(); } }
         }
 
-        #endregion
+        #endregion Properties
 
         #region Commands
 
@@ -301,11 +301,26 @@ namespace NeeView
         {
             get
             {
-                return _AddQuickAccess = _AddQuickAccess ?? new RelayCommand(Executed);
+                return _AddQuickAccess = _AddQuickAccess ?? new RelayCommand(Execute);
 
-                void Executed()
+                void Execute()
                 {
                     _model.AddQuickAccess();
+                }
+            }
+        }
+
+        private RelayCommand<FolderTreeLayout> _SetFolderTreeLayout;
+        public RelayCommand<FolderTreeLayout> SetFolderTreeLayout
+        {
+            get
+            {
+                return _SetFolderTreeLayout = _SetFolderTreeLayout ?? new RelayCommand<FolderTreeLayout>(Execute);
+
+                void Execute(FolderTreeLayout layout)
+                {
+                    _model.FolderTreeLayout = layout;
+                    SidePanel.Current.SetVisibleFolderTree(true, true);
                 }
             }
         }
@@ -314,7 +329,7 @@ namespace NeeView
 
         public ICommand ToggleVisibleFoldersTree => RoutedCommandTable.Current.Commands[CommandType.ToggleVisibleFoldersTree];
 
-        #endregion
+        #endregion Commands
 
         #region Methods
 
@@ -445,7 +460,7 @@ namespace NeeView
             _model.PanelListItemStyle = style;
         }
 
-        #endregion
+        #endregion MoreMenu
 
 
         //
@@ -486,7 +501,6 @@ namespace NeeView
             _model.UpdateSearchHistory();
         }
 
-
         /// <summary>
         /// 可能な場合のみ、フォルダー移動
         /// </summary>
@@ -499,7 +513,7 @@ namespace NeeView
             }
         }
 
-        #endregion
+        #endregion Methods
     }
 
 }

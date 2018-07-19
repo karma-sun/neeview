@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Windows;
 using System.Linq;
+using System.Diagnostics;
 
 namespace NeeView.IO
 {
@@ -351,9 +352,27 @@ namespace NeeView.IO
             return CreateFileIconCollection(filename, 0, 0, allowJumbo);
         }
 
-
-
         private static List<BitmapSource> CreateFileIconCollection(string filename, NativeMethods.FILE_ATTRIBUTE attribute, NativeMethods.SHGFI flags, bool allowJumbo)
+        {
+            if (allowJumbo)
+            {
+                return CreateFileIconCollectionExtra(filename, attribute, flags);
+            }
+            else
+            {
+                return CreateFileIconCollection(filename, attribute, flags);
+            }
+        }
+
+        private static List<BitmapSource> CreateFileIconCollection(string filename, NativeMethods.FILE_ATTRIBUTE attribute, NativeMethods.SHGFI flags)
+        {
+            var bitmaps = new List<BitmapSource>();
+            bitmaps.Add(CreateFileIcon(filename, attribute, flags, IconSize.Small));
+            bitmaps.Add(CreateFileIcon(filename, attribute, flags, IconSize.Large));
+            return bitmaps.Where(e => e != null).ToList();
+        }
+
+        private static List<BitmapSource> CreateFileIconCollectionExtra(string filename, NativeMethods.FILE_ATTRIBUTE attribute, NativeMethods.SHGFI flags)
         {
             NativeMethods.SHFILEINFO shinfo = new NativeMethods.SHFILEINFO();
 
@@ -361,22 +380,47 @@ namespace NeeView.IO
 
             var bitmaps = new List<BitmapSource>();
 
-            var shils = Enum.GetValues(typeof(NativeMethods.SHIL)).Cast<NativeMethods.SHIL>().Where(e => allowJumbo || e != NativeMethods.SHIL.SHIL_JUMBO);
+            var shils = Enum.GetValues(typeof(NativeMethods.SHIL)).Cast<NativeMethods.SHIL>();
             foreach (var shil in shils)
             {
-                int hResult = NativeMethods.SHGetImageList(shil, ref NativeMethods.IID_IImageList, out NativeMethods.IImageList imglist);
-                if (hResult == NativeMethods.S_OK)
+                try
                 {
-                    IntPtr hicon = IntPtr.Zero;
-                    imglist.GetIcon(shinfo.iIcon, (int)NativeMethods.ImageListDrawItemConstants.ILD_TRANSPARENT, ref hicon);
-                    BitmapSource bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(hicon, System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-                    NativeMethods.DestroyIcon(hicon);
+                    int hResult = NativeMethods.SHGetImageList(shil, ref NativeMethods.IID_IImageList, out NativeMethods.IImageList imglist);
+                    if (hResult == NativeMethods.S_OK)
+                    {
+                        IntPtr hicon = IntPtr.Zero;
+                        imglist.GetIcon(shinfo.iIcon, (int)NativeMethods.ImageListDrawItemConstants.ILD_TRANSPARENT, ref hicon);
+                        BitmapSource bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(hicon, System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                        NativeMethods.DestroyIcon(hicon);
 
-                    bitmaps.Add(bitmapSource);
+                        bitmaps.Add(bitmapSource);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"Icon: {filename} - {shil}\n{ex.Message}");
                 }
             }
 
             return bitmaps;
+        }
+
+
+        private static BitmapSource CreateFileIcon(string filename, NativeMethods.FILE_ATTRIBUTE attribute, NativeMethods.SHGFI flags, IconSize iconSize)
+        {
+            NativeMethods.SHFILEINFO shinfo = new NativeMethods.SHFILEINFO();
+            IntPtr hSuccess = NativeMethods.SHGetFileInfo(filename, attribute, out shinfo, (uint)Marshal.SizeOf(shinfo), flags | NativeMethods.SHGFI.SHGFI_ICON | (iconSize == IconSize.Small ? NativeMethods.SHGFI.SHGFI_SMALLICON : NativeMethods.SHGFI.SHGFI_LARGEICON));
+            if (hSuccess != IntPtr.Zero)
+            {
+                BitmapSource bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(shinfo.hIcon, System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                NativeMethods.DestroyIcon(shinfo.hIcon);
+                return bitmapSource;
+            }
+            else
+            {
+                Debug.WriteLine($"Icon: {filename} - {iconSize}\nCannnot create.");
+                return null;
+            }
         }
     }
 

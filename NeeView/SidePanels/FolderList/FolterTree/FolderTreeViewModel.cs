@@ -39,7 +39,7 @@ namespace NeeView
             Model.Remove(item);
         }
 
-        public void MoveQuickAccess(QuickAccess src, QuickAccess dst)
+        public void MoveQuickAccess(QuickAccessNode src, QuickAccessNode dst)
         {
             Model.MoveQuickAccess(src, dst);
         }

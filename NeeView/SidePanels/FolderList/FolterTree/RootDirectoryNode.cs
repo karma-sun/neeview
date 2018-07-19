@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Windows.Media;
 
 namespace NeeView
 {
@@ -17,7 +18,9 @@ namespace NeeView
             WindowMessage.Current.DirectoryChanged += WindowMessage_DirectoryChanged;
         }
 
-        public string Name => "PC";
+        public override string DispName { get => "PC"; set { } }
+
+        public override ImageSource Icon => MainWindow.Current.Resources["ic_desktop_windows_24px"] as ImageSource;
 
         public override string Key => null;
 
@@ -34,7 +37,7 @@ namespace NeeView
                 Children = new ObservableCollection<IFolderTreeNode>(DriveInfo.GetDrives()
                     .Select(e => new DriveDirectoryNode(e)));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 FolderTreeModel.Current.ShowToast(ex.Message);
             }
@@ -48,9 +51,10 @@ namespace NeeView
             {
                 try
                 {
+                    var driveInfo = CreateDriveInfo(e.Name);
+
                     if (e.IsAlive)
                     {
-                        var driveInfo = CreateDriveInfo(e.Name);
                         if (driveInfo != null)
                         {
                             AddDrive(driveInfo);
@@ -61,7 +65,14 @@ namespace NeeView
                         var drive = _children.Cast<DriveDirectoryNode>().FirstOrDefault(d => d.Name == e.Name);
                         if (drive != null)
                         {
-                            _children.Remove(drive);
+                            if (driveInfo == null)
+                            {
+                                _children.Remove(drive);
+                            }
+                            else
+                            {
+                                drive.Refresh();
+                            }
                         }
                     }
                 }

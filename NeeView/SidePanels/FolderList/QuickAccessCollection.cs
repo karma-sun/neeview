@@ -37,24 +37,22 @@ namespace NeeView
         {
             if (item is null) throw new ArgumentNullException(nameof(item));
 
-            var index = Items.IndexOf(item);
-            if (index < 0) throw new ArgumentOutOfRangeException(nameof(item));
-
-            if (item.IsSelected)
-            {
-                if (index + 1 < Items.Count)
-                {
-                    Items[index + 1].IsSelected = true;
-                }
-                else if (index - 1 >= 0)
-                {
-                    Items[index - 1].IsSelected = true;
-                }
-            }
-
             var isRemoved = Items.Remove(item);
             CollectionChanged?.Invoke(this, new CollectionChangeEventArgs(CollectionChangeAction.Remove, item));
             return isRemoved;
+        }
+
+        public void Move(int srcIndex, int dstIndex)
+        {
+            if (srcIndex == dstIndex) return;
+
+            var item = Items[srcIndex];
+
+            Items.RemoveAt(srcIndex);
+            CollectionChanged?.Invoke(this, new CollectionChangeEventArgs(CollectionChangeAction.Remove, item));
+
+            Items.Insert(dstIndex, item);
+            CollectionChanged?.Invoke(this, new CollectionChangeEventArgs(CollectionChangeAction.Add, item));
         }
 
 

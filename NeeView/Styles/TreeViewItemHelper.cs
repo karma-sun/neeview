@@ -141,4 +141,24 @@ namespace NeeView
         }
     }
 
+    public class TreeViewVerticalMarginConverter : IValueConverter
+    {
+        public double Length { get; set; }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (!(value is TreeViewItem item) || item.GetDepth() != 0)
+            {
+                return new Thickness(0);
+            }
+
+            return new Thickness(0, Length, 0, Length);
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new System.NotImplementedException();
+        }
+    }
+
 }

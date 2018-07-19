@@ -204,6 +204,8 @@
     </Compile>
     <Compile Include="SidePanels\FolderList\FolterTree\FolderTreeViewModel.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\IFolderTreeNode.cs" />
+    <Compile Include="SidePanels\FolderList\FolterTree\QuickAccessNode.cs" />
+    <Compile Include="SidePanels\FolderList\FolterTree\RootBookmarkFolderNode.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\RootDirectoryNode.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\RootQuickAccessNode.cs" />
     <Compile Include="SidePanels\FolderList\QueryPath.cs" />
@@ -253,7 +255,7 @@
     <Compile Include="SidePanels\Pagemark\PagemarkFolder.cs" />
     <Compile Include="SidePanels\Pagemark\PagemarkListBoxModel.cs" />
     <Compile Include="SidePanels\Pagemark\PagemarkListBoxViewModel.cs" />
-    <Compile Include="TreeViewItemHelper.cs" />
+    <Compile Include="Styles\TreeViewItemHelper.cs" />
     <Compile Include="VirtualCollection.cs" />
     <Compile Include="WindowMessage.cs" />
     <Compile Include="_NeeView\Collections\Generic\IHasValue.cs" />
@@ -983,6 +985,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SidePanels\Bookamrk\BookmarkListBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SidePanels\FolderList\FolderListIconDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

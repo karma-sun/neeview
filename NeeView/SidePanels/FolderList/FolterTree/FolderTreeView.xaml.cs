@@ -212,7 +212,7 @@ namespace NeeView
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderTreeMenuAddCurrentQuickAccess, Command = AddQuickAccessCommand });
                     break;
 
-                case QuickAccess quickAccess:
+                case QuickAccessNode quickAccess:
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderTreeMenuRemoveQuickAccess, Command = RemoveCommand });
                     break;
 
@@ -268,9 +268,9 @@ namespace NeeView
             {
                 var item = e.Data.GetData(DragDropFormat);
 
-                if (viewItem.DataContext is QuickAccess quickAccessTarget)
+                if (viewItem.DataContext is QuickAccessNode quickAccessTarget)
                 {
-                    if (item is QuickAccess quicklAccess)
+                    if (item is QuickAccessNode quicklAccess)
                     {
                         e.Effects = DragDropEffects.Move;
                         e.Handled = true;
@@ -318,8 +318,8 @@ namespace NeeView
 
                 switch (viewItem.DataContext)
                 {
-                    case QuickAccess quickAccessTarget:
-                        if (item is QuickAccess quicklAccess)
+                    case QuickAccessNode quickAccessTarget:
+                        if (item is QuickAccessNode quicklAccess)
                         {
                             _vm.MoveQuickAccess(quicklAccess, quickAccessTarget);
                             e.Handled = true;

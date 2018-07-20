@@ -23,7 +23,7 @@ namespace NeeView
             set { SetProperty(ref _isSelected, value); }
         }
 
-        private bool _IsExpanded = true;
+        private bool _IsExpanded;
         public bool IsExpanded
         {
             get { return _IsExpanded; }

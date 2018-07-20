@@ -7,6 +7,8 @@ namespace NeeView
 {
     public class FolderTreeViewModel : BindableBase
     {
+        private bool _isFirstVisibled;
+
         public FolderTreeViewModel()
         {
             Model = FolderTreeModel.Current;
@@ -44,9 +46,18 @@ namespace NeeView
             Model.MoveQuickAccess(src, dst);
         }
 
-        internal void RefreshFolder()
+        public void RefreshFolder()
         {
             Model.RefreshDirectory();
+        }
+
+        public void IsVisibleChanged(bool isVisible)
+        {
+            if (isVisible && !_isFirstVisibled)
+            {
+                _isFirstVisibled = true;
+                Model.ExpandRoot();
+            }
         }
     }
 }

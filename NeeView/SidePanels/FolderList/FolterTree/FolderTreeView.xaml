@@ -11,11 +11,7 @@
              FontSize="{DynamicResource FolderTreeFontSize}"
              d:DesignHeight="450" d:DesignWidth="800">
 
-
-
     <UserControl.Resources>
-
-
 
         <Style x:Key="IconImageStyle" TargetType="{x:Type Image}">
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -36,6 +32,7 @@
                   Style="{StaticResource NVTreeView}"
                   Foreground="{DynamicResource NVForeground}" Background="Transparent" BorderThickness="0"
                   ItemsSource="{Binding Model.Items}"
+                  IsVisibleChanged="TreeView_IsVisibleChanged"
                   AllowDrop="True"
                   DragEnter="TreeView_DragEnter"
                   DragLeave="TreeView_DragLeave"

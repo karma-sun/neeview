@@ -41,16 +41,6 @@ namespace NeeView
         public BitmapSource FolderIcon => FileIconCollection.Current.CreateDefaultFolderIcon(16.0);
 
 
-        private void Config_DpiChanged(object sender, EventArgs e)
-        {
-            RaisePropertyChanged(nameof(FolderIcon));
-
-            foreach (var item in GetNodeWalker(Items))
-            {
-                item.RefreshIcon();
-            }
-        }
-
         private static IEnumerable<IFolderTreeNode> GetNodeWalker(IEnumerable<IFolderTreeNode> collection)
         {
             if (collection == null)
@@ -89,6 +79,15 @@ namespace NeeView
             }
         }
 
+        private void Config_DpiChanged(object sender, EventArgs e)
+        {
+            RaisePropertyChanged(nameof(FolderIcon));
+
+            foreach (var item in GetNodeWalker(Items))
+            {
+                item.RefreshIcon();
+            }
+        }
 
         private void QuickAccess_CollectionChanged(object sender, System.ComponentModel.CollectionChangeEventArgs e)
         {
@@ -100,6 +99,13 @@ namespace NeeView
                     SelectedItemChanged?.Invoke(this, null);
                 }
             }
+        }
+
+        internal void ExpandRoot()
+        {
+            _rootQuickAccess.IsExpanded = true;
+            _rootFolder.IsExpanded = true;
+            _rootBookmarkFolder.IsExpanded = true;
         }
 
         public void SelectRootQuickAccess()

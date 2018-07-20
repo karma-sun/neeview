@@ -11,8 +11,6 @@ namespace NeeView
     {
         public RootDirectoryNode()
         {
-            IsExpanded = true;
-
             WindowMessage.Current.DriveChanged += WindowMessage_DriveChanged;
             WindowMessage.Current.MediaChanged += WindowMessage_MediaChanged;
             WindowMessage.Current.DirectoryChanged += WindowMessage_DirectoryChanged;

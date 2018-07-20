@@ -234,7 +234,11 @@ namespace NeeView
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is string path)
+            if (value is null)
+            {
+                return MainWindow.Current.Resources["ic_desktop_windows_24px"];
+            }
+            else if (value is string path)
             {
                 if (path.StartsWith(Bookmark.Scheme))
                 {
@@ -254,7 +258,7 @@ namespace NeeView
                 }
             }
 
-            return value;
+            return null;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

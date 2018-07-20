@@ -132,6 +132,11 @@ namespace NeeView
             this.TreeView.Focus();
         }
 
+        private void TreeView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            _vm.IsVisibleChanged((bool)e.NewValue);
+        }
+
         private void TreeViewItem_Selected(object sender, RoutedEventArgs e)
         {
 #if false
@@ -332,8 +337,8 @@ namespace NeeView
             e.Handled = true;
         }
 
-        #endregion
 
+        #endregion
 
     }
 

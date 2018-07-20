@@ -246,7 +246,6 @@ namespace NeeView.IO
             };
         }
 
-
         public enum IconSize
         {
             Large = NativeMethods.SHIL.SHIL_LARGE,
@@ -255,63 +254,6 @@ namespace NeeView.IO
             Jumbo = NativeMethods.SHIL.SHIL_JUMBO,
         };
 
-        public static BitmapSource CreateIcon(string filename, FileIconType iconType, IconSize iconSize)
-        {
-            switch (iconType)
-            {
-                case FileIconType.DirectoryType:
-                    return CreateDirectoryTypeIcon(filename, iconSize);
-                case FileIconType.FileType:
-                    return CreateFileTypeIcon(filename, iconSize);
-                case FileIconType.Directory:
-                    return CreateDirectoryIcon(filename, iconSize);
-                case FileIconType.File:
-                    return CreateFileIcon(filename, iconSize);
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(iconType));
-            }
-        }
-
-        public static BitmapSource CreateDirectoryTypeIcon(string filename, IconSize iconSize)
-        {
-            var currentshil = (NativeMethods.SHIL)iconSize;
-            return CreateFileIcon(filename, currentshil, NativeMethods.FILE_ATTRIBUTE.FILE_ATTRIBUTE_DIRECTORY, NativeMethods.SHGFI.SHGFI_USEFILEATTRIBUTES);
-        }
-
-        public static BitmapSource CreateFileTypeIcon(string filename, IconSize iconSize)
-        {
-            var currentshil = (NativeMethods.SHIL)iconSize;
-            return CreateFileIcon(System.IO.Path.GetExtension(filename), currentshil, 0, NativeMethods.SHGFI.SHGFI_USEFILEATTRIBUTES);
-        }
-
-        public static BitmapSource CreateDirectoryIcon(string filename, IconSize iconSize)
-        {
-            var currentshil = (NativeMethods.SHIL)iconSize;
-            return CreateFileIcon(filename, currentshil, NativeMethods.FILE_ATTRIBUTE.FILE_ATTRIBUTE_DIRECTORY, 0);
-        }
-
-        public static BitmapSource CreateFileIcon(string filename, IconSize iconSize)
-        {
-            var currentshil = (NativeMethods.SHIL)iconSize;
-            return CreateFileIcon(filename, currentshil, 0, 0);
-        }
-
-        private static BitmapSource CreateFileIcon(string filename, NativeMethods.SHIL currentshil, NativeMethods.FILE_ATTRIBUTE attribute, NativeMethods.SHGFI flags)
-        {
-            NativeMethods.SHFILEINFO shinfo = new NativeMethods.SHFILEINFO();
-
-            IntPtr hImg = NativeMethods.SHGetFileInfo(filename, attribute, out shinfo, (uint)Marshal.SizeOf(typeof(NativeMethods.SHFILEINFO)), NativeMethods.SHGFI.SHGFI_SYSICONINDEX | flags);
-
-            NativeMethods.IImageList imglist = null;
-            int hResult = NativeMethods.SHGetImageList(currentshil, ref NativeMethods.IID_IImageList, out imglist);
-
-            IntPtr hicon = IntPtr.Zero;
-            imglist.GetIcon(shinfo.iIcon, (int)NativeMethods.ImageListDrawItemConstants.ILD_TRANSPARENT, ref hicon);
-            BitmapSource bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(hicon, System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-            NativeMethods.DestroyIcon(hicon);
-
-            return bitmapSource;
-        }
 
 
         public static List<BitmapSource> CreateIconCollection(string filename, FileIconType iconType, bool allowJumbo)

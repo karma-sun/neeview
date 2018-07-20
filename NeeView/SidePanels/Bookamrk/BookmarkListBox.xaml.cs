@@ -172,7 +172,7 @@ namespace NeeView
                     var rename = new RenameControl() { Target = textBlock };
                     rename.Closing += (s, ev) =>
                     {
-                        var newName = ev.NewValue.Trim();
+                        var newName = BookmarkFolder.GetValidateName(ev.NewValue);
                         if (string.IsNullOrEmpty(newName))
                         {
                             newName = ev.OldValue;

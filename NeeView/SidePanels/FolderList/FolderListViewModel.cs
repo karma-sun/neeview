@@ -39,11 +39,36 @@ namespace NeeView
     public enum FolderSetPlaceOption
     {
         None,
-        IsFocus = (1 << 0),
-        IsUpdateHistory = (1 << 1),
-        IsTopSelect = (1 << 3),
+
+        /// <summary>
+        /// フォーカスをあわせる
+        /// </summary>
+        Focus = (1 << 0),
+
+        /// <summary>
+        /// フォルダー履歴更新
+        /// </summary>
+        UpdateHistory = (1 << 1),
+
+        /// <summary>
+        /// 先頭を選択した態にする
+        /// </summary>
+        TopSelect = (1 << 3),
+
+        /// <summary>
+        /// 検索キーワードをクリア
+        /// </summary>
         ResetKeyword = (1 << 4),
+
+        /// <summary>
+        /// 同じ場所でも作り直す
+        /// </summary>
         Refresh = (1 << 5),
+
+        /// <summary>
+        /// ブックマークではなく、ファイルシステムの場所を優先
+        /// </summary>
+        FileSystem = (1<<6),
     }
 
     /// <summary>
@@ -133,6 +158,7 @@ namespace NeeView
         public bool IsFolderRecursive => _model.FolderCollection != null ? _model.FolderCollection.FolderParameter.IsFolderRecursive : false;
         public string Place => _model.FolderCollection?.PlaceDispString;
         public string PlaceRaw => _model.FolderCollection?.Place;
+        public string QueryPath => _model.FolderCollection?.QueryPath;
 
         /// <summary>
         /// Model property.
@@ -371,6 +397,7 @@ namespace NeeView
             RaisePropertyChanged(nameof(IsFolderRecursive));
             RaisePropertyChanged(nameof(Place));
             RaisePropertyChanged(nameof(PlaceRaw));
+            RaisePropertyChanged(nameof(QueryPath));
         }
 
         #region MoreMenu

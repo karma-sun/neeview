@@ -8,6 +8,8 @@ using System.Windows.Controls;
 using System.Diagnostics;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
+using System.Windows.Data;
+using System.Globalization;
 
 namespace NeeView
 {
@@ -224,4 +226,74 @@ namespace NeeView
             }
         }
     }
+
+
+    #region Converters
+
+    public class PathToPlaceIconConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is string path)
+            {
+                if (path.StartsWith(Bookmark.Scheme))
+                {
+                    return App.Current.Resources["ic_grade_24px"];
+                }
+                else
+                {
+                    var queryPath = new QueryPath(path);
+                    if (queryPath.Search != null)
+                    {
+                        return MainWindow.Current.Resources["ic_search_24px"];
+                    }
+                    else
+                    {
+                        return FileIconCollection.Current.CreateDefaultFolderIcon(16.0);
+                    }
+                }
+            }
+
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class PathToDispPathConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is string path)
+            {
+                if (path.StartsWith(Bookmark.Scheme))
+                {
+                    path = path.Substring(Bookmark.Scheme.Length).TrimStart('\\');
+                    if (string.IsNullOrEmpty(path))
+                    {
+                        path = Properties.Resources.WordBookmark;
+                    }
+                    else
+                    {
+                        path = Properties.Resources.WordBookmark + ":\\" + path;
+                    }
+                }
+
+                return path;
+                //return path.Replace("\\", " > ");
+            }
+
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    #endregion Converters
 }

@@ -305,7 +305,7 @@ namespace NeeView
 
         public string GetValidateFolderName(IEnumerable<string> names, string name, string defaultName)
         {
-            name = name.TrimEnd();
+            name = BookmarkFolder.GetValidateName(name);
             if (string.IsNullOrWhiteSpace(name))
             {
                 name = defaultName;
@@ -336,7 +336,7 @@ namespace NeeView
 
                 var folder = ((BookmarkFolder)child.Value);
 
-                var name = folder.Name.TrimEnd();
+                var name = BookmarkFolder.GetValidateName(folder.Name);
                 if (string.IsNullOrWhiteSpace(name))
                 {
                     name = "_";

@@ -42,5 +42,10 @@ namespace NeeView
                 return _constPage != null ? _constPage : _constPage = new ConstPage(ThumbnailType.Folder);
             }
         }
+
+        public static string GetValidateName(string name)
+        {
+            return name.Trim().Replace('/', '_').Replace('\\', '_');
+        }
     }
 }

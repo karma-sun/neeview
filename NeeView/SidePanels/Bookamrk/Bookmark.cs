@@ -78,7 +78,6 @@ namespace NeeView
 
         #endregion
 
-
         #region IVirtualItem
 
         // TODO: これはPageで保持するべきか？

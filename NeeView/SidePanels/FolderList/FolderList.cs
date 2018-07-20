@@ -537,7 +537,7 @@ namespace NeeView
         /// <param name="place"></param>
         public void ResetPlace(string queryPath)
         {
-            var task = SetPlaceAsync(queryPath ?? GetFixedHome(), null, FolderSetPlaceOption.IsUpdateHistory);
+            var task = SetPlaceAsync(queryPath ?? GetFixedHome(), null, FolderSetPlaceOption.UpdateHistory);
         }
 
         /// <summary>
@@ -558,7 +558,8 @@ namespace NeeView
         /// <param name="select">初期選択項目</param>
         public async Task SetPlaceAsync(string queryPath, FolderItemPosition select, FolderSetPlaceOption options)
         {
-            if (FolderCollection is BookmarkFolderCollection)
+            // ブックマークフォルダーパスに変換
+            if (FolderCollection is BookmarkFolderCollection && !options.HasFlag(FolderSetPlaceOption.FileSystem))
             {
                 if (queryPath != null && !queryPath.StartsWith(Bookmark.Scheme) && select != null)
                 {
@@ -584,7 +585,7 @@ namespace NeeView
                 _lastPlaceDictionary.TryGetValue(place, out select);
             }
 
-            if (options.HasFlag(FolderSetPlaceOption.IsTopSelect))
+            if (options.HasFlag(FolderSetPlaceOption.TopSelect))
             {
                 select = null;
             }
@@ -611,13 +612,13 @@ namespace NeeView
                 {
                     this.SelectedItem = FixedItem(select);
 
-                    RaiseSelectedItemChanged(options.HasFlag(FolderSetPlaceOption.IsFocus));
+                    RaiseSelectedItemChanged(options.HasFlag(FolderSetPlaceOption.Focus));
 
                     // 最終フォルダー更新
                     BookHistoryCollection.Current.LastFolder = Place;
 
                     // 履歴追加
-                    if (options.HasFlag(FolderSetPlaceOption.IsUpdateHistory))
+                    if (options.HasFlag(FolderSetPlaceOption.UpdateHistory))
                     {
                         if (Place != this.History.GetCurrent())
                         {
@@ -707,7 +708,7 @@ namespace NeeView
 
             _isDarty = force || this.FolderCollection.IsDarty();
 
-            await SetPlaceAsync(Place, null, FolderSetPlaceOption.IsUpdateHistory);
+            await SetPlaceAsync(Place, null, FolderSetPlaceOption.UpdateHistory);
         }
 
         /// <summary>
@@ -750,7 +751,7 @@ namespace NeeView
                 if (this.FolderCollection == null || this.FolderCollection.Contains(e.Path)) return;
             }
 
-            var options = FolderSetPlaceOption.IsUpdateHistory;
+            var options = FolderSetPlaceOption.UpdateHistory;
             await SetPlaceAsync(e.Parent, new FolderItemPosition(e.Path), options);
         }
 
@@ -913,7 +914,7 @@ namespace NeeView
 
             int index = GetFolderItemIndex(item);
 
-            await SetPlaceAsync(this.FolderCollection.Place, new FolderItemPosition(item.Path, index), FolderSetPlaceOption.IsUpdateHistory);
+            await SetPlaceAsync(this.FolderCollection.Place, new FolderItemPosition(item.Path, index), FolderSetPlaceOption.UpdateHistory);
             _bookHub.RequestLoad(item.TargetPath, null, options | BookLoadOption.IsBook, false);
             return true;
         }
@@ -940,7 +941,7 @@ namespace NeeView
                 if (next == null) return false;
                 if (next.Content == null) return false;
 
-                await SetPlaceAsync(next.Content.Place, new FolderItemPosition(next.Content.Path) { TargetPath = next.Content.TargetPath }, FolderSetPlaceOption.IsUpdateHistory);
+                await SetPlaceAsync(next.Content.Place, new FolderItemPosition(next.Content.Path) { TargetPath = next.Content.TargetPath }, FolderSetPlaceOption.UpdateHistory);
                 _bookHub.RequestLoad(next.Content.TargetPath, null, options | BookLoadOption.IsBook, false);
 
                 return true;
@@ -1068,7 +1069,7 @@ namespace NeeView
             if (_bookHub == null) return;
 
             var place = GetFixedHome();
-            await SetPlaceAsync(place, null, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory | FolderSetPlaceOption.IsTopSelect | FolderSetPlaceOption.ResetKeyword);
+            await SetPlaceAsync(place, null, FolderSetPlaceOption.Focus | FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.TopSelect | FolderSetPlaceOption.ResetKeyword);
 
             CloseBookIfNecessary();
         }
@@ -1077,7 +1078,7 @@ namespace NeeView
         //
         public async void MoveTo_Executed(string path)
         {
-            await this.SetPlaceAsync(path, null, FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
+            await this.SetPlaceAsync(path, null, FolderSetPlaceOption.Focus | FolderSetPlaceOption.UpdateHistory);
 
             CloseBookIfNecessary();
         }
@@ -1094,7 +1095,7 @@ namespace NeeView
             if (!this.History.CanPrevious()) return;
 
             var place = this.History.GetPrevious();
-            await SetPlaceAsync(place, null, FolderSetPlaceOption.IsFocus);
+            await SetPlaceAsync(place, null, FolderSetPlaceOption.Focus);
             this.History.Move(-1);
 
             CloseBookIfNecessary();
@@ -1112,7 +1113,7 @@ namespace NeeView
             if (!this.History.CanNext()) return;
 
             var place = this.History.GetNext();
-            await SetPlaceAsync(place, null, FolderSetPlaceOption.IsFocus);
+            await SetPlaceAsync(place, null, FolderSetPlaceOption.Focus);
             this.History.Move(+1);
 
             CloseBookIfNecessary();
@@ -1122,7 +1123,7 @@ namespace NeeView
         public async void MoveToHistory_Executed(KeyValuePair<int, string> item)
         {
             var place = this.History.GetHistory(item.Key);
-            await SetPlaceAsync(place, null, FolderSetPlaceOption.IsFocus);
+            await SetPlaceAsync(place, null, FolderSetPlaceOption.Focus);
             this.History.SetCurrent(item.Key + 1);
 
             CloseBookIfNecessary();
@@ -1141,7 +1142,7 @@ namespace NeeView
             if (Place.TrimEnd(LoosePath.Separator) == Bookmark.Scheme) return;
 
             var parent = this.FolderCollection?.GetParentPlace();
-            await SetPlaceAsync(parent, new FolderItemPosition(Place), FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory);
+            await SetPlaceAsync(parent, new FolderItemPosition(Place), FolderSetPlaceOption.Focus | FolderSetPlaceOption.UpdateHistory);
 
             CloseBookIfNecessary();
         }
@@ -1157,14 +1158,14 @@ namespace NeeView
                 var parent = _bookHub?.Book?.Archiver?.Parent?.FullPath ?? LoosePath.GetDirectoryName(place);
 
                 _isDarty = true; // 強制更新
-                await SetPlaceAsync(parent, new FolderItemPosition(place), FolderSetPlaceOption.IsFocus | FolderSetPlaceOption.IsUpdateHistory | FolderSetPlaceOption.ResetKeyword);
+                await SetPlaceAsync(parent, new FolderItemPosition(place), FolderSetPlaceOption.Focus | FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.ResetKeyword | FolderSetPlaceOption.FileSystem);
 
                 RaiseSelectedItemChanged(true);
             }
             else if (Place != null)
             {
                 _isDarty = true; // 強制更新
-                await SetPlaceAsync(Place, null, FolderSetPlaceOption.IsFocus);
+                await SetPlaceAsync(Place, null, FolderSetPlaceOption.Focus | FolderSetPlaceOption.FileSystem);
 
                 RaiseSelectedItemChanged(true);
             }

@@ -107,7 +107,7 @@ namespace NeeView
 
                 case EntryCollectionChangedAction.Replace:
                 case EntryCollectionChangedAction.Reset:
-                    FolderList.Current.RequestPlace(Bookmark.Scheme + "\\", null, FolderSetPlaceOption.IsUpdateHistory | FolderSetPlaceOption.ResetKeyword | FolderSetPlaceOption.Refresh);
+                    FolderList.Current.RequestPlace(Bookmark.Scheme + "\\", null, FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.ResetKeyword | FolderSetPlaceOption.Refresh);
                     break;
             }
         }

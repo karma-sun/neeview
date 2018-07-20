@@ -139,7 +139,7 @@ namespace NeeView
         private void SetFolderListPlace(string path)
         {
             // TODO: リクエストの重複がありうる。キャンセル処理が必要?
-            FolderList.Current.RequestPlace(path, null, FolderSetPlaceOption.IsUpdateHistory | FolderSetPlaceOption.ResetKeyword);
+            FolderList.Current.RequestPlace(path, null, FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.ResetKeyword);
         }
 
 

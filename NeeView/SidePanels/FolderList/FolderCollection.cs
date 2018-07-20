@@ -88,6 +88,11 @@ namespace NeeView
         public string PlaceDispString => string.IsNullOrEmpty(Place) ? "PC" : Place;
 
         /// <summary>
+        /// フォルダーの場所(クエリー添付)
+        /// </summary>
+        public virtual string QueryPath => Place;
+
+        /// <summary>
         /// フォルダーの並び順
         /// </summary>
         private FolderOrder FolderOrder => FolderParameter.FolderOrder;

@@ -56,6 +56,11 @@ namespace NeeView
 
         public override string Meta => _searchResult?.Keyword;
 
+        /// <summary>
+        /// フォルダーの場所(クエリー添付)
+        /// </summary>
+        public override string QueryPath => new QueryPath(Place, SearchKeyword).FullPath;
+
         #endregion
 
         #region Methods

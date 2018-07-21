@@ -42,11 +42,10 @@ namespace NeeView
             get { return _name; }
             set
             {
-                if (value.TrimEnd('\\').Contains('\\'))
+                if (SetProperty(ref _name, value.TrimEnd('\\')))
                 {
-                    Debugger.Break();
+                    RaisePropertyChanged(nameof(DispName));
                 }
-                SetProperty(ref _name, value);
             }
         }
 

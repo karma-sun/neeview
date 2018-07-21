@@ -55,6 +55,12 @@ namespace NeeView.Windows
             NativeMethods.GetCursorPos(out NativeMethods.POINT point);
 
             var source = HwndSource.FromVisual(visual) as HwndSource;
+            if (source == null)
+            {
+                // visual does not exist in virual tree.
+                return new Point(double.NaN, double.NaN);
+            }
+
             var hwnd = source.Handle;
 
             NativeMethods.ScreenToClient(hwnd, ref point);

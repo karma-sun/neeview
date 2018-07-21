@@ -171,7 +171,7 @@ namespace NeeView
         /// ドラッグ開始イベント処理.
         /// 強制的にパネル表示させる
         /// </summary>
-        public void DragBegin(object sender, EventArgs e)
+        public void DragBegin(object sender, DragStartEventArgs e)
         {
             Left.IsDragged = true;
             Right.IsDragged = true;

@@ -31,12 +31,13 @@ namespace NeeView
     }
 
     /// <summary>
-    /// 仮想パネルの実項目管理用
+    /// 仮想パネルの実項目管理用。
+    /// 仮想化されたTreeListやListBoxで表示されなくなった項目のリソース廃棄タイミングを管理する
     /// </summary>
     /// <remarks>
-    /// TContainerのDataContextはIHasValue&lt;TValue&gt;継承でなければならず、TValueはIVirtualItem継承である必要がある。監視はこのValueに対して行われる。
-    /// TContainer.DataContext : IHasValue&lt;TValue&gt;
-    ///     + Value: IVirtualItem
+    /// TContainerのDataContextは<see cref="IHasValue{TValue}"/>継承でなければならず、TValueは<see cref="IVirtualItem"/>継承である必要がある。監視はこのValueに対して行われる。
+    /// TContainer.DataContext : <see cref="IHasValue{TValue}"/>
+    ///     + Value: <see cref="IVirtualItem"/>
     /// </remarks>
     /// <typeparam name="TContainer">TreeViewItem,ListBoxItem等のコンテナ</typeparam>
     /// <typeparam name="TValue">Value型</typeparam>

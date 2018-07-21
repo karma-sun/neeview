@@ -2,10 +2,12 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
              xmlns:properties="clr-namespace:NeeView.Properties"
-             mc:Ignorable="d" 
+             xmlns:nw="clr-namespace:NeeView.Windows"
+             mc:Ignorable="d"
              d:DataContext="{d:DesignInstance local:FolderListDataContext_Design, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300"
              Foreground="{DynamicResource NVForeground}">
@@ -145,10 +147,20 @@
                 PreviewKeyDown="FolderList_PreviewKeyDown"
                 KeyDown="FolderList_KeyDown"
                 UseLayoutRounding="True"
+                 
+                AllowDrop="True"
+                DragEnter="FolderList_DragEnter"
+                PreviewDragOver="FolderList_PreviewDragOver"
+                Drop="FolderList_Drop"
+                 
                 VirtualizingStackPanel.IsVirtualizing="True"
                 VirtualizingStackPanel.ScrollUnit="{StaticResource PanelScrollUnit}"
                 VirtualizingStackPanel.VirtualizationMode="Recycling"
              >
+
+            <i:Interaction.Behaviors>
+                <nw:ListBoxDragDropStartBehavior AllowedEffects="Copy, Move, Scroll" DragDropFormat="{x:Static local:FolderListBox.DragDropFormat}" DragBegin="DragStartBehavior_DragBegin"/>
+            </i:Interaction.Behaviors>
 
             <ListBox.Style>
                 <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">

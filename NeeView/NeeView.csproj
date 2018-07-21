@@ -693,6 +693,8 @@
     <Compile Include="_NeeView\Collections\Generic\EnumerableExtensions.cs" />
     <Compile Include="_NeeView\IO\FileShortcut.cs" />
     <Compile Include="_NeeView\ResourceService.cs" />
+    <Compile Include="_NeeView\Windows\ConainerDragStartBehavior.cs" />
+    <Compile Include="_NeeView\Windows\DragStartEventArgs.cs" />
     <Compile Include="_NeeView\Windows\DropInfo.cs" />
     <Compile Include="_NeeView\Windows\Property\PropertyValueTemplateSelector.cs" />
     <Compile Include="_NeeView\Windows\VectorExtensions.cs" />

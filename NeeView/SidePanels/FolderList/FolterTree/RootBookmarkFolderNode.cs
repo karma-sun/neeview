@@ -58,7 +58,8 @@ namespace NeeView
             var node = GetDirectoryNode(parent.CreatePath(null));
             if (node != null)
             {
-                App.Current.Dispatcher.BeginInvoke((Action)(() => node.Add(item)));
+                ////App.Current.Dispatcher.BeginInvoke((Action)(() => node.Add(item)));
+                node.Add(item);
             }
             else
             {

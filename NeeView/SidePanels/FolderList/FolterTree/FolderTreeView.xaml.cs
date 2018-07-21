@@ -1,5 +1,7 @@
 ﻿using NeeLaboratory.Windows.Input;
 using NeeLaboratory.Windows.Media;
+using NeeView.Collections.Generic;
+using NeeView.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -27,7 +30,7 @@ namespace NeeView
     {
         public static string DragDropFormat = $"{Config.Current.ProcessId}.TreeViewItem";
 
-
+        private CancellationTokenSource _removeUnlinkedCommandCancellationTokenSource;
         private FolderTreeViewModel _vm;
 
         public FolderTreeView()
@@ -38,8 +41,15 @@ namespace NeeView
 
             _vm.SelectedItemChanged += ViewModel_SelectedItemChanged;
 
+            // タッチスクロール操作の終端挙動抑制
+            this.TreeView.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
+
+            this.TreeView.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(TreeView_ScrollChanged));
+
             this.Root.DataContext = _vm;
         }
+
+        public bool IsRenaming { get; private set; }
 
         #region Commands
 
@@ -70,10 +80,18 @@ namespace NeeView
 
                 void Execute()
                 {
-                    var item = this.TreeView.SelectedItem;
-                    if (item != null)
+                    switch (this.TreeView.SelectedItem)
                     {
-                        _vm.Remove(item);
+                        case QuickAccessNode quickAccess:
+                            _vm.RemoveQuickAccess(quickAccess);
+                            break;
+
+                        case RootBookmarkFolderNode rootBookmarkFolder:
+                            break;
+
+                        case BookmarkFolderNode bookmarkFolder:
+                            _vm.RemoveBookmarkFolder(bookmarkFolder);
+                            break;
                     }
                 }
             }
@@ -112,9 +130,132 @@ namespace NeeView
         }
 
 
+        private RelayCommand _NewFolderCommand;
+        public RelayCommand NewFolderCommand
+        {
+            get
+            {
+                return _NewFolderCommand = _NewFolderCommand ?? new RelayCommand(Execute);
+
+                void Execute()
+                {
+                    var item = this.TreeView.SelectedItem as BookmarkFolderNode;
+                    if (item != null)
+                    {
+                        var newItem = _vm.NewBookmarkFolder(item);
+                        if (newItem != null)
+                        {
+                            newItem.IsSelected = true;
+                            this.TreeView.UpdateLayout();
+                            RenameBookmarkFolder(newItem);
+                        }
+                    }
+                }
+            }
+        }
+
+
+        private RelayCommand _RenameCommand;
+        public RelayCommand RenameCommand
+        {
+            get
+            {
+                return _RenameCommand = _RenameCommand ?? new RelayCommand(Execute);
+
+                void Execute()
+                {
+                    var item = this.TreeView.SelectedItem as BookmarkFolderNode;
+                    if (item != null)
+                    {
+                        RenameBookmarkFolder(item);
+                    }
+                }
+            }
+        }
+
+
+        private RelayCommand _removeUnlinkedCommand;
+        public RelayCommand RemoveUnlinkedCommand
+        {
+            get { return _removeUnlinkedCommand = _removeUnlinkedCommand ?? new RelayCommand(RemoveUnlinkedCommand_Executed); }
+        }
+
+        private async void RemoveUnlinkedCommand_Executed()
+        {
+            // 直前の命令はキャンセル
+            _removeUnlinkedCommandCancellationTokenSource?.Cancel();
+            _removeUnlinkedCommandCancellationTokenSource = new CancellationTokenSource();
+            await BookmarkCollection.Current.RemoveUnlinkedAsync(_removeUnlinkedCommandCancellationTokenSource.Token);
+        }
 
 
         #endregion
+
+
+        private void RenameBookmarkFolder(BookmarkFolderNode item)
+        {
+            if (item is RootBookmarkFolderNode)
+            {
+                return;
+            }
+
+            var treetView = this.TreeView;
+
+            ////if (item != null && item is BookmarkFolderNode folder)
+            {
+                var listViewItem = VisualTreeUtility.FindContainer<TreeViewItem>(treetView, item);
+                var textBlock = VisualTreeUtility.FindVisualChild<TextBlock>(listViewItem, "FileNameTextBlock");
+
+                if (textBlock != null)
+                {
+                    var rename = new RenameControl() { Target = textBlock };
+                    rename.Closing += (s, ev) =>
+                    {
+                        var newName = BookmarkFolder.GetValidateName(ev.NewValue);
+                        if (string.IsNullOrEmpty(newName))
+                        {
+                            newName = ev.OldValue;
+                        }
+
+                        if (ev.OldValue != newName)
+                        {
+                            var node = item.Source;
+                            var conflict = node.Parent.Children.FirstOrDefault(e => e != node && e.Value is BookmarkFolder && e.Value.Name == newName);
+                            if (conflict != null)
+                            {
+                                var dialog = new MessageDialog(string.Format(Properties.Resources.DialogMergeFolder, newName), Properties.Resources.DialogMergeFolderTitle);
+                                dialog.Commands.Add(UICommands.Yes);
+                                dialog.Commands.Add(UICommands.No);
+                                var result = dialog.ShowDialog();
+
+                                if (result == UICommands.Yes)
+                                {
+                                    BookmarkCollection.Current.Merge(node, conflict);
+                                }
+                            }
+                            else
+                            {
+                                var folder = (BookmarkFolder)node.Value;
+                                folder.Name = newName;
+                                BookmarkCollection.Current.RaiseBookmarkChangedEvent(new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Rename, node.Parent, node) { OldName = ev.OldValue });
+                            }
+                        }
+                    };
+                    rename.Closed += (s, ev) =>
+                    {
+                        this.TreeView.Focus();
+                    };
+                    rename.Close += (s, ev) =>
+                    {
+                        IsRenaming = false;
+                    };
+
+                    ((MainWindow)Application.Current.MainWindow).RenameManager.Open(rename);
+                    IsRenaming = true;
+                }
+            }
+        }
+
 
         public bool FocusSelectedItem()
         {
@@ -130,6 +271,11 @@ namespace NeeView
         private void ViewModel_SelectedItemChanged(object sender, EventArgs e)
         {
             this.TreeView.Focus();
+        }
+
+        private void TreeView_ScrollChanged(object sender, ScrollChangedEventArgs e)
+        {
+            ((MainWindow)App.Current.MainWindow).RenameManager.Stop();
         }
 
         private void TreeView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -190,7 +336,15 @@ namespace NeeView
             {
                 if (viewItem.IsSelected)
                 {
-                    _vm.Remove(viewItem.DataContext);
+                    RemoveCommand.Execute(viewItem.DataContext);
+                }
+                e.Handled = true;
+            }
+            else if (e.Key == Key.F2)
+            {
+                if (viewItem.IsSelected)
+                {
+                    RenameCommand.Execute(viewItem.DataContext);
                 }
                 e.Handled = true;
             }
@@ -230,6 +384,19 @@ namespace NeeView
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderTreeMenuAddQuickAccess, Command = AddQuickAccessCommand });
                     break;
 
+                case RootBookmarkFolderNode rootBookmarkFolder:
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.WordNewFolder, Command = NewFolderCommand });
+                    contextMenu.Items.Add(new Separator());
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookmarkMenuDeleteInvalid, Command = RemoveUnlinkedCommand });
+                    break;
+
+                case BookmarkFolderNode bookmarkFolder:
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.WordRemove, Command = RemoveCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.WordRename, Command = RenameCommand });
+                    contextMenu.Items.Add(new Separator());
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.WordNewFolder, Command = NewFolderCommand });
+                    break;
+
                 default:
                     e.Handled = true;
                     break;
@@ -240,54 +407,140 @@ namespace NeeView
 
         private DependencyObject _lastDropTarget;
 
-        private void DragStartBehavior_DragBegin(object sender, MouseEventArgs e)
+        private void DragStartBehavior_DragBegin(object sender, DragStartEventArgs e)
         {
+            var data = e.Data.GetData(DragDropFormat) as TreeViewItem;
+            if (data == null)
+            {
+                return;
+            }
+
+            switch (data.DataContext)
+            {
+                case QuickAccessNode quickAccess:
+                    e.AllowedEffects = DragDropEffects.Move;
+                    break;
+
+                case DirectoryNode direcory:
+                    e.AllowedEffects = DragDropEffects.Copy | DragDropEffects.Link;
+                    e.Data.SetFileDropList(new System.Collections.Specialized.StringCollection() { direcory.Path });
+                    break;
+
+                case RootBookmarkFolderNode RootbookmarkFolder:
+                    e.Cancel = true;
+                    break;
+
+                case BookmarkFolderNode bookmarkFolder:
+                    e.Data.SetData(bookmarkFolder.Source);
+                    e.AllowedEffects = DragDropEffects.Move;
+                    break;
+
+                default:
+                    e.Cancel = true;
+                    break;
+            }
+
+
             _lastDropTarget = null;
         }
 
         private void TreeView_DragEnter(object sender, DragEventArgs e)
         {
-            ////Debug.WriteLine($"DragEnter: {sender}");
-            TreeView_PreviewDragOver(sender, e);
-            e.Handled = true;
+            TreeView_DragDrop(sender, e, false);
         }
 
         private void TreeView_DragLeave(object sender, DragEventArgs e)
         {
-            ////Debug.WriteLine($"DragLeave : {sender}");
-            ////e.Handled = true;
         }
 
         private void TreeView_PreviewDragOver(object sender, DragEventArgs e)
         {
-            if (!e.Data.GetDataPresent(DragDropFormat))
-            {
-                e.Effects = DragDropEffects.None;
-                e.Handled = true;
-                return;
-            }
+            TreeView_DragDrop(sender, e, false);
+        }
 
+        private void TreeView_Drop(object sender, DragEventArgs e)
+        {
+            TreeView_DragDrop(sender, e, true);
+        }
+
+        private void TreeView_DragDrop(object sender, DragEventArgs e, bool isDrop)
+        {
             var element = PointToViewItem(this.TreeView, e.GetPosition(this.TreeView));
 
             if (element is TreeViewItem viewItem)
             {
-                var item = e.Data.GetData(DragDropFormat);
+                var item = (e.Data.GetData(DragDropFormat) as TreeViewItem)?.DataContext;
 
-                if (viewItem.DataContext is QuickAccessNode quickAccessTarget)
+                switch (viewItem.DataContext)
                 {
-                    if (item is QuickAccessNode quicklAccess)
+                    case QuickAccessNode quickAccessTarget:
+                        if (item is QuickAccessNode quicklAccess && quicklAccess != quickAccessTarget)
+                        {
+                            if (isDrop)
+                            {
+                                _vm.MoveQuickAccess(quicklAccess, quickAccessTarget);
+                            }
+                            e.Effects = DragDropEffects.Move;
+                            e.Handled = true;
+                            return;
+                        }
+                        break;
+
+                    case BookmarkFolderNode bookmarkFolderTarget:
+                        if (item is BookmarkFolderNode bookmarkFolder && bookmarkFolder != bookmarkFolderTarget)
+                        {
+                            if (!bookmarkFolderTarget.Source.ParentContains(bookmarkFolder.Source))
+                            {
+                                if (isDrop)
+                                {
+                                    BookmarkCollection.Current.MoveToChild(bookmarkFolder.Source, bookmarkFolderTarget.Source);
+                                }
+                                e.Effects = DragDropEffects.Move;
+                                e.Handled = true;
+                                return;
+                            }
+                        }
+                        break;
+                }
+
+                // bookmark!
+                var bookmarkEntry = (TreeListNode<IBookmarkEntry>)e.Data.GetData(typeof(TreeListNode<IBookmarkEntry>));
+                if (bookmarkEntry != null)
+                {
+                    if (viewItem.DataContext is BookmarkFolderNode bookmarkFolderTarget)
                     {
-                        e.Effects = DragDropEffects.Move;
-                        e.Handled = true;
-                        return;
+                        if (bookmarkEntry.Value is BookmarkFolder)
+                        {
+                            if (bookmarkFolderTarget.Source != bookmarkEntry && !bookmarkFolderTarget.Source.ParentContains(bookmarkEntry))
+                            {
+                                if (isDrop)
+                                {
+                                    BookmarkCollection.Current.MoveToChild(bookmarkEntry, bookmarkFolderTarget.Source);
+                                }
+                                e.Effects = DragDropEffects.Move;
+                                e.Handled = true;
+                                return;
+                            }
+                        }
+
+                        if (bookmarkEntry.Value is Bookmark)
+                        {
+                            if (isDrop)
+                            {
+                                BookmarkCollection.Current.MoveToChild(bookmarkEntry, bookmarkFolderTarget.Source);
+                            }
+                            e.Effects = DragDropEffects.Move;
+                            e.Handled = true;
+                            return;
+                        }
                     }
                 }
             }
 
             e.Effects = DragDropEffects.None;
             e.Handled = true;
-            return;
         }
+
 
         private TreeViewItem PointToViewItem(TreeView treeView, Point point)
         {
@@ -298,47 +551,14 @@ namespace NeeView
                 element = VisualTreeUtility.GetParentElement<TreeViewItem>(element) ?? _lastDropTarget;
             }
 
-#if false
-            // debug dump
-            if (element is TreeViewItem item)
-            {
-                var leftTop = item.TranslatePoint(new Point(0, 0), treeView);
-                var size = new Size(item.ActualWidth, item.ActualHeight);
-                Debug.WriteLine($"{point} -> {item.DataContext}: {leftTop},{size}");
-            }
-#endif
-
             _lastDropTarget = element;
 
             return _lastDropTarget as TreeViewItem;
         }
 
-        private void TreeView_Drop(object sender, DragEventArgs e)
-        {
-            var element = PointToViewItem(this.TreeView, e.GetPosition(this.TreeView));
-
-            if (element is TreeViewItem viewItem)
-            {
-                var item = e.Data.GetData(DragDropFormat);
-
-                switch (viewItem.DataContext)
-                {
-                    case QuickAccessNode quickAccessTarget:
-                        if (item is QuickAccessNode quicklAccess)
-                        {
-                            _vm.MoveQuickAccess(quicklAccess, quickAccessTarget);
-                            e.Handled = true;
-                            return;
-                        }
-                        break;
-                }
-            }
-
-            e.Handled = true;
-        }
 
 
-        #endregion
+#endregion
 
     }
 

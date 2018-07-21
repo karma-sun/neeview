@@ -7,8 +7,6 @@
              xmlns:local="clr-namespace:NeeView"
              xmlns:nw="clr-namespace:NeeView.Windows"
              mc:Ignorable="d" 
-             Foreground="{DynamicResource NVForeground}"
-             FontSize="{DynamicResource FolderTreeFontSize}"
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
@@ -23,6 +21,8 @@
         <Style x:Key="NodeTextBlockStyle" TargetType="{x:Type TextBlock}">
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
+            <Setter Property="FontSize" Value="{DynamicResource FolderTreeFontSize}"/>
         </Style>
 
     </UserControl.Resources>
@@ -41,6 +41,10 @@
                   VirtualizingStackPanel.ScrollUnit="Item"
                   VirtualizingStackPanel.IsVirtualizing="True"
                   VirtualizingStackPanel.VirtualizationMode="Recycling">
+
+            <i:Interaction.Behaviors>
+                <nw:TreeViewDragDropStartBehavior AllowedEffects="Copy,Move,Scroll" DragDropFormat="{x:Static local:FolderTreeView.DragDropFormat}" DragBegin="DragStartBehavior_DragBegin"/>
+            </i:Interaction.Behaviors>
 
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}"
@@ -63,12 +67,8 @@
             <TreeView.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                     <DockPanel>
-                        <i:Interaction.Behaviors>
-                            <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:FolderTreeView.DragDropFormat}" DragDropData="{Binding}" Target="{Binding ElementName=TreeView}"
-                                                  DragBegin="DragStartBehavior_DragBegin"/>
-                        </i:Interaction.Behaviors>
                         <Image Style="{StaticResource IconImageStyle}" Source="{Binding Icon}"/>
-                        <TextBlock Style="{StaticResource NodeTextBlockStyle}" Text="{Binding DispName}"/>
+                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource NodeTextBlockStyle}" Text="{Binding DispName}"/>
                     </DockPanel>
                 </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>

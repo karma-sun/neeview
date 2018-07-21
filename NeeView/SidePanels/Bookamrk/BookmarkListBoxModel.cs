@@ -232,66 +232,33 @@ namespace NeeView
             {
                 if (dropInfo.Position < margin)
                 {
-                    Move(item, target, -1);
+                    BookmarkCollection.Current.Move(item, target, -1);
                 }
                 else if (dropInfo.Position > (1.0 - margin) && !target.IsExpanded)
                 {
-                    Move(item, target, +1);
+                    BookmarkCollection.Current.Move(item, target, +1);
                 }
                 else
                 {
-                    MoveToChild(item, target);
+                    BookmarkCollection.Current.MoveToChild(item, target);
                 }
             }
             else
             {
                 if (target.Next == null && dropInfo.Position > (1.0 - margin))
                 {
-                    Move(item, target, +1);
+                    BookmarkCollection.Current.Move(item, target, +1);
                 }
                 else if (item.CompareOrder(item, target))
                 {
-                    Move(item, target, +1);
+                    BookmarkCollection.Current.Move(item, target, +1);
                 }
                 else
                 {
-                    Move(item, target, -1);
+                    BookmarkCollection.Current.Move(item, target, -1);
                 }
             }
         }
-
-        private void Move(TreeListNode<IBookmarkEntry> item, TreeListNode<IBookmarkEntry> target, int direction)
-        {
-            if (item.Value is BookmarkFolder && item.Parent != target.Parent)
-            {
-                var conflict = target.Parent.Children.FirstOrDefault(e => e.Value is BookmarkFolder && e.Value.Name == item.Value.Name);
-                if (conflict != null)
-                {
-                    BookmarkCollection.Current.Merge(item, conflict);
-                    return;
-                }
-            }
-
-            BookmarkCollection.Current.Move(item, target, direction);
-        }
-
-        private void MoveToChild(TreeListNode<IBookmarkEntry> item, TreeListNode<IBookmarkEntry> target)
-        {
-            if (item.Value is BookmarkFolder && item.Parent != target)
-            {
-                var conflict = target.Children.FirstOrDefault(e => e.Value is BookmarkFolder && e.Value.Name == item.Value.Name);
-                if (conflict != null)
-                {
-                    BookmarkCollection.Current.Merge(item, conflict);
-                    return;
-                }
-            }
-
-            BookmarkCollection.Current.MoveToChild(item, target);
-        }
-
-
-
 
 
         internal void NewFolder()

@@ -289,7 +289,7 @@ namespace NeeView
 
         private TreeViewItem _dropTarget;
 
-        private void DragStartBehavior_DragBegin(object sender, MouseEventArgs e)
+        private void DragStartBehavior_DragBegin(object sender, DragStartEventArgs e)
         {
             _dropTarget = null;
         }

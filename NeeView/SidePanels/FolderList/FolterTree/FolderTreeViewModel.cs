@@ -36,15 +36,26 @@ namespace NeeView
             Model.AddQuickAccess(item);
         }
 
-        public void Remove(object item)
-        {
-            Model.Remove(item);
-        }
-
         public void MoveQuickAccess(QuickAccessNode src, QuickAccessNode dst)
         {
             Model.MoveQuickAccess(src, dst);
         }
+
+        public void RemoveQuickAccess(QuickAccessNode item)
+        {
+            Model.RemoveQuickAccess(item);
+        }
+
+        public BookmarkFolderNode NewBookmarkFolder(BookmarkFolderNode item)
+        {
+            return Model.NewBookmarkFolder(item);
+        }
+
+        public void RemoveBookmarkFolder(BookmarkFolderNode item)
+        {
+            Model.RemoveBookmarkFolder(item);
+        }
+
 
         public void RefreshFolder()
         {
@@ -59,5 +70,6 @@ namespace NeeView
                 Model.ExpandRoot();
             }
         }
+
     }
 }

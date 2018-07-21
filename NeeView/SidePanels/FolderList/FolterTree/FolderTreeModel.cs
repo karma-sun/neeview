@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Collections.Generic;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -52,7 +53,7 @@ namespace NeeView
             {
                 yield return item;
 
-                foreach(var child in GetNodeWalker(item.Children))
+                foreach (var child in GetNodeWalker(item.Children))
                 {
                     yield return child;
                 }
@@ -189,15 +190,85 @@ namespace NeeView
         }
 
 
-        public void Remove(object item)
+        // TODO: IFolderTreeNode に Parent, Preview, Next を実装して一般化すべき？
+        private void SelectNext(IFolderTreeNode parent, IFolderTreeNode item)
         {
-            switch (item)
+            if (item == null) return;
+
+            if (item.IsSelected)
             {
-                case QuickAccessNode quickAccess:
-                    _rootQuickAccess.SelectNext(quickAccess);
-                    QuickAccessCollection.Current.Remove(quickAccess.QuickAccess);
-                    break;
+                var index = parent.Children.IndexOf(item);
+                if (index + 1 < parent.Children.Count)
+                {
+                    parent.Children[index + 1].IsSelected = true;
+                }
+                else if (index - 1 >= 0)
+                {
+                    parent.Children[index - 1].IsSelected = true;
+                }
             }
+        }
+
+        public void RemoveQuickAccess(QuickAccessNode item)
+        {
+            if (item == null)
+            {
+                return;
+            }
+
+            ////_rootQuickAccess.SelectNext(item);
+            SelectNext(_rootQuickAccess, item);
+            QuickAccessCollection.Current.Remove(item.QuickAccess);
+        }
+
+        public void RemoveBookmarkFolder(BookmarkFolderNode item)
+        {
+            if (item == null || item is RootBookmarkFolderNode)
+            {
+                return;
+            }
+
+            var next = item.Next ?? item.Previous ?? item.Parent;
+
+            var memento = new TreeListNodeMemento<IBookmarkEntry>(item.Source);
+
+            bool isRemoved = BookmarkCollection.Current.Remove(item.Source);
+            if (isRemoved)
+            {
+                if (item.Source.Value is BookmarkFolder)
+                {
+                    var count = item.Source.Count(e => e.Value is Bookmark);
+                    if (count > 0)
+                    {
+                        _toast = new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), Properties.Resources.WordRestore, () => BookmarkCollection.Current.Restore(memento));
+                        ToastService.Current.Show(_toast);
+                    }
+                }
+
+                if (next != null)
+                {
+                    next.IsSelected = true;
+                }
+            }
+        }
+
+
+        public BookmarkFolderNode NewBookmarkFolder(BookmarkFolderNode item)
+        {
+            if (item == null)
+            {
+                return null;
+            }
+
+            item.IsExpanded = true;
+
+            var node = BookmarkCollection.Current.AddNewFolder(item.Source);
+            if (node == null)
+            {
+                return null;
+            }
+
+            return item.Children.OfType<BookmarkFolderNode>().FirstOrDefault(e => e.Source == node);
         }
 
 

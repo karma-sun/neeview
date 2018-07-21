@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Windows;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
@@ -419,12 +420,12 @@ namespace NeeView
             e.Handled = true;
         }
 
-        private void DragStartBehavior_DragBegin(object sender, MouseEventArgs e)
+        private void DragStartBehavior_DragBegin(object sender, DragStartEventArgs e)
         {
             _vm.DragBegin(sender, e);
         }
 
-        private void DragStartBehavior_DragEnd(object sender, MouseEventArgs e)
+        private void DragStartBehavior_DragEnd(object sender, EventArgs e)
         {
             _vm.DragEnd(sender, e);
         }

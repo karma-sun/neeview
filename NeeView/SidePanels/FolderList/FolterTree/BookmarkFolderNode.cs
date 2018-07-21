@@ -45,6 +45,30 @@ namespace NeeView
         public string Path => _parent != null ? LoosePath.Combine(_parent.Path, Name) : Name;
         public string KeyPath => _parent != null ? LoosePath.Combine(_parent.Path, Key) : Key;
 
+
+        public BookmarkFolderNode Previous
+        {
+            get
+            {
+                if (_parent == null) return null;
+
+                var index = _parent._children.IndexOf(this);
+                return _parent.Children.ElementAtOrDefault(index - 1) as BookmarkFolderNode;
+            }
+        }
+
+        public BookmarkFolderNode Next
+        {
+            get
+            {
+                if (_parent == null) return null;
+
+                var index = _parent._children.IndexOf(this);
+                return _parent.Children.ElementAtOrDefault(index + 1) as BookmarkFolderNode;
+            }
+        }
+
+
         public override void RefreshChildren(bool isForce)
         {
             Children = new ObservableCollection<IFolderTreeNode>(_source.Children
@@ -100,6 +124,7 @@ namespace NeeView
             if (directory != null)
             {
                 directory.RaisePropertyChanged(nameof(Name));
+                directory.RaisePropertyChanged(nameof(DispName));
                 Sort(directory);
             }
         }

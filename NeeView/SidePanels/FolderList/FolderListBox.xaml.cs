@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.Windows.Media;
+using NeeView.Collections.Generic;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -23,6 +24,8 @@ namespace NeeView
     public partial class FolderListBox : UserControl, IPageListPanel
     {
         #region Fields
+
+        public static string DragDropFormat = $"{Config.Current.ProcessId}.FolderListBox";
 
         private FolderListViewModel _vm;
         private ListBoxThumbnailLoader _thumbnailLoader;
@@ -280,9 +283,100 @@ namespace NeeView
             if (item != null)
             {
                 var path = item.IsFileSystem() ? item.Path : item.TargetPath;
-                path = item.Attributes.AnyFlag(FolderItemAttribute.Bookmark |FolderItemAttribute.ArchiveEntry | FolderItemAttribute.Empty) ? ArchiverManager.Current.GetExistPathName(path) : path;
+                path = item.Attributes.AnyFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.ArchiveEntry | FolderItemAttribute.Empty) ? ArchiverManager.Current.GetExistPathName(path) : path;
                 System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + path + "\"");
             }
+        }
+
+        #endregion
+
+        #region DragDrop
+
+        private DependencyObject _lastDropTarget;
+
+        private void DragStartBehavior_DragBegin(object sender, Windows.DragStartEventArgs e)
+        {
+            _lastDropTarget = null;
+
+            var data = e.Data.GetData(DragDropFormat) as ListBoxItem;
+            if (data == null)
+            {
+                return;
+            }
+
+            var item = data.Content as FolderItem;
+            if (item == null)
+            {
+                return;
+            }
+
+            if (item.Attributes.AnyFlag(FolderItemAttribute.Bookmark))
+            {
+                ////e.Data.SetFileDropList(new System.Collections.Specialized.StringCollection() { item.TargetPath });
+                e.Data.SetData(item.Source);
+            }
+        }
+
+        private void FolderList_DragEnter(object sender, DragEventArgs e)
+        {
+            FolderList_DragDrop(sender, e, false);
+        }
+
+        private void FolderList_PreviewDragOver(object sender, DragEventArgs e)
+        {
+            FolderList_DragDrop(sender, e, false);
+        }
+
+        private void FolderList_Drop(object sender, DragEventArgs e)
+        {
+            FolderList_DragDrop(sender, e, true);
+        }
+
+        private void FolderList_DragDrop(object sender, DragEventArgs e, bool isDrop)
+        {
+            var container = e.Data.GetData(DragDropFormat) as ListBoxItem;
+            var item = container?.Content as FolderItem;
+
+            var targetContainer = PointToViewItem(this.ListBox, e.GetPosition(this.ListBox));
+            var target = targetContainer?.Content as FolderItem;
+
+            if (target != null)
+            {
+                var bookmarkEntry = (TreeListNode<IBookmarkEntry>)e.Data.GetData(typeof(TreeListNode<IBookmarkEntry>));
+                if (bookmarkEntry != null)
+                {
+                    if (target.Attributes.HasFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Directory) && target.Source != bookmarkEntry)
+                    {
+                        if (target.Source is TreeListNode<IBookmarkEntry> node && !node.ParentContains(bookmarkEntry))
+                        {
+                            if (isDrop)
+                            {
+                                BookmarkCollection.Current.MoveToChild(bookmarkEntry, target.Source as TreeListNode<IBookmarkEntry>);
+                            }
+                            e.Effects = DragDropEffects.Move;
+                            e.Handled = true;
+                            return;
+                        }
+                    }
+                }
+            }
+
+            e.Effects = DragDropEffects.None;
+            e.Handled = true;
+        }
+
+        private ListBoxItem PointToViewItem(ListBox coltrol, Point point)
+        {
+            var element = VisualTreeHelper.HitTest(coltrol, point)?.VisualHit;
+
+            if (!(element is ListBoxItem))
+            {
+                element = VisualTreeUtility.GetParentElement<ListBoxItem>(element) ?? _lastDropTarget;
+            }
+
+            _lastDropTarget = element;
+
+            return _lastDropTarget as ListBoxItem;
         }
 
         #endregion
@@ -556,5 +650,6 @@ namespace NeeView
         }
 
         #endregion
+
     }
 }

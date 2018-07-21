@@ -22,10 +22,6 @@ namespace NeeView
 
         private volatile bool _requestSearchBoxFocus;
 
-        public bool IsRenaming => _vm.IsRenaming;
-
-        public bool IsSearchBoxFocused => this.SearchBox.IsKeyboardFocusWithin;
-
         private FolderListViewModel _vm;
 
         private int _busyCounter;
@@ -51,6 +47,11 @@ namespace NeeView
         }
 
         #endregion
+
+
+        public bool IsRenaming => _vm.IsRenaming || this.FolderTree.IsRenaming;
+
+        public bool IsSearchBoxFocused => this.SearchBox.IsKeyboardFocusWithin;
 
 
         /// <summary>

@@ -221,7 +221,41 @@ namespace NeeView
         }
 
 
+        public TreeListNode<IBookmarkEntry> AddNewFolder(TreeListNode<IBookmarkEntry> target)
+        {
+            if (target == Items || target.Value is BookmarkFolder)
+            {
+                var ignoreNames = target.Children.Where(e => e.Value is BookmarkFolder).Select(e => e.Value.Name);
+                var name = GetValidateFolderName(ignoreNames, Properties.Resources.WordNewFolder, Properties.Resources.WordNewFolder);
+                var node = new TreeListNode<IBookmarkEntry>(new BookmarkFolder() { Name = name });
+
+                target.Add(node);
+                target.IsExpanded = true;
+                BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, node.Parent, node));
+
+                return node;
+            }
+
+            return null;
+        }
+
+
         public void Move(TreeListNode<IBookmarkEntry> item, TreeListNode<IBookmarkEntry> target, int direction)
+        {
+            if (item.Value is BookmarkFolder && item.Parent != target.Parent)
+            {
+                var conflict = target.Parent.Children.FirstOrDefault(e => e.Value is BookmarkFolder && e.Value.Name == item.Value.Name);
+                if (conflict != null)
+                {
+                    Merge(item, conflict);
+                    return;
+                }
+            }
+
+            MoveInner(item, target, direction);
+        }
+
+        private void MoveInner(TreeListNode<IBookmarkEntry> item, TreeListNode<IBookmarkEntry> target, int direction)
         {
             if (item == target) return;
             if (target.ParentContains(item)) return; // TODO: 例外にすべき？
@@ -247,8 +281,50 @@ namespace NeeView
             }
         }
 
-
         public void MoveToChild(TreeListNode<IBookmarkEntry> item, TreeListNode<IBookmarkEntry> target)
+        {
+            if (target != Items && !(target.Value is BookmarkFolder))
+            {
+                return;
+            }
+            if (item.Parent == target)
+            {
+                return;
+            }
+
+            if (item.Value is BookmarkFolder)
+            {
+                if (target.ParentContains(item))
+                {
+                    return;
+                }
+
+                var conflict = target.Children.FirstOrDefault(e => e.Value is BookmarkFolder && e.Value.Name == item.Value.Name);
+                if (conflict != null)
+                {
+                    Merge(item, conflict);
+                }
+                else
+                {
+                    MoveToChildInner(item, target);
+                }
+            }
+
+            else if (item.Value is Bookmark)
+            {
+                var conflict = target.Children.FirstOrDefault(e => e.Value is Bookmark && e.Value.Name == item.Value.Name);
+                if (conflict != null)
+                {
+                    Remove(item);
+                }
+                else
+                {
+                    MoveToChildInner(item, target);
+                }
+            }
+        }
+
+        private void MoveToChildInner(TreeListNode<IBookmarkEntry> item, TreeListNode<IBookmarkEntry> target)
         {
             if (item == target) return;
             if (target.ParentContains(item)) return; // TODO: 例外にすべき？

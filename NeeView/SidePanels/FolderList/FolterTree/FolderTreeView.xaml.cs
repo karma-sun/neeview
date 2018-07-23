@@ -276,60 +276,97 @@ namespace NeeView
                 return;
             }
 
-            // TODO:
-#if false
+            ////Debug.WriteLine("ScrollIntoView:");
+
+            this.TreeView.UpdateLayout();
+
             ItemsControl container = this.TreeView;
-            foreach (var parent in selectedItem.Hierarchy.Skip(1))
+            foreach (var node in selectedItem.Hierarchy.Skip(1))
             {
-                ScrollIntoView(parent);
-                parent.IsExpanded = true;
-                this.TreeView.UpdateLayout();
+                if (node.Parent == null)
+                {
+                    break;
+                }
+
+                var index = node.Parent.Children.IndexOf(node);
+                if (index < 0)
+                {
+                    break;
+                }
+
+                container = ScrollIntoView(container, index);
+                if (container == null)
+                {
+                    break;
+                }
+
+                container.UpdateLayout();
             }
-#endif
+
+            _vm.Model.SelectedItem = selectedItem;
+
+            ////Debug.WriteLine("ScrollIntoView: done.");
         }
 
-        private void ScrollIntoView(TreeListNode<IBookmarkEntry> entry)
+        // from https://docs.microsoft.com/ja-jp/dotnet/framework/wpf/controls/how-to-find-a-treeviewitem-in-a-treeview
+        // HACK: BindingErrorが出る
+        private TreeViewItem ScrollIntoView(ItemsControl container, int index)
         {
-            // TODO:
-#if false
-            if (!this.TreeView.IsVisible)
+            // Expand the current container
+            if (container is TreeViewItem && !((TreeViewItem)container).IsExpanded)
             {
-                return;
+                container.SetValue(TreeViewItem.IsExpandedProperty, true);
+                container.UpdateLayout();
             }
 
-            var index = _vm.Model.IndexOfExpanded(entry);
-            if (index < 0)
+            // Try to generate the ItemsPresenter and the ItemsPanel.
+            // by calling ApplyTemplate.  Note that in the 
+            // virtualizing case even if the item is marked 
+            // expanded we still need to do this step in order to 
+            // regenerate the visuals because they may have been virtualized away.
+            container.ApplyTemplate();
+            ItemsPresenter itemsPresenter = (ItemsPresenter)container.Template.FindName("ItemsHost", container);
+            if (itemsPresenter != null)
             {
-                return;
+                itemsPresenter.ApplyTemplate();
             }
-
-            var item = VisualTreeUtility.FindVisualChild<TreeViewItem>(this.TreeView);
-            var header = VisualTreeUtility.FindVisualChild<Border>(item, "Bd");
-
-            if (header != null)
+            else
             {
-                var unitHeight = header.ActualHeight;
-                var scrollVerticalOffset = unitHeight * index;
-
-                var scrollViewer = VisualTreeUtility.GetChildElement<ScrollViewer>(this.TreeView);
-                if (scrollViewer != null)
+                // The Tree template has not named the ItemsPresenter, 
+                // so walk the descendents and find the child.
+                itemsPresenter = VisualTreeUtility.FindVisualChild<ItemsPresenter>(container);
+                if (itemsPresenter == null)
                 {
-                    if (scrollVerticalOffset - scrollViewer.ActualHeight + unitHeight > scrollViewer.VerticalOffset)
-                    {
-                        scrollViewer.ScrollToVerticalOffset(scrollVerticalOffset - scrollViewer.ActualHeight + unitHeight);
-                    }
-                    else if (scrollVerticalOffset < scrollViewer.VerticalOffset)
-                    {
-                        scrollViewer.ScrollToVerticalOffset(scrollVerticalOffset);
-                    }
+                    container.UpdateLayout();
+                    itemsPresenter = VisualTreeUtility.FindVisualChild<ItemsPresenter>(container);
                 }
             }
-#endif
+
+            Panel itemsHostPanel = (Panel)VisualTreeHelper.GetChild(itemsPresenter, 0);
+
+            // Ensure that the generator for this panel has been created.
+            UIElementCollection children = itemsHostPanel.Children;
+
+            if (itemsHostPanel is CustomVirtualizingStackPanel virtualizingPanel)
+            {
+                virtualizingPanel.BringIntoView(index);
+                var subContainer = (TreeViewItem)container.ItemContainerGenerator.ContainerFromIndex(index);
+                return subContainer;
+            }
+            else
+            {
+                var subContainer = (TreeViewItem)container.ItemContainerGenerator.ContainerFromIndex(index);
+                // Bring the item into view to maintain the 
+                // same behavior as with a virtualizing panel.
+                subContainer?.BringIntoView();
+                return subContainer;
+            }
         }
+
 
         private void ViewModel_SelectedItemChanged(object sender, EventArgs e)
         {
-            this.TreeView.Focus();
+           ScrollIntoView();
         }
 
         private void TreeView_ScrollChanged(object sender, ScrollChangedEventArgs e)
@@ -468,7 +505,7 @@ namespace NeeView
             }
         }
 
-        #region DragDrop
+#region DragDrop
 
         private DependencyObject _lastDropTarget;
 
@@ -619,6 +656,6 @@ namespace NeeView
             return _lastDropTarget as TreeViewItem;
         }
 
-        #endregion
+#endregion
     }
 }

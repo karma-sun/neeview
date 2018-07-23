@@ -241,8 +241,8 @@ namespace NeeLaboratory.Windows.Media
 
         /// <summary>
         /// 指定した型の子要素で最初に見つかったビジュアル要素を返す
-        /// http://matatabi-ux.hateblo.jp/entry/2014/02/17/075520
         /// </summary>
+        /// <remark>http://matatabi-ux.hateblo.jp/entry/2014/02/17/075520</remark>
         /// <typeparam name="T">型</typeparam>
         /// <param name="root">探索対象のビジュアル要素</param>
         /// <returns>見つかった場合はその要素</returns>

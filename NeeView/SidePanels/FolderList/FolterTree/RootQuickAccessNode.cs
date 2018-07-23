@@ -10,8 +10,10 @@ namespace NeeView
 
     public class RootQuickAccessNode : FolderTreeNodeBase
     {
-        public RootQuickAccessNode()
+        public RootQuickAccessNode(FolderTreeNodeBase parent)
         {
+            Parent = parent;
+
             RefreshChildren();
             QuickAccessCollection.Current.CollectionChanged += QuickAccessCollection_CollectionChanged;
         }

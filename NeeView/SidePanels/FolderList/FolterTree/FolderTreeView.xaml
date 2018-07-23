@@ -31,7 +31,7 @@
         <TreeView x:Name="TreeView"
                   Style="{StaticResource NVTreeView}"
                   Foreground="{DynamicResource NVForeground}" Background="Transparent" BorderThickness="0"
-                  ItemsSource="{Binding Model.Items}"
+                  ItemsSource="{Binding Model.Root.Children}"
                   SelectedItemChanged="TreeView_SelectedItemChanged"
                   IsVisibleChanged="TreeView_IsVisibleChanged"
                   AllowDrop="True"
@@ -53,13 +53,6 @@
                     <Setter Property="ContextMenu">
                         <Setter.Value>
                             <ContextMenu/>
-                        </Setter.Value>
-                    </Setter>
-                    <Setter Property="ItemsPanel">
-                        <Setter.Value>
-                            <ItemsPanelTemplate>
-                                <local:CustomVirtualizingStackPanel/>
-                            </ItemsPanelTemplate>
                         </Setter.Value>
                     </Setter>
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>

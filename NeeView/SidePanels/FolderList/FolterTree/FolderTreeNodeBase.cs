@@ -94,6 +94,29 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// 階層コレクション
+        /// </summary>
+        public IEnumerable<FolderTreeNodeBase> Hierarchy
+        {
+            get
+            {
+                return HierarchyReverse.Reverse();
+            }
+        }
+
+        public IEnumerable<FolderTreeNodeBase> HierarchyReverse
+        {
+            get
+            {
+                yield return this;
+                for (var parent = Parent; parent != null; parent = parent.Parent)
+                {
+                    yield return parent;
+                }
+            }
+        }
+
 
         protected virtual void OnParentChanged(object sender, EventArgs e)
         {

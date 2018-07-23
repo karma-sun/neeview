@@ -13,7 +13,7 @@ namespace NeeView
 {
     public class BookmarkFolderNode : FolderTreeNodeBase
     {
-        public BookmarkFolderNode(TreeListNode<IBookmarkEntry> source, BookmarkFolderNode parent)
+        public BookmarkFolderNode(TreeListNode<IBookmarkEntry> source, FolderTreeNodeBase parent)
         {
             Source = source;
             Parent = parent;

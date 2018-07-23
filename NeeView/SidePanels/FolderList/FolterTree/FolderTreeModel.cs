@@ -2,43 +2,57 @@
 using NeeView.Collections.Generic;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
+    public class RootFolderTree : FolderTreeNodeBase
+    {
+        public override string Name { get => null; set { } }
+        public override string DispName { get => "@Bookshelf"; set { } }
+
+        public override ImageSource Icon => null;
+    }
+
     public class FolderTreeModel : BindableBase
     {
         // Fields
 
         public static FolderTreeModel Current { get; } = new FolderTreeModel();
 
+        private RootFolderTree _root;
         private RootQuickAccessNode _rootQuickAccess;
         private RootDirectoryNode _rootFolder;
         private RootBookmarkFolderNode _rootBookmarkFolder;
         private Toast _toast;
 
-
         // Constructors
 
         public FolderTreeModel()
         {
-            _rootQuickAccess = new RootQuickAccessNode();
-            _rootFolder = new RootDirectoryNode();
-            _rootBookmarkFolder = new RootBookmarkFolderNode();
+            _root = new RootFolderTree();
 
-            Items = new List<FolderTreeNodeBase>();
-            Items.Add(_rootQuickAccess);
-            Items.Add(_rootFolder);
-            Items.Add(_rootBookmarkFolder);
+            _rootQuickAccess = new RootQuickAccessNode(_root);
+            _rootFolder = new RootDirectoryNode(_root);
+            _rootBookmarkFolder = new RootBookmarkFolderNode(_root);
+
+            _root.Children = new ObservableCollection<FolderTreeNodeBase>()
+            {
+                _rootQuickAccess,
+                _rootFolder,
+                _rootBookmarkFolder
+            };
 
             Config.Current.DpiChanged += Config_DpiChanged;
 
             QuickAccessCollection.Current.CollectionChanged += QuickAccess_CollectionChanged;
         }
 
-        
+
         // Events
 
         public event EventHandler SelectedItemChanged;
@@ -46,7 +60,8 @@ namespace NeeView
 
         // Properties
 
-        public List<FolderTreeNodeBase> Items { get; set; }
+        public RootFolderTree Root => _root;
+
 
         private FolderTreeNodeBase _selectedItem;
         public FolderTreeNodeBase SelectedItem
@@ -54,17 +69,10 @@ namespace NeeView
             get { return _selectedItem; }
             set
             {
-                if (_selectedItem != value)
+                _selectedItem = value;
+                if (_selectedItem != null)
                 {
-                    if (_selectedItem != null)
-                    {
-                        _selectedItem.IsSelected = false;
-                    }
-                    _selectedItem = value;
-                    if (_selectedItem != null)
-                    {
-                        _selectedItem.IsSelected = true;
-                    }
+                    _selectedItem.IsSelected = true;
                 }
             }
         }
@@ -116,7 +124,7 @@ namespace NeeView
         {
             RaisePropertyChanged(nameof(FolderIcon));
 
-            foreach (var item in GetNodeWalker(Items))
+            foreach (var item in GetNodeWalker(_root.Children))
             {
                 item.RefreshIcon();
             }

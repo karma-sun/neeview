@@ -9,8 +9,10 @@ namespace NeeView
 {
     public class RootDirectoryNode : FolderTreeNodeDelayBase
     {
-        public RootDirectoryNode()
+        public RootDirectoryNode(FolderTreeNodeBase parent)
         {
+            Parent = parent;
+
             WindowMessage.Current.DriveChanged += WindowMessage_DriveChanged;
             WindowMessage.Current.MediaChanged += WindowMessage_MediaChanged;
             WindowMessage.Current.DirectoryChanged += WindowMessage_DirectoryChanged;

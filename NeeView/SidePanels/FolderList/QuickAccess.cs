@@ -30,12 +30,30 @@ namespace NeeView
 
         public string Name
         {
-            get { return new QueryPath(_path).ToDispString(); }
+            get
+            {
+                var queryPath = new QueryPath(_path);
+                var s = queryPath.Path == null ? queryPath.Scheme.ToAliasName() : LoosePath.GetFileName(queryPath.Path);
+                if (queryPath.Search != null)
+                {
+                    s = s + " (" + queryPath.Search + ")";
+                }
+                return s;
+            }
         }
 
         public string Detail
         {
-            get { return new QueryPath(_path).ToDetailString(); }
+            get
+            {
+                var queryPath = new QueryPath(_path);
+                var s = queryPath.SimplePath;
+                if (queryPath.Search != null)
+                {
+                    s = s + "\n" + Properties.Resources.WordSearchWord + ": " + queryPath.Search;
+                }
+                return s;
+            }
         }
 
         public override string ToString()

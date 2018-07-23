@@ -241,13 +241,14 @@ namespace NeeView
             }
             else if (value is string path)
             {
-                if (path.StartsWith(Bookmark.Scheme))
+                var queryPath = new QueryPath(path);
+
+                if (queryPath.Scheme == QueryScheme.Bookmark)
                 {
                     return App.Current.Resources["ic_grade_24px"];
                 }
                 else
                 {
-                    var queryPath = new QueryPath(path);
                     if (queryPath.Search != null)
                     {
                         return MainWindow.Current.Resources["ic_search_24px"];
@@ -274,9 +275,10 @@ namespace NeeView
         {
             if (value is string path)
             {
-                if (path.StartsWith(Bookmark.Scheme))
+                var scheme = QueryScheme.Bookmark.ToSchemeString();
+                if (path.StartsWith(scheme))
                 {
-                    path = path.Substring(Bookmark.Scheme.Length).TrimStart('\\');
+                    path = path.Substring(scheme.Length).TrimStart('\\');
                     if (string.IsNullOrEmpty(path))
                     {
                         path = Properties.Resources.WordBookmark;

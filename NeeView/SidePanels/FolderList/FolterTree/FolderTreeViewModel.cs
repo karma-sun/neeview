@@ -9,6 +9,7 @@ namespace NeeView
     {
         private bool _isFirstVisibled;
 
+
         public FolderTreeViewModel()
         {
             Model = FolderTreeModel.Current;
@@ -16,7 +17,9 @@ namespace NeeView
             Model.SelectedItemChanged += (s, e) => SelectedItemChanged?.Invoke(s, e);
         }
 
+
         public event EventHandler SelectedItemChanged;
+
 
         public FolderTreeModel Model { get; set; }
 
@@ -55,7 +58,6 @@ namespace NeeView
         {
             Model.RemoveBookmarkFolder(item);
         }
-
 
         public void RefreshFolder()
         {

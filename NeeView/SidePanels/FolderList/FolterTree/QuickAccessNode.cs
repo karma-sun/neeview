@@ -4,37 +4,20 @@ using System.Windows.Media;
 
 namespace NeeView
 {
-    public class QuickAccessNode : BindableBase, IFolderTreeNode
+    public class QuickAccessNode : FolderTreeNodeBase
     {
-        public QuickAccessNode(QuickAccess quickAccess)
+        public QuickAccessNode(QuickAccess source, RootQuickAccessNode parent)
         {
-            QuickAccess = quickAccess;
+            Source = source;
+            Parent = parent;
         }
 
-        public QuickAccess QuickAccess { get; }
+        public QuickAccess QuickAccessSource => (QuickAccess)Source;
 
-        private bool _isSelected;
-        public bool IsSelected
-        {
-            get { return _isSelected; }
-            set { SetProperty(ref _isSelected, value); }
-        }
+        public override string Name { get => QuickAccessSource.Name; set { } }
 
-        public bool IsExpanded
-        {
-            get { return false; }
-            set { }
-        }
+        public override string DispName { get => Name; set { } }
 
-        public string DispName => QuickAccess.Name;
-
-        public ImageSource Icon => FileIconCollection.Current.CreateDefaultFolderIcon(16.0);
-
-        public ObservableCollection<IFolderTreeNode> Children { get => null; set { } }
-
-        public void RefreshIcon()
-        {
-            RaisePropertyChanged(nameof(Icon));
-        }
+        public override ImageSource Icon => FileIconCollection.Current.CreateDefaultFolderIcon(16.0);
     }
 }

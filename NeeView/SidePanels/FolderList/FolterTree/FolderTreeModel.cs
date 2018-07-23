@@ -10,13 +10,17 @@ namespace NeeView
 {
     public class FolderTreeModel : BindableBase
     {
+        // Fields
+
         public static FolderTreeModel Current { get; } = new FolderTreeModel();
 
         private RootQuickAccessNode _rootQuickAccess;
         private RootDirectoryNode _rootFolder;
         private RootBookmarkFolderNode _rootBookmarkFolder;
-
         private Toast _toast;
+
+
+        // Constructors
 
         public FolderTreeModel()
         {
@@ -24,7 +28,7 @@ namespace NeeView
             _rootFolder = new RootDirectoryNode();
             _rootBookmarkFolder = new RootBookmarkFolderNode();
 
-            Items = new List<IFolderTreeNode>();
+            Items = new List<FolderTreeNodeBase>();
             Items.Add(_rootQuickAccess);
             Items.Add(_rootFolder);
             Items.Add(_rootBookmarkFolder);
@@ -34,15 +38,43 @@ namespace NeeView
             QuickAccessCollection.Current.CollectionChanged += QuickAccess_CollectionChanged;
         }
 
+        
+        // Events
+
         public event EventHandler SelectedItemChanged;
 
 
-        public List<IFolderTreeNode> Items { get; set; }
+        // Properties
+
+        public List<FolderTreeNodeBase> Items { get; set; }
+
+        private FolderTreeNodeBase _selectedItem;
+        public FolderTreeNodeBase SelectedItem
+        {
+            get { return _selectedItem; }
+            set
+            {
+                if (_selectedItem != value)
+                {
+                    if (_selectedItem != null)
+                    {
+                        _selectedItem.IsSelected = false;
+                    }
+                    _selectedItem = value;
+                    if (_selectedItem != null)
+                    {
+                        _selectedItem.IsSelected = true;
+                    }
+                }
+            }
+        }
 
         public BitmapSource FolderIcon => FileIconCollection.Current.CreateDefaultFolderIcon(16.0);
 
 
-        private static IEnumerable<IFolderTreeNode> GetNodeWalker(IEnumerable<IFolderTreeNode> collection)
+        // Methods
+
+        private static IEnumerable<FolderTreeNodeBase> GetNodeWalker(IEnumerable<FolderTreeNodeBase> collection)
         {
             if (collection == null)
             {
@@ -60,7 +92,7 @@ namespace NeeView
 
                 switch (item)
                 {
-                    case FolderTreeNodeBase node:
+                    case FolderTreeNodeDelayBase node:
                         if (node.ChildrenRaw != null)
                         {
                             foreach (var child in GetNodeWalker(node.ChildrenRaw))
@@ -96,13 +128,13 @@ namespace NeeView
             {
                 if (e.Element is QuickAccessNode quickAccess)
                 {
-                    quickAccess.IsSelected = true;
+                    SelectedItem = quickAccess;
                     SelectedItemChanged?.Invoke(this, null);
                 }
             }
         }
 
-        internal void ExpandRoot()
+        public void ExpandRoot()
         {
             _rootQuickAccess.IsExpanded = true;
             _rootFolder.IsExpanded = true;
@@ -111,7 +143,7 @@ namespace NeeView
 
         public void SelectRootQuickAccess()
         {
-            _rootQuickAccess.IsSelected = true;
+            SelectedItem = _rootQuickAccess;
         }
 
         public void Decide(object item)
@@ -119,7 +151,7 @@ namespace NeeView
             switch (item)
             {
                 case QuickAccessNode quickAccess:
-                    SetFolderListPlace(quickAccess.QuickAccess.Path);
+                    SetFolderListPlace(quickAccess.QuickAccessSource.Path);
                     break;
 
                 case RootDirectoryNode rootFolder:
@@ -149,7 +181,6 @@ namespace NeeView
             FolderList.Current.RequestPlace(path, null, FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.ResetKeyword);
         }
 
-
         public void AddQuickAccess(object item)
         {
             switch (item)
@@ -177,36 +208,16 @@ namespace NeeView
             var item = QuickAccessCollection.Current.Items.FirstOrDefault(e => e.Path == path);
             if (item != null)
             {
-                var node = _rootQuickAccess.Children.FirstOrDefault(e => ((QuickAccessNode)e).QuickAccess == item);
+                var node = _rootQuickAccess.Children.FirstOrDefault(e => ((QuickAccessNode)e).Source == item);
                 if (node != null)
                 {
-                    node.IsSelected = true;
+                    SelectedItem = node;
                     SelectedItemChanged?.Invoke(this, null);
                 }
                 return;
             }
 
             QuickAccessCollection.Current.Add(new QuickAccess(path));
-        }
-
-
-        // TODO: IFolderTreeNode に Parent, Preview, Next を実装して一般化すべき？
-        private void SelectNext(IFolderTreeNode parent, IFolderTreeNode item)
-        {
-            if (item == null) return;
-
-            if (item.IsSelected)
-            {
-                var index = parent.Children.IndexOf(item);
-                if (index + 1 < parent.Children.Count)
-                {
-                    parent.Children[index + 1].IsSelected = true;
-                }
-                else if (index - 1 >= 0)
-                {
-                    parent.Children[index - 1].IsSelected = true;
-                }
-            }
         }
 
         public void RemoveQuickAccess(QuickAccessNode item)
@@ -216,9 +227,16 @@ namespace NeeView
                 return;
             }
 
-            ////_rootQuickAccess.SelectNext(item);
-            SelectNext(_rootQuickAccess, item);
-            QuickAccessCollection.Current.Remove(item.QuickAccess);
+            var next = item.Next ?? item.Previous ?? item.Parent;
+
+            bool isRemoved = QuickAccessCollection.Current.Remove(item.QuickAccessSource);
+            if (isRemoved)
+            {
+                if (next != null)
+                {
+                    SelectedItem = next;
+                }
+            }
         }
 
         public void RemoveBookmarkFolder(BookmarkFolderNode item)
@@ -230,14 +248,14 @@ namespace NeeView
 
             var next = item.Next ?? item.Previous ?? item.Parent;
 
-            var memento = new TreeListNodeMemento<IBookmarkEntry>(item.Source);
+            var memento = new TreeListNodeMemento<IBookmarkEntry>(item.BookmarkSource);
 
-            bool isRemoved = BookmarkCollection.Current.Remove(item.Source);
+            bool isRemoved = BookmarkCollection.Current.Remove(item.BookmarkSource);
             if (isRemoved)
             {
-                if (item.Source.Value is BookmarkFolder)
+                if (item.BookmarkSource.Value is BookmarkFolder)
                 {
-                    var count = item.Source.Count(e => e.Value is Bookmark);
+                    var count = item.BookmarkSource.Count(e => e.Value is Bookmark);
                     if (count > 0)
                     {
                         _toast = new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), Properties.Resources.WordRestore, () => BookmarkCollection.Current.Restore(memento));
@@ -248,10 +266,10 @@ namespace NeeView
                 if (next != null)
                 {
                     next.IsSelected = true;
+                    SelectedItem = next;
                 }
             }
         }
-
 
         public BookmarkFolderNode NewBookmarkFolder(BookmarkFolderNode item)
         {
@@ -262,15 +280,20 @@ namespace NeeView
 
             item.IsExpanded = true;
 
-            var node = BookmarkCollection.Current.AddNewFolder(item.Source);
+            var node = BookmarkCollection.Current.AddNewFolder(item.BookmarkSource);
             if (node == null)
             {
                 return null;
             }
 
-            return item.Children.OfType<BookmarkFolderNode>().FirstOrDefault(e => e.Source == node);
-        }
+            var newItem = item.Children.OfType<BookmarkFolderNode>().FirstOrDefault(e => e.Source == node);
+            if (newItem != null)
+            {
+                SelectedItem = newItem;
+            }
 
+            return newItem;
+        }
 
         public void MoveQuickAccess(QuickAccessNode src, QuickAccessNode dst)
         {
@@ -278,22 +301,61 @@ namespace NeeView
             {
                 return;
             }
-            var srcIndex = QuickAccessCollection.Current.Items.IndexOf(src.QuickAccess);
+            var srcIndex = QuickAccessCollection.Current.Items.IndexOf(src.Source);
             if (srcIndex < 0)
             {
                 return;
             }
-            var dstIndex = QuickAccessCollection.Current.Items.IndexOf(dst.QuickAccess);
+            var dstIndex = QuickAccessCollection.Current.Items.IndexOf(dst.Source);
             if (dstIndex < 0)
             {
                 return;
             }
             QuickAccessCollection.Current.Move(srcIndex, dstIndex);
+
+            SelectedItem = src;
         }
 
         public void SyncDirectory(string place)
         {
-            _rootFolder.SyncDirectory(place);
+            var query = new QueryPath(place);
+            if (query.Scheme == QueryScheme.File)
+            {
+                _rootFolder.RefreshDriveChildren();
+            }
+            else
+            {
+                return;
+            }
+
+            var node = GetDirectoryNode(query, true, true);
+            if (node != null)
+            {
+                var parent = node.Parent;
+                while (parent != null)
+                {
+                    parent.IsExpanded = true;
+                    parent = (parent as FolderTreeNodeBase)?.Parent;
+                }
+
+                SelectedItem = node;
+                SelectedItemChanged?.Invoke(this, null);
+            }
+        }
+
+        private FolderTreeNodeBase GetDirectoryNode(QueryPath query, bool createChildren, bool asFarAsPossible)
+        {
+            switch (query.Scheme)
+            {
+                case QueryScheme.File:
+                    return _rootFolder.GetFolderTreeNode(query.Path, createChildren, asFarAsPossible);
+                case QueryScheme.Bookmark:
+                    return _rootBookmarkFolder.GetFolderTreeNode(query.Path, createChildren, asFarAsPossible);
+                case QueryScheme.QuickAccess:
+                    return _rootBookmarkFolder.GetFolderTreeNode(query.Path, createChildren, asFarAsPossible);
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         public void RefreshDirectory()

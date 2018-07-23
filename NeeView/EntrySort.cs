@@ -13,12 +13,6 @@ namespace NeeView
     /// </summary>
     public static class EntrySort
     {
-        internal static partial class NativeMethods
-        {
-            [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
-            public static extern int StrCmpLogicalW(string psz1, string psz2);
-        }
-
         // TODO: 入力されたentriesを変更しないようにする
         /// <summary>
         /// ソート実行

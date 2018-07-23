@@ -107,7 +107,7 @@ namespace NeeView
 
                 case EntryCollectionChangedAction.Replace:
                 case EntryCollectionChangedAction.Reset:
-                    FolderList.Current.RequestPlace(Bookmark.Scheme + "\\", null, FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.ResetKeyword | FolderSetPlaceOption.Refresh);
+                    FolderList.Current.RequestPlace(QueryScheme.Bookmark.ToSchemeString() + "\\", null, FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.ResetKeyword | FolderSetPlaceOption.Refresh);
                     break;
             }
         }
@@ -118,9 +118,11 @@ namespace NeeView
         /// </summary>
         public override string GetParentPlace()
         {
-            if (Place == null || Place.TrimEnd(LoosePath.Separator) == Bookmark.Scheme)
+            var scheme = QueryScheme.Bookmark.ToSchemeString();
+
+            if (Place == null || Place.TrimEnd(LoosePath.Separator) == scheme)
             {
-                return Bookmark.Scheme + "\\";
+                return scheme + "\\";
             }
 
             return LoosePath.GetDirectoryName(Place);
@@ -129,6 +131,8 @@ namespace NeeView
 
         public FolderItem CreateFolderItem(TreeListNode<IBookmarkEntry> node)
         {
+            var scheme = QueryScheme.Bookmark.ToSchemeString();
+
             switch (node.Value)
             {
                 case BookmarkFolder folder:
@@ -136,7 +140,7 @@ namespace NeeView
                     {
                         Source = node,
                         Type = FolderItemType.Directory,
-                        Place = LoosePath.GetDirectoryName(node.CreatePath(Bookmark.Scheme)),
+                        Place = LoosePath.GetDirectoryName(node.CreatePath(scheme)),
                         Name = folder.Name,
                         Length = -1,
                         Attributes = FolderItemAttribute.Directory | FolderItemAttribute.Bookmark,
@@ -151,7 +155,7 @@ namespace NeeView
                     {
                         Source = node,
                         Type = FolderItemType.File,
-                        Place = LoosePath.GetDirectoryName(node.CreatePath(Bookmark.Scheme)),
+                        Place = LoosePath.GetDirectoryName(node.CreatePath(scheme)),
                         TargetPath = bookmark.Place,
                         Name = bookmark.Name,
                         ArchiveEntry = archiveEntry,

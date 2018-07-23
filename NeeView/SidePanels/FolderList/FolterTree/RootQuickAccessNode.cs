@@ -8,7 +8,7 @@ using System.Windows.Media;
 namespace NeeView
 {
 
-    public class RootQuickAccessNode : BindableBase, IFolderTreeNode
+    public class RootQuickAccessNode : FolderTreeNodeBase
     {
         public RootQuickAccessNode()
         {
@@ -16,28 +16,16 @@ namespace NeeView
             QuickAccessCollection.Current.CollectionChanged += QuickAccessCollection_CollectionChanged;
         }
 
-        private bool _isSelected;
-        public bool IsSelected
+
+        public override string Name { get => QueryScheme.QuickAccess.ToSchemeString(); set { } }
+
+        public override string DispName { get => Properties.Resources.WordQuickAccess; set { } }
+
+        public override ImageSource Icon => MainWindow.Current.Resources["ic_pushpin"] as ImageSource;
+
+        public override ObservableCollection<FolderTreeNodeBase> Children
         {
-            get { return _isSelected; }
-            set { SetProperty(ref _isSelected, value); }
-        }
-
-        private bool _IsExpanded;
-        public bool IsExpanded
-        {
-            get { return _IsExpanded; }
-            set { SetProperty(ref _IsExpanded, value); }
-        }
-
-        public string DispName => Properties.Resources.WordQuickAccess;
-
-        public ImageSource Icon => MainWindow.Current.Resources["ic_pushpin"] as ImageSource;
-
-        private ObservableCollection<IFolderTreeNode> _children;
-        public ObservableCollection<IFolderTreeNode> Children
-        {
-            get { return _children; }
+            get { return _children = _children ?? new ObservableCollection<FolderTreeNodeBase>(QuickAccessCollection.Current.Items.Select(e => new QuickAccessNode(e, this))); }
             set { SetProperty(ref _children, value); }
         }
 
@@ -54,56 +42,14 @@ namespace NeeView
 
                 case CollectionChangeAction.Add:
                     var index = QuickAccessCollection.Current.Items.IndexOf(item);
-                    InsertChild(index, item);
+                    Insert(index, new QuickAccessNode(item, null));
                     break;
 
                 case CollectionChangeAction.Remove:
-                    RemoveChild(item);
+                    Remove(item);
                     break;
             }
         }
 
-        public void RefreshIcon()
-        {
-            RaisePropertyChanged(nameof(Icon));
-        }
-
-        private void RefreshChildren()
-        {
-            Children = new ObservableCollection<IFolderTreeNode>(QuickAccessCollection.Current.Items.Select(e => new QuickAccessNode(e)));
-        }
-
-        private void InsertChild(int index, QuickAccess item)
-        {
-            var node = new QuickAccessNode(item);
-            Children.Insert(index, node);
-        }
-
-        private void RemoveChild(QuickAccess item)
-        {
-            var node = Children.FirstOrDefault(e => ((QuickAccessNode)e).QuickAccess == item);
-            if (node != null)
-            {
-                Children.Remove(node);
-            }
-        }
-
-        internal void SelectNext(QuickAccessNode item)
-        {
-            if (item == null) return;
-
-            if (item.IsSelected)
-            {
-                var index = Children.IndexOf(item);
-                if (index + 1 < Children.Count)
-                {
-                    Children[index + 1].IsSelected = true;
-                }
-                else if (index - 1 >= 0)
-                {
-                    Children[index - 1].IsSelected = true;
-                }
-            }
-        }
     }
 }

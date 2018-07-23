@@ -195,15 +195,14 @@
     <Compile Include="SidePanels\FolderList\FolderTreeLayout.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\BookmarkFolderNode.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\DirectoryNode.cs" />
-    <Compile Include="SidePanels\FolderList\FolterTree\DirectoryNodeBase.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\DriveDirectoryNode.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\FolderTreeModel.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\FolderTreeNodeBase.cs" />
+    <Compile Include="SidePanels\FolderList\FolterTree\FolderTreeNodeDelayBase.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\FolderTreeView.xaml.cs">
       <DependentUpon>FolderTreeView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\FolderList\FolterTree\FolderTreeViewModel.cs" />
-    <Compile Include="SidePanels\FolderList\FolterTree\IFolderTreeNode.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\QuickAccessNode.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\RootBookmarkFolderNode.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\RootDirectoryNode.cs" />
@@ -689,6 +688,7 @@
     </Compile>
     <Compile Include="Print\PrintWindowViewModel.cs" />
     <Compile Include="SizeString.cs" />
+    <Compile Include="_NeeView\CompareFileName.cs" />
     <Compile Include="_NeeView\Threading\Tasks\TaskUtils.cs" />
     <Compile Include="_NeeView\Collections\Generic\EnumerableExtensions.cs" />
     <Compile Include="_NeeView\IO\FileShortcut.cs" />

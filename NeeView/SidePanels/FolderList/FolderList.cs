@@ -561,13 +561,15 @@ namespace NeeView
             // ブックマークフォルダーパスに変換
             if (FolderCollection is BookmarkFolderCollection && !options.HasFlag(FolderSetPlaceOption.FileSystem))
             {
-                if (queryPath != null && !queryPath.StartsWith(Bookmark.Scheme) && select != null)
+                var scheme = QueryScheme.Bookmark.ToSchemeString();
+
+                if (queryPath != null && !queryPath.StartsWith(scheme) && select != null)
                 {
                     var node = BookmarkCollection.Current.FindNode(select.Path);
                     if (node != null && node.Parent != null)
                     {
-                        queryPath = node.Parent.CreatePath(Bookmark.Scheme);
-                        select = new FolderItemPosition(node.CreatePath(Bookmark.Scheme)) { TargetPath = select.Path };
+                        queryPath = node.Parent.CreatePath(scheme);
+                        select = new FolderItemPosition(node.CreatePath(scheme)) { TargetPath = select.Path };
                     }
                 }
             }
@@ -576,7 +578,7 @@ namespace NeeView
             SavePlace(this.SelectedItem, GetFolderItemIndex(this.SelectedItem));
 
             var query = new QueryPath(queryPath);
-            var place = query.Path;
+            var place = query.SimplePath;
             var keyword = query.Search ?? "";
 
             // 初期項目
@@ -1053,7 +1055,7 @@ namespace NeeView
 
         public string GetCurentQueryPath()
         {
-            return new QueryPath(Place, GetFixedSearchKeyword()).FullPath;
+            return new QueryPath(Place, GetFixedSearchKeyword()).SimpleQuery;
         }
 
         //
@@ -1132,14 +1134,14 @@ namespace NeeView
         //
         public bool MoveToParent_CanExecute()
         {
-            return (Place != null && Place.TrimEnd(LoosePath.Separator) != Bookmark.Scheme);
+            return (Place != null && Place.TrimEnd(LoosePath.Separator) != QueryScheme.Bookmark.ToSchemeString());
         }
 
         //
         public async void MoveToParent_Execute()
         {
             if (Place == null) return;
-            if (Place.TrimEnd(LoosePath.Separator) == Bookmark.Scheme) return;
+            if (Place.TrimEnd(LoosePath.Separator) == QueryScheme.Bookmark.ToSchemeString()) return;
 
             var parent = this.FolderCollection?.GetParentPlace();
             await SetPlaceAsync(parent, new FolderItemPosition(Place), FolderSetPlaceOption.Focus | FolderSetPlaceOption.UpdateHistory);

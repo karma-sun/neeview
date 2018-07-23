@@ -145,7 +145,7 @@ namespace NeeView
                         var newItem = _vm.NewBookmarkFolder(item);
                         if (newItem != null)
                         {
-                            newItem.IsSelected = true;
+                            ////newItem.IsSelected = true;
                             this.TreeView.UpdateLayout();
                             RenameBookmarkFolder(newItem);
                         }
@@ -200,59 +200,55 @@ namespace NeeView
             }
 
             var treetView = this.TreeView;
+            var treeViewItem = VisualTreeUtility.FindContainer<TreeViewItem>(treetView, item);
+            var textBlock = VisualTreeUtility.FindVisualChild<TextBlock>(treeViewItem, "FileNameTextBlock");
 
-            ////if (item != null && item is BookmarkFolderNode folder)
+            if (textBlock != null)
             {
-                var listViewItem = VisualTreeUtility.FindContainer<TreeViewItem>(treetView, item);
-                var textBlock = VisualTreeUtility.FindVisualChild<TextBlock>(listViewItem, "FileNameTextBlock");
-
-                if (textBlock != null)
+                var rename = new RenameControl() { Target = textBlock };
+                rename.Closing += (s, ev) =>
                 {
-                    var rename = new RenameControl() { Target = textBlock };
-                    rename.Closing += (s, ev) =>
+                    var newName = BookmarkFolder.GetValidateName(ev.NewValue);
+                    if (string.IsNullOrEmpty(newName))
                     {
-                        var newName = BookmarkFolder.GetValidateName(ev.NewValue);
-                        if (string.IsNullOrEmpty(newName))
-                        {
-                            newName = ev.OldValue;
-                        }
+                        newName = ev.OldValue;
+                    }
 
-                        if (ev.OldValue != newName)
+                    if (ev.OldValue != newName)
+                    {
+                        var node = item.BookmarkSource;
+                        var conflict = node.Parent.Children.FirstOrDefault(e => e != node && e.Value is BookmarkFolder && e.Value.Name == newName);
+                        if (conflict != null)
                         {
-                            var node = item.Source;
-                            var conflict = node.Parent.Children.FirstOrDefault(e => e != node && e.Value is BookmarkFolder && e.Value.Name == newName);
-                            if (conflict != null)
-                            {
-                                var dialog = new MessageDialog(string.Format(Properties.Resources.DialogMergeFolder, newName), Properties.Resources.DialogMergeFolderTitle);
-                                dialog.Commands.Add(UICommands.Yes);
-                                dialog.Commands.Add(UICommands.No);
-                                var result = dialog.ShowDialog();
+                            var dialog = new MessageDialog(string.Format(Properties.Resources.DialogMergeFolder, newName), Properties.Resources.DialogMergeFolderTitle);
+                            dialog.Commands.Add(UICommands.Yes);
+                            dialog.Commands.Add(UICommands.No);
+                            var result = dialog.ShowDialog();
 
-                                if (result == UICommands.Yes)
-                                {
-                                    BookmarkCollection.Current.Merge(node, conflict);
-                                }
-                            }
-                            else
+                            if (result == UICommands.Yes)
                             {
-                                var folder = (BookmarkFolder)node.Value;
-                                folder.Name = newName;
-                                BookmarkCollection.Current.RaiseBookmarkChangedEvent(new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Rename, node.Parent, node) { OldName = ev.OldValue });
+                                BookmarkCollection.Current.Merge(node, conflict);
                             }
                         }
-                    };
-                    rename.Closed += (s, ev) =>
-                    {
-                        this.TreeView.Focus();
-                    };
-                    rename.Close += (s, ev) =>
-                    {
-                        IsRenaming = false;
-                    };
+                        else
+                        {
+                            var folder = (BookmarkFolder)node.Value;
+                            folder.Name = newName;
+                            BookmarkCollection.Current.RaiseBookmarkChangedEvent(new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Rename, node.Parent, node) { OldName = ev.OldValue });
+                        }
+                    }
+                };
+                rename.Closed += (s, ev) =>
+                {
+                    this.TreeView.Focus();
+                };
+                rename.Close += (s, ev) =>
+                {
+                    IsRenaming = false;
+                };
 
-                    ((MainWindow)Application.Current.MainWindow).RenameManager.Open(rename);
-                    IsRenaming = true;
-                }
+                MainWindow.Current.RenameManager.Open(rename);
+                IsRenaming = true;
             }
         }
 
@@ -267,6 +263,69 @@ namespace NeeView
             return this.TreeView.Focus();
         }
 
+        private void ScrollIntoView()
+        {
+            if (!this.TreeView.IsVisible)
+            {
+                return;
+            }
+
+            var selectedItem = _vm.Model.SelectedItem;
+            if (selectedItem == null)
+            {
+                return;
+            }
+
+            // TODO:
+#if false
+            ItemsControl container = this.TreeView;
+            foreach (var parent in selectedItem.Hierarchy.Skip(1))
+            {
+                ScrollIntoView(parent);
+                parent.IsExpanded = true;
+                this.TreeView.UpdateLayout();
+            }
+#endif
+        }
+
+        private void ScrollIntoView(TreeListNode<IBookmarkEntry> entry)
+        {
+            // TODO:
+#if false
+            if (!this.TreeView.IsVisible)
+            {
+                return;
+            }
+
+            var index = _vm.Model.IndexOfExpanded(entry);
+            if (index < 0)
+            {
+                return;
+            }
+
+            var item = VisualTreeUtility.FindVisualChild<TreeViewItem>(this.TreeView);
+            var header = VisualTreeUtility.FindVisualChild<Border>(item, "Bd");
+
+            if (header != null)
+            {
+                var unitHeight = header.ActualHeight;
+                var scrollVerticalOffset = unitHeight * index;
+
+                var scrollViewer = VisualTreeUtility.GetChildElement<ScrollViewer>(this.TreeView);
+                if (scrollViewer != null)
+                {
+                    if (scrollVerticalOffset - scrollViewer.ActualHeight + unitHeight > scrollViewer.VerticalOffset)
+                    {
+                        scrollViewer.ScrollToVerticalOffset(scrollVerticalOffset - scrollViewer.ActualHeight + unitHeight);
+                    }
+                    else if (scrollVerticalOffset < scrollViewer.VerticalOffset)
+                    {
+                        scrollViewer.ScrollToVerticalOffset(scrollVerticalOffset);
+                    }
+                }
+            }
+#endif
+        }
 
         private void ViewModel_SelectedItemChanged(object sender, EventArgs e)
         {
@@ -276,6 +335,12 @@ namespace NeeView
         private void TreeView_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
             ((MainWindow)App.Current.MainWindow).RenameManager.Stop();
+        }
+
+        private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            _vm.Model.SelectedItem = this.TreeView.SelectedItem as FolderTreeNodeBase;
+
         }
 
         private void TreeView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -440,7 +505,6 @@ namespace NeeView
                     break;
             }
 
-
             _lastDropTarget = null;
         }
 
@@ -489,11 +553,11 @@ namespace NeeView
                     case BookmarkFolderNode bookmarkFolderTarget:
                         if (item is BookmarkFolderNode bookmarkFolder && bookmarkFolder != bookmarkFolderTarget)
                         {
-                            if (!bookmarkFolderTarget.Source.ParentContains(bookmarkFolder.Source))
+                            if (!bookmarkFolderTarget.BookmarkSource.ParentContains(bookmarkFolder.BookmarkSource))
                             {
                                 if (isDrop)
                                 {
-                                    BookmarkCollection.Current.MoveToChild(bookmarkFolder.Source, bookmarkFolderTarget.Source);
+                                    BookmarkCollection.Current.MoveToChild(bookmarkFolder.BookmarkSource, bookmarkFolderTarget.BookmarkSource);
                                 }
                                 e.Effects = DragDropEffects.Move;
                                 e.Handled = true;
@@ -511,11 +575,11 @@ namespace NeeView
                     {
                         if (bookmarkEntry.Value is BookmarkFolder)
                         {
-                            if (bookmarkFolderTarget.Source != bookmarkEntry && !bookmarkFolderTarget.Source.ParentContains(bookmarkEntry))
+                            if (bookmarkFolderTarget.Source != bookmarkEntry && !bookmarkFolderTarget.BookmarkSource.ParentContains(bookmarkEntry))
                             {
                                 if (isDrop)
                                 {
-                                    BookmarkCollection.Current.MoveToChild(bookmarkEntry, bookmarkFolderTarget.Source);
+                                    BookmarkCollection.Current.MoveToChild(bookmarkEntry, bookmarkFolderTarget.BookmarkSource);
                                 }
                                 e.Effects = DragDropEffects.Move;
                                 e.Handled = true;
@@ -527,7 +591,7 @@ namespace NeeView
                         {
                             if (isDrop)
                             {
-                                BookmarkCollection.Current.MoveToChild(bookmarkEntry, bookmarkFolderTarget.Source);
+                                BookmarkCollection.Current.MoveToChild(bookmarkEntry, bookmarkFolderTarget.BookmarkSource);
                             }
                             e.Effects = DragDropEffects.Move;
                             e.Handled = true;
@@ -540,7 +604,6 @@ namespace NeeView
             e.Effects = DragDropEffects.None;
             e.Handled = true;
         }
-
 
         private TreeViewItem PointToViewItem(TreeView treeView, Point point)
         {
@@ -556,12 +619,6 @@ namespace NeeView
             return _lastDropTarget as TreeViewItem;
         }
 
-
-
-#endregion
-
+        #endregion
     }
-
-
-
 }

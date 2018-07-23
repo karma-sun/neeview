@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Runtime.Serialization;
@@ -10,6 +11,8 @@ namespace NeeView
         string Name { get; }
     }
 
+
+
     public interface IBookmarkEntry : IBookListItem, IHasName
     {
     }
@@ -18,8 +21,6 @@ namespace NeeView
     [DataContract]
     public class Bookmark : BindableBase, IBookmarkEntry, IVirtualItem
     {
-        public static string Scheme => "bookmark:";
-
         private string _place;
 
         public Bookmark()
@@ -80,7 +81,7 @@ namespace NeeView
 
         #region IVirtualItem
 
-        // TODO: これはPageで保持するべきか？
+        // HACK: これはPageで保持するべきか？
         private JobRequest _jobRequest;
 
         public int DetachCount { get; set; }
@@ -100,6 +101,11 @@ namespace NeeView
         }
 
         #endregion
+
+        public bool IsEqual(IBookmarkEntry entry)
+        {
+            return entry is Bookmark bookmark && this.Name == bookmark.Name && this.Place == bookmark.Place;  
+        }
 
         public override string ToString()
         {

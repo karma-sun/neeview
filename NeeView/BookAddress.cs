@@ -66,7 +66,7 @@ namespace NeeView
         /// <returns></returns>
         public async Task InitializeAsync(string path, string entryName, BookLoadOption option, bool isArchiveRecursive, CancellationToken token)
         {
-            if (path.StartsWith(Bookmark.Scheme))
+            if (path.StartsWith(QueryScheme.Bookmark.ToSchemeString()))
             {
                 var node = BookmarkCollection.Current.FindNode(path);
                 switch (node.Value)

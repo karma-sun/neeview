@@ -7,18 +7,18 @@ namespace NeeView
 {
     public class RootBookmarkFolderNode : BookmarkFolderNode
     {
+        public RootBookmarkFolderNode() : base(BookmarkCollection.Current.Items, null)
+        {
+            BookmarkCollection.Current.BookmarkChanged += BookmarkCollection_BookmarkChanged;
+        }
+
+
+        public override string Name => QueryScheme.Bookmark.ToSchemeString();
+
         public override string DispName { get => Properties.Resources.WordBookmark; set { } }
 
         public override ImageSource Icon => App.Current.Resources["ic_grade_24px"] as ImageSource;
 
-        public override string Key => "";
-
-        public override string Name => Bookmark.Scheme + "\\";
-
-        public RootBookmarkFolderNode() : base(null, BookmarkCollection.Current.Items)
-        {
-            BookmarkCollection.Current.BookmarkChanged += BookmarkCollection_BookmarkChanged;
-        }
 
         private void BookmarkCollection_BookmarkChanged(object sender, BookmarkCollectionChangedEventArgs e)
         {
@@ -26,8 +26,8 @@ namespace NeeView
             {
                 case EntryCollectionChangedAction.Reset:
                 case EntryCollectionChangedAction.Replace:
-                    _source = BookmarkCollection.Current.Items;
-                    RefreshChildren(true);
+                    Source = BookmarkCollection.Current.Items;
+                    RefreshChildren();
                     RaisePropertyChanged(nameof(Children));
                     break;
 
@@ -42,7 +42,6 @@ namespace NeeView
                 case EntryCollectionChangedAction.Rename:
                     Directory_Renamed(e.Parent, e.Item);
                     break;
-
             }
         }
 
@@ -59,7 +58,8 @@ namespace NeeView
             if (node != null)
             {
                 ////App.Current.Dispatcher.BeginInvoke((Action)(() => node.Add(item)));
-                node.Add(item);
+                var newNode = new BookmarkFolderNode(item, null);
+                node.Add(newNode);
             }
             else
             {
@@ -79,7 +79,8 @@ namespace NeeView
             var node = GetDirectoryNode(parent.CreatePath(null));
             if (node != null)
             {
-                App.Current.Dispatcher.BeginInvoke((Action)(() => node.Remove(item)));
+                ////App.Current.Dispatcher.BeginInvoke((Action)(() => node.Remove(item)));
+                node.Remove(item);
             }
             else
             {
@@ -99,7 +100,8 @@ namespace NeeView
             var node = GetDirectoryNode(parent.CreatePath(null));
             if (node != null)
             {
-                App.Current.Dispatcher.BeginInvoke((Action)(() => node.Rename(item)));
+                ////App.Current.Dispatcher.BeginInvoke((Action)(() => node.Rename(item)));
+                node.Renamed(item);
             }
             else
             {
@@ -114,10 +116,8 @@ namespace NeeView
                 return this;
             }
 
-            return GetDirectoryNode(path, false, false) as BookmarkFolderNode;
+            return GetFolderTreeNode(path, false, false) as BookmarkFolderNode;
         }
 
-
     }
-
 }

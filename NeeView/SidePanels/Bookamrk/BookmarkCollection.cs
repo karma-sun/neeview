@@ -100,9 +100,11 @@ namespace NeeView
         {
             if (path == null) return null;
 
-            if (path.StartsWith(Bookmark.Scheme))
+            var scheme = QueryScheme.Bookmark.ToSchemeString();
+
+            if (path.StartsWith(scheme))
             {
-                path = path.Substring(Bookmark.Scheme.Length).Trim(LoosePath.Separator);
+                path = path.Substring(scheme.Length).Trim(LoosePath.Separator);
 
                 if (path == "")
                 {
@@ -142,7 +144,7 @@ namespace NeeView
 
         public static string CreatePath(TreeListNode<IBookmarkEntry> node)
         {
-            return Bookmark.Scheme + "\\" + string.Join("\\", node.Hierarchy.Select(e => e.Value).Cast<IBookmarkEntry>());
+            return QueryScheme.Bookmark.ToSchemeString() + "\\" + string.Join("\\", node.Hierarchy.Select(e => e.Value).Cast<IBookmarkEntry>());
         }
 
 
@@ -292,14 +294,14 @@ namespace NeeView
                 return;
             }
 
-            if (item.Value is BookmarkFolder)
+            if (item.Value is BookmarkFolder folder)
             {
                 if (target.ParentContains(item))
                 {
                     return;
                 }
 
-                var conflict = target.Children.FirstOrDefault(e => e.Value is BookmarkFolder && e.Value.Name == item.Value.Name);
+                var conflict = target.Children.FirstOrDefault(e => folder.IsEqual(e.Value));
                 if (conflict != null)
                 {
                     Merge(item, conflict);
@@ -310,9 +312,9 @@ namespace NeeView
                 }
             }
 
-            else if (item.Value is Bookmark)
+            else if (item.Value is Bookmark bookmark)
             {
-                var conflict = target.Children.FirstOrDefault(e => e.Value is Bookmark && e.Value.Name == item.Value.Name);
+                var conflict = target.Children.FirstOrDefault(e => bookmark.IsEqual(e.Value));
                 if (conflict != null)
                 {
                     Remove(item);

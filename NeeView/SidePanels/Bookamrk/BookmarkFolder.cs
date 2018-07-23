@@ -47,5 +47,10 @@ namespace NeeView
         {
             return name.Trim().Replace('/', '_').Replace('\\', '_');
         }
+
+        public bool IsEqual(IBookmarkEntry entry)
+        {
+            return entry is BookmarkFolder folder && this.Name == folder.Name;
+        }
     }
 }

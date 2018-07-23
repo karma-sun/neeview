@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace NeeView
 {
-    public class RootDirectoryNode : DirectoryNodeBase
+    public class RootDirectoryNode : FolderTreeNodeDelayBase
     {
         public RootDirectoryNode()
         {
@@ -16,24 +16,37 @@ namespace NeeView
             WindowMessage.Current.DirectoryChanged += WindowMessage_DirectoryChanged;
         }
 
+
+        public override string Name { get => QueryScheme.File.ToSchemeString(); set { } }
+
         public override string DispName { get => "PC"; set { } }
 
         public override ImageSource Icon => MainWindow.Current.Resources["ic_desktop_windows_24px"] as ImageSource;
 
-        public override string Key => null;
 
         public void Refresh()
         {
-            this.RefreshChildren(true);
+            this.CreateChildren(true);
             this.IsExpanded = true;
         }
 
-        public override void RefreshChildren(bool isForce)
+        public void RefreshDriveChildren()
+        {
+            if (_children != null)
+            {
+                foreach (var child in _children)
+                {
+                    child.RefreshChildren();
+                }
+            }
+        }
+
+        public override void CreateChildren(bool isForce)
         {
             try
             {
-                Children = new ObservableCollection<IFolderTreeNode>(DriveInfo.GetDrives()
-                    .Select(e => new DriveDirectoryNode(e)));
+                Children = new ObservableCollection<FolderTreeNodeBase>(DriveInfo.GetDrives()
+                    .Select(e => new DriveDirectoryNode(e, this)));
             }
             catch (Exception ex)
             {
@@ -44,6 +57,8 @@ namespace NeeView
         private void WindowMessage_DriveChanged(object sender, DriveChangedEventArgs e)
         {
             if (_children == null) return;
+
+            ////Debug.WriteLine($"DriveChange: {e.Name}, {e.IsAlive}");
 
             App.Current.Dispatcher.BeginInvoke((Action)(() =>
             {
@@ -60,7 +75,9 @@ namespace NeeView
                     }
                     else
                     {
-                        var drive = _children.Cast<DriveDirectoryNode>().FirstOrDefault(d => d.Name == e.Name);
+                        var name = e.Name.TrimEnd(LoosePath.Separator);
+
+                        var drive = _children.Cast<DriveDirectoryNode>().FirstOrDefault(d => d.Name == name);
                         if (drive != null)
                         {
                             if (driveInfo == null)
@@ -86,7 +103,9 @@ namespace NeeView
             if (driveInfo == null) return;
             if (_children == null) return;
 
-            var drive = _children.Cast<DriveDirectoryNode>().FirstOrDefault(d => d.Name == driveInfo.Name);
+            var name = driveInfo.Name.TrimEnd(LoosePath.Separator);
+
+            var drive = _children.Cast<DriveDirectoryNode>().FirstOrDefault(d => d.Name == name);
             if (drive != null)
             {
                 drive.Refresh();
@@ -95,15 +114,15 @@ namespace NeeView
 
             for (int index = 0; index < _children.Count; ++index)
             {
-                if (string.Compare(driveInfo.Name, ((DriveDirectoryNode)_children[index]).Name) < 0)
+                if (string.Compare(name, _children[index].Name) < 0)
                 {
-                    _children.Insert(index, new DriveDirectoryNode(driveInfo));
+                    _children.Insert(index, new DriveDirectoryNode(driveInfo, this));
                     break;
                 }
 
                 if (index == _children.Count - 1)
                 {
-                    _children.Add(new DriveDirectoryNode(driveInfo));
+                    _children.Add(new DriveDirectoryNode(driveInfo, this));
                     break;
                 }
             }
@@ -111,6 +130,8 @@ namespace NeeView
 
         private DriveInfo CreateDriveInfo(string name)
         {
+            Debug.Assert(name.EndsWith("\\"));
+
             if (System.IO.Directory.GetLogicalDrives().Contains(name))
             {
                 return new DriveInfo(name);
@@ -119,16 +140,19 @@ namespace NeeView
             return null;
         }
 
-
         private void WindowMessage_MediaChanged(object sender, MediaChangedEventArgs e)
         {
             if (_children == null) return;
+
+            ////Debug.WriteLine($"MediaChange: {e.Name}, {e.IsAlive}");
 
             App.Current.Dispatcher.BeginInvoke((Action)(() =>
             {
                 try
                 {
-                    var drive = _children.Cast<DriveDirectoryNode>().FirstOrDefault(d => d.Name == e.Name);
+                    var name = e.Name.TrimEnd(LoosePath.Separator);
+
+                    var drive = _children.Cast<DriveDirectoryNode>().FirstOrDefault(d => d.Name == name);
                     if (drive == null)
                     {
                         return;
@@ -142,7 +166,6 @@ namespace NeeView
                 }
             }));
         }
-
 
         private void WindowMessage_DirectoryChanged(object sender, DirectoryChangedEventArgs e)
         {
@@ -180,7 +203,8 @@ namespace NeeView
             if (parent != null)
             {
                 var name = LoosePath.GetFileName(fullpath);
-                App.Current.Dispatcher.BeginInvoke((Action)(() => parent.Add(name)));
+                var node = new DirectoryNode(name, null);
+                App.Current.Dispatcher.BeginInvoke((Action)(() => parent.Add(node)));
             }
             else
             {
@@ -227,34 +251,7 @@ namespace NeeView
 
         private DirectoryNode GetDirectoryNode(string path)
         {
-            return GetDirectoryNode(path, false, false) as DirectoryNode;
-        }
-
-
-
-        /// <summary>
-        /// 指定パスまで展開した状態で初期化する
-        /// </summary>
-        public void SyncDirectory(string path)
-        {
-            this.RefreshChildren(true);
-
-            if (path != null)
-            {
-                var node = GetDirectoryNode(path, true, true) as DirectoryNode;
-                if (node != null)
-                {
-                    var parent = node.Parent;
-                    while (parent != null)
-                    {
-                        parent.IsExpanded = true;
-                        parent = parent.Parent;
-                    }
-
-                    node.IsSelected = true;
-                    this.IsExpanded = true;
-                }
-            }
+            return GetFolderTreeNode(path, false, false) as DirectoryNode;
         }
     }
 }

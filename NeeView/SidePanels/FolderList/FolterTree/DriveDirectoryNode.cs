@@ -26,11 +26,13 @@ namespace NeeView
         private bool _iconInitialized;
 
 
-        public DriveDirectoryNode(DriveInfo drive) : base(null, drive.Name)
+        public DriveDirectoryNode(DriveInfo drive, RootDirectoryNode parent) : base(drive.Name.TrimEnd(LoosePath.Separator), parent)
         {
-            Initialize(drive);
+            _driveInfo = drive;
+            var async = InitializeAsync();
         }
 
+        public string DriveName => Name + '\\';
 
         private string _dispName;
         public override string DispName
@@ -70,8 +72,7 @@ namespace NeeView
             }
         }
 
-        public override string Key => Name.TrimEnd(LoosePath.Separator);
-
+        public override string Path => Name + '\\';
 
         private bool _isReady;
         public bool IsReady
@@ -80,47 +81,51 @@ namespace NeeView
             set { SetProperty(ref _isReady, value); }
         }
 
-        private void Initialize(DriveInfo drive)
+        private async Task InitializeAsync()
         {
-            _driveInfo = drive;
-            IsReady = _driveInfo.IsReady;
+            IsDelayCreation = true;
 
-            var driveName = string.Format("{0} ({1})", _driveTypeNames[drive.DriveType], drive.Name.TrimEnd('\\'));
-
-            if (drive.IsReady)
+            await Task.Run(() =>
             {
+                var volumeLabel = _driveTypeNames[_driveInfo.DriveType];
+                DispName = string.Format("{0} ({1})", volumeLabel, Name);
+
+                // NOTE: ドライブによってはこのプロパティの取得に時間がかかる
+                IsReady = _driveInfo.IsReady;
+
                 try
                 {
-                    driveName = string.Format("{0} ({1})", string.IsNullOrEmpty(drive.VolumeLabel) ? _driveTypeNames[drive.DriveType] : drive.VolumeLabel, drive.Name.TrimEnd('\\'));
+                    if (_driveInfo.IsReady)
+                    {
+                        volumeLabel = string.IsNullOrEmpty(_driveInfo.VolumeLabel) ? _driveTypeNames[_driveInfo.DriveType] : _driveInfo.VolumeLabel;
+                        DispName = string.Format("{0} ({1})", volumeLabel, Name);
+                    }
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
                 }
-            }
 
-            DispName = driveName;
+                switch (_driveInfo.DriveType)
+                {
+                    case DriveType.Fixed:
+                    case DriveType.Removable:
+                    case DriveType.Ram:
+                        IsDelayCreateInheritance = false;
+                        break;
+                    default:
+                        IsDelayCreateInheritance = true;
+                        break;
+                }
 
-            DelayCreateChildren();
-
-            switch (drive.DriveType)
-            {
-                case DriveType.Fixed:
-                case DriveType.Removable:
-                case DriveType.Ram:
-                    break;
-                default:
-                    IsDelayCreateChildremAll = true;
-                    break;
-            }
+                RefreshIcon();
+            });
         }
 
         public void Refresh()
         {
-            ResetChildren(true);
-
-            Initialize(_driveInfo);
-            RefreshIcon();
+            RefreshChildren();
+            var async = InitializeAsync();
         }
 
         public override void RefreshIcon()
@@ -133,7 +138,7 @@ namespace NeeView
         {
             if (sender is DirectoryNode directory)
             {
-                FolderTreeModel.Current.ShowToast($"({_driveInfo?.Name.TrimEnd('\\')}) " + e.Exception.Message);
+                FolderTreeModel.Current.ShowToast($"({Name}) " + e.Exception.Message);
 
                 if (e.IsRefresh)
                 {

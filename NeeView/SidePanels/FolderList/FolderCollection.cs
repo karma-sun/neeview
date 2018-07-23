@@ -117,12 +117,6 @@ namespace NeeView
 
         #region Methods
 
-        internal static partial class NativeMethods
-        {
-            [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
-            public static extern int StrCmpLogicalW(string psz1, string psz2);
-        }
-
         /// <summary>
         /// 一致判定
         /// </summary>

@@ -148,16 +148,9 @@ namespace NeeView
             {
                 return "PC";
             }
-            else if (s.StartsWith("http://") || s.StartsWith("https://"))
-            {
-                return new Uri(s).Host;
-            }
-            else if (s.StartsWith("data:"))
-            {
-                return Properties.Resources.WordEmbeddedImage;
-            }
             else
             {
+                // ドライブ名なら終端に「￥」を付ける
                 var name = LoosePath.GetFileName(s);
                 if (s.Length <= 3 && name.Length == 2 && name[1] == ':')
                 {

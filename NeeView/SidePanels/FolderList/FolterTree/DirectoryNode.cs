@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -9,26 +10,27 @@ using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
-    public class DirectoryNode : DirectoryNodeBase
+    public class DirectoryNode : FolderTreeNodeDelayBase
     {
-        internal static partial class NativeMethods
+        public DirectoryNode(string name, FolderTreeNodeBase parent)
         {
-            [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
-            public static extern int StrCmpLogicalW(string psz1, string psz2);
-        }
+            Source = name;
 
-        public DirectoryNode(DirectoryNode parent, string name)
-        {
-            Parent = parent;
             Name = name;
+            Parent = parent;
         }
 
-        public DirectoryNode(DirectoryNode parent, string name, bool isDelayAll) : this(parent, name)
+        private string _name;
+        public override string Name
         {
-            if (isDelayAll)
+            get { return _name; }
+            set
             {
-                IsDelayCreateChildremAll = true;
-                DelayCreateChildren();
+                if (SetProperty(ref _name, value))
+                {
+                    Source = _name;
+                    RaisePropertyChanged(nameof(DispName));
+                }
             }
         }
 
@@ -36,51 +38,43 @@ namespace NeeView
 
         public override ImageSource Icon => FileIconCollection.Current.CreateFileIcon(Path, IO.FileIconType.Directory, 16.0, false, false);
 
-        private string _name;
-        public string Name
+        public virtual string Path => Parent is DirectoryNode parent ? LoosePath.Combine(parent.Path, Name) : Name;
+
+        public DriveDirectoryNode Drive => this is DriveDirectoryNode drive ? drive : Parent is DirectoryNode parent ? parent.Drive : null;
+
+        // 遅延生成を親から継承する
+        public bool IsDelayCreateInheritance { get; set; } = true;
+
+
+        protected override void OnParentChanged(object sender, EventArgs e)
         {
-            get { return _name; }
-            set
+            if (Parent == null) return;
+
+            if (Parent is DirectoryNode parent && parent.IsDelayCreateInheritance)
             {
-                if (SetProperty(ref _name, value.TrimEnd('\\')))
-                {
-                    RaisePropertyChanged(nameof(DispName));
-                }
+                IsDelayCreation = parent.IsDelayCreation;
             }
         }
 
-        public override string Key => Name;
-
-        public DirectoryNode Parent { get; set; }
-
-        public string Path => Parent != null ? LoosePath.Combine(Parent.Path, Name) : Name;
-
-        public DriveDirectoryNode Drive => this is DriveDirectoryNode drive ? drive : Parent?.Drive;
-
-
-
-        public bool IsDelayCreateChildremAll { get; set; }
-
-
-
         protected virtual void OnException(DirectoryNode sender, NotifyCrateDirectoryChildrenExcepionEventArgs e)
         {
-            Parent?.OnException(sender, e);
+            (Parent as DirectoryNode)?.OnException(sender, e);
         }
 
         protected virtual void OnChildrenChanged(DirectoryNode sender, EventArgs e)
         {
         }
 
-        public override void RefreshChildren(bool isForce)
+        public override void CreateChildren(bool isForce)
         {
             var directory = new DirectoryInfo(Path);
 
             try
             {
-                Children = new ObservableCollection<IFolderTreeNode>(directory.GetDirectories()
+                Children = new ObservableCollection<FolderTreeNodeBase>(directory.GetDirectories()
                     .Where(e => (e.Attributes & FileAttributes.Hidden) == 0)
-                    .Select(e => new DirectoryNode(this, e.Name, IsDelayCreateChildremAll)));
+                    .OrderBy(e => e.Name, new NameComparer())
+                    .Select(e => new DirectoryNode(e.Name, this)));
 
                 OnChildrenChanged(this, null);
             }
@@ -88,43 +82,30 @@ namespace NeeView
             {
                 Debug.WriteLine(ex.Message);
 
-                DelayCreateChildren();
+                IsDelayCreation = true;
 
                 if (isForce)
                 {
                     var isDriveRefresh = !(ex is UnauthorizedAccessException || ex is System.Security.SecurityException);
                     OnException(this, new NotifyCrateDirectoryChildrenExcepionEventArgs(ex, isDriveRefresh));
+
+                    Children = new ObservableCollection<FolderTreeNodeBase>();
                 }
             }
         }
 
-        public void Add(string name)
+        private class NameComparer : IComparer<string>
         {
-            if (_children == null) return;
-
-            ////Debug.WriteLine($"ADD: " + name);
-
-            var directory = _children.Cast<DirectoryNode>().FirstOrDefault(e => e.Name == name);
-            if (directory == null)
+            public int Compare(string x, string y)
             {
-                directory = new DirectoryNode(this, name, IsDelayCreateChildremAll);
-                _children.Add(directory);
-                Sort(directory);
+                return NativeMethods.StrCmpLogicalW(x, y);
             }
         }
 
-        public void Remove(string name)
+
+        public override FolderTreeNodeBase FindChild(object source)
         {
-            if (_children == null) return;
-
-            ////Debug.WriteLine($"REMOVE: " + name);
-
-            var directory = _children.Cast<DirectoryNode>().FirstOrDefault(e => e.Name == name);
-            if (directory != null)
-            {
-                _children.Remove(directory);
-                directory.Parent = null;
-            }
+            return _children?.FirstOrDefault(e => e.Name.Equals(source));
         }
 
         public void Rename(string oldName, string name)
@@ -141,36 +122,12 @@ namespace NeeView
             }
         }
 
-        /// <summary>
-        /// 指定した子を適切な位置に並び替える
-        /// </summary>
-        /// <param name="child"></param>
-        private void Sort(DirectoryNode child)
-        {
-            if (_children == null) return;
-
-            var oldIndex = _children.IndexOf(child);
-            if (oldIndex < 0) return;
-
-            for (int index = 0; index < _children.Count; ++index)
-            {
-                var directory = (DirectoryNode)_children[index];
-                if (directory == child) continue;
-
-                if (NativeMethods.StrCmpLogicalW(child.Name, directory.Name) < 0)
-                {
-                    if (oldIndex != index - 1)
-                    {
-                        _children.Move(oldIndex, index);
-                    }
-                    return;
-                }
-            }
-
-        }
     }
 
 
+    /// <summary>
+    /// 子ノード生成時の例外引数
+    /// </summary>
     public class NotifyCrateDirectoryChildrenExcepionEventArgs : EventArgs
     {
         public NotifyCrateDirectoryChildrenExcepionEventArgs(Exception exception, bool isRefresh)

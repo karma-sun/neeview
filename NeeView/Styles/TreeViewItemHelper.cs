@@ -78,6 +78,16 @@ namespace NeeView
         }
     }
 
+
+    public class CustomVirtualizingStackPanel : VirtualizingStackPanel
+    {
+        public void BringIntoView(int index)
+        {
+            this.BringIndexIntoView(index);
+        }
+    }
+
+
     public class TreeViewLeftMarginMultiplierConverter : IValueConverter
     {
         public double Length { get; set; }
@@ -108,7 +118,6 @@ namespace NeeView
             throw new System.NotImplementedException();
         }
     }
-
 
     public class TreeViewIndentConverter : IValueConverter
     {

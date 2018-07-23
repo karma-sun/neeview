@@ -24,7 +24,7 @@ namespace NeeView
         // フォルダーコレクション作成
         public async Task<FolderCollection> CreateFolderCollectionAsync(string place, bool isActive, CancellationToken token)
         {
-            if (place != null && place.StartsWith(Bookmark.Scheme))
+            if (place != null && place.StartsWith(QueryScheme.Bookmark.ToSchemeString()))
             {
                 return await CreateBookmarkFolderCollectionAsync(place, isActive, token);
             }

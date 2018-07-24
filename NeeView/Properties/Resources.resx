@@ -4257,4 +4257,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="DialogMergeFolder" xml:space="preserve">
     <value>Consolidate folders into {0}.</value>
   </data>
+  <data name="FolderTreeMenuDeleteInvalidBookmark" xml:space="preserve">
+    <value>Remove invalid bookmark</value>
+  </data>
+  <data name="FolderTreeMenuAddBookmark" xml:space="preserve">
+    <value>Add bookmark</value>
+  </data>
 </root>

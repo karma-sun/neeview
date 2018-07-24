@@ -4257,4 +4257,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="DialogMergeFolder" xml:space="preserve">
     <value>{0} にフォルダーを統合します。</value>
   </data>
+  <data name="FolderTreeMenuDeleteInvalidBookmark" xml:space="preserve">
+    <value>無効なブックマークを削除</value>
+  </data>
+  <data name="FolderTreeMenuAddBookmark" xml:space="preserve">
+    <value>ブックマークを追加</value>
+  </data>
 </root>

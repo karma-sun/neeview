@@ -164,6 +164,17 @@ namespace NeeView
             BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, node.Parent, node));
         }
 
+        // TODO: 重複チェックをここで行う
+        public void AddToChild(TreeListNode<IBookmarkEntry> node, TreeListNode<IBookmarkEntry> parent)
+        {
+            if (node == null) throw new ArgumentNullException(nameof(node));
+
+            parent = parent ?? Items.Root;
+
+            parent.Add(node);
+            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, node.Parent, node));
+        }
+
 
         public void Restore(TreeListNodeMemento<IBookmarkEntry> memento)
         {
@@ -354,12 +365,20 @@ namespace NeeView
             foreach (var child in item.Children.ToList())
             {
                 child.RemoveSelf();
-                if (child.Value is BookmarkFolder)
+                if (child.Value is BookmarkFolder folder)
                 {
-                    var conflict = target.Children.FirstOrDefault(e => e.Value is BookmarkFolder && e.Value.Name == child.Value.Name);
+                    var conflict = target.Children.FirstOrDefault(e => folder.IsEqual(e.Value));
                     if (conflict != null)
                     {
                         Merge(child, conflict);
+                        continue;
+                    }
+                }
+                else if (child.Value is Bookmark bookmark)
+                {
+                    var conflict = target.Children.FirstOrDefault(e =>bookmark.IsEqual(e.Value));
+                    if (conflict != null)
+                    {
                         continue;
                     }
                 }

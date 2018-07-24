@@ -303,6 +303,26 @@ namespace NeeView
             return newItem;
         }
 
+        internal void AddBookmarkTo(BookmarkFolderNode item)
+        {
+            var place = BookHub.Current.Book?.Place;
+            if (place == null)
+            {
+                return;
+            }
+
+            var parentNode = item.BookmarkSource;
+
+            // TODO: 重複チェックはBookmarkCollectionで行うようにする
+            var node = parentNode.Children.FirstOrDefault(e => e.Value is Bookmark bookmark && bookmark.Place == place);
+            if (node == null)
+            {
+                var unit = BookMementoCollection.Current.Set(place);
+                node = new TreeListNode<IBookmarkEntry>(new Bookmark(unit));
+                BookmarkCollection.Current.AddToChild(node, parentNode);
+            }
+        }
+
         public void MoveQuickAccess(QuickAccessNode src, QuickAccessNode dst)
         {
             if (src == dst)

@@ -188,6 +188,23 @@ namespace NeeView
             await BookmarkCollection.Current.RemoveUnlinkedAsync(_removeUnlinkedCommandCancellationTokenSource.Token);
         }
 
+        private RelayCommand _addBookmarkCommand;
+        public RelayCommand AddBookmarkCommand
+        {
+            get
+            {
+                return _addBookmarkCommand = _addBookmarkCommand ?? new RelayCommand(Execute);
+
+                void Execute()
+                {
+                    var item = this.TreeView.SelectedItem as BookmarkFolderNode;
+                    if (item != null)
+                    {
+                        _vm.AddBookmarkTo(item);
+                    }
+                }
+            }
+        }
 
         #endregion
 
@@ -366,7 +383,7 @@ namespace NeeView
 
         private void ViewModel_SelectedItemChanged(object sender, EventArgs e)
         {
-           ScrollIntoView();
+            ScrollIntoView();
         }
 
         private void TreeView_ScrollChanged(object sender, ScrollChangedEventArgs e)
@@ -470,33 +487,35 @@ namespace NeeView
             switch (viewItem.DataContext)
             {
                 case RootQuickAccessNode rootQuickAccess:
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderTreeMenuAddCurrentQuickAccess, Command = AddQuickAccessCommand });
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTreeMenuAddCurrentQuickAccess, AddQuickAccessCommand));
                     break;
 
                 case QuickAccessNode quickAccess:
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderTreeMenuRemoveQuickAccess, Command = RemoveCommand });
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTreeMenuRemoveQuickAccess, RemoveCommand));
                     break;
 
                 case RootDirectoryNode rootFolder:
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderTreeMenuRefreshFolder, Command = RefreshFolderCommand });
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTreeMenuRefreshFolder, RefreshFolderCommand));
                     break;
 
                 case DirectoryNode folder:
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderTreeMenuExplorer, Command = OpenExplorerCommand });
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderTreeMenuAddQuickAccess, Command = AddQuickAccessCommand });
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTreeMenuExplorer, OpenExplorerCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTreeMenuAddQuickAccess, AddQuickAccessCommand));
                     break;
 
                 case RootBookmarkFolderNode rootBookmarkFolder:
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.WordNewFolder, Command = NewFolderCommand });
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTreeMenuDeleteInvalidBookmark, RemoveUnlinkedCommand));
                     contextMenu.Items.Add(new Separator());
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookmarkMenuDeleteInvalid, Command = RemoveUnlinkedCommand });
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.WordNewFolder, NewFolderCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTreeMenuAddBookmark, AddBookmarkCommand));
                     break;
 
                 case BookmarkFolderNode bookmarkFolder:
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.WordRemove, Command = RemoveCommand });
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.WordRename, Command = RenameCommand });
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.WordRemove, RemoveCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.WordRename, RenameCommand));
                     contextMenu.Items.Add(new Separator());
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.WordNewFolder, Command = NewFolderCommand });
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.WordNewFolder, NewFolderCommand));
+                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTreeMenuAddBookmark, AddBookmarkCommand));
                     break;
 
                 default:
@@ -505,7 +524,33 @@ namespace NeeView
             }
         }
 
-#region DragDrop
+        //
+        private MenuItem CreateMenuItem(string header, ICommand command)
+        {
+            var item = new MenuItem();
+            item.Header = header;
+            item.Command = command;
+            return item;
+        }
+
+        //
+        private MenuItem CreateMenuItem(string header, CommandType command, object source)
+        {
+            var item = new MenuItem();
+            item.Header = header;
+            item.Command = RoutedCommandTable.Current.Commands[command];
+            item.CommandParameter = MenuCommandTag.Tag; // コマンドがメニューからであることをパラメータで伝えてみる
+            if (CommandTable.Current[command].CreateIsCheckedBinding != null)
+            {
+                var binding = CommandTable.Current[command].CreateIsCheckedBinding();
+                binding.Source = source;
+                item.SetBinding(MenuItem.IsCheckedProperty, binding);
+            }
+
+            return item;
+        }
+
+        #region DragDrop
 
         private DependencyObject _lastDropTarget;
 
@@ -524,7 +569,7 @@ namespace NeeView
                     break;
 
                 case DirectoryNode direcory:
-                    e.AllowedEffects = DragDropEffects.Copy | DragDropEffects.Link;
+                    e.AllowedEffects = DragDropEffects.Copy;
                     e.Data.SetFileDropList(new System.Collections.Specialized.StringCollection() { direcory.Path });
                     break;
 
@@ -656,6 +701,6 @@ namespace NeeView
             return _lastDropTarget as TreeViewItem;
         }
 
-#endregion
+        #endregion
     }
 }

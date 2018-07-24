@@ -6926,6 +6926,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Add bookmark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FolderTreeMenuAddBookmark {
+            get {
+                return ResourceManager.GetString("FolderTreeMenuAddBookmark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Add current place to Quick access に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FolderTreeMenuAddCurrentQuickAccess {
@@ -6940,6 +6949,15 @@ namespace NeeView.Properties {
         public static string FolderTreeMenuAddQuickAccess {
             get {
                 return ResourceManager.GetString("FolderTreeMenuAddQuickAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Remove invalid bookmark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FolderTreeMenuDeleteInvalidBookmark {
+            get {
+                return ResourceManager.GetString("FolderTreeMenuDeleteInvalidBookmark", resourceCulture);
             }
         }
         

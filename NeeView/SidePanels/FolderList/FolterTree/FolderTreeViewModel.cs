@@ -54,6 +54,11 @@ namespace NeeView
             return Model.NewBookmarkFolder(item);
         }
 
+        public void AddBookmarkTo(BookmarkFolderNode item)
+        {
+            Model.AddBookmarkTo(item);
+        }
+
         public void RemoveBookmarkFolder(BookmarkFolderNode item)
         {
             Model.RemoveBookmarkFolder(item);

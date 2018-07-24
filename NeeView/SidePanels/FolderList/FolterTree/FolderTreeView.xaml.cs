@@ -225,35 +225,7 @@ namespace NeeView
                 var rename = new RenameControl() { Target = textBlock };
                 rename.Closing += (s, ev) =>
                 {
-                    var newName = BookmarkFolder.GetValidateName(ev.NewValue);
-                    if (string.IsNullOrEmpty(newName))
-                    {
-                        newName = ev.OldValue;
-                    }
-
-                    if (ev.OldValue != newName)
-                    {
-                        var node = item.BookmarkSource;
-                        var conflict = node.Parent.Children.FirstOrDefault(e => e != node && e.Value is BookmarkFolder && e.Value.Name == newName);
-                        if (conflict != null)
-                        {
-                            var dialog = new MessageDialog(string.Format(Properties.Resources.DialogMergeFolder, newName), Properties.Resources.DialogMergeFolderTitle);
-                            dialog.Commands.Add(UICommands.Yes);
-                            dialog.Commands.Add(UICommands.No);
-                            var result = dialog.ShowDialog();
-
-                            if (result == UICommands.Yes)
-                            {
-                                BookmarkCollection.Current.Merge(node, conflict);
-                            }
-                        }
-                        else
-                        {
-                            var folder = (BookmarkFolder)node.Value;
-                            folder.Name = newName;
-                            BookmarkCollection.Current.RaiseBookmarkChangedEvent(new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Rename, node.Parent, node) { OldName = ev.OldValue });
-                        }
-                    }
+                    BookmarkCollectionHelper.Rename(item.BookmarkSource, ev.NewValue);
                 };
                 rename.Closed += (s, ev) =>
                 {
@@ -550,7 +522,7 @@ namespace NeeView
             return item;
         }
 
-        #region DragDrop
+#region DragDrop
 
         private DependencyObject _lastDropTarget;
 
@@ -701,6 +673,6 @@ namespace NeeView
             return _lastDropTarget as TreeViewItem;
         }
 
-        #endregion
+#endregion
     }
 }

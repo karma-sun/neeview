@@ -21,13 +21,18 @@
 
         <Style TargetType="TextBlock" x:Key="FolderName">
             <Setter Property="Text" Value="{Binding Name}"/>
-            <Setter Property="ToolTipService.IsEnabled" Value="{Binding ElementName=ListBox, Path=DataContext.IsRenaming, Converter={StaticResource BooleanReverseConverter}}"/>
             <Setter Property="ToolTip" Value="{Binding Detail}"/>
             <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
             <Setter Property="ToolTipService.BetweenShowDelay" Value="1000"/>
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=ListBox, Path=DataContext.IsRenaming}" Value="True">
+                    <Setter Property="ToolTipService.IsEnabled" Value="False"/>
+                    <Setter Property="ToolTip" Value="{x:Null}"/>
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
 
         <Style TargetType="TextBlock" x:Key="FolderNameNormal" BasedOn="{StaticResource FolderName}">
@@ -133,7 +138,7 @@
     </UserControl.Resources>
 
     <Grid>
-        <ListBox x:Name="ListBox" Focusable="True"
+        <ListBox x:Name="ListBox" Focusable="False"
                 MinHeight="0"
                 FontFamily="{DynamicResource PanelFontFamily}" FontSize="{DynamicResource PanelFontSize}"
                 Background="Transparent"
@@ -157,6 +162,14 @@
                 VirtualizingStackPanel.ScrollUnit="{StaticResource PanelScrollUnit}"
                 VirtualizingStackPanel.VirtualizationMode="Recycling"
              >
+
+            <!--
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="@HOGEHOGE"/>
+                </ContextMenu>
+            </ListBox.ContextMenu>
+            -->
 
             <i:Interaction.Behaviors>
                 <nw:ListBoxDragDropStartBehavior AllowedEffects="Copy, Move, Scroll" DragDropFormat="{x:Static local:FolderListBox.DragDropFormat}" DragBegin="DragStartBehavior_DragBegin"/>

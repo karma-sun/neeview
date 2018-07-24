@@ -28,7 +28,6 @@ namespace NeeView
         private RootQuickAccessNode _rootQuickAccess;
         private RootDirectoryNode _rootFolder;
         private RootBookmarkFolderNode _rootBookmarkFolder;
-        private Toast _toast;
 
         // Constructors
 
@@ -266,8 +265,8 @@ namespace NeeView
                     var count = item.BookmarkSource.Count(e => e.Value is Bookmark);
                     if (count > 0)
                     {
-                        _toast = new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), Properties.Resources.WordRestore, () => BookmarkCollection.Current.Restore(memento));
-                        ToastService.Current.Show(_toast);
+                        var toast = new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), Properties.Resources.WordRestore, () => BookmarkCollection.Current.Restore(memento));
+                        ToastService.Current.Show("FolderList", toast);
                     }
                 }
 
@@ -389,13 +388,6 @@ namespace NeeView
         public void RefreshDirectory()
         {
             _rootFolder.Refresh();
-        }
-
-        public void ShowToast(string message)
-        {
-            _toast?.Cancel();
-            _toast = new Toast(message);
-            ToastService.Current.Show(_toast);
         }
     }
 }

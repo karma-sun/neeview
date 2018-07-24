@@ -18,6 +18,18 @@ using System.Runtime.InteropServices;
 
 namespace NeeView
 {
+    public class FolderCollectionChangedEventArgs : EventArgs
+    {
+        public FolderCollectionChangedEventArgs(CollectionChangeAction action, FolderItem item)
+        {
+            this.Action = action;
+            this.Item = item;
+        }
+
+        public CollectionChangeAction Action { get; set; }
+        public FolderItem Item { get; set; }
+    }
+
     /// <summary>
     /// FolderItemコレクション
     /// </summary>
@@ -52,7 +64,8 @@ namespace NeeView
 
         #region Events
 
-        public event EventHandler<FileSystemEventArgs> Deleting;
+        public event EventHandler<FolderCollectionChangedEventArgs> CollectionChanging;
+        public event EventHandler<FolderCollectionChangedEventArgs> CollectionChanged;
 
         public event EventHandler ParameterChanged;
 
@@ -474,7 +487,6 @@ namespace NeeView
 
             App.Current.Dispatcher.Invoke(() =>
             {
-                Deleting?.Invoke(this, new FileSystemEventArgs(WatcherChangeTypes.Deleted, Path.GetDirectoryName(path), Path.GetFileName(path)));
                 DeleteItem(item);
             });
         }
@@ -483,6 +495,8 @@ namespace NeeView
         protected void DeleteItem(FolderItem item)
         {
             if (item == null) return;
+
+            CollectionChanging.Invoke(this, new FolderCollectionChangedEventArgs(CollectionChangeAction.Remove, item));
 
             lock (_lock)
             {
@@ -493,6 +507,8 @@ namespace NeeView
                     this.Items.Add(CreateFolderItemEmpty());
                 }
             }
+
+            CollectionChanged.Invoke(this, new FolderCollectionChangedEventArgs(CollectionChangeAction.Remove, item));
         }
 
         #endregion Job.Delete

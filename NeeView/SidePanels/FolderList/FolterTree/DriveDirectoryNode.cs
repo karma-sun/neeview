@@ -138,7 +138,7 @@ namespace NeeView
         {
             if (sender is DirectoryNode directory)
             {
-                FolderTreeModel.Current.ShowToast($"({Name}) " + e.Exception.Message);
+                ToastService.Current.Show("FolderList", new Toast($"({Name}) " + e.Exception.Message));
 
                 if (e.IsRefresh)
                 {

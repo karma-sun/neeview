@@ -184,7 +184,16 @@ namespace NeeView
         public async void Remove_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
-            if (item != null && item.IsFileSystem())
+            if (item == null)
+            {
+                return;
+            }
+
+            if (item.Attributes.HasFlag(FolderItemAttribute.Bookmark))
+            {
+                _vm.Model.RemoveBookmark(item);
+            }
+            else if (item.IsFileSystem())
             {
                 var removed = await FileIO.Current.RemoveAsync(item.Path, Properties.Resources.DialogFileDeleteBookTitle);
                 if (removed)
@@ -204,7 +213,9 @@ namespace NeeView
             var listView = sender as ListBox;
 
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
-            if (item != null && item.IsFileSystem())
+            if (item == null) return;
+
+            if (item.IsFileSystem() || item.Attributes.HasFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Directory))
             {
                 listView.UpdateLayout();
                 var listViewItem = VisualTreeUtility.GetListBoxItemFromItem(listView, item);
@@ -218,7 +229,11 @@ namespace NeeView
                     rename.IsFileName = !item.IsDirectory;
                     rename.Closing += async (s, ev) =>
                     {
-                        if (ev.OldValue != ev.NewValue)
+                        if (item.Source is TreeListNode<IBookmarkEntry> node)
+                        {
+                            BookmarkCollectionHelper.Rename(node, ev.NewValue);
+                        }
+                        else if (ev.OldValue != ev.NewValue)
                         {
                             var newName = item.IsShortcut ? ev.NewValue + ".lnk" : ev.NewValue;
                             //Debug.WriteLine($"{ev.OldValue} => {newName}");
@@ -243,8 +258,8 @@ namespace NeeView
                         _vm.IsRenaming = false;
                     };
 
-                    ((MainWindow)Application.Current.MainWindow).RenameManager.Open(rename);
                     _vm.IsRenaming = true;
+                    ((MainWindow)Application.Current.MainWindow).RenameManager.Open(rename);
                 }
             }
         }
@@ -410,6 +425,29 @@ namespace NeeView
             }
         }
 
+        //
+        public void SelectedChanging(object sender, SelectedChangedEventArgs e)
+        {
+            StoreFocus();
+        }
+
+        //
+        public void SelectedChanged(object sender, SelectedChangedEventArgs e)
+        {
+            if (e.IsFocus)
+            {
+                FocusSelectedItem(true);
+            }
+            else
+            {
+                RestoreFocus();
+            }
+
+            if (e.IsNewFolder)
+            {
+                Rename();
+            }
+        }
 
         /// <summary>
         /// 選択項目フォーカス状態を取得
@@ -628,13 +666,12 @@ namespace NeeView
             {
                 if (item.IsDirectory)
                 {
-                    ////contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuDelete, Command = RemoveCommand });
-                    ////contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuRename, Command = RenameCommand });
-                    e.Handled = true;
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuDelete, Command = RemoveCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuRename, Command = RenameCommand });
                 }
                 else
                 {
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuSubfolder, Command = LoadWithRecursiveCommand, IsChecked = item.IsRecursived });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuDelete, Command = RemoveCommand });
                     contextMenu.Items.Add(new Separator());
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuExplorer, Command = OpenExplorerCommand });
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuCopy, Command = CopyCommand });

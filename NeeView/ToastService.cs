@@ -9,11 +9,11 @@ namespace NeeView
     {
         public static ToastService Current { get; } = new ToastService();
 
-
         private Queue<Toast> _queue;
         private ToastCard _toastCard;
         private DispatcherTimer _timer;
         private DateTime _timeLimit;
+        private Dictionary<string, Toast> _slotMap = new Dictionary<string, Toast>();
 
 
         public ToastService()
@@ -29,6 +29,18 @@ namespace NeeView
         {
             get { return _toastCard; }
             set { SetProperty(ref _toastCard, value); }
+        }
+
+
+        public void Show(string slot, Toast toast)
+        {
+            if (_slotMap.TryGetValue(slot, out Toast oldToast))
+            {
+                oldToast.Cancel();
+            }
+
+            _slotMap[slot] = toast;
+            Show(toast);
         }
 
         public void Show(Toast toast)

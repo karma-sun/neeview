@@ -136,7 +136,7 @@ namespace NeeView
         public event EventHandler PlaceChanged;
 
         //
-        public event EventHandler SelectedChanging;
+        public event EventHandler<SelectedChangedEventArgs> SelectedChanging;
         public event EventHandler<SelectedChangedEventArgs> SelectedChanged;
 
         // FolderCollection総入れ替え
@@ -690,24 +690,6 @@ namespace NeeView
             return false;
         }
 
-        /// <summary>
-        /// フォルダーリスト項目変更前処理
-        /// 項目が削除される前に有効な選択項目に変更する
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void FolderCollection_Deleting(object sender, System.IO.FileSystemEventArgs e)
-        {
-            if (e.ChangeType != System.IO.WatcherChangeTypes.Deleted) return;
-
-            var item = this.FolderCollection.FirstOrDefault(e.FullPath);
-            if (item != this.SelectedItem) return;
-
-            RaiseSelectedItemChanging();
-            this.SelectedItem = GetNeighbor(item);
-            RaiseSelectedItemChanged();
-        }
-
         // となりを取得
         public FolderItem GetNeighbor(FolderItem item)
         {
@@ -731,6 +713,29 @@ namespace NeeView
             }
         }
 
+        private void FolderCollection_CollectionChanging(object sender, FolderCollectionChangedEventArgs e)
+        {
+            if (e.Action == CollectionChangeAction.Remove)
+            {
+                SelectedChanging?.Invoke(this, new SelectedChangedEventArgs());
+                if (SelectedItem == e.Item)
+                {
+                    SelectedItem = GetNeighbor(SelectedItem);
+                }
+            }
+        }
+
+        private void FolderCollection_CollectionChanged(object sender, FolderCollectionChangedEventArgs e)
+        {
+            if (e.Action == CollectionChangeAction.Remove)
+            {
+                if (SelectedItem == null)
+                {
+                    SelectedItem = FolderCollection.Items?.FirstOrDefault();
+                }
+                SelectedChanged?.Invoke(this, new SelectedChangedEventArgs());
+            }
+        }
 
 
         /// <summary>
@@ -1029,7 +1034,8 @@ namespace NeeView
                 if (collection != null && !_updateFolderCancellationTokenSource.Token.IsCancellationRequested)
                 {
                     collection.ParameterChanged += async (s, e) => await RefleshAsync(true);
-                    collection.Deleting += FolderCollection_Deleting;
+                    collection.CollectionChanging += FolderCollection_CollectionChanging;
+                    collection.CollectionChanged += FolderCollection_CollectionChanged;
                     this.FolderCollection = collection;
                     return true;
                 }
@@ -1271,6 +1277,33 @@ namespace NeeView
                     }
                 }
             }
+        }
+
+        public bool RemoveBookmark(FolderItem item)
+        {
+            var node = item.Source as TreeListNode<IBookmarkEntry>;
+            if (node == null)
+            {
+                return false;
+            }
+
+            var memento = new TreeListNodeMemento<IBookmarkEntry>(node);
+
+            bool isRemoved = BookmarkCollection.Current.Remove(node);
+            if (isRemoved)
+            {
+                if (node.Value is BookmarkFolder)
+                {
+                    var count = node.Count(e => e.Value is Bookmark);
+                    if (count > 0)
+                    {
+                        var toast = new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), Properties.Resources.WordRestore, () => BookmarkCollection.Current.Restore(memento));
+                        ToastService.Current.Show("BookmarkList", toast);
+                    }
+                }
+            }
+
+            return isRemoved;
         }
 
         #endregion

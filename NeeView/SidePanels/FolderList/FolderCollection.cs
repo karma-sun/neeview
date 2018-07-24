@@ -167,6 +167,11 @@ namespace NeeView
             return Items.FirstOrDefault(e => e.Path == path);
         }
 
+        public FolderItem FirstOrDefault(Func<FolderItem, bool> predicate)
+        {
+            return Items.FirstOrDefault(predicate);
+        }
+
         /// <summary>
         /// 先頭項目を取得
         /// </summary>

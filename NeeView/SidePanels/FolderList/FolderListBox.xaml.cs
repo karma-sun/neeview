@@ -206,6 +206,7 @@ namespace NeeView
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
             if (item != null && item.IsFileSystem())
             {
+                listView.UpdateLayout();
                 var listViewItem = VisualTreeUtility.GetListBoxItemFromItem(listView, item);
                 var textBlock = VisualTreeUtility.FindVisualChild<TextBlock>(listViewItem, "FileNameTextBlock");
 
@@ -269,6 +270,11 @@ namespace NeeView
             }
 
             // リネーム発動
+            Rename_Executed(this.ListBox, null);
+        }
+
+        public void Rename()
+        {
             Rename_Executed(this.ListBox, null);
         }
 

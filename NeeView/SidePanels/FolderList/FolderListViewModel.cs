@@ -68,7 +68,7 @@ namespace NeeView
         /// <summary>
         /// ブックマークではなく、ファイルシステムの場所を優先
         /// </summary>
-        FileSystem = (1<<6),
+        FileSystem = (1 << 6),
     }
 
     /// <summary>
@@ -118,12 +118,17 @@ namespace NeeView
                     {
                         this.ListContent.RestoreFocus();
                     }
+
+                    if (e.IsNewFolder)
+                    {
+                        this.ListContent.Rename();
+                    }
                 };
 
             _model.CollectionChanged +=
                 Model_CollectionChanged;
 
-            InitializeMoreMenu(_model.FolderPanel);
+            InitializeMoreMenu();
 
             UpdateListContent();
         }
@@ -351,6 +356,32 @@ namespace NeeView
             }
         }
 
+        private RelayCommand _NewFolderCommand;
+        public RelayCommand NewFolderCommand
+        {
+            get { return _NewFolderCommand = _NewFolderCommand ?? new RelayCommand(NewFolderCommand_Executed); }
+        }
+
+        private void NewFolderCommand_Executed()
+        {
+            _model.NewFolder();
+        }
+
+
+        private RelayCommand _AddBookmarkCommand;
+        public RelayCommand AddBookmarkCommand
+        {
+            get { return _AddBookmarkCommand = _AddBookmarkCommand ?? new RelayCommand(AddBookmarkCommand_Executed); }
+        }
+
+        private void AddBookmarkCommand_Executed()
+        {
+            _model.AddBookmark();
+        }
+
+
+
+
         public ICommand ToggleVisiblePageList => RoutedCommandTable.Current.Commands[CommandType.ToggleVisiblePageList];
 
         public ICommand ToggleVisibleFoldersTree => RoutedCommandTable.Current.Commands[CommandType.ToggleVisibleFoldersTree];
@@ -403,19 +434,43 @@ namespace NeeView
         #region MoreMenu
 
         //
-        private void InitializeMoreMenu(FolderPanelModel source)
+        private void InitializeMoreMenu()
         {
-            var menu = new ContextMenu();
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleList, PanelListItemStyle.Normal));
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleContent, PanelListItemStyle.Content));
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
-            menu.Items.Add(new Separator());
-            menu.Items.Add(CreateRecursiveFlagMenuItem(Properties.Resources.FolderListMoreMenuSubfolder));
-            menu.Items.Add(new Separator());
-            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuAddQuickAccess, AddQuickAccess));
-            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuClearHistory, CommandType.ClearHistoryInPlace, source));
+            this.MoreMenu = new ContextMenu();
+            UpdateMoreMenu();
+        }
 
-            this.MoreMenu = menu;
+        public void UpdateMoreMenu()
+        {
+            var items = this.MoreMenu.Items;
+
+            items.Clear();
+            items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleList, PanelListItemStyle.Normal));
+            items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleContent, PanelListItemStyle.Content));
+            items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
+            items.Add(new Separator());
+            items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuAddQuickAccess, AddQuickAccess));
+            items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuClearHistory, CommandType.ClearHistoryInPlace, _model.FolderPanel));
+
+            switch (FolderCollection)
+            {
+                case FolderEntryCollection folderEntryCollection:
+                    items.Add(new Separator());
+                    items.Add(CreateRecursiveFlagMenuItem(Properties.Resources.FolderListMoreMenuSubfolder));
+                    break;
+
+                case FolderArchiveCollection folderArchiveCollection:
+                    break;
+
+                case FolderSearchCollection folderSearchCollection:
+                    break;
+
+                case BookmarkFolderCollection bookmarFolderCollection:
+                    items.Add(new Separator());
+                    items.Add(CreateCommandMenuItem(Properties.Resources.WordNewFolder, NewFolderCommand));
+                    items.Add(CreateCommandMenuItem(Properties.Resources.FolderTreeMenuAddBookmark, AddBookmarkCommand));
+                    break;
+            }
         }
 
         //

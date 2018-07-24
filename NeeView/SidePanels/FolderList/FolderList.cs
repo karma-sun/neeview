@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Collections.Generic;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,7 @@ namespace NeeView
     public class SelectedChangedEventArgs : EventArgs
     {
         public bool IsFocus { get; set; }
+        public bool IsNewFolder { get; set; }
     }
 
     //
@@ -85,7 +87,7 @@ namespace NeeView
         private CancellationTokenSource _updateFolderCancellationTokenSource;
         private CancellationTokenSource _cruiseFolderCancellationTokenSource;
 
-        #endregion
+        #endregion Fields
 
         #region Constructors
 
@@ -127,7 +129,7 @@ namespace NeeView
             _bookHub.LoadRequested += (s, e) => CancelMoveCruiseFolder();
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Events
 
@@ -145,9 +147,7 @@ namespace NeeView
 
         public event ErrorEventHandler FolderTreeFocus;
 
-        /// <summary>
-        /// リスト更新処理中イベント
-        /// </summary>
+        // リスト更新処理中イベント
         public event EventHandler<BusyChangedEventArgs> BusyChanged;
 
         #endregion
@@ -456,12 +456,45 @@ namespace NeeView
         /// <returns></returns>
         public string GetFixedHome()
         {
-            if (Directory.Exists(_home)) return _home;
+            var queryPath = new QueryPath(_home);
 
+            switch (queryPath.Scheme)
+            {
+                case QueryScheme.File:
+                    if (Directory.Exists(_home))
+                    {
+                        return _home;
+                    }
+                    else
+                    {
+                        return GetDefaultHome();
+                    }
+
+                case QueryScheme.Bookmark:
+                    if (BookmarkCollection.Current.FindNode(_home)?.Value is BookmarkFolder)
+                    {
+                        return _home;
+                    }
+                    else
+                    {
+                        return QueryScheme.Bookmark.ToSchemeString();
+                    }
+
+                default:
+                    Debug.WriteLine($"Not support yet: {_home}");
+                    return GetDefaultHome();
+            }
+        }
+
+        private string GetDefaultHome()
+        {
             var myPicture = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures);
-            if (Directory.Exists(myPicture)) return myPicture;
+            if (Directory.Exists(myPicture))
+            {
+                return myPicture;
+            }
 
-            // 救済措置。
+            // 救済措置
             return Environment.CurrentDirectory;
         }
 
@@ -1190,6 +1223,53 @@ namespace NeeView
             if (IsCloseBookWhenMove)
             {
                 BookHub.Current.RequestUnload(true);
+            }
+        }
+
+        public void NewFolder()
+        {
+            if (FolderCollection is BookmarkFolderCollection bookmarkFolderCollection)
+            {
+                var node = BookmarkCollection.Current.AddNewFolder(bookmarkFolderCollection.BookmarkPlace);
+
+                var item = bookmarkFolderCollection.FirstOrDefault(e => e.Attributes.HasFlag(FolderItemAttribute.Directory) && e.Name == node.Value.Name);
+
+                if (item != null)
+                {
+                    SelectedItem = item;
+                    SelectedChanged?.Invoke(this, new SelectedChangedEventArgs() { IsFocus = true, IsNewFolder = true });
+                }
+            }
+        }
+
+        public void AddBookmark()
+        {
+            if (FolderCollection is BookmarkFolderCollection bookmarkFolderCollection)
+            {
+                var place = BookHub.Current.Book?.Place;
+                if (place == null)
+                {
+                    return;
+                }
+
+                var parentNode = bookmarkFolderCollection.BookmarkPlace;
+
+                // TODO: 重複チェックはBookmarkCollectionで行うようにする
+                var node = parentNode.Children.FirstOrDefault(e => e.Value is Bookmark bookmark && bookmark.Place == place);
+                if (node == null)
+                {
+                    var unit = BookMementoCollection.Current.Set(place);
+                    var bookmark = new Bookmark(unit);
+                    node = new TreeListNode<IBookmarkEntry>(bookmark);
+                    BookmarkCollection.Current.AddToChild(node, parentNode);
+
+                    var item = bookmarkFolderCollection.FirstOrDefault(e => bookmark.IsEqual((e.Source as TreeListNode<IBookmarkEntry>)?.Value));
+                    if (item != null)
+                    {
+                        SelectedItem = item;
+                        SelectedChanged?.Invoke(this, new SelectedChangedEventArgs() { IsFocus = true });
+                    }
+                }
             }
         }
 

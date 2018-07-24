@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media.Animation;
 using System.Windows.Data;
 using System.Globalization;
+using System.Windows.Media;
 
 namespace NeeView
 {
@@ -226,6 +227,11 @@ namespace NeeView
                 _vm.Model.AreaHeight = e.NewSize.Height;
             }
         }
+
+        private void MoreButton_Checked(object sender, RoutedEventArgs e)
+        {
+            _vm.UpdateMoreMenu();
+        }
     }
 
 
@@ -235,28 +241,30 @@ namespace NeeView
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is null)
-            {
-                return MainWindow.Current.Resources["ic_desktop_windows_24px"];
-            }
-            else if (value is string path)
-            {
-                var queryPath = new QueryPath(path);
+            return Convert(value as string);
+        }
 
-                if (queryPath.Scheme == QueryScheme.Bookmark)
+        public static ImageSource Convert(string path)
+        {
+            var queryPath = new QueryPath(path);
+
+            if (queryPath.Scheme == QueryScheme.Bookmark)
+            {
+                return App.Current.Resources["ic_grade_24px"] as ImageSource;
+            }
+            else if (queryPath.Scheme == QueryScheme.File)
+            {
+                if (queryPath.Path == null)
                 {
-                    return App.Current.Resources["ic_grade_24px"];
+                    return MainWindow.Current.Resources["ic_desktop_windows_24px"] as ImageSource;
+                }
+                else if (queryPath.Search != null)
+                {
+                    return MainWindow.Current.Resources["ic_search_24px"] as ImageSource;
                 }
                 else
                 {
-                    if (queryPath.Search != null)
-                    {
-                        return MainWindow.Current.Resources["ic_search_24px"];
-                    }
-                    else
-                    {
-                        return FileIconCollection.Current.CreateDefaultFolderIcon(16.0);
-                    }
+                    return FileIconCollection.Current.CreateDefaultFolderIcon(16.0);
                 }
             }
 

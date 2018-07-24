@@ -29,15 +29,15 @@ namespace NeeView
     {
         // Fields
 
-        private TreeListNode<IBookmarkEntry> _parent;
+        private TreeListNode<IBookmarkEntry> _bookmarkPlace;
 
         // Constructors
 
         public BookmarkFolderCollection(string place) : base(place, false)
         {
-            _parent = BookmarkCollection.Current.FindNode(place) ?? new TreeListNode<IBookmarkEntry>();
+            _bookmarkPlace = BookmarkCollection.Current.FindNode(place) ?? new TreeListNode<IBookmarkEntry>();
 
-            var items = _parent.Children
+            var items = _bookmarkPlace.Children
                 .Select(e => CreateFolderItem(e))
                 .Where(e => e != null)
                 .ToList();
@@ -58,7 +58,9 @@ namespace NeeView
 
 
         // Properties
-        // ...
+
+        public TreeListNode<IBookmarkEntry> BookmarkPlace => _bookmarkPlace;
+
 
         // Methods
 
@@ -67,7 +69,7 @@ namespace NeeView
             switch (e.Action)
             {
                 case EntryCollectionChangedAction.Add:
-                    if (e.Parent == _parent)
+                    if (e.Parent == _bookmarkPlace)
                     {
                         var item = Items.FirstOrDefault(i => e.Item == i.Source);
                         if (item == null)
@@ -79,7 +81,7 @@ namespace NeeView
                     break;
 
                 case EntryCollectionChangedAction.Remove:
-                    if (e.Parent == _parent)
+                    if (e.Parent == _bookmarkPlace)
                     {
                         var item = Items.FirstOrDefault(i => e.Item == i.Source);
                         if (item != null)
@@ -90,7 +92,7 @@ namespace NeeView
                     break;
 
                 case EntryCollectionChangedAction.Rename:
-                    if (e.Parent == _parent)
+                    if (e.Parent == _bookmarkPlace)
                     {
                         var item = Items.FirstOrDefault(i => e.Item == i.Source);
                         if (item != null)

@@ -148,7 +148,7 @@
                 </Style.Triggers>
             </Style>
 
-            <Style TargetType="ListBoxItem">
+            <Style TargetType="ListBoxItem" BasedOn="{StaticResource NVListBoxItem}">
                 <EventSetter Event="PreviewMouseLeftButtonUp" Handler="PageListItem_MouseSingleClick"/>
                 <EventSetter Event="KeyDown" Handler="PageListItem_KeyDown"/>
                 <Setter Property="Padding" Value="0"/>

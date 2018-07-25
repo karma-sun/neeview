@@ -1,4 +1,5 @@
-﻿using NeeLaboratory.Windows.Media;
+﻿using NeeLaboratory.Windows.Input;
+using NeeLaboratory.Windows.Media;
 using NeeView.Collections.Generic;
 using System;
 using System.Collections.Generic;
@@ -309,16 +310,36 @@ namespace NeeView
             }
         }
 
+        private RelayCommand _NewFolderCommand;
+        public RelayCommand NewFolderCommand
+        {
+            get { return _NewFolderCommand = _NewFolderCommand ?? new RelayCommand(NewFolderCommand_Executed); }
+        }
+
+        private void NewFolderCommand_Executed()
+        {
+            _vm.Model.NewFolder();
+        }
+
+        private RelayCommand _AddBookmarkCommand;
+        public RelayCommand AddBookmarkCommand
+        {
+            get { return _AddBookmarkCommand = _AddBookmarkCommand ?? new RelayCommand(AddBookmarkCommand_Executed); }
+        }
+
+        private void AddBookmarkCommand_Executed()
+        {
+            _vm.Model.AddBookmark();
+        }
+
+
+
         #endregion
 
         #region DragDrop
 
-        private DependencyObject _lastDropTarget;
-
         private void DragStartBehavior_DragBegin(object sender, Windows.DragStartEventArgs e)
         {
-            _lastDropTarget = null;
-
             var data = e.Data.GetData(DragDropFormat) as ListBoxItem;
             if (data == null)
             {
@@ -328,6 +349,12 @@ namespace NeeView
             var item = data.Content as FolderItem;
             if (item == null)
             {
+                return;
+            }
+
+            if (item.Attributes.HasFlag(FolderItemAttribute.Empty))
+            {
+                e.Cancel = true;
                 return;
             }
 
@@ -359,20 +386,36 @@ namespace NeeView
             var item = container?.Content as FolderItem;
 
             var targetContainer = PointToViewItem(this.ListBox, e.GetPosition(this.ListBox));
-            var target = targetContainer?.Content as FolderItem;
 
-            if (target != null)
+            TreeListNode<IBookmarkEntry> node = null;
+            if (targetContainer == null)
+            {
+                if (_vm.FolderCollection is BookmarkFolderCollection bookmarkFolderCollection)
+                {
+                    node = bookmarkFolderCollection.BookmarkPlace;
+                }
+            }
+            else
+            {
+                var target = targetContainer?.Content as FolderItem;
+                if (target != null && target.Attributes.HasFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Directory))
+                {
+                    node = target.Source as TreeListNode<IBookmarkEntry>;
+                }
+            }
+
+            if (node != null)
             {
                 var bookmarkEntry = (TreeListNode<IBookmarkEntry>)e.Data.GetData(typeof(TreeListNode<IBookmarkEntry>));
                 if (bookmarkEntry != null)
                 {
-                    if (target.Attributes.HasFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Directory) && target.Source != bookmarkEntry)
+                    if (node != bookmarkEntry)
                     {
-                        if (target.Source is TreeListNode<IBookmarkEntry> node && !node.ParentContains(bookmarkEntry))
+                        if (!node.Children.Contains(bookmarkEntry) && !node.ParentContains(bookmarkEntry))
                         {
                             if (isDrop)
                             {
-                                BookmarkCollection.Current.MoveToChild(bookmarkEntry, target.Source as TreeListNode<IBookmarkEntry>);
+                                BookmarkCollection.Current.MoveToChild(bookmarkEntry, node as TreeListNode<IBookmarkEntry>);
                             }
                             e.Effects = DragDropEffects.Move;
                             e.Handled = true;
@@ -386,18 +429,17 @@ namespace NeeView
             e.Handled = true;
         }
 
-        private ListBoxItem PointToViewItem(ListBox coltrol, Point point)
+        private ListBoxItem PointToViewItem(ListBox listBox, Point point)
         {
-            var element = VisualTreeHelper.HitTest(coltrol, point)?.VisualHit;
+            var element = VisualTreeUtility.HitTest<ListBoxItem>(listBox, point);
 
-            if (!(element is ListBoxItem))
+            // NOTE: リストアイテム間に隙間がある場合があるので、Y座標をずらして再検証する
+            if (element == null)
             {
-                element = VisualTreeUtility.GetParentElement<ListBoxItem>(element) ?? _lastDropTarget;
+                element = VisualTreeUtility.HitTest<ListBoxItem>(listBox, new Point(point.X, point.Y + 1));
             }
 
-            _lastDropTarget = element;
-
-            return _lastDropTarget as ListBoxItem;
+            return element;
         }
 
         #endregion
@@ -493,6 +535,18 @@ namespace NeeView
         private void FolderList_Loaded(object sender, RoutedEventArgs e)
         {
             FocusSelectedItem(_lastFocusRequest);
+        }
+
+        private void FolderList_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            var items = this.ListBox.ContextMenu.Items;
+            items.Clear();
+
+            if (_vm.FolderCollection is BookmarkFolderCollection)
+            {
+                items.Add(new MenuItem() { Header = Properties.Resources.WordNewFolder, Command = NewFolderCommand });
+                items.Add(new MenuItem() { Header = Properties.Resources.FolderTreeMenuAddBookmark, Command = AddBookmarkCommand });
+            }
         }
 
         private void FolderList_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -680,6 +734,12 @@ namespace NeeView
                     ////contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuRename, Command = RenameCommand });
                 }
             }
+            else if (item.Attributes.HasFlag(FolderItemAttribute.Empty))
+            {
+                bool canExplorer = !(_vm.FolderCollection is BookmarkFolderCollection);
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuExplorer, Command = OpenExplorerCommand, IsEnabled = canExplorer });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuCopy, Command = CopyCommand, IsEnabled = false });
+            }
             else
             {
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuSubfolder, Command = LoadWithRecursiveCommand, IsChecked = item.IsRecursived });
@@ -693,6 +753,7 @@ namespace NeeView
         }
 
         #endregion
+
 
     }
 }

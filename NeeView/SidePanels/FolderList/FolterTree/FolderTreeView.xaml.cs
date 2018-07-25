@@ -522,9 +522,7 @@ namespace NeeView
             return item;
         }
 
-#region DragDrop
-
-        private DependencyObject _lastDropTarget;
+        #region DragDrop
 
         private void DragStartBehavior_DragBegin(object sender, DragStartEventArgs e)
         {
@@ -558,8 +556,6 @@ namespace NeeView
                     e.Cancel = true;
                     break;
             }
-
-            _lastDropTarget = null;
         }
 
         private void TreeView_DragEnter(object sender, DragEventArgs e)
@@ -661,18 +657,17 @@ namespace NeeView
 
         private TreeViewItem PointToViewItem(TreeView treeView, Point point)
         {
-            var element = VisualTreeHelper.HitTest(treeView, point)?.VisualHit;
+            var element = VisualTreeUtility.HitTest<TreeViewItem>(treeView, point);
 
-            if (!(element is TreeViewItem))
+            // NOTE: リストアイテム間に隙間がある場合があるので、Y座標をずらして再検証する
+            if (element == null)
             {
-                element = VisualTreeUtility.GetParentElement<TreeViewItem>(element) ?? _lastDropTarget;
+                element = VisualTreeUtility.HitTest<TreeViewItem>(treeView, new Point(point.X, point.Y + 1));
             }
 
-            _lastDropTarget = element;
-
-            return _lastDropTarget as TreeViewItem;
+            return element;
         }
 
-#endregion
+        #endregion
     }
 }

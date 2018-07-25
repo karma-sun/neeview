@@ -153,6 +153,9 @@
                 KeyDown="FolderList_KeyDown"
                 UseLayoutRounding="True"
                  
+                ContextMenuOpening="FolderList_ContextMenuOpening"
+                ContextMenuService.IsEnabled="{Binding Model.IsContextMenuEnabled}"
+                 
                 AllowDrop="True"
                 DragEnter="FolderList_DragEnter"
                 PreviewDragOver="FolderList_PreviewDragOver"
@@ -163,13 +166,9 @@
                 VirtualizingStackPanel.VirtualizationMode="Recycling"
              >
 
-            <!--
             <ListBox.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="@HOGEHOGE"/>
-                </ContextMenu>
+                <ContextMenu/>
             </ListBox.ContextMenu>
-            -->
 
             <i:Interaction.Behaviors>
                 <nw:ListBoxDragDropStartBehavior AllowedEffects="Copy, Move, Scroll" DragDropFormat="{x:Static local:FolderListBox.DragDropFormat}" DragBegin="DragStartBehavior_DragBegin"/>

@@ -292,9 +292,15 @@ namespace NeeView
                     RaisePropertyChanged(nameof(FolderOrder));
                     RaisePropertyChanged(nameof(IsFolderSearchCollection));
                     RaisePropertyChanged(nameof(IsFolderSearchEnabled));
+                    RaisePropertyChanged(nameof(IsContextMenuEnabled));
                 }
             }
         }
+
+        /// <summary>
+        /// リストのコンテキストメニュー表示有効？
+        /// </summary>
+        public bool IsContextMenuEnabled => FolderCollection is BookmarkFolderCollection;
 
         /// <summary>
         /// 検索リスト？
@@ -444,6 +450,15 @@ namespace NeeView
         }
 
 
+        /// <summary>
+        /// 外部の変化によるフォルダーリストの変更を禁止
+        /// </summary>
+        private bool _IsLocked;
+        public bool IsLocked
+        {
+            get { return _IsLocked; }
+            set { SetProperty(ref _IsLocked, value); }
+        }
 
 
         #endregion
@@ -570,6 +585,11 @@ namespace NeeView
         /// <param name="place"></param>
         public void ResetPlace(string queryPath)
         {
+            if (IsLocked)
+            {
+                return;
+            }
+
             var task = SetPlaceAsync(queryPath ?? GetFixedHome(), null, FolderSetPlaceOption.UpdateHistory);
         }
 
@@ -581,6 +601,11 @@ namespace NeeView
         /// <param name="options"></param>
         public void RequestPlace(string queryPath, string select, FolderSetPlaceOption options)
         {
+            if (IsLocked)
+            {
+                return;
+            }
+
             var task = SetPlaceAsync(queryPath, new FolderItemPosition(select), options);
         }
 
@@ -786,6 +811,11 @@ namespace NeeView
         /// </summary>
         public async Task SyncWeak(FolderListSyncEventArgs e)
         {
+            if (IsLocked)
+            {
+                return;
+            }
+
             if (e != null && e.isKeepPlace)
             {
                 if (this.FolderCollection == null || this.FolderCollection.Contains(e.Path)) return;
@@ -892,7 +922,8 @@ namespace NeeView
         /// </summary>
         public void ClearHistory()
         {
-            BookHistoryCollection.Current.RemovePlace(this.Place);
+            var items = FolderCollection?.Items.Select(e => e.TargetPath).Where(e => e != null);
+            BookHistoryCollection.Current.Remove(items);
         }
 
         #endregion

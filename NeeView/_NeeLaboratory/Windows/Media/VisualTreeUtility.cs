@@ -185,6 +185,24 @@ namespace NeeLaboratory.Windows.Media
 
         #endregion
 
+        /// <summary>
+        /// 型を指定して指定座標にあるコントロールを取得
+        /// </summary>
+        /// <typeparam name="T">取得するコントロールの型</typeparam>
+        /// <param name="visual">調査対象となるビジュアル</param>
+        /// <param name="point">ビジュアル上の座標</param>
+        /// <returns>取得されたコントロール。なければnull</returns>
+        public static T HitTest<T>(Visual visual, Point point)
+            where T : DependencyObject
+        {
+            var element = VisualTreeHelper.HitTest(visual, point)?.VisualHit;
+            if (!(element is T))
+            {
+                element = GetParentElement<T>(element);
+            }
+            return element as T;
+        }
+
 
         /// <summary>
         /// DependencyObject から、型、名前を指定して親コントロールを取得する
@@ -193,7 +211,7 @@ namespace NeeLaboratory.Windows.Media
         /// <param name="obj"></param>
         /// <returns></returns>
         public static T GetParentElement<T>(DependencyObject obj)
-            where T : class
+                    where T : class
         {
             var element = obj;
             while (element != null)

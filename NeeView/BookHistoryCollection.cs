@@ -264,24 +264,17 @@ namespace NeeView
             }
         }
 
-        // 指定場所にあるすべてのブックの履歴を削除
-        internal void RemovePlace(string place)
+        // まとめて履歴削除
+        public void Remove(IEnumerable<string> places)
         {
-            var unlinked = new List<LinkedListNode<BookHistory>>();
-            for (var node = this.Items.First; node != null; node = node.Next)
-            {
-                if (LoosePath.GetDirectoryName(node.Value.Place) == place)
-                {
-                    unlinked.Add(node);
-                }
-            }
+            var unlinked = places.Where(e => FindNode(e) != null);
 
             if (unlinked.Any())
             {
-                foreach (var node in unlinked)
+                foreach (var place in unlinked)
                 {
-                    Debug.WriteLine($"HistoryRemove: {node.Value.Place}");
-                    Items.Remove(node.Value.Place);
+                    Debug.WriteLine($"HistoryRemove: {place}");
+                    Items.Remove(place);
                 }
 
                 HistoryChanged?.Invoke(this, new BookMementoCollectionChangedArgs(BookMementoCollectionChangedType.Remove, null));
@@ -365,10 +358,10 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
 
-        #region Memento
+#region Memento
 
         /// <summary>
         /// 履歴Memento
@@ -590,6 +583,6 @@ namespace NeeView
         }
 
 
-        #endregion
+#endregion
     }
 }

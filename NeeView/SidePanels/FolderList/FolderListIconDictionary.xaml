@@ -33,19 +33,19 @@
         </DrawingImage.Drawing>
     </DrawingImage>
 
-    <!-- https://www.onlinewebfonts.com/icon/425378 -->
-    <PathGeometry x:Key="geometry_pushpin" FillRule="Nonzero" Figures="M0,0L280,203 588,510 800,300 800,600 1079,867 1115,832C1124.33337402344,822 1136,817 1150,817 1164,817 1175.66662597656,822 1185,832 1195,842 1200,853.666687011719 1200,867 1200,881 1195,893 1185,903L902,1185C892.666687011719,1195 881,1200 867,1200 853.666687011719,1200 842,1195 832,1185 822,1175.66662597656 817,1164 817,1150 817,1136 822,1124.33337402344 832,1115L867,1079 600,800 300,800 510,588 203,280 0,0z" />
-    <DrawingImage x:Key="ic_pushpin">
+    <!-- https://www.onlinewebfonts.com/icon/35498 -->
+    <DrawingImage x:Key="ic_lightning">
         <DrawingImage.Drawing>
             <DrawingGroup Opacity="1">
                 <DrawingGroup.Children>
-                    <DrawingGroup Opacity="1" Transform="1,0,0,-1,0,960">
-                        <DrawingGroup.Children>
-                            <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}" Geometry="{StaticResource geometry_pushpin}"/>
-                        </DrawingGroup.Children>
-                    </DrawingGroup>
+                    <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}">
+                        <GeometryDrawing.Geometry>
+                            <PathGeometry FillRule="Nonzero" Figures="M749.5,10L189,567.2L396.9,567.2L237.1,990L811,432.7L603.1,432.7z" />
+                        </GeometryDrawing.Geometry>
+                    </GeometryDrawing>
                 </DrawingGroup.Children>
             </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
+
 </ResourceDictionary>

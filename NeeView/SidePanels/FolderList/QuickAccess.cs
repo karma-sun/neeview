@@ -32,13 +32,8 @@ namespace NeeView
         {
             get
             {
-                var queryPath = new QueryPath(_path);
-                var s = queryPath.Path == null ? queryPath.Scheme.ToAliasName() : LoosePath.GetFileName(queryPath.Path);
-                if (queryPath.Search != null)
-                {
-                    s = s + " (" + queryPath.Search + ")";
-                }
-                return s;
+                var query = new QueryPath(_path);
+                return query.DispName + (query.Search != null ? $" ({query.Search})" : null);
             }
         }
 
@@ -46,13 +41,8 @@ namespace NeeView
         {
             get
             {
-                var queryPath = new QueryPath(_path);
-                var s = queryPath.SimplePath;
-                if (queryPath.Search != null)
-                {
-                    s = s + "\n" + Properties.Resources.WordSearchWord + ": " + queryPath.Search;
-                }
-                return s;
+                var query = new QueryPath(_path);
+                return query.SimplePath + (query.Search != null ? $"\n{Properties.Resources.WordSearchWord}: {query.Search}" : null);
             }
         }
 

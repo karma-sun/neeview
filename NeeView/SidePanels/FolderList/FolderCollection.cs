@@ -45,11 +45,12 @@ namespace NeeView
 
         #region Constructors
 
-        protected FolderCollection(string place, bool isStartEngine)
+        protected FolderCollection(QueryPath path, bool isStartEngine)
         {
-            this.Place = place;
+            this.Place = path;
 
-            this.FolderParameter = new FolderParameter(place);
+            // HACK: FullPathにする。過去のデータも修正が必要
+            this.FolderParameter = new FolderParameter(Place.SimplePath);
             this.FolderParameter.PropertyChanged += (s, e) => ParameterChanged?.Invoke(s, null);
 
             if (isStartEngine)
@@ -91,19 +92,19 @@ namespace NeeView
         public ObservableCollection<FolderItem> Items { get; protected set; }
 
         /// <summary>
-        /// フォルダーの場所
+        /// フォルダーの場所(クエリ)
         /// </summary>
-        public string Place { get; private set; }
+        public QueryPath Place { get; private set; }
 
         /// <summary>
         /// フォルダーの場所(表示用)
         /// </summary>
-        public string PlaceDispString => string.IsNullOrEmpty(Place) ? "PC" : Place;
+        public string PlaceDispString => Place.DispPath;
 
         /// <summary>
         /// フォルダーの場所(クエリー添付)
         /// </summary>
-        public virtual string QueryPath => Place;
+        public string QueryPath => Place.SimpleQuery;
 
         /// <summary>
         /// フォルダーの並び順
@@ -120,23 +121,9 @@ namespace NeeView
         /// </summary>
         public bool IsValid => Items != null;
 
-        /// <summary>
-        /// 場所の補足情報.
-        /// FolderSearchCollectionでは検索キーワードが設定される
-        /// </summary>
-        public virtual string Meta { get; }
-
         #endregion Properties
 
         #region Methods
-
-        /// <summary>
-        /// 一致判定
-        /// </summary>
-        public bool IsSame(string place, string meta)
-        {
-            return Place == place && Meta == meta;
-        }
 
         /// <summary>
         /// 更新が必要？
@@ -145,7 +132,7 @@ namespace NeeView
         /// <returns></returns>
         public bool IsDarty(FolderParameter folder)
         {
-            return (Place != folder.Path || FolderOrder != folder.FolderOrder || RandomSeed != folder.RandomSeed);
+            return (Place.SimplePath != folder.Path || FolderOrder != folder.FolderOrder || RandomSeed != folder.RandomSeed);
         }
 
         /// <summary>
@@ -154,7 +141,7 @@ namespace NeeView
         /// <returns></returns>
         public bool IsDarty()
         {
-            return IsDarty(new FolderParameter(Place));
+            return IsDarty(new FolderParameter(Place.SimplePath));
         }
 
 
@@ -163,9 +150,9 @@ namespace NeeView
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public int IndexOfPath(string path)
+        public int IndexOfPath(QueryPath path)
         {
-            var item = Items.FirstOrDefault(e => e.Path == path);
+            var item = Items.FirstOrDefault(e => e.Path.Equals(path));
             return (item != null) ? Items.IndexOf(item) : -1;
         }
 
@@ -175,9 +162,9 @@ namespace NeeView
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public FolderItem FirstOrDefault(string path)
+        public FolderItem FirstOrDefault(QueryPath path)
         {
-            return Items.FirstOrDefault(e => e.Path == path);
+            return Items.FirstOrDefault(e => e.Path.Equals(path));
         }
 
         public FolderItem FirstOrDefault(Func<FolderItem, bool> predicate)
@@ -213,10 +200,14 @@ namespace NeeView
         /// <summary>
         /// 親の場所を取得
         /// </summary>
-        public virtual string GetParentPlace()
+        public virtual QueryPath GetParentQuery()
         {
-            if (Place == null) return null;
-            return Path.GetDirectoryName(Place);
+            if (Place == null)
+            {
+                return null;
+            }
+
+            return Place.GetParent();
         }
 
         /// <summary>
@@ -247,9 +238,9 @@ namespace NeeView
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
-        public bool Contains(string path)
+        public bool Contains(QueryPath path)
         {
-            return Items.Any(e => e.Path == path);
+            return Items.Any(e => e.Path.Equals(path));
         }
 
         /// <summary>
@@ -296,7 +287,7 @@ namespace NeeView
         /// アイコンの表示更新
         /// </summary>
         /// <param name="path">指定パスの項目を更新。nullの場合全ての項目を更新</param>
-        public void RefleshIcon(string path)
+        public void RefleshIcon(QueryPath path)
         {
             if (Items == null) return;
 
@@ -332,7 +323,7 @@ namespace NeeView
         /// 項目追加
         /// </summary>
         /// <param name="path"></param>
-        public void RequestCreate(string path)
+        public void RequestCreate(QueryPath path)
         {
             _engine?.Enqueue(new CreateJob(this, path, false));
         }
@@ -341,7 +332,7 @@ namespace NeeView
         /// 項目削除
         /// </summary>
         /// <param name="path"></param>
-        public void RequestDelete(string path)
+        public void RequestDelete(QueryPath path)
         {
             _engine?.Enqueue(new DeleteJob(this, path, false));
         }
@@ -351,7 +342,7 @@ namespace NeeView
         /// </summary>
         /// <param name="oldPath"></param>
         /// <param name="path"></param>
-        public void RequestRename(string oldPath, string path)
+        public void RequestRename(QueryPath oldPath, QueryPath path)
         {
             if (oldPath == path || path == null)
             {
@@ -366,10 +357,10 @@ namespace NeeView
         public class CreateJob : Jobs.IJob
         {
             private FolderCollection _target;
-            private string _path;
+            private QueryPath _path;
             private bool _verify;
 
-            public CreateJob(FolderCollection target, string path, bool verify)
+            public CreateJob(FolderCollection target, QueryPath path, bool verify)
             {
                 _target = target;
                 _path = path;
@@ -386,7 +377,7 @@ namespace NeeView
         }
 
         //
-        private void CreateItem(string path)
+        private void CreateItem(QueryPath path)
         {
             FolderItem item;
 
@@ -453,10 +444,10 @@ namespace NeeView
         public class DeleteJob : Jobs.IJob
         {
             private FolderCollection _target;
-            private string _path;
+            private QueryPath _path;
             private bool _verify;
 
-            public DeleteJob(FolderCollection target, string path, bool verify)
+            public DeleteJob(FolderCollection target, QueryPath path, bool verify)
             {
                 _target = target;
                 _path = path;
@@ -473,7 +464,7 @@ namespace NeeView
         }
 
         // 対象を検索し、削除する
-        private void DeleteItem(string path)
+        private void DeleteItem(QueryPath path)
         {
             FolderItem item;
 
@@ -518,11 +509,11 @@ namespace NeeView
         public class RenameJob : Jobs.IJob
         {
             private FolderCollection _target;
-            private string _oldPath;
-            private string _path;
+            private QueryPath _oldPath;
+            private QueryPath _path;
             private bool _verify;
 
-            public RenameJob(FolderCollection target, string oldPath, string path, bool verify)
+            public RenameJob(FolderCollection target, QueryPath oldPath, QueryPath path, bool verify)
             {
                 _target = target;
                 _oldPath = oldPath;
@@ -540,7 +531,7 @@ namespace NeeView
         }
 
         //
-        private void RenameItem(string oldPath, string path)
+        private void RenameItem(QueryPath oldPath, QueryPath path)
         {
             if (oldPath == path) return;
 
@@ -557,9 +548,9 @@ namespace NeeView
             }
 
             // 名前部分
-            if (string.Compare(path, 0, item.Place, 0, item.Place.Length) != 0) throw new ArgumentException("remame exception: difference place");
+            if (string.Compare(path.FullPath, 0, item.Place.FullPath, 0, item.Place.FullPath.Length) != 0) throw new ArgumentException("remame exception: difference place");
 
-            RenameItem(item, LoosePath.GetFileName(path, item.Place));
+            RenameItem(item, LoosePath.GetFileName(path.FullPath, item.Place.FullPath));
         }
 
         //
@@ -585,6 +576,23 @@ namespace NeeView
                 Name = ".",
                 Attributes = FolderItemAttribute.Empty,
             };
+        }
+
+        /// <summary>
+        /// クエリからFolderItemを作成
+        /// </summary>
+        /// <param name="path">パス</param>
+        /// <returns>FolderItem。生成できなかった場合はnull</returns>
+        protected FolderItem CreateFolderItem(QueryPath path)
+        {
+            if (path.Scheme == QueryScheme.File)
+            {
+                return CreateFolderItem(path.Path);
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
 
         /// <summary>
@@ -631,7 +639,7 @@ namespace NeeView
             {
                 return new FolderItem()
                 {
-                    Place = null,
+                    Place = Place,
                     Name = e.Name,
                     Attributes = FolderItemAttribute.Directory | FolderItemAttribute.Drive,
                     IsReady = e.IsReady,
@@ -721,9 +729,9 @@ namespace NeeView
             if (info != null)
             {
                 info.Type = type;
-                info.Place = Path.GetDirectoryName(e.SourcePath);
+                info.Place = new QueryPath(Path.GetDirectoryName(e.SourcePath));
                 info.Name = Path.GetFileName(e.SourcePath);
-                info.TargetPath = e.TargetPath;
+                info.TargetPath = new QueryPath(e.TargetPath);
                 info.Attributes = info.Attributes | FolderItemAttribute.Shortcut;
             }
 

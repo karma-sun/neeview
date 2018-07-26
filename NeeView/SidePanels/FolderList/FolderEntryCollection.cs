@@ -27,17 +27,16 @@ namespace NeeView
         /// <summary>
         /// constructor
         /// </summary>
-        /// <param name="place"></param>
-        public FolderEntryCollection(string place, bool isActive) : base(place, isActive)
+        public FolderEntryCollection(QueryPath path, bool isActive) : base(path, isActive)
         {
-            if (string.IsNullOrWhiteSpace(Place))
+            if (string.IsNullOrWhiteSpace(Place.SimplePath))
             {
                 this.Items = new ObservableCollection<FolderItem>(DriveInfo.GetDrives().Select(e => CreateFolderItem(e)));
                 return;
             }
             else
             {
-                var directory = new DirectoryInfo(Place);
+                var directory = new DirectoryInfo(Place.SimplePath);
 
                 if (!directory.Exists)
                 {
@@ -123,7 +122,7 @@ namespace NeeView
             if (isActive)
             {
                 // フォルダー監視
-                InitializeWatcher(Place);
+                InitializeWatcher(Place.SimplePath);
                 StartWatch();
             }
         }
@@ -228,7 +227,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void Watcher_Creaded(object sender, FileSystemEventArgs e)
         {
-            RequestCreate(e.FullPath);
+            RequestCreate(new QueryPath(e.FullPath));
         }
 
         /// <summary>
@@ -238,7 +237,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void Watcher_Deleted(object sender, FileSystemEventArgs e)
         {
-            RequestDelete(e.FullPath);
+            RequestDelete(new QueryPath(e.FullPath));
         }
 
         /// <summary>
@@ -248,7 +247,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void Watcher_Renamed(object sender, RenamedEventArgs e)
         {
-            RequestRename(e.OldFullPath, e.FullPath);
+            RequestRename(new QueryPath(e.OldFullPath), new QueryPath(e.FullPath));
         }
 
         #endregion

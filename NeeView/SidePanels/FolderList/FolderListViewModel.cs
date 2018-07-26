@@ -57,6 +57,7 @@ namespace NeeView
 
         /// <summary>
         /// 検索キーワードをクリア
+        /// TODO: 未使用に付き削除
         /// </summary>
         ResetKeyword = (1 << 4),
 
@@ -147,8 +148,8 @@ namespace NeeView
         public FolderCollection FolderCollection => _model.FolderCollection;
         public bool IsFolderRecursive => _model.FolderCollection != null ? _model.FolderCollection.FolderParameter.IsFolderRecursive : false;
         public string Place => _model.FolderCollection?.PlaceDispString;
-        public string PlaceRaw => _model.FolderCollection?.Place;
-        public string QueryPath => _model.FolderCollection?.QueryPath;
+        public string PlaceRaw => _model.FolderCollection?.Place.SimplePath;
+        public string QueryPath => _model.FolderCollection?.Place.SimpleQuery;
 
         /// <summary>
         /// Model property.
@@ -194,7 +195,7 @@ namespace NeeView
         /// <param name="direction"></param>
         /// <param name="size"></param>
         /// <returns></returns>
-        internal List<KeyValuePair<int, string>> GetHistory(int direction, int size)
+        internal List<KeyValuePair<int, QueryPath>> GetHistory(int direction, int size)
         {
             return _model.History.GetHistory(direction, size);
         }
@@ -220,10 +221,10 @@ namespace NeeView
         /// <summary>
         /// MoveTo command.
         /// </summary>
-        private RelayCommand<string> _MoveTo;
-        public RelayCommand<string> MoveTo
+        private RelayCommand<QueryPath> _MoveTo;
+        public RelayCommand<QueryPath> MoveTo
         {
-            get { return _MoveTo = _MoveTo ?? new RelayCommand<string>(_model.MoveTo_Executed); }
+            get { return _MoveTo = _MoveTo ?? new RelayCommand<QueryPath>(_model.MoveTo_Executed); }
         }
 
         /// <summary>
@@ -247,10 +248,10 @@ namespace NeeView
         /// <summary>
         /// MoveToHistory command.
         /// </summary>
-        private RelayCommand<KeyValuePair<int, string>> _MoveToHistory;
-        public RelayCommand<KeyValuePair<int, string>> MoveToHistory
+        private RelayCommand<KeyValuePair<int, QueryPath>> _MoveToHistory;
+        public RelayCommand<KeyValuePair<int, QueryPath>> MoveToHistory
         {
-            get { return _MoveToHistory = _MoveToHistory ?? new RelayCommand<KeyValuePair<int, string>>(_model.MoveToHistory_Executed); }
+            get { return _MoveToHistory = _MoveToHistory ?? new RelayCommand<KeyValuePair<int, QueryPath>>(_model.MoveToHistory_Executed); }
         }
 
         /// <summary>

@@ -23,6 +23,7 @@ namespace NeeView
         ArchiveEntry = (1 << 4),
         Bookmark = (1 << 5),
         Pagemark = (1 << 6),
+        System = (1 << 7),
     }
 
     /// <summary>
@@ -79,8 +80,8 @@ namespace NeeView
         // 種類。ソート用
         public FolderItemType Type { get; set; }
 
-        private string _place;
-        public string Place
+        private QueryPath _place;
+        public QueryPath Place
         {
             get { return _place; }
             set
@@ -99,7 +100,7 @@ namespace NeeView
             {
                 if ((Attributes & FolderItemAttribute.Drive) == FolderItemAttribute.Drive)
                 {
-                    return Path;
+                    return Path.SimplePath;
                 }
                 else if (IsEmpty)
                 {
@@ -120,11 +121,11 @@ namespace NeeView
         }
 
         // パス
-        public string Path => LoosePath.Combine(_place, _name);
+        public QueryPath Path => _place.ReplacePath(LoosePath.Combine(_place.Path, _name));
 
         // 実体へのパス。nullの場合は Path と同じ
-        private string _targetPath;
-        public string TargetPath
+        private QueryPath _targetPath;
+        public QueryPath TargetPath
         {
             get { return _targetPath ?? Path; }
             set { if (_targetPath != value) { _targetPath = value; RaisePropertyChanged(); } }
@@ -201,7 +202,7 @@ namespace NeeView
             {
                 if (_icon == null && !IsEmpty)
                 {
-                    _icon = FileSystem.GetTypeIconSource(TargetPath, FileSystem.IconSize.Normal);
+                    _icon = FileSystem.GetTypeIconSource(TargetPath.SimplePath, FileSystem.IconSize.Normal);
                 }
                 return _icon;
             }
@@ -214,7 +215,7 @@ namespace NeeView
             {
                 if (_iconSmall == null && !IsEmpty)
                 {
-                    _iconSmall = FileSystem.GetTypeIconSource(TargetPath, FileSystem.IconSize.Small);
+                    _iconSmall = FileSystem.GetTypeIconSource(TargetPath.SimplePath, FileSystem.IconSize.Small);
                 }
                 return _iconSmall;
             }
@@ -236,7 +237,7 @@ namespace NeeView
                     {
                         var entry = this.ArchiveEntry ?? new ArchiveEntry()
                         {
-                            RawEntryName = TargetPath,
+                            RawEntryName = TargetPath.SimplePath,
                             Length = this.Length,
                             LastWriteTime = this.LastWriteTime,
                         };
@@ -261,7 +262,7 @@ namespace NeeView
 
         public string Detail => Name;
 
-        public Thumbnail Thumbnail => ArchivePage?.Thumbnail;
+        public virtual Thumbnail Thumbnail => ArchivePage?.Thumbnail;
 
         public Page GetPage()
         {
@@ -288,28 +289,28 @@ namespace NeeView
         public void UpdateIsRecursived(bool isDefaultRecursive)
         {
             var option = isDefaultRecursive ? BookLoadOption.DefaultRecursive : BookLoadOption.None;
-            var memento = BookHub.Current.GetLastestBookMemento(this.TargetPath, option);
+            var memento = BookHub.Current.GetLastestBookMemento(this.TargetPath.SimplePath, option);
             this.IsRecursived = memento.IsRecursiveFolder;
         }
 
         // エクスプローラーへのドラッグオブジェクト
         public DataObject GetFileDragData()
         {
-            return new DataObject(DataFormats.FileDrop, new string[] { this.Path });
+            return new DataObject(DataFormats.FileDrop, new string[] { this.Path.SimplePath });
         }
 
         // パスの存在チェック
         public bool IsExist()
         {
-            return IsDirectory ? Directory.Exists(Path) : File.Exists(Path);
+            return IsDirectory ? Directory.Exists(Path.SimplePath) : File.Exists(Path.SimplePath);
         }
 
 
         private void UpdateOverlay()
         {
-            if (IsVisibleBookmarkMark && BookmarkCollection.Current.Contains(TargetPath))
+            if (IsVisibleBookmarkMark && BookmarkCollection.Current.Contains(TargetPath.SimplePath))
                 _iconOverlay = FolderItemIconOverlay.Star;
-            else if (IsVisibleHistoryMark && BookHistoryCollection.Current.Contains(TargetPath))
+            else if (IsVisibleHistoryMark && BookHistoryCollection.Current.Contains(TargetPath.SimplePath))
                 _iconOverlay = FolderItemIconOverlay.Checked;
             else
                 _iconOverlay = FolderItemIconOverlay.None;
@@ -357,7 +358,7 @@ namespace NeeView
                     return true;
                 }
 
-                var archiveType = ArchiverManager.Current.GetSupportedType(TargetPath, false);
+                var archiveType = ArchiverManager.Current.GetSupportedType(TargetPath.SimplePath, false);
                 if (IsFileSystem() && !BookHub.Current.IsArchiveRecursive && archiveType.IsRecursiveSupported())
                 {
                     return true;

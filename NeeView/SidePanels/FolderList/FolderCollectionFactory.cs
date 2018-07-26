@@ -22,33 +22,44 @@ namespace NeeView
         #region Methods
 
         // フォルダーコレクション作成
-        public async Task<FolderCollection> CreateFolderCollectionAsync(string place, bool isActive, CancellationToken token)
+        public async Task<FolderCollection> CreateFolderCollectionAsync(QueryPath path, bool isActive, CancellationToken token)
         {
-            if (place != null && place.StartsWith(QueryScheme.Bookmark.ToSchemeString()))
+            if (path.Scheme == QueryScheme.Bookmark)
             {
-                return await CreateBookmarkFolderCollectionAsync(place, isActive, token);
+                return await CreateBookmarkFolderCollectionAsync(path, isActive, token);
             }
-            else if (place == null || Directory.Exists(place))
+            else if (path.Scheme == QueryScheme.File)
             {
-                return await CreateEntryFolderCollectionAsync(place, isActive, token);
+                if (path.Search != null)
+                {
+                    return await CreateSearchFolderCollectionAsync(path, isActive, token);
+                }
+                else if (path.Path == null || Directory.Exists(path.Path))
+                {
+                    return await CreateEntryFolderCollectionAsync(path, isActive, token);
+                }
+                else
+                {
+                    return await CreateArchiveFolderCollectionAsync(path, isActive, token);
+                }
             }
             else
             {
-                return await CreateArchiveFolderCollectionAsync(place, isActive, token);
+                throw new NotSupportedException();
             }
         }
 
         // 検索コレクション作成
-        public async Task<FolderCollection> CreateSearchFolderCollectionAsync(string place, string keyword, bool isActive, CancellationToken token)
+        public async Task<FolderCollection> CreateSearchFolderCollectionAsync(QueryPath path, bool isActive, CancellationToken token)
         {
             if (SearchEngine == null) throw new InvalidOperationException("SearchEngine not initialized.");
 
             try
             {
-                var result = await SearchEngine.SearchAsync(place, keyword);
+                var result = await SearchEngine.SearchAsync(path.SimplePath, path.Search);
                 token.ThrowIfCancellationRequested();
 
-                var collection = CreateSearchCollection(place, result, isActive);
+                var collection = CreateSearchCollection(path, result, isActive);
                 return collection;
             }
             catch (OperationCanceledException)
@@ -58,31 +69,31 @@ namespace NeeView
         }
 
         // 通常フォルダーコレクション作成
-        private async Task<FolderCollection> CreateEntryFolderCollectionAsync(string place, bool isActive, CancellationToken token)
+        private async Task<FolderCollection> CreateEntryFolderCollectionAsync(QueryPath path, bool isActive, CancellationToken token)
         {
-            var collection = await Task.Run(() => CreateEntryCollection(place, isActive));
+            var collection = await Task.Run(() => CreateEntryCollection(path, isActive));
             token.ThrowIfCancellationRequested();
 
             return collection;
         }
 
         // ブックマークフォルダーコレクション作成
-        private async Task<FolderCollection> CreateBookmarkFolderCollectionAsync(string place, bool isActive, CancellationToken token)
+        private async Task<FolderCollection> CreateBookmarkFolderCollectionAsync(QueryPath path, bool isActive, CancellationToken token)
         {
-            var collection = await Task.Run(() => CreateBookmarkFolderCollection(place, isActive));
+            var collection = await Task.Run(() => CreateBookmarkFolderCollection(path, isActive));
             token.ThrowIfCancellationRequested();
 
             return collection;
         }
 
         // アーカイブフォルダーコレクション作成
-        public async Task<FolderCollection> CreateArchiveFolderCollectionAsync(string place, bool isActive, CancellationToken token)
+        public async Task<FolderCollection> CreateArchiveFolderCollectionAsync(QueryPath path, bool isActive, CancellationToken token)
         {
             try
             {
-                using (var entry = await ArchiveFileSystem.CreateArchiveEntry(place, token))
+                using (var entry = await ArchiveFileSystem.CreateArchiveEntry(path.SimplePath, token))
                 {
-                    var collection = CreateArchiveCollection(place, await ArchiverManager.Current.CreateArchiverAsync(entry, false, false, token), isActive);
+                    var collection = CreateArchiveCollection(path, await ArchiverManager.Current.CreateArchiverAsync(entry, false, false, token), isActive);
                     token.ThrowIfCancellationRequested();
                     return collection;
                 }
@@ -91,26 +102,26 @@ namespace NeeView
             {
                 // アーカイブパスが展開できない場合、実在パスでの展開を行う
                 Debug.WriteLine($"Cannot open: {ex.Message}");
-                place = ArchiveFileSystem.GetExistDirectoryName(place);
-                return await CreateEntryFolderCollectionAsync(place, isActive, token);
+                var place = ArchiveFileSystem.GetExistDirectoryName(path.SimplePath);
+                return await CreateEntryFolderCollectionAsync(new QueryPath(place), isActive, token);
             }
         }
 
         /// <summary>
         /// FolderCollection 作成
         /// </summary>
-        private FolderCollection CreateEntryCollection(string place, bool isActive)
+        private FolderCollection CreateEntryCollection(QueryPath path, bool isActive)
         {
             try
             {
-                return new FolderEntryCollection(place, isActive);
+                return new FolderEntryCollection(path, isActive);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
 
-                // 救済措置。取得に失敗した時はカレントディレクトリに移動
-                return new FolderEntryCollection(Environment.CurrentDirectory, isActive);
+                // NOTE: 救済措置。取得に失敗した時はカレントディレクトリに移動
+                return new FolderEntryCollection(new QueryPath(Environment.CurrentDirectory), isActive);
             }
         }
 
@@ -118,25 +129,25 @@ namespace NeeView
         /// <summary>
         /// FolderCollection作成(書庫内アーカイブリスト)
         /// </summary>
-        public FolderCollection CreateArchiveCollection(string place, Archiver archiver, bool isActive)
+        public FolderCollection CreateArchiveCollection(QueryPath path, Archiver archiver, bool isActive)
         {
-            return new FolderArchiveCollection(place, archiver, isActive);
+            return new FolderArchiveCollection(path, archiver, isActive);
         }
 
         /// <summary>
         /// FolderCollection作成(検索結果)
         /// </summary>
-        private FolderCollection CreateSearchCollection(string place, NeeLaboratory.IO.Search.SearchResultWatcher searchResult, bool isActive)
+        private FolderCollection CreateSearchCollection(QueryPath path, NeeLaboratory.IO.Search.SearchResultWatcher searchResult, bool isActive)
         {
-            return new FolderSearchCollection(place, searchResult, isActive);
+            return new FolderSearchCollection(path, searchResult, isActive);
         }
 
         /// <summary>
         /// FolderCollecion作成(ブックマーク)
         /// </summary>
-        private FolderCollection CreateBookmarkFolderCollection(string place, bool isActive)
+        private FolderCollection CreateBookmarkFolderCollection(QueryPath path, bool isActive)
         {
-            return new BookmarkFolderCollection(place);
+            return new BookmarkFolderCollection(path);
         }
 
         #endregion

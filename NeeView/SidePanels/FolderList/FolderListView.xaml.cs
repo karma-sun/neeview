@@ -244,21 +244,21 @@ namespace NeeView
             return Convert(value as string);
         }
 
-        public static ImageSource Convert(string path)
+        public static ImageSource Convert(string queryPath)
         {
-            var queryPath = new QueryPath(path);
+            var path = new QueryPath(queryPath);
 
-            if (queryPath.Scheme == QueryScheme.Bookmark)
+            if (path.Scheme == QueryScheme.Bookmark)
             {
                 return App.Current.Resources["ic_grade_24px"] as ImageSource;
             }
-            else if (queryPath.Scheme == QueryScheme.File)
+            else if (path.Scheme == QueryScheme.File)
             {
-                if (queryPath.Path == null)
+                if (path.Path == null)
                 {
                     return MainWindow.Current.Resources["ic_desktop_windows_24px"] as ImageSource;
                 }
-                else if (queryPath.Search != null)
+                else if (path.Search != null)
                 {
                     return MainWindow.Current.Resources["ic_search_24px"] as ImageSource;
                 }

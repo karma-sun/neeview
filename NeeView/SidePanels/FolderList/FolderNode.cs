@@ -7,20 +7,22 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
+    /// <summary>
+    /// 一時的にフォルダーリスト階層を作る。巡回移動用
+    /// </summary>
+    /// HACK: パスをQueryPathで管理
     public class FolderNode
     {
-        #region Fields
+        // Fields
 
         private object _lock = new object();
 
         private bool _isParentValid;
         private bool _isChildrenValid;
-
         public Archiver _archiver;
 
-        #endregion
 
-        #region Constructors
+        // Constructors
 
         public FolderNode(FolderNode parent, string name, FolderItem content)
         {
@@ -34,10 +36,10 @@ namespace NeeView
         {
             if (collection is FolderSearchCollection) throw new ArgumentException("collection is not folder entry");
 
-            var parent = new FolderNode(null, collection.Place, null);
+            var parent = new FolderNode(null, collection.Place.FullPath, null);
             parent.Children = collection.Items
                 .Where(e => !e.IsEmpty)
-                .Select(e => new FolderNode(parent, e.Name, e) { Place = collection.Place })
+                .Select(e => new FolderNode(parent, e.Name, e) { Place = collection.Place.FullPath })
                 .ToList();
             parent._isChildrenValid = true;
 
@@ -51,7 +53,7 @@ namespace NeeView
             if (index < 0) throw new ArgumentException("collection dont have content");
 
             this.Parent = parent;
-            this.Place = collection.Place;
+            this.Place = collection.Place.FullPath;
             this.Name = content.Name;
             this.Content = content;
             _isParentValid = true;
@@ -59,9 +61,8 @@ namespace NeeView
             parent.Children[index] = this;
         }
 
-        #endregion
 
-        #region Properties
+        // Properties
 
         private FolderNode _parent;
         public FolderNode Parent
@@ -90,9 +91,8 @@ namespace NeeView
 
         public FolderItem Content { get; set; }
 
-        #endregion
-
-        #region Methods
+        
+        // Methods
 
         public async Task<FolderNode> GetParent(CancellationToken cancel)
         {
@@ -137,7 +137,7 @@ namespace NeeView
             var parentArchiver = _archiver?.Parent;
             if (parentArchiver != null)
             {
-                parent = new FolderNode(null, parentArchiver.FullPath, null) { _archiver = parentArchiver };
+                parent = new FolderNode(null, new QueryPath(parentArchiver.FullPath).FullPath, null) { _archiver = parentArchiver };
                 name = LoosePath.GetFileName(Name, parent.FullName);
             }
 
@@ -193,7 +193,7 @@ namespace NeeView
                 return new List<FolderNode>();
             }
 
-            var path = FullName;
+            var path = new QueryPath(FullName);
             if (Content != null && Content.Attributes.HasFlag(FolderItemAttribute.Shortcut))
             {
                 path = Content.TargetPath;
@@ -203,7 +203,7 @@ namespace NeeView
             {
                 var children = collection.Items
                     .Where(e => !e.IsEmpty)
-                    .Select(e => new FolderNode(this, e.Name, e) { Place = collection.Place })
+                    .Select(e => new FolderNode(this, e.Name, e) { Place = collection.Place.FullPath })
                     .ToList();
 
                 return children;
@@ -271,7 +271,5 @@ namespace NeeView
             // 親へ
             return await parent.CruiseNextUp(cancel);
         }
-
-        #endregion
     }
 }

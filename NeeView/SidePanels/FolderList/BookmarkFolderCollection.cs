@@ -33,9 +33,9 @@ namespace NeeView
 
         // Constructors
 
-        public BookmarkFolderCollection(string place) : base(place, false)
+        public BookmarkFolderCollection(QueryPath path) : base(path, false)
         {
-            _bookmarkPlace = BookmarkCollection.Current.FindNode(place) ?? new TreeListNode<IBookmarkEntry>();
+            _bookmarkPlace = BookmarkCollection.Current.FindNode(path.FullPath) ?? new TreeListNode<IBookmarkEntry>();
 
             var items = _bookmarkPlace.Children
                 .Select(e => CreateFolderItem(e))
@@ -109,25 +109,9 @@ namespace NeeView
 
                 case EntryCollectionChangedAction.Replace:
                 case EntryCollectionChangedAction.Reset:
-                    FolderList.Current.RequestPlace(QueryScheme.Bookmark.ToSchemeString() + "\\", null, FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.ResetKeyword | FolderSetPlaceOption.Refresh);
+                    FolderList.Current.RequestPlace(new QueryPath(QueryScheme.Bookmark, null, null), null, FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.ResetKeyword | FolderSetPlaceOption.Refresh);
                     break;
             }
-        }
-
-
-        /// <summary>
-        /// 親の場所を取得
-        /// </summary>
-        public override string GetParentPlace()
-        {
-            var scheme = QueryScheme.Bookmark.ToSchemeString();
-
-            if (Place == null || Place.TrimEnd(LoosePath.Separator) == scheme)
-            {
-                return scheme + "\\";
-            }
-
-            return LoosePath.GetDirectoryName(Place);
         }
 
 
@@ -142,7 +126,7 @@ namespace NeeView
                     {
                         Source = node,
                         Type = FolderItemType.Directory,
-                        Place = LoosePath.GetDirectoryName(node.CreatePath(scheme)),
+                        Place = Place,
                         Name = folder.Name,
                         Length = -1,
                         Attributes = FolderItemAttribute.Directory | FolderItemAttribute.Bookmark,
@@ -157,8 +141,8 @@ namespace NeeView
                     {
                         Source = node,
                         Type = FolderItemType.File,
-                        Place = LoosePath.GetDirectoryName(node.CreatePath(scheme)),
-                        TargetPath = bookmark.Place,
+                        Place = Place,
+                        TargetPath = new QueryPath(bookmark.Place),
                         Name = bookmark.Name,
                         ArchiveEntry = archiveEntry,
                         LastWriteTime = archiveEntry.LastWriteTime ?? default,

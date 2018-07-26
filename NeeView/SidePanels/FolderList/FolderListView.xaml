@@ -82,11 +82,8 @@
             <Setter Property="Height" Value="28"/>
         </Style>
 
-
-        <local:FullPathToFileNameConverter x:Key="FullPathToFileNameConverter"/>
-
         <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
-            <Setter Property="Header" Value="{Binding Path=Value, Converter={StaticResource FullPathToFileNameConverter}}"/>
+            <Setter Property="Header" Value="{Binding Path=Value.DispName}"/>
             <Setter Property="Command" Value="{Binding DataContext.MoveToHistory, RelativeSource={RelativeSource FindAncestor, AncestorType=ContextMenu}}" />
             <Setter Property="CommandParameter" Value="{Binding}" />
         </Style>

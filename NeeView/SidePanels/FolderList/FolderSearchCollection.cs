@@ -1,6 +1,7 @@
 ﻿using NeeView.IO;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows.Data;
@@ -13,21 +14,21 @@ namespace NeeView
     /// </summary>
     public class FolderSearchCollection : FolderCollection, IDisposable 
     {
-        #region Fields
+        // Fieds
 
         /// <summary>
         /// 検索結果
         /// </summary>
         private NeeLaboratory.IO.Search.SearchResultWatcher _searchResult;
 
-        #endregion
 
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="place"></param>
-        public FolderSearchCollection(string place, NeeLaboratory.IO.Search.SearchResultWatcher searchResult, bool isActive) : base(place, isActive)
+        // Constructors
+
+        public FolderSearchCollection(QueryPath path, NeeLaboratory.IO.Search.SearchResultWatcher searchResult, bool isActive) : base(path, isActive)
         {
+            if (searchResult == null) throw new ArgumentNullException(nameof(searchResult));
+            Debug.Assert(path.Search == searchResult.Keyword);
+
             var items = searchResult.Items
                 .Select(e => CreateFolderItem(e))
                 .Where(e => e != null)
@@ -47,21 +48,6 @@ namespace NeeView
             _searchResult.SearchResultChanged += SearchResult_NodeChanged;
         }
 
-        #region Properties
-
-        /// <summary>
-        /// 検索キーワード
-        /// </summary>
-        public string SearchKeyword => _searchResult?.Keyword;
-
-        public override string Meta => _searchResult?.Keyword;
-
-        /// <summary>
-        /// フォルダーの場所(クエリー添付)
-        /// </summary>
-        public override string QueryPath => new QueryPath(Place, SearchKeyword).SimpleQuery;
-
-        #endregion
 
         #region Methods
 
@@ -75,13 +61,13 @@ namespace NeeView
             switch (e.Action)
             {
                 case NeeLaboratory.IO.Search.NodeChangedAction.Add:
-                    RequestCreate(e.Content.Path);
+                    RequestCreate(new QueryPath(e.Content.Path));
                     break;
                 case NeeLaboratory.IO.Search.NodeChangedAction.Remove:
-                    RequestDelete(e.Content.Path);
+                    RequestDelete(new QueryPath(e.Content.Path));
                     break;
                 case NeeLaboratory.IO.Search.NodeChangedAction.Rename:
-                    RequestRename(e.OldPath, e.Content.Path);
+                    RequestRename(new QueryPath(e.OldPath), new QueryPath(e.Content.Path));
                     break;
                 default:
                     throw new NotSupportedException();
@@ -100,7 +86,7 @@ namespace NeeView
                 return new FolderItem()
                 {
                     Type = FolderItemType.Directory,
-                    Place = Path.GetDirectoryName(nodeContent.Path),
+                    Place = new QueryPath(Path.GetDirectoryName(nodeContent.Path)),
                     Name = Path.GetFileName(nodeContent.Path),
                     LastWriteTime = nodeContent.FileInfo.LastWriteTime,
                     Length = -1,
@@ -127,7 +113,7 @@ namespace NeeView
                     return new FolderItem()
                     {
                         Type = FolderItemType.File,
-                        Place = Path.GetDirectoryName(nodeContent.Path),
+                        Place = new QueryPath(Path.GetDirectoryName(nodeContent.Path)),
                         Name = Path.GetFileName(nodeContent.Path),
                         LastWriteTime = nodeContent.FileInfo.LastWriteTime,
                         Length = nodeContent.FileInfo.Size,

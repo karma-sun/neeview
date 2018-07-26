@@ -123,7 +123,7 @@ namespace NeeView
                 ? false
                 : BookHub.Current.IsArchiveRecursive
                     ? item.Attributes.HasFlag(FolderItemAttribute.Directory)
-                    : ArchiverManager.Current.GetSupportedType(item.TargetPath).IsRecursiveSupported();
+                    : ArchiverManager.Current.GetSupportedType(item.TargetPath.SimplePath).IsRecursiveSupported();
         }
 
 
@@ -196,7 +196,7 @@ namespace NeeView
             }
             else if (item.IsFileSystem())
             {
-                var removed = await FileIO.Current.RemoveAsync(item.Path, Properties.Resources.DialogFileDeleteBookTitle);
+                var removed = await FileIO.Current.RemoveAsync(item.Path.SimplePath, Properties.Resources.DialogFileDeleteBookTitle);
                 if (removed)
                 {
                     _vm.FolderCollection?.RequestDelete(item.Path);
@@ -242,7 +242,7 @@ namespace NeeView
                             var dst = await FileIO.Current.RenameAsync(item, newName);
                             if (dst != null)
                             {
-                                _vm.FolderCollection?.RequestRename(src, dst);
+                                _vm.FolderCollection?.RequestRename(src, new QueryPath(dst));
                             }
                         }
                     };
@@ -304,7 +304,7 @@ namespace NeeView
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
             if (item != null)
             {
-                var path = item.IsFileSystem() ? item.Path : item.TargetPath;
+                var path = item.IsFileSystem() ? item.Path.SimplePath : item.TargetPath.SimplePath;
                 path = item.Attributes.AnyFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.ArchiveEntry | FolderItemAttribute.Empty) ? ArchiverManager.Current.GetExistPathName(path) : path;
                 System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + path + "\"");
             }

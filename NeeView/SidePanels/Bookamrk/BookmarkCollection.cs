@@ -96,26 +96,36 @@ namespace NeeView
             return Items.FirstOrDefault(e => e.Value == entry);
         }
 
+
         public TreeListNode<IBookmarkEntry> FindNode(string path)
         {
             if (path == null) return null;
 
-            var scheme = QueryScheme.Bookmark.ToSchemeString();
+            return FindNode(new QueryPath(path));
+        }
 
-            if (path.StartsWith(scheme))
+        public TreeListNode<IBookmarkEntry> FindNode(QueryPath path)
+        {
+            if (path == null)
             {
-                path = path.Substring(scheme.Length).Trim(LoosePath.Separator);
+                return null;
+            }
 
-                if (path == "")
+            if (path.Scheme == QueryScheme.Bookmark)
+            {
+                if (path.Path == null)
                 {
                     return Items;
                 }
-
-                return FindNode(Items, path.Split(LoosePath.Separator));
+                return FindNode(Items, path.Path.Split(LoosePath.Separator));
+            }
+            else if (path.Scheme == QueryScheme.File)
+            {
+                return Items.FirstOrDefault(e => e.Value is Bookmark bookmark && bookmark.Place == path.Path);
             }
             else
             {
-                return Items.FirstOrDefault(e => e.Value is Bookmark bookmark && bookmark.Place == path);
+                return null;
             }
         }
 
@@ -587,6 +597,14 @@ namespace NeeView
 
     public static class TreeListNodeExtensions
     {
+        public static QueryPath CreateQuery<T>(this TreeListNode<T> node, QueryScheme scheme)
+            where T : IHasName
+        {
+            var path = string.Join("\\", node.Hierarchy.Select(e => e.Value).OfType<T>().Select(e => e.Name));
+            return new QueryPath(scheme, path, null);
+        }
+
+
         public static string CreatePath<T>(this TreeListNode<T> node, string scheme)
             where T : IHasName
         {

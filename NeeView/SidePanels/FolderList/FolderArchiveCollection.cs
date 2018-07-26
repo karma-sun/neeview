@@ -9,7 +9,7 @@ namespace NeeView
     /// <summary>
     /// 検索コレクション
     /// </summary>
-    public class FolderArchiveCollection : FolderCollection, IDisposable 
+    public class FolderArchiveCollection : FolderCollection, IDisposable
     {
         #region Fields
 
@@ -22,8 +22,7 @@ namespace NeeView
         /// <summary>
         /// constructor
         /// </summary>
-        /// <param name="place"></param>
-        public FolderArchiveCollection(string place, Archiver archiver, bool isActive) : base(place, isActive)
+        public FolderArchiveCollection(QueryPath path, Archiver archiver, bool isActive) : base(path, isActive)
         {
             _archiver = archiver;
 
@@ -32,7 +31,7 @@ namespace NeeView
                 this.Items = new ObservableCollection<FolderItem>() { CreateFolderItemEmpty() };
                 return;
             }
-            
+
             var items = archiver.GetArchives()
                 .Select(e => CreateFolderItem(e))
                 .Where(e => e != null)
@@ -62,8 +61,7 @@ namespace NeeView
         /// <summary>
         /// フォルダーリスト上での親フォルダーを取得
         /// </summary>
-        /// <returns></returns>
-        public override string GetParentPlace()
+        public override QueryPath GetParentQuery()
         {
             if (Place == null)
             {
@@ -71,15 +69,15 @@ namespace NeeView
             }
             else if (_archiver == null)
             {
-                return ArchiverManager.Current.GetExistPathName(this.Place);
+                return new QueryPath(ArchiverManager.Current.GetExistPathName(Place.SimplePath));
             }
             else if (_archiver.Parent != null)
             {
-                return _archiver.Parent.FullPath;
+                return new QueryPath(_archiver.Parent.FullPath);
             }
-            else 
+            else
             {
-                return LoosePath.GetDirectoryName(this.Place);
+                return Place.GetParent();
             }
         }
 
@@ -94,7 +92,7 @@ namespace NeeView
             {
                 Type = FolderItemType.ArchiveEntry,
                 ArchiveEntry = entry,
-                Place = entry.Archiver.FullPath,
+                Place = new QueryPath(entry.Archiver.FullPath),
                 Name = entry.EntryName,
                 LastWriteTime = entry.LastWriteTime ?? default(DateTime),
                 Length = entry.Length,

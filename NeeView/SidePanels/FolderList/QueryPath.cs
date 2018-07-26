@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NeeView
@@ -7,6 +8,9 @@ namespace NeeView
     {
         [AliasName("PC")]
         File = 0,
+
+        [AliasName("@WordRootFolder")]
+        Root,
 
         [AliasName("@WordBookmark")]
         Bookmark,
@@ -23,6 +27,7 @@ namespace NeeView
         static readonly Dictionary<QueryScheme, string> _map = new Dictionary<QueryScheme, string>()
         {
             [QueryScheme.File] = "file:",
+            [QueryScheme.Root] = "root:",
             [QueryScheme.Bookmark] = "bookmark:",
             [QueryScheme.Pagemark] = "pagemark:",
             [QueryScheme.QuickAccess] = "quickaccess:",
@@ -40,9 +45,10 @@ namespace NeeView
     }
 
     /// <summary>
-    /// パスのクエリパラメータを分解する
+    /// パスのクエリパラメータを分解する.
+    /// immutable.
     /// </summary>
-    public class QueryPath
+    public sealed class QueryPath : IEquatable<QueryPath>
     {
         static readonly string _querySearch = "?search=";
 
@@ -93,24 +99,32 @@ namespace NeeView
 
 
         /// <summary>
-        /// 完全パス
-        /// </summary>
-        public string FulPath => _scheme.ToSchemeString() + '\\' + _path;
-
-        /// <summary>
-        /// 簡略化したパス
-        /// </summary>
-        public string SimplePath => _scheme == QueryScheme.File ? _path : FulPath;
-
-        /// <summary>
         /// 完全クエリ
         /// </summary>
-        public string FullQuery => FulPath + (_search != null ? _querySearch + _search : null);
+        public string FullQuery => FullPath + (_search != null ? _querySearch + _search : null);
 
         /// <summary>
         /// 簡略化したクエリ
         /// </summary>
         public string SimpleQuery => SimplePath + (_search != null ? _querySearch + _search : null);
+
+
+        /// <summary>
+        /// 完全パス
+        /// </summary>
+        public string FullPath => _scheme.ToSchemeString() + '\\' + _path;
+
+        /// <summary>
+        /// 簡略化したパス
+        /// </summary>
+        public string SimplePath => _scheme == QueryScheme.File ? _path : FullPath;
+
+
+        public string FileName => LoosePath.GetFileName(_path);
+
+        public string DispName => (_path == null) ? _scheme.ToAliasName() : FileName;
+
+        public string DispPath => (_scheme == QueryScheme.File) ? (_path == null) ? _scheme.ToAliasName() : SimplePath : FullPath;
 
 
         private string TakeQuerySearch(string source, out string searchWord)
@@ -174,10 +188,92 @@ namespace NeeView
             return s;
         }
 
+        public QueryPath ReplacePath(string path)
+        {
+            var query = (QueryPath)this.MemberwiseClone();
+            query.Path = string.IsNullOrWhiteSpace(path) ? null : path;
+            return query;
+        }
+
+        public QueryPath ReplaceSearch(string search)
+        {
+            var query = (QueryPath)this.MemberwiseClone();
+            query.Search = string.IsNullOrWhiteSpace(search) ? null : search;
+            return query;
+        }
+
+        public QueryPath GetParent()
+        {
+            if (_path == null)
+            {
+                return null;
+            }
+
+            var parent = LoosePath.GetDirectoryName(_path);
+            return ReplacePath(parent);
+        }
+
+
+
         public override string ToString()
         {
             return FullQuery;
         }
 
+        #region IEquatable Support
+
+        public override int GetHashCode()
+        {
+            return _scheme.GetHashCode() ^ (_path == null ? 0 : _path.GetHashCode()) ^ (_search == null ? 0 : _search.GetHashCode());
+        }
+
+        public bool Equals(QueryPath obj)
+        {
+            if (obj is null)
+            {
+                return false;
+            }
+
+            return _scheme == obj._scheme && _path == obj._path && _search == obj._search;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is null || this.GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            return this.Equals((QueryPath)obj);
+        }
+
+
+        public static bool Equals(QueryPath a, QueryPath b)
+        {
+            if ((object)a == (object)b)
+            {
+                return true;
+            }
+
+            if ((object)a == null || (object)b == null)
+            {
+                return false;
+            }
+
+            return a.Equals(b);
+        }
+
+        // HACK: 等号の再定義はあまりよろしくない。
+        public static bool operator ==(QueryPath x, QueryPath y)
+        {
+            return Equals(x, y);
+        }
+
+        public static bool operator !=(QueryPath x, QueryPath y)
+        {
+            return !(Equals(x, y));
+        }
+
+        #endregion IEquatable Support
     }
 }

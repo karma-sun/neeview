@@ -185,7 +185,7 @@ namespace NeeView
         private void SetFolderListPlace(string path)
         {
             // TODO: リクエストの重複がありうる。キャンセル処理が必要?
-            FolderList.Current.RequestPlace(path, null, FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.ResetKeyword);
+            FolderList.Current.RequestPlace(new QueryPath(path), null, FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.ResetKeyword);
         }
 
         public void AddQuickAccess(object item)
@@ -345,8 +345,8 @@ namespace NeeView
 
         public void SyncDirectory(string place)
         {
-            var query = new QueryPath(place);
-            if (query.Scheme == QueryScheme.File)
+            var path = new QueryPath(place);
+            if (path.Scheme == QueryScheme.File)
             {
                 _rootFolder.RefreshDriveChildren();
             }
@@ -355,7 +355,7 @@ namespace NeeView
                 return;
             }
 
-            var node = GetDirectoryNode(query, true, true);
+            var node = GetDirectoryNode(path, true, true);
             if (node != null)
             {
                 var parent = node.Parent;
@@ -370,16 +370,16 @@ namespace NeeView
             }
         }
 
-        private FolderTreeNodeBase GetDirectoryNode(QueryPath query, bool createChildren, bool asFarAsPossible)
+        private FolderTreeNodeBase GetDirectoryNode(QueryPath path, bool createChildren, bool asFarAsPossible)
         {
-            switch (query.Scheme)
+            switch (path.Scheme)
             {
                 case QueryScheme.File:
-                    return _rootFolder.GetFolderTreeNode(query.Path, createChildren, asFarAsPossible);
+                    return _rootFolder.GetFolderTreeNode(path.Path, createChildren, asFarAsPossible);
                 case QueryScheme.Bookmark:
-                    return _rootBookmarkFolder.GetFolderTreeNode(query.Path, createChildren, asFarAsPossible);
+                    return _rootBookmarkFolder.GetFolderTreeNode(path.Path, createChildren, asFarAsPossible);
                 case QueryScheme.QuickAccess:
-                    return _rootBookmarkFolder.GetFolderTreeNode(query.Path, createChildren, asFarAsPossible);
+                    return _rootBookmarkFolder.GetFolderTreeNode(path.Path, createChildren, asFarAsPossible);
                 default:
                     throw new NotImplementedException();
             }

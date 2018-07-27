@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace NeeView
@@ -14,14 +15,11 @@ namespace NeeView
     /// </summary>
     public class ThumbnailBitmap : BindableBase
     {
-        /// <summary>
-        /// BitmapSource property.
-        /// </summary>
-        private BitmapSource _bitmapSource;
-        public BitmapSource BitmapSource
+        private ImageSource _imageSource;
+        public ImageSource ImageSource
         {
-            get { return _bitmapSource; }
-            set { if (_bitmapSource != value) { _bitmapSource = value; RaisePropertyChanged(); } }
+            get { return _imageSource; }
+            set { if (_imageSource != value) { _imageSource = value; RaisePropertyChanged(); } }
         }
 
         /// <summary>
@@ -57,7 +55,7 @@ namespace NeeView
             }
             else
             {
-                BitmapSource = null;
+                ImageSource = null;
             }
 
             RaisePropertyChanged(nameof(Thumbnail));
@@ -89,7 +87,7 @@ namespace NeeView
             if (Thumbnail != null && Thumbnail.IsValid)
             {
                 // BitmapSource生成 (非同期)
-                BitmapSource = await Task.Run(() => Thumbnail?.BitmapSource);
+                ImageSource = await Task.Run(() => Thumbnail?.BitmapSource);
             }
         }
     }

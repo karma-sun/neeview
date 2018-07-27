@@ -14,10 +14,80 @@ using System.Windows.Media.Imaging;
 namespace NeeView
 {
     /// <summary>
+    /// サムネイル用インターフェイス
+    /// </summary>
+    public interface IThumbnail
+    {
+        ImageSource BitmapSource { get; }
+        double Width { get; }
+        double Height { get; }
+
+        bool IsUniqueImage { get; }
+        Brush Background { get; }
+    }
+
+    /// <summary>
+    /// 固定サムネイル.
+    /// 画像リソースを外部から指定する
+    /// </summary>
+    public class ConstThumbnail : IThumbnail
+    {
+        public ConstThumbnail(ImageSource source)
+        {
+            BitmapSource = source;
+        }
+
+        public ImageSource BitmapSource { get; }
+        public bool IsUniqueImage => false;
+        public Brush Background => Brushes.Transparent;
+
+
+        public double Width
+        {
+            get
+            {
+                if (BitmapSource is null)
+                {
+                    return 0.0;
+                }
+                else if (BitmapSource is BitmapSource bitmapSource)
+                {
+                    return bitmapSource.PixelWidth;
+                }
+                else
+                {
+                    var aspectRatio = BitmapSource.Width / BitmapSource.Height;
+                    return aspectRatio < 1.0 ? 256.0 * aspectRatio : 256.0;
+                }
+            }
+
+        }
+        public double Height
+        {
+            get
+            {
+                if (BitmapSource is null)
+                {
+                    return 0.0;
+                }
+                else if (BitmapSource is BitmapSource bitmapSource)
+                {
+                    return bitmapSource.PixelHeight;
+                }
+                else
+                {
+                    var aspectRatio = BitmapSource.Width / BitmapSource.Height;
+                    return aspectRatio < 1.0 ? 256.0 : 256.0 / aspectRatio;
+                }
+            }
+        }
+    }
+
+    /// <summary>
     /// サムネイル.
     /// Jpegで保持し、必要に応じてBitmapSourceを生成
     /// </summary>
-    public class Thumbnail : BindableBase
+    public class Thumbnail : BindableBase, IThumbnail
     {
         /// <summary>
         /// 有効判定
@@ -52,6 +122,8 @@ namespace NeeView
                         Changed?.Invoke(this, null);
                         Touched?.Invoke(this, null);
                         RaisePropertyChanged(nameof(BitmapSource));
+                        RaisePropertyChanged(nameof(Width));
+                        RaisePropertyChanged(nameof(Height));
                         RaisePropertyChanged(nameof(IsUniqueImage));
                         RaisePropertyChanged(nameof(Background));
                     }
@@ -68,7 +140,11 @@ namespace NeeView
         /// <summary>
         /// View用Bitmapプロパティ
         /// </summary>
-        public BitmapSource BitmapSource => CreateBitmap();
+        public ImageSource BitmapSource => CreateBitmap();
+
+        public double Width => BitmapSource is BitmapSource bitmap ? bitmap.PixelWidth : 0;
+        public double Height => BitmapSource is BitmapSource bitmap ? bitmap.PixelHeight : 0;
+
 
         /// <summary>
         /// View用Bitmapの背景プロパティ

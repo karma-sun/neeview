@@ -23,7 +23,8 @@ namespace NeeView
         ArchiveEntry = (1 << 4),
         Bookmark = (1 << 5),
         Pagemark = (1 << 6),
-        System = (1 << 7),
+        QuickAccess = (1 << 7),
+        System = (1 << 8),
     }
 
     /// <summary>
@@ -195,31 +196,6 @@ namespace NeeView
         public bool IsOverlayStar => IconOverlay == FolderItemIconOverlay.Star;
         public bool IsOverlayChecked => IconOverlay == FolderItemIconOverlay.Checked;
 
-        private BitmapSource _icon;
-        public BitmapSource Icon
-        {
-            get
-            {
-                if (_icon == null && !IsEmpty)
-                {
-                    _icon = FileSystem.GetTypeIconSource(TargetPath.SimplePath, FileSystem.IconSize.Normal);
-                }
-                return _icon;
-            }
-        }
-
-        private BitmapSource _iconSmall;
-        public BitmapSource IconSmall
-        {
-            get
-            {
-                if (_iconSmall == null && !IsEmpty)
-                {
-                    _iconSmall = FileSystem.GetTypeIconSource(TargetPath.SimplePath, FileSystem.IconSize.Small);
-                }
-                return _iconSmall;
-            }
-        }
 
         // サムネイル用
         private Page _archivePage;
@@ -262,9 +238,9 @@ namespace NeeView
 
         public string Detail => Name;
 
-        public virtual Thumbnail Thumbnail => ArchivePage?.Thumbnail;
+        public virtual IThumbnail Thumbnail => ArchivePage?.Thumbnail;
 
-        public Page GetPage()
+        public virtual Page GetPage()
         {
             return ArchivePage;
         }
@@ -280,7 +256,7 @@ namespace NeeView
 
         public bool IsFileSystem()
         {
-            return (Attributes & (FolderItemAttribute.Bookmark | FolderItemAttribute.Pagemark | FolderItemAttribute.Empty | FolderItemAttribute.None)) == 0;
+            return (Attributes & (FolderItemAttribute.System | FolderItemAttribute.Bookmark | FolderItemAttribute.Pagemark | FolderItemAttribute.Empty | FolderItemAttribute.None)) == 0;
         }
 
         /// <summary>

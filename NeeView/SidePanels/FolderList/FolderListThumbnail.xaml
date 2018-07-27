@@ -19,7 +19,7 @@
            ToolTipOpening="Image_ToolTipOpening"
            ToolTipService.IsEnabled="{Binding IsUniqueImage}">
             <Image.ToolTip>
-                <Image Source="{Binding BitmapSource}" Width="{Binding BitmapSource.PixelWidth}" />
+                <Image Source="{Binding BitmapSource}"/>
             </Image.ToolTip>
         </Image>
     </Grid>

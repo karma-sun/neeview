@@ -248,60 +248,22 @@ namespace NeeView
         {
             var path = new QueryPath(queryPath);
 
-            if (path.Scheme == QueryScheme.Bookmark)
+            if (path.Path == null)
             {
-                return App.Current.Resources["ic_grade_24px"] as ImageSource;
+                return path.Scheme.ToImage();
             }
-            else if (path.Scheme == QueryScheme.File)
+            else if (path.Scheme == QueryScheme.Bookmark)
             {
-                if (path.Path == null)
-                {
-                    return MainWindow.Current.Resources["ic_desktop_windows_24px"] as ImageSource;
-                }
-                else if (path.Search != null)
-                {
-                    return MainWindow.Current.Resources["ic_search_24px"] as ImageSource;
-                }
-                else
-                {
-                    return FileIconCollection.Current.CreateDefaultFolderIcon(16.0);
-                }
+                return path.Scheme.ToImage();
             }
-
-            return null;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class PathToDispPathConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is string path)
+            else if (path.Search != null)
             {
-                var scheme = QueryScheme.Bookmark.ToSchemeString();
-                if (path.StartsWith(scheme))
-                {
-                    path = path.Substring(scheme.Length).TrimStart('\\');
-                    if (string.IsNullOrEmpty(path))
-                    {
-                        path = Properties.Resources.WordBookmark;
-                    }
-                    else
-                    {
-                        path = Properties.Resources.WordBookmark + ":\\" + path;
-                    }
-                }
-
-                return path;
-                //return path.Replace("\\", " > ");
+                return MainWindow.Current.Resources["ic_search_24px"] as ImageSource;
             }
-
-            return value;
+            else
+            {
+                return FileIconCollection.Current.CreateDefaultFolderIcon(16.0);
+            }
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

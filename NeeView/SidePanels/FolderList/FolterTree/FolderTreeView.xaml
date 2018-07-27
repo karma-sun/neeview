@@ -20,7 +20,7 @@
 
         <Style x:Key="NodeTextBlockStyle" TargetType="{x:Type TextBlock}">
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="Margin" Value="5,0,0,0"/>
             <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
             <Setter Property="FontSize" Value="{DynamicResource FolderTreeFontSize}"/>
         </Style>
@@ -34,6 +34,7 @@
                   ItemsSource="{Binding Model.Root.Children}"
                   SelectedItemChanged="TreeView_SelectedItemChanged"
                   IsVisibleChanged="TreeView_IsVisibleChanged"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
                   AllowDrop="True"
                   DragEnter="TreeView_DragEnter"
                   DragLeave="TreeView_DragLeave"

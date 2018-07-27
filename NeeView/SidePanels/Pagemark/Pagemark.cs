@@ -56,7 +56,7 @@ namespace NeeView
         public string Note => LoosePath.GetFileName(Place);
         public string Detail => Place + "\n" + EntryName;
 
-        public Thumbnail Thumbnail
+        public IThumbnail Thumbnail
         {
             get
             {

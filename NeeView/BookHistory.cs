@@ -12,7 +12,7 @@ namespace NeeView
     {
         string Note { get; }
         string Detail { get; }
-        Thumbnail Thumbnail { get; }
+        IThumbnail Thumbnail { get; }
     }
 
     [DataContract]
@@ -61,7 +61,7 @@ namespace NeeView
         public string Note => Unit.ArchivePage.Content.Entry.RootArchiverName;
         public string Detail => Place + "\n" + LastAccessTime;
 
-        public Thumbnail Thumbnail => Unit.ArchivePage.Thumbnail;
+        public IThumbnail Thumbnail => Unit.ArchivePage.Thumbnail;
 
         private BookMementoUnit _unit;
         public BookMementoUnit Unit

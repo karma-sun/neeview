@@ -89,6 +89,7 @@ namespace NeeView
         #region Commands
 
         public static readonly RoutedCommand LoadWithRecursiveCommand = new RoutedCommand("LoadWithRecursiveCommand", typeof(FolderListBox));
+        public static readonly RoutedCommand OpenCommand = new RoutedCommand("OpenCommand", typeof(FolderListBox));
         public static readonly RoutedCommand OpenExplorerCommand = new RoutedCommand("OpenExplorerCommand", typeof(FolderListBox));
         public static readonly RoutedCommand CopyCommand = new RoutedCommand("CopyCommand", typeof(FolderListBox));
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(FolderListBox));
@@ -104,6 +105,7 @@ namespace NeeView
         private void InitializeCommand()
         {
             this.ListBox.CommandBindings.Add(new CommandBinding(LoadWithRecursiveCommand, LoadWithRecursive_Executed, LoadWithRecursive_CanExecute));
+            this.ListBox.CommandBindings.Add(new CommandBinding(OpenCommand, Open_Executed));
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenExplorerCommand, OpenExplorer_Executed));
             this.ListBox.CommandBindings.Add(new CommandBinding(CopyCommand, Copy_Executed, Copy_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Executed, FileCommand_CanExecute));
@@ -138,7 +140,7 @@ namespace NeeView
 
             // サブフォルダー読み込み状態を反転する
             var option = item.IsRecursived ? BookLoadOption.NotRecursive : BookLoadOption.Recursive;
-            _vm.Model.LoadBook(item.TargetPath, option);
+            _vm.Model.LoadBook(item, option);
         }
 
         /// <summary>
@@ -282,7 +284,7 @@ namespace NeeView
             var item = this.ListBox.SelectedItem as FolderItem;
             if (item != null)
             {
-                _vm.Model.LoadBook(item.TargetPath);
+                _vm.Model.LoadBook(item);
             }
 
             // リネーム発動
@@ -307,6 +309,15 @@ namespace NeeView
                 var path = item.IsFileSystem() ? item.Path.SimplePath : item.TargetPath.SimplePath;
                 path = item.Attributes.AnyFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.ArchiveEntry | FolderItemAttribute.Empty) ? ArchiverManager.Current.GetExistPathName(path) : path;
                 System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + path + "\"");
+            }
+        }
+
+        public void Open_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as FolderItem;
+            if (item != null)
+            {
+                _vm.MoveToSafety(item);
             }
         }
 
@@ -614,10 +625,10 @@ namespace NeeView
                 return;
             }
 
-            var folderInfo = (sender as ListBoxItem)?.Content as FolderItem;
-            if (folderInfo != null && !folderInfo.IsEmpty)
+            var item = (sender as ListBoxItem)?.Content as FolderItem;
+            if (item != null && !item.IsEmpty)
             {
-                _vm.Model.LoadBook(folderInfo.TargetPath);
+                _vm.Model.LoadBook(item);
                 e.Handled = true;
             }
         }
@@ -625,8 +636,8 @@ namespace NeeView
         //
         private void FolderListItem_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            var folderInfo = (sender as ListBoxItem)?.Content as FolderItem;
-            _vm.MoveToSafety(folderInfo);
+            var item = (sender as ListBoxItem)?.Content as FolderItem;
+            _vm.MoveToSafety(item);
 
             e.Handled = true;
         }
@@ -635,21 +646,21 @@ namespace NeeView
         private void FolderListItem_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             bool isLRKeyEnabled = SidePanelProfile.Current.IsLeftRightKeyEnabled;
-            var folderInfo = (sender as ListBoxItem)?.Content as FolderItem;
+            var item = (sender as ListBoxItem)?.Content as FolderItem;
 
             if (e.Key == Key.Return)
             {
-                _vm.Model.LoadBook(folderInfo.TargetPath);
+                _vm.Model.LoadBook(item);
                 e.Handled = true;
             }
             else if (isLRKeyEnabled && e.Key == Key.Right) // →
             {
-                _vm.MoveToSafety(folderInfo);
+                _vm.MoveToSafety(item);
                 e.Handled = true;
             }
             else if ((isLRKeyEnabled && e.Key == Key.Left) || e.Key == Key.Back) // ← Backspace
             {
-                if (folderInfo != null)
+                if (item != null)
                 {
                     _vm.MoveToUp.Execute(null);
                 }
@@ -716,7 +727,12 @@ namespace NeeView
 
             contextMenu.Items.Clear();
 
-            if (item.Attributes.HasFlag(FolderItemAttribute.Bookmark))
+
+            if (item.Attributes.HasFlag(FolderItemAttribute.System))
+            {
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuOpen, Command = OpenCommand });
+            }
+            else if (item.Attributes.HasFlag(FolderItemAttribute.Bookmark))
             {
                 if (item.IsDirectory)
                 {
@@ -740,7 +756,7 @@ namespace NeeView
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuExplorer, Command = OpenExplorerCommand, IsEnabled = canExplorer });
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuCopy, Command = CopyCommand, IsEnabled = false });
             }
-            else
+            else if (item.IsFileSystem())
             {
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuSubfolder, Command = LoadWithRecursiveCommand, IsChecked = item.IsRecursived });
                 contextMenu.Items.Add(new Separator());

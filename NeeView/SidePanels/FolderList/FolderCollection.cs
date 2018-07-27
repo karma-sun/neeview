@@ -207,7 +207,12 @@ namespace NeeView
                 return null;
             }
 
-            return Place.GetParent();
+            if (Place.Scheme == QueryScheme.Root)
+            {
+                return null;
+            }
+
+            return Place.GetParent() ?? new QueryPath(QueryScheme.Root, null);
         }
 
         /// <summary>

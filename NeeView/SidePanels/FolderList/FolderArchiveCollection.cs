@@ -77,7 +77,7 @@ namespace NeeView
             }
             else
             {
-                return Place.GetParent();
+                return base.GetParentQuery();
             }
         }
 

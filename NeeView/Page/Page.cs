@@ -19,7 +19,7 @@ namespace NeeView
     /// <summary>
     /// ページ
     /// </summary>
-    public abstract class Page : BindableBase, IBookListItem
+    public abstract class Page : BindableBase
     {
         #region 開発用
 

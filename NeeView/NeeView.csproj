@@ -211,6 +211,7 @@
     <Compile Include="SidePanels\FolderList\QueryPath.cs" />
     <Compile Include="SidePanels\FolderList\QuickAccess.cs" />
     <Compile Include="SidePanels\FolderList\QuickAccessCollection.cs" />
+    <Compile Include="SidePanels\FolderList\QuickAccessFolderCollection.cs" />
     <Compile Include="SidePanels\FolderList\RootFolderCollection.cs" />
     <Compile Include="Toast.cs" />
     <Compile Include="Controls\ToastCard.xaml.cs">

@@ -24,7 +24,15 @@ namespace NeeView
         // フォルダーコレクション作成
         public async Task<FolderCollection> CreateFolderCollectionAsync(QueryPath path, bool isActive, CancellationToken token)
         {
-            if (path.Scheme == QueryScheme.Bookmark)
+            if (path.Scheme == QueryScheme.Root)
+            {
+                return CreateRootFolderCollection(path, isActive);
+            }
+            else if (path.Scheme == QueryScheme.QuickAccess)
+            {
+                return CreateQuickAccessFolderCollection(path, isActive);
+            }
+            else if (path.Scheme == QueryScheme.Bookmark)
             {
                 return await CreateBookmarkFolderCollectionAsync(path, isActive, token);
             }
@@ -148,6 +156,22 @@ namespace NeeView
         private FolderCollection CreateBookmarkFolderCollection(QueryPath path, bool isActive)
         {
             return new BookmarkFolderCollection(path);
+        }
+
+        /// <summary>
+        /// FolderCollecion作成(Root)
+        /// </summary>
+        private FolderCollection CreateRootFolderCollection(QueryPath path, bool isActive)
+        {
+            return new RootFolderCollection();
+        }
+
+        /// <summary>
+        /// FolderCollecion作成(クイックアクセス)
+        /// </summary>
+        private FolderCollection CreateQuickAccessFolderCollection(QueryPath path, bool isActive)
+        {
+            return new QuickAccessFolderCollection();
         }
 
         #endregion

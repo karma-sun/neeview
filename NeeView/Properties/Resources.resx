@@ -4263,4 +4263,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="FolderTreeMenuAddBookmark" xml:space="preserve">
     <value>Add bookmark</value>
   </data>
+  <data name="WordBookshelf" xml:space="preserve">
+    <value>Bookshelf</value>
+  </data>
+  <data name="FolderListItemMenuOpen" xml:space="preserve">
+    <value>Open</value>
+  </data>
 </root>

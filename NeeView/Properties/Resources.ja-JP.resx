@@ -4263,4 +4263,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="FolderTreeMenuAddBookmark" xml:space="preserve">
     <value>ブックマークを追加</value>
   </data>
+  <data name="WordBookshelf" xml:space="preserve">
+    <value>本棚</value>
+  </data>
+  <data name="FolderListItemMenuOpen" xml:space="preserve">
+    <value>開く</value>
+  </data>
 </root>

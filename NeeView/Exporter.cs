@@ -55,19 +55,19 @@ namespace NeeView
 
             await Page.LoadThumbnailAsync(QueueElementPriority.Top);
 
-            BitmapSource source = Page.Thumbnail.BitmapSource;
+            var source = Page.Thumbnail.BitmapSource;
 
             return CreateVisualContent(source, new Size(Page.Width, Page.Height), maxSize, isShadowEffect);
         }
 
 
         // サムネイル作成
-        private static FrameworkElement CreateVisualContent(BitmapSource bitmapSource, Size sourceSize, Size maxSize, bool isShadowEffect)
+        private static FrameworkElement CreateVisualContent(ImageSource imageSource, Size sourceSize, Size maxSize, bool isShadowEffect)
         {
-            if (bitmapSource == null) return null;
+            if (imageSource == null) return null;
 
             var image = new Image();
-            image.Source = bitmapSource;
+            image.Source = imageSource;
 
             var scaleX = sourceSize.Width > maxSize.Width ? maxSize.Width / sourceSize.Width : 1.0;
             var scaleY = sourceSize.Height > maxSize.Height ? maxSize.Height / sourceSize.Height : 1.0;

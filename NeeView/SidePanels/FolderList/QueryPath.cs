@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Media;
 
 namespace NeeView
 {
@@ -9,7 +10,7 @@ namespace NeeView
         [AliasName("PC")]
         File = 0,
 
-        [AliasName("@WordRootFolder")]
+        [AliasName("@WordBookshelf")]
         Root,
 
         [AliasName("@WordBookmark")]
@@ -33,6 +34,15 @@ namespace NeeView
             [QueryScheme.QuickAccess] = "quickaccess:",
         };
 
+        static readonly Dictionary<QueryScheme, ImageSource> _imageMap = new Dictionary<QueryScheme, ImageSource>()
+        {
+            [QueryScheme.File] = MainWindow.Current.Resources["ic_desktop_windows_24px"] as ImageSource,
+            [QueryScheme.Root] = MainWindow.Current.Resources["ic_bookshelf"] as ImageSource,
+            [QueryScheme.Bookmark] = App.Current.Resources["ic_grade_24px"] as ImageSource,
+            [QueryScheme.Pagemark] = App.Current.Resources["ic_bookmark_24px"] as ImageSource,
+            [QueryScheme.QuickAccess] = MainWindow.Current.Resources["ic_lightning"] as ImageSource,
+        };
+
         public static string ToSchemeString(this QueryScheme scheme)
         {
             return _map[scheme];
@@ -41,6 +51,11 @@ namespace NeeView
         public static QueryScheme GetScheme(string path)
         {
             return _map.FirstOrDefault(e => path.StartsWith(e.Value)).Key;
+        }
+
+        public static ImageSource ToImage(this QueryScheme scheme)
+        {
+            return _imageMap[scheme];
         }
     }
 
@@ -71,6 +86,13 @@ namespace NeeView
         public QueryPath(QueryScheme scheme, string path, string search)
         {
             _search = string.IsNullOrWhiteSpace(search) ? null : search;
+            _scheme = scheme;
+            _path = GetValidatePath(path, _scheme);
+        }
+
+        public QueryPath(QueryScheme scheme, string path)
+        {
+            _search = null;
             _scheme = scheme;
             _path = GetValidatePath(path, _scheme);
         }
@@ -124,8 +146,7 @@ namespace NeeView
 
         public string DispName => (_path == null) ? _scheme.ToAliasName() : FileName;
 
-        public string DispPath => (_scheme == QueryScheme.File) ? (_path == null) ? _scheme.ToAliasName() : SimplePath : FullPath;
-
+        public string DispPath => (_path == null) ? _scheme.ToAliasName() : SimplePath;
 
         private string TakeQuerySearch(string source, out string searchWord)
         {

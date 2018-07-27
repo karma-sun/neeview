@@ -18,7 +18,7 @@ namespace NeeView
         public string Note => null;
         public string Detail => null;
 
-        public Thumbnail Thumbnail
+        public IThumbnail Thumbnail
         {
             get
             {

@@ -3,12 +3,36 @@ using System.Collections.ObjectModel;
 
 namespace NeeView
 {
+    /// <summary>
+    /// 固定表示用FolderItem.
+    /// </summary>
+    public class ConstFolderItem : FolderItem
+    {
+        public ConstFolderItem(IThumbnail thumbnail)
+        {
+            this.Thumbnail = thumbnail;
+        }
+
+        public override IThumbnail Thumbnail { get; }
+
+        public override Page GetPage()
+        {
+            return null;
+        }
+    }
+
+
+    /// <summary>
+    /// 最上位のフォルダーコレクション (Root)
+    /// </summary>
     public class RootFolderCollection : FolderCollection, IDisposable
     {
-        public RootFolderCollection() : base(new QueryPath(QueryScheme.Root, null, null), false)
+        public RootFolderCollection() : base(new QueryPath(QueryScheme.Root, null), false)
         {
             var items = new ObservableCollection<FolderItem>();
 
+            // NOTE: 操作に難があるため、クイックアクセスは表示しない
+            //items.Add(CreateFolderItem(QueryScheme.QuickAccess));
             items.Add(CreateFolderItem(QueryScheme.File));
             items.Add(CreateFolderItem(QueryScheme.Bookmark));
 
@@ -17,16 +41,18 @@ namespace NeeView
 
         private FolderItem CreateFolderItem(QueryScheme scheme)
         {
-            return new FolderItem()
+            return new ConstFolderItem(new ConstThumbnail(scheme.ToImage()))
             {
                 Source = scheme,
                 Type = FolderItemType.Directory,
-                Place = new QueryPath(scheme, null, null),
+                Place = Place,
                 Name = scheme.ToAliasName(),
+                TargetPath = new QueryPath(scheme, null),
                 Length = -1,
                 Attributes = FolderItemAttribute.Directory | FolderItemAttribute.System,
                 IsReady = true
             };
         }
     }
+
 }

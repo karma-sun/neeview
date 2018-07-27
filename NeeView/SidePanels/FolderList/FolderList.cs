@@ -535,7 +535,7 @@ namespace NeeView
             if (pos.Index >= 0)
             {
                 var item = this.FolderCollection.Items.ElementAtOrDefault(pos.Index);
-                if (item.Path == pos.Path)
+                if (item != null && item.Path == pos.Path)
                 {
                     return item;
                 }
@@ -840,18 +840,29 @@ namespace NeeView
         }
 
         // ブックの読み込み
-        public void LoadBook(QueryPath path)
+        public void LoadBook(FolderItem item)
         {
-            if (path == null) return;
+            if (item == null) return;
 
             BookLoadOption option = BookLoadOption.SkipSamePlace | (this.FolderCollection.FolderParameter.IsFolderRecursive ? BookLoadOption.DefaultRecursive : BookLoadOption.None);
-            LoadBook(path, option);
+            LoadBook(item, option);
         }
 
         // ブックの読み込み
-        public void LoadBook(QueryPath path, BookLoadOption option)
+        public void LoadBook(FolderItem item, BookLoadOption option)
         {
-            _bookHub.RequestLoad(path.SimplePath, null, option | BookLoadOption.IsBook, false);
+            if (item.Attributes.HasFlag(FolderItemAttribute.System))
+            {
+                return;
+            }
+
+            var query = item.TargetPath;
+            if (query.Path == null)
+            {
+                return;
+            }
+
+            _bookHub.RequestLoad(query.SimplePath, null, option | BookLoadOption.IsBook, false);
         }
 
         // 現在の場所のフォルダーの並び順
@@ -1215,23 +1226,19 @@ namespace NeeView
         //
         public bool MoveToParent_CanExecute()
         {
-            return Place != null && Place.GetParent() != null;
+            return this.FolderCollection?.GetParentQuery() != null;
         }
 
         //
         public async void MoveToParent_Execute()
         {
-            if (!MoveToParent_CanExecute())
+            var parent = this.FolderCollection?.GetParentQuery();
+            if (parent == null)
             {
                 return;
             }
 
-            var parent = this.FolderCollection?.GetParentQuery();
-            if (parent != null)
-            {
-                await SetPlaceAsync(parent, new FolderItemPosition(Place), FolderSetPlaceOption.Focus | FolderSetPlaceOption.UpdateHistory);
-            }
-
+            await SetPlaceAsync(parent, new FolderItemPosition(Place), FolderSetPlaceOption.Focus | FolderSetPlaceOption.UpdateHistory);
             CloseBookIfNecessary();
         }
 

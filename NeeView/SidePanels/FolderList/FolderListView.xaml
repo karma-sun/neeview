@@ -103,7 +103,6 @@
 
         <local:FolderTreeLayoutToBooleanConverter x:Key="FolderTreeLayoutToBooleanConverter"/>
         <local:PathToPlaceIconConverter x:Key="PathToPlaceIconConverter"/>
-        <local:PathToDispPathConverter x:Key="PathToDispPathConverter"/>
 
     </UserControl.Resources>
 
@@ -127,7 +126,7 @@
                             <Image DockPanel.Dock="Right" Source="{StaticResource fic_recursive_folder_24px}" Width="12" Height="12" VerticalAlignment="Center" Margin="0,2,0,0"
                            ToolTip="{x:Static properties:Resources.FolderListSubFolderTips}"
                            Visibility="{Binding IsFolderRecursive, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                            <TextBlock Text="{Binding Place, Converter={StaticResource PathToDispPathConverter}}" ToolTip="{Binding Place}" Margin="5,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Place}" ToolTip="{Binding Place}" Margin="5,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                         </DockPanel>
                     </DockPanel>
                 </Grid>

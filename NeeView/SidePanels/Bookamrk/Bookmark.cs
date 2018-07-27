@@ -53,7 +53,7 @@ namespace NeeView
         public string Note => Unit.ArchivePage.Content.Entry.RootArchiverName;
         public string Detail => Unit.Memento.Place;
 
-        public Thumbnail Thumbnail
+        public IThumbnail Thumbnail
         {
             get
             {

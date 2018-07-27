@@ -6782,6 +6782,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Open に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FolderListItemMenuOpen {
+            get {
+                return ResourceManager.GetString("FolderListItemMenuOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Rena_me に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FolderListItemMenuRename {
@@ -11885,6 +11894,15 @@ namespace NeeView.Properties {
         public static string WordBookmark {
             get {
                 return ResourceManager.GetString("WordBookmark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bookshelf に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordBookshelf {
+            get {
+                return ResourceManager.GetString("WordBookshelf", resourceCulture);
             }
         }
         

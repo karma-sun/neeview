@@ -139,7 +139,7 @@ namespace NeeView
         /// </summary>
         /// <param name="bitmap"></param>
         /// <returns></returns>
-        public ImageBrush CreatePageImageBrush(BitmapSource bitmap, bool isStretch)
+        public ImageBrush CreatePageImageBrush(ImageSource bitmap, bool isStretch)
         {
             var brush = new ImageBrush();
             brush.ImageSource = bitmap;
@@ -157,12 +157,12 @@ namespace NeeView
         /// ページ用画像ブラシの画像を差し替えて複製
         /// </summary>
         /// <param name="source"></param>
-        /// <param name="bitmap"></param>
+        /// <param name="image"></param>
         /// <returns></returns>
-        public ImageBrush ClonePageImageBrush(ImageBrush source, BitmapSource bitmap)
+        public ImageBrush ClonePageImageBrush(ImageBrush source, ImageSource image)
         {
             var brush = source.Clone();
-            brush.ImageSource = bitmap;
+            brush.ImageSource = image;
             brush.Freeze();
 
             return brush;

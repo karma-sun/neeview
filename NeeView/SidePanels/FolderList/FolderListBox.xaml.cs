@@ -434,6 +434,22 @@ namespace NeeView
                         }
                     }
                 }
+
+                // query path
+                var query = (QueryPath)e.Data.GetData(typeof(QueryPath));
+                if (query != null)
+                {
+                    if (node.Value is BookmarkFolder && query.Scheme == QueryScheme.File)
+                    {
+                        if (isDrop)
+                        {
+                            BookmarkCollectionHelper.AddToChild(node, query);
+                        }
+                        e.Effects = DragDropEffects.Copy;
+                        e.Handled = true;
+                        return;
+                    }
+                }
             }
 
             e.Effects = DragDropEffects.None;

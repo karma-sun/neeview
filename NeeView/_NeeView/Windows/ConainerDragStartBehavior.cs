@@ -245,7 +245,8 @@ namespace NeeView.Windows
         }
 
         /// <summary>
-        /// ドラッグがターゲットの外にある時に自動スクロールさせる
+        /// ドラッグがターゲットの外にある時に自動スクロールさせる.
+        /// HACK: 自動スクロールは受け入れ側で実装すべき
         /// </summary>
         private void AutoScroll(object sender, QueryContinueDragEventArgs e)
         {

@@ -21,7 +21,7 @@ namespace NeeView
                 (s, e) => SetAddress(BookHub.Current.Address);
 
             BookHub.Current.BookChanged +=
-                (s, e) => RaisePropertyChanged(nameof(IsBookmark));
+                (s, e) => SetAddress(BookHub.Current.Address);
 
             BookHub.Current.BookmarkChanged +=
                 (s, e) => RaisePropertyChanged(nameof(IsBookmark));
@@ -44,14 +44,7 @@ namespace NeeView
                         Load(value);
                     }
                 }
-                RaisePropertyChanged(nameof(IsBookmark));
             }
-        }
-
-        private void SetAddress(string address)
-        {
-            _address = address;
-            RaisePropertyChanged(nameof(Address));
         }
 
         //
@@ -60,6 +53,42 @@ namespace NeeView
             get { return BookmarkCollection.Current.Contains(Address); }
         }
 
+        //
+        public string BookName => LoosePath.GetFileName(_address);
+
+        public bool IsBookEnabled => BookHub.Current.Book != null;
+
+        public string BookDetail
+        {
+            get
+            {
+                var text = BookHub.Current.GetBookDetail();
+                if (text is null)
+                {
+                    var query = new QueryPath(_address);
+                    if (query.Scheme == QueryScheme.Bookmark)
+                    {
+                        text = Properties.Resources.BookAddressInfoBookmark;
+                    }
+                }
+                return text ?? Properties.Resources.BookAddressInfoInvalid;
+            }
+        }
+
+
+
+
+        private void SetAddress(string address)
+        {
+            _address = address;
+            RaisePropertyChanged(null);
+            /*
+            RaisePropertyChanged(nameof(Address));
+            RaisePropertyChanged(nameof(IsBookmark));
+            RaisePropertyChanged(nameof(BookName));
+            RaisePropertyChanged(nameof(BookDetail));
+            */
+        }
 
         // フォルダー読み込み
         // TODO: BookHubへ？

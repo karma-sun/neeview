@@ -135,12 +135,42 @@
                         </TextBlock>
                     </Button>
 
-                    <TextBox x:Name="AddressTextBox" Text="{Binding Model.Address}" BorderThickness="0" VerticalAlignment="Center" Margin="5,0"
-                                             KeyDown="AddressTextBox_KeyDown"/>
+                    <DockPanel x:Name="AddressGroup" Background="White">
+                        <Button x:Name="BookButton" Style="{StaticResource IconButton}" Width="26"
+                                Click="BookButton_Click"
+                                PreviewMouseLeftButtonDown="BookButton_MouseLeftButtonDown"
+                                PreviewMouseLeftButtonUp="BookButton_MouseLeftButtonUp"
+                                PreviewMouseMove="BookButton_MouseMove"
+                                QueryContinueDrag="BookButton_QueryContinueDrag">
+                            <Image Source="{StaticResource ic_info_outline_24px}" Width="16"/>
+                        </Button>
+                        <TextBox x:Name="AddressTextBox" Text="{Binding Model.Address}" BorderThickness="0" VerticalAlignment="Center"   KeyDown="AddressTextBox_KeyDown"/>
+                    </DockPanel>
+
                 </DockPanel>
             </Border>
 
         </DockPanel>
+        
+        <Popup x:Name="BookPopup" PlacementTarget="{Binding ElementName=BookButton}" StaysOpen="False" AllowsTransparency="True">
+            <Grid Margin="5">
+                <Grid.Effect>
+                    <DropShadowEffect Opacity="0.5" ShadowDepth="2"/>
+                </Grid.Effect>
+                <Grid.Resources>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="FontSize" Value="12"/>
+                    </Style>
+                </Grid.Resources>
+                <Grid Background="White">
+                    <StackPanel Margin="10" MinWidth="160">
+                        <TextBlock FontWeight="Bold" Text="{Binding Model.BookName}"/>
+                        <Separator/>
+                        <TextBlock Text="{Binding Model.BookDetail}"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Popup>
     </Grid>
 
 </UserControl>

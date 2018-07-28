@@ -338,6 +338,27 @@ namespace NeeView
         }
 
 
+        public ArchiverType GetArchiverType(Archiver archiver)
+        {
+            switch (archiver)
+            {
+                case FolderArchive folderArchive:
+                    return ArchiverType.FolderArchive;
+                case ZipArchiver zipArchiver:
+                    return ArchiverType.ZipArchiver;
+                case SevenZipArchiver sevenZipArchiver:
+                    return ArchiverType.SevenZipArchiver;
+                case PdfArchiver pdfArchiver:
+                    return ArchiverType.PdfArchiver;
+                case MediaArchiver mediaArchiver:
+                    return ArchiverType.MediaArchiver;
+                case SusieArchiver susieArchiver:
+                    return ArchiverType.SusieArchiver;
+                default:
+                    return ArchiverType.None;
+            }
+        }
+
         #endregion
 
         #region Memento

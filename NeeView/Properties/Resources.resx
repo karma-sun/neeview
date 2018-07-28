@@ -4269,4 +4269,31 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="FolderListItemMenuOpen" xml:space="preserve">
     <value>Open</value>
   </data>
+  <data name="WordInner" xml:space="preserve">
+    <value>Innner</value>
+  </data>
+  <data name="ArchiveFormatFolder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="ArchiveFormatCompressedFile" xml:space="preserve">
+    <value>Compressed file</value>
+  </data>
+  <data name="ArchiveFormatPdf" xml:space="preserve">
+    <value>PDF</value>
+  </data>
+  <data name="ArchiveFormatMedia" xml:space="preserve">
+    <value>Media</value>
+  </data>
+  <data name="ArchiveFormatUnknown" xml:space="preserve">
+    <value>Unknown format</value>
+  </data>
+  <data name="BookAddressInfoPage" xml:space="preserve">
+    <value>{0} page</value>
+  </data>
+  <data name="BookAddressInfoBookmark" xml:space="preserve">
+    <value>This is bookmark address.</value>
+  </data>
+  <data name="BookAddressInfoInvalid" xml:space="preserve">
+    <value>This address is invalid.</value>
+  </data>
 </root>

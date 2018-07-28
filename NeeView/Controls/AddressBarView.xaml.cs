@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Windows;
+using System;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,6 +21,8 @@ namespace NeeView
     /// </summary>
     public partial class AddressBarView : UserControl
     {
+        public static string DragDropFormat = $"{Config.Current.ProcessId}.BookAddress";
+
         public AddressBar Source
         {
             get { return (AddressBar)GetValue(SourceProperty); }
@@ -104,5 +107,75 @@ namespace NeeView
         {
             PageSortModePopup.IsOpen = true;
         }
+
+        private void BookButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.BookPopup.IsOpen = true;
+        }
+
+        #region DragDrop
+
+        private DragDropGoast _goast = new DragDropGoast();
+        private bool _isButtonDown;
+        private Point _buttonDownPos;
+
+        private void BookButton_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!_vm.Model.IsBookEnabled)
+            {
+                return;
+            }
+
+            var element = sender as UIElement;
+            _buttonDownPos = e.GetPosition(element);
+            _isButtonDown = true;
+        }
+
+        private void BookButton_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            _isButtonDown = false;
+        }
+
+        private void BookButton_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!_isButtonDown)
+            {
+                return;
+            }
+
+            if (e.LeftButton == MouseButtonState.Released)
+            {
+                _isButtonDown = false;
+                return;
+            }
+
+            var element = sender as UIElement;
+
+            var pos = e.GetPosition(element);
+            if (DragDropHelper.IsDragDistance(pos, _buttonDownPos))
+            {
+                _isButtonDown = false;
+
+                if (!_vm.Model.IsBookEnabled)
+                {
+                    return;
+                }
+
+                var data = new DataObject(new QueryPath(_vm.Model.Address));
+               
+                _goast.Attach(element, new Point(24, 24));
+                DragDrop.DoDragDrop(element, data, DragDropEffects.Copy);
+                _goast.Detach();
+            }
+        }
+
+        private void BookButton_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
+        {
+            _goast.QueryContinueDrag(sender, e);
+        }
+
+        #endregion
+
+
     }
 }

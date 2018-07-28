@@ -6,6 +6,27 @@ namespace NeeView
 {
     public static class BookmarkCollectionHelper
     {
+        public static TreeListNode<IBookmarkEntry> AddToChild(TreeListNode<IBookmarkEntry> parent, QueryPath query)
+        {
+            if (query.Scheme != QueryScheme.File)
+            {
+                return null;
+            }
+
+            // TODO: 重複チェックはBookmarkCollectionで行うようにする?
+            var node = parent.Children.FirstOrDefault(e => e.Value is Bookmark bookmark && bookmark.Place == query.SimplePath);
+            if (node == null)
+            {
+                var unit = BookMementoCollection.Current.Set(query.SimplePath);
+                var bookmark = new Bookmark(unit);
+                node = new TreeListNode<IBookmarkEntry>(bookmark);
+                BookmarkCollection.Current.AddToChild(node, parent);
+                return node;
+            }
+
+            return null;
+        }
+
         public static bool Rename(TreeListNode<IBookmarkEntry> node, string newName)
         {
             if (node == null) throw new ArgumentNullException(nameof(node));

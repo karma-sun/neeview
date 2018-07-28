@@ -61,6 +61,78 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Compressed file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ArchiveFormatCompressedFile {
+            get {
+                return ResourceManager.GetString("ArchiveFormatCompressedFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ArchiveFormatFolder {
+            get {
+                return ResourceManager.GetString("ArchiveFormatFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Media に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ArchiveFormatMedia {
+            get {
+                return ResourceManager.GetString("ArchiveFormatMedia", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   PDF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ArchiveFormatPdf {
+            get {
+                return ResourceManager.GetString("ArchiveFormatPdf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Unknown format に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ArchiveFormatUnknown {
+            get {
+                return ResourceManager.GetString("ArchiveFormatUnknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   This is bookmark address. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookAddressInfoBookmark {
+            get {
+                return ResourceManager.GetString("BookAddressInfoBookmark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   This address is invalid. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookAddressInfoInvalid {
+            get {
+                return ResourceManager.GetString("BookAddressInfoInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   {0} page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookAddressInfoPage {
+            get {
+                return ResourceManager.GetString("BookAddressInfoPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   _Remove bookmark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookmarkItemMenuDelete {
@@ -12083,6 +12155,15 @@ namespace NeeView.Properties {
         public static string WordImport {
             get {
                 return ResourceManager.GetString("WordImport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Innner に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordInner {
+            get {
+                return ResourceManager.GetString("WordInner", resourceCulture);
             }
         }
         

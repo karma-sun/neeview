@@ -63,15 +63,22 @@ namespace NeeView.Windows
         public DragAdorner(UIElement owner, UIElement adornElement, double opacity, Point dragPos)
             : base(owner)
         {
-            var brush = new VisualBrush(adornElement) { Opacity = opacity };
-            var bounds = VisualTreeHelper.GetDescendantBounds(adornElement);
-            var rectangle = new Rectangle() { Width = bounds.Width, Height = bounds.Height };
-
             _centerX = dragPos.X;
             _centerY = dragPos.Y;
 
-            rectangle.Fill = brush;
-            _child = rectangle;
+            if (VisualTreeHelper.GetParent(adornElement) != null)
+            {
+                var brush = new VisualBrush(adornElement) { Opacity = opacity };
+                var bounds = VisualTreeHelper.GetDescendantBounds(adornElement);
+                var rectangle = new Rectangle() { Width = bounds.Width, Height = bounds.Height };
+                rectangle.Fill = brush;
+                _child = rectangle;
+            }
+            else
+            {
+                adornElement.Opacity = opacity;
+                _child = adornElement;
+            }
         }
 
         /// <summary>

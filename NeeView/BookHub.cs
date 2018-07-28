@@ -389,8 +389,11 @@ namespace NeeView
             }
         }
 
-
-
+        // 現在のブックの情報
+        public string GetBookDetail()
+        {
+            return Book?.GetDetail();
+        }
 
         // command engine
         private BookHubCommandEngine _commandEngine;
@@ -611,7 +614,7 @@ namespace NeeView
 
                     address.EntryName = address.EntryName ?? LoosePath.NormalizeSeparator(setting.Page);
                     place = address.FullPath;
-                    
+
                     // Load本体
                     await LoadAsyncCore(address, args.Option, setting, token);
                 }

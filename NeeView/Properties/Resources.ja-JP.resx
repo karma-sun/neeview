@@ -4269,4 +4269,31 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="FolderListItemMenuOpen" xml:space="preserve">
     <value>開く</value>
   </data>
+  <data name="WordInner" xml:space="preserve">
+    <value>内部</value>
+  </data>
+  <data name="ArchiveFormatFolder" xml:space="preserve">
+    <value>フォルダー形式</value>
+  </data>
+  <data name="ArchiveFormatCompressedFile" xml:space="preserve">
+    <value>圧縮ファイル形式</value>
+  </data>
+  <data name="ArchiveFormatPdf" xml:space="preserve">
+    <value>PDF形式</value>
+  </data>
+  <data name="ArchiveFormatMedia" xml:space="preserve">
+    <value>メディア形式</value>
+  </data>
+  <data name="ArchiveFormatUnknown" xml:space="preserve">
+    <value>未知の形式</value>
+  </data>
+  <data name="BookAddressInfoPage" xml:space="preserve">
+    <value>{0} ページ</value>
+  </data>
+  <data name="BookAddressInfoBookmark" xml:space="preserve">
+    <value>ブックマークアドレスです</value>
+  </data>
+  <data name="BookAddressInfoInvalid" xml:space="preserve">
+    <value>このアドレスは無効です</value>
+  </data>
 </root>

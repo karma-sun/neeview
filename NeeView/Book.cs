@@ -283,7 +283,44 @@ namespace NeeView
 
         #endregion
 
-        #region Medhots
+        #region Methods
+
+        public string GetArchiverDetail()
+        {
+            if (this.Archiver == null)
+            {
+                return null;
+            }
+
+            var inner = this.Archiver.Parent != null ? Properties.Resources.WordInner + " " : "";
+
+            var extension = LoosePath.GetExtension(this.Archiver.EntryName);
+
+            var archiverType = ArchiverManager.Current.GetArchiverType(this.Archiver);
+            switch (archiverType)
+            {
+                case ArchiverType.FolderArchive:
+                    return Properties.Resources.ArchiveFormatFolder;
+                case ArchiverType.ZipArchiver:
+                case ArchiverType.SevenZipArchiver:
+                case ArchiverType.SusieArchiver:
+                    return inner + Properties.Resources.ArchiveFormatCompressedFile + $"({extension})";
+                case ArchiverType.PdfArchiver:
+                    return inner + Properties.Resources.ArchiveFormatPdf + $"({extension})";
+                case ArchiverType.MediaArchiver:
+                    return inner + Properties.Resources.ArchiveFormatMedia + $"({extension})";
+                default:
+                    return Properties.Resources.ArchiveFormatUnknown;
+            }
+        }
+
+        public string GetDetail()
+        {
+            string text = "";
+            text += GetArchiverDetail() + "\n";
+            text += string.Format(Properties.Resources.BookAddressInfoPage, Pages.Count);
+            return text;
+        }
 
         #region 本の初期化
 
@@ -999,12 +1036,12 @@ namespace NeeView
             var viewPages = args?.ViewPageCollection?.Collection.Where(e => e != null).Select(e => e.Page) ?? new List<Page>();
             var hidePages = _viewPages.Where(e => !viewPages.Contains(e));
 
-            foreach(var page in viewPages)
+            foreach (var page in viewPages)
             {
                 page.IsVisibled = true;
             }
 
-            foreach(var page in hidePages)
+            foreach (var page in hidePages)
             {
                 page.IsVisibled = false;
             }
@@ -1405,11 +1442,11 @@ namespace NeeView
             var oldies = Markers;
             Markers = pageNames.Select(e => Pages.FirstOrDefault(page => page.FullPath == e)).Where(e => e != null).ToList();
 
-            foreach(var page in oldies.Where(e => !Markers.Contains(e)))
+            foreach (var page in oldies.Where(e => !Markers.Contains(e)))
             {
                 page.IsPagemark = false;
             }
-            foreach(var page in Markers)
+            foreach (var page in Markers)
             {
                 page.IsPagemark = true;
             }

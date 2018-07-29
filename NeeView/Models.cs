@@ -90,7 +90,6 @@ namespace NeeView
         public FolderList FolderList { get; private set; }
         public PageList PageList { get; private set; }
         public HistoryList HistoryList { get; private set; }
-        public BookmarkList BookmarkList { get; private set; }
         public PagemarkList PagemarkList { get; private set; }
         public FileInformation FileInformation { get; private set; }
         public ImageFilter ImageFilter { get; private set; }
@@ -180,7 +179,6 @@ namespace NeeView
             this.FolderList = new FolderList(this.BookHub, this.FolderPanelModel);
             this.PageList = new PageList(this.BookHub, this.BookOperation);
             this.HistoryList = new HistoryList(this.BookHub);
-            this.BookmarkList = new BookmarkList();
             this.PagemarkList = new PagemarkList();
             this.FileInformation = new FileInformation(this.ContentCanvas);
             this.ImageEffect = new ImageEffect();
@@ -291,8 +289,6 @@ namespace NeeView
             [DataMember]
             public HistoryList.Memento HistoryList { get; set; }
             [DataMember]
-            public BookmarkList.Memento BookmarkList { get; set; }
-            [DataMember]
             public PagemarkList.Memento PagemarkList { get; set; }
             [DataMember]
             public FileInformation.Memento FileInformation { get; set; }
@@ -352,7 +348,6 @@ namespace NeeView
             memento.FolderList = this.FolderList.CreateMemento();
             memento.PageList = this.PageList.CreateMemento();
             memento.HistoryList = this.HistoryList.CreateMemento();
-            memento.BookmarkList = this.BookmarkList.CreateMemento();
             memento.PagemarkList = this.PagemarkList.CreateMemento();
             memento.FileInformation = this.FileInformation.CreateMemento();
             memento.ImageEffect = this.ImageEffect.CreateMemento();
@@ -401,7 +396,6 @@ namespace NeeView
             this.FolderList.Restore(memento.FolderList);
             this.PageList.Restore(memento.PageList);
             this.HistoryList.Restore(memento.HistoryList);
-            this.BookmarkList.Restore(memento.BookmarkList);
             this.PagemarkList.Restore(memento.PagemarkList);
             this.FileInformation.Restore(memento.FileInformation);
             this.ImageEffect.Restore(memento.ImageEffect, fromLoad); // TODO: formLoadフラグの扱いを検討

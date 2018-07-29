@@ -16,33 +16,6 @@ namespace NeeView
             set { SetProperty(ref _name, value); }
         }
 
-        public string Note => null;
-        public string Detail => null;
-
-        public IThumbnail Thumbnail
-        {
-            get
-            {
-                ConstPage.LoadThumbnail(QueueElementPriority.BookmarkThumbnail);
-                return ConstPage.Thumbnail;
-            }
-        }
-
-
-        public Page GetPage()
-        {
-            return ConstPage;
-        }
-
-        private volatile ConstPage _constPage;
-        public ConstPage ConstPage
-        {
-            get
-            {
-                return _constPage != null ? _constPage : _constPage = new ConstPage(ThumbnailType.Folder);
-            }
-        }
-
         public static string GetValidateName(string name)
         {
             return name.Trim().Replace('/', '_').Replace('\\', '_');

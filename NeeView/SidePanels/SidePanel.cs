@@ -25,7 +25,6 @@ namespace NeeView
         public HistoryPanel HistoryPanel { get; private set; }
         public FileInformationPanel FileInfoPanel { get; private set; }
         public ImageEffectPanel ImageEffectPanel { get; private set; }
-        public BookmarkPanel BookmarkPanel { get; private set; }
         public PagemarkPanel PagemarkPanel { get; private set; }
 
         //
@@ -60,10 +59,6 @@ namespace NeeView
             // エフェクト
             this.ImageEffectPanel = new ImageEffectPanel(models.ImageEffect, models.ImageFilter);
             rightPanels.Add(this.ImageEffectPanel);
-
-            // ブックマーク
-            this.BookmarkPanel = new BookmarkPanel(models.BookmarkList);
-            leftPanels.Add(this.BookmarkPanel);
 
             // ページマーク
             this.PagemarkPanel = new PagemarkPanel(models.PagemarkList);
@@ -150,7 +145,6 @@ namespace NeeView
         {
             RaisePropertyChanged(nameof(IsVisibleFolderList));
             RaisePropertyChanged(nameof(IsVisibleHistoryList));
-            RaisePropertyChanged(nameof(IsVisibleBookmarkList));
             RaisePropertyChanged(nameof(IsVisiblePagemarkList));
             RaisePropertyChanged(nameof(IsVisiblePageListMenu));
             RaisePropertyChanged(nameof(IsVisibleFileInfo));
@@ -315,27 +309,6 @@ namespace NeeView
             }
             return IsVisibleHistoryList;
         }
-
-
-        // ブックマークリスト表示ON/OFF
-        public bool IsVisibleBookmarkList
-        {
-            get { return IsSelectedPanel(BookmarkPanel); }
-            set { SetSelectedPanel(BookmarkPanel, value); RaisePanelPropertyChanged(); }
-        }
-
-        //
-        public bool ToggleVisibleBookmarkList(bool byMenu)
-        {
-            ToggleSelectedPanel(BookmarkPanel, byMenu);
-            RaisePanelPropertyChanged();
-            if (!IsVisibleBookmarkList)
-            {
-                ResetFocus?.Invoke(this, null);
-            }
-            return IsVisibleBookmarkList;
-        }
-
 
         // ページマークリスト表示ON/OFF
         public bool IsVisiblePagemarkList

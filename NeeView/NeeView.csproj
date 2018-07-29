@@ -191,7 +191,7 @@
     <Compile Include="Setting\SettingItemImageCollection.xaml.cs">
       <DependentUpon>SettingItemImageCollection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SidePanels\Bookamrk\BookmarkCollectionService.cs" />
+    <Compile Include="Bookamrk\BookmarkCollectionService.cs" />
     <Compile Include="SidePanels\FolderList\BookmarkFolderCollection.cs" />
     <Compile Include="SidePanels\FolderList\FolderTreeLayout.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\BookmarkFolderNode.cs" />
@@ -225,7 +225,7 @@
     <Compile Include="Picture\WicDecoders.cs" />
     <Compile Include="Page\ConstContent.cs" />
     <Compile Include="Page\ConstPage.cs" />
-    <Compile Include="SidePanels\Bookamrk\BookmarkCollectionChangedArgs.cs" />
+    <Compile Include="Bookamrk\BookmarkCollectionChangedArgs.cs" />
     <Compile Include="BookMementoCollectionChangedArgs.cs" />
     <Compile Include="BookMementoCollection.cs" />
     <Compile Include="BookMementoUnit.cs" />
@@ -247,12 +247,9 @@
     </Compile>
     <Compile Include="Setting\SettingPageArchiver.cs" />
     <Compile Include="Setting\SettingPageHistory.cs" />
-    <Compile Include="SidePanels\Bookamrk\Bookmark.cs" />
-    <Compile Include="SidePanels\Bookamrk\BookmarkCollection.cs" />
-    <Compile Include="SidePanels\Bookamrk\BookmarkFolder.cs" />
-    <Compile Include="SidePanels\Bookamrk\BookmarkList.cs" />
-    <Compile Include="SidePanels\Bookamrk\BookmarkListBoxModel.cs" />
-    <Compile Include="SidePanels\Bookamrk\BookmarkListBoxViewModel.cs" />
+    <Compile Include="Bookamrk\Bookmark.cs" />
+    <Compile Include="Bookamrk\BookmarkCollection.cs" />
+    <Compile Include="Bookamrk\BookmarkFolder.cs" />
     <Compile Include="SidePanels\Pagemark\PagemarkCollectionChangedEventArgs.cs" />
     <Compile Include="SidePanels\Pagemark\PagemarkFolder.cs" />
     <Compile Include="SidePanels\Pagemark\PagemarkListBoxModel.cs" />
@@ -497,9 +494,6 @@
     <Compile Include="Page\ThumbnailProfile.cs" />
     <Compile Include="SaveData.cs" />
     <Compile Include="MouseInput\MouseInputContext.cs" />
-    <Compile Include="SidePanels\Bookamrk\BookmarkListBox.xaml.cs">
-      <DependentUpon>BookmarkListBox.xaml</DependentUpon>
-    </Compile>
     <Compile Include="BookOperation.cs" />
     <Compile Include="DelayVisibility.cs" />
     <Compile Include="DragStart.cs" />
@@ -523,9 +517,7 @@
     </Compile>
     <Compile Include="NormalInfoMessageViewModel.cs" />
     <Compile Include="RoutedCommandTable.cs" />
-    <Compile Include="SidePanels\Bookamrk\BookmarkListViewModel.cs" />
     <Compile Include="BrushSource.cs" />
-    <Compile Include="SidePanels\Bookamrk\BookmarkPanel.cs" />
     <Compile Include="SidePanels\FileInfo\FileInformationPanel.cs" />
     <Compile Include="SidePanels\FileInfo\FileInformation.cs" />
     <Compile Include="SidePanels\FileInfo\FileInformationViewModel.cs" />
@@ -714,9 +706,6 @@
       <DependentUpon>PagemarkListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\Pagemark\PagemarkCollection.cs" />
-    <Compile Include="SidePanels\Bookamrk\BookmarkListView.xaml.cs">
-      <DependentUpon>BookmarkListView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="CommandTable.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="ContextMenuSetting.cs" />
@@ -990,10 +979,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SidePanels\Bookamrk\BookmarkListBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="SidePanels\FolderList\FolderListIconDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1109,10 +1094,6 @@
     <Page Include="SidePanels\Pagemark\PagemarkListView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SidePanels\Bookamrk\BookmarkListView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Setting\ContextMenuSettingControl.xaml">
       <SubType>Designer</SubType>

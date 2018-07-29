@@ -101,11 +101,7 @@ namespace NeeView
 
             var length = Length;
 
-            if (item.DataContext is TreeListNode<IBookmarkEntry> && BookmarkList.Current.PanelListItemStyle != PanelListItemStyle.Normal)
-            {
-                length = length * 2;
-            }
-            else if (item.DataContext is TreeListNode<IPagemarkEntry> && PagemarkList.Current.PanelListItemStyle != PanelListItemStyle.Normal)
+            if (item.DataContext is TreeListNode<IPagemarkEntry> && PagemarkList.Current.PanelListItemStyle != PanelListItemStyle.Normal)
             {
                 length = length * 2;
             }
@@ -132,11 +128,7 @@ namespace NeeView
 
             var length = Length;
 
-            if (item.DataContext is TreeListNode<IBookmarkEntry> && BookmarkList.Current.PanelListItemStyle != PanelListItemStyle.Normal)
-            {
-                length = length * 2;
-            }
-            else if (item.DataContext is TreeListNode<IPagemarkEntry> && PagemarkList.Current.PanelListItemStyle != PanelListItemStyle.Normal)
+            if (item.DataContext is TreeListNode<IPagemarkEntry> && PagemarkList.Current.PanelListItemStyle != PanelListItemStyle.Normal)
             {
                 length = length * 2;
             }

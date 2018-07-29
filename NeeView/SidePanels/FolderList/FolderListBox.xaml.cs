@@ -234,7 +234,7 @@ namespace NeeView
                     {
                         if (item.Source is TreeListNode<IBookmarkEntry> node)
                         {
-                            BookmarkCollectionHelper.Rename(node, ev.NewValue);
+                            BookmarkCollectionService.Rename(node, ev.NewValue);
                         }
                         else if (ev.OldValue != ev.NewValue)
                         {
@@ -427,6 +427,7 @@ namespace NeeView
                             if (isDrop)
                             {
                                 BookmarkCollection.Current.MoveToChild(bookmarkEntry, node as TreeListNode<IBookmarkEntry>);
+                                _vm.Model.SelectBookmark(bookmarkEntry, true);
                             }
                             e.Effects = DragDropEffects.Move;
                             e.Handled = true;
@@ -443,7 +444,8 @@ namespace NeeView
                     {
                         if (isDrop)
                         {
-                            BookmarkCollectionHelper.AddToChild(node, query);
+                            var bookmark = BookmarkCollectionService.AddToChild(node, query);
+                            _vm.Model.SelectBookmark(bookmark, true);
                         }
                         e.Effects = DragDropEffects.Copy;
                         e.Handled = true;

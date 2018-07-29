@@ -225,7 +225,7 @@ namespace NeeView
                 var rename = new RenameControl() { Target = textBlock };
                 rename.Closing += (s, ev) =>
                 {
-                    BookmarkCollectionHelper.Rename(item.BookmarkSource, ev.NewValue);
+                    BookmarkCollectionService.Rename(item.BookmarkSource, ev.NewValue);
                 };
                 rename.Closed += (s, ev) =>
                 {
@@ -660,7 +660,7 @@ namespace NeeView
                         {
                             if (isDrop)
                             {
-                                BookmarkCollectionHelper.AddToChild(bookmarkFolderTarget.BookmarkSource, query);
+                                BookmarkCollectionService.AddToChild(bookmarkFolderTarget.BookmarkSource, query);
                             }
                             e.Effects = DragDropEffects.Copy;
                             e.Handled = true;

@@ -276,8 +276,8 @@ namespace NeeView
             // 欠番
             {
                 var element = new CommandElement();
-                element.Group = "dummy";
-                element.Text = "dummy";
+                element.Group = "(none)";
+                element.Text = "(none)";
                 element.Execute = (s, e) => { return; };
                 _elements[CommandType.None] = element;
             }
@@ -806,21 +806,6 @@ namespace NeeView
                 element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleFolderList)) { Source = _models.SidePanel };
                 _elements[CommandType.ToggleVisibleFolderList] = element;
             }
-            // ToggleVisibleBookmarkList
-            {
-                var element = new CommandElement();
-                element.Group = Properties.Resources.CommandGroupPanel;
-                element.Text = Properties.Resources.CommandToggleVisibleBookmarkList;
-                element.MenuText = Properties.Resources.CommandToggleVisibleBookmarkListMenu;
-                element.Note = Properties.Resources.CommandToggleVisibleBookmarkListNote;
-                element.ShortCutKey = "B";
-                element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleBookmarkList(e.Parameter is MenuCommandTag);
-                element.ExecuteMessage = e => _models.SidePanel.IsVisibleBookmarkList ? Properties.Resources.CommandToggleVisibleBookmarkListOff : Properties.Resources.CommandToggleVisibleBookmarkListOn;
-                element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleBookmarkList)) { Source = _models.SidePanel };
-                _elements[CommandType.ToggleVisibleBookmarkList] = element;
-            }
             // ToggleVisiblePagemarkList
             {
                 var element = new CommandElement();
@@ -891,6 +876,18 @@ namespace NeeView
                 element.Execute = (s, e) => _models.SidePanel.FocusFolderSearchBox(e.Parameter is MenuCommandTag);
                 element.CanExecute = () => true;
                 _elements[CommandType.FocusFolderSearchBox] = element;
+            }
+            // FocusBookmarkList
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupPanel;
+                element.Text = Properties.Resources.CommandFocusBookmarkList;
+                element.MenuText = Properties.Resources.CommandFocusBookmarkListMenu;
+                element.Note = Properties.Resources.CommandFocusBookmarkListNote;
+                element.IsShowMessage = false;
+                element.Execute = (s, e) => _models.SidePanel.FocusBookmarkList(e.Parameter is MenuCommandTag);
+                element.CanExecute = () => true;
+                _elements[CommandType.FocusBookmarkList] = element;
             }
 
             // ToggleVisibleThumbnailList
@@ -1751,27 +1748,6 @@ namespace NeeView
                 _elements[CommandType.ToggleBookmark] = element;
             }
 
-            // PrevBookmark
-            {
-                var element = new CommandElement();
-                element.Group = Properties.Resources.CommandGroupBookmark;
-                element.Text = Properties.Resources.CommandPrevBookmark;
-                element.Note = Properties.Resources.CommandPrevBookmarkNote;
-                element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.BookmarkList.PrevBookmark();
-                _elements[CommandType.PrevBookmark] = element;
-            }
-            // NextBookmark
-            {
-                var element = new CommandElement();
-                element.Group = Properties.Resources.CommandGroupBookmark;
-                element.Text = Properties.Resources.CommandNextBookmark;
-                element.Note = Properties.Resources.CommandNextBookmarkNote;
-                element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.BookmarkList.NextBookmark();
-                _elements[CommandType.NextBookmark] = element;
-            }
-
             // TogglePagemark
             {
                 var element = new CommandElement();
@@ -2113,8 +2089,8 @@ namespace NeeView
             foreach (var ignore in CommandTypeExtensions.IgnoreCommandTypes)
             {
                 var element = new CommandElement();
-                element.Group = "dummy";
-                element.Text = "dummy";
+                element.Group = "(none)";
+                element.Text = "(none)";
                 element.Execute = (s, e) => { return; };
                 _elements[ignore] = element;
             }
@@ -2182,10 +2158,15 @@ namespace NeeView
                 {
                     if (_Version < Config.GenerateProductVersionNumber(1, 32, 0))
                     {
-                        var oldKey = "ToggleVisibleFolderSearchBox";
-                        if (_elementsV2.TryGetValue(oldKey, out CommandElement.Memento memento))
+                        // 新しいコマンドに設定を引き継ぐ
+                        if (_elementsV2.TryGetValue("ToggleVisibleFolderSearchBox", out CommandElement.Memento toggleVisibleFolderSearchBox))
                         {
-                            _elementsV2[CommandType.FocusFolderSearchBox.ToString()] = memento;
+                            _elementsV2[CommandType.FocusFolderSearchBox.ToString()] = toggleVisibleFolderSearchBox;
+                        }
+
+                        if (_elementsV2.TryGetValue("ToggleVisibleBookmarkList", out CommandElement.Memento toggleVisibleBookmarkList))
+                        {
+                            _elementsV2[CommandType.FocusBookmarkList.ToString()] = toggleVisibleBookmarkList;
                         }
                     }
 
@@ -2197,6 +2178,12 @@ namespace NeeView
                         }
                     }
                     _elementsV2 = null;
+                }
+
+                // remove obsolete
+                foreach (var key in CommandTypeExtensions.IgnoreCommandTypes)
+                {
+                    Elements.Remove(key);
                 }
             }
 

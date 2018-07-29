@@ -191,7 +191,7 @@
     <Compile Include="Setting\SettingItemImageCollection.xaml.cs">
       <DependentUpon>SettingItemImageCollection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SidePanels\Bookamrk\BookmarkCollectionHelper.cs" />
+    <Compile Include="SidePanels\Bookamrk\BookmarkCollectionService.cs" />
     <Compile Include="SidePanels\FolderList\BookmarkFolderCollection.cs" />
     <Compile Include="SidePanels\FolderList\FolderTreeLayout.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\BookmarkFolderNode.cs" />

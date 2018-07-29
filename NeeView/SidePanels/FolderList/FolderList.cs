@@ -1304,35 +1304,51 @@ namespace NeeView
             }
         }
 
-        public void AddBookmark()
+        public void SelectBookmark(TreeListNode<IBookmarkEntry> node, bool isFocus)
         {
-            if (FolderCollection is BookmarkFolderCollection bookmarkFolderCollection)
+            if (!(FolderCollection is BookmarkFolderCollection bookmarkFolderCollection))
             {
-                var place = BookHub.Current.Book?.Place;
-                if (place == null)
+                return;
+            }
+
+            var item = bookmarkFolderCollection.FirstOrDefault(e => node == (e.Source as TreeListNode<IBookmarkEntry>));
+            if (item != null)
+            {
+                SelectedItem = item;
+                SelectedChanged?.Invoke(this, new SelectedChangedEventArgs() { IsFocus = isFocus });
+            }
+        }
+
+        public bool AddBookmark()
+        {
+            var place = BookHub.Current.Book?.Place;
+            if (place == null)
+            {
+                return false;
+            }
+
+            return AddBookmark(new QueryPath(place), true);
+        }
+
+        public bool AddBookmark(QueryPath path, bool isFocus)
+        {
+            if (!(FolderCollection is BookmarkFolderCollection bookmarkFolderCollection))
+            {
+                return false;
+            }
+
+            var node = BookmarkCollectionService.AddToChild(bookmarkFolderCollection.BookmarkPlace, path);
+            if (node != null)
+            {
+                var item = bookmarkFolderCollection.FirstOrDefault(e => node == (e.Source as TreeListNode<IBookmarkEntry>));
+                if (item != null)
                 {
-                    return;
-                }
-
-                var parentNode = bookmarkFolderCollection.BookmarkPlace;
-
-                // TODO: 重複チェックはBookmarkCollectionで行うようにする
-                var node = parentNode.Children.FirstOrDefault(e => e.Value is Bookmark bookmark && bookmark.Place == place);
-                if (node == null)
-                {
-                    var unit = BookMementoCollection.Current.Set(place);
-                    var bookmark = new Bookmark(unit);
-                    node = new TreeListNode<IBookmarkEntry>(bookmark);
-                    BookmarkCollection.Current.AddToChild(node, parentNode);
-
-                    var item = bookmarkFolderCollection.FirstOrDefault(e => bookmark.IsEqual((e.Source as TreeListNode<IBookmarkEntry>)?.Value));
-                    if (item != null)
-                    {
-                        SelectedItem = item;
-                        SelectedChanged?.Invoke(this, new SelectedChangedEventArgs() { IsFocus = true });
-                    }
+                    SelectedItem = item;
+                    SelectedChanged?.Invoke(this, new SelectedChangedEventArgs() { IsFocus = isFocus });
                 }
             }
+
+            return true;
         }
 
         public bool RemoveBookmark(FolderItem item)

@@ -386,7 +386,7 @@ namespace NeeView
                 }
                 else if (child.Value is Bookmark bookmark)
                 {
-                    var conflict = target.Children.FirstOrDefault(e =>bookmark.IsEqual(e.Value));
+                    var conflict = target.Children.FirstOrDefault(e => bookmark.IsEqual(e.Value));
                     if (conflict != null)
                     {
                         continue;
@@ -594,7 +594,6 @@ namespace NeeView
         #endregion
     }
 
-
     public static class TreeListNodeExtensions
     {
         public static QueryPath CreateQuery<T>(this TreeListNode<T> node, QueryScheme scheme)
@@ -605,7 +604,7 @@ namespace NeeView
         }
 
 
-        public static string CreatePath<T>(this TreeListNode<T> node, string scheme)
+        public static string CreatePath<T>(this TreeListNode<T> node, string scheme = null)
             where T : IHasName
         {
             var path = string.Join("\\", node.Hierarchy.Select(e => e.Value).OfType<T>().Select(e => e.Name));
@@ -621,6 +620,31 @@ namespace NeeView
                 }
             }
             return path;
+        }
+
+        /// <summary>
+        /// Bookmark用パス等価判定
+        /// </summary>
+        public static bool IsEqual(this TreeListNode<IBookmarkEntry> node, QueryPath path)
+        {
+            if (node is null || path is null)
+            {
+                return false;
+            }
+
+            if (path.Scheme == QueryScheme.Bookmark)
+            {
+                return node.CreateQuery(QueryScheme.Bookmark) == path;
+            }
+            else if (path.Scheme == QueryScheme.File)
+            {
+                if (node.Value is Bookmark bookmark)
+                {
+                    return bookmark.Place == path.SimplePath;
+                }
+            }
+
+            return false;
         }
     }
 }

@@ -231,7 +231,26 @@ namespace NeeView
             return model.IsPageListVisible;
         }
 
-        
+
+        //
+        public bool FocusBookmarkList(bool byMenu)
+        {
+            var model = _models.FolderPanelModel;
+            if (_models.FolderList.Place.Scheme != QueryScheme.Bookmark)
+            {
+                _models.FolderList.RequestPlace(new QueryPath(QueryScheme.Bookmark, null), null, FolderSetPlaceOption.UpdateHistory);
+            }
+
+            SetSelectedPanel(FolderListPanel, true);
+            RaisePanelPropertyChanged();
+            if (!IsVisibleFolderList)
+            {
+                ResetFocus?.Invoke(this, null);
+            }
+            return IsVisibleFolderList;
+        }
+
+
         /// <summary>
         /// 検索ボックス表示状態
         /// </summary>
@@ -258,7 +277,7 @@ namespace NeeView
         }
 
         public bool SetVisibleFolderTree(bool byMenu, bool isVisible)
-        { 
+        {
             var model = _models.FolderList;
 
             if (byMenu || !model.IsFolderTreeVisible || IsVisiblePanel(FolderListPanel))
@@ -337,6 +356,6 @@ namespace NeeView
             return IsVisiblePagemarkList;
         }
 
-#endregion
+        #endregion
     }
 }

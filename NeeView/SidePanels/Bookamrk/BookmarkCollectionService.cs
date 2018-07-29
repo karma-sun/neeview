@@ -4,8 +4,19 @@ using System.Linq;
 
 namespace NeeView
 {
-    public static class BookmarkCollectionHelper
+    public static class BookmarkCollectionService
     {
+        /// <summary>
+        /// 現在開いているフォルダーリストの場所を優先してブックマークを追加する
+        /// </summary>
+        public static void Add(QueryPath query)
+        {
+            if (!FolderList.Current.AddBookmark(query, false))
+            {
+                AddToChild(BookmarkCollection.Current.Items, query);
+            }
+        }
+
         public static TreeListNode<IBookmarkEntry> AddToChild(TreeListNode<IBookmarkEntry> parent, QueryPath query)
         {
             if (query.Scheme != QueryScheme.File)
@@ -21,12 +32,32 @@ namespace NeeView
                 var bookmark = new Bookmark(unit);
                 node = new TreeListNode<IBookmarkEntry>(bookmark);
                 BookmarkCollection.Current.AddToChild(node, parent);
-                return node;
             }
 
-            return null;
+            return node;
         }
 
+        /// <summary>
+        /// 現在開いているフォルダーリストを優先してブックマークを削除する
+        /// </summary>
+        public static bool Remove(QueryPath query)
+        {
+            if (FolderList.Current.FolderCollection is BookmarkFolderCollection bookmarkFolderCollection)
+            {
+                var node = bookmarkFolderCollection.BookmarkPlace.Children.FirstOrDefault(e => e.IsEqual(query));
+                if (node != null)
+                {
+                    return BookmarkCollection.Current.Remove(node);
+                }
+            }
+
+            return BookmarkCollection.Current.Remove(BookmarkCollection.Current.FindNode(query));
+        }
+
+
+        /// <summary>
+        /// ブックマークの名前変更とそれに伴う統合を行う
+        /// </summary>
         public static bool Rename(TreeListNode<IBookmarkEntry> node, string newName)
         {
             if (node == null) throw new ArgumentNullException(nameof(node));

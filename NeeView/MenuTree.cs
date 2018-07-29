@@ -457,7 +457,6 @@ namespace NeeView
                     new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeView, Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleFolderList },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleBookmarkList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisiblePagemarkList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleHistoryList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleFileInfo },
@@ -541,8 +540,6 @@ namespace NeeView
                     new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeBookmark, Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleBookmark },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.PrevBookmark },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.NextBookmark },
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { Command = CommandType.TogglePagemark },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.PrevPagemark},

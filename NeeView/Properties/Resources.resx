@@ -4296,4 +4296,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="BookAddressInfoInvalid" xml:space="preserve">
     <value>This address is invalid.</value>
   </data>
+  <data name="CommandFocusBookmarkList" xml:space="preserve">
+    <value>Display bookmark list</value>
+  </data>
+  <data name="CommandFocusBookmarkListMenu" xml:space="preserve">
+    <value>Bookmark list</value>
+  </data>
+  <data name="CommandFocusBookmarkListNote" xml:space="preserve">
+    <value>Display bookmark list of the folder list.</value>
+  </data>
 </root>

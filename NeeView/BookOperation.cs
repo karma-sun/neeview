@@ -702,7 +702,17 @@ namespace NeeView
         {
             if (CanBookmark())
             {
-                BookmarkList.Current.Toggle(Book.Place);
+                var query = new QueryPath(Book.Place);
+
+                if (IsBookmark)
+                {
+                    BookmarkCollectionService.Remove(query);
+                }
+                else
+                {
+                    BookmarkCollectionService.Add(query);
+                }
+
                 RaisePropertyChanged(nameof(IsBookmark));
             }
         }

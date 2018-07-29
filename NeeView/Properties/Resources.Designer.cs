@@ -448,6 +448,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Display bookmark list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandFocusBookmarkList {
+            get {
+                return ResourceManager.GetString("CommandFocusBookmarkList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bookmark list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandFocusBookmarkListMenu {
+            get {
+                return ResourceManager.GetString("CommandFocusBookmarkListMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display bookmark list of the folder list. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandFocusBookmarkListNote {
+            get {
+                return ResourceManager.GetString("CommandFocusBookmarkListNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Focus Search box に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandFocusFolderSearchBox {

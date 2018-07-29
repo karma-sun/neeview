@@ -4296,4 +4296,13 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="BookAddressInfoInvalid" xml:space="preserve">
     <value>このアドレスは無効です</value>
   </data>
+  <data name="CommandFocusBookmarkList" xml:space="preserve">
+    <value>ブックマークの表示</value>
+  </data>
+  <data name="CommandFocusBookmarkListMenu" xml:space="preserve">
+    <value>ブックマークリスト</value>
+  </data>
+  <data name="CommandFocusBookmarkListNote" xml:space="preserve">
+    <value>フォルダーリストのブックマークリストを表示します。</value>
+  </data>
 </root>

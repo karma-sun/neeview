@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace NeeView
@@ -95,7 +96,7 @@ namespace NeeView
 
         [EnumMember]
         ToggleFolderOrder,
-        
+
         [EnumMember(Value = "SetFolderOrderByFileName")]
         SetFolderOrderByFileNameA,
         [EnumMember]
@@ -133,8 +134,8 @@ namespace NeeView
         ToggleVisibleEffectInfo,
         [EnumMember]
         ToggleVisibleFolderList,
-        [EnumMember]
-        ToggleVisibleBookmarkList,
+        [Obsolete, EnumMember]
+        ToggleVisibleBookmarkList, // 欠番
         [EnumMember]
         ToggleVisiblePagemarkList,
         [EnumMember]
@@ -145,14 +146,16 @@ namespace NeeView
         ToggleVisibleFoldersTree,
         [EnumMember]
         FocusFolderSearchBox,
+        [EnumMember]
+        FocusBookmarkList,
 
         [Obsolete, EnumMember]
         ToggleVisibleFolderSearchBox, // 欠番
-        [Obsolete,EnumMember]
+        [Obsolete, EnumMember]
         ToggleVisibleFolderQuickAccess, // 欠番
-        [Obsolete,EnumMember]
+        [Obsolete, EnumMember]
         TogglePanelStyle, // 欠番
-        [Obsolete,EnumMember]
+        [Obsolete, EnumMember]
         TogglePageListStyle, // 欠番
 
         [EnumMember]
@@ -263,10 +266,10 @@ namespace NeeView
 
         [EnumMember]
         ToggleBookmark,
-        [EnumMember]
-        PrevBookmark,
-        [EnumMember]
-        NextBookmark,
+        [Obsolete, EnumMember]
+        PrevBookmark, // 欠番
+        [Obsolete, EnumMember]
+        NextBookmark, // 欠番
 
         [EnumMember]
         TogglePagemark,
@@ -279,7 +282,7 @@ namespace NeeView
         [EnumMember]
         NextPagemarkInBook,
 
-        [Obsolete,EnumMember]
+        [Obsolete, EnumMember]
         ToggleIsReverseSort, // 欠番
 
         [EnumMember]
@@ -315,7 +318,7 @@ namespace NeeView
         [EnumMember]
         ViewReset,
 
-        [Obsolete,EnumMember]
+        [Obsolete, EnumMember]
         ToggleEffectGrayscale, // 欠番
 
         [EnumMember]
@@ -360,26 +363,19 @@ namespace NeeView
 
     public static class CommandTypeExtensions
     {
-#pragma warning disable CS0612
+        static CommandTypeExtensions()
+        {
+            IgnoreCommandTypes = Enum.GetValues(typeof(CommandType))
+                .Cast<CommandType>()
+                .Where(e => typeof(CommandType).GetField(e.ToString()).GetCustomAttributes(typeof(ObsoleteAttribute), false).Length > 0)
+                .ToList();
+        }
 
         // 無効なコマンドID
-        public static List<CommandType> IgnoreCommandTypes = new List<CommandType>()
-        {
-            CommandType.Bookmark,
-            CommandType.ToggleIsReverseSort,
-            CommandType.ToggleHideTitleBar,
-            CommandType.ToggleEffectGrayscale,
-            CommandType.ToggleVisibleFolderSearchBox,
-            CommandType.ToggleVisibleFolderQuickAccess,
-            CommandType.TogglePanelStyle,
-            CommandType.TogglePageListStyle,
-            CommandType.MovePageWithCursor,
-        };
+        public static readonly List<CommandType> IgnoreCommandTypes;
 
-#pragma warning restore CS0612
-
-
-        // TODO: 判定法整備
+        // HACK: 判定法整備。テーブル化？
+        // HACK: 欠番ID自体を消去する?
         public static bool IsDisable(this CommandType type)
         {
             return (type == CommandType.None || IgnoreCommandTypes.Contains(type));

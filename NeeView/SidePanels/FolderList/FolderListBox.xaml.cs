@@ -759,7 +759,7 @@ namespace NeeView
                 }
                 else
                 {
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuDelete, Command = RemoveCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuDeleteBookmark, Command = RemoveCommand });
                     contextMenu.Items.Add(new Separator());
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuExplorer, Command = OpenExplorerCommand });
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuCopy, Command = CopyCommand });

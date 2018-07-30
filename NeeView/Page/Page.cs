@@ -19,7 +19,7 @@ namespace NeeView
     /// <summary>
     /// ページ
     /// </summary>
-    public abstract class Page : BindableBase
+    public abstract class Page : BindableBase, IHasPage
     {
         #region 開発用
 

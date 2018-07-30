@@ -4305,4 +4305,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="CommandFocusBookmarkListNote" xml:space="preserve">
     <value>フォルダーリストのブックマークリストを表示します。</value>
   </data>
+  <data name="FolderListItemMenuDeleteBookmark" xml:space="preserve">
+    <value>ブックマークから外す</value>
+  </data>
 </root>

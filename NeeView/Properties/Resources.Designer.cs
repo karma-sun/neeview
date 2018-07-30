@@ -223,7 +223,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Delete all history in the current location of the Folder List. に類似しているローカライズされた文字列を検索します。
+        ///   Delete all history in the current location of the folder list. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandClearHistoryInPlaceNote {
             get {
@@ -475,7 +475,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Focus Search box に類似しているローカライズされた文字列を検索します。
+        ///   Focus search box に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandFocusFolderSearchBox {
             get {
@@ -493,7 +493,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Focus Search box. The folder list is displayed. に類似しているローカライズされた文字列を検索します。
+        ///   Focus search box. The folder list is displayed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandFocusFolderSearchBoxNote {
             get {
@@ -3616,7 +3616,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle Filmstrip に類似しているローカライズされた文字列を検索します。
+        ///   Toggle filmstrip に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleThumbnailList {
             get {
@@ -5417,7 +5417,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Temporary folders can not be added to Quick access. に類似しているローカライズされた文字列を検索します。
+        ///   Temporary folders can not be added to quick access. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DialogQuickAccessTempError {
             get {
@@ -6872,6 +6872,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Remove bookmark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FolderListItemMenuDeleteBookmark {
+            get {
+                return ResourceManager.GetString("FolderListItemMenuDeleteBookmark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Open in explorer に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FolderListItemMenuExplorer {
@@ -6908,7 +6917,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Add this place to Quick access に類似しているローカライズされた文字列を検索します。
+        ///   Add this place to quick access に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FolderListMoreMenuAddQuickAccess {
             get {
@@ -7043,7 +7052,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Add current place to Quick access に類似しているローカライズされた文字列を検索します。
+        ///   Add current place to quick access に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FolderTreeMenuAddCurrentQuickAccess {
             get {
@@ -7052,7 +7061,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Add to Quick access に類似しているローカライズされた文字列を検索します。
+        ///   Add to quick access に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FolderTreeMenuAddQuickAccess {
             get {
@@ -7088,7 +7097,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Remove from Quick access に類似しているローカライズされた文字列を検索します。
+        ///   Remove from quick access に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FolderTreeMenuRemoveQuickAccess {
             get {
@@ -9761,7 +9770,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Font size of Folder tree に類似しているローカライズされた文字列を検索します。
+        ///   Font size of folder tree に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamListItemFolderTreeFontSize {
             get {

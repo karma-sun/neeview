@@ -73,6 +73,7 @@ namespace NeeView.Windows
         /// </summary>
         protected override void OnAttached()
         {
+            this.AssociatedObject.PreviewDragEnter += DragOverHandler;
             this.AssociatedObject.PreviewDragOver += DragOverHandler;
             this.AssociatedObject.PreviewDrop += DropHandler;
             base.OnAttached();
@@ -83,6 +84,7 @@ namespace NeeView.Windows
         /// </summary>
         protected override void OnDetaching()
         {
+            this.AssociatedObject.PreviewDragEnter -= DragOverHandler;
             this.AssociatedObject.PreviewDragOver -= DragOverHandler;
             this.AssociatedObject.PreviewDrop -= DropHandler;
             base.OnDetaching();

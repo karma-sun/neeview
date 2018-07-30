@@ -148,7 +148,7 @@
     <value>Delete history in place</value>
   </data>
   <data name="CommandClearHistoryInPlaceNote" xml:space="preserve">
-    <value>Delete all history in the current location of the Folder List.</value>
+    <value>Delete all history in the current location of the folder list.</value>
   </data>
   <data name="CommandClearHistoryNote" xml:space="preserve">
     <value>Delete all history.</value>
@@ -1186,13 +1186,13 @@
     <value>Folder list</value>
   </data>
   <data name="CommandFocusFolderSearchBox" xml:space="preserve">
-    <value>Focus Search box</value>
+    <value>Focus search box</value>
   </data>
   <data name="CommandFocusFolderSearchBoxMenu" xml:space="preserve">
     <value>Search box</value>
   </data>
   <data name="CommandFocusFolderSearchBoxNote" xml:space="preserve">
-    <value>Focus Search box. The folder list is displayed.</value>
+    <value>Focus search box. The folder list is displayed.</value>
   </data>
   <data name="CommandToggleVisibleHistoryList" xml:space="preserve">
     <value>Toggle history list</value>
@@ -1255,7 +1255,7 @@
     <value>Side bar</value>
   </data>
   <data name="CommandToggleVisibleThumbnailList" xml:space="preserve">
-    <value>Toggle Filmstrip</value>
+    <value>Toggle filmstrip</value>
   </data>
   <data name="CommandToggleVisibleThumbnailListMenu" xml:space="preserve">
     <value>Filmstrip</value>
@@ -4174,7 +4174,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Folders tree</value>
   </data>
   <data name="FolderListMoreMenuAddQuickAccess" xml:space="preserve">
-    <value>Add this place to Quick access</value>
+    <value>Add this place to quick access</value>
   </data>
   <data name="WordSearchWord" xml:space="preserve">
     <value>Search word</value>
@@ -4186,13 +4186,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Automatically hide the slider when it is full screen</value>
   </data>
   <data name="DialogQuickAccessTempError" xml:space="preserve">
-    <value>Temporary folders can not be added to Quick access.</value>
+    <value>Temporary folders can not be added to quick access.</value>
   </data>
   <data name="FolderTreeMenuAddCurrentQuickAccess" xml:space="preserve">
-    <value>Add current place to Quick access</value>
+    <value>Add current place to quick access</value>
   </data>
   <data name="FolderTreeMenuAddQuickAccess" xml:space="preserve">
-    <value>Add to Quick access</value>
+    <value>Add to quick access</value>
   </data>
   <data name="WordQuickAccess" xml:space="preserve">
     <value>Quick access</value>
@@ -4201,10 +4201,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Local disk</value>
   </data>
   <data name="FolderTreeMenuRemoveQuickAccess" xml:space="preserve">
-    <value>Remove from Quick access</value>
+    <value>Remove from quick access</value>
   </data>
   <data name="ParamListItemFolderTreeFontSize" xml:space="preserve">
-    <value>Font size of Folder tree</value>
+    <value>Font size of folder tree</value>
   </data>
   <data name="ParamFolderListIsSyncFolderTree" xml:space="preserve">
     <value>Synchronize Folders tree with sync button</value>
@@ -4304,5 +4304,8 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="CommandFocusBookmarkListNote" xml:space="preserve">
     <value>Display bookmark list of the folder list.</value>
+  </data>
+  <data name="FolderListItemMenuDeleteBookmark" xml:space="preserve">
+    <value>Remove bookmark</value>
   </data>
 </root>

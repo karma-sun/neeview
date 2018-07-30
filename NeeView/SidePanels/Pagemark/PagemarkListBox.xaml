@@ -85,6 +85,7 @@
               KeyDown="TreeVew_KeyDown"
               AllowDrop="True"
               DragEnter="TreeView_DragEnter"
+              PreviewDragEnter="TreeView_PreviewDragOver"
               PreviewDragOver="TreeView_PreviewDragOver"
               Drop="TreeView_Drop"
               VirtualizingStackPanel.ScrollUnit="Pixel"

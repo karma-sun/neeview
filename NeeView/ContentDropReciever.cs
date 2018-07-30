@@ -45,13 +45,14 @@ namespace NeeView
     {
         public ContentDropManager(FrameworkElement sender)
         {
-            sender.DragOver += MainWindow_DragOver;
-            sender.Drop += MainWindow_Drop;
+            sender.PreviewDragEnter += Element_DragOver;
+            sender.PreviewDragOver += Element_DragOver;
+            sender.Drop += Element_Drop;
         }
 
 
         // ドラッグ＆ドロップ前処理
-        private void MainWindow_DragOver(object sender, DragEventArgs e)
+        private void Element_DragOver(object sender, DragEventArgs e)
         {
             if (!NowLoading.Current.IsDispNowLoading && CheckDragContent(sender, e.Data))
             {
@@ -65,7 +66,7 @@ namespace NeeView
         }
 
         // ドラッグ＆ドロップで処理を開始する
-        private async void MainWindow_Drop(object sender, DragEventArgs e)
+        private async void Element_Drop(object sender, DragEventArgs e)
         {
             await LoadDataObjectAsync(sender, e.Data);
         }

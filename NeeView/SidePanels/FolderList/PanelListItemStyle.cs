@@ -18,6 +18,7 @@ namespace NeeView
         Normal, // テキストのみ
         Content, // コンテンツ
         Banner, // バナー
+        Tile, // タイル
     };
 
     public static class PanelListItemStyleExtensions

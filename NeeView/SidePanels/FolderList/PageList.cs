@@ -31,6 +31,9 @@ namespace NeeView
 
         #endregion
 
+        public event EventHandler CollectionChanging;
+        public event EventHandler CollectionChanged;
+
         #region Properties
 
         /// <summary>
@@ -60,6 +63,8 @@ namespace NeeView
                 {
                     default:
                         return false;
+                    case PanelListItemStyle.Tile:
+                        return true;
                     case PanelListItemStyle.Content:
                         return ThumbnailProfile.Current.ThumbnailWidth > 0.0;
                     case PanelListItemStyle.Banner:
@@ -70,6 +75,8 @@ namespace NeeView
 
         // ページリスト(表示部用)
         public ObservableCollection<Page> PageCollection => BookOperation.PageList;
+
+        public ThumbnailProfile ThumbnailProfile => ThumbnailProfile.Current;
 
         /// <summary>
         /// 一度だけフォーカスするフラグ
@@ -88,7 +95,9 @@ namespace NeeView
 
         private void BookOperation_PageListChanged(object sender, PropertyChangedEventArgs e)
         {
+            CollectionChanging?.Invoke(this, null);
             RaisePropertyChanged(nameof(PageCollection));
+            CollectionChanged?.Invoke(this, null);
         }
 
         #endregion

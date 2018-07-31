@@ -10,25 +10,11 @@
 
     <UserControl.Resources>
 
-        <DrawingImage x:Key="fic_folder_24px">
-            <DrawingImage.Drawing>
-                <DrawingGroup Opacity="1">
-                    <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{DynamicResource NVDefaultBrush}" Pen="{x:Null}">
-                            <GeometryDrawing.Geometry>
-                                <PathGeometry FillRule="Nonzero" Figures="M4,4L10,4 12,6 20,6C21.1000003814697,6,22,6.90000009536743,22,8L22,18C22,19.1000003814697,21.1000003814697,20,20,20L4,20C2.90000009536743,20,2,19.1000003814697,2,18L2.00999999046326,6C2.00999999046326,4.90000009536743,2.90000009536743,4,4,4z" />
-                            </GeometryDrawing.Geometry>
-                        </GeometryDrawing>
-                    </DrawingGroup.Children>
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
-
         <DrawingImage x:Key="fic_arrow_forward_24px">
             <DrawingImage.Drawing>
                 <DrawingGroup Opacity="1">
                     <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{DynamicResource NVDefaultBrush}" Pen="{x:Null}">
+                        <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}">
                             <GeometryDrawing.Geometry>
                                 <PathGeometry FillRule="Nonzero" Figures="M12,4L20,12 12,20 10.5900001525879,18.5900001525879 16.1700000762939,13 4,13 4,11 16.1700000762939,11 10.5900001525879,5.40999984741211 12,4z" />
                             </GeometryDrawing.Geometry>
@@ -38,24 +24,45 @@
             </DrawingImage.Drawing>
         </DrawingImage>
 
+        <DrawingImage x:Key="fic_folder">
+            <DrawingImage.Drawing>
+                <DrawingGroup Opacity="1">
+                    <DrawingGroup.Children>
+                        <GeometryDrawing>
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="{DynamicResource NVForeground}" Thickness="1.25"></Pen>
+                            </GeometryDrawing.Pen>
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry FillRule="Nonzero" Figures="M0,0 L14,0 14,10 16,12 16,18, 0,18Z M14,10 L13,12 13,18"/>
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:FolderItemIconOverlayToVisibilityConverter x:Key="FolderItemIconOverlayToVisibilityConverter"/>
+        <local:FolderItemIconOverlayToImageSourceConverter x:Key="FolderItemIconOverlayToImageSourceConverter"/>
 
     </UserControl.Resources>
 
-    <Grid Height="20">
-        <DockPanel x:Name="Folder" LastChildFill="False" HorizontalAlignment="Right">
+    <DockPanel Height="20" LastChildFill="False">
 
-            <Grid DockPanel.Dock="Right" Width="18" Height="18">
-                <Image Source="{StaticResource fic_folder_24px}" Width="18" Height="18" Visibility="{Binding IsDirectory, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <Grid x:Name="Folder" DockPanel.Dock="Right">
+            <Grid x:Name="Spacer" Width="18" Height="18" Margin="2,0,0,0" Visibility="Collapsed"/>
+            <Grid Width="18" Height="18" Margin="2,0,0,0" Visibility="{Binding IsDirectory, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Image Source="{StaticResource fic_folder}" Width="18" Height="18"/>
             </Grid>
-
-            <Grid DockPanel.Dock="Right">
-                <Image Source="{StaticResource fic_arrow_forward_24px}" Width="12" Height="12" Margin="2"
-                       Visibility="{Binding IsShortcut, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Grid Width="18" Height="18" Margin="2,0,0,0" Visibility="{Binding IsShortcut, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Image Source="{StaticResource fic_arrow_forward_24px}" Width="10" Height="10" Margin="0,2,4,2"/>
             </Grid>
-        </DockPanel>
+        </Grid>
 
-        <local:FolderListIconMark HorizontalAlignment="Right"/>
+        <Grid Width="18" Height="18" Margin="2,0,0,0" Visibility="{Binding IconOverlay, Converter={StaticResource FolderItemIconOverlayToVisibilityConverter}}" >
+            <Image VerticalAlignment="Center" HorizontalAlignment="Center" Width="14" Height="14" Source="{Binding IconOverlay, Converter={StaticResource FolderItemIconOverlayToImageSourceConverter}}"/>
+        </Grid>
 
-    </Grid>
+    </DockPanel>
+
 </UserControl>

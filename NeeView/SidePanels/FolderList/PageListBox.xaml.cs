@@ -49,14 +49,29 @@ namespace NeeView
             InitializeCommand();
 
             _vm = vm;
-            _vm.ViewItemsChanged += ViewModel_ViewItemsChanged;
             this.DataContext = _vm;
 
             // タッチスクロール操作の終端挙動抑制
             this.ListBox.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
 
             _thumbnailLoader = new ListBoxThumbnailLoader(this, QueueElementPriority.PageListThumbnail);
+
+            this.Loaded += PageListBox_Loaded;
+            this.Unloaded += PageListBox_Unloaded;
         }
+
+        private void PageListBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            _vm.ViewItemsChanged += ViewModel_ViewItemsChanged;
+            _vm.CollectionChanged += ViewModel_CollectionChanged;
+        }
+
+        private void PageListBox_Unloaded(object sender, RoutedEventArgs e)
+        {
+            _vm.ViewItemsChanged -= ViewModel_ViewItemsChanged;
+            _vm.CollectionChanged -= ViewModel_CollectionChanged;
+        }
+
 
         #endregion
 
@@ -104,6 +119,12 @@ namespace NeeView
         private void ViewModel_ViewItemsChanged(object sender, ViewItemsChangedEventArgs e)
         {
             UpdateViewItems(e.ViewItems, e.Direction);
+        }
+
+        //
+        private void ViewModel_CollectionChanged(object sender, EventArgs e)
+        {
+            _thumbnailLoader.Load();
         }
 
         //

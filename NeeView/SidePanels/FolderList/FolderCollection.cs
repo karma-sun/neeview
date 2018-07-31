@@ -292,7 +292,7 @@ namespace NeeView
         /// アイコンの表示更新
         /// </summary>
         /// <param name="path">指定パスの項目を更新。nullの場合全ての項目を更新</param>
-        public void RefleshIcon(QueryPath path)
+        public void RefreshIcon(QueryPath path)
         {
             if (Items == null) return;
 

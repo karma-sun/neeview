@@ -13,7 +13,7 @@ using System.Windows;
 
 namespace NeeView
 {
-    public class ThumbnailProfile
+    public class ThumbnailProfile : BindableBase
     {
         public static ThumbnailProfile Current { get; private set; }
 
@@ -90,6 +90,31 @@ namespace NeeView
                 App.Current.Resources["ThumbnailHeight"] = (double)height;
             }
         }
+
+
+        private int _tileWidth = 128;
+        [PropertyRange("@ParamThumbnailTileWidth", 64, 256, TickFrequency = 8, Format = "{0}×{0}", Tips = "@ParamThumbnailTileWidthTips")]
+        public int TileWidth
+        {
+            get { return _tileWidth; }
+            set
+            {
+                _tileWidth = MathUtility.Clamp(value, 64, 256);
+                int width = _tileWidth;
+                int height = _tileWidth;
+                App.Current.Resources["TileWidth"] = (double)width;
+                App.Current.Resources["TileHeight"] = (double)height;
+            }
+        }
+
+        private bool _IsTileNameVisibled = true;
+        [PropertyMember("@ParamThumbnailIsTileNameVisibled")]
+        public bool IsTileNameVisibled
+        {
+            get { return _IsTileNameVisibled; }
+            set { SetProperty(ref _IsTileNameVisibled, value); }
+        }
+
 
         /// <summary>
         /// IsThumbnailPopup property.
@@ -169,6 +194,12 @@ namespace NeeView
             [DataMember, DefaultValue(200)]
             public int BannerWidth { get; set; }
 
+            [DataMember, DefaultValue(96)]
+            public int TileWidth { get; set; }
+
+            [DataMember, DefaultValue(true)]
+            public bool IsTileNameVisibled { get; set; }
+
 
             [OnDeserializing]
             private void Deserializing(StreamingContext context)
@@ -189,6 +220,8 @@ namespace NeeView
             memento.ThumbnailWidth = this.ThumbnailWidth;
             memento.BannerWidth = this.BannerWidth;
             memento.IsThumbnailPopup = this.IsThumbnailPopup;
+            memento.TileWidth = this.TileWidth;
+            memento.IsTileNameVisibled = this.IsTileNameVisibled;
             return memento;
         }
 
@@ -204,6 +237,8 @@ namespace NeeView
             this.ThumbnailWidth = memento.ThumbnailWidth;
             this.BannerWidth = memento.BannerWidth;
             this.IsThumbnailPopup = memento.IsThumbnailPopup;
+            this.TileWidth = memento.TileWidth;
+            this.IsTileNameVisibled = memento.IsTileNameVisibled;
         }
         #endregion
 

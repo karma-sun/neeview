@@ -7,6 +7,7 @@
              xmlns:local="clr-namespace:NeeView"
              xmlns:properties="clr-namespace:NeeView.Properties"
              xmlns:nw="clr-namespace:NeeView.Windows"
+             xmlns:vwp="clr-namespace:CodePlex.VirtualizingWrapPanel"
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance local:FolderListDataContext_Design, IsDesignTimeCreatable=True}"
              d:DesignHeight="300" d:DesignWidth="300"
@@ -19,14 +20,16 @@
         <local:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter"/>
         <local:FolderIconLayoutToVisibilityConverter x:Key="FolderIconLayoutToVisibilityConverter"/>
 
-        <Style TargetType="TextBlock" x:Key="FolderName">
+        <Style TargetType="TextBlock" x:Key="FolderNameBase">
             <Setter Property="Text" Value="{Binding Name}"/>
+            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="FolderName" BasedOn="{StaticResource FolderNameBase}">
+            <Setter Property="Margin" Value="5,0"/>
             <Setter Property="ToolTip" Value="{Binding Detail}"/>
             <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
-            <Setter Property="ToolTipService.BetweenShowDelay" Value="1000"/>
-            <Setter Property="Margin" Value="5,0"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding ElementName=ListBox, Path=DataContext.IsRenaming}" Value="True">
                     <Setter Property="ToolTipService.IsEnabled" Value="False"/>
@@ -47,6 +50,13 @@
         <Style TargetType="TextBlock" x:Key="FolderNameBanner" BasedOn="{StaticResource FolderName}">
             <Setter Property="TextWrapping" Value="{DynamicResource PanelTextWrapping}"/>
             <Setter Property="Height" Value="{DynamicResource PanelTextWrappedHeight}"/>
+        </Style>
+
+        <Style TargetType="TextBlock" x:Key="FolderNameTile" BasedOn="{StaticResource FolderNameBase}">
+            <Setter Property="TextWrapping" Value="{DynamicResource PanelTextWrapping}"/>
+            <Setter Property="Height" Value="{DynamicResource PanelTextWrappedHeight}"/>
+            <Setter Property="Visibility" Value="{Binding ElementName=ListBox, Path=DataContext.Model.ThumbnailProfile.IsTileNameVisibled, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
         </Style>
 
         <Style TargetType="TextBlock" x:Key="FolderParameter">
@@ -134,6 +144,30 @@
             </Border>
         </DataTemplate>
 
+        <!-- Tile -->
+        <DataTemplate x:Key="TileTemplate">
+            <DockPanel Margin="2,5" Width="{DynamicResource TileWidth}">
+                <StackPanel Margin="0" Width="{DynamicResource TileWidth}" ToolTip="{Binding Detail}" ToolTipService.InitialShowDelay="1000" >
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=ListBox, Path=DataContext.IsRenaming}" Value="True">
+                                    <Setter Property="ToolTipService.IsEnabled" Value="False"/>
+                                    <Setter Property="ToolTip" Value="{x:Null}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+                    <Grid Width="{DynamicResource TileWidth}" Height="{DynamicResource TileHeight}">
+                        <local:FolderListTile DataContext="{Binding Thumbnail}"/>
+                    </Grid>
+                    <DockPanel>
+                        <local:FolderListIcon DockPanel.Dock="Right" VerticalAlignment="Top" IsKeepArea="False" />
+                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderNameTile}"/>
+                    </DockPanel>
+                </StackPanel>
+            </DockPanel>
+        </DataTemplate>
 
     </UserControl.Resources>
 
@@ -222,6 +256,18 @@
                             </MultiDataTrigger.Conditions>
                             <Setter Property="ItemTemplate" Value="{StaticResource BannerFolder2}"/>
                         </MultiDataTrigger>
+
+                        <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Tile">
+                            <Setter Property="ItemTemplate" Value="{StaticResource TileTemplate}"/>
+                            <Setter Property="ItemsPanel">
+                                <Setter.Value>
+                                    <ItemsPanelTemplate>
+                                        <vwp:VirtualizingWrapPanel IsItemsHost="True" />
+                                    </ItemsPanelTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+
                     </Style.Triggers>
                 </Style>
             </ListBox.Style>

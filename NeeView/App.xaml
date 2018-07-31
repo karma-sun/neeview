@@ -27,6 +27,8 @@
                     <system:Double x:Key="BannerHeight">48.0</system:Double>
                     <system:Double x:Key="ThumbnailWidth">48</system:Double>
                     <system:Double x:Key="ThumbnailHeight">58</system:Double>
+                    <system:Double x:Key="TileWidth">128</system:Double>
+                    <system:Double x:Key="TileHeight">128</system:Double>
 
                     <!-- Panel ListBox -->
                     <ScrollUnit x:Key="PanelScrollUnit">Pixel</ScrollUnit>
@@ -589,20 +591,6 @@
                         </DrawingImage.Drawing>
                     </DrawingImage>
 
-                    <DrawingImage x:Key="ic_done_24px">
-                        <DrawingImage.Drawing>
-                            <DrawingGroup Opacity="1">
-                                <DrawingGroup.Children>
-                                    <GeometryDrawing Brush="{DynamicResource NVCheckMarkBrush}" Pen="{x:Null}">
-                                        <GeometryDrawing.Geometry>
-                                            <PathGeometry FillRule="Nonzero" Figures="M19.6000003814697,5.59999990463257L21,7 9,19 3.40000009536743,13.3999996185303 4.80000019073486,12 9,16.2000007629395 19.6000003814697,5.59999990463257z" />
-                                        </GeometryDrawing.Geometry>
-                                    </GeometryDrawing>
-                                </DrawingGroup.Children>
-                            </DrawingGroup>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
                     <DrawingImage x:Key="ic_done_24x_black">
                         <DrawingImage.Drawing>
                             <DrawingGroup Opacity="1">
@@ -624,20 +612,6 @@
                                     <GeometryDrawing Brush="{DynamicResource NVCheckMarkBrush}" Pen="{x:Null}">
                                         <GeometryDrawing.Geometry>
                                             <PathGeometry FillRule="Nonzero" Figures="M17.5900001525879,6.57999992370605L10,14.1700000762939 6.40999984741211,10.5900001525879 5,12 10,17 19,8 17.5900001525879,6.57999992370605z M12,2C17.5200004577637,2 22,6.48000001907349 22,12 22,17.5200004577637 17.5200004577637,22 12,22 6.48000001907349,22 2,17.5200004577637 2,12 2,6.48000001907349 6.48000001907349,2 12,2z" />
-                                        </GeometryDrawing.Geometry>
-                                    </GeometryDrawing>
-                                </DrawingGroup.Children>
-                            </DrawingGroup>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_grade_24px">
-                        <DrawingImage.Drawing>
-                            <DrawingGroup Opacity="1">
-                                <DrawingGroup.Children>
-                                    <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}">
-                                        <GeometryDrawing.Geometry>
-                                            <PathGeometry FillRule="Nonzero" Figures="M12,1.99999988079071L14.8100004196167,8.63000011444092 22,9.23999977111816 16.5400009155273,13.9700002670288 18.1800003051758,21 12,17.2700004577637 5.82000017166138,21 7.46000003814697,13.9700002670288 2,9.23999977111816 9.1899995803833,8.63000011444092 12,1.99999988079071z" />
                                         </GeometryDrawing.Geometry>
                                     </GeometryDrawing>
                                 </DrawingGroup.Children>

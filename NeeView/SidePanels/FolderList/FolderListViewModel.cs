@@ -393,11 +393,11 @@ namespace NeeView
             {
                 case nameof(_model.IsVisibleHistoryMark):
                     FolderItem.IsVisibleHistoryMark = _model.IsVisibleHistoryMark;
-                    this.FolderCollection?.RefleshIcon(null);
+                    this.FolderCollection?.RefreshIcon(null);
                     break;
                 case nameof(_model.IsVisibleBookmarkMark):
                     FolderItem.IsVisibleBookmarkMark = _model.IsVisibleBookmarkMark;
-                    this.FolderCollection?.RefleshIcon(null);
+                    this.FolderCollection?.RefreshIcon(null);
                     break;
                 case nameof(_model.FolderIconLayout):
                 case nameof(_model.PanelListItemStyle):
@@ -434,6 +434,7 @@ namespace NeeView
             items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleList, PanelListItemStyle.Normal));
             items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleContent, PanelListItemStyle.Content));
             items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
+            items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleTile, PanelListItemStyle.Tile));
             items.Add(new Separator());
             items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuAddQuickAccess, AddQuickAccess));
             items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuClearHistory, CommandType.ClearHistoryInPlace, _model.FolderPanel));

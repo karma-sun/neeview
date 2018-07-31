@@ -23,6 +23,7 @@ namespace NeeView
         double Height { get; }
 
         bool IsUniqueImage { get; }
+        bool IsNormalImage { get; }
         Brush Background { get; }
     }
 
@@ -39,6 +40,7 @@ namespace NeeView
 
         public ImageSource BitmapSource { get; }
         public bool IsUniqueImage => false;
+        public bool IsNormalImage => false;
         public Brush Background => Brushes.Transparent;
 
 
@@ -121,11 +123,7 @@ namespace NeeView
                     {
                         Changed?.Invoke(this, null);
                         Touched?.Invoke(this, null);
-                        RaisePropertyChanged(nameof(BitmapSource));
-                        RaisePropertyChanged(nameof(Width));
-                        RaisePropertyChanged(nameof(Height));
-                        RaisePropertyChanged(nameof(IsUniqueImage));
-                        RaisePropertyChanged(nameof(Background));
+                        RaisePropertyChanged("");
                     }
                 }
             }
@@ -136,6 +134,11 @@ namespace NeeView
         /// </summary>
         public bool IsUniqueImage => _image != null && _image != _emptyImage && _image != _mediaImage && _image != _folderImage;
 
+        /// <summary>
+        /// 標準イメージ？
+        /// バナーでの引き伸ばし許可
+        /// </summary>
+        public bool IsNormalImage => _image != null && _image != _mediaImage && _image != _folderImage;
 
         /// <summary>
         /// View用Bitmapプロパティ
@@ -265,17 +268,18 @@ namespace NeeView
 
 
         /// <summary>
-        /// BitmapSource取得
+        /// ImageSource取得
         /// </summary>
         /// <returns></returns>
-        public BitmapSource CreateBitmap()
+        public ImageSource CreateBitmap()
         {
             if (IsValid)
             {
                 Touched?.Invoke(this, null);
                 if (_image == _emptyImage)
                 {
-                    return EmptyBitmapSource;
+                    return MainWindow.Current.Resources["thumbnail_default"] as ImageSource;
+                    ////return EmptyBitmapSource;
                 }
                 else if (_image == _mediaImage)
                 {

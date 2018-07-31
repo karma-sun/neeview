@@ -38,7 +38,7 @@ namespace NeeView
         {
             [QueryScheme.File] = MainWindow.Current.Resources["ic_desktop_windows_24px"] as ImageSource,
             [QueryScheme.Root] = MainWindow.Current.Resources["ic_bookshelf"] as ImageSource,
-            [QueryScheme.Bookmark] = App.Current.Resources["ic_grade_24px"] as ImageSource,
+            [QueryScheme.Bookmark] = MainWindow.Current.Resources["ic_grade_24px"] as ImageSource,
             [QueryScheme.Pagemark] = App.Current.Resources["ic_bookmark_24px"] as ImageSource,
             [QueryScheme.QuickAccess] = MainWindow.Current.Resources["ic_lightning"] as ImageSource,
         };

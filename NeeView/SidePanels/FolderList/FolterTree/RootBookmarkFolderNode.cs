@@ -17,7 +17,7 @@ namespace NeeView
 
         public override string DispName { get => Properties.Resources.WordBookmark; set { } }
 
-        public override ImageSource Icon => App.Current.Resources["ic_grade_24px"] as ImageSource;
+        public override ImageSource Icon => MainWindow.Current.Resources["ic_grade_24px"] as ImageSource;
 
 
         private void BookmarkCollection_BookmarkChanged(object sender, BookmarkCollectionChangedEventArgs e)

@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace NeeView
@@ -50,6 +51,7 @@ namespace NeeView
         None,
         Checked,
         Star,
+        Disable,
     }
 
     //
@@ -117,6 +119,7 @@ namespace NeeView
                 if (SetProperty(ref _name, value))
                 {
                     RaisePropertyChanged(nameof(Path));
+                    RaisePropertyChanged(nameof(Detail));
                 }
             }
         }
@@ -238,7 +241,22 @@ namespace NeeView
 
         public string Detail => Name;
 
-        public virtual IThumbnail Thumbnail => ArchivePage?.Thumbnail;
+        public virtual IThumbnail Thumbnail
+        {
+            get
+            {
+                if (IsDrive)
+                {
+                    return new ConstThumbnail(MainWindow.Current.Resources["ic_drive"] as ImageSource);
+                }
+                else if (IsEmpty)
+                {
+                    return new ConstThumbnail(MainWindow.Current.Resources["ic_noentry"] as ImageSource);
+                }
+
+                return ArchivePage?.Thumbnail;
+            }
+        }
 
         public virtual Page GetPage()
         {
@@ -284,7 +302,9 @@ namespace NeeView
 
         private void UpdateOverlay()
         {
-            if (IsVisibleBookmarkMark && BookmarkCollection.Current.Contains(TargetPath.SimplePath))
+            if (IsDisable)
+                _iconOverlay = FolderItemIconOverlay.Disable;
+            else if (IsVisibleBookmarkMark && BookmarkCollection.Current.Contains(TargetPath.SimplePath))
                 _iconOverlay = FolderItemIconOverlay.Star;
             else if (IsVisibleHistoryMark && BookHistoryCollection.Current.Contains(TargetPath.SimplePath))
                 _iconOverlay = FolderItemIconOverlay.Checked;
@@ -297,7 +317,7 @@ namespace NeeView
         public void NotifyIconOverlayChanged()
         {
             UpdateOverlay();
-            RaisePropertyChanged("");
+            RaisePropertyChanged(nameof(IconOverlay));
         }
 
         //

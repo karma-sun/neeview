@@ -7,20 +7,23 @@
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"
              d:DesignHeight="100" d:DesignWidth="100">
-    
+
+    <UserControl.Resources>
+        <local:ImageSourceToThumbnailConverter x:Key="ImageSourceToThumbnailConverter"/>
+    </UserControl.Resources>
+
     <Grid>
-        <Image
-           Width="{DynamicResource ThumbnailWidth}" Height="{DynamicResource ThumbnailHeight}" Margin="5,0"
-           HorizontalAlignment="Center" VerticalAlignment="Center"
-           RenderOptions.BitmapScalingMode="HighQuality"
-           Stretch="Uniform"
-           UseLayoutRounding="True"
-           Source="{Binding BitmapSource}"
-           ToolTipOpening="Image_ToolTipOpening"
-           ToolTipService.IsEnabled="{Binding IsUniqueImage}">
-            <Image.ToolTip>
-                <Image Source="{Binding BitmapSource}"/>
-            </Image.ToolTip>
-        </Image>
+        <Grid Width="{DynamicResource ThumbnailWidth}" Height="{DynamicResource ThumbnailHeight}" Margin="5,0" >
+            <Image HorizontalAlignment="Center" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True"
+                   Stretch="Uniform"
+                   Source="{Binding BitmapSource, Converter={StaticResource ImageSourceToThumbnailConverter}}"
+                   ToolTipOpening="Image_ToolTipOpening"
+                   ToolTipService.InitialShowDelay="1000"
+                   ToolTipService.IsEnabled="{Binding IsUniqueImage}">
+                <Image.ToolTip>
+                    <Image Source="{Binding BitmapSource}"/>
+                </Image.ToolTip>
+            </Image>
+        </Grid>
     </Grid>
 </UserControl>

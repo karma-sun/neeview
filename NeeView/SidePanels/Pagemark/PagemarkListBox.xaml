@@ -78,6 +78,7 @@
     </UserControl.Resources>
 
     <TreeView x:Name="TreeView"
+              FontFamily="{DynamicResource PanelFontFamily}" FontSize="{DynamicResource PanelFontSize}"
               Foreground="{DynamicResource NVForeground}" Background="Transparent" BorderThickness="0"
               ItemsSource="{Binding Model.PagemarkCollection.Items.Children}"
               SelectedItemChanged="TreeView_SelectedItemChanged"

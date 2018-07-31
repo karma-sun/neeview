@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
              xmlns:properties="clr-namespace:NeeView.Properties"
+             xmlns:vwp="clr-namespace:CodePlex.VirtualizingWrapPanel"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              Foreground="{DynamicResource NVForeground}">
@@ -65,6 +66,14 @@
             <Setter Property="Visibility" Value="{Binding IsVisibled, Converter={StaticResource BooleanToVisibilityHiddenConverter}}"/>
         </Style>
 
+        <Style TargetType="Rectangle" x:Key="TileSelectedStyle">
+            <Setter Property="Height" Value="4"/>
+            <Setter Property="Margin" Value="-1,0,-1,-1"/>
+            <Setter Property="Fill" Value="{StaticResource NVSelectedMarkBrush}"/>
+            <Setter Property="Visibility" Value="{Binding IsVisibled, Converter={StaticResource BooleanToVisibilityHiddenConverter}}"/>
+        </Style>
+
+
         <Style TargetType="Image" x:Key="PagemarkIconStyle">
             <Setter Property="Width" Value="12"/>
             <Setter Property="Height" Value="12"/>
@@ -112,6 +121,23 @@
             </DockPanel>
         </DataTemplate>
 
+        <DataTemplate x:Key="TileTemplate">
+            <DockPanel Margin="5" Width="{DynamicResource TileWidth}">
+                <StackPanel Margin="0" Width="{DynamicResource TileWidth}">
+                    <Grid Width="{DynamicResource TileWidth}" Height="{DynamicResource TileHeight}">
+                        <local:FolderListTile DataContext="{Binding Thumbnail}"/>
+                        <Image Style="{StaticResource PagemarkIconStyle}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+                    </Grid>
+                    <Rectangle DockPanel.Dock="Bottom" Style="{StaticResource TileSelectedStyle}"/>
+                    <TextBlock Style="{Binding ElementName=ListBox, Path=DataContext.Model.Format, Converter={StaticResource PageNameConverter}}" TextWrapping="{DynamicResource PanelTextWrapping}"
+                               Visibility="{Binding ElementName=ListBox, Path=DataContext.Model.ThumbnailProfile.IsTileNameVisibled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                               Margin="0"
+                               Height="{DynamicResource PanelTextWrappedHeight}"
+                               HorizontalAlignment="Center"/>
+                </StackPanel>
+            </DockPanel>
+        </DataTemplate>
+
     </UserControl.Resources>
 
     <ListBox x:Name="ListBox" Focusable="True"
@@ -144,6 +170,16 @@
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Banner">
                         <Setter Property="ItemTemplate" Value="{StaticResource BannerTemplate}"/>
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Tile">
+                        <Setter Property="ItemTemplate" Value="{StaticResource TileTemplate}"/>
+                        <Setter Property="ItemsPanel">
+                            <Setter.Value>
+                                <ItemsPanelTemplate>
+                                    <vwp:VirtualizingWrapPanel IsItemsHost="True" />
+                                </ItemsPanelTemplate>
+                            </Setter.Value>
+                        </Setter>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>

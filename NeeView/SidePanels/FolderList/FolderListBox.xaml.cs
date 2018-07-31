@@ -594,6 +594,15 @@ namespace NeeView
                     _vm.MoveToUp.Execute(null);
                     e.Handled = true;
                 }
+                else if (key == Key.Down)
+                {
+                    var item = (sender as ListBox)?.SelectedItem as FolderItem;
+                    if (item != null)
+                    {
+                        _vm.MoveToSafety(item);
+                        e.Handled = true;
+                    }
+                }
                 else if (key == Key.Left)
                 {
                     _vm.MoveToPrevious.Execute(null);
@@ -609,9 +618,9 @@ namespace NeeView
 
         private void FolderList_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            bool isLRKeyEnabled = SidePanelProfile.Current.IsLeftRightKeyEnabled;
+            bool isLRKeyEnabled = SidePanelProfile.Current.IsLeftRightKeyEnabled && _vm.Model.PanelListItemStyle != PanelListItemStyle.Tile;
 
-            if ((isLRKeyEnabled && e.Key == Key.Left) || e.Key == Key.Back) // Backspace
+            if ((isLRKeyEnabled && e.Key == Key.Left) || e.Key == Key.Back) // ←, Backspace
             {
                 _vm.MoveToUp.Execute(null);
                 e.Handled = true;
@@ -663,7 +672,7 @@ namespace NeeView
         //
         private void FolderListItem_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            bool isLRKeyEnabled = SidePanelProfile.Current.IsLeftRightKeyEnabled;
+            bool isLRKeyEnabled = SidePanelProfile.Current.IsLeftRightKeyEnabled && _vm.Model.PanelListItemStyle != PanelListItemStyle.Tile;
             var item = (sender as ListBoxItem)?.Content as FolderItem;
 
             if (e.Key == Key.Return)
@@ -676,7 +685,7 @@ namespace NeeView
                 _vm.MoveToSafety(item);
                 e.Handled = true;
             }
-            else if ((isLRKeyEnabled && e.Key == Key.Left) || e.Key == Key.Back) // ← Backspace
+            else if ((isLRKeyEnabled && e.Key == Key.Left) || e.Key == Key.Back) // ←, Backspace
             {
                 if (item != null)
                 {

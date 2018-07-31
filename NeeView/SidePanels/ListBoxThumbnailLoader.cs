@@ -17,7 +17,6 @@ namespace NeeView
     {
         private IPageListPanel _panel;
         private QueueElementPriority _priority;
-        private VirtualizingStackPanel _virtualizingStackPanel;
 
         public ListBoxThumbnailLoader(IPageListPanel panelListBox, QueueElementPriority priority)
         {
@@ -54,17 +53,14 @@ namespace NeeView
                 return;
             }
 
-            if (_virtualizingStackPanel == null)
+            var virtualizingPanel = VisualTreeUtility.FindVisualChild<VirtualizingPanel>(_panel.PageCollectionListBox);
+            if (virtualizingPanel == null)
             {
-                _virtualizingStackPanel = VisualTreeUtility.FindVisualChild<VirtualizingStackPanel>(_panel.PageCollectionListBox);
-                if (_virtualizingStackPanel == null)
-                {
-                    return;
-                }
+                return;
             }
 
             // 有効な ListBoxItem 収集
-            var items = _panel.CollectPageList(_virtualizingStackPanel.Children.Cast<ListBoxItem>().Select(i => i.DataContext)).ToList();
+            var items = _panel.CollectPageList(virtualizingPanel.Children.Cast<ListBoxItem>().Select(i => i.DataContext)).ToList();
 
             // 未処理の要求を解除
             JobEngine.Current.Clear(_priority);

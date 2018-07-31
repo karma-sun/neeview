@@ -10508,6 +10508,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Display the name when tile style. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamThumbnailIsTileNameVisibled {
+            get {
+                return ResourceManager.GetString("ParamThumbnailIsTileNameVisibled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Page Thumbnail Capacity に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamThumbnailPageCapacity {
@@ -10558,6 +10567,24 @@ namespace NeeView.Properties {
         public static string ParamThumbnailThumbnailWidthTips {
             get {
                 return ResourceManager.GetString("ParamThumbnailThumbnailWidthTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Tile size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamThumbnailTileWidth {
+            get {
+                return ResourceManager.GetString("ParamThumbnailTileWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   It is the tile size in the folder list tile style. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamThumbnailTileWidthTips {
+            get {
+                return ResourceManager.GetString("ParamThumbnailTileWidthTips", resourceCulture);
             }
         }
         
@@ -12506,6 +12533,15 @@ namespace NeeView.Properties {
         public static string WordStyleList {
             get {
                 return ResourceManager.GetString("WordStyleList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Tile style に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordStyleTile {
+            get {
+                return ResourceManager.GetString("WordStyleTile", resourceCulture);
             }
         }
         

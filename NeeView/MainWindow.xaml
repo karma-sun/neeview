@@ -27,6 +27,7 @@
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="MainWindowResourceDictionary.xaml"/>
                 <ResourceDictionary Source="SidePanels/PanelIconDictionary.xaml"/>
                 <ResourceDictionary Source="SidePanels/FolderList/FolderListIconDictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>

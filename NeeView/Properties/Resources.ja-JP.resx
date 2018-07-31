@@ -4308,4 +4308,16 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="FolderListItemMenuDeleteBookmark" xml:space="preserve">
     <value>ブックマークから外す</value>
   </data>
+  <data name="ParamThumbnailTileWidth" xml:space="preserve">
+    <value>タイルサイズ</value>
+  </data>
+  <data name="ParamThumbnailTileWidthTips" xml:space="preserve">
+    <value>フォルダーリストのタイル表示でのサムネイルサイズです。</value>
+  </data>
+  <data name="WordStyleTile" xml:space="preserve">
+    <value>タイル表示</value>
+  </data>
+  <data name="ParamThumbnailIsTileNameVisibled" xml:space="preserve">
+    <value>タイル表示時に名前を表示する</value>
+  </data>
 </root>

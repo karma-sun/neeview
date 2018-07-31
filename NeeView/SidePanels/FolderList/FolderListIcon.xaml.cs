@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,25 +21,27 @@ namespace NeeView
     /// </summary>
     public partial class FolderListIcon : UserControl
     {
-        public Visibility FolderVisibility
+
+        public bool IsKeepArea
         {
-            get { return (Visibility)GetValue(FolderVisibilityProperty); }
-            set { SetValue(FolderVisibilityProperty, value); }
+            get { return (bool)GetValue(IsKeepAreaProperty); }
+            set { SetValue(IsKeepAreaProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for FolderVisibility.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty FolderVisibilityProperty =
-            DependencyProperty.Register("FolderVisibility", typeof(Visibility), typeof(FolderListIcon), new PropertyMetadata(Visibility.Visible, FolderVisibilityChanged));
+        public static readonly DependencyProperty IsKeepAreaProperty =
+            DependencyProperty.Register("IsKeepArea", typeof(bool), typeof(FolderListIcon), new PropertyMetadata(false, IsKeepAreaPropertyChanged));
 
-        private static void FolderVisibilityChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void IsKeepAreaPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is FolderListIcon control)
             {
-                control.Folder.Visibility = control.FolderVisibility;
+                control.Spacer.Visibility = control.IsKeepArea ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
-        
+
+
+
         /// <summary>
         /// constructor
         /// </summary>
@@ -47,5 +50,54 @@ namespace NeeView
             InitializeComponent();
         }
 
+    }
+
+    [ValueConversion(typeof(FolderItemIconOverlay), typeof(Visibility))]
+    public class FolderItemIconOverlayToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is FolderItemIconOverlay overlay)
+            {
+                if (overlay != FolderItemIconOverlay.None && overlay != FolderItemIconOverlay.Uninitialized)
+                {
+                    return Visibility.Visible;
+                }
+            }
+
+            return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    [ValueConversion(typeof(FolderItemIconOverlay), typeof(ImageSource))]
+    public class FolderItemIconOverlayToImageSourceConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is FolderItemIconOverlay overlay)
+            {
+                switch (overlay)
+                {
+                    case FolderItemIconOverlay.Checked:
+                        return MainWindow.Current.Resources["ic_done_24px"];
+                    case FolderItemIconOverlay.Star:
+                        return MainWindow.Current.Resources["ic_grade_24px"];
+                    case FolderItemIconOverlay.Disable:
+                        return App.Current.Resources["ic_clear_24px"];
+                }
+            }
+
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

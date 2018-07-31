@@ -107,7 +107,7 @@ namespace NeeView
             _bookHub = bookHub;
 
             _bookHub.FolderListSync += async (s, e) => await SyncWeak(e);
-            _bookHub.HistoryChanged += (s, e) => RefleshIcon(new QueryPath(e.Key));
+            _bookHub.HistoryChanged += (s, e) => RefreshIcon(new QueryPath(e.Key));
 
             _bookHub.BookmarkChanged += (s, e) =>
             {
@@ -115,12 +115,12 @@ namespace NeeView
                 {
                     case EntryCollectionChangedAction.Reset:
                     case EntryCollectionChangedAction.Replace:
-                        RefleshIcon(null);
+                        RefreshIcon(null);
                         break;
                     default:
                         if (e.Item.Value is Bookmark bookmark)
                         {
-                            RefleshIcon(new QueryPath(bookmark.Place));
+                            RefreshIcon(new QueryPath(bookmark.Place));
                         }
                         break;
                 }
@@ -174,6 +174,8 @@ namespace NeeView
                 {
                     default:
                         return false;
+                    case PanelListItemStyle.Tile:
+                        return true;
                     case PanelListItemStyle.Content:
                         return ThumbnailProfile.Current.ThumbnailWidth > 0.0;
                     case PanelListItemStyle.Banner:
@@ -459,6 +461,9 @@ namespace NeeView
             get { return _IsLocked; }
             set { SetProperty(ref _IsLocked, value); }
         }
+
+
+        public ThumbnailProfile ThumbnailProfile => ThumbnailProfile.Current;
 
 
         #endregion
@@ -757,7 +762,7 @@ namespace NeeView
         /// フォルダーリスト更新
         /// </summary>
         /// <param name="force">必要が無い場合も更新する</param>
-        public async Task RefleshAsync(bool force)
+        public async Task RefreshAsync(bool force)
         {
             if (this.FolderCollection == null) return;
 
@@ -834,9 +839,9 @@ namespace NeeView
         /// フォルダーアイコンの表示更新
         /// </summary>
         /// <param name="path">更新するパス。nullならば全て更新</param>
-        public void RefleshIcon(QueryPath path)
+        public void RefreshIcon(QueryPath path)
         {
-            this.FolderCollection?.RefleshIcon(path);
+            this.FolderCollection?.RefreshIcon(path);
         }
 
         // ブックの読み込み
@@ -940,6 +945,8 @@ namespace NeeView
         {
             var items = FolderCollection?.Items.Select(e => e.TargetPath.SimplePath).Where(e => e != null);
             BookHistoryCollection.Current.Remove(items);
+
+            RefreshIcon(null);
         }
 
         #endregion
@@ -1082,7 +1089,7 @@ namespace NeeView
 
                 if (collection != null && !_updateFolderCancellationTokenSource.Token.IsCancellationRequested)
                 {
-                    collection.ParameterChanged += async (s, e) => await RefleshAsync(true);
+                    collection.ParameterChanged += async (s, e) => await RefreshAsync(true);
                     collection.CollectionChanging += FolderCollection_CollectionChanging;
                     collection.CollectionChanged += FolderCollection_CollectionChanged;
                     this.FolderCollection = collection;

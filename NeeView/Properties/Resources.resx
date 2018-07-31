@@ -4308,4 +4308,16 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="FolderListItemMenuDeleteBookmark" xml:space="preserve">
     <value>Remove bookmark</value>
   </data>
+  <data name="ParamThumbnailTileWidth" xml:space="preserve">
+    <value>Tile size</value>
+  </data>
+  <data name="ParamThumbnailTileWidthTips" xml:space="preserve">
+    <value>It is the tile size in the folder list tile style.</value>
+  </data>
+  <data name="WordStyleTile" xml:space="preserve">
+    <value>Tile style</value>
+  </data>
+  <data name="ParamThumbnailIsTileNameVisibled" xml:space="preserve">
+    <value>Display the name when tile style.</value>
+  </data>
 </root>

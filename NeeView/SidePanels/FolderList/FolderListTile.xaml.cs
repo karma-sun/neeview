@@ -18,35 +18,32 @@ using System.Windows.Shapes;
 namespace NeeView
 {
     /// <summary>
-    /// FolderListThumbnail.xaml の相互作用ロジック
+    /// FolderListTile.xaml の相互作用ロジック
     /// </summary>
-    public partial class FolderListThumbnail : UserControl
+    public partial class FolderListTile : UserControl
     {
-        public FolderListThumbnail()
+        public FolderListTile()
         {
             InitializeComponent();
         }
-
-        private void Image_ToolTipOpening(object sender, ToolTipEventArgs e)
-        {
-            e.Handled = !ThumbnailProfile.Current.IsThumbnailPopup;
-        }
     }
 
-
-    [ValueConversion(typeof(ImageSource), typeof(ImageSource))]
-    public class ImageSourceToThumbnailConverter : IValueConverter
+    [ValueConversion(typeof(IThumbnail), typeof(Thickness))]
+    public class ThumbnailToTileMarginConverter : IValueConverter
     {
-        private static readonly ImageSource _defaultThumbnail = MainWindow.Current.Resources["thumbnail_default"] as ImageSource;
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is null)
+            if (value is ConstThumbnail thumbnail)
             {
-                return _defaultThumbnail;
+                var width = ThumbnailProfile.Current.TileWidth;
+                if (width > 64)
+                {
+                    var margin = (width - 64) * 0.25;
+                    return new Thickness(margin);
+                }
             }
 
-            return value;
+            return new Thickness();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -54,5 +51,7 @@ namespace NeeView
             throw new NotImplementedException();
         }
     }
+
+
 
 }

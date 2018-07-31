@@ -42,8 +42,9 @@ namespace NeeView
         public PageListViewModel(PageList model)
         {
             _model = model;
+            _model.CollectionChanging += PageList_CollectionChanging;
+            _model.CollectionChanged += PageList_CollectionChanged;
             _model.AddPropertyChanged(nameof(_model.PanelListItemStyle), (s, e) => UpdateListBoxContent());
-            _model.AddPropertyChanged(nameof(_model.PageCollection), PageList_UpdatePageCollection);
             _model.BookHub.ViewContentsChanged += BookHub_ViewContentsChanged;
             _model.BookOperation.BookChanged += (s, e) => Refresh();
 
@@ -55,9 +56,14 @@ namespace NeeView
             Refresh();
         }
 
+
+
         #endregion
 
         #region Events
+
+        public event EventHandler CollectionChanging;
+        public event EventHandler CollectionChanged;
 
         public event EventHandler<ViewItemsChangedEventArgs> ViewItemsChanged;
 
@@ -144,6 +150,7 @@ namespace NeeView
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleList, PanelListItemStyle.Normal));
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleContent, PanelListItemStyle.Content));
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
+            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleTile, PanelListItemStyle.Tile));
 
             this.MoreMenu = menu;
         }
@@ -183,10 +190,17 @@ namespace NeeView
 
         #region Methods
 
-        private void PageList_UpdatePageCollection(object sender, PropertyChangedEventArgs e)
+        private void PageList_CollectionChanging(object sender, EventArgs e)
         {
             IsPageCollectionDarty = true;
             RefreshPageSortMode();
+
+            CollectionChanging?.Invoke(this, null);
+        }
+
+        private void PageList_CollectionChanged(object sender, EventArgs e)
+        {
+            CollectionChanged?.Invoke(this, null);
         }
 
         //

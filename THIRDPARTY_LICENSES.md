@@ -74,3 +74,8 @@ ICON: pushpin, etc...
 * OnlineWebFonts.COM (C)
 * URL: [Icon Fonts](http://www.onlinewebfonts.com/icon)
 * License: [CC BY 3.0](http://creativecommons.org/licenses/by/3.0/)
+
+### VirtualizingStackPanel
+
+* URL: https://archive.codeplex.com/?p=uhimaniavwp
+* License: [Ms-PL](https://opensource.org/licenses/MS-PL)

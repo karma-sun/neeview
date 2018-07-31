@@ -185,17 +185,6 @@ namespace NeeView
         }
 
         /// <summary>
-        /// フォルダーアイコン表示位置
-        /// </summary>
-        private FolderIconLayout _folderIconLayout = FolderIconLayout.Default;
-        [PropertyMember("@ParamFolderListFolderIconLayout")]
-        public FolderIconLayout FolderIconLayout
-        {
-            get { return _folderIconLayout; }
-            set { if (_folderIconLayout != value) { _folderIconLayout = value; RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
         /// IsVisibleHistoryMark property.
         /// </summary>
         private bool _isVisibleHistoryMark = true;
@@ -1421,9 +1410,6 @@ namespace NeeView
             public PanelListItemStyle PanelListItemStyle { get; set; }
 
             [DataMember]
-            public FolderIconLayout FolderIconLayout { get; set; }
-
-            [DataMember]
             public bool IsVisibleHistoryMark { get; set; }
 
             [DataMember]
@@ -1474,7 +1460,6 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.PanelListItemStyle = this.PanelListItemStyle;
-            memento.FolderIconLayout = this.FolderIconLayout;
             memento.IsVisibleHistoryMark = this.IsVisibleHistoryMark;
             memento.IsVisibleBookmarkMark = this.IsVisibleBookmarkMark;
             memento.Home = this.Home;
@@ -1498,7 +1483,6 @@ namespace NeeView
             if (memento == null) return;
 
             this.PanelListItemStyle = memento.PanelListItemStyle;
-            this.FolderIconLayout = memento.FolderIconLayout;
             this.IsVisibleHistoryMark = memento.IsVisibleHistoryMark;
             this.IsVisibleBookmarkMark = memento.IsVisibleBookmarkMark;
             this.Home = memento.Home;

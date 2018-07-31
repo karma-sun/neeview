@@ -528,16 +528,12 @@
     <Compile Include="SidePanels\FolderList\FolderIcon.xaml.cs">
       <DependentUpon>FolderIcon.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SidePanels\FolderList\FolderIconLayout.cs" />
     <Compile Include="SidePanels\FolderList\FolderList.cs" />
     <Compile Include="SidePanels\FolderList\FolderListBanner.xaml.cs">
       <DependentUpon>FolderListBanner.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\FolderList\FolderListIcon.xaml.cs">
       <DependentUpon>FolderListIcon.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="SidePanels\FolderList\FolderListIconMark.xaml.cs">
-      <DependentUpon>FolderListIconMark.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\FolderList\FolderPanel.cs" />
     <Compile Include="SidePanels\FolderList\FolderListThumbnail.xaml.cs">
@@ -1028,10 +1024,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SidePanels\FolderList\FolderListIcon.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="SidePanels\FolderList\FolderListIconMark.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

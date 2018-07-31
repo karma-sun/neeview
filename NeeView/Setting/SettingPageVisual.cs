@@ -270,8 +270,7 @@ namespace NeeView.Setting
 
                 new SettingItemSection(Properties.Resources.SettingPagePanelFolderListVisual,
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsVisibleBookmarkMark))),
-                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsVisibleHistoryMark))),
-                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.FolderIconLayout)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsVisibleHistoryMark)))),
 
                 new SettingItemSection(Properties.Resources.SettingPagePanelFolderListTree,
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.FolderTreeLayout)))),

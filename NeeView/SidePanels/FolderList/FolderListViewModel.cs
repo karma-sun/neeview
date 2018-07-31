@@ -399,7 +399,6 @@ namespace NeeView
                     FolderItem.IsVisibleBookmarkMark = _model.IsVisibleBookmarkMark;
                     this.FolderCollection?.RefreshIcon(null);
                     break;
-                case nameof(_model.FolderIconLayout):
                 case nameof(_model.PanelListItemStyle):
                     UpdateListContent();
                     break;

@@ -47,7 +47,6 @@ namespace NeeView
         public object Model => new
         {
             PanelListItemStyle = PanelListItemStyle.Banner,
-            FolderIconLayout = FolderIconLayout.Default
         };
 
         public object FolderCollection => new

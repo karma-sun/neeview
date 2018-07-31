@@ -18,7 +18,6 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <local:BooleanReverseConverter x:Key="BooleanReverseConverter"/>
         <local:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter"/>
-        <local:FolderIconLayoutToVisibilityConverter x:Key="FolderIconLayoutToVisibilityConverter"/>
 
         <Style TargetType="TextBlock" x:Key="FolderNameBase">
             <Setter Property="Text" Value="{Binding Name}"/>
@@ -77,15 +76,6 @@
             </DockPanel>
         </DataTemplate>
 
-        <!-- Normal 2-->
-        <DataTemplate x:Key="NormalFolder2">
-            <DockPanel LastChildFill="False">
-                <local:FolderListIconMark DockPanel.Dock="Right"/>
-                <local:FolderIcon DockPanel.Dock="Left" />
-                <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderNameNormal}"/>
-            </DockPanel>
-        </DataTemplate>
-
         <!-- Content -->
         <DataTemplate x:Key="PictureFolder">
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
@@ -95,23 +85,6 @@
                     <StackPanel VerticalAlignment="Center">
                         <TextBlock Style="{StaticResource FolderParameter}" Text="{Binding Note}"/>
                         <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderNameContent}"/>
-                    </StackPanel>
-                </DockPanel>
-            </Border>
-        </DataTemplate>
-
-        <!-- Content 2 -->
-        <DataTemplate x:Key="PictureFolder2">
-            <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
-                <DockPanel LastChildFill="False" Margin="2">
-                    <local:FolderListIconMark DockPanel.Dock="Right" />
-                    <local:FolderListThumbnail DataContext="{Binding Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
-                    <StackPanel VerticalAlignment="Center">
-                        <TextBlock Style="{StaticResource FolderParameter}" Text="{Binding Note}"/>
-                        <DockPanel>
-                            <local:FolderIcon DockPanel.Dock="Left" VerticalAlignment="Top" />
-                            <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderNameContent}"  VerticalAlignment="Top"/>
-                        </DockPanel>
                     </StackPanel>
                 </DockPanel>
             </Border>
@@ -130,22 +103,8 @@
             </Border>
         </DataTemplate>
 
-        <!-- BannerFolder 2-->
-        <DataTemplate x:Key="BannerFolder2">
-            <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
-                <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
-                    <DockPanel DockPanel.Dock="Bottom" Margin="2" >
-                        <local:FolderListIconMark DockPanel.Dock="Right" VerticalAlignment="Top"/>
-                        <local:FolderIcon DockPanel.Dock="Left" VerticalAlignment="Top" />
-                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderNameBanner}" />
-                    </DockPanel>
-                    <local:FolderListBanner DataContext="{Binding Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
-                </DockPanel>
-            </Border>
-        </DataTemplate>
-
         <!-- Tile -->
-        <DataTemplate x:Key="TileTemplate">
+        <DataTemplate x:Key="TileFolder">
             <DockPanel Margin="2,5" Width="{DynamicResource TileWidth}">
                 <StackPanel Margin="0" Width="{DynamicResource TileWidth}" ToolTip="{Binding Detail}" ToolTipService.InitialShowDelay="1000" >
                     <StackPanel.Style>
@@ -212,53 +171,17 @@
             <ListBox.Style>
                 <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
                     <Style.Triggers>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Normal"/>
-                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Default"/>
-                            </MultiDataTrigger.Conditions>
+                        <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Normal">
                             <Setter Property="ItemTemplate" Value="{StaticResource NormalFolder}"/>
-                        </MultiDataTrigger>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Normal"/>
-                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Explorer"/>
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="ItemTemplate" Value="{StaticResource NormalFolder2}"/>
-                        </MultiDataTrigger>
-
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Content"/>
-                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Default"/>
-                            </MultiDataTrigger.Conditions>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Content">
                             <Setter Property="ItemTemplate" Value="{StaticResource PictureFolder}"/>
-                        </MultiDataTrigger>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Content"/>
-                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Explorer"/>
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="ItemTemplate" Value="{StaticResource PictureFolder2}"/>
-                        </MultiDataTrigger>
-
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Banner"/>
-                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Default"/>
-                            </MultiDataTrigger.Conditions>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Banner">
                             <Setter Property="ItemTemplate" Value="{StaticResource BannerFolder}"/>
-                        </MultiDataTrigger>
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding Model.PanelListItemStyle}" Value="Banner"/>
-                                <Condition Binding="{Binding Model.FolderIconLayout}" Value="Explorer"/>
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="ItemTemplate" Value="{StaticResource BannerFolder2}"/>
-                        </MultiDataTrigger>
-
+                        </DataTrigger>
                         <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Tile">
-                            <Setter Property="ItemTemplate" Value="{StaticResource TileTemplate}"/>
+                            <Setter Property="ItemTemplate" Value="{StaticResource TileFolder}"/>
                             <Setter Property="ItemsPanel">
                                 <Setter.Value>
                                     <ItemsPanelTemplate>
@@ -267,7 +190,6 @@
                                 </Setter.Value>
                             </Setter>
                         </DataTrigger>
-
                     </Style.Triggers>
                 </Style>
             </ListBox.Style>

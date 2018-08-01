@@ -210,7 +210,6 @@ namespace NeeView
                 {
                     if (Attributes.AnyFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Pagemark) && Attributes.HasFlag(FolderItemAttribute.Directory))
                     {
-                        _archivePage = new ConstPage(ThumbnailType.Folder);
                     }
                     else if (!IsDrive && !IsEmpty)
                     {
@@ -245,6 +244,10 @@ namespace NeeView
         {
             get
             {
+                if (Attributes.AnyFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Pagemark) && Attributes.HasFlag(FolderItemAttribute.Directory))
+                {
+                    return new ConstThumbnail(FileIconCollection.Current.CreateDefaultFolderIcon(256.0) as ImageSource);
+                }
                 if (IsDrive)
                 {
                     return new ConstThumbnail(MainWindow.Current.Resources["ic_drive"] as ImageSource);

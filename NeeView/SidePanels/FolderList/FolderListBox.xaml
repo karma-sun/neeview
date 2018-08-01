@@ -117,10 +117,8 @@
                             </Style.Triggers>
                         </Style>
                     </StackPanel.Style>
-                    <Grid Width="{DynamicResource TileWidth}" Height="{DynamicResource TileHeight}">
-                        <local:FolderListTile DataContext="{Binding Thumbnail}"/>
-                    </Grid>
-                    <DockPanel>
+                    <local:FolderListTile DataContext="{Binding Thumbnail}"/>
+                    <DockPanel Margin="0,2,0,0">
                         <local:FolderListIcon DockPanel.Dock="Right" VerticalAlignment="Top" IsKeepArea="False" />
                         <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderNameTile}"/>
                     </DockPanel>

@@ -33,7 +33,7 @@ namespace NeeView
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is ConstThumbnail thumbnail)
+            if (value is ConstThumbnail thumbnail && thumbnail.BitmapSource is DrawingImage)
             {
                 var width = ThumbnailProfile.Current.TileWidth;
                 if (width > 64)

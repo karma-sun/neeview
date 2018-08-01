@@ -195,14 +195,52 @@ namespace NeeLaboratory.Windows.Media
         public static T HitTest<T>(Visual visual, Point point)
             where T : DependencyObject
         {
-            var element = VisualTreeHelper.HitTest(visual, point)?.VisualHit;
+            var element = HitTest(visual, point);
+            if (element is null)
+            {
+                return null;
+            }
+
             if (!(element is T))
             {
                 element = GetParentElement<T>(element);
             }
+
             return element as T;
         }
 
+
+        /// <summary>
+        /// 非表示オブジェクオを除外したヒットテスト
+        /// </summary>
+        public static DependencyObject HitTest(Visual reference, Point point)
+        {
+            DependencyObject hit = null;
+
+            VisualTreeHelper.HitTest(reference
+                , new HitTestFilterCallback(OnHitTestFilterCallback)
+                , new HitTestResultCallback(OnHitTestResultCallback)
+                , new PointHitTestParameters(point));
+
+            return hit;
+
+            HitTestResultBehavior OnHitTestResultCallback(HitTestResult result)
+            {
+                hit = result.VisualHit;
+                return HitTestResultBehavior.Stop;
+            }
+
+            HitTestFilterBehavior OnHitTestFilterCallback(DependencyObject target)
+            {
+                // 非表示オブジェクトを除外
+                if (target is UIElement element && !element.IsVisible)
+                {
+                    return HitTestFilterBehavior.ContinueSkipSelfAndChildren;
+                }
+
+                return HitTestFilterBehavior.Continue;
+            }
+        }
 
         /// <summary>
         /// DependencyObject から、型、名前を指定して親コントロールを取得する
@@ -211,7 +249,7 @@ namespace NeeLaboratory.Windows.Media
         /// <param name="obj"></param>
         /// <returns></returns>
         public static T GetParentElement<T>(DependencyObject obj)
-                    where T : class
+            where T : class
         {
             var element = obj;
             while (element != null)

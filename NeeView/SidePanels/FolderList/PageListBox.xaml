@@ -17,6 +17,7 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityHiddenConverter" False="Hidden"/>
 
+        
         <Style x:Key="ItemStyle" TargetType="TextBlock">
             <Setter Property="Margin" Value="5,0"/>
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
@@ -24,7 +25,6 @@
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="ToolTip" Value="{Binding Detail}"/>
             <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
-            <Setter Property="ToolTipService.BetweenShowDelay" Value="1000"/>
         </Style>
 
         <Style x:Key="SmartTextStyle" TargetType="TextBlock" BasedOn="{StaticResource ItemStyle}">
@@ -122,20 +122,19 @@
         </DataTemplate>
 
         <DataTemplate x:Key="TileTemplate">
-            <DockPanel Margin="5" Width="{DynamicResource TileWidth}">
-                <StackPanel Margin="0" Width="{DynamicResource TileWidth}">
-                    <Grid Width="{DynamicResource TileWidth}" Height="{DynamicResource TileHeight}">
-                        <local:FolderListTile DataContext="{Binding Thumbnail}"/>
-                        <Image Style="{StaticResource PagemarkIconStyle}" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
-                    </Grid>
-                    <Rectangle DockPanel.Dock="Bottom" Style="{StaticResource TileSelectedStyle}"/>
+            <StackPanel Margin="2,5" Width="{DynamicResource TileWidth}" ToolTip="{Binding Detail}" ToolTipService.InitialShowDelay="1000">
+                <local:FolderListTile DataContext="{Binding Thumbnail}"/>
+                <Rectangle DockPanel.Dock="Bottom" Style="{StaticResource TileSelectedStyle}"/>
+                <DockPanel>
+                    <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}" HorizontalAlignment="Right" VerticalAlignment="Top"/>
                     <TextBlock Style="{Binding ElementName=ListBox, Path=DataContext.Model.Format, Converter={StaticResource PageNameConverter}}" TextWrapping="{DynamicResource PanelTextWrapping}"
                                Visibility="{Binding ElementName=ListBox, Path=DataContext.Model.ThumbnailProfile.IsTileNameVisibled, Converter={StaticResource BooleanToVisibilityConverter}}"
                                Margin="0"
                                Height="{DynamicResource PanelTextWrappedHeight}"
-                               HorizontalAlignment="Center"/>
-                </StackPanel>
-            </DockPanel>
+                               HorizontalAlignment="Center"
+                               ToolTipService.IsEnabled="False"/>
+                </DockPanel>
+            </StackPanel>
         </DataTemplate>
 
     </UserControl.Resources>

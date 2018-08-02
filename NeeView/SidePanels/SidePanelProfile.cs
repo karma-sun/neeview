@@ -26,7 +26,6 @@ namespace NeeView
         private SolidColorBrush _backgroundBrush;
         private SolidColorBrush _baseBrush;
         private SolidColorBrush _iconBackgroundBrush;
-        ////private Dictionary<PanelListItemStyle, PanelListItemProfile> _panelListItemProfiles;
         private string _fontName = SystemFonts.MessageFontFamily.Source;
         private double _folderTreeFontSize = 12;
         private double _fontSize = 15.0;
@@ -192,7 +191,7 @@ namespace NeeView
 
 
 
-        [PropertyRange("@ParamThumbnailThumbnailWidth", 0, 256, TickFrequency = 8, Format = "{0}×{0}", Tips = "@ParamThumbnailThumbnailWidthTips")]
+        [PropertyRange("@ParamListItemContentImageWidth", 0, 256, TickFrequency = 8, Format = "{0}×{0}")]
         public int ContentItemImageWidth
         {
             get { return _contentItemProfile.ImageWidth; }
@@ -204,7 +203,7 @@ namespace NeeView
             }
         }
 
-        [PropertyMember("@ParamThumbnailIsThumbnailPopup", Tips = "@ParamThumbnailIsThumbnailPopupTips")]
+        [PropertyMember("@ParamListItemContentImagePopup", Tips = "@ParamListItemContentImagePopupTips")]
         public bool ContentItemIsImagePopupEnabled
         {
             get { return _contentItemProfile.IsImagePopupEnabled; }
@@ -212,14 +211,14 @@ namespace NeeView
         }
 
 
-        [PropertyMember("@ParamListItemIsTextWrapped", Tips = "@ParamListItemIsTextWrappedTips")]
+        [PropertyMember("@ParamListItemContentIsTextWrapped")]
         public bool ContentItemIsTextWrapped
         {
             get { return _contentItemProfile.IsTextWrapped; }
             set { _contentItemProfile.IsTextWrapped = value; }
         }
 
-        [PropertyRange("@ParamListItemNoteOpacity", 0.0, 1.0, Tips = "@ParamListItemNoteOpacityTips")]
+        [PropertyRange("@ParamListItemContentNoteOpacity", 0.0, 1.0)]
         public double ContentItemNoteOpacity
         {
             get { return _contentItemProfile.NoteOpacity; }
@@ -227,7 +226,7 @@ namespace NeeView
         }
 
 
-        [PropertyRange("@ParamThumbnailBannerWidth", 0, 512, TickFrequency = 8, Tips = "@ParamThumbnailBannerWidthTips")]
+        [PropertyRange("@ParamListItemBannerImageWidth", 0, 512, TickFrequency = 8, Tips = "@ParamListItemBannerImageWidthTips")]
         public int BannerItemImageWidth
         {
             get { return _bannerItemProfile.ImageWidth; }
@@ -239,7 +238,7 @@ namespace NeeView
             }
         }
 
-        [PropertyMember("@ParamListItemIsTextWrapped", Tips = "@ParamListItemIsTextWrappedTips")]
+        [PropertyMember("@ParamListItemBannerIsTextWrapped")]
         public bool BannerItemIsTextWrapped
         {
             get { return _bannerItemProfile.IsTextWrapped; }
@@ -247,7 +246,7 @@ namespace NeeView
         }
 
 
-        [PropertyRange("@ParamThumbnailTileWidth", 64, 256, TickFrequency = 8, Format = "{0}×{0}", Tips = "@ParamThumbnailTileWidthTips")]
+        [PropertyRange("@ParamListItemThumbnailImageWidth", 64, 256, TickFrequency = 8, Format = "{0}×{0}")]
         public int ThumbnailItemImageWidth
         {
             get { return _thumbnailItemProfile.ImageWidth; }
@@ -259,14 +258,14 @@ namespace NeeView
             }
         }
 
-        [PropertyMember("@ParamThumbnailIsTileNameVisibled")]
+        [PropertyMember("@ParamListItemThumbnailNameVisibled")]
         public bool ThumbnailItemIsTextVisibled
         {
             get { return _thumbnailItemProfile.IsTextVisibled; }
             set { _thumbnailItemProfile.IsTextVisibled = value; }
         }
 
-        [PropertyMember("@ParamListItemIsTextWrapped", Tips = "@ParamListItemIsTextWrappedTips")]
+        [PropertyMember("@ParamListItemThumbnailIsTextWrapped")]
         public bool ThumbnailItemIsTextWrapped
         {
             get { return _thumbnailItemProfile.IsTextWrapped; }

@@ -117,6 +117,30 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ArchiveFormatCompressedFile" xml:space="preserve">
+    <value>Compressed file</value>
+  </data>
+  <data name="ArchiveFormatFolder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="ArchiveFormatMedia" xml:space="preserve">
+    <value>Media</value>
+  </data>
+  <data name="ArchiveFormatPdf" xml:space="preserve">
+    <value>PDF</value>
+  </data>
+  <data name="ArchiveFormatUnknown" xml:space="preserve">
+    <value>Unknown format</value>
+  </data>
+  <data name="BookAddressInfoBookmark" xml:space="preserve">
+    <value>This is bookmark address.</value>
+  </data>
+  <data name="BookAddressInfoInvalid" xml:space="preserve">
+    <value>This address is invalid.</value>
+  </data>
+  <data name="BookAddressInfoPage" xml:space="preserve">
+    <value>{0} page</value>
+  </data>
   <data name="BookmarkItemMenuDelete" xml:space="preserve">
     <value>_Remove bookmark</value>
   </data>
@@ -221,6 +245,24 @@
   </data>
   <data name="CommandFirstPageNote" xml:space="preserve">
     <value>Move to the first page.</value>
+  </data>
+  <data name="CommandFocusBookmarkList" xml:space="preserve">
+    <value>Display bookmark list</value>
+  </data>
+  <data name="CommandFocusBookmarkListMenu" xml:space="preserve">
+    <value>Bookmark list</value>
+  </data>
+  <data name="CommandFocusBookmarkListNote" xml:space="preserve">
+    <value>Display bookmark list of the folder list.</value>
+  </data>
+  <data name="CommandFocusFolderSearchBox" xml:space="preserve">
+    <value>Focus search box</value>
+  </data>
+  <data name="CommandFocusFolderSearchBoxMenu" xml:space="preserve">
+    <value>Search box</value>
+  </data>
+  <data name="CommandFocusFolderSearchBoxNote" xml:space="preserve">
+    <value>Focus search box. The folder list is displayed.</value>
   </data>
   <data name="CommandGroupBackground" xml:space="preserve">
     <value>Background</value>
@@ -1185,14 +1227,20 @@
   <data name="CommandToggleVisibleFolderListOn" xml:space="preserve">
     <value>Folder list</value>
   </data>
-  <data name="CommandFocusFolderSearchBox" xml:space="preserve">
-    <value>Focus search box</value>
+  <data name="CommandToggleVisibleFoldersTree" xml:space="preserve">
+    <value>Toggle Folders tree</value>
   </data>
-  <data name="CommandFocusFolderSearchBoxMenu" xml:space="preserve">
-    <value>Search box</value>
+  <data name="CommandToggleVisibleFoldersTreeMenu" xml:space="preserve">
+    <value>Folders tree</value>
   </data>
-  <data name="CommandFocusFolderSearchBoxNote" xml:space="preserve">
-    <value>Focus search box. The folder list is displayed.</value>
+  <data name="CommandToggleVisibleFoldersTreeNote" xml:space="preserve">
+    <value>Toggle visible / hide of the Folders tree. The folder list is displayed.</value>
+  </data>
+  <data name="CommandToggleVisibleFoldersTreeOff" xml:space="preserve">
+    <value>Folders tree OFF</value>
+  </data>
+  <data name="CommandToggleVisibleFoldersTreeOn" xml:space="preserve">
+    <value>Folders tree</value>
   </data>
   <data name="CommandToggleVisibleHistoryList" xml:space="preserve">
     <value>Toggle history list</value>
@@ -1840,6 +1888,12 @@ Is it OK? </value>
   <data name="DialogImportTitle" xml:space="preserve">
     <value>Import all settings</value>
   </data>
+  <data name="DialogMergeFolder" xml:space="preserve">
+    <value>Consolidate folders into {0}.</value>
+  </data>
+  <data name="DialogMergeFolderTitle" xml:space="preserve">
+    <value>Do you want to merge folders?</value>
+  </data>
   <data name="DialogOpenApplicationErrorTitle" xml:space="preserve">
     <value>External application execution failed</value>
   </data>
@@ -1860,6 +1914,9 @@ Is it OK? </value>
   </data>
   <data name="DialogPagemarkFolderDeleteTitle" xml:space="preserve">
     <value>Delete the pagemark folder "{0}"</value>
+  </data>
+  <data name="DialogQuickAccessTempError" xml:space="preserve">
+    <value>Temporary folders can not be added to quick access.</value>
   </data>
   <data name="EffectCustomSize" xml:space="preserve">
     <value>Custom Size</value>
@@ -2347,14 +2404,23 @@ Details of the error are output to the following file.
   <data name="FolderListItemMenuDelete" xml:space="preserve">
     <value>_Delete</value>
   </data>
+  <data name="FolderListItemMenuDeleteBookmark" xml:space="preserve">
+    <value>Remove bookmark</value>
+  </data>
   <data name="FolderListItemMenuExplorer" xml:space="preserve">
     <value>Open in explorer</value>
+  </data>
+  <data name="FolderListItemMenuOpen" xml:space="preserve">
+    <value>Open</value>
   </data>
   <data name="FolderListItemMenuRename" xml:space="preserve">
     <value>Rena_me</value>
   </data>
   <data name="FolderListItemMenuSubfolder" xml:space="preserve">
     <value>Load subfolder</value>
+  </data>
+  <data name="FolderListMoreMenuAddQuickAccess" xml:space="preserve">
+    <value>Add this place to quick access</value>
   </data>
   <data name="FolderListMoreMenuClearHistory" xml:space="preserve">
     <value>Delete all history of this place</value>
@@ -2388,6 +2454,33 @@ Details of the error are output to the following file.
   </data>
   <data name="FolderListUpTips" xml:space="preserve">
     <value>Up</value>
+  </data>
+  <data name="FolderTreeLayoutLeft" xml:space="preserve">
+    <value>Place to the left</value>
+  </data>
+  <data name="FolderTreeLayoutTop" xml:space="preserve">
+    <value>Place to the top</value>
+  </data>
+  <data name="FolderTreeMenuAddBookmark" xml:space="preserve">
+    <value>Add bookmark</value>
+  </data>
+  <data name="FolderTreeMenuAddCurrentQuickAccess" xml:space="preserve">
+    <value>Add current place to quick access</value>
+  </data>
+  <data name="FolderTreeMenuAddQuickAccess" xml:space="preserve">
+    <value>Add to quick access</value>
+  </data>
+  <data name="FolderTreeMenuDeleteInvalidBookmark" xml:space="preserve">
+    <value>Remove invalid bookmark</value>
+  </data>
+  <data name="FolderTreeMenuExplorer" xml:space="preserve">
+    <value>Open in explorer</value>
+  </data>
+  <data name="FolderTreeMenuRefreshFolder" xml:space="preserve">
+    <value>Reload</value>
+  </data>
+  <data name="FolderTreeMenuRemoveQuickAccess" xml:space="preserve">
+    <value>Remove from quick access</value>
   </data>
   <data name="HelpCommandMessage" xml:space="preserve">
     <value>Commands to which no operation is assigned can be used by setting with "Edit commands".</value>
@@ -2466,6 +2559,9 @@ Details of the error are output to the following file.
   </data>
   <data name="NotifyCannotOpen" xml:space="preserve">
     <value>Cannot open {0}</value>
+  </data>
+  <data name="NotifyCannotOpenBookmarkFolder" xml:space="preserve">
+    <value>{0} is a bookmark folder</value>
   </data>
   <data name="NotifyConflict" xml:space="preserve">
     <value>Conflicting with {0}</value>
@@ -3052,6 +3148,9 @@ Details of the error are output to the following file.
   <data name="ParamFolderListIsMultipleRarFilterEnabledTips" xml:space="preserve">
     <value>For an RAR split file called .part[number].rar, only the file with the smallest number is displayed in the list.</value>
   </data>
+  <data name="ParamFolderListIsSyncFolderTree" xml:space="preserve">
+    <value>Synchronize Folders tree with sync button</value>
+  </data>
   <data name="ParamFolderListIsVisibleBookmarkMark" xml:space="preserve">
     <value>Display bookmark symbols</value>
   </data>
@@ -3063,6 +3162,9 @@ Details of the error are output to the following file.
   </data>
   <data name="ParamFolderListIsVisibleHistoryMarkTips" xml:space="preserve">
     <value>A check mark is displayed in the book remaining in the history.</value>
+  </data>
+  <data name="ParamFolderTreeLayout" xml:space="preserve">
+    <value>Folder tree layout</value>
   </data>
   <data name="ParamGridLineColor" xml:space="preserve">
     <value>Color</value>
@@ -3178,6 +3280,9 @@ Details of the error are output to the following file.
   <data name="ParamIsFileOperationEnabled" xml:space="preserve">
     <value>File operation enabled</value>
   </data>
+  <data name="ParamIsHidePageSliderInFullscreen" xml:space="preserve">
+    <value>Automatically hide the slider when it is full screen</value>
+  </data>
   <data name="ParamIsHidePanelInFullscreen" xml:space="preserve">
     <value>Automatically hide the side panel when it is full screen</value>
   </data>
@@ -3265,23 +3370,14 @@ Details of the error are output to the following file.
   <data name="ParamLanguageTips" xml:space="preserve">
     <value>* It is applied from the next startup.</value>
   </data>
+  <data name="ParamListItemFolderTreeFontSize" xml:space="preserve">
+    <value>Font size of folder tree</value>
+  </data>
   <data name="ParamListItemFontName" xml:space="preserve">
     <value>List item font</value>
   </data>
   <data name="ParamListItemFontSize" xml:space="preserve">
     <value>Font size of list items</value>
-  </data>
-  <data name="ParamListItemIsTextWrapped" xml:space="preserve">
-    <value>Wrap file names of list item</value>
-  </data>
-  <data name="ParamListItemIsTextWrappedTips" xml:space="preserve">
-    <value>It is valid only for content style and banner style.</value>
-  </data>
-  <data name="ParamListItemNoteOpacity" xml:space="preserve">
-    <value>Supplemental text transparency of list items</value>
-  </data>
-  <data name="ParamListItemNoteOpacityTips" xml:space="preserve">
-    <value>Transparency of supplemental text in content style.</value>
   </data>
   <data name="ParamLoupeDefaultScale" xml:space="preserve">
     <value>Loupe standard magnification</value>
@@ -3439,6 +3535,12 @@ Details of the error are output to the following file.
   <data name="ParamSidePanelIsManipulationBoundaryFeedbackEnabled" xml:space="preserve">
     <value>Touch scroll termination bound on side panel</value>
   </data>
+  <data name="ParamSidePanelOpacity" xml:space="preserve">
+    <value>Panel opacity</value>
+  </data>
+  <data name="ParamSidePanelOpacityTips" xml:space="preserve">
+    <value>It is effective in auto-hide mode.</value>
+  </data>
   <data name="ParamSliderDirection" xml:space="preserve">
     <value>Slider Direction</value>
   </data>
@@ -3450,6 +3552,12 @@ Details of the error are output to the following file.
   </data>
   <data name="ParamSliderIsLinkedThumbnailListTips" xml:space="preserve">
     <value>Switch pages when decided.</value>
+  </data>
+  <data name="ParamSliderOpacity" xml:space="preserve">
+    <value>Slider opacity</value>
+  </data>
+  <data name="ParamSliderOpacityTips" xml:space="preserve">
+    <value>It is effective in auto-hide mode.</value>
   </data>
   <data name="ParamSlideShowInterval" xml:space="preserve">
     <value>Display interval (sec)</value>
@@ -3465,54 +3573,6 @@ Details of the error are output to the following file.
   </data>
   <data name="ParamSusiePluginPath" xml:space="preserve">
     <value>Plugin folder</value>
-  </data>
-  <data name="ParamThumbnailBannerWidth" xml:space="preserve">
-    <value>Banner size</value>
-  </data>
-  <data name="ParamThumbnailBannerWidthTips" xml:space="preserve">
-    <value>The width of the image in banner style. The vertical width is 1/4 of the horizontal width. Since thumbnail images are diverted, the larger the size, the rough the image.</value>
-  </data>
-  <data name="ParamThumbnailBookCapacity" xml:space="preserve">
-    <value>Book Thumbnail Capacity</value>
-  </data>
-  <data name="ParamThumbnailBookCapacityTips" xml:space="preserve">
-    <value>This is the number of thumbnails held in the memory in the folder list etc.</value>
-  </data>
-  <data name="ParamThumbnailFormat" xml:space="preserve">
-    <value>Thumbnail image format</value>
-  </data>
-  <data name="ParamThumbnailFormatTips" xml:space="preserve">
-    <value>Png is high quality but consumes more memory than Jpeg.</value>
-  </data>
-  <data name="ParamThumbnailIsCacheEnabled" xml:space="preserve">
-    <value>Use thumbnail cache</value>
-  </data>
-  <data name="ParamThumbnailIsCacheEnabledTips" xml:space="preserve">
-    <value>Cache the book thumbnail.</value>
-  </data>
-  <data name="ParamThumbnailIsThumbnailPopup" xml:space="preserve">
-    <value>Book thumbnail popup</value>
-  </data>
-  <data name="ParamThumbnailIsThumbnailPopupTips" xml:space="preserve">
-    <value>When placing the cursor on the thumbnail, a large thumbnail image will be displayed in the popup.</value>
-  </data>
-  <data name="ParamThumbnailPageCapacity" xml:space="preserve">
-    <value>Page Thumbnail Capacity</value>
-  </data>
-  <data name="ParamThumbnailPageCapacityTips" xml:space="preserve">
-    <value>This is the number of page thumbnails held in memory. Close the book and it will be discarded.</value>
-  </data>
-  <data name="ParamThumbnailQuality" xml:space="preserve">
-    <value>Thumbnail quality</value>
-  </data>
-  <data name="ParamThumbnailQualityTips" xml:space="preserve">
-    <value>Quality when the thumbnail image format is Jpeg.</value>
-  </data>
-  <data name="ParamThumbnailThumbnailWidth" xml:space="preserve">
-    <value>Book thumbnail size</value>
-  </data>
-  <data name="ParamThumbnailThumbnailWidthTips" xml:space="preserve">
-    <value>It is the thumbnail size in the folder list contents style.</value>
   </data>
   <data name="ParamTouchDragAction" xml:space="preserve">
     <value>Single touch drag operation</value>
@@ -3555,6 +3615,9 @@ Details of the error are output to the following file.
   </data>
   <data name="ParamWindowShapeChromeFrame" xml:space="preserve">
     <value>Window frame with title bar hidden</value>
+  </data>
+  <data name="ParamWindowShapeIsFullScreenWithTaskBar" xml:space="preserve">
+    <value>Do not cover the task bar area at full screen</value>
   </data>
   <data name="ParamWindowTitleFormat1" xml:space="preserve">
     <value>For 1 page</value>
@@ -3859,6 +3922,9 @@ Details of the error are output to the following file.
   <data name="SettingPagePanelFolderListGeneral" xml:space="preserve">
     <value>General</value>
   </data>
+  <data name="SettingPagePanelFolderListTree" xml:space="preserve">
+    <value>Folder tree</value>
+  </data>
   <data name="SettingPagePanelFolderListVisual" xml:space="preserve">
     <value>Display</value>
   </data>
@@ -3915,6 +3981,9 @@ Details of the error are output to the following file.
   </data>
   <data name="SettingPageVisualGeneralBackground" xml:space="preserve">
     <value>Background</value>
+  </data>
+  <data name="SettingPageVisualGeneralOpacity" xml:space="preserve">
+    <value>Opacity</value>
   </data>
   <data name="SettingPageVisualGeneralTheme" xml:space="preserve">
     <value>Theme</value>
@@ -3993,11 +4062,20 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordAdd" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="WordBookmark" xml:space="preserve">
+    <value>Bookmark</value>
+  </data>
+  <data name="WordBookshelf" xml:space="preserve">
+    <value>Bookshelf</value>
+  </data>
   <data name="WordCancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
   <data name="WordCause" xml:space="preserve">
     <value>Cause</value>
+  </data>
+  <data name="WordCDRomDrive" xml:space="preserve">
+    <value>Disk drive</value>
   </data>
   <data name="WordClear" xml:space="preserve">
     <value>Clear</value>
@@ -4035,14 +4113,23 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordFile" xml:space="preserve">
     <value>File</value>
   </data>
+  <data name="WordFixedDrive" xml:space="preserve">
+    <value>Local disk</value>
+  </data>
   <data name="WordFolder" xml:space="preserve">
     <value>Folder</value>
+  </data>
+  <data name="WordFoldersTree" xml:space="preserve">
+    <value>Folders tree</value>
   </data>
   <data name="WordGesture" xml:space="preserve">
     <value>Gesture</value>
   </data>
   <data name="WordImport" xml:space="preserve">
     <value>Import</value>
+  </data>
+  <data name="WordInner" xml:space="preserve">
+    <value>Innner</value>
   </data>
   <data name="WordItem" xml:space="preserve">
     <value>Item</value>
@@ -4055,6 +4142,9 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="WordMainMenu" xml:space="preserve">
     <value>Main Menu</value>
+  </data>
+  <data name="WordNetworkDrive" xml:space="preserve">
+    <value>Netword drive</value>
   </data>
   <data name="WordNewFolder" xml:space="preserve">
     <value>New Folder</value>
@@ -4080,8 +4170,23 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordPage" xml:space="preserve">
     <value>Page</value>
   </data>
+  <data name="WordPageList" xml:space="preserve">
+    <value>Page list</value>
+  </data>
+  <data name="WordPagemark" xml:space="preserve">
+    <value>Pagemark</value>
+  </data>
   <data name="WordPlay" xml:space="preserve">
     <value>Play</value>
+  </data>
+  <data name="WordQuickAccess" xml:space="preserve">
+    <value>Quick access</value>
+  </data>
+  <data name="WordRamDrive" xml:space="preserve">
+    <value>RAM disk</value>
+  </data>
+  <data name="WordRemovableDrive" xml:space="preserve">
+    <value>Removable disk</value>
   </data>
   <data name="WordRemove" xml:space="preserve">
     <value>Remove</value>
@@ -4104,6 +4209,9 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordRight" xml:space="preserve">
     <value>Right</value>
   </data>
+  <data name="WordSearchWord" xml:space="preserve">
+    <value>Search word</value>
+  </data>
   <data name="WordSec" xml:space="preserve">
     <value>sec</value>
   </data>
@@ -4125,6 +4233,9 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordStyleList" xml:space="preserve">
     <value>List style</value>
   </data>
+  <data name="WordStyleThumbnail" xml:space="preserve">
+    <value>Thumbnail style</value>
+  </data>
   <data name="WordToDown" xml:space="preserve">
     <value>Down</value>
   </data>
@@ -4140,184 +4251,79 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordYes" xml:space="preserve">
     <value>Yes</value>
   </data>
-  <data name="SettingPageVisualGeneralOpacity" xml:space="preserve">
-    <value>Opacity</value>
+  <data name="ParamListItemBannerImageWidth" xml:space="preserve">
+    <value>Banner size</value>
   </data>
-  <data name="ParamSidePanelOpacity" xml:space="preserve">
-    <value>Panel opacity</value>
+  <data name="ParamListItemBannerImageWidthTips" xml:space="preserve">
+    <value>The width of the image in banner style. The vertical width is 1/4 of the horizontal width. Since thumbnail images are diverted, the larger the size, the rough the image.</value>
   </data>
-  <data name="ParamSidePanelOpacityTips" xml:space="preserve">
-    <value>It is effective in auto-hide mode.</value>
+  <data name="ParamThumbnailBookCapacity" xml:space="preserve">
+    <value>Book Thumbnail Capacity</value>
   </data>
-  <data name="ParamSliderOpacity" xml:space="preserve">
-    <value>Slider opacity</value>
+  <data name="ParamThumbnailBookCapacityTips" xml:space="preserve">
+    <value>This is the number of thumbnails held in the memory in the folder list etc.</value>
   </data>
-  <data name="ParamSliderOpacityTips" xml:space="preserve">
-    <value>It is effective in auto-hide mode.</value>
+  <data name="ParamThumbnailFormat" xml:space="preserve">
+    <value>Thumbnail image format</value>
   </data>
-  <data name="CommandToggleVisibleFoldersTree" xml:space="preserve">
-    <value>Toggle Folders tree</value>
+  <data name="ParamThumbnailFormatTips" xml:space="preserve">
+    <value>Png is high quality but consumes more memory than Jpeg.</value>
   </data>
-  <data name="CommandToggleVisibleFoldersTreeMenu" xml:space="preserve">
-    <value>Folders tree</value>
+  <data name="ParamThumbnailIsCacheEnabled" xml:space="preserve">
+    <value>Use thumbnail cache</value>
   </data>
-  <data name="CommandToggleVisibleFoldersTreeNote" xml:space="preserve">
-    <value>Toggle visible / hide of the Folders tree. The folder list is displayed.</value>
+  <data name="ParamThumbnailIsCacheEnabledTips" xml:space="preserve">
+    <value>Cache the book thumbnail.</value>
   </data>
-  <data name="CommandToggleVisibleFoldersTreeOff" xml:space="preserve">
-    <value>Folders tree OFF</value>
+  <data name="ParamListItemContentImagePopup" xml:space="preserve">
+    <value>Icon popup</value>
   </data>
-  <data name="CommandToggleVisibleFoldersTreeOn" xml:space="preserve">
-    <value>Folders tree</value>
+  <data name="ParamListItemContentImagePopupTips" xml:space="preserve">
+    <value>When placing the cursor on the icon, a large image will be displayed in the popup.</value>
   </data>
-  <data name="WordFoldersTree" xml:space="preserve">
-    <value>Folders tree</value>
+  <data name="ParamListItemThumbnailNameVisibled" xml:space="preserve">
+    <value>Display the name when thumbnail style.</value>
   </data>
-  <data name="FolderListMoreMenuAddQuickAccess" xml:space="preserve">
-    <value>Add this place to quick access</value>
+  <data name="ParamThumbnailPageCapacity" xml:space="preserve">
+    <value>Page Thumbnail Capacity</value>
   </data>
-  <data name="WordSearchWord" xml:space="preserve">
-    <value>Search word</value>
+  <data name="ParamThumbnailPageCapacityTips" xml:space="preserve">
+    <value>This is the number of page thumbnails held in memory. Close the book and it will be discarded.</value>
   </data>
-  <data name="ParamWindowShapeIsFullScreenWithTaskBar" xml:space="preserve">
-    <value>Do not cover the task bar area at full screen</value>
+  <data name="ParamThumbnailQuality" xml:space="preserve">
+    <value>Thumbnail quality</value>
   </data>
-  <data name="ParamIsHidePageSliderInFullscreen" xml:space="preserve">
-    <value>Automatically hide the slider when it is full screen</value>
+  <data name="ParamThumbnailQualityTips" xml:space="preserve">
+    <value>Quality when the thumbnail image format is Jpeg.</value>
   </data>
-  <data name="DialogQuickAccessTempError" xml:space="preserve">
-    <value>Temporary folders can not be added to quick access.</value>
+  <data name="ParamListItemContentImageWidth" xml:space="preserve">
+    <value>Icon size</value>
   </data>
-  <data name="FolderTreeMenuAddCurrentQuickAccess" xml:space="preserve">
-    <value>Add current place to quick access</value>
+  <data name="ParamListItemContentImageWidthTips" xml:space="preserve">
+    <value>The width of the image in content style.</value>
   </data>
-  <data name="FolderTreeMenuAddQuickAccess" xml:space="preserve">
-    <value>Add to quick access</value>
+  <data name="ParamListItemThumbnailImageWidth" xml:space="preserve">
+    <value>Thumbnail size</value>
   </data>
-  <data name="WordQuickAccess" xml:space="preserve">
-    <value>Quick access</value>
+  <data name="ParamListItemThumbnailImageWidthTips" xml:space="preserve">
+    <value>The width of the image in thumbnail style.</value>
   </data>
-  <data name="WordFixedDrive" xml:space="preserve">
-    <value>Local disk</value>
+  <data name="ParamListItemContentIsTextWrapped" xml:space="preserve">
+    <value>Wrap name in content style</value>
   </data>
-  <data name="FolderTreeMenuRemoveQuickAccess" xml:space="preserve">
-    <value>Remove from quick access</value>
+  <data name="ParamListItemContentNoteOpacity" xml:space="preserve">
+    <value>Supplemental text transparency in content style.</value>
   </data>
-  <data name="ParamListItemFolderTreeFontSize" xml:space="preserve">
-    <value>Font size of folder tree</value>
+  <data name="ParamListItemContentNoteOpacityTips" xml:space="preserve">
+    <value>Transparency of supplemental text in content style.</value>
   </data>
-  <data name="ParamFolderListIsSyncFolderTree" xml:space="preserve">
-    <value>Synchronize Folders tree with sync button</value>
+  <data name="ParamListItemBannerIsTextWrapped" xml:space="preserve">
+    <value>Wrap name in banner style</value>
   </data>
-  <data name="WordRemovableDrive" xml:space="preserve">
-    <value>Removable disk</value>
+  <data name="ParamListItemThumbnailIsTextWrapped" xml:space="preserve">
+    <value>Wrap name in thumbnail style</value>
   </data>
-  <data name="WordNetworkDrive" xml:space="preserve">
-    <value>Netword drive</value>
-  </data>
-  <data name="WordCDRomDrive" xml:space="preserve">
-    <value>Disk drive</value>
-  </data>
-  <data name="WordRamDrive" xml:space="preserve">
-    <value>RAM disk</value>
-  </data>
-  <data name="FolderTreeMenuRefreshFolder" xml:space="preserve">
-    <value>Reload</value>
-  </data>
-  <data name="WordPageList" xml:space="preserve">
-    <value>Page list</value>
-  </data>
-  <data name="FolderTreeMenuExplorer" xml:space="preserve">
-    <value>Open in explorer</value>
-  </data>
-  <data name="WordBookmark" xml:space="preserve">
-    <value>Bookmark</value>
-  </data>
-  <data name="NotifyCannotOpenBookmarkFolder" xml:space="preserve">
-    <value>{0} is a bookmark folder</value>
-  </data>
-  <data name="WordPagemark" xml:space="preserve">
-    <value>Pagemark</value>
-  </data>
-  <data name="SettingPagePanelFolderListTree" xml:space="preserve">
-    <value>Folder tree</value>
-  </data>
-  <data name="FolderTreeLayoutTop" xml:space="preserve">
-    <value>Place to the top</value>
-  </data>
-  <data name="FolderTreeLayoutLeft" xml:space="preserve">
-    <value>Place to the left</value>
-  </data>
-  <data name="ParamFolderTreeLayout" xml:space="preserve">
-    <value>Folder tree layout</value>
-  </data>
-  <data name="DialogMergeFolderTitle" xml:space="preserve">
-    <value>Do you want to merge folders?</value>
-  </data>
-  <data name="DialogMergeFolder" xml:space="preserve">
-    <value>Consolidate folders into {0}.</value>
-  </data>
-  <data name="FolderTreeMenuDeleteInvalidBookmark" xml:space="preserve">
-    <value>Remove invalid bookmark</value>
-  </data>
-  <data name="FolderTreeMenuAddBookmark" xml:space="preserve">
-    <value>Add bookmark</value>
-  </data>
-  <data name="WordBookshelf" xml:space="preserve">
-    <value>Bookshelf</value>
-  </data>
-  <data name="FolderListItemMenuOpen" xml:space="preserve">
-    <value>Open</value>
-  </data>
-  <data name="WordInner" xml:space="preserve">
-    <value>Innner</value>
-  </data>
-  <data name="ArchiveFormatFolder" xml:space="preserve">
-    <value>Folder</value>
-  </data>
-  <data name="ArchiveFormatCompressedFile" xml:space="preserve">
-    <value>Compressed file</value>
-  </data>
-  <data name="ArchiveFormatPdf" xml:space="preserve">
-    <value>PDF</value>
-  </data>
-  <data name="ArchiveFormatMedia" xml:space="preserve">
-    <value>Media</value>
-  </data>
-  <data name="ArchiveFormatUnknown" xml:space="preserve">
-    <value>Unknown format</value>
-  </data>
-  <data name="BookAddressInfoPage" xml:space="preserve">
-    <value>{0} page</value>
-  </data>
-  <data name="BookAddressInfoBookmark" xml:space="preserve">
-    <value>This is bookmark address.</value>
-  </data>
-  <data name="BookAddressInfoInvalid" xml:space="preserve">
-    <value>This address is invalid.</value>
-  </data>
-  <data name="CommandFocusBookmarkList" xml:space="preserve">
-    <value>Display bookmark list</value>
-  </data>
-  <data name="CommandFocusBookmarkListMenu" xml:space="preserve">
-    <value>Bookmark list</value>
-  </data>
-  <data name="CommandFocusBookmarkListNote" xml:space="preserve">
-    <value>Display bookmark list of the folder list.</value>
-  </data>
-  <data name="FolderListItemMenuDeleteBookmark" xml:space="preserve">
-    <value>Remove bookmark</value>
-  </data>
-  <data name="ParamThumbnailTileWidth" xml:space="preserve">
-    <value>Tile size</value>
-  </data>
-  <data name="ParamThumbnailTileWidthTips" xml:space="preserve">
-    <value>It is the tile size in the folder list tile style.</value>
-  </data>
-  <data name="WordStyleTile" xml:space="preserve">
-    <value>Tile style</value>
-  </data>
-  <data name="ParamThumbnailIsTileNameVisibled" xml:space="preserve">
-    <value>Display the name when tile style.</value>
+  <data name="SettingPagePanelListItem" xml:space="preserve">
+    <value>Panel list item</value>
   </data>
 </root>

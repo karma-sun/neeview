@@ -18,7 +18,6 @@ namespace NeeView.Setting
             {
                 new SettingPageVisualGeneral(),
                 new SettingPageVisualNotify(),
-                ////new SettingPageVisualFont(),
                 new SettingPageVisualWindowTitile(),
                 new SettingPageVisualFilmstrip(),
                 new SettingPageVisualSlider(),
@@ -58,37 +57,12 @@ namespace NeeView.Setting
         }
     }
 
-#if false
-    public class SettingPageVisualFont : SettingPage
-    {
-        public SettingPageVisualFont() : base(Properties.Resources.SettingPageVisualFont)
-        {
-            this.Items = new List<SettingItem>
-            {
-                new SettingItemSection(Properties.Resources.SettingPageVisualFontPanel,
-                    new SettingItemPropertyFont(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.FontName))),
-                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.FontSize))),
-                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.FolderTreeFontSize)))),
-                    ////new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.IsTextWrapped))),
-                    ////new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.NoteOpacity)))),
-            };
-        }
-    }
-#endif
-
     public class SettingPageVisualThumbnail : SettingPage
     {
         public SettingPageVisualThumbnail() : base(Properties.Resources.SettingPageVisualThumbnail)
         {
             this.Items = new List<SettingItem>
             {
-                ////new SettingItemSection(Properties.Resources.SettingPageVisualThumbnailPanel,
-                    ////new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.ThumbnailWidth))),
-                    ////new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.IsThumbnailPopup))),
-                    ////new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.BannerWidth))),
-                    ////new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.TileWidth))),
-                    ////new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.IsTileNameVisibled)))),
-
                 new SettingItemSection(Properties.Resources.SettingPageVisualThumbnailCache,
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.IsCacheEnabled))),
                     new SettingItemButton(Properties.Resources.SettingPageVisualThumbnailCacheClear, Properties.Resources.SettingPageVisualThumbnailCacheClearTips,  RemoveCache)),
@@ -264,7 +238,7 @@ namespace NeeView.Setting
 
     public class SettingPagePanelItem : SettingPage
     {
-        public SettingPagePanelItem() : base("@パネルリスト項目")
+        public SettingPagePanelItem() : base(Properties.Resources.SettingPagePanelListItem)
         {
             this.Items = new List<SettingItem>
             {
@@ -272,17 +246,17 @@ namespace NeeView.Setting
                     new SettingItemPropertyFont(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.FontName))),
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.FontSize))),
 
-                new SettingItemSection("@コンテンツ形式",
+                new SettingItemSection(Properties.Resources.WordStyleContent,
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.ContentItemImageWidth))),
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.ContentItemIsImagePopupEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.ContentItemIsTextWrapped))),
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.ContentItemNoteOpacity)))),
 
-                new SettingItemSection("@バナー形式",
+                new SettingItemSection(Properties.Resources.WordStyleBanner,
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.BannerItemImageWidth))),
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.BannerItemIsTextWrapped)))),
 
-                new SettingItemSection("@サムネイル形式",
+                new SettingItemSection(Properties.Resources.WordStyleThumbnail,
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.ThumbnailItemImageWidth))),
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.ThumbnailItemIsTextVisibled))),
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.ThumbnailItemIsTextWrapped))))),

@@ -9770,6 +9770,96 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Banner size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamListItemBannerImageWidth {
+            get {
+                return ResourceManager.GetString("ParamListItemBannerImageWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The width of the image in banner style. The vertical width is 1/4 of the horizontal width. Since thumbnail images are diverted, the larger the size, the rough the image. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamListItemBannerImageWidthTips {
+            get {
+                return ResourceManager.GetString("ParamListItemBannerImageWidthTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Wrap name in banner style に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamListItemBannerIsTextWrapped {
+            get {
+                return ResourceManager.GetString("ParamListItemBannerIsTextWrapped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Icon popup に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamListItemContentImagePopup {
+            get {
+                return ResourceManager.GetString("ParamListItemContentImagePopup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   When placing the cursor on the icon, a large image will be displayed in the popup. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamListItemContentImagePopupTips {
+            get {
+                return ResourceManager.GetString("ParamListItemContentImagePopupTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Icon size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamListItemContentImageWidth {
+            get {
+                return ResourceManager.GetString("ParamListItemContentImageWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The width of the image in content style. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamListItemContentImageWidthTips {
+            get {
+                return ResourceManager.GetString("ParamListItemContentImageWidthTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Wrap name in content style に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamListItemContentIsTextWrapped {
+            get {
+                return ResourceManager.GetString("ParamListItemContentIsTextWrapped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Supplemental text transparency in content style. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamListItemContentNoteOpacity {
+            get {
+                return ResourceManager.GetString("ParamListItemContentNoteOpacity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Transparency of supplemental text in content style. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamListItemContentNoteOpacityTips {
+            get {
+                return ResourceManager.GetString("ParamListItemContentNoteOpacityTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Font size of folder tree に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamListItemFolderTreeFontSize {
@@ -9797,38 +9887,38 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Wrap file names of list item に類似しているローカライズされた文字列を検索します。
+        ///   Thumbnail size に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ParamListItemIsTextWrapped {
+        public static string ParamListItemThumbnailImageWidth {
             get {
-                return ResourceManager.GetString("ParamListItemIsTextWrapped", resourceCulture);
+                return ResourceManager.GetString("ParamListItemThumbnailImageWidth", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   It is valid only for content style and banner style. に類似しているローカライズされた文字列を検索します。
+        ///   The width of the image in thumbnail style. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ParamListItemIsTextWrappedTips {
+        public static string ParamListItemThumbnailImageWidthTips {
             get {
-                return ResourceManager.GetString("ParamListItemIsTextWrappedTips", resourceCulture);
+                return ResourceManager.GetString("ParamListItemThumbnailImageWidthTips", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Supplemental text transparency of list items に類似しているローカライズされた文字列を検索します。
+        ///   Wrap name in thumbnail style に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ParamListItemNoteOpacity {
+        public static string ParamListItemThumbnailIsTextWrapped {
             get {
-                return ResourceManager.GetString("ParamListItemNoteOpacity", resourceCulture);
+                return ResourceManager.GetString("ParamListItemThumbnailIsTextWrapped", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Transparency of supplemental text in content style. に類似しているローカライズされた文字列を検索します。
+        ///   Display the name when thumbnail style. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string ParamListItemNoteOpacityTips {
+        public static string ParamListItemThumbnailNameVisibled {
             get {
-                return ResourceManager.GetString("ParamListItemNoteOpacityTips", resourceCulture);
+                return ResourceManager.GetString("ParamListItemThumbnailNameVisibled", resourceCulture);
             }
         }
         
@@ -10418,24 +10508,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Banner size に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamThumbnailBannerWidth {
-            get {
-                return ResourceManager.GetString("ParamThumbnailBannerWidth", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   The width of the image in banner style. The vertical width is 1/4 of the horizontal width. Since thumbnail images are diverted, the larger the size, the rough the image. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamThumbnailBannerWidthTips {
-            get {
-                return ResourceManager.GetString("ParamThumbnailBannerWidthTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Book Thumbnail Capacity に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamThumbnailBookCapacity {
@@ -10490,33 +10562,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Book thumbnail popup に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamThumbnailIsThumbnailPopup {
-            get {
-                return ResourceManager.GetString("ParamThumbnailIsThumbnailPopup", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   When placing the cursor on the thumbnail, a large thumbnail image will be displayed in the popup. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamThumbnailIsThumbnailPopupTips {
-            get {
-                return ResourceManager.GetString("ParamThumbnailIsThumbnailPopupTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Display the name when tile style. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamThumbnailIsTileNameVisibled {
-            get {
-                return ResourceManager.GetString("ParamThumbnailIsTileNameVisibled", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Page Thumbnail Capacity に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamThumbnailPageCapacity {
@@ -10549,42 +10594,6 @@ namespace NeeView.Properties {
         public static string ParamThumbnailQualityTips {
             get {
                 return ResourceManager.GetString("ParamThumbnailQualityTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Book thumbnail size に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamThumbnailThumbnailWidth {
-            get {
-                return ResourceManager.GetString("ParamThumbnailThumbnailWidth", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   It is the thumbnail size in the folder list contents style. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamThumbnailThumbnailWidthTips {
-            get {
-                return ResourceManager.GetString("ParamThumbnailThumbnailWidthTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Tile size に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamThumbnailTileWidth {
-            get {
-                return ResourceManager.GetString("ParamThumbnailTileWidth", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   It is the tile size in the folder list tile style. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamThumbnailTileWidthTips {
-            get {
-                return ResourceManager.GetString("ParamThumbnailTileWidthTips", resourceCulture);
             }
         }
         
@@ -11687,6 +11696,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Panel list item に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPagePanelListItem {
+            get {
+                return ResourceManager.GetString("SettingPagePanelListItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Susie に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageSusie {
@@ -12537,11 +12555,11 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Tile style に類似しているローカライズされた文字列を検索します。
+        ///   Thumbnail style に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string WordStyleTile {
+        public static string WordStyleThumbnail {
             get {
-                return ResourceManager.GetString("WordStyleTile", resourceCulture);
+                return ResourceManager.GetString("WordStyleThumbnail", resourceCulture);
             }
         }
         

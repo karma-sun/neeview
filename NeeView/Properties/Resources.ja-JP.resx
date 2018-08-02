@@ -117,6 +117,30 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ArchiveFormatCompressedFile" xml:space="preserve">
+    <value>圧縮ファイル形式</value>
+  </data>
+  <data name="ArchiveFormatFolder" xml:space="preserve">
+    <value>フォルダー形式</value>
+  </data>
+  <data name="ArchiveFormatMedia" xml:space="preserve">
+    <value>メディア形式</value>
+  </data>
+  <data name="ArchiveFormatPdf" xml:space="preserve">
+    <value>PDF形式</value>
+  </data>
+  <data name="ArchiveFormatUnknown" xml:space="preserve">
+    <value>未知の形式</value>
+  </data>
+  <data name="BookAddressInfoBookmark" xml:space="preserve">
+    <value>ブックマークアドレスです</value>
+  </data>
+  <data name="BookAddressInfoInvalid" xml:space="preserve">
+    <value>このアドレスは無効です</value>
+  </data>
+  <data name="BookAddressInfoPage" xml:space="preserve">
+    <value>{0} ページ</value>
+  </data>
   <data name="BookmarkItemMenuDelete" xml:space="preserve">
     <value>ブックマークをはずす(_R)</value>
   </data>
@@ -221,6 +245,24 @@
   </data>
   <data name="CommandFirstPageNote" xml:space="preserve">
     <value>先頭ページに移動します。</value>
+  </data>
+  <data name="CommandFocusBookmarkList" xml:space="preserve">
+    <value>ブックマークの表示</value>
+  </data>
+  <data name="CommandFocusBookmarkListMenu" xml:space="preserve">
+    <value>ブックマークリスト</value>
+  </data>
+  <data name="CommandFocusBookmarkListNote" xml:space="preserve">
+    <value>フォルダーリストのブックマークリストを表示します。</value>
+  </data>
+  <data name="CommandFocusFolderSearchBox" xml:space="preserve">
+    <value>検索ボックスにフォーカスを移す</value>
+  </data>
+  <data name="CommandFocusFolderSearchBoxMenu" xml:space="preserve">
+    <value>検索ボックス</value>
+  </data>
+  <data name="CommandFocusFolderSearchBoxNote" xml:space="preserve">
+    <value>検索ボックスにフォーカスを移します。フォルダーリストは表示状態になります。</value>
   </data>
   <data name="CommandGroupBackground" xml:space="preserve">
     <value>背景</value>
@@ -1185,14 +1227,20 @@
   <data name="CommandToggleVisibleFolderListOn" xml:space="preserve">
     <value>フォルダーリストを表示する</value>
   </data>
-  <data name="CommandFocusFolderSearchBox" xml:space="preserve">
-    <value>検索ボックスにフォーカスを移す</value>
+  <data name="CommandToggleVisibleFoldersTree" xml:space="preserve">
+    <value>フォルダーツリーの表示ON/OFF</value>
   </data>
-  <data name="CommandFocusFolderSearchBoxMenu" xml:space="preserve">
-    <value>検索ボックス</value>
+  <data name="CommandToggleVisibleFoldersTreeMenu" xml:space="preserve">
+    <value>フォルダーツリー</value>
   </data>
-  <data name="CommandFocusFolderSearchBoxNote" xml:space="preserve">
-    <value>検索ボックスにフォーカスを移します。フォルダーリストは表示状態になります。</value>
+  <data name="CommandToggleVisibleFoldersTreeNote" xml:space="preserve">
+    <value>フォルダーツリーの表示/非表示を切り替えます。フォルダーリストは表示状態になります。</value>
+  </data>
+  <data name="CommandToggleVisibleFoldersTreeOff" xml:space="preserve">
+    <value>フォルダーツリーを消す</value>
+  </data>
+  <data name="CommandToggleVisibleFoldersTreeOn" xml:space="preserve">
+    <value>フォルダーツリーを表示する</value>
   </data>
   <data name="CommandToggleVisibleHistoryList" xml:space="preserve">
     <value>履歴リストの表示ON/OFF</value>
@@ -1840,6 +1888,12 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="DialogImportTitle" xml:space="preserve">
     <value>全設定をインポート</value>
   </data>
+  <data name="DialogMergeFolder" xml:space="preserve">
+    <value>{0} にフォルダーを統合します。</value>
+  </data>
+  <data name="DialogMergeFolderTitle" xml:space="preserve">
+    <value>フォルダーを統合しますか？</value>
+  </data>
   <data name="DialogOpenApplicationErrorTitle" xml:space="preserve">
     <value>外部アプリ実行に失敗しました</value>
   </data>
@@ -1860,6 +1914,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="DialogPagemarkFolderDeleteTitle" xml:space="preserve">
     <value>ページマークフォルダー「{0}」を削除します</value>
+  </data>
+  <data name="DialogQuickAccessTempError" xml:space="preserve">
+    <value>一時フォルダーはクイックアクセスに追加できません</value>
   </data>
   <data name="EffectCustomSize" xml:space="preserve">
     <value>サイズ指定</value>
@@ -2347,14 +2404,23 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="FolderListItemMenuDelete" xml:space="preserve">
     <value>削除(_D)</value>
   </data>
+  <data name="FolderListItemMenuDeleteBookmark" xml:space="preserve">
+    <value>ブックマークから外す</value>
+  </data>
   <data name="FolderListItemMenuExplorer" xml:space="preserve">
     <value>エクスプローラーで開く</value>
+  </data>
+  <data name="FolderListItemMenuOpen" xml:space="preserve">
+    <value>開く</value>
   </data>
   <data name="FolderListItemMenuRename" xml:space="preserve">
     <value>名前の変更(_M)</value>
   </data>
   <data name="FolderListItemMenuSubfolder" xml:space="preserve">
     <value>サブフォルダーを読み込む</value>
+  </data>
+  <data name="FolderListMoreMenuAddQuickAccess" xml:space="preserve">
+    <value>この場所をクイックアクセスに追加</value>
   </data>
   <data name="FolderListMoreMenuClearHistory" xml:space="preserve">
     <value>この場所の履歴をすべて削除</value>
@@ -2388,6 +2454,33 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="FolderListUpTips" xml:space="preserve">
     <value>上に移動</value>
+  </data>
+  <data name="FolderTreeLayoutLeft" xml:space="preserve">
+    <value>左に配置</value>
+  </data>
+  <data name="FolderTreeLayoutTop" xml:space="preserve">
+    <value>上に配置</value>
+  </data>
+  <data name="FolderTreeMenuAddBookmark" xml:space="preserve">
+    <value>ブックマークを追加</value>
+  </data>
+  <data name="FolderTreeMenuAddCurrentQuickAccess" xml:space="preserve">
+    <value>現在の場所をクイックアクセスに追加</value>
+  </data>
+  <data name="FolderTreeMenuAddQuickAccess" xml:space="preserve">
+    <value>クイックアクセスに追加</value>
+  </data>
+  <data name="FolderTreeMenuDeleteInvalidBookmark" xml:space="preserve">
+    <value>無効なブックマークを削除</value>
+  </data>
+  <data name="FolderTreeMenuExplorer" xml:space="preserve">
+    <value>エクスプローラーで開く</value>
+  </data>
+  <data name="FolderTreeMenuRefreshFolder" xml:space="preserve">
+    <value>再読み込み</value>
+  </data>
+  <data name="FolderTreeMenuRemoveQuickAccess" xml:space="preserve">
+    <value>クイックアクセスから外す</value>
   </data>
   <data name="HelpCommandMessage" xml:space="preserve">
     <value>操作が割り当てられていないコマンドは「コマンド設定」で設定することで使用可能です。</value>
@@ -2466,6 +2559,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="NotifyCannotOpen" xml:space="preserve">
     <value>{0} を開けません</value>
+  </data>
+  <data name="NotifyCannotOpenBookmarkFolder" xml:space="preserve">
+    <value>{0} はブックマークフォルダーです</value>
   </data>
   <data name="NotifyConflict" xml:space="preserve">
     <value>{0} と競合しています</value>
@@ -3052,6 +3148,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamFolderListIsMultipleRarFilterEnabledTips" xml:space="preserve">
     <value>.part[数字].rar というRAR分割ファイルの場合に、数字が一番小さいファイルのみをリストに表示します。</value>
   </data>
+  <data name="ParamFolderListIsSyncFolderTree" xml:space="preserve">
+    <value>同期ボタンでフォルダーツリーを同期する</value>
+  </data>
   <data name="ParamFolderListIsVisibleBookmarkMark" xml:space="preserve">
     <value>ブックマーク記号を表示する</value>
   </data>
@@ -3063,6 +3162,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="ParamFolderListIsVisibleHistoryMarkTips" xml:space="preserve">
     <value>履歴に残っているブックにチェックマークを表示します。</value>
+  </data>
+  <data name="ParamFolderTreeLayout" xml:space="preserve">
+    <value>フォルダーツリーの配置</value>
   </data>
   <data name="ParamGridLineColor" xml:space="preserve">
     <value>色</value>
@@ -3178,6 +3280,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamIsFileOperationEnabled" xml:space="preserve">
     <value>ファイル操作有効</value>
   </data>
+  <data name="ParamIsHidePageSliderInFullscreen" xml:space="preserve">
+    <value>フルスクリーンのときにスライダーを自動的に隠す</value>
+  </data>
   <data name="ParamIsHidePanelInFullscreen" xml:space="preserve">
     <value>フルスクリーンのときにサイドパネルを自動的に隠す</value>
   </data>
@@ -3265,23 +3370,14 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamLanguageTips" xml:space="preserve">
     <value>※次の起動から適用されます。</value>
   </data>
+  <data name="ParamListItemFolderTreeFontSize" xml:space="preserve">
+    <value>フォルダーツリーのフォントサイズ</value>
+  </data>
   <data name="ParamListItemFontName" xml:space="preserve">
     <value>リスト項目のフォント</value>
   </data>
   <data name="ParamListItemFontSize" xml:space="preserve">
     <value>リスト項目のフォントサイズ</value>
-  </data>
-  <data name="ParamListItemIsTextWrapped" xml:space="preserve">
-    <value>リスト項目のファイル名を折り返して表示する</value>
-  </data>
-  <data name="ParamListItemIsTextWrappedTips" xml:space="preserve">
-    <value>コンテンツ表示、バナー表示の場合のみ有効です。</value>
-  </data>
-  <data name="ParamListItemNoteOpacity" xml:space="preserve">
-    <value>リスト項目の補足テキストの透明度</value>
-  </data>
-  <data name="ParamListItemNoteOpacityTips" xml:space="preserve">
-    <value>コンテンツ表示での補足テキストの透明度です。</value>
   </data>
   <data name="ParamLoupeDefaultScale" xml:space="preserve">
     <value>ルーペ標準倍率</value>
@@ -3439,6 +3535,12 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamSidePanelIsManipulationBoundaryFeedbackEnabled" xml:space="preserve">
     <value>サイドパネルタッチスクロールの終端バウンド</value>
   </data>
+  <data name="ParamSidePanelOpacity" xml:space="preserve">
+    <value>パネル不透明度</value>
+  </data>
+  <data name="ParamSidePanelOpacityTips" xml:space="preserve">
+    <value>自動非表示の場合に有効です。</value>
+  </data>
   <data name="ParamSliderDirection" xml:space="preserve">
     <value>スライダーの方向</value>
   </data>
@@ -3450,6 +3552,12 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="ParamSliderIsLinkedThumbnailListTips" xml:space="preserve">
     <value>決定した時にページを切り替えます。</value>
+  </data>
+  <data name="ParamSliderOpacity" xml:space="preserve">
+    <value>スライダー不透明度</value>
+  </data>
+  <data name="ParamSliderOpacityTips" xml:space="preserve">
+    <value>自動非表示の場合に有効です。</value>
   </data>
   <data name="ParamSlideShowInterval" xml:space="preserve">
     <value>スライドを切り替える時間(秒)</value>
@@ -3465,54 +3573,6 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="ParamSusiePluginPath" xml:space="preserve">
     <value>プラグインフォルダー</value>
-  </data>
-  <data name="ParamThumbnailBannerWidth" xml:space="preserve">
-    <value>バナーサイズ</value>
-  </data>
-  <data name="ParamThumbnailBannerWidthTips" xml:space="preserve">
-    <value>バナー表示での画像の横幅です。縦幅は横幅の1/4になります。サムネイル画像を流用しているため大きいサイズほど画像が荒くなります。</value>
-  </data>
-  <data name="ParamThumbnailBookCapacity" xml:space="preserve">
-    <value>ブックサムネイル容量</value>
-  </data>
-  <data name="ParamThumbnailBookCapacityTips" xml:space="preserve">
-    <value>フォルダーリスト等でのメモリ上のサムネイル保持枚数です。</value>
-  </data>
-  <data name="ParamThumbnailFormat" xml:space="preserve">
-    <value>サムネイル画像フォーマット</value>
-  </data>
-  <data name="ParamThumbnailFormatTips" xml:space="preserve">
-    <value>Pngは高品質ですが、Jpegより多くのメモリを消費します。</value>
-  </data>
-  <data name="ParamThumbnailIsCacheEnabled" xml:space="preserve">
-    <value>サムネイルキャッシュを使用する</value>
-  </data>
-  <data name="ParamThumbnailIsCacheEnabledTips" xml:space="preserve">
-    <value>ブックサムネイルをキャッシュします。</value>
-  </data>
-  <data name="ParamThumbnailIsThumbnailPopup" xml:space="preserve">
-    <value>ブックサムネイルのポップアップ</value>
-  </data>
-  <data name="ParamThumbnailIsThumbnailPopupTips" xml:space="preserve">
-    <value>サムネイルにカーソルを合わせるとポップアップで大きめのサムネイル画像が表示されます。</value>
-  </data>
-  <data name="ParamThumbnailPageCapacity" xml:space="preserve">
-    <value>ページサムネイル容量</value>
-  </data>
-  <data name="ParamThumbnailPageCapacityTips" xml:space="preserve">
-    <value>メモリ上のページサムネイルの保持枚数です。ブックを閉じると全て破棄されます。</value>
-  </data>
-  <data name="ParamThumbnailQuality" xml:space="preserve">
-    <value>サムネイル品質</value>
-  </data>
-  <data name="ParamThumbnailQualityTips" xml:space="preserve">
-    <value>サムネイル画像フォーマットがJpegの場合の品質です。</value>
-  </data>
-  <data name="ParamThumbnailThumbnailWidth" xml:space="preserve">
-    <value>ブックサムネイルサイズ</value>
-  </data>
-  <data name="ParamThumbnailThumbnailWidthTips" xml:space="preserve">
-    <value>フォルダーリストのコンテンツ表示でのサムネイルサイズです。</value>
   </data>
   <data name="ParamTouchDragAction" xml:space="preserve">
     <value>シングルタッチのドラッグ操作</value>
@@ -3555,6 +3615,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="ParamWindowShapeChromeFrame" xml:space="preserve">
     <value>タイトルバー非表示でのウィンドウ枠</value>
+  </data>
+  <data name="ParamWindowShapeIsFullScreenWithTaskBar" xml:space="preserve">
+    <value>フルスクリーンのときにタスクバー領域を覆わない</value>
   </data>
   <data name="ParamWindowTitleFormat1" xml:space="preserve">
     <value>1ページ用</value>
@@ -3859,6 +3922,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="SettingPagePanelFolderListGeneral" xml:space="preserve">
     <value>全般</value>
   </data>
+  <data name="SettingPagePanelFolderListTree" xml:space="preserve">
+    <value>フォルダーツリー</value>
+  </data>
   <data name="SettingPagePanelFolderListVisual" xml:space="preserve">
     <value>表示</value>
   </data>
@@ -3915,6 +3981,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="SettingPageVisualGeneralBackground" xml:space="preserve">
     <value>背景</value>
+  </data>
+  <data name="SettingPageVisualGeneralOpacity" xml:space="preserve">
+    <value>透明度</value>
   </data>
   <data name="SettingPageVisualGeneralTheme" xml:space="preserve">
     <value>テーマ</value>
@@ -3993,11 +4062,20 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordAdd" xml:space="preserve">
     <value>追加</value>
   </data>
+  <data name="WordBookmark" xml:space="preserve">
+    <value>ブックマーク</value>
+  </data>
+  <data name="WordBookshelf" xml:space="preserve">
+    <value>本棚</value>
+  </data>
   <data name="WordCancel" xml:space="preserve">
     <value>キャンセル</value>
   </data>
   <data name="WordCause" xml:space="preserve">
     <value>原因</value>
+  </data>
+  <data name="WordCDRomDrive" xml:space="preserve">
+    <value>ディスクドライブ</value>
   </data>
   <data name="WordClear" xml:space="preserve">
     <value>クリア</value>
@@ -4035,14 +4113,23 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordFile" xml:space="preserve">
     <value>ファイル</value>
   </data>
+  <data name="WordFixedDrive" xml:space="preserve">
+    <value>ローカルディスク</value>
+  </data>
   <data name="WordFolder" xml:space="preserve">
     <value>フォルダー</value>
+  </data>
+  <data name="WordFoldersTree" xml:space="preserve">
+    <value>フォルダーツリー</value>
   </data>
   <data name="WordGesture" xml:space="preserve">
     <value>ジェスチャー</value>
   </data>
   <data name="WordImport" xml:space="preserve">
     <value>インポート</value>
+  </data>
+  <data name="WordInner" xml:space="preserve">
+    <value>内部</value>
   </data>
   <data name="WordItem" xml:space="preserve">
     <value>項目</value>
@@ -4055,6 +4142,9 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="WordMainMenu" xml:space="preserve">
     <value>メインメニュー</value>
+  </data>
+  <data name="WordNetworkDrive" xml:space="preserve">
+    <value>ネットワークドライブ</value>
   </data>
   <data name="WordNewFolder" xml:space="preserve">
     <value>新しいフォルダー</value>
@@ -4080,8 +4170,23 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordPage" xml:space="preserve">
     <value>ページ</value>
   </data>
+  <data name="WordPageList" xml:space="preserve">
+    <value>ページリスト</value>
+  </data>
+  <data name="WordPagemark" xml:space="preserve">
+    <value>ページマーク</value>
+  </data>
   <data name="WordPlay" xml:space="preserve">
     <value>再生</value>
+  </data>
+  <data name="WordQuickAccess" xml:space="preserve">
+    <value>クイックアクセス</value>
+  </data>
+  <data name="WordRamDrive" xml:space="preserve">
+    <value>RAMディスク</value>
+  </data>
+  <data name="WordRemovableDrive" xml:space="preserve">
+    <value>リムーバブルディスク</value>
   </data>
   <data name="WordRemove" xml:space="preserve">
     <value>削除</value>
@@ -4104,6 +4209,9 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordRight" xml:space="preserve">
     <value>右</value>
   </data>
+  <data name="WordSearchWord" xml:space="preserve">
+    <value>検索ワード</value>
+  </data>
   <data name="WordSec" xml:space="preserve">
     <value>秒</value>
   </data>
@@ -4125,6 +4233,9 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordStyleList" xml:space="preserve">
     <value>一覧表示</value>
   </data>
+  <data name="WordStyleThumbnail" xml:space="preserve">
+    <value>サムネイル表示</value>
+  </data>
   <data name="WordToDown" xml:space="preserve">
     <value>下へ</value>
   </data>
@@ -4140,184 +4251,79 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordYes" xml:space="preserve">
     <value>はい</value>
   </data>
-  <data name="SettingPageVisualGeneralOpacity" xml:space="preserve">
-    <value>透明度</value>
+  <data name="ParamListItemBannerImageWidth" xml:space="preserve">
+    <value>バナーサイズ</value>
   </data>
-  <data name="ParamSidePanelOpacity" xml:space="preserve">
-    <value>パネル不透明度</value>
+  <data name="ParamListItemBannerImageWidthTips" xml:space="preserve">
+    <value>バナー表示の画像の横幅です。縦幅は横幅の1/4になります。サムネイル画像を流用しているため大きいサイズほど画像が荒くなります。</value>
   </data>
-  <data name="ParamSidePanelOpacityTips" xml:space="preserve">
-    <value>自動非表示の場合に有効です。</value>
+  <data name="ParamThumbnailBookCapacity" xml:space="preserve">
+    <value>ブックサムネイル容量</value>
   </data>
-  <data name="ParamSliderOpacity" xml:space="preserve">
-    <value>スライダー不透明度</value>
+  <data name="ParamThumbnailBookCapacityTips" xml:space="preserve">
+    <value>フォルダーリスト等でのメモリ上のサムネイル保持枚数です。</value>
   </data>
-  <data name="ParamSliderOpacityTips" xml:space="preserve">
-    <value>自動非表示の場合に有効です。</value>
+  <data name="ParamThumbnailFormat" xml:space="preserve">
+    <value>サムネイル画像フォーマット</value>
   </data>
-  <data name="CommandToggleVisibleFoldersTree" xml:space="preserve">
-    <value>フォルダーツリーの表示ON/OFF</value>
+  <data name="ParamThumbnailFormatTips" xml:space="preserve">
+    <value>Pngは高品質ですが、Jpegより多くのメモリを消費します。</value>
   </data>
-  <data name="CommandToggleVisibleFoldersTreeMenu" xml:space="preserve">
-    <value>フォルダーツリー</value>
+  <data name="ParamThumbnailIsCacheEnabled" xml:space="preserve">
+    <value>サムネイルキャッシュを使用する</value>
   </data>
-  <data name="CommandToggleVisibleFoldersTreeNote" xml:space="preserve">
-    <value>フォルダーツリーの表示/非表示を切り替えます。フォルダーリストは表示状態になります。</value>
+  <data name="ParamThumbnailIsCacheEnabledTips" xml:space="preserve">
+    <value>ブックサムネイルをキャッシュします。</value>
   </data>
-  <data name="CommandToggleVisibleFoldersTreeOff" xml:space="preserve">
-    <value>フォルダーツリーを消す</value>
+  <data name="ParamListItemContentImagePopup" xml:space="preserve">
+    <value>アイコンのポップアップ</value>
   </data>
-  <data name="CommandToggleVisibleFoldersTreeOn" xml:space="preserve">
-    <value>フォルダーツリーを表示する</value>
+  <data name="ParamListItemContentImagePopupTips" xml:space="preserve">
+    <value>アイコンにカーソルを合わせるとポップアップで大きめの画像が表示されます。</value>
   </data>
-  <data name="WordFoldersTree" xml:space="preserve">
-    <value>フォルダーツリー</value>
+  <data name="ParamListItemThumbnailNameVisibled" xml:space="preserve">
+    <value>サムネイルに名前を表示する</value>
   </data>
-  <data name="FolderListMoreMenuAddQuickAccess" xml:space="preserve">
-    <value>この場所をクイックアクセスに追加</value>
+  <data name="ParamThumbnailPageCapacity" xml:space="preserve">
+    <value>ページサムネイル容量</value>
   </data>
-  <data name="WordSearchWord" xml:space="preserve">
-    <value>検索ワード</value>
+  <data name="ParamThumbnailPageCapacityTips" xml:space="preserve">
+    <value>メモリ上のページサムネイルの保持枚数です。ブックを閉じると全て破棄されます。</value>
   </data>
-  <data name="ParamWindowShapeIsFullScreenWithTaskBar" xml:space="preserve">
-    <value>フルスクリーンのときにタスクバー領域を覆わない</value>
+  <data name="ParamThumbnailQuality" xml:space="preserve">
+    <value>サムネイル品質</value>
   </data>
-  <data name="ParamIsHidePageSliderInFullscreen" xml:space="preserve">
-    <value>フルスクリーンのときにスライダーを自動的に隠す</value>
+  <data name="ParamThumbnailQualityTips" xml:space="preserve">
+    <value>サムネイル画像フォーマットがJpegの場合の品質です。</value>
   </data>
-  <data name="DialogQuickAccessTempError" xml:space="preserve">
-    <value>一時フォルダーはクイックアクセスに追加できません</value>
+  <data name="ParamListItemContentImageWidth" xml:space="preserve">
+    <value>アイコンサイズ</value>
   </data>
-  <data name="FolderTreeMenuAddCurrentQuickAccess" xml:space="preserve">
-    <value>現在の場所をクイックアクセスに追加</value>
+  <data name="ParamListItemContentImageWidthTips" xml:space="preserve">
+    <value>コンテンツ表示の画像サイズです。</value>
   </data>
-  <data name="FolderTreeMenuAddQuickAccess" xml:space="preserve">
-    <value>クイックアクセスに追加</value>
+  <data name="ParamListItemThumbnailImageWidth" xml:space="preserve">
+    <value>サムネイルサイズ</value>
   </data>
-  <data name="WordQuickAccess" xml:space="preserve">
-    <value>クイックアクセス</value>
+  <data name="ParamListItemThumbnailImageWidthTips" xml:space="preserve">
+    <value>サムネイル表示の画像サイズです。</value>
   </data>
-  <data name="WordFixedDrive" xml:space="preserve">
-    <value>ローカルディスク</value>
+  <data name="ParamListItemContentIsTextWrapped" xml:space="preserve">
+    <value>コンテンツ表示の名前を折り返して表示する</value>
   </data>
-  <data name="FolderTreeMenuRemoveQuickAccess" xml:space="preserve">
-    <value>クイックアクセスから外す</value>
+  <data name="ParamListItemContentNoteOpacity" xml:space="preserve">
+    <value>コンテンツ表示の補足テキストの透明度</value>
   </data>
-  <data name="ParamListItemFolderTreeFontSize" xml:space="preserve">
-    <value>フォルダーツリーのフォントサイズ</value>
+  <data name="ParamListItemContentNoteOpacityTips" xml:space="preserve">
+    <value>コンテンツ表示での補足テキストの透明度です。</value>
   </data>
-  <data name="ParamFolderListIsSyncFolderTree" xml:space="preserve">
-    <value>同期ボタンでフォルダーツリーを同期する</value>
+  <data name="ParamListItemBannerIsTextWrapped" xml:space="preserve">
+    <value>バナー表示の名前を折り返して表示する</value>
   </data>
-  <data name="WordRemovableDrive" xml:space="preserve">
-    <value>リムーバブルディスク</value>
+  <data name="ParamListItemThumbnailIsTextWrapped" xml:space="preserve">
+    <value>サムネイル表示の名前を折り返して表示する</value>
   </data>
-  <data name="WordNetworkDrive" xml:space="preserve">
-    <value>ネットワークドライブ</value>
-  </data>
-  <data name="WordCDRomDrive" xml:space="preserve">
-    <value>ディスクドライブ</value>
-  </data>
-  <data name="WordRamDrive" xml:space="preserve">
-    <value>RAMディスク</value>
-  </data>
-  <data name="FolderTreeMenuRefreshFolder" xml:space="preserve">
-    <value>再読み込み</value>
-  </data>
-  <data name="WordPageList" xml:space="preserve">
-    <value>ページリスト</value>
-  </data>
-  <data name="FolderTreeMenuExplorer" xml:space="preserve">
-    <value>エクスプローラーで開く</value>
-  </data>
-  <data name="WordBookmark" xml:space="preserve">
-    <value>ブックマーク</value>
-  </data>
-  <data name="NotifyCannotOpenBookmarkFolder" xml:space="preserve">
-    <value>{0} はブックマークフォルダーです</value>
-  </data>
-  <data name="WordPagemark" xml:space="preserve">
-    <value>ページマーク</value>
-  </data>
-  <data name="SettingPagePanelFolderListTree" xml:space="preserve">
-    <value>フォルダーツリー</value>
-  </data>
-  <data name="FolderTreeLayoutTop" xml:space="preserve">
-    <value>上に配置</value>
-  </data>
-  <data name="FolderTreeLayoutLeft" xml:space="preserve">
-    <value>左に配置</value>
-  </data>
-  <data name="ParamFolderTreeLayout" xml:space="preserve">
-    <value>フォルダーツリーの配置</value>
-  </data>
-  <data name="DialogMergeFolderTitle" xml:space="preserve">
-    <value>フォルダーを統合しますか？</value>
-  </data>
-  <data name="DialogMergeFolder" xml:space="preserve">
-    <value>{0} にフォルダーを統合します。</value>
-  </data>
-  <data name="FolderTreeMenuDeleteInvalidBookmark" xml:space="preserve">
-    <value>無効なブックマークを削除</value>
-  </data>
-  <data name="FolderTreeMenuAddBookmark" xml:space="preserve">
-    <value>ブックマークを追加</value>
-  </data>
-  <data name="WordBookshelf" xml:space="preserve">
-    <value>本棚</value>
-  </data>
-  <data name="FolderListItemMenuOpen" xml:space="preserve">
-    <value>開く</value>
-  </data>
-  <data name="WordInner" xml:space="preserve">
-    <value>内部</value>
-  </data>
-  <data name="ArchiveFormatFolder" xml:space="preserve">
-    <value>フォルダー形式</value>
-  </data>
-  <data name="ArchiveFormatCompressedFile" xml:space="preserve">
-    <value>圧縮ファイル形式</value>
-  </data>
-  <data name="ArchiveFormatPdf" xml:space="preserve">
-    <value>PDF形式</value>
-  </data>
-  <data name="ArchiveFormatMedia" xml:space="preserve">
-    <value>メディア形式</value>
-  </data>
-  <data name="ArchiveFormatUnknown" xml:space="preserve">
-    <value>未知の形式</value>
-  </data>
-  <data name="BookAddressInfoPage" xml:space="preserve">
-    <value>{0} ページ</value>
-  </data>
-  <data name="BookAddressInfoBookmark" xml:space="preserve">
-    <value>ブックマークアドレスです</value>
-  </data>
-  <data name="BookAddressInfoInvalid" xml:space="preserve">
-    <value>このアドレスは無効です</value>
-  </data>
-  <data name="CommandFocusBookmarkList" xml:space="preserve">
-    <value>ブックマークの表示</value>
-  </data>
-  <data name="CommandFocusBookmarkListMenu" xml:space="preserve">
-    <value>ブックマークリスト</value>
-  </data>
-  <data name="CommandFocusBookmarkListNote" xml:space="preserve">
-    <value>フォルダーリストのブックマークリストを表示します。</value>
-  </data>
-  <data name="FolderListItemMenuDeleteBookmark" xml:space="preserve">
-    <value>ブックマークから外す</value>
-  </data>
-  <data name="ParamThumbnailTileWidth" xml:space="preserve">
-    <value>タイルサイズ</value>
-  </data>
-  <data name="ParamThumbnailTileWidthTips" xml:space="preserve">
-    <value>フォルダーリストのタイル表示でのサムネイルサイズです。</value>
-  </data>
-  <data name="WordStyleTile" xml:space="preserve">
-    <value>タイル表示</value>
-  </data>
-  <data name="ParamThumbnailIsTileNameVisibled" xml:space="preserve">
-    <value>タイル表示時に名前を表示する</value>
+  <data name="SettingPagePanelListItem" xml:space="preserve">
+    <value>パネルリスト項目</value>
   </data>
 </root>

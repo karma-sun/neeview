@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -246,4 +247,35 @@ namespace NeeView
         #endregion
 
     }
+
+
+    /// <summary>
+    /// Page,PageNameFormat から表示ページ名を取得
+    /// </summary>
+    public class PageNameFormatConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values[0] is Page page && values[1] is PageNameFormat format)
+            {
+                switch (format)
+                {
+                    default:
+                    case PageNameFormat.Raw:
+                        return page.FullPath;
+                    case PageNameFormat.Smart:
+                        return page.SmartFullPath;
+                    case PageNameFormat.NameOnly:
+                        return page.LastName;
+                }
+            }
+            return null;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 }

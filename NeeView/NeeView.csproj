@@ -194,8 +194,8 @@
     </Compile>
     <Compile Include="Bookamrk\BookmarkCollectionService.cs" />
     <Compile Include="SidePanels\FolderList\BookmarkFolderCollection.cs" />
-    <Compile Include="SidePanels\FolderList\FolderListTile.xaml.cs">
-      <DependentUpon>FolderListTile.xaml</DependentUpon>
+    <Compile Include="SidePanels\FolderList\PanelListThumbnailImage.xaml.cs">
+      <DependentUpon>PanelListThumbnailImage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\FolderList\FolderTreeLayout.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\BookmarkFolderNode.cs" />
@@ -212,6 +212,7 @@
     <Compile Include="SidePanels\FolderList\FolterTree\RootBookmarkFolderNode.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\RootDirectoryNode.cs" />
     <Compile Include="SidePanels\FolderList\FolterTree\RootQuickAccessNode.cs" />
+    <Compile Include="SidePanels\FolderList\PanelListItemProfile.cs" />
     <Compile Include="SidePanels\FolderList\QueryPath.cs" />
     <Compile Include="SidePanels\FolderList\QuickAccess.cs" />
     <Compile Include="SidePanels\FolderList\QuickAccessCollection.cs" />
@@ -529,15 +530,15 @@
       <DependentUpon>FolderIcon.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\FolderList\FolderList.cs" />
-    <Compile Include="SidePanels\FolderList\FolderListBanner.xaml.cs">
-      <DependentUpon>FolderListBanner.xaml</DependentUpon>
+    <Compile Include="SidePanels\FolderList\PanelListBannerImage.xaml.cs">
+      <DependentUpon>PanelListBannerImage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\FolderList\FolderListIcon.xaml.cs">
       <DependentUpon>FolderListIcon.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\FolderList\FolderPanel.cs" />
-    <Compile Include="SidePanels\FolderList\FolderListThumbnail.xaml.cs">
-      <DependentUpon>FolderListThumbnail.xaml</DependentUpon>
+    <Compile Include="SidePanels\FolderList\PanelListContentImage.xaml.cs">
+      <DependentUpon>PanelListContentImage.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\FolderList\FolderPanelModel.cs" />
     <Compile Include="SidePanels\FolderList\FolderParameter.cs" />
@@ -987,7 +988,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SidePanels\FolderList\FolderListTile.xaml">
+    <Page Include="SidePanels\FolderList\PanelListThumbnailImage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1019,7 +1020,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SidePanels\FolderList\FolderListBanner.xaml">
+    <Page Include="SidePanels\FolderList\PanelListBannerImage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1027,7 +1028,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SidePanels\FolderList\FolderListThumbnail.xaml">
+    <Page Include="SidePanels\FolderList\PanelListContentImage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1219,7 +1220,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Properties\Resources.ja-JP.resx" />
+    <EmbeddedResource Include="Properties\Resources.ja-JP.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

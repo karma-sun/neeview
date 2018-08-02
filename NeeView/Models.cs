@@ -37,7 +37,6 @@ namespace NeeView
         public PdfArchiverProfile PdfArchiverProfile { get; private set; }
         public MediaArchiverProfile MediaArchiverProfile { get; private set; }
         public ArchiverManager ArchiverManager { get; private set; }
-        ////public BitmapLoaderManager BitmapLoaderManager { get; private set; }
         public DragActionTable DragActionTable { get; private set; }
         public ThumbnailProfile ThumbnailProfile { get; private set; }
         public ThumbnailCache ThumbnailCache { get; private set; }
@@ -407,7 +406,6 @@ namespace NeeView
         {
             if (memento == null) return;
 
-            //
             this.BookHub.RestoreCompatible(memento.BookHub);
 
 #pragma warning disable CS0612
@@ -417,6 +415,9 @@ namespace NeeView
                 this.RoutedCommandTable.RestoreCompatible(memento.RoutedCommandTable);
             }
 #pragma warning restore CS0612
+
+            this.ThumbnailProfile.RestoreCompatible(memento.ThumbnailProfile);
+            this.SidePanel.RestoreCompatible(memento.SidePanel);
         }
 
         #endregion

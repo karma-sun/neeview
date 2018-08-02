@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="NeeView.PanelListContentImage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeeView"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"
+             d:DesignHeight="100" d:DesignWidth="100">
+
+    <UserControl.Resources>
+        <local:MultiBooleanAndConverter x:Key="MultiBooleanAndConverter"/>
+        <local:ImageSourceToThumbnailConverter x:Key="ImageSourceToThumbnailConverter"/>
+    </UserControl.Resources>
+
+    <Grid x:Name="Root"
+        Width="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ContentItemProfile.ImageWidth}"
+        Height="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ContentItemProfile.ImageHeight}"
+        Margin="5,0">
+        <Image HorizontalAlignment="Center" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True"
+                   Stretch="Uniform"
+                   Source="{Binding Thumbnail.BitmapSource, Converter={StaticResource ImageSourceToThumbnailConverter}}"
+                   ToolTipService.InitialShowDelay="1000">
+            <Image.ToolTip>
+                <Image Source="{Binding Thumbnail.BitmapSource}"/>
+            </Image.ToolTip>
+            <ToolTipService.IsEnabled>
+                <MultiBinding Converter="{StaticResource MultiBooleanAndConverter}">
+                    <Binding Path="Thumbnail.IsUniqueImage"/>
+                    <Binding Source="{x:Static local:SidePanelProfile.Current}" Path="ContentItemProfile.IsImagePopupEnabled"/>
+                </MultiBinding>
+            </ToolTipService.IsEnabled>
+        </Image>
+    </Grid>
+</UserControl>

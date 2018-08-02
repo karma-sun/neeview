@@ -433,7 +433,7 @@ namespace NeeView
             items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleList, PanelListItemStyle.Normal));
             items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleContent, PanelListItemStyle.Content));
             items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
-            items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleTile, PanelListItemStyle.Tile));
+            items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleTile, PanelListItemStyle.Thumbnail));
             items.Add(new Separator());
             items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuAddQuickAccess, AddQuickAccess));
             items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuClearHistory, CommandType.ClearHistoryInPlace, _model.FolderPanel));

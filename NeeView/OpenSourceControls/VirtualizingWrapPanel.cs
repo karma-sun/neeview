@@ -11,7 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
-namespace CodePlex.VirtualizingWrapPanel
+namespace OpenSourceControls
 {
     #region VirtualizingWrapPanel
     /// <summary>
@@ -153,6 +153,8 @@ namespace CodePlex.VirtualizingWrapPanel
         /// <returns>レイアウト時にこのパネルが必要とするサイズ。</returns>
         protected override Size MeasureOverride(Size availableSize)
         {
+            ////var sw = Stopwatch.StartNew();
+
             this.containerLayouts.Clear();
 
             var isAutoWidth = double.IsNaN(this.ItemWidth);
@@ -244,6 +246,9 @@ namespace CodePlex.VirtualizingWrapPanel
 
             // 配置幅調整用スケール
             layoutScaleX = lineSize.Height < maxSize.Height && maxSize.Width > 0.0 ? Math.Max(availableSize.Width / maxSize.Width, 1.0) : 1.0;
+
+            ////sw.Stop();
+            ////Debug.WriteLine($"MeasureOverride: {sw.ElapsedMilliseconds}ms");
 
             return maxSize;
         }
@@ -402,6 +407,8 @@ namespace CodePlex.VirtualizingWrapPanel
         /// <returns>使用する実際のサイズ。</returns>
         protected override Size ArrangeOverride(Size finalSize)
         {
+            ////var sw = Stopwatch.StartNew();
+
             foreach (UIElement child in this.InternalChildren)
             {
                 var gen = this.ItemContainerGenerator as ItemContainerGenerator;
@@ -422,6 +429,9 @@ namespace CodePlex.VirtualizingWrapPanel
             {
                 this.SetVerticalOffset(VerticalOffset);
             }
+
+            ////sw.Stop();
+            ////Debug.WriteLine($"ArrangeOverride: {sw.ElapsedMilliseconds}ms");
 
             return finalSize;
         }

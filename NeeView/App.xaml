@@ -22,23 +22,12 @@
                     <!-- InfoText FontSize-->
                     <system:Double x:Key="InfoTextFontSize">24.0</system:Double>
 
-                    <!-- Panel Banner and Thumbnail Size -->
-                    <system:Double x:Key="BannerWidth">192.0</system:Double>
-                    <system:Double x:Key="BannerHeight">48.0</system:Double>
-                    <system:Double x:Key="ThumbnailWidth">48</system:Double>
-                    <system:Double x:Key="ThumbnailHeight">58</system:Double>
-                    <system:Double x:Key="TileWidth">128</system:Double>
-                    <system:Double x:Key="TileHeight">128</system:Double>
-
                     <!-- Panel ListBox -->
                     <ScrollUnit x:Key="PanelScrollUnit">Pixel</ScrollUnit>
                     <FontFamily x:Key="PanelFontFamily"/>
                     <system:Double x:Key="PanelFontSize">15</system:Double>
                     <system:Double x:Key="FolderTreeFontSize">12</system:Double>
-                    <TextWrapping x:Key="PanelTextWrapping">NoWrap</TextWrapping>
-                    <system:Double x:Key="PanelTextWrappedHeight">41.9</system:Double>
-                    <system:Double x:Key="PanelNoteOpacity">0.5</system:Double>
-                    <Visibility x:Key="PanelNoteVisibility">Visible</Visibility>
+
 
                     <!-- Window Style -->
                     <Style x:Key="DefaultWindowStyle" TargetType="Window">

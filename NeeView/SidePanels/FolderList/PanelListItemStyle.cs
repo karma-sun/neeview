@@ -18,7 +18,10 @@ namespace NeeView
         Normal, // テキストのみ
         Content, // コンテンツ
         Banner, // バナー
-        Tile, // タイル
+        Thumbnail, // タイル
+
+        [Obsolete]
+        Tile = Thumbnail,
     };
 
     public static class PanelListItemStyleExtensions
@@ -48,7 +51,4 @@ namespace NeeView
             throw new NotImplementedException();
         }
     }
-
-
-
 }

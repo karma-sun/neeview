@@ -58,6 +58,7 @@ namespace NeeView
         [PropertyMember("@ParamThumbnailBookCapacity", Tips = "@ParamThumbnailBookCapacityTips")]
         public int BookCapacity { get; set; } = 200;
 
+#if false
         private int _bannerWidth = 200;
         [PropertyRange("@ParamThumbnailBannerWidth", 0, 512, TickFrequency = 8, Tips = "@ParamThumbnailBannerWidthTips")]
         public int BannerWidth
@@ -107,6 +108,7 @@ namespace NeeView
             }
         }
 
+
         private bool _IsTileNameVisibled = true;
         [PropertyMember("@ParamThumbnailIsTileNameVisibled")]
         public bool IsTileNameVisibled
@@ -126,6 +128,7 @@ namespace NeeView
             get { return _IsThumbnailPopup; }
             set { if (_IsThumbnailPopup != value) { _IsThumbnailPopup = value;  } }
         }
+#endif
 
 
 
@@ -170,6 +173,9 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
+            [DataMember]
+            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+
             [DataMember, DefaultValue(BitmapImageFormat.Jpeg)]
             public BitmapImageFormat Format { get; set; } = BitmapImageFormat.Jpeg;
 
@@ -185,20 +191,18 @@ namespace NeeView
             [DataMember, DefaultValue(200)]
             public int BookCapacity { get; set; }
 
-            [DataMember, DefaultValue(64)]
+
+            [Obsolete]
+            [DataMember(EmitDefaultValue = false)]
             public int ThumbnailWidth { get; set; }
 
-            [DataMember, DefaultValue(true)]
-            public bool IsThumbnailPopup { get; set; }
-
-            [DataMember, DefaultValue(200)]
+            [Obsolete]
+            [DataMember(EmitDefaultValue = false)]
             public int BannerWidth { get; set; }
 
-            [DataMember, DefaultValue(96)]
-            public int TileWidth { get; set; }
-
-            [DataMember, DefaultValue(true)]
-            public bool IsTileNameVisibled { get; set; }
+            [Obsolete]
+            [DataMember(EmitDefaultValue = false)]
+            public bool IsThumbnailPopup { get; set; }
 
 
             [OnDeserializing]
@@ -217,11 +221,11 @@ namespace NeeView
             memento.IsCacheEnabled = this.IsCacheEnabled;
             memento.PageCapacity = this.PageCapacity;
             memento.BookCapacity = this.BookCapacity;
-            memento.ThumbnailWidth = this.ThumbnailWidth;
-            memento.BannerWidth = this.BannerWidth;
-            memento.IsThumbnailPopup = this.IsThumbnailPopup;
-            memento.TileWidth = this.TileWidth;
-            memento.IsTileNameVisibled = this.IsTileNameVisibled;
+            ////memento.ThumbnailWidth = this.ThumbnailWidth;
+            ////memento.BannerWidth = this.BannerWidth;
+            ////memento.TileWidth = this.TileWidth;
+            ////memento.IsThumbnailPopup = this.IsThumbnailPopup;
+            ////memento.IsTileNameVisibled = this.IsTileNameVisibled;
             return memento;
         }
 
@@ -234,12 +238,33 @@ namespace NeeView
             this.IsCacheEnabled = memento.IsCacheEnabled;
             this.PageCapacity = memento.PageCapacity;
             this.BookCapacity = memento.BookCapacity;
-            this.ThumbnailWidth = memento.ThumbnailWidth;
-            this.BannerWidth = memento.BannerWidth;
-            this.IsThumbnailPopup = memento.IsThumbnailPopup;
-            this.TileWidth = memento.TileWidth;
-            this.IsTileNameVisibled = memento.IsTileNameVisibled;
+            ////this.ThumbnailWidth = memento.ThumbnailWidth;
+            ////this.BannerWidth = memento.BannerWidth;
+            ////this.TileWidth = memento.TileWidth;
+            ////this.IsThumbnailPopup = memento.IsThumbnailPopup;
+            ////this.IsTileNameVisibled = memento.IsTileNameVisibled;
         }
+
+
+#pragma warning disable CS0612
+
+        public void RestoreCompatible(Memento memento)
+        {
+            if (memento == null) return;
+
+            // compatible before ver.32
+            if (memento._Version < Config.GenerateProductVersionNumber(32, 0, 0))
+            {
+                SidePanelProfile.Current.ContentItemImageWidth = memento.ThumbnailWidth > 0 ? memento.ThumbnailWidth : 64;
+                SidePanelProfile.Current.BannerItemImageWidth = memento.BannerWidth > 0 ? memento.BannerWidth : 200;
+                SidePanelProfile.Current.ContentItemIsImagePopupEnabled = memento.IsThumbnailPopup;
+
+                SidePanelProfile.Current.ValidatePanelListItemProfile();
+            }
+        }
+
+#pragma warning restore CS0612
+
         #endregion
 
     }

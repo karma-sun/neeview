@@ -18,16 +18,17 @@ namespace NeeView.Setting
             {
                 new SettingPageVisualGeneral(),
                 new SettingPageVisualNotify(),
-                new SettingPageVisualFont(),
+                ////new SettingPageVisualFont(),
                 new SettingPageVisualWindowTitile(),
-                new SettingPageVisualThumbnail(),
                 new SettingPageVisualFilmstrip(),
                 new SettingPageVisualSlider(),
                 new SettingPagePanelGeneral(),
+                new SettingPagePanelItem(),
                 new SettingPagePanelFolderList(),
                 new SettingPagePanelFileInfo(),
                 new SettingPagePanelEffect(),
                 new SettingPageVisualSlideshow(),
+                new SettingPageVisualThumbnail(),
             };
         }
     }
@@ -57,6 +58,7 @@ namespace NeeView.Setting
         }
     }
 
+#if false
     public class SettingPageVisualFont : SettingPage
     {
         public SettingPageVisualFont() : base(Properties.Resources.SettingPageVisualFont)
@@ -64,14 +66,15 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageVisualFontPanel,
-                    new SettingItemPropertyFont(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.FontName))),
-                    new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.FontSize))),
-                    new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.FolderTreeFontSize))),
-                    new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.IsTextWrapped))),
-                    new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.NoteOpacity)))),
+                    new SettingItemPropertyFont(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.FontName))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.FontSize))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.FolderTreeFontSize)))),
+                    ////new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.IsTextWrapped))),
+                    ////new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.NoteOpacity)))),
             };
         }
     }
+#endif
 
     public class SettingPageVisualThumbnail : SettingPage
     {
@@ -79,12 +82,12 @@ namespace NeeView.Setting
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection(Properties.Resources.SettingPageVisualThumbnailPanel,
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.ThumbnailWidth))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.IsThumbnailPopup))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.BannerWidth))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.TileWidth))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.IsTileNameVisibled)))),
+                ////new SettingItemSection(Properties.Resources.SettingPageVisualThumbnailPanel,
+                    ////new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.ThumbnailWidth))),
+                    ////new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.IsThumbnailPopup))),
+                    ////new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.BannerWidth))),
+                    ////new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.TileWidth))),
+                    ////new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.IsTileNameVisibled)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageVisualThumbnailCache,
                     new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.IsCacheEnabled))),
@@ -98,62 +101,7 @@ namespace NeeView.Setting
             };
         }
 
-        #region Commands
-
-        /// <summary>
-        /// RemoveCache command.
-        /// </summary>
-        private RelayCommand<UIElement> _RemoveCache;
-        public RelayCommand<UIElement> RemoveCache
-        {
-            get { return _RemoveCache = _RemoveCache ?? new RelayCommand<UIElement>(RemoveCache_Executed); }
-        }
-
-        private void RemoveCache_Executed(UIElement element)
-        {
-            try
-            {
-                ThumbnailCache.Current.Remove();
-
-                var dialog = new MessageDialog("", Properties.Resources.DialogCacheDeletedTitle);
-                if (element != null)
-                {
-                    dialog.Owner = Window.GetWindow(element);
-                }
-                dialog.ShowDialog();
-            }
-            catch(Exception ex)
-            {
-                var dialog = new MessageDialog(ex.Message, Properties.Resources.DialogCacheDeletedFailedTitle);
-                if (element != null)
-                {
-                    dialog.Owner = Window.GetWindow(element);
-                }
-                dialog.ShowDialog();
-            }
-        }
-
-        #endregion
-    }
-
-
-    public class SettingPageVisualFilmstrip : SettingPage
-    {
-        public SettingPageVisualFilmstrip() : base(Properties.Resources.SettingPageVisualFilmstrip)
-        {
-            this.Items = new List<SettingItem>
-            {
-                 new SettingItemSection(Properties.Resources.SettingPageVisualFilmstripFilmstrip,
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.ThumbnailSize))),
-                    new SettingItemProperty(PropertyMemberElement.Create(PageSlider.Current, nameof(PageSlider.IsSliderLinkedThumbnailList))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsVisibleThumbnailNumber))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsVisibleThumbnailPlate))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsSelectedCenter))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsManipulationBoundaryFeedbackEnabled)))),
-            };
-        }
-
-        #region Commands
+#region Commands
 
         /// <summary>
         /// RemoveCache command.
@@ -188,7 +136,62 @@ namespace NeeView.Setting
             }
         }
 
-        #endregion
+#endregion
+    }
+
+
+    public class SettingPageVisualFilmstrip : SettingPage
+    {
+        public SettingPageVisualFilmstrip() : base(Properties.Resources.SettingPageVisualFilmstrip)
+        {
+            this.Items = new List<SettingItem>
+            {
+                 new SettingItemSection(Properties.Resources.SettingPageVisualFilmstripFilmstrip,
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.ThumbnailSize))),
+                    new SettingItemProperty(PropertyMemberElement.Create(PageSlider.Current, nameof(PageSlider.IsSliderLinkedThumbnailList))),
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsVisibleThumbnailNumber))),
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsVisibleThumbnailPlate))),
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsSelectedCenter))),
+                    new SettingItemProperty(PropertyMemberElement.Create(ThumbnailList.Current, nameof(ThumbnailList.IsManipulationBoundaryFeedbackEnabled)))),
+            };
+        }
+
+#region Commands
+
+        /// <summary>
+        /// RemoveCache command.
+        /// </summary>
+        private RelayCommand<UIElement> _RemoveCache;
+        public RelayCommand<UIElement> RemoveCache
+        {
+            get { return _RemoveCache = _RemoveCache ?? new RelayCommand<UIElement>(RemoveCache_Executed); }
+        }
+
+        private void RemoveCache_Executed(UIElement element)
+        {
+            try
+            {
+                ThumbnailCache.Current.Remove();
+
+                var dialog = new MessageDialog("", Properties.Resources.DialogCacheDeletedTitle);
+                if (element != null)
+                {
+                    dialog.Owner = Window.GetWindow(element);
+                }
+                dialog.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                var dialog = new MessageDialog(ex.Message, Properties.Resources.DialogCacheDeletedFailedTitle);
+                if (element != null)
+                {
+                    dialog.Owner = Window.GetWindow(element);
+                }
+                dialog.ShowDialog();
+            }
+        }
+
+#endregion
     }
 
     public class SettingPageVisualNotify : SettingPage
@@ -259,6 +262,34 @@ namespace NeeView.Setting
         }
     }
 
+    public class SettingPagePanelItem : SettingPage
+    {
+        public SettingPagePanelItem() : base("@パネルリスト項目")
+        {
+            this.Items = new List<SettingItem>
+            {
+                new SettingItemSection(Properties.Resources.SettingPageVisualFontPanel,
+                    new SettingItemPropertyFont(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.FontName))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.FontSize))),
+
+                new SettingItemSection("@コンテンツ形式",
+                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.ContentItemImageWidth))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.ContentItemIsImagePopupEnabled))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.ContentItemIsTextWrapped))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.ContentItemNoteOpacity)))),
+
+                new SettingItemSection("@バナー形式",
+                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.BannerItemImageWidth))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.BannerItemIsTextWrapped)))),
+
+                new SettingItemSection("@サムネイル形式",
+                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.ThumbnailItemImageWidth))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.ThumbnailItemIsTextVisibled))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.ThumbnailItemIsTextWrapped))))),
+            };
+        }
+    }
+
     public class SettingPagePanelFolderList : SettingPage
     {
         public SettingPagePanelFolderList() : base(Properties.Resources.SettingPagePanelFolderList)
@@ -273,14 +304,15 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsVisibleHistoryMark)))),
 
                 new SettingItemSection(Properties.Resources.SettingPagePanelFolderListTree,
-                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.FolderTreeLayout)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.FolderTreeLayout))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.FolderTreeFontSize))),
+                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsSyncFolderTree)))),
 
                 new SettingItemSection(Properties.Resources.SettingPagePanelFolderListAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsCloseBookWhenMove))),
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsInsertItem))),
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsMultipleRarFilterEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.ExcludePattern))) { IsStretch = true }),
-                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsSyncFolderTree))),
             };
         }
     }
@@ -329,7 +361,7 @@ namespace NeeView.Setting
         }
 
 
-        #region IndexValue
+#region IndexValue
 
         /// <summary>
         /// スライドショー インターバルテーブル
@@ -355,6 +387,6 @@ namespace NeeView.Setting
             public override string ValueString => $"{Value}{Properties.Resources.WordSec}";
         }
 
-        #endregion
+#endregion
     }
 }

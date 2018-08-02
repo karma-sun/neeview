@@ -150,7 +150,7 @@ namespace NeeView
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleList, PanelListItemStyle.Normal));
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleContent, PanelListItemStyle.Content));
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
-            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleTile, PanelListItemStyle.Tile));
+            menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleTile, PanelListItemStyle.Thumbnail));
 
             this.MoreMenu = menu;
         }

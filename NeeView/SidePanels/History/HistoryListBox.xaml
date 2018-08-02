@@ -11,7 +11,9 @@
 
     <UserControl.Resources>
 
-        <Style TargetType="TextBlock" x:Key="FolderName">
+        <local:BooleanToTextWrappingConverter x:Key="BooleanToTextWrappingConverter"/>
+
+        <Style x:Key="NameStyle" TargetType="TextBlock" >
             <Setter Property="Text" Value="{Binding Name}"/>
             <Setter Property="ToolTip" Value="{Binding Detail}"/>
             <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
@@ -22,51 +24,64 @@
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
         </Style>
 
-        <Style TargetType="TextBlock" x:Key="FolderParameter">
-            <Setter Property="Margin" Value="5,0"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Opacity" Value="{DynamicResource PanelNoteOpacity}"/>
-            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-            <Setter Property="Visibility" Value="{DynamicResource PanelNoteVisibility}"/>
+        <Style x:Key="NormalNameStyle" TargetType="TextBlock" BasedOn="{StaticResource NameStyle}">
         </Style>
 
-        <local:FileSizeToStringConverter x:Key="FileSizeToStringConverter"/>
+        <Style x:Key="ContentNameStyle" TargetType="TextBlock" BasedOn="{StaticResource NameStyle}">
+            <Setter Property="TextWrapping" Value="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ContentItemProfile.IsTextWrapped, Converter={StaticResource BooleanToTextWrappingConverter}}"/>
+            <Setter Property="Height" Value="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ContentItemProfile.TextHeight}"/>
+        </Style>
 
-        <!-- Normal History -->
-        <DataTemplate x:Key="NormalHistory">
+        <Style x:Key="BannerrNameStyle" TargetType="TextBlock" BasedOn="{StaticResource NameStyle}">
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="TextWrapping" Value="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=BannerItemProfile.IsTextWrapped, Converter={StaticResource BooleanToTextWrappingConverter}}"/>
+            <Setter Property="Height" Value="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=BannerItemProfile.TextHeight}"/>
+        </Style>
+
+
+        <Style  x:Key="NoteTextStyle" TargetType="TextBlock">
+            <Setter Property="Margin" Value="5,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Opacity" Value="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ContentItemProfile.NoteOpacity}"/>
+            <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+            <Setter Property="Visibility" Value="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ContentItemProfile.NoteVisibility}"/>
+        </Style>
+
+
+        <DataTemplate x:Key="NormalTemplate">
             <Grid MinHeight="20">
-                <TextBlock Style="{StaticResource FolderName}"/>
+                <TextBlock Style="{StaticResource NormalNameStyle}"/>
             </Grid>
         </DataTemplate>
 
-        <!-- Picture History -->
-        <DataTemplate x:Key="PictureHistory">
+        <DataTemplate x:Key="ContentTemplace">
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                 <DockPanel Margin="2">
                     <DockPanel>
-                        <local:FolderListThumbnail DataContext="{Binding Thumbnail}"/>
+                        <local:PanelListContentImage Thumbnail="{Binding Thumbnail}"/>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock x:Name="Place" Style="{StaticResource FolderParameter}" Text="{Binding Note}" />
-                            <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}"/>
+                            <TextBlock x:Name="Place" Style="{StaticResource NoteTextStyle}" Text="{Binding Note}" />
+                            <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource ContentNameStyle}"/>
                         </StackPanel>
                     </DockPanel>
                 </DockPanel>
             </Border>
         </DataTemplate>
 
-        <!-- Banner History -->
-        <DataTemplate x:Key="BannerHistory">
+        <DataTemplate x:Key="BannerTemplate">
             <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                 <DockPanel Margin="0" HorizontalAlignment="Stretch" LastChildFill="False">
                     <DockPanel DockPanel.Dock="Bottom" Margin="2">
-                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource FolderName}" TextWrapping="{DynamicResource PanelTextWrapping}" Height="{DynamicResource PanelTextWrappedHeight}" Margin="0"/>
+                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource BannerrNameStyle}"/>
                     </DockPanel>
-                    <local:FolderListBanner DataContext="{Binding Thumbnail}" d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"/>
+                    <local:PanelListBannerImage Thumbnail="{Binding Thumbnail}"/>
                 </DockPanel>
             </Border>
         </DataTemplate>
 
     </UserControl.Resources>
+
+
     <ListBox x:Name="ListBox" Focusable="False"
                  FontFamily="{DynamicResource PanelFontFamily}" FontSize="{DynamicResource PanelFontSize}"
                  Background="Transparent"
@@ -88,24 +103,23 @@
             <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Normal">
-                        <Setter Property="ItemTemplate" Value="{StaticResource NormalHistory}"/>
+                        <Setter Property="ItemTemplate" Value="{StaticResource NormalTemplate}"/>
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Content">
-                        <Setter Property="ItemTemplate" Value="{StaticResource PictureHistory}"/>
+                        <Setter Property="ItemTemplate" Value="{StaticResource ContentTemplace}"/>
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Banner">
-                        <Setter Property="ItemTemplate" Value="{StaticResource BannerHistory}"/>
+                        <Setter Property="ItemTemplate" Value="{StaticResource BannerTemplate}"/>
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
         </ListBox.Style>
 
-        <ListBox.Resources>
+        <ListBox.ItemContainerStyle>
             <Style TargetType="ListBoxItem" BasedOn="{StaticResource NVListBoxItem}">
                 <EventSetter Event="PreviewMouseLeftButtonUp" Handler="HistoryListItem_MouseSingleClick"/>
                 <EventSetter Event="KeyDown" Handler="HistoryListItem_KeyDown"/>
                 <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
-
                 <Setter Property="ContextMenu">
                     <Setter.Value>
                         <ContextMenu>
@@ -114,8 +128,7 @@
                     </Setter.Value>
                 </Setter>
             </Style>
-
-        </ListBox.Resources>
+        </ListBox.ItemContainerStyle>
 
     </ListBox>
 

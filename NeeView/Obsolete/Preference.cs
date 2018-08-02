@@ -272,7 +272,7 @@ namespace NeeView
                 ThumbnailProfile.Current.IsCacheEnabled = this.thumbnail_cache;
                 ThumbnailProfile.Current.PageCapacity = this.thumbnail_book_capacity;
                 ThumbnailProfile.Current.BookCapacity = this.thumbnail_folder_capacity;
-                ThumbnailProfile.Current.BannerWidth = this.banner_width;
+                SidePanelProfile.Current.BannerItemImageWidth = this.banner_width;
 
                 MainWindowModel.Current.IsOpenbookAtCurrentPlace = this.openbook_begin_current;
 

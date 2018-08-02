@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:NeeView">
 
+    <!--#region Icons -->
+    
     <!-- Material design icons by Google -->
     <!-- http://www.google.com/design/spec/style/icons.html#icons-system-icons -->
 
@@ -116,5 +118,8 @@
             </DrawingGroup>
         </DrawingImage.Drawing>
     </DrawingImage>
+    
+    <!--#endregion Icons-->
+
 
 </ResourceDictionary>

@@ -132,13 +132,13 @@ namespace NeeView
         /// <summary>
         /// ユニークイメージ？
         /// </summary>
-        public bool IsUniqueImage => _image != null && _image != _emptyImage && _image != _mediaImage && _image != _folderImage;
+        public bool IsUniqueImage => _image == null || (_image != _emptyImage && _image != _mediaImage && _image != _folderImage);
 
         /// <summary>
         /// 標準イメージ？
         /// バナーでの引き伸ばし許可
         /// </summary>
-        public bool IsNormalImage => _image != null && _image != _mediaImage && _image != _folderImage;
+        public bool IsNormalImage => _image == null || (_image != _mediaImage && _image != _folderImage);
 
         /// <summary>
         /// View用Bitmapプロパティ

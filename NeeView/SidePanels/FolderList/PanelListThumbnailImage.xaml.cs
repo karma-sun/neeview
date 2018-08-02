@@ -18,16 +18,31 @@ using System.Windows.Shapes;
 namespace NeeView
 {
     /// <summary>
-    /// FolderListTile.xaml の相互作用ロジック
+    /// PanelListThumbnailImage.xaml の相互作用ロジック
     /// </summary>
-    public partial class FolderListTile : UserControl
+    public partial class PanelListThumbnailImage : UserControl
     {
-        public FolderListTile()
+        public PanelListThumbnailImage()
         {
             InitializeComponent();
+            this.Root.DataContext = this;
         }
+
+
+        public IThumbnail Thumbnail
+        {
+            get { return (IThumbnail)GetValue(ThumbnailProperty); }
+            set { SetValue(ThumbnailProperty, value); }
+        }
+
+        public static readonly DependencyProperty ThumbnailProperty =
+            DependencyProperty.Register("Thumbnail", typeof(IThumbnail), typeof(PanelListThumbnailImage), new PropertyMetadata(null));
+
     }
 
+    /// <summary>
+    /// 画像がベクターである場合、余白を付加する
+    /// </summary>
     [ValueConversion(typeof(IThumbnail), typeof(Thickness))]
     public class ThumbnailToTileMarginConverter : IValueConverter
     {
@@ -35,7 +50,7 @@ namespace NeeView
         {
             if (value is ConstThumbnail thumbnail && thumbnail.BitmapSource is DrawingImage)
             {
-                var width = ThumbnailProfile.Current.TileWidth;
+                var width = SidePanelProfile.Current.ThumbnailItemImageWidth;
                 if (width > 64)
                 {
                     var margin = (width - 64) * 0.25;

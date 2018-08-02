@@ -4,6 +4,7 @@ using NeeView.Collections.Generic;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -618,7 +619,7 @@ namespace NeeView
 
         private void FolderList_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            bool isLRKeyEnabled = SidePanelProfile.Current.IsLeftRightKeyEnabled && _vm.Model.PanelListItemStyle != PanelListItemStyle.Tile;
+            bool isLRKeyEnabled = SidePanelProfile.Current.IsLeftRightKeyEnabled && _vm.Model.PanelListItemStyle != PanelListItemStyle.Thumbnail;
 
             if ((isLRKeyEnabled && e.Key == Key.Left) || e.Key == Key.Back) // ←, Backspace
             {
@@ -672,7 +673,7 @@ namespace NeeView
         //
         private void FolderListItem_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            bool isLRKeyEnabled = SidePanelProfile.Current.IsLeftRightKeyEnabled && _vm.Model.PanelListItemStyle != PanelListItemStyle.Tile;
+            bool isLRKeyEnabled = SidePanelProfile.Current.IsLeftRightKeyEnabled && _vm.Model.PanelListItemStyle != PanelListItemStyle.Thumbnail;
             var item = (sender as ListBoxItem)?.Content as FolderItem;
 
             if (e.Key == Key.Return)
@@ -796,7 +797,5 @@ namespace NeeView
         }
 
         #endregion
-
-
     }
 }

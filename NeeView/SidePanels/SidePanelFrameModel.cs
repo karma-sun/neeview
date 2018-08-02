@@ -26,26 +26,12 @@ namespace NeeView
         private SidePanelGroup _left;
         private SidePanelGroup _right;
 
-        private string _fontName = SystemFonts.MessageFontFamily.Source;
-        private double _folderTreeFontSize = 12;
-        private double _fontSize = 15.0;
-        private bool _isTextWrapped;
-        private double _noteOpacity = 0.5;
-
         #endregion
 
         #region Constructors
 
         public SidePanelFrameModel()
         {
-            // initialize resource parameter
-            SetFontFamilyResource(_fontName);
-            SetFontSizeResource(_fontSize);
-            SetFolderTreeFontSizeResource(_folderTreeFontSize);
-            SetIsTextWrappedResource(_isTextWrapped);
-            UpdateTextWrappedHeightResource();
-            UpdateNoteOpacityResource();
-
             _left = new SidePanelGroup();
             _left.PropertyChanged += Left_PropertyChanged;
 
@@ -106,167 +92,9 @@ namespace NeeView
             set { if (_right != value) { _right = value; RaisePropertyChanged(); } }
         }
 
-
-        [PropertyMember("@ParamListItemFontName")]
-        public string FontName
-        {
-            get
-            {
-                return _fontName;
-            }
-            set
-            {
-                value = value ?? SystemFonts.MessageFontFamily.Source;
-                if (_fontName != value)
-                {
-                    try
-                    {
-                        _fontName = value;
-                        SetFontFamilyResource(_fontName);
-                        UpdateTextWrappedHeightResource();
-                        RaisePropertyChanged();
-                    }
-                    catch
-                    {
-                        // nop.
-                    }
-                }
-            }
-        }
-
-
-        [PropertyRange("@ParamListItemFontSize", 8, 24, TickFrequency = 0.5, IsEditable = true)]
-        public double FontSize
-        {
-            get { return _fontSize; }
-            set
-            {
-                value = Math.Max(1, value);
-                if (_fontSize != value)
-                {
-                    _fontSize = value;
-                    SetFontSizeResource(_fontSize);
-                    UpdateTextWrappedHeightResource();
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        [PropertyRange("@ParamListItemFolderTreeFontSize", 8, 24, TickFrequency = 0.5, IsEditable = true)]
-        public double FolderTreeFontSize
-        {
-            get { return _folderTreeFontSize; }
-            set
-            {
-                value = Math.Max(1, value);
-                if (_folderTreeFontSize != value)
-                {
-                    _folderTreeFontSize = value;
-                    SetFolderTreeFontSizeResource(_folderTreeFontSize);
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-
-        [PropertyMember("@ParamListItemIsTextWrapped", Tips = "@ParamListItemIsTextWrappedTips")]
-        public bool IsTextWrapped
-        {
-            get { return _isTextWrapped; }
-            set
-            {
-                if (_isTextWrapped != value)
-                {
-                    _isTextWrapped = value;
-                    SetIsTextWrappedResource(_isTextWrapped);
-                    UpdateTextWrappedHeightResource();
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        [PropertyRange("@ParamListItemNoteOpacity", 0.0, 1.0, Tips = "@ParamListItemNoteOpacityTips")]
-        public double NoteOpacity
-        {
-            get { return _noteOpacity; }
-            set
-            {
-                if (_noteOpacity != value)
-                {
-                    _noteOpacity = value;
-                    UpdateNoteOpacityResource();
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
         #endregion
 
         #region Methods
-
-        // リソースにFontFamily適用
-        private void SetFontFamilyResource(string fontName)
-        {
-            var fontFamily = fontName != null ? new FontFamily(fontName) : SystemFonts.MessageFontFamily;
-            App.Current.Resources["PanelFontFamily"] = fontFamily;
-        }
-
-        // リソースにFontSize適用
-        private void SetFontSizeResource(double fontSize)
-        {
-            App.Current.Resources["PanelFontSize"] = fontSize;
-        }
-
-        // リソースにFolderTreeFontSize適用
-        private void SetFolderTreeFontSizeResource(double fontSize)
-        {
-            App.Current.Resources["FolderTreeFontSize"] = fontSize;
-        }
-
-        // リソースにTextWrapping適用
-        private void SetIsTextWrappedResource(bool isWrapped)
-        {
-            App.Current.Resources["PanelTextWrapping"] = isWrapped ? TextWrapping.Wrap : TextWrapping.NoWrap;
-        }
-
-        // リソースにNoteOpacity適用
-        private void UpdateNoteOpacityResource()
-        {
-            App.Current.Resources["PanelNoteOpacity"] = _noteOpacity;
-            App.Current.Resources["PanelNoteVisibility"] = _noteOpacity <= 0.0 ? Visibility.Collapsed : Visibility.Visible;
-        }
-
-        // calc 2 line textbox height
-        private void UpdateTextWrappedHeightResource()
-        {
-            if (_isTextWrapped)
-            {
-                // 実際にTextBlockを作成して計算する
-                var textBlock = new TextBlock()
-                {
-                    Text = "AAA\nBBB",
-                    FontSize = this.FontSize,
-                };
-                if (_fontName != null)
-                {
-                    textBlock.FontFamily = new FontFamily(_fontName);
-                };
-                var panel = new StackPanel();
-                panel.Children.Add(textBlock);
-                var area = new Size(256, 256);
-                panel.Measure(area);
-                panel.Arrange(new Rect(area));
-                //panel.UpdateLayout();
-                double height = (int)textBlock.ActualHeight + 1.0;
-
-                App.Current.Resources["PanelTextWrappedHeight"] = height;
-            }
-            else
-            {
-                App.Current.Resources["PanelTextWrappedHeight"] = double.NaN;
-            }
-        }
-
 
         /// <summary>
         /// パネル登録
@@ -338,6 +166,9 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
+            [DataMember]
+            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+
             [DataMember, DefaultValue(true)]
             public bool IsSideBarVisible { get; set; }
 
@@ -345,26 +176,26 @@ namespace NeeView
             public bool IsManipulationBoundaryFeedbackEnabled { get; set; }
 
             [DataMember]
-            public string FontName { get; set; }
-
-            [DataMember, DefaultValue(15)]
-            public double FontSize { get; set; }
-
-
-            [DataMember, DefaultValue(12)]
-            public double FolderTreeFontSize { get; set; }
-
-            [DataMember]
-            public bool IsTextWrapped { get; set; }
-
-            [DataMember, DefaultValue(0.5)]
-            public double NoteOpacity { get; set; }
-
-            [DataMember]
             public SidePanelGroup.Memento Left { get; set; }
 
             [DataMember]
             public SidePanelGroup.Memento Right { get; set; }
+
+
+            [Obsolete, DataMember(EmitDefaultValue = false)]
+            public string FontName { get; set; } // ver 32.0
+
+            [Obsolete, DataMember(EmitDefaultValue = false)]
+            public double FontSize { get; set; } // ver 32.0
+
+            [Obsolete, DataMember(EmitDefaultValue = false)]
+            public double FolderTreeFontSize { get; set; } // ver 32.0
+
+            [Obsolete, DataMember(EmitDefaultValue = false)]
+            public bool IsTextWrapped { get; set; } // ver 32.0
+
+            [Obsolete, DataMember(EmitDefaultValue = false)]
+            public double NoteOpacity { get; set; } // ver 32.0
 
 
             [OnDeserializing]
@@ -384,11 +215,6 @@ namespace NeeView
 
             memento.IsSideBarVisible = this.IsSideBarVisible;
             memento.IsManipulationBoundaryFeedbackEnabled = this.IsManipulationBoundaryFeedbackEnabled;
-            memento.FontName = this.FontName;
-            memento.FontSize = this.FontSize;
-            memento.FolderTreeFontSize = this.FolderTreeFontSize;
-            memento.IsTextWrapped = this.IsTextWrapped;
-            memento.NoteOpacity = this.NoteOpacity;
             memento.Left = Left.CreateMemento();
             memento.Right = Right.CreateMemento();
 
@@ -412,11 +238,6 @@ namespace NeeView
             // memento反映
             this.IsSideBarVisible = memento.IsSideBarVisible;
             this.IsManipulationBoundaryFeedbackEnabled = memento.IsManipulationBoundaryFeedbackEnabled;
-            this.FontName = memento.FontName;
-            this.FontSize = memento.FontSize;
-            this.FolderTreeFontSize = memento.FolderTreeFontSize;
-            this.IsTextWrapped = memento.IsTextWrapped;
-            this.NoteOpacity = memento.NoteOpacity;
             _left.Restore(memento.Left, panels);
             _right.Restore(memento.Right, panels);
 
@@ -429,6 +250,29 @@ namespace NeeView
             // 情報更新
             SelectedPanelChanged?.Invoke(this, null);
         }
+
+#pragma warning disable CS0612
+
+        public void RestoreCompatible(Memento memento)
+        {
+            if (memento == null) return;
+
+            // compatible before ver.32
+            if (memento._Version < Config.GenerateProductVersionNumber(32, 0, 0))
+            {
+                SidePanelProfile.Current.FontName = memento.FontName;
+                SidePanelProfile.Current.FontSize = memento.FontSize > 0.0 ? memento.FontSize : 15.0;
+                SidePanelProfile.Current.FolderTreeFontSize = memento.FolderTreeFontSize > 0.0 ? memento.FolderTreeFontSize : 12.0;
+                SidePanelProfile.Current.ContentItemIsTextWrapped = memento.IsTextWrapped;
+                SidePanelProfile.Current.ContentItemNoteOpacity = memento.NoteOpacity;
+                SidePanelProfile.Current.BannerItemIsTextWrapped = memento.IsTextWrapped;
+                SidePanelProfile.Current.ThumbnailItemIsTextWrapped = memento.IsTextWrapped;
+
+                SidePanelProfile.Current.ValidatePanelListItemProfile();
+            }
+        }
+
+#pragma warning restore CS0612
 
         #endregion
     }

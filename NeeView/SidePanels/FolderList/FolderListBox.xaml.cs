@@ -654,7 +654,7 @@ namespace NeeView
             }
 
             var item = (sender as ListBoxItem)?.Content as FolderItem;
-            if (item != null && !item.IsEmpty)
+            if (item != null && !item.IsEmpty())
             {
                 _vm.Model.LoadBook(item);
                 e.Handled = true;

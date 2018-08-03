@@ -217,7 +217,7 @@ namespace NeeView
             {
                 if (BookProfile.Current.LoadingPageView == LoadingPageView.PreThumbnail)
                 {
-                    var thumbnail = this.Page?.Thumbnail?.BitmapSource;
+                    var thumbnail = this.Page?.Thumbnail?.ImageSource;
                     if (thumbnail != null)
                     {
                         return new ViewContentReserver()

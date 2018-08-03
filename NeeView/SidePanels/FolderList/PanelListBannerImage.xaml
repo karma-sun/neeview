@@ -22,13 +22,13 @@
             <Rectangle.Fill>
                 <VisualBrush Stretch="UniformToFill" Viewbox="0,0,1,0.6" >
                     <VisualBrush.Visual>
-                        <Image Source="{Binding Thumbnail.BitmapSource, Converter={StaticResource ImageSourceToThumbnailConverter}}"/>
+                        <Image Source="{Binding Thumbnail.ImageSource, Converter={StaticResource ImageSourceToThumbnailConverter}}"/>
                     </VisualBrush.Visual>
                 </VisualBrush>
             </Rectangle.Fill>
         </Rectangle>
         <Grid Visibility="{Binding Thumbnail.IsNormalImage, Converter={StaticResource InvertBooleanToVisibilityConverter}}" Background="{Binding Thumbnail.Background}">
-            <Image Source="{Binding Thumbnail.BitmapSource, Converter={StaticResource ImageSourceToThumbnailConverter}}" HorizontalAlignment="Left" OpacityMask="#FF3A3A3A"/>
+            <Image Source="{Binding Thumbnail.ImageSource, Converter={StaticResource ImageSourceToThumbnailConverter}}" HorizontalAlignment="Left" OpacityMask="#FF3A3A3A"/>
         </Grid>
     </Grid>
 </UserControl>

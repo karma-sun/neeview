@@ -19,7 +19,7 @@
         Height="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ThumbnailItemProfile.ShapeHeight}">
         <Image HorizontalAlignment="Center" VerticalAlignment="Bottom" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True"
                Height="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ThumbnailItemProfile.ShapeHeight}"
-               Source="{Binding Thumbnail.BitmapSource, Converter={StaticResource ImageSourceToThumbnailConverter}}">
+               Source="{Binding Thumbnail.ImageSource, Converter={StaticResource ImageSourceToThumbnailConverter}}">
             <Image.Stretch>
                 <MultiBinding Converter="{StaticResource ThumbnailToStretchConverter}">
                     <Binding Path="Thumbnail"/>

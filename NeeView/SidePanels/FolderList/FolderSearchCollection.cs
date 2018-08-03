@@ -12,7 +12,7 @@ namespace NeeView
     /// <summary>
     /// 検索コレクション
     /// </summary>
-    public class FolderSearchCollection : FolderCollection, IDisposable 
+    public class FolderSearchCollection : FolderCollection, IDisposable
     {
         // Fieds
 
@@ -83,7 +83,7 @@ namespace NeeView
         {
             if (nodeContent.FileInfo.IsDirectory)
             {
-                return new FolderItem()
+                return new FileFolderItem()
                 {
                     Type = FolderItemType.Directory,
                     Place = new QueryPath(Path.GetDirectoryName(nodeContent.Path)),
@@ -110,7 +110,7 @@ namespace NeeView
                 }
                 else if (ArchiverManager.Current.IsSupported(nodeContent.Path))
                 {
-                    return new FolderItem()
+                    return new FileFolderItem()
                     {
                         Type = FolderItemType.File,
                         Place = new QueryPath(Path.GetDirectoryName(nodeContent.Path)),

@@ -20,7 +20,7 @@ namespace NeeView
         private static readonly PanelListItemProfile _defaultNormalItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 0, false, true, false, 0.0);
         private static readonly PanelListItemProfile _defaultContentItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 64, true, true, false, 0.5);
         private static readonly PanelListItemProfile _defaultBannertemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 200, false, true, false, 0.0);
-        private static readonly PanelListItemProfile _defaultThumbnailItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 128, false, true, false, 0.0);
+        private static readonly PanelListItemProfile _defaultThumbnailItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 128, false, true, true, 0.0);
 
         private double _opacity = 1.0;
         private SolidColorBrush _backgroundBrush;

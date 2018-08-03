@@ -157,6 +157,21 @@ namespace NeeView
         }
 
 
+        public string Name => Entry?.EntryName;
+
+        public string Note
+        {
+            get
+            {
+                var timeString = $"{LastWriteTime:yyyy/MM/dd HH:mm:ss}";
+                var sizeString = FileSizeToStringConverter.ByteToDispString(Length);
+                return timeString + (string.IsNullOrEmpty(sizeString) ? "" : "   " + sizeString);
+            }
+        }
+
+        public string Detail => FullPath;
+
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -402,28 +417,10 @@ namespace NeeView
         }
 
 
-        #region IBookListItem Support
-
-        public string Name => Entry?.EntryName;
-
-        public string Note
-        {
-            get
-            {
-                var timeString = $"{LastWriteTime:yyyy/MM/dd HH:mm:ss}";
-                var sizeString = FileSizeToStringConverter.ByteToDispString(Length);
-                return timeString + (string.IsNullOrEmpty(sizeString) ? "" : "   " + sizeString);
-            }
-        }
-
-        public string Detail => FullPath;
-
         public Page GetPage()
         {
             return this;
         }
-
-        #endregion
     }
 
 }

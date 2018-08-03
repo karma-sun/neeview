@@ -36,15 +36,17 @@ namespace NeeView
         /// <summary>
         /// いずれかのフラグのONをチェック
         /// </summary>
-        /// <param name="self"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static bool AnyFlag(this FolderItemAttribute self, FolderItemAttribute value)
         {
             return (self & value) != 0;
         }
     }
 
+
+
+    /// <summary>
+    /// アイコンオーバーレイ
+    /// </summary>
     public enum FolderItemIconOverlay
     {
         Uninitialized,
@@ -54,7 +56,9 @@ namespace NeeView
         Disable,
     }
 
-    //
+    /// <summary>
+    /// FolderItemの種類。ソート用
+    /// </summary>
     public enum FolderItemType
     {
         Empty,
@@ -65,24 +69,29 @@ namespace NeeView
         ArchiveEntry,
     }
 
-
     /// <summary>
     /// フォルダー情報
     /// フォルダーリストの１項目の情報 
     /// </summary>
-    public class FolderItem : BindableBase, IBookListItem
+    public abstract class FolderItem : BindableBase, IHasPage, IHasName
     {
-        // TODO: プロパティ多すぎ！
-
         #region Properties
 
+        /// <summary>
+        /// このFolderItemと関係のある情報
+        /// </summary>
         public object Source { get; set; }
 
+        // 属性
         public FolderItemAttribute Attributes { get; set; }
+
+        public bool IsDirectory => (Attributes & FolderItemAttribute.Directory) == FolderItemAttribute.Directory;
+        public bool IsShortcut => (Attributes & FolderItemAttribute.Shortcut) == FolderItemAttribute.Shortcut;
 
         // 種類。ソート用
         public FolderItemType Type { get; set; }
 
+        // このアイテムが存在しているディレクトリ
         private QueryPath _place;
         public QueryPath Place
         {
@@ -96,32 +105,28 @@ namespace NeeView
             }
         }
 
+        // アイテム名
         private string _name;
-        public virtual string Name
+        public string Name
         {
-            get
-            {
-                if ((Attributes & FolderItemAttribute.Drive) == FolderItemAttribute.Drive)
-                {
-                    return Path.SimplePath;
-                }
-                else if (IsEmpty)
-                {
-                    return Properties.Resources.NotifyNoFiles;
-                }
-                else
-                {
-                    return IsShortcut ? System.IO.Path.GetFileNameWithoutExtension(_name) : _name;
-                }
-            }
+            get { return _name; }
             set
             {
                 if (SetProperty(ref _name, value))
                 {
+                    RaisePropertyChanged(nameof(DispName));
                     RaisePropertyChanged(nameof(Path));
                     RaisePropertyChanged(nameof(Detail));
                 }
             }
+        }
+
+        // 表示名
+        private string _dispName;
+        public string DispName
+        {
+            get { return _dispName ?? (IsShortcut ? System.IO.Path.GetFileNameWithoutExtension(_name) : _name); }
+            set { SetProperty(ref _dispName, value); }
         }
 
         // パス
@@ -135,6 +140,7 @@ namespace NeeView
             set { if (_targetPath != value) { _targetPath = value; RaisePropertyChanged(); } }
         }
 
+        // アーカイブエントリ
         private ArchiveEntry _archiveEntry;
         public ArchiveEntry ArchiveEntry
         {
@@ -142,22 +148,11 @@ namespace NeeView
             set { if (_archiveEntry != value) { _archiveEntry = value; RaisePropertyChanged(); } }
         }
 
-        /// <summary>
-        /// 最終更新日
-        /// </summary>
+        // 最終更新日
         public DateTime LastWriteTime { get; set; }
 
-        /// <summary>
-        /// ファイルサイズ
-        /// </summary>
+        // ファイルサイズ
         public long Length { get; set; }
-
-        public bool IsDrive => (Attributes & FolderItemAttribute.Drive) == FolderItemAttribute.Drive;
-        public bool IsDirectory => (Attributes & FolderItemAttribute.Directory) == FolderItemAttribute.Directory;
-        public bool IsFile => !IsDirectory && !IsEmpty;
-        public bool IsEmpty => (Attributes & FolderItemAttribute.Empty) == FolderItemAttribute.Empty;
-        public bool IsShortcut => (Attributes & FolderItemAttribute.Shortcut) == FolderItemAttribute.Shortcut;
-        public bool IsDisable => IsDirectory && !IsReady;
 
         /// <summary>
         /// 編集可能
@@ -179,8 +174,6 @@ namespace NeeView
             set { if (_isRecursived != value) { _isRecursived = value; RaisePropertyChanged(); } }
         }
 
-        public static bool IsVisibleHistoryMark { get; set; } = true;
-        public static bool IsVisibleBookmarkMark { get; set; } = true;
 
         // アイコンオーバーレイの種類を返す
         private FolderItemIconOverlay _iconOverlay = FolderItemIconOverlay.Uninitialized;
@@ -196,89 +189,23 @@ namespace NeeView
             }
         }
 
-        public bool IsOverlayStar => IconOverlay == FolderItemIconOverlay.Star;
-        public bool IsOverlayChecked => IconOverlay == FolderItemIconOverlay.Checked;
+        public virtual string Note => null;
 
+        public virtual string Detail => Name;
 
-        // サムネイル用
-        private Page _archivePage;
-        public Page ArchivePage
-        {
-            get
-            {
-                if (_archivePage == null)
-                {
-                    if (Attributes.AnyFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Pagemark) && Attributes.HasFlag(FolderItemAttribute.Directory))
-                    {
-                    }
-                    else if (!IsDrive && !IsEmpty)
-                    {
-                        var entry = this.ArchiveEntry ?? new ArchiveEntry()
-                        {
-                            RawEntryName = TargetPath.SimplePath,
-                            Length = this.Length,
-                            LastWriteTime = this.LastWriteTime,
-                        };
-                        _archivePage = new ArchivePage(entry);
-                        _archivePage.Thumbnail.IsCacheEnabled = true;
-                        _archivePage.Thumbnail.Touched += Thumbnail_Touched;
-                    }
-                }
-                return _archivePage;
-            }
-            set { _archivePage = value; RaisePropertyChanged(); }
-        }
+        public abstract IThumbnail Thumbnail { get; }
 
-
-
-
-        #endregion
-
-        #region IBookListItem Supprt
-
-        public string Note => IsFileSystem() || !IsDirectory ? ArchivePage?.Note : null;
-
-        public string Detail => Name;
-
-        public virtual IThumbnail Thumbnail
-        {
-            get
-            {
-                if (Attributes.AnyFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Pagemark) && Attributes.HasFlag(FolderItemAttribute.Directory))
-                {
-                    return new ConstThumbnail(FileIconCollection.Current.CreateDefaultFolderIcon(256.0) as ImageSource);
-                }
-                if (IsDrive)
-                {
-                    return new ConstThumbnail(MainWindow.Current.Resources["ic_drive"] as ImageSource);
-                }
-                else if (IsEmpty)
-                {
-                    return new ConstThumbnail(MainWindow.Current.Resources["ic_noentry"] as ImageSource);
-                }
-
-                return ArchivePage?.Thumbnail;
-            }
-        }
-
-        public virtual Page GetPage()
-        {
-            return ArchivePage;
-        }
-
-        #endregion
+        #endregion Properties
 
         #region Methods
 
-        public bool IsBookmark()
-        {
-            return (Attributes & FolderItemAttribute.Bookmark) != 0;
-        }
+        public virtual Page GetPage() => null;
 
-        public bool IsFileSystem()
-        {
-            return (Attributes & (FolderItemAttribute.System | FolderItemAttribute.Bookmark | FolderItemAttribute.Pagemark | FolderItemAttribute.Empty | FolderItemAttribute.None)) == 0;
-        }
+        public bool IsDrive() => (Attributes & FolderItemAttribute.Drive) == FolderItemAttribute.Drive;
+        public bool IsEmpty() => (Attributes & FolderItemAttribute.Empty) == FolderItemAttribute.Empty;
+        public bool IsDisable() => IsDirectory && !IsReady;
+        public bool IsBookmark() => (Attributes & FolderItemAttribute.Bookmark) == FolderItemAttribute.Bookmark;
+        public bool IsFileSystem() => (Attributes & (FolderItemAttribute.System | FolderItemAttribute.Bookmark | FolderItemAttribute.Pagemark | FolderItemAttribute.Empty | FolderItemAttribute.None)) == 0;
 
         /// <summary>
         /// IsRecursived 更新
@@ -302,19 +229,17 @@ namespace NeeView
             return IsDirectory ? Directory.Exists(Path.SimplePath) : File.Exists(Path.SimplePath);
         }
 
-
         private void UpdateOverlay()
         {
-            if (IsDisable)
+            if (IsDisable())
                 _iconOverlay = FolderItemIconOverlay.Disable;
-            else if (IsVisibleBookmarkMark && BookmarkCollection.Current.Contains(TargetPath.SimplePath))
+            else if (FolderList.Current.IsVisibleBookmarkMark && BookmarkCollection.Current.Contains(TargetPath.SimplePath))
                 _iconOverlay = FolderItemIconOverlay.Star;
-            else if (IsVisibleHistoryMark && BookHistoryCollection.Current.Contains(TargetPath.SimplePath))
+            else if (FolderList.Current.IsVisibleHistoryMark && BookHistoryCollection.Current.Contains(TargetPath.SimplePath))
                 _iconOverlay = FolderItemIconOverlay.Checked;
             else
                 _iconOverlay = FolderItemIconOverlay.None;
         }
-
 
         // アイコンオーバーレイの変更を通知
         public void NotifyIconOverlayChanged()
@@ -322,28 +247,6 @@ namespace NeeView
             UpdateOverlay();
             RaisePropertyChanged(nameof(IconOverlay));
         }
-
-        //
-        private void Thumbnail_Touched(object sender, EventArgs e)
-        {
-            var thumbnail = (Thumbnail)sender;
-            BookThumbnailPool.Current.Add(thumbnail);
-        }
-
-        /// <summary>
-        /// 有効なページを持っているか判定
-        /// </summary>
-        /// <returns></returns>
-        public async Task<bool> HasAnyPageAsync()
-        {
-            // TODO: 実装。フォルダーの場合はページの有無をチェック、アーカイブの場合は判定せずtrue。
-            await Task.Yield();
-
-            if (this.IsEmpty) return false;
-
-            return true;
-        }
-
 
         /// <summary>
         /// フォルダーとして展開可能？
@@ -376,4 +279,60 @@ namespace NeeView
         #endregion
     }
 
+    /// <summary>
+    /// 標準 FolderItem
+    /// </summary>
+    public class FileFolderItem : FolderItem
+    {
+        private Page _archivePage;
+
+
+        public override string Note => IsFileSystem() || !IsDirectory ? GetArchivePage()?.Note : null;
+
+        public override IThumbnail Thumbnail => GetArchivePage()?.Thumbnail;
+
+
+        public override Page GetPage()
+        {
+            return GetArchivePage();
+        }
+
+        private Page GetArchivePage()
+        {
+            if (_archivePage == null)
+            {
+                var entry = this.ArchiveEntry ?? new ArchiveEntry()
+                {
+                    RawEntryName = TargetPath.SimplePath,
+                    Length = this.Length,
+                    LastWriteTime = this.LastWriteTime,
+                };
+                _archivePage = new ArchivePage(entry);
+                _archivePage.Thumbnail.IsCacheEnabled = true;
+                _archivePage.Thumbnail.Touched += Thumbnail_Touched;
+            }
+            return _archivePage;
+        }
+
+        private void Thumbnail_Touched(object sender, EventArgs e)
+        {
+            var thumbnail = (Thumbnail)sender;
+            BookThumbnailPool.Current.Add(thumbnail);
+        }
+    }
+
+    /// <summary>
+    /// 固定表示用FolderItem.
+    /// </summary>
+    public class ConstFolderItem : FolderItem
+    {
+        private IThumbnail _thumbnail;
+
+        public ConstFolderItem(IThumbnail thumbnail)
+        {
+            _thumbnail = thumbnail;
+        }
+
+        public override IThumbnail Thumbnail => _thumbnail;
+    }
 }

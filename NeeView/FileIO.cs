@@ -37,7 +37,7 @@ namespace NeeView
         /// <param name="info"></param>
         public void CopyToClipboard(FolderItem info)
         {
-            if (info.IsEmpty) return;
+            if (info.IsEmpty()) return;
 
             var files = new List<string>();
             files.Add(info.IsFileSystem() ? info.Path.SimplePath : info.TargetPath.SimplePath);

@@ -176,7 +176,7 @@ namespace NeeView
         {
             if (Page.Thumbnail.IsValid)
             {
-                return CreatePageImageBrush(Page.Thumbnail.BitmapSource, true);
+                return CreatePageImageBrush(Page.Thumbnail.ImageSource, true);
             }
             else if (reserver != null)
             {

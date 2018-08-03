@@ -189,6 +189,8 @@
       <DependentUpon>PageSortModePalette.xaml</DependentUpon>
     </Compile>
     <Compile Include="OpenSourceControls\VirtualizingWrapPanel.cs" />
+    <Compile Include="_NeeView\IO\DriveTypeExtension.cs" />
+    <Compile Include="Thumbnail\ConstThumbnail.cs" />
     <Compile Include="Setting\SettingItemImageCollection.xaml.cs">
       <DependentUpon>SettingItemImageCollection.xaml</DependentUpon>
     </Compile>
@@ -218,6 +220,7 @@
     <Compile Include="SidePanels\FolderList\QuickAccessCollection.cs" />
     <Compile Include="SidePanels\FolderList\QuickAccessFolderCollection.cs" />
     <Compile Include="SidePanels\FolderList\RootFolderCollection.cs" />
+    <Compile Include="Thumbnail\IThumbnail.cs" />
     <Compile Include="Toast.cs" />
     <Compile Include="Controls\ToastCard.xaml.cs">
       <DependentUpon>ToastCard.xaml</DependentUpon>
@@ -496,7 +499,7 @@
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="MouseInput\DragTransform.cs" />
     <Compile Include="MouseInput\MouseGestureSequenceTracker.cs" />
-    <Compile Include="Page\ThumbnailProfile.cs" />
+    <Compile Include="Thumbnail\ThumbnailProfile.cs" />
     <Compile Include="SaveData.cs" />
     <Compile Include="MouseInput\MouseInputContext.cs" />
     <Compile Include="BookOperation.cs" />
@@ -670,10 +673,10 @@
     <Compile Include="Page\BitmapContent.cs" />
     <Compile Include="Page\PageContent.cs" />
     <Compile Include="Page\PageJob.cs" />
-    <Compile Include="Page\Thumbnail.cs" />
-    <Compile Include="Page\ThumbnailBitmap.cs" />
-    <Compile Include="Page\ThumbnailCache.cs" />
-    <Compile Include="Page\ThumbnailPool.cs" />
+    <Compile Include="Thumbnail\Thumbnail.cs" />
+    <Compile Include="Thumbnail\ThumbnailBitmap.cs" />
+    <Compile Include="Thumbnail\ThumbnailCache.cs" />
+    <Compile Include="Thumbnail\ThumbnailPool.cs" />
     <Compile Include="Print\PrintContext.cs" />
     <Compile Include="Print\PrintModel.cs" />
     <Compile Include="Print\PrintWindow.xaml.cs">

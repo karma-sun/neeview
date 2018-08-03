@@ -186,7 +186,7 @@ namespace NeeView
         /// </summary>
         public FolderItem FirstFolderOrDefault()
         {
-            return Items.FirstOrDefault(e => !e.IsEmpty);
+            return Items.FirstOrDefault(e => !e.IsEmpty());
         }
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace NeeView
         /// </summary>
         public FolderItem LastFolderOrDefault()
         {
-            return Items.LastOrDefault(e => !e.IsEmpty);
+            return Items.LastOrDefault(e => !e.IsEmpty());
         }
 
         /// <summary>
@@ -574,11 +574,12 @@ namespace NeeView
         /// <returns></returns>
         protected FolderItem CreateFolderItemEmpty()
         {
-            return new FolderItem()
+            return new ConstFolderItem(new ResourceThumbnail("ic_noentry", MainWindow.Current))
             {
                 Type = FolderItemType.Empty,
                 Place = Place,
                 Name = ".",
+                DispName = Properties.Resources.NotifyNoFiles,
                 Attributes = FolderItemAttribute.Empty,
             };
         }
@@ -642,10 +643,14 @@ namespace NeeView
         {
             if (e != null)
             {
-                return new FolderItem()
+                var driveName = e.IsReady && !string.IsNullOrWhiteSpace(e.VolumeLabel)  ? e.VolumeLabel : e.DriveType.ToDispString();
+                var dispName = string.Format("{0} ({1})", driveName, e.Name.TrimEnd('\\'));
+
+                return new ConstFolderItem(new ResourceThumbnail("ic_drive", MainWindow.Current))
                 {
                     Place = Place,
                     Name = e.Name,
+                    DispName = dispName,
                     Attributes = FolderItemAttribute.Directory | FolderItemAttribute.Drive,
                     IsReady = e.IsReady,
                 };
@@ -665,7 +670,7 @@ namespace NeeView
         {
             if (e != null && e.Exists && (e.Attributes & FileAttributes.Hidden) == 0)
             {
-                return new FolderItem()
+                return new FileFolderItem()
                 {
                     Type = FolderItemType.Directory,
                     Place = Place,
@@ -691,7 +696,7 @@ namespace NeeView
         {
             if (e != null && e.Exists && ArchiverManager.Current.IsSupported(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
             {
-                return new FolderItem()
+                return new FileFolderItem()
                 {
                     Type = FolderItemType.File,
                     Place = Place,

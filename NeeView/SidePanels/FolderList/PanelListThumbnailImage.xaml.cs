@@ -47,7 +47,7 @@ namespace NeeView
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[0] is ConstThumbnail thumbnail && thumbnail.BitmapSource is DrawingImage && values[1] is int width)
+            if (values[0] is ConstThumbnail thumbnail && thumbnail.ImageSource is DrawingImage && values[1] is int width)
             {
                 if (width > 64)
                 {
@@ -74,7 +74,7 @@ namespace NeeView
         {
             if (values[1] is Stretch stretch)
             {
-                if (values[0] is ConstThumbnail thumbnail && thumbnail.BitmapSource is DrawingImage)
+                if (values[0] is ConstThumbnail thumbnail && thumbnail.ImageSource is DrawingImage)
                 {
                     return Stretch.Uniform;
                 }

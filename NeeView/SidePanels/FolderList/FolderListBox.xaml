@@ -20,7 +20,7 @@
 
 
         <Style x:Key="NameStyleBase" TargetType="TextBlock" >
-            <Setter Property="Text" Value="{Binding Name}"/>
+            <Setter Property="Text" Value="{Binding DispName}"/>
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>

@@ -8,15 +8,8 @@ using System.Windows.Data;
 
 namespace NeeView
 {
-    public interface IBookListItem : IHasPage, IHasName
-    {
-        string Note { get; }
-        string Detail { get; }
-        IThumbnail Thumbnail { get; }
-    }
-
     [DataContract]
-    public class BookHistory : BindableBase,  IBookListItem
+    public class BookHistory : BindableBase, IHasPage, IHasName
     {
         private string _place;
 
@@ -55,8 +48,6 @@ namespace NeeView
             return Place ?? base.ToString();
         }
 
-        #region IBookListItem Support
-
         public string Name => Unit.Memento.Name;
         public string Note => Unit.ArchivePage.Content.Entry.RootArchiverName;
         public string Detail => Place + "\n" + LastAccessTime;
@@ -74,7 +65,5 @@ namespace NeeView
         {
             return Unit.ArchivePage;
         }
-
-        #endregion
     }
 }

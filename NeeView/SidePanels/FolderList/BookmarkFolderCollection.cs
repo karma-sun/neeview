@@ -9,22 +9,6 @@ using System.Windows.Data;
 
 namespace NeeView
 {
-    public class BookmarkFolderItem : FolderItem
-    {
-        private TreeListNode<IBookmarkEntry> _source;
-
-        public BookmarkFolderItem(TreeListNode<IBookmarkEntry> source)
-        {
-            _source = source;
-        }
-
-        public override string Name
-        {
-            get { return _source.Value.Name; }
-            set { }
-        }
-    }
-
     public class BookmarkFolderCollection : FolderCollection, IDisposable
     {
         // Fields
@@ -122,7 +106,7 @@ namespace NeeView
             switch (node.Value)
             {
                 case BookmarkFolder folder:
-                    return new FolderItem()
+                    return new ConstFolderItem(new FolderThumbnail())
                     {
                         Source = node,
                         Type = FolderItemType.Directory,
@@ -137,7 +121,7 @@ namespace NeeView
 
                     var archiveEntry = new ArchiveEntry(bookmark.Place);
 
-                    return new FolderItem()
+                    return new FileFolderItem()
                     {
                         Source = node,
                         Type = FolderItemType.File,

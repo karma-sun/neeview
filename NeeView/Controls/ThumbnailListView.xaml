@@ -43,14 +43,14 @@
                                                     <Style TargetType="Ellipse">
                                                         <Setter Property="Visibility" Value="Collapsed"/>
                                                         <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Thumbnail.BitmapSource}" Value="{x:Null}">
+                                                            <DataTrigger Binding="{Binding Thumbnail.ImageSource}" Value="{x:Null}">
                                                                 <Setter Property="Visibility" Value="Visible"/>
                                                             </DataTrigger>
                                                         </Style.Triggers>
                                                     </Style>
                                                 </Ellipse.Style>
                                             </Ellipse>
-                                            <Image Source="{Binding Thumbnail.BitmapSource}" UseLayoutRounding="True"
+                                            <Image Source="{Binding Thumbnail.ImageSource}" UseLayoutRounding="True"
                                                            RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform">
                                                 <Image.Effect>
                                                     <DropShadowEffect ShadowDepth="2" Opacity="0.5" />

@@ -38,7 +38,7 @@ namespace NeeView
 
             var parent = new FolderNode(null, collection.Place.FullPath, null);
             parent.Children = collection.Items
-                .Where(e => !e.IsEmpty)
+                .Where(e => !e.IsEmpty())
                 .Select(e => new FolderNode(parent, e.Name, e) { Place = collection.Place.FullPath })
                 .ToList();
             parent._isChildrenValid = true;
@@ -202,7 +202,7 @@ namespace NeeView
             using (var collection = await FolderCollectionFactory.Current.CreateFolderCollectionAsync(path, false, cancel))
             {
                 var children = collection.Items
-                    .Where(e => !e.IsEmpty)
+                    .Where(e => !e.IsEmpty())
                     .Select(e => new FolderNode(this, e.Name, e) { Place = collection.Place.FullPath })
                     .ToList();
 

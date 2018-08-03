@@ -392,11 +392,9 @@ namespace NeeView
             switch (e.PropertyName)
             {
                 case nameof(_model.IsVisibleHistoryMark):
-                    FolderItem.IsVisibleHistoryMark = _model.IsVisibleHistoryMark;
                     this.FolderCollection?.RefreshIcon(null);
                     break;
                 case nameof(_model.IsVisibleBookmarkMark):
-                    FolderItem.IsVisibleBookmarkMark = _model.IsVisibleBookmarkMark;
                     this.FolderCollection?.RefreshIcon(null);
                     break;
                 case nameof(_model.PanelListItemStyle):

@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using NeeView.IO;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -11,17 +11,6 @@ namespace NeeView
 {
     public class DriveDirectoryNode : DirectoryNode
     {
-        private static readonly Dictionary<DriveType, string> _driveTypeNames = new Dictionary<DriveType, string>
-        {
-            [DriveType.Unknown] = "",
-            [DriveType.NoRootDirectory] = "",
-            [DriveType.Removable] = Properties.Resources.WordRemovableDrive,
-            [DriveType.Fixed] = Properties.Resources.WordFixedDrive,
-            [DriveType.Network] = Properties.Resources.WordNetworkDrive,
-            [DriveType.CDRom] = Properties.Resources.WordCDRomDrive,
-            [DriveType.Ram] = Properties.Resources.WordRamDrive,
-        };
-
         private DriveInfo _driveInfo;
         private bool _iconInitialized;
 
@@ -87,7 +76,7 @@ namespace NeeView
 
             await Task.Run(() =>
             {
-                var volumeLabel = _driveTypeNames[_driveInfo.DriveType];
+                var volumeLabel = _driveInfo.DriveType.ToDispString();
                 DispName = string.Format("{0} ({1})", volumeLabel, Name);
 
                 // NOTE: ドライブによってはこのプロパティの取得に時間がかかる
@@ -97,7 +86,7 @@ namespace NeeView
                 {
                     if (_driveInfo.IsReady)
                     {
-                        volumeLabel = string.IsNullOrEmpty(_driveInfo.VolumeLabel) ? _driveTypeNames[_driveInfo.DriveType] : _driveInfo.VolumeLabel;
+                        volumeLabel = string.IsNullOrEmpty(_driveInfo.VolumeLabel) ? _driveInfo.DriveType.ToDispString() : _driveInfo.VolumeLabel;
                         DispName = string.Format("{0} ({1})", volumeLabel, Name);
                     }
                 }

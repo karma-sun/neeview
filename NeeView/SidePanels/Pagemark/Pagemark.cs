@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 
 namespace NeeView
 {
-    public interface IPagemarkEntry : IBookListItem
+    public interface IPagemarkEntry : IHasPage, IHasName
     {
     }
 
@@ -50,8 +50,6 @@ namespace NeeView
             this.EntryName = LoosePath.NormalizeSeparator(this.EntryName);
         }
 
-        #region IBookListItem Support
-
         public string Name => LoosePath.GetFileName(EntryName);
         public string Note => LoosePath.GetFileName(Place);
         public string Detail => Place + "\n" + EntryName;
@@ -75,10 +73,6 @@ namespace NeeView
             private set { _unit = value; }
         }
 
-        public Page GetPage()
-        {
-            return ArchivePage;
-        }
 
         private volatile ArchivePage _archivePage;
         public ArchivePage ArchivePage
@@ -101,7 +95,11 @@ namespace NeeView
             BookThumbnailPool.Current.Add(thumbnail);
         }
 
-        #endregion
+        public Page GetPage()
+        {
+            return ArchivePage;
+        }
+
 
         #region IVirtualItem
 

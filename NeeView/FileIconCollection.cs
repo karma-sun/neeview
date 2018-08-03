@@ -1,6 +1,7 @@
 ﻿using NeeView.IO;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -81,10 +82,13 @@ namespace NeeView
         public BitmapSource CreateFileIcon(string filename, FileIconType iconType, double width, bool allowJumbo, bool useCache)
         {
             var collection = CreateFileIconCollection(filename, iconType, allowJumbo, useCache);
-            return collection.GetBitmapSource(width * Config.Current.RawDpi.DpiScaleX);
+            return collection?.GetBitmapSource(width * Config.Current.RawDpi.DpiScaleX);
         }
 
-        private  BitmapSourceCollection CreateFileIconCollection(string filename, FileIconType iconType, bool allowJumbo, bool useCache)
+
+        private object _lock = new object();
+
+        private BitmapSourceCollection CreateFileIconCollection(string filename, FileIconType iconType, bool allowJumbo, bool useCache)
         {
             if (iconType == FileIconType.FileType)
             {
@@ -97,13 +101,28 @@ namespace NeeView
                 return collection;
             }
 
-            var bitmaps = FileIcon.CreateIconCollection(filename, iconType, allowJumbo);
-            collection = new BitmapSourceCollection(bitmaps);
-            if (useCache && iconType == FileIconType.DirectoryType || iconType == FileIconType.FileType)
+            ////var sw = Stopwatch.StartNew();
+            try
             {
-                _caches.Add(key, collection);
+                var bitmaps = FileIcon.CreateIconCollection(filename, iconType, allowJumbo);
+                collection = new BitmapSourceCollection(bitmaps);
+                if (useCache && iconType == FileIconType.DirectoryType || iconType == FileIconType.FileType)
+                {
+                    _caches[key] = collection;
+                }
+                return collection;
             }
-            return collection;
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                return null;
+            }
+            finally
+            {
+                ////sw.Stop();
+                ////Debug.WriteLine($"FileIcon: {filename}: {sw.ElapsedMilliseconds}ms");
+            }
+
         }
 
     }
@@ -122,7 +141,7 @@ namespace NeeView
         {
             if (bitmaps == null) return;
 
-            foreach(var bitmap in bitmaps)
+            foreach (var bitmap in bitmaps)
             {
                 Add(bitmap);
             }
@@ -131,6 +150,10 @@ namespace NeeView
 
         public List<BitmapSource> Frames { get; private set; } = new List<BitmapSource>();
 
+        public bool Any()
+        {
+            return Frames.Any();
+        }
 
         public void Add(BitmapSource source)
         {

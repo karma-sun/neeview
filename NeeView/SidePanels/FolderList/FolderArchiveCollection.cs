@@ -88,7 +88,7 @@ namespace NeeView
         /// <returns></returns>
         public FolderItem CreateFolderItem(ArchiveEntry entry)
         {
-            return new FolderItem()
+            return new FileFolderItem()
             {
                 Type = FolderItemType.ArchiveEntry,
                 ArchiveEntry = entry,

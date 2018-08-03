@@ -60,10 +60,7 @@ namespace NeeView
 
         private FolderItem CreateFolderItem(QuickAccess quickAccess)
         {
-            // TODO: 種類に応じて変える
-            var image = FileIconCollection.Current.CreateDefaultFolderIcon(256);
-
-            return new ConstFolderItem(new ConstThumbnail(image))
+            return new ConstFolderItem(new FolderThumbnail())
             {
                 Source = quickAccess,
                 Type = FolderItemType.Directory,

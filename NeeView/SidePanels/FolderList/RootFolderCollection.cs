@@ -3,26 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace NeeView
 {
-    /// <summary>
-    /// 固定表示用FolderItem.
-    /// </summary>
-    public class ConstFolderItem : FolderItem
-    {
-        public ConstFolderItem(IThumbnail thumbnail)
-        {
-            this.Thumbnail = thumbnail;
-        }
-
-        public override IThumbnail Thumbnail { get; }
-
-        public override Page GetPage()
-        {
-            return null;
-        }
-    }
-
-
-    /// <summary>
+     /// <summary>
     /// 最上位のフォルダーコレクション (Root)
     /// </summary>
     public class RootFolderCollection : FolderCollection, IDisposable
@@ -41,7 +22,7 @@ namespace NeeView
 
         private FolderItem CreateFolderItem(QueryScheme scheme)
         {
-            return new ConstFolderItem(new ConstThumbnail(scheme.ToImage()))
+            return new ConstFolderItem(new ConstThumbnail(() => scheme.ToImage()))
             {
                 Source = scheme,
                 Type = FolderItemType.Directory,

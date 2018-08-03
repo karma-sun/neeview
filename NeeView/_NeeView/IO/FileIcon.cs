@@ -333,6 +333,7 @@ namespace NeeView.IO
                         IntPtr hicon = IntPtr.Zero;
                         imglist.GetIcon(shinfo.iIcon, (int)NativeMethods.ImageListDrawItemConstants.ILD_TRANSPARENT, ref hicon);
                         BitmapSource bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(hicon, System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                        bitmapSource?.Freeze();
                         NativeMethods.DestroyIcon(hicon);
 
                         bitmaps.Add(bitmapSource);
@@ -341,6 +342,7 @@ namespace NeeView.IO
                 catch (Exception ex)
                 {
                     Debug.WriteLine($"Icon: {filename} - {shil}\n{ex.Message}");
+                    throw ex;
                 }
             }
 
@@ -355,13 +357,14 @@ namespace NeeView.IO
             if (hSuccess != IntPtr.Zero)
             {
                 BitmapSource bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(shinfo.hIcon, System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                bitmapSource?.Freeze();
                 NativeMethods.DestroyIcon(shinfo.hIcon);
                 return bitmapSource;
             }
             else
             {
                 Debug.WriteLine($"Icon: {filename} - {iconSize}\nCannnot create.");
-                return null;
+                throw new ApplicationException("Cannot create file icon.");
             }
         }
     }

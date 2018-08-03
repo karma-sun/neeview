@@ -4326,4 +4326,19 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="SettingPagePanelListItem" xml:space="preserve">
     <value>パネルリスト項目</value>
   </data>
+  <data name="EnumPanelListItemImageShapeOriginal" xml:space="preserve">
+    <value>そのまま</value>
+  </data>
+  <data name="EnumPanelListItemImageShapeSquare" xml:space="preserve">
+    <value>正方形</value>
+  </data>
+  <data name="EnumPanelListItemImageShapeBookShape" xml:space="preserve">
+    <value>本の形</value>
+  </data>
+  <data name="ParamListItemContentImageShape" xml:space="preserve">
+    <value>アイコンの形</value>
+  </data>
+  <data name="ParamListItemThumbnailImageShape" xml:space="preserve">
+    <value>サムネイルの形</value>
+  </data>
 </root>

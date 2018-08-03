@@ -11,16 +11,23 @@
     <UserControl.Resources>
         <local:MultiBooleanAndConverter x:Key="MultiBooleanAndConverter"/>
         <local:ImageSourceToThumbnailConverter x:Key="ImageSourceToThumbnailConverter"/>
+        <local:ThumbnailToStretchConverter x:Key="ThumbnailToStretchConverter"/>
     </UserControl.Resources>
 
     <Grid x:Name="Root"
-        Width="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ContentItemProfile.ImageWidth}"
-        Height="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ContentItemProfile.ImageHeight}"
+        Width="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ContentItemProfile.ShapeWidth}"
+        Height="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ContentItemProfile.ShapeHeight}"
         Margin="5,0">
         <Image HorizontalAlignment="Center" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True"
-                   Stretch="Uniform"
-                   Source="{Binding Thumbnail.BitmapSource, Converter={StaticResource ImageSourceToThumbnailConverter}}"
-                   ToolTipService.InitialShowDelay="1000">
+               Height="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ContentItemProfile.ShapeHeight}"
+               Source="{Binding Thumbnail.BitmapSource, Converter={StaticResource ImageSourceToThumbnailConverter}}"
+               ToolTipService.InitialShowDelay="1000">
+            <Image.Stretch>
+                <MultiBinding Converter="{StaticResource ThumbnailToStretchConverter}">
+                    <Binding Path="Thumbnail"/>
+                    <Binding Source="{x:Static local:SidePanelProfile.Current}" Path="ContentItemProfile.ImageStretch"/>
+                </MultiBinding>
+            </Image.Stretch>
             <Image.ToolTip>
                 <Image Source="{Binding Thumbnail.BitmapSource}"/>
             </Image.ToolTip>

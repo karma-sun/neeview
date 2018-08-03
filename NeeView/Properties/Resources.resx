@@ -4326,4 +4326,19 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="SettingPagePanelListItem" xml:space="preserve">
     <value>Panel list item</value>
   </data>
+  <data name="EnumPanelListItemImageShapeOriginal" xml:space="preserve">
+    <value>Original</value>
+  </data>
+  <data name="EnumPanelListItemImageShapeSquare" xml:space="preserve">
+    <value>Square</value>
+  </data>
+  <data name="EnumPanelListItemImageShapeBookShape" xml:space="preserve">
+    <value>Book shape</value>
+  </data>
+  <data name="ParamListItemContentImageShape" xml:space="preserve">
+    <value>Shape of Icon</value>
+  </data>
+  <data name="ParamListItemThumbnailImageShape" xml:space="preserve">
+    <value>Shape of thumbnail</value>
+  </data>
 </root>

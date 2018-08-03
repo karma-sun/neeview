@@ -133,7 +133,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="ThumbnailTemplate">
-            <StackPanel Margin="2,5" Width="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ThumbnailItemProfile.ImageWidth}" ToolTip="{Binding Detail}" ToolTipService.InitialShowDelay="1000">
+            <StackPanel Margin="0,5" Width="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ThumbnailItemProfile.ShapeWidth}" ToolTip="{Binding Detail}" ToolTipService.InitialShowDelay="1000">
                 <local:PanelListThumbnailImage Thumbnail="{Binding Thumbnail}"/>
                 <Rectangle DockPanel.Dock="Bottom" Style="{StaticResource HorizontalSelectedStyle}"/>
                 <DockPanel>
@@ -174,7 +174,7 @@
                     <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Banner">
                         <Setter Property="ItemTemplate" Value="{StaticResource BannerTemplate}"/>
                     </DataTrigger>
-                    <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Tile">
+                    <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Thumbnail">
                         <Setter Property="ItemTemplate" Value="{StaticResource ThumbnailTemplate}"/>
                         <Setter Property="ItemsPanel">
                             <Setter.Value>
@@ -192,7 +192,7 @@
             <Style TargetType="ListBoxItem" BasedOn="{StaticResource NVListBoxItem}">
                 <EventSetter Event="PreviewMouseLeftButtonUp" Handler="PageListItem_MouseSingleClick"/>
                 <EventSetter Event="KeyDown" Handler="PageListItem_KeyDown"/>
-                <Setter Property="Padding" Value="0"/>
+                <Setter Property="Padding" Value="2,0"/>
                 <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
                 <Setter Property="ContextMenu">
                     <Setter.Value>

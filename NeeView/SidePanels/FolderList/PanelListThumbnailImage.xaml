@@ -10,17 +10,24 @@
 
     <UserControl.Resources>
         <local:ImageSourceToThumbnailConverter x:Key="ImageSourceToThumbnailConverter"/>
-        <local:ThumbnailToTileMarginConverter x:Key="ThumbnailToTileMarginConverter"/>
+        <local:ThumbnailToMarginConverter x:Key="ThumbnailToMarginConverter"/>
+        <local:ThumbnailToStretchConverter x:Key="ThumbnailToStretchConverter"/>
     </UserControl.Resources>
 
     <Grid x:Name="Root"
-        Width="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ThumbnailItemProfile.ImageWidth}"
-        Height="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ThumbnailItemProfile.ImageHeight}">
+        Width="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ThumbnailItemProfile.ShapeWidth}"
+        Height="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ThumbnailItemProfile.ShapeHeight}">
         <Image HorizontalAlignment="Center" VerticalAlignment="Bottom" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True"
-               Source="{Binding Thumbnail.BitmapSource, Converter={StaticResource ImageSourceToThumbnailConverter}}"
-               Stretch="Uniform">
+               Height="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ThumbnailItemProfile.ShapeHeight}"
+               Source="{Binding Thumbnail.BitmapSource, Converter={StaticResource ImageSourceToThumbnailConverter}}">
+            <Image.Stretch>
+                <MultiBinding Converter="{StaticResource ThumbnailToStretchConverter}">
+                    <Binding Path="Thumbnail"/>
+                    <Binding Source="{x:Static local:SidePanelProfile.Current}" Path="ThumbnailItemProfile.ImageStretch"/>
+                </MultiBinding>
+            </Image.Stretch>
             <Image.Margin>
-                <MultiBinding Converter="{StaticResource ThumbnailToTileMarginConverter}">
+                <MultiBinding Converter="{StaticResource ThumbnailToMarginConverter}">
                     <Binding Path="Thumbnail"/>
                     <Binding Source="{x:Static local:SidePanelProfile.Current}" Path="ThumbnailItemProfile.ImageWidth"/>
                 </MultiBinding>

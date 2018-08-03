@@ -110,9 +110,9 @@
         </DataTemplate>
 
         <DataTemplate x:Key="ThumbnailTemplate">
-            <StackPanel Margin="2,5" Width="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ThumbnailItemProfile.ImageWidth}" Style="{StaticResource ThumbnailStackPanelStyle}">
+            <StackPanel Margin="0,5" Width="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ThumbnailItemProfile.ShapeWidth}" Style="{StaticResource ThumbnailStackPanelStyle}">
                 <local:PanelListThumbnailImage Thumbnail="{Binding Thumbnail}"/>
-                <DockPanel Margin="0,2,0,0">
+                <DockPanel>
                     <local:FolderListIcon DockPanel.Dock="Right" VerticalAlignment="Top" IsKeepArea="False" />
                     <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource ThumbnailNameStyle}"/>
                 </DockPanel>
@@ -167,7 +167,7 @@
                         <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Banner">
                             <Setter Property="ItemTemplate" Value="{StaticResource BannerTemplate}"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Tile">
+                        <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Thumbnail">
                             <Setter Property="ItemTemplate" Value="{StaticResource ThumbnailTemplate}"/>
                             <Setter Property="ItemsPanel">
                                 <Setter.Value>

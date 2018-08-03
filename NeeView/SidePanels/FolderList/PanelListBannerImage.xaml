@@ -17,7 +17,7 @@
 
     <Grid x:Name="Root"
           Width="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=BannerItemProfile.ImageWidth}"
-          Height="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=BannerItemProfile.ImageHeight}">
+          Height="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=BannerItemProfile.ImageHeightQuarter}">
         <Rectangle Visibility="{Binding Thumbnail.IsNormalImage, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Rectangle.Fill>
                 <VisualBrush Stretch="UniformToFill" Viewbox="0,0,1,0.6" >

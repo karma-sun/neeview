@@ -8,14 +8,26 @@ using System.Windows.Media;
 
 namespace NeeView
 {
+    public enum PanelListItemImageShape
+    {
+        [AliasName("@EnumPanelListItemImageShapeOriginal")]
+        Original,
+
+        [AliasName("@EnumPanelListItemImageShapeSquare")]
+        Square,
+
+        [AliasName("@EnumPanelListItemImageShapeBookShape")]
+        BookShape,
+    }
+
     /// <summary>
     /// リスト項目の表示形式
     /// </summary>
     [DataContract]
     public class PanelListItemProfile : BindableBase
     {
+        private PanelListItemImageShape _imageShape;
         private int _imageWidth;
-        private int _imageHeight;
         private bool _isImagePopupEnabled;
         private bool _isTextVisibled;
         private bool _isTextWrapped;
@@ -25,28 +37,88 @@ namespace NeeView
         {
         }
 
-        public PanelListItemProfile(int imageWidth, int imageHeight, bool isImagePopupEnabled, bool isTextVisibled, bool isTextWrapped, double noteOpacity)
+        public PanelListItemProfile(PanelListItemImageShape imageShape, int imageWidth, bool isImagePopupEnabled, bool isTextVisibled, bool isTextWrapped, double noteOpacity)
         {
-            ImageWidth = imageWidth;
-            ImageHeight = imageHeight;
-            IsImagePopupEnabled = isImagePopupEnabled;
-            IsTextVisibled = isTextVisibled;
-            IsTextWrapped = isTextWrapped;
-            NoteOpacity = noteOpacity;
+            _imageShape = imageShape;
+            _imageWidth = imageWidth;
+            _isImagePopupEnabled = isImagePopupEnabled;
+            _isTextVisibled = isTextVisibled;
+            _isTextWrapped = isTextWrapped;
+            _noteOpacity = noteOpacity;
+
+            UpdateTextHeight();
+        }
+
+
+        [DataMember(EmitDefaultValue = false)]
+        public PanelListItemImageShape ImageShape
+        {
+            get { return _imageShape; }
+            set
+            {
+                if (SetProperty(ref _imageShape, value))
+                {
+                    RaisePropertyChanged(nameof(ShapeWidth));
+                    RaisePropertyChanged(nameof(ShapeHeight));
+                    RaisePropertyChanged(nameof(ImageStretch));
+                }
+            }
         }
 
         [DataMember(EmitDefaultValue = false)]
         public int ImageWidth
         {
             get { return _imageWidth; }
-            set { SetProperty(ref _imageWidth, value); }
+            set
+            {
+                if (SetProperty(ref _imageWidth, value))
+                {
+                    RaisePropertyChanged(nameof(ShapeWidth));
+                    RaisePropertyChanged(nameof(ShapeHeight));
+                    RaisePropertyChanged(nameof(ImageHeightQuarter));
+                }
+            }
         }
 
-        [DataMember(EmitDefaultValue = false)]
-        public int ImageHeight
+        public int ShapeWidth
         {
-            get { return _imageHeight; }
-            set { SetProperty(ref _imageHeight, value); }
+            get
+            {
+                switch (_imageShape)
+                {
+                    default:
+                        return _imageWidth;
+                    case PanelListItemImageShape.BookShape:
+                        return (int)(_imageWidth * 0.7071);
+                }
+            }
+        }
+
+        public int ShapeHeight
+        {
+            get { return _imageWidth; }
+        }
+
+        /// <summary>
+        /// バナー用縦幅
+        /// </summary>
+        public int ImageHeightQuarter
+        {
+            get { return _imageWidth / 4; }
+        }
+
+        public Stretch ImageStretch
+        {
+            get
+            {
+                switch (_imageShape)
+                {
+                    default:
+                        return Stretch.UniformToFill;
+                    case PanelListItemImageShape.Original:
+                        return Stretch.Uniform;
+                }
+            }
         }
 
 

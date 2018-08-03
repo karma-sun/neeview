@@ -17,10 +17,10 @@ namespace NeeView
     {
         public static SidePanelProfile Current { get; private set; }
 
-        private static readonly PanelListItemProfile _defaultNormalItemProfile = new PanelListItemProfile(0, 0, false, true, false, 0.0);
-        private static readonly PanelListItemProfile _defaultContentItemProfile = new PanelListItemProfile(64, 64, true, true, false, 0.5);
-        private static readonly PanelListItemProfile _defaultBannertemProfile = new PanelListItemProfile(200, 50, false, true, false, 0.0);
-        private static readonly PanelListItemProfile _defaultThumbnailItemProfile = new PanelListItemProfile(128, 128, false, true, false, 0.0);
+        private static readonly PanelListItemProfile _defaultNormalItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 0, false, true, false, 0.0);
+        private static readonly PanelListItemProfile _defaultContentItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 64, true, true, false, 0.5);
+        private static readonly PanelListItemProfile _defaultBannertemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 200, false, true, false, 0.0);
+        private static readonly PanelListItemProfile _defaultThumbnailItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 128, false, true, false, 0.0);
 
         private double _opacity = 1.0;
         private SolidColorBrush _backgroundBrush;
@@ -195,12 +195,14 @@ namespace NeeView
         public int ContentItemImageWidth
         {
             get { return _contentItemProfile.ImageWidth; }
-            set
-            {
-                var width = MathUtility.Clamp(value, 0, 256);
-                _contentItemProfile.ImageWidth = width;
-                _contentItemProfile.ImageHeight = width; // + 10;
-            }
+            set { _contentItemProfile.ImageWidth = MathUtility.Clamp(value, 0, 256); }
+        }
+
+        [PropertyMember("@ParamListItemContentImageShape")]
+        public PanelListItemImageShape ContentItemImageShape
+        {
+            get { return _contentItemProfile.ImageShape; }
+            set { _contentItemProfile.ImageShape = value; }
         }
 
         [PropertyMember("@ParamListItemContentImagePopup", Tips = "@ParamListItemContentImagePopupTips")]
@@ -230,12 +232,7 @@ namespace NeeView
         public int BannerItemImageWidth
         {
             get { return _bannerItemProfile.ImageWidth; }
-            set
-            {
-                var width = MathUtility.Clamp(value, 0, 512);
-                _bannerItemProfile.ImageWidth = width;
-                _bannerItemProfile.ImageHeight = width / 4;
-            }
+            set { _bannerItemProfile.ImageWidth = MathUtility.Clamp(value, 0, 512); }
         }
 
         [PropertyMember("@ParamListItemBannerIsTextWrapped")]
@@ -250,12 +247,14 @@ namespace NeeView
         public int ThumbnailItemImageWidth
         {
             get { return _thumbnailItemProfile.ImageWidth; }
-            set
-            {
-                var width = MathUtility.Clamp(value, 64, 256);
-                _thumbnailItemProfile.ImageWidth = width;
-                _thumbnailItemProfile.ImageHeight = width;
-            }
+            set { _thumbnailItemProfile.ImageWidth = MathUtility.Clamp(value, 64, 256); }
+        }
+
+        [PropertyMember("@ParamListItemThumbnailImageShape")]
+        public PanelListItemImageShape ThumbnailItemImageShape
+        {
+            get { return _thumbnailItemProfile.ImageShape; }
+            set { _thumbnailItemProfile.ImageShape = value; }
         }
 
         [PropertyMember("@ParamListItemThumbnailNameVisibled")]
@@ -319,13 +318,8 @@ namespace NeeView
 
         public void ValidatePanelListItemProfile()
         {
-            _contentItemProfile.ImageHeight = _contentItemProfile.ImageWidth + 10;
             _contentItemProfile.UpdateTextHeight();
-
-            _bannerItemProfile.ImageHeight = _bannerItemProfile.ImageWidth / 4;
             _bannerItemProfile.UpdateTextHeight();
-
-            _thumbnailItemProfile.ImageHeight = _thumbnailItemProfile.ImageWidth;
             _thumbnailItemProfile.UpdateTextHeight();
         }
 

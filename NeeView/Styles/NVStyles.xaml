@@ -263,7 +263,7 @@
 
     <Style x:Key="NVListBoxItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Padding" Value="2,0,0,0"/>
+        <Setter Property="Padding" Value="2,0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">

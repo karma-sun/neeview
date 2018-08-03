@@ -43,7 +43,7 @@ namespace NeeView
     /// <summary>
     /// 画像がベクターである場合、余白を付加する
     /// </summary>
-    public class ThumbnailToTileMarginConverter : IMultiValueConverter
+    public class ThumbnailToMarginConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
@@ -64,5 +64,32 @@ namespace NeeView
             throw new NotImplementedException();
         }
     }
+
+    /// <summary>
+    /// 画像がベクターである場合、ストレッチはUniform限定
+    /// </summary>
+    public class ThumbnailToStretchConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values[1] is Stretch stretch)
+            {
+                if (values[0] is ConstThumbnail thumbnail && thumbnail.BitmapSource is DrawingImage)
+                {
+                    return Stretch.Uniform;
+                }
+
+                return stretch;
+            }
+
+            return Stretch.Uniform;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
 
 }

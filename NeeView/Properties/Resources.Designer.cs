@@ -6542,6 +6542,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Book shape に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumPanelListItemImageShapeBookShape {
+            get {
+                return ResourceManager.GetString("EnumPanelListItemImageShapeBookShape", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Original に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumPanelListItemImageShapeOriginal {
+            get {
+                return ResourceManager.GetString("EnumPanelListItemImageShapeOriginal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Square に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumPanelListItemImageShapeSquare {
+            get {
+                return ResourceManager.GetString("EnumPanelListItemImageShapeSquare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Automatic prefetching に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumPreLoadModeAutoPreLoad {
@@ -9815,6 +9842,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Shape of Icon に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamListItemContentImageShape {
+            get {
+                return ResourceManager.GetString("ParamListItemContentImageShape", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Icon size に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamListItemContentImageWidth {
@@ -9883,6 +9919,15 @@ namespace NeeView.Properties {
         public static string ParamListItemFontSize {
             get {
                 return ResourceManager.GetString("ParamListItemFontSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Shape of thumbnail に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamListItemThumbnailImageShape {
+            get {
+                return ResourceManager.GetString("ParamListItemThumbnailImageShape", resourceCulture);
             }
         }
         

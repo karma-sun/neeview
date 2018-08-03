@@ -17,9 +17,14 @@
         Width="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ThumbnailItemProfile.ImageWidth}"
         Height="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ThumbnailItemProfile.ImageHeight}">
         <Image HorizontalAlignment="Center" VerticalAlignment="Bottom" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True"
-               Margin="{Binding Thumbnail, Converter={StaticResource ThumbnailToTileMarginConverter}}"
                Source="{Binding Thumbnail.BitmapSource, Converter={StaticResource ImageSourceToThumbnailConverter}}"
                Stretch="Uniform">
+            <Image.Margin>
+                <MultiBinding Converter="{StaticResource ThumbnailToTileMarginConverter}">
+                    <Binding Path="Thumbnail"/>
+                    <Binding Source="{x:Static local:SidePanelProfile.Current}" Path="ThumbnailItemProfile.ImageWidth"/>
+                </MultiBinding>
+            </Image.Margin>
         </Image>
     </Grid>
 </UserControl>

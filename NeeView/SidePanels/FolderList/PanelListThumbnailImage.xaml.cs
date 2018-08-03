@@ -43,14 +43,12 @@ namespace NeeView
     /// <summary>
     /// 画像がベクターである場合、余白を付加する
     /// </summary>
-    [ValueConversion(typeof(IThumbnail), typeof(Thickness))]
-    public class ThumbnailToTileMarginConverter : IValueConverter
+    public class ThumbnailToTileMarginConverter : IMultiValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is ConstThumbnail thumbnail && thumbnail.BitmapSource is DrawingImage)
+            if (values[0] is ConstThumbnail thumbnail && thumbnail.BitmapSource is DrawingImage && values[1] is int width)
             {
-                var width = SidePanelProfile.Current.ThumbnailItemImageWidth;
                 if (width > 64)
                 {
                     var margin = (width - 64) * 0.25;
@@ -61,12 +59,10 @@ namespace NeeView
             return new Thickness();
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }
     }
-
-
 
 }

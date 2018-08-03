@@ -172,7 +172,7 @@
     <value>現在の場所の履歴削除</value>
   </data>
   <data name="CommandClearHistoryInPlaceNote" xml:space="preserve">
-    <value>フォルダーリストの現在の場所にあるすべての履歴を削除する</value>
+    <value>本棚の現在の場所にあるすべての履歴を削除する</value>
   </data>
   <data name="CommandClearHistoryNote" xml:space="preserve">
     <value>履歴を全て削除します。</value>
@@ -253,7 +253,7 @@
     <value>ブックマークリスト</value>
   </data>
   <data name="CommandFocusBookmarkListNote" xml:space="preserve">
-    <value>フォルダーリストのブックマークリストを表示します。</value>
+    <value>本棚のブックマークリストを表示します。</value>
   </data>
   <data name="CommandFocusFolderSearchBox" xml:space="preserve">
     <value>検索ボックスにフォーカスを移す</value>
@@ -262,7 +262,7 @@
     <value>検索ボックス</value>
   </data>
   <data name="CommandFocusFolderSearchBoxNote" xml:space="preserve">
-    <value>検索ボックスにフォーカスを移します。フォルダーリストは表示状態になります。</value>
+    <value>検索ボックスにフォーカスを移します。本棚は表示状態になります。</value>
   </data>
   <data name="CommandGroupBackground" xml:space="preserve">
     <value>背景</value>
@@ -412,7 +412,7 @@
     <value>次のブックへ移動</value>
   </data>
   <data name="CommandNextFolderNote" xml:space="preserve">
-    <value>フォルダーリスト上での次のブックを読み込みます。</value>
+    <value>本棚上での次のブックを読み込みます。</value>
   </data>
   <data name="CommandNextHistory" xml:space="preserve">
     <value>次の履歴へ進む</value>
@@ -517,7 +517,7 @@
     <value>前のブックに移動</value>
   </data>
   <data name="CommandPrevFolderNote" xml:space="preserve">
-    <value>フォルダーリスト上での前のブックを読み込みます。</value>
+    <value>本棚上での前のブックを読み込みます。</value>
   </data>
   <data name="CommandPrevHistory" xml:space="preserve">
     <value>前の履歴に戻る</value>
@@ -1212,20 +1212,20 @@
   <data name="CommandToggleVisibleFileInfoOn" xml:space="preserve">
     <value>ファイル情報を表示する</value>
   </data>
-  <data name="CommandToggleVisibleFolderList" xml:space="preserve">
-    <value>フォルダーリストの表示ON/OFF</value>
+  <data name="CommandToggleVisibleBookshelf" xml:space="preserve">
+    <value>本棚の表示ON/OFF</value>
   </data>
-  <data name="CommandToggleVisibleFolderListMenu" xml:space="preserve">
-    <value>フォルダーリスト</value>
+  <data name="CommandToggleVisibleBookshelfMenu" xml:space="preserve">
+    <value>本棚</value>
   </data>
-  <data name="CommandToggleVisibleFolderListNote" xml:space="preserve">
-    <value>フォルダーリストパネルの表示/非表示を切り替えます。</value>
+  <data name="CommandToggleVisibleBookshelfNote" xml:space="preserve">
+    <value>本棚パネルの表示/非表示を切り替えます。</value>
   </data>
-  <data name="CommandToggleVisibleFolderListOff" xml:space="preserve">
-    <value>フォルダーリストを消す</value>
+  <data name="CommandToggleVisibleBookshelfOff" xml:space="preserve">
+    <value>本棚を消す</value>
   </data>
-  <data name="CommandToggleVisibleFolderListOn" xml:space="preserve">
-    <value>フォルダーリストを表示する</value>
+  <data name="CommandToggleVisibleBookshelfOn" xml:space="preserve">
+    <value>本棚を表示する</value>
   </data>
   <data name="CommandToggleVisibleFoldersTree" xml:space="preserve">
     <value>フォルダーツリーの表示ON/OFF</value>
@@ -1234,7 +1234,7 @@
     <value>フォルダーツリー</value>
   </data>
   <data name="CommandToggleVisibleFoldersTreeNote" xml:space="preserve">
-    <value>フォルダーツリーの表示/非表示を切り替えます。フォルダーリストは表示状態になります。</value>
+    <value>フォルダーツリーの表示/非表示を切り替えます。本棚は表示状態になります。</value>
   </data>
   <data name="CommandToggleVisibleFoldersTreeOff" xml:space="preserve">
     <value>フォルダーツリーを消す</value>
@@ -1264,7 +1264,7 @@
     <value>ページリスト</value>
   </data>
   <data name="CommandToggleVisiblePageListNote" xml:space="preserve">
-    <value>ページリスト表示/非表示を切り替えます。フォルダーリストは表示状態になります。</value>
+    <value>ページリスト表示/非表示を切り替えます。本棚は表示状態になります。</value>
   </data>
   <data name="CommandToggleVisiblePageListOff" xml:space="preserve">
     <value>ページリストを消す</value>
@@ -2389,70 +2389,70 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="FolderInfoOpenFolder" xml:space="preserve">
     <value>フォルダーを開く</value>
   </data>
-  <data name="FolderListBackTips" xml:space="preserve">
+  <data name="BookshelfBackTips" xml:space="preserve">
     <value>戻る</value>
   </data>
-  <data name="FolderListHomeMenuSet" xml:space="preserve">
+  <data name="BookshelfHomeMenuSet" xml:space="preserve">
     <value>この場所をホームに設定する</value>
   </data>
-  <data name="FolderListHomeTips" xml:space="preserve">
+  <data name="BookshelfHomeTips" xml:space="preserve">
     <value>ホームに移動</value>
   </data>
-  <data name="FolderListItemMenuCopy" xml:space="preserve">
+  <data name="BookshelfItemMenuCopy" xml:space="preserve">
     <value>コピー(_C)</value>
   </data>
-  <data name="FolderListItemMenuDelete" xml:space="preserve">
+  <data name="BookshelfItemMenuDelete" xml:space="preserve">
     <value>削除(_D)</value>
   </data>
-  <data name="FolderListItemMenuDeleteBookmark" xml:space="preserve">
+  <data name="BookshelfItemMenuDeleteBookmark" xml:space="preserve">
     <value>ブックマークから外す</value>
   </data>
-  <data name="FolderListItemMenuExplorer" xml:space="preserve">
+  <data name="BookshelfItemMenuExplorer" xml:space="preserve">
     <value>エクスプローラーで開く</value>
   </data>
-  <data name="FolderListItemMenuOpen" xml:space="preserve">
+  <data name="BookshelfItemMenuOpen" xml:space="preserve">
     <value>開く</value>
   </data>
-  <data name="FolderListItemMenuRename" xml:space="preserve">
+  <data name="BookshelfItemMenuRename" xml:space="preserve">
     <value>名前の変更(_M)</value>
   </data>
-  <data name="FolderListItemMenuSubfolder" xml:space="preserve">
+  <data name="BookshelfItemMenuSubfolder" xml:space="preserve">
     <value>サブフォルダーを読み込む</value>
   </data>
-  <data name="FolderListMoreMenuAddQuickAccess" xml:space="preserve">
+  <data name="BookshelfMoreMenuAddQuickAccess" xml:space="preserve">
     <value>この場所をクイックアクセスに追加</value>
   </data>
-  <data name="FolderListMoreMenuClearHistory" xml:space="preserve">
+  <data name="BookshelfMoreMenuClearHistory" xml:space="preserve">
     <value>この場所の履歴をすべて削除</value>
   </data>
-  <data name="FolderListMoreMenuPageList" xml:space="preserve">
+  <data name="BookshelfMoreMenuPageList" xml:space="preserve">
     <value>ページリスト</value>
   </data>
-  <data name="FolderListMoreMenuSearchBox" xml:space="preserve">
+  <data name="BookshelfMoreMenuSearchBox" xml:space="preserve">
     <value>検索ボックス</value>
   </data>
-  <data name="FolderListMoreMenuSubfolder" xml:space="preserve">
+  <data name="BookshelfMoreMenuSubfolder" xml:space="preserve">
     <value>この場所ではサブフォルダーを読み込む</value>
   </data>
-  <data name="FolderListName" xml:space="preserve">
-    <value>フォルダーリスト</value>
+  <data name="BookshelfName" xml:space="preserve">
+    <value>本棚</value>
   </data>
-  <data name="FolderListNextTips" xml:space="preserve">
+  <data name="BookshelfNextTips" xml:space="preserve">
     <value>進む</value>
   </data>
-  <data name="FolderListSubFolderTips" xml:space="preserve">
+  <data name="BookshelfSubFolderTips" xml:space="preserve">
     <value>サブフォルダーを読み込む</value>
   </data>
-  <data name="FolderListSyncTips" xml:space="preserve">
+  <data name="BookshelfSyncTips" xml:space="preserve">
     <value>表示中のブックのある場所に移動</value>
   </data>
-  <data name="FolderListTitlePlace" xml:space="preserve">
+  <data name="BookshelfTitlePlace" xml:space="preserve">
     <value>場所</value>
   </data>
-  <data name="FolderListTitleSearch" xml:space="preserve">
+  <data name="BookshelfTitleSearch" xml:space="preserve">
     <value>検索</value>
   </data>
-  <data name="FolderListUpTips" xml:space="preserve">
+  <data name="BookshelfUpTips" xml:space="preserve">
     <value>上に移動</value>
   </data>
   <data name="FolderTreeLayoutLeft" xml:space="preserve">
@@ -2671,8 +2671,8 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="OptionErrorFileNotFound" xml:space="preserve">
     <value>指定された設定ファイルが存在しません。</value>
   </data>
-  <data name="OptionFolderList" xml:space="preserve">
-    <value>指定された場所のフォルダーリストを開きます。"?search="を追加することで検索キーワードも指定できます</value>
+  <data name="OptionBookshelf" xml:space="preserve">
+    <value>指定された場所の本棚を開きます。"?search="を追加することで検索キーワードも指定できます</value>
   </data>
   <data name="OptionIsBlank" xml:space="preserve">
     <value>画像ファイルを開かずに起動します</value>
@@ -3115,52 +3115,52 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamFilmStripThumbnailSize" xml:space="preserve">
     <value>ページサムネイルサイズ</value>
   </data>
-  <data name="ParamFolderListExcludePattern" xml:space="preserve">
+  <data name="ParamBookshelfExcludePattern" xml:space="preserve">
     <value>表示から除外するファイル名のパターン</value>
   </data>
-  <data name="ParamFolderListExcludePatternTips" xml:space="preserve">
+  <data name="ParamBookshelfExcludePatternTips" xml:space="preserve">
     <value>.NETの正規表現で指定します。大文字小文字は区別されません。</value>
   </data>
-  <data name="ParamFolderListFolderIconLayout" xml:space="preserve">
+  <data name="ParamBookshelfFolderIconLayout" xml:space="preserve">
     <value>ファイルアイコンのレイアウト</value>
   </data>
-  <data name="ParamFolderListHome" xml:space="preserve">
+  <data name="ParamBookshelfHome" xml:space="preserve">
     <value>ホームの場所</value>
   </data>
-  <data name="ParamFolderListIsCloseBookWhenMove" xml:space="preserve">
+  <data name="ParamBookshelfIsCloseBookWhenMove" xml:space="preserve">
     <value>場所を変更したときにブックを閉じる</value>
   </data>
-  <data name="ParamFolderListIsCruise" xml:space="preserve">
+  <data name="ParamBookshelfIsCruise" xml:space="preserve">
     <value>ブック移動を巡回移動にする</value>
   </data>
-  <data name="ParamFolderListIsCruiseTips" xml:space="preserve">
-    <value>フォルダーの親子を含めた移動を行います。フォルダーリストが検索結果である場合には適用されません。</value>
+  <data name="ParamBookshelfIsCruiseTips" xml:space="preserve">
+    <value>フォルダーの親子を含めた移動を行います。本棚が検索結果である場合には適用されません。</value>
   </data>
-  <data name="ParamFolderListIsInsertItem" xml:space="preserve">
+  <data name="ParamBookshelfIsInsertItem" xml:space="preserve">
     <value>追加ファイルはソート位置に挿入する</value>
   </data>
-  <data name="ParamFolderListIsInsertItemTips" xml:space="preserve">
-    <value>フォルダーリストはリアルタイムに情報を反映します。この設定がONの場合、追加されたファイルを現在のソート順位置に挿入します。OFFにするとリストの終端に追加します。</value>
+  <data name="ParamBookshelfIsInsertItemTips" xml:space="preserve">
+    <value>本棚はリアルタイムに情報を反映します。この設定がONの場合、追加されたファイルを現在のソート順位置に挿入します。OFFにするとリストの終端に追加します。</value>
   </data>
-  <data name="ParamFolderListIsMultipleRarFilterEnabled" xml:space="preserve">
+  <data name="ParamBookshelfIsMultipleRarFilterEnabled" xml:space="preserve">
     <value>表示からRAR分割ファイルをフィルター</value>
   </data>
-  <data name="ParamFolderListIsMultipleRarFilterEnabledTips" xml:space="preserve">
+  <data name="ParamBookshelfIsMultipleRarFilterEnabledTips" xml:space="preserve">
     <value>.part[数字].rar というRAR分割ファイルの場合に、数字が一番小さいファイルのみをリストに表示します。</value>
   </data>
-  <data name="ParamFolderListIsSyncFolderTree" xml:space="preserve">
+  <data name="ParamBookshelfIsSyncFolderTree" xml:space="preserve">
     <value>同期ボタンでフォルダーツリーを同期する</value>
   </data>
-  <data name="ParamFolderListIsVisibleBookmarkMark" xml:space="preserve">
+  <data name="ParamBookshelfIsVisibleBookmarkMark" xml:space="preserve">
     <value>ブックマーク記号を表示する</value>
   </data>
-  <data name="ParamFolderListIsVisibleBookmarkMarkTips" xml:space="preserve">
+  <data name="ParamBookshelfIsVisibleBookmarkMarkTips" xml:space="preserve">
     <value>ブックマークされているブックに★マークを表示します。</value>
   </data>
-  <data name="ParamFolderListIsVisibleHistoryMark" xml:space="preserve">
+  <data name="ParamBookshelfIsVisibleHistoryMark" xml:space="preserve">
     <value>履歴記号を表示する</value>
   </data>
-  <data name="ParamFolderListIsVisibleHistoryMarkTips" xml:space="preserve">
+  <data name="ParamBookshelfIsVisibleHistoryMarkTips" xml:space="preserve">
     <value>履歴に残っているブックにチェックマークを表示します。</value>
   </data>
   <data name="ParamFolderTreeLayout" xml:space="preserve">
@@ -3530,7 +3530,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>サイドパネルでの左右キー有効</value>
   </data>
   <data name="ParamSidePanelIsLeftRightKeyEnabledTips" xml:space="preserve">
-    <value>サイドパネルでの左右キー操作を有効にします。フォルダーリストではフォルダーの階層移動を行います。</value>
+    <value>サイドパネルでの左右キー操作を有効にします。本棚ではフォルダーの階層移動を行います。</value>
   </data>
   <data name="ParamSidePanelIsManipulationBoundaryFeedbackEnabled" xml:space="preserve">
     <value>サイドパネルタッチスクロールの終端バウンド</value>
@@ -3814,8 +3814,8 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="SettingPageHistoryGeneralDeleteButton" xml:space="preserve">
     <value>履歴を削除する</value>
   </data>
-  <data name="SettingPageHistoryGeneralFolderList" xml:space="preserve">
-    <value>フォルダーリスト</value>
+  <data name="SettingPageHistoryGeneralBookshelf" xml:space="preserve">
+    <value>本棚</value>
   </data>
   <data name="SettingPageHistoryGeneralGeneral" xml:space="preserve">
     <value>全般</value>
@@ -3913,19 +3913,19 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="SettingPagePanelFileInfoVisual" xml:space="preserve">
     <value>表示</value>
   </data>
-  <data name="SettingPagePanelFolderList" xml:space="preserve">
-    <value>フォルダーリスト</value>
+  <data name="SettingPagePanelBookshelf" xml:space="preserve">
+    <value>本棚</value>
   </data>
-  <data name="SettingPagePanelFolderListAdvance" xml:space="preserve">
+  <data name="SettingPagePanelBookshelfAdvance" xml:space="preserve">
     <value>詳細設定</value>
   </data>
-  <data name="SettingPagePanelFolderListGeneral" xml:space="preserve">
+  <data name="SettingPagePanelBookshelfGeneral" xml:space="preserve">
     <value>全般</value>
   </data>
-  <data name="SettingPagePanelFolderListTree" xml:space="preserve">
+  <data name="SettingPagePanelBookshelfTree" xml:space="preserve">
     <value>フォルダーツリー</value>
   </data>
-  <data name="SettingPagePanelFolderListVisual" xml:space="preserve">
+  <data name="SettingPagePanelBookshelfVisual" xml:space="preserve">
     <value>表示</value>
   </data>
   <data name="SettingPagePanelGeneral" xml:space="preserve">
@@ -4261,7 +4261,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>ブックサムネイル容量</value>
   </data>
   <data name="ParamThumbnailBookCapacityTips" xml:space="preserve">
-    <value>フォルダーリスト等でのメモリ上のサムネイル保持枚数です。</value>
+    <value>本棚等でのメモリ上のサムネイル保持枚数です。</value>
   </data>
   <data name="ParamThumbnailFormat" xml:space="preserve">
     <value>サムネイル画像フォーマット</value>

@@ -14,6 +14,11 @@
 
     <UserControl.Resources>
 
+        <!--#region Icons -->
+        
+        <!-- Material design icons by Google -->
+        <!-- http://www.google.com/design/spec/style/icons.html#icons-system-icons -->
+        
         <DrawingImage x:Key="fic_recursive_folder_24px">
             <DrawingImage.Drawing>
                 <DrawingGroup Opacity="1">
@@ -21,20 +26,6 @@
                         <GeometryDrawing Brush="Gray" Pen="{x:Null}">
                             <GeometryDrawing.Geometry>
                                 <PathGeometry FillRule="Nonzero" Figures="M0,6L1.99999988079071,6 1.99999988079071,20 20,20 20,22 1.99999988079071,22C0.899999976158142,22,0,21.1000003814697,0,20L0.00999999046325684,11 0,11 0,6z M6,2L12,2 14,4 22,4C23.1000003814697,4,24,4.90000009536743,24,6L24,16C24,17.1000003814697,23.1000003814697,18,22,18L6,18C4.90000009536743,18,4,17.1000003814697,4,16L4.01000022888184,4C4.01000022888184,2.90000009536743,4.90000009536743,2,6,2z" />
-                            </GeometryDrawing.Geometry>
-                        </GeometryDrawing>
-                    </DrawingGroup.Children>
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
-
-        <DrawingImage x:Key="ic_treeview">
-            <DrawingImage.Drawing>
-                <DrawingGroup Opacity="1">
-                    <DrawingGroup.Children>
-                        <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}">
-                            <GeometryDrawing.Geometry>
-                                <PathGeometry FillRule="Nonzero" Figures="M990,379.4L990,21.1L631.8,21.1L631.8,186.4L368.2,348.6L368.2,293.1L10,293.1L10,651.4L368.2,651.4L368.2,585.3L631.8,781L631.8,978.9L990,978.9L990,620.6L631.8,620.6L631.8,702.3L368.2,506.5L368.2,422.8L631.8,260.7L631.8,379.4z" />
                             </GeometryDrawing.Geometry>
                         </GeometryDrawing>
                     </DrawingGroup.Children>
@@ -56,6 +47,20 @@
             </DrawingImage.Drawing>
         </DrawingImage>
 
+        <!-- https://www.onlinewebfonts.com/icon/67491 -->
+        <DrawingImage x:Key="ic_treeview">
+            <DrawingImage.Drawing>
+                <DrawingGroup Opacity="1">
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}">
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry FillRule="Nonzero" Figures="M990,379.4L990,21.1L631.8,21.1L631.8,186.4L368.2,348.6L368.2,293.1L10,293.1L10,651.4L368.2,651.4L368.2,585.3L631.8,781L631.8,978.9L990,978.9L990,620.6L631.8,620.6L631.8,702.3L368.2,506.5L368.2,422.8L631.8,260.7L631.8,379.4z" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
 
         <!-- https://www.onlinewebfonts.com/icon/425378 -->
         <DrawingImage x:Key="ic_pushpin_b">
@@ -71,6 +76,12 @@
                 </DrawingGroup>
             </DrawingImage.Drawing>
         </DrawingImage>
+
+        <!--#endregion Icons-->
+
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:FolderTreeLayoutToBooleanConverter x:Key="FolderTreeLayoutToBooleanConverter"/>
+        <local:PathToPlaceIconConverter x:Key="PathToPlaceIconConverter"/>
 
         <Style x:Key="FolderListButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
             <Setter Property="Width" Value="28"/>
@@ -88,8 +99,6 @@
             <Setter Property="CommandParameter" Value="{Binding}" />
         </Style>
 
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-
         <Style x:Key="NVHorizontalBevelGrip" TargetType="{x:Type osc:DockPanelSplitter}">
             <Setter Property="Thickness" Value="6"/>
             <Setter Property="Template">
@@ -101,9 +110,6 @@
             </Setter>
         </Style>
 
-        <local:FolderTreeLayoutToBooleanConverter x:Key="FolderTreeLayoutToBooleanConverter"/>
-        <local:PathToPlaceIconConverter x:Key="PathToPlaceIconConverter"/>
-
     </UserControl.Resources>
 
 
@@ -112,9 +118,8 @@
         <StackPanel DockPanel.Dock="Top" Margin="5">
 
             <StackPanel Margin="0" HorizontalAlignment="Stretch">
-
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Foreground="Gray" Margin="5,0" Text="{x:Static properties:Resources.FolderListTitlePlace}"/>
+                <StackPanel Orientation="Horizontal" Margin="5,0">
+                    <TextBlock Foreground="Gray" Text="{x:Static properties:Resources.WordBookshelf}" VerticalAlignment="Center"/>
                 </StackPanel>
                 <Grid x:Name="PlaceGrid">
                     <DockPanel>
@@ -124,7 +129,7 @@
                         <DockPanel HorizontalAlignment="Left">
                             <Image DockPanel.Dock="Left" Source="{Binding QueryPath, Converter={StaticResource PathToPlaceIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"/>
                             <Image DockPanel.Dock="Right" Source="{StaticResource fic_recursive_folder_24px}" Width="12" Height="12" VerticalAlignment="Center" Margin="0,2,0,0"
-                           ToolTip="{x:Static properties:Resources.FolderListSubFolderTips}"
+                           ToolTip="{x:Static properties:Resources.BookshelfSubFolderTips}"
                            Visibility="{Binding IsFolderRecursive, Converter={StaticResource BooleanToVisibilityConverter}}" />
                             <TextBlock Text="{Binding Place}" ToolTip="{Binding Place}" Margin="5,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                         </DockPanel>
@@ -157,18 +162,18 @@
                 </Button>
                 <WrapPanel Orientation="Horizontal" MinWidth="90">
                     <Button x:Name="FolderHomeButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToHome}" TabIndex="1"
-                        ToolTip="{x:Static properties:Resources.FolderListHomeTips}">
+                        ToolTip="{x:Static properties:Resources.BookshelfHomeTips}">
                         <Image Source="{StaticResource ic_home_24px_b}" Width="20" Height="20"/>
                         <Button.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="{x:Static properties:Resources.FolderListHomeMenuSet}" Command="{Binding SetHome}"/>
+                                <MenuItem Header="{x:Static properties:Resources.BookshelfHomeMenuSet}" Command="{Binding SetHome}"/>
                             </ContextMenu>
                         </Button.ContextMenu>
                     </Button>
                     <Button x:Name="FolderPrevButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToPrevious}" TabIndex="1"
                         ContextMenuService.Placement="Bottom"
                         ContextMenuOpening="FolderPrevButton_ContextMenuOpening"
-                        ToolTip="{x:Static properties:Resources.FolderListBackTips}">
+                        ToolTip="{x:Static properties:Resources.BookshelfBackTips}">
                         <Image Source="{StaticResource ic_arrow_back_24px_b}" Width="16" Height="16"/>
                         <Button.ContextMenu>
                             <ContextMenu x:Name="FolderPrevButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}"/>
@@ -177,18 +182,18 @@
                     <Button x:Name="FolderNextButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToNext}" TabIndex="1"
                         ContextMenuService.Placement="Bottom"
                         ContextMenuOpening="FolderNextButton_ContextMenuOpening"
-                        ToolTip="{x:Static properties:Resources.FolderListNextTips}">
+                        ToolTip="{x:Static properties:Resources.BookshelfNextTips}">
                         <Image Source="{StaticResource ic_arrow_forward_24px_b}" Width="16" Height="16"/>
                         <Button.ContextMenu>
                             <ContextMenu x:Name="FolderNextButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}"/>
                         </Button.ContextMenu>
                     </Button>
                     <Button x:Name="FolderUpButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToUp}" TabIndex="1"
-                        ToolTip="{x:Static properties:Resources.FolderListUpTips}">
+                        ToolTip="{x:Static properties:Resources.BookshelfUpTips}">
                         <Image Source="{StaticResource ic_arrow_up_24px_b}" Width="16" Height="16"/>
                     </Button>
                     <Button x:Name="FolderSync" Style="{StaticResource FolderListButtonStyle}"  Command="{Binding Sync}" TabIndex="1"
-                        ToolTip="{x:Static properties:Resources.FolderListSyncTips}">
+                        ToolTip="{x:Static properties:Resources.BookshelfSyncTips}">
                         <Image Source="{StaticResource ic_sync_24px_b}" Width="20" Height="20"/>
                     </Button>
                     <ComboBox x:Name="FolderOrderComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" TabIndex="1"

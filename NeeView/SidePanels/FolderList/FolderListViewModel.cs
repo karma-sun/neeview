@@ -435,14 +435,14 @@ namespace NeeView
             items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
             items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleThumbnail, PanelListItemStyle.Thumbnail));
             items.Add(new Separator());
-            items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuAddQuickAccess, AddQuickAccess));
-            items.Add(CreateCommandMenuItem(Properties.Resources.FolderListMoreMenuClearHistory, CommandType.ClearHistoryInPlace, _model.FolderPanel));
+            items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuAddQuickAccess, AddQuickAccess));
+            items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuClearHistory, CommandType.ClearHistoryInPlace, _model.FolderPanel));
 
             switch (FolderCollection)
             {
                 case FolderEntryCollection folderEntryCollection:
                     items.Add(new Separator());
-                    items.Add(CreateRecursiveFlagMenuItem(Properties.Resources.FolderListMoreMenuSubfolder));
+                    items.Add(CreateRecursiveFlagMenuItem(Properties.Resources.BookshelfMoreMenuSubfolder));
                     break;
 
                 case FolderArchiveCollection folderArchiveCollection:

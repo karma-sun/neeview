@@ -133,7 +133,9 @@ namespace NeeView
         [EnumMember]
         ToggleVisibleEffectInfo,
         [EnumMember]
-        ToggleVisibleFolderList,
+        ToggleVisibleBookshelf,
+        [Obsolete, EnumMember]
+        ToggleVisibleFolderList, // 欠番
         [Obsolete, EnumMember]
         ToggleVisibleBookmarkList, // 欠番
         [EnumMember]
@@ -359,6 +361,7 @@ namespace NeeView
 
         [EnumMember]
         TouchEmulate,
+
     }
 
     public static class CommandTypeExtensions

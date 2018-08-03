@@ -19,6 +19,8 @@
 
                 <ResourceDictionary>
                     
+                    <!--#region Parameters -->
+                    
                     <!-- InfoText FontSize-->
                     <system:Double x:Key="InfoTextFontSize">24.0</system:Double>
 
@@ -28,28 +30,10 @@
                     <system:Double x:Key="PanelFontSize">15</system:Double>
                     <system:Double x:Key="FolderTreeFontSize">12</system:Double>
 
+                    <!--#endregion Parameters -->
 
-                    <!-- Window Style -->
-                    <Style x:Key="DefaultWindowStyle" TargetType="Window">
-                        <!--
-                        <Setter Property="FontFamily" Value="Meiryo"/>
-                        -->
-                        <Setter Property="FontSize" Value="15"/>
-                    </Style>
-
-                    <!-- Tool Window Style -->
-                    <Style x:Key="ToolWindowStyle" TargetType="Window" BasedOn="{StaticResource DefaultWindowStyle}">
-                        <Setter Property="ShowInTaskbar" Value="False"/>
-                    </Style>
-
-                    <!-- Tool Dialog Style : 未使用 -->
-                    <Style x:Key="ToolDialogStyle" TargetType="Window" BasedOn="{StaticResource DefaultWindowStyle}">
-                        <Setter Property="ShowInTaskbar" Value="False"/>
-                        <!--
-                        <Setter Property="Icon" Value="/NeeView;component/Resources/1x1.png"/>
-                        -->
-                    </Style>
-
+                    <!--#region Brushes -->
+                    
                     <!-- CheckerBrush -->
                     <DrawingBrush x:Key="CheckerBrush" Viewport="0,0,16,16" ViewportUnits="Absolute" TileMode="Tile">
                         <DrawingBrush.Drawing>
@@ -79,6 +63,10 @@
 
                     <SolidColorBrush x:Key="NVIconBrush" Color="#FF444444"/>
 
+                    <!--#endregion Brushes-->
+                    
+                    <!--#region Icons -->
+                    
                     <!-- Material design icons by Google -->
                     <!-- http://www.google.com/design/spec/style/icons.html#icons-system-icons -->
 
@@ -103,20 +91,6 @@
                                     <GeometryDrawing Brush="{StaticResource NVStarMarkBrush}" Pen="{x:Null}">
                                         <GeometryDrawing.Geometry>
                                             <PathGeometry FillRule="Nonzero" Figures="M7,3.00000023841858L17,3.00000023841858C18.1000003814697,3,19,3.90000009536743,19,5L19,21 12,18 5,21 5.01000022888184,5C5.01000022888184,3.90000009536743,5.90000009536743,3,7,3.00000023841858z" />
-                                        </GeometryDrawing.Geometry>
-                                    </GeometryDrawing>
-                                </DrawingGroup.Children>
-                            </DrawingGroup>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_search_24px_g">
-                        <DrawingImage.Drawing>
-                            <DrawingGroup Opacity="1">
-                                <DrawingGroup.Children>
-                                    <GeometryDrawing Brush="Gray" Pen="{x:Null}">
-                                        <GeometryDrawing.Geometry>
-                                            <PathGeometry FillRule="Nonzero" Figures="M9.5,5C7.01000022888184,5 5,7.01000022888184 5,9.5 5,11.9899997711182 7.01000022888184,14 9.5,14 11.9899997711182,14 14,11.9899997711182 14,9.5 14,7.01000022888184 11.9899997711182,5 9.5,5z M9.5,2.99999976158142C13.0900001525879,3 16,5.90999984741211 16,9.5 16,11.1099996566772 15.4099998474121,12.5900001525879 14.4300003051758,13.7299995422363L14.710000038147,14 15.5,14 20.4899997711182,19 19,20.4899997711182 14,15.5 14,14.710000038147 13.7299995422363,14.4300003051758C12.5900001525879,15.4099998474121 11.1099996566772,16 9.5,16 5.90999984741211,16 3,13.0900001525879 2.99999976158142,9.5 3,5.90999984741211 5.90999984741211,3 9.5,2.99999976158142z" />
                                         </GeometryDrawing.Geometry>
                                     </GeometryDrawing>
                                 </DrawingGroup.Children>
@@ -152,20 +126,6 @@
                         </DrawingImage.Drawing>
                     </DrawingImage>
 
-                    <DrawingImage x:Key="ic_build_24px">
-                        <DrawingImage.Drawing>
-                            <DrawingGroup Opacity="1">
-                                <DrawingGroup.Children>
-                                    <GeometryDrawing Brush="#FF3377CC" Pen="{x:Null}">
-                                        <GeometryDrawing.Geometry>
-                                            <PathGeometry FillRule="Nonzero" Figures="M6.58750009536743,1.15781271457672C8.53750038146973,0.900000035762787 10.6000003814697,1.5 12.1000003814697,3 14,4.90000009536743 14.5,7.59999990463257 13.6000003814697,9.89999961853027L22.7000007629395,19C23.1000003814697,19.2999992370605,23.1000003814697,20,22.6000003814697,20.3999996185303L20.2999992370605,22.7000007629395C19.8999996185303,23.1000003814697,19.2999992370605,23.1000003814697,18.8999996185303,22.7000007629395L9.80000019073486,13.6000003814697C7.5,14.5 4.80000019073486,14 2.90000009536743,12.1000003814697 0.899999976158142,10.1000003814697 0.400000005960464,7.09999990463257 1.60000002384186,4.69999980926514L6,9 9,6 4.69999980926514,1.70000016689301C5.29999971389771,1.42500007152557,5.9375,1.24375009536743,6.58750009536743,1.15781271457672z" />
-                                        </GeometryDrawing.Geometry>
-                                    </GeometryDrawing>
-                                </DrawingGroup.Children>
-                            </DrawingGroup>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
                     <DrawingImage x:Key="ic_warning_48px">
                         <DrawingImage.Drawing>
                             <DrawingGroup Opacity="1">
@@ -187,20 +147,6 @@
                                     <GeometryDrawing Brush="Red" Pen="{x:Null}">
                                         <GeometryDrawing.Geometry>
                                             <PathGeometry FillRule="Nonzero" Figures="M22,30L22,34 26,34 26,30 22,30z M22,14L22,26 26,26 26,14 22,14z M24,4C35.0400009155273,4 44,12.9499998092651 44,24 44,35.0499992370605 35.0400009155273,44 24,44 12.960000038147,44 4,35.0499992370605 4,24 4,12.9499998092651 12.960000038147,4 24,4z" />
-                                        </GeometryDrawing.Geometry>
-                                    </GeometryDrawing>
-                                </DrawingGroup.Children>
-                            </DrawingGroup>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_delete_48px">
-                        <DrawingImage.Drawing>
-                            <DrawingGroup Opacity="1">
-                                <DrawingGroup.Children>
-                                    <GeometryDrawing Brush="LightGray" Pen="{x:Null}">
-                                        <GeometryDrawing.Geometry>
-                                            <PathGeometry FillRule="Nonzero" Figures="M12,14L36,14 36,38C36,40.2099990844727,34.2099990844727,42,32,42L16,42C13.789999961853,42,12,40.2099990844727,12,38L12,14z M19,6.00000047683716L29,6.00000047683716 31,8 38,8 38,12 10,12 10,8 17,8 19,6.00000047683716z" />
                                         </GeometryDrawing.Geometry>
                                     </GeometryDrawing>
                                 </DrawingGroup.Children>
@@ -330,7 +276,6 @@
                         </DrawingImage.Drawing>
                     </DrawingImage>
 
-
                     <!-- NeeView Custom : from Material design icons by Google -->
                     <DrawingImage x:Key="ic_sort_name_24px">
                         <DrawingImage.Drawing>
@@ -458,7 +403,6 @@
                         </DrawingImage.Drawing>
                     </DrawingImage>
 
-
                     <DrawingImage  x:Key="ic_arrow_back_24px_b">
                         <DrawingImage.Drawing>
                             <DrawingGroup Opacity="1">
@@ -524,62 +468,6 @@
                         </DrawingImage.Drawing>
                     </DrawingImage>
 
-                    <DrawingImage x:Key="ic_more_vert_24px_b">
-                        <DrawingImage.Drawing>
-                            <DrawingGroup Opacity="1">
-                                <DrawingGroup.Children>
-                                    <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}">
-                                        <GeometryDrawing.Geometry>
-                                            <PathGeometry FillRule="Nonzero" Figures="M12,16C13.1000003814697,16 14,16.8999996185303 14,18 14,19.1000003814697 13.1000003814697,20 12,20 10.8999996185303,20 10,19.1000003814697 10,18 10,16.8999996185303 10.8999996185303,16 12,16z M12,10C13.1000003814697,10 14,10.8999996185303 14,12 14,13.1000003814697 13.1000003814697,14 12,14 10.8999996185303,14 10,13.1000003814697 10,12 10,10.8999996185303 10.8999996185303,10 12,10z M12,4C13.1000003814697,4 14,4.90000009536743 14,6 14,7.09999990463257 13.1000003814697,8 12,8 10.8999996185303,8 10,7.09999990463257 10,6 10,4.90000009536743 10.8999996185303,4 12,4z" />
-                                        </GeometryDrawing.Geometry>
-                                    </GeometryDrawing>
-                                </DrawingGroup.Children>
-                            </DrawingGroup>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_folder_24px">
-                        <DrawingImage.Drawing>
-                            <DrawingGroup Opacity="1">
-                                <DrawingGroup.Children>
-                                    <GeometryDrawing Brush="{StaticResource NVFolderBrush}" Pen="{DynamicResource NVFolderPen}">
-                                        <GeometryDrawing.Geometry>
-                                            <PathGeometry FillRule="Nonzero" Figures="M4,4L10,4 12,6 20,6C21.1000003814697,6,22,6.90000009536743,22,8L22,18C22,19.1000003814697,21.1000003814697,20,20,20L4,20C2.90000009536743,20,2,19.1000003814697,2,18L2.00999999046326,6C2.00999999046326,4.90000009536743,2.90000009536743,4,4,4z" />
-                                        </GeometryDrawing.Geometry>
-                                    </GeometryDrawing>
-                                </DrawingGroup.Children>
-                            </DrawingGroup>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_folder_24px_g">
-                        <DrawingImage.Drawing>
-                            <DrawingGroup Opacity="1">
-                                <DrawingGroup.Children>
-                                    <GeometryDrawing Brush="Gray" Pen="{x:Null}">
-                                        <GeometryDrawing.Geometry>
-                                            <PathGeometry FillRule="Nonzero" Figures="M4,4L10,4 12,6 20,6C21.1000003814697,6,22,6.90000009536743,22,8L22,18C22,19.1000003814697,21.1000003814697,20,20,20L4,20C2.90000009536743,20,2,19.1000003814697,2,18L2.00999999046326,6C2.00999999046326,4.90000009536743,2.90000009536743,4,4,4z" />
-                                        </GeometryDrawing.Geometry>
-                                    </GeometryDrawing>
-                                </DrawingGroup.Children>
-                            </DrawingGroup>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_folder_open_24px">
-                        <DrawingImage.Drawing>
-                            <DrawingGroup Opacity="1">
-                                <DrawingGroup.Children>
-                                    <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}">
-                                        <GeometryDrawing.Geometry>
-                                            <PathGeometry FillRule="Nonzero" Figures="M4,8L4,18 20,18 20,8 4,8z M4,4L10,4 12,6 20,6C21.1000003814697,6,22,6.90000009536743,22,8L22,18C22,19.1000003814697,21.1000003814697,20,20,20L4,20C2.90000009536743,20,2,19.1000003814697,2,18L2.00999999046326,6C2.00999999046326,4.90000009536743,2.90000009536743,4,4,4z" />
-                                        </GeometryDrawing.Geometry>
-                                    </GeometryDrawing>
-                                </DrawingGroup.Children>
-                            </DrawingGroup>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
                     <DrawingImage x:Key="ic_done_24x_black">
                         <DrawingImage.Drawing>
                             <DrawingGroup Opacity="1">
@@ -587,34 +475,6 @@
                                     <GeometryDrawing Brush="#FF222222" Pen="{x:Null}">
                                         <GeometryDrawing.Geometry>
                                             <PathGeometry FillRule="Nonzero" Figures="M19.6000003814697,5.59999990463257L21,7 9,19 3.40000009536743,13.3999996185303 4.80000019073486,12 9,16.2000007629395 19.6000003814697,5.59999990463257z" />
-                                        </GeometryDrawing.Geometry>
-                                    </GeometryDrawing>
-                                </DrawingGroup.Children>
-                            </DrawingGroup>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_check_circle_24px">
-                        <DrawingImage.Drawing>
-                            <DrawingGroup Opacity="1">
-                                <DrawingGroup.Children>
-                                    <GeometryDrawing Brush="{DynamicResource NVCheckMarkBrush}" Pen="{x:Null}">
-                                        <GeometryDrawing.Geometry>
-                                            <PathGeometry FillRule="Nonzero" Figures="M17.5900001525879,6.57999992370605L10,14.1700000762939 6.40999984741211,10.5900001525879 5,12 10,17 19,8 17.5900001525879,6.57999992370605z M12,2C17.5200004577637,2 22,6.48000001907349 22,12 22,17.5200004577637 17.5200004577637,22 12,22 6.48000001907349,22 2,17.5200004577637 2,12 2,6.48000001907349 6.48000001907349,2 12,2z" />
-                                        </GeometryDrawing.Geometry>
-                                    </GeometryDrawing>
-                                </DrawingGroup.Children>
-                            </DrawingGroup>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_stars_24px">
-                        <DrawingImage.Drawing>
-                            <DrawingGroup Opacity="1">
-                                <DrawingGroup.Children>
-                                    <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}">
-                                        <GeometryDrawing.Geometry>
-                                            <PathGeometry FillRule="Nonzero" Figures="M12,5L10.0799999237061,9.53999996185303 5.15999984741211,9.96000003814697 8.89000034332275,13.1899995803833 7.76999998092651,18 12,15.4499998092651 16.2299995422363,18 15.1099996566772,13.1800003051758 18.8400001525879,9.94999980926514 13.9200000762939,9.52999973297119 12,5z M11.9899997711182,2C17.5200004577637,2 22,6.48000001907349 22,12 22,17.5200004577637 17.5200004577637,22 11.9899997711182,22 6.46999979019165,22 2,17.5200004577637 2,12 2,6.48000001907349 6.46999979019165,2 11.9899997711182,2z" />
                                         </GeometryDrawing.Geometry>
                                     </GeometryDrawing>
                                 </DrawingGroup.Children>
@@ -650,20 +510,6 @@
                         </DrawingImage.Drawing>
                     </DrawingImage>
 
-                    <DrawingImage x:Key="ic_link_24px">
-                        <DrawingImage.Drawing>
-                            <DrawingGroup Opacity="1">
-                                <DrawingGroup.Children>
-                                    <GeometryDrawing Brush="#FF000000" Pen="{x:Null}">
-                                        <GeometryDrawing.Geometry>
-                                            <PathGeometry FillRule="Nonzero" Figures="M8,11L16,11 16,13 8,13 8,11z M13,7L17,7C19.7600002288818,7 22,9.23999977111816 22,12 22,14.7600002288818 19.7600002288818,17 17,17L13,17 13,15.1000003814697 17,15.1000003814697C18.7099990844727,15.1000003814697 20.1000003814697,13.710000038147 20.1000003814697,12 20.1000003814697,10.289999961853 18.7099990844727,8.89999961853027 17,8.89999961853027L13,8.89999961853027 13,7z M7,7L11,7 11,8.89999961853027 7,8.89999961853027C5.28999996185303,8.89999961853027 3.90000009536743,10.289999961853 3.90000009536743,12 3.90000009536743,13.710000038147 5.28999996185303,15.1000003814697 7,15.1000003814697L11,15.1000003814697 11,17 7,17C4.23999977111816,17 2,14.7600002288818 2,12 2,9.23999977111816 4.23999977111816,7 7,7z" />
-                                        </GeometryDrawing.Geometry>
-                                    </GeometryDrawing>
-                                </DrawingGroup.Children>
-                            </DrawingGroup>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
                     <DrawingImage x:Key="ic_repeat_24px">
                         <DrawingImage.Drawing>
                             <DrawingGroup Opacity="1">
@@ -678,20 +524,6 @@
                                                     </TransformGroup>
                                                 </PathGeometry.Transform>
                                             </PathGeometry>
-                                        </GeometryDrawing.Geometry>
-                                    </GeometryDrawing>
-                                </DrawingGroup.Children>
-                            </DrawingGroup>
-                        </DrawingImage.Drawing>
-                    </DrawingImage>
-
-                    <DrawingImage x:Key="ic_file_24px">
-                        <DrawingImage.Drawing>
-                            <DrawingGroup Opacity="1">
-                                <DrawingGroup.Children>
-                                    <GeometryDrawing Brush="#DDD" Pen="{x:Null}">
-                                        <GeometryDrawing.Geometry>
-                                            <PathGeometry FillRule="Nonzero" Figures="M13,3.5L13,9 18.5,9 13,3.5z M6,2L14,2 20,8 20,20C20,21.1000003814697,19.1000003814697,22,18,22L5.98999977111816,22C4.8899998664856,22,4,21.1000003814697,4,20L4.01000022888184,4C4.01000022888184,2.90000009536743,4.90000009536743,2,6,2z" />
                                         </GeometryDrawing.Geometry>
                                     </GeometryDrawing>
                                 </DrawingGroup.Children>
@@ -727,6 +559,28 @@
                         </DrawingImage.Drawing>
                     </DrawingImage>
 
+                    <!--#endregion Icons-->
+
+                    <!--#region Styles -->
+                    
+                    <!-- Window Style -->
+                    <Style x:Key="DefaultWindowStyle" TargetType="Window">
+                        <Setter Property="FontSize" Value="15"/>
+                    </Style>
+
+                    <!-- Tool Window Style -->
+                    <Style x:Key="ToolWindowStyle" TargetType="Window" BasedOn="{StaticResource DefaultWindowStyle}">
+                        <Setter Property="ShowInTaskbar" Value="False"/>
+                    </Style>
+
+                    <!-- Tool Dialog Style : 未使用 -->
+                    <Style x:Key="ToolDialogStyle" TargetType="Window" BasedOn="{StaticResource DefaultWindowStyle}">
+                        <Setter Property="ShowInTaskbar" Value="False"/>
+                        <!--
+                        <Setter Property="Icon" Value="/NeeView;component/Resources/1x1.png"/>
+                        -->
+                    </Style>
+
                     <!-- IconButton Style -->
                     <Style x:Key="IconButton" TargetType="{x:Type Button}">
                         <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
@@ -752,7 +606,6 @@
                             </Setter.Value>
                         </Setter>
                     </Style>
-
 
                     <!-- IconToggleButton Style -->
                     <Style x:Key="IconToggleButton" TargetType="{x:Type ToggleButton}">
@@ -782,7 +635,8 @@
                             </Setter.Value>
                         </Setter>
                     </Style>
-
+                    
+                    <!--#endregion Styles-->
 
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>

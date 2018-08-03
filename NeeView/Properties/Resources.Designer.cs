@@ -187,6 +187,204 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Back に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfBackTips {
+            get {
+                return ResourceManager.GetString("BookshelfBackTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set this place home に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfHomeMenuSet {
+            get {
+                return ResourceManager.GetString("BookshelfHomeMenuSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Go to Home に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfHomeTips {
+            get {
+                return ResourceManager.GetString("BookshelfHomeTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Copy に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItemMenuCopy {
+            get {
+                return ResourceManager.GetString("BookshelfItemMenuCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Delete に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItemMenuDelete {
+            get {
+                return ResourceManager.GetString("BookshelfItemMenuDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Remove bookmark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItemMenuDeleteBookmark {
+            get {
+                return ResourceManager.GetString("BookshelfItemMenuDeleteBookmark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open in explorer に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItemMenuExplorer {
+            get {
+                return ResourceManager.GetString("BookshelfItemMenuExplorer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItemMenuOpen {
+            get {
+                return ResourceManager.GetString("BookshelfItemMenuOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Rena_me に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItemMenuRename {
+            get {
+                return ResourceManager.GetString("BookshelfItemMenuRename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Load subfolder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItemMenuSubfolder {
+            get {
+                return ResourceManager.GetString("BookshelfItemMenuSubfolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Add this place to quick access に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfMoreMenuAddQuickAccess {
+            get {
+                return ResourceManager.GetString("BookshelfMoreMenuAddQuickAccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delete all history of this place に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfMoreMenuClearHistory {
+            get {
+                return ResourceManager.GetString("BookshelfMoreMenuClearHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Page list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfMoreMenuPageList {
+            get {
+                return ResourceManager.GetString("BookshelfMoreMenuPageList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Search box に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfMoreMenuSearchBox {
+            get {
+                return ResourceManager.GetString("BookshelfMoreMenuSearchBox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Load subfolders at this location に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfMoreMenuSubfolder {
+            get {
+                return ResourceManager.GetString("BookshelfMoreMenuSubfolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bookshelf に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfName {
+            get {
+                return ResourceManager.GetString("BookshelfName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   PC に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfNextTips {
+            get {
+                return ResourceManager.GetString("BookshelfNextTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Load subfolder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfSubFolderTips {
+            get {
+                return ResourceManager.GetString("BookshelfSubFolderTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move to current book place に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfSyncTips {
+            get {
+                return ResourceManager.GetString("BookshelfSyncTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Location に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfTitlePlace {
+            get {
+                return ResourceManager.GetString("BookshelfTitlePlace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Find に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfTitleSearch {
+            get {
+                return ResourceManager.GetString("BookshelfTitleSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Up に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfUpTips {
+            get {
+                return ResourceManager.GetString("BookshelfUpTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Full screen OFF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandCancelFullScreen {
@@ -223,7 +421,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Delete all history in the current location of the folder list. に類似しているローカライズされた文字列を検索します。
+        ///   Delete all history in the current location of the bookshelf. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandClearHistoryInPlaceNote {
             get {
@@ -466,7 +664,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display bookmark list of the folder list. に類似しているローカライズされた文字列を検索します。
+        ///   Display bookmark list of the bookshelf. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandFocusBookmarkListNote {
             get {
@@ -493,7 +691,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Focus search box. The folder list is displayed. に類似しているローカライズされた文字列を検索します。
+        ///   Focus search box. The bookshelf is displayed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandFocusFolderSearchBoxNote {
             get {
@@ -943,7 +1141,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Load the next book on the folder list. に類似しているローカライズされた文字列を検索します。
+        ///   Load the next book on the bookshelf. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandNextFolderNote {
             get {
@@ -1258,7 +1456,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Load the previous book on the folder list. に類似しているローカライズされた文字列を検索します。
+        ///   Load the previous book on the bookshelf. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandPrevFolderNote {
             get {
@@ -3256,6 +3454,51 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle bookshelf に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleVisibleBookshelf {
+            get {
+                return ResourceManager.GetString("CommandToggleVisibleBookshelf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bookshelf に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleVisibleBookshelfMenu {
+            get {
+                return ResourceManager.GetString("CommandToggleVisibleBookshelfMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle visible / hide of the bookshelf panel. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleVisibleBookshelfNote {
+            get {
+                return ResourceManager.GetString("CommandToggleVisibleBookshelfNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bookshelf OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleVisibleBookshelfOff {
+            get {
+                return ResourceManager.GetString("CommandToggleVisibleBookshelfOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Bookshelf に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleVisibleBookshelfOn {
+            get {
+                return ResourceManager.GetString("CommandToggleVisibleBookshelfOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Toggle effect panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleEffectInfo {
@@ -3346,51 +3589,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle folder list に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleFolderList {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleFolderList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Folder list に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleFolderListMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleFolderListMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Toggle visible / hide of the folder list panel. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleFolderListNote {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleFolderListNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Folder list OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleFolderListOff {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleFolderListOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Folder list に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleVisibleFolderListOn {
-            get {
-                return ResourceManager.GetString("CommandToggleVisibleFolderListOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Toggle Folders tree に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleFoldersTree {
@@ -3409,7 +3607,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle visible / hide of the Folders tree. The folder list is displayed. に類似しているローカライズされた文字列を検索します。
+        ///   Toggle visible / hide of the Folders tree. The bookshelf is displayed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisibleFoldersTreeNote {
             get {
@@ -3499,7 +3697,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Toggle visible / hide of the page list. The folder list is displayed. に類似しているローカライズされた文字列を検索します。
+        ///   Toggle visible / hide of the page list. The bookshelf is displayed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleVisiblePageListNote {
             get {
@@ -6827,204 +7025,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Back に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FolderListBackTips {
-            get {
-                return ResourceManager.GetString("FolderListBackTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Set this place home に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FolderListHomeMenuSet {
-            get {
-                return ResourceManager.GetString("FolderListHomeMenuSet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Go to Home に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FolderListHomeTips {
-            get {
-                return ResourceManager.GetString("FolderListHomeTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   _Copy に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FolderListItemMenuCopy {
-            get {
-                return ResourceManager.GetString("FolderListItemMenuCopy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   _Delete に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FolderListItemMenuDelete {
-            get {
-                return ResourceManager.GetString("FolderListItemMenuDelete", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Remove bookmark に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FolderListItemMenuDeleteBookmark {
-            get {
-                return ResourceManager.GetString("FolderListItemMenuDeleteBookmark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open in explorer に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FolderListItemMenuExplorer {
-            get {
-                return ResourceManager.GetString("FolderListItemMenuExplorer", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FolderListItemMenuOpen {
-            get {
-                return ResourceManager.GetString("FolderListItemMenuOpen", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Rena_me に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FolderListItemMenuRename {
-            get {
-                return ResourceManager.GetString("FolderListItemMenuRename", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Load subfolder に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FolderListItemMenuSubfolder {
-            get {
-                return ResourceManager.GetString("FolderListItemMenuSubfolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Add this place to quick access に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FolderListMoreMenuAddQuickAccess {
-            get {
-                return ResourceManager.GetString("FolderListMoreMenuAddQuickAccess", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Delete all history of this place に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FolderListMoreMenuClearHistory {
-            get {
-                return ResourceManager.GetString("FolderListMoreMenuClearHistory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Page list に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FolderListMoreMenuPageList {
-            get {
-                return ResourceManager.GetString("FolderListMoreMenuPageList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Search box に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FolderListMoreMenuSearchBox {
-            get {
-                return ResourceManager.GetString("FolderListMoreMenuSearchBox", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Load subfolders at this location に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FolderListMoreMenuSubfolder {
-            get {
-                return ResourceManager.GetString("FolderListMoreMenuSubfolder", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Folder list に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FolderListName {
-            get {
-                return ResourceManager.GetString("FolderListName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   PC に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FolderListNextTips {
-            get {
-                return ResourceManager.GetString("FolderListNextTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Load subfolder に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FolderListSubFolderTips {
-            get {
-                return ResourceManager.GetString("FolderListSubFolderTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Move to current book place に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FolderListSyncTips {
-            get {
-                return ResourceManager.GetString("FolderListSyncTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Location に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FolderListTitlePlace {
-            get {
-                return ResourceManager.GetString("FolderListTitlePlace", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Find に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FolderListTitleSearch {
-            get {
-                return ResourceManager.GetString("FolderListTitleSearch", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Up に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string FolderListUpTips {
-            get {
-                return ResourceManager.GetString("FolderListUpTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Place to the left に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FolderTreeLayoutLeft {
@@ -7628,6 +7628,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Open Bookshelf for the location. You can specify a search keyword by adding &quot;?search=&quot; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string OptionBookshelf {
+            get {
+                return ResourceManager.GetString("OptionBookshelf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   {0} is an unsupported argument type. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string OptionErrorArgument {
@@ -7669,15 +7678,6 @@ namespace NeeView.Properties {
         public static string OptionErrorFileNotFound {
             get {
                 return ResourceManager.GetString("OptionErrorFileNotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Open FolderList for the location. You can specify a search keyword by adding &quot;?search=&quot; に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string OptionFolderList {
-            get {
-                return ResourceManager.GetString("OptionFolderList", resourceCulture);
             }
         }
         
@@ -8227,6 +8227,150 @@ namespace NeeView.Properties {
         public static string ParamBookSettingIsUseBookMementoDefaultTips {
             get {
                 return ResourceManager.GetString("ParamBookSettingIsUseBookMementoDefaultTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Filename pattern to exclude from display に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookshelfExcludePattern {
+            get {
+                return ResourceManager.GetString("ParamBookshelfExcludePattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   It is specified with .NET regular expression. Capital letters and lower case letters are not distinguished. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookshelfExcludePatternTips {
+            get {
+                return ResourceManager.GetString("ParamBookshelfExcludePatternTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   File icon layout に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookshelfFolderIconLayout {
+            get {
+                return ResourceManager.GetString("ParamBookshelfFolderIconLayout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Home location に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookshelfHome {
+            get {
+                return ResourceManager.GetString("ParamBookshelfHome", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Close the book when changing the location に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookshelfIsCloseBookWhenMove {
+            get {
+                return ResourceManager.GetString("ParamBookshelfIsCloseBookWhenMove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Enable Folder Cruise に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookshelfIsCruise {
+            get {
+                return ResourceManager.GetString("ParamBookshelfIsCruise", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move the folder including the parent and child of the folder. It does not apply when the bookshelf is a search result. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookshelfIsCruiseTips {
+            get {
+                return ResourceManager.GetString("ParamBookshelfIsCruiseTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Insert additional file at sort position に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookshelfIsInsertItem {
+            get {
+                return ResourceManager.GetString("ParamBookshelfIsInsertItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The bookshelf reflects information in real time. If this setting is ON, inserts the added file in the current sort order position. When set to OFF, it is added to the end of the list. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookshelfIsInsertItemTips {
+            get {
+                return ResourceManager.GetString("ParamBookshelfIsInsertItemTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Filter RAR split files from display に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookshelfIsMultipleRarFilterEnabled {
+            get {
+                return ResourceManager.GetString("ParamBookshelfIsMultipleRarFilterEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   For an RAR split file called .part[number].rar, only the file with the smallest number is displayed in the list. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookshelfIsMultipleRarFilterEnabledTips {
+            get {
+                return ResourceManager.GetString("ParamBookshelfIsMultipleRarFilterEnabledTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Synchronize Folders tree with sync button に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookshelfIsSyncFolderTree {
+            get {
+                return ResourceManager.GetString("ParamBookshelfIsSyncFolderTree", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display bookmark symbols に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookshelfIsVisibleBookmarkMark {
+            get {
+                return ResourceManager.GetString("ParamBookshelfIsVisibleBookmarkMark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ★ mark is displayed in the bookmarked book. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookshelfIsVisibleBookmarkMarkTips {
+            get {
+                return ResourceManager.GetString("ParamBookshelfIsVisibleBookmarkMarkTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display history symbol に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookshelfIsVisibleHistoryMark {
+            get {
+                return ResourceManager.GetString("ParamBookshelfIsVisibleHistoryMark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   A check mark is displayed in the book remaining in the history. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookshelfIsVisibleHistoryMarkTips {
+            get {
+                return ResourceManager.GetString("ParamBookshelfIsVisibleHistoryMarkTips", resourceCulture);
             }
         }
         
@@ -9001,150 +9145,6 @@ namespace NeeView.Properties {
         public static string ParamFilmStripThumbnailSize {
             get {
                 return ResourceManager.GetString("ParamFilmStripThumbnailSize", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Filename pattern to exclude from display に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamFolderListExcludePattern {
-            get {
-                return ResourceManager.GetString("ParamFolderListExcludePattern", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   It is specified with .NET regular expression. Capital letters and lower case letters are not distinguished. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamFolderListExcludePatternTips {
-            get {
-                return ResourceManager.GetString("ParamFolderListExcludePatternTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   File icon layout に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamFolderListFolderIconLayout {
-            get {
-                return ResourceManager.GetString("ParamFolderListFolderIconLayout", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Home location に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamFolderListHome {
-            get {
-                return ResourceManager.GetString("ParamFolderListHome", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Close the book when changing the location に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamFolderListIsCloseBookWhenMove {
-            get {
-                return ResourceManager.GetString("ParamFolderListIsCloseBookWhenMove", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Enable Folder Cruise に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamFolderListIsCruise {
-            get {
-                return ResourceManager.GetString("ParamFolderListIsCruise", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Move the folder including the parent and child of the folder. It does not apply when the folder list is a search result. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamFolderListIsCruiseTips {
-            get {
-                return ResourceManager.GetString("ParamFolderListIsCruiseTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Insert additional file at sort position に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamFolderListIsInsertItem {
-            get {
-                return ResourceManager.GetString("ParamFolderListIsInsertItem", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   The folder list reflects information in real time. If this setting is ON, inserts the added file in the current sort order position. When set to OFF, it is added to the end of the list. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamFolderListIsInsertItemTips {
-            get {
-                return ResourceManager.GetString("ParamFolderListIsInsertItemTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Filter RAR split files from display に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamFolderListIsMultipleRarFilterEnabled {
-            get {
-                return ResourceManager.GetString("ParamFolderListIsMultipleRarFilterEnabled", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   For an RAR split file called .part[number].rar, only the file with the smallest number is displayed in the list. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamFolderListIsMultipleRarFilterEnabledTips {
-            get {
-                return ResourceManager.GetString("ParamFolderListIsMultipleRarFilterEnabledTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Synchronize Folders tree with sync button に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamFolderListIsSyncFolderTree {
-            get {
-                return ResourceManager.GetString("ParamFolderListIsSyncFolderTree", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Display bookmark symbols に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamFolderListIsVisibleBookmarkMark {
-            get {
-                return ResourceManager.GetString("ParamFolderListIsVisibleBookmarkMark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   ★ mark is displayed in the bookmarked book. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamFolderListIsVisibleBookmarkMarkTips {
-            get {
-                return ResourceManager.GetString("ParamFolderListIsVisibleBookmarkMarkTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Display history symbol に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamFolderListIsVisibleHistoryMark {
-            get {
-                return ResourceManager.GetString("ParamFolderListIsVisibleHistoryMark", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   A check mark is displayed in the book remaining in the history. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamFolderListIsVisibleHistoryMarkTips {
-            get {
-                return ResourceManager.GetString("ParamFolderListIsVisibleHistoryMarkTips", resourceCulture);
             }
         }
         
@@ -10373,7 +10373,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Activate left / right key operation on the side panel. In the folder list, move the folder hierarchically. に類似しているローカライズされた文字列を検索します。
+        ///   Activate left / right key operation on the side panel. In the bookshelf, move the folder hierarchically. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamSidePanelIsLeftRightKeyEnabledTips {
             get {
@@ -10517,7 +10517,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   This is the number of thumbnails held in the memory in the folder list etc. に類似しているローカライズされた文字列を検索します。
+        ///   This is the number of thumbnails held in the memory in the bookshelf etc. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamThumbnailBookCapacityTips {
             get {
@@ -11300,6 +11300,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Bookshelf に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageHistoryGeneralBookshelf {
+            get {
+                return ResourceManager.GetString("SettingPageHistoryGeneralBookshelf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Delete history に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageHistoryGeneralDelete {
@@ -11314,15 +11323,6 @@ namespace NeeView.Properties {
         public static string SettingPageHistoryGeneralDeleteButton {
             get {
                 return ResourceManager.GetString("SettingPageHistoryGeneralDeleteButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Folder List に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string SettingPageHistoryGeneralFolderList {
-            get {
-                return ResourceManager.GetString("SettingPageHistoryGeneralFolderList", resourceCulture);
             }
         }
         
@@ -11570,6 +11570,51 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Bookshelf に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPagePanelBookshelf {
+            get {
+                return ResourceManager.GetString("SettingPagePanelBookshelf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Advanced Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPagePanelBookshelfAdvance {
+            get {
+                return ResourceManager.GetString("SettingPagePanelBookshelfAdvance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   General に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPagePanelBookshelfGeneral {
+            get {
+                return ResourceManager.GetString("SettingPagePanelBookshelfGeneral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Folder tree に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPagePanelBookshelfTree {
+            get {
+                return ResourceManager.GetString("SettingPagePanelBookshelfTree", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPagePanelBookshelfVisual {
+            get {
+                return ResourceManager.GetString("SettingPagePanelBookshelfVisual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Effect panel に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPagePanelEffect {
@@ -11611,51 +11656,6 @@ namespace NeeView.Properties {
         public static string SettingPagePanelFileInfoVisual {
             get {
                 return ResourceManager.GetString("SettingPagePanelFileInfoVisual", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Folder list に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string SettingPagePanelFolderList {
-            get {
-                return ResourceManager.GetString("SettingPagePanelFolderList", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Advanced Setting に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string SettingPagePanelFolderListAdvance {
-            get {
-                return ResourceManager.GetString("SettingPagePanelFolderListAdvance", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   General に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string SettingPagePanelFolderListGeneral {
-            get {
-                return ResourceManager.GetString("SettingPagePanelFolderListGeneral", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Folder tree に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string SettingPagePanelFolderListTree {
-            get {
-                return ResourceManager.GetString("SettingPagePanelFolderListTree", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Display に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string SettingPagePanelFolderListVisual {
-            get {
-                return ResourceManager.GetString("SettingPagePanelFolderListVisual", resourceCulture);
             }
         }
         

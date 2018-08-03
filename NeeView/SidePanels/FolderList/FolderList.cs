@@ -188,7 +188,7 @@ namespace NeeView
         /// IsVisibleHistoryMark property.
         /// </summary>
         private bool _isVisibleHistoryMark = true;
-        [PropertyMember("@ParamFolderListIsVisibleHistoryMark", Tips = "@ParamFolderListIsVisibleHistoryMarkTips")]
+        [PropertyMember("@ParamBookshelfIsVisibleHistoryMark", Tips = "@ParamBookshelfIsVisibleHistoryMarkTips")]
         public bool IsVisibleHistoryMark
         {
             get { return _isVisibleHistoryMark; }
@@ -199,7 +199,7 @@ namespace NeeView
         /// IsVisibleBookmarkMark property.
         /// </summary>
         private bool _isVisibleBookmarkMark = true;
-        [PropertyMember("@ParamFolderListIsVisibleBookmarkMark", Tips = "@ParamFolderListIsVisibleBookmarkMarkTips")]
+        [PropertyMember("@ParamBookshelfIsVisibleBookmarkMark", Tips = "@ParamBookshelfIsVisibleBookmarkMarkTips")]
         public bool IsVisibleBookmarkMark
         {
             get { return _isVisibleBookmarkMark; }
@@ -207,7 +207,7 @@ namespace NeeView
         }
 
         private string _home;
-        [PropertyPath("@ParamFolderListHome", IsDirectory = true)]
+        [PropertyPath("@ParamBookshelfHome", IsDirectory = true)]
         public string Home
         {
             get { return _home; }
@@ -218,25 +218,25 @@ namespace NeeView
         /// 追加されたファイルを挿入する？
         /// OFFにするとリスト末尾に追加する
         /// </summary>
-        [PropertyMember("@ParamFolderListIsInsertItem", Tips = "@ParamFolderListIsInsertItemTips")]
+        [PropertyMember("@ParamBookshelfIsInsertItem", Tips = "@ParamBookshelfIsInsertItemTips")]
         public bool IsInsertItem { get; set; } = true;
 
 
-        [PropertyMember("@ParamFolderListIsMultipleRarFilterEnabled", Tips = "@ParamFolderListIsMultipleRarFilterEnabledTips")]
+        [PropertyMember("@ParamBookshelfIsMultipleRarFilterEnabled", Tips = "@ParamBookshelfIsMultipleRarFilterEnabledTips")]
         public bool IsMultipleRarFilterEnabled { get; set; }
 
 
-        [PropertyMember("@ParamFolderListIsCruise", Tips = "@ParamFolderListIsCruiseTips")]
+        [PropertyMember("@ParamBookshelfIsCruise", Tips = "@ParamBookshelfIsCruiseTips")]
         public bool IsCruise { get; set; }
 
-        [PropertyMember("@ParamFolderListIsCloseBookWhenMove")]
+        [PropertyMember("@ParamBookshelfIsCloseBookWhenMove")]
         public bool IsCloseBookWhenMove { get; set; }
 
-        [PropertyMember("@ParamFolderListIsSyncFolderTree")]
+        [PropertyMember("@ParamBookshelfIsSyncFolderTree")]
         public bool IsSyncFolderTree { get; set; }
 
         private string _excludePattern;
-        [PropertyMember("@ParamFolderListExcludePattern", Tips = "@ParamFolderListExcludePatternTips")]
+        [PropertyMember("@ParamBookshelfExcludePattern", Tips = "@ParamBookshelfExcludePatternTips")]
         public string ExcludePattern
         {
             get { return _excludePattern; }

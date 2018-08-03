@@ -266,23 +266,23 @@ namespace NeeView.Setting
 
     public class SettingPagePanelFolderList : SettingPage
     {
-        public SettingPagePanelFolderList() : base(Properties.Resources.SettingPagePanelFolderList)
+        public SettingPagePanelFolderList() : base(Properties.Resources.SettingPagePanelBookshelf)
         {
             this.Items = new List<SettingItem>
             {
-                 new SettingItemSection(Properties.Resources.SettingPagePanelFolderListGeneral,
+                 new SettingItemSection(Properties.Resources.SettingPagePanelBookshelfGeneral,
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.Home))) {IsStretch = true}),
 
-                new SettingItemSection(Properties.Resources.SettingPagePanelFolderListVisual,
+                new SettingItemSection(Properties.Resources.SettingPagePanelBookshelfVisual,
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsVisibleBookmarkMark))),
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsVisibleHistoryMark)))),
 
-                new SettingItemSection(Properties.Resources.SettingPagePanelFolderListTree,
+                new SettingItemSection(Properties.Resources.SettingPagePanelBookshelfTree,
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.FolderTreeLayout))),
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.FolderTreeFontSize))),
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsSyncFolderTree)))),
 
-                new SettingItemSection(Properties.Resources.SettingPagePanelFolderListAdvance,
+                new SettingItemSection(Properties.Resources.SettingPagePanelBookshelfAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsCloseBookWhenMove))),
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsInsertItem))),
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsMultipleRarFilterEnabled))),

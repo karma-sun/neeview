@@ -526,9 +526,6 @@
     <Compile Include="SidePanels\FileInfo\FileInformationPanel.cs" />
     <Compile Include="SidePanels\FileInfo\FileInformation.cs" />
     <Compile Include="SidePanels\FileInfo\FileInformationViewModel.cs" />
-    <Compile Include="SidePanels\FolderList\FolderIcon.xaml.cs">
-      <DependentUpon>FolderIcon.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SidePanels\FolderList\FolderList.cs" />
     <Compile Include="SidePanels\FolderList\PanelListBannerImage.xaml.cs">
       <DependentUpon>PanelListBannerImage.xaml</DependentUpon>
@@ -1015,10 +1012,6 @@
     <Page Include="MessageDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="SidePanels\FolderList\FolderIcon.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SidePanels\FolderList\PanelListBannerImage.xaml">
       <SubType>Designer</SubType>

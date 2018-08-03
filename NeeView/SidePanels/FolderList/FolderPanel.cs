@@ -16,7 +16,7 @@ namespace NeeView
 
         public Thickness IconMargin { get; private set; }
 
-        public string IconTips => Properties.Resources.FolderListName;
+        public string IconTips => Properties.Resources.BookshelfName;
 
         private FolderPanelView _view;
         public FrameworkElement View => _view;
@@ -31,8 +31,8 @@ namespace NeeView
         {
             _view = new FolderPanelView(folderPanel, folderList, pageList);
 
-            Icon = App.Current.MainWindow.Resources["pic_folder_24px"] as DrawingImage;
-            IconMargin = new Thickness(8);
+            Icon = App.Current.MainWindow.Resources["pic_bookshelf"] as DrawingImage;
+            IconMargin = new Thickness(9);
         }
     }
 

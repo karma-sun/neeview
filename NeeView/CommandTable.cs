@@ -791,20 +791,20 @@ namespace NeeView
                 element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleEffectInfo)) { Source = _models.SidePanel };
                 _elements[CommandType.ToggleVisibleEffectInfo] = element;
             }
-            // ToggleVisibleFolderList
+            // ToggleVisibleBookshelf
             {
                 var element = new CommandElement();
                 element.Group = Properties.Resources.CommandGroupPanel;
-                element.Text = Properties.Resources.CommandToggleVisibleFolderList;
-                element.MenuText = Properties.Resources.CommandToggleVisibleFolderListMenu;
-                element.Note = Properties.Resources.CommandToggleVisibleFolderListNote;
-                element.ShortCutKey = "F";
+                element.Text = Properties.Resources.CommandToggleVisibleBookshelf;
+                element.MenuText = Properties.Resources.CommandToggleVisibleBookshelfMenu;
+                element.Note = Properties.Resources.CommandToggleVisibleBookshelfNote;
+                element.ShortCutKey = "B";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => _models.SidePanel.ToggleVisibleFolderList(e.Parameter is MenuCommandTag);
-                element.ExecuteMessage = e => _models.SidePanel.IsVisibleFolderList ? Properties.Resources.CommandToggleVisibleFolderListOff : Properties.Resources.CommandToggleVisibleFolderListOn;
+                element.ExecuteMessage = e => _models.SidePanel.IsVisibleFolderList ? Properties.Resources.CommandToggleVisibleBookshelfOff : Properties.Resources.CommandToggleVisibleBookshelfOn;
                 element.CanExecute = () => true;
                 element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleFolderList)) { Source = _models.SidePanel };
-                _elements[CommandType.ToggleVisibleFolderList] = element;
+                _elements[CommandType.ToggleVisibleBookshelf] = element;
             }
             // ToggleVisiblePagemarkList
             {
@@ -2167,6 +2167,11 @@ namespace NeeView
                         if (_elementsV2.TryGetValue("ToggleVisibleBookmarkList", out CommandElement.Memento toggleVisibleBookmarkList))
                         {
                             _elementsV2[CommandType.FocusBookmarkList.ToString()] = toggleVisibleBookmarkList;
+                        }
+
+                        if (_elementsV2.TryGetValue("ToggleVisibleFolderList", out CommandElement.Memento toggleVisibleFolderList))
+                        {
+                            _elementsV2[CommandType.ToggleVisibleBookshelf.ToString()] = toggleVisibleFolderList;
                         }
                     }
 

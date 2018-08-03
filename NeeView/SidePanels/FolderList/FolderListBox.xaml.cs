@@ -758,41 +758,41 @@ namespace NeeView
 
             if (item.Attributes.HasFlag(FolderItemAttribute.System))
             {
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuOpen, Command = OpenCommand });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuOpen, Command = OpenCommand });
             }
             else if (item.Attributes.HasFlag(FolderItemAttribute.Bookmark))
             {
                 if (item.IsDirectory)
                 {
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuDelete, Command = RemoveCommand });
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuRename, Command = RenameCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDelete, Command = RemoveCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuRename, Command = RenameCommand });
                 }
                 else
                 {
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuDeleteBookmark, Command = RemoveCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDeleteBookmark, Command = RemoveCommand });
                     contextMenu.Items.Add(new Separator());
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuExplorer, Command = OpenExplorerCommand });
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuCopy, Command = CopyCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuExplorer, Command = OpenExplorerCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuCopy, Command = CopyCommand });
                     ////contextMenu.Items.Add(new Separator());
-                    ////contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuDelete, Command = RemoveCommand });
-                    ////contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuRename, Command = RenameCommand });
+                    ////contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDelete, Command = RemoveCommand });
+                    ////contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuRename, Command = RenameCommand });
                 }
             }
             else if (item.Attributes.HasFlag(FolderItemAttribute.Empty))
             {
                 bool canExplorer = !(_vm.FolderCollection is BookmarkFolderCollection);
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuExplorer, Command = OpenExplorerCommand, IsEnabled = canExplorer });
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuCopy, Command = CopyCommand, IsEnabled = false });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuExplorer, Command = OpenExplorerCommand, IsEnabled = canExplorer });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuCopy, Command = CopyCommand, IsEnabled = false });
             }
             else if (item.IsFileSystem())
             {
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuSubfolder, Command = LoadWithRecursiveCommand, IsChecked = item.IsRecursived });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuSubfolder, Command = LoadWithRecursiveCommand, IsChecked = item.IsRecursived });
                 contextMenu.Items.Add(new Separator());
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuExplorer, Command = OpenExplorerCommand });
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuCopy, Command = CopyCommand });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuExplorer, Command = OpenExplorerCommand });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuCopy, Command = CopyCommand });
                 contextMenu.Items.Add(new Separator());
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuDelete, Command = RemoveCommand });
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderListItemMenuRename, Command = RenameCommand });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDelete, Command = RemoveCommand });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuRename, Command = RenameCommand });
             }
         }
 

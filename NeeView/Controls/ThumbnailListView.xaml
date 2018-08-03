@@ -93,7 +93,7 @@
                     </Setter>
                 </Style>
 
-                <Style TargetType="ListBoxItem">
+                <Style TargetType="ListBoxItem" BasedOn="{StaticResource NVListBoxItem}">
                     <EventSetter Event="PreviewMouseLeftButtonUp" Handler="ThumbnailListItem_MouseSingleClick"/>
                     <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
                     <Setter Property="Padding" Value="0"/>

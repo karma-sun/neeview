@@ -791,8 +791,13 @@ namespace NeeView
 
         internal async Task Sort_Executed(BookCommandSortArgs param, CancellationToken token)
         {
+            var page = GetViewPage();
+
             Sort();
-            RequestSetPosition(this, FirstPosition(), 1, true);
+
+            var pagePosition = new PagePosition(GetIndex(page), 0);
+            RequestSetPosition(this, pagePosition, 1, true);
+
             await Task.Yield();
         }
 

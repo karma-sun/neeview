@@ -23,29 +23,21 @@ namespace NeeView
     /// </summary>
     public partial class PageListBox : UserControl, IPageListPanel
     {
-        #region Fields
-
-        private PageListViewModel _vm;
+        private PageListBoxViewModel _vm;
         private ListBoxThumbnailLoader _thumbnailLoader;
 
-        #endregion
 
-        #region Constructors
-
-        // static constructor
         static PageListBox()
         {
-            RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
+            InitializeCommandStatic();
         }
 
-        // constructor
         public PageListBox()
         {
             InitializeComponent();
         }
 
-        // constructor
-        public PageListBox(PageListViewModel vm) : this()
+        public PageListBox(PageListBoxViewModel vm) : this()
         {
             InitializeCommand();
 
@@ -61,61 +53,65 @@ namespace NeeView
             this.Unloaded += PageListBox_Unloaded;
         }
 
-        private void PageListBox_Loaded(object sender, RoutedEventArgs e)
-        {
-            _vm.ViewItemsChanged += ViewModel_ViewItemsChanged;
-            _vm.CollectionChanged += ViewModel_CollectionChanged;
-        }
-
-        private void PageListBox_Unloaded(object sender, RoutedEventArgs e)
-        {
-            _vm.ViewItemsChanged -= ViewModel_ViewItemsChanged;
-            _vm.CollectionChanged -= ViewModel_CollectionChanged;
-        }
-
-
-        #endregion
 
         #region IPageListPanel support
 
         public ListBox PageCollectionListBox => this.ListBox;
 
-        public bool IsThumbnailVisibled => _vm.Model.IsThumbnailVisibled;
+        public bool IsThumbnailVisibled => PageList.Current.IsThumbnailVisibled;
 
         public IEnumerable<IHasPage> CollectPageList(IEnumerable<object> objs) => objs.OfType<IHasPage>();
         
         #endregion
 
+
         #region Commands
 
-        // delete command
+        // remove command
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(PageListBox));
+
+        private static void InitializeCommandStatic()
+        {
+            RemoveCommand.InputGestures.Add(new KeyGesture(Key.Delete));
+        }
 
         private void InitializeCommand()
         {
             this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec, Remove_CanExec));
         }
 
-        //
         private void Remove_CanExec(object sender, CanExecuteRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as Page;
-            e.CanExecute = item != null && _vm.CanRemove(item) && FileIOProfile.Current.IsEnabled;
+            e.CanExecute = item != null && _vm.Model.CanRemove(item) && FileIOProfile.Current.IsEnabled;
         }
 
-        //
         private async void Remove_Exec(object sender, ExecutedRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as Page;
             if (item != null)
             {
-                await _vm.Remove(item);
+                await _vm.Model.RemoveAsync(item);
             }
         }
 
         #endregion
 
-        #region Methods
+
+        private void PageListBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            _vm.Loaded();
+            _vm.ViewItemsChanged += ViewModel_ViewItemsChanged;
+
+            FocusSelectedItem();
+        }
+
+        private void PageListBox_Unloaded(object sender, RoutedEventArgs e)
+        {
+            _vm.Unloaded();
+            _vm.ViewItemsChanged -= ViewModel_ViewItemsChanged;
+        }
+
 
         private void ViewModel_ViewItemsChanged(object sender, ViewItemsChangedEventArgs e)
         {
@@ -123,17 +119,11 @@ namespace NeeView
         }
 
         //
-        private void ViewModel_CollectionChanged(object sender, EventArgs e)
-        {
-            _thumbnailLoader.Load();
-        }
-
-        //
         private void UpdateViewItems()
         {
-            if (_vm.ViewItems == null) return;
+            if (_vm.Model.ViewItems == null) return;
 
-            UpdateViewItems(_vm.ViewItems, 0);
+            UpdateViewItems(_vm.Model.ViewItems, 0);
         }
 
         //
@@ -141,7 +131,6 @@ namespace NeeView
         {
             if (!this.ListBox.IsLoaded) return;
             if (_vm.Model.PageCollection == null) return;
-            if (_vm.IsPageCollectionDarty) return;
             if (!this.IsVisible) return;
 
             if (items.Count == 1)
@@ -199,7 +188,7 @@ namespace NeeView
             var page = (sender as ListBoxItem)?.Content as Page;
             if (page != null)
             {
-                _vm.Jump(page);
+                _vm.Model.Jump(page);
                 e.Handled = true;
             }
         }
@@ -211,7 +200,7 @@ namespace NeeView
             {
                 if (e.Key == Key.Return)
                 {
-                    _vm.Jump(page);
+                    _vm.Model.Jump(page);
                     e.Handled = true;
                 }
             }
@@ -240,12 +229,8 @@ namespace NeeView
 
         private void PageList_TargetUpdated(object sender, DataTransferEventArgs e)
         {
-            _vm.IsPageCollectionDarty = false;
             UpdateViewItems();
         }
-
-        #endregion
-
     }
 
 

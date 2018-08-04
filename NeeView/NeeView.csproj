@@ -189,6 +189,8 @@
       <DependentUpon>PageSortModePalette.xaml</DependentUpon>
     </Compile>
     <Compile Include="OpenSourceControls\VirtualizingWrapPanel.cs" />
+    <Compile Include="SidePanels\Bookshelf\PageList\PageListBoxModel.cs" />
+    <Compile Include="SidePanels\Bookshelf\PageList\PageListBoxViewModel.cs" />
     <Compile Include="_NeeView\Collections\IHasName.cs" />
     <Compile Include="_NeeView\IO\DriveTypeExtension.cs" />
     <Compile Include="Thumbnail\ConstThumbnail.cs" />
@@ -267,7 +269,7 @@
     <Compile Include="VirtualCollection.cs" />
     <Compile Include="WindowMessage.cs" />
     <Compile Include="_NeeView\Collections\IHasValue.cs" />
-    <Compile Include="_NeeView\Collections\TreeListNode.cs" />
+    <Compile Include="_NeeView\Collections\Generic\TreeListNode.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderCollectionFactory.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderNode.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderSearchEngine.cs" />

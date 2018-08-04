@@ -176,7 +176,7 @@ namespace NeeView
             this.SidePanelProfile = new SidePanelProfile();
             this.FolderPanelModel = new FolderPanelModel();
             this.FolderList = new FolderList(this.BookHub, this.FolderPanelModel);
-            this.PageList = new PageList(this.BookHub, this.BookOperation);
+            this.PageList = new PageList();
             this.HistoryList = new HistoryList(this.BookHub);
             this.PagemarkList = new PagemarkList();
             this.FileInformation = new FileInformation(this.ContentCanvas);

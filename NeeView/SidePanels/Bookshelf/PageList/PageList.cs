@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -12,29 +13,25 @@ namespace NeeView
 {
     public class PageList : BindableBase
     {
-        #region Fields
+        public static PageList Current { get; private set; }
 
         private PanelListItemStyle _panelListItemStyle;
         private PageNameFormat _format = PageNameFormat.Smart;
 
-        #endregion
 
-        #region Constructors
-
-        public PageList(BookHub bookHub, BookOperation bookOperation)
+        public PageList()
         {
-            this.BookHub = bookHub;
-            this.BookOperation = bookOperation;
+            Current = this;
 
-            this.BookOperation.AddPropertyChanged(nameof(BookOperation.PageList), BookOperation_PageListChanged);
+            ListBoxModel = new PageListBoxModel();
+
+            BookOperation.Current.AddPropertyChanged(nameof(BookOperation.PageList), BookOperation_PageListChanged);
         }
 
-        #endregion
 
         public event EventHandler CollectionChanging;
         public event EventHandler CollectionChanged;
 
-        #region Properties
 
         /// <summary>
         /// ページリストのリスト項目表示形式
@@ -73,32 +70,27 @@ namespace NeeView
             }
         }
 
-        // ページリスト(表示部用)
-        public ObservableCollection<Page> PageCollection => BookOperation.PageList;
-
         /// <summary>
-        /// 一度だけフォーカスするフラグ
+        /// ListBox の Model
         /// </summary>
-        public bool FocusAtOnce { get; set; }
+        public PageListBoxModel ListBoxModel { get; set; }
 
-        //
-        public BookHub BookHub { get; private set; }
-
-        //
-        public BookOperation BookOperation { get; private set; }
-
-        #endregion
-
-        #region Methods
 
         private void BookOperation_PageListChanged(object sender, PropertyChangedEventArgs e)
         {
             CollectionChanging?.Invoke(this, null);
-            RaisePropertyChanged(nameof(PageCollection));
+
+            ListBoxModel?.Unloaded();
+            ListBoxModel = new PageListBoxModel();
+
             CollectionChanged?.Invoke(this, null);
         }
 
-        #endregion
+        public void FocusAtOnce()
+        {
+            ListBoxModel.FocusAtOnce = true;
+        }
+
 
         #region Memento
         [DataContract]
@@ -127,6 +119,7 @@ namespace NeeView
             this.PanelListItemStyle = memento.PanelListItemStyle;
             this.Format = memento.Format;
         }
-        #endregion
     }
+
+    #endregion Memento
 }

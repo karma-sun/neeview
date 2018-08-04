@@ -5,25 +5,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NeeView
+namespace NeeView.Collections
 {
     /// <summary>
     /// 履歴
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class History<T>
+    public class HistoryCollection<T>
     {
-        public event EventHandler Changed;
-
-        /// <summary>
-        /// フォルダー履歴
-        /// </summary>
         private List<T> _history = new List<T>();
 
         /// <summary>
         /// 現在履歴位置。0で先頭
         /// </summary>
         private int _current;
+
+
+        public event EventHandler Changed;
+
 
         public void Add(T path)
         {

@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeLaboratory.IO;
+using NeeView.Collections;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

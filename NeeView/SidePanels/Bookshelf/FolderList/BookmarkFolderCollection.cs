@@ -1,4 +1,5 @@
-﻿using NeeView.Collections.Generic;
+﻿using NeeView.Collections;
+using NeeView.Collections.Generic;
 using NeeView.IO;
 using System;
 using System.Collections.ObjectModel;

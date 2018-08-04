@@ -1,4 +1,5 @@
-﻿using NeeView.Collections.Generic;
+﻿using NeeView.Collections;
+using NeeView.Collections.Generic;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -49,13 +50,6 @@ namespace NeeView
             }
         }
 
-        private class NameComparer : IComparer<IHasName>
-        {
-            public int Compare(IHasName x, IHasName y)
-            {
-                return NativeMethods.StrCmpLogicalW(x.Name, y.Name);
-            }
-        }
     }
 
 }

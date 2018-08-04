@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Collections.Generic;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace NeeView.Collections.Generic
+namespace NeeView.Collections
 {
     [DataContract]
     public class TreeListNode<T> : BindableBase, IEnumerable<TreeListNode<T>>, IHasValue<T>

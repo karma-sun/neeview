@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Collections;
 using NeeView.Collections.Generic;
 using NeeView.Windows.Property;
 using System;
@@ -321,7 +322,7 @@ namespace NeeView
         /// <summary>
         /// フォルダー履歴
         /// </summary>
-        public History<QueryPath> History { get; private set; } = new History<QueryPath>();
+        public HistoryCollection<QueryPath> History { get; private set; } = new HistoryCollection<QueryPath>();
 
         /// <summary>
         /// IsFolderSearchVisible property.

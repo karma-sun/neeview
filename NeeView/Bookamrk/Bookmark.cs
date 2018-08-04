@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -6,13 +7,6 @@ using System.Runtime.Serialization;
 
 namespace NeeView
 {
-    public interface IHasName
-    {
-        string Name { get; }
-    }
-
-
-
     public interface IBookmarkEntry : IHasName
     {
     }

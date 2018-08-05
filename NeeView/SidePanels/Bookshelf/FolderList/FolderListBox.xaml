@@ -30,7 +30,7 @@
             <Setter Property="ToolTip" Value="{Binding Detail}"/>
             <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding ElementName=ListBox, Path=DataContext.IsRenaming}" Value="True">
+                <DataTrigger Binding="{Binding Source={x:Static local:FolderList.Current}, Path=IsRenaming}" Value="True">
                     <Setter Property="ToolTipService.IsEnabled" Value="False"/>
                     <Setter Property="ToolTip" Value="{x:Null}"/>
                 </DataTrigger>
@@ -70,7 +70,7 @@
             <Setter Property="ToolTip" Value="{Binding Detail}"/>
             <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding ElementName=ListBox, Path=DataContext.IsRenaming}" Value="True">
+                <DataTrigger Binding="{Binding Source={x:Static local:FolderList.Current}, Path=IsRenaming}" Value="True">
                     <Setter Property="ToolTip" Value="{x:Null}"/>
                     <Setter Property="ToolTipService.IsEnabled" Value="False"/>
                 </DataTrigger>
@@ -158,16 +158,16 @@
             <ListBox.Style>
                 <Style TargetType="ListBox" BasedOn="{StaticResource NVListBox}">
                     <Style.Triggers>
-                        <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Normal">
+                        <DataTrigger Binding="{Binding Source={x:Static local:FolderList.Current}, Path=PanelListItemStyle}" Value="Normal">
                             <Setter Property="ItemTemplate" Value="{StaticResource NormalTemplate}"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Content">
+                        <DataTrigger Binding="{Binding Source={x:Static local:FolderList.Current}, Path=PanelListItemStyle}" Value="Content">
                             <Setter Property="ItemTemplate" Value="{StaticResource ContentTemplate}"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Banner">
+                        <DataTrigger Binding="{Binding Source={x:Static local:FolderList.Current}, Path=PanelListItemStyle}" Value="Banner">
                             <Setter Property="ItemTemplate" Value="{StaticResource BannerTemplate}"/>
                         </DataTrigger>
-                        <DataTrigger Binding="{Binding Model.PanelListItemStyle}" Value="Thumbnail">
+                        <DataTrigger Binding="{Binding Source={x:Static local:FolderList.Current}, Path=PanelListItemStyle}" Value="Thumbnail">
                             <Setter Property="ItemTemplate" Value="{StaticResource ThumbnailTemplate}"/>
                             <Setter Property="ItemsPanel">
                                 <Setter.Value>

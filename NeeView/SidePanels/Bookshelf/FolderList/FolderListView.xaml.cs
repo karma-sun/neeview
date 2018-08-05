@@ -50,7 +50,7 @@ namespace NeeView
         #endregion
 
 
-        public bool IsRenaming => _vm.IsRenaming || this.FolderTree.IsRenaming;
+        public bool IsRenaming => _vm.Model.IsRenaming || this.FolderTree.IsRenaming;
 
         public bool IsSearchBoxFocused => this.SearchBox.IsKeyboardFocusWithin;
 
@@ -93,17 +93,17 @@ namespace NeeView
             _busyCounter += e.IsBusy ? +1 : -1;
             if (_busyCounter <= 0)
             {
-                this.ListContent.IsHitTestVisible = true;
-                this.ListContent.BeginAnimation(UIElement.OpacityProperty, null);
-                this.ListContent.Opacity = 1.0;
+                this.FolderListBox.IsHitTestVisible = true;
+                this.FolderListBox.BeginAnimation(UIElement.OpacityProperty, null);
+                this.FolderListBox.Opacity = 1.0;
 
                 this.BusyFadeContent.Content = null;
                 _busyCounter = 0;
             }
             else if (_busyCounter > 0 && this.BusyFadeContent.Content == null)
             {
-                this.ListContent.IsHitTestVisible = false;
-                this.ListContent.BeginAnimation(UIElement.OpacityProperty, new DoubleAnimation(0.0, TimeSpan.FromSeconds(0.5)) { BeginTime = TimeSpan.FromSeconds(1.0) });
+                this.FolderListBox.IsHitTestVisible = false;
+                this.FolderListBox.BeginAnimation(UIElement.OpacityProperty, new DoubleAnimation(0.0, TimeSpan.FromSeconds(0.5)) { BeginTime = TimeSpan.FromSeconds(1.0) });
 
                 this.BusyFadeContent.Content = new BusyFadeView();
             }
@@ -183,13 +183,13 @@ namespace NeeView
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void SearchBox_KeyDown(object sender, KeyEventArgs e)
+        private void SearchBox_KeyDown(object sender, KeyEventArgs e)
         {
             KeyExGesture.AllowSingleKey = false;
 
             if (e.Key == Key.Enter)
             {
-                await _vm.SearchAsync();
+                _vm.Model.RequestSearchPlace(false);
             }
         }
 
@@ -241,29 +241,28 @@ namespace NeeView
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return Convert(value as string);
+            return Convert(value as QueryPath);
         }
 
-        public static ImageSource Convert(string queryPath)
+        public static ImageSource Convert(QueryPath path)
         {
-            var path = new QueryPath(queryPath);
+            if (path != null)
+            {
+                if (path.Path == null)
+                {
+                    return path.Scheme.ToImage();
+                }
+                else if (path.Scheme == QueryScheme.Bookmark)
+                {
+                    return path.Scheme.ToImage();
+                }
+                else if (path.Search != null)
+                {
+                    return MainWindow.Current.Resources["ic_search_24px"] as ImageSource;
+                }
+            }
 
-            if (path.Path == null)
-            {
-                return path.Scheme.ToImage();
-            }
-            else if (path.Scheme == QueryScheme.Bookmark)
-            {
-                return path.Scheme.ToImage();
-            }
-            else if (path.Search != null)
-            {
-                return MainWindow.Current.Resources["ic_search_24px"] as ImageSource;
-            }
-            else
-            {
-                return FileIconCollection.Current.CreateDefaultFolderIcon(16.0);
-            }
+            return FileIconCollection.Current.CreateDefaultFolderIcon(16.0);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

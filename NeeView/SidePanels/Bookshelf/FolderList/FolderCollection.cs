@@ -492,7 +492,7 @@ namespace NeeView
         {
             if (item == null) return;
 
-            CollectionChanging.Invoke(this, new FolderCollectionChangedEventArgs(CollectionChangeAction.Remove, item));
+            CollectionChanging?.Invoke(this, new FolderCollectionChangedEventArgs(CollectionChangeAction.Remove, item));
 
             lock (_lock)
             {
@@ -504,7 +504,7 @@ namespace NeeView
                 }
             }
 
-            CollectionChanged.Invoke(this, new FolderCollectionChangedEventArgs(CollectionChangeAction.Remove, item));
+            CollectionChanged?.Invoke(this, new FolderCollectionChangedEventArgs(CollectionChangeAction.Remove, item));
         }
 
         #endregion Job.Delete

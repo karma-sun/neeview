@@ -231,7 +231,7 @@ namespace NeeView
             }
 
             var parent = LoosePath.GetDirectoryName(_path);
-            return ReplacePath(parent);
+            return new QueryPath(this.Scheme, parent, null);
         }
 
 

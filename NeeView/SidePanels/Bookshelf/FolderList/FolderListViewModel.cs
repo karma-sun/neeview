@@ -80,7 +80,7 @@ namespace NeeView
         #region Fields
 
         //
-        private FolderListBox _listContent;
+        private FolderListBox _folderListBox;
 
         //
         private PanelListItemStyleToBooleanConverter _panelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
@@ -105,18 +105,12 @@ namespace NeeView
             _model.PlaceChanged +=
                 (s, e) => MoveToUp.RaiseCanExecuteChanged();
 
-            _model.SelectedChanging +=
-                (s, e) => this.ListContent.SelectedChanging(s, e);
-
-            _model.SelectedChanged +=
-                (s, e) => this.ListContent.SelectedChanged(s, e);
-
             _model.CollectionChanged +=
                 Model_CollectionChanged;
 
             InitializeMoreMenu();
 
-            UpdateListContent();
+            UpdateFolderListBox();
         }
 
         #endregion
@@ -124,36 +118,24 @@ namespace NeeView
         #region Properties
 
         /// <summary>
-        /// IsRenaming property.
+        /// ListBoxコントロール。
+        /// コレクションやレイアウトの変更の都度再生成する
         /// </summary>
-        private bool _isRenaming;
-        public bool IsRenaming
+        public FolderListBox FolderListBox
         {
-            get { return _isRenaming; }
-            set { if (_isRenaming != value) { _isRenaming = value; RaisePropertyChanged(); } }
+            get { return _folderListBox; }
+            private set
+            {
+                if (SetProperty(ref _folderListBox, value))
+                {
+                    RaisePropertyChanged(nameof(FolderCollection));
+                }
+            }
         }
 
-
-        /// <summary>
-        /// ListContent property.
-        /// </summary>
-        public FolderListBox ListContent
-        {
-            get { return _listContent; }
-            private set { if (_listContent != value) { _listContent = value; RaisePropertyChanged(); } }
-        }
-
-        //
-        public SidePanelProfile Profile => SidePanelProfile.Current;
         public FolderCollection FolderCollection => _model.FolderCollection;
-        public bool IsFolderRecursive => _model.FolderCollection != null ? _model.FolderCollection.FolderParameter.IsFolderRecursive : false;
-        public string Place => _model.FolderCollection?.PlaceDispString;
-        public string PlaceRaw => _model.FolderCollection?.Place.SimplePath;
-        public string QueryPath => _model.FolderCollection?.Place.SimpleQuery;
 
-        /// <summary>
-        /// Model property.
-        /// </summary>
+
         private FolderList _model;
         public FolderList Model
         {
@@ -192,9 +174,6 @@ namespace NeeView
         /// <summary>
         /// 履歴取得
         /// </summary>
-        /// <param name="direction"></param>
-        /// <param name="size"></param>
-        /// <returns></returns>
         internal List<KeyValuePair<int, QueryPath>> GetHistory(int direction, int size)
         {
             return _model.History.GetHistory(direction, size);
@@ -206,7 +185,7 @@ namespace NeeView
         private RelayCommand _SetHome;
         public RelayCommand SetHome
         {
-            get { return _SetHome = _SetHome ?? new RelayCommand(_model.SetHome_Executed); }
+            get { return _SetHome = _SetHome ?? new RelayCommand(_model.SetHome); }
         }
 
         /// <summary>
@@ -215,7 +194,7 @@ namespace NeeView
         private RelayCommand _MoveToHome;
         public RelayCommand MoveToHome
         {
-            get { return _MoveToHome = _MoveToHome ?? new RelayCommand(_model.MoveToHome_Executed); }
+            get { return _MoveToHome = _MoveToHome ?? new RelayCommand(_model.MoveToHome); }
         }
 
         /// <summary>
@@ -224,7 +203,7 @@ namespace NeeView
         private RelayCommand<QueryPath> _MoveTo;
         public RelayCommand<QueryPath> MoveTo
         {
-            get { return _MoveTo = _MoveTo ?? new RelayCommand<QueryPath>(_model.MoveTo_Executed); }
+            get { return _MoveTo = _MoveTo ?? new RelayCommand<QueryPath>(_model.MoveTo); }
         }
 
         /// <summary>
@@ -233,7 +212,7 @@ namespace NeeView
         private RelayCommand _MoveToPrevious;
         public RelayCommand MoveToPrevious
         {
-            get { return _MoveToPrevious = _MoveToPrevious ?? new RelayCommand(_model.MoveToPrevious_Executed, _model.MoveToPrevious_CanExecutre); }
+            get { return _MoveToPrevious = _MoveToPrevious ?? new RelayCommand(_model.MoveToPrevious, _model.CanMoveToPrevious); }
         }
 
         /// <summary>
@@ -242,7 +221,7 @@ namespace NeeView
         private RelayCommand _MoveToNext;
         public RelayCommand MoveToNext
         {
-            get { return _MoveToNext = _MoveToNext ?? new RelayCommand(_model.MoveToNext_Executed, _model.MoveToNext_CanExecute); }
+            get { return _MoveToNext = _MoveToNext ?? new RelayCommand(_model.MoveToNext, _model.CanMoveToNext); }
         }
 
         /// <summary>
@@ -251,7 +230,7 @@ namespace NeeView
         private RelayCommand<KeyValuePair<int, QueryPath>> _MoveToHistory;
         public RelayCommand<KeyValuePair<int, QueryPath>> MoveToHistory
         {
-            get { return _MoveToHistory = _MoveToHistory ?? new RelayCommand<KeyValuePair<int, QueryPath>>(_model.MoveToHistory_Executed); }
+            get { return _MoveToHistory = _MoveToHistory ?? new RelayCommand<KeyValuePair<int, QueryPath>>(_model.MoveToHistory); }
         }
 
         /// <summary>
@@ -260,7 +239,7 @@ namespace NeeView
         private RelayCommand _MoveToUp;
         public RelayCommand MoveToUp
         {
-            get { return _MoveToUp = _MoveToUp ?? new RelayCommand(_model.MoveToParent_Execute, _model.MoveToParent_CanExecute); }
+            get { return _MoveToUp = _MoveToUp ?? new RelayCommand(_model.MoveToParent, _model.CanMoveToParent); }
         }
 
         /// <summary>
@@ -270,7 +249,7 @@ namespace NeeView
         private RelayCommand _Sync;
         public RelayCommand Sync
         {
-            get { return _Sync = _Sync ?? new RelayCommand(_model.Sync_Executed); }
+            get { return _Sync = _Sync ?? new RelayCommand(_model.Sync); }
         }
 
         /// <summary>
@@ -279,7 +258,7 @@ namespace NeeView
         private RelayCommand _ToggleFolderRecursive;
         public RelayCommand ToggleFolderRecursive
         {
-            get { return _ToggleFolderRecursive = _ToggleFolderRecursive ?? new RelayCommand(_model.ToggleFolderRecursive_Executed); }
+            get { return _ToggleFolderRecursive = _ToggleFolderRecursive ?? new RelayCommand(_model.ToggleFolderRecursive); }
         }
 
 
@@ -293,9 +272,9 @@ namespace NeeView
         }
 
         //
-        private async void Search_Executed()
+        private void Search_Executed()
         {
-            await _model.UpdateFolderCollectionAsync(true);
+            _model.RequestSearchPlace(true);
         }
 
         /// <summary>
@@ -381,7 +360,7 @@ namespace NeeView
         {
             if (isVisibled)
             {
-                this.ListContent?.FocusSelectedItem(true);
+                this.FolderListBox?.FocusSelectedItem(true);
             }
         }
 
@@ -391,14 +370,8 @@ namespace NeeView
         {
             switch (e.PropertyName)
             {
-                case nameof(_model.IsVisibleHistoryMark):
-                    this.FolderCollection?.RefreshIcon(null);
-                    break;
-                case nameof(_model.IsVisibleBookmarkMark):
-                    this.FolderCollection?.RefreshIcon(null);
-                    break;
                 case nameof(_model.PanelListItemStyle):
-                    UpdateListContent();
+                    UpdateFolderListBox();
                     break;
             }
         }
@@ -406,12 +379,7 @@ namespace NeeView
         //
         private void Model_CollectionChanged(object sender, EventArgs e)
         {
-            UpdateListContent();
-            RaisePropertyChanged(nameof(FolderCollection));
-            RaisePropertyChanged(nameof(IsFolderRecursive));
-            RaisePropertyChanged(nameof(Place));
-            RaisePropertyChanged(nameof(PlaceRaw));
-            RaisePropertyChanged(nameof(QueryPath));
+            UpdateFolderListBox();
         }
 
         #region MoreMenu
@@ -434,9 +402,9 @@ namespace NeeView
             items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleThumbnail, PanelListItemStyle.Thumbnail));
             items.Add(new Separator());
             items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuAddQuickAccess, AddQuickAccess));
-            items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuClearHistory, CommandType.ClearHistoryInPlace, _model.FolderPanel));
+            items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuClearHistory, CommandType.ClearHistoryInPlace, FolderPanelModel.Current));
 
-            switch (FolderCollection)
+            switch (_model.FolderCollection)
             {
                 case FolderEntryCollection folderEntryCollection:
                     items.Add(new Separator());
@@ -530,9 +498,10 @@ namespace NeeView
 
 
         //
-        public void UpdateListContent()
+        public void UpdateFolderListBox()
         {
-            ListContent = new FolderListBox(this);
+            var vm = new FolderListBoxViewModel(_model.FolderListBoxModel);
+            FolderListBox = new FolderListBox(vm);
 
             SidePanel.Current.RaiseContentChanged();
         }
@@ -544,19 +513,10 @@ namespace NeeView
         /// <param name="isEnabled"></param>
         public void SetListFocusEnabled(bool isEnabled)
         {
-            if (_listContent != null)
+            if (_folderListBox != null)
             {
-                _listContent.IsFocusEnabled = isEnabled;
+                _folderListBox.IsFocusEnabled = isEnabled;
             }
-        }
-
-        /// <summary>
-        /// 検索タスク
-        /// </summary>
-        /// <returns></returns>
-        public async Task SearchAsync()
-        {
-            await _model.UpdateFolderCollectionAsync(false);
         }
 
         /// <summary>
@@ -575,11 +535,10 @@ namespace NeeView
         {
             if (folderInfo != null && folderInfo.CanOpenFolder())
             {
-                MoveTo.Execute(folderInfo.TargetPath);
+                _model.MoveTo(folderInfo.TargetPath);
             }
         }
 
         #endregion Methods
     }
-
 }

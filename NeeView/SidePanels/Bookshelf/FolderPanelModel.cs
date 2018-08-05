@@ -13,6 +13,8 @@ namespace NeeView
 {
     public class FolderPanelModel : BindableBase
     {
+        public static FolderPanelModel Current { get; private set; }
+
         /// <summary>
         /// IsPageListVisible property.
         /// </summary>
@@ -86,6 +88,7 @@ namespace NeeView
         //
         public FolderPanelModel()
         {
+            Current = this;
         }
 
         #region Memento

@@ -21,6 +21,8 @@ using System.Windows.Shapes;
 
 namespace NeeView
 {
+    // HACK: FolderList.Current の除外。MVVMの依存関係がおかしいので。DependencyPropertyで対応可能？
+
     /// <summary>
     /// FolderListBox.xaml の相互作用ロジック
     /// </summary>
@@ -30,7 +32,7 @@ namespace NeeView
 
         public static string DragDropFormat = $"{Config.Current.ProcessId}.FolderListBox";
 
-        private FolderListViewModel _vm;
+        private FolderListBoxViewModel _vm;
         private ListBoxThumbnailLoader _thumbnailLoader;
         private bool _lastFocusRequest;
         private bool _storeFocus;
@@ -53,7 +55,7 @@ namespace NeeView
         }
 
         //
-        public FolderListBox(FolderListViewModel vm) : this()
+        public FolderListBox(FolderListBoxViewModel vm) : this()
         {
             _vm = vm;
             this.DataContext = vm;
@@ -65,6 +67,28 @@ namespace NeeView
 
             this.ListBox.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(ListBox_ScrollChanged));
             _thumbnailLoader = new ListBoxThumbnailLoader(this, QueueElementPriority.FolderThumbnail);
+
+            this.Loaded += FolderListBox_Loaded;
+            this.Unloaded += FolderListBox_Unloaded;
+        }
+
+        private void FolderListBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            _vm.Loaded();
+            _vm.SelectedChanging += SelectedChanging;
+            _vm.SelectedChanged += SelectedChanged;
+
+            if (_vm.Model.IsFocusOnLoad)
+            {
+                FocusSelectedItem(true);
+            }
+        }
+
+        private void FolderListBox_Unloaded(object sender, RoutedEventArgs e)
+        {
+            _vm.Unloaded();
+            _vm.SelectedChanging -= SelectedChanging;
+            _vm.SelectedChanged -= SelectedChanged;
         }
 
         #endregion
@@ -82,7 +106,7 @@ namespace NeeView
         public ListBox PageCollectionListBox => this.ListBox;
 
         // サムネイルが表示されている？
-        public bool IsThumbnailVisibled => _vm.Model.IsThumbnailVisibled;
+        public bool IsThumbnailVisibled =>  FolderList.Current.IsThumbnailVisibled;
 
         public IEnumerable<IHasPage> CollectPageList(IEnumerable<object> objs) => objs.OfType<IHasPage>();
 
@@ -260,10 +284,10 @@ namespace NeeView
                     };
                     rename.Close += (s, ev) =>
                     {
-                        _vm.IsRenaming = false;
+                        FolderList.Current.IsRenaming = false;
                     };
 
-                    _vm.IsRenaming = true;
+                    FolderList.Current.IsRenaming = true;
                     ((MainWindow)Application.Current.MainWindow).RenameManager.Open(rename);
                 }
             }
@@ -319,7 +343,7 @@ namespace NeeView
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
             if (item != null)
             {
-                _vm.MoveToSafety(item);
+                _vm.Model.MoveToSafety(item);
             }
         }
 
@@ -584,16 +608,17 @@ namespace NeeView
         {
             if (e.Key == Key.Home)
             {
-                _vm.MoveToHome.Execute(null);
+                _vm.Model.MoveToHome();
                 e.Handled = true;
             }
-            else if (Keyboard.Modifiers == ModifierKeys.Alt)
+            else
+            if (Keyboard.Modifiers == ModifierKeys.Alt)
             {
                 Key key = e.Key == Key.System ? e.SystemKey : e.Key;
 
                 if (key == Key.Up)
                 {
-                    _vm.MoveToUp.Execute(null);
+                    _vm.Model.MoveToUp();
                     e.Handled = true;
                 }
                 else if (key == Key.Down)
@@ -601,18 +626,19 @@ namespace NeeView
                     var item = (sender as ListBox)?.SelectedItem as FolderItem;
                     if (item != null)
                     {
-                        _vm.MoveToSafety(item);
+                        _vm.Model.MoveToSafety(item);
                         e.Handled = true;
                     }
                 }
+
                 else if (key == Key.Left)
                 {
-                    _vm.MoveToPrevious.Execute(null);
+                    _vm.Model.MoveToPrevious();
                     e.Handled = true;
                 }
                 else if (key == Key.Right)
                 {
-                    _vm.MoveToNext.Execute(null);
+                    _vm.Model.MoveToNext();
                     e.Handled = true;
                 }
             }
@@ -620,11 +646,11 @@ namespace NeeView
 
         private void FolderList_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            bool isLRKeyEnabled = SidePanelProfile.Current.IsLeftRightKeyEnabled && _vm.Model.PanelListItemStyle != PanelListItemStyle.Thumbnail;
+            bool isLRKeyEnabled = SidePanelProfile.Current.IsLeftRightKeyEnabled && FolderList.Current.PanelListItemStyle != PanelListItemStyle.Thumbnail;
 
             if ((isLRKeyEnabled && e.Key == Key.Left) || e.Key == Key.Back) // ←, Backspace
             {
-                _vm.MoveToUp.Execute(null);
+                _vm.Model.MoveToUp();
                 e.Handled = true;
             }
         }
@@ -666,7 +692,7 @@ namespace NeeView
         private void FolderListItem_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var item = (sender as ListBoxItem)?.Content as FolderItem;
-            _vm.MoveToSafety(item);
+            _vm.Model.MoveToSafety(item);
 
             e.Handled = true;
         }
@@ -674,7 +700,7 @@ namespace NeeView
         //
         private void FolderListItem_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            bool isLRKeyEnabled = SidePanelProfile.Current.IsLeftRightKeyEnabled && _vm.Model.PanelListItemStyle != PanelListItemStyle.Thumbnail;
+            bool isLRKeyEnabled = SidePanelProfile.Current.IsLeftRightKeyEnabled && FolderList.Current.PanelListItemStyle != PanelListItemStyle.Thumbnail;
             var item = (sender as ListBoxItem)?.Content as FolderItem;
 
             if (e.Key == Key.Return)
@@ -684,14 +710,14 @@ namespace NeeView
             }
             else if (isLRKeyEnabled && e.Key == Key.Right) // →
             {
-                _vm.MoveToSafety(item);
+                _vm.Model.MoveToSafety(item);
                 e.Handled = true;
             }
             else if ((isLRKeyEnabled && e.Key == Key.Left) || e.Key == Key.Back) // ←, Backspace
             {
                 if (item != null)
                 {
-                    _vm.MoveToUp.Execute(null);
+                    _vm.Model.MoveToUp();
                 }
                 e.Handled = true;
             }
@@ -797,6 +823,6 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
     }
 }

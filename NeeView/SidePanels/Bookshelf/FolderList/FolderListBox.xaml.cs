@@ -429,13 +429,21 @@ namespace NeeView
 
         private void FolderList_DragDrop(object sender, DragEventArgs e, bool isDrop)
         {
-            var container = e.Data.GetData(DragDropFormat) as ListBoxItem;
-            var item = container?.Content as FolderItem;
+            var listBoxItem = PointToViewItem(this.ListBox, e.GetPosition(this.ListBox));
 
-            var targetContainer = PointToViewItem(this.ListBox, e.GetPosition(this.ListBox));
+            var dragData = e.Data.GetData<ListBoxItem>(DragDropFormat);
+            if (dragData != null)
+            {
+                if (listBoxItem == null || listBoxItem == dragData)
+                {
+                    e.Effects = DragDropEffects.None;
+                    e.Handled = true;
+                    return;
+                }
+            }
 
             TreeListNode<IBookmarkEntry> node = null;
-            if (targetContainer == null)
+            if (listBoxItem == null)
             {
                 if (_vm.FolderCollection is BookmarkFolderCollection bookmarkFolderCollection)
                 {
@@ -444,8 +452,7 @@ namespace NeeView
             }
             else
             {
-                var target = targetContainer?.Content as FolderItem;
-                if (target != null && target.Attributes.HasFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Directory))
+                if (listBoxItem.Content is FolderItem target && target.Attributes.HasFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Directory))
                 {
                     node = target.Source as TreeListNode<IBookmarkEntry>;
                 }
@@ -453,45 +460,87 @@ namespace NeeView
 
             if (node != null)
             {
-                var bookmarkEntry = (TreeListNode<IBookmarkEntry>)e.Data.GetData(typeof(TreeListNode<IBookmarkEntry>));
-                if (bookmarkEntry != null)
-                {
-                    if (node != bookmarkEntry)
-                    {
-                        if (!node.Children.Contains(bookmarkEntry) && !node.ParentContains(bookmarkEntry))
-                        {
-                            if (isDrop)
-                            {
-                                BookmarkCollection.Current.MoveToChild(bookmarkEntry, node as TreeListNode<IBookmarkEntry>);
-                                _vm.Model.SelectBookmark(bookmarkEntry, true);
-                            }
-                            e.Effects = DragDropEffects.Move;
-                            e.Handled = true;
-                            return;
-                        }
-                    }
-                }
+                DropToBookmark(sender, e, isDrop, node, e.Data.GetData<TreeListNode<IBookmarkEntry>>());
+                if (e.Handled) return;
 
-                // query path
-                var query = (QueryPath)e.Data.GetData(typeof(QueryPath));
-                if (query != null)
-                {
-                    if (node.Value is BookmarkFolder && query.Scheme == QueryScheme.File && query.Search == null)
-                    {
-                        if (isDrop)
-                        {
-                            var bookmark = BookmarkCollectionService.AddToChild(node, query);
-                            _vm.Model.SelectBookmark(bookmark, true);
-                        }
-                        e.Effects = DragDropEffects.Copy;
-                        e.Handled = true;
-                        return;
-                    }
-                }
+                DropToBookmark(sender, e, isDrop, node, e.Data.GetData<QueryPath>());
+                if (e.Handled) return;
+
+                DropToBookmark(sender, e, isDrop, node, e.Data.GetFileDrop());
+                if (e.Handled) return;
             }
 
             e.Effects = DragDropEffects.None;
             e.Handled = true;
+        }
+
+        private void DropToBookmark(object sender, DragEventArgs e, bool isDrop, TreeListNode<IBookmarkEntry> node, TreeListNode<IBookmarkEntry> bookmarkEntry)
+        {
+            if (bookmarkEntry == null)
+            {
+                return;
+            }
+
+            if (!node.Children.Contains(bookmarkEntry) && !node.ParentContains(bookmarkEntry))
+            {
+                if (isDrop)
+                {
+                    BookmarkCollection.Current.MoveToChild(bookmarkEntry, node as TreeListNode<IBookmarkEntry>);
+                    _vm.Model.SelectBookmark(bookmarkEntry, true);
+                }
+                e.Effects = DragDropEffects.Move;
+                e.Handled = true;
+            }
+        }
+
+        private void DropToBookmark(object sender, DragEventArgs e, bool isDrop, TreeListNode<IBookmarkEntry> node, QueryPath query)
+        {
+            if (query == null)
+            {
+                return;
+            }
+
+            if (node.Value is BookmarkFolder && query.Scheme == QueryScheme.File && query.Search == null)
+            {
+                if (isDrop)
+                {
+                    var bookmark = BookmarkCollectionService.AddToChild(node, query);
+                    _vm.Model.SelectBookmark(bookmark, true);
+                }
+                e.Effects = DragDropEffects.Copy;
+                e.Handled = true;
+            }
+        }
+
+        private void DropToBookmark(object sender, DragEventArgs e, bool isDrop, TreeListNode<IBookmarkEntry> node, string[] fileNames)
+        {
+            if (fileNames == null)
+            {
+                return;
+            }
+            if ((e.AllowedEffects & DragDropEffects.Copy) != DragDropEffects.Copy)
+            {
+                return;
+            }
+
+            bool isDropped = false;
+            foreach (var fileName in fileNames)
+            {
+                if (ArchiverManager.Current.IsSupported(fileName, true, true) || System.IO.Directory.Exists(fileName))
+                {
+                    if (isDrop)
+                    {
+                        var bookmark = BookmarkCollectionService.AddToChild(node, new QueryPath(fileName));
+                        _vm.Model.SelectBookmark(bookmark, true);
+                    }
+                    isDropped = true;
+                }
+            }
+            if (isDropped)
+            {
+                e.Effects = DragDropEffects.Copy;
+                e.Handled = true;
+            }
         }
 
         private ListBoxItem PointToViewItem(ListBox listBox, Point point)

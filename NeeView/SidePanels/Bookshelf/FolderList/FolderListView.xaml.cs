@@ -11,6 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Data;
 using System.Globalization;
 using System.Windows.Media;
+using NeeView.Windows;
 
 namespace NeeView
 {
@@ -232,6 +233,68 @@ namespace NeeView
         {
             _vm.UpdateMoreMenu();
         }
+
+        #region DragDrop
+
+        private DragDropGoast _goast = new DragDropGoast();
+        private bool _isButtonDown;
+        private Point _buttonDownPos;
+
+        private void PlaceIcon_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var element = sender as UIElement;
+            _buttonDownPos = e.GetPosition(element);
+            _isButtonDown = true;
+        }
+
+        private void PlaceIcon_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            _isButtonDown = false;
+        }
+
+        private void PlaceIcon_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!_isButtonDown)
+            {
+                return;
+            }
+
+            if (e.LeftButton == MouseButtonState.Released)
+            {
+                _isButtonDown = false;
+                return;
+            }
+
+            var element = sender as UIElement;
+
+            var pos = e.GetPosition(element);
+            if (DragDropHelper.IsDragDistance(pos, _buttonDownPos))
+            {
+                _isButtonDown = false;
+
+                if (_vm.Model.Place == null)
+                {
+                    return;
+                }
+                if (_vm.Model.Place.Scheme != QueryScheme.File && _vm.Model.Place.Scheme != QueryScheme.Bookmark)
+                {
+                    return;
+                }
+
+                var data = new DataObject(_vm.Model.Place);
+
+                _goast.Attach(this.PlaceBar, new Point(24, 24));
+                DragDrop.DoDragDrop(element, data, DragDropEffects.Copy);
+                _goast.Detach();
+            }
+        }
+
+        private void PlaceIcon_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
+        {
+            _goast.QueryContinueDrag(sender, e);
+        }
+
+        #endregion
     }
 
 

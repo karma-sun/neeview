@@ -27,6 +27,7 @@ namespace NeeView
         {
             Current = this;
             Items = new TreeListNode<IBookmarkEntry>();
+            Items.Value = new BookmarkFolder();
         }
 
 
@@ -52,6 +53,7 @@ namespace NeeView
             BookmarkChanged?.Invoke(this, e);
         }
 
+        /*
         public void Clear()
         {
             Items.Clear();
@@ -59,7 +61,7 @@ namespace NeeView
 
             BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Reset));
         }
-
+        */
 
         public void Load(TreeListNode<IBookmarkEntry> nodes, IEnumerable<Book.Memento> books)
         {
@@ -69,6 +71,7 @@ namespace NeeView
             }
 
             Items = nodes;
+            Items.Value = new BookmarkFolder();
 
             BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Replace));
         }

@@ -48,8 +48,6 @@ namespace NeeView
             };
 
             Config.Current.DpiChanged += Config_DpiChanged;
-
-            QuickAccessCollection.Current.CollectionChanged += QuickAccess_CollectionChanged;
         }
 
 
@@ -130,18 +128,6 @@ namespace NeeView
             }
         }
 
-        private void QuickAccess_CollectionChanged(object sender, System.ComponentModel.CollectionChangeEventArgs e)
-        {
-            if (e.Action == System.ComponentModel.CollectionChangeAction.Add)
-            {
-                if (e.Element is QuickAccessNode quickAccess)
-                {
-                    SelectedItem = quickAccess;
-                    SelectedItemChanged?.Invoke(this, null);
-                }
-            }
-        }
-
         public void ExpandRoot()
         {
             _rootQuickAccess.IsExpanded = true;
@@ -200,18 +186,42 @@ namespace NeeView
                 case DirectoryNode folder:
                     AddQuickAccess(folder.Path);
                     break;
+
+                case string filename:
+                    AddQuickAccess(filename);
+                    break;
             }
         }
 
         public void AddQuickAccess(string path)
         {
-            _rootQuickAccess.IsExpanded = true;
+            InsertQuickAccess(0, path);
+        }
 
+        public void InsertQuickAccess(QuickAccessNode dst, string path)
+        {
+            var index = dst != null ? QuickAccessCollection.Current.Items.IndexOf(dst.Source) : 0;
+            if (index < 0)
+            {
+                return;
+            }
+
+            InsertQuickAccess(index, path);
+        }
+
+        public void InsertQuickAccess(int index, string path)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                return;
+            }
             if (path.StartsWith(Temporary.TempDirectory))
             {
                 ToastService.Current.Show(new Toast(Properties.Resources.DialogQuickAccessTempError));
                 return;
             }
+
+            _rootQuickAccess.IsExpanded = true;
 
             var item = QuickAccessCollection.Current.Items.FirstOrDefault(e => e.Path == path);
             if (item != null)
@@ -225,7 +235,7 @@ namespace NeeView
                 return;
             }
 
-            QuickAccessCollection.Current.Add(new QuickAccess(path));
+            QuickAccessCollection.Current.Insert(index, new QuickAccess(path));
         }
 
         public void RemoveQuickAccess(QuickAccessNode item)
@@ -340,8 +350,6 @@ namespace NeeView
                 return;
             }
             QuickAccessCollection.Current.Move(srcIndex, dstIndex);
-
-            SelectedItem = src;
         }
 
         public void SyncDirectory(string place)

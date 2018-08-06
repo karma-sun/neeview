@@ -107,27 +107,29 @@ namespace NeeView
         // ドロップ受付判定
         private bool CheckDragContent(object sender, IDataObject data)
         {
-            return (data.GetDataPresent(DataFormats.FileDrop, true) || (data.GetDataPresent("FileContents") && data.GetDataPresent("FileGroupDescriptorW")) || data.GetDataPresent(DataFormats.Bitmap));
+            return (data.GetDataPresent(DataFormats.FileDrop, true) || (data.GetDataPresent("FileContents") && data.GetDataPresent("FileGroupDescriptorW")) || data.GetDataPresent(DataFormats.Bitmap) || data.GetDataPresent(typeof(QueryPath)));
         }
 
         // ファイラーからのドロップ
         private List<DropReciever> _fileDropRecievers = new List<DropReciever>()
-            {
-                new DropFileDrop(),
-                new DropFileContents(),
-                new DropInlineImage(),
-                new DropBitmap(),
-            };
+        {
+            new DropQueryPath(),
+            new DropFileDrop(),
+            new DropFileContents(),
+            new DropInlineImage(),
+            new DropBitmap(),
+        };
 
         // ブラウザからのドロップ
         private List<DropReciever> _browserDropRecievers = new List<DropReciever>()
-            {
-                new DropFileContents(),
-                new DropInlineImage(),
-                new DropFileDropCopy(),
-                new DropWebImage(),
-                new DropBitmap(),
-            };
+        {
+            new DropQueryPath(),
+            new DropFileContents(),
+            new DropInlineImage(),
+            new DropFileDropCopy(),
+            new DropWebImage(),
+            new DropBitmap(),
+        };
 
 
         // ファイルのドラッグ＆ドロップで処理を開始する
@@ -267,7 +269,7 @@ namespace NeeView
             }
             catch (Exception e)
             {
-                if (!System.IO.Directory.Exists(downloadPath)) throw new DropException(Properties.Resources.NotifyOutputFailed + "\n" +  e.Message, e);
+                if (!System.IO.Directory.Exists(downloadPath)) throw new DropException(Properties.Resources.NotifyOutputFailed + "\n" + e.Message, e);
             }
 
             return fileName;
@@ -323,6 +325,24 @@ namespace NeeView
                 }
             }
 
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Drop : QueryPath
+    /// </summary>
+    public class DropQueryPath : DropReciever
+    {
+        public override async Task<string> DropAsync(object sender, IDataObject data, string downloadPath, Action<string> nowloading)
+        {
+            var query = data.GetData(typeof(QueryPath)) as QueryPath;
+            if (query != null && query.Scheme == QueryScheme.File && query.Search == null)
+            {
+                return query.SimplePath;
+            }
+
+            await Task.Yield();
             return null;
         }
     }

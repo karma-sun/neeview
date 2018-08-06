@@ -106,7 +106,7 @@ namespace NeeView
         public ListBox PageCollectionListBox => this.ListBox;
 
         // サムネイルが表示されている？
-        public bool IsThumbnailVisibled =>  FolderList.Current.IsThumbnailVisibled;
+        public bool IsThumbnailVisibled => FolderList.Current.IsThumbnailVisibled;
 
         public IEnumerable<IHasPage> CollectPageList(IEnumerable<object> objs) => objs.OfType<IHasPage>();
 
@@ -395,10 +395,20 @@ namespace NeeView
                 return;
             }
 
+
             if (item.Attributes.AnyFlag(FolderItemAttribute.Bookmark))
             {
-                ////e.Data.SetFileDropList(new System.Collections.Specialized.StringCollection() { item.TargetPath });
                 e.Data.SetData(item.Source);
+                e.Data.SetData(item.TargetPath);
+                e.AllowedEffects = DragDropEffects.Copy | DragDropEffects.Move;
+                return;
+            }
+
+            if (item.IsFileSystem())
+            {
+                e.Data.SetFileDropList(new System.Collections.Specialized.StringCollection() { item.TargetPath.SimplePath });
+                e.AllowedEffects = DragDropEffects.Copy;
+                return;
             }
         }
 
@@ -466,7 +476,7 @@ namespace NeeView
                 var query = (QueryPath)e.Data.GetData(typeof(QueryPath));
                 if (query != null)
                 {
-                    if (node.Value is BookmarkFolder && query.Scheme == QueryScheme.File)
+                    if (node.Value is BookmarkFolder && query.Scheme == QueryScheme.File && query.Search == null)
                     {
                         if (isDrop)
                         {
@@ -823,6 +833,6 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
     }
 }

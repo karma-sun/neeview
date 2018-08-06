@@ -9,7 +9,7 @@ namespace NeeView
     {
         private string _name;
 
-        [DataMember]
+        [DataMember(EmitDefaultValue = false)]
         public string Name
         {
             get { return _name; }

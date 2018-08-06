@@ -241,6 +241,8 @@ namespace NeeView
             {
                 _children.Remove(node);
                 node.Parent = null;
+                node.IsSelected = false;
+                node.IsExpanded = false;
             }
         }
 

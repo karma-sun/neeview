@@ -25,11 +25,11 @@ namespace NeeView
         }
 
 
-        public void Add(QuickAccess item)
+        public void Insert(int index, QuickAccess item)
         {
             if (item is null) throw new ArgumentNullException(nameof(item));
 
-            Items.Insert(0, item);
+            Items.Insert(index, item);
             CollectionChanged?.Invoke(this, new CollectionChangeEventArgs(CollectionChangeAction.Add, item));
         }
 

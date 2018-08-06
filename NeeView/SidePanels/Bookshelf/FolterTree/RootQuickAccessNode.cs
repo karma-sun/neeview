@@ -44,7 +44,8 @@ namespace NeeView
 
                 case CollectionChangeAction.Add:
                     var index = QuickAccessCollection.Current.Items.IndexOf(item);
-                    Insert(index, new QuickAccessNode(item, null));
+                    var node = new QuickAccessNode(item, null) { IsSelected = true }; // NOTE: 選択項目として追加
+                    Insert(index, node);
                     break;
 
                 case CollectionChangeAction.Remove:

@@ -536,7 +536,8 @@ namespace NeeView
             switch (data.DataContext)
             {
                 case QuickAccessNode quickAccess:
-                    e.AllowedEffects = DragDropEffects.Move;
+                    e.AllowedEffects = DragDropEffects.Copy | DragDropEffects.Move;
+                    ////e.Data.SetData(quickAccess);
                     break;
 
                 case DirectoryNode direcory:
@@ -544,13 +545,12 @@ namespace NeeView
                     e.Data.SetFileDropList(new System.Collections.Specialized.StringCollection() { direcory.Path });
                     break;
 
-                case RootBookmarkFolderNode RootbookmarkFolder:
-                    e.Cancel = true;
-                    break;
+                //case RootBookmarkFolderNode rootBookmarkFolder:
+                //    break;
 
                 case BookmarkFolderNode bookmarkFolder:
                     e.Data.SetData(bookmarkFolder.Source);
-                    e.AllowedEffects = DragDropEffects.Move;
+                    e.AllowedEffects = DragDropEffects.Copy | DragDropEffects.Move;
                     break;
 
                 default:
@@ -580,99 +580,254 @@ namespace NeeView
 
         private void TreeView_DragDrop(object sender, DragEventArgs e, bool isDrop)
         {
-            var element = PointToViewItem(this.TreeView, e.GetPosition(this.TreeView));
-
-            if (element is TreeViewItem viewItem)
+            var viewItem = PointToViewItem(this.TreeView, e.GetPosition(this.TreeView));
+            if (viewItem != null)
             {
-                var item = (e.Data.GetData(DragDropFormat) as TreeViewItem)?.DataContext;
+                var item = e.Data.GetData<TreeViewItem>(DragDropFormat);
+                if (item == viewItem)
+                {
+                    e.Effects = DragDropEffects.None;
+                    e.Handled = true;
+                    return;
+                }
 
+
+                // TreeViewItem!
                 switch (viewItem.DataContext)
                 {
-                    case QuickAccessNode quickAccessTarget:
-                        if (item is QuickAccessNode quicklAccess && quicklAccess != quickAccessTarget)
+                    case RootQuickAccessNode rootQuickAccessNode:
                         {
-                            if (isDrop)
-                            {
-                                _vm.MoveQuickAccess(quicklAccess, quickAccessTarget);
-                            }
-                            e.Effects = DragDropEffects.Move;
-                            e.Handled = true;
-                            return;
+                            DropToQuickAccess(sender, e, isDrop, null, e.Data.GetData<TreeListNode<IBookmarkEntry>>());
+                            if (e.Handled) return;
+
+                            DropToQuickAccess(sender, e, isDrop, null, e.Data.GetData<QueryPath>());
+                            if (e.Handled) return;
+
+                            DropToQuickAccess(sender, e, isDrop, null, e.Data.GetFileDrop());
+                            if (e.Handled) return;
+                        }
+                        break;
+
+                    case QuickAccessNode quickAccessTarget:
+                        {
+                            DropToQuickAccess(sender, e, isDrop, quickAccessTarget, item?.DataContext as QuickAccessNode);
+                            if (e.Handled) return;
+
+                            DropToQuickAccess(sender, e, isDrop, quickAccessTarget, e.Data.GetData<TreeListNode<IBookmarkEntry>>());
+                            if (e.Handled) return;
+
+                            DropToQuickAccess(sender, e, isDrop, quickAccessTarget, e.Data.GetData<QueryPath>());
+                            if (e.Handled) return;
+
+                            DropToQuickAccess(sender, e, isDrop, quickAccessTarget, e.Data.GetFileDrop());
+                            if (e.Handled) return;
                         }
                         break;
 
                     case BookmarkFolderNode bookmarkFolderTarget:
-                        if (item is BookmarkFolderNode bookmarkFolder && bookmarkFolder != bookmarkFolderTarget)
                         {
-                            if (!bookmarkFolderTarget.BookmarkSource.ParentContains(bookmarkFolder.BookmarkSource))
-                            {
-                                if (isDrop)
-                                {
-                                    BookmarkCollection.Current.MoveToChild(bookmarkFolder.BookmarkSource, bookmarkFolderTarget.BookmarkSource);
-                                }
-                                e.Effects = DragDropEffects.Move;
-                                e.Handled = true;
-                                return;
-                            }
+                            DragToBookmark(sender, e, isDrop, bookmarkFolderTarget, item?.DataContext as BookmarkFolderNode);
+                            if (e.Handled) return;
+
+                            DragToBookmark(sender, e, isDrop, bookmarkFolderTarget, e.Data.GetData<TreeListNode<IBookmarkEntry>>());
+                            if (e.Handled) return;
+
+                            DragToBookmark(sender, e, isDrop, bookmarkFolderTarget, e.Data.GetData<QueryPath>());
+                            if (e.Handled) return;
+
+                            DragToBookmark(sender, e, isDrop, bookmarkFolderTarget, e.Data.GetFileDrop());
+                            if (e.Handled) return;
                         }
                         break;
-                }
-
-                // bookmark!
-                var bookmarkEntry = (TreeListNode<IBookmarkEntry>)e.Data.GetData(typeof(TreeListNode<IBookmarkEntry>));
-                if (bookmarkEntry != null)
-                {
-                    if (viewItem.DataContext is BookmarkFolderNode bookmarkFolderTarget)
-                    {
-                        if (bookmarkEntry.Value is BookmarkFolder)
-                        {
-                            if (bookmarkFolderTarget.Source != bookmarkEntry && !bookmarkFolderTarget.BookmarkSource.ParentContains(bookmarkEntry))
-                            {
-                                if (isDrop)
-                                {
-                                    BookmarkCollection.Current.MoveToChild(bookmarkEntry, bookmarkFolderTarget.BookmarkSource);
-                                }
-                                e.Effects = DragDropEffects.Move;
-                                e.Handled = true;
-                                return;
-                            }
-                        }
-
-                        if (bookmarkEntry.Value is Bookmark)
-                        {
-                            if (isDrop)
-                            {
-                                BookmarkCollection.Current.MoveToChild(bookmarkEntry, bookmarkFolderTarget.BookmarkSource);
-                            }
-                            e.Effects = DragDropEffects.Move;
-                            e.Handled = true;
-                            return;
-                        }
-                    }
-                }
-
-                // query path
-                var query = (QueryPath)e.Data.GetData(typeof(QueryPath));
-                if (query != null)
-                {
-                    if (viewItem.DataContext is BookmarkFolderNode bookmarkFolderTarget)
-                    {
-                        if (query.Scheme == QueryScheme.File)
-                        {
-                            if (isDrop)
-                            {
-                                BookmarkCollectionService.AddToChild(bookmarkFolderTarget.BookmarkSource, query);
-                            }
-                            e.Effects = DragDropEffects.Copy;
-                            e.Handled = true;
-                            return;
-                        }
-                    }
                 }
             }
 
             e.Effects = DragDropEffects.None;
             e.Handled = true;
+        }
+
+        private void DropToQuickAccess(object sender, DragEventArgs e, bool isDrop, QuickAccessNode quickAccessTarget, QuickAccessNode quickAccess)
+        {
+            if (quickAccess == null)
+            {
+                return;
+            }
+
+            if (quickAccess != quickAccessTarget)
+            {
+                if (isDrop)
+                {
+                    _vm.MoveQuickAccess(quickAccess, quickAccessTarget);
+                }
+                e.Effects = DragDropEffects.Move;
+                e.Handled = true;
+            }
+        }
+
+        private void DropToQuickAccess(object sender, DragEventArgs e, bool isDrop, QuickAccessNode quickAccessTarget, TreeListNode<IBookmarkEntry> bookmarkEntry)
+        {
+            if (bookmarkEntry == null)
+            {
+                return;
+            }
+
+            if (bookmarkEntry.Value is BookmarkFolder bookmarkFolder)
+            {
+                if (isDrop)
+                {
+                    var query = bookmarkEntry.CreateQuery(QueryScheme.Bookmark);
+                    _vm.Model.InsertQuickAccess(quickAccessTarget, query.SimplePath);
+                }
+                e.Effects = DragDropEffects.Copy;
+                e.Handled = true;
+            }
+        }
+
+        private void DropToQuickAccess(object sender, DragEventArgs e, bool isDrop, QuickAccessNode quickAccessTarget, QueryPath query)
+        {
+            if (query == null)
+            {
+                return;
+            }
+
+            if ((query.Scheme == QueryScheme.File && Directory.Exists(query.SimplePath))
+                || (query.Scheme == QueryScheme.Bookmark && BookmarkCollection.Current.FindNode(query)?.Value is BookmarkFolder))
+            {
+                if (isDrop)
+                {
+                    _vm.Model.InsertQuickAccess(quickAccessTarget, query.SimpleQuery);
+                }
+                e.Effects = DragDropEffects.Copy;
+                e.Handled = true;
+            }
+        }
+
+        private void DropToQuickAccess(object sender, DragEventArgs e, bool isDrop, QuickAccessNode quickAccessTarget, string[] fileNames)
+        {
+            if (fileNames == null)
+            {
+                return;
+            }
+            if ((e.AllowedEffects & DragDropEffects.Copy) != DragDropEffects.Copy)
+            {
+                return;
+            }
+
+            bool isDropped = false;
+            foreach (var fileName in fileNames)
+            {
+                if (System.IO.Directory.Exists(fileName))
+                {
+                    if (isDrop)
+                    {
+                        _vm.Model.InsertQuickAccess(quickAccessTarget, fileName);
+                    }
+                    isDropped = true;
+                }
+            }
+            if (isDropped)
+            {
+                e.Effects = DragDropEffects.Copy;
+                e.Handled = true;
+            }
+        }
+
+
+        public void DragToBookmark(object sender, DragEventArgs e, bool isDrop, BookmarkFolderNode bookmarkFolderTarget, BookmarkFolderNode bookmarkFolder)
+        {
+            if (bookmarkFolder == null)
+            {
+                return;
+            }
+
+            if (!bookmarkFolderTarget.BookmarkSource.ParentContains(bookmarkFolder.BookmarkSource))
+            {
+                if (isDrop)
+                {
+                    BookmarkCollection.Current.MoveToChild(bookmarkFolder.BookmarkSource, bookmarkFolderTarget.BookmarkSource);
+                }
+                e.Effects = DragDropEffects.Move;
+                e.Handled = true;
+            }
+        }
+
+        public void DragToBookmark(object sender, DragEventArgs e, bool isDrop, BookmarkFolderNode bookmarkFolderTarget, TreeListNode<IBookmarkEntry> bookmarkEntry)
+        {
+            if (bookmarkEntry == null)
+            {
+                return;
+            }
+
+            if (bookmarkEntry.Value is BookmarkFolder)
+            {
+                if (bookmarkFolderTarget.Source != bookmarkEntry && !bookmarkFolderTarget.BookmarkSource.ParentContains(bookmarkEntry))
+                {
+                    if (isDrop)
+                    {
+                        BookmarkCollection.Current.MoveToChild(bookmarkEntry, bookmarkFolderTarget.BookmarkSource);
+                    }
+                    e.Effects = DragDropEffects.Move;
+                    e.Handled = true;
+                }
+            }
+            else if (bookmarkEntry.Value is Bookmark)
+            {
+                if (isDrop)
+                {
+                    BookmarkCollection.Current.MoveToChild(bookmarkEntry, bookmarkFolderTarget.BookmarkSource);
+                }
+                e.Effects = DragDropEffects.Move;
+                e.Handled = true;
+            }
+        }
+
+        public void DragToBookmark(object sender, DragEventArgs e, bool isDrop, BookmarkFolderNode bookmarkFolderTarget, QueryPath query)
+        {
+            if (query == null)
+            {
+                return;
+            }
+
+            if (query.Scheme == QueryScheme.File && query.Search == null)
+            {
+                if (isDrop)
+                {
+                    BookmarkCollectionService.AddToChild(bookmarkFolderTarget.BookmarkSource, query);
+                }
+                e.Effects = DragDropEffects.Copy;
+                e.Handled = true;
+            }
+        }
+
+        public void DragToBookmark(object sender, DragEventArgs e, bool isDrop, BookmarkFolderNode bookmarkFolderTarget, string[] fileNames)
+        {
+            if (fileNames == null)
+            {
+                return;
+            }
+            if ((e.AllowedEffects & DragDropEffects.Copy) != DragDropEffects.Copy)
+            {
+                return;
+            }
+
+
+            bool isDropped = false;
+            foreach (var fileName in fileNames)
+            {
+                if (ArchiverManager.Current.IsSupported(fileName, true, true) || System.IO.Directory.Exists(fileName))
+                {
+                    if (isDrop)
+                    {
+                        BookmarkCollectionService.AddToChild(bookmarkFolderTarget.BookmarkSource, new QueryPath(fileName));
+                    }
+                    isDropped = true;
+                }
+            }
+            if (isDropped)
+            {
+                e.Effects = DragDropEffects.Copy;
+                e.Handled = true;
+            }
         }
 
         private TreeViewItem PointToViewItem(TreeView treeView, Point point)
@@ -688,6 +843,26 @@ namespace NeeView
             return element;
         }
 
-        #endregion
+#endregion
+    }
+
+    public static class IDataObjectExtensions
+    {
+        public static T GetData<T>(this IDataObject data)
+            where T : class
+        {
+            return data.GetData(typeof(T)) as T;
+        }
+
+        public static T GetData<T>(this IDataObject data, string format)
+            where T : class
+        {
+            return data.GetData(format) as T;
+        }
+
+        public static string[] GetFileDrop(this IDataObject data)
+        {
+            return (string[])data.GetData(DataFormats.FileDrop, false);
+        }
     }
 }

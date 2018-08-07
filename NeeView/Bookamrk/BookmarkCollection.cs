@@ -156,12 +156,6 @@ namespace NeeView
         }
 
 
-        public static string CreatePath(TreeListNode<IBookmarkEntry> node)
-        {
-            return QueryScheme.Bookmark.ToSchemeString() + "\\" + string.Join("\\", node.Hierarchy.Select(e => e.Value).Cast<IBookmarkEntry>());
-        }
-
-
         public bool Contains(string place)
         {
             if (place == null) return false;
@@ -603,7 +597,7 @@ namespace NeeView
         public static QueryPath CreateQuery<T>(this TreeListNode<T> node, QueryScheme scheme)
             where T : IHasName
         {
-            var path = string.Join("\\", node.Hierarchy.Select(e => e.Value).OfType<T>().Select(e => e.Name));
+            var path = string.Join("\\", node.Hierarchy.Select(e => e.Value).Skip(1).OfType<T>().Select(e => e.Name));
             return new QueryPath(scheme, path, null);
         }
 
@@ -611,7 +605,7 @@ namespace NeeView
         public static string CreatePath<T>(this TreeListNode<T> node, string scheme = null)
             where T : IHasName
         {
-            var path = string.Join("\\", node.Hierarchy.Select(e => e.Value).OfType<T>().Select(e => e.Name));
+            var path = string.Join("\\", node.Hierarchy.Select(e => e.Value).Skip(1).OfType<T>().Select(e => e.Name));
             if (scheme != null)
             {
                 if (string.IsNullOrEmpty(path))

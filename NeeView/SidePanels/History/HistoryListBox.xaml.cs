@@ -121,8 +121,6 @@ namespace NeeView
                 var lbi = index >= 0 ? (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(index)) : null;
                 lbi?.Focus();
             }
-
-            _thumbnailLoader.Load();
         }
 
         // フォーカス
@@ -189,8 +187,6 @@ namespace NeeView
             }
         }
 
-
-
         // 選択項目が表示されるようにスクロールする
         private void HistoryListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -200,6 +196,13 @@ namespace NeeView
             this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
         }
 
+        // リスト全体が変化したときにサムネイルを更新する
+        private void HistoryListBox_TargetUpdated(object sender, DataTransferEventArgs e)
+        {
+            App.Current.Dispatcher.BeginInvoke((Action)(() => _thumbnailLoader.Load()));
+        }
+
         #endregion
+
     }
 }

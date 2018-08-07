@@ -1,8 +1,10 @@
 ﻿using NeeView.IO;
+using NeeView.Threading;
 using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -40,18 +42,17 @@ namespace NeeView
                 {
                     _iconInitialized = true;
 
+                    Debug.WriteLine($"{Name}: Icon load...");
                     Task.Run(async () =>
                     {
                         for (int i = 0; i < 2; ++i)
                         {
                             try
                             {
-                                ////Debug.WriteLine($"{Name}: Icon load...");
                                 _icon = FileIconCollection.Current.CreateFileIcon(Path, IO.FileIconType.Directory, 16.0, false, false);
                                 if (_icon != null)
                                 {
                                     _icon?.Freeze();
-                                    ////Debug.WriteLine($"{Name}: Icon done.");
                                     RaisePropertyChanged(nameof(Icon));
                                     return;
                                 }

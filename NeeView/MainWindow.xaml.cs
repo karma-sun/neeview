@@ -41,6 +41,8 @@ namespace NeeView
         /// </summary>
         public void Initialize()
         {
+            var sw = Stopwatch.StartNew();
+
             Current = this;
 
             // Window状態初期化、復元
@@ -50,12 +52,13 @@ namespace NeeView
             new WindowShape(this);
             WindowShape.Current.SnapMemento = SaveData.Current.UserSetting.WindowShape;
 
+            // 固定画像初期化
+            Thumbnail.InitializeBasicImages();
+            FileIconCollection.Current.InitializeAsync();
+
             // Models初期化
             var models = new Models(this);
             models.StartEngine();
-
-            // 固定画像初期化
-            Thumbnail.InitializeBasicImages();
 
             // MainWindow : ViewModel
             _vm = new MainWindowViewModel(models.MainWindowModel);
@@ -163,6 +166,8 @@ namespace NeeView
 
             // 開発用初期化
             Debug_Initialize();
+
+            Debug.WriteLine($"MainWindow.Initialize: {sw.ElapsedMilliseconds}ms");
         }
 
         /// <summary>
@@ -470,6 +475,8 @@ namespace NeeView
         // ウィンドウ表示開始
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            var sw = Stopwatch.StartNew();
+
             // 一瞬手前に表示
             WindowShape.Current.OneTopmost();
 
@@ -480,12 +487,16 @@ namespace NeeView
             WindowMessage.Current.Initialize(this);
 
             _vm.Loaded();
+
+            Debug.WriteLine($"MainWndow.Loaded: {sw.ElapsedMilliseconds}ms");
         }
 
 
         // ウィンドウコンテンツ表示開始
         private void MainWindow_ContentRendered(object sender, EventArgs e)
         {
+            Debug.WriteLine($"App.ContentRendered: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
+
             // ウィンドウ状態復元
             InitializeWindowShape();
         }

@@ -255,6 +255,8 @@ namespace NeeView.IO
         };
 
 
+        private static object _lock = new object();
+
 
         public static List<BitmapSource> CreateIconCollection(string filename, FileIconType iconType, bool allowJumbo)
         {
@@ -316,54 +318,60 @@ namespace NeeView.IO
 
         private static List<BitmapSource> CreateFileIconCollectionExtra(string filename, NativeMethods.FILE_ATTRIBUTE attribute, NativeMethods.SHGFI flags)
         {
-            NativeMethods.SHFILEINFO shinfo = new NativeMethods.SHFILEINFO();
-
-            IntPtr hImg = NativeMethods.SHGetFileInfo(filename, attribute, out shinfo, (uint)Marshal.SizeOf(typeof(NativeMethods.SHFILEINFO)), NativeMethods.SHGFI.SHGFI_SYSICONINDEX | flags);
-
-            var bitmaps = new List<BitmapSource>();
-
-            var shils = Enum.GetValues(typeof(NativeMethods.SHIL)).Cast<NativeMethods.SHIL>();
-            foreach (var shil in shils)
+            ////var sw = Stopwatch.StartNew();
+            lock (_lock)
             {
-                try
+                NativeMethods.SHFILEINFO shinfo = new NativeMethods.SHFILEINFO();
+                IntPtr hImg = NativeMethods.SHGetFileInfo(filename, attribute, out shinfo, (uint)Marshal.SizeOf(typeof(NativeMethods.SHFILEINFO)), NativeMethods.SHGFI.SHGFI_SYSICONINDEX | flags);
+                var bitmaps = new List<BitmapSource>();
+                var shils = Enum.GetValues(typeof(NativeMethods.SHIL)).Cast<NativeMethods.SHIL>();
+                foreach (var shil in shils)
                 {
-                    int hResult = NativeMethods.SHGetImageList(shil, ref NativeMethods.IID_IImageList, out NativeMethods.IImageList imglist);
-                    if (hResult == NativeMethods.S_OK)
+                    try
                     {
-                        IntPtr hicon = IntPtr.Zero;
-                        imglist.GetIcon(shinfo.iIcon, (int)NativeMethods.ImageListDrawItemConstants.ILD_TRANSPARENT, ref hicon);
-                        BitmapSource bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(hicon, System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-                        bitmapSource?.Freeze();
-                        NativeMethods.DestroyIcon(hicon);
 
-                        bitmaps.Add(bitmapSource);
+                        int hResult = NativeMethods.SHGetImageList(shil, ref NativeMethods.IID_IImageList, out NativeMethods.IImageList imglist);
+                        if (hResult == NativeMethods.S_OK)
+                        {
+                            IntPtr hicon = IntPtr.Zero;
+                            imglist.GetIcon(shinfo.iIcon, (int)NativeMethods.ImageListDrawItemConstants.ILD_TRANSPARENT, ref hicon);
+                            BitmapSource bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(hicon, System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                            bitmapSource?.Freeze();
+                            NativeMethods.DestroyIcon(hicon);
+                            ////Debug.WriteLine($"Icon: {filename} - {shil}: {sw.ElapsedMilliseconds}ms");
+                            bitmaps.Add(bitmapSource);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Icon: {filename} - {shil}: {ex.Message}");
+                        throw ex;
                     }
                 }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine($"Icon: {filename} - {shil}\n{ex.Message}");
-                    throw ex;
-                }
+                return bitmaps;
             }
-
-            return bitmaps;
         }
 
         private static BitmapSource CreateFileIcon(string filename, NativeMethods.FILE_ATTRIBUTE attribute, NativeMethods.SHGFI flags, IconSize iconSize)
         {
-            NativeMethods.SHFILEINFO shinfo = new NativeMethods.SHFILEINFO();
-            IntPtr hSuccess = NativeMethods.SHGetFileInfo(filename, attribute, out shinfo, (uint)Marshal.SizeOf(shinfo), flags | NativeMethods.SHGFI.SHGFI_ICON | (iconSize == IconSize.Small ? NativeMethods.SHGFI.SHGFI_SMALLICON : NativeMethods.SHGFI.SHGFI_LARGEICON));
-            if (hSuccess != IntPtr.Zero && shinfo.hIcon != IntPtr.Zero)
+            ////var sw = Stopwatch.StartNew();
+            lock (_lock)
             {
-                BitmapSource bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(shinfo.hIcon, System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-                bitmapSource?.Freeze();
-                NativeMethods.DestroyIcon(shinfo.hIcon);
-                return bitmapSource;
-            }
-            else
-            {
-                Debug.WriteLine($"Icon: {filename} - {iconSize}\nCannnot create.");
-                throw new ApplicationException("Cannot create file icon.");
+                NativeMethods.SHFILEINFO shinfo = new NativeMethods.SHFILEINFO();
+                IntPtr hSuccess = NativeMethods.SHGetFileInfo(filename, attribute, out shinfo, (uint)Marshal.SizeOf(shinfo), flags | NativeMethods.SHGFI.SHGFI_ICON | (iconSize == IconSize.Small ? NativeMethods.SHGFI.SHGFI_SMALLICON : NativeMethods.SHGFI.SHGFI_LARGEICON));
+                if (hSuccess != IntPtr.Zero && shinfo.hIcon != IntPtr.Zero)
+                {
+                    BitmapSource bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(shinfo.hIcon, System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+                    bitmapSource?.Freeze();
+                    NativeMethods.DestroyIcon(shinfo.hIcon);
+                    ////Debug.WriteLine($"Icon: {filename} - {iconSize}: {sw.ElapsedMilliseconds}ms");
+                    return bitmapSource;
+                }
+                else
+                {
+                    Debug.WriteLine($"Icon: {filename} - {iconSize}: Cannot created!!");
+                    throw new ApplicationException("Cannot create file icon.");
+                }
             }
         }
     }

@@ -47,6 +47,9 @@ namespace NeeView
         // システムロック
         public object Lock { get; } = new object();
 
+        // 開発用：ストップウォッチ
+        public Stopwatch Stopwatch { get; private set; }
+
         #endregion
 
         #region TickCount
@@ -69,6 +72,8 @@ namespace NeeView
         /// <param name="e"></param>
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            Stopwatch = Stopwatch.StartNew();
+
             try
             {
                 // 初期化
@@ -80,6 +85,8 @@ namespace NeeView
                 Shutdown();
                 return;
             }
+
+            Debug.WriteLine($"App.Initialized: {Stopwatch.ElapsedMilliseconds}ms");
 
             // メインウィンドウ起動
             var mainWindow = new MainWindow();

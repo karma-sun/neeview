@@ -63,6 +63,18 @@ namespace NeeView
 
         private Dictionary<Key, BitmapSourceCollection> _caches = new Dictionary<Key, BitmapSourceCollection>();
 
+ 
+        public Task InitializeAsync()
+        {
+            return Task.Run(() =>
+            {
+                CreateDefaultFolderIcon(256.0);
+
+                // 標準ファイルアイコンは未使用なので、ここでは読み込まない.
+                //CreateDefaultFileIcon(256.0);
+            });
+        }
+
 
         public void Clear()
         {

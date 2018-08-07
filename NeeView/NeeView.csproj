@@ -689,7 +689,7 @@
     <Compile Include="Print\PrintWindowViewModel.cs" />
     <Compile Include="SizeString.cs" />
     <Compile Include="_NeeView\NativeMethods.cs" />
-    <Compile Include="_NeeView\Threading\STATask.cs" />
+    <Compile Include="_NeeView\Threading\SingleThreadedApartment.cs" />
     <Compile Include="_NeeView\Threading\Tasks\TaskUtils.cs" />
     <Compile Include="_NeeView\Collections\Generic\EnumerableExtensions.cs" />
     <Compile Include="_NeeView\IO\FileShortcut.cs" />

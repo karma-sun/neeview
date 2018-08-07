@@ -1,4 +1,5 @@
 ﻿using NeeView.IO;
+using NeeView.Threading;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -66,13 +67,14 @@ namespace NeeView
  
         public Task InitializeAsync()
         {
-            return Task.Run(() =>
+            var task = new Task(() =>
             {
                 CreateDefaultFolderIcon(256.0);
-
                 // 標準ファイルアイコンは未使用なので、ここでは読み込まない.
                 //CreateDefaultFileIcon(256.0);
             });
+            task.Start(SingleThreadedApartment.TaskScheduler); // STA
+            return task;
         }
 
 

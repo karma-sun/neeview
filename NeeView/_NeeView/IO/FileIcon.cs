@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Linq;
 using System.Diagnostics;
+using System.Threading;
 
 namespace NeeView.IO
 {
@@ -99,6 +100,7 @@ namespace NeeView.IO
                 FILE_ATTRIBUTE_OFFLINE = 0x1000,
             }
 
+            [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode, Pack = 4)]
             public struct SHFILEINFO
             {
                 public IntPtr hIcon;
@@ -318,10 +320,14 @@ namespace NeeView.IO
 
         private static List<BitmapSource> CreateFileIconCollectionExtra(string filename, NativeMethods.FILE_ATTRIBUTE attribute, NativeMethods.SHGFI flags)
         {
+            Debug.Assert(Thread.CurrentThread.GetApartmentState() == ApartmentState.STA);
+
             ////var sw = Stopwatch.StartNew();
             lock (_lock)
             {
                 NativeMethods.SHFILEINFO shinfo = new NativeMethods.SHFILEINFO();
+                shinfo.szDisplayName = string.Empty;
+                shinfo.szTypeName = string.Empty;
                 IntPtr hImg = NativeMethods.SHGetFileInfo(filename, attribute, out shinfo, (uint)Marshal.SizeOf(typeof(NativeMethods.SHFILEINFO)), NativeMethods.SHGFI.SHGFI_SYSICONINDEX | flags);
                 var bitmaps = new List<BitmapSource>();
                 var shils = Enum.GetValues(typeof(NativeMethods.SHIL)).Cast<NativeMethods.SHIL>();
@@ -354,6 +360,8 @@ namespace NeeView.IO
 
         private static BitmapSource CreateFileIcon(string filename, NativeMethods.FILE_ATTRIBUTE attribute, NativeMethods.SHGFI flags, IconSize iconSize)
         {
+            Debug.Assert(Thread.CurrentThread.GetApartmentState() == ApartmentState.STA);
+
             ////var sw = Stopwatch.StartNew();
             lock (_lock)
             {

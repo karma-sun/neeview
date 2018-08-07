@@ -42,10 +42,10 @@ namespace NeeView
                 {
                     _iconInitialized = true;
 
-                    Debug.WriteLine($"{Name}: Icon load...");
-                    Task.Run(async () =>
+                    ////Debug.WriteLine($"{Name}: Icon load...");
+                    var task = new Task(async () =>
                     {
-                        for (int i = 0; i < 2; ++i)
+                        for (int i = 0; i < 2; ++i) // retry 2 time.
                         {
                             try
                             {
@@ -64,6 +64,7 @@ namespace NeeView
                             await Task.Delay(500);
                         }
                     });
+                    task.Start(SingleThreadedApartment.TaskScheduler); // STA
                 }
 
                 return _icon ?? FileIconCollection.Current.CreateDefaultFolderIcon(16.0);

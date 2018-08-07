@@ -487,8 +487,8 @@ namespace NeeView
             {
                 if (isDrop)
                 {
-                    BookmarkCollection.Current.MoveToChild(bookmarkEntry, node as TreeListNode<IBookmarkEntry>);
-                    _vm.Model.SelectBookmark(bookmarkEntry, true);
+                    _vm.Model.SelectBookmark(node, true);
+                    BookmarkCollection.Current.MoveToChild(bookmarkEntry, node);
                 }
                 e.Effects = DragDropEffects.Move;
                 e.Handled = true;
@@ -601,6 +601,8 @@ namespace NeeView
                 RestoreFocus();
             }
 
+            _thumbnailLoader.Load();
+
             if (e.IsNewFolder)
             {
                 Rename();
@@ -634,8 +636,6 @@ namespace NeeView
                 var lbi = index >= 0 ? (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(index)) : null;
                 var isSuccess = lbi?.Focus();
             }
-
-            _thumbnailLoader.Load();
         }
 
         /// <summary>

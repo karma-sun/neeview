@@ -174,6 +174,7 @@ namespace OpenSourceControls
             var y = 0.0;
             var lineSize = default(Size);
             var maxSize = default(Size);
+            var lastChildSize = default(Size);
 
             for (int i = 0; i < childrenCount; i++)
             {
@@ -201,6 +202,7 @@ namespace OpenSourceControls
 
                 // 確定したサイズを記憶
                 this.containerLayouts[i] = new Rect(x, y, childSize.Width, childSize.Height);
+                lastChildSize = childSize;
 
                 // lineSize, maxSize を計算
                 isWrapped = isHorizontal ?
@@ -245,7 +247,8 @@ namespace OpenSourceControls
                 this.ScrollOwner.InvalidateScrollInfo();
 
             // 配置幅調整用スケール
-            layoutScaleX = lineSize.Height < maxSize.Height && maxSize.Width > 0.0 ? Math.Max(availableSize.Width / maxSize.Width, 1.0) : 1.0;
+            // NOTE: セルサイズが同じ場合のみ正しい値になる
+            layoutScaleX = lastChildSize.Width > 0.0 && availableSize.Width > lastChildSize.Width  ? Math.Max(availableSize.Width / (lastChildSize.Width * Math.Floor(availableSize.Width / lastChildSize.Width)), 1.0) : 1.0;
 
             ////sw.Stop();
             ////Debug.WriteLine($"MeasureOverride: {sw.ElapsedMilliseconds}ms");

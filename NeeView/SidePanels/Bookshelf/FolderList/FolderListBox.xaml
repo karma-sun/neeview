@@ -152,7 +152,7 @@
             </ListBox.ContextMenu>
 
             <i:Interaction.Behaviors>
-                <nw:ListBoxDragDropStartBehavior AllowedEffects="Copy, Move, Scroll" DragDropFormat="{x:Static local:FolderListBox.DragDropFormat}" DragBegin="DragStartBehavior_DragBegin"/>
+                <nw:ListBoxDragDropStartBehavior AllowedEffects="Copy, Scroll" DragDropFormat="{x:Static local:FolderListBox.DragDropFormat}" DragBegin="DragStartBehavior_DragBegin"/>
             </i:Interaction.Behaviors>
 
             <ListBox.Style>

@@ -2,6 +2,7 @@
 using NeeLaboratory.Windows.Media;
 using NeeView.Collections;
 using NeeView.Collections.Generic;
+using NeeView.Windows;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -400,14 +401,13 @@ namespace NeeView
             {
                 e.Data.SetData(item.Source);
                 e.Data.SetData(item.TargetPath);
-                e.AllowedEffects = DragDropEffects.Copy | DragDropEffects.Move;
+                e.AllowedEffects |= DragDropEffects.Move;
                 return;
             }
 
             if (item.IsFileSystem())
             {
                 e.Data.SetFileDropList(new System.Collections.Specialized.StringCollection() { item.TargetPath.SimplePath });
-                e.AllowedEffects = DragDropEffects.Copy;
                 return;
             }
         }
@@ -415,11 +415,13 @@ namespace NeeView
         private void FolderList_DragEnter(object sender, DragEventArgs e)
         {
             FolderList_DragDrop(sender, e, false);
+            DragDropHelper.AutoScroll(sender, e);
         }
 
         private void FolderList_PreviewDragOver(object sender, DragEventArgs e)
         {
             FolderList_DragDrop(sender, e, false);
+            DragDropHelper.AutoScroll(sender, e);
         }
 
         private void FolderList_Drop(object sender, DragEventArgs e)

@@ -23,7 +23,7 @@
         <DataTemplate DataType="{x:Type susie:SusiePlugin}" x:Key="SusiePlugin">
             <StackPanel Orientation="Horizontal">
                 <i:Interaction.Behaviors>
-                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="SusiePlugin" DragDropData="{Binding}" />
+                    <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="SusiePlugin" DragDropData="{Binding}" Target="{Binding ElementName=PluginList}" />
                 </i:Interaction.Behaviors>
                 <CheckBox VerticalAlignment="Center" IsChecked="{Binding IsEnable}" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
                 <Grid Width="20" VerticalAlignment="Center" Margin="2">

@@ -20,7 +20,7 @@ namespace NeeView.Windows
     /// <summary>
     /// TreeViewやListBoxに特化した<see cref="DragStartBehavior"/>
     /// </summary>
-    public class ConainerDragStartBehavior<TItem> : Behavior<FrameworkElement>
+    public class ContainerDragStartBehavior<TItem> : Behavior<FrameworkElement>
         where TItem : UIElement
     {
         private Point _origin;
@@ -52,7 +52,7 @@ namespace NeeView.Windows
         }
 
         public static readonly DependencyProperty AllowedEffectsProperty =
-            DependencyProperty.Register("AllowedEffects", typeof(DragDropEffects), typeof(ConainerDragStartBehavior<TItem>), new UIPropertyMetadata(DragDropEffects.All));
+            DependencyProperty.Register("AllowedEffects", typeof(DragDropEffects), typeof(ContainerDragStartBehavior<TItem>), new UIPropertyMetadata(DragDropEffects.All));
 
         /// <summary>
         /// ドラッグされるデータを識別する文字列(任意)
@@ -64,7 +64,7 @@ namespace NeeView.Windows
         }
 
         public static readonly DependencyProperty DragDropFormatProperty =
-            DependencyProperty.Register("DragDropFormat", typeof(string), typeof(ConainerDragStartBehavior<TItem>), new PropertyMetadata(null));
+            DependencyProperty.Register("DragDropFormat", typeof(string), typeof(ContainerDragStartBehavior<TItem>), new PropertyMetadata(null));
 
 
         /// <summary>
@@ -77,7 +77,21 @@ namespace NeeView.Windows
         }
 
         public static readonly DependencyProperty IsDragEnableProperty =
-            DependencyProperty.Register("IsDragEnable", typeof(bool), typeof(ConainerDragStartBehavior<TItem>), new UIPropertyMetadata(true));
+            DependencyProperty.Register("IsDragEnable", typeof(bool), typeof(ContainerDragStartBehavior<TItem>), new UIPropertyMetadata(true));
+
+
+        /// <summary>
+        /// 範囲外カーソルでの自動スクロール
+        /// </summary>
+        public bool IsAutoScroll
+        {
+            get { return (bool)GetValue(IsAutoScrollProperty); }
+            set { SetValue(IsAutoScrollProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsAutoScrollProperty =
+            DependencyProperty.Register("IsAutoScroll", typeof(bool), typeof(ContainerDragStartBehavior<TItem>), new PropertyMetadata(false));
+
 
 
         /// <summary>
@@ -219,7 +233,7 @@ namespace NeeView.Windows
             {
                 if (_dragGhost != null)
                 {
-                    var point = CursorInfo.GetNowPosition(_dragItem);
+                    var point = CursorInfo.GetNowPosition(sender as Visual);
                     if (double.IsNaN(point.X))
                     {
                         Debug.WriteLine("_dragItem does not exist in virual tree.");
@@ -231,7 +245,7 @@ namespace NeeView.Windows
                     _dragGhost.TopOffset = point.Y;
                 }
 
-                if (AllowedEffects.HasFlag(DragDropEffects.Scroll))
+                if (IsAutoScroll)
                 {
                     AutoScroll(sender, e);
                 }
@@ -246,7 +260,6 @@ namespace NeeView.Windows
 
         /// <summary>
         /// ドラッグがターゲットの外にある時に自動スクロールさせる.
-        /// HACK: 自動スクロールは受け入れ側で実装すべき
         /// </summary>
         private void AutoScroll(object sender, QueryContinueDragEventArgs e)
         {
@@ -275,7 +288,7 @@ namespace NeeView.Windows
             }
 
             var point = root.TranslatePoint(cursor, container);
-            double offset = _dragGhost != null ? _dragGhost.ActualHeight * 0.5 : 20.0;
+            double offset = VirtualizingPanel.GetScrollUnit(container) == ScrollUnit.Pixel ? _dragGhost != null ? _dragGhost.ActualHeight * 0.5 : 20.0 : 1.0;
 
             if (point.Y < 0.0)
             {
@@ -292,7 +305,7 @@ namespace NeeView.Windows
     /// <summary>
     /// TreeView DragDropStartBehavior
     /// </summary>
-    public class TreeViewDragDropStartBehavior : ConainerDragStartBehavior<TreeViewItem>
+    public class TreeViewDragDropStartBehavior : ContainerDragStartBehavior<TreeViewItem>
     {
         public override UIElement GetAdornerVisual(TreeViewItem dragItem)
         {
@@ -303,7 +316,7 @@ namespace NeeView.Windows
     /// <summary>
     /// ListBox DragDropStartBehavior
     /// </summary>
-    public class ListBoxDragDropStartBehavior : ConainerDragStartBehavior<ListBoxItem>
+    public class ListBoxDragDropStartBehavior : ContainerDragStartBehavior<ListBoxItem>
     {
         public override UIElement GetAdornerVisual(ListBoxItem dragItem)
         {

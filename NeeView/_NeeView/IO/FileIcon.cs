@@ -349,12 +349,11 @@ namespace NeeView.IO
             return bitmaps;
         }
 
-
         private static BitmapSource CreateFileIcon(string filename, NativeMethods.FILE_ATTRIBUTE attribute, NativeMethods.SHGFI flags, IconSize iconSize)
         {
             NativeMethods.SHFILEINFO shinfo = new NativeMethods.SHFILEINFO();
             IntPtr hSuccess = NativeMethods.SHGetFileInfo(filename, attribute, out shinfo, (uint)Marshal.SizeOf(shinfo), flags | NativeMethods.SHGFI.SHGFI_ICON | (iconSize == IconSize.Small ? NativeMethods.SHGFI.SHGFI_SMALLICON : NativeMethods.SHGFI.SHGFI_LARGEICON));
-            if (hSuccess != IntPtr.Zero)
+            if (hSuccess != IntPtr.Zero && shinfo.hIcon != IntPtr.Zero)
             {
                 BitmapSource bitmapSource = System.Windows.Interop.Imaging.CreateBitmapSourceFromHIcon(shinfo.hIcon, System.Windows.Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
                 bitmapSource?.Freeze();
@@ -368,5 +367,4 @@ namespace NeeView.IO
             }
         }
     }
-
 }

@@ -509,7 +509,6 @@
     <Compile Include="MouseInput\MouseInputContext.cs" />
     <Compile Include="BookOperation.cs" />
     <Compile Include="DelayVisibility.cs" />
-    <Compile Include="DragStart.cs" />
     <Compile Include="SidePanels\Bookshelf\PageList\PageListBox.xaml.cs">
       <DependentUpon>PageListBox.xaml</DependentUpon>
     </Compile>
@@ -696,6 +695,7 @@
     <Compile Include="_NeeView\ResourceService.cs" />
     <Compile Include="_NeeView\Windows\ConainerDragStartBehavior.cs" />
     <Compile Include="_NeeView\Windows\DragDropGoast.cs" />
+    <Compile Include="_NeeView\Windows\DragDropHelper.cs" />
     <Compile Include="_NeeView\Windows\DragStartEventArgs.cs" />
     <Compile Include="_NeeView\Windows\DropInfo.cs" />
     <Compile Include="_NeeView\Windows\Property\PropertyValueTemplateSelector.cs" />

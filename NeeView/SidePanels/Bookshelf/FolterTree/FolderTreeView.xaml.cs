@@ -562,6 +562,7 @@ namespace NeeView
         private void TreeView_DragEnter(object sender, DragEventArgs e)
         {
             TreeView_DragDrop(sender, e, false);
+            DragDropHelper.AutoScroll(sender, e);
         }
 
         private void TreeView_DragLeave(object sender, DragEventArgs e)
@@ -571,6 +572,7 @@ namespace NeeView
         private void TreeView_PreviewDragOver(object sender, DragEventArgs e)
         {
             TreeView_DragDrop(sender, e, false);
+            DragDropHelper.AutoScroll(sender, e);
         }
 
         private void TreeView_Drop(object sender, DragEventArgs e)

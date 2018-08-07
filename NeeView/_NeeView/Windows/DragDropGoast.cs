@@ -104,12 +104,4 @@ namespace NeeView.Windows
             }
         }
     }
-
-    public static class DragDropHelper
-    {
-        public static bool IsDragDistance(Point x, Point y)
-        {
-            return Math.Abs(x.X - y.X) >= SystemParameters.MinimumHorizontalDragDistance || Math.Abs(x.Y - y.Y) >= SystemParameters.MinimumVerticalDragDistance;
-        }
-    }
 }

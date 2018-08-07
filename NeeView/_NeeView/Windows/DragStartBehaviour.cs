@@ -21,6 +21,7 @@ namespace NeeView.Windows
     /// ドラッグ対象オブジェクト用ビヘイビア
     /// </summary>
     /// <remarks>http://b.starwing.net/?p=131</remarks>
+    [Obsolete("ContainerDragStartBehavior系を使用する")]
     public class DragStartBehavior : Behavior<FrameworkElement>
     {
         private Point _origin;
@@ -297,7 +298,7 @@ namespace NeeView.Windows
             }
 
             var point = root.TranslatePoint(cursor, container);
-            double offset = _dragGhost != null ? _dragGhost.ActualHeight * 0.5 : 20.0;
+            double offset = VirtualizingPanel.GetScrollUnit(container) == ScrollUnit.Pixel ?_dragGhost != null ? _dragGhost.ActualHeight * 0.5 : 20.0 : 1.0;
 
             if (point.Y < 0.0)
             {

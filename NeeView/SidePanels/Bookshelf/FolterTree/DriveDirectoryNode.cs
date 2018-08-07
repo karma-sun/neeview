@@ -40,19 +40,27 @@ namespace NeeView
                 {
                     _iconInitialized = true;
 
-                    Task.Run(() =>
+                    Task.Run(async () =>
                     {
-                        try
+                        for (int i = 0; i < 2; ++i)
                         {
-                            ////Debug.WriteLine($"{Name}: Icon load...");
-                            _icon = FileIconCollection.Current.CreateFileIcon(Path, IO.FileIconType.Directory, 16.0, false, false);
-                            _icon?.Freeze();
-                            ////Debug.WriteLine($"{Name}: Icon done.");
-                            RaisePropertyChanged(nameof(Icon));
-                        }
-                        catch (Exception ex)
-                        {
-                            Debug.WriteLine(ex.Message);
+                            try
+                            {
+                                ////Debug.WriteLine($"{Name}: Icon load...");
+                                _icon = FileIconCollection.Current.CreateFileIcon(Path, IO.FileIconType.Directory, 16.0, false, false);
+                                if (_icon != null)
+                                {
+                                    _icon?.Freeze();
+                                    ////Debug.WriteLine($"{Name}: Icon done.");
+                                    RaisePropertyChanged(nameof(Icon));
+                                    return;
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Debug.WriteLine(ex.Message);
+                            }
+                            await Task.Delay(500);
                         }
                     });
                 }

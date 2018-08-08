@@ -39,6 +39,8 @@ namespace NeeView
 
         public static new App Current => (App)Application.Current;
 
+        private bool _isSplashScreenVisibled;
+
         #region Properties
 
         // オプション設定
@@ -66,10 +68,28 @@ namespace NeeView
         #region Methods
 
         /// <summary>
+        /// Show SplashScreen
+        /// </summary>
+        private void ShowSplashScreen()
+        {
+            if (_isSplashScreenVisibled) return;
+            _isSplashScreenVisibled = true;
+
+            Debug.WriteLine($"App.ShowSplashScreen: {Stopwatch.ElapsedMilliseconds}ms");
+
+#if SUSIE
+            var resourceName = "Resources/SplashS.png";
+#else
+            var resourceName = "Resources/Splash.png";
+#endif
+
+            SplashScreen splashScreen = new SplashScreen(resourceName);
+            splashScreen.Show(true);
+        }
+
+        /// <summary>
         /// Startup
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             Stopwatch = Stopwatch.StartNew();
@@ -113,10 +133,14 @@ namespace NeeView
             this.Option = ParseArguments(e.Args);
             this.Option.Validate();
 
+            Debug.WriteLine($"App.UserSettingLoading: {Stopwatch.ElapsedMilliseconds}ms");
+
             // 設定ファイルの読み込み
             new SaveData();
             SaveData.Current.LoadSetting(Option.SettingFilename);
             var setting = SaveData.Current.UserSetting;
+
+            Debug.WriteLine($"App.UserSettingLoaded: {Stopwatch.ElapsedMilliseconds}ms");
 
             // restore
             Restore(setting.App);
@@ -189,6 +213,8 @@ namespace NeeView
                     throw new ApplicationException("Already started.");
                 }
             }
+
+            ShowSplashScreen();
 
             // IPCサーバ起動
             IpcRemote.BootServer(currentProcess.Id);

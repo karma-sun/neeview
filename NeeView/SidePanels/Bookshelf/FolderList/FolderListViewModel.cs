@@ -185,7 +185,7 @@ namespace NeeView
         private RelayCommand _SetHome;
         public RelayCommand SetHome
         {
-            get { return _SetHome = _SetHome ?? new RelayCommand(_model.SetHome); }
+            get { return _SetHome = _SetHome ?? new RelayCommand(_model.SetHome, _model.CanSetHome); }
         }
 
         /// <summary>
@@ -297,7 +297,12 @@ namespace NeeView
         {
             get
             {
-                return _AddQuickAccess = _AddQuickAccess ?? new RelayCommand(Execute);
+                return _AddQuickAccess = _AddQuickAccess ?? new RelayCommand(Execute, CanExecute);
+
+                bool CanExecute()
+                {
+                    return _model.Place != null;
+                }
 
                 void Execute()
                 {

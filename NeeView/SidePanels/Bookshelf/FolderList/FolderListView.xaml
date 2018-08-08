@@ -80,6 +80,8 @@
         <!--#endregion Icons-->
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:BooleanToVisibilityConverter x:Key="BooleanToHiddenVisibilityConverter" False="Hidden"/>
+        <local:FolderCollectionToFolderRecursiveVisibilityConverter x:Key="FolderCollectionToFolderRecursiveVisibilityConverter"/>
         <local:FolderTreeLayoutToBooleanConverter x:Key="FolderTreeLayoutToBooleanConverter"/>
         <local:PathToPlaceIconConverter x:Key="PathToPlaceIconConverter"/>
 
@@ -128,13 +130,13 @@
                         </ToggleButton>
                         <DockPanel x:Name="PlaceBar" HorizontalAlignment="Left">
                             <Image x:Name="PlaceIcon" DockPanel.Dock="Left" Source="{Binding FolderCollection.Place, Converter={StaticResource PathToPlaceIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"
-                                PreviewMouseLeftButtonDown="PlaceIcon_MouseLeftButtonDown"
-                                PreviewMouseLeftButtonUp="PlaceIcon_MouseLeftButtonUp"
-                                PreviewMouseMove="PlaceIcon_MouseMove"
-                                QueryContinueDrag="PlaceIcon_QueryContinueDrag"/>
+                                   PreviewMouseLeftButtonDown="PlaceIcon_MouseLeftButtonDown"
+                                   PreviewMouseLeftButtonUp="PlaceIcon_MouseLeftButtonUp"
+                                   PreviewMouseMove="PlaceIcon_MouseMove"
+                                   QueryContinueDrag="PlaceIcon_QueryContinueDrag"/>
                             <Image DockPanel.Dock="Right" Source="{StaticResource fic_recursive_folder_24px}" Width="12" Height="12" VerticalAlignment="Center" Margin="0,2,0,0"
-                               ToolTip="{x:Static properties:Resources.BookshelfSubFolderTips}"
-                               Visibility="{Binding FolderCollection.FolderParameter.IsFolderRecursive, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                   ToolTip="{x:Static properties:Resources.BookshelfSubFolderTips}"
+                                   Visibility="{Binding FolderCollection, Converter={StaticResource FolderCollectionToFolderRecursiveVisibilityConverter}}"/>
                             <TextBlock Text="{Binding FolderCollection.PlaceDispString}" ToolTip="{Binding FolderCollection.PlaceDispString}" Margin="5,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                         </DockPanel>
                     </DockPanel>
@@ -202,6 +204,7 @@
                     </Button>
                     <ComboBox x:Name="FolderOrderComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" TabIndex="1"
                           ItemsSource="{Binding FolderOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding FolderCollection.FolderParameter.FolderOrder, Delay=1}"
+                          Visibility="{Binding Model.IsFolderOrderEnabled, Converter={StaticResource BooleanToHiddenVisibilityConverter}}"
                           VerticalAlignment="Center">
                     </ComboBox>
                 </WrapPanel>

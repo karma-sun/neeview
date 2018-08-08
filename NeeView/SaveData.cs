@@ -134,9 +134,6 @@ namespace NeeView
             // 履歴反映
             BookHistoryCollection.Current.Restore(memento, true);
             MenuBar.Current.UpdateLastFiles();
-
-            // フォルダーリストの場所に反映
-            Models.Current.FolderList.ResetPlace(BookHistoryCollection.Current.LastFolder);
         }
 
 

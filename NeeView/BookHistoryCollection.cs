@@ -267,6 +267,8 @@ namespace NeeView
         // まとめて履歴削除
         public void Remove(IEnumerable<string> places)
         {
+            if (places == null) return;
+
             var unlinked = places.Where(e => FindNode(e) != null);
 
             if (unlinked.Any())

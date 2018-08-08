@@ -274,7 +274,10 @@ namespace NeeView
                     _folderCollection?.Dispose();
                     _folderCollection = value;
                     CollectionChanged?.Invoke(this, null);
+                    RaisePropertyChanged(nameof(Place));
+                    RaisePropertyChanged(nameof(IsPlaceValid));
                     RaisePropertyChanged(nameof(FolderOrder));
+                    RaisePropertyChanged(nameof(IsFolderOrderEnabled));
                     RaisePropertyChanged(nameof(IsFolderSearchCollection));
                     RaisePropertyChanged(nameof(IsFolderSearchEnabled));
                 }
@@ -309,6 +312,11 @@ namespace NeeView
         /// 現在のフォルダー
         /// </summary>
         public QueryPath Place => _folderCollection?.Place;
+
+        /// <summary>
+        /// 現在のフォルダーが有効？
+        /// </summary>
+        public bool IsPlaceValid => Place != null;
 
         /// <summary>
         /// フォルダー履歴
@@ -448,7 +456,7 @@ namespace NeeView
         public bool IsLocked
         {
             get { return _IsLocked; }
-            set { SetProperty(ref _IsLocked, value); }
+            set { SetProperty(ref _IsLocked, value && Place != null); }
         }
 
         // フォーカス要求
@@ -476,6 +484,9 @@ namespace NeeView
 
             switch (path.Scheme)
             {
+                case QueryScheme.Root:
+                    return path;
+
                 case QueryScheme.File:
                     if (Directory.Exists(_home))
                     {
@@ -528,27 +539,12 @@ namespace NeeView
         /// </summary>
         public void RequestSearchPlace(bool isForce)
         {
+            if (Place == null) return;
+
             var path = Place.ReplaceSearch(GetFixedSearchKeyword());
 
             var option = isForce ? FolderSetPlaceOption.Refresh : FolderSetPlaceOption.None;
             var task = SetPlaceAsync(path, null, option);
-        }
-
-
-        /// <summary>
-        /// 場所の初期化。
-        /// nullを指定した場合、HOMEフォルダに移動。
-        /// </summary>
-        public void ResetPlace(string queryPath)
-        {
-            if (IsLocked)
-            {
-                return;
-            }
-
-            var path = queryPath != null ? new QueryPath(queryPath) : GetFixedHome();
-
-            var task = SetPlaceAsync(path, null, FolderSetPlaceOption.UpdateHistory);
         }
 
         /// <summary>
@@ -628,7 +624,7 @@ namespace NeeView
                     CollectionChanged?.Invoke(this, null);
 
                     // 最終フォルダー更新
-                    BookHistoryCollection.Current.LastFolder = Place.FullQuery;
+                    BookHistoryCollection.Current.LastFolder = Place.SimpleQuery;
 
                     // 履歴追加
                     if (options.HasFlag(FolderSetPlaceOption.UpdateHistory))
@@ -728,6 +724,11 @@ namespace NeeView
             get { return GetFolderOrder(); }
         }
 
+        public bool IsFolderOrderEnabled
+        {
+            get { return _folderCollection != null && !(_folderCollection is RootFolderCollection) && (_folderCollection is FolderEntryCollection collection && collection.Place.Path != null); }
+        }
+
         /// <summary>
         /// フォルダーの並びを設定
         /// </summary>
@@ -796,9 +797,9 @@ namespace NeeView
             _folderListBoxModel.RefreshIcon(null);
         }
 
-        #endregion Methods
+#endregion Methods
 
-        #region MoveFolder
+#region MoveFolder
 
         // 次のフォルダーに移動
         public async Task NextFolder(BookLoadOption option = BookLoadOption.None)
@@ -906,9 +907,9 @@ namespace NeeView
             _cruiseFolderCancellationTokenSource?.Cancel();
         }
 
-        #endregion MoveFolder
+#endregion MoveFolder
 
-        #region CreateFolderCollection
+#region CreateFolderCollection
 
         /// <summary>
         /// コレクション作成
@@ -975,9 +976,9 @@ namespace NeeView
             return await factory.CreateFolderCollectionAsync(path, true, token);
         }
 
-        #endregion CreateFolderCollection
+#endregion CreateFolderCollection
 
-        #region Commands
+#region Commands
         // NOTE: RelayCommandの実体なので、async void が使用されている場合がある。
 
         public void AddQuickAccess()
@@ -988,12 +989,18 @@ namespace NeeView
 
         public string GetCurentQueryPath()
         {
-            return Place.SimpleQuery;
+            return Place?.SimpleQuery;
+        }
+
+        public bool CanSetHome()
+        {
+            return Place != null;
         }
 
         public void SetHome()
         {
             if (BookHub.Current == null) return;
+            if (Place == null) return;
             this.Home = Place.SimplePath;
         }
 
@@ -1095,7 +1102,7 @@ namespace NeeView
                 _folderListBoxModel.RaiseSelectedItemChanged(true);
             }
 
-            if (IsSyncFolderTree)
+            if (IsSyncFolderTree && Place != null)
             {
                 FolderTreeModel.Current.SyncDirectory(Place.SimplePath);
             }
@@ -1140,9 +1147,9 @@ namespace NeeView
             return _folderListBoxModel.AddBookmark(path, isFocus);
         }
 
-        #endregion
+#endregion
 
-        #region IDisposable Support
+#region IDisposable Support
         private bool _disposedValue = false;
 
         protected virtual void Dispose(bool disposing)
@@ -1165,9 +1172,9 @@ namespace NeeView
         {
             Dispose(true);
         }
-        #endregion
+#endregion
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento
@@ -1264,6 +1271,6 @@ namespace NeeView
             this.IsSyncFolderTree = memento.IsSyncFolderTree;
         }
 
-        #endregion
+#endregion
     }
 }

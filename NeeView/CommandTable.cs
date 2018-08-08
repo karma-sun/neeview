@@ -454,6 +454,7 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandClearHistoryInPlace;
                 element.Note = Properties.Resources.CommandClearHistoryInPlaceNote;
                 element.Execute = (s, e) => _models.FolderList.ClearHistory();
+                element.CanExecute = () => _models.FolderList.Place != null;
                 element.IsShowMessage = true;
                 _elements[CommandType.ClearHistoryInPlace] = element;
             }

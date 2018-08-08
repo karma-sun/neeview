@@ -463,29 +463,11 @@ namespace NeeView
             // ロード設定破棄
             SaveData.Current.UserSetting = null;
 
+            // 最初のブックを開く
+            var bookPath = LoadFirstBook();
 
-            // ブックを開く
-            if (App.Current.Option.IsBlank != SwitchOption.on)
-            {
-                bool isRefreshFolderList = App.Current.Option.FolderList == null;
-                if (App.Current.Option.StartupPlace != null)
-                {
-                    // 起動引数の場所で開く
-                    BookHub.Current.RequestLoad(App.Current.Option.StartupPlace, null, BookLoadOption.None, isRefreshFolderList);
-                }
-                else
-                {
-                    // 最後に開いたフォルダーを復元する
-                    LoadLastFolder(isRefreshFolderList);
-                }
-            }
-
-            // 指定されたフォルダーリストの場所を反映
-            if (App.Current.Option.FolderList != null)
-            {
-                Models.Current.FolderList.ResetPlace(App.Current.Option.FolderList);
-                Models.Current.SidePanel.IsVisibleFolderList = true;
-            }
+            // 最初のフォルダーリストの場所を開く
+            SetFirstPlace(bookPath);
 
             // スライドショーの自動再生
             if (App.Current.Option.IsSlideShow != null ? App.Current.Option.IsSlideShow == SwitchOption.on : SlideShow.Current.IsAutoPlaySlideShow)
@@ -494,15 +476,70 @@ namespace NeeView
             }
         }
 
-        // 最後に開いたフォルダーを開く
-        private void LoadLastFolder(bool isRefreshFolderList)
+        // 最初のブックを開く
+        private string LoadFirstBook()
         {
-            if (!App.Current.IsOpenLastBook) return;
+            if (App.Current.Option.IsBlank != SwitchOption.on)
+            {
+                bool isRefreshFolderList = App.Current.Option.FolderList == null;
+                if (App.Current.Option.StartupPlace != null)
+                {
+                    // 起動引数の場所で開く
+                    BookHub.Current.RequestLoad(App.Current.Option.StartupPlace, null, BookLoadOption.None, isRefreshFolderList);
+                    return App.Current.Option.StartupPlace;
+                }
+                else if (App.Current.IsOpenLastBook)
+                {
+                    // 最後に開いたブックを復元する
+                    string place = BookHistoryCollection.Current.LastAddress;
+                    if (place != null)
+                    {
+                        BookHub.Current.RequestLoad(place, null, BookLoadOption.Resume | BookLoadOption.IsBook, isRefreshFolderList);
+                        return place;
+                    }
+                }
+            }
 
-            string place = BookHistoryCollection.Current.LastAddress;
+            return null;
+        }
+
+        // フォルダーリストの場所の初期化
+        private void SetFirstPlace(string bookPath)
+        {
+            string place = null;
+
+            // 1.フォルダーリストが指定されている場合、それで。
+            if (App.Current.Option.FolderList != null)
+            {
+                place = App.Current.Option.FolderList;
+                SidePanel.Current.IsVisibleFolderList = true;
+            }
+
+            // 2.ブックが指定されている もしくは 前回開いていたブックを復元する場合、ブックの開く処理にまかせる
+            else if (bookPath != null)
+            {
+                // 前回開いていたフォルダーがブックマークであった場合、ブックマークフォルダーで開かれるようにそのフォルダを開いておく
+                if (BookHistoryCollection.Current.LastFolder != null && new QueryPath(BookHistoryCollection.Current.LastFolder).Scheme == QueryScheme.Bookmark)
+                {
+                    place = BookHistoryCollection.Current.LastFolder;
+                }
+            }
+
+            // 3.前回開いていたフォルダーを復元する場合、それで。
+            else if (BookHistoryCollection.Current.LastFolder != null)
+            {
+                place = BookHistoryCollection.Current.LastFolder;
+            }
+
+            // 4.ホームフォルダで。
+            else
+            {
+                place = FolderList.Current.GetFixedHome().SimpleQuery;
+            }
+
             if (place != null)
             {
-                BookHub.Current.RequestLoad(place, null, BookLoadOption.Resume | BookLoadOption.IsBook, isRefreshFolderList);
+                FolderList.Current.RequestPlace(new QueryPath(place), null, FolderSetPlaceOption.None);
             }
         }
 

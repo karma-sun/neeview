@@ -726,7 +726,7 @@ namespace NeeView
 
         public bool IsFolderOrderEnabled
         {
-            get { return _folderCollection != null && !(_folderCollection is RootFolderCollection) && (_folderCollection is FolderEntryCollection collection && collection.Place.Path != null); }
+            get { return _folderCollection != null && (_folderCollection is FolderEntryCollection collection && collection.Place.Path != null || _folderCollection is BookmarkFolderCollection); }
         }
 
         /// <summary>
@@ -797,9 +797,9 @@ namespace NeeView
             _folderListBoxModel.RefreshIcon(null);
         }
 
-#endregion Methods
+        #endregion Methods
 
-#region MoveFolder
+        #region MoveFolder
 
         // 次のフォルダーに移動
         public async Task NextFolder(BookLoadOption option = BookLoadOption.None)
@@ -907,9 +907,9 @@ namespace NeeView
             _cruiseFolderCancellationTokenSource?.Cancel();
         }
 
-#endregion MoveFolder
+        #endregion MoveFolder
 
-#region CreateFolderCollection
+        #region CreateFolderCollection
 
         /// <summary>
         /// コレクション作成
@@ -976,9 +976,9 @@ namespace NeeView
             return await factory.CreateFolderCollectionAsync(path, true, token);
         }
 
-#endregion CreateFolderCollection
+        #endregion CreateFolderCollection
 
-#region Commands
+        #region Commands
         // NOTE: RelayCommandの実体なので、async void が使用されている場合がある。
 
         public void AddQuickAccess()
@@ -1147,9 +1147,9 @@ namespace NeeView
             return _folderListBoxModel.AddBookmark(path, isFocus);
         }
 
-#endregion
+        #endregion
 
-#region IDisposable Support
+        #region IDisposable Support
         private bool _disposedValue = false;
 
         protected virtual void Dispose(bool disposing)
@@ -1172,9 +1172,9 @@ namespace NeeView
         {
             Dispose(true);
         }
-#endregion
+        #endregion
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento
@@ -1271,6 +1271,6 @@ namespace NeeView
             this.IsSyncFolderTree = memento.IsSyncFolderTree;
         }
 
-#endregion
+        #endregion
     }
 }

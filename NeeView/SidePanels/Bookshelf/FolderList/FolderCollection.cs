@@ -634,6 +634,29 @@ namespace NeeView
             return null;
         }
 
+
+        #region DriveReadyMap
+
+        private static Dictionary<string, bool> _driveReadyMap = new Dictionary<string, bool>();
+
+        private static bool IsDriveReady(string driveName)
+        {
+            if (_driveReadyMap.TryGetValue(driveName, out bool isReady))
+            {
+                return isReady;
+            }
+
+            return true;
+        }
+
+        private static void SetDriveReady(string driveName, bool isReady)
+        {
+            _driveReadyMap[driveName] = isReady;
+        }
+
+        #endregion DriveReadyMap
+
+
         /// <summary>
         /// DriveInfoからFodlerItem作成
         /// </summary>
@@ -643,17 +666,28 @@ namespace NeeView
         {
             if (e != null)
             {
-                var driveName = e.IsReady && !string.IsNullOrWhiteSpace(e.VolumeLabel)  ? e.VolumeLabel : e.DriveType.ToDispString();
-                var dispName = string.Format("{0} ({1})", driveName, e.Name.TrimEnd('\\'));
-
-                return new ConstFolderItem(new ResourceThumbnail("ic_drive", MainWindow.Current))
+                var item = new ConstFolderItem(new ResourceThumbnail("ic_drive", MainWindow.Current))
                 {
                     Place = Place,
                     Name = e.Name,
-                    DispName = dispName,
+                    DispName = string.Format("{0} ({1})", e.DriveType.ToDispString(), e.Name.TrimEnd('\\')),
                     Attributes = FolderItemAttribute.Directory | FolderItemAttribute.Drive,
-                    IsReady = e.IsReady,
+                    IsReady = IsDriveReady(e.Name),
                 };
+
+                // IsReadyの取得に時間がかかる場合があるため、非同期で状態を更新
+                Task.Run(() =>
+                {
+                    var isReady = e.IsReady;
+                    SetDriveReady(e.Name, isReady);
+
+                    item.IsReady = isReady;
+
+                    var driveName = isReady && !string.IsNullOrWhiteSpace(e.VolumeLabel) ? e.VolumeLabel : e.DriveType.ToDispString();
+                    item.DispName = string.Format("{0} ({1})", driveName, e.Name.TrimEnd('\\'));
+                });
+
+                return item;
             }
             else
             {

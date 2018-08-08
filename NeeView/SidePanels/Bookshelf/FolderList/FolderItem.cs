@@ -163,7 +163,20 @@ namespace NeeView
         /// <summary>
         /// アクセス可能？(ドライブの準備ができているか)
         /// </summary>
-        public bool IsReady { get; set; }
+        private bool _isReady;
+        public bool IsReady
+        {
+            get { return _isReady; }
+            set
+            {
+                if (SetProperty(ref _isReady, value))
+                {
+                    UpdateOverlay();
+                    RaisePropertyChanged(nameof(IconOverlay));
+                }
+            }
+        }
+
 
         /// <summary>
         /// フォルダーリストのコンテキストメニュー用
@@ -254,18 +267,15 @@ namespace NeeView
         /// </summary>
         public bool CanOpenFolder()
         {
-            if (IsReady)
+            if (IsDirectory)
             {
-                if (IsDirectory)
-                {
-                    return true;
-                }
+                return true;
+            }
 
-                var archiveType = ArchiverManager.Current.GetSupportedType(TargetPath.SimplePath, false);
-                if (IsFileSystem() && !BookHub.Current.IsArchiveRecursive && archiveType.IsRecursiveSupported())
-                {
-                    return true;
-                }
+            var archiveType = ArchiverManager.Current.GetSupportedType(TargetPath.SimplePath, false);
+            if (IsFileSystem() && !BookHub.Current.IsArchiveRecursive && archiveType.IsRecursiveSupported())
+            {
+                return true;
             }
 
             return false;

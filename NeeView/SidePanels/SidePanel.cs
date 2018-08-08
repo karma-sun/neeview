@@ -199,6 +199,13 @@ namespace NeeView
             {
                 ResetFocus?.Invoke(this, null);
             }
+
+            // フォーカス要求
+            if (IsVisibleFolderList)
+            {
+                FolderList.Current.FocusAtOnce();
+            }
+
             return IsVisibleFolderList;
         }
 
@@ -229,18 +236,20 @@ namespace NeeView
         //
         public bool FocusBookmarkList(bool byMenu)
         {
-            var model = _models.FolderPanelModel;
-            if (_models.FolderList.Place.Scheme != QueryScheme.Bookmark)
-            {
-                _models.FolderList.RequestPlace(new QueryPath(QueryScheme.Bookmark, null), null, FolderSetPlaceOption.UpdateHistory);
-            }
+            // フォルダーツリーは「ブックマークリスト」を選択した状態にする
+            FolderTreeModel.Current.SelectRootBookmarkFolder();
+            FolderList.Current.RequestPlace(new QueryPath(QueryScheme.Bookmark, null), null, FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.Refresh);
 
+            // フォルダーリスト選択
             SetSelectedPanel(FolderListPanel, true);
             RaisePanelPropertyChanged();
-            if (!IsVisibleFolderList)
+
+            // フォルダーリストにフォーカスをあわせる
+            if (!byMenu && IsVisibleFolderList)
             {
-                ResetFocus?.Invoke(this, null);
+                FolderList.Current.FocusAtOnce();
             }
+
             return IsVisibleFolderList;
         }
 
@@ -254,6 +263,8 @@ namespace NeeView
         //
         public void FocusFolderSearchBox(bool byMenu)
         {
+            SetSelectedPanel(FolderListPanel, true);
+
             _models.FolderList.RaiseSearchBoxFocus();
         }
 
@@ -272,20 +283,20 @@ namespace NeeView
 
         public bool SetVisibleFolderTree(bool byMenu, bool isVisible)
         {
-            var model = _models.FolderList;
+            // フォーカス要求
+            if (!byMenu && isVisible)
+            {
+                FolderTreeModel.Current.FocusAtOnce();
+            }
 
+            // 表示
+            var model = _models.FolderList;
             if (byMenu || !model.IsFolderTreeVisible || IsVisiblePanel(FolderListPanel))
             {
                 model.IsFolderTreeVisible = isVisible;
             }
             SetSelectedPanel(FolderListPanel, true);
             RaisePanelPropertyChanged();
-
-            // フォーカス要求
-            if (!byMenu && model.IsFolderTreeVisible)
-            {
-                model.RaiseFolderTreeFocus();
-            }
 
             return model.IsFolderTreeVisible;
         }

@@ -35,7 +35,6 @@ namespace NeeView
 
         private FolderListBoxViewModel _vm;
         private ListBoxThumbnailLoader _thumbnailLoader;
-        private bool _lastFocusRequest;
         private bool _storeFocus;
         private bool _isClickEnabled;
 
@@ -78,11 +77,6 @@ namespace NeeView
             _vm.Loaded();
             _vm.SelectedChanging += SelectedChanging;
             _vm.SelectedChanged += SelectedChanged;
-
-            if (_vm.Model.IsFocusOnLoad)
-            {
-                FocusSelectedItem(true);
-            }
         }
 
         private void FolderListBox_Unloaded(object sender, RoutedEventArgs e)
@@ -568,16 +562,15 @@ namespace NeeView
         /// <param name="isFocus"></param>
         public void FocusSelectedItem(bool isFocus)
         {
-            _lastFocusRequest = isFocus;
-
             if (this.ListBox.SelectedIndex < 0) this.ListBox.SelectedIndex = 0;
             if (this.ListBox.SelectedIndex < 0) return;
 
             // 選択項目が表示されるようにスクロール
             this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
 
-            if (isFocus && this.IsFocusEnabled)
+            if (this.ListBox.IsLoaded && ((isFocus && this.IsFocusEnabled) || _vm.Model.IsFocusAtOnce))
             {
+                _vm.Model.IsFocusAtOnce = false;
                 ListBoxItem lbi = (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(this.ListBox.SelectedIndex));
                 lbi?.Focus();
             }
@@ -650,7 +643,15 @@ namespace NeeView
         //
         private void FolderList_Loaded(object sender, RoutedEventArgs e)
         {
-            FocusSelectedItem(_lastFocusRequest);
+            FocusSelectedItem(false);
+        }
+
+        private void FolderList_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if ((bool)e.NewValue == true)
+            {
+                FocusSelectedItem(false);
+            }
         }
 
         private void FolderList_ContextMenuOpening(object sender, ContextMenuEventArgs e)

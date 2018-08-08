@@ -48,6 +48,18 @@ namespace NeeView
             this.TreeView.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(TreeView_ScrollChanged));
 
             this.Root.DataContext = _vm;
+
+            this.Loaded += FolderTreeView_Loaded;
+            this.Unloaded += FolderTreeView_Unloaded;
+        }
+
+        private void FolderTreeView_Loaded(object sender, RoutedEventArgs e)
+        {
+            FocusSelectedItem();
+        }
+
+        private void FolderTreeView_Unloaded(object sender, RoutedEventArgs e)
+        {
         }
 
         public bool IsRenaming { get; private set; }
@@ -243,14 +255,18 @@ namespace NeeView
         }
 
 
-        public bool FocusSelectedItem()
+        public void FocusSelectedItem()
         {
             if (this.TreeView.SelectedItem == null)
             {
                 _vm.SelectRootQuickAccess();
             }
 
-            return this.TreeView.Focus();
+            if (_vm.Model.IsFocusAtOnce)
+            {
+                _vm.Model.IsFocusAtOnce = false;
+                this.TreeView.Focus();
+            }
         }
 
         private void ScrollIntoView()
@@ -372,7 +388,12 @@ namespace NeeView
 
         private void TreeView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            _vm.IsVisibleChanged((bool)e.NewValue);
+            var isVisible = (bool)e.NewValue;
+            _vm.IsVisibleChanged(isVisible);
+            if (isVisible)
+            {
+                FocusSelectedItem();
+            }
         }
 
         private void TreeViewItem_Selected(object sender, RoutedEventArgs e)

@@ -356,16 +356,6 @@ namespace NeeView
         #region Methods
 
         //
-        internal void IsVisibleChanged(bool isVisibled)
-        {
-            if (isVisibled)
-            {
-                this.FolderListBox?.FocusSelectedItem(true);
-            }
-        }
-
-
-        //
         private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)

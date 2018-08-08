@@ -451,9 +451,20 @@ namespace NeeView
             set { SetProperty(ref _IsLocked, value); }
         }
 
+        // フォーカス要求
+        public bool IsFocusAtOnce { get; set; }
+
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// フォーカス要求
+        /// </summary>
+        public void FocusAtOnce()
+        {
+            IsFocusAtOnce = true;
+        }
 
         /// <summary>
         /// 補正されたHOME取得
@@ -609,7 +620,10 @@ namespace NeeView
                     this.FolderCollection = collection;
                     this.FolderListBoxModel = new FolderListBoxModel(this.FolderCollection);
                     this.FolderListBoxModel.SetSelectedItem(select, options.HasFlag(FolderSetPlaceOption.Focus));
-                    this.FolderListBoxModel.IsFocusOnLoad = options.HasFlag(FolderSetPlaceOption.Focus);
+                    if (options.HasFlag(FolderSetPlaceOption.Focus))
+                    {
+                        FocusAtOnce();
+                    }
 
                     CollectionChanged?.Invoke(this, null);
 

@@ -56,9 +56,13 @@ namespace NeeView
         public bool IsContextMenuEnabled => FolderCollection is BookmarkFolderCollection;
 
         /// <summary>
-        /// ロード時にフォーカスを要求するフラグ 
+        /// フォーカス要求
         /// </summary>
-        public bool IsFocusOnLoad { get; set; }
+        public bool IsFocusAtOnce
+        {
+            get { return FolderList.Current.IsFocusAtOnce; }
+            set { FolderList.Current.IsFocusAtOnce = value; }
+        }
 
 
         public void Loaded()

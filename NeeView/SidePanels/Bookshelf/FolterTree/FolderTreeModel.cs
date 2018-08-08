@@ -77,8 +77,15 @@ namespace NeeView
 
         public BitmapSource FolderIcon => FileIconCollection.Current.CreateDefaultFolderIcon(16.0);
 
+        public bool IsFocusAtOnce { get; set; }
+
 
         // Methods
+
+        public void FocusAtOnce()
+        {
+            IsFocusAtOnce = true;
+        }
 
         private static IEnumerable<FolderTreeNodeBase> GetNodeWalker(IEnumerable<FolderTreeNodeBase> collection)
         {
@@ -138,6 +145,11 @@ namespace NeeView
         public void SelectRootQuickAccess()
         {
             SelectedItem = _rootQuickAccess;
+        }
+
+        public void SelectRootBookmarkFolder()
+        {
+            SelectedItem = _rootBookmarkFolder;
         }
 
         public void Decide(object item)

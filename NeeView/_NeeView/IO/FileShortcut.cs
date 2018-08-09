@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -43,8 +44,11 @@ namespace NeeView.IO
         public FileSystemInfo Target => _target;
         public string TargetPath => _target?.FullName;
 
+        // 有効？
+        public bool IsValid => _target != null;
+
         #endregion
-        
+
         #region Methods
 
         public static bool IsShortcut(string path)
@@ -58,22 +62,39 @@ namespace NeeView.IO
 
             _source = source;
 
-            IWshRuntimeLibrary.IWshShortcut shortcut = (IWshRuntimeLibrary.IWshShortcut)WshShell.Current.Shell.CreateShortcut(source.FullName);
+            IWshRuntimeLibrary.IWshShortcut shortcut = null;
             try
             {
-                var directoryInfo = new System.IO.DirectoryInfo(shortcut.TargetPath);
-                if (directoryInfo.Attributes.HasFlag(FileAttributes.Directory))
+                shortcut = (IWshRuntimeLibrary.IWshShortcut)WshShell.Current.Shell.CreateShortcut(source.FullName);
+                if (string.IsNullOrWhiteSpace(shortcut?.TargetPath))
                 {
-                    _target = directoryInfo;
+                    Debug.WriteLine($"Cannot get shortcut target: {source.FullName}");
+                    _target = null;
                 }
                 else
-                {
-                    _target = new System.IO.FileInfo(shortcut.TargetPath);
+                { 
+                    var directoryInfo = new System.IO.DirectoryInfo(shortcut.TargetPath);
+                    if (directoryInfo.Attributes.HasFlag(FileAttributes.Directory))
+                    {
+                        _target = directoryInfo;
+                    }
+                    else
+                    {
+                        _target = new System.IO.FileInfo(shortcut.TargetPath);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"ShortcutFileName: {source.FullName}\nTargetPath: {shortcut.TargetPath}\n{ex.Message}");
+                _target = null;
             }
             finally
             {
-                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(shortcut);
+                if (shortcut != null)
+                {
+                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(shortcut);
+                }
             }
         }
 

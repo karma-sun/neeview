@@ -56,6 +56,7 @@ namespace NeeView
                         var shortcuts = fileInfos
                             .Where(e => FileShortcut.IsShortcut(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
                             .Select(e => new FileShortcut(e))
+                            .Where(e => e.IsValid)
                             .ToList();
 
                         var directories = directoryInfos

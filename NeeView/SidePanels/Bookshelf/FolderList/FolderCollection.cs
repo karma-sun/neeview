@@ -623,7 +623,10 @@ namespace NeeView
                 if (FileShortcut.IsShortcut(path))
                 {
                     var shortcut = new FileShortcut(file);
-                    return CreateFolderItem(shortcut);
+                    if (shortcut.IsValid)
+                    {
+                        return CreateFolderItem(shortcut);
+                    }
                 }
                 else
                 {
@@ -753,6 +756,11 @@ namespace NeeView
         /// <returns></returns>
         protected FolderItem CreateFolderItem(FileShortcut e)
         {
+            if (e == null || !e.IsValid)
+            {
+                return null;
+            }
+
             FolderItem info = null;
             FolderItemType type = FolderItemType.FileShortcut;
 

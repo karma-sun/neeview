@@ -30,6 +30,7 @@ namespace NeeView
             Current = this;
 
             Items = new TreeListNode<IPagemarkEntry>();
+            Items.Value = new PagemarkFolder();
         }
 
 
@@ -67,6 +68,7 @@ namespace NeeView
             }
 
             Items = nodes;
+            Items.Value = new PagemarkFolder();
 
             PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace));
         }
@@ -104,6 +106,55 @@ namespace NeeView
 
             return Items.FirstOrDefault(e => e.Value == entry);
         }
+
+        public TreeListNode<IPagemarkEntry> FindNode(QueryPath path)
+        {
+            if (path == null)
+            {
+                return null;
+            }
+
+            if (path.Scheme == QueryScheme.Pagemark)
+            {
+                if (path.Path == null)
+                {
+                    return Items;
+                }
+                return FindNode(Items, path.Path.Split(LoosePath.Separator));
+            }
+            else if (path.Scheme == QueryScheme.File)
+            {
+                return Items.FirstOrDefault(e => e.Value is Bookmark bookmark && bookmark.Place == path.Path);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
+        private TreeListNode<IPagemarkEntry> FindNode(TreeListNode<IPagemarkEntry> node, IEnumerable<string> pathTokens)
+        {
+            if (pathTokens == null)
+            {
+                return null;
+            }
+
+            if (!pathTokens.Any())
+            {
+                return node;
+            }
+
+            var name = pathTokens.First();
+            var child = node.Children.FirstOrDefault(e => e.Value.Name == name);
+            if (child != null)
+            {
+                return FindNode(child, pathTokens.Skip(1));
+            }
+
+            return null;
+        }
+
 
 
         public bool Contains(string place, string entryName)
@@ -220,6 +271,15 @@ namespace NeeView
                 {
                     pagemark.Place = dst;
                 }
+            }
+        }
+
+
+        private async Task ValidateAsync()
+        {
+            foreach(var pagemark in Items.Select(e => e.Value).OfType<Pagemark>())
+            {
+                await pagemark.ValidateAsync();
             }
         }
 
@@ -354,6 +414,11 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             this.Load(memento.Nodes, memento.Books);
+
+            if (memento._Version < Config.GenerateProductVersionNumber(32, 0, 0))
+            {
+                Task.Run(() => ValidateAsync().Wait()).Wait();
+            }
         }
 
         #endregion

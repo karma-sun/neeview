@@ -122,6 +122,30 @@ namespace NeeView
             return null;
         }
 
+        /// <summary>
+        /// 実在するエントリーまで遡る
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public static string GetExistEntryName(string path)
+        {
+            if (Directory.Exists(path) || File.Exists(path))
+            {
+                return path;
+            }
+
+            while (!string.IsNullOrEmpty(path))
+            {
+                path = LoosePath.GetDirectoryName(path);
+                if (Directory.Exists(path) || File.Exists(path))
+                {
+                    return path;
+                }
+            }
+
+            return null;
+        }
+
     }
 
 }

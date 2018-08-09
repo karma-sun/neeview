@@ -171,6 +171,7 @@
     <Compile Include="Archiver\ArchiverType.cs" />
     <Compile Include="Archiver\MediaArchiver.cs" />
     <Compile Include="Archiver\MediaArchiverProfile.cs" />
+    <Compile Include="Archiver\PagemarkArchiver.cs" />
     <Compile Include="Archiver\ZipArchiverProfile.cs" />
     <Compile Include="BookHistory.cs" />
     <Compile Include="BookHistoryCollection.cs" />

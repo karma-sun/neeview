@@ -169,6 +169,12 @@ namespace NeeView
         // サポートしているアーカイバーを取得
         public ArchiverType GetSupportedType(string fileName, bool isArrowFileSystem = true, bool isAllowMedia = true)
         {
+            var query = new QueryPath(fileName);
+            if (query.Scheme == QueryScheme.Pagemark)
+            {
+                return ArchiverType.PagemarkArchiver;
+            }
+
             if (isArrowFileSystem && (fileName.Last() == '\\' || fileName.Last() == '/'))
             {
                 return ArchiverType.FolderArchive;
@@ -225,6 +231,8 @@ namespace NeeView
                     return new MediaArchiver(path, source, isRoot);
                 case ArchiverType.SusieArchiver:
                     return new SusieArchiver(path, source, isRoot);
+                case ArchiverType.PagemarkArchiver:
+                    return new PagemarkArchiver(path, source, isRoot);
                 default:
                     ////throw new ArgumentException("Not support archive type.");
                     string extension = LoosePath.GetExtension(path);
@@ -354,6 +362,8 @@ namespace NeeView
                     return ArchiverType.MediaArchiver;
                 case SusieArchiver susieArchiver:
                     return ArchiverType.SusieArchiver;
+                case PagemarkArchiver pagemarkArchiver:
+                    return ArchiverType.PagemarkArchiver;
                 default:
                     return ArchiverType.None;
             }

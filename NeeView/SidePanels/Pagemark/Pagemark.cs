@@ -1,7 +1,11 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Collections;
 using System;
+using System.Diagnostics;
+using System.IO;
 using System.Runtime.Serialization;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NeeView
 {
@@ -14,17 +18,14 @@ namespace NeeView
     {
         private string _place;
 
-        public Pagemark()
-        {
-        }
-
-        public Pagemark(BookMementoUnit unit, string entryName)
+        public Pagemark(BookMementoUnit unit, string entryName, long length, DateTime? lastWriteTime)
         {
             Place = unit.Place;
             EntryName = entryName;
             Unit = unit;
+            Length = length;
+            LastWriteTime = lastWriteTime;
         }
-
 
         [DataMember]
         public string Place
@@ -40,9 +41,20 @@ namespace NeeView
             }
         }
 
-
         [DataMember]
         public string EntryName { get; set; }
+
+        /// <summary>
+        /// ファイルサイズ。
+        /// </summary>
+        [DataMember]
+        public long Length { get; set; }
+
+        /// <summary>
+        /// ファイル更新日。nullは未設定
+        /// </summary>
+        [DataMember]
+        public DateTime? LastWriteTime { get; set; }
 
 
         [OnDeserialized]
@@ -51,6 +63,7 @@ namespace NeeView
             this.EntryName = LoosePath.NormalizeSeparator(this.EntryName);
         }
 
+        public string FullName => LoosePath.Combine(Place, EntryName);
         public string Name => LoosePath.GetFileName(EntryName);
         public string Note => LoosePath.GetFileName(Place);
         public string Detail => Place + "\n" + EntryName;
@@ -130,6 +143,29 @@ namespace NeeView
             return base.ToString() + " Name:" + Name;
         }
 
+        /// <summary>
+        /// 足りない情報の補完
+        /// </summary>
+        public async Task ValidateAsync()
+        {
+            if (LastWriteTime != null)
+            {
+                return;
+            }
+
+            try
+            {
+                using (var entry = await ArchiveFileSystem.CreateArchiveEntry(FullName, CancellationToken.None))
+                {
+                    this.Length = entry.Length;
+                    this.LastWriteTime = entry.LastWriteTime;
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Update pagemark parameter faied: {FullName}: {ex.Message}");
+            }
+        }
     }
 
 }

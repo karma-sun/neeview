@@ -390,7 +390,11 @@ namespace NeeView
         public string GetFolderOpenPlace()
         {
             Debug.Assert(Entry?.Archiver != null);
-            if (Entry.Archiver is FolderArchive)
+            if (Entry.Archiver is PagemarkArchiver)
+            {
+                return Entry.GetFileSystemPath();
+            }
+            else if (Entry.Archiver is FolderArchive)
             {
                 return GetFilePlace();
             }

@@ -27,6 +27,8 @@ namespace NeeView
             Path = path;
             RootFlag = isRoot;
 
+            var query = new QueryPath(path);
+
             if (source != null)
             {
                 Parent = source.Archiver;
@@ -36,6 +38,14 @@ namespace NeeView
                 Length = source.Length;
 
                 this.Source = source;
+            }
+
+            else if (query.Scheme == QueryScheme.Pagemark)
+            {
+                EntryName = LoosePath.GetFileName(Path);
+                Length = -1;
+                LastWriteTime = default;
+                return;
             }
 
             else

@@ -13,6 +13,7 @@
         PdfArchiver,
         SusieArchiver,
         MediaArchiver,
+        PagemarkArchiver,
     }
 
     public static class ArchiverTypeExtensions

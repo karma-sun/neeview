@@ -129,8 +129,8 @@ namespace NeeView
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenCommand, Open_Executed));
             this.ListBox.CommandBindings.Add(new CommandBinding(OpenExplorerCommand, OpenExplorer_Executed));
             this.ListBox.CommandBindings.Add(new CommandBinding(CopyCommand, Copy_Executed, Copy_CanExecute));
-            this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Executed, FileCommand_CanExecute));
-            this.ListBox.CommandBindings.Add(new CommandBinding(RenameCommand, Rename_Executed, FileCommand_CanExecute));
+            this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Executed, Remove_CanExecute));
+            this.ListBox.CommandBindings.Add(new CommandBinding(RenameCommand, Rename_Executed, Rename_CanExecute));
         }
 
         /// <summary>
@@ -200,6 +200,36 @@ namespace NeeView
             }
         }
 
+
+        public void Remove_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as FolderItem;
+            e.CanExecute = CanRemoveExecute(item);
+        }
+
+        private bool CanRemoveExecute(FolderItem item)
+        {
+            if (item == null || !item.IsEditable)
+            {
+                return false;
+            }
+            else if (item.IsFileSystem())
+            {
+                return FileIOProfile.Current.IsEnabled;
+            }
+            else if (item.Attributes.HasFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Directory))
+            {
+                return true;
+            }
+            else if (item.Attributes.HasFlag(FolderItemAttribute.Pagemark | FolderItemAttribute.Directory))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+
         /// <summary>
         /// 削除コマンド実行
         /// </summary>
@@ -217,6 +247,10 @@ namespace NeeView
             {
                 _vm.Model.RemoveBookmark(item);
             }
+            if (item.Attributes.HasFlag(FolderItemAttribute.Pagemark))
+            {
+                _vm.Model.RemovePagemark(item);
+            }
             else if (item.IsFileSystem())
             {
                 var removed = await FileIO.Current.RemoveAsync(item.Path.SimplePath, Properties.Resources.DialogFileDeleteBookTitle);
@@ -225,6 +259,35 @@ namespace NeeView
                     _vm.FolderCollection?.RequestDelete(item.Path);
                 }
             }
+        }
+
+
+        public void Rename_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as FolderItem;
+            e.CanExecute = CanRenameExecute(item);
+        }
+
+        private bool CanRenameExecute(FolderItem item)
+        {
+            if (item == null || !item.IsEditable)
+            {
+                return false;
+            }
+            else if (item.IsFileSystem())
+            {
+                return FileIOProfile.Current.IsEnabled;
+            }
+            else if (item.Attributes.HasFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Directory))
+            {
+                return true;
+            }
+            else if (item.Attributes.HasFlag(FolderItemAttribute.Pagemark | FolderItemAttribute.Directory))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -239,7 +302,7 @@ namespace NeeView
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
             if (item == null) return;
 
-            if (item.IsFileSystem() || item.Attributes.HasFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Directory))
+            if (CanRenameExecute(item))
             {
                 listView.UpdateLayout();
                 var listViewItem = VisualTreeUtility.GetListBoxItemFromItem(listView, item);
@@ -253,9 +316,13 @@ namespace NeeView
                     rename.IsFileName = !item.IsDirectory;
                     rename.Closing += async (s, ev) =>
                     {
-                        if (item.Source is TreeListNode<IBookmarkEntry> node)
+                        if (item.Source is TreeListNode<IBookmarkEntry> bookmarkNode)
                         {
-                            BookmarkCollectionService.Rename(node, ev.NewValue);
+                            BookmarkCollectionService.Rename(bookmarkNode, ev.NewValue);
+                        }
+                        else if (item.Source is TreeListNode<IPagemarkEntry> pagemarkNode)
+                        {
+                            PagemarkCollectionService.Rename(pagemarkNode, ev.NewValue);
                         }
                         else if (ev.OldValue != ev.NewValue)
                         {
@@ -399,6 +466,23 @@ namespace NeeView
                 return;
             }
 
+            if (item.Attributes.AnyFlag(FolderItemAttribute.Pagemark))
+            {
+                if (item.Attributes.AnyFlag(FolderItemAttribute.ReadOnly))
+                {
+                    e.Data.SetData(item.Source);
+                    ////e.Data.SetData(item.TargetPath);
+                    return;
+                }
+                else
+                {
+                    e.Data.SetData(item.Source);
+                    ////e.Data.SetData(item.TargetPath);
+                    e.AllowedEffects |= DragDropEffects.Move;
+                }
+                return;
+            }
+
             if (item.IsFileSystem())
             {
                 e.Data.SetFileDropList(new System.Collections.Specialized.StringCollection() { item.TargetPath.SimplePath });
@@ -438,32 +522,60 @@ namespace NeeView
                 }
             }
 
-            TreeListNode<IBookmarkEntry> node = null;
-            if (listBoxItem == null)
+            // bookmark
             {
-                if (_vm.FolderCollection is BookmarkFolderCollection bookmarkFolderCollection)
+                TreeListNode<IBookmarkEntry> bookmarkNode = null;
+                if (listBoxItem == null)
                 {
-                    node = bookmarkFolderCollection.BookmarkPlace;
+                    if (_vm.FolderCollection is BookmarkFolderCollection bookmarkFolderCollection)
+                    {
+                        bookmarkNode = bookmarkFolderCollection.BookmarkPlace;
+                    }
+                }
+                else
+                {
+                    if (listBoxItem.Content is FolderItem target && target.Attributes.HasFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Directory))
+                    {
+                        bookmarkNode = target.Source as TreeListNode<IBookmarkEntry>;
+                    }
+                }
+
+                if (bookmarkNode != null)
+                {
+                    DropToBookmark(sender, e, isDrop, bookmarkNode, e.Data.GetData<TreeListNode<IBookmarkEntry>>());
+                    if (e.Handled) return;
+
+                    DropToBookmark(sender, e, isDrop, bookmarkNode, e.Data.GetData<QueryPath>());
+                    if (e.Handled) return;
+
+                    DropToBookmark(sender, e, isDrop, bookmarkNode, e.Data.GetFileDrop());
+                    if (e.Handled) return;
                 }
             }
-            else
+
+            // pagemark
             {
-                if (listBoxItem.Content is FolderItem target && target.Attributes.HasFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Directory))
+                TreeListNode<IPagemarkEntry> pagemarkNode = null;
+                if (listBoxItem == null)
                 {
-                    node = target.Source as TreeListNode<IBookmarkEntry>;
+                    if (_vm.FolderCollection is PagemarkFolderCollection pagemarkFolderCollection)
+                    {
+                        pagemarkNode = pagemarkFolderCollection.PagemarkPlace;
+                    }
                 }
-            }
+                else
+                {
+                    if (listBoxItem.Content is FolderItem target && target.Attributes.HasFlag(FolderItemAttribute.Pagemark | FolderItemAttribute.Directory))
+                    {
+                        pagemarkNode = target.Source as TreeListNode<IPagemarkEntry>;
+                    }
+                }
 
-            if (node != null)
-            {
-                DropToBookmark(sender, e, isDrop, node, e.Data.GetData<TreeListNode<IBookmarkEntry>>());
-                if (e.Handled) return;
-
-                DropToBookmark(sender, e, isDrop, node, e.Data.GetData<QueryPath>());
-                if (e.Handled) return;
-
-                DropToBookmark(sender, e, isDrop, node, e.Data.GetFileDrop());
-                if (e.Handled) return;
+                if (pagemarkNode != null)
+                {
+                    DropToPagemark(sender, e, isDrop, pagemarkNode, e.Data.GetData<TreeListNode<IPagemarkEntry>>());
+                    if (e.Handled) return;
+                }
             }
 
             e.Effects = DragDropEffects.None;
@@ -538,6 +650,34 @@ namespace NeeView
                 e.Handled = true;
             }
         }
+
+
+        private void DropToPagemark(object sender, DragEventArgs e, bool isDrop, TreeListNode<IPagemarkEntry> node, TreeListNode<IPagemarkEntry> pagemarkEntry)
+        {
+            if (pagemarkEntry == null)
+            {
+                return;
+            }
+
+            if (node == PagemarkCollection.Current.Items && pagemarkEntry.Value is Pagemark)
+            {
+                return;
+            }
+
+            if (e.AllowedEffects.HasFlag(DragDropEffects.Move) && !node.Children.Contains(pagemarkEntry) && !node.ParentContains(pagemarkEntry))
+            {
+                if (isDrop)
+                {
+                    _vm.Model.SelectPagemark(node, true);
+                    PagemarkCollection.Current.MoveToChild(pagemarkEntry, node);
+                }
+                e.Effects = DragDropEffects.Move;
+                e.Handled = true;
+            }
+        }
+
+
+
 
         private ListBoxItem PointToViewItem(ListBox listBox, Point point)
         {
@@ -661,8 +801,12 @@ namespace NeeView
 
             if (_vm.FolderCollection is BookmarkFolderCollection)
             {
-                items.Add(new MenuItem() { Header = Properties.Resources.WordNewFolder, Command = NewFolderCommand });
                 items.Add(new MenuItem() { Header = Properties.Resources.FolderTreeMenuAddBookmark, Command = AddBookmarkCommand });
+                items.Add(new MenuItem() { Header = Properties.Resources.WordNewFolder, Command = NewFolderCommand });
+            }
+            else if (_vm.FolderCollection is PagemarkFolderCollection)
+            {
+                items.Add(new MenuItem() { Header = Properties.Resources.WordNewFolder, Command = NewFolderCommand });
             }
         }
 
@@ -865,6 +1009,16 @@ namespace NeeView
                     ////contextMenu.Items.Add(new Separator());
                     ////contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDelete, Command = RemoveCommand });
                     ////contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuRename, Command = RenameCommand });
+                }
+            }
+            else if (item.Attributes.HasFlag(FolderItemAttribute.Pagemark))
+            {
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuSubfolder, Command = LoadWithRecursiveCommand, IsChecked = item.IsRecursived });
+                contextMenu.Items.Add(new Separator());
+                if (item.Source != PagemarkCollection.Current.Items)
+                {
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDelete, Command = RemoveCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuRename, Command = RenameCommand });
                 }
             }
             else if (item.Attributes.HasFlag(FolderItemAttribute.Empty))

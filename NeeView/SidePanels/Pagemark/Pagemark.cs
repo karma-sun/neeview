@@ -138,6 +138,12 @@ namespace NeeView
 
         #endregion
 
+
+        public bool IsEqual(IPagemarkEntry entry)
+        {
+            return entry is Pagemark pagemark && this.Name == pagemark.Name && this.Place == pagemark.Place;
+        }
+
         public override string ToString()
         {
             return base.ToString() + " Name:" + Name;

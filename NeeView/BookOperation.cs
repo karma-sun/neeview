@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -737,19 +738,95 @@ namespace NeeView
         //
         private void PagemarkCollection_PagemarkChanged(object sender, PagemarkCollectionChangedEventArgs e)
         {
-            switch (e.Action)
+            if (!IsValid)
             {
-                case NotifyCollectionChangedAction.Replace:
-                case NotifyCollectionChangedAction.Reset:
-                    UpdatePagemark();
-                    break;
-                case NotifyCollectionChangedAction.Add:
-                case NotifyCollectionChangedAction.Remove:
-                    if (e.Item.Value is Pagemark pagemark && pagemark.Place == Place)
-                    {
+                return;
+            }
+
+            var placeQuery = new QueryPath(Place);
+            if (placeQuery.Scheme == QueryScheme.Pagemark)
+            {
+                switch (e.Action)
+                {
+                    case EntryCollectionChangedAction.Replace:
+                    case EntryCollectionChangedAction.Reset:
+                        BookHub.Current.RequestUnload(true);
+                        break;
+                    case EntryCollectionChangedAction.Add:
+                        {
+                            // ブックに含まれるページが追加されたら再読込 ... シャッフルで再ソートされてしまう問題あり
+                            var query = e.Item.CreateQuery(QueryScheme.Pagemark);
+                            if (Book.IsRecursiveFolder && placeQuery.Include(query) || query.GetParent().Equals(placeQuery))
+                            {
+                                Debug.WriteLine($"BookOperation: Add pagemarks: {e.Item.Value.Name}");
+                                BookHub.Current.ReLoad();
+                            }
+                        }
+                        break;
+
+                    case EntryCollectionChangedAction.Remove:
+                        {
+                            var parentQuery = e.Parent.CreateQuery(QueryScheme.Pagemark);
+
+                            // 現在のページに存在している場合はその項目を削除
+                            // 自身もしくは親フォルダーから削除された場合は本を閉じる
+                            // 含まれるフォルダーが削除された場合は再読込
+                            var page = Book.Pages.FirstOrDefault(i => i.Entry.Instance is TreeListNode<IPagemarkEntry> node && node == e.Item);
+                            if (page != null)
+                            {
+                                Debug.WriteLine($"BookOperation: Remve pagemark: {e.Item.Value.Name}");
+                                Book.RequestRemove(this, page);
+                            }
+                            else if (PagemarkCollection.Current.FindNode(placeQuery) == null) // 親が削除されていたら見つからない
+                            {
+                                Debug.WriteLine($"BookOperation: Remove parent pagemark: {e.Item.Value.Name}");
+                                BookHub.Current.RequestUnload(true);
+                            }
+                            else if (e.Item.Value is PagemarkFolder && Book.IsRecursiveFolder && placeQuery.Include(parentQuery))
+                            {
+                                Debug.WriteLine($"BookOperation: Remove pagemarks: {e.Item.Value.Name}");
+                                BookHub.Current.ReLoad();
+                            }
+                        }
+                        break;
+
+                    case EntryCollectionChangedAction.Rename:
+                        {
+                            var parentQuery = e.Parent.CreateQuery(QueryScheme.Pagemark);
+
+                            // 自信か親の名前が変化する場合、閉じる
+                            // 含まれるフォルダー名が変化する場合、再読込
+                            if (PagemarkCollection.Current.FindNode(placeQuery) == null) // 自身もしくは親の名前が変わっていたら見つからない
+                            {
+                                Debug.WriteLine($"BookOperation: Rename parent pagemark: {e.Item.Value.Name}");
+                                BookHub.Current.RequestUnload(true);
+                            }
+                            else if (e.Item.Value is PagemarkFolder && Book.IsRecursiveFolder && placeQuery.Include(parentQuery))
+                            {
+                                Debug.WriteLine($"BookOperation: Rename pagemarks: {e.Item.Value.Name}");
+                                BookHub.Current.ReLoad();
+                            }
+                        }
+                        break;
+                }
+            }
+
+            else
+            {
+                switch (e.Action)
+                {
+                    case EntryCollectionChangedAction.Replace:
+                    case EntryCollectionChangedAction.Reset:
                         UpdatePagemark();
-                    }
-                    break;
+                        break;
+                    case EntryCollectionChangedAction.Add:
+                    case EntryCollectionChangedAction.Remove:
+                        if (e.Item.Value is Pagemark pagemark && pagemark.Place == Place)
+                        {
+                            UpdatePagemark();
+                        }
+                        break;
+                }
             }
         }
 
@@ -768,13 +845,13 @@ namespace NeeView
         // ページマーク登録可能？
         public bool CanPagemark()
         {
-            return this.Book != null && !this.Book.IsMedia;
+            return this.Book != null && !this.Book.IsMedia && !this.Book.IsPagemarkFolder;
         }
 
         // マーカー切り替え
         public Pagemark TogglePagemark()
         {
-            if (!_isEnabled || this.Book == null || this.Book.IsMedia) return null;
+            if (!_isEnabled || this.Book == null || this.Book.IsMedia || this.Book.IsPagemarkFolder) return null;
 
             var place = Book.Place;
             var page = Book.GetViewPage();
@@ -798,7 +875,7 @@ namespace NeeView
         //
         public Pagemark AddPagemark()
         {
-            if (!_isEnabled || this.Book == null || this.Book.IsMedia) return null;
+            if (!_isEnabled || this.Book == null || this.Book.IsMedia || this.Book.IsPagemarkFolder) return null;
 
             var place = Book.Place;
             var page = Book.GetViewPage();
@@ -825,7 +902,7 @@ namespace NeeView
                 // TODO: 登録時にサムネイルキャッシュにも登録
                 var unit = BookMementoCollection.Current.Set(place);
                 var pagemark = new Pagemark(unit, entryName, length, lastWriteTime);
-                PagemarkCollection.Current.AddFirst(new TreeListNode<IPagemarkEntry>(pagemark));
+                PagemarkCollection.Current.Add(new TreeListNode<IPagemarkEntry>(pagemark));
                 return pagemark;
             }
             else

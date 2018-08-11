@@ -53,9 +53,9 @@ namespace NeeView
                 return;
             }
 
-            Debug.WriteLine("Create: " + item.CreatePath(null));
+            Debug.WriteLine("Create: " + item.CreateQuery(QueryScheme.Bookmark));
 
-            var node = GetDirectoryNode(parent.CreatePath(null));
+            var node = GetDirectoryNode(parent.CreateQuery(QueryScheme.Bookmark));
             if (node != null)
             {
                 ////App.Current.Dispatcher.BeginInvoke((Action)(() => node.Add(item)));
@@ -75,9 +75,9 @@ namespace NeeView
                 return;
             }
 
-            Debug.WriteLine("Delete: " + item.CreatePath(null));
+            Debug.WriteLine("Delete: " + item.CreateQuery(QueryScheme.Bookmark));
 
-            var node = GetDirectoryNode(parent.CreatePath(null));
+            var node = GetDirectoryNode(parent.CreateQuery(QueryScheme.Bookmark));
             if (node != null)
             {
                 ////App.Current.Dispatcher.BeginInvoke((Action)(() => node.Remove(item)));
@@ -96,9 +96,9 @@ namespace NeeView
                 return;
             }
 
-            Debug.WriteLine("Rename: " + item.CreatePath(null));
+            Debug.WriteLine("Rename: " + item.CreateQuery(QueryScheme.Bookmark));
 
-            var node = GetDirectoryNode(parent.CreatePath(null));
+            var node = GetDirectoryNode(parent.CreateQuery(QueryScheme.Bookmark));
             if (node != null)
             {
                 ////App.Current.Dispatcher.BeginInvoke((Action)(() => node.Rename(item)));
@@ -108,6 +108,11 @@ namespace NeeView
             {
                 Debug.WriteLine("Skip rename");
             }
+        }
+
+        private BookmarkFolderNode GetDirectoryNode(QueryPath path)
+        {
+            return GetDirectoryNode(path.Path);
         }
 
         private BookmarkFolderNode GetDirectoryNode(string path)

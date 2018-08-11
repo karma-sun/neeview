@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Collections.Generic;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -23,6 +24,8 @@ namespace NeeView
     /// </summary>
     public partial class PageListBox : UserControl, IPageListPanel
     {
+        public static string DragDropFormat = $"{Config.Current.ProcessId}.PageListBox";
+
         private PageListBoxViewModel _vm;
         private ListBoxThumbnailLoader _thumbnailLoader;
 
@@ -61,7 +64,7 @@ namespace NeeView
         public bool IsThumbnailVisibled => PageList.Current.IsThumbnailVisibled;
 
         public IEnumerable<IHasPage> CollectPageList(IEnumerable<object> objs) => objs.OfType<IHasPage>();
-        
+
         #endregion
 
 
@@ -83,7 +86,7 @@ namespace NeeView
         private void Remove_CanExec(object sender, CanExecuteRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as Page;
-            e.CanExecute = item != null && _vm.Model.CanRemove(item) && FileIOProfile.Current.IsEnabled;
+            e.CanExecute = item != null && _vm.Model.CanRemove(item);
         }
 
         private async void Remove_Exec(object sender, ExecutedRoutedEventArgs e)
@@ -231,6 +234,32 @@ namespace NeeView
         {
             UpdateViewItems();
         }
+
+
+        #region DragDrop
+
+        private void DragStartBehavior_DragBegin(object sender, Windows.DragStartEventArgs e)
+        {
+            var data = e.Data.GetData(DragDropFormat) as ListBoxItem;
+            if (data == null)
+            {
+                return;
+            }
+
+            var item = data.Content as Page;
+            if (item == null)
+            {
+                return;
+            }
+
+            if (item.Entry.Instance is TreeListNode<IPagemarkEntry> pagemarkNode)
+            {
+                e.Data.SetData(pagemarkNode);
+                e.AllowedEffects |= DragDropEffects.Move;
+            }
+        }
+
+        #endregion
     }
 
 

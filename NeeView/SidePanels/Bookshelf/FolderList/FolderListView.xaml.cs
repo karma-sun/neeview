@@ -317,6 +317,10 @@ namespace NeeView
                 {
                     return path.Scheme.ToImage();
                 }
+                else if (path.Scheme == QueryScheme.Pagemark)
+                {
+                    return path.Scheme.ToImage();
+                }
                 else if (path.Search != null)
                 {
                     return MainWindow.Current.Resources["ic_search_24px"] as ImageSource;

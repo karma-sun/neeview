@@ -601,25 +601,6 @@ namespace NeeView
             return new QueryPath(scheme, path, null);
         }
 
-
-        public static string CreatePath<T>(this TreeListNode<T> node, string scheme = null)
-            where T : IHasName
-        {
-            var path = string.Join("\\", node.Hierarchy.Select(e => e.Value).Skip(1).OfType<T>().Select(e => e.Name));
-            if (scheme != null)
-            {
-                if (string.IsNullOrEmpty(path))
-                {
-                    path = scheme + "\\";
-                }
-                else
-                {
-                    path = LoosePath.Combine(scheme, path);
-                }
-            }
-            return path;
-        }
-
         /// <summary>
         /// Bookmark用パス等価判定
         /// </summary>

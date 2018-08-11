@@ -1,5 +1,7 @@
-﻿using System;
+﻿using NeeView.Collections.Generic;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -55,6 +57,13 @@ namespace NeeView
 
             // 実在するパスではない
             this.IsValid = false;
+
+            // ページマーク？
+            if (new QueryPath(path).Scheme == QueryScheme.Pagemark)
+            {
+                Debug.WriteLine($"This is a pagemark: {path}");
+                return;
+            }
 
             // アーカイブパスの場合、ファイル情報は親アーカイブのものにする
             var parent = ArchiverManager.Current.GetExistPathName(path);
@@ -269,6 +278,11 @@ namespace NeeView
         public bool IsArchive(bool allowMedia = true)
         {
             if (this.IsFileSystem && this.IsDirectory)
+            {
+                return true;
+            }
+
+            if (Instance is TreeListNode<IPagemarkEntry> node && node.Value is PagemarkFolder)
             {
                 return true;
             }

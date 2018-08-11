@@ -11,7 +11,18 @@ namespace NeeView.Collections
     {
         public int Compare(IHasName x, IHasName y)
         {
-            return NativeMethods.StrCmpLogicalW(x.Name, y.Name);
+            if (x.Name == null)
+            {
+                return y.Name == null ? 0 : -1;
+            }
+            else if (y.Name == null)
+            {
+                return 1;
+            }
+            else
+            {
+                return NativeMethods.StrCmpLogicalW(x.Name, y.Name);
+            }
         }
     }
 }

@@ -29,6 +29,7 @@ namespace NeeView
         private RootQuickAccessNode _rootQuickAccess;
         private RootDirectoryNode _rootFolder;
         private RootBookmarkFolderNode _rootBookmarkFolder;
+        private RootPagemarkFolderNode _rootPagemarkFolder;
 
         // Constructors
 
@@ -39,12 +40,14 @@ namespace NeeView
             _rootQuickAccess = new RootQuickAccessNode(_root);
             _rootFolder = new RootDirectoryNode(_root);
             _rootBookmarkFolder = new RootBookmarkFolderNode(_root);
+            _rootPagemarkFolder = new RootPagemarkFolderNode(_root);
 
             _root.Children = new ObservableCollection<FolderTreeNodeBase>()
             {
                 _rootQuickAccess,
                 _rootFolder,
-                _rootBookmarkFolder
+                _rootBookmarkFolder,
+                _rootPagemarkFolder,
             };
 
             Config.Current.DpiChanged += Config_DpiChanged;
@@ -140,6 +143,7 @@ namespace NeeView
             _rootQuickAccess.IsExpanded = true;
             _rootFolder.IsExpanded = true;
             _rootBookmarkFolder.IsExpanded = true;
+            _rootPagemarkFolder.IsExpanded = true;
         }
 
         public void SelectRootQuickAccess()
@@ -150,6 +154,11 @@ namespace NeeView
         public void SelectRootBookmarkFolder()
         {
             SelectedItem = _rootBookmarkFolder;
+        }
+
+        public void SelectRootPagemarkFolder()
+        {
+            SelectedItem = _rootPagemarkFolder;
         }
 
         public void Decide(object item)
@@ -177,6 +186,10 @@ namespace NeeView
 
                 case BookmarkFolderNode bookmarkFolder:
                     SetFolderListPlace(bookmarkFolder.Path);
+                    break;
+
+                case PagemarkFolderNode pagemarkFolder:
+                    SetFolderListPlace(pagemarkFolder.Path);
                     break;
             }
         }
@@ -345,6 +358,75 @@ namespace NeeView
             }
         }
 
+
+        public void OpenPagemarkFolder(PagemarkFolderNode item)
+        {
+            if (item == null)
+            {
+                return;
+            }
+
+            var query = item.PagemarkSource.CreateQuery(QueryScheme.Pagemark);
+            BookHub.Current.RequestLoad(query.FullPath, null, BookLoadOption.IsBook, true);
+        }
+
+        public PagemarkFolderNode NewPagemarkFolder(PagemarkFolderNode item)
+        {
+            if (item == null)
+            {
+                return null;
+            }
+
+            item.IsExpanded = true;
+
+            var node = PagemarkCollection.Current.AddNewFolder(item.PagemarkSource);
+            if (node == null)
+            {
+                return null;
+            }
+
+            var newItem = item.Children.OfType<PagemarkFolderNode>().FirstOrDefault(e => e.Source == node);
+            if (newItem != null)
+            {
+                SelectedItem = newItem;
+            }
+
+            return newItem;
+        }
+
+        public void RemovePagemarkFolder(PagemarkFolderNode item)
+        {
+            if (item == null || item is RootPagemarkFolderNode || item.PagemarkSource.Value is DefaultPagemarkFolder)
+            {
+                return;
+            }
+
+            var next = item.Next ?? item.Previous ?? item.Parent;
+
+            var memento = new TreeListNodeMemento<IPagemarkEntry>(item.PagemarkSource);
+
+            bool isRemoved = PagemarkCollection.Current.Remove(item.PagemarkSource);
+            if (isRemoved)
+            {
+                if (item.PagemarkSource.Value is PagemarkFolder)
+                {
+                    var count = item.PagemarkSource.Count(e => e.Value is Pagemark);
+                    if (count > 0)
+                    {
+                        var toast = new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), Properties.Resources.WordRestore, () => PagemarkCollection.Current.Restore(memento));
+                        ToastService.Current.Show("FolderList", toast);
+                    }
+                }
+
+                if (next != null)
+                {
+                    next.IsSelected = true;
+                    SelectedItem = next;
+                }
+            }
+        }
+
+
         public void MoveQuickAccess(QuickAccessNode src, QuickAccessNode dst)
         {
             if (src == dst)
@@ -399,6 +481,8 @@ namespace NeeView
                     return _rootFolder.GetFolderTreeNode(path.Path, createChildren, asFarAsPossible);
                 case QueryScheme.Bookmark:
                     return _rootBookmarkFolder.GetFolderTreeNode(path.Path, createChildren, asFarAsPossible);
+                case QueryScheme.Pagemark:
+                    return _rootPagemarkFolder.GetFolderTreeNode(path.Path, createChildren, asFarAsPossible);
                 case QueryScheme.QuickAccess:
                     return _rootBookmarkFolder.GetFolderTreeNode(path.Path, createChildren, asFarAsPossible);
                 default:

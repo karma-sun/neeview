@@ -39,7 +39,7 @@ namespace NeeView
             [QueryScheme.File] = MainWindow.Current.Resources["ic_desktop_windows_24px"] as ImageSource,
             [QueryScheme.Root] = MainWindow.Current.Resources["ic_bookshelf"] as ImageSource,
             [QueryScheme.Bookmark] = MainWindow.Current.Resources["ic_grade_24px"] as ImageSource,
-            [QueryScheme.Pagemark] = App.Current.Resources["ic_bookmark_24px"] as ImageSource,
+            [QueryScheme.Pagemark] = MainWindow.Current.Resources["ic_bookmark_24px"] as ImageSource,
             [QueryScheme.QuickAccess] = MainWindow.Current.Resources["ic_lightning"] as ImageSource,
         };
 
@@ -234,6 +234,27 @@ namespace NeeView
             return new QueryPath(this.Scheme, parent, null);
         }
 
+        public bool Include(QueryPath target)
+        {
+            var pathX = this.FullPath;
+            var pathY = target.FullPath;
+
+            var lengthX = pathX.Length;
+            var lengthY = pathY.Length;
+
+            if (lengthX > lengthY)
+            {
+                return false;
+            }
+            else if (lengthX == lengthY)
+            {
+                return pathX == pathY;
+            }
+            else
+            {
+                return pathY.StartsWith(pathX) && pathY[lengthX] == '\\';
+            }
+        }
 
 
         public override string ToString()

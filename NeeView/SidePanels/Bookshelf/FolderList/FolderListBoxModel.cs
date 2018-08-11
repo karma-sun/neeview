@@ -53,7 +53,7 @@ namespace NeeView
         /// <summary>
         /// リスト自体のコンテキストメニュー表示が有効？
         /// </summary>
-        public bool IsContextMenuEnabled => FolderCollection is BookmarkFolderCollection;
+        public bool IsContextMenuEnabled => FolderCollection is BookmarkFolderCollection || FolderCollection is PagemarkFolderCollection;
 
         /// <summary>
         /// フォーカス要求
@@ -252,7 +252,7 @@ namespace NeeView
             }
 
             var query = item.TargetPath;
-            if (query.Path == null)
+            if (query.Scheme != QueryScheme.Pagemark && query.Path == null)
             {
                 return;
             }
@@ -296,7 +296,21 @@ namespace NeeView
             this.FolderCollection.FolderParameter.IsFolderRecursive = !this.FolderCollection.FolderParameter.IsFolderRecursive;
         }
 
+
         public void NewFolder()
+        {
+            if (FolderCollection is BookmarkFolderCollection)
+            {
+                NewBookmarkFolder();
+            }
+            else if (FolderCollection is PagemarkFolderCollection)
+            {
+                NewPagemarkFolder();
+            }
+        }
+
+
+        public void NewBookmarkFolder()
         {
             if (FolderCollection is BookmarkFolderCollection bookmarkFolderCollection)
             {
@@ -385,6 +399,69 @@ namespace NeeView
 
             return isRemoved;
         }
+
+
+        public void NewPagemarkFolder()
+        {
+            if (FolderCollection is PagemarkFolderCollection pagemarkFolderCollection)
+            {
+                var node = PagemarkCollection.Current.AddNewFolder(pagemarkFolderCollection.PagemarkPlace);
+
+                var item = pagemarkFolderCollection.FirstOrDefault(e => e.Attributes.HasFlag(FolderItemAttribute.Directory) && e.Name == node.Value.Name);
+
+                if (item != null)
+                {
+                    SelectedItem = item;
+                    SelectedChanged?.Invoke(this, new SelectedChangedEventArgs() { IsFocus = true, IsNewFolder = true });
+                }
+            }
+        }
+
+        public void SelectPagemark(TreeListNode<IPagemarkEntry> node, bool isFocus)
+        {
+            if (!(FolderCollection is PagemarkFolderCollection pagemarkFolderCollection))
+            {
+                return;
+            }
+
+            var item = pagemarkFolderCollection.FirstOrDefault(e => node == (e.Source as TreeListNode<IPagemarkEntry>));
+            if (item != null)
+            {
+                SelectedItem = item;
+                SelectedChanged?.Invoke(this, new SelectedChangedEventArgs() { IsFocus = isFocus });
+            }
+        }
+
+
+        public bool RemovePagemark(FolderItem item)
+        {
+            var node = item.Source as TreeListNode<IPagemarkEntry>;
+            if (node == null)
+            {
+                return false;
+            }
+
+            var memento = new TreeListNodeMemento<IPagemarkEntry>(node);
+
+            bool isRemoved = PagemarkCollection.Current.Remove(node);
+            if (isRemoved)
+            {
+                if (node.Value is PagemarkFolder)
+                {
+                    var count = node.Count(e => e.Value is Pagemark);
+                    if (count > 0)
+                    {
+                        var toast = new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), Properties.Resources.WordRestore, () => PagemarkCollection.Current.Restore(memento));
+                        ToastService.Current.Show("PagemarkList", toast);
+                    }
+                }
+            }
+
+            return isRemoved;
+        }
+
+
+
 
         public void MoveToHome()
         {

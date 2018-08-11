@@ -69,7 +69,7 @@ namespace NeeView
                     Archiver = this,
                     Id = list.Count,
                     Instance = child,
-                    RawEntryName = name + (pagemark == null ? "\\" : ""),
+                    RawEntryName = name,
                     Length = pagemark != null ? pagemark.Length : -1,
                     LastWriteTime = pagemark?.LastWriteTime,
                 });

@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Collections.Generic;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -97,13 +98,21 @@ namespace NeeView
 
         public bool CanRemove(Page page)
         {
-            return FileIO.Current.CanRemovePage(page);
+            return FileIO.Current.CanRemovePage(page) && FileIOProfile.Current.IsEnabled
+                || page.Entry.Instance is TreeListNode<IPagemarkEntry>;
         }
 
         public async Task RemoveAsync(Page page)
         {
-            // HACK: FileIOでPage型を処理するのはおかしい
-            await FileIO.Current.RemovePageAsync(page);
+            if (page.Entry.Instance is TreeListNode<IPagemarkEntry> pagemarkNode)
+            {
+                PagemarkCollection.Current.Remove(pagemarkNode);
+            }
+            else
+            {
+                // HACK: FileIOでPage型を処理するのはおかしい
+                await FileIO.Current.RemovePageAsync(page);
+            }
         }
     }
 }

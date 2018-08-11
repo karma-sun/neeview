@@ -4341,4 +4341,13 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamListItemThumbnailImageShape" xml:space="preserve">
     <value>サムネイルの形</value>
   </data>
+  <data name="WordOpen" xml:space="preserve">
+    <value>開く</value>
+  </data>
+  <data name="WordDefaultPagemark" xml:space="preserve">
+    <value>規定のページマーク</value>
+  </data>
+  <data name="FolderTreeMenuDeleteInvalidPagemark" xml:space="preserve">
+    <value>無効なページマークを削除</value>
+  </data>
 </root>

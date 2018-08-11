@@ -77,11 +77,7 @@ namespace NeeView
 
             Debug.WriteLine($"App.ShowSplashScreen: {Stopwatch.ElapsedMilliseconds}ms");
 
-#if SUSIE
-            var resourceName = "Resources/SplashS.png";
-#else
-            var resourceName = "Resources/Splash.png";
-#endif
+            var resourceName = "Resources/NeeViewSplashScreen.png";
 
             SplashScreen splashScreen = new SplashScreen(resourceName);
             splashScreen.Show(true);

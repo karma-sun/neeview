@@ -9,7 +9,7 @@ namespace NeeView
         private string _name;
 
         [DataMember(EmitDefaultValue = false)]
-        public string Name
+        public virtual string Name
         {
             get { return _name; }
             set { SetProperty(ref _name, value); }
@@ -40,6 +40,27 @@ namespace NeeView
             {
                 return _constPage != null ? _constPage : _constPage = new ConstPage(ThumbnailType.Folder);
             }
+        }
+
+
+        public static string GetValidateName(string name)
+        {
+            return name.Trim().Replace('/', '_').Replace('\\', '_');
+        }
+
+        public bool IsEqual(IPagemarkEntry entry)
+        {
+            return entry is PagemarkFolder folder && this.Name == folder.Name;
+        }
+    }
+
+    [DataContract]
+    public class DefaultPagemarkFolder : PagemarkFolder
+    {
+        public override string Name
+        {
+            get { return "(Default Pagemark)"; }
+            set { }
         }
     }
 

@@ -27,6 +27,7 @@ namespace NeeView
         Pagemark = (1 << 6),
         QuickAccess = (1 << 7),
         System = (1 << 8),
+        ReadOnly = (1 << 9),
     }
 
     /// <summary>
@@ -158,7 +159,7 @@ namespace NeeView
         /// <summary>
         /// 編集可能
         /// </summary>
-        public bool IsEditable => (this.Attributes & (FolderItemAttribute.Empty | FolderItemAttribute.Drive | FolderItemAttribute.ArchiveEntry)) == 0;
+        public bool IsEditable => (this.Attributes & (FolderItemAttribute.Empty | FolderItemAttribute.Drive | FolderItemAttribute.ArchiveEntry | FolderItemAttribute.ReadOnly | FolderItemAttribute.System)) == 0;
 
         /// <summary>
         /// アクセス可能？(ドライブの準備ができているか)

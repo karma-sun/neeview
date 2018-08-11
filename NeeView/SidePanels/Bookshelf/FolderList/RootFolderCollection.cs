@@ -3,19 +3,23 @@ using System.Collections.ObjectModel;
 
 namespace NeeView
 {
-     /// <summary>
+    /// <summary>
     /// 最上位のフォルダーコレクション (Root)
     /// </summary>
     public class RootFolderCollection : FolderCollection, IDisposable
     {
-        public RootFolderCollection() : base(new QueryPath(QueryScheme.Root, null), false)
+        public RootFolderCollection(QueryPath path) : base(path, false)
         {
             var items = new ObservableCollection<FolderItem>();
 
-            // NOTE: 操作に難があるため、クイックアクセスは表示しない
-            //items.Add(CreateFolderItem(QueryScheme.QuickAccess));
-            items.Add(CreateFolderItem(QueryScheme.File));
-            items.Add(CreateFolderItem(QueryScheme.Bookmark));
+            if (path.Path == null)
+            {
+                // NOTE: 操作に難があるため、クイックアクセスは表示しない
+                //items.Add(CreateFolderItem(QueryScheme.QuickAccess));
+                items.Add(CreateFolderItem(QueryScheme.File));
+                items.Add(CreateFolderItem(QueryScheme.Bookmark));
+                items.Add(CreateFolderItem(QueryScheme.Pagemark));
+            }
 
             this.Items = items;
         }

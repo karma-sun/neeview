@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Collections.Generic;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -338,11 +339,20 @@ namespace NeeView
             {
                 archiver = ArchiverManager.Current.CreateArchiver(entry.GetFileSystemPath(), entry, false, _isAll);
             }
+            else if (entry.Archiver is PagemarkArchiver)
+            {
+                archiver = ArchiverManager.Current.CreateArchiver(entry.FullPath, entry, false, _isAll);
+            }
             else
             {
                 string tempFileName = await ArchivenEntryExtractorService.Current.ExtractRawAsync(entry, token);
                 _trashBox.Add(new TempFile(tempFileName));
                 archiver = ArchiverManager.Current.CreateArchiver(tempFileName, entry, false, _isAll);
+            }
+
+            if (archiver == null)
+            {
+                return null;
             }
 
             _trashBox.Add(archiver);

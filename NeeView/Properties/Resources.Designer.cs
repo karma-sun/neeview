@@ -7106,6 +7106,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Remove invalid pagemark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FolderTreeMenuDeleteInvalidPagemark {
+            get {
+                return ResourceManager.GetString("FolderTreeMenuDeleteInvalidPagemark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Open in explorer に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FolderTreeMenuExplorer {
@@ -12159,6 +12168,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Default pagemark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordDefaultPagemark {
+            get {
+                return ResourceManager.GetString("WordDefaultPagemark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   degree に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WordDegree {
@@ -12389,6 +12407,15 @@ namespace NeeView.Properties {
         public static string WordOn {
             get {
                 return ResourceManager.GetString("WordOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordOpen {
+            get {
+                return ResourceManager.GetString("WordOpen", resourceCulture);
             }
         }
         

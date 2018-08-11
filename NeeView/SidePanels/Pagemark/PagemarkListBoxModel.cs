@@ -196,7 +196,7 @@ namespace NeeView
         internal void NewFolder()
         {
             var node = new TreeListNode<IPagemarkEntry>(new PagemarkFolder() { Name = Properties.Resources.WordNewFolder });
-            PagemarkCollection.Current.AddFirst(node);
+            PagemarkCollection.Current.Add(node);
             SelectedItem = node;
             Changed?.Invoke(this, new CollectionChangeEventArgs(CollectionChangeAction.Add, node));
         }

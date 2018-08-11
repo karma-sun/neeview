@@ -4341,4 +4341,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamListItemThumbnailImageShape" xml:space="preserve">
     <value>Shape of thumbnail</value>
   </data>
+  <data name="WordOpen" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="WordDefaultPagemark" xml:space="preserve">
+    <value>Default pagemark</value>
+  </data>
+  <data name="FolderTreeMenuDeleteInvalidPagemark" xml:space="preserve">
+    <value>Remove invalid pagemark</value>
+  </data>
 </root>

@@ -172,7 +172,8 @@ namespace NeeView
             var query = new QueryPath(fileName);
             if (query.Scheme == QueryScheme.Pagemark)
             {
-                return ArchiverType.PagemarkArchiver;
+                var node = PagemarkCollection.Current.FindNode(query);
+                return node != null && node.Value is PagemarkFolder ? ArchiverType.PagemarkArchiver : ArchiverType.None;
             }
 
             if (isArrowFileSystem && (fileName.Last() == '\\' || fileName.Last() == '/'))

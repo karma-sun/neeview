@@ -64,6 +64,21 @@ namespace NeeView
             Model.RemoveBookmarkFolder(item);
         }
 
+        public void OpenPagemarkBook(PagemarkFolderNode item)
+        {
+            Model.OpenPagemarkFolder(item);
+        }
+
+        public PagemarkFolderNode NewPagemarkFolder(PagemarkFolderNode item)
+        {
+            return Model.NewPagemarkFolder(item);
+        }
+
+        public void RemovePagemarkFolder(PagemarkFolderNode item)
+        {
+            Model.RemovePagemarkFolder(item);
+        }
+
         public void RefreshFolder()
         {
             Model.RefreshDirectory();

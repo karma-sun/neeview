@@ -29,7 +29,7 @@ namespace NeeView
         private RootQuickAccessNode _rootQuickAccess;
         private RootDirectoryNode _rootFolder;
         private RootBookmarkFolderNode _rootBookmarkFolder;
-        private RootPagemarkFolderNode _rootPagemarkFolder;
+        ////private RootPagemarkFolderNode _rootPagemarkFolder;
 
         // Constructors
 
@@ -40,14 +40,14 @@ namespace NeeView
             _rootQuickAccess = new RootQuickAccessNode(_root);
             _rootFolder = new RootDirectoryNode(_root);
             _rootBookmarkFolder = new RootBookmarkFolderNode(_root);
-            _rootPagemarkFolder = new RootPagemarkFolderNode(_root);
+            ////_rootPagemarkFolder = new RootPagemarkFolderNode(_root);
 
             _root.Children = new ObservableCollection<FolderTreeNodeBase>()
             {
                 _rootQuickAccess,
                 _rootFolder,
                 _rootBookmarkFolder,
-                _rootPagemarkFolder,
+                ////_rootPagemarkFolder,
             };
 
             Config.Current.DpiChanged += Config_DpiChanged;
@@ -143,7 +143,7 @@ namespace NeeView
             _rootQuickAccess.IsExpanded = true;
             _rootFolder.IsExpanded = true;
             _rootBookmarkFolder.IsExpanded = true;
-            _rootPagemarkFolder.IsExpanded = true;
+            ////_rootPagemarkFolder.IsExpanded = true;
         }
 
         public void SelectRootQuickAccess()
@@ -158,7 +158,7 @@ namespace NeeView
 
         public void SelectRootPagemarkFolder()
         {
-            SelectedItem = _rootPagemarkFolder;
+            ////SelectedItem = _rootPagemarkFolder;
         }
 
         public void Decide(object item)
@@ -481,8 +481,8 @@ namespace NeeView
                     return _rootFolder.GetFolderTreeNode(path.Path, createChildren, asFarAsPossible);
                 case QueryScheme.Bookmark:
                     return _rootBookmarkFolder.GetFolderTreeNode(path.Path, createChildren, asFarAsPossible);
-                case QueryScheme.Pagemark:
-                    return _rootPagemarkFolder.GetFolderTreeNode(path.Path, createChildren, asFarAsPossible);
+                ////case QueryScheme.Pagemark:
+                ////    return _rootPagemarkFolder.GetFolderTreeNode(path.Path, createChildren, asFarAsPossible);
                 case QueryScheme.QuickAccess:
                     return _rootBookmarkFolder.GetFolderTreeNode(path.Path, createChildren, asFarAsPossible);
                 default:

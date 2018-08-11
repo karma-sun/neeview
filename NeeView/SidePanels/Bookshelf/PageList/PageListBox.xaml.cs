@@ -240,6 +240,10 @@ namespace NeeView
 
         private void DragStartBehavior_DragBegin(object sender, Windows.DragStartEventArgs e)
         {
+            // NOTE: ページリストのドラッグは使用しないので無効にする
+            e.Cancel = true;
+
+#if false
             var data = e.Data.GetData(DragDropFormat) as ListBoxItem;
             if (data == null)
             {
@@ -257,6 +261,7 @@ namespace NeeView
                 e.Data.SetData(pagemarkNode);
                 e.AllowedEffects |= DragDropEffects.Move;
             }
+#endif
         }
 
         #endregion

@@ -51,6 +51,7 @@ namespace NeeView
             set { SetProperty(ref _items, value); }
         }
 
+        [Obsolete]
         public TreeListNode<IPagemarkEntry> DefaultFolder
         {
             get { return _items.Children.FirstOrDefault(e => e.Value is DefaultPagemarkFolder); }
@@ -63,7 +64,7 @@ namespace NeeView
         {
             var items = new TreeListNode<IPagemarkEntry>();
             items.Value = new PagemarkFolder();
-            items.Add(new TreeListNode<IPagemarkEntry>(new DefaultPagemarkFolder()));
+            ////items.Add(new TreeListNode<IPagemarkEntry>(new DefaultPagemarkFolder()));
 
             return items;
         }
@@ -188,8 +189,8 @@ namespace NeeView
             if (node == null) throw new ArgumentNullException(nameof(node));
             if (node.Root == null) throw new InvalidOperationException();
 
-            ////ItemsRoot.Insert(0, node);
-            DefaultFolder.Add(node);
+            Items.Root.Insert(0, node);
+            ////DefaultFolder.Add(node);
 
             PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, node.Parent, node));
         }
@@ -478,6 +479,7 @@ namespace NeeView
             }
         }
 
+        [Obsolete]
         private static void ValidateDefaultFolder(TreeListNode<IPagemarkEntry> items)
         {
             // 既定のページマークフォルダーにルートのページマークを集める
@@ -645,7 +647,7 @@ namespace NeeView
             {
                 memento.Nodes.Value = new PagemarkFolder();
                 ValidateFolderName(memento.Nodes);
-                ValidateDefaultFolder(memento.Nodes);
+                ////ValidateDefaultFolder(memento.Nodes);
                 Task.Run(() => ValidateAsync(memento.Nodes).Wait()).Wait(); // NOTE: デッドロック回避のためあえてタスク化
             }
 

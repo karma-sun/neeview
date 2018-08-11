@@ -14,11 +14,11 @@ namespace NeeView
 
             if (path.Path == null)
             {
-                // NOTE: 操作に難があるため、クイックアクセスは表示しない
-                //items.Add(CreateFolderItem(QueryScheme.QuickAccess));
+                // NOTE: 操作に難があるため、クイックアクセス、ページマークは表示しない
+                ////items.Add(CreateFolderItem(QueryScheme.QuickAccess));
                 items.Add(CreateFolderItem(QueryScheme.File));
                 items.Add(CreateFolderItem(QueryScheme.Bookmark));
-                items.Add(CreateFolderItem(QueryScheme.Pagemark));
+                ////items.Add(CreateFolderItem(QueryScheme.Pagemark));
             }
 
             this.Items = items;

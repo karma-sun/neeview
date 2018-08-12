@@ -4350,4 +4350,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="FolderTreeMenuDeleteInvalidPagemark" xml:space="preserve">
     <value>Remove invalid pagemark</value>
   </data>
+  <data name="PagemarkMenuCurrentBook" xml:space="preserve">
+    <value>Current book only</value>
+  </data>
+  <data name="WordAllPagemark" xml:space="preserve">
+    <value>All pagemark</value>
+  </data>
+  <data name="NotifyRemoveUnlinkedPagemark" xml:space="preserve">
+    <value>{0} pagemarks deleted.</value>
+  </data>
 </root>

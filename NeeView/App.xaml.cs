@@ -77,8 +77,11 @@ namespace NeeView
 
             Debug.WriteLine($"App.ShowSplashScreen: {Stopwatch.ElapsedMilliseconds}ms");
 
-            var resourceName = "Resources/NeeViewSplashScreen.png";
-
+#if SUSIE
+            var resourceName = "Resources/SplashScreenS.png";
+#else
+            var resourceName = "Resources/SplashScreen.png";
+#endif
             SplashScreen splashScreen = new SplashScreen(resourceName);
             splashScreen.Show(true);
         }
@@ -243,6 +246,6 @@ namespace NeeView
             Debug.WriteLine("Application_Exit");
         }
 
-        #endregion
+#endregion
     }
 }

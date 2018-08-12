@@ -11,12 +11,14 @@ namespace NeeView
 {
     public interface IPagemarkEntry : IHasPage, IHasName
     {
+        string DispName { get; }
     }
 
     [DataContract]
     public class Pagemark : BindableBase, IPagemarkEntry, IVirtualItem
     {
         private string _place;
+        private string _entryName;
 
         public Pagemark(BookMementoUnit unit, string entryName, long length, DateTime? lastWriteTime)
         {
@@ -42,7 +44,28 @@ namespace NeeView
         }
 
         [DataMember]
-        public string EntryName { get; set; }
+        public string EntryName
+        {
+            get { return _entryName; }
+            set
+            {
+                if (SetProperty(ref _entryName, value))
+                {
+                    RaisePropertyChanged(nameof(DispName));
+                }
+            }
+        }
+
+
+        [DataMember(Name = "DispName", EmitDefaultValue = true)]
+        private string _dispName;
+        public string DispName
+        {
+            get { return _dispName ?? LoosePath.GetFileName(EntryName); }
+            set { SetProperty(ref _dispName, value); }
+        }
+
+
 
         /// <summary>
         /// ファイルサイズ。
@@ -66,7 +89,7 @@ namespace NeeView
         public string FullName => LoosePath.Combine(Place, EntryName);
         public string Name => LoosePath.GetFileName(EntryName);
         public string Note => LoosePath.GetFileName(Place);
-        public string Detail => Place + "\n" + EntryName;
+        public string Detail => EntryName;
 
         public IThumbnail Thumbnail
         {

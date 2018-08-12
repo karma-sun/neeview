@@ -23,6 +23,7 @@ namespace NeeView
             Current = this;
 
             _listBox = new PagemarkListBoxModel();
+            _listBox.AddPropertyChanged(nameof(_listBox.PlaceDispString), (s, e) => RaisePropertyChanged(nameof(PlaceDispString)));
         }
 
 
@@ -54,6 +55,26 @@ namespace NeeView
             set { SetProperty(ref _listBox, value); }
         }
 
+
+        private bool _isCurrentBook;
+        public bool IsCurrentBook
+        {
+            get { return _isCurrentBook; }
+            set
+            {
+                if (SetProperty(ref _isCurrentBook, value))
+                {
+                    _listBox.UpdateItems();
+                }
+            }
+        }
+
+        public string PlaceDispString
+        {
+            get { return _listBox.PlaceDispString; }
+        }
+
+
         public void Jump(string place, string entryName)
         {
             ListBox.Jump(place, entryName);
@@ -74,7 +95,7 @@ namespace NeeView
             var pagemark = BookOperation.Current.AddPagemark();
             if (pagemark != null)
             {
-                ListBox.SetSelectedItem(pagemark.Place, pagemark.EntryName); 
+                ListBox.SetSelectedItem(pagemark.Place, pagemark.EntryName);
             }
         }
 

@@ -1274,7 +1274,8 @@
     <Content Include="Effects\Shaders\ColorSelectEffect.fx" />
     <Content Include="Effects\Shaders\HsvEffect.fx" />
     <Content Include="Effects\Shaders\LevelEffect.fx" />
-    <Resource Include="Resources\NeeViewSplashScreen.png" />
+    <Resource Include="Resources\SplashScreen.png" />
+    <Resource Include="Resources\SplashScreenS.png" />
     <Content Include="x64\NeeView.Interop.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

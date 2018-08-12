@@ -7,7 +7,7 @@ namespace NeeView.Collections
         string Name { get; }
     }
 
-    public class NameComparer : IComparer<IHasName>
+    public class HasNameComparer : IComparer<IHasName>
     {
         public int Compare(IHasName x, IHasName y)
         {
@@ -22,6 +22,25 @@ namespace NeeView.Collections
             else
             {
                 return NativeMethods.StrCmpLogicalW(x.Name, y.Name);
+            }
+        }
+    }
+
+    public class NameComparer : IComparer<string>
+    {
+        public int Compare(string x, string y)
+        {
+            if (x == null)
+            {
+                return y == null ? 0 : -1;
+            }
+            else if (y == null)
+            {
+                return 1;
+            }
+            else
+            {
+                return NativeMethods.StrCmpLogicalW(x, y);
             }
         }
     }

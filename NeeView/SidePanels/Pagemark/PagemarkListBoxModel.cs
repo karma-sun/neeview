@@ -22,6 +22,9 @@ namespace NeeView
         public PagemarkListBoxModel()
         {
             PagemarkCollection.Current.PagemarkChanged += PagemarkCollection_PagemarkChanged;
+            BookOperation.Current.BookChanged += (s, e) => UpdateItems();
+
+            UpdateItems();
         }
 
 
@@ -30,12 +33,20 @@ namespace NeeView
         public event CollectionChangeEventHandler Changed;
         public event EventHandler SelectedItemChanged;
 
-
         // Properties
 
         public PagemarkList PagemarkList => PagemarkList.Current;
 
         public PagemarkCollection PagemarkCollection => PagemarkCollection.Current;
+
+
+        private ObservableCollection<TreeListNode<IPagemarkEntry>> _items;
+        public ObservableCollection<TreeListNode<IPagemarkEntry>> Items
+        {
+            get { return _items; }
+            set { SetProperty(ref _items, value); }
+        }
+
 
         public TreeListNode<IPagemarkEntry> SelectedItem
         {
@@ -58,14 +69,60 @@ namespace NeeView
         }
 
 
+        private string _placeDispString;
+        public string PlaceDispString
+        {
+            get { return _placeDispString; }
+            set { SetProperty(ref _placeDispString, value); }
+        }
+
+
         // Methods
 
         private void PagemarkCollection_PagemarkChanged(object sender, PagemarkCollectionChangedEventArgs e)
         {
+            switch (e.Action)
+            {
+                case EntryCollectionChangedAction.Replace:
+                case EntryCollectionChangedAction.Reset:
+                    UpdateItems();
+                    break;
+                case EntryCollectionChangedAction.Add:
+                case EntryCollectionChangedAction.Remove:
+                    if (e.Item.Value is PagemarkFolder folder && folder.Name == BookOperation.Current.Place)
+                    {
+                        UpdateItems();
+                    }
+                    break;
+            }
+
+
             if (_toast != null)
             {
                 _toast.Cancel();
                 _toast = null;
+            }
+        }
+
+        public void UpdateItems()
+        {
+            if (PagemarkList.Current.IsCurrentBook)
+            {
+                PlaceDispString = LoosePath.GetFileName(BookOperation.Current.Place);
+                var node = PagemarkCollection.Items.Children.FirstOrDefault(e => e.Value is PagemarkFolder folder && folder.Name == BookOperation.Current.Place);
+                if (node != null)
+                {
+                    Items = node.Children;
+                }
+                else
+                {
+                    Items = null;
+                }
+            }
+            else
+            {
+                PlaceDispString = Properties.Resources.WordAllPagemark;
+                Items = PagemarkCollection.Items.Children;
             }
         }
 
@@ -191,6 +248,20 @@ namespace NeeView
                     PagemarkCollection.Current.Move(item, target, -1);
                 }
             }
+        }
+
+        public bool Rename(TreeListNode<IPagemarkEntry> item, string newName)
+        {
+            if (item == null) return false;
+
+            if (item.Value is Pagemark pagemark)
+            {
+                pagemark.DispName = string.IsNullOrWhiteSpace(newName) ? null : newName;
+                PagemarkCollection.Current.SortOne(item);
+                return true;
+            }
+
+            return false;
         }
 
         internal void NewFolder()

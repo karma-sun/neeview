@@ -189,10 +189,24 @@ namespace NeeView
             if (node == null) throw new ArgumentNullException(nameof(node));
             if (node.Root == null) throw new InvalidOperationException();
 
-            Items.Root.Insert(0, node);
-            ////DefaultFolder.Add(node);
+            if (node.Value is Pagemark pagemark)
+            {
+                var parent = Items.Children.FirstOrDefault(e => e.Value is PagemarkFolder folder && folder.Name == pagemark.Place);
+                if (parent == null)
+                {
+                    parent = new TreeListNode<IPagemarkEntry>(new PagemarkFolder() { Name = pagemark.Place });
+                    Items.Insert(GetInsertIndex(Items, parent), parent);
+                    PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, parent.Parent, parent));
+                }
 
-            PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, node.Parent, node));
+                parent.Insert(GetInsertIndex(parent, node), node);
+                PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, node.Parent, node));
+            }
+            else
+            {
+                Items.Insert(GetInsertIndex(Items, node), node);
+                PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, node.Parent, node));
+            }
         }
 
 
@@ -214,11 +228,58 @@ namespace NeeView
             if (node.RemoveSelf())
             {
                 PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Remove, parent, node));
+
+                if (parent != Items && !parent.Children.Any())
+                {
+                    var grandParent = parent.Parent;
+                    parent.RemoveSelf();
+                    PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Remove, grandParent, parent));
+                }
+
                 return true;
             }
-            else
+
+            return false;
+        }
+
+        /// <summary>
+        /// 挿入位置を求める
+        /// </summary>
+        /// <param name="parent"></param>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        private int GetInsertIndex(TreeListNode<IPagemarkEntry> parent, TreeListNode<IPagemarkEntry> node)
+        {
+            for (int index = 0; index < parent.Children.Count; ++index)
             {
-                return false;
+                var child = parent.Children[index];
+                if (child == node) continue;
+
+                if (NativeMethods.StrCmpLogicalW(node.Value.DispName, child.Value.DispName) < 0)
+                {
+                    return index;
+                }
+            }
+
+            return parent.Children.Count;
+        }
+
+        /// <summary>
+        /// 指定項目を兄弟の仲の適切な順位に移動
+        /// </summary>
+        public void SortOne(TreeListNode<IPagemarkEntry> node)
+        {
+            if (node == null) throw new ArgumentNullException(nameof(node));
+            if (node.Parent == null) return;
+
+            var indexX = node.GetIndex();
+            var indexY = GetInsertIndex(node.Parent, node);
+
+            indexY = indexY - (indexX < indexY ? 1 : 0);
+            if (indexX != indexY)
+            {
+                node.Parent.Children.Move(indexX, indexY);
+                PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Move, node.Parent, node));
             }
         }
 
@@ -226,31 +287,33 @@ namespace NeeView
         /// 無効なページマークを削除.
         /// 現在の実装ではブックの有無のみ判定
         /// </summary>
-        public async Task RemoveUnlinkedAsync(CancellationToken token)
+        public async Task<int> RemoveUnlinkedAsync(CancellationToken token)
         {
-            await Task.Yield();
-
             // 削除項目収集
-            // TODO: 重複するBOOKを再検索しないようにする
             var unlinked = new List<TreeListNode<IPagemarkEntry>>();
-            foreach (var node in this.Items.Where(e => e.Value is Pagemark))
+            foreach (var node in this.Items.Children)
             {
-                var pagemark = (Pagemark)node.Value;
-                if (!(await ArchiveFileSystem.ExistsAsync(pagemark.Place, token)))
+                if (node.Value is PagemarkFolder folder)
                 {
-                    unlinked.Add(node);
+                    if (!(await ArchiveFileSystem.ExistsAsync(folder.Name, token)))
+                    {
+                        unlinked.Add(node);
+                    }
                 }
             }
 
             // 削除実行
+            int count = 0;
             foreach (var node in unlinked)
             {
-                var pagemark = (Pagemark)node.Value;
-                Debug.WriteLine($"PagemarkRemove: {pagemark.Place} - {pagemark.EntryName}");
+                Debug.WriteLine($"PagemarkRemove: {node.Value.DispName}");
+                count += node.Children.Count;
                 node.RemoveSelf();
             }
 
             PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Replace));
+
+            return count;
         }
 
 
@@ -411,14 +474,27 @@ namespace NeeView
         }
 
 
-
+        /// <summary>
+        /// ファイル名の変更に追従
+        /// </summary>
         public void Rename(string src, string dst)
         {
             foreach (var item in Items)
             {
-                if (item.Value is Pagemark pagemark && pagemark.Place == src)
+                if (item.Value is PagemarkFolder folder && folder.Name == src)
                 {
-                    pagemark.Place = dst;
+                    folder.Name = dst;
+                    SortOne(item);
+
+                    foreach (var child in item)
+                    {
+                        if (child.Value is Pagemark pagemark && pagemark.Place == src)
+                        {
+                            pagemark.Place = dst;
+                        }
+                    }
+
+                    return;
                 }
             }
         }
@@ -512,6 +588,39 @@ namespace NeeView
             }
         }
 
+
+        private static TreeListNode<IPagemarkEntry> ConvertToBookUnitFormat(TreeListNode<IPagemarkEntry> source)
+        {
+
+            var map = new Dictionary<string, List<Pagemark>>();
+
+            foreach (var pagemark in source.Select(e => e.Value).OfType<Pagemark>())
+            {
+                var place = pagemark.Place;
+
+                if (!map.ContainsKey(place))
+                {
+                    map.Add(place, new List<Pagemark>());
+                }
+
+                map[place].Add(pagemark);
+            }
+
+            var items = CreateRoot();
+
+            foreach (var key in map.Keys.OrderBy(e => LoosePath.GetFileName(e), new NameComparer()))
+            {
+                var node = new TreeListNode<IPagemarkEntry>(new PagemarkFolder() { Name = key });
+                items.Add(node);
+
+                foreach (var pagemark in map[key].OrderBy(e => e.DispName, new NameComparer()))
+                {
+                    node.Add(new TreeListNode<IPagemarkEntry>(pagemark));
+                }
+            }
+
+            return items;
+        }
 
 
         #region Memento
@@ -651,7 +760,14 @@ namespace NeeView
                 Task.Run(() => ValidateAsync(memento.Nodes).Wait()).Wait(); // NOTE: デッドロック回避のためあえてタスク化
             }
 
-            this.Load(memento.Nodes, memento.Books);
+            // 新しいフォーマットに変換
+            var nodes = memento.Nodes;
+            if (memento._Version < Config.GenerateProductVersionNumber(32, 0, 0))
+            {
+                nodes = ConvertToBookUnitFormat(memento.Nodes);
+            }
+
+            this.Load(nodes, memento.Books);
         }
 
         #endregion

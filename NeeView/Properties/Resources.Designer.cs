@@ -7664,6 +7664,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   {0} pagemarks deleted. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyRemoveUnlinkedPagemark {
+            get {
+                return ResourceManager.GetString("NotifyRemoveUnlinkedPagemark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Open Bookshelf for the location. You can specify a search keyword by adding &quot;?search=&quot; に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string OptionBookshelf {
@@ -7849,6 +7858,15 @@ namespace NeeView.Properties {
         public static string PagemarkListAddTips {
             get {
                 return ResourceManager.GetString("PagemarkListAddTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Current book only に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PagemarkMenuCurrentBook {
+            get {
+                return ResourceManager.GetString("PagemarkMenuCurrentBook", resourceCulture);
             }
         }
         
@@ -12092,6 +12110,15 @@ namespace NeeView.Properties {
         public static string WordAdd {
             get {
                 return ResourceManager.GetString("WordAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   All pagemark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordAllPagemark {
+            get {
+                return ResourceManager.GetString("WordAllPagemark", resourceCulture);
             }
         }
         

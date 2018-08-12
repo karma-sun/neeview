@@ -4350,4 +4350,13 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="FolderTreeMenuDeleteInvalidPagemark" xml:space="preserve">
     <value>無効なページマークを削除</value>
   </data>
+  <data name="PagemarkMenuCurrentBook" xml:space="preserve">
+    <value>現在のブックのみ</value>
+  </data>
+  <data name="WordAllPagemark" xml:space="preserve">
+    <value>すべてのページマーク</value>
+  </data>
+  <data name="NotifyRemoveUnlinkedPagemark" xml:space="preserve">
+    <value>{0} 個のページマークを削除しました。</value>
+  </data>
 </root>

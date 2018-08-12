@@ -87,11 +87,25 @@ namespace NeeView
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleContent, PanelListItemStyle.Content));
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
             menu.Items.Add(new Separator());
-            menu.Items.Add(CreateCommandMenuItem(Properties.Resources.WordNewFolder, NewFolderCommand));
+            menu.Items.Add(CreateCurrentBookMenuItem(Properties.Resources.PagemarkMenuCurrentBook));
             menu.Items.Add(new Separator());
             menu.Items.Add(CreateCommandMenuItem(Properties.Resources.PagemarkMenuDeleteInvalid, RemoveUnlinkedCommand));
 
             this.MoreMenu = menu;
+        }
+
+        private MenuItem CreateCurrentBookMenuItem(string header)
+        {
+            var item = new MenuItem();
+            item.Header = header;
+            item.IsCheckable = true;
+            var binding = new Binding(nameof(_model.IsCurrentBook))
+            {
+                Source = _model
+            };
+            item.SetBinding(MenuItem.IsCheckedProperty, binding);
+
+            return item;
         }
 
         //
@@ -167,7 +181,8 @@ namespace NeeView
             // 直前の命令はキャンセル
             _removeUnlinkedCommandCancellationToken?.Cancel();
             _removeUnlinkedCommandCancellationToken = new CancellationTokenSource();
-            await PagemarkCollection.Current.RemoveUnlinkedAsync(_removeUnlinkedCommandCancellationToken.Token);
+            var count = await PagemarkCollection.Current.RemoveUnlinkedAsync(_removeUnlinkedCommandCancellationToken.Token);
+            ToastService.Current.Show("PagemarkList", new Toast(string.Format(Properties.Resources.NotifyRemoveUnlinkedPagemark, count)));
         }
 
 

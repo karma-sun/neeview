@@ -44,8 +44,6 @@ namespace NeeView
     {
         #region Fields
 
-        public static string DragDropFormat = $"{Config.Current.ProcessId}.PagemarkItem";
-
         private PagemarkListBoxViewModel _vm;
         private PagemarkListVertualCollection _virtualCollection;
 
@@ -160,7 +158,7 @@ namespace NeeView
         private void Rename(TreeListNode<IPagemarkEntry> item)
         {
             var treetView = this.TreeView;
-            if (item != null && item.Value is PagemarkFolder folder)
+            if (item != null && item.Value is Pagemark pagemark)
             {
                 var listViewItem = VisualTreeUtility.FindContainer<TreeViewItem>(treetView, item);
                 var textBlock = VisualTreeUtility.FindVisualChild<TextBlock>(listViewItem, "FileNameTextBlock");
@@ -172,7 +170,8 @@ namespace NeeView
                     {
                         if (ev.OldValue != ev.NewValue)
                         {
-                            folder.Name = ev.NewValue;
+                            bool isRenamed = _vm.Model.Rename(item, ev.NewValue);
+                            ev.Cancel = !isRenamed;
                         }
                     };
                     rename.Closed += (s, ev) =>
@@ -286,56 +285,6 @@ namespace NeeView
 
         #endregion
 
-        #region DragDrop
-
-        private TreeViewItem _dropTarget;
-
-        private void DragStartBehavior_DragBegin(object sender, DragStartEventArgs e)
-        {
-            _dropTarget = null;
-        }
-
-        private void TreeView_DragEnter(object sender, DragEventArgs e)
-        {
-            var element = e.OriginalSource as DependencyObject;
-            var item = VisualTreeUtility.GetParentElement<TreeViewItem>(element);
-            if (item != null)
-            {
-                if (_dropTarget != item)
-                {
-                    var node = item.DataContext as TreeListNode<IPagemarkEntry>;
-                }
-                _dropTarget = item;
-            }
-        }
-
-        private void TreeView_PreviewDragOver(object sender, DragEventArgs e)
-        {
-            e.Effects = _dropTarget != null ? DragDropEffects.Move : DragDropEffects.None;
-        }
-
-
-        private void TreeView_Drop(object sender, DragEventArgs e)
-        {
-            if (!(_dropTarget?.DataContext is TreeListNode<IPagemarkEntry> dropTarget))
-            {
-                return;
-            }
-
-            var dropTargetVisual = VisualTreeUtility.FindVisualChild<Border>(_dropTarget, "Bd");
-
-            var dropInfo = new DropInfo<TreeListNode<IPagemarkEntry>>(e, DragDropFormat, dropTarget, dropTargetVisual);
-            if (!dropInfo.IsValid())
-            {
-                return;
-            }
-
-            _vm.Move(dropInfo);
-            e.Handled = true;
-        }
-
-        #endregion DragDrop
-
         #region Event Methods
 
         private void PagemarkListBox_Loaded(object sender, RoutedEventArgs e)
@@ -426,11 +375,11 @@ namespace NeeView
             {
                 case Pagemark pagemark:
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagemarkItemMenuDelete, Command = RemoveCommand });
+                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagemarkItemMenuRename, Command = RenameCommand });
                     break;
 
                 case PagemarkFolder folder:
                     contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagemarkItemMenuDeleteFolder, Command = RemoveCommand });
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.PagemarkItemMenuRename, Command = RenameCommand });
                     break;
             }
         }

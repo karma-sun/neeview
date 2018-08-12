@@ -13,11 +13,23 @@ namespace NeeView
         public virtual string Name
         {
             get { return _name; }
-            set { SetProperty(ref _name, value); }
+            set
+            {
+                if (SetProperty(ref _name, value))
+                {
+                    RaisePropertyChanged(null);
+                }
+            }
         }
 
+        public string DispName
+        {
+            get { return LoosePath.GetFileName(_name); }
+        }
+
+
         public string Note => null;
-        public string Detail => null;
+        public string Detail => _name;
 
         public IThumbnail Thumbnail
         {

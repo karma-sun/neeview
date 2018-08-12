@@ -39,7 +39,7 @@ namespace NeeView
                 {
                     _children = new ObservableCollection<FolderTreeNodeBase>(BookmarkSource.Children
                         .Where(e => e.Value is BookmarkFolder)
-                        .OrderBy(e => e.Value, new NameComparer())
+                        .OrderBy(e => e.Value, new HasNameComparer())
                         .Select(e => new BookmarkFolderNode(e, this)));
                 }
                 return _children;

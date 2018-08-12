@@ -43,7 +43,7 @@ namespace NeeView
                 {
                     _children = new ObservableCollection<FolderTreeNodeBase>(PagemarkSource.Children
                         .Where(e => e.Value is PagemarkFolder)
-                        .OrderBy(e => e.Value, new NameComparer())
+                        .OrderBy(e => e.Value, new HasNameComparer())
                         .Select(e => new PagemarkFolderNode(e, this)));
                 }
                 return _children;

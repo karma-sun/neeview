@@ -256,6 +256,10 @@ namespace NeeView
             }
         }
 
+        public bool IsRoot(QueryScheme scheme)
+        {
+            return Scheme == scheme && Path == null && Search == null;
+        }
 
         public override string ToString()
         {

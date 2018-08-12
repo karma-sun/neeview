@@ -814,7 +814,7 @@ namespace NeeView
                 return;
             }
 
-            if (query.Scheme == QueryScheme.File && query.Search == null)
+            if (query.Search == null && (query.Scheme == QueryScheme.File || query.IsRoot(QueryScheme.Pagemark)))
             {
                 if (isDrop)
                 {

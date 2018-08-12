@@ -337,7 +337,7 @@ namespace NeeView
         public override async Task<string> DropAsync(object sender, IDataObject data, string downloadPath, Action<string> nowloading)
         {
             var query = data.GetData(typeof(QueryPath)) as QueryPath;
-            if (query != null && query.Scheme == QueryScheme.File && query.Search == null)
+            if (query != null && query.Search == null && (query.Scheme == QueryScheme.File || query.IsRoot(QueryScheme.Pagemark)))
             {
                 return query.SimplePath;
             }

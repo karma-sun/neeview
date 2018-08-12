@@ -217,7 +217,7 @@ namespace NeeView
             {
                 return FileIOProfile.Current.IsEnabled;
             }
-            else if (item.Attributes.HasFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Directory))
+            else if (item.Attributes.HasFlag(FolderItemAttribute.Bookmark))
             {
                 return true;
             }
@@ -550,7 +550,7 @@ namespace NeeView
                 return;
             }
 
-            if (node.Value is BookmarkFolder && query.Scheme == QueryScheme.File && query.Search == null)
+            if (node.Value is BookmarkFolder && query.Search == null && (query.Scheme == QueryScheme.File || query.IsRoot(QueryScheme.Pagemark)))
             {
                 if (isDrop)
                 {

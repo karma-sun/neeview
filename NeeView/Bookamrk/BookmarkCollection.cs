@@ -123,9 +123,13 @@ namespace NeeView
                 }
                 return FindNode(Items, path.Path.Split(LoosePath.Separator));
             }
+            else if (path.Scheme == QueryScheme.Pagemark)
+            {
+                return Items.FirstOrDefault(e => e.Value is Bookmark bookmark && bookmark.Place == path.SimplePath);
+            }
             else if (path.Scheme == QueryScheme.File)
             {
-                return Items.FirstOrDefault(e => e.Value is Bookmark bookmark && bookmark.Place == path.Path);
+                return Items.FirstOrDefault(e => e.Value is Bookmark bookmark && bookmark.Place == path.SimplePath);
             }
             else
             {
@@ -195,7 +199,7 @@ namespace NeeView
 
         public bool Remove(TreeListNode<IBookmarkEntry> node)
         {
-            if (node == null) throw new ArgumentNullException(nameof(node));
+            if (node == null) return false;
             if (node.Root != Items.Root) throw new InvalidOperationException();
 
             var parent = node.Parent;

@@ -36,10 +36,6 @@ namespace NeeView
             {
                 return await CreateBookmarkFolderCollectionAsync(path, isActive, token);
             }
-            else if (path.Scheme == QueryScheme.Pagemark)
-            {
-                return await CreatePagemarkFolderCollectionAsync(path, isActive, token);
-            }
             else if (path.Scheme == QueryScheme.File)
             {
                 if (path.Search != null)
@@ -97,16 +93,6 @@ namespace NeeView
 
             return collection;
         }
-
-        // ページマークフォルダーコレクション作成
-        private async Task<FolderCollection> CreatePagemarkFolderCollectionAsync(QueryPath path, bool isActive, CancellationToken token)
-        {
-            var collection = await Task.Run(() => CreatePagemarkFolderCollection(path, isActive));
-            token.ThrowIfCancellationRequested();
-
-            return collection;
-        }
-
 
         // アーカイブフォルダーコレクション作成
         public async Task<FolderCollection> CreateArchiveFolderCollectionAsync(QueryPath path, bool isActive, CancellationToken token)
@@ -170,14 +156,6 @@ namespace NeeView
         private FolderCollection CreateBookmarkFolderCollection(QueryPath path, bool isActive)
         {
             return new BookmarkFolderCollection(path);
-        }
-
-        /// <summary>
-        /// FolderCollecion作成(ページマーク)
-        /// </summary>
-        private FolderCollection CreatePagemarkFolderCollection(QueryPath path, bool isActive)
-        {
-            return new PagemarkFolderCollection(path);
         }
 
         /// <summary>

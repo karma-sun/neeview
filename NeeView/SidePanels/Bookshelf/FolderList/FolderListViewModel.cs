@@ -417,11 +417,6 @@ namespace NeeView
                     items.Add(CreateCommandMenuItem(Properties.Resources.WordNewFolder, NewFolderCommand));
                     items.Add(CreateCommandMenuItem(Properties.Resources.FolderTreeMenuAddBookmark, AddBookmarkCommand));
                     break;
-
-                case PagemarkFolderCollection pagemarFolderCollection:
-                    items.Add(new Separator());
-                    items.Add(CreateCommandMenuItem(Properties.Resources.WordNewFolder, NewFolderCommand));
-                    break;
             }
         }
 

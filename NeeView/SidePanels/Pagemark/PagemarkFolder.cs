@@ -67,14 +67,4 @@ namespace NeeView
         }
     }
 
-    [DataContract]
-    public class DefaultPagemarkFolder : PagemarkFolder
-    {
-        public override string Name
-        {
-            get { return "(Default Pagemark)"; }
-            set { }
-        }
-    }
-
 }

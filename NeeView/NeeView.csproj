@@ -192,12 +192,8 @@
     <Compile Include="OpenSourceControls\VirtualizingWrapPanel.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderListBoxModel.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderListBoxViewModel.cs" />
-    <Compile Include="SidePanels\Bookshelf\FolderList\PagemarkFolderCollection.cs" />
-    <Compile Include="SidePanels\Bookshelf\FolterTree\PagemarkFolderNode.cs" />
-    <Compile Include="SidePanels\Bookshelf\FolterTree\RootPagemarkFolderNode.cs" />
     <Compile Include="SidePanels\Bookshelf\PageList\PageListBoxModel.cs" />
     <Compile Include="SidePanels\Bookshelf\PageList\PageListBoxViewModel.cs" />
-    <Compile Include="SidePanels\Pagemark\PagemarkCollectionService.cs" />
     <Compile Include="_NeeView\Collections\IHasName.cs" />
     <Compile Include="_NeeView\IO\DriveTypeExtension.cs" />
     <Compile Include="Thumbnail\ConstThumbnail.cs" />

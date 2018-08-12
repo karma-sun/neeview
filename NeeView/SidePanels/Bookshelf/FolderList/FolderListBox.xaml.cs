@@ -221,10 +221,6 @@ namespace NeeView
             {
                 return true;
             }
-            else if (item.Attributes.HasFlag(FolderItemAttribute.Pagemark | FolderItemAttribute.Directory))
-            {
-                return true;
-            }
 
             return false;
         }
@@ -246,10 +242,6 @@ namespace NeeView
             if (item.Attributes.HasFlag(FolderItemAttribute.Bookmark))
             {
                 _vm.Model.RemoveBookmark(item);
-            }
-            if (item.Attributes.HasFlag(FolderItemAttribute.Pagemark))
-            {
-                _vm.Model.RemovePagemark(item);
             }
             else if (item.IsFileSystem())
             {
@@ -279,10 +271,6 @@ namespace NeeView
                 return FileIOProfile.Current.IsEnabled;
             }
             else if (item.Attributes.HasFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Directory))
-            {
-                return true;
-            }
-            else if (item.Attributes.HasFlag(FolderItemAttribute.Pagemark | FolderItemAttribute.Directory))
             {
                 return true;
             }
@@ -319,10 +307,6 @@ namespace NeeView
                         if (item.Source is TreeListNode<IBookmarkEntry> bookmarkNode)
                         {
                             BookmarkCollectionService.Rename(bookmarkNode, ev.NewValue);
-                        }
-                        else if (item.Source is TreeListNode<IPagemarkEntry> pagemarkNode)
-                        {
-                            PagemarkCollectionService.Rename(pagemarkNode, ev.NewValue);
                         }
                         else if (ev.OldValue != ev.NewValue)
                         {
@@ -466,23 +450,6 @@ namespace NeeView
                 return;
             }
 
-            if (item.Attributes.AnyFlag(FolderItemAttribute.Pagemark))
-            {
-                if (item.Attributes.AnyFlag(FolderItemAttribute.ReadOnly))
-                {
-                    e.Data.SetData(item.Source);
-                    ////e.Data.SetData(item.TargetPath);
-                    return;
-                }
-                else
-                {
-                    e.Data.SetData(item.Source);
-                    ////e.Data.SetData(item.TargetPath);
-                    e.AllowedEffects |= DragDropEffects.Move;
-                }
-                return;
-            }
-
             if (item.IsFileSystem())
             {
                 e.Data.SetFileDropList(new System.Collections.Specialized.StringCollection() { item.TargetPath.SimplePath });
@@ -549,31 +516,6 @@ namespace NeeView
                     if (e.Handled) return;
 
                     DropToBookmark(sender, e, isDrop, bookmarkNode, e.Data.GetFileDrop());
-                    if (e.Handled) return;
-                }
-            }
-
-            // pagemark
-            {
-                TreeListNode<IPagemarkEntry> pagemarkNode = null;
-                if (listBoxItem == null)
-                {
-                    if (_vm.FolderCollection is PagemarkFolderCollection pagemarkFolderCollection)
-                    {
-                        pagemarkNode = pagemarkFolderCollection.PagemarkPlace;
-                    }
-                }
-                else
-                {
-                    if (listBoxItem.Content is FolderItem target && target.Attributes.HasFlag(FolderItemAttribute.Pagemark | FolderItemAttribute.Directory))
-                    {
-                        pagemarkNode = target.Source as TreeListNode<IPagemarkEntry>;
-                    }
-                }
-
-                if (pagemarkNode != null)
-                {
-                    DropToPagemark(sender, e, isDrop, pagemarkNode, e.Data.GetData<TreeListNode<IPagemarkEntry>>());
                     if (e.Handled) return;
                 }
             }
@@ -651,34 +593,6 @@ namespace NeeView
             }
         }
 
-
-        private void DropToPagemark(object sender, DragEventArgs e, bool isDrop, TreeListNode<IPagemarkEntry> node, TreeListNode<IPagemarkEntry> pagemarkEntry)
-        {
-            if (pagemarkEntry == null)
-            {
-                return;
-            }
-
-            if (node == PagemarkCollection.Current.Items && pagemarkEntry.Value is Pagemark)
-            {
-                return;
-            }
-
-            if (e.AllowedEffects.HasFlag(DragDropEffects.Move) && !node.Children.Contains(pagemarkEntry) && !node.ParentContains(pagemarkEntry))
-            {
-                if (isDrop)
-                {
-                    _vm.Model.SelectPagemark(node, true);
-                    PagemarkCollection.Current.MoveToChild(pagemarkEntry, node);
-                }
-                e.Effects = DragDropEffects.Move;
-                e.Handled = true;
-            }
-        }
-
-
-
-
         private ListBoxItem PointToViewItem(ListBox listBox, Point point)
         {
             var element = VisualTreeUtility.HitTest<ListBoxItem>(listBox, point);
@@ -692,9 +606,9 @@ namespace NeeView
             return element;
         }
 
-        #endregion
+#endregion
 
-        #region Methods
+#region Methods
 
         /// <summary>
         /// フォーカス取得
@@ -802,10 +716,6 @@ namespace NeeView
             if (_vm.FolderCollection is BookmarkFolderCollection)
             {
                 items.Add(new MenuItem() { Header = Properties.Resources.FolderTreeMenuAddBookmark, Command = AddBookmarkCommand });
-                items.Add(new MenuItem() { Header = Properties.Resources.WordNewFolder, Command = NewFolderCommand });
-            }
-            else if (_vm.FolderCollection is PagemarkFolderCollection)
-            {
                 items.Add(new MenuItem() { Header = Properties.Resources.WordNewFolder, Command = NewFolderCommand });
             }
         }
@@ -1011,16 +921,6 @@ namespace NeeView
                     ////contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuRename, Command = RenameCommand });
                 }
             }
-            else if (item.Attributes.HasFlag(FolderItemAttribute.Pagemark))
-            {
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuSubfolder, Command = LoadWithRecursiveCommand, IsChecked = item.IsRecursived });
-                contextMenu.Items.Add(new Separator());
-                if (item.Source != PagemarkCollection.Current.Items)
-                {
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDelete, Command = RemoveCommand });
-                    contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuRename, Command = RenameCommand });
-                }
-            }
             else if (item.Attributes.HasFlag(FolderItemAttribute.Empty))
             {
                 bool canExplorer = !(_vm.FolderCollection is BookmarkFolderCollection);
@@ -1039,6 +939,6 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
     }
 }

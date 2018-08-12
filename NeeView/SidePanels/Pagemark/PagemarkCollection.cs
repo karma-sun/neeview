@@ -51,12 +51,6 @@ namespace NeeView
             set { SetProperty(ref _items, value); }
         }
 
-        [Obsolete]
-        public TreeListNode<IPagemarkEntry> DefaultFolder
-        {
-            get { return _items.Children.FirstOrDefault(e => e.Value is DefaultPagemarkFolder); }
-        }
-
 
         // Methods
 
@@ -64,7 +58,6 @@ namespace NeeView
         {
             var items = new TreeListNode<IPagemarkEntry>();
             items.Value = new PagemarkFolder();
-            ////items.Add(new TreeListNode<IPagemarkEntry>(new DefaultPagemarkFolder()));
 
             return items;
         }
@@ -194,7 +187,7 @@ namespace NeeView
                 var parent = Items.Children.FirstOrDefault(e => e.Value is PagemarkFolder folder && folder.Name == pagemark.Place);
                 if (parent == null)
                 {
-                    parent = new TreeListNode<IPagemarkEntry>(new PagemarkFolder() { Name = pagemark.Place });
+                    parent = new TreeListNode<IPagemarkEntry>(new PagemarkFolder() { Name = pagemark.Place }) { IsExpanded = true };
                     Items.Insert(GetInsertIndex(Items, parent), parent);
                     PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, parent.Parent, parent));
                 }
@@ -317,163 +310,6 @@ namespace NeeView
         }
 
 
-
-        public TreeListNode<IPagemarkEntry> AddNewFolder(TreeListNode<IPagemarkEntry> target)
-        {
-            if (target == Items || target.Value is PagemarkFolder)
-            {
-                var ignoreNames = target.Children.Where(e => e.Value is PagemarkFolder).Select(e => e.Value.Name);
-                var name = GetValidateFolderName(ignoreNames, Properties.Resources.WordNewFolder, Properties.Resources.WordNewFolder);
-                var node = new TreeListNode<IPagemarkEntry>(new PagemarkFolder() { Name = name });
-
-                target.Add(node);
-                target.IsExpanded = true;
-                PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, node.Parent, node));
-
-                return node;
-            }
-
-            return null;
-        }
-
-        // NOTE: 未使用
-        public void Move(TreeListNode<IPagemarkEntry> item, TreeListNode<IPagemarkEntry> target, int direction)
-        {
-            if (item.Value is PagemarkFolder && item.Parent != target.Parent)
-            {
-                var conflict = target.Parent.Children.FirstOrDefault(e => e.Value is PagemarkFolder && e.Value.Name == item.Value.Name);
-                if (conflict != null)
-                {
-                    Merge(item, conflict);
-                    return;
-                }
-            }
-
-            MoveInner(item, target, direction);
-        }
-
-        // NOTE: 未使用
-        private void MoveInner(TreeListNode<IPagemarkEntry> item, TreeListNode<IPagemarkEntry> target, int direction)
-        {
-            if (item == target) return;
-            if (target.ParentContains(item)) return; // TODO: 例外にすべき？
-
-            bool isChangeDirectory = item.Parent != target.Parent;
-
-            var parent = item.Parent;
-            var oldIndex = parent.Children.IndexOf(item);
-            item.RemoveSelf();
-            if (isChangeDirectory)
-            {
-                PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Remove, parent, item));
-            }
-
-            target.Parent.Insert(target, direction, item);
-            if (isChangeDirectory)
-            {
-                PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, item.Parent, item));
-            }
-            else
-            {
-                PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Move, item.Parent, item) { OldIndex = oldIndex });
-            }
-        }
-
-
-        public void MoveToChild(TreeListNode<IPagemarkEntry> item, TreeListNode<IPagemarkEntry> target)
-        {
-            if (!(target.Value is PagemarkFolder))
-            {
-                return;
-            }
-            if (item.Parent == target)
-            {
-                return;
-            }
-
-            if (item.Value is PagemarkFolder folder)
-            {
-                if (target.ParentContains(item))
-                {
-                    return;
-                }
-
-                var conflict = target.Children.FirstOrDefault(e => folder.IsEqual(e.Value));
-                if (conflict != null)
-                {
-                    Merge(item, conflict);
-                }
-                else
-                {
-                    MoveToChildInner(item, target);
-                }
-            }
-
-            else if (item.Value is Pagemark pagemark)
-            {
-                var conflict = target.Children.FirstOrDefault(e => pagemark.IsEqual(e.Value));
-                if (conflict != null)
-                {
-                    Remove(item);
-                }
-                else
-                {
-                    MoveToChildInner(item, target);
-                }
-            }
-        }
-
-        private void MoveToChildInner(TreeListNode<IPagemarkEntry> item, TreeListNode<IPagemarkEntry> target)
-        {
-            if (item == target) return;
-            if (target.ParentContains(item)) return; // TODO: 例外にすべき？
-
-            var parent = item.Parent;
-            item.RemoveSelf();
-            PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Remove, parent, item));
-
-            target.Insert(0, item);
-            target.IsExpanded = true;
-            PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, item.Parent, item));
-        }
-
-        public void Merge(TreeListNode<IPagemarkEntry> item, TreeListNode<IPagemarkEntry> target)
-        {
-            if (!(item.Value is PagemarkFolder && target.Value is PagemarkFolder)) throw new ArgumentException();
-
-            var parent = item.Parent;
-            if (item.RemoveSelf())
-            {
-                PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Remove, parent, item));
-            }
-
-            foreach (var child in item.Children.ToList())
-            {
-                child.RemoveSelf();
-                if (child.Value is PagemarkFolder folder)
-                {
-                    var conflict = target.Children.FirstOrDefault(e => folder.IsEqual(e.Value));
-                    if (conflict != null)
-                    {
-                        Merge(child, conflict);
-                        continue;
-                    }
-                }
-                else if (child.Value is Pagemark pagemark)
-                {
-                    var conflict = target.Children.FirstOrDefault(e => pagemark.IsEqual(e.Value));
-                    if (conflict != null)
-                    {
-                        continue;
-                    }
-                }
-
-                target.Add(child);
-                PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, target, child));
-            }
-        }
-
-
         /// <summary>
         /// ファイル名の変更に追従
         /// </summary>
@@ -500,95 +336,6 @@ namespace NeeView
         }
 
 
-
-        public string GetValidateFolderName(IEnumerable<string> names, string name, string defaultName)
-        {
-            name = PagemarkFolder.GetValidateName(name);
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                name = defaultName;
-            }
-            if (names.Contains(name))
-            {
-                int count = 1;
-                string newName = name;
-                do
-                {
-                    newName = $"{name} ({++count})";
-                }
-                while (names.Contains(newName));
-                name = newName;
-            }
-
-            return name;
-        }
-
-        private static void ValidateFolderName(TreeListNode<IPagemarkEntry> node)
-        {
-            var names = new List<string>();
-
-            foreach (var child in node.Children.Where(e => e.Value is PagemarkFolder))
-            {
-                ValidateFolderName(child);
-
-                var folder = ((PagemarkFolder)child.Value);
-
-                var name = PagemarkFolder.GetValidateName(folder.Name);
-                if (string.IsNullOrWhiteSpace(name))
-                {
-                    name = "_";
-                }
-                if (names.Contains(name))
-                {
-                    int count = 1;
-                    string newName = name;
-                    do
-                    {
-                        newName = $"{name} ({++count})";
-                    }
-                    while (names.Contains(newName));
-                    name = newName;
-                }
-                names.Add(name);
-
-                folder.Name = name;
-            }
-        }
-
-        [Obsolete]
-        private static void ValidateDefaultFolder(TreeListNode<IPagemarkEntry> items)
-        {
-            // 既定のページマークフォルダーにルートのページマークを集める
-            var defaultFolder = items.Children.FirstOrDefault(e => e.Value is DefaultPagemarkFolder);
-            if (defaultFolder == null)
-            {
-                defaultFolder = new TreeListNode<IPagemarkEntry>(new DefaultPagemarkFolder());
-                items.Insert(0, defaultFolder);
-            }
-            foreach (var item in items.Children.Where(e => e != defaultFolder).ToList())
-            {
-                item.RemoveSelf();
-                defaultFolder.Insert(0, item);
-            }
-        }
-
-        private static async Task ValidateAsync(TreeListNode<IPagemarkEntry> items)
-        {
-            try
-            {
-                // 個別のページマーク情報更新
-                foreach (var pagemark in items.Select(e => e.Value).OfType<Pagemark>())
-                {
-                    await pagemark.ValidateAsync();
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-        }
-
-
         private static TreeListNode<IPagemarkEntry> ConvertToBookUnitFormat(TreeListNode<IPagemarkEntry> source)
         {
 
@@ -610,7 +357,7 @@ namespace NeeView
 
             foreach (var key in map.Keys.OrderBy(e => LoosePath.GetFileName(e), new NameComparer()))
             {
-                var node = new TreeListNode<IPagemarkEntry>(new PagemarkFolder() { Name = key });
+                var node = new TreeListNode<IPagemarkEntry>(new PagemarkFolder() { Name = key }) { IsExpanded = true };
                 items.Add(node);
 
                 foreach (var pagemark in map[key].OrderBy(e => e.DispName, new NameComparer()))
@@ -628,7 +375,6 @@ namespace NeeView
         [DataContract]
         [KnownType(typeof(Pagemark))]
         [KnownType(typeof(PagemarkFolder))]
-        [KnownType(typeof(DefaultPagemarkFolder))]
         public class Memento
         {
             [DataMember]
@@ -686,6 +432,12 @@ namespace NeeView
                     OldBooks = null;
                 }
 #pragma warning restore CS0612
+
+                // 新しいフォーマットに変換
+                if (_Version < Config.GenerateProductVersionNumber(32, 0, 0))
+                {
+                    Nodes = ConvertToBookUnitFormat(Nodes);
+                }
             }
 
 
@@ -752,22 +504,7 @@ namespace NeeView
         // memento適用
         public void Restore(Memento memento)
         {
-            if (memento._Version < Config.GenerateProductVersionNumber(32, 0, 0))
-            {
-                memento.Nodes.Value = new PagemarkFolder();
-                ValidateFolderName(memento.Nodes);
-                ////ValidateDefaultFolder(memento.Nodes);
-                Task.Run(() => ValidateAsync(memento.Nodes).Wait()).Wait(); // NOTE: デッドロック回避のためあえてタスク化
-            }
-
-            // 新しいフォーマットに変換
-            var nodes = memento.Nodes;
-            if (memento._Version < Config.GenerateProductVersionNumber(32, 0, 0))
-            {
-                nodes = ConvertToBookUnitFormat(memento.Nodes);
-            }
-
-            this.Load(nodes, memento.Books);
+            this.Load(memento.Nodes, memento.Books);
         }
 
         #endregion

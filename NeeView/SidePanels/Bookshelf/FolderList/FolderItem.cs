@@ -24,10 +24,9 @@ namespace NeeView
         Shortcut = (1 << 3),
         ArchiveEntry = (1 << 4),
         Bookmark = (1 << 5),
-        Pagemark = (1 << 6),
-        QuickAccess = (1 << 7),
-        System = (1 << 8),
-        ReadOnly = (1 << 9),
+        QuickAccess = (1 << 6),
+        System = (1 << 7),
+        ReadOnly = (1 << 8),
     }
 
     /// <summary>
@@ -220,7 +219,7 @@ namespace NeeView
         public bool IsEmpty() => (Attributes & FolderItemAttribute.Empty) == FolderItemAttribute.Empty;
         public bool IsDisable() => IsDirectory && !IsReady;
         public bool IsBookmark() => (Attributes & FolderItemAttribute.Bookmark) == FolderItemAttribute.Bookmark;
-        public bool IsFileSystem() => (Attributes & (FolderItemAttribute.System | FolderItemAttribute.Bookmark | FolderItemAttribute.Pagemark | FolderItemAttribute.Empty | FolderItemAttribute.None)) == 0;
+        public bool IsFileSystem() => (Attributes & (FolderItemAttribute.System | FolderItemAttribute.Bookmark | FolderItemAttribute.Empty | FolderItemAttribute.None)) == 0;
 
         /// <summary>
         /// IsRecursived 更新

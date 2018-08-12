@@ -863,7 +863,7 @@ namespace NeeView
             var node = PagemarkCollection.Current.FindNode(place, entryName);
             if (node == null)
             {
-                return AddPagemark(place, entryName, page.Length, page.LastWriteTime);
+                return AddPagemark(place, entryName); ////, page.Length, page.LastWriteTime);
             }
             else
             {
@@ -883,11 +883,11 @@ namespace NeeView
             {
                 return null;
             }
-            return AddPagemark(place, page.FullPath, page.Length, page.LastWriteTime);
+            return AddPagemark(place, page.FullPath);
         }
 
         //
-        public Pagemark AddPagemark(string place, string entryName, long length, DateTime? lastWriteTime)
+        public Pagemark AddPagemark(string place, string entryName)
         {
             // ignore temporary directory
             if (place.StartsWith(Temporary.TempDirectory))
@@ -901,7 +901,7 @@ namespace NeeView
             {
                 // TODO: 登録時にサムネイルキャッシュにも登録
                 var unit = BookMementoCollection.Current.Set(place);
-                var pagemark = new Pagemark(unit, entryName, length, lastWriteTime);
+                var pagemark = new Pagemark(unit, entryName); ////, length, lastWriteTime);
                 PagemarkCollection.Current.Add(new TreeListNode<IPagemarkEntry>(pagemark));
                 return pagemark;
             }

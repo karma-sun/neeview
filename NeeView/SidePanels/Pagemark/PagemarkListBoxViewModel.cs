@@ -51,9 +51,5 @@ namespace NeeView
             Model.Remove(item);
         }
 
-        public void Move(DropInfo<TreeListNode<IPagemarkEntry>> dropInfo)
-        {
-            Model.Move(dropInfo);
-        }
     }
 }

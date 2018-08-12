@@ -70,8 +70,8 @@ namespace NeeView
                     Id = list.Count,
                     Instance = child,
                     RawEntryName = name,
-                    Length = pagemark != null ? pagemark.Length : -1,
-                    LastWriteTime = pagemark?.LastWriteTime,
+                    Length = 0,
+                    LastWriteTime = null,
                 });
             }
 

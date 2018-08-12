@@ -208,47 +208,6 @@ namespace NeeView
 
         #endregion
 
-        public void Move(DropInfo<TreeListNode<IPagemarkEntry>> dropInfo)
-        {
-            if (dropInfo == null) return;
-            if (dropInfo.Data == dropInfo.DropTarget) return;
-
-            var item = dropInfo.Data;
-            var target = dropInfo.DropTarget;
-
-            const double margine = 0.33;
-
-            if (target.Value is PagemarkFolder folder)
-            {
-                if (dropInfo.Position < margine)
-                {
-                    PagemarkCollection.Current.Move(item, target, -1);
-                }
-                else if (dropInfo.Position > (1.0 - margine) && !target.IsExpanded)
-                {
-                    PagemarkCollection.Current.Move(item, target, +1);
-                }
-                else
-                {
-                    PagemarkCollection.Current.MoveToChild(item, target);
-                }
-            }
-            else
-            {
-                if (target.Next == null && dropInfo.Position > (1.0 - margine))
-                {
-                    PagemarkCollection.Current.Move(item, target, +1);
-                }
-                else if (item.CompareOrder(item, target))
-                {
-                    PagemarkCollection.Current.Move(item, target, +1);
-                }
-                else
-                {
-                    PagemarkCollection.Current.Move(item, target, -1);
-                }
-            }
-        }
 
         public bool Rename(TreeListNode<IPagemarkEntry> item, string newName)
         {

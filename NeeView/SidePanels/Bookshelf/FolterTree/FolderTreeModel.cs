@@ -187,10 +187,6 @@ namespace NeeView
                 case BookmarkFolderNode bookmarkFolder:
                     SetFolderListPlace(bookmarkFolder.Path);
                     break;
-
-                case PagemarkFolderNode pagemarkFolder:
-                    SetFolderListPlace(pagemarkFolder.Path);
-                    break;
             }
         }
 
@@ -357,75 +353,6 @@ namespace NeeView
                 BookmarkCollection.Current.AddToChild(node, parentNode);
             }
         }
-
-
-        public void OpenPagemarkFolder(PagemarkFolderNode item)
-        {
-            if (item == null)
-            {
-                return;
-            }
-
-            var query = item.PagemarkSource.CreateQuery(QueryScheme.Pagemark);
-            BookHub.Current.RequestLoad(query.FullPath, null, BookLoadOption.IsBook, true);
-        }
-
-        public PagemarkFolderNode NewPagemarkFolder(PagemarkFolderNode item)
-        {
-            if (item == null)
-            {
-                return null;
-            }
-
-            item.IsExpanded = true;
-
-            var node = PagemarkCollection.Current.AddNewFolder(item.PagemarkSource);
-            if (node == null)
-            {
-                return null;
-            }
-
-            var newItem = item.Children.OfType<PagemarkFolderNode>().FirstOrDefault(e => e.Source == node);
-            if (newItem != null)
-            {
-                SelectedItem = newItem;
-            }
-
-            return newItem;
-        }
-
-        public void RemovePagemarkFolder(PagemarkFolderNode item)
-        {
-            if (item == null || item is RootPagemarkFolderNode || item.PagemarkSource.Value is DefaultPagemarkFolder)
-            {
-                return;
-            }
-
-            var next = item.Next ?? item.Previous ?? item.Parent;
-
-            var memento = new TreeListNodeMemento<IPagemarkEntry>(item.PagemarkSource);
-
-            bool isRemoved = PagemarkCollection.Current.Remove(item.PagemarkSource);
-            if (isRemoved)
-            {
-                if (item.PagemarkSource.Value is PagemarkFolder)
-                {
-                    var count = item.PagemarkSource.Count(e => e.Value is Pagemark);
-                    if (count > 0)
-                    {
-                        var toast = new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), Properties.Resources.WordRestore, () => PagemarkCollection.Current.Restore(memento));
-                        ToastService.Current.Show("FolderList", toast);
-                    }
-                }
-
-                if (next != null)
-                {
-                    next.IsSelected = true;
-                    SelectedItem = next;
-                }
-            }
-        }
-
 
         public void MoveQuickAccess(QuickAccessNode src, QuickAccessNode dst)
         {

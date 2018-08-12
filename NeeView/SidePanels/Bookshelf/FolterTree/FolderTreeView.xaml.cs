@@ -105,10 +105,6 @@ namespace NeeView
                         case BookmarkFolderNode bookmarkFolder:
                             _vm.RemoveBookmarkFolder(bookmarkFolder);
                             break;
-
-                        case PagemarkFolderNode pagemarkFolder:
-                            _vm.RemovePagemarkFolder(pagemarkFolder);
-                            break;
                     }
                 }
             }
@@ -168,16 +164,6 @@ namespace NeeView
                                 }
                             }
                             break;
-                        case PagemarkFolderNode pagemarkFolderNode:
-                            {
-                                var newItem = _vm.NewPagemarkFolder(pagemarkFolderNode);
-                                if (newItem != null)
-                                {
-                                    this.TreeView.UpdateLayout();
-                                    RenamePagemarkFolder(newItem);
-                                }
-                            }
-                            break;
                     }
                 }
             }
@@ -197,9 +183,6 @@ namespace NeeView
                     {
                         case BookmarkFolderNode bookmarkFolderNode:
                             RenameBookmarkFolder(bookmarkFolderNode);
-                            break;
-                        case PagemarkFolderNode pagemarkFolderNode:
-                            RenamePagemarkFolder(pagemarkFolderNode);
                             break;
                     }
                 }
@@ -222,10 +205,6 @@ namespace NeeView
             {
                 await BookmarkCollection.Current.RemoveUnlinkedAsync(_removeUnlinkedCommandCancellationTokenSource.Token);
             }
-            else if (this.TreeView.SelectedItem is RootPagemarkFolderNode)
-            {
-                await PagemarkCollection.Current.RemoveUnlinkedAsync(_removeUnlinkedCommandCancellationTokenSource.Token);
-            }
         }
 
         private RelayCommand _addBookmarkCommand;
@@ -245,25 +224,6 @@ namespace NeeView
                 }
             }
         }
-
-        private RelayCommand _openPagemarkBookCommand;
-        public RelayCommand OpenPagemarkBookCommand
-        {
-            get
-            {
-                return _openPagemarkBookCommand = _openPagemarkBookCommand ?? new RelayCommand(Execute);
-
-                void Execute()
-                {
-                    var item = this.TreeView.SelectedItem as PagemarkFolderNode;
-                    if (item != null)
-                    {
-                        _vm.OpenPagemarkBook(item);
-                    }
-                }
-            }
-        }
-
 
         #endregion
 
@@ -285,39 +245,6 @@ namespace NeeView
                 rename.Closing += (s, ev) =>
                 {
                     BookmarkCollectionService.Rename(item.BookmarkSource, ev.NewValue);
-                };
-                rename.Closed += (s, ev) =>
-                {
-                    this.TreeView.Focus();
-                };
-                rename.Close += (s, ev) =>
-                {
-                    IsRenaming = false;
-                };
-
-                MainWindow.Current.RenameManager.Open(rename);
-                IsRenaming = true;
-            }
-        }
-
-
-        private void RenamePagemarkFolder(PagemarkFolderNode item)
-        {
-            if (item is RootPagemarkFolderNode || item.PagemarkSource.Value is DefaultPagemarkFolder)
-            {
-                return;
-            }
-
-            var treetView = this.TreeView;
-            var treeViewItem = VisualTreeUtility.FindContainer<TreeViewItem>(treetView, item);
-            var textBlock = VisualTreeUtility.FindVisualChild<TextBlock>(treeViewItem, "FileNameTextBlock");
-
-            if (textBlock != null)
-            {
-                var rename = new RenameControl() { Target = textBlock };
-                rename.Closing += (s, ev) =>
-                {
-                    PagemarkCollectionService.Rename(item.PagemarkSource, ev.NewValue);
                 };
                 rename.Closed += (s, ev) =>
                 {
@@ -590,21 +517,6 @@ namespace NeeView
                     contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTreeMenuAddBookmark, AddBookmarkCommand));
                     break;
 
-                case RootPagemarkFolderNode rootPagemarkFolder:
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.FolderTreeMenuDeleteInvalidPagemark, RemoveUnlinkedCommand));
-                    contextMenu.Items.Add(new Separator());
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.WordNewFolder, NewFolderCommand));
-                    break;
-
-                case PagemarkFolderNode pagemarkFolder:
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.WordOpen, OpenPagemarkBookCommand));
-                    contextMenu.Items.Add(new Separator());
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.WordRemove, RemoveCommand));
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.WordRename, RenameCommand));
-                    contextMenu.Items.Add(new Separator());
-                    contextMenu.Items.Add(CreateMenuItem(Properties.Resources.WordNewFolder, NewFolderCommand));
-                    break;
-
                 default:
                     e.Handled = true;
                     break;
@@ -665,15 +577,6 @@ namespace NeeView
                 case BookmarkFolderNode bookmarkFolder:
                     e.Data.SetData(bookmarkFolder.Source);
                     e.AllowedEffects = DragDropEffects.Copy | DragDropEffects.Move;
-                    break;
-
-                case PagemarkFolderNode pagemarkFolder:
-                    e.Data.SetData(pagemarkFolder.Source);
-                    e.AllowedEffects = DragDropEffects.Copy | DragDropEffects.Move;
-                    if (pagemarkFolder.PagemarkSource.Value is DefaultPagemarkFolder)
-                    {
-                        e.AllowedEffects = DragDropEffects.Copy;
-                    }
                     break;
 
                 default:
@@ -759,16 +662,6 @@ namespace NeeView
                             if (e.Handled) return;
 
                             DropToBookmark(sender, e, isDrop, bookmarkFolderTarget, e.Data.GetFileDrop());
-                            if (e.Handled) return;
-                        }
-                        break;
-
-                    case PagemarkFolderNode pagemarkFolderTarget:
-                        {
-                            DropToPagemark(sender, e, isDrop, pagemarkFolderTarget, dragData?.DataContext as PagemarkFolderNode);
-                            if (e.Handled) return;
-
-                            DropToPagemark(sender, e, isDrop, pagemarkFolderTarget, e.Data.GetData<TreeListNode<IPagemarkEntry>>());
                             if (e.Handled) return;
                         }
                         break;
@@ -962,64 +855,6 @@ namespace NeeView
                 e.Handled = true;
             }
         }
-
-
-        public void DropToPagemark(object sender, DragEventArgs e, bool isDrop, PagemarkFolderNode pagemarkFolderTarget, PagemarkFolderNode pagemarkFolder)
-        {
-            if (pagemarkFolder == null)
-            {
-                return;
-            }
-            if ((e.AllowedEffects & DragDropEffects.Move) == 0)
-            {
-                return;
-            }
-
-            if (!pagemarkFolderTarget.PagemarkSource.ParentContains(pagemarkFolder.PagemarkSource))
-            {
-                if (isDrop)
-                {
-                    PagemarkCollection.Current.MoveToChild(pagemarkFolder.PagemarkSource, pagemarkFolderTarget.PagemarkSource);
-                }
-                e.Effects = DragDropEffects.Move;
-                e.Handled = true;
-            }
-        }
-
-        public void DropToPagemark(object sender, DragEventArgs e, bool isDrop, PagemarkFolderNode pagemarkFolderTarget, TreeListNode<IPagemarkEntry> pagemarkEntry)
-        {
-            if (pagemarkEntry == null)
-            {
-                return;
-            }
-            if ((e.AllowedEffects & DragDropEffects.Move) == 0)
-            {
-                return;
-            }
-
-            if (pagemarkEntry.Value is PagemarkFolder)
-            {
-                if (pagemarkFolderTarget.Source != pagemarkEntry && !pagemarkFolderTarget.PagemarkSource.ParentContains(pagemarkEntry))
-                {
-                    if (isDrop)
-                    {
-                        PagemarkCollection.Current.MoveToChild(pagemarkEntry, pagemarkFolderTarget.PagemarkSource);
-                    }
-                    e.Effects = DragDropEffects.Move;
-                    e.Handled = true;
-                }
-            }
-            else if (pagemarkEntry.Value is Pagemark && !(pagemarkFolderTarget is RootPagemarkFolderNode))
-            {
-                if (isDrop)
-                {
-                    PagemarkCollection.Current.MoveToChild(pagemarkEntry, pagemarkFolderTarget.PagemarkSource);
-                }
-                e.Effects = DragDropEffects.Move;
-                e.Handled = true;
-            }
-        }
-
 
         private TreeViewItem PointToViewItem(TreeView treeView, Point point)
         {

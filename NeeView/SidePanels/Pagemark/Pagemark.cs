@@ -20,13 +20,11 @@ namespace NeeView
         private string _place;
         private string _entryName;
 
-        public Pagemark(BookMementoUnit unit, string entryName, long length, DateTime? lastWriteTime)
+        public Pagemark(BookMementoUnit unit, string entryName)
         {
             Place = unit.Place;
             EntryName = entryName;
             Unit = unit;
-            Length = length;
-            LastWriteTime = lastWriteTime;
         }
 
         [DataMember]
@@ -64,20 +62,6 @@ namespace NeeView
             get { return _dispName ?? LoosePath.GetFileName(EntryName); }
             set { SetProperty(ref _dispName, value); }
         }
-
-
-
-        /// <summary>
-        /// ファイルサイズ。
-        /// </summary>
-        [DataMember]
-        public long Length { get; set; }
-
-        /// <summary>
-        /// ファイル更新日。nullは未設定
-        /// </summary>
-        [DataMember]
-        public DateTime? LastWriteTime { get; set; }
 
 
         [OnDeserialized]
@@ -138,7 +122,7 @@ namespace NeeView
         }
 
 
-        #region IVirtualItem
+#region IVirtualItem
 
         // TODO: これはPageで保持するべきか？
         private JobRequest _jobRequest;
@@ -159,7 +143,7 @@ namespace NeeView
             _jobRequest = null;
         }
 
-        #endregion
+#endregion
 
 
         public bool IsEqual(IPagemarkEntry entry)
@@ -170,30 +154,6 @@ namespace NeeView
         public override string ToString()
         {
             return base.ToString() + " Name:" + Name;
-        }
-
-        /// <summary>
-        /// 足りない情報の補完
-        /// </summary>
-        public async Task ValidateAsync()
-        {
-            if (LastWriteTime != null)
-            {
-                return;
-            }
-
-            try
-            {
-                using (var entry = await ArchiveFileSystem.CreateArchiveEntry(FullName, CancellationToken.None))
-                {
-                    this.Length = entry.Length;
-                    this.LastWriteTime = entry.LastWriteTime;
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Update pagemark parameter faied: {FullName}: {ex.Message}");
-            }
         }
     }
 

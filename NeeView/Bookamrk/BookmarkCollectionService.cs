@@ -20,7 +20,7 @@ namespace NeeView
 
         public static TreeListNode<IBookmarkEntry> AddToChild(TreeListNode<IBookmarkEntry> parent, QueryPath query)
         {
-            if (query.Scheme != QueryScheme.File)
+            if (query.Scheme != QueryScheme.File && !(query.Scheme == QueryScheme.Pagemark && query.Path == null))
             {
                 return null;
             }

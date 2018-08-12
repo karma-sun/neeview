@@ -89,6 +89,8 @@ namespace NeeView
             menu.Items.Add(new Separator());
             menu.Items.Add(CreateCurrentBookMenuItem(Properties.Resources.PagemarkMenuCurrentBook));
             menu.Items.Add(new Separator());
+            menu.Items.Add(CreateCommandMenuItem(@Properties.Resources.PagemarkMenuOpenAsBook, OpenAsBookCommand));
+            menu.Items.Add(new Separator());
             menu.Items.Add(CreateCommandMenuItem(Properties.Resources.PagemarkMenuDeleteInvalid, RemoveUnlinkedCommand));
 
             this.MoreMenu = menu;
@@ -194,6 +196,18 @@ namespace NeeView
         {
             _model.AddPagemark();
         }
+
+        private RelayCommand _openAsBookCommand;
+        public RelayCommand OpenAsBookCommand
+        {
+            get { return _openAsBookCommand = _openAsBookCommand ?? new RelayCommand(OpenAdBookCommand_Executed); }
+        }
+
+        private void OpenAdBookCommand_Executed()
+        {
+            _model.OpenAsBook();
+        }
+
 
 
         // Methods

@@ -88,6 +88,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Pagemark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ArchiveFormatPagemark {
+            get {
+                return ResourceManager.GetString("ArchiveFormatPagemark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   PDF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ArchiveFormatPdf {
@@ -129,6 +138,15 @@ namespace NeeView.Properties {
         public static string BookAddressInfoPage {
             get {
                 return ResourceManager.GetString("BookAddressInfoPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   This is pagemark address. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookAddressInfoPagemark {
+            get {
+                return ResourceManager.GetString("BookAddressInfoPagemark", resourceCulture);
             }
         }
         
@@ -7876,6 +7894,15 @@ namespace NeeView.Properties {
         public static string PagemarkMenuDeleteInvalid {
             get {
                 return ResourceManager.GetString("PagemarkMenuDeleteInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open as a book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PagemarkMenuOpenAsBook {
+            get {
+                return ResourceManager.GetString("PagemarkMenuOpenAsBook", resourceCulture);
             }
         }
         

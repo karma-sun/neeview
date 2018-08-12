@@ -4359,4 +4359,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="NotifyRemoveUnlinkedPagemark" xml:space="preserve">
     <value>{0} pagemarks deleted.</value>
   </data>
+  <data name="BookAddressInfoPagemark" xml:space="preserve">
+    <value>This is pagemark address.</value>
+  </data>
+  <data name="ArchiveFormatPagemark" xml:space="preserve">
+    <value>Pagemark</value>
+  </data>
+  <data name="PagemarkMenuOpenAsBook" xml:space="preserve">
+    <value>Open as a book</value>
+  </data>
 </root>

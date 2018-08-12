@@ -312,6 +312,8 @@ namespace NeeView
                     return inner + Properties.Resources.ArchiveFormatPdf + $"({extension})";
                 case ArchiverType.MediaArchiver:
                     return inner + Properties.Resources.ArchiveFormatMedia + $"({extension})";
+                case ArchiverType.PagemarkArchiver:
+                    return Properties.Resources.ArchiveFormatPagemark;
                 default:
                     return Properties.Resources.ArchiveFormatUnknown;
             }
@@ -764,9 +766,9 @@ namespace NeeView
             return command;
         }
 
-#endregion
+        #endregion
 
-#region コマンド実行
+        #region コマンド実行
 
         // コマンド処理
         internal async Task Dispose_Executed(BookCommandDisposeArgs param, CancellationToken token)
@@ -829,9 +831,9 @@ namespace NeeView
             await UpdateViewPageAsync(range, isPreLoad, null, token);
         }
 
-#endregion
+        #endregion
 
-#region 表示ページ処理
+        #region 表示ページ処理
 
         // 表示ページ番号
         public int GetViewPageindex() => _viewPageCollection.Range.Min.Index;
@@ -1278,9 +1280,9 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
-#region ページの並び替え
+        #region ページの並び替え
 
         // ページの並び替え
         private void Sort()
@@ -1394,9 +1396,9 @@ namespace NeeView
             return (t1.Ticks - t2.Ticks < 0) ? -1 : 1;
         }
 
-#endregion
+        #endregion
 
-#region ページの削除
+        #region ページの削除
 
         // ページの削除
         private void Remove(Page page)
@@ -1416,9 +1418,9 @@ namespace NeeView
             RequestSetPosition(this, new PagePosition(index, 0), 1, true);
         }
 
-#endregion
+        #endregion
 
-#region マーカー処理
+        #region マーカー処理
 
         /// <summary>
         /// マーカー判定
@@ -1512,18 +1514,18 @@ namespace NeeView
             return target;
         }
 
-#endregion
+        #endregion
 
-#region 動画再生用
+        #region 動画再生用
 
         public void RaisePageTerminatedEvent(int direction)
         {
             PageTerminated?.Invoke(this, new PageTerminatedEventArgs(direction));
         }
 
-#endregion
+        #endregion
 
-#region IDisposable Support
+        #region IDisposable Support
         private bool _disposedValue = false;
 
         protected virtual void Dispose(bool disposing)
@@ -1575,11 +1577,11 @@ namespace NeeView
         {
             Dispose(true);
         }
-#endregion
+        #endregion
 
-#endregion
+        #endregion
 
-#region Memento
+        #region Memento
 
         /// <summary>
         /// 保存設定
@@ -1781,7 +1783,7 @@ namespace NeeView
             SortMode = memento.SortMode;
         }
 
-#endregion
+        #endregion
     }
 
     // ページ関係のイベントパラメータ

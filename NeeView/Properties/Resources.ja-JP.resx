@@ -4359,4 +4359,13 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="NotifyRemoveUnlinkedPagemark" xml:space="preserve">
     <value>{0} 個のページマークを削除しました。</value>
   </data>
+  <data name="BookAddressInfoPagemark" xml:space="preserve">
+    <value>ページマークアドレスです</value>
+  </data>
+  <data name="ArchiveFormatPagemark" xml:space="preserve">
+    <value>ページマーク形式</value>
+  </data>
+  <data name="PagemarkMenuOpenAsBook" xml:space="preserve">
+    <value>本として開く</value>
+  </data>
 </root>

@@ -99,6 +99,11 @@ namespace NeeView
             }
         }
 
+        public void OpenAsBook()
+        {
+            BookHub.Current.RequestLoad(QueryScheme.Pagemark.ToSchemeString(), null, BookLoadOption.IsBook, true);
+        }
+
 
         #region Memento
         [DataContract]

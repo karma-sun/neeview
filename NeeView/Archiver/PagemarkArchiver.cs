@@ -55,21 +55,16 @@ namespace NeeView
             int prefixLen = Path.Length;
             var list = new List<ArchiveEntry>();
 
-            foreach (var child in node.Children)
+            foreach (var child in node.Where(e => e.Value is Pagemark))
             {
-                token.ThrowIfCancellationRequested();
-
-                var query = child.CreateQuery(QueryScheme.Pagemark);
-                var name = query.FullPath.Substring(prefixLen).TrimStart('\\', '/');
-
-                var pagemark = child.Value as Pagemark;
+                var pagemark = (Pagemark)child.Value;
 
                 list.Add(new ArchiveEntry()
                 {
                     Archiver = this,
                     Id = list.Count,
                     Instance = child,
-                    RawEntryName = name,
+                    RawEntryName = LoosePath.Combine(LoosePath.GetFileName(pagemark.Place), pagemark.DispName),
                     Length = 0,
                     LastWriteTime = null,
                 });

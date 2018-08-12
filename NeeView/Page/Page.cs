@@ -163,6 +163,8 @@ namespace NeeView
         {
             get
             {
+                if (LastWriteTime == null && Length == 0) return null;
+
                 var timeString = $"{LastWriteTime:yyyy/MM/dd HH:mm:ss}";
                 var sizeString = FileSizeToStringConverter.ByteToDispString(Length);
                 return timeString + (string.IsNullOrEmpty(sizeString) ? "" : "   " + sizeString);

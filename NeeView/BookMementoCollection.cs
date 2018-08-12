@@ -79,16 +79,15 @@ namespace NeeView
         
         public BookMementoUnit GetValid(string place)
         {
-            return BookHistoryCollection.Current.FindUnit(place) ?? BookmarkCollection.Current.FindUnit(place) ?? PagemarkCollection.Current.FindUnit(place);
+            return BookHistoryCollection.Current.FindUnit(place) ?? BookmarkCollection.Current.FindUnit(place);
         }
 
         public void CleanUp()
         {
             var histories = BookHistoryCollection.Current.Items.Select(e => e.Unit);
             var bookmarks = BookmarkCollection.Current.Items.Select(e => e.Value).OfType<Bookmark>().Select(e => e.Unit).Distinct();
-            var pagemarks = PagemarkCollection.Current.Items.Select(e => e.Value).OfType<Pagemark>().Select(e => e.Unit).Distinct();
 
-            Items = histories.Union(bookmarks.Union(pagemarks)).ToDictionary(e => e.Place, e => e);
+            Items = histories.Union(bookmarks).ToDictionary(e => e.Place, e => e);
         }
     }
 }

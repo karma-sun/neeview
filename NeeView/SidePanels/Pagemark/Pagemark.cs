@@ -9,22 +9,21 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
-    public interface IPagemarkEntry : IHasPage, IHasName
+    public interface IPagemarkEntry : IHasName
     {
         string DispName { get; }
     }
 
     [DataContract]
-    public class Pagemark : BindableBase, IPagemarkEntry, IVirtualItem
+    public class Pagemark : BindableBase, IPagemarkEntry, IVirtualItem, IHasPage
     {
         private string _place;
         private string _entryName;
 
-        public Pagemark(BookMementoUnit unit, string entryName)
+        public Pagemark(string place, string entryName)
         {
-            Place = unit.Place;
+            Place = place;
             EntryName = entryName;
-            Unit = unit;
         }
 
         [DataMember]
@@ -35,7 +34,6 @@ namespace NeeView
             {
                 if (SetProperty(ref _place, value))
                 {
-                    _unit = null;
                     RaisePropertyChanged(null);
                 }
             }
@@ -55,7 +53,7 @@ namespace NeeView
         }
 
 
-        [DataMember(Name = "DispName", EmitDefaultValue = true)]
+        [DataMember(Name = "DispName", EmitDefaultValue = false)]
         private string _dispName;
         public string DispName
         {
@@ -71,7 +69,7 @@ namespace NeeView
         }
 
         public string FullName => LoosePath.Combine(Place, EntryName);
-        public string Name => LoosePath.GetFileName(EntryName);
+        public string Name => EntryName;
         public string Note => LoosePath.GetFileName(Place);
         public string Detail => EntryName;
 
@@ -86,14 +84,6 @@ namespace NeeView
                 return ArchivePage.Thumbnail;
             }
         }
-
-        private BookMementoUnit _unit;
-        public BookMementoUnit Unit
-        {
-            get { return _unit = _unit ?? BookMementoCollection.Current.Set(Place); }
-            private set { _unit = value; }
-        }
-
 
         private volatile ArchivePage _archivePage;
         public ArchivePage ArchivePage
@@ -122,7 +112,7 @@ namespace NeeView
         }
 
 
-#region IVirtualItem
+        #region IVirtualItem
 
         // TODO: これはPageで保持するべきか？
         private JobRequest _jobRequest;
@@ -143,7 +133,7 @@ namespace NeeView
             _jobRequest = null;
         }
 
-#endregion
+        #endregion
 
 
         public bool IsEqual(IPagemarkEntry entry)

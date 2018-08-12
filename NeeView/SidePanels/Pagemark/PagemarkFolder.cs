@@ -7,53 +7,38 @@ namespace NeeView
     [DataContract]
     public class PagemarkFolder : BindableBase, IPagemarkEntry
     {
-        private string _name;
+        private static IThumbnail _thumbnail = new FolderThumbnail();
+        private string _place;
+
+        
+        [Obsolete]
+        [DataMember(Name="Name", EmitDefaultValue =false)]
+        private string ObsoleteName
+        {
+            get { return null; }
+            set { _place = value; }
+        }
+
 
         [DataMember(EmitDefaultValue = false)]
-        public virtual string Name
+        public string Place
         {
-            get { return _name; }
+            get { return _place; }
             set
             {
-                if (SetProperty(ref _name, value))
+                if (SetProperty(ref _place, value))
                 {
                     RaisePropertyChanged(null);
                 }
             }
         }
 
-        public string DispName
-        {
-            get { return LoosePath.GetFileName(_name); }
-        }
-
-
+        public string Name => _place;
+        public string DispName => LoosePath.GetFileName(_place);
         public string Note => null;
-        public string Detail => _name;
+        public string Detail => _place;
 
-        public IThumbnail Thumbnail
-        {
-            get
-            {
-                ConstPage.LoadThumbnail(QueueElementPriority.BookmarkThumbnail);
-                return ConstPage.Thumbnail;
-            }
-        }
-
-
-        public Page GetPage()
-        {
-            return ConstPage;
-        }
-
-        private volatile ConstPage _constPage;
-        public ConstPage ConstPage
-        {
-            get
-            {
-                return _constPage != null ? _constPage : _constPage = new ConstPage(ThumbnailType.Folder);
-            }
-        }
+        public IThumbnail Thumbnail => _thumbnail;
 
 
         public static string GetValidateName(string name)
@@ -63,7 +48,7 @@ namespace NeeView
 
         public bool IsEqual(IPagemarkEntry entry)
         {
-            return entry is PagemarkFolder folder && this.Name == folder.Name;
+            return entry is PagemarkFolder folder && this.Place == folder.Place;
         }
     }
 

@@ -34,7 +34,7 @@ namespace NeeView
 
             UpdateListBoxContent();
         }
-        
+
 
         // Properties
 
@@ -152,10 +152,9 @@ namespace NeeView
             return item;
         }
 
-
         #endregion
 
-        
+
         // Commands
 
         private RelayCommand<PanelListItemStyle> _SetListItemStyle;
@@ -184,19 +183,6 @@ namespace NeeView
             var count = await PagemarkCollection.Current.RemoveUnlinkedAsync(_removeUnlinkedCommandCancellationToken.Token);
             ToastService.Current.Show("PagemarkList", new Toast(string.Format(Properties.Resources.NotifyRemoveUnlinkedPagemark, count)));
         }
-
-
-        private RelayCommand _newFolderCommand;
-        public RelayCommand NewFolderCommand
-        {
-            get { return _newFolderCommand = _newFolderCommand ?? new RelayCommand(NewDirectory_Executed); }
-        }
-
-        private void NewDirectory_Executed()
-        {
-            _model.ListBox.NewFolder();
-        }
-
 
         private RelayCommand _addPagemarkCommand;
         public RelayCommand AddPagemarkCommand

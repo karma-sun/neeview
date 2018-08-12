@@ -46,7 +46,7 @@ namespace NeeView
             if (placeQuery.Scheme != QueryScheme.Pagemark) throw new ApplicationException("Archive is not pagemark.");
 
             var node = PagemarkCollection.Current.FindNode(placeQuery);
-            if (!(node.Value is PagemarkFolder folder))
+            if (!(node.Value is PagemarkFolder))
             {
                 Debug.WriteLine($"No pagemark folder.");
                 return new List<ArchiveEntry>();

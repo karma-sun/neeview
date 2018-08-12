@@ -900,8 +900,7 @@ namespace NeeView
             if (node == null)
             {
                 // TODO: 登録時にサムネイルキャッシュにも登録
-                var unit = BookMementoCollection.Current.Set(place);
-                var pagemark = new Pagemark(unit, entryName); ////, length, lastWriteTime);
+                var pagemark = new Pagemark(place, entryName);
                 PagemarkCollection.Current.Add(new TreeListNode<IPagemarkEntry>(pagemark));
                 return pagemark;
             }

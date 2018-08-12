@@ -130,31 +130,6 @@ namespace NeeView
 
         #region Methods
 
-        private void PagemarkCollection_Changed(object sender, CollectionChangeEventArgs e)
-        {
-            // if new folder, enter rename mode.
-            if (e.Action == CollectionChangeAction.Add)
-            {
-                if (e.Element is TreeListNode<IPagemarkEntry> node)
-                {
-                    if (node.Value is PagemarkFolder)
-                    {
-                        Dispatcher.BeginInvoke((Action)(() =>
-                        {
-                            var scrollViewer = VisualTreeUtility.GetChildElement<ScrollViewer>(this.TreeView);
-                            if (scrollViewer != null)
-                            {
-                                scrollViewer.ScrollToVerticalOffset(0);
-                            }
-
-                            this.TreeView.UpdateLayout();
-                            Rename(node);
-                        }));
-                    }
-                }
-            }
-        }
-
         private void Rename(TreeListNode<IPagemarkEntry> item)
         {
             var treetView = this.TreeView;
@@ -289,13 +264,11 @@ namespace NeeView
 
         private void PagemarkListBox_Loaded(object sender, RoutedEventArgs e)
         {
-            _vm.Changed += PagemarkCollection_Changed;
             _vm.Loaded();
         }
 
         private void PagemarkListBox_Unloaded(object sender, RoutedEventArgs e)
         {
-            _vm.Changed -= PagemarkCollection_Changed;
             _vm.Unloaded();
         }
 

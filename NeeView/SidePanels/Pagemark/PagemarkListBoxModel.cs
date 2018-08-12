@@ -30,7 +30,6 @@ namespace NeeView
 
         // Events
 
-        public event CollectionChangeEventHandler Changed;
         public event EventHandler SelectedItemChanged;
 
         // Properties
@@ -89,7 +88,7 @@ namespace NeeView
                     break;
                 case EntryCollectionChangedAction.Add:
                 case EntryCollectionChangedAction.Remove:
-                    if (e.Item.Value is PagemarkFolder folder && folder.Name == BookOperation.Current.Place)
+                    if (e.Item.Value is PagemarkFolder folder && folder.Place == BookOperation.Current.Place)
                     {
                         UpdateItems();
                     }
@@ -109,7 +108,7 @@ namespace NeeView
             if (PagemarkList.Current.IsCurrentBook)
             {
                 PlaceDispString = LoosePath.GetFileName(BookOperation.Current.Place);
-                var node = PagemarkCollection.Items.Children.FirstOrDefault(e => e.Value is PagemarkFolder folder && folder.Name == BookOperation.Current.Place);
+                var node = PagemarkCollection.Items.Children.FirstOrDefault(e => e.Value is PagemarkFolder folder && folder.Place == BookOperation.Current.Place);
                 if (node != null)
                 {
                     Items = node.Children;
@@ -222,16 +221,6 @@ namespace NeeView
 
             return false;
         }
-
-        internal void NewFolder()
-        {
-            var node = new TreeListNode<IPagemarkEntry>(new PagemarkFolder() { Name = Properties.Resources.WordNewFolder });
-            PagemarkCollection.Current.Add(node);
-            SelectedItem = node;
-            Changed?.Invoke(this, new CollectionChangeEventArgs(CollectionChangeAction.Add, node));
-        }
-
-
 
 
         // ページマークを戻る

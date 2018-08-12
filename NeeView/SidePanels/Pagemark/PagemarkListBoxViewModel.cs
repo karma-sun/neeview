@@ -14,27 +14,17 @@ namespace NeeView
             Model = model;
         }
 
-        public event CollectionChangeEventHandler Changed;
-
 
         public PagemarkListBoxModel Model { get; private set; }
 
 
         internal void Loaded()
         {
-            Model.Changed += Model_Changed;
         }
 
         internal void Unloaded()
         {
-            Model.Changed -= Model_Changed;
         }
-
-        private void Model_Changed(object sender, CollectionChangeEventArgs e)
-        {
-            Changed?.Invoke(sender, e);
-        }
-
 
         public void Decide(TreeListNode<IPagemarkEntry> item)
         {

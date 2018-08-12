@@ -67,13 +67,8 @@ namespace NeeView
             PagemarkChanged?.Invoke(this, e);
         }
 
-        public void Load(TreeListNode<IPagemarkEntry> nodes, IEnumerable<Book.Memento> books)
+        public void Load(TreeListNode<IPagemarkEntry> nodes)
         {
-            foreach (var book in books)
-            {
-                BookMementoCollection.Current.Set(book);
-            }
-
             Items = nodes;
 
             PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Replace));
@@ -87,15 +82,6 @@ namespace NeeView
 
             return Items.Select(e => e.Value).OfType<Pagemark>().FirstOrDefault(e => e.Place == place && e.EntryName == entryName);
         }
-
-
-        public BookMementoUnit FindUnit(string place)
-        {
-            if (place == null) return null;
-
-            return Items.Select(e => e.Value).OfType<Pagemark>().FirstOrDefault(e => e.Place == place)?.Unit;
-        }
-
 
         public TreeListNode<IPagemarkEntry> FindNode(string place, string entryName)
         {
@@ -184,10 +170,10 @@ namespace NeeView
 
             if (node.Value is Pagemark pagemark)
             {
-                var parent = Items.Children.FirstOrDefault(e => e.Value is PagemarkFolder folder && folder.Name == pagemark.Place);
+                var parent = Items.Children.FirstOrDefault(e => e.Value is PagemarkFolder folder && folder.Place == pagemark.Place);
                 if (parent == null)
                 {
-                    parent = new TreeListNode<IPagemarkEntry>(new PagemarkFolder() { Name = pagemark.Place }) { IsExpanded = true };
+                    parent = new TreeListNode<IPagemarkEntry>(new PagemarkFolder() { Place = pagemark.Place }) { IsExpanded = true };
                     Items.Insert(GetInsertIndex(Items, parent), parent);
                     PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, parent.Parent, parent));
                 }
@@ -288,7 +274,7 @@ namespace NeeView
             {
                 if (node.Value is PagemarkFolder folder)
                 {
-                    if (!(await ArchiveFileSystem.ExistsAsync(folder.Name, token)))
+                    if (!(await ArchiveFileSystem.ExistsAsync(folder.Place, token)))
                     {
                         unlinked.Add(node);
                     }
@@ -317,9 +303,9 @@ namespace NeeView
         {
             foreach (var item in Items)
             {
-                if (item.Value is PagemarkFolder folder && folder.Name == src)
+                if (item.Value is PagemarkFolder folder && folder.Place == src)
                 {
-                    folder.Name = dst;
+                    folder.Place = dst;
                     SortOne(item);
 
                     foreach (var child in item)
@@ -357,7 +343,7 @@ namespace NeeView
 
             foreach (var key in map.Keys.OrderBy(e => LoosePath.GetFileName(e), new NameComparer()))
             {
-                var node = new TreeListNode<IPagemarkEntry>(new PagemarkFolder() { Name = key }) { IsExpanded = true };
+                var node = new TreeListNode<IPagemarkEntry>(new PagemarkFolder() { Place = key }) { IsExpanded = true };
                 items.Add(node);
 
                 foreach (var pagemark in map[key].OrderBy(e => e.DispName, new NameComparer()))
@@ -383,7 +369,7 @@ namespace NeeView
             [DataMember]
             public TreeListNode<IPagemarkEntry> Nodes { get; set; }
 
-            [DataMember]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public List<Book.Memento> Books { get; set; }
 
             [Obsolete, DataMember(EmitDefaultValue = false)]
@@ -396,7 +382,6 @@ namespace NeeView
             private void Constructor()
             {
                 Nodes = CreateRoot();
-                Books = new List<Book.Memento>();
             }
 
             public Memento()
@@ -480,7 +465,6 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.Nodes = Items;
-            memento.Books = Items.Select(e => e.Value).OfType<Pagemark>().Select(e => e.Unit.Memento).Distinct().ToList();
 
             // TODO: removeTemporary は登録時に
             if (removeTemporary)
@@ -504,7 +488,7 @@ namespace NeeView
         // memento適用
         public void Restore(Memento memento)
         {
-            this.Load(memento.Nodes, memento.Books);
+            this.Load(memento.Nodes);
         }
 
         #endregion

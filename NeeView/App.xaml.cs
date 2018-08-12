@@ -117,7 +117,9 @@ namespace NeeView
         }
 
 
-        // 初期化
+        /// <summary>
+        /// 初期化 
+        /// </summary>
         private void Initialize(StartupEventArgs e)
         {
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
@@ -132,6 +134,14 @@ namespace NeeView
             this.Option = ParseArguments(e.Args);
             this.Option.Validate();
 
+            // 他のプロセスが存在しなければスプラッシュ開始
+            var currentProcess = Process.GetCurrentProcess();
+            var serverProcess = GetServerProcess(currentProcess);
+            if (serverProcess == null)
+            {
+                ShowSplashScreen();
+            }
+            
             Debug.WriteLine($"App.UserSettingLoading: {Stopwatch.ElapsedMilliseconds}ms");
 
             // 設定ファイルの読み込み
@@ -156,39 +166,17 @@ namespace NeeView
                 throw new ApplicationException("Disp Version Dialog");
             }
 
-
             // シフトキー起動は新しいウィンドウで
             if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
             {
                 Option.IsNewWindow = SwitchOption.on;
             }
 
-            bool isNewWindow = Option.IsNewWindow != null ? Option.IsNewWindow == SwitchOption.on : IsMultiBootEnabled;
-
-
-            // 多重起動チェック
-            Process currentProcess = Process.GetCurrentProcess();
-
-            // 自身と異なるプロセスを見つけ、サーバとする
-            var processName = currentProcess.ProcessName;
-#if DEBUG
-            var processes = Process.GetProcessesByName(processName)
-                .Concat(Process.GetProcessesByName(Path.GetFileNameWithoutExtension(currentProcess.ProcessName)))
-                .ToList();
-#else
-                var processes = Process.GetProcessesByName(processName)
-                    .ToList();
-#endif
-
-            // 最も古いプロセスを残す
-            var serverProcess = processes
-                .OrderByDescending((p) => p.StartTime)
-                .FirstOrDefault((p) => p.Id != currentProcess.Id);
-
             // セカンドプロセス判定
             Config.Current.IsSecondProcess = serverProcess != null;
 
             // Single起動
+            bool isNewWindow = Option.IsNewWindow != null ? Option.IsNewWindow == SwitchOption.on : IsMultiBootEnabled;
             if (!isNewWindow)
             {
                 if (serverProcess != null)
@@ -213,10 +201,35 @@ namespace NeeView
                 }
             }
 
+            // スプラッシュ開始(予備)
             ShowSplashScreen();
 
             // IPCサーバ起動
             IpcRemote.BootServer(currentProcess.Id);
+        }
+
+        /// <summary>
+        /// 他のプロセスを検索
+        /// </summary>
+        private Process GetServerProcess(Process currentProcess)
+        {
+            var processName = currentProcess.ProcessName;
+
+#if DEBUG
+            var processes = Process.GetProcessesByName(processName)
+                .Concat(Process.GetProcessesByName(Path.GetFileNameWithoutExtension(currentProcess.ProcessName)))
+                .ToList();
+#else
+                var processes = Process.GetProcessesByName(processName)
+                    .ToList();
+#endif
+
+            // 最も古いプロセスをターゲットにする
+            var serverProcess = processes
+                .OrderByDescending((p) => p.StartTime)
+                .FirstOrDefault((p) => p.Id != currentProcess.Id);
+
+            return serverProcess;
         }
 
 

@@ -12,16 +12,24 @@ namespace NeeView
 {
     public class PageListPlacementService : BindableBase
     {
-        public static PageListPlacementService Current { get; } = new PageListPlacementService();
+        public static PageListPlacementService Current { get; private set; }
 
         private PageListPanel _panel;
         private bool _isPlacedInBookshelf;
 
         public PageListPlacementService()
         {
-            _panel = new PageListPanel(PageList.Current);
+            Current = this;
+
             _isPlacedInBookshelf = true;
         }
+
+
+        public PageListPanel Panel
+        {
+            get { return _panel = _panel ?? new PageListPanel(PageList.Current); }
+        }
+
 
         [PropertyMember("@ParamPageListPlacementInBookshelf", Tips = "@ParamPageListPlacementInBookshelfTips")]
         public bool IsPlacedInBookshelf
@@ -41,12 +49,12 @@ namespace NeeView
             if (_isPlacedInBookshelf)
             {
                 SidePanel.Current?.DetachPageListPanel();
-                FolderPanelModel.Current?.SetVisual(_panel.View);
+                FolderPanelModel.Current?.SetVisual(Panel.View);
             }
             else
             {
                 FolderPanelModel.Current?.SetVisual(null);
-                SidePanel.Current?.AttachPageListPanel(_panel);
+                SidePanel.Current?.AttachPageListPanel(Panel);
             }
         }
 

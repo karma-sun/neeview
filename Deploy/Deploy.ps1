@@ -188,7 +188,7 @@ function New-Package($productDir, $packageDir)
 
 
 	# copy language dll
-	$langs = "de","en","es","fr","it","ja","ja-JP","ko","ru","zh-Hans","zh-Hant","x64","x86"
+	$langs = "ja-JP","x64","x86"
 	foreach($lang in $langs)
 	{
 		Copy-Item "$productDir\$lang" $packageLibraryDir -Recurse

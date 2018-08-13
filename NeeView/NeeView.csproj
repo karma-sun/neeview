@@ -192,8 +192,11 @@
     <Compile Include="OpenSourceControls\VirtualizingWrapPanel.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderListBoxModel.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderListBoxViewModel.cs" />
+    <Compile Include="SidePanels\Bookshelf\FolderPanelViewModel.cs" />
     <Compile Include="SidePanels\Bookshelf\PageList\PageListBoxModel.cs" />
     <Compile Include="SidePanels\Bookshelf\PageList\PageListBoxViewModel.cs" />
+    <Compile Include="SidePanels\Bookshelf\PageList\PageListPanel.cs" />
+    <Compile Include="SidePanels\Bookshelf\PageList\PageListPlacementService.cs" />
     <Compile Include="_NeeView\Collections\IHasName.cs" />
     <Compile Include="_NeeView\IO\DriveTypeExtension.cs" />
     <Compile Include="Thumbnail\ConstThumbnail.cs" />

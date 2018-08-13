@@ -76,6 +76,21 @@ namespace NeeView
         public PageListBoxModel ListBoxModel { get; set; }
 
 
+        /// <summary>
+        /// 配置
+        /// </summary>
+        public PageListPlacementService PageListPlacementService => PageListPlacementService.Current;
+
+        /// <summary>
+        /// サイドパネルでの場所表示用
+        /// </summary>
+        public string PlaceDispString
+        {
+            get { return LoosePath.GetFileName(BookOperation.Current.Place); }
+        }
+
+
+
         private void BookOperation_PageListChanged(object sender, PropertyChangedEventArgs e)
         {
             CollectionChanging?.Invoke(this, null);
@@ -84,6 +99,7 @@ namespace NeeView
             ListBoxModel = new PageListBoxModel();
 
             CollectionChanged?.Invoke(this, null);
+            RaisePropertyChanged(nameof(PlaceDispString));
         }
 
         public void FocusAtOnce()

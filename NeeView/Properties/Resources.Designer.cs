@@ -10238,6 +10238,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Place page list on bookshelf に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPageListPlacementInBookshelf {
+            get {
+                return ResourceManager.GetString("ParamPageListPlacementInBookshelf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   When turned OFF, it becomes a side panel. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPageListPlacementInBookshelfTips {
+            get {
+                return ResourceManager.GetString("ParamPageListPlacementInBookshelfTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Change time in page movement (seconds) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamPageSeconds {

@@ -108,6 +108,128 @@ namespace NeeView
         }
 
         /// <summary>
+        /// パネルの追加
+        /// </summary>
+        public void Attach(IPanel panel)
+        {
+            if (panel == null)
+            {
+                return;
+            }
+
+            if (this.Left.Contains(panel) || this.Right.Contains(panel))
+            {
+                return;
+            }
+
+            if (panel.DefaultPlace == PanelPlace.Left)
+            {
+                this.Left.Panels.Add(panel);
+            }
+            else
+            {
+                this.Right.Panels.Add(panel);
+            }
+        }
+
+        /// <summary>
+        /// パネルの削除
+        /// </summary>
+        public void Detach(IPanel panel)
+        {
+            if (panel == null)
+            {
+                return;
+            }
+
+            if (!this.Left.Contains(panel) && !this.Right.Contains(panel))
+            {
+                return;
+            }
+
+            SetSelectedPanel(panel, false);
+
+            if (this.Left.Contains(panel))
+            {
+                this.Left.Panels.Remove(panel);
+            }
+            else
+            {
+                this.Right.Panels.Remove(panel);
+            }
+        }
+
+        /// <summary>
+        /// 指定したパネルが表示されているか判定
+        /// </summary>
+        /// <returns></returns>
+        public bool IsVisiblePanel(IPanel panel)
+        {
+            return this.Left.IsVisiblePanel(panel) || this.Right.IsVisiblePanel(panel);
+        }
+
+        /// <summary>
+        /// 指定したパネルが選択されているか判定
+        /// </summary>
+        /// <param name="panel"></param>
+        /// <returns></returns>
+        public bool IsSelectedPanel(IPanel panel)
+        {
+            return this.Left.SelectedPanel == panel || this.Right.SelectedPanel == panel;
+        }
+
+        /// <summary>
+        /// パネル選択状態を設定
+        /// </summary>
+        /// <param name="panel">パネル</param>
+        /// <param name="isSelected">選択</param>
+        public void SetSelectedPanel(IPanel panel, bool isSelected)
+        {
+            if (panel == null)
+            {
+                return;
+            }
+
+            if (this.Left.Contains(panel))
+            {
+                this.Left.SetSelectedPanel(panel, isSelected);
+            }
+            if (this.Right.Contains(panel))
+            {
+                this.Right.SetSelectedPanel(panel, isSelected);
+            }
+        }
+
+        /// <summary>
+        /// パネル選択状態をトグル。
+        /// 非表示状態の場合は切り替えよりも表示させることを優先する
+        /// </summary>
+        /// <param name="panel">パネル</param>
+        /// <param name="force">表示状態にかかわらず切り替える</param>
+        public void ToggleSelectedPanel(IPanel panel, bool force)
+        {
+            if (this.Left.Contains(panel))
+            {
+                this.Left.ToggleSelectedPanel(panel, force);
+            }
+            if (this.Right.Contains(panel))
+            {
+                this.Right.ToggleSelectedPanel(panel, force);
+            }
+        }
+
+        /// <summary>
+        /// パネル表示トグル
+        /// </summary>
+        /// <param name="code"></param>
+        public void ToggleVisiblePanel(IPanel panel)
+        {
+            this.Left.Toggle(panel);
+            this.Right.Toggle(panel);
+        }
+
+
+        /// <summary>
         /// コンテンツ変更通知
         /// </summary>
         public void RaiseContentChanged()

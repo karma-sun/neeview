@@ -457,6 +457,7 @@ namespace NeeView
                     new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeView, Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleBookshelf },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisiblePageList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisiblePagemarkList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleHistoryList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleFileInfo },

@@ -280,6 +280,8 @@ namespace NeeView
             [DataMember]
             public SidePanelProfile.Memento SidePanelProfile { get; set; }
             [DataMember]
+            public PageListPlacementService.Memento PageListPlacementService { get; set; }
+            [DataMember]
             public FolderPanelModel.Memento FolderPanel { get; set; }
             [DataMember]
             public FolderList.Memento FolderList { get; set; }
@@ -343,6 +345,7 @@ namespace NeeView
             memento.ThumbnailList = this.ThumbnailList.CreateMemento();
             memento.MenuBar = this.MenuBar.CreateMemento();
             memento.SidePanelProfile = this.SidePanelProfile.CreateMemento();
+            memento.PageListPlacementService = PageListPlacementService.Current.CreateMemento();
             memento.FolderPanel = this.FolderPanelModel.CreateMemento();
             memento.FolderList = this.FolderList.CreateMemento();
             memento.PageList = this.PageList.CreateMemento();
@@ -391,6 +394,7 @@ namespace NeeView
             this.ThumbnailList.Restore(memento.ThumbnailList);
             this.MenuBar.Restore(memento.MenuBar);
             this.SidePanelProfile.Restore(memento.SidePanelProfile);
+            PageListPlacementService.Current.Restore(memento.PageListPlacementService);
             this.FolderPanelModel.Restore(memento.FolderPanel);
             this.FolderList.Restore(memento.FolderList);
             this.PageList.Restore(memento.PageList);

@@ -285,6 +285,7 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsSyncFolderTree)))),
 
                 new SettingItemSection(Properties.Resources.SettingPagePanelBookshelfAdvance,
+                    new SettingItemProperty(PropertyMemberElement.Create(PageListPlacementService.Current, nameof(PageListPlacementService.IsPlacedInBookshelf))),
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsCloseBookWhenMove))),
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsInsertItem))),
                     new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsMultipleRarFilterEnabled))),

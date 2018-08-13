@@ -1,5 +1,4 @@
-﻿using NeeLaboratory.ComponentModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -24,15 +23,12 @@ namespace NeeView
         private FolderPanelViewModel _vm;
 
         private FolderListView _folderList;
-        private PageListView _pageList;
 
-        //
         public FolderPanelView()
         {
             InitializeComponent();
         }
 
-        //
         public FolderPanelView(FolderPanelModel model, FolderList folderList, PageList pageList) : this()
         {
             _vm = new FolderPanelViewModel(model);
@@ -41,12 +37,12 @@ namespace NeeView
             _folderList = new FolderListView(folderList);
             this.FolderList.Content = _folderList;
 
-            _pageList = new PageListView(pageList);
-            this.PageList.Content = _pageList;
+            PageListPlacementService.Current.Update();
         }
 
-        //
+
         public bool IsVisibleLock => _folderList.IsRenaming || _folderList.IsSearchBoxFocused;
+
 
         private void Root_KeyDown(object sender, KeyEventArgs e)
         {
@@ -56,31 +52,6 @@ namespace NeeView
             {
                 e.Handled = true;
             }
-        }
-    }
-
-
-    /// <summary>
-    /// 
-    /// </summary>
-    public class FolderPanelViewModel : BindableBase
-    {
-        /// <summary>
-        /// Model property.
-        /// </summary>
-        public FolderPanelModel Model
-        {
-            get { return _model; }
-            set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
-        }
-
-        private FolderPanelModel _model;
-
-
-        //
-        public FolderPanelViewModel(FolderPanelModel model)
-        {
-            _model = model;
         }
     }
 }

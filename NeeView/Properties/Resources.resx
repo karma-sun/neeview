@@ -4368,4 +4368,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="PagemarkMenuOpenAsBook" xml:space="preserve">
     <value>Open as a book</value>
   </data>
+  <data name="ParamPageListPlacementInBookshelf" xml:space="preserve">
+    <value>Place page list on bookshelf</value>
+  </data>
+  <data name="ParamPageListPlacementInBookshelfTips" xml:space="preserve">
+    <value>When turned OFF, it becomes a side panel.</value>
+  </data>
 </root>

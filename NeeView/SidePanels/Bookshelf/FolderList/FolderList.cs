@@ -346,10 +346,6 @@ namespace NeeView
             }
         }
 
-        // 履歴情報のバインド用
-        ////public BookHistoryCollection BookHistory => BookHistoryCollection.Current;
-
-
         /// <summary>
         /// フォルダーツリーの表示
         /// </summary>
@@ -461,6 +457,9 @@ namespace NeeView
 
         // フォーカス要求
         public bool IsFocusAtOnce { get; set; }
+
+        public PageListPlacementService PageListPlacementService => PageListPlacementService.Current;
+
 
         #endregion
 

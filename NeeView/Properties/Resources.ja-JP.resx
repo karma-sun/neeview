@@ -4368,4 +4368,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="PagemarkMenuOpenAsBook" xml:space="preserve">
     <value>本として開く</value>
   </data>
+  <data name="ParamPageListPlacementInBookshelf" xml:space="preserve">
+    <value>ページリストを本棚に配置</value>
+  </data>
+  <data name="ParamPageListPlacementInBookshelfTips" xml:space="preserve">
+    <value>OFFにするとサイドパネルになります。</value>
+  </data>
 </root>

@@ -15,12 +15,23 @@ namespace NeeView
     {
         public static FolderPanelModel Current { get; private set; }
 
-        /// <summary>
-        /// IsPageListVisible property.
-        /// </summary>
+        private bool _isPagelistVisible = false;
+        private GridLength _gridLength0 = new GridLength(1, GridUnitType.Star);
+        private GridLength _gridLength2 = new GridLength(1, GridUnitType.Star);
+        private GridLength _folderListGridLength0 = new GridLength(1, GridUnitType.Star);
+        private GridLength _folderListGridLength2 = new GridLength(0);
+        private FrameworkElement _visual;
+
+
+        public FolderPanelModel()
+        {
+            Current = this;
+        }
+
+
         public bool IsPageListVisible
         {
-            get { return _isPagelistVisible; }
+            get { return _isPagelistVisible && _visual != null; }
             set
             {
                 if (_isPagelistVisible != value)
@@ -41,12 +52,36 @@ namespace NeeView
             }
         }
 
-        private bool _isPagelistVisible = false;
+        public GridLength FolderListGridLength0
+        {
+            get { return _visual != null ? _folderListGridLength0 : new GridLength(1, GridUnitType.Star); }
+            set { _folderListGridLength0 = value; RaisePropertyChanged(); }
+        }
+
+        public GridLength FolderListGridLength2
+        {
+            get { return _visual != null ? _folderListGridLength2 : new GridLength(0); }
+            set { _folderListGridLength2 = value; RaisePropertyChanged(); }
+        }
+
+        public FrameworkElement Visual
+        {
+            get { return _visual; }
+            set
+            {
+                if (_visual != value)
+                {
+                    _visual = value;
+                    RaisePropertyChanged(null);
+                }
+            }
+        }
 
 
-
-        private GridLength _gridLength0 = new GridLength(1, GridUnitType.Star);
-        private GridLength _gridLength2 = new GridLength(1, GridUnitType.Star);
+        public void SetVisual(FrameworkElement visual)
+        {
+            Visual = visual;
+        }
 
         private void StoreGridLength()
         {
@@ -59,37 +94,7 @@ namespace NeeView
             FolderListGridLength0 = _gridLength0;
             FolderListGridLength2 = _gridLength2;
         }
-        
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public GridLength FolderListGridLength0
-        {
-            get { return _folderListGridLength0; }
-            set { _folderListGridLength0 = value; RaisePropertyChanged(); }
-        }
-
-        private GridLength _folderListGridLength0 = new GridLength(1, GridUnitType.Star);
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public GridLength FolderListGridLength2
-        {
-            get { return _folderListGridLength2; }
-            set { _folderListGridLength2 = value; RaisePropertyChanged(); }
-        }
-
-        private GridLength _folderListGridLength2 = new GridLength(0);
-
-
-        //
-        public FolderPanelModel()
-        {
-            Current = this;
-        }
 
         #region Memento
         [DataContract]

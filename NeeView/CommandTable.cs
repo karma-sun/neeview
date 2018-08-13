@@ -845,10 +845,10 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandToggleVisiblePageListMenu;
                 element.Note = Properties.Resources.CommandToggleVisiblePageListNote;
                 element.IsShowMessage = false;
-                element.ExecuteMessage = e => _models.SidePanel.IsVisiblePageListMenu ? Properties.Resources.CommandToggleVisiblePageListOff : Properties.Resources.CommandToggleVisiblePageListOn;
+                element.ExecuteMessage = e => _models.SidePanel.IsVisiblePageList ? Properties.Resources.CommandToggleVisiblePageListOff : Properties.Resources.CommandToggleVisiblePageListOn;
                 element.Execute = (s, e) => _models.SidePanel.ToggleVisiblePageList(e.Parameter is MenuCommandTag);
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.FolderPanelModel.IsPageListVisible)) { Source = _models.FolderPanelModel, Mode = BindingMode.OneWay };
+                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisiblePageList)) { Source = _models.SidePanel };
                 _elements[CommandType.ToggleVisiblePageList] = element;
             }
             // ToggleVisibleFoldersTree

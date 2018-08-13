@@ -26,6 +26,7 @@ namespace NeeView
         public FileInformationPanel FileInfoPanel { get; private set; }
         public ImageEffectPanel ImageEffectPanel { get; private set; }
         public PagemarkPanel PagemarkPanel { get; private set; }
+        public PageListPanel PageListPanel { get; private set; }
 
         //
         private Models _models;
@@ -67,73 +68,29 @@ namespace NeeView
             // パネル群を登録
             this.InitializePanels(leftPanels, rightPanels);
 
+            // ページリストパネルの更新
+            PageListPlacementService.Current.Update();
+
             //
             SelectedPanelChanged += (s, e) => RaisePanelPropertyChanged();
         }
 
-
         /// <summary>
-        /// 指定したパネルが表示されているか判定
+        /// ページリストパネルの追加
         /// </summary>
-        /// <returns></returns>
-        public bool IsVisiblePanel(IPanel panel)
+        public void AttachPageListPanel(PageListPanel panel)
         {
-            return this.Left.IsVisiblePanel(panel) || this.Right.IsVisiblePanel(panel);
+            Attach(panel);
+            PageListPanel = panel;
         }
 
         /// <summary>
-        /// 指定したパネルが選択されているか判定
+        /// ページリストパネルを削除
         /// </summary>
-        /// <param name="panel"></param>
-        /// <returns></returns>
-        public bool IsSelectedPanel(IPanel panel)
+        public void DetachPageListPanel()
         {
-            return this.Left.SelectedPanel == panel || this.Right.SelectedPanel == panel;
-        }
-
-        /// <summary>
-        /// パネル選択状態を設定
-        /// </summary>
-        /// <param name="panel">パネル</param>
-        /// <param name="isSelected">選択</param>
-        public void SetSelectedPanel(IPanel panel, bool isSelected)
-        {
-            if (this.Left.Contains(panel))
-            {
-                this.Left.SetSelectedPanel(panel, isSelected);
-            }
-            if (this.Right.Contains(panel))
-            {
-                this.Right.SetSelectedPanel(panel, isSelected);
-            }
-        }
-
-        /// <summary>
-        /// パネル選択状態をトグル。
-        /// 非表示状態の場合は切り替えよりも表示させることを優先する
-        /// </summary>
-        /// <param name="panel">パネル</param>
-        /// <param name="force">表示状態にかかわらず切り替える</param>
-        public void ToggleSelectedPanel(IPanel panel, bool force)
-        {
-            if (this.Left.Contains(panel))
-            {
-                this.Left.ToggleSelectedPanel(panel, force);
-            }
-            if (this.Right.Contains(panel))
-            {
-                this.Right.ToggleSelectedPanel(panel, force);
-            }
-        }
-
-        /// <summary>
-        /// パネル表示トグル
-        /// </summary>
-        /// <param name="code"></param>
-        public void ToggleVisiblePanel(IPanel panel)
-        {
-            this.Left.Toggle(panel);
-            this.Right.Toggle(panel);
+            Detach(PageListPanel);
+            PageListPanel = null;
         }
 
 
@@ -146,7 +103,7 @@ namespace NeeView
             RaisePropertyChanged(nameof(IsVisibleFolderList));
             RaisePropertyChanged(nameof(IsVisibleHistoryList));
             RaisePropertyChanged(nameof(IsVisiblePagemarkList));
-            RaisePropertyChanged(nameof(IsVisiblePageListMenu));
+            RaisePropertyChanged(nameof(IsVisiblePageList));
             RaisePropertyChanged(nameof(IsVisibleFileInfo));
             RaisePropertyChanged(nameof(IsVisibleEffectInfo));
         }
@@ -209,27 +166,63 @@ namespace NeeView
             return IsVisibleFolderList;
         }
 
-        //
-        public bool IsVisiblePageListMenu => _models.FolderPanelModel.IsPageListVisible && IsVisibleFolderList;
 
-        //
+        // ページリスト
+        public bool IsVisiblePageList
+        {
+            get
+            {
+                return PageListPanel != null
+                    ? IsSelectedPanel(PageListPanel)
+                    : _models.FolderPanelModel.IsPageListVisible && IsVisibleFolderList;
+            }
+            set
+            {
+                if (PageListPanel != null)
+                {
+                    SetSelectedPanel(PageListPanel, value);
+                }
+                else
+                {
+                    _models.FolderPanelModel.IsPageListVisible = true;
+                }
+                RaisePanelPropertyChanged();
+            }
+        }
+
         public bool ToggleVisiblePageList(bool byMenu)
         {
-            var model = _models.FolderPanelModel;
-
-            if (byMenu || !model.IsPageListVisible || IsVisiblePanel(FolderListPanel))
+            // パネル
+            if (PageListPanel != null)
             {
-                model.IsPageListVisible = !IsVisiblePageListMenu;
-            }
-            SetSelectedPanel(FolderListPanel, true);
-            RaisePanelPropertyChanged();
-
-            if (model.IsPageListVisible)
-            {
-                _models.PageList.FocusAtOnce();
+                ToggleSelectedPanel(PageListPanel, byMenu);
+                RaisePanelPropertyChanged();
+                if (!IsVisiblePageList)
+                {
+                    ResetFocus?.Invoke(this, null);
+                }
+                return IsVisiblePageList;
             }
 
-            return model.IsPageListVisible;
+            // 本棚の一部
+            else
+            {
+                var model = _models.FolderPanelModel;
+
+                if (byMenu || !model.IsPageListVisible || IsVisiblePanel(FolderListPanel))
+                {
+                    model.IsPageListVisible = !IsVisiblePageList;
+                }
+                SetSelectedPanel(FolderListPanel, true);
+                RaisePanelPropertyChanged();
+
+                if (model.IsPageListVisible)
+                {
+                    _models.PageList.FocusAtOnce();
+                }
+
+                return model.IsPageListVisible;
+            }
         }
 
 

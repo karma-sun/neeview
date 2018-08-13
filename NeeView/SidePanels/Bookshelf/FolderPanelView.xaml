@@ -38,6 +38,7 @@
                       Visibility="{Binding Model.IsPageListVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
         <ContentControl x:Name="PageList" Grid.Row="2" Focusable="False"
+                        Content="{Binding Model.Visual}"
                         Visibility="{Binding Model.IsPageListVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
     </Grid>
 </UserControl>

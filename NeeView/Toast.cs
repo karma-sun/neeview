@@ -26,7 +26,7 @@ namespace NeeView
             ButtonAction = buttonAction;
         }
 
-        public string Caption { get; private set; }
+        public string Caption { get; set; }
         public string Message { get; private set; }
         public string ButtonContent { get; private set; }
         public Action ButtonAction { get; private set; }

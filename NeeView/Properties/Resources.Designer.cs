@@ -12132,6 +12132,25 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   NeeVew 32.0  に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Ver320 {
+            get {
+                return ResourceManager.GetString("Ver320", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   · The bookmark list was integrated with the folder list and it became a bookshelf.
+        ///· The folder of the pagemark list is now automatically created. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Ver320Note {
+            get {
+                return ResourceManager.GetString("Ver320Note", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   About に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WindowAboutTitle {

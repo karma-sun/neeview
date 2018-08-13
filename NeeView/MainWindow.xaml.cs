@@ -499,6 +499,12 @@ namespace NeeView
 
             // ウィンドウ状態復元
             InitializeWindowShape();
+
+            // version 32.0 information
+            if (App.Current.SettingVersion != 0 && App.Current.SettingVersion < Config.Current.ProductVersionNumber && Config.Current.ProductVersionNumber == Config.GenerateProductVersionNumber(32, 0, 0))
+            {
+                ToastService.Current.Show(new Toast(Properties.Resources.Ver320Note, TimeSpan.FromSeconds(15.0)) { Caption = Properties.Resources.Ver320 });
+            }
         }
 
         // ウィンドウアクティブ

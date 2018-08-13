@@ -44,6 +44,9 @@ namespace NeeView
 
         #region Properties
 
+        // 適用した設定データのバージョン
+        public int SettingVersion { get; set; }
+
         // 多重起動を許可する
         [PropertyMember("@ParamIsMultiBootEnabled")]
         public bool IsMultiBootEnabled { get; set; }
@@ -239,6 +242,9 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             if (memento == null) return;
+
+            this.SettingVersion = memento._Version;
+
             this.IsMultiBootEnabled = memento.IsMultiBootEnabled;
             this.IsSaveFullScreen = memento.IsSaveFullScreen;
             this.IsSaveWindowPlacement = memento.IsSaveWindowPlacement;

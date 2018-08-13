@@ -4374,4 +4374,11 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamPageListPlacementInBookshelfTips" xml:space="preserve">
     <value>When turned OFF, it becomes a side panel.</value>
   </data>
+  <data name="Ver320" xml:space="preserve">
+    <value>NeeVew 32.0 </value>
+  </data>
+  <data name="Ver320Note" xml:space="preserve">
+    <value>· The bookmark list was integrated with the folder list and it became a bookshelf.
+· The folder of the pagemark list is now automatically created.</value>
+  </data>
 </root>

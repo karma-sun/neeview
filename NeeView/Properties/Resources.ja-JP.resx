@@ -4374,4 +4374,11 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamPageListPlacementInBookshelfTips" xml:space="preserve">
     <value>OFFにするとサイドパネルになります。</value>
   </data>
+  <data name="Ver320" xml:space="preserve">
+    <value>NeeView 32.0</value>
+  </data>
+  <data name="Ver320Note" xml:space="preserve">
+    <value>・ブックマークリストはフォルダーリストと統合され、本棚になりました。
+・ページマークリストのフォルダーは自動作成されるようになりました。</value>
+  </data>
 </root>

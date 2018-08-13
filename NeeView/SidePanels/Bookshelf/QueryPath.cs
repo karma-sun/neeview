@@ -63,6 +63,7 @@ namespace NeeView
     /// パスのクエリパラメータを分解する.
     /// immutable.
     /// </summary>
+    [Serializable]
     public sealed class QueryPath : IEquatable<QueryPath>
     {
         static readonly string _querySearch = "?search=";

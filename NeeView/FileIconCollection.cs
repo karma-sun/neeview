@@ -85,7 +85,7 @@ namespace NeeView
 
         public BitmapSource CreateDefaultFileIcon(double width)
         {
-            return CreateFileIcon("__dummy__", FileIconType.FileType, width, true, true);
+            return CreateFileIcon("a.__dummy__", FileIconType.FileType, width, true, true);
         }
 
         public BitmapSource CreateDefaultFolderIcon(double width)

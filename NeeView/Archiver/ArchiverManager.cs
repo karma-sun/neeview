@@ -356,6 +356,7 @@ namespace NeeView
                 case ZipArchiver zipArchiver:
                     return ArchiverType.ZipArchiver;
                 case SevenZipArchiver sevenZipArchiver:
+                case SevenZipArchiverProxy sevenZipArchiverProxy:
                     return ArchiverType.SevenZipArchiver;
                 case PdfArchiver pdfArchiver:
                     return ArchiverType.PdfArchiver;

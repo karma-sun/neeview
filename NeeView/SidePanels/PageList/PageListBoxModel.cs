@@ -98,21 +98,23 @@ namespace NeeView
 
         public bool CanRemove(Page page)
         {
-            return FileIO.Current.CanRemovePage(page) && FileIOProfile.Current.IsEnabled
-                || page.Entry.Instance is TreeListNode<IPagemarkEntry>;
+            return FileIO.Current.CanRemovePage(page) && FileIOProfile.Current.IsEnabled;
+                ////|| page.Entry.Instance is TreeListNode<IPagemarkEntry>;
         }
 
         public async Task RemoveAsync(Page page)
         {
+#if false
             if (page.Entry.Instance is TreeListNode<IPagemarkEntry> pagemarkNode)
             {
                 PagemarkCollection.Current.Remove(pagemarkNode);
             }
             else
             {
+#endif
                 // HACK: FileIOでPage型を処理するのはおかしい
                 await FileIO.Current.RemovePageAsync(page);
-            }
+            ////}
         }
     }
 }

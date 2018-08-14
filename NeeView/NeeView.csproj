@@ -193,10 +193,10 @@
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderListBoxModel.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderListBoxViewModel.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderPanelViewModel.cs" />
-    <Compile Include="SidePanels\Bookshelf\PageList\PageListBoxModel.cs" />
-    <Compile Include="SidePanels\Bookshelf\PageList\PageListBoxViewModel.cs" />
-    <Compile Include="SidePanels\Bookshelf\PageList\PageListPanel.cs" />
-    <Compile Include="SidePanels\Bookshelf\PageList\PageListPlacementService.cs" />
+    <Compile Include="SidePanels\PageList\PageListBoxModel.cs" />
+    <Compile Include="SidePanels\PageList\PageListBoxViewModel.cs" />
+    <Compile Include="SidePanels\PageList\PageListPanel.cs" />
+    <Compile Include="SidePanels\PageList\PageListPlacementService.cs" />
     <Compile Include="_NeeView\Collections\IHasName.cs" />
     <Compile Include="_NeeView\IO\DriveTypeExtension.cs" />
     <Compile Include="Thumbnail\ConstThumbnail.cs" />
@@ -513,7 +513,7 @@
     <Compile Include="MouseInput\MouseInputContext.cs" />
     <Compile Include="BookOperation.cs" />
     <Compile Include="DelayVisibility.cs" />
-    <Compile Include="SidePanels\Bookshelf\PageList\PageListBox.xaml.cs">
+    <Compile Include="SidePanels\PageList\PageListBox.xaml.cs">
       <DependentUpon>PageListBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\Pagemark\PagemarkListBox.xaml.cs">
@@ -550,8 +550,8 @@
     </Compile>
     <Compile Include="SidePanels\Bookshelf\FolderPanelModel.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderParameter.cs" />
-    <Compile Include="SidePanels\Bookshelf\PageList\PageListViewModel.cs" />
-    <Compile Include="SidePanels\Bookshelf\PageList\PageList.cs" />
+    <Compile Include="SidePanels\PageList\PageListViewModel.cs" />
+    <Compile Include="SidePanels\PageList\PageList.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\_FolderListDesigns.cs" />
     <Compile Include="SidePanels\History\HistoryListBox.xaml.cs">
       <DependentUpon>HistoryListBox.xaml</DependentUpon>
@@ -726,7 +726,7 @@
     <Compile Include="Loupe.xaml.cs">
       <DependentUpon>Loupe.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SidePanels\Bookshelf\PageList\PageListView.xaml.cs">
+    <Compile Include="SidePanels\PageList\PageListView.xaml.cs">
       <DependentUpon>PageListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderCollection.cs" />
@@ -1006,7 +1006,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SidePanels\Bookshelf\PageList\PageListBox.xaml">
+    <Page Include="SidePanels\PageList\PageListBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1122,7 +1122,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="SidePanels\Bookshelf\PageList\PageListView.xaml">
+    <Page Include="SidePanels\PageList\PageListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

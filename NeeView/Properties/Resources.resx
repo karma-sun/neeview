@@ -4381,4 +4381,19 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>· The bookmark list was integrated with the folder list and it became a bookshelf.
 · The folder of the pagemark list is now automatically created.</value>
   </data>
+  <data name="CommandTogglePageListPlacement" xml:space="preserve">
+    <value>Switch placement of page list</value>
+  </data>
+  <data name="CommandTogglePageListPlacementNote" xml:space="preserve">
+    <value>Switch placement of page list between bookshelf and side panel</value>
+  </data>
+  <data name="CommandTogglePageListPlacementPanel" xml:space="preserve">
+    <value>Place page list on side panel</value>
+  </data>
+  <data name="CommandTogglePageListPlacementBookshelf" xml:space="preserve">
+    <value>Place page list on bookshelf</value>
+  </data>
+  <data name="CommandTogglePageListPlacementMenu" xml:space="preserve">
+    <value>Page list placement</value>
+  </data>
 </root>

@@ -31,7 +31,7 @@ namespace NeeView
 
         public bool IsVisibleLock => false;
 
-        public PanelPlace DefaultPlace => PanelPlace.Right;
+        public PanelPlace DefaultPlace { get; set; } = PanelPlace.Right;
 
 
         //

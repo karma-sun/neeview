@@ -890,6 +890,21 @@ namespace NeeView
                 _elements[CommandType.FocusBookmarkList] = element;
             }
 
+            // TogglePageListPlacement
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupPanel;
+                element.Text = Properties.Resources.CommandTogglePageListPlacement;
+                element.MenuText = Properties.Resources.CommandTogglePageListPlacementMenu;
+                element.Note = Properties.Resources.CommandTogglePageListPlacementNote;
+                element.IsShowMessage = false;
+                element.ExecuteMessage = e => _models.PageListPlacementService.IsPlacedInBookshelf ? Properties.Resources.CommandTogglePageListPlacementPanel : Properties.Resources.CommandTogglePageListPlacementBookshelf;
+                element.Execute = (s, e) => _models.PageListPlacementService.IsPlacedInBookshelf = !_models.PageListPlacementService.IsPlacedInBookshelf;
+                element.CanExecute = () => true;
+                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.PageListPlacementService.IsPlacedInBookshelf)) { Source = _models.PageListPlacementService };
+                _elements[CommandType.TogglePageListPlacement] = element;
+            }
+
             // ToggleVisibleThumbnailList
             {
                 var element = new CommandElement();

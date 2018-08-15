@@ -4381,4 +4381,19 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>・ブックマークリストはフォルダーリストと統合され、本棚になりました。
 ・ページマークリストのフォルダーは自動作成されるようになりました。</value>
   </data>
+  <data name="CommandTogglePageListPlacement" xml:space="preserve">
+    <value>ページリストの配置切り替え</value>
+  </data>
+  <data name="CommandTogglePageListPlacementNote" xml:space="preserve">
+    <value>ページリストの配置を本棚とサイドパネルで切り替える</value>
+  </data>
+  <data name="CommandTogglePageListPlacementPanel" xml:space="preserve">
+    <value>ページリストをサイドパネルに配置</value>
+  </data>
+  <data name="CommandTogglePageListPlacementBookshelf" xml:space="preserve">
+    <value>ページリストを本棚に配置</value>
+  </data>
+  <data name="CommandTogglePageListPlacementMenu" xml:space="preserve">
+    <value>ページリストの配置</value>
+  </data>
 </root>

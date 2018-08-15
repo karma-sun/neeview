@@ -47,7 +47,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   厳密に型指定されたこのリソース クラスを使用して、すべての検索リソースに対し、
+        ///   すべてについて、現在のスレッドの CurrentUICulture プロパティをオーバーライドします
         ///   現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -3045,6 +3045,51 @@ namespace NeeView.Properties {
         public static string CommandToggleMediaPlayNote {
             get {
                 return ResourceManager.GetString("CommandToggleMediaPlayNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switch placement of page list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandTogglePageListPlacement {
+            get {
+                return ResourceManager.GetString("CommandTogglePageListPlacement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Place page list on bookshelf に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandTogglePageListPlacementBookshelf {
+            get {
+                return ResourceManager.GetString("CommandTogglePageListPlacementBookshelf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Page list placement に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandTogglePageListPlacementMenu {
+            get {
+                return ResourceManager.GetString("CommandTogglePageListPlacementMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Switch placement of page list between bookshelf and side panel に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandTogglePageListPlacementNote {
+            get {
+                return ResourceManager.GetString("CommandTogglePageListPlacementNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Place page list on side panel に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandTogglePageListPlacementPanel {
+            get {
+                return ResourceManager.GetString("CommandTogglePageListPlacementPanel", resourceCulture);
             }
         }
         

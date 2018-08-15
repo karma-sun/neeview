@@ -151,6 +151,9 @@ namespace NeeView
         [EnumMember]
         FocusBookmarkList,
 
+        [EnumMember]
+        TogglePageListPlacement,
+
         [Obsolete, EnumMember]
         ToggleVisibleFolderSearchBox, // 欠番
         [Obsolete, EnumMember]

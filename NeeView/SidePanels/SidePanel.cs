@@ -16,26 +16,8 @@ namespace NeeView
     {
         public static SidePanel Current { get; private set; }
 
-        // フォーカス初期化要求
-        // TODO: イベント名は原因であって期待する結果ではよくない
-        public event EventHandler ResetFocus;
-
-        // 各種類のパネルインスタンス
-        public FolderPanel FolderListPanel { get; private set; }
-        public HistoryPanel HistoryPanel { get; private set; }
-        public FileInformationPanel FileInfoPanel { get; private set; }
-        public ImageEffectPanel ImageEffectPanel { get; private set; }
-        public PagemarkPanel PagemarkPanel { get; private set; }
-        public PageListPanel PageListPanel { get; private set; }
-
-        //
         private Models _models;
 
-        /// <summary>
-        /// サイドパネル初期化
-        /// TODO: 生成順。モデルはビュー生成の前に準備されているべき
-        /// </summary>
-        /// <param name="control"></param>
         public SidePanel(Models models)
         {
             Current = this;
@@ -75,6 +57,19 @@ namespace NeeView
             SelectedPanelChanged += (s, e) => RaisePanelPropertyChanged();
         }
 
+        // フォーカス初期化要求
+        // TODO: イベント名は原因であって期待する結果ではよくない
+        public event EventHandler ResetFocus;
+
+        // 各種類のパネルインスタンス
+        public FolderPanel FolderListPanel { get; private set; }
+        public HistoryPanel HistoryPanel { get; private set; }
+        public FileInformationPanel FileInfoPanel { get; private set; }
+        public ImageEffectPanel ImageEffectPanel { get; private set; }
+        public PagemarkPanel PagemarkPanel { get; private set; }
+        public PageListPanel PageListPanel { get; private set; }
+
+
         /// <summary>
         /// ページリストパネルの追加
         /// </summary>
@@ -89,6 +84,14 @@ namespace NeeView
         /// </summary>
         public void DetachPageListPanel()
         {
+            if (PageListPanel == null)
+            {
+                return;
+            }
+
+            // 配置位置を記憶
+            PageListPanel.DefaultPlace = this.Left.Contains(PageListPanel) ? PanelPlace.Left : PanelPlace.Right;
+
             Detach(PageListPanel);
             PageListPanel = null;
         }

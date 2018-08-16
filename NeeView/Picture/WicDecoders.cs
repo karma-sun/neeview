@@ -21,7 +21,7 @@ namespace NeeView
 
             var friendlyName = new StringBuilder(1024);
             var fileExtensions = new StringBuilder(1024);
-            for (uint i = 0; NVInterpo.NVGetImageCodecInfo(i, friendlyName, fileExtensions); ++i)
+            for (uint i = 0; NVInterop.NVGetImageCodecInfo(i, friendlyName, fileExtensions); ++i)
             {
                 ////Debug.WriteLine($"{friendryName}: {fileExtensions}");
                 var key = friendlyName.ToString();
@@ -34,7 +34,7 @@ namespace NeeView
                     collection.Add(key, fileExtensions.ToString().ToLower());
                 }
             }
-            NVInterpo.NVCloseImageCodecInfo();
+            NVInterop.NVCloseImageCodecInfo();
 
             return collection;
         }

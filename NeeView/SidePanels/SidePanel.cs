@@ -20,7 +20,7 @@ namespace NeeView
 
         public SidePanel(Models models)
         {
-            NVInterpo.NVFpReset();
+            NVInterop.NVFpReset();
 
             Current = this;
 

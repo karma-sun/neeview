@@ -8,7 +8,7 @@ namespace NeeView
     /// <summary>
     /// for NeeView.Interop.dll
     /// </summary>
-    internal class NVInterpo
+    internal class NVInterop
     {
         private class NativeMethods
         {

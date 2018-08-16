@@ -111,7 +111,7 @@ namespace NeeView
             var mainWindow = new MainWindow();
             mainWindow.Initialize();
 
-            NVInterpo.NVFpReset();
+            NVInterop.NVFpReset();
             mainWindow.Show();
 
             MessageDialog.IsShowInTaskBar = false;

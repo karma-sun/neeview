@@ -190,7 +190,6 @@
       <DependentUpon>PageSortModePalette.xaml</DependentUpon>
     </Compile>
     <Compile Include="OpenSourceControls\VirtualizingWrapPanel.cs" />
-    <Compile Include="_NeeView\NVInterpo.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderListBoxModel.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderListBoxViewModel.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderPanelViewModel.cs" />
@@ -354,6 +353,7 @@
     <Compile Include="UserSetting.cs" />
     <Compile Include="ViewContent\MediaViewContent.cs" />
     <Compile Include="_NeeView\IO\FileIcon.cs" />
+    <Compile Include="_NeeView\NVInterop.cs" />
     <Compile Include="_NeeView\Runtime\Serialization\WebEnum.cs" />
     <Compile Include="_NeeLaboratory\ComponentModel\ObjectExtensions.cs" />
     <Compile Include="_NeeView\AliasNameAttribute.cs" />

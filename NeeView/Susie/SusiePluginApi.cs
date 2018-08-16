@@ -59,7 +59,7 @@ namespace NeeView.Susie
                 hModule = IntPtr.Zero;
 
                 // 浮動小数点演算プロセッサのリセット
-                NeeView.NVInterpo.NVFpReset();
+                NeeView.NVInterop.NVFpReset();
             }
         }
 

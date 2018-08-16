@@ -28,7 +28,7 @@ namespace NeeView
 
         public VersionWindow()
         {
-            NVInterpo.NVFpReset();
+            NVInterop.NVFpReset();
 
             InitializeComponent();
 

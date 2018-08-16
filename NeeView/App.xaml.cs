@@ -110,6 +110,8 @@ namespace NeeView
             // メインウィンドウ起動
             var mainWindow = new MainWindow();
             mainWindow.Initialize();
+
+            NVInterpo.NVFpReset();
             mainWindow.Show();
 
             MessageDialog.IsShowInTaskBar = false;
@@ -141,7 +143,7 @@ namespace NeeView
             {
                 ShowSplashScreen();
             }
-            
+
             Debug.WriteLine($"App.UserSettingLoading: {Stopwatch.ElapsedMilliseconds}ms");
 
             // 設定ファイルの読み込み
@@ -259,6 +261,6 @@ namespace NeeView
             Debug.WriteLine("Application_Exit");
         }
 
-#endregion
+        #endregion
     }
 }

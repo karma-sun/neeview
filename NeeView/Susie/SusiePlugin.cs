@@ -10,7 +10,7 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 
-namespace Susie
+namespace NeeView.Susie
 {
     /// <summary>
     /// Susieプラグインの種類

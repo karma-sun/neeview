@@ -33,6 +33,8 @@ namespace NeeView
         /// </summary>
         public MainWindow()
         {
+            NVInterpo.NVFpReset();
+
             InitializeComponent();
         }
 

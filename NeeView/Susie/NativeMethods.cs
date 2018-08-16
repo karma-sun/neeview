@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Susie
+namespace NeeView.Susie
 {
     internal static class NativeMethods
     {

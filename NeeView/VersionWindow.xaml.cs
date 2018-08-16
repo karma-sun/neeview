@@ -28,6 +28,8 @@ namespace NeeView
 
         public VersionWindow()
         {
+            NVInterpo.NVFpReset();
+
             InitializeComponent();
 
             _VM = new VersionWindowVM();

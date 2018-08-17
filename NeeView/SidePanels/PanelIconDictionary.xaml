@@ -82,7 +82,7 @@
         <DrawingImage.Drawing>
             <DrawingGroup Opacity="1">
                 <DrawingGroup.Children>
-                    <GeometryDrawing Brush="{StaticResource NVPanelIconForeground}" Pen="{x:Null}">
+                    <GeometryDrawing Brush="{DynamicResource NVPanelIconForeground}" Pen="{x:Null}">
                         <GeometryDrawing.Geometry>
                             <PathGeometry FillRule="Nonzero" Figures="M22,16L22,4C22,2.9,21.1,2,20,2L8,2C6.9,2,6,2.9,6,4L6,16C6,17.1,6.9,18,8,18L20,18C21.1,18,22,17.1,22,16z M11,12L13.03,14.71 16,11 20,16 8,16 11,12z M2,6L2,20C2,21.1,2.9,22,4,22L18,22 18,20 4,20 4,6 2,6z" />
                         </GeometryDrawing.Geometry>

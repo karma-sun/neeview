@@ -38,7 +38,7 @@ namespace NeeView
         private bool _isNetworkEnalbe = true;
         private bool _isSettingBackup;
         private bool _isSaveWindowPlacement;
-        private double _AutoHideDelayTime = 1.0;
+        private double _autoHideDelayTime = 1.0;
 
         #endregion
 
@@ -98,8 +98,8 @@ namespace NeeView
         [PropertyMember("@ParamAutoHideDelayTime")]
         public double AutoHideDelayTime
         {
-            get { return _AutoHideDelayTime; }
-            set { if (_AutoHideDelayTime != value) { _AutoHideDelayTime = value; RaisePropertyChanged(); } }
+            get { return _autoHideDelayTime; }
+            set { if (_autoHideDelayTime != value) { _autoHideDelayTime = value; RaisePropertyChanged(); } }
         }
 
         // ウィンドウクローム枠
@@ -125,6 +125,10 @@ namespace NeeView
         // 言語
         [PropertyMember("@ParamLanguage", Tips = "@ParamLanguageTips")]
         public Language Language { get; set; } = LanguageExtensions.GetLanguage(CultureInfo.CurrentCulture.Name);
+
+        // スプラッシュスクリーン
+        [PropertyMember("@ParamIsSplashScreenEnabled")]
+        public bool IsSplashScreenEnabled { get; set; } = true;
 
         #endregion
 
@@ -188,6 +192,9 @@ namespace NeeView
             [DataMember]
             public Language Language { get; set; }
 
+            [DataMember, DefaultValue(true)]
+            public bool IsSplashScreenEnabled { get; set; }
+
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
             {
@@ -235,6 +242,7 @@ namespace NeeView
             memento.IsRestoreSecondWindow = this.IsRestoreSecondWindow;
             memento.IsSettingBackup = this.IsSettingBackup;
             memento.Language = this.Language;
+            memento.IsSplashScreenEnabled = this.IsSplashScreenEnabled;
             return memento;
         }
 
@@ -260,6 +268,7 @@ namespace NeeView
             this.IsRestoreSecondWindow = memento.IsRestoreSecondWindow;
             this.IsSettingBackup = memento.IsSettingBackup;
             this.Language = memento.Language;
+            this.IsSplashScreenEnabled = memento.IsSplashScreenEnabled;
         }
 
 #pragma warning disable CS0612

@@ -39,6 +39,8 @@ namespace NeeView
 
         public static new App Current => (App)Application.Current;
 
+        Process _currentProcess;
+        Process _serverProcess;
         private bool _isSplashScreenVisibled;
 
         #region Properties
@@ -66,25 +68,6 @@ namespace NeeView
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Show SplashScreen
-        /// </summary>
-        private void ShowSplashScreen()
-        {
-            if (_isSplashScreenVisibled) return;
-            _isSplashScreenVisibled = true;
-
-            Debug.WriteLine($"App.ShowSplashScreen: {Stopwatch.ElapsedMilliseconds}ms");
-
-#if SUSIE
-            var resourceName = "Resources/SplashScreenS.png";
-#else
-            var resourceName = "Resources/SplashScreen.png";
-#endif
-            SplashScreen splashScreen = new SplashScreen(resourceName);
-            splashScreen.Show(true);
-        }
 
         /// <summary>
         /// Startup
@@ -136,13 +119,18 @@ namespace NeeView
             this.Option = ParseArguments(e.Args);
             this.Option.Validate();
 
-            // 他のプロセスが存在しなければスプラッシュ開始
-            var currentProcess = Process.GetCurrentProcess();
-            var serverProcess = GetServerProcess(currentProcess);
-            if (serverProcess == null)
+            // シフトキー起動は新しいウィンドウで
+            if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
             {
-                ShowSplashScreen();
+                Option.IsNewWindow = SwitchOption.on;
             }
+
+            // プロセス取得
+            _currentProcess = Process.GetCurrentProcess();
+            _serverProcess = GetServerProcess(_currentProcess);
+
+            // セカンドプロセス判定
+            Config.Current.IsSecondProcess = _serverProcess != null;
 
             Debug.WriteLine($"App.UserSettingLoading: {Stopwatch.ElapsedMilliseconds}ms");
 
@@ -157,6 +145,9 @@ namespace NeeView
             Restore(setting.App);
             RestoreCompatible(setting);
 
+            // スプラッシュスクリーン(予備)
+            ShowSplashScreen();
+
             // 言語適用
             NeeView.Properties.Resources.Culture = CultureInfo.GetCultureInfo(Language.GetCultureName());
 
@@ -168,46 +159,47 @@ namespace NeeView
                 throw new ApplicationException("Disp Version Dialog");
             }
 
-            // シフトキー起動は新しいウィンドウで
-            if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+            // MultiBoot?
+            if (!IsNewWindow())
             {
-                Option.IsNewWindow = SwitchOption.on;
-            }
-
-            // セカンドプロセス判定
-            Config.Current.IsSecondProcess = serverProcess != null;
-
-            // Single起動
-            bool isNewWindow = Option.IsNewWindow != null ? Option.IsNewWindow == SwitchOption.on : IsMultiBootEnabled;
-            if (!isNewWindow)
-            {
-                if (serverProcess != null)
+                try
                 {
-                    try
-                    {
-                        NativeMethods.AllowSetForegroundWindow(serverProcess.Id);
-                        // IPCクライアント送信
-                        IpcRemote.LoadAs(serverProcess.Id, Option.StartupPlace);
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.WriteLine(ex.Message);
-                        serverProcess = null;
-                    }
+                    NativeMethods.AllowSetForegroundWindow(_serverProcess.Id);
+                    // IPCクライアント送信
+                    IpcRemote.LoadAs(_serverProcess.Id, Option.StartupPlace);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                    _serverProcess = null;
                 }
 
-                if (serverProcess != null)
-                {
-                    // 起動を中止してプログラムを終了
-                    throw new ApplicationException("Already started.");
-                }
+                // 起動を中止してプログラムを終了
+                throw new ApplicationException("Already started.");
             }
-
-            // スプラッシュ開始(予備)
-            ShowSplashScreen();
 
             // IPCサーバ起動
-            IpcRemote.BootServer(currentProcess.Id);
+            IpcRemote.BootServer(_currentProcess.Id);
+        }
+
+        /// <summary>
+        /// Show SplashScreen
+        /// </summary>
+        public void ShowSplashScreen()
+        {
+            if (IsSplashScreenEnabled && IsNewWindow())
+            {
+                if (_isSplashScreenVisibled) return;
+                _isSplashScreenVisibled = true;
+#if SUSIE
+                var resourceName = "Resources/SplashScreenS.png";
+#else
+                var resourceName = "Resources/SplashScreen.png";
+#endif
+                SplashScreen splashScreen = new SplashScreen(resourceName);
+                splashScreen.Show(true);
+                Debug.WriteLine($"App.ShowSplashScreen: {Stopwatch.ElapsedMilliseconds}ms");
+            }
         }
 
         /// <summary>
@@ -234,7 +226,13 @@ namespace NeeView
             return serverProcess;
         }
 
-
+        /// <summary>
+        /// 新しいウィンドウの作成？
+        /// </summary>
+        private bool IsNewWindow()
+        {
+            return _serverProcess == null || (Option.IsNewWindow != null ? Option.IsNewWindow == SwitchOption.on : IsMultiBootEnabled);
+        }
 
         /// <summary>
         /// 終了処理

@@ -9824,6 +9824,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Splash screen に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsSplashScreenEnabled {
+            get {
+                return ResourceManager.GetString("ParamIsSplashScreenEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Save UNC path in history に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsUncHistoryEnabled {

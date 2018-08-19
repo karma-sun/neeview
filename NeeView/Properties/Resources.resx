@@ -4396,4 +4396,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="CommandTogglePageListPlacementMenu" xml:space="preserve">
     <value>Page list placement</value>
   </data>
+  <data name="ParamIsSplashScreenEnabled" xml:space="preserve">
+    <value>Splash screen</value>
+  </data>
 </root>

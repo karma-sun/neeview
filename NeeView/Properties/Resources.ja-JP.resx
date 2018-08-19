@@ -4396,4 +4396,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="CommandTogglePageListPlacementMenu" xml:space="preserve">
     <value>ページリストの配置</value>
   </data>
+  <data name="ParamIsSplashScreenEnabled" xml:space="preserve">
+    <value>スプラッシュスクリーン</value>
+  </data>
 </root>

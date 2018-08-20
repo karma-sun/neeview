@@ -33,6 +33,12 @@ namespace NeeView
         //
         private FrameworkElement CreateView(ViewPage source, ViewContentParameters parameter)
         {
+            if (Content.PageMessage == null)
+            {
+                Debug.WriteLine("Warning: Content.PageMessage is null");
+                return null;
+            }
+
             var filepage = new FilePageContent()
             {
                 Icon = Content.PageMessage.Icon,

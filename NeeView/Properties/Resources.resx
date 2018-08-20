@@ -2795,7 +2795,7 @@ Details of the error are output to the following file.
     <value>Include unsupported files on page</value>
   </data>
   <data name="ParamBookIsEnableNoSupportFileTips" xml:space="preserve">
-    <value>Files and folders that can not be displayed as images are also displayed as pages.</value>
+    <value>Supported files and folders outside the extension are also displayed as pages.</value>
   </data>
   <data name="ParamBookIsMultiplePageMove" xml:space="preserve">
     <value>Accept duplication of page movement commands</value>
@@ -2865,6 +2865,12 @@ Details of the error are output to the following file.
   </data>
   <data name="ParamBookWideRatioTips" xml:space="preserve">
     <value>It is used in "Split landscape page".</value>
+  </data>
+  <data name="ParamBookIsAllFileAnImage" xml:space="preserve">
+    <value>All files are regarded as image files</value>
+  </data>
+  <data name="ParamBookIsAllFileAnImageTips" xml:space="preserve">
+    <value>I regard it as an image file regardless of the extension of the file.</value>
   </data>
   <data name="ParamClipboardArchiveOption" xml:space="preserve">
     <value>For compressed files</value>

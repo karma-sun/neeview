@@ -13,9 +13,9 @@ namespace NeeView
     [Flags]
     public enum PictureCreateOptions
     {
-        None,
-        CreateBitmap,
-        CreateThumbnail,
+        None = 0x0000,
+        CreateBitmap = 0x0001,
+        CreateThumbnail = 0x0002,
     }
 
     public class BitmapCreateSetting

@@ -2795,7 +2795,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>サポート外ファイルもページに含める</value>
   </data>
   <data name="ParamBookIsEnableNoSupportFileTips" xml:space="preserve">
-    <value>画像として表示できないファイルやフォルダーもページとして表示します。</value>
+    <value>対応拡張子外のファイルやフォルダーもページとして表示します。</value>
   </data>
   <data name="ParamBookIsMultiplePageMove" xml:space="preserve">
     <value>ページ移動コマンドの重複許可</value>
@@ -2865,6 +2865,12 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="ParamBookWideRatioTips" xml:space="preserve">
     <value>「横長ページを分割する」で使用されます。</value>
+  </data>
+  <data name="ParamBookIsAllFileAnImage" xml:space="preserve">
+    <value>すべてのファイルを画像ファイルとみなす</value>
+  </data>
+  <data name="ParamBookIsAllFileAnImageTips" xml:space="preserve">
+    <value>ファイルの拡張子によらず画像ファイルとみなします。</value>
   </data>
   <data name="ParamClipboardArchiveOption" xml:space="preserve">
     <value>圧縮ファイルの場合</value>

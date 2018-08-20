@@ -7,7 +7,7 @@
     {
         public NamedStream Create(ArchiveEntry entry)
         {
-            if (!PictureProfile.Current.IsDefaultSupported(entry.EntryName)) return null;
+            if (!BookProfile.Current.IsIgnoreFileExtension() && !PictureProfile.Current.IsDefaultSupported(entry.EntryName)) return null;
 
             return new NamedStream(entry.OpenEntry(), null);
         }

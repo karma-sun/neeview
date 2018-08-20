@@ -37,7 +37,7 @@ namespace NeeView.Susie
         // ショートパス名を求める
         public static string GetShortPathName(string longPath)
         {
-            int bufferSize = 260;
+            int bufferSize = Math.Max(longPath.Length + 8, 260);
             StringBuilder shortPathBuffer = new StringBuilder(bufferSize);
             NativeMethods.GetShortPathName(longPath, shortPathBuffer, bufferSize);
             string shortPath = shortPathBuffer.ToString();

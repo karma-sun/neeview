@@ -118,6 +118,10 @@ namespace NeeView
             {
                 Thumbnail.Initialize(this.Picture.CreateThumbnail());
             }
+            else if (this.PageMessage != null)
+            {
+                Thumbnail.Initialize(null);
+            }
             else
             {
                 var picture = await LoadPictureAsync(Entry, PictureCreateOptions.CreateThumbnail, token);

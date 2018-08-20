@@ -27,9 +27,12 @@ namespace NeeView
     /// <summary>
     /// 本：設定
     /// </summary>
-    public class BookProfile
+    public class BookProfile : BindableBase
     {
         public static BookProfile Current { get; private set; }
+
+        private bool _isEnableNoSupportFile;
+
 
         #region Constructors
 
@@ -92,13 +95,29 @@ namespace NeeView
 
         // サポート外ファイル有効
         [PropertyMember("@ParamBookIsEnableNoSupportFile", Tips = "@ParamBookIsEnableNoSupportFileTips")]
-        public bool IsEnableNoSupportFile { get; set; }
+        public bool IsEnableNoSupportFile
+        {
+            get { return _isEnableNoSupportFile; }
+            set { SetProperty(ref _isEnableNoSupportFile, value); }
+        }
 
         // ページ読み込み中表示
         [PropertyMember("@ParamBookLoadingPageView", Tips = "@ParamBookLoadingPageViewTips")]
         public LoadingPageView LoadingPageView { get; set; } = LoadingPageView.PreThumbnail;
 
+        // サポート外ファイル有効のときに、すべてのファイルを画像とみなす
+        [PropertyMember("@ParamBookIsAllFileAnImage", Tips = "@ParamBookIsAllFileAnImageTips")]
+        public bool IsAllFileAnImage { get; set; }
+
         #endregion
+
+        /// <summary>
+        /// 画像ファイルの拡張子判定無効
+        /// </summary>
+        public bool IsIgnoreFileExtension()
+        {
+            return IsEnableNoSupportFile && IsAllFileAnImage;
+        }
 
         /// <summary>
         /// ページ移動優先設定
@@ -154,6 +173,8 @@ namespace NeeView
             [DataMember, DefaultValue(LoadingPageView.PreThumbnail)]
             public LoadingPageView LoadingPageView { get; set; }
 
+            [DataMember]
+            public bool IsAllFileAnImage { get; set; }
 
             [OnDeserializing]
             private void OnDeserializing(StreamingContext c)
@@ -175,6 +196,7 @@ namespace NeeView
             memento.IsEnableAnimatedGif = this.IsEnableAnimatedGif;
             memento.IsEnableNoSupportFile = this.IsEnableNoSupportFile;
             memento.LoadingPageView = this.LoadingPageView;
+            memento.IsAllFileAnImage = this.IsAllFileAnImage;
             return memento;
         }
 
@@ -191,6 +213,7 @@ namespace NeeView
             this.IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
             this.IsEnableNoSupportFile = memento.IsEnableNoSupportFile;
             this.LoadingPageView = memento.LoadingPageView;
+            this.IsAllFileAnImage = memento.IsAllFileAnImage;
         }
         #endregion
 

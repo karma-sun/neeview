@@ -148,7 +148,10 @@ namespace NeeView
             brush.Stretch = isStretch ? Stretch.Fill : Stretch.None;
             brush.TileMode = TileMode.None;
             brush.Viewbox = GetViewBox();
-            brush.Freeze();
+            if (brush.CanFreeze)
+            {
+                brush.Freeze();
+            }
 
             return brush;
         }
@@ -163,7 +166,10 @@ namespace NeeView
         {
             var brush = source.Clone();
             brush.ImageSource = image;
-            brush.Freeze();
+            if (brush.CanFreeze)
+            {
+                brush.Freeze();
+            }
 
             return brush;
         }

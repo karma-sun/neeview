@@ -532,7 +532,14 @@ namespace NeeView
                 switch (type)
                 {
                     case ArchiverType.None:
-                        page = new FilePage(entry, FilePageIcon.File);
+                        if (BookProfile.Current.IsIgnoreFileExtension())
+                        {
+                            page = new BitmapPage(entry);
+                        }
+                        else
+                        {
+                            page = new FilePage(entry, FilePageIcon.File);
+                        }
                         break;
                     case ArchiverType.FolderArchive:
                         page = new FilePage(entry, FilePageIcon.Folder);

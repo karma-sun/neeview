@@ -30,6 +30,10 @@ namespace NeeView.Setting
                 new SettingItemSection(Properties.Resources.SettingPageBookGeneralGeneral,
                     new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.IsEnableAnimatedGif))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.IsEnableNoSupportFile))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.IsAllFileAnImage)))
+                    {
+                        IsEnabled = new IsEnabledPropertyValue(BookProfile.Current, nameof(BookProfile.IsEnableNoSupportFile))
+                    },
                     new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.PreLoadMode))),
                     new SettingItemProperty(PropertyMemberElement.Create(ContentCanvasBrush.Current, nameof(ContentCanvasBrush.PageBackgroundColor)))),
 

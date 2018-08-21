@@ -4408,4 +4408,13 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamSusieIsPluginCacheEnabledTips" xml:space="preserve">
     <value>不安定な場合、OFFにすると安定する可能性があります。</value>
   </data>
+  <data name="ParamSusieIsPreExtract" xml:space="preserve">
+    <value>書庫を事前展開する</value>
+  </data>
+  <data name="ParamSusieIsPreExtractTips" xml:space="preserve">
+    <value>書庫をテンポラリフォルダーに展開してアクセスを高速化します。</value>
+  </data>
+  <data name="SettingPageSusieGeneralAdvance" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
 </root>

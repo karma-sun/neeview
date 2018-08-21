@@ -129,7 +129,7 @@ namespace NeeView
         public FileTypeCollection ArchiveExtensions = new FileTypeCollection();
 
         // Susie プラグインキャッシュ有効フラグ
-        [PropertyMember("@ParamSusieIsPluginCacheEnabled", Tips = "@ParamSusieIsPluginCacheEnabledTips")]
+        [PropertyMember("@ParamSusieIsPluginCacheEnabled")]
         public bool IsPluginCacheEnabled
         {
             get { return _isPluginCacheEnabled; }
@@ -142,6 +142,9 @@ namespace NeeView
             }
         }
 
+        // 事前展開
+        [PropertyMember("@ParamSusieIsPreExtract", Tips = "@ParamSusieIsPreExtractTips")]
+        public bool IsPreExtract { get; set; }
 
         #endregion
 
@@ -297,6 +300,9 @@ namespace NeeView
             [DataMember, DefaultValue(true)]
             public bool IsPluginCacheEnabled { get; set; }
 
+            [DataMember]
+            public bool IsPreExtract { get; set; }
+
 
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
@@ -326,6 +332,7 @@ namespace NeeView
             memento.SusiePluginPath = this.SusiePluginPath;
             memento.SpiFiles = CreateSpiFiles();
             memento.IsPluginCacheEnabled = this.IsPluginCacheEnabled;
+            memento.IsPreExtract = this.IsPreExtract;
             return memento;
         }
 
@@ -338,6 +345,7 @@ namespace NeeView
             this.IsFirstOrderSusieImage = memento.IsFirstOrderSusieImage;
             this.IsFirstOrderSusieArchive = memento.IsFirstOrderSusieArchive;
             this.IsPluginCacheEnabled = memento.IsPluginCacheEnabled;
+            this.IsPreExtract = memento.IsPreExtract;
             Initialize(memento.SusiePluginPath, memento.SpiFiles);
         }
 

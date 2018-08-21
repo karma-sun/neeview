@@ -231,7 +231,7 @@ namespace NeeView
                 case ArchiverType.MediaArchiver:
                     return new MediaArchiver(path, source, isRoot);
                 case ArchiverType.SusieArchiver:
-                    return new SusieArchiver(path, source, isRoot);
+                    return new SusieArchiverProxy(path, source, isRoot);
                 case ArchiverType.PagemarkArchiver:
                     return new PagemarkArchiver(path, source, isRoot);
                 default:
@@ -363,6 +363,7 @@ namespace NeeView
                 case MediaArchiver mediaArchiver:
                     return ArchiverType.MediaArchiver;
                 case SusieArchiver susieArchiver:
+                case SusieArchiverProxy susieArchiverProxy:
                     return ArchiverType.SusieArchiver;
                 case PagemarkArchiver pagemarkArchiver:
                     return ArchiverType.PagemarkArchiver;

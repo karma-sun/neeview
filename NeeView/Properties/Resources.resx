@@ -4408,4 +4408,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamSusieIsPluginCacheEnabledTips" xml:space="preserve">
     <value>If it is unstable, it may stabilize when it is OFF.</value>
   </data>
+  <data name="ParamSusieIsPreExtract" xml:space="preserve">
+    <value>Pre Extract</value>
+  </data>
+  <data name="ParamSusieIsPreExtractTips" xml:space="preserve">
+    <value>Extract the file from the compressed file to the temporary folder to speed up the access.</value>
+  </data>
+  <data name="SettingPageSusieGeneralAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
 </root>

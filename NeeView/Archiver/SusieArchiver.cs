@@ -129,44 +129,51 @@ namespace NeeView
 
             var info = (Susie.ArchiveEntry)entry.Instance;
 
-            string tempDirectory = Temporary.CreateCountedTempFileName("susie", "");
-
-            try
+            // 16MB以上のエントリは直接ファイル出力を試みる
+            if (entry.Length > 16 * 1024 * 1024)
             {
-                // susieプラグインでは出力ファイル名を指定できないので、
-                // テンポラリフォルダーに出力してから移動する
-                Directory.CreateDirectory(tempDirectory);
+                string tempDirectory = Temporary.CreateCountedTempFileName("susie", "");
 
-                // 注意：失敗することがよくある
-                info.ExtractToFolder(tempDirectory);
-
-                // 上書き時は移動前に削除
-                if (isOverwrite && File.Exists(extractFileName))
+                try
                 {
-                    File.Delete(extractFileName);
-                }
+                    // susieプラグインでは出力ファイル名を指定できないので、
+                    // テンポラリフォルダーに出力してから移動する
+                    Directory.CreateDirectory(tempDirectory);
 
-                var files = Directory.GetFiles(tempDirectory);
-                File.Move(files[0], extractFileName);
-                Directory.Delete(tempDirectory, true);
-            }
+                    // 注意：失敗することがよくある
+                    info.ExtractToFolder(tempDirectory);
 
-            // 失敗したら：メモリ展開からのファイル保存を行う
-            catch (Susie.SpiException e)
-            {
-                Debug.WriteLine(e.Message);
-                info.ExtractToFile(extractFileName);
-                return;
-            }
+                    // 上書き時は移動前に削除
+                    if (isOverwrite && File.Exists(extractFileName))
+                    {
+                        File.Delete(extractFileName);
+                    }
 
-            // 後始末
-            finally
-            {
-                if (Directory.Exists(tempDirectory))
-                {
+                    var files = Directory.GetFiles(tempDirectory);
+                    File.Move(files[0], extractFileName);
                     Directory.Delete(tempDirectory, true);
+
+                    return;
+                }
+
+                // 失敗したら：メモリ展開からのファイル保存を行う
+                catch (Susie.SpiException e)
+                {
+                    Debug.WriteLine(e.Message);
+                }
+
+                // 後始末
+                finally
+                {
+                    if (Directory.Exists(tempDirectory))
+                    {
+                        Directory.Delete(tempDirectory, true);
+                    }
                 }
             }
+
+            // メモリ展開からのファイル保存
+            info.ExtractToFile(extractFileName);
         }
 
         #endregion

@@ -32,6 +32,8 @@ namespace NeeView.Susie
         private SusiePluginApi _module;
         private bool _isCacheEnabled;
 
+        //
+        public object GlobalLock = new object();
 
         // 有効/無効
         public bool IsEnable { get; set; } = true;

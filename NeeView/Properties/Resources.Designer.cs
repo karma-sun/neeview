@@ -10697,6 +10697,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Pre Extract に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamSusieIsPreExtract {
+            get {
+                return ResourceManager.GetString("ParamSusieIsPreExtract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Extract the file from the compressed file to the temporary folder to speed up the access. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamSusieIsPreExtractTips {
+            get {
+                return ResourceManager.GetString("ParamSusieIsPreExtractTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Plugin folder に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamSusiePluginPath {
@@ -11926,6 +11944,15 @@ namespace NeeView.Properties {
         public static string SettingPageSusieGeneral {
             get {
                 return ResourceManager.GetString("SettingPageSusieGeneral", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Advanced Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageSusieGeneralAdvance {
+            get {
+                return ResourceManager.GetString("SettingPageSusieGeneralAdvance", resourceCulture);
             }
         }
         

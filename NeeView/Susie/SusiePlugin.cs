@@ -22,16 +22,16 @@ namespace NeeView.Susie
         Archive,
     }
 
+
     /// <summary>
     /// Susie Plugin Accessor
     /// </summary>
-    public class SusiePlugin
+    public class SusiePlugin : IDisposable
     {
-        // 文字列変換
-        public override string ToString()
-        {
-            return Name ?? "(none)";
-        }
+        private object _lock = new object();
+        private SusiePluginApi _module;
+        private bool _isCacheEnabled;
+
 
         // 有効/無効
         public bool IsEnable { get; set; } = true;
@@ -82,25 +82,34 @@ namespace NeeView.Susie
         // サポートするファイルの拡張子リスト
         public List<string> Extensions { get; private set; }
 
-        // 排他処理用ロックオブジェクト
-        public object Lock = new object();
-        public static object GlobalLock = new object();
+
+        // プラグインDLLをキャッシュする?
+        public bool IsCacheEnabled
+        {
+            get { return _isCacheEnabled; }
+            set
+            {
+                _isCacheEnabled = value;
+                if (!_isCacheEnabled)
+                {
+                    UnloadModule();
+                }
+            }
+        }
 
 
-        #region OpenConfigurationDlg command
+        #region Commands
 
-        //
-        private RelayCommand<Window> _OpenConfigurationDlg;
+        private RelayCommand<Window> _openConfigurationDlg;
 
         /// <summary>
         /// コンフィグダイアログを表示するコマンド
         /// </summary>
         public RelayCommand<Window> OpenConfigurationDlg
         {
-            get { return _OpenConfigurationDlg = _OpenConfigurationDlg ?? new RelayCommand<Window>(OpenConfigurationDlg_Executed); }
+            get { return _openConfigurationDlg = _openConfigurationDlg ?? new RelayCommand<Window>(OpenConfigurationDlg_Executed); }
         }
 
-        //
         public void OpenConfigurationDlg_Executed(Window owner)
         {
             int result = 0;
@@ -128,6 +137,14 @@ namespace NeeView.Susie
         }
 
         #endregion
+
+
+
+        // 文字列変換
+        public override string ToString()
+        {
+            return Name ?? "(none)";
+        }
 
         /// <summary>
         /// プラグインアクセサ作成
@@ -204,17 +221,39 @@ namespace NeeView.Susie
         }
 
 
-        /// <summary>
-        /// SusiePluginAPIを開く
-        /// LoadLibraryを行うため、使用後はDisposeしなければいけない
-        /// </summary>
-        /// <returns>SusiePluginAPI</returns>
-        public SusiePluginApi Open()
+        // API使用開始
+        private SusiePluginApi BeginSection()
         {
             if (FileName == null) throw new InvalidOperationException();
-            return SusiePluginApi.Create(FileName);
+
+            if (_module == null)
+            {
+                _module = SusiePluginApi.Create(FileName);
+            }
+
+            return _module;
         }
 
+        // API使用終了
+        private void EndSection()
+        {
+            if (IsCacheEnabled)
+            {
+                return;
+            }
+
+            UnloadModule();
+        }
+
+        // DLL開放
+        private void UnloadModule()
+        {
+            if (_module != null)
+            {
+                _module.Dispose();
+                _module = null;
+            }
+        }
 
         /// <summary>
         /// 情報ダイアログを開く
@@ -225,12 +264,18 @@ namespace NeeView.Susie
         {
             if (FileName == null) throw new InvalidOperationException();
 
-            lock (Lock)
+            lock (_lock)
             {
-                using (var api = Open())
+                try
                 {
+                    var api = BeginSection();
                     IntPtr hwnd = parent != null ? new WindowInteropHelper(parent).Handle : IntPtr.Zero;
                     return api.ConfigurationDlg(hwnd, 0);
+                }
+                finally
+                {
+                    EndSection();
+                    UnloadModule();
                 }
             }
         }
@@ -245,12 +290,18 @@ namespace NeeView.Susie
         {
             if (FileName == null) throw new InvalidOperationException();
 
-            lock (Lock)
+            lock (_lock)
             {
-                using (var api = Open())
+                try
                 {
+                    var api = BeginSection();
                     IntPtr hwnd = parent != null ? new WindowInteropHelper(parent).Handle : IntPtr.Zero;
                     return api.ConfigurationDlg(hwnd, 1);
+                }
+                finally
+                {
+                    EndSection();
+                    UnloadModule();
                 }
             }
         }
@@ -270,12 +321,17 @@ namespace NeeView.Susie
             // サポート拡張子チェック
             if (isCheckExtension && !Extensions.Contains(GetExtension(fileName))) return false;
 
-            lock (Lock)
+            lock (_lock)
             {
-                using (var api = Open())
+                try
                 {
+                    var api = BeginSection();
                     string shortPath = NativeMethods.GetShortPathName(fileName);
                     return api.IsSupported(shortPath, head);
+                }
+                finally
+                {
+                    EndSection();
                 }
             }
         }
@@ -287,14 +343,19 @@ namespace NeeView.Susie
         /// <returns></returns>
         public ArchiveEntryCollection GetArchiveInfo(string fileName)
         {
-            lock (Lock)
+            lock (_lock)
             {
-                using (var api = Open())
+                try
                 {
+                    var api = BeginSection();
                     string shortPath = NativeMethods.GetShortPathName(fileName);
                     var entries = api.GetArchiveInfo(shortPath);
                     if (entries == null) throw new ApplicationException($"{this.Name}: Failed to read archive information.");
                     return new ArchiveEntryCollection(this, fileName, entries);
+                }
+                finally
+                {
+                    EndSection();
                 }
             }
         }
@@ -312,15 +373,20 @@ namespace NeeView.Susie
             // サポート拡張子チェック
             if (!Extensions.Contains(GetExtension(fileName))) return null;
 
-            lock (Lock)
+            lock (_lock)
             {
-                using (var api = Open())
+                try
                 {
+                    var api = BeginSection();
                     string shortPath = NativeMethods.GetShortPathName(fileName);
                     if (!api.IsSupported(shortPath, head)) return null;
                     var entries = api.GetArchiveInfo(shortPath);
                     if (entries == null) throw new ApplicationException($"{this.Name}: Failed to read archive information.");
                     return new ArchiveEntryCollection(this, fileName, entries);
+                }
+                finally
+                {
+                    EndSection();
                 }
             }
         }
@@ -341,13 +407,18 @@ namespace NeeView.Susie
             // サポート拡張子チェック
             if (isCheckExtension && !Extensions.Contains(GetExtension(fileName))) return null;
 
-            lock (Lock)
+            lock (_lock)
             {
-                using (var api = Open())
+                try
                 {
+                    var api = BeginSection();
                     // string shortPath = Win32Api.GetShortPathName(fileName);
                     if (!api.IsSupported(fileName, buff)) return null;
                     return api.GetPicture(buff);
+                }
+                finally
+                {
+                    EndSection();
                 }
             }
         }
@@ -367,13 +438,18 @@ namespace NeeView.Susie
             // サポート拡張子チェック
             if (isCheckExtension && !Extensions.Contains(GetExtension(fileName))) return null;
 
-            lock (Lock)
+            lock (_lock)
             {
-                using (var api = Open())
+                try
                 {
+                    var api = BeginSection();
                     string shortPath = NativeMethods.GetShortPathName(fileName);
                     if (!api.IsSupported(shortPath, head)) return null;
                     return api.GetPicture(shortPath);
+                }
+                finally
+                {
+                    EndSection();
                 }
             }
         }
@@ -383,5 +459,80 @@ namespace NeeView.Susie
         {
             return "." + s.Split('.').Last().ToLower();
         }
+
+
+        /// <summary>
+        /// アーカイブエントリをメモリにロード
+        /// </summary>
+        public byte[] LoadArchiveEntry(string archiveFileName, ArchiveFileInfoRaw info)
+        {
+            if (_isDisposed)
+            {
+                throw new SpiException("Susie plugin already disposed", this);
+            }
+
+            lock (_lock)
+            {
+                try
+                {
+                    var api = BeginSection();
+                    var buff = api.GetFile(archiveFileName, info);
+                    if (buff == null) throw new SpiException("Susie extraction failed (Type.M)", this);
+                    return buff;
+                }
+                finally
+                {
+                    EndSection();
+                }
+            }
+        }
+
+        /// <summary>
+        /// アーカイブエントリをフォルダーに出力
+        /// </summary>
+        /// <param name="extractFolder"></param>
+        public void ExtracArchiveEntrytToFolder(string archiveFileName, ArchiveFileInfoRaw info, string extractFolder)
+        {
+            if (_isDisposed)
+            {
+                throw new SpiException("Susie plugin already disposed", this);
+            }
+
+            lock (_lock)
+            {
+                try
+                {
+                    var api = BeginSection();
+                    int ret = api.GetFile(archiveFileName, info, extractFolder);
+                    if (ret != 0) throw new SpiException("Susie extraction failed (Type.F)", this);
+                }
+                finally
+                {
+                    EndSection();
+                }
+            }
+        }
+
+        #region IDisposable Support
+        private bool _isDisposed = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_isDisposed)
+            {
+                if (disposing)
+                {
+                    UnloadModule();
+                }
+
+                _isDisposed = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 }

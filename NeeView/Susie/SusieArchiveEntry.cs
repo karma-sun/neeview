@@ -61,28 +61,13 @@ namespace NeeView.Susie
         /// メモリに展開
         public byte[] Load()
         {
-            lock (_spi.Lock)
-            {
-                using (var api = _spi.Open())
-                {
-                    var buff = api.GetFile(ArchiveShortFileName, _info);
-                    if (buff == null) throw new SpiException("Susie extraction failed (Type.M)", _spi);
-                    return buff;
-                }
-            }
+            return _spi.LoadArchiveEntry(ArchiveShortFileName, _info);
         }
 
         /// フォルダーに出力。ファイル名は変更しない
         public void ExtractToFolder(string extractFolder)
         {
-            lock (_spi.Lock)
-            {
-                using (var api = _spi.Open())
-                {
-                    int ret = api.GetFile(ArchiveShortFileName, _info, extractFolder);
-                    if (ret != 0) throw new SpiException("Susie extraction failed (Type.F)", _spi);
-                }
-            }
+            _spi.ExtracArchiveEntrytToFolder(ArchiveShortFileName, _info, extractFolder);
         }
 
         /// ファイルに出力

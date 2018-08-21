@@ -28,9 +28,10 @@ namespace NeeView.Setting
             {
                 new SettingItemSection(Properties.Resources.SettingPageSusieGeneralGeneral,
                     new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.IsEnableSusie))),
-                    new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.SusiePluginPath)))
+                    new SettingItemGroup(
+                        new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.SusiePluginPath))) {IsStretch = true },
+                        new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.IsPluginCacheEnabled))))
                     {
-                        IsStretch = true,
                         IsEnabled = new IsEnabledPropertyValue(SusieContext.Current, nameof(SusieContext.IsEnableSusie)),
                     }),
 
@@ -38,7 +39,7 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.IsFirstOrderSusieImage))),
                     new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.IsFirstOrderSusieArchive))))
                 {
-                    IsEnabled = new IsEnabledPropertyValue(SusieContext.Current, nameof(SusieContext.IsEnableSusie)),
+                    IsEnabled = new IsEnabledPropertyValue(SusieContext.Current, nameof(SusieContext.IsEnableSusie))
                 },
             };
         }

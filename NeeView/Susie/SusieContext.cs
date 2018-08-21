@@ -2,6 +2,7 @@
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -25,6 +26,7 @@ namespace NeeView
         public string _susiePluginPath = "";
         public bool _isFirstOrderSusieImage;
         public bool _isFirstOrderSusieArchive;
+        private bool _isPluginCacheEnabled = true;
 
         #endregion
 
@@ -126,6 +128,21 @@ namespace NeeView
         /// </summary>
         public FileTypeCollection ArchiveExtensions = new FileTypeCollection();
 
+        // Susie プラグインキャッシュ有効フラグ
+        [PropertyMember("@ParamSusieIsPluginCacheEnabled", Tips = "@ParamSusieIsPluginCacheEnabledTips")]
+        public bool IsPluginCacheEnabled
+        {
+            get { return _isPluginCacheEnabled; }
+            set
+            {
+                if (SetProperty(ref _isPluginCacheEnabled, value))
+                {
+                    _susie?.SetPluginCahceEnabled(_isPluginCacheEnabled);
+                }
+            }
+        }
+
+
         #endregion
 
         #region Methods
@@ -150,7 +167,7 @@ namespace NeeView
 
             var list = ListUpSpiFiles(spiFolder, spiFiles.Keys.ToList());
 
-            _susie.Load(list);
+            _susie.Load(list, _isPluginCacheEnabled);
 
             // プラグイン有効/無効反映
             foreach (var pair in spiFiles)
@@ -277,6 +294,15 @@ namespace NeeView
             [DataMember]
             public Dictionary<string, bool> SpiFiles { get; set; }
 
+            [DataMember, DefaultValue(true)]
+            public bool IsPluginCacheEnabled { get; set; }
+
+
+            [OnDeserializing]
+            private void Deserializing(StreamingContext c)
+            {
+                this.InitializePropertyDefaultValues();
+            }
 
             public Memento Clone()
             {
@@ -299,6 +325,7 @@ namespace NeeView
             memento.IsFirstOrderSusieArchive = this.IsFirstOrderSusieArchive;
             memento.SusiePluginPath = this.SusiePluginPath;
             memento.SpiFiles = CreateSpiFiles();
+            memento.IsPluginCacheEnabled = this.IsPluginCacheEnabled;
             return memento;
         }
 
@@ -310,6 +337,7 @@ namespace NeeView
             this.IsEnableSusie = memento.IsEnableSusie;
             this.IsFirstOrderSusieImage = memento.IsFirstOrderSusieImage;
             this.IsFirstOrderSusieArchive = memento.IsFirstOrderSusieArchive;
+            this.IsPluginCacheEnabled = memento.IsPluginCacheEnabled;
             Initialize(memento.SusiePluginPath, memento.SpiFiles);
         }
 

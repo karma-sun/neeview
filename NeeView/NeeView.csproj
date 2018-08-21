@@ -804,7 +804,7 @@
       <DependentUpon>SaveWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Archiver\SusieArchiver.cs" />
-    <Compile Include="SusieContext.cs" />
+    <Compile Include="Susie\SusieContext.cs" />
     <Compile Include="Susie\Susie.cs" />
     <Compile Include="Susie\SusieArchiveEntry.cs" />
     <Compile Include="Susie\SusiePlugin.cs" />

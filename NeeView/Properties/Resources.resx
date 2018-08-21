@@ -4402,4 +4402,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamIsSplashScreenEnabled" xml:space="preserve">
     <value>Splash screen</value>
   </data>
+  <data name="ParamSusieIsPluginCacheEnabled" xml:space="preserve">
+    <value>Cache the plugin</value>
+  </data>
+  <data name="ParamSusieIsPluginCacheEnabledTips" xml:space="preserve">
+    <value>If it is unstable, it may stabilize when it is OFF.</value>
+  </data>
 </root>

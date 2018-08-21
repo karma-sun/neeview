@@ -4402,4 +4402,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamIsSplashScreenEnabled" xml:space="preserve">
     <value>スプラッシュスクリーン</value>
   </data>
+  <data name="ParamSusieIsPluginCacheEnabled" xml:space="preserve">
+    <value>プラグインをキャッシュする</value>
+  </data>
+  <data name="ParamSusieIsPluginCacheEnabledTips" xml:space="preserve">
+    <value>不安定な場合、OFFにすると安定する可能性があります。</value>
+  </data>
 </root>

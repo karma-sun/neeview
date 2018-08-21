@@ -90,7 +90,7 @@ namespace NeeView.Susie
 
 
         // プラグインロード
-        public void Load(IEnumerable<string> spiFiles)
+        public void Load(IEnumerable<string> spiFiles, bool isPluginCacheEnabled)
         {
             if (spiFiles == null) return;
 
@@ -98,12 +98,20 @@ namespace NeeView.Susie
             var inPluginList = INPluginList.Where(e => spiFiles.Contains(e.FileName)).ToList();
             var amPluginList = AMPluginList.Where(e => spiFiles.Contains(e.FileName)).ToList();
 
+            // 削除するプラグイン
+            var removes = PluginCollection.Where(e => !(inPluginList.Contains(e) || amPluginList.Contains(e)));
+            foreach(var spi in removes)
+            {
+                spi.Dispose();
+            }
+
             // 新しいプラグイン追加
             foreach (var fileName in spiFiles)
             {
                 var spi = SusiePlugin.Create(fileName);
                 if (spi != null)
                 {
+                    spi.IsCacheEnabled = isPluginCacheEnabled;
                     if (spi.PluginType == SusiePluginType.Image && !inPluginList.Any(e => e.FileName == fileName))
                     {
                         inPluginList.Add(spi);
@@ -127,6 +135,14 @@ namespace NeeView.Susie
             AMPluginList = new ObservableCollection<SusiePlugin>(amPluginList);
         }
 
+        // プラグインキャッシュ設定を変更
+        public void SetPluginCahceEnabled(bool isPluginCacheEnabled)
+        {
+            foreach (var spi in PluginCollection)
+            {
+                spi.IsCacheEnabled = isPluginCacheEnabled;
+            }
+        }
 
         // ロード済プラグイン取得
         public SusiePlugin GetPlugin(string fileName)

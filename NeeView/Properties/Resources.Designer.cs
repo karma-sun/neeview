@@ -10679,6 +10679,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Cache the plugin に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamSusieIsPluginCacheEnabled {
+            get {
+                return ResourceManager.GetString("ParamSusieIsPluginCacheEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   If it is unstable, it may stabilize when it is OFF. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamSusieIsPluginCacheEnabledTips {
+            get {
+                return ResourceManager.GetString("ParamSusieIsPluginCacheEnabledTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Plugin folder に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamSusiePluginPath {

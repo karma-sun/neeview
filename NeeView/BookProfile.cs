@@ -106,7 +106,7 @@ namespace NeeView
         public LoadingPageView LoadingPageView { get; set; } = LoadingPageView.PreThumbnail;
 
         // サポート外ファイル有効のときに、すべてのファイルを画像とみなす
-        [PropertyMember("@ParamBookIsAllFileAnImage", Tips = "@ParamBookIsAllFileAnImageTips")]
+        [PropertyMember("@ParamBookIsAllFileAnImage")]
         public bool IsAllFileAnImage { get; set; }
 
         #endregion

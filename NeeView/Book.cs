@@ -534,6 +534,7 @@ namespace NeeView
                     case ArchiverType.None:
                         if (BookProfile.Current.IsIgnoreFileExtension())
                         {
+                            entry.IsIgnoreFileExtension = true;
                             page = new BitmapPage(entry);
                         }
                         else

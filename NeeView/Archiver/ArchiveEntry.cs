@@ -201,6 +201,10 @@ namespace NeeView
         /// </summary>
         public bool IsFileSystem => Archiver == null || Archiver.IsFileSystem;
 
+        /// <summary>
+        /// 拡張子による画像ファイル判定無効
+        /// </summary>
+        public bool IsIgnoreFileExtension { get; set; }
 
         #endregion Properties
 

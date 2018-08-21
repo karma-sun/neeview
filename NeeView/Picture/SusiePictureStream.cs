@@ -13,7 +13,7 @@ namespace NeeView
         // 対象に応じてファイルからの読み込みかメモリからの読み込みかを変更
         public NamedStream Create(ArchiveEntry entry)
         {
-            if (!BookProfile.Current.IsIgnoreFileExtension() && !PictureProfile.Current.IsSusieSupported(entry.EntryName)) return null;
+            if (!entry.IsIgnoreFileExtension && !PictureProfile.Current.IsSusieSupported(entry.EntryName)) return null;
 
             if (entry.IsFileSystem)
             {
@@ -47,7 +47,7 @@ namespace NeeView
 
             SusiePlugin susiePlugin = null;
 
-            var bytes = SusieContext.Current.Susie?.GetPicture(entry.RawEntryName, buff, !BookProfile.Current.IsIgnoreFileExtension(), out susiePlugin);
+            var bytes = SusieContext.Current.Susie?.GetPicture(entry.RawEntryName, buff, !entry.IsIgnoreFileExtension, out susiePlugin);
             if (bytes == null)
             {
                 throw new SusieIOException();
@@ -62,7 +62,7 @@ namespace NeeView
         {
             SusiePlugin susiePlugin = null;
 
-            var bytes = SusieContext.Current.Susie?.GetPictureFromFile(fileName, !BookProfile.Current.IsIgnoreFileExtension(), out susiePlugin);
+            var bytes = SusieContext.Current.Susie?.GetPictureFromFile(fileName, !entry.IsIgnoreFileExtension, out susiePlugin);
             if (bytes == null)
             {
                 throw new SusieIOException();

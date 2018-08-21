@@ -2867,10 +2867,7 @@ Details of the error are output to the following file.
     <value>It is used in "Split landscape page".</value>
   </data>
   <data name="ParamBookIsAllFileAnImage" xml:space="preserve">
-    <value>All files are regarded as image files</value>
-  </data>
-  <data name="ParamBookIsAllFileAnImageTips" xml:space="preserve">
-    <value>I regard it as an image file regardless of the extension of the file.</value>
+    <value>A file whose extension is unknown is regarded as an image file</value>
   </data>
   <data name="ParamClipboardArchiveOption" xml:space="preserve">
     <value>For compressed files</value>

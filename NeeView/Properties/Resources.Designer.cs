@@ -8141,6 +8141,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   A file whose extension is unknown is regarded as an image file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookIsAllFileAnImage {
+            get {
+                return ResourceManager.GetString("ParamBookIsAllFileAnImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Play animated GIF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamBookIsEnableAnimatedGif {
@@ -8168,7 +8177,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Files and folders that can not be displayed as images are also displayed as pages. に類似しているローカライズされた文字列を検索します。
+        ///   Supported files and folders outside the extension are also displayed as pages. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamBookIsEnableNoSupportFileTips {
             get {

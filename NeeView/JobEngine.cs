@@ -579,17 +579,14 @@ namespace NeeView
         {
             Message = $"Run";
 
-#if false
             // Thread版
-            var thread = new Thread(new ThreadStart(async () => await WorkerExecuteAsync()));
+            var thread = new Thread(new ThreadStart(() => WorkerExecuteAsync()));
             thread.Priority = IsPrimary ? ThreadPriority.Normal : ThreadPriority.BelowNormal;
             thread.IsBackground = true;
             thread.Name = "JobWorker";
             thread.Start();
-#else
             // Task版
-            var task = Task.Run(async () => await WorkerExecuteAsync(), _cancellationTokenSource.Token);
-#endif
+            //// var task = Task.Run(() => WorkerExecuteAsync(), _cancellationTokenSource.Token);
         }
 
         // ワーカータスク廃棄
@@ -599,11 +596,11 @@ namespace NeeView
         }
 
         // ワーカータスクメイン
-        private async Task WorkerExecuteAsync()
+        private void WorkerExecuteAsync()
         {
             try
             {
-                await WorkerExecuteAsyncCore();
+                WorkerExecuteAsyncCore();
             }
             catch (OperationCanceledException)
             {
@@ -619,7 +616,7 @@ namespace NeeView
         }
 
         // ワーカータスクメイン
-        private async Task WorkerExecuteAsyncCore()
+        private void WorkerExecuteAsyncCore()
         {
             while (!_cancellationTokenSource.Token.IsCancellationRequested)
             {
@@ -643,7 +640,7 @@ namespace NeeView
                 {
                     IsBusy = false;
                     Message = $"wait event ...";
-                    await Task.Run(() => _event.Wait(_cancellationTokenSource.Token));
+                    _event.Wait(_cancellationTokenSource.Token);
                     continue;
                 }
 
@@ -656,7 +653,7 @@ namespace NeeView
                     Message = $"Job({job.SerialNumber}) execute ...";
                     try
                     {
-                        await job.Command.ExecuteAsync(job.Completed, job.CancellationToken);
+                        job.Command.ExecuteAsync(job.Completed, job.CancellationToken).Wait();
                         job.Log($"{job.SerialNumber}: Job done.");
                     }
                     catch (OperationCanceledException)
@@ -682,7 +679,7 @@ namespace NeeView
             Debug.WriteLine("Task: Exit.");
         }
 
-#region IDisposable Support
+        #region IDisposable Support
         private bool _disposedValue = false;
 
         protected virtual void Dispose(bool disposing)
@@ -715,7 +712,7 @@ namespace NeeView
         {
             Dispose(true);
         }
-#endregion
+        #endregion
 
     }
 }

@@ -624,6 +624,7 @@ namespace NeeView
         public void Start()
         {
             Debug.Assert(Place != null);
+            _commandEngine.Name = $"BookJobEngine: {this.Place}";
             _commandEngine.Log = new NeeLaboratory.Diagnostics.Log(nameof(BookCommandEngine), 0);
             _commandEngine.StartEngine();
         }

@@ -56,6 +56,7 @@ namespace NeeView
             if (isStartEngine)
             {
                 _engine = new Jobs.SingleJobEngine();
+                _engine.Name = "FolderCollectionJobEngine";
                 _engine.JobError += JobEngine_Error;
                 _engine.StartEngine();
             }

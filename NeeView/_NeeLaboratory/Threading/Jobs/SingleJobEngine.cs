@@ -46,6 +46,11 @@ namespace NeeLaboratory.Threading.Jobs
         private object _lock = new object();
 
         /// <summary>
+        /// ワーカースレッド
+        /// </summary>
+        private Thread _thread;
+
+        /// <summary>
         /// 開発用：ログ
         /// </summary>
         private Log _log;
@@ -75,6 +80,27 @@ namespace NeeLaboratory.Threading.Jobs
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// 名前
+        /// </summary>
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                if (_name != value)
+                {
+                    _name = value;
+                    if (_thread != null)
+                    {
+                        _thread.Name = _name;
+                    }
+                }
+            }
+        }
+
 
         /// <summary>
         /// 現在のJob数
@@ -174,7 +200,7 @@ namespace NeeLaboratory.Threading.Jobs
         /// <summary>
         /// ワーカータスク
         /// </summary>
-        private async Task WorkerAsync(CancellationToken token)
+        private void WorkerAsync(CancellationToken token)
         {
             try
             {
@@ -198,7 +224,7 @@ namespace NeeLaboratory.Threading.Jobs
                         try
                         {
                             _log?.Trace($"Job execute: {_currentJob}");
-                            await _currentJob?.ExecuteAsync();
+                            _currentJob?.ExecuteAsync().Wait();
                         }
                         catch (OperationCanceledException)
                         {
@@ -238,11 +264,11 @@ namespace NeeLaboratory.Threading.Jobs
             _isEngineActive = true;
             _engineCancellationTokenSource = new CancellationTokenSource();
 
-            Task.Run(async () =>
+            _thread = new Thread(() =>
             {
                 try
                 {
-                    await WorkerAsync(_engineCancellationTokenSource.Token);
+                    WorkerAsync(_engineCancellationTokenSource.Token);
                 }
                 catch (Exception ex)
                 {
@@ -255,6 +281,10 @@ namespace NeeLaboratory.Threading.Jobs
                     _log?.Trace($"stopped.");
                 }
             });
+
+            _thread.IsBackground = true;
+            _thread.Name = _name;
+            _thread.Start();
         }
 
         /// <summary>

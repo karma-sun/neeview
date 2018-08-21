@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,17 +39,16 @@ namespace NeeView
 
             if (string.IsNullOrWhiteSpace(Source)) return;
 
-            var document = XDocument.Parse("<xhtml>" + Source + "</xhtml>");
-
             try
             {
+                var xhtml = "<xhtml>" + Source.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;").Replace("'", "&apos;") + "</xhtml>";
+                var document = XDocument.Parse(xhtml);
                 var inlines = ConvertFromChildren(document.Root);
                 this.Inlines.AddRange(inlines);
             }
             catch (Exception ex)
             {
-                this.Inlines.Add(new Run(ex.Message));
-                this.Inlines.Add(new LineBreak());
+                Debug.WriteLine(ex);
                 this.Inlines.Add(new Run(Source));
             }
         }

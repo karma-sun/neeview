@@ -1,4 +1,5 @@
-﻿using NeeLaboratory.Windows.Input;
+﻿using NeeLaboratory.ComponentModel;
+using NeeLaboratory.Windows.Input;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -26,17 +27,31 @@ namespace NeeView.Susie
     /// <summary>
     /// Susie Plugin Accessor
     /// </summary>
-    public class SusiePlugin : IDisposable
+    public class SusiePlugin : BindableBase, IDisposable
     {
         private object _lock = new object();
         private SusiePluginApi _module;
         private bool _isCacheEnabled;
 
-        //
+        // 一連の処理をロックするときに使用
         public object GlobalLock = new object();
 
         // 有効/無効
-        public bool IsEnable { get; set; } = true;
+        private bool _isEnabled = true;
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set { SetProperty(ref _isEnabled, value); }
+        }
+
+        // 事前展開。AMプラグインのみ有効
+        private bool _isPreExtract;
+        public bool IsPreExtract
+        {
+            get { return _isPreExtract; }
+            set { SetProperty(ref _isPreExtract, value); }
+        }
+
 
         // プラグインファイルのパス
         public string FileName { get; private set; }
@@ -318,7 +333,7 @@ namespace NeeView.Susie
         public bool IsSupported(string fileName, byte[] head, bool isCheckExtension)
         {
             if (FileName == null) throw new InvalidOperationException();
-            if (!IsEnable) return false;
+            if (!IsEnabled) return false;
 
             // サポート拡張子チェック
             if (isCheckExtension && !Extensions.Contains(GetExtension(fileName))) return false;
@@ -370,7 +385,7 @@ namespace NeeView.Susie
         public ArchiveEntryCollection GetArchiveInfo(string fileName, byte[] head)
         {
             if (FileName == null) throw new InvalidOperationException();
-            if (!IsEnable) return null;
+            if (!IsEnabled) return null;
 
             // サポート拡張子チェック
             if (!Extensions.Contains(GetExtension(fileName))) return null;
@@ -404,7 +419,7 @@ namespace NeeView.Susie
         public byte[] GetPicture(string fileName, byte[] buff, bool isCheckExtension)
         {
             if (FileName == null) throw new InvalidOperationException();
-            if (!IsEnable) return null;
+            if (!IsEnabled) return null;
 
             // サポート拡張子チェック
             if (isCheckExtension && !Extensions.Contains(GetExtension(fileName))) return null;
@@ -435,7 +450,7 @@ namespace NeeView.Susie
         public byte[] GetPictureFromFile(string fileName, byte[] head, bool isCheckExtension)
         {
             if (FileName == null) throw new InvalidOperationException();
-            if (!IsEnable) return null;
+            if (!IsEnabled) return null;
 
             // サポート拡張子チェック
             if (isCheckExtension && !Extensions.Contains(GetExtension(fileName))) return null;

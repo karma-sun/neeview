@@ -4412,9 +4412,18 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>書庫を事前展開する</value>
   </data>
   <data name="ParamSusieIsPreExtractTips" xml:space="preserve">
-    <value>書庫をテンポラリフォルダーに展開してアクセスを高速化します。</value>
+    <value>書庫を一時フォルダーに展開してアクセスを高速化します。</value>
   </data>
   <data name="SettingPageSusieGeneralAdvance" xml:space="preserve">
     <value>詳細設定</value>
+  </data>
+  <data name="WordConfig" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="ParamSusiePluginIsEnabled" xml:space="preserve">
+    <value>プラグイン有効</value>
+  </data>
+  <data name="ParamSusiePluginIsPreExtract" xml:space="preserve">
+    <value>書庫を事前展開する</value>
   </data>
 </root>

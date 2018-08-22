@@ -73,29 +73,36 @@ namespace NeeView.Setting
         }
 
         #endregion
-        
+
         #region Commands
 
         //
         private RelayCommand _configCommand;
         public RelayCommand ConfigCommand
         {
-            get { return _configCommand = _configCommand ?? new RelayCommand(OpemConfigDialog_Executed, CanOpenConfigDialog); }
+            get { return _configCommand = _configCommand ?? new RelayCommand(OpenConfigDialog_Executed, CanOpenConfigDialog); }
         }
 
         private bool CanOpenConfigDialog()
         {
             var item = this.PluginList.SelectedItem as Susie.SusiePlugin;
-            return item != null ? item.HasConfigurationDlg : false;
+            return item != null;
         }
 
-        private void OpemConfigDialog_Executed()
+        private void OpenConfigDialog_Executed()
         {
             var item = this.PluginList.SelectedItem as Susie.SusiePlugin;
-            if (item != null && item.HasConfigurationDlg)
-            {
-                item.OpenConfigurationDlg_Executed(Window.GetWindow(this));
-            }
+            OpenConfigDialog(item);
+        }
+
+        private void OpenConfigDialog(Susie.SusiePlugin spi)
+        {
+            if (spi == null) return;
+
+            var dialog = new SusiePluginSettingWindow(spi);
+            dialog.Owner = Window.GetWindow(this);
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            dialog.ShowDialog();
         }
 
 
@@ -166,10 +173,7 @@ namespace NeeView.Setting
         private void ListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             var item = (sender as ListBoxItem)?.DataContext as Susie.SusiePlugin;
-            if (item != null && item.HasConfigurationDlg)
-            {
-                item.OpenConfigurationDlg_Executed(Window.GetWindow(this));
-            }
+            OpenConfigDialog(item);
         }
 
         // 有効/無効チェックボックス

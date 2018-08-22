@@ -4417,4 +4417,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="SettingPageSusieGeneralAdvance" xml:space="preserve">
     <value>Advanced Setting</value>
   </data>
+  <data name="WordConfig" xml:space="preserve">
+    <value>Config</value>
+  </data>
+  <data name="ParamSusiePluginIsEnabled" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="ParamSusiePluginIsPreExtract" xml:space="preserve">
+    <value>Pre extract</value>
+  </data>
 </root>

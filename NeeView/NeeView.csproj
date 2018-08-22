@@ -193,6 +193,9 @@
       <DependentUpon>PageSortModePalette.xaml</DependentUpon>
     </Compile>
     <Compile Include="OpenSourceControls\VirtualizingWrapPanel.cs" />
+    <Compile Include="Setting\SusiePluginSettingWindow.xaml.cs">
+      <DependentUpon>SusiePluginSettingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderListBoxModel.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderListBoxViewModel.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderPanelViewModel.cs" />
@@ -994,6 +997,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Setting\MouseGestureSettingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Setting\SusiePluginSettingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

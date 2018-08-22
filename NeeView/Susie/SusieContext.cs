@@ -13,6 +13,25 @@ using System.Threading.Tasks;
 namespace NeeView
 {
     /// <summary>
+    /// プラグイン単位の設定
+    /// </summary>
+    [DataContract]
+    public class SusiePluginSetting
+    {
+        public SusiePluginSetting(bool isEnable, bool isPreExtract)
+        {
+            this.IsEnabled = isEnable;
+            this.IsPreExtract = isPreExtract;
+        }
+
+        [DataMember]
+        public bool IsEnabled { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
+        public bool IsPreExtract { get; set; }
+    }
+
+    /// <summary>
     /// Susie Context
     /// </summary>
     public class SusieContext : BindableBase
@@ -142,10 +161,6 @@ namespace NeeView
             }
         }
 
-        // 事前展開
-        [PropertyMember("@ParamSusieIsPreExtract", Tips = "@ParamSusieIsPreExtractTips")]
-        public bool IsPreExtract { get; set; }
-
         #endregion
 
         #region Methods
@@ -155,30 +170,31 @@ namespace NeeView
         /// </summary>
         /// <param name="spiFolder">プラグインフォルダー</param>
         /// <param name="spiFiles">プラグインリスト</param>
-        public void Initialize(string spiFolder, Dictionary<string, bool> spiFiles)
+        public void Initialize(string spiFolder, Dictionary<string, SusiePluginSetting> spiFiles)
         {
             _susiePluginPath = spiFolder;
             SetupSusie(_susiePluginPath, spiFiles);
         }
 
         // Susie プラグイン 初期化
-        private void SetupSusie(string spiFolder, Dictionary<string, bool> spiFiles)
+        private void SetupSusie(string spiFolder, Dictionary<string, SusiePluginSetting> spiFiles)
         {
             if (!IsSupportedSusie) return;
 
-            spiFiles = spiFiles ?? new Dictionary<string, bool>();
+            spiFiles = spiFiles ?? new Dictionary<string, SusiePluginSetting>();
 
             var list = ListUpSpiFiles(spiFolder, spiFiles.Keys.ToList());
 
             _susie.Load(list, _isPluginCacheEnabled);
 
-            // プラグイン有効/無効反映
+            // プラグイン設定反映
             foreach (var pair in spiFiles)
             {
                 var plugin = _susie.GetPlugin(pair.Key);
                 if (plugin != null)
                 {
-                    plugin.IsEnable = pair.Value;
+                    plugin.IsEnabled = pair.Value.IsEnabled;
+                    plugin.IsPreExtract = pair.Value.IsPreExtract;
                 }
             }
 
@@ -189,15 +205,15 @@ namespace NeeView
 
 
         // Susieインスタンスから SpiFiles を生成する
-        public Dictionary<string, bool> CreateSpiFiles()
+        public Dictionary<string, SusiePluginSetting> CreateSpiFiles()
         {
-            var spiFiles = new Dictionary<string, bool>();
+            var spiFiles = new Dictionary<string, SusiePluginSetting>();
 
             if (_susie != null)
             {
                 foreach (var plugin in _susie.PluginCollection)
                 {
-                    spiFiles.Add(plugin.FileName, plugin.IsEnable);
+                    spiFiles.Add(plugin.FileName, new SusiePluginSetting(plugin.IsEnabled, plugin.IsPreExtract));
                 }
             }
 
@@ -211,7 +227,7 @@ namespace NeeView
             var list = new List<string>();
             foreach (var plugin in _susie.INPluginList)
             {
-                if (plugin.IsEnable)
+                if (plugin.IsEnabled)
                 {
                     list.AddRange(plugin.Extensions);
                 }
@@ -227,7 +243,7 @@ namespace NeeView
             var list = new List<string>();
             foreach (var plugin in _susie.AMPluginList)
             {
-                if (plugin.IsEnable)
+                if (plugin.IsEnabled)
                 {
                     list.AddRange(plugin.Extensions);
                 }
@@ -283,6 +299,9 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
+            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+
+            [DataMember]
             public bool IsEnableSusie { get; set; }
 
             [DataMember]
@@ -294,20 +313,32 @@ namespace NeeView
             [DataMember]
             public bool IsFirstOrderSusieArchive { get; set; }
 
-            [DataMember]
-            public Dictionary<string, bool> SpiFiles { get; set; }
+            [Obsolete, DataMember(EmitDefaultValue = false)]
+            public Dictionary<string, bool> OldSpiFiles { get; set; } // ver 33.0
+
+            [DataMember(Name = "SpiFilesV2")]
+            public Dictionary<string, SusiePluginSetting> SpiFiles { get; set; }
 
             [DataMember, DefaultValue(true)]
             public bool IsPluginCacheEnabled { get; set; }
-
-            [DataMember]
-            public bool IsPreExtract { get; set; }
 
 
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
             {
                 this.InitializePropertyDefaultValues();
+            }
+
+            [OnDeserialized]
+            private void Deserialized(StreamingContext c)
+            {
+#pragma warning disable CS0612
+                if (_Version < Config.GenerateProductVersionNumber(33, 0, 0) && OldSpiFiles != null)
+                {
+                    SpiFiles = OldSpiFiles.ToDictionary(e => e.Key, e => new SusiePluginSetting(e.Value, false));
+                }
+#pragma warning restore CS0612
+
             }
 
             public Memento Clone()
@@ -332,7 +363,6 @@ namespace NeeView
             memento.SusiePluginPath = this.SusiePluginPath;
             memento.SpiFiles = CreateSpiFiles();
             memento.IsPluginCacheEnabled = this.IsPluginCacheEnabled;
-            memento.IsPreExtract = this.IsPreExtract;
             return memento;
         }
 
@@ -345,7 +375,6 @@ namespace NeeView
             this.IsFirstOrderSusieImage = memento.IsFirstOrderSusieImage;
             this.IsFirstOrderSusieArchive = memento.IsFirstOrderSusieArchive;
             this.IsPluginCacheEnabled = memento.IsPluginCacheEnabled;
-            this.IsPreExtract = memento.IsPreExtract;
             Initialize(memento.SusiePluginPath, memento.SpiFiles);
         }
 

@@ -10715,6 +10715,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Enable に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamSusiePluginIsEnabled {
+            get {
+                return ResourceManager.GetString("ParamSusiePluginIsEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Pre extract に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamSusiePluginIsPreExtract {
+            get {
+                return ResourceManager.GetString("ParamSusiePluginIsPreExtract", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Plugin folder に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamSusiePluginPath {
@@ -12354,6 +12372,15 @@ namespace NeeView.Properties {
         public static string WordCommand {
             get {
                 return ResourceManager.GetString("WordCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Config に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordConfig {
+            get {
+                return ResourceManager.GetString("WordConfig", resourceCulture);
             }
         }
         

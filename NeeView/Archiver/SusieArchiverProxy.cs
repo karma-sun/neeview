@@ -22,7 +22,8 @@ namespace NeeView
 
         public SusieArchiverProxy(string path, ArchiveEntry source, bool isRoot) : base(path, source, isRoot)
         {
-            bool isExtract = SusieContext.Current.IsPreExtract;
+            var spi = SusieContext.Current.Susie?.GetArchivePlugin(Path, true);
+            var isExtract = spi != null ? spi.IsPreExtract : false;
 
             if (isExtract)
             {

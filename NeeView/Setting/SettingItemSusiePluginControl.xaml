@@ -25,19 +25,15 @@
                 <i:Interaction.Behaviors>
                     <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="SusiePlugin" DragDropData="{Binding}" Target="{Binding ElementName=PluginList}" />
                 </i:Interaction.Behaviors>
-                <CheckBox VerticalAlignment="Center" IsChecked="{Binding IsEnable}" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
+                <CheckBox VerticalAlignment="Center" IsChecked="{Binding IsEnabled}" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
                 <Grid Width="20" VerticalAlignment="Center" Margin="2">
-                    <Button Style="{StaticResource IconButton}"
-                                                    Command="{Binding OpenConfigurationDlg}" CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
-                                                    Visibility="{Binding HasConfigurationDlg, Converter={StaticResource BooleanToVisibilityConverter}}" >
-                        <Image Width="14" Height="14" Source="{StaticResource ic_setting_24px}"/>
-                    </Button>
+                    <Image Width="14" Height="14" Source="{StaticResource ic_setting_24px}" Visibility="{Binding HasConfigurationDlg, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 </Grid>
                 <TextBlock Text="{Binding DetailText}" ToolTip="{Binding PluginVersion}" VerticalAlignment="Center">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsEnable}" Value="False">
+                                <DataTrigger Binding="{Binding IsEnabled}" Value="False">
                                     <Setter Property="Foreground" Value="Gray"/>
                                 </DataTrigger>
                             </Style.Triggers>

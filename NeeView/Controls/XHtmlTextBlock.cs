@@ -41,7 +41,7 @@ namespace NeeView
 
             try
             {
-                var xhtml = "<xhtml>" + Source.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;").Replace("\"", "&quot;").Replace("'", "&apos;") + "</xhtml>";
+                var xhtml = "<xhtml>" + System.Security.SecurityElement.Escape(Source) + "</xhtml>";
                 var document = XDocument.Parse(xhtml);
                 var inlines = ConvertFromChildren(document.Root);
                 this.Inlines.AddRange(inlines);

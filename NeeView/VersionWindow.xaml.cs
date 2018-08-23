@@ -65,7 +65,8 @@ namespace NeeView
                 int minor = Config.GetMinorVersionNumber(version);
                 var process = Config.IsX64 ? "64bit" : "32bit";
 
-                return $"{major}.{minor}" + $" ({process})";
+                var name = Config.Current.IsCanaryPackage ? "Canary" : $"{major}.{minor}";
+                return name + $" ({process})";
             }
             return null;
         }
@@ -141,7 +142,7 @@ namespace NeeView
         public string DownloadUri => "https://bitbucket.org/neelabo/neeview/downloads";
 #endif
 
-        public bool IsEnabled => App.Current.IsNetworkEnabled && !Config.Current.IsAppxPackage;
+        public bool IsEnabled => App.Current.IsNetworkEnabled && !Config.Current.IsAppxPackage && !Config.Current.IsCanaryPackage;
 
         public int CurrentVersion { get; set; }
         public int LastVersion { get; set; }

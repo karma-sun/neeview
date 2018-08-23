@@ -1,5 +1,7 @@
 # NeeView <VERSION/>
 
+<ANNOUNCE/>
+
 ## Overview
 
   Image viewer that displays images in folders and compressed files like books.

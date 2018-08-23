@@ -39,8 +39,10 @@ namespace NeeView
         {
             InitializeComponent();
 
+            this.CanaryWatermark.Visibility = Config.Current.IsCanaryPackage ? Visibility.Visible : Visibility.Collapsed;
+
 #if DEBUG
-            this.MenuItemDev.Visibility = Visibility.Visible;
+            this.MenuDev.Visibility = Visibility.Visible;
 #endif
         }
 

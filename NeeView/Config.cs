@@ -126,6 +126,11 @@ namespace NeeView
         public string ProductVersion { get; private set; }
 
         /// <summary>
+        /// 表示用バージョン
+        /// </summary>
+        public string DispVersion => IsCanaryPackage ? "Canary" : ProductVersion;
+
+        /// <summary>
         /// プロダクトバージョン(int)
         /// </summary>
         public int ProductVersionNumber { get; private set; }
@@ -321,6 +326,7 @@ namespace NeeView
         public bool IsZipPackage => this.PackageType == ".zip";
         public bool IsMsiPackage => this.PackageType == ".msi";
         public bool IsAppxPackage => this.PackageType == ".appx";
+        public bool IsCanaryPackage => this.PackageType == ".canary";
 
 
         // 全ユーザデータ削除

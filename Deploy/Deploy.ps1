@@ -5,7 +5,7 @@
 #   - pandoc
 
 Param(
-	[ValidateSet("All", "Zip", "Installer", "Appx")]$Target = "All",
+	[ValidateSet("All", "Zip", "Installer", "Appx", "Canary")]$Target = "All",
 	[switch]$continue
 )
 
@@ -197,13 +197,13 @@ function New-Package($productDir, $packageDir)
 	#------------------------
 	# generate README.html
 
-	New-Readme $packageDir "en-us" $FALSE
-	New-Readme $packageDir "ja-jp" $FALSE
+	New-Readme $packageDir "en-us" ".zip"
+	New-Readme $packageDir "ja-jp" ".zip"
 }
 
 #----------------------
 # generate README.html
-function New-Readme($packageDir, $culture, $isAppx)
+function New-Readme($packageDir, $culture, $target)
 {
 	$readmeSource = "Readme\$culture"
 
@@ -214,6 +214,7 @@ function New-Readme($packageDir, $culture, $isAppx)
 
 	Copy-Item "$readmeSource\Overview.md" $readmeDir
 	Copy-Item "$readmeSource\Susie.md" $readmeDir
+	Copy-Item "$readmeSource\Canary.md" $readmeDir
 	Copy-Item "$readmeSource\Emvironment.md" $readmeDir
 	Copy-Item "$readmeSource\Contact.md" $readmeDir
 
@@ -223,16 +224,25 @@ function New-Readme($packageDir, $culture, $isAppx)
 	Copy-Item "$solutionDir\NeeLaboratory.IO.Search\THIRDPARTY_LICENSES.md" "$readmeDir\NeeLaboratory.IO.Search_THIRDPARTY_LICENSES.md"
 
 	$susie = ""
-	if (-not $isAppx)
+	if ($target -ne ".appx")
 	{
 		$susie = Get-Content -Path "$readmeDir/Susie.md" -Raw -Encoding UTF8
 	}
 
+	$postfix = $version
+	$announce = ""
+	if ($target -eq ".canary")
+	{
+		$postfix = "Canary"
+		$announce = Get-Content -Path "$readmeDir/Canary.md" -Raw -Encoding UTF8
+	}
+
 	# edit README.md
-	Replace-Content "$readmeDir\Overview.md" "<VERSION/>" "$version"
+	Replace-Content "$readmeDir\Overview.md" "<VERSION/>" "$postfix"
+	Replace-Content "$readmeDir\Overview.md" "<ANNOUNCE/>" "$announce"
 	Replace-Content "$readmeDir\Overview.md" "<SUSIE/>" "$susie"
-	Replace-Content "$readmeDir\Emvironment.md" "<VERSION/>" "$version"
-	Replace-Content "$readmeDir\Contact.md" "<VERSION/>" "$version"
+	Replace-Content "$readmeDir\Emvironment.md" "<VERSION/>" "$postfix"
+	Replace-Content "$readmeDir\Contact.md" "<VERSION/>" "$postfix"
 
 	$readmeHtml = "README.html"
 	$readmeEnvironment = ""
@@ -316,7 +326,26 @@ function New-ConfigForAppx($inputDir, $config, $outputDir)
 	$sw.Close()
 }
 
+#--------------------------
+#
+function New-ConfigForCanary($inputDir, $config, $outputDir)
+{
+	# make config for installer
+	[xml]$xml = Get-Content "$inputDir\$config"
 
+	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'PackageType' } | Select -First 1
+	$add.value = '.canary'
+
+	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'UseLocalApplicationData' } | Select -First 1
+	$add.value = 'False'
+
+	$utf8WithoutBom = New-Object System.Text.UTF8Encoding($false)
+	$outputFile = Join-Path (Convert-Path $outputDir) $config
+
+	$sw = New-Object System.IO.StreamWriter($outputFile, $false, $utf8WithoutBom)
+	$xml.Save( $sw )
+	$sw.Close()
+}
 
 #---------------------------
 #
@@ -440,8 +469,8 @@ function New-AppxReady
 	New-ConfigForAppx $packageX64Dir "${product}.exe.config" $packageAppxProduct
 
 	# generate README.html
-	New-Readme $packageAppxProduct "en-us" $TRUE
-	New-Readme $packageAppxProduct "ja-jp" $TRUE
+	New-Readme $packageAppxProduct "en-us" ".appx"
+	New-Readme $packageAppxProduct "ja-jp" ".appx"
 
 	# copy icons
 	Copy-Item "Appx\Resources\Assets\*.png" "$packageAppxFiles\Assets\" 
@@ -482,6 +511,24 @@ function New-Appx($arch, $appx)
 
 
 #--------------------------
+# archive to Canary.ZIP
+function New-Canary
+{
+	# update assembly
+	Copy-Item $packageDir $packageCanaryDir -Recurse
+	New-ConfigForCanary $packageDir "${product}.exe.config" $packageCanaryDir
+	New-ConfigForCanary $packageDir "${product}S.exe.config" $packageCanaryDir
+
+	# generate README.html
+	New-Readme $packageCanaryDir "en-us" ".canary"
+	New-Readme $packageCanaryDir "ja-jp" ".canary"
+
+	Compress-Archive $packageCanaryDir -DestinationPath $packageCanary
+}
+
+
+
+#--------------------------
 # remove build objects
 function Remove-BuildObjects
 {
@@ -500,6 +547,10 @@ function Remove-BuildObjects
 	if (Test-Path $packageX64Dir)
 	{
 		Remove-Item $packageX64Dir -Recurse -Force
+	}
+	if (Test-Path $packageCanaryDir)
+	{
+		Remove-Item $packageCanaryDir -Recurse -Force
 	}
 	if (Test-Path $packageZip)
 	{
@@ -520,6 +571,10 @@ function Remove-BuildObjects
 	if (Test-Path $packageX64Appx)
 	{
 		Remove-Item $packageX64Appx
+	}
+	if (Test-Path $packageCanary)
+	{
+		Remove-Item $packageCanary
 	}
 
 	Start-Sleep -m 100
@@ -548,7 +603,8 @@ $packageAppxFiles = "$packageAppxRoot\PackageFiles"
 $packageAppxProduct = "$packageAppxRoot\PackageFiles\$product"
 $packageX86Appx = "${product}${version}-x86.appx"
 $packageX64Appx = "${product}${version}-x64.appx"
-
+$packageCanaryDir = "${product}Canary"
+$packageCanary = "${product}Canary.zip"
 
 if (-not $continue)
 {
@@ -570,7 +626,7 @@ if (-not $continue)
 }
 
 #
-if (($Target -eq "All") -or ($Target -eq "Zip"))
+if (($Target -eq "All") -or ($Target -eq "Zip") -or ($Target -eq "Canary"))
 {
 	Write-Host "`[Zip] ...`n" -fore Cyan
 	New-Zip
@@ -604,6 +660,13 @@ if (($Target -eq "All") -or ($Target -eq "Appx"))
 	{
 		Write-Host "`nWarning: not exist make appx envionment. skip!`n" -fore Yellow
 	}
+}
+
+if (($Target -eq "All") -or ($Target -eq "Canary"))
+{
+	Write-Host "`n[Canary] ...`n" -fore Cyan
+	New-Canary
+	Write-Host "`nExport $packageCanary successed.`n" -fore Green
 }
 
 # current

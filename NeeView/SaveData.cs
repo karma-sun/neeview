@@ -349,7 +349,7 @@ namespace NeeView
             dialog.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             dialog.OverwritePrompt = true;
             dialog.AddExtension = true;
-            dialog.FileName = $"NeeView{Config.Current.ProductVersion}-{DateTime.Now.ToString("yyyyMMdd")}";
+            dialog.FileName = $"NeeView{Config.Current.DispVersion}-{DateTime.Now.ToString("yyyyMMdd")}";
             dialog.DefaultExt = backupDialogDefaultExt;
             dialog.Filter = backupDialogFilder;
             dialog.Title = Resources.DialogExportTitle;

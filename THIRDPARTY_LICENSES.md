@@ -77,5 +77,5 @@ ICON: pushpin, etc...
 
 ### VirtualizingStackPanel
 
-* URL: https://archive.codeplex.com/?p=uhimaniavwp
+* URL: [uhimaniavwp](https://archive.codeplex.com/?p=uhimaniavwp)
 * License: [Ms-PL](https://opensource.org/licenses/MS-PL)

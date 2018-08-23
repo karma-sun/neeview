@@ -258,7 +258,7 @@ function New-Readme($packageDir, $culture, $target)
 		$readmeLicenseAppendix = """$readmeDir\LICENSE.ja-jp.md"""
 	}
 
-	if (-not $isAppx)
+	if ($target -ne ".appx")
 	{
 		$readmeEnvironment = """$readmeDir\Emvironment.md"""
 	}

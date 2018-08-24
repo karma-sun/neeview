@@ -33,10 +33,10 @@ namespace NeeView
         public SidePanelFrameModel()
         {
             _left = new SidePanelGroup();
-            _left.PropertyChanged += Left_PropertyChanged;
+            _left.SelectedPanelChanged += (s, e) => SelectedPanelChanged(s, e);
 
             _right = new SidePanelGroup();
-            _right.PropertyChanged += Right_PropertyChanged;
+            _right.SelectedPanelChanged += (s, e) => SelectedPanelChanged(s, e);
         }
 
         #endregion
@@ -47,7 +47,7 @@ namespace NeeView
         /// パネル選択変更イベント.
         /// 非表示状態のパネルを表示させるために使用される.
         /// </summary>
-        public event EventHandler SelectedPanelChanged;
+        public event EventHandler<SelectedPanelChangedEventArgs> SelectedPanelChanged;
 
 
         /// <summary>
@@ -239,36 +239,6 @@ namespace NeeView
 
 
         /// <summary>
-        /// 右パネルのプロパティ変更イベント処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Right_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(Right.SelectedPanel):
-                    SelectedPanelChanged?.Invoke(Right, null);
-                    break;
-            }
-        }
-
-        /// <summary>
-        /// 左パネルのプロパティ変更イベント処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Left_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(Left.SelectedPanel):
-                    SelectedPanelChanged?.Invoke(Left, null);
-                    break;
-            }
-        }
-
-        /// <summary>
         ///  タッチスクロール終端挙動汎用
         /// </summary>
         /// <param name="sender"></param>
@@ -281,9 +251,9 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento
@@ -396,6 +366,6 @@ namespace NeeView
 
 #pragma warning restore CS0612
 
-        #endregion
+#endregion
     }
 }

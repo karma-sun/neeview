@@ -55,9 +55,9 @@ namespace NeeView
             // ページリストパネルの更新
             PageListPlacementService.Current.Update();
 
-            //
-            SelectedPanelChanged += (s, e) => RaisePanelPropertyChanged();
+            SelectedPanelChanged += SidePanel_SelectedPanelChanged;
         }
+
 
         // フォーカス初期化要求
         // TODO: イベント名は原因であって期待する結果ではよくない
@@ -71,6 +71,19 @@ namespace NeeView
         public PagemarkPanel PagemarkPanel { get; private set; }
         public PageListPanel PageListPanel { get; private set; }
 
+
+
+        /// <summary>
+        /// パネル選択変更時の処理
+        /// </summary>
+        private void SidePanel_SelectedPanelChanged(object sender, SelectedPanelChangedEventArgs e)
+        {
+            RaisePanelPropertyChanged();
+            if (e != null && e.SelectedPanel == null)
+            {
+                ResetFocus?.Invoke(this, null);
+            }
+        }
 
         /// <summary>
         /// ページリストパネルの追加

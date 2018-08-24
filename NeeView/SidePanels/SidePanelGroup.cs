@@ -9,6 +9,16 @@ using System.Windows;
 
 namespace NeeView
 {
+    public class SelectedPanelChangedEventArgs : EventArgs
+    {
+        public SelectedPanelChangedEventArgs(IPanel selectedPanel)
+        {
+            this.SelectedPanel = selectedPanel;
+        }
+
+        public IPanel SelectedPanel { get; set; }
+    }
+
     /// <summary>
     /// SidePanel.
     /// パネル集合と選択されたパネルの管理
@@ -18,7 +28,7 @@ namespace NeeView
         /// <summary>
         /// 選択変更通知
         /// </summary>
-        public event EventHandler SelectedPanelChanged;
+        public event EventHandler<SelectedPanelChangedEventArgs> SelectedPanelChanged;
 
 
         /// <summary>
@@ -50,6 +60,8 @@ namespace NeeView
                     {
                         _lastSelectedPane = _selectedPanel;
                     }
+
+                    SelectedPanelChanged?.Invoke(this, new SelectedPanelChangedEventArgs(_selectedPanel));
                 }
             }
         }
@@ -116,7 +128,6 @@ namespace NeeView
         public void SetSelectedPanel(IPanel panel, bool isSelected)
         {
             SelectedPanel = isSelected ? panel : SelectedPanel != panel ? SelectedPanel : null;
-            SelectedPanelChanged?.Invoke(this, null);
         }
 
         /// <summary>
@@ -130,7 +141,6 @@ namespace NeeView
             if (force || SelectedPanel != panel)
             {
                 SelectedPanel = SelectedPanel != panel ? panel : null;
-                SelectedPanelChanged?.Invoke(this, null);
             }
             else
             {
@@ -140,7 +150,8 @@ namespace NeeView
                 }
                 else
                 {
-                    SelectedPanelChanged?.Invoke(this, null);
+                    // 選択が変更されたことにして、自動非表示の表示状態更新を要求する
+                    SelectedPanelChanged?.Invoke(this, new SelectedPanelChangedEventArgs(SelectedPanel));
                 }
             }
         }

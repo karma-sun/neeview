@@ -21,9 +21,45 @@ namespace NeeView
     {
         public static string DragDropFormat = $"{Config.Current.ProcessId}.PanelContent";
 
-        /// <summary>
-        /// Width property.
-        /// </summary>
+        private bool _isForceVisibled;
+
+
+        // Constructors
+
+        public SidePanelViewModel(SidePanelGroup panel, ItemsControl itemsControl)
+        {
+            InitializeDropAccept(itemsControl);
+
+            Panel = panel;
+            Panel.PropertyChanged += Panel_PropertyChanged;
+
+            Panel.SelectedPanelChanged += (s, e) =>
+            {
+                _visibility.SetValue(Visibility.Visible, 0.0);
+                UpdateVisibility();
+
+                SelectedPanelChanged?.Invoke(s, e);
+            };
+
+            _visibility = new DelayValue<Visibility>(Visibility.Collapsed);
+            _visibility.ValueChanged += (s, e) =>
+            {
+                RaisePropertyChanged(nameof(Visibility));
+                RaisePropertyChanged(nameof(PanelVisibility));
+                Panel.IsVisible = Visibility == Visibility.Visible;
+            };
+
+            UpdateVisibility();
+        }
+
+
+        // Events
+
+        public event EventHandler<SelectedPanelChangedEventArgs> SelectedPanelChanged;
+
+
+        // Prototypes.
+
         public double Width
         {
             get { return Panel.Width; }
@@ -36,20 +72,14 @@ namespace NeeView
             }
         }
 
-        /// <summary>
-        /// MaxWidth property.
-        /// </summary>
-        private double _MaxWidth;
+        private double _maxWidth;
         public double MaxWidth
         {
-            get { return _MaxWidth; }
-            set { if (_MaxWidth != value) { _MaxWidth = value; RaisePropertyChanged(); } }
+            get { return _maxWidth; }
+            set { if (_maxWidth != value) { _maxWidth = value; RaisePropertyChanged(); } }
         }
 
 
-        /// <summary>
-        /// IsDragged property.
-        /// </summary>
         private bool _isDragged;
         public bool IsDragged
         {
@@ -57,9 +87,6 @@ namespace NeeView
             set { if (_isDragged != value) { _isDragged = value; RaisePropertyChanged(); UpdateVisibility(); } }
         }
 
-        /// <summary>
-        /// IsNearCursor property.
-        /// </summary>
         private bool _isNearCursor;
         public bool IsNearCursor
         {
@@ -67,56 +94,43 @@ namespace NeeView
             set { if (_isNearCursor != value) { _isNearCursor = value; RaisePropertyChanged(); UpdateVisibility(); } }
         }
 
-        /// <summary>
-        /// IsAutoHide property.
-        /// </summary>
+        private bool _isAutoHide;
         public bool IsAutoHide
         {
             get { return _isAutoHide; }
             set { if (_isAutoHide != value) { _isAutoHide = value; RaisePropertyChanged(); UpdateVisibility(true); } }
         }
 
-        //
-        private bool _isAutoHide;
 
-
-        /// <summary>
-        /// IsVisibleLocked property.
-        /// </summary>
+        private bool _isVisibleLocked;
         public bool IsVisibleLocked
         {
             get { return _isVisibleLocked; }
             set { if (_isVisibleLocked != value) { _isVisibleLocked = value; RaisePropertyChanged(); UpdateForceVisibled(); } }
         }
 
-        //
-        private bool _isVisibleLocked;
 
-        //
-        private bool _isForceVisibled;
-
-        //
-        public void UpdateForceVisibled()
-        {
-            _isForceVisibled = _isVisibleLocked || (this.Panel.SelectedPanel != null && this.Panel.SelectedPanel.IsVisibleLock);
-            UpdateVisibility();
-        }
-
-
-
-
-        /// <summary>
-        /// Visibility property.
-        /// </summary>
-        /// 
+        private DelayValue<Visibility> _visibility;
         public Visibility Visibility
         {
             get { return _visibility.Value; }
         }
 
-        //
-        private DelayValue<Visibility> _visibility;
 
+        public Visibility PanelVisibility => Visibility == Visibility.Visible && this.Panel.SelectedPanel != null ? Visibility.Visible : Visibility.Collapsed;
+
+        // Model
+        public SidePanelGroup Panel { get; private set; }
+
+
+
+        // Methods
+
+        public void UpdateForceVisibled()
+        {
+            _isForceVisibled = _isVisibleLocked || (this.Panel.SelectedPanel != null && this.Panel.SelectedPanel.IsVisibleLock);
+            UpdateVisibility();
+        }
 
         /// <summary>
         /// Visibility更新
@@ -154,47 +168,6 @@ namespace NeeView
             if (!CanVisible()) SetVisibility(false, false, true);
         }
 
-
-        /// <summary>
-        /// PanelVisibility property.
-        /// </summary>
-        public Visibility PanelVisibility => Visibility == Visibility.Visible && this.Panel.SelectedPanel != null ? Visibility.Visible : Visibility.Collapsed;
-
-
-        /// <summary>
-        /// モデルデータ
-        /// </summary>
-        public SidePanelGroup Panel { get; private set; }
-
-        /// <summary>
-        /// コンストラクター
-        /// </summary>
-        /// <param name="panel"></param>
-        /// <param name="itemsControl"></param>
-        public SidePanelViewModel(SidePanelGroup panel, ItemsControl itemsControl)
-        {
-            InitializeDropAccept(itemsControl);
-
-            Panel = panel;
-            Panel.PropertyChanged += Panel_PropertyChanged;
-
-            Panel.SelectedPanelChanged += (s, e) =>
-            {
-                _visibility.SetValue(Visibility.Visible, 0.0);
-                UpdateVisibility();
-            };
-
-            _visibility = new DelayValue<Visibility>(Visibility.Collapsed);
-            _visibility.ValueChanged += (s, e) =>
-            {
-                RaisePropertyChanged(nameof(Visibility));
-                RaisePropertyChanged(nameof(PanelVisibility));
-                Panel.IsVisible = Visibility == Visibility.Visible;
-            };
-
-            UpdateVisibility();
-        }
-
         /// <summary>
         /// モデルのプロパティ変更イベント処理
         /// </summary>
@@ -214,9 +187,8 @@ namespace NeeView
         }
 
 
-        /// <summary>
-        /// PanelIconClicked command.
-        /// </summary>
+        #region Commands
+
         private RelayCommand<IPanel> _panelIconClicked;
         public RelayCommand<IPanel> PanelIconClicked
         {
@@ -227,6 +199,8 @@ namespace NeeView
         {
             Panel.Toggle(content);
         }
+
+        #endregion
 
 
         #region DropAccept

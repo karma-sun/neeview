@@ -289,27 +289,25 @@ namespace NeeView
         /// </summary>
         public bool ToggleVisibleFolderTree(bool byMenu)
         {
-            return SetVisibleFolderTree(byMenu, !IsVisibleFolderTree);
+            return SetVisibleFolderTree(byMenu, !IsVisibleFolderTree || !IsVisiblePanel(FolderListPanel));
         }
 
         public bool SetVisibleFolderTree(bool byMenu, bool isVisible)
         {
-            // フォーカス要求
+            Debug.WriteLine($"{isVisible}, {IsVisiblePanel(FolderListPanel)}");
+
+            // フォーカス要求。表示前に要求する
             if (!byMenu && isVisible)
             {
                 FolderTreeModel.Current.FocusAtOnce();
             }
 
-            // 表示
-            var model = _models.FolderList;
-            if (byMenu || !model.IsFolderTreeVisible || IsVisiblePanel(FolderListPanel))
-            {
-                model.IsFolderTreeVisible = isVisible;
-            }
+            FolderList.Current.IsFolderTreeVisible = isVisible;
+
             SetSelectedPanel(FolderListPanel, true);
             RaisePanelPropertyChanged();
 
-            return model.IsFolderTreeVisible;
+            return FolderList.Current.IsFolderTreeVisible;
         }
 
 

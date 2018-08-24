@@ -1131,22 +1131,27 @@ namespace NeeView
             {
                 if (e == null) return;
 
+                var framewrkElement = e as FrameworkElement;
+                var isKeyboardFocused = framewrkElement != null ? framewrkElement.IsKeyboardFocused : false;
+
                 var name = (e as FrameworkElement)?.Name;
+
 
                 var typename = e.GetType().ToString();
                 var valuestring = e.ToString();
 
+
                 if (typename == valuestring)
                 {
-                    Debug.WriteLine($"FocusTree: {name} ({typename})");
+                    Debug.WriteLine($"FocusTree: {isKeyboardFocused} {name} ({typename})");
                 }
                 else if (valuestring.StartsWith(typename))
                 {
-                    Debug.WriteLine($"FocusTree: {name} ({valuestring})");
+                    Debug.WriteLine($"FocusTree: {isKeyboardFocused} {name} ({valuestring})");
                 }
                 else
                 {
-                    Debug.WriteLine($"FocusTree: {name} ({typename}: {valuestring})");
+                    Debug.WriteLine($"FocusTree: {isKeyboardFocused} {name} ({typename}: {valuestring})");
                 }
 
                 var parent = VisualTreeHelper.GetParent(e) as Visual;

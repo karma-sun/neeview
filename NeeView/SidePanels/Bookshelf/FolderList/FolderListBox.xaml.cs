@@ -606,9 +606,9 @@ namespace NeeView
             return element;
         }
 
-#endregion
+        #endregion
 
-#region Methods
+        #region Methods
 
         /// <summary>
         /// フォーカス取得
@@ -700,10 +700,11 @@ namespace NeeView
             FocusSelectedItem(false);
         }
 
-        private void FolderList_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private async void FolderList_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             if ((bool)e.NewValue == true)
             {
+                await Task.Yield();
                 FocusSelectedItem(false);
             }
         }
@@ -939,6 +940,6 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
     }
 }

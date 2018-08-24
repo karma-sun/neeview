@@ -844,6 +844,7 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandToggleVisiblePageList;
                 element.MenuText = Properties.Resources.CommandToggleVisiblePageListMenu;
                 element.Note = Properties.Resources.CommandToggleVisiblePageListNote;
+                element.ShortCutKey = "P";
                 element.IsShowMessage = false;
                 element.ExecuteMessage = e => _models.SidePanel.IsVisiblePageList ? Properties.Resources.CommandToggleVisiblePageListOff : Properties.Resources.CommandToggleVisiblePageListOn;
                 element.Execute = (s, e) => _models.SidePanel.ToggleVisiblePageList(e.Parameter is MenuCommandTag);

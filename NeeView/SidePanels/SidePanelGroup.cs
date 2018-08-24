@@ -61,8 +61,9 @@ namespace NeeView
                         _lastSelectedPane = _selectedPanel;
                     }
 
-                    SelectedPanelChanged?.Invoke(this, new SelectedPanelChangedEventArgs(_selectedPanel));
                 }
+                // 本棚の各要素を表示する用途のため、変更にかかわらず通知
+                SelectedPanelChanged?.Invoke(this, new SelectedPanelChangedEventArgs(_selectedPanel));
             }
         }
 

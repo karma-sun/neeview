@@ -270,11 +270,11 @@ namespace NeeView
             if (_vm.Model.IsFocusAtOnce)
             {
                 _vm.Model.IsFocusAtOnce = false;
-                this.TreeView.Focus();
+                ScrollIntoView(true);
             }
         }
 
-        private void ScrollIntoView()
+        private void ScrollIntoView(bool isFocus)
         {
             if (!this.TreeView.IsVisible)
             {
@@ -292,6 +292,7 @@ namespace NeeView
             this.TreeView.UpdateLayout();
 
             ItemsControl container = this.TreeView;
+            var lastContainer = container;
             foreach (var node in selectedItem.Hierarchy.Skip(1))
             {
                 if (node.Parent == null)
@@ -312,6 +313,13 @@ namespace NeeView
                 }
 
                 container.UpdateLayout();
+                lastContainer = container;
+            }
+
+            if (isFocus)
+            {
+                bool isFocused = lastContainer.Focus();
+                ////Debug.WriteLine($"FolderTree.Focused: {isFocused}");
             }
 
             _vm.Model.SelectedItem = selectedItem;
@@ -377,7 +385,7 @@ namespace NeeView
 
         private void ViewModel_SelectedItemChanged(object sender, EventArgs e)
         {
-            ScrollIntoView();
+            ScrollIntoView(false);
         }
 
         private void TreeView_ScrollChanged(object sender, ScrollChangedEventArgs e)
@@ -391,12 +399,13 @@ namespace NeeView
 
         }
 
-        private void TreeView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private async void TreeView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             var isVisible = (bool)e.NewValue;
             _vm.IsVisibleChanged(isVisible);
             if (isVisible)
             {
+                await Task.Yield();
                 FocusSelectedItem();
             }
         }

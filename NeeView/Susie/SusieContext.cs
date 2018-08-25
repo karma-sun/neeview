@@ -47,6 +47,9 @@ namespace NeeView
         public bool _isFirstOrderSusieArchive;
         private bool _isPluginCacheEnabled = true;
 
+        // 無印NeeViewでのプラグイン設定保持用
+        private Dictionary<string, SusiePluginSetting> _storedSpiFiles;
+
         #endregion
 
         #region Constructoes
@@ -173,6 +176,7 @@ namespace NeeView
         public void Initialize(string spiFolder, Dictionary<string, SusiePluginSetting> spiFiles)
         {
             _susiePluginPath = spiFolder;
+            _storedSpiFiles = spiFiles;
             SetupSusie(_susiePluginPath, spiFiles);
         }
 
@@ -207,6 +211,11 @@ namespace NeeView
         // Susieインスタンスから SpiFiles を生成する
         public Dictionary<string, SusiePluginSetting> CreateSpiFiles()
         {
+            if (!IsSupportedSusie)
+            {
+                return _storedSpiFiles;
+            }
+
             var spiFiles = new Dictionary<string, SusiePluginSetting>();
 
             if (_susie != null)

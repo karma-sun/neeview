@@ -578,7 +578,12 @@ namespace NeeView
         {
             if (parameter.IsStretch) _dragTransformControl.ResetDefault();
             _dragTransformControl.Rotate(-parameter.Angle);
-            if (parameter.IsStretch) ContentCanvas.Current.UpdateContentSize(_dragTransform.Angle);
+            if (parameter.IsStretch)
+            {
+                ContentCanvas.Current.UpdateContentSize(_dragTransform.Angle);
+                ContentRebuild.Current.Request();
+                DragTransformControl.Current.SnapView();
+            }
         }
 
         //
@@ -586,7 +591,12 @@ namespace NeeView
         {
             if (parameter.IsStretch) _dragTransformControl.ResetDefault();
             _dragTransformControl.Rotate(+parameter.Angle);
-            if (parameter.IsStretch) ContentCanvas.Current.UpdateContentSize(_dragTransform.Angle);
+            if (parameter.IsStretch)
+            {
+                ContentCanvas.Current.UpdateContentSize(_dragTransform.Angle);
+                ContentRebuild.Current.Request();
+                DragTransformControl.Current.SnapView();
+            }
         }
 
         #endregion

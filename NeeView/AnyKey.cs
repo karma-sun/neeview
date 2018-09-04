@@ -23,15 +23,17 @@ namespace NeeView
                 if (_keys.Any() && _keys.All(e => Keyboard.IsKeyUp(e)))
                 {
                     _keys.Clear();
-                    return false;
+                    return IsModifierKeysPressed;
                 }
                 else
                 {
                     ////if (_keys.Any()) Debug.WriteLine("AnyKey: " + string.Join(",", _keys));
-                    return _keys.Any();
+                    return _keys.Any() || IsModifierKeysPressed;
                 }
             }
         }
+
+        public bool IsModifierKeysPressed => Keyboard.Modifiers != ModifierKeys.None;
 
         //
         public AnyKey()

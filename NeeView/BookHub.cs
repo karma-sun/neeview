@@ -428,13 +428,31 @@ namespace NeeView
                     });
                 };
 
-            BookHistoryCollection.Current.HistoryChanged += (s, e) => HistoryChanged?.Invoke(s, e);
+            BookHistoryCollection.Current.HistoryChanged += BookHistoryCollection_HistoryChanged;
+
             BookmarkCollection.Current.BookmarkChanged += (s, e) => BookmarkChanged?.Invoke(s, e);
 
             // command engine
             _commandEngine = new BookHubCommandEngine();
             _commandEngine.Name = "BookHubJobEngine";
             _commandEngine.Log = new Log(nameof(BookHubCommandEngine), 0);
+        }
+
+
+        private void BookHistoryCollection_HistoryChanged(object sender, BookMementoCollectionChangedArgs e)
+        {
+            HistoryChanged?.Invoke(sender, e);
+
+            if (this.BookUnit == null)
+            {
+                return;
+            }
+
+            // 履歴削除されたものを履歴登録しないようにする
+            if (e.HistoryChangedType == BookMementoCollectionChangedType.Remove &&  this.BookUnit.Address == e.Key)
+            {
+                _historyRemoved = true;
+            }
         }
 
         //
@@ -758,6 +776,7 @@ namespace NeeView
                 await book.LoadAsync(address, option, token);
 
                 _historyEntry = false;
+                _historyRemoved = false;
 
                 // カレントを設定し、開始する
                 BookUnit = new BookUnit(book);
@@ -814,10 +833,14 @@ namespace NeeView
         [PropertyMember("@ParamHistoryEntryPageCount", Tips = "@ParamHistoryEntryPageCountTips")]
         public int HistoryEntryPageCount { get; set; } = 0;
 
+        // 履歴から削除された
+        private bool _historyRemoved;
+
         // 履歴登録可
         private bool CanHistory()
         {
             return Book != null
+                && !_historyRemoved
                 && Book.Pages.Count > 0
                 && (_historyEntry || Book.PageChangeCount > this.HistoryEntryPageCount || Book.IsPageTerminated)
                 && (IsInnerArchiveHistoryEnabled || Book.Archiver?.Parent == null)

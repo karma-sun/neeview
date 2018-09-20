@@ -539,7 +539,7 @@ namespace NeeView
 
             if (place != null)
             {
-                FolderList.Current.RequestPlace(new QueryPath(place), null, FolderSetPlaceOption.None);
+                FolderList.Current.RequestPlace(new QueryPath(place), null, FolderSetPlaceOption.UpdateHistory);
             }
         }
 

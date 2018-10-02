@@ -179,7 +179,7 @@ namespace NeeView
                 stackPanel.Width = 0;
                 stackPanel.Height = maxHeight;
 
-                List<Page> sortedPages = (order == PageReadOrder.RightToLeft) ? pages.Reverse<Page>().ToList() : pages;
+                var sortedPages = pages.Reverse<Page>().ToList();
                 foreach (var page in sortedPages)
                 {
                     var image = new Image();

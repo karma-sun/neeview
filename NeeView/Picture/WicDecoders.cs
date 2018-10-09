@@ -35,6 +35,7 @@ namespace NeeView
                 }
             }
             NVInterop.NVCloseImageCodecInfo();
+            NVInterop.NVFpReset();
 
             return collection;
         }

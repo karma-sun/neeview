@@ -402,7 +402,7 @@ function New-Msi($packageDir, $packageMsi)
 
 	function New-DllComponents
 	{
-		& $heat dir "$packageDir\Libraries" -cg DllComponents -ag -pog:Binaries -sfrag -var var.LibrariesDir -dr INSTALLFOLDER -out WixSource\DllComponents.wxs
+		& $heat dir "$packageDir\Libraries" -cg DllComponents -ag -pog:Binaries -sfrag -sreg -var var.LibrariesDir -dr INSTALLFOLDER -out WixSource\DllComponents.wxs
 		if ($? -ne $true)
 		{
 			throw "heat error"

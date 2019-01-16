@@ -27,6 +27,9 @@
                 <Component Id="cmp3DCCEA2975E18FD4C2DA5E81BF1C60B0" Guid="*">
                     <File Id="fil1F8EF309A2151F48D57716B34F4C5562" KeyPath="yes" Source="$(var.LibrariesDir)\System.Data.SQLite.dll" />
                 </Component>
+                <Component Id="cmp6201B94C484932AF1231EF41617BC1F9" Guid="*">
+                    <File Id="fil381B12F460FED9F36FD3F3BE7BAF10C2" KeyPath="yes" Source="$(var.LibrariesDir)\System.Memory.dll" />
+                </Component>
                 <Component Id="cmpE8FAEF65B0E2CD298FD9F28330592354" Guid="*">
                     <File Id="fil4B989BFB99CD36794FF2FA700FC1ABC5" KeyPath="yes" Source="$(var.LibrariesDir)\System.Numerics.Vectors.dll" />
                 </Component>
@@ -85,6 +88,7 @@
             <ComponentRef Id="cmp22E98BAC13DC44B2B85FDBE34D094DB9" />
             <ComponentRef Id="cmpB71736D52F6C6C28DC09A1D54BF9C7BA" />
             <ComponentRef Id="cmp3DCCEA2975E18FD4C2DA5E81BF1C60B0" />
+            <ComponentRef Id="cmp6201B94C484932AF1231EF41617BC1F9" />
             <ComponentRef Id="cmpE8FAEF65B0E2CD298FD9F28330592354" />
             <ComponentRef Id="cmp469E88A102148B8BD5667462EE59FECD" />
             <ComponentRef Id="cmp497DB98CF2661AD5E3F644E55989373D" />

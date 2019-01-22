@@ -1,7 +1,7 @@
 ## 動作環境
 
   * Windows 7 SP1, Windows 8.1, Windows 10
-  * .Net 4.6.2 以降が必要です。起動しない場合は [Microsoft ダウンロードセンター](https://www.microsoft.com/ja-jp/download/details.aspx?id=53345) から入手してインストールしてください。
+  * .Net 4.7.2 以降が必要です。起動しない場合は [Microsoft .NET](https://dotnet.microsoft.com/download/dotnet-framework-runtime) から入手してインストールしてください。
 
 
 ## NeeView と NeeViewS

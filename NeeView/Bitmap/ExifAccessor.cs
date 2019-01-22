@@ -90,7 +90,8 @@ namespace NeeView
         {
             try
             {
-                return (string)GetExifParam(query);
+                var param = GetExifParam(query);
+                return param is string[] s ? s[0] : (string)param;
             }
             catch (Exception e)
             {

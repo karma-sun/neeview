@@ -910,6 +910,25 @@ namespace NeeView
             }
         }
 
+        #region 開発用
+        
+        /// <summary>
+        /// (開発用) たくさんのページマーク作成
+        /// </summary>
+        [Conditional("DEBUG")]
+        public void Test_MakeManyPagemark()
+        {
+            if (Book == null) return;
+            var place = Book.Place;
+            for (int index = 0; index < Book.Pages.Count; index += 100)
+            {
+                var page = Book.Pages[index];
+                AddPagemark(place, page.FullPath);
+            }
+        }
+
+        #endregion
+
         // マーカー削除
         public bool RemovePagemark(string place, string entryName)
         {

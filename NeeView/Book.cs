@@ -70,6 +70,8 @@ namespace NeeView
         // サムネイル寿命管理
         private PageThumbnailPool _thumbnaulPool = new PageThumbnailPool();
 
+        // ページマップ
+        private Dictionary<string, Page> _pageMap = new Dictionary<string, Page>();
 
         #endregion
 
@@ -400,6 +402,7 @@ namespace NeeView
             _trashBox.Add(archiver);
 
             this.Pages = await ReadArchiveAsync2(archiver, _option, token);
+            _pageMap.Clear();
 
 
             // Pages initialize
@@ -409,6 +412,7 @@ namespace NeeView
                 page.Prefix = prefix;
                 page.Loaded += Page_Loaded;
                 page.Thumbnail.Touched += Thumbnail_Touched;
+                _pageMap[page.FullPath] = page;
             }
 
             // 初期ソート
@@ -1425,6 +1429,11 @@ namespace NeeView
 
             index = ClampPageNumber(index);
             RequestSetPosition(this, new PagePosition(index, 0), 1, true);
+
+            if (_pageMap.TryGetValue(page.FullPath, out Page target) && page == target)
+            {
+                _pageMap.Remove(page.FullPath);
+            }
         }
 
         #endregion
@@ -1448,7 +1457,7 @@ namespace NeeView
         public void SetMarkers(IEnumerable<string> pageNames)
         {
             var oldies = Markers;
-            Markers = pageNames.Select(e => Pages.FirstOrDefault(page => page.FullPath == e)).Where(e => e != null).ToList();
+            Markers = pageNames.Select(e => _pageMap.TryGetValue(e, out Page page) ? page : null).Where(e => e != null).ToList();
 
             foreach (var page in oldies.Where(e => !Markers.Contains(e)))
             {

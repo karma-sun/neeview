@@ -68,6 +68,9 @@ namespace NeeView
         // [開発用] テストボタン
         private async void MenuItemDevButton_Click(object sender, RoutedEventArgs e)
         {
+            ////ページマーク多数登録テスト
+            ////Models.Current.BookOperation.Test_MakeManyPagemark();
+
             GC.Collect();
             GC.WaitForPendingFinalizers();
             await Task.Delay(1000);

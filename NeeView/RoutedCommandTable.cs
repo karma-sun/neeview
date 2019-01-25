@@ -89,6 +89,11 @@ namespace NeeView
             }
         }
 
+        //
+        public void SetDarty()
+        {
+            _isDarty = true;
+        }
 
         // InputGesture設定
         public void InitializeInputGestures()
@@ -252,7 +257,8 @@ namespace NeeView
         public void Execute(object sender, ExecutedRoutedEventArgs e, CommandType type)
         {
             var param = CommandParameterArgs.Create(e.Parameter) ?? CommandParameterArgs.Null;
-            var command = _commandTable[GetFixedCommandType(type, param.AllowFlip)];
+            var allowFlip = param.AllowFlip && param.Parameter != MenuCommandTag.Tag; // メニューからの操作ではページ方向によるコマンドの入れ替えをしない
+            var command = _commandTable[GetFixedCommandType(type, allowFlip)];
 
             // 通知
             if (command.IsShowMessage)

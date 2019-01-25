@@ -1,7 +1,7 @@
 ## Environment
 
   * Windows 7 SP1, Windows 8.1, Windows 10
-  * .Net 4.7.2 or later is required. If you do not start it please get it from [Microsoft .NET](https://dotnet.microsoft.com/download/dotnet-framework-runtime) and install it.
+  * .NET Framework or later is required. If you do not start it please get it from [Microsoft .NET](https://dotnet.microsoft.com/download/dotnet-framework-runtime) and install it.
 
 
 ## NeeView and NeeViewS

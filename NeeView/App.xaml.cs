@@ -259,6 +259,32 @@ namespace NeeView
             Debug.WriteLine("Application_Exit");
         }
 
+        /// <summary>
+        /// シャットダウン時に呼ばれる
+        /// </summary>
+        private void Application_SessionEnding(object sender, SessionEndingCancelEventArgs e)
+        {
+            // 設定保存
+            WindowShape.Current.CreateSnapMemento();
+            SaveData.Current.SaveAll();
+
+            // キャッシュ等削除
+            CloseTemporary();
+        }
+
+
+        /// <summary>
+        /// テンポラリ削除
+        /// </summary>
+        public void CloseTemporary()
+        {
+            // テンポラリファイル破棄
+            Temporary.RemoveTempFolder();
+
+            // キャッシュDBを閉じる
+            ThumbnailCache.Current.Dispose();
+        }
+
         #endregion
     }
 }

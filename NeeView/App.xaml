@@ -4,6 +4,7 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:NeeView"
              Startup="Application_Startup"
+             SessionEnding="Application_SessionEnding"
              DispatcherUnhandledException="Application_DispatcherUnhandledException" Exit="Application_Exit">
     <Application.Resources>
 

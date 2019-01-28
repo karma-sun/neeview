@@ -724,11 +724,8 @@ namespace NeeView
             // 設定保存
             SaveData.Current.SaveAll();
 
-            // テンポラリファイル破棄
-            Temporary.RemoveTempFolder();
-
-            // キャッシュDBを閉じる
-            ThumbnailCache.Current.Dispose();
+            // キャッシュ等の削除
+            App.Current.CloseTemporary();
 
             Debug.WriteLine("Window.Closed done.");
             //Environment.Exit(0);

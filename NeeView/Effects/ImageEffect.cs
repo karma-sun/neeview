@@ -160,11 +160,8 @@ namespace NeeView.Effects
             return memento;
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="memento"></param>
-        /// <param name="fromLoad"></param>
-        public void Restore(Memento memento, bool fromLoad)
+        //
+        public void Restore(Memento memento)
         {
             if (memento == null) return;
 

@@ -63,7 +63,7 @@ namespace NeeView.Setting
             if (this.AllowSave)
             {
                 WindowShape.Current.CreateSnapMemento();
-                SaveData.Current.SaveAll();
+                SaveDataSync.Current.SaveUserSetting();
             }
         }
 

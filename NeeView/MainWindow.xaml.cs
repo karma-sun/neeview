@@ -722,8 +722,10 @@ namespace NeeView
             _timer.Stop();
 
             // 設定保存
+            SaveDataSync.Current.StopFileSystemWatcher();
             SaveDataSync.Current.Flush();
-            SaveData.Current.SaveAll();
+            SaveDataSync.Current.SaveUserSetting();
+            SaveDataSync.Current.SaveHistory();
 
             // キャッシュ等の削除
             App.Current.CloseTemporary();

@@ -365,7 +365,7 @@ namespace NeeView
         }
 
         //
-        public void Resore(Memento memento, bool fromLoad)
+        public void Resore(Memento memento)
         {
             if (memento == null) return;
             this.MemoryControl.Restore(memento.MemoryControl);
@@ -408,7 +408,7 @@ namespace NeeView
             this.HistoryList.Restore(memento.HistoryList);
             this.PagemarkList.Restore(memento.PagemarkList);
             this.FileInformation.Restore(memento.FileInformation);
-            this.ImageEffect.Restore(memento.ImageEffect, fromLoad); // TODO: formLoadフラグの扱いを検討
+            this.ImageEffect.Restore(memento.ImageEffect);
             this.SidePanel.Restore(memento.SidePanel);
         }
 

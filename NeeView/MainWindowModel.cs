@@ -448,8 +448,8 @@ namespace NeeView
             var setting = SaveData.Current.UserSetting;
 
             // 設定反映
-            SaveData.Current.RestoreSetting(setting, true);
-            SaveData.Current.RestoreSettingCompatible(setting, true);
+            SaveData.Current.RestoreSetting(setting);
+            SaveData.Current.RestoreSettingCompatible(setting);
 
             // 履歴読み込み
             SaveData.Current.LoadHistory(setting);

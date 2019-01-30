@@ -293,8 +293,10 @@ namespace NeeView
         {
             // 設定保存
             WindowShape.Current.CreateSnapMemento();
+            SaveDataSync.Current.StopFileSystemWatcher();
             SaveDataSync.Current.Flush();
-            SaveData.Current.SaveAll();
+            SaveDataSync.Current.SaveUserSetting();
+            SaveDataSync.Current.SaveHistory();
 
             // キャッシュ等削除
             CloseTemporary();

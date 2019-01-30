@@ -14,10 +14,14 @@ namespace NeeView
         private System.IO.FileSystemWatcher _watcher;
         private volatile bool _isPagemarkSaving;
         private volatile bool _isBookmarkSaving;
+        private volatile bool _isUserSettingSaving;
+        private volatile bool _isHistorySaving;
 
         private DelayAction _delaySaveBookmark;
         private DelayAction _delaySavePagemark;
 
+        private bool _isUserSettingChanged;
+        private bool _isHistoryChanged;
 
         public SaveDataSync()
         {
@@ -44,6 +48,12 @@ namespace NeeView
             _delaySavePagemark.Flush();
         }
 
+        /// <summary>
+        /// 保存データ監視
+        /// 履歴ファイルは変更情報のみ保持
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="e"></param>
         private void FileSystemWatcher_Renamed(object source, System.IO.RenamedEventArgs e)
         {
             if (e.Name == SaveData.BookmarkFileName && !_isBookmarkSaving)
@@ -55,6 +65,18 @@ namespace NeeView
             {
                 Debug.WriteLine($"{SaveData.PagemarkFileName} is updated by other process.");
                 App.Current.Dispatcher.Invoke(() => SaveData.Current.LoadPagemark(SaveData.Current.UserSetting));
+            }
+            else if (e.Name == SaveData.UserSettingFileName && !_isUserSettingSaving)
+            {
+                Debug.WriteLine($"{SaveData.UserSettingFileName} is updated by other process.");
+                ////App.Current.Dispatcher.Invoke(() => SaveData.Current.LoadUserSetting(false));
+                _isUserSettingChanged = true;
+                // TODO: 必要ならば設定の更新を行う
+            }
+            else if (e.Name == SaveData.HistoryFileName && !_isHistorySaving)
+            {
+                Debug.WriteLine($"{SaveData.HistoryFileName} is updated by other process.");
+                _isHistoryChanged = true;
             }
         }
 
@@ -96,6 +118,45 @@ namespace NeeView
             {
                 _isPagemarkSaving = false;
             }
+        }
+
+
+        public void SaveUserSetting()
+        {
+            Debug.WriteLine($"Save UserSetting");
+            try
+            {
+                _isUserSettingSaving = true;
+                SaveData.Current.SaveUserSetting();
+                _isUserSettingChanged = false;
+            }
+            finally
+            {
+                _isUserSettingSaving = false;
+            }
+        }
+
+        public void SaveHistory()
+        {
+            Debug.WriteLine($"Save History");
+            try
+            {
+                // TODO: 更新されている履歴のマージ
+                _isHistorySaving = true;
+                SaveData.Current.SaveHistory();
+                _isHistoryChanged = false;
+            }
+            finally
+            {
+                _isHistorySaving = false;
+            }
+        }
+
+
+        // ファイルシステム監視を停止
+        public void StopFileSystemWatcher()
+        {
+            _watcher.Dispose();
         }
     }
 }

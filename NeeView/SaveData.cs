@@ -66,7 +66,7 @@ namespace NeeView
         }
 
         // アプリ設定反映
-        public void RestoreSetting(UserSetting setting, bool fromLoad)
+        public void RestoreSetting(UserSetting setting)
         {
             App.Current.Restore(setting.App);
             WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
@@ -75,14 +75,14 @@ namespace NeeView
             CommandTable.Current.Restore(setting.CommandMememto, false);
             DragActionTable.Current.Restore(setting.DragActionMemento);
 
-            Models.Current.Resore(setting.Memento, fromLoad);
+            Models.Current.Resore(setting.Memento);
         }
 
 
 #pragma warning disable CS0612
 
-        //
-        public void RestoreSettingCompatible(UserSetting setting, bool fromLoad)
+        // アプリ設定反映(互換用)
+        public void RestoreSettingCompatible(UserSetting setting)
         {
             if (setting == null) return;
 
@@ -99,7 +99,7 @@ namespace NeeView
 
             if (setting.ImageEffectMemento != null)
             {
-                Models.Current.ImageEffect.Restore(setting.ImageEffectMemento, fromLoad);
+                Models.Current.ImageEffect.Restore(setting.ImageEffectMemento);
             }
 
             if (setting.ExporterMemento != null)
@@ -199,22 +199,28 @@ namespace NeeView
             }
         }
 
-        // 全データ保存
-        public void SaveAll()
-        {
-            if (!IsEnableSave) return;
 
-            lock (_saveLock)
+        // アプリ設定読み込み
+        public void LoadUserSetting(bool withLayout)
+        {
+            try
             {
-                Debug.WriteLine(">> SAVE");
-                SaveAllInner();
+                App.Current.SemaphoreWait();
+                var setting = SafetyLoad(UserSetting.Load, App.Current.Option.SettingFilename, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+                RestoreSetting(setting);
+                RestoreSettingCompatible(setting);
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
             }
         }
 
-        private void SaveAllInner()
+
+        //
+        public void SaveUserSetting()
         {
-            // 現在の本を履歴に登録
-            BookHub.Current.SaveBookMemento(); // TODO: タイミングに問題有り？
+            if (!IsEnableSave) return;
 
             // 設定
             var setting = CreateSetting();
@@ -238,8 +244,16 @@ namespace NeeView
             {
                 App.Current.SemaphoreRelease();
             }
+        }
 
-            // 履歴をファイルに保存
+        // 履歴をファイルに保存
+        public void SaveHistory()
+        {
+            if (!IsEnableSave) return;
+
+            // 現在の本を履歴に登録
+            BookHub.Current.SaveBookMemento(); // TODO: タイミングに問題有り？
+
             try
             {
                 App.Current.SemaphoreWait();
@@ -443,7 +457,8 @@ namespace NeeView
         {
             // 保存
             WindowShape.Current.CreateSnapMemento();
-            SaveAll();
+            SaveDataSync.Current.SaveUserSetting();
+            SaveDataSync.Current.SaveHistory();
 
             try
             {
@@ -594,8 +609,8 @@ namespace NeeView
             // 適用
             if (setting != null)
             {
-                RestoreSetting(setting, true);
-                RestoreSettingCompatible(setting, true);
+                RestoreSetting(setting);
+                RestoreSettingCompatible(setting);
             }
 
             // 履歴読み込み

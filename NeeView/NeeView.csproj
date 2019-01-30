@@ -195,6 +195,7 @@
       <DependentUpon>PageSortModePalette.xaml</DependentUpon>
     </Compile>
     <Compile Include="OpenSourceControls\VirtualizingWrapPanel.cs" />
+    <Compile Include="SaveDataSync.cs" />
     <Compile Include="Setting\SusiePluginSettingWindow.xaml.cs">
       <DependentUpon>SusiePluginSettingWindow.xaml</DependentUpon>
     </Compile>

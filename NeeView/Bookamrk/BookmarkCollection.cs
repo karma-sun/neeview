@@ -53,15 +53,6 @@ namespace NeeView
             BookmarkChanged?.Invoke(this, e);
         }
 
-        /*
-        public void Clear()
-        {
-            Items.Clear();
-            BookMementoCollection.Current.CleanUp();
-
-            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Reset));
-        }
-        */
 
         public void Load(TreeListNode<IBookmarkEntry> nodes, IEnumerable<Book.Memento> books)
         {
@@ -73,7 +64,7 @@ namespace NeeView
             Items = nodes;
             Items.Value = new BookmarkFolder();
 
-            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Replace));
+            BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Reset));
         }
 
 
@@ -567,8 +558,7 @@ namespace NeeView
         }
 
         // memento作成
-        // TODO: forSave parameter
-        public Memento CreateMemento(bool forSave)
+        public Memento CreateMemento()
         {
             var memento = new Memento();
             memento.Nodes = Items;

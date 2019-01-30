@@ -7,6 +7,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -33,6 +34,7 @@ namespace NeeView
         public const string HistoryFileName = "History.xml";
         public const string BookmarkFileName = "Bookmark.xml";
         public const string PagemarkFileName = "Pagemark.xml";
+
 
         //
         public SaveData()
@@ -76,6 +78,7 @@ namespace NeeView
             Models.Current.Resore(setting.Memento, fromLoad);
         }
 
+
 #pragma warning disable CS0612
 
         //
@@ -112,8 +115,6 @@ namespace NeeView
                 preference.RestoreCompatible();
             }
 
-
-
             // Model.Compatible
             Models.Current.ResoreCompatible(setting.Memento);
         }
@@ -124,14 +125,21 @@ namespace NeeView
         // 履歴読み込み
         public void LoadHistory(UserSetting setting)
         {
-            BookHistoryCollection.Memento memento = SafetyLoad(BookHistoryCollection.Memento.Load, _historyFileName, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
-            RestoreHistory(memento);
+            try
+            {
+                App.Current.SemaphoreWait();
+                BookHistoryCollection.Memento memento = SafetyLoad(BookHistoryCollection.Memento.Load, _historyFileName, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
+                RestoreHistory(memento);
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
+            }
         }
 
         // 履歴反映
         private void RestoreHistory(BookHistoryCollection.Memento memento)
         {
-            // 履歴反映
             BookHistoryCollection.Current.Restore(memento, true);
             MenuBar.Current.UpdateLastFiles();
         }
@@ -140,10 +148,16 @@ namespace NeeView
         // ブックマーク読み込み
         public void LoadBookmark(UserSetting setting)
         {
-            BookmarkCollection.Memento memento = SafetyLoad(BookmarkCollection.Memento.Load, _bookmarkFileName, Resources.NotifyLoadBookmarkFailed, Resources.NotifyLoadBookmarkFailedTitle);
-
-            // ブックマーク反映
-            BookmarkCollection.Current.Restore(memento);
+            try
+            {
+                App.Current.SemaphoreWait();
+                BookmarkCollection.Memento memento = SafetyLoad(BookmarkCollection.Memento.Load, _bookmarkFileName, Resources.NotifyLoadBookmarkFailed, Resources.NotifyLoadBookmarkFailedTitle);
+                BookmarkCollection.Current.Restore(memento);
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
+            }
         }
 
         // ページマーク読み込み
@@ -159,17 +173,30 @@ namespace NeeView
             }
             catch { }
 
-            // ページマーク読み込み
-            PagemarkCollection.Memento memento = SafetyLoad(PagemarkCollection.Memento.Load, _pagemarkFileName, Resources.NotifyLoadPagemarkFailed, Resources.NotifyLoadPagemarkFailedTitle);
-
-            // ページマーク反映
-            PagemarkCollection.Current.Restore(memento);
+            try
+            {
+                App.Current.SemaphoreWait();
+                PagemarkCollection.Memento memento = SafetyLoad(PagemarkCollection.Memento.Load, _pagemarkFileName, Resources.NotifyLoadPagemarkFailed, Resources.NotifyLoadPagemarkFailedTitle);
+                PagemarkCollection.Current.Restore(memento);
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
+            }
         }
 
         // アプリ設定読み込み
         public void LoadSetting(string filename)
         {
-            this.UserSetting = SafetyLoad(UserSetting.Load, filename, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+            try
+            {
+                App.Current.SemaphoreWait();
+                this.UserSetting = SafetyLoad(UserSetting.Load, filename, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
+            }
         }
 
         // 全データ保存
@@ -198,15 +225,24 @@ namespace NeeView
             // ウィンドウ座標保存
             setting.WindowPlacement = WindowPlacement.Current.CreateMemento();
 
+            // 設定をファイルに保存
             try
             {
-                // 設定をファイルに保存
+                App.Current.SemaphoreWait();
                 SafetySave(setting.Save, App.Current.Option.SettingFilename, App.Current.IsSettingBackup);
             }
-            catch { }
+            catch
+            {
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
+            }
 
+            // 履歴をファイルに保存
             try
             {
+                App.Current.SemaphoreWait();
                 if (App.Current.IsSaveHistory)
                 {
                     var bookHistoryMemento = BookHistoryCollection.Current.CreateMemento(true);
@@ -217,13 +253,28 @@ namespace NeeView
                     FileIO.RemoveFile(_historyFileName);
                 }
             }
-            catch { }
+            catch
+            {
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
+            }
+        }
+
+        /// <summary>
+        /// Bookmarkの保存
+        /// </summary>
+        public void SaveBookmark()
+        {
+            if (!IsEnableSave) return;
 
             try
             {
+                App.Current.SemaphoreWait();
                 if (App.Current.IsSaveBookmark)
                 {
-                    var bookmarkMemento = BookmarkCollection.Current.CreateMemento(true);
+                    var bookmarkMemento = BookmarkCollection.Current.CreateMemento();
                     SafetySave(bookmarkMemento.Save, _bookmarkFileName, false);
                 }
                 else
@@ -231,13 +282,28 @@ namespace NeeView
                     FileIO.RemoveFile(_bookmarkFileName);
                 }
             }
-            catch { }
+            catch
+            {
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
+            }
+        }
+
+        /// <summary>
+        /// Pagemarkの保存
+        /// </summary>
+        public void SavePagemark()
+        {
+            if (!IsEnableSave) return;
 
             try
             {
+                App.Current.SemaphoreWait();
                 if (App.Current.IsSavePagemark)
                 {
-                    var pagemarkMemento = PagemarkCollection.Current.CreateMemento(true);
+                    var pagemarkMemento = PagemarkCollection.Current.CreateMemento();
                     SafetySave(pagemarkMemento.Save, _pagemarkFileName, false);
                 }
                 else
@@ -245,10 +311,14 @@ namespace NeeView
                     FileIO.RemoveFile(_pagemarkFileName);
                 }
             }
-            catch { }
+            catch
+            {
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
+            }
         }
-
-
 
         /// <summary>
         /// アプリ強制終了でもファイルがなるべく破壊されないような保存
@@ -358,6 +428,7 @@ namespace NeeView
             {
                 try
                 {
+                    SaveDataSync.Current.Flush();
                     SaveBackupFile(dialog.FileName);
                 }
                 catch (Exception ex)
@@ -537,12 +608,14 @@ namespace NeeView
             if (bookmark != null)
             {
                 BookmarkCollection.Current.Restore(bookmark);
+                SaveBookmark();
             }
 
             // ページマーク読込
             if (pagemark != null)
             {
                 PagemarkCollection.Current.Restore(pagemark);
+                SavePagemark();
             }
 
             if (recoverySettingWindow)

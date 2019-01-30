@@ -722,6 +722,7 @@ namespace NeeView
             _timer.Stop();
 
             // 設定保存
+            SaveDataSync.Current.Flush();
             SaveData.Current.SaveAll();
 
             // キャッシュ等の削除

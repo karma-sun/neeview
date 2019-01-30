@@ -22,14 +22,21 @@ namespace NeeView
             var _source = new TraceSource(name, SourceLevels.All);
 
 #if DEBUG && TRACE
-            _source.Listeners.Clear();
+            try
+            {
+                _source.Listeners.Clear();
 
-            var fileName = $"{name}.log";
-            if (File.Exists(fileName)) File.Delete(fileName); // new
+                var fileName = $"{name}.log";
+                if (File.Exists(fileName)) File.Delete(fileName); // new
 
-            TextWriterTraceListener listener = new TextWriterTraceListener($"{name}.log", $"{name}.Listner");
-            //listener.TraceOutputOptions = TraceOptions.DateTime | TraceOptions.ProcessId | TraceOptions.ThreadId;
-            _source.Listeners.Add(listener);
+                TextWriterTraceListener listener = new TextWriterTraceListener($"{name}.log", $"{name}.Listner");
+                //listener.TraceOutputOptions = TraceOptions.DateTime | TraceOptions.ProcessId | TraceOptions.ThreadId;
+                _source.Listeners.Add(listener);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
 #endif
 
             // 自動フラッシュ

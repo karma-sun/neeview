@@ -71,7 +71,7 @@ namespace NeeView
         {
             Items = nodes;
 
-            PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Replace));
+            PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Reset));
         }
 
 
@@ -461,26 +461,10 @@ namespace NeeView
         }
 
         // memento作成
-        public Memento CreateMemento(bool removeTemporary)
+        public Memento CreateMemento()
         {
             var memento = new Memento();
             memento.Nodes = Items;
-
-            // TODO: removeTemporary は登録時に
-            if (removeTemporary)
-            {
-                Debug.WriteLine("Warning: not support removeTemporary parameter at PagemarkCollection.CreateMemento()");
-            }
-
-            /*
-            memento.Books = removeTemporary
-                ? this.Items.Select(e => e.Unit.Memento).Distinct().Where(e => !e.Place.StartsWith(Temporary.TempDirectory)).ToList()
-                : this.Items.Select(e => e.Unit.Memento).Distinct().ToList();
-
-            memento.Marks = removeTemporary
-                ? this.Items.Where(e => !e.Place.StartsWith(Temporary.TempDirectory)).ToList()
-                : this.Items.ToList();
-            */
 
             return memento;
         }

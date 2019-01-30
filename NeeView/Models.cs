@@ -99,6 +99,9 @@ namespace NeeView
         public SidePanel SidePanel { get; set; }
 
         //
+        public SaveDataSync SaveDataService { get; private set; }
+
+        //
         public Development Development { get; set; }
 
 
@@ -187,6 +190,8 @@ namespace NeeView
             this.BookHistoryCommand = new BookHistoryCommand(this.BookHistoryCollection, this.BookHub);
 
             this.SidePanel = new SidePanel(this);
+
+            this.SaveDataService = new SaveDataSync();
 
             this.Development = new Development();
         }

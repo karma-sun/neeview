@@ -12,6 +12,7 @@ using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Channels.Ipc;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -42,6 +43,10 @@ namespace NeeView
         Process _currentProcess;
         Process _serverProcess;
         private bool _isSplashScreenVisibled;
+
+        // プロセス間セマフォ
+        private const string _semaphoreLabel = "NeeView.0001";
+        private Semaphore _semaphore;
 
         #region Properties
 
@@ -125,6 +130,12 @@ namespace NeeView
                 Option.IsNewWindow = SwitchOption.on;
             }
 
+            // プロセス間セマフォ取得
+            if (!Semaphore.TryOpenExisting(_semaphoreLabel, out _semaphore))
+            {
+                _semaphore = new Semaphore(1, 1, _semaphoreLabel);
+            }
+
             // プロセス取得
             _currentProcess = Process.GetCurrentProcess();
             _serverProcess = GetServerProcess(_currentProcess);
@@ -180,6 +191,22 @@ namespace NeeView
 
             // IPCサーバ起動
             IpcRemote.BootServer(_currentProcess.Id);
+        }
+
+        /// <summary>
+        /// Semaphore Wait
+        /// </summary>
+        public void SemaphoreWait()
+        {
+            _semaphore.WaitOne();
+        }
+
+        /// <summary>
+        /// Semapnore Release
+        /// </summary>
+        public void SemaphoreRelease()
+        {
+            _semaphore.Release();
         }
 
         /// <summary>
@@ -266,12 +293,12 @@ namespace NeeView
         {
             // 設定保存
             WindowShape.Current.CreateSnapMemento();
+            SaveDataSync.Current.Flush();
             SaveData.Current.SaveAll();
 
             // キャッシュ等削除
             CloseTemporary();
         }
-
 
         /// <summary>
         /// テンポラリ削除

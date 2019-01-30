@@ -83,6 +83,19 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// 遅延されている命令を即時実行する
+        /// </summary>
+        public void Flush()
+        {
+            lock (_lock)
+            {
+                _delay = TimeSpan.Zero;
+            }
+
+            DispatcherTimer_Tick(this, null);
+        }
+
 
         /// <summary>
         /// timer callback
@@ -95,7 +108,7 @@ namespace NeeView
 
             lock (_lock)
             {
-                if ((DateTime.Now - _lastRequestTime) > _delay)
+                if ((DateTime.Now - _lastRequestTime) >= _delay)
                 {
                     _timer.Stop();
                     if (_isRequested)

@@ -14,6 +14,15 @@ namespace NeeLaboratory.IO
     /// </summary>
     public class RemoteCommandClient
     {
+        private string _processName;
+
+
+        public RemoteCommandClient(string processName)
+        {
+            _processName = processName;
+        }
+
+
         public async Task SendAsync(RemoteCommand command, RemoteCommandDelivery delivery)
         {
             var processes = await CollectProcess(delivery);
@@ -27,9 +36,9 @@ namespace NeeLaboratory.IO
         {
             return await Task.Run(() =>
             {
-                // NOTE: NeeView,NeeViewSどちらのプロセスにも対応。自プロセスは除外
+                // NOTE: 自プロセスは除外
                 var currentProcess = Process.GetCurrentProcess();
-                var processes = Process.GetProcesses().Where(e => e.ProcessName.StartsWith(currentProcess.ProcessName) && e.Id != currentProcess.Id);
+                var processes = Process.GetProcesses().Where(e => e.ProcessName.StartsWith(_processName) && e.Id != currentProcess.Id);
 
                 if (delivery.Type == RemoteCommandDeliveryType.Custom)
                 {

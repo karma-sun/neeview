@@ -51,10 +51,10 @@ namespace NeeLaboratory.IO
             using (NamedPipeClientStream pipeClient = new NamedPipeClientStream(".", pipeName, PipeDirection.Out))
             {
                 await pipeClient.ConnectAsync(500);
-                using (var xwriter = XmlWriter.Create(pipeClient))
+                using (var writer = XmlWriter.Create(pipeClient))
                 {
-                    DataContractSerializer ser = new DataContractSerializer(typeof(RemoteCommand));
-                    ser.WriteObject(xwriter, command);
+                    var serializer = new DataContractSerializer(typeof(RemoteCommand));
+                    serializer.WriteObject(writer, command);
                 }
             }
         }

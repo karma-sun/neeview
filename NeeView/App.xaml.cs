@@ -66,14 +66,13 @@ namespace NeeView
         /// <summary>
         /// Startup
         /// </summary>
-        private void Application_Startup(object sender, StartupEventArgs e)
+        private async void Application_Startup(object sender, StartupEventArgs e)
         {
             Stopwatch = Stopwatch.StartNew();
 
             try
             {
-                // 初期化
-                Initialize(e);
+                await InitializeAsync(e);
             }
             catch (Exception ex)
             {
@@ -99,7 +98,7 @@ namespace NeeView
         /// <summary>
         /// 初期化 
         /// </summary>
-        private void Initialize(StartupEventArgs e)
+        private async Task InitializeAsync(StartupEventArgs e)
         {
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
@@ -161,7 +160,7 @@ namespace NeeView
             // 多重起動制限になる場合、サーバーにパスを送って終了
             if (!CanStart())
             {
-                _multiBootService.RemoteLoadAs(Option.StartupPlace);
+                await _multiBootService.RemoteLoadAsAsync(Option.StartupPlace);
                 throw new ApplicationException("Already started.");
             }
         }

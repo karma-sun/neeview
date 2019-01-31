@@ -51,12 +51,10 @@ namespace NeeLaboratory.IO
                     using (NamedPipeServerStream pipeServer = new NamedPipeServerStream(pipeName, PipeDirection.In))
                     {
                         await pipeServer.WaitForConnectionAsync(_cancellationTokenSource.Token);
-
-                        using (var xreader = XmlReader.Create(pipeServer))
+                        using (var reader = XmlReader.Create(pipeServer))
                         {
-                            DataContractSerializer ser = new DataContractSerializer(typeof(RemoteCommand));
-                            var command = ser.ReadObject(xreader) as RemoteCommand;
-
+                            var serializer = new DataContractSerializer(typeof(RemoteCommand));
+                            var command = serializer.ReadObject(reader) as RemoteCommand;
                             if (command != null && Called != null)
                             {
                                 ////Debug.WriteLine($"Recieve: {command.ID}({string.Join(",", command.Args)})");

@@ -69,12 +69,12 @@ namespace NeeView
         /// <summary>
         /// サーバーにパスを送る
         /// </summary>
-        public void RemoteLoadAs(string path)
+        public async Task RemoteLoadAsAsync(string path)
         {
             try
             {
                 NativeMethods.AllowSetForegroundWindow(_serverProcess.Id);
-                RemoteCommandService.Current.Send(new RemoteCommand("LoadAs", path), new RemoteCommandDelivery(_serverProcess.Id));
+                await RemoteCommandService.Current.SendAsync(new RemoteCommand("LoadAs", path), new RemoteCommandDelivery(_serverProcess.Id));
             }
             catch (Exception ex)
             {

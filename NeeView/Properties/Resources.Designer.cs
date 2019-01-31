@@ -1654,6 +1654,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Reload settings に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandReloadUserSetting {
+            get {
+                return ResourceManager.GetString("CommandReloadUserSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Reload the settings. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandReloadUserSettingNote {
+            get {
+                return ResourceManager.GetString("CommandReloadUserSettingNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Image colored background に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetBackgroundAuto {
@@ -9838,6 +9856,24 @@ namespace NeeView.Properties {
         public static string ParamIsSplashScreenEnabled {
             get {
                 return ResourceManager.GetString("ParamIsSplashScreenEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Synchronize settings に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsSyncUserSetting {
+            get {
+                return ResourceManager.GetString("ParamIsSyncUserSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   When multi-booting, all NeeView settings are updated when closing the setting window. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsSyncUserSettingTips {
+            get {
+                return ResourceManager.GetString("ParamIsSyncUserSettingTips", resourceCulture);
             }
         }
         

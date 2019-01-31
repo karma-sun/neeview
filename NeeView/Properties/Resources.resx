@@ -4426,4 +4426,16 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamSusiePluginIsPreExtract" xml:space="preserve">
     <value>Pre extract</value>
   </data>
+  <data name="ParamIsSyncUserSetting" xml:space="preserve">
+    <value>Synchronize settings</value>
+  </data>
+  <data name="ParamIsSyncUserSettingTips" xml:space="preserve">
+    <value>When multi-booting, all NeeView settings are updated when closing the setting window.</value>
+  </data>
+  <data name="CommandReloadUserSetting" xml:space="preserve">
+    <value>Reload settings</value>
+  </data>
+  <data name="CommandReloadUserSettingNote" xml:space="preserve">
+    <value>Reload the settings.</value>
+  </data>
 </root>

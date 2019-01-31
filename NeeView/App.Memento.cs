@@ -113,7 +113,7 @@ namespace NeeView
         // ダウンロードファイル置き場
         [DefaultValue("")]
         [PropertyPath("@ParamDownloadPath", Tips = "@ParamDownloadPathTips", IsDirectory = true)]
-        public string DownloadPath { get; set; }
+        public string DownloadPath { get; set; } = "";
 
         [PropertyMember("@ParamIsSettingBackup", Tips = "@ParamIsSettingBackupTips")]
         public bool IsSettingBackup
@@ -129,6 +129,10 @@ namespace NeeView
         // スプラッシュスクリーン
         [PropertyMember("@ParamIsSplashScreenEnabled")]
         public bool IsSplashScreenEnabled { get; set; } = true;
+
+        // 設定データの同期
+        [PropertyMember("@ParamIsSyncUserSetting", Tips = "@ParamIsSyncUserSettingTips")]
+        public bool IsSyncUserSetting { get; set; } = true;
 
         #endregion
 
@@ -195,6 +199,9 @@ namespace NeeView
             [DataMember, DefaultValue(true)]
             public bool IsSplashScreenEnabled { get; set; }
 
+            [DataMember, DefaultValue(true)]
+            public bool IsSyncUserSetting { get; set; }
+
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
             {
@@ -243,6 +250,7 @@ namespace NeeView
             memento.IsSettingBackup = this.IsSettingBackup;
             memento.Language = this.Language;
             memento.IsSplashScreenEnabled = this.IsSplashScreenEnabled;
+            memento.IsSyncUserSetting = this.IsSyncUserSetting;
             return memento;
         }
 
@@ -269,6 +277,7 @@ namespace NeeView
             this.IsSettingBackup = memento.IsSettingBackup;
             this.Language = memento.Language;
             this.IsSplashScreenEnabled = memento.IsSplashScreenEnabled;
+            this.IsSyncUserSetting = memento.IsSyncUserSetting;
         }
 
 #pragma warning disable CS0612

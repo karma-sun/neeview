@@ -445,23 +445,22 @@ namespace NeeView
             // Chrome反映
             WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
 
-            var setting = SaveData.Current.UserSetting;
-
             // 設定反映
+            var setting = SaveData.Current.GetUserSetting();
             SaveData.Current.RestoreSetting(setting);
             SaveData.Current.RestoreSettingCompatible(setting);
 
             // 履歴読み込み
-            SaveData.Current.LoadHistory(setting);
+            SaveData.Current.LoadHistory();
 
             // ブックマーク読み込み
-            SaveData.Current.LoadBookmark(setting);
+            SaveData.Current.LoadBookmark();
 
             // ページマーク読込
-            SaveData.Current.LoadPagemark(setting);
+            SaveData.Current.LoadPagemark();
 
             // ロード設定破棄
-            SaveData.Current.UserSetting = null;
+            SaveData.Current.ReleaseUserSetting();
 
             // 最初のブックを開く
             var bookPath = LoadFirstBook();

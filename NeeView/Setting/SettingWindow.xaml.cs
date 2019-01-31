@@ -50,6 +50,15 @@ namespace NeeView.Setting
         /// </summary>
         public bool AllowSave { get; set; } = true;
 
+        /// <summary>
+        /// ファイル保存せずに終了
+        /// </summary>
+        public void Cancel()
+        {
+            AllowSave = false;
+            Close();
+        }
+
         //
         private void SettingWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -63,7 +72,7 @@ namespace NeeView.Setting
             if (this.AllowSave)
             {
                 WindowShape.Current.CreateSnapMemento();
-                SaveDataSync.Current.SaveUserSetting();
+                SaveDataSync.Current.SaveUserSetting(App.Current.IsSyncUserSetting);
             }
         }
 

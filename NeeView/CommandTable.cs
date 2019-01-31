@@ -2089,6 +2089,17 @@ namespace NeeView
                 _elements[CommandType.ImportBackup] = element;
             }
 
+            // ReloadUserSetting
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupOther;
+                element.Text = Properties.Resources.CommandReloadUserSetting;
+                element.Note = Properties.Resources.CommandReloadUserSettingNote;
+                element.IsShowMessage = false;
+                element.Execute = (s, e) => SaveData.Current.LoadAndApplyUserSetting();
+                _elements[CommandType.ReloadUserSetting] = element;
+            }
+
             // TouchEmulate
             {
                 var element = new CommandElement();
@@ -2111,11 +2122,28 @@ namespace NeeView
                 _elements[ignore] = element;
             }
 
-            // 並び替え
-            //_Elements = _Elements.OrderBy(e => e.Key).ToDictionary(e => e.Key, e => e.Value);
+            // 検証
+            VerifyCommandTable();
 
             // デフォルト設定として記憶
             s_defaultMemento = CreateMemento();
+        }
+
+        [Conditional("DEBUG")]
+        private void VerifyCommandTable()
+        {
+            var undefinedCollection = Enum.GetValues(typeof(CommandType))
+                .Cast<CommandType>()
+                .Where(e => !_elements.ContainsKey(e));
+
+            if (undefinedCollection.Any())
+            {
+                foreach (var undefined in undefinedCollection)
+                {
+                    Debug.WriteLine($"Error: CommandTable[{undefined}] undefined.");
+                }
+                throw new InvalidOperationException("CommandTable is invalid.");
+            }
         }
 
         #endregion

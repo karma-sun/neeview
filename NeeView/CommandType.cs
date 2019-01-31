@@ -361,6 +361,8 @@ namespace NeeView
         ExportBackup,
         [EnumMember]
         ImportBackup,
+        [EnumMember]
+        ReloadUserSetting,
 
         [EnumMember]
         TouchEmulate,

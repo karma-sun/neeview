@@ -77,7 +77,8 @@ namespace NeeView.Setting
                 new SettingItemSection(Properties.Resources.SettingPageGeneralSaveDataTypes,
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveHistory))),
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveBookmark))),
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSavePagemark)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSavePagemark))),
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSyncUserSetting)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageGeneralSaveDataRemove,
                     new SettingItemButton(Properties.Resources.SettingItemRemove, RemoveAllData) { IsContentOnly = true })

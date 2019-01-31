@@ -4426,4 +4426,16 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamSusiePluginIsPreExtract" xml:space="preserve">
     <value>書庫を事前展開する</value>
   </data>
+  <data name="ParamIsSyncUserSetting" xml:space="preserve">
+    <value>設定を同期する</value>
+  </data>
+  <data name="ParamIsSyncUserSettingTips" xml:space="preserve">
+    <value>多重起動しているとき、設定ウィンドウを閉じたときに他のNeeViewの設定も更新します。</value>
+  </data>
+  <data name="CommandReloadUserSetting" xml:space="preserve">
+    <value>設定の再読込</value>
+  </data>
+  <data name="CommandReloadUserSettingNote" xml:space="preserve">
+    <value>設定を再読み込みします。</value>
+  </data>
 </root>

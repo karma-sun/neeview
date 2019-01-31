@@ -7,46 +7,39 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace NeeView
 {
     public class SaveData
     {
-        public static SaveData Current { get; private set; }
+        public static SaveData Current { get; private set; } = new SaveData();
 
-        public UserSetting UserSetting { get; set; }
 
-        public bool IsEnableSave { get; set; } = true;
-
-        private string _historyFileName { get; set; }
-        private string _bookmarkFileName { get; set; }
-        private string _pagemarkFileName { get; set; }
-
-        private string _oldPagemarkFileName { get; set; }
-
+        public UserSetting _userSetting;
+        private string _historyFileName;
+        private string _bookmarkFileName;
+        private string _pagemarkFileName;
+        private string _oldPagemarkFileName;
         private object _saveLock = new object();
 
-        public const string UserSettingFileName = "UserSetting.xml";
-        public const string HistoryFileName = "History.xml";
-        public const string BookmarkFileName = "Bookmark.xml";
-        public const string PagemarkFileName = "Pagemark.xml";
 
-
-        //
         public SaveData()
         {
-            Current = this;
-
             _historyFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, HistoryFileName);
             _bookmarkFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, BookmarkFileName);
             _pagemarkFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, PagemarkFileName);
 
             _oldPagemarkFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, "Pagekmark.xml");
         }
+
+
+        public const string UserSettingFileName = "UserSetting.xml";
+        public const string HistoryFileName = "History.xml";
+        public const string BookmarkFileName = "Bookmark.xml";
+        public const string PagemarkFileName = "Pagemark.xml";
+
+        public bool IsEnableSave { get; set; } = true;
+
 
         // アプリ設定作成
         public UserSetting CreateSetting()
@@ -123,7 +116,7 @@ namespace NeeView
 
 
         // 履歴読み込み
-        public void LoadHistory(UserSetting setting)
+        public void LoadHistory()
         {
             try
             {
@@ -146,7 +139,7 @@ namespace NeeView
 
 
         // ブックマーク読み込み
-        public void LoadBookmark(UserSetting setting)
+        public void LoadBookmark()
         {
             try
             {
@@ -161,7 +154,7 @@ namespace NeeView
         }
 
         // ページマーク読み込み
-        public void LoadPagemark(UserSetting setting)
+        public void LoadPagemark()
         {
             // 旧ファイル名の変更
             try
@@ -185,13 +178,22 @@ namespace NeeView
             }
         }
 
-        // アプリ設定読み込み
-        public void LoadSetting(string filename)
+        /// <summary>
+        /// 設定の読み込み
+        /// 先行して設定ファイルのみ取得するため
+        /// </summary>
+        public UserSetting LoadUserSetting()
         {
+            if (_userSetting != null)
+            {
+                return _userSetting;
+            }
+
             try
             {
                 App.Current.SemaphoreWait();
-                this.UserSetting = SafetyLoad(UserSetting.Load, filename, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+                _userSetting = SafetyLoad(UserSetting.Load, App.Current.Option.SettingFilename, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+                return _userSetting;
             }
             finally
             {
@@ -199,10 +201,29 @@ namespace NeeView
             }
         }
 
-
-        // アプリ設定読み込み
-        public void LoadUserSetting(bool withLayout)
+        /// <summary>
+        /// 設定の取得
+        /// </summary>
+        public UserSetting GetUserSetting()
         {
+            return _userSetting;
+        }
+
+        /// <summary>
+        /// 設定領域の開放
+        /// </summary>
+        public void ReleaseUserSetting()
+        {
+            _userSetting = null;
+        }
+
+        /// <summary>
+        /// 設定読み込みと反映
+        /// </summary>
+        public void LoadAndApplyUserSetting()
+        {
+            Setting.SettingWindow.Current?.Cancel();
+
             try
             {
                 App.Current.SemaphoreWait();
@@ -457,7 +478,7 @@ namespace NeeView
         {
             // 保存
             WindowShape.Current.CreateSnapMemento();
-            SaveDataSync.Current.SaveUserSetting();
+            SaveDataSync.Current.SaveUserSetting(false);
             SaveDataSync.Current.SaveHistory();
 
             try
@@ -609,6 +630,7 @@ namespace NeeView
             // 適用
             if (setting != null)
             {
+                Setting.SettingWindow.Current?.Cancel();
                 RestoreSetting(setting);
                 RestoreSettingCompatible(setting);
             }

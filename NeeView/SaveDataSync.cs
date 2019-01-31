@@ -41,8 +41,8 @@ namespace NeeView
 
         private void LoadUserSetting(RemoteCommand command)
         {
-            throw new NotImplementedException();
-            // TODO: 設定の更新
+            Debug.WriteLine($"{SaveData.UserSettingFileName} is updated by other process.");
+            SaveData.Current.LoadAndApplyUserSetting();
         }
 
         private void LoadHistory(RemoteCommand command)
@@ -54,20 +54,25 @@ namespace NeeView
         private void LoadBookmark(RemoteCommand command)
         {
             Debug.WriteLine($"{SaveData.BookmarkFileName} is updated by other process.");
-            SaveData.Current.LoadBookmark(SaveData.Current.UserSetting);
+            SaveData.Current.LoadBookmark();
         }
 
         private void LoadPagemark(RemoteCommand command)
         {
             Debug.WriteLine($"{SaveData.PagemarkFileName} is updated by other process.");
-            SaveData.Current.LoadPagemark(SaveData.Current.UserSetting);
+            SaveData.Current.LoadPagemark();
         }
 
 
-        public void SaveUserSetting()
+        public void SaveUserSetting(bool isSync)
         {
-            Debug.WriteLine($"Save UserSetting");
+            Debug.WriteLine($"Save UserSetting: {isSync}");
             SaveData.Current.SaveUserSetting();
+
+            if (isSync)
+            {
+                RemoteCommandService.Current.Send(new RemoteCommand("LoadUserSetting"), RemoteCommandDelivery.All);
+            }
         }
 
         public void SaveHistory()

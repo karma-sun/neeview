@@ -47,12 +47,14 @@ namespace NeeView
 
             Current = this;
 
+            var setting = SaveData.Current.GetUserSetting();
+
             // Window状態初期化、復元
             new WindowPlacement(this);
             InitializeWindowPlacement();
 
             new WindowShape(this);
-            WindowShape.Current.SnapMemento = SaveData.Current.UserSetting.WindowShape;
+            WindowShape.Current.SnapMemento = setting.WindowShape;
 
             // 固定画像初期化
             Thumbnail.InitializeBasicImages();
@@ -182,7 +184,8 @@ namespace NeeView
             // セカンドプロセスはウィンドウ形状を継承しない
             if (Config.Current.IsSecondProcess && !App.Current.IsRestoreSecondWindow) return;
 
-            WindowPlacement.Current.Restore(SaveData.Current.UserSetting.WindowPlacement);
+            var setting = SaveData.Current.GetUserSetting();
+            WindowPlacement.Current.Restore(setting.WindowPlacement);
         }
 
         /// <summary>
@@ -724,7 +727,7 @@ namespace NeeView
 
             // 設定保存
             SaveDataSync.Current.Flush();
-            SaveDataSync.Current.SaveUserSetting();
+            SaveDataSync.Current.SaveUserSetting(false);
             SaveDataSync.Current.SaveHistory();
 
             // キャッシュ等の削除

@@ -1,22 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Runtime.Remoting;
-using System.Runtime.Remoting.Channels;
-using System.Runtime.Remoting.Channels.Ipc;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
 
 namespace NeeView
 {
@@ -31,21 +22,19 @@ namespace NeeView
         {
             [DllImport("kernel32", CharSet = CharSet.Unicode, SetLastError = true)]
             public static extern bool SetDllDirectory(string lpPathName);
-
-            [DllImport("user32.dll")]
-            public static extern bool AllowSetForegroundWindow(int dwProcessId);
         }
 
         #endregion
 
         public static new App Current => (App)Application.Current;
 
-        Process _currentProcess;
-        Process _serverProcess;
         private bool _isSplashScreenVisibled;
 
+        // 多重起動盛業
+        private MultbootService _multiBootService;
+
         // プロセス間セマフォ
-        private const string _semaphoreLabel = "NeeView.0001";
+        private const string _semaphoreLabel = "NeeView.s0001";
         private Semaphore _semaphore;
 
         #region Properties
@@ -136,12 +125,11 @@ namespace NeeView
                 _semaphore = new Semaphore(1, 1, _semaphoreLabel);
             }
 
-            // プロセス取得
-            _currentProcess = Process.GetCurrentProcess();
-            _serverProcess = GetServerProcess(_currentProcess);
+            // 多重起動サービス起動
+            _multiBootService = new MultbootService();
 
             // セカンドプロセス判定
-            Config.Current.IsSecondProcess = _serverProcess != null;
+            Config.Current.IsSecondProcess = _multiBootService.IsServerExists;
 
             Debug.WriteLine($"App.UserSettingLoading: {Stopwatch.ElapsedMilliseconds}ms");
 
@@ -170,27 +158,12 @@ namespace NeeView
                 throw new ApplicationException("Disp Version Dialog");
             }
 
-            // MultiBoot?
-            if (!IsNewWindow())
+            // 多重起動制限になる場合、サーバーにパスを送って終了
+            if (!CanStart())
             {
-                try
-                {
-                    NativeMethods.AllowSetForegroundWindow(_serverProcess.Id);
-                    // IPCクライアント送信
-                    IpcRemote.LoadAs(_serverProcess.Id, Option.StartupPlace);
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                    _serverProcess = null;
-                }
-
-                // 起動を中止してプログラムを終了
+                _multiBootService.RemoteLoadAs(Option.StartupPlace);
                 throw new ApplicationException("Already started.");
             }
-
-            // IPCサーバ起動
-            IpcRemote.BootServer(_currentProcess.Id);
         }
 
         /// <summary>
@@ -214,7 +187,7 @@ namespace NeeView
         /// </summary>
         public void ShowSplashScreen()
         {
-            if (IsSplashScreenEnabled && IsNewWindow())
+            if (IsSplashScreenEnabled && CanStart())
             {
                 if (_isSplashScreenVisibled) return;
                 _isSplashScreenVisibled = true;
@@ -230,35 +203,11 @@ namespace NeeView
         }
 
         /// <summary>
-        /// 他のプロセスを検索
+        /// 多重起動用実行可能判定
         /// </summary>
-        private Process GetServerProcess(Process currentProcess)
+        private bool CanStart()
         {
-            var processName = currentProcess.ProcessName;
-
-#if DEBUG
-            var processes = Process.GetProcessesByName(processName)
-                .Concat(Process.GetProcessesByName(Path.GetFileNameWithoutExtension(currentProcess.ProcessName)))
-                .ToList();
-#else
-                var processes = Process.GetProcessesByName(processName)
-                    .ToList();
-#endif
-
-            // 最も古いプロセスをターゲットにする
-            var serverProcess = processes
-                .OrderByDescending((p) => p.StartTime)
-                .FirstOrDefault((p) => p.Id != currentProcess.Id);
-
-            return serverProcess;
-        }
-
-        /// <summary>
-        /// 新しいウィンドウの作成？
-        /// </summary>
-        private bool IsNewWindow()
-        {
-            return _serverProcess == null || (Option.IsNewWindow != null ? Option.IsNewWindow == SwitchOption.on : IsMultiBootEnabled);
+            return !_multiBootService.IsServerExists || (Option.IsNewWindow != null ? Option.IsNewWindow == SwitchOption.on : IsMultiBootEnabled);
         }
 
         /// <summary>
@@ -268,9 +217,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            // IPC シャットダウン
-            Debug.WriteLine("IpcServer_Shutdown");
-            IpcRemote.Shutdown();
+            ApplicationDisposer.Current.Dispose();
 
             // プロセスを確実に終了させるための保険
             Task.Run(() =>

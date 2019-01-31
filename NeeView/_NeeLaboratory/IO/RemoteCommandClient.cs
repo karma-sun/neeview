@@ -14,34 +14,36 @@ namespace NeeLaboratory.IO
     /// </summary>
     public class RemoteCommandClient
     {
-        public async Task SendAsync(RemoteCommand command, RemoteCommandDelivery target)
+        public async Task SendAsync(RemoteCommand command, RemoteCommandDelivery delivery)
         {
-            var processes = await CollectProcess(target);
+            var processes = await CollectProcess(delivery);
             foreach (var process in processes)
             {
                 await SendAsync(RemoteCommandServer.GetPipetName(process), command);
             }
         }
 
-        private async Task<List<Process>> CollectProcess(RemoteCommandDelivery target)
+        private async Task<List<Process>> CollectProcess(RemoteCommandDelivery delivery)
         {
-            var processes = await Task.Run(() =>
+            return await Task.Run(() =>
             {
                 // NOTE: NeeView,NeeViewSどちらのプロセスにも対応。自プロセスは除外
                 var currentProcess = Process.GetCurrentProcess();
-                return Process.GetProcesses().Where(e => e.ProcessName.StartsWith(currentProcess.ProcessName) && e.Id != currentProcess.Id);
-            });
+                var processes = Process.GetProcesses().Where(e => e.ProcessName.StartsWith(currentProcess.ProcessName) && e.Id != currentProcess.Id);
 
-            if (target == RemoteCommandDelivery.Lastest)
-            {
-                // 最も古いプロセスを返す
-                var main = processes.OrderByDescending((p) => p.StartTime).FirstOrDefault();
-                return main != null ? new List<Process>() { main } : new List<Process>();
-            }
-            else
-            {
-                return processes.ToList();
-            }
+                if (delivery.Type == RemoteCommandDeliveryType.Custom)
+                {
+                    return processes.Where(p => p.Id == delivery.ProcessId).Take(1).ToList();
+                }
+                else if (delivery.Type == RemoteCommandDeliveryType.Lastest)
+                {
+                    return processes.OrderByDescending((p) => p.StartTime).Take(1).ToList();
+                }
+                else
+                {
+                    return processes.ToList();
+                }
+            });
         }
 
         private async Task SendAsync(string pipeName, RemoteCommand command)
@@ -59,13 +61,45 @@ namespace NeeLaboratory.IO
     }
 
 
+    public class RemoteCommandDelivery
+    {
+        public static RemoteCommandDelivery All { get; } = new RemoteCommandDelivery(RemoteCommandDeliveryType.All);
+        public static RemoteCommandDelivery Lastest { get; } = new RemoteCommandDelivery(RemoteCommandDeliveryType.Lastest);
+
+        public RemoteCommandDelivery(RemoteCommandDeliveryType type)
+        {
+            Type = type;
+        }
+
+        public RemoteCommandDelivery(int processId)
+        {
+            Type = RemoteCommandDeliveryType.Custom;
+            ProcessId = processId;
+        }
+
+        public RemoteCommandDeliveryType Type { get; private set; }
+        public int ProcessId { get; private set; }
+    }
+
     /// <summary>
     /// 配信先ターゲット
     /// </summary>
-    public enum RemoteCommandDelivery
+    public enum RemoteCommandDeliveryType
     {
+        /// <summary>
+        /// 自身を除く全プロセス
+        /// </summary>
         All,
+
+        /// <summary>
+        /// 自身を除く最新プロセス
+        /// </summary>
         Lastest,
+
+        /// <summary>
+        /// 指定のプロセス
+        /// </summary>
+        Custom,
     }
 
 }

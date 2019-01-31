@@ -133,6 +133,7 @@ namespace NeeView
             Debug.WriteLine($"App.UserSettingLoading: {Stopwatch.ElapsedMilliseconds}ms");
 
             // 設定ファイルの読み込み
+            new SaveData();
             var setting = SaveData.Current.LoadUserSetting();
 
             Debug.WriteLine($"App.UserSettingLoaded: {Stopwatch.ElapsedMilliseconds}ms");

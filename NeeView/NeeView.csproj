@@ -170,6 +170,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ApplicationDisposer.cs" />
     <Compile Include="Archiver\ArchiverType.cs" />
     <Compile Include="Archiver\MediaArchiver.cs" />
     <Compile Include="Archiver\MediaArchiverProfile.cs" />
@@ -195,6 +196,8 @@
       <DependentUpon>PageSortModePalette.xaml</DependentUpon>
     </Compile>
     <Compile Include="OpenSourceControls\VirtualizingWrapPanel.cs" />
+    <Compile Include="RemoteCommandService.cs" />
+    <Compile Include="_NeeLaboratory\IO\RemoteCommand.cs" />
     <Compile Include="SaveDataSync.cs" />
     <Compile Include="Setting\SusiePluginSettingWindow.xaml.cs">
       <DependentUpon>SusiePluginSettingWindow.xaml</DependentUpon>
@@ -206,6 +209,8 @@
     <Compile Include="SidePanels\PageList\PageListBoxViewModel.cs" />
     <Compile Include="SidePanels\PageList\PageListPanel.cs" />
     <Compile Include="SidePanels\PageList\PageListPlacementService.cs" />
+    <Compile Include="_NeeLaboratory\IO\RemoteCommandClient.cs" />
+    <Compile Include="_NeeLaboratory\IO\RemoteCommandServer.cs" />
     <Compile Include="_NeeView\Collections\IHasName.cs" />
     <Compile Include="_NeeView\IO\DriveTypeExtension.cs" />
     <Compile Include="Thumbnail\ConstThumbnail.cs" />

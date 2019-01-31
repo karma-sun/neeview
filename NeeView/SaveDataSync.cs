@@ -1,27 +1,20 @@
 ﻿using System;
 using System.Diagnostics;
+using NeeLaboratory.IO;
 
 namespace NeeView
 {
     /// <summary>
     /// ブックマーク、ページマークは変更のたびに保存。
-    /// ブックマーク、ページマークの保存データの変更を監視、更新されれば再読込。
+    /// 他プロセスからの要求でリロードを行う。
     /// </summary>
     public class SaveDataSync
     {
         public static SaveDataSync Current { get; private set; }
 
-        private System.IO.FileSystemWatcher _watcher;
-        private volatile bool _isPagemarkSaving;
-        private volatile bool _isBookmarkSaving;
-        private volatile bool _isUserSettingSaving;
-        private volatile bool _isHistorySaving;
-
         private DelayAction _delaySaveBookmark;
         private DelayAction _delaySavePagemark;
 
-        private bool _isUserSettingChanged;
-        private bool _isHistoryChanged;
 
         public SaveDataSync()
         {
@@ -33,12 +26,10 @@ namespace NeeView
             BookmarkCollection.Current.BookmarkChanged += BookmarkCollection_BookmarkChanged;
             PagemarkCollection.Current.PagemarkChanged += PagemarkCollection_PagemarkChanged;
 
-            _watcher = new System.IO.FileSystemWatcher();
-            _watcher.Path = Config.Current.LocalApplicationDataPath;
-            _watcher.NotifyFilter = System.IO.NotifyFilters.FileName;
-            _watcher.Filter = "*.xml";
-            _watcher.Renamed += new System.IO.RenamedEventHandler(FileSystemWatcher_Renamed);
-            _watcher.EnableRaisingEvents = true;
+            RemoteCommandService.Current.AddReciever("LoadUserSetting", LoadUserSetting);
+            RemoteCommandService.Current.AddReciever("LoadHistory", LoadHistory);
+            RemoteCommandService.Current.AddReciever("LoadBookmark", LoadBookmark);
+            RemoteCommandService.Current.AddReciever("LoadPagemark", LoadPagemark);
         }
 
 
@@ -48,36 +39,42 @@ namespace NeeView
             _delaySavePagemark.Flush();
         }
 
-        /// <summary>
-        /// 保存データ監視
-        /// 履歴ファイルは変更情報のみ保持
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="e"></param>
-        private void FileSystemWatcher_Renamed(object source, System.IO.RenamedEventArgs e)
+        private void LoadUserSetting(RemoteCommand command)
         {
-            if (e.Name == SaveData.BookmarkFileName && !_isBookmarkSaving)
-            {
-                Debug.WriteLine($"{SaveData.BookmarkFileName} is updated by other process.");
-                App.Current.Dispatcher.Invoke(() => SaveData.Current.LoadBookmark(SaveData.Current.UserSetting));
-            }
-            else if (e.Name == SaveData.PagemarkFileName && !_isPagemarkSaving)
-            {
-                Debug.WriteLine($"{SaveData.PagemarkFileName} is updated by other process.");
-                App.Current.Dispatcher.Invoke(() => SaveData.Current.LoadPagemark(SaveData.Current.UserSetting));
-            }
-            else if (e.Name == SaveData.UserSettingFileName && !_isUserSettingSaving)
-            {
-                Debug.WriteLine($"{SaveData.UserSettingFileName} is updated by other process.");
-                ////App.Current.Dispatcher.Invoke(() => SaveData.Current.LoadUserSetting(false));
-                _isUserSettingChanged = true;
-                // TODO: 必要ならば設定の更新を行う
-            }
-            else if (e.Name == SaveData.HistoryFileName && !_isHistorySaving)
-            {
-                Debug.WriteLine($"{SaveData.HistoryFileName} is updated by other process.");
-                _isHistoryChanged = true;
-            }
+            throw new NotImplementedException();
+            // TODO: 設定の更新
+        }
+
+        private void LoadHistory(RemoteCommand command)
+        {
+            throw new NotImplementedException();
+            // TODO: フラグ管理のみ？
+        }
+
+        private void LoadBookmark(RemoteCommand command)
+        {
+            Debug.WriteLine($"{SaveData.BookmarkFileName} is updated by other process.");
+            SaveData.Current.LoadBookmark(SaveData.Current.UserSetting);
+        }
+
+        private void LoadPagemark(RemoteCommand command)
+        {
+            Debug.WriteLine($"{SaveData.PagemarkFileName} is updated by other process.");
+            SaveData.Current.LoadPagemark(SaveData.Current.UserSetting);
+        }
+
+
+        public void SaveUserSetting()
+        {
+            Debug.WriteLine($"Save UserSetting");
+            SaveData.Current.SaveUserSetting();
+        }
+
+        public void SaveHistory()
+        {
+            Debug.WriteLine($"Save History");
+            // TODO: 更新されている履歴のマージ
+            SaveData.Current.SaveHistory();
         }
 
         private void BookmarkCollection_BookmarkChanged(object sender, BookmarkCollectionChangedEventArgs e)
@@ -89,15 +86,8 @@ namespace NeeView
         private void SaveBookmark()
         {
             Debug.WriteLine($"Save Bookmark");
-            try
-            {
-                _isBookmarkSaving = true;
-                SaveData.Current.SaveBookmark();
-            }
-            finally
-            {
-                _isBookmarkSaving = false;
-            }
+            SaveData.Current.SaveBookmark();
+            RemoteCommandService.Current.Send(new RemoteCommand("LoadBookmark"), RemoteCommandDelivery.All);
         }
 
         private void PagemarkCollection_PagemarkChanged(object sender, PagemarkCollectionChangedEventArgs e)
@@ -109,54 +99,9 @@ namespace NeeView
         private void SavePagemark()
         {
             Debug.WriteLine($"Save Pagemark");
-            try
-            {
-                _isPagemarkSaving = true;
-                SaveData.Current.SavePagemark();
-            }
-            finally
-            {
-                _isPagemarkSaving = false;
-            }
+            SaveData.Current.SavePagemark();
+            RemoteCommandService.Current.Send(new RemoteCommand("LoadPagemark"), RemoteCommandDelivery.All);
         }
 
-
-        public void SaveUserSetting()
-        {
-            Debug.WriteLine($"Save UserSetting");
-            try
-            {
-                _isUserSettingSaving = true;
-                SaveData.Current.SaveUserSetting();
-                _isUserSettingChanged = false;
-            }
-            finally
-            {
-                _isUserSettingSaving = false;
-            }
-        }
-
-        public void SaveHistory()
-        {
-            Debug.WriteLine($"Save History");
-            try
-            {
-                // TODO: 更新されている履歴のマージ
-                _isHistorySaving = true;
-                SaveData.Current.SaveHistory();
-                _isHistoryChanged = false;
-            }
-            finally
-            {
-                _isHistorySaving = false;
-            }
-        }
-
-
-        // ファイルシステム監視を停止
-        public void StopFileSystemWatcher()
-        {
-            _watcher.Dispose();
-        }
     }
 }

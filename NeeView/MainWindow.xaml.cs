@@ -713,6 +713,7 @@ namespace NeeView
             ContentCanvas.Current.Dispose();
 
             //
+            ApplicationDisposer.Current.Dispose();
             Models.Current.StopEngine();
 
             //
@@ -722,7 +723,6 @@ namespace NeeView
             _timer.Stop();
 
             // 設定保存
-            SaveDataSync.Current.StopFileSystemWatcher();
             SaveDataSync.Current.Flush();
             SaveDataSync.Current.SaveUserSetting();
             SaveDataSync.Current.SaveHistory();

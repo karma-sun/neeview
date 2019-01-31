@@ -249,11 +249,7 @@ namespace NeeView
             {
                 if (_librariesPath == null)
                 {
-                    _librariesPath = Path.Combine(AssemblyLocation, GetProbingPath());
-#if DEBUG
-                    // 開発中はLibrariesパスが存在しないので、カレントに設定しなおす
-                    _librariesPath = AssemblyLocation;
-#endif
+                    _librariesPath = Path.GetFullPath(Path.Combine(AssemblyLocation, ConfigurationManager.AppSettings["LibrariesPath"]));
                 }
                 return _librariesPath;
             }
@@ -275,25 +271,6 @@ namespace NeeView
             get { return IntPtr.Size == 8; }
         }
 
-
-        // http://stackoverflow.com/questions/33353420/appdomain-currentdomain-setupinformation-privatebinpath-is-null
-        private static string GetProbingPath()
-        {
-            var configFile = XElement.Load(AppDomain.CurrentDomain.SetupInformation.ConfigurationFile);
-            var probingElement = (
-                from runtime
-                    in configFile.Descendants("runtime")
-                from assemblyBinding
-                    in runtime.Elements(XName.Get("assemblyBinding", "urn:schemas-microsoft-com:asm.v1"))
-                from probing
-                    in assemblyBinding.Elements(XName.Get("probing", "urn:schemas-microsoft-com:asm.v1"))
-                select probing)
-                .FirstOrDefault();
-
-            return probingElement?.Attribute("privatePath").Value;
-        }
-
-
         // データ保存にアプリケーションデータフォルダーを使用するか
         private bool? _isUseLocalApplicationDataFolder;
         public bool IsUseLocalApplicationDataFolder
@@ -302,7 +279,7 @@ namespace NeeView
             {
                 if (_isUseLocalApplicationDataFolder == null)
                 {
-                    _isUseLocalApplicationDataFolder = System.Configuration.ConfigurationManager.AppSettings["UseLocalApplicationData"] == "True";
+                    _isUseLocalApplicationDataFolder = ConfigurationManager.AppSettings["UseLocalApplicationData"] == "True";
                 }
                 return (bool)_isUseLocalApplicationDataFolder;
             }

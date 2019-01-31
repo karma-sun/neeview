@@ -137,7 +137,8 @@ $projectFile = "$projectDir\$product.csproj"
 $productx86Dir = "$projectDir\bin\x86\$config"
 $productX64Dir = "$projectDir\bin\$config"
 $assemblyInfoFile = "$projectDir\Properties\AssemblyInfo.cs"
-
+$productX86 = $product + "S"
+$productX64 = $product
 
 #----------------------
 # build
@@ -170,7 +171,7 @@ function Build-Project($arch, $assemblyVersion)
 
 #----------------------
 # package section
-function New-Package($productDir, $packageDir)
+function New-Package($productName, $productDir, $packageDir)
 {
 	$packageLibraryDir = $packageDir + "\Libraries"
 
@@ -180,12 +181,10 @@ function New-Package($productDir, $packageDir)
 
 	# copy
 	Copy-Item "$productDir\*.exe" $packageDir
-	Copy-Item "$productDir\*.exe.config" $packageDir
 	Copy-Item "$productDir\*.dll" $packageLibraryDir
 
-	#Copy-Item "$productX64Dir\$product.exe" "$packageDir\${product}64.exe"
-	#Copy-Item "$productX64Dir\$product.exe.config" "$packageDir\${product}64.exe.config"
-
+	# custom config
+	New-ConfigForZip $productDir "$productName.exe.config" $packageDir
 
 	# copy language dll
 	$langs = "ja-JP","x64","x86"
@@ -283,6 +282,29 @@ function New-Zip
 	Compress-Archive $packageDir -DestinationPath $packageZip
 }
 
+#--------------------------
+#
+function New-ConfigForZip($inputDir, $config, $outputDir)
+{
+	# make config for zip
+	[xml]$xml = Get-Content "$inputDir\$config"
+
+	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'PackageType' } | Select -First 1
+	$add.value = '.zip'
+
+	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'UseLocalApplicationData' } | Select -First 1
+	$add.value = 'False'
+
+	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'LibrariesPath' } | Select -First 1
+	$add.value = 'Libraries'
+
+	$utf8WithoutBom = New-Object System.Text.UTF8Encoding($false)
+	$outputFile = Join-Path (Convert-Path $outputDir) $config
+
+	$sw = New-Object System.IO.StreamWriter($outputFile, $false, $utf8WithoutBom)
+	$xml.Save( $sw )
+	$sw.Close()
+}
 
 #--------------------------
 #
@@ -297,6 +319,9 @@ function New-ConfigForMsi($inputDir, $config, $outputDir)
 	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'UseLocalApplicationData' } | Select -First 1
 	$add.value = 'True'
 
+	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'LibrariesPath' } | Select -First 1
+	$add.value = 'Libraries'
+
 	$utf8WithoutBom = New-Object System.Text.UTF8Encoding($false)
 	$outputFile = Join-Path (Convert-Path $outputDir) $config
 	$sw = New-Object System.IO.StreamWriter($outputFile, $false, $utf8WithoutBom)
@@ -309,7 +334,7 @@ function New-ConfigForMsi($inputDir, $config, $outputDir)
 #
 function New-ConfigForAppx($inputDir, $config, $outputDir)
 {
-	# make config for installer
+	# make config for appx
 	[xml]$xml = Get-Content "$inputDir\$config"
 
 	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'PackageType' } | Select -First 1
@@ -317,6 +342,9 @@ function New-ConfigForAppx($inputDir, $config, $outputDir)
 
 	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'UseLocalApplicationData' } | Select -First 1
 	$add.value = 'True'
+
+	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'LibrariesPath' } | Select -First 1
+	$add.value = 'Libraries'
 
 	$utf8WithoutBom = New-Object System.Text.UTF8Encoding($false)
 	$outputFile = Join-Path (Convert-Path $outputDir) $config
@@ -330,7 +358,7 @@ function New-ConfigForAppx($inputDir, $config, $outputDir)
 #
 function New-ConfigForCanary($inputDir, $config, $outputDir)
 {
-	# make config for installer
+	# make config for canary
 	[xml]$xml = Get-Content "$inputDir\$config"
 
 	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'PackageType' } | Select -First 1
@@ -338,6 +366,9 @@ function New-ConfigForCanary($inputDir, $config, $outputDir)
 
 	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'UseLocalApplicationData' } | Select -First 1
 	$add.value = 'False'
+
+	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'LibrariesPath' } | Select -First 1
+	$add.value = 'Libraries'
 
 	$utf8WithoutBom = New-Object System.Text.UTF8Encoding($false)
 	$outputFile = Join-Path (Convert-Path $outputDir) $config
@@ -621,8 +652,8 @@ if (-not $continue)
 
 	#
 	Write-Host "`n[Package] ...`n" -fore Cyan
-	New-Package $productX86Dir $packageX86Dir
-	New-Package $productX64Dir $packageX64Dir
+	New-Package $productX86 $productX86Dir $packageX86Dir
+	New-Package $productX64 $productX64Dir $packageX64Dir
 }
 
 #

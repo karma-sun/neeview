@@ -725,7 +725,7 @@ namespace NeeView
 
         public bool IsFolderOrderEnabled
         {
-            get { return _folderCollection != null && (_folderCollection is FolderEntryCollection collection && collection.Place.Path != null || _folderCollection is BookmarkFolderCollection); }
+            get { return _folderCollection != null && (_folderCollection is FolderEntryCollection collection && collection.Place.Path != null || _folderCollection is BookmarkFolderCollection || _folderCollection is FolderSearchCollection); }
         }
 
         /// <summary>

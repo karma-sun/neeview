@@ -18,15 +18,9 @@ namespace NeeView
     /// <summary>
     /// スライドショー管理
     /// </summary>
-    public class SlideShow : BindableBase, IEngine
+    public class SlideShow : BindableBase, IDisposable
     {
-        // System object
         public static SlideShow Current { get; private set; }
-
-
-        //
-        private BookHub _bookHub;
-        private BookOperation _bookOperation;
 
         // タイマーディスパッチ
         private DispatcherTimer _timer;
@@ -43,24 +37,24 @@ namespace NeeView
 
 
         // コンストラクター
-        public SlideShow(BookHub bookHub, BookOperation bookOperation, MouseInput mouseInput)
+        public SlideShow()
         {
             Current = this;
-
-            _bookHub = bookHub;
-            _bookOperation = bookOperation;
 
             // timer for slideshow
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromSeconds(_maxTimerTick);
             _timer.Tick += new EventHandler(DispatcherTimer_Tick);
 
-            bookOperation.PageChanged +=
+            BookOperation.Current.PageChanged +=
                 (s, e) => ResetTimer();
 
             //
-            mouseInput.MouseMoved +=
+            MouseInput.Current.MouseMoved +=
                 (s, e) => { if (this.IsCancelSlideByMouseMove) ResetTimer(); };
+
+            // アプリ終了前の開放予約
+            ApplicationDisposer.Current.Add(this);
         }
 
 
@@ -166,7 +160,7 @@ namespace NeeView
         /// </summary>
         public void NextSlide()
         {
-            _bookOperation.NextSlide();
+            BookOperation.Current.NextSlide();
         }
 
         /// <summary>
@@ -174,6 +168,8 @@ namespace NeeView
         /// </summary>
         private void Play()
         {
+            if (_disposedValue) return;
+
             // インターバル時間を修正する
             _timer.Interval = TimeSpan.FromSeconds(MathUtility.Clamp(this.SlideShowInterval * 0.5, _minTimerTick, _maxTimerTick));
             _lastShowTime = DateTime.Now;
@@ -204,7 +200,7 @@ namespace NeeView
             // スライドショーのインターバルを非アクティブ時間で求める
             if ((DateTime.Now - _lastShowTime).TotalSeconds >= this.SlideShowInterval)
             {
-                if (!_bookHub.IsLoading) NextSlide();
+                if (!BookHub.Current.IsLoading) NextSlide();
                 _lastShowTime = DateTime.Now;
             }
         }
@@ -219,17 +215,27 @@ namespace NeeView
         }
 
 
-        // エンジン始動
-        public void StartEngine()
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
         {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    Stop();
+                }
+
+                _disposedValue = true;
+            }
         }
 
-        // エンジン停止
-        public void StopEngine()
+        public void Dispose()
         {
-            _timer.Stop();
+            Dispose(true);
         }
-
+        #endregion
 
         #region Memento
 

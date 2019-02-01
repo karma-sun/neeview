@@ -36,7 +36,7 @@ namespace NeeView
 
         #region Constructors 
 
-        public ThumbnailList(PageSelector pageSelector)
+        public ThumbnailList()
         {
             Current = this;
 
@@ -44,9 +44,8 @@ namespace NeeView
             BookOperation.Current.BookChanged += BookOperator_BookChanged;
             BookOperation.Current.PageListChanged += BookOperation_PageListChanged;
 
-            this.PageSelector = pageSelector;
-            PageSelector.SelectionChanged += PageSelector_SelectionChanged;
-            PageSelector.ViewContentsChanged += PageSelector_ViewContentsChanged;
+            PageSelector.Current.SelectionChanged += PageSelector_SelectionChanged;
+            PageSelector.Current.ViewContentsChanged += PageSelector_ViewContentsChanged;
 
             UpdateItems();
         }
@@ -143,9 +142,8 @@ namespace NeeView
             set { if (_isSliderDirectionReversed != value) { _isSliderDirectionReversed = value; RaisePropertyChanged(); UpdateItems(); } }
         }
 
-
-        public PageSelector PageSelector { get; private set; }
-
+        //
+        public PageSelector PageSelector => PageSelector.Current;
 
         /// <summary>
         /// スクロールビュータッチ操作の終端挙動
@@ -175,8 +173,8 @@ namespace NeeView
 
         public int SelectedIndex
         {
-            get { return GetIndexWithDirectionReverse(PageSelector.SelectedIndex); }
-            set { PageSelector.SetSelectedIndex(this, GetIndexWithDirectionReverse(value), true); }
+            get { return GetIndexWithDirectionReverse(PageSelector.Current.SelectedIndex); }
+            set { PageSelector.Current.SetSelectedIndex(this, GetIndexWithDirectionReverse(value), true); }
         }
 
         public List<Page> ViewItems
@@ -215,7 +213,7 @@ namespace NeeView
 
         private int GetIndexWithDirectionReverse(int value)
         {
-            return Math.Max(-1, IsSliderDirectionReversed ? PageSelector.MaxIndex - value : value);
+            return Math.Max(-1, IsSliderDirectionReversed ? PageSelector.Current.MaxIndex - value : value);
         }
 
         //
@@ -248,7 +246,7 @@ namespace NeeView
 
         public void FlushSelectedIndex()
         {
-            PageSelector.FlushSelectedIndex(this);
+            PageSelector.Current.FlushSelectedIndex(this);
             RaisePropertyChanged(nameof(SelectedIndex));
         }
 
@@ -286,7 +284,7 @@ namespace NeeView
         {
             if (IsSliderDirectionReversed)
             {
-                start = PageSelector.MaxIndex - (start + count - 1);
+                start = PageSelector.Current.MaxIndex - (start + count - 1);
                 direction = -direction;
             }
 

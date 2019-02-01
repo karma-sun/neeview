@@ -29,16 +29,16 @@ namespace NeeView
     /// </summary>
     public class BookProfile : BindableBase
     {
-        public static BookProfile Current { get; private set; }
+        static BookProfile() => Current = new BookProfile();
+        public static BookProfile Current { get; }
 
         private bool _isEnableNoSupportFile;
 
 
         #region Constructors
 
-        public BookProfile()
+        private BookProfile()
         {
-            Current = this;
         }
 
         #endregion

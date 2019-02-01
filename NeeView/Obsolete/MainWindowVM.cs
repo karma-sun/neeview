@@ -264,24 +264,22 @@ namespace NeeView
         {
             if (memento == null) return;
 
-            var models = Models.Current;
-
             // compatible before ver.22
             if (memento._Version < Config.GenerateProductVersionNumber(1, 22, 0))
             {
                 if (memento.FileInfoSetting != null)
                 {
-                    models.FileInformation.IsUseExifDateTime = memento.FileInfoSetting.IsUseExifDateTime;
-                    models.FileInformation.IsVisibleBitsPerPixel = memento.FileInfoSetting.IsVisibleBitsPerPixel;
-                    models.FileInformation.IsVisibleLoader = memento.FileInfoSetting.IsVisibleLoader;
+                    FileInformation.Current.IsUseExifDateTime = memento.FileInfoSetting.IsUseExifDateTime;
+                    FileInformation.Current.IsVisibleBitsPerPixel = memento.FileInfoSetting.IsVisibleBitsPerPixel;
+                    FileInformation.Current.IsVisibleLoader = memento.FileInfoSetting.IsVisibleLoader;
                 }
                 if (memento.FolderListSetting != null)
                 {
-                    models.FolderList.IsVisibleBookmarkMark = memento.FolderListSetting.IsVisibleBookmarkMark;
-                    models.FolderList.IsVisibleHistoryMark = memento.FolderListSetting.IsVisibleHistoryMark;
+                    FolderList.Current.IsVisibleBookmarkMark = memento.FolderListSetting.IsVisibleBookmarkMark;
+                    FolderList.Current.IsVisibleHistoryMark = memento.FolderListSetting.IsVisibleHistoryMark;
                 }
 
-                models.InfoMessage.CommandShowMessageStyle = memento.CommandShowMessageStyle;
+                InfoMessage.Current.CommandShowMessageStyle = memento.CommandShowMessageStyle;
 
                 WindowShape.Current.IsTopmost = memento.IsTopmost;
                 WindowShape.Current.IsCaptionVisible = memento.IsVisibleTitleBar;
@@ -291,57 +289,57 @@ namespace NeeView
             // compatible before ver.23
             if (memento._Version < Config.GenerateProductVersionNumber(1, 23, 0))
             {
-                models.MainWindowModel.PanelColor = memento.PanelColor;
-                models.MainWindowModel.ContextMenuSetting = memento.ContextMenuSetting;
-                models.MainWindowModel.IsHideMenu = memento.IsHideMenu;
-                models.MainWindowModel.IsHidePageSlider = memento.IsHidePageSlider;
-                models.MainWindowModel.IsHidePanel = memento.IsHidePanel;
-                models.MainWindowModel.IsVisibleAddressBar = memento.IsVisibleAddressBar;
-                models.MainWindowModel.IsHidePanelInFullscreen = memento.IsHidePanelInFullscreen;
-                models.MainWindowModel.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
+                MainWindowModel.Current.PanelColor = memento.PanelColor;
+                MainWindowModel.Current.ContextMenuSetting = memento.ContextMenuSetting;
+                MainWindowModel.Current.IsHideMenu = memento.IsHideMenu;
+                MainWindowModel.Current.IsHidePageSlider = memento.IsHidePageSlider;
+                MainWindowModel.Current.IsHidePanel = memento.IsHidePanel;
+                MainWindowModel.Current.IsVisibleAddressBar = memento.IsVisibleAddressBar;
+                MainWindowModel.Current.IsHidePanelInFullscreen = memento.IsHidePanelInFullscreen;
+                MainWindowModel.Current.IsVisibleWindowTitle = memento.IsVisibleWindowTitle;
 
-                models.MemoryControl.IsAutoGC = memento.IsAutoGC;
+                MemoryControl.Current.IsAutoGC = memento.IsAutoGC;
 
-                models.InfoMessage.NoticeShowMessageStyle = memento.NoticeShowMessageStyle;
-                models.InfoMessage.GestureShowMessageStyle = memento.GestureShowMessageStyle;
-                models.InfoMessage.NowLoadingShowMessageStyle = memento.NowLoadingShowMessageStyle;
-                models.InfoMessage.ViewTransformShowMessageStyle = memento.ViewTransformShowMessageStyle;
+                InfoMessage.Current.NoticeShowMessageStyle = memento.NoticeShowMessageStyle;
+                InfoMessage.Current.GestureShowMessageStyle = memento.GestureShowMessageStyle;
+                InfoMessage.Current.NowLoadingShowMessageStyle = memento.NowLoadingShowMessageStyle;
+                InfoMessage.Current.ViewTransformShowMessageStyle = memento.ViewTransformShowMessageStyle;
 
-                models.SlideShow.IsAutoPlaySlideShow = memento.IsAutoPlaySlideShow;
+                SlideShow.Current.IsAutoPlaySlideShow = memento.IsAutoPlaySlideShow;
 
-                models.DragTransform.IsLimitMove = memento.IsLimitMove;
-                models.DragTransform.AngleFrequency = memento.AngleFrequency;
+                DragTransform.Current.IsLimitMove = memento.IsLimitMove;
+                DragTransform.Current.AngleFrequency = memento.AngleFrequency;
 
-                models.MouseInput.Normal.LongButtonDownMode = memento.LongLeftButtonDownMode;
-                models.MouseInput.Loupe.IsLoupeCenter = memento.IsLoupeCenter;
-                models.LoupeTransform.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
-                models.DragTransformControl.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
-                models.DragTransformControl.IsControlCenterImage = memento.IsControlCenterImage;
-                models.DragTransformControl.IsKeepAngle = memento.IsKeepAngle;
-                models.DragTransformControl.IsKeepFlip = memento.IsKeepFlip;
-                models.DragTransformControl.IsKeepScale = memento.IsKeepScale;
-                models.DragTransformControl.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
+                MouseInput.Current.Normal.LongButtonDownMode = memento.LongLeftButtonDownMode;
+                MouseInput.Current.Loupe.IsLoupeCenter = memento.IsLoupeCenter;
+                LoupeTransform.Current.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
+                DragTransformControl.Current.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
+                DragTransformControl.Current.IsControlCenterImage = memento.IsControlCenterImage;
+                DragTransformControl.Current.IsKeepAngle = memento.IsKeepAngle;
+                DragTransformControl.Current.IsKeepFlip = memento.IsKeepFlip;
+                DragTransformControl.Current.IsKeepScale = memento.IsKeepScale;
+                DragTransformControl.Current.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
 
-                models.ContentCanvas.StretchMode = memento.StretchMode;
-                models.ContentCanvas.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
-                models.ContentCanvas.ContentsSpace = memento.ContentsSpace;
-                models.ContentCanvas.IsAutoRotate = memento.IsAutoRotate;
+                ContentCanvas.Current.StretchMode = memento.StretchMode;
+                ContentCanvas.Current.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
+                ContentCanvas.Current.ContentsSpace = memento.ContentsSpace;
+                ContentCanvas.Current.IsAutoRotate = memento.IsAutoRotate;
 
-                models.ContentCanvasBrush.CustomBackground = memento.CustomBackground;
-                models.ContentCanvasBrush.Background = memento.Background;
+                ContentCanvasBrush.Current.CustomBackground = memento.CustomBackground;
+                ContentCanvasBrush.Current.Background = memento.Background;
 
-                models.WindowTitle.WindowTitleFormat1 = memento.WindowTitleFormat1;
-                models.WindowTitle.WindowTitleFormat2 = memento.WindowTitleFormat2;
+                WindowTitle.Current.WindowTitleFormat1 = memento.WindowTitleFormat1;
+                WindowTitle.Current.WindowTitleFormat2 = memento.WindowTitleFormat2;
 
-                models.PageSlider.SliderIndexLayout = memento.SliderIndexLayout;
-                models.PageSlider.SliderDirection = memento.SliderDirection;
-                models.PageSlider.IsSliderLinkedThumbnailList = memento.IsSliderLinkedThumbnailList;
+                PageSlider.Current.SliderIndexLayout = memento.SliderIndexLayout;
+                PageSlider.Current.SliderDirection = memento.SliderDirection;
+                PageSlider.Current.IsSliderLinkedThumbnailList = memento.IsSliderLinkedThumbnailList;
 
-                models.ThumbnailList.IsEnableThumbnailList = memento.IsEnableThumbnailList;
-                models.ThumbnailList.IsHideThumbnailList = memento.IsHideThumbnailList;
-                models.ThumbnailList.ThumbnailSize = memento.ThumbnailSize;
-                models.ThumbnailList.IsVisibleThumbnailNumber = memento.IsVisibleThumbnailNumber;
-                models.ThumbnailList.IsVisibleThumbnailPlate = memento.IsVisibleThumbnailPlate;
+                ThumbnailList.Current.IsEnableThumbnailList = memento.IsEnableThumbnailList;
+                ThumbnailList.Current.IsHideThumbnailList = memento.IsHideThumbnailList;
+                ThumbnailList.Current.ThumbnailSize = memento.ThumbnailSize;
+                ThumbnailList.Current.IsVisibleThumbnailNumber = memento.IsVisibleThumbnailNumber;
+                ThumbnailList.Current.IsVisibleThumbnailPlate = memento.IsVisibleThumbnailPlate;
             }
         }
 

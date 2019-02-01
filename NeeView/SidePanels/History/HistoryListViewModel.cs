@@ -165,9 +165,6 @@ namespace NeeView
         //
         private HistoryList _model;
 
-        //
-        private BookHub _bookHub;
-
 
         /// <summary>
         /// constructor
@@ -177,12 +174,11 @@ namespace NeeView
         {
             _model = model;
             _model.AddPropertyChanged(nameof(_model.PanelListItemStyle), (s, e) => UpdateListBoxContent());
-            _bookHub = _model.BookHub;
 
             _isDarty = true;
 
-            _bookHub.HistoryChanged += BookHub_HistoryChanged;
-            _bookHub.HistoryListSync += BookHub_HistoryListSync;
+            BookHub.Current.HistoryChanged += BookHub_HistoryChanged;
+            BookHub.Current.HistoryListSync += BookHub_HistoryListSync;
 
             InitializeMoreMenu();
 
@@ -230,7 +226,7 @@ namespace NeeView
         public void Load(string path)
         {
             if (path == null) return;
-            _bookHub?.RequestLoad(path, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SkipSamePlace | BookLoadOption.IsBook, true);
+            BookHub.Current?.RequestLoad(path, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SkipSamePlace | BookLoadOption.IsBook, true);
         }
 
 

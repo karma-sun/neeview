@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using NeeView.Effects;
 using NeeView.Properties;
 using System;
 using System.Collections.Generic;
@@ -93,7 +94,7 @@ namespace NeeView
 
             if (setting.ImageEffectMemento != null)
             {
-                Models.Current.ImageEffect.Restore(setting.ImageEffectMemento);
+                ImageEffect.Current.Restore(setting.ImageEffectMemento);
             }
 
             if (setting.ExporterMemento != null)

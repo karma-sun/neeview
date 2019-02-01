@@ -237,7 +237,6 @@ namespace NeeView
         private void Application_SessionEnding(object sender, SessionEndingCancelEventArgs e)
         {
             ApplicationDisposer.Current.Dispose();
-            Models.Current?.StopEngine();
 
             // 設定保存
             WindowShape.Current.CreateSnapMemento();

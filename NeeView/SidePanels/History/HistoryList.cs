@@ -13,9 +13,8 @@ namespace NeeView
     {
         private PanelListItemStyle _panelListItemStyle;
 
-        public HistoryList(BookHub bookHub)
+        public HistoryList()
         {
-            this.BookHub = bookHub;
         }
 
         public PanelListItemStyle PanelListItemStyle
@@ -39,8 +38,6 @@ namespace NeeView
                 }
             }
         }
-
-        public BookHub BookHub { get; private set; }
 
 
         #region Memento

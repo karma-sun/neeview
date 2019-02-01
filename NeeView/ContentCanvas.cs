@@ -39,15 +39,13 @@ namespace NeeView
         private DragTransform _dragTransform;
         private DragTransformControl _dragTransformControl;
 
-        private BookHub _bookHub; // TODO: BookOperation?
-
         private PageStretchMode _stretchModePrev = PageStretchMode.Uniform;
 
         #endregion
 
         #region Constructors
 
-        public ContentCanvas(MouseInput mouse, BookHub bookHub)
+        public ContentCanvas()
         {
             Current = this;
 
@@ -59,8 +57,6 @@ namespace NeeView
             DragTransform.Current.TransformChanged += Transform_TransformChanged;
             LoupeTransform.Current.TransformChanged += Transform_TransformChanged;
 
-            _bookHub = bookHub;
-
             // Contents
             Contents = new ObservableCollection<ViewContent>();
             Contents.Add(new ViewContent());
@@ -68,16 +64,16 @@ namespace NeeView
 
             MainContent = Contents[0];
 
-            _bookHub.BookChanging +=
+            BookHub.Current.BookChanging +=
                 (s, e) => IgnoreViewContentsReservers();
 
             // TODO: BookOperationから？
-            _bookHub.ViewContentsChanged +=
+            BookHub.Current.ViewContentsChanged +=
                 OnViewContentsChanged;
-            _bookHub.NextContentsChanged +=
+            BookHub.Current.NextContentsChanged +=
                 OnNextContentsChanged;
 
-            _bookHub.EmptyMessage +=
+            BookHub.Current.EmptyMessage +=
                 (s, e) => EmptyPageMessage = e.Message;
         }
 

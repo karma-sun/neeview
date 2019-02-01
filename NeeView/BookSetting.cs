@@ -11,12 +11,11 @@ namespace NeeView
 {
     public class BookSetting : BindableBase
     {
-        public static BookSetting Current { get; private set; }
+        static BookSetting() => Current = new BookSetting();
+        public static BookSetting Current { get; }
 
-        public BookSetting()
+        private BookSetting()
         {
-            Current = this;
-
             this.SettingChanged +=
                 (s, e) => RaisePropertyChanged(nameof(BookMemento));
         }

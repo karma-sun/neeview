@@ -17,7 +17,7 @@ namespace NeeView
     /// NeeView全体のモデル。
     /// 各Modelのインスタンスを管理する。
     /// </summary>
-    public class Models : BindableBase, IEngine
+    public class Models : BindableBase
     {
         // System Object
         public static Models Current { get; private set; }
@@ -55,12 +55,6 @@ namespace NeeView
 
         //
         public InfoMessage InfoMessage { get; private set; }
-
-        //
-        public BookProfile BookProfile { get; private set; }
-        public BookHub BookHub { get; private set; }
-        public BookSetting BookSetting { get; private set; }
-        public BookOperation BookOperation { get; private set; }
 
         //
         public BookHistoryCommand BookHistoryCommand { get; private set; }
@@ -145,32 +139,22 @@ namespace NeeView
             this.TouchInput = new TouchInput(new TouchInputContext(window.MainView, window.MainContentShadow, MouseGestureCommandCollection.Current));
             this.ContentDropManager = new ContentDropManager(window.MainView);
 
-
             this.InfoMessage = new InfoMessage();
-
-            this.BookProfile = new BookProfile();
-            this.BookSetting = new BookSetting();
-            this.BookHub = new BookHub(this.BookSetting);
-            this.BookOperation = new BookOperation(this.BookHub);
-
-
-            // TODO: MainWindowVMをモデル分離してModelとして参照させる？
-            this.CommandTable.SetTarget(this);
 
             this.MainWindowModel = new MainWindowModel();
 
             this.ImageFilter = new ImageFilter();
 
-            this.ContentCanvas = new ContentCanvas(this.MouseInput, this.BookHub);
-            this.ContentCanvasBrush = new ContentCanvasBrush(this.ContentCanvas);
+            this.ContentCanvas = new ContentCanvas();
+            this.ContentCanvasBrush = new ContentCanvasBrush();
             this.ContentRebuild = new ContentRebuild();
 
-            this.SlideShow = new SlideShow(this.BookHub, this.BookOperation, this.MouseInput);
-            this.WindowTitle = new WindowTitle(this.ContentCanvas);
+            this.SlideShow = new SlideShow();
+            this.WindowTitle = new WindowTitle();
 
             var pageSelector = new PageSelector();
-            this.ThumbnailList = new ThumbnailList(pageSelector);
-            this.PageSlider = new PageSlider(this.ThumbnailList, pageSelector);
+            this.ThumbnailList = new ThumbnailList();
+            this.PageSlider = new PageSlider();
 
             this.MediaControl = new MediaControl();
             this.AddressBar = new AddressBar();
@@ -182,36 +166,18 @@ namespace NeeView
             this.FolderPanelModel = new FolderPanelModel();
             this.FolderList = new FolderList();
             this.PageList = new PageList();
-            this.HistoryList = new HistoryList(this.BookHub);
+            this.HistoryList = new HistoryList();
             this.PagemarkList = new PagemarkList();
-            this.FileInformation = new FileInformation(this.ContentCanvas);
+            this.FileInformation = new FileInformation();
             this.ImageEffect = new ImageEffect();
 
-            this.BookHistoryCommand = new BookHistoryCommand(this.BookHistoryCollection, this.BookHub);
+            this.BookHistoryCommand = new BookHistoryCommand();
 
             this.SidePanel = new SidePanel(this);
 
             this.SaveDataService = new SaveDataSync();
 
             this.Development = new Development();
-        }
-
-        //
-        public void StartEngine()
-        {
-            this.JobEngine.StartEngine();
-            this.SlideShow.StartEngine();
-            this.BookHub.StartEngine();
-            this.ContentRebuild.StartEngine();
-        }
-
-        //
-        public void StopEngine()
-        {
-            this.BookHub.StopEngine();
-            this.SlideShow.StopEngine();
-            this.JobEngine.StopEngine();
-            this.ContentRebuild.StopEngine();
         }
 
 
@@ -333,10 +299,10 @@ namespace NeeView
             memento.ThumbnailProfile = this.ThumbnailProfile.CreateMemento();
             memento.ExporterProfile = this.ExporterProfile.CreateMemento();
             memento.InfoMessage = this.InfoMessage.CreateMemento();
-            memento.BookProfile = this.BookProfile.CreateMemento();
-            memento.BookHub = this.BookHub.CreateMemento();
-            memento.BookOperation = this.BookOperation.CreateMemento();
-            memento.BookSetting = this.BookSetting.CreateMemento();
+            memento.BookProfile = BookProfile.Current.CreateMemento();
+            memento.BookHub = BookHub.Current.CreateMemento();
+            memento.BookOperation = BookOperation.Current.CreateMemento();
+            memento.BookSetting = BookSetting.Current.CreateMemento();
             memento.MainWindowModel = this.MainWindowModel.CreateMemento();
             memento.ContentCanvas = this.ContentCanvas.CreateMemento();
             memento.ContentCanvasBrush = this.ContentCanvasBrush.CreateMemento();
@@ -382,10 +348,10 @@ namespace NeeView
             this.ThumbnailProfile.Restore(memento.ThumbnailProfile);
             this.ExporterProfile.Restore(memento.ExporterProfile);
             this.InfoMessage.Restore(memento.InfoMessage);
-            this.BookProfile.Restore(memento.BookProfile);
-            this.BookHub.Restore(memento.BookHub);
-            this.BookOperation.Restore(memento.BookOperation);
-            this.BookSetting.Restore(memento.BookSetting);
+            BookProfile.Current.Restore(memento.BookProfile);
+            BookHub.Current.Restore(memento.BookHub);
+            BookOperation.Current.Restore(memento.BookOperation);
+            BookSetting.Current.Restore(memento.BookSetting);
             this.MainWindowModel.Restore(memento.MainWindowModel);
             this.ContentCanvas.Restore(memento.ContentCanvas);
             this.ContentCanvasBrush.Restore(memento.ContentCanvasBrush);
@@ -417,7 +383,7 @@ namespace NeeView
         {
             if (memento == null) return;
 
-            this.BookHub.RestoreCompatible(memento.BookHub);
+            BookHub.Current.RestoreCompatible(memento.BookHub);
 
 #pragma warning disable CS0612
             // compatible before ver.23

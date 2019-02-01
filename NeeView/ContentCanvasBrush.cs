@@ -20,21 +20,15 @@ namespace NeeView
         /// <summary>
         /// constructor
         /// </summary>
-        /// <param name="contentCanvas"></param>
-        public ContentCanvasBrush(ContentCanvas contentCanvas)
+        public ContentCanvasBrush()
         {
             Current = this;
 
-            _contentCanvas = contentCanvas;
-
-            _contentCanvas.ContentChanged +=
+            ContentCanvas.Current.ContentChanged +=
                 (s, e) => UpdateBackgroundBrush();
 
             this.CustomBackground = new BrushSource();
         }
-
-        //
-        private ContentCanvas _contentCanvas;
 
 
         // Foregroudh Brush：ファイルページのフォントカラー用

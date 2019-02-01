@@ -5,11 +5,15 @@ using System.Linq;
 
 namespace NeeView
 {
+    /// <summary>
+    /// スライダーやフィルムストリップと連動したページ選択の提供
+    /// </summary>
     public class PageSelector : BindableBase
     {
+        public static PageSelector Current { get; private set; }
+
         #region Fields
 
-        private BookOperation _bookOperation;
         private int _maxIndex;
         private int _selectedIndex;
 
@@ -19,9 +23,9 @@ namespace NeeView
 
         public PageSelector()
         {
-            _bookOperation = BookOperation.Current;
+            Current = this;
 
-            _bookOperation.PageListChanged += BookOperation_PageListChanged;
+            BookOperation.Current.PageListChanged += BookOperation_PageListChanged;
 
             // TODO: BookOperator経由のイベントにする
             BookHub.Current.ViewContentsChanged += BookHub_ViewContentsChanged;
@@ -55,8 +59,8 @@ namespace NeeView
         {
             get
             {
-                if (!_bookOperation.IsValid || _selectedIndex < 0 || _bookOperation.Book.Pages.Count <= _selectedIndex) return null;
-                return _bookOperation.Book.Pages[_selectedIndex];
+                if (!BookOperation.Current.IsValid || _selectedIndex < 0 || BookOperation.Current.Book.Pages.Count <= _selectedIndex) return null;
+                return BookOperation.Current.Book.Pages[_selectedIndex];
             }
         }
 
@@ -66,13 +70,13 @@ namespace NeeView
 
         private void BookOperation_PageListChanged(object sender, EventArgs e)
         {
-            if (!_bookOperation.IsValid) return;
-            this.MaxIndex = _bookOperation.GetMaxPageIndex();
+            if (!BookOperation.Current.IsValid) return;
+            this.MaxIndex = BookOperation.Current.GetMaxPageIndex();
         }
 
         internal void FlushSelectedIndex(object sender)
         {
-            SetSelectedIndex(sender, _bookOperation.GetPageIndex(), true);
+            SetSelectedIndex(sender, BookOperation.Current.GetPageIndex(), true);
         }
 
         public bool SetSelectedIndex(object sender, int value, bool raiseChangedEvent)

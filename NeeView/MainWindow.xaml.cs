@@ -62,7 +62,6 @@ namespace NeeView
 
             // Models初期化
             var models = new Models(this);
-            models.StartEngine();
 
             // MainWindow : ViewModel
             _vm = new MainWindowViewModel(models.MainWindowModel);
@@ -714,10 +713,7 @@ namespace NeeView
         private void MainWindow_Closed(object sender, EventArgs e)
         {
             ContentCanvas.Current.Dispose();
-
-            //
             ApplicationDisposer.Current.Dispose();
-            Models.Current.StopEngine();
 
             //
             CompositionTarget.Rendering -= OnRendering;

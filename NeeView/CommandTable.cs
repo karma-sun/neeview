@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Effects;
 using NeeView.Windows.Property;
 using System;
 using System.Collections;
@@ -50,8 +51,6 @@ namespace NeeView
         private static Memento s_defaultMemento;
 
         private Dictionary<CommandType, CommandElement> _elements;
-        private Models _models;
-        private BookHub _book;
         private bool _isReversePageMove = true;
         private bool _isReversePageMoveWheel;
 
@@ -172,15 +171,6 @@ namespace NeeView
             return memento;
         }
 
-
-        // コマンドターゲット設定
-        public void SetTarget(Models models)
-        {
-            _models = models;
-            ////_VM = vm;
-            _book = _models.BookHub;
-        }
-
         // .. あまりかわらん
         public T Parameter<T>(CommandType commandType) where T : class
         {
@@ -292,7 +282,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandLoadAsNote;
                 element.ShortCutKey = "Ctrl+O";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.MainWindowModel.LoadAs();
+                element.Execute = (s, e) => MainWindowModel.Current.LoadAs();
                 _elements[CommandType.LoadAs] = element;
             }
 
@@ -303,8 +293,8 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandReLoad;
                 element.Note = Properties.Resources.CommandReLoadNote;
                 element.MouseGesture = "UD";
-                element.CanExecute = () => _book.CanReload();
-                element.Execute = (s, e) => _book.ReLoad();
+                element.CanExecute = () => BookHub.Current.CanReload();
+                element.Execute = (s, e) => BookHub.Current.ReLoad();
                 element.IsShowMessage = false;
                 _elements[CommandType.ReLoad] = element;
             }
@@ -316,8 +306,8 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandUnload;
                 element.MenuText = Properties.Resources.CommandUnloadMenu;
                 element.Note = Properties.Resources.CommandUnloadNote;
-                element.CanExecute = () => _book.CanUnload();
-                element.Execute = (s, e) => _book.RequestUnload(true);
+                element.CanExecute = () => BookHub.Current.CanUnload();
+                element.Execute = (s, e) => BookHub.Current.RequestUnload(true);
                 element.IsShowMessage = false;
                 _elements[CommandType.Unload] = element;
             }
@@ -328,8 +318,8 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupFile;
                 element.Text = Properties.Resources.CommandOpenApplication;
                 element.Note = Properties.Resources.CommandOpenApplicationNote;
-                element.Execute = (s, e) => _models.BookOperation.OpenApplication();
-                element.CanExecute = () => _models.BookOperation.CanOpenFilePlace();
+                element.Execute = (s, e) => BookOperation.Current.OpenApplication();
+                element.CanExecute = () => BookOperation.Current.CanOpenFilePlace();
                 element.IsShowMessage = false;
                 _elements[CommandType.OpenApplication] = element;
             }
@@ -339,8 +329,8 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupFile;
                 element.Text = Properties.Resources.CommandOpenFilePlace;
                 element.Note = Properties.Resources.CommandOpenFilePlaceNote;
-                element.Execute = (s, e) => _models.BookOperation.OpenFilePlace();
-                element.CanExecute = () => _models.BookOperation.CanOpenFilePlace();
+                element.Execute = (s, e) => BookOperation.Current.OpenFilePlace();
+                element.CanExecute = () => BookOperation.Current.CanOpenFilePlace();
                 element.IsShowMessage = false;
                 _elements[CommandType.OpenFilePlace] = element;
             }
@@ -352,8 +342,8 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandExportMenu;
                 element.Note = Properties.Resources.CommandExportNote;
                 element.ShortCutKey = "Ctrl+S";
-                element.Execute = (s, e) => _models.BookOperation.Export();
-                element.CanExecute = () => _models.BookOperation.CanExport();
+                element.Execute = (s, e) => BookOperation.Current.Export();
+                element.CanExecute = () => BookOperation.Current.CanExport();
                 element.IsShowMessage = false;
                 _elements[CommandType.Export] = element;
             }
@@ -366,7 +356,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandPrintNote;
                 element.ShortCutKey = "Ctrl+P";
                 //element.Execute = (s, e) => _VM.Print();
-                element.CanExecute = () => _models.ContentCanvas.CanPrint();
+                element.CanExecute = () => ContentCanvas.Current.CanPrint();
                 element.IsShowMessage = false;
                 _elements[CommandType.Print] = element;
             }
@@ -378,8 +368,8 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandDeleteFileMenu;
                 element.Note = Properties.Resources.CommandDeleteFileNote;
                 element.ShortCutKey = "Delete";
-                element.Execute = (s, e) => _models.BookOperation.DeleteFile();
-                element.CanExecute = () => _models.BookOperation.CanDeleteFile();
+                element.Execute = (s, e) => BookOperation.Current.DeleteFile();
+                element.CanExecute = () => BookOperation.Current.CanDeleteFile();
                 element.IsShowMessage = false;
                 _elements[CommandType.DeleteFile] = element;
             }
@@ -390,8 +380,8 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandDeleteBook;
                 element.MenuText = Properties.Resources.CommandDeleteBookMenu;
                 element.Note = Properties.Resources.CommandDeleteBookNote;
-                element.Execute = (s, e) => _models.BookOperation.DeleteBook();
-                element.CanExecute = () => _models.BookOperation.CanDeleteBook();
+                element.Execute = (s, e) => BookOperation.Current.DeleteBook();
+                element.CanExecute = () => BookOperation.Current.CanDeleteBook();
                 element.IsShowMessage = false;
                 _elements[CommandType.DeleteBook] = element;
             }
@@ -403,8 +393,8 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandCopyFileMenu;
                 element.Note = Properties.Resources.CommandCopyFileNote;
                 element.ShortCutKey = "Ctrl+C";
-                element.Execute = (s, e) => _models.BookOperation.CopyToClipboard();
-                element.CanExecute = () => _models.BookOperation.CanOpenFilePlace();
+                element.Execute = (s, e) => BookOperation.Current.CopyToClipboard();
+                element.CanExecute = () => BookOperation.Current.CanOpenFilePlace();
                 element.IsShowMessage = true;
                 _elements[CommandType.CopyFile] = element;
             }
@@ -416,8 +406,8 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandCopyImageMenu;
                 element.Note = Properties.Resources.CommandCopyImageNote;
                 element.ShortCutKey = "Ctrl+Shift+C";
-                element.Execute = (s, e) => _models.ContentCanvas.CopyImageToClipboard();
-                element.CanExecute = () => _models.ContentCanvas.CanCopyImageToClipboard();
+                element.Execute = (s, e) => ContentCanvas.Current.CopyImageToClipboard();
+                element.CanExecute = () => ContentCanvas.Current.CanCopyImageToClipboard();
                 element.IsShowMessage = true;
                 _elements[CommandType.CopyImage] = element;
             }
@@ -430,8 +420,8 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandPasteNote;
                 element.ShortCutKey = "Ctrl+V";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.ContentDropManager.LoadFromClipboard();
-                element.CanExecute = () => _models.ContentDropManager.CanLoadFromClipboard();
+                element.Execute = (s, e) => ContentDropManager.Current.LoadFromClipboard();
+                element.CanExecute = () => ContentDropManager.Current.CanLoadFromClipboard();
                 _elements[CommandType.Paste] = element;
             }
 
@@ -442,7 +432,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupFile;
                 element.Text = Properties.Resources.CommandClearHistory;
                 element.Note = Properties.Resources.CommandClearHistoryNote;
-                element.Execute = (s, e) => _models.MainWindowModel.ClearHistory();
+                element.Execute = (s, e) => MainWindowModel.Current.ClearHistory();
                 element.IsShowMessage = true;
                 _elements[CommandType.ClearHistory] = element;
             }
@@ -453,8 +443,8 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupFile;
                 element.Text = Properties.Resources.CommandClearHistoryInPlace;
                 element.Note = Properties.Resources.CommandClearHistoryInPlaceNote;
-                element.Execute = (s, e) => _models.FolderList.ClearHistory();
-                element.CanExecute = () => _models.FolderList.Place != null;
+                element.Execute = (s, e) => FolderList.Current.ClearHistory();
+                element.CanExecute = () => FolderList.Current.Place != null;
                 element.IsShowMessage = true;
                 _elements[CommandType.ClearHistoryInPlace] = element;
             }
@@ -467,8 +457,8 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandToggleStretchMode;
                 element.Note = Properties.Resources.CommandToggleStretchModeNote;
                 element.ShortCutKey = "LeftButton+WheelDown";
-                element.Execute = (s, e) => _models.ContentCanvas.StretchMode = _models.ContentCanvas.GetToggleStretchMode((ToggleStretchModeCommandParameter)element.Parameter);
-                element.ExecuteMessage = e => _models.ContentCanvas.GetToggleStretchMode((ToggleStretchModeCommandParameter)element.Parameter).ToAliasName();
+                element.Execute = (s, e) => ContentCanvas.Current.StretchMode = ContentCanvas.Current.GetToggleStretchMode((ToggleStretchModeCommandParameter)element.Parameter);
+                element.ExecuteMessage = e => ContentCanvas.Current.GetToggleStretchMode((ToggleStretchModeCommandParameter)element.Parameter).ToAliasName();
                 element.DefaultParameter = new ToggleStretchModeCommandParameter() { IsLoop = true };
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleStretchMode] = element;
@@ -480,8 +470,8 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandToggleStretchModeReverse;
                 element.Note = Properties.Resources.CommandToggleStretchModeReverseNote;
                 element.ShortCutKey = "LeftButton+WheelUp";
-                element.Execute = (s, e) => _models.ContentCanvas.StretchMode = _models.ContentCanvas.GetToggleStretchModeReverse((ToggleStretchModeCommandParameter)element.Parameter);
-                element.ExecuteMessage = e => _models.ContentCanvas.GetToggleStretchModeReverse((ToggleStretchModeCommandParameter)element.Parameter).ToAliasName();
+                element.Execute = (s, e) => ContentCanvas.Current.StretchMode = ContentCanvas.Current.GetToggleStretchModeReverse((ToggleStretchModeCommandParameter)element.Parameter);
+                element.ExecuteMessage = e => ContentCanvas.Current.GetToggleStretchModeReverse((ToggleStretchModeCommandParameter)element.Parameter).ToAliasName();
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ToggleStretchMode };
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleStretchModeReverse] = element;
@@ -492,7 +482,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupImageScale;
                 element.Text = Properties.Resources.CommandSetStretchModeNone;
                 element.Note = Properties.Resources.CommandSetStretchModeNoneNote;
-                element.Execute = (s, e) => _models.ContentCanvas.StretchMode = PageStretchMode.None;
+                element.Execute = (s, e) => ContentCanvas.Current.StretchMode = PageStretchMode.None;
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.None);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetStretchModeNone] = element;
@@ -503,8 +493,8 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupImageScale;
                 element.Text = Properties.Resources.CommandSetStretchModeInside;
                 element.Note = Properties.Resources.CommandSetStretchModeInsideNote;
-                element.Execute = (s, e) => _models.ContentCanvas.SetStretchMode(PageStretchMode.Inside, ((StretchModeCommandParameter)element.Parameter).IsToggle);
-                element.ExecuteMessage = e => element.Text + (_models.ContentCanvas.TestStretchMode(PageStretchMode.Inside, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
+                element.Execute = (s, e) => ContentCanvas.Current.SetStretchMode(PageStretchMode.Inside, ((StretchModeCommandParameter)element.Parameter).IsToggle);
+                element.ExecuteMessage = e => element.Text + (ContentCanvas.Current.TestStretchMode(PageStretchMode.Inside, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.Inside);
                 element.DefaultParameter = new StretchModeCommandParameter();
                 element.IsShowMessage = true;
@@ -516,8 +506,8 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupImageScale;
                 element.Text = Properties.Resources.CommandSetStretchModeOutside;
                 element.Note = Properties.Resources.CommandSetStretchModeOutsideNote;
-                element.Execute = (s, e) => _models.ContentCanvas.SetStretchMode(PageStretchMode.Outside, ((StretchModeCommandParameter)element.Parameter).IsToggle);
-                element.ExecuteMessage = e => element.Text + (_models.ContentCanvas.TestStretchMode(PageStretchMode.Outside, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
+                element.Execute = (s, e) => ContentCanvas.Current.SetStretchMode(PageStretchMode.Outside, ((StretchModeCommandParameter)element.Parameter).IsToggle);
+                element.ExecuteMessage = e => element.Text + (ContentCanvas.Current.TestStretchMode(PageStretchMode.Outside, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.Outside);
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
                 element.IsShowMessage = true;
@@ -529,8 +519,8 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupImageScale;
                 element.Text = Properties.Resources.CommandSetStretchModeUniform;
                 element.Note = Properties.Resources.CommandSetStretchModeUniformNote;
-                element.Execute = (s, e) => _models.ContentCanvas.SetStretchMode(PageStretchMode.Uniform, ((StretchModeCommandParameter)element.Parameter).IsToggle);
-                element.ExecuteMessage = e => element.Text + (_models.ContentCanvas.TestStretchMode(PageStretchMode.Uniform, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
+                element.Execute = (s, e) => ContentCanvas.Current.SetStretchMode(PageStretchMode.Uniform, ((StretchModeCommandParameter)element.Parameter).IsToggle);
+                element.ExecuteMessage = e => element.Text + (ContentCanvas.Current.TestStretchMode(PageStretchMode.Uniform, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.Uniform);
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
                 element.IsShowMessage = true;
@@ -542,8 +532,8 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupImageScale;
                 element.Text = Properties.Resources.CommandSetStretchModeUniformToFill;
                 element.Note = Properties.Resources.CommandSetStretchModeUniformToFillNote;
-                element.Execute = (s, e) => _models.ContentCanvas.SetStretchMode(PageStretchMode.UniformToFill, ((StretchModeCommandParameter)element.Parameter).IsToggle);
-                element.ExecuteMessage = e => element.Text + (_models.ContentCanvas.TestStretchMode(PageStretchMode.UniformToFill, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
+                element.Execute = (s, e) => ContentCanvas.Current.SetStretchMode(PageStretchMode.UniformToFill, ((StretchModeCommandParameter)element.Parameter).IsToggle);
+                element.ExecuteMessage = e => element.Text + (ContentCanvas.Current.TestStretchMode(PageStretchMode.UniformToFill, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToFill);
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
                 element.IsShowMessage = true;
@@ -555,8 +545,8 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupImageScale;
                 element.Text = Properties.Resources.CommandSetStretchModeUniformToSize;
                 element.Note = Properties.Resources.CommandSetStretchModeUniformToSizeNote;
-                element.Execute = (s, e) => _models.ContentCanvas.SetStretchMode(PageStretchMode.UniformToSize, ((StretchModeCommandParameter)element.Parameter).IsToggle);
-                element.ExecuteMessage = e => element.Text + (_models.ContentCanvas.TestStretchMode(PageStretchMode.UniformToSize, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
+                element.Execute = (s, e) => ContentCanvas.Current.SetStretchMode(PageStretchMode.UniformToSize, ((StretchModeCommandParameter)element.Parameter).IsToggle);
+                element.ExecuteMessage = e => element.Text + (ContentCanvas.Current.TestStretchMode(PageStretchMode.UniformToSize, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToSize);
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
                 element.IsShowMessage = true;
@@ -568,8 +558,8 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupImageScale;
                 element.Text = Properties.Resources.CommandSetStretchModeUniformToVertical;
                 element.Note = Properties.Resources.CommandSetStretchModeUniformToVerticalNote;
-                element.Execute = (s, e) => _models.ContentCanvas.SetStretchMode(PageStretchMode.UniformToVertical, ((StretchModeCommandParameter)element.Parameter).IsToggle);
-                element.ExecuteMessage = e => element.Text + (_models.ContentCanvas.TestStretchMode(PageStretchMode.UniformToVertical, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
+                element.Execute = (s, e) => ContentCanvas.Current.SetStretchMode(PageStretchMode.UniformToVertical, ((StretchModeCommandParameter)element.Parameter).IsToggle);
+                element.ExecuteMessage = e => element.Text + (ContentCanvas.Current.TestStretchMode(PageStretchMode.UniformToVertical, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToVertical);
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
                 element.IsShowMessage = true;
@@ -583,9 +573,9 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandToggleIsEnabledNearestNeighbor;
                 element.MenuText = Properties.Resources.CommandToggleIsEnabledNearestNeighborMenu;
                 element.Note = Properties.Resources.CommandToggleIsEnabledNearestNeighborNote;
-                element.Execute = (s, e) => _models.ContentCanvas.IsEnabledNearestNeighbor = !_models.ContentCanvas.IsEnabledNearestNeighbor;
-                element.ExecuteMessage = e => _models.ContentCanvas.IsEnabledNearestNeighbor ? Properties.Resources.CommandToggleIsEnabledNearestNeighborOff : Properties.Resources.CommandToggleIsEnabledNearestNeighborOn;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.ContentCanvas.IsEnabledNearestNeighbor)) { Source = _models.ContentCanvas };
+                element.Execute = (s, e) => ContentCanvas.Current.IsEnabledNearestNeighbor = !ContentCanvas.Current.IsEnabledNearestNeighbor;
+                element.ExecuteMessage = e => ContentCanvas.Current.IsEnabledNearestNeighbor ? Properties.Resources.CommandToggleIsEnabledNearestNeighborOff : Properties.Resources.CommandToggleIsEnabledNearestNeighborOn;
+                element.CreateIsCheckedBinding = () => new Binding(nameof(ContentCanvas.Current.IsEnabledNearestNeighbor)) { Source = ContentCanvas.Current };
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleIsEnabledNearestNeighbor] = element;
             }
@@ -596,8 +586,8 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupEffect;
                 element.Text = Properties.Resources.CommandToggleBackground;
                 element.Note = Properties.Resources.CommandToggleBackgroundNote;
-                element.Execute = (s, e) => _models.ContentCanvasBrush.Background = _models.ContentCanvasBrush.Background.GetToggle();
-                element.ExecuteMessage = e => _models.ContentCanvasBrush.Background.GetToggle().ToAliasName();
+                element.Execute = (s, e) => ContentCanvasBrush.Current.Background = ContentCanvasBrush.Current.Background.GetToggle();
+                element.ExecuteMessage = e => ContentCanvasBrush.Current.Background.GetToggle().ToAliasName();
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleBackground] = element;
             }
@@ -608,7 +598,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupEffect;
                 element.Text = Properties.Resources.CommandSetBackgroundBlack;
                 element.Note = Properties.Resources.CommandSetBackgroundBlackNote;
-                element.Execute = (s, e) => _models.ContentCanvasBrush.Background = BackgroundStyle.Black;
+                element.Execute = (s, e) => ContentCanvasBrush.Current.Background = BackgroundStyle.Black;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.Black);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetBackgroundBlack] = element;
@@ -620,7 +610,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupEffect;
                 element.Text = Properties.Resources.CommandSetBackgroundWhite;
                 element.Note = Properties.Resources.CommandSetBackgroundWhiteNote;
-                element.Execute = (s, e) => _models.ContentCanvasBrush.Background = BackgroundStyle.White;
+                element.Execute = (s, e) => ContentCanvasBrush.Current.Background = BackgroundStyle.White;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.White);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetBackgroundWhite] = element;
@@ -632,7 +622,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupEffect;
                 element.Text = Properties.Resources.CommandSetBackgroundAuto;
                 element.Note = Properties.Resources.CommandSetBackgroundAutoNote;
-                element.Execute = (s, e) => _models.ContentCanvasBrush.Background = BackgroundStyle.Auto;
+                element.Execute = (s, e) => ContentCanvasBrush.Current.Background = BackgroundStyle.Auto;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.Auto);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetBackgroundAuto] = element;
@@ -644,7 +634,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupEffect;
                 element.Text = Properties.Resources.CommandSetBackgroundCheck;
                 element.Note = Properties.Resources.CommandSetBackgroundCheckNote;
-                element.Execute = (s, e) => _models.ContentCanvasBrush.Background = BackgroundStyle.Check;
+                element.Execute = (s, e) => ContentCanvasBrush.Current.Background = BackgroundStyle.Check;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.Check);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetBackgroundCheck] = element;
@@ -656,7 +646,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupEffect;
                 element.Text = Properties.Resources.CommandSetBackgroundCustom;
                 element.Note = Properties.Resources.CommandSetBackgroundCustomNote;
-                element.Execute = (s, e) => _models.ContentCanvasBrush.Background = BackgroundStyle.Custom;
+                element.Execute = (s, e) => ContentCanvasBrush.Current.Background = BackgroundStyle.Custom;
                 element.CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.Custom);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetBackgroundCustom] = element;
@@ -684,10 +674,10 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandToggleHideMenuMenu;
                 element.Note = Properties.Resources.CommandToggleHideMenuNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.MainWindowModel.ToggleHideMenu();
-                element.ExecuteMessage = e => _models.MainWindowModel.IsHideMenu ? Properties.Resources.CommandToggleHideMenuOff : Properties.Resources.CommandToggleHideMenuOn;
+                element.Execute = (s, e) => MainWindowModel.Current.ToggleHideMenu();
+                element.ExecuteMessage = e => MainWindowModel.Current.IsHideMenu ? Properties.Resources.CommandToggleHideMenuOff : Properties.Resources.CommandToggleHideMenuOn;
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.MainWindowModel.IsHideMenu)) { Source = _models.MainWindowModel };
+                element.CreateIsCheckedBinding = () => new Binding(nameof(MainWindowModel.Current.IsHideMenu)) { Source = MainWindowModel.Current };
                 _elements[CommandType.ToggleHideMenu] = element;
             }
             // ToggleHidePageSlider
@@ -698,10 +688,10 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandToggleHidePageSliderMenu;
                 element.Note = Properties.Resources.CommandToggleHidePageSliderNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.MainWindowModel.ToggleHidePageSlider();
-                element.ExecuteMessage = e => _models.MainWindowModel.IsHidePageSlider ? Properties.Resources.CommandToggleHidePageSliderOff : Properties.Resources.CommandToggleHidePageSliderOn;
+                element.Execute = (s, e) => MainWindowModel.Current.ToggleHidePageSlider();
+                element.ExecuteMessage = e => MainWindowModel.Current.IsHidePageSlider ? Properties.Resources.CommandToggleHidePageSliderOff : Properties.Resources.CommandToggleHidePageSliderOn;
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.MainWindowModel.IsHidePageSlider)) { Source = _models.MainWindowModel };
+                element.CreateIsCheckedBinding = () => new Binding(nameof(MainWindowModel.Current.IsHidePageSlider)) { Source = MainWindowModel.Current };
                 _elements[CommandType.ToggleHidePageSlider] = element;
             }
             // ToggleHidePanel
@@ -712,10 +702,10 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandToggleHidePanelMenu;
                 element.Note = Properties.Resources.CommandToggleHidePanelNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.MainWindowModel.ToggleHidePanel();
-                element.ExecuteMessage = e => _models.MainWindowModel.IsHidePanel ? Properties.Resources.CommandToggleHidePanelOff : Properties.Resources.CommandToggleHidePanelOn;
+                element.Execute = (s, e) => MainWindowModel.Current.ToggleHidePanel();
+                element.ExecuteMessage = e => MainWindowModel.Current.IsHidePanel ? Properties.Resources.CommandToggleHidePanelOff : Properties.Resources.CommandToggleHidePanelOn;
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.MainWindowModel.IsHidePanel)) { Source = _models.MainWindowModel };
+                element.CreateIsCheckedBinding = () => new Binding(nameof(MainWindowModel.Current.IsHidePanel)) { Source = MainWindowModel.Current };
                 _elements[CommandType.ToggleHidePanel] = element;
             }
 
@@ -742,10 +732,10 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandToggleVisibleAddressBarMenu;
                 element.Note = Properties.Resources.CommandToggleVisibleAddressBarNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.MainWindowModel.ToggleVisibleAddressBar();
-                element.ExecuteMessage = e => _models.MainWindowModel.IsVisibleAddressBar ? Properties.Resources.CommandToggleVisibleAddressBarOff : Properties.Resources.CommandToggleVisibleAddressBarOn;
+                element.Execute = (s, e) => MainWindowModel.Current.ToggleVisibleAddressBar();
+                element.ExecuteMessage = e => MainWindowModel.Current.IsVisibleAddressBar ? Properties.Resources.CommandToggleVisibleAddressBarOff : Properties.Resources.CommandToggleVisibleAddressBarOn;
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.MainWindowModel.IsVisibleAddressBar)) { Source = _models.MainWindowModel };
+                element.CreateIsCheckedBinding = () => new Binding(nameof(MainWindowModel.Current.IsVisibleAddressBar)) { Source = MainWindowModel.Current };
                 _elements[CommandType.ToggleVisibleAddressBar] = element;
             }
             // ToggleVisibleSideBar
@@ -756,10 +746,10 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandToggleVisibleSideBarMenu;
                 element.Note = Properties.Resources.CommandToggleVisibleSideBarNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.SidePanel.IsSideBarVisible = !_models.SidePanel.IsSideBarVisible;
-                element.ExecuteMessage = e => _models.SidePanel.IsSideBarVisible ? Properties.Resources.CommandToggleVisibleSideBarOff : Properties.Resources.CommandToggleVisibleSideBarOn;
+                element.Execute = (s, e) => SidePanel.Current.IsSideBarVisible = !SidePanel.Current.IsSideBarVisible;
+                element.ExecuteMessage = e => SidePanel.Current.IsSideBarVisible ? Properties.Resources.CommandToggleVisibleSideBarOff : Properties.Resources.CommandToggleVisibleSideBarOn;
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsSideBarVisible)) { Source = _models.SidePanel };
+                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsSideBarVisible)) { Source = SidePanel.Current };
                 _elements[CommandType.ToggleVisibleSideBar] = element;
             }
             // ToggleVisibleFileInfo
@@ -771,10 +761,10 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandToggleVisibleFileInfoNote;
                 element.ShortCutKey = "I";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleFileInfo(e.Parameter is MenuCommandTag);
-                element.ExecuteMessage = e => _models.SidePanel.IsVisibleFileInfo ? Properties.Resources.CommandToggleVisibleFileInfoOff : Properties.Resources.CommandToggleVisibleFileInfoOn;
+                element.Execute = (s, e) => SidePanel.Current.ToggleVisibleFileInfo(e.Parameter is MenuCommandTag);
+                element.ExecuteMessage = e => SidePanel.Current.IsVisibleFileInfo ? Properties.Resources.CommandToggleVisibleFileInfoOff : Properties.Resources.CommandToggleVisibleFileInfoOn;
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleFileInfo)) { Source = _models.SidePanel };
+                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleFileInfo)) { Source = SidePanel.Current };
                 _elements[CommandType.ToggleVisibleFileInfo] = element;
             }
             // ToggleVisibleEffectInfo
@@ -786,10 +776,10 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandToggleVisibleEffectInfoNote;
                 element.ShortCutKey = "E";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleEffectInfo(e.Parameter is MenuCommandTag);
-                element.ExecuteMessage = e => _models.SidePanel.IsVisibleEffectInfo ? Properties.Resources.CommandToggleVisibleEffectInfoOff : Properties.Resources.CommandToggleVisibleEffectInfoOn;
+                element.Execute = (s, e) => SidePanel.Current.ToggleVisibleEffectInfo(e.Parameter is MenuCommandTag);
+                element.ExecuteMessage = e => SidePanel.Current.IsVisibleEffectInfo ? Properties.Resources.CommandToggleVisibleEffectInfoOff : Properties.Resources.CommandToggleVisibleEffectInfoOn;
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleEffectInfo)) { Source = _models.SidePanel };
+                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleEffectInfo)) { Source = SidePanel.Current };
                 _elements[CommandType.ToggleVisibleEffectInfo] = element;
             }
             // ToggleVisibleBookshelf
@@ -801,10 +791,10 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandToggleVisibleBookshelfNote;
                 element.ShortCutKey = "B";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleFolderList(e.Parameter is MenuCommandTag);
-                element.ExecuteMessage = e => _models.SidePanel.IsVisibleFolderList ? Properties.Resources.CommandToggleVisibleBookshelfOff : Properties.Resources.CommandToggleVisibleBookshelfOn;
+                element.Execute = (s, e) => SidePanel.Current.ToggleVisibleFolderList(e.Parameter is MenuCommandTag);
+                element.ExecuteMessage = e => SidePanel.Current.IsVisibleFolderList ? Properties.Resources.CommandToggleVisibleBookshelfOff : Properties.Resources.CommandToggleVisibleBookshelfOn;
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleFolderList)) { Source = _models.SidePanel };
+                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleFolderList)) { Source = SidePanel.Current };
                 _elements[CommandType.ToggleVisibleBookshelf] = element;
             }
             // ToggleVisiblePagemarkList
@@ -816,10 +806,10 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandToggleVisiblePagemarkListNote;
                 element.ShortCutKey = "M";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.SidePanel.ToggleVisiblePagemarkList(e.Parameter is MenuCommandTag);
-                element.ExecuteMessage = e => _models.SidePanel.IsVisiblePagemarkList ? Properties.Resources.CommandToggleVisiblePagemarkListOff : Properties.Resources.CommandToggleVisiblePagemarkListOn;
+                element.Execute = (s, e) => SidePanel.Current.ToggleVisiblePagemarkList(e.Parameter is MenuCommandTag);
+                element.ExecuteMessage = e => SidePanel.Current.IsVisiblePagemarkList ? Properties.Resources.CommandToggleVisiblePagemarkListOff : Properties.Resources.CommandToggleVisiblePagemarkListOn;
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisiblePagemarkList)) { Source = _models.SidePanel };
+                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisiblePagemarkList)) { Source = SidePanel.Current };
                 _elements[CommandType.ToggleVisiblePagemarkList] = element;
             }
             // ToggleVisibleHistoryList
@@ -831,10 +821,10 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandToggleVisibleHistoryListNote;
                 element.ShortCutKey = "H";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleHistoryList(e.Parameter is MenuCommandTag);
-                element.ExecuteMessage = e => _models.SidePanel.IsVisibleHistoryList ? Properties.Resources.CommandToggleVisibleHistoryListOff : Properties.Resources.CommandToggleVisibleHistoryListOn;
+                element.Execute = (s, e) => SidePanel.Current.ToggleVisibleHistoryList(e.Parameter is MenuCommandTag);
+                element.ExecuteMessage = e => SidePanel.Current.IsVisibleHistoryList ? Properties.Resources.CommandToggleVisibleHistoryListOff : Properties.Resources.CommandToggleVisibleHistoryListOn;
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleHistoryList)) { Source = _models.SidePanel };
+                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleHistoryList)) { Source = SidePanel.Current };
                 _elements[CommandType.ToggleVisibleHistoryList] = element;
             }
             // ToggleVisiblePageList
@@ -846,10 +836,10 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandToggleVisiblePageListNote;
                 element.ShortCutKey = "P";
                 element.IsShowMessage = false;
-                element.ExecuteMessage = e => _models.SidePanel.IsVisiblePageList ? Properties.Resources.CommandToggleVisiblePageListOff : Properties.Resources.CommandToggleVisiblePageListOn;
-                element.Execute = (s, e) => _models.SidePanel.ToggleVisiblePageList(e.Parameter is MenuCommandTag);
+                element.ExecuteMessage = e => SidePanel.Current.IsVisiblePageList ? Properties.Resources.CommandToggleVisiblePageListOff : Properties.Resources.CommandToggleVisiblePageListOn;
+                element.Execute = (s, e) => SidePanel.Current.ToggleVisiblePageList(e.Parameter is MenuCommandTag);
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisiblePageList)) { Source = _models.SidePanel };
+                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisiblePageList)) { Source = SidePanel.Current };
                 _elements[CommandType.ToggleVisiblePageList] = element;
             }
             // ToggleVisibleFoldersTree
@@ -860,10 +850,10 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandToggleVisibleFoldersTreeMenu;
                 element.Note = Properties.Resources.CommandToggleVisibleFoldersTreeNote;
                 element.IsShowMessage = false;
-                element.ExecuteMessage = e => _models.SidePanel.IsVisibleFolderTree ? Properties.Resources.CommandToggleVisibleFoldersTreeOff : Properties.Resources.CommandToggleVisibleFoldersTreeOn;
-                element.Execute = (s, e) => _models.SidePanel.ToggleVisibleFolderTree(e.Parameter is MenuCommandTag);
+                element.ExecuteMessage = e => SidePanel.Current.IsVisibleFolderTree ? Properties.Resources.CommandToggleVisibleFoldersTreeOff : Properties.Resources.CommandToggleVisibleFoldersTreeOn;
+                element.Execute = (s, e) => SidePanel.Current.ToggleVisibleFolderTree(e.Parameter is MenuCommandTag);
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.FolderList.IsFolderTreeVisible)) { Source = _models.FolderList, Mode = BindingMode.OneWay };
+                element.CreateIsCheckedBinding = () => new Binding(nameof(FolderList.Current.IsFolderTreeVisible)) { Source = FolderList.Current, Mode = BindingMode.OneWay };
                 _elements[CommandType.ToggleVisibleFoldersTree] = element;
             }
             // FocusFolderSearchBox
@@ -874,7 +864,7 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandFocusFolderSearchBoxMenu;
                 element.Note = Properties.Resources.CommandFocusFolderSearchBoxNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.SidePanel.FocusFolderSearchBox(e.Parameter is MenuCommandTag);
+                element.Execute = (s, e) => SidePanel.Current.FocusFolderSearchBox(e.Parameter is MenuCommandTag);
                 element.CanExecute = () => true;
                 _elements[CommandType.FocusFolderSearchBox] = element;
             }
@@ -886,7 +876,7 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandFocusBookmarkListMenu;
                 element.Note = Properties.Resources.CommandFocusBookmarkListNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.SidePanel.FocusBookmarkList(e.Parameter is MenuCommandTag);
+                element.Execute = (s, e) => SidePanel.Current.FocusBookmarkList(e.Parameter is MenuCommandTag);
                 element.CanExecute = () => true;
                 _elements[CommandType.FocusBookmarkList] = element;
             }
@@ -899,10 +889,10 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandTogglePageListPlacementMenu;
                 element.Note = Properties.Resources.CommandTogglePageListPlacementNote;
                 element.IsShowMessage = false;
-                element.ExecuteMessage = e => _models.PageListPlacementService.IsPlacedInBookshelf ? Properties.Resources.CommandTogglePageListPlacementPanel : Properties.Resources.CommandTogglePageListPlacementBookshelf;
-                element.Execute = (s, e) => _models.PageListPlacementService.IsPlacedInBookshelf = !_models.PageListPlacementService.IsPlacedInBookshelf;
+                element.ExecuteMessage = e => PageListPlacementService.Current.IsPlacedInBookshelf ? Properties.Resources.CommandTogglePageListPlacementPanel : Properties.Resources.CommandTogglePageListPlacementBookshelf;
+                element.Execute = (s, e) => PageListPlacementService.Current.IsPlacedInBookshelf = !PageListPlacementService.Current.IsPlacedInBookshelf;
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.PageListPlacementService.IsPlacedInBookshelf)) { Source = _models.PageListPlacementService };
+                element.CreateIsCheckedBinding = () => new Binding(nameof(PageListPlacementService.Current.IsPlacedInBookshelf)) { Source = PageListPlacementService.Current };
                 _elements[CommandType.TogglePageListPlacement] = element;
             }
 
@@ -914,10 +904,10 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandToggleVisibleThumbnailListMenu;
                 element.Note = Properties.Resources.CommandToggleVisibleThumbnailListNote;
                 element.IsShowMessage = false;
-                element.ExecuteMessage = e => _models.ThumbnailList.IsEnableThumbnailList ? Properties.Resources.CommandToggleVisibleThumbnailListOff : Properties.Resources.CommandToggleVisibleThumbnailListOn;
-                element.Execute = (s, e) => _models.ThumbnailList.ToggleVisibleThumbnailList();
+                element.ExecuteMessage = e => ThumbnailList.Current.IsEnableThumbnailList ? Properties.Resources.CommandToggleVisibleThumbnailListOff : Properties.Resources.CommandToggleVisibleThumbnailListOn;
+                element.Execute = (s, e) => ThumbnailList.Current.ToggleVisibleThumbnailList();
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.ThumbnailList.IsEnableThumbnailList)) { Source = _models.ThumbnailList };
+                element.CreateIsCheckedBinding = () => new Binding(nameof(ThumbnailList.Current.IsEnableThumbnailList)) { Source = ThumbnailList.Current };
                 _elements[CommandType.ToggleVisibleThumbnailList] = element;
             }
             // ToggleHideThumbnailList
@@ -928,10 +918,10 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandToggleHideThumbnailListMenu;
                 element.Note = Properties.Resources.CommandToggleHideThumbnailListNote;
                 element.IsShowMessage = false;
-                element.ExecuteMessage = e => _models.ThumbnailList.IsHideThumbnailList ? Properties.Resources.CommandToggleHideThumbnailListOff : Properties.Resources.CommandToggleHideThumbnailListOn;
-                element.Execute = (s, e) => _models.ThumbnailList.ToggleHideThumbnailList();
-                element.CanExecute = () => _models.ThumbnailList.IsEnableThumbnailList;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.ThumbnailList.IsHideThumbnailList)) { Source = _models.ThumbnailList };
+                element.ExecuteMessage = e => ThumbnailList.Current.IsHideThumbnailList ? Properties.Resources.CommandToggleHideThumbnailListOff : Properties.Resources.CommandToggleHideThumbnailListOn;
+                element.Execute = (s, e) => ThumbnailList.Current.ToggleHideThumbnailList();
+                element.CanExecute = () => ThumbnailList.Current.IsEnableThumbnailList;
+                element.CreateIsCheckedBinding = () => new Binding(nameof(ThumbnailList.Current.IsHideThumbnailList)) { Source = ThumbnailList.Current };
                 _elements[CommandType.ToggleHideThumbnailList] = element;
             }
 
@@ -1008,7 +998,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandShowHiddenPanelsNote;
                 element.TouchGesture = "TouchCenter";
                 element.CanExecute = () => true;
-                element.Execute = (s, e) => _models.MainWindowModel.EnterVisibleLocked();
+                element.Execute = (s, e) => MainWindowModel.Current.EnterVisibleLocked();
                 element.IsShowMessage = false;
                 _elements[CommandType.ShowHiddenPanels] = element;
             }
@@ -1022,9 +1012,9 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandToggleSlideShowMenu;
                 element.Note = Properties.Resources.CommandToggleSlideShowNote;
                 element.ShortCutKey = "F5";
-                element.Execute = (s, e) => _models.SlideShow.ToggleSlideShow();
-                element.ExecuteMessage = e => _models.SlideShow.IsPlayingSlideShow ? Properties.Resources.CommandToggleSlideShowOff : Properties.Resources.CommandToggleSlideShowOn;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(SlideShow.IsPlayingSlideShow)) { Source = _models.SlideShow };
+                element.Execute = (s, e) => SlideShow.Current.ToggleSlideShow();
+                element.ExecuteMessage = e => SlideShow.Current.IsPlayingSlideShow ? Properties.Resources.CommandToggleSlideShowOff : Properties.Resources.CommandToggleSlideShowOn;
+                element.CreateIsCheckedBinding = () => new Binding(nameof(SlideShow.IsPlayingSlideShow)) { Source = SlideShow.Current };
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleSlideShow] = element;
             }
@@ -1036,7 +1026,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandViewScrollUpNote;
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ViewScrollCommandParameter() { Scroll = 25, AllowCrossScroll = true };
-                element.Execute = (s, e) => _models.DragTransformControl.ScrollUp((ViewScrollCommandParameter)element.Parameter);
+                element.Execute = (s, e) => DragTransformControl.Current.ScrollUp((ViewScrollCommandParameter)element.Parameter);
                 _elements[CommandType.ViewScrollUp] = element;
             }
             // ViewScrollDown
@@ -1047,7 +1037,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandViewScrollDownNote;
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewScrollUp };
-                element.Execute = (s, e) => _models.DragTransformControl.ScrollDown((ViewScrollCommandParameter)element.Parameter);
+                element.Execute = (s, e) => DragTransformControl.Current.ScrollDown((ViewScrollCommandParameter)element.Parameter);
                 _elements[CommandType.ViewScrollDown] = element;
             }
             // ViewScrollLeft
@@ -1058,7 +1048,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandViewScrollLeftNote;
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewScrollUp };
-                element.Execute = (s, e) => _models.DragTransformControl.ScrollLeft((ViewScrollCommandParameter)element.Parameter);
+                element.Execute = (s, e) => DragTransformControl.Current.ScrollLeft((ViewScrollCommandParameter)element.Parameter);
                 _elements[CommandType.ViewScrollLeft] = element;
             }
             // ViewScrollRight
@@ -1069,7 +1059,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandViewScrollRightNote;
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewScrollUp };
-                element.Execute = (s, e) => _models.DragTransformControl.ScrollRight((ViewScrollCommandParameter)element.Parameter);
+                element.Execute = (s, e) => DragTransformControl.Current.ScrollRight((ViewScrollCommandParameter)element.Parameter);
                 _elements[CommandType.ViewScrollRight] = element;
             }
             // ViewScaleUp
@@ -1081,7 +1071,7 @@ namespace NeeView
                 element.ShortCutKey = "RightButton+WheelUp";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ViewScaleCommandParameter() { Scale = 20, IsSnapDefaultScale = true };
-                element.Execute = (s, e) => { var param = (ViewScaleCommandParameter)element.Parameter; _models.DragTransformControl.ScaleUp(param.Scale / 100.0, param.IsSnapDefaultScale, _models.ContentCanvas.MainContentScale); };
+                element.Execute = (s, e) => { var param = (ViewScaleCommandParameter)element.Parameter; DragTransformControl.Current.ScaleUp(param.Scale / 100.0, param.IsSnapDefaultScale, ContentCanvas.Current.MainContentScale); };
                 _elements[CommandType.ViewScaleUp] = element;
             }
             // ViewScaleDown
@@ -1093,7 +1083,7 @@ namespace NeeView
                 element.ShortCutKey = "RightButton+WheelDown";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewScaleUp };
-                element.Execute = (s, e) => { var param = (ViewScaleCommandParameter)element.Parameter; _models.DragTransformControl.ScaleDown(param.Scale / 100.0, param.IsSnapDefaultScale, _models.ContentCanvas.MainContentScale); };
+                element.Execute = (s, e) => { var param = (ViewScaleCommandParameter)element.Parameter; DragTransformControl.Current.ScaleDown(param.Scale / 100.0, param.IsSnapDefaultScale, ContentCanvas.Current.MainContentScale); };
                 _elements[CommandType.ViewScaleDown] = element;
             }
             // ViewRotateLeft
@@ -1104,7 +1094,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandViewRotateLeftNote;
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ViewRotateCommandParameter() { Angle = 45 };
-                element.Execute = (s, e) => _models.ContentCanvas.ViewRotateLeft((ViewRotateCommandParameter)element.Parameter);
+                element.Execute = (s, e) => ContentCanvas.Current.ViewRotateLeft((ViewRotateCommandParameter)element.Parameter);
                 _elements[CommandType.ViewRotateLeft] = element;
             }
             // ViewRotateRight
@@ -1115,7 +1105,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandViewRotateRightNote;
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewRotateLeft };
-                element.Execute = (s, e) => _models.ContentCanvas.ViewRotateRight((ViewRotateCommandParameter)element.Parameter);
+                element.Execute = (s, e) => ContentCanvas.Current.ViewRotateRight((ViewRotateCommandParameter)element.Parameter);
                 _elements[CommandType.ViewRotateRight] = element;
             }
 
@@ -1127,9 +1117,9 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandToggleIsAutoRotate;
                 element.MenuText = Properties.Resources.CommandToggleIsAutoRotateMenu;
                 element.Note = Properties.Resources.CommandToggleIsAutoRotateNote;
-                element.Execute = (s, e) => _models.ContentCanvas.ToggleAutoRotate();
-                element.ExecuteMessage = e => _models.ContentCanvas.IsAutoRotate ? Properties.Resources.CommandToggleIsAutoRotateOff : Properties.Resources.CommandToggleIsAutoRotateOn;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(ContentCanvas.IsAutoRotate)) { Source = _models.ContentCanvas };
+                element.Execute = (s, e) => ContentCanvas.Current.ToggleAutoRotate();
+                element.ExecuteMessage = e => ContentCanvas.Current.IsAutoRotate ? Properties.Resources.CommandToggleIsAutoRotateOff : Properties.Resources.CommandToggleIsAutoRotateOn;
+                element.CreateIsCheckedBinding = () => new Binding(nameof(ContentCanvas.IsAutoRotate)) { Source = ContentCanvas.Current };
                 element.DefaultParameter = new AutoRotateCommandParameter();
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleIsAutoRotate] = element;
@@ -1143,7 +1133,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandToggleViewFlipHorizontalNote;
                 element.IsShowMessage = false;
                 element.CreateIsCheckedBinding = () => BindingGenerator.IsFlipHorizontal();
-                element.Execute = (s, e) => _models.DragTransformControl.ToggleFlipHorizontal();
+                element.Execute = (s, e) => DragTransformControl.Current.ToggleFlipHorizontal();
                 _elements[CommandType.ToggleViewFlipHorizontal] = element;
             }
             // ViewFlipHorizontalOn
@@ -1153,7 +1143,7 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandViewFlipHorizontalOn;
                 element.Note = Properties.Resources.CommandViewFlipHorizontalOnNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.DragTransformControl.FlipHorizontal(true);
+                element.Execute = (s, e) => DragTransformControl.Current.FlipHorizontal(true);
                 _elements[CommandType.ViewFlipHorizontalOn] = element;
             }
             // ViewFlipHorizontalOff
@@ -1163,7 +1153,7 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandViewFlipHorizontalOff;
                 element.Note = Properties.Resources.CommandViewFlipHorizontalOffNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.DragTransformControl.FlipHorizontal(false);
+                element.Execute = (s, e) => DragTransformControl.Current.FlipHorizontal(false);
                 _elements[CommandType.ViewFlipHorizontalOff] = element;
             }
 
@@ -1176,7 +1166,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandToggleViewFlipVerticalNote;
                 element.IsShowMessage = false;
                 element.CreateIsCheckedBinding = () => BindingGenerator.IsFlipVertical();
-                element.Execute = (s, e) => _models.DragTransformControl.ToggleFlipVertical();
+                element.Execute = (s, e) => DragTransformControl.Current.ToggleFlipVertical();
                 _elements[CommandType.ToggleViewFlipVertical] = element;
             }
             // ViewFlipVerticalOn
@@ -1186,7 +1176,7 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandViewFlipVerticalOn;
                 element.Note = Properties.Resources.CommandViewFlipVerticalOnNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.DragTransformControl.FlipVertical(true);
+                element.Execute = (s, e) => DragTransformControl.Current.FlipVertical(true);
                 _elements[CommandType.ViewFlipVerticalOn] = element;
             }
             // ViewFlipVerticalOff
@@ -1196,7 +1186,7 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandViewFlipVerticalOff;
                 element.Note = Properties.Resources.CommandViewFlipVerticalOffNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.DragTransformControl.FlipVertical(false);
+                element.Execute = (s, e) => DragTransformControl.Current.FlipVertical(false);
                 _elements[CommandType.ViewFlipVerticalOff] = element;
             }
 
@@ -1207,7 +1197,7 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandViewReset;
                 element.Note = Properties.Resources.CommandViewResetNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.ContentCanvas.ResetTransform(true);
+                element.Execute = (s, e) => ContentCanvas.Current.ResetTransform(true);
                 _elements[CommandType.ViewReset] = element;
             }
 
@@ -1221,7 +1211,7 @@ namespace NeeView
                 element.TouchGesture = "TouchR1,TouchR2";
                 element.MouseGesture = "R";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.BookOperation.PrevPage();
+                element.Execute = (s, e) => BookOperation.Current.PrevPage();
                 element.PairPartner = CommandType.NextPage;
                 _elements[CommandType.PrevPage] = element;
             }
@@ -1235,7 +1225,7 @@ namespace NeeView
                 element.TouchGesture = "TouchL1,TouchL2";
                 element.MouseGesture = "L";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.BookOperation.NextPage();
+                element.Execute = (s, e) => BookOperation.Current.NextPage();
                 element.PairPartner = CommandType.PrevPage;
                 _elements[CommandType.NextPage] = element;
             }
@@ -1247,7 +1237,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandPrevOnePageNote;
                 element.MouseGesture = "LR";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.BookOperation.PrevOnePage();
+                element.Execute = (s, e) => BookOperation.Current.PrevOnePage();
                 element.PairPartner = CommandType.NextOnePage;
                 _elements[CommandType.PrevOnePage] = element;
             }
@@ -1259,7 +1249,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandNextOnePageNote;
                 element.MouseGesture = "RL";
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.BookOperation.NextOnePage();
+                element.Execute = (s, e) => BookOperation.Current.NextOnePage();
                 element.PairPartner = CommandType.PrevOnePage;
                 _elements[CommandType.NextOnePage] = element;
             }
@@ -1274,7 +1264,7 @@ namespace NeeView
                 element.ShortCutKey = "WheelUp";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ScrollPageCommandParameter() { IsNScroll = true, IsAnimation = true, Margin = 50, Scroll = 100 };
-                element.Execute = (s, e) => _models.MainWindowModel.PrevScrollPage();
+                element.Execute = (s, e) => MainWindowModel.Current.PrevScrollPage();
                 element.PairPartner = CommandType.NextScrollPage;
                 _elements[CommandType.PrevScrollPage] = element;
             }
@@ -1287,7 +1277,7 @@ namespace NeeView
                 element.ShortCutKey = "WheelDown";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.PrevScrollPage };
-                element.Execute = (s, e) => _models.MainWindowModel.NextScrollPage();
+                element.Execute = (s, e) => MainWindowModel.Current.NextScrollPage();
                 element.PairPartner = CommandType.PrevScrollPage;
                 _elements[CommandType.NextScrollPage] = element;
             }
@@ -1299,7 +1289,7 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandJumpPage;
                 element.Note = Properties.Resources.CommandJumpPageNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.BookOperation.JumpPage();
+                element.Execute = (s, e) => BookOperation.Current.JumpPage();
                 _elements[CommandType.JumpPage] = element;
             }
 
@@ -1311,7 +1301,7 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandPrevSizePage;
                 element.Note = Properties.Resources.CommandPrevSizePageNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.BookOperation.PrevSizePage(((MoveSizePageCommandParameter)element.Parameter).Size);
+                element.Execute = (s, e) => BookOperation.Current.PrevSizePage(((MoveSizePageCommandParameter)element.Parameter).Size);
                 element.DefaultParameter = new MoveSizePageCommandParameter() { Size = 10 };
                 element.PairPartner = CommandType.NextSizePage;
                 _elements[CommandType.PrevSizePage] = element;
@@ -1324,7 +1314,7 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandNextSizePage;
                 element.Note = Properties.Resources.CommandNextSizePageNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.BookOperation.NextSizePage(((MoveSizePageCommandParameter)element.Parameter).Size);
+                element.Execute = (s, e) => BookOperation.Current.NextSizePage(((MoveSizePageCommandParameter)element.Parameter).Size);
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.PrevSizePage };
                 element.PairPartner = CommandType.PrevSizePage;
                 _elements[CommandType.NextSizePage] = element;
@@ -1338,7 +1328,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandFirstPageNote;
                 element.ShortCutKey = "Ctrl+Right";
                 element.MouseGesture = "UR";
-                element.Execute = (s, e) => _models.BookOperation.FirstPage();
+                element.Execute = (s, e) => BookOperation.Current.FirstPage();
                 element.IsShowMessage = true;
                 element.PairPartner = CommandType.LastPage;
                 _elements[CommandType.FirstPage] = element;
@@ -1351,7 +1341,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandLastPageNote;
                 element.ShortCutKey = "Ctrl+Left";
                 element.MouseGesture = "UL";
-                element.Execute = (s, e) => _models.BookOperation.LastPage();
+                element.Execute = (s, e) => BookOperation.Current.LastPage();
                 element.IsShowMessage = true;
                 element.PairPartner = CommandType.FirstPage;
                 _elements[CommandType.LastPage] = element;
@@ -1365,7 +1355,7 @@ namespace NeeView
                 element.ShortCutKey = "Up";
                 element.MouseGesture = "LU";
                 element.IsShowMessage = false;
-                element.Execute = async (s, e) => await _models.FolderList.PrevFolder();
+                element.Execute = async (s, e) => await FolderList.Current.PrevFolder();
                 _elements[CommandType.PrevFolder] = element;
             }
             // NextFolder
@@ -1377,7 +1367,7 @@ namespace NeeView
                 element.ShortCutKey = "Down";
                 element.MouseGesture = "LD";
                 element.IsShowMessage = false;
-                element.Execute = async (s, e) => await _models.FolderList.NextFolder();
+                element.Execute = async (s, e) => await FolderList.Current.NextFolder();
                 _elements[CommandType.NextFolder] = element;
             }
             // PrevHistory
@@ -1388,8 +1378,8 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandPrevHistoryNote;
                 element.ShortCutKey = "Back";
                 element.IsShowMessage = false;
-                element.CanExecute = () => _models.BookHistoryCommand.CanPrevHistory();
-                element.Execute = (s, e) => _models.BookHistoryCommand.PrevHistory();
+                element.CanExecute = () => BookHistoryCommand.Current.CanPrevHistory();
+                element.Execute = (s, e) => BookHistoryCommand.Current.PrevHistory();
                 _elements[CommandType.PrevHistory] = element;
             }
             // NextHistory
@@ -1400,8 +1390,8 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandNextHistoryNote;
                 element.ShortCutKey = "Shift+Back";
                 element.IsShowMessage = false;
-                element.CanExecute = () => _models.BookHistoryCommand.CanNextHistory();
-                element.Execute = (s, e) => _models.BookHistoryCommand.NextHistory();
+                element.CanExecute = () => BookHistoryCommand.Current.CanNextHistory();
+                element.Execute = (s, e) => BookHistoryCommand.Current.NextHistory();
                 _elements[CommandType.NextHistory] = element;
             }
 
@@ -1411,9 +1401,9 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupVideo;
                 element.Text = Properties.Resources.CommandToggleMediaPlay;
                 element.Note = Properties.Resources.CommandToggleMediaPlayNote;
-                element.ExecuteMessage = e => _models.BookOperation.IsMediaPlaying() ? Properties.Resources.WordStop : Properties.Resources.WordPlay;
-                element.CanExecute = () => _book.Book != null && _book.Book.IsMedia;
-                element.Execute = (s, e) => _models.BookOperation.ToggleMediaPlay(s, e);
+                element.ExecuteMessage = e => BookOperation.Current.IsMediaPlaying() ? Properties.Resources.WordStop : Properties.Resources.WordPlay;
+                element.CanExecute = () => BookOperation.Current.Book != null && BookOperation.Current.Book.IsMedia;
+                element.Execute = (s, e) => BookOperation.Current.ToggleMediaPlay(s, e);
                 _elements[CommandType.ToggleMediaPlay] = element;
             }
 
@@ -1423,8 +1413,8 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandToggleFolderOrder;
                 element.Note = Properties.Resources.CommandToggleFolderOrderNote;
-                element.Execute = (s, e) => _models.FolderList.ToggleFolderOrder();
-                element.ExecuteMessage = e => _models.FolderList.GetFolderOrder().GetToggle().ToAliasName();
+                element.Execute = (s, e) => FolderList.Current.ToggleFolderOrder();
+                element.ExecuteMessage = e => FolderList.Current.GetFolderOrder().GetToggle().ToAliasName();
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleFolderOrder] = element;
             }
@@ -1434,7 +1424,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderByFileNameA;
                 element.Note = Properties.Resources.CommandSetFolderOrderByFileNameANote;
-                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.FileName);
+                element.Execute = (s, e) => FolderList.Current.SetFolderOrder(FolderOrder.FileName);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.FileName);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderByFileNameA] = element;
@@ -1445,7 +1435,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderByFileNameD;
                 element.Note = Properties.Resources.CommandSetFolderOrderByFileNameDNote;
-                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.FileNameDescending);
+                element.Execute = (s, e) => FolderList.Current.SetFolderOrder(FolderOrder.FileNameDescending);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.FileNameDescending);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderByFileNameD] = element;
@@ -1456,7 +1446,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderByTimeStampA;
                 element.Note = Properties.Resources.CommandSetFolderOrderByTimeStampANote;
-                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.TimeStamp);
+                element.Execute = (s, e) => FolderList.Current.SetFolderOrder(FolderOrder.TimeStamp);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.TimeStamp);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderByTimeStampA] = element;
@@ -1467,7 +1457,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderByTimeStampD;
                 element.Note = Properties.Resources.CommandSetFolderOrderByTimeStampDNote;
-                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.TimeStampDescending);
+                element.Execute = (s, e) => FolderList.Current.SetFolderOrder(FolderOrder.TimeStampDescending);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.TimeStampDescending);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderByTimeStampD] = element;
@@ -1478,7 +1468,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderBySizeA;
                 element.Note = Properties.Resources.CommandSetFolderOrderBySizeANote;
-                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.Size);
+                element.Execute = (s, e) => FolderList.Current.SetFolderOrder(FolderOrder.Size);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.Size);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderBySizeA] = element;
@@ -1489,7 +1479,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderBySizeD;
                 element.Note = Properties.Resources.CommandSetFolderOrderBySizeDNote;
-                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.SizeDescending);
+                element.Execute = (s, e) => FolderList.Current.SetFolderOrder(FolderOrder.SizeDescending);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.SizeDescending);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderBySizeD] = element;
@@ -1500,7 +1490,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderByRandom;
                 element.Note = Properties.Resources.CommandSetFolderOrderByRandomNote;
-                element.Execute = (s, e) => _models.FolderList.SetFolderOrder(FolderOrder.Random);
+                element.Execute = (s, e) => FolderList.Current.SetFolderOrder(FolderOrder.Random);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.Random);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderByRandom] = element;
@@ -1513,8 +1503,8 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandTogglePageMode;
                 element.Note = Properties.Resources.CommandTogglePageModeNote;
                 element.CanExecute = () => true;
-                element.Execute = (s, e) => _models.BookSetting.TogglePageMode();
-                element.ExecuteMessage = e => _models.BookSetting.BookMemento.PageMode.GetToggle().ToAliasName();
+                element.Execute = (s, e) => BookSetting.Current.TogglePageMode();
+                element.ExecuteMessage = e => BookSetting.Current.BookMemento.PageMode.GetToggle().ToAliasName();
                 element.IsShowMessage = true;
                 _elements[CommandType.TogglePageMode] = element;
             }
@@ -1526,7 +1516,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandSetPageMode1Note;
                 element.ShortCutKey = "Ctrl+1";
                 element.MouseGesture = "RU";
-                element.Execute = (s, e) => _models.BookSetting.SetPageMode(PageMode.SinglePage);
+                element.Execute = (s, e) => BookSetting.Current.SetPageMode(PageMode.SinglePage);
                 element.CreateIsCheckedBinding = () => BindingGenerator.PageMode(PageMode.SinglePage);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetPageMode1] = element;
@@ -1539,7 +1529,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandSetPageMode2Note;
                 element.ShortCutKey = "Ctrl+2";
                 element.MouseGesture = "RD";
-                element.Execute = (s, e) => _models.BookSetting.SetPageMode(PageMode.WidePage);
+                element.Execute = (s, e) => BookSetting.Current.SetPageMode(PageMode.WidePage);
                 element.CreateIsCheckedBinding = () => BindingGenerator.PageMode(PageMode.WidePage);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetPageMode2] = element;
@@ -1551,8 +1541,8 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandToggleBookReadOrder;
                 element.Note = Properties.Resources.CommandToggleBookReadOrderNote;
                 element.CanExecute = () => true;
-                element.Execute = (s, e) => _models.BookSetting.ToggleBookReadOrder();
-                element.ExecuteMessage = e => _models.BookSetting.BookMemento.BookReadOrder.GetToggle().ToAliasName();
+                element.Execute = (s, e) => BookSetting.Current.ToggleBookReadOrder();
+                element.ExecuteMessage = e => BookSetting.Current.BookMemento.BookReadOrder.GetToggle().ToAliasName();
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleBookReadOrder] = element;
             }
@@ -1562,7 +1552,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandSetBookReadOrderRight;
                 element.Note = Properties.Resources.CommandSetBookReadOrderRightNote;
-                element.Execute = (s, e) => _models.BookSetting.SetBookReadOrder(PageReadOrder.RightToLeft);
+                element.Execute = (s, e) => BookSetting.Current.SetBookReadOrder(PageReadOrder.RightToLeft);
                 element.CreateIsCheckedBinding = () => BindingGenerator.BookReadOrder(PageReadOrder.RightToLeft);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetBookReadOrderRight] = element;
@@ -1573,7 +1563,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandSetBookReadOrderLeft;
                 element.Note = Properties.Resources.CommandSetBookReadOrderLeftNote;
-                element.Execute = (s, e) => _models.BookSetting.SetBookReadOrder(PageReadOrder.LeftToRight);
+                element.Execute = (s, e) => BookSetting.Current.SetBookReadOrder(PageReadOrder.LeftToRight);
                 element.CreateIsCheckedBinding = () => BindingGenerator.BookReadOrder(PageReadOrder.LeftToRight);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetBookReadOrderLeft] = element;
@@ -1585,10 +1575,10 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandToggleIsSupportedDividePage;
                 element.Note = Properties.Resources.CommandToggleIsSupportedDividePageNote;
-                element.Execute = (s, e) => _models.BookSetting.ToggleIsSupportedDividePage();
-                element.ExecuteMessage = e => _models.BookSetting.BookMemento.IsSupportedDividePage ? Properties.Resources.CommandToggleIsSupportedDividePageOff : Properties.Resources.CommandToggleIsSupportedDividePageOn;
-                element.CanExecute = () => _models.BookSetting.CanPageModeSubSetting(PageMode.SinglePage);
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_models.BookSetting.BookMemento.IsSupportedDividePage));
+                element.Execute = (s, e) => BookSetting.Current.ToggleIsSupportedDividePage();
+                element.ExecuteMessage = e => BookSetting.Current.BookMemento.IsSupportedDividePage ? Properties.Resources.CommandToggleIsSupportedDividePageOff : Properties.Resources.CommandToggleIsSupportedDividePageOn;
+                element.CanExecute = () => BookSetting.Current.CanPageModeSubSetting(PageMode.SinglePage);
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(BookSetting.Current.BookMemento.IsSupportedDividePage));
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleIsSupportedDividePage] = element;
             }
@@ -1599,10 +1589,10 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandToggleIsSupportedWidePage;
                 element.Note = Properties.Resources.CommandToggleIsSupportedWidePageNote;
-                element.Execute = (s, e) => _models.BookSetting.ToggleIsSupportedWidePage();
-                element.ExecuteMessage = e => _models.BookSetting.BookMemento.IsSupportedWidePage ? Properties.Resources.CommandToggleIsSupportedWidePageOff : Properties.Resources.CommandToggleIsSupportedWidePageOn;
-                element.CanExecute = () => _models.BookSetting.CanPageModeSubSetting(PageMode.WidePage);
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_models.BookSetting.BookMemento.IsSupportedWidePage));
+                element.Execute = (s, e) => BookSetting.Current.ToggleIsSupportedWidePage();
+                element.ExecuteMessage = e => BookSetting.Current.BookMemento.IsSupportedWidePage ? Properties.Resources.CommandToggleIsSupportedWidePageOff : Properties.Resources.CommandToggleIsSupportedWidePageOn;
+                element.CanExecute = () => BookSetting.Current.CanPageModeSubSetting(PageMode.WidePage);
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(BookSetting.Current.BookMemento.IsSupportedWidePage));
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleIsSupportedWidePage] = element;
             }
@@ -1612,10 +1602,10 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandToggleIsSupportedSingleFirstPage;
                 element.Note = Properties.Resources.CommandToggleIsSupportedSingleFirstPageNote;
-                element.Execute = (s, e) => _models.BookSetting.ToggleIsSupportedSingleFirstPage();
-                element.ExecuteMessage = e => _models.BookSetting.BookMemento.IsSupportedSingleFirstPage ? Properties.Resources.CommandToggleIsSupportedSingleFirstPageOff : Properties.Resources.CommandToggleIsSupportedSingleFirstPageOn;
-                element.CanExecute = () => _models.BookSetting.CanPageModeSubSetting(PageMode.WidePage);
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_models.BookSetting.BookMemento.IsSupportedSingleFirstPage));
+                element.Execute = (s, e) => BookSetting.Current.ToggleIsSupportedSingleFirstPage();
+                element.ExecuteMessage = e => BookSetting.Current.BookMemento.IsSupportedSingleFirstPage ? Properties.Resources.CommandToggleIsSupportedSingleFirstPageOff : Properties.Resources.CommandToggleIsSupportedSingleFirstPageOn;
+                element.CanExecute = () => BookSetting.Current.CanPageModeSubSetting(PageMode.WidePage);
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(BookSetting.Current.BookMemento.IsSupportedSingleFirstPage));
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleIsSupportedSingleFirstPage] = element;
             }
@@ -1625,10 +1615,10 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandToggleIsSupportedSingleLastPage;
                 element.Note = Properties.Resources.CommandToggleIsSupportedSingleLastPageNote;
-                element.Execute = (s, e) => _models.BookSetting.ToggleIsSupportedSingleLastPage();
-                element.ExecuteMessage = e => _models.BookSetting.BookMemento.IsSupportedSingleLastPage ? Properties.Resources.CommandToggleIsSupportedSingleLastPageOff : Properties.Resources.CommandToggleIsSupportedSingleLastPageOn;
-                element.CanExecute = () => _models.BookSetting.CanPageModeSubSetting(PageMode.WidePage);
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_models.BookSetting.BookMemento.IsSupportedSingleLastPage));
+                element.Execute = (s, e) => BookSetting.Current.ToggleIsSupportedSingleLastPage();
+                element.ExecuteMessage = e => BookSetting.Current.BookMemento.IsSupportedSingleLastPage ? Properties.Resources.CommandToggleIsSupportedSingleLastPageOff : Properties.Resources.CommandToggleIsSupportedSingleLastPageOn;
+                element.CanExecute = () => BookSetting.Current.CanPageModeSubSetting(PageMode.WidePage);
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(BookSetting.Current.BookMemento.IsSupportedSingleLastPage));
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleIsSupportedSingleLastPage] = element;
             }
@@ -1639,9 +1629,9 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandToggleIsRecursiveFolder;
                 element.Note = Properties.Resources.CommandToggleIsRecursiveFolderNote;
-                element.Execute = (s, e) => _models.BookSetting.ToggleIsRecursiveFolder();
-                element.ExecuteMessage = e => _models.BookSetting.BookMemento.IsRecursiveFolder ? Properties.Resources.CommandToggleIsRecursiveFolderOff : Properties.Resources.CommandToggleIsRecursiveFolderOn;
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(_models.BookSetting.BookMemento.IsRecursiveFolder));
+                element.Execute = (s, e) => BookSetting.Current.ToggleIsRecursiveFolder();
+                element.ExecuteMessage = e => BookSetting.Current.BookMemento.IsRecursiveFolder ? Properties.Resources.CommandToggleIsRecursiveFolderOff : Properties.Resources.CommandToggleIsRecursiveFolderOn;
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(BookSetting.Current.BookMemento.IsRecursiveFolder));
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleIsRecursiveFolder] = element;
             }
@@ -1653,8 +1643,8 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandToggleSortMode;
                 element.Note = Properties.Resources.CommandToggleSortModeNote;
                 element.CanExecute = () => true;
-                element.Execute = (s, e) => _models.BookSetting.ToggleSortMode();
-                element.ExecuteMessage = e => _models.BookSetting.BookMemento.SortMode.GetToggle().ToAliasName();
+                element.Execute = (s, e) => BookSetting.Current.ToggleSortMode();
+                element.ExecuteMessage = e => BookSetting.Current.BookMemento.SortMode.GetToggle().ToAliasName();
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleSortMode] = element;
             }
@@ -1664,7 +1654,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageOrder;
                 element.Text = Properties.Resources.CommandSetSortModeFileName;
                 element.Note = Properties.Resources.CommandSetSortModeFileNameNote;
-                element.Execute = (s, e) => _models.BookSetting.SetSortMode(PageSortMode.FileName);
+                element.Execute = (s, e) => BookSetting.Current.SetSortMode(PageSortMode.FileName);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.FileName);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetSortModeFileName] = element;
@@ -1675,7 +1665,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageOrder;
                 element.Text = Properties.Resources.CommandSetSortModeFileNameDescending;
                 element.Note = Properties.Resources.CommandSetSortModeFileNameDescendingNote;
-                element.Execute = (s, e) => _models.BookSetting.SetSortMode(PageSortMode.FileNameDescending);
+                element.Execute = (s, e) => BookSetting.Current.SetSortMode(PageSortMode.FileNameDescending);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.FileNameDescending);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetSortModeFileNameDescending] = element;
@@ -1686,7 +1676,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageOrder;
                 element.Text = Properties.Resources.CommandSetSortModeTimeStamp;
                 element.Note = Properties.Resources.CommandSetSortModeTimeStampNote;
-                element.Execute = (s, e) => _models.BookSetting.SetSortMode(PageSortMode.TimeStamp);
+                element.Execute = (s, e) => BookSetting.Current.SetSortMode(PageSortMode.TimeStamp);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.TimeStamp);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetSortModeTimeStamp] = element;
@@ -1697,7 +1687,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageOrder;
                 element.Text = Properties.Resources.CommandSetSortModeTimeStampDescending;
                 element.Note = Properties.Resources.CommandSetSortModeTimeStampDescendingNote;
-                element.Execute = (s, e) => _models.BookSetting.SetSortMode(PageSortMode.TimeStampDescending);
+                element.Execute = (s, e) => BookSetting.Current.SetSortMode(PageSortMode.TimeStampDescending);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.TimeStampDescending);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetSortModeTimeStampDescending] = element;
@@ -1708,7 +1698,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageOrder;
                 element.Text = Properties.Resources.CommandSetSortModeSize;
                 element.Note = Properties.Resources.CommandSetSortModeSizeNote;
-                element.Execute = (s, e) => _models.BookSetting.SetSortMode(PageSortMode.Size);
+                element.Execute = (s, e) => BookSetting.Current.SetSortMode(PageSortMode.Size);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.Size);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetSortModeSize] = element;
@@ -1719,7 +1709,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageOrder;
                 element.Text = Properties.Resources.CommandSetSortModeSizeDescending;
                 element.Note = Properties.Resources.CommandSetSortModeSizeDescendingNote;
-                element.Execute = (s, e) => _models.BookSetting.SetSortMode(PageSortMode.SizeDescending);
+                element.Execute = (s, e) => BookSetting.Current.SetSortMode(PageSortMode.SizeDescending);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.SizeDescending);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetSortModeSizeDescending] = element;
@@ -1730,7 +1720,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageOrder;
                 element.Text = Properties.Resources.CommandSetSortModeRandom;
                 element.Note = Properties.Resources.CommandSetSortModeRandomNote;
-                element.Execute = (s, e) => _models.BookSetting.SetSortMode(PageSortMode.Random);
+                element.Execute = (s, e) => BookSetting.Current.SetSortMode(PageSortMode.Random);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.Random);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetSortModeRandom] = element;
@@ -1742,7 +1732,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandSetDefaultPageSetting;
                 element.Note = Properties.Resources.CommandSetDefaultPageSettingNote;
-                element.Execute = (s, e) => _models.BookSetting.SetDefaultPageSetting();
+                element.Execute = (s, e) => BookSetting.Current.SetDefaultPageSetting();
                 element.IsShowMessage = true;
                 _elements[CommandType.SetDefaultPageSetting] = element;
             }
@@ -1755,11 +1745,11 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandToggleBookmark;
                 element.MenuText = Properties.Resources.CommandToggleBookmarkMenu;
                 element.Note = Properties.Resources.CommandToggleBookmarkNote;
-                element.Execute = (s, e) => _models.BookOperation.ToggleBookmark();
-                element.CanExecute = () => _models.BookOperation.CanBookmark();
-                element.ExecuteMessage = e => _models.BookOperation.IsBookmark ? Properties.Resources.CommandToggleBookmarkOff : Properties.Resources.CommandToggleBookmarkOn;
+                element.Execute = (s, e) => BookOperation.Current.ToggleBookmark();
+                element.CanExecute = () => BookOperation.Current.CanBookmark();
+                element.ExecuteMessage = e => BookOperation.Current.IsBookmark ? Properties.Resources.CommandToggleBookmarkOff : Properties.Resources.CommandToggleBookmarkOn;
                 element.IsShowMessage = true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.BookOperation.IsBookmark)) { Source = _models.BookOperation, Mode = BindingMode.OneWay };
+                element.CreateIsCheckedBinding = () => new Binding(nameof(BookOperation.Current.IsBookmark)) { Source = BookOperation.Current, Mode = BindingMode.OneWay };
                 element.ShortCutKey = "Ctrl+D";
                 _elements[CommandType.ToggleBookmark] = element;
             }
@@ -1771,11 +1761,11 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandTogglePagemark;
                 element.MenuText = Properties.Resources.CommandTogglePagemarkMenu;
                 element.Note = Properties.Resources.CommandTogglePagemarkNote;
-                element.Execute = (s, e) => _models.BookOperation.TogglePagemark();
-                element.CanExecute = () => _models.BookOperation.CanPagemark();
-                element.ExecuteMessage = e => _models.BookOperation.IsMarked() ? Properties.Resources.CommandTogglePagemarkOff : Properties.Resources.CommandTogglePagemarkOn;
+                element.Execute = (s, e) => BookOperation.Current.TogglePagemark();
+                element.CanExecute = () => BookOperation.Current.CanPagemark();
+                element.ExecuteMessage = e => BookOperation.Current.IsMarked() ? Properties.Resources.CommandTogglePagemarkOff : Properties.Resources.CommandTogglePagemarkOn;
                 element.IsShowMessage = true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.BookOperation.IsPagemark)) { Source = _models.BookOperation, Mode = BindingMode.OneWay };
+                element.CreateIsCheckedBinding = () => new Binding(nameof(BookOperation.Current.IsPagemark)) { Source = BookOperation.Current, Mode = BindingMode.OneWay };
                 element.ShortCutKey = "Ctrl+M";
                 _elements[CommandType.TogglePagemark] = element;
             }
@@ -1787,7 +1777,7 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandPrevPagemark;
                 element.Note = Properties.Resources.CommandPrevPagemarkNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.PagemarkList.PrevPagemark();
+                element.Execute = (s, e) => PagemarkList.Current.PrevPagemark();
                 _elements[CommandType.PrevPagemark] = element;
             }
             // NextPagemark
@@ -1797,7 +1787,7 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandNextPagemark;
                 element.Note = Properties.Resources.CommandNextPagemarkNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.PagemarkList.NextPagemark();
+                element.Execute = (s, e) => PagemarkList.Current.NextPagemark();
                 _elements[CommandType.NextPagemark] = element;
             }
 
@@ -1808,8 +1798,8 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandPrevPagemarkInBook;
                 element.Note = Properties.Resources.CommandPrevPagemarkInBookNote;
                 element.IsShowMessage = false;
-                element.CanExecute = () => _models.BookOperation.CanPrevPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
-                element.Execute = (s, e) => _models.BookOperation.PrevPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
+                element.CanExecute = () => BookOperation.Current.CanPrevPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
+                element.Execute = (s, e) => BookOperation.Current.PrevPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
                 element.DefaultParameter = new MovePagemarkCommandParameter();
                 _elements[CommandType.PrevPagemarkInBook] = element;
             }
@@ -1820,8 +1810,8 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandNextPagemarkInBook;
                 element.Note = Properties.Resources.CommandNextPagemarkInBookNote;
                 element.IsShowMessage = false;
-                element.CanExecute = () => _models.BookOperation.CanNextPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
-                element.Execute = (s, e) => _models.BookOperation.NextPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
+                element.CanExecute = () => BookOperation.Current.CanNextPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
+                element.Execute = (s, e) => BookOperation.Current.NextPagemarkInPlace((MovePagemarkCommandParameter)element.Parameter);
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.PrevPagemarkInBook };
                 _elements[CommandType.NextPagemarkInBook] = element;
             }
@@ -1836,9 +1826,9 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandToggleCustomSizeNote;
                 element.CanExecute = () => true;
                 element.IsShowMessage = true;
-                element.ExecuteMessage = e => _models.PictureProfile.CustomSize.IsEnabled ? Properties.Resources.CommandToggleCustomSizeOff : Properties.Resources.CommandToggleCustomSizeOn;
-                element.Execute = (s, e) => _models.PictureProfile.CustomSize.IsEnabled = !_models.PictureProfile.CustomSize.IsEnabled;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.PictureProfile.CustomSize.IsEnabled)) { Mode = BindingMode.OneWay, Source = _models.PictureProfile.CustomSize };
+                element.ExecuteMessage = e => PictureProfile.Current.CustomSize.IsEnabled ? Properties.Resources.CommandToggleCustomSizeOff : Properties.Resources.CommandToggleCustomSizeOn;
+                element.Execute = (s, e) => PictureProfile.Current.CustomSize.IsEnabled = !PictureProfile.Current.CustomSize.IsEnabled;
+                element.CreateIsCheckedBinding = () => new Binding(nameof(PictureProfile.Current.CustomSize.IsEnabled)) { Mode = BindingMode.OneWay, Source = PictureProfile.Current.CustomSize };
                 _elements[CommandType.ToggleCustomSize] = element;
             }
 
@@ -1853,9 +1843,9 @@ namespace NeeView
                 element.CanExecute = () => true;
                 element.ShortCutKey = "Ctrl+R";
                 element.IsShowMessage = true;
-                element.ExecuteMessage = e => _models.PictureProfile.IsResizeFilterEnabled ? Properties.Resources.CommandToggleResizeFilterOff : Properties.Resources.CommandToggleResizeFilterOn;
-                element.Execute = (s, e) => _models.PictureProfile.IsResizeFilterEnabled = !_models.PictureProfile.IsResizeFilterEnabled;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.PictureProfile.IsResizeFilterEnabled)) { Mode = BindingMode.OneWay, Source = _models.PictureProfile };
+                element.ExecuteMessage = e => PictureProfile.Current.IsResizeFilterEnabled ? Properties.Resources.CommandToggleResizeFilterOff : Properties.Resources.CommandToggleResizeFilterOn;
+                element.Execute = (s, e) => PictureProfile.Current.IsResizeFilterEnabled = !PictureProfile.Current.IsResizeFilterEnabled;
+                element.CreateIsCheckedBinding = () => new Binding(nameof(PictureProfile.Current.IsResizeFilterEnabled)) { Mode = BindingMode.OneWay, Source = PictureProfile.Current };
                 _elements[CommandType.ToggleResizeFilter] = element;
             }
 
@@ -1867,9 +1857,9 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandToggleGridMenu;
                 element.Note = Properties.Resources.CommandToggleGridNote;
                 element.CanExecute = () => true;
-                element.ExecuteMessage = e => _models.ContentCanvas.GridLine.IsEnabled ? Properties.Resources.CommandToggleGridOff : Properties.Resources.CommandToggleGridOn;
-                element.Execute = (s, e) => _models.ContentCanvas.GridLine.IsEnabled = !_models.ContentCanvas.GridLine.IsEnabled;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.ContentCanvas.GridLine.IsEnabled)) { Mode = BindingMode.OneWay, Source = _models.ContentCanvas.GridLine };
+                element.ExecuteMessage = e => ContentCanvas.Current.GridLine.IsEnabled ? Properties.Resources.CommandToggleGridOff : Properties.Resources.CommandToggleGridOn;
+                element.Execute = (s, e) => ContentCanvas.Current.GridLine.IsEnabled = !ContentCanvas.Current.GridLine.IsEnabled;
+                element.CreateIsCheckedBinding = () => new Binding(nameof(ContentCanvas.Current.GridLine.IsEnabled)) { Mode = BindingMode.OneWay, Source = ContentCanvas.Current.GridLine };
                 _elements[CommandType.ToggleGrid] = element;
             }
 
@@ -1883,9 +1873,9 @@ namespace NeeView
                 element.CanExecute = () => true;
                 element.ShortCutKey = "Ctrl+E";
                 element.IsShowMessage = true;
-                element.ExecuteMessage = e => _models.ImageEffect.IsEnabled ? Properties.Resources.CommandToggleEffectOff : Properties.Resources.CommandToggleEffectOn;
-                element.Execute = (s, e) => _models.ImageEffect.IsEnabled = !_models.ImageEffect.IsEnabled;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.ImageEffect.IsEnabled)) { Mode = BindingMode.OneWay, Source = _models.ImageEffect };
+                element.ExecuteMessage = e => ImageEffect.Current.IsEnabled ? Properties.Resources.CommandToggleEffectOff : Properties.Resources.CommandToggleEffectOn;
+                element.Execute = (s, e) => ImageEffect.Current.IsEnabled = !ImageEffect.Current.IsEnabled;
+                element.CreateIsCheckedBinding = () => new Binding(nameof(ImageEffect.Current.IsEnabled)) { Mode = BindingMode.OneWay, Source = ImageEffect.Current };
                 _elements[CommandType.ToggleEffect] = element;
             }
 
@@ -1899,9 +1889,9 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandToggleIsLoupeNote;
                 element.CanExecute = () => true;
                 element.IsShowMessage = false;
-                element.ExecuteMessage = e => _models.MouseInput.IsLoupeMode ? Properties.Resources.CommandToggleIsLoupeOff : Properties.Resources.CommandToggleIsLoupeOn;
-                element.Execute = (s, e) => _models.MouseInput.IsLoupeMode = !_models.MouseInput.IsLoupeMode;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.MouseInput.IsLoupeMode)) { Mode = BindingMode.OneWay, Source = _models.MouseInput };
+                element.ExecuteMessage = e => MouseInput.Current.IsLoupeMode ? Properties.Resources.CommandToggleIsLoupeOff : Properties.Resources.CommandToggleIsLoupeOn;
+                element.Execute = (s, e) => MouseInput.Current.IsLoupeMode = !MouseInput.Current.IsLoupeMode;
+                element.CreateIsCheckedBinding = () => new Binding(nameof(MouseInput.Current.IsLoupeMode)) { Mode = BindingMode.OneWay, Source = MouseInput.Current };
                 _elements[CommandType.ToggleIsLoupe] = element;
             }
 
@@ -1913,7 +1903,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandLoupeOnNote;
                 element.CanExecute = () => true;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.MouseInput.IsLoupeMode = true;
+                element.Execute = (s, e) => MouseInput.Current.IsLoupeMode = true;
                 _elements[CommandType.LoupeOn] = element;
             }
 
@@ -1925,7 +1915,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandLoupeOffNote;
                 element.CanExecute = () => true;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.MouseInput.IsLoupeMode = false;
+                element.Execute = (s, e) => MouseInput.Current.IsLoupeMode = false;
                 _elements[CommandType.LoupeOff] = element;
             }
 
@@ -1935,9 +1925,9 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandLoupeScaleUp;
                 element.Note = Properties.Resources.CommandLoupeScaleUpNote;
-                element.CanExecute = () => _models.MouseInput.IsLoupeMode;
+                element.CanExecute = () => MouseInput.Current.IsLoupeMode;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.MouseInput.Loupe.LoupeZoomIn();
+                element.Execute = (s, e) => MouseInput.Current.Loupe.LoupeZoomIn();
                 _elements[CommandType.LoupeScaleUp] = element;
             }
 
@@ -1947,9 +1937,9 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandLoupeScaleDown;
                 element.Note = Properties.Resources.CommandLoupeScaleDownNote;
-                element.CanExecute = () => _models.MouseInput.IsLoupeMode;
+                element.CanExecute = () => MouseInput.Current.IsLoupeMode;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.MouseInput.Loupe.LoupeZoomOut();
+                element.Execute = (s, e) => MouseInput.Current.Loupe.LoupeZoomOut();
                 _elements[CommandType.LoupeScaleDown] = element;
             }
 
@@ -1961,7 +1951,7 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandOpenSettingWindowMenu;
                 element.Note = Properties.Resources.CommandOpenSettingWindowNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.MainWindowModel.OpenSettingWindow();
+                element.Execute = (s, e) => MainWindowModel.Current.OpenSettingWindow();
                 _elements[CommandType.OpenSettingWindow] = element;
             }
             // OpenSettingFilesFolder
@@ -1971,7 +1961,7 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandOpenSettingFilesFolder;
                 element.Note = Properties.Resources.CommandOpenSettingFilesFolderNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.MainWindowModel.OpenSettingFilesFolder();
+                element.Execute = (s, e) => MainWindowModel.Current.OpenSettingFilesFolder();
                 _elements[CommandType.OpenSettingFilesFolder] = element;
             }
 
@@ -1983,7 +1973,7 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandOpenVersionWindowMenu;
                 element.Note = Properties.Resources.CommandOpenVersionWindowNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.MainWindowModel.OpenVersionWindow();
+                element.Execute = (s, e) => MainWindowModel.Current.OpenVersionWindow();
                 _elements[CommandType.OpenVersionWindow] = element;
             }
             // CloseApplication
@@ -2007,10 +1997,10 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandTogglePermitFileCommandMenu;
                 element.Note = Properties.Resources.CommandTogglePermitFileCommandNote;
                 element.IsShowMessage = true;
-                element.Execute = (s, e) => _models.FileIOProfile.IsEnabled = !_models.FileIOProfile.IsEnabled;
-                element.ExecuteMessage = e => _models.FileIOProfile.IsEnabled ? Properties.Resources.CommandTogglePermitFileCommandOff : Properties.Resources.CommandTogglePermitFileCommandOn;
+                element.Execute = (s, e) => FileIOProfile.Current.IsEnabled = !FileIOProfile.Current.IsEnabled;
+                element.ExecuteMessage = e => FileIOProfile.Current.IsEnabled ? Properties.Resources.CommandTogglePermitFileCommandOff : Properties.Resources.CommandTogglePermitFileCommandOn;
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(_models.FileIOProfile.IsEnabled)) { Source = _models.FileIOProfile, Mode = BindingMode.OneWay };
+                element.CreateIsCheckedBinding = () => new Binding(nameof(FileIOProfile.Current.IsEnabled)) { Source = FileIOProfile.Current, Mode = BindingMode.OneWay };
                 _elements[CommandType.TogglePermitFileCommand] = element;
             }
 
@@ -2022,7 +2012,7 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandHelpOnline;
                 element.Note = Properties.Resources.CommandHelpOnlineNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.MainWindowModel.OpenOnlineHelp();
+                element.Execute = (s, e) => MainWindowModel.Current.OpenOnlineHelp();
                 element.CanExecute = () => App.Current.IsNetworkEnabled;
                 _elements[CommandType.HelpOnline] = element;
             }
@@ -2048,7 +2038,7 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandHelpMainMenuMenu;
                 element.Note = Properties.Resources.CommandHelpMainMenuNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => _models.MenuBar.OpenMainMenuHelp();
+                element.Execute = (s, e) => MenuBar.Current.OpenMainMenuHelp();
                 element.CanExecute = () => true;
                 _elements[CommandType.HelpMainMenu] = element;
             }

@@ -68,12 +68,12 @@ namespace NeeView
 
         #region Constructors
 
-        public FileInformation(ContentCanvas contentCanvas)
+        public FileInformation()
         {
             Current = this;
 
-            contentCanvas.AddPropertyChanged(nameof(contentCanvas.MainContent),
-                (s, e) => ViewContent = contentCanvas.MainContent);
+            ContentCanvas.Current.AddPropertyChanged(nameof(ContentCanvas.Current.MainContent),
+                (s, e) => ViewContent = ContentCanvas.Current.MainContent);
         }
 
         #endregion

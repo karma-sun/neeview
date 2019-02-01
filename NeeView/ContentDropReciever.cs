@@ -43,8 +43,12 @@ namespace NeeView
     /// </summary>
     public class ContentDropManager
     {
+        public static ContentDropManager Current { get; private set; }
+
         public ContentDropManager(FrameworkElement sender)
         {
+            Current = this;
+
             sender.PreviewDragEnter += Element_DragOver;
             sender.PreviewDragOver += Element_DragOver;
             sender.Drop += Element_Drop;

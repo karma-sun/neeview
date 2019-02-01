@@ -6,22 +6,22 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
+    /// <summary>
+    /// 履歴操作
+    /// </summary>
     public class BookHistoryCommand 
     {
-        private BookHistoryCollection _bookHistory;
-        private BookHub _bookHub;
+        public static BookHistoryCommand Current { get; private set; }
 
-        //
-        public BookHistoryCommand(BookHistoryCollection bookHistory, BookHub bookHub)
+        public BookHistoryCommand()
         {
-            _bookHistory = bookHistory;
-            _bookHub = bookHub;
+            Current = this;
         }
 
         // 履歴を戻ることができる？
         public bool CanPrevHistory()
         {
-            var node = _bookHistory.FindNode(_bookHub.Address);
+            var node = BookHistoryCollection.Current.FindNode(BookHub.Current.Address);
 
             // 履歴が存在するなら真
             if (node == null && BookHistoryCollection.Current.Count > 0) return true;
@@ -33,14 +33,14 @@ namespace NeeView
         // 履歴を戻る
         public void PrevHistory()
         {
-            if (_bookHub.IsLoading || _bookHistory.Count <= 0) return;
+            if (BookHub.Current.IsLoading || BookHistoryCollection.Current.Count <= 0) return;
 
-            var node = _bookHistory.FindNode(_bookHub.Address);
+            var node = BookHistoryCollection.Current.FindNode(BookHub.Current.Address);
             var previous = node == null ? BookHistoryCollection.Current.First.Value : node?.Next.Value; // リストと履歴の方向は逆
 
             if (previous != null)
             {
-                _bookHub.RequestLoad(previous.Place, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe | BookLoadOption.IsBook, true);
+                BookHub.Current.RequestLoad(previous.Place, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe | BookLoadOption.IsBook, true);
             }
             else
             {
@@ -51,20 +51,20 @@ namespace NeeView
         // 履歴を進めることができる？
         public bool CanNextHistory()
         {
-            var node = _bookHistory.FindNode(_bookHub.Address);
+            var node = BookHistoryCollection.Current.FindNode(BookHub.Current.Address);
             return (node != null && node.Previous != null); // リストと履歴の方向は逆
         }
 
         // 履歴を進める
         public void NextHistory()
         {
-            if (_bookHub.IsLoading) return;
+            if (BookHub.Current.IsLoading) return;
 
-            var unit = _bookHistory.FindNode(_bookHub.Address);
+            var unit = BookHistoryCollection.Current.FindNode(BookHub.Current.Address);
             var next = unit?.Previous; // リストと履歴の方向は逆 
             if (next != null)
             {
-                _bookHub.RequestLoad(next.Value.Place, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe | BookLoadOption.IsBook, true);
+                BookHub.Current.RequestLoad(next.Value.Place, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe | BookLoadOption.IsBook, true);
             }
             else
             {

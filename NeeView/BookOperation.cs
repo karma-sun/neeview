@@ -26,11 +26,11 @@ namespace NeeView
     public class BookOperation : BindableBase
     {
         // System Object
-        public static BookOperation Current;
+        static BookOperation() => Current = new BookOperation();
+        public static BookOperation Current { get; }
 
         #region Fields
 
-        private BookHub _bookHub;
         private bool _isEnabled;
         private BookUnit _bookUnit;
         private ObservableCollection<Page> _pageList;
@@ -41,13 +41,10 @@ namespace NeeView
 
         #region Constructors
 
-        public BookOperation(BookHub bookHub)
+        private BookOperation()
         {
-            Current = this;
-
-            _bookHub = bookHub;
-            _bookHub.BookChanging += BookHub_BookChanging;
-            _bookHub.BookChanged += BookHub_BookChanged;
+            BookHub.Current.BookChanging += BookHub_BookChanging;
+            BookHub.Current.BookChanged += BookHub_BookChanged;
 
             PagemarkCollection.Current.PagemarkChanged += PagemarkCollection_PagemarkChanged;
         }
@@ -145,7 +142,7 @@ namespace NeeView
         /// </summary>
         private void BookHub_BookChanged(object sender, BookChangedEventArgs e)
         {
-            this.BookUnit = _bookHub.BookUnit;
+            this.BookUnit = BookHub.Current.BookUnit;
 
             if (this.BookUnit != null)
             {

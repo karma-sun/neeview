@@ -231,7 +231,7 @@ namespace NeeView
     /// <summary>
     /// JobEngine
     /// </summary>
-    public class JobEngine : BindableBase, IEngine
+    public class JobEngine : BindableBase, IDisposable
     {
         public static JobEngine Current { get; private set; }
 
@@ -302,7 +302,7 @@ namespace NeeView
                 if (_workerSize != size)
                 {
                     _workerSize = size;
-                    if (_isActive) ChangeWorkerSize(_workerSize);
+                    ChangeWorkerSize(_workerSize);
                     RaisePropertyChanged();
                 }
             }
@@ -319,31 +319,23 @@ namespace NeeView
         // コンストラクタ
         public JobEngine()
         {
-            _maxWorkerSize = Math.Max(4, Environment.ProcessorCount);
-
             Current = this;
+
+            _maxWorkerSize = Math.Max(4, Environment.ProcessorCount);
 
             _context = new JobContext();
             Workers = new JobWorker[_maxWorkerSize];
-        }
 
-        private bool _isActive;
-
-        // 開始
-        public void StartEngine()
-        {
-            if (_isActive) return;
-
-            _isActive = true;
             ChangeWorkerSize(_workerSize);
-        }
 
+            // アプリ終了前の開放予約
+            ApplicationDisposer.Current.Add(this);
+        }
 
         // 廃棄処理
-        public void StopEngine()
+        private void Stop()
         {
             ChangeWorkerSize(0);
-            _isActive = false;
             Debug.WriteLine("JobEngine: Disposed.");
         }
 
@@ -475,6 +467,27 @@ namespace NeeView
             Thread.Sleep(ms);
         }
 
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    Stop();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
 
         #region Memento
         [DataContract]

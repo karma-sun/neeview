@@ -50,10 +50,6 @@ namespace NeeView
         private string _windowTitleFormat2 = WindowTitleFormat2Default;
         private string _windowTitleFormatMedia = WindowTitleFormatMediaDefault;
 
-        // コンテンツキャンバス
-        // TODO: ここで保持するものか？
-        private ContentCanvas _contentCanvas;
-
         // ロード中表示用
         private string _loadingPath;
 
@@ -65,12 +61,11 @@ namespace NeeView
         /// コンストラクタ
         /// </summary>
         /// <param name="contentCanvas"></param>
-        public WindowTitle(ContentCanvas contentCanvas)
+        public WindowTitle()
         {
             Current = this;
 
-            _contentCanvas = contentCanvas;
-            _contentCanvas.ContentChanged += ContentCanvas_ContentChanged;
+            ContentCanvas.Current.ContentChanged += ContentCanvas_ContentChanged;
 
             DragTransform.Current.AddPropertyChanged(nameof(DragTransform.Scale), DragTransform_ScaleChanged);
 
@@ -210,7 +205,7 @@ namespace NeeView
             else if (place == null)
                 Title = _defaultWindowTitle;
 
-            else if (_contentCanvas.MainContent?.Source == null)
+            else if (ContentCanvas.Current.MainContent?.Source == null)
                 Title = LoosePath.GetDispName(place);
 
             else
@@ -224,8 +219,8 @@ namespace NeeView
         /// <returns></returns>
         private string CreateWindowTitle(WindowTitleMask mask)
         {
-            var MainContent = _contentCanvas.MainContent;
-            var Contents = _contentCanvas.Contents;
+            var MainContent = ContentCanvas.Current.MainContent;
+            var Contents = ContentCanvas.Current.Contents;
             var _viewScale = DragTransform.Current.Scale;
 
             string format = MainContent is MediaViewContent

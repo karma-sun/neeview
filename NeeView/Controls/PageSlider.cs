@@ -46,28 +46,22 @@ namespace NeeView
         private SliderDirection _sliderDirection = SliderDirection.SyncBookReadDirection;
         private bool _isSliderDirectionReversed;
         private bool _IsSliderLinkedThumbnailList = true;
-        private BookSetting _bookSetting;
-        private ThumbnailList _thumbnailList;
 
         #endregion
 
         #region Constructors
 
-        public PageSlider(ThumbnailList thumbnailList, PageSelector pageSelector)
+        public PageSlider()
         {
             Current = this;
 
             this.PageMarkers = new PageMarkers(BookOperation.Current);
 
-            _bookSetting = BookSetting.Current;
+            BookSetting.Current.SettingChanged += (s, e) => UpdateIsSliderDirectionReversed();
 
-            _bookSetting.SettingChanged += (s, e) => UpdateIsSliderDirectionReversed();
+            ThumbnailList.Current.IsSliderDirectionReversed = this.IsSliderDirectionReversed;
 
-            _thumbnailList = thumbnailList;
-            _thumbnailList.IsSliderDirectionReversed = this.IsSliderDirectionReversed;
-
-            PageSelector = pageSelector;
-            PageSelector.SelectionChanged += PageSelector_SelectionChanged;
+            PageSelector.Current.SelectionChanged += PageSelector_SelectionChanged;
         }
 
         #endregion
@@ -111,7 +105,7 @@ namespace NeeView
                 {
                     _isSliderDirectionReversed = value;
                     RaisePropertyChanged();
-                    _thumbnailList.IsSliderDirectionReversed = _isSliderDirectionReversed;
+                    ThumbnailList.Current.IsSliderDirectionReversed = _isSliderDirectionReversed;
                     this.PageMarkers.IsSliderDirectionReversed = _isSliderDirectionReversed;
                 }
             }
@@ -129,8 +123,7 @@ namespace NeeView
         }
 
         //
-        public PageSelector PageSelector { get; private set; }
-
+        public PageSelector PageSelector => PageSelector.Current;
 
         public int SelectedIndex
         {
@@ -172,7 +165,7 @@ namespace NeeView
                     IsSliderDirectionReversed = true;
                     break;
                 case SliderDirection.SyncBookReadDirection:
-                    IsSliderDirectionReversed = _bookSetting.BookMemento.BookReadOrder == PageReadOrder.RightToLeft;
+                    IsSliderDirectionReversed = BookSetting.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft;
                     break;
             }
         }
@@ -180,7 +173,7 @@ namespace NeeView
         /// <summary>
         /// スライドとフィルムストリップを連動させるかを判定
         /// </summary>
-        public bool IsThumbnailLinked() => _thumbnailList.IsEnableThumbnailList && IsSliderLinkedThumbnailList;
+        public bool IsThumbnailLinked() => ThumbnailList.Current.IsEnableThumbnailList && IsSliderLinkedThumbnailList;
 
 
         // ページ番号を決定し、コンテンツを切り替える

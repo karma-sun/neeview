@@ -73,7 +73,7 @@ namespace NeeView
     /// <summary>
     /// リサイズによるコンテンツの再作成管理
     /// </summary>
-    public class ContentRebuild : BindableBase, IEngine
+    public class ContentRebuild : BindableBase, IDisposable
     {
         // system object
         public static ContentRebuild Current { get; private set; }
@@ -116,6 +116,11 @@ namespace NeeView
 
             WindowMessage.Current.EnterSizeMove += (s, e) => _isResizingWindow = true;
             WindowMessage.Current.ExitSizeMove += (s, e) => _isResizingWindow = false;
+
+            Start();
+
+            // アプリ終了前の開放予約
+            ApplicationDisposer.Current.Add(this);
         }
 
         #endregion
@@ -216,16 +221,37 @@ namespace NeeView
             this.IsBusy = ContentCanvas.Current.Contents.Where(e => e.IsValid).Any(e => e.IsResizing);
         }
 
-        public void StartEngine()
+        private void Start()
         {
             CompositionTarget.Rendering += OnRendering;
         }
 
-        public void StopEngine()
+        private void Stop()
         {
             CompositionTarget.Rendering -= OnRendering;
         }
+        #endregion
 
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    Stop();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
         #endregion
     }
 }

@@ -18,12 +18,11 @@ namespace NeeView
     /// </summary>
     public class Config
     {
-        public static Config Current { get; } = new Config();
+        static Config() => Current = new Config();
+        public static Config Current { get; }
 
-        /// <summary>
-        /// 初期化
-        /// </summary>
-        public void Initiallize()
+
+        private Config()
         {
             this.ProcessId = Process.GetCurrentProcess().Id;
 

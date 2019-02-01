@@ -44,7 +44,7 @@ namespace NeeView
 
         private void Reciever(object sender, RemoteCommandEventArgs e)
         {
-            if (_recievers.TryGetValue(e.Command.ID, out RemoteCommandReciever reciever))
+            if (_recievers.TryGetValue(e.Command.Id, out RemoteCommandReciever reciever))
             {
                 App.Current.Dispatcher.BeginInvoke((Action)(() =>
                 {
@@ -60,7 +60,7 @@ namespace NeeView
             }
             else
             {
-                Debug.WriteLine($"RemoteCommand not found: {e.Command.ID}");
+                Debug.WriteLine($"RemoteCommand not found: {e.Command.Id}");
             }
         }
 

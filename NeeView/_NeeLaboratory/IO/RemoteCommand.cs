@@ -7,19 +7,19 @@ namespace NeeLaboratory.IO
     [DataContract]
     public class RemoteCommand
     {
-        public RemoteCommand(string iD)
+        public RemoteCommand(string id)
         {
-            ID = iD;
+            Id = id;
         }
 
-        public RemoteCommand(string iD, params string[] args)
+        public RemoteCommand(string id, params string[] args)
         {
-            ID = iD;
+            Id = id;
             Args = args;
         }
 
         [DataMember]
-        public string ID { get; set; }
+        public string Id { get; set; }
 
         [DataMember]
         public string[] Args { get; set; }

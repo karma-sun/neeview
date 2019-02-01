@@ -12,7 +12,9 @@ namespace NeeView
 {
     public class SaveData
     {
-        public static SaveData Current { get; private set; }
+        static SaveData() => Current = new SaveData();
+        public static SaveData Current { get; }
+
 
         public UserSetting _userSetting;
         private string _historyFileName;
@@ -22,10 +24,8 @@ namespace NeeView
         private object _saveLock = new object();
 
 
-        public SaveData()
+        private SaveData()
         {
-            Current = this;
-
             _historyFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, HistoryFileName);
             _bookmarkFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, BookmarkFileName);
             _pagemarkFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, PagemarkFileName);

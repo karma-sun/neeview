@@ -70,6 +70,9 @@ namespace NeeView
         {
             Stopwatch = Stopwatch.StartNew();
 
+            // DLL 検索パスから現在の作業ディレクトリ (CWD) を削除
+            NativeMethods.SetDllDirectory("");
+
             try
             {
                 await InitializeAsync(e);
@@ -102,12 +105,6 @@ namespace NeeView
         {
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-            // DLL 検索パスから現在の作業ディレクトリ (CWD) を削除
-            NativeMethods.SetDllDirectory("");
-
-            // 環境初期化
-            Config.Current.Initiallize();
-
             // コマンドライン引数処理
             this.Option = ParseArguments(e.Args);
             this.Option.Validate();
@@ -133,7 +130,6 @@ namespace NeeView
             Debug.WriteLine($"App.UserSettingLoading: {Stopwatch.ElapsedMilliseconds}ms");
 
             // 設定ファイルの読み込み
-            new SaveData();
             var setting = SaveData.Current.LoadUserSetting();
 
             Debug.WriteLine($"App.UserSettingLoaded: {Stopwatch.ElapsedMilliseconds}ms");

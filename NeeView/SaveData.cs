@@ -282,6 +282,21 @@ namespace NeeView
                 if (App.Current.IsSaveHistory)
                 {
                     var bookHistoryMemento = BookHistoryCollection.Current.CreateMemento(true);
+
+                    try
+                    {
+                        var fileInfo = new FileInfo(_historyFileName);
+                        if (fileInfo.Exists && fileInfo.LastWriteTime > App.Current.StartTime)
+                        {
+                            var margeMemento = SafetyLoad(BookHistoryCollection.Memento.Load, _historyFileName, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
+                            bookHistoryMemento.Merge(margeMemento);
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
+
                     SafetySave(bookHistoryMemento.Save, _historyFileName, false);
                 }
                 else

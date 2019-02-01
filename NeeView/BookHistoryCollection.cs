@@ -360,10 +360,10 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
 
-#region Memento
+        #region Memento
 
         /// <summary>
         /// 履歴Memento
@@ -492,6 +492,50 @@ namespace NeeView
                     return memento;
                 }
             }
+
+            // 合成
+            public void Merge(Memento memento)
+            {
+                Debug.WriteLine("HistoryMerge...");
+
+                if (_Version != memento._Version)
+                {
+                    Debug.WriteLine("HistoryMerge failed: Illigal version");
+                    return;
+                }
+
+                bool isDarty = false;
+                var itemMap = Items.ToDictionary(e => e.Place, e => e);
+                var bookMap = Books.ToDictionary(e => e.Place, e => e);
+                var importBookMap = memento.Books.ToDictionary(e => e.Place, e => e);
+
+                foreach (var item in memento.Items)
+                {
+                    if (itemMap.ContainsKey(item.Place))
+                    {
+                        if (itemMap[item.Place].LastAccessTime < item.LastAccessTime)
+                        {
+                            Debug.WriteLine($"HistoryMerge: Update: {item.Place}");
+                            itemMap[item.Place] = item;
+                            bookMap[item.Place] = importBookMap[item.Place];
+                            isDarty = true;
+                        }
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"HistoryMerge: Add: {item.Place}");
+                        itemMap.Add(item.Place, item);
+                        bookMap.Add(item.Place, importBookMap[item.Place]);
+                        isDarty = true;
+                    }
+                }
+
+                if (isDarty)
+                {
+                    Items = Limit(itemMap.Values.OrderByDescending(e => e.LastAccessTime), LimitSize, LimitSpan).ToList();
+                    Books = bookMap.Values.ToList();
+                }
+            }
         }
 
         // memento作成
@@ -512,7 +556,7 @@ namespace NeeView
 
             if (forSave)
             {
-                memento.Items = Limit(this.Items.Where(e => !e.Place.StartsWith(Temporary.TempDirectory))).ToList();
+                memento.Items = Limit(this.Items.Where(e => !e.Place.StartsWith(Temporary.TempDirectory)), LimitSize, LimitSpan).ToList();
                 memento.Books = memento.Items.Select(e => e.Unit.Memento).ToList();
 
                 if (memento.LastFolder != null && memento.LastFolder.StartsWith(Temporary.TempDirectory))
@@ -560,7 +604,7 @@ namespace NeeView
                 this.SearchHistory = memento.SearchHistory != null ? new ObservableCollection<string>(memento.SearchHistory) : new ObservableCollection<string>();
             }
 
-            this.Load(fromLoad ? Limit(memento.Items) : memento.Items, memento.Books);
+            this.Load(fromLoad ? Limit(memento.Items, LimitSize, LimitSpan) : memento.Items, memento.Books);
 
 #pragma warning disable CS0612
             // ver.22
@@ -571,20 +615,21 @@ namespace NeeView
 #pragma warning restore CS0612
         }
 
+
         // 履歴数制限
-        private IEnumerable<BookHistory> Limit(IEnumerable<BookHistory> source)
+        public static IEnumerable<BookHistory> Limit(IEnumerable<BookHistory> source, int limitSize, TimeSpan limitSpan)
         {
             // limit size
-            var collection = LimitSize == -1 ? source : source.Take(LimitSize);
+            var collection = limitSize == -1 ? source : source.Take(limitSize);
 
             // limit time
-            var limitTime = DateTime.Now - LimitSpan;
-            collection = LimitSpan == default(TimeSpan) ? collection : collection.TakeWhile(e => e.LastAccessTime > limitTime);
+            var limitTime = DateTime.Now - limitSpan;
+            collection = limitSpan == default ? collection : collection.TakeWhile(e => e.LastAccessTime > limitTime);
 
             return collection;
         }
 
 
-#endregion
+        #endregion
     }
 }

@@ -45,6 +45,9 @@ namespace NeeView
         // システムロック
         public object Lock { get; } = new object();
 
+        // 起動日時
+        public DateTime StartTime { get; private set; }
+
         // 開発用：ストップウォッチ
         public Stopwatch Stopwatch { get; private set; }
 
@@ -68,6 +71,7 @@ namespace NeeView
         /// </summary>
         private async void Application_Startup(object sender, StartupEventArgs e)
         {
+            StartTime = DateTime.Now;
             Stopwatch = Stopwatch.StartNew();
 
             // DLL 検索パスから現在の作業ディレクトリ (CWD) を削除

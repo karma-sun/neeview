@@ -13,17 +13,13 @@ namespace NeeView
     /// </summary>
     public class LoupeTransform : BindableBase
     {
-        public static LoupeTransform Current { get; private set; }
+        static LoupeTransform() => Current = new LoupeTransform();
+        public static LoupeTransform Current { get; }
 
         #region Constructors
 
-        /// <summary>
-        /// コンストラクター
-        /// </summary>
-        public LoupeTransform()
+        private LoupeTransform()
         {
-            Current = this;
-
             this.TransformView = CreateTransformGroup();
             this.TransformCalc = CreateTransformGroup();
 

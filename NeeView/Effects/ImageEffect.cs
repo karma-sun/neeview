@@ -14,18 +14,18 @@ using System.Windows.Media.Effects;
 
 namespace NeeView.Effects
 {
-    //
+    /// <summary>
+    /// 画像エフェクト
+    /// </summary>
     public class ImageEffect : BindableBase
     {
-        public static ImageEffect Current { get; private set; }
+        static ImageEffect() => Current = new ImageEffect();
+        public static ImageEffect Current { get; }
 
         #region Constructors
 
-        //
-        public ImageEffect()
+        private ImageEffect()
         {
-            Current = this;
-
             Effects = new Dictionary<EffectType, EffectUnit>();
 
             Effects[EffectType.None] = null;

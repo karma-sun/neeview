@@ -41,7 +41,9 @@ namespace NeeView
     /// </summary>
     public class ArchiverManager : BindableBase
     {
-        public static ArchiverManager Current { get; private set; }
+        static ArchiverManager() => Current = new ArchiverManager();
+        public static ArchiverManager Current { get; }
+
 
         #region Fields
 
@@ -68,10 +70,8 @@ namespace NeeView
         /// <summary>
         /// constructor
         /// </summary>
-        public ArchiverManager()
+        private ArchiverManager()
         {
-            Current = this;
-
             ZipArchiverProfile.Current.AddPropertyChanged(nameof(ZipArchiverProfile.IsEnabled),
                 (s, e) => UpdateOrderList());
             SevenZipArchiverProfile.Current.AddPropertyChanged(nameof(MediaArchiverProfile.IsEnabled),

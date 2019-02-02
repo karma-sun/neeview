@@ -8,15 +8,12 @@ namespace NeeView
     /// </summary>
     public class AddressBar : BindableBase
     {
-        public static AddressBar Current { get; private set; }
+        static AddressBar() => Current = new AddressBar();
+        public static AddressBar Current { get; }
 
-        /// <summary>
-        /// constructor
-        /// </summary>
-        public AddressBar()
+
+        private AddressBar()
         {
-            Current = this;
-
             BookHub.Current.AddressChanged +=
                 (s, e) => SetAddress(BookHub.Current.Address);
 

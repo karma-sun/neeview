@@ -11,9 +11,13 @@ namespace NeeView
 {
     public class HistoryList : BindableBase
     {
+        static HistoryList() => Current = new HistoryList();
+        public static HistoryList Current { get; }
+
+
         private PanelListItemStyle _panelListItemStyle;
 
-        public HistoryList()
+        private HistoryList()
         {
         }
 

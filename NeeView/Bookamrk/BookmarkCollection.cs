@@ -18,14 +18,14 @@ namespace NeeView
 {
     public class BookmarkCollection : BindableBase
     {
-        public static BookmarkCollection Current { get; private set; }
+        static BookmarkCollection() => Current = new BookmarkCollection();
+        public static BookmarkCollection Current { get; }
 
 
         // Constructors
 
-        public BookmarkCollection()
+        private BookmarkCollection()
         {
-            Current = this;
             Items = new TreeListNode<IBookmarkEntry>();
             Items.Value = new BookmarkFolder();
         }

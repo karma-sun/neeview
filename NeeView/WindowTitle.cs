@@ -29,7 +29,8 @@ namespace NeeView
     /// </summary>
     public class WindowTitle : BindableBase
     {
-        public static WindowTitle Current { get; private set; }
+        static WindowTitle() => Current = new WindowTitle();
+        public static WindowTitle Current { get; }
 
         #region Fields
 
@@ -57,14 +58,8 @@ namespace NeeView
 
         #region Constructors
 
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="contentCanvas"></param>
-        public WindowTitle()
+        private WindowTitle()
         {
-            Current = this;
-
             ContentCanvas.Current.ContentChanged += ContentCanvas_ContentChanged;
 
             DragTransform.Current.AddPropertyChanged(nameof(DragTransform.Scale), DragTransform_ScaleChanged);

@@ -11,18 +11,17 @@ namespace NeeView
 {
     public class PagemarkList : BindableBase
     {
-        public static PagemarkList Current { get; set; }
+        static PagemarkList() => Current = new PagemarkList();
+        public static PagemarkList Current { get; }
+
 
         private PanelListItemStyle _panelListItemStyle;
         private PagemarkListBoxModel _listBox;
 
 
-
-        public PagemarkList()
+        private PagemarkList()
         {
-            Current = this;
-
-            _listBox = new PagemarkListBoxModel();
+            _listBox = new PagemarkListBoxModel(this);
             _listBox.AddPropertyChanged(nameof(_listBox.PlaceDispString), (s, e) => RaisePropertyChanged(nameof(PlaceDispString)));
         }
 

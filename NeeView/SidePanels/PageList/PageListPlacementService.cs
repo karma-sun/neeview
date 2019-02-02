@@ -12,15 +12,15 @@ namespace NeeView
 {
     public class PageListPlacementService : BindableBase
     {
-        public static PageListPlacementService Current { get; private set; }
+        static PageListPlacementService() => Current = new PageListPlacementService();
+        public static PageListPlacementService Current { get; }
+
 
         private PageListPanel _panel;
         private bool _isPlacedInBookshelf;
 
-        public PageListPlacementService()
+        private PageListPlacementService()
         {
-            Current = this;
-
             _isPlacedInBookshelf = true;
         }
 

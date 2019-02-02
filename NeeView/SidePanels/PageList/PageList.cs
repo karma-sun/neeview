@@ -13,16 +13,16 @@ namespace NeeView
 {
     public class PageList : BindableBase
     {
-        public static PageList Current { get; private set; }
+        static PageList() => Current = new PageList();
+        public static PageList Current { get; }
+
 
         private PanelListItemStyle _panelListItemStyle;
         private PageNameFormat _format = PageNameFormat.Smart;
 
 
-        public PageList()
+        private PageList()
         {
-            Current = this;
-
             ListBoxModel = new PageListBoxModel();
 
             BookOperation.Current.AddPropertyChanged(nameof(BookOperation.PageList), BookOperation_PageListChanged);

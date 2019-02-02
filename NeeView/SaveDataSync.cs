@@ -10,16 +10,16 @@ namespace NeeView
     /// </summary>
     public class SaveDataSync
     {
-        public static SaveDataSync Current { get; private set; }
+        static SaveDataSync() => Current = new SaveDataSync();
+        public static SaveDataSync Current { get; }
+
 
         private DelayAction _delaySaveBookmark;
         private DelayAction _delaySavePagemark;
 
 
-        public SaveDataSync()
+        private SaveDataSync()
         {
-            Current = this;
-
             _delaySaveBookmark = new DelayAction(App.Current.Dispatcher, TimeSpan.FromSeconds(0.2), SaveBookmark, TimeSpan.FromSeconds(0.5));
             _delaySavePagemark = new DelayAction(App.Current.Dispatcher, TimeSpan.FromSeconds(0.2), SavePagemark, TimeSpan.FromSeconds(0.5));
 

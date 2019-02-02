@@ -11,7 +11,9 @@ namespace NeeView
     //
     public class PdfArchiverProfile : BindableBase
     {
-        public static PdfArchiverProfile Current { get; private set; }
+        static PdfArchiverProfile() => Current = new PdfArchiverProfile();
+        public static PdfArchiverProfile Current { get; }
+
 
         private bool _isEnabled = true;
 
@@ -19,9 +21,8 @@ namespace NeeView
 
 
         //
-        public PdfArchiverProfile()
+        private PdfArchiverProfile()
         {
-            Current = this;
         }
 
 

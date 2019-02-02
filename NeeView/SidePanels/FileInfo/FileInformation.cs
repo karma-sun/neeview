@@ -15,7 +15,8 @@ namespace NeeView
     /// </summary>
     public class FileInformation : BindableBase
     {
-        public static FileInformation Current { get; private set; }
+        static FileInformation() => Current = new FileInformation();
+        public static FileInformation Current { get; }
 
         #region Fields
 
@@ -24,6 +25,16 @@ namespace NeeView
         private bool _IsVisibleLoader;
         private bool _IsVisibleFilePath;
         private ViewContent _viewContent;
+
+        #endregion
+
+        #region Constructors
+
+        private FileInformation()
+        {
+            ContentCanvas.Current.AddPropertyChanged(nameof(ContentCanvas.Current.MainContent),
+                (s, e) => ViewContent = ContentCanvas.Current.MainContent);
+        }
 
         #endregion
 
@@ -62,18 +73,6 @@ namespace NeeView
         {
             get { return _viewContent; }
             set { if (_viewContent != value) { _viewContent = value; RaisePropertyChanged(); } }
-        }
-
-        #endregion
-
-        #region Constructors
-
-        public FileInformation()
-        {
-            Current = this;
-
-            ContentCanvas.Current.AddPropertyChanged(nameof(ContentCanvas.Current.MainContent),
-                (s, e) => ViewContent = ContentCanvas.Current.MainContent);
         }
 
         #endregion

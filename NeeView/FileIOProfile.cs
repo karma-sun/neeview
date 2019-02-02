@@ -7,14 +7,14 @@ namespace NeeView
 {
     public class FileIOProfile : BindableBase
     {
-        public static FileIOProfile Current { get; private set; }
+        static FileIOProfile() => Current = new FileIOProfile();
+        public static FileIOProfile Current { get; }
 
         private bool _isEnabled = true;
 
 
-        public FileIOProfile()
+        private FileIOProfile()
         {
-            Current = this;
         }
 
 

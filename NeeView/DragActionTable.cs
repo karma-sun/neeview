@@ -11,32 +11,15 @@ namespace NeeView
 {
     public class DragActionTable : IEnumerable<KeyValuePair<DragActionType, DragAction>>
     {
-        public static DragActionTable Current { get; private set; }
+        static DragActionTable() => Current = new DragActionTable();
+        public static DragActionTable Current { get; }
 
-        // インテグザ
-        public DragAction this[DragActionType key]
+        private static Memento s_defaultMemento;
+        
+        // 初期設定取得
+        public static Memento CreateDefaultMemento()
         {
-            get
-            {
-                if (!_elements.ContainsKey(key)) throw new ArgumentOutOfRangeException(key.ToString());
-                return _elements[key];
-            }
-            set { _elements[key] = value; }
-        }
-
-        // Enumerator
-        public IEnumerator<KeyValuePair<DragActionType, DragAction>> GetEnumerator()
-        {
-            foreach (var pair in _elements)
-            {
-                yield return pair;
-            }
-        }
-
-        // Enumerator
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return this.GetEnumerator();
+            return s_defaultMemento.Clone();
         }
 
 
@@ -46,26 +29,10 @@ namespace NeeView
         // コマンドターゲット
         private DragTransformControl _drag;
 
-        // 初期設定
-        private static Memento s_defaultMemento;
-
-        // 初期設定取得
-        public static Memento CreateDefaultMemento()
-        {
-            return s_defaultMemento.Clone();
-        }
-
-        // コマンドターゲット設定
-        public void SetTarget(DragTransformControl drag)
-        {
-            _drag = drag;
-        }
 
         // コンストラクタ
-        public DragActionTable()
+        private DragActionTable()
         {
-            Current = this;
-
             _elements = new Dictionary<DragActionType, DragAction>()
             {
                 [DragActionType.Gesture] = new DragAction
@@ -120,6 +87,38 @@ namespace NeeView
             s_defaultMemento = CreateMemento();
         }
 
+
+        // インテグザ
+        public DragAction this[DragActionType key]
+        {
+            get
+            {
+                if (!_elements.ContainsKey(key)) throw new ArgumentOutOfRangeException(key.ToString());
+                return _elements[key];
+            }
+            set { _elements[key] = value; }
+        }
+
+        // Enumerator
+        public IEnumerator<KeyValuePair<DragActionType, DragAction>> GetEnumerator()
+        {
+            foreach (var pair in _elements)
+            {
+                yield return pair;
+            }
+        }
+
+        // Enumerator
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        // コマンドターゲット設定
+        public void SetTarget(DragTransformControl drag)
+        {
+            _drag = drag;
+        }
 
         /// <summary>
         /// 入力からアクション取得

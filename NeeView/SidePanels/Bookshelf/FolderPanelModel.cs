@@ -13,7 +13,9 @@ namespace NeeView
 {
     public class FolderPanelModel : BindableBase
     {
-        public static FolderPanelModel Current { get; private set; }
+        static FolderPanelModel() => Current = new FolderPanelModel();
+        public static FolderPanelModel Current { get; }
+
 
         private bool _isPagelistVisible = false;
         private GridLength _gridLength0 = new GridLength(1, GridUnitType.Star);
@@ -23,9 +25,8 @@ namespace NeeView
         private FrameworkElement _visual;
 
 
-        public FolderPanelModel()
+        private FolderPanelModel()
         {
-            Current = this;
         }
 
 

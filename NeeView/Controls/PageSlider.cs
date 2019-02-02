@@ -38,7 +38,8 @@ namespace NeeView
     /// </summary>
     public class PageSlider : BindableBase
     {
-        public static PageSlider Current { get; private set; }
+        static PageSlider() => Current = new PageSlider();
+        public static PageSlider Current { get; }
 
         #region Fields
 
@@ -51,10 +52,8 @@ namespace NeeView
 
         #region Constructors
 
-        public PageSlider()
+        private PageSlider()
         {
-            Current = this;
-
             this.PageMarkers = new PageMarkers(BookOperation.Current);
 
             BookSetting.Current.SettingChanged += (s, e) => UpdateIsSliderDirectionReversed();

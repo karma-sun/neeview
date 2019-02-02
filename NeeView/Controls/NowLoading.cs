@@ -7,15 +7,11 @@ namespace NeeView
     /// </summary>
     public class NowLoading : BindableBase
     {
-        public static NowLoading Current { get; private set; }
+        static NowLoading() => Current = new NowLoading();
+        public static NowLoading Current { get; }
 
-        /// <summary>
-        /// constructor
-        /// </summary>
-        public NowLoading()
+        private NowLoading()
         {
-            Current = this;
-
             BookHub.Current.Loading +=
                 (s, e) => IsDispNowLoading = e.Path != null;
         }

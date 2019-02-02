@@ -56,7 +56,8 @@ namespace NeeView
     /// </summary>
     public class MainWindowModel : BindableBase
     {
-        public static MainWindowModel Current { get; private set; }
+        static MainWindowModel() => Current = new MainWindowModel();
+        public static MainWindowModel Current { get; }
 
         #region Fields
 
@@ -92,14 +93,8 @@ namespace NeeView
 
         #region Constructors
 
-        /// <summary>
-        /// constructor
-        /// </summary>
-        public MainWindowModel()
+        private MainWindowModel()
         {
-            Current = this;
-
-            // Window Shape
             WindowShape.Current.AddPropertyChanged(nameof(WindowShape.Current.IsFullScreen),
                 (s, e) =>
                 {

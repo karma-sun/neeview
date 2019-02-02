@@ -16,11 +16,14 @@ namespace NeeView
 
         private TreeListNode<IPagemarkEntry> _selectedItem;
         private Toast _toast;
+        private PagemarkList _pagemarkList;
 
         // Constructors
 
-        public PagemarkListBoxModel()
+        public PagemarkListBoxModel(PagemarkList pagemarkList)
         {
+            _pagemarkList = pagemarkList;
+
             PagemarkCollection.Current.PagemarkChanged += PagemarkCollection_PagemarkChanged;
             BookOperation.Current.BookChanged += (s, e) => UpdateItems();
 
@@ -34,7 +37,7 @@ namespace NeeView
 
         // Properties
 
-        public PagemarkList PagemarkList => PagemarkList.Current;
+        public PagemarkList PagemarkList => _pagemarkList;
 
         public PagemarkCollection PagemarkCollection => PagemarkCollection.Current;
 
@@ -105,7 +108,7 @@ namespace NeeView
 
         public void UpdateItems()
         {
-            if (PagemarkList.Current.IsCurrentBook)
+            if (_pagemarkList.IsCurrentBook)
             {
                 PlaceDispString = LoosePath.GetFileName(BookOperation.Current.Place);
                 var node = PagemarkCollection.Items.Children.FirstOrDefault(e => e.Value is PagemarkFolder folder && folder.Place == BookOperation.Current.Place);

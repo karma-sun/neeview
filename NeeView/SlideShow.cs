@@ -20,7 +20,8 @@ namespace NeeView
     /// </summary>
     public class SlideShow : BindableBase, IDisposable
     {
-        public static SlideShow Current { get; private set; }
+        static SlideShow() => Current = new SlideShow();
+        public static SlideShow Current { get; }
 
         // タイマーディスパッチ
         private DispatcherTimer _timer;
@@ -37,10 +38,8 @@ namespace NeeView
 
 
         // コンストラクター
-        public SlideShow()
+        private SlideShow()
         {
-            Current = this;
-
             // timer for slideshow
             _timer = new DispatcherTimer();
             _timer.Interval = TimeSpan.FromSeconds(_maxTimerTick);

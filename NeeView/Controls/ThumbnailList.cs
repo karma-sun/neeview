@@ -18,8 +18,9 @@ namespace NeeView
     /// </summary>
     public class ThumbnailList : BindableBase
     {
-        public static ThumbnailList Current { get; private set; }
-
+        static ThumbnailList() => Current = new ThumbnailList();
+        public static ThumbnailList Current { get; }
+        
         #region Fields
 
         private bool _isEnableThumbnailList;
@@ -36,10 +37,8 @@ namespace NeeView
 
         #region Constructors 
 
-        public ThumbnailList()
+        private ThumbnailList()
         {
-            Current = this;
-
             BookOperation.Current.BookChanging += BookOperator_BookChanging;
             BookOperation.Current.BookChanged += BookOperator_BookChanged;
             BookOperation.Current.PageListChanged += BookOperation_PageListChanged;

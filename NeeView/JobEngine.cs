@@ -233,7 +233,8 @@ namespace NeeView
     /// </summary>
     public class JobEngine : BindableBase, IDisposable
     {
-        public static JobEngine Current { get; private set; }
+        static JobEngine() => Current = new JobEngine();
+        public static JobEngine Current { get; }
 
         #region 開発用
 
@@ -314,13 +315,9 @@ namespace NeeView
         public JobWorker[] Workers { get; set; }
 
 
-
-
         // コンストラクタ
-        public JobEngine()
+        private JobEngine()
         {
-            Current = this;
-
             _maxWorkerSize = Math.Max(4, Environment.ProcessorCount);
 
             _context = new JobContext();

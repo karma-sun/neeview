@@ -8,14 +8,13 @@ namespace NeeView
 {
     public class MediaControl : BindableBase
     {
-        public static MediaControl Current { get; private set; }
+        static MediaControl() => Current = new MediaControl();
+        public static MediaControl Current { get; }
 
         private MediaViewContent _viewContent;
 
-        public MediaControl()
+        private MediaControl()
         {
-            Current = this;
-
             ContentCanvas.Current.ContentChanged += ContentCanvas_ContentChanged;
         }
 

@@ -3,14 +3,16 @@ using System.Runtime.Serialization;
 
 namespace NeeView
 {
-    //
+    /// <summary>
+    /// 画像ファイル出力設定
+    /// </summary>
     public class ExporterProfile
     {
-        public static ExporterProfile Current { get; private set; }
+        static ExporterProfile() => Current = new ExporterProfile();
+        public static ExporterProfile Current { get; }
 
-        public ExporterProfile()
+        private ExporterProfile()
         {
-            Current = this;
         }
 
         public bool IsHintCloneDefault { get; set; } = true;

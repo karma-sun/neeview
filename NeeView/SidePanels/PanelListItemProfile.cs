@@ -32,6 +32,7 @@ namespace NeeView
         private bool _isTextVisibled;
         private bool _isTextWrapped;
         private double _noteOpacity;
+        private bool _isTextheightDarty = true;
 
         public PanelListItemProfile()
         {
@@ -149,11 +150,23 @@ namespace NeeView
             }
         }
 
-        private double _TextHeight = double.NaN;
+
+        private double _textHeight = double.NaN;
         public double TextHeight
         {
-            get { return _TextHeight; }
-            set { SetProperty(ref _TextHeight, value); }
+            get
+            {
+                if (_isTextheightDarty)
+                {
+                    _isTextheightDarty = false;
+                    _textHeight = CalcTextHeight();
+                }
+                return _textHeight;
+            }
+            set
+            {
+                SetProperty(ref _textHeight, value);
+            }
         }
 
         [DataMember(EmitDefaultValue = false)]
@@ -178,7 +191,7 @@ namespace NeeView
         [OnDeserializing]
         private void OnDeserializing(StreamingContext context)
         {
-            _TextHeight = double.NaN;
+            _textHeight = double.NaN;
         }
 
         [OnDeserialized]
@@ -195,16 +208,16 @@ namespace NeeView
             return profile;
         }
 
-
-        // calc 2 line textbox height
+        // TextHeightの更新要求
         public void UpdateTextHeight()
         {
-            // HACK: SidePanelProfileインスタンスは自動生成するように
-            if (SidePanelProfile.Current == null)
-            {
-                return;
-            }
+            _isTextheightDarty = true;
+            RaisePropertyChanged(nameof(TextHeight));
+        }
 
+        // calc 2 line textbox height
+        private double CalcTextHeight()
+        { 
             if (IsTextWrapped)
             {
                 // 実際にTextBlockを作成して計算する
@@ -225,11 +238,11 @@ namespace NeeView
                 //panel.UpdateLayout();
                 double height = (int)textBlock.ActualHeight + 1.0;
 
-                TextHeight = height;
+                return height;
             }
             else
             {
-                TextHeight = double.NaN;
+                return double.NaN;
             }
         }
     }

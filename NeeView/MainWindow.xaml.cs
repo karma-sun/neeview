@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -8,8 +7,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
@@ -50,31 +47,31 @@ namespace NeeView
             var setting = SaveData.Current.GetUserSetting();
 
             // Window状態初期化、復元
-            new WindowPlacement(this);
             InitializeWindowPlacement();
-
-            new WindowShape(this);
             WindowShape.Current.SnapMemento = setting.WindowShape;
 
             // 固定画像初期化
             Thumbnail.InitializeBasicImages();
             FileIconCollection.Current.InitializeAsync();
 
-            // Models初期化
-            var models = new Models(this);
+            // サイドパネルの初期化
+            SidePanel.Current.Initialize();
+
+            // Drag&Drop設定
+            ContentDropManager.Current.SetDragDropEvent(MainView);
 
             // MainWindow : ViewModel
-            _vm = new MainWindowViewModel(models.MainWindowModel);
+            _vm = new MainWindowViewModel(MainWindowModel.Current);
             this.DataContext = _vm;
 
             // 各コントロールとモデルを関連付け
-            this.PageSliderView.Source = models.PageSlider;
+            this.PageSliderView.Source = PageSlider.Current;
             this.PageSliderView.FocusTo = this.MainView;
-            this.MediaControlView.Source = models.MediaControl;
-            this.ThumbnailListArea.Source = models.ThumbnailList;
-            this.AddressBar.Source = models.AddressBar;
-            this.MenuBar.Source = models.MenuBar;
-            this.NowLoadingView.Source = models.NowLoading;
+            this.MediaControlView.Source = MediaControl.Current;
+            this.ThumbnailListArea.Source = ThumbnailList.Current;
+            this.AddressBar.Source = NeeView.AddressBar.Current;
+            this.MenuBar.Source = NeeView.MenuBar.Current;
+            this.NowLoadingView.Source = NowLoading.Current;
 
 
             // コマンド初期化
@@ -85,25 +82,25 @@ namespace NeeView
             InitializeLayerVisibility();
 
             //
-            models.MainWindowModel.AddPropertyChanged(nameof(MainWindowModel.IsHideMenu),
+            MainWindowModel.Current.AddPropertyChanged(nameof(MainWindowModel.IsHideMenu),
                 (s, e) => DartyMenuAreaLayout());
 
-            models.MainWindowModel.AddPropertyChanged(nameof(MainWindowModel.CanHidePageSlider),
+            MainWindowModel.Current.AddPropertyChanged(nameof(MainWindowModel.CanHidePageSlider),
                 (s, e) => DartyPageSliderLayout());
 
-            models.MainWindowModel.AddPropertyChanged(nameof(MainWindowModel.IsPanelVisibleLocked),
+            MainWindowModel.Current.AddPropertyChanged(nameof(MainWindowModel.IsPanelVisibleLocked),
                 (s, e) => UpdateControlsVisibility());
 
-            models.ThumbnailList.AddPropertyChanged(nameof(ThumbnailList.IsEnableThumbnailList),
+            ThumbnailList.Current.AddPropertyChanged(nameof(ThumbnailList.IsEnableThumbnailList),
                 (s, e) => DartyThumbnailListLayout());
 
-            models.ThumbnailList.AddPropertyChanged(nameof(ThumbnailList.IsHideThumbnailList),
+            ThumbnailList.Current.AddPropertyChanged(nameof(ThumbnailList.IsHideThumbnailList),
                 (s, e) => DartyThumbnailListLayout());
 
-            models.SidePanel.ResetFocus +=
+            SidePanel.Current.ResetFocus +=
                 (s, e) => ResetFocus();
 
-            models.ContentCanvas.AddPropertyChanged(nameof(ContentCanvas.IsMediaContent),
+            ContentCanvas.Current.AddPropertyChanged(nameof(ContentCanvas.IsMediaContent),
                 (s, e) => DartyPageSliderLayout());
 
             this.AddressBar.IsAddressTextBoxFocusedChanged +=

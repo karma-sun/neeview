@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Effects;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -14,39 +15,39 @@ namespace NeeView
     /// </summary>
     public class SidePanel : SidePanelFrameModel
     {
-        public static SidePanel Current { get; private set; }
+        // NOTE: Initialize()必須
+        static SidePanel() => Current = new SidePanel();
+        public static SidePanel Current { get; }
 
-        private Models _models;
-
-        public SidePanel(Models models)
+        private SidePanel()
         {
+        }
+
+        public void Initialize()
+        { 
             NVInterop.NVFpReset();
-
-            Current = this;
-
-            _models = models;
 
             var leftPanels = new List<IPanel>();
             var rightPanels = new List<IPanel>();
 
             // フォルダーリスト
-            this.FolderListPanel = new FolderPanel(models.FolderPanelModel, models.FolderList, models.PageList);
+            this.FolderListPanel = new FolderPanel(FolderPanelModel.Current, FolderList.Current, PageList.Current);
             leftPanels.Add(this.FolderListPanel);
 
             // 履歴
-            this.HistoryPanel = new HistoryPanel(models.HistoryList);
+            this.HistoryPanel = new HistoryPanel(HistoryList.Current);
             leftPanels.Add(this.HistoryPanel);
 
             // ファイル情報
-            this.FileInfoPanel = new FileInformationPanel(models.FileInformation);
+            this.FileInfoPanel = new FileInformationPanel(FileInformation.Current);
             rightPanels.Add(this.FileInfoPanel);
 
             // エフェクト
-            this.ImageEffectPanel = new ImageEffectPanel(models.ImageEffect, models.ImageFilter);
+            this.ImageEffectPanel = new ImageEffectPanel(ImageEffect.Current, ImageFilter.Current);
             rightPanels.Add(this.ImageEffectPanel);
 
             // ページマーク
-            this.PagemarkPanel = new PagemarkPanel(models.PagemarkList);
+            this.PagemarkPanel = new PagemarkPanel(PagemarkList.Current);
             leftPanels.Add(this.PagemarkPanel);
 
             // パネル群を登録
@@ -192,7 +193,7 @@ namespace NeeView
             {
                 return PageListPanel != null
                     ? IsSelectedPanel(PageListPanel)
-                    : _models.FolderPanelModel.IsPageListVisible && IsVisibleFolderList;
+                    : FolderPanelModel.Current.IsPageListVisible && IsVisibleFolderList;
             }
             set
             {
@@ -202,7 +203,7 @@ namespace NeeView
                 }
                 else
                 {
-                    _models.FolderPanelModel.IsPageListVisible = true;
+                    FolderPanelModel.Current.IsPageListVisible = true;
                 }
                 RaisePanelPropertyChanged();
             }
@@ -225,7 +226,7 @@ namespace NeeView
             // 本棚の一部
             else
             {
-                var model = _models.FolderPanelModel;
+                var model = FolderPanelModel.Current;
 
                 if (byMenu || !model.IsPageListVisible || IsVisiblePanel(FolderListPanel))
                 {
@@ -236,7 +237,7 @@ namespace NeeView
 
                 if (model.IsPageListVisible)
                 {
-                    _models.PageList.FocusAtOnce();
+                    PageList.Current.FocusAtOnce();
                 }
 
                 return model.IsPageListVisible;
@@ -268,7 +269,7 @@ namespace NeeView
         /// <summary>
         /// 検索ボックス表示状態
         /// </summary>
-        public bool IsVisibleFolderSearchBox => _models.FolderList.IsFolderSearchBoxVisible && IsVisibleFolderList;
+        public bool IsVisibleFolderSearchBox => FolderList.Current.IsFolderSearchBoxVisible && IsVisibleFolderList;
 
 
         //
@@ -276,13 +277,13 @@ namespace NeeView
         {
             SetSelectedPanel(FolderListPanel, true);
 
-            _models.FolderList.RaiseSearchBoxFocus();
+            FolderList.Current.RaiseSearchBoxFocus();
         }
 
         /// <summary>
         /// フォルダーツリー表示状態
         /// </summary>
-        public bool IsVisibleFolderTree => _models.FolderList.IsFolderTreeVisible && IsVisibleFolderList;
+        public bool IsVisibleFolderTree => FolderList.Current.IsFolderTreeVisible && IsVisibleFolderList;
 
         /// <summary>
         /// フォルダーツリー表示状態切替

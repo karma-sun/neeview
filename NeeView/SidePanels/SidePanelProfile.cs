@@ -15,12 +15,21 @@ namespace NeeView
 {
     public class SidePanelProfile : BindableBase
     {
-        public static SidePanelProfile Current { get; private set; }
+        static SidePanelProfile()
+        {
+            _defaultNormalItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 0, false, true, false, 0.0);
+            _defaultContentItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 64, true, true, false, 0.5);
+            _defaultBannerItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 200, false, true, false, 0.0);
+            _defaultThumbnailItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 128, false, true, true, 0.0);
+            Current = new SidePanelProfile();
+        }
+        public static SidePanelProfile Current { get; }
 
-        private static readonly PanelListItemProfile _defaultNormalItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 0, false, true, false, 0.0);
-        private static readonly PanelListItemProfile _defaultContentItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 64, true, true, false, 0.5);
-        private static readonly PanelListItemProfile _defaultBannertemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 200, false, true, false, 0.0);
-        private static readonly PanelListItemProfile _defaultThumbnailItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 128, false, true, true, 0.0);
+        private static PanelListItemProfile _defaultNormalItemProfile;
+        private static PanelListItemProfile _defaultContentItemProfile;
+        private static PanelListItemProfile _defaultBannerItemProfile;
+        private static PanelListItemProfile _defaultThumbnailItemProfile;
+
 
         private double _opacity = 1.0;
         private SolidColorBrush _backgroundBrush;
@@ -30,13 +39,11 @@ namespace NeeView
         private double _folderTreeFontSize = 12;
         private double _fontSize = 15.0;
 
-        public SidePanelProfile()
+        private SidePanelProfile()
         {
-            Current = this;
-
             _normalItemProfile = _defaultNormalItemProfile.Clone();
             _contentItemProfile = _defaultContentItemProfile.Clone();
-            _bannerItemProfile = _defaultBannertemProfile.Clone();
+            _bannerItemProfile = _defaultBannerItemProfile.Clone();
             _thumbnailItemProfile = _defaultThumbnailItemProfile.Clone();
 
             SetFontFamilyResource(_fontName);
@@ -392,7 +399,7 @@ namespace NeeView
             this.FontSize = memento.FontSize;
             this.FolderTreeFontSize = memento.FolderTreeFontSize;
             this.ContentItemProfile = memento.ContentItemProfile ?? _defaultContentItemProfile.Clone();
-            this.BannerItemProfile = memento.BannerItemProfile ?? _defaultBannertemProfile.Clone();
+            this.BannerItemProfile = memento.BannerItemProfile ?? _defaultBannerItemProfile.Clone();
             this.ThumbnailItemProfile = memento.ThumbnailItemProfile ?? _defaultThumbnailItemProfile.Clone();
 
             ValidatePanelListItemProfile();

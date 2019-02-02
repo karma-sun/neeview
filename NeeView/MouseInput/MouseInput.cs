@@ -29,10 +29,8 @@ namespace NeeView
     /// </summary>
     public class MouseInput : BindableBase
     {
-        /// <summary>
-        /// システムオブジェクト
-        /// </summary>
-        public static MouseInput Current { get; private set; }
+        static MouseInput() => Current = new MouseInput();
+        public static MouseInput Current { get; }
 
         //
         private FrameworkElement _sender;
@@ -107,16 +105,10 @@ namespace NeeView
         /// <summary>
         /// コンストラクター
         /// </summary>
-        /// <param name="window"></param>
-        /// <param name="sender"></param>
-        /// <param name="targetView"></param>
-        /// <param name="targetShadow"></param>
-        public MouseInput(MouseInputContext context)
+        private MouseInput()
         {
-            Current = this;
-
-            _context = context;
-            _sender = context.Sender;
+            _context = new MouseInputContext(MainWindow.Current.MainView, MouseGestureCommandCollection.Current);
+            _sender = _context.Sender;
 
             this.Normal = new MouseInputNormal(_context);
             this.Normal.StateChanged += StateChanged;

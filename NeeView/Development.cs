@@ -9,12 +9,11 @@ namespace NeeView
 {
     public class Development : BindableBase
     {
-        public static Development Current { get; private set; }
+        static Development() => Current = new Development();
+        public static Development Current { get; }
 
-        //
-        public Development()
+        private Development()
         {
-            Current = this;
         }
 
         /// <summary>

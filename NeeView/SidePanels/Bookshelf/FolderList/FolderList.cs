@@ -57,7 +57,8 @@ namespace NeeView
     /// </summary>
     public class FolderList : BindableBase, IDisposable
     {
-        public static FolderList Current { get; private set; }
+        static FolderList() => Current = new FolderList();
+        public static FolderList Current { get; }
 
         #region Fields
 
@@ -83,13 +84,8 @@ namespace NeeView
 
         #region Constructors
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        public FolderList()
+        private FolderList()
         {
-            Current = this;
-
             _folderListBoxModel = new FolderListBoxModel(null);
 
             _searchEngine = new FolderSearchEngine();

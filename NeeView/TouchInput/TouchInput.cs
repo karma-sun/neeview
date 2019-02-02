@@ -29,14 +29,13 @@ namespace NeeView
     // タッチ処理
     public class TouchInput : BindableBase
     {
-        public static TouchInput Current { get; private set; }
+        static TouchInput() => Current = new TouchInput();
+        public static TouchInput Current { get; }
 
-        public TouchInput(TouchInputContext context)
+        private TouchInput()
         {
-            Current = this;
-
-            _context = context;
-            _sender = context.Sender;
+            _context = new TouchInputContext(MainWindow.Current.MainView, MainWindow.Current.MainContentShadow, MouseGestureCommandCollection.Current);
+            _sender = _context.Sender;
 
             this.Drag = new TouchInputDrag(_context);
             this.Drag.StateChanged += StateChanged;

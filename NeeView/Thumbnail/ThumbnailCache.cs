@@ -62,35 +62,24 @@ namespace NeeView
     {
         public const string _format = "1.20";
 
-        /// <summary>
-        /// 現在のシステムオブジェクト
-        /// </summary>
-        public static ThumbnailCache Current { get; private set; }
+        static ThumbnailCache() => Current = new ThumbnailCache();
+        public static ThumbnailCache Current { get; }
 
-        /// <summary>
-        /// constructor
-        /// </summary>
-        public ThumbnailCache()
+
+        private string _filename { get; } = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, "Cache.db");
+        private SQLiteConnection _connection;
+        public object _lock = new object();
+
+
+        private ThumbnailCache()
         {
-            Current = this;
         }
 
-        // Connection
-        private SQLiteConnection _connection;
 
         /// <summary>
         /// キャッシュ有効フラグ
         /// </summary>
         public bool IsEnabled => ThumbnailProfile.Current.IsCacheEnabled;
-
-        /// <summary>
-        /// データベースファイル名
-        /// </summary>
-        private string _filename { get; } = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, "Cache.db");
-
-
-        //
-        public object _lock = new object();
 
         /// <summary>
         /// DBを開く

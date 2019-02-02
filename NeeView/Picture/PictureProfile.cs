@@ -11,20 +11,32 @@ namespace NeeView
     //
     public class PictureProfile : BindableBase
     {
-        // 
-        public static PictureProfile Current { get; private set; }
+        static PictureProfile() => Current = new PictureProfile();
+        public static PictureProfile Current { get; }
 
-        //
         public static readonly Uri HEIFImageExtensions = new Uri(@"ms-windows-store://pdp/?ProductId=9pmmsr1cgpwg");
 
-        #region Fields
+
+        // Fields
 
         // 有効ファイル拡張子
         private PictureFileExtension _fileExtension = new PictureFileExtension();
 
-        #endregion
 
-        #region Properties
+        // Constructors
+
+        private PictureProfile()
+        {
+            _CustomSize = new PictureCustomSize()
+            {
+                IsEnabled = false,
+                IsUniformed = false,
+                Size = new Size(256, 256)
+            };
+        }
+
+
+        // Properties
 
         [PropertyMember("@ParamPictureProfileExtensions")]
         public FileTypeCollection SupportFileTypes => _fileExtension.DefaultExtensions;
@@ -89,28 +101,8 @@ namespace NeeView
         }
 
 
-        #endregion
 
-        #region Constructors
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        public PictureProfile()
-        {
-            Current = this;
-
-            _CustomSize = new PictureCustomSize()
-            {
-                IsEnabled = false,
-                IsUniformed = false,
-                Size = new Size(256, 256)
-            };
-        }
-
-        #endregion
-
-        #region Methods
+        // Methods
 
         // 対応拡張子判定 (ALL)
         public bool IsSupported(string fileName)
@@ -130,8 +122,6 @@ namespace NeeView
             return _fileExtension.IsSusieSupported(fileName);
         }
 
-
-
         // 最大サイズ内におさまるサイズを返す
         public Size CreateFixedSize(Size size)
         {
@@ -140,7 +130,6 @@ namespace NeeView
             return size.Limit(this.MaximumSize);
         }
 
-        #endregion
 
         #region Memento
 

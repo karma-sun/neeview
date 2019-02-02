@@ -7,13 +7,15 @@ namespace NeeView
 {
     public class ZipArchiverProfile : BindableBase
     {
-        public static ZipArchiverProfile Current { get; private set; }
+        static ZipArchiverProfile() => Current = new ZipArchiverProfile();
+        public static ZipArchiverProfile Current { get; }
+
 
         private bool _isEnabled = true;
 
-        public ZipArchiverProfile()
+
+        private ZipArchiverProfile()
         {
-            Current = this;
         }
 
         [PropertyMember("@ParamZipArchiverIsEnabled")]

@@ -23,15 +23,14 @@ namespace NeeView
     /// </summary>
     public class PagemarkCollection : BindableBase
     {
-        public static PagemarkCollection Current { get; private set; }
+        static PagemarkCollection() => Current = new PagemarkCollection();
+        public static PagemarkCollection Current { get; }
 
 
         // Constructors
 
-        public PagemarkCollection()
+        private PagemarkCollection()
         {
-            Current = this;
-
             Items = CreateRoot();
         }
 

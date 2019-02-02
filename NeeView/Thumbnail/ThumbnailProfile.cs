@@ -15,11 +15,11 @@ namespace NeeView
 {
     public class ThumbnailProfile : BindableBase
     {
-        public static ThumbnailProfile Current { get; private set; }
+        static ThumbnailProfile() => Current = new ThumbnailProfile();
+        public static ThumbnailProfile Current { get; }
 
-        public ThumbnailProfile()
+        private ThumbnailProfile()
         {
-            Current = this;
         }
 
         /// <summary>

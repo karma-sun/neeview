@@ -82,7 +82,8 @@ namespace NeeView
     /// </summary>
     public class WindowPlacement
     {
-        public static WindowPlacement Current { get; private set; }
+        static WindowPlacement() => Current = new WindowPlacement();
+        public static WindowPlacement Current { get; }
 
         #region NativeApi
 
@@ -105,12 +106,9 @@ namespace NeeView
 
         #region Constructors
 
-        //
-        public WindowPlacement(Window window)
+        private WindowPlacement()
         {
-            Current = this;
-
-            _window = window;
+            _window = MainWindow.Current;
             _window.SourceInitialized += Window_SourceInitialized;
             _window.Closing += Window_Closing;
         }

@@ -14,16 +14,12 @@ namespace NeeView
 {
     public class ContentCanvasBrush : BindableBase
     {
-        // system object
-        public static ContentCanvasBrush Current { get; private set; }
+        static ContentCanvasBrush() => Current = new ContentCanvasBrush();
+        public static ContentCanvasBrush Current { get; }
 
-        /// <summary>
-        /// constructor
-        /// </summary>
-        public ContentCanvasBrush()
+
+        private ContentCanvasBrush()
         {
-            Current = this;
-
             ContentCanvas.Current.ContentChanged +=
                 (s, e) => UpdateBackgroundBrush();
 

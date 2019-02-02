@@ -11,11 +11,11 @@ namespace NeeView
     /// </summary>
     public class BookHistoryCommand 
     {
-        public static BookHistoryCommand Current { get; private set; }
+        static BookHistoryCommand() => Current = new BookHistoryCommand();
+        public static BookHistoryCommand Current { get; }
 
-        public BookHistoryCommand()
+        private BookHistoryCommand()
         {
-            Current = this;
         }
 
         // 履歴を戻ることができる？

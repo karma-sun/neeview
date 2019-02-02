@@ -14,170 +14,15 @@ using System.Threading.Tasks;
 namespace NeeView
 {
     /// <summary>
-    /// NeeView全体のモデル。
-    /// 各Modelのインスタンスを管理する。
+    /// NeeView全体のモデルの保存管理
     /// </summary>
-    public class Models : BindableBase
+    public class Models
     {
-        // System Object
-        public static Models Current { get; private set; }
+        static Models() => Current = new Models();
+        public static Models Current { get; }
 
-        //
-        public MemoryControl MemoryControl { get; private set; }
-        public FileIOProfile FileIOProfile { get; private set; }
-        public JobEngine JobEngine { get; private set; }
-
-        public SusieContext SusieContext { get; private set; }
-        public PictureProfile PictureProfile { get; private set; }
-        public BookHistoryCollection BookHistoryCollection { get; private set; }
-        public BookmarkCollection BookmarkCollection { get; private set; }
-        public PagemarkCollection PagemarkCollection { get; private set; }
-        public ZipArchiverProfile ZipArchiverProfile { get; private set; }
-        public SevenZipArchiverProfile SevenZipArchiverProfile { get; private set; }
-        public PdfArchiverProfile PdfArchiverProfile { get; private set; }
-        public MediaArchiverProfile MediaArchiverProfile { get; private set; }
-        public ArchiverManager ArchiverManager { get; private set; }
-        public DragActionTable DragActionTable { get; private set; }
-        public ThumbnailProfile ThumbnailProfile { get; private set; }
-        public ThumbnailCache ThumbnailCache { get; private set; }
-        public ExporterProfile ExporterProfile { get; private set; }
-
-        //
-        public CommandTable CommandTable { get; private set; }
-        public RoutedCommandTable RoutedCommandTable { get; private set; }
-
-        public DragTransform DragTransform { get; private set; }
-        public DragTransformControl DragTransformControl { get; private set; }
-        public LoupeTransform LoupeTransform { get; private set; }
-        public MouseInput MouseInput { get; private set; }
-        public TouchInput TouchInput { get; private set; }
-        public ContentDropManager ContentDropManager { get; private set; }
-
-        //
-        public InfoMessage InfoMessage { get; private set; }
-
-        //
-        public BookHistoryCommand BookHistoryCommand { get; private set; }
-
-        //
-        public MainWindowModel MainWindowModel { get; private set; }
-
-        //
-        public ContentCanvas ContentCanvas { get; private set; }
-        public ContentCanvasBrush ContentCanvasBrush { get; private set; }
-        public ContentRebuild ContentRebuild { get; private set; }
-        public SlideShow SlideShow { get; private set; }
-        public WindowTitle WindowTitle { get; private set; }
-
-        //
-        public PageSlider PageSlider { get; private set; }
-        public MediaControl MediaControl { get; private set; }
-        public ThumbnailList ThumbnailList { get; private set; }
-        public AddressBar AddressBar { get; private set; }
-        public MenuBar MenuBar { get; private set; }
-        public NowLoading NowLoading { get; private set; }
-
-        //
-        public SidePanelProfile SidePanelProfile { get; private set; }
-        public PageListPlacementService PageListPlacementService { get; set; }
-        public FolderPanelModel FolderPanelModel { get; private set; }
-        public FolderList FolderList { get; private set; }
-        public PageList PageList { get; private set; }
-        public HistoryList HistoryList { get; private set; }
-        public PagemarkList PagemarkList { get; private set; }
-        public FileInformation FileInformation { get; private set; }
-        public ImageFilter ImageFilter { get; private set; }
-        public ImageEffect ImageEffect { get; private set; }
-
-        //
-        public SidePanel SidePanel { get; set; }
-
-        //
-        public SaveDataSync SaveDataService { get; private set; }
-
-        //
-        public Development Development { get; set; }
-
-
-        /// <summary>
-        /// Construcotr
-        /// </summary>
-        public Models(MainWindow window)
+        private Models()
         {
-            Current = this;
-
-            MemoryControl = new MemoryControl(App.Current.Dispatcher);
-            FileIOProfile = new FileIOProfile();
-            JobEngine = new JobEngine();
-
-            SusieContext = new SusieContext();
-            PictureProfile = new PictureProfile();
-            BookHistoryCollection = BookHistoryCollection.Current;
-            BookmarkCollection = new BookmarkCollection();
-            PagemarkCollection = new PagemarkCollection();
-            ZipArchiverProfile = new ZipArchiverProfile();
-            SevenZipArchiverProfile = new SevenZipArchiverProfile();
-            PdfArchiverProfile = new PdfArchiverProfile();
-            MediaArchiverProfile = new MediaArchiverProfile();
-            ArchiverManager = new ArchiverManager();
-            DragActionTable = new DragActionTable();
-            ThumbnailProfile = new ThumbnailProfile();
-            ThumbnailCache = new ThumbnailCache();
-            ExporterProfile = new ExporterProfile();
-
-
-            //
-            this.CommandTable = new CommandTable();
-            this.RoutedCommandTable = new RoutedCommandTable(window, this.CommandTable);
-
-            this.DragTransform = new DragTransform();
-            this.DragTransformControl = new DragTransformControl(window.MainView, window.MainContentShadow, this.DragTransform);
-
-            this.LoupeTransform = new LoupeTransform();
-
-            this.MouseInput = new MouseInput(new MouseInputContext(window.MainView, MouseGestureCommandCollection.Current));
-            this.TouchInput = new TouchInput(new TouchInputContext(window.MainView, window.MainContentShadow, MouseGestureCommandCollection.Current));
-            this.ContentDropManager = new ContentDropManager(window.MainView);
-
-            this.InfoMessage = new InfoMessage();
-
-            this.MainWindowModel = new MainWindowModel();
-
-            this.ImageFilter = new ImageFilter();
-
-            this.ContentCanvas = new ContentCanvas();
-            this.ContentCanvasBrush = new ContentCanvasBrush();
-            this.ContentRebuild = new ContentRebuild();
-
-            this.SlideShow = new SlideShow();
-            this.WindowTitle = new WindowTitle();
-
-            var pageSelector = new PageSelector();
-            this.ThumbnailList = new ThumbnailList();
-            this.PageSlider = new PageSlider();
-
-            this.MediaControl = new MediaControl();
-            this.AddressBar = new AddressBar();
-            this.MenuBar = new MenuBar();
-            this.NowLoading = new NowLoading();
-
-            this.SidePanelProfile = new SidePanelProfile();
-            this.PageListPlacementService = new PageListPlacementService();
-            this.FolderPanelModel = new FolderPanelModel();
-            this.FolderList = new FolderList();
-            this.PageList = new PageList();
-            this.HistoryList = new HistoryList();
-            this.PagemarkList = new PagemarkList();
-            this.FileInformation = new FileInformation();
-            this.ImageEffect = new ImageEffect();
-
-            this.BookHistoryCommand = new BookHistoryCommand();
-
-            this.SidePanel = new SidePanel(this);
-
-            this.SaveDataService = new SaveDataSync();
-
-            this.Development = new Development();
         }
 
 
@@ -278,106 +123,103 @@ namespace NeeView
             public RoutedCommandTable.Memento RoutedCommandTable { get; set; }
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
 
             memento._Version = Config.Current.ProductVersionNumber;
 
-            memento.MemoryControl = this.MemoryControl.CreateMemento();
-            memento.FileIOProfile = this.FileIOProfile.CreateMemento();
-            memento.JobEngine = this.JobEngine.CreateMemento();
+            memento.MemoryControl = MemoryControl.Current.CreateMemento();
+            memento.FileIOProfile = FileIOProfile.Current.CreateMemento();
+            memento.JobEngine = JobEngine.Current.CreateMemento();
             memento.SoundPlayerService = SoundPlayerService.Current.CreateMemento();
-            memento.PictureProfile = this.PictureProfile.CreateMemento();
-            memento.ImageFilter = this.ImageFilter.CreateMemento();
-            memento.ZipArchiverProfile = this.ZipArchiverProfile.CreateMemento();
-            memento.SevenZipArchiverProfile = this.SevenZipArchiverProfile.CreateMemento();
-            memento.PdfArchiverProfile = this.PdfArchiverProfile.CreateMemento();
-            memento.MediaArchiverProfile = this.MediaArchiverProfile.CreateMemento();
-            memento.ArchiverManager = this.ArchiverManager.CreateMemento();
-            memento.ThumbnailProfile = this.ThumbnailProfile.CreateMemento();
-            memento.ExporterProfile = this.ExporterProfile.CreateMemento();
-            memento.InfoMessage = this.InfoMessage.CreateMemento();
+            memento.PictureProfile = PictureProfile.Current.CreateMemento();
+            memento.ImageFilter = ImageFilter.Current.CreateMemento();
+            memento.ZipArchiverProfile = ZipArchiverProfile.Current.CreateMemento();
+            memento.SevenZipArchiverProfile = SevenZipArchiverProfile.Current.CreateMemento();
+            memento.PdfArchiverProfile = PdfArchiverProfile.Current.CreateMemento();
+            memento.MediaArchiverProfile = MediaArchiverProfile.Current.CreateMemento();
+            memento.ArchiverManager = ArchiverManager.Current.CreateMemento();
+            memento.ThumbnailProfile = ThumbnailProfile.Current.CreateMemento();
+            memento.ExporterProfile = ExporterProfile.Current.CreateMemento();
+            memento.InfoMessage = InfoMessage.Current.CreateMemento();
             memento.BookProfile = BookProfile.Current.CreateMemento();
             memento.BookHub = BookHub.Current.CreateMemento();
             memento.BookOperation = BookOperation.Current.CreateMemento();
             memento.BookSetting = BookSetting.Current.CreateMemento();
-            memento.MainWindowModel = this.MainWindowModel.CreateMemento();
-            memento.ContentCanvas = this.ContentCanvas.CreateMemento();
-            memento.ContentCanvasBrush = this.ContentCanvasBrush.CreateMemento();
-            memento.DragTransform = this.DragTransform.CreateMemento();
-            memento.DragTransformControl = this.DragTransformControl.CreateMemento();
-            memento.LoupeTransform = this.LoupeTransform.CreateMemento();
-            memento.MouseInput = this.MouseInput.CreateMemento();
-            memento.TouchInput = this.TouchInput.CreateMemento();
-            memento.SlideShow = this.SlideShow.CreateMemento();
-            memento.WindowTitle = this.WindowTitle.CreateMemento();
-            memento.PageSlider = this.PageSlider.CreateMemento();
-            memento.MediaControl = this.MediaControl.CreateMemento();
-            memento.ThumbnailList = this.ThumbnailList.CreateMemento();
-            memento.MenuBar = this.MenuBar.CreateMemento();
-            memento.SidePanelProfile = this.SidePanelProfile.CreateMemento();
-            memento.PageListPlacementService = this.PageListPlacementService.CreateMemento();
-            memento.FolderPanel = this.FolderPanelModel.CreateMemento();
-            memento.FolderList = this.FolderList.CreateMemento();
-            memento.PageList = this.PageList.CreateMemento();
-            memento.HistoryList = this.HistoryList.CreateMemento();
-            memento.PagemarkList = this.PagemarkList.CreateMemento();
-            memento.FileInformation = this.FileInformation.CreateMemento();
-            memento.ImageEffect = this.ImageEffect.CreateMemento();
-            memento.SidePanel = this.SidePanel.CreateMemento();
+            memento.MainWindowModel = MainWindowModel.Current.CreateMemento();
+            memento.ContentCanvas = ContentCanvas.Current.CreateMemento();
+            memento.ContentCanvasBrush = ContentCanvasBrush.Current.CreateMemento();
+            memento.DragTransform = DragTransform.Current.CreateMemento();
+            memento.DragTransformControl = DragTransformControl.Current.CreateMemento();
+            memento.LoupeTransform = LoupeTransform.Current.CreateMemento();
+            memento.MouseInput = MouseInput.Current.CreateMemento();
+            memento.TouchInput = TouchInput.Current.CreateMemento();
+            memento.SlideShow = SlideShow.Current.CreateMemento();
+            memento.WindowTitle = WindowTitle.Current.CreateMemento();
+            memento.PageSlider = PageSlider.Current.CreateMemento();
+            memento.MediaControl = MediaControl.Current.CreateMemento();
+            memento.ThumbnailList = ThumbnailList.Current.CreateMemento();
+            memento.MenuBar = MenuBar.Current.CreateMemento();
+            memento.SidePanelProfile = SidePanelProfile.Current.CreateMemento();
+            memento.PageListPlacementService = PageListPlacementService.Current.CreateMemento();
+            memento.FolderPanel = FolderPanelModel.Current.CreateMemento();
+            memento.FolderList = FolderList.Current.CreateMemento();
+            memento.PageList = PageList.Current.CreateMemento();
+            memento.HistoryList = HistoryList.Current.CreateMemento();
+            memento.PagemarkList = PagemarkList.Current.CreateMemento();
+            memento.FileInformation = FileInformation.Current.CreateMemento();
+            memento.ImageEffect = ImageEffect.Current.CreateMemento();
+            memento.SidePanel = SidePanel.Current.CreateMemento();
             return memento;
         }
 
-        //
         public void Resore(Memento memento)
         {
             if (memento == null) return;
-            this.MemoryControl.Restore(memento.MemoryControl);
-            this.FileIOProfile.Restore(memento.FileIOProfile);
-            this.JobEngine.Restore(memento.JobEngine);
+            MemoryControl.Current.Restore(memento.MemoryControl);
+            FileIOProfile.Current.Restore(memento.FileIOProfile);
+            JobEngine.Current.Restore(memento.JobEngine);
             SoundPlayerService.Current.Restore(memento.SoundPlayerService);
-            this.PictureProfile.Restore(memento.PictureProfile);
-            this.ImageFilter.Restore(memento.ImageFilter);
-            this.ZipArchiverProfile.Restore(memento.ZipArchiverProfile);
-            this.SevenZipArchiverProfile.Restore(memento.SevenZipArchiverProfile);
-            this.PdfArchiverProfile.Restore(memento.PdfArchiverProfile);
-            this.MediaArchiverProfile.Restore(memento.MediaArchiverProfile);
-            this.ArchiverManager.Restore(memento.ArchiverManager);
-            this.ThumbnailProfile.Restore(memento.ThumbnailProfile);
-            this.ExporterProfile.Restore(memento.ExporterProfile);
-            this.InfoMessage.Restore(memento.InfoMessage);
+            PictureProfile.Current.Restore(memento.PictureProfile);
+            ImageFilter.Current.Restore(memento.ImageFilter);
+            ZipArchiverProfile.Current.Restore(memento.ZipArchiverProfile);
+            SevenZipArchiverProfile.Current.Restore(memento.SevenZipArchiverProfile);
+            PdfArchiverProfile.Current.Restore(memento.PdfArchiverProfile);
+            MediaArchiverProfile.Current.Restore(memento.MediaArchiverProfile);
+            ArchiverManager.Current.Restore(memento.ArchiverManager);
+            ThumbnailProfile.Current.Restore(memento.ThumbnailProfile);
+            ExporterProfile.Current.Restore(memento.ExporterProfile);
+            InfoMessage.Current.Restore(memento.InfoMessage);
             BookProfile.Current.Restore(memento.BookProfile);
             BookHub.Current.Restore(memento.BookHub);
             BookOperation.Current.Restore(memento.BookOperation);
             BookSetting.Current.Restore(memento.BookSetting);
-            this.MainWindowModel.Restore(memento.MainWindowModel);
-            this.ContentCanvas.Restore(memento.ContentCanvas);
-            this.ContentCanvasBrush.Restore(memento.ContentCanvasBrush);
-            this.DragTransform.Restore(memento.DragTransform);
-            this.DragTransformControl.Restore(memento.DragTransformControl);
-            this.LoupeTransform.Restore(memento.LoupeTransform);
-            this.MouseInput.Restore(memento.MouseInput);
-            this.TouchInput.Restore(memento.TouchInput);
-            this.SlideShow.Restore(memento.SlideShow);
-            this.WindowTitle.Restore(memento.WindowTitle);
-            this.PageSlider.Restore(memento.PageSlider);
-            this.MediaControl.Restore(memento.MediaControl);
-            this.ThumbnailList.Restore(memento.ThumbnailList);
-            this.MenuBar.Restore(memento.MenuBar);
-            this.SidePanelProfile.Restore(memento.SidePanelProfile);
-            this.PageListPlacementService.Restore(memento.PageListPlacementService);
-            this.FolderPanelModel.Restore(memento.FolderPanel);
-            this.FolderList.Restore(memento.FolderList);
-            this.PageList.Restore(memento.PageList);
-            this.HistoryList.Restore(memento.HistoryList);
-            this.PagemarkList.Restore(memento.PagemarkList);
-            this.FileInformation.Restore(memento.FileInformation);
-            this.ImageEffect.Restore(memento.ImageEffect);
-            this.SidePanel.Restore(memento.SidePanel);
+            MainWindowModel.Current.Restore(memento.MainWindowModel);
+            ContentCanvas.Current.Restore(memento.ContentCanvas);
+            ContentCanvasBrush.Current.Restore(memento.ContentCanvasBrush);
+            DragTransform.Current.Restore(memento.DragTransform);
+            DragTransformControl.Current.Restore(memento.DragTransformControl);
+            LoupeTransform.Current.Restore(memento.LoupeTransform);
+            MouseInput.Current.Restore(memento.MouseInput);
+            TouchInput.Current.Restore(memento.TouchInput);
+            SlideShow.Current.Restore(memento.SlideShow);
+            WindowTitle.Current.Restore(memento.WindowTitle);
+            PageSlider.Current.Restore(memento.PageSlider);
+            MediaControl.Current.Restore(memento.MediaControl);
+            ThumbnailList.Current.Restore(memento.ThumbnailList);
+            MenuBar.Current.Restore(memento.MenuBar);
+            SidePanelProfile.Current.Restore(memento.SidePanelProfile);
+            PageListPlacementService.Current.Restore(memento.PageListPlacementService);
+            FolderPanelModel.Current.Restore(memento.FolderPanel);
+            FolderList.Current.Restore(memento.FolderList);
+            PageList.Current.Restore(memento.PageList);
+            HistoryList.Current.Restore(memento.HistoryList);
+            PagemarkList.Current.Restore(memento.PagemarkList);
+            FileInformation.Current.Restore(memento.FileInformation);
+            ImageEffect.Current.Restore(memento.ImageEffect);
+            SidePanel.Current.Restore(memento.SidePanel);
         }
-
 
         public void ResoreCompatible(Memento memento)
         {
@@ -389,12 +231,12 @@ namespace NeeView
             // compatible before ver.23
             if (memento._Version < Config.GenerateProductVersionNumber(1, 23, 0))
             {
-                this.RoutedCommandTable.RestoreCompatible(memento.RoutedCommandTable);
+                RoutedCommandTable.Current.RestoreCompatible(memento.RoutedCommandTable);
             }
 #pragma warning restore CS0612
 
-            this.ThumbnailProfile.RestoreCompatible(memento.ThumbnailProfile);
-            this.SidePanel.RestoreCompatible(memento.SidePanel);
+            ThumbnailProfile.Current.RestoreCompatible(memento.ThumbnailProfile);
+            SidePanel.Current.RestoreCompatible(memento.SidePanel);
         }
 
         #endregion

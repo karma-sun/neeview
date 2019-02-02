@@ -6,13 +6,14 @@ namespace NeeView
 {
     public class MediaArchiverProfile : BindableBase
     {
-        public static MediaArchiverProfile Current { get; private set; }
+        static MediaArchiverProfile() => Current = new MediaArchiverProfile();
+        public static MediaArchiverProfile Current { get; }
+
 
         private bool _isEnabled = true;
 
-        public MediaArchiverProfile()
+        private MediaArchiverProfile()
         {
-            Current = this;
         }
 
         [PropertyMember("@ParamArchiverMediaIsEnabled")]

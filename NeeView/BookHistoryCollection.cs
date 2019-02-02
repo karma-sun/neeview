@@ -15,7 +15,8 @@ namespace NeeView
 {
     public class BookHistoryCollection : BindableBase
     {
-        public static BookHistoryCollection Current { get; private set; } = new BookHistoryCollection();
+        static BookHistoryCollection() => Current = new BookHistoryCollection();
+        public static BookHistoryCollection Current { get; }
 
         #region Fields
 
@@ -25,10 +26,8 @@ namespace NeeView
 
         #region Constructors
 
-        public BookHistoryCollection()
+        private BookHistoryCollection()
         {
-            Current = this;
-
             HistoryChanged += (s, e) => RaisePropertyChanged(nameof(Count));
         }
 

@@ -20,12 +20,11 @@ namespace NeeView
     /// </summary>
     public class RoutedCommandTable
     {
-        public static RoutedCommandTable Current { get; private set; }
+        static RoutedCommandTable() => Current = new RoutedCommandTable();
+        public static RoutedCommandTable Current { get; }
 
         #region Fields
 
-        private MainWindow _window;
-        private CommandTable _commandTable;
         private Dictionary<Key, bool> _usedKeyMap;
         private bool _isDarty;
         private List<EventHandler<KeyEventArgs>> _imeKeyHandlers = new List<EventHandler<KeyEventArgs>>();
@@ -34,21 +33,16 @@ namespace NeeView
 
         #region Constructors
 
-        public RoutedCommandTable(MainWindow window, CommandTable commandTable)
+        private RoutedCommandTable()
         {
-            Current = this;
-
-            _window = window;
-            _commandTable = commandTable;
-
             // RoutedCommand作成
             foreach (CommandType type in Enum.GetValues(typeof(CommandType)))
             {
-                Commands.Add(type, new RoutedUICommand(commandTable[type].Text, type.ToString(), typeof(MainWindow)));
+                Commands.Add(type, new RoutedUICommand(CommandTable.Current[type].Text, type.ToString(), typeof(MainWindow)));
             }
 
             // コマンド変更でショートカット変更
-            _commandTable.Changed += CommandTable_Changed;
+            CommandTable.Current.Changed += CommandTable_Changed;
         }
 
         #endregion
@@ -117,7 +111,7 @@ namespace NeeView
 
                         if (!x.RoutedEventArgs.Handled && x.Gesture == gesture)
                         {
-                            command.Value.Execute(null, _window);
+                            command.Value.Execute(null, MainWindow.Current);
                             x.RoutedEventArgs.Handled = true;
                         }
                     };
@@ -230,7 +224,7 @@ namespace NeeView
         {
             if (!x.Handled && gesture.Matches(this, x))
             {
-                command.Execute(null, _window);
+                command.Execute(null, MainWindow.Current);
                 CommandExecuted?.Invoke(this, new CommandExecutedEventArgs() { Gesture = gesture });
                 if (x.RoutedEvent != null)
                 {
@@ -248,7 +242,7 @@ namespace NeeView
             var param = new CommandParameterArgs(null, CommandTable.Current.IsReversePageMoveWheel);
             for (int i = 0; i < turn; i++)
             {
-                command.Execute(param, _window);
+                command.Execute(param, MainWindow.Current);
             }
         }
 
@@ -258,7 +252,7 @@ namespace NeeView
         {
             var param = CommandParameterArgs.Create(e.Parameter) ?? CommandParameterArgs.Null;
             var allowFlip = param.AllowFlip && param.Parameter != MenuCommandTag.Tag; // メニューからの操作ではページ方向によるコマンドの入れ替えをしない
-            var command = _commandTable[GetFixedCommandType(type, allowFlip)];
+            var command = CommandTable.Current[GetFixedCommandType(type, allowFlip)];
 
             // 通知
             if (command.IsShowMessage)
@@ -276,7 +270,7 @@ namespace NeeView
         {
             if (allowFlip && CommandTable.Current.IsReversePageMove && MainWindowModel.Current.IsLeftToRightSlider())
             {
-                var command = _commandTable[commandType];
+                var command = CommandTable.Current[commandType];
                 if (command.PairPartner != CommandType.None)
                 {
                     ////Debug.WriteLine($"SwapCommand: {commandType} to {command.PairPartner}");
@@ -296,7 +290,7 @@ namespace NeeView
         //
         public CommandElement GetFixedCommandElement(CommandType commandType, bool allowRecursive)
         {
-            _commandTable.TryGetValue(GetFixedCommandType(commandType, allowRecursive), out CommandElement command);
+            CommandTable.Current.TryGetValue(GetFixedCommandType(commandType, allowRecursive), out CommandElement command);
             return command;
         }
 

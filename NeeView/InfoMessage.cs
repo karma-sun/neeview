@@ -35,19 +35,15 @@ namespace NeeView
     }
 
     /// <summary>
-    /// 
+    /// 通知表示管理
     /// </summary>
     public class InfoMessage
     {
-        // System Object
-        public static InfoMessage Current { get; private set; }
+        static InfoMessage() => Current = new InfoMessage();
+        public static InfoMessage Current { get; }
 
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        public InfoMessage()
+        private InfoMessage()
         {
-            Current = this;
         }
 
         [PropertyMember("@ParamInfoMessageNoticeShowMessageStyle")]

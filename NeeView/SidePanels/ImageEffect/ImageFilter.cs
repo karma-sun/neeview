@@ -116,11 +116,29 @@ namespace NeeView
 
 
     /// <summary>
-    /// 
+    /// 画像フィルター
     /// </summary>
     public class ImageFilter : BindableBase
     {
-        public static ImageFilter Current { get; private set; }
+        static ImageFilter() => Current = new ImageFilter();
+        public static ImageFilter Current { get; }
+
+        #region Constructor
+
+        private ImageFilter()
+        {
+            _resizeInterpolation = ResizeInterpolation.Lanczos;
+
+            var setting = new ProcessImageSettings(); // default values.
+            _sharpen = setting.Sharpen;
+            this.UnsharpMaskProfile = new UnsharpMaskProfile();
+            this.UnsharpMaskProfile.Amount = setting.UnsharpMask.Amount;
+            this.UnsharpMaskProfile.Radius = setting.UnsharpMask.Radius;
+            this.UnsharpMaskProfile.Threshold = setting.UnsharpMask.Threshold;
+            this.UnsharpMaskProfile.PropertyChanged += (s, e) => RaisePropertyChanged(nameof(UnsharpMaskProfile));
+        }
+
+        #endregion
         
         #region Properties
 
@@ -149,26 +167,6 @@ namespace NeeView
         /// UnsharpMask profile
         /// </summary>
         public UnsharpMaskProfile UnsharpMaskProfile { get; set; }
-
-        #endregion
-
-        #region Constructor
-
-        //
-        public ImageFilter()
-        {
-            Current = this;
-
-            _resizeInterpolation = ResizeInterpolation.Lanczos;
-
-            var setting = new ProcessImageSettings(); // default values.
-            _sharpen = setting.Sharpen;
-            this.UnsharpMaskProfile = new UnsharpMaskProfile();
-            this.UnsharpMaskProfile.Amount = setting.UnsharpMask.Amount;
-            this.UnsharpMaskProfile.Radius = setting.UnsharpMask.Radius;
-            this.UnsharpMaskProfile.Threshold = setting.UnsharpMask.Threshold;
-            this.UnsharpMaskProfile.PropertyChanged += (s, e) => RaisePropertyChanged(nameof(UnsharpMaskProfile));
-        }
 
         #endregion
 

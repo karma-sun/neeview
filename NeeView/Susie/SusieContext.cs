@@ -36,9 +36,8 @@ namespace NeeView
     /// </summary>
     public class SusieContext : BindableBase
     {
-        public static SusieContext Current { get; private set; }
-
-        #region Fields
+        static SusieContext() => Current = new SusieContext();
+        public static SusieContext Current { get; }
 
         private Susie.Susie _susie;
         public bool _isEnableSusie;
@@ -50,17 +49,12 @@ namespace NeeView
         // 無印NeeViewでのプラグイン設定保持用
         private Dictionary<string, SusiePluginSetting> _storedSpiFiles;
 
-        #endregion
 
-        #region Constructoes
-
-        public SusieContext()
+        private SusieContext()
         {
-            Current = this;
             _susie = new Susie.Susie();
         }
 
-        #endregion
 
         #region Properties
 

@@ -16,25 +16,18 @@ namespace NeeView
     /// </summary>
     public class MemoryControl
     {
-        public static MemoryControl Current { get; private set; }
+        static MemoryControl() => Current = new MemoryControl();
+        public static MemoryControl Current { get; }
 
-        #region Fields
 
         private DelayAction _delayAction;
 
-        #endregion
 
-        #region Constructors
-
-        public MemoryControl(Dispatcher dispatcher)
+        private MemoryControl()
         {
-            Current = this;
-            _delayAction = new DelayAction(dispatcher, TimeSpan.FromSeconds(0.2), GarbageCollectCore, TimeSpan.FromMilliseconds(100));
+            _delayAction = new DelayAction(App.Current.Dispatcher, TimeSpan.FromSeconds(0.2), GarbageCollectCore, TimeSpan.FromMilliseconds(100));
         }
 
-        #endregion
-
-        #region Properties
 
         /// <summary>
         /// 自動GCフラグ
@@ -42,11 +35,7 @@ namespace NeeView
         [PropertyMember("@ParamIsAutoGC", Tips = "@ParamIsAutoGCTips")]
         public bool IsAutoGC { get; set; } = true;
 
-        #endregion
 
-        #region Methods
-
-        //
         private void GarbageCollectCore()
         {
             GC.Collect();
@@ -68,8 +57,6 @@ namespace NeeView
 
             _delayAction.Request();
         }
-
-        #endregion
 
         #region Memento
         [DataContract]

@@ -48,7 +48,8 @@ namespace NeeView
     /// </summary>
     public class WindowShape : BindableBase
     {
-        public static WindowShape Current { get; private set; }
+        static WindowShape() => Current = new WindowShape();
+        public static WindowShape Current { get; }
 
         #region NativeApi
 
@@ -105,15 +106,9 @@ namespace NeeView
 
         #region Constructors
 
-        /// <summary>
-        /// コンストラクター
-        /// </summary>
-        /// <param name="window"></param>
-        public WindowShape(Window window)
+        private WindowShape()
         {
-            Current = this;
-
-            _window = window;
+            _window = MainWindow.Current;
 
             // キャプション非表示時に適用するChrome
             _chrome = new WindowChrome();

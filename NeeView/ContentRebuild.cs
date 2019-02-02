@@ -75,8 +75,8 @@ namespace NeeView
     /// </summary>
     public class ContentRebuild : BindableBase, IDisposable
     {
-        // system object
-        public static ContentRebuild Current { get; private set; }
+        static ContentRebuild() => Current = new ContentRebuild();
+        public static ContentRebuild Current { get; }
 
         #region Fields
 
@@ -90,11 +90,8 @@ namespace NeeView
 
         #region Constructors
 
-        //
-        public ContentRebuild()
+        private ContentRebuild()
         {
-            Current = this;
-
             // コンテンツ変更監視
             ContentCanvas.Current.ContentChanged += (s, e) => Request();
 

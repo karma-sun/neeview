@@ -14,14 +14,12 @@ namespace NeeView
     /// </summary>
     public class MenuBar : BindableBase
     {
-        public static MenuBar Current { get; private set; }
+        static MenuBar() => Current = new MenuBar();
+        public static MenuBar Current { get; }
 
-        /// <summary>
-        /// constructor
-        /// </summary>
-        public MenuBar()
+
+        private MenuBar()
         {
-            Current = this;
             MainMenuSource = MenuTree.CreateDefault();
 
             BookHub.Current.BookChanged +=

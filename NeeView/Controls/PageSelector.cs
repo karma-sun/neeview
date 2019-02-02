@@ -10,7 +10,8 @@ namespace NeeView
     /// </summary>
     public class PageSelector : BindableBase
     {
-        public static PageSelector Current { get; private set; }
+        static PageSelector() => Current = new PageSelector();
+        public static PageSelector Current { get; }
 
         #region Fields
 
@@ -21,10 +22,8 @@ namespace NeeView
 
         #region Constructors
 
-        public PageSelector()
+        private PageSelector()
         {
-            Current = this;
-
             BookOperation.Current.PageListChanged += BookOperation_PageListChanged;
 
             // TODO: BookOperator経由のイベントにする

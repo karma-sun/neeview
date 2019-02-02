@@ -43,8 +43,8 @@ namespace NeeView
     /// </summary>
     public class CommandTable : BindableBase, IEnumerable<KeyValuePair<CommandType, CommandElement>>
     {
-        // SystemObject
-        public static CommandTable Current { get; private set; }
+        static CommandTable() => Current = new CommandTable();
+        public static CommandTable Current { get; }
 
         #region Fields
 
@@ -59,11 +59,8 @@ namespace NeeView
         #region Constructors
 
         // コンストラクタ
-        public CommandTable()
+        private CommandTable()
         {
-            if (Current != null) throw new InvalidOperationException();
-            Current = this;
-
             InitializeCommandTable();
         }
 

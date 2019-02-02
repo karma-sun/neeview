@@ -18,7 +18,9 @@ namespace NeeView
     /// </summary>
     public class DragTransform : BindableBase
     {
-        public static DragTransform Current { get; private set; }
+        static DragTransform() => Current = new DragTransform();
+        public static DragTransform Current { get; }
+
 
         #region Fields
 
@@ -29,11 +31,8 @@ namespace NeeView
 
         #region Constructors
 
-        //
-        public DragTransform()
+        private DragTransform()
         {
-            Current = this;
-
             this.TransformView = CreateTransformGroup();
             this.TransformCalc = CreateTransformGroup();
 

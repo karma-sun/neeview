@@ -26,10 +26,13 @@ namespace NeeView
         Left,
     }
 
-    //
+    /// <summary>
+    /// ページ表示コンテンツ管理
+    /// </summary>
     public class ContentCanvas : BindableBase, IDisposable
     {
-        public static ContentCanvas Current { get; private set; }
+        static ContentCanvas() => Current = new ContentCanvas();
+        public static ContentCanvas Current { get; }
 
         #region Fields
 
@@ -45,10 +48,8 @@ namespace NeeView
 
         #region Constructors
 
-        public ContentCanvas()
+        private ContentCanvas()
         {
-            Current = this;
-
             _contentSizeCalcurator = new ContentSizeCalcurator(this);
 
             _dragTransform = DragTransform.Current;

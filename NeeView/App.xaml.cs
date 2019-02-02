@@ -133,8 +133,8 @@ namespace NeeView
 
             Debug.WriteLine($"App.UserSettingLoading: {Stopwatch.ElapsedMilliseconds}ms");
 
-            // 設定ファイルの読み込み
-            var setting = SaveData.Current.LoadUserSetting();
+            // 設定ファイルの先行読み込み
+            var setting = SaveData.Current.LoasUserSettingTemp();
 
             Debug.WriteLine($"App.UserSettingLoaded: {Stopwatch.ElapsedMilliseconds}ms");
 
@@ -241,7 +241,7 @@ namespace NeeView
             // 設定保存
             WindowShape.Current.CreateSnapMemento();
             SaveDataSync.Current.Flush();
-            SaveDataSync.Current.SaveUserSetting(false);
+            SaveDataSync.Current.SaveUserSetting();
             SaveDataSync.Current.SaveHistory();
 
             // キャッシュ等削除

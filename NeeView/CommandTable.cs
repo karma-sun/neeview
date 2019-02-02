@@ -429,7 +429,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupFile;
                 element.Text = Properties.Resources.CommandClearHistory;
                 element.Note = Properties.Resources.CommandClearHistoryNote;
-                element.Execute = (s, e) => MainWindowModel.Current.ClearHistory();
+                element.Execute = (s, e) => BookHistoryCollection.Current.Clear();
                 element.IsShowMessage = true;
                 _elements[CommandType.ClearHistory] = element;
             }
@@ -2060,7 +2060,7 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandExportBackupMenu;
                 element.Note = Properties.Resources.CommandExportBackupNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => SaveData.Current.ExportBackup();
+                element.Execute = (s, e) => SaveDataBackup.Current.ExportBackup();
                 _elements[CommandType.ExportBackup] = element;
             }
 
@@ -2072,7 +2072,7 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandImportBackupMenu;
                 element.Note = Properties.Resources.CommandImportBackupNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => SaveData.Current.ImportBackup();
+                element.Execute = (s, e) => SaveDataBackup.Current.ImportBackup();
                 _elements[CommandType.ImportBackup] = element;
             }
 
@@ -2083,7 +2083,7 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandReloadUserSetting;
                 element.Note = Properties.Resources.CommandReloadUserSettingNote;
                 element.IsShowMessage = false;
-                element.Execute = (s, e) => SaveData.Current.LoadAndApplyUserSetting();
+                element.Execute = (s, e) => SaveData.Current.LoadUserSetting();
                 _elements[CommandType.ReloadUserSetting] = element;
             }
 

@@ -165,7 +165,8 @@ namespace NeeView
         //
         public void Load(IEnumerable<BookHistory> items, IEnumerable<Book.Memento> books)
         {
-            Clear();
+            Items.Clear();
+            BookMementoCollection.Current.CleanUp();
 
             foreach (var book in books)
             {

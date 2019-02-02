@@ -27,6 +27,18 @@ namespace NeeView
 
             RoutedCommandTable.Current.Changed +=
                 (s, e) => Reflesh();
+
+            BookHistoryCollection.Current.HistoryChanged +=
+                (s, e) =>
+                {
+                    switch(e.HistoryChangedType)
+                    {
+                        case BookMementoCollectionChangedType.Clear:
+                        case BookMementoCollectionChangedType.Load:
+                            UpdateLastFiles();
+                            break;
+                    }
+                };
         }
 
 
@@ -60,7 +72,7 @@ namespace NeeView
         public bool IsEnableLastFiles { get { return LastFiles.Count > 0; } }
 
         // 最近使ったファイル 更新
-        public void UpdateLastFiles()
+        private void UpdateLastFiles()
         {
             LastFiles = BookHistoryCollection.Current.ListUp(10);
         }

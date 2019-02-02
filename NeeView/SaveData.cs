@@ -1,11 +1,9 @@
-﻿using Microsoft.Win32;
-using NeeView.Effects;
+﻿using NeeView.Effects;
 using NeeView.Properties;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Text;
 
@@ -17,28 +15,24 @@ namespace NeeView
         public static SaveData Current { get; }
 
 
-        public UserSetting _userSetting;
-        private string _historyFileName;
-        private string _bookmarkFileName;
-        private string _pagemarkFileName;
-        private string _oldPagemarkFileName;
-        private object _saveLock = new object();
-
-
         private SaveData()
         {
-            _historyFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, HistoryFileName);
-            _bookmarkFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, BookmarkFileName);
-            _pagemarkFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, PagemarkFileName);
-
-            _oldPagemarkFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, "Pagekmark.xml");
+            HistoryFilePath = Path.Combine(Config.Current.LocalApplicationDataPath, HistoryFileName);
+            BookmarkFilePath = Path.Combine(Config.Current.LocalApplicationDataPath, BookmarkFileName);
+            PagemarkFilePath = Path.Combine(Config.Current.LocalApplicationDataPath, PagemarkFileName);
         }
-
 
         public const string UserSettingFileName = "UserSetting.xml";
         public const string HistoryFileName = "History.xml";
         public const string BookmarkFileName = "Bookmark.xml";
         public const string PagemarkFileName = "Pagemark.xml";
+
+        public string UserSettingFilePath => App.Current.Option.SettingFilename;
+        public string HistoryFilePath { get; private set; }
+        public string BookmarkFilePath { get; private set; }
+        public string PagemarkFilePath { get; private set; }
+
+        public UserSetting UserSettingTemp { get; private set; }
 
         public bool IsEnableSave { get; set; } = true;
 
@@ -71,15 +65,10 @@ namespace NeeView
             DragActionTable.Current.Restore(setting.DragActionMemento);
 
             Models.Current.Resore(setting.Memento);
-        }
-
 
 #pragma warning disable CS0612
 
-        // アプリ設定反映(互換用)
-        public void RestoreSettingCompatible(UserSetting setting)
-        {
-            if (setting == null) return;
+            // 互換設定反映
 
             if (setting.ViewMemento != null)
             {
@@ -112,19 +101,28 @@ namespace NeeView
 
             // Model.Compatible
             Models.Current.ResoreCompatible(setting.Memento);
-        }
 
 #pragma warning restore CS0612
+        }
 
+        #region Load
 
-        // 履歴読み込み
-        public void LoadHistory()
+        /// <summary>
+        /// 設定の読み込み
+        /// 先行して設定ファイルのみ取得するため
+        /// </summary>
+        public UserSetting LoasUserSettingTemp()
         {
+            if (UserSettingTemp != null)
+            {
+                return UserSettingTemp;
+            }
+
             try
             {
                 App.Current.SemaphoreWait();
-                BookHistoryCollection.Memento memento = SafetyLoad(BookHistoryCollection.Memento.Load, _historyFileName, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
-                RestoreHistory(memento);
+                UserSettingTemp = SafetyLoad(UserSetting.Load, App.Current.Option.SettingFilename, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+                return UserSettingTemp;
             }
             finally
             {
@@ -132,13 +130,47 @@ namespace NeeView
             }
         }
 
-        // 履歴反映
-        private void RestoreHistory(BookHistoryCollection.Memento memento)
+        /// <summary>
+        /// 設定領域の開放
+        /// </summary>
+        public void ReleaseUserSettingTemp()
         {
-            BookHistoryCollection.Current.Restore(memento, true);
-            MenuBar.Current.UpdateLastFiles();
+            UserSettingTemp = null;
         }
 
+        /// <summary>
+        /// 設定読み込みと反映
+        /// </summary>
+        public void LoadUserSetting()
+        {
+            Setting.SettingWindow.Current?.Cancel();
+
+            try
+            {
+                App.Current.SemaphoreWait();
+                var setting = SafetyLoad(UserSetting.Load, App.Current.Option.SettingFilename, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+                RestoreSetting(setting);
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
+            }
+        }
+
+        // 履歴読み込み
+        public void LoadHistory()
+        {
+            try
+            {
+                App.Current.SemaphoreWait();
+                BookHistoryCollection.Memento memento = SafetyLoad(BookHistoryCollection.Memento.Load, HistoryFilePath, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
+                BookHistoryCollection.Current.Restore(memento, true);
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
+            }
+        }
 
         // ブックマーク読み込み
         public void LoadBookmark()
@@ -146,7 +178,7 @@ namespace NeeView
             try
             {
                 App.Current.SemaphoreWait();
-                BookmarkCollection.Memento memento = SafetyLoad(BookmarkCollection.Memento.Load, _bookmarkFileName, Resources.NotifyLoadBookmarkFailed, Resources.NotifyLoadBookmarkFailedTitle);
+                BookmarkCollection.Memento memento = SafetyLoad(BookmarkCollection.Memento.Load, BookmarkFilePath, Resources.NotifyLoadBookmarkFailed, Resources.NotifyLoadBookmarkFailedTitle);
                 BookmarkCollection.Current.Restore(memento);
             }
             finally
@@ -161,9 +193,10 @@ namespace NeeView
             // 旧ファイル名の変更
             try
             {
-                if (!File.Exists(_pagemarkFileName) && File.Exists(_oldPagemarkFileName))
+                var oldPagemarkFileName = Path.Combine(Config.Current.LocalApplicationDataPath, "Pagekmark.xml");
+                if (!File.Exists(PagemarkFilePath) && File.Exists(oldPagemarkFileName))
                 {
-                    File.Move(_oldPagemarkFileName, _pagemarkFileName);
+                    File.Move(oldPagemarkFileName, PagemarkFilePath);
                 }
             }
             catch { }
@@ -171,7 +204,7 @@ namespace NeeView
             try
             {
                 App.Current.SemaphoreWait();
-                PagemarkCollection.Memento memento = SafetyLoad(PagemarkCollection.Memento.Load, _pagemarkFileName, Resources.NotifyLoadPagemarkFailed, Resources.NotifyLoadPagemarkFailedTitle);
+                PagemarkCollection.Memento memento = SafetyLoad(PagemarkCollection.Memento.Load, PagemarkFilePath, Resources.NotifyLoadPagemarkFailed, Resources.NotifyLoadPagemarkFailedTitle);
                 PagemarkCollection.Current.Restore(memento);
             }
             finally
@@ -180,235 +213,6 @@ namespace NeeView
             }
         }
 
-        /// <summary>
-        /// 設定の読み込み
-        /// 先行して設定ファイルのみ取得するため
-        /// </summary>
-        public UserSetting LoadUserSetting()
-        {
-            if (_userSetting != null)
-            {
-                return _userSetting;
-            }
-
-            try
-            {
-                App.Current.SemaphoreWait();
-                _userSetting = SafetyLoad(UserSetting.Load, App.Current.Option.SettingFilename, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
-                return _userSetting;
-            }
-            finally
-            {
-                App.Current.SemaphoreRelease();
-            }
-        }
-
-        /// <summary>
-        /// 設定の取得
-        /// </summary>
-        public UserSetting GetUserSetting()
-        {
-            return _userSetting;
-        }
-
-        /// <summary>
-        /// 設定領域の開放
-        /// </summary>
-        public void ReleaseUserSetting()
-        {
-            _userSetting = null;
-        }
-
-        /// <summary>
-        /// 設定読み込みと反映
-        /// </summary>
-        public void LoadAndApplyUserSetting()
-        {
-            Setting.SettingWindow.Current?.Cancel();
-
-            try
-            {
-                App.Current.SemaphoreWait();
-                var setting = SafetyLoad(UserSetting.Load, App.Current.Option.SettingFilename, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
-                RestoreSetting(setting);
-                RestoreSettingCompatible(setting);
-            }
-            finally
-            {
-                App.Current.SemaphoreRelease();
-            }
-        }
-
-
-        //
-        public void SaveUserSetting()
-        {
-            if (!IsEnableSave) return;
-
-            // 設定
-            var setting = CreateSetting();
-
-            // ウィンドウ状態保存
-            setting.WindowShape = WindowShape.Current.SnapMemento;
-
-            // ウィンドウ座標保存
-            setting.WindowPlacement = WindowPlacement.Current.CreateMemento();
-
-            // 設定をファイルに保存
-            try
-            {
-                App.Current.SemaphoreWait();
-                SafetySave(setting.Save, App.Current.Option.SettingFilename, App.Current.IsSettingBackup);
-            }
-            catch
-            {
-            }
-            finally
-            {
-                App.Current.SemaphoreRelease();
-            }
-        }
-
-        // 履歴をファイルに保存
-        public void SaveHistory()
-        {
-            if (!IsEnableSave) return;
-
-            // 現在の本を履歴に登録
-            BookHub.Current.SaveBookMemento(); // TODO: タイミングに問題有り？
-
-            try
-            {
-                App.Current.SemaphoreWait();
-                if (App.Current.IsSaveHistory)
-                {
-                    var bookHistoryMemento = BookHistoryCollection.Current.CreateMemento(true);
-
-                    try
-                    {
-                        var fileInfo = new FileInfo(_historyFileName);
-                        if (fileInfo.Exists && fileInfo.LastWriteTime > App.Current.StartTime)
-                        {
-                            var margeMemento = SafetyLoad(BookHistoryCollection.Memento.Load, _historyFileName, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
-                            bookHistoryMemento.Merge(margeMemento);
-                        }
-                    }
-                    catch(Exception ex)
-                    {
-                        Debug.WriteLine(ex.Message);
-                    }
-
-                    SafetySave(bookHistoryMemento.Save, _historyFileName, false);
-                }
-                else
-                {
-                    FileIO.RemoveFile(_historyFileName);
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                App.Current.SemaphoreRelease();
-            }
-        }
-
-        /// <summary>
-        /// Bookmarkの保存
-        /// </summary>
-        public void SaveBookmark()
-        {
-            if (!IsEnableSave) return;
-
-            try
-            {
-                App.Current.SemaphoreWait();
-                if (App.Current.IsSaveBookmark)
-                {
-                    var bookmarkMemento = BookmarkCollection.Current.CreateMemento();
-                    SafetySave(bookmarkMemento.Save, _bookmarkFileName, false);
-                }
-                else
-                {
-                    FileIO.RemoveFile(_bookmarkFileName);
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                App.Current.SemaphoreRelease();
-            }
-        }
-
-        /// <summary>
-        /// Pagemarkの保存
-        /// </summary>
-        public void SavePagemark()
-        {
-            if (!IsEnableSave) return;
-
-            try
-            {
-                App.Current.SemaphoreWait();
-                if (App.Current.IsSavePagemark)
-                {
-                    var pagemarkMemento = PagemarkCollection.Current.CreateMemento();
-                    SafetySave(pagemarkMemento.Save, _pagemarkFileName, false);
-                }
-                else
-                {
-                    FileIO.RemoveFile(_pagemarkFileName);
-                }
-            }
-            catch
-            {
-            }
-            finally
-            {
-                App.Current.SemaphoreRelease();
-            }
-        }
-
-        /// <summary>
-        /// アプリ強制終了でもファイルがなるべく破壊されないような保存
-        /// </summary>
-        private void SafetySave(Action<string> save, string path, bool isBackup)
-        {
-            try
-            {
-                var oldPath = path + ".old";
-                var tmpPath = path + ".tmp";
-
-                FileIO.RemoveFile(tmpPath);
-                save(tmpPath);
-
-                lock (App.Current.Lock)
-                {
-                    var newFile = new FileInfo(tmpPath);
-                    var oldFile = new FileInfo(path);
-
-                    if (oldFile.Exists)
-                    {
-                        FileIO.RemoveFile(oldPath);
-                        oldFile.MoveTo(oldPath);
-                    }
-
-                    newFile.MoveTo(path);
-
-                    if (!isBackup)
-                    {
-                        FileIO.RemoveFile(oldPath);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-        }
 
         /// <summary>
         /// 正規ファイルの読み込みに失敗したらバックアップからの復元を試みる
@@ -455,226 +259,176 @@ namespace NeeView
             }
         }
 
+        #endregion
 
-        #region Backup
+        #region Save
 
-        private const string backupDialogDefaultExt = ".nvzip";
-        private const string backupDialogFilder = "NeeView Backup (.nvzip)|*.nvzip";
-
-
-        /// <summary>
-        /// バックアップファイルの出力
-        /// </summary>
-        public void ExportBackup()
+        public void SaveUserSetting()
         {
-            var dialog = new SaveFileDialog();
-            dialog.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            dialog.OverwritePrompt = true;
-            dialog.AddExtension = true;
-            dialog.FileName = $"NeeView{Config.Current.DispVersion}-{DateTime.Now.ToString("yyyyMMdd")}";
-            dialog.DefaultExt = backupDialogDefaultExt;
-            dialog.Filter = backupDialogFilder;
-            dialog.Title = Resources.DialogExportTitle;
+            if (!IsEnableSave) return;
 
-            if (dialog.ShowDialog(MainWindow.Current) == true)
+            // 設定
+            var setting = CreateSetting();
+
+            // ウィンドウ状態保存
+            setting.WindowShape = WindowShape.Current.SnapMemento;
+
+            // ウィンドウ座標保存
+            setting.WindowPlacement = WindowPlacement.Current.CreateMemento();
+
+            // 設定をファイルに保存
+            try
             {
-                try
-                {
-                    SaveDataSync.Current.Flush();
-                    SaveBackupFile(dialog.FileName);
-                }
-                catch (Exception ex)
-                {
-                    new MessageDialog($"{Resources.WordCause}: {ex.Message}", Resources.DialogExportErrorTitle).ShowDialog();
-                }
+                App.Current.SemaphoreWait();
+                SafetySave(setting.Save, App.Current.Option.SettingFilename, App.Current.IsSettingBackup);
+            }
+            catch
+            {
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
             }
         }
 
-        // バックアップファイル作成
-        public void SaveBackupFile(string filename)
+        // 履歴をファイルに保存
+        public void SaveHistory()
         {
-            // 保存
-            WindowShape.Current.CreateSnapMemento();
-            SaveDataSync.Current.SaveUserSetting(false);
-            SaveDataSync.Current.SaveHistory();
+            if (!IsEnableSave) return;
+
+            // 現在の本を履歴に登録
+            BookHub.Current.SaveBookMemento(); // TODO: タイミングに問題有り？
 
             try
             {
-                // 保存されたファイルをzipにまとめて出力
-                using (ZipArchive archive = new ZipArchive(new FileStream(filename, FileMode.Create, FileAccess.ReadWrite), ZipArchiveMode.Update))
+                App.Current.SemaphoreWait();
+                if (App.Current.IsSaveHistory)
                 {
-                    archive.CreateEntryFromFile(App.Current.Option.SettingFilename, UserSettingFileName);
+                    var bookHistoryMemento = BookHistoryCollection.Current.CreateMemento(true);
 
-                    if (File.Exists(_historyFileName))
+                    try
                     {
-                        archive.CreateEntryFromFile(_historyFileName, HistoryFileName);
+                        var fileInfo = new FileInfo(HistoryFilePath);
+                        if (fileInfo.Exists && fileInfo.LastWriteTime > App.Current.StartTime)
+                        {
+                            var margeMemento = SafetyLoad(BookHistoryCollection.Memento.Load, HistoryFilePath, Resources.NotifyLoadHistoryFailed, Resources.NotifyLoadHistoryFailedTitle);
+                            bookHistoryMemento.Merge(margeMemento);
+                        }
                     }
-                    if (File.Exists(_bookmarkFileName))
+                    catch (Exception ex)
                     {
-                        archive.CreateEntryFromFile(_bookmarkFileName, BookmarkFileName);
+                        Debug.WriteLine(ex.Message);
                     }
-                    if (File.Exists(_pagemarkFileName))
-                    {
-                        archive.CreateEntryFromFile(_pagemarkFileName, PagemarkFileName);
-                    }
+
+                    SafetySave(bookHistoryMemento.Save, HistoryFilePath, false);
+                }
+                else
+                {
+                    FileIO.RemoveFile(HistoryFilePath);
                 }
             }
-            catch (Exception)
+            catch
             {
-                // 中途半端なファイルは削除
-                if (File.Exists(filename))
-                {
-                    Debug.WriteLine($"Delete {filename}");
-                    File.Delete(filename);
-                }
-
-                throw;
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
             }
         }
-
-
 
         /// <summary>
-        /// バックアップ復元
+        /// Bookmarkの保存
         /// </summary>
-        public void ImportBackup()
+        public void SaveBookmark()
         {
-            var dialog = new OpenFileDialog();
-            dialog.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            dialog.AddExtension = true;
-            dialog.DefaultExt = backupDialogDefaultExt;
-            dialog.Filter = backupDialogFilder;
-            dialog.Title = Resources.DialogImportTitle;
+            if (!IsEnableSave) return;
 
-            if (dialog.ShowDialog(MainWindow.Current) == true)
+            try
             {
-                try
+                App.Current.SemaphoreWait();
+                if (App.Current.IsSaveBookmark)
                 {
-                    LoadBackupFile(dialog.FileName);
+                    var bookmarkMemento = BookmarkCollection.Current.CreateMemento();
+                    SafetySave(bookmarkMemento.Save, BookmarkFilePath, false);
                 }
-                catch (Exception ex)
+                else
                 {
-                    new MessageDialog($"{Resources.WordCause}: {ex.Message}", Resources.DialogImportErrorTitle).ShowDialog();
+                    FileIO.RemoveFile(BookmarkFilePath);
                 }
+            }
+            catch
+            {
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
             }
         }
 
-        // バックアップファイル復元
-        public void LoadBackupFile(string filename)
+        /// <summary>
+        /// Pagemarkの保存
+        /// </summary>
+        public void SavePagemark()
         {
-            UserSetting setting = null;
-            BookHistoryCollection.Memento history = null;
-            BookmarkCollection.Memento bookmark = null;
-            PagemarkCollection.Memento pagemark = null;
+            if (!IsEnableSave) return;
 
-            var selector = new BackupSelectControl();
-            selector.FileNameTextBlock.Text = $"{Resources.WordImport}: {Path.GetFileName(filename)}";
-
-            using (var archiver = ZipFile.OpenRead(filename))
+            try
             {
-                var settingEntry = archiver.GetEntry(UserSettingFileName);
-                var historyEntry = archiver.GetEntry(HistoryFileName);
-                var bookmarkEntry = archiver.GetEntry(BookmarkFileName);
-                var pagemarkEntry = archiver.GetEntry(PagemarkFileName);
-
-                // 選択
+                App.Current.SemaphoreWait();
+                if (App.Current.IsSavePagemark)
                 {
-                    if (settingEntry != null)
-                    {
-                        selector.UserSettingCheckBox.IsEnabled = true;
-                        selector.UserSettingCheckBox.IsChecked = true;
-                    }
-                    if (historyEntry != null)
-                    {
-                        selector.HistoryCheckBox.IsEnabled = true;
-                        selector.HistoryCheckBox.IsChecked = true;
-                    }
-                    if (bookmarkEntry != null)
-                    {
-                        selector.BookmarkCheckBox.IsEnabled = true;
-                        selector.BookmarkCheckBox.IsChecked = true;
-                    }
-                    if (pagemarkEntry != null)
-                    {
-                        selector.PagemarkCheckBox.IsEnabled = true;
-                        selector.PagemarkCheckBox.IsChecked = true;
-                    }
-
-                    var dialog = new MessageDialog(selector, Resources.DialogImportSelectTitle);
-                    dialog.Commands.Add(new UICommand(Resources.WordImport));
-                    dialog.Commands.Add(UICommands.Cancel);
-                    var answer = dialog.ShowDialog();
-
-                    if (answer != dialog.Commands[0]) return;
+                    var pagemarkMemento = PagemarkCollection.Current.CreateMemento();
+                    SafetySave(pagemarkMemento.Save, PagemarkFilePath, false);
                 }
-
-                // 読み込み
-                if (selector.UserSettingCheckBox.IsChecked == true)
+                else
                 {
-                    using (var stream = settingEntry.Open())
-                    {
-                        setting = UserSetting.Load(stream);
-                    }
+                    FileIO.RemoveFile(PagemarkFilePath);
                 }
+            }
+            catch
+            {
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
+            }
+        }
 
-                if (selector.HistoryCheckBox.IsChecked == true)
+        /// <summary>
+        /// アプリ強制終了でもファイルがなるべく破壊されないような保存
+        /// </summary>
+        private void SafetySave(Action<string> save, string path, bool isBackup)
+        {
+            try
+            {
+                var oldPath = path + ".old";
+                var tmpPath = path + ".tmp";
+
+                FileIO.RemoveFile(tmpPath);
+                save(tmpPath);
+
+                lock (App.Current.Lock)
                 {
-                    using (var stream = historyEntry.Open())
+                    var newFile = new FileInfo(tmpPath);
+                    var oldFile = new FileInfo(path);
+
+                    if (oldFile.Exists)
                     {
-                        history = BookHistoryCollection.Memento.Load(stream);
+                        FileIO.RemoveFile(oldPath);
+                        oldFile.MoveTo(oldPath);
                     }
-                }
 
-                if (selector.BookmarkCheckBox.IsChecked == true)
-                {
-                    using (var stream = bookmarkEntry.Open())
-                    {
-                        bookmark = BookmarkCollection.Memento.Load(stream);
-                    }
-                }
+                    newFile.MoveTo(path);
 
-                if (selector.PagemarkCheckBox.IsChecked == true)
-                {
-                    using (var stream = pagemarkEntry.Open())
+                    if (!isBackup)
                     {
-                        pagemark = PagemarkCollection.Memento.Load(stream);
+                        FileIO.RemoveFile(oldPath);
                     }
                 }
             }
-
-            bool recoverySettingWindow = MainWindowModel.Current.CloseSettingWindow();
-
-            // 適用
-            if (setting != null)
+            catch (Exception ex)
             {
-                Setting.SettingWindow.Current?.Cancel();
-                RestoreSetting(setting);
-                RestoreSettingCompatible(setting);
-            }
-
-            // 履歴読み込み
-            if (history != null)
-            {
-                RestoreHistory(history);
-            }
-
-            // ブックマーク読み込み
-            if (bookmark != null)
-            {
-                BookmarkCollection.Current.Restore(bookmark);
-                SaveBookmark();
-            }
-
-            // ページマーク読込
-            if (pagemark != null)
-            {
-                PagemarkCollection.Current.Restore(pagemark);
-                SavePagemark();
-            }
-
-            if (recoverySettingWindow)
-            {
-                MainWindowModel.Current.OpenSettingWindow();
+                Debug.WriteLine(ex.Message);
             }
         }
 

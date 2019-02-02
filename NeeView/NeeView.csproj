@@ -196,6 +196,7 @@
     <Compile Include="MultbootService.cs" />
     <Compile Include="OpenSourceControls\VirtualizingWrapPanel.cs" />
     <Compile Include="RemoteCommandService.cs" />
+    <Compile Include="SaveDataBackup.cs" />
     <Compile Include="_NeeLaboratory\IO\RemoteCommand.cs" />
     <Compile Include="SaveDataSync.cs" />
     <Compile Include="Setting\SusiePluginSettingWindow.xaml.cs">

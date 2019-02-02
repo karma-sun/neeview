@@ -441,9 +441,9 @@ namespace NeeView
             WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
 
             // 設定反映
-            var setting = SaveData.Current.GetUserSetting();
-            SaveData.Current.RestoreSetting(setting);
-            SaveData.Current.RestoreSettingCompatible(setting);
+            SaveData.Current.RestoreSetting(SaveData.Current.UserSettingTemp);
+            // 保持設定破棄
+            SaveData.Current.ReleaseUserSettingTemp();
 
             // 履歴読み込み
             SaveData.Current.LoadHistory();
@@ -454,8 +454,8 @@ namespace NeeView
             // ページマーク読込
             SaveData.Current.LoadPagemark();
 
-            // ロード設定破棄
-            SaveData.Current.ReleaseUserSetting();
+            // SaveDataSync活動開始
+            SaveDataSync.Current.Initialize();
 
             // 最初のブックを開く
             var bookPath = LoadFirstBook();
@@ -686,14 +686,6 @@ namespace NeeView
             System.Diagnostics.Process.Start("https://bitbucket.org/neelabo/neeview/wiki/");
         }
 
-
-        // 履歴削除
-        // TODO: 直接変更し、最近使ったファイルはイベントで更新すべき
-        public void ClearHistory()
-        {
-            BookHistoryCollection.Current.Clear();
-            MenuBar.Current.UpdateLastFiles();
-        }
 
         /// <summary>
         /// パネル表示ロック開始

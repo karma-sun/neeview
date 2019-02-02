@@ -44,7 +44,7 @@ namespace NeeView
 
             Current = this;
 
-            var setting = SaveData.Current.GetUserSetting();
+            var setting = SaveData.Current.UserSettingTemp;
 
             // Window状態初期化、復元
             InitializeWindowPlacement();
@@ -180,7 +180,7 @@ namespace NeeView
             // セカンドプロセスはウィンドウ形状を継承しない
             if (Config.Current.IsSecondProcess && !App.Current.IsRestoreSecondWindow) return;
 
-            var setting = SaveData.Current.GetUserSetting();
+            var setting = SaveData.Current.UserSettingTemp;
             WindowPlacement.Current.Restore(setting.WindowPlacement);
         }
 
@@ -720,7 +720,7 @@ namespace NeeView
 
             // 設定保存
             SaveDataSync.Current.Flush();
-            SaveDataSync.Current.SaveUserSetting(false);
+            SaveDataSync.Current.SaveUserSetting();
             SaveDataSync.Current.SaveHistory();
 
             // キャッシュ等の削除

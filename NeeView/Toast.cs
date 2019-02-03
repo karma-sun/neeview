@@ -12,15 +12,23 @@ namespace NeeView
             Message = message;
         }
 
-        public Toast(string message, TimeSpan displayTime)
+        public Toast(string message, string caption)
         {
             Message = message;
+            Caption = caption;
+        }
+
+        public Toast(string message, string caption, TimeSpan displayTime)
+        {
+            Message = message;
+            Caption = caption;
             DisplayTime = displayTime;
         }
 
-        public Toast(string message, string buttonContext, Action buttonAction)
+        public Toast(string message, string caption, string buttonContext, Action buttonAction)
         {
             Message = message;
+            Caption = caption;
             DisplayTime = LongDisplayTime;
             ButtonContent = buttonContext;
             ButtonAction = buttonAction;

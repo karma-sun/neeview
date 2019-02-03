@@ -40,6 +40,7 @@ namespace NeeView
         private bool _isSaveWindowPlacement;
         private double _autoHideDelayTime = 1.0;
         private string _temporaryDirectory;
+        private string _cacheDirectory;
 
         #endregion
 
@@ -143,6 +144,17 @@ namespace NeeView
             set => _temporaryDirectory = string.IsNullOrWhiteSpace(value) ? null : value;
         }
 
+        // サムネイルキャッシュの場所
+        [PropertyPath("@ParamCacheDirectory", Tips = "@ParamCacheDirectoryTips", IsDirectory = true)]
+        public string CacheDirectory
+        {
+            get => _cacheDirectory;
+            set => _cacheDirectory = string.IsNullOrWhiteSpace(value) ? null : value;
+        }
+
+        // サムネイルキャッシュの場所 (変更前)
+        public string CacheDirectoryOld { get; set; }
+
         #endregion
 
         #region Memento
@@ -214,6 +226,13 @@ namespace NeeView
             [DataMember(EmitDefaultValue = false)]
             public string TemporaryDirectory { get; set; }
 
+            [DataMember(EmitDefaultValue = false)]
+            public string CacheDirectory { get; set; }
+
+            [DataMember(EmitDefaultValue = false)]
+            public string CacheDirectoryOld { get; set; }
+
+
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
             {
@@ -264,10 +283,20 @@ namespace NeeView
             memento.IsSplashScreenEnabled = this.IsSplashScreenEnabled;
             memento.IsSyncUserSetting = this.IsSyncUserSetting;
             memento.TemporaryDirectory = this.TemporaryDirectory;
+            memento.CacheDirectory = this.CacheDirectory;
+            memento.CacheDirectoryOld = this.CacheDirectoryOld;
             return memento;
         }
 
-        //
+        // 起動直後の１回だけの設定反映
+        public void RestoreOnce(Memento memento)
+        {
+            if (memento == null) return;
+
+            this.CacheDirectoryOld = memento.CacheDirectoryOld;
+        }
+
+        // 通常の設定反映
         public void Restore(Memento memento)
         {
             if (memento == null) return;
@@ -292,6 +321,8 @@ namespace NeeView
             this.IsSplashScreenEnabled = memento.IsSplashScreenEnabled;
             this.IsSyncUserSetting = memento.IsSyncUserSetting;
             this.TemporaryDirectory = memento.TemporaryDirectory;
+            this.CacheDirectory = memento.CacheDirectory;
+            ////this.CacheDirectoryOld = memento.CacheDirectoryOld; // RestoreOnce()で反映
         }
 
 #pragma warning disable CS0612

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -66,20 +67,59 @@ namespace NeeView
         public static ThumbnailCache Current { get; }
 
 
-        private string _filename { get; } = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, "Cache.db");
+        private const string FileName = "Cache.db";
+        private string _filename;
         private SQLiteConnection _connection;
-        public object _lock = new object();
+        private object _lock = new object();
 
 
         private ThumbnailCache()
         {
         }
 
-
         /// <summary>
         /// キャッシュ有効フラグ
         /// </summary>
         public bool IsEnabled => ThumbnailProfile.Current.IsCacheEnabled;
+
+        public string CacheFolderPath { get; private set; }
+
+        /// <summary>
+        /// キャッシュファイルの場所の指定
+        /// </summary>
+        /// <param name="path"></param>
+        public string SetDirectory(string path)
+        {
+            CacheFolderPath = path;
+
+            if (path != null)
+            {
+                if (!Directory.Exists(path))
+                {
+                    ToastService.Current.Show(new Toast(string.Format(Properties.Resources.NotifyCacheErrorDirectoryNotFound, path), Properties.Resources.NotifyCacheErrorTitle));
+                    CacheFolderPath = null;
+                }
+            }
+
+            _filename = Path.Combine(CacheFolderPath ?? Config.Current.LocalApplicationDataPath, FileName);
+
+            return CacheFolderPath;
+        }
+
+        /// <summary>
+        /// キャッシュファイルの場所の変更
+        /// </summary>
+        public void MoveDirectory(string sourcePath)
+        {
+            var sourceFileName = Path.Combine(sourcePath ?? Config.Current.LocalApplicationDataPath, FileName);
+
+            if (_filename == sourceFileName)
+            {
+                return;
+            }
+
+            File.Move(sourceFileName, _filename);
+        }
 
         /// <summary>
         /// DBを開く

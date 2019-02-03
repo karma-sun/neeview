@@ -4451,6 +4451,27 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>多重圧縮ファイルの展開や事前展開に使用されます。アプリ終了時に削除されます。</value>
   </data>
   <data name="SettingPageGeneralLocationTypesTips" xml:space="preserve">
-    <value>※次の起動から適用されます。</value>
+    <value>※次の起動から適用されます。
+※空欄で規定の場所になります。</value>
+  </data>
+  <data name="NotifyCacheErrorTitle" xml:space="preserve">
+    <value>キャッシュエラー</value>
+  </data>
+  <data name="NotifyCacheErrorDirectoryNotFound" xml:space="preserve">
+    <value>フォルダーが見つかりません。({0})
+キャッシュの場所を初期化します。</value>
+  </data>
+  <data name="ParamCacheDirectory" xml:space="preserve">
+    <value>キャッシュフォルダーの場所</value>
+  </data>
+  <data name="ParamCacheDirectoryTips" xml:space="preserve">
+    <value>サムネイルキャッシュ(Cache.db)の保存場所です。</value>
+  </data>
+  <data name="NotifyTemporaryErrorTitle" xml:space="preserve">
+    <value>一時フォルダーエラー</value>
+  </data>
+  <data name="NotifyTemporaryErrorDirectoryNotFound" xml:space="preserve">
+    <value>フォルダーが見つかりません。({0})
+一時フォルダーの場所を初期化します。</value>
   </data>
 </root>

@@ -7439,6 +7439,25 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Folder not found. ({0})
+        ///Initialize the cache location. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyCacheErrorDirectoryNotFound {
+            get {
+                return ResourceManager.GetString("NotifyCacheErrorDirectoryNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cache error に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyCacheErrorTitle {
+            get {
+                return ResourceManager.GetString("NotifyCacheErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   No pages に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string NotifyCannotDisplay {
@@ -7750,6 +7769,25 @@ namespace NeeView.Properties {
         public static string NotifyRemoveUnlinkedPagemark {
             get {
                 return ResourceManager.GetString("NotifyRemoveUnlinkedPagemark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Folder not found. ({0})
+        ///Initialize the temporary location. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyTemporaryErrorDirectoryNotFound {
+            get {
+                return ResourceManager.GetString("NotifyTemporaryErrorDirectoryNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Temporary error に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyTemporaryErrorTitle {
+            get {
+                return ResourceManager.GetString("NotifyTemporaryErrorTitle", resourceCulture);
             }
         }
         
@@ -8551,6 +8589,24 @@ namespace NeeView.Properties {
         public static string ParamBookWideRatioTips {
             get {
                 return ResourceManager.GetString("ParamBookWideRatioTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cache location に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCacheDirectory {
+            get {
+                return ResourceManager.GetString("ParamCacheDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   This is the storage location of the thumbnail cache (Cache.db). に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCacheDirectoryTips {
+            get {
+                return ResourceManager.GetString("ParamCacheDirectoryTips", resourceCulture);
             }
         }
         
@@ -11552,7 +11608,8 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   * It is applied from the next startup. に類似しているローカライズされた文字列を検索します。
+        ///   * It is applied from the next startup.
+        ///* The default location will be blank. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageGeneralLocationTypesTips {
             get {

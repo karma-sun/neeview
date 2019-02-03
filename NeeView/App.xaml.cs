@@ -139,6 +139,7 @@ namespace NeeView
             Debug.WriteLine($"App.UserSettingLoaded: {Stopwatch.ElapsedMilliseconds}ms");
 
             // restore
+            RestoreOnce(setting.App);
             Restore(setting.App);
             RestoreCompatible(setting);
 
@@ -163,9 +164,43 @@ namespace NeeView
                 throw new ApplicationException("Already started.");
             }
 
-            // 各種パスの設定
-            Temporary.Current.SetDirectory(TemporaryDirectory);
+            // テンポラリーの場所
+            TemporaryDirectory = Temporary.Current.SetDirectory(TemporaryDirectory);
+
+            // キャッシュの場所
+            InitializeCacheDirectory();
         }
+
+        /// <summary>
+        /// キャッシュの場所の初期化
+        /// </summary>
+        public void InitializeCacheDirectory()
+        {
+            CacheDirectory = ThumbnailCache.Current.SetDirectory(CacheDirectory);
+            if (CacheDirectory != CacheDirectoryOld)
+            {
+                try
+                {
+                    ThumbnailCache.Current.MoveDirectory(CacheDirectoryOld);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 各種データの場所情報の確定
+        /// </summary>
+        public void SaveLocation()
+        {
+            TemporaryDirectory = Temporary.Current.TempRootPath;
+
+            CacheDirectory = ThumbnailCache.Current.CacheFolderPath;
+            CacheDirectoryOld = ThumbnailCache.Current.CacheFolderPath;
+        }
+
 
         /// <summary>
         /// Semaphore Wait
@@ -263,6 +298,6 @@ namespace NeeView
             ThumbnailCache.Current.Dispose();
         }
 
-        #endregion
+#endregion
     }
 }

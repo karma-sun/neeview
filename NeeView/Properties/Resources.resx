@@ -4451,6 +4451,27 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>It is used for pre-extraction and recursive compression files. It will be deleted at the end of the application.</value>
   </data>
   <data name="SettingPageGeneralLocationTypesTips" xml:space="preserve">
-    <value>* It is applied from the next startup.</value>
+    <value>* It is applied from the next startup.
+* The default location will be blank.</value>
+  </data>
+  <data name="NotifyCacheErrorTitle" xml:space="preserve">
+    <value>Cache error</value>
+  </data>
+  <data name="NotifyCacheErrorDirectoryNotFound" xml:space="preserve">
+    <value>Folder not found. ({0})
+Initialize the cache location.</value>
+  </data>
+  <data name="ParamCacheDirectory" xml:space="preserve">
+    <value>Cache location</value>
+  </data>
+  <data name="ParamCacheDirectoryTips" xml:space="preserve">
+    <value>This is the storage location of the thumbnail cache (Cache.db).</value>
+  </data>
+  <data name="NotifyTemporaryErrorTitle" xml:space="preserve">
+    <value>Temporary error</value>
+  </data>
+  <data name="NotifyTemporaryErrorDirectoryNotFound" xml:space="preserve">
+    <value>Folder not found. ({0})
+Initialize the temporary location.</value>
   </data>
 </root>

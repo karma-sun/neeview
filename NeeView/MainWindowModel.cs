@@ -445,6 +445,10 @@ namespace NeeView
             // 保持設定破棄
             SaveData.Current.ReleaseUserSettingTemp();
 
+            // 現在セッションでのキャッシュの場所の確定
+            App.Current.SaveLocation();
+
+
             // 履歴読み込み
             SaveData.Current.LoadHistory();
 

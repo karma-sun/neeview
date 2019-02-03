@@ -28,7 +28,7 @@
             </EventTrigger>
         </Grid.Triggers>
         <DockPanel Margin="10">
-            <Image x:Name="Icon" DockPanel.Dock="Left" VerticalAlignment="Top" Width="32" Height="32"/>
+            <Image x:Name="Icon" DockPanel.Dock="Left" VerticalAlignment="Top" Width="16" Height="16" />
             <Button x:Name="CloseButton" DockPanel.Dock="Right" VerticalAlignment="Top" Width="16" Height="16" Style="{StaticResource IconButton}" Click="CloseButton_Click">
                 <Path Data="M0,0 L10,10 M0,10 L10,0" Stroke="White" StrokeThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             </Button>

@@ -27,6 +27,8 @@ namespace NeeView
         {
         }
 
+        // テンポラリーフォルダー作成場所
+        public string TempRootPath { get; private set; }
 
         // アプリのテンポラリフォルダー(BaseName)
         public string TempDirectoryBaseName { get; private set; }
@@ -48,7 +50,7 @@ namespace NeeView
         /// テンポラリフォルダーの場所を指定
         /// </summary>
         /// <param name="path">場所。nullの場合はシステム既定</param>
-        public void SetDirectory(string path)
+        public string SetDirectory(string path)
         {
             var assembly = Assembly.GetExecutingAssembly();
 
@@ -62,19 +64,25 @@ namespace NeeView
             //Process名の取得
             var processName = Process.GetCurrentProcess().ProcessName;
 
-            var root = string.IsNullOrWhiteSpace(path) ? Path.GetTempPath() : path;
-            if (!Directory.Exists(root))
+            TempRootPath = path;
+            if (path != null)
             {
-                Directory.CreateDirectory(root);
+                if (!Directory.Exists(path))
+                {
+                    ToastService.Current.Show(new Toast(string.Format(Properties.Resources.NotifyTemporaryErrorDirectoryNotFound, path), Properties.Resources.NotifyTemporaryErrorTitle));
+                    TempRootPath = null;
+                }
             }
 
             TempDirectoryBaseName = processName + ".Temp"; //  asmprd.Product;
-            TempDirectory = Path.Combine(root, TempDirectoryBaseName) + processId.ToString();
+            TempDirectory = Path.Combine(TempRootPath ?? Path.GetTempPath(), TempDirectoryBaseName) + processId.ToString();
             TempDownloadDirectory = Path.Combine(TempDirectory, "Temporary");
             TempSystemDirectory = Path.Combine(TempDirectory, "System");
             TempCacheDirectory = Path.Combine(TempDirectory, "Cache");
 
             Debug.WriteLine($"Temporary directory: {TempDirectory}");
+
+            return TempRootPath;
         }
 
         /// <summary>

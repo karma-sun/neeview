@@ -166,7 +166,7 @@ namespace NeeView
                     var count = item.Count(e => e.Value is Pagemark);
                     if (count > 0)
                     {
-                        _toast = new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), Properties.Resources.WordRestore, () => PagemarkCollection.Current.Restore(memento));
+                        _toast = new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), null, Properties.Resources.WordRestore, () => PagemarkCollection.Current.Restore(memento));
                         ToastService.Current.Show(_toast);
                     }
                 }

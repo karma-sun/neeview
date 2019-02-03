@@ -98,7 +98,7 @@ namespace NeeView
 
             try
             {
-                var downloadPath = string.IsNullOrWhiteSpace(App.Current.DownloadPath) ? Temporary.TempDownloadDirectory : App.Current.DownloadPath;
+                var downloadPath = string.IsNullOrWhiteSpace(App.Current.DownloadPath) ? Temporary.Current.TempDownloadDirectory : App.Current.DownloadPath;
                 string path = await DropAsync(this, data, downloadPath, (string message) => NeeView.NowLoading.Current.SetLoading(message));
                 BookHub.Current.RequestLoad(path, null, BookLoadOption.None, true);
             }

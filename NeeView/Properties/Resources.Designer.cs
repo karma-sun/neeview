@@ -10778,6 +10778,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Temporary location に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamTemporaryDirectory {
+            get {
+                return ResourceManager.GetString("ParamTemporaryDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   It is used for pre-extraction and recursive compression files. It will be deleted at the end of the application. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamTemporaryDirectoryTips {
+            get {
+                return ResourceManager.GetString("ParamTemporaryDirectoryTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Book Thumbnail Capacity に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamThumbnailBookCapacity {
@@ -11512,6 +11530,33 @@ namespace NeeView.Properties {
         public static string SettingPageGeneralDetailLanguage {
             get {
                 return ResourceManager.GetString("SettingPageGeneralDetailLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Location に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageGeneralLocation {
+            get {
+                return ResourceManager.GetString("SettingPageGeneralLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Location に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageGeneralLocationTypes {
+            get {
+                return ResourceManager.GetString("SettingPageGeneralLocationTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   * It is applied from the next startup. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageGeneralLocationTypesTips {
+            get {
+                return ResourceManager.GetString("SettingPageGeneralLocationTypesTips", resourceCulture);
             }
         }
         

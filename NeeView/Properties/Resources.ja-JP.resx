@@ -4438,4 +4438,19 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="CommandReloadUserSettingNote" xml:space="preserve">
     <value>設定を再読み込みします。</value>
   </data>
+  <data name="SettingPageGeneralLocation" xml:space="preserve">
+    <value>場所</value>
+  </data>
+  <data name="SettingPageGeneralLocationTypes" xml:space="preserve">
+    <value>場所</value>
+  </data>
+  <data name="ParamTemporaryDirectory" xml:space="preserve">
+    <value>一時フォルダーの場所</value>
+  </data>
+  <data name="ParamTemporaryDirectoryTips" xml:space="preserve">
+    <value>多重圧縮ファイルの展開や事前展開に使用されます。アプリ終了時に削除されます。</value>
+  </data>
+  <data name="SettingPageGeneralLocationTypesTips" xml:space="preserve">
+    <value>※次の起動から適用されます。</value>
+  </data>
 </root>

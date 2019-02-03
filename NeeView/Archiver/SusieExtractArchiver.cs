@@ -96,7 +96,7 @@ namespace NeeView
             if (IsDisposed || _temp != null) return;
 
 
-            var directory = Temporary.CreateCountedTempFileName("arc", "");
+            var directory = Temporary.Current.CreateCountedTempFileName("arc", "");
             _temp = directory;
 
             Directory.CreateDirectory(directory);

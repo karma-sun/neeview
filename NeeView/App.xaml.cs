@@ -162,6 +162,9 @@ namespace NeeView
                 await _multiBootService.RemoteLoadAsAsync(Option.StartupPlace);
                 throw new ApplicationException("Already started.");
             }
+
+            // 各種パスの設定
+            Temporary.Current.SetDirectory(TemporaryDirectory);
         }
 
         /// <summary>
@@ -254,7 +257,7 @@ namespace NeeView
         public void CloseTemporary()
         {
             // テンポラリファイル破棄
-            Temporary.RemoveTempFolder();
+            Temporary.Current.RemoveTempFolder();
 
             // キャッシュDBを閉じる
             ThumbnailCache.Current.Dispose();

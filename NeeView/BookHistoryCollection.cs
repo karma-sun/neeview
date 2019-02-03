@@ -556,14 +556,14 @@ namespace NeeView
 
             if (forSave)
             {
-                memento.Items = Limit(this.Items.Where(e => !e.Place.StartsWith(Temporary.TempDirectory)), LimitSize, LimitSpan).ToList();
+                memento.Items = Limit(this.Items.Where(e => !e.Place.StartsWith(Temporary.Current.TempDirectory)), LimitSize, LimitSpan).ToList();
                 memento.Books = memento.Items.Select(e => e.Unit.Memento).ToList();
 
-                if (memento.LastFolder != null && memento.LastFolder.StartsWith(Temporary.TempDirectory))
+                if (memento.LastFolder != null && memento.LastFolder.StartsWith(Temporary.Current.TempDirectory))
                 {
                     memento.LastFolder = null;
                 }
-                if (memento.LastAddress != null && memento.LastAddress.StartsWith(Temporary.TempDirectory))
+                if (memento.LastAddress != null && memento.LastAddress.StartsWith(Temporary.Current.TempDirectory))
                 {
                     memento.LastAddress = null;
                 }

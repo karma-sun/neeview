@@ -119,7 +119,7 @@ namespace NeeView
         {
             if (IsDisposed || _temp != null) return;
 
-            var directory = Temporary.CreateCountedTempFileName("arc", "");
+            var directory = Temporary.Current.CreateCountedTempFileName("arc", "");
 
             using (var extractor = new SevenZipExtractor(this.Path))
             {

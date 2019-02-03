@@ -236,7 +236,7 @@ namespace NeeView
             {
                 return;
             }
-            if (path.StartsWith(Temporary.TempDirectory))
+            if (path.StartsWith(Temporary.Current.TempDirectory))
             {
                 ToastService.Current.Show(new Toast(Properties.Resources.DialogQuickAccessTempError));
                 return;

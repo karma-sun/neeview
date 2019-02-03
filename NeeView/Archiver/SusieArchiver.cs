@@ -132,7 +132,7 @@ namespace NeeView
             // 16MB以上のエントリは直接ファイル出力を試みる
             if (entry.Length > 16 * 1024 * 1024)
             {
-                string tempDirectory = Temporary.CreateCountedTempFileName("susie", "");
+                string tempDirectory = Temporary.Current.CreateCountedTempFileName("susie", "");
 
                 try
                 {

@@ -39,6 +39,7 @@ namespace NeeView
         private bool _isSettingBackup;
         private bool _isSaveWindowPlacement;
         private double _autoHideDelayTime = 1.0;
+        private string _temporaryDirectory;
 
         #endregion
 
@@ -134,6 +135,14 @@ namespace NeeView
         [PropertyMember("@ParamIsSyncUserSetting", Tips = "@ParamIsSyncUserSettingTips")]
         public bool IsSyncUserSetting { get; set; } = true;
 
+        // テンポラリーフォルダーの場所
+        [PropertyPath("@ParamTemporaryDirectory", Tips = "@ParamTemporaryDirectoryTips", IsDirectory = true)]
+        public string TemporaryDirectory
+        {
+            get => _temporaryDirectory;
+            set => _temporaryDirectory = string.IsNullOrWhiteSpace(value) ? null : value;
+        }
+
         #endregion
 
         #region Memento
@@ -202,6 +211,9 @@ namespace NeeView
             [DataMember, DefaultValue(true)]
             public bool IsSyncUserSetting { get; set; }
 
+            [DataMember(EmitDefaultValue = false)]
+            public string TemporaryDirectory { get; set; }
+
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
             {
@@ -251,6 +263,7 @@ namespace NeeView
             memento.Language = this.Language;
             memento.IsSplashScreenEnabled = this.IsSplashScreenEnabled;
             memento.IsSyncUserSetting = this.IsSyncUserSetting;
+            memento.TemporaryDirectory = this.TemporaryDirectory;
             return memento;
         }
 
@@ -278,6 +291,7 @@ namespace NeeView
             this.Language = memento.Language;
             this.IsSplashScreenEnabled = memento.IsSplashScreenEnabled;
             this.IsSyncUserSetting = memento.IsSyncUserSetting;
+            this.TemporaryDirectory = memento.TemporaryDirectory;
         }
 
 #pragma warning disable CS0612

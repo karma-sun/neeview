@@ -216,8 +216,8 @@ namespace NeeView
 
 
             // 
-            Directory.CreateDirectory(Temporary.TempSystemDirectory);
-            string fileName = System.IO.Path.Combine(Temporary.TempSystemDirectory, "CommandList.html");
+            Directory.CreateDirectory(Temporary.Current.TempSystemDirectory);
+            string fileName = System.IO.Path.Combine(Temporary.Current.TempSystemDirectory, "CommandList.html");
 
             //
             using (var writer = new System.IO.StreamWriter(fileName, false))

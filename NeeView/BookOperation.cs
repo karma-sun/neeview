@@ -709,6 +709,13 @@ namespace NeeView
                 }
                 else
                 {
+                    // ignore temporary directory
+                    if (Book.Place.StartsWith(Temporary.Current.TempDirectory))
+                    {
+                        ToastService.Current.Show(new Toast(Resources.DialogBookmarkError));
+                        return;
+                    }
+
                     BookmarkCollectionService.Add(query);
                 }
 
@@ -887,7 +894,7 @@ namespace NeeView
         public Pagemark AddPagemark(string place, string entryName)
         {
             // ignore temporary directory
-            if (place.StartsWith(Temporary.TempDirectory))
+            if (place.StartsWith(Temporary.Current.TempDirectory))
             {
                 ToastService.Current.Show(new Toast(Resources.DialogPagemarkError));
                 return null;

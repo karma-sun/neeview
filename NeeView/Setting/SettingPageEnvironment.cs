@@ -18,6 +18,7 @@ namespace NeeView.Setting
                 new SettingPageEnvironmentDetail(),
                 new SettingPageEnvironmentSetup(),
                 new SettingPageEnvironmentSaveData(),
+                new SettingPageEnvironmentLocation(),
             };
         }
     }
@@ -109,5 +110,17 @@ namespace NeeView.Setting
         }
 
         #endregion
+    }
+
+    public class SettingPageEnvironmentLocation : SettingPage
+    {
+        public SettingPageEnvironmentLocation() : base(Properties.Resources.SettingPageGeneralLocation)
+        {
+            this.Items = new List<SettingItem>
+            {
+                new SettingItemSection(Properties.Resources.SettingPageGeneralLocationTypes, Properties.Resources.SettingPageGeneralLocationTypesTips,
+                new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.TemporaryDirectory))) { IsStretch = true } ),
+            };
+        }
     }
 }

@@ -82,7 +82,7 @@ namespace NeeView
         // 開発用コマンド：テンポラリフォルダーを開く
         private void MenuItemDevTempFolder_Click(object sender, RoutedEventArgs e)
         {
-            OpenFolder(Temporary.TempDirectory);
+            OpenFolder(Temporary.Current.TempDirectory);
         }
 
         // 開発用コマンド：アプリケーションフォルダーを開く

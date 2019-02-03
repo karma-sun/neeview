@@ -265,8 +265,8 @@ namespace NeeView
             else
             {
                 string tempFileName = isKeepFileName
-                    ? Temporary.CreateTempFileName(LoosePath.GetFileName(EntryName))
-                    : Temporary.CreateCountedTempFileName("entry", System.IO.Path.GetExtension(EntryName));
+                    ? Temporary.Current.CreateTempFileName(LoosePath.GetFileName(EntryName))
+                    : Temporary.Current.CreateCountedTempFileName("entry", System.IO.Path.GetExtension(EntryName));
                 ExtractToFile(tempFileName, false);
                 return new TempFile(tempFileName);
             }

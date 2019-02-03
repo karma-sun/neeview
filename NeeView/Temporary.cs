@@ -9,10 +9,46 @@ using System.Reflection;
 
 namespace NeeView
 {
-    public static class Temporary
+    public class Temporary
     {
-        // static constructor
-        static Temporary()
+        // NOTE: SetDirectory必須
+        static Temporary() => Current = new Temporary();
+        public static Temporary Current { get; }
+
+
+        // テンポラリファイル名用のカウンタ
+        private int _count = 0;
+
+        // 排他制御用オブジェクト
+        private object _lock = new object();
+
+
+        private Temporary()
+        {
+        }
+
+
+        // アプリのテンポラリフォルダー(BaseName)
+        public string TempDirectoryBaseName { get; private set; }
+
+        // アプリのテンポラリフォルダー
+        public string TempDirectory { get; private set; }
+
+        // アプリのダウンロードテンポラリフォルダー
+        public string TempDownloadDirectory { get; private set; }
+
+        // アプリのシステムテンポラリフォルダー
+        public string TempSystemDirectory { get; private set; }
+
+        // アプリのキャッシュテンポラリフォルダー
+        public string TempCacheDirectory { get; private set; }
+
+
+        /// <summary>
+        /// テンポラリフォルダーの場所を指定
+        /// </summary>
+        /// <param name="path">場所。nullの場合はシステム既定</param>
+        public void SetDirectory(string path)
         {
             var assembly = Assembly.GetExecutingAssembly();
 
@@ -26,34 +62,20 @@ namespace NeeView
             //Process名の取得
             var processName = Process.GetCurrentProcess().ProcessName;
 
-            TempDirectoryBaseName = processName; //  asmprd.Product;
-            TempDirectory = Path.Combine(Path.GetTempPath(), TempDirectoryBaseName) + processId.ToString();
-            TempDownloadDirectory = Path.Combine(Temporary.TempDirectory, "Temporary");
-            TempSystemDirectory = Path.Combine(Temporary.TempDirectory, "System");
-            TempCacheDirectory = Path.Combine(Temporary.TempDirectory, "Cache");
+            var root = string.IsNullOrWhiteSpace(path) ? Path.GetTempPath() : path;
+            if (!Directory.Exists(root))
+            {
+                Directory.CreateDirectory(root);
+            }
+
+            TempDirectoryBaseName = processName + ".Temp"; //  asmprd.Product;
+            TempDirectory = Path.Combine(root, TempDirectoryBaseName) + processId.ToString();
+            TempDownloadDirectory = Path.Combine(TempDirectory, "Temporary");
+            TempSystemDirectory = Path.Combine(TempDirectory, "System");
+            TempCacheDirectory = Path.Combine(TempDirectory, "Cache");
+
+            Debug.WriteLine($"Temporary directory: {TempDirectory}");
         }
-
-        // アプリのテンポラリフォルダー(BaseName)
-        public static string TempDirectoryBaseName { get; private set; }
-
-        // アプリのテンポラリフォルダー
-        public static string TempDirectory { get; private set; }
-
-        // アプリのダウンロードテンポラリフォルダー
-        public static string TempDownloadDirectory { get; private set; }
-
-        // アプリのシステムテンポラリフォルダー
-        public static string TempSystemDirectory { get; private set; }
-
-        // アプリのキャッシュテンポラリフォルダー
-        public static string TempCacheDirectory { get; private set; }
-
-
-        // テンポラリファイル名用のカウンタ
-        public static int _Count = 0;
-
-        // 排他制御用オブジェクト
-        public static object _Lock = new object();
 
         /// <summary>
         /// テンポラリファイル名をカウンタ付きで生成
@@ -62,12 +84,14 @@ namespace NeeView
         /// <param name="prefix">ファイル名前置詞</param>
         /// <param name="ext">ファイル拡張子。例：".txt"</param>
         /// <returns>ユニークなテンポラリファイル名</returns>
-        public static string CreateCountedTempFileName(string prefix, string ext)
+        public string CreateCountedTempFileName(string prefix, string ext)
         {
-            lock (_Lock)
+            Debug.Assert(TempDirectory != null, "Need SetDirectory()");
+
+            lock (_lock)
             {
-                _Count = (_Count + 1) % 10000;
-                return CreateTempFileName(string.Format("{0}{1:0000}{2}", prefix, _Count, ext));
+                _count = (_count + 1) % 10000;
+                return CreateTempFileName(string.Format("{0}{1:0000}{2}", prefix, _count, ext));
             }
         }
 
@@ -77,8 +101,10 @@ namespace NeeView
         /// </summary>
         /// <param name="name">希望するファイル名</param>
         /// <returns>テンポラリファイル名</returns>
-        public static string CreateTempFileName(string name)
+        public string CreateTempFileName(string name)
         {
+            Debug.Assert(TempDirectory != null, "Need SetDirectory()");
+
             // 専用フォルダー作成
             Directory.CreateDirectory(TempCacheDirectory);
 
@@ -101,8 +127,10 @@ namespace NeeView
         /// アプリのテンポラリフォルダーを削除
         /// アプリ終了時に呼ばれます
         /// </summary>
-        public static void RemoveTempFolder()
+        public void RemoveTempFolder()
         {
+            Debug.Assert(TempDirectory != null, "Need SetDirectory()");
+
             try
             {
                 var name = Process.GetCurrentProcess().ProcessName;

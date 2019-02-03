@@ -98,8 +98,8 @@ namespace NeeView
             }
 
             // 
-            System.IO.Directory.CreateDirectory(Temporary.TempSystemDirectory);
-            string fileName = System.IO.Path.Combine(Temporary.TempSystemDirectory, "MainMenuList.html");
+            System.IO.Directory.CreateDirectory(Temporary.Current.TempSystemDirectory);
+            string fileName = System.IO.Path.Combine(Temporary.Current.TempSystemDirectory, "MainMenuList.html");
 
 
             //

@@ -57,6 +57,8 @@ namespace NeeView
             WindowShape.Current.CreateSnapMemento();
             SaveDataSync.Current.SaveUserSetting();
             SaveDataSync.Current.SaveHistory();
+            SaveDataSync.Current.SaveBookmarkMaybe();
+            SaveDataSync.Current.SavePagemarkMaybe();
 
             try
             {

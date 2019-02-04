@@ -83,7 +83,17 @@ namespace NeeView.Setting
                         IsEnabled = new IsEnabledPropertyValue(App.Current, nameof(App.IsSaveHistory))
                     },
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveBookmark))),
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.BookmarkFilePath)))
+                    {
+                        IsStretch = true,
+                        IsEnabled = new IsEnabledPropertyValue(App.Current, nameof(App.IsSaveBookmark))
+                    },
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSavePagemark))),
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.PagemarkFilePath)))
+                    {
+                        IsStretch = true,
+                        IsEnabled = new IsEnabledPropertyValue(App.Current, nameof(App.IsSavePagemark))
+                    },
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSyncUserSetting)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageGeneralSaveDataRemove,

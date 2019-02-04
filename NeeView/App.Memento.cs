@@ -50,8 +50,13 @@ namespace NeeView
         private double _autoHideDelayTime = 1.0;
         private string _temporaryDirectory;
         private string _cacheDirectory;
-        private bool _isSaveHistory;
+        private bool _isSaveHistory = true;
         private string _historyFilePath;
+        private bool _isSaveBookmark = true;
+        private string _bookmarkFilePath;
+        private bool _isSavePagemark = true;
+        private string _pagemarkFilePath;
+
 
         #endregion
 
@@ -113,11 +118,35 @@ namespace NeeView
 
         // ブックマークの保存
         [PropertyMember("@ParamIsSaveBookmark")]
-        public bool IsSaveBookmark { get; set; } = true;
+        public bool IsSaveBookmark
+        {
+            get { return _isSaveBookmark; }
+            set { SetProperty(ref _isSaveBookmark, value); }
+        }
+
+        // ブックマークの保存場所
+        [PropertyPath("@ParamBookmarkFilePath", FileDialogType = FileDialogType.SaveFile, Filter = "XML|*.xml", Note = SaveData.BookmarkFileName)]
+        public string BookmarkFilePath
+        {
+            get => _bookmarkFilePath;
+            set => _bookmarkFilePath = string.IsNullOrWhiteSpace(value) ? null : value;
+        }
 
         // ページマークの保存
         [PropertyMember("@ParamIsSavePagemark")]
-        public bool IsSavePagemark { get; set; } = true;
+        public bool IsSavePagemark
+        {
+            get { return _isSavePagemark; }
+            set { SetProperty(ref _isSavePagemark, value); }
+        }
+
+        // ページマークの保存場所
+        [PropertyPath("@ParamPagemarkFilePath", FileDialogType = FileDialogType.SaveFile, Filter = "XML|*.xml", Note = SaveData.PagemarkFileName)]
+        public string PagemarkFilePath
+        {
+            get => _pagemarkFilePath;
+            set => _pagemarkFilePath = string.IsNullOrWhiteSpace(value) ? null : value;
+        }
 
         // パネルやメニューが自動的に消えるまでの時間(秒)
         [PropertyMember("@ParamAutoHideDelayTime")]
@@ -212,8 +241,14 @@ namespace NeeView
             [DataMember, DefaultValue(true)]
             public bool IsSaveBookmark { get; set; }
 
+            [DataMember(EmitDefaultValue = false)]
+            public string BookmarkFilePath { get; set; }
+
             [DataMember, DefaultValue(true)]
             public bool IsSavePagemark { get; set; }
+
+            [DataMember(EmitDefaultValue = false)]
+            public string PagemarkFilePath { get; set; }
 
             [DataMember, DefaultValue(true)]
             public bool IsIgnoreImageDpi { get; set; }
@@ -299,7 +334,9 @@ namespace NeeView
             memento.IsSaveHistory = this.IsSaveHistory;
             memento.HistoryFilePath = this.HistoryFilePath;
             memento.IsSaveBookmark = this.IsSaveBookmark;
+            memento.BookmarkFilePath = this.BookmarkFilePath;
             memento.IsSavePagemark = this.IsSavePagemark;
+            memento.PagemarkFilePath = this.PagemarkFilePath;
             memento.AutoHideDelayTime = this.AutoHideDelayTime;
             memento.WindowChromeFrame = this.WindowChromeFrame;
             memento.IsOpenLastBook = this.IsOpenLastBook;
@@ -338,7 +375,9 @@ namespace NeeView
             this.IsSaveHistory = memento.IsSaveHistory;
             this.HistoryFilePath = memento.HistoryFilePath;
             this.IsSaveBookmark = memento.IsSaveBookmark;
+            this.BookmarkFilePath = memento.BookmarkFilePath;
             this.IsSavePagemark = memento.IsSavePagemark;
+            this.PagemarkFilePath = memento.PagemarkFilePath;
             this.AutoHideDelayTime = memento.AutoHideDelayTime;
             this.WindowChromeFrame = memento.WindowChromeFrame;
             this.IsOpenLastBook = memento.IsOpenLastBook;

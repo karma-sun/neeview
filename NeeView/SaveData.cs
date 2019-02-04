@@ -14,11 +14,11 @@ namespace NeeView
         static SaveData() => Current = new SaveData();
         public static SaveData Current { get; }
 
+        private string _currentBookmarkFilePath;
+        private string _currentPagemarkFilePath;
 
         private SaveData()
         {
-            BookmarkFilePath = Path.Combine(Config.Current.LocalApplicationDataPath, BookmarkFileName);
-            PagemarkFilePath = Path.Combine(Config.Current.LocalApplicationDataPath, PagemarkFileName);
         }
 
         public const string UserSettingFileName = "UserSetting.xml";
@@ -28,8 +28,8 @@ namespace NeeView
 
         public string UserSettingFilePath => App.Current.Option.SettingFilename;
         public string HistoryFilePath => App.Current.HistoryFilePath ?? Path.Combine(Config.Current.LocalApplicationDataPath, HistoryFileName);
-        public string BookmarkFilePath { get; private set; }
-        public string PagemarkFilePath { get; private set; }
+        public string BookmarkFilePath => App.Current.BookmarkFilePath ?? Path.Combine(Config.Current.LocalApplicationDataPath, BookmarkFileName);
+        public string PagemarkFilePath => App.Current.PagemarkFilePath ?? Path.Combine(Config.Current.LocalApplicationDataPath, PagemarkFileName);
 
         public UserSetting UserSettingTemp { get; private set; }
 
@@ -177,13 +177,18 @@ namespace NeeView
             try
             {
                 App.Current.SemaphoreWait();
-                BookmarkCollection.Memento memento = SafetyLoad(BookmarkCollection.Memento.Load, BookmarkFilePath, Resources.NotifyLoadBookmarkFailed, Resources.NotifyLoadBookmarkFailedTitle);
-                BookmarkCollection.Current.Restore(memento);
+                if (File.Exists(BookmarkFilePath))
+                {
+                    BookmarkCollection.Memento memento = SafetyLoad(BookmarkCollection.Memento.Load, BookmarkFilePath, Resources.NotifyLoadBookmarkFailed, Resources.NotifyLoadBookmarkFailedTitle);
+                    BookmarkCollection.Current.Restore(memento);
+                }
             }
             finally
             {
+                _currentBookmarkFilePath = BookmarkFilePath;
                 App.Current.SemaphoreRelease();
             }
+
         }
 
         // ページマーク読み込み
@@ -203,11 +208,15 @@ namespace NeeView
             try
             {
                 App.Current.SemaphoreWait();
-                PagemarkCollection.Memento memento = SafetyLoad(PagemarkCollection.Memento.Load, PagemarkFilePath, Resources.NotifyLoadPagemarkFailed, Resources.NotifyLoadPagemarkFailedTitle);
-                PagemarkCollection.Current.Restore(memento);
+                if (File.Exists(PagemarkFilePath))
+                {
+                    PagemarkCollection.Memento memento = SafetyLoad(PagemarkCollection.Memento.Load, PagemarkFilePath, Resources.NotifyLoadPagemarkFailed, Resources.NotifyLoadPagemarkFailedTitle);
+                    PagemarkCollection.Current.Restore(memento);
+                }
             }
             finally
             {
+                _currentPagemarkFilePath = PagemarkFilePath;
                 App.Current.SemaphoreRelease();
             }
         }
@@ -360,7 +369,22 @@ namespace NeeView
             }
             finally
             {
+                _currentBookmarkFilePath = BookmarkFilePath;
                 App.Current.SemaphoreRelease();
+            }
+        }
+
+        /// <summary>
+        /// 必要であるならば、Bookmarkを保存
+        /// </summary>
+        public void SaveBookmarkMaybe()
+        {
+            if (!IsEnableSave) return;
+
+            if (_currentBookmarkFilePath != BookmarkFilePath || !App.Current.IsSaveBookmark)
+            {
+                Debug.WriteLine($"Save Bookmark, because location changed or removed");
+                SaveBookmark();
             }
         }
 
@@ -389,7 +413,22 @@ namespace NeeView
             }
             finally
             {
+                _currentPagemarkFilePath = PagemarkFilePath;
                 App.Current.SemaphoreRelease();
+            }
+        }
+
+        /// <summary>
+        /// 必要であるならば、Pagemarkを保存
+        /// </summary>
+        public void SavePagemarkMaybe()
+        {
+            if (!IsEnableSave) return;
+
+            if (_currentPagemarkFilePath != PagemarkFilePath || !App.Current.IsSavePagemark)
+            {
+                Debug.WriteLine($"Save Paagemark, because location changed or removed");
+                SavePagemark();
             }
         }
 

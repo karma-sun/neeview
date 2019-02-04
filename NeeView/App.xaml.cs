@@ -281,6 +281,8 @@ namespace NeeView
             SaveDataSync.Current.Flush();
             SaveDataSync.Current.SaveUserSetting();
             SaveDataSync.Current.SaveHistory();
+            SaveDataSync.Current.SaveBookmarkMaybe();
+            SaveDataSync.Current.SavePagemarkMaybe();
 
             // キャッシュ等削除
             CloseTemporary();

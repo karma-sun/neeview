@@ -106,6 +106,11 @@ namespace NeeView
             RemoteCommandService.Current.Send(new RemoteCommand("LoadBookmark"), RemoteCommandDelivery.All);
         }
 
+        public void SaveBookmarkMaybe()
+        {
+            ////SaveData.Current.SaveBookmarkMaybe();
+        }
+
         public void SavePagemark()
         {
             Debug.WriteLine($"Save Pagemark");
@@ -113,5 +118,9 @@ namespace NeeView
             RemoteCommandService.Current.Send(new RemoteCommand("LoadPagemark"), RemoteCommandDelivery.All);
         }
 
+        public void SavePagemarkMaybe()
+        {
+            ////SaveData.Current.SavePagemarkMaybe();
+        }
     }
 }

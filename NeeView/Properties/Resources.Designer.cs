@@ -8350,7 +8350,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Bookmark file location に類似しているローカライズされた文字列を検索します。
+        ///   Bookmark list file location に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamBookmarkFilePath {
             get {
@@ -9430,7 +9430,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   History file location に類似しているローカライズされた文字列を検索します。
+        ///   History list file location に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamHistoryFilePath {
             get {
@@ -10429,7 +10429,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Pagemark file location に類似しているローカライズされた文字列を検索します。
+        ///   Pagemark list file location に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamPagemarkFilePath {
             get {
@@ -11668,6 +11668,15 @@ namespace NeeView.Properties {
         public static string SettingPageGeneralSaveDataTypes {
             get {
                 return ResourceManager.GetString("SettingPageGeneralSaveDataTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   * The file location will be applied the next time you start up. Please use export, import to take over data. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageGeneralSaveDataTypesTips {
+            get {
+                return ResourceManager.GetString("SettingPageGeneralSaveDataTypesTips", resourceCulture);
             }
         }
         

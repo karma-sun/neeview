@@ -193,7 +193,7 @@ namespace NeeView
         /// <summary>
         /// 各種データの場所情報の確定
         /// </summary>
-        public void SaveLocation()
+        public void UpdateLocation()
         {
             TemporaryDirectory = Temporary.Current.TempRootPath;
 
@@ -281,8 +281,8 @@ namespace NeeView
             SaveDataSync.Current.Flush();
             SaveDataSync.Current.SaveUserSetting();
             SaveDataSync.Current.SaveHistory();
-            SaveDataSync.Current.SaveBookmarkMaybe();
-            SaveDataSync.Current.SavePagemarkMaybe();
+            SaveDataSync.Current.RemoveBookmarkIfNotSave();
+            SaveDataSync.Current.RemovePagemarkIfNotSave();
 
             // キャッシュ等削除
             CloseTemporary();

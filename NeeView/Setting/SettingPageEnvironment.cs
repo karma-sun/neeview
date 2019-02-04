@@ -75,7 +75,7 @@ namespace NeeView.Setting
         {
             this.Items = new List<SettingItem>
             {
-                new SettingItemSection(Properties.Resources.SettingPageGeneralSaveDataTypes,
+                new SettingItemSection(Properties.Resources.SettingPageGeneralSaveDataTypes, Properties.Resources.SettingPageGeneralSaveDataTypesTips,
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveHistory))),
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.HistoryFilePath)))
                     {

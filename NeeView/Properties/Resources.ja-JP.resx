@@ -4475,12 +4475,15 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
 一時フォルダーの場所を初期化します。</value>
   </data>
   <data name="ParamHistoryFilePath" xml:space="preserve">
-    <value>履歴ファイルの場所</value>
+    <value>履歴リストの保存場所</value>
   </data>
   <data name="ParamBookmarkFilePath" xml:space="preserve">
-    <value>ブックマークファイルの場所</value>
+    <value>ブックマークリストの保存場所</value>
   </data>
   <data name="ParamPagemarkFilePath" xml:space="preserve">
-    <value>ページマークファイルの場所</value>
+    <value>ページマークリストの保存場所</value>
+  </data>
+  <data name="SettingPageGeneralSaveDataTypesTips" xml:space="preserve">
+    <value>※保存場所は次の起動から適用されます。データの引継ぎにはエクスポート、インポートを活用してください。</value>
   </data>
 </root>

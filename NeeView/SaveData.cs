@@ -14,11 +14,10 @@ namespace NeeView
         static SaveData() => Current = new SaveData();
         public static SaveData Current { get; }
 
-        private string _currentBookmarkFilePath;
-        private string _currentPagemarkFilePath;
 
         private SaveData()
         {
+            UpdateLocation();
         }
 
         public const string UserSettingFileName = "UserSetting.xml";
@@ -27,14 +26,21 @@ namespace NeeView
         public const string PagemarkFileName = "Pagemark.xml";
 
         public string UserSettingFilePath => App.Current.Option.SettingFilename;
-        public string HistoryFilePath => App.Current.HistoryFilePath ?? Path.Combine(Config.Current.LocalApplicationDataPath, HistoryFileName);
-        public string BookmarkFilePath => App.Current.BookmarkFilePath ?? Path.Combine(Config.Current.LocalApplicationDataPath, BookmarkFileName);
-        public string PagemarkFilePath => App.Current.PagemarkFilePath ?? Path.Combine(Config.Current.LocalApplicationDataPath, PagemarkFileName);
+        public string HistoryFilePath { get; private set; }
+        public string BookmarkFilePath { get; private set; }
+        public string PagemarkFilePath { get; private set; }
 
         public UserSetting UserSettingTemp { get; private set; }
 
         public bool IsEnableSave { get; set; } = true;
 
+
+        public void UpdateLocation()
+        {
+            HistoryFilePath = App.Current.HistoryFilePath ?? Path.Combine(Config.Current.LocalApplicationDataPath, HistoryFileName);
+            BookmarkFilePath = App.Current.BookmarkFilePath ?? Path.Combine(Config.Current.LocalApplicationDataPath, BookmarkFileName);
+            PagemarkFilePath = App.Current.PagemarkFilePath ?? Path.Combine(Config.Current.LocalApplicationDataPath, PagemarkFileName);
+        }
 
         // アプリ設定作成
         public UserSetting CreateSetting()
@@ -185,7 +191,6 @@ namespace NeeView
             }
             finally
             {
-                _currentBookmarkFilePath = BookmarkFilePath;
                 App.Current.SemaphoreRelease();
             }
 
@@ -216,7 +221,6 @@ namespace NeeView
             }
             finally
             {
-                _currentPagemarkFilePath = PagemarkFilePath;
                 App.Current.SemaphoreRelease();
             }
         }
@@ -350,41 +354,42 @@ namespace NeeView
         public void SaveBookmark()
         {
             if (!IsEnableSave) return;
+            if (!App.Current.IsSaveBookmark) return;
 
             try
             {
                 App.Current.SemaphoreWait();
-                if (App.Current.IsSaveBookmark)
-                {
-                    var bookmarkMemento = BookmarkCollection.Current.CreateMemento();
-                    SafetySave(bookmarkMemento.Save, BookmarkFilePath, false);
-                }
-                else
-                {
-                    FileIO.RemoveFile(BookmarkFilePath);
-                }
+                var bookmarkMemento = BookmarkCollection.Current.CreateMemento();
+                SafetySave(bookmarkMemento.Save, BookmarkFilePath, false);
             }
             catch
             {
             }
             finally
             {
-                _currentBookmarkFilePath = BookmarkFilePath;
                 App.Current.SemaphoreRelease();
             }
         }
 
         /// <summary>
-        /// 必要であるならば、Bookmarkを保存
+        /// 必要であるならば、Bookmarkを削除
         /// </summary>
-        public void SaveBookmarkMaybe()
+        public void RemoveBookmarkIfNotSave()
         {
             if (!IsEnableSave) return;
+            if (App.Current.IsSaveBookmark) return;
 
-            if (_currentBookmarkFilePath != BookmarkFilePath || !App.Current.IsSaveBookmark)
+            try
             {
-                Debug.WriteLine($"Save Bookmark, because location changed or removed");
-                SaveBookmark();
+                App.Current.SemaphoreWait();
+                FileIO.RemoveFile(BookmarkFilePath);
+            }
+            catch
+            {
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
             }
         }
 
@@ -394,41 +399,42 @@ namespace NeeView
         public void SavePagemark()
         {
             if (!IsEnableSave) return;
+            if (!App.Current.IsSavePagemark) return;
 
             try
             {
                 App.Current.SemaphoreWait();
-                if (App.Current.IsSavePagemark)
-                {
-                    var pagemarkMemento = PagemarkCollection.Current.CreateMemento();
-                    SafetySave(pagemarkMemento.Save, PagemarkFilePath, false);
-                }
-                else
-                {
-                    FileIO.RemoveFile(PagemarkFilePath);
-                }
+                var pagemarkMemento = PagemarkCollection.Current.CreateMemento();
+                SafetySave(pagemarkMemento.Save, PagemarkFilePath, false);
             }
             catch
             {
             }
             finally
             {
-                _currentPagemarkFilePath = PagemarkFilePath;
                 App.Current.SemaphoreRelease();
             }
         }
 
         /// <summary>
-        /// 必要であるならば、Pagemarkを保存
+        /// 必要であるならば、Pagemarkを削除
         /// </summary>
-        public void SavePagemarkMaybe()
+        public void RemovePagemarkIfNotSave()
         {
             if (!IsEnableSave) return;
+            if (App.Current.IsSavePagemark) return;
 
-            if (_currentPagemarkFilePath != PagemarkFilePath || !App.Current.IsSavePagemark)
+            try
             {
-                Debug.WriteLine($"Save Paagemark, because location changed or removed");
-                SavePagemark();
+                App.Current.SemaphoreWait();
+                FileIO.RemoveFile(PagemarkFilePath);
+            }
+            catch
+            {
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
             }
         }
 

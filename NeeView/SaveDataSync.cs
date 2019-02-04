@@ -106,9 +106,9 @@ namespace NeeView
             RemoteCommandService.Current.Send(new RemoteCommand("LoadBookmark"), RemoteCommandDelivery.All);
         }
 
-        public void SaveBookmarkMaybe()
+        public void RemoveBookmarkIfNotSave()
         {
-            ////SaveData.Current.SaveBookmarkMaybe();
+            SaveData.Current.RemoveBookmarkIfNotSave();
         }
 
         public void SavePagemark()
@@ -118,9 +118,9 @@ namespace NeeView
             RemoteCommandService.Current.Send(new RemoteCommand("LoadPagemark"), RemoteCommandDelivery.All);
         }
 
-        public void SavePagemarkMaybe()
+        public void RemovePagemarkIfNotSave()
         {
-            ////SaveData.Current.SavePagemarkMaybe();
+            SaveData.Current.RemovePagemarkIfNotSave();
         }
     }
 }

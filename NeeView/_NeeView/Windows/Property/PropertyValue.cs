@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Windows.Controls;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -317,13 +318,15 @@ namespace NeeView.Windows.Property
     //
     public class PropertyValue_FilePath : PropertyValue_String
     {
-        public bool IsDirectory { get; set; }
+        public FileDialogType FileDialogType { get; set; }
         public string Filter { get; set; }
+        public string Note { get; set; }
 
-        public PropertyValue_FilePath(PropertyMemberElement setter, bool isDirectory, string filter) : base(setter)
+        public PropertyValue_FilePath(PropertyMemberElement setter, FileDialogType fileDialogType, string filter, string note) : base(setter)
         {
-            IsDirectory = isDirectory;
+            FileDialogType = fileDialogType;
             Filter = filter;
+            Note = note;
         }
     }
 }

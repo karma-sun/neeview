@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Controls;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
@@ -104,7 +105,7 @@ namespace NeeView
         }
 
         // Susie プラグインフォルダー
-        [PropertyPath("@ParamSusiePluginPath", IsDirectory = true)]
+        [PropertyPath("@ParamSusiePluginPath", FileDialogType = FileDialogType.Directory)]
         public string SusiePluginPath
         {
             get { return _susiePluginPath; }

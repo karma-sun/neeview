@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Controls;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,17 @@ namespace NeeView
     {
         // ここでのパラメータは値の保持のみを行う。機能は提供しない。
 
-        #region PropertyChanged
+        #region INotifyPropertyChanged Support
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        protected bool SetProperty<T>(ref T storage, T value, [System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            if (object.Equals(storage, value)) return false;
+            storage = value;
+            this.RaisePropertyChanged(propertyName);
+            return true;
+        }
 
         protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = null)
         {
@@ -41,6 +50,8 @@ namespace NeeView
         private double _autoHideDelayTime = 1.0;
         private string _temporaryDirectory;
         private string _cacheDirectory;
+        private bool _isSaveHistory;
+        private string _historyFilePath;
 
         #endregion
 
@@ -86,7 +97,19 @@ namespace NeeView
 
         // 履歴データの保存
         [PropertyMember("@ParamIsSaveHistory")]
-        public bool IsSaveHistory { get; set; } = true;
+        public bool IsSaveHistory
+        {
+            get { return _isSaveHistory; }
+            set { SetProperty(ref _isSaveHistory, value); }
+        }
+
+        // 履歴データの保存場所
+        [PropertyPath("@ParamHistoryFilePath", FileDialogType = FileDialogType.SaveFile, Filter = "XML|*.xml", Note = SaveData.HistoryFileName)]
+        public string HistoryFilePath
+        {
+            get => _historyFilePath;
+            set => _historyFilePath = string.IsNullOrWhiteSpace(value) ? null : value;
+        }
 
         // ブックマークの保存
         [PropertyMember("@ParamIsSaveBookmark")]
@@ -114,7 +137,7 @@ namespace NeeView
 
         // ダウンロードファイル置き場
         [DefaultValue("")]
-        [PropertyPath("@ParamDownloadPath", Tips = "@ParamDownloadPathTips", IsDirectory = true)]
+        [PropertyPath("@ParamDownloadPath", Tips = "@ParamDownloadPathTips", FileDialogType = FileDialogType.Directory)]
         public string DownloadPath { get; set; } = "";
 
         [PropertyMember("@ParamIsSettingBackup", Tips = "@ParamIsSettingBackupTips")]
@@ -137,7 +160,7 @@ namespace NeeView
         public bool IsSyncUserSetting { get; set; } = true;
 
         // テンポラリーフォルダーの場所
-        [PropertyPath("@ParamTemporaryDirectory", Tips = "@ParamTemporaryDirectoryTips", IsDirectory = true)]
+        [PropertyPath("@ParamTemporaryDirectory", Tips = "@ParamTemporaryDirectoryTips", FileDialogType = FileDialogType.Directory)]
         public string TemporaryDirectory
         {
             get => _temporaryDirectory;
@@ -145,7 +168,7 @@ namespace NeeView
         }
 
         // サムネイルキャッシュの場所
-        [PropertyPath("@ParamCacheDirectory", Tips = "@ParamCacheDirectoryTips", IsDirectory = true)]
+        [PropertyPath("@ParamCacheDirectory", Tips = "@ParamCacheDirectoryTips", FileDialogType = FileDialogType.Directory)]
         public string CacheDirectory
         {
             get => _cacheDirectory;
@@ -182,6 +205,9 @@ namespace NeeView
 
             [DataMember, DefaultValue(true)]
             public bool IsSaveHistory { get; set; }
+
+            [DataMember(EmitDefaultValue = false)]
+            public string HistoryFilePath { get; set; }
 
             [DataMember, DefaultValue(true)]
             public bool IsSaveBookmark { get; set; }
@@ -271,6 +297,7 @@ namespace NeeView
             memento.IsNetworkEnabled = this.IsNetworkEnabled;
             memento.IsIgnoreImageDpi = this.IsIgnoreImageDpi;
             memento.IsSaveHistory = this.IsSaveHistory;
+            memento.HistoryFilePath = this.HistoryFilePath;
             memento.IsSaveBookmark = this.IsSaveBookmark;
             memento.IsSavePagemark = this.IsSavePagemark;
             memento.AutoHideDelayTime = this.AutoHideDelayTime;
@@ -309,6 +336,7 @@ namespace NeeView
             this.IsNetworkEnabled = memento.IsNetworkEnabled;
             this.IsIgnoreImageDpi = memento.IsIgnoreImageDpi;
             this.IsSaveHistory = memento.IsSaveHistory;
+            this.HistoryFilePath = memento.HistoryFilePath;
             this.IsSaveBookmark = memento.IsSaveBookmark;
             this.IsSavePagemark = memento.IsSavePagemark;
             this.AutoHideDelayTime = memento.AutoHideDelayTime;

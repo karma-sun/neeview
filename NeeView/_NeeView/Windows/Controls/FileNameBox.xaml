@@ -12,12 +12,12 @@
         <nwd:NotBoolToVisiblityConverter x:Key="NotBoolToVisiblityConverter"/>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid x:Name="Root">
         <TextBox x:Name="PathTextBox" Padding="0,0,22,0" VerticalContentAlignment="Center" Text="{Binding Text, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FileNameBox}}}" PreviewDragOver="PathTextBox_PreviewDragOver" Drop="PathTextBox_Drop">
         </TextBox>
 
 
-        <TextBlock x:Name="PathTextBlock" Text="{Binding Note, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:FileNameBox}}}" VerticalAlignment="Center" Margin="4,0" Foreground="Gray" IsHitTestVisible="False">
+        <TextBlock x:Name="PathTextBlock" Text="{Binding EmptyMessage}" VerticalAlignment="Center" Margin="4,0" Foreground="Gray" IsHitTestVisible="False">
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
                     <Setter Property="Visibility" Value="Hidden"/>

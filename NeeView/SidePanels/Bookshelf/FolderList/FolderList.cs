@@ -1,6 +1,7 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Collections;
 using NeeView.Collections.Generic;
+using NeeView.Windows.Controls;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
@@ -197,7 +198,7 @@ namespace NeeView
         }
 
         private string _home;
-        [PropertyPath("@ParamBookshelfHome", IsDirectory = true)]
+        [PropertyPath("@ParamBookshelfHome", FileDialogType = FileDialogType.Directory)]
         public string Home
         {
             get { return _home; }

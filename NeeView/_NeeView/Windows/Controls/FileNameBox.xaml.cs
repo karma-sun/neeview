@@ -1,20 +1,55 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Interop;
 
 namespace NeeView.Windows.Controls
 {
+    public enum FileDialogType
+    {
+        Directory,
+        OpenFile,
+        SaveFile,
+    }
+
     /// <summary>
     /// FilenameBox.xaml の相互作用ロジック
     /// </summary>
-    public partial class FileNameBox : UserControl
+    public partial class FileNameBox : UserControl, INotifyPropertyChanged
     {
+        #region INotifyPropertyChanged Support
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] String propertyName = null)
+        {
+            if (object.Equals(storage, value)) return false;
+            storage = value;
+            this.RaisePropertyChanged(propertyName);
+            return true;
+        }
+
+        protected void RaisePropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
+        {
+            PropertyChanged += (s, e) => { if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName) handler?.Invoke(s, e); };
+        }
+
+        #endregion
+
         private static string _defaultFileNote = Properties.Resources.ControlFileNameBoxFileNote;
         private static string _defaultDirectoryNote = Properties.Resources.ControlFileNameBoxDirectoryNote;
 
@@ -35,7 +70,7 @@ namespace NeeView.Windows.Controls
         private static void OnTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
         }
-        
+
         //
         public static readonly DependencyProperty DefaultDirectoryProperty =
             DependencyProperty.Register(
@@ -72,34 +107,25 @@ namespace NeeView.Windows.Controls
         {
         }
 
-        //
-        public static readonly DependencyProperty IsDirectoryProperty =
-            DependencyProperty.Register(
-            "IsDirectory",
-            typeof(bool),
-            typeof(FileNameBox),
-            new FrameworkPropertyMetadata(false, new PropertyChangedCallback(OnIsDirectoryChanged)));
 
-        public bool IsDirectory
+        //
+        public FileDialogType FileDialogType
         {
-            get { return (bool)GetValue(IsDirectoryProperty); }
-            set { SetValue(IsDirectoryProperty, value); }
+            get { return (FileDialogType)GetValue(FileDialogTypeProperty); }
+            set { SetValue(FileDialogTypeProperty, value); }
         }
 
-        private static void OnIsDirectoryChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        public static readonly DependencyProperty FileDialogTypeProperty =
+            DependencyProperty.Register("FileDialogType", typeof(FileDialogType), typeof(FileNameBox), new PropertyMetadata(FileDialogType.OpenFile, OnFileDialogTypeChanged));
+
+        private static void OnFileDialogTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (obj is FileNameBox control)
+            if (d is FileNameBox control)
             {
-                if (control.IsDirectory && control.Note == _defaultFileNote)
-                {
-                    control.Note = _defaultDirectoryNote;
-                }
-                else if(!control.IsDirectory && control.Note == _defaultDirectoryNote)
-                {
-                    control.Note = _defaultFileNote;
-                }
+                control.RaisePropertyChanged(nameof(EmptyMessage));
             }
         }
+
 
         //
         public static readonly DependencyProperty TitleProperty =
@@ -143,7 +169,7 @@ namespace NeeView.Windows.Controls
             "Note",
             typeof(string),
             typeof(FileNameBox),
-            new FrameworkPropertyMetadata(_defaultFileNote, new PropertyChangedCallback(OnNoteChanged)));
+            new FrameworkPropertyMetadata(null, new PropertyChangedCallback(OnNoteChanged)));
 
         public string Note
         {
@@ -151,8 +177,12 @@ namespace NeeView.Windows.Controls
             set { SetValue(NoteProperty, value); }
         }
 
-        private static void OnNoteChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        private static void OnNoteChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            if (d is FileNameBox control)
+            {
+                control.RaisePropertyChanged(nameof(EmptyMessage));
+            }
         }
 
         public class Wpf32Window : System.Windows.Forms.IWin32Window
@@ -169,6 +199,13 @@ namespace NeeView.Windows.Controls
         public FileNameBox()
         {
             InitializeComponent();
+            this.Root.DataContext = this;
+        }
+
+
+        public string EmptyMessage
+        {
+            get => Note ?? (FileDialogType == FileDialogType.Directory ? Properties.Resources.ControlFileNameBoxDirectoryNote : Properties.Resources.ControlFileNameBoxFileNote);
         }
 
         //
@@ -176,7 +213,7 @@ namespace NeeView.Windows.Controls
         {
             var owner = new Wpf32Window(Window.GetWindow(this));
 
-            if (IsDirectory)
+            if (FileDialogType == FileDialogType.Directory)
             {
                 var dialog = new System.Windows.Forms.FolderBrowserDialog();
                 dialog.Description = Title ?? Properties.Resources.ControlFileNameBoxSelectDirectory;
@@ -191,6 +228,21 @@ namespace NeeView.Windows.Controls
                 if (result == System.Windows.Forms.DialogResult.OK)
                 {
                     Text = dialog.SelectedPath;
+                }
+            }
+            else if (FileDialogType == FileDialogType.SaveFile)
+            {
+                var dialog = new System.Windows.Forms.SaveFileDialog();
+                dialog.Title = Title ?? Properties.Resources.ControlFileNameBoxSelectFile;
+                dialog.FileName = Text;
+                dialog.Filter = Filter;
+                dialog.OverwritePrompt = false;
+                dialog.CreatePrompt = false;
+
+                var result = dialog.ShowDialog(owner);
+                if (result == System.Windows.Forms.DialogResult.OK)
+                {
+                    Text = dialog.FileName;
                 }
             }
             else
@@ -228,7 +280,7 @@ namespace NeeView.Windows.Controls
             var dropFiles = e.Data.GetData(System.Windows.DataFormats.FileDrop) as string[];
             if (dropFiles == null) return;
 
-            if (IsDirectory)
+            if (FileDialogType == FileDialogType.Directory)
             {
                 if (Directory.Exists(dropFiles[0]))
                 {

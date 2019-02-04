@@ -17,7 +17,6 @@ namespace NeeView
 
         private SaveData()
         {
-            HistoryFilePath = Path.Combine(Config.Current.LocalApplicationDataPath, HistoryFileName);
             BookmarkFilePath = Path.Combine(Config.Current.LocalApplicationDataPath, BookmarkFileName);
             PagemarkFilePath = Path.Combine(Config.Current.LocalApplicationDataPath, PagemarkFileName);
         }
@@ -28,7 +27,7 @@ namespace NeeView
         public const string PagemarkFileName = "Pagemark.xml";
 
         public string UserSettingFilePath => App.Current.Option.SettingFilename;
-        public string HistoryFilePath { get; private set; }
+        public string HistoryFilePath => App.Current.HistoryFilePath ?? Path.Combine(Config.Current.LocalApplicationDataPath, HistoryFileName);
         public string BookmarkFilePath { get; private set; }
         public string PagemarkFilePath { get; private set; }
 

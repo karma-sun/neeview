@@ -31,7 +31,7 @@
                 </DockPanel>
                 <DockPanel Margin="5">
                     <TextBlock Text="{x:Static properties:Resources.ControlCustomBackgroundImage}" MinWidth="50" VerticalAlignment="Center"/>
-                    <nlc:FileNameBox IsDirectory="False" Title="{x:Static properties:Resources.ControlCustomBackgroundImageSelect}" Filter="All|*.*" MinHeight="24"
+                    <nlc:FileNameBox FileDialogType="OpenFile" Title="{x:Static properties:Resources.ControlCustomBackgroundImageSelect}" Filter="All|*.*" MinHeight="24"
                                  Note="{x:Static properties:Resources.ControlCustomBackgroundImageSelectNote}"
                                  Text="{Binding ImageFileName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
                 </DockPanel>

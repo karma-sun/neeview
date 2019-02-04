@@ -8350,6 +8350,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Bookmark file location に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookmarkFilePath {
+            get {
+                return ResourceManager.GetString("ParamBookmarkFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Behavior when trying to move past the end of the page に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamBookOperationPageEndAction {
@@ -9421,6 +9430,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   History file location に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamHistoryFilePath {
+            get {
+                return ResourceManager.GetString("ParamHistoryFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Save information such as the last open place, the order of each folder, etc. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamHistoryIsKeepFolderStatus {
@@ -10407,6 +10425,15 @@ namespace NeeView.Properties {
         public static string ParamPageListPlacementInBookshelfTips {
             get {
                 return ResourceManager.GetString("ParamPageListPlacementInBookshelfTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Pagemark file location に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPagemarkFilePath {
+            get {
+                return ResourceManager.GetString("ParamPagemarkFilePath", resourceCulture);
             }
         }
         

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Windows.Controls;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -71,8 +72,9 @@ namespace NeeView.Windows.Property
     [AttributeUsage(AttributeTargets.Property)]
     public class PropertyPathAttribute : PropertyMemberAttribute
     {
-        public bool IsDirectory;
+        public FileDialogType FileDialogType;
         public string Filter;
+        public string Note;
 
         public PropertyPathAttribute(string name) : base(name)
         {

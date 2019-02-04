@@ -4474,4 +4474,13 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>フォルダーが見つかりません。({0})
 一時フォルダーの場所を初期化します。</value>
   </data>
+  <data name="ParamHistoryFilePath" xml:space="preserve">
+    <value>履歴ファイルの場所</value>
+  </data>
+  <data name="ParamBookmarkFilePath" xml:space="preserve">
+    <value>ブックマークファイルの場所</value>
+  </data>
+  <data name="ParamPagemarkFilePath" xml:space="preserve">
+    <value>ページマークファイルの場所</value>
+  </data>
 </root>

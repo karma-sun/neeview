@@ -72,6 +72,15 @@ namespace NeeView
         /// </summary>
         public ThumbnailBitmap ThumbnailBitmap { get; set; } = new ThumbnailBitmap();
 
+        /// <summary>
+        /// FullPath property
+        /// </summary>
+        private string _FullPath;
+        public string FullPath
+        {
+            get { return _FullPath; }
+            set { SetProperty(ref _FullPath, value); }
+        }
 
         /// <summary>
         /// ImageSize property.
@@ -177,8 +186,9 @@ namespace NeeView
 
             LoaderVisibility = _model.IsVisibleLoader ? Visibility.Visible : Visibility.Collapsed;
 
-            var bitmapContent = IsVisible ? _model.ViewContent?.Content as BitmapContent : null;
+            FullPath = Model.ViewContent?.Page?.Entry?.Link ?? Model.ViewContent?.FullPath;
 
+            var bitmapContent = IsVisible ? _model.ViewContent?.Content as BitmapContent : null;
             var info = bitmapContent?.Picture?.PictureInfo;
             if (info != null)
             {

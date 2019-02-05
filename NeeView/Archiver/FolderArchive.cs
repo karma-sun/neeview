@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.IO;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -62,14 +63,29 @@ namespace NeeView
                 }
 
                 var name = info.FullName.Substring(prefixLen).TrimStart('\\', '/');
-                list.Add(new ArchiveEntry()
+                var fileInfo = info as FileInfo;
+
+                var entry = new ArchiveEntry()
                 {
                     Archiver = this,
                     Id = list.Count,
                     RawEntryName = name + (info.Attributes.HasFlag(FileAttributes.Directory) ? "\\" : ""),
-                    Length = (info is FileInfo fileInfo) ? fileInfo.Length : -1,
+                    Length = fileInfo != null ? fileInfo.Length : -1,
                     LastWriteTime = info.LastWriteTime,
-                });
+                };
+
+                if (fileInfo != null && FileShortcut.IsShortcut(fileInfo.Name))
+                {
+                    var shortcut = new FileShortcut(fileInfo);
+                    if (shortcut.IsValid && shortcut.Target is FileInfo target)
+                    {
+                        entry.Link = target.FullName;
+                        entry.Length = target.Length;
+                        entry.LastWriteTime = target.LastWriteTime;
+                    }
+                }
+
+                list.Add(entry);
             }
 
             return list;
@@ -81,7 +97,7 @@ namespace NeeView
         {
             if (_disposedValue) throw new ApplicationException("Archive already colosed.");
 
-            return new FileStream(GetFileSystemPath(entry), FileMode.Open, FileAccess.Read);
+            return new FileStream(entry.Link ?? GetFileSystemPath(entry), FileMode.Open, FileAccess.Read);
         }
 
         // ファイルパス取得
@@ -90,7 +106,7 @@ namespace NeeView
             return System.IO.Path.Combine(Path, entry.EntryName);
         }
 
-        // ファイルパス取得
+        // ファイル出力
         public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
             if (_disposedValue) throw new ApplicationException("Archive already colosed.");

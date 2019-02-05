@@ -140,6 +140,11 @@ namespace NeeView
         public string EntryName { get; private set; }
 
         /// <summary>
+        /// ショートカットの場合のリンク先パス
+        /// </summary>
+        public string Link { get; set; }
+
+        /// <summary>
         /// エントリ名のファイル名
         /// </summary>
         /// 001.jpg
@@ -229,7 +234,7 @@ namespace NeeView
         {
             return Archiver != null
                 ? Archiver.OpenStream(this)
-                : new FileStream(EntryName, FileMode.Open, FileAccess.Read);
+                : new FileStream(Link ?? EntryName, FileMode.Open, FileAccess.Read);
         }
 
         /// <summary>
@@ -301,7 +306,7 @@ namespace NeeView
         /// </summary>
         public bool IsImage()
         {
-            return !this.IsDirectory && ((this.Archiver is MediaArchiver) || PictureProfile.Current.IsSupported(this.EntryName));
+            return !this.IsDirectory && ((this.Archiver is MediaArchiver) || PictureProfile.Current.IsSupported(this.Link ?? this.EntryName));
         }
 
         /// <summary>

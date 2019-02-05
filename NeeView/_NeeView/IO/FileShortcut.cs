@@ -45,7 +45,7 @@ namespace NeeView.IO
         public string TargetPath => _target?.FullName;
 
         // 有効？
-        public bool IsValid => _target != null;
+        public bool IsValid => _target != null && _target.Exists;
 
         #endregion
 

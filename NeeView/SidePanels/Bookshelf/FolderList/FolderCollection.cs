@@ -670,7 +670,7 @@ namespace NeeView
         {
             if (e != null)
             {
-                var item = new ConstFolderItem(new ResourceThumbnail("ic_drive", MainWindow.Current))
+                var item = new DriveFolderItem(e)
                 {
                     Place = Place,
                     Name = e.Name,

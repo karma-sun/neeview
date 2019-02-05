@@ -333,6 +333,22 @@ namespace NeeView
     }
 
     /// <summary>
+    /// Drive FolderItem
+    /// </summary>
+    public class DriveFolderItem : FolderItem
+    {
+        private IThumbnail _thumbnail;
+
+        public DriveFolderItem(DriveInfo driveInfo)
+        {
+            ////_thumbnail = new DriveThumbnail(driveInfo.Name);
+            _thumbnail = new ResourceThumbnail("ic_drive", MainWindow.Current);
+        }
+
+        public override IThumbnail Thumbnail => _thumbnail;
+    }
+
+    /// <summary>
     /// 固定表示用FolderItem.
     /// </summary>
     public class ConstFolderItem : FolderItem

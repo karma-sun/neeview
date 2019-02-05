@@ -79,6 +79,16 @@ namespace NeeView
         }
     }
 
+    /// <summary>
+    /// ドライブサムネイル
+    /// </summary>
+    public class DriveThumbnail : ConstThumbnail
+    {
+        public DriveThumbnail(string path)
+        {
+            _create = () => FileIconCollection.Current.CreateFileIcon(path, IO.FileIconType.Directory, 256.0, true, true);
+        }
+    }
 
     /// <summary>
     /// フォルダーサムネイル

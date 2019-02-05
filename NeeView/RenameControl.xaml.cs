@@ -37,20 +37,52 @@ namespace NeeView
     /// </summary>
     public partial class RenameControl : UserControl, INotifyPropertyChanged
     {
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
+        #region INotifyPropertyChanged Support
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected bool SetProperty<T>(ref T storage, T value, [System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            if (object.Equals(storage, value)) return false;
+            storage = value;
+            this.RaisePropertyChanged(propertyName);
+            return true;
+        }
+
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
+        public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
+        {
+            PropertyChanged += (s, e) => { if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName) handler?.Invoke(s, e); };
+        }
 
-        /// <summary>
-        /// Target property.
-        /// </summary>
+        #endregion
+
+
+        private char[] _invalidChars = System.IO.Path.GetInvalidFileNameChars();
+        private string _old;
+        private string _new;
+        private int _moveRename;
+        private int _keyCount;
+        private bool _closing;
+
+
+        public RenameControl()
+        {
+            InitializeComponent();
+            this.RenameTextBox.DataContext = this;
+        }
+
+
+        public event EventHandler<RenameClosingEventArgs> Closing;
+        public event EventHandler Close;
+        public event EventHandler<RenameClosedEventArgs> Closed;
+
+
+        // リネームを行うTextBlock
         private TextBlock _target;
         public TextBlock Target
         {
@@ -65,13 +97,6 @@ namespace NeeView
                     Text = _target.Text;
                     _old = Text;
                     _new = Text;
-                    
-                    /*
-                    var padding = Target.Padding;
-                    padding.Top += 1;
-                    padding.Bottom += 1;
-                    padding.Right += 20;
-                    */
 
                     this.RenameTextBox.FontFamily = Target.FontFamily;
                     this.RenameTextBox.FontSize = Target.FontSize;
@@ -79,56 +104,47 @@ namespace NeeView
             }
         }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public bool IsFileName { get; set; } = false;
-
-        //
-        public RenameControl()
+        // ファイル名禁則文字制御
+        private bool _isInvalidFileNameChars;
+        public bool IsInvalidFileNameChars
         {
-            InitializeComponent();
-
-            this.RenameTextBox.DataContext = this;
+            get { return _isInvalidFileNameChars; }
+            set { SetProperty(ref _isInvalidFileNameChars, value); }
         }
 
-        private string _old;
-        private string _new;
+        // 拡張子を除いた部分を選択
+        public bool IsSeleftFileNameBody { get; set; } = false;
 
-        private int _moveRename;
-
-        private int _keyCount;
-
-
-        public event EventHandler<RenameClosingEventArgs> Closing;
-
-        public event EventHandler Close;
-
-        public event EventHandler<RenameClosedEventArgs> Closed;
-
-
-        /// <summary>
-        /// Text property.
-        /// </summary>
         private string _text;
         public string Text
         {
             get { return _text; }
-            set { if (_text != value) { _text = value; RaisePropertyChanged(); } }
+            set
+            {
+                if (_text != value)
+                {
+                    if (_isInvalidFileNameChars)
+                    {
+                        _text = new string(value.Where(e => !_invalidChars.Contains(e)).ToArray());
+                        if (_text != value)
+                        {
+                            ToastService.Current.Show(new Toast(Properties.Resources.NotifyInvalidFileNameChars));
+                        }
+                    }
+                    else
+                    {
+                        _text = value;
+                    }
+                    RaisePropertyChanged();
+                }
+            }
         }
 
-
-        //
         private void RenameTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             Stop(true);
         }
 
-
-        private bool _closing;
-
-        //
         public void Stop(bool isSuccess = true)
         {
             if (_closing) return;
@@ -146,24 +162,21 @@ namespace NeeView
             Close?.Invoke(this, null);
         }
 
-        //
         private void RenameTextBox_Loaded(object sender, RoutedEventArgs e)
         {
             // 拡張子以外を選択状態にする
-            string name = this.IsFileName ? System.IO.Path.GetFileNameWithoutExtension(Text) : System.IO.Path.GetFileName(Text);
+            string name = this.IsSeleftFileNameBody ? System.IO.Path.GetFileNameWithoutExtension(Text) : System.IO.Path.GetFileName(Text);
             this.RenameTextBox.Select(0, name.Length);
 
             // 表示とともにフォーカスする
             this.RenameTextBox.Focus();
         }
 
-        //
         private void RenameTextBox_Unloaded(object sender, RoutedEventArgs e)
         {
             Closed?.Invoke(this, new RenameClosedEventArgs() { OldValue = _old, NewValue = _new, MoveRename = _moveRename });
         }
 
-        //
         private void RenameTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             // 最初の方向入力に限りカーソル位置を固定する
@@ -174,7 +187,6 @@ namespace NeeView
             }
         }
 
-        //
         private void RenameTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)

@@ -7584,6 +7584,16 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   The following characters can not be used in the file name:
+        ///\ / : * ? &quot; &lt; &gt; | に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyInvalidFileNameChars {
+            get {
+                return ResourceManager.GetString("NotifyInvalidFileNameChars", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Page number ({0} - {1}) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string NotifyJumpPageLabel {

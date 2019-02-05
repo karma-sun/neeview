@@ -4486,4 +4486,8 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="SettingPageGeneralSaveDataTypesTips" xml:space="preserve">
     <value>※保存場所は次の起動から適用されます。データの引継ぎにはエクスポート、インポートを活用してください。</value>
   </data>
+  <data name="NotifyInvalidFileNameChars" xml:space="preserve">
+    <value>ファイル名には次の文字は使えません:
+\ / : * ? " &lt; &gt; |</value>
+  </data>
 </root>

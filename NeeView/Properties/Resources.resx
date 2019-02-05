@@ -4486,4 +4486,8 @@ Initialize the temporary location.</value>
   <data name="SettingPageGeneralSaveDataTypesTips" xml:space="preserve">
     <value>* The file location will be applied the next time you start up. Please use export, import to take over data.</value>
   </data>
+  <data name="NotifyInvalidFileNameChars" xml:space="preserve">
+    <value>The following characters can not be used in the file name:
+\ / : * ? " &lt; &gt; |</value>
+  </data>
 </root>

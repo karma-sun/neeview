@@ -301,7 +301,8 @@ namespace NeeView
                 {
                     var rename = new RenameControl();
                     rename.Target = textBlock;
-                    rename.IsFileName = !item.IsDirectory;
+                    rename.IsSeleftFileNameBody = !item.IsDirectory;
+                    rename.IsInvalidFileNameChars = item.IsFileSystem();
                     rename.Closing += async (s, ev) =>
                     {
                         if (item.Source is TreeListNode<IBookmarkEntry> bookmarkNode)

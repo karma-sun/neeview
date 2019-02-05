@@ -45,9 +45,10 @@ namespace NeeView
         private void Refresh()
         {
             this.Caption.Text = _toast.Caption;
+            this.Caption.Visibility = _toast.Caption is null ? Visibility.Collapsed : Visibility.Visible;
             this.Message.Source = _toast.Message;
             this.ConfirmButton.Content = _toast.ButtonContent;
-            this.ConfirmButton.Visibility = _toast.ButtonContent == null ? Visibility.Collapsed : Visibility.Visible;
+            this.ConfirmButton.Visibility = _toast.ButtonContent is null ? Visibility.Collapsed : Visibility.Visible;
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)

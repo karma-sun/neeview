@@ -4499,4 +4499,10 @@ Initialize the temporary location.</value>
   <data name="ParamExternalArchiveSeparater" xml:space="preserve">
     <value>Delimiter between compressed file and filename</value>
   </data>
+  <data name="NotifyBookOperationPageLoop" xml:space="preserve">
+    <value>Looped.</value>
+  </data>
+  <data name="ParamBookOperationNotifyPageLoop" xml:space="preserve">
+    <value>Notify page loop</value>
+  </data>
 </root>

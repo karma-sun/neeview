@@ -7439,6 +7439,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Looped. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyBookOperationPageLoop {
+            get {
+                return ResourceManager.GetString("NotifyBookOperationPageLoop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   No previous book に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string NotifyBookPrevFailed {
@@ -8374,6 +8383,15 @@ namespace NeeView.Properties {
         public static string ParamBookmarkFilePath {
             get {
                 return ResourceManager.GetString("ParamBookmarkFilePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Notify page loop に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookOperationNotifyPageLoop {
+            get {
+                return ResourceManager.GetString("ParamBookOperationNotifyPageLoop", resourceCulture);
             }
         }
         

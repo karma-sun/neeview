@@ -4499,4 +4499,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamExternalArchiveSeparater" xml:space="preserve">
     <value>ファイル名との区切り文字</value>
   </data>
+  <data name="NotifyBookOperationPageLoop" xml:space="preserve">
+    <value>ループしました</value>
+  </data>
+  <data name="ParamBookOperationNotifyPageLoop" xml:space="preserve">
+    <value>ページのループを通知する</value>
+  </data>
 </root>

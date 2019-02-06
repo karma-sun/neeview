@@ -80,6 +80,9 @@ namespace NeeView
         [PropertyMember("@ParamBookOperationPageEndAction")]
         public PageEndAction PageEndAction { get; set; }
 
+        [PropertyMember("@ParamBookOperationNotifyPageLoop")]
+        public bool IsNotifyPageLoop { get; set; }
+
         /// <summary>
         /// 操作の有効設定。ロード中は機能を無効にするために使用
         /// </summary>
@@ -429,6 +432,10 @@ namespace NeeView
                 else
                 {
                     FirstPage();
+                }
+                if (this.IsNotifyPageLoop)
+                {
+                    InfoMessage.Current.SetMessage(InfoMessageType.Notify, Properties.Resources.NotifyBookOperationPageLoop);
                 }
             }
             else if (this.PageEndAction == PageEndAction.NextFolder)
@@ -915,7 +922,7 @@ namespace NeeView
         }
 
         #region 開発用
-        
+
         /// <summary>
         /// (開発用) たくさんのページマーク作成
         /// </summary>
@@ -1036,6 +1043,9 @@ namespace NeeView
 
             [DataMember]
             public ClipboardUtility ClipboardUtility { get; set; }
+
+            [DataMember]
+            public bool IsNotifyPageLoop { get; set; }
         }
 
         //
@@ -1045,6 +1055,7 @@ namespace NeeView
             memento.PageEndAction = this.PageEndAction;
             memento.ExternalApplication = ExternalApplication.Clone();
             memento.ClipboardUtility = ClipboardUtility.Clone();
+            memento.IsNotifyPageLoop = this.IsNotifyPageLoop;
             return memento;
         }
 
@@ -1055,6 +1066,7 @@ namespace NeeView
             this.PageEndAction = memento.PageEndAction;
             this.ExternalApplication = memento.ExternalApplication?.Clone();
             this.ClipboardUtility = memento.ClipboardUtility?.Clone();
+            this.IsNotifyPageLoop = memento.IsNotifyPageLoop;
         }
         #endregion
 

@@ -268,7 +268,14 @@ namespace NeeView
             }
             else if (item.IsFileSystem())
             {
-                return FileIOProfile.Current.IsEnabled;
+                if (item.Path.SimplePath.StartsWith(Temporary.Current.TempDirectory))
+                {
+                    return false;
+                }
+                else
+                {
+                    return FileIOProfile.Current.IsEnabled;
+                }
             }
             else if (item.Attributes.HasFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Directory))
             {

@@ -53,6 +53,11 @@ namespace NeeView.IO
 
         public static bool IsShortcut(string path)
         {
+            if (QuerySchemeExtensions.GetScheme(path) != QueryScheme.File)
+            {
+                return false;
+            }
+
             return Path.GetExtension(path).ToLower() == ".lnk";
         }
 

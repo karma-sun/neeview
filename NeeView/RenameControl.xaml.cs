@@ -128,7 +128,7 @@ namespace NeeView
                         _text = new string(value.Where(e => !_invalidChars.Contains(e)).ToArray());
                         if (_text != value)
                         {
-                            ToastService.Current.Show(new Toast(Properties.Resources.NotifyInvalidFileNameChars));
+                            ToastService.Current.Show(new Toast(Properties.Resources.NotifyInvalidFileNameChars, null, ToastIcon.Information));
                         }
                     }
                     else

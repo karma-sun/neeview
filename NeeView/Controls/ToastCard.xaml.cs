@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 
 namespace NeeView
 {
+
+
     /// <summary>
     /// Toast.xaml の相互作用ロジック
     /// </summary>
@@ -49,6 +51,20 @@ namespace NeeView
             this.Message.Source = _toast.Message;
             this.ConfirmButton.Content = _toast.ButtonContent;
             this.ConfirmButton.Visibility = _toast.ButtonContent is null ? Visibility.Collapsed : Visibility.Visible;
+           
+            switch(_toast.Icon)
+            {
+                default:
+                case ToastIcon.Information:
+                    this.Icon.Source = (DrawingImage)this.Resources["tic_info"];
+                    break;
+                case ToastIcon.Warning:
+                    this.Icon.Source = (DrawingImage)this.Resources["tic_warning"];
+                    break;
+                case ToastIcon.Error:
+                    this.Icon.Source = (DrawingImage)this.Resources["tic_error"];
+                    break;
+            }
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)

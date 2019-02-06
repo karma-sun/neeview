@@ -69,7 +69,7 @@ namespace NeeView
             {
                 if (!Directory.Exists(path))
                 {
-                    ToastService.Current.Show(new Toast(string.Format(Properties.Resources.NotifyTemporaryErrorDirectoryNotFound, path), Properties.Resources.NotifyTemporaryErrorTitle));
+                    ToastService.Current.Show(new Toast(string.Format(Properties.Resources.NotifyTemporaryErrorDirectoryNotFound, path), Properties.Resources.NotifyTemporaryErrorTitle, ToastIcon.Error));
                     TempRootPath = null;
                 }
             }

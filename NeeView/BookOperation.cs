@@ -712,7 +712,7 @@ namespace NeeView
                     // ignore temporary directory
                     if (Book.Place.StartsWith(Temporary.Current.TempDirectory))
                     {
-                        ToastService.Current.Show(new Toast(Resources.DialogBookmarkError));
+                        ToastService.Current.Show(new Toast(Resources.DialogBookmarkError, null, ToastIcon.Error));
                         return;
                     }
 
@@ -896,7 +896,7 @@ namespace NeeView
             // ignore temporary directory
             if (place.StartsWith(Temporary.Current.TempDirectory))
             {
-                ToastService.Current.Show(new Toast(Resources.DialogPagemarkError));
+                ToastService.Current.Show(new Toast(Resources.DialogPagemarkError, null, ToastIcon.Error));
                 return null;
             }
 

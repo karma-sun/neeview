@@ -137,7 +137,7 @@ namespace NeeView
         {
             if (sender is DirectoryNode directory)
             {
-                ToastService.Current.Show("FolderList", new Toast($"({Name}) " + e.Exception.Message));
+                ToastService.Current.Show("FolderList", new Toast($"({Name}) " + e.Exception.Message, null, ToastIcon.Error));
 
                 if (e.IsRefresh)
                 {

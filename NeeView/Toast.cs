@@ -18,17 +18,26 @@ namespace NeeView
             Caption = caption;
         }
 
-        public Toast(string message, string caption, TimeSpan displayTime)
+        public Toast(string message, string caption, ToastIcon icon)
         {
             Message = message;
             Caption = caption;
+            Icon = icon;
+        }
+
+        public Toast(string message, string caption, ToastIcon icon, TimeSpan displayTime)
+        {
+            Message = message;
+            Caption = caption;
+            Icon = icon;
             DisplayTime = displayTime;
         }
 
-        public Toast(string message, string caption, string buttonContext, Action buttonAction)
+        public Toast(string message, string caption, ToastIcon icon, string buttonContext, Action buttonAction)
         {
             Message = message;
             Caption = caption;
+            Icon = icon;
             DisplayTime = LongDisplayTime;
             ButtonContent = buttonContext;
             ButtonAction = buttonAction;
@@ -36,6 +45,7 @@ namespace NeeView
 
         public string Caption { get; set; }
         public string Message { get; private set; }
+        public ToastIcon Icon { get; private set; }
         public string ButtonContent { get; private set; }
         public Action ButtonAction { get; private set; }
         public TimeSpan DisplayTime { get; private set; } = DefaultDisplayTime;
@@ -54,5 +64,14 @@ namespace NeeView
             if (IsCanceled) return;
             ButtonAction?.Invoke();
         }
+    }
+
+
+    public enum ToastIcon
+    {
+        None,
+        Information,
+        Warning,
+        Error,
     }
 }

@@ -96,7 +96,7 @@ namespace NeeView
             {
                 if (!Directory.Exists(path))
                 {
-                    ToastService.Current.Show(new Toast(string.Format(Properties.Resources.NotifyCacheErrorDirectoryNotFound, path), Properties.Resources.NotifyCacheErrorTitle));
+                    ToastService.Current.Show(new Toast(string.Format(Properties.Resources.NotifyCacheErrorDirectoryNotFound, path), Properties.Resources.NotifyCacheErrorTitle, ToastIcon.Error));
                     CacheFolderPath = null;
                 }
             }

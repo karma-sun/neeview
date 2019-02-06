@@ -238,7 +238,7 @@ namespace NeeView
             }
             if (path.StartsWith(Temporary.Current.TempDirectory))
             {
-                ToastService.Current.Show(new Toast(Properties.Resources.DialogQuickAccessTempError));
+                ToastService.Current.Show(new Toast(Properties.Resources.DialogQuickAccessTempError, null, ToastIcon.Error));
                 return;
             }
 
@@ -297,7 +297,7 @@ namespace NeeView
                     var count = item.BookmarkSource.Count(e => e.Value is Bookmark);
                     if (count > 0)
                     {
-                        var toast = new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), null, Properties.Resources.WordRestore, () => BookmarkCollection.Current.Restore(memento));
+                        var toast = new Toast(string.Format(Properties.Resources.DialogPagemarkFolderDelete, count), null, ToastIcon.Information, Properties.Resources.WordRestore, () => BookmarkCollection.Current.Restore(memento));
                         ToastService.Current.Show("FolderList", toast);
                     }
                 }

@@ -52,7 +52,7 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                ToastService.Current.Show("FolderList", new Toast(ex.Message));
+                ToastService.Current.Show("FolderList", new Toast(ex.Message, null, ToastIcon.Error));
             }
         }
 

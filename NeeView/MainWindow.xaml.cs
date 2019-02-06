@@ -504,7 +504,7 @@ namespace NeeView
             // version 32.0 information
             if (App.Current.SettingVersion != 0 && App.Current.SettingVersion < Config.Current.ProductVersionNumber && Config.Current.ProductVersionNumber == Config.GenerateProductVersionNumber(32, 0, 0))
             {
-                ToastService.Current.Show(new Toast(Properties.Resources.Ver320Note, Properties.Resources.Ver320, TimeSpan.FromSeconds(15.0)));
+                ToastService.Current.Show(new Toast(Properties.Resources.Ver320Note, Properties.Resources.Ver320, ToastIcon.Information, TimeSpan.FromSeconds(15.0)));
             }
         }
 

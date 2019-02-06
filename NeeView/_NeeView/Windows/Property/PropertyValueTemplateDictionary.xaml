@@ -13,7 +13,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type local:PropertyValue_String}">
-        <TextBox Text="{Binding Value}"/>
+        <nlc:TextBoxWithMessage Text="{Binding Value, Mode=TwoWay}" EmptyMessage="{Binding EmptyMessage}"/>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type local:PropertyValue_Integer}">

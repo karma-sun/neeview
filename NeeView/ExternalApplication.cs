@@ -40,14 +40,20 @@ namespace NeeView
         [AliasName("@EnumArchiveOptionTypeSendArchiveFile")]
         SendArchiveFile,
 
+        [AliasName("@EnumArchiveOptionTypeSendArchivePath")]
+        SendArchivePath, // ver 33.0
+
         [AliasName("@EnumArchiveOptionTypeSendExtractFile")]
         SendExtractFile,
     }
 
     // コピー設定
     [DataContract]
-    public class ClipboardUtility
+    public class ClipboardUtility : BindableBase
     {
+        private ArchiveOptionType _archiveOption;
+        private string _archiveSeparater;
+
         // 複数ページのときの動作
         [DataMember]
         [PropertyMember("@ParamClipboardMultiPageOption")]
@@ -56,7 +62,19 @@ namespace NeeView
         // 圧縮ファイルのときの動作
         [DataMember]
         [PropertyMember("@ParamClipboardArchiveOption")]
-        public ArchiveOptionType ArchiveOption { get; set; }
+        public ArchiveOptionType ArchiveOption
+        {
+            get { return _archiveOption; }
+            set { SetProperty(ref _archiveOption, value); }
+        }
+
+        [DataMember(EmitDefaultValue = false)]
+        [PropertyMember("@ParamClipboardArchiveSeparater", EmptyMessage = "\\")]
+        public string ArchiveSeparater
+        {
+            get => _archiveSeparater;
+            set => _archiveSeparater = string.IsNullOrEmpty(value) ? null : value;
+        }
 
 
         // コンストラクタ
@@ -105,6 +123,9 @@ namespace NeeView
                         case ArchiveOptionType.SendExtractFile:
                             files.Add(page.Content.CreateTempFile(true).Path);
                             break;
+                        case ArchiveOptionType.SendArchivePath:
+                            files.Add(page.Entry.CreateArchivePath(_archiveSeparater));
+                            break;
                     }
                 }
                 if (MultiPageOption == MultiPageOptionType.Once || ArchiveOption == ArchiveOptionType.SendArchiveFile) break;
@@ -151,7 +172,13 @@ namespace NeeView
     [DataContract]
     public class ExternalApplication : BindableBase
     {
+        // コマンドパラメータで使用されるキーワード
+        private const string _keyFile = "$File";
+        private const string _keyUri = "$Uri";
+
         private ExternalProgramType _programType;
+        private ArchiveOptionType _archiveOption;
+        private string _archiveSeparater;
 
         /// <summary>
         /// ProgramType property.
@@ -163,7 +190,6 @@ namespace NeeView
             get { return _programType; }
             set { if (_programType != value) { _programType = value; RaisePropertyChanged(); } }
         }
-
 
         // コマンド
         [DataMember]
@@ -189,18 +215,25 @@ namespace NeeView
         // 圧縮ファイルのときの動作
         [DataMember]
         [PropertyMember("@ParamExternalArchiveOption")]
-        public ArchiveOptionType ArchiveOption { get; set; }
+        public ArchiveOptionType ArchiveOption
+        {
+            get { return _archiveOption; }
+            set { SetProperty(ref _archiveOption, value); }
+        }
+
+        [DataMember(EmitDefaultValue = false)]
+        [PropertyMember("@ParamExternalArchiveSeparater", EmptyMessage = "\\")]
+        public string ArchiveSeparater
+        {
+            get => _archiveSeparater;
+            set => _archiveSeparater = string.IsNullOrEmpty(value) ? null : value;
+        }
 
         // 拡張子に関連付けられたアプリを起動するかの判定
         public bool IsDefaultApplication => string.IsNullOrWhiteSpace(Command);
 
-        // コマンドパラメータで使用されるキーワード
-        private const string _keyFile = "$File";
-        private const string _keyUri = "$Uri";
-
         // 最後に実行したコマンド
         public string LastCall { get; set; }
-
 
         // コマンドパラメータ文字列のバリデート
         public static string ValidateApplicationParam(string source)
@@ -268,6 +301,9 @@ namespace NeeView
                                 CallProcess(page.Content.CreateTempFile(true).Path);
                             }
                             break;
+                        case ArchiveOptionType.SendArchivePath:
+                            CallProcess(page.Entry.CreateArchivePath(_archiveSeparater));
+                            break;
                     }
                 }
                 if (MultiPageOption == MultiPageOptionType.Once || ArchiveOption == ArchiveOptionType.SendArchiveFile) break;
@@ -283,12 +319,14 @@ namespace NeeView
                     if (IsDefaultApplication)
                     {
                         this.LastCall = $"\"{fileName}\"";
+                        Debug.WriteLine($"CallProcess: {LastCall}");
                         System.Diagnostics.Process.Start(fileName);
                     }
                     else
                     {
                         string param = ReplaceKeyword(this.Parameter, fileName);
                         this.LastCall = $"\"{Command}\" {param}";
+                        Debug.WriteLine($"CallProcess: {LastCall}");
                         System.Diagnostics.Process.Start(Command, param);
                     }
                     return;
@@ -298,6 +336,7 @@ namespace NeeView
                     {
                         string protocol = ReplaceKeyword(this.Protocol, fileName);
                         this.LastCall = protocol;
+                        Debug.WriteLine($"CallProcess: {LastCall}");
                         System.Diagnostics.Process.Start(protocol);
                     }
                     return;

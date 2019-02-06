@@ -4490,4 +4490,13 @@ Initialize the temporary location.</value>
     <value>The following characters can not be used in the file name:
 \ / : * ? " &lt; &gt; |</value>
   </data>
+  <data name="EnumArchiveOptionTypeSendArchivePath" xml:space="preserve">
+    <value>Compressed file + filename</value>
+  </data>
+  <data name="ParamClipboardArchiveSeparater" xml:space="preserve">
+    <value>Delimiter between compressed file and filename</value>
+  </data>
+  <data name="ParamExternalArchiveSeparater" xml:space="preserve">
+    <value>Delimiter between compressed file and filename</value>
+  </data>
 </root>

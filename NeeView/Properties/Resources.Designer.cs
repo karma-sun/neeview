@@ -5813,6 +5813,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Compressed file + filename に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumArchiveOptionTypeSendArchivePath {
+            get {
+                return ResourceManager.GetString("EnumArchiveOptionTypeSendArchivePath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Pass the output file (temporary file) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumArchiveOptionTypeSendExtractFile {
@@ -8639,6 +8648,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Delimiter between compressed file and filename に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamClipboardArchiveSeparater {
+            get {
+                return ResourceManager.GetString("ParamClipboardArchiveSeparater", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   For 2 pages に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamClipboardMultiPageOption {
@@ -9211,6 +9229,15 @@ namespace NeeView.Properties {
         public static string ParamExternalArchiveOption {
             get {
                 return ResourceManager.GetString("ParamExternalArchiveOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Delimiter between compressed file and filename に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamExternalArchiveSeparater {
+            get {
+                return ResourceManager.GetString("ParamExternalArchiveSeparater", resourceCulture);
             }
         }
         

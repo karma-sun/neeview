@@ -16,9 +16,9 @@ namespace NeeView.Windows.Controls
 {
     public enum FileDialogType
     {
-        Directory,
         OpenFile,
         SaveFile,
+        Directory,
     }
 
     /// <summary>

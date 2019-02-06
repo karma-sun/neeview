@@ -713,6 +713,9 @@
     <Compile Include="_NeeView\IO\FileShortcut.cs" />
     <Compile Include="_NeeView\ResourceService.cs" />
     <Compile Include="_NeeView\Windows\ConainerDragStartBehavior.cs" />
+    <Compile Include="_NeeView\Windows\Controls\TextBoxWithMessage.xaml.cs">
+      <DependentUpon>TextBoxWithMessage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="_NeeView\Windows\DragDropGoast.cs" />
     <Compile Include="_NeeView\Windows\DragDropHelper.cs" />
     <Compile Include="_NeeView\Windows\DragStartEventArgs.cs" />
@@ -1192,6 +1195,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="_NeeView\Windows\Controls\ColorPicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="_NeeView\Windows\Controls\TextBoxWithMessage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

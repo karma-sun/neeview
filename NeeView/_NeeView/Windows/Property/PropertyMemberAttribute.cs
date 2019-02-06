@@ -15,6 +15,7 @@ namespace NeeView.Windows.Property
         public string Title;
         public string Tips;
         public bool IsVisible = true;
+        public string EmptyMessage;
 
         public PropertyMemberAttribute() { }
         public PropertyMemberAttribute(string name) { Name = name; }

@@ -227,6 +227,26 @@ namespace NeeView
         }
 
         /// <summary>
+        /// 外部連携用アーカイブパスの生成
+        /// </summary>
+        /// <param name="separater">エントリー名とのセパレーター</param>
+        /// <returns></returns>
+        public string CreateArchivePath(string separater = null)
+        {
+            separater = separater ?? "\\";
+
+            string path = null;
+            if (RootArchiver != null)
+            {
+                path = RootArchiver.FullPath + separater;
+            }
+            // Rawなエントリー名を接続
+            path += RawEntryName;
+
+            return path;
+        }
+
+        /// <summary>
         /// ストリームを開く
         /// </summary>
         /// <returns>Stream</returns>

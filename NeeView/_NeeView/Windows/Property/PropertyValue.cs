@@ -79,8 +79,11 @@ namespace NeeView.Windows.Property
     //
     public class PropertyValue_String : PropertyValue<string, PropertyMemberElement>
     {
+        public string EmptyMessage { get; private set; }
+
         public PropertyValue_String(PropertyMemberElement setter) : base(setter)
         {
+            EmptyMessage = setter.EmptyMessage;
         }
 
         public override void SetValueFromString(string value)
@@ -278,7 +281,7 @@ namespace NeeView.Windows.Property
 
         #endregion
     }
-    
+
     //
     public class PropertyValue_IntegerRange : PropertyValue_Integer
     {

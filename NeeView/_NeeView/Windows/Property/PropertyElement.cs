@@ -41,6 +41,7 @@ namespace NeeView.Windows.Property
         public bool IsVisible { get; set; }
         public object Default { get; set; }
         public bool IsObsolete { get; set; }
+        public string EmptyMessage { get; set; }
 
         private PropertyInfo _info;
 
@@ -50,6 +51,7 @@ namespace NeeView.Windows.Property
             Name = ResourceService.GetString(attribute.Name) ?? info.Name;
             Tips = ResourceService.GetString(attribute.Tips);
             IsVisible = attribute.IsVisible;
+            EmptyMessage = attribute.EmptyMessage;
 
             this.Default = GetDefaultValue(source, info);
             this.IsObsolete = GetObsoleteAttribute(info) != null;

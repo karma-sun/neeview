@@ -710,6 +710,7 @@ namespace NeeView
         {
             if ((bool)e.NewValue == true)
             {
+                _vm.IsVisibleChanged(true);
                 await Task.Yield();
                 FocusSelectedItem(false);
             }

@@ -136,5 +136,10 @@ namespace NeeView
         {
             _folderList.MoveToNext();
         }
+
+        public void IsVisibleChanged(bool isVisible)
+        {
+            _folderList.IsVisibleChanged(isVisible);
+        }
     }
 }

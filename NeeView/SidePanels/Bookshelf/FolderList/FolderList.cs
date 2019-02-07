@@ -82,16 +82,20 @@ namespace NeeView
 
         #region Constructors
 
-        protected FolderList()
+        protected FolderList(bool isBookmarkOnly)
         {
+            this.IsBookmarkOnly = isBookmarkOnly;
             _folderListBoxModel = new FolderListBoxModel(null);
 
             _searchEngine = new FolderSearchEngine();
             FolderCollectionFactory.Current.SearchEngine = _searchEngine;
 
-
-            BookHub.Current.FolderListSync += async (s, e) => await SyncWeak(e);
-            BookHub.Current.HistoryChanged += (s, e) => _folderListBoxModel.RefreshIcon(new QueryPath(e.Key));
+            if (!IsBookmarkOnly)
+            {
+                BookHub.Current.FolderListSync += async (s, e) => await SyncWeak(e);
+                BookHub.Current.HistoryChanged += (s, e) => _folderListBoxModel.RefreshIcon(new QueryPath(e.Key));
+                BookHub.Current.LoadRequested += (s, e) => CancelMoveCruiseFolder();
+            }
 
             BookHub.Current.BookmarkChanged += (s, e) =>
             {
@@ -110,7 +114,21 @@ namespace NeeView
                 }
             };
 
-            BookHub.Current.LoadRequested += (s, e) => CancelMoveCruiseFolder();
+#if false
+            if (IsBookmarkOnly)
+            {
+                BookmarkCollection.Current.BookmarkChanged += (s, e) =>
+                {
+                    switch (e.Action)
+                    {
+                        case EntryCollectionChangedAction.Reset:
+                        case EntryCollectionChangedAction.Replace:
+                            App.Current.Dispatcher.Invoke(() => RequestPlace(new QueryPath(QueryScheme.Bookmark, null), null, FolderSetPlaceOption.None));
+                            break;
+                    }
+                };
+            }
+#endif
         }
 
         #endregion Constructors
@@ -133,6 +151,8 @@ namespace NeeView
         #endregion
 
         #region Properties
+
+        public bool IsBookmarkOnly { get; set; }
 
         private PanelListItemStyle _panelListItemStyle;
         public PanelListItemStyle PanelListItemStyle
@@ -455,6 +475,14 @@ namespace NeeView
         #endregion
 
         #region Methods
+
+        public void IsVisibleChanged(bool isVisible)
+        {
+            if (IsBookmarkOnly && FolderCollection == null)
+            {
+                RequestPlace(new QueryPath(QueryScheme.Bookmark, null), null, FolderSetPlaceOption.None);
+            }
+        }
 
         /// <summary>
         /// フォーカス要求
@@ -1054,7 +1082,9 @@ namespace NeeView
 
         public bool CanMoveToParent()
         {
-            return _folderCollection?.GetParentQuery() != null;
+            var parentQuery = _folderCollection?.GetParentQuery();
+            if (parentQuery == null) return false;
+            return IsBookmarkOnly ? parentQuery.Scheme == QueryScheme.Bookmark : true;
         }
 
         public async void MoveToParent()
@@ -1272,6 +1302,10 @@ namespace NeeView
     {
         static BookshelfFolderList() => Current = new BookshelfFolderList();
         public static BookshelfFolderList Current { get; }
+
+        protected BookshelfFolderList() : base(false)
+        {
+        }
     }
 
     /// <summary>
@@ -1281,6 +1315,10 @@ namespace NeeView
     {
         static BookmarkFolderList() => Current = new BookmarkFolderList();
         public static BookmarkFolderList Current { get; }
+
+        private BookmarkFolderList() : base(true)
+        {
+        }
     }
 
 }

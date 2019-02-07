@@ -42,8 +42,10 @@ namespace NeeView
         {
             _model = model;
 
+#if false
             _model.History.Changed +=
                 (s, e) => UpdateCommandCanExecute();
+#endif
 
             _model.PropertyChanged +=
                 Model_PropertyChanged;
@@ -108,6 +110,7 @@ namespace NeeView
 
         #region Commands
 
+#if false
         /// <summary>
         /// コマンド実行可能状態を更新
         /// </summary>
@@ -142,6 +145,7 @@ namespace NeeView
         {
             get { return _MoveToHome = _MoveToHome ?? new RelayCommand(_model.MoveToHome); }
         }
+#endif
 
         /// <summary>
         /// MoveTo command.
@@ -152,6 +156,7 @@ namespace NeeView
             get { return _MoveTo = _MoveTo ?? new RelayCommand<QueryPath>(_model.MoveTo); }
         }
 
+#if false
         /// <summary>
         /// MoveToPrevious command.
         /// </summary>
@@ -178,6 +183,7 @@ namespace NeeView
         {
             get { return _MoveToHistory = _MoveToHistory ?? new RelayCommand<KeyValuePair<int, QueryPath>>(_model.MoveToHistory); }
         }
+#endif
 
         /// <summary>
         /// MoveToUp command.
@@ -188,6 +194,7 @@ namespace NeeView
             get { return _MoveToUp = _MoveToUp ?? new RelayCommand(_model.MoveToParent, _model.CanMoveToParent); }
         }
 
+#if false
         /// <summary>
         /// Sync command.
         /// 現在開いているフォルダーで更新
@@ -256,6 +263,7 @@ namespace NeeView
                 }
             }
         }
+#endif
 
         private RelayCommand<FolderTreeLayout> _SetFolderTreeLayout;
         public RelayCommand<FolderTreeLayout> SetFolderTreeLayout
@@ -297,10 +305,22 @@ namespace NeeView
 
 
 
-
+#if false
         public ICommand ToggleVisiblePageList => RoutedCommandTable.Current.Commands[CommandType.ToggleVisiblePageList];
-
         public ICommand ToggleVisibleFoldersTree => RoutedCommandTable.Current.Commands[CommandType.ToggleVisibleFoldersTree];
+#endif
+
+        private RelayCommand _ToggleVisibleFoldersTree;
+        public RelayCommand ToggleVisibleFoldersTree
+        {
+            get { return _ToggleVisibleFoldersTree = _ToggleVisibleFoldersTree ?? new RelayCommand(ToggleVisibleFoldersTree_Executed); }
+        }
+
+        private void ToggleVisibleFoldersTree_Executed()
+        {
+            _model.IsFolderTreeVisible = !_model.IsFolderTreeVisible;
+        }
+
 
         #endregion Commands
 
@@ -341,11 +361,11 @@ namespace NeeView
             items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleContent, PanelListItemStyle.Content));
             items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
             items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleThumbnail, PanelListItemStyle.Thumbnail));
+#if false
             items.Add(new Separator());
             items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuAddQuickAccess, AddQuickAccess));
             items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuClearHistory, CommandType.ClearHistoryInPlace, FolderPanelModel.Current));
 
-#if false
             switch (_model.FolderCollection)
             {
                 case FolderEntryCollection folderEntryCollection:
@@ -371,6 +391,7 @@ namespace NeeView
             items.Add(CreateCommandMenuItem(Properties.Resources.FolderTreeMenuAddBookmark, AddBookmarkCommand));
         }
 
+#if false
         //
         private MenuItem CreateRecursiveFlagMenuItem(string header)
         {
@@ -380,6 +401,7 @@ namespace NeeView
             item.SetBinding(MenuItem.IsCheckedProperty, new Binding("FolderCollection.FolderParameter.IsFolderRecursive"));
             return item;
         }
+#endif
 
         //
         private MenuItem CreateCommandMenuItem(string header, ICommand command)

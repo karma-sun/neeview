@@ -41,11 +41,21 @@ namespace NeeView
             _folderList = folderList;
             _root = new RootFolderTree();
 
-            _rootQuickAccess = new RootQuickAccessNode(_root);
-            _rootFolder = new RootDirectoryNode(_root);
+            _root.Children = new ObservableCollection<FolderTreeNodeBase>();
+
+            if (!_folderList.IsBookmarkOnly)
+            {
+                _rootQuickAccess = new RootQuickAccessNode(_root);
+                _root.Children.Add(_rootQuickAccess);
+                _rootFolder = new RootDirectoryNode(_root);
+                _root.Children.Add(_rootFolder);
+            }
             _rootBookmarkFolder = new RootBookmarkFolderNode(_root);
+            _root.Children.Add(_rootBookmarkFolder);
+
             ////_rootPagemarkFolder = new RootPagemarkFolderNode(_root);
 
+#if false
             _root.Children = new ObservableCollection<FolderTreeNodeBase>()
             {
                 _rootQuickAccess,
@@ -53,6 +63,7 @@ namespace NeeView
                 _rootBookmarkFolder,
                 ////_rootPagemarkFolder,
             };
+#endif
 
             Config.Current.DpiChanged += Config_DpiChanged;
         }
@@ -144,8 +155,11 @@ namespace NeeView
 
         public void ExpandRoot()
         {
-            _rootQuickAccess.IsExpanded = true;
-            _rootFolder.IsExpanded = true;
+            if (!_folderList.IsBookmarkOnly)
+            {
+                _rootQuickAccess.IsExpanded = true;
+                _rootFolder.IsExpanded = true;
+            }
             _rootBookmarkFolder.IsExpanded = true;
             ////_rootPagemarkFolder.IsExpanded = true;
         }

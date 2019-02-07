@@ -251,9 +251,9 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento
@@ -366,6 +366,6 @@ namespace NeeView
 
 #pragma warning restore CS0612
 
-#endregion
+        #endregion
     }
 }

@@ -21,8 +21,8 @@ namespace NeeView
     public partial class FolderPanelView : UserControl
     {
         private FolderPanelViewModel _vm;
+        private FolderListView _folderListView;
 
-        private FolderListView _folderList;
 
         public FolderPanelView()
         {
@@ -34,14 +34,14 @@ namespace NeeView
             _vm = new FolderPanelViewModel(model);
             this.Root.DataContext = _vm;
 
-            _folderList = new FolderListView(folderList);
-            this.FolderList.Content = _folderList;
+            _folderListView = new FolderListView(folderList);
+            this.FolderList.Content = _folderListView;
 
             PageListPlacementService.Current.Update();
         }
 
 
-        public bool IsVisibleLock => _folderList.IsRenaming || _folderList.IsSearchBoxFocused;
+        public bool IsVisibleLock => _folderListView.IsRenaming || _folderListView.IsSearchBoxFocused;
 
 
         private void Root_KeyDown(object sender, KeyEventArgs e)

@@ -1273,4 +1273,14 @@ namespace NeeView
         static BookshelfFolderList() => Current = new BookshelfFolderList();
         public static BookshelfFolderList Current { get; }
     }
+
+    /// <summary>
+    /// BookmarkFolderList
+    /// </summary>
+    public class BookmarkFolderList : FolderList
+    {
+        static BookmarkFolderList() => Current = new BookmarkFolderList();
+        public static BookmarkFolderList Current { get; }
+    }
+
 }

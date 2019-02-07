@@ -1,0 +1,320 @@
+﻿<UserControl x:Class="NeeView.BookmarkListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeeView"
+             xmlns:nwc="clr-namespace:NeeView.Windows.Controls"
+             xmlns:properties="clr-namespace:NeeView.Properties"
+             xmlns:osc="clr-namespace:OpenSourceControls"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance local:FolderListDataContext_Design, IsDesignTimeCreatable=True}"
+             d:DesignHeight="300" d:DesignWidth="300"
+             Foreground="{DynamicResource NVForeground}">
+
+    <UserControl.Resources>
+
+        <!--#region Icons -->
+
+        <DrawingImage x:Key="ic_star_24px">
+            <DrawingImage.Drawing>
+                <DrawingGroup Opacity="1">
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="{DynamicResource NVStarMarkBrush}" Pen="{x:Null}">
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry FillRule="Nonzero" Figures="M12,1.99999988079071L14.8100004196167,8.63000011444092 22,9.23999977111816 16.5400009155273,13.9700002670288 18.1800003051758,21 12,17.2700004577637 5.82000017166138,21 7.46000003814697,13.9700002670288 2,9.23999977111816 9.1899995803833,8.63000011444092 12,1.99999988079071z" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+        
+
+        <!-- Material design icons by Google -->
+        <!-- http://www.google.com/design/spec/style/icons.html#icons-system-icons -->
+        
+        <DrawingImage x:Key="fic_recursive_folder_24px">
+            <DrawingImage.Drawing>
+                <DrawingGroup Opacity="1">
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="Gray" Pen="{x:Null}">
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry FillRule="Nonzero" Figures="M0,6L1.99999988079071,6 1.99999988079071,20 20,20 20,22 1.99999988079071,22C0.899999976158142,22,0,21.1000003814697,0,20L0.00999999046325684,11 0,11 0,6z M6,2L12,2 14,4 22,4C23.1000003814697,4,24,4.90000009536743,24,6L24,16C24,17.1000003814697,23.1000003814697,18,22,18L6,18C4.90000009536743,18,4,17.1000003814697,4,16L4.01000022888184,4C4.01000022888184,2.90000009536743,4.90000009536743,2,6,2z" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="ic_photo_library_24px">
+            <DrawingImage.Drawing>
+                <DrawingGroup Opacity="1">
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}">
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry FillRule="Nonzero" Figures="M22,16L22,4C22,2.9,21.1,2,20,2L8,2C6.9,2,6,2.9,6,4L6,16C6,17.1,6.9,18,8,18L20,18C21.1,18,22,17.1,22,16z M11,12L13.03,14.71 16,11 20,16 8,16 11,12z M2,6L2,20C2,21.1,2.9,22,4,22L18,22 18,20 4,20 4,6 2,6z" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <!-- https://www.onlinewebfonts.com/icon/67491 -->
+        <DrawingImage x:Key="ic_treeview">
+            <DrawingImage.Drawing>
+                <DrawingGroup Opacity="1">
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}">
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry FillRule="Nonzero" Figures="M990,379.4L990,21.1L631.8,21.1L631.8,186.4L368.2,348.6L368.2,293.1L10,293.1L10,651.4L368.2,651.4L368.2,585.3L631.8,781L631.8,978.9L990,978.9L990,620.6L631.8,620.6L631.8,702.3L368.2,506.5L368.2,422.8L631.8,260.7L631.8,379.4z" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <!-- https://www.onlinewebfonts.com/icon/425378 -->
+        <DrawingImage x:Key="ic_pushpin_b">
+            <DrawingImage.Drawing>
+                <DrawingGroup Opacity="1" Transform="1,0,0,-1,0,960">
+                    <DrawingGroup.Children>
+                        <GeometryDrawing Brush="{StaticResource NVButtonForeground}" Pen="{x:Null}">
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry FillRule="Nonzero" Figures="M0,0L280,203 588,510 800,300 800,600 1079,867 1115,832C1124.33337402344,822 1136,817 1150,817 1164,817 1175.66662597656,822 1185,832 1195,842 1200,853.666687011719 1200,867 1200,881 1195,893 1185,903L902,1185C892.666687011719,1195 881,1200 867,1200 853.666687011719,1200 842,1195 832,1185 822,1175.66662597656 817,1164 817,1150 817,1136 822,1124.33337402344 832,1115L867,1079 600,800 300,800 510,588 203,280 0,0z" />
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <!--#endregion Icons-->
+
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:BooleanToVisibilityConverter x:Key="BooleanToHiddenVisibilityConverter" False="Hidden"/>
+        <local:FolderCollectionToFolderRecursiveVisibilityConverter x:Key="FolderCollectionToFolderRecursiveVisibilityConverter"/>
+        <local:FolderTreeLayoutToBooleanConverter x:Key="FolderTreeLayoutToBooleanConverter"/>
+        <local:PathToPlaceIconConverter x:Key="PathToPlaceIconConverter"/>
+
+        <Style x:Key="FolderListButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
+            <Setter Property="Width" Value="28"/>
+            <Setter Property="Height" Value="28"/>
+        </Style>
+
+        <Style x:Key="FolderListToggleButtonStyle" TargetType="ToggleButton" BasedOn="{StaticResource IconToggleButton}">
+            <Setter Property="Width" Value="28"/>
+            <Setter Property="Height" Value="28"/>
+        </Style>
+
+        <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
+            <Setter Property="Header" Value="{Binding Path=Value.DispName}"/>
+            <Setter Property="Command" Value="{Binding DataContext.MoveToHistory, RelativeSource={RelativeSource FindAncestor, AncestorType=ContextMenu}}" />
+            <Setter Property="CommandParameter" Value="{Binding}" />
+        </Style>
+
+        <Style x:Key="NVHorizontalBevelGrip" TargetType="{x:Type osc:DockPanelSplitter}">
+            <Setter Property="Thickness" Value="6"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type osc:DockPanelSplitter}">
+                        <Grid SnapsToDevicePixels="True" Background="{DynamicResource  NVBaseBrush}"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </UserControl.Resources>
+
+
+    <DockPanel x:Name="DockPanel" Margin="0,5,0,0" IsVisibleChanged="BookmarkListView_IsVisibleChanged">
+
+        <StackPanel DockPanel.Dock="Top" Margin="5">
+
+            <StackPanel Margin="0" HorizontalAlignment="Stretch">
+                <StackPanel Orientation="Horizontal" Margin="5,0">
+                    <Image Source="{StaticResource ic_star_24px}" Width="14" Height="14" VerticalAlignment="Center"/>
+                    <TextBlock Foreground="Gray" Text="{x:Static properties:Resources.WordBookmark}" VerticalAlignment="Center"/>
+                </StackPanel>
+                <Grid x:Name="PlaceGrid">
+                    <DockPanel>
+                        <!--
+                        <ToggleButton DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Width="28" Height="28" VerticalAlignment="Center" IsChecked="{Binding Model.IsLocked}">
+                            <Image Source="{StaticResource ic_pushpin_b}" Width="16" Height="16" />
+                        </ToggleButton>
+                        -->
+                        <DockPanel x:Name="PlaceBar" HorizontalAlignment="Left">
+                            <Image x:Name="PlaceIcon" DockPanel.Dock="Left" Source="{Binding FolderCollection.Place, Converter={StaticResource PathToPlaceIconConverter}}" Width="16" Height="16" VerticalAlignment="Center" Margin="5,0,0,0"
+                                   PreviewMouseLeftButtonDown="PlaceIcon_MouseLeftButtonDown"
+                                   PreviewMouseLeftButtonUp="PlaceIcon_MouseLeftButtonUp"
+                                   PreviewMouseMove="PlaceIcon_MouseMove"
+                                   QueryContinueDrag="PlaceIcon_QueryContinueDrag"/>
+                            <Image DockPanel.Dock="Right" Source="{StaticResource fic_recursive_folder_24px}" Width="12" Height="12" VerticalAlignment="Center" Margin="0,2,0,0"
+                                   ToolTip="{x:Static properties:Resources.BookshelfSubFolderTips}"
+                                   Visibility="{Binding FolderCollection, Converter={StaticResource FolderCollectionToFolderRecursiveVisibilityConverter}}"/>
+                            <TextBlock Text="{Binding FolderCollection.PlaceDispString}" ToolTip="{Binding FolderCollection.PlaceDispString}" Margin="5,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                        </DockPanel>
+                    </DockPanel>
+                </Grid>
+            </StackPanel>
+
+            <DockPanel KeyboardNavigation.TabNavigation="Local">
+                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource FolderListToggleButtonStyle}"  VerticalAlignment="Center" TabIndex="4" Checked="MoreButton_Checked"
+                              nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
+                    <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
+                </ToggleButton>
+                <!--
+                <Button x:Name="PageListButton" DockPanel.Dock="Right" Style="{StaticResource FolderListButtonStyle}"  VerticalAlignment="Center" TabIndex="3"
+                        Visibility="{Binding Model.PageListPlacementService.IsPlacedInBookshelf, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        ToolTip="{x:Static properties:Resources.WordPageList}"
+                        Command="{Binding ToggleVisiblePageList}">
+                    <Image Source="{StaticResource ic_photo_library_24px}" Width="16" Height="16"/>
+                </Button>
+                -->
+                <Button x:Name="FoderTreeButton" DockPanel.Dock="Right" Style="{StaticResource FolderListButtonStyle}"  VerticalAlignment="Center" TabIndex="2"
+                        ToolTip="{x:Static properties:Resources.WordFoldersTree}"
+                        Command="{Binding ToggleVisibleFoldersTree}">
+                    <Image Source="{StaticResource ic_treeview}" Width="16" Height="16"/>
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="{x:Static properties:Resources.FolderTreeLayoutTop}" IsChecked="{Binding Model.FolderTreeLayout, Converter={StaticResource FolderTreeLayoutToBooleanConverter}, ConverterParameter={x:Static local:FolderTreeLayout.Top}}"
+                                      Command="{Binding SetFolderTreeLayout}" CommandParameter="{x:Static local:FolderTreeLayout.Top}"/>
+                            <MenuItem Header="{x:Static properties:Resources.FolderTreeLayoutLeft}" IsChecked="{Binding Model.FolderTreeLayout, Converter={StaticResource FolderTreeLayoutToBooleanConverter}, ConverterParameter={x:Static local:FolderTreeLayout.Left}}"
+                                      Command="{Binding SetFolderTreeLayout}" CommandParameter="{x:Static local:FolderTreeLayout.Left}"/>
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+                <WrapPanel Orientation="Horizontal" MinWidth="90">
+                    <!--
+                    <Button x:Name="FolderHomeButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToHome}" TabIndex="1"
+                        ToolTip="{x:Static properties:Resources.BookshelfHomeTips}">
+                        <Image Source="{StaticResource ic_home_24px_b}" Width="20" Height="20"/>
+                        <Button.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="{x:Static properties:Resources.BookshelfHomeMenuSet}" Command="{Binding SetHome}"/>
+                            </ContextMenu>
+                        </Button.ContextMenu>
+                    </Button>
+                    <Button x:Name="FolderPrevButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToPrevious}" TabIndex="1"
+                        ContextMenuService.Placement="Bottom"
+                        ContextMenuOpening="FolderPrevButton_ContextMenuOpening"
+                        ToolTip="{x:Static properties:Resources.BookshelfBackTips}">
+                        <Image Source="{StaticResource ic_arrow_back_24px_b}" Width="16" Height="16"/>
+                        <Button.ContextMenu>
+                            <ContextMenu x:Name="FolderPrevButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}"/>
+                        </Button.ContextMenu>
+                    </Button>
+                    <Button x:Name="FolderNextButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToNext}" TabIndex="1"
+                        ContextMenuService.Placement="Bottom"
+                        ContextMenuOpening="FolderNextButton_ContextMenuOpening"
+                        ToolTip="{x:Static properties:Resources.BookshelfNextTips}">
+                        <Image Source="{StaticResource ic_arrow_forward_24px_b}" Width="16" Height="16"/>
+                        <Button.ContextMenu>
+                            <ContextMenu x:Name="FolderNextButtonContextMenu" ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}"/>
+                        </Button.ContextMenu>
+                    </Button>
+                    -->
+                    <Button x:Name="FolderUpButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToUp}" TabIndex="1"
+                        ToolTip="{x:Static properties:Resources.BookshelfUpTips}">
+                        <Image Source="{StaticResource ic_arrow_up_24px_b}" Width="16" Height="16"/>
+                    </Button>
+                    <!--
+                    <Button x:Name="FolderSync" Style="{StaticResource FolderListButtonStyle}"  Command="{Binding Sync}" TabIndex="1"
+                        ToolTip="{x:Static properties:Resources.BookshelfSyncTips}">
+                        <Image Source="{StaticResource ic_sync_24px_b}" Width="20" Height="20"/>
+                    </Button>
+                    -->
+                    <ComboBox x:Name="FolderOrderComboBox" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" Background="{DynamicResource NVBackground}" TabIndex="1"
+                          ItemsSource="{Binding FolderOrderList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding FolderCollection.FolderParameter.FolderOrder, Delay=1}"
+                          Visibility="{Binding Model.IsFolderOrderEnabled, Converter={StaticResource BooleanToHiddenVisibilityConverter}}"
+                          VerticalAlignment="Center">
+                    </ComboBox>
+                </WrapPanel>
+            </DockPanel>
+
+            <!--
+            <Border Margin="0,0,0,5" Visibility="{Binding Model.IsFolderSearchBoxVisible, Converter={StaticResource BooleanToVisibilityConverter}}"
+                    BorderThickness="1" Background="{DynamicResource NVBaseBrush}">
+                <Border.Resources>
+                    <Style TargetType="TextBox">
+                        <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
+                        <Setter Property="Background" Value="{DynamicResource NVBaseBrush}"/>
+                        <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
+                        <EventSetter Event="KeyDown" Handler="Control_KeyDown_IgnoreSingleKeyGesture"/>
+                    </Style>
+                </Border.Resources>
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Model.IsFolderSearchCollection}" Value="True">
+                                <Setter Property="BorderBrush" Value="{StaticResource NVButtonForeground}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Model.IsFolderSearchEnabled}" Value="False">
+                                <Setter Property="IsEnabled" Value="False"/>
+                                <Setter Property="BorderBrush" Value="{DynamicResource NVBackground}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <DockPanel KeyboardNavigation.TabNavigation="Local">
+                    <Button x:Name="ClearSearchButton" DockPanel.Dock="Right" VerticalAlignment="Center" Style="{StaticResource FolderListButtonStyle}" Width="24" Command="{Binding ClearSearch}" TabIndex="3">
+                        <Image Source="{StaticResource ic_clear_24px_b}" Width="12" Height="12"/>
+                    </Button>
+                    <Button x:Name="SearchButton" DockPanel.Dock="Right" VerticalAlignment="Center" Style="{StaticResource FolderListButtonStyle}" Width="24" Command="{Binding Search}" TabIndex="2">
+                        <Image Source="{StaticResource ic_search_24px_b}" Width="16" Height="16"/>
+                    </Button>
+                    <ComboBox x:Name="SearchBox" Text="{Binding Model.SearchKeyword, Delay=500, UpdateSourceTrigger=PropertyChanged}" TabIndex="1"
+                              Style="{StaticResource NVComboBoxEditable}"
+                              IsKeyboardFocusWithinChanged="SearchBox_IsKeyboardFocusWithinChanged"
+                              Foreground="{DynamicResource NVForeground}" Background="{DynamicResource NVBaseBrush}"
+                              VerticalAlignment="Center" KeyDown="SearchBox_KeyDown" ItemsSource="{Binding Source={x:Static local:BookHistoryCollection.Current}, Path=SearchHistory}" IsTextSearchCaseSensitive="True"
+                              IsEditable="True" BorderThickness="0" BorderBrush="red">
+                        <ComboBox.ItemContainerStyle>
+                            <Style TargetType="ComboBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                                <Setter Property="VerticalContentAlignment" Value="Center" />
+                            </Style>
+                        </ComboBox.ItemContainerStyle>
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding}" TextTrimming="CharacterEllipsis" MaxWidth="{Binding ElementName=SearchBox,Path=ActualWidth}" MinWidth="200"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </DockPanel>
+            </Border>
+            -->
+
+        </StackPanel>
+
+        <DockPanel SizeChanged="Grid_SizeChanged">
+            <local:FolderTreeView DockPanel.Dock="{Binding Model.FolderTreeDock}" x:Name="FolderTree" FolderList="{Binding Model}"
+                                  Visibility="{Binding Model.IsFolderTreeVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <local:FolderTreeView.Style>
+                    <Style TargetType="{x:Type local:FolderTreeView}">
+                        <Style.Triggers>
+                            <Trigger Property="DockPanel.Dock" Value="Top">
+                                <Setter Property="Height" Value="{Binding Model.FolderTreeAreaHeight, Mode=TwoWay}"/>
+                            </Trigger>
+                            <Trigger Property="DockPanel.Dock" Value="Left">
+                                <Setter Property="Width" Value="{Binding Model.FolderTreeAreaWidth, Mode=TwoWay}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </local:FolderTreeView.Style>
+            </local:FolderTreeView>
+
+            <osc:DockPanelSplitter x:Name="LeftPanelSplitter" DockPanel.Dock="{Binding Model.FolderTreeDock}" Style="{StaticResource NVHorizontalBevelGrip}" ProportionalResize="False" UseLayoutRounding="True" IsTabStop="False"
+                                   Visibility="{Binding Model.IsFolderTreeVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+            <Grid>
+                <ContentControl x:Name="FolderListBox" Content="{Binding FolderListBox}" Focusable="False"/>
+                <ContentControl x:Name="BusyFadeContent" Focusable="False"/>
+            </Grid>
+        </DockPanel>
+
+    </DockPanel>
+</UserControl>

@@ -197,6 +197,11 @@
     <Compile Include="OpenSourceControls\VirtualizingWrapPanel.cs" />
     <Compile Include="RemoteCommandService.cs" />
     <Compile Include="SaveDataBackup.cs" />
+    <Compile Include="SidePanels\Bookmark\BookmarkListViewModel.cs" />
+    <Compile Include="SidePanels\Bookmark\BookmarkPanel.cs" />
+    <Compile Include="SidePanels\Bookmark\BookmarkListView.xaml.cs">
+      <DependentUpon>BookmarkListView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="_NeeLaboratory\IO\RemoteCommand.cs" />
     <Compile Include="SaveDataSync.cs" />
     <Compile Include="Setting\SusiePluginSettingWindow.xaml.cs">
@@ -1014,6 +1019,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="SidePanels\Bookmark\BookmarkListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="SidePanels\Bookshelf\FolderList\FolderListIconDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1341,6 +1350,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if "$(PlatformName)" == "x86" (

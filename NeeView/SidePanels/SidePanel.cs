@@ -46,6 +46,10 @@ namespace NeeView
             this.ImageEffectPanel = new ImageEffectPanel(ImageEffect.Current, ImageFilter.Current);
             rightPanels.Add(this.ImageEffectPanel);
 
+            // ブックマーク
+            this.BookmarkPanel = new BookmarkPanel(BookmarkFolderList.Current);
+            rightPanels.Add(this.BookmarkPanel);
+
             // ページマーク
             this.PagemarkPanel = new PagemarkPanel(PagemarkList.Current);
             leftPanels.Add(this.PagemarkPanel);
@@ -71,6 +75,7 @@ namespace NeeView
         public ImageEffectPanel ImageEffectPanel { get; private set; }
         public PagemarkPanel PagemarkPanel { get; private set; }
         public PageListPanel PageListPanel { get; private set; }
+        public BookmarkPanel BookmarkPanel { get; private set; }
 
 
 

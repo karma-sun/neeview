@@ -62,5 +62,42 @@ namespace NeeView.Collections.Generic
         {
             return items.FindIndex(i => EqualityComparer<T>.Default.Equals(item, i));
         }
+
+
+        /// <summary>
+        /// Distinct をラムダ式で
+        /// </summary>
+        /// <remarks>http://neue.cc/2009/08/07_184.html</remarks>
+        public static IEnumerable<T> Distinct<T, TKey>(this IEnumerable<T> source, Func<T, TKey> selector)
+        {
+            return source.Distinct(new CompareSelector<T, TKey>(selector));
+        }
     }
+
+    /// <summary>
+    /// IEqualityComparer<T>の実装が面倒なのでセレクタ的なものはこれで賄う
+    /// </summary>
+    /// <remarks>http://neue.cc/2009/08/07_184.html</remarks>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="TKey"></typeparam>
+    public class CompareSelector<T, TKey> : IEqualityComparer<T>
+    {
+        private readonly Func<T, TKey> _selector;
+
+        public CompareSelector(Func<T, TKey> selector)
+        {
+            _selector = selector;
+        }
+
+        public bool Equals(T x, T y)
+        {
+            return _selector(x).Equals(_selector(y));
+        }
+
+        public int GetHashCode(T obj)
+        {
+            return _selector(obj).GetHashCode();
+        }
+    }
+
 }

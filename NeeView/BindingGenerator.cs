@@ -66,7 +66,7 @@ namespace NeeView
                 Converter = _anyToFalseConverter,
                 ConverterParameter = mode.ToString(),
                 Mode = BindingMode.OneWay,
-                Source = FolderList.Current
+                Source = BookshelfFolderList.Current
             };
         }
 

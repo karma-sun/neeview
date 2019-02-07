@@ -1234,7 +1234,7 @@ namespace NeeView
                     BookSetting.Current.HistoryMementoFilter = memento.HistoryMementoFilter;
                 }
 
-                FolderList.Current.Home = memento.Home;
+                BookshelfFolderList.Current.Home = memento.Home;
             }
         }
 

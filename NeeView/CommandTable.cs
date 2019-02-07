@@ -440,8 +440,8 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupFile;
                 element.Text = Properties.Resources.CommandClearHistoryInPlace;
                 element.Note = Properties.Resources.CommandClearHistoryInPlaceNote;
-                element.Execute = (s, e) => FolderList.Current.ClearHistory();
-                element.CanExecute = () => FolderList.Current.Place != null;
+                element.Execute = (s, e) => BookshelfFolderList.Current.ClearHistory();
+                element.CanExecute = () => BookshelfFolderList.Current.Place != null;
                 element.IsShowMessage = true;
                 _elements[CommandType.ClearHistoryInPlace] = element;
             }
@@ -850,7 +850,7 @@ namespace NeeView
                 element.ExecuteMessage = e => SidePanel.Current.IsVisibleFolderTree ? Properties.Resources.CommandToggleVisibleFoldersTreeOff : Properties.Resources.CommandToggleVisibleFoldersTreeOn;
                 element.Execute = (s, e) => SidePanel.Current.ToggleVisibleFolderTree(e.Parameter is MenuCommandTag);
                 element.CanExecute = () => true;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(FolderList.Current.IsFolderTreeVisible)) { Source = FolderList.Current, Mode = BindingMode.OneWay };
+                element.CreateIsCheckedBinding = () => new Binding(nameof(BookshelfFolderList.Current.IsFolderTreeVisible)) { Source = BookshelfFolderList.Current, Mode = BindingMode.OneWay };
                 _elements[CommandType.ToggleVisibleFoldersTree] = element;
             }
             // FocusFolderSearchBox
@@ -1352,7 +1352,7 @@ namespace NeeView
                 element.ShortCutKey = "Up";
                 element.MouseGesture = "LU";
                 element.IsShowMessage = false;
-                element.Execute = async (s, e) => await FolderList.Current.PrevFolder();
+                element.Execute = async (s, e) => await BookshelfFolderList.Current.PrevFolder();
                 _elements[CommandType.PrevFolder] = element;
             }
             // NextFolder
@@ -1364,7 +1364,7 @@ namespace NeeView
                 element.ShortCutKey = "Down";
                 element.MouseGesture = "LD";
                 element.IsShowMessage = false;
-                element.Execute = async (s, e) => await FolderList.Current.NextFolder();
+                element.Execute = async (s, e) => await BookshelfFolderList.Current.NextFolder();
                 _elements[CommandType.NextFolder] = element;
             }
             // PrevHistory
@@ -1410,8 +1410,8 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandToggleFolderOrder;
                 element.Note = Properties.Resources.CommandToggleFolderOrderNote;
-                element.Execute = (s, e) => FolderList.Current.ToggleFolderOrder();
-                element.ExecuteMessage = e => FolderList.Current.GetFolderOrder().GetToggle().ToAliasName();
+                element.Execute = (s, e) => BookshelfFolderList.Current.ToggleFolderOrder();
+                element.ExecuteMessage = e => BookshelfFolderList.Current.GetFolderOrder().GetToggle().ToAliasName();
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleFolderOrder] = element;
             }
@@ -1421,7 +1421,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderByFileNameA;
                 element.Note = Properties.Resources.CommandSetFolderOrderByFileNameANote;
-                element.Execute = (s, e) => FolderList.Current.SetFolderOrder(FolderOrder.FileName);
+                element.Execute = (s, e) => BookshelfFolderList.Current.SetFolderOrder(FolderOrder.FileName);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.FileName);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderByFileNameA] = element;
@@ -1432,7 +1432,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderByFileNameD;
                 element.Note = Properties.Resources.CommandSetFolderOrderByFileNameDNote;
-                element.Execute = (s, e) => FolderList.Current.SetFolderOrder(FolderOrder.FileNameDescending);
+                element.Execute = (s, e) => BookshelfFolderList.Current.SetFolderOrder(FolderOrder.FileNameDescending);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.FileNameDescending);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderByFileNameD] = element;
@@ -1443,7 +1443,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderByTimeStampA;
                 element.Note = Properties.Resources.CommandSetFolderOrderByTimeStampANote;
-                element.Execute = (s, e) => FolderList.Current.SetFolderOrder(FolderOrder.TimeStamp);
+                element.Execute = (s, e) => BookshelfFolderList.Current.SetFolderOrder(FolderOrder.TimeStamp);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.TimeStamp);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderByTimeStampA] = element;
@@ -1454,7 +1454,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderByTimeStampD;
                 element.Note = Properties.Resources.CommandSetFolderOrderByTimeStampDNote;
-                element.Execute = (s, e) => FolderList.Current.SetFolderOrder(FolderOrder.TimeStampDescending);
+                element.Execute = (s, e) => BookshelfFolderList.Current.SetFolderOrder(FolderOrder.TimeStampDescending);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.TimeStampDescending);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderByTimeStampD] = element;
@@ -1465,7 +1465,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderBySizeA;
                 element.Note = Properties.Resources.CommandSetFolderOrderBySizeANote;
-                element.Execute = (s, e) => FolderList.Current.SetFolderOrder(FolderOrder.Size);
+                element.Execute = (s, e) => BookshelfFolderList.Current.SetFolderOrder(FolderOrder.Size);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.Size);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderBySizeA] = element;
@@ -1476,7 +1476,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderBySizeD;
                 element.Note = Properties.Resources.CommandSetFolderOrderBySizeDNote;
-                element.Execute = (s, e) => FolderList.Current.SetFolderOrder(FolderOrder.SizeDescending);
+                element.Execute = (s, e) => BookshelfFolderList.Current.SetFolderOrder(FolderOrder.SizeDescending);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.SizeDescending);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderBySizeD] = element;
@@ -1487,7 +1487,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderByRandom;
                 element.Note = Properties.Resources.CommandSetFolderOrderByRandomNote;
-                element.Execute = (s, e) => FolderList.Current.SetFolderOrder(FolderOrder.Random);
+                element.Execute = (s, e) => BookshelfFolderList.Current.SetFolderOrder(FolderOrder.Random);
                 element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.Random);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderByRandom] = element;

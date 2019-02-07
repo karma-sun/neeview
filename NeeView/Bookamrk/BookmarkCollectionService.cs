@@ -12,7 +12,7 @@ namespace NeeView
         /// </summary>
         public static void Add(QueryPath query)
         {
-            if (!FolderList.Current.AddBookmark(query, false))
+            if (!BookshelfFolderList.Current.AddBookmark(query, false))
             {
                 AddToChild(BookmarkCollection.Current.Items, query);
             }
@@ -43,7 +43,7 @@ namespace NeeView
         /// </summary>
         public static bool Remove(QueryPath query)
         {
-            if (FolderList.Current.FolderCollection is BookmarkFolderCollection bookmarkFolderCollection)
+            if (BookshelfFolderList.Current.FolderCollection is BookmarkFolderCollection bookmarkFolderCollection)
             {
                 var node = bookmarkFolderCollection.BookmarkPlace.Children.FirstOrDefault(e => e.IsEqual(query));
                 if (node != null)

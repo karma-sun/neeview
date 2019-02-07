@@ -275,8 +275,8 @@ namespace NeeView
                 }
                 if (memento.FolderListSetting != null)
                 {
-                    FolderList.Current.IsVisibleBookmarkMark = memento.FolderListSetting.IsVisibleBookmarkMark;
-                    FolderList.Current.IsVisibleHistoryMark = memento.FolderListSetting.IsVisibleHistoryMark;
+                    BookshelfFolderList.Current.IsVisibleBookmarkMark = memento.FolderListSetting.IsVisibleBookmarkMark;
+                    BookshelfFolderList.Current.IsVisibleHistoryMark = memento.FolderListSetting.IsVisibleHistoryMark;
                 }
 
                 InfoMessage.Current.CommandShowMessageStyle = memento.CommandShowMessageStyle;

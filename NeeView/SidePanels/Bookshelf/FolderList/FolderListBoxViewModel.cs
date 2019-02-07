@@ -12,8 +12,9 @@ namespace NeeView
 {
     public class FolderListBoxViewModel : BindableBase
     {
-        public FolderListBoxViewModel(FolderListBoxModel model)
+        public FolderListBoxViewModel(FolderList folderList, FolderListBoxModel model)
         {
+            _folderList = folderList;
             _model = model;
         }
 
@@ -24,13 +25,19 @@ namespace NeeView
         public FolderCollection FolderCollection => _model.FolderCollection;
         public string PlaceRaw => _model.FolderCollection?.Place.SimplePath;
 
+        private FolderList _folderList;
+        public FolderList FolderList
+        {
+            get { return _folderList; }
+            set { SetProperty(ref _folderList, value); }
+        }
+
         private FolderListBoxModel _model;
         public FolderListBoxModel Model
         {
             get { return _model; }
             set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
         }
-
 
         /// <summary>
         /// ToggleFolderRecursive command.

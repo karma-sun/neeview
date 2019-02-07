@@ -34,35 +34,39 @@ namespace NeeView
         private CancellationTokenSource _removeUnlinkedCommandCancellationTokenSource;
         private FolderTreeViewModel _vm;
 
+
         public FolderTreeView()
         {
             InitializeComponent();
-
-            _vm = new FolderTreeViewModel();
-
-            _vm.SelectedItemChanged += ViewModel_SelectedItemChanged;
-
-            // タッチスクロール操作の終端挙動抑制
-            this.TreeView.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
-
-            this.TreeView.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(TreeView_ScrollChanged));
-
-            this.Root.DataContext = _vm;
-
-            this.Loaded += FolderTreeView_Loaded;
-            this.Unloaded += FolderTreeView_Unloaded;
         }
 
-        private void FolderTreeView_Loaded(object sender, RoutedEventArgs e)
+
+        #region Dependency Properties
+
+        public FolderList FolderList
         {
-            FocusSelectedItem();
+            get { return (FolderList)GetValue(FolderListProperty); }
+            set { SetValue(FolderListProperty, value); }
         }
 
-        private void FolderTreeView_Unloaded(object sender, RoutedEventArgs e)
+        public static readonly DependencyProperty FolderListProperty =
+            DependencyProperty.Register("FolderList", typeof(FolderList), typeof(FolderTreeView), new PropertyMetadata(null, FolderListPropertyChanged));
+
+        private static void FolderListPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            if (d is FolderTreeView control)
+            {
+                control.Initialize();
+            }
         }
+
+        #endregion
+
+        #region Properties
 
         public bool IsRenaming { get; private set; }
+
+        #endregion Properties
 
         #region Commands
 
@@ -227,6 +231,35 @@ namespace NeeView
 
         #endregion
 
+
+        private void Initialize()
+        {
+            Debug.Assert(FolderList != null);
+
+            var model = new FolderTreeModel(this.FolderList);
+            _vm = new FolderTreeViewModel(model);
+
+            _vm.SelectedItemChanged += ViewModel_SelectedItemChanged;
+
+            // タッチスクロール操作の終端挙動抑制
+            this.TreeView.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
+
+            this.TreeView.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(TreeView_ScrollChanged));
+
+            this.Root.DataContext = _vm;
+
+            this.Loaded += FolderTreeView_Loaded;
+            this.Unloaded += FolderTreeView_Unloaded;
+        }
+
+        private void FolderTreeView_Loaded(object sender, RoutedEventArgs e)
+        {
+            FocusSelectedItem();
+        }
+
+        private void FolderTreeView_Unloaded(object sender, RoutedEventArgs e)
+        {
+        }
 
         private void RenameBookmarkFolder(BookmarkFolderNode item)
         {

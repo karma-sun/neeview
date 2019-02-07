@@ -31,7 +31,7 @@ namespace NeeView
             var rightPanels = new List<IPanel>();
 
             // フォルダーリスト
-            this.FolderListPanel = new FolderPanel(FolderPanelModel.Current, FolderList.Current, PageList.Current);
+            this.FolderListPanel = new FolderPanel(FolderPanelModel.Current, BookshelfFolderList.Current, PageList.Current);
             leftPanels.Add(this.FolderListPanel);
 
             // 履歴
@@ -179,7 +179,7 @@ namespace NeeView
             // フォーカス要求
             if (IsVisibleFolderList)
             {
-                FolderList.Current.FocusAtOnce();
+                BookshelfFolderList.Current.FocusAtOnce();
             }
 
             return IsVisibleFolderList;
@@ -250,7 +250,7 @@ namespace NeeView
         {
             // フォルダーツリーは「ブックマークリスト」を選択した状態にする
             FolderTreeModel.Current.SelectRootBookmarkFolder();
-            FolderList.Current.RequestPlace(new QueryPath(QueryScheme.Bookmark, null), null, FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.Refresh);
+            BookshelfFolderList.Current.RequestPlace(new QueryPath(QueryScheme.Bookmark, null), null, FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.Refresh);
 
             // フォルダーリスト選択
             SetSelectedPanel(FolderListPanel, true);
@@ -259,7 +259,7 @@ namespace NeeView
             // フォルダーリストにフォーカスをあわせる
             if (!byMenu && IsVisibleFolderList)
             {
-                FolderList.Current.FocusAtOnce();
+                BookshelfFolderList.Current.FocusAtOnce();
             }
 
             return IsVisibleFolderList;
@@ -269,7 +269,7 @@ namespace NeeView
         /// <summary>
         /// 検索ボックス表示状態
         /// </summary>
-        public bool IsVisibleFolderSearchBox => FolderList.Current.IsFolderSearchBoxVisible && IsVisibleFolderList;
+        public bool IsVisibleFolderSearchBox => BookshelfFolderList.Current.IsFolderSearchBoxVisible && IsVisibleFolderList;
 
 
         //
@@ -277,13 +277,13 @@ namespace NeeView
         {
             SetSelectedPanel(FolderListPanel, true);
 
-            FolderList.Current.RaiseSearchBoxFocus();
+            BookshelfFolderList.Current.RaiseSearchBoxFocus();
         }
 
         /// <summary>
         /// フォルダーツリー表示状態
         /// </summary>
-        public bool IsVisibleFolderTree => FolderList.Current.IsFolderTreeVisible && IsVisibleFolderList;
+        public bool IsVisibleFolderTree => BookshelfFolderList.Current.IsFolderTreeVisible && IsVisibleFolderList;
 
         /// <summary>
         /// フォルダーツリー表示状態切替
@@ -303,12 +303,12 @@ namespace NeeView
                 FolderTreeModel.Current.FocusAtOnce();
             }
 
-            FolderList.Current.IsFolderTreeVisible = isVisible;
+            BookshelfFolderList.Current.IsFolderTreeVisible = isVisible;
 
             SetSelectedPanel(FolderListPanel, true);
             RaisePanelPropertyChanged();
 
-            return FolderList.Current.IsFolderTreeVisible;
+            return BookshelfFolderList.Current.IsFolderTreeVisible;
         }
 
 

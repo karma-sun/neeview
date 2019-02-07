@@ -80,7 +80,7 @@ namespace NeeView
                             .ToList();
 
                         // RAR連番フィルター
-                        if (FolderList.Current.IsMultipleRarFilterEnabled)
+                        if (BookshelfFolderList.Current.IsMultipleRarFilterEnabled)
                         {
                             var groups = archives.Select(e => new MultipleArchive(e)).GroupBy(e => e.Key);
                             var part0 = groups.Where(e => e.Key == null).Cast<IEnumerable<MultipleArchive>>().FirstOrDefault() ?? Enumerable.Empty<MultipleArchive>();
@@ -95,9 +95,9 @@ namespace NeeView
                             .Where(e => e != null);
 
                         // 除外フィルター
-                        if (FolderList.Current.ExcludeRegex != null)
+                        if (BookshelfFolderList.Current.ExcludeRegex != null)
                         {
-                            items = items.Where(e => !FolderList.Current.ExcludeRegex.IsMatch(e.Name));
+                            items = items.Where(e => !BookshelfFolderList.Current.ExcludeRegex.IsMatch(e.Name));
                         }
 
                         var list = Sort(items).ToList();

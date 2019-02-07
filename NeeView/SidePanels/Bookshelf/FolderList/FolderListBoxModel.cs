@@ -28,8 +28,12 @@ namespace NeeView
     /// </summary>
     public class FolderListBoxModel : BindableBase
     {
-        public FolderListBoxModel(FolderCollection folderCollection)
+        private FolderList _folderList;
+
+
+        public FolderListBoxModel(FolderList folderList, FolderCollection folderCollection)
         {
+            _folderList = folderList;
             _folderCollection = folderCollection;
         }
 
@@ -60,8 +64,8 @@ namespace NeeView
         /// </summary>
         public bool IsFocusAtOnce
         {
-            get { return FolderList.Current.IsFocusAtOnce; }
-            set { FolderList.Current.IsFocusAtOnce = value; }
+            get { return _folderList.IsFocusAtOnce; }
+            set { _folderList.IsFocusAtOnce = value; }
         }
 
 
@@ -398,12 +402,12 @@ namespace NeeView
 
         public void MoveToHome()
         {
-            FolderList.Current.MoveToHome();
+            _folderList.MoveToHome();
         }
 
         public void MoveToUp()
         {
-            FolderList.Current.MoveToParent();
+            _folderList.MoveToParent();
         }
 
         /// <summary>
@@ -414,18 +418,18 @@ namespace NeeView
         {
             if (item != null && item.CanOpenFolder())
             {
-                FolderList.Current.MoveTo(item.TargetPath);
+                _folderList.MoveTo(item.TargetPath);
             }
         }
 
         public void MoveToPrevious()
         {
-            FolderList.Current.MoveToPrevious();
+            _folderList.MoveToPrevious();
         }
 
         public void MoveToNext()
         {
-            FolderList.Current.MoveToNext();
+            _folderList.MoveToNext();
         }
     }
 

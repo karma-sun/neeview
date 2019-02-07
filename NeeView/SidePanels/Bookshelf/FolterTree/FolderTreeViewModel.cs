@@ -10,10 +10,9 @@ namespace NeeView
         private bool _isFirstVisibled;
 
 
-        public FolderTreeViewModel()
+        public FolderTreeViewModel(FolderTreeModel model)
         {
-            Model = FolderTreeModel.Current;
-
+            Model = model;
             Model.SelectedItemChanged += (s, e) => SelectedItemChanged?.Invoke(s, e);
         }
 

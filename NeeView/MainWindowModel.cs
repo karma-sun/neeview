@@ -532,12 +532,12 @@ namespace NeeView
             // 4.ホームフォルダで。
             else
             {
-                place = FolderList.Current.GetFixedHome().SimpleQuery;
+                place = BookshelfFolderList.Current.GetFixedHome().SimpleQuery;
             }
 
             if (place != null)
             {
-                FolderList.Current.RequestPlace(new QueryPath(place), null, FolderSetPlaceOption.UpdateHistory);
+                BookshelfFolderList.Current.RequestPlace(new QueryPath(place), null, FolderSetPlaceOption.UpdateHistory);
             }
         }
 

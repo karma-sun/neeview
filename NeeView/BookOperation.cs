@@ -442,11 +442,11 @@ namespace NeeView
             {
                 if (e.Direction < 0)
                 {
-                    await FolderList.Current.PrevFolder(BookLoadOption.LastPage);
+                    await BookshelfFolderList.Current.PrevFolder(BookLoadOption.LastPage);
                 }
                 else
                 {
-                    await FolderList.Current.NextFolder(BookLoadOption.FirstPage);
+                    await BookshelfFolderList.Current.NextFolder(BookLoadOption.FirstPage);
                 }
             }
             else

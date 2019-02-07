@@ -273,23 +273,23 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                  new SettingItemSection(Properties.Resources.SettingPagePanelBookshelfGeneral,
-                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.Home))) {IsStretch = true}),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.Home))) {IsStretch = true}),
 
                 new SettingItemSection(Properties.Resources.SettingPagePanelBookshelfVisual,
-                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsVisibleBookmarkMark))),
-                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsVisibleHistoryMark)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.IsVisibleBookmarkMark))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.IsVisibleHistoryMark)))),
 
                 new SettingItemSection(Properties.Resources.SettingPagePanelBookshelfTree,
-                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.FolderTreeLayout))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.FolderTreeLayout))),
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.FolderTreeFontSize))),
-                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsSyncFolderTree)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.IsSyncFolderTree)))),
 
                 new SettingItemSection(Properties.Resources.SettingPagePanelBookshelfAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(PageListPlacementService.Current, nameof(PageListPlacementService.IsPlacedInBookshelf))),
-                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsCloseBookWhenMove))),
-                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsInsertItem))),
-                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.IsMultipleRarFilterEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(FolderList.Current, nameof(FolderList.ExcludePattern))) { IsStretch = true }),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.IsCloseBookWhenMove))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.IsInsertItem))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.IsMultipleRarFilterEnabled))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.ExcludePattern))) { IsStretch = true }),
             };
         }
     }

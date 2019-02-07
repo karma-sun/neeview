@@ -23,8 +23,9 @@ namespace NeeView
     {
         // Fields
 
-        public static FolderTreeModel Current { get; } = new FolderTreeModel();
+        public static FolderTreeModel Current { get; private set; }
 
+        private FolderList _folderList;
         private RootFolderTree _root;
         private RootQuickAccessNode _rootQuickAccess;
         private RootDirectoryNode _rootFolder;
@@ -33,8 +34,11 @@ namespace NeeView
 
         // Constructors
 
-        public FolderTreeModel()
+        public FolderTreeModel(FolderList folderList)
         {
+            Current = this;
+
+            _folderList = folderList;
             _root = new RootFolderTree();
 
             _rootQuickAccess = new RootQuickAccessNode(_root);
@@ -193,7 +197,7 @@ namespace NeeView
         private void SetFolderListPlace(string path)
         {
             // TODO: リクエストの重複がありうる。キャンセル処理が必要?
-            FolderList.Current.RequestPlace(new QueryPath(path), null, FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.ResetKeyword);
+            _folderList.RequestPlace(new QueryPath(path), null, FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.ResetKeyword);
         }
 
         public void AddQuickAccess(object item)
@@ -201,7 +205,7 @@ namespace NeeView
             switch (item)
             {
                 case RootQuickAccessNode rootQuickAccess:
-                    AddQuickAccess(FolderList.Current.GetCurentQueryPath());
+                    AddQuickAccess(_folderList.GetCurentQueryPath());
                     break;
 
                 case DirectoryNode folder:

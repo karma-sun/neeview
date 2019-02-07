@@ -295,7 +295,7 @@ namespace NeeView
 
                 MenuBar.Current.IsCaptionEmulateInFullScreen = this.window_captionemunate_fullscreen;
 
-                FolderList.Current.IsInsertItem = this.folderlist_addfile_insert;
+                BookshelfFolderList.Current.IsInsertItem = this.folderlist_addfile_insert;
             }
         }
 

@@ -22,7 +22,7 @@ using System.Windows.Shapes;
 
 namespace NeeView
 {
-    // HACK: FolderList.Current の除外。MVVMの依存関係がおかしいので。DependencyPropertyで対応可能？
+    // HACK: BookshelfFolderList.Current の除外。MVVMの依存関係がおかしいので。DependencyPropertyで対応可能？
 
     /// <summary>
     /// FolderListBox.xaml の相互作用ロジック
@@ -33,6 +33,7 @@ namespace NeeView
 
         public static string DragDropFormat = $"{Config.Current.ProcessId}.FolderListBox";
 
+        private FolderList _folderList;
         private FolderListBoxViewModel _vm;
         private ListBoxThumbnailLoader _thumbnailLoader;
         private bool _storeFocus;
@@ -55,8 +56,9 @@ namespace NeeView
         }
 
         //
-        public FolderListBox(FolderListBoxViewModel vm) : this()
+        public FolderListBox(FolderList folderList, FolderListBoxViewModel vm) : this()
         {
+            _folderList = folderList;
             _vm = vm;
             this.DataContext = vm;
 
@@ -101,7 +103,7 @@ namespace NeeView
         public ListBox PageCollectionListBox => this.ListBox;
 
         // サムネイルが表示されている？
-        public bool IsThumbnailVisibled => FolderList.Current.IsThumbnailVisibled;
+        public bool IsThumbnailVisibled => _folderList.IsThumbnailVisibled;
 
         public IEnumerable<IHasPage> CollectPageList(IEnumerable<object> objs) => objs.OfType<IHasPage>();
 
@@ -338,10 +340,10 @@ namespace NeeView
                     };
                     rename.Close += (s, ev) =>
                     {
-                        FolderList.Current.IsRenaming = false;
+                        _folderList.IsRenaming = false;
                     };
 
-                    FolderList.Current.IsRenaming = true;
+                    _folderList.IsRenaming = true;
                     ((MainWindow)Application.Current.MainWindow).RenameManager.Open(rename);
                 }
             }
@@ -771,7 +773,7 @@ namespace NeeView
 
         private void FolderList_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            bool isLRKeyEnabled = SidePanelProfile.Current.IsLeftRightKeyEnabled && FolderList.Current.PanelListItemStyle != PanelListItemStyle.Thumbnail;
+            bool isLRKeyEnabled = SidePanelProfile.Current.IsLeftRightKeyEnabled && _folderList.PanelListItemStyle != PanelListItemStyle.Thumbnail;
 
             if ((isLRKeyEnabled && e.Key == Key.Left) || e.Key == Key.Back) // ←, Backspace
             {
@@ -825,7 +827,7 @@ namespace NeeView
         //
         private void FolderListItem_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            bool isLRKeyEnabled = SidePanelProfile.Current.IsLeftRightKeyEnabled && FolderList.Current.PanelListItemStyle != PanelListItemStyle.Thumbnail;
+            bool isLRKeyEnabled = SidePanelProfile.Current.IsLeftRightKeyEnabled && _folderList.PanelListItemStyle != PanelListItemStyle.Thumbnail;
             var item = (sender as ListBoxItem)?.Content as FolderItem;
 
             if (e.Key == Key.Return)

@@ -164,7 +164,7 @@ namespace NeeView
             memento.SidePanelProfile = SidePanelProfile.Current.CreateMemento();
             memento.PageListPlacementService = PageListPlacementService.Current.CreateMemento();
             memento.FolderPanel = FolderPanelModel.Current.CreateMemento();
-            memento.FolderList = FolderList.Current.CreateMemento();
+            memento.FolderList = BookshelfFolderList.Current.CreateMemento();
             memento.PageList = PageList.Current.CreateMemento();
             memento.HistoryList = HistoryList.Current.CreateMemento();
             memento.PagemarkList = PagemarkList.Current.CreateMemento();
@@ -212,7 +212,7 @@ namespace NeeView
             SidePanelProfile.Current.Restore(memento.SidePanelProfile);
             PageListPlacementService.Current.Restore(memento.PageListPlacementService);
             FolderPanelModel.Current.Restore(memento.FolderPanel);
-            FolderList.Current.Restore(memento.FolderList);
+            BookshelfFolderList.Current.Restore(memento.FolderList);
             PageList.Current.Restore(memento.PageList);
             HistoryList.Current.Restore(memento.HistoryList);
             PagemarkList.Current.Restore(memento.PagemarkList);

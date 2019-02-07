@@ -399,7 +399,7 @@ namespace NeeView
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
             if (item != null)
             {
-                _vm.Model.MoveToSafety(item);
+                _vm.MoveToSafety(item);
             }
         }
 
@@ -735,7 +735,7 @@ namespace NeeView
         {
             if (e.Key == Key.Home)
             {
-                _vm.Model.MoveToHome();
+                _vm.MoveToHome();
                 e.Handled = true;
             }
             else
@@ -745,7 +745,7 @@ namespace NeeView
 
                 if (key == Key.Up)
                 {
-                    _vm.Model.MoveToUp();
+                    _vm.MoveToUp();
                     e.Handled = true;
                 }
                 else if (key == Key.Down)
@@ -753,19 +753,19 @@ namespace NeeView
                     var item = (sender as ListBox)?.SelectedItem as FolderItem;
                     if (item != null)
                     {
-                        _vm.Model.MoveToSafety(item);
+                        _vm.MoveToSafety(item);
                         e.Handled = true;
                     }
                 }
 
                 else if (key == Key.Left)
                 {
-                    _vm.Model.MoveToPrevious();
+                    _vm.MoveToPrevious();
                     e.Handled = true;
                 }
                 else if (key == Key.Right)
                 {
-                    _vm.Model.MoveToNext();
+                    _vm.MoveToNext();
                     e.Handled = true;
                 }
             }
@@ -777,7 +777,7 @@ namespace NeeView
 
             if ((isLRKeyEnabled && e.Key == Key.Left) || e.Key == Key.Back) // ←, Backspace
             {
-                _vm.Model.MoveToUp();
+                _vm.MoveToUp();
                 e.Handled = true;
             }
         }
@@ -819,7 +819,7 @@ namespace NeeView
         private void FolderListItem_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var item = (sender as ListBoxItem)?.Content as FolderItem;
-            _vm.Model.MoveToSafety(item);
+            _vm.MoveToSafety(item);
 
             e.Handled = true;
         }
@@ -837,14 +837,14 @@ namespace NeeView
             }
             else if (isLRKeyEnabled && e.Key == Key.Right) // →
             {
-                _vm.Model.MoveToSafety(item);
+                _vm.MoveToSafety(item);
                 e.Handled = true;
             }
             else if ((isLRKeyEnabled && e.Key == Key.Left) || e.Key == Key.Back) // ←, Backspace
             {
                 if (item != null)
                 {
-                    _vm.Model.MoveToUp();
+                    _vm.MoveToUp();
                 }
                 e.Handled = true;
             }

@@ -84,7 +84,7 @@ namespace NeeView
 
         protected FolderList()
         {
-            _folderListBoxModel = new FolderListBoxModel(this, null);
+            _folderListBoxModel = new FolderListBoxModel(null);
 
             _searchEngine = new FolderSearchEngine();
             FolderCollectionFactory.Current.SearchEngine = _searchEngine;
@@ -449,10 +449,6 @@ namespace NeeView
             set { SetProperty(ref _IsLocked, value && Place != null); }
         }
 
-        // フォーカス要求
-        // TODO: 定義位置
-        public bool IsFocusAtOnce { get; set; }
-
         public PageListPlacementService PageListPlacementService => PageListPlacementService.Current;
 
 
@@ -465,7 +461,7 @@ namespace NeeView
         /// </summary>
         public void FocusAtOnce()
         {
-            IsFocusAtOnce = true;
+            this.FolderListBoxModel.IsFocusAtOnce = true;
         }
 
         /// <summary>
@@ -608,7 +604,7 @@ namespace NeeView
                 if (collection != null)
                 {
                     this.FolderCollection = collection;
-                    this.FolderListBoxModel = new FolderListBoxModel(this, this.FolderCollection);
+                    this.FolderListBoxModel = new FolderListBoxModel(this.FolderCollection);
                     this.FolderListBoxModel.SetSelectedItem(select, options.HasFlag(FolderSetPlaceOption.Focus));
                     if (options.HasFlag(FolderSetPlaceOption.Focus))
                     {

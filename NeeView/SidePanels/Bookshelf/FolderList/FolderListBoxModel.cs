@@ -28,12 +28,8 @@ namespace NeeView
     /// </summary>
     public class FolderListBoxModel : BindableBase
     {
-        private FolderList _folderList;
-
-
-        public FolderListBoxModel(FolderList folderList, FolderCollection folderCollection)
+        public FolderListBoxModel(FolderCollection folderCollection)
         {
-            _folderList = folderList;
             _folderCollection = folderCollection;
         }
 
@@ -62,11 +58,7 @@ namespace NeeView
         /// <summary>
         /// フォーカス要求
         /// </summary>
-        public bool IsFocusAtOnce
-        {
-            get { return _folderList.IsFocusAtOnce; }
-            set { _folderList.IsFocusAtOnce = value; }
-        }
+        public bool IsFocusAtOnce { get; set; }
 
 
         public void Loaded()
@@ -400,37 +392,5 @@ namespace NeeView
             return isRemoved;
         }
 
-        public void MoveToHome()
-        {
-            _folderList.MoveToHome();
-        }
-
-        public void MoveToUp()
-        {
-            _folderList.MoveToParent();
-        }
-
-        /// <summary>
-        /// 可能な場合のみ、フォルダー移動
-        /// </summary>
-        /// <param name="item"></param>
-        public void MoveToSafety(FolderItem item)
-        {
-            if (item != null && item.CanOpenFolder())
-            {
-                _folderList.MoveTo(item.TargetPath);
-            }
-        }
-
-        public void MoveToPrevious()
-        {
-            _folderList.MoveToPrevious();
-        }
-
-        public void MoveToNext()
-        {
-            _folderList.MoveToNext();
-        }
     }
-
 }

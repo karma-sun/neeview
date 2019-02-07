@@ -86,5 +86,38 @@ namespace NeeView
         {
             SelectedChanged?.Invoke(sender, e);
         }
+
+
+        public void MoveToHome()
+        {
+            _folderList.MoveToHome();
+        }
+
+        public void MoveToUp()
+        {
+            _folderList.MoveToParent();
+        }
+
+        /// <summary>
+        /// 可能な場合のみ、フォルダー移動
+        /// </summary>
+        /// <param name="item"></param>
+        public void MoveToSafety(FolderItem item)
+        {
+            if (item != null && item.CanOpenFolder())
+            {
+                _folderList.MoveTo(item.TargetPath);
+            }
+        }
+
+        public void MoveToPrevious()
+        {
+            _folderList.MoveToPrevious();
+        }
+
+        public void MoveToNext()
+        {
+            _folderList.MoveToNext();
+        }
     }
 }

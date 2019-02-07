@@ -496,7 +496,7 @@ namespace NeeView
         public void UpdateFolderListBox()
         {
             var vm = new FolderListBoxViewModel(_model, _model.FolderListBoxModel);
-            FolderListBox = new FolderListBox(_model, vm);
+            FolderListBox = new FolderListBox(vm);
 
             SidePanel.Current.RaiseContentChanged();
         }

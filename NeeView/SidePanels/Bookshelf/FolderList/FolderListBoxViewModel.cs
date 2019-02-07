@@ -21,6 +21,7 @@ namespace NeeView
         public event EventHandler<SelectedChangedEventArgs> SelectedChanging;
         public event EventHandler<SelectedChangedEventArgs> SelectedChanged;
 
+
         public SidePanelProfile Profile => SidePanelProfile.Current;
         public FolderCollection FolderCollection => _model.FolderCollection;
         public string PlaceRaw => _model.FolderCollection?.Place.SimplePath;
@@ -39,6 +40,18 @@ namespace NeeView
             set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
         }
 
+        // サムネイルが表示されている？
+        public bool IsThumbnailVisibled => _folderList.IsThumbnailVisibled;
+
+        public bool IsRenaming
+        {
+            get => _folderList.IsRenaming;
+            set => _folderList.IsRenaming = value;
+        }
+
+
+        #region RelayCommands
+
         /// <summary>
         /// ToggleFolderRecursive command.
         /// </summary>
@@ -47,7 +60,6 @@ namespace NeeView
         {
             get { return _ToggleFolderRecursive = _ToggleFolderRecursive ?? new RelayCommand(_model.ToggleFolderRecursive_Executed); }
         }
-
 
         // HACK: 未使用？
         private RelayCommand _NewFolderCommand;
@@ -61,6 +73,7 @@ namespace NeeView
             _model.NewFolder();
         }
 
+        #endregion RelayCommands
 
 
         public void Loaded()
@@ -87,6 +100,10 @@ namespace NeeView
             SelectedChanged?.Invoke(sender, e);
         }
 
+        public bool IsLRKeyEnabled()
+        {
+            return SidePanelProfile.Current.IsLeftRightKeyEnabled && _folderList.PanelListItemStyle != PanelListItemStyle.Thumbnail;
+        }
 
         public void MoveToHome()
         {

@@ -35,6 +35,6 @@ namespace NeeView
 
         public bool IsVisibleLock => _view.IsBusy;
 
-        public PanelPlace DefaultPlace => PanelPlace.Left;
+        public PanelPlace DefaultPlace => PanelPlace.Right;
     }
 }

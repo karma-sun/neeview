@@ -6,6 +6,7 @@ using System.Windows;
 using System.Linq;
 using System.Diagnostics;
 using System.Threading;
+using System.IO;
 
 namespace NeeView.IO
 {
@@ -13,6 +14,7 @@ namespace NeeView.IO
     {
         File,
         Directory,
+        Drive,
         FileType,
         DirectoryType,
     }
@@ -268,6 +270,8 @@ namespace NeeView.IO
                     return CreateDirectoryTypeIconCollection(filename, allowJumbo);
                 case FileIconType.FileType:
                     return CreateFileTypeIconCollection(filename, allowJumbo);
+                case FileIconType.Drive:
+                    return CreateDriveIconCollection(filename, allowJumbo);
                 case FileIconType.Directory:
                     return CreateDirectoryIconCollection(filename, allowJumbo);
                 case FileIconType.File:
@@ -285,6 +289,12 @@ namespace NeeView.IO
         public static List<BitmapSource> CreateFileTypeIconCollection(string filename, bool allowJumbo)
         {
             return CreateFileIconCollection(System.IO.Path.GetExtension(filename), 0, NativeMethods.SHGFI.SHGFI_USEFILEATTRIBUTES, allowJumbo);
+        }
+
+        public static List<BitmapSource> CreateDriveIconCollection(string filename, bool allowJumbo)
+        {
+            var flags = NativeMethods.SHGFI.SHGFI_ICONLOCATION;
+            return CreateFileIconCollection(filename, NativeMethods.FILE_ATTRIBUTE.FILE_ATTRIBUTE_DIRECTORY, flags, allowJumbo);
         }
 
         public static List<BitmapSource> CreateDirectoryIconCollection(string filename, bool allowJumbo)
@@ -318,6 +328,17 @@ namespace NeeView.IO
             return bitmaps.Where(e => e != null).ToList();
         }
 
+        private static List<BitmapSource> CreateFileIconCollectionFromIconFile(string filename)
+        {
+            using (var imageFileStrm = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                var decoder = BitmapDecoder.Create(imageFileStrm, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
+                var bitmaps = decoder.Frames.Cast<BitmapSource>().ToList();
+                bitmaps.ForEach(e => e.Freeze());
+                return bitmaps;
+            }
+        }
+
         private static List<BitmapSource> CreateFileIconCollectionExtra(string filename, NativeMethods.FILE_ATTRIBUTE attribute, NativeMethods.SHGFI flags)
         {
             Debug.Assert(Thread.CurrentThread.GetApartmentState() == ApartmentState.STA);
@@ -329,7 +350,21 @@ namespace NeeView.IO
                 shinfo.szDisplayName = string.Empty;
                 shinfo.szTypeName = string.Empty;
                 IntPtr hImg = NativeMethods.SHGetFileInfo(filename, attribute, out shinfo, (uint)Marshal.SizeOf(typeof(NativeMethods.SHFILEINFO)), NativeMethods.SHGFI.SHGFI_SYSICONINDEX | flags);
+
+                try
+                {
+                    if ((flags & NativeMethods.SHGFI.SHGFI_ICONLOCATION) != 0 && Path.GetExtension(shinfo.szDisplayName).ToLower() == ".ico")
+                    {
+                        return CreateFileIconCollectionFromIconFile(shinfo.szDisplayName);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+
                 var bitmaps = new List<BitmapSource>();
+
                 var shils = Enum.GetValues(typeof(NativeMethods.SHIL)).Cast<NativeMethods.SHIL>();
                 foreach (var shil in shils)
                 {

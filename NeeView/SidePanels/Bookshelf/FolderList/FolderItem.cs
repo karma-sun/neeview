@@ -361,8 +361,8 @@ namespace NeeView
 
         public DriveFolderItem(DriveInfo driveInfo, bool isOverlayEnabled) : base(isOverlayEnabled)
         {
-            ////_thumbnail = new DriveThumbnail(driveInfo.Name);
-            _thumbnail = new ResourceThumbnail("ic_drive", MainWindow.Current);
+            _thumbnail = new DriveThumbnail(driveInfo.Name);
+            ////_thumbnail = new ResourceThumbnail("ic_drive", MainWindow.Current);
         }
 
         public override IThumbnail Thumbnail => _thumbnail;

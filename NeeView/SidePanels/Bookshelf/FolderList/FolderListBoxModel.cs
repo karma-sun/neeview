@@ -247,6 +247,12 @@ namespace NeeView
                 return;
             }
 
+            // ブックマークフォルダーは本として開けないようにする
+            if (item.Attributes.HasFlag(FolderItemAttribute.Directory | FolderItemAttribute.Bookmark))
+            {
+                return;
+            }
+
             var query = item.TargetPath;
             if (query.Scheme != QueryScheme.Pagemark && query.Path == null)
             {

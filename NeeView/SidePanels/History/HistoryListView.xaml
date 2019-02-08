@@ -33,9 +33,7 @@
 
         <StackPanel DockPanel.Dock="Top" Margin="5">
             <StackPanel Margin="5" Orientation="Horizontal">
-                <!--
                 <Image Source="{StaticResource ic_history_24px}" Width="18" Height="18" VerticalAlignment="Center" Margin="0,0,2,0"/>
-                -->
                 <TextBlock Text="{x:Static properties:Resources.HistoryName}" Foreground="Gray" VerticalAlignment="Center" />
             </StackPanel>
             <DockPanel LastChildFill="False">

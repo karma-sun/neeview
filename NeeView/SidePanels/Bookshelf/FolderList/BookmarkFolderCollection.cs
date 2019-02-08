@@ -18,7 +18,7 @@ namespace NeeView
 
         // Constructors
 
-        public BookmarkFolderCollection(QueryPath path) : base(path, false)
+        public BookmarkFolderCollection(QueryPath path, bool isOverlayEnabled) : base(path, false, isOverlayEnabled)
         {
             _bookmarkPlace = BookmarkCollection.Current.FindNode(path.FullPath) ?? new TreeListNode<IBookmarkEntry>();
 
@@ -107,7 +107,7 @@ namespace NeeView
             switch (node.Value)
             {
                 case BookmarkFolder folder:
-                    return new ConstFolderItem(new FolderThumbnail())
+                    return new ConstFolderItem(new FolderThumbnail(), _isOverlayEnabled)
                     {
                         Source = node,
                         Type = FolderItemType.Directory,
@@ -122,7 +122,7 @@ namespace NeeView
 
                     var archiveEntry = new ArchiveEntry(bookmark.Place);
 
-                    return new FileFolderItem()
+                    return new FileFolderItem(_isOverlayEnabled)
                     {
                         Source = node,
                         Type = FolderItemType.File,

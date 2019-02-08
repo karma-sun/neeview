@@ -276,8 +276,8 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.Home))) {IsStretch = true}),
 
                 new SettingItemSection(Properties.Resources.SettingPagePanelBookshelfVisual,
-                    new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.IsVisibleBookmarkMark))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.IsVisibleHistoryMark)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(BookshelfFolderList.IsVisibleBookmarkMark))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(BookshelfFolderList.IsVisibleHistoryMark)))),
 
                 new SettingItemSection(Properties.Resources.SettingPagePanelBookshelfTree,
                     new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.FolderTreeLayout))),

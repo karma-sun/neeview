@@ -27,7 +27,7 @@ namespace NeeView
         /// <summary>
         /// constructor
         /// </summary>
-        public FolderEntryCollection(QueryPath path, bool isActive) : base(path, isActive)
+        public FolderEntryCollection(QueryPath path, bool isActive, bool isOverlayEnabled) : base(path, isActive, isOverlayEnabled)
         {
             if (string.IsNullOrWhiteSpace(Place.SimplePath))
             {

@@ -136,8 +136,8 @@ namespace NeeView
         ToggleVisibleBookshelf,
         [Obsolete, EnumMember]
         ToggleVisibleFolderList, // 欠番
-        [Obsolete, EnumMember]
-        ToggleVisibleBookmarkList, // 欠番
+        [EnumMember]
+        ToggleVisibleBookmarkList,
         [EnumMember]
         ToggleVisiblePagemarkList,
         [EnumMember]

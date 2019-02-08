@@ -11,7 +11,17 @@ namespace NeeView
 {
     public class FolderCollectionFactory
     {
-        public static FolderCollectionFactory Current { get; } = new FolderCollectionFactory();
+        ////public static FolderCollectionFactory Current { get; } = new FolderCollectionFactory();
+
+        private bool _isOverlayEnabled;
+
+        public FolderCollectionFactory(FolderSearchEngine searchEngine, bool isOverlayEnabled)
+        {
+            SearchEngine = searchEngine;
+            _isOverlayEnabled = isOverlayEnabled;
+        }
+
+
 
         #region Properties
 
@@ -122,14 +132,14 @@ namespace NeeView
         {
             try
             {
-                return new FolderEntryCollection(path, isActive);
+                return new FolderEntryCollection(path, isActive, _isOverlayEnabled);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
 
                 // NOTE: 救済措置。取得に失敗した時はカレントディレクトリに移動
-                return new FolderEntryCollection(new QueryPath(Environment.CurrentDirectory), isActive);
+                return new FolderEntryCollection(new QueryPath(Environment.CurrentDirectory), isActive, _isOverlayEnabled);
             }
         }
 
@@ -139,7 +149,7 @@ namespace NeeView
         /// </summary>
         public FolderCollection CreateArchiveCollection(QueryPath path, Archiver archiver, bool isActive)
         {
-            return new FolderArchiveCollection(path, archiver, isActive);
+            return new FolderArchiveCollection(path, archiver, isActive, _isOverlayEnabled);
         }
 
         /// <summary>
@@ -147,7 +157,7 @@ namespace NeeView
         /// </summary>
         private FolderCollection CreateSearchCollection(QueryPath path, NeeLaboratory.IO.Search.SearchResultWatcher searchResult, bool isActive)
         {
-            return new FolderSearchCollection(path, searchResult, isActive);
+            return new FolderSearchCollection(path, searchResult, isActive, _isOverlayEnabled);
         }
 
         /// <summary>
@@ -155,7 +165,7 @@ namespace NeeView
         /// </summary>
         private FolderCollection CreateBookmarkFolderCollection(QueryPath path, bool isActive)
         {
-            return new BookmarkFolderCollection(path);
+            return new BookmarkFolderCollection(path, _isOverlayEnabled);
         }
 
         /// <summary>
@@ -163,7 +173,7 @@ namespace NeeView
         /// </summary>
         private FolderCollection CreateRootFolderCollection(QueryPath path, bool isActive)
         {
-            return new RootFolderCollection(path);
+            return new RootFolderCollection(path, _isOverlayEnabled);
         }
 
         /// <summary>
@@ -171,7 +181,7 @@ namespace NeeView
         /// </summary>
         private FolderCollection CreateQuickAccessFolderCollection(QueryPath path, bool isActive)
         {
-            return new QuickAccessFolderCollection();
+            return new QuickAccessFolderCollection(_isOverlayEnabled);
         }
 
         #endregion

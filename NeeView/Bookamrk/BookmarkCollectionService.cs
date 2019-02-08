@@ -12,7 +12,7 @@ namespace NeeView
         /// </summary>
         public static void Add(QueryPath query)
         {
-            if (!BookshelfFolderList.Current.AddBookmark(query, false))
+            if (!BookmarkFolderList.Current.AddBookmark(query, false))
             {
                 AddToChild(BookmarkCollection.Current.Items, query);
             }

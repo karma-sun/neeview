@@ -22,7 +22,7 @@ namespace NeeView
         /// <summary>
         /// constructor
         /// </summary>
-        public FolderArchiveCollection(QueryPath path, Archiver archiver, bool isActive) : base(path, isActive)
+        public FolderArchiveCollection(QueryPath path, Archiver archiver, bool isActive, bool isOverlayEnabled) : base(path, isActive, isOverlayEnabled)
         {
             _archiver = archiver;
 
@@ -88,7 +88,7 @@ namespace NeeView
         /// <returns></returns>
         public FolderItem CreateFolderItem(ArchiveEntry entry)
         {
-            return new FileFolderItem()
+            return new FileFolderItem(_isOverlayEnabled)
             {
                 Type = FolderItemType.ArchiveEntry,
                 ArchiveEntry = entry,

@@ -24,7 +24,7 @@ namespace NeeView
 
         // Constructors
 
-        public FolderSearchCollection(QueryPath path, NeeLaboratory.IO.Search.SearchResultWatcher searchResult, bool isActive) : base(path, isActive)
+        public FolderSearchCollection(QueryPath path, NeeLaboratory.IO.Search.SearchResultWatcher searchResult, bool isActive, bool isOverlayEnabled) : base(path, isActive, isOverlayEnabled)
         {
             if (searchResult == null) throw new ArgumentNullException(nameof(searchResult));
             Debug.Assert(path.Search == searchResult.Keyword);
@@ -83,7 +83,7 @@ namespace NeeView
         {
             if (nodeContent.FileInfo.IsDirectory)
             {
-                return new FileFolderItem()
+                return new FileFolderItem(_isOverlayEnabled)
                 {
                     Type = FolderItemType.Directory,
                     Place = new QueryPath(Path.GetDirectoryName(nodeContent.Path)),
@@ -110,7 +110,7 @@ namespace NeeView
                 }
                 else if (ArchiverManager.Current.IsSupported(nodeContent.Path))
                 {
-                    return new FileFolderItem()
+                    return new FileFolderItem(_isOverlayEnabled)
                     {
                         Type = FolderItemType.File,
                         Place = new QueryPath(Path.GetDirectoryName(nodeContent.Path)),

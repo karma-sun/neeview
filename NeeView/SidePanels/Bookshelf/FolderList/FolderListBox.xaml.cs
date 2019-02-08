@@ -487,7 +487,7 @@ namespace NeeView
             var dragData = e.Data.GetData<ListBoxItem>(DragDropFormat);
             if (dragData != null)
             {
-                if (listBoxItem == null || listBoxItem == dragData)
+                if (listBoxItem == dragData)
                 {
                     e.Effects = DragDropEffects.None;
                     e.Handled = true;
@@ -496,21 +496,17 @@ namespace NeeView
             }
 
             // bookmark
+            if (_vm.FolderCollection is BookmarkFolderCollection bookmarkFolderCollection)
             {
                 TreeListNode<IBookmarkEntry> bookmarkNode = null;
-                if (listBoxItem == null)
+
+                if (listBoxItem?.Content is FolderItem target && target.Attributes.HasFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Directory))
                 {
-                    if (_vm.FolderCollection is BookmarkFolderCollection bookmarkFolderCollection)
-                    {
-                        bookmarkNode = bookmarkFolderCollection.BookmarkPlace;
-                    }
+                    bookmarkNode = target.Source as TreeListNode<IBookmarkEntry>;
                 }
                 else
                 {
-                    if (listBoxItem.Content is FolderItem target && target.Attributes.HasFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.Directory))
-                    {
-                        bookmarkNode = target.Source as TreeListNode<IBookmarkEntry>;
-                    }
+                    bookmarkNode = bookmarkFolderCollection.BookmarkPlace;
                 }
 
                 if (bookmarkNode != null)
@@ -537,7 +533,7 @@ namespace NeeView
                 return;
             }
 
-            if (!node.Children.Contains(bookmarkEntry) && !node.ParentContains(bookmarkEntry))
+            if (!node.Children.Contains(bookmarkEntry) && !node.ParentContains(bookmarkEntry) && node != bookmarkEntry)
             {
                 if (isDrop)
                 {
@@ -545,6 +541,11 @@ namespace NeeView
                     BookmarkCollection.Current.MoveToChild(bookmarkEntry, node);
                 }
                 e.Effects = DragDropEffects.Move;
+                e.Handled = true;
+            }
+            else
+            {
+                e.Effects = DragDropEffects.None;
                 e.Handled = true;
             }
         }

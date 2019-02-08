@@ -236,8 +236,18 @@ namespace NeeView
         {
             Debug.Assert(FolderList != null);
 
-            var model = new FolderTreeModel(this.FolderList);
-            _vm = new FolderTreeViewModel(model);
+            // HACK: モデルのインスタンス化位置に疑問。上位から与えられるべきでは？
+            FolderTreeModel model;
+            if (FolderList is BookshelfFolderList)
+            {
+                model = new BookshelfFolderTreeModel(this.FolderList);
+                _vm = new FolderTreeViewModel(model);
+            }
+            else
+            {
+                model = new FolderTreeModel(this.FolderList);
+                _vm = new FolderTreeViewModel(model);
+            }
 
             _vm.SelectedItemChanged += ViewModel_SelectedItemChanged;
 
@@ -247,7 +257,7 @@ namespace NeeView
             this.TreeView.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(TreeView_ScrollChanged));
 
             this.Root.DataContext = _vm;
-
+           
             this.Loaded += FolderTreeView_Loaded;
             this.Unloaded += FolderTreeView_Unloaded;
         }

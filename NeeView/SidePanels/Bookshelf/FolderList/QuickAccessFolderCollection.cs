@@ -11,7 +11,7 @@ namespace NeeView
     /// </summary>
     public class QuickAccessFolderCollection : FolderCollection, IDisposable
     {
-        public QuickAccessFolderCollection() : base(new QueryPath(QueryScheme.QuickAccess, null), false)
+        public QuickAccessFolderCollection(bool isOverlayEnabled) : base(new QueryPath(QueryScheme.QuickAccess, null), false, isOverlayEnabled)
         {
             var items = QuickAccessCollection.Current.Items.Select(e => CreateFolderItem(e));
 
@@ -60,7 +60,7 @@ namespace NeeView
 
         private FolderItem CreateFolderItem(QuickAccess quickAccess)
         {
-            return new ConstFolderItem(new FolderThumbnail())
+            return new ConstFolderItem(new FolderThumbnail(), _isOverlayEnabled)
             {
                 Source = quickAccess,
                 Type = FolderItemType.Directory,

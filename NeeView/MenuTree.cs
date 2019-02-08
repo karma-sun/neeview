@@ -458,6 +458,7 @@ namespace NeeView
                     {
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleBookshelf },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisiblePageList },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleBookmarkList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisiblePagemarkList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleHistoryList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleFileInfo },

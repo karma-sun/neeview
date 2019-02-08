@@ -101,8 +101,12 @@ namespace NeeView
             public PageListPlacementService.Memento PageListPlacementService { get; set; }
             [DataMember]
             public FolderPanelModel.Memento FolderPanel { get; set; }
+            [Obsolete, DataMember(EmitDefaultValue = false)]
+            public FolderListLegacy.Memento FolderList { get; set; }
             [DataMember]
-            public FolderList.Memento FolderList { get; set; }
+            public BookshelfFolderList.Memento BookshelfFolderList { get; set; }
+            [DataMember]
+            public BookmarkFolderList.Memento BookmarkFolderList { get; set; }
             [DataMember]
             public PageList.Memento PageList { get; set; }
             [DataMember]
@@ -117,10 +121,20 @@ namespace NeeView
             public ImageEffect.Memento ImageEffect { get; set; }
             [DataMember]
             public SidePanelFrameModel.Memento SidePanel { get; set; }
-
-            // no used
             [Obsolete, DataMember(EmitDefaultValue = false)]
             public RoutedCommandTable.Memento RoutedCommandTable { get; set; }
+
+
+            [OnDeserialized]
+            private void Deserialized(StreamingContext c)
+            {
+#pragma warning disable CS0612
+                if (BookshelfFolderList == null && FolderList != null)
+                {
+                    BookshelfFolderList = FolderListLegacy.ConvertFrom(FolderList);
+                }
+#pragma warning restore CS0612
+            }
         }
 
         public Memento CreateMemento()
@@ -164,7 +178,8 @@ namespace NeeView
             memento.SidePanelProfile = SidePanelProfile.Current.CreateMemento();
             memento.PageListPlacementService = PageListPlacementService.Current.CreateMemento();
             memento.FolderPanel = FolderPanelModel.Current.CreateMemento();
-            memento.FolderList = BookshelfFolderList.Current.CreateMemento();
+            memento.BookshelfFolderList = BookshelfFolderList.Current.CreateMemento();
+            memento.BookmarkFolderList = BookmarkFolderList.Current.CreateMemento();
             memento.PageList = PageList.Current.CreateMemento();
             memento.HistoryList = HistoryList.Current.CreateMemento();
             memento.PagemarkList = PagemarkList.Current.CreateMemento();
@@ -212,7 +227,8 @@ namespace NeeView
             SidePanelProfile.Current.Restore(memento.SidePanelProfile);
             PageListPlacementService.Current.Restore(memento.PageListPlacementService);
             FolderPanelModel.Current.Restore(memento.FolderPanel);
-            BookshelfFolderList.Current.Restore(memento.FolderList);
+            BookshelfFolderList.Current.Restore(memento.BookshelfFolderList);
+            BookmarkFolderList.Current.Restore(memento.BookmarkFolderList);
             PageList.Current.Restore(memento.PageList);
             HistoryList.Current.Restore(memento.HistoryList);
             PagemarkList.Current.Restore(memento.PagemarkList);

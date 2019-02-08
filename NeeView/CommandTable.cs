@@ -794,6 +794,21 @@ namespace NeeView
                 element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleFolderList)) { Source = SidePanel.Current };
                 _elements[CommandType.ToggleVisibleBookshelf] = element;
             }
+            // ToggleVisibleBookmarkList
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupPanel;
+                element.Text = Properties.Resources.CommandToggleVisibleBookmarkList;
+                element.MenuText = Properties.Resources.CommandToggleVisibleBookmarkListMenu;
+                element.Note = Properties.Resources.CommandToggleVisibleBookmarkListNote;
+                element.ShortCutKey = "D";
+                element.IsShowMessage = false;
+                element.Execute = (s, e) => SidePanel.Current.ToggleVisibleBookmarkList(e.Parameter is MenuCommandTag);
+                element.ExecuteMessage = e => SidePanel.Current.IsVisibleBookmarkList ? Properties.Resources.CommandToggleVisibleBookmarkListOff : Properties.Resources.CommandToggleVisibleBookmarkListOn;
+                element.CanExecute = () => true;
+                element.CreateIsCheckedBinding = () => new Binding(nameof(SidePanel.IsVisibleBookmarkList)) { Source = SidePanel.Current };
+                _elements[CommandType.ToggleVisibleBookmarkList] = element;
+            }
             // ToggleVisiblePagemarkList
             {
                 var element = new CommandElement();

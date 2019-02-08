@@ -88,7 +88,7 @@ namespace NeeView
             _folderListBoxModel = new FolderListBoxModel(null);
 
             _searchEngine = new FolderSearchEngine();
-            FolderCollectionFactory.Current.SearchEngine = _searchEngine;
+            FolderCollectionFactory = new FolderCollectionFactory(_searchEngine, !isBookmarkOnly);
 
             if (!IsBookmarkOnly)
             {
@@ -113,22 +113,6 @@ namespace NeeView
                         break;
                 }
             };
-
-#if false
-            if (IsBookmarkOnly)
-            {
-                BookmarkCollection.Current.BookmarkChanged += (s, e) =>
-                {
-                    switch (e.Action)
-                    {
-                        case EntryCollectionChangedAction.Reset:
-                        case EntryCollectionChangedAction.Replace:
-                            App.Current.Dispatcher.Invoke(() => RequestPlace(new QueryPath(QueryScheme.Bookmark, null), null, FolderSetPlaceOption.None));
-                            break;
-                    }
-                };
-            }
-#endif
         }
 
         #endregion Constructors
@@ -153,6 +137,8 @@ namespace NeeView
         #region Properties
 
         public bool IsBookmarkOnly { get; set; }
+
+        public FolderCollectionFactory FolderCollectionFactory { get; }
 
         private PanelListItemStyle _panelListItemStyle;
         public PanelListItemStyle PanelListItemStyle
@@ -363,7 +349,7 @@ namespace NeeView
         /// <summary>
         /// フォルダーツリーの表示
         /// </summary>
-        private bool _isFolderTreeVisible = true;
+        private bool _isFolderTreeVisible = false;
         public bool IsFolderTreeVisible
         {
             get { return _isFolderTreeVisible; }
@@ -396,7 +382,7 @@ namespace NeeView
         /// <summary>
         /// フォルダーツリーエリアの幅
         /// </summary>
-        private double _folderTreeAreaWidth = 192.0;
+        private double _folderTreeAreaWidth = 128.0;
         public double FolderTreeAreaWidth
         {
             get { return _folderTreeAreaWidth; }
@@ -973,7 +959,7 @@ namespace NeeView
         /// </summary>
         private async Task<FolderCollection> CreateFolderCollectionAsync(QueryPath path, bool isForce, CancellationToken token)
         {
-            var factory = FolderCollectionFactory.Current;
+            ////var factory = FolderCollectionFactory.Current;
 
             if (!isForce && _folderCollection.Place.Equals(path))
             {
@@ -983,15 +969,15 @@ namespace NeeView
             if (path.Search != null && _folderCollection is FolderSearchCollection && _folderCollection.Place.FullPath == path.FullPath)
             {
                 ////Debug.WriteLine($"SearchEngine: Cancel");
-                factory.SearchEngine.CancelSearch();
+                FolderCollectionFactory.SearchEngine.CancelSearch();
             }
             else
             {
                 ////Debug.WriteLine($"SearchEngine: Reset");
-                factory.SearchEngine.Reset();
+                FolderCollectionFactory.SearchEngine.Reset();
             }
 
-            return await factory.CreateFolderCollectionAsync(path, true, token);
+            return await FolderCollectionFactory.CreateFolderCollectionAsync(path, true, token);
         }
 
         #endregion CreateFolderCollection
@@ -1002,7 +988,7 @@ namespace NeeView
         public void AddQuickAccess()
         {
             IsFolderTreeVisible = true;
-            FolderTreeModel.Current.AddQuickAccess(GetCurentQueryPath());
+            BookshelfFolderTreeModel.Current.AddQuickAccess(GetCurentQueryPath());
         }
 
         public string GetCurentQueryPath()
@@ -1124,7 +1110,7 @@ namespace NeeView
 
             if (IsSyncFolderTree && Place != null)
             {
-                FolderTreeModel.Current.SyncDirectory(Place.SimplePath);
+                BookshelfFolderTreeModel.Current.SyncDirectory(Place.SimplePath);
             }
         }
 
@@ -1202,40 +1188,16 @@ namespace NeeView
             [DataMember]
             public PanelListItemStyle PanelListItemStyle { get; set; }
 
-            [DataMember]
-            public bool IsVisibleHistoryMark { get; set; }
-
-            [DataMember]
-            public bool IsVisibleBookmarkMark { get; set; }
-
-            [DataMember]
-            public string Home { get; set; }
-
-            [DataMember, DefaultValue(true)]
-            public bool IsInsertItem { get; set; }
-
-            [DataMember]
-            public bool IsMultipleRarFilterEnabled { get; set; }
-
-            [DataMember]
-            public string ExcludePattern { get; set; }
-
-            [DataMember]
-            public bool IsCruise { get; set; }
-
-            [DataMember]
-            public bool IsCloseBookWhenMove { get; set; }
-
             [DataMember, DefaultValue(FolderTreeLayout.Left)]
             public FolderTreeLayout FolderTreeLayout { get; set; }
 
             [DataMember, DefaultValue(72.0)]
             public double FolderTreeAreaHeight { get; set; }
 
-            [DataMember, DefaultValue(192.0)]
+            [DataMember, DefaultValue(128.0)]
             public double FolderTreeAreaWidth { get; set; }
 
-            [DataMember, DefaultValue(true)]
+            [DataMember, DefaultValue(false)]
             public bool IsFolderTreeVisible { get; set; }
 
             [DataMember]
@@ -1253,14 +1215,6 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.PanelListItemStyle = this.PanelListItemStyle;
-            memento.IsVisibleHistoryMark = this.IsVisibleHistoryMark;
-            memento.IsVisibleBookmarkMark = this.IsVisibleBookmarkMark;
-            memento.Home = this.Home;
-            memento.IsInsertItem = this.IsInsertItem;
-            memento.IsMultipleRarFilterEnabled = this.IsMultipleRarFilterEnabled;
-            memento.ExcludePattern = this.ExcludePattern;
-            memento.IsCruise = this.IsCruise;
-            memento.IsCloseBookWhenMove = this.IsCloseBookWhenMove;
             memento.FolderTreeLayout = this.FolderTreeLayout;
             memento.FolderTreeAreaHeight = this.FolderTreeAreaHeight;
             memento.FolderTreeAreaWidth = this.FolderTreeAreaWidth;
@@ -1276,14 +1230,6 @@ namespace NeeView
             if (memento == null) return;
 
             this.PanelListItemStyle = memento.PanelListItemStyle;
-            this.IsVisibleHistoryMark = memento.IsVisibleHistoryMark;
-            this.IsVisibleBookmarkMark = memento.IsVisibleBookmarkMark;
-            this.Home = memento.Home;
-            this.IsInsertItem = memento.IsInsertItem;
-            this.IsMultipleRarFilterEnabled = memento.IsMultipleRarFilterEnabled;
-            this.ExcludePattern = memento.ExcludePattern;
-            this.IsCruise = memento.IsCruise;
-            this.IsCloseBookWhenMove = memento.IsCloseBookWhenMove;
             this.FolderTreeLayout = memento.FolderTreeLayout;
             this.FolderTreeAreaHeight = memento.FolderTreeAreaHeight;
             this.FolderTreeAreaWidth = memento.FolderTreeAreaWidth;
@@ -1292,33 +1238,6 @@ namespace NeeView
         }
 
         #endregion
-    }
-
-
-    /// <summary>
-    /// BookshelfFolderList
-    /// </summary>
-    public class BookshelfFolderList : FolderList
-    {
-        static BookshelfFolderList() => Current = new BookshelfFolderList();
-        public static BookshelfFolderList Current { get; }
-
-        protected BookshelfFolderList() : base(false)
-        {
-        }
-    }
-
-    /// <summary>
-    /// BookmarkFolderList
-    /// </summary>
-    public class BookmarkFolderList : FolderList
-    {
-        static BookmarkFolderList() => Current = new BookmarkFolderList();
-        public static BookmarkFolderList Current { get; }
-
-        private BookmarkFolderList() : base(true)
-        {
-        }
     }
 
 }

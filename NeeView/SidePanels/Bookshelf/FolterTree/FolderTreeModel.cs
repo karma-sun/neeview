@@ -23,8 +23,6 @@ namespace NeeView
     {
         // Fields
 
-        public static FolderTreeModel Current { get; private set; }
-
         private FolderList _folderList;
         private RootFolderTree _root;
         private RootQuickAccessNode _rootQuickAccess;
@@ -36,8 +34,6 @@ namespace NeeView
 
         public FolderTreeModel(FolderList folderList)
         {
-            Current = this;
-
             _folderList = folderList;
             _root = new RootFolderTree();
 
@@ -54,16 +50,6 @@ namespace NeeView
             _root.Children.Add(_rootBookmarkFolder);
 
             ////_rootPagemarkFolder = new RootPagemarkFolderNode(_root);
-
-#if false
-            _root.Children = new ObservableCollection<FolderTreeNodeBase>()
-            {
-                _rootQuickAccess,
-                _rootFolder,
-                _rootBookmarkFolder,
-                ////_rootPagemarkFolder,
-            };
-#endif
 
             Config.Current.DpiChanged += Config_DpiChanged;
         }

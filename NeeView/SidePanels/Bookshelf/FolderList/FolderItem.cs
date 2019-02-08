@@ -76,6 +76,13 @@ namespace NeeView
     /// </summary>
     public abstract class FolderItem : BindableBase, IHasPage, IHasName
     {
+        private bool _isOverlayEnabled;
+
+        public FolderItem(bool isOverlayEnabled)
+        {
+            _isOverlayEnabled = isOverlayEnabled;
+        }
+
         #region Properties
 
         /// <summary>
@@ -245,14 +252,21 @@ namespace NeeView
 
         private void UpdateOverlay()
         {
-            if (IsDisable())
-                _iconOverlay = FolderItemIconOverlay.Disable;
-            else if (BookshelfFolderList.Current.IsVisibleBookmarkMark && BookmarkCollection.Current.Contains(TargetPath.SimplePath))
-                _iconOverlay = FolderItemIconOverlay.Star;
-            else if (BookshelfFolderList.Current.IsVisibleHistoryMark && BookHistoryCollection.Current.Contains(TargetPath.SimplePath))
-                _iconOverlay = FolderItemIconOverlay.Checked;
+            if (_isOverlayEnabled)
+            {
+                if (IsDisable())
+                    _iconOverlay = FolderItemIconOverlay.Disable;
+                else if (BookshelfFolderList.Current.IsVisibleBookmarkMark && BookmarkCollection.Current.Contains(TargetPath.SimplePath))
+                    _iconOverlay = FolderItemIconOverlay.Star;
+                else if (BookshelfFolderList.Current.IsVisibleHistoryMark && BookHistoryCollection.Current.Contains(TargetPath.SimplePath))
+                    _iconOverlay = FolderItemIconOverlay.Checked;
+                else
+                    _iconOverlay = FolderItemIconOverlay.None;
+            }
             else
+            {
                 _iconOverlay = FolderItemIconOverlay.None;
+            }
         }
 
         // アイコンオーバーレイの変更を通知
@@ -298,9 +312,15 @@ namespace NeeView
         private Page _archivePage;
 
 
+        public FileFolderItem(bool isOverlayEnabled) : base(isOverlayEnabled)
+        {
+        }
+
+
         public override string Note => IsFileSystem() || !IsDirectory ? GetArchivePage()?.Note : null;
 
         public override IThumbnail Thumbnail => GetArchivePage()?.Thumbnail;
+
 
 
         public override Page GetPage()
@@ -339,7 +359,7 @@ namespace NeeView
     {
         private IThumbnail _thumbnail;
 
-        public DriveFolderItem(DriveInfo driveInfo)
+        public DriveFolderItem(DriveInfo driveInfo, bool isOverlayEnabled) : base(isOverlayEnabled)
         {
             ////_thumbnail = new DriveThumbnail(driveInfo.Name);
             _thumbnail = new ResourceThumbnail("ic_drive", MainWindow.Current);
@@ -355,7 +375,7 @@ namespace NeeView
     {
         private IThumbnail _thumbnail;
 
-        public ConstFolderItem(IThumbnail thumbnail)
+        public ConstFolderItem(IThumbnail thumbnail, bool isOverlayEnabled) : base(isOverlayEnabled)
         {
             _thumbnail = thumbnail;
         }

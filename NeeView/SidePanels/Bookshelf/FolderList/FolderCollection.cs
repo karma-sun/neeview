@@ -38,16 +38,17 @@ namespace NeeView
         #region Fields
 
         private Jobs.SingleJobEngine _engine;
-
+        protected bool _isOverlayEnabled;
         private object _lock = new object();
 
         #endregion
 
         #region Constructors
 
-        protected FolderCollection(QueryPath path, bool isStartEngine)
+        protected FolderCollection(QueryPath path, bool isStartEngine, bool isOverlayEnabled)
         {
             this.Place = path;
+            _isOverlayEnabled = isOverlayEnabled;
 
             // HACK: FullPathにする。過去のデータも修正が必要
             this.FolderParameter = new FolderParameter(Place.SimplePath);
@@ -575,7 +576,7 @@ namespace NeeView
         /// <returns></returns>
         protected FolderItem CreateFolderItemEmpty()
         {
-            return new ConstFolderItem(new ResourceThumbnail("ic_noentry", MainWindow.Current))
+            return new ConstFolderItem(new ResourceThumbnail("ic_noentry", MainWindow.Current), _isOverlayEnabled)
             {
                 Type = FolderItemType.Empty,
                 Place = Place,
@@ -670,7 +671,7 @@ namespace NeeView
         {
             if (e != null)
             {
-                var item = new DriveFolderItem(e)
+                var item = new DriveFolderItem(e, _isOverlayEnabled)
                 {
                     Place = Place,
                     Name = e.Name,
@@ -708,7 +709,7 @@ namespace NeeView
         {
             if (e != null && e.Exists && (e.Attributes & FileAttributes.Hidden) == 0)
             {
-                return new FileFolderItem()
+                return new FileFolderItem(_isOverlayEnabled)
                 {
                     Type = FolderItemType.Directory,
                     Place = Place,
@@ -734,7 +735,7 @@ namespace NeeView
         {
             if (e != null && e.Exists && ArchiverManager.Current.IsSupported(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
             {
-                return new FileFolderItem()
+                return new FileFolderItem(_isOverlayEnabled)
                 {
                     Type = FolderItemType.File,
                     Place = Place,

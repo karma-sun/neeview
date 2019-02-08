@@ -202,6 +202,10 @@
     <Compile Include="SidePanels\Bookmark\BookmarkListView.xaml.cs">
       <DependentUpon>BookmarkListView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SidePanels\Bookmark\BookmarkFolderList.cs" />
+    <Compile Include="SidePanels\Bookshelf\FolderList\BookshelfFolderList.cs" />
+    <Compile Include="Obsolete\FolderListLegacy.cs" />
+    <Compile Include="SidePanels\Bookshelf\FolterTree\BookshelfFolderTreeModel.cs" />
     <Compile Include="_NeeLaboratory\IO\RemoteCommand.cs" />
     <Compile Include="SaveDataSync.cs" />
     <Compile Include="Setting\SusiePluginSettingWindow.xaml.cs">

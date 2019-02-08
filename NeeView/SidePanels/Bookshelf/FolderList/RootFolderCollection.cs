@@ -8,7 +8,7 @@ namespace NeeView
     /// </summary>
     public class RootFolderCollection : FolderCollection, IDisposable
     {
-        public RootFolderCollection(QueryPath path) : base(path, false)
+        public RootFolderCollection(QueryPath path, bool isOverlayEnabled) : base(path, false, isOverlayEnabled)
         {
             var items = new ObservableCollection<FolderItem>();
 
@@ -26,7 +26,7 @@ namespace NeeView
 
         private FolderItem CreateFolderItem(QueryScheme scheme)
         {
-            return new ConstFolderItem(new ConstThumbnail(() => scheme.ToImage()))
+            return new ConstFolderItem(new ConstThumbnail(() => scheme.ToImage()), _isOverlayEnabled)
             {
                 Source = scheme,
                 Type = FolderItemType.Directory,

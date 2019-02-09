@@ -168,6 +168,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AppDispatcher.cs" />
     <Compile Include="ApplicationDisposer.cs" />
     <Compile Include="Archiver\ArchiverType.cs" />
     <Compile Include="Archiver\MediaArchiver.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="Controls\PageSortModePalette.xaml.cs">
       <DependentUpon>PageSortModePalette.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DebugTimer.cs" />
     <Compile Include="MultbootService.cs" />
     <Compile Include="OpenSourceControls\VirtualizingWrapPanel.cs" />
     <Compile Include="RemoteCommandService.cs" />

@@ -682,7 +682,7 @@ namespace NeeView
                 var newHeight = Math.Floor(this.Height * e.OldDpi.DpiScaleY / e.NewDpi.DpiScaleY);
 
                 // 反映タイミングをずらす
-                App.Current.Dispatcher.BeginInvoke((Action)(() =>
+                AppDispatcher.BeginInvoke((Action)(() =>
                 {
                     this.Width = newWidth;
                     this.Height = newHeight;
@@ -827,10 +827,10 @@ namespace NeeView
         /// </summary>
         private void ResetFocus()
         {
-            this.Dispatcher.BeginInvoke((Action)(() =>
+            AppDispatcher.BeginInvoke(() =>
             {
                 this.MainView.Focus();
-            }));
+            });
         }
 
 

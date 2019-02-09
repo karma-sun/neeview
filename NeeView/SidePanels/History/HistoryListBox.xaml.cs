@@ -199,7 +199,7 @@ namespace NeeView
         // リスト全体が変化したときにサムネイルを更新する
         private void HistoryListBox_TargetUpdated(object sender, DataTransferEventArgs e)
         {
-            App.Current.Dispatcher.BeginInvoke((Action)(() => _thumbnailLoader.Load()));
+            AppDispatcher.BeginInvoke(() => _thumbnailLoader.Load());
         }
 
         #endregion

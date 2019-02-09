@@ -316,6 +316,8 @@ namespace NeeView
 
             // GC
             MemoryControl.Current.GarbageCollect();
+
+            ////DebugTimer.Check("UpdatedContentCanvas");
         }
 
         // 先読みコンテンツ更新

@@ -62,7 +62,7 @@ namespace NeeView
 
             ////Debug.WriteLine($"DriveChange: {e.Name}, {e.IsAlive}");
 
-            App.Current.Dispatcher.BeginInvoke((Action)(() =>
+            AppDispatcher.BeginInvoke(() =>
             {
                 try
                 {
@@ -97,7 +97,7 @@ namespace NeeView
                 {
                     Debug.WriteLine(ex.Message);
                 }
-            }));
+            });
         }
 
         private void AddDrive(DriveInfo driveInfo)
@@ -148,7 +148,7 @@ namespace NeeView
 
             ////Debug.WriteLine($"MediaChange: {e.Name}, {e.IsAlive}");
 
-            App.Current.Dispatcher.BeginInvoke((Action)(() =>
+            AppDispatcher.BeginInvoke(() =>
             {
                 try
                 {
@@ -166,12 +166,12 @@ namespace NeeView
                 {
                     Debug.WriteLine(ex.Message);
                 }
-            }));
+            });
         }
 
         private void WindowMessage_DirectoryChanged(object sender, DirectoryChangedEventArgs e)
         {
-            App.Current.Dispatcher.BeginInvoke((Action)(() =>
+            AppDispatcher.BeginInvoke(() =>
             {
                 try
                 {
@@ -192,7 +192,7 @@ namespace NeeView
                 {
                     Debug.WriteLine(ex.Message);
                 }
-            }));
+            });
         }
 
         private void Directory_Creaded(string fullpath)
@@ -206,7 +206,7 @@ namespace NeeView
             {
                 var name = LoosePath.GetFileName(fullpath);
                 var node = new DirectoryNode(name, null);
-                App.Current.Dispatcher.BeginInvoke((Action)(() => parent.Add(node)));
+                AppDispatcher.BeginInvoke(() => parent.Add(node));
             }
             else
             {
@@ -224,7 +224,7 @@ namespace NeeView
             if (parent != null)
             {
                 var name = LoosePath.GetFileName(fullpath);
-                App.Current.Dispatcher.BeginInvoke((Action)(() => parent.Remove(name)));
+                AppDispatcher.BeginInvoke(() => parent.Remove(name));
             }
             else
             {
@@ -243,7 +243,7 @@ namespace NeeView
             {
                 var oldName = LoosePath.GetFileName(oldFullpath);
                 var name = LoosePath.GetFileName(fullpath);
-                App.Current.Dispatcher.BeginInvoke((Action)(() => parent.Rename(oldName, name)));
+                AppDispatcher.BeginInvoke(() => parent.Rename(oldName, name));
             }
             else
             {

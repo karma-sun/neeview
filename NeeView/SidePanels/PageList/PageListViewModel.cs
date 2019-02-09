@@ -147,7 +147,7 @@ namespace NeeView
 
         private void UpdateListBoxContent()
         {
-            App.Current.Dispatcher.Invoke(() =>
+            AppDispatcher.Invoke(() =>
             {
                 var vm = new PageListBoxViewModel(_model.ListBoxModel);
                 this.ListBoxView = new PageListBox(vm);

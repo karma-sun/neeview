@@ -199,7 +199,7 @@ namespace NeeView
                     var picture = ((BitmapContent)this.Content)?.Picture;
                     picture?.Resize(size);
 
-                    App.Current?.Dispatcher.Invoke((Action)(() =>
+                    AppDispatcher.Invoke(() =>
                     {
                         var view = CreateView(this.Source, CreateBindingParameter());
                         if (view != null)
@@ -207,7 +207,7 @@ namespace NeeView
                             this.View = view;
                             ContentCanvas.Current.UpdateContentScalingMode(this);
                         }
-                    }));
+                    });
                 }
                 catch (Exception ex)
                 {

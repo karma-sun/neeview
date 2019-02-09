@@ -63,7 +63,7 @@ namespace NeeView
 
         public void Update()
         {
-            App.Current.Dispatcher.BeginInvoke((Action)(() => UpdateCore()));
+            AppDispatcher.BeginInvoke(() => UpdateCore());
         }
 
         private void UpdateCore()

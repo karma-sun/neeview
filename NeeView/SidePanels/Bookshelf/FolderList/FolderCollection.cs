@@ -400,7 +400,7 @@ namespace NeeView
 
             item = CreateFolderItem(path);
 
-            App.Current.Dispatcher.Invoke(() =>
+            AppDispatcher.Invoke(() =>
             {
                 CreateItem(item);
             });
@@ -483,7 +483,7 @@ namespace NeeView
             // 既に存在しない場合は処理しない
             if (item == null) return;
 
-            App.Current.Dispatcher.Invoke(() =>
+            AppDispatcher.Invoke(() =>
             {
                 DeleteItem(item);
             });

@@ -916,19 +916,19 @@ namespace NeeView
             // ページ終端を越えたか判定
             if (source.Position < FirstPosition())
             {
-                App.Current?.Dispatcher.Invoke(() => PageTerminated?.Invoke(this, new PageTerminatedEventArgs(-1)));
+                AppDispatcher.Invoke(() => PageTerminated?.Invoke(this, new PageTerminatedEventArgs(-1)));
                 return;
             }
             else if (source.Position > LastPosition())
             {
-                App.Current?.Dispatcher.Invoke(() => PageTerminated?.Invoke(this, new PageTerminatedEventArgs(+1)));
+                AppDispatcher.Invoke(() => PageTerminated?.Invoke(this, new PageTerminatedEventArgs(+1)));
                 return;
             }
 
             // ページ数０の場合は表示コンテンツなし
             if (Pages.Count == 0)
             {
-                App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewPageCollectionChangedEventArgs(new ViewPageCollection())));
+                AppDispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewPageCollectionChangedEventArgs(new ViewPageCollection())));
                 return;
             }
 
@@ -1027,7 +1027,7 @@ namespace NeeView
             ////Debug.WriteLine($"now: {_viewPageCollection.Range}");
 
             // notice ViewContentsChanged
-            App.Current?.Dispatcher.Invoke(() => ViewContentsChanged?.Invoke(sender, new ViewPageCollectionChangedEventArgs(viewContent)));
+            AppDispatcher.Invoke(() => ViewContentsChanged?.Invoke(sender, new ViewPageCollectionChangedEventArgs(viewContent)));
 
             // change page
             this.DisplayIndex = viewContent.Range.Min.Index;

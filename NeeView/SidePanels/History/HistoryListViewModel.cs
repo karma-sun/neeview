@@ -212,13 +212,13 @@ namespace NeeView
             {
                 _isDarty = false;
 
-                App.Current.Dispatcher.Invoke(() => this.ListBoxContent.StoreFocus());
+                AppDispatcher.Invoke(() => this.ListBoxContent.StoreFocus());
 
                 var item = SelectedItem;
                 Items = new ObservableCollection<BookHistory>(BookHistoryCollection.Current.Items);
                 SelectedItem = Items.Count > 0 ? item : null;
 
-                App.Current.Dispatcher.Invoke(() => this.ListBoxContent.RestoreFocus());
+                AppDispatcher.Invoke(() => this.ListBoxContent.RestoreFocus());
             }
         }
 

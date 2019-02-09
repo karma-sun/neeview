@@ -10,6 +10,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Threading;
 
 // TODO: Jobの状態パラメータ(Status?)
@@ -620,8 +621,7 @@ namespace NeeView
             {
                 Debug.WriteLine($"JOB EXCEPTION: {e.Message}");
                 Message = e.Message;
-                Action<Exception> action = (exception) => { throw new ApplicationException("Task internal exception", exception); };
-                App.Current?.Dispatcher.BeginInvoke(action, e);
+                AppDispatcher.BeginInvoke(() => throw new ApplicationException("JobEngine internal exception", e));
             }
         }
 

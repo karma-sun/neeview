@@ -64,7 +64,7 @@ namespace NeeView
         /// </summary>
         private void UpdateInvoke()
         {
-            App.Current?.Dispatcher.Invoke(() => UpdateControl());
+            AppDispatcher.Invoke(() => UpdateControl());
         }
 
 

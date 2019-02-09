@@ -26,7 +26,7 @@ namespace NeeView
 
         #endregion
 
-        public static new App Current => (App)Application.Current;
+        public static new App Current { get; private set; }
 
         private bool _isSplashScreenVisibled;
 
@@ -71,6 +71,8 @@ namespace NeeView
         /// </summary>
         private async void Application_Startup(object sender, StartupEventArgs e)
         {
+            Current = this;
+
             StartTime = DateTime.Now;
             Stopwatch = Stopwatch.StartNew();
 
@@ -300,6 +302,6 @@ namespace NeeView
             ThumbnailCache.Current.Dispose();
         }
 
-#endregion
+        #endregion
     }
 }

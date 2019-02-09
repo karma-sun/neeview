@@ -64,7 +64,7 @@ namespace NeeView.Media.Imaging
 
             if (App.Current == null) return null;
 
-            App.Current?.Dispatcher.Invoke(() =>
+            AppDispatcher.Invoke(() =>
             {
                 var canvas = new Canvas();
                 canvas.Width = width;

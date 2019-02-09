@@ -79,7 +79,7 @@ namespace NeeView
 
         private void ViewModel_SelectedIdexChanged(object sender, PropertyChangedEventArgs e)
         {
-            App.Current.Dispatcher.BeginInvoke((Action)(() => DartyThumbnailList()));
+            AppDispatcher.BeginInvoke(() => DartyThumbnailList());
         }
 
         private void ViewModel_ViewItemsChanged(object sender, ViewItemsChangedEventArgs e)

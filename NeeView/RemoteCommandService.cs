@@ -46,7 +46,7 @@ namespace NeeView
         {
             if (_recievers.TryGetValue(e.Command.Id, out RemoteCommandReciever reciever))
             {
-                App.Current.Dispatcher.BeginInvoke((Action)(() =>
+                AppDispatcher.BeginInvoke(() =>
                 {
                     try
                     {
@@ -56,7 +56,7 @@ namespace NeeView
                     {
                         Debug.WriteLine(ex.Message);
                     }
-                }));
+                });
             }
             else
             {

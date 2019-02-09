@@ -58,7 +58,7 @@ namespace NeeView
             var node = GetDirectoryNode(parent.CreateQuery(QueryScheme.Bookmark));
             if (node != null)
             {
-                ////App.Current.Dispatcher.BeginInvoke((Action)(() => node.Add(item)));
+                ////AppDispatcher.BeginInvoke((Action)(() => node.Add(item)));
                 var newNode = new BookmarkFolderNode(item, null);
                 node.Add(newNode);
             }
@@ -80,7 +80,7 @@ namespace NeeView
             var node = GetDirectoryNode(parent.CreateQuery(QueryScheme.Bookmark));
             if (node != null)
             {
-                ////App.Current.Dispatcher.BeginInvoke((Action)(() => node.Remove(item)));
+                ////AppDispatcher.BeginInvoke((Action)(() => node.Remove(item)));
                 node.Remove(item);
             }
             else
@@ -101,7 +101,7 @@ namespace NeeView
             var node = GetDirectoryNode(parent.CreateQuery(QueryScheme.Bookmark));
             if (node != null)
             {
-                ////App.Current.Dispatcher.BeginInvoke((Action)(() => node.Rename(item)));
+                ////AppDispatcher.BeginInvoke((Action)(() => node.Rename(item)));
                 node.Renamed(item);
             }
             else

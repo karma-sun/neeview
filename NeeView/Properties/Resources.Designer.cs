@@ -187,6 +187,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Sync bookshelf に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookmarkListMoreMenuSyncBookshelf {
+            get {
+                return ResourceManager.GetString("BookmarkListMoreMenuSyncBookshelf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Remove invalid bookmark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookmarkMenuDeleteInvalid {

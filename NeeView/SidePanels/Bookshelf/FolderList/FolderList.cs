@@ -455,8 +455,24 @@ namespace NeeView
             set { SetProperty(ref _IsLocked, value && Place != null); }
         }
 
-        public PageListPlacementService PageListPlacementService => PageListPlacementService.Current;
+        /// <summary>
+        /// 本の読み込みで本棚の更新を要求する
+        /// </summary>
+        private bool _isSyncBookshelfEnabled;
+        public bool IsSyncBookshelfEnabled
+        {
+            get { return _isSyncBookshelfEnabled; }
+            set
+            {
+                if (SetProperty(ref _isSyncBookshelfEnabled, value) && FolderListBoxModel != null)
+                {
+                    FolderListBoxModel.IsSyncBookshelfEnabled = _isSyncBookshelfEnabled;
+                }
+            }
+        }
 
+
+        public PageListPlacementService PageListPlacementService => PageListPlacementService.Current;
 
         #endregion
 
@@ -576,6 +592,7 @@ namespace NeeView
                 return;
             }
 
+#if false
             // 可能であればファイルパスをブックマークフォルダーパスに変換
             if (_folderListBoxModel?.FolderCollection is BookmarkFolderCollection && !options.HasFlag(FolderSetPlaceOption.FileSystem))
             {
@@ -589,6 +606,7 @@ namespace NeeView
                     }
                 }
             }
+#endif
 
             // 現在フォルダーの情報を記憶
             if (_folderListBoxModel != null)
@@ -619,6 +637,7 @@ namespace NeeView
                 {
                     this.FolderCollection = collection;
                     this.FolderListBoxModel = new FolderListBoxModel(this.FolderCollection);
+                    this.FolderListBoxModel.IsSyncBookshelfEnabled = _isSyncBookshelfEnabled;
                     this.FolderListBoxModel.SetSelectedItem(select, options.HasFlag(FolderSetPlaceOption.Focus));
                     if (options.HasFlag(FolderSetPlaceOption.Focus))
                     {
@@ -1087,6 +1106,8 @@ namespace NeeView
 
         public async void Sync()
         {
+            if (IsBookmarkOnly) return;
+
             var place = BookHub.Current?.Book?.Place;
 
             if (place != null)

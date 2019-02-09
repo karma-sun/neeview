@@ -4505,4 +4505,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamBookOperationNotifyPageLoop" xml:space="preserve">
     <value>ページのループを通知する</value>
   </data>
+  <data name="BookmarkListMoreMenuSyncBookshelf" xml:space="preserve">
+    <value>本棚と同期する</value>
+  </data>
 </root>

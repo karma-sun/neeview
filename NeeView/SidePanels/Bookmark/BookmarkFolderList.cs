@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using System.ComponentModel;
 using System.Runtime.Serialization;
 
 namespace NeeView
@@ -13,7 +14,9 @@ namespace NeeView
 
         private BookmarkFolderList() : base(true)
         {
+            IsSyncBookshelfEnabled = true;
         }
+
 
         #region Memento
 
@@ -22,6 +25,9 @@ namespace NeeView
         {
             [DataMember]
             public FolderList.Memento FolderList { get; set; }
+
+            [DataMember, DefaultValue(true)]
+            public bool IsSyncBookshelfEnabled { get; set; }
 
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
@@ -35,6 +41,7 @@ namespace NeeView
             var memento = new Memento();
 
             memento.FolderList = base.CreateMemento();
+            memento.IsSyncBookshelfEnabled = this.IsSyncBookshelfEnabled;
 
             return memento;
         }
@@ -44,6 +51,7 @@ namespace NeeView
             if (memento == null) return;
 
             base.Restore(memento.FolderList);
+            this.IsSyncBookshelfEnabled = memento.IsSyncBookshelfEnabled;
         }
 
         #endregion

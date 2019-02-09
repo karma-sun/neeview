@@ -17,7 +17,7 @@ namespace NeeView
     {
         static SidePanelProfile()
         {
-            _defaultNormalItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 0, false, true, false, 0.0);
+            _defaultNormalItemProfile = new PanelListItemProfile(PanelListItemImageShape.Square, 0, false, true, false, 0.0);
             _defaultContentItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 64, true, true, false, 0.5);
             _defaultBannerItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 200, false, true, false, 0.0);
             _defaultThumbnailItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 128, false, true, true, 0.0);

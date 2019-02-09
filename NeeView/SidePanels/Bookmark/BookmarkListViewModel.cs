@@ -203,8 +203,21 @@ namespace NeeView
             items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
             items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleThumbnail, PanelListItemStyle.Thumbnail));
             items.Add(new Separator());
-            items.Add(CreateCommandMenuItem(Properties.Resources.WordNewFolder, NewFolderCommand));
             items.Add(CreateCommandMenuItem(Properties.Resources.FolderTreeMenuDeleteInvalidBookmark, RemoveUnlinkedCommand));
+            items.Add(new Separator());
+            items.Add(CreateCommandMenuItem(Properties.Resources.WordNewFolder, NewFolderCommand));
+            items.Add(CreateCommandMenuItem(Properties.Resources.FolderTreeMenuAddBookmark, AddBookmarkCommand));
+            items.Add(new Separator());
+            items.Add(CreateCheckFlagMenuItem(Properties.Resources.BookmarkListMoreMenuSyncBookshelf, new Binding(nameof(BookmarkFolderList.IsSyncBookshelfEnabled)) { Source = BookmarkFolderList.Current }));
+        }
+
+        private MenuItem CreateCheckFlagMenuItem(string header, Binding binding)
+        {
+            var item = new MenuItem();
+            item.Header = header;
+            item.IsCheckable = true;
+            item.SetBinding(MenuItem.IsCheckedProperty, binding);
+            return item;
         }
 
         private MenuItem CreateCommandMenuItem(string header, ICommand command)

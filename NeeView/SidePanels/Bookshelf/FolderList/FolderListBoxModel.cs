@@ -60,6 +60,16 @@ namespace NeeView
         /// </summary>
         public bool IsFocusAtOnce { get; set; }
 
+        /// <summary>
+        /// 本を読み込むときに本棚の更新を要求する
+        /// </summary>
+        private bool _isSyncBookshelfEnabled;
+        public bool IsSyncBookshelfEnabled
+        {
+            get { return _isSyncBookshelfEnabled; }
+            set { SetProperty(ref _isSyncBookshelfEnabled, value); }
+        }
+
 
         public void Loaded()
         {
@@ -259,7 +269,7 @@ namespace NeeView
                 return;
             }
 
-            BookHub.Current.RequestLoad(query.SimplePath, null, option | BookLoadOption.IsBook, false);
+            BookHub.Current.RequestLoad(query.SimplePath, null, option | BookLoadOption.IsBook, _isSyncBookshelfEnabled);
         }
 
         /// <summary>

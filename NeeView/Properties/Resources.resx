@@ -140,6 +140,7 @@
   </data>
   <data name="BookAddressInfoPage" xml:space="preserve">
     <value>{0} page</value>
+    <comment>E</comment>
   </data>
   <data name="BookmarkItemMenuDelete" xml:space="preserve">
     <value>_Remove bookmark</value>
@@ -4504,5 +4505,8 @@ Initialize the temporary location.</value>
   </data>
   <data name="ParamBookOperationNotifyPageLoop" xml:space="preserve">
     <value>Notify page loop</value>
+  </data>
+  <data name="BookmarkListMoreMenuSyncBookshelf" xml:space="preserve">
+    <value>Sync bookshelf</value>
   </data>
 </root>

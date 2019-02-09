@@ -21,7 +21,7 @@ namespace NeeView
             App.Current.Dispatcher.Invoke(action);
             ////Debug.WriteLine($"App.Dispatcher.Invoke: {sourceFile}({sourceLine}):  {sw.ElapsedMilliseconds}ms");
 #else
-            this.Dispatcher.Invoke(action);
+            App.Current.Dispatcher.Invoke(action);
 #endif
         }
 
@@ -40,7 +40,7 @@ namespace NeeView
                 ////Debug.WriteLine($"App.Dispatcher.BeginInvoke: {sourceFile}({sourceLine}):  {sw.ElapsedMilliseconds}ms");
             }));
 #else
-            this.Dispatcher.BeginInvoke(action);
+            App.Current.Dispatcher.BeginInvoke(action);
 #endif
         }
     }

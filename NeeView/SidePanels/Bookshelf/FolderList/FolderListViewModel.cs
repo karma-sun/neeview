@@ -79,11 +79,9 @@ namespace NeeView
     {
         #region Fields
 
-        //
         private FolderListBox _folderListBox;
-
-        //
         private PanelListItemStyleToBooleanConverter _panelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
+        private Dictionary<FolderOrder, string> _folderOrderListDefault = AliasNameExtensions.GetAliasNameDictionary<FolderOrder>();
 
         #endregion
 
@@ -146,7 +144,12 @@ namespace NeeView
         /// <summary>
         /// コンボボックス用リスト
         /// </summary>
-        public Dictionary<FolderOrder, string> FolderOrderList => AliasNameExtensions.GetAliasNameDictionary<FolderOrder>();
+        private Dictionary<FolderOrder, string> _folderOrderList = AliasNameExtensions.GetAliasNameDictionary<FolderOrder>();
+        public Dictionary<FolderOrder, string> FolderOrderList
+        {
+            get { return _folderOrderList; }
+            set { SetProperty(ref _folderOrderList, value); }
+        }
 
         /// <summary>
         /// MoreMenu property.
@@ -358,25 +361,6 @@ namespace NeeView
 
         #endregion Commands
 
-        #region Methods
-
-        //
-        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
-            {
-                case nameof(_model.PanelListItemStyle):
-                    UpdateFolderListBox();
-                    break;
-            }
-        }
-
-        //
-        private void Model_CollectionChanged(object sender, EventArgs e)
-        {
-            UpdateFolderListBox();
-        }
-
         #region MoreMenu
 
         //
@@ -491,8 +475,24 @@ namespace NeeView
 
         #endregion MoreMenu
 
+        #region Methods
 
-        //
+        private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(_model.PanelListItemStyle):
+                    UpdateFolderListBox();
+                    break;
+            }
+        }
+
+        private void Model_CollectionChanged(object sender, EventArgs e)
+        {
+            UpdateFolderListBox();
+            UpdateFolderOrerList();
+        }
+
         public void UpdateFolderListBox()
         {
             var vm = new FolderListBoxViewModel(_model, _model.FolderListBoxModel);
@@ -501,6 +501,19 @@ namespace NeeView
             SidePanel.Current.RaiseContentChanged();
         }
 
+        public void UpdateFolderOrerList()
+        {
+            if (FolderCollection is BookmarkFolderCollection)
+            {
+                FolderOrderList = _folderOrderListDefault;
+            }
+            else
+            {
+                FolderOrderList = _folderOrderListDefault
+                    .Where(e => !e.Key.IsEntryTimeOrder())
+                    .ToDictionary(e => e.Key, e => e.Value);
+            }
+        }
 
         /// <summary>
         /// リスト項目へのフォーカス許可

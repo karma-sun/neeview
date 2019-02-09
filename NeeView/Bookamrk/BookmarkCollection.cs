@@ -158,11 +158,11 @@ namespace NeeView
             return Find(place) != null;
         }
 
-
         public void AddFirst(TreeListNode<IBookmarkEntry> node)
         {
             if (node == null) throw new ArgumentNullException(nameof(node));
 
+            node.UpdateEntryTime();
             Items.Root.Insert(0, node);
             BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, node.Parent, node));
         }
@@ -174,6 +174,7 @@ namespace NeeView
 
             parent = parent ?? Items.Root;
 
+            node.UpdateEntryTime();
             parent.Add(node);
             BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, node.Parent, node));
         }
@@ -286,6 +287,7 @@ namespace NeeView
                 BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Remove, parent, item));
             }
 
+            item.UpdateEntryTime();
             target.Parent.Insert(target, direction, item);
             if (isChangeDirectory)
             {
@@ -349,6 +351,7 @@ namespace NeeView
             item.RemoveSelf();
             BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Remove, parent, item));
 
+            item.UpdateEntryTime();
             target.Insert(0, item);
             target.IsExpanded = true;
             BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, item.Parent, item));
@@ -618,6 +621,23 @@ namespace NeeView
             }
 
             return false;
+        }
+    }
+
+    /// <summary>
+    /// TreeListNode&lt;IBookmarkEntry&rt; 拡張関数
+    /// </summary>
+    public static class BookmarkTreeListNodeExtensions
+    {
+        /// <summary>
+        /// 登録日を現在日時で更新
+        /// </summary>
+        public static void UpdateEntryTime(this TreeListNode<IBookmarkEntry> node)
+        {
+            if (node.Value is Bookmark bookmark)
+            {
+                bookmark.EntryTime = DateTime.Now;
+            }
         }
     }
 }

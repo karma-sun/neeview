@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Collections;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -40,6 +41,9 @@ namespace NeeView
                 }
             }
         }
+
+        [DataMember(EmitDefaultValue = false)]
+        public DateTime EntryTime { get; set; }
 
         public string Name => Unit.Memento.Name;
 

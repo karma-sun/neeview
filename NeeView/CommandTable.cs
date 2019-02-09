@@ -1474,6 +1474,28 @@ namespace NeeView
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderByTimeStampD] = element;
             }
+            // SetFolderOrderByEntryTimeA
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupBookOrder;
+                element.Text = Properties.Resources.CommandSetFolderOrderByEntryTimeA;
+                element.Note = Properties.Resources.CommandSetFolderOrderByEntryTimeANote;
+                element.Execute = (s, e) => BookshelfFolderList.Current.SetFolderOrder(FolderOrder.EntryTime);
+                element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.EntryTime);
+                element.IsShowMessage = true;
+                _elements[CommandType.SetFolderOrderByEntryTimeA] = element;
+            }
+            // SetFolderOrderByEntryTimeD
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupBookOrder;
+                element.Text = Properties.Resources.CommandSetFolderOrderByEntryTimeD;
+                element.Note = Properties.Resources.CommandSetFolderOrderByEntryTimeDNote;
+                element.Execute = (s, e) => BookshelfFolderList.Current.SetFolderOrder(FolderOrder.EntryTimeDescending);
+                element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.EntryTimeDescending);
+                element.IsShowMessage = true;
+                _elements[CommandType.SetFolderOrderByEntryTimeD] = element;
+            }
             // SetFolderOrderBySizeA
             {
                 var element = new CommandElement();

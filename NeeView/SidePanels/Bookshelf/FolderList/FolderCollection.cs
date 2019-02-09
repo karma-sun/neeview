@@ -268,6 +268,10 @@ namespace NeeView
                     return source.OrderBy(e => e.Type).ThenBy(e => e.LastWriteTime).ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.TimeStampDescending:
                     return source.OrderBy(e => e.Type).ThenByDescending(e => e.LastWriteTime).ThenBy(e => e, new ComparerFileName());
+                case FolderOrder.EntryTime:
+                    return source.OrderBy(e => e.Type).ThenBy(e => e.EntryTime).ThenBy(e => e, new ComparerFileName());
+                case FolderOrder.EntryTimeDescending:
+                    return source.OrderBy(e => e.Type).ThenByDescending(e => e.EntryTime).ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.Size:
                     return source.OrderBy(e => e.Type).ThenBy(e => e.Length).ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.SizeDescending:

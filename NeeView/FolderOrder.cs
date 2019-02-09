@@ -10,7 +10,7 @@ namespace NeeView
     /// <summary>
     /// フォルダーの並び(互換用)
     /// </summary>
-    [Obsolete, DataContract(Name ="FolderOrder")]
+    [Obsolete, DataContract(Name = "FolderOrder")]
     public enum FolderOrderV1
     {
         [EnumMember]
@@ -26,7 +26,7 @@ namespace NeeView
     /// <summary>
     /// フォルダーの並び
     /// </summary>
-    [DataContract(Name ="FolderOrderV2")]
+    [DataContract(Name = "FolderOrderV2")]
     public enum FolderOrder
     {
         [EnumMember]
@@ -46,6 +46,14 @@ namespace NeeView
         TimeStampDescending,
 
         [EnumMember]
+        [AliasName("@EnumFolderOrderEntryTime")]
+        EntryTime,
+
+        [EnumMember]
+        [AliasName("@EnumFolderOrderEntryTimeDescending")]
+        EntryTimeDescending,
+
+        [EnumMember]
         [AliasName("@EnumFolderOrderSize")]
         Size,
 
@@ -63,7 +71,7 @@ namespace NeeView
         [Obsolete]
         public static FolderOrder ToV2(this FolderOrderV1 mode)
         {
-            switch(mode)
+            switch (mode)
             {
                 default:
                 case FolderOrderV1.FileName:
@@ -80,6 +88,11 @@ namespace NeeView
         public static FolderOrder GetToggle(this FolderOrder mode)
         {
             return (FolderOrder)(((int)mode + 1) % Enum.GetNames(typeof(FolderOrder)).Length);
+        }
+
+        public static bool IsEntryTimeOrder(this FolderOrder mode)
+        {
+            return mode == FolderOrder.EntryTime || mode == FolderOrder.EntryTimeDescending;
         }
     }
 }

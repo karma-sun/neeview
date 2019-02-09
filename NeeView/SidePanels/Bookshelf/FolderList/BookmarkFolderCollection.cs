@@ -131,6 +131,7 @@ namespace NeeView
                         Name = bookmark.Name,
                         ArchiveEntry = archiveEntry,
                         LastWriteTime = archiveEntry.LastWriteTime ?? default,
+                        EntryTime = bookmark.EntryTime,
                         Length = archiveEntry.Length,
                         Attributes = FolderItemAttribute.Bookmark,
                         IsReady = true

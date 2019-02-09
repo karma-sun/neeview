@@ -1825,6 +1825,42 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Book EntryTime Ascending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandSetFolderOrderByEntryTimeA {
+            get {
+                return ResourceManager.GetString("CommandSetFolderOrderByEntryTimeA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the order of books in ascending order by entry time. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandSetFolderOrderByEntryTimeANote {
+            get {
+                return ResourceManager.GetString("CommandSetFolderOrderByEntryTimeANote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Book EntryTime Descending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandSetFolderOrderByEntryTimeD {
+            get {
+                return ResourceManager.GetString("CommandSetFolderOrderByEntryTimeD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the order of books in descending order by entry time. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandSetFolderOrderByEntryTimeDNote {
+            get {
+                return ResourceManager.GetString("CommandSetFolderOrderByEntryTimeDNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Book Name Ascending に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetFolderOrderByFileNameA {
@@ -1834,7 +1870,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Ascending order by file name for book columns に類似しているローカライズされた文字列を検索します。
+        ///   Set the order of books in ascending order by name. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetFolderOrderByFileNameANote {
             get {
@@ -1852,7 +1888,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Set the book order by name (descending). に類似しているローカライズされた文字列を検索します。
+        ///   Set the order of books in descending order by name. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetFolderOrderByFileNameDNote {
             get {
@@ -1870,7 +1906,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Shuffle the order of books. に類似しているローカライズされた文字列を検索します。
+        ///   Set the order of books randomly. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetFolderOrderByRandomNote {
             get {
@@ -1888,7 +1924,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Set the book order by size (ascending order). に類似しているローカライズされた文字列を検索します。
+        ///   Set the order of books in ascending order by size. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetFolderOrderBySizeANote {
             get {
@@ -1906,7 +1942,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Sort books by size (descending order). に類似しているローカライズされた文字列を検索します。
+        ///   Set the order of books in descending order by size. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetFolderOrderBySizeDNote {
             get {
@@ -1924,7 +1960,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Set the order of the books in ascending order by date. に類似しているローカライズされた文字列を検索します。
+        ///   Set the order of books in ascending order by date. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetFolderOrderByTimeStampANote {
             get {
@@ -1942,7 +1978,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Set the order of the books in descending order. に類似しているローカライズされた文字列を検索します。
+        ///   Set the order of books in descending order by darte. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetFolderOrderByTimeStampDNote {
             get {
@@ -6178,6 +6214,24 @@ namespace NeeView.Properties {
         public static string EnumFolderIconLayoutExplorer {
             get {
                 return ResourceManager.GetString("EnumFolderIconLayoutExplorer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Entry↑ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumFolderOrderEntryTime {
+            get {
+                return ResourceManager.GetString("EnumFolderOrderEntryTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Entry↓ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumFolderOrderEntryTimeDescending {
+            get {
+                return ResourceManager.GetString("EnumFolderOrderEntryTimeDescending", resourceCulture);
             }
         }
         

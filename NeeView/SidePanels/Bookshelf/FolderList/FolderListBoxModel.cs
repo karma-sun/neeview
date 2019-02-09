@@ -278,6 +278,7 @@ namespace NeeView
         public void SetFolderOrder(FolderOrder folderOrder)
         {
             if (FolderCollection == null) return;
+            if (!(FolderCollection is BookmarkFolderCollection) && folderOrder.IsEntryTimeOrder()) return;
             this.FolderCollection.FolderParameter.FolderOrder = folderOrder;
             RaisePropertyChanged(nameof(FolderOrder));
         }

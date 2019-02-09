@@ -4508,4 +4508,22 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="BookmarkListMoreMenuSyncBookshelf" xml:space="preserve">
     <value>本棚と同期する</value>
   </data>
+  <data name="EnumFolderOrderEntryTime" xml:space="preserve">
+    <value>登録日↑</value>
+  </data>
+  <data name="EnumFolderOrderEntryTimeDescending" xml:space="preserve">
+    <value>登録日↓</value>
+  </data>
+  <data name="CommandSetFolderOrderByEntryTimeA" xml:space="preserve">
+    <value>ブック列は登録日昇順</value>
+  </data>
+  <data name="CommandSetFolderOrderByEntryTimeANote" xml:space="preserve">
+    <value>ブックの並びを登録順(昇順)にします。</value>
+  </data>
+  <data name="CommandSetFolderOrderByEntryTimeD" xml:space="preserve">
+    <value>ブック列は登録日降順</value>
+  </data>
+  <data name="CommandSetFolderOrderByEntryTimeDNote" xml:space="preserve">
+    <value>ブックの並びを登録順(降順)にします。</value>
+  </data>
 </root>

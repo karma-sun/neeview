@@ -106,6 +106,10 @@ namespace NeeView
         [EnumMember(Value = "SetFolderOrderByTimeStamp")]
         SetFolderOrderByTimeStampD,
         [EnumMember]
+        SetFolderOrderByEntryTimeA,
+        [EnumMember]
+        SetFolderOrderByEntryTimeD,
+        [EnumMember]
         SetFolderOrderBySizeA,
         [EnumMember(Value = "SetFolderOrderBySize")]
         SetFolderOrderBySizeD,

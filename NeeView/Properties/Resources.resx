@@ -140,7 +140,6 @@
   </data>
   <data name="BookAddressInfoPage" xml:space="preserve">
     <value>{0} page</value>
-    <comment>E</comment>
   </data>
   <data name="BookmarkItemMenuDelete" xml:space="preserve">
     <value>_Remove bookmark</value>
@@ -629,43 +628,43 @@
     <value>Book Name Ascending</value>
   </data>
   <data name="CommandSetFolderOrderByFileNameANote" xml:space="preserve">
-    <value>Ascending order by file name for book columns</value>
+    <value>Set the order of books in ascending order by name.</value>
   </data>
   <data name="CommandSetFolderOrderByFileNameD" xml:space="preserve">
     <value>Book Name Descending</value>
   </data>
   <data name="CommandSetFolderOrderByFileNameDNote" xml:space="preserve">
-    <value>Set the book order by name (descending).</value>
+    <value>Set the order of books in descending order by name.</value>
   </data>
   <data name="CommandSetFolderOrderByRandom" xml:space="preserve">
     <value>Book Shuffle</value>
   </data>
   <data name="CommandSetFolderOrderByRandomNote" xml:space="preserve">
-    <value>Shuffle the order of books.</value>
+    <value>Set the order of books randomly.</value>
   </data>
   <data name="CommandSetFolderOrderBySizeA" xml:space="preserve">
     <value>Book Size Ascending</value>
   </data>
   <data name="CommandSetFolderOrderBySizeANote" xml:space="preserve">
-    <value>Set the book order by size (ascending order).</value>
+    <value>Set the order of books in ascending order by size.</value>
   </data>
   <data name="CommandSetFolderOrderBySizeD" xml:space="preserve">
     <value>Book Size Descending</value>
   </data>
   <data name="CommandSetFolderOrderBySizeDNote" xml:space="preserve">
-    <value>Sort books by size (descending order).</value>
+    <value>Set the order of books in descending order by size.</value>
   </data>
   <data name="CommandSetFolderOrderByTimeStampA" xml:space="preserve">
     <value>Book Date Ascending</value>
   </data>
   <data name="CommandSetFolderOrderByTimeStampANote" xml:space="preserve">
-    <value>Set the order of the books in ascending order by date.</value>
+    <value>Set the order of books in ascending order by date.</value>
   </data>
   <data name="CommandSetFolderOrderByTimeStampD" xml:space="preserve">
     <value>Book Date Descending</value>
   </data>
   <data name="CommandSetFolderOrderByTimeStampDNote" xml:space="preserve">
-    <value>Set the order of the books in descending order.</value>
+    <value>Set the order of books in descending order by darte.</value>
   </data>
   <data name="CommandSetFullScreen" xml:space="preserve">
     <value>Full screen</value>
@@ -4508,5 +4507,23 @@ Initialize the temporary location.</value>
   </data>
   <data name="BookmarkListMoreMenuSyncBookshelf" xml:space="preserve">
     <value>Sync bookshelf</value>
+  </data>
+  <data name="EnumFolderOrderEntryTime" xml:space="preserve">
+    <value>Entry↑</value>
+  </data>
+  <data name="EnumFolderOrderEntryTimeDescending" xml:space="preserve">
+    <value>Entry↓</value>
+  </data>
+  <data name="CommandSetFolderOrderByEntryTimeA" xml:space="preserve">
+    <value>Book EntryTime Ascending</value>
+  </data>
+  <data name="CommandSetFolderOrderByEntryTimeANote" xml:space="preserve">
+    <value>Set the order of books in ascending order by entry time.</value>
+  </data>
+  <data name="CommandSetFolderOrderByEntryTimeD" xml:space="preserve">
+    <value>Book EntryTime Descending</value>
+  </data>
+  <data name="CommandSetFolderOrderByEntryTimeDNote" xml:space="preserve">
+    <value>Set the order of books in descending order by entry time.</value>
   </data>
 </root>

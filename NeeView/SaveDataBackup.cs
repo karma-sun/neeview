@@ -55,8 +55,9 @@ namespace NeeView
         {
             // 保存
             WindowShape.Current.CreateSnapMemento();
-            SaveDataSync.Current.SaveUserSetting();
+            SaveDataSync.Current.SaveUserSetting(false);
             SaveDataSync.Current.SaveHistory();
+            SaveDataSync.Current.SaveBookmark(false);
             SaveDataSync.Current.RemoveBookmarkIfNotSave();
             SaveDataSync.Current.RemovePagemarkIfNotSave();
 
@@ -221,14 +222,14 @@ namespace NeeView
             if (bookmark != null)
             {
                 BookmarkCollection.Current.Restore(bookmark);
-                SaveDataSync.Current.SaveBookmark();
+                SaveDataSync.Current.SaveBookmark(true);
             }
 
             // ページマーク読込
             if (pagemark != null)
             {
                 PagemarkCollection.Current.Restore(pagemark);
-                SaveDataSync.Current.SavePagemark();
+                SaveDataSync.Current.SavePagemark(true);
             }
 
             if (recoverySettingWindow)

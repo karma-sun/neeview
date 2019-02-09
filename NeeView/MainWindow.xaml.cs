@@ -720,8 +720,9 @@ namespace NeeView
 
             // 設定保存
             SaveDataSync.Current.Flush();
-            SaveDataSync.Current.SaveUserSetting();
+            SaveDataSync.Current.SaveUserSetting(false);
             SaveDataSync.Current.SaveHistory();
+            SaveDataSync.Current.SaveBookmark(false);
             SaveDataSync.Current.RemoveBookmarkIfNotSave();
             SaveDataSync.Current.RemovePagemarkIfNotSave();
 

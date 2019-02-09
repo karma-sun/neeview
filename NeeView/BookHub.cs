@@ -410,7 +410,7 @@ namespace NeeView
             this.BookChanged +=
                 (s, e) =>
                 {
-                    if (this.Book?.NotFoundStartPage != null)
+                    if (this.Book?.NotFoundStartPage != null && this.Book.Pages.Count > 0)
                     {
                         InfoMessage.Current.SetMessage(InfoMessageType.BookName, string.Format(Properties.Resources.NotifyCannotOpen, LoosePath.GetFileName(this.Book.NotFoundStartPage)), null, 2.0);
                     }
@@ -528,6 +528,17 @@ namespace NeeView
                 BookHistoryCollection.Current.Add(memento, isKeepHistoryOrder);
             }
         }
+
+        // 記録のページのみクリア
+        public void ResetBookMementoPage(string place)
+        {
+            var unit = BookMementoCollection.Current.GetValid(place);
+            if (unit?.Memento != null)
+            {
+                unit.Memento.Page = null;
+            }
+        }
+
 
         /// <summary>
         /// 本の開放
@@ -660,12 +671,17 @@ namespace NeeView
                 // ページがなかった時の処理
                 if (Book.Pages.Count <= 0)
                 {
-                    AppDispatcher.Invoke(() => EmptyMessage?.Invoke(this, new BookHubMessageEventArgs(string.Format(Properties.Resources.NotifyNoPages, Book.Place))));
+                    ResetBookMementoPage(Book.Place);
 
-                    if (IsConfirmRecursive && (args.Option & BookLoadOption.ReLoad) == 0 && !Book.IsRecursiveFolder && Book.SubFolderCount > 0)
+                    AppDispatcher.Invoke(() =>
                     {
-                        AppDispatcher.Invoke(() => ConfirmRecursive());
-                    }
+                        EmptyMessage?.Invoke(this, new BookHubMessageEventArgs(string.Format(Properties.Resources.NotifyNoPages, Book.Place)));
+
+                        if (IsConfirmRecursive && (args.Option & BookLoadOption.ReLoad) == 0 && !Book.IsRecursiveFolder && Book.SubFolderCount > 0)
+                        {
+                            ConfirmRecursive();
+                        }
+                    });
                 }
             }
             catch (OperationCanceledException)
@@ -689,9 +705,9 @@ namespace NeeView
                 if (ex is NotSupportedFileTypeException exc && exc.Extension == ".heic" && Config.Current.IsWindows10())
                 {
                     _bookHubToast = new Toast(Properties.Resources.NotifyHeifHelp, null, ToastIcon.Information, App.Current.IsNetworkEnabled ? Properties.Resources.WordOpenStore : null, () =>
-                    {
-                        System.Diagnostics.Process.Start(PictureProfile.HEIFImageExtensions.OriginalString);
-                    });
+                     {
+                         System.Diagnostics.Process.Start(PictureProfile.HEIFImageExtensions.OriginalString);
+                     });
                     ToastService.Current.Show(_bookHubToast);
                 }
 

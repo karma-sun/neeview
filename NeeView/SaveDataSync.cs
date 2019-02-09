@@ -21,8 +21,8 @@ namespace NeeView
 
         private SaveDataSync()
         {
-            _delaySaveBookmark = new DelayAction(App.Current.Dispatcher, TimeSpan.FromSeconds(0.2), SaveBookmark, TimeSpan.FromSeconds(0.5));
-            _delaySavePagemark = new DelayAction(App.Current.Dispatcher, TimeSpan.FromSeconds(0.2), SavePagemark, TimeSpan.FromSeconds(0.5));
+            _delaySaveBookmark = new DelayAction(App.Current.Dispatcher, TimeSpan.FromSeconds(0.2), () => SaveBookmark(true), TimeSpan.FromSeconds(0.5));
+            _delaySavePagemark = new DelayAction(App.Current.Dispatcher, TimeSpan.FromSeconds(0.2), () => SavePagemark(true), TimeSpan.FromSeconds(0.5));
 
             RemoteCommandService.Current.AddReciever("LoadUserSetting", LoadUserSetting);
             RemoteCommandService.Current.AddReciever("LoadHistory", LoadHistory);
@@ -79,31 +79,30 @@ namespace NeeView
             SaveData.Current.LoadPagemark();
         }
 
-        // 他のNeeViewにUserSettingの再読み込みを要求
-        public void RequestEveryoneToLoadUserSetting()
-        {
-            Debug.WriteLine($"Request reload UserSetting");
-            RemoteCommandService.Current.Send(new RemoteCommand("LoadUserSetting"), RemoteCommandDelivery.All);
-        }
-
-        public void SaveUserSetting()
+        public void SaveUserSetting(bool sync)
         {
             Debug.WriteLine($"Save UserSetting");
             SaveData.Current.SaveUserSetting();
+            if (sync)
+            {
+                RemoteCommandService.Current.Send(new RemoteCommand("LoadUserSetting"), RemoteCommandDelivery.All);
+            }
         }
 
         public void SaveHistory()
         {
             Debug.WriteLine($"Save History");
-            // TODO: 更新されている履歴のマージ
             SaveData.Current.SaveHistory();
         }
 
-        public void SaveBookmark()
+        public void SaveBookmark(bool sync)
         {
             Debug.WriteLine($"Save Bookmark");
             SaveData.Current.SaveBookmark();
-            RemoteCommandService.Current.Send(new RemoteCommand("LoadBookmark"), RemoteCommandDelivery.All);
+            if (sync)
+            {
+                RemoteCommandService.Current.Send(new RemoteCommand("LoadBookmark"), RemoteCommandDelivery.All);
+            }
         }
 
         public void RemoveBookmarkIfNotSave()
@@ -111,11 +110,14 @@ namespace NeeView
             SaveData.Current.RemoveBookmarkIfNotSave();
         }
 
-        public void SavePagemark()
+        public void SavePagemark(bool sync)
         {
             Debug.WriteLine($"Save Pagemark");
             SaveData.Current.SavePagemark();
-            RemoteCommandService.Current.Send(new RemoteCommand("LoadPagemark"), RemoteCommandDelivery.All);
+            if (sync)
+            {
+                RemoteCommandService.Current.Send(new RemoteCommand("LoadPagemark"), RemoteCommandDelivery.All);
+            }
         }
 
         public void RemovePagemarkIfNotSave()

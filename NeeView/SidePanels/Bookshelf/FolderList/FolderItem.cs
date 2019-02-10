@@ -148,6 +148,11 @@ namespace NeeView
             set { if (_targetPath != value) { _targetPath = value; RaisePropertyChanged(); } }
         }
 
+        /// <summary>
+        /// 実体パスはディレクトリ？
+        /// </summary>
+        public bool IsDirectoryTarget { get; set; }
+
         // アーカイブエントリ
         private ArchiveEntry _archiveEntry;
         public ArchiveEntry ArchiveEntry
@@ -299,6 +304,12 @@ namespace NeeView
         }
 
         //
+        public virtual string GetNote(FolderOrder order)
+        {
+            return null;
+        }
+
+        //
         public override string ToString()
         {
             return $"FolderItem: {Path}";
@@ -351,6 +362,27 @@ namespace NeeView
         {
             var thumbnail = (Thumbnail)sender;
             BookThumbnailPool.Current.Add(thumbnail);
+        }
+
+        public override string GetNote(FolderOrder order)
+        {
+            if (!IsFileSystem() && IsDirectory) return null;
+
+            string GetLastWriteTimeString() =>  $"{LastWriteTime:yyyy/MM/dd HH:mm:ss}   ";
+
+            switch (order)
+            {
+                default:
+                    return GetLastWriteTimeString() + FileSizeToStringConverter.ByteToDispString(Length);
+
+                case FolderOrder.FileType:
+                case FolderOrder.FileTypeDescending:
+                    return GetLastWriteTimeString() + (IsDirectoryTarget ? Properties.Resources.WordFolder : LoosePath.GetExtension(Name));
+
+                case FolderOrder.Path:
+                case FolderOrder.PathDescending:
+                    return  LoosePath.GetFileName(LoosePath.GetDirectoryName(TargetPath.SimplePath));
+            }
         }
     }
 

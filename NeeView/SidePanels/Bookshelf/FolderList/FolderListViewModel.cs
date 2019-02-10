@@ -510,7 +510,7 @@ namespace NeeView
             else
             {
                 FolderOrderList = _folderOrderListDefault
-                    .Where(e => !e.Key.IsEntryTimeOrder())
+                    .Where(e => !e.Key.IsBookmarkOnly())
                     .ToDictionary(e => e.Key, e => e.Value);
             }
         }

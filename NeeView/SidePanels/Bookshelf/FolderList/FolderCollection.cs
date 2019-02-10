@@ -111,7 +111,7 @@ namespace NeeView
         /// <summary>
         /// フォルダーの並び順
         /// </summary>
-        private FolderOrder FolderOrder => FolderParameter.FolderOrder;
+        public FolderOrder FolderOrder => FolderParameter.FolderOrder;
 
         /// <summary>
         /// シャッフル用ランダムシード
@@ -264,6 +264,14 @@ namespace NeeView
                     return source.OrderBy(e => e.Type).ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.FileNameDescending:
                     return source.OrderBy(e => e.Type).ThenByDescending(e => e, new ComparerFileName());
+                case FolderOrder.Path:
+                    return source.OrderBy(e => e.Type).ThenBy(e => e, new ComparerFullPath());
+                case FolderOrder.PathDescending:
+                    return source.OrderBy(e => e.Type).ThenByDescending(e => e, new ComparerFullPath());
+                case FolderOrder.FileType:
+                    return source.OrderBy(e => e.Type).ThenBy(e => e, new ComparerFileType());
+                case FolderOrder.FileTypeDescending:
+                    return source.OrderBy(e => e.Type).ThenByDescending(e => e, new ComparerFileType());
                 case FolderOrder.TimeStamp:
                     return source.OrderBy(e => e.Type).ThenBy(e => e.LastWriteTime).ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.TimeStampDescending:
@@ -293,6 +301,57 @@ namespace NeeView
             }
         }
 
+
+        /// <summary>
+        /// ソート用：フルパスで比較(昇順)
+        /// </summary>
+        public class ComparerFullPath : IComparer<FolderItem>
+        {
+            public int Compare(FolderItem x, FolderItem y)
+            {
+                return NativeMethods.StrCmpLogicalW(x.Path.FullPath, y.Path.FullPath);
+            }
+        }
+
+        /// <summary>
+        /// ソート用：ファイルの種類で比較(昇順)
+        /// </summary>
+        public class ComparerFileType : IComparer<FolderItem>
+        {
+            public int Compare(FolderItem x, FolderItem y)
+            {
+                // ディレクトリは種類判定なし
+                if (x.IsDirectory)
+                {
+                    return y.IsDirectory ? NativeMethods.StrCmpLogicalW(x.Name, y.Name) : 1;
+                }
+                if (y.IsDirectory)
+                {
+                    return x.IsDirectory ? NativeMethods.StrCmpLogicalW(x.Name, y.Name) : -1;
+                }
+
+                // ターゲットディレクトリの場合
+                if (x.IsDirectoryTarget)
+                {
+                    return y.IsDirectoryTarget ? NativeMethods.StrCmpLogicalW(x.Name, y.Name) : 1;
+                }
+                if (y.IsDirectoryTarget)
+                {
+                    return x.IsDirectoryTarget ? NativeMethods.StrCmpLogicalW(x.Name, y.Name) : -1;
+                }
+
+                var extX = LoosePath.GetExtension(x.Name);
+                var extY = LoosePath.GetExtension(y.Name);
+                if (extX != extY)
+                {
+                    return NativeMethods.StrCmpLogicalW(extX, extY);
+                }
+                else
+                {
+                    return NativeMethods.StrCmpLogicalW(x.Name, y.Name);
+                }
+            }
+        }
 
         /// <summary>
         /// アイコンの表示更新

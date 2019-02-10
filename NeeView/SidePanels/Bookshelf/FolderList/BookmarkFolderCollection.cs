@@ -128,6 +128,7 @@ namespace NeeView
                         Type = FolderItemType.File,
                         Place = Place,
                         TargetPath = new QueryPath(bookmark.Place),
+                        IsDirectoryTarget = bookmark.Unit.Memento.IsDirectorty,
                         Name = bookmark.Name,
                         ArchiveEntry = archiveEntry,
                         LastWriteTime = archiveEntry.LastWriteTime ?? default,

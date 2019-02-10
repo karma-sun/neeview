@@ -523,6 +523,24 @@ namespace NeeView
 
                     OldBooks = null;
                 }
+
+                if (_Version < Config.GenerateProductVersionNumber(33, 0, 0))
+                {
+                    foreach (var book in Books)
+                    {
+                        try
+                        {
+                            if (book.Place != null)
+                            {
+                                book.IsDirectorty = Directory.Exists(book.Place);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine(ex.Message);
+                        }
+                    }
+                }
 #pragma warning restore CS0612
             }
 

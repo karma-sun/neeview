@@ -4518,12 +4518,48 @@ Initialize the temporary location.</value>
     <value>Book EntryTime Ascending</value>
   </data>
   <data name="CommandSetFolderOrderByEntryTimeANote" xml:space="preserve">
-    <value>Set the order of books in ascending order by entry time.</value>
+    <value>Set the order of books in ascending order by entry time. Bookmark list only.</value>
   </data>
   <data name="CommandSetFolderOrderByEntryTimeD" xml:space="preserve">
     <value>Book EntryTime Descending</value>
   </data>
   <data name="CommandSetFolderOrderByEntryTimeDNote" xml:space="preserve">
-    <value>Set the order of books in descending order by entry time.</value>
+    <value>Set the order of books in descending order by entry time. Bookmark list only.</value>
+  </data>
+  <data name="CommandSetFolderOrderByPathA" xml:space="preserve">
+    <value>Book Path Ascending</value>
+  </data>
+  <data name="CommandSetFolderOrderByPathANote" xml:space="preserve">
+    <value>Set the order of books in ascending order by full path. Bookmark list only.</value>
+  </data>
+  <data name="CommandSetFolderOrderByPathD" xml:space="preserve">
+    <value>Book Path Descending</value>
+  </data>
+  <data name="CommandSetFolderOrderByPathDNote" xml:space="preserve">
+    <value>Set the order of books in descending order by full path. Bookmark list only.</value>
+  </data>
+  <data name="CommandSetFolderOrderByFileTypeA" xml:space="preserve">
+    <value>Book FileType Ascending</value>
+  </data>
+  <data name="CommandSetFolderOrderByFileTypeANote" xml:space="preserve">
+    <value>Set the order of books in ascending order by file type.</value>
+  </data>
+  <data name="CommandSetFolderOrderByFileTypeD" xml:space="preserve">
+    <value>Book FileType Descending</value>
+  </data>
+  <data name="CommandSetFolderOrderByFileTypeDNote" xml:space="preserve">
+    <value>Set the order of books in descending order by file type.</value>
+  </data>
+  <data name="EnumFolderOrderPath" xml:space="preserve">
+    <value>Path↑</value>
+  </data>
+  <data name="EnumFolderOrderPathDescending" xml:space="preserve">
+    <value>Path↓</value>
+  </data>
+  <data name="EnumFolderOrderFileType" xml:space="preserve">
+    <value>Type↑</value>
+  </data>
+  <data name="EnumFolderOrderFileTypeDescending" xml:space="preserve">
+    <value>Type↓</value>
   </data>
 </root>

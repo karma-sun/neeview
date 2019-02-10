@@ -38,6 +38,22 @@ namespace NeeView
         FileNameDescending,
 
         [EnumMember]
+        [AliasName("@EnumFolderOrderPath")]
+        Path,
+
+        [EnumMember]
+        [AliasName("@EnumFolderOrderPathDescending")]
+        PathDescending,
+
+        [EnumMember]
+        [AliasName("@EnumFolderOrderFileType")]
+        FileType,
+
+        [EnumMember]
+        [AliasName("@EnumFolderOrderFileTypeDescending")]
+        FileTypeDescending,
+
+        [EnumMember]
         [AliasName("@EnumFolderOrderTimeStamp")]
         TimeStamp,
 
@@ -90,9 +106,18 @@ namespace NeeView
             return (FolderOrder)(((int)mode + 1) % Enum.GetNames(typeof(FolderOrder)).Length);
         }
 
-        public static bool IsEntryTimeOrder(this FolderOrder mode)
+        public static bool IsBookmarkOnly(this FolderOrder mode)
         {
-            return mode == FolderOrder.EntryTime || mode == FolderOrder.EntryTimeDescending;
+            switch(mode)
+            {
+                case FolderOrder.Path:
+                case FolderOrder.PathDescending:
+                case FolderOrder.EntryTime:
+                case FolderOrder.EntryTimeDescending:
+                    return true;
+                default:
+                    return false;
+            }
         }
     }
 }

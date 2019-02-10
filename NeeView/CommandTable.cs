@@ -1452,6 +1452,50 @@ namespace NeeView
                 element.IsShowMessage = true;
                 _elements[CommandType.SetFolderOrderByFileNameD] = element;
             }
+            // SetFolderOrderByPathA
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupBookOrder;
+                element.Text = Properties.Resources.CommandSetFolderOrderByPathA;
+                element.Note = Properties.Resources.CommandSetFolderOrderByPathANote;
+                element.Execute = (s, e) => BookshelfFolderList.Current.SetFolderOrder(FolderOrder.Path);
+                element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.Path);
+                element.IsShowMessage = true;
+                _elements[CommandType.SetFolderOrderByPathA] = element;
+            }
+            // SetFolderOrderByPathD
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupBookOrder;
+                element.Text = Properties.Resources.CommandSetFolderOrderByPathD;
+                element.Note = Properties.Resources.CommandSetFolderOrderByPathDNote;
+                element.Execute = (s, e) => BookshelfFolderList.Current.SetFolderOrder(FolderOrder.PathDescending);
+                element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.PathDescending);
+                element.IsShowMessage = true;
+                _elements[CommandType.SetFolderOrderByPathD] = element;
+            }
+            // SetFolderOrderByFileTypeA
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupBookOrder;
+                element.Text = Properties.Resources.CommandSetFolderOrderByFileTypeA;
+                element.Note = Properties.Resources.CommandSetFolderOrderByFileTypeANote;
+                element.Execute = (s, e) => BookshelfFolderList.Current.SetFolderOrder(FolderOrder.FileType);
+                element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.FileType);
+                element.IsShowMessage = true;
+                _elements[CommandType.SetFolderOrderByFileTypeA] = element;
+            }
+            // SetFolderOrderByFileTypeD
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupBookOrder;
+                element.Text = Properties.Resources.CommandSetFolderOrderByFileTypeD;
+                element.Note = Properties.Resources.CommandSetFolderOrderByFileTypeDNote;
+                element.Execute = (s, e) => BookshelfFolderList.Current.SetFolderOrder(FolderOrder.FileTypeDescending);
+                element.CreateIsCheckedBinding = () => BindingGenerator.FolderOrder(FolderOrder.FileTypeDescending);
+                element.IsShowMessage = true;
+                _elements[CommandType.SetFolderOrderByFileTypeD] = element;
+            }
             // SetFolderOrderByTimeStampA
             {
                 var element = new CommandElement();

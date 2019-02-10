@@ -24,6 +24,7 @@ namespace NeeView
 
         public SidePanelProfile Profile => SidePanelProfile.Current;
         public FolderCollection FolderCollection => _model.FolderCollection;
+        public FolderOrder FolderOrder => _model.FolderCollection.FolderOrder;
         public string PlaceRaw => _model.FolderCollection?.Place.SimplePath;
 
         private FolderList _folderList;

@@ -4369,7 +4369,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>ページマーク形式</value>
   </data>
   <data name="PagemarkMenuOpenAsBook" xml:space="preserve">
-    <value>本として開く</value>
+    <value>ブックとして開く</value>
   </data>
   <data name="ParamPageListPlacementInBookshelf" xml:space="preserve">
     <value>ページリストを本棚に配置</value>
@@ -4509,21 +4509,57 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>本棚と同期する</value>
   </data>
   <data name="EnumFolderOrderEntryTime" xml:space="preserve">
-    <value>登録日↑</value>
+    <value>登録↑</value>
   </data>
   <data name="EnumFolderOrderEntryTimeDescending" xml:space="preserve">
-    <value>登録日↓</value>
+    <value>登録↓</value>
   </data>
   <data name="CommandSetFolderOrderByEntryTimeA" xml:space="preserve">
-    <value>ブック列は登録日昇順</value>
+    <value>ブック列は登録昇順</value>
   </data>
   <data name="CommandSetFolderOrderByEntryTimeANote" xml:space="preserve">
-    <value>ブックの並びを登録順(昇順)にします。</value>
+    <value>ブックの並びを登録順(昇順)にします。ブックマークリスト専用。</value>
   </data>
   <data name="CommandSetFolderOrderByEntryTimeD" xml:space="preserve">
-    <value>ブック列は登録日降順</value>
+    <value>ブック列は登録降順</value>
   </data>
   <data name="CommandSetFolderOrderByEntryTimeDNote" xml:space="preserve">
-    <value>ブックの並びを登録順(降順)にします。</value>
+    <value>ブックの並びを登録順(降順)にします。ブックマークリスト専用。</value>
+  </data>
+  <data name="CommandSetFolderOrderByPathA" xml:space="preserve">
+    <value>ブック列はパス昇順</value>
+  </data>
+  <data name="CommandSetFolderOrderByPathANote" xml:space="preserve">
+    <value>ブックの並びをパス順(昇順)にします。ブックマークリスト専用。</value>
+  </data>
+  <data name="CommandSetFolderOrderByPathD" xml:space="preserve">
+    <value>ブック列はパス降順</value>
+  </data>
+  <data name="CommandSetFolderOrderByPathDNote" xml:space="preserve">
+    <value>ブックの並びをパス順(降順)にします。ブックマークリスト専用。</value>
+  </data>
+  <data name="CommandSetFolderOrderByFileTypeA" xml:space="preserve">
+    <value>ブック列は種類昇順</value>
+  </data>
+  <data name="CommandSetFolderOrderByFileTypeANote" xml:space="preserve">
+    <value>ブックの並びをファイルの種類順(昇順)にします。</value>
+  </data>
+  <data name="CommandSetFolderOrderByFileTypeD" xml:space="preserve">
+    <value>ブック列は種類降順</value>
+  </data>
+  <data name="CommandSetFolderOrderByFileTypeDNote" xml:space="preserve">
+    <value>ブックの並びをファイルの種類順(降順)にします。</value>
+  </data>
+  <data name="EnumFolderOrderPath" xml:space="preserve">
+    <value>パス↑</value>
+  </data>
+  <data name="EnumFolderOrderPathDescending" xml:space="preserve">
+    <value>パス↓</value>
+  </data>
+  <data name="EnumFolderOrderFileType" xml:space="preserve">
+    <value>種類↑</value>
+  </data>
+  <data name="EnumFolderOrderFileTypeDescending" xml:space="preserve">
+    <value>種類↓</value>
   </data>
 </root>

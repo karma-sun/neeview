@@ -17,6 +17,7 @@
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <local:BooleanToTextWrappingConverter x:Key="BooleanToTextWrappingConverter"/>
+        <local:FolderItemToNoteConverter x:Key="FolderItemToNoteConverter"/>
 
 
         <Style x:Key="NameStyleBase" TargetType="TextBlock" >
@@ -90,7 +91,14 @@
                     <local:FolderListIcon DockPanel.Dock="Right" />
                     <local:PanelListContentImage Thumbnail="{Binding Thumbnail}"/>
                     <StackPanel VerticalAlignment="Center">
-                        <TextBlock Style="{StaticResource NoteTextStyle}" Text="{Binding Note}"/>
+                        <TextBlock Style="{StaticResource NoteTextStyle}">
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource FolderItemToNoteConverter}">
+                                    <Binding />
+                                    <Binding Path="DataContext.FolderOrder" RelativeSource="{RelativeSource FindAncestor, AncestorType=ListBox}"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
                         <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource ContentNameStyle}"/>
                     </StackPanel>
                 </DockPanel>
@@ -134,7 +142,7 @@
                 SelectedItem="{Binding Model.SelectedItem}"
                 SelectionChanged="FolderList_SelectionChanged"
                 Loaded="FolderList_Loaded"
-                 IsVisibleChanged="FolderList_IsVisibleChanged"
+                IsVisibleChanged="FolderList_IsVisibleChanged"
                 PreviewKeyDown="FolderList_PreviewKeyDown"
                 KeyDown="FolderList_KeyDown"
                 UseLayoutRounding="True"

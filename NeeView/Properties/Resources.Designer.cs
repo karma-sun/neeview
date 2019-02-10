@@ -1834,7 +1834,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Set the order of books in ascending order by entry time. に類似しているローカライズされた文字列を検索します。
+        ///   Set the order of books in ascending order by entry time. Bookmark list only. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetFolderOrderByEntryTimeANote {
             get {
@@ -1852,7 +1852,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Set the order of books in descending order by entry time. に類似しているローカライズされた文字列を検索します。
+        ///   Set the order of books in descending order by entry time. Bookmark list only. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetFolderOrderByEntryTimeDNote {
             get {
@@ -1893,6 +1893,78 @@ namespace NeeView.Properties {
         public static string CommandSetFolderOrderByFileNameDNote {
             get {
                 return ResourceManager.GetString("CommandSetFolderOrderByFileNameDNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Book FileType Ascending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandSetFolderOrderByFileTypeA {
+            get {
+                return ResourceManager.GetString("CommandSetFolderOrderByFileTypeA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the order of books in ascending order by file type. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandSetFolderOrderByFileTypeANote {
+            get {
+                return ResourceManager.GetString("CommandSetFolderOrderByFileTypeANote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Book FileType Descending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandSetFolderOrderByFileTypeD {
+            get {
+                return ResourceManager.GetString("CommandSetFolderOrderByFileTypeD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the order of books in descending order by file type. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandSetFolderOrderByFileTypeDNote {
+            get {
+                return ResourceManager.GetString("CommandSetFolderOrderByFileTypeDNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Book Path Ascending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandSetFolderOrderByPathA {
+            get {
+                return ResourceManager.GetString("CommandSetFolderOrderByPathA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the order of books in ascending order by full path. Bookmark list only. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandSetFolderOrderByPathANote {
+            get {
+                return ResourceManager.GetString("CommandSetFolderOrderByPathANote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Book Path Descending に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandSetFolderOrderByPathD {
+            get {
+                return ResourceManager.GetString("CommandSetFolderOrderByPathD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Set the order of books in descending order by full path. Bookmark list only. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandSetFolderOrderByPathDNote {
+            get {
+                return ResourceManager.GetString("CommandSetFolderOrderByPathDNote", resourceCulture);
             }
         }
         
@@ -6250,6 +6322,42 @@ namespace NeeView.Properties {
         public static string EnumFolderOrderFileNameDescending {
             get {
                 return ResourceManager.GetString("EnumFolderOrderFileNameDescending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Type↑ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumFolderOrderFileType {
+            get {
+                return ResourceManager.GetString("EnumFolderOrderFileType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Type↓ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumFolderOrderFileTypeDescending {
+            get {
+                return ResourceManager.GetString("EnumFolderOrderFileTypeDescending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Path↑ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumFolderOrderPath {
+            get {
+                return ResourceManager.GetString("EnumFolderOrderPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Path↓ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumFolderOrderPathDescending {
+            get {
+                return ResourceManager.GetString("EnumFolderOrderPathDescending", resourceCulture);
             }
         }
         

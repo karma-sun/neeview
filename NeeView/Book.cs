@@ -255,6 +255,9 @@ namespace NeeView
         // nullの場合、この本は無効
         public string Place { get; private set; }
 
+        // この本はディレクトリ？
+        public bool IsDirectory { get; private set; }
+
         // この本のアーカイバ
         public Archiver Archiver { get; private set; }
 
@@ -445,6 +448,7 @@ namespace NeeView
 
             // 有効化
             Place = archiver.FullPath;
+            IsDirectory = archiver is FolderArchive;
 
             // 初期ページ設定
             RequestSetPosition(this, position, direction, true);
@@ -1611,6 +1615,10 @@ namespace NeeView
             [DataMember(EmitDefaultValue = false)]
             public string Place { get; set; }
 
+            // ディレクトリ？
+            [DataMember(EmitDefaultValue = false)]
+            public bool IsDirectorty { get; set; }
+
             // 名前
             public string Name => Place.EndsWith(@":\") ? Place : System.IO.Path.GetFileName(Place);
 
@@ -1732,6 +1740,7 @@ namespace NeeView
             {
                 Place = null;
                 Page = null;
+                IsDirectorty = false;
             }
 
             // バリデートされたクローン
@@ -1771,6 +1780,7 @@ namespace NeeView
             var memento = new Memento();
 
             memento.Place = Place;
+            memento.IsDirectorty = IsDirectory;
             memento.Page = SortMode != PageSortMode.Random ? GetViewPage()?.FullPath : null;
 
             memento.PageMode = PageMode;
@@ -1781,7 +1791,6 @@ namespace NeeView
             memento.IsSupportedWidePage = IsSupportedWidePage;
             memento.IsRecursiveFolder = IsRecursiveFolder;
             memento.SortMode = SortMode;
-            //memento.LastAccessTime = DateTime.Now;
 
             return memento;
         }

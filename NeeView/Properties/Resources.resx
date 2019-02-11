@@ -4562,4 +4562,22 @@ Initialize the temporary location.</value>
   <data name="EnumFolderOrderFileTypeDescending" xml:space="preserve">
     <value>Type↓</value>
   </data>
+  <data name="SettingPageManipurateMouseVisibility" xml:space="preserve">
+    <value>Cursor auto hide</value>
+  </data>
+  <data name="SettingPageManipurateMouseVisibilityTips" xml:space="preserve">
+    <value>If you do not operate the mouse for a certain time, the cursor will be hidden.</value>
+  </data>
+  <data name="ParamIsCursorHideEnabled" xml:space="preserve">
+    <value>Enable auto hide</value>
+  </data>
+  <data name="ParameterCursorHideTime" xml:space="preserve">
+    <value>Hide time (sec)</value>
+  </data>
+  <data name="ParameterIsCursorHideReleaseAction" xml:space="preserve">
+    <value>Redisplay with mouse button operation</value>
+  </data>
+  <data name="ParameterCursorHideReleaseDistance" xml:space="preserve">
+    <value>Move distance to redisplay</value>
+  </data>
 </root>

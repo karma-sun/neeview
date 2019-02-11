@@ -4562,4 +4562,22 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="EnumFolderOrderFileTypeDescending" xml:space="preserve">
     <value>種類↓</value>
   </data>
+  <data name="SettingPageManipurateMouseVisibility" xml:space="preserve">
+    <value>カーソルの自動非表示</value>
+  </data>
+  <data name="SettingPageManipurateMouseVisibilityTips" xml:space="preserve">
+    <value>一定時間マウス操作をしない場合カーソルを非表示にします。</value>
+  </data>
+  <data name="ParamIsCursorHideEnabled" xml:space="preserve">
+    <value>自動非表示の有効化</value>
+  </data>
+  <data name="ParameterCursorHideTime" xml:space="preserve">
+    <value>非表示にするまでの時間(秒)</value>
+  </data>
+  <data name="ParameterIsCursorHideReleaseAction" xml:space="preserve">
+    <value>マウスボタン操作で再表示する</value>
+  </data>
+  <data name="ParameterCursorHideReleaseDistance" xml:space="preserve">
+    <value>再表示する移動距離</value>
+  </data>
 </root>

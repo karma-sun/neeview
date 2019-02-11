@@ -89,6 +89,9 @@ namespace NeeView
         private SolidColorBrush _sliderBackground;
         private SolidColorBrush _sliderBackgroundGlass;
 
+        private bool _isCursorHideEnabled = true;
+        private double _cursorHideTime = 2.0;
+        
         #endregion
 
         #region Constructors
@@ -328,6 +331,29 @@ namespace NeeView
 
         [PropertyMember("@ParamIsAccessKeyEnabled", Tips = "@ParamIsAccessKeyEnabledTips")]
         public bool IsAccessKeyEnabled { get; set; } = true;
+
+        /// <summary>
+        /// カーソルの自動非表示
+        /// </summary>
+        [PropertyMember("@ParamIsCursorHideEnabled")]
+        public bool IsCursorHideEnabled
+        {
+            get { return _isCursorHideEnabled; }
+            set { SetProperty(ref _isCursorHideEnabled, value); }
+        }
+
+        [PropertyRange("@ParameterCursorHideTime", 1.0, 10.0, TickFrequency = 0.2, IsEditable = true)]
+        public double CursorHideTime
+        {
+            get => _cursorHideTime;
+            set => SetProperty(ref _cursorHideTime, Math.Max(1.0, value));
+        }
+               
+        [PropertyMember("@ParameterIsCursorHideReleaseAction")]
+        public bool IsCursorHideReleaseAction { get; set; } = true;
+
+        [PropertyRange("@ParameterCursorHideReleaseDistance", 0.0, 1000.0, TickFrequency = 1.0, IsEditable = true)]
+        public double CursorHideReleaseDistance { get; set; } = 5.0;
 
         #endregion
 
@@ -767,6 +793,14 @@ namespace NeeView
             public double SliderOpacity { get; set; }
             [DataMember, DefaultValue(true)]
             public bool IsHidePageSliderInFullscreen { get; set; }
+            [DataMember, DefaultValue(true)]
+            public bool IsCursorHideEnabled { get; set; }
+            [DataMember, DefaultValue(2.0)]
+            public double CursorHideTime { get; set; }
+            [DataMember, DefaultValue(true)]
+            public bool IsCursorHideReleaseAction { get; set; }
+            [DataMember, DefaultValue(5.0)]
+            public double CursorHideReleaseDistance { get; set; }
 
             [OnDeserializing]
             private void OnDeserializing(StreamingContext c)
@@ -794,6 +828,10 @@ namespace NeeView
             memento.IsAccessKeyEnabled = this.IsAccessKeyEnabled;
             memento.SliderOpacity = this.SliderOpacity;
             memento.IsHidePageSliderInFullscreen = this.IsHidePageSliderInFullscreen;
+            memento.IsCursorHideEnabled = this.IsCursorHideEnabled;
+            memento.CursorHideTime = this.CursorHideTime;
+            memento.IsCursorHideReleaseAction = this.IsCursorHideReleaseAction;
+            memento.CursorHideReleaseDistance = this.CursorHideReleaseDistance;
 
             return memento;
         }
@@ -817,6 +855,10 @@ namespace NeeView
             this.IsAccessKeyEnabled = memento.IsAccessKeyEnabled;
             this.SliderOpacity = memento.SliderOpacity;
             this.IsHidePageSliderInFullscreen = memento.IsHidePageSliderInFullscreen;
+            this.IsCursorHideEnabled = memento.IsCursorHideEnabled;
+            this.CursorHideTime = memento.CursorHideTime;
+            this.IsCursorHideReleaseAction = memento.IsCursorHideReleaseAction;
+            this.CursorHideReleaseDistance = memento.CursorHideReleaseDistance;
         }
 
         #endregion

@@ -63,7 +63,10 @@ namespace NeeView
         public override void OnOpened(FrameworkElement sender, object parameter)
         {
             sender.CaptureMouse();
-            sender.Cursor = null;
+            if (sender.Cursor != Cursors.None)
+            {
+                sender.Cursor = null;
+            }
             ////Reset();
 
             _gesture.Reset(_context.StartPoint);

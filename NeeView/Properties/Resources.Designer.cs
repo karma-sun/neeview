@@ -9386,6 +9386,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Move distance to redisplay に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParameterCursorHideReleaseDistance {
+            get {
+                return ResourceManager.GetString("ParameterCursorHideReleaseDistance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Hide time (sec) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParameterCursorHideTime {
+            get {
+                return ResourceManager.GetString("ParameterCursorHideTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Redisplay with mouse button operation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParameterIsCursorHideReleaseAction {
+            get {
+                return ResourceManager.GetString("ParameterIsCursorHideReleaseAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Remember previously saved folder に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamExportImageIsEnableExportFolder {
@@ -9940,6 +9967,15 @@ namespace NeeView.Properties {
         public static string ParamIsConfirmRecursiveTips {
             get {
                 return ResourceManager.GetString("ParamIsConfirmRecursiveTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Enable auto hide に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsCursorHideEnabled {
+            get {
+                return ResourceManager.GetString("ParamIsCursorHideEnabled", resourceCulture);
             }
         }
         
@@ -12101,6 +12137,24 @@ namespace NeeView.Properties {
         public static string SettingPageManipurateMouseHold {
             get {
                 return ResourceManager.GetString("SettingPageManipurateMouseHold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cursor auto hide に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageManipurateMouseVisibility {
+            get {
+                return ResourceManager.GetString("SettingPageManipurateMouseVisibility", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   If you do not operate the mouse for a certain time, the cursor will be hidden. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageManipurateMouseVisibilityTips {
+            get {
+                return ResourceManager.GetString("SettingPageManipurateMouseVisibilityTips", resourceCulture);
             }
         }
         

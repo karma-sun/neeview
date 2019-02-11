@@ -82,6 +82,16 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Normal, nameof(MouseInputNormal.LongButtonDownTime))),
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Normal, nameof(MouseInputNormal.LongButtonRepeatTime)))),
 
+                new SettingItemSection(Properties.Resources.SettingPageManipurateMouseVisibility, Properties.Resources.SettingPageManipurateMouseVisibilityTips,
+                    new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsCursorHideEnabled))),
+                    new SettingItemGroup(
+                        new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.CursorHideTime))),
+                        new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.CursorHideReleaseDistance))),
+                        new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsCursorHideReleaseAction))))
+                    {
+                        IsEnabled = new IsEnabledPropertyValue(MainWindowModel.Current, nameof(MainWindowModel.IsCursorHideEnabled))
+                    }),
+
                 new SettingItemSection(Properties.Resources.SettingPageManipurateMouseAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Normal, nameof(MouseInputNormal.IsGestureEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Gesture, nameof(MouseInputGesture.GestureMinimumDistance)))),

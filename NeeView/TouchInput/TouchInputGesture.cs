@@ -91,7 +91,10 @@ namespace NeeView
             _touch = (TouchContext)parameter;
 
             sender.CaptureMouse();
-            sender.Cursor = null;
+            if (sender.Cursor != Cursors.None)
+            {
+                sender.Cursor = null;
+            }
             Reset();
         }
 

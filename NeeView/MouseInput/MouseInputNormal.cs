@@ -137,7 +137,10 @@ namespace NeeView
         public override void OnOpened(FrameworkElement sender, object parameter)
         {
             _isButtonDown = false;
-            sender.Cursor = null;
+            if (sender.Cursor != Cursors.None)
+            {
+                sender.Cursor = null;
+            }
         }
 
         /// <summary>

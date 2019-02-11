@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -139,6 +140,7 @@ namespace NeeView
             this.MainView.PreviewMouseDown += MainView_PreviewMouseAction;
             this.MainView.PreviewMouseUp += MainView_PreviewMouseAction;
             this.MainView.PreviewMouseWheel += MainView_PreviewMouseAction;
+            this.MainView.MouseEnter += MainView_MouseEnter;
 
             // timer 
             InitializeNonActiveTimer();
@@ -333,67 +335,97 @@ namespace NeeView
         #region タイマーによる非アクティブ監視
 
         // タイマーディスパッチ
-        private DispatcherTimer _timer;
+        private DispatcherTimer _nonActiveTimer;
 
         // 非アクティブ時間チェック用
         private DateTime _lastActionTime;
         private Point _lastActionPoint;
-
-        // 非アクティブになる時間(秒)
-        private const double _activeTimeLimit = 2.0;
+        private double _cursorMoveDistance;
 
         // 一定時間操作がなければカーソルを非表示にする仕組み
         // 初期化
         private void InitializeNonActiveTimer()
         {
-            _timer = new DispatcherTimer(DispatcherPriority.Normal, this.Dispatcher);
-            _timer.Interval = TimeSpan.FromSeconds(0.2);
-            _timer.Tick += new EventHandler(DispatcherTimer_Tick);
-            _timer.Start();
+            _nonActiveTimer = new DispatcherTimer(DispatcherPriority.Normal, this.Dispatcher);
+            _nonActiveTimer.Interval = TimeSpan.FromSeconds(0.2);
+            _nonActiveTimer.Tick += new EventHandler(DispatcherTimer_Tick);
+
+            _vm.Model.AddPropertyChanged(nameof(MainWindowModel.IsCursorHideEnabled), (s, e) => UpdateNonActiveTimerActivity());
+            UpdateNonActiveTimerActivity();
+        }
+
+        private void UpdateNonActiveTimerActivity()
+        {
+            if (_vm.Model.IsCursorHideEnabled)
+            {
+                _nonActiveTimer.Start();
+            }
+            else
+            {
+                _nonActiveTimer.Stop();
+            }
+
+            SetCursorVisible(true);
         }
 
         // タイマー処理
         private void DispatcherTimer_Tick(object sender, EventArgs e)
         {
-            if (Mouse.LeftButton == MouseButtonState.Pressed || Mouse.RightButton == MouseButtonState.Pressed)
-            {
-                _lastActionTime = DateTime.Now;
-                return;
-            }
-
             // 非アクティブ時間が続いたらマウスカーソルを非表示にする
-            if ((DateTime.Now - _lastActionTime).TotalSeconds > _activeTimeLimit)
+            if (IsCursurVisibled() && (DateTime.Now - _lastActionTime).TotalSeconds > _vm.Model.CursorHideTime)
             {
-                SetMouseVisible(false);
-                _lastActionTime = DateTime.Now;
+                SetCursorVisible(false);
             }
         }
 
-        // マウス移動で非アクティブ時間リセット
+        // マウス移動
         private void MainView_PreviewMouseMove(object sender, MouseEventArgs e)
         {
             var nowPoint = e.GetPosition(this.MainView);
 
-            if (Math.Abs(nowPoint.X - _lastActionPoint.X) > SystemParameters.MinimumHorizontalDragDistance || Math.Abs(nowPoint.Y - _lastActionPoint.Y) > SystemParameters.MinimumVerticalDragDistance)
+            if (IsCursurVisibled())
             {
-                _lastActionTime = DateTime.Now;
-                _lastActionPoint = nowPoint;
-                SetMouseVisible(true);
+                _cursorMoveDistance = 0.0;
             }
+            else
+            {
+                _cursorMoveDistance += Math.Abs(nowPoint.X - _lastActionPoint.X) + Math.Abs(nowPoint.Y - _lastActionPoint.Y);
+                if (_cursorMoveDistance > _vm.Model.CursorHideReleaseDistance)
+                {
+                    SetCursorVisible(true);
+                }
+            }
+
+            _lastActionPoint = nowPoint;
+            _lastActionTime = DateTime.Now;
         }
 
-        // マウスアクションで非アクティブ時間リセット
+        // マウスアクション
         private void MainView_PreviewMouseAction(object sender, MouseEventArgs e)
         {
-            ////Debug.WriteLine($"MainWindow:ButtonAction: {e.LeftButton}");
+            if (_vm.Model.IsCursorHideReleaseAction)
+            {
+                SetCursorVisible(true);
+            }
 
+            _cursorMoveDistance = 0.0;
             _lastActionTime = DateTime.Now;
-            SetMouseVisible(true);
+        }
+
+        // 表示領域にマウスが入った
+        private void MainView_MouseEnter(object sender, MouseEventArgs e)
+        {
+            SetCursorVisible(true);
         }
 
         // マウスカーソル表示ON/OFF
-        public void SetMouseVisible(bool isVisible)
+        private void SetCursorVisible(bool isVisible)
         {
+            ////Debug.WriteLine($"Cursur: {isVisible}");
+            _cursorMoveDistance = 0.0;
+            _lastActionTime = DateTime.Now;
+
+            isVisible = isVisible | !_vm.Model.IsCursorHideEnabled;
             if (isVisible)
             {
                 if (this.MainView.Cursor == Cursors.None && !MouseInput.Current.IsLoupeMode)
@@ -403,11 +435,19 @@ namespace NeeView
             }
             else
             {
-                if (this.MainView.Cursor == null)
+                if (this.MainView.Cursor == null && this.IsActive)
                 {
                     this.MainView.Cursor = Cursors.None;
                 }
             }
+        }
+
+        /// <summary>
+        /// カーソル表示判定
+        /// </summary>
+        private bool IsCursurVisibled()
+        {
+            return this.MainView.Cursor != Cursors.None || MouseInput.Current.IsLoupeMode;
         }
 
         #endregion
@@ -511,12 +551,14 @@ namespace NeeView
         // ウィンドウアクティブ
         private void MainWindow_Activated(object sender, EventArgs e)
         {
+            SetCursorVisible(true);
             _vm.Activated();
         }
 
         // ウィンドウ非アクティブ
         private void MainWindow_Deactivated(object sender, EventArgs e)
         {
+            SetCursorVisible(true);
             _vm.Deactivated();
         }
 
@@ -716,7 +758,7 @@ namespace NeeView
             CompositionTarget.Rendering -= OnRendering;
 
             // タイマー停止
-            _timer.Stop();
+            _nonActiveTimer.Stop();
 
             // 設定保存
             SaveDataSync.Current.Flush();

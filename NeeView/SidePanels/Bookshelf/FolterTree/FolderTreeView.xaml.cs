@@ -38,25 +38,37 @@ namespace NeeView
         public FolderTreeView()
         {
             InitializeComponent();
-        }
 
+            _vm = new FolderTreeViewModel();
+            _vm.SelectedItemChanged += ViewModel_SelectedItemChanged;
+
+            // タッチスクロール操作の終端挙動抑制
+            this.TreeView.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
+
+            this.TreeView.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(TreeView_ScrollChanged));
+
+            this.Root.DataContext = _vm;
+
+            this.Loaded += FolderTreeView_Loaded;
+            this.Unloaded += FolderTreeView_Unloaded;
+        }
 
         #region Dependency Properties
 
-        public FolderList FolderList
+        public FolderTreeModel Model
         {
-            get { return (FolderList)GetValue(FolderListProperty); }
-            set { SetValue(FolderListProperty, value); }
+            get { return (FolderTreeModel)GetValue(ModelProperty); }
+            set { SetValue(ModelProperty, value); }
         }
 
-        public static readonly DependencyProperty FolderListProperty =
-            DependencyProperty.Register("FolderList", typeof(FolderList), typeof(FolderTreeView), new PropertyMetadata(null, FolderListPropertyChanged));
+        public static readonly DependencyProperty ModelProperty =
+            DependencyProperty.Register("Model", typeof(FolderTreeModel), typeof(FolderTreeView), new PropertyMetadata(null, ModelPropertyChanged));
 
-        private static void FolderListPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void ModelPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is FolderTreeView control)
             {
-                control.Initialize();
+                control.UpdateModel();
             }
         }
 
@@ -232,34 +244,10 @@ namespace NeeView
         #endregion
 
 
-        private void Initialize()
+        private void UpdateModel()
         {
-            Debug.Assert(FolderList != null);
-
-            // HACK: モデルのインスタンス化位置に疑問。上位から与えられるべきでは？
-            FolderTreeModel model;
-            if (FolderList is BookshelfFolderList)
-            {
-                model = new BookshelfFolderTreeModel(this.FolderList);
-                _vm = new FolderTreeViewModel(model);
-            }
-            else
-            {
-                model = new FolderTreeModel(this.FolderList);
-                _vm = new FolderTreeViewModel(model);
-            }
-
-            _vm.SelectedItemChanged += ViewModel_SelectedItemChanged;
-
-            // タッチスクロール操作の終端挙動抑制
-            this.TreeView.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
-
-            this.TreeView.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(TreeView_ScrollChanged));
-
-            this.Root.DataContext = _vm;
-           
-            this.Loaded += FolderTreeView_Loaded;
-            this.Unloaded += FolderTreeView_Unloaded;
+            _vm.Model = Model;
+            this.TreeView.ItemsSource = Model?.Root.Children;
         }
 
         private void FolderTreeView_Loaded(object sender, RoutedEventArgs e)
@@ -305,6 +293,8 @@ namespace NeeView
 
         public void FocusSelectedItem()
         {
+            if (!_vm.IsValid) return;
+
             if (this.TreeView.SelectedItem == null)
             {
                 _vm.SelectRootQuickAccess();
@@ -319,6 +309,8 @@ namespace NeeView
 
         private void ScrollIntoView(bool isFocus)
         {
+            if (!_vm.IsValid) return;
+
             if (!this.TreeView.IsVisible)
             {
                 return;
@@ -438,12 +430,15 @@ namespace NeeView
 
         private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            _vm.Model.SelectedItem = this.TreeView.SelectedItem as FolderTreeNodeBase;
+            if (!_vm.IsValid) return;
 
+            _vm.Model.SelectedItem = this.TreeView.SelectedItem as FolderTreeNodeBase;
         }
 
         private async void TreeView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            if (!_vm.IsValid) return;
+
             var isVisible = (bool)e.NewValue;
             _vm.IsVisibleChanged(isVisible);
             if (isVisible)
@@ -477,6 +472,8 @@ namespace NeeView
 
         private void TreeViewItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
+            if (!_vm.IsValid) return;
+
             if (sender is TreeViewItem viewItem)
             {
                 if (viewItem.IsSelected)
@@ -489,6 +486,8 @@ namespace NeeView
 
         private void TreeViewItem_KeyDown(object sender, KeyEventArgs e)
         {
+            if (!_vm.IsValid) return;
+
             if (!(sender is TreeViewItem viewItem))
             {
                 return;
@@ -660,6 +659,8 @@ namespace NeeView
 
         private void TreeView_DragDrop(object sender, DragEventArgs e, bool isDrop)
         {
+            if (!_vm.IsValid) return;
+
             var treeViewItem = PointToViewItem(this.TreeView, e.GetPosition(this.TreeView));
             if (treeViewItem != null)
             {

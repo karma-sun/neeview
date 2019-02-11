@@ -9,63 +9,86 @@ namespace NeeView
     {
         private bool _isFirstVisibled;
 
-
-        public FolderTreeViewModel(FolderTreeModel model)
+        public FolderTreeViewModel()
         {
-            Model = model;
-            Model.SelectedItemChanged += (s, e) => SelectedItemChanged?.Invoke(s, e);
         }
 
 
         public event EventHandler SelectedItemChanged;
 
 
-        public FolderTreeModel Model { get; set; }
+        private FolderTreeModel _model;
+        public FolderTreeModel Model
+        {
+            get { return _model; }
+            set
+            {
+                if (value != _model)
+                {
+                    if (_model != null)
+                    {
+                        _model.SelectedItemChanged -= Model_SelectedItemChanged;
+                    }
+                    _model = value;
+                    if (_model != null)
+                    {
+                        _model.SelectedItemChanged += Model_SelectedItemChanged;
+                    }
+                    RaisePropertyChanged();
+                }
+            }
+        }
 
+        public bool IsValid => _model != null;
+
+        private void Model_SelectedItemChanged(object sender, EventArgs e)
+        {
+            SelectedItemChanged?.Invoke(sender, e);
+        }
 
         public void SelectRootQuickAccess()
         {
-            Model.SelectRootQuickAccess();
+            Model?.SelectRootQuickAccess();
         }
 
         public void Decide(object item)
         {
-            Model.Decide(item);
+            Model?.Decide(item);
         }
 
         public void AddQuickAccess(object item)
         {
-            Model.AddQuickAccess(item);
+            Model?.AddQuickAccess(item);
         }
 
         public void MoveQuickAccess(QuickAccessNode src, QuickAccessNode dst)
         {
-            Model.MoveQuickAccess(src, dst);
+            Model?.MoveQuickAccess(src, dst);
         }
 
         public void RemoveQuickAccess(QuickAccessNode item)
         {
-            Model.RemoveQuickAccess(item);
+            Model?.RemoveQuickAccess(item);
         }
 
         public BookmarkFolderNode NewBookmarkFolder(BookmarkFolderNode item)
         {
-            return Model.NewBookmarkFolder(item);
+            return Model?.NewBookmarkFolder(item);
         }
 
         public void AddBookmarkTo(BookmarkFolderNode item)
         {
-            Model.AddBookmarkTo(item);
+            Model?.AddBookmarkTo(item);
         }
 
         public void RemoveBookmarkFolder(BookmarkFolderNode item)
         {
-            Model.RemoveBookmarkFolder(item);
+            Model?.RemoveBookmarkFolder(item);
         }
 
         public void RefreshFolder()
         {
-            Model.RefreshDirectory();
+            Model?.RefreshDirectory();
         }
 
         public void IsVisibleChanged(bool isVisible)
@@ -73,7 +96,7 @@ namespace NeeView
             if (isVisible && !_isFirstVisibled)
             {
                 _isFirstVisibled = true;
-                Model.ExpandRoot();
+                Model?.ExpandRoot();
             }
         }
 

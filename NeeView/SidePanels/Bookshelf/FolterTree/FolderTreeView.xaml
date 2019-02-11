@@ -32,7 +32,6 @@
         <TreeView x:Name="TreeView"
                   Style="{StaticResource NVTreeView}"
                   Foreground="{DynamicResource NVForeground}" Background="Transparent" BorderThickness="0"
-                  ItemsSource="{Binding Model.Root.Children}"
                   SelectedItemChanged="TreeView_SelectedItemChanged"
                   IsVisibleChanged="TreeView_IsVisibleChanged"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"

@@ -40,6 +40,8 @@ namespace NeeView
 
         public FolderListView(FolderList model) : this()
         {
+            this.FolderTree.Model = new BookshelfFolderTreeModel(model);
+
             _vm = new FolderListViewModel(model);
             this.DockPanel.DataContext = _vm;
 

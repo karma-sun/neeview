@@ -268,7 +268,7 @@
         </StackPanel>
 
         <DockPanel SizeChanged="Grid_SizeChanged">
-            <local:FolderTreeView DockPanel.Dock="{Binding Model.FolderTreeDock}" x:Name="FolderTree" FolderList="{Binding Model}"
+            <local:FolderTreeView DockPanel.Dock="{Binding Model.FolderTreeDock}" x:Name="FolderTree"
                                   Visibility="{Binding Model.IsFolderTreeVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <local:FolderTreeView.Style>
                     <Style TargetType="{x:Type local:FolderTreeView}">

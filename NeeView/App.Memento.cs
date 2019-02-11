@@ -46,7 +46,7 @@ namespace NeeView
 
         private bool _isNetworkEnalbe = true;
         private bool _isSettingBackup;
-        private bool _isSaveWindowPlacement;
+        private bool _isSaveWindowPlacement = true;
         private double _autoHideDelayTime = 1.0;
         private string _temporaryDirectory;
         private string _cacheDirectory;
@@ -222,7 +222,7 @@ namespace NeeView
             [DataMember, DefaultValue(false)]
             public bool IsSaveFullScreen { get; set; }
 
-            [DataMember, DefaultValue(false)]
+            [DataMember, DefaultValue(true)]
             public bool IsSaveWindowPlacement { get; set; }
 
             [DataMember, DefaultValue(true)]

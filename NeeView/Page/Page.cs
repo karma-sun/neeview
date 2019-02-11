@@ -81,7 +81,7 @@ namespace NeeView
         public string Prefix { get; set; }
 
         // ファイル情報：最終更新日
-        public DateTime LastWriteTime => Entry != null ? LastWriteTime : default;
+        public DateTime LastWriteTime => Entry != null ? Entry.LastWriteTime : default;
 
         // ファイル情報：ファイルサイズ
         public long Length => Entry.Length;

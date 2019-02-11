@@ -66,7 +66,7 @@ namespace NeeView
                     Instance = child,
                     RawEntryName = LoosePath.Combine(LoosePath.GetFileName(pagemark.Place), pagemark.DispName),
                     Length = 0,
-                    LastWriteTime = null,
+                    LastWriteTime = default,
                 });
             }
 

@@ -27,7 +27,7 @@ namespace NeeView
         /// <param name="length"></param>
         /// <param name="lastUpdateTime"></param>
         /// <param name="appendix"></param>
-        public ThumbnailCacheHeader(string name, long length, DateTime? lastUpdateTime, string appendix)
+        public ThumbnailCacheHeader(string name, long length, DateTime lastUpdateTime, string appendix)
         {
             string source = $"thumb://{name}:{length}:{lastUpdateTime}:{appendix}";
             ////Debug.WriteLine($"Cache: {source}");

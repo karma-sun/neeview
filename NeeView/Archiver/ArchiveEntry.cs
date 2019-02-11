@@ -194,7 +194,7 @@ namespace NeeView
         /// <summary>
         /// ファイル更新日
         /// </summary>
-        public DateTime? LastWriteTime { get; set; }
+        public DateTime LastWriteTime { get; set; }
 
         /// <summary>
         /// ファイルシステム所属判定

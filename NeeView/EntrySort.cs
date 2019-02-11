@@ -83,11 +83,9 @@ namespace NeeView
                 return compare(d1, d2);
         }
 
-        // 日付比較。null対応
-        private static int CompareDateTime(DateTime? _t1, DateTime? _t2)
+        // 日付比較
+        private static int CompareDateTime(DateTime t1, DateTime t2)
         {
-            DateTime t1 = _t1 ?? DateTime.MinValue;
-            DateTime t2 = _t2 ?? DateTime.MinValue;
             return (t1.Ticks - t2.Ticks < 0) ? -1 : 1;
         }
     }

@@ -131,7 +131,7 @@ namespace NeeView
                         IsDirectoryTarget = bookmark.Unit.Memento.IsDirectorty,
                         Name = bookmark.Name,
                         ArchiveEntry = archiveEntry,
-                        LastWriteTime = archiveEntry.LastWriteTime ?? default,
+                        LastWriteTime = archiveEntry.LastWriteTime,
                         EntryTime = bookmark.EntryTime,
                         Length = archiveEntry.Length,
                         Attributes = FolderItemAttribute.Bookmark,

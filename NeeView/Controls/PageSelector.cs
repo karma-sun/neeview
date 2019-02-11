@@ -15,7 +15,6 @@ namespace NeeView
 
         #region Fields
 
-        private int _maxIndex;
         private int _selectedIndex;
 
         #endregion
@@ -24,8 +23,6 @@ namespace NeeView
 
         private PageSelector()
         {
-            BookOperation.Current.PageListChanged += BookOperation_PageListChanged;
-
             // TODO: BookOperator経由のイベントにする
             BookHub.Current.ViewContentsChanged += BookHub_ViewContentsChanged;
         }
@@ -42,12 +39,7 @@ namespace NeeView
 
         #region Properties
 
-        // TODO: 更新タイミング
-        public int MaxIndex
-        {
-            get { return _maxIndex; }
-            set { SetProperty(ref _maxIndex, value); }
-        }
+        public int MaxIndex => BookOperation.Current.GetMaxPageIndex();
 
         public int SelectedIndex
         {
@@ -66,12 +58,6 @@ namespace NeeView
         #endregion
 
         #region Methods
-
-        private void BookOperation_PageListChanged(object sender, EventArgs e)
-        {
-            if (!BookOperation.Current.IsValid) return;
-            this.MaxIndex = BookOperation.Current.GetMaxPageIndex();
-        }
 
         internal void FlushSelectedIndex(object sender)
         {

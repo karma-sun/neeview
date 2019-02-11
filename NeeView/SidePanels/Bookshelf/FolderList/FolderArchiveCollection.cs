@@ -94,7 +94,7 @@ namespace NeeView
                 ArchiveEntry = entry,
                 Place = new QueryPath(entry.Archiver.SystemPath),
                 Name = entry.EntryName,
-                LastWriteTime = entry.LastWriteTime ?? default(DateTime),
+                LastWriteTime = entry.LastWriteTime,
                 Length = entry.Length,
                 Attributes = FolderItemAttribute.ArchiveEntry,
                 IsReady = true

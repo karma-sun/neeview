@@ -225,10 +225,10 @@ namespace NeeView
                 CameraModel = exif?.Model;
 
                 // 更新日
-                DateTime? lastWriteTime = (_model.IsUseExifDateTime && exif?.LastWriteTime != null)
+                DateTime lastWriteTime = (_model.IsUseExifDateTime && exif != null)
                     ? exif.LastWriteTime
                     : info.LastWriteTime;
-                LastWriteTime = lastWriteTime?.ToString(NeeView.Properties.Resources.FolderInfoDateFormat);
+                LastWriteTime = lastWriteTime.ToString(NeeView.Properties.Resources.FolderInfoDateFormat);
 
                 // アーカイバー
                 Archiver = info.Archiver;

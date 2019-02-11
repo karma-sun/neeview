@@ -118,7 +118,7 @@ namespace NeeView
         /// <summary>
         /// アーカイブの最終更新日
         /// </summary>
-        public DateTime? LastWriteTime { get; private set; }
+        public DateTime LastWriteTime { get; private set; }
 
         /// <summary>
         /// ルートフラグ

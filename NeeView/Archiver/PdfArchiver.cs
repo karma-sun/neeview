@@ -65,7 +65,7 @@ namespace NeeView
                         Instance = null,
                         RawEntryName = $"{id + 1:000}.png",
                         Length = 0,
-                        LastWriteTime = information.ModificationDate,
+                        LastWriteTime = information.ModificationDate ?? default
                     });
                 }
             }

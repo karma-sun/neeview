@@ -34,7 +34,7 @@ namespace NeeView
         /// <summary>
         /// 最終更新日
         /// </summary>
-        public DateTime? LastWriteTime { get; set; }
+        public DateTime LastWriteTime { get; set; }
 
         /// <summary>
         /// EXIF

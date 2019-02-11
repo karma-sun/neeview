@@ -52,6 +52,11 @@ namespace NeeView
         private ThumbnailListViewModel _vm;
         private bool _isDartyThumbnailList = true;
 
+        /// <summary>
+        /// サムネイル更新要求を拒否する
+        /// </summary>
+        private bool _isFreezed;
+
         #endregion
 
         #region Constructors
@@ -216,6 +221,7 @@ namespace NeeView
         // サムネ更新。表示されているページのサムネの読み込み要求
         private void LoadThumbnailList(int direction)
         {
+            if (_isFreezed) return;
             if (!this.Root.IsVisible) return;
             if (_listPanel == null || !this.ThumbnailListBox.IsVisible || _listPanel.Children.Count <= 0) return;
 
@@ -351,9 +357,19 @@ namespace NeeView
         private void ThumbnailListBox_TargetUpdated(object sender, DataTransferEventArgs e)
         {
             if (_vm == null) return;
-            _vm.Model.IsItemsDarty = false;
-            _vm.FlushSelectedIndex();
-            UpdateViewItems();
+
+            try
+            {
+                _isFreezed = true;
+                _vm.Model.IsItemsDarty = false;
+                _vm.FlushSelectedIndex();
+                UpdateViewItems();
+            }
+            finally
+            {
+                _isFreezed = false;
+            }
+
             LoadThumbnailList(+1);
         }
 

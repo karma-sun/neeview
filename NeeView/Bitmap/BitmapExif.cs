@@ -62,7 +62,7 @@ namespace NeeView
         public int ISOSpeedRatings { get; set; }
         public string Maker { get; set; }
         public string Model { get; set; }
-        public DateTime? LastWriteTime { get; set; }
+        public DateTime LastWriteTime { get; set; }
 
         public Fraction ExposureTime { get; set; }
         public Fraction FNumber { get; set; }

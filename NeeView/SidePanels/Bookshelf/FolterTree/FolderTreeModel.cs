@@ -19,6 +19,16 @@ namespace NeeView
         public override ImageSource Icon => null;
     }
 
+    [Flags]
+    public enum FolderTreeCategory
+    {
+        QuickAccess = 0x01,
+        Directory = 0x02,
+        BookmarkFolder = 0x04,
+
+        All = QuickAccess | Directory | BookmarkFolder
+    }
+
     public class FolderTreeModel : BindableBase
     {
         // Fields
@@ -32,22 +42,30 @@ namespace NeeView
 
         // Constructors
 
-        public FolderTreeModel(FolderList folderList)
+        public FolderTreeModel(FolderList folderList, FolderTreeCategory categories)
         {
             _folderList = folderList;
             _root = new RootFolderTree();
 
             _root.Children = new ObservableCollection<FolderTreeNodeBase>();
 
-            if (!_folderList.IsBookmarkOnly)
+            if ((categories & FolderTreeCategory.QuickAccess) != 0)
             {
                 _rootQuickAccess = new RootQuickAccessNode(_root);
                 _root.Children.Add(_rootQuickAccess);
+            }
+
+            if ((categories & FolderTreeCategory.Directory) != 0)
+            {
                 _rootFolder = new RootDirectoryNode(_root);
                 _root.Children.Add(_rootFolder);
             }
-            _rootBookmarkFolder = new RootBookmarkFolderNode(_root);
-            _root.Children.Add(_rootBookmarkFolder);
+
+            if ((categories & FolderTreeCategory.BookmarkFolder) != 0)
+            {
+                _rootBookmarkFolder = new RootBookmarkFolderNode(_root);
+                _root.Children.Add(_rootBookmarkFolder);
+            }
 
             ////_rootPagemarkFolder = new RootPagemarkFolderNode(_root);
 
@@ -141,13 +159,10 @@ namespace NeeView
 
         public void ExpandRoot()
         {
-            if (!_folderList.IsBookmarkOnly)
+            foreach (var node in _root.Children)
             {
-                _rootQuickAccess.IsExpanded = true;
-                _rootFolder.IsExpanded = true;
+                node.IsExpanded = true;
             }
-            _rootBookmarkFolder.IsExpanded = true;
-            ////_rootPagemarkFolder.IsExpanded = true;
         }
 
         public void SelectRootQuickAccess()

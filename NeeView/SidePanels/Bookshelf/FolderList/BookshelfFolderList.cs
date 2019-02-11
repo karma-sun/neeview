@@ -12,7 +12,7 @@ namespace NeeView
         static BookshelfFolderList() => Current = new BookshelfFolderList();
         public static BookshelfFolderList Current { get; }
 
-        protected BookshelfFolderList() : base(false)
+        protected BookshelfFolderList() : base(true, true)
         {
         }
 

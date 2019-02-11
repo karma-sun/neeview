@@ -82,42 +82,44 @@ namespace NeeView
 
         #region Constructors
 
-        protected FolderList(bool isBookmarkOnly)
+        protected FolderList(bool isSyncBookHub, bool isOverlayEnabled)
         {
-            this.IsBookmarkOnly = isBookmarkOnly;
             _folderListBoxModel = new FolderListBoxModel(null);
 
             _searchEngine = new FolderSearchEngine();
-            FolderCollectionFactory = new FolderCollectionFactory(_searchEngine, !isBookmarkOnly);
+            FolderCollectionFactory = new FolderCollectionFactory(_searchEngine, isOverlayEnabled);
 
-            if (!IsBookmarkOnly)
+            if (isSyncBookHub)
             {
                 BookHub.Current.FolderListSync += async (s, e) => await SyncWeak(e);
                 BookHub.Current.HistoryChanged += (s, e) => _folderListBoxModel.RefreshIcon(new QueryPath(e.Key));
                 BookHub.Current.LoadRequested += (s, e) => CancelMoveCruiseFolder();
             }
 
-            BookHub.Current.BookmarkChanged += (s, e) =>
-            {
-                switch (e.Action)
+            if (isOverlayEnabled)
+            { 
+                BookHub.Current.BookmarkChanged += (s, e) =>
                 {
-                    case EntryCollectionChangedAction.Reset:
-                    case EntryCollectionChangedAction.Replace:
-                        _folderListBoxModel.RefreshIcon(null);
-                        break;
-                    default:
-                        if (e.Item.Value is Bookmark bookmark)
-                        {
-                            _folderListBoxModel.RefreshIcon(new QueryPath(bookmark.Place));
-                        }
-                        break;
-                }
-            };
+                    switch (e.Action)
+                    {
+                        case EntryCollectionChangedAction.Reset:
+                        case EntryCollectionChangedAction.Replace:
+                            _folderListBoxModel.RefreshIcon(null);
+                            break;
+                        default:
+                            if (e.Item.Value is Bookmark bookmark)
+                            {
+                                _folderListBoxModel.RefreshIcon(new QueryPath(bookmark.Place));
+                            }
+                            break;
+                    }
+                };
+            }
         }
 
         #endregion Constructors
 
-        #region Events
+            #region Events
 
         public event EventHandler PlaceChanged;
 
@@ -135,8 +137,6 @@ namespace NeeView
         #endregion
 
         #region Properties
-
-        public bool IsBookmarkOnly { get; set; }
 
         public FolderCollectionFactory FolderCollectionFactory { get; }
 
@@ -478,12 +478,8 @@ namespace NeeView
 
         #region Methods
 
-        public void IsVisibleChanged(bool isVisible)
+        public virtual void IsVisibleChanged(bool isVisible)
         {
-            if (IsBookmarkOnly && FolderCollection == null)
-            {
-                RequestPlace(new QueryPath(QueryScheme.Bookmark, null), null, FolderSetPlaceOption.None);
-            }
         }
 
         /// <summary>
@@ -1085,11 +1081,11 @@ namespace NeeView
             CloseBookIfNecessary();
         }
 
-        public bool CanMoveToParent()
+        public virtual bool CanMoveToParent()
         {
             var parentQuery = _folderCollection?.GetParentQuery();
             if (parentQuery == null) return false;
-            return IsBookmarkOnly ? parentQuery.Scheme == QueryScheme.Bookmark : true;
+            return true;
         }
 
         public async void MoveToParent()
@@ -1104,10 +1100,8 @@ namespace NeeView
             CloseBookIfNecessary();
         }
 
-        public async void Sync()
+        public virtual async void Sync()
         {
-            if (IsBookmarkOnly) return;
-
             var place = BookHub.Current?.Book?.Place;
 
             if (place != null)

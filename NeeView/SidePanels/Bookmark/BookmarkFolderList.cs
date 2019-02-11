@@ -12,11 +12,29 @@ namespace NeeView
         static BookmarkFolderList() => Current = new BookmarkFolderList();
         public static BookmarkFolderList Current { get; }
 
-        private BookmarkFolderList() : base(true)
+        private BookmarkFolderList() : base(false, false)
         {
             IsSyncBookshelfEnabled = true;
         }
 
+        public override void IsVisibleChanged(bool isVisible)
+        {
+            if (FolderCollection == null)
+            {
+                RequestPlace(new QueryPath(QueryScheme.Bookmark, null), null, FolderSetPlaceOption.None);
+            }
+        }
+
+        public override bool CanMoveToParent()
+        {
+            var parentQuery = FolderCollection?.GetParentQuery();
+            if (parentQuery == null) return false;
+            return parentQuery.Scheme == QueryScheme.Bookmark;
+        }
+
+        public override void Sync()
+        {
+        }
 
         #region Memento
 

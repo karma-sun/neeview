@@ -7,7 +7,7 @@
     {
         public static BookshelfFolderTreeModel Current { get; private set; }
 
-        public BookshelfFolderTreeModel(FolderList folderList) : base(folderList)
+        public BookshelfFolderTreeModel(FolderList folderList) : base(folderList, FolderTreeCategory.All)
         {
             Current = this;
         }

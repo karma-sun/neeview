@@ -69,28 +69,19 @@ namespace NeeView
         public string Place { get; protected set; }
 
         // ページ名 : エントリ名
-        public string FileName => Entry?.EntryName;
+        public string EntryName => Entry?.EntryName;
 
         // ページ名：ファイル名のみ
-        public string LastName => Entry?.EntryLastName;
+        public string EntryLastName => Entry?.EntryLastName;
 
         // ページ名：フルパス
-        public string FullPath => Entry?.EntryFullName;
-
-        // ページ名：ソート用分割
-        public string[] FullPathTokens => LoosePath.Split(Entry?.EntryFullName);
+        public string EntryFullName => Entry?.EntryFullName;
 
         // ページ名：プレフィックス
         public string Prefix { get; set; }
 
-        // ページ名：プレフィックスを除いたフルパス
-        public string SmartFullPath => (Prefix == null ? FullPath : FullPath.Substring(Prefix.Length)).Replace('\\', '/').Replace("/", " > ");
-
-        // ページ名：プレフィックスを除いたフルパス のディレクトリ名(整形済)
-        public string SmartDirectoryName => LoosePath.GetDirectoryName(SmartFullPath).Replace('\\', '/');
-
         // ファイル情報：最終更新日
-        public DateTime? LastWriteTime => Entry.LastWriteTime;
+        public DateTime LastWriteTime => Entry != null ? LastWriteTime : default;
 
         // ファイル情報：ファイルサイズ
         public long Length => Entry.Length;
@@ -148,30 +139,12 @@ namespace NeeView
             set { SetProperty(ref _isVisibled, value); }
         }
 
-
         private bool _isPagemark;
         public bool IsPagemark
         {
             get { return _isPagemark; }
             set { SetProperty(ref _isPagemark, value); }
         }
-
-
-        public string Name => Entry?.EntryName;
-
-        public string Note
-        {
-            get
-            {
-                if (LastWriteTime == null && Length == 0) return null;
-
-                var timeString = $"{LastWriteTime:yyyy/MM/dd HH:mm:ss}";
-                var sizeString = FileSizeToStringConverter.ByteToDispString(Length);
-                return timeString + (string.IsNullOrEmpty(sizeString) ? "" : "   " + sizeString);
-            }
-        }
-
-        public string Detail => FullPath;
 
 
         /// <summary>
@@ -284,7 +257,6 @@ namespace NeeView
 
         #endregion
 
-
         #region サムネイル
 
         private PageJob _thumbnailJob;
@@ -377,9 +349,21 @@ namespace NeeView
         // ToString
         public override string ToString()
         {
-            return LastName != null ? "Page." + LastName : base.ToString();
+            return EntryLastName != null ? "Page." + EntryLastName : base.ToString();
         }
 
+
+        // ページ名：ソート用分割
+        public string[] GetEntryFullNameTokens()
+        {
+            return LoosePath.Split(Entry?.EntryFullName);
+        }
+
+        // ページ名：プレフィックスを除いたフルパス
+        public string GetSmartFullName()
+        {
+            return (Prefix == null ? EntryFullName : EntryFullName.Substring(Prefix.Length)).Replace('\\', '/').Replace("/", " > ");
+        }
 
         // ファイルの場所を取得
         public string GetFilePlace()

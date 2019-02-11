@@ -73,7 +73,7 @@ namespace NeeView
             }
             else if (_archiver.Parent != null)
             {
-                return new QueryPath(_archiver.Parent.FullPath);
+                return new QueryPath(_archiver.Parent.SystemPath);
             }
             else
             {
@@ -92,7 +92,7 @@ namespace NeeView
             {
                 Type = FolderItemType.ArchiveEntry,
                 ArchiveEntry = entry,
-                Place = new QueryPath(entry.Archiver.FullPath),
+                Place = new QueryPath(entry.Archiver.SystemPath),
                 Name = entry.EntryName,
                 LastWriteTime = entry.LastWriteTime ?? default(DateTime),
                 Length = entry.Length,

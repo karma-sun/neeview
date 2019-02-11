@@ -73,7 +73,7 @@ namespace NeeView
             _thumbnailRectangle = rectangle;
 
             var textBlock = new TextBlock();
-            textBlock.Text = LoosePath.GetFileName(source.Page.FullPath);
+            textBlock.Text = LoosePath.GetFileName(source.Page.EntryFullName);
             textBlock.Foreground = new SolidColorBrush(Color.FromRgb(0xCC, 0xCC, 0xCC));
             textBlock.FontSize = 20;
             textBlock.Margin = new Thickness(10);

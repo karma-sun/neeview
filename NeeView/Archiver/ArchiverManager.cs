@@ -277,7 +277,7 @@ namespace NeeView
         {
             if (source.IsFileSystem)
             {
-                return CreateArchiver(source.FullPath, null, isRoot, isAll);
+                return CreateArchiver(source.SystemPath, null, isRoot, isAll);
             }
             else
             {

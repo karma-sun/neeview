@@ -415,7 +415,7 @@ namespace NeeView
                 page.Prefix = prefix;
                 page.Loaded += Page_Loaded;
                 page.Thumbnail.Touched += Thumbnail_Touched;
-                _pageMap[page.FullPath] = page;
+                _pageMap[page.EntryFullName] = page;
             }
 
             // 初期ソート
@@ -434,7 +434,7 @@ namespace NeeView
             }
             else
             {
-                int index = !string.IsNullOrEmpty(start) ? Pages.FindIndex(e => e.FullPath == start) : 0;
+                int index = !string.IsNullOrEmpty(start) ? Pages.FindIndex(e => e.EntryFullName == start) : 0;
                 if (index < 0)
                 {
                     this.NotFoundStartPage = start;
@@ -444,10 +444,10 @@ namespace NeeView
             }
 
             // 開始ページ記憶
-            StartEntry = Pages.Count > 0 ? Pages[position.Index].FullPath : null;
+            StartEntry = Pages.Count > 0 ? Pages[position.Index].EntryFullName : null;
 
             // 有効化
-            Place = archiver.FullPath;
+            Place = archiver.SystemPath;
             IsDirectory = archiver is FolderArchive;
 
             // 初期ページ設定
@@ -573,10 +573,10 @@ namespace NeeView
         {
             if (Pages == null || Pages.Count == 0) return "";
 
-            string s = Pages[0].FullPath;
+            string s = Pages[0].EntryFullName;
             foreach (var page in Pages)
             {
-                s = GetStartsWith(s, page.FullPath);
+                s = GetStartsWith(s, page.EntryFullName);
                 if (string.IsNullOrEmpty(s)) break;
             }
 
@@ -865,7 +865,7 @@ namespace NeeView
         public Page GetPage(int index) => Pages.Count > 0 ? Pages[ClampPageNumber(index)] : null;
 
         //
-        public Page GetPage(string name) => Pages.FirstOrDefault(e => e.FullPath == name);
+        public Page GetPage(string name) => Pages.FirstOrDefault(e => e.EntryFullName == name);
 
         // ページ番号
         public int GetIndex(Page page) => Pages.IndexOf(page);
@@ -1351,7 +1351,7 @@ namespace NeeView
         // ファイル名, 日付, ID の順で比較
         private static int CompareFileNameOrder(Page p1, Page p2, Func<string, string, int> compare)
         {
-            if (p1.FullPath != p2.FullPath)
+            if (p1.EntryFullName != p2.EntryFullName)
                 return CompareFileName(p1, p2, compare);
             else if (p1.Entry.LastWriteTime != p2.Entry.LastWriteTime)
                 return CompareDateTime(p1.Entry.LastWriteTime, p2.Entry.LastWriteTime);
@@ -1364,7 +1364,7 @@ namespace NeeView
         {
             if (p1.Entry.LastWriteTime != p2.Entry.LastWriteTime)
                 return CompareDateTime(p1.Entry.LastWriteTime, p2.Entry.LastWriteTime);
-            else if (p1.FullPath != p2.FullPath)
+            else if (p1.EntryFullName != p2.EntryFullName)
                 return CompareFileName(p1, p2, compare);
             else
                 return p1.Entry.Id - p2.Entry.Id;
@@ -1375,7 +1375,7 @@ namespace NeeView
         {
             if (p1.Entry.Length != p2.Entry.Length)
                 return p1.Entry.Length < p2.Entry.Length ? -1 : 1;
-            else if (p1.FullPath != p2.FullPath)
+            else if (p1.EntryFullName != p2.EntryFullName)
                 return CompareFileName(p1, p2, compare);
             else
                 return p1.Entry.Id - p2.Entry.Id;
@@ -1384,8 +1384,8 @@ namespace NeeView
         // ファイル名比較. ディレクトリを優先する
         private static int CompareFileName(Page p1, Page p2, Func<string, string, int> compare)
         {
-            var g1 = p1.FullPathTokens;
-            var g2 = p2.FullPathTokens;
+            var g1 = p1.GetEntryFullNameTokens();
+            var g2 = p2.GetEntryFullNameTokens();
 
             var limit = Math.Min(g1.Length, g2.Length);
             for (int i = 0; i < limit; ++i)
@@ -1434,9 +1434,9 @@ namespace NeeView
             index = ClampPageNumber(index);
             RequestSetPosition(this, new PagePosition(index, 0), 1, true);
 
-            if (_pageMap.TryGetValue(page.FullPath, out Page target) && page == target)
+            if (_pageMap.TryGetValue(page.EntryFullName, out Page target) && page == target)
             {
-                _pageMap.Remove(page.FullPath);
+                _pageMap.Remove(page.EntryFullName);
             }
         }
 
@@ -1781,7 +1781,7 @@ namespace NeeView
 
             memento.Place = Place;
             memento.IsDirectorty = IsDirectory;
-            memento.Page = SortMode != PageSortMode.Random ? GetViewPage()?.FullPath : null;
+            memento.Page = SortMode != PageSortMode.Random ? GetViewPage()?.EntryFullName : null;
 
             memento.PageMode = PageMode;
             memento.BookReadOrder = BookReadOrder;

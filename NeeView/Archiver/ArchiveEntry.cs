@@ -168,16 +168,11 @@ namespace NeeView
         ///b.zip\c\001.jpg
         public string EntryFullName => LoosePath.Combine(Archiver?.EntryFullName, EntryName);
 
-        /// <summary>
-        /// ルートアーカイバーを含むエントリ名
-        /// </summary>
-        /// a.zip\b.zip\c\001.jpg
-        public string FullName => LoosePath.Combine(RootArchiver?.FullName, EntryFullName);
 
         /// <summary>
         /// エクスプローラーから指定可能なパス
         /// </summary>
-        public string FullPath => LoosePath.Combine(RootArchiver?.FullPath, EntryFullName);
+        public string SystemPath => LoosePath.Combine(RootArchiver?.SystemPath, EntryFullName);
 
         /// <summary>
         /// 識別名
@@ -238,7 +233,7 @@ namespace NeeView
             string path = null;
             if (RootArchiver != null)
             {
-                path = RootArchiver.FullPath + separater;
+                path = RootArchiver.SystemPath + separater;
             }
             // Rawなエントリー名を接続
             path += RawEntryName;

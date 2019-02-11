@@ -142,14 +142,9 @@ namespace NeeView
         public string EntryFullName => IsRoot ? "" : LoosePath.Combine(Parent.EntryFullName, EntryName);
 
         /// <summary>
-        /// ルートアーカイバー名を含んだエントリ名
-        /// </summary>
-        public string FullName => IsRoot ? EntryName : LoosePath.Combine(Parent.FullName, EntryName);
-
-        /// <summary>
         /// エクスプローラーで指定可能な絶対パス
         /// </summary>
-        public string FullPath => Parent == null ? Path : LoosePath.Combine(Parent.FullPath, EntryName);
+        public string SystemPath => Parent == null ? Path : LoosePath.Combine(Parent.SystemPath, EntryName);
 
         /// <summary>
         /// 識別名
@@ -322,11 +317,11 @@ namespace NeeView
         {
             if (this.Parent != null)
             {
-                return this.Parent.FullPath;
+                return this.Parent.SystemPath;
             }
             else
             {
-                return LoosePath.GetDirectoryName(this.FullPath);
+                return LoosePath.GetDirectoryName(this.SystemPath);
             }
         }
 

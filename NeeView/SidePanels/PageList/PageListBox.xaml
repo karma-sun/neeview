@@ -32,12 +32,13 @@
         <local:BooleanToVisibilityConverter x:Key="BooleanToVisibilityHiddenConverter" False="Hidden"/>
         <local:BooleanToTextWrappingConverter x:Key="BooleanToTextWrappingConverter"/>
         <local:PageNameFormatConverter x:Key="PageNameFormatConverter"/>
+        <local:PageToNoteConverter x:Key="PageToNoteConverter"/>
 
         <Style x:Key="NameStyle" TargetType="TextBlock">
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="ToolTip" Value="{Binding Detail}"/>
+            <Setter Property="ToolTip" Value="{Binding EntryFullName}"/>
             <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
             <Setter Property="Text">
                 <Setter.Value>
@@ -118,7 +119,7 @@
                         <local:PanelListContentImage Thumbnail="{Binding Thumbnail}"/>
                         <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}"/>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Style="{StaticResource NoteTextStyle}" Text="{Binding Note}"/>
+                            <TextBlock Style="{StaticResource NoteTextStyle}" Text="{Binding Converter={StaticResource PageToNoteConverter}}"/>
                             <TextBlock Style="{StaticResource ContentNameStyle}" Margin="5,0"/>
                         </StackPanel>
                     </DockPanel>

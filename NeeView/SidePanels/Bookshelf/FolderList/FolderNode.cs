@@ -137,7 +137,7 @@ namespace NeeView
             var parentArchiver = _archiver?.Parent;
             if (parentArchiver != null)
             {
-                parent = new FolderNode(null, new QueryPath(parentArchiver.FullPath).FullPath, null) { _archiver = parentArchiver };
+                parent = new FolderNode(null, new QueryPath(parentArchiver.SystemPath).FullPath, null) { _archiver = parentArchiver };
                 name = LoosePath.GetFileName(Name, parent.FullName);
             }
 

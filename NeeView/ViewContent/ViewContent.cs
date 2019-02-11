@@ -78,10 +78,10 @@ namespace NeeView
         public Color Color = Colors.Black;
 
         // フルパス名
-        public string FullPath => Page?.FullPath;
+        public string FullPath => Page?.EntryFullName;
 
         // ファイル名
-        public string FileName => LoosePath.GetFileName(Page?.FullPath.TrimEnd('\\'));
+        public string FileName => LoosePath.GetFileName(Page?.EntryFullName.TrimEnd('\\'));
 
         // フォルダーの場所
         public string FolderPlace => Page?.GetFolderPlace();

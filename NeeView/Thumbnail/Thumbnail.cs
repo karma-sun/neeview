@@ -118,7 +118,7 @@ namespace NeeView
         {
             if (IsValid || !IsCacheEnabled) return;
 
-            _header = new ThumbnailCacheHeader(entry.FullPath, entry.Length, entry.LastWriteTime, appendix);
+            _header = new ThumbnailCacheHeader(entry.SystemPath, entry.Length, entry.LastWriteTime, appendix);
             var image = ThumbnailCache.Current.Load(_header);
 
             Image = image;

@@ -218,8 +218,6 @@ namespace NeeView
             }
         }
 
-        public virtual string Note => null;
-
         public virtual string Detail => Name;
 
         public abstract IThumbnail Thumbnail { get; }
@@ -330,8 +328,6 @@ namespace NeeView
         {
         }
 
-
-        public override string Note => IsFileSystem() || !IsDirectory ? GetArchivePage()?.Note : null;
 
         public override IThumbnail Thumbnail => GetArchivePage()?.Thumbnail;
 

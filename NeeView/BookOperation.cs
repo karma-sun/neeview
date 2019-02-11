@@ -479,7 +479,7 @@ namespace NeeView
         private void Book_PageRemoved(object sender, PageChangedEventArgs e)
         {
             // ページマーカーから削除
-            RemovePagemark(this.Book.Place, e.Page.FullPath);
+            RemovePagemark(this.Book.Place, e.Page.EntryFullName);
 
             UpdatePageList(true);
             PageRemoved?.Invoke(sender, e);
@@ -870,7 +870,7 @@ namespace NeeView
             {
                 return null;
             }
-            var entryName = page.FullPath;
+            var entryName = page.EntryFullName;
             var node = PagemarkCollection.Current.FindNode(place, entryName);
             if (node == null)
             {
@@ -894,7 +894,7 @@ namespace NeeView
             {
                 return null;
             }
-            return AddPagemark(place, page.FullPath);
+            return AddPagemark(place, page.EntryFullName);
         }
 
         //
@@ -934,7 +934,7 @@ namespace NeeView
             for (int index = 0; index < Book.Pages.Count; index += 100)
             {
                 var page = Book.Pages[index];
-                AddPagemark(place, page.FullPath);
+                AddPagemark(place, page.EntryFullName);
             }
         }
 
@@ -986,7 +986,7 @@ namespace NeeView
             if (result != null)
             {
                 // ページマーク更新
-                PagemarkList.Current.Jump(this.Book.Place, result.FileName);
+                PagemarkList.Current.Jump(this.Book.Place, result.EntryName);
             }
             else
             {
@@ -1002,7 +1002,7 @@ namespace NeeView
             if (result != null)
             {
                 // ページマーク更新
-                PagemarkList.Current.Jump(this.Book.Place, result.FileName);
+                PagemarkList.Current.Jump(this.Book.Place, result.EntryName);
             }
             else
             {

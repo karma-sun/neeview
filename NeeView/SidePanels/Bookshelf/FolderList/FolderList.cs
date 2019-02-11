@@ -1108,7 +1108,7 @@ namespace NeeView
             {
                 // TODO: Queryの求め方はこれでいいのか？
                 var path = new QueryPath(place);
-                var parent = new QueryPath(BookHub.Current?.Book?.Archiver?.Parent?.FullPath ?? LoosePath.GetDirectoryName(place));
+                var parent = new QueryPath(BookHub.Current?.Book?.Archiver?.Parent?.SystemPath ?? LoosePath.GetDirectoryName(place));
 
                 _isDarty = true; // 強制更新
                 await SetPlaceAsync(parent, new FolderItemPosition(path), FolderSetPlaceOption.Focus | FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.ResetKeyword | FolderSetPlaceOption.FileSystem);

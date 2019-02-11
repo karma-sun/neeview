@@ -341,7 +341,7 @@ namespace NeeView
             }
             else if (entry.Archiver is PagemarkArchiver)
             {
-                archiver = ArchiverManager.Current.CreateArchiver(entry.FullPath, entry, false, _isAll);
+                archiver = ArchiverManager.Current.CreateArchiver(entry.SystemPath, entry, false, _isAll);
             }
             else
             {
@@ -359,7 +359,7 @@ namespace NeeView
 
             if (!archiver.IsSupported())
             {
-                Debug.WriteLine($"CreateArchiver: Not Archive: {archiver.FullName}");
+                Debug.WriteLine($"CreateArchiver: Not Archive: {archiver.EntryFullName}");
                 return null;
             }
 

@@ -44,8 +44,8 @@ namespace NeeView
         public PageVisual(Page page)
         {
             Page = page;
-            Name = System.IO.Path.GetFileName(page.FileName);
-            DefaultExtension = System.IO.Path.GetExtension(page.FileName).ToLower();
+            Name = System.IO.Path.GetFileName(page.EntryName);
+            DefaultExtension = System.IO.Path.GetExtension(page.EntryName).ToLower();
         }
 
         // コンテンツが読まれていなければ読み込んでからサムネイルを作成する
@@ -147,7 +147,7 @@ namespace NeeView
             {
                 SingleImage = new PageVisual();
                 SingleImage.Page = pages[0];
-                SingleImage.Name = System.IO.Path.GetFileName(pages[0].FileName);
+                SingleImage.Name = System.IO.Path.GetFileName(pages[0].EntryName);
                 SingleImage.DefaultExtension = System.IO.Path.GetExtension(SingleImage.Name).ToLower();
 
                 // visual

@@ -28,7 +28,7 @@ namespace NeeView
         /// <param name="entry">対象アーカイブもしくはファイルのエントリ</param>
         public ArchiveContent(ArchiveEntry entry) : base(entry)
         {
-            _path = entry?.FullPath;
+            _path = entry?.SystemPath;
 
             PageMessage = new PageMessage()
             {
@@ -174,7 +174,7 @@ namespace NeeView
             }
             if (this.Entry.IsArchivePath)
             {
-                using (var entry = await ArchiveFileSystem.CreateArchiveEntry(this.Entry.FullPath, token))
+                using (var entry = await ArchiveFileSystem.CreateArchiveEntry(this.Entry.SystemPath, token))
                 {
                     if (entry.IsArchive())
                     {
@@ -203,9 +203,9 @@ namespace NeeView
         /// <returns></returns>
         private async Task<ThumbnailPicture> LoadArchivePictureAsync(ArchiveEntry entry, CancellationToken token)
         {
-            if (System.IO.Directory.Exists(entry.FullPath) || ArchiverManager.Current.IsSupported(entry.FullPath))
+            if (System.IO.Directory.Exists(entry.SystemPath) || ArchiverManager.Current.IsSupported(entry.SystemPath))
             {
-                if (ArchiverManager.Current.GetSupportedType(entry.FullPath) == ArchiverType.MediaArchiver)
+                if (ArchiverManager.Current.GetSupportedType(entry.SystemPath) == ArchiverType.MediaArchiver)
                 {
                     return new ThumbnailPicture(ThumbnailType.Media);
                 }

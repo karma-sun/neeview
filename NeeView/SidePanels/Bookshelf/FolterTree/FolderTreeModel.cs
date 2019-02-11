@@ -36,7 +36,7 @@ namespace NeeView
         private FolderList _folderList;
         private RootFolderTree _root;
         private RootQuickAccessNode _rootQuickAccess;
-        private RootDirectoryNode _rootFolder;
+        private RootDirectoryNode _rootDirectory;
         private RootBookmarkFolderNode _rootBookmarkFolder;
         ////private RootPagemarkFolderNode _rootPagemarkFolder;
 
@@ -57,8 +57,8 @@ namespace NeeView
 
             if ((categories & FolderTreeCategory.Directory) != 0)
             {
-                _rootFolder = new RootDirectoryNode(_root);
-                _root.Children.Add(_rootFolder);
+                _rootDirectory = new RootDirectoryNode(_root);
+                _root.Children.Add(_rootDirectory);
             }
 
             if ((categories & FolderTreeCategory.BookmarkFolder) != 0)
@@ -397,7 +397,7 @@ namespace NeeView
             var path = new QueryPath(place);
             if (path.Scheme == QueryScheme.File)
             {
-                _rootFolder.RefreshDriveChildren();
+                _rootDirectory.RefreshDriveChildren();
             }
             else
             {
@@ -424,7 +424,7 @@ namespace NeeView
             switch (path.Scheme)
             {
                 case QueryScheme.File:
-                    return _rootFolder.GetFolderTreeNode(path.Path, createChildren, asFarAsPossible);
+                    return _rootDirectory.GetFolderTreeNode(path.Path, createChildren, asFarAsPossible);
                 case QueryScheme.Bookmark:
                     return _rootBookmarkFolder.GetFolderTreeNode(path.Path, createChildren, asFarAsPossible);
                 ////case QueryScheme.Pagemark:
@@ -438,7 +438,7 @@ namespace NeeView
 
         public void RefreshDirectory()
         {
-            _rootFolder.Refresh();
+            _rootDirectory.Refresh();
         }
     }
 }

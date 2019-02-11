@@ -44,7 +44,7 @@ namespace NeeView
         /// <summary>
         /// ブックの場所
         /// </summary>
-        public string Place => Archiver.FullPath;
+        public string Place => Archiver.SystemPath;
 
         /// <summary>
         /// ページを含めたアーカイブパス
@@ -96,7 +96,7 @@ namespace NeeView
                 this.Archiver = await ArchiverManager.Current.CreateArchiverAsync(_archiveEntry, true, false, token);
                 this.EntryName = entryName;
             }
-            else if (Directory.Exists(path) || ArchiverManager.Current.IsSupported(_archiveEntry.FullPath))
+            else if (Directory.Exists(path) || ArchiverManager.Current.IsSupported(_archiveEntry.SystemPath))
             {
                 Debug.Assert(!option.HasFlag(BookLoadOption.IsPage));
                 this.Archiver = await ArchiverManager.Current.CreateArchiverAsync(_archiveEntry, true, false, token);
@@ -122,12 +122,12 @@ namespace NeeView
             {
                 if (option.HasFlag(BookLoadOption.IsBook))
                 {
-                    this.Archiver = new FolderArchive(_archiveEntry.FullPath, null, true);
+                    this.Archiver = new FolderArchive(_archiveEntry.SystemPath, null, true);
                     this.EntryName = null;
                 }
                 else
                 {
-                    this.Archiver = new FolderArchive(Path.GetDirectoryName(_archiveEntry.FullPath), null, true);
+                    this.Archiver = new FolderArchive(Path.GetDirectoryName(_archiveEntry.SystemPath), null, true);
                     this.EntryName = Path.GetFileName(_archiveEntry.EntryName);
                 }
             }

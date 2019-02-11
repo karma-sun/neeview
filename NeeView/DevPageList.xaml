@@ -17,7 +17,7 @@
         <ListView ItemsSource="{Binding BookOperation.PageList}" >
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name"  DisplayMemberBinding="{Binding LastName}" Width="80"/>
+                    <GridViewColumn Header="Name"  DisplayMemberBinding="{Binding EntryLastName}" Width="80"/>
                     <GridViewColumn Header="Status"  DisplayMemberBinding="{Binding Content.DevStatus}" Width="80"/>
                     <GridViewColumn Header="Info"  DisplayMemberBinding="{Binding Message}" Width="150"/>
                 </GridView>

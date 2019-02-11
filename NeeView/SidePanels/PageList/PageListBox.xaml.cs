@@ -281,11 +281,11 @@ namespace NeeView
                 {
                     default:
                     case PageNameFormat.Raw:
-                        return page.FullPath;
+                        return page.EntryFullName;
                     case PageNameFormat.Smart:
-                        return page.SmartFullPath;
+                        return page.GetSmartFullName();
                     case PageNameFormat.NameOnly:
-                        return page.LastName;
+                        return page.EntryLastName;
                 }
             }
             return null;
@@ -297,4 +297,25 @@ namespace NeeView
         }
     }
 
+    public class PageToNoteConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is Page page)
+            {
+                if (page.LastWriteTime == default && page.Length == 0) return null;
+
+                var timeString = $"{page.LastWriteTime:yyyy/MM/dd HH:mm:ss}";
+                var sizeString = FileSizeToStringConverter.ByteToDispString(page.Length);
+                return timeString + (string.IsNullOrEmpty(sizeString) ? "" : "   " + sizeString);
+            }
+
+            return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

@@ -23,6 +23,8 @@ namespace NeeView
 
         private PageSelector()
         {
+            BookOperation.Current.PageListChanged += BookOperation_PageListChanged;
+
             // TODO: BookOperator経由のイベントにする
             BookHub.Current.ViewContentsChanged += BookHub_ViewContentsChanged;
         }
@@ -87,6 +89,11 @@ namespace NeeView
         {
             ////Debug.WriteLine($"Jump: {_selectedIndex}");
             BookOperation.Current.RequestPageIndex(sender, _selectedIndex);
+        }
+
+        private void BookOperation_PageListChanged(object sender, EventArgs e)
+        {
+            RaisePropertyChanged(nameof(MaxIndex));
         }
 
         private void BookHub_ViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)

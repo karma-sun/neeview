@@ -196,6 +196,12 @@
       <DependentUpon>PageSortModePalette.xaml</DependentUpon>
     </Compile>
     <Compile Include="DebugTimer.cs" />
+    <Compile Include="JobEngine\IJobCommand.cs" />
+    <Compile Include="JobEngine\Job.cs" />
+    <Compile Include="JobEngine\JobContext.cs" />
+    <Compile Include="JobEngine\JobLogEventArgs.cs" />
+    <Compile Include="JobEngine\JobRequest.cs" />
+    <Compile Include="JobEngine\JobWorker.cs" />
     <Compile Include="MultbootService.cs" />
     <Compile Include="OpenSourceControls\VirtualizingWrapPanel.cs" />
     <Compile Include="RemoteCommandService.cs" />
@@ -817,7 +823,7 @@
     <Compile Include="InputGesture\KeyExGesture.cs" />
     <Compile Include="MenuExtensions.cs" />
     <Compile Include="CommonExtensions.cs" />
-    <Compile Include="JobEngine.cs" />
+    <Compile Include="JobEngine\JobEngine.cs" />
     <Compile Include="InputGesture\MouseExGesture.cs" />
     <Compile Include="InputGesture\MouseWheelGesture.cs" />
     <Compile Include="Page\Page.cs" />

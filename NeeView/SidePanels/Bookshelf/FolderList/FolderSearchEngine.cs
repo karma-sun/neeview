@@ -24,7 +24,7 @@ namespace NeeView
             {
                 var searchEngine = GetSearchEngine(path);
                 searchEngine.CancelSearch();
-                var option = new NeeLaboratory.IO.Search.SearchOption() { AllowFolder = true, IsOptionEnabled = true };
+                var option = new NeeLaboratory.IO.Search.SearchOption() { AllowFolder = true, SearchMode = NeeLaboratory.IO.Search.SearchMode.Advanced };
                 var result = await _searchEngine.SearchAsync(keyword, option);
                 return result;
             }

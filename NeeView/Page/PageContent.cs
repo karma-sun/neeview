@@ -126,7 +126,7 @@ namespace NeeView
         /// <param name="entry"></param>
         public PageContent(ArchiveEntry entry)
         {
-            this.Entry = entry;
+            _entry = entry;
 
             // 開発用：
             InitializeDev();

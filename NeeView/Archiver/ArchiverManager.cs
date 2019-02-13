@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Security.Permissions;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -14,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
+    [Serializable]
     public class NotSupportedFileTypeException : Exception
     {
         public NotSupportedFileTypeException() { }
@@ -34,6 +36,13 @@ namespace NeeView
         }
 
         public string Extension { get; set; }
+
+        [SecurityPermission(SecurityAction.Demand, SerializationFormatter = true)]
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue("NotSupportedFileTypeException.Extension", this.Extension);
+        }
     }
 
     /// <summary>

@@ -51,7 +51,8 @@ namespace NeeView
 
             if ((categories & FolderTreeCategory.QuickAccess) != 0)
             {
-                _rootQuickAccess = new RootQuickAccessNode(_root);
+                _rootQuickAccess = new RootQuickAccessNode();
+                _rootQuickAccess.Initialize(_root);
                 _root.Children.Add(_rootQuickAccess);
             }
 

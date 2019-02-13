@@ -13,13 +13,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System;
 
 namespace NeeView
 {
     /// <summary>
     /// PagemarkListViewl.xaml の相互作用ロジック
     /// </summary>
-    public partial class PagemarkListView : UserControl
+    public partial class PagemarkListView : UserControl, IDisposable
     {
         private PagemarkListViewModel _vm;
 
@@ -36,5 +37,26 @@ namespace NeeView
         }
 
         public bool IsBusy => _vm != null ? _vm.IsBusy : false;
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _vm.Dispose();
+                }
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 }

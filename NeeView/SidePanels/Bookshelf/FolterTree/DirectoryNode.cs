@@ -14,9 +14,9 @@ namespace NeeView
     {
         public DirectoryNode(string name, FolderTreeNodeBase parent)
         {
+            _name = name;
             Source = name;
 
-            Name = name;
             Parent = parent;
         }
 

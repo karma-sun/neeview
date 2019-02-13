@@ -6,7 +6,7 @@ namespace NeeView
     /// <summary>
     /// 最上位のフォルダーコレクション (Root)
     /// </summary>
-    public class RootFolderCollection : FolderCollection, IDisposable
+    public class RootFolderCollection : FolderCollection
     {
         public RootFolderCollection(QueryPath path, bool isOverlayEnabled) : base(path, false, isOverlayEnabled)
         {

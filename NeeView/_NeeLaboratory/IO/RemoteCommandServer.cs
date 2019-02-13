@@ -86,6 +86,10 @@ namespace NeeLaboratory.IO
                 if (disposing)
                 {
                     Stop();
+                    if (_cancellationTokenSource != null)
+                    {
+                        _cancellationTokenSource.Dispose();
+                    }
                 }
 
                 _disposedValue = true;

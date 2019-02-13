@@ -163,7 +163,7 @@ namespace NeeView
             [DllImport("shell32.dll", SetLastError = true, EntryPoint = "#2", CharSet = CharSet.Auto)]
             public static extern UInt32 SHChangeNotifyRegister(IntPtr hWnd, SHCNRF fSources, SHCNE fEvents, uint wMsg, int cEntries, ref SHChangeNotifyEntry pFsne);
 
-            [DllImport("shell32.dll", CharSet = CharSet.Auto)]
+            [DllImport("shell32.dll", CharSet = CharSet.Unicode)]
             public static extern Int32 SHGetPathFromIDList(IntPtr pIDL, StringBuilder strPath);
 
             /*

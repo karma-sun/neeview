@@ -12,8 +12,8 @@ namespace NeeView
     {
         private class NativeMethods
         {
-            [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Auto)]
-            private static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPTStr)] string lpFileName);
+            [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
+            private static extern IntPtr LoadLibrary(string lpFileName);
 
             [DllImport("NeeView.Interop.dll", CharSet = CharSet.Unicode)]
             [return: MarshalAs(UnmanagedType.I1)]

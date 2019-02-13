@@ -386,7 +386,7 @@ namespace NeeView.IO
                     catch (Exception ex)
                     {
                         Debug.WriteLine($"Icon: {filename} - {shil}: {ex.Message}");
-                        throw ex;
+                        throw;
                     }
                 }
                 return bitmaps;

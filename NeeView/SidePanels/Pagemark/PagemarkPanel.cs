@@ -12,7 +12,7 @@ using System.Windows.Media;
 
 namespace NeeView
 {
-    public class PagemarkPanel : BindableBase, IPanel
+    public class PagemarkPanel : BindableBase, IPanel, IDisposable
     {
         public PagemarkPanel(PagemarkList model)
         {
@@ -36,5 +36,26 @@ namespace NeeView
         public bool IsVisibleLock => _view.IsBusy;
 
         public PanelPlace DefaultPlace => PanelPlace.Right;
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _view.Dispose();
+                }
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 }

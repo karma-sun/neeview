@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Windows.Property;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -86,6 +87,11 @@ namespace NeeView
 
             s_defaultMemento = CreateMemento();
         }
+
+
+        // コマンドリスト
+        [PropertyMember("@ParamDragActionElements")]
+        public Dictionary<DragActionType, DragAction> Elements => _elements;
 
 
         // インテグザ

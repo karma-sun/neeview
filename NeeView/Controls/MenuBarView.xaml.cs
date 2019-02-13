@@ -66,8 +66,44 @@ namespace NeeView
         #region 開発用
 
         // [開発用] テストボタン
-        private async void MenuItemDevButton_Click(object sender, RoutedEventArgs e)
+        private void MenuItemDevButton_Click(object sender, RoutedEventArgs e)
         {
+            DebugTestAction();
+        }
+
+        // 開発用コマンド：テンポラリフォルダーを開く
+        private void MenuItemDevTempFolder_Click(object sender, RoutedEventArgs e)
+        {
+            DebugOpenFolder(Temporary.Current.TempDirectory);
+        }
+
+        // 開発用コマンド：アプリケーションフォルダーを開く
+        private void MenuItemDevApplicationFolder_Click(object sender, RoutedEventArgs e)
+        {
+            DebugOpenFolder(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location));
+        }
+
+        // 開発用コマンド：アプリケーションデータフォルダーを開く
+        private void MenuItemDevApplicationDataFolder_Click(object sender, RoutedEventArgs e)
+        {
+            DebugOpenFolder(Config.Current.LocalApplicationDataPath);
+        }
+
+        // 開発用コマンド：カレントフォルダーを開く
+        private void MenuItemDevCurrentFolder_Click(object sender, RoutedEventArgs e)
+        {
+            DebugOpenFolder(Environment.CurrentDirectory);
+        }
+
+        /// <summary>
+        /// 開発用：テストボタンのアクション
+        /// </summary>
+        [Conditional("DEBUG")]
+        private async void DebugTestAction()
+        {
+            // アーカイブのアンロック
+            BookOperation.Current.Unlock();
+
             ////ページマーク多数登録テスト
             ////Models.Current.BookOperation.Test_MakeManyPagemark();
 
@@ -79,32 +115,11 @@ namespace NeeView
             //Config.Current.RemoveApplicationData();
         }
 
-        // 開発用コマンド：テンポラリフォルダーを開く
-        private void MenuItemDevTempFolder_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFolder(Temporary.Current.TempDirectory);
-        }
-
-        // 開発用コマンド：アプリケーションフォルダーを開く
-        private void MenuItemDevApplicationFolder_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFolder(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location));
-        }
-
-        // 開発用コマンド：アプリケーションデータフォルダーを開く
-        private void MenuItemDevApplicationDataFolder_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFolder(Config.Current.LocalApplicationDataPath);
-        }
-
-        // 開発用コマンド：カレントフォルダーを開く
-        private void MenuItemDevCurrentFolder_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFolder(Environment.CurrentDirectory);
-        }
-
-        //
-        private void OpenFolder(string path)
+        /// <summary>
+        /// 開発用：フォルダーを開く
+        /// </summary>
+        [Conditional("DEBUG")]
+        private void DebugOpenFolder(string path)
         {
             Debug.WriteLine($"OpenFolder: {path}");
             System.Diagnostics.Process.Start("explorer.exe", path);

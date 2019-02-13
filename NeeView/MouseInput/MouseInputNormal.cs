@@ -60,8 +60,26 @@ namespace NeeView
         public double LongButtonRepeatTime { get; set; } = 0.1;
 
         // マウスジェスチャー有効
+        private bool _isGestureEnabled = true;
         [PropertyMember("@ParamMouseIsGestureEnabled")]
-        public bool IsGestureEnabled { get; set; } = true;
+        public bool IsGestureEnabled
+        {
+            get { return _isGestureEnabled; }
+            set { SetProperty(ref _isGestureEnabled, value); }
+        }
+
+        // マウスドラッグ有効
+        private bool _isDragEnabled = true;
+        [PropertyMember("@ParamMouseIsDragEnabled")]
+        public bool IsDragEnabled
+        {
+            get { return _isDragEnabled; }
+            set { SetProperty(ref _isDragEnabled, value); }
+        }
+
+        // ドラッグ開始距離
+        [PropertyRange("@ParamMouseMinimumDragDistance", 1.0, 200.0, TickFrequency = 1.0, IsEditable = true, Tips = "@ParamMouseMinimumDragDistanceTips")]
+        public double MinimumDragDistance { get; set; } = 5.0;
 
         /// <summary>
         /// ボタン押されている？
@@ -258,7 +276,7 @@ namespace NeeView
             var deltaY = Math.Abs(point.Y - _context.StartPoint.Y);
 
             // drag check
-            if (deltaX > SystemParameters.MinimumHorizontalDragDistance || deltaY > SystemParameters.MinimumVerticalDragDistance)
+            if (deltaX > MinimumDragDistance || deltaY > MinimumDragDistance)
             {
                 // ドラッグ開始。処理をドラッグ系に移行
                 var action = DragActionTable.Current.GetActionType(new DragKey(CreateMouseButtonBits(e), Keyboard.Modifiers));
@@ -266,7 +284,7 @@ namespace NeeView
                 {
                     SetState(MouseInputState.Gesture);
                 }
-                else
+                else if (this.IsDragEnabled)
                 {
                     SetState(MouseInputState.Drag, e);
                 }
@@ -293,6 +311,13 @@ namespace NeeView
             [DataMember, DefaultValue(true)]
             public bool IsGestureEnabled { get; set; }
 
+            [DataMember, DefaultValue(true)]
+            public bool IsDragEnabled { get; set; }
+
+            [DataMember, DefaultValue(5.0)]
+            public double MinimumDragDistance { get; set; }
+
+
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
             {
@@ -309,6 +334,8 @@ namespace NeeView
             memento.LongButtonDownTime = this.LongButtonDownTime;
             memento.LongButtonRepeatTime = this.LongButtonRepeatTime;
             memento.IsGestureEnabled = this.IsGestureEnabled;
+            memento.IsDragEnabled = this.IsDragEnabled;
+            memento.MinimumDragDistance = this.MinimumDragDistance;
             return memento;
         }
 
@@ -321,6 +348,8 @@ namespace NeeView
             this.LongButtonDownTime = memento.LongButtonDownTime;
             this.LongButtonRepeatTime = memento.LongButtonRepeatTime;
             this.IsGestureEnabled = memento.IsGestureEnabled;
+            this.IsDragEnabled = memento.IsDragEnabled;
+            this.MinimumDragDistance = memento.MinimumDragDistance;
         }
         #endregion
 

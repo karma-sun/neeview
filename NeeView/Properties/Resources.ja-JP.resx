@@ -3425,10 +3425,10 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>ルーペ移動速度</value>
   </data>
   <data name="ParamMouseGestureMinimumDistance" xml:space="preserve">
-    <value>マウスジェスチャー判定の最小移動距離</value>
+    <value>マウスジェスチャーのストローク(pixel)</value>
   </data>
   <data name="ParamMouseGestureMinimumDistanceTips" xml:space="preserve">
-    <value>この距離(pixel)移動して初めてジェスチャー開始と判定されます。</value>
+    <value>この距離の移動でジェスチャーストロークと判断されます。</value>
   </data>
   <data name="ParamMouseIsGestureEnabled" xml:space="preserve">
     <value>マウスジェスチャー有効</value>
@@ -4591,5 +4591,23 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="BookshelfMoreMenuSearchRegularExpression" xml:space="preserve">
     <value>正規表現</value>
+  </data>
+  <data name="SettingPageManipurateMouseGesture" xml:space="preserve">
+    <value>マウスジェスチャー</value>
+  </data>
+  <data name="SettingPageManipurateMouseDragCommon" xml:space="preserve">
+    <value>ドラッグ、ジェスチャー共通</value>
+  </data>
+  <data name="ParamMouseIsDragEnabled" xml:space="preserve">
+    <value>マウスドラッグ有効</value>
+  </data>
+  <data name="ParamMouseMinimumDragDistance" xml:space="preserve">
+    <value>ドラッグ開始距離(pixel)</value>
+  </data>
+  <data name="ParamMouseMinimumDragDistanceTips" xml:space="preserve">
+    <value>ドラッグ操作になる最初の移動距離</value>
+  </data>
+  <data name="ParamDragActionElements" xml:space="preserve">
+    <value>ドラッグ操作設定</value>
   </data>
 </root>

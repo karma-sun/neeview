@@ -3425,10 +3425,10 @@ Details of the error are output to the following file.
     <value>Loupe Speed</value>
   </data>
   <data name="ParamMouseGestureMinimumDistance" xml:space="preserve">
-    <value>Minimum movement distance of mouse gesture determination</value>
+    <value>Mouse gesture stroke (pixel)</value>
   </data>
   <data name="ParamMouseGestureMinimumDistanceTips" xml:space="preserve">
-    <value>It will be judged as gesture start only after moving this distance (pixel).</value>
+    <value>By moving this distance, it is judged as a gesture stroke.</value>
   </data>
   <data name="ParamMouseIsGestureEnabled" xml:space="preserve">
     <value>Use mouse gesture</value>
@@ -4591,5 +4591,23 @@ Initialize the temporary location.</value>
   </data>
   <data name="BookshelfMoreMenuSearchRegularExpression" xml:space="preserve">
     <value>Regular expression</value>
+  </data>
+  <data name="SettingPageManipurateMouseGesture" xml:space="preserve">
+    <value>Mouse gesture</value>
+  </data>
+  <data name="SettingPageManipurateMouseDragCommon" xml:space="preserve">
+    <value>Common setting of drag and gesture</value>
+  </data>
+  <data name="ParamMouseIsDragEnabled" xml:space="preserve">
+    <value>Use mouse drag</value>
+  </data>
+  <data name="ParamMouseMinimumDragDistance" xml:space="preserve">
+    <value>Drag starting distance (pixel)</value>
+  </data>
+  <data name="ParamMouseMinimumDragDistanceTips" xml:space="preserve">
+    <value>First movement distance to be a drag operation</value>
+  </data>
+  <data name="ParamDragActionElements" xml:space="preserve">
+    <value>Drag action settings</value>
   </data>
 </root>

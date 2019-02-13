@@ -9269,6 +9269,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Drag action settings に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamDragActionElements {
+            get {
+                return ResourceManager.GetString("ParamDragActionElements", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Rotating Snap に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamDragTransformAngleFrequency {
@@ -10619,7 +10628,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Minimum movement distance of mouse gesture determination に類似しているローカライズされた文字列を検索します。
+        ///   Mouse gesture stroke (pixel) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamMouseGestureMinimumDistance {
             get {
@@ -10628,11 +10637,20 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   It will be judged as gesture start only after moving this distance (pixel). に類似しているローカライズされた文字列を検索します。
+        ///   By moving this distance, it is judged as a gesture stroke. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamMouseGestureMinimumDistanceTips {
             get {
                 return ResourceManager.GetString("ParamMouseGestureMinimumDistanceTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Use mouse drag に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMouseIsDragEnabled {
+            get {
+                return ResourceManager.GetString("ParamMouseIsDragEnabled", resourceCulture);
             }
         }
         
@@ -10696,6 +10714,24 @@ namespace NeeView.Properties {
         public static string ParamMouseLongButtonRepeatTimeTips {
             get {
                 return ResourceManager.GetString("ParamMouseLongButtonRepeatTimeTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Drag starting distance (pixel) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMouseMinimumDragDistance {
+            get {
+                return ResourceManager.GetString("ParamMouseMinimumDragDistance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   First movement distance to be a drag operation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMouseMinimumDragDistanceTips {
+            get {
+                return ResourceManager.GetString("ParamMouseMinimumDragDistanceTips", resourceCulture);
             }
         }
         
@@ -12164,6 +12200,24 @@ namespace NeeView.Properties {
         public static string SettingPageManipurateMouseDrag {
             get {
                 return ResourceManager.GetString("SettingPageManipurateMouseDrag", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Common setting of drag and gesture に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageManipurateMouseDragCommon {
+            get {
+                return ResourceManager.GetString("SettingPageManipurateMouseDragCommon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Mouse gesture に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageManipurateMouseGesture {
+            get {
+                return ResourceManager.GetString("SettingPageManipurateMouseGesture", resourceCulture);
             }
         }
         

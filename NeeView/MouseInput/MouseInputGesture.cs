@@ -41,7 +41,7 @@ namespace NeeView
 
 
         //
-        [PropertyMember("@ParamMouseGestureMinimumDistance", Tips = "@ParamMouseGestureMinimumDistanceTips")]
+        [PropertyRange("@ParamMouseGestureMinimumDistance", 5.0, 200.0, TickFrequency = 1.0, IsEditable = true, Tips = "@ParamMouseGestureMinimumDistanceTips")]
         public double GestureMinimumDistance
         {
             get { return _gesture.GestureMinimumDistance; }

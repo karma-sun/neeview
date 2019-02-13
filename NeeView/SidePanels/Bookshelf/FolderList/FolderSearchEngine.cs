@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeLaboratory.IO.Search;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -16,15 +17,22 @@ namespace NeeView
 
         #endregion
 
+        public bool IncludeSubdirectories { get; set; } = true;
+        public bool IsRegularExpression { get; set; }
+
         #region Methods
 
-        public async Task<NeeLaboratory.IO.Search.SearchResultWatcher> SearchAsync(string path, string keyword)
+        public async Task<SearchResultWatcher> SearchAsync(string path, string keyword)
         {
             try
             {
-                var searchEngine = GetSearchEngine(path);
+                var searchEngine = GetSearchEngine(path, IncludeSubdirectories);
                 searchEngine.CancelSearch();
-                var option = new NeeLaboratory.IO.Search.SearchOption() { AllowFolder = true, SearchMode = NeeLaboratory.IO.Search.SearchMode.Advanced };
+                var option = new SearchOption()
+                {
+                    AllowFolder = true,
+                    SearchMode = IsRegularExpression ? SearchMode.RegularExpression : SearchMode.Advanced,
+                };
                 var result = await _searchEngine.SearchAsync(keyword, option);
                 return result;
             }
@@ -40,20 +48,20 @@ namespace NeeView
             }
         }
 
-        private SearchEngine GetSearchEngine(string path)
+        private SearchEngine GetSearchEngine(string path, bool includeSubdirectories)
         {
             if (path == null)
             {
                 throw new ArgumentNullException(nameof(path));
             }
-            else if (_searchEngine?.Path == path)
+            else if (_searchEngine != null && _searchEngine.Path == path && _searchEngine.IncludeSubdirectories == includeSubdirectories)
             {
                 return _searchEngine;
             }
             else
             {
                 _searchEngine?.Dispose();
-                _searchEngine = new SearchEngine(path);
+                _searchEngine = new SearchEngine(path, includeSubdirectories);
                 return _searchEngine;
             }
         }

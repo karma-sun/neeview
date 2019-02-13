@@ -15,10 +15,10 @@
     <UserControl.Resources>
 
         <!--#region Icons -->
-        
+
         <!-- Material design icons by Google -->
         <!-- http://www.google.com/design/spec/style/icons.html#icons-system-icons -->
-        
+
         <DrawingImage x:Key="fic_recursive_folder_24px">
             <DrawingImage.Drawing>
                 <DrawingGroup Opacity="1">
@@ -84,6 +84,7 @@
         <local:FolderCollectionToFolderRecursiveVisibilityConverter x:Key="FolderCollectionToFolderRecursiveVisibilityConverter"/>
         <local:FolderTreeLayoutToBooleanConverter x:Key="FolderTreeLayoutToBooleanConverter"/>
         <local:PathToPlaceIconConverter x:Key="PathToPlaceIconConverter"/>
+        <local:IsNullConverter x:Key="IsNullConverter"/>
 
         <Style x:Key="FolderListButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
             <Setter Property="Width" Value="28"/>
@@ -226,9 +227,13 @@
                 <Border.Style>
                     <Style TargetType="Border">
                         <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
+                        <Setter Property="ToolTip" Value="{Binding Model.RegexFormatErrorMessage, Mode=OneWay}"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Model.IsFolderSearchCollection}" Value="True">
                                 <Setter Property="BorderBrush" Value="{StaticResource NVButtonForeground}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Model.RegexFormatErrorMessage, Converter={StaticResource IsNullConverter}}" Value="False">
+                                <Setter Property="BorderBrush" Value="Crimson"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Model.IsFolderSearchEnabled}" Value="False">
                                 <Setter Property="IsEnabled" Value="False"/>

@@ -4580,4 +4580,16 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParameterCursorHideReleaseDistance" xml:space="preserve">
     <value>再表示する移動距離</value>
   </data>
+  <data name="BookshelfMoreMenuSearchSetting" xml:space="preserve">
+    <value>検索設定</value>
+  </data>
+  <data name="BookshelfMoreMenuSearchIncremental" xml:space="preserve">
+    <value>インクリメンタルサーチ</value>
+  </data>
+  <data name="BookshelfMoreMenuSearchIncludeSubdirectories" xml:space="preserve">
+    <value>サブフォルダーを含める</value>
+  </data>
+  <data name="BookshelfMoreMenuSearchRegularExpression" xml:space="preserve">
+    <value>正規表現</value>
+  </data>
 </root>

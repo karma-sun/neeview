@@ -340,6 +340,42 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Include subdirectories に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfMoreMenuSearchIncludeSubdirectories {
+            get {
+                return ResourceManager.GetString("BookshelfMoreMenuSearchIncludeSubdirectories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Incremental search に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfMoreMenuSearchIncremental {
+            get {
+                return ResourceManager.GetString("BookshelfMoreMenuSearchIncremental", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Regular expression に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfMoreMenuSearchRegularExpression {
+            get {
+                return ResourceManager.GetString("BookshelfMoreMenuSearchRegularExpression", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Search settings に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfMoreMenuSearchSetting {
+            get {
+                return ResourceManager.GetString("BookshelfMoreMenuSearchSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Load subfolders at this location に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfMoreMenuSubfolder {

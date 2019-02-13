@@ -97,7 +97,7 @@ namespace NeeView
             }
 
             if (isOverlayEnabled)
-            { 
+            {
                 BookHub.Current.BookmarkChanged += (s, e) =>
                 {
                     switch (e.Action)
@@ -119,7 +119,7 @@ namespace NeeView
 
         #endregion Constructors
 
-            #region Events
+        #region Events
 
         public event EventHandler PlaceChanged;
 
@@ -324,12 +324,17 @@ namespace NeeView
         public HistoryCollection<QueryPath> History { get; private set; } = new HistoryCollection<QueryPath>();
 
         /// <summary>
-        /// IsFolderSearchVisible property.
+        /// 検索BOXの表示
         /// </summary>
         public bool IsFolderSearchBoxVisible => true;
 
         /// <summary>
-        /// SearchKeyword property.
+        /// インクリメンタルサーチ有効
+        /// </summary>
+        public bool IsIncrementalSearchEnabled { get; set; } = true;
+
+        /// <summary>
+        /// 検索キーワード
         /// </summary>
         private string _searchKeyword;
         public string SearchKeyword
@@ -341,9 +346,58 @@ namespace NeeView
                 {
                     _searchKeyword = value;
                     RaisePropertyChanged();
-                    RequestSearchPlace(false);
+                    if (IsIncrementalSearchEnabled)
+                    {
+                        RequestSearchPlace(false);
+                    }
+                    else
+                    {
+                        UpdateRegularExpressionErrorMessage();
+                    }
                 }
             }
+        }
+
+        /// <summary>
+        /// サブフォルダーを含めた検索を行う
+        /// </summary>
+        public bool IsSearchIncludeSubdirectories
+        {
+            get { return _searchEngine.IncludeSubdirectories; }
+            set
+            {
+                if (_searchEngine.IncludeSubdirectories != value)
+                {
+                    _searchEngine.IncludeSubdirectories = value;
+                    RequestSearchPlace(true);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 正規表現での検索
+        /// </summary>
+        public bool IsSearchRegularExpression
+        {
+            get { return _searchEngine.IsRegularExpression; }
+            set
+            {
+                if (_searchEngine.IsRegularExpression != value)
+                {
+                    _searchEngine.IsRegularExpression = value;
+                    RequestSearchPlace(true);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 正規表現エラーメッセージ
+        /// </summary>
+        private string _regexFormatErrorMessage;
+        public string RegexFormatErrorMessage
+        {
+            get { return _regexFormatErrorMessage; }
+            set { SetProperty(ref _regexFormatErrorMessage, value); }
         }
 
         /// <summary>
@@ -551,12 +605,54 @@ namespace NeeView
         }
 
         /// <summary>
+        /// 検索キーワードの正規表現文法チェック
+        /// </summary>
+        private void UpdateRegularExpressionErrorMessage()
+        {
+            var keyword = GetFixedSearchKeyword();
+            if (IsSearchRegularExpression && !string.IsNullOrEmpty(keyword))
+            {
+                try
+                {
+                    var regex = new Regex(keyword);
+                    RegexFormatErrorMessage = null;
+                }
+                catch (Exception ex)
+                {
+                    RegexFormatErrorMessage = ex.Message;
+                }
+            }
+            else
+            {
+                RegexFormatErrorMessage = null;
+            }
+        }
+
+        /// <summary>
         /// 検索更新
         /// </summary>
         public void RequestSearchPlace(bool isForce)
         {
-            if (Place == null) return;
+            UpdateRegularExpressionErrorMessage();
 
+            if (Place == null)
+            {
+                RegexFormatErrorMessage = null;
+                return;
+            }
+
+            if (!IsFolderSearchEnabled)
+            {
+                RegexFormatErrorMessage = null;
+                return;
+            }
+
+            if (RegexFormatErrorMessage != null)
+            {
+                return;
+            }
+
+            // 検索パス作成
             var path = Place.ReplaceSearch(GetFixedSearchKeyword());
 
             var option = isForce ? FolderSetPlaceOption.Refresh : FolderSetPlaceOption.None;

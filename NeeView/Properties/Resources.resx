@@ -4580,4 +4580,16 @@ Initialize the temporary location.</value>
   <data name="ParameterCursorHideReleaseDistance" xml:space="preserve">
     <value>Move distance to redisplay</value>
   </data>
+  <data name="BookshelfMoreMenuSearchSetting" xml:space="preserve">
+    <value>Search settings</value>
+  </data>
+  <data name="BookshelfMoreMenuSearchIncremental" xml:space="preserve">
+    <value>Incremental search</value>
+  </data>
+  <data name="BookshelfMoreMenuSearchIncludeSubdirectories" xml:space="preserve">
+    <value>Include subdirectories</value>
+  </data>
+  <data name="BookshelfMoreMenuSearchRegularExpression" xml:space="preserve">
+    <value>Regular expression</value>
+  </data>
 </root>

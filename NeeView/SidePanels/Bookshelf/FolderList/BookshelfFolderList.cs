@@ -48,6 +48,16 @@ namespace NeeView
             [DataMember]
             public bool IsCloseBookWhenMove { get; set; }
 
+            [DataMember, DefaultValue(true)]
+            public bool IsIncrementalSearchEnabled { get; set; }
+
+            [DataMember, DefaultValue(true)]
+            public bool IsSearchIncludeSubdirectories { get; set; }
+
+            [DataMember]
+            public bool IsSearchRegularExpression { get; set; }
+
+
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
             {
@@ -68,6 +78,9 @@ namespace NeeView
             memento.ExcludePattern = this.ExcludePattern;
             memento.IsCruise = this.IsCruise;
             memento.IsCloseBookWhenMove = this.IsCloseBookWhenMove;
+            memento.IsIncrementalSearchEnabled = this.IsIncrementalSearchEnabled;
+            memento.IsSearchIncludeSubdirectories = this.IsSearchIncludeSubdirectories;
+            memento.IsSearchRegularExpression = this.IsSearchRegularExpression;
 
             return memento;
         }
@@ -85,6 +98,9 @@ namespace NeeView
             this.ExcludePattern = memento.ExcludePattern;
             this.IsCruise = memento.IsCruise;
             this.IsCloseBookWhenMove = memento.IsCloseBookWhenMove;
+            this.IsIncrementalSearchEnabled = memento.IsIncrementalSearchEnabled;
+            this.IsSearchIncludeSubdirectories = memento.IsSearchIncludeSubdirectories;
+            this.IsSearchRegularExpression = memento.IsSearchRegularExpression;
         }
 
         #endregion

@@ -14,7 +14,7 @@ namespace NeeView
     /// </summary>
     public class FolderSearchCollection : FolderCollection, IDisposable
     {
-        // Fieds
+        // Fields
 
         /// <summary>
         /// 検索結果

@@ -42,14 +42,15 @@ namespace NeeView
         #region Constructors
 
         //
-        public SearchEngine(string path)
+        public SearchEngine(string path, bool includeSubdirectories)
         {
             Path = path;
+            IncludeSubdirectories = includeSubdirectories;
 
             ////Debug.WriteLine($"SearchEngine: {path}");
             _engine = new NeeLaboratory.IO.Search.SearchEngine();
             _engine.Context.NodeFilter = NodeFilter;
-            _engine.SetSearchAreas(new List<string> { path });
+            _engine.SetSearchAreas(new List<SearchArea> { new SearchArea(path, includeSubdirectories) });
             _engine.Start();
         }
 
@@ -60,6 +61,8 @@ namespace NeeView
         public bool IsBusy => _engine != null && _engine.State != SearchCommandEngineState.Idle;
 
         public string Path { get; private set; }
+
+        public bool IncludeSubdirectories { get; private set; }
 
         #endregion
 

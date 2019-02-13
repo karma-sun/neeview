@@ -10727,7 +10727,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   First movement distance to be a drag operation に類似しているローカライズされた文字列を検索します。
+        ///   First moving distance to become a drag or gesture に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamMouseMinimumDragDistanceTips {
             get {

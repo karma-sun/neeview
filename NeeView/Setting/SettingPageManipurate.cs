@@ -74,23 +74,18 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageManipurateMouseDrag,
+                    new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Normal, nameof(MouseInputNormal.MinimumDragDistance))),
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Normal, nameof(MouseInputNormal.IsDragEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(DragActionTable.Current, nameof(DragActionTable.Elements)),
-                        new SettingMouseDragControl())
+                    new SettingItemProperty(PropertyMemberElement.Create(DragActionTable.Current, nameof(DragActionTable.Elements)), new SettingMouseDragControl())
                     {
                         IsStretch = true,
                         IsEnabled = new IsEnabledPropertyValue(MouseInput.Current.Normal, nameof(MouseInputNormal.IsDragEnabled))
-                    }),
-
-                new SettingItemSection(Properties.Resources.SettingPageManipurateMouseGesture,
+                    },
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Normal, nameof(MouseInputNormal.IsGestureEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Gesture, nameof(MouseInputGesture.GestureMinimumDistance)))
                     {
                         IsEnabled = new IsEnabledPropertyValue(MouseInput.Current.Normal, nameof(MouseInputNormal.IsGestureEnabled))
                     }),
-
-                new SettingItemSection(Properties.Resources.SettingPageManipurateMouseDragCommon,
-                    new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Normal, nameof(MouseInputNormal.MinimumDragDistance)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageManipurateMouseHold,
                     new SettingItemProperty(PropertyMemberElement.Create(MouseInput.Current.Normal, nameof(MouseInputNormal.LongButtonDownMode))),

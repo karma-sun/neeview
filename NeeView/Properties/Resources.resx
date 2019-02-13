@@ -4605,7 +4605,7 @@ Initialize the temporary location.</value>
     <value>Drag starting distance (pixel)</value>
   </data>
   <data name="ParamMouseMinimumDragDistanceTips" xml:space="preserve">
-    <value>First movement distance to be a drag operation</value>
+    <value>First moving distance to become a drag or gesture</value>
   </data>
   <data name="ParamDragActionElements" xml:space="preserve">
     <value>Drag action settings</value>

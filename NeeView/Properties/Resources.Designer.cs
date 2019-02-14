@@ -7313,7 +7313,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Size に類似しているローカライズされた文字列を検索します。
+        ///   File size に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FolderInfoFileSize {
             get {
@@ -7331,7 +7331,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Size に類似しているローカライズされた文字列を検索します。
+        ///   Image size に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FolderInfoImageSize {
             get {

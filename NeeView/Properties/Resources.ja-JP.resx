@@ -2369,13 +2369,13 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>ファイルパス</value>
   </data>
   <data name="FolderInfoFileSize" xml:space="preserve">
-    <value>サイズ</value>
+    <value>ファイルサイズ</value>
   </data>
   <data name="FolderInfoFolderPath" xml:space="preserve">
     <value>フォルダーのパス</value>
   </data>
   <data name="FolderInfoImageSize" xml:space="preserve">
-    <value>サイズ</value>
+    <value>画像サイズ</value>
   </data>
   <data name="FolderInfoInfo" xml:space="preserve">
     <value>撮影情報</value>

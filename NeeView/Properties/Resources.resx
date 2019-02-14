@@ -2369,13 +2369,13 @@ Details of the error are output to the following file.
     <value>Path</value>
   </data>
   <data name="FolderInfoFileSize" xml:space="preserve">
-    <value>Size</value>
+    <value>File size</value>
   </data>
   <data name="FolderInfoFolderPath" xml:space="preserve">
     <value>Folder</value>
   </data>
   <data name="FolderInfoImageSize" xml:space="preserve">
-    <value>Size</value>
+    <value>Image size</value>
   </data>
   <data name="FolderInfoInfo" xml:space="preserve">
     <value>Shot</value>

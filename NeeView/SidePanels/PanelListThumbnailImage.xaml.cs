@@ -66,7 +66,7 @@ namespace NeeView
     }
 
     /// <summary>
-    /// 画像がベクターである場合、ストレッチはUniform限定
+    /// 画像がベクターである場合、ドライブである場合、ストレッチはUniform限定
     /// </summary>
     public class ThumbnailToStretchConverter : IMultiValueConverter
     {
@@ -74,7 +74,7 @@ namespace NeeView
         {
             if (values[1] is Stretch stretch)
             {
-                if (values[0] is ConstThumbnail thumbnail && thumbnail.ImageSource is DrawingImage)
+                if (values[0] is ConstThumbnail thumbnail && thumbnail.ImageSource is DrawingImage || values[0] is DriveThumbnail)
                 {
                     return Stretch.Uniform;
                 }

@@ -785,17 +785,16 @@ namespace NeeView
 
         private void FolderList_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (e.Key == Key.Home)
-            {
-                _vm.MoveToHome();
-                e.Handled = true;
-            }
-            else
             if (Keyboard.Modifiers == ModifierKeys.Alt)
             {
                 Key key = e.Key == Key.System ? e.SystemKey : e.Key;
 
-                if (key == Key.Up)
+                if (key == Key.Home)
+                {
+                    _vm.MoveToHome();
+                    e.Handled = true;
+                }
+                else if (key == Key.Up)
                 {
                     _vm.MoveToUp();
                     e.Handled = true;
@@ -809,7 +808,6 @@ namespace NeeView
                         e.Handled = true;
                     }
                 }
-
                 else if (key == Key.Left)
                 {
                     _vm.MoveToPrevious();

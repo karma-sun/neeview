@@ -535,7 +535,7 @@ namespace NeeView
         /// 補正されたHOME取得
         /// </summary>
         /// <returns></returns>
-        public QueryPath GetFixedHome()
+        public virtual QueryPath GetFixedHome()
         {
             var path = new QueryPath(_home);
 
@@ -1176,6 +1176,8 @@ namespace NeeView
 
         public async void MoveToParent()
         {
+            if (!CanMoveToParent()) return;
+
             var parent = _folderCollection?.GetParentQuery();
             if (parent == null)
             {

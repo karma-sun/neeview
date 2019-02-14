@@ -36,6 +36,11 @@ namespace NeeView
         {
         }
 
+        public override QueryPath GetFixedHome()
+        {
+            return new QueryPath(QueryScheme.Bookmark, null, null);
+        }
+
         #region Memento
 
         [DataContract]

@@ -130,6 +130,19 @@ namespace NeeView
             System.Diagnostics.Process.Start(fileName);
         }
 
+        //
+        public void OpenSearchOptionHelp()
+        {
+            System.IO.Directory.CreateDirectory(Temporary.Current.TempSystemDirectory);
+            string fileName = System.IO.Path.Combine(Temporary.Current.TempSystemDirectory, "SearchOptions.html");
+
+            using (var writer = new System.IO.StreamWriter(fileName, false))
+            {
+                writer.WriteLine(HtmlHelpUtility.GetSearchHelp());
+            }
+
+            System.Diagnostics.Process.Start(fileName);
+        }
 
         #region Memento
         [DataContract]

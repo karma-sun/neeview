@@ -4610,4 +4610,16 @@ Initialize the temporary location.</value>
   <data name="ParamDragActionElements" xml:space="preserve">
     <value>Drag action settings</value>
   </data>
+  <data name="CommandHelpSearchOption" xml:space="preserve">
+    <value>Search options help</value>
+  </data>
+  <data name="CommandHelpSearchOptionMenu" xml:space="preserve">
+    <value>Search options help</value>
+  </data>
+  <data name="CommandHelpSearchOptionNote" xml:space="preserve">
+    <value>Display the search options help on the browser.</value>
+  </data>
+  <data name="NotifySearchKeywordOptionError" xml:space="preserve">
+    <value>Illegal option: {0}</value>
+  </data>
 </root>

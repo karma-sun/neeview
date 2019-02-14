@@ -979,6 +979,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Search options help に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandHelpSearchOption {
+            get {
+                return ResourceManager.GetString("CommandHelpSearchOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Search options help に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandHelpSearchOptionMenu {
+            get {
+                return ResourceManager.GetString("CommandHelpSearchOptionMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display the search options help on the browser. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandHelpSearchOptionNote {
+            get {
+                return ResourceManager.GetString("CommandHelpSearchOptionNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Import settings に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandImportBackup {
@@ -8004,6 +8031,15 @@ namespace NeeView.Properties {
         public static string NotifyRemoveUnlinkedPagemark {
             get {
                 return ResourceManager.GetString("NotifyRemoveUnlinkedPagemark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Illegal option: {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifySearchKeywordOptionError {
+            get {
+                return ResourceManager.GetString("NotifySearchKeywordOptionError", resourceCulture);
             }
         }
         

@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeLaboratory.IO.Search;
 using NeeView.Collections;
 using NeeView.Collections.Generic;
 using NeeView.Windows.Controls;
@@ -59,6 +60,8 @@ namespace NeeView
     public class FolderList : BindableBase, IDisposable
     {
         #region Fields
+
+        private static SearchKeyAnalyzer _searchKeyAnalyzer = new SearchKeyAnalyzer();
 
         /// <summary>
         /// そのフォルダーで最後に選択されていた項目の記憶
@@ -352,7 +355,7 @@ namespace NeeView
                     }
                     else
                     {
-                        UpdateRegularExpressionErrorMessage();
+                        UpdateSearchKeywordErrorMessage();
                     }
                 }
             }
@@ -375,29 +378,13 @@ namespace NeeView
         }
 
         /// <summary>
-        /// 正規表現での検索
+        /// 検索キーワードエラーメッセージ
         /// </summary>
-        public bool IsSearchRegularExpression
+        private string _searchKeywordErrorMessage;
+        public string SearchKeywordErrorMessage
         {
-            get { return _searchEngine.IsRegularExpression; }
-            set
-            {
-                if (_searchEngine.IsRegularExpression != value)
-                {
-                    _searchEngine.IsRegularExpression = value;
-                    RequestSearchPlace(true);
-                }
-            }
-        }
-
-        /// <summary>
-        /// 正規表現エラーメッセージ
-        /// </summary>
-        private string _regexFormatErrorMessage;
-        public string RegexFormatErrorMessage
-        {
-            get { return _regexFormatErrorMessage; }
-            set { SetProperty(ref _regexFormatErrorMessage, value); }
+            get { return _searchKeywordErrorMessage; }
+            set { SetProperty(ref _searchKeywordErrorMessage, value); }
         }
 
         /// <summary>
@@ -604,27 +591,30 @@ namespace NeeView
             _lastPlaceDictionary[folder.Place] = new FolderItemPosition(folder.Path, index);
         }
 
+
         /// <summary>
-        /// 検索キーワードの正規表現文法チェック
+        /// 検索キーワードのフォーマットチェック
         /// </summary>
-        private void UpdateRegularExpressionErrorMessage()
+        private void UpdateSearchKeywordErrorMessage()
         {
             var keyword = GetFixedSearchKeyword();
-            if (IsSearchRegularExpression && !string.IsNullOrEmpty(keyword))
+
+            try
             {
-                try
-                {
-                    var regex = new Regex(keyword);
-                    RegexFormatErrorMessage = null;
-                }
-                catch (Exception ex)
-                {
-                    RegexFormatErrorMessage = ex.Message;
-                }
+                _searchKeyAnalyzer.Analyze(keyword);
+                SearchKeywordErrorMessage = null;
             }
-            else
+            catch(NeeLaboratory.IO.Search.SearchKeywordOptionException ex)
             {
-                RegexFormatErrorMessage = null;
+                SearchKeywordErrorMessage = string.Format(Properties.Resources.NotifySearchKeywordOptionError, ex.Option);
+            }
+            catch(NeeLaboratory.IO.Search.SearchKeywordRegularExpressionException ex)
+            {
+                SearchKeywordErrorMessage = ex.InnerException.Message;
+            }
+            catch(Exception ex)
+            {
+                SearchKeywordErrorMessage = ex.Message;
             }
         }
 
@@ -633,21 +623,21 @@ namespace NeeView
         /// </summary>
         public void RequestSearchPlace(bool isForce)
         {
-            UpdateRegularExpressionErrorMessage();
+            UpdateSearchKeywordErrorMessage();
 
             if (Place == null)
             {
-                RegexFormatErrorMessage = null;
+                SearchKeywordErrorMessage = null;
                 return;
             }
 
             if (!IsFolderSearchEnabled)
             {
-                RegexFormatErrorMessage = null;
+                SearchKeywordErrorMessage = null;
                 return;
             }
 
-            if (RegexFormatErrorMessage != null)
+            if (SearchKeywordErrorMessage != null)
             {
                 return;
             }

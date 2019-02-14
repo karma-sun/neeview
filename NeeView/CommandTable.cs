@@ -2083,18 +2083,6 @@ namespace NeeView
             }
 
 
-            // HelpOnline
-            {
-                var element = new CommandElement();
-                element.Group = Properties.Resources.CommandGroupOther;
-                element.Text = Properties.Resources.CommandHelpOnline;
-                element.Note = Properties.Resources.CommandHelpOnlineNote;
-                element.IsShowMessage = false;
-                element.Execute = (s, e) => MainWindowModel.Current.OpenOnlineHelp();
-                element.CanExecute = () => App.Current.IsNetworkEnabled;
-                _elements[CommandType.HelpOnline] = element;
-            }
-
             // HelpCommandList
             {
                 var element = new CommandElement();
@@ -2107,7 +2095,6 @@ namespace NeeView
                 element.CanExecute = () => true;
                 _elements[CommandType.HelpCommandList] = element;
             }
-
             // HelpMainMenu
             {
                 var element = new CommandElement();
@@ -2119,6 +2106,18 @@ namespace NeeView
                 element.Execute = (s, e) => MenuBar.Current.OpenMainMenuHelp();
                 element.CanExecute = () => true;
                 _elements[CommandType.HelpMainMenu] = element;
+            }
+            // HelpSearchOption
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupOther;
+                element.Text = Properties.Resources.CommandHelpSearchOption;
+                element.MenuText = Properties.Resources.CommandHelpSearchOptionMenu;
+                element.Note = Properties.Resources.CommandHelpSearchOptionNote;
+                element.IsShowMessage = false;
+                element.Execute = (s, e) => MenuBar.Current.OpenSearchOptionHelp();
+                element.CanExecute = () => true;
+                _elements[CommandType.HelpSearchOption] = element;
             }
 
             // OpenContextMenu

@@ -1321,6 +1321,8 @@
     <Content Include="Effects\Shaders\LevelEffect.fx" />
     <Resource Include="Resources\SplashScreen.png" />
     <Resource Include="Resources\SplashScreenS.png" />
+    <Resource Include="Resources\en-US\SearchOptions.html" />
+    <Resource Include="Resources\ja-JP\SearchOptions.html" />
     <Content Include="x64\NeeView.Interop.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

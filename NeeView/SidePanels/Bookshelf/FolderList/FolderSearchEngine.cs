@@ -18,7 +18,6 @@ namespace NeeView
         #endregion
 
         public bool IncludeSubdirectories { get; set; } = true;
-        public bool IsRegularExpression { get; set; }
 
         #region Methods
 
@@ -31,7 +30,6 @@ namespace NeeView
                 var option = new SearchOption()
                 {
                     AllowFolder = true,
-                    SearchMode = IsRegularExpression ? SearchMode.RegularExpression : SearchMode.Advanced,
                 };
                 var result = await _searchEngine.SearchAsync(keyword, option);
                 return result;

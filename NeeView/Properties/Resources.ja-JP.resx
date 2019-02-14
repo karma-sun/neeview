@@ -4610,4 +4610,16 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamDragActionElements" xml:space="preserve">
     <value>ドラッグ操作設定</value>
   </data>
+  <data name="CommandHelpSearchOption" xml:space="preserve">
+    <value>検索オプションヘルプ</value>
+  </data>
+  <data name="CommandHelpSearchOptionMenu" xml:space="preserve">
+    <value>検索オプションヘルプ</value>
+  </data>
+  <data name="CommandHelpSearchOptionNote" xml:space="preserve">
+    <value>検索オプションのヘルプをブラウザーで開きます。</value>
+  </data>
+  <data name="NotifySearchKeywordOptionError" xml:space="preserve">
+    <value>不正オプション: {0}</value>
+  </data>
 </root>

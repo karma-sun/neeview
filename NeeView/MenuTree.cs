@@ -562,7 +562,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { Command = CommandType.HelpMainMenu },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.HelpCommandList },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.HelpOnline },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.HelpSearchOption },
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { Command = CommandType.OpenVersionWindow },
                     }},

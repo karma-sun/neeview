@@ -383,7 +383,6 @@ namespace NeeView
             var subItem = new MenuItem() { Header = Properties.Resources.BookshelfMoreMenuSearchSetting };
             subItem.Items.Add(CreateCheckFlagMenuItem(Properties.Resources.BookshelfMoreMenuSearchIncremental, new Binding(nameof(FolderList.IsIncrementalSearchEnabled)) { Source = Model }));
             subItem.Items.Add(CreateCheckFlagMenuItem(Properties.Resources.BookshelfMoreMenuSearchIncludeSubdirectories, new Binding(nameof(FolderList.IsSearchIncludeSubdirectories)) { Source = Model }));
-            subItem.Items.Add(CreateCheckFlagMenuItem(Properties.Resources.BookshelfMoreMenuSearchRegularExpression, new Binding(nameof(FolderList.IsSearchRegularExpression)) { Source = Model }));
             items.Add(subItem);
             items.Add(new Separator());
             items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuAddQuickAccess, AddQuickAccess));

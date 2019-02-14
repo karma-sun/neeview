@@ -227,12 +227,12 @@
                 <Border.Style>
                     <Style TargetType="Border">
                         <Setter Property="BorderBrush" Value="{DynamicResource NVDefaultBrush}"/>
-                        <Setter Property="ToolTip" Value="{Binding Model.RegexFormatErrorMessage, Mode=OneWay}"/>
+                        <Setter Property="ToolTip" Value="{Binding Model.SearchKeywordErrorMessage, Mode=OneWay}"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding Model.IsFolderSearchCollection}" Value="True">
                                 <Setter Property="BorderBrush" Value="{StaticResource NVButtonForeground}"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding Model.RegexFormatErrorMessage, Converter={StaticResource IsNullConverter}}" Value="False">
+                            <DataTrigger Binding="{Binding Model.SearchKeywordErrorMessage, Converter={StaticResource IsNullConverter}}" Value="False">
                                 <Setter Property="BorderBrush" Value="Crimson"/>
                             </DataTrigger>
                             <DataTrigger Binding="{Binding Model.IsFolderSearchEnabled}" Value="False">

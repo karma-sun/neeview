@@ -362,12 +362,14 @@ namespace NeeView
         [EnumMember]
         TogglePermitFileCommand,
 
-        [EnumMember]
-        HelpOnline,
+        [Obsolete, EnumMember]
+        HelpOnline, // 欠番
         [EnumMember]
         HelpCommandList,
         [EnumMember]
         HelpMainMenu,
+        [EnumMember]
+        HelpSearchOption,
 
         [EnumMember]
         ExportBackup,

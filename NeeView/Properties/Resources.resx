@@ -4622,4 +4622,10 @@ Initialize the temporary location.</value>
   <data name="NotifySearchKeywordOptionError" xml:space="preserve">
     <value>Illegal option: {0}</value>
   </data>
+  <data name="BookshelfItemMenuDeleteHistory" xml:space="preserve">
+    <value>Remove history</value>
+  </data>
+  <data name="BookshelfItemMenuAddBookmark" xml:space="preserve">
+    <value>Add bookmark</value>
+  </data>
 </root>

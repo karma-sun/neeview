@@ -241,6 +241,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Add bookmark に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItemMenuAddBookmark {
+            get {
+                return ResourceManager.GetString("BookshelfItemMenuAddBookmark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   _Copy に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfItemMenuCopy {
@@ -264,6 +273,15 @@ namespace NeeView.Properties {
         public static string BookshelfItemMenuDeleteBookmark {
             get {
                 return ResourceManager.GetString("BookshelfItemMenuDeleteBookmark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Remove history に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfItemMenuDeleteHistory {
+            get {
+                return ResourceManager.GetString("BookshelfItemMenuDeleteHistory", resourceCulture);
             }
         }
         

@@ -4622,4 +4622,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="NotifySearchKeywordOptionError" xml:space="preserve">
     <value>不正オプション: {0}</value>
   </data>
+  <data name="BookshelfItemMenuDeleteHistory" xml:space="preserve">
+    <value>履歴から削除</value>
+  </data>
+  <data name="BookshelfItemMenuAddBookmark" xml:space="preserve">
+    <value>ブックマークに登録</value>
+  </data>
 </root>

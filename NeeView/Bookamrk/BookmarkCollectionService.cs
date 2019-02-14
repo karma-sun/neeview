@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace NeeView
 {
+    /// <summary>
+    /// ブックマークリスト用のブックマーク登録管理
+    /// </summary>
     public static class BookmarkCollectionService
     {
         /// <summary>

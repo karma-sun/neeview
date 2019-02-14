@@ -113,6 +113,8 @@ namespace NeeView
         public static readonly RoutedCommand CopyCommand = new RoutedCommand("CopyCommand", typeof(FolderListBox));
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(FolderListBox));
         public static readonly RoutedCommand RenameCommand = new RoutedCommand("RenameCommand", typeof(FolderListBox));
+        public static readonly RoutedCommand RemoveHistoryCommand = new RoutedCommand("RemoveHistoryCommand", typeof(FolderListBox));
+        public static readonly RoutedCommand ToggleBookmarkCommand = new RoutedCommand("ToggleBookmarkCommand", typeof(FolderListBox));
 
         private static void InitialieCommandStatic()
         {
@@ -129,6 +131,58 @@ namespace NeeView
             this.ListBox.CommandBindings.Add(new CommandBinding(CopyCommand, Copy_Executed, Copy_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Executed, Remove_CanExecute));
             this.ListBox.CommandBindings.Add(new CommandBinding(RenameCommand, Rename_Executed, Rename_CanExecute));
+            this.ListBox.CommandBindings.Add(new CommandBinding(RemoveHistoryCommand, RemoveHistory_Executed, RemoveHistory_CanExecute));
+            this.ListBox.CommandBindings.Add(new CommandBinding(ToggleBookmarkCommand, ToggleBookmark_Executed, ToggleBookmark_CanExecute));
+        }
+
+        /// <summary>
+        /// ブックマーク登録/解除可能？
+        /// </summary>
+        private void ToggleBookmark_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as FolderItem;
+            e.CanExecute = item != null && item.IsFileSystem();
+        }
+
+        /// <summary>
+        /// ブックマーク登録/解除
+        /// </summary>
+        private void ToggleBookmark_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as FolderItem;
+            if (item != null)
+            {
+                if (BookmarkCollection.Current.Contains(item.TargetPath.SimplePath))
+                {
+                    BookmarkCollectionService.Remove(item.TargetPath);
+                }
+                else
+                {
+                    BookmarkCollectionService.Add(item.TargetPath);
+                }
+            }
+        }
+
+        /// <summary>
+        /// 履歴から削除できる？
+        /// </summary>
+        private void RemoveHistory_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as FolderItem;
+            e.CanExecute = item != null && BookHistoryCollection.Current.Contains(item.TargetPath.SimplePath);
+        }
+
+        /// <summary>
+        /// 履歴から削除
+        /// </summary>
+        private void RemoveHistory_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as FolderItem;
+            if (item != null)
+            {
+                BookHistoryCollection.Current.Remove(item.TargetPath.SimplePath);
+            }
+
         }
 
         /// <summary>
@@ -938,6 +992,9 @@ namespace NeeView
             else if (item.IsFileSystem())
             {
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuSubfolder, Command = LoadWithRecursiveCommand, IsChecked = item.IsRecursived });
+                contextMenu.Items.Add(new Separator());
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.WordBookmark, Command = ToggleBookmarkCommand, IsChecked = BookmarkCollection.Current.Contains(item.TargetPath.SimplePath) });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDeleteHistory, Command = RemoveHistoryCommand });
                 contextMenu.Items.Add(new Separator());
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuExplorer, Command = OpenExplorerCommand });
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuCopy, Command = CopyCommand });

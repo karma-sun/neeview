@@ -298,10 +298,18 @@ namespace NeeView
             }
             else if (item.IsFileSystem())
             {
+                bool isCurrentBook = BookHub.Current.Address == item.Path.SimplePath;
                 var removed = await FileIO.Current.RemoveAsync(item.Path.SimplePath, Properties.Resources.DialogFileDeleteBookTitle);
                 if (removed)
                 {
                     _vm.FolderCollection?.RequestDelete(item.Path);
+                    if (isCurrentBook)
+                    {
+                        if (this.ListBox.SelectedItem is FolderItem currentItem)
+                        {
+                            _vm.Model.LoadBook(currentItem);
+                        }
+                    }
                 }
             }
         }

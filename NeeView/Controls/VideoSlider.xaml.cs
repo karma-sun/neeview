@@ -70,7 +70,21 @@ namespace NeeView
 
         // Using a DependencyProperty as the backing store for Value.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register("Value", typeof(double), typeof(VideoSlider), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnValueChanged));
+            DependencyProperty.Register("Value", typeof(double), typeof(VideoSlider), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnValueChanged, OnValueCoerce));
+
+        //
+        private static object OnValueCoerce(DependencyObject d, object baseValue)
+        {
+            var control = d as VideoSlider;
+            if (control != null)
+            {
+                return NeeLaboratory.MathUtility.Clamp((double)baseValue, control.Minimum, control.Maximum);
+            }
+            else
+            {
+                return baseValue;
+            }
+        }
 
         //
         private static void OnValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -223,7 +237,7 @@ namespace NeeView
         public event DragDeltaEventHandler DragDelta { add { AddHandler(DragDeltaEvent, value); } remove { RemoveHandler(DragDeltaEvent, value); } }
 
         #endregion Events
-        
+
         #region EventHandlers
 
         //
@@ -310,7 +324,7 @@ namespace NeeView
             this.Value = value;
             UpdateThumbPosition(value);
         }
-        
+
         // 値を設定
         private void SetValue(double value)
         {

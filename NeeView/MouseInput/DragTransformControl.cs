@@ -856,7 +856,9 @@ namespace NeeView
 
             if (_transform.IsLimitMove)
             {
+                var moveExpectation = move;
                 move = GetLimitMove(area, move);
+                _basePosition += move - moveExpectation;
             }
 
             _transform.Position = pos0 + move;

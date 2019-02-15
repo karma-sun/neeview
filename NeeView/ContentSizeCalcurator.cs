@@ -259,6 +259,12 @@ namespace NeeView
                 rate0 *= rateH;
                 rate1 *= rateH;
             }
+            // 幅を合わせる
+            else if (this.StretchMode == PageStretchMode.UniformToHorizontal)
+            {
+                rate0 *= rateW;
+                rate1 *= rateW;
+            }
             // 枠いっぱいに広げる
             else if (this.StretchMode == PageStretchMode.UniformToFill)
             {

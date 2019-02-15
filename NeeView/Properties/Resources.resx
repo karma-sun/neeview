@@ -4628,4 +4628,13 @@ Initialize the temporary location.</value>
   <data name="BookshelfItemMenuAddBookmark" xml:space="preserve">
     <value>Add bookmark</value>
   </data>
+  <data name="EnumPageStretchModeUniformToHorizontal" xml:space="preserve">
+    <value>Fit width to window</value>
+  </data>
+  <data name="CommandSetStretchModeUniformToHorizontal" xml:space="preserve">
+    <value>Fit width to window</value>
+  </data>
+  <data name="CommandSetStretchModeUniformToHorizontalNote" xml:space="preserve">
+    <value>Scales to fit the width of the image to the width of the window.</value>
+  </data>
 </root>

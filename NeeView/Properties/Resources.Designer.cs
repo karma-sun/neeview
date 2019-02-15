@@ -2410,6 +2410,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Fit width to window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandSetStretchModeUniformToHorizontal {
+            get {
+                return ResourceManager.GetString("CommandSetStretchModeUniformToHorizontal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scales to fit the width of the image to the width of the window. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandSetStretchModeUniformToHorizontalNote {
+            get {
+                return ResourceManager.GetString("CommandSetStretchModeUniformToHorizontalNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Fit to window area size に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetStretchModeUniformToSize {
@@ -6862,6 +6880,15 @@ namespace NeeView.Properties {
         public static string EnumPageStretchModeUniformToFill {
             get {
                 return ResourceManager.GetString("EnumPageStretchModeUniformToFill", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Fit width to window に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumPageStretchModeUniformToHorizontal {
+            get {
+                return ResourceManager.GetString("EnumPageStretchModeUniformToHorizontal", resourceCulture);
             }
         }
         

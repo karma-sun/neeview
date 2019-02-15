@@ -148,6 +148,13 @@ namespace NeeView
             set { StretchModes[PageStretchMode.UniformToVertical] = value; }
         }
 
+        [DataMember]
+        [PropertyMember("@EnumPageStretchModeUniformToHorizontal")]
+        public bool IsEnableUniformToHorizontal
+        {
+            get { return StretchModes[PageStretchMode.UniformToHorizontal]; }
+            set { StretchModes[PageStretchMode.UniformToHorizontal] = value; }
+        }
 
         //
         private Dictionary<PageStretchMode, bool> _strechModes;

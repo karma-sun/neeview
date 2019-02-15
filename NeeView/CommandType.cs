@@ -215,6 +215,8 @@ namespace NeeView
         SetStretchModeUniformToSize,
         [EnumMember]
         SetStretchModeUniformToVertical,
+        [EnumMember]
+        SetStretchModeUniformToHorizontal,
 
         [EnumMember]
         ToggleIsEnabledNearestNeighbor,

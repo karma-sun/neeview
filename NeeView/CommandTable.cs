@@ -562,6 +562,19 @@ namespace NeeView
                 element.IsShowMessage = true;
                 _elements[CommandType.SetStretchModeUniformToVertical] = element;
             }
+            // SetStretchModeUniformToHorizontal
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupImageScale;
+                element.Text = Properties.Resources.CommandSetStretchModeUniformToHorizontal;
+                element.Note = Properties.Resources.CommandSetStretchModeUniformToHorizontalNote;
+                element.Execute = (s, e) => ContentCanvas.Current.SetStretchMode(PageStretchMode.UniformToHorizontal, ((StretchModeCommandParameter)element.Parameter).IsToggle);
+                element.ExecuteMessage = e => element.Text + (ContentCanvas.Current.TestStretchMode(PageStretchMode.UniformToHorizontal, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
+                element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToHorizontal);
+                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
+                element.IsShowMessage = true;
+                _elements[CommandType.SetStretchModeUniformToHorizontal] = element;
+            }
 
             // ToggleIsEnabledNearestNeighbor
             {

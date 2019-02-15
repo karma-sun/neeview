@@ -488,6 +488,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeUniformToFill },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeUniformToSize },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeUniformToVertical },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeUniformToHorizontal },
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleIsEnabledNearestNeighbor },
                         new MenuTree(MenuElementType.Separator),

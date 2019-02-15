@@ -4628,4 +4628,13 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="BookshelfItemMenuAddBookmark" xml:space="preserve">
     <value>ブックマークに登録</value>
   </data>
+  <data name="EnumPageStretchModeUniformToHorizontal" xml:space="preserve">
+    <value>幅をウィンドウに合わせる</value>
+  </data>
+  <data name="CommandSetStretchModeUniformToHorizontal" xml:space="preserve">
+    <value>幅をウィンドウに合わせる</value>
+  </data>
+  <data name="CommandSetStretchModeUniformToHorizontalNote" xml:space="preserve">
+    <value>ウィンドウの幅に画像の幅を合わせるように拡大縮小します。</value>
+  </data>
 </root>

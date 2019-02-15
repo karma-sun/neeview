@@ -29,5 +29,8 @@ namespace NeeView
 
         [AliasName("@EnumPageStretchModeUniformToVertical")]
         UniformToVertical,
+
+        [AliasName("@EnumPageStretchModeUniformToHorizontal")]
+        UniformToHorizontal,
     }
 }

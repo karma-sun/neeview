@@ -252,7 +252,8 @@ namespace NeeView
         /// </summary>
         public void Unlock()
         {
-            this.Book?.Unlock();
+            // NOTE: メインスレッドで行うとSevenZipSharpがCOM例外になるのであえてタスク化。なぜ！？
+            Task.Run(() => this.Book?.Unlock());
         }
 
         #endregion

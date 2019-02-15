@@ -102,7 +102,7 @@ namespace NeeView
         private async void DebugTestAction()
         {
             // アーカイブのアンロック
-            BookOperation.Current.Unlock();
+            ////await Task.Run(() => BookOperation.Current.Unlock());
 
             ////ページマーク多数登録テスト
             ////Models.Current.BookOperation.Test_MakeManyPagemark();

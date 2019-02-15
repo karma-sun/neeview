@@ -52,7 +52,7 @@ namespace NeeView
 
             // ページマーク
             this.PagemarkPanel = new PagemarkPanel(PagemarkList.Current);
-            leftPanels.Add(this.PagemarkPanel);
+            rightPanels.Add(this.PagemarkPanel);
 
             // パネル群を登録
             this.InitializePanels(leftPanels, rightPanels);

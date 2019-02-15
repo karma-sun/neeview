@@ -26,7 +26,8 @@ namespace NeeView.Setting
                 new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralGeneral,
                     new SettingItemIndexValue<int>(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.HistoryEntryPageCount)), new HistoryEntryPageCount(), true),
                     new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsInnerArchiveHistoryEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsUncHistoryEnabled)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsUncHistoryEnabled))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsForceUpdateHistory)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralLimit, Properties.Resources.SettingPageHistoryGeneralLimitTips,
                     new SettingItemIndexValue<int>(PropertyMemberElement.Create(BookHistoryCollection.Current, nameof(BookHistoryCollection.LimitSize)), new HistoryLimitSize(), false),

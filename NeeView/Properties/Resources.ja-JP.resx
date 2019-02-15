@@ -4637,4 +4637,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="CommandSetStretchModeUniformToHorizontalNote" xml:space="preserve">
     <value>ウィンドウの幅に画像の幅を合わせるように拡大縮小します。</value>
   </data>
+  <data name="ParamIsForceUpdateHistory" xml:space="preserve">
+    <value>履歴からブックを開いたときでも最終閲覧日を更新する</value>
+  </data>
 </root>

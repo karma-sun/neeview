@@ -10115,6 +10115,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Even if you open a book from history, it updates the last browsing date に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsForceUpdateHistory {
+            get {
+                return ResourceManager.GetString("ParamIsForceUpdateHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Automatically hide the slider when it is full screen に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsHidePageSliderInFullscreen {

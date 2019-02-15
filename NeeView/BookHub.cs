@@ -345,6 +345,12 @@ namespace NeeView
         public bool IsUncHistoryEnabled { get; set; } = true;
 
         /// <summary>
+        /// 履歴閲覧でも履歴登録日を更新する
+        /// </summary>
+        [PropertyMember("@ParamIsForceUpdateHistory")]
+        public bool IsForceUpdateHistory { get; set; }
+
+        /// <summary>
         /// 現在の本
         /// </summary>
         public BookUnit BookUnit
@@ -507,7 +513,7 @@ namespace NeeView
             var memento = CreateBookMemento();
             if (memento == null) return;
 
-            SaveBookMemento(memento, BookUnit.IsKeepHistoryOrder);
+            SaveBookMemento(memento, BookUnit.IsKeepHistoryOrder || IsForceUpdateHistory);
         }
 
         private void SaveBookMemento(Book.Memento memento, bool isKeepHistoryOrder)
@@ -867,10 +873,17 @@ namespace NeeView
         // 履歴登録可
         private bool CanHistory()
         {
+            // 履歴閲覧時の履歴更新は最低１操作を必要とする
+            var historyEntryPageCount = this.HistoryEntryPageCount;
+            if (BookUnit.IsKeepHistoryOrder && IsForceUpdateHistory && historyEntryPageCount <= 0 )
+            {
+                historyEntryPageCount = 1;
+            }
+
             return Book != null
                 && !_historyRemoved
                 && Book.Pages.Count > 0
-                && (_historyEntry || Book.PageChangeCount > this.HistoryEntryPageCount || Book.IsPageTerminated)
+                && (_historyEntry || Book.PageChangeCount > historyEntryPageCount || Book.IsPageTerminated)
                 && (IsInnerArchiveHistoryEnabled || Book.Archiver?.Parent == null)
                 && (IsUncHistoryEnabled || !LoosePath.IsUnc(Book.Place));
         }
@@ -880,13 +893,13 @@ namespace NeeView
         {
             if (BookUnit == null) return;
 
-            // 新規履歴
-            if (!BookUnit.IsKeepHistoryOrder)
+            // 履歴更新
+            if (!BookUnit.IsKeepHistoryOrder || IsForceUpdateHistory)
             {
                 if (!_historyEntry && CanHistory())
                 {
                     _historyEntry = true;
-                    BookHistoryCollection.Current.Add(Book?.CreateMemento(), BookUnit.IsKeepHistoryOrder);
+                    BookHistoryCollection.Current.Add(Book?.CreateMemento(), false);
                 }
             }
 
@@ -1097,6 +1110,10 @@ namespace NeeView
             [DataMember, DefaultValue(true)]
             public bool IsUncHistoryEnabled { get; set; }
 
+            [DataMember]
+            public bool IsForceUpdateHistory { get; set; }
+
+
             #region Obslete
 
             [Obsolete, DataMember(EmitDefaultValue = false)]
@@ -1197,6 +1214,7 @@ namespace NeeView
             memento.IsArchiveRecursive = IsArchiveRecursive;
             memento.IsInnerArchiveHistoryEnabled = IsInnerArchiveHistoryEnabled;
             memento.IsUncHistoryEnabled = IsUncHistoryEnabled;
+            memento.IsForceUpdateHistory = IsForceUpdateHistory;
 
             return memento;
         }
@@ -1213,6 +1231,7 @@ namespace NeeView
             IsArchiveRecursive = memento.IsArchiveRecursive;
             IsInnerArchiveHistoryEnabled = memento.IsInnerArchiveHistoryEnabled;
             IsUncHistoryEnabled = memento.IsUncHistoryEnabled;
+            IsForceUpdateHistory = memento.IsForceUpdateHistory;
         }
 
 

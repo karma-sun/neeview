@@ -4637,4 +4637,7 @@ Initialize the temporary location.</value>
   <data name="CommandSetStretchModeUniformToHorizontalNote" xml:space="preserve">
     <value>Scales to fit the width of the image to the width of the window.</value>
   </data>
+  <data name="ParamIsForceUpdateHistory" xml:space="preserve">
+    <value>Even if you open a book from history, it updates the last browsing date</value>
+  </data>
 </root>

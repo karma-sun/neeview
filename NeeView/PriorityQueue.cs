@@ -161,7 +161,7 @@ namespace NeeView
         /// </summary>
         /// <param name="bottom">取得限界優先度</param>
         /// <returns>取得された要素。取得できなかった場合はnull</returns>
-        public T DequeueAll(QueueElementPriority bottom)
+        public (T element, QueueElementPriority priority) DequeueAll(QueueElementPriority bottom)
         {
             foreach (QueueElementPriority priority in Enum.GetValues(typeof(QueueElementPriority)))
             {
@@ -169,10 +169,10 @@ namespace NeeView
                 var item = Dequeue(priority);
                 if (item != null)
                 {
-                    return item;
+                    return (item, priority);
                 }
             }
-            return null;
+            return (null, QueueElementPriority.Default);
         }
 
 
@@ -180,17 +180,17 @@ namespace NeeView
         /// 先頭要素を取得し、削除する
         /// </summary>
         /// <returns>取得された要素。取得できなかった場合はnull</returns>
-        public T DequeueAll()
+        public (T element, QueueElementPriority priority) DequeueAll()
         {
             foreach (QueueElementPriority priority in Enum.GetValues(typeof(QueueElementPriority)))
             {
                 var item = Dequeue(priority);
                 if (item != null)
                 {
-                    return item;
+                    return (item, priority);
                 }
             }
-            return null;
+            return (null, QueueElementPriority.Default);
         }
 
 

@@ -26,22 +26,17 @@ namespace NeeView
         public string Message
         {
             get { return _message; }
-            set { if (SetProperty(ref _message, value)) NotifyStatusChanged(); }
+            set
+            {
+                value = Thread.CurrentThread.Priority + ": " + value;
+                if (SetProperty(ref _message, value))
+                {
+                    NotifyStatusChanged();
+                }
+            }
         }
 
         #endregion
-
-        public event EventHandler IsBusyChanged;
-
-        /// <summary>
-        /// IsBusy property.
-        /// </summary>
-        private bool _IsBusy;
-        public bool IsBusy
-        {
-            get { return _IsBusy; }
-            set { if (_IsBusy != value) { _IsBusy = value; IsBusyChanged?.Invoke(this, null); } }
-        }
 
 
         // コンテキスト
@@ -53,12 +48,8 @@ namespace NeeView
         // ジョブ待ちフラグ
         private ManualResetEventSlim _event = new ManualResetEventSlim(false);
 
-
-        /// <summary>
-        /// 優先ワーカー.
-        /// 現在開いているフォルダーに対してのジョブのみ処理する
-        /// </summary>
-        public bool IsPrimary { get; set; }
+        // ワーカースレッド
+        private Thread _thread;
 
 
         // コンストラクタ
@@ -68,26 +59,63 @@ namespace NeeView
             _context.JobChanged += Context_JobChanged;
         }
 
+
+        public event EventHandler IsBusyChanged;
+
+
+        /// <summary>
+        /// IsBusy property.
+        /// </summary>
+        private bool _IsBusy;
+        public bool IsBusy
+        {
+            get { return _IsBusy; }
+            set { if (_IsBusy != value) { _IsBusy = value; IsBusyChanged?.Invoke(this, null); } }
+        }
+
+        /// <summary>
+        /// 優先ワーカー.
+        /// 現在開いているフォルダーに対してのジョブのみ処理する
+        /// </summary>
+        private bool _IsPrimary;
+        public bool IsPrimary
+        {
+            get { return _IsPrimary; }
+            set
+            {
+                if (SetProperty(ref _IsPrimary, value))
+                {
+                    UpdateThreadPriority();
+                }
+            }
+        }
+
+
         //
         private void Context_JobChanged(object sender, EventArgs e)
         {
             _event.Set();
         }
 
+        private void UpdateThreadPriority()
+        {
+            if (_thread != null)
+            {
+                _thread.Priority = IsPrimary ? ThreadPriority.Normal : ThreadPriority.BelowNormal;
+            }
+        }
 
         // ワーカータスク開始
         public void Run()
         {
             Message = $"Run";
 
-            // Thread版
-            var thread = new Thread(new ThreadStart(() => WorkerExecuteAsync()));
-            thread.Priority = IsPrimary ? ThreadPriority.Normal : ThreadPriority.BelowNormal;
-            thread.IsBackground = true;
-            thread.Name = "JobWorker";
-            thread.Start();
-            // Task版
-            //// var task = Task.Run(() => WorkerExecuteAsync(), _cancellationTokenSource.Token);
+            _thread = new Thread(new ThreadStart(() => WorkerExecuteAsync()));
+            _thread.IsBackground = true;
+            _thread.Name = "JobWorker";
+            _thread.Start();
+
+            UpdateThreadPriority();
         }
 
         // ワーカータスク廃棄
@@ -122,11 +150,12 @@ namespace NeeView
             {
                 Message = $"get Job ...";
                 Job job;
+                QueueElementPriority jobPriority;
 
                 lock (_context.Lock)
                 {
                     // ジョブ取り出し
-                    job = IsPrimary ? _context.JobQueue.DequeueAll(QueueElementPriority.Default) : _context.JobQueue.DequeueAll();
+                    (job, jobPriority) = IsPrimary ? _context.JobQueue.DequeueAll(QueueElementPriority.Default) : _context.JobQueue.DequeueAll();
 
                     // ジョブが無い場合はイベントリセット
                     if (job == null)
@@ -150,7 +179,7 @@ namespace NeeView
 
                 if (!job.CancellationToken.IsCancellationRequested)
                 {
-                    Message = $"Job({job.SerialNumber}) execute ...";
+                    Message = $"Job({jobPriority}.{job.SerialNumber}) execute ...";
                     try
                     {
                         job.Command.ExecuteAsync(job.Completed, job.CancellationToken).Wait();
@@ -164,7 +193,7 @@ namespace NeeView
                     {
                         Debug.WriteLine($"EXCEPTION!!: {ex.Message}");
                     }
-                    Message = $"Job({job.SerialNumber}) execute done.";
+                    Message = $"Job({jobPriority}.{job.SerialNumber}) execute done.";
                 }
                 else
                 {

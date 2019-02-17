@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
 using System.Windows;
@@ -80,13 +81,20 @@ namespace NeeView
                     ////var sw = Stopwatch.StartNew();
                     ////var oldLength = picture.RawData.Length;
 
-                    using (var inStream = new MemoryStream(picture.RawData))
-                    using (var outStream = new MemoryStream())
+                    try
                     {
-                        var encoder = new PngBitmapEncoder();
-                        encoder.Frames.Add(BitmapFrame.Create(inStream));
-                        encoder.Save(outStream);
-                        picture.RawData = outStream.ToArray();
+                        using (var inStream = new MemoryStream(picture.RawData))
+                        using (var outStream = new MemoryStream())
+                        {
+                            var encoder = new PngBitmapEncoder();
+                            encoder.Frames.Add(BitmapFrame.Create(inStream));
+                            encoder.Save(outStream);
+                            picture.RawData = outStream.ToArray();
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
                     }
 
                     ////sw.Stop();

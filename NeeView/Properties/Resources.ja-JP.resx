@@ -4448,7 +4448,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>一時フォルダーの場所</value>
   </data>
   <data name="ParamTemporaryDirectoryTips" xml:space="preserve">
-    <value>多重圧縮ファイルの展開や事前展開に使用されます。アプリ終了時に削除されます。</value>
+    <value>多重圧縮ファイルの展開や事前展開に使用されます。</value>
   </data>
   <data name="SettingPageGeneralLocationTypesTips" xml:space="preserve">
     <value>※次の起動から適用されます。

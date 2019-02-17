@@ -154,7 +154,7 @@ namespace NeeView.Windows.Property
             switch (typeCode)
             {
                 case TypeCode.String:
-                    this.TypeValue = new PropertyValue_FilePath(this, attribute.FileDialogType, attribute.Filter, attribute.Note);
+                    this.TypeValue = new PropertyValue_FilePath(this, attribute.FileDialogType, attribute.Filter, attribute.Note, attribute.DefaultFileName);
                     break;
                 default:
                     throw new NotSupportedException();

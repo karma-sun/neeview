@@ -72,6 +72,16 @@ namespace NeeView.Windows.Controls
         }
 
         //
+        public string DefaultText
+        {
+            get { return (string)GetValue(DefaultTextProperty); }
+            set { SetValue(DefaultTextProperty, value); }
+        }
+
+        public static readonly DependencyProperty DefaultTextProperty =
+            DependencyProperty.Register("DefaultText", typeof(string), typeof(FileNameBox), new PropertyMetadata(null));
+
+        //
         public static readonly DependencyProperty DefaultDirectoryProperty =
             DependencyProperty.Register(
             "DefaultDirectory",
@@ -234,7 +244,8 @@ namespace NeeView.Windows.Controls
             {
                 var dialog = new System.Windows.Forms.SaveFileDialog();
                 dialog.Title = Title ?? Properties.Resources.ControlFileNameBoxSelectFile;
-                dialog.FileName = Text;
+                dialog.InitialDirectory = string.IsNullOrEmpty(Text) ? null : Path.GetDirectoryName(Text);
+                dialog.FileName = string.IsNullOrEmpty(Text) ? DefaultText : Path.GetFileName(Text);
                 dialog.Filter = Filter;
                 dialog.OverwritePrompt = false;
                 dialog.CreatePrompt = false;
@@ -249,7 +260,8 @@ namespace NeeView.Windows.Controls
             {
                 var dialog = new System.Windows.Forms.OpenFileDialog();
                 dialog.Title = Title ?? Properties.Resources.ControlFileNameBoxSelectFile;
-                dialog.FileName = Text;
+                dialog.InitialDirectory = string.IsNullOrEmpty(Text) ? null : Path.GetDirectoryName(Text);
+                dialog.FileName = string.IsNullOrEmpty(Text) ? DefaultText : Path.GetFileName(Text);
                 dialog.Filter = Filter;
 
                 var result = dialog.ShowDialog(owner);

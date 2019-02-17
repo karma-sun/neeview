@@ -64,18 +64,18 @@ namespace NeeView
             //Process名の取得
             var processName = Process.GetCurrentProcess().ProcessName;
 
-            TempRootPath = path;
-            if (path != null)
+            TempRootPath = path ?? Path.GetTempPath();
+            if (path != Path.GetTempPath())
             {
                 if (!Directory.Exists(path))
                 {
                     ToastService.Current.Show(new Toast(string.Format(Properties.Resources.NotifyTemporaryErrorDirectoryNotFound, path), Properties.Resources.NotifyTemporaryErrorTitle, ToastIcon.Error));
-                    TempRootPath = null;
+                    TempRootPath = Path.GetTempPath();
                 }
             }
 
             TempDirectoryBaseName = processName + ".Temp"; //  asmprd.Product;
-            TempDirectory = Path.Combine(TempRootPath ?? Path.GetTempPath(), TempDirectoryBaseName) + processId.ToString();
+            TempDirectory = Path.Combine(TempRootPath, TempDirectoryBaseName) + processId.ToString();
             TempDownloadDirectory = Path.Combine(TempDirectory, "Temporary");
             TempSystemDirectory = Path.Combine(TempDirectory, "System");
             TempCacheDirectory = Path.Combine(TempDirectory, "Cache");

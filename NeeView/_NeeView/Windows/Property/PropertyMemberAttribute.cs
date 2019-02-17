@@ -76,6 +76,7 @@ namespace NeeView.Windows.Property
         public FileDialogType FileDialogType;
         public string Filter;
         public string Note;
+        public string DefaultFileName;
 
         public PropertyPathAttribute(string name) : base(name)
         {

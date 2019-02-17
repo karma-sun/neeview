@@ -50,6 +50,7 @@ namespace NeeView
         private double _autoHideDelayTime = 1.0;
         private string _temporaryDirectory;
         private string _cacheDirectory;
+        private string _cacheDirectoryOld;
         private bool _isSaveHistory = true;
         private string _historyFilePath;
         private bool _isSaveBookmark = true;
@@ -109,11 +110,11 @@ namespace NeeView
         }
 
         // 履歴データの保存場所
-        [PropertyPath("@ParamHistoryFilePath", FileDialogType = FileDialogType.SaveFile, Filter = "XML|*.xml", Note = SaveData.HistoryFileName)]
+        [PropertyPath("@ParamHistoryFilePath", FileDialogType = FileDialogType.SaveFile, Filter = "XML|*.xml")]
         public string HistoryFilePath
         {
-            get => _historyFilePath;
-            set => _historyFilePath = string.IsNullOrWhiteSpace(value) ? null : value;
+            get => _historyFilePath ?? SaveData.DefaultHistoryFilePath;
+            set => _historyFilePath = string.IsNullOrWhiteSpace(value) || value == SaveData.DefaultHistoryFilePath ? null : value;
         }
 
         // ブックマークの保存
@@ -125,11 +126,11 @@ namespace NeeView
         }
 
         // ブックマークの保存場所
-        [PropertyPath("@ParamBookmarkFilePath", FileDialogType = FileDialogType.SaveFile, Filter = "XML|*.xml", Note = SaveData.BookmarkFileName)]
+        [PropertyPath("@ParamBookmarkFilePath", FileDialogType = FileDialogType.SaveFile, Filter = "XML|*.xml")]
         public string BookmarkFilePath
         {
-            get => _bookmarkFilePath;
-            set => _bookmarkFilePath = string.IsNullOrWhiteSpace(value) ? null : value;
+            get => _bookmarkFilePath ?? SaveData.DefaultBookmarkFilePath;
+            set => _bookmarkFilePath = string.IsNullOrWhiteSpace(value) || value == SaveData.DefaultBookmarkFilePath ? null : value;
         }
 
         // ページマークの保存
@@ -141,11 +142,11 @@ namespace NeeView
         }
 
         // ページマークの保存場所
-        [PropertyPath("@ParamPagemarkFilePath", FileDialogType = FileDialogType.SaveFile, Filter = "XML|*.xml", Note = SaveData.PagemarkFileName)]
+        [PropertyPath("@ParamPagemarkFilePath", FileDialogType = FileDialogType.SaveFile, Filter = "XML|*.xml")]
         public string PagemarkFilePath
         {
-            get => _pagemarkFilePath;
-            set => _pagemarkFilePath = string.IsNullOrWhiteSpace(value) ? null : value;
+            get => _pagemarkFilePath ?? SaveData.DefaultPagemarkFilePath;
+            set => _pagemarkFilePath = string.IsNullOrWhiteSpace(value) || value == SaveData.DefaultPagemarkFilePath ? null : value;
         }
 
         // パネルやメニューが自動的に消えるまでの時間(秒)
@@ -192,20 +193,24 @@ namespace NeeView
         [PropertyPath("@ParamTemporaryDirectory", Tips = "@ParamTemporaryDirectoryTips", FileDialogType = FileDialogType.Directory)]
         public string TemporaryDirectory
         {
-            get => _temporaryDirectory;
-            set => _temporaryDirectory = string.IsNullOrWhiteSpace(value) ? null : value;
+            get => _temporaryDirectory ?? System.IO.Path.GetTempPath();
+            set => _temporaryDirectory = string.IsNullOrWhiteSpace(value) || value == System.IO.Path.GetTempPath() ? null : value;
         }
 
         // サムネイルキャッシュの場所
         [PropertyPath("@ParamCacheDirectory", Tips = "@ParamCacheDirectoryTips", FileDialogType = FileDialogType.Directory)]
         public string CacheDirectory
         {
-            get => _cacheDirectory;
-            set => _cacheDirectory = string.IsNullOrWhiteSpace(value) ? null : value;
+            get => _cacheDirectory ?? Config.Current.LocalApplicationDataPath;
+            set => _cacheDirectory = string.IsNullOrWhiteSpace(value) || value == Config.Current.LocalApplicationDataPath ? null : value;
         }
 
         // サムネイルキャッシュの場所 (変更前)
-        public string CacheDirectoryOld { get; set; }
+        public string CacheDirectoryOld
+        {
+            get => _cacheDirectoryOld ?? Config.Current.LocalApplicationDataPath;
+            set => _cacheDirectoryOld = string.IsNullOrWhiteSpace(value) || value == Config.Current.LocalApplicationDataPath ? null : value;
+        }
 
         #endregion
 
@@ -332,11 +337,11 @@ namespace NeeView
             memento.IsNetworkEnabled = this.IsNetworkEnabled;
             memento.IsIgnoreImageDpi = this.IsIgnoreImageDpi;
             memento.IsSaveHistory = this.IsSaveHistory;
-            memento.HistoryFilePath = this.HistoryFilePath;
+            memento.HistoryFilePath = _historyFilePath;
             memento.IsSaveBookmark = this.IsSaveBookmark;
-            memento.BookmarkFilePath = this.BookmarkFilePath;
+            memento.BookmarkFilePath = _bookmarkFilePath;
             memento.IsSavePagemark = this.IsSavePagemark;
-            memento.PagemarkFilePath = this.PagemarkFilePath;
+            memento.PagemarkFilePath = _pagemarkFilePath;
             memento.AutoHideDelayTime = this.AutoHideDelayTime;
             memento.WindowChromeFrame = this.WindowChromeFrame;
             memento.IsOpenLastBook = this.IsOpenLastBook;
@@ -346,8 +351,8 @@ namespace NeeView
             memento.Language = this.Language;
             memento.IsSplashScreenEnabled = this.IsSplashScreenEnabled;
             memento.IsSyncUserSetting = this.IsSyncUserSetting;
-            memento.TemporaryDirectory = this.TemporaryDirectory;
-            memento.CacheDirectory = this.CacheDirectory;
+            memento.TemporaryDirectory = _temporaryDirectory;
+            memento.CacheDirectory = _cacheDirectory;
             memento.CacheDirectoryOld = this.CacheDirectoryOld;
             return memento;
         }

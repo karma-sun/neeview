@@ -11294,7 +11294,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   It is used for pre-extraction and recursive compression files. It will be deleted at the end of the application. に類似しているローカライズされた文字列を検索します。
+        ///   It is used for pre-extraction and recursive compression files. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamTemporaryDirectoryTips {
             get {

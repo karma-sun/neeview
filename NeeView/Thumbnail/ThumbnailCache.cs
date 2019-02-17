@@ -90,18 +90,18 @@ namespace NeeView
         /// <param name="path"></param>
         public string SetDirectory(string path)
         {
-            CacheFolderPath = path;
+            CacheFolderPath = path ?? Config.Current.LocalApplicationDataPath;
 
-            if (path != null)
+            if (path != Config.Current.LocalApplicationDataPath)
             {
                 if (!Directory.Exists(path))
                 {
                     ToastService.Current.Show(new Toast(string.Format(Properties.Resources.NotifyCacheErrorDirectoryNotFound, path), Properties.Resources.NotifyCacheErrorTitle, ToastIcon.Error));
-                    CacheFolderPath = null;
+                    CacheFolderPath = Config.Current.LocalApplicationDataPath;
                 }
             }
 
-            _filename = Path.Combine(CacheFolderPath ?? Config.Current.LocalApplicationDataPath, FileName);
+            _filename = Path.Combine(CacheFolderPath, FileName);
 
             return CacheFolderPath;
         }

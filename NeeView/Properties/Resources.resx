@@ -4448,7 +4448,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Temporary location</value>
   </data>
   <data name="ParamTemporaryDirectoryTips" xml:space="preserve">
-    <value>It is used for pre-extraction and recursive compression files. It will be deleted at the end of the application.</value>
+    <value>It is used for pre-extraction and recursive compression files.</value>
   </data>
   <data name="SettingPageGeneralLocationTypesTips" xml:space="preserve">
     <value>* It is applied from the next startup.

@@ -324,12 +324,14 @@ namespace NeeView.Windows.Property
         public FileDialogType FileDialogType { get; set; }
         public string Filter { get; set; }
         public string Note { get; set; }
+        public string DefaultFileName { get; set; }
 
-        public PropertyValue_FilePath(PropertyMemberElement setter, FileDialogType fileDialogType, string filter, string note) : base(setter)
+        public PropertyValue_FilePath(PropertyMemberElement setter, FileDialogType fileDialogType, string filter, string note, string defaultFileName) : base(setter)
         {
             FileDialogType = fileDialogType;
             Filter = filter;
             Note = note;
+            DefaultFileName = defaultFileName;
         }
     }
 }

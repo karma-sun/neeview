@@ -12059,8 +12059,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   * It is applied from the next startup.
-        ///* The default location will be blank. に類似しているローカライズされた文字列を検索します。
+        ///   * It is applied from the next startup. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageGeneralLocationTypesTips {
             get {

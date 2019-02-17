@@ -4451,8 +4451,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>多重圧縮ファイルの展開や事前展開に使用されます。</value>
   </data>
   <data name="SettingPageGeneralLocationTypesTips" xml:space="preserve">
-    <value>※次の起動から適用されます。
-※空欄で規定の場所になります。</value>
+    <value>※次の起動から適用されます。</value>
   </data>
   <data name="NotifyCacheErrorTitle" xml:space="preserve">
     <value>キャッシュエラー</value>

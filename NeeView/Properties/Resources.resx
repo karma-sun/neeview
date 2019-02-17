@@ -4451,8 +4451,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>It is used for pre-extraction and recursive compression files.</value>
   </data>
   <data name="SettingPageGeneralLocationTypesTips" xml:space="preserve">
-    <value>* It is applied from the next startup.
-* The default location will be blank.</value>
+    <value>* It is applied from the next startup.</value>
   </data>
   <data name="NotifyCacheErrorTitle" xml:space="preserve">
     <value>Cache error</value>

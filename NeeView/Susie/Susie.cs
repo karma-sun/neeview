@@ -100,7 +100,7 @@ namespace NeeView.Susie
 
             // 削除するプラグイン
             var removes = PluginCollection.Where(e => !(inPluginList.Contains(e) || amPluginList.Contains(e)));
-            foreach(var spi in removes)
+            foreach (var spi in removes)
             {
                 spi.Dispose();
             }
@@ -131,8 +131,29 @@ namespace NeeView.Susie
                 }
             }
 
-            INPluginList = new ObservableCollection<SusiePlugin>(inPluginList);
-            AMPluginList = new ObservableCollection<SusiePlugin>(amPluginList);
+            var comparar = new MyComparer(spiFiles);
+            INPluginList = new ObservableCollection<SusiePlugin>(inPluginList.OrderBy(e => e, comparar));
+            AMPluginList = new ObservableCollection<SusiePlugin>(amPluginList.OrderBy(e => e, comparar));
+        }
+
+        /// <summary>
+        /// 予約順にSPIを並び替えるためコンペア 
+        /// </summary>
+        class MyComparer : IComparer<SusiePlugin>
+        {
+            private List<string> _order;
+
+            public MyComparer(IEnumerable<string> order)
+            {
+                _order = order.ToList();
+            }
+
+            public int Compare(SusiePlugin spiX, SusiePlugin spiY)
+            {
+                int indexX = _order.IndexOf(spiX.FileName);
+                int indexY = _order.IndexOf(spiY.FileName);
+                return indexX - indexY;
+            }
         }
 
         // プラグインキャッシュ設定を変更

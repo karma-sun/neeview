@@ -317,7 +317,7 @@ namespace NeeView
             [DataMember]
             public bool IsFirstOrderSusieArchive { get; set; }
 
-            [Obsolete, DataMember(EmitDefaultValue = false)]
+            [Obsolete, DataMember(Name = "SpiFiles", EmitDefaultValue = false)]
             public Dictionary<string, bool> OldSpiFiles { get; set; } // ver 33.0
 
             [DataMember(Name = "SpiFilesV2")]

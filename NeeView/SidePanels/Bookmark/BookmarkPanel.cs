@@ -16,7 +16,7 @@ namespace NeeView
 
         public Thickness IconMargin { get; private set; }
 
-        public string IconTips => Properties.Resources.BookshelfName;
+        public string IconTips => Properties.Resources.BookmarkName;
 
         private BookmarkListView _view;
         public FrameworkElement View => _view;

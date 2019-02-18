@@ -158,6 +158,11 @@ namespace NeeView
             return Find(place) != null;
         }
 
+        public bool Contains(TreeListNode<IBookmarkEntry> node)
+        {
+            return Items == node.Root;
+        }
+
         public void AddFirst(TreeListNode<IBookmarkEntry> node)
         {
             if (node == null) throw new ArgumentNullException(nameof(node));
@@ -656,6 +661,14 @@ namespace NeeView
             {
                 bookmark.EntryTime = DateTime.Now;
             }
+        }
+
+        /// <summary>
+        /// Query生成
+        /// </summary>
+        public static QueryPath CreateQuery(this TreeListNode<IBookmarkEntry> node)
+        {
+            return node.CreateQuery(QueryScheme.Bookmark);
         }
     }
 }

@@ -75,7 +75,7 @@ namespace NeeView
                 return;
             }
 
-            Debug.WriteLine("Delete: " + item.CreateQuery(QueryScheme.Bookmark));
+            Debug.WriteLine("Delete: " + item.Value.Name);
 
             var node = GetDirectoryNode(parent.CreateQuery(QueryScheme.Bookmark));
             if (node != null)

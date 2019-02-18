@@ -118,6 +118,9 @@ namespace NeeView
                     }
                 };
             }
+
+            // ブックマーク監視
+            BookmarkCollection.Current.BookmarkChanged += BookmarkCollection_BookmarkChanged;
         }
 
         #endregion Constructors
@@ -604,15 +607,15 @@ namespace NeeView
                 _searchKeyAnalyzer.Analyze(keyword);
                 SearchKeywordErrorMessage = null;
             }
-            catch(NeeLaboratory.IO.Search.SearchKeywordOptionException ex)
+            catch (SearchKeywordOptionException ex)
             {
                 SearchKeywordErrorMessage = string.Format(Properties.Resources.NotifySearchKeywordOptionError, ex.Option);
             }
-            catch(NeeLaboratory.IO.Search.SearchKeywordRegularExpressionException ex)
+            catch (SearchKeywordRegularExpressionException ex)
             {
                 SearchKeywordErrorMessage = ex.InnerException.Message;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 SearchKeywordErrorMessage = ex.Message;
             }
@@ -1254,6 +1257,69 @@ namespace NeeView
         public bool AddBookmark(QueryPath path, bool isFocus)
         {
             return _folderListBoxModel.AddBookmark(path, isFocus);
+        }
+
+
+        /// <summary>
+        /// ブックマークの変更監視
+        /// </summary>
+        private void BookmarkCollection_BookmarkChanged(object sender, BookmarkCollectionChangedEventArgs e)
+        {
+            if (!(FolderCollection is BookmarkFolderCollection folderCollection))
+            {
+                return;
+            }
+
+            switch (e.Action)
+            {
+                case EntryCollectionChangedAction.Remove:
+                    if (!BookmarkCollection.Current.Contains(folderCollection.BookmarkPlace))
+                    {
+                        RefreshBookmarkFolder();
+                    }
+                    break;
+
+                case EntryCollectionChangedAction.Rename:
+                    if (!BookmarkCollection.Current.Contains(folderCollection.BookmarkPlace))
+                    {
+                        RefreshBookmarkFolder();
+                    }
+                    else
+                    {
+                        var query = folderCollection.BookmarkPlace.CreateQuery();
+                        if (!folderCollection.Place.Equals(query))
+                        {
+                            RequestPlace(query, null, FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.ResetKeyword | FolderSetPlaceOption.Refresh);
+                        }
+                    }
+                    break;
+
+                case EntryCollectionChangedAction.Replace:
+                case EntryCollectionChangedAction.Reset:
+                    RefreshBookmarkFolder();
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// ブックマークフォルダーを同じパスで作り直す。存在しなければルートで作る。
+        /// </summary>
+        private void RefreshBookmarkFolder()
+        {
+            if (!(FolderCollection is BookmarkFolderCollection))
+            {
+                return;
+            }
+
+            ////Debug.WriteLine($"{this}: Refresh BookmarkFolder");
+            var query = FolderCollection.Place;
+            var node = BookmarkCollection.Current.FindNode(query);
+            if (node == null || !(node.Value is BookmarkFolder))
+            {
+                query = new QueryPath(QueryScheme.Bookmark, null, null);
+            }
+
+            RequestPlace(query, null, FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.ResetKeyword | FolderSetPlaceOption.Refresh);
         }
 
         #endregion

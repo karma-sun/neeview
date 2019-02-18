@@ -189,7 +189,14 @@ namespace NeeView
         {
             if (memento == null) throw new ArgumentNullException(nameof(memento));
 
-            memento.Parent.Insert(memento.Index, memento.Node);
+            if (!Contains(memento.Parent))
+            {
+                return;
+            }
+
+            var index = memento.Index > memento.Parent.Children.Count ? memento.Parent.Children.Count : memento.Index;
+
+            memento.Parent.Insert(index, memento.Node);
             BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Add, memento.Node.Parent, memento.Node));
         }
 

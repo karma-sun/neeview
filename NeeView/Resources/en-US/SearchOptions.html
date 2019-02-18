@@ -79,7 +79,7 @@ blockquote {
 </head>
 
 <body>
-    <h1>Bookshelf search options</h1>
+    <h1>NeeView search options</h1>
     
     <h2>Search options</h2>
     
@@ -94,7 +94,7 @@ blockquote {
     <tr><td>/not</td><td>NOT search</td></tr>
 </table>
 
-<h3>Match option</h3>
+<h3>Match options</h3>
 <table>
     <tr><th>Option</th><th>Description</th><th>Supplement</th></tr>
     <tr><td>/m0, /exact</td><td>ExactMatch</td><td>"Same as enclosing with double quotes"</td></tr>
@@ -103,7 +103,6 @@ blockquote {
     <tr><td>/re</td><td>RegularExpression</td><td><a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference">.NE Regular Expression</a></td></tr>
 </table>
     
-If it is not an ExactMatch search or a RegularExpression search, it becomes an ambiguous search as follows.
 In case of Standard search or WordMatch search, it becomes ambiguous search as follows.
 
 <ul>
@@ -121,7 +120,7 @@ AND-Standard search of "ABC", "DEF"
 
 <blockquote>ABC DEF</blockquote>
 
-RegularExpression search of "^ ABC $"
+RegularExpression search of "^ABC$"
 
 <blockquote>/re ^ABC$</blockquote>
 

@@ -36,6 +36,12 @@ namespace NeeView
             _vm = new PageListViewModel(model);
             this.DockPanel.DataContext = _vm;
         }
+
+        private void MoreButton_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            MoreButton.IsChecked = !MoreButton.IsChecked;
+            e.Handled = true;
+        }
     }
 
     public enum PageNameFormat

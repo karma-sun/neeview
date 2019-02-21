@@ -147,7 +147,7 @@
             </StackPanel>
 
             <DockPanel KeyboardNavigation.TabNavigation="Local">
-                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource FolderListToggleButtonStyle}"  VerticalAlignment="Center" TabIndex="4" Checked="MoreButton_Checked"
+                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource FolderListToggleButtonStyle}"  VerticalAlignment="Center" TabIndex="4" Checked="MoreButton_Checked" MouseRightButtonUp="MoreButton_MouseRightButtonUp"
                               nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
                     <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
                 </ToggleButton>

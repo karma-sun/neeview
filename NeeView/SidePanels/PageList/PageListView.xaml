@@ -26,7 +26,8 @@
             </StackPanel>
 
             <DockPanel KeyboardNavigation.TabNavigation ="Local" >
-                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Width="30" nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}" TabIndex="2">
+                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Width="30" MouseRightButtonUp="MoreButton_MouseRightButtonUp"
+                              nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}" TabIndex="2">
                     <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
                 </ToggleButton>
                 <WrapPanel>

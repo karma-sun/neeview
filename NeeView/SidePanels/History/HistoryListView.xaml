@@ -37,7 +37,8 @@
                 <TextBlock Text="{x:Static properties:Resources.HistoryName}" Foreground="Gray" VerticalAlignment="Center" />
             </StackPanel>
             <DockPanel LastChildFill="False">
-                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Height ="30" Width="30" nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
+                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Height ="30" Width="30" MouseRightButtonUp="MoreButton_MouseRightButtonUp"
+                              nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}">
                     <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
                 </ToggleButton>
             </DockPanel>

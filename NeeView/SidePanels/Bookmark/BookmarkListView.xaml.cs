@@ -118,5 +118,11 @@ namespace NeeView
         {
             _vm.UpdateMoreMenu();
         }
+
+        private void MoreButton_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            MoreButton.IsChecked = !MoreButton.IsChecked;
+            e.Handled = true;
+        }
     }
 }

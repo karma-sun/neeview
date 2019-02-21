@@ -35,6 +35,12 @@ namespace NeeView
             _vm = new HistoryListViewModel(model);
             this.DockPanel.DataContext = _vm;
         }
+
+        private void MoreButton_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            MoreButton.IsChecked = !MoreButton.IsChecked;
+            e.Handled = true;
+        }
     }
 
 

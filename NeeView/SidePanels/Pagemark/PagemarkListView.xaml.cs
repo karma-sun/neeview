@@ -36,7 +36,15 @@ namespace NeeView
             this.DockPanel.DataContext = _vm;
         }
 
+
         public bool IsBusy => _vm != null ? _vm.IsBusy : false;
+
+
+        private void MoreButton_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            MoreButton.IsChecked = !MoreButton.IsChecked;
+            e.Handled = true;
+        }
 
         #region IDisposable Support
         private bool _disposedValue = false;

@@ -380,11 +380,6 @@ namespace NeeView
             items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
             items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleThumbnail, PanelListItemStyle.Thumbnail));
             items.Add(new Separator());
-            var subItem = new MenuItem() { Header = Properties.Resources.BookshelfMoreMenuSearchSetting };
-            subItem.Items.Add(CreateCheckFlagMenuItem(Properties.Resources.BookshelfMoreMenuSearchIncremental, new Binding(nameof(FolderList.IsIncrementalSearchEnabled)) { Source = Model }));
-            subItem.Items.Add(CreateCheckFlagMenuItem(Properties.Resources.BookshelfMoreMenuSearchIncludeSubdirectories, new Binding(nameof(FolderList.IsSearchIncludeSubdirectories)) { Source = Model }));
-            items.Add(subItem);
-            items.Add(new Separator());
             items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuAddQuickAccess, AddQuickAccess));
             items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuClearHistory, CommandType.ClearHistoryInPlace, FolderPanelModel.Current));
 

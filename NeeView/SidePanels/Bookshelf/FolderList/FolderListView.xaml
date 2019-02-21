@@ -248,6 +248,12 @@
                     </Button>
                     <Button x:Name="SearchButton" DockPanel.Dock="Right" VerticalAlignment="Center" Style="{StaticResource FolderListButtonStyle}" Width="24" Command="{Binding Search}" TabIndex="2">
                         <Image Source="{StaticResource ic_search_24px_b}" Width="16" Height="16"/>
+                        <Button.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="{x:Static properties:Resources.BookshelfMoreMenuSearchIncremental}" IsChecked="{Binding Model.IsIncrementalSearchEnabled}" IsCheckable="True"/>
+                                <MenuItem Header="{x:Static properties:Resources.BookshelfMoreMenuSearchIncludeSubdirectories}" IsChecked="{Binding Model.IsSearchIncludeSubdirectories}" IsCheckable="True"/>
+                            </ContextMenu>
+                        </Button.ContextMenu>
                     </Button>
                     <ComboBox x:Name="SearchBox" Text="{Binding Model.SearchKeyword, Delay=500, UpdateSourceTrigger=PropertyChanged}" TabIndex="1"
                               Style="{StaticResource NVComboBoxEditable}"

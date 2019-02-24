@@ -707,8 +707,8 @@ namespace NeeView
                     EmptyMessage?.Invoke(this, new BookHubMessageEventArgs(message));
                 }
 
-                // for .heic
-                if (ex is NotSupportedFileTypeException exc && exc.Extension == ".heic" && Config.Current.IsWindows10())
+                // for .heic / .heif
+                if (ex is NotSupportedFileTypeException exc && (exc.Extension == ".heic" || exc.Extension == ".heif") && Config.Current.IsWindows10())
                 {
                     _bookHubToast = new Toast(Properties.Resources.NotifyHeifHelp, null, ToastIcon.Information, App.Current.IsNetworkEnabled ? Properties.Resources.WordOpenStore : null, () =>
                      {

@@ -550,7 +550,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { Command = CommandType.PrevPagemarkInBook},
                         new MenuTree(MenuElementType.Command) { Command = CommandType.NextPagemarkInBook },
                     }},
-                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeOther, Children = new ObservableCollection<MenuTree>()
+                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeOption, Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { Command = CommandType.OpenSettingWindow },
                         new MenuTree(MenuElementType.Separator),
@@ -560,7 +560,9 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { Command = CommandType.OpenSettingFilesFolder },
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { Command = CommandType.TogglePermitFileCommand},
-                        new MenuTree(MenuElementType.Separator),
+                    }},
+                    new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeHelp, Children = new ObservableCollection<MenuTree>()
+                    {
                         new MenuTree(MenuElementType.Command) { Command = CommandType.HelpMainMenu },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.HelpCommandList },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.HelpSearchOption },

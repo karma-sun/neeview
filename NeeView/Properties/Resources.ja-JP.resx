@@ -2522,8 +2522,11 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="MenuTreeJump" xml:space="preserve">
     <value>移動(_J)</value>
   </data>
-  <data name="MenuTreeOther" xml:space="preserve">
-    <value>その他(_O)</value>
+  <data name="MenuTreeOption" xml:space="preserve">
+    <value>オプション(_O)</value>
+  </data>
+  <data name="MenuTreeHelp" xml:space="preserve">
+    <value>ヘルプ(_H)</value>
   </data>
   <data name="MenuTreePage" xml:space="preserve">
     <value>ページ(_P)</value>

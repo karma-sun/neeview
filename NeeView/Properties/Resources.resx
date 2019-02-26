@@ -2522,8 +2522,11 @@ Is it OK? </value>
   <data name="MenuTreeJump" xml:space="preserve">
     <value>_Jump</value>
   </data>
-  <data name="MenuTreeOther" xml:space="preserve">
-    <value>_Other</value>
+  <data name="MenuTreeOption" xml:space="preserve">
+    <value>_Option</value>
+  </data>
+  <data name="MenuTreeHelp" xml:space="preserve">
+    <value>_Help</value>
   </data>
   <data name="MenuTreePage" xml:space="preserve">
     <value>_Page</value>

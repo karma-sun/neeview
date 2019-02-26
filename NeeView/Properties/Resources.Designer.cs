@@ -7659,6 +7659,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   _Help に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MenuTreeHelp {
+            get {
+                return ResourceManager.GetString("MenuTreeHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Open from the list of recent books に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string MenuTreeHistory {
@@ -7686,11 +7695,11 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   _Other に類似しているローカライズされた文字列を検索します。
+        ///   _Option に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string MenuTreeOther {
+        public static string MenuTreeOption {
             get {
-                return ResourceManager.GetString("MenuTreeOther", resourceCulture);
+                return ResourceManager.GetString("MenuTreeOption", resourceCulture);
             }
         }
         

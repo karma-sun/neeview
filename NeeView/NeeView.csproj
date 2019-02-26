@@ -181,6 +181,9 @@
     <Compile Include="Archiver\ZipArchiverProfile.cs" />
     <Compile Include="BookHistory.cs" />
     <Compile Include="BookHistoryCollection.cs" />
+    <Compile Include="Controls\CriticalErrorDialog.xaml.cs">
+      <DependentUpon>CriticalErrorDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\ExpandedMark.xaml.cs">
       <DependentUpon>ExpandedMark.xaml</DependentUpon>
     </Compile>
@@ -896,6 +899,10 @@
     <Compile Include="_NeeView\Windows\Property\PropertyMemberAttribute.cs" />
     <Compile Include="_NeeView\Windows\Property\PropertyValue.cs" />
     <Compile Include="_NeeView\Windows\StyleInteraction.cs" />
+    <Page Include="Controls\CriticalErrorDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\ExpandedMark.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

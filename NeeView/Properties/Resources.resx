@@ -2308,17 +2308,6 @@ Is it OK? </value>
   <data name="ExceptionCannotDeleteData" xml:space="preserve">
     <value>It is not an AppData folder, so it will not be deleted.</value>
   </data>
-  <data name="ExceptionCritical" xml:space="preserve">
-    <value>An error occurred. Quit the application.
-
-Cause: {0}
-
-Details of the error are output to the following file.
-{1}</value>
-  </data>
-  <data name="ExceptionCriticalTitle" xml:space="preserve">
-    <value>Fatal error</value>
-  </data>
   <data name="ExceptionFileNotFound" xml:space="preserve">
     <value>File not found "{0}"</value>
   </data>
@@ -4638,5 +4627,20 @@ Initialize the temporary location.</value>
   </data>
   <data name="ParamIsForceUpdateHistory" xml:space="preserve">
     <value>Even if you open a book from history, it updates the last browsing date</value>
+  </data>
+  <data name="ExceptionCritical" xml:space="preserve">
+    <value>An error occurred. Quit the application.</value>
+  </data>
+  <data name="ExceptionCriticalTitle" xml:space="preserve">
+    <value>Fatal error</value>
+  </data>
+  <data name="ExceptionCriticalMessage" xml:space="preserve">
+    <value>Error details:</value>
+  </data>
+  <data name="ExceptionCriticalCopy" xml:space="preserve">
+    <value>Copy to clipboard</value>
+  </data>
+  <data name="ExceptionCriticalLogPath" xml:space="preserve">
+    <value>Details of the error are saved in &lt;a href="{0}"&gt;{0}&lt;/a&gt;</value>
   </data>
 </root>

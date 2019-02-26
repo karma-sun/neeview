@@ -75,7 +75,7 @@ namespace NeeLaboratory.Threading.Jobs
         /// <summary>
         /// 例外によってJobEngineが停止した時に発生するイベント
         /// </summary>
-        public event EventHandler<ErrorEventArgs> JobEngineError;
+        public event EventHandler<JobErrorEventArgs> JobEngineError;
 
         #endregion
 
@@ -273,7 +273,12 @@ namespace NeeLaboratory.Threading.Jobs
                 catch (Exception ex)
                 {
                     _log?.Trace(TraceEventType.Critical, $"excepted: {ex.Message}");
-                    JobEngineError?.Invoke(this, new ErrorEventArgs(ex));
+                    var args = new JobErrorEventArgs(ex, null);
+                    JobEngineError?.Invoke(this, args);
+                    if (!args.Handled)
+                    {
+                        throw;
+                    }
                 }
                 finally
                 {

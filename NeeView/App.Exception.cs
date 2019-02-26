@@ -6,96 +6,85 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Threading;
 
 namespace NeeView
 {
     public partial class App
     {
-        // 例外発生数
+        // 未処理例外発生数
         private int _exceptionCount = 0;
 
+        // 未処理例の外排他処理
+        private object _exceptionLock = new object();
+
         /// <summary>
-        /// クリティカルなエラーの処理
+        /// 全ての未処理例外をキャッチするハンドル登録
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        private void InitializeUnhandledException()
         {
-            if (++_exceptionCount >= 2)
-            {
-                Debug.WriteLine($"AfterException({_exceptionCount}): {e.Exception.Message}");
-                e.Handled = true;
-                return;
-            }
-
-            var errorLogFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, "ErrorLog.txt");
-
-            using (var writer = new StreamWriter(new FileStream(errorLogFileName, FileMode.Create, FileAccess.Write)))
-            {
-                writer.WriteLine($"{DateTime.Now}\n");
-
-                Action<Exception, StreamWriter> WriteException = (exception, sw) =>
-                {
-                    sw.WriteLine($"ExceptionType:\n  {exception.GetType()}");
-                    sw.WriteLine($"ExceptionMessage:\n  {exception.Message}");
-                    sw.WriteLine($"ExceptionStackTrace:\n{exception.StackTrace}");
-                };
-
-                WriteException(e.Exception, writer);
-
-                Exception ex = e.Exception.InnerException;
-                while (ex != null)
-                {
-                    writer.WriteLine("\n\n-------- InnerException --------\n");
-                    WriteException(ex, writer);
-                    ex = ex.InnerException;
-                }
-            }
-
-            string exceptionMessage = e.Exception is System.Reflection.TargetInvocationException ? e.Exception.InnerException?.Message : e.Exception.Message;
-            string message = string.Format(NeeView.Properties.Resources.ExceptionCritical, exceptionMessage, errorLogFileName);
-            MessageBox.Show(message, NeeView.Properties.Resources.ExceptionCriticalTitle, MessageBoxButton.OK, MessageBoxImage.Error);
-
-#if DEBUG
-#else
-            e.Handled = true;
-
-            this.Shutdown();
-#endif
-        }
-
-
-
-#if DEBUG
-        /// <summary>
-        /// 全ての最終例外をキャッチ
-        /// </summary>
-        private void InitializeException()
-        {
-            // 全ての最終例外をキャッチ
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
         }
 
         /// <summary>
-        /// 例外取得
+        /// 未処理例外の処理
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
             var exception = e.ExceptionObject as Exception;
             if (exception == null)
             {
-                ////MessageBox.Show("System.Exceptionとして扱えない例外");
                 return;
             }
-            else
+
+            lock (_exceptionLock)
             {
-                Debug.WriteLine($"*** {exception.Message}");
+                _exceptionCount++;
+                Debug.WriteLine($"UnhandledException({_exceptionCount}): {exception.Message}");
+
+                if (_exceptionCount >= 2)
+                {
+                    return;
+                }
+
+                string errorLog;
+                using (var writer = new StringWriter())
+                {
+                    writer.WriteLine("OS Version: " + System.Environment.OSVersion + (Config.IsX64 ? " (64bit)" : " (32bit)"));
+                    writer.WriteLine("NeeView Version: " + Config.Current.DispVersion + $" ({Config.Current.PackageType})");
+                    writer.WriteLine("");
+
+                    WriteException(exception, writer);
+                    errorLog = writer.ToString();
+                }
+
+                var errorLogFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, "ErrorLog.txt");
+                using (var writer = new StreamWriter(new FileStream(errorLogFileName, FileMode.Create, FileAccess.Write)))
+                {
+                    writer.Write(errorLog);
+                }
+
+                this.Dispatcher.Invoke(() =>
+                {
+                    var dialog = new CriticalErrorDialog(errorLog, errorLogFileName);
+                    dialog.Owner = this.MainWindow;
+                    dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                    dialog.ShowDialog();
+                });
             }
 
+            void WriteException(Exception ex, TextWriter writer)
+            {
+                if (ex == null) return;
+
+                if (ex.InnerException != null)
+                {
+                    WriteException(ex.InnerException, writer);
+                }
+
+                writer.WriteLine("{0}: {1}\n{2}\n", ex.GetType(), ex.Message, ex.StackTrace);
+            }
         }
-#endif
     }
 }

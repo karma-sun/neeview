@@ -33,6 +33,27 @@ namespace NeeView
         }
 
 
+        /// <summary>
+        /// SourceをXHTMLとして解釈する
+        /// </summary>
+        public bool IsXHtml
+        {
+            get { return (bool)GetValue(IsXHtmlProperty); }
+            set { SetValue(IsXHtmlProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsXHtmlProperty =
+            DependencyProperty.Register("IsXHtml", typeof(bool), typeof(XHtmlTextBlock), new PropertyMetadata(false, IsXHtmlChanged));
+
+        private static void IsXHtmlChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is XHtmlTextBlock control)
+            {
+                control.Refresh();
+            }
+        }
+
+
         private void Refresh()
         {
             this.Inlines.Clear();
@@ -41,7 +62,7 @@ namespace NeeView
 
             try
             {
-                var xhtml = "<xhtml>" + System.Security.SecurityElement.Escape(Source) + "</xhtml>";
+                var xhtml = "<xhtml>" + (IsXHtml ? Source : System.Security.SecurityElement.Escape(Source)) + "</xhtml>";
                 var document = XDocument.Parse(xhtml);
                 var inlines = ConvertFromChildren(document.Root);
                 this.Inlines.AddRange(inlines);
@@ -75,6 +96,7 @@ namespace NeeView
                             throw new XmlException($"Wrong \"<a href=...>\" format.", ex);
                         }
                         hyperlink.Inlines.AddRange(ConvertFromChildren(element));
+                        hyperlink.RequestNavigate += Hyperlink_RequestNavigate;
                         return hyperlink;
                     case "b":
                         var bold = new Bold();
@@ -103,6 +125,12 @@ namespace NeeView
             {
                 throw new XmlException($"Not support node type: {root.NodeType}");
             }
+        }
+
+        private static void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            System.Diagnostics.Process.Start(e.Uri.AbsoluteUri);
+            e.Handled = true;
         }
     }
 }

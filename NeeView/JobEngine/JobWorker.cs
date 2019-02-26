@@ -135,12 +135,6 @@ namespace NeeView
             {
                 Debug.WriteLine($"JOB TASK CANCELED.");
             }
-            catch (Exception e)
-            {
-                Debug.WriteLine($"JOB EXCEPTION: {e.Message}");
-                Message = e.Message;
-                AppDispatcher.BeginInvoke(() => throw new ApplicationException("JobEngine internal exception", e));
-            }
         }
 
         // ワーカータスクメイン

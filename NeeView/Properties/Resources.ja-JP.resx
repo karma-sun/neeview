@@ -2308,17 +2308,6 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ExceptionCannotDeleteData" xml:space="preserve">
     <value>AppDataフォルダではないため、削除を行いません。</value>
   </data>
-  <data name="ExceptionCritical" xml:space="preserve">
-    <value>エラーが発生しました。アプリを終了します。
-
-理由 : {0}
-
-次のファイルにエラーの詳細が出力されています。
-{1}</value>
-  </data>
-  <data name="ExceptionCriticalTitle" xml:space="preserve">
-    <value>強制終了</value>
-  </data>
   <data name="ExceptionFileNotFound" xml:space="preserve">
     <value>"{0}" が見つかりません</value>
   </data>
@@ -4638,5 +4627,20 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="ParamIsForceUpdateHistory" xml:space="preserve">
     <value>履歴からブックを開いたときでも最終閲覧日を更新する</value>
+  </data>
+  <data name="ExceptionCritical" xml:space="preserve">
+    <value>エラーが発生しました。アプリを終了します。</value>
+  </data>
+  <data name="ExceptionCriticalTitle" xml:space="preserve">
+    <value>強制終了</value>
+  </data>
+  <data name="ExceptionCriticalMessage" xml:space="preserve">
+    <value>エラーの詳細:</value>
+  </data>
+  <data name="ExceptionCriticalCopy" xml:space="preserve">
+    <value>クリップボードにコピー</value>
+  </data>
+  <data name="ExceptionCriticalLogPath" xml:space="preserve">
+    <value>&lt;a href="{0}"&gt;{0}&lt;/a&gt; にエラーの詳細が出力されています。</value>
   </data>
 </root>

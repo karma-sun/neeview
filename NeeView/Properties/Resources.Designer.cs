@@ -7190,16 +7190,38 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   An error occurred. Quit the application.
-        ///
-        ///Cause: {0}
-        ///
-        ///Details of the error are output to the following file.
-        ///{1} に類似しているローカライズされた文字列を検索します。
+        ///   An error occurred. Quit the application. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ExceptionCritical {
             get {
                 return ResourceManager.GetString("ExceptionCritical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Copy to clipboard に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExceptionCriticalCopy {
+            get {
+                return ResourceManager.GetString("ExceptionCriticalCopy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Details of the error are saved in &lt;a href=&quot;{0}&quot;&gt;{0}&lt;/a&gt; に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExceptionCriticalLogPath {
+            get {
+                return ResourceManager.GetString("ExceptionCriticalLogPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Error details: に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ExceptionCriticalMessage {
+            get {
+                return ResourceManager.GetString("ExceptionCriticalMessage", resourceCulture);
             }
         }
         

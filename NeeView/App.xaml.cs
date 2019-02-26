@@ -79,6 +79,9 @@ namespace NeeView
             // DLL 検索パスから現在の作業ディレクトリ (CWD) を削除
             NativeMethods.SetDllDirectory("");
 
+            // 未処理例外ハンドル
+            InitializeUnhandledException();
+
             try
             {
                 await InitializeAsync(e);

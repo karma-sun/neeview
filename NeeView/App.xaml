@@ -5,7 +5,7 @@
              xmlns:local="clr-namespace:NeeView"
              Startup="Application_Startup"
              SessionEnding="Application_SessionEnding"
-             DispatcherUnhandledException="Application_DispatcherUnhandledException" Exit="Application_Exit">
+             Exit="Application_Exit">
     <Application.Resources>
 
         <ResourceDictionary>

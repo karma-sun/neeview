@@ -9,7 +9,7 @@
 * Windows 10 Pro 64bit
 * VisualStudio 2017 Community  
     - .Net デスクトップ開発
-        - (追加) .Net Framework 4.6.2 開発ツール
+        - (追加) .Net Framework 4.7.2 開発ツール
     - C++によるデスクトップ開発
     - 個別のコンポーネント
         - Blend for Visual Studio SDK for .NET

@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NeeView", "NeeView\NeeView.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C3F0B406-5A4A-4550-81BC-CD72DE300125}"
 	ProjectSection(SolutionItems) = preProject
-		BUILD.md = BUILD.md
+		LICENSE.ja-jp.md = LICENSE.ja-jp.md
 		LICENSE.md = LICENSE.md
 		README.md = README.md
 		THIRDPARTY_LICENSES _CODEIN.md = THIRDPARTY_LICENSES _CODEIN.md

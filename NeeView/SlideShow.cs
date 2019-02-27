@@ -45,7 +45,7 @@ namespace NeeView
             _timer.Interval = TimeSpan.FromSeconds(_maxTimerTick);
             _timer.Tick += new EventHandler(DispatcherTimer_Tick);
 
-            BookOperation.Current.PageChanged +=
+            BookOperation.Current.ViewContentsChanged +=
                 (s, e) => ResetTimer();
 
             //

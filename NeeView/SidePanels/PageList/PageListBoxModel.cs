@@ -59,19 +59,19 @@ namespace NeeView
 
         public void Loaded()
         {
-            BookHub.Current.ViewContentsChanged += BookHub_ViewContentsChanged;
+            BookOperation.Current.ViewContentsChanged += BookOperation_ViewContentsChanged;
             RefreshSelectedItem();
         }
 
         public void Unloaded()
         {
-            BookHub.Current.ViewContentsChanged -= BookHub_ViewContentsChanged;
+            BookOperation.Current.ViewContentsChanged -= BookOperation_ViewContentsChanged;
         }
 
         /// <summary>
         /// ブックのページが切り替わったときの処理
         /// </summary>
-        private void BookHub_ViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
+        private void BookOperation_ViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
         {
             RefreshSelectedItem();
         }

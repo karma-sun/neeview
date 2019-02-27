@@ -24,9 +24,7 @@ namespace NeeView
         private PageSelector()
         {
             BookOperation.Current.PageListChanged += BookOperation_PageListChanged;
-
-            // TODO: BookOperator経由のイベントにする
-            BookHub.Current.ViewContentsChanged += BookHub_ViewContentsChanged;
+            BookOperation.Current.ViewContentsChanged += BookOperation_ViewContentsChanged;
         }
 
         #endregion
@@ -94,9 +92,10 @@ namespace NeeView
         private void BookOperation_PageListChanged(object sender, EventArgs e)
         {
             RaisePropertyChanged(nameof(MaxIndex));
+            BookOperation_ViewContentsChanged(sender, new ViewPageCollectionChangedEventArgs(BookOperation.Current.Book.ViewPageCollection));
         }
 
-        private void BookHub_ViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
+        private void BookOperation_ViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
         {
             var contents = e?.ViewPageCollection?.Collection;
             if (contents == null) return;

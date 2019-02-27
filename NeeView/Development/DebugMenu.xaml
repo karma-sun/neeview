@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="NeeView.DebugMenu"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeeView"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="100">
+    
+    <Menu x:Name="MenuDev" VerticalAlignment="Bottom" Background="White" Foreground="#222">
+        <MenuItem x:Name="MenuItemDev" Header="_Develop">
+            <MenuItem x:Name="MenuItemDevPageList" Header="Page list" IsCheckable="True" IsChecked="{Binding Source={x:Static local:Development.Current}, Path=IsVisibleDevPageList}" />
+            <MenuItem x:Name="MenuItemDevInfo" Header="Status area" IsCheckable="True" IsChecked="{Binding Source={x:Static local:Development.Current}, Path=IsVisibleDevInfo}" />
+            <MenuItem x:Name="MenuItemDevApplicationFolder" Header="Open application folder" Click="MenuItemDevApplicationFolder_Click" />
+            <MenuItem x:Name="MenuItemDevApplicationDataFolder" Header="Open data folder" Click="MenuItemDevApplicationDataFolder_Click" />
+            <MenuItem x:Name="MenuItemDevCurrentFolder" Header="Open current folder" Click="MenuItemDevCurrentFolder_Click" />
+            <MenuItem x:Name="MenuItemDevTempFolder" Header="Open temp folder" Click="MenuItemDevTempFolder_Click" />
+            <MenuItem x:Name="MenuItemDevButton" Header="Go TEST" Click="MenuItemDevButton_Click" />
+        </MenuItem>
+    </Menu>
+</UserControl>

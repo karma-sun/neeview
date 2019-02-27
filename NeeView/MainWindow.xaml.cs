@@ -1147,8 +1147,8 @@ namespace NeeView
         [Conditional("DEBUG")]
         private void Debug_Initialize()
         {
-            this.RootDockPanel.Children.Insert(0, new DevPageList());
-            this.RootDockPanel.Children.Insert(1, new DevInfo());
+            this.RootDockPanel.Children.Insert(0, new DebugPageList());
+            this.RootDockPanel.Children.Insert(1, new DebugInfo());
 
             this.PreviewKeyDown += (s, e) =>
             {

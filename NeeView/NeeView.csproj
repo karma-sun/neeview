@@ -198,7 +198,10 @@
     <Compile Include="Controls\PageSortModePalette.xaml.cs">
       <DependentUpon>PageSortModePalette.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DebugTimer.cs" />
+    <Compile Include="Development\DebugTimer.cs" />
+    <Compile Include="Development\DebugMenu.xaml.cs">
+      <DependentUpon>DebugMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="JobEngine\IJobCommand.cs" />
     <Compile Include="JobEngine\Job.cs" />
     <Compile Include="JobEngine\JobContext.cs" />
@@ -616,7 +619,7 @@
       <DependentUpon>TinyInfoMessageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="TinyInfoMessageViewModel.cs" />
-    <Compile Include="Development.cs" />
+    <Compile Include="Development\Development.cs" />
     <Compile Include="TouchInput\TouchContext.cs" />
     <Compile Include="TouchInput\TouchDragContext.cs" />
     <Compile Include="TouchInput\TouchDragManipulation.cs" />
@@ -655,11 +658,11 @@
     </Compile>
     <Compile Include="DelayAction.cs" />
     <Compile Include="CommandParameters.cs" />
-    <Compile Include="DevInfo.xaml.cs">
-      <DependentUpon>DevInfo.xaml</DependentUpon>
+    <Compile Include="Development\DebugInfo.xaml.cs">
+      <DependentUpon>DebugInfo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DevPageList.xaml.cs">
-      <DependentUpon>DevPageList.xaml</DependentUpon>
+    <Compile Include="Development\DebugPageList.xaml.cs">
+      <DependentUpon>DebugPageList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Effects\BloomEffectUnit.cs" />
     <Compile Include="Effects\ColorSelectEffect.cs" />
@@ -927,6 +930,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Development\DebugMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindowResourceDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1115,11 +1122,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DevInfo.xaml">
+    <Page Include="Development\DebugInfo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="DevPageList.xaml">
+    <Page Include="Development\DebugPageList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

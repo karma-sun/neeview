@@ -8,7 +8,7 @@
              d:DesignHeight="300" d:DesignWidth="300">
 
     <Grid x:Name="Root" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" Background="White">
-        <DockPanel LastChildFill="False">
+        <DockPanel x:Name="MenuBarArea" LastChildFill="False">
             <local:WindowCaptionButtons x:Name="WindowCaptionButtons" VerticalAlignment="Top" DockPanel.Dock="Right">
                 <local:WindowCaptionButtons.Style>
                     <Style TargetType="local:WindowCaptionButtons">
@@ -24,28 +24,11 @@
                     </Style>
                 </local:WindowCaptionButtons.Style>
             </local:WindowCaptionButtons>
-
             <Grid x:Name="CanaryWatermark" DockPanel.Dock="Right" Background="Orange" Margin="0" VerticalAlignment="Top" Visibility="Collapsed">
                 <TextBlock Foreground="White" Margin="10,2" FontSize="12" FontWeight="Normal" Text="Canary"/>
             </Grid>
-
             <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Bottom" Background="White" Foreground="#222"/>
-
-            <Menu x:Name="MenuDev" VerticalAlignment="Bottom" Background="White" Foreground="#222" Visibility="Collapsed">
-                <MenuItem x:Name="MenuItemDev" Header="_Develop">
-                    <MenuItem x:Name="MenuItemDevPageList" Header="Page list" IsCheckable="True" IsChecked="{Binding Development.IsVisibleDevPageList}" />
-                    <MenuItem x:Name="MenuItemDevInfo" Header="Status area" IsCheckable="True" IsChecked="{Binding Development.IsVisibleDevInfo}" />
-                    <MenuItem x:Name="MenuItemDevApplicationFolder" Header="Open application folder" Click="MenuItemDevApplicationFolder_Click" />
-                    <MenuItem x:Name="MenuItemDevApplicationDataFolder" Header="Open data folder" Click="MenuItemDevApplicationDataFolder_Click" />
-                    <MenuItem x:Name="MenuItemDevCurrentFolder" Header="Open current folder" Click="MenuItemDevCurrentFolder_Click" />
-                    <MenuItem x:Name="MenuItemDevTempFolder" Header="Open temp folder" Click="MenuItemDevTempFolder_Click" />
-                    <MenuItem x:Name="MenuItemDevButton" Header="Go TEST" Click="MenuItemDevButton_Click" />
-                </MenuItem>
-            </Menu>
-
-
         </DockPanel>
-
     </Grid>
 
 </UserControl>

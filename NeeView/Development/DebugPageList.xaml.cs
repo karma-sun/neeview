@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace NeeView
 {
     /// <summary>
-    /// DevPageList.xaml の相互作用ロジック
+    /// DebugPageList.xaml の相互作用ロジック
     /// </summary>
-    public partial class DevPageList : UserControl
+    public partial class DebugPageList : UserControl
     {
-        public DevPageList()
+        public DebugPageList()
         {
             InitializeComponent();
             this.Root.DataContext = new DevPageListViewModel();

@@ -19,13 +19,35 @@ namespace NeeView
     /// </summary>
     public partial class MenuBarView : UserControl
     {
+        #region Fields
+
+        private MenuBarViewModel _vm;
+
+        #endregion
+
+        #region Constructors
+
+        public MenuBarView()
+        {
+            InitializeComponent();
+
+            this.CanaryWatermark.Visibility = Config.Current.IsCanaryPackage ? Visibility.Visible : Visibility.Collapsed;
+
+#if DEBUG
+            this.MenuBarArea.Children.Add(new DebugMenu());
+#endif
+        }
+
+        #endregion
+
+        #region DependencyProperties
+
         public MenuBar Source
         {
             get { return (MenuBar)GetValue(SourceProperty); }
             set { SetValue(SourceProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Source.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SourceProperty =
             DependencyProperty.Register("Source", typeof(MenuBar), typeof(MenuBarView), new PropertyMetadata(null, Source_Changed));
 
@@ -34,27 +56,15 @@ namespace NeeView
             (d as MenuBarView)?.Initialize();
         }
 
-        //
-        public MenuBarView()
-        {
-            InitializeComponent();
+        #endregion
 
-            this.CanaryWatermark.Visibility = Config.Current.IsCanaryPackage ? Visibility.Visible : Visibility.Collapsed;
+        #region Methods
 
-#if DEBUG
-            this.MenuDev.Visibility = Visibility.Visible;
-#endif
-        }
-
-        private MenuBarViewModel _vm;
-
-        //
         public void Initialize()
         {
             _vm = new MenuBarViewModel(this, this.Source);
             this.Root.DataContext = _vm;
         }
-
 
         // 単キーのショートカット無効
         private void Control_KeyDown_IgnoreSingleKeyGesture(object sender, KeyEventArgs e)
@@ -62,88 +72,6 @@ namespace NeeView
             KeyExGesture.AllowSingleKey = false;
         }
 
-
-        #region 開発用
-
-        // [開発用] テストボタン
-        private void MenuItemDevButton_Click(object sender, RoutedEventArgs e)
-        {
-            DebugTestAction();
-        }
-
-        // 開発用コマンド：テンポラリフォルダーを開く
-        private void MenuItemDevTempFolder_Click(object sender, RoutedEventArgs e)
-        {
-            DebugOpenFolder(Temporary.Current.TempDirectory);
-        }
-
-        // 開発用コマンド：アプリケーションフォルダーを開く
-        private void MenuItemDevApplicationFolder_Click(object sender, RoutedEventArgs e)
-        {
-            DebugOpenFolder(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location));
-        }
-
-        // 開発用コマンド：アプリケーションデータフォルダーを開く
-        private void MenuItemDevApplicationDataFolder_Click(object sender, RoutedEventArgs e)
-        {
-            DebugOpenFolder(Config.Current.LocalApplicationDataPath);
-        }
-
-        // 開発用コマンド：カレントフォルダーを開く
-        private void MenuItemDevCurrentFolder_Click(object sender, RoutedEventArgs e)
-        {
-            DebugOpenFolder(Environment.CurrentDirectory);
-        }
-
-        /// <summary>
-        /// 開発用：テストボタンのアクション
-        /// </summary>
-        [Conditional("DEBUG")]
-        private async void DebugTestAction()
-        {
-            try
-            {
-                // 致命的エラーのテスト
-                ////InnerExcepionTest();
-
-                // アーカイブのアンロック
-                ////await Task.Run(() => BookOperation.Current.Unlock());
-
-                ////ページマーク多数登録テスト
-                ////Models.Current.BookOperation.Test_MakeManyPagemark();
-
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-                await Task.Delay(1000);
-                Debugger.Break();
-                //ModelContext.CommandTable.OpenCommandListHelp();
-                //Config.Current.RemoveApplicationData();
-            }
-            catch(Exception ex)
-            {
-                throw new ApplicationException("DEBUG error", ex);
-            }
-        }
-
-        [Conditional("DEBUG")]
-        private void InnerExcepionTest()
-        {
-            throw new ApplicationException("Exception test");
-        }
-
-        /// <summary>
-        /// 開発用：フォルダーを開く
-        /// </summary>
-        [Conditional("DEBUG")]
-        private void DebugOpenFolder(string path)
-        {
-            Debug.WriteLine($"OpenFolder: {path}");
-            System.Diagnostics.Process.Start("explorer.exe", path);
-        }
-
         #endregion
-
     }
-
-
 }

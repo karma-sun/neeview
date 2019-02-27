@@ -20,15 +20,15 @@ using System.Diagnostics;
 namespace NeeView
 {
     /// <summary>
-    /// DevInfo.xaml の相互作用ロジック
+    /// DebugInfo.xaml の相互作用ロジック
     /// </summary>
-    public partial class DevInfo : UserControl
+    public partial class DebugInfo : UserControl
     {
-        public static DevInfo Current { get; private set; }
+        public static DebugInfo Current { get; private set; }
 
         private DevInfoViewModel _vm;
 
-        public DevInfo()
+        public DebugInfo()
         {
             Current = this;
 

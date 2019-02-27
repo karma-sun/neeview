@@ -489,7 +489,7 @@ namespace NeeView
                     }
 
                     // ##
-                    DevInfo.Current?.SetMessage($"{content.BitmapScalingMode}: s={pixelHeight}: v={viewHeight:0.00}: a={_dragTransform.Angle:0.00}");
+                    DebugInfo.Current?.SetMessage($"{content.BitmapScalingMode}: s={pixelHeight}: v={viewHeight:0.00}: a={_dragTransform.Angle:0.00}");
 
                     if (bitmapContent.IsDarty())
                     {

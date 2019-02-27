@@ -210,6 +210,7 @@ namespace NeeView
             {
                 Setting.SettingWindow.Current?.Cancel();
                 SaveData.Current.RestoreSetting(setting);
+                SaveData.Current.RestoreSettingWindowShape(setting);
             }
 
             // 履歴読み込み

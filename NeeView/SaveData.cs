@@ -114,6 +114,18 @@ namespace NeeView
 #pragma warning restore CS0612
         }
 
+        // アプリ設定のシェイプを反映
+        public void RestoreSettingWindowShape(UserSetting setting)
+        {
+            if (setting == null) return;
+
+            // ウィンドウ状態をのぞく設定を反映
+            var memento = setting.WindowShape.Clone();
+            memento.State = WindowShape.Current.State;
+            WindowShape.Current.Restore(memento);
+            WindowShape.Current.Refresh();
+        }
+
         #region Load
 
         /// <summary>
@@ -159,6 +171,7 @@ namespace NeeView
                 App.Current.SemaphoreWait();
                 var setting = SafetyLoad(UserSetting.Load, App.Current.Option.SettingFilename, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
                 RestoreSetting(setting);
+                RestoreSettingWindowShape(setting);
             }
             finally
             {

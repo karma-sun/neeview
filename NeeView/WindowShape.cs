@@ -533,6 +533,7 @@ namespace NeeView
 
             if (_isFullScreenWithTaskBar)
             {
+                _window.WindowStyle = WindowStyle.SingleBorderWindow;
                 _window.WindowState = WindowState.Maximized;
                 _window.WindowStyle = WindowStyle.None;
             }

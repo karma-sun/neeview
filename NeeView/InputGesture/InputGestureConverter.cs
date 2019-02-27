@@ -28,26 +28,6 @@ namespace NeeView
         };
 
         //
-        private static readonly List<string> _extraKeys = new List<string>
-        {
-            Key.NumPad0.ToString(),
-            Key.NumPad1.ToString(),
-            Key.NumPad2.ToString(),
-            Key.NumPad3.ToString(),
-            Key.NumPad4.ToString(),
-            Key.NumPad5.ToString(),
-            Key.NumPad6.ToString(),
-            Key.NumPad7.ToString(),
-            Key.NumPad8.ToString(),
-            Key.NumPad9.ToString(),
-            Key.Divide.ToString(),
-            Key.Multiply.ToString(),
-            Key.Subtract.ToString(),
-            Key.Add.ToString(),
-            Key.Decimal.ToString(),
-        };
-
-        //
         private static InputGesture ConvertFromStringByOrder(string source, ConverterType type)
         {
             List<ConverterType> order = null;
@@ -99,25 +79,12 @@ namespace NeeView
         }
 
         /// <summary>
-        /// 文字列をInputGestureに変換する。KeyGestureのみ。
+        /// 文字列をInputGestureに変換する。KeyExGestureのみ。
         /// </summary>
         /// <param name="source">ショートカット定義文字列</param>
         /// <returns>InputGesture。変換出来なかった場合はnull</returns>
         public static InputGesture ConvertFromKeyGestureString(string source)
         {
-            if (!_extraKeys.Contains(source))
-            {
-                try
-                {
-                    KeyGestureConverter converter = new KeyGestureConverter();
-                    return (KeyGesture)converter.ConvertFromString(source);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine("(Ignore this exception): " + e.Message);
-                }
-            }
-
             try
             {
                 KeyGestureExConverter converter = new KeyGestureExConverter();

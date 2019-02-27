@@ -19,7 +19,7 @@ namespace NeeView
         // 修飾キー
         public ModifierKeys ModifierKeys { get; private set; }
 
-        // 単キー入力許可フラグ
+        // 入力許可フラグ
         public static bool AllowSingleKey { get; set; }
 
         // コンストラクタ
@@ -36,8 +36,8 @@ namespace NeeView
             var keyEventArgs = inputEventArgs as KeyEventArgs;
             if (keyEventArgs == null) return false;
 
-            // 単キー入力特殊条件では無効にする
-            if (!AllowSingleKey && this.ModifierKeys == ModifierKeys.None) return false;
+            // 入力許可？
+            if (!AllowSingleKey) return false;
 
             return this.Key == keyEventArgs.Key && this.ModifierKeys == Keyboard.Modifiers;
         }

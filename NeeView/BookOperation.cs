@@ -61,7 +61,7 @@ namespace NeeView
         public event EventHandler<BookChangedEventArgs> BookChanged;
 
         // ページが変更された
-        public event EventHandler<PageChangedEventArgs> PageChanged;
+        public event EventHandler<ViewPageCollectionChangedEventArgs> ViewContentsChanged;
 
         // ページがソートされた
         public event EventHandler PagesSorted;
@@ -149,7 +149,7 @@ namespace NeeView
 
             if (this.BookUnit != null)
             {
-                this.Book.PageChanged += Book_PageChanged;
+                this.Book.ViewContentsChanged += Book_ViewContentsChanged;
                 this.Book.PagesSorted += Book_PagesSorted;
                 this.Book.PageTerminated += Book_PageTerminated;
                 this.Book.PageRemoved += Book_PageRemoved;
@@ -182,13 +182,13 @@ namespace NeeView
         }
 
         //
-        private void Book_PageChanged(object sender, PageChangedEventArgs e)
+        private void Book_ViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
         {
+            if (!IsEnabled) return;
+
             RaisePropertyChanged(nameof(IsPagemark));
-            PageChanged?.Invoke(sender, e);
+            ViewContentsChanged?.Invoke(sender, e);
         }
-
-
 
 
         // ページリスト更新

@@ -89,10 +89,6 @@ namespace NeeView
 
         #region Events
 
-        // 現在ページ変更(ページ番号)
-        // タイトル、スライダーの更新を要求
-        public event EventHandler<PageChangedEventArgs> PageChanged;
-
         // 表示コンテンツ変更
         // 表示の更新を要求
         public event EventHandler<ViewPageCollectionChangedEventArgs> ViewContentsChanged;
@@ -272,6 +268,9 @@ namespace NeeView
 
         // ページ コレクション
         public List<Page> Pages { get; private set; } = new List<Page>();
+
+        // 表示されているページコレクション
+        public ViewPageCollection ViewPageCollection => _viewPageCollection;
 
         // 表示されるページ番号(スライダー用)
         public int DisplayIndex { get; set; }
@@ -1030,15 +1029,11 @@ namespace NeeView
             _viewPageCollection = viewContent;
             ////Debug.WriteLine($"now: {_viewPageCollection.Range}");
 
-            // notice ViewContentsChanged
-            AppDispatcher.Invoke(() => ViewContentsChanged?.Invoke(sender, new ViewPageCollectionChangedEventArgs(viewContent)));
-
             // change page
             this.DisplayIndex = viewContent.Range.Min.Index;
 
-            // notice PropertyChanged
-            // sender を命令発行者にする
-            PageChanged?.Invoke(sender, new PageChangedEventArgs(GetPage(this.DisplayIndex)));
+            // notice ViewContentsChanged
+            AppDispatcher.Invoke(() => ViewContentsChanged?.Invoke(sender, new ViewPageCollectionChangedEventArgs(viewContent)));
 
             // コンテンツ準備完了
             ContentLoaded.Set();
@@ -1556,7 +1551,6 @@ namespace NeeView
                 {
                     // さまざまなイベント停止
                     this.DartyBook = null;
-                    this.PageChanged = null;
                     this.PageRemoved = null;
                     this.PagesSorted = null;
                     this.PageTerminated = null;

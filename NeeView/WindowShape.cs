@@ -166,7 +166,7 @@ namespace NeeView
                 if (_windowChromeFrame != value)
                 {
                     _windowChromeFrame = value;
-                    Reflesh();
+                    Refresh();
                 }
             }
         }
@@ -186,7 +186,7 @@ namespace NeeView
         public bool IsCaptionVisible
         {
             get { return _isCaptionVisible; }
-            set { if (_isCaptionVisible != value) { _isCaptionVisible = value; Reflesh(); } }
+            set { if (_isCaptionVisible != value) { _isCaptionVisible = value; Refresh(); } }
         }
 
         /// <summary>
@@ -278,7 +278,7 @@ namespace NeeView
                 if (_IsEnabled != value)
                 {
                     _IsEnabled = value;
-                    if (_IsEnabled) Reflesh();
+                    if (_IsEnabled) Refresh();
                     RaisePropertyChanged();
                 }
             }
@@ -577,7 +577,7 @@ namespace NeeView
         /// <summary>
         /// 状態を最新にする
         /// </summary>
-        public void Reflesh()
+        public void Refresh()
         {
             if (!this.IsEnabled) return;
 

@@ -72,37 +72,21 @@ namespace NeeView.Setting
                 return;
             }
 
-            KeyGesture keyGesture = null;
+            KeyExGesture keyExGesture = null;
             try
             {
-                keyGesture = new KeyGesture(key, Keyboard.Modifiers);
+                keyExGesture = new KeyExGesture(key, Keyboard.Modifiers);
             }
             catch { }
 
-            if (keyGesture != null)
+            if (keyExGesture != null)
             {
-                var converter = new KeyGestureConverter();
-                this.KeyGestureText.Text = ValidateKeyGestureText(converter.ConvertToString(keyGesture));
-                e.Handled = true;
+                var converter = new KeyGestureExConverter();
+                this.KeyGestureText.Text = ValidateKeyGestureText(converter.ConvertToString(keyExGesture));
             }
             else
             {
-                KeyExGesture keyExGesture = null;
-                try
-                {
-                    keyExGesture = new KeyExGesture(key, Keyboard.Modifiers);
-                }
-                catch { }
-
-                if (keyExGesture != null)
-                {
-                    var converter = new KeyGestureExConverter();
-                    this.KeyGestureText.Text = ValidateKeyGestureText(converter.ConvertToString(keyExGesture));
-                }
-                else
-                {
-                    this.KeyGestureText.Text = null;
-                }
+                this.KeyGestureText.Text = null;
             }
 
             e.Handled = true;

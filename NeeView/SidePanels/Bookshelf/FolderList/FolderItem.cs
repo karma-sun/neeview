@@ -4,6 +4,7 @@ using NeeView.Collections;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -329,6 +330,16 @@ namespace NeeView
         }
 
 
+        /// <summary>
+        /// サムネイルロード完了時のイベント (開発用)
+        /// </summary>
+        public event EventHandler ThumbnailLoaded;
+
+
+        /// <summary>
+        /// サムネイル.
+        /// アクセスすることで自動でサムネイル読み込み処理が開始される
+        /// </summary>
         public override IThumbnail Thumbnail => GetArchivePage()?.Thumbnail;
 
 
@@ -358,13 +369,14 @@ namespace NeeView
         {
             var thumbnail = (Thumbnail)sender;
             BookThumbnailPool.Current.Add(thumbnail);
+            ThumbnailLoaded?.Invoke(sender, e);
         }
 
         public override string GetNote(FolderOrder order)
         {
             if (!IsFileSystem() && IsDirectory) return null;
 
-            string GetLastWriteTimeString() =>  $"{LastWriteTime:yyyy/MM/dd HH:mm:ss}   ";
+            string GetLastWriteTimeString() => $"{LastWriteTime:yyyy/MM/dd HH:mm:ss}   ";
 
             switch (order)
             {
@@ -377,7 +389,7 @@ namespace NeeView
 
                 case FolderOrder.Path:
                 case FolderOrder.PathDescending:
-                    return  LoosePath.GetFileName(LoosePath.GetDirectoryName(TargetPath.SimplePath));
+                    return LoosePath.GetFileName(LoosePath.GetDirectoryName(TargetPath.SimplePath));
             }
         }
     }

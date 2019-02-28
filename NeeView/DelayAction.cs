@@ -11,7 +11,7 @@ namespace NeeView
     /// 遅延実行
     /// コマンドを遅延実行する。遅延中に要求された場合は古いコマンドをキャンセルする。
     /// </summary>
-    public class DelayAction
+    public class DelayAction : IDisposable
     {
         /// <summary>
         /// 遅延実行要求
@@ -63,6 +63,8 @@ namespace NeeView
         /// </summary>
         public void Request()
         {
+            if (_disposedValue) return;
+
             lock (_lock)
             {
                 _lastRequestTime = DateTime.Now;
@@ -88,6 +90,8 @@ namespace NeeView
         /// </summary>
         public void Flush()
         {
+            if (_disposedValue) return;
+
             lock (_lock)
             {
                 _delay = TimeSpan.Zero;
@@ -124,6 +128,28 @@ namespace NeeView
                 _action?.Invoke();
             }
         }
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    Cancel();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 
 }

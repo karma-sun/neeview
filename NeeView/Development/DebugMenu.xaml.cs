@@ -67,6 +67,9 @@ namespace NeeView
         {
             try
             {
+                await DebugCreateBookThumbnail.TestAsync();
+                return;
+
                 // 致命的エラーのテスト
                 ////InnerExcepionTest();
 

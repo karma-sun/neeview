@@ -20,6 +20,12 @@ namespace NeeView
     public class Thumbnail : BindableBase, IThumbnail
     {
         /// <summary>
+        /// 開発用：キャッシュ読み込み無効
+        /// </summary>
+        public static bool DebugIgnoreCache { get; set; }
+
+
+        /// <summary>
         /// 有効判定
         /// </summary>
         internal bool IsValid => (_image != null);
@@ -119,7 +125,20 @@ namespace NeeView
             if (IsValid || !IsCacheEnabled) return;
 
             _header = new ThumbnailCacheHeader(entry.SystemPath, entry.Length, entry.LastWriteTime, appendix);
-            var image = ThumbnailCache.Current.Load(_header);
+
+            var header = _header;
+
+#if DEBUG
+            if (DebugIgnoreCache)
+            {
+                header = new ThumbnailCacheHeader(entry.SystemPath, entry.Length, entry.LastWriteTime, "Hello, World!");
+            }
+#endif
+
+            var image = ThumbnailCache.Current.Load(header);
+
+            // ##
+            DebugTimer.Check("LoadCache");
 
             Image = image;
         }
@@ -168,13 +187,7 @@ namespace NeeView
             if (!IsCacheEnabled || _header == null) return;
             if (_image == null || _image == _emptyImage || _image == _mediaImage || _image == _folderImage) return;
 
-            Task.Run(() =>
-            {
-                ////var sw = Stopwatch.StartNew();
-                ThumbnailCache.Current.Save(_header, _image);
-                ////sw.Stop();
-                ////Debug.WriteLine($"Cache Save: {sw.ElapsedMilliseconds}ms");
-            });
+            ThumbnailCache.Current.EntrySaveQueue(_header, _image);
         }
 
         /// <summary>

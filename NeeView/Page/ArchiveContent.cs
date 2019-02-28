@@ -116,6 +116,10 @@ namespace NeeView
             try
             {
                 var picture = await LoadPictureAsync(token);
+
+                // ##
+                DebugTimer.Check("LoadPicture");
+
                 if (picture == null)
                 {
                     Thumbnail.Initialize(null);
@@ -220,6 +224,9 @@ namespace NeeView
 
                         if (select != null)
                         {
+                            // ##
+                            DebugTimer.Check("CreateEntry");
+
                             return new ThumbnailPicture(await LoadPictureAsync(select, PictureCreateOptions.CreateThumbnail, token));
                         }
                         else

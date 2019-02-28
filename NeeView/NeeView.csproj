@@ -198,6 +198,7 @@
     <Compile Include="Controls\PageSortModePalette.xaml.cs">
       <DependentUpon>PageSortModePalette.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Development\DebugCreateBookThumbnail.cs" />
     <Compile Include="Development\DebugTimer.cs" />
     <Compile Include="Development\DebugMenu.xaml.cs">
       <DependentUpon>DebugMenu.xaml</DependentUpon>

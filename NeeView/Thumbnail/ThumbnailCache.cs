@@ -72,16 +72,26 @@ namespace NeeView
         private SQLiteConnection _connection;
         private object _lock = new object();
 
+        private Dictionary<string, byte[]> _saveQueue;
+        private DelayAction _delaySaveQueue;
+        private object _lockSaveQueue = new object();
+
 
         private ThumbnailCache()
         {
+            _saveQueue = new Dictionary<string, byte[]>();
+            _delaySaveQueue = new DelayAction(App.Current.Dispatcher, TimeSpan.FromSeconds(0.5), SaveQueue, TimeSpan.FromSeconds(2.0));
         }
+
 
         /// <summary>
         /// キャッシュ有効フラグ
         /// </summary>
         public bool IsEnabled => ThumbnailProfile.Current.IsCacheEnabled;
 
+        /// <summary>
+        /// キャッシュファイルの場所
+        /// </summary>
         public string CacheFolderPath { get; private set; }
 
         /// <summary>
@@ -284,10 +294,12 @@ namespace NeeView
 
             Open();
 
+            var key = header.Hash;
+
             using (SQLiteCommand command = _connection.CreateCommand())
             {
                 command.CommandText = $"SELECT value FROM thumbs WHERE key = @key";
-                command.Parameters.Add(new SQLiteParameter("@key", header.Hash));
+                command.Parameters.Add(new SQLiteParameter("@key", key));
 
                 using (var reader = command.ExecuteReader())
                 {
@@ -298,12 +310,69 @@ namespace NeeView
                 }
             }
 
+            // SaveQueueからも探す
+            lock (_lockSaveQueue)
+            {
+                if (_saveQueue.TryGetValue(key, out byte[] data))
+                {
+                    return data;
+                }
+            }
+
             return null;
         }
 
+        /// <summary>
+        /// サムネイルの保存予約
+        /// </summary>
+        /// <param name="header"></param>
+        /// <param name="data"></param>
+        internal void EntrySaveQueue(ThumbnailCacheHeader header, byte[] data)
+        {
+            if (!IsEnabled) return;
+
+            lock (_lockSaveQueue)
+            {
+                _saveQueue[header.Hash] = data;
+            }
+
+            _delaySaveQueue.Request();
+        }
+
+        /// <summary>
+        /// サムネイルの保存予約実行
+        /// </summary>
+        private void SaveQueue()
+        {
+            if (!IsEnabled) return;
+
+            var queue = _saveQueue;
+            lock (_lockSaveQueue)
+            {
+                _saveQueue = new Dictionary<string, byte[]>();
+            }
+
+            Debug.WriteLine($"ThumbnailCache.SaveQueue({queue.Count})..");
+
+            Open();
+
+            using (var transaction = _connection.BeginTransaction())
+            {
+                using (SQLiteCommand command = _connection.CreateCommand())
+                {
+                    foreach (var item in queue)
+                    {
+                        command.CommandText = $"REPLACE INTO thumbs (key, value) VALUES (@key, @value)";
+                        command.Parameters.Add(new SQLiteParameter("@key", item.Key));
+                        command.Parameters.Add(new SQLiteParameter("@value", item.Value));
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+        }
 
         #region IDisposable Support
-        private bool _disposedValue = false; // 重複する呼び出しを検出するには
+        private bool _disposedValue = false;
 
         protected virtual void Dispose(bool disposing)
         {
@@ -311,6 +380,9 @@ namespace NeeView
             {
                 if (disposing)
                 {
+                    _delaySaveQueue.Flush();
+                    _delaySaveQueue.Dispose();
+
                     Close();
                     _connection?.Dispose();
                     _connection = null;
@@ -320,7 +392,6 @@ namespace NeeView
             }
         }
 
-        // このコードは、破棄可能なパターンを正しく実装できるように追加されました。
         public void Dispose()
         {
             Dispose(true);

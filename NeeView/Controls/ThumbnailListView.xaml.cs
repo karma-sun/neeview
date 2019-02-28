@@ -57,6 +57,11 @@ namespace NeeView
         /// </summary>
         private bool _isFreezed;
 
+        /// <summary>
+        /// サムネイル更新回数
+        /// </summary>
+        private volatile int _thumbnailRequestCount;
+
         #endregion
 
         #region Constructors
@@ -73,8 +78,9 @@ namespace NeeView
         private void Initialize()
         {
             _vm = new ThumbnailListViewModel(this.Source);
+            _vm.Model.BookChanging += ThumbnailList_BookChanging;
+            _vm.Model.BookChanged += ThumbnailList_BookChanged;
             _vm.Model.ViewItemsChanged += ViewModel_ViewItemsChanged;
-
             _vm.Model.AddPropertyChanged(nameof(_vm.Model.SelectedIndex), ViewModel_SelectedIdexChanged);
 
             this.ThumbnailListBox.ManipulationBoundaryFeedback += _vm.Model.ScrollViewer_ManipulationBoundaryFeedback;
@@ -82,8 +88,28 @@ namespace NeeView
             this.Root.DataContext = _vm;
         }
 
+        private void ThumbnailList_BookChanging(object sender, EventArgs e)
+        {
+            _isFreezed = true;
+        }
+
+        private void ThumbnailList_BookChanged(object sender, BookChangedEventArgs e)
+        {
+            // NOTE: 変更が ThumbnailListBox に反映されるまで遅延
+            // HACK: Control.UpdateLayout()で即時確定させる？
+            AppDispatcher.BeginInvoke(() =>
+            {
+                ////Debug.WriteLine("> Ensure thumbnail update.");
+                _isFreezed = false;
+                LoadThumbnailList(+1);
+            });
+        }
+
+
         private void ViewModel_SelectedIdexChanged(object sender, PropertyChangedEventArgs e)
         {
+            // NOTE: 選択が ThumbnailListBox に反映されるまで遅延
+            // HACK: Control.UpdateLayout()で即時確定させる？
             AppDispatcher.BeginInvoke(() => DartyThumbnailList());
         }
 
@@ -92,14 +118,9 @@ namespace NeeView
             UpdateViewItems(e.ViewItems, e.Direction);
         }
 
-        private void UpdateViewItems()
-        {
-            if (_vm.Model.ViewItems == null) return;
-            UpdateViewItems(_vm.Model.ViewItems, 0);
-        }
-
         private void UpdateViewItems(List<Page> items, int direction)
         {
+            if (_vm == null) return;
             if (!this.ThumbnailListBox.IsLoaded) return;
             if (_vm.Model.Items == null) return;
             if (_vm.Model.IsItemsDarty) return;
@@ -122,6 +143,7 @@ namespace NeeView
                 foreach (var item in items)
                 {
                     ScrollIntoView(item);
+                    // NOTE: ScrollIntoView結果を反映させるため
                     this.ThumbnailListBox.UpdateLayout();
                 }
             }
@@ -129,7 +151,7 @@ namespace NeeView
 
         private void ScrollIntoView(object item)
         {
-            //Debug.WriteLine($"FS:ScrollInoView: {item}");
+            //// Debug.WriteLine($"> ScrollInoView: {item}");
             this.ThumbnailListBox.ScrollIntoView(item);
         }
 
@@ -221,6 +243,7 @@ namespace NeeView
         // サムネ更新。表示されているページのサムネの読み込み要求
         private void LoadThumbnailList(int direction)
         {
+            if (_vm == null) return;
             if (_isFreezed) return;
             if (!this.Root.IsVisible) return;
             if (_listPanel == null || !this.ThumbnailListBox.IsVisible || _listPanel.Children.Count <= 0) return;
@@ -255,6 +278,7 @@ namespace NeeView
                 return;
             }
 
+            _thumbnailRequestCount++;
             _vm.RequestThumbnail(start, count, 2, direction);
         }
 
@@ -357,20 +381,7 @@ namespace NeeView
         private void ThumbnailListBox_TargetUpdated(object sender, DataTransferEventArgs e)
         {
             if (_vm == null) return;
-
-            try
-            {
-                _isFreezed = true;
-                _vm.Model.IsItemsDarty = false;
-                _vm.FlushSelectedIndex();
-                UpdateViewItems();
-            }
-            finally
-            {
-                _isFreezed = false;
-            }
-
-            LoadThumbnailList(+1);
+            _vm.Model.IsItemsDarty = false;
         }
 
         // スクロールしたらサムネ更新

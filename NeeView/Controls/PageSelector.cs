@@ -33,7 +33,7 @@ namespace NeeView
 
         public event EventHandler SelectionChanged;
 
-        public event EventHandler<ViewPageCollectionChangedEventArgs> ViewContentsChanged;
+        public event EventHandler<ViewContentsChangedEventArgs> ViewContentsChanged;
 
         #endregion
 
@@ -68,7 +68,7 @@ namespace NeeView
         {
             if (SetProperty(ref _selectedIndex, value, nameof(SelectedIndex)))
             {
-                ////Debug.WriteLine($"Set: {_selectedIndex}");
+                ////Debug.WriteLine($"> PageSelector.SelectedIndex={_selectedIndex}");
 
                 if (raiseChangedEvent)
                 {
@@ -92,13 +92,20 @@ namespace NeeView
         private void BookOperation_PageListChanged(object sender, EventArgs e)
         {
             RaisePropertyChanged(nameof(MaxIndex));
-            BookOperation_ViewContentsChanged(sender, new ViewPageCollectionChangedEventArgs(BookOperation.Current.Book.ViewPageCollection));
+            RaiseViewContentsChanged(sender, BookOperation.Current.Book?.ViewPageCollection, true);
         }
 
         private void BookOperation_ViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
         {
-            var contents = e?.ViewPageCollection?.Collection;
+            RaiseViewContentsChanged(sender, e?.ViewPageCollection, false);
+        }
+
+        private void RaiseViewContentsChanged(object sender, ViewPageCollection viewPageCollection, bool isBookOpen)
+        { 
+            var contents = viewPageCollection?.Collection;
             if (contents == null) return;
+
+            ViewContentsChanged?.Invoke(sender, new ViewContentsChangedEventArgs(viewPageCollection, isBookOpen));
 
             var mainContent = contents.Count > 0 ? (contents.First().PagePart.Position < contents.Last().PagePart.Position ? contents.First() : contents.Last()) : null;
             if (mainContent != null)
@@ -106,11 +113,30 @@ namespace NeeView
                 SetSelectedIndex(sender, mainContent.Page.Index, false);
                 SelectionChanged?.Invoke(sender, null);
             }
-
-            ViewContentsChanged?.Invoke(sender, e);
         }
+
+        #endregion
     }
 
-    #endregion
+
+    // 表示コンテンツ変更イベント
+    public class ViewContentsChangedEventArgs : EventArgs
+    {
+        public ViewContentsChangedEventArgs(ViewPageCollection viewPageCollection, bool isBookOpen)
+        {
+            ViewPageCollection = viewPageCollection;
+            IsBookOpen = isBookOpen;
+        }
+
+        /// <summary>
+        /// 表示コンテンツ
+        /// </summary>
+        public ViewPageCollection ViewPageCollection { get; private set; }
+
+        /// <summary>
+        /// 本を新しく開いたとき
+        /// </summary>
+        public bool IsBookOpen { get; private set; }
+    }
 }
 

@@ -168,10 +168,10 @@ namespace NeeView
             // ブック操作有効
             IsEnabled = true;
 
-            BookChanged?.Invoke(sender, e);
-
             // ページリスト更新通知
             PageListChanged?.Invoke(this, null);
+
+            BookChanged?.Invoke(sender, e);
         }
 
         //

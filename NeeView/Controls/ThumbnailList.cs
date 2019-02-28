@@ -53,6 +53,8 @@ namespace NeeView
 
         #region Events
 
+        public event EventHandler BookChanging;
+        public event EventHandler<BookChangedEventArgs> BookChanged;
         public event EventHandler<ViewItemsChangedEventArgs> ViewItemsChanged;
 
         #endregion
@@ -202,7 +204,7 @@ namespace NeeView
             RaisePropertyChanged(nameof(SelectedIndex));
         }
 
-        private void PageSelector_ViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
+        private void PageSelector_ViewContentsChanged(object sender, ViewContentsChangedEventArgs e)
         {
             var contents = e?.ViewPageCollection?.Collection;
             if (contents == null) return;
@@ -265,11 +267,13 @@ namespace NeeView
             // 未処理のサムネイル要求を解除
             JobEngine.Current.Clear(QueueElementPriority.PageThumbnail);
             IsItemsDarty = true;
+            BookChanging?.Invoke(sender, e);
         }
 
         // 本が変更された
         private void BookOperator_BookChanged(object sender, BookChangedEventArgs e)
         {
+            BookChanged?.Invoke(sender, e);
         }
 
         private void BookOperation_PageListChanged(object sender, EventArgs e)
@@ -297,7 +301,7 @@ namespace NeeView
             // 本の切り替え中は処理しない
             if (!BookOperation.Current.IsEnabled) return;
 
-            //Debug.WriteLine($"> RequestThumbnail: {start} - {start + count - 1}");
+            /////Debug.WriteLine($"> RequestThumbnail: {start} - {start + count - 1}");
 
             // 未処理の要求を解除
             JobEngine.Current.Clear(QueueElementPriority.PageThumbnail);

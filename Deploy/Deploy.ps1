@@ -1,4 +1,4 @@
-# パッケージ生成スクリプト
+﻿# パッケージ生成スクリプト
 #
 # 使用ツール：
 #   - Wix Toolset
@@ -36,7 +36,6 @@ function Get-FileVersion($fileName)
 }
 
 
-
 #---------------------
 # get base vsersion
 function Get-Version()
@@ -62,6 +61,37 @@ function Set-BuildCount($buildCount)
 	$xml = [xml](Get-Content "BuildCount.xml")
 	$xml.build = [string]$buildCount
 	$xml.Save("BuildCount.xml")
+}
+
+#---------------------
+# get git log
+function Get-GitLog()
+{
+    $branch = Invoke-Expression "git rev-parse --abbrev-ref HEAD"
+    $descrive = Invoke-Expression "git describe --abbrev=0 --tags"
+    $result = Invoke-Expression "git log $descrive..head --encoding=Shift_JIS --pretty=format:`"%s`""
+    $result = $result | Where-Object { -not ($_ -match 'm.rge branch|開発用|\(dev\)|^-') } 
+    return "[${branch}] $descrive to head", $result
+}
+
+#---------------------
+# get git log (html)
+function Get-GitLogHtml()
+{
+    $title ="NeeView Raw-ChangeLog"
+    $date = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+
+    $result = Get-GitLog
+    $header = $result[0]
+    $logs = $result[1]
+
+    "<!DOCTYPE html>"
+    "<html><head><meta charset=`"utf-8`"><title>$title</title></head><body>"
+    "<h1>$title</h1>"
+    "<h3>$header</h3>($date)"
+    "<ul>"
+    $logs | ForEach-Object { "<li>$_</li>" }
+    "</ul></body></html>"
 }
 
 
@@ -554,6 +584,11 @@ function New-Canary
 	New-Readme $packageCanaryDir "en-us" ".canary"
 	New-Readme $packageCanaryDir "ja-jp" ".canary"
 
+	# generate ChangeLog.html
+	$changeLog = Get-GitLogHtml
+	$Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
+	[System.IO.File]::WriteAllLines("$packageCanaryDir/ChangeLog.html", $changeLog, $Utf8NoBomEncoding)
+
 	Compress-Archive $packageCanaryDir -DestinationPath $packageCanary
 }
 
@@ -590,6 +625,10 @@ function Remove-BuildObjects
 	if (Test-Path $packageMsi)
 	{
 		Remove-Item $packageMsi
+	}
+	if (Test-Path $packageWixpdb)
+	{
+		Remove-Item $packageWixpdb
 	}
 	if (Test-Path $packageAppxProduct)
 	{
@@ -629,6 +668,7 @@ $packageX86Dir = "$product${version}-x86"
 $packageX64Dir = "$product${version}-x64"
 $packageZip = "${product}${version}.zip"
 $packageMsi = "${product}${version}.msi"
+$packageWixpdb = "${product}${version}.wixpdb"
 $packageAppxRoot = "Appx\$product"
 $packageAppxFiles = "$packageAppxRoot\PackageFiles"
 $packageAppxProduct = "$packageAppxRoot\PackageFiles\$product"

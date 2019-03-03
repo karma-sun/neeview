@@ -38,10 +38,18 @@ function Get-FileVersion($fileName)
 
 #---------------------
 # get base vsersion
-function Get-Version()
+function Get-Version($assemblyInfoFile)
 {
-	$xml = [xml](Get-Content "Version.xml")
-	return $xml.version
+    $content = Get-Content $assemblyInfoFile
+    foreach($line in $content)
+    {
+        if ($line -match 'AssemblyVersion\("(\d+.\d+).\d+.\d+"\)')
+        {
+            return $Matches[1]
+        }
+    }
+
+    throw "Cannot get Version."
 }
 
 
@@ -679,7 +687,7 @@ function Remove-BuildObjects
 #======================
 
 # versions
-$version = Get-Version
+$version = Get-Version $assemblyInfoFile
 $buildCount = Get-BuildCount
 $buildVersion = "$version.$buildCount"
 $assemblyVersion = "$version.$buildCount.0"

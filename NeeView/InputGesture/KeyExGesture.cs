@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,7 +40,14 @@ namespace NeeView
             // 入力許可？
             if (!AllowSingleKey) return false;
 
-            return this.Key == keyEventArgs.Key && this.ModifierKeys == Keyboard.Modifiers;
+            // ALTが押されたときはシステムキーを通常キーとする
+            Key key = keyEventArgs.Key;
+            if ((Keyboard.Modifiers & ModifierKeys.Alt) != 0)
+            {
+                key = keyEventArgs.Key == Key.System ? keyEventArgs.SystemKey : keyEventArgs.Key;
+            }
+
+            return this.Key == key && this.ModifierKeys == Keyboard.Modifiers;
         }
 
         // 

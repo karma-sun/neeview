@@ -31,7 +31,18 @@ namespace NeeView
         {
             InitializeComponent();
 
-            this.CanaryWatermark.Visibility = Config.Current.IsCanaryPackage ? Visibility.Visible : Visibility.Collapsed;
+            if (Config.Current.IsCanaryPackage)
+            {
+                this.Watermark.Visibility = Visibility.Visible;
+                this.Watermark.Background = Brushes.Orange;
+                this.WatermarkText.Text = "Canary";
+            }
+            else if (Config.Current.IsBetaPackage)
+            {
+                this.Watermark.Visibility = Visibility.Visible;
+                this.Watermark.Background = Brushes.Purple;
+                this.WatermarkText.Text = "Beta";
+            }
 
 #if DEBUG
             this.MenuBarArea.Children.Add(new DebugMenu());

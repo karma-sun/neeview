@@ -67,8 +67,9 @@ namespace NeeView
         {
             try
             {
-                await DebugCreateBookThumbnail.TestAsync();
-                return;
+                // ブックサムネイル作成テスト
+                ////await DebugCreateBookThumbnail.TestAsync();
+                ////return;
 
                 // 致命的エラーのテスト
                 ////InnerExcepionTest();
@@ -83,7 +84,6 @@ namespace NeeView
                 GC.WaitForPendingFinalizers();
                 await Task.Delay(1000);
                 Debugger.Break();
-                //ModelContext.CommandTable.OpenCommandListHelp();
                 //Config.Current.RemoveApplicationData();
             }
             catch (Exception ex)

@@ -24,8 +24,8 @@
                     </Style>
                 </local:WindowCaptionButtons.Style>
             </local:WindowCaptionButtons>
-            <Grid x:Name="CanaryWatermark" DockPanel.Dock="Right" Background="Orange" Margin="0" VerticalAlignment="Top" Visibility="Collapsed">
-                <TextBlock Foreground="White" Margin="10,2" FontSize="12" FontWeight="Normal" Text="Canary"/>
+            <Grid x:Name="Watermark" DockPanel.Dock="Right" Background="Orange" Margin="0" VerticalAlignment="Top" Visibility="Collapsed">
+                <TextBlock x:Name="WatermarkText" Foreground="White" Margin="10,2" FontSize="12" FontWeight="Normal" Text="Canary"/>
             </Grid>
             <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Bottom" Background="White" Foreground="#222"/>
         </DockPanel>

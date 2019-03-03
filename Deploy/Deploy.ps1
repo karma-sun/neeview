@@ -5,7 +5,7 @@
 #   - pandoc
 
 Param(
-	[ValidateSet("All", "Zip", "Installer", "Appx", "Canary")]$Target = "All",
+	[ValidateSet("All", "Zip", "Installer", "Appx", "Canary", "Beta")]$Target = "All",
 	[switch]$continue
 )
 
@@ -386,13 +386,13 @@ function New-ConfigForAppx($inputDir, $config, $outputDir)
 
 #--------------------------
 #
-function New-ConfigForCanary($inputDir, $config, $outputDir)
+function New-ConfigForDevPackage($inputDir, $config, $target, $outputDir)
 {
 	# make config for canary
 	[xml]$xml = Get-Content "$inputDir\$config"
 
 	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'PackageType' } | Select -First 1
-	$add.value = '.canary'
+	$add.value = $target
 
 	$add = $xml.configuration.appSettings.add | Where { $_.key -eq 'UseLocalApplicationData' } | Select -First 1
 	$add.value = 'False'
@@ -575,21 +575,35 @@ function New-Appx($arch, $appx)
 # archive to Canary.ZIP
 function New-Canary
 {
+	New-DevPackage $packageCanaryDir $packageCanary ".canary"
+}
+
+#--------------------------
+# archive to Beta.ZIP
+function New-Beta
+{
+	New-DevPackage $packageBetaDir $packageBeta ".beta"
+}
+
+#--------------------------
+# archive to Canary/Beta.ZIP
+function New-DevPackage($devPackageDir, $devPackage, $target)
+{
 	# update assembly
-	Copy-Item $packageDir $packageCanaryDir -Recurse
-	New-ConfigForCanary $packageDir "${product}.exe.config" $packageCanaryDir
-	New-ConfigForCanary $packageDir "${product}S.exe.config" $packageCanaryDir
+	Copy-Item $packageDir $devPackageDir -Recurse
+	New-ConfigForDevPackage $packageDir "${product}.exe.config" $target $devPackageDir
+	New-ConfigForDevPackage $packageDir "${product}S.exe.config" $target $devPackageDir
 
 	# generate README.html
-	New-Readme $packageCanaryDir "en-us" ".canary"
-	New-Readme $packageCanaryDir "ja-jp" ".canary"
+	New-Readme $devPackageDir "en-us" $target
+	New-Readme $devPackageDir "ja-jp" $target
 
 	# generate ChangeLog.html
 	$changeLog = Get-GitLogHtml
 	$Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
-	[System.IO.File]::WriteAllLines("$packageCanaryDir/ChangeLog.html", $changeLog, $Utf8NoBomEncoding)
+	[System.IO.File]::WriteAllLines("$devPackageDir/ChangeLog.html", $changeLog, $Utf8NoBomEncoding)
 
-	Compress-Archive $packageCanaryDir -DestinationPath $packageCanary
+	Compress-Archive $devPackageDir -DestinationPath $devPackage
 }
 
 
@@ -618,6 +632,10 @@ function Remove-BuildObjects
 	{
 		Remove-Item $packageCanaryDir -Recurse -Force
 	}
+	if (Test-Path $packageBetaDir)
+	{
+		Remove-Item $packageBetaDir -Recurse -Force
+	}
 	if (Test-Path $packageZip)
 	{
 		Remove-Item $packageZip
@@ -645,6 +663,10 @@ function Remove-BuildObjects
 	if (Test-Path $packageCanary)
 	{
 		Remove-Item $packageCanary
+	}
+	if (Test-Path $packageBeta)
+	{
+		Remove-Item $packageBeta
 	}
 
 	Start-Sleep -m 100
@@ -676,6 +698,8 @@ $packageX86Appx = "${product}${version}-x86.appx"
 $packageX64Appx = "${product}${version}-x64.appx"
 $packageCanaryDir = "${product}Canary"
 $packageCanary = "${product}Canary.zip"
+$packageBetaDir = "${product}Beta"
+$packageBeta = "${product}Beta.zip"
 
 if (-not $continue)
 {
@@ -697,7 +721,7 @@ if (-not $continue)
 }
 
 #
-if (($Target -eq "All") -or ($Target -eq "Zip") -or ($Target -eq "Canary"))
+if (($Target -eq "All") -or ($Target -eq "Zip") -or ($Target -eq "Canary") -or ($Target -eq "Beta"))
 {
 	Write-Host "`[Zip] ...`n" -fore Cyan
 	New-Zip
@@ -738,6 +762,13 @@ if (($Target -eq "All") -or ($Target -eq "Canary"))
 	Write-Host "`n[Canary] ...`n" -fore Cyan
 	New-Canary
 	Write-Host "`nExport $packageCanary successed.`n" -fore Green
+}
+
+if (($Target -eq "All") -or ($Target -eq "Beta"))
+{
+	Write-Host "`n[Beta] ...`n" -fore Cyan
+	New-Beta
+	Write-Host "`nExport $packageBeta successed.`n" -fore Green
 }
 
 # current

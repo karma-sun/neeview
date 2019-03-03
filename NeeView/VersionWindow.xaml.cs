@@ -51,38 +51,13 @@ namespace NeeView
         }
     }
 
-
-    // コンバータ：バージョン番号
-    [ValueConversion(typeof(int), typeof(string))]
-    public class VersionToStringConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            if (value is int)
-            {
-                int version = (int)value;
-                int major = Config.GetMajorVersionNumber(version);
-                int minor = Config.GetMinorVersionNumber(version);
-                var process = Config.IsX64 ? "64bit" : "32bit";
-
-                var name = Config.Current.IsCanaryPackage ? "Canary" : $"{major}.{minor}";
-                return name + $" ({process})";
-            }
-            return null;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     /// <summary>
     /// VersionWindow の ViewModel
     /// </summary>
     public class VersionWindowVM : BindableBase
     {
         public string ApplicationName => Config.Current.ApplicationName;
+        public string DispVersion => Config.Current.DispVersion + $" ({(Config.IsX64 ? "64bit" : "32bit")})";
         public string LicenseUri { get; private set; }
         public string ProjectUri => "https://bitbucket.org/neelabo/neeview/";
         public string ChangeLogUri => "https://bitbucket.org/neelabo/neeview/wiki/ChangeLog";
@@ -142,7 +117,7 @@ namespace NeeView
         public string DownloadUri => "https://bitbucket.org/neelabo/neeview/downloads";
 #endif
 
-        public bool IsEnabled => App.Current.IsNetworkEnabled && !Config.Current.IsAppxPackage && !Config.Current.IsCanaryPackage;
+        public bool IsEnabled => App.Current.IsNetworkEnabled && !Config.Current.IsAppxPackage && !Config.Current.IsCanaryPackage && !Config.Current.IsBetaPackage;
 
         public int CurrentVersion { get; set; }
         public int LastVersion { get; set; }

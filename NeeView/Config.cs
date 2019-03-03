@@ -127,7 +127,24 @@ namespace NeeView
         /// <summary>
         /// 表示用バージョン
         /// </summary>
-        public string DispVersion => IsCanaryPackage ? "Canary" : ProductVersion;
+        public string DispVersion
+        {
+            get
+            {
+                if (IsCanaryPackage)
+                {
+                    return ProductVersion + " Canary";
+                }
+                else if (IsBetaPackage)
+                {
+                    return ProductVersion + " Beta";
+                }
+                else
+                {
+                    return ProductVersion;
+                }
+            }
+        }
 
         /// <summary>
         /// プロダクトバージョン(int)
@@ -303,7 +320,7 @@ namespace NeeView
         public bool IsMsiPackage => this.PackageType == ".msi";
         public bool IsAppxPackage => this.PackageType == ".appx";
         public bool IsCanaryPackage => this.PackageType == ".canary";
-
+        public bool IsBetaPackage => this.PackageType == ".beta";
 
         // 全ユーザデータ削除
         private bool RemoveApplicationDataCore()

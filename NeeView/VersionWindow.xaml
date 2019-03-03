@@ -12,7 +12,6 @@
     <Window.Resources>
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <local:VersionToStringConverter x:Key="VersionToStringConverter"/>
 
         <Style TargetType="Hyperlink">
             <Setter Property="ToolTip" Value="{Binding RelativeSource={RelativeSource Self}, Path=NavigateUri}"/>
@@ -54,7 +53,7 @@
                     <Image DockPanel.Dock="Left" Margin="40,0"  Width="64" Height="64" Source="{Binding Icon}" UseLayoutRounding="True" VerticalAlignment="Center"/>
                     <StackPanel DockPanel.Dock="Top" Margin="0,0,10,0" VerticalAlignment="Center">
                         <TextBlock Text="{Binding ApplicationName}" FontSize="32" FontFamily="Trebuchet MS"/>
-                        <TextBlock Text="{Binding Checker.CurrentVersion, Converter={StaticResource VersionToStringConverter}}" />
+                        <TextBlock Text="{Binding DispVersion}" />
                     </StackPanel>
                 </DockPanel>
                 <StackPanel HorizontalAlignment="Center" Visibility="{Binding IsCheckerEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" Margin="0,5,0,0" >

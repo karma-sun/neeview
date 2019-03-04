@@ -179,6 +179,7 @@
     <Compile Include="Archiver\SusieArchiverProxy.cs" />
     <Compile Include="Archiver\SusieExtractArchiver.cs" />
     <Compile Include="Archiver\ZipArchiverProfile.cs" />
+    <Compile Include="Bitmap\IBitmapFactory.cs" />
     <Compile Include="BookHistory.cs" />
     <Compile Include="BookHistoryCollection.cs" />
     <Compile Include="Controls\CriticalErrorDialog.xaml.cs">

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -42,9 +43,9 @@ namespace NeeView
     /// </summary>
     public interface IPictureFactory
     {
-        Picture Create(ArchiveEntry entry, PictureCreateOptions options);
+        Task<Picture> CreateAsync(ArchiveEntry entry, PictureCreateOptions options, CancellationToken token);
 
-        BitmapSource CreateBitmapSource(ArchiveEntry entry, byte[] raw, Size size, bool keepAspectRatio);
+        BitmapSource CreateBitmapSource(ArchiveEntry entry, byte[] raw, Size size, bool keepAspectRatio, CancellationToken token);
         byte[] CreateImage(ArchiveEntry entry, byte[] raw, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting);
     }
 
@@ -65,6 +66,26 @@ namespace NeeView
 
 
         //
+        private async Task<TResult> RetryWhenOutOfMemoryAsync<TResult>(Task<TResult> task)
+        {
+            int retry = 0;
+            RETRY:
+
+            try
+            {
+                return await task;
+            }
+            catch (OutOfMemoryException) when (retry == 0)
+            {
+                Debug.WriteLine("Retry...");
+                retry++;
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                goto RETRY;
+            }
+        }
+
+        //
         private TResult RetryWhenOutOfMemory<TResult>(Func<TResult> func)
         {
             int retry = 0;
@@ -82,46 +103,41 @@ namespace NeeView
                 GC.WaitForPendingFinalizers();
                 goto RETRY;
             }
-            catch (Exception)
+        }
+
+        /// <summary>
+        /// Picture作成
+        /// </summary>
+        /// <returns>キャンセルされたときには null を返す</returns>
+        public async Task<Picture> CreateAsync(ArchiveEntry entry, PictureCreateOptions options, CancellationToken token)
+        {
+            if (entry.Archiver is PdfArchiver)
             {
-                throw;
+                return await RetryWhenOutOfMemoryAsync(_pdfFactory.CreateAsync(entry, options, token));
+            }
+            else
+            {
+                return await RetryWhenOutOfMemoryAsync(_defaultFactory.CreateAsync(entry, options, token));
             }
         }
 
         //
-        public Picture Create(ArchiveEntry entry, PictureCreateOptions options)
-        {
-            return RetryWhenOutOfMemory(
-                () =>
-                {
-                    if (entry.Archiver is PdfArchiver)
-                    {
-                        return _pdfFactory.Create(entry, options);
-                    }
-                    else
-                    {
-                        return _defaultFactory.Create(entry, options);
-                    }
-                });
-        }
-
-        //
-        public BitmapSource CreateBitmapSource(ArchiveEntry entry, byte[] raw, Size size, bool keepAspectRatio)
+        public BitmapSource CreateBitmapSource(ArchiveEntry entry, byte[] raw, Size size, bool keepAspectRatio, CancellationToken token)
         {
             ////Debug.WriteLine($"Create: {entry.EntryLastName} ({size.Truncate()})");
 
             return RetryWhenOutOfMemory(
-                () =>
+            () =>
+            {
+                if (entry.Archiver is PdfArchiver)
                 {
-                    if (entry.Archiver is PdfArchiver)
-                    {
-                        return _pdfFactory.CreateBitmapSource(entry, raw, size, keepAspectRatio);
-                    }
-                    else
-                    {
-                        return _defaultFactory.CreateBitmapSource(entry, raw, size, keepAspectRatio);
-                    }
-                });
+                    return _pdfFactory.CreateBitmapSource(entry, raw, size, keepAspectRatio, token);
+                }
+                else
+                {
+                    return _defaultFactory.CreateBitmapSource(entry, raw, size, keepAspectRatio, token);
+                }
+            });
         }
 
 

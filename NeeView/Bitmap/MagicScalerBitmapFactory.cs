@@ -38,7 +38,7 @@ namespace NeeView
         }
 
         //
-        public BitmapImage Create(Stream stream, BitmapInfo info, Size size)
+        public BitmapImage Create(Stream stream, BitmapInfo info, Size size, CancellationToken token)
         {
             return Create(stream, info, size, null);
         }

@@ -1,33 +1,25 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
     /// <summary>
-    /// BitmapFactory interface
-    /// </summary>
-    public interface IBitmapFactory
-    {
-        BitmapImage Create(Stream stream, BitmapInfo info, Size size);
-        void CreateImage(Stream stream, BitmapInfo info, Stream outStream, Size size, BitmapImageFormat format, int quality);
-    }
-
-    /// <summary>
     /// Default BitmapFactory
     /// </summary>
     public class DefaultBitmapFactory : IBitmapFactory
     {
         //
-        public BitmapImage Create(Stream stream, BitmapInfo info, Size size)
+        public BitmapImage Create(Stream stream, BitmapInfo info, Size size, CancellationToken token)
         {
             info = info ?? BitmapInfo.Create(stream);
 
             try
             {
-                return Create(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad, size, info);
+                return Create(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad, size, info, token);
             }
             catch (OutOfMemoryException)
             {
@@ -35,14 +27,16 @@ namespace NeeView
             }
             catch (Exception ex)
             {
+                token.ThrowIfCancellationRequested();
+
                 // カラープロファイルを無効にして再生成
                 Debug.WriteLine($"BitmapImage Failed: {ex.Message}\nTry IgnoreColorProfile ...");
-                return Create(stream, BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.OnLoad, size, info);
+                return Create(stream, BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.OnLoad, size, info, token);
             }
         }
 
         //
-        private BitmapImage Create(Stream stream, BitmapCreateOptions createOption, BitmapCacheOption cacheOption, Size size, BitmapInfo info)
+        private BitmapImage Create(Stream stream, BitmapCreateOptions createOption, BitmapCacheOption cacheOption, Size size, BitmapInfo info, CancellationToken token)
         {
             stream.Seek(0, SeekOrigin.Begin);
 
@@ -83,7 +77,7 @@ namespace NeeView
         {
             Debug.WriteLine($"DefaultImage: {size.Truncate()}");
 
-            BitmapSource bitmap = Create(stream, info, size);
+            BitmapSource bitmap = Create(stream, info, size, CancellationToken.None);
 
             if (bitmap.DpiX != bitmap.DpiY)
             {

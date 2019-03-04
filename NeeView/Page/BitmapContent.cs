@@ -49,13 +49,17 @@ namespace NeeView
         {
             try
             {
-                var picture = await Task.Run(() => PictureFactory.Current.Create(entry, options));
+                var picture = await PictureFactory.Current.CreateAsync(entry, options, token);
+                if (picture == null)
+                {
+                    return null;
+                }
                 this.Size = picture.PictureInfo.Size;
                 return picture;
             }
             catch (OperationCanceledException)
             {
-                throw;
+                return null;
             }
             catch (Exception e)
             {

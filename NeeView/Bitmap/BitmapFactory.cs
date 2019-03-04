@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -46,7 +47,7 @@ namespace NeeView
 
         #region Methods
 
-        public BitmapImage Create(Stream stream, BitmapInfo info, Size size, BitmapCreateSetting setting)
+        public BitmapImage Create(Stream stream, BitmapInfo info, Size size, BitmapCreateSetting setting, CancellationToken token)
         {
             // by MagicScaler
             if (!size.IsEmpty && setting.Mode == BitmapCreateMode.HighQuality)
@@ -61,12 +62,13 @@ namespace NeeView
                 }
                 catch (Exception ex)
                 {
+                    token.ThrowIfCancellationRequested();
                     Debug.WriteLine("MagicScaler Failed:" + ex.Message);
                 }
             }
 
             // by Default
-            return _default.Create(stream, info, size);
+            return _default.Create(stream, info, size, token);
         }
 
         public void CreateImage(Stream stream, BitmapInfo info, Stream outStream, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting)

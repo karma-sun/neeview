@@ -2,6 +2,8 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -15,8 +17,9 @@ namespace NeeView
     {
         private MagicScalerBitmapFactory _magicScaler = new MagicScalerBitmapFactory();
 
-        //
-        public Picture Create(ArchiveEntry entry, PictureCreateOptions options)
+#pragma warning disable 1998
+        public async Task<Picture> CreateAsync(ArchiveEntry entry, PictureCreateOptions options, CancellationToken token)
+#pragma warning restore 1998
         {
             var pdfArchiver = (PdfArchiver)entry.Archiver;
             var profile = PdfArchiverProfile.Current;
@@ -58,7 +61,7 @@ namespace NeeView
         }
 
         //
-        public BitmapSource CreateBitmapSource(ArchiveEntry entry, byte[] raw, Size size, bool keepAspectRatio)
+        public BitmapSource CreateBitmapSource(ArchiveEntry entry, byte[] raw, Size size, bool keepAspectRatio, CancellationToken token)
         {
             var pdfArchiver = (PdfArchiver)entry.Archiver;
             size = size.IsEmpty ? pdfArchiver.GetRenderSize(entry) : size;

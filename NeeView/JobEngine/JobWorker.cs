@@ -183,6 +183,13 @@ namespace NeeView
                     {
                         job.Log($"{job.SerialNumber}: Job canceled");
                     }
+                    catch (AggregateException ex)
+                    {
+                        foreach (var iex in ex.InnerExceptions)
+                        {
+                            job.Log($"{job.SerialNumber}: Job exception: {iex.Message}");
+                        }
+                    }
                     catch (Exception ex)
                     {
                         Debug.WriteLine($"EXCEPTION!!: {ex.Message}");

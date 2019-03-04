@@ -1,6 +1,7 @@
 ﻿using NeeLaboratory.ComponentModel;
 using System;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
@@ -126,7 +127,7 @@ namespace NeeView
             ////var nowSize = new Size(this.BitmapSource.PixelWidth, this.BitmapSource.PixelHeight);
             ////Debug.WriteLine($"Resize: {isDartyResizeParameter}: {nowSize.Truncate()} -> {size.Truncate()}");
 
-            var bitmap = PictureFactory.Current.CreateBitmapSource(_archiveEntry, this.RawData, size, keepAspectRatio);
+            var bitmap = PictureFactory.Current.CreateBitmapSource(_archiveEntry, this.RawData, size, keepAspectRatio, CancellationToken.None);
 
             lock (_lock)
             {

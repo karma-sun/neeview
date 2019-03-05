@@ -11,6 +11,9 @@ using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
+    /// <summary>
+    /// Picture生成オプション
+    /// </summary>
     [Flags]
     public enum PictureCreateOptions
     {
@@ -19,6 +22,9 @@ namespace NeeView
         CreateThumbnail = 0x0002,
     }
 
+    /// <summary>
+    /// Bitmap生成パラメータ
+    /// </summary>
     public class BitmapCreateSetting
     {
         /// <summary>
@@ -38,34 +44,21 @@ namespace NeeView
         public BitmapSource Source { get; set; }
     }
 
-    /// <summary>
-    /// Picture Factory interface.
-    /// </summary>
-    public interface IPictureFactory
-    {
-        Task<Picture> CreateAsync(ArchiveEntry entry, PictureCreateOptions options, CancellationToken token);
-
-        BitmapSource CreateBitmapSource(ArchiveEntry entry, byte[] raw, Size size, bool keepAspectRatio, CancellationToken token);
-        byte[] CreateImage(ArchiveEntry entry, byte[] raw, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting);
-    }
-
 
     /// <summary>
     /// Picture Factory
     /// </summary>
     public class PictureFactory : IPictureFactory
     {
-        //
         private static PictureFactory _current;
         public static PictureFactory Current = _current = _current ?? new PictureFactory();
 
-        //
         private DefaultPictureFactory _defaultFactory = new DefaultPictureFactory();
-
         private PdfPictureFactory _pdfFactory = new PdfPictureFactory();
 
-
-        //
+        /// <summary>
+        /// OutOfMemory時にはリトライする処理(async)
+        /// </summary>
         private async Task<TResult> RetryWhenOutOfMemoryAsync<TResult>(Task<TResult> task)
         {
             int retry = 0;
@@ -85,7 +78,9 @@ namespace NeeView
             }
         }
 
-        //
+        /// <summary>
+        /// OutOfMemory時にはリトライする処理
+        /// </summary>
         private TResult RetryWhenOutOfMemory<TResult>(Func<TResult> func)
         {
             int retry = 0;
@@ -108,6 +103,9 @@ namespace NeeView
         /// <summary>
         /// Picture作成
         /// </summary>
+        /// <param name="entry">ソースとなるエントリ</param>
+        /// <param name="options">Picture生成オプション</param>
+        /// <param name="token">キャンセルトークン</param>
         /// <returns>キャンセルされたときには null を返す</returns>
         public async Task<Picture> CreateAsync(ArchiveEntry entry, PictureCreateOptions options, CancellationToken token)
         {
@@ -121,46 +119,60 @@ namespace NeeView
             }
         }
 
-        //
+        /// <summary>
+        /// 画像データからBitmapSource生成
+        /// </summary>
+        /// <param name="entry">ソースとなるエントリ</param>
+        /// <param name="raw">ソース画像データ</param>
+        /// <param name="size">指定サイズ</param>
+        /// <param name="keepAspectRatio">アスペクト比固定？</param>
+        /// <param name="token">キャンセルトークン</param>
+        /// <returns>生成したBitmapSource。キャンセルされたときにはnullを返す</returns>
         public BitmapSource CreateBitmapSource(ArchiveEntry entry, byte[] raw, Size size, bool keepAspectRatio, CancellationToken token)
         {
             ////Debug.WriteLine($"Create: {entry.EntryLastName} ({size.Truncate()})");
-
-            return RetryWhenOutOfMemory(
-            () =>
+            if (entry.Archiver is PdfArchiver)
             {
-                if (entry.Archiver is PdfArchiver)
-                {
-                    return _pdfFactory.CreateBitmapSource(entry, raw, size, keepAspectRatio, token);
-                }
-                else
-                {
-                    return _defaultFactory.CreateBitmapSource(entry, raw, size, keepAspectRatio, token);
-                }
-            });
+                return RetryWhenOutOfMemory(() => _pdfFactory.CreateBitmapSource(entry, raw, size, keepAspectRatio, token));
+            }
+            else
+            {
+                return RetryWhenOutOfMemory(() => _defaultFactory.CreateBitmapSource(entry, raw, size, keepAspectRatio, token));
+            }
         }
 
 
-        //
+        /// <summary>
+        /// 画像ファイルデータから指定サイズの画像ファイルを作成
+        /// </summary>
+        /// <param name="entry">ソースのエントリ</param>
+        /// <param name="raw">ソースとなる画像ファイルデータ</param>
+        /// <param name="size">指定サイズ</param>
+        /// <param name="format">出力画像フォーマット</param>
+        /// <param name="quality">出力画像の品質。JPEG用</param>
+        /// <param name="setting">画像生成設定</param>
+        /// <returns>画像ファイルデータ</returns>
         public byte[] CreateImage(ArchiveEntry entry, byte[] raw, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting)
         {
             ////Debug.WriteLine($"CreateThumnbnail: {entry.EntryLastName} ({size.Truncate()})");
-
-            return RetryWhenOutOfMemory(
-                () =>
-                {
-                    if (entry.Archiver is PdfArchiver)
-                    {
-                        return _pdfFactory.CreateImage(entry, raw, size, format, quality, setting);
-                    }
-                    else
-                    {
-                        return _defaultFactory.CreateImage(entry, raw, size, format, quality, setting);
-                    }
-                });
+            if (entry.Archiver is PdfArchiver)
+            {
+                return RetryWhenOutOfMemory(() => _pdfFactory.CreateImage(entry, raw, size, format, quality, setting));
+            }
+            else
+            {
+                return RetryWhenOutOfMemory(() => _defaultFactory.CreateImage(entry, raw, size, format, quality, setting));
+            }
         }
 
-        //
+        /// <summary>
+        /// 画像ファイルデータから指定サイズの画像ファイルを作成。サムネイル用
+        /// </summary>
+        /// <param name="entry">ソースのエントリ</param>
+        /// <param name="raw">ソースとなる画像ファイルデータ</param>
+        /// <param name="size">指定サイズ</param>
+        /// <param name="source">入力ビットマップ。null出ない場合rawでなくこちらをソースとする</param>
+        /// <returns>画像ファイルデータ</returns>
         public byte[] CreateThumbnail(ArchiveEntry entry, byte[] raw, Size size, BitmapSource source)
         {
             var createSetting = ThumbnailProfile.Current.CreateBitmapCreateSetting();

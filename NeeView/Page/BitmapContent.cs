@@ -101,6 +101,7 @@ namespace NeeView
         public override void Unload()
         {
             this.PageMessage = null;
+            this.Picture?.Cancel();
             this.Picture = null;
             RaiseChanged();
 

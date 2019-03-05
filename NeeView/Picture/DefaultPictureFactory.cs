@@ -55,17 +55,10 @@ namespace NeeView
                 var size = (PictureProfile.Current.IsLimitSourceSize && !maxSize.IsContains(originalSize)) ? originalSize.Uniformed(maxSize) : Size.Empty;
                 picture.PictureInfo.Size = size.IsEmpty ? originalSize : size;
 
-                // regist CancellationToken Callback
-                if (token != CancellationToken.None)
-                {
-                    tokenRegistration = token.Register(() =>
-                    {
-                        ////Debug.WriteLine($"DISPOSE: {entry.EntryName}");
-                        stream?.Dispose();
-                    });
-                }
-
                 token.ThrowIfCancellationRequested();
+
+                // regist CancellationToken Callback
+                tokenRegistration = token.Register(() => stream?.Dispose());
 
                 // bitmap
                 if (options.HasFlag(PictureCreateOptions.CreateBitmap) || picture.PictureInfo.Size.IsEmpty)
@@ -170,17 +163,45 @@ namespace NeeView
                 size = new Size(0, size.Height);
             }
 
-            using (var stream = CreateStream(entry, raw))
-            {
-                var setting = new BitmapCreateSetting();
+            var setting = new BitmapCreateSetting();
 
-                if (PictureProfile.Current.IsResizeFilterEnabled && !size.IsEmpty)
-                {
-                    setting.Mode = BitmapCreateMode.HighQuality;
-                    setting.ProcessImageSettings = ImageFilter.Current.CreateProcessImageSetting();
-                }
+            if (PictureProfile.Current.IsResizeFilterEnabled && !size.IsEmpty)
+            {
+                setting.Mode = BitmapCreateMode.HighQuality;
+                setting.ProcessImageSettings = ImageFilter.Current.CreateProcessImageSetting();
+            }
+
+            Stream stream = null;
+            CancellationTokenRegistration? tokenRegistration = null;
+            try
+            {
+                stream = CreateStream(entry, raw);
+
+                // regist CancellationToken Callback
+                tokenRegistration = token.Register(() => stream?.Dispose());
 
                 return _bitmapFactory.Create(stream, null, size, setting, token);
+            }
+            catch (OperationCanceledException)
+            {
+                // キャンセル時は null を返す
+                return null;
+            }
+            catch (Exception)
+            {
+                if (token.IsCancellationRequested)
+                {
+                    return null;
+                }
+                throw;
+            }
+            finally
+            {
+                stream?.Dispose();
+                stream = null;
+
+                tokenRegistration?.Dispose();
+                tokenRegistration = null;
             }
         }
 

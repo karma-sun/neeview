@@ -212,6 +212,7 @@
     <Compile Include="JobEngine\JobWorker.cs" />
     <Compile Include="MultbootService.cs" />
     <Compile Include="OpenSourceControls\VirtualizingWrapPanel.cs" />
+    <Compile Include="Picture\IPictureFactory.cs" />
     <Compile Include="RemoteCommandService.cs" />
     <Compile Include="SaveDataBackup.cs" />
     <Compile Include="SidePanels\Bookmark\BookmarkListViewModel.cs" />

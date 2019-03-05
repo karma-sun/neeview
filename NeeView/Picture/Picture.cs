@@ -8,26 +8,45 @@ using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
-    //
+    /// <summary>
+    /// 画像。
+    /// エントリに対応する表示画像、サムネイル画像を管理する。
+    /// PictureFactoryで生成される。
+    /// </summary>
     public class Picture : BindableBase
     {
         #region Fields
 
+        /// <summary>
+        /// ソースのエントリ
+        /// </summary>
         private ArchiveEntry _archiveEntry;
 
+        /// <summary>
+        /// リサイズパラメータのハッシュ。
+        /// リサイズが必要かの判定に使用される
+        /// </summary>
         private int _resizeHashCode;
 
+        /// <summary>
+        /// このPictureが使用されなくなったときのキャンセル通知
+        /// </summary>
+        private CancellationTokenSource _cancellationTokenSource;
+
+        /// <summary>
+        /// ロックオブジェクト
+        /// </summary>
         private object _lock = new object();
 
         #endregion
 
         #region Constructors
 
-        //
         public Picture(ArchiveEntry entry)
         {
             _archiveEntry = entry;
             _resizeHashCode = GetEnvironmentoHashCode();
+            _cancellationTokenSource = new CancellationTokenSource();
 
             this.PictureInfo = new PictureInfo(entry);
         }
@@ -36,14 +55,19 @@ namespace NeeView
 
         #region Properties
 
-        //
+        /// <summary>
+        /// 画像情報
+        /// </summary>
         public PictureInfo PictureInfo { get; set; }
 
-        //
+        /// <summary>
+        /// ソースとなる 画像ファイルデータ。
+        /// エントリからの呼び出し負荷を軽減するためのキャッシュ
+        /// </summary>
         public byte[] RawData { get; set; }
 
         /// <summary>
-        /// BitmapSource property.
+        /// 表示する画像
         /// </summary>
         private BitmapSource _bitmapSource;
         public BitmapSource BitmapSource
@@ -53,7 +77,7 @@ namespace NeeView
         }
 
         /// <summary>
-        /// Thumbnail property.
+        /// サムネイル画像
         /// </summary>
         private byte[] _thumbnail;
         public byte[] Thumbnail
@@ -65,6 +89,14 @@ namespace NeeView
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// このPictureの使用停止
+        /// </summary>
+        public void Cancel()
+        {
+            _cancellationTokenSource.Cancel();
+        }
 
         // 画像生成に影響する設定のハッシュ値取得
         private int GetEnvironmentoHashCode()
@@ -127,12 +159,28 @@ namespace NeeView
             ////var nowSize = new Size(this.BitmapSource.PixelWidth, this.BitmapSource.PixelHeight);
             ////Debug.WriteLine($"Resize: {isDartyResizeParameter}: {nowSize.Truncate()} -> {size.Truncate()}");
 
-            var bitmap = PictureFactory.Current.CreateBitmapSource(_archiveEntry, this.RawData, size, keepAspectRatio, CancellationToken.None);
-
-            lock (_lock)
+            if (_cancellationTokenSource.IsCancellationRequested)
             {
-                _resizeHashCode = filterHashCode;
-                this.BitmapSource = bitmap;
+                return false;
+            }
+
+            try
+            {
+                var bitmap = PictureFactory.Current.CreateBitmapSource(_archiveEntry, this.RawData, size, keepAspectRatio, _cancellationTokenSource.Token);
+                if (bitmap == null)
+                {
+                    return false;
+                }
+
+                lock (_lock)
+                {
+                    _resizeHashCode = filterHashCode;
+                    this.BitmapSource = bitmap;
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                return false;
             }
 
             return true;

@@ -7533,6 +7533,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   CHANGELOG.html に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string HelpChangeLogFile {
+            get {
+                return ResourceManager.GetString("HelpChangeLogFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Commands to which no operation is assigned can be used by setting with &quot;Edit commands&quot;. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string HelpCommandMessage {
@@ -7551,7 +7560,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Readme.html に類似しているローカライズされた文字列を検索します。
+        ///   README.html に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string HelpReadMeFile {
             get {

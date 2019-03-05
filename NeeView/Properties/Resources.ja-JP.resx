@@ -2478,7 +2478,10 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>NeeView コマンド一覧</value>
   </data>
   <data name="HelpReadMeFile" xml:space="preserve">
-    <value>Readme.ja-jp.html</value>
+    <value>README.ja-jp.html</value>
+  </data>
+  <data name="HelpChangeLogFile" xml:space="preserve">
+    <value>CHANGELOG.ja-jp.html</value>
   </data>
   <data name="HistoryItemMenuDelete" xml:space="preserve">
     <value>履歴から削除(_D)</value>

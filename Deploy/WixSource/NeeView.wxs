@@ -69,6 +69,12 @@
       <Component>
         <File Source="$(var.ContentDir)README.ja-jp.html" KeyPath="yes"/>
       </Component>
+      <Component>
+        <File Source="$(var.ContentDir)CHANGELOG.html" KeyPath="yes"/>
+      </Component>
+      <Component>
+        <File Source="$(var.ContentDir)CHANGELOG.ja-jp.html" KeyPath="yes"/>
+      </Component>
     </ComponentGroup>
 
     <ComponentGroup Id="NeeViewComponents" Directory="INSTALLFOLDER">

@@ -60,7 +60,7 @@ namespace NeeView
         public string DispVersion => Config.Current.DispVersion + $" ({(Config.IsX64 ? "64bit" : "32bit")})";
         public string LicenseUri { get; private set; }
         public string ProjectUri => "https://bitbucket.org/neelabo/neeview/";
-        public string ChangeLogUri => "https://bitbucket.org/neelabo/neeview/wiki/ChangeLog";
+        public string ChangeLogUri { get; private set; }
         public bool IsNetworkEnabled => App.Current.IsNetworkEnabled;
         public bool IsCheckerEnabled => Checker.IsEnabled;
 
@@ -73,6 +73,7 @@ namespace NeeView
         public VersionWindowVM()
         {
             LicenseUri = "file://" + Config.Current.AssemblyLocation.Replace('\\', '/').TrimEnd('/') + $"/{Properties.Resources.HelpReadMeFile}#license";
+            ChangeLogUri = "file://" + Config.Current.AssemblyLocation.Replace('\\', '/').TrimEnd('/') + $"/{Properties.Resources.HelpChangeLogFile}";
 
 #if SUSIE
             this.Icon = GetIconBitmapFrame("/Resources/AppS.ico", 256);

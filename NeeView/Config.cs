@@ -133,11 +133,11 @@ namespace NeeView
             {
                 if (IsCanaryPackage)
                 {
-                    return ProductVersion + " Canary";
+                    return "Canary";
                 }
                 else if (IsBetaPackage)
                 {
-                    return ProductVersion + " Beta";
+                    return ProductVersion + ".Beta";
                 }
                 else
                 {

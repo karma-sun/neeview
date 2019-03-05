@@ -77,31 +77,28 @@ function Get-GitLog()
 {
     $branch = Invoke-Expression "git rev-parse --abbrev-ref HEAD"
     $descrive = Invoke-Expression "git describe --abbrev=0 --tags"
-    $result = Invoke-Expression "git log $descrive..head --encoding=Shift_JIS --pretty=format:`"%s`""
-    $result = $result | Where-Object { -not ($_ -match 'm.rge branch|開発用|\(dev\)|^-') } 
-    return "[${branch}] $descrive to head", $result
+	$date = Invoke-Expression 'git log -1 --pretty=format:"%ad" --date=local'
+	$result = Invoke-Expression "git log $descrive..head --encoding=Shift_JIS --pretty=format:`"%s`""
+	$result = $result | Where-Object { -not ($_ -match 'm.rge branch|開発用|\(dev\)|^-|^\.\.') } 
+	
+    return "[${branch}] $descrive to head", $date, $result
 }
 
 #---------------------
-# get git log (html)
-function Get-GitLogHtml()
+# get git log (markdown)
+function Get-GitLogMarkdown($title)
 {
-    $title ="NeeView Raw-ChangeLog"
-    $date = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
-
     $result = Get-GitLog
-    $header = $result[0]
-    $logs = $result[1]
+	$header = $result[0]
+	$date = $result[1]
+    $logs = $result[2]
 
-    "<!DOCTYPE html>"
-    "<html><head><meta charset=`"utf-8`"><title>$title</title></head><body>"
-    "<h1>$title</h1>"
-    "<h3>$header</h3>($date)"
-    "<ul>"
-    $logs | ForEach-Object { "<li>$_</li>" }
-    "</ul></body></html>"
+	"# $title"
+	"## $header"
+	"($date)"
+	""
+    $logs | ForEach-Object { "- $_" }
 }
-
 
 #--------------------
 # replace keyword
@@ -260,6 +257,15 @@ function New-Readme($packageDir, $culture, $target)
 	Copy-Item "$solutionDir\THIRDPARTY_LICENSES.md" $readmeDir
 	Copy-Item "$solutionDir\NeeLaboratory.IO.Search\THIRDPARTY_LICENSES.md" "$readmeDir\NeeLaboratory.IO.Search_THIRDPARTY_LICENSES.md"
 
+	if ($target -eq ".canary")
+	{
+		Get-GitLogMarkdown "NeeView <VERSION/> - ChangeLog (Raw)" | Set-Content -Encoding UTF8 "$readmeDir/ChangeLog.md"
+	}
+	else
+	{
+		Copy-Item "$readmeSource\ChangeLog.md" $readmeDir
+	}
+
 	$susie = ""
 	if ($target -ne ".appx")
 	{
@@ -280,14 +286,17 @@ function New-Readme($packageDir, $culture, $target)
 	Replace-Content "$readmeDir\Overview.md" "<SUSIE/>" "$susie"
 	Replace-Content "$readmeDir\Emvironment.md" "<VERSION/>" "$postfix"
 	Replace-Content "$readmeDir\Contact.md" "<VERSION/>" "$postfix"
+	Replace-Content "$readmeDir\ChangeLog.md" "<VERSION/>" "$postfix"
 
 	$readmeHtml = "README.html"
 	$readmeEnvironment = ""
 	$readmeLicenseAppendix = ""
+	$changeLogHtml = "CHANGELOG.html"
 
 	if (-not ($culture -eq "en-us"))
 	{
 		$readmeHtml = "README.$culture.html"
+		$changeLogHtml = "CHANGELOG.$culture.html"
 	}
 
 	if ($culture -eq "ja-jp")
@@ -300,12 +309,13 @@ function New-Readme($packageDir, $culture, $target)
 		$readmeEnvironment = """$readmeDir\Emvironment.md"""
 	}
 
-
 	# markdown to html by pandoc
 	pandoc -s -t html5 -o "$packageDir\$readmeHtml" -H "Readme\Style.html" "$readmeDir\Overview.md" $readmeEnvironment "$readmeDir\Contact.md" "$readmeDir\LICENSE.md" $readmeLicenseAppendix "$readmeDir\THIRDPARTY_LICENSES.md" "$readmeDir\NeeLaboratory.IO.Search_THIRDPARTY_LICENSES.md"
+	pandoc -s -t html5 -o "$packageDir\$changeLogHtml" -H "Readme\Style.html" "$readmeDir\ChangeLog.md"
 
 	Remove-Item $readmeDir -Recurse
 }
+
 
 #--------------------------
 # archive to ZIP
@@ -605,11 +615,6 @@ function New-DevPackage($devPackageDir, $devPackage, $target)
 	# generate README.html
 	New-Readme $devPackageDir "en-us" $target
 	New-Readme $devPackageDir "ja-jp" $target
-
-	# generate ChangeLog.html
-	$changeLog = Get-GitLogHtml
-	$Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding $False
-	[System.IO.File]::WriteAllLines("$devPackageDir/ChangeLog.html", $changeLog, $Utf8NoBomEncoding)
 
 	Compress-Archive $devPackageDir -DestinationPath $devPackage
 }

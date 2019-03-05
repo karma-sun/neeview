@@ -2478,7 +2478,10 @@ Is it OK? </value>
     <value>NeeView Command List</value>
   </data>
   <data name="HelpReadMeFile" xml:space="preserve">
-    <value>Readme.html</value>
+    <value>README.html</value>
+  </data>
+  <data name="HelpChangeLogFile" xml:space="preserve">
+    <value>CHANGELOG.html</value>
   </data>
   <data name="HistoryItemMenuDelete" xml:space="preserve">
     <value>_Remove history</value>

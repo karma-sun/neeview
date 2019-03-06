@@ -137,9 +137,6 @@ namespace NeeView
 
             var image = ThumbnailCache.Current.Load(header);
 
-            // ##
-            DebugTimer.Check("LoadCache");
-
             Image = image;
         }
 

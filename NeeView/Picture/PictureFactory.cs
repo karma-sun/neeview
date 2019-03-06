@@ -20,6 +20,7 @@ namespace NeeView
         None = 0x0000,
         CreateBitmap = 0x0001,
         CreateThumbnail = 0x0002,
+        IgnoreImageCache = 0x0004,
     }
 
     /// <summary>

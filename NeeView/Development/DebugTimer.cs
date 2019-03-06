@@ -85,4 +85,12 @@ namespace NeeView
             _sw.Start();
         }
     }
+
+    public static class StopWatchExtensions
+    {
+        public static void Check(this Stopwatch self, string label)
+        {
+            Debug.WriteLine($"> {label}: {self.ElapsedMilliseconds:#,0}ms");
+        }
+    }
 }

@@ -186,7 +186,7 @@ namespace NeeView
                     }
                     else
                     {
-                        return new ThumbnailPicture(await LoadPictureAsync(entry, PictureCreateOptions.CreateThumbnail, token));
+                        return new ThumbnailPicture(await LoadPictureAsync(entry, PictureCreateOptions.CreateThumbnail | PictureCreateOptions.IgnoreImageCache, token));
                     }
                 }
             }
@@ -227,7 +227,7 @@ namespace NeeView
                             // ##
                             DebugTimer.Check("CreateEntry");
 
-                            return new ThumbnailPicture(await LoadPictureAsync(select, PictureCreateOptions.CreateThumbnail, token));
+                            return new ThumbnailPicture(await LoadPictureAsync(select, PictureCreateOptions.CreateThumbnail | PictureCreateOptions.IgnoreImageCache, token));
                         }
                         else
                         {
@@ -238,7 +238,7 @@ namespace NeeView
             }
             else
             {
-                return new ThumbnailPicture(await LoadPictureAsync(entry, PictureCreateOptions.CreateThumbnail, token));
+                return new ThumbnailPicture(await LoadPictureAsync(entry, PictureCreateOptions.CreateThumbnail | PictureCreateOptions.IgnoreImageCache, token));
             }
         }
     }

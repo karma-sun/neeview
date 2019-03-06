@@ -27,21 +27,29 @@ namespace NeeView
         {
             var picture = new Picture(entry);
 
-            MemoryStream stream = null;
+            Stream stream = null;
             CancellationTokenRegistration? tokenRegistration = null;
             try
             {
-                stream = new MemoryStream();
-
                 string decoder = null;
 
                 // raw data
-                using (var namedStream = _pictureStream.Create(entry))
+                if (options.HasFlag(PictureCreateOptions.IgnoreImageCache))
                 {
-                    token.ThrowIfCancellationRequested();
-                    await namedStream.Stream.CopyToAsync(stream, 81920, token);
-                    picture.RawData = stream.ToArray();
+                    var namedStream =CreateStream(entry, picture.RawData);
+                    stream = namedStream.Stream;
                     decoder = namedStream.Name;
+                }
+                else
+                {
+                    stream = new MemoryStream();
+                    using (var namedStream = _pictureStream.Create(entry))
+                    {
+                        token.ThrowIfCancellationRequested();
+                        await namedStream.Stream.CopyToAsync(stream, 81920, token);
+                        picture.RawData = ((MemoryStream)stream).ToArray();
+                        decoder = namedStream.Name;
+                    }
                 }
 
                 // info
@@ -141,15 +149,15 @@ namespace NeeView
         }
 
         //
-        private Stream CreateStream(ArchiveEntry entry, byte[] raw)
+        private NamedStream CreateStream(ArchiveEntry entry, byte[] raw)
         {
             if (raw != null)
             {
-                return new MemoryStream(raw);
+                return new NamedStream(new MemoryStream(raw), null);
             }
             else
             {
-                return _pictureStream.Create(entry).Stream;
+                return _pictureStream.Create(entry);
             }
         }
 
@@ -175,7 +183,7 @@ namespace NeeView
             CancellationTokenRegistration? tokenRegistration = null;
             try
             {
-                stream = CreateStream(entry, raw);
+                stream = CreateStream(entry, raw).Stream;
 
                 // regist CancellationToken Callback
                 tokenRegistration = token.Register(() => stream?.Dispose());
@@ -208,7 +216,7 @@ namespace NeeView
         //
         public byte[] CreateImage(ArchiveEntry entry, byte[] raw, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting)
         {
-            using (var stream = CreateStream(entry, raw))
+            using (var stream = CreateStream(entry, raw).Stream)
             using (var ms = new MemoryStream())
             {
                 _bitmapFactory.CreateImage(stream, null, ms, size, format, quality, setting);

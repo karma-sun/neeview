@@ -26,7 +26,7 @@ namespace NeeView
             return "MediaPlayer";
         }
 
-        public override List<ArchiveEntry> GetEntries(CancellationToken token)
+        public override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
         {
             var fileInfo = new FileInfo(this.Path);
 

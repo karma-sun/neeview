@@ -44,7 +44,7 @@ namespace NeeView
         }
 
         // エントリーリストを得る
-        public override List<ArchiveEntry> GetEntries(CancellationToken token)
+        public override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
         {
             if (_disposedValue) throw new ApplicationException("Archive already colosed.");
 

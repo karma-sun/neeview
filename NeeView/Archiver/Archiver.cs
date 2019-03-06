@@ -14,6 +14,11 @@ namespace NeeView
     /// </summary>
     public abstract class Archiver : ITrash
     {
+        /// <summary>
+        /// ArchiveEntry Cache
+        /// </summary>
+        private List<ArchiveEntry> _entries;
+
         #region Constructors
 
         /// <summary>
@@ -200,15 +205,30 @@ namespace NeeView
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public abstract List<ArchiveEntry> GetEntries(CancellationToken token);
+        public abstract List<ArchiveEntry> GetEntriesInner(CancellationToken token);
 
         /// <summary>
         /// エントリリストを取得(同期)
         /// </summary>
-        /// <returns></returns>
         public List<ArchiveEntry> GetEntries()
         {
-            return GetEntries(CancellationToken.None);
+            return GetEntriesInner(CancellationToken.None);
+        }
+
+        /// <summary>
+        /// エントリリストを取得(同期)
+        /// </summary>
+        public List<ArchiveEntry> GetEntries(CancellationToken token)
+        {
+            token.ThrowIfCancellationRequested();
+
+            if (_entries != null)
+            {
+                return _entries;
+            }
+
+            _entries = GetEntriesInner(token);
+            return _entries;
         }
 
         /// <summary>
@@ -221,11 +241,16 @@ namespace NeeView
         {
             token.ThrowIfCancellationRequested();
 
+            if (_entries != null)
+            {
+                return _entries;
+            }
+
             try
             {
-                var entry = await TaskUtils.FuncAsync(GetEntriesFunc, token);
+                _entries = await TaskUtils.FuncAsync(GetEntriesFunc, token);
                 ////Debug.WriteLine($"Entry: done.: {this.Path}");
-                return entry;
+                return _entries;
             }
             catch (OperationCanceledException)
             {

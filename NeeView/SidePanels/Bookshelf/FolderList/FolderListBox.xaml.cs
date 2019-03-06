@@ -521,7 +521,15 @@ namespace NeeView
 
             if (item.IsFileSystem())
             {
-                e.Data.SetFileDropList(new System.Collections.Specialized.StringCollection() { item.TargetPath.SimplePath });
+                try
+                {
+                    e.Data.SetFileDropList(new System.Collections.Specialized.StringCollection() { item.TargetPath.SimplePath });
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                    e.Data.SetData(item.TargetPath);
+                }
                 return;
             }
         }

@@ -164,11 +164,13 @@ namespace NeeView
     {
         #region Statics
 
-        private static bool s_isLibraryInitialized;
+        private static object _staticLock = new object();
+
+        private static bool _isLibraryInitialized;
 
         public static void InitializeLibrary()
         {
-            if (s_isLibraryInitialized) return;
+            if (_isLibraryInitialized) return;
 
             string dllPath = Config.IsX64 ? SevenZipArchiverProfile.Current.X64DllPath : SevenZipArchiverProfile.Current.X86DllPath;
             if (string.IsNullOrWhiteSpace(dllPath))
@@ -181,7 +183,7 @@ namespace NeeView
             FileVersionInfo dllVersionInfo = FileVersionInfo.GetVersionInfo(dllPath);
             Debug.WriteLine("7z.dll: ver" + dllVersionInfo?.FileVersion);
 
-            s_isLibraryInitialized = true;
+            _isLibraryInitialized = true;
         }
 
         #endregion
@@ -247,11 +249,19 @@ namespace NeeView
 
                 using (var extractor = new SevenZipDescriptor(_source))
                 {
-                    for (int id = 0; id < extractor.ArchiveFileData.Count; ++id)
+                    ReadOnlyCollection<ArchiveFileInfo> entries;
+
+                    // NOTE: 異なるスレッドで処理するととても重くなることがあるので排他処理にする
+                    lock (_staticLock)
+                    {
+                        entries = extractor.ArchiveFileData;
+                    }
+
+                    for (int id = 0; id < entries.Count; ++id)
                     {
                         token.ThrowIfCancellationRequested();
 
-                        var entry = extractor.ArchiveFileData[id];
+                        var entry = entries[id];
 
                         var archiveEntry = new ArchiveEntry()
                         {

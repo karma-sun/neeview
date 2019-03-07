@@ -201,19 +201,9 @@ namespace NeeView
         }
 
         /// <summary>
-        /// エントリリストを取得
+        /// エントリリストを取得 (Archive内でのみ使用)
         /// </summary>
-        /// <param name="token"></param>
-        /// <returns></returns>
         public abstract List<ArchiveEntry> GetEntriesInner(CancellationToken token);
-
-        /// <summary>
-        /// エントリリストを取得(同期)
-        /// </summary>
-        public List<ArchiveEntry> GetEntries()
-        {
-            return GetEntries(CancellationToken.None);
-        }
 
         /// <summary>
         /// エントリリストを取得(同期)
@@ -246,28 +236,8 @@ namespace NeeView
                 return _entries;
             }
 
-            try
-            {
-                _entries = await TaskUtils.FuncAsync(GetEntriesFunc, token);
-                ////Debug.WriteLine($"Entry: done.: {this.Path}");
-                return _entries;
-            }
-            catch (OperationCanceledException)
-            {
-                ////Debug.WriteLine($"[CanceledException]: {this}.{nameof(GetEntriesAsync)}: Cabceled.");
-                ////Debug.WriteLine($"Entry: Canceled!: {this.Path}");
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// (デリゲート用)
-        /// </summary>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        private List<ArchiveEntry> GetEntriesFunc(CancellationToken token)
-        {
-            return GetEntries(token);
+            _entries = await Task.Run(() => GetEntriesInner(token));
+            return _entries;
         }
 
         /// <summary>
@@ -311,10 +281,10 @@ namespace NeeView
         /// アーカイブエントリのみ取得(同期)
         /// </summary>
         /// <returns></returns>
-        public List<ArchiveEntry> GetArchives()
+        public List<ArchiveEntry> GetArchives(CancellationToken token)
         {
             // エントリ取得
-            var entries = GetEntries();
+            var entries = GetEntries(token);
 
             // アーカイブ群収集
             var archives = entries

@@ -114,7 +114,7 @@ namespace NeeView
                 {
                     spi.IsCacheEnabled = true;
 
-                    _entries = _archiver.GetEntries();
+                    _entries = _archiver.GetEntries(token);
 
                     token.ThrowIfCancellationRequested();
 

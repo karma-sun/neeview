@@ -156,7 +156,7 @@ namespace NeeView
             }
             else
             {
-                var entries = archiver.GetEntries()
+                var entries = archiver.GetEntries(token)
                     .Where(e => !BookProfile.Current.IsExcludedPath(e.RawEntryName))
                     .ToList();
 

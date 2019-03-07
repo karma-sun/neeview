@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Windows.Data;
 
 namespace NeeView
@@ -32,7 +33,8 @@ namespace NeeView
                 return;
             }
 
-            var items = archiver.GetArchives()
+            // TODO: 重い処理はコンストラクタではなく必要になったらそこで処理させるようにする
+            var items = archiver.GetArchives(CancellationToken.None)
                 .Select(e => CreateFolderItem(e))
                 .Where(e => e != null)
                 .ToList();

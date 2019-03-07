@@ -35,36 +35,5 @@ namespace NeeView.Threading.Tasks
         {
             return ActionAsync(() => task.Wait(token), token);
         }
-
-        //
-        public static Task<T> FuncAsync<T>(Func<T> func)
-        {
-            return Task.Run(() => func());
-        }
-
-        //
-        public static Task<T> FuncAsync<T>(Func<T> func, CancellationToken token)
-        {
-            token.ThrowIfCancellationRequested();
-            return Task.Run(() => func());
-        }
-        
-        //
-        public static Task<T> FuncAsync<T>(Func<CancellationToken, T> func, CancellationToken token)
-        {
-            token.ThrowIfCancellationRequested();
-            return Task.Run(() => func(token));
-        }
-
-        //
-        public static Task<T> WaitAsync<T>(Task<T> task, CancellationToken token)
-        {
-            return FuncAsync((t) =>
-            {
-                task.Wait(token);
-                return task.Result;
-            }
-            , token);
-        }
     }
 }

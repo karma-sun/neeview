@@ -51,7 +51,7 @@ namespace NeeView
             token.ThrowIfCancellationRequested();
 
             var list = new List<ArchiveEntry>();
-            var directoryEntries = new List<ArchiveEntry>();
+            var directories = new List<ArchiveEntry>();
 
             using (var extractor = new SevenZipExtractor(this.Path))
             {
@@ -77,15 +77,12 @@ namespace NeeView
                     {
                         archiveEntry.Length = -1;
                         archiveEntry.Instance = null;
-                        directoryEntries.Add(archiveEntry);
+                        directories.Add(archiveEntry);
                     }
                 }
 
-                // 空ディレクトリー追加
-                if (BookProfile.Current.IsEnableNoSupportFile)
-                {
-                    list.AddDirectoryEntries(directoryEntries);
-                }
+                // ディレクトリエントリを追加
+                list.AddRange(CreateDirectoryEntries(list.Concat(directories)));
             }
 
             return list;
@@ -104,6 +101,7 @@ namespace NeeView
         public override Stream OpenStream(ArchiveEntry entry)
         {
             if (_disposedValue) throw new ApplicationException("Archive already colosed.");
+            if (entry.Id < 0) throw new ApplicationException("Cannot open this entry: " + entry.EntryName);
 
             return new FileStream(GetFileSystemPath(entry), FileMode.Open, FileAccess.Read);
         }
@@ -111,6 +109,7 @@ namespace NeeView
         public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
             if (_disposedValue) throw new ApplicationException("Archive already colosed.");
+            if (entry.Id < 0) throw new ApplicationException("Cannot open this entry: " + entry.EntryName);
 
             File.Copy(GetFileSystemPath(entry), exportFileName, isOverwrite);
         }

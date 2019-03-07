@@ -134,7 +134,7 @@ namespace NeeView
         }
 
         /// <summary>
-        /// エントリ名(重複有、正規化)
+        /// エントリ名(重複有、正規化済)
         /// </summary>
         /// c/001.jpg => c\001.jpg
         public string EntryName { get; private set; }
@@ -190,6 +190,11 @@ namespace NeeView
         /// ディレクトリ？
         /// </summary>
         public bool IsDirectory => Length == -1;
+
+        /// <summary>
+        /// ディレクトリは空であるか
+        /// </summary>
+        public bool IsEmpty { get; set; }
 
         /// <summary>
         /// ファイル更新日
@@ -333,6 +338,12 @@ namespace NeeView
             {
                 archiver.Dispose();
             }
+        }
+
+
+        public override string ToString()
+        {
+            return EntryName ?? base.ToString();
         }
 
         #endregion

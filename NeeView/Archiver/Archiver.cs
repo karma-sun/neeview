@@ -212,7 +212,7 @@ namespace NeeView
         /// </summary>
         public List<ArchiveEntry> GetEntries()
         {
-            return GetEntriesInner(CancellationToken.None);
+            return GetEntries(CancellationToken.None);
         }
 
         /// <summary>
@@ -357,6 +357,32 @@ namespace NeeView
         public virtual void SetRootFlag(bool flag)
         {
             this.RootFlag = flag;
+        }
+
+        /// <summary>
+        /// エントリ群からディレクトリエントリを生成する
+        /// </summary>
+        /// <param name="entries">アーカイブのエントリ群</param>
+        /// <returns>ディレクトリエントリのリスト</returns>
+        protected List<ArchiveEntry> CreateDirectoryEntries(IEnumerable<ArchiveEntry> entries)
+        {
+            var tree = new ArchiveEntryTree();
+            tree.AddRange(entries);
+
+            var directories = tree.GetDirectories()
+                .Select(e => new ArchiveEntry()
+                {
+                    Archiver = this,
+                    Id = -1,
+                    Instance = null,
+                    RawEntryName = LoosePath.TrimDirectoryEnd(e.Path),
+                    Length = -1,
+                    IsEmpty = !e.HasChild,
+                    LastWriteTime = e.LastWriteTime,
+                })
+                .ToList();
+
+            return directories;
         }
 
         #endregion

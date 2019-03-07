@@ -19,6 +19,7 @@ namespace NeeView
 
         private string _temp;
         private SusieArchiver _archiver;
+        List<ArchiveEntry> _entries;
 
         #endregion
 
@@ -89,7 +90,6 @@ namespace NeeView
             }
         }
 
-        List<ArchiveEntry> _entries;
 
         private void Open(CancellationToken token)
         {

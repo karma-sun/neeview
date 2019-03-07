@@ -29,6 +29,15 @@ namespace NeeView
             return s;
         }
 
+        /// <summary>
+        /// ディレクトリ名用に、終端にセパレート記号を付加する
+        /// </summary>
+        public static string TrimDirectoryEnd(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return "";
+            return s.TrimEnd(Separator) + '\\';
+        }
+
         //
         public static string[] Split(string s)
         {

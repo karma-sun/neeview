@@ -64,13 +64,14 @@ namespace NeeView
 
                 var name = info.FullName.Substring(prefixLen).TrimStart('\\', '/');
                 var fileInfo = info as FileInfo;
+                var isDirectory = info.Attributes.HasFlag(FileAttributes.Directory);
 
                 var entry = new ArchiveEntry()
                 {
                     Archiver = this,
                     Id = list.Count,
-                    RawEntryName = name + (info.Attributes.HasFlag(FileAttributes.Directory) ? "\\" : ""),
-                    Length = fileInfo != null ? fileInfo.Length : -1,
+                    RawEntryName = name + (isDirectory ? "\\" : ""),
+                    Length = isDirectory ? -1 : fileInfo.Length,
                     LastWriteTime = info.LastWriteTime,
                 };
 

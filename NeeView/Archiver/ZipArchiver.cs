@@ -60,7 +60,7 @@ namespace NeeView
             if (_disposedValue) throw new ApplicationException("Archive already colosed.");
 
             var list = new List<ArchiveEntry>();
-            var directoryEntries = new List<ArchiveEntry>();
+            var directories = new List<ArchiveEntry>();
 
             FileStream stream = null;
             try
@@ -101,15 +101,12 @@ namespace NeeView
                         else
                         {
                             archiveEntry.Length = -1;
-                            directoryEntries.Add(archiveEntry);
+                            directories.Add(archiveEntry);
                         }
                     }
 
-                    // 空ディレクトリー追加
-                    if (BookProfile.Current.IsEnableNoSupportFile)
-                    {
-                        list.AddDirectoryEntries(directoryEntries);
-                    }
+                    // ディレクトリエントリを追加
+                    list.AddRange(CreateDirectoryEntries(list.Concat(directories)));
                 }
             }
             finally
@@ -124,6 +121,7 @@ namespace NeeView
         public override Stream OpenStream(ArchiveEntry entry)
         {
             if (_disposedValue) throw new ApplicationException("Archive already colosed.");
+            if (entry.Id < 0) throw new ApplicationException("Cannot open this entry: " + entry.EntryName);
 
             using (var archiver = ZipFile.OpenRead(Path))
             {
@@ -147,6 +145,7 @@ namespace NeeView
         public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
             if (_disposedValue) throw new ApplicationException("Archive already colosed.");
+            if (entry.Id < 0) throw new ApplicationException("Cannot open this entry: " + entry.EntryName);
 
             using (var archiver = ZipFile.OpenRead(Path))
             {

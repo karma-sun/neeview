@@ -496,7 +496,10 @@ namespace NeeView
 
                 SubFolderCount = collection.SkippedArchiveCount;
 
-                return collection.Collection.Select(e => CreatePage(e)).ToList();
+                return collection.Collection
+                    .Where(e => !e.IsDirectory || e.IsEmpty)
+                    .Select(e => CreatePage(e))
+                    .ToList();
             }
             catch (Exception e)
             {

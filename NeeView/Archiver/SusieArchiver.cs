@@ -66,7 +66,7 @@ namespace NeeView
             if (infoCollection == null) throw new NotSupportedException();
 
             var list = new List<ArchiveEntry>();
-            var directoryEntries = new List<ArchiveEntry>();
+            var directories = new List<ArchiveEntry>();
 
             for (int id = 0; id < infoCollection.Count; ++id)
             {
@@ -91,18 +91,15 @@ namespace NeeView
                 else
                 {
                     archiveEntry.Length = -1;
-                    directoryEntries.Add(archiveEntry);
+                    directories.Add(archiveEntry);
                 }
             }
 
-            // 0サイズエントリのディレクトリ判定
-            list = list.Where(entry => entry.Length > 0 || list.All(e => e == entry || !e.EntryName.StartsWith(entry.EntryName))).ToList();
+            // NOTE: サイズ0であり、他のエントリ名のパスを含む場合はディレクトリとみなし除外する。
+            list = list.Where(entry => entry.Length > 0 || list.All(e => e == entry || !e.EntryName.StartsWith(LoosePath.TrimDirectoryEnd(entry.EntryName)))).ToList();
 
-            if (BookProfile.Current.IsEnableNoSupportFile)
-            {
-                // 空ディレクトリー追加
-                list.AddDirectoryEntries(directoryEntries);
-            }
+            // ディレクトリエントリを追加
+            list.AddRange(CreateDirectoryEntries(list.Concat(directories)));
 
             return list;
         }
@@ -112,6 +109,7 @@ namespace NeeView
         public override Stream OpenStream(ArchiveEntry entry)
         {
             if (_disposedValue) throw new ApplicationException("Archive already colosed.");
+            if (entry.Id < 0) throw new ApplicationException("Cannot open this entry: " + entry.EntryName);
 
             lock (_lock)
             {
@@ -126,6 +124,7 @@ namespace NeeView
         public override void ExtractToFile(ArchiveEntry entry, string extractFileName, bool isOverwrite)
         {
             if (_disposedValue) throw new ApplicationException("Archive already colosed.");
+            if (entry.Id < 0) throw new ApplicationException("Cannot open this entry: " + entry.EntryName);
 
             var info = (Susie.ArchiveEntry)entry.Instance;
 

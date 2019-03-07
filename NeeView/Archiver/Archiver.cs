@@ -271,6 +271,43 @@ namespace NeeView
         }
 
         /// <summary>
+        /// 指定階層のエントリのみ取得
+        /// </summary>
+        /// <param name="path">階層のパス</param>
+        /// <param name="isRecursive">サブディレクトリまで含めるか</param>
+        /// <returns>条件にあったエントリ群</returns>
+        public List<ArchiveEntry> GetEntries(string path, bool isRecursive, CancellationToken token)
+        {
+            path = LoosePath.TrimDirectoryEnd(path);
+
+            var entries = GetEntries(token).Where(e => path.Length < e.EntryName.Length && e.EntryName.StartsWith(path));
+
+            if (!isRecursive)
+            {
+                entries = entries.Where(e => LoosePath.Split(e.EntryName.Substring(path.Length)).Length == 1);
+            }
+
+            return entries.ToList();
+        }
+
+        /// <summary>
+        /// 指定階層のエントリのみ取得
+        /// </summary>
+        public async Task<List<ArchiveEntry>> GetEntriesAsync(string path, bool isRecursive, CancellationToken token)
+        {
+            path = LoosePath.TrimDirectoryEnd(path);
+
+            var entries = (await GetEntriesAsync(token)).Where(e => path.Length < e.EntryName.Length && e.EntryName.StartsWith(path));
+
+            if (!isRecursive)
+            {
+                entries = entries.Where(e => LoosePath.Split(e.EntryName.Substring(path.Length)).Length == 1);
+            }
+
+            return entries.ToList();
+        }
+
+        /// <summary>
         /// アーカイブエントリのみ取得(同期)
         /// </summary>
         /// <returns></returns>

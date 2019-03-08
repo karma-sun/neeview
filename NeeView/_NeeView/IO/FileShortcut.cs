@@ -58,7 +58,15 @@ namespace NeeView.IO
                 return false;
             }
 
-            return Path.GetExtension(path).ToLower() == ".lnk";
+            try
+            {
+                return Path.GetExtension(path).ToLower() == ".lnk";
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return false;
+            }
         }
 
         public void Open(FileInfo source)
@@ -77,7 +85,7 @@ namespace NeeView.IO
                     _target = null;
                 }
                 else
-                { 
+                {
                     var directoryInfo = new System.IO.DirectoryInfo(shortcut.TargetPath);
                     if (directoryInfo.Attributes.HasFlag(FileAttributes.Directory))
                     {

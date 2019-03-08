@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.Text.RegularExpressions;
 using NeeLaboratory.ComponentModel;
 using System.Windows.Markup;
+using System.Net.Http;
 
 namespace NeeView
 {
@@ -172,12 +173,11 @@ namespace NeeView
 
             try
             {
-                using (var wc = new System.Net.WebClient())
+                using (var client = new HttpClient())
                 {
-                    wc.CachePolicy = new System.Net.Cache.RequestCachePolicy(System.Net.Cache.RequestCacheLevel.NoCacheNoStore);
-
-                    // download
-                    var text = await wc.DownloadStringTaskAsync(new Uri(DownloadUri));
+                    var response = await client.GetAsync(new Uri(DownloadUri));
+                    response.EnsureSuccessStatusCode();
+                    var text = await response.Content.ReadAsStringAsync();
 
 #if DEBUG
                     ////extension = ".msi";

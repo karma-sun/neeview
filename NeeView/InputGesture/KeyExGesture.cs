@@ -73,7 +73,11 @@ namespace NeeView
             var keys = source.Split('+');
 
             var code = keys.Last();
-            if (char.IsNumber(code, 0))
+            if (code == "Esc")
+            {
+                code = "Escape";
+            }
+            else if (char.IsNumber(code, 0))
             {
                 code = "D" + code;
             }
@@ -136,6 +140,9 @@ namespace NeeView
                 case Key.D8:
                 case Key.D9:
                     text += "+" + keyExGesture.Key.ToString().TrimStart('D');
+                    break;
+                case Key.Escape:
+                    text += "+" + "Esc";
                     break;
                 default:
                     text += "+" + keyExGesture.Key.ToString();

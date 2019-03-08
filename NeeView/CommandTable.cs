@@ -2280,7 +2280,7 @@ namespace NeeView
 
                 if (_elementsV2 != null)
                 {
-                    if (_Version < Config.GenerateProductVersionNumber(1, 32, 0))
+                    if (_Version < Config.GenerateProductVersionNumber(32, 0, 0))
                     {
                         // 新しいコマンドに設定を引き継ぐ
                         if (_elementsV2.TryGetValue("ToggleVisibleFolderSearchBox", out CommandElement.Memento toggleVisibleFolderSearchBox))
@@ -2313,6 +2313,23 @@ namespace NeeView
                 foreach (var key in CommandTypeExtensions.IgnoreCommandTypes)
                 {
                     Elements.Remove(key);
+                }
+
+                // change shortcut "Escape" to "Esc"
+                if (_Version <= Config.GenerateProductVersionNumber(33, 2, 0))
+                {
+                    foreach (var element in Elements.Values)
+                    {
+                        if (element.ShortCutKey.Contains("Escape"))
+                        {
+                            var keys = element.ShortCutKey
+                                .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                .Select(e => e.Replace("Escape", "Esc"))
+                                .Distinct();
+
+                            element.ShortCutKey = string.Join(",", keys);
+                        }
+                    }
                 }
             }
 

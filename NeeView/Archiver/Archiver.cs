@@ -288,7 +288,7 @@ namespace NeeView
 
             // アーカイブ群収集
             var archives = entries
-                .Where(e => e.IsArchive())
+                .Where(e => e.IsBook())
                 .ToList();
 
             return archives;
@@ -307,7 +307,7 @@ namespace NeeView
 
             // アーカイブ群収集
             var archives = entries
-                .Where(e => e.IsArchive())
+                .Where(e => e.IsBook())
                 .ToList();
 
             return archives;
@@ -382,7 +382,7 @@ namespace NeeView
                     Archiver = this,
                     Id = -1,
                     Instance = null,
-                    RawEntryName = LoosePath.TrimDirectoryEnd(e.Path),
+                    RawEntryName = e.Path,
                     Length = -1,
                     IsEmpty = !e.HasChild,
                     LastWriteTime = e.LastWriteTime,

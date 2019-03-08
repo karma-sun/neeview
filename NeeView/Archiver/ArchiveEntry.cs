@@ -297,14 +297,11 @@ namespace NeeView
             }
         }
 
-
-
         /// <summary>
-        /// このエントリがアーカイブであるかを拡張子から判定。
-        /// ファイルシステムを含む
+        /// このエントリがブックであるかを判定。
+        /// アーカイブのほかメディアを含める
         /// </summary>
-        /// <returns></returns>
-        public bool IsArchive(bool allowMedia = true)
+        public bool IsBook()
         {
             if (this.IsFileSystem && this.IsDirectory)
             {
@@ -316,7 +313,26 @@ namespace NeeView
                 return true;
             }
 
-            return ArchiverManager.Current.IsSupported(EntryName, false, allowMedia);
+            return ArchiverManager.Current.IsSupported(EntryName, false, true);
+        }
+
+        /// <summary>
+        /// このエントリがアーカイブであるかを判定。
+        /// メディアは除外する
+        /// </summary>
+        public bool IsArchive()
+        {
+            if (this.IsFileSystem && this.IsDirectory)
+            {
+                return true;
+            }
+
+            if (Instance is TreeListNode<IPagemarkEntry> node && node.Value is PagemarkFolder)
+            {
+                return true;
+            }
+
+            return ArchiverManager.Current.IsSupported(EntryName, false, false);
         }
 
 
@@ -328,6 +344,7 @@ namespace NeeView
         {
             return !this.IsDirectory && ((this.Archiver is MediaArchiver) || PictureProfile.Current.IsSupported(this.Link ?? this.EntryName));
         }
+
 
         /// <summary>
         /// 関連するArchiverをDisposeする

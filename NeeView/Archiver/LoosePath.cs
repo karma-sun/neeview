@@ -15,7 +15,10 @@ namespace NeeView
         public static char[] Separator = new char[] { '\\', '/' };
 
 
-        //
+        /// <summary>
+        /// 末尾のセパレート記号を削除。
+        /// ルート(C:\)の場合は削除しない
+        /// </summary>
         public static string TrimEnd(string s)
         {
             if (string.IsNullOrEmpty(s)) return "";

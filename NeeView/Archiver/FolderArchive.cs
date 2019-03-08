@@ -70,7 +70,7 @@ namespace NeeView
                 {
                     Archiver = this,
                     Id = list.Count,
-                    RawEntryName = name + (isDirectory ? "\\" : ""),
+                    RawEntryName = name,
                     Length = isDirectory ? -1 : fileInfo.Length,
                     LastWriteTime = info.LastWriteTime,
                 };

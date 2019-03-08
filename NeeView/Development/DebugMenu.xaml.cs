@@ -67,6 +67,7 @@ namespace NeeView
         {
             try
             {
+                await ArchiveEntryCollection.TestAsync();
                 // ブックサムネイル作成テスト
                 ////await DebugCreateBookThumbnail.TestAsync();
                 ////return;

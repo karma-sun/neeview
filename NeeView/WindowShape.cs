@@ -119,8 +119,7 @@ namespace NeeView
             _chrome.ResizeBorderThickness = new Thickness(8); // TODO: この値をシステムから取得したい
 
             // Windows7以前の場合、フルスクリーン解除時にタスクバーを手前にする処理を追加
-            var os = System.Environment.OSVersion;
-            _isWindows7 = os.Version.Major < 6 || (os.Version.Major == 6 && os.Version.Minor <= 1); // Windows7 = 6.1
+            _isWindows7 = Config.Current.IsWindows7();
 
             //
             _isTopmost = _window.Topmost;

@@ -11,10 +11,12 @@
         <MenuItem x:Name="MenuItemDev" Header="_Develop">
             <MenuItem x:Name="MenuItemDevPageList" Header="Page list" IsCheckable="True" IsChecked="{Binding Source={x:Static local:Development.Current}, Path=IsVisibleDevPageList}" />
             <MenuItem x:Name="MenuItemDevInfo" Header="Status area" IsCheckable="True" IsChecked="{Binding Source={x:Static local:Development.Current}, Path=IsVisibleDevInfo}" />
+            <Separator/>
             <MenuItem x:Name="MenuItemDevApplicationFolder" Header="Open application folder" Click="MenuItemDevApplicationFolder_Click" />
             <MenuItem x:Name="MenuItemDevApplicationDataFolder" Header="Open data folder" Click="MenuItemDevApplicationDataFolder_Click" />
             <MenuItem x:Name="MenuItemDevCurrentFolder" Header="Open current folder" Click="MenuItemDevCurrentFolder_Click" />
             <MenuItem x:Name="MenuItemDevTempFolder" Header="Open temp folder" Click="MenuItemDevTempFolder_Click" />
+            <Separator/>
             <MenuItem x:Name="MenuItemDevButton" Header="Go TEST" Click="MenuItemDevButton_Click" />
         </MenuItem>
     </Menu>

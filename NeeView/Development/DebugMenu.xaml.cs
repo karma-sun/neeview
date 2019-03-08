@@ -65,38 +65,7 @@ namespace NeeView
         [Conditional("DEBUG")]
         private async void DebugTestAction()
         {
-            try
-            {
-                await ArchiveEntryCollection.TestAsync();
-                // ブックサムネイル作成テスト
-                ////await DebugCreateBookThumbnail.TestAsync();
-                ////return;
-
-                // 致命的エラーのテスト
-                ////InnerExcepionTest();
-
-                // アーカイブのアンロック
-                ////await Task.Run(() => BookOperation.Current.Unlock());
-
-                ////ページマーク多数登録テスト
-                ////Models.Current.BookOperation.Test_MakeManyPagemark();
-
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-                await Task.Delay(1000);
-                Debugger.Break();
-                //Config.Current.RemoveApplicationData();
-            }
-            catch (Exception ex)
-            {
-                throw new ApplicationException("DEBUG error", ex);
-            }
-        }
-
-        [Conditional("DEBUG")]
-        private void InnerExcepionTest()
-        {
-            throw new ApplicationException("Exception test");
+            await DebugTest.ExecuteTestAsync();
         }
 
         /// <summary>

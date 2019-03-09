@@ -234,7 +234,7 @@ namespace NeeView
             switch (type)
             {
                 case ArchiverType.FolderArchive:
-                    archiver = new FolderArchive(path, source );
+                    archiver = new FolderArchive(path, source);
                     break;
                 case ArchiverType.ZipArchiver:
                     archiver = new ZipArchiver(path, source);
@@ -405,9 +405,17 @@ namespace NeeView
             }
         }
 
-#endregion
+        /// <summary>
+        /// すべてのアーカイブのファイルロック解除
+        /// </summary>
+        public void UnlockAllArchives()
+        {
+            _cache.Unlock();
+        }
 
-#region Debug
+        #endregion
+
+        #region Debug
 
         [Conditional("DEBUG")]
         public void DumpCache()
@@ -415,9 +423,9 @@ namespace NeeView
             _cache.Dump();
         }
 
-#endregion
+        #endregion
 
-#region Memento
+        #region Memento
         [DataContract]
         public class Memento
         {
@@ -466,6 +474,6 @@ namespace NeeView
 #pragma warning restore CS0612
         }
 
-#endregion
+        #endregion
     }
 }

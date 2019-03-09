@@ -315,6 +315,7 @@ namespace NeeView
                 {
                     isContinue = true;
                     await _bookHub.RequestUnload(false).WaitAsync();
+                    ArchiverManager.Current.UnlockAllArchives();
                 }
 
                 // rename

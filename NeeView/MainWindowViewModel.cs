@@ -2,6 +2,7 @@
 using NeeView.Effects;
 using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -249,7 +250,8 @@ namespace NeeView
         {
             if (IsClosing) return;
 
-            BookOperation.Current.Unlock();
+            // NOTE: メインスレッドで行うとSevenZipSharpがCOM例外になるのであえてタスク化。なぜ！？
+            Task.Run(() => ArchiverManager.Current.UnlockAllArchives());
         }
     }
 }

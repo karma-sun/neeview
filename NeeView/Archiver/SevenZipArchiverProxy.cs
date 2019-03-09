@@ -74,6 +74,11 @@ namespace NeeView
             }
         }
 
+        public override void Unlock()
+        {
+            _archiver?.Unlock();
+        }
+
         public override bool IsSupported()
         {
             return true;

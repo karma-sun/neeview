@@ -246,16 +246,6 @@ namespace NeeView
             return this.Book == null ? 0 : this.Book.Pages.Count;
         }
 
-
-        /// <summary>
-        /// ファイルロック解除
-        /// </summary>
-        public void Unlock()
-        {
-            // NOTE: メインスレッドで行うとSevenZipSharpがCOM例外になるのであえてタスク化。なぜ！？
-            Task.Run(() => this.Book?.Unlock());
-        }
-
         #endregion
 
         #region BookCommand : ページ削除

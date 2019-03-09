@@ -451,19 +451,6 @@ namespace NeeView
         }
 
         /// <summary>
-        /// アーカイブファイルロック解除
-        /// </summary>
-        /// <returns></returns>
-        public void Unlock()
-        {
-            var archivers = this.Pages.Select(e => e.Entry.Archiver).Distinct().Where(e => e != null);
-            foreach (var archiver in archivers)
-            {
-                archiver.Unlock();
-            }
-        }
-
-        /// <summary>
         /// サムネイル参照イベント処理
         /// </summary>
         /// <param name="sender"></param>

@@ -49,6 +49,21 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// すべてのアーカイブファイルロック解除
+        /// </summary>
+        public void Unlock()
+        {
+            CleanUp();
+            foreach (var item in _caches)
+            {
+                if (item.Value.TryGetTarget(out var archiver))
+                {
+                    archiver.Unlock();
+                }
+            }
+        }
+
         [Conditional("DEBUG")]
         public void Dump()
         {

@@ -225,24 +225,24 @@ namespace NeeView
         /// <param name="isRoot">ルートアーカイブとする</param>
         /// <param name="isAll">全て展開を前提とする</param>
         /// <returns>作成されたアーカイバー</returns>
-        public Archiver CreateArchiver(ArchiverType type, string path, ArchiveEntry source, bool isRoot, bool isAll)
+        public Archiver CreateArchiver(ArchiverType type, string path, ArchiveEntry source, bool isAll)
         {
             switch (type)
             {
                 case ArchiverType.FolderArchive:
-                    return new FolderArchive(path, source, isRoot);
+                    return new FolderArchive(path, source);
                 case ArchiverType.ZipArchiver:
-                    return new ZipArchiver(path, source, isRoot);
+                    return new ZipArchiver(path, source);
                 case ArchiverType.SevenZipArchiver:
-                    return new SevenZipArchiverProxy(path, source, isRoot, isAll);
+                    return new SevenZipArchiverProxy(path, source, isAll);
                 case ArchiverType.PdfArchiver:
-                    return new PdfArchiver(path, source, isRoot);
+                    return new PdfArchiver(path, source);
                 case ArchiverType.MediaArchiver:
-                    return new MediaArchiver(path, source, isRoot);
+                    return new MediaArchiver(path, source);
                 case ArchiverType.SusieArchiver:
-                    return new SusieArchiverProxy(path, source, isRoot);
+                    return new SusieArchiverProxy(path, source);
                 case ArchiverType.PagemarkArchiver:
-                    return new PagemarkArchiver(path, source, isRoot);
+                    return new PagemarkArchiver(path, source);
                 default:
                     ////throw new ArgumentException("Not support archive type.");
                     string extension = LoosePath.GetExtension(path);
@@ -251,15 +251,15 @@ namespace NeeView
         }
 
         // アーカイバー作成
-        public Archiver CreateArchiver(string path, ArchiveEntry source, bool isRoot, bool isAll)
+        public Archiver CreateArchiver(string path, ArchiveEntry source, bool isAll)
         {
             if (Directory.Exists(path))
             {
-                return CreateArchiver(ArchiverType.FolderArchive, path, source, isRoot, isAll);
+                return CreateArchiver(ArchiverType.FolderArchive, path, source, isAll);
             }
             else
             {
-                return CreateArchiver(GetSupportedType(path), path, source, isRoot, isAll);
+                return CreateArchiver(GetSupportedType(path), path, source, isAll);
             }
         }
 
@@ -269,9 +269,9 @@ namespace NeeView
         /// <param name="path">パス</param>
         /// <param name="isAll"></param>
         /// <returns></returns>
-        public Archiver CreateArchiver(string path, bool isRoot, bool isAll)
+        public Archiver CreateArchiver(string path, bool isAll)
         {
-            return CreateArchiver(path, null, isRoot, isAll);
+            return CreateArchiver(path, null, isAll);
         }
 
         /// <summary>
@@ -282,17 +282,17 @@ namespace NeeView
         /// <param name="isAll"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<Archiver> CreateArchiverAsync(ArchiveEntry source, bool isRoot, bool isAll, CancellationToken token)
+        public async Task<Archiver> CreateArchiverAsync(ArchiveEntry source, bool isAll, CancellationToken token)
         {
             if (source.IsFileSystem)
             {
-                return CreateArchiver(source.SystemPath, null, isRoot, isAll);
+                return CreateArchiver(source.SystemPath, null, isAll);
             }
             else
             {
                 // TODO: テンポラリファイルの指定方法をスマートに。
                 var tempFile = await ArchivenEntryExtractorService.Current.ExtractAsync(source, token);
-                var archiver = CreateArchiver(tempFile.Path, source, isRoot, isAll);
+                var archiver = CreateArchiver(tempFile.Path, source, isAll);
                 archiver.TempFile = tempFile;
                 return archiver;
             }

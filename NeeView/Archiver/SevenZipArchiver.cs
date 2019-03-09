@@ -198,7 +198,7 @@ namespace NeeView
 
         #region Constructors
 
-        public SevenZipArchiver(string path, ArchiveEntry source, bool isRoot) : base(path, source, isRoot)
+        public SevenZipArchiver(string path, ArchiveEntry source) : base(path, source)
         {
             InitializeLibrary();
 

@@ -19,7 +19,7 @@ namespace NeeView
     {
         #region Constructors
 
-        public ZipArchiver(string path, ArchiveEntry source, bool isRoot) : base(path, source, isRoot)
+        public ZipArchiver(string path, ArchiveEntry source) : base(path, source)
         {
         }
 

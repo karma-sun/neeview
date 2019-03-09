@@ -20,18 +20,18 @@ namespace NeeView
 
         #region Constructors
 
-        public SusieArchiverProxy(string path, ArchiveEntry source, bool isRoot) : base(path, source, isRoot)
+        public SusieArchiverProxy(string path, ArchiveEntry source) : base(path, source)
         {
             var spi = SusieContext.Current.Susie?.GetArchivePlugin(Path, true);
             var isExtract = spi != null ? spi.IsPreExtract : false;
 
             if (isExtract)
             {
-                _archiver = new SusieExtractArchiver(path, source, isRoot);
+                _archiver = new SusieExtractArchiver(path, source);
             }
             else
             {
-                _archiver = new SusieArchiver(path, source, isRoot);
+                _archiver = new SusieArchiver(path, source);
             }
         }
 
@@ -64,15 +64,6 @@ namespace NeeView
             if (_archiver == null) throw new ApplicationException("Not initialized.");
 
             _archiver.ExtractToFile(entry, exportFileName, isOverwrite);
-        }
-
-        public override void SetRootFlag(bool flag)
-        {
-            base.SetRootFlag(flag);
-            if (_archiver != null)
-            {
-                _archiver.SetRootFlag(flag);
-            }
         }
 
         #endregion

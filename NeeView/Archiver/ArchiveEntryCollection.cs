@@ -81,12 +81,12 @@ namespace NeeView
             {
                 if (rootEntry.IsDirectory)
                 {
-                    rootArchiver = new FolderArchive(Path, null, true);
+                    rootArchiver = new FolderArchive(Path, null);
                     rootArchiverPath = "";
                 }
                 else
                 {
-                    rootArchiver = await ArchiverManager.Current.CreateArchiverAsync(rootEntry, true, allowPreExtract, token);
+                    rootArchiver = await ArchiverManager.Current.CreateArchiverAsync(rootEntry, allowPreExtract, token);
                     rootArchiverPath = "";
                 }
             }
@@ -94,7 +94,7 @@ namespace NeeView
             {
                 if (rootEntry.IsArchive())
                 {
-                    rootArchiver = await ArchiverManager.Current.CreateArchiverAsync(rootEntry, true, allowPreExtract, token);
+                    rootArchiver = await ArchiverManager.Current.CreateArchiverAsync(rootEntry, allowPreExtract, token);
                     rootArchiverPath = "";
                 }
                 else
@@ -157,7 +157,7 @@ namespace NeeView
 
                 if (entry.IsArchive())
                 {
-                    var subArchive = await ArchiverManager.Current.CreateArchiverAsync(entry, false, _option.HasFlag(ArchiveEntryCollectionOption.AllowPreExtract), token);
+                    var subArchive = await ArchiverManager.Current.CreateArchiverAsync(entry, _option.HasFlag(ArchiveEntryCollectionOption.AllowPreExtract), token);
                     var subEntries = await subArchive.GetEntriesAsync(token);
                     result.AddRange(await GetSubArchivesEntriesAsync(subEntries, token));
                 }

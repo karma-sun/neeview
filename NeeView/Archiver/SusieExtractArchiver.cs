@@ -25,9 +25,9 @@ namespace NeeView
 
         #region Constructors
 
-        public SusieExtractArchiver(string path, ArchiveEntry source, bool isRoot) : base(path, source, isRoot)
+        public SusieExtractArchiver(string path, ArchiveEntry source) : base(path, source)
         {
-            _archiver = new SusieArchiver(path, source, isRoot);
+            _archiver = new SusieArchiver(path, source);
         }
 
         #endregion
@@ -80,16 +80,6 @@ namespace NeeView
 
             File.Copy(GetFileSystemPath(entry), exportFileName, isOverwrite);
         }
-
-        public override void SetRootFlag(bool flag)
-        {
-            base.SetRootFlag(flag);
-            if (_archiver != null)
-            {
-                _archiver.SetRootFlag(flag);
-            }
-        }
-
 
         private void Open(CancellationToken token)
         {

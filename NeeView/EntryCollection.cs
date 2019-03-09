@@ -337,17 +337,17 @@ namespace NeeView
             Archiver archiver;
             if (entry.IsFileSystem)
             {
-                archiver = ArchiverManager.Current.CreateArchiver(entry.GetFileSystemPath(), entry, false, _isAll);
+                archiver = ArchiverManager.Current.CreateArchiver(entry.GetFileSystemPath(), entry, _isAll);
             }
             else if (entry.Archiver is PagemarkArchiver)
             {
-                archiver = ArchiverManager.Current.CreateArchiver(entry.SystemPath, entry, false, _isAll);
+                archiver = ArchiverManager.Current.CreateArchiver(entry.SystemPath, entry, _isAll);
             }
             else
             {
                 string tempFileName = await ArchivenEntryExtractorService.Current.ExtractRawAsync(entry, token);
                 _trashBox.Add(new TempFile(tempFileName));
-                archiver = ArchiverManager.Current.CreateArchiver(tempFileName, entry, false, _isAll);
+                archiver = ArchiverManager.Current.CreateArchiver(tempFileName, entry, _isAll);
             }
 
             if (archiver == null)

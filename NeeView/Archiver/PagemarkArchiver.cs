@@ -16,7 +16,7 @@ namespace NeeView
     /// </summary>
     public class PagemarkArchiver : Archiver
     {
-        public PagemarkArchiver(string path, ArchiveEntry source, bool isRoot) : base(path, source, isRoot)
+        public PagemarkArchiver(string path, ArchiveEntry source) : base(path, source)
         {
         }
 

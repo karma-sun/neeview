@@ -26,11 +26,9 @@ namespace NeeView
         /// </summary>
         /// <param name="path">アーカイブ実体へのパス</param>
         /// <param name="source">基となるエントリ</param>
-        /// <param name="isRoot">ルートアーカイバとする</param>
-        public Archiver(string path, ArchiveEntry source, bool isRoot)
+        public Archiver(string path, ArchiveEntry source)
         {
             Path = path;
-            RootFlag = isRoot;
 
             var query = new QueryPath(path);
 
@@ -126,15 +124,9 @@ namespace NeeView
         public DateTime LastWriteTime { get; private set; }
 
         /// <summary>
-        /// ルートフラグ
-        /// このフラグを立てたアーカイブがあればこれをルートとする
-        /// </summary>
-        public bool RootFlag { get; private set; }
-
-        /// <summary>
         /// ルート判定
         /// </summary>
-        public bool IsRoot => Parent == null || RootFlag;
+        public bool IsRoot => Parent == null;
 
         /// <summary>
         /// ルートアーカイバー取得
@@ -350,15 +342,6 @@ namespace NeeView
             {
                 return LoosePath.GetDirectoryName(this.SystemPath);
             }
-        }
-
-        /// <summary>
-        /// ルートフラグ設定
-        /// </summary>
-        /// <param name="flag"></param>
-        public virtual void SetRootFlag(bool flag)
-        {
-            this.RootFlag = flag;
         }
 
         /// <summary>

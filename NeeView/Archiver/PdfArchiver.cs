@@ -24,7 +24,7 @@ namespace NeeView
     {
         #region Constructors
 
-        public PdfArchiver(string path, ArchiveEntry source, bool isRoot) : base(path, source, isRoot)
+        public PdfArchiver(string path, ArchiveEntry source) : base(path, source)
         {
         }
 

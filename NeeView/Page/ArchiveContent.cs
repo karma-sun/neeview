@@ -211,7 +211,7 @@ namespace NeeView
                 }
 
                 // TODO: 圧縮ファイルのサムネイル抽出見直し
-                using (var archiver = await ArchiverManager.Current.CreateArchiverAsync(entry, true, false, token))
+                using (var archiver = await ArchiverManager.Current.CreateArchiverAsync(entry, false, token))
                 {
                     bool isRecursive = !archiver.IsFileSystem && BookHub.Current.ArchiveRecursiveMode == ArchiveEntryCollectionMode.IncludeSubArchives;
                     using (var collector = new EntryCollection(archiver, isRecursive, false))

@@ -24,7 +24,7 @@ namespace NeeView
 
         #region Constructors
 
-        public SevenZipExtractArchiver(string path, ArchiveEntry source, bool isRoot) : base(path, source, isRoot)
+        public SevenZipExtractArchiver(string path, ArchiveEntry source) : base(path, source)
         {
             SevenZipArchiver.InitializeLibrary();
             _source = source ?? new ArchiveEntry(path);

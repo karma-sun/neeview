@@ -268,14 +268,13 @@ namespace NeeView
         // アーカイバー作成
         public Archiver CreateArchiver(string path, ArchiveEntry source, bool isAll)
         {
+            // TODO: このキャッシュチェックは EntryCollection を削除したらなくす
             var systemPath = source != null ? source.SystemPath : path;
-
             if (_cache.TryGetValue(systemPath, out var archiver))
             {
                 Debug.WriteLine($"Archiver: Find cache: {systemPath}");
                 return archiver;
             }
-
             Debug.WriteLine($"Archiver: Cache not found: {systemPath}");
 
             if (Directory.Exists(path))
@@ -286,17 +285,6 @@ namespace NeeView
             {
                 return CreateArchiver(GetSupportedType(path), path, source, isAll);
             }
-        }
-
-        /// <summary>
-        /// アーカイバ作成
-        /// </summary>
-        /// <param name="path">パス</param>
-        /// <param name="isAll"></param>
-        /// <returns></returns>
-        public Archiver CreateArchiver(string path, bool isAll)
-        {
-            return CreateArchiver(path, null, isAll);
         }
 
         /// <summary>
@@ -417,9 +405,9 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
-        #region Debug
+#region Debug
 
         [Conditional("DEBUG")]
         public void DumpCache()
@@ -427,9 +415,9 @@ namespace NeeView
             _cache.Dump();
         }
 
-        #endregion
+#endregion
 
-        #region Memento
+#region Memento
         [DataContract]
         public class Memento
         {
@@ -478,6 +466,6 @@ namespace NeeView
 #pragma warning restore CS0612
         }
 
-        #endregion
+#endregion
     }
 }

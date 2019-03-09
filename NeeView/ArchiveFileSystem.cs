@@ -32,7 +32,7 @@ namespace NeeView
                 }
                 else
                 {
-                    var archiver = ArchiverManager.Current.CreateArchiver(QueryScheme.Pagemark.ToSchemeString(), false);
+                    var archiver = await ArchiverManager.Current.CreateArchiverAsync(new ArchiveEntry(QueryScheme.Pagemark.ToSchemeString()), false, token);
                     var entries = await archiver.GetEntriesAsync(token);
                     var entry = entries.FirstOrDefault(e => e.EntryName == query.FileName);
                     if (entry != null)
@@ -55,7 +55,7 @@ namespace NeeView
 
                         if (File.Exists(archivePath))
                         {
-                            var archiver = ArchiverManager.Current.CreateArchiver(archivePath, allowPreExtract);
+                            var archiver = await ArchiverManager.Current.CreateArchiverAsync(new ArchiveEntry(archivePath), allowPreExtract, token);
                             var entries = await archiver.GetEntriesAsync(token);
 
                             var entryName = path.Substring(archivePath.Length).TrimStart(LoosePath.Separator);
@@ -132,7 +132,7 @@ namespace NeeView
                 {
                     var archivePath = ArchiverManager.Current.GetExistPathName(path) ?? throw new FileNotFoundException();
                     var entryName = path.Substring(archivePath.Length).TrimStart(LoosePath.Separator);
-                    var archiver = ArchiverManager.Current.CreateArchiver(archivePath, false);
+                    var archiver = await ArchiverManager.Current.CreateArchiverAsync(new ArchiveEntry(archivePath), false, token);
                     ////Debug.WriteLine($"Create Archiver: {archiver.FullPath}");
                     var entries = await archiver.GetEntriesAsync(token);
                     var entry = entries.FirstOrDefault(e => e.EntryName == entryName);

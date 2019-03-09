@@ -391,6 +391,16 @@ namespace NeeView
             var collectOption = ArchiveEntryCollectionOption.AllowPreExtract;
             this.ArchiveEntryCollection = new ArchiveEntryCollection(address.Place, collectMode, archiveCollectMode, collectOption);
 
+            // 自動再帰処理
+            if (_option.HasFlag(BookLoadOption.AutoRecursive))
+            {
+                var entries = await ArchiveEntryCollection.GetEntriesAsync(token);
+                if (entries.Count == 1 && entries.First().IsArchive())
+                {
+                    this.ArchiveEntryCollection = new ArchiveEntryCollection(address.Place, ArchiveEntryCollectionMode.IncludeSubArchives, ArchiveEntryCollectionMode.IncludeSubArchives, collectOption);
+                }
+            }
+
             // TODO: 事前展開処理をここで発行する
 
             this.Pages = await CreatePageCollection(address.Place, _option, token);

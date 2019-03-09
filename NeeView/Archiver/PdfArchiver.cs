@@ -46,8 +46,6 @@ namespace NeeView
         // エントリーリストを得る
         public override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
         {
-            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
-
             var list = new List<ArchiveEntry>();
 
             using (var pdfDocument = PdfDocument.Load(Path))
@@ -77,8 +75,6 @@ namespace NeeView
         // PDFは画像化したものをストリームにして返す
         public override Stream OpenStream(ArchiveEntry entry)
         {
-            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
-
             using (var pdfDocument = PdfDocument.Load(Path))
             {
                 var size = GetRenderSize(pdfDocument, entry.Id);
@@ -94,8 +90,6 @@ namespace NeeView
         // 標準サイズで取得
         public Size GetRenderSize(ArchiveEntry entry)
         {
-            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
-
             using (var pdfDocument = PdfDocument.Load(Path))
             {
                 return GetRenderSize(pdfDocument, entry.Id);
@@ -113,8 +107,6 @@ namespace NeeView
         // ファイルとして出力
         public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
-            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
-
             using (var pdfDocument = PdfDocument.Load(Path))
             {
                 var size = GetRenderSize(pdfDocument, entry.Id);
@@ -127,8 +119,6 @@ namespace NeeView
         // サイズを指定して画像を取得する
         public System.Drawing.Image CraeteBitmapSource(ArchiveEntry entry, Size size)
         {
-            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
-
             using (var pdfDocument = PdfDocument.Load(Path))
             {
                 return pdfDocument.Render(entry.Id, (int)size.Width, (int)size.Height, 96, 96, false);

@@ -174,16 +174,14 @@ namespace NeeView
             }
             if (this.Entry.IsArchivePath)
             {
-                using (var entry = await ArchiveFileSystem.CreateArchiveEntry(this.Entry.SystemPath, token))
+                var entry = await ArchiveFileSystem.CreateArchiveEntry(this.Entry.SystemPath, token);
+                if (entry.IsBook())
                 {
-                    if (entry.IsBook())
-                    {
-                        return await LoadArchivePictureAsync(entry, token);
-                    }
-                    else
-                    {
-                        return new ThumbnailPicture(await LoadPictureAsync(entry, PictureCreateOptions.CreateThumbnail | PictureCreateOptions.IgnoreImageCache, token));
-                    }
+                    return await LoadArchivePictureAsync(entry, token);
+                }
+                else
+                {
+                    return new ThumbnailPicture(await LoadPictureAsync(entry, PictureCreateOptions.CreateThumbnail | PictureCreateOptions.IgnoreImageCache, token));
                 }
             }
             else
@@ -211,22 +209,20 @@ namespace NeeView
                 }
 
                 // TODO: 圧縮ファイルのサムネイル抽出見直し
-                using (var archiver = await ArchiverManager.Current.CreateArchiverAsync(entry, false, token))
+                var archiver = await ArchiverManager.Current.CreateArchiverAsync(entry, false, token);
+                bool isRecursive = !archiver.IsFileSystem && BookHub.Current.ArchiveRecursiveMode == ArchiveEntryCollectionMode.IncludeSubArchives;
+                using (var collector = new EntryCollection(archiver, isRecursive, false))
                 {
-                    bool isRecursive = !archiver.IsFileSystem && BookHub.Current.ArchiveRecursiveMode == ArchiveEntryCollectionMode.IncludeSubArchives;
-                    using (var collector = new EntryCollection(archiver, isRecursive, false))
-                    {
-                        await collector.FirstOneAsync(token);
-                        var select = collector.Collection.FirstOrDefault();
+                    await collector.FirstOneAsync(token);
+                    var select = collector.Collection.FirstOrDefault();
 
-                        if (select != null)
-                        {
-                            return new ThumbnailPicture(await LoadPictureAsync(select, PictureCreateOptions.CreateThumbnail | PictureCreateOptions.IgnoreImageCache, token));
-                        }
-                        else
-                        {
-                            return null;
-                        }
+                    if (select != null)
+                    {
+                        return new ThumbnailPicture(await LoadPictureAsync(select, PictureCreateOptions.CreateThumbnail | PictureCreateOptions.IgnoreImageCache, token));
+                    }
+                    else
+                    {
+                        return null;
                     }
                 }
             }

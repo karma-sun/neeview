@@ -109,12 +109,10 @@ namespace NeeView
         {
             try
             {
-                using (var entry = await ArchiveFileSystem.CreateArchiveEntry(path.SimplePath, token))
-                {
-                    var collection = CreateArchiveCollection(path, await ArchiverManager.Current.CreateArchiverAsync(entry, false, token), isActive);
-                    token.ThrowIfCancellationRequested();
-                    return collection;
-                }
+                var entry = await ArchiveFileSystem.CreateArchiveEntry(path.SimplePath, token);
+                var collection = CreateArchiveCollection(path, await ArchiverManager.Current.CreateArchiverAsync(entry, false, token), isActive);
+                token.ThrowIfCancellationRequested();
+                return collection;
             }
             catch (Exception ex)
             {

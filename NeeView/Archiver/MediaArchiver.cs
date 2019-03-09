@@ -50,7 +50,6 @@ namespace NeeView
 
         public override Stream OpenStream(ArchiveEntry entry)
         {
-            if (this.IsDisposed) throw new ApplicationException("Archive already colosed.");
             return new FileStream(GetFileSystemPath(entry), FileMode.Open, FileAccess.Read);
         }
 
@@ -62,7 +61,6 @@ namespace NeeView
 
         public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
-            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
             File.Copy(GetFileSystemPath(entry), exportFileName, isOverwrite);
         }
 

@@ -40,10 +40,6 @@ namespace NeeView
         // 先読み解除フラグ
         private int _canPreLoadCount;
 
-        // アーカイバーコレクション
-        // Dispose処理のために保持
-        private List<Archiver> _archivers = new List<Archiver>();
-
         /// <summary>
         /// 要求中の表示範囲
         /// </summary>
@@ -1562,10 +1558,6 @@ namespace NeeView
                     if (Pages != null)
                     {
                         Pages.ForEach(e => e?.Reset());
-                    }
-                    if (_archivers != null)
-                    {
-                        _archivers.ForEach(e => e.Dispose());
                     }
 
                     if (_trashBox != null)

@@ -346,7 +346,7 @@ namespace NeeView
             else
             {
                 string tempFileName = await ArchivenEntryExtractorService.Current.ExtractRawAsync(entry, token);
-                _trashBox.Add(new TempFile(tempFileName));
+                ////_trashBox.Add(new TempFile(tempFileName));
                 archiver = ArchiverManager.Current.CreateArchiver(tempFileName, entry, _isAll);
             }
 
@@ -355,7 +355,7 @@ namespace NeeView
                 return null;
             }
 
-            _trashBox.Add(archiver);
+            ////_trashBox.Add(archiver);
 
             if (!archiver.IsSupported())
             {

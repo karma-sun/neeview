@@ -72,6 +72,8 @@ namespace NeeView
         private List<ArchiverType> _orderList;
         private bool _isDartyOrderList = true;
 
+        private ArchiverCache _cache = new ArchiverCache();
+
         #endregion
 
         #region Constructors
@@ -225,34 +227,57 @@ namespace NeeView
         /// <param name="isRoot">ルートアーカイブとする</param>
         /// <param name="isAll">全て展開を前提とする</param>
         /// <returns>作成されたアーカイバー</returns>
-        public Archiver CreateArchiver(ArchiverType type, string path, ArchiveEntry source, bool isAll)
+        private Archiver CreateArchiver(ArchiverType type, string path, ArchiveEntry source, bool isAll)
         {
+            Archiver archiver;
+
             switch (type)
             {
                 case ArchiverType.FolderArchive:
-                    return new FolderArchive(path, source);
+                    archiver = new FolderArchive(path, source );
+                    break;
                 case ArchiverType.ZipArchiver:
-                    return new ZipArchiver(path, source);
+                    archiver = new ZipArchiver(path, source);
+                    break;
                 case ArchiverType.SevenZipArchiver:
-                    return new SevenZipArchiverProxy(path, source, isAll);
+                    archiver = new SevenZipArchiverProxy(path, source, isAll);
+                    break;
                 case ArchiverType.PdfArchiver:
-                    return new PdfArchiver(path, source);
+                    archiver = new PdfArchiver(path, source);
+                    break;
                 case ArchiverType.MediaArchiver:
-                    return new MediaArchiver(path, source);
+                    archiver = new MediaArchiver(path, source);
+                    break;
                 case ArchiverType.SusieArchiver:
-                    return new SusieArchiverProxy(path, source);
+                    archiver = new SusieArchiverProxy(path, source);
+                    break;
                 case ArchiverType.PagemarkArchiver:
-                    return new PagemarkArchiver(path, source);
+                    archiver = new PagemarkArchiver(path, source);
+                    break;
                 default:
                     ////throw new ArgumentException("Not support archive type.");
                     string extension = LoosePath.GetExtension(path);
                     throw new NotSupportedFileTypeException(extension);
             }
+
+            _cache.Add(archiver);
+
+            return archiver;
         }
 
         // アーカイバー作成
         public Archiver CreateArchiver(string path, ArchiveEntry source, bool isAll)
         {
+            var systemPath = source != null ? source.SystemPath : path;
+
+            if (_cache.TryGetValue(systemPath, out var archiver))
+            {
+                Debug.WriteLine($"Archiver: Find cache: {systemPath}");
+                return archiver;
+            }
+
+            Debug.WriteLine($"Archiver: Cache not found: {systemPath}");
+
             if (Directory.Exists(path))
             {
                 return CreateArchiver(ArchiverType.FolderArchive, path, source, isAll);
@@ -284,6 +309,15 @@ namespace NeeView
         /// <returns></returns>
         public async Task<Archiver> CreateArchiverAsync(ArchiveEntry source, bool isAll, CancellationToken token)
         {
+            // キャッシュがあればそれを返す。
+            // TODO: キャッシュチェック箇所が複数あるのをどうにかする
+            var systemPath = source.SystemPath;
+            if (_cache.TryGetValue(systemPath, out var arciver))
+            {
+                Debug.WriteLine($"Archiver: Find cache: {systemPath}");
+                return arciver;
+            }
+
             if (source.IsFileSystem)
             {
                 return CreateArchiver(source.SystemPath, null, isAll);
@@ -292,9 +326,11 @@ namespace NeeView
             {
                 // TODO: テンポラリファイルの指定方法をスマートに。
                 var tempFile = await ArchivenEntryExtractorService.Current.ExtractAsync(source, token);
-                var archiver = CreateArchiver(tempFile.Path, source, isAll);
-                archiver.TempFile = tempFile;
-                return archiver;
+                var archiverTemp = CreateArchiver(tempFile.Path, source, isAll);
+                Debug.WriteLine($"Archiver: {archiverTemp.SystemPath} => {tempFile.Path}");
+                Debug.Assert(archiverTemp.TempFile == null);
+                archiverTemp.TempFile = tempFile;
+                return archiverTemp;
             }
         }
 
@@ -379,6 +415,16 @@ namespace NeeView
                 default:
                     return ArchiverType.None;
             }
+        }
+
+        #endregion
+
+        #region Debug
+
+        [Conditional("DEBUG")]
+        public void DumpCache()
+        {
+            _cache.Dump();
         }
 
         #endregion

@@ -57,8 +57,6 @@ namespace NeeView
         // エントリーリストを得る
         public override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
         {
-            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
-
             var list = new List<ArchiveEntry>();
             var directories = new List<ArchiveEntry>();
 
@@ -120,7 +118,6 @@ namespace NeeView
         // エントリーのストリームを得る
         public override Stream OpenStream(ArchiveEntry entry)
         {
-            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
             if (entry.Id < 0) throw new ApplicationException("Cannot open this entry: " + entry.EntryName);
 
             using (var archiver = ZipFile.OpenRead(Path))
@@ -144,7 +141,6 @@ namespace NeeView
         //
         public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
-            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
             if (entry.Id < 0) throw new ApplicationException("Cannot open this entry: " + entry.EntryName);
 
             using (var archiver = ZipFile.OpenRead(Path))

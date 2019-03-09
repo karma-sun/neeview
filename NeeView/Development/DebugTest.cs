@@ -14,11 +14,15 @@ namespace NeeView
         public static async Task ExecuteTestAsync()
         {
             Debug.WriteLine("\n[DebugTest]...");
+            await Task.Yield();
 
             try
             {
+                // Archvierのキャッシュ一覧
+                ArchiverManager.Current.DumpCache();
+
                 // ArchiveEntry収集テスト
-                await ArchiveEntryCollectionTest.ExecuteAsync(CancellationToken.None);
+                //await ArchiveEntryCollectionTest.ExecuteAsync(CancellationToken.None);
 
                 // ブックサムネイル作成テスト
                 ////await DebugCreateBookThumbnail.TestAsync();

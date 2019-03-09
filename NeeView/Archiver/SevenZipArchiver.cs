@@ -192,7 +192,6 @@ namespace NeeView
 
         private object _lock = new object();
         private SevenZipSource _source;
-        private Stream _stream;
 
         #endregion
 
@@ -236,8 +235,6 @@ namespace NeeView
         // エントリーリストを得る
         public override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
         {
-            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
-
             token.ThrowIfCancellationRequested();
 
             var list = new List<ArchiveEntry>();
@@ -295,7 +292,6 @@ namespace NeeView
         // エントリーのストリームを得る
         public override Stream OpenStream(ArchiveEntry entry)
         {
-            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
             if (entry.Id < 0) throw new ApplicationException("Cannot open this entry: " + entry.EntryName);
 
             lock (_lock)
@@ -322,7 +318,6 @@ namespace NeeView
         // ファイルに出力
         public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
-            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
             if (entry.Id < 0) throw new ApplicationException("Cannot open this entry: " + entry.EntryName);
 
             lock (_lock)
@@ -337,33 +332,5 @@ namespace NeeView
 
         #endregion
 
-        #region IDisposable Support
-
-        protected override void Dispose(bool disposing)
-        {
-            if (!_disposedValue)
-            {
-                if (disposing)
-                {
-                    lock (_lock)
-                    {
-                        if (_source != null)
-                        {
-                            _source.Dispose();
-                            _source = null;
-                        }
-                        if (_stream != null)
-                        {
-                            _stream.Dispose();
-                            _stream = null;
-                        }
-                    }
-                }
-            }
-
-            base.Dispose(disposing);
-        }
-
-        #endregion
     }
 }

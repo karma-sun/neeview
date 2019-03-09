@@ -38,8 +38,6 @@ namespace NeeView
         // リスト取得
         public override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
         {
-            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
-
             token.ThrowIfCancellationRequested();
 
             var placeQuery = new QueryPath(Path);
@@ -77,12 +75,10 @@ namespace NeeView
         // ストリームを開く
         public override Stream OpenStream(ArchiveEntry entry)
         {
-            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
-
             if (entry.Instance is TreeListNode<IPagemarkEntry> node && node.Value is Pagemark pagemark)
             {
                 // NOTE: 非同期関数をResult待ちしているので要注意
-                using (var entry_ = ArchiveFileSystem.CreateArchiveEntry(pagemark.FullName, CancellationToken.None).Result)
+                var entry_ = ArchiveFileSystem.CreateArchiveEntry(pagemark.FullName, CancellationToken.None).Result;
                 {
                     var mem = new MemoryStream();
                     entry_.OpenEntry().CopyTo(mem);
@@ -109,11 +105,10 @@ namespace NeeView
         // HACK: async化
         public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
-            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
-
             if (entry.Instance is TreeListNode<IPagemarkEntry> node && node.Value is Pagemark pagemark)
             {
-                using (var entry_ = Task.Run(() => ArchiveFileSystem.CreateArchiveEntry(pagemark.FullName, CancellationToken.None).Result).Result)
+                // TODO: なんだこれ？
+                var entry_ = Task.Run(() => ArchiveFileSystem.CreateArchiveEntry(pagemark.FullName, CancellationToken.None).Result).Result;
                 {
                     entry_.ExtractToFile(exportFileName, isOverwrite);
                 }

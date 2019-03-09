@@ -12,7 +12,7 @@ namespace NeeView
     /// <summary>
     /// アーカイバー基底クラス
     /// </summary>
-    public abstract class Archiver : ITrash
+    public abstract class Archiver
     {
         /// <summary>
         /// ArchiveEntry Cache
@@ -372,38 +372,6 @@ namespace NeeView
 
         #endregion
 
-        #region ITrush Support
-        public bool IsDisposed => _disposedValue;
-        #endregion
-
-        #region IDisposable Support
-        protected bool _disposedValue { get; private set; }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposedValue)
-            {
-                if (disposing)
-                {
-                }
-
-                this.TempFile = null;
-
-                _disposedValue = true;
-            }
-        }
-
-        ~Archiver()
-        {
-            Dispose(false);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-        #endregion
     }
 
     /// <summary>
@@ -429,5 +397,6 @@ namespace NeeView
             list.AddRange(entries);
         }
     }
+
 }
 

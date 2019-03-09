@@ -625,14 +625,13 @@ namespace NeeView
             try
             {
                 // address
-                using (var address = new BookAddress())
-                {
-                    await address.InitializeAsync(args.Path, args.StartEntry, args.Option, token);
+                var address = new BookAddress();
+                await address.InitializeAsync(args.Path, args.StartEntry, args.Option, token);
 
-                    // Now Loading ON
-                    NotifyLoading(args.Path);
+                // Now Loading ON
+                NotifyLoading(args.Path);
 
-                    // TODO: ##
+                // TODO: ##
 #if false
                     // フォルダーリスト更新
                     if (args.IsRefreshFolderList)
@@ -646,24 +645,23 @@ namespace NeeView
                     }
 #endif
 
-                    // 履歴リスト更新
-                    if ((args.Option & BookLoadOption.SelectHistoryMaybe) != 0)
-                    {
-                        AppDispatcher.Invoke(() => HistoryListSync?.Invoke(this, new BookHubPathEventArgs(address.Place)));
-                    }
-
-                    // 本の設定
-                    var memory = BookSetting.Current.CreateLastestBookMemento(address.Place, lastBookMemento);
-                    var setting = BookSetting.Current.GetSetting(address.Place, memory, args.Option);
-
-                    address.EntryName = address.EntryName ?? LoosePath.NormalizeSeparator(setting.Page);
-                    place = address.SystemPath;
-
-                    // Load本体
-                    await LoadAsyncCore(address, args.Option, setting, token);
-
-                    ////DebugTimer.Check("LoadCore");
+                // 履歴リスト更新
+                if ((args.Option & BookLoadOption.SelectHistoryMaybe) != 0)
+                {
+                    AppDispatcher.Invoke(() => HistoryListSync?.Invoke(this, new BookHubPathEventArgs(address.Place)));
                 }
+
+                // 本の設定
+                var memory = BookSetting.Current.CreateLastestBookMemento(address.Place, lastBookMemento);
+                var setting = BookSetting.Current.GetSetting(address.Place, memory, args.Option);
+
+                address.EntryName = address.EntryName ?? LoosePath.NormalizeSeparator(setting.Page);
+                place = address.SystemPath;
+
+                // Load本体
+                await LoadAsyncCore(address, args.Option, setting, token);
+
+                ////DebugTimer.Check("LoadCore");
 
                 AppDispatcher.Invoke(() =>
                 {
@@ -1237,7 +1235,7 @@ namespace NeeView
             IsUncHistoryEnabled = memento.IsUncHistoryEnabled;
             IsForceUpdateHistory = memento.IsForceUpdateHistory;
             ArchiveRecursiveMode = memento.ArchiveRecursveMode;
-            
+
         }
 
 

@@ -171,6 +171,7 @@
     </ApplicationDefinition>
     <Compile Include="AppDispatcher.cs" />
     <Compile Include="ApplicationDisposer.cs" />
+    <Compile Include="Archiver\ArchiverCache.cs" />
     <Compile Include="Archiver\ArchiveEntryCollection.cs" />
     <Compile Include="Archiver\ArchiveEntryTree.cs" />
     <Compile Include="Archiver\ArchiveEntryTreeNode.cs" />

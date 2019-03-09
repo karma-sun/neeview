@@ -41,7 +41,6 @@ namespace NeeView
 
         public override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
         {
-            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
             return _archiver.GetEntries(token);
         }
 
@@ -52,7 +51,6 @@ namespace NeeView
 
         public override Stream OpenStream(ArchiveEntry entry)
         {
-            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
             if (_archiver == null) throw new ApplicationException("Not initialized.");
 
             return _archiver.OpenStream(entry);
@@ -60,31 +58,9 @@ namespace NeeView
 
         public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
-            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
             if (_archiver == null) throw new ApplicationException("Not initialized.");
 
             _archiver.ExtractToFile(entry, exportFileName, isOverwrite);
-        }
-
-        #endregion
-
-        #region IDisposable Support
-
-        protected override void Dispose(bool disposing)
-        {
-            if (!_disposedValue)
-            {
-                if (disposing)
-                {
-                    if (_archiver != null)
-                    {
-                        _archiver.Dispose();
-                        _archiver = null;
-                    }
-                }
-            }
-
-            base.Dispose(disposing);
         }
 
         #endregion

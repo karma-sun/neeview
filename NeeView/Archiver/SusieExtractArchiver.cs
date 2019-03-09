@@ -13,7 +13,7 @@ namespace NeeView
     /// <summary>
     /// 事前にテンポラリフォルダーに展開してアクセスするアーカイバー
     /// </summary>
-    public class SusieExtractArchiver : Archiver
+    public class SusieExtractArchiver : Archiver, IDisposable
     {
         #region Fields
 
@@ -44,8 +44,6 @@ namespace NeeView
 
         public override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
         {
-            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
-
             //Debug.WriteLine($"SusieExtractArchiver.GetEntry: ${this.Path}");
 
             Open(token);
@@ -69,22 +67,17 @@ namespace NeeView
 
         public override Stream OpenStream(ArchiveEntry entry)
         {
-            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
-
             return new FileStream(GetFileSystemPath(entry), FileMode.Open, FileAccess.Read);
         }
 
         public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
-            if (_disposedValue) throw new ApplicationException("Archive already colosed.");
-
             File.Copy(GetFileSystemPath(entry), exportFileName, isOverwrite);
         }
 
         private void Open(CancellationToken token)
         {
-            if (IsDisposed || _temp != null) return;
-
+            if (_temp != null) return;
 
             var directory = Temporary.Current.CreateCountedTempFileName("arc", "");
             _temp = directory;
@@ -150,25 +143,33 @@ namespace NeeView
         #endregion
 
         #region IDisposable Support
+        private bool _disposedValue = false;
 
-        protected override void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (!_disposedValue)
             {
                 if (disposing)
                 {
-                    if (_archiver != null)
-                    {
-                        _archiver.Dispose();
-                    }
                 }
 
                 Close();
-            }
 
-            base.Dispose(disposing);
+                _disposedValue = true;
+            }
         }
 
+        ~SusieExtractArchiver()
+        {
+            Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
         #endregion
+
     }
 }

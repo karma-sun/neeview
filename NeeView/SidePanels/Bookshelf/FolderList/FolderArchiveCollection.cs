@@ -10,7 +10,7 @@ namespace NeeView
     /// <summary>
     /// 検索コレクション
     /// </summary>
-    public class FolderArchiveCollection : FolderCollection, IDisposable
+    public class FolderArchiveCollection : FolderCollection
     {
         #region Fields
 
@@ -103,26 +103,6 @@ namespace NeeView
             };
         }
 
-        #endregion
-
-        #region IDisposable Support
-
-        private bool _disposedValue = false; // 重複する呼び出しを検出するには
-
-        protected override void Dispose(bool disposing)
-        {
-            if (!_disposedValue)
-            {
-                if (disposing)
-                {
-                    _archiver?.Dispose();
-                }
-
-                _disposedValue = true;
-            }
-
-            base.Dispose(disposing);
-        }
         #endregion
     }
 }

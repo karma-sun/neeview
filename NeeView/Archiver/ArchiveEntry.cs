@@ -12,7 +12,7 @@ namespace NeeView
     /// <summary>
     /// アーカイブエントリ
     /// </summary>
-    public class ArchiveEntry : IDisposable
+    public class ArchiveEntry
     {
         #region Constructors
 
@@ -344,18 +344,6 @@ namespace NeeView
         }
 
 
-        /// <summary>
-        /// 関連するArchiverをDisposeする
-        /// </summary>
-        private void DisporeArchivers()
-        {
-            for (var archiver = this.Archiver; archiver != null; archiver = archiver.Parent)
-            {
-                archiver.Dispose();
-            }
-        }
-
-
         public override string ToString()
         {
             return EntryName ?? base.ToString();
@@ -363,41 +351,6 @@ namespace NeeView
 
         #endregion
 
-        #region IDisposable Support
-        private bool disposedValue = false; // 重複する呼び出しを検出するには
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    // マネージ状態を破棄します (マネージ オブジェクト)。
-                    DisporeArchivers();
-                }
-
-                // TODO: アンマネージ リソース (アンマネージ オブジェクト) を解放し、下のファイナライザーをオーバーライドします。
-                // TODO: 大きなフィールドを null に設定します。
-
-                disposedValue = true;
-            }
-        }
-
-        // TODO: 上の Dispose(bool disposing) にアンマネージ リソースを解放するコードが含まれる場合にのみ、ファイナライザーをオーバーライドします。
-        // ~ArchiveEntry() {
-        //   // このコードを変更しないでください。クリーンアップ コードを上の Dispose(bool disposing) に記述します。
-        //   Dispose(false);
-        // }
-
-        // このコードは、破棄可能なパターンを正しく実装できるように追加されました。
-        public void Dispose()
-        {
-            // このコードを変更しないでください。クリーンアップ コードを上の Dispose(bool disposing) に記述します。
-            Dispose(true);
-            // TODO: 上のファイナライザーがオーバーライドされる場合は、次の行のコメントを解除してください。
-            // GC.SuppressFinalize(this);
-        }
-        #endregion
     }
 
 

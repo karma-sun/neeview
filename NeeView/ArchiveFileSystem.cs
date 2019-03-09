@@ -197,10 +197,8 @@ namespace NeeView
         {
             try
             {
-                using (var entry = await CreateArchiveEntry(path, token))
-                {
-                    return entry != null;
-                }
+                var entry = await CreateArchiveEntry(path, token);
+                return entry != null;
             }
             catch (FileNotFoundException)
             {

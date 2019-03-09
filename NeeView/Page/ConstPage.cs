@@ -2,7 +2,7 @@
 {
     public class ConstPage : Page
     {
-        public ConstPage(ThumbnailType thumbnailType)
+        public ConstPage(ThumbnailType thumbnailType) : base("", null)
         {
             Content = new ConstContent(thumbnailType);
         }

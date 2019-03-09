@@ -210,9 +210,10 @@ namespace NeeView
                     return new ThumbnailPicture(ThumbnailType.Media);
                 }
 
+                // TODO: 圧縮ファイルのサムネイル抽出見直し
                 using (var archiver = await ArchiverManager.Current.CreateArchiverAsync(entry, true, false, token))
                 {
-                    bool isRecursive = !archiver.IsFileSystem && BookHub.Current.IsArchiveRecursive;
+                    bool isRecursive = !archiver.IsFileSystem && BookHub.Current.ArchiveRecursiveMode == ArchiveEntryCollectionMode.IncludeSubArchives;
                     using (var collector = new EntryCollection(archiver, isRecursive, false))
                     {
                         await collector.FirstOneAsync(token);

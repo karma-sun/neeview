@@ -255,13 +255,13 @@ namespace NeeView
         public bool IsDirectory { get; private set; }
 
         // この本のアーカイバ
-        public Archiver Archiver { get; private set; }
+        public ArchiveEntryCollection ArchiveEntryCollection { get; private set; }
 
         // メディアアーカイバ？
-        public bool IsMedia => Archiver is MediaArchiver;
+        public bool IsMedia => ArchiveEntryCollection?.RootArchiver is MediaArchiver;
 
         // ページマークアーカイバ？
-        public bool IsPagemarkFolder => Archiver is PagemarkArchiver;
+        public bool IsPagemarkFolder => ArchiveEntryCollection?.RootArchiver is PagemarkArchiver;
 
         // 開始ページ
         public string StartEntry { get; private set; }
@@ -294,16 +294,17 @@ namespace NeeView
 
         public string GetArchiverDetail()
         {
-            if (this.Archiver == null)
+            var archiver = ArchiveEntryCollection?.RootArchiver;
+            if (archiver == null)
             {
                 return null;
             }
 
-            var inner = this.Archiver.Parent != null ? Properties.Resources.WordInner + " " : "";
+            var inner = archiver.Parent != null ? Properties.Resources.WordInner + " " : "";
 
-            var extension = LoosePath.GetExtension(this.Archiver.EntryName);
+            var extension = LoosePath.GetExtension(archiver.EntryName);
 
-            var archiverType = ArchiverManager.Current.GetArchiverType(this.Archiver);
+            var archiverType = ArchiverManager.Current.GetArchiverType(archiver);
             switch (archiverType)
             {
                 case ArchiverType.FolderArchive:
@@ -336,19 +337,14 @@ namespace NeeView
         /// <summary>
         /// フォルダーの読込
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="start"></param>
-        /// <param name="option"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        public async Task LoadAsync(BookAddress address, BookLoadOption option, CancellationToken token)
+        public async Task LoadAsync(BookAddress address, ArchiveEntryCollectionMode archiveRecursiveMode, BookLoadOption option, CancellationToken token)
         {
             try
             {
                 Log.TraceEvent(TraceEventType.Information, Serial, $"Load: {address.Place}");
                 Log.Flush();
 
-                await LoadCoreAsync(address, option, token);
+                await LoadCoreAsync(address, archiveRecursiveMode, option, token);
             }
             catch (Exception e)
             {
@@ -361,16 +357,12 @@ namespace NeeView
         }
 
         // 本読み込み
-        public async Task LoadCoreAsync(BookAddress address, BookLoadOption option, CancellationToken token)
+        public async Task LoadCoreAsync(BookAddress address, ArchiveEntryCollectionMode archiveRecursiveMode, BookLoadOption option, CancellationToken token)
         {
             Debug.Assert(Place == null);
             ////Debug.WriteLine($"OPEN: {address.Place}, {address.EntryName}, {address.Archiver.Path}");
 
             _option = option;
-
-            // ソリッド書庫の事前展開を許可してアーカイバ再生性
-            var archiver = ArchiverManager.Current.CreateArchiver(address.Archiver.Path, address.Archiver.Source, true, true);
-            archiver.TempFile = archiver.TempFile ?? address.Archiver.TempFile; // TEMPファイル引き継ぎ
 
             var start = address.EntryName;
 
@@ -391,23 +383,22 @@ namespace NeeView
                 _option |= BookLoadOption.Recursive;
             }
 
-            // 圧縮ファイル再帰
-            if (!address.Archiver.IsFileSystem && _option.HasFlag(BookLoadOption.ArchiveRecursive))
-            {
-                _option |= BookLoadOption.Recursive;
-            }
-
             PagePosition position = FirstPosition();
             int direction = 1;
 
-            this.Archiver = archiver;
-            _trashBox.Add(archiver);
+            var collectMode = _option.HasFlag(BookLoadOption.Recursive) ? ArchiveEntryCollectionMode.IncludeSubArchives : ArchiveEntryCollectionMode.CurrentDirectory;
+            var archiveCollectMode = _option.HasFlag(BookLoadOption.Recursive) ? ArchiveEntryCollectionMode.IncludeSubArchives : archiveRecursiveMode;
+            var collectOption = ArchiveEntryCollectionOption.AllowPreExtract;
+            this.ArchiveEntryCollection = new ArchiveEntryCollection(address.Place, collectMode, archiveCollectMode, collectOption);
 
-            this.Pages = await ReadArchiveAsync2(archiver, _option, token);
+            // TODO: 事前展開処理をここで発行する
+
+            this.Pages = await CreatePageCollection(address.Place, _option, token);
             _pageMap.Clear();
 
 
             // Pages initialize
+            // TODO: ページ生成と同時に行うべき
             var prefix = GetPagesPrefix();
             foreach (var page in Pages)
             {
@@ -446,8 +437,8 @@ namespace NeeView
             StartEntry = Pages.Count > 0 ? Pages[position.Index].EntryFullName : null;
 
             // 有効化
-            Place = archiver.SystemPath;
-            IsDirectory = archiver is FolderArchive;
+            Place = ArchiveEntryCollection.Path;
+            IsDirectory = ArchiveEntryCollection.RootArchiver is FolderArchive;
 
             // 初期ページ設定
             RequestSetPosition(this, position, direction, true);
@@ -478,28 +469,24 @@ namespace NeeView
         }
 
 
-        /// <summary>
-        /// ページ収集
-        /// </summary>
-        /// <param name="archiver"></param>
-        /// <param name="option"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        private async Task<List<Page>> ReadArchiveAsync2(Archiver archiver, BookLoadOption option, CancellationToken token)
+        private async Task<List<Page>> CreatePageCollection(string place, BookLoadOption option, CancellationToken token)
         {
             try
             {
-                var collection = new EntryCollection(archiver, option.HasFlag(BookLoadOption.Recursive), option.HasFlag(BookLoadOption.SupportAllFile));
-                _trashBox.Add(collection);
+                List<ArchiveEntry> entries;
 
-                await collection.CollectAsync(token);
+                if (option.HasFlag(BookLoadOption.SupportAllFile))
+                {
+                    entries = await ArchiveEntryCollection.GetEntriesWherePageAllAsync(token);
+                }
+                else
+                {
+                    entries = await ArchiveEntryCollection.GetEntriesWhereImageAsync(token);
+                }
 
-                SubFolderCount = collection.SkippedArchiveCount;
-
-                return collection.Collection
-                    .Where(e => !e.IsDirectory || e.IsEmpty)
-                    .Select(e => CreatePage(e))
-                    .ToList();
+                var bookPrefix = LoosePath.TrimDirectoryEnd(place);
+                var pages = entries.Select(e => CreatePage(bookPrefix, e)).ToList();
+                return pages;
             }
             catch (Exception e)
             {
@@ -513,7 +500,7 @@ namespace NeeView
         /// </summary>
         /// <param name="entry">ファイルエントリ</param>
         /// <returns></returns>
-        private Page CreatePage(ArchiveEntry entry)
+        private Page CreatePage(string bookPrefix, ArchiveEntry entry)
         {
             Page page;
 
@@ -521,19 +508,19 @@ namespace NeeView
             {
                 if (entry.Archiver is MediaArchiver)
                 {
-                    page = new MediaPage(entry);
+                    page = new MediaPage(bookPrefix, entry);
                 }
                 else if (entry.Archiver is PdfArchiver)
                 {
-                    page = new PdfPage(entry);
+                    page = new PdfPage(bookPrefix, entry);
                 }
                 else if (BookProfile.Current.IsEnableAnimatedGif && LoosePath.GetExtension(entry.EntryName) == ".gif")
                 {
-                    page = new AnimatedPage(entry);
+                    page = new AnimatedPage(bookPrefix, entry);
                 }
                 else
                 {
-                    page = new BitmapPage(entry);
+                    page = new BitmapPage(bookPrefix, entry);
                 }
             }
             else
@@ -545,18 +532,18 @@ namespace NeeView
                         if (BookProfile.Current.IsIgnoreFileExtension())
                         {
                             entry.IsIgnoreFileExtension = true;
-                            page = new BitmapPage(entry);
+                            page = new BitmapPage(bookPrefix, entry);
                         }
                         else
                         {
-                            page = new FilePage(entry, FilePageIcon.File);
+                            page = new FilePage(bookPrefix, entry, FilePageIcon.File);
                         }
                         break;
                     case ArchiverType.FolderArchive:
-                        page = new FilePage(entry, FilePageIcon.Folder);
+                        page = new FilePage(bookPrefix, entry, FilePageIcon.Folder);
                         break;
                     default:
-                        page = new FilePage(entry, FilePageIcon.Archive);
+                        page = new FilePage(bookPrefix, entry, FilePageIcon.Archive);
                         break;
                 }
             }

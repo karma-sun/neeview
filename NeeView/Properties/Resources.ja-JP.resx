@@ -4649,4 +4649,19 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ExceptionCriticalLogPath" xml:space="preserve">
     <value>&lt;a href="{0}"&gt;{0}&lt;/a&gt; にエラーの詳細が出力されています。</value>
   </data>
+  <data name="ParamArchiveRecursiveMode" xml:space="preserve">
+    <value>圧縮ファイルの扱い</value>
+  </data>
+  <data name="ParamArchiveRecursiveModeTips" xml:space="preserve">
+    <value>圧縮ファイルをブックとして開くときの展開範囲</value>
+  </data>
+  <data name="EnumArchiveEntryCollectionModeCurrentDirectory" xml:space="preserve">
+    <value>圧縮ファイル内の現在のフォルダのみ</value>
+  </data>
+  <data name="EnumArchiveEntryCollectionModeIncludeSubDirectories" xml:space="preserve">
+    <value>圧縮ファイル内すべて</value>
+  </data>
+  <data name="EnumArchiveEntryCollectionModeIncludeSubArchives" xml:space="preserve">
+    <value>圧縮ファイル内すべて。含まれる圧縮ファイルも展開する</value>
+  </data>
 </root>

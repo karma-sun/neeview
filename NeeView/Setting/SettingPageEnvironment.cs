@@ -53,7 +53,7 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.Language)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageGeneralDetailDetail,
-                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsArchiveRecursive))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.ArchiveRecursiveMode))),
                     new SettingItemProperty(PropertyMemberElement.Create(FileIOProfile.Current, nameof(FileIOProfile.IsRemoveConfirmed))),
                     new SettingItemProperty(PropertyMemberElement.Create(MenuBar.Current, nameof(MenuBar.IsCaptionEmulateInFullScreen))),
                     new SettingItemProperty(PropertyMemberElement.Create(MemoryControl.Current, nameof(MemoryControl.IsAutoGC))),

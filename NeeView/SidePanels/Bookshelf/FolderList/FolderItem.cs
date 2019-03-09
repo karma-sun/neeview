@@ -294,7 +294,7 @@ namespace NeeView
             }
 
             var archiveType = ArchiverManager.Current.GetSupportedType(TargetPath.SimplePath, false);
-            if (IsFileSystem() && !BookHub.Current.IsArchiveRecursive && archiveType.IsRecursiveSupported())
+            if (IsFileSystem() && BookHub.Current.ArchiveRecursiveMode != ArchiveEntryCollectionMode.IncludeSubArchives && archiveType.IsRecursiveSupported())
             {
                 return true;
             }

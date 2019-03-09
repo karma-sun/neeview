@@ -301,14 +301,14 @@ namespace NeeView
             var entries = await archiver.GetEntriesAsync(token);
 
             // 一致するエントリを探す
-            var entry = entries.FirstOrDefault(e => e.EntryFullName == entryName);
+            var entry = entries.FirstOrDefault(e => e.EntryName == entryName); // NOTE: ここは EntryFullName だったので正常に動作しない
             if (entry != null) return new List<ArchiveEntry>() { entry };
 
             // 一致しなかった場合、最長一致するサブフォルダーで再帰
             if (isRecursive)
             {
                 var folder = entries
-                    .Where(e => e.IsArchive() && entryName.StartsWith(LoosePath.TrimEnd(e.EntryFullName)))
+                    .Where(e => e.IsArchive() && entryName.StartsWith(LoosePath.TrimEnd(e.EntryName))) // NOTE: ここは EntryFullName だったので正常に動作しない
                     .OrderByDescending(e => e.EntryName.Length)
                     .FirstOrDefault();
 
@@ -359,7 +359,7 @@ namespace NeeView
 
             if (!archiver.IsSupported())
             {
-                Debug.WriteLine($"CreateArchiver: Not Archive: {archiver.EntryFullName}");
+                Debug.WriteLine($"CreateArchiver: Not Archive: {archiver.SystemPath}");
                 return null;
             }
 

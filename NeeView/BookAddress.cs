@@ -33,11 +33,6 @@ namespace NeeView
         #region Properties
 
         /// <summary>
-        /// ブックのアーカイバ
-        /// </summary>
-        public Archiver Archiver { get; private set; }
-
-        /// <summary>
         /// 開始ページ名
         /// </summary>
         public string EntryName { get; set; }
@@ -45,12 +40,12 @@ namespace NeeView
         /// <summary>
         /// ブックの場所
         /// </summary>
-        public string Place => Archiver.SystemPath;
+        public string Place { get; set; }
 
         /// <summary>
         /// ページを含めたアーカイブパス
         /// </summary>
-        public string FullPath => LoosePath.Combine(Place, EntryName);
+        public string SystemPath => LoosePath.Combine(Place, EntryName);
 
         #endregion
 
@@ -62,16 +57,18 @@ namespace NeeView
         /// </summary>
         /// <param name="path">入力パス</param>
         /// <param name="entryName">開始ページ名</param>
-        /// <param name="isArchiveRecursive">アーカイブ自動展開</param>
         /// <param name="token">キャンセルトークン</param>
         /// <returns></returns>
-        public async Task InitializeAsync(string path, string entryName, BookLoadOption option, bool isArchiveRecursive, CancellationToken token)
+        public async Task InitializeAsync(string path, string entryName, BookLoadOption option, CancellationToken token)
         {
+            // TODO: 外部から渡す
+            bool allowPreExtract = false;
+
             var query = new QueryPath(path);
 
             if (query.Scheme == QueryScheme.Pagemark)
             {
-                this.Archiver = new PagemarkArchiver(path, null, true);
+                this.Place = QueryScheme.Pagemark.ToSchemeString();
                 this.EntryName = entryName;
                 return;
             }
@@ -89,47 +86,44 @@ namespace NeeView
                 }
             }
 
-            _archiveEntry = await ArchiveFileSystem.CreateArchiveEntry(path, token);
+            _archiveEntry = await ArchiveFileSystem.CreateArchiveEntry_New(path, allowPreExtract, token);
 
             if (entryName != null)
             {
                 Debug.Assert(!option.HasFlag(BookLoadOption.IsBook));
-                this.Archiver = await ArchiverManager.Current.CreateArchiverAsync(_archiveEntry, true, false, token);
+                this.Place = path;
                 this.EntryName = entryName;
             }
             else if (Directory.Exists(path) || ArchiverManager.Current.IsSupported(_archiveEntry.SystemPath))
             {
                 Debug.Assert(!option.HasFlag(BookLoadOption.IsPage));
-                this.Archiver = await ArchiverManager.Current.CreateArchiverAsync(_archiveEntry, true, false, token);
+                this.Place = path;
                 this.EntryName = null;
             }
-            else if (_archiveEntry.Archiver != null)
+            else if (_archiveEntry.Archiver != null) // TODO: この判定いるのか？
             {
-                if (isArchiveRecursive)
+                if (_archiveEntry.IsDirectory || _archiveEntry.IsArchive())
                 {
-                    this.Archiver = _archiveEntry.RootArchiver;
-                    this.EntryName = _archiveEntry.EntryFullName;
+                    this.Place = path;
+                    this.EntryName = null;
                 }
                 else
                 {
-                    this.Archiver = _archiveEntry.Archiver;
-                    this.EntryName = _archiveEntry.EntryName;
-
-                    // このアーカイブをROOTとする
-                    this.Archiver.SetRootFlag(true);
+                    this.Place = LoosePath.GetDirectoryName(path);
+                    this.EntryName = LoosePath.GetFileName(path);
                 }
             }
             else
             {
                 if (option.HasFlag(BookLoadOption.IsBook))
                 {
-                    this.Archiver = new FolderArchive(_archiveEntry.SystemPath, null, true);
+                    this.Place = path;
                     this.EntryName = null;
                 }
                 else
                 {
-                    this.Archiver = new FolderArchive(Path.GetDirectoryName(_archiveEntry.SystemPath), null, true);
-                    this.EntryName = Path.GetFileName(_archiveEntry.EntryName);
+                    this.Place = LoosePath.GetDirectoryName(path);
+                    this.EntryName = LoosePath.GetFileName(path);
                 }
             }
         }
@@ -139,7 +133,6 @@ namespace NeeView
         /// </summary>
         private void Terminate()
         {
-            this.Archiver?.Dispose();
             _archiveEntry?.Dispose();
         }
 

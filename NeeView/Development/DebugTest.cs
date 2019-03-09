@@ -18,7 +18,7 @@ namespace NeeView
             try
             {
                 // ArchiveEntry収集テスト
-                ////await ArchiveEntryCollectionTest.ExecuteAsync(CancellationToken.None);
+                await ArchiveEntryCollectionTest.ExecuteAsync(CancellationToken.None);
 
                 // ブックサムネイル作成テスト
                 ////await DebugCreateBookThumbnail.TestAsync();
@@ -58,7 +58,6 @@ namespace NeeView
             }
         }
 
-#if false
         static class ArchiveEntryCollectionTest
         {
             public static async Task ExecuteAsync(CancellationToken token)
@@ -68,7 +67,7 @@ namespace NeeView
                 //var path = @"E:\Work\Labo\サンプル\サブフォルダテストX.zip\圧縮再帰♥.zip\root";
                 //var path = @"E:\Work\Labo\サンプル\サブフォルダテストX.zip\圧縮再帰♥.zip\root\dir2?.zip";
 
-                var collection = new ArchiveEntryCollection(path, ArchiveEntryCollectionMode.IncludeAllSubDirectories, ArchiveEntryCollectionOption.None);
+                var collection = new ArchiveEntryCollection(path, ArchiveEntryCollectionMode.IncludeSubArchives, ArchiveEntryCollectionMode.IncludeSubArchives, ArchiveEntryCollectionOption.None);
 
                 Debug.WriteLine($"\n> {collection.Path}");
 
@@ -100,7 +99,6 @@ namespace NeeView
                 }
             }
         }
-#endif
     }
 
 }

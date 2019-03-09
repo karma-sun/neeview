@@ -70,10 +70,7 @@ namespace NeeView
         /// </summary>
         DefaultRecursive = (1 << 11),
 
-        /// <summary>
-        /// 圧縮ファイル内の圧縮ファイルを再帰
-        /// </summary>
-        ArchiveRecursive = (1 << 12),
+        // (1 <<12) .. no used
 
         /// <summary>
         /// 再帰しない

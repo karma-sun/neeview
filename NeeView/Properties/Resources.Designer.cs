@@ -6011,6 +6011,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Only the current folder in the compressed file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumArchiveEntryCollectionModeCurrentDirectory {
+            get {
+                return ResourceManager.GetString("EnumArchiveEntryCollectionModeCurrentDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   All in the compressed file. Also expand included compressed files に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumArchiveEntryCollectionModeIncludeSubArchives {
+            get {
+                return ResourceManager.GetString("EnumArchiveEntryCollectionModeIncludeSubArchives", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   All in the compressed file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumArchiveEntryCollectionModeIncludeSubDirectories {
+            get {
+                return ResourceManager.GetString("EnumArchiveEntryCollectionModeIncludeSubDirectories", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Do not execute に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumArchiveOptionTypeNone {
@@ -8369,6 +8396,24 @@ namespace NeeView.Properties {
         public static string PagemarkName {
             get {
                 return ResourceManager.GetString("PagemarkName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Compressed file handling に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamArchiveRecursiveMode {
+            get {
+                return ResourceManager.GetString("ParamArchiveRecursiveMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Expanded range when opening a compressed file as a book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamArchiveRecursiveModeTips {
+            get {
+                return ResourceManager.GetString("ParamArchiveRecursiveModeTips", resourceCulture);
             }
         }
         

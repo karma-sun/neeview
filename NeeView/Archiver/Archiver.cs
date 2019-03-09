@@ -142,11 +142,6 @@ namespace NeeView
         public Archiver RootArchiver => IsRoot ? this : Parent.RootArchiver;
 
         /// <summary>
-        /// ルートアーカイバーを基準としたエントリ名
-        /// </summary>
-        public string EntryFullName => IsRoot ? "" : LoosePath.Combine(Parent.EntryFullName, EntryName);
-
-        /// <summary>
         /// エクスプローラーで指定可能な絶対パス
         /// </summary>
         public string SystemPath => Parent == null ? Path : LoosePath.Combine(Parent.SystemPath, EntryName);

@@ -59,7 +59,7 @@ namespace NeeView
             this.IsValid = false;
 
             // ページマーク？
-            if (new QueryPath(path).Scheme == QueryScheme.Pagemark)
+            if (QueryPath.Scheme == QueryScheme.Pagemark)
             {
                 Debug.WriteLine($"This is a pagemark: {path}");
                 return;
@@ -129,6 +129,7 @@ namespace NeeView
                 {
                     _rawEntryName = value;
                     this.EntryName = LoosePath.NormalizeSeparator(_rawEntryName);
+                    this.QueryPath = new QueryPath(this.EntryName);
                 }
             }
         }
@@ -138,6 +139,11 @@ namespace NeeView
         /// </summary>
         /// c/001.jpg => c\001.jpg
         public string EntryName { get; private set; }
+
+        /// <summary>
+        /// クエリパス
+        /// </summary>
+        public QueryPath QueryPath { get; private set; }
 
         /// <summary>
         /// ショートカットの場合のリンク先パス
@@ -161,18 +167,10 @@ namespace NeeView
         /// </summary>
         public string RootArchiverName => RootArchiver?.EntryName ?? LoosePath.GetFileName(LoosePath.GetDirectoryName(EntryName));
 
-
-        /// <summary>
-        /// ルートアーカイバーからのエントリ名
-        /// </summary>
-        ///b.zip\c\001.jpg
-        public string EntryFullName => LoosePath.Combine(Archiver?.EntryFullName, EntryName);
-
-
         /// <summary>
         /// エクスプローラーから指定可能なパス
         /// </summary>
-        public string SystemPath => LoosePath.Combine(RootArchiver?.SystemPath, EntryFullName);
+        public string SystemPath => LoosePath.Combine(Archiver?.SystemPath, EntryName);
 
         /// <summary>
         /// 識別名

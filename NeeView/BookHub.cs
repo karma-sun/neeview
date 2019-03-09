@@ -322,14 +322,14 @@ namespace NeeView
         }
 
         /// <summary>
-        /// アーカイブの自動再帰展開
+        /// アーカイブの展開モード
         /// </summary>
-        private bool _isArchiveRecursive = true;
-        [PropertyMember("@ParamIsArchiveRecursive", Tips = "@ParamIsArchiveRecursiveTips")]
-        public bool IsArchiveRecursive
+        private ArchiveEntryCollectionMode _archiveRecursiveMode;
+        [PropertyMember("@ParamArchiveRecursiveMode", Tips = "@ParamArchiveRecursiveModeTips")]
+        public ArchiveEntryCollectionMode ArchiveRecursiveMode
         {
-            get { return _isArchiveRecursive; }
-            set { if (_isArchiveRecursive != value) { _isArchiveRecursive = value; RaisePropertyChanged(); } }
+            get { return _archiveRecursiveMode; }
+            set { SetProperty(ref _archiveRecursiveMode, value); }
         }
 
         /// <summary>
@@ -627,11 +627,13 @@ namespace NeeView
                 // address
                 using (var address = new BookAddress())
                 {
-                    await address.InitializeAsync(args.Path, args.StartEntry, args.Option, this.IsArchiveRecursive, token);
+                    await address.InitializeAsync(args.Path, args.StartEntry, args.Option, token);
 
                     // Now Loading ON
                     NotifyLoading(args.Path);
 
+                    // TODO: ##
+#if false
                     // フォルダーリスト更新
                     if (args.IsRefreshFolderList)
                     {
@@ -642,6 +644,7 @@ namespace NeeView
                     {
                         AppDispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncEventArgs() { Path = address.Place, Parent = address.Archiver.GetParentPlace(), isKeepPlace = true }));
                     }
+#endif
 
                     // 履歴リスト更新
                     if ((args.Option & BookLoadOption.SelectHistoryMaybe) != 0)
@@ -654,7 +657,7 @@ namespace NeeView
                     var setting = BookSetting.Current.GetSetting(address.Place, memory, args.Option);
 
                     address.EntryName = address.EntryName ?? LoosePath.NormalizeSeparator(setting.Page);
-                    place = address.FullPath;
+                    place = address.SystemPath;
 
                     // Load本体
                     await LoadAsyncCore(address, args.Option, setting, token);
@@ -797,17 +800,11 @@ namespace NeeView
                 option |= BookLoadOption.AutoRecursive;
             }
 
-            // 圧縮ファイル内圧縮ファイルを再帰
-            if (IsArchiveRecursive)
-            {
-                option |= BookLoadOption.ArchiveRecursive;
-            }
-
             //
             try
             {
                 // ロード。非同期で行う
-                await book.LoadAsync(address, option, token);
+                await book.LoadAsync(address, ArchiveRecursiveMode, option, token);
 
                 _historyEntry = false;
                 _historyRemoved = false;
@@ -875,7 +872,7 @@ namespace NeeView
         {
             // 履歴閲覧時の履歴更新は最低１操作を必要とする
             var historyEntryPageCount = this.HistoryEntryPageCount;
-            if (BookUnit.IsKeepHistoryOrder && IsForceUpdateHistory && historyEntryPageCount <= 0 )
+            if (BookUnit.IsKeepHistoryOrder && IsForceUpdateHistory && historyEntryPageCount <= 0)
             {
                 historyEntryPageCount = 1;
             }
@@ -884,7 +881,7 @@ namespace NeeView
                 && !_historyRemoved
                 && Book.Pages.Count > 0
                 && (_historyEntry || Book.PageChangeCount > historyEntryPageCount || Book.IsPageTerminated)
-                && (IsInnerArchiveHistoryEnabled || Book.Archiver?.Parent == null)
+                && (IsInnerArchiveHistoryEnabled || Book.ArchiveEntryCollection.RootArchiver?.Parent == null)
                 && (IsUncHistoryEnabled || !LoosePath.IsUnc(Book.Place));
         }
 
@@ -1102,9 +1099,6 @@ namespace NeeView
             public int HistoryEntryPageCount { get; set; }
 
             [DataMember, DefaultValue(true)]
-            public bool IsArchiveRecursive { get; set; }
-
-            [DataMember, DefaultValue(true)]
             public bool IsInnerArchiveHistoryEnabled { get; set; }
 
             [DataMember, DefaultValue(true)]
@@ -1113,8 +1107,13 @@ namespace NeeView
             [DataMember]
             public bool IsForceUpdateHistory { get; set; }
 
+            [DataMember, DefaultValue(ArchiveEntryCollectionMode.IncludeSubArchives)]
+            public ArchiveEntryCollectionMode ArchiveRecursveMode { get; set; }
 
             #region Obslete
+
+            [Obsolete, DataMember(EmitDefaultValue = false)]
+            public bool IsArchiveRecursive { get; set; } // no used (ver.34)
 
             [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsEnableAnimatedGif { get; set; }
@@ -1194,6 +1193,12 @@ namespace NeeView
                 }
                 IsEnabledAutoNextFolder = false;
                 AllowPagePreLoad = false;
+
+                // before 34.0
+                if (_Version < Config.GenerateProductVersionNumber(34, 0, 0))
+                {
+                    ArchiveRecursveMode = IsArchiveRecursive ? ArchiveEntryCollectionMode.IncludeSubArchives : ArchiveEntryCollectionMode.IncludeSubDirectories;
+                }
             }
 
 #pragma warning restore CS0612
@@ -1211,10 +1216,10 @@ namespace NeeView
             memento.IsAutoRecursive = IsAutoRecursive;
             memento.IsAutoRecursiveWithAllFiles = IsAutoRecursiveWithAllFiles;
             memento.HistoryEntryPageCount = HistoryEntryPageCount;
-            memento.IsArchiveRecursive = IsArchiveRecursive;
             memento.IsInnerArchiveHistoryEnabled = IsInnerArchiveHistoryEnabled;
             memento.IsUncHistoryEnabled = IsUncHistoryEnabled;
             memento.IsForceUpdateHistory = IsForceUpdateHistory;
+            memento.ArchiveRecursveMode = ArchiveRecursiveMode;
 
             return memento;
         }
@@ -1228,10 +1233,11 @@ namespace NeeView
             IsAutoRecursive = memento.IsAutoRecursive;
             IsAutoRecursiveWithAllFiles = memento.IsAutoRecursiveWithAllFiles;
             HistoryEntryPageCount = memento.HistoryEntryPageCount;
-            IsArchiveRecursive = memento.IsArchiveRecursive;
             IsInnerArchiveHistoryEnabled = memento.IsInnerArchiveHistoryEnabled;
             IsUncHistoryEnabled = memento.IsUncHistoryEnabled;
             IsForceUpdateHistory = memento.IsForceUpdateHistory;
+            ArchiveRecursiveMode = memento.ArchiveRecursveMode;
+            
         }
 
 

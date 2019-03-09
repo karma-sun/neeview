@@ -305,20 +305,13 @@ namespace NeeView
         /// 
         public bool Exists(string path, bool isAllowFileSystem)
         {
-            try
+            if (isAllowFileSystem)
             {
-                if (isAllowFileSystem)
-                {
-                    return Directory.Exists(path) || (File.Exists(path) && IsSupported(path, true));
-                }
-                else
-                {
-                    return File.Exists(path) && IsSupported(path, false);
-                }
+                return Directory.Exists(path) || (File.Exists(path) && IsSupported(path, true));
             }
-            catch
+            else
             {
-                return false;
+                return File.Exists(path) && IsSupported(path, false);
             }
         }
 

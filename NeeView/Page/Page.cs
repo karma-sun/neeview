@@ -56,7 +56,7 @@ namespace NeeView
         public ArchiveEntry Entry
         {
             get { return _entry; }
-            protected set { SetProperty(ref _entry, value); }
+            private set { SetProperty(ref _entry, value); }
         }
 
         // ページ番号
@@ -74,10 +74,16 @@ namespace NeeView
         // ページ名：ファイル名のみ
         public string EntryLastName => Entry?.EntryLastName;
 
-        // ページ名：フルパス
-        public string EntryFullName => Entry?.EntryFullName;
+        // ページ名：フルネーム
+        public string EntryFullName => Entry?.SystemPath.Substring(BookPrefix.Length);
 
-        // ページ名：プレフィックス
+        // ページ名：システムパス
+        public string SystemPath => Entry?.SystemPath;
+
+        // ページ名：ブックプレフィックス
+        public string BookPrefix { get; private set; }
+
+        // ページ名：スマート名用プレフィックス
         public string Prefix { get; set; }
 
         // ファイル情報：最終更新日
@@ -150,8 +156,11 @@ namespace NeeView
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public Page()
+        public Page(string bookPrefix, ArchiveEntry entry)
         {
+            BookPrefix = bookPrefix;
+            Entry = entry;
+
             InitializeContentJob();
             InitializeThumbnailJob();
         }
@@ -356,7 +365,7 @@ namespace NeeView
         // ページ名：ソート用分割
         public string[] GetEntryFullNameTokens()
         {
-            return LoosePath.Split(Entry?.EntryFullName);
+            return LoosePath.Split(EntryFullName);
         }
 
         // ページ名：プレフィックスを除いたフルパス

@@ -9,29 +9,70 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
-    // TODO: AllowPreExtractフラグのちがいをアーカイバの違いとして認識できない問題
+    [Flags]
+    public enum ArchiveEntryCollectionOption
+    {
+        None,
+
+        /// <summary>
+        /// 事前展開許可
+        /// </summary>
+        AllowPreExtract,
+    }
+
+    public enum ArchiveEntryCollectionMode
+    {
+        /// <summary>
+        /// 指定ディレクトリのみ
+        /// </summary>
+        [AliasName("@EnumArchiveEntryCollectionModeCurrentDirectory")]
+        CurrentDirectory,
+
+        /// <summary>
+        /// 指定ディレクトリを含む現在のアーカイブの範囲
+        /// </summary>
+        [AliasName("@EnumArchiveEntryCollectionModeIncludeSubDirectories")]
+        IncludeSubDirectories,
+
+        /// <summary>
+        /// 指定ディレクトリ以下サブアーカイブ含むすべて
+        /// </summary>
+        [AliasName("@EnumArchiveEntryCollectionModeIncludeSubArchives")]
+        IncludeSubArchives,
+    }
+
+    // TODO: Archiver Pool
+    // TODO: AllowPreExtractフラグのちがいをアーカイバの違いとして認識できない問題。あとでPreExtractできるようにする
+    // TODO: ArchiverのIsRootフラグ不要？
     public class ArchiveEntryCollection
     {
-        public bool _isRecursive;
-        private bool _arrowPreExtract;
+        private ArchiveEntryCollectionMode _mode;
+        private ArchiveEntryCollectionMode _archiveMode;
+        private ArchiveEntryCollectionOption _option;
         private List<ArchiveEntry> _entries;
+        private int _prefixLength;
 
-        public ArchiveEntryCollection(string path, bool isRecursive, bool arrowPreExtract)
+        public ArchiveEntryCollection(string path, ArchiveEntryCollectionMode mode, ArchiveEntryCollectionMode archiveMode, ArchiveEntryCollectionOption option)
         {
-            Path = path;
-            _isRecursive = isRecursive;
-            _arrowPreExtract = arrowPreExtract;
+            Path = LoosePath.TrimEnd(path);
+            _mode = mode;
+            _archiveMode = archiveMode;
+            _option = option;
+
+            _prefixLength = LoosePath.TrimDirectoryEnd(Path).Length;
         }
 
         public string Path { get; private set; }
-        public string Prefix { get; private set; }
+
+        public Archiver RootArchiver { get; private set; }
 
         // 作れないときは例外発生
         public async Task<List<ArchiveEntry>> GetEntriesAsync(CancellationToken token)
         {
             if (_entries != null) return _entries;
 
-            var rootEntry = await ArchiveFileSystem.CreateArchiveEntry_New(Path, token);
+            var allowPreExtract = _option.HasFlag(ArchiveEntryCollectionOption.AllowPreExtract);
+            var rootEntry = await ArchiveFileSystem.CreateArchiveEntry_New(Path, false, token); // ## あとからallowPreExtractを実行できるようにする
 
             Archiver rootArchiver;
             string rootArchiverPath;
@@ -45,7 +86,7 @@ namespace NeeView
                 }
                 else
                 {
-                    rootArchiver = await ArchiverManager.Current.CreateArchiverAsync(rootEntry, true, _arrowPreExtract, token);
+                    rootArchiver = await ArchiverManager.Current.CreateArchiverAsync(rootEntry, true, allowPreExtract, token);
                     rootArchiverPath = "";
                 }
             }
@@ -53,7 +94,7 @@ namespace NeeView
             {
                 if (rootEntry.IsArchive())
                 {
-                    rootArchiver = await ArchiverManager.Current.CreateArchiverAsync(rootEntry, true, _arrowPreExtract, token);
+                    rootArchiver = await ArchiverManager.Current.CreateArchiverAsync(rootEntry, true, allowPreExtract, token);
                     rootArchiverPath = "";
                 }
                 else
@@ -63,30 +104,50 @@ namespace NeeView
                 }
             }
 
-            Prefix = rootArchiverPath;
-            var entries = await rootArchiver.GetEntriesAsync(rootArchiverPath, _isRecursive, token);
+            RootArchiver = rootArchiver;
 
-            if (_isRecursive)
+            var mode = RootArchiver.IsFileSystem ? _mode : _archiveMode;
+
+            var includeSubDirectories = mode == ArchiveEntryCollectionMode.IncludeSubDirectories || mode == ArchiveEntryCollectionMode.IncludeSubArchives;
+            var entries = await rootArchiver.GetEntriesAsync(rootArchiverPath, includeSubDirectories, token);
+
+            var includeAllSubDirectories = mode == ArchiveEntryCollectionMode.IncludeSubArchives;
+            if (includeAllSubDirectories)
             {
-                entries = await GetExpandedEntriesAsync(entries, token);
+                entries = await GetSubArchivesEntriesAsync(entries, token);
             }
 
             _entries = entries;
             return _entries;
         }
 
+
+        // filter: ページとして画像ファイルのみリストアップ
+        public async Task<List<ArchiveEntry>> GetEntriesWhereImageAsync(CancellationToken token)
+        {
+            var entries = await GetEntriesAsync(token);
+            return entries.Where(e => e.IsImage()).ToList();
+        }
+
+        // filter: ページとしてすべてのファイルをリストアップ。フォルダーは空きフォルダーのみリストアップ
+        public async Task<List<ArchiveEntry>> GetEntriesWherePageAllAsync(CancellationToken token)
+        {
+            var entries = await GetEntriesAsync(token);
+            var directories = entries.Select(e => LoosePath.GetDirectoryName(e.SystemPath)).Distinct();
+            return entries.Where(e => !directories.Contains(e.SystemPath)).ToList();
+        }
+
+        // filter: 含まれるサブアーカイブ、メディアのみ抽出
+        public async Task<List<ArchiveEntry>> GetEntriesWhereSubArchivesAsync(CancellationToken token)
+        {
+            var entries = await GetEntriesAsync(token);
+            return entries.Where(e => e.IsBook()).ToList();
+            // TODO: e.IsBook()はおかしい。今後は圧縮ファイルの中のフォルダーもブックになるから、新しい設計が必要。
+        }
+
+
         // TODO: このリストはサブアーカイブ展開してもサブアーカイブ自体のエントリがのこっているので、ブックとして使用するときには適切な除外処理が必要
-        // - IsArchvieをEntry作成時に設定、メディアを含んだIsArchiveは別メソッドにする
-        // - IsBook ... メディアを含めて本として開けるフラグ
-        // よって
-        // FolderArchiveのディレクトリ > IsDirectory=true, IsArchive=true, IsBook=true
-        // 圧縮ファイルの内部フォルダ > IsDirectory=true, IsArchive=false, IsBook=true
-        // 圧縮ファイル > IsDirectory=false, IsArchive=true, IsBook=true
-        // PDF > IsDirectory=false, IsArchive=true, IsBook=true
-        // メディアファイル > IsDirectory=false, IsArchive=false, IsBook=true
-        // 画像ファイル > IsDirectory=false, IsArchive=false, IsBook=false, IsPicture=true
-        // それ以外のファイル > IsDirectory=false, IsArchive=false, isBook=false, IsPicture=false
-        private async Task<List<ArchiveEntry>> GetExpandedEntriesAsync(List<ArchiveEntry> entries, CancellationToken token)
+        private async Task<List<ArchiveEntry>> GetSubArchivesEntriesAsync(List<ArchiveEntry> entries, CancellationToken token)
         {
             var result = new List<ArchiveEntry>();
 
@@ -96,9 +157,9 @@ namespace NeeView
 
                 if (entry.IsArchive())
                 {
-                    var subArchive = await ArchiverManager.Current.CreateArchiverAsync(entry, false, _arrowPreExtract, token);
+                    var subArchive = await ArchiverManager.Current.CreateArchiverAsync(entry, false, _option.HasFlag(ArchiveEntryCollectionOption.AllowPreExtract), token);
                     var subEntries = await subArchive.GetEntriesAsync(token);
-                    result.AddRange(await GetExpandedEntriesAsync(subEntries, token));
+                    result.AddRange(await GetSubArchivesEntriesAsync(subEntries, token));
                 }
             }
 
@@ -106,53 +167,12 @@ namespace NeeView
         }
 
 
-        #region 開発用
-
-        // ##
-        public static async Task TestAsync()
+        public string GetEntryName(ArchiveEntry entry)
         {
-            try
-            {
-                var path = @"E:\Work\Labo\サンプル\サブフォルダテストX.zip";
-                //var path = @"E:\Work\Labo\サンプル\サブフォルダテストX.zip\サブフォルダテストX";
-                //var path = @"E:\Work\Labo\サンプル\サブフォルダテストX.zip\圧縮再帰♥.zip\root";
-                //var path = @"E:\Work\Labo\サンプル\サブフォルダテストX.zip\圧縮再帰♥.zip\root\dir2?.zip";
+            Debug.Assert(_entries != null);
+            Debug.Assert(_entries.Contains(entry));
 
-                var collection = new ArchiveEntryCollection(path, true, false);
-
-                Debug.WriteLine($"\n> {collection.Path}");
-
-                var entries = await collection.GetEntriesAsync(CancellationToken.None);
-
-                var prefix = LoosePath.TrimDirectoryEnd(collection.Path);
-                DumpEntries("Raw", entries, prefix);
-
-                // filter: ページとして画像ファイルのみリストアップ
-                var p1 = entries.Where(e => e.IsImage());
-                DumpEntries("ImageFilter", p1, prefix);
-
-                // filter: ページとしてすべてのファイルをリストアップ。フォルダーはk空フォルダーのみリストアップ
-                var directories = entries.Select(e => LoosePath.GetDirectoryName(e.SystemPath)).Distinct();
-                var p2 = entries.Where(e => !directories.Contains(e.SystemPath));
-                DumpEntries("AllPageFilter", p2, prefix);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
+            return entry.SystemPath.Substring(_prefixLength);
         }
-
-        private static void DumpEntries(string label, IEnumerable<ArchiveEntry> entries, string prefix)
-        {
-            Debug.WriteLine($"\n[{label}]");
-            foreach (var entry in entries)
-            {
-                var attribute = entry.IsDirectory ? "D" : entry.IsArchive() ? "A" : entry.IsImage() ? "I" : "?";
-                var name = entry.SystemPath.Substring(prefix.Length);
-                Debug.WriteLine(attribute + " " + name);
-            }
-        }
-
-        #endregion
     }
 }

@@ -13,9 +13,8 @@ namespace NeeView
     /// </summary>
     public class FilePage : Page
     {
-        public FilePage(ArchiveEntry entry, FilePageIcon icon, string message = null)
+        public FilePage(string bookPrefix, ArchiveEntry entry, FilePageIcon icon, string message = null) : base(bookPrefix, entry)
         {
-            Entry = entry;
             Content = new FileContent(entry, icon, message);
         }
     }

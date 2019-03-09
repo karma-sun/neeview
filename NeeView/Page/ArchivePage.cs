@@ -17,13 +17,12 @@ namespace NeeView
     /// </summary>
     public class ArchivePage : Page
     {
-        public ArchivePage(ArchiveEntry entry)
+        public ArchivePage(ArchiveEntry entry) : base("", entry)
         {
-            Entry = entry;
             Content = new ArchiveContent(Entry);
         }
 
-        public ArchivePage(string path)
+        public ArchivePage(string path) : base("", null)
         {
             // ArchiveEntryは遅延生成する
             Content = new ArchiveContent(path);

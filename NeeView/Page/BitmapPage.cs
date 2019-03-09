@@ -16,10 +16,8 @@ namespace NeeView
     /// </summary>
     public class BitmapPage : Page
     {
-        public BitmapPage(ArchiveEntry entry)
+        public BitmapPage(string bookPrefix, ArchiveEntry entry) : base(bookPrefix, entry)
         {
-            Entry = entry;
-
             Content = new BitmapContent(entry);
             Content.Loaded += (s, e) => Loaded?.Invoke(this, null);
         } 
@@ -30,10 +28,8 @@ namespace NeeView
     /// </summary>
     public class AnimatedPage : Page
     {
-        public AnimatedPage(ArchiveEntry entry)
+        public AnimatedPage(string bookPrefix, ArchiveEntry entry) : base(bookPrefix, entry)
         {
-            Entry = entry;
-
             Content = new AnimatedContent(entry);
             Content.Loaded += (s, e) => Loaded?.Invoke(this, null);
         }
@@ -44,10 +40,8 @@ namespace NeeView
     /// </summary>
     public class MediaPage : Page
     {
-        public MediaPage(ArchiveEntry entry)
+        public MediaPage(string bookPrefix, ArchiveEntry entry) : base(bookPrefix, entry)
         {
-            Entry = entry;
-
             Content = new MediaContent(entry);
             Content.Loaded += (s, e) => Loaded?.Invoke(this, null);
         }
@@ -58,10 +52,8 @@ namespace NeeView
     /// </summary>
     public class PdfPage : Page
     {
-        public PdfPage(ArchiveEntry entry)
+        public PdfPage(string bookPrefix, ArchiveEntry entry) : base(bookPrefix, entry)
         {
-            Entry = entry;
-
             Content = new PdfContetnt(entry);
             Content.Loaded += (s, e) => Loaded?.Invoke(this, null);
         }

@@ -174,7 +174,7 @@ namespace NeeView
             }
             if (this.Entry.IsArchivePath)
             {
-                var entry = await ArchiveFileSystem.CreateArchiveEntry(this.Entry.SystemPath, token);
+                var entry = await ArchiveFileSystem.CreateArchiveEntryAsync(this.Entry.SystemPath, false, token);
                 if (entry.IsBook())
                 {
                     return await LoadArchivePictureAsync(entry, token);
@@ -208,22 +208,14 @@ namespace NeeView
                     return new ThumbnailPicture(ThumbnailType.Media);
                 }
 
-                // TODO: 圧縮ファイルのサムネイル抽出見直し
-                var archiver = await ArchiverManager.Current.CreateArchiverAsync(entry, false, token);
-                bool isRecursive = !archiver.IsFileSystem && BookHub.Current.ArchiveRecursiveMode == ArchiveEntryCollectionMode.IncludeSubArchives;
-                using (var collector = new EntryCollection(archiver, isRecursive, false))
+                var select = await ArchiveFileSystem.CreateFirstImageArchiveEntryAsync(entry, 3, token);
+                if (select != null)
                 {
-                    await collector.FirstOneAsync(token);
-                    var select = collector.Collection.FirstOrDefault();
-
-                    if (select != null)
-                    {
-                        return new ThumbnailPicture(await LoadPictureAsync(select, PictureCreateOptions.CreateThumbnail | PictureCreateOptions.IgnoreImageCache, token));
-                    }
-                    else
-                    {
-                        return null;
-                    }
+                    return new ThumbnailPicture(await LoadPictureAsync(select, PictureCreateOptions.CreateThumbnail | PictureCreateOptions.IgnoreImageCache, token));
+                }
+                else
+                {
+                    return null;
                 }
             }
             else

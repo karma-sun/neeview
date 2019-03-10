@@ -204,16 +204,16 @@ namespace NeeView
                 return _entries;
             }
 
-            _entries = GetEntriesInner(token);
+            _entries = GetEntriesInner(token)
+                .Where(e => !BookProfile.Current.IsExcludedPath(e.EntryName))
+                .ToList();
+
             return _entries;
         }
 
         /// <summary>
         /// エントリリストを取得(非同期)
-        /// ※キャンセルしても処理は続行されます
         /// </summary>
-        /// <param name="token"></param>
-        /// <returns></returns>
         public async Task<List<ArchiveEntry>> GetEntriesAsync(CancellationToken token)
         {
             token.ThrowIfCancellationRequested();
@@ -223,8 +223,7 @@ namespace NeeView
                 return _entries;
             }
 
-            _entries = await Task.Run(() => GetEntriesInner(token));
-            return _entries;
+            return await Task.Run(() => GetEntries(token));
         }
 
         /// <summary>

@@ -14,7 +14,7 @@ namespace NeeView
 
         public void Add(Archiver archiver)
         {
-            Debug.WriteLine($"ArchvierCache: Add {archiver.SystemPath}");
+            ////Debug.WriteLine($"ArchvierCache: Add {archiver.SystemPath}");
             _caches[archiver.SystemPath] = new WeakReference<Archiver>(archiver);
         }
 
@@ -24,7 +24,7 @@ namespace NeeView
             {
                 Debug.WriteLine($"ArchvierCache: CleanUp ...");
                 CleanUp();
-                Dump();
+                ////Dump();
             }
 
             if (_caches.TryGetValue(path, out var weakReference))
@@ -44,7 +44,7 @@ namespace NeeView
             var removes = _caches.Where(e => !e.Value.TryGetTarget(out var archiver)).Select(e => e.Key).ToList();
             foreach (var key in removes)
             {
-                Debug.WriteLine($"ArchvierCache: Remove {key}");
+                ////Debug.WriteLine($"ArchvierCache: Remove {key}");
                 _caches.Remove(key);
             }
         }
@@ -55,9 +55,9 @@ namespace NeeView
         public void Unlock()
         {
             CleanUp();
-            foreach (var item in _caches)
+            foreach (var item in _caches.Values.ToList())
             {
-                if (item.Value.TryGetTarget(out var archiver))
+                if (item.TryGetTarget(out var archiver))
                 {
                     archiver.Unlock();
                 }
@@ -68,9 +68,9 @@ namespace NeeView
         public void Dump()
         {
             int count = 0;
-            foreach (var item in _caches)
+            foreach (var item in _caches.Values.ToList())
             {
-                if (item.Value.TryGetTarget(out var archiver))
+                if (item.TryGetTarget(out var archiver))
                 {
                     Debug.WriteLine($"ArchiveCache[{count}]: {archiver.SystemPath} => {archiver.TempFile?.Path}");
                 }

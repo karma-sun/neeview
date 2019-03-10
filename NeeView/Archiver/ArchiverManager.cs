@@ -266,17 +266,8 @@ namespace NeeView
         }
 
         // アーカイバー作成
-        public Archiver CreateArchiver(string path, ArchiveEntry source, bool isAll)
+        private Archiver CreateArchiver(string path, ArchiveEntry source, bool isAll)
         {
-            // TODO: このキャッシュチェックは EntryCollection を削除したらなくす
-            var systemPath = source != null ? source.SystemPath : path;
-            if (_cache.TryGetValue(systemPath, out var archiver))
-            {
-                Debug.WriteLine($"Archiver: Find cache: {systemPath}");
-                return archiver;
-            }
-            Debug.WriteLine($"Archiver: Cache not found: {systemPath}");
-
             if (Directory.Exists(path))
             {
                 return CreateArchiver(ArchiverType.FolderArchive, path, source, isAll);
@@ -298,13 +289,13 @@ namespace NeeView
         public async Task<Archiver> CreateArchiverAsync(ArchiveEntry source, bool isAll, CancellationToken token)
         {
             // キャッシュがあればそれを返す。
-            // TODO: キャッシュチェック箇所が複数あるのをどうにかする
             var systemPath = source.SystemPath;
             if (_cache.TryGetValue(systemPath, out var arciver))
             {
-                Debug.WriteLine($"Archiver: Find cache: {systemPath}");
+                ////Debug.WriteLine($"Archiver: Find cache: {systemPath}");
                 return arciver;
             }
+            ////Debug.WriteLine($"Archiver: Cache not found: {systemPath}");
 
             if (source.IsFileSystem)
             {
@@ -315,7 +306,7 @@ namespace NeeView
                 // TODO: テンポラリファイルの指定方法をスマートに。
                 var tempFile = await ArchiveEntryExtractorService.Current.ExtractAsync(source, token);
                 var archiverTemp = CreateArchiver(tempFile.Path, source, isAll);
-                Debug.WriteLine($"Archiver: {archiverTemp.SystemPath} => {tempFile.Path}");
+                ////Debug.WriteLine($"Archiver: {archiverTemp.SystemPath} => {tempFile.Path}");
                 Debug.Assert(archiverTemp.TempFile == null);
                 archiverTemp.TempFile = tempFile;
                 return archiverTemp;

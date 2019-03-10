@@ -298,27 +298,18 @@ namespace NeeView
         public bool IsAutoRecursive
         {
             get { return _isAutoRecursive; }
-            set
-            {
-                _isAutoRecursive = value;
-                EntryCollection.IsAutoRecursive = _isAutoRecursive;
-                RaisePropertyChanged();
-            }
+            set { SetProperty(ref _isAutoRecursive, value); }
         }
 
         /// <summary>
-        /// IsAutoRecursiveWithAllFiles property.
+        /// 自動再帰、ページ外ファイルも含めて判定
         /// </summary>
         private bool _isAutoRecursiveWithAllFiles = true;
         [PropertyMember("@ParamIsAutoRecursiveWithAllFiles", Tips = "@ParamIsAutoRecursiveWithAllFilesTips")]
         public bool IsAutoRecursiveWithAllFiles
         {
             get { return _isAutoRecursiveWithAllFiles; }
-            set
-            {
-                _isAutoRecursiveWithAllFiles = value;
-                EntryCollection.IsAutoRecursiveWithAllFiles = _isAutoRecursiveWithAllFiles;
-            }
+            set { SetProperty(ref _isAutoRecursiveWithAllFiles, value); }
         }
 
         /// <summary>

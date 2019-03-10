@@ -692,7 +692,6 @@
     <Compile Include="Effects\PixelateEffectUnit.cs" />
     <Compile Include="Effects\ImageEffect.cs" />
     <Compile Include="Effects\EffectType.cs" />
-    <Compile Include="EntryCollection.cs" />
     <Compile Include="EntrySort.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderItem.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderListViewModel.cs" />

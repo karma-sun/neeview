@@ -109,7 +109,7 @@ namespace NeeView
         {
             try
             {
-                var entry = await ArchiveFileSystem.CreateArchiveEntry(path.SimplePath, token);
+                var entry = await ArchiveFileSystem.CreateArchiveEntryAsync(path.SimplePath, false, token);
                 var collection = CreateArchiveCollection(path, await ArchiverManager.Current.CreateArchiverAsync(entry, false, token), isActive);
                 token.ThrowIfCancellationRequested();
                 return collection;

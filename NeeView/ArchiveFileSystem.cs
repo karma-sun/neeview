@@ -15,7 +15,7 @@ namespace NeeView
         /// <summary>
         /// パスからArcvhiveEntryを作成
         /// </summary>
-        public static async Task<ArchiveEntry> CreateArchiveEntry_New(string path, bool allowPreExtract, CancellationToken token)
+        public static async Task<ArchiveEntry> CreateArchiveEntryAsync(string path, bool allowPreExtract, CancellationToken token)
         {
             var query = new QueryPath(path);
 
@@ -23,7 +23,6 @@ namespace NeeView
             {
                 return new ArchiveEntry(path);
             }
-
             else if (query.Scheme == QueryScheme.Pagemark)
             {
                 if (query.Path == null)
@@ -41,7 +40,6 @@ namespace NeeView
                     }
                 }
             }
-
             else
             {
                 try
@@ -66,7 +64,7 @@ namespace NeeView
                             }
                             else
                             {
-                                return await CreateInnerArchiveEntry_New(archiver, entryName, allowPreExtract, token);
+                                return await CreateInnerArchiveEntryAsync(archiver, entryName, allowPreExtract, token);
                             }
                         }
                     }
@@ -84,7 +82,7 @@ namespace NeeView
         /// アーカイブ内のエントリーを返す。
         /// 入れ子になったアーカイブの場合、再帰処理する。
         /// </summary>
-        private static async Task<ArchiveEntry> CreateInnerArchiveEntry_New(Archiver archiver, string entryName, bool allowPreExtract, CancellationToken token)
+        private static async Task<ArchiveEntry> CreateInnerArchiveEntryAsync(Archiver archiver, string entryName, bool allowPreExtract, CancellationToken token)
         {
             var entries = await archiver.GetEntriesAsync(token);
 
@@ -103,88 +101,51 @@ namespace NeeView
                 {
                     var subArchiver = await ArchiverManager.Current.CreateArchiverAsync(entry, allowPreExtract, token);
                     var subEntryName = entryName.Substring(archivePath.Length).TrimStart(LoosePath.Separator);
-                    return await CreateInnerArchiveEntry_New(subArchiver, subEntryName, allowPreExtract, token);
+                    return await CreateInnerArchiveEntryAsync(subArchiver, subEntryName, allowPreExtract, token);
                 }
             }
 
             throw new FileNotFoundException();
         }
 
-
         /// <summary>
-        /// パスからArcvhiveEntryを作成
+        /// ブックサムネイルに使用するエントリを取得
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        [Obsolete]
-        public static async Task<ArchiveEntry> CreateArchiveEntry(string path, CancellationToken token)
+        /// <param name="source">対象のエントリ</param>
+        /// <param name="depth">検索範囲</param>
+        public static async Task<ArchiveEntry> CreateFirstImageArchiveEntryAsync(ArchiveEntry source, int depth, CancellationToken token)
         {
-            // システムパスはそのまま
-            if (File.Exists(path) || Directory.Exists(path))
+            try
             {
-                return new ArchiveEntry(path);
-            }
-            // アーカイブパスはそのエントリーを返す
-            else
-            {
-                try
+                var archiver = await ArchiverManager.Current.CreateArchiverAsync(source, false, token);
+                var entries = await archiver.GetEntriesAsync(token);
+                entries = EntrySort.SortEntries(entries, PageSortMode.FileName);
+
+                var select = entries.FirstOrDefault(e => e.IsImage());
+                if (select != null)
                 {
-                    var archivePath = ArchiverManager.Current.GetExistPathName(path) ?? throw new FileNotFoundException();
-                    var entryName = path.Substring(archivePath.Length).TrimStart(LoosePath.Separator);
-                    var archiver = await ArchiverManager.Current.CreateArchiverAsync(new ArchiveEntry(archivePath), false, token);
-                    ////Debug.WriteLine($"Create Archiver: {archiver.FullPath}");
-                    var entries = await archiver.GetEntriesAsync(token);
-                    var entry = entries.FirstOrDefault(e => e.EntryName == entryName);
-                    if (entry != null)
+                    return select;
+                }
+
+                if (depth > 1)
+                {
+                    // NOTE: 検索サブディレクトリ数もdepthで制限
+                    foreach (var entry in entries.Where(e => e.IsArchive()).Take(depth))
                     {
-                        return entry;
-                    }
-                    else
-                    {
-                        return await CreateInnerArchiveEntry(archiver, entryName, token);
+                        select = await CreateFirstImageArchiveEntryAsync(entry, depth - 1, token);
+                        if (select != null)
+                        {
+                            return select;
+                        }
                     }
                 }
-                catch (FileNotFoundException)
-                {
-                    throw new FileNotFoundException(string.Format(Properties.Resources.ExceptionFileNotFound, path));
-                }
             }
-        }
-
-        /// <summary>
-        /// アーカイブ内のエントリーを返す。
-        /// 入れ子になったアーカイブの場合、再帰処理する。
-        /// </summary>
-        /// <param name="archiver"></param>
-        /// <param name="entryName"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        [Obsolete]
-        private static async Task<ArchiveEntry> CreateInnerArchiveEntry(Archiver archiver, string entryName, CancellationToken token)
-        {
-            var entries = await archiver.GetEntriesAsync(token);
-
-            var entry = entries.GetEntry(entryName);
-            if (entry != null) return entry;
-
-            // 書庫内書庫の検証
-            var path = entryName;
-
-            while (true)
+            catch (Exception ex)
             {
-                path = LoosePath.GetDirectoryName(path);
-                if (string.IsNullOrEmpty(path)) throw new FileNotFoundException();
-
-                entry = entries.GetEntry(path);
-                if (entry != null)
-                {
-                    var subArchiver = await ArchiverManager.Current.CreateArchiverAsync(entry, false, token);
-                    ////Debug.WriteLine($"Create Archiver: {subArchiver.FullPath}");
-                    var subEntryName = entryName.Substring(entry.RawEntryName.Length + 1);
-                    return await CreateInnerArchiveEntry(subArchiver, subEntryName, token);
-                }
+                Debug.WriteLine(ex.Message);
             }
+
+            return null;
         }
 
         /// <summary>
@@ -197,7 +158,7 @@ namespace NeeView
         {
             try
             {
-                var entry = await CreateArchiveEntry(path, token);
+                var entry = await CreateArchiveEntryAsync(path, false, token);
                 return entry != null;
             }
             catch (FileNotFoundException)

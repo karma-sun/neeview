@@ -72,7 +72,7 @@ namespace NeeView
             if (_entries != null) return _entries;
 
             var allowPreExtract = _option.HasFlag(ArchiveEntryCollectionOption.AllowPreExtract);
-            var rootEntry = await ArchiveFileSystem.CreateArchiveEntry_New(Path, false, token); // ## あとからallowPreExtractを実行できるようにする
+            var rootEntry = await ArchiveFileSystem.CreateArchiveEntryAsync(Path, false, token); // ## あとからallowPreExtractを実行できるようにする
 
             Archiver rootArchiver;
             string rootArchiverPath;

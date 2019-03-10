@@ -379,27 +379,17 @@ namespace NeeView
                 _option |= BookLoadOption.Recursive;
             }
 
-            PagePosition position = FirstPosition();
-            int direction = 1;
-
-            var collectMode = _option.HasFlag(BookLoadOption.Recursive) ? ArchiveEntryCollectionMode.IncludeSubArchives : ArchiveEntryCollectionMode.CurrentDirectory;
-            var archiveCollectMode = _option.HasFlag(BookLoadOption.Recursive) ? ArchiveEntryCollectionMode.IncludeSubArchives : archiveRecursiveMode;
-            var collectOption = ArchiveEntryCollectionOption.AllowPreExtract;
-
-            RETRY:
-
-            this.ArchiveEntryCollection = new ArchiveEntryCollection(address.Place, collectMode, archiveCollectMode, collectOption);
-            this.Pages = await CreatePageCollection(address.Place, _option, token);
+            // ページ生成
+            await CreatePageCollection(address.Place, archiveRecursiveMode, _option, token);
 
             // 自動再帰処理
-            if (collectMode != ArchiveEntryCollectionMode.IncludeSubArchives && this.Pages.Count == 0 && _option.HasFlag(BookLoadOption.AutoRecursive))
+            if (ArchiveEntryCollection.Mode != ArchiveEntryCollectionMode.IncludeSubArchives && this.Pages.Count == 0 && _option.HasFlag(BookLoadOption.AutoRecursive))
             {
                 var entries = await ArchiveEntryCollection.GetEntriesWhereSubArchivesAsync(token);
                 if (entries.Count == 1)
                 {
-                    collectMode = ArchiveEntryCollectionMode.IncludeSubArchives;
-                    archiveCollectMode = ArchiveEntryCollectionMode.IncludeSubArchives;
-                    goto RETRY;
+                    _option |= BookLoadOption.Recursive;
+                    await CreatePageCollection(address.Place, archiveRecursiveMode, _option, token);
                 }
             }
 
@@ -421,6 +411,8 @@ namespace NeeView
             Sort();
 
             // スタートページ取得
+            PagePosition position = FirstPosition();
+            int direction = 1;
             if ((_option & BookLoadOption.FirstPage) == BookLoadOption.FirstPage)
             {
                 position = FirstPosition();
@@ -464,31 +456,27 @@ namespace NeeView
             _thumbnaulPool.Add(thumb);
         }
 
-
-        private async Task<List<Page>> CreatePageCollection(string place, BookLoadOption option, CancellationToken token)
+        /// <summary>
+        /// ページ生成
+        /// </summary>
+        private async Task CreatePageCollection(string place, ArchiveEntryCollectionMode archiveRecursiveMode, BookLoadOption option, CancellationToken token)
         {
-            try
-            {
-                List<ArchiveEntry> entries;
+            var collectMode = _option.HasFlag(BookLoadOption.Recursive) ? ArchiveEntryCollectionMode.IncludeSubArchives : ArchiveEntryCollectionMode.CurrentDirectory;
+            var collectModeIfArchive = _option.HasFlag(BookLoadOption.Recursive) ? ArchiveEntryCollectionMode.IncludeSubArchives : archiveRecursiveMode;
+            var collectOption = ArchiveEntryCollectionOption.AllowPreExtract;
+            this.ArchiveEntryCollection = new ArchiveEntryCollection(place, collectMode, collectModeIfArchive, collectOption);
 
-                if (option.HasFlag(BookLoadOption.SupportAllFile))
-                {
-                    entries = await ArchiveEntryCollection.GetEntriesWherePageAllAsync(token);
-                }
-                else
-                {
-                    entries = await ArchiveEntryCollection.GetEntriesWhereImageAsync(token);
-                }
-
-                var bookPrefix = LoosePath.TrimDirectoryEnd(place);
-                var pages = entries.Select(e => CreatePage(bookPrefix, e)).ToList();
-                return pages;
-            }
-            catch (Exception e)
+            List<ArchiveEntry> entries;
+            if (option.HasFlag(BookLoadOption.SupportAllFile))
             {
-                Debug.WriteLine(e.Message);
-                throw;
+                entries = await ArchiveEntryCollection.GetEntriesWherePageAllAsync(token);
             }
+            else
+            {
+                entries = await ArchiveEntryCollection.GetEntriesWhereImageAsync(token);
+            }
+            var bookPrefix = LoosePath.TrimDirectoryEnd(place);
+            this.Pages = entries.Select(e => CreatePage(bookPrefix, e)).ToList();
         }
 
         /// <summary>

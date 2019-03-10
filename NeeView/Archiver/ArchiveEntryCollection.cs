@@ -44,8 +44,6 @@ namespace NeeView
     // TODO: AllowPreExtractフラグのちがいをアーカイバの違いとして認識できない問題。あとでPreExtractできるようにする
     public class ArchiveEntryCollection
     {
-        private ArchiveEntryCollectionMode _mode;
-        private ArchiveEntryCollectionMode _archiveMode;
         private ArchiveEntryCollectionOption _option;
         private List<ArchiveEntry> _entries;
         private int _prefixLength;
@@ -55,20 +53,21 @@ namespace NeeView
         /// </summary>
         /// <param name="path">対象のパス</param>
         /// <param name="mode">標準再帰モード</param>
-        /// <param name="archiveMode">圧縮ファイルの再帰モード</param>
+        /// <param name="modeIfArchive">圧縮ファイルの再帰モード</param>
         /// <param name="option"></param>
-        public ArchiveEntryCollection(string path, ArchiveEntryCollectionMode mode, ArchiveEntryCollectionMode archiveMode, ArchiveEntryCollectionOption option)
+        public ArchiveEntryCollection(string path, ArchiveEntryCollectionMode mode, ArchiveEntryCollectionMode modeIfArchive, ArchiveEntryCollectionOption option)
         {
             Path = LoosePath.TrimEnd(path);
-            _mode = mode;
-            _archiveMode = archiveMode;
+            Mode = mode;
+            ModeIfArchive = modeIfArchive;
             _option = option;
 
             _prefixLength = LoosePath.TrimDirectoryEnd(Path).Length;
         }
 
-        public string Path { get; private set; }
-
+        public string Path { get; }
+        public ArchiveEntryCollectionMode Mode { get; }
+        public ArchiveEntryCollectionMode ModeIfArchive { get; }
         public Archiver RootArchiver { get; private set; }
 
         // 作れないときは例外発生
@@ -111,7 +110,7 @@ namespace NeeView
 
             RootArchiver = rootArchiver;
 
-            var mode = RootArchiver.IsFileSystem ? _mode : _archiveMode;
+            var mode = RootArchiver.IsFileSystem ? Mode : ModeIfArchive;
 
             var includeSubDirectories = mode == ArchiveEntryCollectionMode.IncludeSubDirectories || mode == ArchiveEntryCollectionMode.IncludeSubArchives;
             var entries = await rootArchiver.GetEntriesAsync(rootArchiverPath, includeSubDirectories, token);
@@ -157,7 +156,7 @@ namespace NeeView
             // TODO: e.IsBook()はおかしい。今後は圧縮ファイルの中のフォルダーもブックになるから、新しい設計が必要。
         }
 
-        // TODO: このリストはサブアーカイブ展開してもサブアーカイブ自体のエントリがのこっているので、ブックとして使用するときには適切な除外処理が必要
+
         private async Task<List<ArchiveEntry>> GetSubArchivesEntriesAsync(List<ArchiveEntry> entries, CancellationToken token)
         {
             var result = new List<ArchiveEntry>();
@@ -175,15 +174,6 @@ namespace NeeView
             }
 
             return result;
-        }
-
-
-        public string GetEntryName(ArchiveEntry entry)
-        {
-            Debug.Assert(_entries != null);
-            Debug.Assert(_entries.Contains(entry));
-
-            return entry.SystemPath.Substring(_prefixLength);
         }
     }
 }

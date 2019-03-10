@@ -63,9 +63,11 @@ namespace NeeView
         /// 開発用：テストボタンのアクション
         /// </summary>
         [Conditional("DEBUG")]
-        private async void DebugTestAction()
+        private void DebugTestAction()
         {
-            await DebugTest.ExecuteTestAsync();
+#if DEBUG
+            var async = DebugTest.ExecuteTestAsync();
+#endif
         }
 
         /// <summary>

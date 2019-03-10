@@ -411,6 +411,7 @@ namespace NeeView
         [Conditional("DEBUG")]
         public void DumpCache()
         {
+            _cache.CleanUp();
             _cache.Dump();
         }
 

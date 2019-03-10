@@ -41,9 +41,7 @@ namespace NeeView
         IncludeSubArchives,
     }
 
-    // TODO: Archiver Pool
     // TODO: AllowPreExtractフラグのちがいをアーカイバの違いとして認識できない問題。あとでPreExtractできるようにする
-    // TODO: ArchiverのIsRootフラグ不要？
     public class ArchiveEntryCollection
     {
         private ArchiveEntryCollectionMode _mode;
@@ -52,6 +50,13 @@ namespace NeeView
         private List<ArchiveEntry> _entries;
         private int _prefixLength;
 
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="path">対象のパス</param>
+        /// <param name="mode">標準再帰モード</param>
+        /// <param name="archiveMode">圧縮ファイルの再帰モード</param>
+        /// <param name="option"></param>
         public ArchiveEntryCollection(string path, ArchiveEntryCollectionMode mode, ArchiveEntryCollectionMode archiveMode, ArchiveEntryCollectionOption option)
         {
             Path = LoosePath.TrimEnd(path);
@@ -137,14 +142,20 @@ namespace NeeView
             return entries.Where(e => !directories.Contains(e.SystemPath)).ToList();
         }
 
-        // filter: 含まれるサブアーカイブ、メディアのみ抽出
+        // filter: 含まれるサブアーカイブのみ抽出
         public async Task<List<ArchiveEntry>> GetEntriesWhereSubArchivesAsync(CancellationToken token)
+        {
+            var entries = await GetEntriesAsync(token);
+            return entries.Where(e => e.IsArchive()).ToList();
+        }
+
+        // filter: 含まれるブックを抽出
+        public async Task<List<ArchiveEntry>> GetEntriesWhereBookAsync(CancellationToken token)
         {
             var entries = await GetEntriesAsync(token);
             return entries.Where(e => e.IsBook()).ToList();
             // TODO: e.IsBook()はおかしい。今後は圧縮ファイルの中のフォルダーもブックになるから、新しい設計が必要。
         }
-
 
         // TODO: このリストはサブアーカイブ展開してもサブアーカイブ自体のエントリがのこっているので、ブックとして使用するときには適切な除外処理が必要
         private async Task<List<ArchiveEntry>> GetSubArchivesEntriesAsync(List<ArchiveEntry> entries, CancellationToken token)

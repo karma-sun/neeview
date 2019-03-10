@@ -302,17 +302,6 @@ namespace NeeView
         }
 
         /// <summary>
-        /// 自動再帰、ページ外ファイルも含めて判定
-        /// </summary>
-        private bool _isAutoRecursiveWithAllFiles = true;
-        [PropertyMember("@ParamIsAutoRecursiveWithAllFiles", Tips = "@ParamIsAutoRecursiveWithAllFilesTips")]
-        public bool IsAutoRecursiveWithAllFiles
-        {
-            get { return _isAutoRecursiveWithAllFiles; }
-            set { SetProperty(ref _isAutoRecursiveWithAllFiles, value); }
-        }
-
-        /// <summary>
         /// アーカイブの展開モード
         /// </summary>
         private ArchiveEntryCollectionMode _archiveRecursiveMode;
@@ -1081,9 +1070,6 @@ namespace NeeView
             [DataMember(Order = 10)]
             public bool IsAutoRecursive { get; set; }
 
-            [DataMember(Order = 22)]
-            public bool IsAutoRecursiveWithAllFiles { get; set; }
-
             [DataMember, DefaultValue(0)]
             public int HistoryEntryPageCount { get; set; }
 
@@ -1100,6 +1086,9 @@ namespace NeeView
             public ArchiveEntryCollectionMode ArchiveRecursveMode { get; set; }
 
             #region Obslete
+
+            [Obsolete, DataMember(Order = 22)]
+            public bool IsAutoRecursiveWithAllFiles { get; set; } // no used (ver.34)
 
             [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsArchiveRecursive { get; set; } // no used (ver.34)
@@ -1203,7 +1192,6 @@ namespace NeeView
 
             memento.IsConfirmRecursive = IsConfirmRecursive;
             memento.IsAutoRecursive = IsAutoRecursive;
-            memento.IsAutoRecursiveWithAllFiles = IsAutoRecursiveWithAllFiles;
             memento.HistoryEntryPageCount = HistoryEntryPageCount;
             memento.IsInnerArchiveHistoryEnabled = IsInnerArchiveHistoryEnabled;
             memento.IsUncHistoryEnabled = IsUncHistoryEnabled;
@@ -1220,7 +1208,6 @@ namespace NeeView
 
             IsConfirmRecursive = memento.IsConfirmRecursive;
             IsAutoRecursive = memento.IsAutoRecursive;
-            IsAutoRecursiveWithAllFiles = memento.IsAutoRecursiveWithAllFiles;
             HistoryEntryPageCount = memento.HistoryEntryPageCount;
             IsInnerArchiveHistoryEnabled = memento.IsInnerArchiveHistoryEnabled;
             IsUncHistoryEnabled = memento.IsUncHistoryEnabled;

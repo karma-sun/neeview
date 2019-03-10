@@ -201,6 +201,9 @@ namespace NeeView
         /// <returns></returns>
         private async Task<ThumbnailPicture> LoadArchivePictureAsync(ArchiveEntry entry, CancellationToken token)
         {
+            // ブックサムネイル検索範囲
+            const int searchRange = 2;
+
             if (System.IO.Directory.Exists(entry.SystemPath) || ArchiverManager.Current.IsSupported(entry.SystemPath))
             {
                 if (ArchiverManager.Current.GetSupportedType(entry.SystemPath) == ArchiverType.MediaArchiver)
@@ -208,7 +211,7 @@ namespace NeeView
                     return new ThumbnailPicture(ThumbnailType.Media);
                 }
 
-                var select = await ArchiveFileSystem.CreateFirstImageArchiveEntryAsync(entry, 3, token);
+                var select = await ArchiveFileSystem.CreateFirstImageArchiveEntryAsync(entry, searchRange, token);
                 if (select != null)
                 {
                     return new ThumbnailPicture(await LoadPictureAsync(select, PictureCreateOptions.CreateThumbnail | PictureCreateOptions.IgnoreImageCache, token));

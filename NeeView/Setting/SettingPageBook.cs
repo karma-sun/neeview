@@ -59,11 +59,7 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsConfirmRecursive)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageBookSubFolderAuto,
-                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsAutoRecursive))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsAutoRecursiveWithAllFiles)))
-                    {
-                        IsEnabled = new IsEnabledPropertyValue(BookHub.Current, nameof(BookHub.IsAutoRecursive))
-                    }),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsAutoRecursive)))),
             };
         }
     }

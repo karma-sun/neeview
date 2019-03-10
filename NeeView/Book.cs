@@ -385,26 +385,29 @@ namespace NeeView
             var collectMode = _option.HasFlag(BookLoadOption.Recursive) ? ArchiveEntryCollectionMode.IncludeSubArchives : ArchiveEntryCollectionMode.CurrentDirectory;
             var archiveCollectMode = _option.HasFlag(BookLoadOption.Recursive) ? ArchiveEntryCollectionMode.IncludeSubArchives : archiveRecursiveMode;
             var collectOption = ArchiveEntryCollectionOption.AllowPreExtract;
+
+            RETRY:
+
             this.ArchiveEntryCollection = new ArchiveEntryCollection(address.Place, collectMode, archiveCollectMode, collectOption);
+            this.Pages = await CreatePageCollection(address.Place, _option, token);
 
             // 自動再帰処理
-            if (_option.HasFlag(BookLoadOption.AutoRecursive))
+            if (collectMode != ArchiveEntryCollectionMode.IncludeSubArchives && this.Pages.Count == 0 && _option.HasFlag(BookLoadOption.AutoRecursive))
             {
-                var entries = await ArchiveEntryCollection.GetEntriesAsync(token);
-                if (entries.Count == 1 && entries.First().IsArchive())
+                var entries = await ArchiveEntryCollection.GetEntriesWhereSubArchivesAsync(token);
+                if (entries.Count == 1)
                 {
-                    this.ArchiveEntryCollection = new ArchiveEntryCollection(address.Place, ArchiveEntryCollectionMode.IncludeSubArchives, ArchiveEntryCollectionMode.IncludeSubArchives, collectOption);
+                    collectMode = ArchiveEntryCollectionMode.IncludeSubArchives;
+                    archiveCollectMode = ArchiveEntryCollectionMode.IncludeSubArchives;
+                    goto RETRY;
                 }
             }
 
             // TODO: 事前展開処理をここで発行する
 
-            this.Pages = await CreatePageCollection(address.Place, _option, token);
-            _pageMap.Clear();
-
-
             // Pages initialize
             // TODO: ページ生成と同時に行うべき
+            _pageMap.Clear();
             var prefix = GetPagesPrefix();
             foreach (var page in Pages)
             {

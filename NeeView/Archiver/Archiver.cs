@@ -264,43 +264,6 @@ namespace NeeView
         }
 
         /// <summary>
-        /// アーカイブエントリのみ取得(同期)
-        /// </summary>
-        /// <returns></returns>
-        public List<ArchiveEntry> GetArchives(CancellationToken token)
-        {
-            // エントリ取得
-            var entries = GetEntries(token);
-
-            // アーカイブ群収集
-            var archives = entries
-                .Where(e => e.IsBook())
-                .ToList();
-
-            return archives;
-        }
-
-        /// <summary>
-        /// アーカイブエントリのみ取得(非同期)
-        /// </summary>
-        /// <param name="archiver"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        private async Task<List<ArchiveEntry>> GetArchivesAsync(CancellationToken token)
-        {
-            // エントリ取得
-            var entries = await GetEntriesAsync(token);
-
-            // アーカイブ群収集
-            var archives = entries
-                .Where(e => e.IsBook())
-                .ToList();
-
-            return archives;
-        }
-
-
-        /// <summary>
         /// エントリのストリームを取得
         /// </summary>
         /// <param name="entry"></param>
@@ -369,7 +332,7 @@ namespace NeeView
             return directories;
         }
 
-        #endregion
+#endregion
 
     }
 

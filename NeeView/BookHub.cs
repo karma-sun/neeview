@@ -611,20 +611,6 @@ namespace NeeView
                 // Now Loading ON
                 NotifyLoading(args.Path);
 
-                // TODO: ##
-#if false
-                    // フォルダーリスト更新
-                    if (args.IsRefreshFolderList)
-                    {
-                        var parent = address.Archiver.GetParentPlace();
-                        AppDispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncEventArgs() { Path = address.Place, Parent = address.Archiver.GetParentPlace(), isKeepPlace = false }));
-                    }
-                    else if ((args.Option & BookLoadOption.SelectFoderListMaybe) != 0)
-                    {
-                        AppDispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncEventArgs() { Path = address.Place, Parent = address.Archiver.GetParentPlace(), isKeepPlace = true }));
-                    }
-#endif
-
                 // 履歴リスト更新
                 if ((args.Option & BookLoadOption.SelectHistoryMaybe) != 0)
                 {
@@ -638,13 +624,25 @@ namespace NeeView
                 address.EntryName = address.EntryName ?? LoosePath.NormalizeSeparator(setting.Page);
                 place = address.SystemPath;
 
+
                 // Load本体
                 await LoadAsyncCore(address, args.Option, setting, token);
+
 
                 ////DebugTimer.Check("LoadCore");
 
                 AppDispatcher.Invoke(() =>
                 {
+                    // フォルダーリスト更新
+                    if (args.IsRefreshFolderList)
+                    {
+                        FolderListSync?.Invoke(this, new FolderListSyncEventArgs() { Path = address.Place, Parent = BookUnit?.Book.GetFolderPlace(), isKeepPlace = false });
+                    }
+                    else if ((args.Option & BookLoadOption.SelectFoderListMaybe) != 0)
+                    {
+                        FolderListSync?.Invoke(this, new FolderListSyncEventArgs() { Path = address.Place, Parent = BookUnit?.Book.GetFolderPlace(), isKeepPlace = true });
+                    }
+
                     // ビュー初期化
                     CommandTable.Current[CommandType.ViewReset].Execute(this, null);
 
@@ -859,7 +857,7 @@ namespace NeeView
                 && !_historyRemoved
                 && Book.Pages.Count > 0
                 && (_historyEntry || Book.PageChangeCount > historyEntryPageCount || Book.IsPageTerminated)
-                && (IsInnerArchiveHistoryEnabled || Book.ArchiveEntryCollection.RootArchiver?.Parent == null)
+                && (IsInnerArchiveHistoryEnabled || Book.ArchiveEntryCollection.Archiver?.Parent == null)
                 && (IsUncHistoryEnabled || !LoosePath.IsUnc(Book.Place));
         }
 

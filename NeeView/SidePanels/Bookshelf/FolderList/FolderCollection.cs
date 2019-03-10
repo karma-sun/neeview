@@ -127,6 +127,12 @@ namespace NeeView
 
         #region Methods
 
+#pragma warning disable CS1998
+        public virtual async Task ConstructorAsync(CancellationToken token)
+        {
+        }
+#pragma warning restore CS1998
+
         /// <summary>
         /// 更新が必要？
         /// </summary>

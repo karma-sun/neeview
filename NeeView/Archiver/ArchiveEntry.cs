@@ -301,7 +301,7 @@ namespace NeeView
         /// </summary>
         public bool IsBook()
         {
-            if (this.IsFileSystem && this.IsDirectory)
+            if (this.IsDirectory)
             {
                 return true;
             }

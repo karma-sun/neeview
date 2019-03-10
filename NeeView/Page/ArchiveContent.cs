@@ -204,7 +204,7 @@ namespace NeeView
             // ブックサムネイル検索範囲
             const int searchRange = 2;
 
-            if (System.IO.Directory.Exists(entry.SystemPath) || ArchiverManager.Current.IsSupported(entry.SystemPath))
+            if (System.IO.Directory.Exists(entry.SystemPath) || entry.IsBook())
             {
                 if (ArchiverManager.Current.GetSupportedType(entry.SystemPath) == ArchiverType.MediaArchiver)
                 {

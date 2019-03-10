@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -19,7 +20,7 @@ namespace NeeView
 
         private bool _isParentValid;
         private bool _isChildrenValid;
-        public Archiver _archiver;
+        private FolderCollection _collection;
 
 
         // Constructors
@@ -43,10 +44,7 @@ namespace NeeView
                 .ToList();
             parent._isChildrenValid = true;
 
-            if (collection is FolderArchiveCollection archiveCollection)
-            {
-                parent._archiver = archiveCollection.Archiver;
-            }
+            parent._collection = collection;
 
             // 重複名はターゲットで区別する
             var index = parent.Children.FindIndex(e => e.Name == content.Name && e.Content.TargetPath == content.TargetPath);
@@ -91,7 +89,7 @@ namespace NeeView
 
         public FolderItem Content { get; set; }
 
-        
+
         // Methods
 
         public async Task<FolderNode> GetParent(CancellationToken cancel)
@@ -133,18 +131,9 @@ namespace NeeView
             FolderNode parent;
             string name;
 
-            // archive folder
-            var parentArchiver = _archiver?.Parent;
-            if (parentArchiver != null)
-            {
-                parent = new FolderNode(null, new QueryPath(parentArchiver.SystemPath).FullPath, null) { _archiver = parentArchiver };
-                name = LoosePath.GetFileName(Name, parent.FullName);
-            }
-
             // normal folder
-            else
             {
-                var directory = LoosePath.GetDirectoryName(Name);
+                var directory = _collection?.GetParentQuery().FullPath ?? LoosePath.GetDirectoryName(Name);
                 if (string.IsNullOrEmpty(directory))
                 {
                     Parent = null;

@@ -68,7 +68,7 @@ namespace NeeView
         public string Path { get; }
         public ArchiveEntryCollectionMode Mode { get; }
         public ArchiveEntryCollectionMode ModeIfArchive { get; }
-        public Archiver RootArchiver { get; private set; }
+        public Archiver Archiver { get; private set; }
 
         // 作れないときは例外発生
         public async Task<List<ArchiveEntry>> GetEntriesAsync(CancellationToken token)
@@ -108,9 +108,9 @@ namespace NeeView
                 }
             }
 
-            RootArchiver = rootArchiver;
+            Archiver = rootArchiver;
 
-            var mode = RootArchiver.IsFileSystem ? Mode : ModeIfArchive;
+            var mode = Archiver.IsFileSystem ? Mode : ModeIfArchive;
 
             var includeSubDirectories = mode == ArchiveEntryCollectionMode.IncludeSubDirectories || mode == ArchiveEntryCollectionMode.IncludeSubArchives;
             var entries = await rootArchiver.GetEntriesAsync(rootArchiverPath, includeSubDirectories, token);
@@ -174,6 +174,40 @@ namespace NeeView
             }
 
             return result;
+        }
+
+
+        /// <summary>
+        /// フォルダーリスト上での親フォルダーを取得
+        /// </summary>
+        public string GetFolderPlace()
+        {
+            if (Path == null || Archiver == null)
+            {
+                return null;
+            }
+
+            var mode = Archiver.IsFileSystem ? Mode : ModeIfArchive;
+
+            if (mode == ArchiveEntryCollectionMode.IncludeSubArchives)
+            {
+                return LoosePath.GetDirectoryName(Archiver.RootArchiver.SystemPath);
+            }
+            else if (mode == ArchiveEntryCollectionMode.IncludeSubDirectories)
+            {
+                if (Archiver.Parent != null)
+                {
+                    return Archiver.Parent.SystemPath;
+                }
+                else
+                {
+                    return LoosePath.GetDirectoryName(Archiver.SystemPath);
+                }
+            }
+            else
+            {
+                return LoosePath.GetDirectoryName(Path);
+            }
         }
     }
 }

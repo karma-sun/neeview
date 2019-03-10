@@ -131,10 +131,20 @@ namespace NeeView
             {
                 return this.FolderCollection.Items.FirstOrDefault(e => e.Path == pos.Path && e.TargetPath == pos.TargetPath) ?? this.FolderCollection.FirstOrDefault();
             }
-            else
+
+            // アーカイブ内のパスの場合、有効な項目になるまで場所を遡る
+            var path = pos.Path;
+            do
             {
-                return this.FolderCollection.Items.FirstOrDefault(e => e.Path == pos.Path) ?? this.FolderCollection.FirstOrDefault();
+                var select = this.FolderCollection.Items.FirstOrDefault(e => e.Path == path);
+                if (select != null)
+                {
+                    return select;
+                }
+                path = path.GetParent();
             }
+            while ( path.FullPath.Length > this.FolderCollection.Place.FullPath.Length);
+            return this.FolderCollection.FirstOrDefault();
         }
 
         /// <summary>

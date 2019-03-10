@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -117,8 +118,18 @@ namespace NeeView
         {
             try
             {
-                var archiver = await ArchiverManager.Current.CreateArchiverAsync(source, false, token);
-                var entries = await archiver.GetEntriesAsync(token);
+                List<ArchiveEntry> entries;
+                if (!source.IsFileSystem && source.IsDirectory)
+                {
+                    entries = (await source.Archiver.GetEntriesAsync(token))
+                        .Where(e => e.EntryName.StartsWith(LoosePath.TrimDirectoryEnd(source.EntryName)))
+                        .ToList();
+                }
+                else
+                {
+                    var archiver = await ArchiverManager.Current.CreateArchiverAsync(source, false, token);
+                    entries = await archiver.GetEntriesAsync(token);
+                }
                 entries = EntrySort.SortEntries(entries, PageSortMode.FileName);
 
                 var select = entries.FirstOrDefault(e => e.IsImage());

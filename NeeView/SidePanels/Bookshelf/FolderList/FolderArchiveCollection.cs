@@ -1,41 +1,61 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace NeeView
 {
 
     /// <summary>
-    /// 検索コレクション
+    /// アーカイブフォルダコレクション
     /// </summary>
     public class FolderArchiveCollection : FolderCollection
     {
         #region Fields
 
-        private Archiver _archiver;
+        private ArchiveEntryCollectionMode _mode;
+        private ArchiveEntryCollection _collection;
 
         #endregion
 
         #region Constructors
 
-        /// <summary>
-        /// constructor
-        /// </summary>
-        public FolderArchiveCollection(QueryPath path, Archiver archiver, bool isActive, bool isOverlayEnabled) : base(path, isActive, isOverlayEnabled)
+        public FolderArchiveCollection(QueryPath path, ArchiveEntryCollectionMode mode, bool isActive, bool isOverlayEnabled) : base(path, isActive, isOverlayEnabled)
         {
-            _archiver = archiver;
+            _mode = mode;
+        }
 
-            if (archiver == null)
+        public override async Task ConstructorAsync(CancellationToken token)
+        {
+            try
+            {
+                _collection = new ArchiveEntryCollection(this.Place.SimplePath, ArchiveEntryCollectionMode.CurrentDirectory, _mode, ArchiveEntryCollectionOption.None);
+            }
+            catch
             {
                 this.Items = new ObservableCollection<FolderItem>() { CreateFolderItemEmpty() };
                 return;
             }
 
-            // TODO: 重い処理はコンストラクタではなく必要になったらそこで処理させるようにする
-            var items = archiver.GetArchives(CancellationToken.None)
-                .Select(e => CreateFolderItem(e))
+            List<ArchiveEntry> entries;
+            switch (_mode)
+            {
+                case ArchiveEntryCollectionMode.CurrentDirectory:
+                    entries = await _collection.GetEntriesWhereBookAsync(token);
+                    break;
+                case ArchiveEntryCollectionMode.IncludeSubDirectories:
+                    entries = await _collection.GetEntriesWhereSubArchivesAsync(token);
+                    break;
+                default:
+                    this.Items = new ObservableCollection<FolderItem>() { CreateFolderItemEmpty() };
+                    return;
+            }
+
+            var items = entries
+                .Select(e => CreateFolderItem(e, _collection.Path))
                 .Where(e => e != null)
                 .ToList();
 
@@ -52,11 +72,6 @@ namespace NeeView
 
         #endregion
 
-        #region Properties
-
-        public Archiver Archiver => _archiver;
-
-        #endregion
 
         #region Methods
 
@@ -69,33 +84,27 @@ namespace NeeView
             {
                 return null;
             }
-            else if (_archiver == null)
+            else if (_collection == null)
             {
                 return new QueryPath(ArchiverManager.Current.GetExistPathName(Place.SimplePath));
             }
-            else if (_archiver.Parent != null)
-            {
-                return new QueryPath(_archiver.Parent.SystemPath);
-            }
             else
             {
-                return base.GetParentQuery();
+                return new QueryPath(_collection.GetFolderPlace());
             }
         }
 
         /// <summary>
         /// アーカイブエントリから項目作成
         /// </summary>
-        /// <param name="entry"></param>
-        /// <returns></returns>
-        public FolderItem CreateFolderItem(ArchiveEntry entry)
+        public FolderItem CreateFolderItem(ArchiveEntry entry, string prefix)
         {
             return new FileFolderItem(_isOverlayEnabled)
             {
                 Type = FolderItemType.ArchiveEntry,
                 ArchiveEntry = entry,
-                Place = new QueryPath(entry.Archiver.SystemPath),
-                Name = entry.EntryName,
+                Place = new QueryPath(prefix),
+                Name = entry.SystemPath.Substring(prefix.Length).TrimStart(LoosePath.Separator),
                 LastWriteTime = entry.LastWriteTime,
                 Length = entry.Length,
                 Attributes = FolderItemAttribute.ArchiveEntry,

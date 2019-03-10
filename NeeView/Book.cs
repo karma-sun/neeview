@@ -254,10 +254,10 @@ namespace NeeView
         public ArchiveEntryCollection ArchiveEntryCollection { get; private set; }
 
         // メディアアーカイバ？
-        public bool IsMedia => ArchiveEntryCollection?.RootArchiver is MediaArchiver;
+        public bool IsMedia => ArchiveEntryCollection?.Archiver is MediaArchiver;
 
         // ページマークアーカイバ？
-        public bool IsPagemarkFolder => ArchiveEntryCollection?.RootArchiver is PagemarkArchiver;
+        public bool IsPagemarkFolder => ArchiveEntryCollection?.Archiver is PagemarkArchiver;
 
         // 開始ページ
         public string StartEntry { get; private set; }
@@ -290,7 +290,7 @@ namespace NeeView
 
         public string GetArchiverDetail()
         {
-            var archiver = ArchiveEntryCollection?.RootArchiver;
+            var archiver = ArchiveEntryCollection?.Archiver;
             if (archiver == null)
             {
                 return null;
@@ -326,6 +326,11 @@ namespace NeeView
             text += GetArchiverDetail() + "\n";
             text += string.Format(Properties.Resources.BookAddressInfoPage, Pages.Count);
             return text;
+        }
+
+        public string GetFolderPlace()
+        {
+            return ArchiveEntryCollection.GetFolderPlace();
         }
 
         #region 本の初期化
@@ -439,7 +444,7 @@ namespace NeeView
 
             // 有効化
             Place = ArchiveEntryCollection.Path;
-            IsDirectory = ArchiveEntryCollection.RootArchiver is FolderArchive;
+            IsDirectory = ArchiveEntryCollection.Archiver is FolderArchive;
 
             // 初期ページ設定
             RequestSetPosition(this, position, direction, true);

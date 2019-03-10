@@ -109,8 +109,8 @@ namespace NeeView
         {
             try
             {
-                var entry = await ArchiveFileSystem.CreateArchiveEntryAsync(path.SimplePath, false, token);
-                var collection = CreateArchiveCollection(path, await ArchiverManager.Current.CreateArchiverAsync(entry, false, token), isActive);
+                var collection = CreateArchiveCollection(path, BookHub.Current.ArchiveRecursiveMode, isActive);
+                await collection.ConstructorAsync(token);
                 token.ThrowIfCancellationRequested();
                 return collection;
             }
@@ -145,9 +145,9 @@ namespace NeeView
         /// <summary>
         /// FolderCollection作成(書庫内アーカイブリスト)
         /// </summary>
-        public FolderCollection CreateArchiveCollection(QueryPath path, Archiver archiver, bool isActive)
+        public FolderCollection CreateArchiveCollection(QueryPath path, ArchiveEntryCollectionMode mode, bool isActive)
         {
-            return new FolderArchiveCollection(path, archiver, isActive, _isOverlayEnabled);
+            return new FolderArchiveCollection(path, mode, isActive, _isOverlayEnabled);
         }
 
         /// <summary>

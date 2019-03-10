@@ -362,12 +362,14 @@ namespace NeeView
                 {
                     foreach (var item in queue)
                     {
+                        ////Debug.WriteLine($"ThumbnailCache.Save: {item.Key.Substring(0, 8)}");
                         command.CommandText = $"REPLACE INTO thumbs (key, value) VALUES (@key, @value)";
                         command.Parameters.Add(new SQLiteParameter("@key", item.Key));
                         command.Parameters.Add(new SQLiteParameter("@value", item.Value));
                         command.ExecuteNonQuery();
                     }
                 }
+                transaction.Commit();
             }
         }
 

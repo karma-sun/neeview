@@ -313,7 +313,7 @@ namespace NeeView
             else
             {
                 // TODO: テンポラリファイルの指定方法をスマートに。
-                var tempFile = await ArchivenEntryExtractorService.Current.ExtractAsync(source, token);
+                var tempFile = await ArchiveEntryExtractorService.Current.ExtractAsync(source, token);
                 var archiverTemp = CreateArchiver(tempFile.Path, source, isAll);
                 Debug.WriteLine($"Archiver: {archiverTemp.SystemPath} => {tempFile.Path}");
                 Debug.Assert(archiverTemp.TempFile == null);

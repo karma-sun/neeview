@@ -13,9 +13,9 @@ namespace NeeView
     /// ArchiveEntryExtractor管理
     /// キャンセルされたがまだ処理が残っているインスタンスの再利用
     /// </summary>
-    public class ArchivenEntryExtractorService
+    public class ArchiveEntryExtractorService
     {
-        public static ArchivenEntryExtractorService Current { get; } = new ArchivenEntryExtractorService();
+        public static ArchiveEntryExtractorService Current { get; } = new ArchiveEntryExtractorService();
 
         #region Fields
 

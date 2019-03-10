@@ -124,19 +124,17 @@ namespace NeeView
         {
             if (IsValid || !IsCacheEnabled) return;
 
-            _header = new ThumbnailCacheHeader(entry.SystemPath, entry.Length, entry.LastWriteTime, appendix);
-
-            var header = _header;
-
 #if DEBUG
             if (DebugIgnoreCache)
             {
-                header = new ThumbnailCacheHeader(entry.SystemPath, entry.Length, entry.LastWriteTime, "Hello, World!");
+                Image = null;
+                return;
             }
 #endif
 
-            var image = ThumbnailCache.Current.Load(header);
-
+            _header = new ThumbnailCacheHeader(entry.SystemPath, entry.Length, entry.LastWriteTime, appendix);
+            var image = ThumbnailCache.Current.Load(_header);
+            ////Debug.WriteLine($"ThumbnailCache.Load: {_header.Hash.Substring(0, 8)} {(image == null ? "Miss" : "Hit!")}: {entry.SystemPath}");
             Image = image;
         }
 

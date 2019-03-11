@@ -77,7 +77,7 @@ function Get-GitLog()
 {
     $branch = Invoke-Expression "git rev-parse --abbrev-ref HEAD"
     $descrive = Invoke-Expression "git describe --abbrev=0 --tags"
-	$date = Invoke-Expression 'git log -1 --pretty=format:"%ad" --date=local'
+	$date = Invoke-Expression 'git log -1 --pretty=format:"%ad" --date=iso'
 	$result = Invoke-Expression "git log $descrive..head --encoding=Shift_JIS --pretty=format:`"%s`""
 	$result = $result | Where-Object { -not ($_ -match 'm.rge branch|開発用|\(dev\)|^-|^\.\.') } 
 	

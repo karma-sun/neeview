@@ -390,7 +390,7 @@ namespace NeeView
             // 自動再帰処理
             if (ArchiveEntryCollection.Mode != ArchiveEntryCollectionMode.IncludeSubArchives && this.Pages.Count == 0 && _option.HasFlag(BookLoadOption.AutoRecursive))
             {
-                var entries = await ArchiveEntryCollection.GetEntriesWhereSubArchivesAsync(token);
+                var entries = await ArchiveEntryCollection.GetEntriesWhereBookAsync(token);
                 if (entries.Count == 1)
                 {
                     _option |= BookLoadOption.Recursive;

@@ -275,6 +275,14 @@ namespace NeeView
             return ArchiverManager.Current.IsSupported(EntryName, false, false);
         }
 
+        /// <summary>
+        /// アーカイブ中のディレクトリ？
+        /// </summary>
+        public bool IsArchiveDirectory()
+        {
+            return !IsFileSystem && IsDirectory;
+        }
+
 
         /// <summary>
         /// このエントリが画像であるか拡張子から判定。

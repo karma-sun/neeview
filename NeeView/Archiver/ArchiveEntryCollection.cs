@@ -47,6 +47,8 @@ namespace NeeView
     /// </summary>
     public class ArchiveEntryCollection
     {
+        private ArchiveEntryCollectionMode _mode;
+        private ArchiveEntryCollectionMode _modeIfArchive;
         private ArchiveEntryCollectionOption _option;
         private List<ArchiveEntry> _entries;
         private int _prefixLength;
@@ -62,16 +64,17 @@ namespace NeeView
         {
             Path = LoosePath.TrimEnd(path);
             Mode = mode;
-            ModeIfArchive = modeIfArchive;
+            _mode = mode;
+            _modeIfArchive = modeIfArchive;
             _option = option;
 
             _prefixLength = LoosePath.TrimDirectoryEnd(Path).Length;
         }
 
         public string Path { get; }
-        public ArchiveEntryCollectionMode Mode { get; }
-        public ArchiveEntryCollectionMode ModeIfArchive { get; }
         public Archiver Archiver { get; private set; }
+
+        public ArchiveEntryCollectionMode Mode { get; private set; }
 
         /// <summary>
         /// ArchiveEntry収集
@@ -113,13 +116,12 @@ namespace NeeView
             }
 
             Archiver = rootArchiver;
+            Mode = Archiver.IsFileSystem? _mode : _modeIfArchive;
 
-            var mode = Archiver.IsFileSystem ? Mode : ModeIfArchive;
-
-            var includeSubDirectories = mode == ArchiveEntryCollectionMode.IncludeSubDirectories || mode == ArchiveEntryCollectionMode.IncludeSubArchives;
+            var includeSubDirectories = Mode == ArchiveEntryCollectionMode.IncludeSubDirectories || Mode == ArchiveEntryCollectionMode.IncludeSubArchives;
             var entries = await rootArchiver.GetEntriesAsync(rootArchiverPath, includeSubDirectories, token);
 
-            var includeAllSubDirectories = mode == ArchiveEntryCollectionMode.IncludeSubArchives;
+            var includeAllSubDirectories = Mode == ArchiveEntryCollectionMode.IncludeSubArchives;
             if (includeAllSubDirectories)
             {
                 entries = await GetSubArchivesEntriesAsync(entries, token);
@@ -176,9 +178,15 @@ namespace NeeView
         public async Task<List<ArchiveEntry>> GetEntriesWhereBookAsync(CancellationToken token)
         {
             var entries = await GetEntriesAsync(token);
-            return entries.Where(e => e.IsBook()).ToList();
+            if (Mode == ArchiveEntryCollectionMode.CurrentDirectory)
+            {
+                return entries.Where(e => e.IsBook()).ToList();
+            }
+            else
+            {
+                return entries.Where(e => e.IsBook() && !e.IsArchiveDirectory()).ToList();
+            }
         }
-
 
         /// <summary>
         /// フォルダーリスト上での親フォルダーを取得
@@ -190,13 +198,17 @@ namespace NeeView
                 return null;
             }
 
-            var mode = Archiver.IsFileSystem ? Mode : ModeIfArchive;
+            if (Archiver == null)
+            {
+                Debug.Assert(false, "Invalid operation");
+                return null;
+            }
 
-            if (mode == ArchiveEntryCollectionMode.IncludeSubArchives)
+            if (Mode == ArchiveEntryCollectionMode.IncludeSubArchives)
             {
                 return LoosePath.GetDirectoryName(Archiver.RootArchiver.SystemPath);
             }
-            else if (mode == ArchiveEntryCollectionMode.IncludeSubDirectories)
+            else if (Mode == ArchiveEntryCollectionMode.IncludeSubDirectories)
             {
                 if (Archiver.Parent != null)
                 {

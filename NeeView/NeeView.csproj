@@ -171,6 +171,7 @@
     </ApplicationDefinition>
     <Compile Include="AppDispatcher.cs" />
     <Compile Include="ApplicationDisposer.cs" />
+    <Compile Include="Archiver\ArchiveEntryUtility.cs" />
     <Compile Include="Archiver\ArchiverCache.cs" />
     <Compile Include="Archiver\ArchiveEntryCollection.cs" />
     <Compile Include="Archiver\ArchiveEntryTree.cs" />
@@ -407,7 +408,6 @@
     <Compile Include="App.Exception.cs" />
     <Compile Include="App.Memento.cs" />
     <Compile Include="App.Option.cs" />
-    <Compile Include="ArchiveFileSystem.cs" />
     <Compile Include="Archiver\FileTypeCollection.cs" />
     <Compile Include="Archiver\PdfArchiverProfile.cs" />
     <Compile Include="Archiver\SevenZipArchiverProfile.cs" />

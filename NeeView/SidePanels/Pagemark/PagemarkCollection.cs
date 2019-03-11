@@ -273,7 +273,7 @@ namespace NeeView
             {
                 if (node.Value is PagemarkFolder folder)
                 {
-                    if (!(await ArchiveFileSystem.ExistsAsync(folder.Place, token)))
+                    if (!(await ArchiveEntryUtility.ExistsAsync(folder.Place, token)))
                     {
                         unlinked.Add(node);
                     }

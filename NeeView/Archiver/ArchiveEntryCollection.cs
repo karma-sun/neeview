@@ -9,12 +9,18 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
+    /// <summary>
+    /// ArchiveEntryCollectionの展開オプション
+    /// </summary>
     [Flags]
     public enum ArchiveEntryCollectionOption
     {
         None,
     }
 
+    /// <summary>
+    /// ArchiveEntryCollectionの展開範囲
+    /// </summary>
     public enum ArchiveEntryCollectionMode
     {
         /// <summary>
@@ -36,7 +42,9 @@ namespace NeeView
         IncludeSubArchives,
     }
 
-    // TODO: AllowPreExtractフラグのちがいをアーカイバの違いとして認識できない問題。あとでPreExtractできるようにする
+    /// <summary>
+    /// 指定パス以下のArchiveEntryの収集
+    /// </summary>
     public class ArchiveEntryCollection
     {
         private ArchiveEntryCollectionOption _option;
@@ -65,12 +73,14 @@ namespace NeeView
         public ArchiveEntryCollectionMode ModeIfArchive { get; }
         public Archiver Archiver { get; private set; }
 
-        // 作れないときは例外発生
+        /// <summary>
+        /// ArchiveEntry収集
+        /// </summary>
         public async Task<List<ArchiveEntry>> GetEntriesAsync(CancellationToken token)
         {
             if (_entries != null) return _entries;
 
-            var rootEntry = await ArchiveFileSystem.CreateArchiveEntryAsync(Path, token);
+            var rootEntry = await ArchiveEntryUtility.CreateArchiveEntryAsync(Path, token);
 
             Archiver rootArchiver;
             string rootArchiverPath;
@@ -79,7 +89,7 @@ namespace NeeView
             {
                 if (rootEntry.IsDirectory)
                 {
-                    rootArchiver = new FolderArchive(Path, null);
+                    rootArchiver = await ArchiverManager.Current.CreateArchiverAsync(new ArchiveEntry(Path), token);
                     rootArchiverPath = "";
                 }
                 else
@@ -167,7 +177,6 @@ namespace NeeView
         {
             var entries = await GetEntriesAsync(token);
             return entries.Where(e => e.IsBook()).ToList();
-            // TODO: e.IsBook()はおかしい。今後は圧縮ファイルの中のフォルダーもブックになるから、新しい設計が必要。
         }
 
 

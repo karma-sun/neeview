@@ -229,7 +229,7 @@ namespace NeeView
             foreach (var node in Items.Where(e => e.Value is Bookmark))
             {
                 var bookmark = (Bookmark)node.Value;
-                if (!(await ArchiveFileSystem.ExistsAsync(bookmark.Place, token)))
+                if (!(await ArchiveEntryUtility.ExistsAsync(bookmark.Place, token)))
                 {
                     unlinked.Add(node);
                 }

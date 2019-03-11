@@ -6011,7 +6011,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Only the current folder in the compressed file に類似しているローカライズされた文字列を検索します。
+        ///   Expand for each directory に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumArchiveEntryCollectionModeCurrentDirectory {
             get {
@@ -6020,7 +6020,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   All in the compressed file. Also expand included compressed files に類似しているローカライズされた文字列を検索します。
+        ///   Expand all に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumArchiveEntryCollectionModeIncludeSubArchives {
             get {
@@ -6029,7 +6029,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   All in the compressed file に類似しているローカライズされた文字列を検索します。
+        ///   Expand by compressed file unit に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumArchiveEntryCollectionModeIncludeSubDirectories {
             get {
@@ -8409,7 +8409,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Expanded range when opening a compressed file as a book に類似しているローカライズされた文字列を検索します。
+        ///   Extended range when opening compressed file に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamArchiveRecursiveModeTips {
             get {

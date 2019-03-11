@@ -118,7 +118,7 @@ namespace NeeView
             {
                 // アーカイブパスが展開できない場合、実在パスでの展開を行う
                 Debug.WriteLine($"Cannot open: {ex.Message}");
-                var place = ArchiveFileSystem.GetExistDirectoryName(path.SimplePath);
+                var place = ArchiveEntryUtility.GetExistDirectoryName(path.SimplePath);
                 return await CreateEntryFolderCollectionAsync(new QueryPath(place), isActive, token);
             }
         }

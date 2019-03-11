@@ -174,7 +174,7 @@ namespace NeeView
             }
             if (this.Entry.IsArchivePath)
             {
-                var entry = await ArchiveFileSystem.CreateArchiveEntryAsync(this.Entry.SystemPath, token);
+                var entry = await ArchiveEntryUtility.CreateArchiveEntryAsync(this.Entry.SystemPath, token);
                 if (entry.IsBook())
                 {
                     return await LoadArchivePictureAsync(entry, token);
@@ -211,7 +211,7 @@ namespace NeeView
                     return new ThumbnailPicture(ThumbnailType.Media);
                 }
 
-                var select = await ArchiveFileSystem.CreateFirstImageArchiveEntryAsync(entry, searchRange, token);
+                var select = await ArchiveEntryUtility.CreateFirstImageArchiveEntryAsync(entry, searchRange, token);
                 if (select != null)
                 {
                     return new ThumbnailPicture(await LoadPictureAsync(select, PictureCreateOptions.CreateThumbnail | PictureCreateOptions.IgnoreImageCache, token));

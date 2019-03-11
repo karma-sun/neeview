@@ -4653,15 +4653,15 @@ Initialize the temporary location.</value>
     <value>Compressed file handling</value>
   </data>
   <data name="ParamArchiveRecursiveModeTips" xml:space="preserve">
-    <value>Expanded range when opening a compressed file as a book</value>
+    <value>Extended range when opening compressed file</value>
   </data>
   <data name="EnumArchiveEntryCollectionModeCurrentDirectory" xml:space="preserve">
-    <value>Only the current folder in the compressed file</value>
+    <value>Expand for each directory</value>
   </data>
   <data name="EnumArchiveEntryCollectionModeIncludeSubDirectories" xml:space="preserve">
-    <value>All in the compressed file</value>
+    <value>Expand by compressed file unit</value>
   </data>
   <data name="EnumArchiveEntryCollectionModeIncludeSubArchives" xml:space="preserve">
-    <value>All in the compressed file. Also expand included compressed files</value>
+    <value>Expand all</value>
   </data>
 </root>

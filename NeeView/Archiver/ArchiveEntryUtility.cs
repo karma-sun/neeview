@@ -11,7 +11,7 @@ namespace NeeView
     /// <summary>
     /// アーカイブ内パスを含むパス記述に対応した処理
     /// </summary>
-    public static class ArchiveFileSystem
+    public static class ArchiveEntryUtility
     {
         /// <summary>
         /// パスからArcvhiveEntryを作成

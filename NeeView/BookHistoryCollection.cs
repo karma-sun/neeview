@@ -292,7 +292,7 @@ namespace NeeView
             var unlinked = new List<LinkedListNode<BookHistory>>();
             for (var node = this.Items.First; node != null; node = node.Next)
             {
-                if (!(await ArchiveFileSystem.ExistsAsync(node.Value.Place, token)))
+                if (!(await ArchiveEntryUtility.ExistsAsync(node.Value.Place, token)))
                 {
                     unlinked.Add(node);
                 }

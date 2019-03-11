@@ -52,14 +52,25 @@ namespace NeeView
         #region Methods
 
         /// <summary>
-        /// 初期化(必須)。
+        /// BookAddress生成
+        /// </summary>
+        ///  <param name="path">入力パス</param>
+        /// <param name="entryName">開始ページ名</param>
+        /// <param name="option"></param>
+        /// <param name="token">キャンセルトークン</param>
+        /// <returns>生成したインスタンス</returns>
+        public static async Task<BookAddress> CreateAsync(string path, string entryName, BookLoadOption option, CancellationToken token)
+        {
+            var address = new BookAddress();
+            await address.ConstructAsync(path, entryName, option, token);
+            return address;
+        }
+
+        /// <summary>
+        /// 初期化。
         /// アーカイブ展開等を含むため、非同期処理。
         /// </summary>
-        /// <param name="path">入力パス</param>
-        /// <param name="entryName">開始ページ名</param>
-        /// <param name="token">キャンセルトークン</param>
-        /// <returns></returns>
-        public async Task InitializeAsync(string path, string entryName, BookLoadOption option, CancellationToken token)
+        private async Task ConstructAsync(string path, string entryName, BookLoadOption option, CancellationToken token)
         {
             var query = new QueryPath(path);
 

@@ -605,8 +605,7 @@ namespace NeeView
             try
             {
                 // address
-                var address = new BookAddress();
-                await address.InitializeAsync(args.Path, args.StartEntry, args.Option, token);
+                var address = await BookAddress.CreateAsync(args.Path, args.StartEntry, args.Option, token);
 
                 // Now Loading ON
                 NotifyLoading(args.Path);

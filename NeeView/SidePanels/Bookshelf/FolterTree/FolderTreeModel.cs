@@ -356,8 +356,8 @@ namespace NeeView
 
         internal void AddBookmarkTo(BookmarkFolderNode item)
         {
-            var place = BookHub.Current.Book?.Place;
-            if (place == null)
+            var address = BookHub.Current.Book?.Address;
+            if (address == null)
             {
                 return;
             }
@@ -365,10 +365,10 @@ namespace NeeView
             var parentNode = item.BookmarkSource;
 
             // TODO: 重複チェックはBookmarkCollectionで行うようにする
-            var node = parentNode.Children.FirstOrDefault(e => e.Value is Bookmark bookmark && bookmark.Place == place);
+            var node = parentNode.Children.FirstOrDefault(e => e.Value is Bookmark bookmark && bookmark.Place == address);
             if (node == null)
             {
-                var unit = BookMementoCollection.Current.Set(place);
+                var unit = BookMementoCollection.Current.Set(address);
                 node = new TreeListNode<IBookmarkEntry>(new Bookmark(unit));
                 BookmarkCollection.Current.AddToChild(node, parentNode);
             }

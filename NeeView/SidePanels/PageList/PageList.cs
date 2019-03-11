@@ -86,7 +86,7 @@ namespace NeeView
         /// </summary>
         public string PlaceDispString
         {
-            get { return LoosePath.GetFileName(BookOperation.Current.Place); }
+            get { return LoosePath.GetFileName(BookOperation.Current.Address); }
         }
 
 

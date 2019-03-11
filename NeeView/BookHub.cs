@@ -117,11 +117,11 @@ namespace NeeView
 
         public BookMementoType GetBookMementoType()
         {
-            if (BookmarkCollection.Current.Contains(Book.Place))
+            if (BookmarkCollection.Current.Contains(Book.Address))
             {
                 return BookMementoType.Bookmark;
             }
-            else if (BookHistoryCollection.Current.Contains(Book.Place))
+            else if (BookHistoryCollection.Current.Contains(Book.Address))
             {
                 return BookMementoType.History;
             }
@@ -135,10 +135,10 @@ namespace NeeView
             => (LoadOptions & BookLoadOption.KeepHistoryOrder) == BookLoadOption.KeepHistoryOrder;
 
         public bool IsValid
-            => Book?.Place != null;
+            => Book?.Address != null;
 
         public string Address
-            => Book?.Place;
+            => Book?.Address;
     }
 
     public class BookChangedEventArgs : EventArgs
@@ -589,7 +589,7 @@ namespace NeeView
             });
 
             // 現在の設定を記憶
-            var lastBookMemento = this.Book?.Place != null ? this.Book.CreateMemento() : null;
+            var lastBookMemento = this.Book?.Address != null ? this.Book.CreateMemento() : null;
 
             // 現在の本を開放
             await UnloadAsync(new BookHubCommandUnloadArgs() { IsClearViewContent = false });
@@ -655,11 +655,11 @@ namespace NeeView
                 // ページがなかった時の処理
                 if (Book.Pages.Count <= 0)
                 {
-                    ResetBookMementoPage(Book.Place);
+                    ResetBookMementoPage(Book.Address);
 
                     AppDispatcher.Invoke(() =>
                     {
-                        EmptyMessage?.Invoke(this, new BookHubMessageEventArgs(string.Format(Properties.Resources.NotifyNoPages, Book.Place)));
+                        EmptyMessage?.Invoke(this, new BookHubMessageEventArgs(string.Format(Properties.Resources.NotifyNoPages, Book.Address)));
 
                         if (IsConfirmRecursive && (args.Option & BookLoadOption.ReLoad) == 0 && !Book.IsRecursiveFolder && Book.SubFolderCount > 0)
                         {
@@ -723,14 +723,14 @@ namespace NeeView
         // 再帰読み込み確認
         private void ConfirmRecursive()
         {
-            var dialog = new MessageDialog(string.Format(Properties.Resources.DialogConfirmRecursive, Book.Place), Properties.Resources.DialogConfirmRecursiveTitle);
+            var dialog = new MessageDialog(string.Format(Properties.Resources.DialogConfirmRecursive, Book.Address), Properties.Resources.DialogConfirmRecursiveTitle);
             dialog.Commands.Add(UICommands.Yes);
             dialog.Commands.Add(UICommands.No);
             var result = dialog.ShowDialog();
 
             if (result == UICommands.Yes)
             {
-                RequestLoad(Book.Place, Book.StartEntry, BookLoadOption.Recursive | BookLoadOption.ReLoad, true);
+                RequestLoad(Book.Address, Book.StartEntry, BookLoadOption.Recursive | BookLoadOption.ReLoad, true);
             }
         }
 
@@ -829,7 +829,7 @@ namespace NeeView
             // 本の設定を退避
             BookSetting.Current.BookMemento = this.Book.CreateMemento();
 
-            Address = BookUnit.Book.Place;
+            Address = BookUnit.Book.Address;
             BookHistoryCollection.Current.LastAddress = Address;
         }
 
@@ -857,7 +857,7 @@ namespace NeeView
                 && Book.Pages.Count > 0
                 && (_historyEntry || Book.PageChangeCount > historyEntryPageCount || Book.IsPageTerminated)
                 && (IsInnerArchiveHistoryEnabled || Book.ArchiveEntryCollection.Archiver?.Parent == null)
-                && (IsUncHistoryEnabled || !LoosePath.IsUnc(Book.Place));
+                && (IsUncHistoryEnabled || !LoosePath.IsUnc(Book.Address));
         }
 
         // 
@@ -923,7 +923,7 @@ namespace NeeView
 
             LoadRequested?.Invoke(this, new BookHubPathEventArgs(path));
 
-            if (Book?.Place == path && option.HasFlag(BookLoadOption.SkipSamePlace)) return null;
+            if (Book?.Address == path && option.HasFlag(BookLoadOption.SkipSamePlace)) return null;
 
             Address = path;
 
@@ -1000,16 +1000,16 @@ namespace NeeView
         /// <summary>
         /// 最新の本の設定を取得
         /// </summary>
-        /// <param name="place">場所</param>
+        /// <param name="address">場所</param>
         /// <param name="option"></param>
         /// <returns></returns>
-        public Book.Memento GetLastestBookMemento(string place, BookLoadOption option)
+        public Book.Memento GetLastestBookMemento(string address, BookLoadOption option)
         {
-            if (place != null)
+            if (address != null)
             {
-                var bookMemento = this.Book?.Place == place ? this.Book.CreateMemento() : null;
-                var memory = BookSetting.Current.CreateLastestBookMemento(place, bookMemento);
-                return BookSetting.Current.GetSetting(place, memory, option);
+                var bookMemento = this.Book?.Address == address ? this.Book.CreateMemento() : null;
+                var memory = BookSetting.Current.CreateLastestBookMemento(address, bookMemento);
+                return BookSetting.Current.GetSetting(address, memory, option);
             }
             else
             {

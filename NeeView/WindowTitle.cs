@@ -192,16 +192,16 @@ namespace NeeView
         /// <param name="mask"></param>
         private void UpdateWindowTitle(WindowTitleMask mask)
         {
-            var place = BookHub.Current.Book?.Place;
+            var address = BookHub.Current.Book?.Address;
 
             if (_loadingPath != null)
                 Title = LoosePath.GetFileName(_loadingPath) + " " + Properties.Resources.NotifyLoadingTitle;
 
-            else if (place == null)
+            else if (address == null)
                 Title = _defaultWindowTitle;
 
             else if (ContentCanvas.Current.MainContent?.Source == null)
-                Title = LoosePath.GetDispName(place);
+                Title = LoosePath.GetDispName(address);
 
             else
                 Title = CreateWindowTitle(mask);
@@ -226,7 +226,7 @@ namespace NeeView
 
             if ((mask & WindowTitleMask.Book) != 0)
             {
-                string bookName = LoosePath.GetDispName(BookOperation.Current.Book?.Place);
+                string bookName = LoosePath.GetDispName(BookOperation.Current.Book?.Address);
                 _windowTitleFormatter.Set("$Book", bookName);
             }
 

@@ -91,7 +91,7 @@ namespace NeeView
                     break;
                 case EntryCollectionChangedAction.Add:
                 case EntryCollectionChangedAction.Remove:
-                    if (e.Item.Value is PagemarkFolder folder && folder.Place == BookOperation.Current.Place)
+                    if (e.Item.Value is PagemarkFolder folder && folder.Place == BookOperation.Current.Address)
                     {
                         UpdateItems();
                     }
@@ -110,8 +110,8 @@ namespace NeeView
         {
             if (_pagemarkList.IsCurrentBook)
             {
-                PlaceDispString = LoosePath.GetFileName(BookOperation.Current.Place);
-                var node = PagemarkCollection.Items.Children.FirstOrDefault(e => e.Value is PagemarkFolder folder && folder.Place == BookOperation.Current.Place);
+                PlaceDispString = LoosePath.GetFileName(BookOperation.Current.Address);
+                var node = PagemarkCollection.Items.Children.FirstOrDefault(e => e.Value is PagemarkFolder folder && folder.Place == BookOperation.Current.Address);
                 if (node != null)
                 {
                     Items = node.Children;

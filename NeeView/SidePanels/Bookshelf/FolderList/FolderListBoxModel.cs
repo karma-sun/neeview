@@ -362,13 +362,13 @@ namespace NeeView
 
         public bool AddBookmark()
         {
-            var place = BookHub.Current.Book?.Place;
-            if (place == null)
+            var address = BookHub.Current.Book?.Address;
+            if (address == null)
             {
                 return false;
             }
 
-            return AddBookmark(new QueryPath(place), true);
+            return AddBookmark(new QueryPath(address), true);
         }
 
         public bool AddBookmark(QueryPath path, bool isFocus)

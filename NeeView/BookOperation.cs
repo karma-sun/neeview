@@ -100,7 +100,7 @@ namespace NeeView
 
         public Book Book => _bookUnit?.Book;
 
-        public string Place => _bookUnit?.Book.Place;
+        public string Address => _bookUnit?.Book.Address;
 
         public bool IsValid => _bookUnit != null;
 
@@ -272,7 +272,7 @@ namespace NeeView
         // 現在表示しているブックの削除可能？
         public bool CanDeleteBook()
         {
-            return FileIOProfile.Current.IsEnabled && Book != null && (File.Exists(Book.Place) || Directory.Exists(Book.Place));
+            return FileIOProfile.Current.IsEnabled && Book != null && (File.Exists(Book.Address) || Directory.Exists(Book.Address));
         }
 
         // 現在表示しているブックを削除する
@@ -280,7 +280,7 @@ namespace NeeView
         {
             if (CanDeleteBook())
             {
-                await FileIO.Current.RemoveAsync(Book.Place, Resources.DialogFileDeleteBookTitle);
+                await FileIO.Current.RemoveAsync(Book.Address, Resources.DialogFileDeleteBookTitle);
             }
         }
 
@@ -375,7 +375,7 @@ namespace NeeView
                 {
                     var pages = Book.GetViewPages();
                     int index = Book.GetViewPageindex() + 1;
-                    string name = $"{Path.GetFileNameWithoutExtension(Book.Place)}_{index:000}-{index + pages.Count - 1:000}.png";
+                    string name = $"{Path.GetFileNameWithoutExtension(Book.Address)}_{index:000}-{index + pages.Count - 1:000}.png";
                     var exporter = new Exporter();
                     exporter.Initialize(pages, Book.BookReadOrder, name);
                     exporter.Background = ContentCanvasBrush.Current.CreateBackgroundBrush();
@@ -470,7 +470,7 @@ namespace NeeView
         private void Book_PageRemoved(object sender, PageChangedEventArgs e)
         {
             // ページマーカーから削除
-            RemovePagemark(this.Book.Place, e.Page.EntryFullName);
+            RemovePagemark(this.Book.Address, e.Page.EntryFullName);
 
             UpdatePageList(true);
             PageRemoved?.Invoke(sender, e);
@@ -699,7 +699,7 @@ namespace NeeView
         {
             if (CanBookmark())
             {
-                var query = new QueryPath(Book.Place);
+                var query = new QueryPath(Book.Address);
 
                 if (IsBookmark)
                 {
@@ -708,7 +708,7 @@ namespace NeeView
                 else
                 {
                     // ignore temporary directory
-                    if (Book.Place.StartsWith(Temporary.Current.TempDirectory))
+                    if (Book.Address.StartsWith(Temporary.Current.TempDirectory))
                     {
                         ToastService.Current.Show(new Toast(Resources.DialogBookmarkError, null, ToastIcon.Error));
                         return;
@@ -726,7 +726,7 @@ namespace NeeView
         {
             get
             {
-                return BookmarkCollection.Current.Contains(Book?.Place);
+                return BookmarkCollection.Current.Contains(Book?.Address);
             }
         }
 
@@ -745,7 +745,7 @@ namespace NeeView
                 return;
             }
 
-            var placeQuery = new QueryPath(Place);
+            var placeQuery = new QueryPath(Address);
             if (placeQuery.Scheme == QueryScheme.Pagemark)
             {
                 switch (e.Action)
@@ -823,7 +823,7 @@ namespace NeeView
                         break;
                     case EntryCollectionChangedAction.Add:
                     case EntryCollectionChangedAction.Remove:
-                        if (e.Item.Value is Pagemark pagemark && pagemark.Place == Place)
+                        if (e.Item.Value is Pagemark pagemark && pagemark.Place == Address)
                         {
                             UpdatePagemark();
                         }
@@ -855,21 +855,21 @@ namespace NeeView
         {
             if (!_isEnabled || this.Book == null || this.Book.IsMedia || this.Book.IsPagemarkFolder) return null;
 
-            var place = Book.Place;
+            var address = Book.Address;
             var page = Book.GetViewPage();
             if (page == null)
             {
                 return null;
             }
             var entryName = page.EntryFullName;
-            var node = PagemarkCollection.Current.FindNode(place, entryName);
+            var node = PagemarkCollection.Current.FindNode(address, entryName);
             if (node == null)
             {
-                return AddPagemark(place, entryName); ////, page.Length, page.LastWriteTime);
+                return AddPagemark(address, entryName); ////, page.Length, page.LastWriteTime);
             }
             else
             {
-                RemovePagemark(place, entryName);
+                RemovePagemark(address, entryName);
                 return null;
             }
         }
@@ -879,13 +879,13 @@ namespace NeeView
         {
             if (!_isEnabled || this.Book == null || this.Book.IsMedia || this.Book.IsPagemarkFolder) return null;
 
-            var place = Book.Place;
+            var address = Book.Address;
             var page = Book.GetViewPage();
             if (page == null)
             {
                 return null;
             }
-            return AddPagemark(place, page.EntryFullName);
+            return AddPagemark(address, page.EntryFullName);
         }
 
         //
@@ -921,7 +921,7 @@ namespace NeeView
         public void Test_MakeManyPagemark()
         {
             if (Book == null) return;
-            var place = Book.Place;
+            var place = Book.Address;
             for (int index = 0; index < Book.Pages.Count; index += 100)
             {
                 var page = Book.Pages[index];
@@ -950,7 +950,7 @@ namespace NeeView
         {
             // 本にマーカを設定
             // TODO: これはPagemarkerの仕事？
-            this.Book?.SetMarkers(PagemarkCollection.Current.Collect(this.Book.Place).Select(e => e.EntryName));
+            this.Book?.SetMarkers(PagemarkCollection.Current.Collect(this.Book.Address).Select(e => e.EntryName));
 
             // 表示更新
             PagemarkChanged?.Invoke(this, null);
@@ -977,7 +977,7 @@ namespace NeeView
             if (result != null)
             {
                 // ページマーク更新
-                PagemarkList.Current.Jump(this.Book.Place, result.EntryName);
+                PagemarkList.Current.Jump(this.Book.Address, result.EntryName);
             }
             else
             {
@@ -993,7 +993,7 @@ namespace NeeView
             if (result != null)
             {
                 // ページマーク更新
-                PagemarkList.Current.Jump(this.Book.Place, result.EntryName);
+                PagemarkList.Current.Jump(this.Book.Address, result.EntryName);
             }
             else
             {
@@ -1006,7 +1006,7 @@ namespace NeeView
         {
             if (mark == null) return false;
 
-            if (mark.Place == this.Book?.Place)
+            if (mark.Place == this.Book?.Address)
             {
                 Page page = this.Book.GetPage(mark.EntryName);
                 if (page != null)

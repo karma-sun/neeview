@@ -1193,13 +1193,13 @@ namespace NeeView
 
         public virtual async void Sync()
         {
-            var place = BookHub.Current?.Book?.Place;
+            var address = BookHub.Current?.Book?.Address;
 
-            if (place != null)
+            if (address != null)
             {
                 // TODO: Queryの求め方はこれでいいのか？
-                var path = new QueryPath(place);
-                var parent = new QueryPath(BookHub.Current?.Book?.GetFolderPlace() ?? LoosePath.GetDirectoryName(place));
+                var path = new QueryPath(address);
+                var parent = new QueryPath(BookHub.Current?.Book?.GetFolderPlace() ?? LoosePath.GetDirectoryName(address));
 
                 _isDarty = true; // 強制更新
                 await SetPlaceAsync(parent, new FolderItemPosition(path), FolderSetPlaceOption.Focus | FolderSetPlaceOption.UpdateHistory | FolderSetPlaceOption.ResetKeyword | FolderSetPlaceOption.FileSystem);
@@ -1245,7 +1245,7 @@ namespace NeeView
 
         public bool AddBookmark()
         {
-            var place = BookHub.Current.Book?.Place;
+            var place = BookHub.Current.Book?.Address;
             if (place == null)
             {
                 return false;

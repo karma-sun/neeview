@@ -245,7 +245,7 @@ namespace NeeView
 
         // この本の場所
         // nullの場合、この本は無効
-        public string Place { get; private set; }
+        public string Address { get; private set; }
 
         // この本はディレクトリ？
         public bool IsDirectory { get; private set; }
@@ -360,7 +360,7 @@ namespace NeeView
         // 本読み込み
         public async Task LoadCoreAsync(BookAddress address, ArchiveEntryCollectionMode archiveRecursiveMode, BookLoadOption option, CancellationToken token)
         {
-            Debug.Assert(Place == null);
+            Debug.Assert(Address == null);
             ////Debug.WriteLine($"OPEN: {address.Place}, {address.EntryName}, {address.Archiver.Path}");
 
             _option = option;
@@ -444,7 +444,7 @@ namespace NeeView
             StartEntry = Pages.Count > 0 ? Pages[position.Index].EntryFullName : null;
 
             // 有効化
-            Place = ArchiveEntryCollection.Path;
+            Address = ArchiveEntryCollection.Path;
             IsDirectory = ArchiveEntryCollection.Archiver is FolderArchive;
 
             // 初期ページ設定
@@ -633,8 +633,8 @@ namespace NeeView
         // ページ設定を行うとコンテンツ読み込みが始まるため、ロードと分離した
         public void Start()
         {
-            Debug.Assert(Place != null);
-            _commandEngine.Name = $"BookJobEngine: {this.Place}";
+            Debug.Assert(Address != null);
+            _commandEngine.Name = $"BookJobEngine: {this.Address}";
             _commandEngine.Log = new NeeLaboratory.Diagnostics.Log(nameof(BookCommandEngine), 0);
             _commandEngine.StartEngine();
         }
@@ -701,7 +701,7 @@ namespace NeeView
         {
             Debug.Assert(direction == 1 || direction == -1);
 
-            if (Place == null) return;
+            if (Address == null) return;
 
             DisplayIndex = position.Index;
 
@@ -718,7 +718,7 @@ namespace NeeView
         // ページ相対移動
         public void RequestMovePosition(object sender, int step)
         {
-            if (Place == null) return;
+            if (Address == null) return;
 
             var command = new BookCommandMovePage(sender, this, new BookCommandMovePageArgs()
             {
@@ -731,7 +731,7 @@ namespace NeeView
         // リフレッシュ
         public void RequestReflesh(object sender, bool isClear)
         {
-            if (Place == null) return;
+            if (Address == null) return;
 
             var command = new BookCommandReflesh(sender, this, new BookCommandRefleshArgs()
             {
@@ -743,7 +743,7 @@ namespace NeeView
         // ソート
         public void RequestSort(object sender)
         {
-            if (Place == null) return;
+            if (Address == null) return;
 
             var command = new BookCommandSort(sender, this, new BookCommandSortArgs());
             _commandEngine.Enqueue(command);
@@ -752,7 +752,7 @@ namespace NeeView
         // ページ削除
         public void RequestRemove(object sender, Page page)
         {
-            if (Place == null) return;
+            if (Address == null) return;
 
             var command = new BookCommandRemove(sender, this, new BookCommandRemoveArgs()
             {
@@ -764,7 +764,7 @@ namespace NeeView
         // 表示の再構築
         private void Reflesh(bool clear)
         {
-            if (Place == null) return;
+            if (Address == null) return;
 
             if (clear)
             {
@@ -777,7 +777,7 @@ namespace NeeView
         // 終了処理
         private BookCommand RequestDispose(object sender)
         {
-            if (Place == null) return null;
+            if (Address == null) return null;
 
             var command = new BookCommandDispose(sender, this, new BookCommandDisposeArgs());
             _commandEngine.Enqueue(command);
@@ -1477,7 +1477,7 @@ namespace NeeView
         /// <returns></returns>
         public bool CanJumpToMarker(int direction, bool isLoop)
         {
-            if (Place == null) return false;
+            if (Address == null) return false;
             if (Markers == null || Markers.Count == 0) return false;
 
             if (isLoop) return true;
@@ -1500,7 +1500,7 @@ namespace NeeView
         {
             Debug.Assert(direction == 1 || direction == -1);
 
-            if (Place == null) return null;
+            if (Address == null) return null;
             if (Pages == null || Pages.Count < 2) return null;
 
             var list = Markers != null ? Markers.OrderBy(e => e.Index).ToList() : new List<Page>();
@@ -1770,7 +1770,7 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento.Place = Place;
+            memento.Place = Address;
             memento.IsDirectorty = IsDirectory;
             memento.Page = SortMode != PageSortMode.Random ? GetViewPage()?.EntryFullName : null;
 

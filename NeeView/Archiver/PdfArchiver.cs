@@ -44,7 +44,7 @@ namespace NeeView
         }
 
         // エントリーリストを得る
-        public override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
+        protected override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
         {
             var list = new List<ArchiveEntry>();
 
@@ -73,7 +73,7 @@ namespace NeeView
 
         // エントリーのストリームを得る
         // PDFは画像化したものをストリームにして返す
-        public override Stream OpenStream(ArchiveEntry entry)
+        protected override Stream OpenStreamInner(ArchiveEntry entry)
         {
             using (var pdfDocument = PdfDocument.Load(Path))
             {
@@ -105,7 +105,7 @@ namespace NeeView
 
 
         // ファイルとして出力
-        public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
+        protected override void ExtractToFileInner(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
             using (var pdfDocument = PdfDocument.Load(Path))
             {

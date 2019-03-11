@@ -26,7 +26,7 @@ namespace NeeView
             return "MediaPlayer";
         }
 
-        public override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
+        protected override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
         {
             var fileInfo = new FileInfo(this.Path);
 
@@ -48,7 +48,7 @@ namespace NeeView
             return MediaArchiverProfile.Current.IsEnabled;
         }
 
-        public override Stream OpenStream(ArchiveEntry entry)
+        protected override Stream OpenStreamInner(ArchiveEntry entry)
         {
             return new FileStream(GetFileSystemPath(entry), FileMode.Open, FileAccess.Read);
         }
@@ -59,7 +59,7 @@ namespace NeeView
             return Path;
         }
 
-        public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
+        protected override void ExtractToFileInner(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
             File.Copy(GetFileSystemPath(entry), exportFileName, isOverwrite);
         }

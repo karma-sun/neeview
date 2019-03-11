@@ -13,11 +13,6 @@ namespace NeeView
     public enum ArchiveEntryCollectionOption
     {
         None,
-
-        /// <summary>
-        /// 事前展開許可
-        /// </summary>
-        AllowPreExtract,
     }
 
     public enum ArchiveEntryCollectionMode
@@ -75,8 +70,7 @@ namespace NeeView
         {
             if (_entries != null) return _entries;
 
-            var allowPreExtract = _option.HasFlag(ArchiveEntryCollectionOption.AllowPreExtract);
-            var rootEntry = await ArchiveFileSystem.CreateArchiveEntryAsync(Path, false, token); // ## あとからallowPreExtractを実行できるようにする
+            var rootEntry = await ArchiveFileSystem.CreateArchiveEntryAsync(Path, token);
 
             Archiver rootArchiver;
             string rootArchiverPath;
@@ -90,7 +84,7 @@ namespace NeeView
                 }
                 else
                 {
-                    rootArchiver = await ArchiverManager.Current.CreateArchiverAsync(rootEntry, allowPreExtract, token);
+                    rootArchiver = await ArchiverManager.Current.CreateArchiverAsync(rootEntry, token);
                     rootArchiverPath = "";
                 }
             }
@@ -98,7 +92,7 @@ namespace NeeView
             {
                 if (rootEntry.IsArchive())
                 {
-                    rootArchiver = await ArchiverManager.Current.CreateArchiverAsync(rootEntry, allowPreExtract, token);
+                    rootArchiver = await ArchiverManager.Current.CreateArchiverAsync(rootEntry, token);
                     rootArchiverPath = "";
                 }
                 else
@@ -123,6 +117,26 @@ namespace NeeView
 
             _entries = entries;
             return _entries;
+        }
+
+
+        private async Task<List<ArchiveEntry>> GetSubArchivesEntriesAsync(List<ArchiveEntry> entries, CancellationToken token)
+        {
+            var result = new List<ArchiveEntry>();
+
+            foreach (var entry in entries)
+            {
+                result.Add(entry);
+
+                if (entry.IsArchive())
+                {
+                    var subArchive = await ArchiverManager.Current.CreateArchiverAsync(entry, token);
+                    var subEntries = await subArchive.GetEntriesAsync(token);
+                    result.AddRange(await GetSubArchivesEntriesAsync(subEntries, token));
+                }
+            }
+
+            return result;
         }
 
 
@@ -154,26 +168,6 @@ namespace NeeView
             var entries = await GetEntriesAsync(token);
             return entries.Where(e => e.IsBook()).ToList();
             // TODO: e.IsBook()はおかしい。今後は圧縮ファイルの中のフォルダーもブックになるから、新しい設計が必要。
-        }
-
-
-        private async Task<List<ArchiveEntry>> GetSubArchivesEntriesAsync(List<ArchiveEntry> entries, CancellationToken token)
-        {
-            var result = new List<ArchiveEntry>();
-
-            foreach (var entry in entries)
-            {
-                result.Add(entry);
-
-                if (entry.IsArchive())
-                {
-                    var subArchive = await ArchiverManager.Current.CreateArchiverAsync(entry, _option.HasFlag(ArchiveEntryCollectionOption.AllowPreExtract), token);
-                    var subEntries = await subArchive.GetEntriesAsync(token);
-                    result.AddRange(await GetSubArchivesEntriesAsync(subEntries, token));
-                }
-            }
-
-            return result;
         }
 
 

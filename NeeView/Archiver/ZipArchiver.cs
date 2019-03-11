@@ -55,7 +55,7 @@ namespace NeeView
 
 
         // エントリーリストを得る
-        public override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
+        protected override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
         {
             var list = new List<ArchiveEntry>();
             var directories = new List<ArchiveEntry>();
@@ -116,7 +116,7 @@ namespace NeeView
         }
 
         // エントリーのストリームを得る
-        public override Stream OpenStream(ArchiveEntry entry)
+        protected override Stream OpenStreamInner(ArchiveEntry entry)
         {
             if (entry.Id < 0) throw new ApplicationException("Cannot open this entry: " + entry.EntryName);
 
@@ -139,7 +139,7 @@ namespace NeeView
         }
 
         //
-        public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
+        protected override void ExtractToFileInner(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
             if (entry.Id < 0) throw new ApplicationException("Cannot open this entry: " + entry.EntryName);
 

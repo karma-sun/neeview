@@ -5,46 +5,18 @@ using System.IO;
 namespace NeeView
 {
     /// <summary>
-    /// テンポラリファイル
+    /// テンポラリディレクトリ
     /// </summary>
-    public class TempFile : FileProxy, ITrash
+    public class TempDirectory : ITrash
     {
-        #region Constructors
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="path"></param>
-        public TempFile(string path) : base(path)
+        public TempDirectory(string path)
         {
             // テンポラリフォルダー以外は非対応
             Debug.Assert(path.StartsWith(Temporary.Current.TempDirectory));
-
-            UpdateLastAccessTime();
+            Path = path;
         }
 
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// 最終アクセス日時
-        /// </summary>
-        public DateTime LastAccessTime { get; private set; }
-
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// 最終アクセス日時更新
-        /// </summary>
-        public void UpdateLastAccessTime()
-        {
-            this.LastAccessTime = DateTime.Now;
-        }
-
-        #endregion
+        public string Path { get; private set; }
 
         #region ITrash Support
 
@@ -61,14 +33,13 @@ namespace NeeView
             {
                 if (disposing)
                 {
-                    this.LastAccessTime = default;
                 }
 
                 try
                 {
                     if (Path != null && Path.StartsWith(Temporary.Current.TempDirectory)) // 念入りチェック
                     {
-                        if (File.Exists(Path)) File.Delete(Path);
+                        if (Directory.Exists(Path)) Directory.Delete(Path, true);
                         Path = null;
                     }
                 }
@@ -81,7 +52,7 @@ namespace NeeView
             }
         }
 
-        ~TempFile()
+        ~TempDirectory()
         {
             Dispose(false);
         }
@@ -92,5 +63,6 @@ namespace NeeView
             GC.SuppressFinalize(this);
         }
         #endregion
+
     }
 }

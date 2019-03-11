@@ -174,7 +174,7 @@ namespace NeeView
             }
             if (this.Entry.IsArchivePath)
             {
-                var entry = await ArchiveFileSystem.CreateArchiveEntryAsync(this.Entry.SystemPath, false, token);
+                var entry = await ArchiveFileSystem.CreateArchiveEntryAsync(this.Entry.SystemPath, token);
                 if (entry.IsBook())
                 {
                     return await LoadArchivePictureAsync(entry, token);

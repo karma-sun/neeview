@@ -127,6 +127,11 @@ namespace NeeView
             get { return _extractor.ArchiveFileData; }
         }
 
+        public bool IsSolid
+        {
+            get { return _extractor.IsSolid; }
+        }
+
         public void ExtractFile(int index, Stream extractStream)
         {
             _extractor.ExtractFile(index, extractStream);
@@ -232,8 +237,22 @@ namespace NeeView
             return true;
         }
 
+        // Solid archive ?
+        private bool IsSolid()
+        {
+            lock (_lock)
+            {
+                if (_source == null) throw new ApplicationException("Archive already colosed.");
+
+                using (var extractor = new SevenZipDescriptor(_source))
+                {
+                    return extractor.IsSolid;
+                }
+            }
+        }
+
         // エントリーリストを得る
-        public override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
+        protected override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
         {
             token.ThrowIfCancellationRequested();
 
@@ -290,7 +309,7 @@ namespace NeeView
 
 
         // エントリーのストリームを得る
-        public override Stream OpenStream(ArchiveEntry entry)
+        protected override Stream OpenStreamInner(ArchiveEntry entry)
         {
             if (entry.Id < 0) throw new ApplicationException("Cannot open this entry: " + entry.EntryName);
 
@@ -316,7 +335,7 @@ namespace NeeView
 
 
         // ファイルに出力
-        public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
+        protected override void ExtractToFileInner(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
             if (entry.Id < 0) throw new ApplicationException("Cannot open this entry: " + entry.EntryName);
 
@@ -326,6 +345,41 @@ namespace NeeView
                 using (Stream fs = new FileStream(exportFileName, FileMode.Create, FileAccess.Write))
                 {
                     extractor.ExtractFile(entry.Id, fs);
+                }
+            }
+        }
+
+
+
+        /// <summary>
+        /// 事前展開？
+        /// </summary>
+        public override bool CanPreExtract()
+        {
+            var fileInfo = new FileInfo(this.Path);
+            return fileInfo.Length / (1024 * 1024) < SevenZipArchiverProfile.Current.PreExtractSolidSize && (SevenZipArchiverProfile.Current.IsPreExtract || IsSolid());
+        }
+
+        /// <summary>
+        /// 事前展開処理
+        /// </summary>
+        public override async Task PreExtractInnerAsync(string directory, CancellationToken token)
+        {
+            var entries = await GetEntriesAsync(token);
+
+            using (var extractor = new SevenZipExtractor(this.Path))
+            {
+                var tempExtractor = new SevenZipTempFileExtractor();
+                tempExtractor.TempFileExtractionFinished += Temp_TempFileExtractionFinished;
+                tempExtractor.ExtractArchive(extractor, directory);
+            }
+
+            void Temp_TempFileExtractionFinished(object sender, SevenZipTempFileExtractionArgs e)
+            {
+                var entry = entries.FirstOrDefault(a => a.Id == e.FileInfo.Index);
+                if (entry != null)
+                {
+                    entry.Data = e.FileName;
                 }
             }
         }

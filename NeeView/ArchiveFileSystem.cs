@@ -16,7 +16,7 @@ namespace NeeView
         /// <summary>
         /// パスからArcvhiveEntryを作成
         /// </summary>
-        public static async Task<ArchiveEntry> CreateArchiveEntryAsync(string path, bool allowPreExtract, CancellationToken token)
+        public static async Task<ArchiveEntry> CreateArchiveEntryAsync(string path, CancellationToken token)
         {
             var query = new QueryPath(path);
 
@@ -32,7 +32,7 @@ namespace NeeView
                 }
                 else
                 {
-                    var archiver = await ArchiverManager.Current.CreateArchiverAsync(new ArchiveEntry(QueryScheme.Pagemark.ToSchemeString()), false, token);
+                    var archiver = await ArchiverManager.Current.CreateArchiverAsync(new ArchiveEntry(QueryScheme.Pagemark.ToSchemeString()), token);
                     var entries = await archiver.GetEntriesAsync(token);
                     var entry = entries.FirstOrDefault(e => e.EntryName == query.FileName);
                     if (entry != null)
@@ -54,7 +54,7 @@ namespace NeeView
 
                         if (File.Exists(archivePath))
                         {
-                            var archiver = await ArchiverManager.Current.CreateArchiverAsync(new ArchiveEntry(archivePath), allowPreExtract, token);
+                            var archiver = await ArchiverManager.Current.CreateArchiverAsync(new ArchiveEntry(archivePath), token);
                             var entries = await archiver.GetEntriesAsync(token);
 
                             var entryName = path.Substring(archivePath.Length).TrimStart(LoosePath.Separator);
@@ -65,7 +65,7 @@ namespace NeeView
                             }
                             else
                             {
-                                return await CreateInnerArchiveEntryAsync(archiver, entryName, allowPreExtract, token);
+                                return await CreateInnerArchiveEntryAsync(archiver, entryName, token);
                             }
                         }
                     }
@@ -83,7 +83,7 @@ namespace NeeView
         /// アーカイブ内のエントリーを返す。
         /// 入れ子になったアーカイブの場合、再帰処理する。
         /// </summary>
-        private static async Task<ArchiveEntry> CreateInnerArchiveEntryAsync(Archiver archiver, string entryName, bool allowPreExtract, CancellationToken token)
+        private static async Task<ArchiveEntry> CreateInnerArchiveEntryAsync(Archiver archiver, string entryName, CancellationToken token)
         {
             var entries = await archiver.GetEntriesAsync(token);
 
@@ -100,9 +100,9 @@ namespace NeeView
                 entry = entries.FirstOrDefault(e => e.EntryName == archivePath && e.IsArchive());
                 if (entry != null)
                 {
-                    var subArchiver = await ArchiverManager.Current.CreateArchiverAsync(entry, allowPreExtract, token);
+                    var subArchiver = await ArchiverManager.Current.CreateArchiverAsync(entry, token);
                     var subEntryName = entryName.Substring(archivePath.Length).TrimStart(LoosePath.Separator);
-                    return await CreateInnerArchiveEntryAsync(subArchiver, subEntryName, allowPreExtract, token);
+                    return await CreateInnerArchiveEntryAsync(subArchiver, subEntryName, token);
                 }
             }
 
@@ -127,7 +127,7 @@ namespace NeeView
                 }
                 else
                 {
-                    var archiver = await ArchiverManager.Current.CreateArchiverAsync(source, false, token);
+                    var archiver = await ArchiverManager.Current.CreateArchiverAsync(source, token);
                     entries = await archiver.GetEntriesAsync(token);
                 }
                 entries = EntrySort.SortEntries(entries, PageSortMode.FileName);
@@ -169,7 +169,7 @@ namespace NeeView
         {
             try
             {
-                var entry = await CreateArchiveEntryAsync(path, false, token);
+                var entry = await CreateArchiveEntryAsync(path, token);
                 return entry != null;
             }
             catch (FileNotFoundException)

@@ -251,7 +251,16 @@ namespace NeeView
             if (IsClosing) return;
 
             // NOTE: メインスレッドで行うとSevenZipSharpがCOM例外になるのであえてタスク化。なぜ！？
-            Task.Run(() => ArchiverManager.Current.UnlockAllArchives());
+            Task.Run(() =>
+            {
+                try
+                {
+                    ArchiverManager.Current.UnlockAllArchives();
+                }
+                catch
+                {
+                }
+            });
         }
     }
 }

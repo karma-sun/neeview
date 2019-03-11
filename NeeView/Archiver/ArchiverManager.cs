@@ -225,9 +225,8 @@ namespace NeeView
         /// <param name="path">アーカイブファイルのパス</param>
         /// <param name="source">元となったアーカイブエントリ</param>
         /// <param name="isRoot">ルートアーカイブとする</param>
-        /// <param name="isAll">全て展開を前提とする</param>
         /// <returns>作成されたアーカイバー</returns>
-        private Archiver CreateArchiver(ArchiverType type, string path, ArchiveEntry source, bool isAll)
+        private Archiver CreateArchiver(ArchiverType type, string path, ArchiveEntry source)
         {
             Archiver archiver;
 
@@ -240,7 +239,7 @@ namespace NeeView
                     archiver = new ZipArchiver(path, source);
                     break;
                 case ArchiverType.SevenZipArchiver:
-                    archiver = new SevenZipArchiverProxy(path, source, isAll);
+                    archiver = new SevenZipArchiver(path, source);
                     break;
                 case ArchiverType.PdfArchiver:
                     archiver = new PdfArchiver(path, source);
@@ -249,7 +248,7 @@ namespace NeeView
                     archiver = new MediaArchiver(path, source);
                     break;
                 case ArchiverType.SusieArchiver:
-                    archiver = new SusieArchiverProxy(path, source);
+                    archiver = new SusieArchiver(path, source);
                     break;
                 case ArchiverType.PagemarkArchiver:
                     archiver = new PagemarkArchiver(path, source);
@@ -266,15 +265,15 @@ namespace NeeView
         }
 
         // アーカイバー作成
-        private Archiver CreateArchiver(string path, ArchiveEntry source, bool isAll)
+        private Archiver CreateArchiver(string path, ArchiveEntry source)
         {
             if (Directory.Exists(path))
             {
-                return CreateArchiver(ArchiverType.FolderArchive, path, source, isAll);
+                return CreateArchiver(ArchiverType.FolderArchive, path, source);
             }
             else
             {
-                return CreateArchiver(GetSupportedType(path), path, source, isAll);
+                return CreateArchiver(GetSupportedType(path), path, source);
             }
         }
 
@@ -283,10 +282,9 @@ namespace NeeView
         /// テンポラリファイルへの展開が必要になることもあるので非同期
         /// </summary>
         /// <param name="source">ArchiveEntry</param>
-        /// <param name="isAll"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<Archiver> CreateArchiverAsync(ArchiveEntry source, bool isAll, CancellationToken token)
+        public async Task<Archiver> CreateArchiverAsync(ArchiveEntry source, CancellationToken token)
         {
             // キャッシュがあればそれを返す。
             var systemPath = source.SystemPath;
@@ -299,13 +297,13 @@ namespace NeeView
 
             if (source.IsFileSystem)
             {
-                return CreateArchiver(source.SystemPath, null, isAll);
+                return CreateArchiver(source.SystemPath, null);
             }
             else
             {
                 // TODO: テンポラリファイルの指定方法をスマートに。
                 var tempFile = await ArchiveEntryExtractorService.Current.ExtractAsync(source, token);
-                var archiverTemp = CreateArchiver(tempFile.Path, source, isAll);
+                var archiverTemp = CreateArchiver(tempFile.Path, source);
                 ////Debug.WriteLine($"Archiver: {archiverTemp.SystemPath} => {tempFile.Path}");
                 Debug.Assert(archiverTemp.TempFile == null);
                 archiverTemp.TempFile = tempFile;
@@ -380,14 +378,12 @@ namespace NeeView
                 case ZipArchiver zipArchiver:
                     return ArchiverType.ZipArchiver;
                 case SevenZipArchiver sevenZipArchiver:
-                case SevenZipArchiverProxy sevenZipArchiverProxy:
                     return ArchiverType.SevenZipArchiver;
                 case PdfArchiver pdfArchiver:
                     return ArchiverType.PdfArchiver;
                 case MediaArchiver mediaArchiver:
                     return ArchiverType.MediaArchiver;
                 case SusieArchiver susieArchiver:
-                case SusieArchiverProxy susieArchiverProxy:
                     return ArchiverType.SusieArchiver;
                 case PagemarkArchiver pagemarkArchiver:
                     return ArchiverType.PagemarkArchiver;

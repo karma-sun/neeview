@@ -53,7 +53,7 @@ namespace NeeView
         }
 
         // エントリーリストを得る
-        public override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
+        protected override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
         {
             token.ThrowIfCancellationRequested();
 
@@ -104,7 +104,7 @@ namespace NeeView
 
 
         // エントリーのストリームを得る
-        public override Stream OpenStream(ArchiveEntry entry)
+        protected override Stream OpenStreamInner(ArchiveEntry entry)
         {
             if (entry.Id < 0) throw new ApplicationException("Cannot open this entry: " + entry.EntryName);
 
@@ -118,7 +118,7 @@ namespace NeeView
 
 
         // ファイルに出力する
-        public override void ExtractToFile(ArchiveEntry entry, string extractFileName, bool isOverwrite)
+        protected override void ExtractToFileInner(ArchiveEntry entry, string extractFileName, bool isOverwrite)
         {
             if (entry.Id < 0) throw new ApplicationException("Cannot open this entry: " + entry.EntryName);
 
@@ -169,6 +169,15 @@ namespace NeeView
 
             // メモリ展開からのファイル保存
             info.ExtractToFile(extractFileName);
+        }
+
+        /// <summary>
+        /// 事前展開？
+        /// </summary>
+        public override bool CanPreExtract()
+        {
+            var spi = GetPlugin();
+            return spi != null ? spi.IsPreExtract : false;
         }
 
         #endregion

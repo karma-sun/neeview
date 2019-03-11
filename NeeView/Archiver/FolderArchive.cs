@@ -43,7 +43,7 @@ namespace NeeView
         }
 
         // リスト取得
-        public override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
+        protected override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
         {
             token.ThrowIfCancellationRequested();
 
@@ -92,7 +92,7 @@ namespace NeeView
 
 
         // ストリームを開く
-        public override Stream OpenStream(ArchiveEntry entry)
+        protected override Stream OpenStreamInner(ArchiveEntry entry)
         {
             return new FileStream(entry.Link ?? GetFileSystemPath(entry), FileMode.Open, FileAccess.Read);
         }
@@ -104,7 +104,7 @@ namespace NeeView
         }
 
         // ファイル出力
-        public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
+        protected override void ExtractToFileInner(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
             File.Copy(GetFileSystemPath(entry), exportFileName, isOverwrite);
         }

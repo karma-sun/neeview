@@ -1,6 +1,8 @@
-﻿using System;
+﻿using SevenZip;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -19,7 +21,10 @@ namespace NeeView
             try
             {
                 // Archvierのキャッシュ一覧
-                ArchiverManager.Current.DumpCache();
+                //ArchiverManager.Current.DumpCache();
+
+                //
+                new SevenZiPTest().Execute();
 
                 // ArchiveEntry収集テスト
                 //await ArchiveEntryCollectionTest.ExecuteAsync(CancellationToken.None);
@@ -37,7 +42,7 @@ namespace NeeView
                 ////ページマーク多数登録テスト
                 ////Models.Current.BookOperation.Test_MakeManyPagemark();
 
-                
+
                 //Config.Current.RemoveApplicationData();
             }
             catch (Exception ex)
@@ -103,7 +108,82 @@ namespace NeeView
                 }
             }
         }
+
+        class SevenZiPTest
+        {
+            private Dictionary<ArchiveFileInfo, MemoryStream> _map = new Dictionary<ArchiveFileInfo, MemoryStream>();
+
+            public void Execute()
+            {
+                SevenZipArchiver.InitializeLibrary();
+
+                var path = @"E:\Work\Labo\サンプル\ソリッド圧縮ON.7z";
+                using (var extractor = new SevenZipExtractor(path))
+                {
+                    // Func<ArchiveFileInfo, Stream> getStreamFunc
+                    extractor.FileExtractionFinished += Extractor_FileExtractionFinished;
+                    extractor.ExtractArchive(GetStreamFunc);
+                }
+
+                foreach (var item in _map)
+                {
+                    Debug.WriteLine($"{item.Key.Index}: {item.Key.FileName}: {item.Value.Length} ==  {item.Value.Length}");
+                    Debug.Assert(item.Value.Length == item.Value.Length);
+                }
+
+                Debug.WriteLine("done.");
+
+                #region NEXT
+
+                using (var extractor = new SevenZipExtractor(path))
+                {
+                    var directory = Temporary.Current.CreateCountedTempFileName("arc", "");
+                    var temp = new SevenZipTempFileExtractor();
+                    temp.TempFileExtractionFinished += Temp_TempFileExtractionFinished;
+
+                    temp.ExtractArchive(extractor, directory);
+                }
+
+                void Temp_TempFileExtractionFinished(object sender, SevenZipTempFileExtractionArgs e)
+                {
+                    Debug.WriteLine($"{e.FileInfo.Index}: {e.FileName}");
+                }
+
+                #endregion
+            }
+
+            private void Extractor_FileExtractionFinished(object sender, FileInfoEventArgs e)
+            {
+                var info = e.FileInfo;
+                Debug.WriteLine($"{info.Index}: {info.FileName}");
+
+                try
+                {
+                    if (_map.TryGetValue(info, out var ms))
+                    {
+                        ms.Seek(0, SeekOrigin.Begin);
+                        //ms.Dispose();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
+
+            private Stream GetStreamFunc(ArchiveFileInfo info)
+            {
+                Debug.WriteLine($"{info.Index}: {info.FileName}");
+
+                var ms = info.IsDirectory ? null : new MemoryStream();
+                _map.Add(info, ms);
+                return ms;
+            }
+
+
+        }
     }
+
 
 }
 #endif

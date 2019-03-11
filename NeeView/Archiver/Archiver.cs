@@ -14,10 +14,19 @@ namespace NeeView
     /// </summary>
     public abstract class Archiver
     {
+        #region Fields
+
         /// <summary>
         /// ArchiveEntry Cache
         /// </summary>
         private List<ArchiveEntry> _entries;
+
+        /// <summary>
+        /// 事前展開フォルダー
+        /// </summary>
+        private TempDirectory _preExtractDirectory;
+
+        #endregion Fields
 
         #region Constructors
 
@@ -190,7 +199,7 @@ namespace NeeView
         /// <summary>
         /// エントリリストを取得 (Archive内でのみ使用)
         /// </summary>
-        public abstract List<ArchiveEntry> GetEntriesInner(CancellationToken token);
+        protected abstract List<ArchiveEntry> GetEntriesInner(CancellationToken token);
 
         /// <summary>
         /// エントリリストを取得(同期)
@@ -264,19 +273,48 @@ namespace NeeView
         }
 
         /// <summary>
-        /// エントリのストリームを取得
+        /// エントリーのストリームを取得
         /// </summary>
-        /// <param name="entry"></param>
-        /// <returns></returns>
-        public abstract Stream OpenStream(ArchiveEntry entry);
+        public Stream OpenStream(ArchiveEntry entry)
+        {
+            if (entry.Id < 0) throw new ApplicationException("Cannot open this entry: " + entry.EntryName);
+
+            if (entry.Data is string fileName)
+            {
+                return new FileStream(fileName, FileMode.Open, FileAccess.Read);
+            }
+            else
+            {
+                return OpenStreamInner(entry);
+            }
+        }
 
         /// <summary>
-        /// エントリをファイルとして出力
+        /// エントリのストリームを取得 (Inner)
         /// </summary>
-        /// <param name="entry"></param>
-        /// <param name="exportFileName"></param>
-        /// <param name="isOverwrite"></param>
-        public abstract void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite);
+        protected abstract Stream OpenStreamInner(ArchiveEntry entry);
+
+        /// <summary>
+        /// エントリーをファイルとして出力
+        /// </summary>
+        public void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
+        {
+            if (entry.Id < 0) throw new ApplicationException("Cannot open this entry: " + entry.EntryName);
+
+            if (entry.Data is string fileName)
+            {
+                File.Copy(fileName, exportFileName, isOverwrite);
+            }
+            else
+            {
+                ExtractToFileInner(entry, exportFileName, isOverwrite);
+            }
+        }
+
+        /// <summary>
+        /// エントリをファイルとして出力 (Inner)
+        /// </summary>
+        protected abstract void ExtractToFileInner(ArchiveEntry entry, string exportFileName, bool isOverwrite);
 
 
         /// <summary>
@@ -332,8 +370,47 @@ namespace NeeView
             return directories;
         }
 
-#endregion
 
+        /// <summary>
+        /// 事前展開する？
+        /// </summary>
+        public virtual bool CanPreExtract()
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// 事前展開処理
+        /// </summary>
+        public async Task PreExtractAsync(CancellationToken token)
+        {
+            if (_preExtractDirectory != null) return;
+
+            var directory = Temporary.Current.CreateCountedTempFileName("arc", "");
+            Directory.CreateDirectory(directory);
+
+            await PreExtractInnerAsync(directory, token);
+
+            _preExtractDirectory = new TempDirectory(directory);
+        }
+
+        /// <summary>
+        /// 事前展開 (Inner)
+        /// </summary>
+        public virtual async Task PreExtractInnerAsync(string directory, CancellationToken token)
+        {
+            var entries = await GetEntriesAsync(token);
+            foreach (var entry in entries)
+            {
+                if (entry.IsDirectory) continue;
+                var filename = $"{entry.Id:000000}{System.IO.Path.GetExtension(entry.EntryName)}";
+                var path = System.IO.Path.Combine(directory, filename);
+                entry.ExtractToFile(path, true);
+                entry.Data = path;
+            }
+        }
+
+        #endregion
     }
 
     /// <summary>
@@ -359,6 +436,5 @@ namespace NeeView
             list.AddRange(entries);
         }
     }
-
 }
 

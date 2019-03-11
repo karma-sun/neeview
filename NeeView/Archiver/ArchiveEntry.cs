@@ -100,6 +100,12 @@ namespace NeeView
         public object Instance { get; set; }
 
         /// <summary>
+        /// エントリデータ。
+        /// 先読みデータ。テンポラリファイル名もしくはバイナリデータ
+        /// </summary>
+        public object Data { get; set; }
+
+        /// <summary>
         /// パスが有効であるか
         /// 無効である場合はアーカイブパスである可能性あり
         /// </summary>

@@ -179,9 +179,7 @@
     <Compile Include="Archiver\MediaArchiver.cs" />
     <Compile Include="Archiver\MediaArchiverProfile.cs" />
     <Compile Include="Archiver\PagemarkArchiver.cs" />
-    <Compile Include="Archiver\SevenZipExtractArchiver.cs" />
-    <Compile Include="Archiver\SusieArchiverProxy.cs" />
-    <Compile Include="Archiver\SusieExtractArchiver.cs" />
+    <Compile Include="Archiver\TempDirectory.cs" />
     <Compile Include="Archiver\ZipArchiverProfile.cs" />
     <Compile Include="Bitmap\IBitmapFactory.cs" />
     <Compile Include="BookHistory.cs" />
@@ -209,6 +207,8 @@
     <Compile Include="Development\DebugMenu.xaml.cs">
       <DependentUpon>DebugMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Archiver\SevenZipTempFileExtractor.cs" />
+    <Compile Include="Archiver\SevenZipTempFileExtractionArgs.cs" />
     <Compile Include="JobEngine\IJobCommand.cs" />
     <Compile Include="JobEngine\Job.cs" />
     <Compile Include="JobEngine\JobContext.cs" />
@@ -412,7 +412,6 @@
     <Compile Include="Archiver\PdfArchiverProfile.cs" />
     <Compile Include="Archiver\SevenZipArchiverProfile.cs" />
     <Compile Include="Archiver\PdfArchiver.cs" />
-    <Compile Include="Archiver\SevenZipArchiverProxy.cs" />
     <Compile Include="Archiver\TempFile.cs" />
     <Compile Include="BackupSelectControl.xaml.cs">
       <DependentUpon>BackupSelectControl.xaml</DependentUpon>

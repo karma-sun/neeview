@@ -61,9 +61,6 @@ namespace NeeView
         /// <returns></returns>
         public async Task InitializeAsync(string path, string entryName, BookLoadOption option, CancellationToken token)
         {
-            // TODO: 外部から渡す
-            bool allowPreExtract = false;
-
             var query = new QueryPath(path);
 
             if (query.Scheme == QueryScheme.Pagemark)
@@ -86,7 +83,7 @@ namespace NeeView
                 }
             }
 
-            _archiveEntry = await ArchiveFileSystem.CreateArchiveEntryAsync(path, allowPreExtract, token);
+            _archiveEntry = await ArchiveFileSystem.CreateArchiveEntryAsync(path, token);
 
             if (entryName != null)
             {

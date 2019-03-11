@@ -398,7 +398,8 @@ namespace NeeView
                 }
             }
 
-            // TODO: 事前展開処理をここで発行する
+            // 事前展開処理
+            await PreExtractAsync(token);
 
             // Pages initialize
             // TODO: ページ生成と同時に行うべき
@@ -468,7 +469,7 @@ namespace NeeView
         {
             var collectMode = _option.HasFlag(BookLoadOption.Recursive) ? ArchiveEntryCollectionMode.IncludeSubArchives : ArchiveEntryCollectionMode.CurrentDirectory;
             var collectModeIfArchive = _option.HasFlag(BookLoadOption.Recursive) ? ArchiveEntryCollectionMode.IncludeSubArchives : archiveRecursiveMode;
-            var collectOption = ArchiveEntryCollectionOption.AllowPreExtract;
+            var collectOption = ArchiveEntryCollectionOption.None;
             this.ArchiveEntryCollection = new ArchiveEntryCollection(place, collectMode, collectModeIfArchive, collectOption);
 
             List<ArchiveEntry> entries;
@@ -601,6 +602,29 @@ namespace NeeView
 
             return s0;
         }
+
+
+        // 事前展開(仮)
+        // TODO: 事前展開の非同期化。ページアクセスをトリガーにする
+        private async Task PreExtractAsync(CancellationToken token)
+        {
+            var archivers = Pages
+                .Select(e => e.Entry.Archiver)
+                .Distinct()
+                .Where(e => e != null && !e.IsFileSystem)
+                .ToList();
+
+            foreach(var archiver in archivers)
+            {
+                if (archiver.CanPreExtract())
+                {
+                    Debug.WriteLine($"PreExtract: EXTRACT {archiver.EntryName}");
+                    await archiver.PreExtractAsync(token);
+                }
+            }
+        }
+
+
 
         // コマンドエンジン
         private BookCommandEngine _commandEngine = new BookCommandEngine();

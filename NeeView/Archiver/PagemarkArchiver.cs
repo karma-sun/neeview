@@ -36,7 +36,7 @@ namespace NeeView
         }
 
         // リスト取得
-        public override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
+        protected override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
         {
             token.ThrowIfCancellationRequested();
 
@@ -73,12 +73,12 @@ namespace NeeView
 
 
         // ストリームを開く
-        public override Stream OpenStream(ArchiveEntry entry)
+        protected override Stream OpenStreamInner(ArchiveEntry entry)
         {
             if (entry.Instance is TreeListNode<IPagemarkEntry> node && node.Value is Pagemark pagemark)
             {
                 // NOTE: 非同期関数をResult待ちしているので要注意
-                var entry_ = ArchiveFileSystem.CreateArchiveEntryAsync(pagemark.FullName, false, CancellationToken.None).Result;
+                var entry_ = ArchiveFileSystem.CreateArchiveEntryAsync(pagemark.FullName, CancellationToken.None).Result;
                 {
                     var mem = new MemoryStream();
                     entry_.OpenEntry().CopyTo(mem);
@@ -103,12 +103,12 @@ namespace NeeView
 
         // ファイルパス取得
         // HACK: async化
-        public override void ExtractToFile(ArchiveEntry entry, string exportFileName, bool isOverwrite)
+        protected override void ExtractToFileInner(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
             if (entry.Instance is TreeListNode<IPagemarkEntry> node && node.Value is Pagemark pagemark)
             {
                 // TODO: なんだこれ？
-                var entry_ = Task.Run(() => ArchiveFileSystem.CreateArchiveEntryAsync(pagemark.FullName, false, CancellationToken.None).Result).Result;
+                var entry_ = Task.Run(() => ArchiveFileSystem.CreateArchiveEntryAsync(pagemark.FullName, CancellationToken.None).Result).Result;
                 {
                     entry_.ExtractToFile(exportFileName, isOverwrite);
                 }

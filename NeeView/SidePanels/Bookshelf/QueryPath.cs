@@ -98,6 +98,12 @@ namespace NeeView
             _path = GetValidatePath(path, _scheme);
         }
 
+        public QueryPath(QueryScheme scheme)
+        {
+            _search = null;
+            _scheme = scheme;
+            _path = null;
+        }
 
         private QueryScheme _scheme;
         public QueryScheme Scheme

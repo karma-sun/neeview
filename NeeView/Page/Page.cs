@@ -293,7 +293,7 @@ namespace NeeView
 
             public async Task ExecuteAsync(ManualResetEventSlim completed, CancellationToken token)
             {
-                await _page.ExcludeThumbnailAsync(null, token);
+                await _page.ExecuteThumbnailAsync(null, token);
             }
         }
 
@@ -302,15 +302,12 @@ namespace NeeView
         /// </summary>
         /// <param name="completed"></param>
         /// <param name="token"></param>
-        private async Task ExcludeThumbnailAsync(ManualResetEventSlim completed, CancellationToken token)
+        private async Task ExecuteThumbnailAsync(ManualResetEventSlim completed, CancellationToken token)
         {
-            // キャッシュチェック
+            await Content.InitializeEntryAsync(token);
             Content.InitializeThumbnail();
-
             if (Thumbnail.IsValid) return;
-
             if (token.IsCancellationRequested) return;
-
             await Content.LoadThumbnailAsync(token);
         }
 

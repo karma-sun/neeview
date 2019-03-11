@@ -151,6 +151,16 @@ namespace NeeView
         }
 
         /// <summary>
+        /// エントリ初期化。
+        /// 未定義の場合に生成する
+        /// </summary>
+#pragma warning disable CS1998
+        public virtual async Task InitializeEntryAsync(CancellationToken token)
+#pragma warning restore CS1998
+        {
+        }
+
+        /// <summary>
         /// サムネイル初期化
         /// </summary>
         public virtual void InitializeThumbnail()

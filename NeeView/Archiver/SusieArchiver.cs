@@ -74,6 +74,7 @@ namespace NeeView
 
                 var archiveEntry = new ArchiveEntry()
                 {
+                    IsValid = true,
                     Archiver = this,
                     Id = id,
                     RawEntryName = (entry.Path.TrimEnd('\\', '/') + "\\" + entry.FileName).TrimStart('\\', '/'),

@@ -66,6 +66,7 @@ namespace NeeView
 
                 var entry = new ArchiveEntry()
                 {
+                    IsValid = true,
                     Archiver = this,
                     Id = list.Count,
                     RawEntryName = name,

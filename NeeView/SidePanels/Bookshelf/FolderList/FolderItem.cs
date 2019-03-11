@@ -352,13 +352,7 @@ namespace NeeView
         {
             if (_archivePage == null)
             {
-                var entry = this.ArchiveEntry ?? new ArchiveEntry()
-                {
-                    RawEntryName = TargetPath.SimplePath,
-                    Length = this.Length,
-                    LastWriteTime = this.LastWriteTime,
-                };
-                _archivePage = new ArchivePage(entry);
+                _archivePage = new ArchivePage(TargetPath.SimplePath);
                 _archivePage.Thumbnail.IsCacheEnabled = true;
                 _archivePage.Thumbnail.Touched += Thumbnail_Touched;
             }

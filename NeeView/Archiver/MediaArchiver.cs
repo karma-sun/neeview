@@ -32,6 +32,7 @@ namespace NeeView
 
             var entry = new ArchiveEntry()
             {
+                IsValid = true,
                 Archiver = this,
                 Id = 0,
                 Instance = null,

@@ -94,7 +94,7 @@ namespace NeeView
                 }
             }
 
-            _archiveEntry = await ArchiveEntryUtility.CreateArchiveEntryAsync(path, token);
+            _archiveEntry = await ArchiveEntryUtility.CreateAsync(path, token);
 
             if (entryName != null)
             {

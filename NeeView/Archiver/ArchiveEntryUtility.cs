@@ -14,25 +14,25 @@ namespace NeeView
     public static class ArchiveEntryUtility
     {
         /// <summary>
-        /// パスからArcvhiveEntryを作成
+        /// パスから完全なArcvhiveEntryを作成
         /// </summary>
-        public static async Task<ArchiveEntry> CreateArchiveEntryAsync(string path, CancellationToken token)
+        public static async Task<ArchiveEntry> CreateAsync(string path, CancellationToken token)
         {
             var query = new QueryPath(path);
 
             if (File.Exists(path) || Directory.Exists(path))
             {
-                return new ArchiveEntry(path);
+                return ArchiveEntry.Create(path);
             }
             else if (query.Scheme == QueryScheme.Pagemark)
             {
                 if (query.Path == null)
                 {
-                    return new ArchiveEntry(query.FullPath);
+                    return ArchiveEntry.Create(query);
                 }
                 else
                 {
-                    var archiver = await ArchiverManager.Current.CreateArchiverAsync(new ArchiveEntry(QueryScheme.Pagemark.ToSchemeString()), token);
+                    var archiver = await ArchiverManager.Current.CreateArchiverAsync(ArchiveEntry.Create(new QueryPath(QueryScheme.Pagemark)), token);
                     var entries = await archiver.GetEntriesAsync(token);
                     var entry = entries.FirstOrDefault(e => e.EntryName == query.FileName);
                     if (entry != null)
@@ -54,7 +54,7 @@ namespace NeeView
 
                         if (File.Exists(archivePath))
                         {
-                            var archiver = await ArchiverManager.Current.CreateArchiverAsync(new ArchiveEntry(archivePath), token);
+                            var archiver = await ArchiverManager.Current.CreateArchiverAsync(ArchiveEntry.Create(archivePath), token);
                             var entries = await archiver.GetEntriesAsync(token);
 
                             var entryName = path.Substring(archivePath.Length).TrimStart(LoosePath.Separator);
@@ -65,7 +65,7 @@ namespace NeeView
                             }
                             else
                             {
-                                return await CreateInnerArchiveEntryAsync(archiver, entryName, token);
+                                return await CreateInnerAsync(archiver, entryName, token);
                             }
                         }
                     }
@@ -83,7 +83,7 @@ namespace NeeView
         /// アーカイブ内のエントリーを返す。
         /// 入れ子になったアーカイブの場合、再帰処理する。
         /// </summary>
-        private static async Task<ArchiveEntry> CreateInnerArchiveEntryAsync(Archiver archiver, string entryName, CancellationToken token)
+        private static async Task<ArchiveEntry> CreateInnerAsync(Archiver archiver, string entryName, CancellationToken token)
         {
             var entries = await archiver.GetEntriesAsync(token);
 
@@ -102,7 +102,7 @@ namespace NeeView
                 {
                     var subArchiver = await ArchiverManager.Current.CreateArchiverAsync(entry, token);
                     var subEntryName = entryName.Substring(archivePath.Length).TrimStart(LoosePath.Separator);
-                    return await CreateInnerArchiveEntryAsync(subArchiver, subEntryName, token);
+                    return await CreateInnerAsync(subArchiver, subEntryName, token);
                 }
             }
 
@@ -169,7 +169,7 @@ namespace NeeView
         {
             try
             {
-                var entry = await CreateArchiveEntryAsync(path, token);
+                var entry = await CreateAsync(path, token);
                 return entry != null;
             }
             catch (FileNotFoundException)

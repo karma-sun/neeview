@@ -80,7 +80,7 @@ namespace NeeView
         {
             if (_entries != null) return _entries;
 
-            var rootEntry = await ArchiveEntryUtility.CreateArchiveEntryAsync(Path, token);
+            var rootEntry = await ArchiveEntryUtility.CreateAsync(Path, token);
 
             Archiver rootArchiver;
             string rootArchiverPath;
@@ -89,7 +89,7 @@ namespace NeeView
             {
                 if (rootEntry.IsDirectory)
                 {
-                    rootArchiver = await ArchiverManager.Current.CreateArchiverAsync(new ArchiveEntry(Path), token);
+                    rootArchiver = await ArchiverManager.Current.CreateArchiverAsync(ArchiveEntry.Create(Path), token);
                     rootArchiverPath = "";
                 }
                 else

@@ -281,6 +281,7 @@ namespace NeeView
 
                         var archiveEntry = new ArchiveEntry()
                         {
+                            IsValid = true,
                             Archiver = this,
                             Id = id,
                             RawEntryName = entry.FileName,

@@ -58,6 +58,7 @@ namespace NeeView
 
                     list.Add(new ArchiveEntry()
                     {
+                        IsValid = true,
                         Archiver = this,
                         Id = id,
                         Instance = null,

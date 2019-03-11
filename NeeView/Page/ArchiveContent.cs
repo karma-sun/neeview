@@ -60,21 +60,13 @@ namespace NeeView
 
 
         /// <summary>
-        /// Entry.
+        /// Entryの初期化
         /// </summary>
-        public override ArchiveEntry Entry
+        public override async Task InitializeEntryAsync(CancellationToken token)
         {
-            get
+            if (Entry == null)
             {
-                if (base.Entry == null)
-                {
-                    base.Entry = new ArchiveEntry(_path);
-                }
-                return base.Entry;
-            }
-            protected set
-            {
-                base.Entry = value;
+                Entry = await ArchiveEntryUtility.CreateAsync(_path, token);
             }
         }
 
@@ -174,7 +166,7 @@ namespace NeeView
             }
             if (this.Entry.IsArchivePath)
             {
-                var entry = await ArchiveEntryUtility.CreateArchiveEntryAsync(this.Entry.SystemPath, token);
+                var entry = await ArchiveEntryUtility.CreateAsync(this.Entry.SystemPath, token);
                 if (entry.IsBook())
                 {
                     return await LoadArchivePictureAsync(entry, token);

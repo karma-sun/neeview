@@ -120,7 +120,7 @@ namespace NeeView
 
                 case Bookmark bookmark:
 
-                    var archiveEntry = new ArchiveEntry(bookmark.Place);
+                    var archiveEntry = ArchiveEntry.Create(bookmark.Place);
 
                     return new FileFolderItem(_isOverlayEnabled)
                     {

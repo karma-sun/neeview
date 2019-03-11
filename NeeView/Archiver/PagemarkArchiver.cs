@@ -59,6 +59,7 @@ namespace NeeView
 
                 list.Add(new ArchiveEntry()
                 {
+                    IsValid = true,
                     Archiver = this,
                     Id = list.Count,
                     Instance = child,
@@ -78,7 +79,7 @@ namespace NeeView
             if (entry.Instance is TreeListNode<IPagemarkEntry> node && node.Value is Pagemark pagemark)
             {
                 // NOTE: 非同期関数をResult待ちしているので要注意
-                var entry_ = ArchiveEntryUtility.CreateArchiveEntryAsync(pagemark.FullName, CancellationToken.None).Result;
+                var entry_ = ArchiveEntryUtility.CreateAsync(pagemark.FullName, CancellationToken.None).Result;
                 {
                     var mem = new MemoryStream();
                     entry_.OpenEntry().CopyTo(mem);
@@ -108,7 +109,7 @@ namespace NeeView
             if (entry.Instance is TreeListNode<IPagemarkEntry> node && node.Value is Pagemark pagemark)
             {
                 // TODO: なんだこれ？
-                var entry_ = Task.Run(() => ArchiveEntryUtility.CreateArchiveEntryAsync(pagemark.FullName, CancellationToken.None).Result).Result;
+                var entry_ = Task.Run(() => ArchiveEntryUtility.CreateAsync(pagemark.FullName, CancellationToken.None).Result).Result;
                 {
                     entry_.ExtractToFile(exportFileName, isOverwrite);
                 }

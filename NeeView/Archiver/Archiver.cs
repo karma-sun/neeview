@@ -357,6 +357,7 @@ namespace NeeView
             var directories = tree.GetDirectories()
                 .Select(e => new ArchiveEntry()
                 {
+                    IsValid = true,
                     Archiver = this,
                     Id = -1,
                     Instance = null,

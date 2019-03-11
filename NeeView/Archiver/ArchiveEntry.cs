@@ -14,70 +14,6 @@ namespace NeeView
     /// </summary>
     public class ArchiveEntry
     {
-        #region Constructors
-
-        /// <summary>
-        /// constructor
-        /// </summary>
-        public ArchiveEntry()
-        {
-        }
-
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="path">初期パス</param>
-        public ArchiveEntry(string path)
-        {
-            this.RawEntryName = path;
-
-            try
-            {
-                var directoryInfo = new DirectoryInfo(path);
-                if (directoryInfo.Exists)
-                {
-                    this.Length = -1;
-                    this.LastWriteTime = directoryInfo.LastWriteTime;
-                    return;
-                }
-
-                var fileInfo = new FileInfo(path);
-                if (fileInfo.Exists)
-                {
-                    this.Length = fileInfo.Length;
-                    this.LastWriteTime = fileInfo.LastWriteTime;
-                    return;
-                }
-            }
-            catch
-            {
-                // 不正なパスが含まれていると通常のファイルシステムでは対応できない。
-                // アーカイブパスの可能性がある。
-            }
-
-            // 実在するパスではない
-            this.IsValid = false;
-
-            // ページマーク？
-            if (QueryPath.Scheme == QueryScheme.Pagemark)
-            {
-                Debug.WriteLine($"This is a pagemark: {path}");
-                return;
-            }
-
-            // アーカイブパスの場合、ファイル情報は親アーカイブのものにする
-            var parent = ArchiverManager.Current.GetExistPathName(path);
-            if (parent != null)
-            {
-                var parentFileInfo = new FileInfo(parent);
-                this.Length = parentFileInfo.Length;
-                this.LastWriteTime = parentFileInfo.LastWriteTime;
-                this.IsArchivePath = true;
-            }
-        }
-
-        #endregion
-
         #region Properties
 
         public static ArchiveEntry Empty { get; } = new ArchiveEntry();
@@ -109,7 +45,7 @@ namespace NeeView
         /// パスが有効であるか
         /// 無効である場合はアーカイブパスである可能性あり
         /// </summary>
-        public bool IsValid { get; private set; } = true;
+        public bool IsValid { get; set; }
 
         /// <summary>
         /// アーカイブパスであるか
@@ -357,26 +293,72 @@ namespace NeeView
 
         #endregion
 
-    }
+        #region Utility
 
-
-    /// <summary>
-    /// ArchiveEntryコレクション拡張
-    /// </summary>
-    public static class ArchiveEntryCollectionExtensions
-    {
         /// <summary>
-        /// ArchiveEntryコレクションから指定のArchiveEntryを取得する
+        /// ArchiveEntry生成。
+        /// 簡易生成のため、アーカイブパス等は有効なインスタンスを生成できない。 
         /// </summary>
-        /// <param name="entries"></param>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public static ArchiveEntry GetEntry(this IEnumerable<ArchiveEntry> entries, string path)
+        public static ArchiveEntry Create(string path)
         {
-            path = LoosePath.NormalizeSeparator(path);
-            return entries.FirstOrDefault(e => e.EntryName == path);
+            return Create(new QueryPath(path));
         }
-    }
 
+        /// <summary>
+        /// ArchiveEntry生成。
+        /// 簡易生成のため、アーカイブパス等は有効なインスタンスを生成できない。 
+        /// <para>
+        /// 完全な作成には <seealso cref="ArchiveEntryUtility.CreateAsync"/> を使用する。
+        /// </para>
+        /// </summary>
+        public static ArchiveEntry Create(QueryPath query)
+        {
+            ArchiveEntry entry = new ArchiveEntry();
+
+            entry.RawEntryName = query.SimplePath;
+
+            switch (query.Scheme)
+            {
+                case QueryScheme.File:
+                    try
+                    {
+                        var directoryInfo = new DirectoryInfo(query.SimplePath);
+                        if (directoryInfo.Exists)
+                        {
+                            entry.Length = -1;
+                            entry.LastWriteTime = directoryInfo.LastWriteTime;
+                            entry.IsValid = true;
+                            return entry;
+                        }
+                        var fileInfo = new FileInfo(query.SimplePath);
+                        if (fileInfo.Exists)
+                        {
+                            entry.Length = fileInfo.Length;
+                            entry.LastWriteTime = fileInfo.LastWriteTime;
+                            entry.IsValid = true;
+                            return entry;
+                        }
+                    }
+                    catch
+                    {
+                        // アーカイブパス等、ファイル名に使用できない文字が含まれている場合がある
+                    }
+                    break;
+
+                case QueryScheme.Pagemark:
+                    Debug.Assert(!string.IsNullOrEmpty(query.Path), "Not support pagemark entry.");
+                    entry.RawEntryName = query.Scheme.ToString();
+                    entry.IsValid = false; // NOTE: サムネイル生成しないため、無効にしておく
+                    return entry;
+            }
+
+            Debug.WriteLine("ArchiveEntry.Create: Not complete.");
+            entry.RawEntryName = query.SimplePath;
+            entry.IsValid = false;
+            return entry;
+        }
+
+        #endregion
+    }
 }
 

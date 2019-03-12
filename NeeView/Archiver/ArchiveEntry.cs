@@ -354,8 +354,8 @@ namespace NeeView
                     break;
 
                 case QueryScheme.Pagemark:
-                    Debug.Assert(!string.IsNullOrEmpty(query.Path), "Not support pagemark entry.");
-                    entry.RawEntryName = query.Scheme.ToString();
+                    Debug.Assert(query.Path == null, "Not support pagemark entry.");
+                    entry.RawEntryName = QueryScheme.Pagemark.ToSchemeString();
                     entry.IsValid = false; // NOTE: サムネイル生成しないため、無効にしておく
                     return entry;
             }

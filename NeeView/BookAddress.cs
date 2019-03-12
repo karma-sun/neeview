@@ -76,7 +76,7 @@ namespace NeeView
             {
                 this.Address = new QueryPath(QueryScheme.Pagemark);
                 this.EntryName = entryName;
-                this.Place = Address.GetParent();
+                this.Place = new QueryPath(QueryScheme.Root);
                 return;
             }
 
@@ -120,6 +120,7 @@ namespace NeeView
             }
 
             this.Place = GetPlace(entry, mode);
+            Debug.Assert(this.Place != null);
         }
 
         /// <summary>

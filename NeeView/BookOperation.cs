@@ -32,7 +32,6 @@ namespace NeeView
         #region Fields
 
         private bool _isEnabled;
-        private BookUnit _bookUnit;
         private ObservableCollection<Page> _pageList;
         private ExternalApplication _ExternalApplication = new ExternalApplication();
         private ClipboardUtility _ClipboardUtility = new ClipboardUtility();
@@ -92,17 +91,11 @@ namespace NeeView
             set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); } }
         }
 
-        public BookUnit BookUnit
-        {
-            get { return _bookUnit; }
-            private set { if (_bookUnit != value) { _bookUnit = value; RaisePropertyChanged(); } }
-        }
+        public Book Book { get; private set; }
 
-        public Book Book => _bookUnit?.Book;
+        public string Address => Book?.Address;
 
-        public string Address => _bookUnit?.Book.Address;
-
-        public bool IsValid => _bookUnit != null;
+        public bool IsValid => Book != null;
 
         public ObservableCollection<Page> PageList
         {
@@ -145,9 +138,9 @@ namespace NeeView
         /// </summary>
         private void BookHub_BookChanged(object sender, BookChangedEventArgs e)
         {
-            this.BookUnit = BookHub.Current.BookUnit;
+            this.Book = BookHub.Current.Book;
 
-            if (this.BookUnit != null)
+            if (this.Book != null)
             {
                 this.Book.ViewContentsChanged += Book_ViewContentsChanged;
                 this.Book.PagesSorted += Book_PagesSorted;

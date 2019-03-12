@@ -66,7 +66,16 @@ namespace NeeView
         {
             if (Entry == null)
             {
-                Entry = await ArchiveEntryUtility.CreateAsync(_path, token);
+                try
+                {
+                    Entry = await ArchiveEntryUtility.CreateAsync(_path, token);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"ArchiveContent.Entry: {ex.Message}");
+                    Entry = ArchiveEntry.Create(_path);
+                    Thumbnail.Initialize(null);
+                }
             }
         }
 

@@ -59,7 +59,7 @@ namespace NeeView
         {
             get
             {
-                var text = BookHub.Current.GetBookDetail();
+                var text = BookHub.Current.Book?.GetDetail();
                 if (text is null)
                 {
                     var query = new QueryPath(_address);

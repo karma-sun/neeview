@@ -14,25 +14,17 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 
-// TODO: 高速切替でテンポラリが残るバグ
-// ----------------------------
-// TODO: フォルダーサムネイル(非同期) 
 // TODO: コマンド類の何時でも受付。ロード中だから弾く、ではない別の方法を。
 
 namespace NeeView
 {
-    //
     public class RemoveFileParams
     {
         public string Path { get; set; }
         public System.Windows.FrameworkElement Visual { get; set; }
     }
 
-    //
     public class RenameFileParams
     {
         public string Path { get; set; }
@@ -171,6 +163,7 @@ namespace NeeView
         public string Message { get; set; }
     }
 
+
     /// <summary>
     /// 本の管理
     /// ロード、本の操作はここを通す
@@ -181,7 +174,7 @@ namespace NeeView
         static BookHub() => Current = new BookHub();
         public static BookHub Current { get; }
 
-        #region NormalizePathname
+        #region NormalizePathName
 
         internal static class NativeMethods
         {
@@ -211,6 +204,54 @@ namespace NeeView
 
         #endregion
 
+        #region Fields
+
+        private Toast _bookHubToast;
+        private bool _isLoading;
+        private bool _isAutoRecursive = false;
+        private ArchiveEntryCollectionMode _archiveRecursiveMode;
+        private BookUnit _bookUnit;
+        private string _address;
+        private BookHubCommandEngine _commandEngine;
+        private bool _historyEntry;
+        private bool _historyRemoved;
+        private volatile int _requestLoadCount;
+
+        #endregion Fields
+
+        #region Constructors
+
+        private BookHub()
+        {
+            this.BookChanged +=
+                (s, e) =>
+                {
+                    if (this.Book?.NotFoundStartPage != null && this.Book.Pages.Count > 0)
+                    {
+                        InfoMessage.Current.SetMessage(InfoMessageType.BookName, string.Format(Properties.Resources.NotifyCannotOpen, LoosePath.GetFileName(this.Book.NotFoundStartPage)), null, 2.0);
+                    }
+                    else
+                    {
+                        InfoMessage.Current.SetMessage(InfoMessageType.BookName, LoosePath.GetFileName(Address), null, 2.0, e.BookMementoType);
+                    }
+                };
+
+            BookHistoryCollection.Current.HistoryChanged += BookHistoryCollection_HistoryChanged;
+
+            BookmarkCollection.Current.BookmarkChanged += (s, e) => BookmarkChanged?.Invoke(s, e);
+
+            // command engine
+            _commandEngine = new BookHubCommandEngine();
+            _commandEngine.Name = "BookHubJobEngine";
+            _commandEngine.Log = new Log(nameof(BookHubCommandEngine), 0);
+
+            Start();
+
+            // アプリ終了前の開放予約
+            ApplicationDisposer.Current.Add(this);
+        }
+
+        #endregion Constructors
 
         #region Events
 
@@ -250,50 +291,13 @@ namespace NeeView
 
         #endregion
 
-        public void SetEmptyMessage(string message)
-        {
-            EmptyMessage?.Invoke(this, new BookHubMessageEventArgs(message));
-        }
-
-        public void SetInfoMessage(string message)
-        {
-            InfoMessage.Current.SetMessage(InfoMessageType.Notify, message);
-        }
-
-
-        private Toast _bookHubToast;
-
-        /// <summary>
-        /// ロード可能フラグ
-        /// </summary>
-        public bool IsEnabled { get; set; } = true;
-
-        /// <summary>
-        /// ロード中フラグ
-        /// </summary>
-        public bool IsLoading
-        {
-            get { return _isLoading; }
-            set
-            {
-                if (_isLoading != value)
-                {
-                    _isLoading = value;
-                    RaisePropertyChanged();
-                }
-            }
-        }
-
-        private bool _isLoading;
-
+        #region Properties
 
         // 再帰を確認する
         [PropertyMember("@ParamIsConfirmRecursive", Tips = "@ParamIsConfirmRecursiveTips")]
         public bool IsConfirmRecursive { get; set; }
 
-
         // 自動再帰
-        private bool _isAutoRecursive = false;
         [PropertyMember("@ParamIsAutoRecursive")]
         public bool IsAutoRecursive
         {
@@ -304,7 +308,6 @@ namespace NeeView
         /// <summary>
         /// アーカイブの展開モード
         /// </summary>
-        private ArchiveEntryCollectionMode _archiveRecursiveMode;
         [PropertyMember("@ParamArchiveRecursiveMode", Tips = "@ParamArchiveRecursiveModeTips")]
         public ArchiveEntryCollectionMode ArchiveRecursiveMode
         {
@@ -331,42 +334,24 @@ namespace NeeView
         public bool IsForceUpdateHistory { get; set; }
 
         /// <summary>
+        /// 何回ページを切り替えたら履歴登録するか
+        /// </summary>
+        [PropertyMember("@ParamHistoryEntryPageCount", Tips = "@ParamHistoryEntryPageCountTips")]
+        public int HistoryEntryPageCount { get; set; } = 0;
+
+        /// <summary>
         /// 現在の本
         /// </summary>
         public BookUnit BookUnit
         {
             get { return _bookUnit; }
-            private set
-            {
-                if (_bookUnit != value)
-                {
-                    _bookUnit = value;
-                    RaisePropertyChanged();
-                }
-            }
+            set { SetProperty(ref _bookUnit, value); }
         }
-
-        private BookUnit _bookUnit;
-
-
 
         // 現在の本
         public Book Book => BookUnit?.Book;
 
-
-        // 現在の本を解除
-        private async Task ReleaseCurrentAsync()
-        {
-            if (BookUnit != null)
-            {
-                var current = BookUnit;
-                BookUnit = null;
-                await current.Book?.DisposeAsync();
-            }
-        }
-
         // アドレス
-        private string _address;
         public string Address
         {
             get { return _address; }
@@ -377,50 +362,31 @@ namespace NeeView
             }
         }
 
-        // 現在のブックの情報
-        public string GetBookDetail()
+        /// <summary>
+        /// ロード可能フラグ
+        /// </summary>
+        public bool IsEnabled { get; set; } = true;
+
+        /// <summary>
+        /// ロード中フラグ
+        /// </summary>
+        public bool IsLoading
         {
-            return Book?.GetDetail();
+            get { return _isLoading; }
+            set { SetProperty(ref _isLoading, value); }
         }
 
-        // command engine
-        private BookHubCommandEngine _commandEngine;
+        public bool IsBusy => _commandEngine.Count > 0;
 
-        //
-        public bool IsBusy() => _commandEngine.Count > 0;
+        /// <summary>
+        /// ロードリクエストカウント.
+        /// 名前変更時の再読込判定に使用される
+        /// </summary>
+        public int RequestLoadCount => _requestLoadCount;
 
+        #endregion Properties
 
-        // コンストラクタ
-        private BookHub()
-        {
-            this.BookChanged +=
-                (s, e) =>
-                {
-                    if (this.Book?.NotFoundStartPage != null && this.Book.Pages.Count > 0)
-                    {
-                        InfoMessage.Current.SetMessage(InfoMessageType.BookName, string.Format(Properties.Resources.NotifyCannotOpen, LoosePath.GetFileName(this.Book.NotFoundStartPage)), null, 2.0);
-                    }
-                    else
-                    {
-                        InfoMessage.Current.SetMessage(InfoMessageType.BookName, LoosePath.GetFileName(Address), null, 2.0, e.BookMementoType);
-                    }
-                };
-
-            BookHistoryCollection.Current.HistoryChanged += BookHistoryCollection_HistoryChanged;
-
-            BookmarkCollection.Current.BookmarkChanged += (s, e) => BookmarkChanged?.Invoke(s, e);
-
-            // command engine
-            _commandEngine = new BookHubCommandEngine();
-            _commandEngine.Name = "BookHubJobEngine";
-            _commandEngine.Log = new Log(nameof(BookHubCommandEngine), 0);
-
-            Start();
-
-            // アプリ終了前の開放予約
-            ApplicationDisposer.Current.Add(this);
-        }
-
+        #region Callback Methods
 
         private void BookHistoryCollection_HistoryChanged(object sender, BookMementoCollectionChangedArgs e)
         {
@@ -438,13 +404,40 @@ namespace NeeView
             }
         }
 
-        //
+        private void OnViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
+        {
+            if (BookUnit == null) return;
+
+            // 履歴更新
+            if (!BookUnit.IsKeepHistoryOrder || IsForceUpdateHistory)
+            {
+                if (!_historyEntry && CanHistory())
+                {
+                    _historyEntry = true;
+                    BookHistoryCollection.Current.Add(Book?.CreateMemento(), false);
+                }
+            }
+
+            BookUnit.Book.UpdateViewPages(sender, e);
+
+            ViewContentsChanged?.Invoke(sender, e);
+        }
+
+        private void OnNextContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
+        {
+            if (BookUnit == null) return;
+            NextContentsChanged?.Invoke(sender, e);
+        }
+
+        #endregion Callback Methods
+        
+        #region Engine Control
+
         public void Start()
         {
             _commandEngine.StartEngine();
         }
 
-        //
         public void Stop()
         {
             if (_disposedValue) return;
@@ -473,93 +466,122 @@ namespace NeeView
             Debug.WriteLine("BookHub Disposed.");
         }
 
+        #endregion Engine Control
 
-        //現在開いているブックの設定作成
-        public Book.Memento CreateBookMemento()
-        {
-            return (BookUnit != null && BookUnit.Book.Pages.Count > 0) ? BookUnit.Book.CreateMemento() : null;
-        }
-
-        // 設定の読込
-        public Book.Memento LoadBookMemento(string place)
-        {
-            var unit = BookMementoCollection.Current.GetValid(place);
-            return unit?.Memento;
-        }
-
-        //設定の保存
-        public void SaveBookMemento()
-        {
-            var memento = CreateBookMemento();
-            if (memento == null) return;
-
-            SaveBookMemento(memento, BookUnit.IsKeepHistoryOrder || IsForceUpdateHistory);
-        }
-
-        private void SaveBookMemento(Book.Memento memento, bool isKeepHistoryOrder)
-        {
-            if (memento == null) return;
-
-            // 情報更新
-            var unit = BookMementoCollection.Current.Get(memento.Place);
-            if (unit != null)
-            {
-                unit.Memento = memento;
-            }
-
-
-            // 履歴の保存
-            if (CanHistory())
-            {
-                BookHistoryCollection.Current.Add(memento, isKeepHistoryOrder);
-            }
-        }
-
-        // 記録のページのみクリア
-        public void ResetBookMementoPage(string place)
-        {
-            var unit = BookMementoCollection.Current.GetValid(place);
-            if (unit?.Memento != null)
-            {
-                unit.Memento.Page = null;
-            }
-        }
-
+        #region Requests
 
         /// <summary>
-        /// 本の開放
+        /// リクエスト：フォルダーを開く
         /// </summary>
-        public async Task UnloadAsync(BookHubCommandUnloadArgs param)
+        /// <param name="path">開く場所</param>
+        /// <param name="start">ページの指定</param>
+        /// <param name="option"></param>
+        /// <param name="isRefreshFolderList">フォルダーリストを同期する？</param>
+        /// <returns></returns>
+        public BookHubCommandLoad RequestLoad(string path, string start, BookLoadOption option, bool isRefreshFolderList)
         {
-            // 履歴の保存
-            SaveBookMemento();
+            if (!this.IsEnabled) return null;
 
-            // 現在の本を開放
-            await ReleaseCurrentAsync();
+            if (path == null) return null;
 
-            if (param.IsClearViewContent)
+            path = LoosePath.NormalizeSeparator(path);
+
+            if (FileShortcut.IsShortcut(path) && (System.IO.File.Exists(path) || System.IO.Directory.Exists(path)))
             {
-                Address = null;
-                BookHistoryCollection.Current.LastAddress = null;
-
-                AppDispatcher.Invoke(() =>
-                {
-                    // 現在表示されているコンテンツを無効
-                    ViewContentsChanged?.Invoke(this, null);
-
-                    // 本の変更通知
-                    BookChanged?.Invoke(this, new BookChangedEventArgs(BookMementoType.None));
-                });
+                var shortcut = new FileShortcut(path);
+                path = shortcut.TargetPath;
             }
 
-            if (param.Message != null)
+            path = GetNormalizePathName(path);
+
+            ////DebugTimer.Start($"\nStart: {path}");
+
+            LoadRequested?.Invoke(this, new BookHubPathEventArgs(path));
+
+            if (Book?.Address == path && option.HasFlag(BookLoadOption.SkipSamePlace)) return null;
+
+            Address = path;
+
+            _requestLoadCount++;
+
+            if ((option & (BookLoadOption.IsBook | BookLoadOption.IsPage)) == 0 && IsArchiveMaybe(path))
             {
-                // TODO: 参照方向がおかしい
-                ContentCanvas.Current.EmptyPageMessage = param.Message;
-                ContentCanvas.Current.IsVisibleEmptyPageMessage = true;
+                option |= BookLoadOption.IsBook;
             }
+
+            var command = new BookHubCommandLoad(this, new BookHubCommandLoadArgs()
+            {
+                Path = path,
+                StartEntry = start,
+                Option = option,
+                IsRefreshFolderList = isRefreshFolderList
+            });
+
+            _commandEngine.Enqueue(command);
+
+            return command;
         }
 
+        /// <summary>
+        /// パスのみでアーカイブであるかをおおよそ判定
+        /// </summary>
+        private bool IsArchiveMaybe(string path)
+        {
+            return (System.IO.Directory.Exists(path) || (!BookProfile.Current.IsEnableNoSupportFile && !PictureProfile.Current.IsSupported(path) && System.IO.Path.GetExtension(path).ToLower() != ".lnk"));
+        }
+
+
+        // アンロード可能?
+        public bool CanUnload()
+        {
+            return BookUnit != null || _commandEngine.Count > 0;
+        }
+
+        /// <summary>
+        /// リクエスト：フォルダーを閉じる
+        /// </summary>
+        /// <param name="isClearViewContent"></param>
+        /// <returns></returns>
+        public BookHubCommandUnload RequestUnload(bool isClearViewContent, string message = null)
+        {
+            var command = new BookHubCommandUnload(this, new BookHubCommandUnloadArgs()
+            {
+                IsClearViewContent = isClearViewContent,
+                Message = message
+            });
+
+            _commandEngine.Enqueue(command);
+
+            // ルーペモードは解除
+            if (MouseInput.Current.IsLoupeMode)
+            {
+                MouseInput.Current.IsLoupeMode = false;
+            }
+
+            return command;
+        }
+
+
+        // 再読込可能？
+        public bool CanReload()
+        {
+            return (!string.IsNullOrWhiteSpace(Address));
+        }
+
+        /// <summary>
+        /// リクエスト：再読込
+        /// </summary>
+        public void RequestReLoad()
+        {
+            if (_isLoading || Address == null) return;
+
+            var options = BookUnit != null ? (BookUnit.LoadOptions & BookLoadOption.KeepHistoryOrder) | BookLoadOption.Resume : BookLoadOption.None;
+            RequestLoad(Address, null, options | BookLoadOption.IsBook, true);
+        }
+
+        #endregion Requests
+
+        #region BookHubCommand.Load
 
         // ロード中状態更新
         private void NotifyLoading(string path)
@@ -831,169 +853,108 @@ namespace NeeView
             BookHistoryCollection.Current.LastAddress = Address;
         }
 
+        #endregion BookHubCommand.Load
 
-        //
-        private bool _historyEntry;
-        [PropertyMember("@ParamHistoryEntryPageCount", Tips = "@ParamHistoryEntryPageCountTips")]
-        public int HistoryEntryPageCount { get; set; } = 0;
+        #region BookHubCommand.Unload
 
-        // 履歴から削除された
-        private bool _historyRemoved;
-
-        // 履歴登録可
-        private bool CanHistory()
+        /// <summary>
+        /// 本の開放
+        /// </summary>
+        public async Task UnloadAsync(BookHubCommandUnloadArgs param)
         {
-            // 履歴閲覧時の履歴更新は最低１操作を必要とする
-            var historyEntryPageCount = this.HistoryEntryPageCount;
-            if (BookUnit.IsKeepHistoryOrder && IsForceUpdateHistory && historyEntryPageCount <= 0)
+            // 履歴の保存
+            SaveBookMemento();
+
+            // 現在の本を開放
+            await ReleaseCurrentAsync();
+
+            if (param.IsClearViewContent)
             {
-                historyEntryPageCount = 1;
-            }
+                Address = null;
+                BookHistoryCollection.Current.LastAddress = null;
 
-            return Book != null
-                && !_historyRemoved
-                && Book.Pages.Count > 0
-                && (_historyEntry || Book.PageChangeCount > historyEntryPageCount || Book.IsPageTerminated)
-                && (IsInnerArchiveHistoryEnabled || Book.ArchiveEntryCollection.Archiver?.Parent == null)
-                && (IsUncHistoryEnabled || !LoosePath.IsUnc(Book.Address));
-        }
-
-        // 
-        private void OnViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
-        {
-            if (BookUnit == null) return;
-
-            // 履歴更新
-            if (!BookUnit.IsKeepHistoryOrder || IsForceUpdateHistory)
-            {
-                if (!_historyEntry && CanHistory())
+                AppDispatcher.Invoke(() =>
                 {
-                    _historyEntry = true;
-                    BookHistoryCollection.Current.Add(Book?.CreateMemento(), false);
-                }
+                    // 現在表示されているコンテンツを無効
+                    ViewContentsChanged?.Invoke(this, null);
+
+                    // 本の変更通知
+                    BookChanged?.Invoke(this, new BookChangedEventArgs(BookMementoType.None));
+                });
             }
 
-            BookUnit.Book.UpdateViewPages(sender, e);
-
-            ViewContentsChanged?.Invoke(sender, e);
-        }
-
-        // 
-        private void OnNextContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
-        {
-            if (BookUnit == null) return;
-            NextContentsChanged?.Invoke(sender, e);
-        }
-
-
-        /// <summary>
-        /// ロードリクエストカウント.
-        /// 名前変更時の再読込判定に使用される
-        /// </summary>
-        private volatile int _requestLoadCount;
-        public int RequestLoadCount => _requestLoadCount;
-
-        /// <summary>
-        /// リクエスト：フォルダーを開く
-        /// </summary>
-        /// <param name="path"></param>
-        /// <param name="start"></param>
-        /// <param name="option"></param>
-        /// <param name="isRefreshFolderList"></param>
-        /// <returns></returns>
-        public BookHubCommandLoad RequestLoad(string path, string start, BookLoadOption option, bool isRefreshFolderList)
-        {
-            if (!this.IsEnabled) return null;
-
-            if (path == null) return null;
-
-            path = LoosePath.NormalizeSeparator(path);
-
-            if (FileShortcut.IsShortcut(path) && (System.IO.File.Exists(path) || System.IO.Directory.Exists(path)))
+            if (param.Message != null)
             {
-                var shortcut = new FileShortcut(path);
-                path = shortcut.TargetPath;
+                // TODO: 参照方向がおかしい
+                ContentCanvas.Current.EmptyPageMessage = param.Message;
+                ContentCanvas.Current.IsVisibleEmptyPageMessage = true;
+            }
+        }
+
+        // 現在の本を解除
+        private async Task ReleaseCurrentAsync()
+        {
+            if (BookUnit != null)
+            {
+                var current = BookUnit;
+                BookUnit = null;
+                await current.Book?.DisposeAsync();
+            }
+        }
+
+        #endregion BookHubCommand.Unload
+
+        #region BookMemento Control
+
+        //現在開いているブックの設定作成
+        public Book.Memento CreateBookMemento()
+        {
+            return (BookUnit != null && BookUnit.Book.Pages.Count > 0) ? BookUnit.Book.CreateMemento() : null;
+        }
+
+        // 設定の読込
+        private Book.Memento LoadBookMemento(string place)
+        {
+            var unit = BookMementoCollection.Current.GetValid(place);
+            return unit?.Memento;
+        }
+
+        //設定の保存
+        public void SaveBookMemento()
+        {
+            var memento = CreateBookMemento();
+            if (memento == null) return;
+
+            SaveBookMemento(memento, BookUnit.IsKeepHistoryOrder || IsForceUpdateHistory);
+        }
+
+        private void SaveBookMemento(Book.Memento memento, bool isKeepHistoryOrder)
+        {
+            if (memento == null) return;
+
+            // 情報更新
+            var unit = BookMementoCollection.Current.Get(memento.Place);
+            if (unit != null)
+            {
+                unit.Memento = memento;
             }
 
-            path = GetNormalizePathName(path);
-
-            ////DebugTimer.Start($"\nStart: {path}");
-
-            LoadRequested?.Invoke(this, new BookHubPathEventArgs(path));
-
-            if (Book?.Address == path && option.HasFlag(BookLoadOption.SkipSamePlace)) return null;
-
-            Address = path;
-
-            _requestLoadCount++;
-
-            if ((option & (BookLoadOption.IsBook | BookLoadOption.IsPage)) == 0 && IsArchiveMaybe(path))
+            // 履歴の保存
+            if (CanHistory())
             {
-                option |= BookLoadOption.IsBook;
+                BookHistoryCollection.Current.Add(memento, isKeepHistoryOrder);
             }
-
-            var command = new BookHubCommandLoad(this, new BookHubCommandLoadArgs()
-            {
-                Path = path,
-                StartEntry = start,
-                Option = option,
-                IsRefreshFolderList = isRefreshFolderList
-            });
-
-            _commandEngine.Enqueue(command);
-
-            return command;
         }
 
-
-
-        // アンロード可能?
-        public bool CanUnload()
+        // 記録のページのみクリア
+        private void ResetBookMementoPage(string place)
         {
-            return BookUnit != null || _commandEngine.Count > 0;
-        }
-
-        /// <summary>
-        /// リクエスト：フォルダーを閉じる
-        /// </summary>
-        /// <param name="isClearViewContent"></param>
-        /// <returns></returns>
-        public BookHubCommandUnload RequestUnload(bool isClearViewContent, string message = null)
-        {
-            var command = new BookHubCommandUnload(this, new BookHubCommandUnloadArgs()
+            var unit = BookMementoCollection.Current.GetValid(place);
+            if (unit?.Memento != null)
             {
-                IsClearViewContent = isClearViewContent,
-                Message = message
-            });
-
-            _commandEngine.Enqueue(command);
-
-            // ルーペモードは解除
-            if (MouseInput.Current.IsLoupeMode)
-            {
-                MouseInput.Current.IsLoupeMode = false;
+                unit.Memento.Page = null;
             }
-
-            return command;
         }
-
-
-
-        // 再読込可能？
-        public bool CanReload()
-        {
-            return (!string.IsNullOrWhiteSpace(Address));
-        }
-
-        // 再読み込み
-        public void ReLoad()
-        {
-            if (_isLoading || Address == null) return;
-
-            var options = BookUnit != null ? (BookUnit.LoadOptions & BookLoadOption.KeepHistoryOrder) | BookLoadOption.Resume : BookLoadOption.None;
-            RequestLoad(Address, null, options | BookLoadOption.IsBook, true);
-        }
-
 
         /// <summary>
         /// 最新の本の設定を取得
@@ -1015,14 +976,25 @@ namespace NeeView
             }
         }
 
-        /// <summary>
-        /// パスのみでアーカイブであるかをおおよそ判定
-        /// </summary>
-        private bool IsArchiveMaybe(string path)
+        // 履歴登録可
+        private bool CanHistory()
         {
-            return (System.IO.Directory.Exists(path) || (!BookProfile.Current.IsEnableNoSupportFile && !PictureProfile.Current.IsSupported(path) && System.IO.Path.GetExtension(path).ToLower() != ".lnk"));
+            // 履歴閲覧時の履歴更新は最低１操作を必要とする
+            var historyEntryPageCount = this.HistoryEntryPageCount;
+            if (BookUnit.IsKeepHistoryOrder && IsForceUpdateHistory && historyEntryPageCount <= 0)
+            {
+                historyEntryPageCount = 1;
+            }
+
+            return Book != null
+                && !_historyRemoved
+                && Book.Pages.Count > 0
+                && (_historyEntry || Book.PageChangeCount > historyEntryPageCount || Book.IsPageTerminated)
+                && (IsInnerArchiveHistoryEnabled || Book.ArchiveEntryCollection.Archiver?.Parent == null)
+                && (IsUncHistoryEnabled || !LoosePath.IsUnc(Book.Address));
         }
 
+        #endregion BookMemento Control
 
         #region IDisposable Support
         private bool _disposedValue = false;
@@ -1046,7 +1018,6 @@ namespace NeeView
             Dispose(true);
         }
         #endregion
-
 
         #region Memento
 

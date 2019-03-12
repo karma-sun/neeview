@@ -761,7 +761,7 @@ namespace NeeView
                             if (Book.IsRecursiveFolder && placeQuery.Include(query) || query.GetParent().Equals(placeQuery))
                             {
                                 Debug.WriteLine($"BookOperation: Add pagemarks: {e.Item.Value.Name}");
-                                BookHub.Current.ReLoad();
+                                BookHub.Current.RequestReLoad();
                             }
                         }
                         break;
@@ -787,7 +787,7 @@ namespace NeeView
                             else if (e.Item.Value is PagemarkFolder && Book.IsRecursiveFolder && placeQuery.Include(parentQuery))
                             {
                                 Debug.WriteLine($"BookOperation: Remove pagemarks: {e.Item.Value.Name}");
-                                BookHub.Current.ReLoad();
+                                BookHub.Current.RequestReLoad();
                             }
                         }
                         break;
@@ -806,7 +806,7 @@ namespace NeeView
                             else if (e.Item.Value is PagemarkFolder && Book.IsRecursiveFolder && placeQuery.Include(parentQuery))
                             {
                                 Debug.WriteLine($"BookOperation: Rename pagemarks: {e.Item.Value.Name}");
-                                BookHub.Current.ReLoad();
+                                BookHub.Current.RequestReLoad();
                             }
                         }
                         break;

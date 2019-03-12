@@ -912,7 +912,7 @@ namespace NeeView
         // 次のフォルダーに移動
         public async Task NextFolder(BookLoadOption option = BookLoadOption.None)
         {
-            if (BookHub.Current.IsBusy()) return; // 相対移動の場合はキャンセルしない
+            if (BookHub.Current.IsBusy) return; // 相対移動の場合はキャンセルしない
             var result = await MoveFolder(+1, option);
             if (result != true)
             {
@@ -924,7 +924,7 @@ namespace NeeView
         // 前のフォルダーに移動
         public async Task PrevFolder(BookLoadOption option = BookLoadOption.None)
         {
-            if (BookHub.Current.IsBusy()) return; // 相対移動の場合はキャンセルしない
+            if (BookHub.Current.IsBusy) return; // 相対移動の場合はキャンセルしない
             var result = await MoveFolder(-1, option);
             if (result != true)
             {

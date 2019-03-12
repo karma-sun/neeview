@@ -291,7 +291,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandReLoadNote;
                 element.MouseGesture = "UD";
                 element.CanExecute = () => BookHub.Current.CanReload();
-                element.Execute = (s, e) => BookHub.Current.ReLoad();
+                element.Execute = (s, e) => BookHub.Current.RequestReLoad();
                 element.IsShowMessage = false;
                 _elements[CommandType.ReLoad] = element;
             }

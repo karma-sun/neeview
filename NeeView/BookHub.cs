@@ -605,7 +605,7 @@ namespace NeeView
             try
             {
                 // address
-                var address = await BookAddress.CreateAsync(args.Path, args.StartEntry, args.Option, token);
+                var address = await BookAddress.CreateAsync(new QueryPath(args.Path), args.StartEntry, this.ArchiveRecursiveMode, args.Option, token);
 
                 // Now Loading ON
                 NotifyLoading(args.Path);
@@ -613,35 +613,33 @@ namespace NeeView
                 // 履歴リスト更新
                 if ((args.Option & BookLoadOption.SelectHistoryMaybe) != 0)
                 {
-                    AppDispatcher.Invoke(() => HistoryListSync?.Invoke(this, new BookHubPathEventArgs(address.Place)));
+                    AppDispatcher.Invoke(() => HistoryListSync?.Invoke(this, new BookHubPathEventArgs(address.Address.SimplePath)));
                 }
 
                 // 本の設定
-                var memory = BookSetting.Current.CreateLastestBookMemento(address.Place, lastBookMemento);
-                var setting = BookSetting.Current.GetSetting(address.Place, memory, args.Option);
+                var memory = BookSetting.Current.CreateLastestBookMemento(address.Address.SimplePath, lastBookMemento);
+                var setting = BookSetting.Current.GetSetting(address.Address.SimplePath, memory, args.Option);
 
                 address.EntryName = address.EntryName ?? LoosePath.NormalizeSeparator(setting.Page);
                 place = address.SystemPath;
 
+                // フォルダーリスト更新
+                if (args.IsRefreshFolderList)
+                {
+                    AppDispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncEventArgs() { Path = address.Address.SimplePath, Parent = address.Place.SimplePath, isKeepPlace = false }));
+                }
+                else if ((args.Option & BookLoadOption.SelectFoderListMaybe) != 0)
+                {
+                    AppDispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncEventArgs() { Path = address.Address.SimplePath, Parent = address.Place.SimplePath, isKeepPlace = true }));
+                }
 
                 // Load本体
                 await LoadAsyncCore(address, args.Option, setting, token);
-
 
                 ////DebugTimer.Check("LoadCore");
 
                 AppDispatcher.Invoke(() =>
                 {
-                    // フォルダーリスト更新
-                    if (args.IsRefreshFolderList)
-                    {
-                        FolderListSync?.Invoke(this, new FolderListSyncEventArgs() { Path = address.Place, Parent = BookUnit?.Book.GetFolderPlace(), isKeepPlace = false });
-                    }
-                    else if ((args.Option & BookLoadOption.SelectFoderListMaybe) != 0)
-                    {
-                        FolderListSync?.Invoke(this, new FolderListSyncEventArgs() { Path = address.Place, Parent = BookUnit?.Book.GetFolderPlace(), isKeepPlace = true });
-                    }
-
                     // ビュー初期化
                     CommandTable.Current[CommandType.ViewReset].Execute(this, null);
 

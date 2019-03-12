@@ -342,7 +342,7 @@ namespace NeeView
         {
             try
             {
-                Log.TraceEvent(TraceEventType.Information, Serial, $"Load: {address.Place}");
+                Log.TraceEvent(TraceEventType.Information, Serial, $"Load: {address.Address}");
                 Log.Flush();
 
                 await LoadCoreAsync(address, archiveRecursiveMode, option, token);
@@ -385,7 +385,7 @@ namespace NeeView
             }
 
             // ページ生成
-            await CreatePageCollection(address.Place, archiveRecursiveMode, _option, token);
+            await CreatePageCollection(address.Address.SimplePath, archiveRecursiveMode, _option, token);
 
             // 自動再帰処理
             if (ArchiveEntryCollection.Mode != ArchiveEntryCollectionMode.IncludeSubArchives && this.Pages.Count == 0 && _option.HasFlag(BookLoadOption.AutoRecursive))
@@ -394,7 +394,7 @@ namespace NeeView
                 if (entries.Count == 1)
                 {
                     _option |= BookLoadOption.Recursive;
-                    await CreatePageCollection(address.Place, archiveRecursiveMode, _option, token);
+                    await CreatePageCollection(address.Address.SimplePath, archiveRecursiveMode, _option, token);
                 }
             }
 

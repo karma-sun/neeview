@@ -41,30 +41,12 @@ namespace NeeView
                 if (!_iconInitialized)
                 {
                     _iconInitialized = true;
-
-                    ////Debug.WriteLine($"{Name}: Icon load...");
-                    var task = new Task(async () =>
-                    {
-                        for (int i = 0; i < 2; ++i) // retry 2 time.
+                    DriveIconUtility.CreateDriveIconAsync(Path, 16.0,
+                        image =>
                         {
-                            try
-                            {
-                                _icon = FileIconCollection.Current.CreateFileIcon(Path, IO.FileIconType.Directory, 16.0, false, false);
-                                if (_icon != null)
-                                {
-                                    _icon?.Freeze();
-                                    RaisePropertyChanged(nameof(Icon));
-                                    return;
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                Debug.WriteLine(ex.Message);
-                            }
-                            await Task.Delay(500);
-                        }
-                    });
-                    task.Start(SingleThreadedApartment.TaskScheduler); // STA
+                            _icon = image;
+                            RaisePropertyChanged(nameof(Icon));
+                        });
                 }
 
                 return _icon ?? FileIconCollection.Current.CreateDefaultFolderIcon(16.0);

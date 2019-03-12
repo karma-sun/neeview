@@ -6,6 +6,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace NeeView
@@ -24,11 +26,17 @@ namespace NeeView
 
         #region Constructors
 
-        /// <summary>
-        /// constructor
-        /// </summary>
         public FolderEntryCollection(QueryPath path, bool isActive, bool isOverlayEnabled) : base(path, isActive, isOverlayEnabled)
         {
+        }
+
+        public override async Task InitializeItemsAsync(CancellationToken token)
+        {
+            await Task.Run(() => InitializeItems());
+        }
+
+        private void InitializeItems()
+        { 
             if (string.IsNullOrWhiteSpace(Place.SimplePath))
             {
                 this.Items = new ObservableCollection<FolderItem>(DriveInfo.GetDrives().Select(e => CreateFolderItem(e)));
@@ -49,6 +57,8 @@ namespace NeeView
                     try
                     {
                         var fileSystemInfos = directory.GetFileSystemInfos();
+
+                        directory.EnumerateFileSystemInfos();
 
                         var fileInfos = fileSystemInfos.OfType<FileInfo>();
                         var directoryInfos = fileSystemInfos.OfType<DirectoryInfo>();
@@ -120,7 +130,7 @@ namespace NeeView
 
             BindingOperations.EnableCollectionSynchronization(this.Items, new object());
 
-            if (isActive)
+            if (_isStartEngine)
             {
                 // フォルダー監視
                 InitializeWatcher(Place.SimplePath);

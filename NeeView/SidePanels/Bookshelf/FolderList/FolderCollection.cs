@@ -38,6 +38,7 @@ namespace NeeView
         #region Fields
 
         private Jobs.SingleJobEngine _engine;
+        protected bool _isStartEngine;
         protected bool _isOverlayEnabled;
         private object _lock = new object();
 
@@ -49,12 +50,13 @@ namespace NeeView
         {
             this.Place = path;
             _isOverlayEnabled = isOverlayEnabled;
+            _isStartEngine = isStartEngine;
 
             // HACK: FullPathにする。過去のデータも修正が必要
             this.FolderParameter = new FolderParameter(Place.SimplePath);
             this.FolderParameter.PropertyChanged += (s, e) => ParameterChanged?.Invoke(s, null);
 
-            if (isStartEngine)
+            if (_isStartEngine)
             {
                 _engine = new Jobs.SingleJobEngine();
                 _engine.Name = "FolderCollectionJobEngine";
@@ -128,7 +130,7 @@ namespace NeeView
         #region Methods
 
 #pragma warning disable CS1998
-        public virtual async Task ConstructorAsync(CancellationToken token)
+        public virtual async Task InitializeItemsAsync(CancellationToken token)
         {
         }
 #pragma warning restore CS1998

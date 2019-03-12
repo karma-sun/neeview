@@ -11,8 +11,6 @@ namespace NeeView
 {
     public class FolderCollectionFactory
     {
-        ////public static FolderCollectionFactory Current { get; } = new FolderCollectionFactory();
-
         private bool _isOverlayEnabled;
 
         public FolderCollectionFactory(FolderSearchEngine searchEngine, bool isOverlayEnabled)
@@ -20,7 +18,6 @@ namespace NeeView
             SearchEngine = searchEngine;
             _isOverlayEnabled = isOverlayEnabled;
         }
-
 
 
         #region Properties
@@ -36,11 +33,11 @@ namespace NeeView
         {
             if (path.Scheme == QueryScheme.Root)
             {
-                return CreateRootFolderCollection(path, isActive);
+                return await CreateRootFolderCollectionAsync(path, isActive, token);
             }
             else if (path.Scheme == QueryScheme.QuickAccess)
             {
-                return CreateQuickAccessFolderCollection(path, isActive);
+                return await CreateQuickAccessFolderCollectionAsync(path, isActive, token);
             }
             else if (path.Scheme == QueryScheme.Bookmark)
             {
@@ -77,7 +74,8 @@ namespace NeeView
                 var result = await SearchEngine.SearchAsync(path.SimplePath, path.Search);
                 token.ThrowIfCancellationRequested();
 
-                var collection = CreateSearchCollection(path, result, isActive);
+                var collection = new FolderSearchCollection(path, result, isActive, _isOverlayEnabled);
+                await collection.InitializeItemsAsync(token);
                 return collection;
             }
             catch (OperationCanceledException)
@@ -89,7 +87,20 @@ namespace NeeView
         // 通常フォルダーコレクション作成
         private async Task<FolderCollection> CreateEntryFolderCollectionAsync(QueryPath path, bool isActive, CancellationToken token)
         {
-            var collection = await Task.Run(() => CreateEntryCollection(path, isActive));
+            FolderCollection collection;
+            try
+            {
+                collection = new FolderEntryCollection(path, isActive, _isOverlayEnabled);
+                await collection.InitializeItemsAsync(token);
+            }
+            catch (Exception ex)
+            {
+                // NOTE: 救済措置。取得に失敗した時はカレントディレクトリに移動
+                Debug.WriteLine($"Cannot open: {ex.Message}");
+                collection = new FolderEntryCollection(new QueryPath(Environment.CurrentDirectory), isActive, _isOverlayEnabled);
+                await collection.InitializeItemsAsync(token);
+            }
+
             token.ThrowIfCancellationRequested();
 
             return collection;
@@ -98,7 +109,9 @@ namespace NeeView
         // ブックマークフォルダーコレクション作成
         private async Task<FolderCollection> CreateBookmarkFolderCollectionAsync(QueryPath path, bool isActive, CancellationToken token)
         {
-            var collection = await Task.Run(() => CreateBookmarkFolderCollection(path, isActive));
+            var collection = new BookmarkFolderCollection(path, _isOverlayEnabled);
+            await collection.InitializeItemsAsync(token);
+
             token.ThrowIfCancellationRequested();
 
             return collection;
@@ -109,14 +122,16 @@ namespace NeeView
         {
             try
             {
-                var collection = CreateArchiveCollection(path, BookHub.Current.ArchiveRecursiveMode, isActive);
-                await collection.ConstructorAsync(token);
+                var collection = new FolderArchiveCollection(path, BookHub.Current.ArchiveRecursiveMode, isActive, _isOverlayEnabled);
+                await collection.InitializeItemsAsync(token);
+
                 token.ThrowIfCancellationRequested();
+
                 return collection;
             }
             catch (Exception ex)
             {
-                // アーカイブパスが展開できない場合、実在パスでの展開を行う
+                // NOTE: アーカイブパスが展開できない場合、実在パスでの展開を行う
                 Debug.WriteLine($"Cannot open: {ex.Message}");
                 var place = ArchiveEntryUtility.GetExistDirectoryName(path.SimplePath);
                 return await CreateEntryFolderCollectionAsync(new QueryPath(place), isActive, token);
@@ -124,62 +139,23 @@ namespace NeeView
         }
 
         /// <summary>
-        /// FolderCollection 作成
+        /// Rootコレクション作成
         /// </summary>
-        private FolderCollection CreateEntryCollection(QueryPath path, bool isActive)
+        private async Task<FolderCollection> CreateRootFolderCollectionAsync(QueryPath path, bool isActive, CancellationToken token)
         {
-            try
-            {
-                return new FolderEntryCollection(path, isActive, _isOverlayEnabled);
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-
-                // NOTE: 救済措置。取得に失敗した時はカレントディレクトリに移動
-                return new FolderEntryCollection(new QueryPath(Environment.CurrentDirectory), isActive, _isOverlayEnabled);
-            }
-        }
-
-
-        /// <summary>
-        /// FolderCollection作成(書庫内アーカイブリスト)
-        /// </summary>
-        public FolderCollection CreateArchiveCollection(QueryPath path, ArchiveEntryCollectionMode mode, bool isActive)
-        {
-            return new FolderArchiveCollection(path, mode, isActive, _isOverlayEnabled);
+            var collection = new RootFolderCollection(path, _isOverlayEnabled);
+            await collection.InitializeItemsAsync(token);
+            return collection;
         }
 
         /// <summary>
-        /// FolderCollection作成(検索結果)
+        /// クイックアクセスコレクション作成
         /// </summary>
-        private FolderCollection CreateSearchCollection(QueryPath path, NeeLaboratory.IO.Search.SearchResultWatcher searchResult, bool isActive)
+        private async Task<FolderCollection> CreateQuickAccessFolderCollectionAsync(QueryPath path, bool isActive, CancellationToken token)
         {
-            return new FolderSearchCollection(path, searchResult, isActive, _isOverlayEnabled);
-        }
-
-        /// <summary>
-        /// FolderCollecion作成(ブックマーク)
-        /// </summary>
-        private FolderCollection CreateBookmarkFolderCollection(QueryPath path, bool isActive)
-        {
-            return new BookmarkFolderCollection(path, _isOverlayEnabled);
-        }
-
-        /// <summary>
-        /// FolderCollecion作成(Root)
-        /// </summary>
-        private FolderCollection CreateRootFolderCollection(QueryPath path, bool isActive)
-        {
-            return new RootFolderCollection(path, _isOverlayEnabled);
-        }
-
-        /// <summary>
-        /// FolderCollecion作成(クイックアクセス)
-        /// </summary>
-        private FolderCollection CreateQuickAccessFolderCollection(QueryPath path, bool isActive)
-        {
-            return new QuickAccessFolderCollection(_isOverlayEnabled);
+            var collection = new QuickAccessFolderCollection(_isOverlayEnabled);
+            await collection.InitializeItemsAsync(token);
+            return collection;
         }
 
         #endregion

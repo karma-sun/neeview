@@ -6,6 +6,8 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace NeeView
@@ -20,7 +22,13 @@ namespace NeeView
 
         public BookmarkFolderCollection(QueryPath path, bool isOverlayEnabled) : base(path, false, isOverlayEnabled)
         {
-            _bookmarkPlace = BookmarkCollection.Current.FindNode(path.FullPath) ?? new TreeListNode<IBookmarkEntry>();
+        }
+
+        public override async Task InitializeItemsAsync(CancellationToken token)
+        { 
+            await Task.Yield();
+
+            _bookmarkPlace = BookmarkCollection.Current.FindNode(Place.FullPath) ?? new TreeListNode<IBookmarkEntry>();
 
             var items = _bookmarkPlace.Children
                 .Select(e => CreateFolderItem(e))

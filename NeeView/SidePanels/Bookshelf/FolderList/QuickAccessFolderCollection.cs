@@ -2,6 +2,8 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NeeView
 {
@@ -13,6 +15,12 @@ namespace NeeView
     {
         public QuickAccessFolderCollection(bool isOverlayEnabled) : base(new QueryPath(QueryScheme.QuickAccess, null), false, isOverlayEnabled)
         {
+        }
+
+        public override async Task InitializeItemsAsync(CancellationToken token)
+        {
+            await Task.Yield();
+
             var items = QuickAccessCollection.Current.Items.Select(e => CreateFolderItem(e));
 
             this.Items = new ObservableCollection<FolderItem>(items);

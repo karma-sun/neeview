@@ -136,14 +136,14 @@ namespace NeeView
             var path = pos.Path;
             do
             {
-                var select = this.FolderCollection.Items.FirstOrDefault(e => e.Path == path);
+                var select = this.FolderCollection.Items.FirstOrDefault(e => e.TargetPath == path);
                 if (select != null)
                 {
                     return select;
                 }
                 path = path.GetParent();
             }
-            while ( path.FullPath.Length > this.FolderCollection.Place.FullPath.Length);
+            while (path != null && path.FullPath.Length > this.FolderCollection.Place.FullPath.Length);
             return this.FolderCollection.FirstOrDefault();
         }
 

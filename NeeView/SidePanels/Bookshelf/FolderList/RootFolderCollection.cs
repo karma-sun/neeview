@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace NeeView
 {
@@ -8,11 +10,18 @@ namespace NeeView
     /// </summary>
     public class RootFolderCollection : FolderCollection
     {
+
         public RootFolderCollection(QueryPath path, bool isOverlayEnabled) : base(path, false, isOverlayEnabled)
         {
+        }
+
+        public override async Task InitializeItemsAsync(CancellationToken token)
+        {
+            await Task.Yield();
+
             var items = new ObservableCollection<FolderItem>();
 
-            if (path.Path == null)
+            if (Place.Path == null)
             {
                 // NOTE: 操作に難があるため、クイックアクセス、ページマークは表示しない
                 ////items.Add(CreateFolderItem(QueryScheme.QuickAccess));

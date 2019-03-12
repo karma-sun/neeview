@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Data;
 
 namespace NeeView
@@ -23,13 +25,19 @@ namespace NeeView
 
 
         // Constructors
-
         public FolderSearchCollection(QueryPath path, NeeLaboratory.IO.Search.SearchResultWatcher searchResult, bool isActive, bool isOverlayEnabled) : base(path, isActive, isOverlayEnabled)
         {
             if (searchResult == null) throw new ArgumentNullException(nameof(searchResult));
             Debug.Assert(path.Search == searchResult.Keyword);
 
-            var items = searchResult.Items
+            _searchResult = searchResult;
+        }
+
+        public override async Task InitializeItemsAsync(CancellationToken token)
+        {
+            await Task.Yield();
+
+            var items = _searchResult.Items
                 .Select(e => CreateFolderItem(e))
                 .Where(e => e != null)
                 .ToList();
@@ -44,7 +52,6 @@ namespace NeeView
             this.Items = new ObservableCollection<FolderItem>(list);
             BindingOperations.EnableCollectionSynchronization(this.Items, new object());
 
-            _searchResult = searchResult;
             _searchResult.SearchResultChanged += SearchResult_NodeChanged;
         }
 

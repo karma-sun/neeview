@@ -28,7 +28,7 @@ namespace NeeView
             _mode = mode;
         }
 
-        public override async Task ConstructorAsync(CancellationToken token)
+        public override async Task InitializeItemsAsync(CancellationToken token)
         {
             try
             {

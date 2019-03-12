@@ -213,7 +213,7 @@ namespace NeeView
                 }
             }
 
-            return s;
+            return string.IsNullOrWhiteSpace(s) ? null : s;
         }
 
         public QueryPath ReplacePath(string path)

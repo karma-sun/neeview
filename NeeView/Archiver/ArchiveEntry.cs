@@ -106,7 +106,20 @@ namespace NeeView
         /// <summary>
         /// エクスプローラーから指定可能なパス
         /// </summary>
-        public string SystemPath => LoosePath.Combine(Archiver?.SystemPath, EntryName);
+        public string SystemPath
+        {
+            get
+            {
+                if (Instance is TreeListNode<IPagemarkEntry> pagemarkEntry && pagemarkEntry.Value is Pagemark pagemark)
+                {
+                    return pagemark.FullName;
+                }
+                else
+                {
+                    return LoosePath.Combine(Archiver?.SystemPath, EntryName);
+                }
+            }
+        }
 
         /// <summary>
         /// 識別名

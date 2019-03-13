@@ -1479,6 +1479,9 @@
   <data name="ControlAddressBarNext" xml:space="preserve">
     <value>Next</value>
   </data>
+  <data name="ControlAddressBarUp" xml:space="preserve">
+    <value>Up</value>
+  </data>
   <data name="ControlAddressBarReLoad" xml:space="preserve">
     <value>Reload</value>
   </data>
@@ -4663,5 +4666,29 @@ Initialize the temporary location.</value>
   </data>
   <data name="EnumArchiveEntryCollectionModeIncludeSubArchives" xml:space="preserve">
     <value>Expand all</value>
+  </data>
+  <data name="CommandPrevBookHistory" xml:space="preserve">
+    <value>Go back</value>
+  </data>
+  <data name="CommandPrevBookHistoryNote" xml:space="preserve">
+    <value>Open a previously open book.</value>
+  </data>
+  <data name="CommandNextBookHistory" xml:space="preserve">
+    <value>Go next</value>
+  </data>
+  <data name="CommandNextBookHistoryNote" xml:space="preserve">
+    <value>Open a next open book.</value>
+  </data>
+  <data name="CommandMoveToParentBook" xml:space="preserve">
+    <value>Go to parent</value>
+  </data>
+  <data name="CommandMoveToParentBookNote" xml:space="preserve">
+    <value>Open the upper hierarchy as a book.</value>
+  </data>
+  <data name="CommandMoveToChildBook" xml:space="preserve">
+    <value>Go to child</value>
+  </data>
+  <data name="CommandMoveToChildBookNote" xml:space="preserve">
+    <value>When the page is a book, open that book.</value>
   </data>
 </root>

@@ -13,8 +13,8 @@
         <local:SortModeToStringConverter x:Key="SortModeToStringConverter"/>
         <local:SortModeToVisibilityConverter x:Key="SortModeToVisibilityConverter"/>
 
-        <Style x:Key="HistoryContextMenuItemContainerStyle" TargetType="MenuItem">
-            <Setter Property="Header" Value="{Binding Name}"/>
+        <Style x:Key="HistoryMenuItemContainerStyle" TargetType="MenuItem">
+            <Setter Property="Header" Value="{Binding Path=Value.DispName}"/>
             <Setter Property="Command" Value="{Binding DataContext.MoveToHistory, RelativeSource={RelativeSource FindAncestor, AncestorType=ContextMenu}}" />
             <Setter Property="CommandParameter" Value="{Binding}" />
         </Style>
@@ -93,23 +93,27 @@
 
             </StackPanel>
 
-            <Button x:Name="PrevHistoryButton" Command="{Binding BookCommands[PrevHistory]}" Style="{StaticResource AddressIconButton}"
+            <Button x:Name="PrevHistoryButton" Command="{Binding BookCommands[PrevBookHistory]}" Style="{StaticResource AddressIconButton}"
                                     ContextMenuService.Placement="Bottom"
                                     ContextMenuOpening="PrevHistoryButton_ContextMenuOpening"
                                     ToolTip="{x:Static properties:Resources.ControlAddressBarBack}">
                 <Image Source="{StaticResource ic_arrow_back_24px}" Width="16" Height="16" />
                 <Button.ContextMenu>
-                    <ContextMenu ItemContainerStyle="{StaticResource HistoryContextMenuItemContainerStyle}" />
+                    <ContextMenu ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}" />
                 </Button.ContextMenu>
             </Button>
-            <Button x:Name="NextHistoryButton" Command="{Binding BookCommands[NextHistory]}"  Style="{StaticResource AddressIconButton}"
+            <Button x:Name="NextHistoryButton" Command="{Binding BookCommands[NextBookHistory]}"  Style="{StaticResource AddressIconButton}"
                                     ContextMenuService.Placement="Bottom"
                                     ContextMenuOpening="NextHistoryButton_ContextMenuOpening"
                                     ToolTip="{x:Static properties:Resources.ControlAddressBarNext}">
                 <Image Source="{StaticResource ic_arrow_forward_24px}" Width="16" Height="16" />
                 <Button.ContextMenu>
-                    <ContextMenu ItemContainerStyle="{StaticResource HistoryContextMenuItemContainerStyle}" />
+                    <ContextMenu ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}" />
                 </Button.ContextMenu>
+            </Button>
+            <Button x:Name="MoveToParentButton" Command="{Binding BookCommands[MoveToParentBook]}"  Style="{StaticResource AddressIconButton}"
+                                    ToolTip="{x:Static properties:Resources.ControlAddressBarUp}">
+                <Image Source="{StaticResource ic_arrow_up_24px}" Width="16" Height="16" />
             </Button>
             <Button Command="{Binding BookCommands[ReLoad]}" Style="{StaticResource AddressIconButton}"
                                     ToolTip="{x:Static properties:Resources.ControlAddressBarReLoad}">

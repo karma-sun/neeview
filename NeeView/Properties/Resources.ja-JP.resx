@@ -1479,6 +1479,9 @@
   <data name="ControlAddressBarNext" xml:space="preserve">
     <value>進む</value>
   </data>
+  <data name="ControlAddressBarUp" xml:space="preserve">
+    <value>上へ</value>
+  </data>
   <data name="ControlAddressBarReLoad" xml:space="preserve">
     <value>再読込</value>
   </data>
@@ -4663,5 +4666,29 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="EnumArchiveEntryCollectionModeIncludeSubArchives" xml:space="preserve">
     <value>すべて展開</value>
+  </data>
+  <data name="CommandPrevBookHistory" xml:space="preserve">
+    <value>前のブックに戻る</value>
+  </data>
+  <data name="CommandPrevBookHistoryNote" xml:space="preserve">
+    <value>前に開いていたブックを開きます。</value>
+  </data>
+  <data name="CommandNextBookHistory" xml:space="preserve">
+    <value>次のブックに進む</value>
+  </data>
+  <data name="CommandNextBookHistoryNote" xml:space="preserve">
+    <value>次に開いていたブックを開きます。</value>
+  </data>
+  <data name="CommandMoveToParentBook" xml:space="preserve">
+    <value>親のブックを開く</value>
+  </data>
+  <data name="CommandMoveToParentBookNote" xml:space="preserve">
+    <value>上の階層をブックとして開きます。</value>
+  </data>
+  <data name="CommandMoveToChildBook" xml:space="preserve">
+    <value>このブックを開く</value>
+  </data>
+  <data name="CommandMoveToChildBookNote" xml:space="preserve">
+    <value>ページがブックであるとき、そのブックを開きます。</value>
   </data>
 </root>

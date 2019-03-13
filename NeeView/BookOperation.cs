@@ -279,7 +279,6 @@ namespace NeeView
 
         #endregion
 
-
         #region BookCommand : ページ出力
 
         // ファイルの場所を開くことが可能？
@@ -1014,6 +1013,22 @@ namespace NeeView
 
         #endregion
 
+        #region BookCommand : 下位ブックに移動
+
+        public bool CanMoveToChildBook()
+        {
+            return Book?.GetViewPage()?.Content is ArchiveContent;
+        }
+
+        public void MoveToChildBook()
+        {
+            if (Book?.GetViewPage()?.Content is ArchiveContent content)
+            {
+                BookHub.Current.RequestLoad(content.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
+            }
+        }
+
+        #endregion
 
         #region Memento
         [DataContract]

@@ -185,6 +185,7 @@
     <Compile Include="Bitmap\IBitmapFactory.cs" />
     <Compile Include="BookHistory.cs" />
     <Compile Include="BookHistoryCollection.cs" />
+    <Compile Include="BookHubHistory.cs" />
     <Compile Include="Controls\CriticalErrorDialog.xaml.cs">
       <DependentUpon>CriticalErrorDialog.xaml</DependentUpon>
     </Compile>

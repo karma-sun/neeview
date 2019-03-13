@@ -142,9 +142,6 @@ namespace NeeView
         public bool IsValid
             => Book?.Address != null;
 
-        public string Address
-            => Book?.Address;
-
         public BookMementoType GetBookMementoType()
         {
             if (BookmarkCollection.Current.Contains(Book.Address))
@@ -351,6 +348,12 @@ namespace NeeView
         // 現在の本
         public Book Book => BookUnit?.Book;
 
+        /// <summary>
+        /// ブックアドレス。
+        /// 階層移動用に使用
+        /// </summary>
+        public BookAddress BookAddress { get; private set; }
+
         // アドレス
         public string Address
         {
@@ -397,7 +400,7 @@ namespace NeeView
                 if (this.BookUnit == null) return;
 
                 // 履歴削除されたものを履歴登録しないようにする
-                if (e.HistoryChangedType == BookMementoCollectionChangedType.Remove && this.BookUnit.Address == e.Key)
+                if (e.HistoryChangedType == BookMementoCollectionChangedType.Remove && this.BookUnit.Book.Address == e.Key)
                 {
                     _historyRemoved = true;
                 }
@@ -589,6 +592,26 @@ namespace NeeView
             RequestLoad(Address, null, options | BookLoadOption.IsBook, true);
         }
 
+        // 上の階層に移動可能？
+        public bool CanLoadParent()
+        {
+            var parent = BookAddress?.Place;
+            return parent?.Path != null && parent.Scheme == QueryScheme.File;
+        }
+
+        /// <summary>
+        /// リクエスト：上の階層に移動
+        /// </summary>
+        public void RequestLoadParent()
+        {
+            var parent = BookAddress?.Place;
+            if (parent?.Path != null && parent.Scheme == QueryScheme.File)
+            {
+                var option = BookLoadOption.IsBook | BookLoadOption.SkipSamePlace;
+                RequestLoad(parent.SimplePath, null, option, true);
+            }
+        }
+
         #endregion Requests
 
         #region BookHubCommand.Load
@@ -613,11 +636,11 @@ namespace NeeView
 
             AppDispatcher.Invoke(() =>
             {
-        // 再生中のメディアをPAUSE
-        MediaPlayerOperator.Current?.Pause();
+                // 再生中のメディアをPAUSE
+                MediaPlayerOperator.Current?.Pause();
 
-        // 本の変更開始通知
-        BookChanging?.Invoke(this, null);
+                // 本の変更開始通知
+                BookChanging?.Invoke(this, null);
             });
 
             // 現在の設定を記憶
@@ -655,6 +678,10 @@ namespace NeeView
                 address.EntryName = address.EntryName ?? LoosePath.NormalizeSeparator(setting.Page);
                 place = address.SystemPath;
 
+                // 移動履歴登録
+                BookAddress = address;
+                BookHubHistory.Current.Add(address.Address);
+
                 // フォルダーリスト更新
                 if (args.IsRefreshFolderList)
                 {
@@ -672,14 +699,14 @@ namespace NeeView
 
                 AppDispatcher.Invoke(() =>
                 {
-            // ビュー初期化
-            CommandTable.Current[CommandType.ViewReset].Execute(this, null);
+                    // ビュー初期化
+                    CommandTable.Current[CommandType.ViewReset].Execute(this, null);
 
-            // 本の設定を退避
-            BookSetting.Current.RaiseSettingChanged();
+                    // 本の設定を退避
+                    BookSetting.Current.RaiseSettingChanged();
 
-            // 本の変更通知
-            BookChanged?.Invoke(this, new BookChangedEventArgs(BookUnit.GetBookMementoType()));
+                    // 本の変更通知
+                    BookChanged?.Invoke(this, new BookChangedEventArgs(BookUnit.GetBookMementoType()));
                 });
 
                 // ページがなかった時の処理
@@ -727,14 +754,14 @@ namespace NeeView
 
                 AppDispatcher.Invoke(() =>
                 {
-            // 現在表示されているコンテンツを無効
-            ViewContentsChanged?.Invoke(this, new ViewPageCollectionChangedEventArgs(new ViewPageCollection()));
+                    // 現在表示されているコンテンツを無効
+                    ViewContentsChanged?.Invoke(this, new ViewPageCollectionChangedEventArgs(new ViewPageCollection()));
 
-            // 本の変更通知
-            BookChanged?.Invoke(this, new BookChangedEventArgs(BookMementoType.None));
+                    // 本の変更通知
+                    BookChanged?.Invoke(this, new BookChangedEventArgs(BookMementoType.None));
 
-            // 履歴リスト更新
-            if ((args.Option & BookLoadOption.SelectHistoryMaybe) != 0)
+                    // 履歴リスト更新
+                    if ((args.Option & BookLoadOption.SelectHistoryMaybe) != 0)
                     {
                         HistoryListSync?.Invoke(this, new BookHubPathEventArgs(Address));
                     }
@@ -892,11 +919,11 @@ namespace NeeView
 
                 AppDispatcher.Invoke(() =>
                 {
-            // 現在表示されているコンテンツを無効
-            ViewContentsChanged?.Invoke(this, null);
+                    // 現在表示されているコンテンツを無効
+                    ViewContentsChanged?.Invoke(this, null);
 
-            // 本の変更通知
-            BookChanged?.Invoke(this, new BookChangedEventArgs(BookMementoType.None));
+                    // 本の変更通知
+                    BookChanged?.Invoke(this, new BookChangedEventArgs(BookMementoType.None));
                 });
             }
 
@@ -917,6 +944,8 @@ namespace NeeView
             {
                 BookUnit = null;
             }
+
+            BookAddress = null;
 
             if (book != null)
             {

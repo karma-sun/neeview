@@ -2,12 +2,6 @@
 
 namespace NeeView
 {
-    public class ArchivePageContent
-    {
-        public ArchiveEntry Entry { get; set; }
-        public Thumbnail Thumbnail { get; set; }
-    }
-
     public class ArchiveViewContent : ViewContent
     {
         #region Constructors
@@ -34,13 +28,7 @@ namespace NeeView
 
         private FrameworkElement CreateView(ViewPage source, ViewContentParameters parameter)
         {
-            var content = new ArchivePageContent()
-            {
-                Entry = source.Page.Entry,
-                Thumbnail = source.Page.Thumbnail,
-            };
-
-            var control = new ArchivePageControl(content);
+            var control = new ArchivePageControl(source.Page.Content as ArchiveContent);
             control.SetBinding(ArchivePageControl.DefaultBrushProperty, parameter.ForegroundBrush);
             return control;
         }

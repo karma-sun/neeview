@@ -24,7 +24,7 @@ namespace NeeView
     {
         #region Fields
 
-        public ArchivePageContent _content;
+        public ArchiveContent _content;
 
         #endregion
 
@@ -62,14 +62,14 @@ namespace NeeView
 
         #region Methods
 
-        public ArchivePageControl(ArchivePageContent content) : this()
+        public ArchivePageControl(ArchiveContent content) : this()
         {
             _content = content;
 
             this.OpenBookButton.CommandBindings.Add(new CommandBinding(OpenCommand, Open_Executed));
 
-            this.Icon.DataContext = content.Thumbnail;
-            this.FileNameTextBlock.Text = content.Entry.EntryName?.TrimEnd('\\').Replace("\\", " > ");
+            this.Icon.DataContext = _content.Thumbnail;
+            this.FileNameTextBlock.Text = _content.Entry.EntryName?.TrimEnd('\\').Replace("\\", " > ");
         }
 
         private void Open_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -103,8 +103,7 @@ namespace NeeView
 
         private void OpenBook()
         {
-            var option = BookLoadOption.IsBook | BookLoadOption.SkipSamePlace;
-            BookHub.Current.RequestLoad(_content.Entry.SystemPath, null, option, true);
+            BookHub.Current.RequestLoad(_content.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
         }
 
         #endregion

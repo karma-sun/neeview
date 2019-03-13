@@ -169,6 +169,29 @@
                         </DrawingImage.Drawing>
                     </DrawingImage>
 
+                    <DrawingImage x:Key="ic_arrow_up_24px">
+                        <DrawingImage.Drawing>
+                            <DrawingGroup Opacity="1">
+                                <DrawingGroup.Children>
+                                    <GeometryDrawing Brush="{StaticResource NVIconBrush}" Pen="{x:Null}">
+                                        <GeometryDrawing.Geometry>
+                                            <PathGeometry FillRule="Nonzero" Figures="M12,4L20,12 12,20 10.5900001525879,18.5900001525879 16.1700000762939,13 4,13 4,11 16.1700000762939,11 10.5900001525879,5.40999984741211 12,4z" >
+                                                <PathGeometry.Transform>
+                                                    <TransformGroup>
+                                                        <ScaleTransform/>
+                                                        <SkewTransform/>
+                                                        <RotateTransform Angle="270"/>
+                                                        <TranslateTransform/>
+                                                    </TransformGroup>
+                                                </PathGeometry.Transform>
+                                            </PathGeometry>
+                                        </GeometryDrawing.Geometry>
+                                    </GeometryDrawing>
+                                </DrawingGroup.Children>
+                            </DrawingGroup>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+                    
                     <DrawingImage  x:Key="ic_reflesh_24px">
                         <DrawingImage.Drawing>
                             <DrawingGroup Opacity="1">

@@ -95,6 +95,15 @@ namespace NeeView
         NextHistory,
 
         [EnumMember]
+        PrevBookHistory,
+        [EnumMember]
+        NextBookHistory,
+        [EnumMember]
+        MoveToParentBook,
+        [EnumMember]
+        MoveToChildBook,
+
+        [EnumMember]
         ToggleFolderOrder,
 
         [EnumMember(Value = "SetFolderOrderByFileName")]

@@ -1222,6 +1222,60 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Go to child に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandMoveToChildBook {
+            get {
+                return ResourceManager.GetString("CommandMoveToChildBook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   When the page is a book, open that book. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandMoveToChildBookNote {
+            get {
+                return ResourceManager.GetString("CommandMoveToChildBookNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Go to parent に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandMoveToParentBook {
+            get {
+                return ResourceManager.GetString("CommandMoveToParentBook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open the upper hierarchy as a book. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandMoveToParentBookNote {
+            get {
+                return ResourceManager.GetString("CommandMoveToParentBookNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Go next に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandNextBookHistory {
+            get {
+                return ResourceManager.GetString("CommandNextBookHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open a next open book. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandNextBookHistoryNote {
+            get {
+                return ResourceManager.GetString("CommandNextBookHistoryNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Next bookmark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandNextBookmark {
@@ -1533,6 +1587,24 @@ namespace NeeView.Properties {
         public static string CommandPasteNote {
             get {
                 return ResourceManager.GetString("CommandPasteNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Go back に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandPrevBookHistory {
+            get {
+                return ResourceManager.GetString("CommandPrevBookHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open a previously open book. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandPrevBookHistoryNote {
+            get {
+                return ResourceManager.GetString("CommandPrevBookHistoryNote", resourceCulture);
             }
         }
         
@@ -4647,6 +4719,15 @@ namespace NeeView.Properties {
         public static string ControlAddressBarReLoad {
             get {
                 return ResourceManager.GetString("ControlAddressBarReLoad", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Up に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlAddressBarUp {
+            get {
+                return ResourceManager.GetString("ControlAddressBarUp", resourceCulture);
             }
         }
         

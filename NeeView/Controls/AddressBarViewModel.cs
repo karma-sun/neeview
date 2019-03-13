@@ -50,24 +50,23 @@ namespace NeeView
 
 
         //
-        internal List<BookHistory> GetHistory(int direction, int size)
+        internal List<KeyValuePair<int, QueryPath>> GetHistory(int direction, int size)
         {
-            return BookHistoryCollection.Current.ListUp(BookHub.Current.Address, direction, size);
+            return BookHubHistory.Current.GetHistory(direction, size);
         }
 
         /// <summary>
         /// MoveToHistory command.
         /// </summary>
-        private RelayCommand<BookHistory> _MoveToHistory;
-        public RelayCommand<BookHistory> MoveToHistory
+        private RelayCommand<KeyValuePair<int, QueryPath>> _MoveToHistory;
+        public RelayCommand<KeyValuePair<int, QueryPath>> MoveToHistory
         {
-            get { return _MoveToHistory = _MoveToHistory ?? new RelayCommand<BookHistory>(MoveToHistory_Executed); }
+            get { return _MoveToHistory = _MoveToHistory ?? new RelayCommand<KeyValuePair<int, QueryPath>>(MoveToHistory_Executed); }
         }
 
-        private void MoveToHistory_Executed(BookHistory item)
+        private void MoveToHistory_Executed(KeyValuePair<int, QueryPath> item)
         {
-            if (item == null) return;
-            BookHub.Current.RequestLoad(item.Place, null, BookLoadOption.KeepHistoryOrder | BookLoadOption.SelectHistoryMaybe | BookLoadOption.IsBook, true);
+            BookHubHistory.Current.MoveToHistory(item);
         }
     }
 }

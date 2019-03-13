@@ -1420,6 +1420,57 @@ namespace NeeView
                 _elements[CommandType.NextHistory] = element;
             }
 
+
+            // PrevBookHistory
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupMove;
+                element.Text = Properties.Resources.CommandPrevBookHistory;
+                element.Note = Properties.Resources.CommandPrevBookHistoryNote;
+                element.ShortCutKey = "Alt+Left";
+                element.IsShowMessage = false;
+                element.CanExecute = () => BookHubHistory.Current.CanMoveToPrevious();
+                element.Execute = (s, e) => BookHubHistory.Current.MoveToPrevious();
+                _elements[CommandType.PrevBookHistory] = element;
+            }
+            // NextBookHistory
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupMove;
+                element.Text = Properties.Resources.CommandNextBookHistory;
+                element.Note = Properties.Resources.CommandNextBookHistoryNote;
+                element.ShortCutKey = "Alt+Right";
+                element.IsShowMessage = false;
+                element.CanExecute = () => BookHubHistory.Current.CanMoveToNext();
+                element.Execute = (s, e) => BookHubHistory.Current.MoveToNext();
+                _elements[CommandType.NextBookHistory] = element;
+            }
+            // MoveToParentBook
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupMove;
+                element.Text = Properties.Resources.CommandMoveToParentBook;
+                element.Note = Properties.Resources.CommandMoveToParentBookNote;
+                element.ShortCutKey = "Alt+Up";
+                element.IsShowMessage = false;
+                element.CanExecute = () => BookHub.Current.CanLoadParent();
+                element.Execute = (s, e) => BookHub.Current.RequestLoadParent();
+                _elements[CommandType.MoveToParentBook] = element;
+            }
+            // MoveToChildBook
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupMove;
+                element.Text = Properties.Resources.CommandMoveToChildBook;
+                element.Note = Properties.Resources.CommandMoveToChildBookNote;
+                element.ShortCutKey = "Alt+Down";
+                element.IsShowMessage = false;
+                element.CanExecute = () => BookOperation.Current.CanMoveToChildBook();
+                element.Execute = (s, e) => BookOperation.Current.MoveToChildBook();
+                _elements[CommandType.MoveToChildBook] = element;
+            }
+
+
             // ToggleMediaPlay
             {
                 var element = new CommandElement();

@@ -45,17 +45,23 @@ namespace NeeView
 
         #region DependencyProperties
 
-        public static readonly DependencyProperty DefaultBrushProperty =
-            DependencyProperty.Register(
-            "DefaultBrush",
-            typeof(Brush),
-            typeof(ArchivePageControl),
-            new FrameworkPropertyMetadata(Brushes.White));
 
-        public Brush DefaultBrush
+        public SolidColorBrush DefaultBrush
         {
-            get { return (Brush)GetValue(DefaultBrushProperty); }
+            get { return (SolidColorBrush)GetValue(DefaultBrushProperty); }
             set { SetValue(DefaultBrushProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for DefaultBrush.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty DefaultBrushProperty =
+            DependencyProperty.Register("DefaultBrush", typeof(SolidColorBrush), typeof(ArchivePageControl), new PropertyMetadata(Brushes.White, DefaultBrushChanged));
+
+        private static void DefaultBrushChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ArchivePageControl control)
+            {
+                control.Resources["DefaultBrush"] = e.NewValue;
+            }
         }
 
         #endregion

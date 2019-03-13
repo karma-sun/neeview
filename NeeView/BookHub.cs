@@ -126,14 +126,15 @@ namespace NeeView
     /// </summary>
     public class BookUnit
     {
-        public BookUnit(Book book, BookLoadOption loadOptions)
+        public BookUnit(Book book, BookAddress bookAddress, BookLoadOption loadOptions)
         {
             Book = book;
+            BookAddress = bookAddress;
             LoadOptions = loadOptions;
         }
 
         public Book Book { get; private set; }
-
+        public BookAddress BookAddress { get; private set; }
         public BookLoadOption LoadOptions { get; private set; }
 
         public bool IsKeepHistoryOrder
@@ -347,12 +348,6 @@ namespace NeeView
 
         // 現在の本
         public Book Book => BookUnit?.Book;
-
-        /// <summary>
-        /// ブックアドレス。
-        /// 階層移動用に使用
-        /// </summary>
-        public BookAddress BookAddress { get; private set; }
 
         // アドレス
         public string Address
@@ -595,7 +590,7 @@ namespace NeeView
         // 上の階層に移動可能？
         public bool CanLoadParent()
         {
-            var parent = BookAddress?.Place;
+            var parent = BookUnit?.BookAddress?.Place;
             return parent?.Path != null && parent.Scheme == QueryScheme.File;
         }
 
@@ -604,7 +599,7 @@ namespace NeeView
         /// </summary>
         public void RequestLoadParent()
         {
-            var parent = BookAddress?.Place;
+            var parent = BookUnit?.BookAddress?.Place;
             if (parent?.Path != null && parent.Scheme == QueryScheme.File)
             {
                 var option = BookLoadOption.IsBook | BookLoadOption.SkipSamePlace;
@@ -679,7 +674,6 @@ namespace NeeView
                 place = address.SystemPath;
 
                 // 移動履歴登録
-                BookAddress = address;
                 BookHubHistory.Current.Add(address.Address);
 
                 // フォルダーリスト更新
@@ -843,7 +837,7 @@ namespace NeeView
                 // カレントを設定し、開始する
                 lock (_lock)
                 {
-                    BookUnit = new BookUnit(book, option);
+                    BookUnit = new BookUnit(book, address, option);
                 }
 
                 // イベント設定
@@ -944,8 +938,6 @@ namespace NeeView
             {
                 BookUnit = null;
             }
-
-            BookAddress = null;
 
             if (book != null)
             {

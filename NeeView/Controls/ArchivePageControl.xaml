@@ -5,13 +5,33 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:properties="clr-namespace:NeeView.Properties"
              xmlns:local="clr-namespace:NeeView"
-             mc:Ignorable="d" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" d:DesignWidth="800" d:DesignHeight="800">
+             mc:Ignorable="d" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" d:DesignWidth="1000" d:DesignHeight="1000">
+
     <UserControl.Resources>
         <local:ImageSourceToThumbnailConverter x:Key="ImageSourceToThumbnailConverter"/>
         <local:DoubleToMinusHalf x:Key="DoubleToMinusHalf"/>
+        <SolidColorBrush x:Key="DefaultBrush" Color="White"/>
+        <DrawingImage x:Key="fic_folder">
+            <DrawingImage.Drawing>
+                <DrawingGroup Opacity="1">
+                    <DrawingGroup.Children>
+                        <GeometryDrawing>
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="{DynamicResource DefaultBrush}" Thickness="1.25"></Pen>
+                            </GeometryDrawing.Pen>
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry FillRule="Nonzero" Figures="M0,0 L14,0 14,10 16,12 16,18, 0,18Z M14,10 L13,12 13,18"/>
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
     </UserControl.Resources>
+
     <Canvas x:Name="Root" HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Button x:Name="OpenBookButton" Style="{StaticResource NVSelectButton}" VerticalAlignment="Center" HorizontalAlignment="Center"
+
+        <Button x:Name="OpenBookButton" Style="{StaticResource NVSelectButton}" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20"
                 Canvas.Left="{Binding ActualWidth, RelativeSource={RelativeSource Self}, Converter={StaticResource DoubleToMinusHalf} }"
                 Canvas.Top="{Binding ActualHeight, RelativeSource={RelativeSource Self}, Converter={StaticResource DoubleToMinusHalf} }"
                 MouseLeftButtonUp="OpenBookButton_MouseLeftButtonUp"
@@ -23,17 +43,21 @@
                     <MenuItem Header="{x:Static properties:Resources.WordOpen}" Command="{x:Static local:ArchivePageControl.OpenCommand}" />
                 </ContextMenu>
             </Button.ContextMenu>
-            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20" Width="256">
-                <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Width="256" Height="256">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20" Width="300">
+                <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Width="300" Height="300">
                     <Grid.Effect>
                         <DropShadowEffect Opacity="0.5" RenderingBias="Quality" ShadowDepth="2"/>
                     </Grid.Effect>
-                    <Image x:Name="Icon" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="256" RenderOptions.BitmapScalingMode="HighQuality" Stretch="UniformToFill"
+                    <Image x:Name="Icon" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="300" RenderOptions.BitmapScalingMode="HighQuality" Stretch="Uniform"
                            Source="{Binding ImageSource, Converter={StaticResource ImageSourceToThumbnailConverter}, Mode=OneWay}"/>
                 </Grid>
-                <TextBlock x:Name="FileNameTextBlock" Text="FileName" HorizontalAlignment="Center" TextWrapping="Wrap" FontSize="20" Margin="0,10,0,0" 
-                       Foreground="{Binding DefaultBrush, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ArchivePageControl}}}"/>
+                <DockPanel Margin="0,10,0,0">
+                    <Image DockPanel.Dock="Right" Source="{StaticResource fic_folder}" Width="20" VerticalAlignment="Top" Margin="2"/>
+                    <TextBlock x:Name="FileNameTextBlock" Text="FileName&#x0a;AAA&#x0a;BBB" HorizontalAlignment="Center" TextWrapping="Wrap" FontSize="20" VerticalAlignment="Top" MinHeight="80"
+                               Foreground="{DynamicResource DefaultBrush}"/>
+                </DockPanel>
             </StackPanel>
         </Button>
+
     </Canvas>
 </UserControl>

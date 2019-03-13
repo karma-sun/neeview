@@ -159,11 +159,25 @@ namespace NeeView
             return entries.Where(e => e.IsImage()).ToList();
         }
 
+        // filter: ページとして画像ファイルとアーカイブをリストアップ
+        public async Task<List<ArchiveEntry>> GetEntriesWhereImageAndArchiveAsync(CancellationToken token)
+        {
+            var entries = await GetEntriesAsync(token);
+            if (Mode == ArchiveEntryCollectionMode.CurrentDirectory)
+            {
+                return entries.Where(e => e.IsImage() || e.IsBook()).ToList();
+            }
+            else
+            {
+                return entries.Where(e => e.IsImage() || (e.IsBook() && !e.IsArchiveDirectory())).ToList();
+            }
+        }
+
         // filter: ページとしてすべてのファイルをリストアップ。フォルダーは空きフォルダーのみリストアップ
         public async Task<List<ArchiveEntry>> GetEntriesWherePageAllAsync(CancellationToken token)
         {
             var entries = await GetEntriesAsync(token);
-            var directories = entries.Select(e => LoosePath.GetDirectoryName(e.SystemPath)).Distinct();
+            var directories = entries.Select(e => LoosePath.GetDirectoryName(e.SystemPath)).Distinct().ToList();
             return entries.Where(e => !directories.Contains(e.SystemPath)).ToList();
         }
 

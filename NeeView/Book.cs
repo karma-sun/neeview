@@ -398,6 +398,16 @@ namespace NeeView
                 }
             }
 
+#if false
+            // ページがなければサブフォルダー一覧を表示する
+            if (this.Pages.Count == 0 && !_option.HasFlag(BookLoadOption.SupportAllFile))
+            {
+                _option &= ~BookLoadOption.Recursive;
+                _option |= BookLoadOption.SupportBookPage;
+                await CreatePageCollection(address.Address.SimplePath, archiveRecursiveMode, _option, token);
+            }
+#endif
+
             // 事前展開処理
             await PreExtractAsync(token);
 
@@ -477,9 +487,18 @@ namespace NeeView
             {
                 entries = await ArchiveEntryCollection.GetEntriesWherePageAllAsync(token);
             }
+#if false
+            else if (option.HasFlag(BookLoadOption.SupportBookPage))
+            {
+                entries = await ArchiveEntryCollection.GetEntriesWhereBookAsync(token);
+            }
+#endif
             else
             {
+#if false
                 entries = await ArchiveEntryCollection.GetEntriesWhereImageAsync(token);
+#endif
+                entries = await ArchiveEntryCollection.GetEntriesWhereImageAndArchiveAsync(token);
             }
             var bookPrefix = LoosePath.TrimDirectoryEnd(place);
             this.Pages = entries.Select(e => CreatePage(bookPrefix, e)).ToList();
@@ -512,6 +531,10 @@ namespace NeeView
                 {
                     page = new BitmapPage(bookPrefix, entry);
                 }
+            }
+            else if (entry.IsBook())
+            {
+                page = new ArchivePage(bookPrefix, entry);
             }
             else
             {
@@ -614,7 +637,7 @@ namespace NeeView
                 .Where(e => e != null && !e.IsFileSystem)
                 .ToList();
 
-            foreach(var archiver in archivers)
+            foreach (var archiver in archivers)
             {
                 if (archiver.CanPreExtract())
                 {
@@ -1100,9 +1123,10 @@ namespace NeeView
         // 見開きモードでも単独表示するべきか判定
         private bool IsSoloPage(int index)
         {
-            if (IsSupportedWidePage && IsWide(Pages[index])) return true;
             if (IsSupportedSingleFirstPage && index == 0) return true;
             if (IsSupportedSingleLastPage && index == Pages.Count - 1) return true;
+            if (Pages[index] is ArchivePage) return true;
+            if (IsSupportedWidePage && IsWide(Pages[index])) return true;
             return false;
         }
 

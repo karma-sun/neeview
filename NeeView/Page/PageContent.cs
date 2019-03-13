@@ -95,7 +95,7 @@ namespace NeeView
         /// <summary>
         /// コンテンツサイズ
         /// </summary>
-        public Size Size { get; protected set; } // = new Size(480, 680);
+        public virtual Size Size { get; protected set; } // = new Size(480, 680);
 
 
         /// <summary>

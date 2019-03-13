@@ -74,6 +74,11 @@ namespace NeeView
             {
                 return ViewContentType.Message;
             }
+            // アーカイブ
+            else if (Content is ArchiveContent)
+            {
+                return ViewContentType.Archive;
+            }
             // 仮表示
             else if (!Content.IsLoaded)
             {
@@ -208,6 +213,8 @@ namespace NeeView
         Anime,
         Media,
         Pdf,
+        Archive,
         Thumbnail,
     }
+
 }

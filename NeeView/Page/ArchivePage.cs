@@ -17,9 +17,10 @@ namespace NeeView
     /// </summary>
     public class ArchivePage : Page
     {
-        public ArchivePage(ArchiveEntry entry) : base("", entry)
+        public ArchivePage(string bookPrefix, ArchiveEntry entry) : base(bookPrefix, entry)
         {
             Content = new ArchiveContent(Entry);
+            this.Thumbnail.IsCacheEnabled = true;
         }
 
         public ArchivePage(string path) : base("", null)

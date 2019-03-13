@@ -182,8 +182,9 @@
                                             <!-- メインビュー コンテンツ表示領域 -->
                                             <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" ClipToBounds="True" DataContext="{Binding ContentCanvas}" AllowDrop="True">
                                                 <!-- Pages -->
+                                                <!-- NOTE: 時々操作が奪われしてまう原因の可能性その2 IsHitTestVisible -->
                                                 <Canvas x:Name="PageCanvas" Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
-                                                        IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                        HorizontalAlignment="Center" VerticalAlignment="Center">
                                                     <Canvas.Resources>
                                                         <Style TargetType="TextBlock" x:Key="ContentProperty">
                                                             <Setter Property="Foreground" Value="White"/>

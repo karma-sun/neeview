@@ -151,6 +151,10 @@ namespace NeeView
                     }
                 }
             }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);

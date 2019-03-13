@@ -202,6 +202,7 @@
     <Compile Include="Controls\PageSortModePalette.xaml.cs">
       <DependentUpon>PageSortModePalette.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\ImageSourceToThumbnailConverter.cs" />
     <Compile Include="Development\DebugCreateBookThumbnail.cs" />
     <Compile Include="Development\DebugTest.cs" />
     <Compile Include="Development\DebugTimer.cs" />
@@ -210,6 +211,9 @@
     </Compile>
     <Compile Include="Archiver\SevenZipTempFileExtractor.cs" />
     <Compile Include="Archiver\SevenZipTempFileExtractionArgs.cs" />
+    <Compile Include="Controls\ArchivePageControl.xaml.cs">
+      <DependentUpon>ArchivePageControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="JobEngine\IJobCommand.cs" />
     <Compile Include="JobEngine\Job.cs" />
     <Compile Include="JobEngine\JobContext.cs" />
@@ -231,6 +235,7 @@
     <Compile Include="Obsolete\FolderListLegacy.cs" />
     <Compile Include="SidePanels\Bookshelf\FolterTree\BookshelfFolderTreeModel.cs" />
     <Compile Include="Thumbnail\DriveThumbnail.cs" />
+    <Compile Include="ViewContent\ArchiveViewContent.cs" />
     <Compile Include="_NeeLaboratory\IO\RemoteCommand.cs" />
     <Compile Include="SaveDataSync.cs" />
     <Compile Include="Setting\SusiePluginSettingWindow.xaml.cs">
@@ -534,7 +539,7 @@
     <Compile Include="Converters\SortModeToStringConverter.cs" />
     <Compile Include="Converters\SortModeToVisibilityConverter.cs" />
     <Compile Include="Converters\StretchModeToBooleanConverter.cs" />
-    <Compile Include="Converters\_Converters.cs" />
+    <Compile Include="Converters\AnyConverters.cs" />
     <Compile Include="Controls\PageSlider.cs" />
     <Compile Include="Controls\PageSliderView.xaml.cs">
       <DependentUpon>PageSliderView.xaml</DependentUpon>
@@ -828,7 +833,7 @@
     <Compile Include="Archiver\LoosePath.cs" />
     <Compile Include="Page\FilePage.cs" />
     <Compile Include="Page\FilePageContent.cs" />
-    <Compile Include="FilePageControl.xaml.cs">
+    <Compile Include="Controls\FilePageControl.xaml.cs">
       <DependentUpon>FilePageControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="FolderOrder.cs" />
@@ -940,6 +945,10 @@
     <Page Include="Development\DebugMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ArchivePageControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="MainWindowResourceDictionary.xaml">
       <SubType>Designer</SubType>
@@ -1189,7 +1198,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FilePageControl.xaml">
+    <Page Include="Controls\FilePageControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

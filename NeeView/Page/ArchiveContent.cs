@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media.Imaging;
 
 namespace NeeView
@@ -18,9 +19,19 @@ namespace NeeView
         private string _path;
 
         /// <summary>
-        /// コンテンツ有効フラグは常にfalse
+        /// コンテンツ有効フラグはサムネイルの存在で判定
         /// </summary>
-        public override bool IsLoaded => false;
+        public override bool IsLoaded => Thumbnail.IsValid;
+
+        /// <summary>
+        /// コンテンツサイズは固定
+        /// </summary>
+        public override Size Size
+        {
+            get => new Size(512, 512);
+            protected set { }
+        }
+
 
         /// <summary>
         /// コンスラクタ
@@ -29,12 +40,6 @@ namespace NeeView
         public ArchiveContent(ArchiveEntry entry) : base(entry)
         {
             _path = entry?.SystemPath;
-
-            PageMessage = new PageMessage()
-            {
-                Icon = FilePageIcon.Alart,
-                Message = "For thumbnail creation only",
-            };
 
             // エントリが有効でない場合の処理
             if (!entry.IsValid && !entry.IsArchivePath)
@@ -85,9 +90,15 @@ namespace NeeView
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public override Task LoadAsync(CancellationToken token)
+        public override async Task LoadAsync(CancellationToken token)
         {
-            throw new InvalidOperationException();
+            await InitializeEntryAsync(token);
+
+            // かわりにサムネイルロード
+            InitializeThumbnail();
+            if (Thumbnail.IsValid) return;
+            if (token.IsCancellationRequested) return;
+            await LoadThumbnailAsync(token);
         }
 
         /// <summary>
@@ -117,6 +128,7 @@ namespace NeeView
             try
             {
                 var picture = await LoadPictureAsync(token);
+                token.ThrowIfCancellationRequested();
                 if (picture == null)
                 {
                     Thumbnail.Initialize(null);

@@ -6,18 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Media;
 
 namespace NeeView
 {
-    class _Converters
-    {
-        // dummy.
-    }
-
-
     // etc..
-
 
     public class DoubleSubConverter : IValueConverter
     {
@@ -95,31 +87,6 @@ namespace NeeView
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-
-    /// <summary>
-    /// ImageSourceがnullの場合、デフォルト画像を割り当てる。サムネイル用
-    /// </summary>
-    [ValueConversion(typeof(ImageSource), typeof(ImageSource))]
-    public class ImageSourceToThumbnailConverter : IValueConverter
-    {
-        private static readonly ImageSource _defaultThumbnail = MainWindow.Current.Resources["thumbnail_default"] as ImageSource;
-
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value is null)
-            {
-                return _defaultThumbnail;
-            }
-
-            return value;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

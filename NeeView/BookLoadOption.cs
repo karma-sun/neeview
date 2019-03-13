@@ -86,6 +86,11 @@ namespace NeeView
         /// このアドレスはページです
         /// </summary>
         IsPage = (1 << 15),
+
+        /// <summary>
+        /// アーカイブをページに含める
+        /// </summary>
+        SupportBookPage = (1 << 16),
     };
 
 }

@@ -39,6 +39,9 @@ namespace NeeView
                 case ViewContentType.Pdf:
                     viewContent = PdfViewContent.Create(source, oldViewContent);
                     break;
+                case ViewContentType.Archive:
+                    viewContent = ArchiveViewContent.Create(source, oldViewContent);
+                    break;
                 default:
                     viewContent = new ViewContent();
                     break;

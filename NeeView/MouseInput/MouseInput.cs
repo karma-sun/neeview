@@ -141,11 +141,20 @@ namespace NeeView
             SetState(MouseInputState.Normal, null);
 
             // initialize event
+            // NOTE: 時々操作が奪われしてまう原因の可能性その１
+#if false
             _sender.PreviewMouseDown += OnMouseButtonDown;
             _sender.PreviewMouseUp += OnMouseButtonUp;
             _sender.PreviewMouseWheel += OnMouseWheel;
             _sender.PreviewMouseMove += OnMouseMove;
             _sender.PreviewKeyDown += OnKeyDown;
+#else
+            _sender.MouseDown += OnMouseButtonDown;
+            _sender.MouseUp += OnMouseButtonUp;
+            _sender.MouseWheel += OnMouseWheel;
+            _sender.MouseMove += OnMouseMove;
+            _sender.PreviewKeyDown += OnKeyDown;
+#endif
         }
 
 
@@ -325,7 +334,7 @@ namespace NeeView
             }
         }
 
-        #region Memento
+#region Memento
         [DataContract]
         public class Memento
         {
@@ -359,7 +368,7 @@ namespace NeeView
             this.Drag.Restore(memento.Drag);
             this.Gesture.Restore(memento.Gesture);
         }
-        #endregion
+#endregion
 
     }
 

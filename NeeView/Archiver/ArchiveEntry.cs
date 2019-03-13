@@ -71,7 +71,6 @@ namespace NeeView
                 {
                     _rawEntryName = value;
                     this.EntryName = LoosePath.NormalizeSeparator(_rawEntryName);
-                    this.QueryPath = new QueryPath(this.EntryName);
                 }
             }
         }
@@ -81,11 +80,6 @@ namespace NeeView
         /// </summary>
         /// c/001.jpg => c\001.jpg
         public string EntryName { get; private set; }
-
-        /// <summary>
-        /// クエリパス
-        /// </summary>
-        public QueryPath QueryPath { get; private set; }
 
         /// <summary>
         /// ショートカットの場合のリンク先パス

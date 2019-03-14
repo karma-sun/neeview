@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Threading.Tasks;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -130,7 +131,7 @@ namespace NeeLaboratory.Threading.Jobs
         /// <returns></returns>
         public async Task WaitAsync()
         {
-            await Task.Run(() => _complete.Wait());
+            await _complete.WaitHandle.WaitOneAsync();
         }
 
         /// <summary>

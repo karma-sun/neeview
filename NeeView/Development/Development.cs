@@ -1,8 +1,10 @@
 ﻿using NeeLaboratory.ComponentModel;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace NeeView
@@ -35,6 +37,14 @@ namespace NeeView
             get { return _IsVisibleDevInfo; }
             set { if (_IsVisibleDevInfo != value) { _IsVisibleDevInfo = value; RaisePropertyChanged(); } }
         }
+    }
 
+
+    public static class NvDebug
+    {
+        public static void __DumpThread(string s = null)
+        {
+            Debug.WriteLine($"> ThreadId: {Thread.CurrentThread.ManagedThreadId}: {s}");
+        }
     }
 }

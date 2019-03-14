@@ -35,5 +35,25 @@ namespace NeeView.Threading.Tasks
         {
             return ActionAsync(() => task.Wait(token), token);
         }
+
+
+        /// <summary>
+        /// WaitHandle待ちのタスク化。
+        /// </summary>
+        /// <remarks>
+        /// https://docs.microsoft.com/ja-jp/dotnet/standard/asynchronous-programming-patterns/interop-with-other-asynchronous-patterns-and-types
+        /// </remarks>
+        public static Task WaitOneAsync(this WaitHandle waitHandle)
+        {
+            if (waitHandle == null) throw new ArgumentNullException(nameof(waitHandle));
+
+            var tcs = new TaskCompletionSource<bool>();
+            var rwh = ThreadPool.RegisterWaitForSingleObject(waitHandle, delegate { tcs.TrySetResult(true); }, null, -1, true);
+            var t = tcs.Task;
+            t.ContinueWith((antecedent) => rwh.Unregister(null));
+            return t;
+        }
+
+
     }
 }

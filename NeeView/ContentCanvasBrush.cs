@@ -28,8 +28,8 @@ namespace NeeView
 
 
         // Foregroudh Brush：ファイルページのフォントカラー用
-        private Brush _foregroundBrush = Brushes.White;
-        public Brush ForegroundBrush
+        private SolidColorBrush _foregroundBrush = Brushes.White;
+        public SolidColorBrush ForegroundBrush
         {
             get { return _foregroundBrush; }
             set { if (_foregroundBrush != value) { _foregroundBrush = value; RaisePropertyChanged(); } }

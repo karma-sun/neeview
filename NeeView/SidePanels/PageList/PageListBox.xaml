@@ -14,6 +14,23 @@
 
     <UserControl.Resources>
 
+        <DrawingImage x:Key="fic_folder">
+            <DrawingImage.Drawing>
+                <DrawingGroup Opacity="1">
+                    <DrawingGroup.Children>
+                        <GeometryDrawing>
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="{DynamicResource NVForeground}" Thickness="1.25"></Pen>
+                            </GeometryDrawing.Pen>
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry FillRule="Nonzero" Figures="M0,0 L14,0 14,10 16,12 16,18, 0,18Z M14,10 L13,12 13,18"/>
+                            </GeometryDrawing.Geometry>
+                        </GeometryDrawing>
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
         <DrawingImage x:Key="ic_bookmark_24px">
             <DrawingImage.Drawing>
                 <DrawingGroup Opacity="1">
@@ -33,6 +50,7 @@
         <local:BooleanToTextWrappingConverter x:Key="BooleanToTextWrappingConverter"/>
         <local:PageNameFormatConverter x:Key="PageNameFormatConverter"/>
         <local:PageToNoteConverter x:Key="PageToNoteConverter"/>
+        <local:ArchviePageToVisibilityConverter x:Key="ArchviePageToVisibilityConverter"/>
 
         <Style x:Key="NameStyle" TargetType="TextBlock">
             <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
@@ -102,10 +120,18 @@
             <Setter Property="Margin" Value="3" />
         </Style>
 
+        <Style x:Key="FolderIconStyle" TargetType="Image">
+            <Setter Property="Width" Value="18"/>
+            <Setter Property="Height" Value="18"/>
+            <Setter Property="Source" Value="{StaticResource fic_folder}"/>
+            <Setter Property="Visibility" Value="{Binding Converter={StaticResource ArchviePageToVisibilityConverter}}"/>
+        </Style>
+
 
         <DataTemplate x:Key="NormalTemplate">
             <DockPanel MinHeight="20">
                 <Rectangle Style="{StaticResource VerticalSelectedStyle}"/>
+                <Image DockPanel.Dock="Right" Style="{StaticResource FolderIconStyle}"/>
                 <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}"/>
                 <TextBlock Style="{StaticResource NormalNameStyle}" Margin="5,0"/>
             </DockPanel>
@@ -117,6 +143,7 @@
                 <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                     <DockPanel Margin="2" LastChildFill="False">
                         <local:PanelListContentImage Thumbnail="{Binding Thumbnail}"/>
+                        <Image DockPanel.Dock="Right" Style="{StaticResource FolderIconStyle}"/>
                         <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}"/>
                         <StackPanel VerticalAlignment="Center">
                             <TextBlock Style="{StaticResource NoteTextStyle}" Text="{Binding Converter={StaticResource PageToNoteConverter}}"/>
@@ -133,6 +160,7 @@
                 <Border Margin="0,1" BorderBrush="#22888888" BorderThickness="0,0,0,1">
                     <DockPanel Margin="4,0" HorizontalAlignment="Stretch" LastChildFill="False">
                         <DockPanel DockPanel.Dock="Bottom" Margin="2" >
+                            <Image DockPanel.Dock="Right" Style="{StaticResource FolderIconStyle}"/>
                             <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}"/>
                             <TextBlock Style="{StaticResource BannerrNameStyle}"/>
                         </DockPanel>
@@ -147,7 +175,8 @@
                 <local:PanelListThumbnailImage Thumbnail="{Binding Thumbnail}"/>
                 <Rectangle DockPanel.Dock="Bottom" Style="{StaticResource HorizontalSelectedStyle}"/>
                 <DockPanel>
-                    <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                    <Image DockPanel.Dock="Right" Style="{StaticResource FolderIconStyle}" VerticalAlignment="Top"/>
+                    <Image DockPanel.Dock="Right" Style="{StaticResource PagemarkIconStyle}" VerticalAlignment="Top"/>
                     <TextBlock Style="{StaticResource ThumbnailNameStyle}" HorizontalAlignment="Center"/>
                 </DockPanel>
             </StackPanel>
@@ -205,12 +234,15 @@
         <ListBox.ItemContainerStyle>
             <Style TargetType="ListBoxItem" BasedOn="{StaticResource NVListBoxItem}">
                 <EventSetter Event="PreviewMouseLeftButtonUp" Handler="PageListItem_MouseSingleClick"/>
+                <EventSetter Event="MouseDoubleClick" Handler="PageListItem_MouseDoubleClick"/>
                 <EventSetter Event="KeyDown" Handler="PageListItem_KeyDown"/>
                 <Setter Property="Padding" Value="2,0"/>
                 <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
                 <Setter Property="ContextMenu">
                     <Setter.Value>
                         <ContextMenu>
+                            <MenuItem Header="{x:Static properties:Resources.WordOpen}" Command="{x:Static local:PageListBox.OpenCommand}"/>
+                            <Separator/>
                             <MenuItem Header="{x:Static properties:Resources.PageListItemMenuDelete}" Command="{x:Static local:PageListBox.RemoveCommand}"/>
                         </ContextMenu>
                     </Setter.Value>

@@ -70,7 +70,7 @@ namespace NeeView
 
         #region Commands
 
-        // remove command
+        public static readonly RoutedCommand OpenCommand = new RoutedCommand("OpenCommand", typeof(PageListBox));
         public static readonly RoutedCommand RemoveCommand = new RoutedCommand("RemoveCommand", typeof(PageListBox));
 
         private static void InitializeCommandStatic()
@@ -80,7 +80,23 @@ namespace NeeView
 
         private void InitializeCommand()
         {
+            this.ListBox.CommandBindings.Add(new CommandBinding(OpenCommand, Open_Exec, Open_CanExec));
             this.ListBox.CommandBindings.Add(new CommandBinding(RemoveCommand, Remove_Exec, Remove_CanExec));
+        }
+
+        private void Open_CanExec(object sender, CanExecuteRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as ArchivePage;
+            e.CanExecute = item != null;
+        }
+
+        private void Open_Exec(object sender, ExecutedRoutedEventArgs e)
+        {
+            var item = (sender as ListBox)?.SelectedItem as ArchivePage;
+            if (item != null)
+            {
+                BookHub.Current.RequestLoad(item.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
+            }
         }
 
         private void Remove_CanExec(object sender, CanExecuteRoutedEventArgs e)
@@ -179,19 +195,29 @@ namespace NeeView
             }
         }
 
-        // フォルダーリスト 選択項目変更
+        // 選択項目変更
         private void PageList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
         }
 
-
-        // 履歴項目決定
+        // 項目決定
         private void PageListItem_MouseSingleClick(object sender, MouseButtonEventArgs e)
         {
             var page = (sender as ListBoxItem)?.Content as Page;
             if (page != null)
             {
                 _vm.Model.Jump(page);
+                e.Handled = true;
+            }
+        }
+
+        // 項目を開く
+        private void PageListItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var page = (sender as ListBoxItem)?.Content as ArchivePage;
+            if (page != null)
+            {
+                BookHub.Current.RequestLoad(page.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
                 e.Handled = true;
             }
         }
@@ -311,6 +337,22 @@ namespace NeeView
             }
 
             return value;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    /// <summary>
+    /// ArchivePageなら表示
+    /// </summary>
+    public class ArchviePageToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return (value is ArchivePage) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

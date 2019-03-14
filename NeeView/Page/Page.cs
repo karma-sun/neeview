@@ -15,6 +15,11 @@ using NeeLaboratory.ComponentModel;
 
 namespace NeeView
 {
+    public enum PageType
+    {
+        Folder,
+        File,
+    }
 
     /// <summary>
     /// ページ
@@ -131,6 +136,11 @@ namespace NeeView
         /// コンテンツ
         /// </summary>
         public PageContent Content { get; protected set; }
+
+        /// <summary>
+        /// ページの種類
+        /// </summary>
+        public PageType PageType => Content is ArchiveContent ? PageType.Folder : PageType.File;
 
         /// <summary>
         /// サムネイル

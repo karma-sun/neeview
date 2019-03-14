@@ -1318,26 +1318,26 @@ namespace NeeView
             switch (SortMode)
             {
                 case PageSortMode.FileName:
-                    Pages.Sort((a, b) => CompareFileNameOrder(a, b, NativeMethods.StrCmpLogicalW));
+                    Pages = Pages.OrderBy(e => e.PageType).ThenBy(e => e, new ComparerFileName()).ToList();
                     break;
                 case PageSortMode.FileNameDescending:
-                    Pages.Sort((a, b) => CompareFileNameOrder(b, a, NativeMethods.StrCmpLogicalW));
+                    Pages = Pages.OrderBy(e => e.PageType).ThenByDescending(e => e, new ComparerFileName()).ToList();
                     break;
                 case PageSortMode.TimeStamp:
-                    Pages.Sort((a, b) => CompareDateTimeOrder(a, b, NativeMethods.StrCmpLogicalW));
+                    Pages = Pages.OrderBy(e => e.PageType).ThenBy(e => e.Entry.LastWriteTime).ThenBy(e => e, new ComparerFileName()).ToList();
                     break;
                 case PageSortMode.TimeStampDescending:
-                    Pages.Sort((a, b) => CompareDateTimeOrder(b, a, NativeMethods.StrCmpLogicalW));
+                    Pages = Pages.OrderBy(e => e.PageType).ThenByDescending(e => e.Entry.LastWriteTime).ThenBy(e => e, new ComparerFileName()).ToList();
                     break;
                 case PageSortMode.Size:
-                    Pages.Sort((a, b) => CompareSizeOrder(a, b, NativeMethods.StrCmpLogicalW));
+                    Pages = Pages.OrderBy(e => e.PageType).ThenBy(e => e.Entry.Length).ThenBy(e => e, new ComparerFileName()).ToList();
                     break;
                 case PageSortMode.SizeDescending:
-                    Pages.Sort((a, b) => CompareSizeOrder(b, a, NativeMethods.StrCmpLogicalW));
+                    Pages = Pages.OrderBy(e => e.PageType).ThenByDescending(e => e.Entry.Length).ThenBy(e => e, new ComparerFileName()).ToList();
                     break;
                 case PageSortMode.Random:
                     var random = new Random();
-                    Pages = Pages.OrderBy(e => random.Next()).ToList();
+                    Pages = Pages.OrderBy(e => e.PageType).ThenBy(e => random.Next()).ToList();
                     break;
                 default:
                     throw new NotImplementedException();
@@ -1357,67 +1357,33 @@ namespace NeeView
             for (int i = 0; i < Pages.Count; ++i) Pages[i].Index = i;
         }
 
-        // ファイル名, 日付, ID の順で比較
-        private static int CompareFileNameOrder(Page p1, Page p2, Func<string, string, int> compare)
+        /// <summary>
+        /// ファイル名ソート用比較クラス
+        /// </summary>
+        private class ComparerFileName : IComparer<Page>
         {
-            if (p1.EntryFullName != p2.EntryFullName)
-                return CompareFileName(p1, p2, compare);
-            else if (p1.Entry.LastWriteTime != p2.Entry.LastWriteTime)
-                return CompareDateTime(p1.Entry.LastWriteTime, p2.Entry.LastWriteTime);
-            else
-                return p1.Entry.Id - p2.Entry.Id;
-        }
-
-        // 日付, ファイル名, ID の順で比較
-        private static int CompareDateTimeOrder(Page p1, Page p2, Func<string, string, int> compare)
-        {
-            if (p1.Entry.LastWriteTime != p2.Entry.LastWriteTime)
-                return CompareDateTime(p1.Entry.LastWriteTime, p2.Entry.LastWriteTime);
-            else if (p1.EntryFullName != p2.EntryFullName)
-                return CompareFileName(p1, p2, compare);
-            else
-                return p1.Entry.Id - p2.Entry.Id;
-        }
-
-        // サイズ, ファイル名, ID の順で比較
-        private static int CompareSizeOrder(Page p1, Page p2, Func<string, string, int> compare)
-        {
-            if (p1.Entry.Length != p2.Entry.Length)
-                return p1.Entry.Length < p2.Entry.Length ? -1 : 1;
-            else if (p1.EntryFullName != p2.EntryFullName)
-                return CompareFileName(p1, p2, compare);
-            else
-                return p1.Entry.Id - p2.Entry.Id;
-        }
-
-        // ファイル名比較. ディレクトリを優先する
-        private static int CompareFileName(Page p1, Page p2, Func<string, string, int> compare)
-        {
-            var g1 = p1.GetEntryFullNameTokens();
-            var g2 = p2.GetEntryFullNameTokens();
-
-            var limit = Math.Min(g1.Length, g2.Length);
-            for (int i = 0; i < limit; ++i)
+            public int Compare(Page x, Page y)
             {
-                if (g1[i] != g2[i])
+                var xName = x.GetEntryFullNameTokens();
+                var yName = y.GetEntryFullNameTokens();
+
+                var limit = Math.Min(xName.Length, yName.Length);
+                for (int i = 0; i < limit; ++i)
                 {
-                    var d1 = i + 1 == g1.Length ? p1.Entry.IsDirectory : true;
-                    var d2 = i + 1 == g2.Length ? p2.Entry.IsDirectory : true;
-                    if (d1 != d2)
+                    if (xName[i] != yName[i])
                     {
-                        return d1 ? -1 : 1;
+                        var xIsDirectory = i + 1 == xName.Length ? x.Entry.IsDirectory : true;
+                        var yIsDirectory = i + 1 == yName.Length ? y.Entry.IsDirectory : true;
+                        if (xIsDirectory != yIsDirectory)
+                        {
+                            return xIsDirectory ? -1 : 1;
+                        }
+                        return NativeMethods.StrCmpLogicalW(xName[i], yName[i]);
                     }
-                    return compare(g1[i], g2[i]);
                 }
+
+                return xName.Length - yName.Length;
             }
-
-            return g1.Length - g2.Length;
-        }
-
-        // 日付比較
-        private static int CompareDateTime(DateTime t1, DateTime t2)
-        {
-            return (t1.Ticks - t2.Ticks < 0) ? -1 : 1;
         }
 
         #endregion

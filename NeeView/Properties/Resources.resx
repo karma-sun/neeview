@@ -2867,6 +2867,9 @@ Is it OK? </value>
   <data name="ParamBookIsAllFileAnImage" xml:space="preserve">
     <value>A file whose extension is unknown is regarded as an image file</value>
   </data>
+  <data name="ParamBookIsAllFileAnImageTips" xml:space="preserve">
+    <value>This function works when "@ParamBookPageCollectMode" is "@EnumBookPageCollectModeAll".</value>
+  </data>
   <data name="ParamClipboardArchiveOption" xml:space="preserve">
     <value>For compressed files</value>
   </data>

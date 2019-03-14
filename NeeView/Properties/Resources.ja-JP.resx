@@ -2867,6 +2867,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamBookIsAllFileAnImage" xml:space="preserve">
     <value>拡張子が不明なファイルを画像ファイルとみなす</value>
   </data>
+  <data name="ParamBookIsAllFileAnImageTips" xml:space="preserve">
+    <value>「@ParamBookPageCollectMode」が「@EnumBookPageCollectModeAll」のときに機能します。</value>
+  </data>
   <data name="ParamClipboardArchiveOption" xml:space="preserve">
     <value>圧縮ファイルの場合</value>
   </data>

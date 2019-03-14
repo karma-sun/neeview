@@ -8715,6 +8715,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   This function works when &quot;@ParamBookPageCollectMode&quot; is &quot;@EnumBookPageCollectModeAll&quot;. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookIsAllFileAnImageTips {
+            get {
+                return ResourceManager.GetString("ParamBookIsAllFileAnImageTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Play animated GIF に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamBookIsEnableAnimatedGif {

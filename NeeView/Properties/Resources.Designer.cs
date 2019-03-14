@@ -6200,6 +6200,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   All files に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumBookPageCollectModeAll {
+            get {
+                return ResourceManager.GetString("EnumBookPageCollectModeAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Image files に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumBookPageCollectModeImage {
+            get {
+                return ResourceManager.GetString("EnumBookPageCollectModeImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Image files and folders に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumBookPageCollectModeImageAndBook {
+            get {
+                return ResourceManager.GetString("EnumBookPageCollectModeImageAndBook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Enlarge and display the image に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumBrushTypeImageFill {
@@ -8855,6 +8882,24 @@ namespace NeeView.Properties {
         public static string ParamBookOperationPageEndAction {
             get {
                 return ResourceManager.GetString("ParamBookOperationPageEndAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   File type to be page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookPageCollectMode {
+            get {
+                return ResourceManager.GetString("ParamBookPageCollectMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   If you make a folder a page, you can open the folder from that page. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookPageCollectModeTips {
+            get {
+                return ResourceManager.GetString("ParamBookPageCollectModeTips", resourceCulture);
             }
         }
         

@@ -508,8 +508,9 @@ namespace NeeView
 
             _requestLoadCount++;
 
-            if ((option & (BookLoadOption.IsBook | BookLoadOption.IsPage)) == 0 && IsArchiveMaybe(path))
+            if ((option & (BookLoadOption.IsBook | BookLoadOption.IsPage)) == 0)
             {
+                option &= ~BookLoadOption.IsPage;
                 option |= BookLoadOption.IsBook;
             }
 
@@ -524,14 +525,6 @@ namespace NeeView
             _commandEngine.Enqueue(command);
 
             return command;
-        }
-
-        /// <summary>
-        /// パスのみでアーカイブであるかをおおよそ判定
-        /// </summary>
-        private bool IsArchiveMaybe(string path)
-        {
-            return (System.IO.Directory.Exists(path) || (!BookProfile.Current.IsEnableNoSupportFile && !PictureProfile.Current.IsSupported(path) && System.IO.Path.GetExtension(path).ToLower() != ".lnk"));
         }
 
 
@@ -808,18 +801,6 @@ namespace NeeView
                 book.Restore(setting);
             }
 
-            // 全種類ファイルサポート設定
-            if (BookProfile.Current.IsEnableNoSupportFile)
-            {
-                option |= BookLoadOption.SupportAllFile;
-            }
-
-            // リカーシブ設定
-            ////if (option.HasFlag(BookLoadOption.Recursive) && !option.HasFlag(BookLoadOption.NotRecursive))
-            ////{
-            ////    book.IsRecursiveFolder = true;
-            ////}
-
             // 最初の自動再帰設定
             if (IsAutoRecursive)
             {
@@ -828,8 +809,12 @@ namespace NeeView
 
             try
             {
+                var bookSetting = new BookLoadSetting();
+                bookSetting.Options = option;
+                bookSetting.BookPageCollectMode = BookProfile.Current.BookPageCollectMode;
+
                 // ロード。非同期で行う
-                await book.LoadAsync(address, ArchiveRecursiveMode, option, token);
+                await book.LoadAsync(address, ArchiveRecursiveMode, bookSetting, token);
 
                 _historyEntry = false;
                 _historyRemoved = false;
@@ -1257,7 +1242,7 @@ namespace NeeView
 
                 BookProfile.Current.PreLoadMode = memento.PreLoadMode;
                 BookProfile.Current.IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
-                BookProfile.Current.IsEnableNoSupportFile = memento.IsEnableNoSupportFile;
+                BookProfile.Current.BookPageCollectMode = memento.IsEnableNoSupportFile ? BookPageCollectMode.All : BookPageCollectMode.ImageAndBook;
                 BookSetting.Current.IsUseBookMementoDefault = memento.IsUseBookMementoDefault;
 
                 BookOperation.Current.PageEndAction = memento.PageEndAction;

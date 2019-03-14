@@ -4691,4 +4691,19 @@ Initialize the temporary location.</value>
   <data name="CommandMoveToChildBookNote" xml:space="preserve">
     <value>When the page is a book, open that book.</value>
   </data>
+  <data name="EnumBookPageCollectModeImage" xml:space="preserve">
+    <value>Image files</value>
+  </data>
+  <data name="EnumBookPageCollectModeImageAndBook" xml:space="preserve">
+    <value>Image files and folders</value>
+  </data>
+  <data name="EnumBookPageCollectModeAll" xml:space="preserve">
+    <value>All files</value>
+  </data>
+  <data name="ParamBookPageCollectMode" xml:space="preserve">
+    <value>File type to be page</value>
+  </data>
+  <data name="ParamBookPageCollectModeTips" xml:space="preserve">
+    <value>If you make a folder a page, you can open the folder from that page.</value>
+  </data>
 </root>

@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -25,15 +26,28 @@ namespace NeeView
 
 
     /// <summary>
+    /// ページとするファイルの種類
+    /// </summary>
+    public enum BookPageCollectMode
+    {
+        [AliasName("@EnumBookPageCollectModeImage")]
+        Image,
+
+        [AliasName("@EnumBookPageCollectModeImageAndBook")]
+        ImageAndBook,
+
+        [AliasName("@EnumBookPageCollectModeAll")]
+        All,
+    }
+
+
+    /// <summary>
     /// 本：設定
     /// </summary>
     public class BookProfile : BindableBase
     {
         static BookProfile() => Current = new BookProfile();
         public static BookProfile Current { get; }
-
-        private bool _isEnableNoSupportFile;
-
 
         #region Constructors
 
@@ -93,13 +107,9 @@ namespace NeeView
         [PropertyMember("@ParamBookIsEnableAnimatedGif", Tips = "@ParamBookIsEnableAnimatedGifTips")]
         public bool IsEnableAnimatedGif { get; set; }
 
-        // サポート外ファイル有効
-        [PropertyMember("@ParamBookIsEnableNoSupportFile", Tips = "@ParamBookIsEnableNoSupportFileTips")]
-        public bool IsEnableNoSupportFile
-        {
-            get { return _isEnableNoSupportFile; }
-            set { SetProperty(ref _isEnableNoSupportFile, value); }
-        }
+        // ページ収集モード
+        [PropertyMember("@ParamBookPageCollectMode", Tips = "@ParamBookPageCollectModeTips")]
+        public BookPageCollectMode BookPageCollectMode { get; set; }
 
         // ページ読み込み中表示
         [PropertyMember("@ParamBookLoadingPageView", Tips = "@ParamBookLoadingPageViewTips")]
@@ -110,14 +120,6 @@ namespace NeeView
         public bool IsAllFileAnImage { get; set; }
 
         #endregion
-
-        /// <summary>
-        /// 画像ファイルの拡張子判定無効
-        /// </summary>
-        public bool IsIgnoreFileExtension()
-        {
-            return IsEnableNoSupportFile && IsAllFileAnImage;
-        }
 
         /// <summary>
         /// ページ移動優先設定
@@ -146,6 +148,9 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
+            [DataMember]
+            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+
             [DataMember, DefaultValue(true)]
             public bool IsPrioritizePageMove { get; set; }
 
@@ -167,8 +172,11 @@ namespace NeeView
             [DataMember, DefaultValue(false)]
             public bool IsEnableAnimatedGif { get; set; }
 
-            [DataMember, DefaultValue(false)]
+            [Obsolete, DataMember]
             public bool IsEnableNoSupportFile { get; set; }
+
+            [DataMember, DefaultValue(BookPageCollectMode.ImageAndBook)]
+            public BookPageCollectMode BookPageCollectMode { get; set; }
 
             [DataMember, DefaultValue(LoadingPageView.PreThumbnail)]
             public LoadingPageView LoadingPageView { get; set; }
@@ -180,6 +188,17 @@ namespace NeeView
             private void OnDeserializing(StreamingContext c)
             {
                 this.InitializePropertyDefaultValues();
+            }
+
+            [OnDeserialized]
+            private void OnDeserialized(StreamingContext c)
+            {
+#pragma warning disable CS0612
+                if (_Version < Config.GenerateProductVersionNumber(34, 0, 0))
+                {
+                    BookPageCollectMode = IsEnableNoSupportFile ? BookPageCollectMode.All : BookPageCollectMode.ImageAndBook;
+                }
+#pragma warning restore CS0612
             }
         }
 
@@ -194,7 +213,7 @@ namespace NeeView
             memento.WideRatio = this.WideRatio;
             memento.ExcludePath = this.Excludes.ToString();
             memento.IsEnableAnimatedGif = this.IsEnableAnimatedGif;
-            memento.IsEnableNoSupportFile = this.IsEnableNoSupportFile;
+            memento.BookPageCollectMode = this.BookPageCollectMode;
             memento.LoadingPageView = this.LoadingPageView;
             memento.IsAllFileAnImage = this.IsAllFileAnImage;
             return memento;
@@ -211,7 +230,7 @@ namespace NeeView
             this.WideRatio = memento.WideRatio;
             this.Excludes.FromString(memento.ExcludePath);
             this.IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
-            this.IsEnableNoSupportFile = memento.IsEnableNoSupportFile;
+            this.BookPageCollectMode = memento.BookPageCollectMode;
             this.LoadingPageView = memento.LoadingPageView;
             this.IsAllFileAnImage = memento.IsAllFileAnImage;
         }

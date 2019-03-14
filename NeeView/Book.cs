@@ -32,7 +32,7 @@ namespace NeeView
         public TrashBox _trashBox = new TrashBox();
 
         // 初期化オプション
-        private BookLoadOption _option;
+        private BookLoadSetting _setting;
 
         // 先読み可能フラグ
         private bool _canPreLoad = true;
@@ -338,14 +338,14 @@ namespace NeeView
         /// <summary>
         /// フォルダーの読込
         /// </summary>
-        public async Task LoadAsync(BookAddress address, ArchiveEntryCollectionMode archiveRecursiveMode, BookLoadOption option, CancellationToken token)
+        public async Task LoadAsync(BookAddress address, ArchiveEntryCollectionMode archiveRecursiveMode, BookLoadSetting setting, CancellationToken token)
         {
             try
             {
                 Log.TraceEvent(TraceEventType.Information, Serial, $"Load: {address.Address}");
                 Log.Flush();
 
-                await LoadCoreAsync(address, archiveRecursiveMode, option, token);
+                await LoadCoreAsync(address, archiveRecursiveMode, setting, token);
             }
             catch (Exception e)
             {
@@ -358,22 +358,22 @@ namespace NeeView
         }
 
         // 本読み込み
-        public async Task LoadCoreAsync(BookAddress address, ArchiveEntryCollectionMode archiveRecursiveMode, BookLoadOption option, CancellationToken token)
+        public async Task LoadCoreAsync(BookAddress address, ArchiveEntryCollectionMode archiveRecursiveMode, BookLoadSetting setting, CancellationToken token)
         {
             Debug.Assert(Address == null);
             ////Debug.WriteLine($"OPEN: {address.Place}, {address.EntryName}, {address.Archiver.Path}");
 
-            _option = option;
+            _setting = setting.Clone();
 
             var start = address.EntryName;
 
             // リカーシブオプションフラグ
-            if (_option.HasFlag(BookLoadOption.NotRecursive))
+            if (_setting.Options.HasFlag(BookLoadOption.NotRecursive))
             {
                 IsRecursiveFolder = false;
-                _option &= ~BookLoadOption.Recursive;
+                _setting.Options &= ~BookLoadOption.Recursive;
             }
-            else if (_option.HasFlag(BookLoadOption.Recursive))
+            else if (_setting.Options.HasFlag(BookLoadOption.Recursive))
             {
                 IsRecursiveFolder = true;
             }
@@ -381,32 +381,22 @@ namespace NeeView
             // リカーシブフラグ
             if (IsRecursiveFolder)
             {
-                _option |= BookLoadOption.Recursive;
+                _setting.Options |= BookLoadOption.Recursive;
             }
 
             // ページ生成
-            await CreatePageCollection(address.Address.SimplePath, archiveRecursiveMode, _option, token);
+            await CreatePageCollection(address.Address.SimplePath, archiveRecursiveMode, token);
 
             // 自動再帰処理
-            if (ArchiveEntryCollection.Mode != ArchiveEntryCollectionMode.IncludeSubArchives && this.Pages.Count == 0 && _option.HasFlag(BookLoadOption.AutoRecursive))
+            if (ArchiveEntryCollection.Mode != ArchiveEntryCollectionMode.IncludeSubArchives && this.Pages.Count == 0 && _setting.Options.HasFlag(BookLoadOption.AutoRecursive))
             {
                 var entries = await ArchiveEntryCollection.GetEntriesWhereBookAsync(token);
                 if (entries.Count == 1)
                 {
-                    _option |= BookLoadOption.Recursive;
-                    await CreatePageCollection(address.Address.SimplePath, archiveRecursiveMode, _option, token);
+                    _setting.Options |= BookLoadOption.Recursive;
+                    await CreatePageCollection(address.Address.SimplePath, archiveRecursiveMode, token);
                 }
             }
-
-#if false
-            // ページがなければサブフォルダー一覧を表示する
-            if (this.Pages.Count == 0 && !_option.HasFlag(BookLoadOption.SupportAllFile))
-            {
-                _option &= ~BookLoadOption.Recursive;
-                _option |= BookLoadOption.SupportBookPage;
-                await CreatePageCollection(address.Address.SimplePath, archiveRecursiveMode, _option, token);
-            }
-#endif
 
             // 事前展開処理
             await PreExtractAsync(token);
@@ -429,12 +419,12 @@ namespace NeeView
             // スタートページ取得
             PagePosition position = FirstPosition();
             int direction = 1;
-            if ((_option & BookLoadOption.FirstPage) == BookLoadOption.FirstPage)
+            if ((_setting.Options & BookLoadOption.FirstPage) == BookLoadOption.FirstPage)
             {
                 position = FirstPosition();
                 direction = 1;
             }
-            else if ((_option & BookLoadOption.LastPage) == BookLoadOption.LastPage)
+            else if ((_setting.Options & BookLoadOption.LastPage) == BookLoadOption.LastPage)
             {
                 position = LastPosition();
                 direction = -1;
@@ -475,31 +465,28 @@ namespace NeeView
         /// <summary>
         /// ページ生成
         /// </summary>
-        private async Task CreatePageCollection(string place, ArchiveEntryCollectionMode archiveRecursiveMode, BookLoadOption option, CancellationToken token)
+        private async Task CreatePageCollection(string place, ArchiveEntryCollectionMode archiveRecursiveMode, CancellationToken token)
         {
-            var collectMode = _option.HasFlag(BookLoadOption.Recursive) ? ArchiveEntryCollectionMode.IncludeSubArchives : ArchiveEntryCollectionMode.CurrentDirectory;
-            var collectModeIfArchive = _option.HasFlag(BookLoadOption.Recursive) ? ArchiveEntryCollectionMode.IncludeSubArchives : archiveRecursiveMode;
+            var collectMode = _setting.Options.HasFlag(BookLoadOption.Recursive) ? ArchiveEntryCollectionMode.IncludeSubArchives : ArchiveEntryCollectionMode.CurrentDirectory;
+            var collectModeIfArchive = _setting.Options.HasFlag(BookLoadOption.Recursive) ? ArchiveEntryCollectionMode.IncludeSubArchives : archiveRecursiveMode;
             var collectOption = ArchiveEntryCollectionOption.None;
             this.ArchiveEntryCollection = new ArchiveEntryCollection(place, collectMode, collectModeIfArchive, collectOption);
 
             List<ArchiveEntry> entries;
-            if (option.HasFlag(BookLoadOption.SupportAllFile))
+            switch (_setting.BookPageCollectMode)
             {
-                entries = await ArchiveEntryCollection.GetEntriesWherePageAllAsync(token);
+                case BookPageCollectMode.Image:
+                    entries = await ArchiveEntryCollection.GetEntriesWhereImageAsync(token);
+                    break;
+                case BookPageCollectMode.ImageAndBook:
+                    entries = await ArchiveEntryCollection.GetEntriesWhereImageAndArchiveAsync(token);
+                    break;
+                case BookPageCollectMode.All:
+                default:
+                    entries = await ArchiveEntryCollection.GetEntriesWherePageAllAsync(token);
+                    break;
             }
-#if false
-            else if (option.HasFlag(BookLoadOption.SupportBookPage))
-            {
-                entries = await ArchiveEntryCollection.GetEntriesWhereBookAsync(token);
-            }
-#endif
-            else
-            {
-#if false
-                entries = await ArchiveEntryCollection.GetEntriesWhereImageAsync(token);
-#endif
-                entries = await ArchiveEntryCollection.GetEntriesWhereImageAndArchiveAsync(token);
-            }
+
             var bookPrefix = LoosePath.TrimDirectoryEnd(place);
             this.Pages = entries.Select(e => CreatePage(bookPrefix, e)).ToList();
         }
@@ -542,7 +529,7 @@ namespace NeeView
                 switch (type)
                 {
                     case ArchiverType.None:
-                        if (BookProfile.Current.IsIgnoreFileExtension())
+                        if (BookProfile.Current.IsAllFileAnImage)
                         {
                             entry.IsIgnoreFileExtension = true;
                             page = new BitmapPage(bookPrefix, entry);
@@ -1180,7 +1167,7 @@ namespace NeeView
                 var viewPage = new ViewPage(Pages[v.Position.Index], v);
 
                 // メディア用。最終ページからの表示指示の場合のフラグ設定
-                if (IsMedia && _option.HasFlag(BookLoadOption.LastPage))
+                if (IsMedia && _setting.Options.HasFlag(BookLoadOption.LastPage))
                 {
                     viewPage.IsLastStart = true;
                 }

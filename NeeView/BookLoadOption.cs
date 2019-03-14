@@ -15,10 +15,7 @@ namespace NeeView
         /// </summary>
         Recursive = (1 << 0),
 
-        /// <summary>
-        /// すべてのファイルをページとみなす
-        /// </summary>
-        SupportAllFile = (1 << 1),
+        // (1 << 1),
 
         /// <summary>
         /// 初期ページを先頭ページにする
@@ -70,7 +67,7 @@ namespace NeeView
         /// </summary>
         DefaultRecursive = (1 << 11),
 
-        // (1 <<12) .. no used
+        // (1 <<12)
 
         /// <summary>
         /// 再帰しない
@@ -86,11 +83,20 @@ namespace NeeView
         /// このアドレスはページです
         /// </summary>
         IsPage = (1 << 15),
-
-        /// <summary>
-        /// アーカイブをページに含める
-        /// </summary>
-        SupportBookPage = (1 << 16),
     };
 
+
+    /// <summary>
+    /// BookLoad 設定
+    /// </summary>
+    public class BookLoadSetting
+    {
+        public BookLoadOption Options { get; set; }
+        public BookPageCollectMode BookPageCollectMode { get; set; } = BookPageCollectMode.ImageAndBook;
+
+        public BookLoadSetting Clone()
+        {
+            return (BookLoadSetting)MemberwiseClone();
+        }
+    }
 }

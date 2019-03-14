@@ -4691,4 +4691,19 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="CommandMoveToChildBookNote" xml:space="preserve">
     <value>ページがブックであるとき、そのブックを開きます。</value>
   </data>
+  <data name="EnumBookPageCollectModeImage" xml:space="preserve">
+    <value>画像</value>
+  </data>
+  <data name="EnumBookPageCollectModeImageAndBook" xml:space="preserve">
+    <value>画像とフォルダー</value>
+  </data>
+  <data name="EnumBookPageCollectModeAll" xml:space="preserve">
+    <value>すべてのファイル</value>
+  </data>
+  <data name="ParamBookPageCollectMode" xml:space="preserve">
+    <value>ページになるファイルの種類</value>
+  </data>
+  <data name="ParamBookPageCollectModeTips" xml:space="preserve">
+    <value>フォルダーをページにすると、そのページからフォルダーを開くことができるようになります。</value>
+  </data>
 </root>

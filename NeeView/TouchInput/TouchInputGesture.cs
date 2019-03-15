@@ -90,7 +90,7 @@ namespace NeeView
 
             _touch = (TouchContext)parameter;
 
-            sender.CaptureMouse();
+            MouseInputHelper.CaptureMouse(this, sender);
             if (sender.Cursor != Cursors.None)
             {
                 sender.Cursor = null;
@@ -104,7 +104,7 @@ namespace NeeView
         /// <param name="sender"></param>
         public override void OnClosed(FrameworkElement sender)
         {
-            sender.ReleaseMouseCapture();
+            MouseInputHelper.ReleaseMouseCapture(this, sender);
         }
 
         /// <summary>

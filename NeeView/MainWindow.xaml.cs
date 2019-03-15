@@ -1149,58 +1149,7 @@ namespace NeeView
         {
             this.RootDockPanel.Children.Insert(0, new DebugPageList());
             this.RootDockPanel.Children.Insert(1, new DebugInfo());
-
-            this.PreviewKeyDown += (s, e) =>
-            {
-                if (Keyboard.Modifiers == ModifierKeys.Control && e.Key == Key.F12)
-                {
-                    Debug_CheckFocus();
-                    e.Handled = true;
-                }
-            };
-        }
-
-        // [開発用] 現在のフォーカスを取得
-        [Conditional("DEBUG")]
-        public void Debug_CheckFocus()
-        {
-            var element = FocusManager.GetFocusedElement(this) as Visual;
-            ElementWalk(element);
-            Debug.WriteLine(".");
-
-            void ElementWalk(Visual e)
-            {
-                if (e == null) return;
-
-                var framewrkElement = e as FrameworkElement;
-                var isKeyboardFocused = framewrkElement != null ? framewrkElement.IsKeyboardFocused : false;
-
-                var name = (e as FrameworkElement)?.Name;
-
-
-                var typename = e.GetType().ToString();
-                var valuestring = e.ToString();
-
-
-                if (typename == valuestring)
-                {
-                    Debug.WriteLine($"FocusTree: {isKeyboardFocused} {name} ({typename})");
-                }
-                else if (valuestring.StartsWith(typename))
-                {
-                    Debug.WriteLine($"FocusTree: {isKeyboardFocused} {name} ({valuestring})");
-                }
-                else
-                {
-                    Debug.WriteLine($"FocusTree: {isKeyboardFocused} {name} ({typename}: {valuestring})");
-                }
-
-                var parent = VisualTreeHelper.GetParent(e) as Visual;
-                if (parent != null)
-                {
-                    ElementWalk(parent);
-                }
-            }
+            DebugGesture.Initialize();
         }
 
         #endregion

@@ -28,7 +28,7 @@ namespace NeeView
 
         public override void OnOpened(FrameworkElement sender, object parameter)
         {
-            sender.CaptureMouse();
+            MouseInputHelper.CaptureMouse(this, sender);
             sender.Cursor = Cursors.Hand;
 
             _drag.ResetState();
@@ -37,7 +37,7 @@ namespace NeeView
 
         public override void OnClosed(FrameworkElement sender)
         {
-            sender.ReleaseMouseCapture();
+            MouseInputHelper.ReleaseMouseCapture(this, sender);
         }
 
         public override void OnMouseButtonDown(object sender, MouseButtonEventArgs e)

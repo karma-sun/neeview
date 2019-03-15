@@ -168,7 +168,7 @@ namespace NeeView.Windows.Controls
         //
         private void BaseGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            this.Root.CaptureMouse();
+            MouseInputHelper.CaptureMouse(this, this.Root);
 
             _startPos = e.GetPosition(this.Root);
             _pressed = true;
@@ -180,7 +180,7 @@ namespace NeeView.Windows.Controls
         //
         private void BaseGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            this.Root.ReleaseMouseCapture();
+            MouseInputHelper.ReleaseMouseCapture(this, this.Root);
 
             _pressed = false;
 

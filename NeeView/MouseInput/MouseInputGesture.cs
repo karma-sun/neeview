@@ -62,7 +62,7 @@ namespace NeeView
         /// <param name="parameter"></param>
         public override void OnOpened(FrameworkElement sender, object parameter)
         {
-            sender.CaptureMouse();
+            MouseInputHelper.CaptureMouse(this, sender);
             if (sender.Cursor != Cursors.None)
             {
                 sender.Cursor = null;
@@ -78,7 +78,7 @@ namespace NeeView
         /// <param name="sender"></param>
         public override void OnClosed(FrameworkElement sender)
         {
-            sender.ReleaseMouseCapture();
+            MouseInputHelper.ReleaseMouseCapture(this, sender);
         }
 
         /// <summary>
@@ -146,13 +146,16 @@ namespace NeeView
             if (_gesture.Sequence.Count > 0) return;
 
             var action = DragActionTable.Current.GetActionType(new DragKey(CreateMouseButtonBits(e), Keyboard.Modifiers));
-            if (action == DragActionType.Gesture)
+            switch(action)
             {
-            }
-            else
-            {
-                SetState(MouseInputState.Drag, e);
-                e.Handled = true;
+                case DragActionType.None:
+                    break;
+                case DragActionType.Gesture:
+                    break;
+                default:
+                    SetState(MouseInputState.Drag, e);
+                    e.Handled = true;
+                    break;
             }
         }
 

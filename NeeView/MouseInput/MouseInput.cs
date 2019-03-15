@@ -187,11 +187,13 @@ namespace NeeView
 
             ////Debug.WriteLine($"#MouseState: {state}");
 
-            _current?.OnClosed(_sender);
+            // NOTE: MouseCaptureの影響で同じUIスレッドで再入する可能性があるため、状態を退避している
+            var oldIput = _current;
             _state = state;
             _current = _mouseInputCollection[_state];
-
-            _current.OnOpened(_sender, parameter);
+            var newIput = _current;
+            oldIput?.OnClosed(_sender);
+            newIput?.OnOpened(_sender, parameter);
         }
 
 
@@ -334,7 +336,7 @@ namespace NeeView
             }
         }
 
-#region Memento
+        #region Memento
         [DataContract]
         public class Memento
         {
@@ -368,7 +370,7 @@ namespace NeeView
             this.Drag.Restore(memento.Drag);
             this.Gesture.Restore(memento.Gesture);
         }
-#endregion
+        #endregion
 
     }
 

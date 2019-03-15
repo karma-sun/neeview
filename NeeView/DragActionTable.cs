@@ -133,6 +133,7 @@ namespace NeeView
         /// <returns></returns>
         public DragActionType GetActionType(DragKey key)
         {
+            if (!key.IsValid) return DragActionType.None;
             return _elements.FirstOrDefault(e => e.Value.DragKey == key).Key;
         }
 

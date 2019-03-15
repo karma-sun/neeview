@@ -141,7 +141,7 @@ namespace NeeView
             }
 
             sender.Focus();
-            sender.CaptureMouse();
+            MouseInputHelper.CaptureMouse(this, sender);
             sender.Cursor = Cursors.None;
 
             _context.StartPoint = Mouse.GetPosition(sender);
@@ -166,7 +166,7 @@ namespace NeeView
         public override void OnClosed(FrameworkElement sender)
         {
             sender.Cursor = null;
-            sender.ReleaseMouseCapture();
+            MouseInputHelper.ReleaseMouseCapture(this, sender);
 
             _loupe.IsEnabled = false;
         }

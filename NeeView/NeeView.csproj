@@ -205,6 +205,7 @@
     </Compile>
     <Compile Include="Converters\ImageSourceToThumbnailConverter.cs" />
     <Compile Include="Development\DebugCreateBookThumbnail.cs" />
+    <Compile Include="Development\DebugGesture.cs" />
     <Compile Include="Development\DebugTest.cs" />
     <Compile Include="Development\DebugTimer.cs" />
     <Compile Include="Development\DebugMenu.xaml.cs">

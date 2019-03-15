@@ -337,7 +337,7 @@ namespace NeeView
         {
             if (this.ThumbnailListBox.IsMouseCaptured)
             {
-                this.ThumbnailListBox.ReleaseMouseCapture();
+                MouseInputHelper.ReleaseMouseCapture(this, this.ThumbnailListBox);
             }
         }
 

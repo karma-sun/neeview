@@ -2315,7 +2315,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>なし</value>
   </data>
   <data name="EnumWindowChromeFrameWindowFrame" xml:space="preserve">
-    <value>システム標準</value>
+    <value>標準</value>
   </data>
   <data name="ExceptionCannotDeleteData" xml:space="preserve">
     <value>AppDataフォルダではないため、削除を行いません。</value>

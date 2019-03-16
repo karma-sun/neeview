@@ -7325,7 +7325,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Window frame with title bar hidden に類似しているローカライズされた文字列を検索します。
+        ///   None に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumWindowChromeFrameNone {
             get {
@@ -7334,7 +7334,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   System standard に類似しているローカライズされた文字列を検索します。
+        ///   Standard に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumWindowChromeFrameWindowFrame {
             get {

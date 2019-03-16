@@ -26,6 +26,15 @@ namespace NeeView
         FullScreen,
     }
 
+
+    [Obsolete]
+    public enum WindowChromeFrameV1
+    {
+        None,
+        WindowFrame,
+        Line,
+    }
+
     /// <summary>
     /// WindowChromeFrame Type
     /// </summary>
@@ -36,9 +45,6 @@ namespace NeeView
 
         [AliasName("@EnumWindowChromeFrameWindowFrame")]
         WindowFrame,
-
-        [AliasName("@EnumWindowChromeFrameLine")]
-        Line,
     }
 
 
@@ -113,10 +119,8 @@ namespace NeeView
             // キャプション非表示時に適用するChrome
             _chrome = new WindowChrome();
             _chrome.CornerRadius = new CornerRadius();
-            _chrome.GlassFrameThickness = new Thickness(0);
-            _chrome.CaptionHeight = 0;
+            _chrome.GlassFrameThickness = new Thickness(1);
             _chrome.UseAeroCaptionButtons = false;
-            _chrome.ResizeBorderThickness = new Thickness(8); // TODO: この値をシステムから取得したい
 
             // Windows7以前の場合、フルスクリーン解除時にタスクバーを手前にする処理を追加
             _isWindows7 = Config.Current.IsWindows7();
@@ -319,7 +323,7 @@ namespace NeeView
         //
         public void UpdateWindowBorderThickness()
         {
-            if (this.WindowChromeFrame == WindowChromeFrame.Line && this.WindowChrome != null && _window.WindowState != WindowState.Maximized)
+            if (_isWindows7 && _windowChromeFrame == WindowChromeFrame.WindowFrame && this.WindowChrome != null && _window.WindowState != WindowState.Maximized)
             {
                 var x = 1.0 / Config.Current.RawDpi.DpiScaleX;
                 var y = 1.0 / Config.Current.RawDpi.DpiScaleY;
@@ -448,10 +452,10 @@ namespace NeeView
             BeginEdit();
 
             _window.ResizeMode = ResizeMode.CanResize;
-            _window.WindowStyle = IsCaptionVisible ? WindowStyle.SingleBorderWindow : WindowStyle.None;
+            _window.WindowStyle = WindowStyle.SingleBorderWindow;
             _window.WindowState = WindowState.Normal;
 
-            this.WindowChrome = this.WindowChromeFrame != WindowChromeFrame.WindowFrame && !IsCaptionVisible ? _chrome : null;
+            this.WindowChrome = IsCaptionVisible ? null : _chrome;
             UpdateWindowBorderThickness();
 
             RecoveryTaskBar();
@@ -513,7 +517,7 @@ namespace NeeView
             if (!IsCaptionVisible) _window.WindowStyle = WindowStyle.None;
             _window.Topmost = _isTopmost;
 
-            this.WindowChrome = this.WindowChromeFrame != WindowChromeFrame.WindowFrame && !IsCaptionVisible ? _chrome : null;
+            this.WindowChrome = null;
             UpdateWindowBorderThickness();
 
             RecoveryTaskBar();
@@ -581,6 +585,7 @@ namespace NeeView
         {
             if (!this.IsEnabled) return;
 
+            _chrome.GlassFrameThickness = _windowChromeFrame == WindowChromeFrame.None ? new Thickness(0) : new Thickness(1);
             _window.Topmost = IsTopmost;
             _isFullScreen = _state == WindowStateEx.FullScreen;
             SetWindowState(_state);

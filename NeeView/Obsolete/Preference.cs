@@ -152,8 +152,8 @@ namespace NeeView
         public bool network_enabled { get; set; }
 
         [Obsolete]
-        [DataMember, DefaultValue(WindowChromeFrame.Line)]
-        public WindowChromeFrame window_chrome_frame { get; set; }
+        [DataMember(Name = "WindowChromeFrame")]
+        public WindowChromeFrameV1 window_chrome_frame { get; set; }
 
         [Obsolete]
         [DataMember, DefaultValue(false)]
@@ -246,7 +246,7 @@ namespace NeeView
                 App.Current.IsIgnoreImageDpi = this.dpi_image_ignore;
                 App.Current.IsDisableSave = this.userdata_save_disable;
                 App.Current.AutoHideDelayTime = this.panel_autohide_delaytime;
-                App.Current.WindowChromeFrame = this.window_chrome_frame;
+                App.Current.WindowChromeFrame = this.window_chrome_frame == WindowChromeFrameV1.None ? WindowChromeFrame.None : WindowChromeFrame.WindowFrame;
                 App.Current.IsOpenLastBook = this.bootup_lastfolder;
             }
         }

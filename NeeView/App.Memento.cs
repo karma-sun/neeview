@@ -159,7 +159,7 @@ namespace NeeView
 
         // ウィンドウクローム枠
         [PropertyMember("@ParamWindowChromeFrame")]
-        public WindowChromeFrame WindowChromeFrame { get; set; } = WindowChromeFrame.Line;
+        public WindowChromeFrame WindowChromeFrame { get; set; } = WindowChromeFrame.WindowFrame;
 
         // 前回開いていたブックを開く
         [PropertyMember("@ParamIsOpenLastBook")]
@@ -265,7 +265,11 @@ namespace NeeView
             [DataMember, DefaultValue(true)]
             public bool IsRestoreSecondWindow { get; set; }
 
-            [DataMember, DefaultValue(WindowChromeFrame.Line)]
+            [Obsolete]
+            [DataMember(Name = "WindowChromeFrame", EmitDefaultValue = false)]
+            public WindowChromeFrameV1 WindowChromeFrameV1 { get; set; }
+
+            [DataMember(Name = "WindowChromeFrameV2"), DefaultValue(WindowChromeFrame.WindowFrame)]
             public WindowChromeFrame WindowChromeFrame { get; set; }
 
             [DataMember, DefaultValue(1.0)]
@@ -321,6 +325,12 @@ namespace NeeView
                         IsSaveBookmark = false;
                         IsSavePagemark = false;
                     }
+                }
+
+                // before ver.34
+                if (_Version < Config.GenerateProductVersionNumber(34, 0, 0))
+                {
+                    WindowChromeFrame = WindowChromeFrameV1 == WindowChromeFrameV1.None ? WindowChromeFrame.None : WindowChromeFrame.WindowFrame;
                 }
             }
 

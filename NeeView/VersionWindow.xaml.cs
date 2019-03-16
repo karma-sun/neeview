@@ -77,34 +77,13 @@ namespace NeeView
             ChangeLogUri = "file://" + Config.Current.AssemblyLocation.Replace('\\', '/').TrimEnd('/') + $"/{Properties.Resources.HelpChangeLogFile}";
 
 #if SUSIE
-            this.Icon = GetIconBitmapFrame("/Resources/AppS.ico", 256);
+            this.Icon = ResourceBitmapUtility.GetIconBitmapFrame("/Resources/AppS.ico", 256);
 #else
-            this.Icon = GetIconBitmapFrame("/Resources/App.ico", 256);
+            this.Icon = ResourceBitmapUtility.GetIconBitmapFrame("/Resources/App.ico", 256);
 #endif
 
             // チェック開始
             Checker.CheckStart();
-        }
-
-
-        /// <summary>
-        /// アイコンから画像を取得
-        /// </summary>
-        /// <param name="path"></param>
-        /// <param name="size"></param>
-        /// <returns></returns>
-        private BitmapFrame GetIconBitmapFrame(string path, int size)
-        {
-            var uri = new Uri("pack://application:,,," + path);
-            var decoder = BitmapDecoder.Create(uri, BitmapCreateOptions.DelayCreation, BitmapCacheOption.OnDemand);
-
-            var frame = decoder.Frames.SingleOrDefault(f => f.Width == size);
-            if (frame == default(BitmapFrame))
-            {
-                frame = decoder.Frames.OrderBy(f => f.Width).First();
-            }
-
-            return frame;
         }
     }
 

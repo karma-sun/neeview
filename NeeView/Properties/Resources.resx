@@ -2312,10 +2312,10 @@ Is it OK? </value>
     <value>Frame border</value>
   </data>
   <data name="EnumWindowChromeFrameNone" xml:space="preserve">
-    <value>Window frame with title bar hidden</value>
+    <value>None</value>
   </data>
   <data name="EnumWindowChromeFrameWindowFrame" xml:space="preserve">
-    <value>System standard</value>
+    <value>Standard</value>
   </data>
   <data name="ExceptionCannotDeleteData" xml:space="preserve">
     <value>It is not an AppData folder, so it will not be deleted.</value>

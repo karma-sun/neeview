@@ -76,7 +76,7 @@ namespace NeeView.Setting
             };
         }
 
-#region Commands
+        #region Commands
 
         /// <summary>
         /// RemoveCache command.
@@ -111,7 +111,7 @@ namespace NeeView.Setting
             }
         }
 
-#endregion
+        #endregion
     }
 
 
@@ -131,7 +131,7 @@ namespace NeeView.Setting
             };
         }
 
-#region Commands
+        #region Commands
 
         /// <summary>
         /// RemoveCache command.
@@ -166,7 +166,7 @@ namespace NeeView.Setting
             }
         }
 
-#endregion
+        #endregion
     }
 
     public class SettingPageVisualNotify : SettingPage
@@ -339,7 +339,7 @@ namespace NeeView.Setting
         }
 
 
-#region IndexValue
+        #region IndexValue
 
         /// <summary>
         /// スライドショー インターバルテーブル
@@ -365,6 +365,6 @@ namespace NeeView.Setting
             public override string ValueString => $"{Value}{Properties.Resources.WordSec}";
         }
 
-#endregion
+        #endregion
     }
 }

@@ -10938,6 +10938,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Menu color に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMenuColor {
+            get {
+                return ResourceManager.GetString("ParamMenuColor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Mouse gesture stroke (pixel) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamMouseGestureMinimumDistance {

@@ -19,9 +19,22 @@
             <Setter Property="CommandParameter" Value="{Binding}" />
         </Style>
 
+        <local:PanelColorToBrushConverter x:Key="BackgroundSelector" Dark="{StaticResource NVMenuBackgroundDark}" Light="{StaticResource NVMenuBackgroundLight}"/>
+        <local:PanelColorToBrushConverter x:Key="ForegroundSelector" Dark="{StaticResource NVMenuForegroundDark}" Light="{StaticResource NVMenuForegroundLight}"/>
+
+        <local:PanelColorToImageSourceConverter x:Key="IconArrowBackSelector" Dark="{StaticResource ic_arrow_back_24px_dark}" Light="{StaticResource ic_arrow_back_24px_light}" />
+        <local:PanelColorToImageSourceConverter x:Key="IconArrowForwardSelector" Dark="{StaticResource ic_arrow_forward_24px_dark}" Light="{StaticResource ic_arrow_forward_24px_light}" />
+        <local:PanelColorToImageSourceConverter x:Key="IconArrowUpSelector" Dark="{StaticResource ic_arrow_up_24px_dark}" Light="{StaticResource ic_arrow_up_24px_light}" />
+        <local:PanelColorToImageSourceConverter x:Key="IconRefreshSelector" Dark="{StaticResource ic_refresh_24px_dark}" Light="{StaticResource ic_refresh_24px_light}" />
+        <local:PanelColorToImageSourceConverter x:Key="IconLooksOneSelector" Dark="{StaticResource ic_looks_one_24px_dark}" Light="{StaticResource ic_looks_one_24px_light}" />
+        <local:PanelColorToImageSourceConverter x:Key="IconLooksTwoSelector" Dark="{StaticResource ic_looks_two_24px_dark}" Light="{StaticResource ic_looks_two_24px_light}" />
+        <local:PanelColorToImageSourceConverter x:Key="IconLeftToRightSelector" Dark="{StaticResource ic_left_to_right_24px_dark}" Light="{StaticResource ic_left_to_right_24px_light}" />
+        <local:PanelColorToImageSourceConverter x:Key="IconRightToLeftSelector" Dark="{StaticResource ic_right_to_left_24px_dark}" Light="{StaticResource ic_right_to_left_24px_light}" />
+        <local:PanelColorToImageSourceConverter x:Key="IconInfoOutlineSelector" Dark="{StaticResource ic_info_outline_24px_dark}" Light="{StaticResource ic_info_outline_24px_light}" />
+
     </UserControl.Resources>
 
-    <Grid x:Name="Root" MinHeight="36">
+    <Grid x:Name="Root" MinHeight="36" Background="{Binding ThemeProfile.MenuColor, Converter={StaticResource BackgroundSelector}}">
         <Grid.Resources>
             <Style x:Key="AddressIconButton" TargetType="Button" BasedOn="{StaticResource IconButton}">
                 <Setter Property="Width" Value="26"/>
@@ -32,10 +45,6 @@
             </Style>
         </Grid.Resources>
 
-        <Grid.Background>
-            <SolidColorBrush Color="White"/>
-        </Grid.Background>
-
         <DockPanel VerticalAlignment="Center" Margin="2,0">
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" UseLayoutRounding="True">
 
@@ -43,11 +52,11 @@
                     <Image Width="18" Height="18">
                         <Image.Style>
                             <Style TargetType="Image">
-                                <Setter Property="Source" Value="{StaticResource ic_looks_one_24px}"/>
+                                <Setter Property="Source" Value="{Binding ThemeProfile.MenuColor, Converter={StaticResource IconLooksOneSelector}}"/>
                                 <Setter Property="ToolTip" Value="{x:Static properties:Resources.EnumPageModeSinglePage}"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding BookSetting.PageMode}"  Value="WidePage">
-                                        <Setter Property="Source" Value="{StaticResource ic_looks_two_24px}"/>
+                                        <Setter Property="Source" Value="{Binding ThemeProfile.MenuColor, Converter={StaticResource IconLooksTwoSelector}}"/>
                                         <Setter Property="ToolTip" Value="{x:Static properties:Resources.EnumPageModeWidePage}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -61,11 +70,11 @@
                         <Image Width="18" Height="18">
                             <Image.Style>
                                 <Style TargetType="Image">
-                                    <Setter Property="Source" Value="{StaticResource ic_left_to_right_24px}"/>
+                                    <Setter Property="Source" Value="{Binding ThemeProfile.MenuColor, Converter={StaticResource IconLeftToRightSelector}}"/>
                                     <Setter Property="ToolTip" Value="{x:Static properties:Resources.EnumPageReadOrderLeftToRight}"/>
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding BookSetting.BookReadOrder}"  Value="RightToLeft">
-                                            <Setter Property="Source" Value="{StaticResource ic_right_to_left_24px}"/>
+                                            <Setter Property="Source" Value="{Binding ThemeProfile.MenuColor, Converter={StaticResource IconRightToLeftSelector}}"/>
                                             <Setter Property="ToolTip" Value="{x:Static properties:Resources.EnumPageReadOrderRightToLeft}"/>
                                         </DataTrigger>
                                     </Style.Triggers>
@@ -79,7 +88,7 @@
                         Click="PageSortModeButton_Click"
                         ToolTip="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToStringConverter}}">
                     <Grid Width="20" Height="20">
-                        <local:PageSortModeIcon PageSortMode="{Binding BookSetting.SortMode}"/>
+                        <local:PageSortModeIcon PageSortMode="{Binding BookSetting.SortMode}" MenuColor="{Binding ThemeProfile.MenuColor}"/>
                     </Grid>
                 </Button>
                 <Popup x:Name="PageSortModePopup" PlacementTarget="{Binding ElementName=PageSortModeButton}" StaysOpen="False" AllowsTransparency="True">
@@ -97,7 +106,7 @@
                                     ContextMenuService.Placement="Bottom"
                                     ContextMenuOpening="PrevHistoryButton_ContextMenuOpening"
                                     ToolTip="{x:Static properties:Resources.ControlAddressBarBack}">
-                <Image Source="{StaticResource ic_arrow_back_24px}" Width="16" Height="16" />
+                <Image Source="{Binding ThemeProfile.MenuColor, Converter={StaticResource IconArrowBackSelector}}" Width="16" Height="16"/>
                 <Button.ContextMenu>
                     <ContextMenu ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}" />
                 </Button.ContextMenu>
@@ -106,21 +115,21 @@
                                     ContextMenuService.Placement="Bottom"
                                     ContextMenuOpening="NextHistoryButton_ContextMenuOpening"
                                     ToolTip="{x:Static properties:Resources.ControlAddressBarNext}">
-                <Image Source="{StaticResource ic_arrow_forward_24px}" Width="16" Height="16" />
+                <Image Source="{Binding ThemeProfile.MenuColor, Converter={StaticResource IconArrowForwardSelector}}" Width="16" Height="16" />
                 <Button.ContextMenu>
                     <ContextMenu ItemContainerStyle="{StaticResource HistoryMenuItemContainerStyle}" />
                 </Button.ContextMenu>
             </Button>
             <Button x:Name="MoveToParentButton" Command="{Binding BookCommands[MoveToParentBook]}"  Style="{StaticResource AddressIconButton}"
                                     ToolTip="{x:Static properties:Resources.ControlAddressBarUp}">
-                <Image Source="{StaticResource ic_arrow_up_24px}" Width="16" Height="16" />
+                <Image Source="{Binding ThemeProfile.MenuColor, Converter={StaticResource IconArrowUpSelector}}" Width="16" Height="16"/>
             </Button>
             <Button Command="{Binding BookCommands[ReLoad]}" Style="{StaticResource AddressIconButton}"
                                     ToolTip="{x:Static properties:Resources.ControlAddressBarReLoad}">
-                <Image Source="{StaticResource ic_reflesh_24px}" Width="16" Height="16" />
+                <Image Source="{Binding ThemeProfile.MenuColor, Converter={StaticResource IconRefreshSelector}}" Width="16" Height="16" />
             </Button>
 
-            <Border x:Name="AddressTextBoxBase" BorderThickness="1" BorderBrush="LightGray" Background="White" MinHeight="26" Margin="2">
+            <Border x:Name="AddressTextBoxBase" BorderThickness="1" BorderBrush="#6888" MinHeight="26" Margin="2">
                 <DockPanel>
                     <Button DockPanel.Dock="Right" Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[ToggleBookmark]}">
                         <TextBlock FontSize="20" FontFamily="Meyrio">
@@ -139,23 +148,26 @@
                         </TextBlock>
                     </Button>
 
-                    <DockPanel x:Name="AddressGroup" Background="White">
+                    <DockPanel x:Name="AddressGroup">
                         <Button x:Name="BookButton" Style="{StaticResource IconButton}" Width="26"
                                 Click="BookButton_Click"
                                 PreviewMouseLeftButtonDown="BookButton_MouseLeftButtonDown"
                                 PreviewMouseLeftButtonUp="BookButton_MouseLeftButtonUp"
                                 PreviewMouseMove="BookButton_MouseMove"
                                 QueryContinueDrag="BookButton_QueryContinueDrag">
-                            <Image Source="{StaticResource ic_info_outline_24px}" Width="16"/>
+                            <Image Source="{Binding ThemeProfile.MenuColor, Converter={StaticResource IconInfoOutlineSelector}}" Width="16"/>
                         </Button>
-                        <TextBox x:Name="AddressTextBox" Text="{Binding Model.Address}" BorderThickness="0" VerticalAlignment="Center"   KeyDown="AddressTextBox_KeyDown"/>
+                        <TextBox x:Name="AddressTextBox" Text="{Binding Model.Address}" BorderThickness="0" VerticalAlignment="Center"
+                                 Background="{Binding ThemeProfile.MenuColor, Converter={StaticResource BackgroundSelector}}"
+                                 Foreground="{Binding ThemeProfile.MenuColor, Converter={StaticResource ForegroundSelector}}"
+                                 KeyDown="AddressTextBox_KeyDown"/>
                     </DockPanel>
 
                 </DockPanel>
             </Border>
 
         </DockPanel>
-        
+
         <Popup x:Name="BookPopup" PlacementTarget="{Binding ElementName=BookButton}" StaysOpen="False" AllowsTransparency="True">
             <Grid Margin="5">
                 <Grid.Effect>

@@ -68,6 +68,8 @@ namespace NeeView
             [DataMember]
             public BookSetting.Memento BookSetting { get; set; }
             [DataMember]
+            public ThemeProfile.Memento ThemeProfile { get; set; }
+            [DataMember]
             public MainWindowModel.Memento MainWindowModel { get; set; }
             [DataMember]
             public ContentCanvas.Memento ContentCanvas { get; set; }
@@ -121,6 +123,7 @@ namespace NeeView
             public ImageEffect.Memento ImageEffect { get; set; }
             [DataMember]
             public SidePanelFrameModel.Memento SidePanel { get; set; }
+
             [Obsolete, DataMember(EmitDefaultValue = false)]
             public RoutedCommandTable.Memento RoutedCommandTable { get; set; }
 
@@ -161,6 +164,7 @@ namespace NeeView
             memento.BookHub = BookHub.Current.CreateMemento();
             memento.BookOperation = BookOperation.Current.CreateMemento();
             memento.BookSetting = BookSetting.Current.CreateMemento();
+            memento.ThemeProfile = ThemeProfile.Current.CreateMemento();
             memento.MainWindowModel = MainWindowModel.Current.CreateMemento();
             memento.ContentCanvas = ContentCanvas.Current.CreateMemento();
             memento.ContentCanvasBrush = ContentCanvasBrush.Current.CreateMemento();
@@ -210,6 +214,7 @@ namespace NeeView
             BookHub.Current.Restore(memento.BookHub);
             BookOperation.Current.Restore(memento.BookOperation);
             BookSetting.Current.Restore(memento.BookSetting);
+            ThemeProfile.Current.Restore(memento.ThemeProfile);
             MainWindowModel.Current.Restore(memento.MainWindowModel);
             ContentCanvas.Current.Restore(memento.ContentCanvas);
             ContentCanvasBrush.Current.Restore(memento.ContentCanvasBrush);

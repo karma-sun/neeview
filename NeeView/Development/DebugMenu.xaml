@@ -6,18 +6,28 @@
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="100">
-    
-    <Menu x:Name="MenuDev" VerticalAlignment="Bottom" Background="White" Foreground="#222">
+
+    <UserControl.Resources>
+        <local:PanelColorToBrushConverter x:Key="BackgroundSelector" Dark="{StaticResource NVMenuBackgroundDark}" Light="{StaticResource NVMenuBackgroundLight}"/>
+        <local:PanelColorToBrushConverter x:Key="ForegroundSelector" Dark="{StaticResource NVMenuForegroundDark}" Light="{StaticResource NVMenuForegroundLight}"/>
+        <Style TargetType="MenuItem" x:Key="SubMenuStyle">
+            <Setter Property="Foreground" Value="#222"/>
+        </Style>
+    </UserControl.Resources>
+
+    <Menu x:Name="MenuDev" VerticalAlignment="Bottom"
+          Background="{Binding MenuColor, Source={x:Static local:ThemeProfile.Current}, Converter={StaticResource BackgroundSelector}}"
+          Foreground="{Binding MenuColor, Source={x:Static local:ThemeProfile.Current}, Converter={StaticResource ForegroundSelector}}">
         <MenuItem x:Name="MenuItemDev" Header="_Develop">
-            <MenuItem x:Name="MenuItemDevPageList" Header="Page list" IsCheckable="True" IsChecked="{Binding Source={x:Static local:Development.Current}, Path=IsVisibleDevPageList}" />
-            <MenuItem x:Name="MenuItemDevInfo" Header="Status area" IsCheckable="True" IsChecked="{Binding Source={x:Static local:Development.Current}, Path=IsVisibleDevInfo}" />
+            <MenuItem Style="{StaticResource SubMenuStyle}" x:Name="MenuItemDevPageList" Header="Page list" IsCheckable="True" IsChecked="{Binding Source={x:Static local:Development.Current}, Path=IsVisibleDevPageList}" />
+            <MenuItem Style="{StaticResource SubMenuStyle}" x:Name="MenuItemDevInfo" Header="Status area" IsCheckable="True" IsChecked="{Binding Source={x:Static local:Development.Current}, Path=IsVisibleDevInfo}" />
             <Separator/>
-            <MenuItem x:Name="MenuItemDevApplicationFolder" Header="Open application folder" Click="MenuItemDevApplicationFolder_Click" />
-            <MenuItem x:Name="MenuItemDevApplicationDataFolder" Header="Open data folder" Click="MenuItemDevApplicationDataFolder_Click" />
-            <MenuItem x:Name="MenuItemDevCurrentFolder" Header="Open current folder" Click="MenuItemDevCurrentFolder_Click" />
-            <MenuItem x:Name="MenuItemDevTempFolder" Header="Open temp folder" Click="MenuItemDevTempFolder_Click" />
+            <MenuItem Style="{StaticResource SubMenuStyle}" x:Name="MenuItemDevApplicationFolder" Header="Open application folder" Click="MenuItemDevApplicationFolder_Click" />
+            <MenuItem Style="{StaticResource SubMenuStyle}" x:Name="MenuItemDevApplicationDataFolder" Header="Open data folder" Click="MenuItemDevApplicationDataFolder_Click" />
+            <MenuItem Style="{StaticResource SubMenuStyle}" x:Name="MenuItemDevCurrentFolder" Header="Open current folder" Click="MenuItemDevCurrentFolder_Click" />
+            <MenuItem Style="{StaticResource SubMenuStyle}" x:Name="MenuItemDevTempFolder" Header="Open temp folder" Click="MenuItemDevTempFolder_Click" />
             <Separator/>
-            <MenuItem x:Name="MenuItemDevButton" Header="Go TEST" Click="MenuItemDevButton_Click" />
+            <MenuItem Style="{StaticResource SubMenuStyle}" x:Name="MenuItemDevButton" Header="Go TEST" Click="MenuItemDevButton_Click" />
         </MenuItem>
     </Menu>
 </UserControl>

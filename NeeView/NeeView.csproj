@@ -203,6 +203,8 @@
     <Compile Include="Controls\PageSortModePalette.xaml.cs">
       <DependentUpon>PageSortModePalette.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\PanelColorToBrushConverter.cs" />
+    <Compile Include="Converters\PanelColorToImageSourceConverter.cs" />
     <Compile Include="Converters\ImageSourceToThumbnailConverter.cs" />
     <Compile Include="Development\DebugCreateBookThumbnail.cs" />
     <Compile Include="Development\DebugGesture.cs" />
@@ -236,6 +238,7 @@
     <Compile Include="SidePanels\Bookshelf\FolderList\BookshelfFolderList.cs" />
     <Compile Include="Obsolete\FolderListLegacy.cs" />
     <Compile Include="SidePanels\Bookshelf\FolterTree\BookshelfFolderTreeModel.cs" />
+    <Compile Include="ThemeProfile.cs" />
     <Compile Include="Thumbnail\DriveThumbnail.cs" />
     <Compile Include="ViewContent\ArchiveViewContent.cs" />
     <Compile Include="_NeeLaboratory\IO\RemoteCommand.cs" />

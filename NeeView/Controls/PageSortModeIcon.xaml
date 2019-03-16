@@ -8,13 +8,20 @@
              d:DesignHeight="64" d:DesignWidth="64">
     <UserControl.Resources>
 
+        <local:PanelColorToImageSourceConverter x:Key="IconSortExUpSelector" Dark="{StaticResource ic_sortex_up_24px_dark}" Light="{StaticResource ic_sortex_up_24px_light}" />
+        <local:PanelColorToImageSourceConverter x:Key="IconSortExDownSelector" Dark="{StaticResource ic_sortex_down_24px_dark}" Light="{StaticResource ic_sortex_down_24px_light}" />
+        <local:PanelColorToImageSourceConverter x:Key="IconShuffleSelector" Dark="{StaticResource ic_shuffle_24px_dark}" Light="{StaticResource ic_shuffle_24px_light}" />
+        <local:PanelColorToImageSourceConverter x:Key="IconSortNameSelector" Dark="{StaticResource ic_sort_name_24px_dark}" Light="{StaticResource ic_sort_name_24px_light}" />
+        <local:PanelColorToImageSourceConverter x:Key="IconSortTimeSelector" Dark="{StaticResource ic_sort_time_24px_dark}" Light="{StaticResource ic_sort_time_24px_light}" />
+        <local:PanelColorToImageSourceConverter x:Key="IconSortSizeSelector" Dark="{StaticResource ic_sort_size_24px_dark}" Light="{StaticResource ic_sort_size_24px_light}" />
+
         <Style TargetType="Image" x:Key="MainImage">
             <Setter Property="Width" Value="12"/>
             <Setter Property="Height" Value="12"/>
             <Setter Property="VerticalAlignment" Value="Bottom"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
         </Style>
-        
+
         <Style TargetType="Image" x:Key="SubImage">
             <Setter Property="Width" Value="8"/>
             <Setter Property="Height" Value="8"/>
@@ -22,38 +29,47 @@
             <Setter Property="HorizontalAlignment" Value="Right"/>
         </Style>
 
+        <Style TargetType="Image" x:Key="SubImageUp" BasedOn="{StaticResource SubImage}">
+            <Setter Property="Source" Value="{Binding MenuColor, Converter={StaticResource IconSortExUpSelector}}"/>
+        </Style>
+
+        <Style TargetType="Image" x:Key="SubImageDown" BasedOn="{StaticResource SubImage}">
+            <Setter Property="Source" Value="{Binding MenuColor, Converter={StaticResource IconSortExDownSelector}}"/>
+        </Style>
+
+
         <Grid x:Key="IconRandom">
-            <Image Width="16" Height="16" Source="{StaticResource ic_shuffle_24px}"/>
+            <Image Width="16" Height="16" Source="{Binding MenuColor, Converter={StaticResource IconShuffleSelector}}"/>
         </Grid>
 
         <Grid x:Key="IconFileName">
-            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_name_24px}"/>
-            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_up_24px}"/>
+            <Image Style="{StaticResource MainImage}" Source="{Binding MenuColor, Converter={StaticResource IconSortNameSelector}}"/>
+            <Image Style="{StaticResource SubImageUp}"/>
         </Grid>
 
         <Grid x:Key="IconFileNameDescending">
-            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_name_24px}"/>
-            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_down_24px}"/>
+            <Image Style="{StaticResource MainImage}" Source="{Binding MenuColor, Converter={StaticResource IconSortNameSelector}}"/>
+            <Image Style="{StaticResource SubImageDown}"/>
         </Grid>
 
         <Grid x:Key="IconTimeStamp">
-            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_time_24px}" Width="15" Height="15" Margin="-2,0,0,-2"/>
-            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_up_24px}"/>
+            <Image Style="{StaticResource MainImage}" Source="{Binding MenuColor, Converter={StaticResource IconSortTimeSelector}}" Width="15" Height="15" Margin="-2,0,0,-2"/>
+            <Image Style="{StaticResource SubImageUp}"/>
         </Grid>
 
         <Grid x:Key="IconTimeStampDescending">
-            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_time_24px}" Width="15" Height="15" Margin="-2,0,0,-2"/>
-            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_down_24px}"/>
+            <Image Style="{StaticResource MainImage}" Source="{Binding MenuColor, Converter={StaticResource IconSortTimeSelector}}" Width="15" Height="15" Margin="-2,0,0,-2"/>
+            <Image Style="{StaticResource SubImageDown}"/>
         </Grid>
 
         <Grid x:Key="IconSize">
-            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_size_24px}" Width="15" Height="15" Margin="0,0,0,-2"/>
-            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_up_24px}"/>
+            <Image Style="{StaticResource MainImage}" Source="{Binding MenuColor, Converter={StaticResource IconSortSizeSelector}}" Width="15" Height="15" Margin="0,0,0,-2"/>
+            <Image Style="{StaticResource SubImageUp}"/>
         </Grid>
 
         <Grid x:Key="IconSizeDescending">
-            <Image Style="{StaticResource MainImage}" Source="{StaticResource ic_sort_size_24px}" Width="15" Height="15" Margin="0,0,0,-2"/>
-            <Image Style="{StaticResource SubImage}" Source="{StaticResource ic_sortex_down_24px}"/>
+            <Image Style="{StaticResource MainImage}" Source="{Binding MenuColor, Converter={StaticResource IconSortSizeSelector}}" Width="15" Height="15" Margin="0,0,0,-2"/>
+            <Image Style="{StaticResource SubImageDown}"/>
         </Grid>
     </UserControl.Resources>
 

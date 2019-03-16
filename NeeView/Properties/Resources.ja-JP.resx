@@ -3461,6 +3461,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamPanelColor" xml:space="preserve">
     <value>テーマカラー</value>
   </data>
+  <data name="ParamMenuColor" xml:space="preserve">
+    <value>メニューカラー</value>
+  </data>
   <data name="ParamPictureCustomHeight" xml:space="preserve">
     <value>縦幅</value>
   </data>

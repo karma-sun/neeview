@@ -6,10 +6,16 @@
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    
+    <UserControl.Resources>
+        <local:PanelColorToBrushConverter x:Key="BackgroundSelector" Dark="{StaticResource NVMenuBackgroundDark}" Light="{StaticResource NVMenuBackgroundLight}"/>
+        <local:PanelColorToBrushConverter x:Key="ForegroundSelector" Dark="{StaticResource NVMenuForegroundDark}" Light="{StaticResource NVMenuForegroundLight}"/>
+    </UserControl.Resources>
 
-    <Grid x:Name="Root" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" Background="White">
+    <Grid x:Name="Root" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" Background="{Binding ThemeProfile.MenuColor, Converter={StaticResource BackgroundSelector}}" MinHeight="0">
         <DockPanel x:Name="MenuBarArea" LastChildFill="False">
-            <local:WindowCaptionButtons x:Name="WindowCaptionButtons" VerticalAlignment="Top" DockPanel.Dock="Right">
+            <local:WindowCaptionButtons x:Name="WindowCaptionButtons" VerticalAlignment="Top" DockPanel.Dock="Right"
+                                        Foreground="{Binding ThemeProfile.MenuColor, Converter={StaticResource ForegroundSelector}}">
                 <local:WindowCaptionButtons.Style>
                     <Style TargetType="local:WindowCaptionButtons">
                         <Setter Property="Height" Value="28"/>
@@ -27,7 +33,8 @@
             <Grid x:Name="Watermark" DockPanel.Dock="Right" Background="Orange" Margin="0" VerticalAlignment="Top" Visibility="Collapsed">
                 <TextBlock x:Name="WatermarkText" Foreground="White" Margin="10,2" FontSize="12" FontWeight="Normal" Text="Canary"/>
             </Grid>
-            <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Bottom" Background="White" Foreground="#222"/>
+            <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Bottom"
+                            Foreground="{Binding ThemeProfile.MenuColor, Converter={StaticResource ForegroundSelector}}"/>
         </DockPanel>
     </Grid>
 

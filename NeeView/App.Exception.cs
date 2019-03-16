@@ -67,10 +67,17 @@ namespace NeeView
 
                 this.Dispatcher.Invoke(() =>
                 {
-                    var dialog = new CriticalErrorDialog(errorLog, errorLogFileName);
-                    dialog.Owner = this.MainWindow;
-                    dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-                    dialog.ShowDialog();
+                    try
+                    {
+                        var dialog = new CriticalErrorDialog(errorLog, errorLogFileName);
+                        dialog.Owner = this.MainWindow;
+                        dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                        dialog.ShowDialog();
+                    }
+                    catch
+                    {
+                        MessageBox.Show(errorLog, "Abort", MessageBoxButton.OK, MessageBoxImage.Hand);
+                    }
                 });
             }
 

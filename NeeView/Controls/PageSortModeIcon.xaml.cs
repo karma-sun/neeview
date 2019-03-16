@@ -23,6 +23,7 @@ namespace NeeView
         public PageSortModeIcon()
         {
             InitializeComponent();
+            this.Root.DataContext = this;
         }
 
         public PageSortMode PageSortMode
@@ -38,7 +39,17 @@ namespace NeeView
         {
             (d as PageSortModeIcon)?.Refresh();
         }
-        
+
+
+        public PanelColor MenuColor
+        {
+            get { return (PanelColor)GetValue(MenuColorProperty); }
+            set { SetValue(MenuColorProperty, value); }
+        }
+
+        public static readonly DependencyProperty MenuColorProperty =
+            DependencyProperty.Register("MenuColor", typeof(PanelColor), typeof(PageSortModeIcon), new PropertyMetadata(PanelColor.Light));
+
 
         private void Refresh()
         {

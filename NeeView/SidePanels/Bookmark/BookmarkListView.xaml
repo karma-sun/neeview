@@ -121,7 +121,7 @@
                 </Button>
                 <WrapPanel Orientation="Horizontal" MinWidth="90">
                     <Button x:Name="AddPagemark" Style="{StaticResource IconButton}" Height="30" Width="30" Command="{Binding AddBookmarkCommand}" ToolTip="{x:Static properties:Resources.BookmarkListAddTips}" TabIndex="1">
-                        <Image Source="{StaticResource ic_add_24px}" Width="16" Height="16"/>
+                        <Image Source="{StaticResource ic_add_24px_b}" Width="16" Height="16"/>
                     </Button>
                     <Button x:Name="FolderUpButton" Style="{StaticResource FolderListButtonStyle}" Command="{Binding MoveToUp}" TabIndex="1"
                         ToolTip="{x:Static properties:Resources.BookshelfUpTips}">

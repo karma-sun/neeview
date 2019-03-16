@@ -39,7 +39,7 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageVisualGeneralTheme,
-                    new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.PanelColor))),
+                    new SettingItemProperty(PropertyMemberElement.Create(ThemeProfile.Current, nameof(ThemeProfile.PanelColor))),
                     new SettingItemProperty(PropertyMemberElement.Create(ThemeProfile.Current, nameof(ThemeProfile.MenuColor)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageVisualGeneralOpacity,

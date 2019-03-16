@@ -289,7 +289,7 @@ namespace NeeView
             // compatible before ver.23
             if (memento._Version < Config.GenerateProductVersionNumber(1, 23, 0))
             {
-                MainWindowModel.Current.PanelColor = memento.PanelColor;
+                ThemeProfile.Current.PanelColor = memento.PanelColor;
                 MainWindowModel.Current.ContextMenuSetting = memento.ContextMenuSetting;
                 MainWindowModel.Current.IsHideMenu = memento.IsHideMenu;
                 MainWindowModel.Current.IsHidePageSlider = memento.IsHidePageSlider;

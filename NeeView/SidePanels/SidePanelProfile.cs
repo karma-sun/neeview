@@ -50,7 +50,7 @@ namespace NeeView
             SetFontSizeResource(_fontSize);
             SetFolderTreeFontSizeResource(_folderTreeFontSize);
 
-            MainWindowModel.Current.ThemeColorChanged += (s, e) => RefreshBrushes();
+            ThemeProfile.Current.ThemeColorChanged += (s, e) => RefreshBrushes();
             MainWindowModel.Current.CanHidePanelChanged += (s, e) => RefreshBrushes();
 
             RefreshBrushes();

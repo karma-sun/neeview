@@ -136,6 +136,11 @@ namespace NeeView
                 {
                     BookshelfFolderList = FolderListLegacy.ConvertFrom(FolderList);
                 }
+                if (ThemeProfile == null)
+                {
+                    ThemeProfile = NeeView.ThemeProfile.Current.CreateMemento();
+                    ThemeProfile.PanelColor = MainWindowModel.PanelColor;
+                }
 #pragma warning restore CS0612
             }
         }

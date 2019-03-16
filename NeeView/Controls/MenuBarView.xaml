@@ -10,6 +10,7 @@
     <UserControl.Resources>
         <local:PanelColorToBrushConverter x:Key="BackgroundSelector" Dark="{StaticResource NVMenuBackgroundDark}" Light="{StaticResource NVMenuBackgroundLight}"/>
         <local:PanelColorToBrushConverter x:Key="ForegroundSelector" Dark="{StaticResource NVMenuForegroundDark}" Light="{StaticResource NVMenuForegroundLight}"/>
+        <local:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter"/>
     </UserControl.Resources>
 
     <Grid x:Name="Root" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" Background="{Binding ThemeProfile.MenuColor, Converter={StaticResource BackgroundSelector}}" MinHeight="0">
@@ -34,7 +35,8 @@
                 <TextBlock x:Name="WatermarkText" Foreground="White" Margin="10,2" FontSize="12" FontWeight="Normal" Text="Canary"/>
             </Grid>
             <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Bottom"
-                            Foreground="{Binding ThemeProfile.MenuColor, Converter={StaticResource ForegroundSelector}}"/>
+                            Foreground="{Binding ThemeProfile.MenuColor, Converter={StaticResource ForegroundSelector}}"
+                            Opacity="{Binding IsActive, RelativeSource={RelativeSource AncestorType=Window}, Converter={StaticResource BooleanToOpacityConverter}}"/>
         </DockPanel>
     </Grid>
 

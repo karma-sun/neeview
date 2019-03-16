@@ -1870,7 +1870,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Checkered background に類似しているローカライズされた文字列を検索します。
+        ///   White checkered background に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetBackgroundCheck {
             get {
@@ -1879,7 +1879,25 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Make the background Check pattern. に類似しているローカライズされた文字列を検索します。
+        ///   Black checkered background に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandSetBackgroundCheckDark {
+            get {
+                return ResourceManager.GetString("CommandSetBackgroundCheckDark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Make the background a black checkered pattern. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandSetBackgroundCheckDarkNote {
+            get {
+                return ResourceManager.GetString("CommandSetBackgroundCheckDarkNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Make the background a white checkered pattern. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetBackgroundCheckNote {
             get {
@@ -6173,11 +6191,20 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Checkered background に類似しているローカライズされた文字列を検索します。
+        ///   White checkered background に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumBackgroundStyleCheck {
             get {
                 return ResourceManager.GetString("EnumBackgroundStyleCheck", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Black checkered background に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumBackgroundStyleCheckDark {
+            get {
+                return ResourceManager.GetString("EnumBackgroundStyleCheckDark", resourceCulture);
             }
         }
         

@@ -589,10 +589,16 @@
     <value>Make the background black.</value>
   </data>
   <data name="CommandSetBackgroundCheck" xml:space="preserve">
-    <value>Checkered background</value>
+    <value>White checkered background</value>
   </data>
   <data name="CommandSetBackgroundCheckNote" xml:space="preserve">
-    <value>Make the background Check pattern.</value>
+    <value>Make the background a white checkered pattern.</value>
+  </data>
+  <data name="CommandSetBackgroundCheckDark" xml:space="preserve">
+    <value>Black checkered background</value>
+  </data>
+  <data name="CommandSetBackgroundCheckDarkNote" xml:space="preserve">
+    <value>Make the background a black checkered pattern.</value>
   </data>
   <data name="CommandSetBackgroundCustom" xml:space="preserve">
     <value>Custom Background</value>
@@ -1967,7 +1973,10 @@ Is it OK? </value>
     <value>Black background</value>
   </data>
   <data name="EnumBackgroundStyleCheck" xml:space="preserve">
-    <value>Checkered background</value>
+    <value>White checkered background</value>
+  </data>
+  <data name="EnumBackgroundStyleCheckDark" xml:space="preserve">
+    <value>Black checkered background</value>
   </data>
   <data name="EnumBackgroundStyleCustom" xml:space="preserve">
     <value>Custom Background</value>

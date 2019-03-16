@@ -649,6 +649,17 @@ namespace NeeView
                 element.IsShowMessage = true;
                 _elements[CommandType.SetBackgroundCheck] = element;
             }
+            // SetBackgroundCheckDark
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupEffect;
+                element.Text = Properties.Resources.CommandSetBackgroundCheckDark;
+                element.Note = Properties.Resources.CommandSetBackgroundCheckDarkNote;
+                element.Execute = (s, e) => ContentCanvasBrush.Current.Background = BackgroundStyle.CheckDark;
+                element.CreateIsCheckedBinding = () => BindingGenerator.Background(BackgroundStyle.CheckDark);
+                element.IsShowMessage = true;
+                _elements[CommandType.SetBackgroundCheckDark] = element;
+            }
 
             // SetBackgroundCustom
             {

@@ -62,6 +62,33 @@
                         </DrawingBrush.Drawing>
                     </DrawingBrush>
 
+                    <DrawingBrush x:Key="CheckerBrushDark" Viewport="0,0,16,16" ViewportUnits="Absolute" TileMode="Tile">
+                        <DrawingBrush.Drawing>
+                            <DrawingGroup>
+                                <GeometryDrawing>
+                                    <GeometryDrawing.Geometry>
+                                        <RectangleGeometry Rect="0,0,8,8"/>
+                                    </GeometryDrawing.Geometry>
+                                    <GeometryDrawing.Brush>
+                                        <SolidColorBrush Color="#FF1C1C1C"  />
+                                    </GeometryDrawing.Brush>
+                                </GeometryDrawing>
+                                <GeometryDrawing>
+                                    <GeometryDrawing.Geometry>
+                                        <GeometryGroup>
+                                            <RectangleGeometry Rect="0,0,4,4"/>
+                                            <RectangleGeometry Rect="4,4,4,4"/>
+                                        </GeometryGroup>
+                                    </GeometryDrawing.Geometry>
+                                    <GeometryDrawing.Brush>
+                                        <SolidColorBrush Color="#FF181818"  />
+                                    </GeometryDrawing.Brush>
+                                </GeometryDrawing>
+                            </DrawingGroup>
+                        </DrawingBrush.Drawing>
+                    </DrawingBrush>
+
+
                     <!-- Theme Brushes -->
                     <SolidColorBrush x:Key="NVIconBrushDark" Color="#FFE5E5E5"/>
                     <SolidColorBrush x:Key="NVIconBrushLight" Color="#FF444444"/>

@@ -21,6 +21,9 @@ namespace NeeView
         [AliasName("@EnumBackgroundStyleCheck")]
         Check,
 
+        [AliasName("@EnumBackgroundStyleCheckDark")]
+        CheckDark,
+
         [AliasName("@EnumBackgroundStyleCustom")]
         Custom
     };

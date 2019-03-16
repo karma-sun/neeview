@@ -589,10 +589,16 @@
     <value>背景を黒色にします。</value>
   </data>
   <data name="CommandSetBackgroundCheck" xml:space="preserve">
-    <value>背景をチェック模様にする</value>
+    <value>背景を白チェック模様にする</value>
   </data>
   <data name="CommandSetBackgroundCheckNote" xml:space="preserve">
-    <value>背景をチェック模様にします。</value>
+    <value>背景を白チェック模様にします。</value>
+  </data>
+  <data name="CommandSetBackgroundCheckDark" xml:space="preserve">
+    <value>背景を黒チェック模様にする</value>
+  </data>
+  <data name="CommandSetBackgroundCheckDarkNote" xml:space="preserve">
+    <value>背景を黒チェック模様にします。</value>
   </data>
   <data name="CommandSetBackgroundCustom" xml:space="preserve">
     <value>背景をカスタム背景にする</value>
@@ -1967,7 +1973,10 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>背景を黒色にする</value>
   </data>
   <data name="EnumBackgroundStyleCheck" xml:space="preserve">
-    <value>背景をチェック模様にする</value>
+    <value>背景を白チェック模様にする</value>
+  </data>
+  <data name="EnumBackgroundStyleCheckDark" xml:space="preserve">
+    <value>背景を黒チェック模様にする</value>
   </data>
   <data name="EnumBackgroundStyleCustom" xml:space="preserve">
     <value>背景をカスタム背景にする</value>

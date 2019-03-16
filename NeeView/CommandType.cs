@@ -241,6 +241,8 @@ namespace NeeView
         [EnumMember]
         SetBackgroundCheck,
         [EnumMember]
+        SetBackgroundCheckDark,
+        [EnumMember]
         SetBackgroundCustom,
 
         [EnumMember]

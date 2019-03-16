@@ -136,6 +136,7 @@ namespace NeeView
         /// チェック模様
         /// </summary>
         public Brush CheckBackgroundBrush { get; } = (DrawingBrush)App.Current.Resources["CheckerBrush"];
+        public Brush CheckBackgroundBrushDark { get; } = (DrawingBrush)App.Current.Resources["CheckerBrushDark"];
 
 
 
@@ -205,6 +206,12 @@ namespace NeeView
                 case BackgroundStyle.Check:
                     {
                         var brush = CheckBackgroundBrush.Clone();
+                        brush.Transform = new ScaleTransform(1.0 / dpi.DpiScaleX, 1.0 / dpi.DpiScaleY);
+                        return brush;
+                    }
+                case BackgroundStyle.CheckDark:
+                    {
+                        var brush = CheckBackgroundBrushDark.Clone();
                         brush.Transform = new ScaleTransform(1.0 / dpi.DpiScaleX, 1.0 / dpi.DpiScaleY);
                         return brush;
                     }

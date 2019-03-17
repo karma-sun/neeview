@@ -6,7 +6,19 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
-    // 背景の種類
+    [Obsolete]
+    public enum BackgroundStyleV1
+    {
+        Black,
+        White,
+        Auto,
+        Check,
+        Custom,
+    }
+
+    /// <summary>
+    /// 背景の種類
+    /// </summary>
     public enum BackgroundStyle
     {
         [AliasName("@EnumBackgroundStyleBlack")]

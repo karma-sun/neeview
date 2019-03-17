@@ -25,8 +25,15 @@ namespace NeeView
                 .Cast<Enum>()
                 .ToDictionary(e => e, e => e.ToAliasName());
         }
+
+        /// <summary>
+        /// 文字列からEnumに変換
+        /// </summary>
+        public static TEnum ToEnum<TEnum>(this string s)
+            where TEnum : struct
+        {
+            return Enum.TryParse(s, out TEnum result) ? result : default;
+        }
     }
-
-
 }
 

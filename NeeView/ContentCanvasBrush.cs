@@ -228,26 +228,50 @@ namespace NeeView
             }
         }
 
-
         #region Memento
         [DataContract]
         public class Memento
         {
             [DataMember]
+            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+
+            [Obsolete]
+            [DataMember(Name = "Background", EmitDefaultValue = false)]
+            public BackgroundStyleV1 BackgroundV1 { get; set; }
+
+            [DataMember(Name = "BackgroundV2")]
             public BackgroundStyle Background { get; set; }
+
             [DataMember]
             public BrushSource CustomBackground { get; set; }
+
             [DataMember, DefaultValue(typeof(Color), "Transparent")]
             public Color PageBackgroundColor { get; set; }
+
 
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
             {
                 this.InitializePropertyDefaultValues();
             }
+
+            [OnDeserialized]
+            private void Deserialized(StreamingContext c)
+            {
+#pragma warning disable CS0612
+                // before 34.0
+                if (_Version < Config.GenerateProductVersionNumber(34, 0, 0))
+                {
+                    if (Enum.TryParse(BackgroundV1.ToString(), out BackgroundStyle value))
+                    {
+                        Background = value;
+                    }
+                }
+#pragma warning restore CS0612
+            }
         }
 
-        //
+
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -257,7 +281,6 @@ namespace NeeView
             return memento;
         }
 
-        //
         public void Restore(Memento memento)
         {
             if (memento == null) return;

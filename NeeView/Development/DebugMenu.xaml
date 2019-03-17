@@ -9,15 +9,21 @@
 
     <UserControl.Resources>
         <local:PanelColorToBrushConverter x:Key="BackgroundSelector" Dark="{StaticResource NVMenuBackgroundDark}" Light="{StaticResource NVMenuBackgroundLight}"/>
-        <local:PanelColorToBrushConverter x:Key="ForegroundSelector" Dark="{StaticResource NVMenuForegroundDark}" Light="{StaticResource NVMenuForegroundLight}"/>
+        <local:PanelColorTobrushMultiConverter x:Key="ForegroundSelector" Dark="{StaticResource NVMenuForegroundDark}" Light="{StaticResource NVMenuForegroundLight}"/>
+
         <Style TargetType="MenuItem" x:Key="SubMenuStyle">
             <Setter Property="Foreground" Value="#222"/>
         </Style>
     </UserControl.Resources>
 
-    <Menu x:Name="MenuDev" VerticalAlignment="Bottom"
-          Background="{Binding MenuColor, Source={x:Static local:ThemeProfile.Current}, Converter={StaticResource BackgroundSelector}}"
-          Foreground="{Binding MenuColor, Source={x:Static local:ThemeProfile.Current}, Converter={StaticResource ForegroundSelector}}">
+    <Menu x:Name="MenuDev" VerticalAlignment="Bottom" WindowChrome.IsHitTestVisibleInChrome="True"
+          Background="{Binding MenuColor, Source={x:Static local:ThemeProfile.Current}, Converter={StaticResource BackgroundSelector}}">
+        <Menu.Foreground>
+            <MultiBinding Converter="{StaticResource ForegroundSelector}">
+                <Binding Path="MenuColor" Source="{x:Static local:ThemeProfile.Current}"/>
+                <Binding Path="IsActive" RelativeSource="{RelativeSource AncestorType=Window}"/>
+            </MultiBinding>
+        </Menu.Foreground>
         <MenuItem x:Name="MenuItemDev" Header="_Develop">
             <MenuItem Style="{StaticResource SubMenuStyle}" x:Name="MenuItemDevPageList" Header="Page list" IsCheckable="True" IsChecked="{Binding Source={x:Static local:Development.Current}, Path=IsVisibleDevPageList}" />
             <MenuItem Style="{StaticResource SubMenuStyle}" x:Name="MenuItemDevInfo" Header="Status area" IsCheckable="True" IsChecked="{Binding Source={x:Static local:Development.Current}, Path=IsVisibleDevInfo}" />

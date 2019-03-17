@@ -981,13 +981,14 @@ namespace NeeView
             if (item == null) return false;
 
             _cruiseFolderCancellationTokenSource?.Cancel();
+            _cruiseFolderCancellationTokenSource?.Dispose();
             _cruiseFolderCancellationTokenSource = new CancellationTokenSource();
+            var token = _cruiseFolderCancellationTokenSource.Token;
 
             try
             {
                 var node = new FolderNode(_folderCollection, item);
-                var cancel = _cruiseFolderCancellationTokenSource.Token;
-                var next = (direction < 0) ? await node.CruisePrev(cancel) : await node.CruiseNext(cancel);
+                var next = (direction < 0) ? await node.CruisePrev(token) : await node.CruiseNext(token);
                 if (next == null) return false;
                 if (next.Content == null) return false;
 
@@ -1029,11 +1030,12 @@ namespace NeeView
                 BusyChanged?.Invoke(this, new BusyChangedEventArgs(true));
 
                 _updateFolderCancellationTokenSource?.Cancel();
+                _updateFolderCancellationTokenSource?.Dispose();
                 _updateFolderCancellationTokenSource = new CancellationTokenSource();
+                var token = _updateFolderCancellationTokenSource.Token;
 
-                var collection = await CreateFolderCollectionAsync(path, isForce, _updateFolderCancellationTokenSource.Token);
-
-                if (collection != null && !_updateFolderCancellationTokenSource.Token.IsCancellationRequested)
+                var collection = await CreateFolderCollectionAsync(path, isForce, token);
+                if (collection != null && !token.IsCancellationRequested)
                 {
                     collection.ParameterChanged += async (s, e) => await RefreshAsync(true);
                     return collection;

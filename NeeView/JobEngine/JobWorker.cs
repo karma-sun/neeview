@@ -110,7 +110,7 @@ namespace NeeView
         {
             Message = $"Run";
 
-            _thread = new Thread(new ThreadStart(() => WorkerExecuteAsync()));
+            _thread = new Thread(() => WorkerExecuteAsync(_cancellationTokenSource.Token));
             _thread.IsBackground = true;
             _thread.Name = "JobWorker";
             _thread.Start();
@@ -125,11 +125,11 @@ namespace NeeView
         }
 
         // ワーカータスクメイン
-        private void WorkerExecuteAsync()
+        private void WorkerExecuteAsync(CancellationToken token)
         {
             try
             {
-                WorkerExecuteAsyncCore();
+                WorkerExecuteAsyncCore(token);
             }
             catch (OperationCanceledException)
             {
@@ -138,9 +138,9 @@ namespace NeeView
         }
 
         // ワーカータスクメイン
-        private void WorkerExecuteAsyncCore()
+        private void WorkerExecuteAsyncCore(CancellationToken token)
         {
-            while (!_cancellationTokenSource.Token.IsCancellationRequested)
+            while (!token.IsCancellationRequested)
             {
                 Message = $"get Job ...";
                 Job job;
@@ -163,7 +163,7 @@ namespace NeeView
                 {
                     IsBusy = false;
                     Message = $"wait event ...";
-                    _event.Wait(_cancellationTokenSource.Token);
+                    _event.Wait(token);
                     continue;
                 }
 
@@ -201,7 +201,6 @@ namespace NeeView
                     job.Log($"{job.SerialNumber}: Job canceled");
                 }
 
-
                 // JOB完了
                 job.Completed.Set();
             }
@@ -225,6 +224,7 @@ namespace NeeView
 
                     if (_cancellationTokenSource != null)
                     {
+                        _cancellationTokenSource.Cancel();
                         _cancellationTokenSource.Dispose();
                     }
 

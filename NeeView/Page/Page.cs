@@ -249,13 +249,13 @@ namespace NeeView
         /// JOB: メイン処理
         /// </summary>
         /// <param name="completed">処理の途中でJOB完了設定されることがある</param>
-        /// <param name="cancel"></param>
-        private async Task ExecuteAsync(ManualResetEventSlim completed, CancellationToken cancel)
+        /// <param name="token"></param>
+        private async Task ExecuteAsync(ManualResetEventSlim completed, CancellationToken token)
         {
-            cancel.ThrowIfCancellationRequested();
+            token.ThrowIfCancellationRequested();
 
             Message = "** Load...";
-            await Content.LoadAsync(cancel);
+            await Content.LoadAsync(token);
         }
 
 

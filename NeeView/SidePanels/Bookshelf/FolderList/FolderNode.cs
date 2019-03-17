@@ -92,11 +92,11 @@ namespace NeeView
 
         // Methods
 
-        public async Task<FolderNode> GetParent(CancellationToken cancel)
+        public async Task<FolderNode> GetParent(CancellationToken token)
         {
             if (!_isParentValid)
             {
-                var parent = await CreateParent(cancel);
+                var parent = await CreateParent(token);
                 if (parent != null)
                 {
                     var name = LoosePath.GetFileName(FullName, parent.FullName);
@@ -124,7 +124,7 @@ namespace NeeView
             return Parent;
         }
 
-        private async Task<FolderNode> CreateParent(CancellationToken cancel)
+        private async Task<FolderNode> CreateParent(CancellationToken token)
         {
             if (_isParentValid) return Parent;
 
@@ -146,17 +146,17 @@ namespace NeeView
             }
 
             // 子の生成
-            await parent.GetChildren(cancel);
+            await parent.GetChildren(token);
 
             return parent;
         }
 
 
-        public async Task<List<FolderNode>> GetChildren(CancellationToken cancel)
+        public async Task<List<FolderNode>> GetChildren(CancellationToken token)
         {
             if (!_isChildrenValid)
             {
-                var children = await CreateChildren(cancel);
+                var children = await CreateChildren(token);
 
                 lock (_lock)
                 {
@@ -167,13 +167,13 @@ namespace NeeView
                     }
                 }
 
-                cancel.ThrowIfCancellationRequested();
+                token.ThrowIfCancellationRequested();
             }
 
             return Children;
         }
 
-        private async Task<List<FolderNode>> CreateChildren(CancellationToken cancel)
+        private async Task<List<FolderNode>> CreateChildren(CancellationToken token)
         {
             if (_isChildrenValid) return Children;
 
@@ -188,7 +188,7 @@ namespace NeeView
                 path = Content.TargetPath;
             }
 
-            using (var collection = await BookshelfFolderList.Current.FolderCollectionFactory.CreateFolderCollectionAsync(path, false, cancel))
+            using (var collection = await BookshelfFolderList.Current.FolderCollectionFactory.CreateFolderCollectionAsync(path, false, token))
             {
                 var children = collection.Items
                     .Where(e => !e.IsEmpty())
@@ -200,30 +200,30 @@ namespace NeeView
         }
 
 
-        public async Task<FolderNode> CruisePrev(CancellationToken cancel)
+        public async Task<FolderNode> CruisePrev(CancellationToken token)
         {
-            var parent = await GetParent(cancel);
+            var parent = await GetParent(token);
             if (parent == null) return null;
 
             // 兄の末裔
-            var brother = await parent.GetChildren(cancel);
+            var brother = await parent.GetChildren(token);
             var index = brother.IndexOf(this);
             if (index - 1 >= 0)
             {
-                return await brother[index - 1].CruiseDescendant(cancel);
+                return await brother[index - 1].CruiseDescendant(token);
             }
 
             // 親
-            await parent.GetParent(cancel); // コンテンツ確定
+            await parent.GetParent(token); // コンテンツ確定
             return parent;
         }
 
-        private async Task<FolderNode> CruiseDescendant(CancellationToken cancel)
+        private async Task<FolderNode> CruiseDescendant(CancellationToken token)
         {
-            var children = await GetChildren(cancel);
+            var children = await GetChildren(token);
             if (children.Count > 0)
             {
-                return await children.Last().CruiseDescendant(cancel);
+                return await children.Last().CruiseDescendant(token);
             }
             else
             {
@@ -232,25 +232,25 @@ namespace NeeView
         }
 
 
-        public async Task<FolderNode> CruiseNext(CancellationToken cancel)
+        public async Task<FolderNode> CruiseNext(CancellationToken token)
         {
             // 長男
-            var children = await GetChildren(cancel);
+            var children = await GetChildren(token);
             if (children.Count > 0)
             {
                 return children.First();
             }
 
-            return await CruiseNextUp(cancel);
+            return await CruiseNextUp(token);
         }
 
-        private async Task<FolderNode> CruiseNextUp(CancellationToken cancel)
+        private async Task<FolderNode> CruiseNextUp(CancellationToken token)
         {
-            var parent = await GetParent(cancel);
+            var parent = await GetParent(token);
             if (parent == null) return null;
 
             // 弟
-            var brother = await parent.GetChildren(cancel);
+            var brother = await parent.GetChildren(token);
             var index = brother.IndexOf(this);
             if (index + 1 < brother.Count)
             {
@@ -258,7 +258,7 @@ namespace NeeView
             }
 
             // 親へ
-            return await parent.CruiseNextUp(cancel);
+            return await parent.CruiseNextUp(token);
         }
     }
 }

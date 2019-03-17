@@ -363,7 +363,7 @@ namespace NeeView
             memento.IsSyncUserSetting = this.IsSyncUserSetting;
             memento.TemporaryDirectory = _temporaryDirectory;
             memento.CacheDirectory = _cacheDirectory;
-            memento.CacheDirectoryOld = this.CacheDirectoryOld;
+            memento.CacheDirectoryOld = _cacheDirectoryOld;
             return memento;
         }
 

@@ -184,16 +184,19 @@ namespace NeeView
         public void SetState(MouseInputState state, object parameter, bool force = false)
         {
             if (!force && state == _state) return;
-
             ////Debug.WriteLine($"#MouseState: {state}");
+            
+            var inputOld = _current;
+            var inputNew = _mouseInputCollection[state];
 
-            // NOTE: MouseCaptureの影響で同じUIスレッドで再入する可能性があるため、状態を退避している
-            var oldIput = _current;
+            inputOld?.OnClosed(_sender);
             _state = state;
-            _current = _mouseInputCollection[_state];
-            var newIput = _current;
-            oldIput?.OnClosed(_sender);
-            newIput?.OnOpened(_sender, parameter);
+            _current = inputNew;
+            inputNew?.OnOpened(_sender, parameter);
+
+            // NOTE: MouseCaptureの影響で同じUIスレッドで再入する可能性があるため、まとめて処理
+            inputOld?.OnCaptureClosed(_sender);
+            inputNew?.OnCaptureOpened(_sender);
         }
 
 

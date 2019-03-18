@@ -62,7 +62,6 @@ namespace NeeView
         /// <param name="parameter"></param>
         public override void OnOpened(FrameworkElement sender, object parameter)
         {
-            MouseInputHelper.CaptureMouse(this, sender);
             if (sender.Cursor != Cursors.None)
             {
                 sender.Cursor = null;
@@ -77,6 +76,15 @@ namespace NeeView
         /// </summary>
         /// <param name="sender"></param>
         public override void OnClosed(FrameworkElement sender)
+        {
+        }
+
+        public override void OnCaptureOpened(FrameworkElement sender)
+        {
+            MouseInputHelper.CaptureMouse(this, sender);
+        }
+
+        public override void OnCaptureClosed(FrameworkElement sender)
         {
             MouseInputHelper.ReleaseMouseCapture(this, sender);
         }

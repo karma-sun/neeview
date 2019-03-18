@@ -174,6 +174,18 @@ namespace NeeView
         public virtual void OnClosed(FrameworkElement sender) { }
 
         /// <summary>
+        /// 状態開始時処理。
+        /// MouseCapture関連処理はUIスレッド切り替えが発生するため別処理にする。
+        /// </summary>
+        public virtual void OnCaptureOpened(FrameworkElement sender) { }
+
+        /// <summary>
+        /// 状態終了時処理。
+        /// MouseCapture関連処理はUIスレッド切り替えが発生するため別処理にする。
+        /// </summary>
+        public virtual void OnCaptureClosed(FrameworkElement sender) { }
+
+        /// <summary>
         /// 各種入力イベント
         /// </summary>
         /// <param name="sender"></param>

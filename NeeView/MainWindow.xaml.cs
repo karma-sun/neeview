@@ -198,7 +198,11 @@ namespace NeeView
             if (Config.Current.IsSecondProcess && !App.Current.IsRestoreSecondWindow) return;
 
             var memento = windowShape.SnapMemento;
-            if (memento == null) return;
+            if (memento == null)
+            {
+                windowShape.IsEnabled = true;
+                return;
+            }
 
             memento = memento.Clone();
 

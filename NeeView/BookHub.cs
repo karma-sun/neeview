@@ -206,7 +206,7 @@ namespace NeeView
         private Toast _bookHubToast;
         private bool _isLoading;
         private bool _isAutoRecursive = false;
-        private ArchiveEntryCollectionMode _archiveRecursiveMode;
+        private ArchiveEntryCollectionMode _archiveRecursiveMode = ArchiveEntryCollectionMode.IncludeSubArchives;
         private BookUnit _bookUnit;
         private string _address;
         private BookHubCommandEngine _commandEngine;

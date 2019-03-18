@@ -109,7 +109,7 @@ namespace NeeView
 
         // ページ収集モード
         [PropertyMember("@ParamBookPageCollectMode", Tips = "@ParamBookPageCollectModeTips")]
-        public BookPageCollectMode BookPageCollectMode { get; set; }
+        public BookPageCollectMode BookPageCollectMode { get; set; } = BookPageCollectMode.ImageAndBook;
 
         // ページ読み込み中表示
         [PropertyMember("@ParamBookLoadingPageView", Tips = "@ParamBookLoadingPageViewTips")]

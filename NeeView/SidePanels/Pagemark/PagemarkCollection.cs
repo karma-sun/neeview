@@ -294,6 +294,18 @@ namespace NeeView
             return count;
         }
 
+        /// <summary>
+        /// 表示名変更
+        /// </summary>
+        public void RenameDispName(TreeListNode<IPagemarkEntry> node, string newName)
+        {
+            if (node.Value is Pagemark pagemark)
+            {
+                pagemark.DispName = string.IsNullOrWhiteSpace(newName) ? null : newName;
+                PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Rename, node.Parent, node));
+            }
+        }
+
 
         /// <summary>
         /// ファイル名の変更に追従
@@ -314,6 +326,8 @@ namespace NeeView
                             pagemark.Place = dst;
                         }
                     }
+
+                    PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Rename, item.Parent, item));
 
                     return;
                 }

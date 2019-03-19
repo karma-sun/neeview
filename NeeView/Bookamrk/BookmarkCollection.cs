@@ -413,6 +413,7 @@ namespace NeeView
                 if (item.Value is Bookmark bookmark && bookmark.Place == src)
                 {
                     bookmark.Place = dst;
+                    BookmarkChanged?.Invoke(this, new BookmarkCollectionChangedEventArgs(EntryCollectionChangedAction.Rename, item.Parent, item));
                 }
             }
         }

@@ -217,7 +217,7 @@ namespace NeeView
 
             if (item.Value is Pagemark pagemark)
             {
-                pagemark.DispName = string.IsNullOrWhiteSpace(newName) ? null : newName;
+                PagemarkCollection.Current.RenameDispName(item, newName);
                 PagemarkCollection.Current.SortOne(item);
                 return true;
             }

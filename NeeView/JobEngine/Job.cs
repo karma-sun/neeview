@@ -9,24 +9,49 @@ namespace NeeView
     /// </summary>
     public class Job : IDisposable
     {
-        // シリアル番号(開発用)
-        public int SerialNumber { get; set; }
+        #region Helper
 
-        // 識別コード. 一括削除に使用される(未使用)
-        public string KeyCode { get; set; }
+        private static int _serialNumber;
 
-        // 発行者
-        public object Sender { get; set; }
+        public static Job Create(IJobCommand command, CancellationToken token)
+        {
+            var job = new Job(_serialNumber++, command, token);
+            return job;
+        }
 
-        // 完了フラグ
+        #endregion
+
         private ManualResetEventSlim _completed = new ManualResetEventSlim();
-        public ManualResetEventSlim Completed => _completed;
 
-        // キャンセルトークン
-        public CancellationToken CancellationToken { get; set; }
+        private Job(int serialNumber, IJobCommand command, CancellationToken token)
+        {
+            SerialNumber = serialNumber;
+            Command = command;
+            CancellationToken = token;
+        }
+
+        // シリアル番号(開発用..HashCodeで代用可能か)
+        public int SerialNumber { get; private set; }
 
         // コマンド
-        public IJobCommand Command { get; set; }
+        public IJobCommand Command { get; private set; }
+
+        // キャンセルトークン
+        public CancellationToken CancellationToken { get; private set; }
+
+
+        public void SetCompleted()
+        {
+            _completed.Set();
+        }
+
+        public bool WaitCompleted(int millisecondsTimeout, CancellationToken token)
+        {
+            using (var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token, CancellationToken))
+            {
+                return _completed.Wait(millisecondsTimeout, linkedTokenSource.Token);
+            }
+        }
 
         #region IDisposable Support
         private bool _disposedValue = false;
@@ -52,13 +77,10 @@ namespace NeeView
 
         #region 開発用
 
-        //
         public bool IsDebug { get; set; }
 
-        //
         public event EventHandler<JobLogEventArgs> Logged;
 
-        //
         public void Log(string msg)
         {
             Logged?.Invoke(this, new JobLogEventArgs(msg));

@@ -26,7 +26,6 @@ namespace NeeView
 
         #region 開発用
 
-
         [Conditional("DEBUG")]
         private void NotifyStatusChanged()
         {
@@ -50,37 +49,33 @@ namespace NeeView
 
         #endregion
 
+        private bool _isBusy;
+        private readonly int _maxWorkerSize;
+        private int _workerSize = 2;
 
-        /// <summary>
-        /// IsBusy property.
-        /// </summary>
+
+        // コンストラクタ
+        private JobEngine()
+        {
+            InitializeScheduler();
+
+            _maxWorkerSize = Math.Max(4, Environment.ProcessorCount);
+
+            Workers = new JobWorker[_maxWorkerSize];
+
+            ChangeWorkerSize(_workerSize);
+
+            // アプリ終了前の開放予約
+            ApplicationDisposer.Current.Add(this);
+        }
+
+
         public bool IsBusy
         {
-            get { return _IsBusy; }
-            set { if (_IsBusy != value) { _IsBusy = value; RaisePropertyChanged(); } }
+            get { return _isBusy; }
+            set { if (_isBusy != value) { _isBusy = value; RaisePropertyChanged(); } }
         }
 
-        private bool _IsBusy;
-
-        private void UpdateIsBusy()
-        {
-            this.IsBusy = this.Workers.Any(e => e != null && e.IsBusy);
-        }
-
-
-        // ジョブの製造番号用カウンタ
-        private int _serialNumber;
-
-        // コンテキスト
-        private JobContext _context;
-
-        // 最大ワーカー数
-        private readonly int _maxWorkerSize;
-
-
-        /// <summary>
-        /// WorkerSize property.
-        /// </summary>
         [PropertyMember("@ParamJobEngineWorkerSize", Tips = "@ParamJobEngineWorkerSizeTips")]
         public int WorkerSize
         {
@@ -97,24 +92,12 @@ namespace NeeView
             }
         }
 
-        private int _workerSize = 2;
-
-        // ワーカー
         public JobWorker[] Workers { get; set; }
 
 
-        // コンストラクタ
-        private JobEngine()
+        private void UpdateIsBusy()
         {
-            _maxWorkerSize = Math.Max(4, Environment.ProcessorCount);
-
-            _context = new JobContext();
-            Workers = new JobWorker[_maxWorkerSize];
-
-            ChangeWorkerSize(_workerSize);
-
-            // アプリ終了前の開放予約
-            ApplicationDisposer.Current.Add(this);
+            this.IsBusy = this.Workers.Any(e => e != null && e.IsBusy);
         }
 
         // 廃棄処理
@@ -138,7 +121,7 @@ namespace NeeView
                 {
                     if (Workers[i] == null)
                     {
-                        Workers[i] = new JobWorker(_context);
+                        Workers[i] = new JobWorker(_scheduler);
                         Workers[i].StatusChanged += (s, e) => NotifyStatusChanged(); //// StatusChanged?.Invoke(s, e);
                         Workers[i].IsBusyChanged += (s, e) => UpdateIsBusy(); ////  IsBusyChanged?.Invoke(s, e);
                         Workers[i].Run();
@@ -161,96 +144,38 @@ namespace NeeView
             }
 
             // イベント待ち解除
-            _context.RaiseJobChanged();
+            _scheduler.RaiseQueueChanged();
 
             RaisePropertyChanged(nameof(Workers));
             NotifyStatusChanged();
         }
 
-        /// <summary>
-        /// Jobクリア
-        /// </summary>
-        /// <param name="priority">クリアする優先度</param>
-        public void Clear(QueueElementPriority priority)
+
+        #region Scheduler
+        private JobScheduler _scheduler;
+
+        private void InitializeScheduler()
         {
-            lock (_context.Lock)
-            {
-                while (_context.JobQueue.CountAt(priority) > 0)
-                {
-                    var job = _context.JobQueue.Dequeue(priority);
-                    job.Completed.Set(); // 終了
-                }
-            }
+            _scheduler = new JobScheduler();
         }
 
-        /// <summary>
-        /// JOBクリア(未使用)
-        /// </summary>
-        /// <param name="priority">クリアする優先度</param>
-        /// <param name="keyCode">識別子</param>
-        public void Clear(QueueElementPriority priority, string keyCode)
+        public void RegistClient(JobClient client)
         {
-            lock (_context.Lock)
-            {
-                var jobs = _context.JobQueue.Where(e => e.KeyCode == keyCode, priority).ToList();
-                foreach (var job in jobs)
-                {
-                    _context.JobQueue.Remove(priority, job);
-                    job.Completed.Set(); // 終了
-                }
-            }
+            _scheduler.RegistClent(client);
         }
 
-        /// <summary>
-        /// Job登録
-        /// </summary>
-        /// <param name="command">処理</param>
-        /// <param name="priority">優先度</param>
-        /// <param name="keyCode">識別子</param>
-        /// <returns>JobRequest</returns>
-        public JobRequest Add(object sender, IJobCommand command, QueueElementPriority priority, string keyCode, bool reverse = false)
+        public void UnregistClient(JobClient client)
         {
-            var job = new Job();
-            job.SerialNumber = _serialNumber++;
-            job.KeyCode = keyCode;
-            job.Sender = sender;
-            job.Command = command;
-
-            var request = new JobRequest(this, job, priority);
-
-            lock (_context.Lock)
-            {
-                _context.JobQueue.Enqueue(job, priority, reverse);
-                _context.RaiseJobChanged();
-                Message = $"Add Job. {job.SerialNumber}";
-            }
-
-            NotifyStatusChanged();
-
-            return request;
+            _scheduler.Order(client, new List<JobOrder>());
+            _scheduler.UnregistClient(client);
         }
 
-        // 優先度変更
-        public void ChangePriority(Job job, QueueElementPriority priority)
+        public List<JobSource> Order(JobClient sender, List<JobOrder> orders)
         {
-            lock (_context.Lock)
-            {
-                _context.JobQueue.ChangePriority(job, priority);
-            }
+            return _scheduler.Order(sender, orders);
         }
 
-        // 待機ジョブ数
-        public int JobCount
-        {
-            get { return _context.JobQueue.Count; }
-        }
-
-        // 開発用遅延
-        [Conditional("DEBUG")]
-        private void __Delay(int ms)
-        {
-            Thread.Sleep(ms);
-        }
+        #endregion
 
         #region IDisposable Support
         private bool _disposedValue = false;

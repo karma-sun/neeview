@@ -187,14 +187,24 @@ namespace NeeView
         }
 
         // サムネイル生成
-        public byte[] CreateThumbnail()
+        // TODO: メインコンテンツの状態に依存しないように
+        public byte[] CreateThumbnail(CancellationToken token)
         {
-            if (this.Thumbnail != null) return this.Thumbnail;
+            token.ThrowIfCancellationRequested();
 
-            if (this.BitmapSource == null) return null;
+            if (this.Thumbnail != null)
+            {
+                return this.Thumbnail;
+            }
+
+            if (this.BitmapSource == null) 
+            {
+                Debug.WriteLine("Warning!: It's wrong operation");
+                return null;
+            }
 
             var thumbnailSize = ThumbnailProfile.Current.GetThumbnailSize(this.PictureInfo.Size);
-            this.Thumbnail = PictureFactory.Current.CreateThumbnail(_archiveEntry, this.RawData, thumbnailSize, this.BitmapSource);
+            this.Thumbnail = PictureFactory.Current.CreateThumbnail(_archiveEntry, this.RawData, thumbnailSize, this.BitmapSource, token);
 
             return this.Thumbnail;
         }

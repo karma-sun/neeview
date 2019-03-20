@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
@@ -15,41 +16,44 @@ namespace NeeView
         {
             Thumbnail.DebugIgnoreCache = true;
 
-            var mres = new ManualResetEventSlim(false);
-            ////var sw = Stopwatch.StartNew();
-            
-            DebugTimer.Start("CreateBookThumbnail", isSilent: true);
-
-            var items = BookshelfFolderList.Current.FolderCollection.Items.OfType<FileFolderItem>().Take(100);
-            foreach (var item in items)
+            using (var jobClient = new PageThumbnailJobClient(JobCategories.BookThumbnailCategory))
+            using (var mres = new ManualResetEventSlim(false))
             {
-                Debug.WriteLine($"{item.Path.DispName}...");
-                DebugTimer.CheckRestart();
-                item.ThumbnailLoaded += Item_ThumbnailLoaded;
-                mres.Reset();
+                ////var sw = Stopwatch.StartNew();
 
-                var page = item.GetPage();
-                page.Thumbnail.Clear();
-                page.LoadThumbnail(QueueElementPriority.BookmarkThumbnail);
-                await mres.WaitHandle.WaitOneAsync();
+                DebugTimer.Start("CreateBookThumbnail", isSilent: true);
 
-                item.ThumbnailLoaded -= Item_ThumbnailLoaded;
-                DebugTimer.Check("Complete");
+                var items = BookshelfFolderList.Current.FolderCollection.Items.OfType<FileFolderItem>().Take(100);
+                foreach (var item in items)
+                {
+                    Debug.WriteLine($"{item.Path.DispName}...");
+                    DebugTimer.CheckRestart();
+                    item.ThumbnailLoaded += Item_ThumbnailLoaded;
+                    mres.Reset();
+
+                    var page = item.GetPage();
+                    page.Thumbnail.Clear();
+
+                    jobClient.Order(new List<Page>() { page });
+
+                    await mres.WaitHandle.WaitOneAsync();
+
+                    item.ThumbnailLoaded -= Item_ThumbnailLoaded;
+                    DebugTimer.Check("Complete");
+                }
+
+                DebugTimer.Result();
+                ////Debug.WriteLine($"TestTime: {sw.ElapsedMilliseconds:#,0}");
+                ////Debug.WriteLine($"ItemCount: {items.Count()} thumb.");
+
+                void Item_ThumbnailLoaded(object sender, EventArgs e)
+                {
+                    mres.Set();
+                }
             }
 
-            DebugTimer.Result();
-            ////Debug.WriteLine($"TestTime: {sw.ElapsedMilliseconds:#,0}");
-            ////Debug.WriteLine($"ItemCount: {items.Count()} thumb.");
-
-            mres.Dispose();
             Thumbnail.DebugIgnoreCache = false;
-
             DebugTimer.Stop();
-
-            void Item_ThumbnailLoaded(object sender, EventArgs e)
-            {
-                mres.Set();
-            }
         }
 
         private static Task WaitOneAsync(this WaitHandle waitHandle)

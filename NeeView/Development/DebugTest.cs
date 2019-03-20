@@ -24,14 +24,13 @@ namespace NeeView
                 //ArchiverManager.Current.DumpCache();
 
                 //
-                new SevenZiPTest().Execute();
+                ////new SevenZiPTest().Execute();
 
                 // ArchiveEntry収集テスト
                 //await ArchiveEntryCollectionTest.ExecuteAsync(CancellationToken.None);
 
                 // ブックサムネイル作成テスト
-                ////await DebugCreateBookThumbnail.TestAsync();
-                ////return;
+                //await DebugCreateBookThumbnail.TestAsync();
 
                 // 致命的エラーのテスト
                 ////InnerExcepionTest.Execute();

@@ -21,6 +21,11 @@ namespace NeeView
         File,
     }
 
+    public interface IHasPage
+    {
+        Page GetPage();
+    }
+
     /// <summary>
     /// ページ
     /// </summary>
@@ -170,87 +175,15 @@ namespace NeeView
         {
             BookPrefix = bookPrefix;
             Entry = entry;
-
-            InitializeContentJob();
-            InitializeThumbnailJob();
         }
 
 
         #region コンテンツ
 
-        private PageJob _contentJob;
-
         /// <summary>
-        /// 初期化
+        /// コンテンツ読み込み
         /// </summary>
-        private void InitializeContentJob()
-        {
-            _contentJob = new PageJob(this, new ContentLoadJobCommand(this));
-        }
-
-        /// <summary>
-        /// 読込
-        /// </summary>
-        /// <param name="priority"></param>
-        /// <returns></returns>
-        public async Task LoadAsync(QueueElementPriority priority)
-        {
-            await LoadAsync(priority, CancellationToken.None);
-        }
-
-        /// <summary>
-        /// 読込
-        /// </summary>
-        /// <param name="priority"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        public async Task LoadAsync(QueueElementPriority priority, CancellationToken token)
-        {
-            if (Content.IsLoaded) return;
-
-            Message = $"Open... ({priority})";
-            await _contentJob.RequestAsync(priority, PageJobOption.None, token);
-        }
-
-        /// <summary>
-        ///  コンテンツを開く(非同期)
-        /// </summary>
-        /// <param name="priority"></param>
-        /// <param name="option"></param>
-        /// <returns></returns>
-        public JobRequest Load(QueueElementPriority priority, PageJobOption option = PageJobOption.None)
-        {
-            // 既にロード済の場合は何もしない
-            if (Content.IsLoaded) return null;
-
-            Message = $"Open... ({priority})";
-            return _contentJob.Request(priority, null, option);
-        }
-
-        /// <summary>
-        /// JOB: コマンド
-        /// </summary>
-        private class ContentLoadJobCommand : IJobCommand
-        {
-            Page _page;
-
-            public ContentLoadJobCommand(Page page)
-            {
-                _page = page;
-            }
-
-            public async Task ExecuteAsync(ManualResetEventSlim completed, CancellationToken token)
-            {
-                await _page.ExecuteAsync(completed, token);
-            }
-        }
-
-        /// <summary>
-        /// JOB: メイン処理
-        /// </summary>
-        /// <param name="completed">処理の途中でJOB完了設定されることがある</param>
-        /// <param name="token"></param>
-        private async Task ExecuteAsync(ManualResetEventSlim completed, CancellationToken token)
+        public async Task LoadContentAsync(CancellationToken token)
         {
             token.ThrowIfCancellationRequested();
 
@@ -264,12 +197,7 @@ namespace NeeView
         /// </summary>
         public void Unload()
         {
-            if (!_contentJob.IsActive)
-            {
-                Message = "Closed.";
-            }
-
-            _contentJob.Cancel();
+            // TODO: JOBの処理
 
             Content.Unload();
         }
@@ -278,42 +206,13 @@ namespace NeeView
 
         #region サムネイル
 
-        private PageJob _thumbnailJob;
-
         /// <summary>
-        /// 初期化
+        /// サムネイル読み込み
         /// </summary>
-        private void InitializeThumbnailJob()
+        public async Task LoadThumbnailAsync(CancellationToken token)
         {
-            _thumbnailJob = new PageJob(this, new ThumbnailLoadJobCommand(this));
-        }
+            token.ThrowIfCancellationRequested();
 
-
-        /// <summary>
-        /// JOB: コマンド
-        /// </summary>
-        private class ThumbnailLoadJobCommand : IJobCommand
-        {
-            Page _page;
-
-            public ThumbnailLoadJobCommand(Page page)
-            {
-                _page = page;
-            }
-
-            public async Task ExecuteAsync(ManualResetEventSlim completed, CancellationToken token)
-            {
-                await _page.ExecuteThumbnailAsync(null, token);
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="completed"></param>
-        /// <param name="token"></param>
-        private async Task ExecuteThumbnailAsync(ManualResetEventSlim completed, CancellationToken token)
-        {
             await Content.InitializeEntryAsync(token);
             Content.InitializeThumbnail();
             if (Thumbnail.IsValid) return;
@@ -321,51 +220,14 @@ namespace NeeView
             await Content.LoadThumbnailAsync(token);
         }
 
-
-
-        /// <summary>
-        /// 読込
-        /// </summary>
-        /// <param name="priority"></param>
-        /// <returns></returns>
-        public async Task LoadThumbnailAsync(QueueElementPriority priority)
-        {
-            await LoadThumbnailAsync(priority, CancellationToken.None);
-        }
-
-        /// <summary>
-        /// 読込
-        /// </summary>
-        /// <param name="priority"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        public async Task LoadThumbnailAsync(QueueElementPriority priority, CancellationToken token)
-        {
-            if (Thumbnail.IsValid) return;
-            await _thumbnailJob.RequestAsync(priority, PageJobOption.None, token);
-        }
-
-        /// <summary>
-        /// サムネイル要求
-        /// </summary>
-        /// <param name="priority"></param>
-        /// <returns></returns>
-        public JobRequest LoadThumbnail(QueueElementPriority priority)
-        {
-            // 既にサムネイルが存在する場合、何もしない
-            if (this.Thumbnail.IsValid) return null;
-
-            return _thumbnailJob.Request(priority, null, PageJobOption.None);
-        }
-
-
         #endregion
 
 
         // ToString
         public override string ToString()
         {
-            return EntryLastName != null ? "Page." + EntryLastName : base.ToString();
+
+            return Content?.ToString()  != null ? "Page." + Content?.ToString() : base.ToString();
         }
 
 

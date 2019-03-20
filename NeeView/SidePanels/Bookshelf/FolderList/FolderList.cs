@@ -273,22 +273,16 @@ namespace NeeView
         public FolderCollection FolderCollection
         {
             get { return _folderCollection; }
-            set
+            private set
             {
                 if (_folderCollection != value)
                 {
                     _folderCollection?.Dispose();
                     _folderCollection = value;
-                    CollectionChanged?.Invoke(this, null);
-                    RaisePropertyChanged(nameof(Place));
-                    RaisePropertyChanged(nameof(IsPlaceValid));
-                    RaisePropertyChanged(nameof(FolderOrder));
-                    RaisePropertyChanged(nameof(IsFolderOrderEnabled));
-                    RaisePropertyChanged(nameof(IsFolderSearchCollection));
-                    RaisePropertyChanged(nameof(IsFolderSearchEnabled));
                 }
             }
         }
+
 
         private FolderListBoxModel _folderListBoxModel;
         public FolderListBoxModel FolderListBoxModel
@@ -522,6 +516,18 @@ namespace NeeView
 
         #region Methods
 
+        private void RaiseCollectionChanged()
+        {
+            CollectionChanged?.Invoke(this, null);
+            RaisePropertyChanged(nameof(FolderCollection));
+            RaisePropertyChanged(nameof(Place));
+            RaisePropertyChanged(nameof(IsPlaceValid));
+            RaisePropertyChanged(nameof(FolderOrder));
+            RaisePropertyChanged(nameof(IsFolderOrderEnabled));
+            RaisePropertyChanged(nameof(IsFolderSearchCollection));
+            RaisePropertyChanged(nameof(IsFolderSearchEnabled));
+        }
+
         public virtual void IsVisibleChanged(bool isVisible)
         {
         }
@@ -729,7 +735,7 @@ namespace NeeView
                         FocusAtOnce();
                     }
 
-                    CollectionChanged?.Invoke(this, null);
+                    RaiseCollectionChanged();
 
                     // 最終フォルダー更新
                     BookHistoryCollection.Current.LastFolder = Place.SimpleQuery;

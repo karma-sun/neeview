@@ -73,11 +73,11 @@ namespace NeeView
         }
 
         //
-        public void CreateImage(Stream stream, BitmapInfo info, Stream outStream, Size size, BitmapImageFormat format, int quality)
+        public void CreateImage(Stream stream, BitmapInfo info, Stream outStream, Size size, BitmapImageFormat format, int quality, CancellationToken token)
         {
             Debug.WriteLine($"DefaultImage: {size.Truncate()}");
 
-            BitmapSource bitmap = Create(stream, info, size, CancellationToken.None);
+            BitmapSource bitmap = Create(stream, info, size, token);
 
             if (bitmap.DpiX != bitmap.DpiY)
             {

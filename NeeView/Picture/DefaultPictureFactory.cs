@@ -23,8 +23,10 @@ namespace NeeView
         /// <summary>
         /// Pictureの生成
         /// </summary>
-        public async Task<Picture> CreateAsync(ArchiveEntry entry, PictureCreateOptions options, CancellationToken token)
+        public Picture Create(ArchiveEntry entry, PictureCreateOptions options, CancellationToken token)
         {
+            int __phase = 0;
+
             var picture = new Picture(entry);
 
             Stream stream = null;
@@ -33,10 +35,13 @@ namespace NeeView
             {
                 string decoder = null;
 
+                token.ThrowIfCancellationRequested();
+                __phase++;
+
                 // raw data
                 if (options.HasFlag(PictureCreateOptions.IgnoreImageCache))
                 {
-                    var namedStream =CreateStream(entry, picture.RawData);
+                    var namedStream = CreateStream(entry, picture.RawData);
                     stream = namedStream.Stream;
                     decoder = namedStream.Name;
                 }
@@ -45,8 +50,7 @@ namespace NeeView
                     stream = new MemoryStream();
                     using (var namedStream = _pictureStream.Create(entry))
                     {
-                        token.ThrowIfCancellationRequested();
-                        await namedStream.Stream.CopyToAsync(stream, 81920, token);
+                        namedStream.Stream.CopyToAsync(stream, 81920, token).Wait();
                         picture.RawData = ((MemoryStream)stream).ToArray();
                         decoder = namedStream.Name;
                     }
@@ -54,6 +58,8 @@ namespace NeeView
 
                 // info
                 token.ThrowIfCancellationRequested();
+                __phase++;
+
                 stream.Seek(0, SeekOrigin.Begin);
                 var info = BitmapInfo.Create(stream);
                 var originalSize = info.IsTranspose ? info.GetPixelSize().Transpose() : info.GetPixelSize();
@@ -64,9 +70,14 @@ namespace NeeView
                 picture.PictureInfo.Size = size.IsEmpty ? originalSize : size;
 
                 token.ThrowIfCancellationRequested();
+                __phase++;
 
                 // regist CancellationToken Callback
-                tokenRegistration = token.Register(() => stream?.Dispose());
+                tokenRegistration = token.Register(() =>
+                {
+                    Debug.WriteLine($"Stream.Dispose: {entry}, {token.IsCancellationRequested}");
+                    stream?.Dispose();
+                });
 
                 // bitmap
                 if (options.HasFlag(PictureCreateOptions.CreateBitmap) || picture.PictureInfo.Size.IsEmpty)
@@ -80,6 +91,9 @@ namespace NeeView
                     picture.BitmapSource = bitmapSource;
                 }
 
+                token.ThrowIfCancellationRequested();
+                __phase++;
+
                 // thumbnail
                 if (options.HasFlag(PictureCreateOptions.CreateThumbnail))
                 {
@@ -87,26 +101,22 @@ namespace NeeView
                     {
                         var thumbnailSize = ThumbnailProfile.Current.GetThumbnailSize(picture.PictureInfo.Size);
                         var setting = new BitmapCreateSetting();
-                        _bitmapFactory.CreateImage(stream, info, ms, thumbnailSize, ThumbnailProfile.Current.Format, ThumbnailProfile.Current.Quality, ThumbnailProfile.Current.CreateBitmapCreateSetting());
+                        _bitmapFactory.CreateImage(stream, info, ms, thumbnailSize, ThumbnailProfile.Current.Format, ThumbnailProfile.Current.Quality, ThumbnailProfile.Current.CreateBitmapCreateSetting(), token);
                         picture.Thumbnail = ms.ToArray();
 
                         ////Debug.WriteLine($"Thumbnail: {picture.Thumbnail.Length / 1024}KB");
                     }
                 }
+
+                token.ThrowIfCancellationRequested();
+                __phase++;
             }
-            catch (OperationCanceledException)
+            catch
             {
-                // キャンセル時は null を返す
-                return null;
-            }
-            catch (Exception)
-            {
-                if (token.IsCancellationRequested)
-                {
-                    return null;
-                }
+                token.ThrowIfCancellationRequested();
                 throw;
             }
+
             finally
             {
                 stream?.Dispose();
@@ -214,12 +224,12 @@ namespace NeeView
         }
 
         //
-        public byte[] CreateImage(ArchiveEntry entry, byte[] raw, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting)
+        public byte[] CreateImage(ArchiveEntry entry, byte[] raw, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting, CancellationToken token)
         {
             using (var stream = CreateStream(entry, raw).Stream)
             using (var ms = new MemoryStream())
             {
-                _bitmapFactory.CreateImage(stream, null, ms, size, format, quality, setting);
+                _bitmapFactory.CreateImage(stream, null, ms, size, format, quality, setting, token);
                 return ms.ToArray();
             }
         }

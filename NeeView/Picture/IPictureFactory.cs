@@ -10,9 +10,9 @@ namespace NeeView
     /// </summary>
     public interface IPictureFactory
     {
-        Task<Picture> CreateAsync(ArchiveEntry entry, PictureCreateOptions options, CancellationToken token);
+        Picture Create(ArchiveEntry entry, PictureCreateOptions options, CancellationToken token);
 
         BitmapSource CreateBitmapSource(ArchiveEntry entry, byte[] raw, Size size, bool keepAspectRatio, CancellationToken token);
-        byte[] CreateImage(ArchiveEntry entry, byte[] raw, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting);
+        byte[] CreateImage(ArchiveEntry entry, byte[] raw, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting, CancellationToken token);
     }
 }

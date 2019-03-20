@@ -71,7 +71,7 @@ namespace NeeView
             return _default.Create(stream, info, size, token);
         }
 
-        public void CreateImage(Stream stream, BitmapInfo info, Stream outStream, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting)
+        public void CreateImage(Stream stream, BitmapInfo info, Stream outStream, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting, CancellationToken token)
         {
             // by MagicScaler
             if (!size.IsEmpty && setting.Mode == BitmapCreateMode.HighQuality)
@@ -87,12 +87,13 @@ namespace NeeView
                 }
                 catch (Exception ex)
                 {
+                    token.ThrowIfCancellationRequested();
                     Debug.WriteLine("MagicScaler Failed:" + ex.Message);
                 }
             }
 
             // by Default
-            _default.CreateImage(stream, info, outStream, size, format, quality);
+            _default.CreateImage(stream, info, outStream, size, format, quality, token);
         }
 
         #endregion

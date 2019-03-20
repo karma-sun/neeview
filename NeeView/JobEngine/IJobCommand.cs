@@ -9,6 +9,6 @@ namespace NeeView
     public interface IJobCommand
     {
         // メイン処理
-        Task ExecuteAsync(ManualResetEventSlim completed, CancellationToken token);
+        void Execute(CancellationToken token);
     }
 }

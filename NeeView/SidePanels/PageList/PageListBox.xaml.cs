@@ -28,7 +28,7 @@ namespace NeeView
 
         private PageListBoxViewModel _vm;
         private ListBoxThumbnailLoader _thumbnailLoader;
-
+        private PageThumbnailJobClient _jobClient;
 
         static PageListBox()
         {
@@ -50,7 +50,7 @@ namespace NeeView
             // タッチスクロール操作の終端挙動抑制
             this.ListBox.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
 
-            _thumbnailLoader = new ListBoxThumbnailLoader(this, QueueElementPriority.PageListThumbnail);
+
 
             this.Loaded += PageListBox_Loaded;
             this.Unloaded += PageListBox_Unloaded;
@@ -122,6 +122,9 @@ namespace NeeView
             _vm.Loaded();
             _vm.ViewItemsChanged += ViewModel_ViewItemsChanged;
 
+            _jobClient = new PageThumbnailJobClient(JobCategories.PageContentJobCategory);
+            _thumbnailLoader = new ListBoxThumbnailLoader(this, _jobClient);
+
             FocusSelectedItem();
         }
 
@@ -129,6 +132,8 @@ namespace NeeView
         {
             _vm.Unloaded();
             _vm.ViewItemsChanged -= ViewModel_ViewItemsChanged;
+
+            _jobClient.Dispose();
         }
 
 

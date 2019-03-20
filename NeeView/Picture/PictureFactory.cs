@@ -57,27 +57,6 @@ namespace NeeView
         private DefaultPictureFactory _defaultFactory = new DefaultPictureFactory();
         private PdfPictureFactory _pdfFactory = new PdfPictureFactory();
 
-        /// <summary>
-        /// OutOfMemory時にはリトライする処理(async)
-        /// </summary>
-        private async Task<TResult> RetryWhenOutOfMemoryAsync<TResult>(Task<TResult> task)
-        {
-            int retry = 0;
-            RETRY:
-
-            try
-            {
-                return await task;
-            }
-            catch (OutOfMemoryException) when (retry == 0)
-            {
-                Debug.WriteLine("Retry...");
-                retry++;
-                GC.Collect();
-                GC.WaitForPendingFinalizers();
-                goto RETRY;
-            }
-        }
 
         /// <summary>
         /// OutOfMemory時にはリトライする処理
@@ -107,16 +86,15 @@ namespace NeeView
         /// <param name="entry">ソースとなるエントリ</param>
         /// <param name="options">Picture生成オプション</param>
         /// <param name="token">キャンセルトークン</param>
-        /// <returns>キャンセルされたときには null を返す</returns>
-        public async Task<Picture> CreateAsync(ArchiveEntry entry, PictureCreateOptions options, CancellationToken token)
+        public Picture Create(ArchiveEntry entry, PictureCreateOptions options, CancellationToken token)
         {
             if (entry.Archiver is PdfArchiver)
             {
-                return await RetryWhenOutOfMemoryAsync(_pdfFactory.CreateAsync(entry, options, token));
+                return RetryWhenOutOfMemory(() => _pdfFactory.Create(entry, options, token));
             }
             else
             {
-                return await RetryWhenOutOfMemoryAsync(_defaultFactory.CreateAsync(entry, options, token));
+                return RetryWhenOutOfMemory(() => _defaultFactory.Create(entry, options, token));
             }
         }
 
@@ -153,16 +131,16 @@ namespace NeeView
         /// <param name="quality">出力画像の品質。JPEG用</param>
         /// <param name="setting">画像生成設定</param>
         /// <returns>画像ファイルデータ</returns>
-        public byte[] CreateImage(ArchiveEntry entry, byte[] raw, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting)
+        public byte[] CreateImage(ArchiveEntry entry, byte[] raw, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting, CancellationToken token)
         {
             ////Debug.WriteLine($"CreateThumnbnail: {entry.EntryLastName} ({size.Truncate()})");
             if (entry.Archiver is PdfArchiver)
             {
-                return RetryWhenOutOfMemory(() => _pdfFactory.CreateImage(entry, raw, size, format, quality, setting));
+                return RetryWhenOutOfMemory(() => _pdfFactory.CreateImage(entry, raw, size, format, quality, setting, token));
             }
             else
             {
-                return RetryWhenOutOfMemory(() => _defaultFactory.CreateImage(entry, raw, size, format, quality, setting));
+                return RetryWhenOutOfMemory(() => _defaultFactory.CreateImage(entry, raw, size, format, quality, setting, token));
             }
         }
 
@@ -174,12 +152,12 @@ namespace NeeView
         /// <param name="size">指定サイズ</param>
         /// <param name="source">入力ビットマップ。null出ない場合rawでなくこちらをソースとする</param>
         /// <returns>画像ファイルデータ</returns>
-        public byte[] CreateThumbnail(ArchiveEntry entry, byte[] raw, Size size, BitmapSource source)
+        public byte[] CreateThumbnail(ArchiveEntry entry, byte[] raw, Size size, BitmapSource source, CancellationToken token)
         {
             var createSetting = ThumbnailProfile.Current.CreateBitmapCreateSetting();
             createSetting.Source = source;
 
-            return CreateImage(entry, raw, size, ThumbnailProfile.Current.Format, ThumbnailProfile.Current.Quality, createSetting);
+            return CreateImage(entry, raw, size, ThumbnailProfile.Current.Format, ThumbnailProfile.Current.Quality, createSetting, token);
         }
     }
 }

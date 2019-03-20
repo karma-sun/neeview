@@ -45,30 +45,27 @@ namespace NeeView
         /// <param name="entry"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        protected async Task<Picture> LoadPictureAsync(ArchiveEntry entry, PictureCreateOptions options, CancellationToken token)
+        protected Picture LoadPicture(ArchiveEntry entry, PictureCreateOptions options, CancellationToken token)
         {
             try
             {
-                var picture = await PictureFactory.Current.CreateAsync(entry, options, token);
-                if (picture == null)
-                {
-                    return null;
-                }
+                var picture = PictureFactory.Current.Create(entry, options, token);
                 this.Size = picture.PictureInfo.Size;
                 return picture;
             }
             catch (OperationCanceledException)
             {
-                return null;
+                throw;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
+                // 画像ではない
                 PageMessage = new PageMessage()
                 {
                     Icon = FilePageIcon.Alart,
-                    Message = e.Message
+                    Message = ex.Message
                 };
-                return null;
+                throw;
             }
         }
 
@@ -82,17 +79,18 @@ namespace NeeView
         {
             if (IsLoaded) return;
 
-            var picture = await LoadPictureAsync(Entry, PictureCreateOptions.CreateBitmap, token);
+            var picture = LoadPicture(Entry, PictureCreateOptions.CreateBitmap, token);
+            this.Picture = picture;
+            RaiseLoaded();
+            RaiseChanged();
 
-            if (!token.IsCancellationRequested)
-            {
-                this.Picture = picture;
-                RaiseLoaded();
-                RaiseChanged();
-            }
 
+            // TODO: サムネイル自動生成、ここでおこなうのはよろしくない？
+#if false 
             if (Thumbnail.IsValid || picture == null) return;
-            Thumbnail.Initialize(picture.CreateThumbnail());
+            Thumbnail.Initialize(picture.CreateThumbnail(token));
+#endif
+            await Task.CompletedTask;
         }
 
         /// <summary>
@@ -119,19 +117,26 @@ namespace NeeView
 
             // TODO: コンテンツ読み込み要求が有効な場合の処理
 
+            byte[] thumbnailRaw = null;
+
             if (this.Picture != null)
             {
-                Thumbnail.Initialize(this.Picture.CreateThumbnail());
+                thumbnailRaw = this.Picture.CreateThumbnail(token);
             }
             else if (this.PageMessage != null)
             {
-                Thumbnail.Initialize(null);
+                thumbnailRaw = null;
             }
             else
             {
-                var picture = await LoadPictureAsync(Entry, PictureCreateOptions.CreateThumbnail, token);
-                Thumbnail.Initialize(picture?.CreateThumbnail());
+                var picture = LoadPicture(Entry, PictureCreateOptions.CreateThumbnail, token);
+                thumbnailRaw = picture?.CreateThumbnail(token);
             }
+
+            token.ThrowIfCancellationRequested();
+            Thumbnail.Initialize(thumbnailRaw);
+
+            await Task.CompletedTask;
         }
     }
 }

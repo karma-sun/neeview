@@ -34,22 +34,20 @@ namespace NeeView
             if (IsLoaded) return;
 
             // 画像情報の取得
-            var picture = await LoadPictureAsync(Entry, PictureCreateOptions.CreateBitmap, token);
+            var picture = LoadPicture(Entry, PictureCreateOptions.CreateBitmap, token);
+            this.Picture = picture;
 
-            if (!token.IsCancellationRequested)
-            {
-                this.Picture = picture;
+            // TempFileに出力し、これをMediaPlayerに再生させる
+            CreateTempFile(true);
 
-                // TempFileに出力し、これをMediaPlayerに再生させる
-                CreateTempFile(true);
-
-                RaiseLoaded();
-                RaiseChanged();
-            }
+            RaiseLoaded();
+            RaiseChanged();
 
             // サムネイル作成
             if (Thumbnail.IsValid || picture == null) return;
-            Thumbnail.Initialize(picture.CreateThumbnail());
+            Thumbnail.Initialize(picture.CreateThumbnail(token));
+
+            await Task.CompletedTask;
         }
     }
 }

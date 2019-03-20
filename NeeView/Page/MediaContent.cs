@@ -40,7 +40,6 @@ namespace NeeView
             this.Picture.PictureInfo.OriginalSize = size;
         }
 
-#pragma warning disable CS1998
         /// <summary>
         /// コンテンツロード.
         /// </summary>
@@ -65,8 +64,9 @@ namespace NeeView
             // サムネイル作成
             if (Thumbnail.IsValid) return;
             Thumbnail.Initialize(ThumbnailType.Media);
+
+            await Task.CompletedTask;
         }
     }
-#pragma warning restore 
 
 }

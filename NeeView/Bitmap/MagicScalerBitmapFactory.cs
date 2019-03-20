@@ -66,8 +66,9 @@ namespace NeeView
         }
 
         //
-        public void CreateImage(Stream stream, BitmapInfo info, Stream outStream, Size size, BitmapImageFormat format, int quality)
+        public void CreateImage(Stream stream, BitmapInfo info, Stream outStream, Size size, BitmapImageFormat format, int quality, CancellationToken token)
         {
+            token.ThrowIfCancellationRequested();
             CreateImage(stream, info, outStream, size, format, quality, null);
         }
 

@@ -114,23 +114,14 @@ namespace NeeView
 
         #region IVirtualItem
 
-        // TODO: これはPageで保持するべきか？
-        private JobRequest _jobRequest;
-
         public int DetachCount { get; set; }
 
         public void Attached()
         {
-            /// Debug.WriteLine($"Attach: {Name}");
-            _jobRequest?.Cancel();
-            _jobRequest = ArchivePage.LoadThumbnail(QueueElementPriority.BookmarkThumbnail);
         }
 
         public void Detached()
         {
-            ////Debug.WriteLine($"Detach: {Name}");
-            _jobRequest?.Cancel();
-            _jobRequest = null;
         }
 
         #endregion

@@ -35,6 +35,7 @@ namespace NeeView
         private ListBoxThumbnailLoader _thumbnailLoader;
         private bool _storeFocus;
         private bool _isClickEnabled;
+        private PageThumbnailJobClient _jobClient;
 
         #endregion
 
@@ -64,7 +65,7 @@ namespace NeeView
             this.ListBox.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
 
             this.ListBox.AddHandler(ScrollViewer.ScrollChangedEvent, new ScrollChangedEventHandler(ListBox_ScrollChanged));
-            _thumbnailLoader = new ListBoxThumbnailLoader(this, QueueElementPriority.FolderThumbnail);
+
 
             this.Loaded += FolderListBox_Loaded;
             this.Unloaded += FolderListBox_Unloaded;
@@ -72,6 +73,9 @@ namespace NeeView
 
         private void FolderListBox_Loaded(object sender, RoutedEventArgs e)
         {
+            _jobClient = new PageThumbnailJobClient(JobCategories.BookThumbnailCategory);
+            _thumbnailLoader = new ListBoxThumbnailLoader(this, _jobClient);
+
             _vm.Loaded();
             _vm.SelectedChanging += SelectedChanging;
             _vm.SelectedChanged += SelectedChanged;
@@ -79,6 +83,8 @@ namespace NeeView
 
         private void FolderListBox_Unloaded(object sender, RoutedEventArgs e)
         {
+            _jobClient.Dispose();
+
             _vm.Unloaded();
             _vm.SelectedChanging -= SelectedChanging;
             _vm.SelectedChanged -= SelectedChanged;

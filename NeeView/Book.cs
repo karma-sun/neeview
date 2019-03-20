@@ -69,6 +69,8 @@ namespace NeeView
         // ページマップ
         private Dictionary<string, Page> _pageMap = new Dictionary<string, Page>();
 
+        private PageContentJobClient _jobClient = new PageContentJobClient();
+
         #endregion
 
         #region Constructors
@@ -966,25 +968,21 @@ namespace NeeView
             _keepPages.AddRange(viewPages.Where(e => !_keepPages.Contains(e)));
             CleanupPages(source);
 
-            // start load
-            var tlist = new List<Task>();
-            foreach (var page in viewPages)
-            {
-                tlist.Add(page.LoadAsync(QueueElementPriority.Top));
-            }
 
             // pre load
-            if (isPreLoad) PreLoad(source);
+            var preLoadPages = isPreLoad ? PreLoad(source) : new List<Page>();
+            _jobClient.Order(viewPages.Concat(preLoadPages).Distinct().ToList());
 
-            // wait load
-            if (BookProfile.Current.CanPrioritizePageMove())
+            using (var loadWaitCancellation = new CancellationTokenSource())
+            using (var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token, loadWaitCancellation.Token))
             {
-                await Task.Run(() => Task.WaitAll(tlist.ToArray(), 100, token));
+                // wait load
+                var timeout = BookProfile.Current.CanPrioritizePageMove() ? 100 : Timeout.Infinite;
+                await _jobClient.WaitAsync(viewPages, timeout, linkedTokenSource.Token);
+                loadWaitCancellation.Cancel();
             }
-            else
-            {
-                await Task.WhenAll(tlist.ToArray());
-            }
+
+
             // task cancel?
             token.ThrowIfCancellationRequested();
 
@@ -1284,9 +1282,9 @@ namespace NeeView
         }
 
         // 先読み
-        private void PreLoad(PageDirectionalRange source)
+        private List<Page> PreLoad(PageDirectionalRange source)
         {
-            if (!AllowPreLoad()) return;
+            if (!AllowPreLoad()) return new List<Page>();
 
             var preLoadPages = new List<Page>();
 
@@ -1296,7 +1294,7 @@ namespace NeeView
                 if (0 <= index && index < Pages.Count)
                 {
                     Debug.Assert(_keepPages.Contains(Pages[index])); // 念のため
-                    Pages[index].Load(QueueElementPriority.Default, PageJobOption.WeakPriority);
+                    preLoadPages.Add(Pages[index]);
 
                     if (!_keepPages.Contains(Pages[index]))
                     {
@@ -1304,6 +1302,8 @@ namespace NeeView
                     }
                 }
             }
+
+            return preLoadPages;
         }
 
         #endregion
@@ -1554,6 +1554,11 @@ namespace NeeView
                     if (_contentLoaded != null)
                     {
                         _contentLoaded.Dispose();
+                    }
+
+                    if (_jobClient != null)
+                    {
+                        _jobClient.Dispose();
                     }
 
                     MemoryControl.Current.GarbageCollect();

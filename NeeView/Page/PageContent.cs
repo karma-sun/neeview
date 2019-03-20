@@ -140,7 +140,7 @@ namespace NeeView
         /// <returns></returns>
         public virtual async Task LoadAsync(CancellationToken token)
         {
-            await Task.Yield();
+            await Task.CompletedTask;
         }
 
         /// <summary>
@@ -154,10 +154,9 @@ namespace NeeView
         /// エントリ初期化。
         /// 未定義の場合に生成する
         /// </summary>
-#pragma warning disable CS1998
         public virtual async Task InitializeEntryAsync(CancellationToken token)
-#pragma warning restore CS1998
         {
+            await Task.CompletedTask;
         }
 
         /// <summary>
@@ -176,7 +175,7 @@ namespace NeeView
         /// <returns></returns>
         public virtual async Task LoadThumbnailAsync(CancellationToken token)
         {
-            await Task.Yield();
+            await Task.CompletedTask;
         }
 
         /// <summary>
@@ -193,6 +192,11 @@ namespace NeeView
         {
             FileProxy = FileProxy ?? Entry.ExtractToTemp(isKeepFileName);
             return FileProxy;
+        }
+
+        public override string ToString()
+        {
+            return _entry.EntryLastName ?? base.ToString();
         }
     }
 

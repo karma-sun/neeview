@@ -26,6 +26,7 @@ namespace NeeView
         private HistoryListViewModel _vm;
         private ListBoxThumbnailLoader _thumbnailLoader;
         private bool _storeFocus;
+        private PageThumbnailJobClient _jobClient;
 
         #endregion
 
@@ -51,11 +52,12 @@ namespace NeeView
             // タッチスクロール操作の終端挙動抑制
             this.ListBox.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
 
-            _thumbnailLoader = new ListBoxThumbnailLoader(this, QueueElementPriority.HistoryThumbnail);
+            this.Loaded += HistoryListBox_Loaded;
+            this.Unloaded += HistoryListBox_Unloaded;
         }
 
         #endregion
-        
+
         #region IPageListBox support
 
         public ListBox PageCollectionListBox => this.ListBox;
@@ -92,6 +94,17 @@ namespace NeeView
         #endregion
 
         #region Methods
+
+        private void HistoryListBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            _jobClient = new PageThumbnailJobClient(JobCategories.BookThumbnailCategory);
+            _thumbnailLoader = new ListBoxThumbnailLoader(this, _jobClient);
+        }
+
+        private void HistoryListBox_Unloaded(object sender, RoutedEventArgs e)
+        {
+            _jobClient.Dispose();
+        }
 
         /// <summary>
         /// 選択項目フォーカス状態を取得
@@ -199,7 +212,7 @@ namespace NeeView
         // リスト全体が変化したときにサムネイルを更新する
         private void HistoryListBox_TargetUpdated(object sender, DataTransferEventArgs e)
         {
-            AppDispatcher.BeginInvoke(() => _thumbnailLoader.Load());
+            AppDispatcher.BeginInvoke(() => _thumbnailLoader?.Load());
         }
 
         #endregion

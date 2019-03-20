@@ -2,6 +2,7 @@
 using NeeView.Collections.Generic;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Controls;
@@ -64,11 +65,19 @@ namespace NeeView
         }
 
 
+        public EventHandler<NotifyCollectionChangedEventArgs> CollectionChanged { get; set; }
+
+
+        public List<IVirtualItem> Items => _items;
+
+
         /// <summary>
         /// 更新要求を遅延させて実行
         /// </summary>
         private void Timer_Tick(object sender, EventArgs e)
         {
+            // TODO: タイマーではなく、パネル状態変更をトリガーにした遅延処理で。
+
             if (_darty)
             {
                 _darty = CleanUp();
@@ -82,6 +91,7 @@ namespace NeeView
                 _items.Add(item);
                 item.DetachCount = 0;
                 item.Attached();
+                CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
                 ////Debug.WriteLine($"Attached: {item}");
             }
         }
@@ -92,6 +102,7 @@ namespace NeeView
             {
                 _items.Remove(item);
                 item.Detached();
+                CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
                 ////Debug.WriteLine($"Detached: {item}");
             }
         }
@@ -126,7 +137,7 @@ namespace NeeView
                 item.DetachCount++;
             }
 
-            var detaches = removes.Where(e => e.DetachCount > 1);
+            var detaches = removes.Where(e => e.DetachCount > 1).ToList();
             foreach (var item in detaches)
             {
                 ////Debug.WriteLine($"CleanUp.Detatched: {item}");
@@ -135,6 +146,8 @@ namespace NeeView
 
             var rest = removes.Except(detaches);
             _items = intersect.Concat(rest).ToList();
+
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, detaches));
 
             return true;
         }

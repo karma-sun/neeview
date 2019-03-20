@@ -17,9 +17,7 @@ namespace NeeView
     {
         private MagicScalerBitmapFactory _magicScaler = new MagicScalerBitmapFactory();
 
-#pragma warning disable 1998
-        public async Task<Picture> CreateAsync(ArchiveEntry entry, PictureCreateOptions options, CancellationToken token)
-#pragma warning restore 1998
+        public Picture Create(ArchiveEntry entry, PictureCreateOptions options, CancellationToken token)
         {
             var pdfArchiver = (PdfArchiver)entry.Archiver;
             var profile = PdfArchiverProfile.Current;
@@ -52,7 +50,7 @@ namespace NeeView
                     intermediate.Seek(0, SeekOrigin.Begin);
 
                     var thumbnailSize = ThumbnailProfile.Current.GetThumbnailSize(picture.PictureInfo.Size);
-                    _magicScaler.CreateImage(intermediate, null, ms, thumbnailSize, ThumbnailProfile.Current.Format, ThumbnailProfile.Current.Quality);
+                    _magicScaler.CreateImage(intermediate, null, ms, thumbnailSize, ThumbnailProfile.Current.Format, ThumbnailProfile.Current.Quality, token);
                     picture.Thumbnail = ms.ToArray();
                 }
             }
@@ -70,7 +68,7 @@ namespace NeeView
 
 
         //
-        public byte[] CreateImage(ArchiveEntry entry, byte[] raw, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting)
+        public byte[] CreateImage(ArchiveEntry entry, byte[] raw, Size size, BitmapImageFormat format, int quality, BitmapCreateSetting setting, CancellationToken token)
         {
             using (var ms = new MemoryStream())
             {

@@ -5,6 +5,7 @@ using NeeView.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -46,6 +47,7 @@ namespace NeeView
 
         private PagemarkListBoxViewModel _vm;
         private PagemarkListVertualCollection _virtualCollection;
+        private PageThumbnailJobClient _jobClient;
 
         #endregion
 
@@ -71,6 +73,9 @@ namespace NeeView
             _virtualCollection = new PagemarkListVertualCollection(this.TreeView);
             PagemarkListVertualCollection.SetCurrent(_virtualCollection);
 
+            _jobClient = new PageThumbnailJobClient(JobCategories.BookThumbnailCategory);
+            _virtualCollection.CollectionChanged += VirtualCollection_CollectionChanged;
+
             // タッチスクロール操作の終端挙動抑制
             this.TreeView.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
 
@@ -83,6 +88,17 @@ namespace NeeView
             {
                 ScrollIntoView();
             };
+        }
+
+        private void VirtualCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            var pages = _virtualCollection.Items
+                .Cast<Pagemark>()
+                .Select(a => a.GetPage())
+                .ToList();
+
+            ////Debug.WriteLine($"Pagemark.Thumbnail: " + string.Join(",", pages.Select(a => a.ToString())));
+            _jobClient.Order(pages);
         }
 
         #endregion

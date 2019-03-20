@@ -135,7 +135,7 @@ namespace NeeView
                 }
                 else if (picture.Type == ThumbnailType.Unique)
                 {
-                    Thumbnail.Initialize(picture.Picture?.CreateThumbnail());
+                    Thumbnail.Initialize(picture.Picture?.CreateThumbnail(token));
                 }
                 else
                 {
@@ -194,7 +194,7 @@ namespace NeeView
                 }
                 else
                 {
-                    return new ThumbnailPicture(await LoadPictureAsync(entry, PictureCreateOptions.CreateThumbnail | PictureCreateOptions.IgnoreImageCache, token));
+                    return new ThumbnailPicture(LoadPicture(entry, PictureCreateOptions.CreateThumbnail | PictureCreateOptions.IgnoreImageCache, token));
                 }
             }
             else
@@ -227,7 +227,7 @@ namespace NeeView
                 var select = await ArchiveEntryUtility.CreateFirstImageArchiveEntryAsync(entry, searchRange, token);
                 if (select != null)
                 {
-                    return new ThumbnailPicture(await LoadPictureAsync(select, PictureCreateOptions.CreateThumbnail | PictureCreateOptions.IgnoreImageCache, token));
+                    return new ThumbnailPicture(LoadPicture(select, PictureCreateOptions.CreateThumbnail | PictureCreateOptions.IgnoreImageCache, token));
                 }
                 else
                 {
@@ -236,8 +236,13 @@ namespace NeeView
             }
             else
             {
-                return new ThumbnailPicture(await LoadPictureAsync(entry, PictureCreateOptions.CreateThumbnail | PictureCreateOptions.IgnoreImageCache, token));
+                return new ThumbnailPicture(LoadPicture(entry, PictureCreateOptions.CreateThumbnail | PictureCreateOptions.IgnoreImageCache, token));
             }
+        }
+
+        public override string ToString()
+        {
+            return _path != null ? LoosePath.GetFileName(_path) : base.ToString();
         }
     }
 

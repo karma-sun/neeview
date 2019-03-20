@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
@@ -65,12 +66,16 @@ namespace NeeView
 
         private bool _isVisible;
 
-
-
         /// <summary>
-        /// Thumbnail Bitmap
+        /// Thumbnail
         /// </summary>
-        public ThumbnailBitmap ThumbnailBitmap { get; set; } = new ThumbnailBitmap();
+        private BitmapSource _bitmapSource;
+        public BitmapSource BitmapSource
+        {
+            get { return _bitmapSource; }
+            set { SetProperty(ref _bitmapSource, value); }
+        }
+
 
         /// <summary>
         /// FullPath property
@@ -197,7 +202,7 @@ namespace NeeView
                 _isDarty = false;
 
                 // サムネイル設定
-                ThumbnailBitmap.Set(bitmapContent.Thumbnail);
+                BitmapSource = bitmapContent?.Picture?.BitmapSource;
 
                 // 画像サイズ表示
                 if (info.OriginalSize.Width <= 0 || info.OriginalSize.Height < 0)
@@ -240,7 +245,7 @@ namespace NeeView
             {
                 //Debug.WriteLine($"FileInfo: null");
 
-                ThumbnailBitmap.Reset();
+                BitmapSource = null;
                 ImageSize = null;
                 FileSize = null;
                 ShotInfo = null;

@@ -16,12 +16,12 @@ namespace NeeView
     public class ListBoxThumbnailLoader
     {
         private IPageListPanel _panel;
-        private QueueElementPriority _priority;
+        private PageThumbnailJobClient _jobClient;
 
-        public ListBoxThumbnailLoader(IPageListPanel panelListBox, QueueElementPriority priority)
+        public ListBoxThumbnailLoader(IPageListPanel panelListBox, PageThumbnailJobClient jobClient)
         {
             _panel = panelListBox;
-            _priority = priority;
+            _jobClient = jobClient;
 
             _panel.PageCollectionListBox.Loaded += ListBox_Loaded; ;
             _panel.PageCollectionListBox.IsVisibleChanged += ListBox_IsVisibleChanged; ;
@@ -62,14 +62,8 @@ namespace NeeView
             // 有効な ListBoxItem 収集
             var items = _panel.CollectPageList(virtualizingPanel.Children.Cast<ListBoxItem>().Select(i => i.DataContext)).ToList();
 
-            // 未処理の要求を解除
-            JobEngine.Current.Clear(_priority);
-
-            // 要求
-            foreach (var item in items)
-            {
-                item.GetPage()?.LoadThumbnail(_priority);
-            }
+            var pages = items.Select(e => e.GetPage()).ToList();
+            _jobClient?.Order(pages);
         }
     }
 }

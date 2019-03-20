@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -53,11 +54,17 @@ namespace NeeView
         {
             if (Page == null) return null;
 
-            await Page.LoadThumbnailAsync(QueueElementPriority.Top);
-
-            var source = Page.Thumbnail.ImageSource;
-
-            return CreateVisualContent(source, new Size(Page.Width, Page.Height), maxSize, isShadowEffect);
+            try
+            {
+                await Page.LoadThumbnailAsync(CancellationToken.None);
+                var source = Page.Thumbnail.ImageSource;
+                return CreateVisualContent(source, new Size(Page.Width, Page.Height), maxSize, isShadowEffect);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return null;
+            }
         }
 
 

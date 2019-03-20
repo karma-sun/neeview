@@ -187,6 +187,7 @@
     <Compile Include="BookHistory.cs" />
     <Compile Include="BookHistoryCollection.cs" />
     <Compile Include="BookHubHistory.cs" />
+    <Compile Include="BookThumbnailPool.cs" />
     <Compile Include="Controls\CriticalErrorDialog.xaml.cs">
       <DependentUpon>CriticalErrorDialog.xaml</DependentUpon>
     </Compile>
@@ -221,9 +222,12 @@
     </Compile>
     <Compile Include="JobEngine\IJobCommand.cs" />
     <Compile Include="JobEngine\Job.cs" />
-    <Compile Include="JobEngine\JobContext.cs" />
+    <Compile Include="JobEngine\JobCategory.cs" />
+    <Compile Include="JobEngine\JobClient.cs" />
     <Compile Include="JobEngine\JobLogEventArgs.cs" />
-    <Compile Include="JobEngine\JobRequest.cs" />
+    <Compile Include="JobEngine\JobOrder.cs" />
+    <Compile Include="JobEngine\JobScheduler.cs" />
+    <Compile Include="JobEngine\JobSource.cs" />
     <Compile Include="JobEngine\JobWorker.cs" />
     <Compile Include="MultbootService.cs" />
     <Compile Include="OpenSourceControls\VirtualizingWrapPanel.cs" />
@@ -736,7 +740,6 @@
     <Compile Include="Page\FileContent.cs" />
     <Compile Include="Page\BitmapContent.cs" />
     <Compile Include="Page\PageContent.cs" />
-    <Compile Include="Page\PageJob.cs" />
     <Compile Include="Thumbnail\Thumbnail.cs" />
     <Compile Include="Thumbnail\ThumbnailBitmap.cs" />
     <Compile Include="Thumbnail\ThumbnailCache.cs" />
@@ -806,7 +809,6 @@
       <DependentUpon>RenameWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ReplaceString.cs" />
-    <Compile Include="ThumbnailManager.cs" />
     <Compile Include="_NeeView\Drawing\DrawingExtensions.cs" />
     <Compile Include="_NeeView\Media\Imaging\BitmapSourceExtensions.cs" />
     <Compile Include="_NeeView\Data\Json.cs" />
@@ -856,7 +858,6 @@
     <Compile Include="PageSortMode.cs" />
     <Compile Include="PageStretchMode.cs" />
     <Compile Include="PageMode.cs" />
-    <Compile Include="PriorityQueue.cs" />
     <Compile Include="SaveWindow.xaml.cs">
       <DependentUpon>SaveWindow.xaml</DependentUpon>
     </Compile>

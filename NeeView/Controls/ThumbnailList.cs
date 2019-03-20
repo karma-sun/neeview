@@ -32,6 +32,7 @@ namespace NeeView
         private bool _isSelectedCenter;
         public ObservableCollection<Page> _items;
         private List<Page> _viewItems = new List<Page>();
+        private PageThumbnailJobClient _jobClient;
 
         #endregion
 
@@ -39,6 +40,8 @@ namespace NeeView
 
         private ThumbnailList()
         {
+            _jobClient = new PageThumbnailJobClient(JobCategories.PageThumbnailCategory);
+
             BookOperation.Current.BookChanging += BookOperator_BookChanging;
             BookOperation.Current.BookChanged += BookOperator_BookChanged;
             BookOperation.Current.PageListChanged += BookOperation_PageListChanged;
@@ -265,7 +268,7 @@ namespace NeeView
         private void BookOperator_BookChanging(object sender, EventArgs e)
         {
             // 未処理のサムネイル要求を解除
-            JobEngine.Current.Clear(QueueElementPriority.PageThumbnail);
+            _jobClient.CancelOrder();
             IsItemsDarty = true;
             BookChanging?.Invoke(sender, e);
         }
@@ -303,9 +306,6 @@ namespace NeeView
 
             /////Debug.WriteLine($"> RequestThumbnail: {start} - {start + count - 1}");
 
-            // 未処理の要求を解除
-            JobEngine.Current.Clear(QueueElementPriority.PageThumbnail);
-
             // 要求. 中央値優先
             int center = start + count / 2;
             var pages = Enumerable.Range(start - margin, count + margin * 2 - 1)
@@ -313,10 +313,7 @@ namespace NeeView
                 .Select(e => pageList[e])
                 .OrderBy(e => Math.Abs(e.Index - center));
 
-            foreach (var page in pages)
-            {
-                page.LoadThumbnail(QueueElementPriority.PageThumbnail);
-            }
+            _jobClient.Order(pages.ToList());
         }
 
         /// <summary>
@@ -332,9 +329,9 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
-        #region Memento
+#region Memento
         [DataContract]
         public class Memento
         {
@@ -384,7 +381,7 @@ namespace NeeView
             this.IsManipulationBoundaryFeedbackEnabled = memento.IsManipulationBoundaryFeedbackEnabled;
             this.IsSelectedCenter = memento.IsSelectedCenter;
         }
-        #endregion
+#endregion
 
     }
 

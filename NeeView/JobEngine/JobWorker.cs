@@ -38,9 +38,8 @@ namespace NeeView
 
         #endregion
 
-
-        // コンテキスト
-        private JobContext _context;
+        // スケジューラー
+        private JobScheduler _scheduler;
 
         // ワーカータスクのキャンセルトークン
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
@@ -53,10 +52,10 @@ namespace NeeView
 
 
         // コンストラクタ
-        public JobWorker(JobContext context)
+        public JobWorker(JobScheduler scheduler)
         {
-            _context = context;
-            _context.JobChanged += Context_JobChanged;
+            _scheduler = scheduler;
+            _scheduler.QueueChanged += Context_JobChanged;
         }
 
 
@@ -144,12 +143,12 @@ namespace NeeView
             {
                 Message = $"get Job ...";
                 Job job;
-                QueueElementPriority jobPriority;
 
-                lock (_context.Lock)
+                lock (_scheduler.Lock)
                 {
                     // ジョブ取り出し
-                    (job, jobPriority) = IsPrimary ? _context.JobQueue.DequeueAll(QueueElementPriority.Default) : _context.JobQueue.DequeueAll();
+                    int priority = IsPrimary ? 10 : 0;
+                    job = _scheduler.FetchNextJob(priority);
 
                     // ジョブが無い場合はイベントリセット
                     if (job == null)
@@ -173,15 +172,11 @@ namespace NeeView
 
                 if (!job.CancellationToken.IsCancellationRequested)
                 {
-                    Message = $"Job({jobPriority}.{job.SerialNumber}) execute ...";
+                    Message = $"Job({job.SerialNumber}) execute ...";
                     try
                     {
-                        job.Command.ExecuteAsync(job.Completed, job.CancellationToken).Wait();
-                        job.Log($"{job.SerialNumber}: Job done.");
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        job.Log($"{job.SerialNumber}: Job canceled");
+                        job.Command.Execute(job.CancellationToken);
+                        job.Log($"{job.SerialNumber}: Job done.: {job.CancellationToken.IsCancellationRequested}");
                     }
                     catch (AggregateException ex)
                     {
@@ -192,9 +187,9 @@ namespace NeeView
                     }
                     catch (Exception ex)
                     {
-                        Debug.WriteLine($"EXCEPTION!!: {ex.Message}");
+                        job.Log($"{job.SerialNumber}: Job exception: {ex.Message}");
                     }
-                    Message = $"Job({jobPriority}.{job.SerialNumber}) execute done.";
+                    Message = $"Job({job.SerialNumber}) execute done. : {job.CancellationToken.IsCancellationRequested}";
                 }
                 else
                 {
@@ -202,7 +197,7 @@ namespace NeeView
                 }
 
                 // JOB完了
-                job.Completed.Set();
+                job.SetCompleted();
             }
 
             Debug.WriteLine("Task: Exit.");
@@ -217,9 +212,9 @@ namespace NeeView
             {
                 if (disposing)
                 {
-                    if (_context != null)
+                    if (_scheduler != null)
                     {
-                        _context.JobChanged -= Context_JobChanged;
+                        _scheduler.QueueChanged -= Context_JobChanged;
                     }
 
                     if (_cancellationTokenSource != null)

@@ -253,8 +253,8 @@ namespace NeeView
                 var bitmapContent0 = Contents[0].Content as BitmapContent;
                 var bitmapContent1 = Contents[1].Content as BitmapContent;
 
-                var pictureInfo0 = bitmapContent0?.Picture?.PictureInfo;
-                var pictureInfo1 = bitmapContent1?.Picture?.PictureInfo;
+                var pictureInfo0 = bitmapContent0?.PictureInfo;
+                var pictureInfo1 = bitmapContent1?.PictureInfo;
 
                 string size0 = pictureInfo0 != null ? $"{pictureInfo0.OriginalSize.Width}×{pictureInfo0.OriginalSize.Height}" : "";
                 string size1 = pictureInfo1 != null ? $"{pictureInfo1.OriginalSize.Width}×{pictureInfo1.OriginalSize.Height}" : "";

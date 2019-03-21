@@ -77,14 +77,10 @@ namespace NeeView
 
         #region 開発用
 
-        public bool IsDebug { get; set; }
-
-        public event EventHandler<JobLogEventArgs> Logged;
-
+        private string _debugLog;
         public void Log(string msg)
         {
-            Logged?.Invoke(this, new JobLogEventArgs(msg));
-            if (IsDebug) Debug.WriteLine(msg);
+            _debugLog = _debugLog + msg + "\n";
         }
 
         #endregion

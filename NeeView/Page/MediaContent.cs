@@ -26,7 +26,10 @@ namespace NeeView
         public MediaContent(ArchiveEntry entry) : base(entry)
         {
             IsAnimated = true;
+            PictureInfo = new PictureInfo(entry);
         }
+
+        public override PictureInfo PictureInfo { get; }
 
         /// <summary>
         /// サイズ設定
@@ -35,9 +38,8 @@ namespace NeeView
         {
             this.Size = size;
 
-            if (this.Picture == null) return;
-            this.Picture.PictureInfo.Size = size;
-            this.Picture.PictureInfo.OriginalSize = size;
+            this.PictureInfo.Size = size;
+            this.PictureInfo.OriginalSize = size;
         }
 
         /// <summary>
@@ -47,8 +49,7 @@ namespace NeeView
         {
             if (IsLoaded) return;
 
-            this.Picture = new Picture(Entry);
-            this.Picture.PictureInfo.BitsPerPixel = 32;
+            ////this.PictureInfo.BitsPerPixel = 32;
 
             this.Size = new Size(704, 396);
 

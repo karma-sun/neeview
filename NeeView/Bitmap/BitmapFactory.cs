@@ -47,7 +47,7 @@ namespace NeeView
 
         #region Methods
 
-        public BitmapImage Create(Stream stream, BitmapInfo info, Size size, BitmapCreateSetting setting, CancellationToken token)
+        public BitmapImage CreateBitmapSource(Stream stream, BitmapInfo info, Size size, BitmapCreateSetting setting, CancellationToken token)
         {
             // by MagicScaler
             if (!size.IsEmpty && setting.Mode == BitmapCreateMode.HighQuality)

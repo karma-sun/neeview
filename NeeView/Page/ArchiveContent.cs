@@ -135,7 +135,7 @@ namespace NeeView
                 }
                 else if (picture.Type == ThumbnailType.Unique)
                 {
-                    Thumbnail.Initialize(picture.Picture?.CreateThumbnail(token));
+                    Thumbnail.Initialize(picture.PictureSource.CreateThumbnail(token));
                 }
                 else
                 {
@@ -160,17 +160,17 @@ namespace NeeView
         public class ThumbnailPicture
         {
             public ThumbnailType Type { get; set; }
-            public Picture Picture { get; set; }
+            public PictureSource PictureSource { get; set; }
 
             public ThumbnailPicture(ThumbnailType type)
             {
                 Type = type;
             }
 
-            public ThumbnailPicture(Picture picture)
+            public ThumbnailPicture(PictureSource source)
             {
                 Type = ThumbnailType.Unique;
-                Picture = picture;
+                PictureSource = source;
             }
         }
 
@@ -194,7 +194,7 @@ namespace NeeView
                 }
                 else
                 {
-                    return new ThumbnailPicture(LoadPicture(entry, PictureCreateOptions.CreateThumbnail | PictureCreateOptions.IgnoreImageCache, token));
+                    return new ThumbnailPicture(PictureSourceFactory.Create(entry, false, token));
                 }
             }
             else
@@ -227,7 +227,7 @@ namespace NeeView
                 var select = await ArchiveEntryUtility.CreateFirstImageArchiveEntryAsync(entry, searchRange, token);
                 if (select != null)
                 {
-                    return new ThumbnailPicture(LoadPicture(select, PictureCreateOptions.CreateThumbnail | PictureCreateOptions.IgnoreImageCache, token));
+                    return new ThumbnailPicture(PictureSourceFactory.Create(select, false, token));
                 }
                 else
                 {
@@ -236,7 +236,7 @@ namespace NeeView
             }
             else
             {
-                return new ThumbnailPicture(LoadPicture(entry, PictureCreateOptions.CreateThumbnail | PictureCreateOptions.IgnoreImageCache, token));
+                return new ThumbnailPicture(PictureSourceFactory.Create(entry, false, token));
             }
         }
 

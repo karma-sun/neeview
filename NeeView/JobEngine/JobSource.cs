@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,40 +10,29 @@ namespace NeeView
     /// </summary>
     public class JobSource : IDisposable
     {
-        private Job _job;
         private CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
         public JobSource(JobCategory category, object key)
         {
             Category = category;
             Key = key;
+            Job = Category.CreateJob(Key, _cancellationTokenSource.Token); 
         }
 
         /// <summary>
         /// JOBの種類。スケジューラの区分に使用される。
         /// </summary>
-        public JobCategory Category { get; private set; }
+        public JobCategory Category { get; }
 
         /// <summary>
         /// JOBに関連付けられたキー
         /// </summary>
-        public object Key { get; private set; }
+        public object Key { get; }
 
         /// <summary>
-        /// JOB。
-        /// 初回アクセス時に生成する
+        /// JOB本体
         /// </summary>
-        public Job Job
-        {
-            get
-            {
-                if (_job== null)
-                {
-                    _job = Category.CreateJob(Key, _cancellationTokenSource.Token);
-                }
-                return _job;
-            }
-        }
+        public Job Job { get; }
 
         /// <summary>
         /// JobWorkerで処理が開始された

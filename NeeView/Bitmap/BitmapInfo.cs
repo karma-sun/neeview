@@ -14,12 +14,12 @@ namespace NeeView
     {
         #region Properties
 
-        public int PixelWidth { get; set; }
-        public int PixelHeight { get; set; }
-        public bool IsMirrorHorizontal { get; set; }
-        public bool IsMirrorVertical { get; set; }
-        public Rotation Rotation { get; set; }
-        public BitmapMetadata Metadata { get; set; }
+        public int PixelWidth { get; private set; }
+        public int PixelHeight { get; private set; }
+        public bool IsMirrorHorizontal { get; private set; }
+        public bool IsMirrorVertical { get; private set; }
+        public Rotation Rotation { get; private set; }
+        public BitmapMetadata Metadata { get; private set; }
 
         // 転置？
         public bool IsTranspose => (this.Rotation == Rotation.Rotate90 || this.Rotation == Rotation.Rotate270);
@@ -28,12 +28,10 @@ namespace NeeView
 
         #region Constructors
 
-        //
         public BitmapInfo()
         {
         }
 
-        //
         public BitmapInfo(int width, int height, BitmapMetadata metadata)
         {
             this.PixelWidth = width;
@@ -80,7 +78,6 @@ namespace NeeView
 
         #region Methods
 
-        //
         public Size GetPixelSize()
         {
             return (this.PixelWidth == 0.0 || this.PixelHeight == 0.0) ? Size.Empty : new Size(this.PixelWidth, this.PixelHeight);
@@ -90,7 +87,6 @@ namespace NeeView
 
         #region Static Methods
 
-        //
         public static BitmapInfo Create(Stream stream)
         {
             stream.Seek(0, SeekOrigin.Begin);

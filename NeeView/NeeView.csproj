@@ -231,7 +231,11 @@
     <Compile Include="JobEngine\JobWorker.cs" />
     <Compile Include="MultbootService.cs" />
     <Compile Include="OpenSourceControls\VirtualizingWrapPanel.cs" />
-    <Compile Include="Picture\IPictureFactory.cs" />
+    <Compile Include="Bitmap\BitmapCreateSetting.cs" />
+    <Compile Include="Picture\DefaultPictureSource.cs" />
+    <Compile Include="Picture\PdfPictureSource.cs" />
+    <Compile Include="Picture\PictureSource.cs" />
+    <Compile Include="Picture\StreamCanceller.cs" />
     <Compile Include="RemoteCommandService.cs" />
     <Compile Include="SaveDataBackup.cs" />
     <Compile Include="SidePanels\Bookmark\BookmarkListViewModel.cs" />
@@ -451,9 +455,7 @@
     <Compile Include="_NeeView\EnumExtensions.cs" />
     <Compile Include="PageDirectionalRange.cs" />
     <Compile Include="PagePart.cs" />
-    <Compile Include="Picture\DefaultPictureFactory.cs" />
     <Compile Include="Picture\DefaultPictureStream.cs" />
-    <Compile Include="Picture\PdfPictureFactory.cs" />
     <Compile Include="Picture\Picture.cs" />
     <Compile Include="Picture\PictureCustomSize.cs" />
     <Compile Include="Picture\PictureFileExtension.cs" />
@@ -467,7 +469,6 @@
     <Compile Include="MouseInput\DragTransformControl.cs" />
     <Compile Include="MouseInput\LoupeTransform.cs" />
     <Compile Include="Page\PdfContetnt.cs" />
-    <Compile Include="Picture\PictureFactory.cs" />
     <Compile Include="Picture\SizeExtensions.cs" />
     <Compile Include="Picture\SusiePictureStream.cs" />
     <Compile Include="SearchEnginecs.cs" />

@@ -9,18 +9,11 @@ using System.Windows.Media.Imaging;
 namespace NeeView
 {
     /// <summary>
-    /// 画像。
-    /// エントリに対応する表示画像、サムネイル画像を管理する。
-    /// PictureFactoryで生成される。
+    /// エントリに対応する表示画像
     /// </summary>
     public class Picture : BindableBase
     {
         #region Fields
-
-        /// <summary>
-        /// ソースのエントリ
-        /// </summary>
-        private ArchiveEntry _archiveEntry;
 
         /// <summary>
         /// リサイズパラメータのハッシュ。
@@ -42,29 +35,25 @@ namespace NeeView
 
         #region Constructors
 
-        public Picture(ArchiveEntry entry)
+        public Picture(PictureSource source)
         {
-            _archiveEntry = entry;
+            PictureSource = source;
+
             _resizeHashCode = GetEnvironmentoHashCode();
             _cancellationTokenSource = new CancellationTokenSource();
-
-            this.PictureInfo = new PictureInfo(entry);
         }
 
         #endregion
 
         #region Properties
 
+        public PictureSource PictureSource { get; private set; }
+
+
         /// <summary>
         /// 画像情報
         /// </summary>
-        public PictureInfo PictureInfo { get; set; }
-
-        /// <summary>
-        /// ソースとなる 画像ファイルデータ。
-        /// エントリからの呼び出し負荷を軽減するためのキャッシュ
-        /// </summary>
-        public byte[] RawData { get; set; }
+        public PictureInfo PictureInfo => PictureSource.PictureInfo;
 
         /// <summary>
         /// 表示する画像
@@ -74,16 +63,6 @@ namespace NeeView
         {
             get { return _bitmapSource; }
             set { if (_bitmapSource != value) { _bitmapSource = value; RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
-        /// サムネイル画像
-        /// </summary>
-        private byte[] _thumbnail;
-        public byte[] Thumbnail
-        {
-            get { return _thumbnail; }
-            set { if (_thumbnail != value) { _thumbnail = value; RaisePropertyChanged(); } }
         }
 
         #endregion
@@ -123,6 +102,13 @@ namespace NeeView
             }
         }
 
+        // 初期化
+        // TODO: 初回作成だが、これでいいのか？
+        public void Initialize(CancellationToken token)
+        {
+            BitmapSource = PictureSource.CreateBitmapSource(PictureInfo.Size, new BitmapCreateSetting(), token);
+        }
+
         // リサイズ
         public bool Resize(Size size)
         {
@@ -130,7 +116,8 @@ namespace NeeView
 
             size = size.IsEmpty ? this.PictureInfo.Size : size;
 
-            if (_archiveEntry.Archiver is PdfArchiver)
+            // TODO: PictureSourceレベルで処理
+            if (PictureSource is PdfPictureSource)
             {
                 size = PdfArchiverProfile.Current.CreateFixedSize(size);
             }
@@ -166,7 +153,7 @@ namespace NeeView
 
             try
             {
-                var bitmap = PictureFactory.Current.CreateBitmapSource(_archiveEntry, this.RawData, size, keepAspectRatio, _cancellationTokenSource.Token);
+                var bitmap = CreateBitmapSource(size, keepAspectRatio, _cancellationTokenSource.Token);
                 if (bitmap == null)
                 {
                     return false;
@@ -186,30 +173,26 @@ namespace NeeView
             return true;
         }
 
-        // サムネイル生成
-        // TODO: メインコンテンツの状態に依存しないように
-        public byte[] CreateThumbnail(CancellationToken token)
+        private BitmapSource CreateBitmapSource(Size size, bool keepAspectRatio, CancellationToken token)
         {
             token.ThrowIfCancellationRequested();
 
-            if (this.Thumbnail != null)
+            var setting = new BitmapCreateSetting();
+
+            if (!size.IsEmpty)
             {
-                return this.Thumbnail;
+                setting.IsKeepAspectRatio = keepAspectRatio;
+                if (PictureProfile.Current.IsResizeFilterEnabled)
+                {
+                    setting.Mode = BitmapCreateMode.HighQuality;
+                    setting.ProcessImageSettings = ImageFilter.Current.CreateProcessImageSetting();
+                }
             }
 
-            if (this.BitmapSource == null) 
-            {
-                Debug.WriteLine("Warning!: It's wrong operation");
-                return null;
-            }
-
-            var thumbnailSize = ThumbnailProfile.Current.GetThumbnailSize(this.PictureInfo.Size);
-            this.Thumbnail = PictureFactory.Current.CreateThumbnail(_archiveEntry, this.RawData, thumbnailSize, this.BitmapSource, token);
-
-            return this.Thumbnail;
+            return PictureSource.CreateBitmapSource(size, setting, token);
         }
+
 
         #endregion
     }
-
 }

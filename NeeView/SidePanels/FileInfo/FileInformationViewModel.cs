@@ -194,7 +194,7 @@ namespace NeeView
             FullPath = Model.ViewContent?.Page?.Entry?.Link ?? Model.ViewContent?.FullPath;
 
             var bitmapContent = IsVisible ? _model.ViewContent?.Content as BitmapContent : null;
-            var info = bitmapContent?.Picture?.PictureInfo;
+            var info = bitmapContent?.PictureInfo;
             if (info != null)
             {
                 //Debug.WriteLine($"FileInfo: {_model.ViewContent?.FileName}");
@@ -202,7 +202,7 @@ namespace NeeView
                 _isDarty = false;
 
                 // サムネイル設定
-                BitmapSource = bitmapContent?.Picture?.BitmapSource;
+                BitmapSource = bitmapContent?.BitmapSource;
 
                 // 画像サイズ表示
                 if (info.OriginalSize.Width <= 0 || info.OriginalSize.Height < 0)

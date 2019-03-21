@@ -16,6 +16,13 @@ namespace NeeView
     /// </summary>
     public class BitmapContent : PageContent
     {
+        private object _lock = new object();
+
+        // picture source
+        public PictureSource PictureSource { get; protected set; }
+
+        public virtual PictureInfo PictureInfo => PictureSource?.PictureInfo;
+
         // picture
         public Picture Picture { get; protected set; }
 
@@ -38,18 +45,32 @@ namespace NeeView
         {
         }
 
+        /// <summary>
+        /// PictureSource初期化
+        /// </summary>
+        private void InitialzePictureSource(CancellationToken token)
+        {
+            lock (_lock)
+            {
+                if (PictureSource == null)
+                {
+                    PictureSource = PictureSourceFactory.Create(Entry, false, token);
+                }
+            }
+        }
+
 
         /// <summary>
         /// 画像読込
         /// </summary>
-        /// <param name="entry"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        protected Picture LoadPicture(ArchiveEntry entry, PictureCreateOptions options, CancellationToken token)
+        protected Picture LoadPicture(ArchiveEntry entry, CancellationToken token)
         {
             try
             {
-                var picture = PictureFactory.Current.Create(entry, options, token);
+                InitialzePictureSource(token);
+
+                var picture = new Picture(PictureSource);
+                picture.Initialize(token);
                 this.Size = picture.PictureInfo.Size;
                 return picture;
             }
@@ -79,17 +100,11 @@ namespace NeeView
         {
             if (IsLoaded) return;
 
-            var picture = LoadPicture(Entry, PictureCreateOptions.CreateBitmap, token);
-            this.Picture = picture;
+            this.Picture = LoadPicture(Entry, token);
+
             RaiseLoaded();
             RaiseChanged();
 
-
-            // TODO: サムネイル自動生成、ここでおこなうのはよろしくない？
-#if false 
-            if (Thumbnail.IsValid || picture == null) return;
-            Thumbnail.Initialize(picture.CreateThumbnail(token));
-#endif
             await Task.CompletedTask;
         }
 
@@ -99,8 +114,12 @@ namespace NeeView
         public override void Unload()
         {
             this.PageMessage = null;
+
             this.Picture?.Cancel();
             this.Picture = null;
+
+            this.PictureSource = null;
+
             RaiseChanged();
 
             MemoryControl.Current.GarbageCollect();
@@ -115,22 +134,17 @@ namespace NeeView
         {
             if (Thumbnail.IsValid) return;
 
-            // TODO: コンテンツ読み込み要求が有効な場合の処理
+            InitialzePictureSource(token);
 
             byte[] thumbnailRaw = null;
 
-            if (this.Picture != null)
-            {
-                thumbnailRaw = this.Picture.CreateThumbnail(token);
-            }
-            else if (this.PageMessage != null)
+            if (this.PageMessage != null)
             {
                 thumbnailRaw = null;
             }
             else
             {
-                var picture = LoadPicture(Entry, PictureCreateOptions.CreateThumbnail, token);
-                thumbnailRaw = picture?.CreateThumbnail(token);
+                thumbnailRaw = PictureSource.CreateThumbnail(token);
             }
 
             token.ThrowIfCancellationRequested();

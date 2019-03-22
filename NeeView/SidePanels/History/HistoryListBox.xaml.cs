@@ -97,7 +97,7 @@ namespace NeeView
 
         private void HistoryListBox_Loaded(object sender, RoutedEventArgs e)
         {
-            _jobClient = new PageThumbnailJobClient(JobCategories.BookThumbnailCategory);
+            _jobClient = new PageThumbnailJobClient("HistoryList", JobCategories.BookThumbnailCategory);
             _thumbnailLoader = new ListBoxThumbnailLoader(this, _jobClient);
         }
 

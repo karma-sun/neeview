@@ -18,7 +18,14 @@ namespace NeeView
             Category = category;
         }
 
+        public string Name { get; set; }
+
         public JobCategory Category { get; private set; }
+
+        public override string ToString()
+        {
+            return Name ?? base.ToString();
+        }
     }
 
 
@@ -40,6 +47,8 @@ namespace NeeView
         /// <param name="pages">読み込むページ</param>
         public void Order(List<Page> pages)
         {
+            if (_disposedValue) return;
+
             var orders = pages
                 .Where(e => !e.Content.IsLoaded)
                 .Select(e => new JobOrder(this.Category, e))
@@ -54,6 +63,8 @@ namespace NeeView
         /// <param name="pages">完了待ちをするページ</param>
         public async Task WaitAsync(List<Page> pages, int millisecondsTimeout, CancellationToken token)
         {
+            if (_disposedValue) return;
+
             var tasks = pages
                 .Select(e => _sources.FirstOrDefault(a => a.Key == e)?.WaitAsync(millisecondsTimeout, token))
                 .Where(e => e != null)
@@ -64,6 +75,8 @@ namespace NeeView
 
         public void CancelOrder()
         {
+            if (_disposedValue) return;
+
             JobEngine.Current.Order(this, new List<JobOrder>());
         }
 
@@ -96,8 +109,9 @@ namespace NeeView
     /// </summary>
     public class PageThumbnailJobClient : JobClient, IDisposable
     {
-        public PageThumbnailJobClient(JobCategory category) : base(category)
+        public PageThumbnailJobClient(string name, JobCategory category) : base(category)
         {
+            Name = name;
             JobEngine.Current.RegistClient(this);
         }
 
@@ -107,6 +121,8 @@ namespace NeeView
         /// <param name="pages">読み込むページ</param>
         public void Order(List<Page> pages)
         {
+            if (_disposedValue) return;
+
             var orders = pages
                 .Where(e => e != null && !e.Thumbnail.IsValid)
                 .Select(e => new JobOrder(this.Category, e))
@@ -117,6 +133,8 @@ namespace NeeView
 
         public void CancelOrder()
         {
+            if (_disposedValue) return;
+
             JobEngine.Current.Order(this, new List<JobOrder>());
         }
 

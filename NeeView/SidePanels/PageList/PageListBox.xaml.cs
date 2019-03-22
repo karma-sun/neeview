@@ -122,7 +122,7 @@ namespace NeeView
             _vm.Loaded();
             _vm.ViewItemsChanged += ViewModel_ViewItemsChanged;
 
-            _jobClient = new PageThumbnailJobClient(JobCategories.PageThumbnailCategory);
+            _jobClient = new PageThumbnailJobClient("PageList", JobCategories.PageThumbnailCategory);
             _thumbnailLoader = new ListBoxThumbnailLoader(this, _jobClient);
             _thumbnailLoader.Load();
 

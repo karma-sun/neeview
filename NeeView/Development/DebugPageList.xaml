@@ -6,22 +6,22 @@
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
              DockPanel.Dock="Right"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="600">
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
-    
-    <ScrollViewer x:Name="Root" Width="300" Panel.ZIndex="100" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled"
-            Visibility="{Binding Development.IsVisibleDevPageList, Converter={StaticResource BooleanToVisibilityConverter}}">
-        <ListView ItemsSource="{Binding BookOperation.PageList}" >
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Name"  DisplayMemberBinding="{Binding EntryLastName}" Width="80"/>
-                    <GridViewColumn Header="Status"  DisplayMemberBinding="{Binding Content.DevStatus}" Width="80"/>
-                    <GridViewColumn Header="Info"  DisplayMemberBinding="{Binding Message}" Width="150"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-    </ScrollViewer>
+
+    <ListView x:Name="Root" ItemsSource="{Binding BookOperation.PageList}"
+              ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+              ScrollViewer.VerticalScrollBarVisibility="Visible">
+        <ListView.View>
+            <GridView>
+                <GridViewColumn Header="Name"  DisplayMemberBinding="{Binding EntryLastName}" Width="80"/>
+                <GridViewColumn Header="Status"  DisplayMemberBinding="{Binding Content.DevStatus}" Width="80"/>
+                <GridViewColumn Header="Info"  DisplayMemberBinding="{Binding Message}" Width="150"/>
+            </GridView>
+        </ListView.View>
+    </ListView>
+
 </UserControl>

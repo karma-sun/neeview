@@ -1,0 +1,27 @@
+﻿<Window x:Class="NeeView.DebugWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NeeView"
+        mc:Ignorable="d"
+        Title="DebugWindow" Height="640" Width="1024" ResizeMode="CanResizeWithGrip">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <TabControl Grid.Row="0" >
+            <TabItem Header="Job">
+                <local:DebugJobList/>
+            </TabItem>
+            <TabItem Header="Page">
+                <local:DebugPageList />
+            </TabItem>
+        </TabControl>
+        <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch"/>
+        <local:DebugInfo Grid.Row="2" />
+    </Grid>
+</Window>

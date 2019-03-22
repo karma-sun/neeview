@@ -40,7 +40,7 @@ namespace NeeView
 
         private ThumbnailList()
         {
-            _jobClient = new PageThumbnailJobClient(JobCategories.PageThumbnailCategory);
+            _jobClient = new PageThumbnailJobClient("FilmStrip", JobCategories.PageThumbnailCategory);
 
             BookOperation.Current.BookChanging += BookOperator_BookChanging;
             BookOperation.Current.BookChanged += BookOperator_BookChanged;

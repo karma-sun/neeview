@@ -1147,12 +1147,12 @@ namespace NeeView
 
         #region [開発用]
 
+        public MainWindowViewModel ViewModel => _vm;
+
         // [開発用] 設定初期化
         [Conditional("DEBUG")]
         private void Debug_Initialize()
         {
-            this.RootDockPanel.Children.Insert(0, new DebugPageList());
-            this.RootDockPanel.Children.Insert(1, new DebugInfo());
             DebugGesture.Initialize();
         }
 

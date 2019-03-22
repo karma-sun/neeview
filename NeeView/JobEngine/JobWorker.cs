@@ -168,35 +168,37 @@ namespace NeeView
 
                 IsBusy = true;
 
-                job.Log($"{job.SerialNumber}: Job...");
-
                 if (!job.CancellationToken.IsCancellationRequested)
                 {
+                    job.Log("Run...");
+                    job.State = JobState.Run;
                     Message = $"Job({job.SerialNumber}) execute ...";
                     try
                     {
                         job.Command.Execute(job.CancellationToken);
-                        job.Log($"{job.SerialNumber}: Job done.: {job.CancellationToken.IsCancellationRequested}");
+                        job.Log($"Done: Cancel={job.CancellationToken.IsCancellationRequested}");
                     }
                     catch (AggregateException ex)
                     {
                         foreach (var iex in ex.InnerExceptions)
                         {
-                            job.Log($"{job.SerialNumber}: Job exception: {iex.Message}");
+                            job.Log($"Exception: {iex.Message}");
                         }
                     }
                     catch (Exception ex)
                     {
-                        job.Log($"{job.SerialNumber}: Job exception: {ex.Message}");
+                        job.Log($"Exception: {ex.Message}");
                     }
                     Message = $"Job({job.SerialNumber}) execute done. : {job.CancellationToken.IsCancellationRequested}";
                 }
                 else
                 {
-                    job.Log($"{job.SerialNumber}: Job canceled");
+                    job.Log($"Already canceled.");
                 }
 
                 // JOB完了
+                job.Result = job.CancellationToken.IsCancellationRequested ? JobResult.Canceled : JobResult.Completed;
+                job.State = JobState.Closed;
                 job.SetCompleted();
             }
 

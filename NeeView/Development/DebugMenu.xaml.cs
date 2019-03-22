@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeLaboratory.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -25,6 +26,7 @@ namespace NeeView
         public DebugMenu()
         {
             InitializeComponent();
+            this.MenuDev.DataContext = new DebugMenuViewModel();
         }
 
 
@@ -78,6 +80,41 @@ namespace NeeView
         {
             Debug.WriteLine($"OpenFolder: {path}");
             System.Diagnostics.Process.Start("explorer.exe", path);
+        }
+    }
+
+    public class DebugMenuViewModel : BindableBase
+    {
+        private DebugWindow _debugWindow;
+
+        private bool _isDebugWindowVisibled;
+        public bool IsDebugWindowVisibled
+        {
+            get { return _isDebugWindowVisibled; }
+            set
+            {
+                if (SetProperty(ref _isDebugWindowVisibled, value))
+                {
+                    if (_isDebugWindowVisibled)
+                    {
+                        if (_debugWindow == null)
+                        {
+                            _debugWindow = new DebugWindow(MainWindow.Current.ViewModel);
+                            _debugWindow.Closed += (s, e) =>
+                            {
+                                _debugWindow = null;
+                                IsDebugWindowVisibled = false;
+                            };
+                            _debugWindow.Show();
+                        }
+                    }
+                    else
+                    {
+                        _debugWindow?.Close();
+                        _debugWindow = null;
+                    }
+                }
+            }
         }
     }
 

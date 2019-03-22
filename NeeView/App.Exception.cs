@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Threading;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -65,20 +66,21 @@ namespace NeeView
                     writer.Write(errorLog);
                 }
 
-                this.Dispatcher.Invoke(() =>
+
+                try
                 {
-                    try
+                    var task = new Task(() =>
                     {
                         var dialog = new CriticalErrorDialog(errorLog, errorLogFileName);
-                        dialog.Owner = this.MainWindow;
-                        dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
                         dialog.ShowDialog();
-                    }
-                    catch
-                    {
-                        MessageBox.Show(errorLog, "Abort", MessageBoxButton.OK, MessageBoxImage.Hand);
-                    }
-                });
+                    });
+                    task.Start(SingleThreadedApartment.TaskScheduler);
+                    task.Wait();
+                }
+                catch
+                {
+                    MessageBox.Show(errorLog, "Abort", MessageBoxButton.OK, MessageBoxImage.Hand);
+                }
             }
 
             void WriteException(Exception ex, TextWriter writer)

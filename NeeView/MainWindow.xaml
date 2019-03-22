@@ -104,169 +104,167 @@
 
     <Border BorderThickness="{Binding WindowShape.WindowBorderThickness}" BorderBrush="Gray">
 
-        <DockPanel x:Name="RootDockPanel" UseLayoutRounding="True">
+        <!-- 製品表示領域 -->
+        <Grid x:Name="Root" UseLayoutRounding="True" WindowChrome.IsHitTestVisibleInChrome="{Binding Model.CanHideMenu}">
+            <Grid x:Name="RootBottom" VerticalAlignment="Bottom" />
 
-            <!-- 製品表示領域 -->
-            <Grid x:Name="Root" UseLayoutRounding="True" WindowChrome.IsHitTestVisibleInChrome="{Binding Model.CanHideMenu}">
-                <Grid x:Name="RootBottom" VerticalAlignment="Bottom" />
+            <!-- Main Layer -->
+            <DockPanel>
 
-                <!-- Main Layer -->
-                <DockPanel>
+                <!-- メニューエリア-->
+                <ContentControl x:Name="DockMenuSocket" DockPanel.Dock="Top" Focusable="False" MouseEnter="DockMenuSocket_MouseEnter" MouseLeave="DockMenuSocket_MouseLeave">
+                    <Grid x:Name="MenuArea">
+                        <StackPanel>
+                            <!-- メニューバー-->
+                            <local:MenuBarView x:Name="MenuBar" />
 
-                    <!-- メニューエリア-->
-                    <ContentControl x:Name="DockMenuSocket" DockPanel.Dock="Top" Focusable="False" MouseEnter="DockMenuSocket_MouseEnter" MouseLeave="DockMenuSocket_MouseLeave">
-                        <Grid x:Name="MenuArea">
-                            <StackPanel>
-                                <!-- メニューバー-->
-                                <local:MenuBarView x:Name="MenuBar" />
+                            <!-- アドレスバー -->
+                            <local:AddressBarView x:Name="AddressBar" VerticalAlignment="Top" Visibility="{Binding Model.IsVisibleAddressBar, Converter={StaticResource BooleanToVisibilityConverter}}"/>
 
-                                <!-- アドレスバー -->
-                                <local:AddressBarView x:Name="AddressBar" VerticalAlignment="Top" Visibility="{Binding Model.IsVisibleAddressBar, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        </StackPanel>
+                    </Grid>
+                </ContentControl>
 
-                            </StackPanel>
+                <!-- ステータスエリア -->
+                <DockPanel x:Name="DockStatusArea" DockPanel.Dock="Bottom" Background="{DynamicResource NVBaseBrush}" MouseEnter="DockStatusArea_MouseEnter" MouseLeave="DockStatusArea_MouseLeave">
+
+                    <!-- スライダー -->
+                    <ContentControl x:Name="DockPageSliderSocket" DockPanel.Dock="Bottom" IsTabStop="False">
+                        <Grid x:Name="SliderArea">
+                            <local:PageSliderView x:Name="PageSliderView" VerticalAlignment="Bottom"/>
+                            <local:MediaControlView x:Name="MediaControlView" VerticalAlignment="Bottom"/>
                         </Grid>
                     </ContentControl>
 
-                    <!-- ステータスエリア -->
-                    <DockPanel x:Name="DockStatusArea" DockPanel.Dock="Bottom" Background="{DynamicResource NVBaseBrush}" MouseEnter="DockStatusArea_MouseEnter" MouseLeave="DockStatusArea_MouseLeave">
+                    <!-- フィルムストリップ -->
+                    <ContentControl x:Name="DockThumbnailListSocket" DockPanel.Dock="Bottom" IsTabStop="False">
+                        <local:ThumbnailListView x:Name="ThumbnailListArea"/>
+                    </ContentControl>
 
-                        <!-- スライダー -->
-                        <ContentControl x:Name="DockPageSliderSocket" DockPanel.Dock="Bottom" IsTabStop="False">
-                            <Grid x:Name="SliderArea">
-                                <local:PageSliderView x:Name="PageSliderView" VerticalAlignment="Bottom"/>
-                                <local:MediaControlView x:Name="MediaControlView" VerticalAlignment="Bottom"/>
-                            </Grid>
-                        </ContentControl>
+                </DockPanel>
 
-                        <!-- フィルムストリップ -->
-                        <ContentControl x:Name="DockThumbnailListSocket" DockPanel.Dock="Bottom" IsTabStop="False">
-                            <local:ThumbnailListView x:Name="ThumbnailListArea"/>
-                        </ContentControl>
+                <!--  ビューエリア -->
+                <Grid x:Name="ViewArea">
 
-                    </DockPanel>
+                    <!-- ビューエリア ベース -->
+                    <Grid x:Name="ViewAreaBase"/>
 
-                    <!--  ビューエリア -->
-                    <Grid x:Name="ViewArea">
+                    <!-- サイドパネル と メインビュー -->
+                    <Grid x:Name="Panels">
 
-                        <!-- ビューエリア ベース -->
-                        <Grid x:Name="ViewAreaBase"/>
+                        <!-- メインビュー パネル領域 -->
+                        <Canvas>
+                            <Grid x:Name="MainViewPanelRect" Canvas.Left="{Binding CanvasLeft, ElementName=SidePanelFrame}" Canvas.Top="{Binding CanvasTop, ElementName=SidePanelFrame}" Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}" UseLayoutRounding="True">
 
-                        <!-- サイドパネル と メインビュー -->
-                        <Grid x:Name="Panels">
+                                <!-- メインビュー パネル -->
+                                <Grid x:Name="MainViewPanel" ContextMenu="{Binding ContextMenu}" Background="{Binding ContentCanvasBrush.BackgroundBrush}" Margin="0">
+                                    <Rectangle x:Name="FrontBackground" Fill="{Binding ContentCanvasBrush.BackgroundFrontBrush}" RenderOptions.BitmapScalingMode="HighQuality" IsHitTestVisible="False" Visibility="{Binding ContentCanvasBrush.BackgroundFrontBrush, Converter={StaticResource NullableToVisibilityConverter}}"/>
 
-                            <!-- メインビュー パネル領域 -->
-                            <Canvas>
-                                <Grid x:Name="MainViewPanelRect" Canvas.Left="{Binding CanvasLeft, ElementName=SidePanelFrame}" Canvas.Top="{Binding CanvasTop, ElementName=SidePanelFrame}" Width="{Binding CanvasWidth}" Height="{Binding CanvasHeight}" UseLayoutRounding="True">
+                                    <Grid x:Name="MainViewCanvas" Effect="{Binding ImageEffect.Effect}">
 
-                                    <!-- メインビュー パネル -->
-                                    <Grid x:Name="MainViewPanel" ContextMenu="{Binding ContextMenu}" Background="{Binding ContentCanvasBrush.BackgroundBrush}" Margin="0">
-                                        <Rectangle x:Name="FrontBackground" Fill="{Binding ContentCanvasBrush.BackgroundFrontBrush}" RenderOptions.BitmapScalingMode="HighQuality" IsHitTestVisible="False" Visibility="{Binding ContentCanvasBrush.BackgroundFrontBrush, Converter={StaticResource NullableToVisibilityConverter}}"/>
-
-                                        <Grid x:Name="MainViewCanvas" Effect="{Binding ImageEffect.Effect}">
-
-                                            <!-- メインビュー コンテンツ表示領域 -->
-                                            <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" ClipToBounds="True" DataContext="{Binding ContentCanvas}" AllowDrop="True">
-                                                <!-- Pages -->
-                                                <!-- NOTE: 時々操作が奪われしてまう原因の可能性その2 IsHitTestVisible -->
-                                                <Canvas x:Name="PageCanvas" Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
+                                        <!-- メインビュー コンテンツ表示領域 -->
+                                        <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" ClipToBounds="True" DataContext="{Binding ContentCanvas}" AllowDrop="True">
+                                            <!-- Pages -->
+                                            <!-- NOTE: 時々操作が奪われしてまう原因の可能性その2 IsHitTestVisible -->
+                                            <Canvas x:Name="PageCanvas" Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
                                                         HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                    <Canvas.Resources>
-                                                        <Style TargetType="TextBlock" x:Key="ContentProperty">
-                                                            <Setter Property="Foreground" Value="White"/>
-                                                            <Setter Property="Background" Value="#80000000"/>
-                                                            <Setter Property="Padding" Value="10,5"/>
-                                                            <Style.Triggers>
-                                                                <Trigger Property="Text" Value="">
-                                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                                </Trigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </Canvas.Resources>
-                                                    <ContentControl x:Name="MainContent" IsTabStop="False">
-                                                        <Grid>
-                                                            <StackPanel x:Name="PageContents" Orientation="Horizontal">
-                                                                <ContentControl x:Name="Content1" Content="{Binding Contents[1].View}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" Focusable="False" />
-                                                                <ContentControl x:Name="Content0" Content="{Binding Contents[0].View}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Focusable="False" Margin="{Binding ContentsMargin}"/>
-                                                            </StackPanel>
-                                                            <ContentControl Content="{Binding GridLine.Content}"/>
-                                                        </Grid>
-                                                    </ContentControl>
-                                                </Canvas>
-                                                <!-- Pages Shadow (表示領域計算用) -->
-                                                <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
+                                                <Canvas.Resources>
+                                                    <Style TargetType="TextBlock" x:Key="ContentProperty">
+                                                        <Setter Property="Foreground" Value="White"/>
+                                                        <Setter Property="Background" Value="#80000000"/>
+                                                        <Setter Property="Padding" Value="10,5"/>
+                                                        <Style.Triggers>
+                                                            <Trigger Property="Text" Value="">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                            </Trigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Canvas.Resources>
+                                                <ContentControl x:Name="MainContent" IsTabStop="False">
+                                                    <Grid>
+                                                        <StackPanel x:Name="PageContents" Orientation="Horizontal">
+                                                            <ContentControl x:Name="Content1" Content="{Binding Contents[1].View}" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}" Focusable="False" />
+                                                            <ContentControl x:Name="Content0" Content="{Binding Contents[0].View}" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Focusable="False" Margin="{Binding ContentsMargin}"/>
+                                                        </StackPanel>
+                                                        <ContentControl Content="{Binding GridLine.Content}"/>
+                                                    </Grid>
+                                                </ContentControl>
+                                            </Canvas>
+                                            <!-- Pages Shadow (表示領域計算用) -->
+                                            <Canvas Width="{Binding ElementName=MainContent, Path=ActualWidth}" Height="{Binding ElementName=MainContent, Path=ActualHeight}"
                                                         IsHitTestVisible="False" HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                    <StackPanel x:Name="MainContentShadow" Orientation="Horizontal">
-                                                        <Rectangle x:Name="Content1Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}"/>
-                                                        <Rectangle x:Name="Content0Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Margin="{Binding ContentsMargin}"/>
-                                                    </StackPanel>
-                                                </Canvas>
-                                            </Grid>
-
-                                        </Grid>
-
-                                        <!-- empty pages message -->
-                                        <Grid Visibility="{Binding ContentCanvas.IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True" IsHitTestVisible="False">
-                                            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="300">
-                                                <TextBlock  Text="{x:Static  properties:Resources.NotifyCannotDisplay}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding ContentCanvasBrush.ForegroundBrush}"/>
-                                                <local:XHtmlTextBlock Source="{Binding ContentCanvas.EmptyPageMessage}" Foreground="{Binding ContentCanvasBrush.ForegroundBrush}" HorizontalAlignment="Center" Margin="0,20,0,0" MinHeight="50" TextWrapping="Wrap"/>
-                                            </StackPanel>
-                                        </Grid>
-
-                                        <!-- caption -->
-                                        <TextBlock x:Name="PageCaption" VerticalAlignment="Top" HorizontalAlignment="Stretch"
-                                                   Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
-                                                   Text="{Binding WindowTitle.Title}" Foreground="{DynamicResource NVForeground}"
-                                                   Padding="20,5"
-                                                   Background="{Binding Model.SliderBackgroundGlass}">
-                                            <TextBlock.Style>
-                                                <Style TargetType="TextBlock">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                    <Style.Triggers>
-                                                        <MultiDataTrigger>
-                                                            <MultiDataTrigger.Conditions>
-                                                                <Condition Binding="{Binding Model.IsVisibleWindowTitle}" Value="True"/>
-                                                                <Condition Binding="{Binding ElementName=LayerStatusArea, Path=Visibility}" Value="Visible"/>
-                                                                <Condition Binding="{Binding ElementName=RootWindow, Path=WindowStyle}" Value="None"/>
-                                                            </MultiDataTrigger.Conditions>
-                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                        </MultiDataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </TextBlock.Style>
-                                        </TextBlock>
-
-                                        <!-- loupe info -->
-                                        <Grid Visibility="{Binding LoupeTransform.IsVisibleLoupeInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                            <Grid x:Name="LoupeInfo" VerticalAlignment="Top" HorizontalAlignment="Right" DataContext="{Binding LoupeTransform}"
-                                                Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                                Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
-                                                Background="#88000000">
-                                                <TextBlock Padding="20,5" Foreground="White" Text="{Binding ScaleX, StringFormat={}×{0:.0}}"/>
-                                            </Grid>
-                                        </Grid>
-
-                                        <!-- Now Loading -->
-                                        <local:NowLoadingView x:Name="NowLoadingView"/>
-
-                                        <!-- Message Tiny -->
-                                        <local:TinyInfoMessageView Source="{Binding InfoMessage.TinyInfoMessage}"/>
-
-                                        <!-- IsBusy -->
-                                        <Grid Margin="{Binding ElementName=MainViewCanvas, Path=Margin}">
-                                            <Rectangle Fill="#884682b4" Width="5" Height="5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Visibility="{Binding BusyVisibility}"/>
+                                                <StackPanel x:Name="MainContentShadow" Orientation="Horizontal">
+                                                    <Rectangle x:Name="Content1Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[1].Width}" Height="{Binding Contents[1].Height}"/>
+                                                    <Rectangle x:Name="Content0Shadow" Visibility="Hidden" Fill="#88FF0000" Width="{Binding Contents[0].Width}" Height="{Binding Contents[0].Height}" Margin="{Binding ContentsMargin}"/>
+                                                </StackPanel>
+                                            </Canvas>
                                         </Grid>
 
                                     </Grid>
 
-                                    <!--
+                                    <!-- empty pages message -->
+                                    <Grid Visibility="{Binding ContentCanvas.IsVisibleEmptyPageMessage, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True" IsHitTestVisible="False">
+                                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MinWidth="300">
+                                            <TextBlock  Text="{x:Static  properties:Resources.NotifyCannotDisplay}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="{StaticResource InfoTextFontSize}" FontFamily="Meiryo" Foreground="{Binding ContentCanvasBrush.ForegroundBrush}"/>
+                                            <local:XHtmlTextBlock Source="{Binding ContentCanvas.EmptyPageMessage}" Foreground="{Binding ContentCanvasBrush.ForegroundBrush}" HorizontalAlignment="Center" Margin="0,20,0,0" MinHeight="50" TextWrapping="Wrap"/>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <!-- caption -->
+                                    <TextBlock x:Name="PageCaption" VerticalAlignment="Top" HorizontalAlignment="Stretch"
+                                                   Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
+                                                   Text="{Binding WindowTitle.Title}" Foreground="{DynamicResource NVForeground}"
+                                                   Padding="20,5"
+                                                   Background="{Binding Model.SliderBackgroundGlass}">
+                                        <TextBlock.Style>
+                                            <Style TargetType="TextBlock">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <MultiDataTrigger>
+                                                        <MultiDataTrigger.Conditions>
+                                                            <Condition Binding="{Binding Model.IsVisibleWindowTitle}" Value="True"/>
+                                                            <Condition Binding="{Binding ElementName=LayerStatusArea, Path=Visibility}" Value="Visible"/>
+                                                            <Condition Binding="{Binding ElementName=RootWindow, Path=WindowStyle}" Value="None"/>
+                                                        </MultiDataTrigger.Conditions>
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </MultiDataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+
+                                    <!-- loupe info -->
+                                    <Grid Visibility="{Binding LoupeTransform.IsVisibleLoupeInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Grid x:Name="LoupeInfo" VerticalAlignment="Top" HorizontalAlignment="Right" DataContext="{Binding LoupeTransform}"
+                                                Visibility="{Binding IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                                                Margin="{Binding ElementName=MainViewCanvas, Path=Margin}"
+                                                Background="#88000000">
+                                            <TextBlock Padding="20,5" Foreground="White" Text="{Binding ScaleX, StringFormat={}×{0:.0}}"/>
+                                        </Grid>
+                                    </Grid>
+
+                                    <!-- Now Loading -->
+                                    <local:NowLoadingView x:Name="NowLoadingView"/>
+
+                                    <!-- Message Tiny -->
+                                    <local:TinyInfoMessageView Source="{Binding InfoMessage.TinyInfoMessage}"/>
+
+                                    <!-- IsBusy -->
+                                    <Grid Margin="{Binding ElementName=MainViewCanvas, Path=Margin}">
+                                        <Rectangle Fill="#884682b4" Width="5" Height="5" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5" Visibility="{Binding BusyVisibility}"/>
+                                    </Grid>
+
+                                </Grid>
+
+                                <!--
                                 <Border BorderBrush="Red" BorderThickness="2"/>
                                 -->
-                                </Grid>
-                            </Canvas>
+                            </Grid>
+                        </Canvas>
 
 
-                            <!-- サイドパネル -->
-                            <local:SidePanelFrameView x:Name="SidePanelFrame" PanelMargin="{Binding SidePanelMargin, Mode=OneWay}" Visibility="Visible"
+                        <!-- サイドパネル -->
+                        <local:SidePanelFrameView x:Name="SidePanelFrame" PanelMargin="{Binding SidePanelMargin, Mode=OneWay}" Visibility="Visible"
                                       Source="{Binding SidePanel}"
                                       IsAutoHide="{Binding Model.CanHidePanel}"
                                       PanelBackground="{DynamicResource NVBackground}"
@@ -274,52 +272,51 @@
                                       CanvasWidth="{Binding CanvasWidth, Mode=OneWayToSource}"
                                       CanvasHeight="{Binding CanvasHeight, Mode=OneWayToSource}"
                                       MouseTarget="{Binding ElementName=Root}" d:IsHidden="True">
-                            </local:SidePanelFrameView>
-
-                        </Grid>
+                        </local:SidePanelFrameView>
 
                     </Grid>
 
-                </DockPanel>
+                </Grid>
+
+            </DockPanel>
 
 
-                <!-- Menu Layer -->
-                <ContentControl x:Name="LayerMenuSocket" VerticalAlignment="Top" Visibility="Collapsed" Focusable="False" MouseEnter="LayerMenuSocket_MouseEnter" MouseLeave="LayerMenuSocket_MouseLeave"/>
+            <!-- Menu Layer -->
+            <ContentControl x:Name="LayerMenuSocket" VerticalAlignment="Top" Visibility="Collapsed" Focusable="False" MouseEnter="LayerMenuSocket_MouseEnter" MouseLeave="LayerMenuSocket_MouseLeave"/>
 
-                <!-- Status Layer -->
-                <DockPanel x:Name="LayerStatusArea" VerticalAlignment="Bottom" Visibility="Collapsed" MouseEnter="LayerStatusArea_MouseEnter" MouseLeave="LayerStatusArea_MouseLeave">
-                    <Grid DockPanel.Dock="Bottom" Height="{Binding ElementName=DockStatusArea, Path=ActualHeight}"/>
-                    <Grid DockPanel.Dock="Bottom" Background="{Binding Model.SliderBackground}">
-                        <ContentControl x:Name="LayerPageSliderSocket" IsTabStop="False"/>
-                    </Grid>
-                    <Grid DockPanel.Dock="Bottom">
-                        <Grid.Style>
-                            <Style TargetType="Grid">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ThumbnailList.IsVisibleThumbnailPlate}" Value="True">
-                                        <Setter Property="Background" Value="{Binding Model.SliderBackground}"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Grid.Style>
-                        <ContentControl x:Name="LayerThumbnailListSocket" IsTabStop="False"/>
-                    </Grid>
-                </DockPanel>
+            <!-- Status Layer -->
+            <DockPanel x:Name="LayerStatusArea" VerticalAlignment="Bottom" Visibility="Collapsed" MouseEnter="LayerStatusArea_MouseEnter" MouseLeave="LayerStatusArea_MouseLeave">
+                <Grid DockPanel.Dock="Bottom" Height="{Binding ElementName=DockStatusArea, Path=ActualHeight}"/>
+                <Grid DockPanel.Dock="Bottom" Background="{Binding Model.SliderBackground}">
+                    <ContentControl x:Name="LayerPageSliderSocket" IsTabStop="False"/>
+                </Grid>
+                <Grid DockPanel.Dock="Bottom">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ThumbnailList.IsVisibleThumbnailPlate}" Value="True">
+                                    <Setter Property="Background" Value="{Binding Model.SliderBackground}"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
+                    <ContentControl x:Name="LayerThumbnailListSocket" IsTabStop="False"/>
+                </Grid>
+            </DockPanel>
 
-                <!-- Message Layer -->
-                <DockPanel d:IsHidden="True" >
-                    <Grid DockPanel.Dock="Bottom" Height="{Binding ElementName=DockStatusArea, Path=ActualHeight}"/>
-                    <local:NormalInfoMessageView Source="{Binding InfoMessage.NormalInfoMessage}"/>
-                </DockPanel>
+            <!-- Message Layer -->
+            <DockPanel d:IsHidden="True" >
+                <Grid DockPanel.Dock="Bottom" Height="{Binding ElementName=DockStatusArea, Path=ActualHeight}"/>
+                <local:NormalInfoMessageView Source="{Binding InfoMessage.NormalInfoMessage}"/>
+            </DockPanel>
 
-                <!-- Rename manager -->
-                <local:RenameManager x:Name="RenameManager" d:IsHidden="True"/>
+            <!-- Rename manager -->
+            <local:RenameManager x:Name="RenameManager" d:IsHidden="True"/>
 
-                <!-- Toast -->
-                <ContentControl Content="{Binding ToastService.ToastCard}" Focusable="False"/>
+            <!-- Toast -->
+            <ContentControl Content="{Binding ToastService.ToastCard}" Focusable="False"/>
 
-            </Grid>
+        </Grid>
 
-        </DockPanel>
     </Border>
 </Window>

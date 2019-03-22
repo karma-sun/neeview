@@ -1,26 +1,31 @@
-﻿using System;
+﻿using NeeLaboratory.ComponentModel;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading;
 
 namespace NeeView
 {
+    public enum JobState
+    {
+        None,
+        Run,
+        Closed,
+    }
+
+    public enum JobResult
+    {
+        None,
+        Canceled,
+        Completed,
+    }
+
     /// <summary>
     /// ジョブ
     /// </summary>
-    public class Job : IDisposable
+    public class Job : BindableBase, IDisposable
     {
-        #region Helper
-
-        private static int _serialNumber;
-
-        public static Job Create(IJobCommand command, CancellationToken token)
-        {
-            var job = new Job(_serialNumber++, command, token);
-            return job;
-        }
-
-        #endregion
-
         private ManualResetEventSlim _completed = new ManualResetEventSlim();
 
         private Job(int serialNumber, IJobCommand command, CancellationToken token)
@@ -38,6 +43,23 @@ namespace NeeView
 
         // キャンセルトークン
         public CancellationToken CancellationToken { get; private set; }
+
+
+        private JobState _state;
+        public JobState State
+        {
+            get { return _state; }
+            set { SetProperty(ref _state, value); }
+        }
+
+        private JobResult _result;
+        public JobResult Result
+        {
+            get { return _result; }
+            set { SetProperty(ref _result, value); }
+        }
+
+
 
 
         public void SetCompleted()
@@ -75,12 +97,34 @@ namespace NeeView
         }
         #endregion
 
+        #region Helper
+
+        private static int _serialNumber;
+
+        public static Job Create(IJobCommand command, CancellationToken token)
+        {
+            var job = new Job(_serialNumber++, command, token);
+            return job;
+        }
+
+        #endregion
+
         #region 開発用
 
-        private string _debugLog;
+        private List<string> _debugLogs;
+
+        public string LastLog => _debugLogs?.Last();
+
+        public string AllLog => _debugLogs != null ? string.Join("\n", _debugLogs) : null;
+
+        [Conditional("DEBUG")]
         public void Log(string msg)
         {
-            _debugLog = _debugLog + msg + "\n";
+            _debugLogs = _debugLogs ?? new List<string>();
+            _debugLogs.Add(msg);
+
+            RaisePropertyChanged(nameof(LastLog));
+            RaisePropertyChanged(nameof(AllLog));
         }
 
         #endregion

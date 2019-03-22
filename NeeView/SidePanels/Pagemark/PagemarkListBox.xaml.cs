@@ -73,7 +73,7 @@ namespace NeeView
             _virtualCollection = new PagemarkListVertualCollection(this.TreeView);
             PagemarkListVertualCollection.SetCurrent(_virtualCollection);
 
-            _jobClient = new PageThumbnailJobClient(JobCategories.BookThumbnailCategory);
+            _jobClient = new PageThumbnailJobClient("PagemarkList", JobCategories.BookThumbnailCategory);
             _virtualCollection.CollectionChanged += VirtualCollection_CollectionChanged;
 
             // タッチスクロール操作の終端挙動抑制

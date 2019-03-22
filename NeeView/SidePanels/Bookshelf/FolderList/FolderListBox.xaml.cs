@@ -73,7 +73,7 @@ namespace NeeView
 
         private void FolderListBox_Loaded(object sender, RoutedEventArgs e)
         {
-            _jobClient = new PageThumbnailJobClient(JobCategories.BookThumbnailCategory);
+            _jobClient = new PageThumbnailJobClient("FolderList", JobCategories.BookThumbnailCategory);
             _thumbnailLoader = new ListBoxThumbnailLoader(this, _jobClient);
 
             _vm.Loaded();

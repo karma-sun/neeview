@@ -16,7 +16,7 @@ namespace NeeView
         {
             Thumbnail.DebugIgnoreCache = true;
 
-            using (var jobClient = new PageThumbnailJobClient(JobCategories.BookThumbnailCategory))
+            using (var jobClient = new PageThumbnailJobClient("Test", JobCategories.BookThumbnailCategory))
             using (var mres = new ManualResetEventSlim(false))
             {
                 ////var sw = Stopwatch.StartNew();

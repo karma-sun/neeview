@@ -65,7 +65,6 @@ namespace NeeView
         public event EventHandler WorkersChanged;
 
 
-        public Development Development => Development.Current;
         public JobEngine JobEngine => JobEngine.Current;
         public DragTransform DragTransform => DragTransform.Current;
 

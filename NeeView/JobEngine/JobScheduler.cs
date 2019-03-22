@@ -1,4 +1,5 @@
-﻿using NeeView.Threading.Tasks;
+﻿using NeeLaboratory.ComponentModel;
+using NeeView.Threading.Tasks;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,14 +13,22 @@ namespace NeeView
     /// <summary>
     /// JOBスケジューラー
     /// </summary>
-    public class JobScheduler
+    public class JobScheduler : BindableBase 
     {
         public Dictionary<JobClient, List<JobSource>> _clients = new Dictionary<JobClient, List<JobSource>>();
-        public List<JobSource> _queue = new List<JobSource>();
 
         public event EventHandler QueueChanged;
 
         public object Lock { get; } = new object();
+
+
+        private List<JobSource> _queue = new List<JobSource>();
+        public List<JobSource> Queue
+        {
+            get { return _queue; }
+            set { SetProperty(ref _queue, value); }
+        }
+
 
         public void RaiseQueueChanged()
         {
@@ -63,7 +72,7 @@ namespace NeeView
                 // TODO: 同じリクエストだったらなにもしない、とか、ここでする？
 
                 // 対象カテゴリのJOBの取得
-                var collection = _queue.Where(e => e.Category == sender.Category).ToList();
+                var collection = Queue.Where(e => e.Category == sender.Category).ToList();
 
                 // オーダーがcollectionにない場合はそのJOBを作成、追加。
                 List<JobSource> sources = new List<JobSource>();
@@ -79,6 +88,7 @@ namespace NeeView
                 }
 
                 // そのクライアントのオーダーとして記憶
+                Debug.Assert(_clients.ContainsKey(sender));
                 _clients[sender] = sources;
 
                 // 新しいQueue
@@ -86,7 +96,7 @@ namespace NeeView
                 ////Debug.WriteLine($"New: {queue.Count}");
 
                 // 管理対象外のJOBにはキャンセル命令発行
-                var removes = _queue.Except(queue).ToList();
+                var removes = Queue.Except(queue).ToList();
                 foreach (var remove in removes)
                 {
                     ////Debug.WriteLine($"JobScheduler.Cancel: {remove}: {remove.GetHashCode()}");
@@ -95,7 +105,7 @@ namespace NeeView
                 }
 
                 // Queue更新
-                _queue = queue;
+                Queue = queue;
                 QueueChanged?.Invoke(this, null);
 
                 return sources;
@@ -110,7 +120,7 @@ namespace NeeView
         {
             lock (Lock)
             {
-                var source = _queue.FirstOrDefault(e => !e.IsProcessed && minPriority <= e.Category.Priority);
+                var source = Queue.FirstOrDefault(e => !e.IsProcessed && minPriority <= e.Category.Priority);
                 if (source != null)
                 {
                     source.IsProcessed = true;

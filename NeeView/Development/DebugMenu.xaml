@@ -25,8 +25,7 @@
             </MultiBinding>
         </Menu.Foreground>
         <MenuItem x:Name="MenuItemDev" Header="_Develop">
-            <MenuItem Style="{StaticResource SubMenuStyle}" x:Name="MenuItemDevPageList" Header="Page list" IsCheckable="True" IsChecked="{Binding Source={x:Static local:Development.Current}, Path=IsVisibleDevPageList}" />
-            <MenuItem Style="{StaticResource SubMenuStyle}" x:Name="MenuItemDevInfo" Header="Status area" IsCheckable="True" IsChecked="{Binding Source={x:Static local:Development.Current}, Path=IsVisibleDevInfo}" />
+            <MenuItem Style="{StaticResource SubMenuStyle}" x:Name="MenuItemDebugWindow" Header="Debug Window" IsCheckable="True" IsChecked="{Binding IsDebugWindowVisibled}" />
             <Separator/>
             <MenuItem Style="{StaticResource SubMenuStyle}" x:Name="MenuItemDevApplicationFolder" Header="Open application folder" Click="MenuItemDevApplicationFolder_Click" />
             <MenuItem Style="{StaticResource SubMenuStyle}" x:Name="MenuItemDevApplicationDataFolder" Header="Open data folder" Click="MenuItemDevApplicationDataFolder_Click" />

@@ -6,14 +6,14 @@
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
              DockPanel.Dock="Bottom"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="600">
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <local:PointToDispStringConverter x:Key="PointToDispStringConverter"/>
     </UserControl.Resources>
 
-    <DockPanel x:Name="Root" Panel.ZIndex="100" Background="White" Visibility="{Binding Development.IsVisibleDevInfo, Converter={StaticResource BooleanToVisibilityConverter}}">
+    <DockPanel x:Name="Root" Background="White">
         <TextBlock DockPanel.Dock="Top" Text="{Binding Message}"/>
         <TextBlock DockPanel.Dock="Top" Text="{Binding DragTransform.Position, Converter={StaticResource PointToDispStringConverter}}"/>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">

@@ -154,6 +154,8 @@ namespace NeeView
         #region Scheduler
         private JobScheduler _scheduler;
 
+        public JobScheduler Scheduler => _scheduler;
+
         private void InitializeScheduler()
         {
             _scheduler = new JobScheduler();

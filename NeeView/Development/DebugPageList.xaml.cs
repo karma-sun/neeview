@@ -24,12 +24,23 @@ namespace NeeView
         {
             InitializeComponent();
             this.Root.DataContext = new DevPageListViewModel();
+
+            BookOperation.Current.ViewContentsChanged += BookOperation_ViewContentsChanged;
+        }
+
+        private void BookOperation_ViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
+        {
+            ////var page = BookOperation.Current.Book?.GetViewPage();
+            ////this.Root.ScrollIntoView(page);
         }
     }
 
-    public class DevPageListViewModel
+    public class DevPageListViewModel 
     {
-        public Development Development => Development.Current;
         public BookOperation BookOperation => BookOperation.Current;
+
+        public DevPageListViewModel()
+        {
+        }
     }
 }

@@ -30,7 +30,7 @@ namespace NeeView
         public BitmapSource BitmapSource => Picture?.BitmapSource;
 
         // bitmap color
-        public Color Color => Picture != null ? Picture.PictureInfo.Color : Colors.Black;
+        public Color Color => PictureInfo != null ? PictureInfo.Color : Colors.Black;
 
         /// <summary>
         /// BitmapSourceがあればコンテンツ有効
@@ -54,7 +54,9 @@ namespace NeeView
             {
                 if (PictureSource == null)
                 {
-                    PictureSource = PictureSourceFactory.Create(Entry, false, token);
+                    var source = PictureSourceFactory.Create(Entry, PictureSourceCreateOptions.None, token);
+                    source.InitializePictureInfo(token);
+                    this.PictureSource = source;
                 }
             }
         }
@@ -144,7 +146,7 @@ namespace NeeView
             }
             else
             {
-                thumbnailRaw = PictureSource.CreateThumbnail(token);
+                thumbnailRaw = PictureSource.CreateThumbnail(ThumbnailProfile.Current, token);
             }
 
             token.ThrowIfCancellationRequested();

@@ -60,6 +60,8 @@ namespace NeeView
             }
 
             bitmap.EndInit();
+
+            token.ThrowIfCancellationRequested();
             bitmap.Freeze();
 
             // out of memory, maybe.

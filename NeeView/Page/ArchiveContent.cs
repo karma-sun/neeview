@@ -135,7 +135,7 @@ namespace NeeView
                 }
                 else if (picture.Type == ThumbnailType.Unique)
                 {
-                    Thumbnail.Initialize(picture.PictureSource.CreateThumbnail(token));
+                    Thumbnail.Initialize(picture.RawData);
                 }
                 else
                 {
@@ -160,17 +160,17 @@ namespace NeeView
         public class ThumbnailPicture
         {
             public ThumbnailType Type { get; set; }
-            public PictureSource PictureSource { get; set; }
+            public byte[] RawData { get; set; }
 
             public ThumbnailPicture(ThumbnailType type)
             {
                 Type = type;
             }
 
-            public ThumbnailPicture(PictureSource source)
+            public ThumbnailPicture(byte[] rawData)
             {
                 Type = ThumbnailType.Unique;
-                PictureSource = source;
+                RawData = rawData;
             }
         }
 
@@ -194,7 +194,7 @@ namespace NeeView
                 }
                 else
                 {
-                    return new ThumbnailPicture(PictureSourceFactory.Create(entry, false, token));
+                    return new ThumbnailPicture(CreateThumbnail(entry, token));
                 }
             }
             else
@@ -202,6 +202,7 @@ namespace NeeView
                 return await LoadArchivePictureAsync(this.Entry, token);
             }
         }
+
 
 
         /// <summary>
@@ -227,7 +228,7 @@ namespace NeeView
                 var select = await ArchiveEntryUtility.CreateFirstImageArchiveEntryAsync(entry, searchRange, token);
                 if (select != null)
                 {
-                    return new ThumbnailPicture(PictureSourceFactory.Create(select, false, token));
+                    return new ThumbnailPicture(CreateThumbnail(select, token));
                 }
                 else
                 {
@@ -236,8 +237,15 @@ namespace NeeView
             }
             else
             {
-                return new ThumbnailPicture(PictureSourceFactory.Create(entry, false, token));
+                return new ThumbnailPicture(CreateThumbnail(entry, token));
             }
+        }
+
+
+        private byte[] CreateThumbnail(ArchiveEntry entry, CancellationToken token)
+        {
+            var source = PictureSourceFactory.Create(entry, PictureSourceCreateOptions.IgnoreImageCache, token);
+            return source.CreateThumbnail(ThumbnailProfile.Current, token);
         }
 
         public override string ToString()

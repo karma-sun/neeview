@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
@@ -9,52 +10,59 @@ namespace NeeView
     /// </summary>
     public abstract class PictureSource
     {
-        protected bool _ignoreImageCache;
+        protected PictureSourceCreateOptions _createOptions;
 
-        public PictureSource(ArchiveEntry entry, bool ignoreImageCache)
+        public PictureSource(ArchiveEntry entry, PictureSourceCreateOptions createOptions)
         {
             ArchiveEntry = entry;
-            _ignoreImageCache = ignoreImageCache;
+            _createOptions = createOptions;
         }
 
         public ArchiveEntry ArchiveEntry { get; }
         public PictureInfo PictureInfo { get; protected set; }
 
-        public abstract void Initialize(CancellationToken token);
+        /// <summary>
+        /// PictureInfo初期化
+        /// </summary>
+        public abstract void InitializePictureInfo(CancellationToken token);
+
+        /// <summary>
+        /// BitmaSource作成。メインコンテンツ用
+        /// </summary>
         public abstract BitmapSource CreateBitmapSource(Size size, BitmapCreateSetting setting, CancellationToken token);
+
+        /// <summary>
+        /// 画像データ作成
+        /// </summary>
         public abstract byte[] CreateImage(Size size, BitmapCreateSetting setting, BitmapImageFormat format, int quality, CancellationToken token);
+
+        /// <summary>
+        /// サムネイル画像データ作成
+        /// </summary>
+        public abstract byte[] CreateThumbnail(ThumbnailProfile profile, CancellationToken token);
+    }
+
+    [Flags]
+    public enum PictureSourceCreateOptions
+    {
+        None = 0,
+        IgnoreImageCache = 0x0001,
     }
 
 
     public static class PictureSourceFactory
     {
-        public static PictureSource Create(ArchiveEntry entry, bool ignoreImageCache, CancellationToken token)
+        public static PictureSource Create(ArchiveEntry entry, PictureSourceCreateOptions createOptions, CancellationToken token)
         {
-            PictureSource pictureSource;
             if (entry.Archiver is PdfArchiver)
             {
-                pictureSource = new PdfPictureSource(entry, ignoreImageCache);
+                return new PdfPictureSource(entry, createOptions);
             }
             else
             {
-                pictureSource = new DefaultPictureSource(entry, ignoreImageCache);
+                return new DefaultPictureSource(entry, createOptions);
             }
-
-            pictureSource.Initialize(token);
-            return pictureSource;
         }
     }
 
-
-    public static class PictureSourceExtensions
-    {
-        public static byte[] CreateThumbnail(this PictureSource self, CancellationToken token)
-        {
-            if (self == null) return null;
-
-            var size = ThumbnailProfile.Current.GetThumbnailSize(self.PictureInfo.Size);
-            var setting = ThumbnailProfile.Current.CreateBitmapCreateSetting();
-            return self.CreateImage(size, setting, ThumbnailProfile.Current.Format, ThumbnailProfile.Current.Quality, token);
-        }
-    }
 }

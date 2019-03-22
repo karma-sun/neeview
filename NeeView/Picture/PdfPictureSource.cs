@@ -12,12 +12,12 @@ namespace NeeView
 
         private PdfArchiver _pdfArchive;
 
-        public PdfPictureSource(ArchiveEntry entry, bool ignoreImageCache) : base(entry, ignoreImageCache)
+        public PdfPictureSource(ArchiveEntry entry, PictureSourceCreateOptions createOptions) : base(entry, createOptions)
         {
             _pdfArchive = (PdfArchiver)entry.Archiver;
         }
 
-        public override void Initialize(CancellationToken token)
+        public override void InitializePictureInfo(CancellationToken token)
         {
             this.PictureInfo = new PictureInfo(ArchiveEntry);
 
@@ -82,6 +82,24 @@ namespace NeeView
                 case BitmapImageFormat.Png:
                     return System.Drawing.Imaging.ImageFormat.Png;
             }
+        }
+
+
+        public override byte[] CreateThumbnail(ThumbnailProfile profile, CancellationToken token)
+        {
+            Size size;
+            if (PictureInfo != null)
+            {
+                size = PictureInfo.Size;
+            }
+            else
+            {
+                size = _pdfArchive.GetRenderSize(ArchiveEntry);
+            }
+
+            size = profile.GetThumbnailSize(size);
+            var setting = profile.CreateBitmapCreateSetting();
+            return CreateImage(size, setting, profile.Format, profile.Quality, token);
         }
     }
 }

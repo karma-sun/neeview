@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,6 +14,7 @@ namespace NeeView
         #region Fields
 
         private PageSlider _model;
+        private MouseWheelDelta _mouseWheelDelta = new MouseWheelDelta();
 
         #endregion
 
@@ -60,11 +62,12 @@ namespace NeeView
 
         public void MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            int turn = MouseInputHelper.DeltaCount(e);
+            int turn = _mouseWheelDelta.NotchCount(e);
+            if (turn == 0) return;
 
-            for (int i = 0; i < turn; ++i)
+            for (int i = 0; i < Math.Abs(turn); ++i)
             {
-                if (e.Delta < 0)
+                if (turn < 0)
                 {
                     BookOperation.Current.NextPage();
                 }

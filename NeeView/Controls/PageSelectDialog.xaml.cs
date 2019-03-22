@@ -19,6 +19,7 @@ namespace NeeView
     public partial class PageSelectDialog : Window
     {
         private PageSelectDialogViewModel _vm;
+        private MouseWheelDelta _mouseWheelDelta = new MouseWheelDelta();
 
         public PageSelectDialog()
         {
@@ -48,8 +49,8 @@ namespace NeeView
 
         private void PageSelectDialog_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            int turn = MouseInputHelper.DeltaCount(e);
-            _vm.AddValue(e.Delta > 0 ? -turn : +turn);
+            int turn = _mouseWheelDelta.NotchCount(e);
+            _vm.AddValue(-turn);
         }
 
         private void PageSelectDialog_KeyDown(object sender, KeyEventArgs e)

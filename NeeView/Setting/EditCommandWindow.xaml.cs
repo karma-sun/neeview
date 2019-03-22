@@ -117,7 +117,7 @@ namespace NeeView.Setting
             this.Parameter.Flush();
             _memento.Elements[_key].IsShowMessage = this.IsShowMessage;
 
-            CommandTable.Current.Restore(_memento, true);
+            CommandTable.Current.Restore(_memento, false);
 
             this.DialogResult = true;
             Close();

@@ -62,6 +62,8 @@ namespace NeeView
         /// </summary>
         private volatile int _thumbnailRequestCount;
 
+        private MouseWheelDelta _mouseWheelDelta = new MouseWheelDelta();
+
         #endregion
 
         #region Constructors
@@ -371,10 +373,12 @@ namespace NeeView
 
         private void ThumbnailListBox_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            int count = MouseInputHelper.DeltaCount(e);
-            int delta = e.Delta < 0 ? +count : -count;
-            if (PageSlider.Current.IsSliderDirectionReversed) delta = -delta;
-            MoveSelectedIndex(delta);
+            int delta = -_mouseWheelDelta.NotchCount(e);
+            if (delta != 0)
+            {
+                if (PageSlider.Current.IsSliderDirectionReversed) delta = -delta;
+                MoveSelectedIndex(delta);
+            }
             e.Handled = true;
         }
 

@@ -23,6 +23,8 @@ namespace NeeView
     /// </summary>
     public partial class SliderTextBox : UserControl, INotifyPropertyChanged
     {
+        private MouseWheelDelta _mouseWheelDelta = new MouseWheelDelta();
+
         /// <summary>
         /// PropertyChanged event. 
         /// </summary>
@@ -138,15 +140,13 @@ namespace NeeView
 
         private void TextBox_MouseWheel(object sender, MouseWheelEventArgs e)
         {
-            int turn = MouseInputHelper.DeltaCount(e);
-
-            if (e.Delta > 0)
+            int turn = _mouseWheelDelta.NotchCount(e);
+            if (turn != 0)
+            {
                 this.Target.Value = this.Target.Value - turn;
-            else
-                this.Target.Value = this.Target.Value + turn;
-
-            ValueChanged?.Invoke(this, null);
-            this.TextBox.SelectAll();
+                ValueChanged?.Invoke(this, null);
+                this.TextBox.SelectAll();
+            }
             e.Handled = true;
         }
     }

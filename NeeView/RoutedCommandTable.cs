@@ -28,6 +28,7 @@ namespace NeeView
         private Dictionary<Key, bool> _usedKeyMap;
         private bool _isDarty;
         private List<EventHandler<KeyEventArgs>> _imeKeyHandlers = new List<EventHandler<KeyEventArgs>>();
+        private MouseWheelDelta _mouseWheelDelta = new MouseWheelDelta();
 
         #endregion
 
@@ -236,7 +237,8 @@ namespace NeeView
         // ホイールの回転数に応じたコマンド実行
         private void WheelCommandExecute(RoutedUICommand command, MouseWheelEventArgs arg)
         {
-            int turn = MouseInputHelper.DeltaCount(arg);
+            int turn = Math.Abs(_mouseWheelDelta.NotchCount(arg));
+            if (turn == 0) return;
 
             // Debug.WriteLine($"WheelCommand: {turn}({arg.Delta})");
             var param = new CommandParameterArgs(null, CommandTable.Current.IsReversePageMoveWheel);

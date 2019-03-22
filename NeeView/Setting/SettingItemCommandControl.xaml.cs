@@ -82,7 +82,7 @@ namespace NeeView.Setting
 
             if (result == true)
             {
-                CommandTable.Current.Restore(dialog.CreateCommandMemento(), true);
+                CommandTable.Current.Restore(dialog.CreateCommandMemento(), false);
 
                 UpdateCommandList();
                 this.CommandListView.Items.Refresh();

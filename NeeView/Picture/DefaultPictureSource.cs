@@ -21,6 +21,11 @@ namespace NeeView
         {
         }
 
+        public override long GetMemorySize()
+        {
+            return _rawData != null ? _rawData.Length : 0;
+        }
+
         public override void InitializePictureInfo(CancellationToken token)
         {
             if (this.PictureInfo != null) return;

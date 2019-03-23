@@ -119,6 +119,10 @@ namespace NeeView
         [PropertyMember("@ParamBookIsAllFileAnImage", Tips = "@ParamBookIsAllFileAnImageTips")]
         public bool IsAllFileAnImage { get; set; }
 
+        // キャッシュメモリサイズ (MB)
+        [PropertyMember("@ParamCacheMemorySize", Tips = "@ParamCacheMemorySizeTips")]
+        public int CacheMemorySize { get; set; } = 100;
+
         #endregion
 
         /// <summary>
@@ -184,6 +188,10 @@ namespace NeeView
             [DataMember]
             public bool IsAllFileAnImage { get; set; }
 
+            [DataMember, DefaultValue(100)]
+            public int CacheMemorySize { get; set; }
+
+
             [OnDeserializing]
             private void OnDeserializing(StreamingContext c)
             {
@@ -216,6 +224,7 @@ namespace NeeView
             memento.BookPageCollectMode = this.BookPageCollectMode;
             memento.LoadingPageView = this.LoadingPageView;
             memento.IsAllFileAnImage = this.IsAllFileAnImage;
+            memento.CacheMemorySize = this.CacheMemorySize;
             return memento;
         }
 
@@ -233,6 +242,7 @@ namespace NeeView
             this.BookPageCollectMode = memento.BookPageCollectMode;
             this.LoadingPageView = memento.LoadingPageView;
             this.IsAllFileAnImage = memento.IsAllFileAnImage;
+            this.CacheMemorySize = memento.CacheMemorySize;
         }
         #endregion
 

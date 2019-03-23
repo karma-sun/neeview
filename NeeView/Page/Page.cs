@@ -169,6 +169,12 @@ namespace NeeView
 
 
         /// <summary>
+        /// コンテンツをロックしてUnloadされないようにする
+        /// </summary>
+        public bool IsLocked { get; set; }
+
+
+        /// <summary>
         /// コンストラクタ
         /// </summary>
         public Page(string bookPrefix, ArchiveEntry entry)
@@ -187,19 +193,20 @@ namespace NeeView
         {
             token.ThrowIfCancellationRequested();
 
-            Message = "** Load...";
-            await Content.LoadAsync(token);
+            Message = "Load...";
+            await Content.LoadContentAsync(token);
+            Message = "Loaded.";
         }
 
 
         /// <summary>
         /// コンテンツを閉じる
         /// </summary>
-        public void Unload()
+        public void UnloadContent()
         {
-            // TODO: JOBの処理
-
-            Content.Unload();
+            Debug.Assert(!IsLocked);
+            Content.UnloadContent();
+            Message = ".";
         }
 
         #endregion
@@ -278,7 +285,8 @@ namespace NeeView
         //
         public void Reset()
         {
-            Unload();
+            IsLocked = false;
+            UnloadContent();
 
             Loaded = null;
             this.Thumbnail.Reset();

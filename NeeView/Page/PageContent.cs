@@ -120,6 +120,7 @@ namespace NeeView
         public bool IsAnimated { get; protected set; }
 
 
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
@@ -134,11 +135,15 @@ namespace NeeView
 
 
         /// <summary>
+        /// 使用メモリサイズ（おおよそ）
+        /// </summary>
+        public virtual long GetMemorySize() => 0;
+
+
+        /// <summary>
         /// コンテンツロード
         /// </summary>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        public virtual async Task LoadAsync(CancellationToken token)
+        public virtual async Task LoadContentAsync(CancellationToken token)
         {
             await Task.CompletedTask;
         }
@@ -146,7 +151,7 @@ namespace NeeView
         /// <summary>
         /// コンテンツ開放
         /// </summary>
-        public virtual void Unload()
+        public virtual void UnloadContent()
         {
         }
 

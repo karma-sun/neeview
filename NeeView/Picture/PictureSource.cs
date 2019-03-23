@@ -22,6 +22,11 @@ namespace NeeView
         public PictureInfo PictureInfo { get; protected set; }
 
         /// <summary>
+        /// メモリ使用量取得
+        /// </summary>
+        public virtual long GetMemorySize() => 0;
+
+        /// <summary>
         /// PictureInfo初期化
         /// </summary>
         public abstract void InitializePictureInfo(CancellationToken token);

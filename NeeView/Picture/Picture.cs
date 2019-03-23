@@ -69,6 +69,11 @@ namespace NeeView
 
         #region Methods
 
+        public long GetMemorySize()
+        {
+            return _bitmapSource != null ? (_bitmapSource.Format.BitsPerPixel / 8) * _bitmapSource.PixelWidth * _bitmapSource.PixelHeight : 0;
+        }
+
         /// <summary>
         /// このPictureの使用停止
         /// </summary>

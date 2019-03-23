@@ -45,11 +45,11 @@ namespace NeeView
         /// <summary>
         /// コンテンツロード.
         /// </summary>
-        public override async Task LoadAsync(CancellationToken token)
+        public override async Task LoadContentAsync(CancellationToken token)
         {
             if (IsLoaded) return;
 
-            ////this.PictureInfo.BitsPerPixel = 32;
+            this.PictureInfo.BitsPerPixel = 32;
 
             this.Size = new Size(704, 396);
 

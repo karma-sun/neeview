@@ -777,12 +777,6 @@ namespace NeeView
         private void Reflesh(bool clear)
         {
             if (Address == null) return;
-
-            if (clear)
-            {
-                _keepPages.ForEach(e => e?.Unload());
-            }
-
             RequestSetPosition(this, _viewPageCollection.Range.Min, 1, true);
         }
 
@@ -964,14 +958,25 @@ namespace NeeView
                 }
             }
 
-            // cleanup pages
-            _keepPages.AddRange(viewPages.Where(e => !_keepPages.Contains(e)));
-            CleanupPages(source);
-
-
             // pre load
             var preLoadPages = isPreLoad ? PreLoad(source) : new List<Page>();
-            _jobClient.Order(viewPages.Concat(preLoadPages).Distinct().ToList());
+
+            var loadPages = viewPages.Concat(preLoadPages).Distinct().ToList();
+
+            // update content lock
+            var unloadPages = _keepPages.Except(loadPages).ToList();
+            foreach(var page in unloadPages)
+            {
+                page.IsLocked = false;
+            }
+            foreach(var page in loadPages)
+            {
+                page.IsLocked = true;
+            }
+            _keepPages = loadPages;
+
+            PageContentPool.Current.SetReference(loadPages.First());
+            _jobClient.Order(loadPages);
 
             using (var loadWaitCancellation = new CancellationTokenSource())
             using (var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token, loadWaitCancellation.Token))
@@ -993,9 +998,6 @@ namespace NeeView
             _viewPageRange = source;
             UpdateViewContents();
             UpdateNextContents();
-
-            // ページ破棄
-            if (!AllowPreLoad()) ClearAllPages(viewPages);
         }
 
         /// <summary>
@@ -1005,6 +1007,9 @@ namespace NeeView
         /// <param name="e"></param>
         private void Page_Loaded(object sender, EventArgs e)
         {
+            var page = (Page)sender;
+            PageContentPool.Current.Add(page);
+
             if (!BookProfile.Current.CanPrioritizePageMove()) return;
 
             // 非同期なので一旦退避
@@ -1012,8 +1017,6 @@ namespace NeeView
             var next = _nextPageCollection;
 
             if (now?.Collection == null) return;
-
-            var page = (Page)sender;
 
             // 現在表示に含まれているページ？
             if (page.IsContentAlived && now.Collection.Any(item => !item.IsValid && item.Page == page))
@@ -1246,41 +1249,6 @@ namespace NeeView
             }
         }
 
-        // 不要ページコンテンツの削除を行う
-        private void CleanupPages(PageDirectionalRange source)
-        {
-            // コンテンツを保持するページ収集
-            var keepPages = new List<Page>();
-            int prevSize = source.Direction < 0 ? KeepPageNextSize() : KeepPagePrevSize();
-            int nextSize = source.Direction < 0 ? KeepPagePrevSize() : KeepPageNextSize();
-            for (int offset = -prevSize; offset <= nextSize; ++offset)
-            {
-                int index = source.Position.Index + offset;
-                if (0 <= index && index < Pages.Count)
-                {
-                    keepPages.Add(Pages[index]);
-                }
-            }
-
-            // 不要コンテンツ破棄
-            ClearAllPages(keepPages);
-        }
-
-        // 全ページコンテンツの削除を行う
-        private void ClearAllPages(List<Page> keeps)
-        {
-            if (AllowUnload())
-            {
-                foreach (var page in _keepPages.Where(e => !keeps.Contains(e)))
-                {
-                    page.Unload();
-                }
-            }
-
-            // 保持ページ更新
-            _keepPages = keeps;
-        }
-
         // 先読み
         private List<Page> PreLoad(PageDirectionalRange source)
         {
@@ -1293,22 +1261,16 @@ namespace NeeView
                 int index = source.Position.Index + (source.Direction < 0 ? -offset : offset);
                 if (0 <= index && index < Pages.Count)
                 {
-                    Debug.Assert(_keepPages.Contains(Pages[index])); // 念のため
                     preLoadPages.Add(Pages[index]);
-
-                    if (!_keepPages.Contains(Pages[index]))
-                    {
-                        _keepPages.Add(Pages[index]);
-                    }
                 }
             }
 
             return preLoadPages;
         }
 
-        #endregion
+#endregion
 
-        #region ページの並び替え
+#region ページの並び替え
 
         // ページの並び替え
         private void Sort()
@@ -1386,9 +1348,9 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
-        #region ページの削除
+#region ページの削除
 
         // ページの削除
         private void Remove(Page page)
@@ -1413,9 +1375,9 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
-        #region マーカー処理
+#region マーカー処理
 
         /// <summary>
         /// マーカー判定
@@ -1509,18 +1471,18 @@ namespace NeeView
             return target;
         }
 
-        #endregion
+#endregion
 
-        #region 動画再生用
+#region 動画再生用
 
         public void RaisePageTerminatedEvent(int direction)
         {
             PageTerminated?.Invoke(this, new PageTerminatedEventArgs(direction));
         }
 
-        #endregion
+#endregion
 
-        #region IDisposable Support
+#region IDisposable Support
         private bool _disposedValue = false;
 
         protected virtual void Dispose(bool disposing)
@@ -1538,6 +1500,8 @@ namespace NeeView
                     this.ViewContentsChanged = null;
 
                     _viewPageCollection = new ViewPageCollection();
+
+                    PageContentPool.Current.Clear();
 
                     if (Pages != null)
                     {
@@ -1572,11 +1536,11 @@ namespace NeeView
         {
             Dispose(true);
         }
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region Memento
+#region Memento
 
         /// <summary>
         /// 保存設定
@@ -1783,7 +1747,7 @@ namespace NeeView
             SortMode = memento.SortMode;
         }
 
-        #endregion
+#endregion
     }
 
     // ページ関係のイベントパラメータ

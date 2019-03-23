@@ -29,6 +29,7 @@ namespace NeeView.Setting
             {
                 new SettingItemSection(Properties.Resources.SettingPageBookGeneralGeneral,
 
+                    new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.CacheMemorySize))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.PreLoadMode))),
                     new SettingItemProperty(PropertyMemberElement.Create(ContentCanvasBrush.Current, nameof(ContentCanvasBrush.PageBackgroundColor)))),
 

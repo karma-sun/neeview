@@ -4721,4 +4721,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamBookPageCollectModeTips" xml:space="preserve">
     <value>フォルダーをページにすると、そのページからフォルダーを開くことができるようになります。</value>
   </data>
+  <data name="ParamCacheMemorySize" xml:space="preserve">
+    <value>ブックのキャッシュメモリサイズ(MB)</value>
+  </data>
+  <data name="ParamCacheMemorySizeTips" xml:space="preserve">
+    <value>一度読み込んだページをメモリに保持して再表示時を高速化します。大きすぎる値はシステムを不安定にする可能性があるので注意してください。</value>
+  </data>
 </root>

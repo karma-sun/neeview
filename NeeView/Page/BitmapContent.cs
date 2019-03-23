@@ -37,12 +37,30 @@ namespace NeeView
         /// </summary>
         public override bool IsLoaded => BitmapSource != null || PageMessage != null;
 
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="entry"></param>
         public BitmapContent(ArchiveEntry entry) : base(entry)
         {
+        }
+
+        /// <summary>
+        /// 使用メモリサイズ
+        /// </summary>
+        public override long GetMemorySize()
+        {
+            long size = 0;
+            if (PictureSource != null)
+            {
+                size += PictureSource.GetMemorySize();
+            }
+            if (Picture != null)
+            {
+                size += Picture.GetMemorySize();
+            }
+            return size;
         }
 
         /// <summary>
@@ -96,9 +114,7 @@ namespace NeeView
         /// <summary>
         /// コンテンツロード
         /// </summary>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        public override async Task LoadAsync(CancellationToken token)
+        public override async Task LoadContentAsync(CancellationToken token)
         {
             if (IsLoaded) return;
 
@@ -113,7 +129,7 @@ namespace NeeView
         /// <summary>
         /// コンテンツ開放
         /// </summary>
-        public override void Unload()
+        public override void UnloadContent()
         {
             this.PageMessage = null;
 

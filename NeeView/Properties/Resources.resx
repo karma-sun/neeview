@@ -4721,4 +4721,10 @@ Initialize the temporary location.</value>
   <data name="ParamBookPageCollectModeTips" xml:space="preserve">
     <value>If you make a folder a page, you can open the folder from that page.</value>
   </data>
+  <data name="ParamCacheMemorySize" xml:space="preserve">
+    <value>Book cache memory size (MB)</value>
+  </data>
+  <data name="ParamCacheMemorySizeTips" xml:space="preserve">
+    <value>Once the page has been read, it is stored in memory to speed up redisplay. Note that too large a value can make the system unstable.</value>
+  </data>
 </root>

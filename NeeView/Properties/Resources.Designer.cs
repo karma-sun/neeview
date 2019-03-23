@@ -9192,6 +9192,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Book cache memory size (MB) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCacheMemorySize {
+            get {
+                return ResourceManager.GetString("ParamCacheMemorySize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Once the page has been read, it is stored in memory to speed up redisplay. Note that too large a value can make the system unstable. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCacheMemorySizeTips {
+            get {
+                return ResourceManager.GetString("ParamCacheMemorySizeTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   For compressed files に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamClipboardArchiveOption {

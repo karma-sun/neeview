@@ -242,6 +242,7 @@
     <Compile Include="OpenSourceControls\VirtualizingWrapPanel.cs" />
     <Compile Include="Bitmap\BitmapCreateSetting.cs" />
     <Compile Include="Picture\DefaultPictureSource.cs" />
+    <Compile Include="Page\PageContentPool.cs" />
     <Compile Include="Picture\PdfPictureSource.cs" />
     <Compile Include="Picture\PictureSource.cs" />
     <Compile Include="Picture\StreamCanceller.cs" />

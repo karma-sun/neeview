@@ -90,7 +90,7 @@ namespace NeeView
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public override async Task LoadAsync(CancellationToken token)
+        public override async Task LoadContentAsync(CancellationToken token)
         {
             await InitializeEntryAsync(token);
 

@@ -72,27 +72,13 @@ namespace NeeView
         public bool IsMultiplePageMove { get; set; } = true;
 
         /// <summary>
-        /// 先読みモード
+        /// 先読みページ数
         /// </summary>
-        [PropertyMember("@ParamBookPreLoadMode", Tips = "@ParamBookPreLoadModeTips")]
-        public PreLoadMode PreLoadMode { get; set; } = PreLoadMode.PreLoad;
+        [PropertyMember("@ParamPreLoadSize", Tips = "@ParamPreLoadSizeTips")]
+        public int PreLoadSize { get; set; } = 2;
 
         /// <summary>
-        /// 先読み自動判定許サイズ
-        /// </summary>
-        [PropertyMember("@ParamBookPreloadLimitSize", Tips = "@ParamBookPreloadLimitSizeTips")]
-        public Size PreloadLimitSize { get; set; } = new Size(4096, 4096);
-
-        /// <summary>
-        /// 先読み自動判定許サイズ
-        /// </summary>
-        public int PreLoadLimitSize
-        {
-            get { return (int)(PreloadLimitSize.Width * PreloadLimitSize.Height); }
-        }
-
-        /// <summary>
-        /// WideRatio property.
+        /// 横長画像判定用比率
         /// </summary>
         [PropertyMember("@ParamBookWideRatio", Tips = "@ParamBookWideRatioTips")]
         public double WideRatio { get; set; } = 1.0;
@@ -164,11 +150,11 @@ namespace NeeView
             [DataMember, DefaultValue("__MACOSX;.DS_Store")]
             public string ExcludePath { get; set; }
 
-            [DataMember, DefaultValue(PreLoadMode.PreLoad)]
-            public PreLoadMode PreLoadMode { get; set; }
+            [DataMember, DefaultValue(2)]
+            public int PreLoadSize { get; set; }
 
-            [DataMember, DefaultValue(typeof(Size), "4096,4096")]
-            public Size PreloadLimitSize { get; set; }
+            [Obsolete, DataMember(EmitDefaultValue = false)]
+            public PreLoadMode PreLoadMode { get; set; }
 
             [DataMember, DefaultValue(1.0)]
             public double WideRatio { get; set; }
@@ -205,6 +191,7 @@ namespace NeeView
                 if (_Version < Config.GenerateProductVersionNumber(34, 0, 0))
                 {
                     BookPageCollectMode = IsEnableNoSupportFile ? BookPageCollectMode.All : BookPageCollectMode.ImageAndBook;
+                    PreLoadSize = PreLoadMode == PreLoadMode.None ? 0 : 2;
                 }
 #pragma warning restore CS0612
             }
@@ -216,8 +203,7 @@ namespace NeeView
             var memento = new Memento();
             memento.IsPrioritizePageMove = this.IsPrioritizePageMove;
             memento.IsMultiplePageMove = this.IsMultiplePageMove;
-            memento.PreLoadMode = this.PreLoadMode;
-            memento.PreloadLimitSize = this.PreloadLimitSize;
+            memento.PreLoadSize = this.PreLoadSize;
             memento.WideRatio = this.WideRatio;
             memento.ExcludePath = this.Excludes.ToString();
             memento.IsEnableAnimatedGif = this.IsEnableAnimatedGif;
@@ -234,8 +220,7 @@ namespace NeeView
             if (memento == null) return;
             this.IsPrioritizePageMove = memento.IsPrioritizePageMove;
             this.IsMultiplePageMove = memento.IsMultiplePageMove;
-            this.PreLoadMode = memento.PreLoadMode;
-            this.PreloadLimitSize = memento.PreloadLimitSize;
+            this.PreLoadSize = memento.PreLoadSize;
             this.WideRatio = memento.WideRatio;
             this.Excludes.FromString(memento.ExcludePath);
             this.IsEnableAnimatedGif = memento.IsEnableAnimatedGif;

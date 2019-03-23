@@ -23,6 +23,7 @@ namespace NeeView
         {
             if (e.Timestamp - _timestamp > _resettime)
             {
+                ////System.Diagnostics.Debug.WriteLine($"WheelCount: reset.");
                 _delta = 0;
             }
 
@@ -31,6 +32,7 @@ namespace NeeView
             _delta -= count * _notch;
             _timestamp = e.Timestamp;
 
+            ////System.Diagnostics.Debug.WriteLine($"WheelCount: {count}, {_delta}");
             return count;
         }
     }

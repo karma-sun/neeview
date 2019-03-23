@@ -4727,4 +4727,10 @@ Initialize the temporary location.</value>
   <data name="ParamCacheMemorySizeTips" xml:space="preserve">
     <value>Once the page has been read, it is stored in memory to speed up redisplay. Note that too large a value can make the system unstable.</value>
   </data>
+  <data name="ParamPreLoadSize" xml:space="preserve">
+    <value>Read ahead page size</value>
+  </data>
+  <data name="ParamPreLoadSizeTips" xml:space="preserve">
+    <value>Read ahead within the cache memory size.</value>
+  </data>
 </root>

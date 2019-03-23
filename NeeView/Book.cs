@@ -34,12 +34,6 @@ namespace NeeView
         // 初期化オプション
         private BookLoadSetting _setting;
 
-        // 先読み可能フラグ
-        private bool _canPreLoad = true;
-
-        // 先読み解除フラグ
-        private int _canPreLoadCount;
-
         /// <summary>
         /// 要求中の表示範囲
         /// </summary>
@@ -891,22 +885,8 @@ namespace NeeView
         // 先読み許可フラグ
         private bool AllowPreLoad()
         {
-            switch (BookProfile.Current.PreLoadMode)
-            {
-                default:
-                case PreLoadMode.None:
-                    return false;
-                case PreLoadMode.AutoPreLoad:
-                    return _canPreLoad;
-                case PreLoadMode.PreLoad:
-                    return true;
-                case PreLoadMode.PreLoadNoUnload:
-                    return true;
-            }
+            return BookProfile.Current.PreLoadSize > 0;
         }
-
-        // 開放許可フラグ
-        private bool AllowUnload() => BookProfile.Current.PreLoadMode != PreLoadMode.PreLoadNoUnload;
 
         // ページ番号のクランプ
         public int ClampPageNumber(int index)
@@ -959,17 +939,17 @@ namespace NeeView
             }
 
             // pre load
-            var preLoadPages = isPreLoad ? PreLoad(source) : new List<Page>();
+            var preLoadPages = isPreLoad ? CollectPreLoadPages(source) : new List<Page>();
 
             var loadPages = viewPages.Concat(preLoadPages).Distinct().ToList();
 
             // update content lock
             var unloadPages = _keepPages.Except(loadPages).ToList();
-            foreach(var page in unloadPages)
+            foreach (var page in unloadPages)
             {
                 page.IsLocked = false;
             }
-            foreach(var page in loadPages)
+            foreach (var page in loadPages)
             {
                 page.IsLocked = true;
             }
@@ -1199,78 +1179,28 @@ namespace NeeView
                 contentsSource.Add(new ViewPage(Pages[position.Index], new PagePart(position, 2, BookReadOrder)));
             }
 
-            // 先読み可能判定
-            UpdatePreLoadStatus(contentsSource);
-
             // 新しいコンテキスト
             var context = new ViewPageCollection(new PageDirectionalRange(infos, source.Direction), contentsSource);
             return context;
         }
 
-        // 先読み判定更新
-        private void UpdatePreLoadStatus(List<ViewPage> contentsSource)
-        {
-            if (BookProfile.Current.PreLoadMode != PreLoadMode.AutoPreLoad) return;
-
-            UpdatePreLoadStatus(contentsSource.Select(e => e.Page));
-        }
-
-        /// <summary>
-        /// 先読み自動判定
-        /// </summary>
-        /// <param name="page"></param>
-        private void UpdatePreLoadStatus(IEnumerable<Page> pages)
-        {
-            if (BookProfile.Current.PreLoadMode != PreLoadMode.AutoPreLoad) return;
-
-            // 集計
-            double size = 0;
-            foreach (var page in pages)
-            {
-                if (!page.IsContentInfoAlive) return;
-                size += page.Content.Size.Width * page.Content.Size.Height;
-            }
-
-            // 判定
-            if (size > BookProfile.Current.PreLoadLimitSize)
-            {
-                //Debug.WriteLine("PreLoad: Disabled");
-                _canPreLoadCount = 0;
-                _canPreLoad = false;
-            }
-            else
-            {
-                _canPreLoadCount++;
-                if (!_canPreLoad && _canPreLoadCount > 3) // 一定回数連続で規定サイズ以下なら先読み有効
-                {
-                    //Debug.WriteLine("PreLoad: Enabled");
-                    _canPreLoad = true;
-                }
-            }
-        }
-
-        // 先読み
-        private List<Page> PreLoad(PageDirectionalRange source)
+        // 先読みページ収集
+        private List<Page> CollectPreLoadPages(PageDirectionalRange source)
         {
             if (!AllowPreLoad()) return new List<Page>();
 
-            var preLoadPages = new List<Page>();
+            int index = source.Next().Index;
 
-            for (int offset = 0; offset <= KeepPageNextSize(); offset++)
-            {
-                int index = source.Position.Index + (source.Direction < 0 ? -offset : offset);
-                if (0 <= index && index < Pages.Count)
-                {
-                    preLoadPages.Add(Pages[index]);
-                }
-            }
-
-            return preLoadPages;
+            return Enumerable.Range(0, BookProfile.Current.PreLoadSize)
+                .Select(e => index + e * source.Direction)
+                .Where(e => 0 <= e && e < Pages.Count)
+                .Select(e => Pages[e])
+                .ToList();
         }
 
-#endregion
+        #endregion
 
-#region ページの並び替え
+        #region ページの並び替え
 
         // ページの並び替え
         private void Sort()
@@ -1348,9 +1278,9 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
-#region ページの削除
+        #region ページの削除
 
         // ページの削除
         private void Remove(Page page)
@@ -1375,9 +1305,9 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
-#region マーカー処理
+        #region マーカー処理
 
         /// <summary>
         /// マーカー判定
@@ -1471,18 +1401,18 @@ namespace NeeView
             return target;
         }
 
-#endregion
+        #endregion
 
-#region 動画再生用
+        #region 動画再生用
 
         public void RaisePageTerminatedEvent(int direction)
         {
             PageTerminated?.Invoke(this, new PageTerminatedEventArgs(direction));
         }
 
-#endregion
+        #endregion
 
-#region IDisposable Support
+        #region IDisposable Support
         private bool _disposedValue = false;
 
         protected virtual void Dispose(bool disposing)
@@ -1536,11 +1466,11 @@ namespace NeeView
         {
             Dispose(true);
         }
-#endregion
+        #endregion
 
-#endregion
+        #endregion
 
-#region Memento
+        #region Memento
 
         /// <summary>
         /// 保存設定
@@ -1747,7 +1677,7 @@ namespace NeeView
             SortMode = memento.SortMode;
         }
 
-#endregion
+        #endregion
     }
 
     // ページ関係のイベントパラメータ

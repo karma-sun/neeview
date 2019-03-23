@@ -11235,6 +11235,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Read ahead page size に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPreLoadSize {
+            get {
+                return ResourceManager.GetString("ParamPreLoadSize", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Read ahead within the cache memory size. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPreLoadSizeTips {
+            get {
+                return ResourceManager.GetString("ParamPreLoadSizeTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sound when not able to move に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamSeCannotMove {

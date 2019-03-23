@@ -47,6 +47,7 @@ namespace NeeView
     /// <summary>
     /// 先読みモード
     /// </summary>
+    [Obsolete]
     public enum PreLoadMode
     {
         [AliasName("@EnumPreLoadModeNone")]
@@ -1240,7 +1241,6 @@ namespace NeeView
                 ////対応が難しいため設定を引き継がない
                 ////ArchiverManager.Current.IsEnabled = memento.IsSupportArchiveFile;
 
-                BookProfile.Current.PreLoadMode = memento.PreLoadMode;
                 BookProfile.Current.IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
                 BookProfile.Current.BookPageCollectMode = memento.IsEnableNoSupportFile ? BookPageCollectMode.All : BookPageCollectMode.ImageAndBook;
                 BookSetting.Current.IsUseBookMementoDefault = memento.IsUseBookMementoDefault;

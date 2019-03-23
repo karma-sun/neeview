@@ -278,7 +278,6 @@ namespace NeeView
 
                 BookProfile.Current.IsPrioritizePageMove = this.book_is_prioritize_pagemove;
                 BookProfile.Current.IsMultiplePageMove = this.book_allow_multiple_pagemove;
-                BookProfile.Current.PreloadLimitSize = new SizeString(this.book_preload_limitsize ?? "4096x4096").ToSize();
                 BookProfile.Current.WideRatio = this.view_image_wideratio;
                 BookProfile.Current.Excludes.FromString(this.loader_archiver_exclude);
 

@@ -18,7 +18,6 @@ namespace NeeView
 {
     /// <summary>
     /// アーカイバー：PdfiumViewer によるPDFアーカイバ
-    /// エントリーはPNG化したストリームを渡している
     /// </summary>
     public class PdfArchiver : Archiver
     {
@@ -48,7 +47,10 @@ namespace NeeView
         {
             var list = new List<ArchiveEntry>();
 
-            using (var pdfDocument = PdfDocument.Load(Path))
+            // TODO: ウィンドウが非アクティブになるまではインスタンスを持ちづつけるようにする？要速度調査
+
+            using (var stream = new FileStream(Path, FileMode.Open, FileAccess.Read))
+            using (var pdfDocument = PdfDocument.Load(stream))
             {
                 var information = pdfDocument.GetInformation();
 
@@ -76,7 +78,8 @@ namespace NeeView
         // PDFは画像化したものをストリームにして返す
         protected override Stream OpenStreamInner(ArchiveEntry entry)
         {
-            using (var pdfDocument = PdfDocument.Load(Path))
+            using (var stream = new FileStream(Path, FileMode.Open, FileAccess.Read))
+            using (var pdfDocument = PdfDocument.Load(stream))
             {
                 var size = GetRenderSize(pdfDocument, entry.Id);
                 var image = pdfDocument.Render(entry.Id, (int)size.Width, (int)size.Height, 96, 96, false);
@@ -91,7 +94,8 @@ namespace NeeView
         // 標準サイズで取得
         public Size GetRenderSize(ArchiveEntry entry)
         {
-            using (var pdfDocument = PdfDocument.Load(Path))
+            using (var stream = new FileStream(Path, FileMode.Open, FileAccess.Read))
+            using (var pdfDocument = PdfDocument.Load(stream))
             {
                 return GetRenderSize(pdfDocument, entry.Id);
             }
@@ -108,7 +112,8 @@ namespace NeeView
         // ファイルとして出力
         protected override void ExtractToFileInner(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
-            using (var pdfDocument = PdfDocument.Load(Path))
+            using (var stream = new FileStream(Path, FileMode.Open, FileAccess.Read))
+            using (var pdfDocument = PdfDocument.Load(stream))
             {
                 var size = GetRenderSize(pdfDocument, entry.Id);
                 var image = pdfDocument.Render(entry.Id, (int)size.Width, (int)size.Height, 96, 96, false);
@@ -120,7 +125,8 @@ namespace NeeView
         // サイズを指定して画像を取得する
         public System.Drawing.Image CraeteBitmapSource(ArchiveEntry entry, Size size)
         {
-            using (var pdfDocument = PdfDocument.Load(Path))
+            using (var stream = new FileStream(Path, FileMode.Open, FileAccess.Read))
+            using (var pdfDocument = PdfDocument.Load(stream))
             {
                 return pdfDocument.Render(entry.Id, (int)size.Width, (int)size.Height, 96, 96, false);
             }

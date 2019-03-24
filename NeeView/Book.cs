@@ -63,7 +63,11 @@ namespace NeeView
         // ページマップ
         private Dictionary<string, Page> _pageMap = new Dictionary<string, Page>();
 
-        private PageContentJobClient _jobClient = new PageContentJobClient();
+        // JOBリクエスト
+        private PageContentJobClient _jobClient = new PageContentJobClient("View", JobCategories.PageViewContentJobCategory);
+
+        // 先読み
+        private BookAhead _ahead = new BookAhead();
 
         #endregion
 
@@ -103,7 +107,6 @@ namespace NeeView
 
         // ファイル削除された
         public event EventHandler<PageChangedEventArgs> PageRemoved;
-
 
         #endregion
 
@@ -939,24 +942,26 @@ namespace NeeView
             }
 
             // pre load
-            var preLoadPages = isPreLoad ? CollectPreLoadPages(source) : new List<Page>();
+            _ahead.Clear();
+            var aheadPages = isPreLoad ? CollectPreLoadPages(source, viewPages) : new List<Page>();
 
-            var loadPages = viewPages.Concat(preLoadPages).Distinct().ToList();
+            var loadPages = viewPages.Concat(aheadPages).Distinct().ToList();
 
             // update content lock
-            var unloadPages = _keepPages.Except(loadPages).ToList();
+            var unloadPages = _keepPages.Except(viewPages).ToList();
             foreach (var page in unloadPages)
             {
-                page.IsLocked = false;
+                page.State = PageState.None;
             }
-            foreach (var page in loadPages)
+            foreach (var (page, index) in viewPages.Select((v, i) => (v, i)))
             {
-                page.IsLocked = true;
+                page.State = PageState.View;
             }
             _keepPages = loadPages;
 
-            PageContentPool.Current.SetReference(loadPages.First());
-            _jobClient.Order(loadPages);
+            PageContentPool.Current.SetReference(viewPages.First());
+            _jobClient.Order(viewPages);
+            _ahead.Order(aheadPages);
 
             using (var loadWaitCancellation = new CancellationTokenSource())
             using (var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token, loadWaitCancellation.Token))
@@ -966,7 +971,6 @@ namespace NeeView
                 await _jobClient.WaitAsync(viewPages, timeout, linkedTokenSource.Token);
                 loadWaitCancellation.Cancel();
             }
-
 
             // task cancel?
             token.ThrowIfCancellationRequested();
@@ -980,6 +984,7 @@ namespace NeeView
             UpdateNextContents();
         }
 
+
         /// <summary>
         /// ページロード完了イベント処理
         /// </summary>
@@ -988,7 +993,10 @@ namespace NeeView
         private void Page_Loaded(object sender, EventArgs e)
         {
             var page = (Page)sender;
+
             PageContentPool.Current.Add(page);
+
+            _ahead.OnPageLoaded(this, new PageChangedEventArgs(page));
 
             if (!BookProfile.Current.CanPrioritizePageMove()) return;
 
@@ -1185,7 +1193,7 @@ namespace NeeView
         }
 
         // 先読みページ収集
-        private List<Page> CollectPreLoadPages(PageDirectionalRange source)
+        private List<Page> CollectPreLoadPages(PageDirectionalRange source, List<Page> excepts)
         {
             if (!AllowPreLoad()) return new List<Page>();
 
@@ -1195,6 +1203,7 @@ namespace NeeView
                 .Select(e => index + e * source.Direction)
                 .Where(e => 0 <= e && e < Pages.Count)
                 .Select(e => Pages[e])
+                .Except(excepts)
                 .ToList();
         }
 
@@ -1432,6 +1441,7 @@ namespace NeeView
                     _viewPageCollection = new ViewPageCollection();
 
                     PageContentPool.Current.Clear();
+                    _ahead.Dispose();
 
                     if (Pages != null)
                     {

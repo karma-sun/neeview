@@ -106,12 +106,14 @@ namespace NeeView
     {
         static JobCategories()
         {
-            PageContentJobCategory = new PageContentJobCategory(10);
+            PageViewContentJobCategory = new PageContentJobCategory(10);
+            PageAheadContentJobCategory = new PageContentJobCategory(8);
             PageThumbnailCategory = new PageThumbnailJobCategory(5);
             BookThumbnailCategory = new PageThumbnailJobCategory(0);
         }
 
-        public static PageContentJobCategory PageContentJobCategory { get; }
+        public static PageContentJobCategory PageViewContentJobCategory { get; }
+        public static PageContentJobCategory PageAheadContentJobCategory { get; }
         public static PageThumbnailJobCategory PageThumbnailCategory { get; }
         public static PageThumbnailJobCategory BookThumbnailCategory { get; }
     }

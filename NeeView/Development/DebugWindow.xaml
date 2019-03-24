@@ -14,11 +14,11 @@
         </Grid.RowDefinitions>
 
         <TabControl Grid.Row="0" >
-            <TabItem Header="Job">
-                <local:DebugJobList/>
-            </TabItem>
             <TabItem Header="Page">
                 <local:DebugPageList />
+            </TabItem>
+            <TabItem Header="Job">
+                <local:DebugJobList/>
             </TabItem>
         </TabControl>
         <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch"/>

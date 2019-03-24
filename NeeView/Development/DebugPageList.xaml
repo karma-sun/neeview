@@ -18,7 +18,8 @@
         <ListView.View>
             <GridView>
                 <GridViewColumn Header="Name"  DisplayMemberBinding="{Binding EntryLastName}" Width="80"/>
-                <GridViewColumn Header="Status"  DisplayMemberBinding="{Binding Content.DevStatus}" Width="80"/>
+                <GridViewColumn Header="Condition"  DisplayMemberBinding="{Binding Content.DevStatus}" Width="80"/>
+                <GridViewColumn Header="State"  DisplayMemberBinding="{Binding State}" Width="80"/>
                 <GridViewColumn Header="Info"  DisplayMemberBinding="{Binding Message}" Width="150"/>
             </GridView>
         </ListView.View>

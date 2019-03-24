@@ -184,6 +184,7 @@
     <Compile Include="Archiver\ZipArchiverProfile.cs" />
     <Compile Include="Bitmap\IBitmapFactory.cs" />
     <Compile Include="Bitmap\ResourceBitmapUtility.cs" />
+    <Compile Include="BookAhead.cs" />
     <Compile Include="BookHistory.cs" />
     <Compile Include="BookHistoryCollection.cs" />
     <Compile Include="BookHubHistory.cs" />

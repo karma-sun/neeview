@@ -148,7 +148,7 @@ namespace NeeView
 
         public override BitmapSource CreateBitmapSource(Size size, BitmapCreateSetting setting, CancellationToken token)
         {
-            var sw = Stopwatch.StartNew();
+            ////var sw = Stopwatch.StartNew();
 
             using (var stream = CreateStream(token))
             {
@@ -166,8 +166,8 @@ namespace NeeView
                     this.PictureInfo.SetPixelInfo(bitmapSource, size.IsEmpty ? size : this.PictureInfo.OriginalSize);
 
 
-                    sw.Stop();
-                    Debug.WriteLine($"PictureSource.CreateBitmapSource: {ArchiveEntry.EntryLastName}, {sw.ElapsedMilliseconds}ms");
+                    ////sw.Stop();
+                    ////Debug.WriteLine($"PictureSource.CreateBitmapSource: {ArchiveEntry.EntryLastName}, {sw.ElapsedMilliseconds}ms");
 
                     return bitmapSource;
                 }

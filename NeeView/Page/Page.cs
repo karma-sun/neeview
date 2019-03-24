@@ -26,6 +26,27 @@ namespace NeeView
         Page GetPage();
     }
 
+
+
+    /// <summary>
+    /// 要求状態
+    /// </summary>
+    public enum PageState
+    {
+        None,
+        Ahead,
+        View,
+    }
+
+    public static class PageStateExtension
+    {
+        public static PageState Max(PageState x, PageState y)
+        {
+            return (x > y) ? x : y;
+        }
+    }
+
+
     /// <summary>
     /// ページ
     /// </summary>
@@ -33,10 +54,17 @@ namespace NeeView
     {
         #region 開発用
 
+        protected bool SetPropertyDebug<T>(ref T storage, T value, [System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            if (object.Equals(storage, value)) return false;
+            storage = value;
+            this.RaisePropertyChangedDebug(propertyName);
+            return true;
+        }
+
         [Conditional("DEBUG")]
         protected void RaisePropertyChangedDebug([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
-            ////PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(name));
             RaisePropertyChanged(name);
         }
 
@@ -169,9 +197,14 @@ namespace NeeView
 
 
         /// <summary>
-        /// コンテンツをロックしてUnloadされないようにする
+        /// 要求状態
         /// </summary>
-        public bool IsLocked { get; set; }
+        private PageState _state;
+        public PageState State
+        {
+            get => _state;
+            set => SetPropertyDebug(ref _state, value);
+        }
 
 
         /// <summary>
@@ -204,7 +237,7 @@ namespace NeeView
         /// </summary>
         public void UnloadContent()
         {
-            Debug.Assert(!IsLocked);
+            Debug.Assert(State == PageState.None);
             Content.UnloadContent();
             Message = ".";
         }
@@ -233,8 +266,9 @@ namespace NeeView
         // ToString
         public override string ToString()
         {
-
-            return Content?.ToString()  != null ? "Page." + Content?.ToString() : base.ToString();
+            var name = Content?.ToString();
+            if (name == null) return base.ToString();
+            return $"{name}: State={State}";
         }
 
 
@@ -285,7 +319,7 @@ namespace NeeView
         //
         public void Reset()
         {
-            IsLocked = false;
+            State = PageState.None;
             UnloadContent();
 
             Loaded = null;

@@ -10,7 +10,7 @@ namespace NeeView
     /// <summary>
     /// JOBの発行者。
     /// </summary>
-    public class JobClient 
+    public class JobClient
     {
         public JobClient(JobCategory category)
         {
@@ -36,8 +36,9 @@ namespace NeeView
     {
         private List<JobSource> _sources = new List<JobSource>();
 
-        public PageContentJobClient() : base(JobCategories.PageContentJobCategory)
+        public PageContentJobClient(string name, JobCategory category) : base(category)
         {
+            Name = name;
             JobEngine.Current.RegistClient(this);
         }
 

@@ -24,62 +24,76 @@ namespace NeeView
         {
         }
 
+
+        public bool IsFull { get; private set; }
+
+
+        private long GetLimitSize()
+        {
+            return (long)BookProfile.Current.CacheMemorySize * 1024 * 1024;
+        }
+
+
         public void SetReference(Page page)
         {
             _referencePage = page;
+            IsFull = false;
         }
 
         public void Add(Page page)
         {
             lock (_lock)
             {
+                ////Debug.WriteLine($"Add: {page}");
                 _collection.Add(page);
             }
 
-            long limitSize = (long)BookProfile.Current.CacheMemorySize * 1024 * 1024;
-            Cleanup(limitSize);
+            Cleanup(GetLimitSize());
         }
 
-
-        public void Cleanup(long limitSize)
+        private void Cleanup(long limitSize)
         {
             List<Page> pages = null;
             List<Page> removes = null;
 
             lock (_lock)
             {
-                var sw = Stopwatch.StartNew();
+                ////var sw = Stopwatch.StartNew();
 
                 long totalMemory = 0;
 
-                int referenceIndex = _referencePage != null ? _referencePage.Index : 0;
-
-                pages = _collection
-                    .Distinct()
-                    .OrderBy(e => e.IsLocked)
-                    .ThenByDescending(e => Math.Abs(e.Index - referenceIndex))
-                    .ToList();
-
-                for (int i = pages.Count - 1; i >= 0; --i)
+                // level 1 cleanup
                 {
-                    var page = pages[i];
+                    int referenceIndex = _referencePage != null ? _referencePage.Index : 0;
 
-                    totalMemory += page.Content.GetMemorySize();
-                    if (totalMemory > limitSize && !page.IsLocked)
+                    pages = _collection
+                        .Distinct()
+                        .OrderByDescending(e => e.State)
+                        .ThenBy(e => Math.Abs(e.Index - referenceIndex))
+                        .ToList();
+
+                    foreach (var (page, index) in pages.Select((v, i) => (v, i)))
                     {
-                        removes = pages.Take(i + 1).ToList();
-                        pages = pages.Skip(i + 1).ToList();
-                        break;
+                        var size = page.Content.GetMemorySize();
+                        if (totalMemory + size > limitSize && page.State == PageState.None)
+                        {
+                            removes = pages.Skip(index).ToList();
+                            pages = pages.Take(index).ToList();
+                            break;
+                        }
+
+                        totalMemory += size;
                     }
+
+                    ////var removeCount = removes != null ? removes.Count : 0;
+                    ////var contentCount = pages.Count;
+                    ////Debug.WriteLine($"Cleanup1: {totalMemory / 1024 / 1024}MB, {removeCount}/{contentCount}, {sw.ElapsedMilliseconds:#,0}ms");
                 }
 
-                var removeCount = removes != null ? removes.Count : 0;
-                var contentCount = pages.Count;
+                IsFull = totalMemory > limitSize;
 
-                Debug.WriteLine($"Cleanup: {totalMemory / 1024 / 1024}MB, {removeCount}/{contentCount}, {sw.ElapsedMilliseconds:#,0}ms");
+                _collection = pages;
             }
-
-            _collection = pages;
 
             if (removes != null)
             {

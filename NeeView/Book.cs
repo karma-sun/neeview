@@ -1,4 +1,5 @@
-﻿using NeeView.Windows.Property;
+﻿using NeeView.Collections.Generic;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -796,13 +797,13 @@ namespace NeeView
         internal async Task Dispose_Executed(BookCommandDisposeArgs param, CancellationToken token)
         {
             Dispose();
-            await Task.Yield();
+            await Task.CompletedTask;
         }
 
         internal async Task Remove_Executed(BookCommandRemoveArgs param, CancellationToken token)
         {
             Remove(param.Page);
-            await Task.Yield();
+            await Task.CompletedTask;
         }
 
         internal async Task Sort_Executed(BookCommandSortArgs param, CancellationToken token)
@@ -814,13 +815,13 @@ namespace NeeView
             var pagePosition = new PagePosition(GetIndex(page), 0);
             RequestSetPosition(this, pagePosition, 1, true);
 
-            await Task.Yield();
+            await Task.CompletedTask;
         }
 
         internal async Task Reflesh_Executed(BookCommandRefleshArgs param, CancellationToken token)
         {
             Reflesh(param.IsClear);
-            await Task.Yield();
+            await Task.CompletedTask;
         }
 
         internal async Task SetPage_Executed(object sender, BookCommandSetPageArgs param, CancellationToken token)
@@ -953,7 +954,7 @@ namespace NeeView
             {
                 page.State = PageState.None;
             }
-            foreach (var (page, index) in viewPages.Select((v, i) => (v, i)))
+            foreach (var (page, index) in viewPages.ToTuples())
             {
                 page.State = PageState.View;
             }

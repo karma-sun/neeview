@@ -286,13 +286,11 @@ namespace NeeView
         // 無効な履歴削除
         public async Task RemoveUnlinkedAsync(CancellationToken token)
         {
-            await Task.Yield();
-
             // 削除項目収集
             var unlinked = new List<LinkedListNode<BookHistory>>();
             for (var node = this.Items.First; node != null; node = node.Next)
             {
-                if (!(await ArchiveEntryUtility.ExistsAsync(node.Value.Place, token)))
+                if (!await ArchiveEntryUtility.ExistsAsync(node.Value.Place, token))
                 {
                     unlinked.Add(node);
                 }

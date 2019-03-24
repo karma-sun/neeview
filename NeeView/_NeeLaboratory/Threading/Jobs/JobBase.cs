@@ -135,19 +135,6 @@ namespace NeeLaboratory.Threading.Jobs
         }
 
         /// <summary>
-        /// Job終了待機
-        /// </summary>
-        /// <returns></returns>
-        public async Task WaitAsync(CancellationToken token)
-        {
-            await Task.Run(async () =>
-            {
-                await Task.Yield();
-                _complete.Wait(token);
-            });
-        }
-
-        /// <summary>
         /// Job実行(abstract)
         /// </summary>
         /// <param name="token"></param>

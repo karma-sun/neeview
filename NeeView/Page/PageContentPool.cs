@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Collections.Generic;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -72,7 +73,7 @@ namespace NeeView
                         .ThenBy(e => Math.Abs(e.Index - referenceIndex))
                         .ToList();
 
-                    foreach (var (page, index) in pages.Select((v, i) => (v, i)))
+                    foreach (var (page, index) in pages.ToTuples())
                     {
                         var size = page.Content.GetMemorySize();
                         if (totalMemory + size > limitSize && page.State == PageState.None)

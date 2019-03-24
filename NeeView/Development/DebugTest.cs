@@ -16,7 +16,7 @@ namespace NeeView
         public static async Task ExecuteTestAsync()
         {
             Debug.WriteLine("\n[DebugTest]...");
-            await Task.Yield();
+            await Task.CompletedTask;
 
             try
             {

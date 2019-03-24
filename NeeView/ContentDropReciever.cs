@@ -348,7 +348,7 @@ namespace NeeView
                 return query.SimplePath;
             }
 
-            await Task.Yield();
+            await Task.CompletedTask;
             return null;
         }
     }
@@ -368,7 +368,7 @@ namespace NeeView
                 if (files != null) return files[0];
             }
 
-            await Task.Yield();
+            await Task.CompletedTask;
             return null;
         }
     }
@@ -390,7 +390,6 @@ namespace NeeView
                     foreach (var file in files)
                     {
                         // copy
-                        //var bytes = await Task.Run(async () => { await Task.Yield(); return System.IO.File.ReadAllBytes(file); });
                         var bytes = await Task.Run(() => System.IO.File.ReadAllBytes(file));
 
                         string fileName = await DownloadToFileAsync(bytes, System.IO.Path.GetFileName(file), downloadPath);

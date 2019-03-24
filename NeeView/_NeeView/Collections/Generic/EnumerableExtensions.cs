@@ -63,7 +63,6 @@ namespace NeeView.Collections.Generic
             return items.FindIndex(i => EqualityComparer<T>.Default.Equals(item, i));
         }
 
-
         /// <summary>
         /// Distinct をラムダ式で
         /// </summary>
@@ -71,6 +70,15 @@ namespace NeeView.Collections.Generic
         public static IEnumerable<T> Distinct<T, TKey>(this IEnumerable<T> source, Func<T, TKey> selector)
         {
             return source.Distinct(new CompareSelector<T, TKey>(selector));
+        }
+
+        /// <summary>
+        /// コレクションの要素を、要素とインデックスのタプルに変換する拡張メソッド
+        /// </summary>
+        /// <remarks>https://www.atmarkit.co.jp/ait/articles/1702/22/news019.html</remarks>
+        public static IEnumerable<(T value, int index)> ToTuples<T>(this IEnumerable<T> collection)
+        {
+            return collection.Select((v, i) => (v, i));
         }
     }
 

@@ -35,8 +35,6 @@ namespace NeeView
 
         public override async Task InitializeItemsAsync(CancellationToken token)
         {
-            await Task.Yield();
-
             var items = _searchResult.Items
                 .Select(e => CreateFolderItem(e))
                 .Where(e => e != null)
@@ -53,6 +51,8 @@ namespace NeeView
             BindingOperations.EnableCollectionSynchronization(this.Items, new object());
 
             _searchResult.SearchResultChanged += SearchResult_NodeChanged;
+
+            await Task.CompletedTask;
         }
 
 

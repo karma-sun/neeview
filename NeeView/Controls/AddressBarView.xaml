@@ -34,18 +34,18 @@
 
     </UserControl.Resources>
 
-    <Grid x:Name="Root" MinHeight="36" Background="{Binding ThemeProfile.MenuColor, Converter={StaticResource BackgroundSelector}}">
+    <Grid x:Name="Root" MinHeight="32" Background="{Binding ThemeProfile.MenuColor, Converter={StaticResource BackgroundSelector}}">
         <Grid.Resources>
             <Style x:Key="AddressIconButton" TargetType="Button" BasedOn="{StaticResource IconButton}">
-                <Setter Property="Width" Value="26"/>
-                <Setter Property="Height" Value="26"/>
+                <Setter Property="Width" Value="24"/>
+                <Setter Property="Height" Value="24"/>
                 <Setter Property="Padding" Value="4"/>
                 <Setter Property="VerticalAlignment" Value="Center"/>
                 <Setter Property="IsTabStop" Value="False"/>
             </Style>
         </Grid.Resources>
 
-        <DockPanel VerticalAlignment="Center" Margin="2,0">
+        <DockPanel VerticalAlignment="Top" Margin="2,2">
             <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" UseLayoutRounding="True">
 
                 <Button Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[TogglePageMode]}">
@@ -66,7 +66,7 @@
                 </Button>
 
                 <Button Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[ToggleBookReadOrder]}" >
-                    <Grid Width="22" Height="22" Background="#0000">
+                    <Grid Width="22" Height="18" Background="#0000">
                         <Image Width="18" Height="18">
                             <Image.Style>
                                 <Style TargetType="Image">
@@ -87,7 +87,7 @@
                 <Button x:Name="PageSortModeButton" Style="{StaticResource AddressIconButton}"
                         Click="PageSortModeButton_Click"
                         ToolTip="{Binding BookSetting.SortMode,Converter={StaticResource SortModeToStringConverter}}">
-                    <Grid Width="20" Height="20">
+                    <Grid Width="20" Height="18">
                         <local:PageSortModeIcon PageSortMode="{Binding BookSetting.SortMode}" MenuColor="{Binding ThemeProfile.MenuColor}"/>
                     </Grid>
                 </Button>
@@ -129,7 +129,7 @@
                 <Image Source="{Binding ThemeProfile.MenuColor, Converter={StaticResource IconRefreshSelector}}" Width="16" Height="16" />
             </Button>
 
-            <Border x:Name="AddressTextBoxBase" BorderThickness="1" BorderBrush="#6888" MinHeight="26" Margin="2">
+            <Border x:Name="AddressTextBoxBase" BorderThickness="1" BorderBrush="#6888" MinHeight="26" Margin="10,0">
                 <DockPanel>
                     <Button DockPanel.Dock="Right" Style="{StaticResource AddressIconButton}" Command="{Binding BookCommands[ToggleBookmark]}">
                         <TextBlock FontSize="20" FontFamily="Meyrio">

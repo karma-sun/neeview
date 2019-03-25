@@ -47,7 +47,7 @@ namespace NeeView
             }
 
 #if DEBUG
-            this.MenuBarArea.Children.Add(new DebugMenu());
+            this.MenuArea.Children.Insert(1, new DebugMenu());
 #endif
         }
 

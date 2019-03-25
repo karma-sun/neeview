@@ -5,16 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
-    
+             d:DesignHeight="50" d:DesignWidth="300">
     <UserControl.Resources>
         <local:PanelColorToBrushConverter x:Key="BackgroundSelector" Dark="{StaticResource NVMenuBackgroundDark}" Light="{StaticResource NVMenuBackgroundLight}"/>
         <local:PanelColorTobrushMultiConverter x:Key="ForegroundSelector" Dark="{StaticResource NVMenuForegroundDark}" Light="{StaticResource NVMenuForegroundLight}"/>
         <local:BooleanToOpacityConverter x:Key="BooleanToOpacityConverter"/>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
 
+
     <Grid x:Name="Root" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" Background="{Binding ThemeProfile.MenuColor, Converter={StaticResource BackgroundSelector}}" MinHeight="0">
-        <DockPanel x:Name="MenuBarArea" LastChildFill="False">
+        <DockPanel x:Name="MenuBarArea" LastChildFill="True" Margin="0,0,0,2">
             <local:WindowCaptionButtons x:Name="WindowCaptionButtons" VerticalAlignment="Top" DockPanel.Dock="Right" WindowChrome.IsHitTestVisibleInChrome="True">
                 <local:WindowCaptionButtons.Foreground>
                     <MultiBinding Converter="{StaticResource ForegroundSelector}">
@@ -39,14 +40,29 @@
             <Grid x:Name="Watermark" DockPanel.Dock="Right" Background="Orange" Margin="0" VerticalAlignment="Top" Visibility="Collapsed">
                 <TextBlock x:Name="WatermarkText" Foreground="White" Margin="10,2" FontSize="12" FontWeight="Normal" Text="Canary"/>
             </Grid>
-            <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Bottom" WindowChrome.IsHitTestVisibleInChrome="True">
-                <ContentControl.Foreground>
-                    <MultiBinding Converter="{StaticResource ForegroundSelector}">
-                        <Binding Path="ThemeProfile.MenuColor"/>
-                        <Binding Path="IsActive" RelativeSource="{RelativeSource AncestorType=Window}"/>
-                    </MultiBinding>
-                </ContentControl.Foreground>
-            </ContentControl>
+
+            <DockPanel x:Name="MenuArea" VerticalAlignment="Bottom">
+                <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="True">
+                    <ContentControl.Foreground>
+                        <MultiBinding Converter="{StaticResource ForegroundSelector}">
+                            <Binding Path="ThemeProfile.MenuColor"/>
+                            <Binding Path="IsActive" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        </MultiBinding>
+                    </ContentControl.Foreground>
+                </ContentControl>
+
+                <TextBlock x:Name="MenuTitle" Text="{Binding WindowTitle.Title}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="50,1,0,1" TextTrimming="CharacterEllipsis"
+                       FontSize="{x:Static SystemFonts.MessageFontSize}"
+                       Visibility="{Binding WindowCaptionEmulator.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                    <TextBlock.Foreground>
+                        <MultiBinding Converter="{StaticResource ForegroundSelector}">
+                            <Binding Path="ThemeProfile.MenuColor"/>
+                            <Binding Path="IsActive" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                        </MultiBinding>
+                    </TextBlock.Foreground>
+                </TextBlock>
+            </DockPanel>
+
         </DockPanel>
     </Grid>
 

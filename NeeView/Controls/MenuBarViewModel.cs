@@ -52,6 +52,8 @@ namespace NeeView
 
         public Dictionary<CommandType, RoutedUICommand> BookCommands => RoutedCommandTable.Current.Commands;
 
+        public WindowTitle WindowTitle => WindowTitle.Current;
+
 
         private void InitializeWindowCaptionEmulator(FrameworkElement control)
         {

@@ -192,6 +192,12 @@ namespace NeeView
             set { if (_isCaptionVisible != value) { _isCaptionVisible = value; Refresh(); } }
         }
 
+        public bool CanCaptionVisible
+        {
+            get => IsCaptionVisible && !IsFullScreen;
+        }
+
+
         /// <summary>
         /// IsTopmost property.
         /// </summary>
@@ -215,7 +221,13 @@ namespace NeeView
         public bool IsFullScreen
         {
             get { return _isFullScreen; }
-            private set { if (_isFullScreen != value) { _isFullScreen = value; RaisePropertyChanged(); } }
+            private set
+            {
+                if (SetProperty(ref _isFullScreen, value))
+                {
+                    RaisePropertyChanged(nameof(CanCaptionVisible));
+                }
+            }
         }
 
         [PropertyMember("@ParamWindowShapeIsFullScreenWithTaskBar")]

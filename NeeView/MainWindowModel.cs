@@ -90,11 +90,16 @@ namespace NeeView
 
         private MainWindowModel()
         {
-            WindowShape.Current.AddPropertyChanged(nameof(WindowShape.Current.IsFullScreen),
+            WindowShape.Current.AddPropertyChanged(nameof(WindowShape.IsFullScreen),
                 (s, e) =>
                 {
                     RefreshCanHidePanel();
                     RefreshCanHidePageSlider();
+                });
+            WindowShape.Current.AddPropertyChanged(nameof(WindowShape.CanCaptionVisible),
+                (s, e) =>
+                {
+                    RaisePropertyChanged(nameof(CanVisibleWindowTitle));
                 });
 
             ThemeProfile.Current.ThemeColorChanged += (s, e) => RefreshSliderBrushes();
@@ -169,6 +174,7 @@ namespace NeeView
                 _isHideMenu = value;
                 RaisePropertyChanged();
                 RaisePropertyChanged(nameof(CanHideMenu));
+                RaisePropertyChanged(nameof(CanVisibleWindowTitle));
             }
         }
 
@@ -252,8 +258,20 @@ namespace NeeView
         public bool IsVisibleWindowTitle
         {
             get { return _IsVisibleWindowTitle; }
-            set { if (_IsVisibleWindowTitle != value) { _IsVisibleWindowTitle = value; RaisePropertyChanged(); } }
+            set
+            {
+                if (SetProperty(ref _IsVisibleWindowTitle, value))
+                {
+                    RaisePropertyChanged(nameof(CanVisibleWindowTitle));
+                }
+            }
         }
+
+        public bool CanVisibleWindowTitle
+        {
+            get => IsVisibleWindowTitle && CanHideMenu && !WindowShape.Current.CanCaptionVisible;
+        }
+
 
         // アドレスバーON/OFF
         public bool IsVisibleAddressBar

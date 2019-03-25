@@ -214,11 +214,9 @@
     <Compile Include="Development\DebugJobList.xaml.cs">
       <DependentUpon>DebugJobList.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Development\DebugMenu.cs" />
     <Compile Include="Development\DebugTest.cs" />
     <Compile Include="Development\DebugTimer.cs" />
-    <Compile Include="Development\DebugMenu.xaml.cs">
-      <DependentUpon>DebugMenu.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Archiver\SevenZipTempFileExtractor.cs" />
     <Compile Include="Archiver\SevenZipTempFileExtractionArgs.cs" />
     <Compile Include="Controls\ArchivePageControl.xaml.cs">
@@ -956,10 +954,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ToastCard.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Development\DebugMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

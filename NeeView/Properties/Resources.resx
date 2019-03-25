@@ -2549,6 +2549,9 @@ Is it OK? </value>
   <data name="MenuTreeView" xml:space="preserve">
     <value>_View</value>
   </data>
+  <data name="MenuTreeDebug" xml:space="preserve">
+    <value>_Debug</value>
+  </data>
   <data name="NotifyBookmarkNextFailed" xml:space="preserve">
     <value>No next bookmark</value>
   </data>
@@ -4732,5 +4735,8 @@ Initialize the temporary location.</value>
   </data>
   <data name="ParamPreLoadSizeTips" xml:space="preserve">
     <value>Read ahead within the cache memory size.</value>
+  </data>
+  <data name="ParamIsHamburgerMenu" xml:space="preserve">
+    <value>Use the hamburger menu</value>
   </data>
 </root>

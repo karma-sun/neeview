@@ -72,6 +72,7 @@ namespace NeeView
                     var task = new Task(() =>
                     {
                         var dialog = new CriticalErrorDialog(errorLog, errorLogFileName);
+                        dialog.ShowInTaskbar = true;
                         dialog.ShowDialog();
                     });
                     task.Start(SingleThreadedApartment.TaskScheduler);

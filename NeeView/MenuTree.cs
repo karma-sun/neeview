@@ -357,16 +357,30 @@ namespace NeeView
         //
         public Menu CreateMenu()
         {
-            if (this.Children == null) return null;
             var menu = new Menu();
-
-            foreach (var element in this.Children)
+            foreach(var element in CreateMenuItems())
             {
-                var control = element.CreateMenuControl();
-                if (control != null) menu.Items.Add(control);
+                menu.Items.Add(element);
             }
 
             return menu.Items.Count > 0 ? menu : null;
+        }
+
+        //
+        public List<object> CreateMenuItems()
+        {
+            var collection = new List<object>();
+
+            if (this.Children != null)
+            {
+                foreach (var element in this.Children)
+                {
+                    var control = element.CreateMenuControl();
+                    if (control != null) collection.Add(control);
+                }
+            }
+
+            return collection;
         }
 
         //

@@ -51,6 +51,7 @@ namespace NeeView.Setting
                         new BackgroundSettingControl(ContentCanvasBrush.Current.CustomBackground))),
 
                 new SettingItemSection(Properties.Resources.SettingPageVisualGeneralAdvance,
+                    new SettingItemProperty(PropertyMemberElement.Create(MenuBar.Current, nameof(MenuBar.IsHamburgerMenu))),
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.AutoHideDelayTime))),
                     new SettingItemProperty(PropertyMemberElement.Create(WindowShape.Current, nameof(WindowShape.IsFullScreenWithTaskBar))),
                     new SettingItemProperty(PropertyMemberElement.Create(WindowShape.Current, nameof(WindowShape.WindowChromeFrame)))),

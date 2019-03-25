@@ -400,7 +400,7 @@
 
                     <!--#region ic_clear_24px (×マーク)-->
                     <PathGeometry x:Key="g_clear_24px" FillRule="Nonzero" Figures="M6.40999984741211,5L12,10.5900001525879 17.5900001525879,5 19,6.40999984741211 13.4099998474121,12 19,17.5900001525879 17.5900001525879,19 12,13.4099998474121 6.40999984741211,19 5,17.5900001525879 10.5900001525879,12 5,6.40999984741211 6.40999984741211,5z" />
-
+                    
                     <DrawingImage x:Key="ic_clear_24px">
                         <DrawingImage.Drawing>
                             <GeometryDrawing Brush="Red" Pen="{x:Null}" Geometry="{StaticResource g_clear_24px}"/>
@@ -481,7 +481,7 @@
                     <!--#endregion -->
 
                     <!--#region ic_sortex_down_24px -->
-                    <PathGeometry x:Key="g_sortex_down_24px"  FillRule="Nonzero" Figures="M1.73793923854828,1029.32543945313L4.43304347991943,1032.02062988281 7.1281476020813,1029.32543945313 8.33541584014893,1030.52429199219 4.43304347991943,1034.4267578125 0.539180040359497,1030.52429199219 1.73793923854828,1029.32543945313z" />
+                    <PathGeometry x:Key="g_sortex_down_24px" FillRule="Nonzero" Figures="M1.73793923854828,1029.32543945313L4.43304347991943,1032.02062988281 7.1281476020813,1029.32543945313 8.33541584014893,1030.52429199219 4.43304347991943,1034.4267578125 0.539180040359497,1030.52429199219 1.73793923854828,1029.32543945313z" />
 
                     <DrawingImage x:Key="ic_sortex_down_24px_dark">
                         <DrawingImage.Drawing>
@@ -496,6 +496,20 @@
                     </DrawingImage>
                     <!--#endregion -->
 
+                    <!--#region ic_menu_24px_dark -->
+                    <PathGeometry x:Key="g_menu_24px" FillRule="Nonzero" Figures="M3,18L21,18 21,16 3,16 3,18z M3,13L21,13 21,11 3,11 3,13z M3,6L3,8 21,8 21,6 3,6z" />
+
+                    <DrawingImage x:Key="ic_menu_24px_dark">
+                        <DrawingImage.Drawing>
+                            <GeometryDrawing Brush="{StaticResource NVIconBrushDark}" Pen="{x:Null}" Geometry="{StaticResource g_menu_24px}"/>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
+
+                    <DrawingImage x:Key="ic_menu_24px_light">
+                        <DrawingImage.Drawing>
+                            <GeometryDrawing Brush="{StaticResource NVIconBrushLight}" Pen="{x:Null}" Geometry="{StaticResource g_menu_24px}"/>
+                        </DrawingImage.Drawing>
+                    </DrawingImage>
                     <!--#endregion -->
 
                     <!--#endregion Icons-->

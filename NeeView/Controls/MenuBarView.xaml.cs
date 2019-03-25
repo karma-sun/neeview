@@ -45,10 +45,6 @@ namespace NeeView
                 this.Watermark.Background = Brushes.Purple;
                 this.WatermarkText.Text = "Beta";
             }
-
-#if DEBUG
-            this.MenuArea.Children.Insert(1, new DebugMenu());
-#endif
         }
 
         #endregion

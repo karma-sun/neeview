@@ -18,6 +18,9 @@ namespace NeeView
         public static MenuBar Current { get; }
 
 
+        private bool _isHamburgerMenu;
+
+
         private MenuBar()
         {
             MainMenuSource = MenuTree.CreateDefault();
@@ -42,18 +45,22 @@ namespace NeeView
         }
 
 
-        #region events
-
         public event EventHandler CommandGestureChanged;
 
-        #endregion
 
-        //
         [PropertyMember("@ParamIsCaptionEmulateInFullScreen", Tips = "@ParamIsCaptionEmulateInFullScreenTips")]
         public bool IsCaptionEmulateInFullScreen { get; set; }
 
+        /// <summary>
+        /// ハンバーガーメニューにする
+        /// </summary>
+        [PropertyMember("@ParamIsHamburgerMenu")]
+        public bool IsHamburgerMenu
+        {
+            get { return _isHamburgerMenu; }
+            set { SetProperty(ref _isHamburgerMenu, value); }
+        }
 
-        //
         public MenuTree MainMenuSource { get; set; }
 
 
@@ -80,29 +87,23 @@ namespace NeeView
         #endregion
 
 
-        //
         public void Reflesh()
         {
             CommandGestureChanged?.Invoke(this, null);
         }
 
-        //
         public void OpenMainMenuHelp()
         {
             var groups = new Dictionary<string, List<MenuTree.TableData>>();
 
-            //
             foreach (var group in MainMenuSource.Children)
             {
                 groups.Add(group.Label, group.GetTable(0));
             }
 
-            // 
             System.IO.Directory.CreateDirectory(Temporary.Current.TempSystemDirectory);
             string fileName = System.IO.Path.Combine(Temporary.Current.TempSystemDirectory, "MainMenuList.html");
 
-
-            //
             using (var writer = new System.IO.StreamWriter(fileName, false))
             {
                 writer.WriteLine(HtmlHelpUtility.CraeteHeader("NeeView MainMenu List"));
@@ -130,7 +131,6 @@ namespace NeeView
             System.Diagnostics.Process.Start(fileName);
         }
 
-        //
         public void OpenSearchOptionHelp()
         {
             System.IO.Directory.CreateDirectory(Temporary.Current.TempSystemDirectory);
@@ -150,25 +150,26 @@ namespace NeeView
         {
             [DataMember, DefaultValue(false)]
             public bool CaptionEmulateInFullScreen { get; set; }
+
+            [DataMember]
+            public bool IsHamburgerMenu { get; set; }
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
             memento.CaptionEmulateInFullScreen = this.IsCaptionEmulateInFullScreen;
+            memento.IsHamburgerMenu = this.IsHamburgerMenu;
             return memento;
         }
 
-        //
         public void Restore(Memento memento)
         {
             if (memento == null) return;
             this.IsCaptionEmulateInFullScreen = memento.CaptionEmulateInFullScreen;
+            this.IsHamburgerMenu = memento.IsHamburgerMenu;
         }
         #endregion
 
     }
-
-
 }

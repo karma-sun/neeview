@@ -7821,6 +7821,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   _Debug に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MenuTreeDebug {
+            get {
+                return ResourceManager.GetString("MenuTreeDebug", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   _File に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string MenuTreeFile {
@@ -10385,6 +10394,15 @@ namespace NeeView.Properties {
         public static string ParamIsForceUpdateHistory {
             get {
                 return ResourceManager.GetString("ParamIsForceUpdateHistory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Use the hamburger menu に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsHamburgerMenu {
+            get {
+                return ResourceManager.GetString("ParamIsHamburgerMenu", resourceCulture);
             }
         }
         

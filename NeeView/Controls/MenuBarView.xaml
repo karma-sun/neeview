@@ -51,7 +51,7 @@
                     </ContentControl.Foreground>
                 </ContentControl>
 
-                <TextBlock x:Name="MenuTitle" Text="{Binding WindowTitle.Title}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="50,1,0,1" TextTrimming="CharacterEllipsis"
+                <TextBlock x:Name="MenuTitle" Text="{Binding WindowTitle.Title}" VerticalAlignment="Center" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" Margin="5,0"
                        FontSize="{x:Static SystemFonts.MessageFontSize}"
                        Visibility="{Binding WindowCaptionEmulator.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
                     <TextBlock.Foreground>

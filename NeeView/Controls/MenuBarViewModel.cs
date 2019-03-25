@@ -18,11 +18,15 @@ namespace NeeView
         private Menu _mainMenu;
         private WindowCaptionEmulator _windowCaptionEmulator;
 
+#if DEBUG
+        private DebugMenu _debugMenu = new DebugMenu();
+#endif
 
         public MenuBarViewModel(FrameworkElement control, MenuBar model)
         {
             _model = model;
             _model.CommandGestureChanged += (s, e) => MainMenu?.UpdateInputGestureText();
+            _model.AddPropertyChanged(nameof(MenuBar.IsHamburgerMenu), (s, e) => InitializeMainMenu());
 
             InitializeMainMenu();
             InitializeWindowCaptionEmulator(control);
@@ -78,7 +82,43 @@ namespace NeeView
 
         private Menu CreateMainMenu(Brush foreground)
         {
-            var menu = _model.MainMenuSource.CreateMenu();
+            var items = _model.MainMenuSource.CreateMenuItems();
+#if DEBUG
+            items.Add(_debugMenu.CreateDevMenuItem());
+#endif
+
+            var menu = new Menu();
+            if (_model.IsHamburgerMenu)
+            {
+                var converter = new PanelColorToImageSourceConverter()
+                {
+                    Dark = App.Current.Resources["ic_menu_24px_dark"] as ImageSource,
+                    Light = App.Current.Resources["ic_menu_24px_light"] as ImageSource,
+                };
+
+                var image = new Image();
+                image.Width = 18;
+                image.Height = 18;
+                image.Margin = new Thickness(4, 2, 4, 2);
+                image.SetBinding(Image.SourceProperty, new Binding(nameof(ThemeProfile.MenuColor)) { Source = ThemeProfile, Converter = converter });
+                image.SetBinding(Image.OpacityProperty, new Binding(nameof(Window.IsActive)) { Source = MainWindow.Current, Converter = new BooleanToOpacityConverter() });
+
+                var topMenu = new MenuItem();
+                topMenu.Header = image;
+                foreach (var item in items)
+                {
+                    topMenu.Items.Add(item);
+                }
+                menu.Items.Add(topMenu);
+            }
+            else
+            { 
+                menu.Margin = new Thickness(0, 0, 40, 0);
+                foreach (var item in items)
+                {
+                    menu.Items.Add(item);
+                }
+            }
 
             // サブメニューのColorを固定にする
             foreach (MenuItem item in menu.Items)
@@ -93,6 +133,4 @@ namespace NeeView
         }
 
     }
-
-
 }

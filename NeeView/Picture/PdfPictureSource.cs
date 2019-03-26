@@ -42,33 +42,8 @@ namespace NeeView
         {
             using (var outStream = new MemoryStream())
             {
-                var defaultSize = _pdfArchive.GetRenderSize(ArchiveEntry);
-                size = size.IsEmpty ? defaultSize : size;
-                var renderSize = defaultSize.IsContains(size) ? defaultSize : size;
-
-                if (renderSize != size || setting.Source != null)
-                {
-                    using (var intermediate = new MemoryStream())
-                    {
-                        if (setting.Source != null)
-                        {
-                            var encoder = new BmpBitmapEncoder();
-                            encoder.Frames.Add(BitmapFrame.Create(setting.Source));
-                            encoder.Save(intermediate);
-                        }
-                        else
-                        {
-                            _pdfArchive.CraeteBitmapSource(ArchiveEntry, renderSize).Save(intermediate, System.Drawing.Imaging.ImageFormat.Bmp);
-                        }
-                        intermediate.Seek(0, SeekOrigin.Begin);
-                        _magicScaler.CreateImage(intermediate, null, outStream, size, format, quality, setting.ProcessImageSettings);
-                    }
-                }
-                else
-                {
-                    _pdfArchive.CraeteBitmapSource(ArchiveEntry, renderSize).SaveWithQuality(outStream, CreateFormat(format), quality);
-                }
-
+                size = size.IsEmpty ? _pdfArchive.GetRenderSize(ArchiveEntry) : size;
+                _pdfArchive.CraeteBitmapSource(ArchiveEntry, size).SaveWithQuality(outStream, CreateFormat(format), quality);
                 return outStream.ToArray();
             }
         }

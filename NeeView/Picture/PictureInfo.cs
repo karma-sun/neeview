@@ -10,6 +10,8 @@ namespace NeeView
     /// </summary>
     public class PictureInfo
     {
+        private bool _isPixelInfoInitialized;
+
         /// <summary>
         /// 画像サイズ
         /// </summary>
@@ -85,25 +87,22 @@ namespace NeeView
 
         /// <summary>
         /// 画素情報。
-        /// 補助情報なので重要度は低い
         /// </summary>
         public void SetPixelInfo(BitmapSource bitmap)
         {
             // 設定は1回だけで良い
-            if (this.BitsPerPixel == 0)
+            if (_isPixelInfoInitialized) return;
+            _isPixelInfoInitialized = true;
+
+            // 補助情報なので重要度は低いので、取得できなくても問題ない。
+            try
             {
-                try
-                {
-                    this.Color = bitmap.GetOneColor();
-                    this.BitsPerPixel = bitmap.GetSourceBitsPerPixel();
-                }
-                catch
-                {
-                }
+                this.Color = bitmap.GetOneColor();
+            }
+            catch
+            {
             }
         }
 
-
     }
-
 }

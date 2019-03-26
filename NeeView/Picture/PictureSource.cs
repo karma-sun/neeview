@@ -51,7 +51,7 @@ namespace NeeView
     public enum PictureSourceCreateOptions
     {
         None = 0,
-        IgnoreImageCache = 0x0001,
+        ////IgnoreImageCache = 0x0001,
     }
 
 

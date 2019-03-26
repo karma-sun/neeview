@@ -22,11 +22,5 @@ namespace NeeView
         /// リサイズパラメータ
         /// </summary>
         public ProcessImageSettings ProcessImageSettings { get; set; }
-
-        /// <summary>
-        /// 生成元として使用可能なBitmap。
-        /// 指定されない場合もある
-        /// </summary>
-        public BitmapSource Source { get; set; }
     }
 }

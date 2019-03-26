@@ -16,6 +16,7 @@ namespace NeeView
 
         public int PixelWidth { get; private set; }
         public int PixelHeight { get; private set; }
+        public int BitsPerPixel { get; private set; }
         public bool IsMirrorHorizontal { get; private set; }
         public bool IsMirrorVertical { get; private set; }
         public Rotation Rotation { get; private set; }
@@ -32,10 +33,11 @@ namespace NeeView
         {
         }
 
-        public BitmapInfo(int width, int height, BitmapMetadata metadata)
+        public BitmapInfo(int width, int height, int bitsPerPixel, BitmapMetadata metadata)
         {
             this.PixelWidth = width;
             this.PixelHeight = height;
+            this.BitsPerPixel = bitsPerPixel;
             this.Metadata = metadata;
 
             if (metadata != null)
@@ -94,7 +96,7 @@ namespace NeeView
             try
             {
                 var bitmapFrame = BitmapFrame.Create(stream, BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.None);
-                return new BitmapInfo(bitmapFrame.PixelWidth, bitmapFrame.PixelHeight, (BitmapMetadata)bitmapFrame.Metadata);
+                return new BitmapInfo(bitmapFrame.PixelWidth, bitmapFrame.PixelHeight, bitmapFrame.Format.BitsPerPixel, (BitmapMetadata)bitmapFrame.Metadata);
             }
             catch (Exception ex)
             {

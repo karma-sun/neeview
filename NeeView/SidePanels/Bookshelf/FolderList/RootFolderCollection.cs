@@ -17,6 +17,8 @@ namespace NeeView
 
         public override async Task InitializeItemsAsync(CancellationToken token)
         {
+            await Task.Yield();
+
             var items = new ObservableCollection<FolderItem>();
 
             if (Place.Path == null)
@@ -29,8 +31,6 @@ namespace NeeView
             }
 
             this.Items = items;
-
-            await Task.CompletedTask;
         }
 
         private FolderItem CreateFolderItem(QueryScheme scheme)

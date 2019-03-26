@@ -19,14 +19,14 @@ namespace NeeView
 
         public override async Task InitializeItemsAsync(CancellationToken token)
         {
+            await Task.Yield();
+
             var items = QuickAccessCollection.Current.Items.Select(e => CreateFolderItem(e));
 
             this.Items = new ObservableCollection<FolderItem>(items);
 
             //TODO:
             QuickAccessCollection.Current.CollectionChanged += QuickAccessCollection_CollectionChanged;
-
-            await Task.CompletedTask;
         }
 
         private void QuickAccessCollection_CollectionChanged(object sender, CollectionChangeEventArgs e)

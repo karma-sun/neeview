@@ -26,6 +26,8 @@ namespace NeeView
 
         public override async Task InitializeItemsAsync(CancellationToken token)
         { 
+            await Task.Yield();
+
             _bookmarkPlace = BookmarkCollection.Current.FindNode(Place.FullPath) ?? new TreeListNode<IBookmarkEntry>();
 
             var items = _bookmarkPlace.Children
@@ -45,8 +47,6 @@ namespace NeeView
 
             // 変更監視
             BookmarkCollection.Current.BookmarkChanged += BookmarkCollection_BookmarkChanged;
-
-            await Task.CompletedTask;
         }
 
 

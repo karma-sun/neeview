@@ -22,6 +22,7 @@ namespace NeeView
             this.PictureInfo = new PictureInfo(ArchiveEntry);
 
             var size = _pdfArchive.GetRenderSize(ArchiveEntry);
+            PictureInfo.OriginalSize = size;
             PictureInfo.Size = size;
             PictureInfo.Decoder = "PDFium";
         }
@@ -31,8 +32,8 @@ namespace NeeView
             size = size.IsEmpty ? _pdfArchive.GetRenderSize(ArchiveEntry) : size;
             var bitmapSource = _pdfArchive.CraeteBitmapSource(ArchiveEntry, size).ToBitmapSource();
 
-            // TODO: ここで設定はおかしい
-            PictureInfo.SetPixelInfo(bitmapSource, Size.Empty);
+            // 色情報とBPP設定
+            PictureInfo.SetPixelInfo(bitmapSource);
 
             return bitmapSource;
         }

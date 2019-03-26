@@ -148,8 +148,6 @@ namespace NeeView
 
         public override BitmapSource CreateBitmapSource(Size size, BitmapCreateSetting setting, CancellationToken token)
         {
-            ////var sw = Stopwatch.StartNew();
-
             using (var stream = CreateStream(token))
             {
                 var streamCanceller = new StreamCanceller(stream, token);
@@ -162,12 +160,8 @@ namespace NeeView
 
                     var bitmapSource = _bitmapFactory.CreateBitmapSource(stream, _bitmapInfo, size, setting, token);
 
-                    // TODO: ここで情報設定ってどうなの？
-                    this.PictureInfo.SetPixelInfo(bitmapSource, size.IsEmpty ? size : this.PictureInfo.OriginalSize);
-
-
-                    ////sw.Stop();
-                    ////Debug.WriteLine($"PictureSource.CreateBitmapSource: {ArchiveEntry.EntryLastName}, {sw.ElapsedMilliseconds}ms");
+                    // 色情報とBPP設定。
+                    this.PictureInfo.SetPixelInfo(bitmapSource);
 
                     return bitmapSource;
                 }

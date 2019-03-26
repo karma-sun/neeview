@@ -83,7 +83,7 @@ namespace NeeView
 
         private void FolderListBox_Unloaded(object sender, RoutedEventArgs e)
         {
-            _jobClient.Dispose();
+            _jobClient?.Dispose();
 
             _vm.Unloaded();
             _vm.SelectedChanging -= SelectedChanging;

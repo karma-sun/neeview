@@ -23,7 +23,7 @@ namespace NeeView
         /// <summary>
         /// 画像サイズが制限された本来の画像サイズと異なる値である
         /// </summary>
-        public bool IsLimited { get; set; }
+        public bool IsLimited => Size != OriginalSize;
 
 
         /// <summary>
@@ -83,25 +83,23 @@ namespace NeeView
         }
 
 
-        //
-        public void SetPixelInfo(BitmapSource bitmap, Size size)
+        /// <summary>
+        /// 画素情報。
+        /// 補助情報なので重要度は低い
+        /// </summary>
+        public void SetPixelInfo(BitmapSource bitmap)
         {
-            this.Size = new Size(bitmap.PixelWidth, bitmap.PixelHeight);
-
-            if (!size.IsEmpty && size != this.Size)
+            // 設定は1回だけで良い
+            if (this.BitsPerPixel == 0)
             {
-                this.IsLimited = true;
-                this.OriginalSize = size;
-            }
-
-            // 以下、補助情報なので重要度は低い
-            try
-            {
-                this.Color = bitmap.GetOneColor();
-                this.BitsPerPixel = bitmap.GetSourceBitsPerPixel();
-            }
-            catch
-            {
+                try
+                {
+                    this.Color = bitmap.GetOneColor();
+                    this.BitsPerPixel = bitmap.GetSourceBitsPerPixel();
+                }
+                catch
+                {
+                }
             }
         }
 

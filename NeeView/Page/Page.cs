@@ -229,6 +229,8 @@ namespace NeeView
             Message = "Load...";
             await Content.LoadContentAsync(token);
             Message = "Loaded.";
+
+            RaisePropertyChanged(nameof(Content));
         }
 
 
@@ -240,6 +242,8 @@ namespace NeeView
             Debug.Assert(State == PageState.None);
             Content.UnloadContent();
             Message = ".";
+
+            RaisePropertyChanged(nameof(Content));
         }
 
         #endregion

@@ -11640,7 +11640,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   This is the number of thumbnails held in the memory in the bookshelf etc. に類似しているローカライズされた文字列を検索します。
+        ///   Number of memory caches for thumbnails in bookshelf etc. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamThumbnailBookCapacityTips {
             get {
@@ -11694,7 +11694,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   This is the number of page thumbnails held in memory. Close the book and it will be discarded. に類似しているローカライズされた文字列を検索します。
+        ///   Number of memory caches for page thumbnails. When the book is closed everything is destroyed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamThumbnailPageCapacityTips {
             get {

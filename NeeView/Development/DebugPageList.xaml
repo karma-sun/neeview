@@ -10,19 +10,28 @@
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:PageContentToPictureSourceMemoryConverter x:Key="PageContentToPictureSourceMemoryConverter"/>
+        <local:PageContentToPictureMemoryConverter x:Key="PageContentToPictureMemoryConverter"/>
     </UserControl.Resources>
 
-    <ListView x:Name="Root" ItemsSource="{Binding BookOperation.PageList}"
+    <DockPanel x:Name="Root">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5">
+            <Button x:Name="RefreshButton"  Content="Refresh" Padding="20,10" Click="RefreshButton_Click"/>
+        </StackPanel>
+        <ListView x:Name="PageListView" ItemsSource="{Binding BookOperation.PageList}"
               ScrollViewer.HorizontalScrollBarVisibility="Hidden"
               ScrollViewer.VerticalScrollBarVisibility="Visible">
-        <ListView.View>
-            <GridView>
-                <GridViewColumn Header="Name"  DisplayMemberBinding="{Binding EntryLastName}" Width="80"/>
-                <GridViewColumn Header="Condition"  DisplayMemberBinding="{Binding Content.DevStatus}" Width="80"/>
-                <GridViewColumn Header="State"  DisplayMemberBinding="{Binding State}" Width="80"/>
-                <GridViewColumn Header="Info"  DisplayMemberBinding="{Binding Message}" Width="150"/>
-            </GridView>
-        </ListView.View>
-    </ListView>
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding EntryLastName}" Width="80"/>
+                    <GridViewColumn Header="Condition" DisplayMemberBinding="{Binding Content.DevStatus}" Width="80"/>
+                    <GridViewColumn Header="State" DisplayMemberBinding="{Binding State}" Width="80"/>
+                    <GridViewColumn Header="PictureSource" DisplayMemberBinding="{Binding Content, Converter={StaticResource PageContentToPictureSourceMemoryConverter}}"/>
+                    <GridViewColumn Header="Picture" DisplayMemberBinding="{Binding Content, Converter={StaticResource PageContentToPictureMemoryConverter}}"/>
+                    <GridViewColumn Header="Info" DisplayMemberBinding="{Binding Message}" Width="150"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
 
+    </DockPanel>
 </UserControl>

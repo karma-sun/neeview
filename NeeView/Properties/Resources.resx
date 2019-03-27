@@ -4280,7 +4280,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Book Thumbnail Capacity</value>
   </data>
   <data name="ParamThumbnailBookCapacityTips" xml:space="preserve">
-    <value>This is the number of thumbnails held in the memory in the bookshelf etc.</value>
+    <value>Number of memory caches for thumbnails in bookshelf etc.</value>
   </data>
   <data name="ParamThumbnailFormat" xml:space="preserve">
     <value>Thumbnail image format</value>
@@ -4307,7 +4307,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Page Thumbnail Capacity</value>
   </data>
   <data name="ParamThumbnailPageCapacityTips" xml:space="preserve">
-    <value>This is the number of page thumbnails held in memory. Close the book and it will be discarded.</value>
+    <value>Number of memory caches for page thumbnails. When the book is closed everything is destroyed.</value>
   </data>
   <data name="ParamThumbnailQuality" xml:space="preserve">
     <value>Thumbnail quality</value>

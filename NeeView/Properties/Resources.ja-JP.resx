@@ -3285,7 +3285,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>フルスクリーン時のタイトルバー操作</value>
   </data>
   <data name="ParamIsCaptionEmulateInFullScreenTips" xml:space="preserve">
-    <value>フルスクリーン時のメニュー上でのタイトルバー操作(ダブルクリックやドラッグ)を有効にします。"</value>
+    <value>フルスクリーン時のメニュー上でのタイトルバー操作(ダブルクリックやドラッグ)を有効にします。</value>
   </data>
   <data name="ParamIsConfirmRecursive" xml:space="preserve">
     <value>ページがない場合、サブフォルダーも読み込むか問い合わせる</value>
@@ -4280,7 +4280,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>ブックサムネイル容量</value>
   </data>
   <data name="ParamThumbnailBookCapacityTips" xml:space="preserve">
-    <value>本棚等でのメモリ上のサムネイル保持枚数です。</value>
+    <value>本棚等でのサムネイルのメモリキャッシュ数です。</value>
   </data>
   <data name="ParamThumbnailFormat" xml:space="preserve">
     <value>サムネイル画像フォーマット</value>
@@ -4307,7 +4307,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>ページサムネイル容量</value>
   </data>
   <data name="ParamThumbnailPageCapacityTips" xml:space="preserve">
-    <value>メモリ上のページサムネイルの保持枚数です。ブックを閉じると全て破棄されます。</value>
+    <value>ページサムネイルのメモリキャッシュ数です。ブックを閉じると全て破棄されます。</value>
   </data>
   <data name="ParamThumbnailQuality" xml:space="preserve">
     <value>サムネイル品質</value>

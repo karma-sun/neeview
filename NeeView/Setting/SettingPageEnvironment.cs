@@ -19,6 +19,7 @@ namespace NeeView.Setting
                 new SettingPageEnvironmentSetup(),
                 new SettingPageEnvironmentSaveData(),
                 new SettingPageEnvironmentLocation(),
+                new SettingPageEnvironmentMemoryAndPerformance(),
             };
         }
     }
@@ -57,14 +58,10 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.BookPageCollectMode))),
                     new SettingItemProperty(PropertyMemberElement.Create(FileIOProfile.Current, nameof(FileIOProfile.IsRemoveConfirmed))),
                     new SettingItemProperty(PropertyMemberElement.Create(MenuBar.Current, nameof(MenuBar.IsCaptionEmulateInFullScreen))),
-                    new SettingItemProperty(PropertyMemberElement.Create(MemoryControl.Current, nameof(MemoryControl.IsAutoGC))),
-                    new SettingItemGroup(
-                        new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsNetworkEnabled))),
-                        new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSettingBackup))))
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsNetworkEnabled)))
                     {
                         Visibility = new VisibilityPropertyValue(Config.Current.IsAppxPackage ? Visibility.Collapsed : Visibility.Visible)
                     }),
-                    ////new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsIgnoreWindowDpi)))),
             };
         }
     }
@@ -95,7 +92,11 @@ namespace NeeView.Setting
                         IsStretch = true,
                         IsEnabled = new IsEnabledPropertyValue(App.Current, nameof(App.IsSavePagemark))
                     },
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSyncUserSetting)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSyncUserSetting))),
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSettingBackup)))
+                    {
+                        Visibility = new VisibilityPropertyValue(Config.Current.IsAppxPackage ? Visibility.Collapsed : Visibility.Visible)
+                    }),
 
                 new SettingItemSection(Properties.Resources.SettingPageGeneralSaveDataRemove,
                     new SettingItemButton(Properties.Resources.SettingItemRemove, RemoveAllData) { IsContentOnly = true })
@@ -137,6 +138,25 @@ namespace NeeView.Setting
                 new SettingItemSection(Properties.Resources.SettingPageGeneralLocationTypes, Properties.Resources.SettingPageGeneralLocationTypesTips,
                 new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.TemporaryDirectory))) { IsStretch = true },
                 new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.CacheDirectory))) { IsStretch = true }),
+            };
+        }
+    }
+
+    public class SettingPageEnvironmentMemoryAndPerformance : SettingPage
+    {
+        public SettingPageEnvironmentMemoryAndPerformance() : base(Properties.Resources.SettingPageEnvironmentMemoryAndPerformance)
+        {
+            this.Items = new List<SettingItem>
+            {
+                new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.CacheMemorySize))),
+                new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.PreLoadSize))),
+                new SettingItemProperty(PropertyMemberElement.Create(JobEngine.Current, nameof(JobEngine.WorkerSize))),
+                new SettingItemProperty(PropertyMemberElement.Create(PictureProfile.Current, nameof(PictureProfile.MaximumSize))),
+                new SettingItemProperty(PropertyMemberElement.Create(PictureProfile.Current, nameof(PictureProfile.IsLimitSourceSize))),
+                new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.IsLoadingPageVisible))),
+                new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.BookCapacity))),
+                new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.PageCapacity))),
+                new SettingItemProperty(PropertyMemberElement.Create(MemoryControl.Current, nameof(MemoryControl.IsAutoGC))),
             };
         }
     }

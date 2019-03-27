@@ -182,7 +182,6 @@ namespace NeeView
         public PagePosition Position { get; set; }
         public int Direction { get; set; }
         public int Size { get; set; }
-        public bool IsPreLoad { get; set; }
     }
 
     /// <summary>

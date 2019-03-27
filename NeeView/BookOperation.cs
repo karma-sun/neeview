@@ -216,7 +216,7 @@ namespace NeeView
         // 現在ページ番号を設定し、表示を切り替える (先読み無し)
         public void RequestPageIndex(object sender, int index)
         {
-            this.Book?.RequestSetPosition(sender, new PagePosition(index, 0), 1, false);
+            this.Book?.RequestSetPosition(sender, new PagePosition(index, 0), 1);
         }
 
         /// <summary>

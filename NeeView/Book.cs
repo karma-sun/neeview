@@ -448,7 +448,7 @@ namespace NeeView
             IsDirectory = ArchiveEntryCollection.Archiver is FolderArchive;
 
             // 初期ページ設定
-            RequestSetPosition(this, position, direction, true);
+            RequestSetPosition(this, position, direction);
         }
 
         /// <summary>
@@ -679,13 +679,13 @@ namespace NeeView
         // 最初のページに移動
         public void FirstPage()
         {
-            RequestSetPosition(this, FirstPosition(), 1, true);
+            RequestSetPosition(this, FirstPosition(), 1);
         }
 
         // 最後のページに移動
         public void LastPage()
         {
-            RequestSetPosition(this, LastPosition(), -1, true);
+            RequestSetPosition(this, LastPosition(), -1);
         }
 
         // 指定ページに移動
@@ -695,7 +695,7 @@ namespace NeeView
             if (index >= 0)
             {
                 var position = new PagePosition(index, 0);
-                RequestSetPosition(this, position, 1, false);
+                RequestSetPosition(this, position, 1);
             }
         }
 
@@ -706,8 +706,7 @@ namespace NeeView
         /// <param name="sender"></param>
         /// <param name="position">ページ位置</param>
         /// <param name="direction">読む方向(+1 or -1)</param>
-        /// <param name="isPreLoad">この移動で先読みを行う</param>
-        public void RequestSetPosition(object sender, PagePosition position, int direction, bool isPreLoad)
+        public void RequestSetPosition(object sender, PagePosition position, int direction)
         {
             Debug.Assert(direction == 1 || direction == -1);
 
@@ -720,7 +719,6 @@ namespace NeeView
                 Position = position,
                 Direction = direction,
                 Size = PageMode.Size(),
-                IsPreLoad = isPreLoad,
             });
             _commandEngine.Enqueue(command);
         }
@@ -775,7 +773,7 @@ namespace NeeView
         private void Reflesh(bool clear)
         {
             if (Address == null) return;
-            RequestSetPosition(this, _viewPageCollection.Range.Min, 1, true);
+            RequestSetPosition(this, _viewPageCollection.Range.Min, 1);
         }
 
         // 終了処理
@@ -813,7 +811,7 @@ namespace NeeView
             Sort();
 
             var pagePosition = new PagePosition(GetIndex(page), 0);
-            RequestSetPosition(this, pagePosition, 1, true);
+            RequestSetPosition(this, pagePosition, 1);
 
             await Task.CompletedTask;
         }
@@ -827,7 +825,7 @@ namespace NeeView
         internal async Task SetPage_Executed(object sender, BookCommandSetPageArgs param, CancellationToken token)
         {
             var source = new PageDirectionalRange(param.Position, param.Direction, param.Size);
-            await UpdateViewPageAsync(source, param.IsPreLoad, sender, token);
+            await UpdateViewPageAsync(source, sender, token);
         }
 
 
@@ -849,9 +847,7 @@ namespace NeeView
 
             var range = new PageDirectionalRange(pos, direction, PageMode.Size());
 
-            var isPreLoad = Math.Abs(param.Step) <= PageMode.Size();
-
-            await UpdateViewPageAsync(range, isPreLoad, null, token);
+            await UpdateViewPageAsync(range, null, token);
         }
 
         #endregion
@@ -907,7 +903,7 @@ namespace NeeView
         }
 
         // 表示ページ更新
-        private async Task UpdateViewPageAsync(PageDirectionalRange source, bool isPreLoad, object sender, CancellationToken token)
+        private async Task UpdateViewPageAsync(PageDirectionalRange source, object sender, CancellationToken token)
         {
             // ページ終端を越えたか判定
             if (source.Position < FirstPosition())
@@ -944,7 +940,7 @@ namespace NeeView
 
             // pre load
             _ahead.Clear();
-            var aheadPages = isPreLoad ? CollectPreLoadPages(source, viewPages) : new List<Page>();
+            var aheadPages = CollectPreLoadPages(source, viewPages);
 
             var loadPages = viewPages.Concat(aheadPages).Distinct().ToList();
 
@@ -1307,7 +1303,7 @@ namespace NeeView
             PageRemoved?.Invoke(this, new PageChangedEventArgs(page));
 
             index = ClampPageNumber(index);
-            RequestSetPosition(this, new PagePosition(index, 0), 1, true);
+            RequestSetPosition(this, new PagePosition(index, 0), 1);
 
             if (_pageMap.TryGetValue(page.EntryFullName, out Page target) && page == target)
             {
@@ -1407,7 +1403,7 @@ namespace NeeView
 
             if (target == null) return null;
 
-            RequestSetPosition(sender, new PagePosition(target.Index, 0), +1, false);
+            RequestSetPosition(sender, new PagePosition(target.Index, 0), 1);
             return target;
         }
 

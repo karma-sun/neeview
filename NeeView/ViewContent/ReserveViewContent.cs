@@ -6,19 +6,19 @@ using System.Windows.Shapes;
 namespace NeeView
 {
     /// <summary>
-    /// Thumbnail ViewContent
+    /// Reserve ViewContent
     /// </summary>
-    public class ThumbnailViewContent : ViewContent
+    public class ReserveViewContent : ViewContent
     {
         #region Fields
 
-        private Rectangle _thumbnailRectangle;
+        private Rectangle _reserveRectangle;
 
         #endregion
 
         #region Constructors
 
-        public ThumbnailViewContent(ViewPage source, ViewContent old) : base(source, old)
+        public ReserveViewContent(ViewPage source, ViewContent old) : base(source, old)
         {
         }
 
@@ -26,7 +26,6 @@ namespace NeeView
 
         #region Methods
 
-        //
         public void Initialize()
         {
             // binding parameter
@@ -36,7 +35,7 @@ namespace NeeView
             this.View = CreateView(this.Source, parameter);
 
             // content setting
-            if (this.Size.Width == 0 && this.Size.Height == 0)
+            if (BookProfile.Current.IsLoadingPageVisible)
             {
                 if (this.Reserver != null)
                 {
@@ -51,12 +50,13 @@ namespace NeeView
             }
             else
             {
+                this.Size = this.Size.IsEmptyOrZero() ? new Size(480, 680) : this.Size;
                 this.Color = this.Content is BitmapContent bitmapContent ? bitmapContent.Color : Colors.Black;
             }
         }
 
         /// <summary>
-        /// サムネイルビュー生成
+        /// 読み込み中ビュー生成
         /// </summary>
         /// <param name="source"></param>
         /// <param name="parameter"></param>
@@ -66,11 +66,11 @@ namespace NeeView
             var grid = new Grid();
 
             var rectangle = new Rectangle();
-            rectangle.Fill = source.CreateThumbnailBrush(this.Reserver);
+            rectangle.Fill = source.CreateReserveBrush(this.Reserver);
             RenderOptions.SetBitmapScalingMode(rectangle, BitmapScalingMode.HighQuality);
             grid.Children.Add(rectangle);
 
-            _thumbnailRectangle = rectangle;
+            _reserveRectangle = rectangle;
 
             var textBlock = new TextBlock();
             textBlock.Text = LoosePath.GetFileName(source.Page.EntryFullName);
@@ -79,28 +79,26 @@ namespace NeeView
             textBlock.Margin = new Thickness(10);
             textBlock.HorizontalAlignment = HorizontalAlignment.Center;
             textBlock.VerticalAlignment = VerticalAlignment.Center;
-            
+
             grid.Children.Add(textBlock);
 
             return grid;
         }
 
-        //
         public override bool IsBitmapScalingModeSupported() => false;
 
-        //
         public override Brush GetViewBrush()
         {
-            return _thumbnailRectangle?.Fill;
+            return _reserveRectangle?.Fill;
         }
 
         #endregion
 
         #region Static Methods
 
-        public static ThumbnailViewContent Create(ViewPage source, ViewContent oldViewContent)
+        public static ReserveViewContent Create(ViewPage source, ViewContent oldViewContent)
         {
-            var viewContent = new ThumbnailViewContent(source, oldViewContent);
+            var viewContent = new ReserveViewContent(source, oldViewContent);
             viewContent.Initialize();
             return viewContent;
         }

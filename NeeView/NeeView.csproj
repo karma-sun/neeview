@@ -259,6 +259,7 @@
     <Compile Include="ThemeProfile.cs" />
     <Compile Include="Thumbnail\DriveThumbnail.cs" />
     <Compile Include="ViewContent\ArchiveViewContent.cs" />
+    <Compile Include="ViewContent\ReserveViewContent.cs" />
     <Compile Include="_NeeLaboratory\IO\RemoteCommand.cs" />
     <Compile Include="SaveDataSync.cs" />
     <Compile Include="Setting\SusiePluginSettingWindow.xaml.cs">
@@ -509,7 +510,6 @@
     <Compile Include="ContentRebuild.cs" />
     <Compile Include="ViewContent\MessageViewContent.cs" />
     <Compile Include="ViewContent\PdfViewContent.cs" />
-    <Compile Include="ViewContent\ThumbnailViewContent.cs" />
     <Compile Include="ViewContent\ViewContentFactory.cs" />
     <Compile Include="Controls\AddressBar.cs" />
     <Compile Include="Controls\AddressBarView.xaml.cs">

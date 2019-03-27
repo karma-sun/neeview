@@ -12,6 +12,7 @@ namespace NeeView
     /// <summary>
     /// ページの準備中に表示するもの
     /// </summary>
+    [Obsolete]
     public enum LoadingPageView
     {
         [AliasName("@EnumLoadingPageViewNone")]
@@ -98,8 +99,8 @@ namespace NeeView
         public BookPageCollectMode BookPageCollectMode { get; set; } = BookPageCollectMode.ImageAndBook;
 
         // ページ読み込み中表示
-        [PropertyMember("@ParamBookLoadingPageView", Tips = "@ParamBookLoadingPageViewTips")]
-        public LoadingPageView LoadingPageView { get; set; } = LoadingPageView.PreThumbnail;
+        [PropertyMember("@ParamBookIsLoadingPageVisible", Tips = "@ParamBookIsLoadingPageVisibleTips")]
+        public bool IsLoadingPageVisible { get; set; } = true;
 
         // サポート外ファイル有効のときに、すべてのファイルを画像とみなす
         [PropertyMember("@ParamBookIsAllFileAnImage", Tips = "@ParamBookIsAllFileAnImageTips")]
@@ -168,8 +169,12 @@ namespace NeeView
             [DataMember, DefaultValue(BookPageCollectMode.ImageAndBook)]
             public BookPageCollectMode BookPageCollectMode { get; set; }
 
-            [DataMember, DefaultValue(LoadingPageView.PreThumbnail)]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public LoadingPageView LoadingPageView { get; set; }
+
+            [DataMember, DefaultValue(true)]
+            public bool IsLoadingPageVisible { get; set; }
+
 
             [DataMember]
             public bool IsAllFileAnImage { get; set; }
@@ -192,6 +197,7 @@ namespace NeeView
                 {
                     BookPageCollectMode = IsEnableNoSupportFile ? BookPageCollectMode.All : BookPageCollectMode.ImageAndBook;
                     PreLoadSize = PreLoadMode == PreLoadMode.None ? 0 : 2;
+                    IsLoadingPageVisible = LoadingPageView != LoadingPageView.None;
                 }
 #pragma warning restore CS0612
             }
@@ -208,7 +214,7 @@ namespace NeeView
             memento.ExcludePath = this.Excludes.ToString();
             memento.IsEnableAnimatedGif = this.IsEnableAnimatedGif;
             memento.BookPageCollectMode = this.BookPageCollectMode;
-            memento.LoadingPageView = this.LoadingPageView;
+            memento.IsLoadingPageVisible = this.IsLoadingPageVisible;
             memento.IsAllFileAnImage = this.IsAllFileAnImage;
             memento.CacheMemorySize = this.CacheMemorySize;
             return memento;
@@ -225,7 +231,7 @@ namespace NeeView
             this.Excludes.FromString(memento.ExcludePath);
             this.IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
             this.BookPageCollectMode = memento.BookPageCollectMode;
-            this.LoadingPageView = memento.LoadingPageView;
+            this.IsLoadingPageVisible = memento.IsLoadingPageVisible;
             this.IsAllFileAnImage = memento.IsAllFileAnImage;
             this.CacheMemorySize = memento.CacheMemorySize;
         }

@@ -4739,4 +4739,13 @@ Initialize the temporary location.</value>
   <data name="ParamIsHamburgerMenu" xml:space="preserve">
     <value>Use the hamburger menu</value>
   </data>
+  <data name="ParamBookIsLoadingPageVisible" xml:space="preserve">
+    <value>Display the current page until the next page loads</value>
+  </data>
+  <data name="ParamBookIsLoadingPageVisibleTips" xml:space="preserve">
+    <value>Turning it off reduces memory consumption.</value>
+  </data>
+  <data name="SettingPageEnvironmentMemoryAndPerformance" xml:space="preserve">
+    <value>Memory &amp; Performance</value>
+  </data>
 </root>

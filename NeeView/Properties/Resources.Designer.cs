@@ -8796,6 +8796,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Display the current page until the next page loads に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookIsLoadingPageVisible {
+            get {
+                return ResourceManager.GetString("ParamBookIsLoadingPageVisible", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Turning it off reduces memory consumption. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookIsLoadingPageVisibleTips {
+            get {
+                return ResourceManager.GetString("ParamBookIsLoadingPageVisibleTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Accept duplication of page movement commands に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamBookIsMultiplePageMove {
@@ -12194,6 +12212,15 @@ namespace NeeView.Properties {
         public static string SettingPageContextMenuEdit {
             get {
                 return ResourceManager.GetString("SettingPageContextMenuEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Memory &amp; Performance に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageEnvironmentMemoryAndPerformance {
+            get {
+                return ResourceManager.GetString("SettingPageEnvironmentMemoryAndPerformance", resourceCulture);
             }
         }
         

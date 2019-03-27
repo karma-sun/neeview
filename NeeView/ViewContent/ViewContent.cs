@@ -207,7 +207,7 @@ namespace NeeView
         //
         public ViewContentReserver CreateReserver()
         {
-            if (BookProfile.Current.LoadingPageView == LoadingPageView.None || this.IgnoreReserver)
+            if (!BookProfile.Current.IsLoadingPageVisible || this.IgnoreReserver)
             {
                 return null;
             }
@@ -215,20 +215,6 @@ namespace NeeView
             ImageBrush brush = this.GetViewBrush() as ImageBrush;
             if (brush != null)
             {
-                if (BookProfile.Current.LoadingPageView == LoadingPageView.PreThumbnail)
-                {
-                    var thumbnail = this.Page?.Thumbnail?.ImageSource;
-                    if (thumbnail != null)
-                    {
-                        return new ViewContentReserver()
-                        {
-                            Brush = this.Source.ClonePageImageBrush(brush, thumbnail),
-                            Size = this.Size,
-                            Color = this.Color
-                        };
-                    }
-                }
-
                 return new ViewContentReserver()
                 {
                     Brush = brush,
@@ -255,9 +241,9 @@ namespace NeeView
         /// <param name="viewScale"></param>
         public virtual void SetViewMode(ContentViewMode mode, double viewScale) { }
 
-        #endregion
+#endregion
 
-        #region IDisposable Support
+#region IDisposable Support
 
         private bool _disposedValue = false;
 
@@ -278,7 +264,7 @@ namespace NeeView
             Dispose(true);
         }
 
-        #endregion
+#endregion
     }
 
     /// <summary>

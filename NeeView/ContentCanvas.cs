@@ -411,7 +411,7 @@ namespace NeeView
         /// <returns></returns>
         private List<Size> GetContentSizeList()
         {
-            return Contents.Select(e => (e.Source?.Size ?? SizeExtensions.Zero).EmptyOrZeroCoalesce(e.Size)).ToList();
+            return Contents.Select(e => (e?.Size ?? SizeExtensions.Zero).EmptyOrZeroCoalesce(e.Size)).ToList();
         }
 
         // ビューエリアサイズを更新

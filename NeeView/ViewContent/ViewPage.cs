@@ -82,7 +82,7 @@ namespace NeeView
             // 仮表示
             else if (!Content.IsLoaded)
             {
-                return ViewContentType.Thumbnail;
+                return ViewContentType.Reserve;
             }
             // PDF
             else if (Content is PdfContetnt)
@@ -180,16 +180,12 @@ namespace NeeView
         }
 
         /// <summary>
-        /// サムネイル作成
+        /// 予備ブラシ作成
         /// </summary>
         /// <returns></returns>
-        public Brush CreateThumbnailBrush(ViewContentReserver reserver)
+        public Brush CreateReserveBrush(ViewContentReserver reserver)
         {
-            if (Page.Thumbnail.IsValid)
-            {
-                return CreatePageImageBrush(Page.Thumbnail.ImageSource, true);
-            }
-            else if (reserver != null)
+            if (reserver != null)
             {
                 return reserver.Brush;
             }
@@ -214,7 +210,7 @@ namespace NeeView
         Media,
         Pdf,
         Archive,
-        Thumbnail,
+        Reserve,
     }
 
 }

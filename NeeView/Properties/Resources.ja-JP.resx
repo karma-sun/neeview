@@ -4739,4 +4739,13 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamIsHamburgerMenu" xml:space="preserve">
     <value>ハンバーガーメニューを使う</value>
   </data>
+  <data name="ParamBookIsLoadingPageVisible" xml:space="preserve">
+    <value>次のページ読み込み完了まで現在のページを表示する</value>
+  </data>
+  <data name="ParamBookIsLoadingPageVisibleTips" xml:space="preserve">
+    <value>OFFにしたほうがメモリ消費が少ないです。</value>
+  </data>
+  <data name="SettingPageEnvironmentMemoryAndPerformance" xml:space="preserve">
+    <value>メモリとパフォーマンス</value>
+  </data>
 </root>

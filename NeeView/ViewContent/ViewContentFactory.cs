@@ -18,8 +18,8 @@ namespace NeeView
                 case ViewContentType.Message:
                     viewContent = MessageViewContent.Create(source, oldViewContent);
                     break;
-                case ViewContentType.Thumbnail:
-                    viewContent =  ThumbnailViewContent.Create(source, oldViewContent);
+                case ViewContentType.Reserve:
+                    viewContent =  ReserveViewContent.Create(source, oldViewContent);
                     break;
                 case ViewContentType.Bitmap:
                     viewContent = BitmapViewContent.Create(source, oldViewContent);

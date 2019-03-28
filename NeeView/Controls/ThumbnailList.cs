@@ -20,7 +20,7 @@ namespace NeeView
     {
         static ThumbnailList() => Current = new ThumbnailList();
         public static ThumbnailList Current { get; }
-        
+
         #region Fields
 
         private bool _isEnableThumbnailList;
@@ -329,9 +329,9 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
-#region Memento
+        #region Memento
         [DataContract]
         public class Memento
         {
@@ -381,7 +381,7 @@ namespace NeeView
             this.IsManipulationBoundaryFeedbackEnabled = memento.IsManipulationBoundaryFeedbackEnabled;
             this.IsSelectedCenter = memento.IsSelectedCenter;
         }
-#endregion
+        #endregion
 
     }
 

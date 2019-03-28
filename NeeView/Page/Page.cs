@@ -31,7 +31,7 @@ namespace NeeView
     /// <summary>
     /// ページ
     /// </summary>
-    public abstract class Page : BindableBase, IHasPage, IHasPageContent
+    public abstract class Page : BindableBase, IHasPage, IHasPageContent, IDisposable
     {
         #region 開発用
 
@@ -299,21 +299,34 @@ namespace NeeView
             return Entry.Archiver.GetSourceFileSystemPath();
         }
 
-        //
-        public void Reset()
-        {
-            State = PageContentState.None;
-            UnloadContent();
-
-            Loaded = null;
-            this.Thumbnail.Reset();
-        }
-
-
         public Page GetPage()
         {
             return this;
         }
+
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    Loaded = null;
+                    Content.Dispose();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 
 }

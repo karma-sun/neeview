@@ -17,7 +17,7 @@ namespace NeeView
     /// サムネイル.
     /// Jpegで保持し、必要に応じてBitmapSourceを生成
     /// </summary>
-    public class Thumbnail : BindableBase, IThumbnail
+    public class Thumbnail : BindableBase, IThumbnail, IDisposable
     {
         /// <summary>
         /// 開発用：キャッシュ読み込み無効
@@ -338,14 +338,30 @@ namespace NeeView
         }
 
 
+        #region IDisposable Support
+        private bool _disposedValue = false;
 
-        public void Reset()
+        protected virtual void Dispose(bool disposing)
         {
-            _image = null;
-            Changed = null;
-            Touched = null;
-            ResetPropertyChanged();
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _image = null;
+                    Changed = null;
+                    Touched = null;
+                    ResetPropertyChanged();
+                }
+
+                _disposedValue = true;
+            }
         }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 
 

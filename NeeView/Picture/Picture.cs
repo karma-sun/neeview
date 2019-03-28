@@ -71,7 +71,7 @@ namespace NeeView
 
         public long GetMemorySize()
         {
-            return _bitmapSource != null ? (_bitmapSource.Format.BitsPerPixel / 8) * _bitmapSource.PixelWidth * _bitmapSource.PixelHeight : 0;
+            return _bitmapSource != null ? (long)_bitmapSource.Format.BitsPerPixel * _bitmapSource.PixelWidth * _bitmapSource.PixelHeight / 8 : 0L;
         }
 
         /// <summary>

@@ -198,5 +198,26 @@ namespace NeeView
 
             await Task.CompletedTask;
         }
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected override void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    UnloadContent();
+                    UnloadPictureSource();
+                    _pictureInfo = null;
+                }
+
+                _disposedValue = true;
+            }
+
+            base.Dispose(disposing);
+        }
+        #endregion IDisposable Support
     }
 }

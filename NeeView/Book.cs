@@ -1457,7 +1457,7 @@ namespace NeeView
 
                     if (Pages != null)
                     {
-                        Pages.ForEach(e => e?.Reset());
+                        Pages.ForEach(e => e?.Dispose());
                     }
 
                     if (_trashBox != null)

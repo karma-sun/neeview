@@ -10,8 +10,8 @@ namespace NeeView
 {
     public class DefaultPictureSource : PictureSource
     {
-        private PictureStream _pictureStream = new PictureStream();
-        private BitmapFactory _bitmapFactory = new BitmapFactory();
+        private static PictureStream _pictureStream = new PictureStream();
+        private static BitmapFactory _bitmapFactory = new BitmapFactory();
         private byte[] _rawData;
 
         public DefaultPictureSource(ArchiveEntry entry, PictureInfo pictureInfo, PictureSourceCreateOptions createOptions) : base(entry, pictureInfo, createOptions)
@@ -53,7 +53,7 @@ namespace NeeView
 
                     pictureInfo.Decoder = rawDataResult.decoder ?? ".Net BitmapImage";
                     pictureInfo.BitsPerPixel = bitmapInfo.BitsPerPixel;
-                    pictureInfo.Exif = bitmapInfo.Metadata != null ? new BitmapExif(bitmapInfo.Metadata) : null;
+                    pictureInfo.Exif = bitmapInfo.Exif;
 
                     this.PictureInfo = pictureInfo;
                 }

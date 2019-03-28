@@ -20,7 +20,7 @@ namespace NeeView
         public bool IsMirrorHorizontal { get; private set; }
         public bool IsMirrorVertical { get; private set; }
         public Rotation Rotation { get; private set; }
-        public BitmapMetadata Metadata { get; private set; }
+        public BitmapExif Exif { get; private set; }
 
         // 転置？
         public bool IsTranspose => (this.Rotation == Rotation.Rotate90 || this.Rotation == Rotation.Rotate270);
@@ -38,7 +38,7 @@ namespace NeeView
             this.PixelWidth = width;
             this.PixelHeight = height;
             this.BitsPerPixel = bitsPerPixel;
-            this.Metadata = metadata;
+            this.Exif = new BitmapExif(metadata);
 
             if (metadata != null)
             {

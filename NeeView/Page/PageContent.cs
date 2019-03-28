@@ -34,7 +34,7 @@ namespace NeeView
     /// <summary>
     /// ページコンテンツ基底
     /// </summary>
-    public abstract class PageContent : BindableBase
+    public abstract class PageContent : BindableBase, IDisposable
     {
         #region 開発用
 
@@ -218,6 +218,32 @@ namespace NeeView
         {
             return _entry.EntryLastName ?? base.ToString();
         }
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    Changed = null;
+                    Loaded = null;
+                    State = PageContentState.None;
+                    FileProxy = null;
+                    Thumbnail.Dispose();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 
 }

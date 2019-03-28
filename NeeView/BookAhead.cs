@@ -13,9 +13,11 @@ namespace NeeView
     public class BookAhead : IDisposable
     {
         private PageContentJobClient _jobClient = new PageContentJobClient("Ahead", JobCategories.PageAheadContentJobCategory);
+        private BookMemoryService _bookMemoryService;
 
-        public BookAhead()
+        public BookAhead(BookMemoryService bookMemoryService)
         {
+            _bookMemoryService = bookMemoryService;
         }
 
         private List<Page> _pages;
@@ -45,7 +47,7 @@ namespace NeeView
         {
             if (e.Page != _page) return;
 
-            if (PageContentPool.Current.IsFull) return;
+            if (_bookMemoryService.IsFull) return;
 
             LoadNext();
         }
@@ -56,7 +58,7 @@ namespace NeeView
             {
                 if (_pages is null || _index >= _pages.Count) return;
                 _page = _pages[_index];
-                _page.State = PageStateExtension.Max(_page.State, PageState.Ahead);
+                _page.State = PageContentStateExtension.Max(_page.State, PageContentState.Ahead);
                 _index++;
             }
             while (_page.IsContentAlived);

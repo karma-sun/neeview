@@ -67,8 +67,11 @@ namespace NeeView
         // JOBリクエスト
         private PageContentJobClient _jobClient = new PageContentJobClient("View", JobCategories.PageViewContentJobCategory);
 
+        // メモリ管理
+        private BookMemoryService _bookMemoryService = new BookMemoryService();
+
         // 先読み
-        private BookAhead _ahead = new BookAhead();
+        private BookAhead _ahead;
 
         #endregion
 
@@ -80,6 +83,8 @@ namespace NeeView
         public Book()
         {
             Serial = ++_serial;
+
+            _ahead = new BookAhead(_bookMemoryService);
         }
 
         #endregion
@@ -283,6 +288,9 @@ namespace NeeView
 
         // 終端ページ表示
         public bool IsPageTerminated { get; private set; }
+
+        // メモリ管理
+        public BookMemoryService BookMemoryService => _bookMemoryService;
 
         #endregion
 
@@ -948,15 +956,15 @@ namespace NeeView
             var unloadPages = _keepPages.Except(viewPages).ToList();
             foreach (var page in unloadPages)
             {
-                page.State = PageState.None;
+                page.State = PageContentState.None;
             }
             foreach (var (page, index) in viewPages.ToTuples())
             {
-                page.State = PageState.View;
+                page.State = PageContentState.View;
             }
             _keepPages = loadPages;
 
-            PageContentPool.Current.SetReference(viewPages.First());
+            _bookMemoryService.SetReference(viewPages.First().Index);
             _jobClient.Order(viewPages);
             _ahead.Order(aheadPages);
 
@@ -991,7 +999,7 @@ namespace NeeView
         {
             var page = (Page)sender;
 
-            PageContentPool.Current.Add(page);
+            _bookMemoryService.AddPageContent(page);
 
             _ahead.OnPageLoaded(this, new PageChangedEventArgs(page));
 
@@ -1437,7 +1445,6 @@ namespace NeeView
 
                     _viewPageCollection = new ViewPageCollection();
 
-                    PageContentPool.Current.Clear();
                     _ahead.Dispose();
 
                     if (Pages != null)

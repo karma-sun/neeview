@@ -9,91 +9,73 @@ using System.Windows.Media.Imaging;
 
 namespace NeeView
 {
+    public interface IHasPageContent
+    {
+        PageContent Content { get; }
+        int Index { get; }
+
+        void UnloadContent();
+    }
+
     public class PageContentPool
     {
-        // TODO: Bookで持つ？
-        static PageContentPool() => Current = new PageContentPool();
-        public static PageContentPool Current { get; }
-
-
-        private List<Page> _collection = new List<Page>();
+        private List<IHasPageContent> _collection = new List<IHasPageContent>();
         private object _lock = new object();
-        private Page _referencePage;
+        private int _referenceIndex;
 
 
-        private PageContentPool()
+        public long TotalSize { get; private set; }
+
+
+        public void SetReference(int index)
         {
+            _referenceIndex = index;
         }
 
-
-        public bool IsFull { get; private set; }
-
-
-        private long GetLimitSize()
-        {
-            return (long)BookProfile.Current.CacheMemorySize * 1024 * 1024;
-        }
-
-
-        public void SetReference(Page page)
-        {
-            _referencePage = page;
-            IsFull = false;
-        }
-
-        public void Add(Page page)
+        public void Add(IHasPageContent element)
         {
             lock (_lock)
             {
                 ////Debug.WriteLine($"Add: {page}");
-                _collection.Add(page);
+                _collection.Add(element);
+                TotalSize = TotalSize + element.Content.GetContentMemorySize();
             }
-
-            Cleanup(GetLimitSize());
         }
 
-        private void Cleanup(long limitSize)
+        public void Cleanup(long limitSize)
         {
-            List<Page> pages = null;
-            List<Page> removes = null;
+            List<IHasPageContent> elements = null;
+            List<IHasPageContent> removes = null;
 
             lock (_lock)
             {
-                ////var sw = Stopwatch.StartNew();
-
                 long totalMemory = 0;
 
-                // level 1 cleanup
+                elements = _collection
+                    .Distinct()
+                    .OrderByDescending(e => e.Content.IsContentLocked)
+                    .ThenBy(e => Math.Abs(e.Index - _referenceIndex))
+                    .ToList();
+
+                foreach (var (element, index) in elements.ToTuples())
                 {
-                    int referenceIndex = _referencePage != null ? _referencePage.Index : 0;
-
-                    pages = _collection
-                        .Distinct()
-                        .OrderByDescending(e => e.State)
-                        .ThenBy(e => Math.Abs(e.Index - referenceIndex))
-                        .ToList();
-
-                    foreach (var (page, index) in pages.ToTuples())
+                    var size = element.Content.GetContentMemorySize();
+                    if (totalMemory + size > limitSize && !element.Content.IsContentLocked)
                     {
-                        var size = page.Content.GetMemorySize();
-                        if (totalMemory + size > limitSize && page.State == PageState.None)
-                        {
-                            removes = pages.Skip(index).ToList();
-                            pages = pages.Take(index).ToList();
-                            break;
-                        }
-
-                        totalMemory += size;
+                        removes = elements.Skip(index).ToList();
+                        elements = elements.Take(index).ToList();
+                        break;
                     }
 
-                    ////var removeCount = removes != null ? removes.Count : 0;
-                    ////var contentCount = pages.Count;
-                    ////Debug.WriteLine($"Cleanup1: {totalMemory / 1024 / 1024}MB, {removeCount}/{contentCount}, {sw.ElapsedMilliseconds:#,0}ms");
+                    totalMemory += size;
                 }
 
-                IsFull = totalMemory > limitSize;
+                ////var removeCount = removes != null ? removes.Count : 0;
+                ////var contentCount = elements.Count;
+                ////Debug.WriteLine($"Cleanup1: {totalMemory / 1024 / 1024}MB, {removeCount}/{contentCount}");
 
-                _collection = pages;
+                _collection = elements;
+                TotalSize = totalMemory;
             }
 
             if (removes != null)
@@ -110,9 +92,11 @@ namespace NeeView
             lock (_lock)
             {
                 _collection.Clear();
+                TotalSize = 0;
             }
 
-            _referencePage = null;
+            _referenceIndex = 0;
         }
     }
+
 }

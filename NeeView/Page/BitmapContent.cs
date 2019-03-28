@@ -14,7 +14,7 @@ namespace NeeView
     /// <summary>
     /// 画像コンテンツ
     /// </summary>
-    public class BitmapContent : PageContent
+    public class BitmapContent : PageContent, IHasPictureSource
     {
         private object _lock = new object();
 
@@ -39,6 +39,12 @@ namespace NeeView
 
 
         /// <summary>
+        /// PictureSourceのロック
+        /// </summary>
+        public bool IsPictureSourceLocked => State != PageContentState.None;
+
+
+        /// <summary>
         /// コンストラクタ
         /// </summary>
         /// <param name="entry"></param>
@@ -47,37 +53,55 @@ namespace NeeView
         }
 
         /// <summary>
-        /// 使用メモリサイズ
+        /// 使用メモリサイズ (Picture)
         /// </summary>
-        public override long GetMemorySize()
+        public override long GetContentMemorySize()
         {
-            long size = 0;
-            if (PictureSource != null)
-            {
-                size += PictureSource.GetMemorySize();
-            }
-            if (Picture != null)
-            {
-                size += Picture.GetMemorySize();
-            }
-            return size;
+            var pictre = Picture;
+            return pictre != null ? pictre.GetMemorySize() : 0;
+        }
+
+        /// <summary>
+        /// 使用メモリサイズ (PictureSource)
+        /// </summary>
+        public override long GetPictureSourceMemorySize()
+        {
+            var source = PictureSource;
+            return source != null ? source.GetMemorySize() : 0;
         }
 
         /// <summary>
         /// PictureSource初期化
         /// </summary>
-        private void InitialzePictureSource(CancellationToken token)
+        private PictureSource LoadPictureSource(CancellationToken token)
         {
             lock (_lock)
             {
-                if (PictureSource == null)
+                var source = PictureSource;
+                if (source == null)
                 {
-                    var source = PictureSourceFactory.Create(Entry, PictureSourceCreateOptions.None, token);
+                    source = PictureSourceFactory.Create(Entry, PictureSourceCreateOptions.None, token);
                     source.InitializePictureInfo(token);
                     this.PictureSource = source;
+
+                    BookOperation.Current.Book?.BookMemoryService.AddPictureSource(this);
                 }
+
+                return source;
             }
         }
+
+        /// <summary>
+        /// PictureSource開放
+        /// </summary>
+        public void UnloadPictureSource()
+        {
+            lock(_lock)
+            {
+                PictureSource = null;
+            }
+        }
+
 
 
         /// <summary>
@@ -87,9 +111,9 @@ namespace NeeView
         {
             try
             {
-                InitialzePictureSource(token);
+                var source = LoadPictureSource(token);
 
-                var picture = new Picture(PictureSource);
+                var picture = new Picture(source);
                 picture.Initialize(token);
                 this.Size = picture.PictureInfo.Size;
                 return picture;
@@ -108,6 +132,12 @@ namespace NeeView
                 };
                 throw;
             }
+        }
+
+        public void UnloadPicture()
+        {
+            this.Picture?.Cancel();
+            this.Picture = null;
         }
 
 
@@ -133,10 +163,7 @@ namespace NeeView
         {
             this.PageMessage = null;
 
-            this.Picture?.Cancel();
-            this.Picture = null;
-
-            this.PictureSource = null;
+            UnloadPicture();
 
             RaiseChanged();
 
@@ -152,7 +179,7 @@ namespace NeeView
         {
             if (Thumbnail.IsValid) return;
 
-            InitialzePictureSource(token);
+            var source = LoadPictureSource(token);
 
             byte[] thumbnailRaw = null;
 
@@ -162,7 +189,7 @@ namespace NeeView
             }
             else
             {
-                thumbnailRaw = PictureSource.CreateThumbnail(ThumbnailProfile.Current, token);
+                thumbnailRaw = source.CreateThumbnail(ThumbnailProfile.Current, token);
             }
 
             token.ThrowIfCancellationRequested();

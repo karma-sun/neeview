@@ -29,28 +29,9 @@ namespace NeeView
 
 
     /// <summary>
-    /// 要求状態
-    /// </summary>
-    public enum PageState
-    {
-        None,
-        Ahead,
-        View,
-    }
-
-    public static class PageStateExtension
-    {
-        public static PageState Max(PageState x, PageState y)
-        {
-            return (x > y) ? x : y;
-        }
-    }
-
-
-    /// <summary>
     /// ページ
     /// </summary>
-    public abstract class Page : BindableBase, IHasPage
+    public abstract class Page : BindableBase, IHasPage, IHasPageContent
     {
         #region 開発用
 
@@ -199,13 +180,11 @@ namespace NeeView
         /// <summary>
         /// 要求状態
         /// </summary>
-        private PageState _state;
-        public PageState State
+        public PageContentState State
         {
-            get => _state;
-            set => SetPropertyDebug(ref _state, value);
+            get { return Content.State; }
+            set { Content.State = value; }
         }
-
 
         /// <summary>
         /// コンストラクタ
@@ -239,7 +218,7 @@ namespace NeeView
         /// </summary>
         public void UnloadContent()
         {
-            Debug.Assert(State == PageState.None);
+            Debug.Assert(State == PageContentState.None);
             Content.UnloadContent();
             Message = ".";
 
@@ -323,7 +302,7 @@ namespace NeeView
         //
         public void Reset()
         {
-            State = PageState.None;
+            State = PageContentState.None;
             UnloadContent();
 
             Loaded = null;

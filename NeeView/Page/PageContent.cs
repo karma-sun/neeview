@@ -119,6 +119,17 @@ namespace NeeView
         /// </summary>
         public bool IsAnimated { get; protected set; }
 
+        /// <summary>
+        /// プロパティ
+        /// </summary>
+        private PageContentState _state;
+        public PageContentState State
+        {
+            get => _state;
+            set => SetProperty(ref _state, value);
+        }
+
+        public bool IsContentLocked => _state != PageContentState.None;
 
 
         /// <summary>
@@ -135,10 +146,14 @@ namespace NeeView
 
 
         /// <summary>
-        /// 使用メモリサイズ（おおよそ）
+        /// 使用メモリサイズ (Picture)
         /// </summary>
-        public virtual long GetMemorySize() => 0;
+        public virtual long GetContentMemorySize() => 0;
 
+        /// <summary>
+        /// 使用メモリサイズ (PictureSource)
+        /// </summary>
+        public virtual long GetPictureSourceMemorySize() => 0;
 
         /// <summary>
         /// コンテンツロード
@@ -204,13 +219,5 @@ namespace NeeView
             return _entry.EntryLastName ?? base.ToString();
         }
     }
-
-
-
-
-
-
-
-
 
 }

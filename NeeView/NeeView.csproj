@@ -188,6 +188,7 @@
     <Compile Include="BookHistory.cs" />
     <Compile Include="BookHistoryCollection.cs" />
     <Compile Include="BookHubHistory.cs" />
+    <Compile Include="BookMemoryService.cs" />
     <Compile Include="BookThumbnailPool.cs" />
     <Compile Include="Controls\CriticalErrorDialog.xaml.cs">
       <DependentUpon>CriticalErrorDialog.xaml</DependentUpon>
@@ -240,6 +241,8 @@
     <Compile Include="MultbootService.cs" />
     <Compile Include="OpenSourceControls\VirtualizingWrapPanel.cs" />
     <Compile Include="Bitmap\BitmapCreateSetting.cs" />
+    <Compile Include="Page\PageContentState.cs" />
+    <Compile Include="Page\PictureSourcePool.cs" />
     <Compile Include="Picture\DefaultPictureSource.cs" />
     <Compile Include="Page\PageContentPool.cs" />
     <Compile Include="Picture\PdfPictureSource.cs" />

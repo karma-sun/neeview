@@ -32,6 +32,7 @@ namespace NeeView
         #region Fields
 
         private bool _isEnabled;
+        private Book _book;
         private ObservableCollection<Page> _pageList;
         private ExternalApplication _ExternalApplication = new ExternalApplication();
         private ClipboardUtility _ClipboardUtility = new ClipboardUtility();
@@ -91,7 +92,19 @@ namespace NeeView
             set { if (_isEnabled != value) { _isEnabled = value; RaisePropertyChanged(); } }
         }
 
-        public Book Book { get; private set; }
+        public Book Book
+        {
+            get { return _book; }
+            set
+            {
+                if (SetProperty(ref _book, value))
+                {
+                    RaisePropertyChanged(nameof(Address));
+                    RaisePropertyChanged(nameof(IsValid));
+                }
+            }
+        }
+
 
         public string Address => Book?.Address;
 

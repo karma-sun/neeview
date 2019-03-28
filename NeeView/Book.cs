@@ -24,6 +24,8 @@ namespace NeeView
 
         #endregion
 
+        public static Book Default { get; private set; }
+
         #region Fields
 
         // シリアル
@@ -83,8 +85,9 @@ namespace NeeView
         public Book()
         {
             Serial = ++_serial;
-
             _ahead = new BookAhead(_bookMemoryService);
+
+            Book.Default = this;
         }
 
         #endregion
@@ -1435,6 +1438,11 @@ namespace NeeView
             {
                 if (disposing)
                 {
+                    if (Book.Default == this)
+                    {
+                        Book.Default = null;
+                    }
+
                     // さまざまなイベント停止
                     this.DartyBook = null;
                     this.PageRemoved = null;

@@ -16,12 +16,13 @@ namespace NeeView
     /// </summary>
     public class BitmapContent : PageContent, IHasPictureSource
     {
+        private PictureInfo _pictureInfo;
         private object _lock = new object();
 
         // picture source
         public PictureSource PictureSource { get; protected set; }
 
-        public virtual PictureInfo PictureInfo => PictureSource?.PictureInfo;
+        public virtual PictureInfo PictureInfo => _pictureInfo;
 
         // picture
         public Picture Picture { get; protected set; }
@@ -80,11 +81,11 @@ namespace NeeView
                 var source = PictureSource;
                 if (source == null)
                 {
-                    source = PictureSourceFactory.Create(Entry, PictureSourceCreateOptions.None, token);
-                    source.InitializePictureInfo(token);
+                    source = PictureSourceFactory.Create(Entry, _pictureInfo, PictureSourceCreateOptions.None, token);
+                    _pictureInfo = source.CreatePictureInfo(token);
                     this.PictureSource = source;
 
-                    BookOperation.Current.Book?.BookMemoryService.AddPictureSource(this);
+                    Book.Default?.BookMemoryService.AddPictureSource(this);
                 }
 
                 return source;

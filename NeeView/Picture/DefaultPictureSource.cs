@@ -12,12 +12,9 @@ namespace NeeView
     {
         private PictureStream _pictureStream = new PictureStream();
         private BitmapFactory _bitmapFactory = new BitmapFactory();
-
         private byte[] _rawData;
-        private string _decoder;
-        private BitmapInfo _bitmapInfo;
 
-        public DefaultPictureSource(ArchiveEntry entry, PictureSourceCreateOptions createOptions) : base(entry, createOptions)
+        public DefaultPictureSource(ArchiveEntry entry, PictureInfo pictureInfo, PictureSourceCreateOptions createOptions) : base(entry, pictureInfo, createOptions)
         {
         }
 
@@ -26,13 +23,16 @@ namespace NeeView
             return _rawData != null ? _rawData.Length : 0;
         }
 
-        public override void InitializePictureInfo(CancellationToken token)
+        public override PictureInfo CreatePictureInfo(CancellationToken token)
         {
-            if (this.PictureInfo != null) return;
+            if (this.PictureInfo != null) return this.PictureInfo;
 
             token.ThrowIfCancellationRequested();
 
             var pictureInfo = new PictureInfo(ArchiveEntry);
+
+            var rawDataResult = CreateRawData(false, token);
+            _rawData = rawDataResult.rawData;
 
             using (var stream = CreateStream(token))
             {
@@ -42,17 +42,18 @@ namespace NeeView
                 try
                 {
                     stream.Seek(0, SeekOrigin.Begin);
-                    _bitmapInfo = BitmapInfo.Create(stream);
-                    var originalSize = _bitmapInfo.IsTranspose ? _bitmapInfo.GetPixelSize().Transpose() : _bitmapInfo.GetPixelSize();
+                    var bitmapInfo = BitmapInfo.Create(stream);
+                    pictureInfo.BitmapInfo = bitmapInfo;
+                    var originalSize = bitmapInfo.IsTranspose ? bitmapInfo.GetPixelSize().Transpose() : bitmapInfo.GetPixelSize();
                     pictureInfo.OriginalSize = originalSize;
 
-                    var maxSize = _bitmapInfo.IsTranspose ? PictureProfile.Current.MaximumSize.Transpose() : PictureProfile.Current.MaximumSize;
+                    var maxSize = bitmapInfo.IsTranspose ? PictureProfile.Current.MaximumSize.Transpose() : PictureProfile.Current.MaximumSize;
                     var size = (PictureProfile.Current.IsLimitSourceSize && !maxSize.IsContains(originalSize)) ? originalSize.Uniformed(maxSize) : Size.Empty;
                     pictureInfo.Size = size.IsEmpty ? originalSize : size;
 
-                    pictureInfo.Decoder = _decoder ?? ".Net BitmapImage";
-                    pictureInfo.BitsPerPixel = _bitmapInfo.BitsPerPixel;
-                    pictureInfo.Exif = _bitmapInfo.Metadata != null ? new BitmapExif(_bitmapInfo.Metadata) : null;
+                    pictureInfo.Decoder = rawDataResult.decoder ?? ".Net BitmapImage";
+                    pictureInfo.BitsPerPixel = bitmapInfo.BitsPerPixel;
+                    pictureInfo.Exif = bitmapInfo.Metadata != null ? new BitmapExif(bitmapInfo.Metadata) : null;
 
                     this.PictureInfo = pictureInfo;
                 }
@@ -73,29 +74,64 @@ namespace NeeView
 
             token.ThrowIfCancellationRequested();
 
-            CompressRawData();
+            _rawData = CompressRawData(_rawData);
+
+            return this.PictureInfo;
+        }
+
+
+        private (byte[] rawData, string decoder) CreateRawData(bool isCompressed, CancellationToken token)
+        {
+            var ms = new MemoryStream();
+            using (var namedStream = _pictureStream.Create(ArchiveEntry))
+            {
+                try
+                {
+                    namedStream.Stream.CopyToAsync(ms, 81920, token).Wait();
+                }
+                catch (AggregateException ex)
+                {
+                    token.ThrowIfCancellationRequested();
+                    throw ex.InnerException;
+                }
+                catch
+                {
+                    token.ThrowIfCancellationRequested();
+                    throw;
+                }
+
+                var rawData = ms.ToArray();
+                if (isCompressed)
+                {
+                    rawData = CompressRawData(rawData);
+                }
+
+                return (rawData, namedStream.Name);
+            }
         }
 
         // RawData: メモリ圧縮のためにBMPはPNGに変換 
-        private void CompressRawData()
+        private byte[] CompressRawData(byte[] source)
         {
-            if (_rawData == null) return;
-            if (_rawData[0] != 'B' || _rawData[1] != 'M') return;
+            if (source == null ||_createOptions.HasFlag(PictureSourceCreateOptions.IgnoreCompress)) return source;
+            if (source[0] != 'B' || source[1] != 'M') return source;
 
             try
             {
-                using (var inStream = new MemoryStream(_rawData))
+                ////Debug.WriteLine($"Compress BMP to PNG.");
+                using (var inStream = new MemoryStream(source))
                 using (var outStream = new MemoryStream())
                 {
                     var encoder = new PngBitmapEncoder();
                     encoder.Frames.Add(BitmapFrame.Create(inStream));
                     encoder.Save(outStream);
-                    _rawData = outStream.ToArray();
+                    return outStream.ToArray();
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
+                return source;
             }
         }
 
@@ -103,26 +139,7 @@ namespace NeeView
         {
             if (_rawData == null)
             {
-                var ms = new MemoryStream();
-                using (var namedStream = _pictureStream.Create(ArchiveEntry))
-                {
-                    try
-                    {
-                        namedStream.Stream.CopyToAsync(ms, 81920, token).Wait();
-                    }
-                    catch (AggregateException ex)
-                    {
-                        token.ThrowIfCancellationRequested();
-                        throw ex.InnerException;
-                    }
-                    catch
-                    {
-                        token.ThrowIfCancellationRequested();
-                        throw;
-                    }
-                    _rawData = ms.ToArray();
-                    _decoder = namedStream.Name;
-                }
+                _rawData = CreateRawData(true, token).rawData;
             }
 
             return new MemoryStream(_rawData);
@@ -140,7 +157,7 @@ namespace NeeView
                         size = new Size(0, size.Height);
                     }
 
-                    var bitmapSource = _bitmapFactory.CreateBitmapSource(stream, _bitmapInfo, size, setting, token);
+                    var bitmapSource = _bitmapFactory.CreateBitmapSource(stream, PictureInfo?.BitmapInfo, size, setting, token);
 
                     // 色情報とBPP設定。
                     this.PictureInfo.SetPixelInfo(bitmapSource);
@@ -173,7 +190,7 @@ namespace NeeView
                 {
                     using (var outStream = new MemoryStream())
                     {
-                        _bitmapFactory.CreateImage(stream, _bitmapInfo, outStream, size, format, quality, setting, token);
+                        _bitmapFactory.CreateImage(stream, PictureInfo?.BitmapInfo, outStream, size, format, quality, setting, token);
                         return outStream.ToArray();
                     }
                 }

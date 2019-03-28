@@ -12,19 +12,23 @@ namespace NeeView
 
         private PdfArchiver _pdfArchive;
 
-        public PdfPictureSource(ArchiveEntry entry, PictureSourceCreateOptions createOptions) : base(entry, createOptions)
+        public PdfPictureSource(ArchiveEntry entry, PictureInfo pictureInfo, PictureSourceCreateOptions createOptions) : base(entry, pictureInfo, createOptions)
         {
             _pdfArchive = (PdfArchiver)entry.Archiver;
         }
 
-        public override void InitializePictureInfo(CancellationToken token)
+        public override PictureInfo CreatePictureInfo(CancellationToken token)
         {
+            if (PictureInfo != null) return PictureInfo;
+
             this.PictureInfo = new PictureInfo(ArchiveEntry);
 
             var size = _pdfArchive.GetRenderSize(ArchiveEntry);
             PictureInfo.OriginalSize = size;
             PictureInfo.Size = size;
             PictureInfo.Decoder = "PDFium";
+
+            return PictureInfo;
         }
 
         public override BitmapSource CreateBitmapSource(Size size, BitmapCreateSetting setting, CancellationToken token)

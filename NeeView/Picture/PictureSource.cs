@@ -12,9 +12,16 @@ namespace NeeView
     {
         protected PictureSourceCreateOptions _createOptions;
 
-        public PictureSource(ArchiveEntry entry, PictureSourceCreateOptions createOptions)
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        /// <param name="entry">エントリ</param>
+        /// <param name="pictureInfo">画像情報。nullの場合は元データから新しく生成される。</param>
+        /// <param name="createOptions"></param>
+        public PictureSource(ArchiveEntry entry, PictureInfo pictureInfo, PictureSourceCreateOptions createOptions)
         {
             ArchiveEntry = entry;
+            PictureInfo = pictureInfo;
             _createOptions = createOptions;
         }
 
@@ -27,9 +34,9 @@ namespace NeeView
         public virtual long GetMemorySize() => 0;
 
         /// <summary>
-        /// PictureInfo初期化
+        /// PictureInfo作成
         /// </summary>
-        public abstract void InitializePictureInfo(CancellationToken token);
+        public abstract PictureInfo CreatePictureInfo(CancellationToken token);
 
         /// <summary>
         /// BitmaSource作成。メインコンテンツ用
@@ -52,20 +59,21 @@ namespace NeeView
     {
         None = 0,
         ////IgnoreImageCache = 0x0001,
+        IgnoreCompress = 0x0002,
     }
 
 
     public static class PictureSourceFactory
     {
-        public static PictureSource Create(ArchiveEntry entry, PictureSourceCreateOptions createOptions, CancellationToken token)
+        public static PictureSource Create(ArchiveEntry entry, PictureInfo pictureInfo, PictureSourceCreateOptions createOptions, CancellationToken token)
         {
             if (entry.Archiver is PdfArchiver)
             {
-                return new PdfPictureSource(entry, createOptions);
+                return new PdfPictureSource(entry, pictureInfo, createOptions);
             }
             else
             {
-                return new DefaultPictureSource(entry, createOptions);
+                return new DefaultPictureSource(entry, pictureInfo, createOptions);
             }
         }
     }

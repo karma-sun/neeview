@@ -13,6 +13,11 @@ namespace NeeView
         private bool _isPixelInfoInitialized;
 
         /// <summary>
+        /// Bitmap画像のRaw情報
+        /// </summary>
+        public BitmapInfo BitmapInfo { get; set; }
+
+        /// <summary>
         /// 画像サイズ
         /// </summary>
         public Size Size { get; set; }

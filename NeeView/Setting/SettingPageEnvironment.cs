@@ -156,7 +156,7 @@ namespace NeeView.Setting
                 new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.IsLoadingPageVisible))),
                 new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.BookCapacity))),
                 new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.PageCapacity))),
-                new SettingItemProperty(PropertyMemberElement.Create(MemoryControl.Current, nameof(MemoryControl.IsAutoGC))),
+                ////new SettingItemProperty(PropertyMemberElement.Create(MemoryControl.Current, nameof(MemoryControl.IsAutoGC))),
             };
         }
     }

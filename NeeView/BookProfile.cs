@@ -50,10 +50,14 @@ namespace NeeView
         static BookProfile() => Current = new BookProfile();
         public static BookProfile Current { get; }
 
+        private int _cacheMemorySize = 100;
+        private int _maxCacheMemorySize;
+
         #region Constructors
 
         private BookProfile()
         {
+            _maxCacheMemorySize = GetMaxCacheMemorySize();
         }
 
         #endregion
@@ -108,9 +112,32 @@ namespace NeeView
 
         // キャッシュメモリサイズ (MB)
         [PropertyMember("@ParamCacheMemorySize", Tips = "@ParamCacheMemorySizeTips")]
-        public int CacheMemorySize { get; set; } = 100;
+        public int CacheMemorySize
+        {
+            get { return _cacheMemorySize; }
+            set { SetProperty(ref _cacheMemorySize, Math.Min(value, _maxCacheMemorySize)); }
+        }
 
         #endregion
+
+        /// <summary>
+        /// 最大キャッシュメモリサイズ計算
+        /// </summary>
+        private int GetMaxCacheMemorySize()
+        {
+            int max = (int)(Config.GetTotalPhysicalMemory() / 1024 / 1024);
+
+            // -2GB or half size
+            max = Math.Max(max - 2 * 1024, max / 2);
+
+            // if 32bit, limit 3GB
+            if (!Config.IsX64)
+            {
+                max = Math.Min(max, 3 * 1024);
+            }
+
+            return max;
+        }
 
         /// <summary>
         /// ページ移動優先設定

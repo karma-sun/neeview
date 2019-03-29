@@ -8805,7 +8805,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Turning it off reduces memory consumption. に類似しているローカライズされた文字列を検索します。
+        ///   You can save memory by turning it off. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamBookIsLoadingPageVisibleTips {
             get {
@@ -11640,7 +11640,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Number of memory caches for thumbnails in bookshelf etc. に類似しているローカライズされた文字列を検索します。
+        ///   The number of book thumbnails held in memory. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamThumbnailBookCapacityTips {
             get {
@@ -11694,7 +11694,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Number of memory caches for page thumbnails. When the book is closed everything is destroyed. に類似しているローカライズされた文字列を検索します。
+        ///   The number of page thumbnails held in memory. When the book is closed everything is destroyed. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamThumbnailPageCapacityTips {
             get {

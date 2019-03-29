@@ -4280,7 +4280,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Book Thumbnail Capacity</value>
   </data>
   <data name="ParamThumbnailBookCapacityTips" xml:space="preserve">
-    <value>Number of memory caches for thumbnails in bookshelf etc.</value>
+    <value>The number of book thumbnails held in memory.</value>
   </data>
   <data name="ParamThumbnailFormat" xml:space="preserve">
     <value>Thumbnail image format</value>
@@ -4307,7 +4307,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Page Thumbnail Capacity</value>
   </data>
   <data name="ParamThumbnailPageCapacityTips" xml:space="preserve">
-    <value>Number of memory caches for page thumbnails. When the book is closed everything is destroyed.</value>
+    <value>The number of page thumbnails held in memory. When the book is closed everything is destroyed.</value>
   </data>
   <data name="ParamThumbnailQuality" xml:space="preserve">
     <value>Thumbnail quality</value>
@@ -4743,7 +4743,7 @@ Initialize the temporary location.</value>
     <value>Display the current page until the next page loads</value>
   </data>
   <data name="ParamBookIsLoadingPageVisibleTips" xml:space="preserve">
-    <value>Turning it off reduces memory consumption.</value>
+    <value>You can save memory by turning it off.</value>
   </data>
   <data name="SettingPageEnvironmentMemoryAndPerformance" xml:space="preserve">
     <value>Memory &amp; Performance</value>

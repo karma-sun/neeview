@@ -183,6 +183,12 @@ namespace NeeView
             return (versionNumber >> 8) & 0xff;
         }
 
+        // PCメモリサイズ
+        public static ulong GetTotalPhysicalMemory()
+        {
+            var info = new Microsoft.VisualBasic.Devices.ComputerInfo();
+            return info.TotalPhysicalMemory;
+        }
 
         /// <summary>
         /// アセンブリ情報収集

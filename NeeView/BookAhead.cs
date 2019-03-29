@@ -23,21 +23,28 @@ namespace NeeView
         private List<Page> _pages;
         private int _index;
         private Page _page;
+        private object _lock = new object();
 
         public void Order(List<Page> pages)
         {
-            _pages = pages;
-            _index = 0;
-            _page = null;
+            lock (_lock)
+            {
+                _pages = pages;
+                _index = 0;
+                _page = null;
 
-            LoadNext();
+                LoadNext();
+            }
         }
 
         public void Clear()
         {
-            _pages = null;
-            _index = 0;
-            _page = null;
+            lock (_lock)
+            {
+                _pages = null;
+                _index = 0;
+                _page = null;
+            }
         }
 
         /// <summary>
@@ -54,16 +61,19 @@ namespace NeeView
 
         private void LoadNext()
         {
-            do
+            lock (_lock)
             {
-                if (_pages is null || _index >= _pages.Count) return;
-                _page = _pages[_index];
-                _page.State = PageContentStateExtension.Max(_page.State, PageContentState.Ahead);
-                _index++;
-            }
-            while (_page.IsContentAlived);
+                do
+                {
+                    if (_pages is null || _index >= _pages.Count) return;
+                    _page = _pages[_index];
+                    _page.State = PageContentStateExtension.Max(_page.State, PageContentState.Ahead);
+                    _index++;
+                }
+                while (_page.IsContentAlived);
 
-            _jobClient.Order(new List<Page>() { _page });
+                _jobClient.Order(new List<Page>() { _page });
+            }
         }
 
         #region IDisposable Support

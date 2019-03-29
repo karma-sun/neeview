@@ -4280,7 +4280,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>ブックサムネイル容量</value>
   </data>
   <data name="ParamThumbnailBookCapacityTips" xml:space="preserve">
-    <value>本棚等でのサムネイルのメモリキャッシュ数です。</value>
+    <value>メモリに保持されるブックサムネイル数です。</value>
   </data>
   <data name="ParamThumbnailFormat" xml:space="preserve">
     <value>サムネイル画像フォーマット</value>
@@ -4307,7 +4307,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>ページサムネイル容量</value>
   </data>
   <data name="ParamThumbnailPageCapacityTips" xml:space="preserve">
-    <value>ページサムネイルのメモリキャッシュ数です。ブックを閉じると全て破棄されます。</value>
+    <value>メモリに保持されるページサムネイル数です。ブックを閉じると全て破棄されます。</value>
   </data>
   <data name="ParamThumbnailQuality" xml:space="preserve">
     <value>サムネイル品質</value>
@@ -4743,7 +4743,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>次のページ読み込み完了まで現在のページを表示する</value>
   </data>
   <data name="ParamBookIsLoadingPageVisibleTips" xml:space="preserve">
-    <value>OFFにしたほうがメモリ消費が少ないです。</value>
+    <value>OFFにすることでメモリ節約になります。</value>
   </data>
   <data name="SettingPageEnvironmentMemoryAndPerformance" xml:space="preserve">
     <value>メモリとパフォーマンス</value>

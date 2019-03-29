@@ -85,7 +85,7 @@ namespace NeeView
                 if (source == null)
                 {
                     source = PictureSourceFactory.Create(Entry, _pictureInfo, PictureSourceCreateOptions.None, token);
-                    _pictureInfo = source.CreatePictureInfo(token);
+                    _pictureInfo = MemoryControl.Current.RetryFuncWithMemoryCleanup(() =>source.CreatePictureInfo(token));
                     this.PictureSource = source;
 
                     Book.Default?.BookMemoryService.AddPictureSource(this);
@@ -188,7 +188,7 @@ namespace NeeView
             }
             else
             {
-                thumbnailRaw = source.CreateThumbnail(ThumbnailProfile.Current, token);
+                thumbnailRaw = MemoryControl.Current.RetryFuncWithMemoryCleanup(() => source.CreateThumbnail(ThumbnailProfile.Current, token));
             }
 
             token.ThrowIfCancellationRequested();

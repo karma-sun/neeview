@@ -241,7 +241,7 @@ namespace NeeView
         private byte[] CreateThumbnail(ArchiveEntry entry, CancellationToken token)
         {
             var source = PictureSourceFactory.Create(entry, null, PictureSourceCreateOptions.IgnoreCompress, token);
-            return source.CreateThumbnail(ThumbnailProfile.Current, token);
+            return MemoryControl.Current.RetryFuncWithMemoryCleanup(() => source.CreateThumbnail(ThumbnailProfile.Current, token));
         }
 
         public override string ToString()

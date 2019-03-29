@@ -111,7 +111,7 @@ namespace NeeView
         // TODO: 初回作成だが、これでいいのか？
         public void Initialize(CancellationToken token)
         {
-            BitmapSource = PictureSource.CreateBitmapSource(PictureInfo.Size, new BitmapCreateSetting(), token);
+            BitmapSource = MemoryControl.Current.RetryFuncWithMemoryCleanup(() => PictureSource.CreateBitmapSource(PictureInfo.Size, new BitmapCreateSetting(), token));
         }
 
         // リサイズ
@@ -159,6 +159,7 @@ namespace NeeView
             try
             {
                 var bitmap = CreateBitmapSource(size, keepAspectRatio, _cancellationTokenSource.Token);
+
                 if (bitmap == null)
                 {
                     return false;
@@ -178,6 +179,7 @@ namespace NeeView
             return true;
         }
 
+
         private BitmapSource CreateBitmapSource(Size size, bool keepAspectRatio, CancellationToken token)
         {
             token.ThrowIfCancellationRequested();
@@ -194,10 +196,11 @@ namespace NeeView
                 }
             }
 
-            return PictureSource.CreateBitmapSource(size, setting, token);
+            return MemoryControl.Current.RetryFuncWithMemoryCleanup(() => PictureSource.CreateBitmapSource(size, setting, token));
         }
-
 
         #endregion
     }
+
+
 }

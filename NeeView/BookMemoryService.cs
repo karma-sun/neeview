@@ -42,6 +42,15 @@ namespace NeeView
             RaisePropertyChanged("");
         }
 
+        /// <summary>
+        /// OutOfMemory発生時の不活性メモリ開放処理
+        /// </summary>
+        public void CleanupDeep()
+        {
+            _contentPool.Cleanup(0);
+            _pictureSourcePool.Cleanup();
+        }
+
         public void Clear()
         {
             _contentPool.Clear();

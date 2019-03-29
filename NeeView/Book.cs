@@ -965,8 +965,8 @@ namespace NeeView
             using (var loadWaitCancellation = new CancellationTokenSource())
             using (var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token, loadWaitCancellation.Token))
             {
-                // wait load
-                var timeout = BookProfile.Current.CanPrioritizePageMove() ? 100 : Timeout.Infinite;
+                // wait load (max 5sec.)
+                var timeout = BookProfile.Current.CanPrioritizePageMove() ? 100 : 5000;
                 await _jobClient.WaitAsync(viewPages, timeout, linkedTokenSource.Token);
                 loadWaitCancellation.Cancel();
             }

@@ -36,10 +36,9 @@ namespace NeeView
         /// </summary>
         public void SetSize(Size size)
         {
-            this.Size = size;
-
             this.PictureInfo.Size = size;
             this.PictureInfo.OriginalSize = size;
+            this.PictureInfo.BitsPerPixel = 32;
         }
 
         /// <summary>
@@ -49,9 +48,7 @@ namespace NeeView
         {
             if (IsLoaded) return;
 
-            this.PictureInfo.BitsPerPixel = 32;
-
-            this.Size = new Size(704, 396);
+            SetSize(new Size(1920, 1080));
 
             if (!token.IsCancellationRequested)
             {
@@ -59,7 +56,8 @@ namespace NeeView
                 CreateTempFile(true);
 
                 RaiseLoaded();
-                RaiseChanged();
+
+                UpdateDevStatus();
             }
 
             // サムネイル作成

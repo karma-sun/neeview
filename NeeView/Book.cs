@@ -111,9 +111,6 @@ namespace NeeView
         // ソートされた
         public event EventHandler PagesSorted;
 
-        // サムネイル更新
-        public event EventHandler<PageChangedEventArgs> ThumbnailChanged;
-
         // ファイル削除された
         public event EventHandler<PageChangedEventArgs> PageRemoved;
 
@@ -558,12 +555,6 @@ namespace NeeView
                         break;
                 }
             }
-
-            //
-            page.Thumbnail.Changed += (s, e) =>
-            {
-                ThumbnailChanged?.Invoke(this, new PageChangedEventArgs(page));
-            };
 
             return page;
         }
@@ -1448,7 +1439,6 @@ namespace NeeView
                     this.PageRemoved = null;
                     this.PagesSorted = null;
                     this.PageTerminated = null;
-                    this.ThumbnailChanged = null;
                     this.ViewContentsChanged = null;
 
                     _viewPageCollection = new ViewPageCollection();

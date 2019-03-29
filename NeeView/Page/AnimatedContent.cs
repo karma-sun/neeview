@@ -40,7 +40,7 @@ namespace NeeView
             CreateTempFile(true);
 
             RaiseLoaded();
-            RaiseChanged();
+            UpdateDevStatus();
 
             await Task.CompletedTask;
         }

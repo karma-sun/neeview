@@ -26,11 +26,7 @@ namespace NeeView
         /// <summary>
         /// コンテンツサイズは固定
         /// </summary>
-        public override Size Size
-        {
-            get => new Size(512, 512);
-            protected set { }
-        }
+        public override Size Size => new Size(512, 512);
 
 
         /// <summary>

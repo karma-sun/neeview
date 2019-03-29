@@ -22,6 +22,7 @@ namespace NeeView
         // picture source
         public PictureSource PictureSource { get; protected set; }
 
+        // picture info
         public virtual PictureInfo PictureInfo => _pictureInfo;
 
         // picture
@@ -33,11 +34,13 @@ namespace NeeView
         // bitmap color
         public Color Color => PictureInfo != null ? PictureInfo.Color : Colors.Black;
 
+        // content size
+        public override Size Size => PictureInfo != null ? PictureInfo.OriginalSize : SizeExtensions.Zero;
+
         /// <summary>
         /// BitmapSourceがあればコンテンツ有効
         /// </summary>
         public override bool IsLoaded => BitmapSource != null || PageMessage != null;
-
 
         /// <summary>
         /// PictureSourceのロック
@@ -113,10 +116,8 @@ namespace NeeView
             try
             {
                 var source = LoadPictureSource(token);
-
                 var picture = new Picture(source);
                 picture.Initialize(token);
-                this.Size = picture.PictureInfo.Size;
                 return picture;
             }
             catch (OperationCanceledException)
@@ -150,9 +151,8 @@ namespace NeeView
             if (IsLoaded) return;
 
             this.Picture = LoadPicture(Entry, token);
-
             RaiseLoaded();
-            RaiseChanged();
+            UpdateDevStatus();
 
             await Task.CompletedTask;
         }
@@ -163,10 +163,8 @@ namespace NeeView
         public override void UnloadContent()
         {
             this.PageMessage = null;
-
             UnloadPicture();
-
-            RaiseChanged();
+            UpdateDevStatus();
 
             MemoryControl.Current.GarbageCollect();
         }

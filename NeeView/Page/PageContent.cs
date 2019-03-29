@@ -15,7 +15,6 @@ namespace NeeView
 {
     /// <summary>
     /// 情報コンテンツ表示用
-    /// TODO: FilePageContext
     /// </summary>
     public class PageMessage
     {
@@ -41,101 +40,33 @@ namespace NeeView
         [Conditional("DEBUG")]
         private void InitializeDev()
         {
-            Changed += (s, e) => UpdateDebStatus();
-            Thumbnail.Changed += (s, e) => UpdateDebStatus();
+            Thumbnail.Changed += (s, e) => UpdateDevStatus();
         }
 
-        private void UpdateDebStatus()
+        [Conditional("DEBUG")]
+        protected void UpdateDevStatus()
         {
             DevStatus = (Thumbnail.IsValid ? "T" : "") + (IsLoaded ? "C" : "");
         }
 
-        /// <summary>
-        /// DevStatus property.
-        /// </summary>
-        private string _DevStatus;
+        private string _devStatus;
         public string DevStatus
         {
-            get { return _DevStatus; }
-            set { if (_DevStatus != value) { _DevStatus = value; RaisePropertyChanged(); } }
+            get { return _devStatus; }
+            set { if (_devStatus != value) { _devStatus = value; RaisePropertyChanged(); } }
         }
 
         #endregion
 
-        /// <summary>
-        /// コンテンツ変更イベント
-        /// </summary>
-        public event EventHandler Changed;
+        #region Fields
 
-        protected void RaiseChanged()
-        {
-            Changed?.Invoke(this, null);
-        }
-
-        /// <summary>
-        /// コンテンツ準備完了イベント
-        /// </summary>
-        public event EventHandler Loaded;
-
-        protected void RaiseLoaded()
-        {
-            Loaded?.Invoke(this, null);
-        }
-
-        /// <summary>
-        /// アーカイブエントリー
-        /// </summary>
         private ArchiveEntry _entry;
-        public virtual ArchiveEntry Entry
-        {
-            get { return _entry; }
-            protected set { if (_entry != value) { _entry = value; RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
-        /// コンテンツサイズ
-        /// </summary>
-        public virtual Size Size { get; protected set; } // = new Size(480, 680);
-
-
-        /// <summary>
-        /// 情報表示用
-        /// </summary>
-        public PageMessage PageMessage { get; protected set; }
-
-        /// <summary>
-        /// サムネイル
-        /// </summary>
-        public Thumbnail Thumbnail { get; protected set; } = new Thumbnail();
-
-
-        /// <summary>
-        /// IsLoaded property.
-        /// </summary>
-        public virtual bool IsLoaded => true;
-
-        /// <summary>
-        /// アニメーション？
-        /// </summary>
-        public bool IsAnimated { get; protected set; }
-
-        /// <summary>
-        /// プロパティ
-        /// </summary>
         private PageContentState _state;
-        public PageContentState State
-        {
-            get => _state;
-            set => SetProperty(ref _state, value);
-        }
 
-        public bool IsContentLocked => _state != PageContentState.None;
+        #endregion Fields
 
+        #region Constructors
 
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="entry"></param>
         public PageContent(ArchiveEntry entry)
         {
             _entry = entry;
@@ -144,6 +75,65 @@ namespace NeeView
             InitializeDev();
         }
 
+        #endregion Constructors
+
+        #region Events
+
+        /// <summary>
+        /// コンテンツ準備完了イベント
+        /// </summary>
+        public event EventHandler Loaded;
+
+        #endregion Events
+        
+        #region Properties
+
+        public virtual ArchiveEntry Entry
+        {
+            get { return _entry; }
+            protected set { SetProperty(ref _entry, value); }
+        }
+
+        /// <summary>
+        /// コンテンツサイズ
+        /// </summary>
+        public virtual Size Size => SizeExtensions.Zero;
+
+        /// <summary>
+        /// 情報表示用
+        /// </summary>
+        public PageMessage PageMessage { get; protected set; }
+
+        public Thumbnail Thumbnail { get; protected set; } = new Thumbnail();
+
+        public virtual bool IsLoaded => true;
+
+        public bool IsAnimated { get; protected set; }
+
+        public PageContentState State
+        {
+            get => _state;
+            set => SetProperty(ref _state, value);
+        }
+
+        public bool IsContentLocked => _state != PageContentState.None;
+
+        /// <summary>
+        /// テンポラリファイル
+        /// </summary>
+        public FileProxy FileProxy { get; private set; }
+
+        #endregion Properties
+
+        #region Methods
+
+        /// <summary>
+        /// Load完了イベント発行
+        /// </summary>
+        protected void RaiseLoaded()
+        {
+            Loaded?.Invoke(this, null);
+        }
 
         /// <summary>
         /// 使用メモリサイズ (Picture)
@@ -171,8 +161,8 @@ namespace NeeView
         }
 
         /// <summary>
-        /// エントリ初期化。
-        /// 未定義の場合に生成する
+        /// エントリ初期化。未定義の場合に生成する
+        /// TODO: ArchiveContentでしか使用されない特殊処理。もっと一般化できないか。
         /// </summary>
         public virtual async Task InitializeEntryAsync(CancellationToken token)
         {
@@ -184,24 +174,16 @@ namespace NeeView
         /// </summary>
         public virtual void InitializeThumbnail()
         {
-            // 識別名設定
             Thumbnail.Initialize(Entry, null);
         }
 
         /// <summary>
         /// サムネイルロード
         /// </summary>
-        /// <param name="token"></param>
-        /// <returns></returns>
         public virtual async Task LoadThumbnailAsync(CancellationToken token)
         {
             await Task.CompletedTask;
         }
-
-        /// <summary>
-        /// テンポラリファイル
-        /// </summary>
-        public FileProxy FileProxy { get; private set; }
 
         /// <summary>
         /// テンポラリファイルの作成
@@ -219,6 +201,8 @@ namespace NeeView
             return _entry.EntryLastName ?? base.ToString();
         }
 
+        #endregion
+
         #region IDisposable Support
         private bool _disposedValue = false;
 
@@ -228,7 +212,6 @@ namespace NeeView
             {
                 if (disposing)
                 {
-                    Changed = null;
                     Loaded = null;
                     State = PageContentState.None;
                     FileProxy = null;

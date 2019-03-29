@@ -9228,7 +9228,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Once the page has been read, it is stored in memory to speed up redisplay. Note that too large a value can make the system unstable. に類似しているローカライズされた文字列を検索します。
+        ///   Once the page has been read, it is stored in memory to speed up redisplay. This value is a guideline, and memory may be used beyond this value. Note that too large a value can make the system unstable. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamCacheMemorySizeTips {
             get {

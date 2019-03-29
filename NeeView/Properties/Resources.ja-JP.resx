@@ -4728,7 +4728,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>ブックのキャッシュメモリサイズ(MB)</value>
   </data>
   <data name="ParamCacheMemorySizeTips" xml:space="preserve">
-    <value>一度読み込んだページをメモリに保持して再表示時を高速化します。大きすぎる値はシステムを不安定にする可能性があるので注意してください。</value>
+    <value>一度読み込んだページをメモリに保持して再表示時を高速化します。この値は目安であり、この値を超えてメモリが使用されることがあります。大きすぎる値はシステムを不安定にする可能性があるので注意してください。</value>
   </data>
   <data name="ParamPreLoadSize" xml:space="preserve">
     <value>先読みページ数</value>

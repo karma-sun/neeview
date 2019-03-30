@@ -316,6 +316,12 @@ namespace NeeView
             _jobClient.Order(pages.ToList());
         }
 
+        // サムネイル要求解除
+        public void CancelThumbnailRequest()
+        {
+            _jobClient.CancelOrder();
+        }
+
         /// <summary>
         ///  タッチスクロール終端挙動汎用
         /// </summary>

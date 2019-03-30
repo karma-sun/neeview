@@ -52,6 +52,11 @@ namespace NeeView
             _model.RequestThumbnail(start, count, margin, direction);
         }
 
+        public void CancelThumbnailRequest()
+        {
+            _model.CancelThumbnailRequest();
+        }
+
         internal void FlushSelectedIndex()
         {
             _model.FlushSelectedIndex();

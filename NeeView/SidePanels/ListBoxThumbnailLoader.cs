@@ -34,6 +34,10 @@ namespace NeeView
             {
                 Load();
             }
+            else
+            {
+                Unload();
+            }
         }
 
         private void ListBox_Loaded(object sender, RoutedEventArgs e)
@@ -53,6 +57,11 @@ namespace NeeView
                 return;
             }
 
+            if (!_panel.PageCollectionListBox.IsVisible)
+            {
+                return;
+            }
+
             var virtualizingPanel = VisualTreeUtility.FindVisualChild<VirtualizingPanel>(_panel.PageCollectionListBox);
             if (virtualizingPanel == null)
             {
@@ -64,6 +73,11 @@ namespace NeeView
 
             var pages = items.Select(e => e.GetPage()).ToList();
             _jobClient?.Order(pages);
+        }
+
+        public void Unload()
+        {
+            _jobClient?.CancelOrder();
         }
     }
 }

@@ -90,19 +90,7 @@ namespace NeeView
             };
         }
 
-        private void VirtualCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            var pages = _virtualCollection.Items
-                .Cast<Pagemark>()
-                .Select(a => a.GetPage())
-                .ToList();
-
-            ////Debug.WriteLine($"Pagemark.Thumbnail: " + string.Join(",", pages.Select(a => a.ToString())));
-            _jobClient.Order(pages);
-        }
-
         #endregion
-
 
         // Properties
 
@@ -145,6 +133,29 @@ namespace NeeView
         #endregion
 
         #region Methods
+
+
+        private void VirtualCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            RequestLoadThumbnail();
+        }
+
+        private void RequestLoadThumbnail()
+        {
+            var pages = _virtualCollection.Items
+                .Cast<Pagemark>()
+                .Select(a => a.GetPage())
+                .ToList();
+
+            ////Debug.WriteLine($"Pagemark.Thumbnail: " + string.Join(",", pages.Select(a => a.ToString())));
+            _jobClient.Order(pages);
+        }
+
+        private void CancelLoadTumbnail()
+        {
+            _jobClient.CancelOrder();
+        }
+
 
         private void Rename(TreeListNode<IPagemarkEntry> item)
         {
@@ -305,6 +316,10 @@ namespace NeeView
                 await Task.Yield();
                 ScrollIntoView();
                 this.TreeView.Focus();
+            }
+            else
+            {
+                CancelLoadTumbnail();
             }
         }
 

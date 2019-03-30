@@ -247,8 +247,12 @@ namespace NeeView
         {
             if (_vm == null) return;
             if (_isFreezed) return;
-            if (!this.Root.IsVisible) return;
-            if (_listPanel == null || !this.ThumbnailListBox.IsVisible || _listPanel.Children.Count <= 0) return;
+
+            if (!this.Root.IsVisible || !this.ThumbnailListBox.IsVisible || _listPanel == null || _listPanel.Children.Count <= 0)
+            {
+                _vm.CancelThumbnailRequest();
+                return;
+            }
 
             var scrollUnit = VirtualizingStackPanel.GetScrollUnit(this.ThumbnailListBox);
 
@@ -367,7 +371,7 @@ namespace NeeView
 
         private void ThumbnailListBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            if (!(bool)e.NewValue) return;
+            ////if (!(bool)e.NewValue) return;
             LoadThumbnailList(+1);
         }
 

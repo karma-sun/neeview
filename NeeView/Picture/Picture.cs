@@ -107,18 +107,12 @@ namespace NeeView
             }
         }
 
-        // 初期化
-        // TODO: 初回作成だが、これでいいのか？
-        public void Initialize(CancellationToken token)
+        /// <summary>
+        /// BitmapSource生成。
+        /// サイズを指定し、必要であれば作り直す。不要であればなにもしない。
+        /// </summary>
+        public BitmapSource CreateBitmapSource(Size size, CancellationToken token)
         {
-            BitmapSource = MemoryControl.Current.RetryFuncWithMemoryCleanup(() => PictureSource.CreateBitmapSource(PictureInfo.Size, new BitmapCreateSetting(), token));
-        }
-
-        // リサイズ
-        public bool Resize(Size size)
-        {
-            if (this.BitmapSource == null) return false;
-
             size = size.IsEmpty ? this.PictureInfo.Size : size;
 
             // TODO: PictureSourceレベルで処理
@@ -146,23 +140,21 @@ namespace NeeView
 
             int filterHashCode = GetEnvironmentoHashCode();
             bool isDartyResizeParameter = _resizeHashCode != filterHashCode;
-            if (!isDartyResizeParameter && IsEqualBitmapSizeMaybe(size, keepAspectRatio)) return false;
+            if (!isDartyResizeParameter && IsEqualBitmapSizeMaybe(size, keepAspectRatio))
+            {
+                return this.BitmapSource;
+            }
 
             ////var nowSize = new Size(this.BitmapSource.PixelWidth, this.BitmapSource.PixelHeight);
             ////Debug.WriteLine($"Resize: {isDartyResizeParameter}: {nowSize.Truncate()} -> {size.Truncate()}");
 
-            if (_cancellationTokenSource.IsCancellationRequested)
-            {
-                return false;
-            }
-
+            var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(_cancellationTokenSource.Token, token);
             try
             {
-                var bitmap = CreateBitmapSource(size, keepAspectRatio, _cancellationTokenSource.Token);
-
+                var bitmap = CreateBitmapSource(size, keepAspectRatio, linkedTokenSource.Token);
                 if (bitmap == null)
                 {
-                    return false;
+                    return this.BitmapSource;
                 }
 
                 lock (_lock)
@@ -171,14 +163,13 @@ namespace NeeView
                     this.BitmapSource = bitmap;
                 }
             }
-            catch (OperationCanceledException)
+            finally
             {
-                return false;
+                linkedTokenSource.Dispose();
             }
 
-            return true;
+            return this.BitmapSource;
         }
-
 
         private BitmapSource CreateBitmapSource(Size size, bool keepAspectRatio, CancellationToken token)
         {

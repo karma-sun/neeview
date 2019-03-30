@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
@@ -356,14 +357,21 @@ namespace NeeView
                 }
                 ////Debug.WriteLine($"{i}: {size0} => {size1.Truncate()}");
 
-                var content = source.ViewPageCollection.Collection[i].Content;
-                if (content is PdfContetnt pdfContent)
+                try
                 {
-                    pdfContent.Picture?.Resize(size1);
+                    var content = source.ViewPageCollection.Collection[i].Content;
+                    if (content is PdfContetnt pdfContent)
+                    {
+                        pdfContent.Picture?.CreateBitmapSource(size1, CancellationToken.None);
+                    }
+                    else if (content is BitmapContent bitmapContent && !content.IsAnimated && PictureProfile.Current.IsResizeFilterEnabled)
+                    {
+                        bitmapContent.Picture?.CreateBitmapSource(size1, CancellationToken.None);
+                    }
                 }
-                else if (content is BitmapContent bitmapContent && !content.IsAnimated && PictureProfile.Current.IsResizeFilterEnabled)
+                catch(Exception ex)
                 {
-                    bitmapContent.Picture?.Resize(size1);
+                    Debug.WriteLine("OnNextContentChanged: " + ex.Message);
                 }
             }
         }

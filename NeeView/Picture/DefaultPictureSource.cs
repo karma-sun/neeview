@@ -216,7 +216,7 @@ namespace NeeView
             Size size;
             if (PictureInfo != null)
             {
-                size = PictureInfo.OriginalSize;
+                size = PictureInfo.Size;
             }
             else
             {

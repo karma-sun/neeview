@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -197,7 +198,7 @@ namespace NeeView
                 try
                 {
                     var picture = ((BitmapContent)this.Content)?.Picture;
-                    picture?.Resize(size);
+                    picture?.CreateBitmapSource(size, CancellationToken.None);
 
                     AppDispatcher.Invoke(() =>
                     {

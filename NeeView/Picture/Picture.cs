@@ -111,7 +111,7 @@ namespace NeeView
         /// BitmapSource生成。
         /// サイズを指定し、必要であれば作り直す。不要であればなにもしない。
         /// </summary>
-        public BitmapSource CreateBitmapSource(Size size, CancellationToken token)
+        public bool CreateBitmapSource(Size size, CancellationToken token)
         {
             size = size.IsEmpty ? this.PictureInfo.Size : size;
 
@@ -142,11 +142,14 @@ namespace NeeView
             bool isDartyResizeParameter = _resizeHashCode != filterHashCode;
             if (!isDartyResizeParameter && IsEqualBitmapSizeMaybe(size, keepAspectRatio))
             {
-                return this.BitmapSource;
+                return false;
             }
 
             ////var nowSize = new Size(this.BitmapSource.PixelWidth, this.BitmapSource.PixelHeight);
             ////Debug.WriteLine($"Resize: {isDartyResizeParameter}: {nowSize.Truncate()} -> {size.Truncate()}");
+
+
+            ////Debug.WriteLine($"BMP: {this.PictureInfo.Size} -> {size}");
 
             var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(_cancellationTokenSource.Token, token);
             try
@@ -154,7 +157,7 @@ namespace NeeView
                 var bitmap = CreateBitmapSource(size, keepAspectRatio, linkedTokenSource.Token);
                 if (bitmap == null)
                 {
-                    return this.BitmapSource;
+                    return false;
                 }
 
                 lock (_lock)
@@ -168,7 +171,7 @@ namespace NeeView
                 linkedTokenSource.Dispose();
             }
 
-            return this.BitmapSource;
+            return true;
         }
 
         private BitmapSource CreateBitmapSource(Size size, bool keepAspectRatio, CancellationToken token)

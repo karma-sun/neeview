@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NeeView
 {
@@ -26,7 +27,7 @@ namespace NeeView
             this.Direction = direction;
 
             var last = new PagePosition(position.Index + direction * (pageSize - 1), direction > 0 ? 1 : 0);
-            this.PartSize = Math.Abs(last.Value - position.Value) + 1; 
+            this.PartSize = Math.Abs(last.Value - position.Value) + 1;
         }
 
         public PageDirectionalRange(PagePosition p0, PagePosition p1)
@@ -34,6 +35,19 @@ namespace NeeView
             this.Position = p0;
             this.Direction = p1 < p0 ? -1 : 1;
             this.PartSize = Math.Abs(p1.Value - p0.Value) + 1;
+        }
+
+        public PageDirectionalRange(IEnumerable<PagePosition> positions, int direction)
+        {
+            if (positions == null) throw new ArgumentNullException(nameof(positions));
+            if (direction != 1 && direction != -1) throw new ArgumentOutOfRangeException(nameof(direction));
+
+            var min = positions.Min();
+            var max = positions.Max();
+
+            this.Position = (direction > 0) ? min : max;
+            this.Direction = direction;
+            this.PartSize = Math.Abs(max.Value - min.Value) + 1;
         }
 
         public PageDirectionalRange(IEnumerable<PagePart> parts, int direction)
@@ -76,6 +90,8 @@ namespace NeeView
 
         #region Properties
 
+        public static PageDirectionalRange Empty = new PageDirectionalRange(PagePosition.Empty, PagePosition.Empty);
+
         /// <summary>
         /// 範囲開始
         /// </summary>
@@ -102,7 +118,7 @@ namespace NeeView
         /// <summary>
         /// ページサイズ
         /// </summary>
-        public int PageSize => Position.Index - Last.Index + 1; // 未使用？
+        public int PageSize => Math.Abs(Position.Index - Last.Index) + 1;
 
         #endregion
 
@@ -115,6 +131,12 @@ namespace NeeView
         }
 
         //
+        public bool IsEmpty()
+        {
+            return Position.IsEmpty();
+        }
+
+        //
         public bool IsContains(PagePosition position)
         {
             if (this.Direction > 0)
@@ -124,6 +146,19 @@ namespace NeeView
             else
             {
                 return this.Last <= position && position <= this.Position;
+            }
+        }
+
+        //
+        public PageDirectionalRange Add(PagePosition position)
+        {
+            if (IsContains(position))
+            {
+                return this;
+            }
+            else
+            {
+                return new PageDirectionalRange(new List<PagePosition>() { Position, Last, position }, Direction);
             }
         }
 
@@ -159,7 +194,7 @@ namespace NeeView
                 return position;
             }
         }
-        
+
         #endregion
     }
 }

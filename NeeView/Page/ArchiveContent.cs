@@ -18,20 +18,8 @@ namespace NeeView
     {
         private string _path;
 
-        /// <summary>
-        /// コンテンツ有効フラグはサムネイルの存在で判定
-        /// </summary>
-        public override bool IsLoaded => Thumbnail.IsValid;
+        #region Constructors
 
-        /// <summary>
-        /// コンテンツサイズは固定
-        /// </summary>
-        public override Size Size => new Size(512, 512);
-
-
-        /// <summary>
-        /// コンスラクタ
-        /// </summary>
         /// <param name="entry">対象アーカイブもしくはファイルのエントリ</param>
         public ArchiveContent(ArchiveEntry entry) : base(entry)
         {
@@ -44,10 +32,6 @@ namespace NeeView
             }
         }
 
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="path"></param>
         public ArchiveContent(string path) : base(null)
         {
             _path = path;
@@ -58,6 +42,20 @@ namespace NeeView
                 Message = "For thumbnail creation only",
             };
         }
+
+        #endregion
+
+        /// <summary>
+        /// コンテンツ有効フラグはサムネイルの存在で判定
+        /// </summary>
+        public override bool IsLoaded => Thumbnail.IsValid;
+
+        /// <summary>
+        /// コンテンツサイズは固定
+        /// </summary>
+        public override Size Size => new Size(512, 512);
+
+        public override bool CanResize => false;
 
 
         /// <summary>

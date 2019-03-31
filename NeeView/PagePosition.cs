@@ -10,29 +10,11 @@ namespace NeeView
     /// ページの場所を表す構造体。
     /// ページ番号と、部分を示すパーツ番号で構成されています。
     /// </summary>
-    public struct PagePosition
+    public struct PagePosition : IComparable<PagePosition>
     {
         #region Fields
 
         private readonly int _value;
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// ページの場所(0,0)
-        /// </summary>
-        public static PagePosition Zero { get; } = new PagePosition(0);
-
-        //
-        public int Value => _value;
-
-        // ページ番号
-        public int Index => _value / 2;
-
-        // パーツ番号
-        public int Part => _value % 2;
 
         #endregion
 
@@ -49,6 +31,30 @@ namespace NeeView
         }
 
         #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// ページの場所(0,0)
+        /// </summary>
+        public static PagePosition Zero { get; } = new PagePosition(0);
+
+        /// <summary>
+        /// ページの場所：無効
+        /// </summary>
+        public static PagePosition Empty { get; } = new PagePosition(-1);
+
+        //
+        public int Value => _value;
+
+        // ページ番号
+        public int Index => _value / 2;
+
+        // パーツ番号
+        public int Part => _value % 2;
+
+        #endregion
+
 
         #region Methods
 
@@ -70,6 +76,10 @@ namespace NeeView
             return new PagePosition(value);
         }
 
+        public bool IsEmpty()
+        {
+            return _value == -1;
+        }
 
         // add
         public static PagePosition operator +(PagePosition a, PagePosition b)
@@ -103,6 +113,11 @@ namespace NeeView
         public override int GetHashCode()
         {
             return _value;
+        }
+
+        public int CompareTo(PagePosition other)
+        {
+            return _value - other._value;
         }
 
         public static bool operator ==(PagePosition a, PagePosition b)

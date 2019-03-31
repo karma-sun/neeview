@@ -49,6 +49,12 @@ namespace NeeView
             RaisePropertyChanged(name);
         }
 
+        [Conditional("DEBUG")]
+        public void DebugRaiseContentPropertyChanged()
+        {
+            RaisePropertyChangedDebug(nameof(Content));
+        }
+
         // 開発用メッセージ
         #region Property: Message
         private string _message;

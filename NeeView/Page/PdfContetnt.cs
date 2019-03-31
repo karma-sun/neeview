@@ -1,4 +1,6 @@
-﻿namespace NeeView
+﻿using System.Windows;
+
+namespace NeeView
 {
     /// <summary>
     /// PDFページコンテンツ
@@ -8,6 +10,13 @@
     {
         public PdfContetnt(ArchiveEntry entry) : base(entry)
         {
+        }
+
+        public override bool CanResize => true;
+
+        public override Size GetRenderSize(Size size)
+        {
+            return size;
         }
     }
 }

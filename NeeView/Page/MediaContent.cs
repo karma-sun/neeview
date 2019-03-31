@@ -18,16 +18,15 @@ namespace NeeView
     /// </summary>
     public class MediaContent : BitmapContent
     {
-        public override bool IsLoaded => FileProxy != null;
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
         public MediaContent(ArchiveEntry entry) : base(entry)
         {
             IsAnimated = true;
             PictureInfo = new PictureInfo(entry);
         }
+
+        public override bool IsLoaded => FileProxy != null;
+
+        public override bool CanResize => false;
 
         public override PictureInfo PictureInfo { get; }
 

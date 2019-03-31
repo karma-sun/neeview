@@ -118,6 +118,8 @@ namespace NeeView
 
         public bool IsContentLocked => _state != PageContentState.None;
 
+        public virtual bool CanResize => false;
+
         /// <summary>
         /// テンポラリファイル
         /// </summary>

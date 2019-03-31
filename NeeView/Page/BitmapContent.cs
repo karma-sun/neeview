@@ -19,6 +19,12 @@ namespace NeeView
         private PictureInfo _pictureInfo;
         private object _lock = new object();
 
+
+        public BitmapContent(ArchiveEntry entry) : base(entry)
+        {
+        }
+
+
         // picture source
         public PictureSource PictureSource { get; protected set; }
 
@@ -47,13 +53,12 @@ namespace NeeView
         /// </summary>
         public bool IsPictureSourceLocked => State != PageContentState.None;
 
+        public override bool CanResize => true;
 
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="entry"></param>
-        public BitmapContent(ArchiveEntry entry) : base(entry)
+
+        public virtual Size GetRenderSize(Size size)
         {
+            return CanResize &&  PictureProfile.Current.IsResizeFilterEnabled ? size : Size.Empty;
         }
 
         /// <summary>
@@ -105,7 +110,6 @@ namespace NeeView
                 PictureSource = null;
             }
         }
-
 
 
         /// <summary>

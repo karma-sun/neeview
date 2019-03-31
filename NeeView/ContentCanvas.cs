@@ -360,13 +360,13 @@ namespace NeeView
                 try
                 {
                     var content = source.ViewPageCollection.Collection[i].Content;
-                    if (content is PdfContetnt pdfContent)
+                    if (content.CanResize && content is BitmapContent bitmapContent)
                     {
-                        pdfContent.Picture?.CreateBitmapSource(size1, CancellationToken.None);
-                    }
-                    else if (content is BitmapContent bitmapContent && !content.IsAnimated && PictureProfile.Current.IsResizeFilterEnabled)
-                    {
-                        bitmapContent.Picture?.CreateBitmapSource(size1, CancellationToken.None);
+                        var resized = bitmapContent.Picture?.CreateBitmapSource(bitmapContent.GetRenderSize(size1), CancellationToken.None);
+                        if (resized == true)
+                        {
+                            source.ViewPageCollection.Collection[i].Page.DebugRaiseContentPropertyChanged();
+                        }
                     }
                 }
                 catch(Exception ex)
@@ -508,7 +508,7 @@ namespace NeeView
         }
 
 
-        #region スケールモード
+#region スケールモード
 
         // トグル
         public PageStretchMode GetToggleStretchMode(ToggleStretchModeCommandParameter param)
@@ -570,9 +570,9 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
-        #region 回転コマンド
+#region 回転コマンド
 
         //
         public bool ToggleAutoRotate()
@@ -606,9 +606,9 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
-        #region クリップボード関連
+#region クリップボード関連
 
         //
         private BitmapSource CurrentBitmapSource
@@ -638,9 +638,9 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
-        #region 印刷
+#region 印刷
 
         /// <summary>
         /// 印刷可能判定
@@ -716,11 +716,11 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
 
-        #endregion
+#endregion
 
-        #region IDisposable Support
+#region IDisposable Support
 
         private bool _disposedValue = false;
 
@@ -748,10 +748,10 @@ namespace NeeView
             Dispose(true);
         }
 
-        #endregion
+#endregion
 
 
-        #region Memento
+#region Memento
         [DataContract]
         public class Memento
         {
@@ -793,6 +793,6 @@ namespace NeeView
             //UpdateContentSize(); // 不要？
         }
 
-        #endregion
+#endregion
     }
 }

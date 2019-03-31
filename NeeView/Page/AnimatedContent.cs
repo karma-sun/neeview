@@ -12,16 +12,16 @@ namespace NeeView
     /// </summary>
     public class AnimatedContent : BitmapContent
     {
-        public override bool IsLoaded => FileProxy != null;
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="entry"></param>
         public AnimatedContent(ArchiveEntry entry) : base(entry)
         {
             IsAnimated = true;
         }
+
+
+        public override bool IsLoaded => FileProxy != null;
+
+        public override bool CanResize => false;
+
 
         /// <summary>
         /// コンテンツロード.

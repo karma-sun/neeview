@@ -75,6 +75,9 @@ namespace NeeView
         // 先読み
         private BookAhead _ahead;
 
+
+        private object _lock = new object();
+
         #endregion
 
         #region Constructors
@@ -926,8 +929,11 @@ namespace NeeView
                 return;
             }
 
-            // 先読みページコンテンツ無効
-            _nextPageCollection = new ViewPageCollection();
+            lock (_lock)
+            {
+                // 先読みページコンテンツ無効
+                _nextPageCollection = new ViewPageCollection();
+            }
 
             // view pages
             var viewPages = new List<Page>();
@@ -942,7 +948,9 @@ namespace NeeView
 
             // pre load
             _ahead.Clear();
-            var aheadPages = CollectPreLoadPages(source, viewPages);
+            CancelUpdateViewContents();
+            _aheadPageRange = CreateAheadPageRange(source);
+            var aheadPages = CreatePagesFromRange(_aheadPageRange, viewPages);
 
             var loadPages = viewPages.Concat(aheadPages).Distinct().ToList();
 
@@ -980,7 +988,7 @@ namespace NeeView
             _viewPageSender = sender;
             _viewPageRange = source;
             UpdateViewContents();
-            UpdateNextContents();
+            RunUpdateViewContents();
         }
 
 
@@ -1012,7 +1020,7 @@ namespace NeeView
                 UpdateViewContents();
             }
 
-            UpdateNextContents();
+            RunUpdateViewContents();
         }
 
         /// <summary>
@@ -1020,24 +1028,34 @@ namespace NeeView
         /// </summary>
         public void UpdateViewContents()
         {
-            if (_disposedValue) return;
+            if (_disposedValue)
+            {
+                return;
+            }
 
-            // update contents
-            var sender = _viewPageSender;
-            var viewContent = CreateViewPageContext(_viewPageRange);
-            if (viewContent == null) return;
+            lock (_lock)
+            {
+                // update contents
+                var sender = _viewPageSender;
+                var viewContent = CreateViewPageContext(_viewPageRange);
+                if (viewContent == null)
+                {
+                    return;
+                }
 
-            _viewPageCollection = viewContent;
-            ////Debug.WriteLine($"now: {_viewPageCollection.Range}");
+                _viewPageCollection = viewContent;
+                _nextPageCollection = viewContent;
+                ////Debug.WriteLine($"now: {_viewPageCollection.Range}");
 
-            // change page
-            this.DisplayIndex = viewContent.Range.Min.Index;
+                // change page
+                this.DisplayIndex = viewContent.Range.Min.Index;
 
-            // notice ViewContentsChanged
-            AppDispatcher.Invoke(() => ViewContentsChanged?.Invoke(sender, new ViewPageCollectionChangedEventArgs(viewContent)));
+                // notice ViewContentsChanged
+                AppDispatcher.Invoke(() => ViewContentsChanged?.Invoke(sender, new ViewPageCollectionChangedEventArgs(viewContent)));
 
-            // コンテンツ準備完了
-            ContentLoaded.Set();
+                // コンテンツ準備完了
+                ContentLoaded.Set();
+            }
         }
 
         /// <summary>
@@ -1061,33 +1079,108 @@ namespace NeeView
             _viewPages = viewPages.ToList();
         }
 
-        /// <summary>
-        /// 先読みコンテンツ更新
-        /// </summary>
-        public void UpdateNextContents()
-        {
-            if (_disposedValue) return;
 
-            // 表示コンテンツ確定？
+        #region 先読みコンテンツ更新
+
+        private PageDirectionalRange _aheadPageRange;
+        private CancellationTokenSource _aheadCancellationTokenSource;
+        private Task _aheadTask;
+
+        public void CancelUpdateViewContents()
+        {
+            if (_aheadTask != null)
+            {
+                Debug.WriteLine($"> CancelUpdateViewContents");
+                _aheadCancellationTokenSource?.Cancel();
+                _aheadTask = null;
+            }
+        }
+
+        public void RunUpdateViewContents()
+        {
+            if (_aheadTask != null && !_aheadTask.IsCompleted)
+            {
+                Debug.WriteLine($"> RunUpdateViewContents: skip.");
+                return;
+            }
+
+            Debug.WriteLine($"> RunUpdateViewContents: run...");
+            _aheadCancellationTokenSource?.Cancel();
+            _aheadCancellationTokenSource = new CancellationTokenSource();
+            var token = _aheadCancellationTokenSource.Token;
+            _aheadTask = Task.Run(() =>
+            {
+                try
+                {
+                    UpdateNextContents(token);
+                    Debug.WriteLine($"> RunUpdateViewContents: done.");
+                }
+                catch (OperationCanceledException)
+                {
+                    Debug.WriteLine($"> RunUpdateViewContents: canceled.");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine($"> RunUpdateViewContents: {ex.Message}");
+                }
+            },
+            token);
+        }
+
+        private void UpdateNextContents(CancellationToken token)
+        {
+            // 表示コンテンツ未確定であれば処理しない
             if (!_viewPageCollection.IsValid) return;
 
-            // 既に先読みコンテンツは確定している？
-            if (_nextPageCollection.IsValid) return;
+            int turn = 0;
+            RETRY:
+
+            if (_disposedValue) return;
+            if (token.IsCancellationRequested) return;
+
+            ViewPageCollection next;
+            lock (_lock)
+            {
+                next = CreateNextPageCollection(_nextPageCollection);
+
+                var range = _aheadPageRange.Add(_viewPageCollection.Range.Position);
+                if (next.IsValid && range.IsContains(new PagePosition(next.Range.Position.Index, 0)))
+                {
+                    _nextPageCollection = next;
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            Debug.WriteLine($"next({turn++}): {next.Range}");
+            NextContentsChanged?.Invoke(this, new ViewPageCollectionChangedEventArgs(next));
+
+            ////Thread.Sleep(1000); // ##
+
+            goto RETRY;
+        }
+
+        private ViewPageCollection CreateNextPageCollection(ViewPageCollection previous)
+        {
+            if (!previous.IsValid)
+            {
+                return new ViewPageCollection();
+            }
 
             // 先読みコンテンツ領域計算
-            var position = _viewPageCollection.Range.Next();
-            var direction = _viewPageCollection.Range.Direction;
+            var position = previous.Range.Next();
+            var direction = previous.Range.Direction;
             var range = new PageDirectionalRange(position, direction, PageMode.Size());
 
             // create contents
             var next = CreateViewPageContext(range);
-            _nextPageCollection = next;
-            if (next == null) return;
-            if (!next.IsValid) return;
-
-            ////Debug.WriteLine($"next: {next.Range}");
-            NextContentsChanged?.Invoke(this, new ViewPageCollectionChangedEventArgs(next));
+            return next;
         }
+
+        #endregion 先読みコンテンツ更新
+
 
         // ページのワイド判定
         private bool IsWide(Page page)
@@ -1191,15 +1284,39 @@ namespace NeeView
             return context;
         }
 
-        // 先読みページ収集
-        private List<Page> CollectPreLoadPages(PageDirectionalRange source, List<Page> excepts)
+        /// <summary>
+        /// 先読みページ範囲を求める
+        /// </summary>
+        private PageDirectionalRange CreateAheadPageRange(PageDirectionalRange source)
         {
-            if (!AllowPreLoad()) return new List<Page>();
+            if (!AllowPreLoad() || BookProfile.Current.PreLoadSize < 1)
+            {
+                return PageDirectionalRange.Empty;
+            }
 
             int index = source.Next().Index;
+            var pos0 = new PagePosition(index, 0);
+            var pos1 = new PagePosition(ClampPageNumber(index + (BookProfile.Current.PreLoadSize - 1) * source.Direction), 0);
+            var range = IsValidPosition(pos0) ? new PageDirectionalRange(pos0, pos1) : PageDirectionalRange.Empty;
 
-            return Enumerable.Range(0, BookProfile.Current.PreLoadSize)
-                .Select(e => index + e * source.Direction)
+            return range;
+        }
+
+        /// <summary>
+        /// ページ範囲からページ列を生成
+        /// </summary>
+        /// <param name="range"></param>
+        /// <param name="excepts">除外するページ</param>
+        /// <returns></returns>
+        private List<Page> CreatePagesFromRange(PageDirectionalRange range, List<Page> excepts)
+        {
+            if (range.IsEmpty())
+            {
+                return new List<Page>();
+            }
+
+            return Enumerable.Range(0, range.PageSize)
+                .Select(e => range.Position.Index + e * range.Direction)
                 .Where(e => 0 <= e && e < Pages.Count)
                 .Select(e => Pages[e])
                 .Except(excepts)
@@ -1444,6 +1561,7 @@ namespace NeeView
                     _viewPageCollection = new ViewPageCollection();
 
                     _ahead.Dispose();
+                    CancelUpdateViewContents();
 
                     if (Pages != null)
                     {

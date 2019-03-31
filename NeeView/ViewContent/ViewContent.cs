@@ -241,9 +241,9 @@ namespace NeeView
         /// <param name="viewScale"></param>
         public virtual void SetViewMode(ContentViewMode mode, double viewScale) { }
 
-#endregion
+        #endregion
 
-#region IDisposable Support
+        #region IDisposable Support
 
         private bool _disposedValue = false;
 
@@ -264,7 +264,7 @@ namespace NeeView
             Dispose(true);
         }
 
-#endregion
+        #endregion
     }
 
     /// <summary>

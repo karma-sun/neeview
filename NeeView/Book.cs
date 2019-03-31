@@ -929,12 +929,6 @@ namespace NeeView
                 return;
             }
 
-            lock (_lock)
-            {
-                // 先読みページコンテンツ無効
-                _nextPageCollection = new ViewPageCollection();
-            }
-
             // view pages
             var viewPages = new List<Page>();
             for (int i = 0; i < PageMode.Size(); ++i)
@@ -948,7 +942,7 @@ namespace NeeView
 
             // pre load
             _ahead.Clear();
-            CancelUpdateViewContents();
+            CancelUpdateNextContents();
             _aheadPageRange = CreateAheadPageRange(source);
             var aheadPages = CreatePagesFromRange(_aheadPageRange, viewPages);
 
@@ -966,6 +960,12 @@ namespace NeeView
             }
             _keepPages = loadPages;
 
+            // update contents
+            this.PageChangeCount++;
+            this.IsPageTerminated = source.Max >= LastPosition();
+            _viewPageSender = sender;
+            _viewPageRange = source;
+
             _bookMemoryService.SetReference(viewPages.First().Index);
             _jobClient.Order(viewPages);
             _ahead.Order(aheadPages);
@@ -982,13 +982,8 @@ namespace NeeView
             // task cancel?
             token.ThrowIfCancellationRequested();
 
-            // update contents
-            this.PageChangeCount++;
-            this.IsPageTerminated = source.Max >= LastPosition();
-            _viewPageSender = sender;
-            _viewPageRange = source;
             UpdateViewContents();
-            RunUpdateViewContents();
+            UpdateNextContents();
         }
 
 
@@ -1005,11 +1000,10 @@ namespace NeeView
 
             _ahead.OnPageLoaded(this, new PageChangedEventArgs(page));
 
-            if (!BookProfile.Current.CanPrioritizePageMove()) return;
+            ////if (!BookProfile.Current.CanPrioritizePageMove()) return;
 
             // 非同期なので一旦退避
             var now = _viewPageCollection;
-            var next = _nextPageCollection;
 
             if (now?.Collection == null) return;
 
@@ -1020,7 +1014,7 @@ namespace NeeView
                 UpdateViewContents();
             }
 
-            RunUpdateViewContents();
+            UpdateNextContents();
         }
 
         /// <summary>
@@ -1086,25 +1080,29 @@ namespace NeeView
         private CancellationTokenSource _aheadCancellationTokenSource;
         private Task _aheadTask;
 
-        public void CancelUpdateViewContents()
+        public void CancelUpdateNextContents()
         {
-            if (_aheadTask != null)
+            lock (_lock)
             {
-                Debug.WriteLine($"> CancelUpdateViewContents");
-                _aheadCancellationTokenSource?.Cancel();
-                _aheadTask = null;
+                if (_aheadTask != null)
+                {
+                    Debug.WriteLine($"> CancelUpdateViewContents");
+                    _aheadCancellationTokenSource?.Cancel();
+                    _aheadTask = null;
+                }
+                _nextPageCollection = new ViewPageCollection();
             }
         }
 
-        public void RunUpdateViewContents()
+        public void UpdateNextContents()
         {
             if (_aheadTask != null && !_aheadTask.IsCompleted)
             {
-                Debug.WriteLine($"> RunUpdateViewContents: skip.");
+                ////Debug.WriteLine($"> RunUpdateViewContents: skip.");
                 return;
             }
 
-            Debug.WriteLine($"> RunUpdateViewContents: run...");
+            ////Debug.WriteLine($"> RunUpdateViewContents: run...");
             _aheadCancellationTokenSource?.Cancel();
             _aheadCancellationTokenSource = new CancellationTokenSource();
             var token = _aheadCancellationTokenSource.Token;
@@ -1112,25 +1110,19 @@ namespace NeeView
             {
                 try
                 {
-                    UpdateNextContents(token);
-                    Debug.WriteLine($"> RunUpdateViewContents: done.");
-                }
-                catch (OperationCanceledException)
-                {
-                    Debug.WriteLine($"> RunUpdateViewContents: canceled.");
+                    UpdateNextContentsInner(token);
+                    ////Debug.WriteLine($"> RunUpdateViewContents: done.");
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine($"> RunUpdateViewContents: {ex.Message}");
+                    ////Debug.WriteLine($"> RunUpdateViewContents: {ex.Message}");
                 }
-            },
-            token);
+            });
         }
 
-        private void UpdateNextContents(CancellationToken token)
+        private void UpdateNextContentsInner(CancellationToken token)
         {
-            // 表示コンテンツ未確定であれば処理しない
-            if (!_viewPageCollection.IsValid) return;
+            if (!_nextPageCollection.IsValid) return;
 
             int turn = 0;
             RETRY:
@@ -1141,9 +1133,8 @@ namespace NeeView
             ViewPageCollection next;
             lock (_lock)
             {
-                next = CreateNextPageCollection(_nextPageCollection);
-
-                var range = _aheadPageRange.Add(_viewPageCollection.Range.Position);
+                next = CreateViewPageContext(GetNextRange(_nextPageCollection.Range));
+                var range = _aheadPageRange.Add(_viewPageRange.Position);
                 if (next.IsValid && range.IsContains(new PagePosition(next.Range.Position.Index, 0)))
                 {
                     _nextPageCollection = next;
@@ -1154,7 +1145,7 @@ namespace NeeView
                 }
             }
 
-            Debug.WriteLine($"next({turn++}): {next.Range}");
+            ////Debug.WriteLine($"next({turn++}): {next.Range}");
             NextContentsChanged?.Invoke(this, new ViewPageCollectionChangedEventArgs(next));
 
             ////Thread.Sleep(1000); // ##
@@ -1162,21 +1153,14 @@ namespace NeeView
             goto RETRY;
         }
 
-        private ViewPageCollection CreateNextPageCollection(ViewPageCollection previous)
+        private PageDirectionalRange GetNextRange(PageDirectionalRange previous)
         {
-            if (!previous.IsValid)
-            {
-                return new ViewPageCollection();
-            }
-
             // 先読みコンテンツ領域計算
-            var position = previous.Range.Next();
-            var direction = previous.Range.Direction;
+            var position = previous.Next();
+            var direction = previous.Direction;
             var range = new PageDirectionalRange(position, direction, PageMode.Size());
 
-            // create contents
-            var next = CreateViewPageContext(range);
-            return next;
+            return range;
         }
 
         #endregion 先読みコンテンツ更新
@@ -1255,7 +1239,6 @@ namespace NeeView
 
                 contentsSource.Add(viewPage);
             }
-
 
 
             // 並び順補正
@@ -1561,7 +1544,7 @@ namespace NeeView
                     _viewPageCollection = new ViewPageCollection();
 
                     _ahead.Dispose();
-                    CancelUpdateViewContents();
+                    CancelUpdateNextContents();
 
                     if (Pages != null)
                     {

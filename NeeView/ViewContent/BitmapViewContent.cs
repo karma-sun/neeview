@@ -198,21 +198,20 @@ namespace NeeView
                 try
                 {
                     var picture = ((BitmapContent)this.Content)?.Picture;
-                    var resized = picture?.CreateBitmapSource(size, CancellationToken.None);
-                    if (resized == true)
-                    {
-                        this.Source.Page.DebugRaiseContentPropertyChanged();
+                    picture?.CreateBitmapSource(size, CancellationToken.None);
 
-                        AppDispatcher.Invoke(() =>
+                    // ##
+                    this.Source.Page.DebugRaiseContentPropertyChanged();
+
+                    AppDispatcher.Invoke(() =>
+                    {
+                        var view = CreateView(this.Source, CreateBindingParameter());
+                        if (view != null)
                         {
-                            var view = CreateView(this.Source, CreateBindingParameter());
-                            if (view != null)
-                            {
-                                this.View = view;
-                                ContentCanvas.Current.UpdateContentScalingMode(this);
-                            }
-                        });
-                    }
+                            this.View = view;
+                            ContentCanvas.Current.UpdateContentScalingMode(this);
+                        }
+                    });
                 }
                 catch (Exception ex)
                 {

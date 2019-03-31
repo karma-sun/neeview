@@ -261,8 +261,11 @@ namespace NeeView
         /// <param name="e"></param>
         private void OnViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
         {
-            var contents = new List<ViewContent>();
+            // 画像リサイズ
+            ////ResizeConten(e?.ViewPageCollection);
 
+            var contents = new List<ViewContent>();
+            
             // ViewContent作成
             if (e?.ViewPageCollection?.Collection != null)
             {
@@ -297,11 +300,8 @@ namespace NeeView
                 Contents[index] = index < contents.Count ? contents[index] : new ViewContent();
             }
 
-            // 自動回転...
-            var angle = GetAutoRotateAngle();
-
             // コンテンツサイズ更新
-            UpdateContentSize(angle);
+            UpdateContentSize(GetAutoRotateAngle());
 
             // ルーペ解除
             if (MouseInput.Current.Loupe.IsResetByPageChanged)
@@ -330,7 +330,18 @@ namespace NeeView
             // ルーペモードでかつ継続される設定の場合、先読みではリサイズしない
             if (LoupeTransform.Current.IsEnabled && !MouseInput.Current.Loupe.IsResetByPageChanged) return;
 
-            var sizes = source.ViewPageCollection.Collection.Select(e => e.Size).ToList();
+            ResizeConten(source.ViewPageCollection);
+        }
+
+
+        /// <summary>
+        /// コンテンツリサイズ
+        /// </summary>
+        private void ResizeConten(ViewPageCollection viewPageCollection)
+        {
+            if (viewPageCollection?.Collection == null) return;
+
+            var sizes = viewPageCollection.Collection.Select(e => e.Size).ToList();
             while (sizes.Count() < 2)
             {
                 sizes.Add(SizeExtensions.Zero);
@@ -351,7 +362,7 @@ namespace NeeView
                 if (size0.IsZero()) continue;
 
                 var size1 = result.ContentSizeList[i].Multi(scale);
-                if (i < source.ViewPageCollection.Collection.Count && source.ViewPageCollection.Collection[i].IsHalf) // 分割前サイズでリサイズ
+                if (i < viewPageCollection.Collection.Count && viewPageCollection.Collection[i].IsHalf) // 分割前サイズでリサイズ
                 {
                     size1 = new Size(size1.Width * 2.0, size1.Height);
                 }
@@ -359,17 +370,17 @@ namespace NeeView
 
                 try
                 {
-                    var content = source.ViewPageCollection.Collection[i].Content;
+                    var content = viewPageCollection.Collection[i].Content;
                     if (content.CanResize && content is BitmapContent bitmapContent)
                     {
                         var resized = bitmapContent.Picture?.CreateBitmapSource(bitmapContent.GetRenderSize(size1), CancellationToken.None);
                         if (resized == true)
                         {
-                            source.ViewPageCollection.Collection[i].Page.DebugRaiseContentPropertyChanged();
+                            viewPageCollection.Collection[i].Page.DebugRaiseContentPropertyChanged();
                         }
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Debug.WriteLine("OnNextContentChanged: " + ex.Message);
                 }
@@ -508,7 +519,7 @@ namespace NeeView
         }
 
 
-#region スケールモード
+        #region スケールモード
 
         // トグル
         public PageStretchMode GetToggleStretchMode(ToggleStretchModeCommandParameter param)
@@ -570,9 +581,9 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
-#region 回転コマンド
+        #region 回転コマンド
 
         //
         public bool ToggleAutoRotate()
@@ -606,9 +617,9 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
-#region クリップボード関連
+        #region クリップボード関連
 
         //
         private BitmapSource CurrentBitmapSource
@@ -638,9 +649,9 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
-#region 印刷
+        #region 印刷
 
         /// <summary>
         /// 印刷可能判定
@@ -716,11 +727,11 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
-#endregion
+        #endregion
 
-#region IDisposable Support
+        #region IDisposable Support
 
         private bool _disposedValue = false;
 
@@ -748,10 +759,10 @@ namespace NeeView
             Dispose(true);
         }
 
-#endregion
+        #endregion
 
 
-#region Memento
+        #region Memento
         [DataContract]
         public class Memento
         {
@@ -793,6 +804,6 @@ namespace NeeView
             //UpdateContentSize(); // 不要？
         }
 
-#endregion
+        #endregion
     }
 }

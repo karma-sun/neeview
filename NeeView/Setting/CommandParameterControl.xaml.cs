@@ -67,7 +67,7 @@ namespace NeeView.Setting
         private void ButtonReset_Click(object sender, RoutedEventArgs e)
         {
             _vm?.Reset();
-            this.Inspector.Reflesh(); // TODO: MVVM的に更新されるようにする
+            this.Inspector.Refresh(); // TODO: MVVM的に更新されるようにする
         }
     }
 }

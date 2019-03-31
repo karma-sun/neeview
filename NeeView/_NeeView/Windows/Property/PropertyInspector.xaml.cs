@@ -113,7 +113,7 @@ namespace NeeView.Windows.Property
         }
 
         //
-        public void Reflesh()
+        public void Refresh()
         {
             this.properties.Items.Refresh();
         }

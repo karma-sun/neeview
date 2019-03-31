@@ -29,7 +29,7 @@ namespace NeeView
                 (s, e) => UpdateLastFiles();
 
             RoutedCommandTable.Current.Changed +=
-                (s, e) => Reflesh();
+                (s, e) => Refresh();
 
             BookHistoryCollection.Current.HistoryChanged +=
                 (s, e) =>
@@ -87,7 +87,7 @@ namespace NeeView
         #endregion
 
 
-        public void Reflesh()
+        public void Refresh()
         {
             CommandGestureChanged?.Invoke(this, null);
         }

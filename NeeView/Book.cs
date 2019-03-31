@@ -141,7 +141,7 @@ namespace NeeView
                 if (_isSupportedDividePage != value)
                 {
                     _isSupportedDividePage = value;
-                    RequestReflesh(this, false);
+                    RequestRefresh(this, false);
                 }
             }
         }
@@ -156,7 +156,7 @@ namespace NeeView
                 if (_isSupportedSingleFirstPage != value)
                 {
                     _isSupportedSingleFirstPage = value;
-                    RequestReflesh(this, false);
+                    RequestRefresh(this, false);
                 }
             }
         }
@@ -171,7 +171,7 @@ namespace NeeView
                 if (_isSupportedSingleLastPage != value)
                 {
                     _isSupportedSingleLastPage = value;
-                    RequestReflesh(this, false);
+                    RequestRefresh(this, false);
                 }
             }
         }
@@ -186,7 +186,7 @@ namespace NeeView
                 if (_isSupportedWidePage != value)
                 {
                     _isSupportedWidePage = value;
-                    RequestReflesh(this, false);
+                    RequestRefresh(this, false);
                 }
             }
         }
@@ -201,7 +201,7 @@ namespace NeeView
                 if (_bookReadOrder != value)
                 {
                     _bookReadOrder = value;
-                    RequestReflesh(this, false);
+                    RequestRefresh(this, false);
                 }
             }
         }
@@ -231,7 +231,7 @@ namespace NeeView
                 if (_pageMode != value)
                 {
                     _pageMode = value;
-                    RequestReflesh(this, false);
+                    RequestRefresh(this, false);
                 }
             }
         }
@@ -742,11 +742,11 @@ namespace NeeView
         }
 
         // リフレッシュ
-        public void RequestReflesh(object sender, bool isClear)
+        public void RequestRefresh(object sender, bool isClear)
         {
             if (Address == null) return;
 
-            var command = new BookCommandReflesh(sender, this, new BookCommandRefleshArgs()
+            var command = new BookCommandRefresh(sender, this, new BookCommandRefreshArgs()
             {
                 IsClear = isClear,
             });
@@ -775,7 +775,7 @@ namespace NeeView
         }
 
         // 表示の再構築
-        private void Reflesh(bool clear)
+        private void Refresh(bool clear)
         {
             if (Address == null) return;
             RequestSetPosition(this, _viewPageCollection.Range.Min, 1);
@@ -821,9 +821,9 @@ namespace NeeView
             await Task.CompletedTask;
         }
 
-        internal async Task Reflesh_Executed(BookCommandRefleshArgs param, CancellationToken token)
+        internal async Task Refresh_Executed(BookCommandRefreshArgs param, CancellationToken token)
         {
-            Reflesh(param.IsClear);
+            Refresh(param.IsClear);
             await Task.CompletedTask;
         }
 

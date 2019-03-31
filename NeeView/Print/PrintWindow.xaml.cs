@@ -93,7 +93,7 @@ namespace NeeView
             var control = d as PrintPreviewControl;
             if (control != null)
             {
-                control.Reflesh();
+                control.Refresh();
             }
         }
 
@@ -101,7 +101,7 @@ namespace NeeView
         /// <summary>
         /// 更新
         /// </summary>
-        public void Reflesh()
+        public void Refresh()
         {
             this.Children.Clear();
 

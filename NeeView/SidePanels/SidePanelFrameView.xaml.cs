@@ -35,9 +35,9 @@ namespace NeeView
         }
 
         /// <summary>
-        /// reflesh properties
+        /// refresh properties
         /// </summary>
-        public void Reflesh()
+        public void Refresh()
         {
             RaisePropertyChanged(null);
         }

@@ -611,7 +611,7 @@ namespace NeeView
         /// </summary>
         /// <param name="path"></param>
         /// <param name="option"></param>
-        /// <param name="isRefleshFolderList"></param>
+        /// <param name="isRefreshFolderList"></param>
         /// <returns></returns>
         public async Task LoadAsync(BookHubCommandLoadArgs args, CancellationToken token)
         {

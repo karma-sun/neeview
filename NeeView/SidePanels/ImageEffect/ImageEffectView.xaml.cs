@@ -53,7 +53,7 @@ namespace NeeView
         {
             _vm.ResetValue();
 
-            this.inspectorF.Reflesh();
+            this.inspectorF.Refresh();
         }
     }
 }

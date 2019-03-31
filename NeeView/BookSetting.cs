@@ -161,7 +161,7 @@ namespace NeeView
 
         // 本の設定を更新
         // TODO: BookHubアクセスは逆参照になっている。イベントで処理すべき？
-        private void RefleshBookSetting()
+        private void RefreshBookSetting()
         {
             BookHub.Current.Book?.Restore(BookMemento);
             SettingChanged?.Invoke(this, null);
@@ -185,7 +185,7 @@ namespace NeeView
         {
             if (IsLoading()) return;
             BookMemento.IsSupportedSingleFirstPage = !BookMemento.IsSupportedSingleFirstPage;
-            RefleshBookSetting();
+            RefreshBookSetting();
         }
 
         // 最終ページの単ページ表示ON/OFF 
@@ -193,7 +193,7 @@ namespace NeeView
         {
             if (IsLoading()) return;
             BookMemento.IsSupportedSingleLastPage = !BookMemento.IsSupportedSingleLastPage;
-            RefleshBookSetting();
+            RefreshBookSetting();
         }
 
         // 横長ページの分割ON/OFF
@@ -201,7 +201,7 @@ namespace NeeView
         {
             if (IsLoading()) return;
             BookMemento.IsSupportedDividePage = !BookMemento.IsSupportedDividePage;
-            RefleshBookSetting();
+            RefreshBookSetting();
         }
 
         // 横長ページの見開き判定ON/OFF
@@ -209,7 +209,7 @@ namespace NeeView
         {
             if (IsLoading()) return;
             BookMemento.IsSupportedWidePage = !BookMemento.IsSupportedWidePage;
-            RefleshBookSetting();
+            RefreshBookSetting();
         }
 
         // フォルダー再帰読み込みON/OFF
@@ -217,7 +217,7 @@ namespace NeeView
         {
             if (IsLoading()) return;
             BookMemento.IsRecursiveFolder = !BookMemento.IsRecursiveFolder;
-            RefleshBookSetting();
+            RefreshBookSetting();
         }
 
         // 見開き方向設定
@@ -225,7 +225,7 @@ namespace NeeView
         {
             if (IsLoading()) return;
             BookMemento.BookReadOrder = order;
-            RefleshBookSetting();
+            RefreshBookSetting();
         }
 
         // 見開き方向変更
@@ -233,7 +233,7 @@ namespace NeeView
         {
             if (IsLoading()) return;
             BookMemento.BookReadOrder = BookMemento.BookReadOrder.GetToggle();
-            RefleshBookSetting();
+            RefreshBookSetting();
         }
 
         // ページモード設定
@@ -241,7 +241,7 @@ namespace NeeView
         {
             if (IsLoading()) return;
             BookMemento.PageMode = mode;
-            RefleshBookSetting();
+            RefreshBookSetting();
         }
 
 
@@ -250,7 +250,7 @@ namespace NeeView
         {
             if (IsLoading()) return;
             BookMemento.PageMode = BookMemento.PageMode.GetToggle();
-            RefleshBookSetting();
+            RefreshBookSetting();
         }
 
         // ページ並び変更
@@ -260,7 +260,7 @@ namespace NeeView
             var mode = BookMemento.SortMode.GetToggle();
             ////_bookHub.Book?.SetSortMode(mode);
             BookMemento.SortMode = mode;
-            RefleshBookSetting();
+            RefreshBookSetting();
         }
 
         // ページ並び設定
@@ -269,7 +269,7 @@ namespace NeeView
             if (IsLoading()) return;
             ////_bookHub.Book?.SetSortMode(mode);
             BookMemento.SortMode = mode;
-            RefleshBookSetting();
+            RefreshBookSetting();
         }
 
         // 既定設定を適用
@@ -277,7 +277,7 @@ namespace NeeView
         {
             if (IsLoading()) return;
             BookMemento = BookMementoDefault.Clone();
-            RefleshBookSetting();
+            RefreshBookSetting();
         }
 
         #endregion

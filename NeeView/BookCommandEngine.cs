@@ -150,7 +150,7 @@ namespace NeeView
     /// <summary>
     /// リフレッシュコマンドパラメータ
     /// </summary>
-    internal class BookCommandRefleshArgs : BookCommandArgs
+    internal class BookCommandRefreshArgs : BookCommandArgs
     {
         public bool IsClear { get; set; }
     }
@@ -158,18 +158,18 @@ namespace NeeView
     /// <summary>
     /// リフレッシュコマンド
     /// </summary>
-    internal class BookCommandReflesh : BookCommand
+    internal class BookCommandRefresh : BookCommand
     {
-        private BookCommandRefleshArgs _param;
+        private BookCommandRefreshArgs _param;
 
-        public BookCommandReflesh(object sender, Book book, BookCommandRefleshArgs param) : base(sender, book, 1)
+        public BookCommandRefresh(object sender, Book book, BookCommandRefreshArgs param) : base(sender, book, 1)
         {
             _param = param;
         }
 
         protected override async Task OnExecuteAsync(CancellationToken token)
         {
-            await _book.Reflesh_Executed(_param, token);
+            await _book.Refresh_Executed(_param, token);
         }
     }
 

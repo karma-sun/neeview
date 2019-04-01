@@ -40,22 +40,22 @@ namespace NeeView
 
         protected sealed override async Task ExecuteAsync(CancellationToken token)
         {
-            Book.Log.TraceEvent(TraceEventType.Information, 0, $"{this} ...");
+            ////Book.Log.TraceEvent(TraceEventType.Information, 0, $"{this} ...");
             await OnExecuteAsync(token);
-            Book.Log.TraceEvent(TraceEventType.Information, 0, $"{this} done.");
+            ////Book.Log.TraceEvent(TraceEventType.Information, 0, $"{this} done.");
         }
 
         protected abstract Task OnExecuteAsync(CancellationToken token);
 
         protected override void OnCanceled()
         {
-            Book.Log.TraceEvent(TraceEventType.Information, 0, $"{this} canceled.");
+            ////Book.Log.TraceEvent(TraceEventType.Information, 0, $"{this} canceled.");
         }
 
         protected override void OnException(Exception e)
         {
-            Book.Log.TraceEvent(TraceEventType.Error, 0, $"{this} exception: {e.Message}\n{e.StackTrace}");
-            Book.Log.Flush();
+            ////Book.Log.TraceEvent(TraceEventType.Error, 0, $"{this} exception: {e.Message}\n{e.StackTrace}");
+            ////Book.Log.Flush();
         }
     }
 
@@ -169,7 +169,7 @@ namespace NeeView
         /// </summary>
         public override void StopEngine()
         {
-            Book.Log.Flush();
+            ////Book.Log.Flush();
             base.StopEngine();
         }
     }

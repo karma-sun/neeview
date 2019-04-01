@@ -81,7 +81,7 @@ namespace NeeView
         /// </summary>
         private void RefreshSelectedItem()
         {
-            var pages = BookOperation.Current.Book?.GetViewPages();
+            var pages = BookOperation.Current.Book?.Viewer.GetViewPages();
             if (pages == null) return;
 
             var viewPages = pages.Where(i => i != null).OrderBy(i => i.Index).ToList();

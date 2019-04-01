@@ -93,7 +93,7 @@ namespace NeeView
                     _pictureInfo = MemoryControl.Current.RetryFuncWithMemoryCleanup(() => source.CreatePictureInfo(token));
                     this.PictureSource = source;
 
-                    Book.Default?.BookMemoryService.AddPictureSource(this);
+                    Book.Default?.Viewer.BookMemoryService.AddPictureSource(this);
                 }
 
                 return source;

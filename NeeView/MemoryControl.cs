@@ -103,7 +103,7 @@ namespace NeeView
             // TODO: サムネイルキャッシュ開放
             Debug.WriteLine($">> OutOfMemory -> CleanUp");
 
-            Book.Default?.BookMemoryService.CleanupDeep();
+            Book.Default?.Viewer.BookMemoryService.CleanupDeep();
             GarbageCollect(true);
         }
 

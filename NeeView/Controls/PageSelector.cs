@@ -92,7 +92,7 @@ namespace NeeView
         private void BookOperation_PageListChanged(object sender, EventArgs e)
         {
             RaisePropertyChanged(nameof(MaxIndex));
-            RaiseViewContentsChanged(sender, BookOperation.Current.Book?.ViewPageCollection, true);
+            RaiseViewContentsChanged(sender, BookOperation.Current.Book?.Viewer.ViewPageCollection, true);
         }
 
         private void BookOperation_ViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)

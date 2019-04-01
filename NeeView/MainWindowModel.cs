@@ -546,7 +546,7 @@ namespace NeeView
             // 既に開いている場合、その場所を起点とする
             if (this.IsOpenbookAtCurrentPlace && BookHub.Current.Book != null)
             {
-                return System.IO.Path.GetDirectoryName(BookHub.Current.Book.Address);
+                return System.IO.Path.GetDirectoryName(BookHub.Current.Book.Context.Address);
             }
             else
             {

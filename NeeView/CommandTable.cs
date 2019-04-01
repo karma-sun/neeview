@@ -1489,7 +1489,7 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandToggleMediaPlay;
                 element.Note = Properties.Resources.CommandToggleMediaPlayNote;
                 element.ExecuteMessage = e => BookOperation.Current.IsMediaPlaying() ? Properties.Resources.WordStop : Properties.Resources.WordPlay;
-                element.CanExecute = () => BookOperation.Current.Book != null && BookOperation.Current.Book.IsMedia;
+                element.CanExecute = () => BookOperation.Current.Book != null && BookOperation.Current.Book.Context.IsMedia;
                 element.Execute = (s, e) => BookOperation.Current.ToggleMediaPlay(s, e);
                 _elements[CommandType.ToggleMediaPlay] = element;
             }

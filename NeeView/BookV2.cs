@@ -8,32 +8,25 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-#if false
+#if true
 
-// TODO: BookCommand のBookインスタンスをBookControllerに準ずるものに変更
 // TODO: Bookman で差し替え
 
 namespace NeeView
 {
-    // とりあえずの現状のBookの置き換わりになるもの
-    public class Bookman : IDisposable
+    // とりあえずの現状のBookの置き換わりになるもの(V2)
+    public partial class Book : IDisposable
     {
+        // TODO: あまりよろしくない
+        public static Book Default { get; private set; }
+
         private BookContext _book;
         private BookPageViewer _viewer;
         private BookPageMarker _marker;
         private BookController _controller;
 
 
-        // 見つからなかった開始ページ名。通知用。
-        // TODO: 不要？
-        public string NotFoundStartPage { get; private set; }
-
-        // 開始ページ
-        // TODO: 再読込時に必要だが、なくすことできそう？
-        public string StartEntry { get; private set; }
-
-
-        public static async Task<Bookman> CreateAsync(BookAddress address, ArchiveEntryCollectionMode archiveRecursiveMode, BookLoadSetting setting, Book.Memento memento, CancellationToken token)
+        public static async Task<Book> CreateAsync(BookAddress address, ArchiveEntryCollectionMode archiveRecursiveMode, BookLoadSetting setting, Book.Memento memento, CancellationToken token)
         {
             var factory = new BookContext.BookFactory();
             var book = await factory.LoadAsync(address, archiveRecursiveMode, setting, memento.IsRecursiveFolder, memento.SortMode, token);
@@ -42,7 +35,7 @@ namespace NeeView
             var marker = new BookPageMarker(book, viewer);
             var controller = new BookController(book, viewer, marker);
 
-            var bookman = new Bookman();
+            var bookman = new Book();
             bookman._book = book;
             bookman._viewer = viewer;
             bookman._marker = marker;
@@ -54,9 +47,24 @@ namespace NeeView
             return bookman;
         }
 
-        private Bookman()
+        private Book()
         {
+            Book.Default = this;
         }
+
+        public BookContext Context => _book;
+        public BookPageCollection Pages => _book.Pages;
+        public BookPageViewer Viewer => _viewer;
+        public BookPageMarker Marker => _marker;
+        public BookController Control => _controller;
+
+        // 見つからなかった開始ページ名。通知用。
+        // TODO: 不要？
+        public string NotFoundStartPage { get; private set; }
+
+        // 開始ページ
+        // TODO: 再読込時に必要だが、なくすことできそう？
+        public string StartEntry { get; private set; }
 
 
         #region IDisposable Support
@@ -68,6 +76,11 @@ namespace NeeView
             {
                 if (disposing)
                 {
+                    if (Book.Default == this)
+                    {
+                        Book.Default = null;
+                    }
+
                     _controller.Dispose();
                     _viewer.Dispose();
                     _book.Dispose();
@@ -273,6 +286,51 @@ namespace NeeView
         #endregion
 
 
+        public string GetArchiverDetail()
+        {
+            var archiver = ArchiveEntryCollection?.Archiver;
+            if (archiver == null)
+            {
+                return null;
+            }
+
+            var inner = archiver.Parent != null ? Properties.Resources.WordInner + " " : "";
+
+            var extension = LoosePath.GetExtension(archiver.EntryName);
+
+            var archiverType = ArchiverManager.Current.GetArchiverType(archiver);
+            switch (archiverType)
+            {
+                case ArchiverType.FolderArchive:
+                    return Properties.Resources.ArchiveFormatFolder;
+                case ArchiverType.ZipArchiver:
+                case ArchiverType.SevenZipArchiver:
+                case ArchiverType.SusieArchiver:
+                    return inner + Properties.Resources.ArchiveFormatCompressedFile + $"({extension})";
+                case ArchiverType.PdfArchiver:
+                    return inner + Properties.Resources.ArchiveFormatPdf + $"({extension})";
+                case ArchiverType.MediaArchiver:
+                    return inner + Properties.Resources.ArchiveFormatMedia + $"({extension})";
+                case ArchiverType.PagemarkArchiver:
+                    return Properties.Resources.ArchiveFormatPagemark;
+                default:
+                    return Properties.Resources.ArchiveFormatUnknown;
+            }
+        }
+
+        public string GetDetail()
+        {
+            string text = "";
+            text += GetArchiverDetail() + "\n";
+            text += string.Format(Properties.Resources.BookAddressInfoPage, Pages.Count);
+            return text;
+        }
+
+        public string GetFolderPlace()
+        {
+            return ArchiveEntryCollection.GetFolderPlace();
+        }
+
         public class BookFactory
         {
             #region 開発用
@@ -355,9 +413,9 @@ namespace NeeView
 
 
                 // 自動再帰処理
-                if (book.ArchiveEntryCollection.Mode != ArchiveEntryCollectionMode.IncludeSubArchives && pageList.Count == 0 && _setting.Options.HasFlag(BookLoadOption.AutoRecursive))
+                if (archiveEntryCollection.Mode != ArchiveEntryCollectionMode.IncludeSubArchives && pageList.Count == 0 && _setting.Options.HasFlag(BookLoadOption.AutoRecursive))
                 {
-                    var entries = await book.ArchiveEntryCollection.GetEntriesWhereBookAsync(token);
+                    var entries = await archiveEntryCollection.GetEntriesWhereBookAsync(token);
                     if (entries.Count == 1)
                     {
                         _setting.Options |= BookLoadOption.Recursive;
@@ -428,8 +486,8 @@ namespace NeeView
 #endif
 
                 // 有効化
-                book.Address = book.ArchiveEntryCollection.Path;
-                book.IsDirectory = book.ArchiveEntryCollection.Archiver is FolderArchive;
+                book.Address = archiveEntryCollection.Path;
+                book.IsDirectory = archiveEntryCollection.Archiver is FolderArchive;
 
                 book.ArchiveEntryCollection = archiveEntryCollection;
                 book.IsMediaLastPlay = book.IsMedia && _setting.Options.HasFlag(BookLoadOption.LastPage); // TODO: 設定をまるごと保存してそこから参照する形へ
@@ -946,6 +1004,8 @@ namespace NeeView
             {
                 page.Loaded += Page_Loaded;
             }
+
+            _ahead = new BookAhead(_bookMemoryService);
         }
 
 
@@ -1023,6 +1083,10 @@ namespace NeeView
         // 終端ページ表示
         public bool IsPageTerminated { get; private set; }
 
+        // ##
+        public ViewPageCollection ViewPageCollection => _viewPageCollection;
+        public BookMemoryService BookMemoryService => _bookMemoryService;
+
 
         // TODO: イベントでよくないか？待機が必要なら受け側で実装
         // 最初のコンテンツ表示フラグ
@@ -1063,6 +1127,12 @@ namespace NeeView
         }
         #endregion
 
+
+        // 動画用：外部から終端イベントを発行
+        public void RaisePageTerminatedEvent(int direction)
+        {
+            PageTerminated?.Invoke(this, new PageTerminatedEventArgs(direction));
+        }
 
         #region 表示ページ処理
 
@@ -1272,7 +1342,7 @@ namespace NeeView
             {
                 if (_aheadTask != null)
                 {
-                    Debug.WriteLine($"> CancelUpdateViewContents");
+                    ////Debug.WriteLine($"> CancelUpdateViewContents");
                     _aheadCancellationTokenSource?.Cancel();
                     _aheadTask = null;
                 }
@@ -1299,7 +1369,7 @@ namespace NeeView
                     UpdateNextContentsInner(token);
                     ////Debug.WriteLine($"> RunUpdateViewContents: done.");
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     ////Debug.WriteLine($"> RunUpdateViewContents: {ex.Message}");
                 }
@@ -1310,7 +1380,7 @@ namespace NeeView
         {
             if (!_nextPageCollection.IsValid) return;
 
-            int turn = 0;
+            ////int turn = 0;
             RETRY:
 
             if (_disposedValue) return;
@@ -1771,14 +1841,14 @@ namespace NeeView
 
         // ページマーク移動
         // TODO: もっと上のレベルでページマークの取得と移動の発行を行う
-        public Page RequestJumpToMarker(int direction, bool isLoop, bool isIncludeTerminal)
+        public Page RequestJumpToMarker(object sender, int direction, bool isLoop, bool isIncludeTerminal)
         {
             Debug.Assert(direction == 1 || direction == -1);
 
             var target = _marker.GetNearMarkedPage(direction, isLoop, isIncludeTerminal);
             if (target == null) return null;
 
-            RequestSetPosition(this, new PagePosition(target.Index, 0), 1);
+            RequestSetPosition(sender, new PagePosition(target.Index, 0), 1);
             return target;
         }
 
@@ -1793,67 +1863,68 @@ namespace NeeView
         {
             Debug.Assert(direction == 1 || direction == -1);
 
-            ////if (Address == null) return;
-
             _viewer.DisplayIndex = position.Index;
 
-            var command = new BookCommandSetPage(sender, this, new BookCommandSetPageArgs()
-            {
-                Position = position,
-                Direction = direction,
-                Size = _viewer.PageMode.Size(),
-            });
+            var range = new PageDirectionalRange(position, direction, _viewer.PageMode.Size());
+            var command = new BookCommandAction(sender, Execute, 0);
             _commandEngine.Enqueue(command);
+
+            async Task Execute(object s, CancellationToken token)
+            {
+                await _viewer.UpdateViewPageAsync(range, s, token);
+            }
         }
 
         // ページ相対移動
         public void RequestMovePosition(object sender, int step)
         {
-            ////if (Address == null) return;
-
-            var command = new BookCommandMovePage(sender, this, new BookCommandMovePageArgs()
-            {
-                Step = step,
-            });
-
+            var command = new BookCommandJoinAction(sender, Execute, step, 0);
             _commandEngine.Enqueue(command);
+
+            async Task Execute(object s, int value, CancellationToken token)
+            {
+                await _viewer.MoveViewPageAsync(value, s, token);
+            }
         }
 
         // リフレッシュ
         public void RequestRefresh(object sender, bool isClear)
         {
-            ////if (Address == null) return;
-
-            var command = new BookCommandRefresh(sender, this, new BookCommandRefreshArgs()
-            {
-                IsClear = isClear,
-            });
+            var command = new BookCommandAction(sender, Execute, 1);
             _commandEngine.Enqueue(command);
+
+            async Task Execute(object s, CancellationToken token)
+            {
+                await _viewer.RefreshViewPageAsync(s, token);
+            }
         }
 
         // ソート
         public void RequestSort(object sender)
         {
-            ////if (Address == null) return;
-
-            var command = new BookCommandSort(sender, this, new BookCommandSortArgs());
+            var command = new BookCommandAction(sender, Execute, 2);
             _commandEngine.Enqueue(command);
+
+            async Task Execute(object s, CancellationToken token)
+            {
+                var page = _viewer.GetViewPage();
+
+                _book.Pages.Sort();
+
+                var pagePosition = new PagePosition(_book.Pages.GetIndex(page), 0);
+                RequestSetPosition(this, pagePosition, 1);
+
+                await Task.CompletedTask;
+            }
         }
 
         // ページ削除
         public void RequestRemove(object sender, Page page)
         {
-            ////if (Address == null) return;
-            /*
-            var command = new BookCommandRemove(sender, this, new BookCommandRemoveArgs()
-            {
-                Page = page,
-            });
-            */
-            var command = new BookCommandAction(sender, Remove_Executed, 3);
+            var command = new BookCommandAction(sender, Execute, 3);
             _commandEngine.Enqueue(command);
 
-            async Task Remove_Executed(object s, CancellationToken token)
+            async Task Execute(object s, CancellationToken token)
             {
                 var index = _book.Pages.ClampPageNumber(page.Index);
                 _book.Pages.Remove(page);
@@ -1862,25 +1933,15 @@ namespace NeeView
             }
         }
 
-        // 表示の再構築
-        ////private void Refresh(bool clear)
-        ////{
-        ////    ////if (Address == null) return;
-        ////    RequestSetPosition(this, _viewPageCollection.Range.Min, 1); // TODO: 直接の命令とする
-        ////}
 
         // 終了処理
         private BookCommand RequestDispose(object sender)
         {
-            ////if (Address == null) return null;
-            ////var command = new BookCommandDispose(sender, this, new BookCommandDisposeArgs());
-
-            var command = new BookCommandAction(sender, Dispose_Executed, 4);
+            var command = new BookCommandAction(sender, Execute, 4);
             _commandEngine.Enqueue(command);
-
             return command;
 
-            async Task Dispose_Executed(object s, CancellationToken token)
+            async Task Execute(object s, CancellationToken token)
             {
                 Dispose();
                 await Task.CompletedTask;
@@ -1889,6 +1950,8 @@ namespace NeeView
 
         #endregion
 
+
+#if false
         #region コマンド実行
 
 
@@ -1934,6 +1997,7 @@ namespace NeeView
 
 
         #endregion
+#endif
     }
 
 

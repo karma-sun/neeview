@@ -72,7 +72,7 @@ namespace NeeView
             // ページを本から削除
             if (isRemoved == true && book != null)
             {
-                book.RequestRemove(this, page);
+                book.Control.RequestRemove(this, page);
             }
         }
 

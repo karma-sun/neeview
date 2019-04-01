@@ -67,11 +67,11 @@ namespace NeeView
         private void Update()
         {
             var book = BookOperation.Current.Book;
-            if (book != null && book.Markers.Any())
+            if (book != null && book.Marker.Markers.Any())
             {
                 this.MarkerCollection = new PageMarkerCollection()
                 {
-                    Indexes = book.Markers.Select(e => e.Index).ToList(),
+                    Indexes = book.Marker.Markers.Select(e => e.Index).ToList(),
                     Maximum = book.Pages.Count - 1
                 };
             }

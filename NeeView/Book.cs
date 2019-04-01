@@ -11,15 +11,17 @@ using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
-#if true
+
 
 namespace NeeView
 {
     /// <summary>
     /// 本
     /// </summary>
-    public class Book : IDisposable
+    public partial class Book : IDisposable
     {
+#if false
+
         #region 開発用
 
         public static TraceSource Log = Logger.CreateLogger(nameof(Book));
@@ -1569,6 +1571,8 @@ namespace NeeView
 
         #endregion
 
+#endif
+
         #region Memento
 
         /// <summary>
@@ -1740,6 +1744,7 @@ namespace NeeView
         }
 
 
+#if false
         // bookの設定を取得する
         public Memento CreateMemento()
         {
@@ -1775,6 +1780,7 @@ namespace NeeView
             IsRecursiveFolder = memento.IsRecursiveFolder;
             SortMode = memento.SortMode;
         }
+#endif
 
         #endregion
     }
@@ -1821,4 +1827,3 @@ namespace NeeView
 
 }
 
-#endif

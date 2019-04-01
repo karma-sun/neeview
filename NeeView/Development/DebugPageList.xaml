@@ -17,9 +17,9 @@
     <DockPanel x:Name="Root">
         <DockPanel DockPanel.Dock="Bottom" Margin="5" LastChildFill="False">
             <Button DockPanel.Dock="Right" x:Name="RefreshButton"  Content="Refresh" Padding="20,10" Click="RefreshButton_Click"/>
-            <TextBlock Text="{Binding BookOperation.Book.BookMemoryService.TotalSize, StringFormat={}{0:#\,0}Byte}"/>
+            <TextBlock Text="{Binding BookOperation.Book.Viewer.BookMemoryService.TotalSize, StringFormat={}{0:#\,0}Byte}"/>
             <TextBlock Text="/" Margin="5,0"/>
-            <TextBlock Text="{Binding BookOperation.Book.BookMemoryService.LimitSize, StringFormat={}{0:#\,0}Byte}"/>
+            <TextBlock Text="{Binding BookOperation.Book.Viewer.BookMemoryService.LimitSize, StringFormat={}{0:#\,0}Byte}"/>
         </DockPanel>
         <ListView x:Name="PageListView" ItemsSource="{Binding BookOperation.PageList}"
               ScrollViewer.HorizontalScrollBarVisibility="Hidden"

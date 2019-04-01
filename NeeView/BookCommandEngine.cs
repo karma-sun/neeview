@@ -21,10 +21,11 @@ namespace NeeView
     /// </summary>
     internal abstract class BookCommand : CancelableJobBase
     {
-        /// <summary>
-        /// construcotr
-        /// </summary>
-        public BookCommand(object sender, Book book, int priority) { _sender = sender; _book = book; Priority = priority; }
+        public BookCommand(object sender, int priority)
+        {
+            _sender = sender;
+            Priority = priority;
+        }
 
         /// <summary>
         /// 送信者
@@ -36,211 +37,74 @@ namespace NeeView
         /// </summary>
         public int Priority { get; private set; }
 
-        /// <summary>
-        /// ターゲット
-        /// </summary>
-        protected Book _book;
 
-        //
         protected sealed override async Task ExecuteAsync(CancellationToken token)
         {
-            Book.Log.TraceEvent(TraceEventType.Information, _book.Serial, $"{this} ...");
+            Book.Log.TraceEvent(TraceEventType.Information, 0, $"{this} ...");
             await OnExecuteAsync(token);
-            Book.Log.TraceEvent(TraceEventType.Information, _book.Serial, $"{this} done.");
+            Book.Log.TraceEvent(TraceEventType.Information, 0, $"{this} done.");
         }
 
-        //
         protected abstract Task OnExecuteAsync(CancellationToken token);
 
-        //
         protected override void OnCanceled()
         {
-            Book.Log.TraceEvent(TraceEventType.Information, _book.Serial, $"{this} canceled.");
+            Book.Log.TraceEvent(TraceEventType.Information, 0, $"{this} canceled.");
         }
 
-        //
         protected override void OnException(Exception e)
         {
-            Book.Log.TraceEvent(TraceEventType.Error, _book.Serial, $"{this} exception: {e.Message}\n{e.StackTrace}");
+            Book.Log.TraceEvent(TraceEventType.Error, 0, $"{this} exception: {e.Message}\n{e.StackTrace}");
             Book.Log.Flush();
         }
     }
 
 
-    /// <summary>
-    /// 廃棄処理コマンドパラメータ
-    /// </summary>
-    internal class BookCommandDisposeArgs : BookCommandArgs
-    {
-    }
 
     /// <summary>
-    /// 廃棄処理コマンド
+    /// 一般コマンド
     /// </summary>
-    internal class BookCommandDispose : BookCommand
+    internal class BookCommandAction : BookCommand
     {
-        private BookCommandDisposeArgs _param;
+        private Func<object, CancellationToken, Task> _taskAction;
 
-        public BookCommandDispose(object sender, Book book, BookCommandDisposeArgs param) : base(sender, book, 4)
+        public BookCommandAction(object sender, Func<object, CancellationToken, Task> taskAction, int priority) : base(sender, priority)
         {
-            _param = param;
+            _taskAction = taskAction;
         }
 
         protected override async Task OnExecuteAsync(CancellationToken token)
         {
-            await _book.Dispose_Executed(_param, token);
+            await _taskAction(_sender, token);
         }
     }
 
 
     /// <summary>
-    /// 削除コマンドパラメータ
+    /// 重複コマンド
     /// </summary>
-    internal class BookCommandRemoveArgs : BookCommandArgs
+    internal class BookCommandJoinAction : BookCommand
     {
-        public Page Page { get; set; }
-    }
+        private Func<object, int, CancellationToken, Task> _taskAction;
+        private int _value;
 
-    /// <summary>
-    /// 削除コマンド
-    /// </summary>
-    internal class BookCommandRemove : BookCommand
-    {
-        private BookCommandRemoveArgs _param;
-
-        public BookCommandRemove(object sender, Book book, BookCommandRemoveArgs param) : base(sender, book, 3)
+        public BookCommandJoinAction(object sender, Func<object, int, CancellationToken, Task> taskAction, int value, int priority) : base(sender, priority)
         {
-            _param = param;
+            _taskAction = taskAction;
+            _value = value;
         }
 
         protected override async Task OnExecuteAsync(CancellationToken token)
         {
-            await _book.Remove_Executed(_param, token);
+            await _taskAction(_sender, _value, token);
+        }
+
+        public void Join(BookCommandJoinAction other)
+        {
+            _value += other._value;
         }
     }
 
-
-    /// <summary>
-    /// ソートコマンドパラメータ
-    /// </summary>
-    internal class BookCommandSortArgs : BookCommandArgs
-    {
-    }
-
-    /// <summary>
-    /// ソートコマンド
-    /// </summary>
-    internal class BookCommandSort : BookCommand
-    {
-        private BookCommandSortArgs _param;
-
-        public BookCommandSort(object sender, Book book, BookCommandSortArgs param) : base(sender, book, 2)
-        {
-            _param = param;
-        }
-
-        protected override async Task OnExecuteAsync(CancellationToken token)
-        {
-            await _book.Sort_Executed(_param, token);
-        }
-    }
-
-
-
-    /// <summary>
-    /// リフレッシュコマンドパラメータ
-    /// </summary>
-    internal class BookCommandRefreshArgs : BookCommandArgs
-    {
-        public bool IsClear { get; set; }
-    }
-
-    /// <summary>
-    /// リフレッシュコマンド
-    /// </summary>
-    internal class BookCommandRefresh : BookCommand
-    {
-        private BookCommandRefreshArgs _param;
-
-        public BookCommandRefresh(object sender, Book book, BookCommandRefreshArgs param) : base(sender, book, 1)
-        {
-            _param = param;
-        }
-
-        protected override async Task OnExecuteAsync(CancellationToken token)
-        {
-            await _book.Refresh_Executed(_param, token);
-        }
-    }
-
-
-    /// <summary>
-    /// ページ指定移動コマンドパラメータ
-    /// </summary>
-    internal class BookCommandSetPageArgs : BookCommandArgs
-    {
-        public PagePosition Position { get; set; }
-        public int Direction { get; set; }
-        public int Size { get; set; }
-    }
-
-    /// <summary>
-    /// ページ指定移動コマンド
-    /// </summary>
-    internal class BookCommandSetPage : BookCommand
-    {
-        private BookCommandSetPageArgs _param;
-
-        public BookCommandSetPage(object sender, Book book, BookCommandSetPageArgs param) : base(sender, book, 0)
-        {
-            _param = param;
-        }
-
-        protected override async Task OnExecuteAsync(CancellationToken token)
-        {
-            await _book.SetPage_Executed(_sender, _param, token);
-        }
-    }
-
-
-    /// <summary>
-    /// ページ相対移動コマンドパラメータ
-    /// </summary>
-    internal class BookCommandMovePageArgs : BookCommandArgs
-    {
-        /// <summary>
-        /// Step property.
-        /// </summary>
-        private volatile int _step;
-        public int Step
-        {
-            get { return _step; }
-            set { if (_step != value) { _step = value; } }
-        }
-    }
-
-    /// <summary>
-    /// ページ相対移動コマンド
-    /// </summary>
-    internal class BookCommandMovePage : BookCommand
-    {
-        private BookCommandMovePageArgs _param;
-
-        public BookCommandMovePage(object sender, Book book, BookCommandMovePageArgs param) : base(sender, book, 0)
-        {
-            _param = param;
-        }
-
-        protected override async Task OnExecuteAsync(CancellationToken token)
-        {
-            await _book.MovePage_Executed(_param, token);
-        }
-
-        public void Add(BookCommandMovePage a)
-        {
-            _param.Step += a._param.Step;
-        }
-    }
 
 
     /// <summary>
@@ -257,14 +121,14 @@ namespace NeeView
 
             if (_queue.Count == 0) return true;
 
-            // ページ移動コマンドはまとめる
+            // JoinActionコマンドはまとめる
             if (BookProfile.Current.CanMultiplePageMove())
             {
-                var mc0 = command as BookCommandMovePage;
-                var mc1 = _queue.Peek() as BookCommandMovePage;
+                var mc0 = command as BookCommandJoinAction;
+                var mc1 = _queue.Peek() as BookCommandJoinAction;
                 if (mc0 != null && mc1 != null)
                 {
-                    mc1.Add(mc0);
+                    mc1.Join(mc0);
                     return false;
                 }
                 else
@@ -289,7 +153,7 @@ namespace NeeView
                 var select = _queue.Reverse().Cast<BookCommand>().OrderByDescending(e => e.Priority).First();
 
                 // それ以外のコマンドは廃棄
-                foreach(BookCommand command in _queue.Where(e => e != select))
+                foreach (BookCommand command in _queue.Where(e => e != select))
                 {
                     command.Cancel();
                 }

@@ -769,6 +769,7 @@ namespace NeeView
 
             if (result == UICommands.Yes)
             {
+                // TODO: BookAddressそのまま渡せばよいと思う
                 RequestLoad(Book.Address, Book.StartEntry, BookLoadOption.Recursive | BookLoadOption.ReLoad, true);
             }
         }

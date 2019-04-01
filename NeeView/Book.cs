@@ -11,6 +11,8 @@ using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
+#if true
+
 namespace NeeView
 {
     /// <summary>
@@ -719,12 +721,8 @@ namespace NeeView
 
             DisplayIndex = position.Index;
 
-            var command = new BookCommandSetPage(sender, this, new BookCommandSetPageArgs()
-            {
-                Position = position,
-                Direction = direction,
-                Size = PageMode.Size(),
-            });
+            var range = new PageDirectionalRange(position, direction, PageMode.Size());
+            var command = new BookCommandAction(sender, async (s, token) => await SetPage_Executed(s, range, token), 0);
             _commandEngine.Enqueue(command);
         }
 
@@ -733,11 +731,7 @@ namespace NeeView
         {
             if (Address == null) return;
 
-            var command = new BookCommandMovePage(sender, this, new BookCommandMovePageArgs()
-            {
-                Step = step,
-            });
-
+            var command = new BookCommandJoinAction(sender, async (s, value, token) => await MovePage_Executed(s, value, token), step, 0);
             _commandEngine.Enqueue(command);
         }
 
@@ -746,10 +740,7 @@ namespace NeeView
         {
             if (Address == null) return;
 
-            var command = new BookCommandRefresh(sender, this, new BookCommandRefreshArgs()
-            {
-                IsClear = isClear,
-            });
+            var command = new BookCommandAction(sender, Refresh_Executed, 1);
             _commandEngine.Enqueue(command);
         }
 
@@ -758,7 +749,7 @@ namespace NeeView
         {
             if (Address == null) return;
 
-            var command = new BookCommandSort(sender, this, new BookCommandSortArgs());
+            var command = new BookCommandAction(sender, Sort_Executed, 2);
             _commandEngine.Enqueue(command);
         }
 
@@ -767,10 +758,7 @@ namespace NeeView
         {
             if (Address == null) return;
 
-            var command = new BookCommandRemove(sender, this, new BookCommandRemoveArgs()
-            {
-                Page = page,
-            });
+            var command = new BookCommandAction(sender, async (s, token) => await Remove_Executed(s, page, token), 3);
             _commandEngine.Enqueue(command);
         }
 
@@ -786,7 +774,7 @@ namespace NeeView
         {
             if (Address == null) return null;
 
-            var command = new BookCommandDispose(sender, this, new BookCommandDisposeArgs());
+            var command = new BookCommandAction(sender, Dispose_Executed, 4);
             _commandEngine.Enqueue(command);
 
             return command;
@@ -796,20 +784,19 @@ namespace NeeView
 
         #region コマンド実行
 
-        // コマンド処理
-        internal async Task Dispose_Executed(BookCommandDisposeArgs param, CancellationToken token)
+        private async Task Dispose_Executed(object sender, CancellationToken token)
         {
             Dispose();
             await Task.CompletedTask;
         }
 
-        internal async Task Remove_Executed(BookCommandRemoveArgs param, CancellationToken token)
+        internal async Task Remove_Executed(object sender, Page page, CancellationToken token)
         {
-            Remove(param.Page);
+            Remove(page);
             await Task.CompletedTask;
         }
 
-        internal async Task Sort_Executed(BookCommandSortArgs param, CancellationToken token)
+        internal async Task Sort_Executed(object sender, CancellationToken token)
         {
             var page = GetViewPage();
 
@@ -821,26 +808,25 @@ namespace NeeView
             await Task.CompletedTask;
         }
 
-        internal async Task Refresh_Executed(BookCommandRefreshArgs param, CancellationToken token)
+        internal async Task Refresh_Executed(object sender, CancellationToken token)
         {
-            Refresh(param.IsClear);
+            Refresh(false);
             await Task.CompletedTask;
         }
 
-        internal async Task SetPage_Executed(object sender, BookCommandSetPageArgs param, CancellationToken token)
+        internal async Task SetPage_Executed(object sender, PageDirectionalRange source, CancellationToken token)
         {
-            var source = new PageDirectionalRange(param.Position, param.Direction, param.Size);
             await UpdateViewPageAsync(source, sender, token);
         }
 
 
-        internal async Task MovePage_Executed(BookCommandMovePageArgs param, CancellationToken token)
+        internal async Task MovePage_Executed(object sender, int step, CancellationToken token)
         {
             var viewRange = _viewPageCollection.Range;
 
-            var direction = param.Step < 0 ? -1 : 1;
+            var direction = step < 0 ? -1 : 1;
 
-            var pos = Math.Abs(param.Step) == PageMode.Size() ? viewRange.Next(direction) : viewRange.Move(param.Step);
+            var pos = Math.Abs(step) == PageMode.Size() ? viewRange.Next(direction) : viewRange.Move(step);
             if (pos < FirstPosition() && !viewRange.IsContains(FirstPosition()))
             {
                 pos = new PagePosition(0, direction < 0 ? 1 : 0);
@@ -852,7 +838,7 @@ namespace NeeView
 
             var range = new PageDirectionalRange(pos, direction, PageMode.Size());
 
-            await UpdateViewPageAsync(range, null, token);
+            await UpdateViewPageAsync(range, sender, token);
         }
 
         #endregion
@@ -1834,3 +1820,5 @@ namespace NeeView
 
 
 }
+
+#endif

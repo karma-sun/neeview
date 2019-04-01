@@ -190,6 +190,7 @@
     <Compile Include="BookHubHistory.cs" />
     <Compile Include="BookMemoryService.cs" />
     <Compile Include="BookThumbnailPool.cs" />
+    <Compile Include="BookV2.cs" />
     <Compile Include="Controls\CriticalErrorDialog.xaml.cs">
       <DependentUpon>CriticalErrorDialog.xaml</DependentUpon>
     </Compile>

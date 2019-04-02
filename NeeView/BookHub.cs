@@ -669,10 +669,6 @@ namespace NeeView
                 {
                     AppDispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncEventArgs() { Path = address.Address.SimplePath, Parent = address.Place.SimplePath, isKeepPlace = false }));
                 }
-                else if ((args.Option & BookLoadOption.SelectFoderListMaybe) != 0)
-                {
-                    AppDispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncEventArgs() { Path = address.Address.SimplePath, Parent = address.Place.SimplePath, isKeepPlace = true }));
-                }
 
                 // Load本体
                 await LoadAsyncCore(address, args.Option, setting, token);
@@ -789,42 +785,26 @@ namespace NeeView
         /// <param name="option">読み込みオプション</param>
         private async Task LoadAsyncCore(BookAddress address, BookLoadOption option, Book.Memento setting, CancellationToken token)
         {
-            // 新しい本を作成
-            ////var book = new Book();
-
-            // 設定の復元
-            Book.Memento memento;
-            if ((option & BookLoadOption.ReLoad) == BookLoadOption.ReLoad)
-            {
-                // リロード時は設定そのまま
-                memento = BookSetting.Current.BookMemento;
-            }
-            else
-            {
-                memento = setting;
-            }
-
-            // 最初の自動再帰設定
-            if (IsAutoRecursive)
-            {
-                option |= BookLoadOption.AutoRecursive;
-            }
-
             try
             {
-                var bookSetting = new BookLoadSetting();
-                bookSetting.Options = option;
-                bookSetting.BookPageCollectMode = BookProfile.Current.BookPageCollectMode;
+                var memento = ((option & BookLoadOption.ReLoad) == BookLoadOption.ReLoad) ? BookSetting.Current.BookMemento : setting;
 
-                // ロード。非同期で行う
-                var book = await BookFactory.CreateAsync(address, ArchiveRecursiveMode, bookSetting, memento, token);
-
-                if ((bookSetting.Options & BookLoadOption.AutoRecursive) != 0 && !book.Source.IsRecursiveFolder && book.Source.SubFolderCount == 1)
+                var bookSetting = new BookCreateSetting()
                 {
-                    Debug.WriteLine("> AutoRecursive");
-                    bookSetting.Options &= ~(BookLoadOption.AutoRecursive | BookLoadOption.NotRecursive);
-                    bookSetting.Options |= BookLoadOption.Recursive;
-                    book = await BookFactory.CreateAsync(address, ArchiveRecursiveMode, bookSetting, memento, token);
+                    StartPage = BookLoadOptionHelper.CreateBookStartPage(address.EntryName, option),
+                    IsRecursiveFolder = BookLoadOptionHelper.CreateIsRecursiveFolder(memento.IsRecursiveFolder, option),
+                    ArchiveRecursiveMode = ArchiveRecursiveMode,
+                    BookPageCollectMode = BookProfile.Current.BookPageCollectMode,
+                    SortMode = memento.SortMode,
+                };
+
+                var book = await BookFactory.CreateAsync(address.Address, bookSetting, memento, token);
+
+                // auto recursive
+                if (IsAutoRecursive && !book.Source.IsRecursiveFolder && book.Source.SubFolderCount == 1)
+                {
+                    bookSetting.IsRecursiveFolder = true;
+                    book = await BookFactory.CreateAsync(address.Address, bookSetting, memento, token);
                 }
 
                 _historyEntry = false;

@@ -1,5 +1,6 @@
 ﻿using NeeView.Collections.Generic;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -81,34 +82,27 @@ namespace NeeView
 
         #region Methods
 
-        public void Start()
-        {
-            // TODO: スタートページへ移動
-
-            _controller.Start();
-        }
-
-        public void StartPage(string start, BookLoadSetting setting)
+        public void SetStartPage(BookStartPage startPage)
         {
             // スタートページ取得
             PagePosition position = _source.Pages.FirstPosition();
             int direction = 1;
-            if ((setting.Options & BookLoadOption.FirstPage) == BookLoadOption.FirstPage)
+            if (startPage.StartPageType == BookStartPageType.FirstPage)
             {
                 position = _source.Pages.FirstPosition();
                 direction = 1;
             }
-            else if ((setting.Options & BookLoadOption.LastPage) == BookLoadOption.LastPage)
+            else if (startPage.StartPageType == BookStartPageType.LastPage)
             {
                 position = _source.Pages.LastPosition();
                 direction = -1;
             }
             else
             {
-                int index = !string.IsNullOrEmpty(start) ? _source.Pages.FindIndex(e => e.EntryFullName == start) : 0;
+                int index = !string.IsNullOrEmpty(startPage.PageName) ? _source.Pages.FindIndex(e => e.EntryFullName == startPage.PageName) : 0;
                 if (index < 0)
                 {
-                    this.NotFoundStartPage = start;
+                    this.NotFoundStartPage = startPage.PageName;
                 }
                 position = index >= 0 ? new PagePosition(index, 0) : _source.Pages.FirstPosition();
                 direction = 1;
@@ -121,8 +115,13 @@ namespace NeeView
             _controller.RequestSetPosition(this, position, direction);
         }
 
-        #endregion
+        public void Start()
+        {
+            // TODO: スタートページへ移動
+            _controller.Start();
+        }
 
+        #endregion
 
         #region Memento
 
@@ -181,35 +180,60 @@ namespace NeeView
         #endregion
     }
 
+
+
+
+    /// <summary>
+    /// Book生成設定
+    /// </summary>
+    public class BookCreateSetting
+    {
+        /// <summary>
+        /// 開始ページ
+        /// </summary>
+        public BookStartPage StartPage { get; set; }
+
+        /// <summary>
+        /// フォルダー再帰
+        /// </summary>
+        public bool IsRecursiveFolder { get; set; }
+
+        /// <summary>
+        /// 圧縮ファイルの再帰モード
+        /// </summary>
+        public ArchiveEntryCollectionMode ArchiveRecursiveMode { get; set; }
+
+        /// <summary>
+        /// ページ収集モード
+        /// </summary>
+        public BookPageCollectMode BookPageCollectMode { get; set; }
+
+        /// <summary>
+        /// ページの並び順
+        /// </summary>
+        public PageSortMode SortMode { get; set; }
+    }
+
+
     public static class BookFactory
     {
-        public static async Task<Book> CreateAsync(BookAddress address, ArchiveEntryCollectionMode archiveRecursiveMode, BookLoadSetting setting, Book.Memento memento, CancellationToken token)
+        public static async Task<Book> CreateAsync(QueryPath address, BookCreateSetting setting, Book.Memento memento, CancellationToken token)
         {
-            var factory = new BookSource.BookFactory();
-
-            var createSetting = new BookSourceCreateSetting()
-            {
-                IsRecursiveFolder = BookLoadOptionHelper.IsRecursiveFolder(memento.IsRecursiveFolder, setting),
-                ArchiveRecursiveMode = archiveRecursiveMode,
-                BookPageCollectMode = setting.BookPageCollectMode,
-                SortMode = memento.SortMode,
-            };
-
-            var bookSource = await factory.CreateAsync(address.Address, createSetting, token);
+            var factory = new BookSourceFactory();
+            var bookSource = await factory.CreateAsync(address, setting, token);
 
             if (bookSource.IsMedia)
             {
-                foreach(var page in bookSource.Pages.OfType<MediaPage>())
+                foreach (var page in bookSource.Pages.OfType<MediaPage>())
                 {
-                    page.IsLastStart = setting.Options.HasFlag(BookLoadOption.LastPage);
+                    page.IsLastStart = setting.StartPage.StartPageType == BookStartPageType.LastPage;
                 }
             }
-
 
             var book = new Book(bookSource, memento);
 
             // ## Start() で行いたい
-            book.StartPage(address.EntryName, setting);
+            book.SetStartPage(setting.StartPage);
 
             return book;
         }

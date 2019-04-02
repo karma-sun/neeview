@@ -61,19 +61,12 @@ namespace NeeView
         }
 
         // ページを削除する
-        public async Task RemovePageAsync(Page page)
+        public async Task<bool> RemovePageAsync(Page page)
         {
-            if (page == null) return;
+            if (page == null) return false;
 
             bool isRemoved = await RemoveAsync(page.GetFilePlace(), Resources.DialogFileDeletePageTitle, async () => await new PageVisual(page).CreateVisualContentAsync(new System.Windows.Size(64, 64), true));
-
-            var book = BookHub.Current.Book;
-
-            // ページを本から削除
-            if (isRemoved == true && book != null)
-            {
-                book.Control.RequestRemove(this, page);
-            }
+            return isRemoved;
         }
 
         // ファイルを削除

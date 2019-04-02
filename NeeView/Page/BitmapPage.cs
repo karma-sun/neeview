@@ -45,6 +45,8 @@ namespace NeeView
             Content = new MediaContent(entry);
             Content.Loaded += (s, e) => Loaded?.Invoke(this, null);
         }
+
+        public bool IsLastStart { get; set; }
     }
 
     /// <summary>

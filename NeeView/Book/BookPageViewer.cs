@@ -10,7 +10,7 @@ namespace NeeView
 {
     public class BookPageViewer : BindableBase, IDisposable
     {
-        private BookContext _book;
+        private BookSource _book;
 
         /// <summary>
         /// 要求中の表示範囲
@@ -38,7 +38,7 @@ namespace NeeView
         private PageContentJobClient _jobClient = new PageContentJobClient("View", JobCategories.PageViewContentJobCategory);
 
         // メモリ管理
-        private BookMemoryService _bookMemoryService = new BookMemoryService();
+        private BookMemoryService _bookMemoryService;
 
         // 先読み
         private BookAhead _ahead;
@@ -47,9 +47,10 @@ namespace NeeView
 
 
 
-        public BookPageViewer(BookContext book, BookViewerCreateSetting setting)
+        public BookPageViewer(BookSource book, BookMemoryService memoryService, BookViewerCreateSetting setting)
         {
             _book = book ?? throw new ArgumentNullException(nameof(book));
+            _bookMemoryService = memoryService;
 
             this.PageMode = setting.PageMode;
             this.BookReadOrder = setting.BookReadOrder;
@@ -143,7 +144,6 @@ namespace NeeView
 
         // ##
         public ViewPageCollection ViewPageCollection => _viewPageCollection;
-        public BookMemoryService BookMemoryService => _bookMemoryService;
 
 
         // TODO: イベントでよくないか？待機が必要なら受け側で実装
@@ -547,10 +547,12 @@ namespace NeeView
 
                 // メディア用。最終ページからの表示指示の場合のフラグ設定
                 ////if (_book.IsMedia && _setting.Options.HasFlag(BookLoadOption.LastPage))
+                /*
                 if (_book.IsMediaLastPlay)
                 {
                     viewPage.IsLastStart = true;
                 }
+                */
 
                 contentsSource.Add(viewPage);
             }

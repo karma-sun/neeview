@@ -11,12 +11,12 @@ namespace NeeView
         // コマンドエンジン
         private BookCommandEngine _commandEngine = new BookCommandEngine();
 
-        private BookContext _book;
+        private BookSource _book;
         private BookPageViewer _viewer;
         private BookPageMarker _marker;
 
 
-        public BookController(BookContext book, BookPageViewer viewer, BookPageMarker marker)
+        public BookController(BookSource book, BookPageViewer viewer, BookPageMarker marker)
         {
             _book = book ?? throw new ArgumentNullException(nameof(book));
             _viewer = viewer ?? throw new ArgumentNullException(nameof(viewer));

@@ -356,7 +356,7 @@ namespace NeeView
 
         internal void AddBookmarkTo(BookmarkFolderNode item)
         {
-            var address = BookHub.Current.Book?.Context.Address;
+            var address = BookHub.Current.Book?.Address;
             if (address == null)
             {
                 return;

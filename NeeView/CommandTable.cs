@@ -365,7 +365,7 @@ namespace NeeView
                 element.MenuText = Properties.Resources.CommandDeleteFileMenu;
                 element.Note = Properties.Resources.CommandDeleteFileNote;
                 element.ShortCutKey = "Delete";
-                element.Execute = (s, e) => BookOperation.Current.DeleteFile();
+                element.Execute = async (s, e) => await BookOperation.Current.DeleteFileAsync();
                 element.CanExecute = () => BookOperation.Current.CanDeleteFile();
                 element.IsShowMessage = false;
                 _elements[CommandType.DeleteFile] = element;
@@ -1489,7 +1489,7 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandToggleMediaPlay;
                 element.Note = Properties.Resources.CommandToggleMediaPlayNote;
                 element.ExecuteMessage = e => BookOperation.Current.IsMediaPlaying() ? Properties.Resources.WordStop : Properties.Resources.WordPlay;
-                element.CanExecute = () => BookOperation.Current.Book != null && BookOperation.Current.Book.Context.IsMedia;
+                element.CanExecute = () => BookOperation.Current.Book != null && BookOperation.Current.Book.IsMedia;
                 element.Execute = (s, e) => BookOperation.Current.ToggleMediaPlay(s, e);
                 _elements[CommandType.ToggleMediaPlay] = element;
             }

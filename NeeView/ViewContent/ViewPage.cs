@@ -57,7 +57,7 @@ namespace NeeView
         /// <summary>
         /// メディア用。最後から再生開始
         /// </summary>
-        public bool IsLastStart { get; set; }
+        public bool IsLastStart => Page is MediaPage mediaPage ? mediaPage.IsLastStart : false;
 
         #endregion
 

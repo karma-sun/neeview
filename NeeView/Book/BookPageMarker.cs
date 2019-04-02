@@ -7,13 +7,13 @@ namespace NeeView
 {
     public class BookPageMarker
     {
-        private BookContext _book;
+        private BookSource _book;
         private BookPageViewer _viewer;
 
         // ページマップ
         private Dictionary<string, Page> _pageMap = new Dictionary<string, Page>();
 
-        public BookPageMarker(BookContext book, BookPageViewer viewer)
+        public BookPageMarker(BookSource book, BookPageViewer viewer)
         {
             _book = book;
             _viewer = viewer;

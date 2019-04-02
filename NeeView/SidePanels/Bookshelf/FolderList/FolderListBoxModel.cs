@@ -362,7 +362,7 @@ namespace NeeView
 
         public bool AddBookmark()
         {
-            var address = BookHub.Current.Book?.Context.Address;
+            var address = BookHub.Current.Book?.Address;
             if (address == null)
             {
                 return false;

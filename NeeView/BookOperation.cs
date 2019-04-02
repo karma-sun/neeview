@@ -49,7 +49,6 @@ namespace NeeView
             PagemarkCollection.Current.PagemarkChanged += PagemarkCollection_PagemarkChanged;
         }
 
-
         #endregion
 
         #region Events
@@ -106,7 +105,7 @@ namespace NeeView
         }
 
 
-        public string Address => Book?.Context.Address;
+        public string Address => Book?.Address;
 
         public bool IsValid => Book != null;
 
@@ -263,15 +262,31 @@ namespace NeeView
         // 現在表示しているページのファイル削除可能？
         public bool CanDeleteFile()
         {
-            return FileIOProfile.Current.IsEnabled && FileIO.Current.CanRemovePage(Book?.Viewer.GetViewPage());
+            return CanDeleteFile(Book?.Viewer.GetViewPage());
         }
 
         // 現在表示しているページのファイルを削除する
-        public async void DeleteFile()
+        public async Task DeleteFileAsync()
         {
-            if (CanDeleteFile())
+            await DeleteFileAsync(Book?.Viewer.GetViewPage());
+        }
+
+        // 指定ページのファル削除可能？
+        public bool CanDeleteFile(Page page)
+        {
+            return FileIOProfile.Current.IsEnabled && FileIO.Current.CanRemovePage(page);
+        }
+
+        // 指定ページのファルを削除する
+        public async Task DeleteFileAsync(Page page)
+        {
+            if (CanDeleteFile(page))
             {
-                await FileIO.Current.RemovePageAsync(Book?.Viewer.GetViewPage());
+                var isSuccess = await FileIO.Current.RemovePageAsync(page);
+                if (isSuccess)
+                {
+                    Book.Control.RequestRemove(this, page);
+                }
             }
         }
 
@@ -282,7 +297,7 @@ namespace NeeView
         // 現在表示しているブックの削除可能？
         public bool CanDeleteBook()
         {
-            return FileIOProfile.Current.IsEnabled && Book != null && (File.Exists(Book.Context.Address) || Directory.Exists(Book.Context.Address));
+            return FileIOProfile.Current.IsEnabled && Book != null && (File.Exists(Book.Address) || Directory.Exists(Book.Address));
         }
 
         // 現在表示しているブックを削除する
@@ -290,7 +305,7 @@ namespace NeeView
         {
             if (CanDeleteBook())
             {
-                await FileIO.Current.RemoveAsync(Book.Context.Address, Resources.DialogFileDeleteBookTitle);
+                await FileIO.Current.RemoveAsync(Book.Address, Resources.DialogFileDeleteBookTitle);
             }
         }
 
@@ -384,7 +399,7 @@ namespace NeeView
                 {
                     var pages = Book.Viewer.GetViewPages();
                     int index = Book.Viewer.GetViewPageindex() + 1;
-                    string name = $"{Path.GetFileNameWithoutExtension(Book.Context.Address)}_{index:000}-{index + pages.Count - 1:000}.png";
+                    string name = $"{Path.GetFileNameWithoutExtension(Book.Address)}_{index:000}-{index + pages.Count - 1:000}.png";
                     var exporter = new Exporter();
                     exporter.Initialize(pages, Book.Viewer.BookReadOrder, name);
                     exporter.Background = ContentCanvasBrush.Current.CreateBackgroundBrush();
@@ -458,7 +473,7 @@ namespace NeeView
                 }
 
                 // 本の場合のみ処理。メディアでは不要
-                else if (this.Book != null && !this.Book.Context.IsMedia)
+                else if (this.Book != null && !this.Book.IsMedia)
                 {
                     if (e.Direction < 0)
                     {
@@ -479,7 +494,7 @@ namespace NeeView
         private void Book_PageRemoved(object sender, PageChangedEventArgs e)
         {
             // ページマーカーから削除
-            RemovePagemark(this.Book.Context.Address, e.Page.EntryFullName);
+            RemovePagemark(this.Book.Address, e.Page.EntryFullName);
 
             UpdatePageList(true);
             PageRemoved?.Invoke(sender, e);
@@ -503,7 +518,7 @@ namespace NeeView
         {
             if (this.Book == null) return;
 
-            if (this.Book.Context.IsMedia)
+            if (this.Book.IsMedia)
             {
                 MoveMediaPage(-1);
             }
@@ -518,7 +533,7 @@ namespace NeeView
         {
             if (this.Book == null) return;
 
-            if (this.Book.Context.IsMedia)
+            if (this.Book.IsMedia)
             {
                 MoveMediaPage(+1);
             }
@@ -533,7 +548,7 @@ namespace NeeView
         {
             if (this.Book == null) return;
 
-            if (this.Book.Context.IsMedia)
+            if (this.Book.IsMedia)
             {
                 MoveMediaPage(-1);
             }
@@ -548,7 +563,7 @@ namespace NeeView
         {
             if (this.Book == null) return;
 
-            if (this.Book.Context.IsMedia)
+            if (this.Book.IsMedia)
             {
                 MoveMediaPage(+1);
             }
@@ -563,7 +578,7 @@ namespace NeeView
         {
             if (this.Book == null) return;
 
-            if (this.Book.Context.IsMedia)
+            if (this.Book.IsMedia)
             {
                 MoveMediaPage(-size);
             }
@@ -578,7 +593,7 @@ namespace NeeView
         {
             if (this.Book == null) return;
 
-            if (this.Book.Context.IsMedia)
+            if (this.Book.IsMedia)
             {
                 MoveMediaPage(+size);
             }
@@ -594,7 +609,7 @@ namespace NeeView
         {
             if (this.Book == null) return;
 
-            if (this.Book.Context.IsMedia)
+            if (this.Book.IsMedia)
             {
                 MediaPlayerOperator.Current?.SetPositionFirst();
             }
@@ -609,7 +624,7 @@ namespace NeeView
         {
             if (this.Book == null) return;
 
-            if (this.Book.Context.IsMedia)
+            if (this.Book.IsMedia)
             {
                 MediaPlayerOperator.Current?.SetPositionLast();
             }
@@ -622,7 +637,7 @@ namespace NeeView
         // ページを指定して移動
         public void JumpPage()
         {
-            if (this.Book == null || this.Book.Context.IsMedia) return;
+            if (this.Book == null || this.Book.IsMedia) return;
 
             var dialogModel = new PageSelecteDialogModel()
             {
@@ -653,7 +668,7 @@ namespace NeeView
         // 動画再生中？
         public bool IsMediaPlaying()
         {
-            if (this.Book != null && this.Book.Context.IsMedia)
+            if (this.Book != null && this.Book.IsMedia)
             {
                 return MediaPlayerOperator.Current.IsPlaying;
             }
@@ -668,7 +683,7 @@ namespace NeeView
         {
             if (e.Handled) return false;
 
-            if (this.Book != null && this.Book.Context.IsMedia)
+            if (this.Book != null && this.Book.IsMedia)
             {
                 if (MediaPlayerOperator.Current.IsPlaying)
                 {
@@ -708,7 +723,7 @@ namespace NeeView
         {
             if (CanBookmark())
             {
-                var query = new QueryPath(Book.Context.Address);
+                var query = new QueryPath(Book.Address);
 
                 if (IsBookmark)
                 {
@@ -717,7 +732,7 @@ namespace NeeView
                 else
                 {
                     // ignore temporary directory
-                    if (Book.Context.Address.StartsWith(Temporary.Current.TempDirectory))
+                    if (Book.Address.StartsWith(Temporary.Current.TempDirectory))
                     {
                         ToastService.Current.Show(new Toast(Resources.DialogBookmarkError, null, ToastIcon.Error));
                         return;
@@ -735,7 +750,7 @@ namespace NeeView
         {
             get
             {
-                return BookmarkCollection.Current.Contains(Book?.Context.Address);
+                return BookmarkCollection.Current.Contains(Book?.Address);
             }
         }
 
@@ -767,7 +782,7 @@ namespace NeeView
                         {
                             // ブックに含まれるページが追加されたら再読込 ... シャッフルで再ソートされてしまう問題あり
                             var query = e.Item.CreateQuery(QueryScheme.Pagemark);
-                            if (Book.Context.IsRecursiveFolder && placeQuery.Include(query) || query.GetParent().Equals(placeQuery))
+                            if (Book.Source.IsRecursiveFolder && placeQuery.Include(query) || query.GetParent().Equals(placeQuery))
                             {
                                 Debug.WriteLine($"BookOperation: Add pagemarks: {e.Item.Value.Name}");
                                 BookHub.Current.RequestReLoad();
@@ -793,7 +808,7 @@ namespace NeeView
                                 Debug.WriteLine($"BookOperation: Remove parent pagemark: {e.Item.Value.Name}");
                                 BookHub.Current.RequestUnload(true);
                             }
-                            else if (e.Item.Value is PagemarkFolder && Book.Context.IsRecursiveFolder && placeQuery.Include(parentQuery))
+                            else if (e.Item.Value is PagemarkFolder && Book.Source.IsRecursiveFolder && placeQuery.Include(parentQuery))
                             {
                                 Debug.WriteLine($"BookOperation: Remove pagemarks: {e.Item.Value.Name}");
                                 BookHub.Current.RequestReLoad();
@@ -812,7 +827,7 @@ namespace NeeView
                                 Debug.WriteLine($"BookOperation: Rename parent pagemark: {e.Item.Value.Name}");
                                 BookHub.Current.RequestUnload(true);
                             }
-                            else if (e.Item.Value is PagemarkFolder && Book.Context.IsRecursiveFolder && placeQuery.Include(parentQuery))
+                            else if (e.Item.Value is PagemarkFolder && Book.Source.IsRecursiveFolder && placeQuery.Include(parentQuery))
                             {
                                 Debug.WriteLine($"BookOperation: Rename pagemarks: {e.Item.Value.Name}");
                                 BookHub.Current.RequestReLoad();
@@ -856,15 +871,15 @@ namespace NeeView
         // ページマーク登録可能？
         public bool CanPagemark()
         {
-            return this.Book != null && !this.Book.Context.IsMedia && !this.Book.Context.IsPagemarkFolder;
+            return this.Book != null && !this.Book.IsMedia && !this.Book.IsPagemarkFolder;
         }
 
         // マーカー切り替え
         public Pagemark TogglePagemark()
         {
-            if (!_isEnabled || this.Book == null || this.Book.Context.IsMedia || this.Book.Context.IsPagemarkFolder) return null;
+            if (!_isEnabled || this.Book == null || this.Book.IsMedia || this.Book.IsPagemarkFolder) return null;
 
-            var address = Book.Context.Address;
+            var address = Book.Address;
             var page = Book.Viewer.GetViewPage();
             if (page == null)
             {
@@ -886,9 +901,9 @@ namespace NeeView
         //
         public Pagemark AddPagemark()
         {
-            if (!_isEnabled || this.Book == null || this.Book.Context.IsMedia || this.Book.Context.IsPagemarkFolder) return null;
+            if (!_isEnabled || this.Book == null || this.Book.IsMedia || this.Book.IsPagemarkFolder) return null;
 
-            var address = Book.Context.Address;
+            var address = Book.Address;
             var page = Book.Viewer.GetViewPage();
             if (page == null)
             {
@@ -930,7 +945,7 @@ namespace NeeView
         public void Test_MakeManyPagemark()
         {
             if (Book == null) return;
-            var place = Book.Context.Address;
+            var place = Book.Address;
             for (int index = 0; index < Book.Pages.Count; index += 100)
             {
                 var page = Book.Pages[index];
@@ -959,7 +974,7 @@ namespace NeeView
         {
             // 本にマーカを設定
             // TODO: これはPagemarkerの仕事？
-            this.Book?.Marker.SetMarkers(PagemarkCollection.Current.Collect(this.Book.Context.Address).Select(e => e.EntryName));
+            this.Book?.Marker.SetMarkers(PagemarkCollection.Current.Collect(this.Book.Address).Select(e => e.EntryName));
 
             // 表示更新
             PagemarkChanged?.Invoke(this, null);
@@ -986,7 +1001,7 @@ namespace NeeView
             if (result != null)
             {
                 // ページマーク更新
-                PagemarkList.Current.Jump(this.Book.Context.Address, result.EntryName);
+                PagemarkList.Current.Jump(this.Book.Address, result.EntryName);
             }
             else
             {
@@ -1002,7 +1017,7 @@ namespace NeeView
             if (result != null)
             {
                 // ページマーク更新
-                PagemarkList.Current.Jump(this.Book.Context.Address, result.EntryName);
+                PagemarkList.Current.Jump(this.Book.Address, result.EntryName);
             }
             else
             {
@@ -1015,7 +1030,7 @@ namespace NeeView
         {
             if (mark == null) return false;
 
-            if (mark.Place == this.Book?.Context.Address)
+            if (mark.Place == this.Book?.Address)
             {
                 Page page = this.Book.Pages.GetPage(mark.EntryName);
                 if (page != null)

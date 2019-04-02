@@ -193,8 +193,13 @@
     <Compile Include="Book\BookPageCollection.cs" />
     <Compile Include="Book\BookPageMarker.cs" />
     <Compile Include="Book\BookPageViewer.cs" />
+    <Compile Include="Book\BookSource.cs" />
     <Compile Include="Book\BookThumbnailPool.cs" />
     <Compile Include="Book\Book.cs" />
+    <Compile Include="Book\PageChangedEventArgs.cs" />
+    <Compile Include="Book\PageTerminatedEventArgs.cs" />
+    <Compile Include="Book\PageThumbnailPool.cs" />
+    <Compile Include="Book\ViewPageCollectionChangedEventArgs.cs" />
     <Compile Include="Controls\CriticalErrorDialog.xaml.cs">
       <DependentUpon>CriticalErrorDialog.xaml</DependentUpon>
     </Compile>
@@ -849,7 +854,7 @@
     <Compile Include="PagePosition.cs" />
     <Compile Include="Page\BitmapPage.cs" />
     <Compile Include="Bitmap\BitmapSourceExtension.cs" />
-    <Compile Include="Book\BookLegacy.cs" />
+    <Compile Include="Book\BookMemento.cs" />
     <Compile Include="BookHub.cs" />
     <Compile Include="CommandElement.cs" />
     <Compile Include="CommandType.cs" />

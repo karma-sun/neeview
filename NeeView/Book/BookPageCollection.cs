@@ -11,6 +11,22 @@ namespace NeeView
         // サムネイル寿命管理
         private PageThumbnailPool _thumbnaulPool = new PageThumbnailPool();
 
+        // ページ列
+        private PageSortMode _sortMode = PageSortMode.FileName;
+
+
+        public BookPageCollection(List<Page> pages, PageSortMode sortMode)
+        {
+            Pages = pages;
+            _sortMode = sortMode;
+
+            foreach (var page in Pages)
+            {
+                page.Thumbnail.Touched += Thumbnail_Touched;
+            }
+
+            Sort();
+        }
 
 
         // ソートされた
@@ -33,45 +49,12 @@ namespace NeeView
 
         public List<Page> Pages { get; private set; }
 
-        public int Count => Pages.Count;
-
-        public int IndexOf(Page page) => Pages.IndexOf(page);
-
-        public Page First() => Pages.First();
-
-        public Page Last() => Pages.Last();
-
-
-        // ページ列
-        private PageSortMode _sortMode = PageSortMode.FileName;
-
-
-        public BookPageCollection(List<Page> pages, PageSortMode sortMode)
-        {
-            Pages = pages;
-            _sortMode = sortMode;
-
-            foreach (var page in Pages)
-            {
-                page.Thumbnail.Touched += Thumbnail_Touched;
-            }
-
-            Sort();
-        }
-
-
         public PageSortMode SortMode
         {
             get => _sortMode;
             set => SetProperty(ref _sortMode, value);
-            ////RequestSort(this); TODO: PropertyChangedイベントで処理する
         }
 
-        public Page this[int index]
-        {
-            get { return Pages[index]; }
-            set { Pages[index] = value; }
-        }
 
         #region IDisposable Support
         private bool _disposedValue = false;
@@ -113,6 +96,24 @@ namespace NeeView
         {
             return GetEnumerator();
         }
+
+        #endregion
+
+        #region List like
+
+        public Page this[int index]
+        {
+            get { return Pages[index]; }
+            set { Pages[index] = value; }
+        }
+
+        public int Count => Pages.Count;
+
+        public int IndexOf(Page page) => Pages.IndexOf(page);
+
+        public Page First() => Pages.First();
+
+        public Page Last() => Pages.Last();
 
         #endregion
 
@@ -252,22 +253,35 @@ namespace NeeView
             PagesNumbering();
 
             PageRemoved?.Invoke(this, new PageChangedEventArgs(page));
-
-#if false
-            index = ClampPageNumber(index);
-
-            // TODO: ## BookCommandEngine へ。
-            RequestSetPosition(this, new PagePosition(index, 0), 1);
-
-            // TODO: ## BookPageMarkerへ
-            if (_pageMap.TryGetValue(page.EntryFullName, out Page target) && page == target)
-            {
-                _pageMap.Remove(page.EntryFullName);
-            }
-#endif
         }
 
         #endregion
 
+        #region ページリスト用現在ページ表示フラグ
+
+        // 表示中ページ
+        private List<Page> _viewPages = new List<Page>();
+
+        /// <summary>
+        /// 表示中ページフラグ更新
+        /// </summary>
+        public void SetViewPageFlag(List<Page> viewPages)
+        {
+            var hidePages = _viewPages.Where(e => !viewPages.Contains(e));
+
+            foreach (var page in viewPages)
+            {
+                page.IsVisibled = true;
+            }
+
+            foreach (var page in hidePages)
+            {
+                page.IsVisibled = false;
+            }
+
+            _viewPages = viewPages.ToList();
+        }
+
+        #endregion
     }
 }

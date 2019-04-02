@@ -5,10 +5,12 @@ using NeeView.IO;
 using NeeView.Threading.Tasks;
 using NeeView.Windows.Property;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Text;
@@ -405,27 +407,31 @@ namespace NeeView
 
         private void OnViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
         {
-            bool allowUpdateHistory;
-            lock (_lock)
+            AppDispatcher.Invoke(() =>
             {
-                if (BookUnit == null) return;
-                allowUpdateHistory = !BookUnit.IsKeepHistoryOrder || IsForceUpdateHistory;
-            }
+                bool allowUpdateHistory;
+                lock (_lock)
+                {
+                    if (BookUnit == null) return;
+                    allowUpdateHistory = !BookUnit.IsKeepHistoryOrder || IsForceUpdateHistory;
+                }
 
-            // 履歴更新
-            if (allowUpdateHistory && !_historyEntry && CanHistory())
-            {
-                _historyEntry = true;
-                BookHistoryCollection.Current.Add(Book?.CreateMemento(), false);
-            }
+                // 履歴更新
+                if (allowUpdateHistory && !_historyEntry && CanHistory())
+                {
+                    _historyEntry = true;
+                    BookHistoryCollection.Current.Add(Book?.CreateMemento(), false);
+                }
 
-            lock (_lock)
-            {
-                if (BookUnit == null) return;
-                BookUnit?.Book.Viewer.UpdateViewPages(sender, e);
-            }
+                lock (_lock)
+                {
+                    if (BookUnit == null) return;
+                    var viewPages = e?.ViewPageCollection?.Collection.Where(x => x != null).Select(x => x.Page).ToList() ?? new List<Page>();
+                    BookUnit.Book.Pages.SetViewPageFlag(viewPages);
+                }
 
-            ViewContentsChanged?.Invoke(sender, e);
+                ViewContentsChanged?.Invoke(sender, e);
+            });
         }
 
         private void OnNextContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
@@ -827,7 +833,6 @@ namespace NeeView
                 // 最初のコンテンツ表示待ち
                 if (book.Pages.Count > 0)
                 {
-                    //await Task.Run(() => book.ContentLoaded.Wait(token));
                     await TaskUtils.ActionAsync(() => book.Viewer.ContentLoaded.Wait(token), token);
                 }
             }

@@ -10,13 +10,6 @@ using NeeLaboratory.Threading.Jobs;
 namespace NeeView
 {
     /// <summary>
-    /// Bookコマンドパラメータ基底
-    /// </summary>
-    internal class BookCommandArgs
-    {
-    }
-
-    /// <summary>
     /// Bookコマンド基底
     /// </summary>
     internal abstract class BookCommand : CancelableJobBase
@@ -81,7 +74,7 @@ namespace NeeView
 
 
     /// <summary>
-    /// 重複コマンド
+    /// 結合コマンド
     /// </summary>
     internal class BookCommandJoinAction : BookCommand
     {

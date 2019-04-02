@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace NeeView
 {
-    // とりあえずの現状のBookの置き換わりになるもの(V2)
     public partial class Book : IDisposable
     {
         public static Book Default { get; private set; }
@@ -150,8 +149,6 @@ namespace NeeView
         public void Restore(Book.Memento memento)
         {
             if (memento == null) return;
-
-            // TODO: インスタンス生成前によばれても適用不可。生成時に渡すのであれば別実装が必要
 
             _viewer.PageMode = memento.PageMode;
             _viewer.BookReadOrder = memento.BookReadOrder;

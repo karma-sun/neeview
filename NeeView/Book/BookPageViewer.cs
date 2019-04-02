@@ -142,9 +142,9 @@ namespace NeeView
         // 終端ページ表示
         public bool IsPageTerminated { get; private set; }
 
-        // ##
+        
+        // TODO: このパラメータだけ公開するのは微妙。
         public ViewPageCollection ViewPageCollection => _viewPageCollection;
-
 
         // TODO: イベントでよくないか？待機が必要なら受け側で実装
         // 最初のコンテンツ表示フラグ
@@ -246,19 +246,19 @@ namespace NeeView
             // ページ終端を越えたか判定
             if (source.Position < _book.Pages.FirstPosition())
             {
-                AppDispatcher.Invoke(() => PageTerminated?.Invoke(this, new PageTerminatedEventArgs(-1)));
+                PageTerminated?.Invoke(this, new PageTerminatedEventArgs(-1));
                 return;
             }
             else if (source.Position > _book.Pages.LastPosition())
             {
-                AppDispatcher.Invoke(() => PageTerminated?.Invoke(this, new PageTerminatedEventArgs(+1)));
+                PageTerminated?.Invoke(this, new PageTerminatedEventArgs(+1));
                 return;
             }
 
             // ページ数０の場合は表示コンテンツなし
             if (_book.Pages.Count == 0)
             {
-                AppDispatcher.Invoke(() => ViewContentsChanged?.Invoke(this, new ViewPageCollectionChangedEventArgs(new ViewPageCollection())));
+                ViewContentsChanged?.Invoke(this, new ViewPageCollectionChangedEventArgs(new ViewPageCollection()));
                 return;
             }
 
@@ -378,7 +378,7 @@ namespace NeeView
                 this.DisplayIndex = viewContent.Range.Min.Index;
 
                 // notice ViewContentsChanged
-                AppDispatcher.Invoke(() => ViewContentsChanged?.Invoke(sender, new ViewPageCollectionChangedEventArgs(viewContent)));
+                ViewContentsChanged?.Invoke(sender, new ViewPageCollectionChangedEventArgs(viewContent));
 
                 // コンテンツ準備完了
                 ContentLoaded.Set();
@@ -544,19 +544,8 @@ namespace NeeView
             foreach (var v in infos)
             {
                 var viewPage = new ViewPage(_book.Pages[v.Position.Index], v);
-
-                // メディア用。最終ページからの表示指示の場合のフラグ設定
-                ////if (_book.IsMedia && _setting.Options.HasFlag(BookLoadOption.LastPage))
-                /*
-                if (_book.IsMediaLastPlay)
-                {
-                    viewPage.IsLastStart = true;
-                }
-                */
-
                 contentsSource.Add(viewPage);
             }
-
 
             // 並び順補正
             if (source.Direction < 0 && infos.Count >= 2)
@@ -625,35 +614,6 @@ namespace NeeView
 
         #endregion
 
-        #region ページリスト用現在ページ表示フラグ
-        // TODO: BookPageCollection or Book に移動？
-
-        // 表示中ページ
-        private List<Page> _viewPages = new List<Page>();
-
-        /// <summary>
-        /// 表示中ページフラグ更新
-        /// </summary>
-        public void UpdateViewPages(object sender, ViewPageCollectionChangedEventArgs args)
-        {
-            var viewPages = args?.ViewPageCollection?.Collection.Where(e => e != null).Select(e => e.Page) ?? new List<Page>();
-            var hidePages = _viewPages.Where(e => !viewPages.Contains(e));
-
-            foreach (var page in viewPages)
-            {
-                page.IsVisibled = true;
-            }
-
-            foreach (var page in hidePages)
-            {
-                page.IsVisibled = false;
-            }
-
-            _viewPages = viewPages.ToList();
-        }
-
-
-        #endregion
     }
 
 

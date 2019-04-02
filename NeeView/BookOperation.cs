@@ -195,8 +195,11 @@ namespace NeeView
         {
             if (!IsEnabled) return;
 
-            RaisePropertyChanged(nameof(IsPagemark));
-            ViewContentsChanged?.Invoke(sender, e);
+            AppDispatcher.Invoke(() =>
+            {
+                RaisePropertyChanged(nameof(IsPagemark));
+                ViewContentsChanged?.Invoke(sender, e);
+            });
         }
 
 

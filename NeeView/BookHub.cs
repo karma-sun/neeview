@@ -877,9 +877,9 @@ namespace NeeView
             BookHistoryCollection.Current.LastAddress = Address;
         }
 
-#endregion BookHubCommand.Load
+        #endregion BookHubCommand.Load
 
-#region BookHubCommand.Unload
+        #region BookHubCommand.Unload
 
         /// <summary>
         /// 本の開放
@@ -931,9 +931,9 @@ namespace NeeView
             }
         }
 
-#endregion BookHubCommand.Unload
+        #endregion BookHubCommand.Unload
 
-#region BookMemento Control
+        #region BookMemento Control
 
         //現在開いているブックの設定作成
         public Book.Memento CreateBookMemento()
@@ -1032,9 +1032,9 @@ namespace NeeView
                 && (IsUncHistoryEnabled || !LoosePath.IsUnc(Book.Context.Address));
         }
 
-#endregion BookMemento Control
+        #endregion BookMemento Control
 
-#region IDisposable Support
+        #region IDisposable Support
         private bool _disposedValue = false;
 
         void Dispose(bool disposing)
@@ -1055,9 +1055,9 @@ namespace NeeView
         {
             Dispose(true);
         }
-#endregion
+        #endregion
 
-#region Memento
+        #region Memento
 
         /// <summary>
         /// BookHub Memento
@@ -1089,7 +1089,7 @@ namespace NeeView
             [DataMember, DefaultValue(ArchiveEntryCollectionMode.IncludeSubArchives)]
             public ArchiveEntryCollectionMode ArchiveRecursveMode { get; set; }
 
-#region Obslete
+            #region Obslete
 
             [Obsolete, DataMember(Order = 22)]
             public bool IsAutoRecursiveWithAllFiles { get; set; } // no used (ver.34)
@@ -1154,7 +1154,7 @@ namespace NeeView
             [Obsolete, DataMember(Order = 20, EmitDefaultValue = false)]
             public string Home { get; set; } // no used (ver.23)
 
-#endregion
+            #endregion
 
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
@@ -1276,7 +1276,7 @@ namespace NeeView
 #pragma warning restore CS0612
 
 
-#endregion
+        #endregion
     }
 }
 

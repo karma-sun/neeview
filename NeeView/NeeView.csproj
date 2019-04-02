@@ -184,13 +184,17 @@
     <Compile Include="Archiver\ZipArchiverProfile.cs" />
     <Compile Include="Bitmap\IBitmapFactory.cs" />
     <Compile Include="Bitmap\ResourceBitmapUtility.cs" />
-    <Compile Include="BookAhead.cs" />
+    <Compile Include="Book\BookAhead.cs" />
+    <Compile Include="Book\BookController.cs" />
     <Compile Include="BookHistory.cs" />
     <Compile Include="BookHistoryCollection.cs" />
     <Compile Include="BookHubHistory.cs" />
-    <Compile Include="BookMemoryService.cs" />
-    <Compile Include="BookThumbnailPool.cs" />
-    <Compile Include="BookV2.cs" />
+    <Compile Include="Book\BookMemoryService.cs" />
+    <Compile Include="Book\BookPageCollection.cs" />
+    <Compile Include="Book\BookPageMarker.cs" />
+    <Compile Include="Book\BookPageViewer.cs" />
+    <Compile Include="Book\BookThumbnailPool.cs" />
+    <Compile Include="Book\Book.cs" />
     <Compile Include="Controls\CriticalErrorDialog.xaml.cs">
       <DependentUpon>CriticalErrorDialog.xaml</DependentUpon>
     </Compile>
@@ -526,7 +530,7 @@
     <Compile Include="Archiver\ArchiverManager.cs" />
     <Compile Include="Archiver\FileProxy.cs" />
     <Compile Include="AutoFadeTriggerAction.cs" />
-    <Compile Include="BookCommandEngine.cs" />
+    <Compile Include="Book\BookCommandEngine.cs" />
     <Compile Include="BookHubCommandEngine.cs" />
     <Compile Include="ContentCanvas.cs" />
     <Compile Include="Controls\AddressBarViewModel.cs" />
@@ -845,7 +849,7 @@
     <Compile Include="PagePosition.cs" />
     <Compile Include="Page\BitmapPage.cs" />
     <Compile Include="Bitmap\BitmapSourceExtension.cs" />
-    <Compile Include="Book.cs" />
+    <Compile Include="Book\BookLegacy.cs" />
     <Compile Include="BookHub.cs" />
     <Compile Include="CommandElement.cs" />
     <Compile Include="CommandType.cs" />

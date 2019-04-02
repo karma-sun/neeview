@@ -91,7 +91,8 @@ namespace NeeView
 
         protected override async Task ExecuteAsync(CancellationToken token)
         {
-            await _bookHub.UnloadAsync(_param);
+            _bookHub.Unload(_param);
+            await Task.CompletedTask;
         }
     }
 

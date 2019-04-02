@@ -61,16 +61,6 @@ namespace NeeView
             _commandEngine.StartEngine();
         }
 
-
-        // 廃棄処理
-        public async Task DisposeAsync()
-        {
-            var command = RequestDispose(this);
-            if (command == null) return;
-
-            await command.WaitAsync();
-        }
-
         // 前のページに戻る
         public void PrevPage(int step = 0)
         {
@@ -198,21 +188,6 @@ namespace NeeView
                 var index = _book.Pages.ClampPageNumber(page.Index);
                 _book.Pages.Remove(page);
                 RequestSetPosition(this, new PagePosition(index, 0), 1);
-                await Task.CompletedTask;
-            }
-        }
-
-
-        // 終了処理
-        private BookCommand RequestDispose(object sender)
-        {
-            var command = new BookCommandAction(sender, Execute, 4);
-            _commandEngine.Enqueue(command);
-            return command;
-
-            async Task Execute(object s, CancellationToken token)
-            {
-                Dispose();
                 await Task.CompletedTask;
             }
         }

@@ -630,7 +630,7 @@ namespace NeeView
             var lastBookMemento = this.Book?.Context.Address != null ? this.Book.CreateMemento() : null;
 
             // 現在の本を開放
-            await UnloadAsync(new BookHubCommandUnloadArgs() { IsClearViewContent = false });
+            Unload(new BookHubCommandUnloadArgs() { IsClearViewContent = false });
 
             string place = args.Path;
 
@@ -884,13 +884,13 @@ namespace NeeView
         /// <summary>
         /// 本の開放
         /// </summary>
-        public async Task UnloadAsync(BookHubCommandUnloadArgs param)
+        public void Unload(BookHubCommandUnloadArgs param)
         {
             // 履歴の保存
             SaveBookMemento();
 
             // 現在の本を開放
-            await ReleaseCurrentAsync();
+            ReleaseCurrent();
 
             if (param.IsClearViewContent)
             {
@@ -916,7 +916,7 @@ namespace NeeView
         }
 
         // 現在の本を解除
-        private async Task ReleaseCurrentAsync()
+        private void ReleaseCurrent()
         {
             var book = BookUnit?.Book;
 
@@ -927,7 +927,7 @@ namespace NeeView
 
             if (book != null)
             {
-                await book.Control.DisposeAsync();
+                book.Dispose();
             }
         }
 

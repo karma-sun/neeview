@@ -169,7 +169,7 @@ namespace NeeView
             }
             else
             {
-                return entries.Where(e => e.IsImage() || (e.IsBook() && !e.IsArchiveDirectory())).ToList();
+                return entries.WherePageAll().Where(e => e.IsImage() || e.IsBook()).ToList();
             }
         }
 
@@ -177,8 +177,7 @@ namespace NeeView
         public async Task<List<ArchiveEntry>> GetEntriesWherePageAllAsync(CancellationToken token)
         {
             var entries = await GetEntriesAsync(token);
-            var directories = entries.Select(e => LoosePath.GetDirectoryName(e.SystemPath)).Distinct().ToList();
-            return entries.Where(e => !directories.Contains(e.SystemPath)).ToList();
+            return entries.WherePageAll().ToList();
         }
 
         // filter: 含まれるサブアーカイブのみ抽出
@@ -237,6 +236,16 @@ namespace NeeView
             {
                 return LoosePath.GetDirectoryName(Path);
             }
+        }
+    }
+
+    public static class ArchiveEntryCollectionExtensions
+    {
+        // filter: ディレクトリとなるエントリをすべて除外
+        public static IEnumerable<ArchiveEntry> WherePageAll(this IEnumerable<ArchiveEntry> source)
+        {
+            var directories = source.Select(e => LoosePath.GetDirectoryName(e.SystemPath)).Distinct().ToList();
+            return source.Where(e => !directories.Contains(e.SystemPath));
         }
     }
 }

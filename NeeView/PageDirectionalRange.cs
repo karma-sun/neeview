@@ -163,6 +163,13 @@ namespace NeeView
         }
 
         //
+        public PageDirectionalRange Add(PageDirectionalRange other)
+        {
+            var points = new List<PagePosition> { this.Min, this.Max, other.Min, other.Max };
+            return new PageDirectionalRange(points, this.Direction);
+        }
+
+        //
         public PagePosition Next()
         {
             return Next(this.Direction);

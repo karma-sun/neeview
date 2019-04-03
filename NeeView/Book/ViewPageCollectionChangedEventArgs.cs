@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace NeeView
 {
@@ -11,6 +12,8 @@ namespace NeeView
         }
 
         public ViewPageCollection ViewPageCollection { get; set; }
+        public bool IsForceResize { get; set; }
+        public CancellationToken CancellationToken { get; set; }
     }
 
 

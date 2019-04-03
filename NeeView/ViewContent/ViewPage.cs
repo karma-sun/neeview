@@ -80,7 +80,7 @@ namespace NeeView
                 return ViewContentType.Archive;
             }
             // 仮表示
-            else if (!Content.IsLoaded)
+            else if (!Content.IsAllLoaded)
             {
                 return ViewContentType.Reserve;
             }

@@ -11,24 +11,11 @@ namespace NeeView
     public class BookPageViewer : BindableBase, IDisposable
     {
         private BookSource _book;
-
-        /// <summary>
-        /// 要求中の表示範囲
-        /// </summary>
-        volatile PageDirectionalRange _viewPageRange;
-
-        /// <summary>
-        /// ページ要求発行者.
-        /// スライダーの挙動制御用
-        /// </summary>
-        volatile object _viewPageSender;
+        private BookViewSetting _setting;
 
 
         // 表示ページコンテキスト
         private volatile ViewPageCollection _viewPageCollection = new ViewPageCollection();
-
-        // 先読みページコンテキスト
-        private volatile ViewPageCollection _nextPageCollection = new ViewPageCollection();
 
 
         // リソースを保持しておくページ
@@ -43,21 +30,15 @@ namespace NeeView
         // 先読み
         private BookAhead _ahead;
 
-        private object _lock = new object();
+        // コンテンツ生成
+        private BookViewGenerater _contentGenerater;
 
 
-
-        public BookPageViewer(BookSource book, BookMemoryService memoryService, BookViewerCreateSetting setting)
+        public BookPageViewer(BookSource book, BookMemoryService memoryService, BookViewSetting setting)
         {
             _book = book ?? throw new ArgumentNullException(nameof(book));
             _bookMemoryService = memoryService;
-
-            this.PageMode = setting.PageMode;
-            this.BookReadOrder = setting.BookReadOrder;
-            this.IsSupportedDividePage = setting.IsSupportedDividePage;
-            this.IsSupportedSingleFirstPage = setting.IsSupportedSingleFirstPage;
-            this.IsSupportedSingleLastPage = setting.IsSupportedSingleLastPage;
-            this.IsSupportedWidePage = setting.IsSupportedWidePage;
+            _setting = setting;
 
             foreach (var page in _book.Pages)
             {
@@ -66,7 +47,6 @@ namespace NeeView
 
             _ahead = new BookAhead(_bookMemoryService);
         }
-
 
 
         // 表示コンテンツ変更
@@ -81,60 +61,51 @@ namespace NeeView
         public event EventHandler<PageTerminatedEventArgs> PageTerminated;
 
 
-
-
         // 横長ページを分割する
-        private bool _isSupportedDividePage;
         public bool IsSupportedDividePage
         {
-            get => _isSupportedDividePage;
-            set => SetProperty(ref _isSupportedDividePage, value);
+            get { return _setting.IsSupportedDividePage; }
+            set { if (_setting.IsSupportedDividePage != value) { _setting.IsSupportedDividePage = value; RaisePropertyChanged(); } }
         }
 
         // 最初のページは単独表示
-        private bool _isSupportedSingleFirstPage;
         public bool IsSupportedSingleFirstPage
         {
-            get => _isSupportedSingleFirstPage;
-            set => SetProperty(ref _isSupportedSingleFirstPage, value);
+            get { return _setting.IsSupportedSingleFirstPage; }
+            set { if (_setting.IsSupportedSingleFirstPage != value) { _setting.IsSupportedSingleFirstPage = value; RaisePropertyChanged(); } }
         }
 
         // 最後のページは単独表示
-        private bool _isSupportedSingleLastPage;
         public bool IsSupportedSingleLastPage
         {
-            get => _isSupportedSingleLastPage;
-            set => SetProperty(ref _isSupportedSingleLastPage, value);
+            get { return _setting.IsSupportedSingleLastPage; }
+            set { if (_setting.IsSupportedSingleLastPage != value) { _setting.IsSupportedSingleLastPage = value; RaisePropertyChanged(); } }
         }
 
         // 横長ページは２ページとみなす
-        private bool _isSupportedWidePage = true;
         public bool IsSupportedWidePage
         {
-            get => _isSupportedWidePage;
-            set => SetProperty(ref _isSupportedWidePage, value);
+            get { return _setting.IsSupportedWidePage; }
+            set { if (_setting.IsSupportedWidePage != value) { _setting.IsSupportedWidePage = value; RaisePropertyChanged(); } }
         }
 
         // 右開き、左開き
-        private PageReadOrder _bookReadOrder = PageReadOrder.RightToLeft;
         public PageReadOrder BookReadOrder
         {
-            get => _bookReadOrder;
-            set => SetProperty(ref _bookReadOrder, value);
+            get { return _setting.BookReadOrder; }
+            set { if (_setting.BookReadOrder != value) { _setting.BookReadOrder = value; RaisePropertyChanged(); } }
         }
 
         // 単ページ/見開き
-        private PageMode _pageMode = PageMode.SinglePage;
         public PageMode PageMode
         {
-            get => _pageMode;
-            set => SetProperty(ref _pageMode, value);
+            get { return _setting.PageMode; }
+            set { if (_setting.PageMode != value) { _setting.PageMode = value; RaisePropertyChanged(); } }
         }
 
 
         // 表示されるページ番号(スライダー用)
         public int DisplayIndex { get; set; }
-
 
         // 表示ページ変更回数
         public int PageChangeCount { get; private set; }
@@ -142,7 +113,6 @@ namespace NeeView
         // 終端ページ表示
         public bool IsPageTerminated { get; private set; }
 
-        
         // TODO: このパラメータだけ公開するのは微妙。
         public ViewPageCollection ViewPageCollection => _viewPageCollection;
 
@@ -167,7 +137,7 @@ namespace NeeView
                     this.NextContentsChanged = null;
 
                     _ahead.Dispose();
-                    CancelUpdateNextContents();
+                    _contentGenerater?.Dispose();
 
                     _jobClient.Dispose();
 
@@ -185,14 +155,13 @@ namespace NeeView
         }
         #endregion
 
+        #region Methods
 
         // 動画用：外部から終端イベントを発行
         public void RaisePageTerminatedEvent(int direction)
         {
             PageTerminated?.Invoke(this, new PageTerminatedEventArgs(direction));
         }
-
-        #region 表示ページ処理
 
         // 表示ページ番号
         public int GetViewPageindex() => _viewPageCollection.Range.Min.Index;
@@ -202,8 +171,6 @@ namespace NeeView
 
         // 表示ページ群
         public List<Page> GetViewPages() => _viewPageCollection.Collection.Select(e => e.Page).ToList();
-
-
 
         // 先読み許可フラグ
         private bool AllowPreLoad()
@@ -241,15 +208,15 @@ namespace NeeView
         }
 
         // 表示ページ更新
-        public async Task UpdateViewPageAsync(PageDirectionalRange source, object sender, CancellationToken token)
+        public async Task UpdateViewPageAsync(PageDirectionalRange viewPageRange, object sender, CancellationToken token)
         {
             // ページ終端を越えたか判定
-            if (source.Position < _book.Pages.FirstPosition())
+            if (viewPageRange.Position < _book.Pages.FirstPosition())
             {
                 PageTerminated?.Invoke(this, new PageTerminatedEventArgs(-1));
                 return;
             }
-            else if (source.Position > _book.Pages.LastPosition())
+            else if (viewPageRange.Position > _book.Pages.LastPosition())
             {
                 PageTerminated?.Invoke(this, new PageTerminatedEventArgs(+1));
                 return;
@@ -266,7 +233,7 @@ namespace NeeView
             var viewPages = new List<Page>();
             for (int i = 0; i < PageMode.Size(); ++i)
             {
-                var page = _book.Pages[_book.Pages.ClampPageNumber(source.Position.Index + source.Direction * i)];
+                var page = _book.Pages[_book.Pages.ClampPageNumber(viewPageRange.Position.Index + viewPageRange.Direction * i)];
                 if (!viewPages.Contains(page))
                 {
                     viewPages.Add(page);
@@ -275,9 +242,8 @@ namespace NeeView
 
             // pre load
             _ahead.Clear();
-            CancelUpdateNextContents();
-            _aheadPageRange = CreateAheadPageRange(source);
-            var aheadPages = CreatePagesFromRange(_aheadPageRange, viewPages);
+            var aheadPageRange = CreateAheadPageRange(viewPageRange);
+            var aheadPages = CreatePagesFromRange(aheadPageRange, viewPages);
 
             var loadPages = viewPages.Concat(aheadPages).Distinct().ToList();
 
@@ -295,13 +261,26 @@ namespace NeeView
 
             // update contents
             this.PageChangeCount++;
-            this.IsPageTerminated = source.Max >= _book.Pages.LastPosition();
-            _viewPageSender = sender;
-            _viewPageRange = source;
+            this.IsPageTerminated = viewPageRange.Max >= _book.Pages.LastPosition();
+
+
+            _contentGenerater?.Dispose();
+            _contentGenerater = new BookViewGenerater(_book, _setting, sender, viewPageRange, aheadPageRange);
+            _contentGenerater.ViewContentsChanged += (s, e) =>
+            {
+                _viewPageCollection = e.ViewPageCollection;
+                this.DisplayIndex = e.ViewPageCollection.Range.Min.Index;
+                ViewContentsChanged?.Invoke(s, e);
+                _contentLoaded.Set();
+            };
+            _contentGenerater.NextContentsChanged += (s, e) =>
+                NextContentsChanged?.Invoke(s, e);
+
 
             _bookMemoryService.SetReference(viewPages.First().Index);
             _jobClient.Order(viewPages);
             _ahead.Order(aheadPages);
+
 
             using (var loadWaitCancellation = new CancellationTokenSource())
             using (var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token, loadWaitCancellation.Token))
@@ -315,8 +294,8 @@ namespace NeeView
             // task cancel?
             token.ThrowIfCancellationRequested();
 
-            UpdateViewContents();
-            UpdateNextContents();
+            _contentGenerater.UpdateViewContents(token);
+            _contentGenerater.UpdateNextContents();
         }
 
 
@@ -335,242 +314,7 @@ namespace NeeView
 
             ////if (!BookProfile.Current.CanPrioritizePageMove()) return;
 
-            // 非同期なので一旦退避
-            var now = _viewPageCollection;
-
-            if (now?.Collection == null) return;
-
-            // 現在表示に含まれているページ？
-            if (page.IsContentAlived && now.Collection.Any(item => !item.IsValid && item.Page == page))
-            {
-                // 再更新
-                UpdateViewContents();
-            }
-
-            UpdateNextContents();
-        }
-
-        /// <summary>
-        /// 表示コンテンツ更新
-        /// </summary>
-        public void UpdateViewContents()
-        {
-            if (_disposedValue)
-            {
-                return;
-            }
-
-            lock (_lock)
-            {
-                // update contents
-                var sender = _viewPageSender;
-                var viewContent = CreateViewPageContext(_viewPageRange);
-                if (viewContent == null)
-                {
-                    return;
-                }
-
-                _viewPageCollection = viewContent;
-                _nextPageCollection = viewContent;
-                ////Debug.WriteLine($"now: {_viewPageCollection.Range}");
-
-                // change page
-                this.DisplayIndex = viewContent.Range.Min.Index;
-
-                // notice ViewContentsChanged
-                ViewContentsChanged?.Invoke(sender, new ViewPageCollectionChangedEventArgs(viewContent));
-
-                // コンテンツ準備完了
-                ContentLoaded.Set();
-            }
-        }
-
-
-
-        #region 先読みコンテンツ更新
-
-        private PageDirectionalRange _aheadPageRange;
-        private CancellationTokenSource _aheadCancellationTokenSource;
-        private Task _aheadTask;
-
-
-        public void CancelUpdateNextContents()
-        {
-            lock (_lock)
-            {
-                if (_aheadTask != null)
-                {
-                    ////Debug.WriteLine($"> CancelUpdateViewContents");
-                    _aheadCancellationTokenSource?.Cancel();
-                    _aheadTask = null;
-                }
-                _nextPageCollection = new ViewPageCollection();
-            }
-        }
-
-        public void UpdateNextContents()
-        {
-            if (_aheadTask != null && !_aheadTask.IsCompleted)
-            {
-                ////Debug.WriteLine($"> RunUpdateViewContents: skip.");
-                return;
-            }
-
-            ////Debug.WriteLine($"> RunUpdateViewContents: run...");
-            _aheadCancellationTokenSource?.Cancel();
-            _aheadCancellationTokenSource = new CancellationTokenSource();
-            var token = _aheadCancellationTokenSource.Token;
-            _aheadTask = Task.Run(() =>
-            {
-                try
-                {
-                    UpdateNextContentsInner(token);
-                    ////Debug.WriteLine($"> RunUpdateViewContents: done.");
-                }
-                catch (Exception)
-                {
-                    ////Debug.WriteLine($"> RunUpdateViewContents: {ex.Message}");
-                }
-            });
-        }
-
-        private void UpdateNextContentsInner(CancellationToken token)
-        {
-            if (!_nextPageCollection.IsValid) return;
-
-            ////int turn = 0;
-            RETRY:
-
-            if (_disposedValue) return;
-            if (token.IsCancellationRequested) return;
-
-            ViewPageCollection next;
-            lock (_lock)
-            {
-                next = CreateViewPageContext(GetNextRange(_nextPageCollection.Range));
-                var range = _aheadPageRange.Add(_viewPageRange.Position);
-                if (next.IsValid && range.IsContains(new PagePosition(next.Range.Position.Index, 0)))
-                {
-                    _nextPageCollection = next;
-                }
-                else
-                {
-                    return;
-                }
-            }
-
-            ////Debug.WriteLine($"next({turn++}): {next.Range}");
-            NextContentsChanged?.Invoke(this, new ViewPageCollectionChangedEventArgs(next));
-
-            ////Thread.Sleep(1000); // ##
-
-            goto RETRY;
-        }
-
-        private PageDirectionalRange GetNextRange(PageDirectionalRange previous)
-        {
-            // 先読みコンテンツ領域計算
-            var position = previous.Next();
-            var direction = previous.Direction;
-            var range = new PageDirectionalRange(position, direction, PageMode.Size());
-
-            return range;
-        }
-
-        #endregion 先読みコンテンツ更新
-
-
-        // ページのワイド判定
-        private bool IsWide(Page page)
-        {
-            return page.Width > page.Height * BookProfile.Current.WideRatio;
-        }
-
-        // 見開きモードでも単独表示するべきか判定
-        private bool IsSoloPage(int index)
-        {
-            if (IsSupportedSingleFirstPage && index == 0) return true;
-            if (IsSupportedSingleLastPage && index == _book.Pages.Count - 1) return true;
-            if (_book.Pages[index] is ArchivePage) return true;
-            if (IsSupportedWidePage && IsWide(_book.Pages[index])) return true;
-            return false;
-        }
-
-        // 分割モード有効判定
-        private bool IsEnableDividePage(int index)
-        {
-            return (PageMode == PageMode.SinglePage && !_book.IsMedia && IsSupportedDividePage && IsWide(_book.Pages[index]));
-        }
-
-        // 表示コンテンツソースと、それに対応したコンテキスト作成
-        private ViewPageCollection CreateViewPageContext(PageDirectionalRange source)
-        {
-            var infos = new List<PagePart>();
-
-            {
-                PagePosition position = source.Position;
-
-                for (int id = 0; id < PageMode.Size(); ++id)
-                {
-                    if (!_book.Pages.IsValidPosition(position) || _book.Pages[position.Index] == null) break;
-
-                    int size = 2;
-                    if (IsEnableDividePage(position.Index))
-                    {
-                        size = 1;
-                    }
-                    else
-                    {
-                        position = new PagePosition(position.Index, 0);
-                    }
-
-                    infos.Add(new PagePart(position, size, this.BookReadOrder));
-
-                    position = position + ((source.Direction > 0) ? size : -1);
-                }
-            }
-
-            // 見開き補正
-            if (PageMode == PageMode.WidePage && infos.Count >= 2)
-            {
-                if (IsSoloPage(infos[0].Position.Index) || IsSoloPage(infos[1].Position.Index))
-                {
-                    infos = infos.GetRange(0, 1);
-                }
-            }
-
-            // コンテンツソース作成
-            var contentsSource = new List<ViewPage>();
-            foreach (var v in infos)
-            {
-                var viewPage = new ViewPage(_book.Pages[v.Position.Index], v);
-                contentsSource.Add(viewPage);
-            }
-
-            // 並び順補正
-            if (source.Direction < 0 && infos.Count >= 2)
-            {
-                contentsSource.Reverse();
-                infos.Reverse();
-            }
-
-            // 左開き
-            if (BookReadOrder == PageReadOrder.LeftToRight)
-            {
-                contentsSource.Reverse();
-            }
-
-            // 単一ソースならコンテンツは１つにまとめる
-            if (infos.Count == 2 && infos[0].Position.Index == infos[1].Position.Index)
-            {
-                var position = new PagePosition(infos[0].Position.Index, 0);
-                contentsSource.Clear();
-                contentsSource.Add(new ViewPage(_book.Pages[position.Index], new PagePart(position, 2, BookReadOrder)));
-            }
-
-            // 新しいコンテキスト
-            var context = new ViewPageCollection(new PageDirectionalRange(infos, source.Direction), contentsSource);
-            return context;
+            _contentGenerater.UpdateNextContents();
         }
 
         /// <summary>
@@ -613,19 +357,5 @@ namespace NeeView
         }
 
         #endregion
-
     }
-
-
-    public class BookViewerCreateSetting
-    {
-        public PageMode PageMode { get; set; }
-        public PageReadOrder BookReadOrder { get; set; }
-        public bool IsSupportedDividePage { get; set; }
-        public bool IsSupportedSingleFirstPage { get; set; }
-        public bool IsSupportedSingleLastPage { get; set; }
-        public bool IsSupportedWidePage { get; set; }
-    }
-
-
 }

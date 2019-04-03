@@ -160,6 +160,8 @@ namespace NeeView
                     return false;
                 }
 
+                linkedTokenSource.Token.ThrowIfCancellationRequested();
+
                 lock (_lock)
                 {
                     _resizeHashCode = filterHashCode;

@@ -265,7 +265,7 @@ namespace NeeView
             ////ResizeConten(e?.ViewPageCollection);
 
             var contents = new List<ViewContent>();
-            
+
             // ViewContent作成
             if (e?.ViewPageCollection?.Collection != null)
             {
@@ -327,19 +327,25 @@ namespace NeeView
         {
             if (source?.ViewPageCollection?.Collection == null) return;
 
-            // ルーペモードでかつ継続される設定の場合、先読みではリサイズしない
-            if (LoupeTransform.Current.IsEnabled && !MouseInput.Current.Loupe.IsResetByPageChanged) return;
+            if (!source.IsForceResize)
+            {
+                // ルーペモードでかつ継続される設定の場合、先読みではリサイズしない
+                if (LoupeTransform.Current.IsEnabled && !MouseInput.Current.Loupe.IsResetByPageChanged) return;
+            }
 
-            ResizeConten(source.ViewPageCollection);
+            ResizeConten(source.ViewPageCollection, source.CancellationToken);
         }
 
 
         /// <summary>
         /// コンテンツリサイズ
         /// </summary>
-        private void ResizeConten(ViewPageCollection viewPageCollection)
+        private void ResizeConten(ViewPageCollection viewPageCollection, CancellationToken token)
         {
             if (viewPageCollection?.Collection == null) return;
+
+            token.ThrowIfCancellationRequested();
+
 
             var sizes = viewPageCollection.Collection.Select(e => e.Size).ToList();
             while (sizes.Count() < 2)
@@ -368,21 +374,27 @@ namespace NeeView
                 }
                 ////Debug.WriteLine($"{i}: {size0} => {size1.Truncate()}");
 
+
+                var content = viewPageCollection.Collection[i].Content;
                 try
                 {
-                    var content = viewPageCollection.Collection[i].Content;
-                    if (content.CanResize && content is BitmapContent bitmapContent)
+                    if (content.PageMessage == null && content.CanResize && content is BitmapContent bitmapContent)
                     {
-                        var resized = bitmapContent.Picture?.CreateBitmapSource(bitmapContent.GetRenderSize(size1), CancellationToken.None);
+                        var resized = bitmapContent.Picture?.CreateBitmapSource(bitmapContent.GetRenderSize(size1), token);
                         if (resized == true)
                         {
                             viewPageCollection.Collection[i].Page.DebugRaiseContentPropertyChanged();
                         }
                     }
                 }
+                catch (OperationCanceledException)
+                {
+                    throw;
+                }
                 catch (Exception ex)
                 {
                     Debug.WriteLine("OnNextContentChanged: " + ex.Message);
+                    content.SetExceptionMessage(ex);
                 }
             }
         }

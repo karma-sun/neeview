@@ -46,7 +46,9 @@ namespace NeeView
         /// <summary>
         /// BitmapSourceがあればコンテンツ有効
         /// </summary>
-        public override bool IsLoaded => BitmapSource != null || PageMessage != null;
+        public override bool IsLoaded => Picture != null || PageMessage != null;
+
+        public override bool IsAllLoaded => BitmapSource != null || PageMessage != null;
 
         /// <summary>
         /// PictureSourceのロック
@@ -121,7 +123,7 @@ namespace NeeView
             {
                 var source = LoadPictureSource(token);
                 var picture = new Picture(source);
-                picture.CreateBitmapSource(Size.Empty, token);
+                ////picture.CreateBitmapSource(Size.Empty, token);
                 return picture;
             }
             catch (OperationCanceledException)
@@ -130,12 +132,7 @@ namespace NeeView
             }
             catch (Exception ex)
             {
-                // 画像ではない
-                PageMessage = new PageMessage()
-                {
-                    Icon = FilePageIcon.Alart,
-                    Message = ex.Message
-                };
+                SetExceptionMessage(ex);
                 throw;
             }
         }

@@ -107,6 +107,7 @@ namespace NeeView
         public Thumbnail Thumbnail { get; protected set; } = new Thumbnail();
 
         public virtual bool IsLoaded => true;
+        public virtual bool IsAllLoaded => IsLoaded;
 
         public bool IsAnimated { get; protected set; }
 
@@ -196,6 +197,18 @@ namespace NeeView
         {
             FileProxy = FileProxy ?? Entry.ExtractToTemp(isKeepFileName);
             return FileProxy;
+        }
+
+        /// <summary>
+        /// 例外表示
+        /// </summary>
+        public void SetExceptionMessage(Exception ex)
+        {
+            PageMessage = new PageMessage()
+            {
+                Icon = FilePageIcon.Alart,
+                Message = ex.Message
+            };
         }
 
         public override string ToString()

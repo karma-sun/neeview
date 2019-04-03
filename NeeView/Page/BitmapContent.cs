@@ -123,7 +123,13 @@ namespace NeeView
             {
                 var source = LoadPictureSource(token);
                 var picture = new Picture(source);
-                ////picture.CreateBitmapSource(Size.Empty, token);
+
+                // NOTE: リサイズフィルター有効の場合はBitmapSourceの生成をサイズ確定まで遅延させる
+                if (!PictureProfile.Current.IsResizeFilterEnabled)
+                {
+                    picture.CreateBitmapSource(Size.Empty, token);
+                }
+
                 return picture;
             }
             catch (OperationCanceledException)

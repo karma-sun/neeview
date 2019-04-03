@@ -62,7 +62,7 @@ namespace NeeView
                     ViewContentsChanged = null;
                     NextContentsChanged = null;
                     _cancellationTokenSource.Cancel();
-                    _semaphore.Dispose();
+                    ////_semaphore.Dispose();
                 }
 
                 _disposedValue = true;

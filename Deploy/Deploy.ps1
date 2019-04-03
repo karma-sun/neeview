@@ -20,7 +20,7 @@ $product = 'NeeView'
 $config = 'Release'
 
 #
-$Win10SDK = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.16299.0\x64"
+$Win10SDK = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.17763.0\x64"
 
 
 #---------------------
@@ -192,8 +192,8 @@ function Build-Project($arch, $assemblyVersion)
 
 	$vswhere = "$solutionDir\Tools\vswhere.exe"
 
-    $vspath = & $vswhere -property installationPath
-    $msbuild = "$vspath\MSBuild\15.0\Bin\MSBuild.exe"
+    $vspath = & $vswhere -property installationPath -latest
+    $msbuild = "$vspath\MSBuild\Current\Bin\MSBuild.exe"
 	& $msbuild $solution /p:Configuration=$config /p:Platform=$platform /t:Clean,Build
 	if ($? -ne $true)
 	{

@@ -188,7 +188,7 @@ namespace NeeView
             bool isSuccessed = true;
             var dpiScaleX = Config.Current.RawDpi.DpiScaleX;
             var scale = DragTransform.Current.Scale * LoupeTransform.Current.FixedScale * dpiScaleX;
-            foreach (var viewConent in ContentCanvas.Current.Contents.Where(e => e.IsValid))
+            foreach (var viewConent in ContentCanvas.Current.CloneContents.Where(e => e.IsValid))
             {
                 isSuccessed = viewConent.Rebuild(scale) && isSuccessed;
             }
@@ -215,7 +215,7 @@ namespace NeeView
         //
         public void UpdateStatus()
         {
-            this.IsBusy = ContentCanvas.Current.Contents.Where(e => e.IsValid).Any(e => e.IsResizing);
+            this.IsBusy = ContentCanvas.Current.CloneContents.Where(e => e.IsValid).Any(e => e.IsResizing);
         }
 
         private void Start()

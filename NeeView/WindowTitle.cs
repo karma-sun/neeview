@@ -215,7 +215,7 @@ namespace NeeView
         private string CreateWindowTitle(WindowTitleMask mask)
         {
             var MainContent = ContentCanvas.Current.MainContent;
-            var Contents = ContentCanvas.Current.Contents;
+            var Contents = ContentCanvas.Current.CloneContents;
             var _viewScale = DragTransform.Current.Scale;
 
             string format = MainContent is MediaViewContent

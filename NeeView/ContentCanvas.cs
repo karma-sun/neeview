@@ -45,6 +45,8 @@ namespace NeeView
 
         private PageStretchMode _stretchModePrev = PageStretchMode.Uniform;
 
+        private object _lock = new object();
+
         #endregion
 
         #region Constructors
@@ -162,6 +164,18 @@ namespace NeeView
         // コンテンツ
         public ObservableCollection<ViewContent> Contents { get; private set; }
 
+        // コンテンツ複製。処理時のコレクション変更の例外を避けるため。
+        public List<ViewContent> CloneContents
+        {
+            get
+            {
+                lock (_lock)
+                {
+                    return Contents.ToList();
+                }
+            }
+        }
+
         // 見開き時のメインとなるコンテンツ
         private ViewContent _mainContent;
         public ViewContent MainContent
@@ -248,7 +262,7 @@ namespace NeeView
         // 現在のビューコンテンツのリザーバーを無効化
         private void IgnoreViewContentsReservers()
         {
-            foreach (var content in this.Contents)
+            foreach (var content in CloneContents)
             {
                 content.IgnoreReserver = true;
             }
@@ -295,9 +309,12 @@ namespace NeeView
             MainContent = contents.Count > 0 ? (contents.First().Position < contents.Last().Position ? contents.First() : contents.Last()) : null;
 
             // ViewModelプロパティに反映
-            for (int index = 0; index < 2; ++index)
+            lock (_lock)
             {
-                Contents[index] = index < contents.Count ? contents[index] : new ViewContent();
+                for (int index = 0; index < 2; ++index)
+                {
+                    Contents[index] = index < contents.Count ? contents[index] : new ViewContent();
+                }
             }
 
             // コンテンツサイズ更新
@@ -442,7 +459,7 @@ namespace NeeView
         /// <returns></returns>
         private List<Size> GetContentSizeList()
         {
-            return Contents.Select(e => (e?.Size ?? SizeExtensions.Zero).EmptyOrZeroCoalesce(e.Size)).ToList();
+            return CloneContents.Select(e => (e?.Size ?? SizeExtensions.Zero).EmptyOrZeroCoalesce(e.Size)).ToList();
         }
 
         // ビューエリアサイズを更新
@@ -466,7 +483,7 @@ namespace NeeView
         // コンテンツ表示サイズを更新
         public void UpdateContentSize()
         {
-            if (!Contents.Any(e => e.IsValid)) return;
+            if (!CloneContents.Any(e => e.IsValid)) return;
 
             var result = _contentSizeCalcurator.GetFixedContentSize(GetContentSizeList(), this.ContentAngle);
 
@@ -489,7 +506,7 @@ namespace NeeView
         {
             double finalScale = _dragTransform.Scale * LoupeTransform.Current.FixedScale * Config.Current.RawDpi.DpiScaleX;
 
-            foreach (var content in Contents)
+            foreach (var content in CloneContents)
             {
                 if (target != null && target != content) continue;
 

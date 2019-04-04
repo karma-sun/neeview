@@ -827,14 +827,25 @@ namespace NeeView
                 book.Viewer.NextContentsChanged += OnNextContentsChanged;
                 book.Source.DartyBook += (s, e) => RequestLoad(Address, null, BookLoadOption.ReLoad | BookLoadOption.IsBook, false);
 
+                var tcs = new TaskCompletionSource<bool>();
+                book.Viewer.ViewContentsChanged += OnViewContentsChangedInner;
+
                 // 開始
                 BookUnit.Book.Start();
 
                 // 最初のコンテンツ表示待ち
                 if (book.Pages.Count > 0)
                 {
-                    await TaskUtils.ActionAsync(() => book.Viewer.ContentLoaded.Wait(token), token);
+                    using (var register = token.Register(() => tcs.TrySetCanceled()))
+                    {
+                        await tcs.Task;
+                    }
                 }
+
+                book.Viewer.ViewContentsChanged -= OnViewContentsChangedInner;
+
+                //// inner callback function define.
+                void OnViewContentsChangedInner(object sender, ViewPageCollectionChangedEventArgs e) => tcs.TrySetResult(true);
             }
             catch (OperationCanceledException)
             {
@@ -871,6 +882,7 @@ namespace NeeView
             Address = BookUnit.Book.Address;
             BookHistoryCollection.Current.LastAddress = Address;
         }
+
 
         #endregion BookHubCommand.Load
 

@@ -160,9 +160,9 @@ namespace NeeView
             _source.Pages.SortMode = memento.SortMode;
         }
 
-        private static BookViewSetting CreateBookViewerCreateSetting(Book.Memento memento)
+        private static BookPageViewSetting CreateBookViewerCreateSetting(Book.Memento memento)
         {
-            var setting = new BookViewSetting
+            var setting = new BookPageViewSetting
             {
                 PageMode = memento.PageMode,
                 BookReadOrder = memento.BookReadOrder,

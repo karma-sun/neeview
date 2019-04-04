@@ -193,12 +193,12 @@
     <Compile Include="Book\BookPageCollection.cs" />
     <Compile Include="Book\BookPageMarker.cs" />
     <Compile Include="Book\BookPageViewer.cs" />
+    <Compile Include="Book\BookPageViewGenerater.cs" />
+    <Compile Include="Book\BookPageViewSetting.cs" />
     <Compile Include="Book\BookSource.cs" />
     <Compile Include="Book\BookSourceFactory.cs" />
     <Compile Include="Book\BookThumbnailPool.cs" />
     <Compile Include="Book\Book.cs" />
-    <Compile Include="Book\BookViewGenerater.cs" />
-    <Compile Include="Book\BookViewSetting.cs" />
     <Compile Include="Book\PageChangedEventArgs.cs" />
     <Compile Include="Book\PageTerminatedEventArgs.cs" />
     <Compile Include="Book\PageThumbnailPool.cs" />

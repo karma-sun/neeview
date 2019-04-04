@@ -1,9 +1,9 @@
 ﻿namespace NeeView
 {
     /// <summary>
-    /// BookViewer, BookViewGenerater setting
+    /// BookPageViewer, BookPageViewGenerater setting
     /// </summary>
-    public class BookViewSetting
+    public class BookPageViewSetting
     {
         public PageMode PageMode { get; set; }
         public PageReadOrder BookReadOrder { get; set; }

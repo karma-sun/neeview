@@ -11,10 +11,10 @@ namespace NeeView
     /// <summary>
     /// ViewPageCollection Generate Process
     /// </summary>
-    public class BookViewGenerater : IDisposable
+    public class BookPageViewGenerater : IDisposable
     {
         private BookSource _book;
-        private BookViewSetting _setting;
+        private BookPageViewSetting _setting;
 
         private object _sender;
         private PageRange _viewRange;
@@ -27,7 +27,7 @@ namespace NeeView
         private object _lock = new object();
         private SemaphoreSlim _semaphore;
 
-        public BookViewGenerater(BookSource book, BookViewSetting setting, object sender, PageRange viewPageRange, PageRange aheadPageRange)
+        public BookPageViewGenerater(BookSource book, BookPageViewSetting setting, object sender, PageRange viewPageRange, PageRange aheadPageRange)
         {
             _book = book;
             _setting = setting;

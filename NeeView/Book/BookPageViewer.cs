@@ -11,7 +11,7 @@ namespace NeeView
     public class BookPageViewer : BindableBase, IDisposable
     {
         private BookSource _book;
-        private BookViewSetting _setting;
+        private BookPageViewSetting _setting;
 
 
         // 表示ページコンテキスト
@@ -31,10 +31,10 @@ namespace NeeView
         private BookAhead _ahead;
 
         // コンテンツ生成
-        private BookViewGenerater _contentGenerater;
+        private BookPageViewGenerater _contentGenerater;
 
 
-        public BookPageViewer(BookSource book, BookMemoryService memoryService, BookViewSetting setting)
+        public BookPageViewer(BookSource book, BookMemoryService memoryService, BookPageViewSetting setting)
         {
             _book = book ?? throw new ArgumentNullException(nameof(book));
             _bookMemoryService = memoryService;
@@ -120,11 +120,6 @@ namespace NeeView
         // TODO: このパラメータだけ公開するのは微妙。
         public ViewPageCollection ViewPageCollection => _viewPageCollection;
 
-        // TODO: イベントでよくないか？待機が必要なら受け側で実装
-        // 最初のコンテンツ表示フラグ
-        private ManualResetEventSlim _contentLoaded = new ManualResetEventSlim();
-        public ManualResetEventSlim ContentLoaded => _contentLoaded;
-
 
         #region IDisposable Support
         private bool _disposedValue = false;
@@ -144,9 +139,6 @@ namespace NeeView
                     _contentGenerater?.Dispose();
 
                     _jobClient.Dispose();
-
-                    _contentLoaded.Set();
-                    _contentLoaded.Dispose();
                 }
 
                 _disposedValue = true;
@@ -269,13 +261,12 @@ namespace NeeView
 
 
             _contentGenerater?.Dispose();
-            _contentGenerater = new BookViewGenerater(_book, _setting, sender, viewPageRange, aheadPageRange);
+            _contentGenerater = new BookPageViewGenerater(_book, _setting, sender, viewPageRange, aheadPageRange);
             _contentGenerater.ViewContentsChanged += (s, e) =>
             {
                 _viewPageCollection = e.ViewPageCollection;
                 this.DisplayIndex = e.ViewPageCollection.Range.Min.Index;
                 ViewContentsChanged?.Invoke(s, e);
-                _contentLoaded.Set();
             };
             _contentGenerater.NextContentsChanged += (s, e) =>
                 NextContentsChanged?.Invoke(s, e);

@@ -118,5 +118,27 @@ namespace NeeView
 
             return true;
         }
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected override void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    foreach (BookHubCommand e in AllJobs())
+                    {
+                        e.Cancel();
+                    }
+                }
+
+                _disposedValue = true;
+            }
+
+            base.Dispose(disposing);
+        }
+        #endregion
     }
 }

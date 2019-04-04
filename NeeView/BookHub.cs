@@ -127,10 +127,11 @@ namespace NeeView
     /// <summary>
     /// Bookとその付属情報の管理
     /// </summary>
-    public class BookUnit
+    public class BookUnit : IDisposable
     {
         public BookUnit(Book book, BookAddress bookAddress, BookLoadOption loadOptions)
         {
+            Debug.Assert(book != null);
             Book = book;
             BookAddress = bookAddress;
             LoadOptions = loadOptions;
@@ -146,8 +147,31 @@ namespace NeeView
         public bool IsValid
             => Book?.Address != null;
 
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    Book.Dispose();
+                }
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
+
         public BookMementoType GetBookMementoType()
         {
+            if (Book is null) return BookMementoType.None;
+
             if (BookmarkCollection.Current.Contains(Book.Address))
             {
                 return BookMementoType.Bookmark;
@@ -245,8 +269,7 @@ namespace NeeView
             _commandEngine = new BookHubCommandEngine();
             _commandEngine.Name = "BookHubJobEngine";
             _commandEngine.Log = new Log(nameof(BookHubCommandEngine), 0);
-
-            Start();
+            _commandEngine.StartEngine();
 
             // アプリ終了前の開放予約
             ApplicationDisposer.Current.Add(this);
@@ -387,6 +410,47 @@ namespace NeeView
 
         #endregion Properties
 
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    // reset event
+                    this.BookChanging = null;
+                    this.BookChanged = null;
+                    this.LoadRequested = null;
+                    this.Loading = null;
+                    this.ViewContentsChanged = null;
+                    this.NextContentsChanged = null;
+                    this.EmptyMessage = null;
+                    this.FolderListSync = null;
+                    this.HistoryListSync = null;
+                    this.HistoryChanged = null;
+                    this.BookmarkChanged = null;
+                    this.AddressChanged = null;
+                    ResetPropertyChanged();
+
+                    _commandEngine.Dispose();
+
+                    this.BookUnit?.Dispose();
+
+                    Debug.WriteLine("BookHub Disposed.");
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
+
         #region Callback Methods
 
         private void BookHistoryCollection_HistoryChanged(object sender, BookMementoCollectionChangedArgs e)
@@ -395,7 +459,7 @@ namespace NeeView
 
             lock (_lock)
             {
-                if (this.BookUnit == null) return;
+                if (BookUnit == null) return;
 
                 // 履歴削除されたものを履歴登録しないようにする
                 if (e.HistoryChangedType == BookMementoCollectionChangedType.Remove && this.BookUnit.Book.Address == e.Key)
@@ -441,43 +505,6 @@ namespace NeeView
         }
 
         #endregion Callback Methods
-
-        #region Engine Control
-
-        public void Start()
-        {
-            _commandEngine.StartEngine();
-        }
-
-        public void Stop()
-        {
-            if (_disposedValue) return;
-
-            // いろんなイベントをクリア
-            this.AddressChanged = null;
-            this.BookChanging = null;
-            this.BookChanged = null;
-            this.BookmarkChanged = null;
-            this.EmptyMessage = null;
-            this.FolderListSync = null;
-            this.HistoryChanged = null;
-            this.HistoryListSync = null;
-            this.Loading = null;
-
-            ResetPropertyChanged();
-
-            Debug.WriteLine("BookHub Disposing...");
-
-            // 開いているブックを閉じる(5秒待つ。それ以上は待たない)
-            Task.Run(async () => await RequestUnload(false).WaitAsync()).Wait(5000);
-
-            // コマンドエンジン停止
-            _commandEngine.StopEngine();
-
-            Debug.WriteLine("BookHub Disposed.");
-        }
-
-        #endregion Engine Control
 
         #region Requests
 
@@ -679,7 +706,6 @@ namespace NeeView
                 // Load本体
                 await LoadAsyncCore(address, args.Option, setting, token);
 
-
                 ////DebugTimer.Check("LoadCore");
 
                 AppDispatcher.Invoke(() =>
@@ -691,7 +717,13 @@ namespace NeeView
                     BookSetting.Current.RaiseSettingChanged();
 
                     // 本の変更通知
-                    BookChanged?.Invoke(this, new BookChangedEventArgs(BookUnit.GetBookMementoType()));
+                    lock (_lock)
+                    {
+                        if (BookUnit != null)
+                        {
+                            BookChanged?.Invoke(this, new BookChangedEventArgs(BookUnit.GetBookMementoType()));
+                        }
+                    }
                 });
 
                 // ページがなかった時の処理
@@ -705,7 +737,7 @@ namespace NeeView
 
                         if (IsConfirmRecursive && (args.Option & BookLoadOption.ReLoad) == 0 && !Book.Source.IsRecursiveFolder && Book.Source.SubFolderCount > 0)
                         {
-                            ConfirmRecursive();
+                            ConfirmRecursive(token);
                         }
                     });
                 }
@@ -763,16 +795,21 @@ namespace NeeView
 
 
         // 再帰読み込み確認
-        private void ConfirmRecursive()
+        private void ConfirmRecursive(CancellationToken token)
         {
             var dialog = new MessageDialog(string.Format(Properties.Resources.DialogConfirmRecursive, Book.Address), Properties.Resources.DialogConfirmRecursiveTitle);
             dialog.Commands.Add(UICommands.Yes);
             dialog.Commands.Add(UICommands.No);
-            var result = dialog.ShowDialog();
 
-            if (result == UICommands.Yes)
+            token.ThrowIfCancellationRequested();
+            using (var register = token.Register(() => dialog.Close()))
             {
-                RequestReloadRecursive(Book);
+                var result = dialog.ShowDialog();
+
+                if (result == UICommands.Yes)
+                {
+                    RequestReloadRecursive(Book);
+                }
             }
         }
 
@@ -819,6 +856,8 @@ namespace NeeView
                 // カレントを設定し、開始する
                 lock (_lock)
                 {
+                    token.ThrowIfCancellationRequested();
+                    BookUnit?.Dispose();
                     BookUnit = new BookUnit(book, address, option);
                 }
 
@@ -831,7 +870,7 @@ namespace NeeView
                 book.Viewer.ViewContentsChanged += OnViewContentsChangedInner;
 
                 // 開始
-                BookUnit.Book.Start();
+                BookUnit?.Book.Start();
 
                 // 最初のコンテンツ表示待ち
                 if (book.Pages.Count > 0)
@@ -852,7 +891,7 @@ namespace NeeView
                 // 後始末
                 lock (_lock)
                 {
-                    BookUnit?.Book?.Dispose();
+                    BookUnit?.Dispose();
                     BookUnit = null;
                 }
                 BookHistoryCollection.Current.LastAddress = null;
@@ -864,7 +903,7 @@ namespace NeeView
                 // 後始末
                 lock (_lock)
                 {
-                    BookUnit?.Book?.Dispose();
+                    BookUnit?.Dispose();
                     BookUnit = null;
                 }
                 BookHistoryCollection.Current.LastAddress = null;
@@ -879,7 +918,7 @@ namespace NeeView
             // 本の設定を退避
             BookSetting.Current.BookMemento = this.Book.CreateMemento();
 
-            Address = BookUnit.Book.Address;
+            Address = BookUnit?.Book.Address;
             BookHistoryCollection.Current.LastAddress = Address;
         }
 
@@ -925,16 +964,10 @@ namespace NeeView
         // 現在の本を解除
         private void ReleaseCurrent()
         {
-            var book = BookUnit?.Book;
-
             lock (_lock)
             {
+                BookUnit?.Dispose();
                 BookUnit = null;
-            }
-
-            if (book != null)
-            {
-                book.Dispose();
             }
         }
 
@@ -1043,28 +1076,6 @@ namespace NeeView
 
         #endregion BookMemento Control
 
-        #region IDisposable Support
-        private bool _disposedValue = false;
-
-        void Dispose(bool disposing)
-        {
-            if (!_disposedValue)
-            {
-                if (disposing)
-                {
-                    Stop();
-                    _commandEngine.Dispose();
-                }
-
-                _disposedValue = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-        #endregion
 
         #region Memento
 

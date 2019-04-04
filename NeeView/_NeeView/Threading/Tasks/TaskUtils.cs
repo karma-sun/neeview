@@ -10,32 +10,17 @@ namespace NeeView.Threading.Tasks
 {
     public static class TaskUtils
     {
-        //
-        public static Task ActionAsync(Action action, CancellationToken token)
-        {
-            token.ThrowIfCancellationRequested();
-            return Task.Run(() => action());
-        }
-
-        //
         public static Task ActionAsync(Action<CancellationToken> action, CancellationToken token)
         {
             token.ThrowIfCancellationRequested();
             return Task.Run(() => action(token));
         }
 
-        //
-        public static Task WaitAsync(Task task)
+        public static async Task WaitAsync(Task task, CancellationToken token)
         {
-            return ActionAsync(() => task.Wait(), CancellationToken.None);
+            token.ThrowIfCancellationRequested();
+            await Task.Run(() => task.Wait(token));
         }
-
-        //
-        public static Task WaitAsync(Task task, CancellationToken token)
-        {
-            return ActionAsync(() => task.Wait(token), token);
-        }
-
 
         /// <summary>
         /// WaitHandle待ちのタスク化。

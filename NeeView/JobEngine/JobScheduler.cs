@@ -83,6 +83,8 @@ namespace NeeView
         {
             lock (Lock)
             {
+                if (!_clients.ContainsKey(sender)) return new List<JobSource>();
+
                 // TODO: 同じリクエストだったらなにもしない、とか、ここでする？
 
                 // 対象カテゴリのJOBの取得

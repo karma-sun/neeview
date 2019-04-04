@@ -89,7 +89,7 @@ namespace NeeView
             catch (Exception ex)
             {
                 new MessageDialog(ex.Message, Properties.Resources.DialogBootErrorTitle).ShowDialog();
-                throw;
+                throw new OperationCanceledException("Wrong startup parameter");
             }
 
         }
@@ -103,7 +103,6 @@ namespace NeeView
         {
             var optionMap = new OptionMap<CommandLineOption>();
             CommandLineOption option;
-
 
             try
             {
@@ -125,13 +124,13 @@ namespace NeeView
             catch (Exception ex)
             {
                 new MessageDialog(ex.Message, NeeView.Properties.Resources.DialogBootErrorTitle).ShowDialog();
-                throw;
+                throw new OperationCanceledException("Wrong startup parameter");
             }
 
             if (option.IsHelp)
             {
                 new MessageDialog(GetCommandLineHelp(optionMap), NeeView.Properties.Resources.DialogBootOptionTitle).ShowDialog();
-                throw new ApplicationException("Disp CommandLine Help");
+                throw new OperationCanceledException("Disp CommandLine Help");
             }
 
             return option;

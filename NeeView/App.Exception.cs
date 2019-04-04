@@ -20,6 +20,17 @@ namespace NeeView
         // 未処理例の外排他処理
         private object _exceptionLock = new object();
 
+        // ダイアログ通知有効
+        private bool _isExceptionDialogEnabled = true;
+
+        /// <summary>
+        /// ダイアログ通知の無効化
+        /// </summary>
+        private void DisableExceptionDialog()
+        {
+            _isExceptionDialogEnabled = false;
+        }
+
         /// <summary>
         /// 全ての未処理例外をキャッチするハンドル登録
         /// </summary>
@@ -66,21 +77,23 @@ namespace NeeView
                     writer.Write(errorLog);
                 }
 
-
-                try
+                if (_isExceptionDialogEnabled)
                 {
-                    var task = new Task(() =>
+                    try
                     {
-                        var dialog = new CriticalErrorDialog(errorLog, errorLogFileName);
-                        dialog.ShowInTaskbar = true;
-                        dialog.ShowDialog();
-                    });
-                    task.Start(SingleThreadedApartment.TaskScheduler);
-                    task.Wait();
-                }
-                catch
-                {
-                    MessageBox.Show(errorLog, "Abort", MessageBoxButton.OK, MessageBoxImage.Hand);
+                        var task = new Task(() =>
+                        {
+                            var dialog = new CriticalErrorDialog(errorLog, errorLogFileName);
+                            dialog.ShowInTaskbar = true;
+                            dialog.ShowDialog();
+                        });
+                        task.Start(SingleThreadedApartment.TaskScheduler);
+                        task.Wait();
+                    }
+                    catch
+                    {
+                        MessageBox.Show(errorLog, "Abort", MessageBoxButton.OK, MessageBoxImage.Hand);
+                    }
                 }
             }
 

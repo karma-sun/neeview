@@ -2705,6 +2705,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="OptionIsVersion" xml:space="preserve">
     <value>バージョン情報を表示します</value>
   </data>
+  <data name="OptionFolderList" xml:space="preserve">
+    <value>本棚の場所を指定します</value>
+  </data>
   <data name="OptionSettingFilename" xml:space="preserve">
     <value>設定ファイル(UserSetting.xml)のパスを指定します</value>
   </data>
@@ -4659,7 +4662,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>エラーが発生しました。アプリを終了します。</value>
   </data>
   <data name="ExceptionCriticalTitle" xml:space="preserve">
-    <value>強制終了</value>
+    <value>NeeView - エラー</value>
   </data>
   <data name="ExceptionCriticalMessage" xml:space="preserve">
     <value>エラーの詳細:</value>

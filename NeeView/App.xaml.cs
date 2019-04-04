@@ -86,9 +86,9 @@ namespace NeeView
             {
                 await InitializeAsync(e);
             }
-            catch (Exception ex)
+            catch (OperationCanceledException ex)
             {
-                Debug.WriteLine("InitializeException: " + ex.Message);
+                Debug.WriteLine("InitializeCancelException: " + ex.Message);
                 Shutdown();
                 return;
             }
@@ -159,14 +159,14 @@ namespace NeeView
             {
                 var dialog = new VersionWindow() { WindowStartupLocation = WindowStartupLocation.CenterScreen };
                 dialog.ShowDialog();
-                throw new ApplicationException("Disp Version Dialog");
+                throw new OperationCanceledException("Disp Version Dialog");
             }
 
             // 多重起動制限になる場合、サーバーにパスを送って終了
             if (!CanStart())
             {
                 await _multiBootService.RemoteLoadAsAsync(Option.StartupPlace);
-                throw new ApplicationException("Already started.");
+                throw new OperationCanceledException("Already started.");
             }
 
             // テンポラリーの場所
@@ -258,6 +258,8 @@ namespace NeeView
         /// <param name="e"></param>
         private void Application_Exit(object sender, ExitEventArgs e)
         {
+            DisableExceptionDialog();
+
             ApplicationDisposer.Current.Dispose();
 
             // プロセスを確実に終了させるための保険
@@ -279,6 +281,8 @@ namespace NeeView
         /// </summary>
         private void Application_SessionEnding(object sender, SessionEndingCancelEventArgs e)
         {
+            DisableExceptionDialog();
+
             ApplicationDisposer.Current.Dispose();
 
             // 設定保存

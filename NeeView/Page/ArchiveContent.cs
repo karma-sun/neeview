@@ -49,7 +49,7 @@ namespace NeeView
         /// コンテンツ有効フラグはサムネイルの存在で判定
         /// </summary>
         public override bool IsLoaded => Thumbnail.IsValid;
-        public override bool IsAllLoaded => IsLoaded;
+        public override bool IsViewReady => IsLoaded;
 
         /// <summary>
         /// コンテンツサイズは固定

@@ -100,19 +100,7 @@ namespace NeeView
         public bool CreateBitmapSource(Size size, CancellationToken token)
         {
             size = size.IsEmpty ? this.PictureInfo.Size : size;
-
-            // TODO: PictureSourceレベルで処理
-            if (PictureSource is PdfPictureSource)
-            {
-                size = PdfArchiverProfile.Current.CreateFixedSize(size);
-            }
-            else
-            {
-                var maxWixth = Math.Max(this.PictureInfo.Size.Width, PictureProfile.Current.MaximumSize.Width);
-                var maxHeight = Math.Max(this.PictureInfo.Size.Height, PictureProfile.Current.MaximumSize.Height);
-                var maxSize = new Size(maxWixth, maxHeight);
-                size = size.Limit(maxSize);
-            }
+            size = PictureSource.FixedSize(size);
 
             // 規定サイズ判定
             if (!this.PictureInfo.IsLimited && size.IsEqualMaybe(this.PictureInfo.Size))
@@ -133,8 +121,6 @@ namespace NeeView
 
             ////var nowSize = new Size(this.BitmapSource.PixelWidth, this.BitmapSource.PixelHeight);
             ////Debug.WriteLine($"Resize: {isDartyResizeParameter}: {nowSize.Truncate()} -> {size.Truncate()}");
-
-
             ////Debug.WriteLine($"BMP: {this.PictureInfo.Size} -> {size}");
 
             var bitmap = CreateBitmapSource(size, keepAspectRatio, token);

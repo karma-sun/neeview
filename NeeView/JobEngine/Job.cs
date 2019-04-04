@@ -1,8 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading;
 
 namespace NeeView
@@ -60,8 +58,6 @@ namespace NeeView
         }
 
 
-
-
         public void SetCompleted()
         {
             _completed.Set();
@@ -109,24 +105,19 @@ namespace NeeView
 
         #endregion
 
-        #region 開発用
+        #region for Debug
 
-        private List<string> _debugLogs;
-
-        public string LastLog => _debugLogs?.Last();
-
-        public string AllLog => _debugLogs != null ? string.Join("\n", _debugLogs) : null;
+        public DebugSimpleLog DebugLog { get; private set; }
 
         [Conditional("DEBUG")]
         public void Log(string msg)
         {
-            _debugLogs = _debugLogs ?? new List<string>();
-            _debugLogs.Add(msg);
-
-            RaisePropertyChanged(nameof(LastLog));
-            RaisePropertyChanged(nameof(AllLog));
+            DebugLog = DebugLog ?? new DebugSimpleLog();
+            DebugLog.WriteLine(msg);
+            RaisePropertyChanged(nameof(DebugLog));
         }
 
         #endregion
     }
+
 }

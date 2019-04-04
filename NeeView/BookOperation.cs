@@ -100,6 +100,7 @@ namespace NeeView
                 {
                     RaisePropertyChanged(nameof(Address));
                     RaisePropertyChanged(nameof(IsValid));
+                    RaisePropertyChanged(nameof(IsBusy));
                 }
             }
         }
@@ -108,6 +109,8 @@ namespace NeeView
         public string Address => Book?.Address;
 
         public bool IsValid => Book != null;
+
+        public bool IsBusy => Book != null ? Book.Viewer.IsBusy : false;
 
         public ObservableCollection<Page> PageList
         {
@@ -158,6 +161,7 @@ namespace NeeView
                 this.Book.Pages.PageRemoved += Book_PageRemoved;
                 this.Book.Viewer.ViewContentsChanged += Book_ViewContentsChanged;
                 this.Book.Viewer.PageTerminated += Book_PageTerminated;
+                this.Book.Viewer.AddPropertyChanged(nameof(BookPageViewer.IsBusy), (s, e_) => RaisePropertyChanged(nameof(IsBusy)));
             }
 
             //

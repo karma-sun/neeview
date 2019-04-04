@@ -16,27 +16,27 @@ namespace NeeView
         private BookSource _book;
         private BookViewSetting _setting;
 
-        private object _viewPageSender;
-        private PageDirectionalRange _viewRange;
-        private PageDirectionalRange _nextRange;
-        private PageDirectionalRange _contentRange;
-        private int _contentsCount;
+        private object _sender;
+        private PageRange _viewRange;
+        private PageRange _nextRange;
+        private PageRange _contentRange;
+        private int _contentCount;
 
         private Task _task;
         private CancellationTokenSource _cancellationTokenSource;
         private object _lock = new object();
         private SemaphoreSlim _semaphore;
 
-        public BookViewGenerater(BookSource book, BookViewSetting setting, object sender, PageDirectionalRange viewPageRange, PageDirectionalRange aheadPageRange)
+        public BookViewGenerater(BookSource book, BookViewSetting setting, object sender, PageRange viewPageRange, PageRange aheadPageRange)
         {
             _book = book;
             _setting = setting;
 
-            _viewPageSender = sender;
+            _sender = sender;
             _viewRange = viewPageRange;
             _nextRange = viewPageRange;
             _contentRange = viewPageRange.Add(aheadPageRange);
-            _contentsCount = 0;
+            _contentCount = 0;
 
             _cancellationTokenSource = new CancellationTokenSource();
             _semaphore = new SemaphoreSlim(0);
@@ -65,7 +65,6 @@ namespace NeeView
                     NextContentsChanged = null;
                     _cancellationTokenSource.Cancel();
                     _cancellationTokenSource.Dispose();
-                    // _semaphore は Taskの最後で Disposeされる
                 }
 
                 _disposedValue = true;
@@ -97,8 +96,6 @@ namespace NeeView
             {
                 ////Debug.WriteLine($"> RunUpdateViewContents: {ex.Message}");
             }
-
-            _semaphore.Dispose();
         }
 
         private async Task UpdateNextContentsAsync(CancellationToken token)
@@ -131,17 +128,17 @@ namespace NeeView
 
                         // update next range.
                         _nextRange = GetNextRange(collection.Range);
-                        _contentsCount++;
+                        _contentCount++;
                     }
 
                     token.ThrowIfCancellationRequested();
-                    NextContentsChanged?.Invoke(_viewPageSender, new ViewPageCollectionChangedEventArgs(collection) { CancellationToken = token });
+                    NextContentsChanged?.Invoke(_sender, new ViewPageCollectionChangedEventArgs(collection) { CancellationToken = token });
 
-                    if (_contentsCount == 1)
+                    if (_contentCount == 1)
                     {
                         ////Debug.WriteLine($"UpdateNextContentsInner: ViewContentChanged");
                         token.ThrowIfCancellationRequested();
-                        UpdateViewContentsInner(_viewPageSender, collection, token);
+                        UpdateViewContentsInner(_sender, collection, token);
                     }
                 }
             }
@@ -152,7 +149,7 @@ namespace NeeView
             ViewPageCollection collection;
             lock (_lock)
             {
-                if (_contentsCount > 0)
+                if (_contentCount > 0)
                 {
                     return;
                 }
@@ -161,7 +158,7 @@ namespace NeeView
             }
 
             ////Debug.WriteLine($"UpdateViewContents: ViewContentChanged");
-            UpdateViewContentsInner(_viewPageSender, collection, token);
+            UpdateViewContentsInner(_sender, collection, token);
         }
 
         private void UpdateViewContentsInner(object sender, ViewPageCollection collection, CancellationToken token)
@@ -174,12 +171,12 @@ namespace NeeView
         }
 
 
-        private PageDirectionalRange GetNextRange(PageDirectionalRange previous)
+        private PageRange GetNextRange(PageRange previous)
         {
             // 先読みコンテンツ領域計算
             var position = previous.Next();
             var direction = previous.Direction;
-            var range = new PageDirectionalRange(position, direction, _setting.PageMode.Size());
+            var range = new PageRange(position, direction, _setting.PageMode.Size());
 
             return range;
         }
@@ -208,7 +205,7 @@ namespace NeeView
         }
 
         // 表示コンテンツソースと、それに対応したコンテキスト作成
-        private ViewPageCollection CreateViewPageCollection(PageDirectionalRange source)
+        private ViewPageCollection CreateViewPageCollection(PageRange source)
         {
             var infos = new List<PagePart>();
 
@@ -272,7 +269,7 @@ namespace NeeView
             }
 
             // 新しいコンテキスト
-            var context = new ViewPageCollection(new PageDirectionalRange(infos, source.Direction), contentsSource);
+            var context = new ViewPageCollection(new PageRange(infos, source.Direction), contentsSource);
             return context;
         }
 

@@ -7,18 +7,18 @@ namespace NeeView
     /// <summary>
     /// 指向性ページ範囲
     /// </summary>
-    public class PageDirectionalRange
+    public class PageRange
     {
         #region Constructors
 
-        public PageDirectionalRange()
+        public PageRange()
         {
             this.Position = new PagePosition();
             this.Direction = 1;
             this.PartSize = 1;
         }
 
-        public PageDirectionalRange(PagePosition position, int direction, int pageSize)
+        public PageRange(PagePosition position, int direction, int pageSize)
         {
             if (pageSize < 1) throw new ArgumentOutOfRangeException(nameof(pageSize));
             if (direction != 1 && direction != -1) throw new ArgumentOutOfRangeException(nameof(direction));
@@ -30,14 +30,14 @@ namespace NeeView
             this.PartSize = Math.Abs(last.Value - position.Value) + 1;
         }
 
-        public PageDirectionalRange(PagePosition p0, PagePosition p1)
+        public PageRange(PagePosition p0, PagePosition p1)
         {
             this.Position = p0;
             this.Direction = p1 < p0 ? -1 : 1;
             this.PartSize = Math.Abs(p1.Value - p0.Value) + 1;
         }
 
-        public PageDirectionalRange(IEnumerable<PagePosition> positions, int direction)
+        public PageRange(IEnumerable<PagePosition> positions, int direction)
         {
             if (positions == null) throw new ArgumentNullException(nameof(positions));
             if (direction != 1 && direction != -1) throw new ArgumentOutOfRangeException(nameof(direction));
@@ -50,7 +50,7 @@ namespace NeeView
             this.PartSize = Math.Abs(max.Value - min.Value) + 1;
         }
 
-        public PageDirectionalRange(IEnumerable<PagePart> parts, int direction)
+        public PageRange(IEnumerable<PagePart> parts, int direction)
         {
             if (parts == null) throw new ArgumentNullException(nameof(parts));
             if (direction != 1 && direction != -1) throw new ArgumentOutOfRangeException(nameof(direction));
@@ -90,7 +90,7 @@ namespace NeeView
 
         #region Properties
 
-        public static PageDirectionalRange Empty = new PageDirectionalRange(PagePosition.Empty, PagePosition.Empty);
+        public static PageRange Empty = new PageRange(PagePosition.Empty, PagePosition.Empty);
 
         /// <summary>
         /// 範囲開始
@@ -150,7 +150,7 @@ namespace NeeView
         }
 
         //
-        public PageDirectionalRange Add(PagePosition position)
+        public PageRange Add(PagePosition position)
         {
             if (IsContains(position))
             {
@@ -158,15 +158,15 @@ namespace NeeView
             }
             else
             {
-                return new PageDirectionalRange(new List<PagePosition>() { Position, Last, position }, Direction);
+                return new PageRange(new List<PagePosition>() { Position, Last, position }, Direction);
             }
         }
 
         //
-        public PageDirectionalRange Add(PageDirectionalRange other)
+        public PageRange Add(PageRange other)
         {
             var points = new List<PagePosition> { this.Min, this.Max, other.Min, other.Max };
-            return new PageDirectionalRange(points, this.Direction);
+            return new PageRange(points, this.Direction);
         }
 
         //

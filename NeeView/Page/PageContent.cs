@@ -107,8 +107,15 @@ namespace NeeView
 
         public Thumbnail Thumbnail { get; } = new Thumbnail();
 
+        /// <summary>
+        /// ロード完了
+        /// </summary>
         public virtual bool IsLoaded => true;
-        public virtual bool IsAllLoaded => IsLoaded;
+
+        /// <summary>
+        /// 表示準備完了
+        /// </summary>
+        public virtual bool IsViewReady => IsLoaded;
 
         public bool IsAnimated { get; protected set; }
 

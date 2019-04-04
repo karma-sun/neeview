@@ -26,7 +26,7 @@
                 <GridViewColumn Header="Log">
                     <GridViewColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding Job.LastLog}" ToolTip="{Binding Job.AllLog}"  />
+                            <TextBlock Text="{Binding Job.DebugLog.Last}" ToolTip="{Binding Job.DebugLog.All}"  />
                         </DataTemplate>
                     </GridViewColumn.CellTemplate>
                 </GridViewColumn>

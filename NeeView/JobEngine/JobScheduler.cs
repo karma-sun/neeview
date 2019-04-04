@@ -4,9 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
-
-// TODO: Pageに限定することでBOX化を避ける?
 
 namespace NeeView
 {
@@ -15,6 +14,12 @@ namespace NeeView
     /// </summary>
     public class JobScheduler : BindableBase 
     {
+        [Conditional("DEBUG")]
+        protected void DebugRaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            RaisePropertyChanged(propertyName);
+        }
+
         public Dictionary<JobClient, List<JobSource>> _clients = new Dictionary<JobClient, List<JobSource>>();
 
         public event EventHandler QueueChanged;
@@ -26,8 +31,17 @@ namespace NeeView
         public List<JobSource> Queue
         {
             get { return _queue; }
-            set { SetProperty(ref _queue, value); }
+            set
+            {
+                if (SetProperty(ref _queue, value))
+                {
+                    DebugRaisePropertyChanged(nameof(JobCount));
+                }
+            }
         }
+
+
+        public int JobCount => Queue.Count(e => !e.IsProcessed);
 
 
         public void RaiseQueueChanged()
@@ -125,6 +139,7 @@ namespace NeeView
                 {
                     source.IsProcessed = true;
                     ////Debug.WriteLine($"JobScheduler.Processed: {source}");
+                    DebugRaisePropertyChanged(nameof(JobCount));
                     return source.Job;
                 }
 

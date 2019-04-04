@@ -52,6 +52,11 @@ namespace NeeView
         /// サムネイル画像データ作成
         /// </summary>
         public abstract byte[] CreateThumbnail(ThumbnailProfile profile, CancellationToken token);
+
+        /// <summary>
+        /// サイズ補正。各プロファイルに即してサイズを制限する
+        /// </summary>
+        public abstract Size FixedSize(Size size);
     }
 
     [Flags]

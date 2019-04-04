@@ -24,30 +24,6 @@ namespace NeeView
         static JobEngine() => Current = new JobEngine();
         public static JobEngine Current { get; }
 
-        #region 開発用
-
-        [Conditional("DEBUG")]
-        private void NotifyStatusChanged()
-        {
-            RaisePropertyChanged(null);
-        }
-
-        // 状態メッセージ
-        #region Property: Message
-        private string _message;
-        public string Message
-        {
-            get { return _message; }
-            set
-            {
-                //Debug.WriteLine($"JobEngine: {value}");
-                _message = value;
-                NotifyStatusChanged();
-            }
-        }
-        #endregion
-
-        #endregion
 
         private bool _isBusy;
         private readonly int _maxWorkerSize;
@@ -111,7 +87,7 @@ namespace NeeView
         public void ChangeWorkerSize(int size)
         {
             Debug.Assert(0 <= size && size <= _maxWorkerSize);
-            Debug.WriteLine("JobWorker: " + size);
+            Debug.WriteLine("JobEngine: WorkerSize=" + size);
 
             var primaryCount = (size > 2) ? 2 : size - 1;
 
@@ -122,10 +98,9 @@ namespace NeeView
                     if (Workers[i] == null)
                     {
                         Workers[i] = new JobWorker(_scheduler);
-                        Workers[i].StatusChanged += (s, e) => NotifyStatusChanged(); //// StatusChanged?.Invoke(s, e);
                         Workers[i].IsBusyChanged += (s, e) => UpdateIsBusy(); ////  IsBusyChanged?.Invoke(s, e);
                         Workers[i].Run();
-                        Message = $"Create Worker[{i}]";
+                        Debug.WriteLine($"JobEngine: Create Worker[{i}]");
                     }
 
                     // 現在のフォルダージョブのみ処理する設定
@@ -138,7 +113,7 @@ namespace NeeView
                         Workers[i].Cancel();
                         Workers[i].Dispose();
                         Workers[i] = null;
-                        Message = $"Delete Worker[{i}]";
+                        Debug.WriteLine($"JobEngine: Delete Worker[{i}]");
                     }
                 }
             }
@@ -147,7 +122,6 @@ namespace NeeView
             _scheduler.RaiseQueueChanged();
 
             RaisePropertyChanged(nameof(Workers));
-            NotifyStatusChanged();
         }
 
 

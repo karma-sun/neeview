@@ -12,28 +12,14 @@ namespace NeeView
     {
         #region 開発用
 
-        // 状態変化通知
-        public event EventHandler StatusChanged;
+        public DebugSimpleLog DebugLog { get; private set; }
 
         [Conditional("DEBUG")]
-        public void NotifyStatusChanged()
+        public void Log(string message)
         {
-            StatusChanged?.Invoke(this, null);
-        }
-
-        // 状態メッセージ
-        private string _message;
-        public string Message
-        {
-            get { return _message; }
-            set
-            {
-                value = Thread.CurrentThread.Priority + ": " + value;
-                if (SetProperty(ref _message, value))
-                {
-                    NotifyStatusChanged();
-                }
-            }
+            DebugLog = DebugLog ?? new DebugSimpleLog();
+            DebugLog.WriteLine(Thread.CurrentThread.Priority + ": " + message);
+            RaisePropertyChanged(nameof(DebugLog));
         }
 
         #endregion
@@ -107,7 +93,7 @@ namespace NeeView
         // ワーカータスク開始
         public void Run()
         {
-            Message = $"Run";
+            Log($"Run");
 
             _thread = new Thread(() => WorkerExecuteAsync(_cancellationTokenSource.Token));
             _thread.IsBackground = true;
@@ -141,7 +127,7 @@ namespace NeeView
         {
             while (!token.IsCancellationRequested)
             {
-                Message = $"get Job ...";
+                Log($"get Job ...");
                 Job job;
 
                 lock (_scheduler.Lock)
@@ -161,7 +147,7 @@ namespace NeeView
                 if (job == null)
                 {
                     IsBusy = false;
-                    Message = $"wait event ...";
+                    Log($"wait event ...");
                     _event.Wait(token);
                     continue;
                 }
@@ -172,7 +158,7 @@ namespace NeeView
                 {
                     job.Log("Run...");
                     job.State = JobState.Run;
-                    Message = $"Job({job.SerialNumber}) execute ...";
+                    Log($"Job({job.SerialNumber}) execute ...");
                     try
                     {
                         job.Command.Execute(job.CancellationToken);
@@ -189,7 +175,7 @@ namespace NeeView
                     {
                         job.Log($"Exception: {ex.Message}");
                     }
-                    Message = $"Job({job.SerialNumber}) execute done. : {job.CancellationToken.IsCancellationRequested}";
+                    Log($"Job({job.SerialNumber}) execute done. : {job.CancellationToken.IsCancellationRequested}");
                 }
                 else
                 {

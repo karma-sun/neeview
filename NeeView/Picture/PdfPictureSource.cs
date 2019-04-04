@@ -81,5 +81,10 @@ namespace NeeView
             var setting = profile.CreateBitmapCreateSetting();
             return CreateImage(size, setting, profile.Format, profile.Quality, token);
         }
+
+        public override Size FixedSize(Size size)
+        {
+            return PdfArchiverProfile.Current.CreateFixedSize(size);
+        }
     }
 }

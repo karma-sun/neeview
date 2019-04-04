@@ -124,7 +124,7 @@ namespace NeeView
 
             _viewer.DisplayIndex = position.Index;
 
-            var range = new PageDirectionalRange(position, direction, _viewer.PageMode.Size());
+            var range = new PageRange(position, direction, _viewer.PageMode.Size());
             var command = new BookCommandAction(sender, Execute, 0);
             _commandEngine.Enqueue(command);
 

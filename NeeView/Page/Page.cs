@@ -141,17 +141,6 @@ namespace NeeView
             }
         }
 
-
-        /// <summary>
-        /// Content有効判定
-        /// </summary>
-        public bool IsContentAlived => Content.IsLoaded;
-
-        /// <summary>
-        /// Content情報有効判定
-        /// </summary>
-        public bool IsContentInfoAlive => IsContentAlived || Width != 0 || Height != 0;
-
         /// <summary>
         /// コンテンツ
         /// </summary>

@@ -48,7 +48,7 @@ namespace NeeView
         /// </summary>
         public override bool IsLoaded => Picture != null || PageMessage != null;
 
-        public override bool IsAllLoaded => BitmapSource != null || PageMessage != null;
+        public override bool IsViewReady => BitmapSource != null || PageMessage != null;
 
         /// <summary>
         /// PictureSourceのロック

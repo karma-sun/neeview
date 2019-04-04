@@ -46,6 +46,7 @@ namespace NeeView
             }
 
             _ahead = new BookAhead(_bookMemoryService);
+            _ahead.AddPropertyChanged(nameof(BookAhead.IsBusy), (s, e) => RaisePropertyChanged(nameof(IsBusy)));
         }
 
 
@@ -102,6 +103,9 @@ namespace NeeView
             get { return _setting.PageMode; }
             set { if (_setting.PageMode != value) { _setting.PageMode = value; RaisePropertyChanged(); } }
         }
+
+
+        public bool IsBusy => _ahead.IsBusy;
 
 
         // 表示されるページ番号(スライダー用)
@@ -181,7 +185,7 @@ namespace NeeView
         // 表示ページ再読込
         public async Task RefreshViewPageAsync(object sender, CancellationToken token)
         {
-            var range = new PageDirectionalRange(_viewPageCollection.Range.Min, 1, PageMode.Size());
+            var range = new PageRange(_viewPageCollection.Range.Min, 1, PageMode.Size());
             await UpdateViewPageAsync(range, sender, token);
         }
 
@@ -202,13 +206,13 @@ namespace NeeView
                 pos = new PagePosition(_book.Pages.Count - 1, direction < 0 ? 1 : 0);
             }
 
-            var range = new PageDirectionalRange(pos, direction, PageMode.Size());
+            var range = new PageRange(pos, direction, PageMode.Size());
 
             await UpdateViewPageAsync(range, sender, token);
         }
 
         // 表示ページ更新
-        public async Task UpdateViewPageAsync(PageDirectionalRange viewPageRange, object sender, CancellationToken token)
+        public async Task UpdateViewPageAsync(PageRange viewPageRange, object sender, CancellationToken token)
         {
             // ページ終端を越えたか判定
             if (viewPageRange.Position < _book.Pages.FirstPosition())
@@ -320,17 +324,17 @@ namespace NeeView
         /// <summary>
         /// 先読みページ範囲を求める
         /// </summary>
-        private PageDirectionalRange CreateAheadPageRange(PageDirectionalRange source)
+        private PageRange CreateAheadPageRange(PageRange source)
         {
             if (!AllowPreLoad() || BookProfile.Current.PreLoadSize < 1)
             {
-                return PageDirectionalRange.Empty;
+                return PageRange.Empty;
             }
 
             int index = source.Next().Index;
             var pos0 = new PagePosition(index, 0);
             var pos1 = new PagePosition(_book.Pages.ClampPageNumber(index + (BookProfile.Current.PreLoadSize - 1) * source.Direction), 0);
-            var range = _book.Pages.IsValidPosition(pos0) ? new PageDirectionalRange(pos0, pos1) : PageDirectionalRange.Empty;
+            var range = _book.Pages.IsValidPosition(pos0) ? new PageRange(pos0, pos1) : PageRange.Empty;
 
             return range;
         }
@@ -341,7 +345,7 @@ namespace NeeView
         /// <param name="range"></param>
         /// <param name="excepts">除外するページ</param>
         /// <returns></returns>
-        private List<Page> CreatePagesFromRange(PageDirectionalRange range, List<Page> excepts)
+        private List<Page> CreatePagesFromRange(PageRange range, List<Page> excepts)
         {
             if (range.IsEmpty())
             {

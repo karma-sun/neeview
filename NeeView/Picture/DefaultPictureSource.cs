@@ -237,5 +237,16 @@ namespace NeeView
             var setting = profile.CreateBitmapCreateSetting();
             return CreateImage(size, setting, profile.Format, profile.Quality, token);
         }
+
+        public override Size FixedSize(Size size)
+        {
+            Debug.Assert(PictureInfo != null);
+
+            var maxWixth = Math.Max(this.PictureInfo.Size.Width, PictureProfile.Current.MaximumSize.Width);
+            var maxHeight = Math.Max(this.PictureInfo.Size.Height, PictureProfile.Current.MaximumSize.Height);
+            var maxSize = new Size(maxWixth, maxHeight);
+            return size.Limit(maxSize);
+        }
+
     }
 }

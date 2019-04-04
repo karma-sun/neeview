@@ -19,7 +19,7 @@ namespace NeeView
 
 
         public override bool IsLoaded => FileProxy != null;
-        public override bool IsAllLoaded => IsLoaded; 
+        public override bool IsViewReady => IsLoaded; 
 
         public override bool CanResize => false;
 

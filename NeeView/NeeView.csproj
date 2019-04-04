@@ -240,6 +240,7 @@
       <DependentUpon>DebugWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Development\NvDebug.cs" />
+    <Compile Include="Development\DebugSimpleLog.cs" />
     <Compile Include="JobEngine\IJobCommand.cs" />
     <Compile Include="JobEngine\Job.cs" />
     <Compile Include="JobEngine\JobCategory.cs" />
@@ -254,6 +255,7 @@
     <Compile Include="MultbootService.cs" />
     <Compile Include="OpenSourceControls\VirtualizingWrapPanel.cs" />
     <Compile Include="Bitmap\BitmapCreateSetting.cs" />
+    <Compile Include="PageRange.cs" />
     <Compile Include="Page\PageContentState.cs" />
     <Compile Include="Page\PictureSourcePool.cs" />
     <Compile Include="Picture\DefaultPictureSource.cs" />
@@ -479,7 +481,6 @@
       <DependentUpon>BusyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="_NeeView\EnumExtensions.cs" />
-    <Compile Include="PageDirectionalRange.cs" />
     <Compile Include="PagePart.cs" />
     <Compile Include="Picture\DefaultPictureStream.cs" />
     <Compile Include="Picture\Picture.cs" />

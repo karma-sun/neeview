@@ -43,12 +43,11 @@ namespace NeeView
     /// </remarks>
     /// <typeparam name="TContainer">TreeViewItem,ListBoxItem等のコンテナ</typeparam>
     /// <typeparam name="TValue">Value型</typeparam>
-    public class VirtualCollection<TContainer, TValue> : IDisposable
+    public class VirtualCollection<TContainer, TValue>
         where TContainer : Control
     {
         private ItemsControl _itemsControl;
         private List<IVirtualItem> _items;
-        private DispatcherTimer _timer;
         public bool _darty;
 
 
@@ -57,11 +56,6 @@ namespace NeeView
             _itemsControl = itemsControl;
 
             _items = new List<IVirtualItem>();
-
-            _timer = new DispatcherTimer();
-            _timer.Tick += new EventHandler(Timer_Tick);
-            _timer.Interval = TimeSpan.FromMilliseconds(100);
-            _timer.Start();
         }
 
 
@@ -69,20 +63,6 @@ namespace NeeView
 
 
         public List<IVirtualItem> Items => _items;
-
-
-        /// <summary>
-        /// 更新要求を遅延させて実行
-        /// </summary>
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            // TODO: タイマーではなく、パネル状態変更をトリガーにした遅延処理で。
-
-            if (_darty)
-            {
-                _darty = CleanUp();
-            }
-        }
 
         public void Attach(IVirtualItem item)
         {
@@ -114,9 +94,12 @@ namespace NeeView
 
         /// <summary>
         /// 実体化されていない項目をDetachする。
-        /// 実体化が間に合っていない可能性を考慮して２回目判定を行っている。
         /// </summary>
-        private bool CleanUp()
+        /// <remarks>
+        /// ScrollChanged等、表示が変化したときに呼び出す必要がある。
+        /// 実体化が間に合っていない可能性を考慮して2度の除外判定が成立してから削除を行っている。
+        /// </remarks>
+        public bool CleanUp()
         {
             var nodes = CollectVisualChildren<TContainer>(_itemsControl).Select(e => e.DataContext);
             var values = nodes.OfType<IHasValue<TValue>>();
@@ -172,28 +155,6 @@ namespace NeeView
                 }
             }
         }
-
-        #region IDisposable Support
-        private bool _disposedValue = false;
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (!_disposedValue)
-            {
-                if (disposing)
-                {
-                    _timer.Stop();
-                }
-
-                _disposedValue = true;
-            }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-        #endregion
     }
 
 }

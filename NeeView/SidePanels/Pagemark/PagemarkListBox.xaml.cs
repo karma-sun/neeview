@@ -321,6 +321,8 @@ namespace NeeView
             {
                 CancelLoadTumbnail();
             }
+
+            _virtualCollection.CleanUp();
         }
 
         private void TreeView_ScrollChanged(object sender, ScrollChangedEventArgs e)
@@ -328,6 +330,8 @@ namespace NeeView
             ((MainWindow)App.Current.MainWindow).RenameManager.Stop();
 
             PagemarkListVertualCollection.Current.Refresh();
+
+            _virtualCollection.CleanUp();
         }
 
         private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -434,7 +438,6 @@ namespace NeeView
             {
                 if (disposing)
                 {
-                    _virtualCollection.Dispose();
                     _jobClient.Dispose();
                 }
 

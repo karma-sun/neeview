@@ -25,7 +25,7 @@ namespace NeeView
     /// <summary>
     /// FolderListBox.xaml の相互作用ロジック
     /// </summary>
-    public partial class FolderListBox : UserControl, IPageListPanel
+    public partial class FolderListBox : UserControl, IPageListPanel, IDisposable
     {
         #region Fields
 
@@ -97,6 +97,30 @@ namespace NeeView
         // フォーカス可能フラグ
         public bool IsFocusEnabled { get; set; } = true;
 
+        #endregion
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    if (_jobClient != null)
+                    {
+                        _jobClient.Dispose();
+                    }
+                }
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
         #endregion
 
         #region IPanelListBox Support

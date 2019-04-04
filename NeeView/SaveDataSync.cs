@@ -8,7 +8,7 @@ namespace NeeView
     /// ブックマーク、ページマークは変更のたびに保存。
     /// 他プロセスからの要求でリロードを行う。
     /// </summary>
-    public class SaveDataSync
+    public class SaveDataSync : IDisposable
     {
         // Note: Initialize()必須
         static SaveDataSync() => Current = new SaveDataSync();
@@ -29,6 +29,29 @@ namespace NeeView
             RemoteCommandService.Current.AddReciever("LoadBookmark", LoadBookmark);
             RemoteCommandService.Current.AddReciever("LoadPagemark", LoadPagemark);
         }
+
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _delaySaveBookmark.Dispose();
+                    _delaySavePagemark.Dispose();
+                }
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
 
 
         public void Initialize()

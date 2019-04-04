@@ -16,7 +16,7 @@ namespace NeeView
     /// <summary>
     /// ThumbnailList : Model
     /// </summary>
-    public class ThumbnailList : BindableBase
+    public class ThumbnailList : BindableBase, IDisposable
     {
         static ThumbnailList() => Current = new ThumbnailList();
         public static ThumbnailList Current { get; }
@@ -197,6 +197,28 @@ namespace NeeView
             }
         }
 
+        #endregion
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _jobClient.Dispose();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
         #endregion
 
         #region Methods
@@ -387,8 +409,8 @@ namespace NeeView
             this.IsManipulationBoundaryFeedbackEnabled = memento.IsManipulationBoundaryFeedbackEnabled;
             this.IsSelectedCenter = memento.IsSelectedCenter;
         }
+
         #endregion
 
     }
-
 }

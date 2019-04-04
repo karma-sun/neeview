@@ -22,11 +22,6 @@ namespace NeeView
         private int _resizeHashCode;
 
         /// <summary>
-        /// このPictureが使用されなくなったときのキャンセル通知
-        /// </summary>
-        private CancellationTokenSource _cancellationTokenSource;
-
-        /// <summary>
         /// ロックオブジェクト
         /// </summary>
         private object _lock = new object();
@@ -40,7 +35,6 @@ namespace NeeView
             PictureSource = source;
 
             _resizeHashCode = GetEnvironmentoHashCode();
-            _cancellationTokenSource = new CancellationTokenSource();
         }
 
         #endregion
@@ -72,14 +66,6 @@ namespace NeeView
         public long GetMemorySize()
         {
             return _bitmapSource != null ? (long)_bitmapSource.Format.BitsPerPixel * _bitmapSource.PixelWidth * _bitmapSource.PixelHeight / 8 : 0L;
-        }
-
-        /// <summary>
-        /// このPictureの使用停止
-        /// </summary>
-        public void Cancel()
-        {
-            _cancellationTokenSource.Cancel();
         }
 
         // 画像生成に影響する設定のハッシュ値取得
@@ -151,26 +137,18 @@ namespace NeeView
 
             ////Debug.WriteLine($"BMP: {this.PictureInfo.Size} -> {size}");
 
-            var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(_cancellationTokenSource.Token, token);
-            try
+            var bitmap = CreateBitmapSource(size, keepAspectRatio, token);
+            if (bitmap == null)
             {
-                var bitmap = CreateBitmapSource(size, keepAspectRatio, linkedTokenSource.Token);
-                if (bitmap == null)
-                {
-                    return false;
-                }
-
-                linkedTokenSource.Token.ThrowIfCancellationRequested();
-
-                lock (_lock)
-                {
-                    _resizeHashCode = filterHashCode;
-                    this.BitmapSource = bitmap;
-                }
+                return false;
             }
-            finally
+
+            token.ThrowIfCancellationRequested();
+
+            lock (_lock)
             {
-                linkedTokenSource.Dispose();
+                _resizeHashCode = filterHashCode;
+                this.BitmapSource = bitmap;
             }
 
             return true;

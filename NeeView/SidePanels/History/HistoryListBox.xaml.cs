@@ -19,7 +19,7 @@ namespace NeeView
     /// <summary>
     /// HistoryListBox.xaml の相互作用ロジック
     /// </summary>
-    public partial class HistoryListBox : UserControl, IPageListPanel
+    public partial class HistoryListBox : UserControl, IPageListPanel, IDisposable
     {
         #region Fields
 
@@ -57,6 +57,31 @@ namespace NeeView
         }
 
         #endregion
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    if (_jobClient != null)
+                    {
+                        _jobClient.Dispose();
+                    }
+                }
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
+
 
         #region IPageListBox support
 

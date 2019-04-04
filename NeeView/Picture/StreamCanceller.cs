@@ -18,28 +18,12 @@ namespace NeeView
             _tokenRegistration = token.Register(() =>
             {
                 Debug.WriteLine($"Stream.Dispose: {stream}");
+                IsStreamCanceled = true;
                 stream?.Dispose();
             });
         }
 
-        // (未使用)
-        public static void StreamSection(Action action, Stream stream, CancellationToken token )
-        {
-            var canceller = new StreamCanceller(stream, token);
-            try
-            {
-                action();
-            }
-            catch
-            {
-                token.ThrowIfCancellationRequested();
-                throw;
-            }
-            finally
-            {
-                canceller.Dispose();
-            }
-        }
+        public bool IsStreamCanceled { get; private set; }
 
         #region IDisposable Support
         private bool _disposedValue = false;

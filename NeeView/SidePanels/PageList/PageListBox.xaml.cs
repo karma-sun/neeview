@@ -22,7 +22,7 @@ namespace NeeView
     /// <summary>
     /// PageListBox.xaml の相互作用ロジック
     /// </summary>
-    public partial class PageListBox : UserControl, IPageListPanel
+    public partial class PageListBox : UserControl, IPageListPanel, IDisposable
     {
         public static string DragDropFormat = $"{Config.Current.ProcessId}.PageListBox";
 
@@ -55,6 +55,30 @@ namespace NeeView
             this.Loaded += PageListBox_Loaded;
             this.Unloaded += PageListBox_Unloaded;
         }
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    if (_jobClient != null)
+                    {
+                        _jobClient.Dispose();
+                    }
+                }
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
 
 
         #region IPageListPanel support

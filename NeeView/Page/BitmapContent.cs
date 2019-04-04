@@ -145,7 +145,6 @@ namespace NeeView
 
         public void UnloadPicture()
         {
-            this.Picture?.Cancel();
             this.Picture = null;
         }
 

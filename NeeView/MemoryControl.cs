@@ -15,7 +15,7 @@ namespace NeeView
     /// <summary>
     /// ヒープ管理
     /// </summary>
-    public class MemoryControl
+    public class MemoryControl : IDisposable
     {
         static MemoryControl() => Current = new MemoryControl();
         public static MemoryControl Current { get; }
@@ -35,6 +35,29 @@ namespace NeeView
         /// </summary>
         [PropertyMember("@ParamIsAutoGC", Tips = "@ParamIsAutoGCTips")]
         public bool IsAutoGC { get; set; } = false;
+
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _delayAction.Dispose();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
 
 
         /// <summary>
@@ -128,6 +151,7 @@ namespace NeeView
             if (memento == null) return;
             ////this.IsAutoGC = memento.IsAutoGC;
         }
+
         #endregion
 
     }

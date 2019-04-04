@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -23,6 +24,7 @@ namespace NeeView
             return _rawData != null ? _rawData.Length : 0;
         }
 
+        [SuppressMessage("Microsoft.Usage", "CA2202:DoNotDisposeObjectsMultipleTimes")]
         public override PictureInfo CreatePictureInfo(CancellationToken token)
         {
             if (this.PictureInfo != null) return this.PictureInfo;
@@ -113,7 +115,7 @@ namespace NeeView
         // RawData: メモリ圧縮のためにBMPはPNGに変換 
         private byte[] CompressRawData(byte[] source)
         {
-            if (source == null ||_createOptions.HasFlag(PictureSourceCreateOptions.IgnoreCompress)) return source;
+            if (source == null || _createOptions.HasFlag(PictureSourceCreateOptions.IgnoreCompress)) return source;
             if (source[0] != 'B' || source[1] != 'M') return source;
 
             try
@@ -145,6 +147,7 @@ namespace NeeView
             return new MemoryStream(_rawData);
         }
 
+        [SuppressMessage("Microsoft.Usage", "CA2202:DoNotDisposeObjectsMultipleTimes")]
         public override BitmapSource CreateBitmapSource(Size size, BitmapCreateSetting setting, CancellationToken token)
         {
             using (var stream = CreateStream(token))
@@ -181,6 +184,7 @@ namespace NeeView
         }
 
 
+        [SuppressMessage("Microsoft.Usage", "CA2202:DoNotDisposeObjectsMultipleTimes")]
         public override byte[] CreateImage(Size size, BitmapCreateSetting setting, BitmapImageFormat format, int quality, CancellationToken token)
         {
             using (var stream = CreateStream(token))

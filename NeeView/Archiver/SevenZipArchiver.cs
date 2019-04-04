@@ -165,7 +165,7 @@ namespace NeeView
     /// <summary>
     /// アーカイバー：7z.dll
     /// </summary>
-    public class SevenZipArchiver : Archiver
+    public class SevenZipArchiver : Archiver, IDisposable
     {
         #region Statics
 
@@ -225,7 +225,7 @@ namespace NeeView
             {
                 lock (_lock)
                 {
-                    _source?.Close(true);
+                    _source.Close(true);
                 }
             }
         }
@@ -242,7 +242,7 @@ namespace NeeView
         {
             lock (_lock)
             {
-                if (_source == null) throw new ApplicationException("Archive already colosed.");
+                if (_disposedValue) throw new ApplicationException("Archive already colosed.");
 
                 using (var extractor = new SevenZipDescriptor(_source))
                 {
@@ -261,7 +261,7 @@ namespace NeeView
 
             lock (_lock)
             {
-                if (_source == null) throw new ApplicationException("Archive already colosed.");
+                if (_disposedValue) throw new ApplicationException("Archive already colosed.");
 
                 using (var extractor = new SevenZipDescriptor(_source))
                 {
@@ -316,7 +316,7 @@ namespace NeeView
 
             lock (_lock)
             {
-                if (_source == null) throw new ApplicationException("Archive already colosed.");
+                if (_disposedValue) throw new ApplicationException("Archive already colosed.");
 
                 using (var extractor = new SevenZipDescriptor(_source))
                 {
@@ -384,6 +384,28 @@ namespace NeeView
                 }
             }
         }
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _source.Dispose();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
 
         #endregion
 

@@ -48,7 +48,7 @@ namespace NeeView
     /// <summary>
     /// アーカイバーマネージャ
     /// </summary>
-    public class ArchiverManager : BindableBase
+    public class ArchiverManager : BindableBase, IDisposable
     {
         static ArchiverManager() => Current = new ArchiverManager();
         public static ArchiverManager Current { get; }
@@ -98,6 +98,8 @@ namespace NeeView
 
             // 検索順初期化
             var tmp = OrderList;
+
+            ApplicationDisposer.Current.Add(this);
         }
 
         #endregion
@@ -120,6 +122,28 @@ namespace NeeView
         }
 
         #endregion
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _cache.Dispose();
+                }
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
+
 
         #region Methods
 

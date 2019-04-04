@@ -8,10 +8,42 @@ namespace NeeView
     /// <summary>
     /// 生成したArchiver を弱参照で保持しておく機構
     /// </summary>
-    public class ArchiverCache
+    public class ArchiverCache : IDisposable
     {
         private Dictionary<string, WeakReference<Archiver>> _caches = new Dictionary<string, WeakReference<Archiver>>();
         private object _lock = new object();
+
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    foreach (var item in _caches.Values.ToList())
+                    {
+                        if (item.TryGetTarget(out var archiver))
+                        {
+                            if (archiver is IDisposable disposable)
+                            {
+                                disposable.Dispose();
+                            }
+                        }
+                    }
+                }
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
+
 
         public void Add(Archiver archiver)
         {

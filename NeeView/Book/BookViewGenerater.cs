@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -53,6 +54,7 @@ namespace NeeView
         #region IDisposable Support
         private bool _disposedValue = false;
 
+        [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId ="_semaphore")]
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposedValue)
@@ -62,7 +64,8 @@ namespace NeeView
                     ViewContentsChanged = null;
                     NextContentsChanged = null;
                     _cancellationTokenSource.Cancel();
-                    ////_semaphore.Dispose();
+                    _cancellationTokenSource.Dispose();
+                    // _semaphore は Taskの最後で Disposeされる
                 }
 
                 _disposedValue = true;
@@ -94,6 +97,8 @@ namespace NeeView
             {
                 ////Debug.WriteLine($"> RunUpdateViewContents: {ex.Message}");
             }
+
+            _semaphore.Dispose();
         }
 
         private async Task UpdateNextContentsAsync(CancellationToken token)

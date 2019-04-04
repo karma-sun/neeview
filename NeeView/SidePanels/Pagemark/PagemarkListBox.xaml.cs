@@ -435,6 +435,7 @@ namespace NeeView
                 if (disposing)
                 {
                     _virtualCollection.Dispose();
+                    _jobClient.Dispose();
                 }
 
                 _disposedValue = true;

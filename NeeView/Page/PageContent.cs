@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -104,7 +105,7 @@ namespace NeeView
         /// </summary>
         public PageMessage PageMessage { get; protected set; }
 
-        public Thumbnail Thumbnail { get; protected set; } = new Thumbnail();
+        public Thumbnail Thumbnail { get; } = new Thumbnail();
 
         public virtual bool IsLoaded => true;
         public virtual bool IsAllLoaded => IsLoaded;
@@ -221,6 +222,7 @@ namespace NeeView
         #region IDisposable Support
         private bool _disposedValue = false;
 
+        [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId= "<Thumbnail>k__BackingField")]
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposedValue)

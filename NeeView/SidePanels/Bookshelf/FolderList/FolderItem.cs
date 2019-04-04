@@ -320,7 +320,7 @@ namespace NeeView
     /// <summary>
     /// 標準 FolderItem
     /// </summary>
-    public class FileFolderItem : FolderItem
+    public class FileFolderItem : FolderItem, IDisposable
     {
         private Page _archivePage;
 
@@ -341,6 +341,30 @@ namespace NeeView
         /// アクセスすることで自動でサムネイル読み込み処理が開始される
         /// </summary>
         public override IThumbnail Thumbnail => GetArchivePage()?.Thumbnail;
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    if  (_archivePage != null)
+                    {
+                        _archivePage.Dispose();
+                    }
+                }
+                _disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
 
 
         public override Page GetPage()

@@ -14,6 +14,7 @@
     </UserControl.Resources>
 
     <DockPanel x:Name="Root" Background="White">
+        <TextBlock DockPanel.Dock="Top" Text="{Binding CursorPointRoot}"/>
         <TextBlock DockPanel.Dock="Top" Text="{Binding Message}"/>
         <TextBlock DockPanel.Dock="Top" Text="{Binding DragTransform.Position, Converter={StaticResource PointToDispStringConverter}}"/>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal">

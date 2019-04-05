@@ -169,6 +169,8 @@ namespace NeeView
             // 開発用初期化
             Debug_Initialize();
 
+            InitializeWindowShape();
+
             Debug.WriteLine($"MainWindow.Initialize: {sw.ElapsedMilliseconds}ms");
         }
 
@@ -223,12 +225,7 @@ namespace NeeView
                 memento.State = WindowStateEx.FullScreen;
             }
 
-            // このタイミングでのChrome適用はMaximizedの場合にフルスクリーンになってしまうので保留する
-            // TODO: ???
-            if (memento.State != WindowStateEx.Maximized)
-            {
-                windowShape.WindowChromeFrame = App.Current.WindowChromeFrame;
-            }
+            windowShape.WindowChromeFrame = App.Current.WindowChromeFrame;
 
             windowShape.Restore(memento);
             windowShape.IsEnabled = true;
@@ -542,14 +539,11 @@ namespace NeeView
         {
             Debug.WriteLine($"App.ContentRendered: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
 
-            // ウィンドウ状態復元
-            InitializeWindowShape();
-
             // version 32.0 information
-            if (App.Current.SettingVersion != 0 && App.Current.SettingVersion < Config.Current.ProductVersionNumber && Config.Current.ProductVersionNumber == Config.GenerateProductVersionNumber(32, 0, 0))
-            {
-                ToastService.Current.Show(new Toast(Properties.Resources.Ver320Note, Properties.Resources.Ver320, ToastIcon.Information, TimeSpan.FromSeconds(15.0)));
-            }
+            ////if (App.Current.SettingVersion != 0 && App.Current.SettingVersion < Config.Current.ProductVersionNumber && Config.Current.ProductVersionNumber == Config.GenerateProductVersionNumber(32, 0, 0))
+            ////{
+            ////    ToastService.Current.Show(new Toast(Properties.Resources.Ver320Note, Properties.Resources.Ver320, ToastIcon.Information, TimeSpan.FromSeconds(15.0)));
+            ////}
         }
 
         // ウィンドウアクティブ

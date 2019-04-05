@@ -39,6 +39,9 @@ namespace NeeView
             {
                 this.items.Items.Refresh();
             };
+
+            this.Loaded += (s, e) => _vm.OnLoad();
+            this.Unloaded += (s, e) => _vm.OnUnload();
         }
 
         //
@@ -61,6 +64,23 @@ namespace NeeView
                 }
             };
         }
+
+        public void OnLoad()
+        {
+            MainWindow.Current.MouseMove += MainWindow_MouseMove;
+        }
+
+        public void OnUnload()
+        {
+            MainWindow.Current.MouseMove -= MainWindow_MouseMove;
+        }
+
+        private void MainWindow_MouseMove(object sender, MouseEventArgs e)
+        {
+            CursorPointWindow = e.GetPosition(MainWindow.Current);
+            CursorPointRoot = e.GetPosition(MainWindow.Current.Root);
+        }
+
 
         public event EventHandler WorkersChanged;
 
@@ -93,6 +113,23 @@ namespace NeeView
         }
 
 
+        private Point _CursorPointWindow;
+        public Point CursorPointWindow
+        {
+            get { return _CursorPointWindow; }
+            set { SetProperty(ref _CursorPointWindow, value); }
+        }
+
+
+        private Point _CursorPointRoot;
+        public Point CursorPointRoot
+        {
+            get { return _CursorPointRoot; }
+            set { SetProperty(ref _CursorPointRoot, value); }
+        }
+
+
+
         // 開発用：
         ////public Development Development { get; private set; } = new Development();
 
@@ -104,6 +141,7 @@ namespace NeeView
         {
             get { return _DevUpdateContentPosition = _DevUpdateContentPosition ?? new RelayCommand(DevUpdateContentPosition_Executed); }
         }
+
 
         private void DevUpdateContentPosition_Executed()
         {

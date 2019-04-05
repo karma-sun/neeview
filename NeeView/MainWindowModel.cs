@@ -95,6 +95,7 @@ namespace NeeView
                 {
                     RefreshCanHidePanel();
                     RefreshCanHidePageSlider();
+                    RaisePropertyChanged(nameof(CanHideMenu));
                 });
             WindowShape.Current.AddPropertyChanged(nameof(WindowShape.CanCaptionVisible),
                 (s, e) =>

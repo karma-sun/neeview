@@ -107,7 +107,6 @@ namespace NeeView
         private WindowStateEx _state;
         private bool _IsEnabled;
         private bool _isProcessing;
-        private Thickness _dedaultGrassFrameThickness;
 
         #endregion
 
@@ -121,7 +120,6 @@ namespace NeeView
             _chrome = new WindowChrome();
             _chrome.CornerRadius = new CornerRadius();
             _chrome.UseAeroCaptionButtons = false;
-            _dedaultGrassFrameThickness = _chrome.GlassFrameThickness;
 
             // Windows7以前の場合、フルスクリーン解除時にタスクバーを手前にする処理を追加
             _isWindows7 = Config.Current.IsWindows7();
@@ -513,9 +511,15 @@ namespace NeeView
         /// </summary>
         private void ToMaximized()
         {
-            //Debug.WriteLine("ToMaximized");
+            ////Debug.WriteLine("ToMaximized");
             BeginEdit();
+            ToMaximizeInner();
+            UpdateState(WindowStateEx.Maximized);
+            EndEdit();
+        }
 
+        private void ToMaximizeInner()
+        {
             // タイトルバー非表示時に最大化すると右に隙間ができてしまう対策
             if (!IsCaptionVisible && !_isWindows7)
             {
@@ -530,40 +534,38 @@ namespace NeeView
 
             this.WindowChrome = IsCaptionVisible ? null : _chrome;
             UpdateWindowBorderThickness();
-
-            RecoveryTaskBar();
-
-            UpdateState(WindowStateEx.Maximized);
-            EndEdit();
         }
+
+
 
         /// <summary>
         /// フルスクリーンにする
         /// </summary>
         private void ToFullScreen()
         {
-            //Debug.WriteLine("ToFullScreen");
+            ////Debug.WriteLine("ToFullScreen");
             BeginEdit();
-
             if (_isFullScreenWithTaskBar)
             {
-                _window.WindowStyle = WindowStyle.SingleBorderWindow;
-                _window.WindowState = WindowState.Maximized;
-                _window.WindowStyle = WindowStyle.None;
+                ToMaximizeInner();
             }
             else
             {
-                _window.ResizeMode = ResizeMode.NoResize;
-                if (_window.WindowState == WindowState.Maximized) _window.WindowState = WindowState.Normal;
-                _window.WindowStyle = WindowStyle.None;
-                _window.WindowState = WindowState.Maximized;
+                ToFullScreenInner();
             }
+            UpdateState(WindowStateEx.FullScreen);
+            EndEdit();
+        }
+
+        private void ToFullScreenInner()
+        {
+            _window.ResizeMode = ResizeMode.NoResize;
+            if (_window.WindowState == WindowState.Maximized) _window.WindowState = WindowState.Normal;
+            _window.WindowStyle = WindowStyle.None;
+            _window.WindowState = WindowState.Maximized;
 
             this.WindowChrome = null;
             UpdateWindowBorderThickness();
-
-            UpdateState(WindowStateEx.FullScreen);
-            EndEdit();
         }
 
         /// <summary>
@@ -596,7 +598,7 @@ namespace NeeView
         {
             if (!this.IsEnabled) return;
 
-            _chrome.GlassFrameThickness = _windowChromeFrame == WindowChromeFrame.None ? new Thickness(0) : _dedaultGrassFrameThickness;
+            _chrome.GlassFrameThickness = _windowChromeFrame == WindowChromeFrame.None ? new Thickness(0) : new Thickness(8);
             _window.Topmost = IsTopmost;
             _isFullScreen = _state == WindowStateEx.FullScreen;
             SetWindowState(_state);

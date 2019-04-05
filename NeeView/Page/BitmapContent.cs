@@ -60,7 +60,7 @@ namespace NeeView
 
         public virtual Size GetRenderSize(Size size)
         {
-            return CanResize &&  PictureProfile.Current.IsResizeFilterEnabled ? size : Size.Empty;
+            return CanResize && PictureProfile.Current.IsResizeFilterEnabled ? size : Size.Empty;
         }
 
         /// <summary>
@@ -148,6 +148,26 @@ namespace NeeView
             this.Picture = null;
         }
 
+        /// <summary>
+        /// Pictureの標準画像生成
+        /// </summary>
+        /// <param name="token"></param>
+        protected void PictureCreateBitmapSource(CancellationToken token)
+        {
+            try
+            {
+                this.Picture?.CreateBitmapSource(Size.Empty, token);
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                SetExceptionMessage(ex);
+                throw;
+            }
+        }
 
         /// <summary>
         /// コンテンツロード
@@ -157,6 +177,13 @@ namespace NeeView
             if (IsLoaded) return;
 
             this.Picture = LoadPicture(Entry, token);
+
+            // NOTE: リサイズフィルター有効の場合はBitmapSourceの生成をサイズ確定まで遅延させる
+            if (!PictureProfile.Current.IsResizeFilterEnabled)
+            {
+                PictureCreateBitmapSource(token);
+            }
+
             RaiseLoaded();
             UpdateDevStatus();
 

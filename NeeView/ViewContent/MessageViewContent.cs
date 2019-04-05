@@ -10,7 +10,7 @@ namespace NeeView
     {
         #region Constructors
 
-        public MessageViewContent(ViewPage source, ViewContent old) : base(source, old)
+        public MessageViewContent(ViewPage source) : base(source)
         {
         }
 
@@ -24,7 +24,7 @@ namespace NeeView
             var parameter = CreateBindingParameter();
 
             // create view
-            this.View = CreateView(this.Source, parameter);
+            this.View = new ViewContentControl(CreateView(this.Source, parameter));
 
             // content setting
             this.Size = new Size(480, 480);
@@ -58,9 +58,9 @@ namespace NeeView
     
         #region Static Methods
 
-        public static MessageViewContent Create(ViewPage source, ViewContent oldViewContent)
+        public static MessageViewContent Create(ViewPage source)
         {
-            var viewContent = new MessageViewContent(source, oldViewContent);
+            var viewContent = new MessageViewContent(source);
             viewContent.Initialize();
             return viewContent;
         }

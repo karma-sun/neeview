@@ -22,7 +22,7 @@ namespace NeeView
 
         #region Constructors
 
-        public MediaViewContent(ViewPage source, ViewContent old) : base(source, old)
+        public MediaViewContent(ViewPage source) : base(source)
         {
         }
 
@@ -56,7 +56,7 @@ namespace NeeView
             var parameter = CreateBindingParameter();
 
             // create view
-            this.View = CreateView(this.Source, parameter);
+            this.View = new ViewContentControl(CreateView(this.Source, parameter));
 
             // content setting
             var animatedContent = this.Content as MediaContent;
@@ -179,9 +179,9 @@ namespace NeeView
 
         #region Static Methods
 
-        public new static MediaViewContent Create(ViewPage source, ViewContent oldViewContent)
+        public new static MediaViewContent Create(ViewPage source)
         {
-            var viewContent = new MediaViewContent(source, oldViewContent);
+            var viewContent = new MediaViewContent(source);
             viewContent.Initialize();
             return viewContent;
         }

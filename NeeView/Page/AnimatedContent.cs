@@ -37,6 +37,9 @@ namespace NeeView
             // 画像情報の取得
             this.Picture = LoadPicture(Entry, token);
 
+            // 標準画像の生成
+            PictureCreateBitmapSource(token);
+
             // TempFileに出力し、これをMediaPlayerに再生させる
             CreateTempFile(true);
 

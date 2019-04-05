@@ -28,7 +28,7 @@ namespace NeeView
 
         #region Constructors
 
-        public BitmapViewContent(ViewPage source, ViewContent old) : base(source, old)
+        public BitmapViewContent(ViewPage source) : base(source)
         {
         }
 
@@ -43,7 +43,7 @@ namespace NeeView
             var parameter = CreateBindingParameter();
 
             // create view
-            this.View = CreateView(this.Source, parameter);
+            this.View = new ViewContentControl(CreateView(this.Source, parameter));
 
             // content setting
             var bitmapContent = this.Content as BitmapContent;
@@ -205,10 +205,10 @@ namespace NeeView
 
                     AppDispatcher.Invoke(() =>
                     {
-                        var view = CreateView(this.Source, CreateBindingParameter());
-                        if (view != null)
+                        var content = CreateView(this.Source, CreateBindingParameter());
+                        if (content != null)
                         {
-                            this.View = view;
+                            this.View.SetContent(content);
                             ContentCanvas.Current.UpdateContentScalingMode(this);
                         }
                     });
@@ -231,9 +231,9 @@ namespace NeeView
 
         #region Static Methods
 
-        public static BitmapViewContent Create(ViewPage source, ViewContent oldViewContent)
+        public static BitmapViewContent Create(ViewPage source)
         {
-            var viewContent = new BitmapViewContent(source, oldViewContent);
+            var viewContent = new BitmapViewContent(source);
             viewContent.Initialize();
             return viewContent;
         }

@@ -277,7 +277,9 @@
     <Compile Include="ThemeProfile.cs" />
     <Compile Include="Thumbnail\DriveThumbnail.cs" />
     <Compile Include="ViewContent\ArchiveViewContent.cs" />
+    <Compile Include="ViewContent\MediaElementPool.cs" />
     <Compile Include="ViewContent\ReserveViewContent.cs" />
+    <Compile Include="ViewContent\ViewContentControl.cs" />
     <Compile Include="_NeeLaboratory\IO\RemoteCommand.cs" />
     <Compile Include="SaveDataSync.cs" />
     <Compile Include="Setting\SusiePluginSettingWindow.xaml.cs">

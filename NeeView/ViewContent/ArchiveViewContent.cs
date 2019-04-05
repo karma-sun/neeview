@@ -6,7 +6,7 @@ namespace NeeView
     {
         #region Constructors
 
-        public ArchiveViewContent(ViewPage source, ViewContent old) : base(source, old)
+        public ArchiveViewContent(ViewPage source) : base(source)
         {
         }
 
@@ -20,7 +20,7 @@ namespace NeeView
             var parameter = CreateBindingParameter();
 
             // create view
-            this.View = CreateView(this.Source, parameter);
+            this.View = new ViewContentControl(CreateView(this.Source, parameter));
 
             // content setting
             this.Size = new Size(512, 512);
@@ -39,9 +39,9 @@ namespace NeeView
 
         #region Utility
 
-        public static ArchiveViewContent Create(ViewPage source, ViewContent oldViewContent)
+        public static ArchiveViewContent Create(ViewPage source)
         {
-            var viewContent = new ArchiveViewContent(source, oldViewContent);
+            var viewContent = new ArchiveViewContent(source);
             viewContent.Initialize();
             return viewContent;
         }

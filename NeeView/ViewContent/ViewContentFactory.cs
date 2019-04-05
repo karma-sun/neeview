@@ -16,38 +16,37 @@ namespace NeeView
             switch (source.GetContentType())
             {
                 case ViewContentType.Message:
-                    viewContent = MessageViewContent.Create(source, oldViewContent);
+                    viewContent = MessageViewContent.Create(source);
                     break;
                 case ViewContentType.Reserve:
                     viewContent =  ReserveViewContent.Create(source, oldViewContent);
                     break;
                 case ViewContentType.Bitmap:
-                    viewContent = BitmapViewContent.Create(source, oldViewContent);
+                    viewContent = BitmapViewContent.Create(source);
                     // ここでBitmapのないviewContentになってしまう場合、ここまでの処理中に非同期でPageがUnloadされた可能性がある(高速ページ送り等)。
-                    // TODO: わたされたsourceはPageUnloadにかかわらず不変であるものが望ましい
+                    // TODO: わたされたsourceはPageUnloadにかかわらず不変であるものが望ましい。ViewPage で Pictureインスタンスを直接保持する？
                     if (viewContent.GetViewBrush() == null)
                     {
                         throw new ViewContentFactoryException("This page has already been unloaded. maybe.");
                     }
                     break;
                 case ViewContentType.Anime:
-                    viewContent = AnimatedViewContent.Create(source, oldViewContent);
+                    viewContent = AnimatedViewContent.Create(source);
                     break;
                 case ViewContentType.Media:
-                    viewContent = MediaViewContent.Create(source, oldViewContent);
+                    viewContent = MediaViewContent.Create(source);
                     break;
                 case ViewContentType.Pdf:
-                    viewContent = PdfViewContent.Create(source, oldViewContent);
+                    viewContent = PdfViewContent.Create(source);
                     break;
                 case ViewContentType.Archive:
-                    viewContent = ArchiveViewContent.Create(source, oldViewContent);
+                    viewContent = ArchiveViewContent.Create(source);
                     break;
                 default:
                     viewContent = new ViewContent();
                     break;
             }
 
-            viewContent.Reserver = viewContent.CreateReserver();
             return viewContent;
         }
     }

@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Windows;
@@ -16,6 +15,24 @@ namespace NeeView
     /// </summary>
     public class ViewContent : BindableBase, IDisposable
     {
+        #region Constructors
+
+        /// <summary>
+        /// コンストラクター
+        /// </summary>
+        public ViewContent()
+        {
+        }
+
+        public ViewContent(ViewPage source)
+        {
+            this.Source = source;
+            this.Size = source.Size;
+            this.Color = Colors.Black;
+        }
+
+        #endregion
+
         #region Properties, Fields
 
         /// <summary>
@@ -37,8 +54,8 @@ namespace NeeView
         /// <summary>
         /// Property: View.
         /// </summary>
-        private FrameworkElement _view;
-        public FrameworkElement View
+        private ViewContentControl _view;
+        public ViewContentControl View
         {
             get { return _view; }
             set { _view = value; RaisePropertyChanged(); }
@@ -126,12 +143,8 @@ namespace NeeView
         // 有効判定
         public bool IsValid => (View != null);
 
-
         // 表示スケール(%)
         public double Scale => Width / Size.Width;
-
-        //
-        public ViewContentReserver Reserver { get; set; }
 
         //
         public bool IgnoreReserver { get; set; }
@@ -140,26 +153,6 @@ namespace NeeView
         /// IsResizing property.
         /// </summary>
         public bool IsResizing { get; protected set; }
-
-        #endregion
-
-        #region Constructors
-
-        /// <summary>
-        /// コンストラクター
-        /// </summary>
-        public ViewContent()
-        {
-        }
-
-        public ViewContent(ViewPage source, ViewContent old)
-        {
-            this.Source = source;
-            this.Size = source.Size;
-            this.Color = Colors.Black;
-
-            this.Reserver = old.CreateReserver();
-        }
 
         #endregion
 
@@ -179,8 +172,6 @@ namespace NeeView
             }
         }
 
-
-        //
         protected ViewContentParameters CreateBindingParameter()
         {
             var parameter = new ViewContentParameters()
@@ -204,29 +195,6 @@ namespace NeeView
             return null;
         }
 
-        //
-        public ViewContentReserver CreateReserver()
-        {
-            if (!BookProfile.Current.IsLoadingPageVisible || this.IgnoreReserver)
-            {
-                return null;
-            }
-
-            ImageBrush brush = this.GetViewBrush() as ImageBrush;
-            if (brush != null)
-            {
-                return new ViewContentReserver()
-                {
-                    Brush = brush,
-                    Size = this.Size,
-                    Color = this.Color
-                };
-            }
-
-            return this.Reserver;
-        }
-
-        //
         public virtual bool Rebuild(double scale)
         {
             ////Debug.WriteLine($"UpdateContent: {Width}x{Height} x{scale}");

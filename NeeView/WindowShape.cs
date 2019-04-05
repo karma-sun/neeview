@@ -513,14 +513,19 @@ namespace NeeView
         {
             ////Debug.WriteLine("ToMaximized");
             BeginEdit();
+
             ToMaximizeInner();
+
+            this.WindowChrome = IsCaptionVisible ? null : _chrome;
+            UpdateWindowBorderThickness();
+
             UpdateState(WindowStateEx.Maximized);
             EndEdit();
         }
 
         private void ToMaximizeInner()
         {
-            // タイトルバー非表示時に最大化すると右に隙間ができてしまう対策
+            // NOTE: タイトルバー非表示時に最大化すると右に隙間ができてしまう対策
             if (!IsCaptionVisible && !_isWindows7)
             {
                 _window.WindowState = WindowState.Normal;
@@ -531,12 +536,7 @@ namespace NeeView
             _window.ResizeMode = ResizeMode.CanResize;
             _window.WindowState = WindowState.Maximized;
             _window.Topmost = _isTopmost;
-
-            this.WindowChrome = IsCaptionVisible ? null : _chrome;
-            UpdateWindowBorderThickness();
         }
-
-
 
         /// <summary>
         /// フルスクリーンにする
@@ -545,14 +545,20 @@ namespace NeeView
         {
             ////Debug.WriteLine("ToFullScreen");
             BeginEdit();
+
             if (_isFullScreenWithTaskBar)
             {
                 ToMaximizeInner();
+                this.WindowChrome = _chrome;
             }
             else
             {
                 ToFullScreenInner();
+                this.WindowChrome = null;
             }
+
+            UpdateWindowBorderThickness();
+
             UpdateState(WindowStateEx.FullScreen);
             EndEdit();
         }
@@ -563,9 +569,6 @@ namespace NeeView
             if (_window.WindowState == WindowState.Maximized) _window.WindowState = WindowState.Normal;
             _window.WindowStyle = WindowStyle.None;
             _window.WindowState = WindowState.Maximized;
-
-            this.WindowChrome = null;
-            UpdateWindowBorderThickness();
         }
 
         /// <summary>
@@ -598,7 +601,7 @@ namespace NeeView
         {
             if (!this.IsEnabled) return;
 
-            _chrome.GlassFrameThickness = _windowChromeFrame == WindowChromeFrame.None ? new Thickness(0) : new Thickness(8);
+            _chrome.GlassFrameThickness = _windowChromeFrame == WindowChromeFrame.None ? new Thickness(0) : new Thickness(1);
             _window.Topmost = IsTopmost;
             _isFullScreen = _state == WindowStateEx.FullScreen;
             SetWindowState(_state);

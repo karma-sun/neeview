@@ -172,7 +172,8 @@ namespace NeeView
         {
             var size = PictureProfile.Current.IsResizeFilterEnabled ? GetScaledSize(scale) : Size.Empty;
 
-            if (ContentCanvas.Current.IsEnabledNearestNeighbor && size.Width >= this.Size.Width)
+            // TODO: 判定サイズの修正
+            if (ContentCanvas.Current.IsEnabledNearestNeighbor && (size.Width >= this.Source.Size.Width || size.Height >= this.Source.Size.Height))
             {
                 size = Size.Empty;
             }

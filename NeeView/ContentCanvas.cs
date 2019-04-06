@@ -459,7 +459,13 @@ namespace NeeView
         /// <returns></returns>
         private List<Size> GetContentSizeList()
         {
-            return CloneContents.Select(e => (e?.Size ?? SizeExtensions.Zero).EmptyOrZeroCoalesce(e.Size)).ToList();
+            return CloneContents.Select(e => (e.Source?.Size ?? SizeExtensions.Zero).EmptyOrZeroCoalesce(GetViewContentSize(e))).ToList();
+        }
+
+        // TODO: ViewContent.Size の廃止
+        private Size GetViewContentSize(ViewContent viewContent)
+        {
+            return viewContent.Size;
         }
 
         // ビューエリアサイズを更新

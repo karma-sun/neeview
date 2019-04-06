@@ -132,6 +132,7 @@ namespace NeeView
             content.SetSize(size);
 
             ContentCanvas.Current.UpdateContentSize();
+            DragTransformControl.Current.SnapView();
             FileInformation.Current.Flush();
         }
 

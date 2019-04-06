@@ -91,6 +91,22 @@ namespace NeeView
             }
         }
 
+        // サイズ取得
+        public Size GetSourceSize(ArchiveEntry entry)
+        {
+            using (var stream = new FileStream(Path, FileMode.Open, FileAccess.Read))
+            using (var pdfDocument = PdfDocument.Load(stream))
+            {
+                return GetSourceSize(pdfDocument, entry.Id);
+            }
+        }
+
+        // サイズ取得
+        private Size GetSourceSize(PdfDocument pdfDocument, int page)
+        {
+            return SizeExtensions.FromDrawingSize(pdfDocument.PageSizes[page]);
+        }
+
         // 標準サイズで取得
         public Size GetRenderSize(ArchiveEntry entry)
         {

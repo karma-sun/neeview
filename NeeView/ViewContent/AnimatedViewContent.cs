@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Collections.Generic;
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,7 +15,7 @@ namespace NeeView
     /// </summary>
     public class AnimatedViewContent : BitmapViewContent
     {
-        private static MediaElementPool _mediaElementPool = new MediaElementPool();
+        private static ObjectPool<MediaElement> _mediaElementPool = new ObjectPool<MediaElement>();
 
         private TextBlock _errorMessageTextBlock;
 

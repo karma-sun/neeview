@@ -277,7 +277,7 @@
     <Compile Include="ThemeProfile.cs" />
     <Compile Include="Thumbnail\DriveThumbnail.cs" />
     <Compile Include="ViewContent\ArchiveViewContent.cs" />
-    <Compile Include="ViewContent\MediaElementPool.cs" />
+    <Compile Include="_NeeView\Collections\Generic\ObjectPool.cs" />
     <Compile Include="ViewContent\ReserveViewContent.cs" />
     <Compile Include="ViewContent\ViewContentControl.cs" />
     <Compile Include="_NeeLaboratory\IO\RemoteCommand.cs" />

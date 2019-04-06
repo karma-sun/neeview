@@ -299,6 +299,7 @@ namespace NeeView
         {
             if (_isRepeat)
             {
+                _player.Position = TimeSpan.FromMilliseconds(1);
             }
             else
             {
@@ -490,10 +491,11 @@ namespace NeeView
                 {
                     MediaEnded = null;
                     _timer.Stop();
-                    _player.Stop();
                     _player.MediaFailed -= Player_MediaFailed;
                     _player.MediaOpened -= Player_MediaOpened;
                     _player.MediaEnded -= Player_MediaEnded;
+                    _player.Stop();
+                    _player.Close();
                 }
 
                 _disposed = true;

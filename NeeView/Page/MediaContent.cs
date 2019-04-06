@@ -49,7 +49,7 @@ namespace NeeView
         {
             if (IsLoaded) return;
 
-            SetSize(new Size(1920, 1080));
+            SetSize(new Size(704, 396));
 
             if (!token.IsCancellationRequested)
             {

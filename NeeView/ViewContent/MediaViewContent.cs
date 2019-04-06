@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeLaboratory.Windows.Input;
+using NeeView.Collections.Generic;
 using System;
 using System.Diagnostics;
 using System.Windows;
@@ -14,8 +15,9 @@ namespace NeeView
     {
         #region Fields
 
+        private static ObjectPool<MediaPlayer> _mediaPlayerPool = new ObjectPool<MediaPlayer>();
+
         private MediaPlayer _player;
-        private VideoDrawing _videoDrawing;
         private TextBlock _errorMessageTextBlock;
 
         #endregion
@@ -28,28 +30,8 @@ namespace NeeView
 
         #endregion
 
-        #region Events
-
-        /// <summary>
-        /// コントロールがUnloadされたときのイベント
-        /// </summary>
-        public event EventHandler Unloaded;
-
-        #endregion
-
-        #region Properties
-
-        public MediaPlayer MediaPlayer => _player;
-
-        public Uri MediaUri => new Uri(((MediaContent)Content).FileProxy.Path);
-
-        public bool IsLastStart => this.Source.IsLastStart;
-
-        #endregion
-
         #region Methods
 
-        //
         public new void Initialize()
         {
             // binding parameter
@@ -68,28 +50,55 @@ namespace NeeView
         /// <summary>
         /// アニメーションビュー生成
         /// </summary>
-        /// <param name="source"></param>
-        /// <param name="parameter"></param>
-        /// <returns></returns>
         private new FrameworkElement CreateView(ViewPage source, ViewContentParameters parameter)
         {
-            _player = new MediaPlayer();
+            var uri = new Uri(((MediaContent)Content).FileProxy.Path);
+            var isLastStart = source.IsLastStart;
 
-            _videoDrawing = new VideoDrawing()
+            var videoDrawing = new VideoDrawing()
             {
-                Player = _player,
                 Rect = new Rect(this.Content.Size),
-
             };
             var brush = new DrawingBrush()
             {
-                Drawing = _videoDrawing,
+                Drawing = videoDrawing,
                 Stretch = Stretch.Fill,
                 Viewbox = source.GetViewBox()
             };
             var rectangle = new Rectangle()
             {
                 Fill = brush
+            };
+            rectangle.SetBinding(RenderOptions.BitmapScalingModeProperty, parameter.BitmapScalingMode); // 効果なし
+
+            rectangle.Loaded += (s, e) =>
+            {
+                _player = _mediaPlayerPool.Allocate();
+                _player.MediaFailed += Media_MediaFailed;
+                _player.MediaOpened += Media_MediaOpened;
+
+                videoDrawing.Player = _player;
+
+                MediaControl.Current.RiaseContentChanged(this, new MediaPlayerChanged(_player, uri, isLastStart));
+            };
+
+            rectangle.Unloaded += (s, e) =>
+            {
+                if (videoDrawing.Player is MediaPlayer player)
+                {
+                    videoDrawing.Player = null;
+
+                    player.MediaFailed -= Media_MediaFailed;
+                    player.MediaOpened -= Media_MediaOpened;
+                    player.Stop();
+                    player.Close();
+                    _mediaPlayerPool.Release(player);
+                    _player = null;
+
+                    MediaControl.Current.RiaseContentChanged(this, new MediaPlayerChanged());
+
+                    rectangle.Visibility = Visibility.Hidden;
+                }
             };
 
             _errorMessageTextBlock = new TextBlock()
@@ -108,50 +117,24 @@ namespace NeeView
             grid.Children.Add(rectangle);
             grid.Children.Add(_errorMessageTextBlock);
 
-            //
-            _player.MediaFailed += Media_MediaFailed;
-            _player.MediaOpened += Media_MediaOpened;
-            _player.MediaEnded += (s, e_) => _player.Position = TimeSpan.FromMilliseconds(1);
-
-            grid.Unloaded += Grid_Unloaded;
-
-            //// 再生開始はMediaControlViewで行うので、ここでは実行しない
-            ////_player.Open(new Uri(((MediaContent)Content).FileProxy.Path));
-            ////_player.Play();
-
             return grid;
         }
 
-        //
-        private void CloseMediaPlayer()
-        {
-            Unloaded?.Invoke(this, null);
-
-            _player?.Stop();
-            _player?.Close();
-        }
-
-        //
-        private void Grid_Unloaded(object sender, RoutedEventArgs e)
-        {
-            CloseMediaPlayer();
-        }
-
-        //
         private void Media_MediaOpened(object sender, EventArgs e)
         {
             var content = this.Content as MediaContent;
             if (content == null) return;
 
-            var size = new Size(_player.NaturalVideoWidth, _player.NaturalVideoHeight);
+            var player = (MediaPlayer)sender;
+
+            var size = new Size(player.NaturalVideoWidth, player.NaturalVideoHeight);
+            Size = size;
             content.SetSize(size);
-            _videoDrawing.Rect = new Rect(size);
 
             ContentCanvas.Current.UpdateContentSize();
             FileInformation.Current.Flush();
         }
 
-        //
         private void Media_MediaFailed(object sender, ExceptionEventArgs e)
         {
             _errorMessageTextBlock.Text = e.ErrorException != null ? e.ErrorException.Message : Properties.Resources.NotifyPlayFailed;
@@ -159,7 +142,6 @@ namespace NeeView
         }
 
 
-        //
         public override bool Rebuild(double scale)
         {
             return true;
@@ -171,7 +153,12 @@ namespace NeeView
 
         protected override void Dispose(bool disposing)
         {
-            CloseMediaPlayer();
+            if (_player != null)
+            {
+                _player?.Stop();
+                _player?.Close();
+            }
+
             base.Dispose(disposing);
         }
 
@@ -188,6 +175,4 @@ namespace NeeView
 
         #endregion
     }
-
-
 }

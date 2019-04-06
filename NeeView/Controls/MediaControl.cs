@@ -11,11 +11,9 @@ namespace NeeView
         static MediaControl() => Current = new MediaControl();
         public static MediaControl Current { get; }
 
-        private MediaViewContent _viewContent;
 
         private MediaControl()
         {
-            ContentCanvas.Current.ContentChanged += ContentCanvas_ContentChanged;
         }
 
         public event EventHandler<MediaPlayerChanged> Changed;
@@ -31,36 +29,11 @@ namespace NeeView
         public double PageSeconds { get; set; } = 10.0;
 
 
-        private void ContentCanvas_ContentChanged(object sender, EventArgs e)
+        public void RiaseContentChanged(object sender, MediaPlayerChanged e)
         {
-            if (_viewContent != null)
-            {
-                _viewContent.Unloaded -= ViewContent_Unloaded;
-                _viewContent = null;
-            }
-
-            var viewContent = ContentCanvas.Current.MainContent;
-
-            if (viewContent is MediaViewContent mediaViewContent)
-            {
-                _viewContent = mediaViewContent;
-                _viewContent.Unloaded += ViewContent_Unloaded;
-                Changed?.Invoke(this, new MediaPlayerChanged(_viewContent.MediaPlayer, _viewContent.MediaUri, _viewContent.IsLastStart));
-            }
-            else
-            {
-                Changed?.Invoke(this, new MediaPlayerChanged());
-            }
+            Changed?.Invoke(sender, e);
         }
 
-        private void ViewContent_Unloaded(object sender, EventArgs e)
-        {
-            if (_viewContent == sender)
-            {
-                _viewContent = null;
-                Changed?.Invoke(this, new MediaPlayerChanged());
-            }
-        }
 
         #region Memento
 
@@ -105,7 +78,6 @@ namespace NeeView
         }
 
         #endregion
-
     }
 
     /// <summary>

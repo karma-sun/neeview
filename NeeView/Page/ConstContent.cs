@@ -8,10 +8,11 @@
         {
             _thumbnailType = thumbnailType;
         }
+        public ThumbnailType ThumbnailType => _thumbnailType;
 
-        public override void InitializeThumbnail()
+        public override IContentLoader CreateContentLoader()
         {
-            Thumbnail.Initialize(_thumbnailType);
+            return new ConstContentLoader(this);
         }
     }
 }

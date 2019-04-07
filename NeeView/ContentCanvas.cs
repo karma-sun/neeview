@@ -403,7 +403,7 @@ namespace NeeView
                 catch (Exception ex)
                 {
                     Debug.WriteLine("OnNextContentChanged: " + ex.Message);
-                    content.SetExceptionMessage(ex);
+                    content.SetPageMessage(ex);
                 }
             }
         }

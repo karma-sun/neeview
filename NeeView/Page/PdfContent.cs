@@ -6,9 +6,9 @@ namespace NeeView
     /// PDFページコンテンツ
     /// 今のところ画像コンテンツと同じ
     /// </summary>
-    public class PdfContetnt : BitmapContent
+    public class PdfContent : BitmapContent
     {
-        public PdfContetnt(ArchiveEntry entry) : base(entry)
+        public PdfContent(ArchiveEntry entry) : base(entry)
         {
         }
 
@@ -17,6 +17,11 @@ namespace NeeView
         public override Size GetRenderSize(Size size)
         {
             return size;
+        }
+
+        public override IContentLoader CreateContentLoader()
+        {
+            return new PdfContentLoader(this);
         }
     }
 }

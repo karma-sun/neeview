@@ -88,7 +88,7 @@ namespace NeeView
                 return ViewContentType.Reserve;
             }
             // PDF
-            else if (Content is PdfContetnt)
+            else if (Content is PdfContent)
             {
                 return ViewContentType.Pdf;
             }

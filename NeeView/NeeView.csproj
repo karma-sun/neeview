@@ -256,7 +256,16 @@
     <Compile Include="OpenSourceControls\VirtualizingWrapPanel.cs" />
     <Compile Include="Bitmap\BitmapCreateSetting.cs" />
     <Compile Include="PageRange.cs" />
+    <Compile Include="Page\AnimatedContentLoader.cs" />
+    <Compile Include="Page\ArchiveContentLoader.cs" />
+    <Compile Include="Page\BitmapContentLoader.cs" />
+    <Compile Include="Page\ConstContentLoader.cs" />
+    <Compile Include="Page\FileContentLoader.cs" />
+    <Compile Include="Page\IContentLoader.cs" />
+    <Compile Include="Page\MediaContentLoader.cs" />
     <Compile Include="Page\PageContentState.cs" />
+    <Compile Include="Page\PdfContent.cs" />
+    <Compile Include="Page\PdfContentLoader.cs" />
     <Compile Include="Page\PictureSourcePool.cs" />
     <Compile Include="Picture\DefaultPictureSource.cs" />
     <Compile Include="Page\PageContentPool.cs" />
@@ -497,7 +506,6 @@
     <Compile Include="ContentCanvasBrush.cs" />
     <Compile Include="MouseInput\DragTransformControl.cs" />
     <Compile Include="MouseInput\LoupeTransform.cs" />
-    <Compile Include="Page\PdfContetnt.cs" />
     <Compile Include="Picture\SizeExtensions.cs" />
     <Compile Include="Picture\SusiePictureStream.cs" />
     <Compile Include="SearchEnginecs.cs" />

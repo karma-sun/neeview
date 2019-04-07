@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Permissions;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -20,7 +17,6 @@ namespace NeeView
     {
         public MediaContent(ArchiveEntry entry) : base(entry)
         {
-            IsAnimated = true;
             PictureInfo = new PictureInfo(entry);
         }
 
@@ -44,31 +40,9 @@ namespace NeeView
             this.PictureInfo.BitsPerPixel = 32;
         }
 
-        /// <summary>
-        /// コンテンツロード.
-        /// </summary>
-        public override async Task LoadContentAsync(CancellationToken token)
+        public override IContentLoader CreateContentLoader()
         {
-            if (IsLoaded) return;
-
-            SetSize(new Size(1280, 720));
-
-            if (!token.IsCancellationRequested)
-            {
-                // TempFileに出力し、これをMediaPlayerに再生させる
-                CreateTempFile(true);
-
-                RaiseLoaded();
-
-                UpdateDevStatus();
-            }
-
-            // サムネイル作成
-            if (Thumbnail.IsValid) return;
-            Thumbnail.Initialize(ThumbnailType.Media);
-
-            await Task.CompletedTask;
+            return new MediaContentLoader(this);
         }
     }
-
 }

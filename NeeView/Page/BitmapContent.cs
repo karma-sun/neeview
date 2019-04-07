@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -14,10 +11,9 @@ namespace NeeView
     /// <summary>
     /// 画像コンテンツ
     /// </summary>
-    public class BitmapContent : PageContent, IHasPictureSource
+    public class BitmapContent : PageContent
     {
         private PictureInfo _pictureInfo;
-        private object _lock = new object();
 
 
         public BitmapContent(ArchiveEntry entry) : base(entry)
@@ -50,11 +46,6 @@ namespace NeeView
 
         public override bool IsViewReady => BitmapSource != null || PageMessage != null;
 
-        /// <summary>
-        /// PictureSourceのロック
-        /// </summary>
-        public bool IsPictureSourceLocked => State != PageContentState.None;
-
         public override bool CanResize => true;
 
 
@@ -81,174 +72,26 @@ namespace NeeView
             return source != null ? source.GetMemorySize() : 0;
         }
 
-        /// <summary>
-        /// PictureSource初期化
-        /// </summary>
-        private PictureSource LoadPictureSource(CancellationToken token)
+
+        public void SetPictureInfo(PictureInfo pictureInfo)
         {
-            lock (_lock)
-            {
-                var source = PictureSource;
-                if (source == null)
-                {
-                    source = PictureSourceFactory.Create(Entry, _pictureInfo, PictureSourceCreateOptions.None, token);
-                    _pictureInfo = MemoryControl.Current.RetryFuncWithMemoryCleanup(() => source.CreatePictureInfo(token));
-                    this.PictureSource = source;
-
-                    Book.Default?.BookMemoryService.AddPictureSource(this);
-                }
-
-                return source;
-            }
+            _pictureInfo = pictureInfo;
         }
 
-        /// <summary>
-        /// PictureSource開放
-        /// </summary>
-        public void UnloadPictureSource()
+        public void SetPictureSource(PictureSource pictureSource)
         {
-            lock (_lock)
-            {
-                PictureSource = null;
-            }
+            PictureSource = pictureSource;
         }
 
-
-        /// <summary>
-        /// 画像読込
-        /// </summary>
-        protected Picture LoadPicture(ArchiveEntry entry, CancellationToken token)
+        public void SetPicture(Picture picture)
         {
-            try
-            {
-                var source = LoadPictureSource(token);
-                var picture = new Picture(source);
-
-                // NOTE: リサイズフィルター有効の場合はBitmapSourceの生成をサイズ確定まで遅延させる
-                if (!PictureProfile.Current.IsResizeFilterEnabled)
-                {
-                    picture.CreateBitmapSource(Size.Empty, token);
-                }
-
-                return picture;
-            }
-            catch (OperationCanceledException)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                SetExceptionMessage(ex);
-                throw;
-            }
+            Picture = picture;
         }
 
-        public void UnloadPicture()
+        public override IContentLoader CreateContentLoader()
         {
-            this.Picture = null;
+            return new BitmapContentLoader(this);
         }
-
-        /// <summary>
-        /// Pictureの標準画像生成
-        /// </summary>
-        /// <param name="token"></param>
-        protected void PictureCreateBitmapSource(CancellationToken token)
-        {
-            try
-            {
-                this.Picture?.CreateBitmapSource(Size.Empty, token);
-            }
-            catch (OperationCanceledException)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                SetExceptionMessage(ex);
-                throw;
-            }
-        }
-
-        /// <summary>
-        /// コンテンツロード
-        /// </summary>
-        public override async Task LoadContentAsync(CancellationToken token)
-        {
-            if (IsLoaded) return;
-
-            this.Picture = LoadPicture(Entry, token);
-
-            // NOTE: リサイズフィルター有効の場合はBitmapSourceの生成をサイズ確定まで遅延させる
-            if (!PictureProfile.Current.IsResizeFilterEnabled)
-            {
-                PictureCreateBitmapSource(token);
-            }
-
-            RaiseLoaded();
-            UpdateDevStatus();
-
-            await Task.CompletedTask;
-        }
-
-        /// <summary>
-        /// コンテンツ開放
-        /// </summary>
-        public override void UnloadContent()
-        {
-            this.PageMessage = null;
-            UnloadPicture();
-            UpdateDevStatus();
-
-            MemoryControl.Current.GarbageCollect();
-        }
-
-        /// <summary>
-        /// サムネイルロード
-        /// </summary>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        public override async Task LoadThumbnailAsync(CancellationToken token)
-        {
-            if (Thumbnail.IsValid) return;
-
-            var source = LoadPictureSource(token);
-
-            byte[] thumbnailRaw = null;
-
-            if (this.PageMessage != null)
-            {
-                thumbnailRaw = null;
-            }
-            else
-            {
-                thumbnailRaw = MemoryControl.Current.RetryFuncWithMemoryCleanup(() => source.CreateThumbnail(ThumbnailProfile.Current, token));
-            }
-
-            token.ThrowIfCancellationRequested();
-            Thumbnail.Initialize(thumbnailRaw);
-
-            await Task.CompletedTask;
-        }
-
-        #region IDisposable Support
-        private bool _disposedValue = false;
-
-        protected override void Dispose(bool disposing)
-        {
-            if (!_disposedValue)
-            {
-                if (disposing)
-                {
-                    UnloadContent();
-                    UnloadPictureSource();
-                    _pictureInfo = null;
-                }
-
-                _disposedValue = true;
-            }
-
-            base.Dispose(disposing);
-        }
-        #endregion IDisposable Support
     }
+
 }

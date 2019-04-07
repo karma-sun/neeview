@@ -45,7 +45,7 @@ namespace NeeView
         }
 
         [Conditional("DEBUG")]
-        protected void UpdateDevStatus()
+        public void UpdateDevStatus()
         {
             DevStatus = (Thumbnail.IsValid ? "T" : "") + (IsLoaded ? "C" : "");
         }
@@ -78,21 +78,12 @@ namespace NeeView
 
         #endregion Constructors
 
-        #region Events
-
-        /// <summary>
-        /// コンテンツ準備完了イベント
-        /// </summary>
-        public event EventHandler Loaded;
-
-        #endregion Events
-        
         #region Properties
 
         public virtual ArchiveEntry Entry
         {
             get { return _entry; }
-            protected set { SetProperty(ref _entry, value); }
+            private set { SetProperty(ref _entry, value); }
         }
 
         /// <summary>
@@ -103,7 +94,7 @@ namespace NeeView
         /// <summary>
         /// 情報表示用
         /// </summary>
-        public PageMessage PageMessage { get; protected set; }
+        public PageMessage PageMessage { get; private set; }
 
         public Thumbnail Thumbnail { get; } = new Thumbnail();
 
@@ -117,8 +108,9 @@ namespace NeeView
         /// </summary>
         public virtual bool IsViewReady => IsLoaded;
 
-        public bool IsAnimated { get; protected set; }
-
+        /// <summary>
+        /// 要求状態
+        /// </summary>
         public PageContentState State
         {
             get => _state;
@@ -139,14 +131,6 @@ namespace NeeView
         #region Methods
 
         /// <summary>
-        /// Load完了イベント発行
-        /// </summary>
-        protected void RaiseLoaded()
-        {
-            Loaded?.Invoke(this, null);
-        }
-
-        /// <summary>
         /// 使用メモリサイズ (Picture)
         /// </summary>
         public virtual long GetContentMemorySize() => 0;
@@ -157,50 +141,17 @@ namespace NeeView
         public virtual long GetPictureSourceMemorySize() => 0;
 
         /// <summary>
-        /// コンテンツロード
+        /// エントリ設定。遅延生成で使用される
         /// </summary>
-        public virtual async Task LoadContentAsync(CancellationToken token)
+        public void SetEntry(ArchiveEntry entry)
         {
-            await Task.CompletedTask;
-        }
-
-        /// <summary>
-        /// コンテンツ開放
-        /// </summary>
-        public virtual void UnloadContent()
-        {
-        }
-
-        /// <summary>
-        /// エントリ初期化。未定義の場合に生成する
-        /// TODO: ArchiveContentでしか使用されない特殊処理。もっと一般化できないか。
-        /// </summary>
-        public virtual async Task InitializeEntryAsync(CancellationToken token)
-        {
-            await Task.CompletedTask;
-        }
-
-        /// <summary>
-        /// サムネイル初期化
-        /// </summary>
-        public virtual void InitializeThumbnail()
-        {
-            Thumbnail.Initialize(Entry, null);
-        }
-
-        /// <summary>
-        /// サムネイルロード
-        /// </summary>
-        public virtual async Task LoadThumbnailAsync(CancellationToken token)
-        {
-            await Task.CompletedTask;
+            Entry = entry;
         }
 
         /// <summary>
         /// テンポラリファイルの作成
         /// </summary>
         /// <param name="isKeepFileName">エントリ名準拠のテンポラリファイルを作成</param>
-        /// <returns></returns>
         public FileProxy CreateTempFile(bool isKeepFileName)
         {
             FileProxy = FileProxy ?? Entry.ExtractToTemp(isKeepFileName);
@@ -208,9 +159,17 @@ namespace NeeView
         }
 
         /// <summary>
-        /// 例外表示
+        /// メッセージ表示の設定
         /// </summary>
-        public void SetExceptionMessage(Exception ex)
+        public void SetPageMessage(PageMessage message)
+        {
+            PageMessage = message;
+        }
+
+        /// <summary>
+        /// メッセージ表示に例外を設定
+        /// </summary>
+        public void SetPageMessage(Exception ex)
         {
             PageMessage = new PageMessage()
             {
@@ -224,27 +183,35 @@ namespace NeeView
             return _entry.EntryLastName ?? base.ToString();
         }
 
+        /// <summary>
+        /// クローン作成
+        /// </summary>
+        /// <returns></returns>
         public PageContent Clone()
         {
             return (PageContent)MemberwiseClone();
         }
+
+        /// <summary>
+        /// ローダー作成
+        /// </summary>
+        public abstract IContentLoader CreateContentLoader();
 
         #endregion
 
         #region IDisposable Support
         private bool _disposedValue = false;
 
-        [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId= "<Thumbnail>k__BackingField")]
+        [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "<Thumbnail>k__BackingField")]
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposedValue)
             {
                 if (disposing)
                 {
-                    Loaded = null;
                     State = PageContentState.None;
                     FileProxy = null;
-                    Thumbnail.Dispose();
+                    Thumbnail.Dispose(); //TODO: Thumbnail自体のDisposeの必要性の検証
                 }
 
                 _disposedValue = true;
@@ -257,5 +224,8 @@ namespace NeeView
         }
         #endregion
     }
+
+
+
 
 }

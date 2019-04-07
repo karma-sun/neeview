@@ -35,16 +35,8 @@ namespace NeeView
     {
         #region 開発用
 
-        protected bool SetPropertyDebug<T>(ref T storage, T value, [System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
-        {
-            if (object.Equals(storage, value)) return false;
-            storage = value;
-            this.RaisePropertyChangedDebug(propertyName);
-            return true;
-        }
-
         [Conditional("DEBUG")]
-        protected void RaisePropertyChangedDebug([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        private void DebugRaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
         {
             RaisePropertyChanged(name);
         }
@@ -52,27 +44,13 @@ namespace NeeView
         [Conditional("DEBUG")]
         public void DebugRaiseContentPropertyChanged()
         {
-            RaisePropertyChangedDebug(nameof(ContentAccessor));
+            DebugRaisePropertyChanged(nameof(ContentAccessor));
         }
-
-        // 開発用メッセージ
-        #region Property: Message
-        private string _message;
-        public string Message
-        {
-            get { return _message; }
-            set
-            {
-                ////if (Index == 9) Debug.WriteLine($">> {value}");
-                _message = value;
-                RaisePropertyChangedDebug();
-            }
-        }
-        #endregion
 
         #endregion
 
         private PageContent _content;
+        private IContentLoader _contentLoader;
         private bool _isVisibled;
         private bool _isPagemark;
 
@@ -84,7 +62,8 @@ namespace NeeView
         {
             BookPrefix = bookPrefix;
             _content = content;
-            _content.Loaded += (s, e) => Loaded?.Invoke(this, null);
+            _contentLoader = _content.CreateContentLoader();
+            _contentLoader.Loaded += (s, e) => Loaded?.Invoke(this, null);
         }
 
 
@@ -204,6 +183,7 @@ namespace NeeView
                 if (disposing)
                 {
                     Loaded = null;
+                    _contentLoader.Dispose();
                     _content.Dispose();
                 }
 
@@ -233,11 +213,8 @@ namespace NeeView
         {
             token.ThrowIfCancellationRequested();
 
-            Message = "Load...";
-            await _content.LoadContentAsync(token);
-            Message = "Loaded.";
-
-            RaisePropertyChanged(nameof(_content));
+            await _contentLoader.LoadContentAsync(token);
+            RaisePropertyChanged(nameof(ContentAccessor));
         }
 
         /// <summary>
@@ -246,10 +223,9 @@ namespace NeeView
         public void UnloadContent()
         {
             Debug.Assert(State == PageContentState.None);
-            _content.UnloadContent();
-            Message = ".";
 
-            RaisePropertyChanged(nameof(_content));
+            _contentLoader.UnloadContent();
+            RaisePropertyChanged(nameof(ContentAccessor));
         }
 
 
@@ -260,11 +236,7 @@ namespace NeeView
         {
             token.ThrowIfCancellationRequested();
 
-            await _content.InitializeEntryAsync(token);
-            _content.InitializeThumbnail();
-            if (Thumbnail.IsValid) return;
-            if (token.IsCancellationRequested) return;
-            await _content.LoadThumbnailAsync(token);
+            await _contentLoader.LoadThumbnailAsync(token);
         }
 
 

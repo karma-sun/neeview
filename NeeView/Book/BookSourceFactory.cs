@@ -86,7 +86,7 @@ namespace NeeView
                 }
                 else if (entry.Archiver is PdfArchiver)
                 {
-                    page = new Page(bookPrefix, new PdfContetnt(entry));
+                    page = new Page(bookPrefix, new PdfContent(entry));
                 }
                 else if (BookProfile.Current.IsEnableAnimatedGif && LoosePath.GetExtension(entry.EntryName) == ".gif")
                 {

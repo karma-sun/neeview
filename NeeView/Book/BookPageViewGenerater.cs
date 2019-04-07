@@ -40,7 +40,7 @@ namespace NeeView
 
             _cancellationTokenSource = new CancellationTokenSource();
             _semaphore = new SemaphoreSlim(0);
-            _task = TasnEntry(_cancellationTokenSource.Token);
+            _task = Worker(_cancellationTokenSource.Token);
         }
 
         // 表示コンテンツ変更
@@ -85,7 +85,7 @@ namespace NeeView
             _semaphore.Release();
         }
 
-        private async Task TasnEntry(CancellationToken token)
+        private async Task Worker(CancellationToken token)
         {
             try
             {
@@ -193,7 +193,7 @@ namespace NeeView
         {
             if (_setting.IsSupportedSingleFirstPage && index == 0) return true;
             if (_setting.IsSupportedSingleLastPage && index == _book.Pages.Count - 1) return true;
-            if (_book.Pages[index] is ArchivePage) return true;
+            if (_book.Pages[index].PageType == PageType.Folder) return true;
             if (_setting.IsSupportedWidePage && IsWide(_book.Pages[index])) return true;
             return false;
         }
@@ -240,36 +240,36 @@ namespace NeeView
             }
 
             // コンテンツソース作成
-            var contentsSource = new List<ViewPage>();
+            var list = new List<ViewContentSource>();
             foreach (var v in infos)
             {
-                var viewPage = new ViewPage(_book.Pages[v.Position.Index], v);
-                contentsSource.Add(viewPage);
+                var viewContentSource = new ViewContentSource(_book.Pages[v.Position.Index], v);
+                list.Add(viewContentSource);
             }
 
             // 並び順補正
             if (source.Direction < 0 && infos.Count >= 2)
             {
-                contentsSource.Reverse();
+                list.Reverse();
                 infos.Reverse();
             }
 
             // 左開き
             if (_setting.BookReadOrder == PageReadOrder.LeftToRight)
             {
-                contentsSource.Reverse();
+                list.Reverse();
             }
 
             // 単一ソースならコンテンツは１つにまとめる
             if (infos.Count == 2 && infos[0].Position.Index == infos[1].Position.Index)
             {
                 var position = new PagePosition(infos[0].Position.Index, 0);
-                contentsSource.Clear();
-                contentsSource.Add(new ViewPage(_book.Pages[position.Index], new PagePart(position, 2, _setting.BookReadOrder)));
+                list.Clear();
+                list.Add(new ViewContentSource(_book.Pages[position.Index], new PagePart(position, 2, _setting.BookReadOrder)));
             }
 
             // 新しいコンテキスト
-            var context = new ViewPageCollection(new PageRange(infos, source.Direction), contentsSource);
+            var context = new ViewPageCollection(new PageRange(infos, source.Direction), list);
             return context;
         }
 

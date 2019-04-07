@@ -121,7 +121,7 @@ namespace NeeView
                             files.Add(page.GetFilePlace());
                             break;
                         case ArchiveOptionType.SendExtractFile:
-                            files.Add(page.Content.CreateTempFile(true).Path);
+                            files.Add(page.ContentAccessor.CreateTempFile(true).Path);
                             break;
                         case ArchiveOptionType.SendArchivePath:
                             files.Add(page.Entry.CreateArchivePath(_archiveSeparater));
@@ -298,7 +298,7 @@ namespace NeeView
                             }
                             else
                             {
-                                CallProcess(page.Content.CreateTempFile(true).Path);
+                                CallProcess(page.ContentAccessor.CreateTempFile(true).Path);
                             }
                             break;
                         case ArchiveOptionType.SendArchivePath:

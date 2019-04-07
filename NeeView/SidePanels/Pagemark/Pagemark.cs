@@ -85,14 +85,14 @@ namespace NeeView
             }
         }
 
-        private volatile ArchivePage _archivePage;
-        public ArchivePage ArchivePage
+        private volatile Page _archivePage;
+        public Page ArchivePage
         {
             get
             {
                 if (_archivePage == null)
                 {
-                    _archivePage = new ArchivePage(LoosePath.Combine(Place, EntryName));
+                    _archivePage = new Page("", new ArchiveContent(LoosePath.Combine(Place, EntryName)));
                     _archivePage.Thumbnail.IsCacheEnabled = true;
                     _archivePage.Thumbnail.Touched += Thumbnail_Touched;
                 }

@@ -32,6 +32,8 @@ namespace NeeView
 
         public override PictureInfo PictureInfo { get; }
 
+        public bool IsLastStart { get; set; }
+
         /// <summary>
         /// サイズ設定
         /// </summary>

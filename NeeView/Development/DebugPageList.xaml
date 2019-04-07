@@ -27,10 +27,10 @@
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding EntryLastName}" Width="80"/>
-                    <GridViewColumn Header="Condition" DisplayMemberBinding="{Binding Content.DevStatus}" Width="80"/>
-                    <GridViewColumn Header="State" DisplayMemberBinding="{Binding Content.State}" Width="80"/>
-                    <GridViewColumn Header="PictureSource" DisplayMemberBinding="{Binding Content, Converter={StaticResource PageContentToPictureSourceMemoryConverter}}"/>
-                    <GridViewColumn Header="Picture" DisplayMemberBinding="{Binding Content, Converter={StaticResource PageContentToPictureMemoryConverter}}"/>
+                    <GridViewColumn Header="Condition" DisplayMemberBinding="{Binding ContentAccessor.DevStatus}" Width="80"/>
+                    <GridViewColumn Header="State" DisplayMemberBinding="{Binding ContentAccessor.State}" Width="80"/>
+                    <GridViewColumn Header="PictureSource" DisplayMemberBinding="{Binding ContentAccessor, Converter={StaticResource PageContentToPictureSourceMemoryConverter}}"/>
+                    <GridViewColumn Header="Picture" DisplayMemberBinding="{Binding ContentAccessor, Converter={StaticResource PageContentToPictureMemoryConverter}}"/>
                     <GridViewColumn Header="Info" DisplayMemberBinding="{Binding Message}" Width="150"/>
                 </GridView>
             </ListView.View>

@@ -6,7 +6,7 @@ namespace NeeView
     {
         #region Constructors
 
-        public ArchiveViewContent(ViewPage source) : base(source)
+        public ArchiveViewContent(ViewContentSource source) : base(source)
         {
         }
 
@@ -26,9 +26,9 @@ namespace NeeView
             this.Size = new Size(512, 512);
         }
 
-        private FrameworkElement CreateView(ViewPage source, ViewContentParameters parameter)
+        private FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter)
         {
-            var control = new ArchivePageControl(source.Page.Content as ArchiveContent);
+            var control = new ArchivePageControl(source.Content as ArchiveContent);
             control.SetBinding(ArchivePageControl.DefaultBrushProperty, parameter.ForegroundBrush);
             return control;
         }
@@ -39,7 +39,7 @@ namespace NeeView
 
         #region Utility
 
-        public static ArchiveViewContent Create(ViewPage source)
+        public static ArchiveViewContent Create(ViewContentSource source)
         {
             var viewContent = new ArchiveViewContent(source);
             viewContent.Initialize();

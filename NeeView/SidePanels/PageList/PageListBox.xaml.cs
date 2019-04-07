@@ -110,16 +110,16 @@ namespace NeeView
 
         private void Open_CanExec(object sender, CanExecuteRoutedEventArgs e)
         {
-            var item = (sender as ListBox)?.SelectedItem as ArchivePage;
-            e.CanExecute = item != null;
+            var page = (sender as ListBox)?.SelectedItem as Page;
+            e.CanExecute = page != null && page.PageType == PageType.Folder;
         }
 
         private void Open_Exec(object sender, ExecutedRoutedEventArgs e)
         {
-            var item = (sender as ListBox)?.SelectedItem as ArchivePage;
-            if (item != null)
+            var page = (sender as ListBox)?.SelectedItem as Page;
+            if (page != null && page.PageType == PageType.Folder)
             {
-                BookHub.Current.RequestLoad(item.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
+                BookHub.Current.RequestLoad(page.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
             }
         }
 
@@ -244,8 +244,8 @@ namespace NeeView
         // 項目を開く
         private void PageListItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var page = (sender as ListBoxItem)?.Content as ArchivePage;
-            if (page != null)
+            var page = (sender as ListBoxItem)?.Content as Page;
+            if (page != null && page.PageType == PageType.Folder)
             {
                 BookHub.Current.RequestLoad(page.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
                 e.Handled = true;
@@ -382,7 +382,7 @@ namespace NeeView
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (value is ArchivePage) ? Visibility.Visible : Visibility.Collapsed;
+            return (value is Page page && page.PageType == PageType.Folder) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -283,22 +283,14 @@ namespace NeeView
             // ViewContent作成
             if (e?.ViewPageCollection?.Collection != null)
             {
-                try
+                foreach (var source in e.ViewPageCollection.Collection)
                 {
-                    foreach (var source in e.ViewPageCollection.Collection)
+                    if (source != null)
                     {
-                        if (source != null)
-                        {
-                            var old = Contents[contents.Count];
-                            var content = ViewContentFactory.Create(source, old);
-                            contents.Add(content);
-                        }
+                        var old = Contents[contents.Count];
+                        var content = ViewContentFactory.Create(source, old);
+                        contents.Add(content);
                     }
-                }
-                catch (ViewContentFactoryException ex)
-                {
-                    Debug.WriteLine(ex);
-                    return;
                 }
             }
 

@@ -884,7 +884,13 @@ namespace NeeView
                 book.Viewer.ViewContentsChanged -= OnViewContentsChangedInner;
 
                 //// inner callback function define.
-                void OnViewContentsChangedInner(object sender, ViewPageCollectionChangedEventArgs e) => tcs.TrySetResult(true);
+                void OnViewContentsChangedInner(object sender, ViewPageCollectionChangedEventArgs e)
+                {
+                    if (e.ViewPageCollection.Collection.All(e_ => e_.Content.IsViewReady))
+                    {
+                        tcs.TrySetResult(true);
+                    }
+                }
             }
             catch (OperationCanceledException)
             {

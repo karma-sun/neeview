@@ -11,7 +11,7 @@ namespace NeeView
 {
     public interface IHasPageContent
     {
-        PageContent Content { get; }
+        PageContent ContentAccessor { get; }
         int Index { get; }
 
         void UnloadContent();
@@ -38,7 +38,7 @@ namespace NeeView
             {
                 ////Debug.WriteLine($"Add: {page}");
                 _collection.Add(element);
-                TotalSize = TotalSize + element.Content.GetContentMemorySize();
+                TotalSize = TotalSize + element.ContentAccessor.GetContentMemorySize();
             }
         }
 
@@ -53,14 +53,14 @@ namespace NeeView
 
                 elements = _collection
                     .Distinct()
-                    .OrderByDescending(e => e.Content.IsContentLocked)
+                    .OrderByDescending(e => e.ContentAccessor.IsContentLocked)
                     .ThenBy(e => Math.Abs(e.Index - _referenceIndex))
                     .ToList();
 
                 foreach (var (element, index) in elements.ToTuples())
                 {
-                    var size = element.Content.GetContentMemorySize();
-                    if (totalMemory + size > limitSize && !element.Content.IsContentLocked)
+                    var size = element.ContentAccessor.GetContentMemorySize();
+                    if (totalMemory + size > limitSize && !element.ContentAccessor.IsContentLocked)
                     {
                         removes = elements.Skip(index).ToList();
                         elements = elements.Take(index).ToList();

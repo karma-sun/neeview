@@ -9,7 +9,7 @@ namespace NeeView
     /// </summary>
     public class ViewContentFactory
     {
-        public static ViewContent Create(ViewPage source, ViewContent oldViewContent)
+        public static ViewContent Create(ViewContentSource source, ViewContent oldViewContent)
         {
             ViewContent viewContent = null;
 
@@ -23,12 +23,6 @@ namespace NeeView
                     break;
                 case ViewContentType.Bitmap:
                     viewContent = BitmapViewContent.Create(source);
-                    // ここでBitmapのないviewContentになってしまう場合、ここまでの処理中に非同期でPageがUnloadされた可能性がある(高速ページ送り等)。
-                    // TODO: わたされたsourceはPageUnloadにかかわらず不変であるものが望ましい。ViewPage で Pictureインスタンスを直接保持する？
-                    if (viewContent.GetViewBrush() == null)
-                    {
-                        throw new ViewContentFactoryException("This page has already been unloaded. maybe.");
-                    }
                     break;
                 case ViewContentType.Anime:
                     viewContent = AnimatedViewContent.Create(source);
@@ -51,26 +45,4 @@ namespace NeeView
         }
     }
 
-    /// <summary>
-    /// ViewContentが生成できなかったときの例外
-    /// </summary>
-    [Serializable]
-    public class ViewContentFactoryException : Exception
-    {
-        public ViewContentFactoryException()
-        {
-        }
-
-        public ViewContentFactoryException(string message) : base(message)
-        {
-        }
-
-        public ViewContentFactoryException(string message, Exception innerException) : base(message, innerException)
-        {
-        }
-
-        protected ViewContentFactoryException(SerializationInfo info, StreamingContext context) : base(info, context)
-        {
-        }
-    }
 }

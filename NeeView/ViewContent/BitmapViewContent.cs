@@ -28,7 +28,7 @@ namespace NeeView
 
         #region Constructors
 
-        public BitmapViewContent(ViewPage source) : base(source)
+        public BitmapViewContent(ViewContentSource source) : base(source)
         {
         }
 
@@ -39,6 +39,8 @@ namespace NeeView
         //
         public void Initialize()
         {
+            Debug.Assert(this.Content is BitmapContent bitmapContent_ && bitmapContent_.BitmapSource != null);
+
             // binding parameter
             var parameter = CreateBindingParameter();
 
@@ -51,13 +53,13 @@ namespace NeeView
         }
 
         //
-        protected FrameworkElement CreateView(ViewPage source, ViewContentParameters parameter)
+        protected FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter)
         {
             return CreateView(source, parameter, GetPicture()?.BitmapSource);
         }
 
         //
-        protected FrameworkElement CreateView(ViewPage source, ViewContentParameters parameter, BitmapSource bitmap)
+        protected FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter, BitmapSource bitmap)
         {
             if (bitmap == null)
             {
@@ -160,14 +162,6 @@ namespace NeeView
 
 
         //
-        public override Brush GetViewBrush()
-        {
-            return _scaleRectangle?.Fill;
-        }
-
-
-
-        //
         public override bool Rebuild(double scale)
         {
             var size = PictureProfile.Current.IsResizeFilterEnabled ? GetScaledSize(scale) : Size.Empty;
@@ -232,7 +226,7 @@ namespace NeeView
 
         #region Static Methods
 
-        public static BitmapViewContent Create(ViewPage source)
+        public static BitmapViewContent Create(ViewContentSource source)
         {
             var viewContent = new BitmapViewContent(source);
             viewContent.Initialize();

@@ -18,7 +18,7 @@ namespace NeeView
 
             // 再帰判定用サブフォルダー数カウント
             int subFolderCount = 0;
-            if (archiveEntryCollection.Mode != ArchiveEntryCollectionMode.IncludeSubArchives && pages.Where(e => !(e is ArchivePage)).Count() == 0)
+            if (archiveEntryCollection.Mode != ArchiveEntryCollectionMode.IncludeSubArchives && pages.Where(e => e.PageType == PageType.File).Count() == 0)
             {
                 var entries = await archiveEntryCollection.GetEntriesWhereBookAsync(token);
                 subFolderCount = entries.Count;
@@ -82,24 +82,25 @@ namespace NeeView
             {
                 if (entry.Archiver is MediaArchiver)
                 {
-                    page = new MediaPage(bookPrefix, entry);
+                    page = new Page(bookPrefix, new MediaContent(entry));
                 }
                 else if (entry.Archiver is PdfArchiver)
                 {
-                    page = new PdfPage(bookPrefix, entry);
+                    page = new Page(bookPrefix, new PdfContetnt(entry));
                 }
                 else if (BookProfile.Current.IsEnableAnimatedGif && LoosePath.GetExtension(entry.EntryName) == ".gif")
                 {
-                    page = new AnimatedPage(bookPrefix, entry);
+                    page = new Page(bookPrefix, new AnimatedContent(entry));
                 }
                 else
                 {
-                    page = new BitmapPage(bookPrefix, entry);
+                    page = new Page(bookPrefix, new BitmapContent(entry));
                 }
             }
             else if (entry.IsBook())
             {
-                page = new ArchivePage(bookPrefix, entry);
+                page = new Page(bookPrefix, new ArchiveContent(entry));
+                page.Thumbnail.IsCacheEnabled = true;
             }
             else
             {
@@ -110,18 +111,18 @@ namespace NeeView
                         if (BookProfile.Current.IsAllFileAnImage)
                         {
                             entry.IsIgnoreFileExtension = true;
-                            page = new BitmapPage(bookPrefix, entry);
+                            page = new Page(bookPrefix, new BitmapContent(entry));
                         }
                         else
                         {
-                            page = new FilePage(bookPrefix, entry, FilePageIcon.File);
+                            page = new Page(bookPrefix, new FileContent(entry, FilePageIcon.File, null));
                         }
                         break;
                     case ArchiverType.FolderArchive:
-                        page = new FilePage(bookPrefix, entry, FilePageIcon.Folder);
+                        page = new Page(bookPrefix, new FileContent(entry, FilePageIcon.Folder, null));
                         break;
                     default:
-                        page = new FilePage(bookPrefix, entry, FilePageIcon.Archive);
+                        page = new Page(bookPrefix, new FileContent(entry, FilePageIcon.Archive, null));
                         break;
                 }
             }

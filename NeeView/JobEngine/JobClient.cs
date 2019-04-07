@@ -51,7 +51,7 @@ namespace NeeView
             if (_disposedValue) return;
 
             var orders = pages
-                .Where(e => !e.Content.IsLoaded)
+                .Where(e => !e.IsLoaded)
                 .Select(e => new JobOrder(this.Category, e))
                 .ToList();
 

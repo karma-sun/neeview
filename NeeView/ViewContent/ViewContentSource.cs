@@ -15,16 +15,16 @@ using System.Windows.Shapes;
 namespace NeeView
 {
     // 表示コンテンツソース 1ページ分
-    public class ViewPage
+    public class ViewContentSource
     {
         #region Constructors
 
         // コンストラクタ
         // Pageから作成
-        public ViewPage(Page page, PagePart pagePart)
+        public ViewContentSource(Page page, PagePart pagePart)
         {
             Page = page;
-            Content = page.Content;
+            Content = page.GetContentClone();
 
             IsValid = Content.IsLoaded;
 
@@ -39,7 +39,10 @@ namespace NeeView
         // TODO: 不要にしたいが。難しいか。
         public Page Page { get; }
 
-        // ソースコンテンツ
+        /// <summary>
+        /// ページコンテンツ。
+        /// Cloneなので不変。編集不可。
+        /// </summary>
         public PageContent Content { get; }
 
         // コンテンツサイズ 
@@ -57,7 +60,7 @@ namespace NeeView
         /// <summary>
         /// メディア用。最後から再生開始
         /// </summary>
-        public bool IsLastStart => Page is MediaPage mediaPage ? mediaPage.IsLastStart : false;
+        public bool IsLastStart => Content is MediaContent content ? content.IsLastStart : false;
 
         #endregion
 

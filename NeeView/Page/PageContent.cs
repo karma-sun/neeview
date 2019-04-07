@@ -224,6 +224,11 @@ namespace NeeView
             return _entry.EntryLastName ?? base.ToString();
         }
 
+        public PageContent Clone()
+        {
+            return (PageContent)MemberwiseClone();
+        }
+
         #endregion
 
         #region IDisposable Support

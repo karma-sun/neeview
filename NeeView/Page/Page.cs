@@ -31,7 +31,7 @@ namespace NeeView
     /// <summary>
     /// ページ
     /// </summary>
-    public abstract class Page : BindableBase, IHasPage, IHasPageContent, IDisposable
+    public class Page : BindableBase, IHasPage, IHasPageContent, IDisposable
     {
         #region 開発用
 
@@ -52,7 +52,7 @@ namespace NeeView
         [Conditional("DEBUG")]
         public void DebugRaiseContentPropertyChanged()
         {
-            RaisePropertyChangedDebug(nameof(Content));
+            RaisePropertyChangedDebug(nameof(ContentAccessor));
         }
 
         // 開発用メッセージ
@@ -72,17 +72,35 @@ namespace NeeView
 
         #endregion
 
+        private PageContent _content;
+        private bool _isVisibled;
+        private bool _isPagemark;
+
+
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
+        public Page(string bookPrefix, PageContent content)
+        {
+            BookPrefix = bookPrefix;
+            _content = content;
+            _content.Loaded += (s, e) => Loaded?.Invoke(this, null);
+        }
+
+
         // コンテンツ更新イベント
         public EventHandler Loaded;
 
 
+        public bool IsLoaded => _content.IsLoaded;
+
         // アーカイブエントリ
-        private ArchiveEntry _entry;
-        public ArchiveEntry Entry
-        {
-            get { return _entry; }
-            private set { SetProperty(ref _entry, value); }
-        }
+        public ArchiveEntry Entry => _content.Entry;
+
+        /// <summary>
+        /// コンテンツアクセサ。コンテンツを編集する場合はこのアクセサを介して操作を行う。
+        /// </summary>
+        public PageContent ContentAccessor => _content;
 
         // ページ番号
         public int Index { get; set; }
@@ -123,75 +141,90 @@ namespace NeeView
         // コンテンツ高
         public double Height => Size.Height;
 
-        // コンテンツサイズ
+        /// <summary>
+        /// コンテンツサイズ。カスタムサイズが指定されているときはここで反映される
+        /// </summary>
         public Size Size
         {
             get
             {
                 // サイズ指定を反映
                 var customSize = PictureProfile.Current.CustomSize;
-                if (customSize.IsEnabled && !Content.Size.IsEmptyOrZero())
+                if (customSize.IsEnabled && !_content.Size.IsEmptyOrZero())
                 {
-                    return customSize.IsUniformed ? Content.Size.Uniformed(customSize.Size) : customSize.Size;
+                    return customSize.IsUniformed ? _content.Size.Uniformed(customSize.Size) : customSize.Size;
                 }
                 else
                 {
-                    return Content.Size;
+                    return _content.Size;
                 }
             }
         }
 
         /// <summary>
-        /// コンテンツ
-        /// </summary>
-        public PageContent Content { get; protected set; }
-
-        /// <summary>
         /// ページの種類
         /// </summary>
-        public PageType PageType => Content is ArchiveContent ? PageType.Folder : PageType.File;
+        public PageType PageType => _content is ArchiveContent ? PageType.Folder : PageType.File;
 
         /// <summary>
         /// サムネイル
         /// </summary>
-        public Thumbnail Thumbnail => Content?.Thumbnail;
+        public Thumbnail Thumbnail => _content.Thumbnail;
 
         // 表示中?
-        private bool _isVisibled;
         public bool IsVisibled
         {
             get { return _isVisibled; }
             set { SetProperty(ref _isVisibled, value); }
         }
 
-        private bool _isPagemark;
         public bool IsPagemark
         {
             get { return _isPagemark; }
             set { SetProperty(ref _isPagemark, value); }
         }
 
-
         /// <summary>
         /// 要求状態
         /// </summary>
         public PageContentState State
         {
-            get { return Content.State; }
-            set { Content.State = value; }
+            get { return _content.State; }
+            set { _content.State = value; }
         }
 
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        public Page(string bookPrefix, ArchiveEntry entry)
+
+        #region IDisposable Support
+        private bool _disposedValue = false;
+
+        protected virtual void Dispose(bool disposing)
         {
-            BookPrefix = bookPrefix;
-            Entry = entry;
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    Loaded = null;
+                    _content.Dispose();
+                }
+
+                _disposedValue = true;
+            }
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
 
-        #region コンテンツ
+        // ToString
+        public override string ToString()
+        {
+            var name = _content.ToString();
+            if (name == null) return base.ToString();
+            return $"{name}: State={State}";
+        }
+
 
         /// <summary>
         /// コンテンツ読み込み
@@ -201,12 +234,11 @@ namespace NeeView
             token.ThrowIfCancellationRequested();
 
             Message = "Load...";
-            await Content.LoadContentAsync(token);
+            await _content.LoadContentAsync(token);
             Message = "Loaded.";
 
-            RaisePropertyChanged(nameof(Content));
+            RaisePropertyChanged(nameof(_content));
         }
-
 
         /// <summary>
         /// コンテンツを閉じる
@@ -214,15 +246,12 @@ namespace NeeView
         public void UnloadContent()
         {
             Debug.Assert(State == PageContentState.None);
-            Content.UnloadContent();
+            _content.UnloadContent();
             Message = ".";
 
-            RaisePropertyChanged(nameof(Content));
+            RaisePropertyChanged(nameof(_content));
         }
 
-        #endregion
-
-        #region サムネイル
 
         /// <summary>
         /// サムネイル読み込み
@@ -231,24 +260,19 @@ namespace NeeView
         {
             token.ThrowIfCancellationRequested();
 
-            await Content.InitializeEntryAsync(token);
-            Content.InitializeThumbnail();
+            await _content.InitializeEntryAsync(token);
+            _content.InitializeThumbnail();
             if (Thumbnail.IsValid) return;
             if (token.IsCancellationRequested) return;
-            await Content.LoadThumbnailAsync(token);
+            await _content.LoadThumbnailAsync(token);
         }
 
-        #endregion
 
-
-        // ToString
-        public override string ToString()
+        // BitmapSource取得
+        public BitmapSource GetContentBitmapSource()
         {
-            var name = Content?.ToString();
-            if (name == null) return base.ToString();
-            return $"{name}: State={State}";
+            return (_content as BitmapContent)?.BitmapSource;
         }
-
 
         // ページ名：ソート用分割
         public string[] GetEntryFullNameTokens()
@@ -299,29 +323,11 @@ namespace NeeView
             return this;
         }
 
-
-        #region IDisposable Support
-        private bool _disposedValue = false;
-
-        protected virtual void Dispose(bool disposing)
+        public PageContent GetContentClone()
         {
-            if (!_disposedValue)
-            {
-                if (disposing)
-                {
-                    Loaded = null;
-                    Content.Dispose();
-                }
-
-                _disposedValue = true;
-            }
+            return _content.Clone();
         }
 
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-        #endregion
     }
 
 }

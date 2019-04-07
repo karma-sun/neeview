@@ -35,14 +35,14 @@ namespace NeeView
         /// ArchivePage Property.
         /// サムネイル用
         /// </summary>
-        private volatile ArchivePage _archivePage;
-        public ArchivePage ArchivePage
+        private volatile Page _archivePage;
+        public Page ArchivePage
         {
             get
             {
                 if (_archivePage == null)
                 {
-                    _archivePage = new ArchivePage(Memento.Place);
+                    _archivePage = new Page("", new ArchiveContent(Memento.Place));
                     _archivePage.Thumbnail.IsCacheEnabled = true;
                     _archivePage.Thumbnail.Touched += Thumbnail_Touched;
                 }

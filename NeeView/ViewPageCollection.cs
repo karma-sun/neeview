@@ -12,10 +12,10 @@ namespace NeeView
         public ViewPageCollection()
         {
             Range = new PageRange();
-            Collection = new List<ViewPage>();
+            Collection = new List<ViewContentSource>();
         }
 
-        public ViewPageCollection(PageRange range, List<ViewPage> collection)
+        public ViewPageCollection(PageRange range, List<ViewContentSource> collection)
         {
             Range = range;
             Collection = collection;
@@ -26,7 +26,7 @@ namespace NeeView
         #region Properties
 
         public PageRange Range { get; }
-        public List<ViewPage> Collection { get; }
+        public List<ViewContentSource> Collection { get; }
 
         internal bool IsValid => Collection.Count > 0 && Collection.All(e => e.IsValid);
 

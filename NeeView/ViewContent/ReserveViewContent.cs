@@ -13,7 +13,7 @@ namespace NeeView
     {
         #region Constructors
 
-        public ReserveViewContent(ViewPage source, ViewContent old) : base(source)
+        public ReserveViewContent(ViewContentSource source, ViewContent old) : base(source)
         {
             this.Size = new Size(480, 680);
             this.Color = old != null ? old.Color : Colors.Black;
@@ -35,7 +35,7 @@ namespace NeeView
         /// <summary>
         /// 読み込み中ビュー生成
         /// </summary>
-        private FrameworkElement CreateView(ViewPage source, ViewContentParameters parameter)
+        private FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter)
         {
             var rectangle = new Rectangle();
             rectangle.Fill = new SolidColorBrush(Color.FromRgb(0xAA, 0xAA, 0xAA));
@@ -49,7 +49,7 @@ namespace NeeView
 
         #region Static Methods
 
-        public static ViewContent Create(ViewPage source, ViewContent oldViewContent)
+        public static ViewContent Create(ViewContentSource source, ViewContent oldViewContent)
         {
             ViewContent viewContent = oldViewContent;
             if (!BookProfile.Current.IsLoadingPageVisible || oldViewContent?.View is null)

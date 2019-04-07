@@ -277,6 +277,7 @@
     <Compile Include="ThemeProfile.cs" />
     <Compile Include="Thumbnail\DriveThumbnail.cs" />
     <Compile Include="ViewContent\ArchiveViewContent.cs" />
+    <Compile Include="ViewContent\ViewContentSource.cs" />
     <Compile Include="_NeeView\Collections\Generic\ObjectPool.cs" />
     <Compile Include="ViewContent\ReserveViewContent.cs" />
     <Compile Include="ViewContent\ViewContentControl.cs" />
@@ -338,7 +339,6 @@
     <Compile Include="FileIconCollection.cs" />
     <Compile Include="Picture\WicDecoders.cs" />
     <Compile Include="Page\ConstContent.cs" />
-    <Compile Include="Page\ConstPage.cs" />
     <Compile Include="Bookamrk\BookmarkCollectionChangedArgs.cs" />
     <Compile Include="BookMementoCollectionChangedArgs.cs" />
     <Compile Include="BookMementoCollection.cs" />
@@ -685,7 +685,6 @@
     <Compile Include="TouchInput\TouchInputGesture.cs" />
     <Compile Include="TouchInput\TouchInputNormal.cs" />
     <Compile Include="TouchInput\TouchInputStateEventArgs.cs" />
-    <Compile Include="ViewContent\ViewPage.cs" />
     <Compile Include="ViewPageCollection.cs" />
     <Compile Include="WindowCaptionButtons.xaml.cs">
       <DependentUpon>WindowCaptionButtons.xaml</DependentUpon>
@@ -830,7 +829,6 @@
     <Compile Include="Controls\PageMarkersView.xaml.cs">
       <DependentUpon>PageMarkersView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Page\ArchivePage.cs" />
     <Compile Include="Obsolete\Preference.cs" />
     <Compile Include="Setting\RenameWindow.xaml.cs">
       <DependentUpon>RenameWindow.xaml</DependentUpon>
@@ -858,7 +856,6 @@
     <Compile Include="MouseInput\MouseGestureCommandCollection.cs" />
     <Compile Include="MouseInput\MouseGestureSequence.cs" />
     <Compile Include="PagePosition.cs" />
-    <Compile Include="Page\BitmapPage.cs" />
     <Compile Include="Bitmap\BitmapSourceExtension.cs" />
     <Compile Include="Book\BookMemento.cs" />
     <Compile Include="BookHub.cs" />
@@ -866,7 +863,6 @@
     <Compile Include="CommandType.cs" />
     <Compile Include="Archiver\FolderArchive.cs" />
     <Compile Include="Archiver\LoosePath.cs" />
-    <Compile Include="Page\FilePage.cs" />
     <Compile Include="Page\FilePageContent.cs" />
     <Compile Include="Controls\FilePageControl.xaml.cs">
       <DependentUpon>FilePageControl.xaml</DependentUpon>

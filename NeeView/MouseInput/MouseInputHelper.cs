@@ -34,7 +34,7 @@ namespace NeeView
         {
             //var id = _mouseCaptureSerial++;
             //Debug.WriteLine($"> {id}.ReleaseMouseCapture: {FixedElementName(element)} by {sender}");
-            Debug.Assert(Mouse.Captured == element, "WARNING!! It's not caputured element.");
+            //Debug.Assert(Mouse.Captured == element, "WARNING!! It's not caputured element.");
             element.ReleaseMouseCapture();
             //Debug.WriteLine($"> {id}.ReleaseMouseCapture: done.");
         }

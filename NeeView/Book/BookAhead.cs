@@ -82,7 +82,7 @@ namespace NeeView
                     _page.State = PageContentStateExtension.Max(_page.State, PageContentState.Ahead);
                     _index++;
                 }
-                while (_page.Content.IsLoaded);
+                while (_page.IsLoaded);
 
                 _jobClient.Order(new List<Page>() { _page });
                 return true;

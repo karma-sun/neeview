@@ -24,7 +24,7 @@ namespace NeeView
 
         #region Constructors
 
-        public MediaViewContent(ViewPage source) : base(source)
+        public MediaViewContent(ViewContentSource source) : base(source)
         {
         }
 
@@ -50,7 +50,7 @@ namespace NeeView
         /// <summary>
         /// アニメーションビュー生成
         /// </summary>
-        private new FrameworkElement CreateView(ViewPage source, ViewContentParameters parameter)
+        private new FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter)
         {
             var uri = new Uri(((MediaContent)Content).FileProxy.Path);
             var isLastStart = source.IsLastStart;
@@ -167,7 +167,7 @@ namespace NeeView
 
         #region Static Methods
 
-        public new static MediaViewContent Create(ViewPage source)
+        public new static MediaViewContent Create(ViewContentSource source)
         {
             var viewContent = new MediaViewContent(source);
             viewContent.Initialize();

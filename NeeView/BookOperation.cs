@@ -390,7 +390,7 @@ namespace NeeView
             var pages = Book?.Viewer.GetViewPages();
             if (pages == null || pages.Count == 0) return false;
 
-            var bitmapSource = (pages[0].Content as BitmapContent)?.BitmapSource;
+            var bitmapSource = pages[0].GetContentBitmapSource();
             if (bitmapSource == null) return false;
 
             return true;
@@ -1056,14 +1056,16 @@ namespace NeeView
 
         public bool CanMoveToChildBook()
         {
-            return Book?.Viewer.GetViewPage()?.Content is ArchiveContent;
+            var page = Book?.Viewer.GetViewPage();
+            return page != null && page.PageType == PageType.Folder;
         }
 
         public void MoveToChildBook()
         {
-            if (Book?.Viewer.GetViewPage()?.Content is ArchiveContent content)
+            var page = Book?.Viewer.GetViewPage();
+            if (page != null && page.PageType == PageType.Folder)
             {
-                BookHub.Current.RequestLoad(content.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
+                BookHub.Current.RequestLoad(page.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);
             }
         }
 

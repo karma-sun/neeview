@@ -20,7 +20,7 @@ namespace NeeView
         /// <summary>
         /// メインページの画像
         /// </summary>
-        public BitmapSource RawImage => (MainContent.Source.Page.Content as BitmapContent).BitmapSource;
+        public BitmapSource RawImage => (MainContent.Source.Content as BitmapContent).BitmapSource;
 
         /// <summary>
         /// 表示コンテキスト。

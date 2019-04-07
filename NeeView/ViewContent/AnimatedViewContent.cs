@@ -21,7 +21,7 @@ namespace NeeView
 
         #region Constructors
 
-        public AnimatedViewContent(ViewPage source) : base(source)
+        public AnimatedViewContent(ViewContentSource source) : base(source)
         {
         }
 
@@ -47,7 +47,7 @@ namespace NeeView
         /// <summary>
         /// アニメーションビュー生成
         /// </summary>
-        private new FrameworkElement CreateView(ViewPage source, ViewContentParameters parameter)
+        private new FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter)
         {
             var uri = new Uri(((AnimatedContent)Content).FileProxy.Path);
 
@@ -157,7 +157,7 @@ namespace NeeView
 
         #region Static Methods
 
-        public new static AnimatedViewContent Create(ViewPage source)
+        public new static AnimatedViewContent Create(ViewContentSource source)
         {
             var viewContent = new AnimatedViewContent(source);
             viewContent.Initialize();

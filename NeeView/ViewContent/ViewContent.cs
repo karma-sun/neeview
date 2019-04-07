@@ -24,7 +24,7 @@ namespace NeeView
         {
         }
 
-        public ViewContent(ViewPage source)
+        public ViewContent(ViewContentSource source)
         {
             this.Source = source;
             this.Size = source.Size;
@@ -39,7 +39,7 @@ namespace NeeView
         /// ViewContentSource
         /// TODO: 他のパラメータとあわせて整備
         /// </summary>
-        public ViewPage Source { get; set; }
+        public ViewContentSource Source { get; set; }
 
         /// <summary>
         /// ページ
@@ -188,12 +188,6 @@ namespace NeeView
 
         //
         public virtual bool IsBitmapScalingModeSupported() => false;
-
-        //
-        public virtual Brush GetViewBrush()
-        {
-            return null;
-        }
 
         public virtual bool Rebuild(double scale)
         {

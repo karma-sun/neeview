@@ -13,7 +13,7 @@ namespace NeeView
     {
         #region Constructors
 
-        public PdfViewContent(ViewPage source) : base(source)
+        public PdfViewContent(ViewContentSource source) : base(source)
         {
         }
 
@@ -45,7 +45,7 @@ namespace NeeView
 
         #region Static Methods
 
-        public new static PdfViewContent Create(ViewPage source)
+        public new static PdfViewContent Create(ViewContentSource source)
         {
             var viewContent = new PdfViewContent(source);
             viewContent.Initialize();

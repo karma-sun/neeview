@@ -221,9 +221,9 @@ namespace NeeView
 
             if (bookSource.IsMedia)
             {
-                foreach (var page in bookSource.Pages.OfType<MediaPage>())
+                foreach (var mediaContent in bookSource.Pages.Select(e => e.ContentAccessor).OfType<MediaContent>())
                 {
-                    page.IsLastStart = setting.StartPage.StartPageType == BookStartPageType.LastPage;
+                    mediaContent.IsLastStart = setting.StartPage.StartPageType == BookStartPageType.LastPage;
                 }
             }
 

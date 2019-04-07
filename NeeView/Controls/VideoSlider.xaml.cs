@@ -26,6 +26,8 @@ namespace NeeView
 
         private Brush _grayTruchBrush = new SolidColorBrush(Color.FromArgb(0x80, 0x80, 0x80, 0x80));
 
+        private double _dragPointX;
+
         #endregion
 
         #region DependencyProperties
@@ -273,6 +275,9 @@ namespace NeeView
         {
             this.Thumb.Background = this.SliderBrush;
 
+            _dragPointX = Canvas.GetLeft(this.Thumb);
+            ////Debug.WriteLine($"Thumb: DragStart: {_dragPointX}");
+
             DragStartedEventArgs args = new DragStartedEventArgs(e.HorizontalOffset, e.VerticalOffset);
             args.RoutedEvent = VideoSlider.DragStartedEvent;
             RaiseEvent(args);
@@ -301,8 +306,10 @@ namespace NeeView
         /// <param name="e"></param>
         private void Thumb_DragDelta(object sender, DragDeltaEventArgs e)
         {
-            double value = Canvas.GetLeft(this.Thumb) + e.HorizontalChange;
-            SetValuePosition(value);
+            _dragPointX += e.HorizontalChange;
+            ////Debug.WriteLine($"Thumb: {_dragPointX} (offset={e.HorizontalChange})");
+
+            SetValuePosition(_dragPointX);
 
             DragDeltaEventArgs args = new DragDeltaEventArgs(e.HorizontalChange, e.VerticalChange);
             args.RoutedEvent = VideoSlider.DragDeltaEvent;

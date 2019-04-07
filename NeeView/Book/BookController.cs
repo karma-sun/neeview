@@ -22,8 +22,8 @@ namespace NeeView
             _viewer = viewer ?? throw new ArgumentNullException(nameof(viewer));
             _marker = marker ?? throw new ArgumentNullException(nameof(marker));
 
-            _book.Pages.PropertyChanged += (s, e) => RequestSort(this);
-            _viewer.PropertyChanged += (s, e) => RequestRefresh(this, false);
+            _book.Pages.AddPropertyChanged(nameof(BookPageCollection.SortMode), (s, e) => RequestSort(this));
+            _viewer.SettingChanged += (s, e) => RequestRefresh(this, false);
         }
 
 
@@ -112,6 +112,13 @@ namespace NeeView
         }
 
 
+        [Conditional("DEBUG")]
+        private void __CommandWriteLine(string message)
+        {
+            ////Debug.WriteLine("Command> " + message);
+        }
+
+
         /// <summary>
         /// ページ指定移動
         /// </summary>
@@ -130,7 +137,8 @@ namespace NeeView
 
             async Task Execute(object s, CancellationToken token)
             {
-                await _viewer.UpdateViewPageAsync(range, s, token);
+                __CommandWriteLine($"Set: {s}, {range}");
+                await _viewer.UpdateViewPageAsync(s, range, token);
             }
         }
 
@@ -142,7 +150,8 @@ namespace NeeView
 
             async Task Execute(object s, int value, CancellationToken token)
             {
-                await _viewer.MoveViewPageAsync(value, s, token);
+                __CommandWriteLine($"Move: {s}, {value}");
+                await _viewer.MoveViewPageAsync(s, value, token);
             }
         }
 
@@ -154,6 +163,7 @@ namespace NeeView
 
             async Task Execute(object s, CancellationToken token)
             {
+                __CommandWriteLine($"Refresh: {s}");
                 await _viewer.RefreshViewPageAsync(s, token);
             }
         }
@@ -166,6 +176,7 @@ namespace NeeView
 
             async Task Execute(object s, CancellationToken token)
             {
+                __CommandWriteLine($"Sort: {_book.Pages.SortMode}");
                 var page = _viewer.GetViewPage();
 
                 _book.Pages.Sort();
@@ -185,6 +196,7 @@ namespace NeeView
 
             async Task Execute(object s, CancellationToken token)
             {
+                __CommandWriteLine($"Remove: {page.Index}");
                 var index = _book.Pages.ClampPageNumber(page.Index);
                 _book.Pages.Remove(page);
                 RequestSetPosition(this, new PagePosition(index, 0), 1);

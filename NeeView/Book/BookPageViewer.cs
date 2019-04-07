@@ -13,7 +13,7 @@ namespace NeeView
         private BookSource _book;
         private BookPageViewSetting _setting;
 
-
+        
         // 表示ページコンテキスト
         private volatile ViewPageCollection _viewPageCollection = new ViewPageCollection();
 
@@ -50,6 +50,9 @@ namespace NeeView
         }
 
 
+        // 設定変更
+        public event EventHandler SettingChanged;
+
         // 表示コンテンツ変更
         // 表示の更新を要求
         public event EventHandler<ViewPageCollectionChangedEventArgs> ViewContentsChanged;
@@ -66,42 +69,42 @@ namespace NeeView
         public bool IsSupportedDividePage
         {
             get { return _setting.IsSupportedDividePage; }
-            set { if (_setting.IsSupportedDividePage != value) { _setting.IsSupportedDividePage = value; RaisePropertyChanged(); } }
+            set { if (_setting.IsSupportedDividePage != value) { _setting.IsSupportedDividePage = value; RaisePropertyChanged(); SettingChanged?.Invoke(this, null); } }
         }
 
         // 最初のページは単独表示
         public bool IsSupportedSingleFirstPage
         {
             get { return _setting.IsSupportedSingleFirstPage; }
-            set { if (_setting.IsSupportedSingleFirstPage != value) { _setting.IsSupportedSingleFirstPage = value; RaisePropertyChanged(); } }
+            set { if (_setting.IsSupportedSingleFirstPage != value) { _setting.IsSupportedSingleFirstPage = value; RaisePropertyChanged(); SettingChanged?.Invoke(this, null); } }
         }
 
         // 最後のページは単独表示
         public bool IsSupportedSingleLastPage
         {
             get { return _setting.IsSupportedSingleLastPage; }
-            set { if (_setting.IsSupportedSingleLastPage != value) { _setting.IsSupportedSingleLastPage = value; RaisePropertyChanged(); } }
+            set { if (_setting.IsSupportedSingleLastPage != value) { _setting.IsSupportedSingleLastPage = value; RaisePropertyChanged(); SettingChanged?.Invoke(this, null); } }
         }
 
         // 横長ページは２ページとみなす
         public bool IsSupportedWidePage
         {
             get { return _setting.IsSupportedWidePage; }
-            set { if (_setting.IsSupportedWidePage != value) { _setting.IsSupportedWidePage = value; RaisePropertyChanged(); } }
+            set { if (_setting.IsSupportedWidePage != value) { _setting.IsSupportedWidePage = value; RaisePropertyChanged(); SettingChanged?.Invoke(this, null); } }
         }
 
         // 右開き、左開き
         public PageReadOrder BookReadOrder
         {
             get { return _setting.BookReadOrder; }
-            set { if (_setting.BookReadOrder != value) { _setting.BookReadOrder = value; RaisePropertyChanged(); } }
+            set { if (_setting.BookReadOrder != value) { _setting.BookReadOrder = value; RaisePropertyChanged(); SettingChanged?.Invoke(this, null); } }
         }
 
         // 単ページ/見開き
         public PageMode PageMode
         {
             get { return _setting.PageMode; }
-            set { if (_setting.PageMode != value) { _setting.PageMode = value; RaisePropertyChanged(); } }
+            set { if (_setting.PageMode != value) { _setting.PageMode = value; RaisePropertyChanged(); SettingChanged?.Invoke(this, null); } }
         }
 
 
@@ -178,11 +181,11 @@ namespace NeeView
         public async Task RefreshViewPageAsync(object sender, CancellationToken token)
         {
             var range = new PageRange(_viewPageCollection.Range.Min, 1, PageMode.Size());
-            await UpdateViewPageAsync(range, sender, token);
+            await UpdateViewPageAsync(sender, range, token);
         }
 
         // 表示ページ移動
-        public async Task MoveViewPageAsync(int step, object sender, CancellationToken token)
+        public async Task MoveViewPageAsync(object sender, int step, CancellationToken token)
         {
             var viewRange = _viewPageCollection.Range;
 
@@ -200,11 +203,11 @@ namespace NeeView
 
             var range = new PageRange(pos, direction, PageMode.Size());
 
-            await UpdateViewPageAsync(range, sender, token);
+            await UpdateViewPageAsync(sender, range, token);
         }
 
         // 表示ページ更新
-        public async Task UpdateViewPageAsync(PageRange viewPageRange, object sender, CancellationToken token)
+        public async Task UpdateViewPageAsync(object sender, PageRange viewPageRange, CancellationToken token)
         {
             // ページ終端を越えたか判定
             if (viewPageRange.Position < _book.Pages.FirstPosition())

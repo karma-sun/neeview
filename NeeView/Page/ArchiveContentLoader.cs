@@ -40,11 +40,7 @@ namespace NeeView
 
             if (_content.IsLoaded) return;
 
-            _content.Thumbnail.Initialize(_content.Entry, null);
-            if (!_content.Thumbnail.IsValid && !token.IsCancellationRequested)
-            {
-                await LoadThumbnailAsync(token);
-            }
+            await LoadThumbnailAsync(token);
 
             RaiseLoaded();
             _content.UpdateDevStatus();
@@ -58,6 +54,7 @@ namespace NeeView
         {
             await InitializeEntryAsync(token);
 
+            _content.Thumbnail.Initialize(_content.Entry, null);
             if (_content.Thumbnail.IsValid) return;
 
             if (!_content.Entry.IsValid && !_content.Entry.IsArchivePath)

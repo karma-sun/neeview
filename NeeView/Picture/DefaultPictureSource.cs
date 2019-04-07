@@ -217,6 +217,8 @@ namespace NeeView
 
         public override byte[] CreateThumbnail(ThumbnailProfile profile, CancellationToken token)
         {
+            ////Debug.WriteLine($"## CreateThumbnail: {this.ArchiveEntry}");
+
             Size size;
             if (PictureInfo != null)
             {

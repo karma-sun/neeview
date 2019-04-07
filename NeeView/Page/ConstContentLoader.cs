@@ -13,7 +13,9 @@ namespace NeeView
             _content = content;
         }
 
+#pragma warning disable CS0067
         public event EventHandler Loaded;
+#pragma warning restore CS0067
 
         public void Dispose()
         {

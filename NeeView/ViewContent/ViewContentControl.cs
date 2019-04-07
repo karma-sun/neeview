@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 
 namespace NeeView
 {
@@ -34,12 +35,18 @@ namespace NeeView
             if (_messageTextBlock == null)
             {
                 _messageTextBlock = new TextBlock();
-                ////_messageTextBlock.Text = LoosePath.GetFileName(source.Page.EntryFullName);
-                _messageTextBlock.Foreground = new SolidColorBrush(Color.FromRgb(0xCC, 0xCC, 0xCC));
+                _messageTextBlock.Foreground = Brushes.White;
                 _messageTextBlock.FontSize = 20;
                 _messageTextBlock.Margin = new Thickness(10);
                 _messageTextBlock.HorizontalAlignment = HorizontalAlignment.Center;
                 _messageTextBlock.VerticalAlignment = VerticalAlignment.Center;
+
+                _messageTextBlock.Effect = new DropShadowEffect()
+                {
+                    BlurRadius = 0,
+                    Opacity = 0.5,
+                    ShadowDepth = 2,
+                };
 
                 this.Children.Add(_messageTextBlock);
             }

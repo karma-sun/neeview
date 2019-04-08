@@ -259,10 +259,10 @@ namespace NeeView
         /// <param name="point">カーソル位置</param>
         /// <param name="left">左パネル右端</param>
         /// <param name="right">右パネル左端</param>
-        internal void UpdateVisibility(Point point, Point left, Point right)
+        internal void UpdateVisibility(Point point, Point left, Point right, bool isMouseOverTarget)
         {
-            Left?.UpdateVisibility(point, left);
-            Right?.UpdateVisibility(point, right);
+            Left?.UpdateVisibility(point, left, isMouseOverTarget);
+            Right?.UpdateVisibility(point, right, isMouseOverTarget);
         }
 
 

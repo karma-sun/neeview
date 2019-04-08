@@ -348,9 +348,9 @@ namespace NeeView
         /// </summary>
         /// <param name="point"></param>
         /// <param name="limit"></param>
-        internal void UpdateVisibility(Point point, Point limit)
+        internal void UpdateVisibility(Point point, Point limit, bool isMouseOverTarget)
         {
-            this.IsNearCursor = point.X < limit.X + SidePanelProfile.Current.HitTestMargin && !MainWindowModel.Current.IsFontAreaMouseOver;
+            this.IsNearCursor = point.X < limit.X + SidePanelProfile.Current.HitTestMargin && !MainWindowModel.Current.IsFontAreaMouseOver && isMouseOverTarget;
             UpdateForceVisibled();
         }
     }
@@ -369,9 +369,9 @@ namespace NeeView
         /// </summary>
         /// <param name="point"></param>
         /// <param name="limit"></param>
-        internal void UpdateVisibility(Point point, Point limit)
+        internal void UpdateVisibility(Point point, Point limit, bool isMouseOverTarget)
         {
-            this.IsNearCursor = point.X > limit.X - SidePanelProfile.Current.HitTestMargin && !MainWindowModel.Current.IsFontAreaMouseOver;
+            this.IsNearCursor = point.X > limit.X - SidePanelProfile.Current.HitTestMargin && !MainWindowModel.Current.IsFontAreaMouseOver && isMouseOverTarget;
             UpdateForceVisibled();
         }
     }

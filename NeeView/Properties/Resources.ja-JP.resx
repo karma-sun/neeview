@@ -3518,6 +3518,12 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamSevenZipArchiverIsPreExtractTips" xml:space="preserve">
     <value>ブックを閲覧する時に一時フォルダーに全て事前展開することでページ送りを高速化します。OFFにするとソリッド圧縮ファイルの場合のみ事前展開を行います。</value>
   </data>
+  <data name="ParamSevenZipArchiverIsPreExtractToMemory" xml:space="preserve">
+    <value>ソリッド圧縮ファイルの事前展開先をメモリにする</value>
+  </data>
+  <data name="ParamSevenZipArchiverIsPreExtractToMemoryTips" xml:space="preserve">
+    <value>一時ファイルでなくメモリ上に展開することで高速化します。消費するメモリはブックのキャッシュメモリとは別に確保されます。</value>
+  </data>
   <data name="ParamSevenZipArchiverLockTime" xml:space="preserve">
     <value>ファイルをロックする時間(秒)</value>
   </data>
@@ -3525,7 +3531,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>この時間アクセスがなければロックを解除します。-1でロックを保持したままになります。</value>
   </data>
   <data name="ParamSevenZipArchiverPreExtractSolidSize" xml:space="preserve">
-    <value>事前展開する最大ファイルサイズ(MB)</value>
+    <value>ソリッド圧縮ファイルを事前展開する最大ファイルサイズ(MB)</value>
   </data>
   <data name="ParamSevenZipArchiverPreExtractSolidSizeTips" xml:space="preserve">
     <value>このサイズを超える圧縮ファイルは事前展開を行いません。全ての事前展開を禁止する場合には0を設定します。</value>

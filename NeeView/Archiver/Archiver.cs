@@ -279,6 +279,10 @@ namespace NeeView
         {
             if (entry.Id < 0) throw new ApplicationException("Cannot open this entry: " + entry.EntryName);
 
+            if (entry.Data is byte[] rawData)
+            {
+                return new MemoryStream(rawData);
+            }
             if (entry.Data is string fileName)
             {
                 return new FileStream(fileName, FileMode.Open, FileAccess.Read);

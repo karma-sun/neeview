@@ -102,7 +102,8 @@ namespace NeeView
                     throw;
                 }
 
-                var rawData = ms.ToArray();
+                // ArchiveEntryのデータがメモリ上に存在するならば、それをRawDataとして参照する
+                var rawData = (ArchiveEntry.Data as byte[]) ?? ms.ToArray();
                 if (isCompressed)
                 {
                     rawData = CompressRawData(rawData);

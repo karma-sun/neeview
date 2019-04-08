@@ -43,9 +43,15 @@ namespace NeeView
                 Directory.CreateDirectory(_directory);
             }
 
-            extractor.FileExtractionFinished += Extractor_FileExtractionFinished;
-            extractor.ExtractArchive(GetStreamFunc);
-            extractor.FileExtractionFinished -= Extractor_FileExtractionFinished;
+            try
+            {
+                extractor.FileExtractionFinished += Extractor_FileExtractionFinished;
+                extractor.ExtractArchive(GetStreamFunc);
+            }
+            finally
+            {
+                extractor.FileExtractionFinished -= Extractor_FileExtractionFinished;
+            }
         }
 
         private void Extractor_FileExtractionFinished(object sender, FileInfoEventArgs e)

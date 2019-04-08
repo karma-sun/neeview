@@ -358,13 +358,25 @@ namespace NeeView
         public override bool CanPreExtract()
         {
             var fileInfo = new FileInfo(this.Path);
-            return fileInfo.Length / (1024 * 1024) < SevenZipArchiverProfile.Current.PreExtractSolidSize && (SevenZipArchiverProfile.Current.IsPreExtract || IsSolid());
+            return fileInfo.Length / (1024 * 1024) < SevenZipArchiverProfile.Current.PreExtractSolidSize && IsSolid();
         }
 
         /// <summary>
         /// 事前展開処理
         /// </summary>
         public override async Task PreExtractInnerAsync(string directory, CancellationToken token)
+        {
+            if (SevenZipArchiverProfile.Current.IsPreExtractToMemory)
+            {
+                await PreExtractMemoryAsync(token);
+            }
+            else
+            {
+                await PreExtractTempFileAsync(directory, token);
+            }
+        }
+
+        private async Task PreExtractTempFileAsync(string directory, CancellationToken token)
         {
             var entries = await GetEntriesAsync(token);
 
@@ -381,6 +393,27 @@ namespace NeeView
                 if (entry != null)
                 {
                     entry.Data = e.FileName;
+                }
+            }
+        }
+
+        private async Task PreExtractMemoryAsync(CancellationToken token)
+        {
+            var entries = await GetEntriesAsync(token);
+
+            using (var extractor = new SevenZipExtractor(this.Path))
+            {
+                var tempExtractor = new SevenZipMemoryExtractor();
+                tempExtractor.TempFileExtractionFinished += Temp_TempFileExtractionFinished;
+                tempExtractor.ExtractArchive(extractor);
+            }
+
+            void Temp_TempFileExtractionFinished(object sender, SevenZipMemoryExtractionArgs e)
+            {
+                var entry = entries.FirstOrDefault(a => a.Id == e.FileInfo.Index);
+                if (entry != null)
+                {
+                    entry.Data = e.RawData;
                 }
             }
         }

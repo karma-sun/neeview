@@ -67,8 +67,6 @@ namespace NeeView.Setting
 
                 new SettingItemSection(Properties.Resources.SettingPageArchiverSevenZipAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.SupportFileTypes)), new SettingItemCollectionControl() { Collection = SevenZipArchiverProfile.Current.SupportFileTypes, AddDialogHeader = Properties.Resources.WordExtension }),
-                    new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.IsPreExtract))),
-                    new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.PreExtractSolidSize))),
                     new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.X86DllPath)))
                     {
                         Visibility = new VisibilityPropertyValue(Config.IsX64 ? Visibility.Collapsed : Visibility.Visible),

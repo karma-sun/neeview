@@ -180,6 +180,8 @@
     <Compile Include="Archiver\MediaArchiver.cs" />
     <Compile Include="Archiver\MediaArchiverProfile.cs" />
     <Compile Include="Archiver\PagemarkArchiver.cs" />
+    <Compile Include="Archiver\SevenZipMemoryExtractionArgs.cs" />
+    <Compile Include="Archiver\SevenZipMemoryExtractor.cs" />
     <Compile Include="Archiver\TempDirectory.cs" />
     <Compile Include="Archiver\ZipArchiverProfile.cs" />
     <Compile Include="Bitmap\IBitmapFactory.cs" />

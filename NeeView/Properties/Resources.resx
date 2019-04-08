@@ -3518,6 +3518,12 @@ Is it OK? </value>
   <data name="ParamSevenZipArchiverIsPreExtractTips" xml:space="preserve">
     <value>When you browse books, you can speed up page feed by pre-extracting everything to a temporary folder. When OFF, pre-extraction is performed only for solid compressed files.</value>
   </data>
+  <data name="ParamSevenZipArchiverIsPreExtractToMemory" xml:space="preserve">
+    <value>In the case of a solid compressed file, expand it in memory in advance</value>
+  </data>
+  <data name="ParamSevenZipArchiverIsPreExtractToMemoryTips" xml:space="preserve">
+    <value>It speeds up by expanding not in temporary files but in memory. The memory consumed is secured separately from the book cache memory.</value>
+  </data>
   <data name="ParamSevenZipArchiverLockTime" xml:space="preserve">
     <value>Time to lock file (sec)</value>
   </data>
@@ -3525,7 +3531,7 @@ Is it OK? </value>
     <value>If you do not have access at this time, unlock it. -1 holds the lock.</value>
   </data>
   <data name="ParamSevenZipArchiverPreExtractSolidSize" xml:space="preserve">
-    <value>Maximum file size to be extracted in advance (MB)</value>
+    <value>Maximum solid compressed file size to be extracted in advance (MB)</value>
   </data>
   <data name="ParamSevenZipArchiverPreExtractSolidSizeTips" xml:space="preserve">
     <value>Compressed files exceeding this size will not be pre-extracted. Set 0 to prohibit all pre-extraction.</value>

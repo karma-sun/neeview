@@ -154,9 +154,10 @@ namespace NeeView.Setting
                 new SettingItemProperty(PropertyMemberElement.Create(PictureProfile.Current, nameof(PictureProfile.MaximumSize))),
                 new SettingItemProperty(PropertyMemberElement.Create(PictureProfile.Current, nameof(PictureProfile.IsLimitSourceSize))),
                 new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.IsLoadingPageVisible))),
+                new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.PreExtractSolidSize))),
+                new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.IsPreExtractToMemory))),
                 new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.BookCapacity))),
                 new SettingItemProperty(PropertyMemberElement.Create(ThumbnailProfile.Current, nameof(ThumbnailProfile.PageCapacity))),
-                ////new SettingItemProperty(PropertyMemberElement.Create(MemoryControl.Current, nameof(MemoryControl.IsAutoGC))),
             };
         }
     }

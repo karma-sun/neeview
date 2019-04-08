@@ -34,13 +34,14 @@ namespace NeeView
         [PropertyMember("@ParamSevenZipArchiverSupportFileTypes")]
         public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".7z;.cb7;.cbr;.cbz;.lzh;.rar;.zip");
 
-        // 事前展開
-        [PropertyMember("@ParamSevenZipArchiverIsPreExtract", Tips = "@ParamSevenZipArchiverIsPreExtractTips")]
-        public bool IsPreExtract { get; set; }
-
         // 事前展開サイズ上限
         [PropertyMember("@ParamSevenZipArchiverPreExtractSolidSize", Tips = "@ParamSevenZipArchiverPreExtractSolidSizeTips")]
         public int PreExtractSolidSize { get; set; } = 1000;
+
+        // 事前展開先をメモリにする
+        [PropertyMember("@ParamSevenZipArchiverIsPreExtractToMemory", Tips = "@ParamSevenZipArchiverIsPreExtractToMemoryTips")]
+        public bool IsPreExtractToMemory { get; set; }
+
 
         #region Memento
         [DataContract]
@@ -61,11 +62,11 @@ namespace NeeView
             [DataMember, DefaultValue(".7z;.cb7;.cbr;.cbz;.lzh;.rar;.zip")]
             public string SupportFileTypes { get; set; }
 
-            [DataMember, DefaultValue(false)]
-            public bool IsPreExtract { get; set; }
-
             [DataMember, DefaultValue(1000)]
             public int PreExtractSolidSize { get; set; }
+
+            [DataMember]
+            public bool IsPreExtractToMemory { get; set; }
 
             [OnDeserializing]
             private void Deserializing(StreamingContext context)
@@ -82,8 +83,8 @@ namespace NeeView
             memento.X86DllPath = this.X86DllPath;
             memento.X64DllPath = this.X64DllPath;
             memento.SupportFileTypes = this.SupportFileTypes.ToString();
-            memento.IsPreExtract = this.IsPreExtract;
             memento.PreExtractSolidSize = this.PreExtractSolidSize;
+            memento.IsPreExtractToMemory = this.IsPreExtractToMemory;
             return memento;
         }
 
@@ -95,8 +96,8 @@ namespace NeeView
             this.X86DllPath = memento.X86DllPath;
             this.X64DllPath = memento.X64DllPath;
             this.SupportFileTypes.FromString(memento.SupportFileTypes);
-            this.IsPreExtract = memento.IsPreExtract;
             this.PreExtractSolidSize = memento.PreExtractSolidSize;
+            this.IsPreExtractToMemory = memento.IsPreExtractToMemory;
 
             // compatible before ver.25
             if (memento._Version < Config.GenerateProductVersionNumber(1, 25, 0))

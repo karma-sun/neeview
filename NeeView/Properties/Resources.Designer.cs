@@ -11334,6 +11334,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   In the case of a solid compressed file, expand it in memory in advance に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamSevenZipArchiverIsPreExtractToMemory {
+            get {
+                return ResourceManager.GetString("ParamSevenZipArchiverIsPreExtractToMemory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   It speeds up by expanding not in temporary files but in memory. The memory consumed is secured separately from the book cache memory. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamSevenZipArchiverIsPreExtractToMemoryTips {
+            get {
+                return ResourceManager.GetString("ParamSevenZipArchiverIsPreExtractToMemoryTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Time to lock file (sec) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamSevenZipArchiverLockTime {
@@ -11352,7 +11370,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Maximum file size to be extracted in advance (MB) に類似しているローカライズされた文字列を検索します。
+        ///   Maximum solid compressed file size to be extracted in advance (MB) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamSevenZipArchiverPreExtractSolidSize {
             get {

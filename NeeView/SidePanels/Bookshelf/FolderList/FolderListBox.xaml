@@ -193,7 +193,6 @@
             <ListBox.ItemContainerStyle>
                 <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource NVListBoxItem}">
                     <EventSetter Event="PreviewMouseLeftButtonDown" Handler="FolderListItem_MouseLeftButtonDown"/>
-                    <EventSetter Event="PreviewMouseLeftButtonUp" Handler="FolderListItem_MouseLeftButtonUp"/>
                     <EventSetter Event="PreviewMouseDoubleClick" Handler="FolderListItem_MouseDoubleClick"/>
                     <EventSetter Event="KeyDown" Handler="FolderListItem_KeyDown"/>
                     <EventSetter Event="PreviewMouseDown" Handler="FolderListItem_MouseDown"/>

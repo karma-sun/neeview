@@ -177,12 +177,12 @@ namespace NeeView
         #region Event Methods
 
         // 履歴項目決定
-        private void HistoryListItem_MouseSingleClick(object sender, MouseButtonEventArgs e)
+
+
+        private void HistoryListItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var item = ((sender as ListBoxItem)?.Content as BookHistory);
-
             _vm.Load(item?.Place);
-            e.Handled = true;
         }
 
         // 履歴項目決定(キー)

@@ -403,13 +403,12 @@ namespace NeeView
         }
 
         // 履歴項目決定
-        private void ThumbnailListItem_MouseSingleClick(object sender, MouseButtonEventArgs e)
+        private void ThumbnailListItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var page = (sender as ListBoxItem)?.Content as Page;
             if (page != null)
             {
                 BookOperation.Current.JumpPage(page);
-                e.Handled = true;
             }
         }
 

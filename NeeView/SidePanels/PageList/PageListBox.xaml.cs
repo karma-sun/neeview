@@ -231,13 +231,12 @@ namespace NeeView
         }
 
         // 項目決定
-        private void PageListItem_MouseSingleClick(object sender, MouseButtonEventArgs e)
+        private void PageListItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var page = (sender as ListBoxItem)?.Content as Page;
             if (page != null)
             {
                 _vm.Model.Jump(page);
-                e.Handled = true;
             }
         }
 

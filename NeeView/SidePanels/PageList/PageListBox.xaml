@@ -233,7 +233,7 @@
 
         <ListBox.ItemContainerStyle>
             <Style TargetType="ListBoxItem" BasedOn="{StaticResource NVListBoxItem}">
-                <EventSetter Event="PreviewMouseLeftButtonUp" Handler="PageListItem_MouseSingleClick"/>
+                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="PageListItem_MouseLeftButtonDown"/>
                 <EventSetter Event="MouseDoubleClick" Handler="PageListItem_MouseDoubleClick"/>
                 <EventSetter Event="KeyDown" Handler="PageListItem_KeyDown"/>
                 <Setter Property="Padding" Value="2,0"/>

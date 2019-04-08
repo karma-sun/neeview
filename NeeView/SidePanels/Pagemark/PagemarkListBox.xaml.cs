@@ -404,13 +404,12 @@ namespace NeeView
 
 
         // 履歴項目決定
-        private void TreeViewItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void TreeViewItem_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var item = (sender as TreeViewItem)?.DataContext as TreeListNode<IPagemarkEntry>;
             if (item != null)
             {
                 _vm.Decide(item);
-                e.Handled = true;
             }
         }
 

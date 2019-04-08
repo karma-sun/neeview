@@ -34,7 +34,6 @@ namespace NeeView
         private FolderListBoxViewModel _vm;
         private ListBoxThumbnailLoader _thumbnailLoader;
         private bool _storeFocus;
-        private bool _isClickEnabled;
         private PageThumbnailJobClient _jobClient;
 
         #endregion
@@ -891,23 +890,10 @@ namespace NeeView
         //
         private void FolderListItem_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            // 切り替え直後のクリックを無効にするためのフラグ
-            _isClickEnabled = true;
-        }
-
-        //
-        private void FolderListItem_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            if (!_isClickEnabled)
-            {
-                return;
-            }
-
             var item = (sender as ListBoxItem)?.Content as FolderItem;
             if (item != null && !item.IsEmpty())
             {
                 _vm.Model.LoadBook(item);
-                e.Handled = true;
             }
         }
 

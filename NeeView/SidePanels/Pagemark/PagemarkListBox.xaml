@@ -119,7 +119,7 @@
                 <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
                 <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
                 <EventSetter Event="MouseRightButtonDown" Handler="TreeViewItem_MouseRightButtonDown"/>
-                <EventSetter Event="MouseLeftButtonUp" Handler="TreeViewItem_MouseLeftButtonUp"/>
+                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="TreeViewItem_MouseLeftButtonDown"/>
                 <EventSetter Event="KeyDown" Handler="TreeViewItem_KeyDown"/>
                 <EventSetter Event="Selected" Handler="TreeViewItem_Selected" />
             </Style>

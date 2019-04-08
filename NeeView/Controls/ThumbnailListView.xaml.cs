@@ -312,6 +312,7 @@ namespace NeeView
             // パネルコントロール取得
             _listPanel = sender as VirtualizingStackPanel;
             DartyThumbnailList();
+            LoadThumbnailList(+1);
         }
 
         private void ThumbnailListBox_UpdateAlignment()

@@ -477,6 +477,11 @@ namespace NeeView
             _player.Volume = _isScrubbing || _delay > 0.0 ? 0.0 : _volume;
         }
 
+        public void AddVolume(double delta)
+        {
+            Volume = MathUtility.Clamp(Volume + delta, 0.0, 1.0);
+        }
+
         #endregion
 
         #region IDisposable Support

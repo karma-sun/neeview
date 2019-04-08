@@ -1,4 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
+using System;
+using System.Windows.Input;
 
 namespace NeeView
 {
@@ -6,6 +8,7 @@ namespace NeeView
     {
         private MediaControl _model;
         private MediaPlayerOperator _operator;
+        private MouseWheelDelta _mouseWheelDelta = new MouseWheelDelta();
 
         public MediaControlViewModel(MediaControl model)
         {
@@ -62,6 +65,30 @@ namespace NeeView
             }
 
             _operator.IsTimeLeftDisp = !_operator.IsTimeLeftDisp;
+        }
+
+        public void MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            int turn = _mouseWheelDelta.NotchCount(e);
+            if (turn == 0) return;
+
+            for (int i = 0; i < Math.Abs(turn); ++i)
+            {
+                if (turn < 0)
+                {
+                    BookOperation.Current.NextPage();
+                }
+                else
+                {
+                    BookOperation.Current.PrevPage();
+                }
+            }
+        }
+
+        internal void MouseWheelVolume(object sender, MouseWheelEventArgs e)
+        {
+            var delta = (double)e.Delta / -6000.0;
+            Operator.AddVolume(delta);
         }
 
         #endregion

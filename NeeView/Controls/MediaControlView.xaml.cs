@@ -73,7 +73,20 @@ namespace NeeView
             _vm.ToggleTimeFormat();
         }
 
+        private void Root_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            _vm.MouseWheel(sender, e);
+            e.Handled = true;
+        }
+
+        private void Volume_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            _vm.MouseWheelVolume(sender, e);
+            e.Handled = true;
+        }
+
         #endregion
+
     }
 
 

@@ -138,7 +138,7 @@
         </Style>
     </UserControl.Resources>
 
-    <StackPanel VerticalAlignment="Bottom">
+    <StackPanel VerticalAlignment="Bottom" MouseWheel="Root_MouseWheel" Background="Transparent">
 
         <DockPanel VerticalAlignment="Bottom" Margin="5,0" LastChildFill="False">
 
@@ -174,7 +174,7 @@
                 </Image>
             </Button>
 
-            <Button Width="NaN">
+            <Button Width="NaN" MouseWheel="Volume_MouseWheel">
                 <local:VideoSlider Width="100" ThumbSize="12" Margin="0" Height="30" VerticalAlignment="Center" Value="{Binding Operator.Volume}" Minimum="0" Maximum="1" SliderBrush="{DynamicResource NVPanelIconForeground}" Fill="{DynamicResource NVPanelIconForeground}"/>
             </Button>
 

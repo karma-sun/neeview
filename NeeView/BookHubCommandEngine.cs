@@ -92,6 +92,10 @@ namespace NeeView
         protected override async Task ExecuteAsync(CancellationToken token)
         {
             _bookHub.Unload(_param);
+
+            // ブックを閉じたときの移動履歴を表示するためにnullを履歴に登録
+            BookHubHistory.Current.Add(null);
+
             await Task.CompletedTask;
         }
     }

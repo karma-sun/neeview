@@ -35,6 +35,14 @@ namespace NeeView.Collections
             Changed?.Invoke(this, null);
         }
 
+        public void TrimEnd()
+        {
+            while (_history.Count > 0 && _history.Last() is null)
+            {
+                _history.RemoveAt(_history.Count - 1);
+            }
+        }
+
         public void Move(int delta)
         {
             _current = MathUtility.Clamp(_current + delta, 0, _history.Count);
@@ -87,12 +95,12 @@ namespace NeeView.Collections
         {
             return direction < 0 ? GetPrevousHistory(size) : GetNextHistory(size);
         }
-        
+
         //
         internal List<KeyValuePair<int, T>> GetPrevousHistory(int size)
         {
             var list = new List<KeyValuePair<int, T>>();
-            for(int i=0; i<size; ++i)
+            for (int i = 0; i < size; ++i)
             {
                 var index = _current - 2 - i;
                 if (index < 0) break;

@@ -756,7 +756,6 @@
     <Compile Include="SidePanels\ImageEffect\ImageEffectView.xaml.cs">
       <DependentUpon>ImageEffectView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Logger.cs" />
     <Compile Include="MemoryControl.cs" />
     <Compile Include="Setting\MouseDragSettingWindow.xaml.cs">
       <DependentUpon>MouseDragSettingWindow.xaml</DependentUpon>

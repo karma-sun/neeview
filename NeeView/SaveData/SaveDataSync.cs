@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using NeeLaboratory.IO;
+using NeeView.Data;
+using NeeView.Threading;
 
 namespace NeeView
 {

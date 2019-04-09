@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using NeeView.Windows.Property;
+using NeeView.Text;
 
 namespace NeeView
 {

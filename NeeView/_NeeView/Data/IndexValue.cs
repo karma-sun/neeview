@@ -9,7 +9,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NeeView
+namespace NeeView.Data
 {
     /// <summary>
     /// テーブル値インターフェイス

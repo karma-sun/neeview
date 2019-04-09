@@ -1,4 +1,5 @@
-﻿using NeeView.Windows.Property;
+﻿using NeeView.Data;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.Linq;

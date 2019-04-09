@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace NeeView
+namespace NeeView.Text
 {
     /// <summary>
     /// "数値x数値" という文字列で数値を表す

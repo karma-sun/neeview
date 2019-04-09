@@ -1,4 +1,6 @@
-﻿using NeeView.Windows.Property;
+﻿using NeeView.Data;
+using NeeView.Threading;
+using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

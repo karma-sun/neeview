@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory.IO;
 using NeeView.IO;
+using NeeView.Text;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -415,7 +416,7 @@ namespace NeeView
             if (data.GetDataPresent("HTML Format"))
             {
                 var fileNames = new List<string>();
-                foreach (var url in HtmlParseUtility.CollectImgSrc(data.GetData("HTML Format").ToString()))
+                foreach (var url in HtmlString.CollectImgSrc(data.GetData("HTML Format").ToString()))
                 {
                     //data:[<mediatype>][;base64],<data>
                     if (url.StartsWith("data:image/"))
@@ -457,7 +458,7 @@ namespace NeeView
                 if (data.GetDataPresent("HTML Format"))
                 {
                     var fileNames = new List<string>();
-                    foreach (var url in HtmlParseUtility.CollectImgSrc(data.GetData("HTML Format").ToString()))
+                    foreach (var url in HtmlString.CollectImgSrc(data.GetData("HTML Format").ToString()))
                     {
                         if (url.StartsWith("http://") || url.StartsWith("https://"))
                         {

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NeeView
+namespace NeeView.Data
 {
-    public static class CommonExtensions
+    public static class ObjectExtensions
     {
         // 汎用SWAP
         public static void Swap<T>(ref T lhs, ref T rhs)

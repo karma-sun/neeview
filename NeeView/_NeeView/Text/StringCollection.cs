@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace NeeView
+namespace NeeView.Text
 {
     /// <summary>
     /// 文字列コレクション

@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-
-
-
-namespace NeeView
+namespace NeeView.Text
 {
-    public static class HtmlParseUtility
+    public static class HtmlString
     {
         /// <summary>
         ///  imgタグ用正規表現

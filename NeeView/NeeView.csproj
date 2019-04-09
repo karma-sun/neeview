@@ -169,8 +169,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AppDispatcher.cs" />
-    <Compile Include="ApplicationDisposer.cs" />
+    <Compile Include="System\AppDispatcher.cs" />
+    <Compile Include="System\ApplicationDisposer.cs" />
     <Compile Include="Archiver\ArchiveEntryUtility.cs" />
     <Compile Include="Archiver\ArchiverCache.cs" />
     <Compile Include="Archiver\ArchiveEntryCollection.cs" />
@@ -188,9 +188,9 @@
     <Compile Include="Bitmap\ResourceBitmapUtility.cs" />
     <Compile Include="Book\BookAhead.cs" />
     <Compile Include="Book\BookController.cs" />
-    <Compile Include="BookHistory.cs" />
-    <Compile Include="BookHistoryCollection.cs" />
-    <Compile Include="BookHubHistory.cs" />
+    <Compile Include="BookHistory\BookHistory.cs" />
+    <Compile Include="BookHistory\BookHistoryCollection.cs" />
+    <Compile Include="BookHub\BookHubHistory.cs" />
     <Compile Include="Book\BookMemoryService.cs" />
     <Compile Include="Book\BookPageCollection.cs" />
     <Compile Include="Book\BookPageMarker.cs" />
@@ -208,14 +208,14 @@
     <Compile Include="Controls\CriticalErrorDialog.xaml.cs">
       <DependentUpon>CriticalErrorDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ExpandedMark.xaml.cs">
+    <Compile Include="Controls\Obsolete\ExpandedMark.xaml.cs">
       <DependentUpon>ExpandedMark.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\PageSelectDialog.xaml.cs">
+    <Compile Include="Command\PageSelectCommand\PageSelectDialog.xaml.cs">
       <DependentUpon>PageSelectDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\PageSelectDialogViewModel.cs" />
-    <Compile Include="Controls\PageSelecteDialogModel.cs" />
+    <Compile Include="Command\PageSelectCommand\PageSelectDialogViewModel.cs" />
+    <Compile Include="Command\PageSelectCommand\PageSelecteDialogModel.cs" />
     <Compile Include="Controls\PageSortModeIcon.xaml.cs">
       <DependentUpon>PageSortModeIcon.xaml</DependentUpon>
     </Compile>
@@ -235,7 +235,7 @@
     <Compile Include="Development\DebugTimer.cs" />
     <Compile Include="Archiver\SevenZipTempFileExtractor.cs" />
     <Compile Include="Archiver\SevenZipTempFileExtractionArgs.cs" />
-    <Compile Include="Controls\ArchivePageControl.xaml.cs">
+    <Compile Include="ViewContent\ArchivePageControl.xaml.cs">
       <DependentUpon>ArchivePageControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Development\DebugWindow.xaml.cs">
@@ -254,10 +254,10 @@
     <Compile Include="JobEngine\JobWorker.cs" />
     <Compile Include="MouseInput\MouseInputHelper.cs" />
     <Compile Include="MouseInput\MouseWheelDelta.cs" />
-    <Compile Include="MultbootService.cs" />
+    <Compile Include="System\MultbootService.cs" />
     <Compile Include="OpenSourceControls\VirtualizingWrapPanel.cs" />
     <Compile Include="Bitmap\BitmapCreateSetting.cs" />
-    <Compile Include="PageRange.cs" />
+    <Compile Include="Book\PageRange.cs" />
     <Compile Include="Page\AnimatedContentLoader.cs" />
     <Compile Include="Page\ArchiveContentLoader.cs" />
     <Compile Include="Page\BitmapContentLoader.cs" />
@@ -274,8 +274,8 @@
     <Compile Include="Picture\PdfPictureSource.cs" />
     <Compile Include="Picture\PictureSource.cs" />
     <Compile Include="Picture\StreamCanceller.cs" />
-    <Compile Include="RemoteCommandService.cs" />
-    <Compile Include="SaveDataBackup.cs" />
+    <Compile Include="System\RemoteCommandService.cs" />
+    <Compile Include="SaveData\SaveDataBackup.cs" />
     <Compile Include="SidePanels\Bookmark\BookmarkListViewModel.cs" />
     <Compile Include="SidePanels\Bookmark\BookmarkPanel.cs" />
     <Compile Include="SidePanels\Bookmark\BookmarkListView.xaml.cs">
@@ -285,7 +285,7 @@
     <Compile Include="SidePanels\Bookshelf\FolderList\BookshelfFolderList.cs" />
     <Compile Include="Obsolete\FolderListLegacy.cs" />
     <Compile Include="SidePanels\Bookshelf\FolterTree\BookshelfFolderTreeModel.cs" />
-    <Compile Include="ThemeProfile.cs" />
+    <Compile Include="MainWindow\ThemeProfile.cs" />
     <Compile Include="Thumbnail\DriveThumbnail.cs" />
     <Compile Include="ViewContent\ArchiveViewContent.cs" />
     <Compile Include="ViewContent\ViewContentSource.cs" />
@@ -293,7 +293,7 @@
     <Compile Include="ViewContent\ReserveViewContent.cs" />
     <Compile Include="ViewContent\ViewContentControl.cs" />
     <Compile Include="_NeeLaboratory\IO\RemoteCommand.cs" />
-    <Compile Include="SaveDataSync.cs" />
+    <Compile Include="SaveData\SaveDataSync.cs" />
     <Compile Include="Setting\SusiePluginSettingWindow.xaml.cs">
       <DependentUpon>SusiePluginSettingWindow.xaml</DependentUpon>
     </Compile>
@@ -339,33 +339,33 @@
     <Compile Include="SidePanels\Bookshelf\FolderList\QuickAccessFolderCollection.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\RootFolderCollection.cs" />
     <Compile Include="Thumbnail\IThumbnail.cs" />
-    <Compile Include="Toast.cs" />
-    <Compile Include="Controls\ToastCard.xaml.cs">
+    <Compile Include="Toast\Toast.cs" />
+    <Compile Include="Toast\ToastCard.xaml.cs">
       <DependentUpon>ToastCard.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ToastService.cs" />
+    <Compile Include="Toast\ToastService.cs" />
     <Compile Include="Controls\XHtmlTextBlock.cs" />
     <Compile Include="Converters\BooleanConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
-    <Compile Include="FileIconCollection.cs" />
+    <Compile Include="Styles\FileIconCollection.cs" />
     <Compile Include="Picture\WicDecoders.cs" />
     <Compile Include="Page\ConstContent.cs" />
     <Compile Include="Bookamrk\BookmarkCollectionChangedArgs.cs" />
-    <Compile Include="BookMementoCollectionChangedArgs.cs" />
-    <Compile Include="BookMementoCollection.cs" />
-    <Compile Include="BookMementoUnit.cs" />
-    <Compile Include="Controls\MediaControl.cs" />
-    <Compile Include="Controls\MediaControlView.xaml.cs">
+    <Compile Include="BookMemento\BookMementoCollectionChangedArgs.cs" />
+    <Compile Include="BookMemento\BookMementoCollection.cs" />
+    <Compile Include="BookMemento\BookMementoUnit.cs" />
+    <Compile Include="PageSelect\MediaControl\MediaControl.cs" />
+    <Compile Include="PageSelect\MediaControl\MediaControlView.xaml.cs">
       <DependentUpon>MediaControlView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\MediaControlViewModel.cs" />
-    <Compile Include="Controls\MediaPlayerOperator.cs" />
-    <Compile Include="Controls\PageSelector.cs" />
+    <Compile Include="PageSelect\MediaControl\MediaControlViewModel.cs" />
+    <Compile Include="PageSelect\MediaControl\MediaPlayerOperator.cs" />
+    <Compile Include="PageSelect\PageSelector.cs" />
     <Compile Include="Converters\BooleanToBrushConverter.cs" />
-    <Compile Include="GridLine.cs" />
+    <Compile Include="ContentCanvas\GridLine.cs" />
     <Compile Include="InputGesture\ImeKeyUtility.cs" />
-    <Compile Include="Language.cs" />
-    <Compile Include="LinkedDicionary.cs" />
+    <Compile Include="System\Language.cs" />
+    <Compile Include="_NeeView\Collections\Generic\LinkedDicionary.cs" />
     <Compile Include="Page\MediaContent.cs" />
     <Compile Include="Setting\SettingItemSubControl.xaml.cs">
       <DependentUpon>SettingItemSubControl.xaml</DependentUpon>
@@ -380,8 +380,8 @@
     <Compile Include="SidePanels\Pagemark\PagemarkListBoxModel.cs" />
     <Compile Include="SidePanels\Pagemark\PagemarkListBoxViewModel.cs" />
     <Compile Include="Styles\TreeViewItemHelper.cs" />
-    <Compile Include="VirtualCollection.cs" />
-    <Compile Include="WindowMessage.cs" />
+    <Compile Include="SidePanels\Pagemark\VirtualCollection.cs" />
+    <Compile Include="System\WindowMessage.cs" />
     <Compile Include="_NeeView\Collections\IHasValue.cs" />
     <Compile Include="_NeeView\Collections\Generic\TreeListNode.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderCollectionFactory.cs" />
@@ -455,17 +455,17 @@
     </Compile>
     <Compile Include="Setting\MouseGestureSettingViewModel.cs" />
     <Compile Include="SidePanels\Pagemark\Pagemark.cs" />
-    <Compile Include="SoundPlayerService.cs" />
+    <Compile Include="System\SoundPlayerService.cs" />
     <Compile Include="Susie\NativeMethods.cs" />
     <Compile Include="TouchInput\TouchInputEmulator.cs" />
-    <Compile Include="UserSetting.cs" />
+    <Compile Include="SaveData\UserSetting.cs" />
     <Compile Include="ViewContent\MediaViewContent.cs" />
     <Compile Include="_NeeView\IO\FileIcon.cs" />
     <Compile Include="_NeeView\NVInterop.cs" />
     <Compile Include="_NeeView\Runtime\Serialization\WebEnum.cs" />
     <Compile Include="_NeeLaboratory\ComponentModel\ObjectExtensions.cs" />
     <Compile Include="_NeeView\AliasNameAttribute.cs" />
-    <Compile Include="AnyKey.cs" />
+    <Compile Include="MainWindow\AnyKey.cs" />
     <Compile Include="App.Exception.cs" />
     <Compile Include="App.Memento.cs" />
     <Compile Include="App.Option.cs" />
@@ -474,7 +474,7 @@
     <Compile Include="Archiver\SevenZipArchiverProfile.cs" />
     <Compile Include="Archiver\PdfArchiver.cs" />
     <Compile Include="Archiver\TempFile.cs" />
-    <Compile Include="BackupSelectControl.xaml.cs">
+    <Compile Include="SaveData\BackupSelectControl.xaml.cs">
       <DependentUpon>BackupSelectControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Bitmap\BitmapExif.cs" />
@@ -483,10 +483,10 @@
     <Compile Include="Bitmap\BitmapFactory.cs" />
     <Compile Include="Bitmap\BitmapInfo.cs" />
     <Compile Include="Bitmap\MagicScalerBitmapFactory.cs" />
-    <Compile Include="BookAddress.cs" />
-    <Compile Include="BookLoadOption.cs" />
-    <Compile Include="BookMementoFilter.cs" />
-    <Compile Include="ContentSizeCalcurator.cs" />
+    <Compile Include="BookHub\BookAddress.cs" />
+    <Compile Include="BookHub\BookLoadOption.cs" />
+    <Compile Include="BookMemento\BookMementoFilter.cs" />
+    <Compile Include="ContentCanvas\ContentSizeCalcurator.cs" />
     <Compile Include="Controls\BusyFadeView.xaml.cs">
       <DependentUpon>BusyFadeView.xaml</DependentUpon>
     </Compile>
@@ -494,7 +494,7 @@
       <DependentUpon>BusyView.xaml</DependentUpon>
     </Compile>
     <Compile Include="_NeeView\EnumExtensions.cs" />
-    <Compile Include="PagePart.cs" />
+    <Compile Include="Book\PagePart.cs" />
     <Compile Include="Picture\DefaultPictureStream.cs" />
     <Compile Include="Picture\Picture.cs" />
     <Compile Include="Picture\PictureCustomSize.cs" />
@@ -502,15 +502,15 @@
     <Compile Include="Picture\PictureInfo.cs" />
     <Compile Include="Picture\PictureProfile.cs" />
     <Compile Include="Picture\PictureStream.cs" />
-    <Compile Include="BookProfile.cs" />
-    <Compile Include="BookHistoryCommand.cs" />
-    <Compile Include="BookSetting.cs" />
-    <Compile Include="ContentCanvasBrush.cs" />
+    <Compile Include="Book\BookProfile.cs" />
+    <Compile Include="BookHistory\BookHistoryCommand.cs" />
+    <Compile Include="BookHub\BookSetting.cs" />
+    <Compile Include="ContentCanvas\ContentCanvasBrush.cs" />
     <Compile Include="MouseInput\DragTransformControl.cs" />
     <Compile Include="MouseInput\LoupeTransform.cs" />
     <Compile Include="Picture\SizeExtensions.cs" />
     <Compile Include="Picture\SusiePictureStream.cs" />
-    <Compile Include="SearchEnginecs.cs" />
+    <Compile Include="SidePanels\Bookshelf\FolderList\SearchEnginecs.cs" />
     <Compile Include="Setting\SettingWindow.xaml.cs">
       <DependentUpon>SettingWindow.xaml</DependentUpon>
     </Compile>
@@ -519,8 +519,7 @@
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderArchiveCollection.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderSearchCollection.cs" />
     <Compile Include="Archiver\TempFileCache.cs" />
-    <Compile Include="HtmlHelpUtility.cs" />
-    <Compile Include="HtmlParseUtility.cs" />
+    <Compile Include="Command\HelpCommand\HtmlHelpUtility.cs" />
     <Compile Include="_NeeLaboratory\MathUtility.cs" />
     <Compile Include="Picture\PictureFormat.cs" />
     <Compile Include="_NeeLaboratory\IO\PathUtility.cs" />
@@ -536,12 +535,12 @@
     <Compile Include="TouchInput\TouchInputMouseDrag.cs" />
     <Compile Include="ViewContent\AnimatedViewContent.cs" />
     <Compile Include="ViewContent\BitmapViewContent.cs" />
-    <Compile Include="ContentRebuild.cs" />
+    <Compile Include="ContentCanvas\ContentRebuild.cs" />
     <Compile Include="ViewContent\MessageViewContent.cs" />
     <Compile Include="ViewContent\PdfViewContent.cs" />
     <Compile Include="ViewContent\ViewContentFactory.cs" />
-    <Compile Include="Controls\AddressBar.cs" />
-    <Compile Include="Controls\AddressBarView.xaml.cs">
+    <Compile Include="AddressBar\AddressBar.cs" />
+    <Compile Include="AddressBar\AddressBarView.xaml.cs">
       <DependentUpon>AddressBarView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Archiver\ArchiveEntry.cs" />
@@ -550,18 +549,18 @@
     <Compile Include="Archiver\Archiver.cs" />
     <Compile Include="Archiver\ArchiverManager.cs" />
     <Compile Include="Archiver\FileProxy.cs" />
-    <Compile Include="AutoFadeTriggerAction.cs" />
+    <Compile Include="Controls\AutoFadeTriggerAction.cs" />
     <Compile Include="Book\BookCommandEngine.cs" />
-    <Compile Include="BookHubCommandEngine.cs" />
-    <Compile Include="ContentCanvas.cs" />
-    <Compile Include="Controls\AddressBarViewModel.cs" />
-    <Compile Include="Controls\MenuBar.cs" />
-    <Compile Include="Controls\MenuBarViewModel.cs" />
+    <Compile Include="BookHub\BookHubCommandEngine.cs" />
+    <Compile Include="ContentCanvas\ContentCanvas.cs" />
+    <Compile Include="AddressBar\AddressBarViewModel.cs" />
+    <Compile Include="MenuBar\MenuBar.cs" />
+    <Compile Include="MenuBar\MenuBarViewModel.cs" />
     <Compile Include="Controls\NowLoading.cs" />
     <Compile Include="Controls\NowLoadingViewModel.cs" />
-    <Compile Include="Controls\PageMarkers.cs" />
-    <Compile Include="Controls\PageMarkersViewModel.cs" />
-    <Compile Include="Controls\VideoSlider.xaml.cs">
+    <Compile Include="PageSelect\PageSlider\PageMarkers.cs" />
+    <Compile Include="PageSelect\PageSlider\PageMarkersViewModel.cs" />
+    <Compile Include="PageSelect\VideoSlider.xaml.cs">
       <DependentUpon>VideoSlider.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\AnytToFalseConverter.cs" />
@@ -589,30 +588,31 @@
     <Compile Include="Converters\SortModeToVisibilityConverter.cs" />
     <Compile Include="Converters\StretchModeToBooleanConverter.cs" />
     <Compile Include="Converters\AnyConverters.cs" />
-    <Compile Include="Controls\PageSlider.cs" />
-    <Compile Include="Controls\PageSliderView.xaml.cs">
+    <Compile Include="PageSelect\PageSlider\PageSlider.cs" />
+    <Compile Include="PageSelect\PageSlider\PageSliderView.xaml.cs">
       <DependentUpon>PageSliderView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\PageSliderViewModel.cs" />
-    <Compile Include="Controls\MenuBarView.xaml.cs">
+    <Compile Include="PageSelect\PageSlider\PageSliderViewModel.cs" />
+    <Compile Include="MenuBar\MenuBarView.xaml.cs">
       <DependentUpon>MenuBarView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ExporterProfile.cs" />
-    <Compile Include="FileIO.cs" />
-    <Compile Include="FileIOProfile.cs" />
-    <Compile Include="LongButtonDownMode.cs" />
-    <Compile Include="MainWindowModel.cs" />
+    <Compile Include="ExportImage\ExporterProfile.cs" />
+    <Compile Include="System\FileIO.cs" />
+    <Compile Include="System\FileIOProfile.cs" />
+    <Compile Include="MouseInput\LongButtonDownMode.cs" />
+    <Compile Include="MainWindow\MainWindowModel.cs" />
     <Compile Include="Controls\NowLoadingView.xaml.cs">
       <DependentUpon>NowLoadingView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="MainWindow\MainWindowViewModel.cs" />
     <Compile Include="MouseInput\DragTransform.cs" />
     <Compile Include="MouseInput\MouseGestureSequenceTracker.cs" />
     <Compile Include="Thumbnail\ThumbnailProfile.cs" />
-    <Compile Include="SaveData.cs" />
+    <Compile Include="SaveData\SaveData.cs" />
     <Compile Include="MouseInput\MouseInputContext.cs" />
-    <Compile Include="BookOperation.cs" />
-    <Compile Include="DelayVisibility.cs" />
+    <Compile Include="BookOperation\BookOperation.cs" />
+    <Compile Include="_NeeView\Text\HtmlString.cs" />
+    <Compile Include="_NeeView\Threading\DelayVisibility.cs" />
     <Compile Include="SidePanels\PageList\PageListBox.xaml.cs">
       <DependentUpon>PageListBox.xaml</DependentUpon>
     </Compile>
@@ -622,18 +622,18 @@
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderListBox.xaml.cs">
       <DependentUpon>FolderListBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="InfoMessage.cs" />
-    <Compile Include="MessageDialog.xaml.cs">
+    <Compile Include="InfoMessage\InfoMessage.cs" />
+    <Compile Include="Controls\MessageDialog.xaml.cs">
       <DependentUpon>MessageDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Models.cs" />
-    <Compile Include="NormalInfoMessage.cs" />
-    <Compile Include="NormalInfoMessageView.xaml.cs">
+    <Compile Include="System\Models.cs" />
+    <Compile Include="InfoMessage\NormalInfoMessage.cs" />
+    <Compile Include="InfoMessage\NormalInfoMessageView.xaml.cs">
       <DependentUpon>NormalInfoMessageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NormalInfoMessageViewModel.cs" />
-    <Compile Include="RoutedCommandTable.cs" />
-    <Compile Include="BrushSource.cs" />
+    <Compile Include="InfoMessage\NormalInfoMessageViewModel.cs" />
+    <Compile Include="Command\RoutedCommandTable.cs" />
+    <Compile Include="ContentCanvas\BrushSource.cs" />
     <Compile Include="SidePanels\FileInfo\FileInformationPanel.cs" />
     <Compile Include="SidePanels\FileInfo\FileInformation.cs" />
     <Compile Include="SidePanels\FileInfo\FileInformationViewModel.cs" />
@@ -669,18 +669,18 @@
     <Compile Include="SidePanels\History\HistoryPanel.cs" />
     <Compile Include="SidePanels\SidePanelGroup.cs" />
     <Compile Include="SidePanels\SidePanel.cs" />
-    <Compile Include="SlideShow.cs" />
-    <Compile Include="Controls\ThumbnailList.cs" />
-    <Compile Include="Controls\ThumbnailListView.xaml.cs">
+    <Compile Include="System\SlideShow.cs" />
+    <Compile Include="PageSelect\FilmStrip\ThumbnailList.cs" />
+    <Compile Include="PageSelect\FilmStrip\ThumbnailListView.xaml.cs">
       <DependentUpon>ThumbnailListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ThumbnailListViewModel.cs" />
-    <Compile Include="StringCollection.cs" />
-    <Compile Include="TinyInfoMessage.cs" />
-    <Compile Include="TinyInfoMessageView.xaml.cs">
+    <Compile Include="PageSelect\FilmStrip\ThumbnailListViewModel.cs" />
+    <Compile Include="_NeeView\Text\StringCollection.cs" />
+    <Compile Include="InfoMessage\TinyInfoMessage.cs" />
+    <Compile Include="InfoMessage\TinyInfoMessageView.xaml.cs">
       <DependentUpon>TinyInfoMessageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TinyInfoMessageViewModel.cs" />
+    <Compile Include="InfoMessage\TinyInfoMessageViewModel.cs" />
     <Compile Include="TouchInput\TouchContext.cs" />
     <Compile Include="TouchInput\TouchDragContext.cs" />
     <Compile Include="TouchInput\TouchDragManipulation.cs" />
@@ -695,14 +695,14 @@
     <Compile Include="TouchInput\TouchInputGesture.cs" />
     <Compile Include="TouchInput\TouchInputNormal.cs" />
     <Compile Include="TouchInput\TouchInputStateEventArgs.cs" />
-    <Compile Include="ViewPageCollection.cs" />
-    <Compile Include="WindowCaptionButtons.xaml.cs">
+    <Compile Include="ViewContent\ViewPageCollection.cs" />
+    <Compile Include="MainWindow\WindowCaptionButtons.xaml.cs">
       <DependentUpon>WindowCaptionButtons.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WindowCaptionEmulator.cs" />
-    <Compile Include="WindowPlacement.cs" />
-    <Compile Include="WindowShape.cs" />
-    <Compile Include="WindowTitle.cs" />
+    <Compile Include="MainWindow\WindowCaptionEmulator.cs" />
+    <Compile Include="MainWindow\WindowPlacement.cs" />
+    <Compile Include="MainWindow\WindowShape.cs" />
+    <Compile Include="MainWindow\WindowTitle.cs" />
     <Compile Include="_NeeLaboratory\Threading\Jobs\JobErrorEventArgs.cs" />
     <Compile Include="_NeeLaboratory\Threading\Jobs\JobException.cs" />
     <Compile Include="_NeeView\Data\OptionMap.cs" />
@@ -716,8 +716,8 @@
     <Compile Include="Setting\CommandResetWindow.xaml.cs">
       <DependentUpon>CommandResetWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DelayAction.cs" />
-    <Compile Include="CommandParameters.cs" />
+    <Compile Include="_NeeView\Threading\DelayAction.cs" />
+    <Compile Include="Command\CommandParameters.cs" />
     <Compile Include="Development\DebugInfo.xaml.cs">
       <DependentUpon>DebugInfo.xaml</DependentUpon>
     </Compile>
@@ -744,21 +744,21 @@
     <Compile Include="Effects\PixelateEffectUnit.cs" />
     <Compile Include="Effects\ImageEffect.cs" />
     <Compile Include="Effects\EffectType.cs" />
-    <Compile Include="EntrySort.cs" />
+    <Compile Include="Archiver\EntrySort.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderItem.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderListViewModel.cs" />
     <Compile Include="SidePanels\PanelListItemStyle.cs" />
     <Compile Include="_NeeView\Collections\HistoryCollection.cs" />
-    <Compile Include="RenameControl.xaml.cs">
+    <Compile Include="RenameControl\RenameControl.xaml.cs">
       <DependentUpon>RenameControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RenameManager.xaml.cs">
+    <Compile Include="RenameControl\RenameManager.xaml.cs">
       <DependentUpon>RenameManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\ImageEffect\ImageEffectView.xaml.cs">
       <DependentUpon>ImageEffectView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MemoryControl.cs" />
+    <Compile Include="System\MemoryControl.cs" />
     <Compile Include="Setting\MouseDragSettingWindow.xaml.cs">
       <DependentUpon>MouseDragSettingWindow.xaml</DependentUpon>
     </Compile>
@@ -785,7 +785,7 @@
       <DependentUpon>PrintWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Print\PrintWindowViewModel.cs" />
-    <Compile Include="SizeString.cs" />
+    <Compile Include="_NeeView\Text\SizeString.cs" />
     <Compile Include="_NeeView\NativeMethods.cs" />
     <Compile Include="_NeeView\Threading\SingleThreadedApartment.cs" />
     <Compile Include="_NeeView\Threading\Tasks\TaskUtils.cs" />
@@ -802,9 +802,9 @@
     <Compile Include="_NeeView\Windows\DropInfo.cs" />
     <Compile Include="_NeeView\Windows\Property\PropertyValueTemplateSelector.cs" />
     <Compile Include="_NeeView\Windows\VectorExtensions.cs" />
-    <Compile Include="IndexValue.cs" />
+    <Compile Include="_NeeView\Data\IndexValue.cs" />
     <Compile Include="_NeeLaboratory\Windows\Media\VisualTreeUtility.cs" />
-    <Compile Include="SliderTextBox.xaml.cs">
+    <Compile Include="PageSelect\PageSlider\SliderTextBox.xaml.cs">
       <DependentUpon>SliderTextBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Setting\ResolveConflictDialog.xaml.cs">
@@ -814,13 +814,13 @@
       <DependentUpon>PagemarkListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\Pagemark\PagemarkCollection.cs" />
-    <Compile Include="CommandTable.cs" />
-    <Compile Include="Config.cs" />
-    <Compile Include="ContextMenuSetting.cs" />
+    <Compile Include="Command\CommandTable.cs" />
+    <Compile Include="System\Config.cs" />
+    <Compile Include="Menu\ContextMenuSetting.cs" />
     <Compile Include="Setting\ContextMenuSettingControl.xaml.cs">
       <DependentUpon>ContextMenuSettingControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Loupe.xaml.cs">
+    <Compile Include="Obsolete\Loupe.xaml.cs">
       <DependentUpon>Loupe.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\PageList\PageListView.xaml.cs">
@@ -833,64 +833,64 @@
     <Compile Include="SidePanels\History\HistoryListView.xaml.cs">
       <DependentUpon>HistoryListView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BindingGenerator.cs" />
-    <Compile Include="MenuTree.cs" />
-    <Compile Include="Controls\PageMarkersView.xaml.cs">
+    <Compile Include="Command\BindingGenerator.cs" />
+    <Compile Include="Menu\MenuTree.cs" />
+    <Compile Include="PageSelect\PageSlider\PageMarkersView.xaml.cs">
       <DependentUpon>PageMarkersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Obsolete\Preference.cs" />
     <Compile Include="Setting\RenameWindow.xaml.cs">
       <DependentUpon>RenameWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ReplaceString.cs" />
+    <Compile Include="_NeeView\Text\ReplaceString.cs" />
     <Compile Include="_NeeView\Drawing\DrawingExtensions.cs" />
     <Compile Include="_NeeView\Media\Imaging\BitmapSourceExtensions.cs" />
     <Compile Include="_NeeView\Data\Json.cs" />
-    <Compile Include="ContentDropReciever.cs" />
+    <Compile Include="System\ContentDropReciever.cs" />
     <Compile Include="_NeeView\IO\FileContents.cs" />
-    <Compile Include="BackgroundStyle.cs" />
-    <Compile Include="DragAction.cs" />
+    <Compile Include="ContentCanvas\BackgroundStyle.cs" />
+    <Compile Include="MouseInput\DragAction.cs" />
     <Compile Include="Bitmap\ExifAccessor.cs" />
-    <Compile Include="Exporter.cs" />
-    <Compile Include="ExternalApplication.cs" />
-    <Compile Include="DragActionTable.cs" />
+    <Compile Include="ExportImage\Exporter.cs" />
+    <Compile Include="System\ExternalApplication.cs" />
+    <Compile Include="MouseInput\DragActionTable.cs" />
     <Compile Include="SidePanels\FileInfo\FileInformationView.xaml.cs">
       <DependentUpon>FileInformationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FileInfoItem.xaml.cs">
+    <Compile Include="SidePanels\FileInfo\FileInfoItem.xaml.cs">
       <DependentUpon>FileInfoItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DragArea.cs" />
-    <Compile Include="DragViewOrigin.cs" />
+    <Compile Include="MouseInput\DragArea.cs" />
+    <Compile Include="MouseInput\DragViewOrigin.cs" />
     <Compile Include="MouseInput\MouseGestureCommandCollection.cs" />
     <Compile Include="MouseInput\MouseGestureSequence.cs" />
-    <Compile Include="PagePosition.cs" />
+    <Compile Include="Book\PagePosition.cs" />
     <Compile Include="Bitmap\BitmapSourceExtension.cs" />
     <Compile Include="Book\BookMemento.cs" />
-    <Compile Include="BookHub.cs" />
-    <Compile Include="CommandElement.cs" />
-    <Compile Include="CommandType.cs" />
+    <Compile Include="BookHub\BookHub.cs" />
+    <Compile Include="Command\CommandElement.cs" />
+    <Compile Include="Command\CommandType.cs" />
     <Compile Include="Archiver\FolderArchive.cs" />
     <Compile Include="Archiver\LoosePath.cs" />
     <Compile Include="Page\FilePageContent.cs" />
-    <Compile Include="Controls\FilePageControl.xaml.cs">
+    <Compile Include="ViewContent\FilePageControl.xaml.cs">
       <DependentUpon>FilePageControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FolderOrder.cs" />
+    <Compile Include="SidePanels\Bookshelf\FolderList\FolderOrder.cs" />
     <Compile Include="InputGesture\InputGestureConverter.cs" />
     <Compile Include="InputGesture\KeyExGesture.cs" />
-    <Compile Include="MenuExtensions.cs" />
-    <Compile Include="CommonExtensions.cs" />
+    <Compile Include="Menu\MenuExtensions.cs" />
+    <Compile Include="_NeeView\Data\ObjectExtensions.cs" />
     <Compile Include="JobEngine\JobEngine.cs" />
     <Compile Include="InputGesture\MouseExGesture.cs" />
     <Compile Include="InputGesture\MouseWheelGesture.cs" />
     <Compile Include="Page\Page.cs" />
     <Compile Include="Archiver\SevenZipArchiver.cs" />
-    <Compile Include="PageReadOrder.cs" />
-    <Compile Include="PageSortMode.cs" />
-    <Compile Include="PageStretchMode.cs" />
-    <Compile Include="PageMode.cs" />
-    <Compile Include="SaveWindow.xaml.cs">
+    <Compile Include="Book\PageReadOrder.cs" />
+    <Compile Include="Book\PageSortMode.cs" />
+    <Compile Include="Book\PageStretchMode.cs" />
+    <Compile Include="Book\PageMode.cs" />
+    <Compile Include="ExportImage\SaveWindow.xaml.cs">
       <DependentUpon>SaveWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Archiver\SusieArchiver.cs" />
@@ -899,13 +899,13 @@
     <Compile Include="Susie\SusieArchiveEntry.cs" />
     <Compile Include="Susie\SusiePlugin.cs" />
     <Compile Include="Susie\SusiePluginApi.cs" />
-    <Compile Include="Temporary.cs" />
-    <Compile Include="TrashBox.cs" />
-    <Compile Include="VersionWindow.xaml.cs">
+    <Compile Include="System\Temporary.cs" />
+    <Compile Include="System\TrashBox.cs" />
+    <Compile Include="VersionWindow\VersionWindow.xaml.cs">
       <DependentUpon>VersionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewContent\ViewContent.cs" />
-    <Compile Include="WIndowHelper.cs" />
+    <Compile Include="Obsolete\WIndowHelper.cs" />
     <Compile Include="Archiver\ZipArchiver.cs" />
     <Compile Include="_NeeView\IO\WshShell.cs" />
     <Compile Include="_NeeView\Windows\Controls\ColorPicker.xaml.cs">
@@ -957,15 +957,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ExpandedMark.xaml">
+    <Page Include="Controls\Obsolete\ExpandedMark.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\MediaControlView.xaml">
+    <Page Include="PageSelect\MediaControl\MediaControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\PageSelectDialog.xaml">
+    <Page Include="Command\PageSelectCommand\PageSelectDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -977,11 +977,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ToastCard.xaml">
+    <Page Include="Toast\ToastCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ArchivePageControl.xaml">
+    <Page Include="ViewContent\ArchivePageControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -993,7 +993,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindowResourceDictionary.xaml">
+    <Page Include="MainWindow\MainWindowResourceDictionary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1001,7 +1001,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="BackupSelectControl.xaml">
+    <Page Include="SaveData\BackupSelectControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1021,7 +1021,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\AddressBarView.xaml">
+    <Page Include="AddressBar\AddressBarView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1033,11 +1033,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\PageSliderView.xaml">
+    <Page Include="PageSelect\PageSlider\PageSliderView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\MenuBarView.xaml">
+    <Page Include="MenuBar\MenuBarView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1045,7 +1045,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\VideoSlider.xaml">
+    <Page Include="PageSelect\VideoSlider.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1133,11 +1133,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="NormalInfoMessageView.xaml">
+    <Page Include="InfoMessage\NormalInfoMessageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MessageDialog.xaml">
+    <Page Include="Controls\MessageDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1165,11 +1165,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\ThumbnailListView.xaml">
+    <Page Include="PageSelect\FilmStrip\ThumbnailListView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TinyInfoMessageView.xaml">
+    <Page Include="InfoMessage\TinyInfoMessageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1189,11 +1189,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RenameControl.xaml">
+    <Page Include="RenameControl\RenameControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="RenameManager.xaml">
+    <Page Include="RenameControl\RenameManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1209,7 +1209,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SliderTextBox.xaml">
+    <Page Include="PageSelect\PageSlider\SliderTextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1229,11 +1229,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="FileInfoItem.xaml">
+    <Page Include="SidePanels\FileInfo\FileInfoItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Loupe.xaml">
+    <Page Include="Obsolete\Loupe.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1241,7 +1241,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\FilePageControl.xaml">
+    <Page Include="ViewContent\FilePageControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1253,7 +1253,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="MainWindow\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1261,11 +1261,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="MainWindow\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Controls\PageMarkersView.xaml">
+    <Page Include="PageSelect\PageSlider\PageMarkersView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1273,7 +1273,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SaveWindow.xaml">
+    <Page Include="ExportImage\SaveWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1281,11 +1281,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="VersionWindow.xaml">
+    <Page Include="VersionWindow\VersionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="WindowCaptionButtons.xaml">
+    <Page Include="MainWindow\WindowCaptionButtons.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

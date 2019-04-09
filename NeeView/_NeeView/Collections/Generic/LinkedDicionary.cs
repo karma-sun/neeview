@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace NeeView
+namespace NeeView.Collections.Generic
 {
     /// <summary>
     /// LinkedList + Dictionary

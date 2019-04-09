@@ -13,7 +13,6 @@ using NeeLaboratory.ComponentModel;
 using System.IO;
 using System.Threading;
 using NeeView.Collections.Generic;
-using System.Collections.Specialized;
 using NeeView.Collections;
 
 namespace NeeView

@@ -8,7 +8,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Collections.ObjectModel;
 using System.Windows.Data;
-using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
 

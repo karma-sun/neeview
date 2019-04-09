@@ -5,7 +5,6 @@ using NeeView.Windows;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
@@ -135,7 +134,7 @@ namespace NeeView
         #region Methods
 
 
-        private void VirtualCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void VirtualCollection_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             RequestLoadThumbnail();
         }

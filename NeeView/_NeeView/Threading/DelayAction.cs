@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
-namespace NeeView
+namespace NeeView.Threading
 {
     /// <summary>
     /// 遅延実行

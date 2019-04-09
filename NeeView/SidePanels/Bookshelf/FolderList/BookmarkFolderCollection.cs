@@ -3,7 +3,6 @@ using NeeView.Collections.Generic;
 using NeeView.IO;
 using System;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Threading;

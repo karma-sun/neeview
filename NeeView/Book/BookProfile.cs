@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Text;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;

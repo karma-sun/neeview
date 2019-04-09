@@ -82,7 +82,7 @@ namespace NeeView
         }
 
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento
@@ -130,7 +130,7 @@ namespace NeeView
             DragKey = new DragKey(element.Key);
         }
 
-#endregion
+        #endregion
     }
 
 
@@ -179,7 +179,7 @@ namespace NeeView
             { }
         }
 
-#region IEquatable
+        #region IEquatable
 
         /// <summary>
         /// 比較
@@ -266,7 +266,7 @@ namespace NeeView
             return !(a == b);
         }
 
-#endregion
+        #endregion
 
         public bool IsValid => MouseButtonBits != MouseButtonBits.None;
 

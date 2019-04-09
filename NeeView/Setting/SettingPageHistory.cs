@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.Windows.Input;
+using NeeView.Data;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;

@@ -97,7 +97,9 @@ function Get-GitLogMarkdown($title)
 	"## $header"
 	"($date)"
 	""
-    $logs | ForEach-Object { "- $_" }
+	$logs | ForEach-Object { "- $_" }
+	""
+	"This list of changes was auto generated."
 }
 
 #--------------------
@@ -259,7 +261,7 @@ function New-Readme($packageDir, $culture, $target)
 
 	if ($target -eq ".canary")
 	{
-		Get-GitLogMarkdown "NeeView <VERSION/> - ChangeLog (Raw)" | Set-Content -Encoding UTF8 "$readmeDir/ChangeLog.md"
+		Get-GitLogMarkdown "NeeView <VERSION/> - ChangeLog" | Set-Content -Encoding UTF8 "$readmeDir/ChangeLog.md"
 	}
 	else
 	{

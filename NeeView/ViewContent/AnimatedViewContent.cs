@@ -116,18 +116,19 @@ namespace NeeView
         private MediaElement CreateMediaElement(Uri uri, Binding bitmapScalingMode)
         {
             var media = _mediaElementPool.Allocate();
+            media.LoadedBehavior = MediaState.Manual;
+            media.UnloadedBehavior = MediaState.Manual;
             media.MediaEnded += Media_MediaEnded;
             media.MediaFailed += Media_MediaFailed;
             media.SetBinding(RenderOptions.BitmapScalingModeProperty, bitmapScalingMode);
             media.Source = uri;
-            media.UnloadedBehavior = MediaState.Manual;
+            media.Play();
             return media;
         }
 
         private void ReleaseMediaElement(MediaElement media)
         {
             media.Stop();
-            media.Close();
             media.MediaEnded -= Media_MediaEnded;
             media.MediaFailed -= Media_MediaFailed;
             BindingOperations.ClearBinding(media, RenderOptions.BitmapScalingModeProperty);

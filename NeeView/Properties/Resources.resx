@@ -4069,7 +4069,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Format Description
 
 $Book .. Name of the book
-$Page .. Current page number
+$Page[LR] .. Current page number
 $PageMax .. Maximum page number
 $ViewScale .. Scale by view operation (%)
 $FullName[LR] .. File name including path

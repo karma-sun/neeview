@@ -45,8 +45,8 @@ namespace NeeView
         private ReplaceString _windowTitleFormatter = new ReplaceString();
 
         // ウィンドウタイトルフォーマット
-        private const string WindowTitleFormat1Default = "$Book($Page/$PageMax) - $FullName";
-        private const string WindowTitleFormat2Default = "$Book($Page/$PageMax) - $FullNameL | $NameR";
+        private const string WindowTitleFormat1Default = "$Book ($Page / $PageMax) - $FullName";
+        private const string WindowTitleFormat2Default = "$Book ($Page / $PageMax) - $FullNameL | $NameR";
         private const string WindowTitleFormatMediaDefault = "$Book";
         private string _windowTitleFormat1 = WindowTitleFormat1Default;
         private string _windowTitleFormat2 = WindowTitleFormat2Default;
@@ -233,23 +233,40 @@ namespace NeeView
 
             if ((mask & WindowTitleMask.Page) != 0)
             {
-                string pageNum = (MainContent.Source.PagePart.PartSize == 2)
-                ? (MainContent.Position.Index + 1).ToString()
-                : (MainContent.Position.Index + 1).ToString() + (MainContent.Position.Part == 1 ? ".5" : ".0");
                 _windowTitleFormatter.Set("$PageMax", (BookOperation.Current.GetMaxPageIndex() + 1).ToString());
-                _windowTitleFormatter.Set("$Page", pageNum);
 
-                string path0 = Contents[0].IsValid ? Contents[0].FullPath.Replace("/", " > ").Replace("\\", " > ") + Contents[0].GetPartString() : "";
-                string path1 = Contents[1].IsValid ? Contents[1].FullPath.Replace("/", " > ").Replace("\\", " > ") + Contents[1].GetPartString() : "";
+                string pageNum0 = GetPageNum(Contents[0]);
+                string pageNum1 = GetPageNum(Contents[1]);
+                _windowTitleFormatter.Set("$Page", isMainContent0 ? pageNum0 : pageNum1);
+                _windowTitleFormatter.Set("$PageL", pageNum1);
+                _windowTitleFormatter.Set("$PageR", pageNum0);
+
+                string GetPageNum(ViewContent content)
+                {
+                    return content.IsValid ? (content.Source.PagePart.PartSize == 2) ? (content.Position.Index + 1).ToString() : (content.Position.Index + 1).ToString() + (content.Position.Part == 1 ? ".5" : ".0") : "";
+                }
+
+                string path0 = GetFullName(Contents[0]);
+                string path1 = GetFullName(Contents[1]);
                 _windowTitleFormatter.Set("$FullName", isMainContent0 ? path0 : path1);
                 _windowTitleFormatter.Set("$FullNameL", path1);
                 _windowTitleFormatter.Set("$FullNameR", path0);
 
-                string name0 = Contents[0].IsValid ? LoosePath.GetFileName(Contents[0].FullPath) + Contents[0].GetPartString() : "";
-                string name1 = Contents[1].IsValid ? LoosePath.GetFileName(Contents[1].FullPath) + Contents[1].GetPartString() : "";
+                string GetFullName(ViewContent content)
+                {
+                    return content.IsValid ? content.FullPath.Replace("/", " > ").Replace("\\", " > ") + content.GetPartString() : "";
+                }
+
+                string name0 = GetName(Contents[0]);
+                string name1 = GetName(Contents[1]);
                 _windowTitleFormatter.Set("$Name", isMainContent0 ? name0 : name1);
                 _windowTitleFormatter.Set("$NameL", name1);
                 _windowTitleFormatter.Set("$NameR", name0);
+
+                string GetName(ViewContent content)
+                {
+                    return content.IsValid ? LoosePath.GetFileName(content.FullPath) + content.GetPartString() : "";
+                }
 
                 var bitmapContent0 = Contents[0].Content as BitmapContent;
                 var bitmapContent1 = Contents[1].Content as BitmapContent;
@@ -257,17 +274,27 @@ namespace NeeView
                 var pictureInfo0 = bitmapContent0?.PictureInfo;
                 var pictureInfo1 = bitmapContent1?.PictureInfo;
 
-                string size0 = pictureInfo0 != null ? $"{pictureInfo0.OriginalSize.Width}×{pictureInfo0.OriginalSize.Height}" : "";
-                string size1 = pictureInfo1 != null ? $"{pictureInfo1.OriginalSize.Width}×{pictureInfo1.OriginalSize.Height}" : "";
+                string bpp0 = GetSizeEx(pictureInfo0);
+                string bpp1 = GetSizeEx(pictureInfo1);
+                _windowTitleFormatter.Set("$SizeEx", isMainContent0 ? bpp0 : bpp1);
+                _windowTitleFormatter.Set("$SizeExL", bpp1);
+                _windowTitleFormatter.Set("$SizeExR", bpp0);
+
+                string GetSizeEx(PictureInfo pictureInfo)
+                {
+                    return pictureInfo != null ? GetSize(pictureInfo) + "×" + pictureInfo.BitsPerPixel.ToString() : "";
+                }
+
+                string size0 = GetSize(pictureInfo0);
+                string size1 = GetSize(pictureInfo1);
                 _windowTitleFormatter.Set("$Size", isMainContent0 ? size0 : size1);
                 _windowTitleFormatter.Set("$SizeL", size1);
                 _windowTitleFormatter.Set("$SizeR", size0);
 
-                string bpp0 = pictureInfo0 != null ? size0 + "×" + pictureInfo0.BitsPerPixel.ToString() : "";
-                string bpp1 = pictureInfo1 != null ? size1 + "×" + pictureInfo1.BitsPerPixel.ToString() : "";
-                _windowTitleFormatter.Set("$SizeEx", isMainContent0 ? bpp0 : bpp1);
-                _windowTitleFormatter.Set("$SizeExL", bpp1);
-                _windowTitleFormatter.Set("$SizeExR", bpp0);
+                string GetSize(PictureInfo pictureInfo)
+                {
+                    return pictureInfo != null ? $"{pictureInfo.OriginalSize.Width}×{pictureInfo.OriginalSize.Height}" : "";
+                }
             }
 
             if ((mask & WindowTitleMask.View) != 0)

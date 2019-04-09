@@ -128,7 +128,7 @@ namespace NeeView
 
         private void HistoryListBox_Unloaded(object sender, RoutedEventArgs e)
         {
-            _jobClient.Dispose();
+            _jobClient?.Dispose();
         }
 
         /// <summary>

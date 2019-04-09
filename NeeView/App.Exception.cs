@@ -106,7 +106,8 @@ namespace NeeView
                     WriteException(ex.InnerException, writer);
                 }
 
-                writer.WriteLine("{0}: {1}\n{2}\n", ex.GetType(), ex.Message, ex.StackTrace);
+                writer.WriteLine("{0}: {1}", ex.GetType(), ex.Message);
+                writer.WriteLine(ex.StackTrace);
             }
         }
     }

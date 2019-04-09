@@ -16,7 +16,7 @@ namespace NeeView
 
         public void Add(QueryPath query)
         {
-            _history.TrimEnd();
+            _history.TrimEnd(null);
 
             if (query != _history.GetCurrent())
             {

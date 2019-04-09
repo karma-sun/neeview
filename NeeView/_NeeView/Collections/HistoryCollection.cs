@@ -35,9 +35,9 @@ namespace NeeView.Collections
             Changed?.Invoke(this, null);
         }
 
-        public void TrimEnd()
+        public void TrimEnd(T element)
         {
-            while (_history.Count > 0 && _history.Last() is null)
+            while (_history.Count > 0 && EqualityComparer<T>.Default.Equals(_history.Last(), element))
             {
                 _history.RemoveAt(_history.Count - 1);
             }

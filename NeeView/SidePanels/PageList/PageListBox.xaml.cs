@@ -158,7 +158,7 @@ namespace NeeView
             _vm.Unloaded();
             _vm.ViewItemsChanged -= ViewModel_ViewItemsChanged;
 
-            _jobClient.Dispose();
+            _jobClient?.Dispose();
         }
 
 

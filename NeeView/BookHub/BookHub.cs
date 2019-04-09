@@ -290,10 +290,10 @@ namespace NeeView
         public event EventHandler<BookHubPathEventArgs> Loading;
 
         // ViewContentsの変更通知
-        public event EventHandler<ViewPageCollectionChangedEventArgs> ViewContentsChanged;
+        public event EventHandler<ViewContentSourceCollectionChangedEventArgs> ViewContentsChanged;
 
         // NextContentsの変更通知
-        public event EventHandler<ViewPageCollectionChangedEventArgs> NextContentsChanged;
+        public event EventHandler<ViewContentSourceCollectionChangedEventArgs> NextContentsChanged;
 
         // 空ページメッセージ
         public event EventHandler<BookHubMessageEventArgs> EmptyMessage;
@@ -469,7 +469,7 @@ namespace NeeView
             }
         }
 
-        private void OnViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
+        private void OnViewContentsChanged(object sender, ViewContentSourceCollectionChangedEventArgs e)
         {
             AppDispatcher.Invoke(() =>
             {
@@ -498,7 +498,7 @@ namespace NeeView
             });
         }
 
-        private void OnNextContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
+        private void OnNextContentsChanged(object sender, ViewContentSourceCollectionChangedEventArgs e)
         {
             if (BookUnit == null) return;
             NextContentsChanged?.Invoke(sender, e);
@@ -772,7 +772,7 @@ namespace NeeView
                 AppDispatcher.Invoke(() =>
                 {
                     // 現在表示されているコンテンツを無効
-                    ViewContentsChanged?.Invoke(this, new ViewPageCollectionChangedEventArgs(new ViewPageCollection()));
+                    ViewContentsChanged?.Invoke(this, new ViewContentSourceCollectionChangedEventArgs(new ViewContentSourceCollection()));
 
                     // 本の変更通知
                     BookChanged?.Invoke(this, new BookChangedEventArgs(BookMementoType.None));
@@ -884,7 +884,7 @@ namespace NeeView
                 book.Viewer.ViewContentsChanged -= OnViewContentsChangedInner;
 
                 //// inner callback function define.
-                void OnViewContentsChangedInner(object sender, ViewPageCollectionChangedEventArgs e)
+                void OnViewContentsChangedInner(object sender, ViewContentSourceCollectionChangedEventArgs e)
                 {
                     if (e.ViewPageCollection.Collection.All(e_ => e_.Content.IsViewReady))
                     {

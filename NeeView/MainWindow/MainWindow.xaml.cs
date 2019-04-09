@@ -614,9 +614,6 @@ namespace NeeView
             // 自動非表示ロック解除
             _vm.Model.LeaveVisibleLocked();
 
-            // AnyKey
-            _vm.Model.AnyKey.KeyDown(e.Key);
-
             // 一部 IMEKey のっとり
             if (e.Key == Key.ImeProcessed && e.ImeProcessedKey.IsImeKey())
             {
@@ -627,8 +624,6 @@ namespace NeeView
         // 
         private void MainWindow_PreviewKeyUp(object sender, KeyEventArgs e)
         {
-            // AnyKey
-            _vm.Model.AnyKey.KeyUp(e.Key);
         }
 
         // 

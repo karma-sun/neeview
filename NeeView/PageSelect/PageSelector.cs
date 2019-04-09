@@ -95,12 +95,12 @@ namespace NeeView
             RaiseViewContentsChanged(sender, BookOperation.Current.Book?.Viewer.ViewPageCollection, true);
         }
 
-        private void BookOperation_ViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
+        private void BookOperation_ViewContentsChanged(object sender, ViewContentSourceCollectionChangedEventArgs e)
         {
             RaiseViewContentsChanged(sender, e?.ViewPageCollection, false);
         }
 
-        private void RaiseViewContentsChanged(object sender, ViewPageCollection viewPageCollection, bool isBookOpen)
+        private void RaiseViewContentsChanged(object sender, ViewContentSourceCollection viewPageCollection, bool isBookOpen)
         { 
             var contents = viewPageCollection?.Collection;
             if (contents == null) return;
@@ -122,7 +122,7 @@ namespace NeeView
     // 表示コンテンツ変更イベント
     public class ViewContentsChangedEventArgs : EventArgs
     {
-        public ViewContentsChangedEventArgs(ViewPageCollection viewPageCollection, bool isBookOpen)
+        public ViewContentsChangedEventArgs(ViewContentSourceCollection viewPageCollection, bool isBookOpen)
         {
             ViewPageCollection = viewPageCollection;
             IsBookOpen = isBookOpen;
@@ -131,7 +131,7 @@ namespace NeeView
         /// <summary>
         /// 表示コンテンツ
         /// </summary>
-        public ViewPageCollection ViewPageCollection { get; private set; }
+        public ViewContentSourceCollection ViewPageCollection { get; private set; }
 
         /// <summary>
         /// 本を新しく開いたとき

@@ -14,18 +14,10 @@ using System.Threading.Tasks;
 namespace NeeView
 {
     /// <summary>
-    /// NeeView全体のモデルの保存管理
+    /// NeeViewの設定のまとめ
     /// </summary>
     public class Models
     {
-        static Models() => Current = new Models();
-        public static Models Current { get; }
-
-        private Models()
-        {
-        }
-
-
         #region Memento
         [DataContract]
         public class Memento

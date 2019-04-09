@@ -45,10 +45,10 @@ namespace NeeView
 
         // 表示コンテンツ変更
         // 表示の更新を要求
-        public event EventHandler<ViewPageCollectionChangedEventArgs> ViewContentsChanged;
+        public event EventHandler<ViewContentSourceCollectionChangedEventArgs> ViewContentsChanged;
 
         // 先読みコンテンツ変更
-        public event EventHandler<ViewPageCollectionChangedEventArgs> NextContentsChanged;
+        public event EventHandler<ViewContentSourceCollectionChangedEventArgs> NextContentsChanged;
 
 
         #region IDisposable Support
@@ -107,7 +107,7 @@ namespace NeeView
 
                 while (true)
                 {
-                    ViewPageCollection collection;
+                    ViewContentSourceCollection collection;
 
                     lock (_lock)
                     {
@@ -132,7 +132,7 @@ namespace NeeView
                     }
 
                     token.ThrowIfCancellationRequested();
-                    NextContentsChanged?.Invoke(_sender, new ViewPageCollectionChangedEventArgs(collection) { CancellationToken = token });
+                    NextContentsChanged?.Invoke(_sender, new ViewContentSourceCollectionChangedEventArgs(collection) { CancellationToken = token });
 
                     if (_contentCount == 1)
                     {
@@ -146,7 +146,7 @@ namespace NeeView
 
         public void UpdateViewContents(CancellationToken token)
         {
-            ViewPageCollection collection;
+            ViewContentSourceCollection collection;
             lock (_lock)
             {
                 if (_contentCount > 0)
@@ -161,12 +161,12 @@ namespace NeeView
             UpdateViewContentsInner(_sender, collection, token);
         }
 
-        private void UpdateViewContentsInner(object sender, ViewPageCollection collection, CancellationToken token)
+        private void UpdateViewContentsInner(object sender, ViewContentSourceCollection collection, CancellationToken token)
         {
             var page = collection.Collection[0].Page;
             ////Debug.WriteLine($"UpdateViewContentsInner: {page.EntryName}, {page.Content.IsAllLoaded}");
 
-            var args = new ViewPageCollectionChangedEventArgs(collection) { IsForceResize = true, CancellationToken = token };
+            var args = new ViewContentSourceCollectionChangedEventArgs(collection) { IsForceResize = true, CancellationToken = token };
             ViewContentsChanged?.Invoke(sender, args);
         }
 
@@ -205,7 +205,7 @@ namespace NeeView
         }
 
         // 表示コンテンツソースと、それに対応したコンテキスト作成
-        private ViewPageCollection CreateViewPageCollection(PageRange source)
+        private ViewContentSourceCollection CreateViewPageCollection(PageRange source)
         {
             var infos = new List<PagePart>();
 
@@ -269,7 +269,7 @@ namespace NeeView
             }
 
             // 新しいコンテキスト
-            var context = new ViewPageCollection(new PageRange(infos, source.Direction), list);
+            var context = new ViewContentSourceCollection(new PageRange(infos, source.Direction), list);
             return context;
         }
 

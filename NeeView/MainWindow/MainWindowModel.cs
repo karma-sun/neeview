@@ -323,9 +323,6 @@ namespace NeeView
         // メニューエリア、ステータスエリアどちらかの上にマウスがある
         public bool IsFontAreaMouseOver => IsMenuAreaMouseOver || IsStatusAreaMouseOver;
 
-        // 何かキーが押されているか
-        public AnyKey AnyKey { get; } = new AnyKey();
-
         [PropertyMember("@ParamIsAccessKeyEnabled", Tips = "@ParamIsAccessKeyEnabledTips")]
         public bool IsAccessKeyEnabled { get; set; } = true;
 

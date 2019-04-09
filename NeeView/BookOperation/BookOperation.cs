@@ -59,7 +59,7 @@ namespace NeeView
         public event EventHandler<BookChangedEventArgs> BookChanged;
 
         // ページが変更された
-        public event EventHandler<ViewPageCollectionChangedEventArgs> ViewContentsChanged;
+        public event EventHandler<ViewContentSourceCollectionChangedEventArgs> ViewContentsChanged;
 
         // ページがソートされた
         public event EventHandler PagesSorted;
@@ -194,7 +194,7 @@ namespace NeeView
         }
 
         //
-        private void Book_ViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
+        private void Book_ViewContentsChanged(object sender, ViewContentSourceCollectionChangedEventArgs e)
         {
             if (!IsEnabled) return;
 

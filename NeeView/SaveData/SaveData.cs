@@ -14,9 +14,11 @@ namespace NeeView
         static SaveData() => Current = new SaveData();
         public static SaveData Current { get; }
 
+        private Models _models;
 
         private SaveData()
         {
+            _models = new Models();
             UpdateLocation();
         }
 
@@ -58,7 +60,7 @@ namespace NeeView
             setting.CommandMememto = CommandTable.Current.CreateMemento();
             setting.DragActionMemento = DragActionTable.Current.CreateMemento();
 
-            setting.Memento = Models.Current.CreateMemento();
+            setting.Memento = _models.CreateMemento();
 
             return setting;
         }
@@ -73,7 +75,7 @@ namespace NeeView
             CommandTable.Current.Restore(setting.CommandMememto, false);
             DragActionTable.Current.Restore(setting.DragActionMemento);
 
-            Models.Current.Resore(setting.Memento);
+            _models.Resore(setting.Memento);
 
 #pragma warning disable CS0612
 
@@ -109,7 +111,7 @@ namespace NeeView
             }
 
             // Model.Compatible
-            Models.Current.ResoreCompatible(setting.Memento);
+            _models.ResoreCompatible(setting.Memento);
 
 #pragma warning restore CS0612
         }

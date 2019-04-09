@@ -4,18 +4,17 @@ using System.Linq;
 
 namespace NeeView
 {
-    // 表示ページコンテキスト
-    public class ViewPageCollection
+    public class ViewContentSourceCollection
     {
         #region Constructors
 
-        public ViewPageCollection()
+        public ViewContentSourceCollection()
         {
             Range = new PageRange();
             Collection = new List<ViewContentSource>();
         }
 
-        public ViewPageCollection(PageRange range, List<ViewContentSource> collection)
+        public ViewContentSourceCollection(PageRange range, List<ViewContentSource> collection)
         {
             Range = range;
             Collection = collection;

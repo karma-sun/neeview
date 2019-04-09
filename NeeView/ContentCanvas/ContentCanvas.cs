@@ -273,7 +273,7 @@ namespace NeeView
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
+        private void OnViewContentsChanged(object sender, ViewContentSourceCollectionChangedEventArgs e)
         {
             // 画像リサイズ
             ////ResizeConten(e?.ViewPageCollection);
@@ -332,7 +332,7 @@ namespace NeeView
 
         // 先読みコンテンツ更新
         // 表示サイズを確定し、フィルター適用時にリサイズ処理を行う
-        private void OnNextContentsChanged(object sender, ViewPageCollectionChangedEventArgs source)
+        private void OnNextContentsChanged(object sender, ViewContentSourceCollectionChangedEventArgs source)
         {
             if (source?.ViewPageCollection?.Collection == null) return;
 
@@ -349,7 +349,7 @@ namespace NeeView
         /// <summary>
         /// コンテンツリサイズ
         /// </summary>
-        private void ResizeConten(ViewPageCollection viewPageCollection, CancellationToken token)
+        private void ResizeConten(ViewContentSourceCollection viewPageCollection, CancellationToken token)
         {
             if (viewPageCollection?.Collection == null) return;
 

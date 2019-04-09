@@ -169,6 +169,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ExternalApplication\ClipboardUtility.cs" />
+    <Compile Include="ViewContent\ViewContentSourceCollectionChangedEventArgs.cs" />
+    <Compile Include="ContentCanvas\KeyPressWatcher.cs" />
     <Compile Include="System\AppDispatcher.cs" />
     <Compile Include="System\ApplicationDisposer.cs" />
     <Compile Include="Archiver\ArchiveEntryUtility.cs" />
@@ -204,12 +207,8 @@
     <Compile Include="Book\PageChangedEventArgs.cs" />
     <Compile Include="Book\PageTerminatedEventArgs.cs" />
     <Compile Include="Book\PageThumbnailPool.cs" />
-    <Compile Include="Book\ViewPageCollectionChangedEventArgs.cs" />
     <Compile Include="Controls\CriticalErrorDialog.xaml.cs">
       <DependentUpon>CriticalErrorDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Obsolete\ExpandedMark.xaml.cs">
-      <DependentUpon>ExpandedMark.xaml</DependentUpon>
     </Compile>
     <Compile Include="Command\PageSelectCommand\PageSelectDialog.xaml.cs">
       <DependentUpon>PageSelectDialog.xaml</DependentUpon>
@@ -289,6 +288,7 @@
     <Compile Include="Thumbnail\DriveThumbnail.cs" />
     <Compile Include="ViewContent\ArchiveViewContent.cs" />
     <Compile Include="ViewContent\ViewContentSource.cs" />
+    <Compile Include="ViewContent\ViewContentSourceCollection.cs" />
     <Compile Include="_NeeView\Collections\Generic\ObjectPool.cs" />
     <Compile Include="ViewContent\ReserveViewContent.cs" />
     <Compile Include="ViewContent\ViewContentControl.cs" />
@@ -465,7 +465,6 @@
     <Compile Include="_NeeView\Runtime\Serialization\WebEnum.cs" />
     <Compile Include="_NeeLaboratory\ComponentModel\ObjectExtensions.cs" />
     <Compile Include="_NeeView\AliasNameAttribute.cs" />
-    <Compile Include="MainWindow\AnyKey.cs" />
     <Compile Include="App.Exception.cs" />
     <Compile Include="App.Memento.cs" />
     <Compile Include="App.Option.cs" />
@@ -626,7 +625,7 @@
     <Compile Include="Controls\MessageDialog.xaml.cs">
       <DependentUpon>MessageDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="System\Models.cs" />
+    <Compile Include="SaveData\Models.cs" />
     <Compile Include="InfoMessage\NormalInfoMessage.cs" />
     <Compile Include="InfoMessage\NormalInfoMessageView.xaml.cs">
       <DependentUpon>NormalInfoMessageView.xaml</DependentUpon>
@@ -669,7 +668,7 @@
     <Compile Include="SidePanels\History\HistoryPanel.cs" />
     <Compile Include="SidePanels\SidePanelGroup.cs" />
     <Compile Include="SidePanels\SidePanel.cs" />
-    <Compile Include="System\SlideShow.cs" />
+    <Compile Include="SlideShow\SlideShow.cs" />
     <Compile Include="PageSelect\FilmStrip\ThumbnailList.cs" />
     <Compile Include="PageSelect\FilmStrip\ThumbnailListView.xaml.cs">
       <DependentUpon>ThumbnailListView.xaml</DependentUpon>
@@ -695,7 +694,6 @@
     <Compile Include="TouchInput\TouchInputGesture.cs" />
     <Compile Include="TouchInput\TouchInputNormal.cs" />
     <Compile Include="TouchInput\TouchInputStateEventArgs.cs" />
-    <Compile Include="ViewContent\ViewPageCollection.cs" />
     <Compile Include="MainWindow\WindowCaptionButtons.xaml.cs">
       <DependentUpon>WindowCaptionButtons.xaml</DependentUpon>
     </Compile>
@@ -820,9 +818,6 @@
     <Compile Include="Setting\ContextMenuSettingControl.xaml.cs">
       <DependentUpon>ContextMenuSettingControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Obsolete\Loupe.xaml.cs">
-      <DependentUpon>Loupe.xaml</DependentUpon>
-    </Compile>
     <Compile Include="SidePanels\PageList\PageListView.xaml.cs">
       <DependentUpon>PageListView.xaml</DependentUpon>
     </Compile>
@@ -852,7 +847,7 @@
     <Compile Include="MouseInput\DragAction.cs" />
     <Compile Include="Bitmap\ExifAccessor.cs" />
     <Compile Include="ExportImage\Exporter.cs" />
-    <Compile Include="System\ExternalApplication.cs" />
+    <Compile Include="ExternalApplication\ExternalApplication.cs" />
     <Compile Include="MouseInput\DragActionTable.cs" />
     <Compile Include="SidePanels\FileInfo\FileInformationView.xaml.cs">
       <DependentUpon>FileInformationView.xaml</DependentUpon>
@@ -905,7 +900,6 @@
       <DependentUpon>VersionWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewContent\ViewContent.cs" />
-    <Compile Include="Obsolete\WIndowHelper.cs" />
     <Compile Include="Archiver\ZipArchiver.cs" />
     <Compile Include="_NeeView\IO\WshShell.cs" />
     <Compile Include="_NeeView\Windows\Controls\ColorPicker.xaml.cs">
@@ -954,10 +948,6 @@
     <Compile Include="_NeeView\Windows\Property\PropertyValue.cs" />
     <Compile Include="_NeeView\Windows\StyleInteraction.cs" />
     <Page Include="Controls\CriticalErrorDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Obsolete\ExpandedMark.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1232,10 +1222,6 @@
     <Page Include="SidePanels\FileInfo\FileInfoItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Obsolete\Loupe.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="SidePanels\PageList\PageListView.xaml">
       <SubType>Designer</SubType>

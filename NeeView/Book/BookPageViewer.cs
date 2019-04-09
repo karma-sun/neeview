@@ -15,7 +15,7 @@ namespace NeeView
 
         
         // 表示ページコンテキスト
-        private volatile ViewPageCollection _viewPageCollection = new ViewPageCollection();
+        private volatile ViewContentSourceCollection _viewPageCollection = new ViewContentSourceCollection();
 
 
         // リソースを保持しておくページ
@@ -55,10 +55,10 @@ namespace NeeView
 
         // 表示コンテンツ変更
         // 表示の更新を要求
-        public event EventHandler<ViewPageCollectionChangedEventArgs> ViewContentsChanged;
+        public event EventHandler<ViewContentSourceCollectionChangedEventArgs> ViewContentsChanged;
 
         // 先読みコンテンツ変更
-        public event EventHandler<ViewPageCollectionChangedEventArgs> NextContentsChanged;
+        public event EventHandler<ViewContentSourceCollectionChangedEventArgs> NextContentsChanged;
 
         // ページ終端を超えて移動しようとした
         // 次の本への移動を要求
@@ -121,7 +121,7 @@ namespace NeeView
         public bool IsPageTerminated { get; private set; }
 
         // TODO: このパラメータだけ公開するのは微妙。
-        public ViewPageCollection ViewPageCollection => _viewPageCollection;
+        public ViewContentSourceCollection ViewPageCollection => _viewPageCollection;
 
 
         #region IDisposable Support
@@ -224,7 +224,7 @@ namespace NeeView
             // ページ数０の場合は表示コンテンツなし
             if (_book.Pages.Count == 0)
             {
-                ViewContentsChanged?.Invoke(this, new ViewPageCollectionChangedEventArgs(new ViewPageCollection()));
+                ViewContentsChanged?.Invoke(this, new ViewContentSourceCollectionChangedEventArgs(new ViewContentSourceCollection()));
                 return;
             }
 

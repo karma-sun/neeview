@@ -71,7 +71,7 @@ namespace NeeView
         /// <summary>
         /// ブックのページが切り替わったときの処理
         /// </summary>
-        private void BookOperation_ViewContentsChanged(object sender, ViewPageCollectionChangedEventArgs e)
+        private void BookOperation_ViewContentsChanged(object sender, ViewContentSourceCollectionChangedEventArgs e)
         {
             RefreshSelectedItem();
         }

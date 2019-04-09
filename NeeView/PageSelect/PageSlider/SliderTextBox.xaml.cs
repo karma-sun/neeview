@@ -23,29 +23,51 @@ namespace NeeView
     /// </summary>
     public partial class SliderTextBox : UserControl, INotifyPropertyChanged
     {
-        private MouseWheelDelta _mouseWheelDelta = new MouseWheelDelta();
+        #region INotifyPropertyChanged Support
 
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected bool SetProperty<T>(ref T storage, T value, [System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            if (object.Equals(storage, value)) return false;
+            storage = value;
+            this.RaisePropertyChanged(propertyName);
+            return true;
+        }
+
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        //
+        public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
+        {
+            PropertyChanged += (s, e) => { if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName) handler?.Invoke(s, e); };
+        }
+
+        #endregion
+
+        private MouseWheelDelta _mouseWheelDelta = new MouseWheelDelta();
+        private string _dispText;
+
+        public SliderTextBox()
+        {
+            InitializeComponent();
+            this.Root.DataContext = this;
+            this.Root.SizeChanged += Root_SizeChanged;
+        }
+
         public event EventHandler ValueChanged;
 
-        //
+
+        #region DependencyProperties
+
         public VideoSlider Target
         {
             get { return (VideoSlider)GetValue(TargetProperty); }
             set { SetValue(TargetProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for TargetSlider.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TargetProperty =
             DependencyProperty.Register("Target", typeof(VideoSlider), typeof(SliderTextBox), new PropertyMetadata(null, TargetPropertyChanged));
 
@@ -54,22 +76,25 @@ namespace NeeView
             (d as SliderTextBox)?.UpdateTarget();
         }
 
+        #endregion
 
-        /// <summary>
-        /// DispText property.
-        /// </summary>
-        private string _DispText;
+        #region Properties
+
         public string DispText
         {
-            get { return _DispText; }
-            set { if (_DispText != value) { _DispText = value; RaisePropertyChanged(); } }
+            get { return _dispText; }
+            set { if (_dispText != value) { _dispText = value; RaisePropertyChanged(); } }
         }
 
-        public SliderTextBox()
-        {
-            InitializeComponent();
+        #endregion
 
-            this.Root.DataContext = this;
+        private void Root_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var control = (FrameworkElement)sender;
+            if (e.WidthChanged && e.NewSize.Width > control.MinWidth)
+            {
+                control.MinWidth = e.NewSize.Width;
+            }
         }
 
         private void UpdateTarget()
@@ -88,14 +113,14 @@ namespace NeeView
         private void Update()
         {
             int length = (int)Math.Log10(this.Target.Maximum) + 1;
-            this.Root.MinWidth = (length * 2 + 1) * 7 + 10;
+            this.Root.MinWidth = (length * 2 + 1) * 7 + 20;
 
             UpdateDispText();
         }
 
         private void UpdateDispText()
         {
-            this.DispText = Target != null ? $"{Target.Value + 1}/{Target.Maximum + 1}" : "";
+            this.DispText = Target != null ? $"{Target.Value + 1} / {Target.Maximum + 1}" : "";
         }
 
 
@@ -168,7 +193,6 @@ namespace NeeView
             {
                 return DependencyProperty.UnsetValue;
             }
-
         }
     }
 

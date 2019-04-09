@@ -20,12 +20,12 @@
                                        Foreground="{DynamicResource NVForeground}">
             </local:SliderTextBox>
             
-            <Grid Height="30">
+            <Grid Height="30" Margin="{Binding SliderMargin}">
                 <local:VideoSlider x:Name="Slider"
                                    Maximum="{Binding Model.PageSelector.MaxIndex}" Value="{Binding Model.SelectedIndex}"
                                    IsDirectionReversed="{Binding Model.IsSliderDirectionReversed}" Focusable="False"
                                    PreviewMouseLeftButtonUp="PageSlider_PreviewMouseLeftButtonUp"/>
-                <local:PageMarkersView x:Name="PageMarkersView" IsHitTestVisible="False" />
+                <local:PageMarkersView x:Name="PageMarkersView" IsHitTestVisible="False"/>
             </Grid>
         </DockPanel>
     </Grid>

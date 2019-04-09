@@ -23,7 +23,7 @@
             </Style>
         </Grid.Style>
         <Grid>
-            <TextBlock x:Name="TextBlock" TextAlignment="Center" VerticalAlignment="Center"
+            <TextBlock x:Name="TextBlock" TextAlignment="Center" VerticalAlignment="Center" Padding="8,0"
                    Text="{Binding DispText}">
             </TextBlock>
             <TextBox x:Name="TextBox"  TextAlignment="Center" VerticalAlignment="Center"

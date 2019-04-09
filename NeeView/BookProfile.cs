@@ -96,7 +96,7 @@ namespace NeeView
 
         // GIFアニメ有効
         [PropertyMember("@ParamBookIsEnableAnimatedGif", Tips = "@ParamBookIsEnableAnimatedGifTips")]
-        public bool IsEnableAnimatedGif { get; set; }
+        public bool IsEnableAnimatedGif { get; set; } = true;
 
         // ページ収集モード
         [PropertyMember("@ParamBookPageCollectMode", Tips = "@ParamBookPageCollectModeTips")]
@@ -187,7 +187,7 @@ namespace NeeView
             [DataMember, DefaultValue(1.0)]
             public double WideRatio { get; set; }
 
-            [DataMember, DefaultValue(false)]
+            [DataMember, DefaultValue(true)]
             public bool IsEnableAnimatedGif { get; set; }
 
             [Obsolete, DataMember]

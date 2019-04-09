@@ -139,6 +139,9 @@ namespace NeeView
         {
             Debug.Assert(TempDirectory != null, "Need SetDirectory()");
 
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+
             try
             {
                 var name = Process.GetCurrentProcess().ProcessName;

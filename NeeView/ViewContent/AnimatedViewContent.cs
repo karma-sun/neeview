@@ -132,7 +132,14 @@ namespace NeeView
             media.MediaEnded -= Media_MediaEnded;
             media.MediaFailed -= Media_MediaFailed;
             BindingOperations.ClearBinding(media, RenderOptions.BitmapScalingModeProperty);
-            _mediaElementPool.Release(media);
+            // NOTE: 一瞬黒い画像が表示されるのを防ぐためにCloseを遅延させる
+            Task.Run(async () =>
+            {
+                await Task.Delay(100);
+                AppDispatcher.Invoke(() => media.Close());
+                _mediaElementPool.Release(media);
+            });
+
         }
 
         private void Media_MediaEnded(object sender, RoutedEventArgs e)

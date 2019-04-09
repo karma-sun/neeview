@@ -175,8 +175,9 @@ namespace NeeView
         /// <summary>
         /// 事前展開？
         /// </summary>
-        public override bool CanPreExtract()
+        public override bool CanPreExtract(CancellationToken token)
         {
+            // NOTE: Susieプラグインの場合、サイズに関係なくプラグインに設定されたフラグでのみ判定
             var spi = GetPlugin();
             return spi != null ? spi.IsPreExtract : false;
         }

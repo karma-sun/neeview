@@ -11370,7 +11370,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Maximum solid compressed file size to be extracted in advance (MB) に類似しているローカライズされた文字列を検索します。
+        ///   Maximum solid compressed file extraction size to be extracted in advance (MB) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamSevenZipArchiverPreExtractSolidSize {
             get {
@@ -11379,11 +11379,21 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Compressed files exceeding this size will not be pre-extracted. Set 0 to prohibit all pre-extraction. に類似しているローカライズされた文字列を検索します。
+        ///   Compressed files exceeding this extraction size will not be pre-extracted. Set 0 to prohibit all pre-extraction. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamSevenZipArchiverPreExtractSolidSizeTips {
             get {
                 return ResourceManager.GetString("ParamSevenZipArchiverPreExtractSolidSizeTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Compressed files exceeding this extraction size will not be pre-extracted. Set 0 to prohibit all pre-extraction.
+        ///The Susie archive does not determine this size, but only pre-extraction in the plug-in settings. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamSevenZipArchiverPreExtractSolidSizeTipsX86 {
+            get {
+                return ResourceManager.GetString("ParamSevenZipArchiverPreExtractSolidSizeTipsX86", resourceCulture);
             }
         }
         

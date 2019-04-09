@@ -3531,10 +3531,14 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>この時間アクセスがなければロックを解除します。-1でロックを保持したままになります。</value>
   </data>
   <data name="ParamSevenZipArchiverPreExtractSolidSize" xml:space="preserve">
-    <value>ソリッド圧縮ファイルを事前展開する最大ファイルサイズ(MB)</value>
+    <value>ソリッド圧縮ファイルを事前展開する最大展開サイズ(MB)</value>
   </data>
   <data name="ParamSevenZipArchiverPreExtractSolidSizeTips" xml:space="preserve">
-    <value>このサイズを超える圧縮ファイルは事前展開を行いません。全ての事前展開を禁止する場合には0を設定します。</value>
+    <value>この展開サイズを超える圧縮ファイルは事前展開を行いません。全ての事前展開を禁止する場合には0を設定します。</value>
+  </data>
+  <data name="ParamSevenZipArchiverPreExtractSolidSizeTipsX86" xml:space="preserve">
+    <value>この展開サイズを超える圧縮ファイルは事前展開を行いません。全ての事前展開を禁止する場合には0を設定します。
+Susie書庫はこのサイズで判別せず、プラグインの設定でのみ事前展開を判別します。</value>
   </data>
   <data name="ParamSevenZipArchiverSupportFileTypes" xml:space="preserve">
     <value>圧縮ファイルの拡張子</value>

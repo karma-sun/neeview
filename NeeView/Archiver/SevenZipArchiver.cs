@@ -355,10 +355,13 @@ namespace NeeView
         /// <summary>
         /// 事前展開？
         /// </summary>
-        public override bool CanPreExtract()
+        public override bool CanPreExtract(CancellationToken token)
         {
-            var fileInfo = new FileInfo(this.Path);
-            return fileInfo.Length / (1024 * 1024) < SevenZipArchiverProfile.Current.PreExtractSolidSize && IsSolid();
+            if (!IsSolid()) return false;
+
+            var entries = GetEntries(token);
+            var extractSize = entries.Select(e => e.Length).Sum();
+            return extractSize / (1024 * 1024) < SevenZipArchiverProfile.Current.PreExtractSolidSize;
         }
 
         /// <summary>

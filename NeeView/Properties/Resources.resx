@@ -3531,10 +3531,14 @@ Is it OK? </value>
     <value>If you do not have access at this time, unlock it. -1 holds the lock.</value>
   </data>
   <data name="ParamSevenZipArchiverPreExtractSolidSize" xml:space="preserve">
-    <value>Maximum solid compressed file size to be extracted in advance (MB)</value>
+    <value>Maximum solid compressed file extraction size to be extracted in advance (MB)</value>
   </data>
   <data name="ParamSevenZipArchiverPreExtractSolidSizeTips" xml:space="preserve">
-    <value>Compressed files exceeding this size will not be pre-extracted. Set 0 to prohibit all pre-extraction.</value>
+    <value>Compressed files exceeding this extraction size will not be pre-extracted. Set 0 to prohibit all pre-extraction.</value>
+  </data>
+  <data name="ParamSevenZipArchiverPreExtractSolidSizeTipsX86" xml:space="preserve">
+    <value>Compressed files exceeding this extraction size will not be pre-extracted. Set 0 to prohibit all pre-extraction.
+The Susie archive does not determine this size, but only pre-extraction in the plug-in settings.</value>
   </data>
   <data name="ParamSevenZipArchiverSupportFileTypes" xml:space="preserve">
     <value>Compressed file extension</value>

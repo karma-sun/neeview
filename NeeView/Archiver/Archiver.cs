@@ -379,7 +379,7 @@ namespace NeeView
         /// <summary>
         /// 事前展開する？
         /// </summary>
-        public virtual bool CanPreExtract()
+        public virtual bool CanPreExtract(CancellationToken token)
         {
             return false;
         }

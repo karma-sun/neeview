@@ -201,7 +201,7 @@ namespace NeeView
         }
 
 
-        // 事前展開(仮)
+        // 事前展開
         // TODO: 事前展開の非同期化。ページアクセスをトリガーにする
         private async Task PreExtractAsync(List<Page> pages, CancellationToken token)
         {
@@ -213,7 +213,7 @@ namespace NeeView
 
             foreach (var archiver in archivers)
             {
-                if (archiver.CanPreExtract())
+                if (archiver.CanPreExtract(token))
                 {
                     Debug.WriteLine($"PreExtract: EXTRACT {archiver.EntryName}");
                     await archiver.PreExtractAsync(token);

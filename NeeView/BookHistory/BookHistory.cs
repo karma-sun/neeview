@@ -44,10 +44,7 @@ namespace NeeView
         public DateTime LastAccessTime { get; set; }
 
 
-        public override string ToString()
-        {
-            return Place ?? base.ToString();
-        }
+        public Page ArchivePage => Unit.ArchivePage;
 
         public string Name => Unit.Memento.Name;
         public string Note => Unit.ArchivePage.Entry?.RootArchiverName;
@@ -60,6 +57,11 @@ namespace NeeView
         {
             get { return _unit = _unit ?? BookMementoCollection.Current.Set(Place); }
             private set { _unit = value; }
+        }
+
+        public override string ToString()
+        {
+            return Place ?? base.ToString();
         }
 
         public Page GetPage()

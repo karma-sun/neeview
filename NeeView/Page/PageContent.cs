@@ -189,7 +189,9 @@ namespace NeeView
         /// <returns></returns>
         public PageContent Clone()
         {
-            return (PageContent)MemberwiseClone();
+            var clone = (PageContent)MemberwiseClone();
+            clone.ResetPropertyChanged();
+            return clone;
         }
 
         /// <summary>

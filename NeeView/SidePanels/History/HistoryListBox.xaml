@@ -60,7 +60,7 @@
                     <DockPanel>
                         <local:PanelListContentImage Thumbnail="{Binding Thumbnail}"/>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock x:Name="Place" Style="{StaticResource NoteTextStyle}" Text="{Binding Note}" />
+                            <TextBlock x:Name="Place" Style="{StaticResource NoteTextStyle}" Text="{Binding ArchivePage.Entry.RootArchiverName}" />
                             <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource ContentNameStyle}"/>
                         </StackPanel>
                     </DockPanel>

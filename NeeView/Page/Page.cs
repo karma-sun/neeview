@@ -62,6 +62,7 @@ namespace NeeView
         {
             BookPrefix = bookPrefix;
             _content = content;
+            _content.AddPropertyChanged(nameof(PageContent.Entry), (s, e) => RaisePropertyChanged(nameof(Entry)));
             _contentLoader = _content.CreateContentLoader();
             _contentLoader.Loaded += (s, e) => Loaded?.Invoke(this, null);
         }

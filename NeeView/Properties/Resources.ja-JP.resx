@@ -4764,4 +4764,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="PagemarkMenuSortPath" xml:space="preserve">
     <value>パス順</value>
   </data>
+  <data name="ParamPictureProfileIsAspectRatioEnabled" xml:space="preserve">
+    <value>画像の解像度情報を適用する</value>
+  </data>
+  <data name="ParamPictureProfileIsAspectRatioEnabledTips" xml:space="preserve">
+    <value>画像に設定されているアスペクト比で表示します。</value>
+  </data>
 </root>

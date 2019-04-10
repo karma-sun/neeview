@@ -11244,6 +11244,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Apply image resolution information に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPictureProfileIsAspectRatioEnabled {
+            get {
+                return ResourceManager.GetString("ParamPictureProfileIsAspectRatioEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Display with the aspect ratio set for the image. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPictureProfileIsAspectRatioEnabledTips {
+            get {
+                return ResourceManager.GetString("ParamPictureProfileIsAspectRatioEnabledTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Load image size limit に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamPictureProfileIsLimitSourceSize {

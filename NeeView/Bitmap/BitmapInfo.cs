@@ -21,6 +21,9 @@ namespace NeeView
         public bool IsMirrorVertical { get; private set; }
         public Rotation Rotation { get; private set; }
         public BitmapExif Exif { get; private set; }
+        public double AspectRatio { get; private set; }
+        public double AspectWidth { get; private set; }
+        public double AspectHeight { get; private set; }
 
         // 転置？
         public bool IsTranspose => (this.Rotation == Rotation.Rotate90 || this.Rotation == Rotation.Rotate270);
@@ -33,12 +36,21 @@ namespace NeeView
         {
         }
 
-        public BitmapInfo(int width, int height, int bitsPerPixel, BitmapMetadata metadata)
+        public BitmapInfo(BitmapFrame bitmapFrame)
         {
-            this.PixelWidth = width;
-            this.PixelHeight = height;
-            this.BitsPerPixel = bitsPerPixel;
+            this.PixelWidth = bitmapFrame.PixelWidth;
+            this.PixelHeight = bitmapFrame.PixelHeight;
+            this.BitsPerPixel = bitmapFrame.Format.BitsPerPixel;
+            var metadata = (BitmapMetadata)bitmapFrame.Metadata;
             this.Exif = new BitmapExif(metadata);
+
+            this.AspectWidth = bitmapFrame.Width;
+            this.AspectHeight = bitmapFrame.Height;
+            this.AspectRatio = (bitmapFrame.PixelWidth * bitmapFrame.Height) / (bitmapFrame.PixelHeight * bitmapFrame.Width);
+            if (0.999 < this.AspectRatio && this.AspectRatio < 1.001)
+            {
+                this.AspectRatio = 1.0;
+            }
 
             if (metadata != null)
             {
@@ -96,7 +108,7 @@ namespace NeeView
             try
             {
                 var bitmapFrame = BitmapFrame.Create(stream, BitmapCreateOptions.DelayCreation | BitmapCreateOptions.IgnoreColorProfile, BitmapCacheOption.None);
-                return new BitmapInfo(bitmapFrame.PixelWidth, bitmapFrame.PixelHeight, bitmapFrame.Format.BitsPerPixel, (BitmapMetadata)bitmapFrame.Metadata);
+                return new BitmapInfo(bitmapFrame);
             }
             catch (Exception ex)
             {

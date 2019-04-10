@@ -100,6 +100,15 @@ namespace NeeView
             }
         }
 
+        // 画像の解像度情報を表示に反映する
+        private bool _IsAspectRatioEnabled;
+        [PropertyMember("@ParamPictureProfileIsAspectRatioEnabled", Tips = "@ParamPictureProfileIsAspectRatioEnabledTips")]
+        public bool IsAspectRatioEnabled
+        {
+            get { return _IsAspectRatioEnabled; }
+            set { SetProperty(ref _IsAspectRatioEnabled, value); }
+        }
+
 
 
         // Methods
@@ -151,6 +160,9 @@ namespace NeeView
             [DataMember, DefaultValue(true)]
             public bool IsMagicScaleSimdEnabled { get; set; }
 
+            [DataMember]
+            public bool IsAspectRatioEnabled { get; set; }
+
             #region Constructors
 
             public Memento()
@@ -181,6 +193,7 @@ namespace NeeView
             memento.IsResizeFilterEnabled = this.IsResizeFilterEnabled;
             memento.CustomSize = this.CustomSize.CreateMemento();
             memento.IsMagicScaleSimdEnabled = this.IsMagicScaleSimdEnabled;
+            memento.IsAspectRatioEnabled = this.IsAspectRatioEnabled;
             return memento;
         }
 
@@ -193,6 +206,7 @@ namespace NeeView
             this.IsResizeFilterEnabled = memento.IsResizeFilterEnabled;
             this.CustomSize.Restore(memento.CustomSize);
             this.IsMagicScaleSimdEnabled = memento.IsMagicScaleSimdEnabled;
+            this.IsAspectRatioEnabled = memento.IsAspectRatioEnabled;
         }
         #endregion
 

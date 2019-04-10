@@ -11,6 +11,7 @@ namespace NeeView
     public class PictureInfo
     {
         private bool _isPixelInfoInitialized;
+        private Size _aspectSize = Size.Empty;
 
         /// <summary>
         /// Bitmap画像のRaw情報
@@ -32,6 +33,20 @@ namespace NeeView
         /// </summary>
         public bool IsLimited => Size != OriginalSize;
 
+
+        /// <summary>
+        /// 画像のアスペクト比
+        /// </summary>
+        public double AspectRatio { get; set; } = 1.0;
+
+        /// <summary>
+        /// 画像解像度を適用したサイズ
+        /// </summary>
+        public Size AspectSize
+        {
+            get => _aspectSize.IsEmpty ? Size : _aspectSize;
+            set => _aspectSize = value;
+        }
 
         /// <summary>
         /// ファイルサイズ

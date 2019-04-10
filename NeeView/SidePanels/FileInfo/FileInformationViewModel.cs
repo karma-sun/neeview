@@ -76,6 +76,22 @@ namespace NeeView
             set { SetProperty(ref _bitmapSource, value); }
         }
 
+        private double _ThumbnailWidth;
+        public double ThumbnailWidth
+        {
+            get { return _ThumbnailWidth; }
+            set { SetProperty(ref _ThumbnailWidth, value); }
+        }
+
+        private double _ThumbnailHeight;
+        public double ThumbnailHeight
+        {
+            get { return _ThumbnailHeight; }
+            set { SetProperty(ref _ThumbnailHeight, value); }
+        }
+
+        public double ThumbnailMaxSize => 96.0;
+
 
         /// <summary>
         /// FullPath property
@@ -203,6 +219,14 @@ namespace NeeView
 
                 // サムネイル設定
                 BitmapSource = bitmapContent?.BitmapSource;
+
+                if (BitmapSource != null)
+                {
+                    var length = bitmapContent.Size.Width > bitmapContent.Size.Height ? bitmapContent.Size.Width : bitmapContent.Size.Height;
+                    var rate = ThumbnailMaxSize / length;
+                    ThumbnailWidth = bitmapContent.Size.Width * rate;
+                    ThumbnailHeight = bitmapContent.Size.Height * rate;
+                }
 
                 // 画像サイズ表示
                 if (info.OriginalSize.Width <= 0 || info.OriginalSize.Height < 0)

@@ -81,7 +81,7 @@ namespace NeeView
         /// <returns></returns>
         public int GetHashCodde()
         {
-            var hash = (_IsEnabled.GetHashCode() << 30) ^ (_IsUniformed.GetHashCode() << 29) ^ _Size.Width.GetHashCode();
+            var hash = (_IsEnabled.GetHashCode() << 30) ^ (_IsUniformed.GetHashCode() << 29) ^ _Size.GetHashCode();
             ////System.Diagnostics.Debug.WriteLine($"hash={hash}");
             return hash;
         }

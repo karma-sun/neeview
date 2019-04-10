@@ -52,8 +52,15 @@ namespace NeeView.Windows.Property
 
         // Using a DependencyProperty as the backing store for Value.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register("Value", typeof(object), typeof(PropertyControl), new PropertyMetadata(null));
+            DependencyProperty.Register("Value", typeof(object), typeof(PropertyControl), new PropertyMetadata(null, Value_Changed));
 
+        private static void Value_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is PropertyControl control)
+            {
+                control.Update();
+            }
+        }
 
         public double ColumnRate
         {
@@ -63,22 +70,55 @@ namespace NeeView.Windows.Property
 
         // Using a DependencyProperty as the backing store for ColumnRate.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ColumnRateProperty =
-            DependencyProperty.Register("ColumnRate", typeof(double), typeof(PropertyControl), new PropertyMetadata(1.0 / 4.0, ColumnRateProperty_Changed));
+            DependencyProperty.Register("ColumnRate", typeof(double), typeof(PropertyControl), new PropertyMetadata(0.75, ColumnRateProperty_Changed));
 
         private static void ColumnRateProperty_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var control = d as PropertyControl;
-            if (control != null)
+            if (d is PropertyControl control)
             {
-                control.HeaderGridColumn.Width = new GridLength(control.ColumnRate, GridUnitType.Star);
-                control.ValueGridColumn.Width = new GridLength((1.0 - control.ColumnRate), GridUnitType.Star);
+                control.Update();
             }
         }
 
-        //
+
         public PropertyControl()
         {
             InitializeComponent();
+        }
+
+
+        private void Update()
+        {
+            this.Root.SizeChanged -= Root_SizeChanged;
+            if (Value == null) return;
+
+            var isStretch = true;
+            if (Value is PropertyValue_Boolean booleanValue)
+            {
+                if (booleanValue.VisualType == PropertyVisualType.ToggleSwitch)
+                {
+                    isStretch = false;
+                }
+            }
+
+
+            if (isStretch)
+            {
+                this.ValueUI.Width = this.Root.ActualWidth * ColumnRate;
+                this.Root.SizeChanged += Root_SizeChanged;
+            }
+            else
+            {
+                this.ValueUI.Width = double.NaN;
+            }
+        }
+
+        private void Root_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (e.WidthChanged)
+            {
+                this.ValueUI.Width = e.NewSize.Width * ColumnRate;
+            }
         }
     }
 }

@@ -56,6 +56,8 @@ namespace NeeView
                     pictureInfo.Decoder = rawDataResult.decoder ?? ".Net BitmapImage";
                     pictureInfo.BitsPerPixel = bitmapInfo.BitsPerPixel;
                     pictureInfo.Exif = bitmapInfo.Exif;
+                    pictureInfo.AspectRatio = bitmapInfo.AspectRatio;
+                    pictureInfo.AspectSize = new Size(bitmapInfo.AspectWidth, bitmapInfo.AspectHeight);
 
                     this.PictureInfo = pictureInfo;
                 }

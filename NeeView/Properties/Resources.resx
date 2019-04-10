@@ -4764,4 +4764,10 @@ Initialize the temporary location.</value>
   <data name="PagemarkMenuSortPath" xml:space="preserve">
     <value>Path order</value>
   </data>
+  <data name="ParamPictureProfileIsAspectRatioEnabled" xml:space="preserve">
+    <value>Apply image resolution information</value>
+  </data>
+  <data name="ParamPictureProfileIsAspectRatioEnabledTips" xml:space="preserve">
+    <value>Display with the aspect ratio set for the image.</value>
+  </data>
 </root>

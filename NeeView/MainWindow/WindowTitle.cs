@@ -48,9 +48,9 @@ namespace NeeView
         private const string WindowTitleFormat1Default = "$Book ($Page / $PageMax) - $FullName";
         private const string WindowTitleFormat2Default = "$Book ($Page / $PageMax) - $FullNameL | $NameR";
         private const string WindowTitleFormatMediaDefault = "$Book";
-        private string _windowTitleFormat1 = WindowTitleFormat1Default;
-        private string _windowTitleFormat2 = WindowTitleFormat2Default;
-        private string _windowTitleFormatMedia = WindowTitleFormatMediaDefault;
+        private string _windowTitleFormat1;
+        private string _windowTitleFormat2;
+        private string _windowTitleFormatMedia;
 
         // ロード中表示用
         private string _loadingPath;
@@ -97,13 +97,11 @@ namespace NeeView
         [PropertyMember("@ParamWindowTitleFormat1")]
         public string WindowTitleFormat1
         {
-            get { return _windowTitleFormat1; }
+            get { return _windowTitleFormat1 ?? WindowTitleFormat1Default; }
             set
             {
-                value = string.IsNullOrEmpty(value) ? WindowTitleFormat1Default : value;
-                if (_windowTitleFormat1 != value)
+                if (SetProperty(ref _windowTitleFormat1, CleanUpTitleFormat(value, WindowTitleFormat1Default)))
                 {
-                    _windowTitleFormat1 = value;
                     UpdateFomatterFilter();
                     UpdateWindowTitle(WindowTitleMask.None);
                 }
@@ -116,13 +114,11 @@ namespace NeeView
         [PropertyMember("@ParamWindowTitleFormat2")]
         public string WindowTitleFormat2
         {
-            get { return _windowTitleFormat2; }
+            get { return _windowTitleFormat2 ?? WindowTitleFormat2Default; }
             set
             {
-                value = string.IsNullOrEmpty(value) ? WindowTitleFormat2Default : value;
-                if (_windowTitleFormat2 != value)
+                if (SetProperty(ref _windowTitleFormat2, CleanUpTitleFormat(value, WindowTitleFormat2Default)))
                 {
-                    _windowTitleFormat2 = value;
                     UpdateFomatterFilter();
                     UpdateWindowTitle(WindowTitleMask.None);
                 }
@@ -133,13 +129,11 @@ namespace NeeView
         [PropertyMember("@ParamWindowTitleFormatMedia")]
         public string WindowTitleFormatMedia
         {
-            get { return _windowTitleFormatMedia; }
+            get { return _windowTitleFormatMedia ?? WindowTitleFormatMediaDefault; }
             set
             {
-                value = string.IsNullOrEmpty(value) ? WindowTitleFormatMediaDefault : value;
-                if (_windowTitleFormatMedia != value)
+                if (SetProperty(ref _windowTitleFormatMedia, CleanUpTitleFormat(value, WindowTitleFormatMediaDefault)))
                 {
-                    _windowTitleFormatMedia = value;
                     UpdateFomatterFilter();
                     UpdateWindowTitle(WindowTitleMask.None);
                 }
@@ -160,11 +154,23 @@ namespace NeeView
 
         #region Methods
 
+        private string CleanUpTitleFormat(string source, string defaultFormat)
+        {
+            if (string.IsNullOrEmpty(source) || source == defaultFormat)
+            {
+                return null;
+            }
+            else
+            {
+                return source;
+            }
+        }
+
 
         // フォーマットの使用キーワード更新
         private void UpdateFomatterFilter()
         {
-            _windowTitleFormatter.SetFilter(_windowTitleFormat1 + " " + _windowTitleFormat2 + " " + _windowTitleFormatMedia);
+            _windowTitleFormatter.SetFilter(WindowTitleFormat1 + " " + WindowTitleFormat2 + " " + WindowTitleFormatMedia);
         }
 
         /// <summary>
@@ -324,22 +330,52 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
+            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+
+            [DataMember(EmitDefaultValue = false)]
             public string WindowTitleFormat1 { get; set; }
 
-            [DataMember]
+            [DataMember(EmitDefaultValue = false)]
             public string WindowTitleFormat2 { get; set; }
 
-            [DataMember]
+            [DataMember(EmitDefaultValue = false)]
             public string WindowTitleFormatMedia { get; set; }
+
+
+            [OnDeserialized]
+            private void Deserialized(StreamingContext c)
+            {
+                // before 34.0
+                if (_Version < Config.GenerateProductVersionNumber(34, 0, 0))
+                {
+                    const string WindowTitleFormat1Default = "$Book($Page/$PageMax) - $FullName";
+                    const string WindowTitleFormat2Default = "$Book($Page/$PageMax) - $FullNameL | $NameR";
+                    const string WindowTitleFormatMediaDefault = "$Book";
+
+                    if (WindowTitleFormat1 == WindowTitleFormat1Default)
+                    {
+                        WindowTitleFormat1 = null;
+                    }
+                    if (WindowTitleFormat2 == WindowTitleFormat2Default)
+                    {
+                        WindowTitleFormat2 = null;
+                    }
+                    if (WindowTitleFormatMedia == WindowTitleFormatMediaDefault)
+                    {
+                        WindowTitleFormatMedia = null;
+                    }
+                }
+            }
+
         }
 
         //
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.WindowTitleFormat1 = this.WindowTitleFormat1;
-            memento.WindowTitleFormat2 = this.WindowTitleFormat2;
-            memento.WindowTitleFormatMedia = this.WindowTitleFormatMedia;
+            memento.WindowTitleFormat1 = _windowTitleFormat1;
+            memento.WindowTitleFormat2 = _windowTitleFormat2;
+            memento.WindowTitleFormatMedia = _windowTitleFormatMedia;
             return memento;
         }
 

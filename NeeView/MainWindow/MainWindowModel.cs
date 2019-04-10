@@ -109,6 +109,8 @@ namespace NeeView
             RefreshCanHidePageSlider();
 
             RefreshSliderBrushes();
+
+            CompositionTarget.Rendering += (s, e) => Rendering?.Invoke(s, e);
         }
 
         #endregion
@@ -116,6 +118,8 @@ namespace NeeView
         #region Events
 
         public event EventHandler CanHidePanelChanged;
+
+        public event EventHandler Rendering;
 
         #endregion
 

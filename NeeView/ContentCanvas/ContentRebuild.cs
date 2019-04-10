@@ -152,12 +152,12 @@ namespace NeeView
 
         private void Start()
         {
-            CompositionTarget.Rendering += OnRendering;
+            MainWindowModel.Current.Rendering += OnRendering;
         }
 
         private void Stop()
         {
-            CompositionTarget.Rendering -= OnRendering;
+            MainWindowModel.Current.Rendering -= OnRendering;
         }
         #endregion
 

@@ -9,9 +9,22 @@ namespace NeeView.Collections.Generic
     /// </summary>
     public class ObjectPool<T> where T : new()
     {
-        private Stack<T> _pool = new Stack<T>();
+        private Queue<T> _pool = new Queue<T>();
         private object _lock = new object();
         private int _count;
+
+        public ObjectPool()
+        {
+        }
+
+        public ObjectPool(int size)
+        {
+            for (int i = 0; i < size; ++i)
+            {
+                _count++;
+                _pool.Enqueue(new T());
+            }
+        }
 
         public T Allocate()
         {
@@ -19,8 +32,8 @@ namespace NeeView.Collections.Generic
             {
                 if (_pool.Any())
                 {
-                    ////Debug.WriteLine($"{typeof(T)} Pool: Recycle");
-                    return _pool.Pop();
+                    ////Debug.WriteLine($"{typeof(T)} Pool: Recycle {_pool.Count}");
+                    return _pool.Dequeue();
                 }
                 else
                 {
@@ -35,8 +48,11 @@ namespace NeeView.Collections.Generic
         {
             lock (_lock)
             {
-                ////Debug.WriteLine($"{typeof(T)} Pool: Release");
-                _pool.Push(element);
+                if (!_pool.Contains(element))
+                {
+                    _pool.Enqueue(element);
+                    ////Debug.WriteLine($"{typeof(T)} Pool: Release: {_pool.Count}");
+                }
             }
         }
     }

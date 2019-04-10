@@ -15,7 +15,7 @@ namespace NeeView
     /// </summary>
     public class AnimatedViewContent : BitmapViewContent
     {
-        private static ObjectPool<MediaElement> _mediaElementPool = new ObjectPool<MediaElement>();
+        private static ObjectPool<MediaElement> _mediaElementPool = new ObjectPool<MediaElement>(2);
 
         private TextBlock _errorMessageTextBlock;
 
@@ -132,14 +132,19 @@ namespace NeeView
             media.MediaEnded -= Media_MediaEnded;
             media.MediaFailed -= Media_MediaFailed;
             BindingOperations.ClearBinding(media, RenderOptions.BitmapScalingModeProperty);
-            // NOTE: 一瞬黒い画像が表示されるのを防ぐためにCloseを遅延させる
-            Task.Run(async () =>
-            {
-                await Task.Delay(100);
-                AppDispatcher.Invoke(() => media.Close());
-                _mediaElementPool.Release(media);
-            });
 
+            // NOTE: 一瞬黒い画像が表示されるのを防ぐために開放タイミングをずらす
+            int count = 0;
+            MainWindowModel.Current.Rendering += OnRendering;
+            void OnRendering(object sender, EventArgs e)
+            {
+                if (++count >= 3)
+                {
+                    MainWindowModel.Current.Rendering -= OnRendering;
+                    media.Close();
+                    _mediaElementPool.Release(media);
+                }
+            }
         }
 
         private void Media_MediaEnded(object sender, RoutedEventArgs e)

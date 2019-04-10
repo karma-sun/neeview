@@ -41,6 +41,10 @@ namespace NeeView.Collections
             {
                 _history.RemoveAt(_history.Count - 1);
             }
+            if (_current > _history.Count)
+            {
+                _current = _history.Count;
+            }
         }
 
         public void Move(int delta)

@@ -8544,6 +8544,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Path order に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string PagemarkMenuSortPath {
+            get {
+                return ResourceManager.GetString("PagemarkMenuSortPath", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Pagemark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string PagemarkName {

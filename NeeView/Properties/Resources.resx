@@ -4761,4 +4761,7 @@ Initialize the temporary location.</value>
   <data name="SettingPageEnvironmentMemoryAndPerformance" xml:space="preserve">
     <value>Memory &amp; Performance</value>
   </data>
+  <data name="PagemarkMenuSortPath" xml:space="preserve">
+    <value>Path order</value>
+  </data>
 </root>

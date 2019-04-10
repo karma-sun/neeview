@@ -4761,4 +4761,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="SettingPageEnvironmentMemoryAndPerformance" xml:space="preserve">
     <value>メモリとパフォーマンス</value>
   </data>
+  <data name="PagemarkMenuSortPath" xml:space="preserve">
+    <value>パス順</value>
+  </data>
 </root>

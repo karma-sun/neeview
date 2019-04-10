@@ -87,7 +87,8 @@ namespace NeeView
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleContent, PanelListItemStyle.Content));
             menu.Items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
             menu.Items.Add(new Separator());
-            menu.Items.Add(CreateCurrentBookMenuItem(Properties.Resources.PagemarkMenuCurrentBook));
+            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.PagemarkMenuSortPath, new Binding(nameof(_model.IsSortPath)) { Source = _model }));
+            menu.Items.Add(CreateCheckMenuItem(Properties.Resources.PagemarkMenuCurrentBook, new Binding(nameof(_model.IsCurrentBook)) { Source = _model }));
             menu.Items.Add(new Separator());
             menu.Items.Add(CreateCommandMenuItem(@Properties.Resources.PagemarkMenuOpenAsBook, OpenAsBookCommand));
             menu.Items.Add(new Separator());
@@ -96,21 +97,15 @@ namespace NeeView
             this.MoreMenu = menu;
         }
 
-        private MenuItem CreateCurrentBookMenuItem(string header)
+        private MenuItem CreateCheckMenuItem(string header, Binding binding)
         {
             var item = new MenuItem();
             item.Header = header;
             item.IsCheckable = true;
-            var binding = new Binding(nameof(_model.IsCurrentBook))
-            {
-                Source = _model
-            };
             item.SetBinding(MenuItem.IsCheckedProperty, binding);
-
             return item;
         }
 
-        //
         private MenuItem CreateCommandMenuItem(string header, ICommand command)
         {
             var item = new MenuItem();
@@ -119,7 +114,6 @@ namespace NeeView
             return item;
         }
 
-        //
         private MenuItem CreateCommandMenuItem(string header, CommandType command, object source)
         {
             var item = new MenuItem();
@@ -136,7 +130,6 @@ namespace NeeView
             return item;
         }
 
-        //
         private MenuItem CreateListItemStyleMenuItem(string header, PanelListItemStyle style)
         {
             var item = new MenuItem();

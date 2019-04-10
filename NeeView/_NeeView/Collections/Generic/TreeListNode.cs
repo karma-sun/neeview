@@ -184,6 +184,11 @@ namespace NeeView.Collections.Generic
             Insert(index, node);
         }
 
+        public void Sort(IComparer<TreeListNode<T>> comparer)
+        {
+            _children = new ObservableCollection<TreeListNode<T>>(_children.OrderBy(e => e, comparer));
+        }
+
         public bool Remove(T value)
         {
             var node = Find(value);

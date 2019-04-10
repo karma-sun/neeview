@@ -471,4 +471,30 @@ namespace NeeView
             throw new NotImplementedException();
         }
     }
+
+    public class PagemarkNodeToNote : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is TreeListNode<IPagemarkEntry> node)
+            {
+                if (node.Value is PagemarkFolder folder)
+                {
+                    var directory = LoosePath.GetDirectoryName(folder.Place);
+                    return LoosePath.GetFileName(directory) + " (" + LoosePath.GetDirectoryName(directory) + ")";
+                }
+                else
+                {
+                    return "";
+                }
+            }
+
+            return DependencyProperty.UnsetValue;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

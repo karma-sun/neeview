@@ -17,9 +17,12 @@ using NeeView.Collections;
 
 namespace NeeView
 {
-    /// <summary>
-    /// HACK: ブックマークコレクションと処理を共通化させる
-    /// </summary>
+    public enum PagemarkOrder
+    {
+        FileName,
+        Path,
+    }
+
     public class PagemarkCollection : BindableBase
     {
         static PagemarkCollection() => Current = new PagemarkCollection();
@@ -32,7 +35,6 @@ namespace NeeView
         {
             Items = CreateRoot();
         }
-
 
 
         // Events
@@ -49,6 +51,18 @@ namespace NeeView
             set { SetProperty(ref _items, value); }
         }
 
+        private PagemarkOrder _pagemarkOrder;
+        public PagemarkOrder PagemarkOrder
+        {
+            get { return _pagemarkOrder; }
+            set
+            {
+                if (SetProperty(ref _pagemarkOrder, value))
+                {
+                    Sort();
+                }
+            }
+        }
 
         // Methods
 
@@ -68,6 +82,7 @@ namespace NeeView
         public void Load(TreeListNode<IPagemarkEntry> nodes)
         {
             Items = nodes;
+            Sort();
 
             PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Reset));
         }
@@ -219,6 +234,54 @@ namespace NeeView
             return false;
         }
 
+
+        private void Sort()
+        {
+            if (_items == null) return;
+
+            _items.Sort(CreateComparer(_pagemarkOrder));
+            PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Replace));
+        }
+
+        private IComparer<TreeListNode<IPagemarkEntry>> CreateComparer(PagemarkOrder order, TreeListNode<IPagemarkEntry> parent)
+        {
+            return CreateComparer(parent == _items ? order : PagemarkOrder.FileName);
+        }
+
+        private IComparer<TreeListNode<IPagemarkEntry>> CreateComparer(PagemarkOrder order)
+        {
+            switch (order)
+            {
+                default:
+                case PagemarkOrder.FileName:
+                    return new ComparerDispName();
+                case PagemarkOrder.Path:
+                    return new ComparerName();
+            }
+        }
+
+        /// <summary>
+        /// ソート用：表示名で比較(昇順)
+        /// </summary>
+        public class ComparerDispName : IComparer<TreeListNode<IPagemarkEntry>>
+        {
+            public int Compare(TreeListNode<IPagemarkEntry> x, TreeListNode<IPagemarkEntry> y)
+            {
+                return NativeMethods.StrCmpLogicalW(x.Value.DispName, y.Value.DispName);
+            }
+        }
+
+        /// <summary>
+        /// ソート用：名前(パス)で比較(昇順)
+        /// </summary>
+        public class ComparerName : IComparer<TreeListNode<IPagemarkEntry>>
+        {
+            public int Compare(TreeListNode<IPagemarkEntry> x, TreeListNode<IPagemarkEntry> y)
+            {
+                return NativeMethods.StrCmpLogicalW(x.Value.Name, y.Value.Name);
+            }
+        }
+
         /// <summary>
         /// 挿入位置を求める
         /// </summary>
@@ -227,12 +290,13 @@ namespace NeeView
         /// <returns></returns>
         private int GetInsertIndex(TreeListNode<IPagemarkEntry> parent, TreeListNode<IPagemarkEntry> node)
         {
+            var comparer = CreateComparer(_pagemarkOrder, parent);
             for (int index = 0; index < parent.Children.Count; ++index)
             {
                 var child = parent.Children[index];
                 if (child == node) continue;
 
-                if (NativeMethods.StrCmpLogicalW(node.Value.DispName, child.Value.DispName) < 0)
+                if (comparer.Compare(node, child) < 0)
                 {
                     return index;
                 }
@@ -381,6 +445,10 @@ namespace NeeView
             [DataMember]
             public TreeListNode<IPagemarkEntry> Nodes { get; set; }
 
+            [DataMember]
+            public PagemarkOrder PagemarkOrder { get; set; }
+
+
             [Obsolete, DataMember(EmitDefaultValue = false)]
             public List<Book.Memento> Books { get; set; }
 
@@ -477,13 +545,16 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.Nodes = Items;
-
+            memento.PagemarkOrder = PagemarkOrder;
             return memento;
         }
 
         // memento適用
         public void Restore(Memento memento)
         {
+            if (memento == null) return;
+
+            PagemarkOrder = memento.PagemarkOrder;
             this.Load(memento.Nodes);
         }
 

@@ -15,6 +15,7 @@
     <UserControl.Resources>
 
         <local:BooleanToTextWrappingConverter x:Key="BooleanToTextWrappingConverter"/>
+        <local:PagemarkNodeToNote x:Key="PagemarkNodeToNote"/>
 
         <Style x:Key="NameStyle" TargetType="TextBlock">
             <Setter Property="Text" Value="{Binding Value.DispName}"/>
@@ -32,6 +33,7 @@
 
         <Style x:Key="ContentNameStyle" TargetType="TextBlock" BasedOn="{StaticResource NameStyle}">
             <Setter Property="TextWrapping" Value="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ContentItemProfile.IsTextWrapped, Converter={StaticResource BooleanToTextWrappingConverter}}"/>
+            <Setter Property="Height" Value="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ContentItemProfile.TextHeight}"/>
         </Style>
 
         <Style x:Key="BannerrNameStyle" TargetType="TextBlock" BasedOn="{StaticResource NameStyle}">
@@ -61,9 +63,8 @@
                 <DockPanel Margin="2">
                     <local:PanelListContentImage Thumbnail="{Binding Value.Thumbnail}"/>
                     <StackPanel VerticalAlignment="Center">
-                        <Grid Height="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=ContentItemProfile.TextHeight}">
-                            <TextBlock  x:Name="FileNameTextBlock" Style="{StaticResource ContentNameStyle}" VerticalAlignment="Center"/>
-                        </Grid>
+                        <TextBlock x:Name="Note" Style="{StaticResource NoteTextStyle}" Text="{Binding Converter={StaticResource PagemarkNodeToNote}}" />
+                        <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource ContentNameStyle}"/>
                     </StackPanel>
                 </DockPanel>
             </Border>

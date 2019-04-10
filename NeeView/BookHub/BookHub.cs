@@ -605,7 +605,7 @@ namespace NeeView
             {
                 options = BookUnit != null ? (BookUnit.LoadOptions & BookLoadOption.KeepHistoryOrder) | BookLoadOption.Resume : BookLoadOption.None;
             }
-            RequestLoad(Address, null, options | BookLoadOption.IsBook, true);
+            RequestLoad(Address, null, options | BookLoadOption.IsBook | BookLoadOption.IgnoreCache, true);
         }
 
         // 上の階層に移動可能？
@@ -839,6 +839,7 @@ namespace NeeView
                     ArchiveRecursiveMode = ArchiveRecursiveMode,
                     BookPageCollectMode = BookProfile.Current.BookPageCollectMode,
                     SortMode = memento.SortMode,
+                    IsIgnoreCache = option.HasFlag(BookLoadOption.IgnoreCache),
                 };
 
                 var book = await BookFactory.CreateAsync(address.Address, bookSetting, memento, token);

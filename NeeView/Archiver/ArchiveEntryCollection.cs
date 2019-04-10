@@ -16,6 +16,7 @@ namespace NeeView
     public enum ArchiveEntryCollectionOption
     {
         None,
+        IgnoreCache,
     }
 
     /// <summary>
@@ -49,9 +50,9 @@ namespace NeeView
     {
         private ArchiveEntryCollectionMode _mode;
         private ArchiveEntryCollectionMode _modeIfArchive;
-        private ArchiveEntryCollectionOption _option;
         private List<ArchiveEntry> _entries;
         private int _prefixLength;
+        private bool _ignoreCache;
 
         /// <summary>
         /// コンストラクタ
@@ -66,7 +67,7 @@ namespace NeeView
             Mode = mode;
             _mode = mode;
             _modeIfArchive = modeIfArchive;
-            _option = option;
+            _ignoreCache = option.HasFlag(ArchiveEntryCollectionOption.IgnoreCache);
 
             _prefixLength = LoosePath.TrimDirectoryEnd(Path).Length;
         }
@@ -92,12 +93,12 @@ namespace NeeView
             {
                 if (rootEntry.IsDirectory)
                 {
-                    rootArchiver = await ArchiverManager.Current.CreateArchiverAsync(ArchiveEntry.Create(Path), token);
+                    rootArchiver = await ArchiverManager.Current.CreateArchiverAsync(ArchiveEntry.Create(Path), _ignoreCache, token);
                     rootArchiverPath = "";
                 }
                 else
                 {
-                    rootArchiver = await ArchiverManager.Current.CreateArchiverAsync(rootEntry, token);
+                    rootArchiver = await ArchiverManager.Current.CreateArchiverAsync(rootEntry, _ignoreCache, token);
                     rootArchiverPath = "";
                 }
             }
@@ -105,7 +106,7 @@ namespace NeeView
             {
                 if (rootEntry.IsArchive())
                 {
-                    rootArchiver = await ArchiverManager.Current.CreateArchiverAsync(rootEntry, token);
+                    rootArchiver = await ArchiverManager.Current.CreateArchiverAsync(rootEntry, _ignoreCache, token);
                     rootArchiverPath = "";
                 }
                 else
@@ -142,7 +143,7 @@ namespace NeeView
 
                 if (entry.IsArchive())
                 {
-                    var subArchive = await ArchiverManager.Current.CreateArchiverAsync(entry, token);
+                    var subArchive = await ArchiverManager.Current.CreateArchiverAsync(entry, _ignoreCache, token);
                     var subEntries = await subArchive.GetEntriesAsync(token);
                     result.AddRange(await GetSubArchivesEntriesAsync(subEntries, token));
                 }

@@ -209,6 +209,11 @@ namespace NeeView
         /// ページの並び順
         /// </summary>
         public PageSortMode SortMode { get; set; }
+
+        /// <summary>
+        /// キャッシュ無効
+        /// </summary>
+        public bool IsIgnoreCache { get; set; }
     }
 
 

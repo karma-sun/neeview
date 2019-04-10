@@ -285,7 +285,7 @@ namespace NeeLaboratory.Threading.Jobs
                     _isEngineActive = false;
                     _log?.Trace($"stopped.");
 
-                    Debug.WriteLine($"{this}: worker thread terminated.");
+                    ////Debug.WriteLine($"{this}: worker thread terminated.");
                 }
             });
 

@@ -70,6 +70,11 @@ namespace NeeView
         /// このアドレスはページです
         /// </summary>
         IsPage = 0x0800,
+
+        /// <summary>
+        /// アーカイブキャッシュ無効
+        /// </summary>
+        IgnoreCache = 0x1000,
     };
 
 

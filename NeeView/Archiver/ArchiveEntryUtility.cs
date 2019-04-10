@@ -32,7 +32,7 @@ namespace NeeView
                 }
                 else
                 {
-                    var archiver = await ArchiverManager.Current.CreateArchiverAsync(ArchiveEntry.Create(new QueryPath(QueryScheme.Pagemark)), token);
+                    var archiver = await ArchiverManager.Current.CreateArchiverAsync(ArchiveEntry.Create(new QueryPath(QueryScheme.Pagemark)), false, token);
                     var entries = await archiver.GetEntriesAsync(token);
                     var entry = entries.FirstOrDefault(e => e.EntryName == query.FileName);
                     if (entry != null)
@@ -54,7 +54,7 @@ namespace NeeView
 
                         if (File.Exists(archivePath))
                         {
-                            var archiver = await ArchiverManager.Current.CreateArchiverAsync(ArchiveEntry.Create(archivePath), token);
+                            var archiver = await ArchiverManager.Current.CreateArchiverAsync(ArchiveEntry.Create(archivePath), false, token);
                             var entries = await archiver.GetEntriesAsync(token);
 
                             var entryName = path.Substring(archivePath.Length).TrimStart(LoosePath.Separator);
@@ -100,7 +100,7 @@ namespace NeeView
                 entry = entries.FirstOrDefault(e => e.EntryName == archivePath && e.IsArchive());
                 if (entry != null)
                 {
-                    var subArchiver = await ArchiverManager.Current.CreateArchiverAsync(entry, token);
+                    var subArchiver = await ArchiverManager.Current.CreateArchiverAsync(entry, false, token);
                     var subEntryName = entryName.Substring(archivePath.Length).TrimStart(LoosePath.Separator);
                     return await CreateInnerAsync(subArchiver, subEntryName, token);
                 }
@@ -127,7 +127,7 @@ namespace NeeView
                 }
                 else
                 {
-                    var archiver = await ArchiverManager.Current.CreateArchiverAsync(source, token);
+                    var archiver = await ArchiverManager.Current.CreateArchiverAsync(source, false, token);
                     entries = await archiver.GetEntriesAsync(token);
                 }
                 entries = EntrySort.SortEntries(entries, PageSortMode.FileName);

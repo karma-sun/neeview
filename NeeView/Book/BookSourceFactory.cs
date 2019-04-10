@@ -13,7 +13,7 @@ namespace NeeView
         public async Task<BookSource> CreateAsync(QueryPath address, BookCreateSetting setting, CancellationToken token)
         {
             // ページ生成
-            var archiveEntryCollection = CreateArchiveEntryCollection(address.SimplePath, setting.IsRecursiveFolder, setting.ArchiveRecursiveMode);
+            var archiveEntryCollection = CreateArchiveEntryCollection(address.SimplePath, setting.IsRecursiveFolder, setting.ArchiveRecursiveMode, setting.IsIgnoreCache);
             var pages = await CreatePageCollection(archiveEntryCollection, setting.BookPageCollectMode, token);
 
             // 再帰判定用サブフォルダー数カウント
@@ -37,11 +37,11 @@ namespace NeeView
         }
 
 
-        private ArchiveEntryCollection CreateArchiveEntryCollection(string place, bool isRecursived, ArchiveEntryCollectionMode archiveRecursiveMode)
+        private ArchiveEntryCollection CreateArchiveEntryCollection(string place, bool isRecursived, ArchiveEntryCollectionMode archiveRecursiveMode, bool isIgnoreCache)
         {
             var collectMode = isRecursived ? ArchiveEntryCollectionMode.IncludeSubArchives : ArchiveEntryCollectionMode.CurrentDirectory;
             var collectModeIfArchive = isRecursived ? ArchiveEntryCollectionMode.IncludeSubArchives : archiveRecursiveMode;
-            var collectOption = ArchiveEntryCollectionOption.None;
+            var collectOption = isIgnoreCache ? ArchiveEntryCollectionOption.IgnoreCache : ArchiveEntryCollectionOption.None;
             return new ArchiveEntryCollection(place, collectMode, collectModeIfArchive, collectOption);
         }
 

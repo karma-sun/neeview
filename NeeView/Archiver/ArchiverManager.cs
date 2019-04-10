@@ -308,16 +308,34 @@ namespace NeeView
         /// <param name="source">ArchiveEntry</param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public async Task<Archiver> CreateArchiverAsync(ArchiveEntry source, CancellationToken token)
+        public async Task<Archiver> CreateArchiverAsync(ArchiveEntry source, bool ignoreCache, CancellationToken token)
         {
             // キャッシュがあればそれを返す。
             var systemPath = source.SystemPath;
-            if (_cache.TryGetValue(systemPath, out var arciver))
+            if (!ignoreCache && _cache.TryGetValue(systemPath, out var archiver))
             {
-                ////Debug.WriteLine($"Archiver: Find cache: {systemPath}");
-                return arciver;
+                // 更新日、サイズを比較して再利用するかを判定
+                if (archiver.LastWriteTime == source.LastWriteTime && archiver.Length == source.Length)
+                {
+                    ////Debug.WriteLine($"Archiver: Find cache: {systemPath}");
+                    return archiver;
+                }
+                else
+                {
+                   //// Debug.WriteLine($"Archiver: Old cache: {systemPath}");
+                }
             }
-            ////Debug.WriteLine($"Archiver: Cache not found: {systemPath}");
+            else
+            {
+                if (ignoreCache)
+                {
+                    ////Debug.WriteLine($"Archiver: Ignore cache: {systemPath}");
+                }
+                else
+                {
+                    ////Debug.WriteLine($"Archiver: Cache not found: {systemPath}");
+                }
+            }
 
             if (source.IsFileSystem)
             {

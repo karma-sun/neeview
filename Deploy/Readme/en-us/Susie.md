@@ -1,3 +1,1 @@
-  There are two kinds of executable files, NeeView and NeeViewS, and NeeViewS supports Susie plugin.
-
-  * NeeViewS supports Susie plugin (UNICODE file name accepted)
+  * Susie plugin support (UNICODE file name accepted, Supports .sph at 64bit operation)

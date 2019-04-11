@@ -6,14 +6,17 @@
 
 ## NeeView and NeeViewS
 
-  There are two types of executable files: NeeView and NeeViewS.
-  NeeView is a regular version.  
-  NeeViewS supports Susie plug-in, but it will be 32 bit operation.
+  There are two types of executable files: NeeView and NeeViewS.  
+  NeeView switches 32bit / 64bit operation depending on OS, but NeeViewS is limited to 32bit operation. 64 bit operation can use more memory.  
+  The types of Susie plug-ins that can be used are different for 32-bit and 64-bit operation.
 
-  |    |64bitOS|32bitOS|Susie|
-  |----|----|----|----|----
-  |NeeView|○|○|✕|
-  |NeeViewS|○*|○|○|*Operate with 32bit
+  |        |64bitOS   |   32bitOS|
+  |--------|----------|----------|
+  |NeeView |64bit/.sph|32bit/.spi|
+  |NeeViewS|32bit/.spi|32bit/.spi|
+
+* .spi ... [A plug-in for Takechin's image viewer Susie](http://www.digitalpad.co.jp/~takechin/)
+* .sph ... [TORO's 64bit Susie plugin](http://toro.d.dooo.jp/slplugin.html)
 
 
 ## How to install / uninstall

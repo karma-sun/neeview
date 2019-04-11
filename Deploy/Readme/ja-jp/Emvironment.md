@@ -7,13 +7,16 @@
 ## NeeView と NeeViewS
 
   NeeView と NeeViewS の２種類の実行ファイルがあります。  
-  NeeView は通常版です。  
-  NeeViewS は Susieプラグイン に対応していますが、32bit動作になります。
+  NeeViewは OS によって 32bit/64bit 動作を切り替えますが、 NeeViewSは32bit動作限定です。64bit動作のほうがより多くのメモリを使用可能です。  
+  32bitと64bit動作では使用できるSusieプラグインの種類が異なります。
 
-  |    |64bitOS|32bitOS|Susie|
-  |----|----|----|----|----
-  |NeeView|○|○|✕|
-  |NeeViewS|○※|○|○|※32bitで動作
+  |        |64bitOS   |   32bitOS|
+  |--------|----------|----------|
+  |NeeView |64bit/.sph|32bit/.spi|
+  |NeeViewS|32bit/.spi|32bit/.spi|
+
+* .spi ... [たけちん氏制作の画像ビューアSusie用のプラグイン形式](http://www.digitalpad.co.jp/~takechin/)
+* .sph ... [TORO氏提案の64bit仕様のSusieプラグイン形式](http://toro.d.dooo.jp/slplugin.html)
 
 
 ## インストール・アンインストール方法

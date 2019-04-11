@@ -21,7 +21,6 @@
   * Slide show
   * Multi threading, preload
   * Image drop from web browser
-
 <SUSIE/>
 
   For details, refer to the following page.

@@ -76,7 +76,7 @@ namespace NeeView
             LicenseUri = "file://" + Config.Current.AssemblyLocation.Replace('\\', '/').TrimEnd('/') + $"/{Properties.Resources.HelpReadMeFile}#license";
             ChangeLogUri = "file://" + Config.Current.AssemblyLocation.Replace('\\', '/').TrimEnd('/') + $"/{Properties.Resources.HelpChangeLogFile}";
 
-#if SUSIE
+#if NEEVIEW_S
             this.Icon = ResourceBitmapUtility.GetIconBitmapFrame("/Resources/AppS.ico", 256);
 #else
             this.Icon = ResourceBitmapUtility.GetIconBitmapFrame("/Resources/App.ico", 256);

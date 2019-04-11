@@ -53,7 +53,7 @@ namespace NeeView
 
         private SusieContext()
         {
-            _susie = new Susie.Susie();
+            _susie = new Susie.Susie(Is64bitPlugin);
         }
 
 
@@ -75,6 +75,11 @@ namespace NeeView
 #else
         public static bool IsSupportedSusie => false;
 #endif
+
+        /// <summary>
+        /// 64bit support?
+        /// </summary>
+        public static bool Is64bitPlugin { get; } = Environment.Is64BitProcess;
 
         /// <summary>
         /// Susie 有効/無効フラグ
@@ -277,11 +282,12 @@ namespace NeeView
             var spiList = spiListSource.Where(e => Path.GetDirectoryName(e) == spiFolder.TrimEnd('\\', '/')).ToList();
 
             // 新しいSPI追加
+            var targetExt = Is64bitPlugin ? ".sph" : ".spi";
             try
             {
                 foreach (string s in Directory.GetFiles(spiFolder))
                 {
-                    if (Path.GetExtension(s).ToLower() == ".spi" && !spiList.Contains(s))
+                    if (Path.GetExtension(s).ToLower() == targetExt && !spiList.Contains(s))
                     {
                         spiList.Add(s);
                     }
@@ -342,7 +348,6 @@ namespace NeeView
                     SpiFiles = OldSpiFiles.ToDictionary(e => e.Key, e => new SusiePluginSetting(e.Value, false));
                 }
 #pragma warning restore CS0612
-
             }
 
             public Memento Clone()

@@ -3534,9 +3534,6 @@ Is it OK? </value>
     <value>Maximum solid compressed file extraction size to be extracted in advance (MB)</value>
   </data>
   <data name="ParamSevenZipArchiverPreExtractSolidSizeTips" xml:space="preserve">
-    <value>Compressed files exceeding this extraction size will not be pre-extracted. Set 0 to prohibit all pre-extraction.</value>
-  </data>
-  <data name="ParamSevenZipArchiverPreExtractSolidSizeTipsX86" xml:space="preserve">
     <value>Compressed files exceeding this extraction size will not be pre-extracted. Set 0 to prohibit all pre-extraction.
 The Susie archive does not determine this size, but only pre-extraction in the plug-in settings.</value>
   </data>
@@ -4769,5 +4766,11 @@ Initialize the temporary location.</value>
   </data>
   <data name="ParamPictureProfileIsAspectRatioEnabledTips" xml:space="preserve">
     <value>Display with the aspect ratio set for the image.</value>
+  </data>
+  <data name="SettingPageSusieGeneralGeneralTipsX64" xml:space="preserve">
+    <value>It supports Susie plug-in (.sph) for 64bit.</value>
+  </data>
+  <data name="SettingPageSusieGeneralGeneralTips" xml:space="preserve">
+    <value>It supports Susie plug-in (.spi).</value>
   </data>
 </root>

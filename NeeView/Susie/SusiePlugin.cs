@@ -52,6 +52,8 @@ namespace NeeView.Susie
             set { SetProperty(ref _isPreExtract, value); }
         }
 
+        // 64bitプラグイン(.sph)
+        public bool Is64bitPlugin { get; private set; }
 
         // プラグインファイルのパス
         public string FileName { get; private set; }
@@ -168,10 +170,10 @@ namespace NeeView.Susie
         /// </summary>
         /// <param name="fileName">プラグインファイルのパス</param>
         /// <returns>プラグイン。失敗したらnullを返す</returns>
-        public static SusiePlugin Create(string fileName)
+        public static SusiePlugin Create(string fileName, bool is64bitPlugin)
         {
             var spi = new SusiePlugin();
-            return spi.Initialize(fileName) ? spi : null;
+            return spi.Initialize(fileName, is64bitPlugin) ? spi : null;
         }
 
 
@@ -180,13 +182,13 @@ namespace NeeView.Susie
         /// </summary>
         /// <param name="fileName">プラグインファイルのパス</param>
         /// <returns>成功したらtrue</returns>
-        public bool Initialize(string fileName)
+        public bool Initialize(string fileName, bool is64bitPlugin)
         {
             if (FileName != null) throw new InvalidOperationException();
 
             try
             {
-                using (var api = SusiePluginApi.Create(fileName))
+                using (var api = SusiePluginApi.Create(fileName, is64bitPlugin))
                 {
                     ApiVersion = api.GetPluginInfo(0);
                     PluginVersion = api.GetPluginInfo(1);
@@ -213,6 +215,8 @@ namespace NeeView.Susie
                 }
 
                 FileName = fileName;
+                Is64bitPlugin = is64bitPlugin;
+
 
                 // create extensions
                 Extensions = new List<string>();
@@ -245,7 +249,7 @@ namespace NeeView.Susie
 
             if (_module == null)
             {
-                _module = SusiePluginApi.Create(FileName);
+                _module = SusiePluginApi.Create(FileName, Is64bitPlugin);
             }
 
             return _module;

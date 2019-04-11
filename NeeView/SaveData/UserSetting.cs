@@ -24,6 +24,9 @@ namespace NeeView
         [DataMember(Order = 1)]
         public SusieContext.Memento SusieMemento { get; set; }
 
+        [DataMember(Order = 1)]
+        public SusieContext.Memento SusieMementoX64 { get; set; }
+
         [DataMember(Order = 9998)]
         public CommandTable.Memento CommandMememto { set; get; }
 

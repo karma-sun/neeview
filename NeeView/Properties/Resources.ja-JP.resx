@@ -3534,9 +3534,6 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>ソリッド圧縮ファイルを事前展開する最大展開サイズ(MB)</value>
   </data>
   <data name="ParamSevenZipArchiverPreExtractSolidSizeTips" xml:space="preserve">
-    <value>この展開サイズを超える圧縮ファイルは事前展開を行いません。全ての事前展開を禁止する場合には0を設定します。</value>
-  </data>
-  <data name="ParamSevenZipArchiverPreExtractSolidSizeTipsX86" xml:space="preserve">
     <value>この展開サイズを超える圧縮ファイルは事前展開を行いません。全ての事前展開を禁止する場合には0を設定します。
 Susie書庫はこのサイズで判別せず、プラグインの設定でのみ事前展開を判別します。</value>
   </data>
@@ -4769,5 +4766,11 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="ParamPictureProfileIsAspectRatioEnabledTips" xml:space="preserve">
     <value>画像に設定されているアスペクト比で表示します。</value>
+  </data>
+  <data name="SettingPageSusieGeneralGeneralTipsX64" xml:space="preserve">
+    <value>64bit用Susieプラグイン(.sph)に対応しています。</value>
+  </data>
+  <data name="SettingPageSusieGeneralGeneralTips" xml:space="preserve">
+    <value>Susieプラグイン(.spi)に対応しています。</value>
   </data>
 </root>

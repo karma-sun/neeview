@@ -35,11 +35,7 @@ namespace NeeView
         public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".7z;.cb7;.cbr;.cbz;.lzh;.rar;.zip");
 
         // 事前展開サイズ上限
-#if SUSIE
-        [PropertyMember("@ParamSevenZipArchiverPreExtractSolidSize", Tips = "@ParamSevenZipArchiverPreExtractSolidSizeTipsX86")]
-#else
         [PropertyMember("@ParamSevenZipArchiverPreExtractSolidSize", Tips = "@ParamSevenZipArchiverPreExtractSolidSizeTips")]
-#endif
         public int PreExtractSolidSize { get; set; } = 1000;
 
         // 事前展開先をメモリにする

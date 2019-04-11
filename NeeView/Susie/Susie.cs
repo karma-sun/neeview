@@ -34,6 +34,19 @@ namespace NeeView.Susie
         #endregion
 
 
+        // レジストリに登録されているSusiePluginパスの取得
+        private static bool s_susiePluginInstallPathInitialized;
+        private static string s_susiePluginInstallPath;
+
+        private bool _is64bitPlugin;
+        
+
+        public Susie(bool is64bitPlugin)
+        {
+            _is64bitPlugin = is64bitPlugin;
+        }
+
+
         /// <summary>
         /// 書庫プラグインリスト
         /// </summary>
@@ -54,8 +67,6 @@ namespace NeeView.Susie
             set { if (_INPluginList != value) { _INPluginList = value; RaisePropertyChanged(); } }
         }
 
-
-
         // すべてのプラグインのEnumerator
         public IEnumerable<SusiePlugin> PluginCollection
         {
@@ -67,9 +78,6 @@ namespace NeeView.Susie
         }
 
 
-        // レジストリに登録されているSusiePluginパスの取得
-        private static bool s_susiePluginInstallPathInitialized;
-        private static string s_susiePluginInstallPath;
         public static string GetSusiePluginInstallPath()
         {
             if (!s_susiePluginInstallPathInitialized)
@@ -108,7 +116,7 @@ namespace NeeView.Susie
             // 新しいプラグイン追加
             foreach (var fileName in spiFiles)
             {
-                var spi = SusiePlugin.Create(fileName);
+                var spi = SusiePlugin.Create(fileName, _is64bitPlugin);
                 if (spi != null)
                 {
                     spi.IsCacheEnabled = isPluginCacheEnabled;
@@ -207,8 +215,6 @@ namespace NeeView.Susie
         }
 
 
-
-
         // 対応画像プラグイン取得
         public SusiePlugin GetImagePlugin(string fileName, bool isCheckExtension)
         {
@@ -242,8 +248,6 @@ namespace NeeView.Susie
             }
             return null;
         }
-
-
 
 
         /// <summary>

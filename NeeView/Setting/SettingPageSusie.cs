@@ -27,6 +27,7 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageSusieGeneralGeneral,
+                    SusieContext.Is64bitPlugin ? Properties.Resources.SettingPageSusieGeneralGeneralTipsX64: Properties.Resources.SettingPageSusieGeneralGeneralTips,
                     new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.IsEnableSusie))),
                     new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.SusiePluginPath)))
                     {

@@ -232,7 +232,7 @@ namespace NeeView
             {
                 if (_isSplashScreenVisibled) return;
                 _isSplashScreenVisibled = true;
-#if SUSIE
+#if NEEVIEW_S
                 var resourceName = "Resources/SplashScreenS.png";
 #else
                 var resourceName = "Resources/SplashScreen.png";

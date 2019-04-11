@@ -65,6 +65,19 @@ namespace NeeView
             (d as MenuBarView)?.Initialize();
         }
 
+
+        /// <summary>
+        /// ウィンドウ非アクティブ時に表示を薄くする機能の有効/無効
+        /// </summary>
+        public bool IsUnactiveEnabled
+        {
+            get { return (bool)GetValue(IsUnactiveEnabledProperty); }
+            set { SetValue(IsUnactiveEnabledProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsUnactiveEnabledProperty =
+            DependencyProperty.Register("IsUnactiveEnabled", typeof(bool), typeof(MenuBarView), new PropertyMetadata(false));
+
         #endregion
 
         #region Methods

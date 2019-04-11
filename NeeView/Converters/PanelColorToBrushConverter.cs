@@ -67,15 +67,15 @@ namespace NeeView
 
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[0] is PanelColor panelColor && values[1] is bool isActive)
+            if (values[0] is PanelColor panelColor && values[1] is bool isActive && values[2] is bool isEnabled)
             {
                 if (panelColor == PanelColor.Dark)
                 {
-                    return isActive ? _dark : _halfDark;
+                    return isActive || !isEnabled ? _dark : _halfDark;
                 }
                 else
                 {
-                    return isActive ? _light : _halfLight;
+                    return isActive || !isEnabled ? _light : _halfLight;
                 }
             }
 

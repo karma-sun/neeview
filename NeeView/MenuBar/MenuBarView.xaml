@@ -13,16 +13,21 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
 
-
     <Grid x:Name="Root" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" Background="{Binding ThemeProfile.MenuColor, Converter={StaticResource BackgroundSelector}}" MinHeight="0">
+        
+        <ContentControl x:Name="ForegroundColorResource" IsHitTestVisible="False" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <ContentControl.Foreground>
+                <MultiBinding Converter="{StaticResource ForegroundSelector}">
+                    <Binding Path="ThemeProfile.MenuColor"/>
+                    <Binding Path="IsActive" RelativeSource="{RelativeSource AncestorType=Window}"/>
+                    <Binding Path="IsUnactiveEnabled" RelativeSource="{RelativeSource  AncestorType=local:MenuBarView}"/>
+                </MultiBinding>
+            </ContentControl.Foreground>
+        </ContentControl>
+        
         <DockPanel x:Name="MenuBarArea" LastChildFill="True" Margin="0,0,0,2">
-            <local:WindowCaptionButtons x:Name="WindowCaptionButtons" VerticalAlignment="Top" DockPanel.Dock="Right" WindowChrome.IsHitTestVisibleInChrome="True">
-                <local:WindowCaptionButtons.Foreground>
-                    <MultiBinding Converter="{StaticResource ForegroundSelector}">
-                        <Binding Path="ThemeProfile.MenuColor"/>
-                        <Binding Path="IsActive" RelativeSource="{RelativeSource AncestorType=Window}"/>
-                    </MultiBinding>
-                </local:WindowCaptionButtons.Foreground>
+            <local:WindowCaptionButtons x:Name="WindowCaptionButtons" VerticalAlignment="Top" DockPanel.Dock="Right" WindowChrome.IsHitTestVisibleInChrome="True"
+                                        Foreground="{Binding Foreground, ElementName=ForegroundColorResource}">
                 <local:WindowCaptionButtons.Style>
                     <Style TargetType="local:WindowCaptionButtons">
                         <Setter Property="Height" Value="28"/>
@@ -42,24 +47,13 @@
             </Grid>
 
             <DockPanel x:Name="MenuArea" VerticalAlignment="Bottom">
-                <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="True">
-                    <ContentControl.Foreground>
-                        <MultiBinding Converter="{StaticResource ForegroundSelector}">
-                            <Binding Path="ThemeProfile.MenuColor"/>
-                            <Binding Path="IsActive" RelativeSource="{RelativeSource AncestorType=Window}"/>
-                        </MultiBinding>
-                    </ContentControl.Foreground>
+                <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="True"
+                                Foreground="{Binding Foreground, ElementName=ForegroundColorResource}">
                 </ContentControl>
-
                 <TextBlock x:Name="MenuTitle" Text="{Binding WindowTitle.Title}" VerticalAlignment="Center" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" Margin="5,0"
-                       FontSize="{x:Static SystemFonts.MessageFontSize}"
-                       Visibility="{Binding WindowCaptionEmulator.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}">
-                    <TextBlock.Foreground>
-                        <MultiBinding Converter="{StaticResource ForegroundSelector}">
-                            <Binding Path="ThemeProfile.MenuColor"/>
-                            <Binding Path="IsActive" RelativeSource="{RelativeSource AncestorType=Window}"/>
-                        </MultiBinding>
-                    </TextBlock.Foreground>
+                           FontSize="{x:Static SystemFonts.MessageFontSize}"
+                           Visibility="{Binding WindowCaptionEmulator.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                           Foreground="{Binding Foreground, ElementName=ForegroundColorResource}">
                 </TextBlock>
             </DockPanel>
 

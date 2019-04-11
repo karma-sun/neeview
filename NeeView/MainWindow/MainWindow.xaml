@@ -77,6 +77,7 @@
             <local:DpiScaleYInverseConverter x:Key="DpiScaleYInverseConverter"/>
             <local:SliderDirectionToFlowDirectionConverter x:Key="SliderDirectionToFlowDirectionConverter"/>
             <local:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter"/>
+            <local:BooleanReverseConverter x:Key="BooleanReverseConverter"/>
 
 
             <!-- MenuItem History -->
@@ -116,7 +117,7 @@
                     <Grid x:Name="MenuArea">
                         <StackPanel>
                             <!-- メニューバー-->
-                            <local:MenuBarView x:Name="MenuBar" />
+                            <local:MenuBarView x:Name="MenuBar" IsUnactiveEnabled="{Binding WindowShape.CanCaptionVisible, Converter={StaticResource BooleanReverseConverter}}" />
 
                             <!-- アドレスバー -->
                             <local:AddressBarView x:Name="AddressBar" VerticalAlignment="Top" Visibility="{Binding Model.IsVisibleAddressBar, Converter={StaticResource BooleanToVisibilityConverter}}"/>

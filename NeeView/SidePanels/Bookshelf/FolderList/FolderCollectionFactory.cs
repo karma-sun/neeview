@@ -53,6 +53,10 @@ namespace NeeView
                 {
                     return await CreateEntryFolderCollectionAsync(path, isActive, token);
                 }
+                else if (PlaylistArchive.IsSupportExtension(path.Path))
+                {
+                    return await CreatePlaylistFolderCollectionAsync(path, isActive, token);
+                }
                 else
                 {
                     return await CreateArchiveFolderCollectionAsync(path, isActive, token);
@@ -117,6 +121,25 @@ namespace NeeView
             return collection;
         }
 
+        // プレイリストフォルダーコレクション作成
+        public async Task<FolderCollection> CreatePlaylistFolderCollectionAsync(QueryPath path, bool isActive, CancellationToken token)
+        {
+            try
+            {
+                var collection = new PlaylistFolderCollection(path, isActive, _isOverlayEnabled);
+                await collection.InitializeItemsAsync(token);
+                token.ThrowIfCancellationRequested();
+                return collection;
+            }
+            catch (Exception ex)
+            {
+                // NOTE: 展開できない場合、実在パスでの展開を行う
+                Debug.WriteLine($"Cannot open: {ex.Message}");
+                var place = ArchiveEntryUtility.GetExistDirectoryName(path.SimplePath);
+                return await CreateEntryFolderCollectionAsync(new QueryPath(place), isActive, token);
+            }
+        }
+
         // アーカイブフォルダーコレクション作成
         public async Task<FolderCollection> CreateArchiveFolderCollectionAsync(QueryPath path, bool isActive, CancellationToken token)
         {
@@ -124,9 +147,7 @@ namespace NeeView
             {
                 var collection = new FolderArchiveCollection(path, BookHub.Current.ArchiveRecursiveMode, isActive, _isOverlayEnabled);
                 await collection.InitializeItemsAsync(token);
-
                 token.ThrowIfCancellationRequested();
-
                 return collection;
             }
             catch (Exception ex)

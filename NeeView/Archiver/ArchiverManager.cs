@@ -66,6 +66,7 @@ namespace NeeView
             [ArchiverType.PdfArchiver] = new FileTypeCollection(".pdf"),
             [ArchiverType.MediaArchiver] = MediaArchiverProfile.Current.SupportFileTypes,
             [ArchiverType.SusieArchiver] = SusieContext.Current.ArchiveExtensions,
+            [ArchiverType.PlaylistArchiver] = new FileTypeCollection(PlaylistArchive.Extension),
         };
 
         // アーカイバの適用順
@@ -157,6 +158,8 @@ namespace NeeView
         private List<ArchiverType> CreateOrderList()
         {
             var order = new List<ArchiverType>();
+
+            order.Add(ArchiverType.PlaylistArchiver);
 
             if (ZipArchiverProfile.Current.IsEnabled)
             {
@@ -276,6 +279,9 @@ namespace NeeView
                     break;
                 case ArchiverType.PagemarkArchiver:
                     archiver = new PagemarkArchiver(path, source);
+                    break;
+                case ArchiverType.PlaylistArchiver:
+                    archiver = new PlaylistArchive(path, source);
                     break;
                 default:
                     ////throw new ArgumentException("Not support archive type.");
@@ -429,6 +435,8 @@ namespace NeeView
                     return ArchiverType.SusieArchiver;
                 case PagemarkArchiver pagemarkArchiver:
                     return ArchiverType.PagemarkArchiver;
+                case PlaylistArchive playlistArchvier:
+                    return ArchiverType.PlaylistArchiver;
                 default:
                     return ArchiverType.None;
             }

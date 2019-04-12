@@ -14,6 +14,7 @@
         SusieArchiver,
         MediaArchiver,
         PagemarkArchiver,
+        PlaylistArchiver,
     }
 
     public static class ArchiverTypeExtensions

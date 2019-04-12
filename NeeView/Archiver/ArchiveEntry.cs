@@ -1,4 +1,5 @@
 ﻿using NeeView.Collections.Generic;
+using NeeView.IO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -93,6 +94,11 @@ namespace NeeView
         public string EntryLastName => LoosePath.GetFileName(EntryName);
 
         /// <summary>
+        /// エントリのフルネーム
+        /// </summary>
+        public string EntryFullName => LoosePath.Combine(Archiver?.SystemPath, EntryName);
+
+        /// <summary>
         /// ルートアーカイバー
         /// </summary>
         /// a.zip
@@ -110,13 +116,17 @@ namespace NeeView
         {
             get
             {
-                if (Instance is TreeListNode<IPagemarkEntry> pagemarkEntry && pagemarkEntry.Value is Pagemark pagemark)
+                if (Link != null)
+                {
+                    return Link;
+                }
+                else if (Instance is TreeListNode<IPagemarkEntry> pagemarkEntry && pagemarkEntry.Value is Pagemark pagemark)
                 {
                     return pagemark.FullName;
                 }
                 else
                 {
-                    return LoosePath.Combine(Archiver?.SystemPath, EntryName);
+                    return EntryFullName;
                 }
             }
         }
@@ -151,7 +161,7 @@ namespace NeeView
         /// <summary>
         /// ファイルシステム所属判定
         /// </summary>
-        public bool IsFileSystem => Archiver == null || Archiver.IsFileSystem;
+        public bool IsFileSystem => Archiver == null || Archiver.IsFileSystem || Link != null;
 
         /// <summary>
         /// 拡張子による画像ファイル判定無効
@@ -351,6 +361,27 @@ namespace NeeView
                             entry.Length = fileInfo.Length;
                             entry.LastWriteTime = fileInfo.LastWriteTime;
                             entry.IsValid = true;
+                            if (FileShortcut.IsShortcut(fileInfo.Name))
+                            {
+                                var shortcut = new FileShortcut(fileInfo);
+                                if (shortcut.IsValid)
+                                {
+                                    if (shortcut.Target.Attributes.HasFlag(FileAttributes.Directory))
+                                    {
+                                        var info = (DirectoryInfo)shortcut.Target;
+                                        entry.Link = info.FullName;
+                                        entry.Length = -1;
+                                        entry.LastWriteTime = info.LastWriteTime;
+                                    }
+                                    else
+                                    {
+                                        var info = (FileInfo)shortcut.Target;
+                                        entry.Link = info.FullName;
+                                        entry.Length = info.Length;
+                                        entry.LastWriteTime = info.LastWriteTime;
+                                    }
+                                }
+                            }
                             return entry;
                         }
                     }

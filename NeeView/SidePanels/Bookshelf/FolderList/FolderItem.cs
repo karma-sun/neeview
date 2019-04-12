@@ -28,6 +28,7 @@ namespace NeeView
         QuickAccess = (1 << 6),
         System = (1 << 7),
         ReadOnly = (1 << 8),
+        Playlist = (1 << 9),
     }
 
     /// <summary>
@@ -66,6 +67,8 @@ namespace NeeView
         Empty,
         Directory,
         DirectoryShortcut,
+        Playlist,
+        PlaylistShortcut,
         File,
         FileShortcut,
         ArchiveEntry,
@@ -96,6 +99,7 @@ namespace NeeView
 
         public bool IsDirectory => (Attributes & FolderItemAttribute.Directory) == FolderItemAttribute.Directory;
         public bool IsShortcut => (Attributes & FolderItemAttribute.Shortcut) == FolderItemAttribute.Shortcut;
+        public bool IsPlaylist => (Attributes & FolderItemAttribute.Playlist) == FolderItemAttribute.Playlist;
 
         // 種類。ソート用
         public FolderItemType Type { get; set; }
@@ -134,7 +138,7 @@ namespace NeeView
         private string _dispName;
         public string DispName
         {
-            get { return _dispName ?? (IsShortcut ? System.IO.Path.GetFileNameWithoutExtension(_name) : _name); }
+            get { return _dispName ?? (IsShortcut || IsPlaylist ? System.IO.Path.GetFileNameWithoutExtension(_name) : _name); }
             set { SetProperty(ref _dispName, value); }
         }
 
@@ -351,7 +355,7 @@ namespace NeeView
             {
                 if (disposing)
                 {
-                    if  (_archivePage != null)
+                    if (_archivePage != null)
                     {
                         _archivePage.Dispose();
                     }

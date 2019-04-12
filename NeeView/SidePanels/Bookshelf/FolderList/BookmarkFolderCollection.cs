@@ -51,6 +51,8 @@ namespace NeeView
 
         // Properties
 
+        public override FolderOrderClass FolderOrderClass => FolderOrderClass.Full;
+
         public TreeListNode<IBookmarkEntry> BookmarkPlace => _bookmarkPlace;
 
 

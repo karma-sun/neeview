@@ -101,17 +101,10 @@ namespace NeeView
             }
         }
 
-        public static FolderOrder GetToggle(this FolderOrder mode)
+        public static bool IsEntryCategory(this FolderOrder mode)
         {
-            return (FolderOrder)(((int)mode + 1) % Enum.GetNames(typeof(FolderOrder)).Length);
-        }
-
-        public static bool IsBookmarkOnly(this FolderOrder mode)
-        {
-            switch(mode)
+            switch (mode)
             {
-                case FolderOrder.Path:
-                case FolderOrder.PathDescending:
                 case FolderOrder.EntryTime:
                 case FolderOrder.EntryTimeDescending:
                     return true;
@@ -119,5 +112,18 @@ namespace NeeView
                     return false;
             }
         }
+
+        public static bool IsPathCategory(this FolderOrder mode)
+        {
+            switch (mode)
+            {
+                case FolderOrder.Path:
+                case FolderOrder.PathDescending:
+                    return true;
+                default:
+                    return false;
+            }
+        }
     }
+
 }

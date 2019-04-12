@@ -143,6 +143,12 @@ namespace NeeView
 
                 if (entry.IsArchive())
                 {
+                    // リンクエントリーは除外
+                    if (entry.Link != null)
+                    {
+                        continue;
+                    }
+
                     var subArchive = await ArchiverManager.Current.CreateArchiverAsync(entry, _ignoreCache, token);
                     var subEntries = await subArchive.GetEntriesAsync(token);
                     result.AddRange(await GetSubArchivesEntriesAsync(subEntries, token));

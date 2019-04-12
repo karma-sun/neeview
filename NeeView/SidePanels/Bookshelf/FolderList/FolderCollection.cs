@@ -84,6 +84,12 @@ namespace NeeView
             private set { Items[index] = value; }
         }
 
+
+        /// <summary>
+        /// ソート適用の種類
+        /// </summary>
+        public abstract FolderOrderClass FolderOrderClass { get; }
+
         /// <summary>
         /// Folder Parameter
         /// </summary>
@@ -284,9 +290,9 @@ namespace NeeView
                 case FolderOrder.TimeStampDescending:
                     return source.OrderBy(e => e.Type).ThenByDescending(e => e.LastWriteTime).ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.EntryTime:
-                    return source.OrderBy(e => e.Type).ThenBy(e => e.EntryTime).ThenBy(e => e, new ComparerFileName());
+                    return source.OrderBy(e => e.EntryTime).ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.EntryTimeDescending:
-                    return source.OrderBy(e => e.Type).ThenByDescending(e => e.EntryTime).ThenBy(e => e, new ComparerFileName());
+                    return source.OrderByDescending(e => e.EntryTime).ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.Size:
                     return source.OrderBy(e => e.Type).ThenBy(e => e.Length).ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.SizeDescending:
@@ -743,7 +749,7 @@ namespace NeeView
             {
                 var item = new DriveFolderItem(e, _isOverlayEnabled)
                 {
-                    Place = Place,
+                    Place = new QueryPath(QueryScheme.File),
                     Name = e.Name,
                     DispName = string.Format("{0} ({1})", e.DriveType.ToDispString(), e.Name.TrimEnd('\\')),
                     Attributes = FolderItemAttribute.Directory | FolderItemAttribute.Drive,
@@ -782,7 +788,7 @@ namespace NeeView
                 return new FileFolderItem(_isOverlayEnabled)
                 {
                     Type = FolderItemType.Directory,
-                    Place = Place,
+                    Place = new QueryPath(Path.GetDirectoryName(e.FullName)),
                     Name = e.Name,
                     LastWriteTime = e.LastWriteTime,
                     Length = -1,
@@ -803,17 +809,28 @@ namespace NeeView
         /// <returns></returns>
         protected FolderItem CreateFolderItem(FileInfo e)
         {
-            if (e != null && e.Exists && ArchiverManager.Current.IsSupported(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
+            var archiveType = ArchiverManager.Current.GetSupportedType(e.FullName);
+
+            if (e != null && e.Exists && archiveType != ArchiverType.None && (e.Attributes & FileAttributes.Hidden) == 0)
             {
-                return new FileFolderItem(_isOverlayEnabled)
+                var item = new FileFolderItem(_isOverlayEnabled)
                 {
                     Type = FolderItemType.File,
-                    Place = Place,
+                    Place = new QueryPath(Path.GetDirectoryName(e.FullName)),
                     Name = e.Name,
                     LastWriteTime = e.LastWriteTime,
                     Length = e.Length,
                     IsReady = true
                 };
+
+                if (archiveType == ArchiverType.PlaylistArchiver)
+                {
+                    item.Type = FolderItemType.Playlist;
+                    item.Attributes = FolderItemAttribute.Directory | FolderItemAttribute.Playlist;
+                    item.Length = -1;
+                }
+
+                return item;
             }
             else
             {
@@ -846,7 +863,7 @@ namespace NeeView
                 else
                 {
                     info = CreateFolderItem((FileInfo)e.Target);
-                    type = FolderItemType.FileShortcut;
+                    type = info.Type == FolderItemType.Playlist ? FolderItemType.PlaylistShortcut : FolderItemType.FileShortcut;
                 }
             }
 

@@ -72,6 +72,11 @@ namespace NeeView
 
         #endregion
 
+        #region Properties
+
+        public override FolderOrderClass FolderOrderClass => FolderOrderClass.Normal;
+
+        #endregion Properties
 
         #region Methods
 

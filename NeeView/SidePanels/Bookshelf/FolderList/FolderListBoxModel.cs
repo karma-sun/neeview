@@ -288,7 +288,8 @@ namespace NeeView
         public void SetFolderOrder(FolderOrder folderOrder)
         {
             if (FolderCollection == null) return;
-            if (!(FolderCollection is BookmarkFolderCollection) && folderOrder.IsBookmarkOnly()) return;
+            if (!FolderCollection.FolderOrderClass.GetFolderOrderMap().ContainsKey(folderOrder)) return;
+
             this.FolderCollection.FolderParameter.FolderOrder = folderOrder;
             RaisePropertyChanged(nameof(FolderOrder));
         }
@@ -308,8 +309,18 @@ namespace NeeView
         public void ToggleFolderOrder()
         {
             if (this.FolderCollection == null) return;
-            this.FolderCollection.FolderParameter.FolderOrder.GetToggle();
+            SetFolderOrder(GetNextFolderOrder());
             RaisePropertyChanged(nameof(FolderOrder));
+        }
+
+        public FolderOrder GetNextFolderOrder()
+        {
+            if (this.FolderCollection == null) return default;
+
+            var orders = FolderCollection.FolderOrderClass.GetFolderOrderMap().Keys;
+            var now =  this.FolderCollection.FolderParameter.FolderOrder;
+            var index = orders.IndexOf(now);
+            return orders.ElementAt((index + 1) % orders.Count);
         }
 
 

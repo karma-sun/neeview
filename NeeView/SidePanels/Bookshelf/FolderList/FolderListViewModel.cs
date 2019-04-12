@@ -81,7 +81,6 @@ namespace NeeView
 
         private FolderListBox _folderListBox;
         private PanelListItemStyleToBooleanConverter _panelListItemStyleToBooleanConverter = new PanelListItemStyleToBooleanConverter();
-        private Dictionary<FolderOrder, string> _folderOrderListDefault = AliasNameExtensions.GetAliasNameDictionary<FolderOrder>();
 
         #endregion
 
@@ -513,16 +512,7 @@ namespace NeeView
 
         public void UpdateFolderOrerList()
         {
-            if (FolderCollection is BookmarkFolderCollection)
-            {
-                FolderOrderList = _folderOrderListDefault;
-            }
-            else
-            {
-                FolderOrderList = _folderOrderListDefault
-                    .Where(e => !e.Key.IsBookmarkOnly())
-                    .ToDictionary(e => e.Key, e => e.Value);
-            }
+            FolderOrderList = FolderCollection.FolderOrderClass.GetFolderOrderMap();
         }
 
         /// <summary>

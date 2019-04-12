@@ -839,7 +839,21 @@ namespace NeeView
 
         public bool IsFolderOrderEnabled
         {
-            get { return _folderCollection != null && (_folderCollection is FolderEntryCollection collection && collection.Place.Path != null || _folderCollection is BookmarkFolderCollection || _folderCollection is FolderSearchCollection || _folderCollection is FolderArchiveCollection); }
+            get
+            {
+                if (_folderCollection is null)
+                {
+                    return false;
+                }
+                if (_folderCollection is FolderEntryCollection collection)
+                {
+                    return collection.Place.Path != null;
+                }
+                else
+                {
+                    return _folderCollection.FolderOrderClass != FolderOrderClass.None;
+                }
+            }
         }
 
         /// <summary>
@@ -865,6 +879,15 @@ namespace NeeView
         {
             _folderListBoxModel.ToggleFolderOrder();
         }
+
+        /// <summary>
+        /// フォルダーの次の並び順を取得
+        /// </summary>
+        public FolderOrder GetNextFolderOrder()
+        {
+            return _folderListBoxModel.GetNextFolderOrder();
+        }
+
 
         /// <summary>
         /// 検索ボックスにフォーカス要求

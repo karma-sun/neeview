@@ -1501,7 +1501,7 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandToggleFolderOrder;
                 element.Note = Properties.Resources.CommandToggleFolderOrderNote;
                 element.Execute = (s, e) => BookshelfFolderList.Current.ToggleFolderOrder();
-                element.ExecuteMessage = e => BookshelfFolderList.Current.GetFolderOrder().GetToggle().ToAliasName();
+                element.ExecuteMessage = e => BookshelfFolderList.Current.GetNextFolderOrder().ToAliasName();
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleFolderOrder] = element;
             }

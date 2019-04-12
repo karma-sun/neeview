@@ -56,6 +56,9 @@ namespace NeeView
         }
 
 
+        public override FolderOrderClass FolderOrderClass => FolderOrderClass.WithPath;
+
+
         #region Methods
 
         /// <summary>

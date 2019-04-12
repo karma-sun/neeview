@@ -15,6 +15,8 @@ namespace NeeView
         {
         }
 
+        public override FolderOrderClass FolderOrderClass => FolderOrderClass.None;
+
         public override async Task InitializeItemsAsync(CancellationToken token)
         {
             await Task.Yield();

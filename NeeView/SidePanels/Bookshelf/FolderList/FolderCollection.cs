@@ -140,6 +140,13 @@ namespace NeeView
         }
 #pragma warning restore CS1998
 
+        public bool IsEmpty()
+        {
+            return Items == null
+                || Items.Count == 0
+                || Items.Count == 1 && Items[0].IsEmpty();
+        }
+
         /// <summary>
         /// 更新が必要？
         /// </summary>
@@ -290,9 +297,9 @@ namespace NeeView
                 case FolderOrder.TimeStampDescending:
                     return source.OrderBy(e => e.Type).ThenByDescending(e => e.LastWriteTime).ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.EntryTime:
-                    return source.OrderBy(e => e.EntryTime).ThenBy(e => e, new ComparerFileName());
+                    return source.OrderBy(e => e.Type).ThenBy(e => e.EntryTime).ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.EntryTimeDescending:
-                    return source.OrderByDescending(e => e.EntryTime).ThenBy(e => e, new ComparerFileName());
+                    return source.OrderBy(e => e.Type).ThenByDescending(e => e.EntryTime).ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.Size:
                     return source.OrderBy(e => e.Type).ThenBy(e => e.Length).ThenBy(e => e, new ComparerFileName());
                 case FolderOrder.SizeDescending:

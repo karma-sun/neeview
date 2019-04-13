@@ -340,6 +340,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Save playlist... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string BookshelfMoreMenuExportPlaylist {
+            get {
+                return ResourceManager.GetString("BookshelfMoreMenuExportPlaylist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Page list に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookshelfMoreMenuPageList {

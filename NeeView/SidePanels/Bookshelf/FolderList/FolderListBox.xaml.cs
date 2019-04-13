@@ -295,6 +295,10 @@ namespace NeeView
             {
                 return false;
             }
+            else if (_vm.FolderCollection is PlaylistFolderCollection)
+            {
+                return false;
+            }
             else if (item.IsFileSystem())
             {
                 return FileIOProfile.Current.IsEnabled;
@@ -353,6 +357,10 @@ namespace NeeView
         private bool CanRenameExecute(FolderItem item)
         {
             if (item == null || !item.IsEditable)
+            {
+                return false;
+            }
+            if (_vm.FolderCollection is PlaylistFolderCollection)
             {
                 return false;
             }

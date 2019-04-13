@@ -1,4 +1,5 @@
-﻿using NeeLaboratory.ComponentModel;
+﻿using Microsoft.Win32;
+using NeeLaboratory.ComponentModel;
 using NeeLaboratory.Windows.Input;
 using System;
 using System.Collections;
@@ -313,6 +314,39 @@ namespace NeeView
             }
         }
 
+        private RelayCommand _ExportPlaylist;
+        public RelayCommand ExportPlaylist
+        {
+            get
+            {
+                return _ExportPlaylist = _ExportPlaylist ?? new RelayCommand(Execute, CanExecute);
+
+                bool CanExecute()
+                {
+                    // ソート可能ならば保存可能とする
+                    return _model.IsFolderOrderEnabled && !_model.FolderCollection.IsEmpty();
+                }
+
+                void Execute()
+                {
+                    var dialog = new SaveFileDialog();
+                    dialog.OverwritePrompt = true;
+                    dialog.DefaultExt = PlaylistArchive.Extension;
+                    dialog.AddExtension = true;
+                    dialog.FileName = "NeeViewPlaylist-" + DateTime.Now.ToString("yyyyMMdd") + PlaylistArchive.Extension;
+                    dialog.Filter = "NeeView Playlist|*" + PlaylistArchive.Extension + "|All|*.*";
+                    if (dialog.ShowDialog(MainWindow.Current) == true)
+                    {
+                        var playlist = new Playlist(_model.FolderCollection.Items.Select(e => e.Path.SimplePath));
+                        PlaylistFile.Save(dialog.FileName, playlist, true);
+                    }
+                }
+            }
+        }
+
+
+
+
         private RelayCommand<FolderTreeLayout> _SetFolderTreeLayout;
         public RelayCommand<FolderTreeLayout> SetFolderTreeLayout
         {
@@ -379,6 +413,7 @@ namespace NeeView
             items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleBanner, PanelListItemStyle.Banner));
             items.Add(CreateListItemStyleMenuItem(Properties.Resources.WordStyleThumbnail, PanelListItemStyle.Thumbnail));
             items.Add(new Separator());
+            items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuExportPlaylist, ExportPlaylist));
             items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuAddQuickAccess, AddQuickAccess));
             items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuClearHistory, CommandType.ClearHistoryInPlace, FolderPanelModel.Current));
 

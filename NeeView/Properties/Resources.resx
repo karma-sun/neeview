@@ -4773,4 +4773,7 @@ Initialize the temporary location.</value>
   <data name="SettingPageSusieGeneralGeneralTips" xml:space="preserve">
     <value>It supports Susie plug-in (.spi).</value>
   </data>
+  <data name="BookshelfMoreMenuExportPlaylist" xml:space="preserve">
+    <value>Save playlist...</value>
+  </data>
 </root>

@@ -4773,4 +4773,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="SettingPageSusieGeneralGeneralTips" xml:space="preserve">
     <value>Susieプラグイン(.spi)に対応しています。</value>
   </data>
+  <data name="BookshelfMoreMenuExportPlaylist" xml:space="preserve">
+    <value>プレイリストを保存...</value>
+  </data>
 </root>

@@ -42,6 +42,15 @@
           <uap3:Protocol Name="neeview-open" Parameters="&quot;%1&quot;" />
         </uap3:Extension>
         <uap:Extension Category="windows.fileTypeAssociation">
+          <uap:FileTypeAssociation Name="neeview-only">
+            <uap:Logo>Assets\Square44x44FileLogo.png</uap:Logo>
+            <uap:SupportedFileTypes>
+              <uap:FileType>.nvzip</uap:FileType>
+              <uap:FileType>.nvpls</uap:FileType>
+            </uap:SupportedFileTypes>
+          </uap:FileTypeAssociation>
+        </uap:Extension>
+        <uap:Extension Category="windows.fileTypeAssociation">
           <uap:FileTypeAssociation Name="neeview-archive">
             <uap:Logo>Assets\Square44x44FileLogo.png</uap:Logo>
             <uap:SupportedFileTypes>

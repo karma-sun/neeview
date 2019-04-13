@@ -112,19 +112,22 @@ namespace NeeView
         // ストリームを開く
         protected override Stream OpenStreamInner(ArchiveEntry entry)
         {
-            return new FileStream(entry.Link ?? GetFileSystemPath(entry), FileMode.Open, FileAccess.Read);
+            Debug.Assert(entry.Link != null);
+            return new FileStream(entry.Link, FileMode.Open, FileAccess.Read);
         }
 
         // ファイルパス取得
         public override string GetFileSystemPath(ArchiveEntry entry)
         {
-            return System.IO.Path.Combine(Path, entry.EntryName);
+            Debug.Assert(entry.Link != null);
+            return entry.Link;
         }
 
         // ファイル出力
         protected override void ExtractToFileInner(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
-            File.Copy(GetFileSystemPath(entry), exportFileName, isOverwrite);
+            Debug.Assert(entry.Link != null);
+            File.Copy(entry.Link, exportFileName, isOverwrite);
         }
 
         #endregion

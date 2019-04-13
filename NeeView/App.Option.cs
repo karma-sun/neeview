@@ -10,14 +10,12 @@ using System.Windows;
 
 namespace NeeView
 {
-    //
     public enum SwitchOption
     {
         off,
         on,
     }
 
-    //
     public class CommandLineOption
     {
         [OptionMember("h", "help", Default = "true", HelpText = "@OptionIsHelp")]
@@ -52,15 +50,10 @@ namespace NeeView
         public List<string> Values { get; set; }
 
 
-        //
-        public string StartupPlace { get; set; }
-
-        //
         public void Validate()
         {
             try
             {
-                // SettingFilename
                 if (this.SettingFilename != null)
                 {
                     var filename = this.SettingFilename;
@@ -78,13 +71,6 @@ namespace NeeView
                 {
                     this.SettingFilename = Path.Combine(Config.Current.LocalApplicationDataPath, SaveData.UserSettingFileName);
                 }
-
-                // StartupPlage
-                this.StartupPlace = Values?.LastOrDefault();
-                if (this.StartupPlace != null && (File.Exists(this.StartupPlace) || Directory.Exists(this.StartupPlace)))
-                {
-                    this.StartupPlace = Path.GetFullPath(this.StartupPlace);
-                }
             }
             catch (Exception ex)
             {
@@ -98,7 +84,6 @@ namespace NeeView
 
     public partial class App
     {
-        //
         public CommandLineOption ParseArguments(string[] args)
         {
             var optionMap = new OptionMap<CommandLineOption>();
@@ -136,7 +121,6 @@ namespace NeeView
             return option;
         }
 
-        //
         public string GetCommandLineHelp(OptionMap<CommandLineOption> optionMap)
         {
             return "Usage: NeeView.exe NeeView.exe [Options...] [File or Folder]\n\n"
@@ -148,7 +132,6 @@ namespace NeeView
                 + "                NeeView.exe --setting=\"C:\\Sample\\CustomUserSetting.xml\" --new-window=off";
         }
 
-        //
         public string GetCommandLineHelp()
         {
             return GetCommandLineHelp(new OptionMap<CommandLineOption>());

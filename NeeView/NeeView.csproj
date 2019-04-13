@@ -170,6 +170,7 @@
     </ApplicationDefinition>
     <Compile Include="Archiver\Playlist.cs" />
     <Compile Include="Archiver\PlaylistArchive.cs" />
+    <Compile Include="Archiver\PlaylistBookLoader.cs" />
     <Compile Include="ExternalApplication\ClipboardUtility.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderOrderClass.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\PlaylistFolderCollection.cs" />

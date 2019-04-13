@@ -69,12 +69,12 @@ namespace NeeView
         /// <summary>
         /// サーバーにパスを送る
         /// </summary>
-        public async Task RemoteLoadAsAsync(string path)
+        public async Task RemoteLoadAsAsync(List<string> files)
         {
             try
             {
                 NativeMethods.AllowSetForegroundWindow(_serverProcess.Id);
-                await RemoteCommandService.Current.SendAsync(new RemoteCommand("LoadAs", path), new RemoteCommandDelivery(_serverProcess.Id));
+                await RemoteCommandService.Current.SendAsync(new RemoteCommand("LoadAs", files.ToArray()), new RemoteCommandDelivery(_serverProcess.Id));
             }
             catch (Exception ex)
             {
@@ -89,8 +89,6 @@ namespace NeeView
         {
             try
             {
-                var path = command.Args[0];
-
                 // ウィンドウをアクティブにする (準備)
                 // 最小化されているならば解除する
                 var window = Application.Current.MainWindow;
@@ -103,9 +101,9 @@ namespace NeeView
                 window.Topmost = temp;
 
                 // パスの指定があれば開く
-                if (path != null)
+                if (command.Args != null)
                 {
-                    BookHub.Current.RequestLoad(path, null, BookLoadOption.None, true);
+                    PlaylistBookLoader.Load(command.Args, true);
                 }
 
                 // ウィンドウをアクティブにする (実行)

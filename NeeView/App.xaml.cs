@@ -165,7 +165,7 @@ namespace NeeView
             // 多重起動制限になる場合、サーバーにパスを送って終了
             if (!CanStart())
             {
-                await _multiBootService.RemoteLoadAsAsync(Option.StartupPlace);
+                await _multiBootService.RemoteLoadAsAsync(Option.Values);
                 throw new OperationCanceledException("Already started.");
             }
 

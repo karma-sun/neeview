@@ -98,7 +98,7 @@ namespace NeeView
         public string EntryLastName => Entry?.EntryLastName;
 
         // ページ名：フルネーム
-        public string EntryFullName => Entry?.EntryFullName;
+        public string EntryFullName => Entry?.EntryFullName.Substring(BookPrefix.Length);
 
         // ページ名：システムパス
         public string SystemPath => Entry?.SystemPath;

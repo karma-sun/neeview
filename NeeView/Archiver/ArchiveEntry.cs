@@ -240,7 +240,7 @@ namespace NeeView
         /// <param name="isKeepFileName">エントリー名をファイル名にする</param>
         public FileProxy ExtractToTemp(bool isKeepFileName = false)
         {
-            if (this.Archiver is FolderArchive || this.Archiver is MediaArchiver)
+            if (this.Archiver is FolderArchive || this.Archiver is MediaArchiver || IsFileSystem)
             {
                 return new FileProxy(GetFileSystemPath());
             }

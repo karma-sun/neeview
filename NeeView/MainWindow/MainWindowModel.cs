@@ -463,15 +463,14 @@ namespace NeeView
             if (App.Current.Option.IsBlank != SwitchOption.on)
             {
                 bool isRefreshFolderList = App.Current.Option.FolderList == null;
-                if (App.Current.Option.StartupPlace != null)
+
+                // 起動引数の場所で開く
+                var path = PlaylistBookLoader.Load(App.Current.Option.Values, isRefreshFolderList);
+                if (path != null) return path;
+
+                // 最後に開いたブックを復元する
+                if (App.Current.IsOpenLastBook)
                 {
-                    // 起動引数の場所で開く
-                    BookHub.Current.RequestLoad(App.Current.Option.StartupPlace, null, BookLoadOption.None, isRefreshFolderList);
-                    return App.Current.Option.StartupPlace;
-                }
-                else if (App.Current.IsOpenLastBook)
-                {
-                    // 最後に開いたブックを復元する
                     string place = BookHistoryCollection.Current.LastAddress;
                     if (place != null)
                     {

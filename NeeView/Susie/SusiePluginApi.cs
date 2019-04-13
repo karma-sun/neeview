@@ -548,7 +548,7 @@ namespace NeeView.Susie
             info.timestamp = self.timestamp;
             info.path = self.path;
             info.filename = self.filename;
-            info.crc = self.crc; // ビットが切り捨てられているので無意味な値になっている。未使用につき現状維持
+            info.crc = self.crc;
             return info;
         }
     }

@@ -171,7 +171,7 @@ namespace NeeView
         private void ToggleBookmark_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
-            e.CanExecute = item != null && item.IsFileSystem();
+            e.CanExecute = item != null && item.IsFileSystem() && !item.TargetPath.SimplePath.StartsWith(Temporary.Current.TempDirectory);
         }
 
         /// <summary>

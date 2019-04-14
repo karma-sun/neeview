@@ -15,6 +15,8 @@ namespace NeeView
         private BookmarkFolderList() : base(false, false)
         {
             IsSyncBookshelfEnabled = true;
+
+            ApplicationDisposer.Current.Add(this);
         }
 
         public override void IsVisibleChanged(bool isVisible)

@@ -12,8 +12,9 @@ namespace NeeView
         static BookshelfFolderList() => Current = new BookshelfFolderList();
         public static BookshelfFolderList Current { get; }
 
-        protected BookshelfFolderList() : base(true, true)
+        private BookshelfFolderList() : base(true, true)
         {
+            ApplicationDisposer.Current.Add(this);
         }
 
         #region Memento

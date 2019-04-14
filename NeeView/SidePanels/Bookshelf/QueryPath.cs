@@ -57,6 +57,11 @@ namespace NeeView
         {
             return _imageMap[scheme];
         }
+
+        public static bool IsMatch(this QueryScheme scheme, string path)
+        {
+            return path.StartsWith(scheme.ToSchemeString());
+        }
     }
 
     /// <summary>

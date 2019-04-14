@@ -7,7 +7,6 @@ using NeeView.Windows.Property;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
@@ -444,11 +443,14 @@ namespace NeeView
             // SaveDataSync活動開始
             SaveDataSync.Current.Initialize();
 
-            // 最初のブックを開く
-            var bookPath = LoadFirstBook();
+            // 最初のブック、フォルダを開く
+            new FirstLoader().Load();
 
-            // 最初のフォルダーリストの場所を開く
-            SetFirstPlace(bookPath);
+            // オプション指定があればフォルダーリスト表示
+            if (App.Current.Option.FolderList != null)
+            {
+                SidePanel.Current.IsVisibleFolderList = true;
+            }
 
             // スライドショーの自動再生
             if (App.Current.Option.IsSlideShow != null ? App.Current.Option.IsSlideShow == SwitchOption.on : SlideShow.Current.IsAutoPlaySlideShow)
@@ -457,71 +459,6 @@ namespace NeeView
             }
         }
 
-        // 最初のブックを開く
-        private string LoadFirstBook()
-        {
-            if (App.Current.Option.IsBlank != SwitchOption.on)
-            {
-                bool isRefreshFolderList = App.Current.Option.FolderList == null;
-
-                // 起動引数の場所で開く
-                var path = PlaylistBookLoader.Load(App.Current.Option.Values, isRefreshFolderList);
-                if (path != null) return path;
-
-                // 最後に開いたブックを復元する
-                if (App.Current.IsOpenLastBook)
-                {
-                    string place = BookHistoryCollection.Current.LastAddress;
-                    if (place != null)
-                    {
-                        BookHub.Current.RequestLoad(place, null, BookLoadOption.Resume | BookLoadOption.IsBook, isRefreshFolderList);
-                        return place;
-                    }
-                }
-            }
-
-            return null;
-        }
-
-        // フォルダーリストの場所の初期化
-        private void SetFirstPlace(string bookPath)
-        {
-            string place = null;
-
-            // 1.フォルダーリストが指定されている場合、それで。
-            if (App.Current.Option.FolderList != null)
-            {
-                place = App.Current.Option.FolderList;
-                SidePanel.Current.IsVisibleFolderList = true;
-            }
-
-            // 2.ブックが指定されている もしくは 前回開いていたブックを復元する場合、ブックの開く処理にまかせる
-            else if (bookPath != null)
-            {
-                // 前回開いていたフォルダーがブックマークであった場合、ブックマークフォルダーで開かれるようにそのフォルダを開いておく
-                if (BookHistoryCollection.Current.LastFolder != null && new QueryPath(BookHistoryCollection.Current.LastFolder).Scheme == QueryScheme.Bookmark)
-                {
-                    place = BookHistoryCollection.Current.LastFolder;
-                }
-            }
-
-            // 3.前回開いていたフォルダーを復元する場合、それで。
-            else if (BookHistoryCollection.Current.LastFolder != null)
-            {
-                place = BookHistoryCollection.Current.LastFolder;
-            }
-
-            // 4.ホームフォルダで。
-            else
-            {
-                place = BookshelfFolderList.Current.GetFixedHome().SimpleQuery;
-            }
-
-            if (place != null)
-            {
-                BookshelfFolderList.Current.RequestPlace(new QueryPath(place), null, FolderSetPlaceOption.UpdateHistory);
-            }
-        }
 
 
         // ダイアログでファイル選択して画像を読み込む
@@ -818,4 +755,5 @@ namespace NeeView
 
         #endregion
     }
+
 }

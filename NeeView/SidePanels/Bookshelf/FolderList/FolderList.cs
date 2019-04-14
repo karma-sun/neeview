@@ -1367,6 +1367,10 @@ namespace NeeView
                     {
                         _searchEngine.Dispose();
                     }
+                    if (_folderCollection != null)
+                    {
+                        _folderCollection.Dispose();
+                    }
                 }
 
                 _disposedValue = true;

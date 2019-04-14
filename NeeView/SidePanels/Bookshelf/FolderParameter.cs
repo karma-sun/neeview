@@ -14,6 +14,19 @@ namespace NeeView
     /// </summary>
     public class FolderParameter : BindableBase
     {
+        private static int _randomSeed = new Random().Next();
+        private FolderOrder _folderOrder;
+        private bool _isFolderRecursive;
+
+
+        public FolderParameter(string path)
+        {
+            Path = path;
+            Load();
+            RandomSeed = _randomSeed;
+        }
+
+
         /// <summary>
         /// 場所
         /// </summary>
@@ -37,18 +50,10 @@ namespace NeeView
             }
         }
 
-        private FolderOrder _folderOrder;
-
         /// <summary>
         /// シャッフル用ランダムシード
         /// </summary>
         public int RandomSeed { get; set; }
-
-        /// <summary>
-        /// シャッフル用ランダムシード(基準)
-        /// </summary>
-        private static int _randomSeed = new Random().Next();
-
 
         /// <summary>
         /// この場所にあるフォルダーはサブフォルダーを読み込む
@@ -68,27 +73,17 @@ namespace NeeView
             }
         }
 
-        private bool _isFolderRecursive;
-
-
-        /// <summary>
-        /// コンストラクタ
-        /// </summary>
-        /// <param name="path"></param>
-        public FolderParameter(string path)
+        // コンボボックス変更追従用
+        public void RaiseFolderOrderPropertyChanged()
         {
-            Path = path;
-            Load();
-            RandomSeed = _randomSeed;
+            RaisePropertyChanged(nameof(FolderOrder));
         }
 
-        //
         private void Save()
         {
             BookHistoryCollection.Current.SetFolderMemento(Path, CreateMemento());
         }
 
-        //
         private void Load()
         {
             var memento = BookHistoryCollection.Current.GetFolderMemento(Path);
@@ -128,7 +123,6 @@ namespace NeeView
             }
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -137,7 +131,6 @@ namespace NeeView
             return memento;
         }
 
-        //
         public void Restore(Memento memento)
         {
             if (memento == null) return;

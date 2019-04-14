@@ -148,7 +148,14 @@ namespace NeeView
         public Dictionary<FolderOrder, string> FolderOrderList
         {
             get { return _folderOrderList; }
-            set { SetProperty(ref _folderOrderList, value); }
+            set
+            {
+                if (SetProperty(ref _folderOrderList, value))
+                {
+                    // 新しいコンボボックスに追従させる
+                    FolderCollection?.FolderParameter.RaiseFolderOrderPropertyChanged();
+                }
+            }
         }
 
         /// <summary>

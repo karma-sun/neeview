@@ -220,25 +220,34 @@ namespace NeeView
 
         private async Task<FolderNode> CruiseDescendant(CancellationToken token)
         {
-            var children = await GetChildren(token);
-            if (children.Count > 0)
+            if (CanCruiseChildren(this))
             {
-                return await children.Last().CruiseDescendant(token);
+                var children = await GetChildren(token);
+                if (children.Count > 0)
+                {
+                    return await children.Last().CruiseDescendant(token);
+                }
             }
-            else
-            {
-                return this;
-            }
+
+            return this;
         }
 
+        private bool CanCruiseChildren(FolderNode node)
+        {
+            // ショートカット、プレイリストメンバーは辿らない
+            return node.Content.Path == node.Content.TargetPath && (node.Content.Attributes & FolderItemAttribute.PlaylistMember) == 0;
+        }
 
         public async Task<FolderNode> CruiseNext(CancellationToken token)
         {
-            // 長男
-            var children = await GetChildren(token);
-            if (children.Count > 0)
+            if (CanCruiseChildren(this))
             {
-                return children.First();
+                // 長男
+                var children = await GetChildren(token);
+                if (children.Count > 0)
+                {
+                    return children.First();
+                }
             }
 
             return await CruiseNextUp(token);

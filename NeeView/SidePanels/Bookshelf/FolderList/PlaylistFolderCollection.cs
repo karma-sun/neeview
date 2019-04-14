@@ -73,6 +73,7 @@ namespace NeeView
             if (item != null)
             {
                 item.EntryTime = new DateTime(id);
+                item.Attributes |= FolderItemAttribute.PlaylistMember;
             }
             return item;
         }

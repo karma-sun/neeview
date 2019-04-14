@@ -29,6 +29,7 @@ namespace NeeView
         System = (1 << 7),
         ReadOnly = (1 << 8),
         Playlist = (1 << 9),
+        PlaylistMember = (1 << 10),
     }
 
     /// <summary>

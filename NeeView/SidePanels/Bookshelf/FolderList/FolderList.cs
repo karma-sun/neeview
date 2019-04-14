@@ -1020,7 +1020,7 @@ namespace NeeView
                 if (next == null) return false;
                 if (next.Content == null) return false;
 
-                await SetPlaceAsync(next.Content.Place, new FolderItemPosition(next.Content.Path) { TargetPath = next.Content.TargetPath }, FolderSetPlaceOption.UpdateHistory);
+                await SetPlaceAsync(new QueryPath(next.Place), new FolderItemPosition(next.Content.Path) { TargetPath = next.Content.TargetPath }, FolderSetPlaceOption.UpdateHistory);
                 BookHub.Current.RequestLoad(next.Content.TargetPath.SimplePath, null, options | BookLoadOption.IsBook, false);
 
                 return true;

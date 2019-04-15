@@ -27,21 +27,21 @@ namespace NeeView
             {
                 // NOTE: 操作に難があるため、クイックアクセス、ページマークは表示しない
                 ////items.Add(CreateFolderItem(QueryScheme.QuickAccess));
-                items.Add(CreateFolderItem(QueryScheme.File));
-                items.Add(CreateFolderItem(QueryScheme.Bookmark));
+                items.Add(CreateFolderItem(Place, QueryScheme.File));
+                items.Add(CreateFolderItem(Place, QueryScheme.Bookmark));
                 ////items.Add(CreateFolderItem(QueryScheme.Pagemark));
             }
 
             this.Items = items;
         }
 
-        private FolderItem CreateFolderItem(QueryScheme scheme)
+        private FolderItem CreateFolderItem(QueryPath parent, QueryScheme scheme)
         {
             return new ConstFolderItem(new ConstThumbnail(() => scheme.ToImage()), _isOverlayEnabled)
             {
                 Source = scheme,
                 Type = FolderItemType.Directory,
-                Place = Place,
+                Place = parent,
                 Name = scheme.ToAliasName(),
                 TargetPath = new QueryPath(scheme, null),
                 Length = -1,

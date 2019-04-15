@@ -344,7 +344,7 @@ namespace NeeView
                     dialog.Filter = "NeeView Playlist|*" + PlaylistArchive.Extension + "|All|*.*";
                     if (dialog.ShowDialog(MainWindow.Current) == true)
                     {
-                        var playlist = new Playlist(_model.FolderCollection.Items.Select(e => e.Path.SimplePath));
+                        var playlist = new Playlist(_model.FolderCollection.Items.Where(e => e.TargetPath.Scheme == QueryScheme.File).Select(e => e.TargetPath.SimplePath));
                         PlaylistFile.Save(dialog.FileName, playlist, true);
                     }
                 }

@@ -252,7 +252,7 @@ namespace NeeView
         }
 
         // エントリーリストを得る
-        protected override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
+        protected override async Task<List<ArchiveEntry>> GetEntriesInnerAsync(CancellationToken token)
         {
             token.ThrowIfCancellationRequested();
 
@@ -305,6 +305,7 @@ namespace NeeView
                 }
             }
 
+            await Task.CompletedTask;
             return list;
         }
 
@@ -355,11 +356,11 @@ namespace NeeView
         /// <summary>
         /// 事前展開？
         /// </summary>
-        public override bool CanPreExtract(CancellationToken token)
+        public override async Task<bool> CanPreExtractAsync(CancellationToken token)
         {
             if (!IsSolid()) return false;
 
-            var entries = GetEntries(token);
+            var entries = await GetEntriesAsync(token);
             var extractSize = entries.Select(e => e.Length).Sum();
             return extractSize / (1024 * 1024) < SevenZipArchiverProfile.Current.PreExtractSolidSize;
         }

@@ -48,7 +48,7 @@ namespace NeeView
         }
 
         public QueryPath Path { get; set; }
-        public QueryPath TargetPath { get; set; }
+        ////public QueryPath TargetPath { get; set; }
         public int Index { get; set; }
     }
 
@@ -593,10 +593,12 @@ namespace NeeView
         /// <summary>
         /// フォルダー状態保存
         /// </summary>
-        private void SavePlace(FolderItem folder, int index)
+        private void SavePlace(QueryPath place, FolderItem folder, int index)
         {
-            if (folder == null || folder.Place == null) return;
-            _lastPlaceDictionary[folder.Place] = new FolderItemPosition(folder.Path, index);
+            if (folder == null || place == null) return;
+            Debug.Assert(folder.Place == place);
+
+            _lastPlaceDictionary[place] = new FolderItemPosition(folder.TargetPath, index);
         }
 
 
@@ -682,26 +684,12 @@ namespace NeeView
                 return;
             }
 
-#if false
-            // 可能であればファイルパスをブックマークフォルダーパスに変換
-            if (_folderListBoxModel?.FolderCollection is BookmarkFolderCollection && !options.HasFlag(FolderSetPlaceOption.FileSystem))
-            {
-                if (path.Scheme == QueryScheme.File && select != null && select.Path.Scheme == QueryScheme.File)
-                {
-                    var node = BookmarkCollection.Current.FindNode(select.Path);
-                    if (node != null && node.Parent != null)
-                    {
-                        path = node.Parent.CreateQuery(QueryScheme.Bookmark);
-                        select = new FolderItemPosition(node.CreateQuery(QueryScheme.Bookmark)) { TargetPath = select.Path };
-                    }
-                }
-            }
-#endif
+            path = path.ToEntityPath();
 
             // 現在フォルダーの情報を記憶
             if (_folderListBoxModel != null)
             {
-                SavePlace(_folderListBoxModel.SelectedItem, _folderListBoxModel.GetFolderItemIndex(_folderListBoxModel.SelectedItem));
+                SavePlace(Place, _folderListBoxModel.SelectedItem, _folderListBoxModel.GetFolderItemIndex(_folderListBoxModel.SelectedItem));
             }
 
             // 初期項目
@@ -992,7 +980,7 @@ namespace NeeView
 
             int index = _folderListBoxModel.GetFolderItemIndex(item);
 
-            await SetPlaceAsync(_folderCollection.Place, new FolderItemPosition(item.Path, index), FolderSetPlaceOption.UpdateHistory);
+            await SetPlaceAsync(_folderCollection.Place, new FolderItemPosition(item.TargetPath, index), FolderSetPlaceOption.UpdateHistory);
             BookHub.Current.RequestLoad(item.TargetPath.SimplePath, null, options | BookLoadOption.IsBook, false);
             return true;
         }
@@ -1020,7 +1008,7 @@ namespace NeeView
                 if (next == null) return false;
                 if (next.Content == null) return false;
 
-                await SetPlaceAsync(new QueryPath(next.Place), new FolderItemPosition(next.Content.Path) { TargetPath = next.Content.TargetPath }, FolderSetPlaceOption.UpdateHistory);
+                await SetPlaceAsync(new QueryPath(next.Place), new FolderItemPosition(next.Content.TargetPath), FolderSetPlaceOption.UpdateHistory);
                 BookHub.Current.RequestLoad(next.Content.TargetPath.SimplePath, null, options | BookLoadOption.IsBook, false);
 
                 return true;

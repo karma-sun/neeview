@@ -26,7 +26,7 @@ namespace NeeView
         }
 
         #endregion
-        
+
         #region Properties
 
         public override bool IsFileSystem { get; } = false;
@@ -52,7 +52,7 @@ namespace NeeView
         }
 
         // リスト取得
-        protected override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
+        protected override async Task<List<ArchiveEntry>> GetEntriesInnerAsync(CancellationToken token)
         {
             token.ThrowIfCancellationRequested();
 
@@ -61,15 +61,30 @@ namespace NeeView
 
             foreach (var item in playlist.Items)
             {
-                var entry = CreateEntry(item, list.Count);
-                list.Add(entry);
+                token.ThrowIfCancellationRequested();
+
+                try
+                {
+                    var entry = await CreateEntryAsync(item, list.Count, token);
+                    list.Add(entry);
+                }
+                catch (OperationCanceledException)
+                {
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
             }
 
             return list;
         }
 
-        private ArchiveEntry CreateEntry(string path, int id)
+        private async Task<ArchiveEntry> CreateEntryAsync(string path, int id, CancellationToken token)
         {
+            var innterEntry = await ArchiveEntryUtility.CreateAsync(path, token);
+
             ArchiveEntry entry = new ArchiveEntry()
             {
                 Id = id,
@@ -77,33 +92,10 @@ namespace NeeView
                 Archiver = this,
                 RawEntryName = LoosePath.GetFileName(path),
                 Link = path,
+                Instance = innterEntry,
+                Length = innterEntry.Length,
+                LastWriteTime = innterEntry.LastWriteTime,
             };
-
-            try
-            {
-                var directoryInfo = new DirectoryInfo(path);
-                if (directoryInfo.Exists)
-                {
-                    entry.Length = -1;
-                    entry.LastWriteTime = directoryInfo.LastWriteTime;
-                    entry.IsValid = true;
-                }
-                else
-                {
-                    var fileInfo = new FileInfo(path);
-                    if (fileInfo.Exists)
-                    {
-                        entry.Length = fileInfo.Length;
-                        entry.LastWriteTime = fileInfo.LastWriteTime;
-                        entry.IsValid = true;
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // 有効でないエントリ。無効な項目として生成
-                Debug.WriteLine(ex.Message);
-            }
 
             return entry;
         }
@@ -112,22 +104,19 @@ namespace NeeView
         // ストリームを開く
         protected override Stream OpenStreamInner(ArchiveEntry entry)
         {
-            Debug.Assert(entry.Link != null);
-            return new FileStream(entry.Link, FileMode.Open, FileAccess.Read);
+            return ((ArchiveEntry)entry.Instance).OpenEntry();
         }
 
         // ファイルパス取得
         public override string GetFileSystemPath(ArchiveEntry entry)
         {
-            Debug.Assert(entry.Link != null);
-            return entry.Link;
+            return ((ArchiveEntry)entry.Instance).GetFileSystemPath();
         }
 
         // ファイル出力
         protected override void ExtractToFileInner(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
-            Debug.Assert(entry.Link != null);
-            File.Copy(entry.Link, exportFileName, isOverwrite);
+            ((ArchiveEntry)entry.Instance).ExtractToFile(exportFileName, isOverwrite);
         }
 
         #endregion

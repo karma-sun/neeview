@@ -196,32 +196,14 @@ namespace NeeView
         {
         }
 
+
         /// <summary>
         /// エントリリストを取得 (Archive内でのみ使用)
         /// </summary>
-        protected abstract List<ArchiveEntry> GetEntriesInner(CancellationToken token);
+        protected abstract Task<List<ArchiveEntry>> GetEntriesInnerAsync(CancellationToken token);
 
         /// <summary>
-        /// エントリリストを取得(同期)
-        /// </summary>
-        public List<ArchiveEntry> GetEntries(CancellationToken token)
-        {
-            token.ThrowIfCancellationRequested();
-
-            if (_entries != null)
-            {
-                return _entries;
-            }
-
-            _entries = GetEntriesInner(token)
-                .Where(e => !BookProfile.Current.IsExcludedPath(e.EntryName))
-                .ToList();
-
-            return _entries;
-        }
-
-        /// <summary>
-        /// エントリリストを取得(非同期)
+        /// エントリリストを取得
         /// </summary>
         public async Task<List<ArchiveEntry>> GetEntriesAsync(CancellationToken token)
         {
@@ -232,28 +214,13 @@ namespace NeeView
                 return _entries;
             }
 
-            return await Task.Run(() => GetEntries(token));
+            _entries = (await GetEntriesInnerAsync(token))
+                .Where(e => !BookProfile.Current.IsExcludedPath(e.EntryName))
+                .ToList();
+
+            return _entries;
         }
 
-        /// <summary>
-        /// 指定階層のエントリのみ取得
-        /// </summary>
-        /// <param name="path">階層のパス</param>
-        /// <param name="isRecursive">サブディレクトリまで含めるか</param>
-        /// <returns>条件にあったエントリ群</returns>
-        public List<ArchiveEntry> GetEntries(string path, bool isRecursive, CancellationToken token)
-        {
-            path = LoosePath.TrimDirectoryEnd(path);
-
-            var entries = GetEntries(token).Where(e => path.Length < e.EntryName.Length && e.EntryName.StartsWith(path));
-
-            if (!isRecursive)
-            {
-                entries = entries.Where(e => LoosePath.Split(e.EntryName.Substring(path.Length)).Length == 1);
-            }
-
-            return entries.ToList();
-        }
 
         /// <summary>
         /// 指定階層のエントリのみ取得
@@ -262,7 +229,8 @@ namespace NeeView
         {
             path = LoosePath.TrimDirectoryEnd(path);
 
-            var entries = (await GetEntriesAsync(token)).Where(e => path.Length < e.EntryName.Length && e.EntryName.StartsWith(path));
+            var entries = (await GetEntriesAsync(token))
+                .Where(e => path.Length < e.EntryName.Length && e.EntryName.StartsWith(path));
 
             if (!isRecursive)
             {
@@ -379,8 +347,9 @@ namespace NeeView
         /// <summary>
         /// 事前展開する？
         /// </summary>
-        public virtual bool CanPreExtract(CancellationToken token)
+        public virtual async Task<bool> CanPreExtractAsync(CancellationToken token)
         {
+            await Task.CompletedTask;
             return false;
         }
 

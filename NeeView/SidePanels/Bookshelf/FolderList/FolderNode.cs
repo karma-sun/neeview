@@ -235,7 +235,7 @@ namespace NeeView
         private bool CanCruiseChildren(FolderNode node)
         {
             // ショートカット、プレイリストメンバーは辿らない
-            return node.Content.Path == node.Content.TargetPath && (node.Content.Attributes & FolderItemAttribute.PlaylistMember) == 0;
+            return (node.Content.Attributes & (FolderItemAttribute.Shortcut | FolderItemAttribute.PlaylistMember)) == 0;
         }
 
         public async Task<FolderNode> CruiseNext(CancellationToken token)

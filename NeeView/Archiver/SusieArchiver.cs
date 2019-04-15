@@ -53,7 +53,7 @@ namespace NeeView
         }
 
         // エントリーリストを得る
-        protected override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
+        protected override async Task<List<ArchiveEntry>> GetEntriesInnerAsync(CancellationToken token)
         {
             token.ThrowIfCancellationRequested();
 
@@ -100,6 +100,7 @@ namespace NeeView
             // ディレクトリエントリを追加
             list.AddRange(CreateDirectoryEntries(list.Concat(directories)));
 
+            await Task.CompletedTask;
             return list;
         }
 
@@ -175,8 +176,10 @@ namespace NeeView
         /// <summary>
         /// 事前展開？
         /// </summary>
-        public override bool CanPreExtract(CancellationToken token)
+        public override async Task<bool> CanPreExtractAsync(CancellationToken token)
         {
+            await Task.CompletedTask;
+
             // NOTE: Susieプラグインの場合、サイズに関係なくプラグインに設定されたフラグでのみ判定
             var spi = GetPlugin();
             return spi != null ? spi.IsPreExtract : false;

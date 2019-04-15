@@ -331,11 +331,11 @@ namespace NeeView
             }
             else if (item.IsFileSystem())
             {
-                bool isCurrentBook = BookHub.Current.Address == item.Path.SimplePath;
-                var removed = await FileIO.Current.RemoveAsync(item.Path.SimplePath, Properties.Resources.DialogFileDeleteBookTitle);
+                bool isCurrentBook = BookHub.Current.Address == item.TargetPath.SimplePath;
+                var removed = await FileIO.Current.RemoveAsync(item.TargetPath.SimplePath, Properties.Resources.DialogFileDeleteBookTitle);
                 if (removed)
                 {
-                    _vm.FolderCollection?.RequestDelete(item.Path);
+                    _vm.FolderCollection?.RequestDelete(item.TargetPath);
                     if (isCurrentBook)
                     {
                         if (this.ListBox.SelectedItem is FolderItem currentItem)
@@ -366,7 +366,7 @@ namespace NeeView
             }
             else if (item.IsFileSystem())
             {
-                if (item.Path.SimplePath.StartsWith(Temporary.Current.TempDirectory))
+                if (item.TargetPath.SimplePath.StartsWith(Temporary.Current.TempDirectory))
                 {
                     return false;
                 }
@@ -418,7 +418,7 @@ namespace NeeView
                         {
                             var newName = item.IsShortcut ? ev.NewValue + ".lnk" : ev.NewValue;
                             //Debug.WriteLine($"{ev.OldValue} => {newName}");
-                            var src = item.Path;
+                            var src = item.TargetPath;
                             var dst = await FileIO.Current.RenameAsync(item, newName);
                             if (dst != null)
                             {
@@ -484,7 +484,7 @@ namespace NeeView
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
             if (item != null)
             {
-                var path = item.IsFileSystem() ? item.Path.SimplePath : item.TargetPath.SimplePath;
+                var path = item.TargetPath.SimplePath;
                 path = item.Attributes.AnyFlag(FolderItemAttribute.Bookmark | FolderItemAttribute.ArchiveEntry | FolderItemAttribute.Empty) ? ArchiverManager.Current.GetExistPathName(path) : path;
                 System.Diagnostics.Process.Start("explorer.exe", "/select,\"" + path + "\"");
             }

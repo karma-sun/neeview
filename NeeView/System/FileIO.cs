@@ -40,7 +40,7 @@ namespace NeeView
             if (info.IsEmpty()) return;
 
             var files = new List<string>();
-            files.Add(info.IsFileSystem() ? info.Path.SimplePath : info.TargetPath.SimplePath);
+            files.Add(info.TargetPath.ToEntityPath().SimplePath);
             var data = new DataObject();
             data.SetData(DataFormats.FileDrop, files.ToArray());
             data.SetData(DataFormats.UnicodeText, string.Join("\r\n", files));
@@ -228,7 +228,7 @@ namespace NeeView
                 return null;
             }
 
-            string src = file.Path.SimplePath;
+            string src = file.TargetPath.SimplePath;
             string dst = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(src), newName);
 
             // 全く同じ名前なら処理不要

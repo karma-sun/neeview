@@ -21,8 +21,6 @@ namespace NeeView
 
             try
             {
-                PlaylistTest.Execute();
-
                 // Archvierのキャッシュ一覧
                 //ArchiverManager.Current.DumpCache();
 
@@ -184,15 +182,6 @@ namespace NeeView
             }
 
 
-        }
-
-        static class PlaylistTest
-        {
-            public static void Execute()
-            {
-                var playlist = new Playlist(BookshelfFolderList.Current.FolderCollection.Items.Select(e => e.Path.SimplePath));
-                PlaylistFile.Save("Test.nvpls", playlist, true);
-            }
         }
     }
 

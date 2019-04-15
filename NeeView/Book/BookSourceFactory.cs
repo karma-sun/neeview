@@ -213,7 +213,7 @@ namespace NeeView
 
             foreach (var archiver in archivers)
             {
-                if (archiver.CanPreExtract(token))
+                if (await archiver.CanPreExtractAsync(token))
                 {
                     Debug.WriteLine($"PreExtract: EXTRACT {archiver.EntryName}");
                     await archiver.PreExtractAsync(token);

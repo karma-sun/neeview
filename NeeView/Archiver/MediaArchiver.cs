@@ -26,7 +26,7 @@ namespace NeeView
             return "MediaPlayer";
         }
 
-        protected override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
+        protected override async Task<List<ArchiveEntry>> GetEntriesInnerAsync(CancellationToken token)
         {
             var fileInfo = new FileInfo(this.Path);
 
@@ -41,6 +41,7 @@ namespace NeeView
                 LastWriteTime = fileInfo.LastWriteTime,
             };
 
+            await Task.CompletedTask;
             return new List<ArchiveEntry>() { entry };
         }
 

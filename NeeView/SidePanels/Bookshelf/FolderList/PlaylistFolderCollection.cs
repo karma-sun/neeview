@@ -36,21 +36,21 @@ namespace NeeView
             }
             catch
             {
-                this.Items = new ObservableCollection<FolderItem>() { CreateFolderItemEmpty() };
+                this.Items = new ObservableCollection<FolderItem>() { CreateFolderItemEmpty(Place) };
                 return;
             }
 
             var entries = await _collection.GetEntriesAsync(token);
 
             var items = entries
-                .Select(e => CreateFolderItem(e, e.Id))
+                .Select(e => CreateFolderItem(Place, e, e.Id))
                 .Where(e => e != null);
 
-            var list = Sort(items).ToList();
+                var list = Sort(items).ToList();
 
             if (!list.Any())
             {
-                list.Add(CreateFolderItemEmpty());
+                list.Add(CreateFolderItemEmpty(Place));
             }
 
             this.Items = new ObservableCollection<FolderItem>(list);
@@ -67,9 +67,9 @@ namespace NeeView
 
         #region Methods
 
-        private FolderItem CreateFolderItem(ArchiveEntry entry, int id)
+        private FolderItem CreateFolderItem(QueryPath parent, ArchiveEntry entry, int id)
         {
-            var item = CreateFolderItem(entry);
+            var item = CreateFolderItem(parent, entry);
             if (item != null)
             {
                 item.EntryTime = new DateTime(id);
@@ -78,12 +78,26 @@ namespace NeeView
             return item;
         }
 
-        private FolderItem CreateFolderItem(ArchiveEntry entry)
+        private FolderItem CreateFolderItem(QueryPath parent, ArchiveEntry entry)
+        {
+            var ie = (ArchiveEntry)entry.Instance;
+
+            if (ie.IsFileSystem)
+            {
+                return CreateFolderItemFile(parent, entry);
+            }
+            else
+            {
+                return CreateFolderItemArchive(parent, entry);
+            }
+        }
+
+        private FolderItem CreateFolderItemFile(QueryPath parent, ArchiveEntry entry)
         {
             var directoryInfo = new DirectoryInfo(entry.Link);
             if (directoryInfo.Exists)
             {
-                return CreateFolderItem(directoryInfo);
+                return CreateFolderItem(parent, directoryInfo);
             }
             var fileInfo = new FileInfo(entry.Link);
             if (fileInfo.Exists)
@@ -95,20 +109,38 @@ namespace NeeView
                     {
                         if ((shortcut.Target.Attributes & FileAttributes.Directory) != 0)
                         {
-                            return CreateFolderItem(shortcut);
+                            return CreateFolderItem(parent, shortcut);
                         }
                         if (ArchiverManager.Current.IsSupported(shortcut.TargetPath))
                         {
-                            return CreateFolderItem(shortcut);
+                            return CreateFolderItem(parent, shortcut);
                         }
                     }
                 }
                 if (ArchiverManager.Current.IsSupported(fileInfo.FullName))
                 {
-                    return CreateFolderItem(fileInfo);
+                    return CreateFolderItem(parent, fileInfo);
                 }
             }
             return null;
+        }
+
+        public FolderItem CreateFolderItemArchive(QueryPath parent, ArchiveEntry entry)
+        {
+            var ie = (ArchiveEntry)entry.Instance;
+
+            return new FileFolderItem(_isOverlayEnabled)
+            {
+                Type = FolderItemType.ArchiveEntry,
+                ArchiveEntry = entry,
+                Place = parent,
+                Name = entry.EntryName,
+                TargetPath = new QueryPath(entry.SystemPath),
+                LastWriteTime = entry.LastWriteTime,
+                Length = entry.Length,
+                Attributes = FolderItemAttribute.ArchiveEntry,
+                IsReady = true
+            };
         }
 
         /// <summary>
@@ -130,6 +162,6 @@ namespace NeeView
             }
         }
 
-        #endregion
+#endregion
     }
 }

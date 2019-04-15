@@ -55,7 +55,7 @@ namespace NeeView
 
 
         // エントリーリストを得る
-        protected override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
+        protected override async Task<List<ArchiveEntry>> GetEntriesInnerAsync(CancellationToken token)
         {
             var list = new List<ArchiveEntry>();
             var directories = new List<ArchiveEntry>();
@@ -113,6 +113,7 @@ namespace NeeView
                 stream?.Dispose();
             }
 
+            await Task.CompletedTask;
             return list;
         }
 

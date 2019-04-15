@@ -23,7 +23,7 @@ namespace NeeView
         {
             await Task.Yield();
 
-            var items = QuickAccessCollection.Current.Items.Select(e => CreateFolderItem(e));
+            var items = QuickAccessCollection.Current.Items.Select(e => CreateFolderItem(Place, e));
 
             this.Items = new ObservableCollection<FolderItem>(items);
 
@@ -42,7 +42,7 @@ namespace NeeView
                         var item = Items.FirstOrDefault(i => target == i.Source);
                         if (item == null)
                         {
-                            item = CreateFolderItem(target);
+                            item = CreateFolderItem(Place, target);
                             var index = QuickAccessCollection.Current.Items.IndexOf(target);
                             InsertItem(item, index);
                         }
@@ -68,13 +68,13 @@ namespace NeeView
 
 
 
-        private FolderItem CreateFolderItem(QuickAccess quickAccess)
+        private FolderItem CreateFolderItem(QueryPath parent, QuickAccess quickAccess)
         {
             return new ConstFolderItem(new FolderThumbnail(), _isOverlayEnabled)
             {
                 Source = quickAccess,
                 Type = FolderItemType.Directory,
-                Place = Place,
+                Place = parent,
                 Name = quickAccess.Name,
                 TargetPath = new QueryPath(quickAccess.Path),
                 Length = -1,

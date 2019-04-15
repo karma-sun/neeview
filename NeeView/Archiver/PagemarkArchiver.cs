@@ -36,7 +36,7 @@ namespace NeeView
         }
 
         // リスト取得
-        protected override List<ArchiveEntry> GetEntriesInner(CancellationToken token)
+        protected override async Task<List<ArchiveEntry>> GetEntriesInnerAsync(CancellationToken token)
         {
             token.ThrowIfCancellationRequested();
 
@@ -69,6 +69,7 @@ namespace NeeView
                 });
             }
 
+            await Task.CompletedTask;
             return list;
         }
 

@@ -134,11 +134,10 @@ namespace NeeView
 
         #region Methods
 
-#pragma warning disable CS1998
         public virtual async Task InitializeItemsAsync(CancellationToken token)
         {
+            await Task.CompletedTask;
         }
-#pragma warning restore CS1998
 
         public bool IsEmpty()
         {
@@ -174,20 +173,10 @@ namespace NeeView
         /// <returns></returns>
         public int IndexOfPath(QueryPath path)
         {
-            var item = Items.FirstOrDefault(e => e.Path.Equals(path));
+            var item = Items.FirstOrDefault(e => e.TargetPath.Equals(path));
             return (item != null) ? Items.IndexOf(item) : -1;
         }
 
-
-        /// <summary>
-        /// パスから項目取得
-        /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        public FolderItem FirstOrDefault(QueryPath path)
-        {
-            return Items.FirstOrDefault(e => e.Path.Equals(path));
-        }
 
         public FolderItem FirstOrDefault(Func<FolderItem, bool> predicate)
         {
@@ -238,36 +227,13 @@ namespace NeeView
         }
 
         /// <summary>
-        /// 前の項目を取得
-        /// </summary>
-        /// <param name="item">基準となる項目</param>
-        /// <returns>前の項目。存在しない場合はnull</returns>
-        public FolderItem GetPrevious(FolderItem item)
-        {
-            var index = IndexOfPath(item.Path);
-            return (index > 0) ? Items[index - 1] : null;
-        }
-
-        /// <summary>
-        /// 次の項目を取得
-        /// </summary>
-        /// <param name="item">基準となる項目</param>
-        /// <returns>次の項目。存在しない場合はnull</returns>
-        public FolderItem GetNext(FolderItem item)
-        {
-            var index = IndexOfPath(item.Path);
-            return (index >= 0 && index < Items.Count - 1) ? Items[index + 1] : null;
-        }
-
-
-        /// <summary>
         /// パスがリストに含まれるか判定
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
         public bool Contains(QueryPath path)
         {
-            return Items.Any(e => e.Path.Equals(path));
+            return Items.Any(e => e.TargetPath.Equals(path));
         }
 
         /// <summary>
@@ -329,7 +295,7 @@ namespace NeeView
         {
             public int Compare(FolderItem x, FolderItem y)
             {
-                return NativeMethods.StrCmpLogicalW(x.Path.FullPath, y.Path.FullPath);
+                return NativeMethods.StrCmpLogicalW(x.TargetPath.FullPath, y.TargetPath.FullPath);
             }
         }
 
@@ -457,13 +423,12 @@ namespace NeeView
                 _verify = verify;
             }
 
-#pragma warning disable 1998
             public async Task ExecuteAsync()
             {
                 ////Debug.WriteLine($"Create: {_path}");
                 _target.CreateItem(_path);
+                await Task.CompletedTask;
             }
-#pragma warning restore 1998
         }
 
         //
@@ -475,7 +440,7 @@ namespace NeeView
             lock (_lock)
             {
                 // 対象を検索
-                item = this.Items.FirstOrDefault(i => i.Path == path);
+                item = this.Items.FirstOrDefault(i => i.TargetPath == path);
             }
 
             // 既に登録済みの場合は処理しない
@@ -544,13 +509,12 @@ namespace NeeView
                 _verify = verify;
             }
 
-#pragma warning disable 1998
             public async Task ExecuteAsync()
             {
                 ////Debug.WriteLine($"Delete: {_path}");
                 _target.DeleteItem(_path);
+                await Task.CompletedTask;
             }
-#pragma warning restore 1998
         }
 
         // 対象を検索し、削除する
@@ -560,7 +524,7 @@ namespace NeeView
 
             lock (_lock)
             {
-                item = this.Items.FirstOrDefault(i => i.Path == path);
+                item = this.Items.FirstOrDefault(i => i.TargetPath == path);
             }
 
             // 既に存在しない場合は処理しない
@@ -585,7 +549,7 @@ namespace NeeView
 
                 if (this.Items.Count == 0)
                 {
-                    this.Items.Add(CreateFolderItemEmpty());
+                    this.Items.Add(CreateFolderItemEmpty(Place));
                 }
             }
 
@@ -611,13 +575,12 @@ namespace NeeView
                 _verify = verify;
             }
 
-#pragma warning disable 1998
             public async Task ExecuteAsync()
             {
                 ////Debug.WriteLine($"Rename: {_oldPath} => {_path}");
                 _target.RenameItem(_oldPath, _path);
+                await Task.CompletedTask;
             }
-#pragma warning restore 1998
         }
 
         //
@@ -628,7 +591,7 @@ namespace NeeView
             FolderItem item;
             lock (_lock)
             {
-                item = this.Items.FirstOrDefault(i => i.Path == oldPath);
+                item = this.Items.FirstOrDefault(i => i.TargetPath == oldPath);
             }
             if (item == null)
             {
@@ -637,10 +600,13 @@ namespace NeeView
                 return;
             }
 
-            // 名前部分
-            if (string.Compare(path.FullPath, 0, item.Place.FullPath, 0, item.Place.FullPath.Length) != 0) throw new ArgumentException("remame exception: difference place");
+            // ディレクトリの名前が変更されていないかチェック
+            if (LoosePath.GetDirectoryName(path.FullPath) != LoosePath.GetDirectoryName(item.TargetPath.FullPath))
+            {
+                throw new ArgumentException("remame exception: difference place");
+            }
 
-            RenameItem(item, LoosePath.GetFileName(path.FullPath, item.Place.FullPath));
+            RenameItem(item, path.FileName);
         }
 
         //
@@ -657,13 +623,14 @@ namespace NeeView
         /// 空のFolderItemを作成
         /// </summary>
         /// <returns></returns>
-        protected FolderItem CreateFolderItemEmpty()
+        protected FolderItem CreateFolderItemEmpty(QueryPath parent)
         {
             return new ConstFolderItem(new ResourceThumbnail("ic_noentry", MainWindow.Current), _isOverlayEnabled)
             {
                 Type = FolderItemType.Empty,
-                Place = Place,
+                Place = parent,
                 Name = ".",
+                TargetPath = parent.ReplacePath(LoosePath.Combine(parent.Path, ".")),
                 DispName = Properties.Resources.NotifyNoFiles,
                 Attributes = FolderItemAttribute.Empty,
             };
@@ -697,7 +664,7 @@ namespace NeeView
             var directory = new DirectoryInfo(path);
             if (directory.Exists)
             {
-                return CreateFolderItem(directory);
+                return CreateFolderItem(new QueryPath(path), directory);
             }
 
             // file
@@ -710,12 +677,12 @@ namespace NeeView
                     var shortcut = new FileShortcut(file);
                     if (shortcut.IsValid)
                     {
-                        return CreateFolderItem(shortcut);
+                        return CreateFolderItem(new QueryPath(path), shortcut);
                     }
                 }
                 else
                 {
-                    return CreateFolderItem(file);
+                    return CreateFolderItem(new QueryPath(path), file);
                 }
             }
 
@@ -748,16 +715,15 @@ namespace NeeView
         /// <summary>
         /// DriveInfoからFodlerItem作成
         /// </summary>
-        /// <param name="e"></param>
-        /// <returns></returns>
-        protected FolderItem CreateFolderItem(DriveInfo e)
+        protected FolderItem CreateFolderItem(QueryPath parent, DriveInfo e)
         {
             if (e != null)
             {
                 var item = new DriveFolderItem(e, _isOverlayEnabled)
                 {
-                    Place = new QueryPath(QueryScheme.File),
+                    Place = parent,
                     Name = e.Name,
+                    TargetPath = new QueryPath(e.Name),
                     DispName = string.Format("{0} ({1})", e.DriveType.ToDispString(), e.Name.TrimEnd('\\')),
                     Attributes = FolderItemAttribute.Directory | FolderItemAttribute.Drive,
                     IsReady = IsDriveReady(e.Name),
@@ -786,17 +752,16 @@ namespace NeeView
         /// <summary>
         /// DirectoryInfoからFolderItem作成
         /// </summary>
-        /// <param name="e"></param>
-        /// <returns></returns>
-        protected FolderItem CreateFolderItem(DirectoryInfo e)
+        protected FolderItem CreateFolderItem(QueryPath parent, DirectoryInfo e)
         {
             if (e != null && e.Exists && (e.Attributes & FileAttributes.Hidden) == 0)
             {
                 return new FileFolderItem(_isOverlayEnabled)
                 {
                     Type = FolderItemType.Directory,
-                    Place = new QueryPath(Path.GetDirectoryName(e.FullName)),
+                    Place = parent,
                     Name = e.Name,
+                    TargetPath = new QueryPath(e.FullName),
                     LastWriteTime = e.LastWriteTime,
                     Length = -1,
                     Attributes = FolderItemAttribute.Directory,
@@ -814,7 +779,7 @@ namespace NeeView
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        protected FolderItem CreateFolderItem(FileInfo e)
+        protected FolderItem CreateFolderItem(QueryPath parent, FileInfo e)
         {
             var archiveType = ArchiverManager.Current.GetSupportedType(e.FullName);
 
@@ -823,8 +788,9 @@ namespace NeeView
                 var item = new FileFolderItem(_isOverlayEnabled)
                 {
                     Type = FolderItemType.File,
-                    Place = new QueryPath(Path.GetDirectoryName(e.FullName)),
+                    Place = parent,
                     Name = e.Name,
+                    TargetPath = new QueryPath(e.FullName),
                     LastWriteTime = e.LastWriteTime,
                     Length = e.Length,
                     IsReady = true
@@ -850,7 +816,7 @@ namespace NeeView
         /// </summary>
         /// <param name="e"></param>
         /// <returns></returns>
-        protected FolderItem CreateFolderItem(FileShortcut e)
+        protected FolderItem CreateFolderItem(QueryPath parent, FileShortcut e)
         {
             if (e == null || !e.IsValid)
             {
@@ -864,12 +830,12 @@ namespace NeeView
             {
                 if (e.Target.Attributes.HasFlag(FileAttributes.Directory))
                 {
-                    info = CreateFolderItem((DirectoryInfo)e.Target);
+                    info = CreateFolderItem(parent, (DirectoryInfo)e.Target);
                     type = FolderItemType.DirectoryShortcut;
                 }
                 else
                 {
-                    info = CreateFolderItem((FileInfo)e.Target);
+                    info = CreateFolderItem(parent, (FileInfo)e.Target);
                     type = info.Type == FolderItemType.Playlist ? FolderItemType.PlaylistShortcut : FolderItemType.FileShortcut;
                 }
             }
@@ -877,9 +843,9 @@ namespace NeeView
             if (info != null)
             {
                 info.Type = type;
-                info.Place = new QueryPath(Path.GetDirectoryName(e.SourcePath));
+                info.Place = parent;
                 info.Name = Path.GetFileName(e.SourcePath);
-                info.TargetPath = new QueryPath(e.TargetPath);
+                info.TargetPath = new QueryPath(e.SourcePath);
                 info.Attributes = info.Attributes | FolderItemAttribute.Shortcut;
             }
 

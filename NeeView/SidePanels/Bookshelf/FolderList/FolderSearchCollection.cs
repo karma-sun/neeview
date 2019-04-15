@@ -38,7 +38,7 @@ namespace NeeView
             await Task.Yield();
 
             var items = _searchResult.Items
-                .Select(e => CreateFolderItem(e))
+                .Select(e => CreateFolderItem(Place, e))
                 .Where(e => e != null)
                 .ToList();
 
@@ -46,7 +46,7 @@ namespace NeeView
 
             if (!list.Any())
             {
-                list.Add(CreateFolderItemEmpty());
+                list.Add(CreateFolderItemEmpty(Place));
             }
 
             this.Items = new ObservableCollection<FolderItem>(list);
@@ -89,15 +89,16 @@ namespace NeeView
         /// </summary>
         /// <param name="nodeContent"></param>
         /// <returns></returns>
-        public FolderItem CreateFolderItem(NeeLaboratory.IO.Search.NodeContent nodeContent)
+        public FolderItem CreateFolderItem(QueryPath parent, NeeLaboratory.IO.Search.NodeContent nodeContent)
         {
             if (nodeContent.FileInfo.IsDirectory)
             {
                 return new FileFolderItem(_isOverlayEnabled)
                 {
                     Type = FolderItemType.Directory,
-                    Place = new QueryPath(Path.GetDirectoryName(nodeContent.Path)),
+                    Place = parent,
                     Name = Path.GetFileName(nodeContent.Path),
+                    TargetPath = new QueryPath(nodeContent.Path),
                     LastWriteTime = nodeContent.FileInfo.LastWriteTime,
                     Length = -1,
                     Attributes = FolderItemAttribute.Directory,
@@ -111,7 +112,7 @@ namespace NeeView
                     var shortcut = new FileShortcut(nodeContent.Path);
                     if (shortcut.Target.Exists && (shortcut.Target.Attributes.HasFlag(FileAttributes.Directory) || ArchiverManager.Current.IsSupported(shortcut.TargetPath)))
                     {
-                        return CreateFolderItem(shortcut);
+                        return CreateFolderItem(parent, shortcut);
                     }
                     else
                     {
@@ -120,11 +121,13 @@ namespace NeeView
                 }
                 else if (ArchiverManager.Current.IsSupported(nodeContent.Path))
                 {
+                    // TODO: PlayListのことを考慮せよ
                     return new FileFolderItem(_isOverlayEnabled)
                     {
                         Type = FolderItemType.File,
-                        Place = new QueryPath(Path.GetDirectoryName(nodeContent.Path)),
+                        Place = parent,
                         Name = Path.GetFileName(nodeContent.Path),
+                        TargetPath = new QueryPath(nodeContent.Path),
                         LastWriteTime = nodeContent.FileInfo.LastWriteTime,
                         Length = nodeContent.FileInfo.Size,
                         IsReady = true

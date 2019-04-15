@@ -527,7 +527,10 @@ namespace NeeView
             if (FileShortcut.IsShortcut(path) && (System.IO.File.Exists(path) || System.IO.Directory.Exists(path)))
             {
                 var shortcut = new FileShortcut(path);
-                path = shortcut.TargetPath;
+                if (shortcut.IsValid)
+                {
+                    path = shortcut.TargetPath;
+                }
             }
 
             path = GetNormalizePathName(path);

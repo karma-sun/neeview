@@ -36,7 +36,7 @@ namespace NeeView
             }
             catch
             {
-                this.Items = new ObservableCollection<FolderItem>() { CreateFolderItemEmpty() };
+                this.Items = new ObservableCollection<FolderItem>() { CreateFolderItemEmpty(Place) };
                 return;
             }
 
@@ -50,12 +50,12 @@ namespace NeeView
                     entries = await _collection.GetEntriesWhereSubArchivesAsync(token);
                     break;
                 default:
-                    this.Items = new ObservableCollection<FolderItem>() { CreateFolderItemEmpty() };
+                    this.Items = new ObservableCollection<FolderItem>() { CreateFolderItemEmpty(Place) };
                     return;
             }
 
             var items = entries
-                .Select(e => CreateFolderItem(e, _collection.Path))
+                .Select(e => CreateFolderItem(Place, e, _collection.Path))
                 .Where(e => e != null)
                 .ToList();
 
@@ -63,7 +63,7 @@ namespace NeeView
 
             if (!list.Any())
             {
-                list.Add(CreateFolderItemEmpty());
+                list.Add(CreateFolderItemEmpty(Place));
             }
 
             this.Items = new ObservableCollection<FolderItem>(list);
@@ -102,14 +102,15 @@ namespace NeeView
         /// <summary>
         /// アーカイブエントリから項目作成
         /// </summary>
-        public FolderItem CreateFolderItem(ArchiveEntry entry, string prefix)
+        public FolderItem CreateFolderItem(QueryPath parent, ArchiveEntry entry, string prefix)
         {
             return new FileFolderItem(_isOverlayEnabled)
             {
                 Type = FolderItemType.ArchiveEntry,
                 ArchiveEntry = entry,
-                Place = new QueryPath(prefix),
-                Name = entry.SystemPath.Substring(prefix.Length).TrimStart(LoosePath.Separator),
+                Place = parent,
+                Name = entry.SystemPath.Substring(prefix.Length).TrimStart(LoosePath.Separator), // TODO: prefix不要？
+                TargetPath = new QueryPath(entry.SystemPath),
                 LastWriteTime = entry.LastWriteTime,
                 Length = entry.Length,
                 Attributes = FolderItemAttribute.ArchiveEntry,

@@ -26,7 +26,7 @@ namespace NeeView
                 var items = BookshelfFolderList.Current.FolderCollection.Items.OfType<FileFolderItem>().Take(100);
                 foreach (var item in items)
                 {
-                    Debug.WriteLine($"{item.Path.DispName}...");
+                    Debug.WriteLine($"{item.GetFolderCollectionPath().DispName}...");
                     DebugTimer.CheckRestart();
                     item.ThumbnailLoaded += Item_ThumbnailLoaded;
                     mres.Reset();

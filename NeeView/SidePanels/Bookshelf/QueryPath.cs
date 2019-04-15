@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
@@ -333,5 +334,26 @@ namespace NeeView
         }
 
         #endregion IEquatable Support
+    }
+
+
+    public static class QueryPathExtensions
+    {
+        /// <summary>
+        /// ショートカットならば実体のパスに変換する
+        /// </summary>
+        public static QueryPath ToEntityPath(this QueryPath source)
+        {
+            if (source.Scheme == QueryScheme.File && FileShortcut.IsShortcut(source.SimplePath))
+            { 
+                var shortcut = new FileShortcut(source.SimplePath);
+                if (shortcut.IsValid)
+                {
+                    return new QueryPath(shortcut.TargetPath);
+                }
+            }
+
+            return source;
+        }
     }
 }

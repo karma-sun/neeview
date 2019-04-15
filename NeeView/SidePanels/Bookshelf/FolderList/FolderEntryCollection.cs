@@ -39,7 +39,7 @@ namespace NeeView
         { 
             if (string.IsNullOrWhiteSpace(Place.SimplePath))
             {
-                this.Items = new ObservableCollection<FolderItem>(DriveInfo.GetDrives().Select(e => CreateFolderItem(e)));
+                this.Items = new ObservableCollection<FolderItem>(DriveInfo.GetDrives().Select(e => CreateFolderItem(Place, e)));
                 return;
             }
             else
@@ -49,7 +49,7 @@ namespace NeeView
                 if (!directory.Exists)
                 {
                     var items = new ObservableCollection<FolderItem>();
-                    items.Add(CreateFolderItemEmpty());
+                    items.Add(CreateFolderItemEmpty(Place));
                     this.Items = items;
                 }
                 else
@@ -71,22 +71,22 @@ namespace NeeView
 
                         var directories = directoryInfos
                             .Where(e => (e.Attributes & FileAttributes.Hidden) == 0)
-                            .Select(e => CreateFolderItem(e))
+                            .Select(e => CreateFolderItem(Place, e))
                             .ToList();
 
                         var directoryShortcuts = shortcuts
                             .Where(e => e.Target.Exists && (e.Target.Attributes & FileAttributes.Directory) != 0)
-                            .Select(e => CreateFolderItem(e))
+                            .Select(e => CreateFolderItem(Place, e))
                             .ToList();
 
                         var archives = fileInfos
                             .Where(e => ArchiverManager.Current.IsSupported(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
-                            .Select(e => CreateFolderItem(e))
+                            .Select(e => CreateFolderItem(Place, e))
                             .ToList();
 
                         var archiveShortcuts = shortcuts
                             .Where(e => e.Target.Exists && (e.Target.Attributes & FileAttributes.Directory) == 0 && ArchiverManager.Current.IsSupported(e.TargetPath))
-                            .Select(e => CreateFolderItem(e))
+                            .Select(e => CreateFolderItem(Place, e))
                             .ToList();
 
                         // RAR連番フィルター
@@ -114,7 +114,7 @@ namespace NeeView
 
                         if (!list.Any())
                         {
-                            list.Add(CreateFolderItemEmpty());
+                            list.Add(CreateFolderItemEmpty(Place));
                         }
 
                         this.Items = new ObservableCollection<FolderItem>(list);
@@ -122,7 +122,7 @@ namespace NeeView
                     catch (Exception ex)
                     {
                         Debug.WriteLine(ex.Message);
-                        this.Items = new ObservableCollection<FolderItem>() { CreateFolderItemEmpty() };
+                        this.Items = new ObservableCollection<FolderItem>() { CreateFolderItemEmpty(Place) };
                         return;
                     }
                 }

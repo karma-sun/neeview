@@ -30,7 +30,7 @@ namespace NeeView
             _bookmarkPlace = BookmarkCollection.Current.FindNode(Place.FullPath) ?? new TreeListNode<IBookmarkEntry>();
 
             var items = _bookmarkPlace.Children
-                .Select(e => CreateFolderItem(e))
+                .Select(e => CreateFolderItem(Place, e))
                 .Where(e => e != null)
                 .ToList();
 
@@ -38,7 +38,7 @@ namespace NeeView
 
             if (!list.Any())
             {
-                list.Add(CreateFolderItemEmpty());
+                list.Add(CreateFolderItemEmpty(Place));
             }
 
             this.Items = new ObservableCollection<FolderItem>(list);
@@ -68,7 +68,7 @@ namespace NeeView
                         var item = Items.FirstOrDefault(i => e.Item == i.Source);
                         if (item == null)
                         {
-                            item = CreateFolderItem(e.Item);
+                            item = CreateFolderItem(Place, e.Item);
                             CreateItem(item);
                         }
                     }
@@ -109,7 +109,7 @@ namespace NeeView
         }
 
 
-        public FolderItem CreateFolderItem(TreeListNode<IBookmarkEntry> node)
+        public FolderItem CreateFolderItem(QueryPath parent, TreeListNode<IBookmarkEntry> node)
         {
             var scheme = QueryScheme.Bookmark.ToSchemeString();
 
@@ -120,8 +120,9 @@ namespace NeeView
                     {
                         Source = node,
                         Type = FolderItemType.Directory,
-                        Place = Place,
+                        Place = parent,
                         Name = folder.Name,
+                        TargetPath = node.CreateQuery(),
                         Length = -1,
                         Attributes = FolderItemAttribute.Directory | FolderItemAttribute.Bookmark,
                         IsReady = true
@@ -135,7 +136,7 @@ namespace NeeView
                     {
                         Source = node,
                         Type = FolderItemType.File,
-                        Place = Place,
+                        Place = parent,
                         TargetPath = new QueryPath(bookmark.Place),
                         IsDirectoryTarget = bookmark.Unit.Memento.IsDirectorty,
                         Name = bookmark.Name,

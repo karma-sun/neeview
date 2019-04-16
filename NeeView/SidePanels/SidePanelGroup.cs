@@ -207,6 +207,13 @@ namespace NeeView
             }
         }
 
+        public void Refresh()
+        {
+            foreach(var panel in Panels)
+            {
+                panel.Refresh();
+            }
+        }
 
         //
         #region Memento

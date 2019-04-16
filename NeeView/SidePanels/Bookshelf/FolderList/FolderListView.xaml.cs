@@ -240,6 +240,12 @@ namespace NeeView
             e.Handled = true;
         }
 
+        public void Refresh()
+        {
+            _vm.FolderListBox?.Refresh();
+        }
+
+
         #region DragDrop
 
         private DragDropGoast _goast = new DragDropGoast();

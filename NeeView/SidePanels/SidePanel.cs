@@ -1,6 +1,7 @@
 ﻿using NeeView.Effects;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -61,6 +62,8 @@ namespace NeeView
             PageListPlacementService.Current.Update();
 
             SelectedPanelChanged += SidePanel_SelectedPanelChanged;
+
+            SidePanelProfile.Current.AddPropertyChanged(nameof(SidePanelProfile.IsDecoratePlace), SidePanelProfile_IsDecoratePlaceChanged);
         }
 
 
@@ -78,6 +81,10 @@ namespace NeeView
         public BookmarkPanel BookmarkPanel { get; private set; }
 
 
+        private void SidePanelProfile_IsDecoratePlaceChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Refresh();
+        }
 
         /// <summary>
         /// パネル選択変更時の処理

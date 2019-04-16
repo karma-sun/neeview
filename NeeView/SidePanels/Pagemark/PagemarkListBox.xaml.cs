@@ -425,6 +425,11 @@ namespace NeeView
             }
         }
 
+        public void Refresh()
+        {
+            this.TreeView.Items.Refresh();
+        }
+
         #endregion
 
         #region IDisposable Support
@@ -481,7 +486,7 @@ namespace NeeView
                 if (node.Value is PagemarkFolder folder)
                 {
                     var directory = LoosePath.GetDirectoryName(folder.Place);
-                    return LoosePath.GetFileName(directory) + " (" + LoosePath.GetDirectoryName(directory) + ")";
+                    return SidePanelProfile.Current.GetDecoratePlaceName(directory);
                 }
                 else
                 {

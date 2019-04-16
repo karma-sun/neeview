@@ -14,6 +14,8 @@ namespace NeeView
 {
     public class PagemarkPanel : BindableBase, IPanel, IDisposable
     {
+        private PagemarkListView _view;
+
         public PagemarkPanel(PagemarkList model)
         {
             _view = new PagemarkListView(model);
@@ -30,7 +32,6 @@ namespace NeeView
 
         public string IconTips => Properties.Resources.PagemarkName;
 
-        private PagemarkListView _view;
         public FrameworkElement View => _view;
 
         public bool IsVisibleLock => _view.IsBusy;
@@ -57,5 +58,10 @@ namespace NeeView
             Dispose(true);
         }
         #endregion
+
+        public void Refresh()
+        {
+            _view.Refresh();
+        }
     }
 }

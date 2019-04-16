@@ -10,6 +10,16 @@ namespace NeeView
 {
     public class BookmarkPanel : BindableBase, IPanel
     {
+        private BookmarkListView _view;
+
+        public BookmarkPanel(FolderList folderList)
+        {
+            _view = new BookmarkListView(folderList);
+
+            Icon = App.Current.MainWindow.Resources["pic_star_24px"] as DrawingImage;
+            IconMargin = new Thickness(9);
+        }
+
         public string TypeCode => nameof(BookmarkPanel);
 
         public ImageSource Icon { get; private set; }
@@ -18,7 +28,6 @@ namespace NeeView
 
         public string IconTips => Properties.Resources.BookmarkName;
 
-        private BookmarkListView _view;
         public FrameworkElement View => _view;
 
         public bool IsVisibleLock => _view.IsRenaming;
@@ -26,13 +35,9 @@ namespace NeeView
         public PanelPlace DefaultPlace => PanelPlace.Right;
 
 
-        //
-        public BookmarkPanel(FolderList folderList)
+        public void Refresh()
         {
-            _view = new BookmarkListView(folderList);
-
-            Icon = App.Current.MainWindow.Resources["pic_star_24px"] as DrawingImage;
-            IconMargin = new Thickness(9);
+            _view.Refresh();
         }
     }
 

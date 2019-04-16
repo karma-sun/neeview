@@ -41,6 +41,7 @@ namespace NeeView
         }
 
 
+
         public bool IsVisibleLock => _folderListView.IsRenaming || _folderListView.IsSearchBoxFocused;
 
 
@@ -52,6 +53,11 @@ namespace NeeView
             {
                 e.Handled = true;
             }
+        }
+
+        public void Refresh()
+        {
+            _folderListView.Refresh();
         }
     }
 }

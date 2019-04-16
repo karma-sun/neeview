@@ -4776,4 +4776,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="BookshelfMoreMenuExportPlaylist" xml:space="preserve">
     <value>プレイリストを保存...</value>
   </data>
+  <data name="ParamListItemContentIsDecoratePlace" xml:space="preserve">
+    <value>補足テキストのパス表示を整形する</value>
+  </data>
+  <data name="ParamListItemContentIsDecoratePlaceTips" xml:space="preserve">
+    <value>"AAA (C:\BBB\CCC)" のように整形します。</value>
+  </data>
 </root>

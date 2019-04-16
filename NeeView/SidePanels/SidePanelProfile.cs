@@ -38,6 +38,7 @@ namespace NeeView
         private string _fontName = SystemFonts.MessageFontFamily.Source;
         private double _folderTreeFontSize = 12;
         private double _fontSize = 15.0;
+        private bool _isDecoratePlace = true;
 
         private SidePanelProfile()
         {
@@ -219,7 +220,6 @@ namespace NeeView
             set { _contentItemProfile.IsImagePopupEnabled = value; }
         }
 
-
         [PropertyMember("@ParamListItemContentIsTextWrapped")]
         public bool ContentItemIsTextWrapped
         {
@@ -232,6 +232,13 @@ namespace NeeView
         {
             get { return _contentItemProfile.NoteOpacity; }
             set { _contentItemProfile.NoteOpacity = value; }
+        }
+
+        [PropertyMember("@ParamListItemContentIsDecoratePlace", Tips = "@ParamListItemContentIsDecoratePlaceTips")]
+        public bool IsDecoratePlace
+        {
+            get { return _isDecoratePlace; }
+            set { SetProperty(ref _isDecoratePlace, value); }
         }
 
 
@@ -278,6 +285,12 @@ namespace NeeView
             set { _thumbnailItemProfile.IsTextWrapped = value; }
         }
 
+
+        public string GetDecoratePlaceName(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return s;
+            return IsDecoratePlace ? LoosePath.GetPlaceName(s) : s;
+        }
 
         private void RefreshBrushes()
         {
@@ -362,6 +375,10 @@ namespace NeeView
             [DataMember]
             public PanelListItemProfile ThumbnailItemProfile { get; set; }
 
+            [DataMember, DefaultValue(true)]
+            public bool IsDecoratePlace { get; set; }
+
+
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
             {
@@ -383,6 +400,7 @@ namespace NeeView
             memento.ContentItemProfile = this.ContentItemProfile;
             memento.BannerItemProfile = this.BannerItemProfile;
             memento.ThumbnailItemProfile = this.ThumbnailItemProfile;
+            memento.IsDecoratePlace = this.IsDecoratePlace;
 
             return memento;
         }
@@ -401,6 +419,7 @@ namespace NeeView
             this.ContentItemProfile = memento.ContentItemProfile ?? _defaultContentItemProfile.Clone();
             this.BannerItemProfile = memento.BannerItemProfile ?? _defaultBannerItemProfile.Clone();
             this.ThumbnailItemProfile = memento.ThumbnailItemProfile ?? _defaultThumbnailItemProfile.Clone();
+            this.IsDecoratePlace = memento.IsDecoratePlace;
 
             ValidatePanelListItemProfile();
         }

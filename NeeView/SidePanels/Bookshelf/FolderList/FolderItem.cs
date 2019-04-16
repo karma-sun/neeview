@@ -371,12 +371,12 @@ namespace NeeView
         {
             if (!IsFileSystem() && IsDirectory) return null;
 
-            string GetLastWriteTimeString() => $"{LastWriteTime:yyyy/MM/dd HH:mm:ss}   ";
+            string GetLastWriteTimeString() => (LastWriteTime != default ? $"{LastWriteTime:yyyy/MM/dd HH:mm:ss}   " : "");
 
             switch (order)
             {
                 default:
-                    return GetLastWriteTimeString() + FileSizeToStringConverter.ByteToDispString(Length);
+                    return GetLastWriteTimeString() + (Length > 0 ? FileSizeToStringConverter.ByteToDispString(Length) : "");
 
                 case FolderOrder.FileType:
                 case FolderOrder.FileTypeDescending:
@@ -384,7 +384,7 @@ namespace NeeView
 
                 case FolderOrder.Path:
                 case FolderOrder.PathDescending:
-                    return LoosePath.GetFileName(LoosePath.GetDirectoryName(TargetPath.SimplePath));
+                    return SidePanelProfile.Current.GetDecoratePlaceName(LoosePath.GetDirectoryName(TargetPath.SimplePath));
             }
         }
     }

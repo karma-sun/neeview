@@ -49,5 +49,10 @@ namespace NeeView
         /// 標準パネル位置
         /// </summary>
         PanelPlace DefaultPlace { get; }
+
+        /// <summary>
+        /// 表示更新
+        /// </summary>
+        void Refresh();
     }
 }

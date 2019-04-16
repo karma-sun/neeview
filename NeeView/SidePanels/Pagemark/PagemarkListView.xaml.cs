@@ -46,6 +46,11 @@ namespace NeeView
             e.Handled = true;
         }
 
+        public void Refresh()
+        {
+            _vm.ListBoxContent?.Refresh();
+        }
+
         #region IDisposable Support
         private bool _disposedValue = false;
 

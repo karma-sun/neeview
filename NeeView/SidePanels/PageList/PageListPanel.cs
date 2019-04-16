@@ -18,6 +18,16 @@ namespace NeeView
     /// </summary>
     public class PageListPanel : BindableBase, IPanel
     {
+        private PageListView _view;
+
+        public PageListPanel(PageList model)
+        {
+            _view = new PageListView(model);
+
+            Icon = App.Current.MainWindow.Resources["pic_photo_library_24px"] as ImageSource;
+            IconMargin = new Thickness(9);
+        }
+
         public string TypeCode => nameof(PageListPanel);
 
         public ImageSource Icon { get; private set; }
@@ -26,7 +36,6 @@ namespace NeeView
 
         public string IconTips => Properties.Resources.PageListName;
 
-        private PageListView _view;
         public FrameworkElement View => _view;
 
         public bool IsVisibleLock => false;
@@ -34,13 +43,9 @@ namespace NeeView
         public PanelPlace DefaultPlace { get; set; } = PanelPlace.Right;
 
 
-        //
-        public PageListPanel(PageList model)
+        public void Refresh()
         {
-            _view = new PageListView(model);
-
-            Icon = App.Current.MainWindow.Resources["pic_photo_library_24px"] as ImageSource;
-            IconMargin = new Thickness(9);
+            // nop.
         }
     }
 

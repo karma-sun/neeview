@@ -10821,6 +10821,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Format path display of supplemental text に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamListItemContentIsDecoratePlace {
+            get {
+                return ResourceManager.GetString("ParamListItemContentIsDecoratePlace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Format as &quot;AAA (C:\BBB\CCC)&quot;. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamListItemContentIsDecoratePlaceTips {
+            get {
+                return ResourceManager.GetString("ParamListItemContentIsDecoratePlaceTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Wrap name in content style に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamListItemContentIsTextWrapped {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -81,7 +82,6 @@ namespace NeeView
             Dispose(true);
         }
         #endregion
-
 
         #region IPageListBox support
 
@@ -172,6 +172,11 @@ namespace NeeView
             lbi?.Focus();
         }
 
+        public void Refresh()
+        {
+            this.ListBox.Items.Refresh();
+        }
+
         #endregion
 
         #region Event Methods
@@ -242,5 +247,24 @@ namespace NeeView
 
         #endregion
 
+    }
+
+    public class ArchiveEntryToDecoratePlaceNameConverter :IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is ArchiveEntry entry)
+            {
+                var directory = entry.RootArchiver?.SystemPath ?? LoosePath.GetDirectoryName(entry.SystemPath);
+                return SidePanelProfile.Current.GetDecoratePlaceName(directory);
+            }
+
+            return null;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

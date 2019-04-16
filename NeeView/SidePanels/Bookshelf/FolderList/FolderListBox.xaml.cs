@@ -521,8 +521,6 @@ namespace NeeView
             _vm.Model.AddBookmark();
         }
 
-
-
         #endregion
 
         #region DragDrop
@@ -1042,6 +1040,12 @@ namespace NeeView
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuRename, Command = RenameCommand });
             }
         }
+
+        public void Refresh()
+        {
+            this.ListBox.Items.Refresh();
+        }
+
 
         #endregion
     }

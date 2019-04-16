@@ -156,7 +156,7 @@ namespace NeeView
         // 表示用のファイル名生成
         public static string GetDispName(string s)
         {
-            if (s == null)
+            if (string.IsNullOrEmpty(s))
             {
                 return "PC";
             }
@@ -169,6 +169,24 @@ namespace NeeView
                     name += '\\';
                 }
                 return name;
+            }
+        }
+
+        /// <summary>
+        /// パスを "FooBar (C:\Parent)" 形式にする
+        /// </summary>
+        public static string GetPlaceName(string s)
+        {
+            var name = GetFileName(s);
+            var parent = GetDirectoryName(s);
+
+            if (string.IsNullOrEmpty(parent))
+            {
+                return name;
+            }
+            else
+            {
+                return name + " (" + parent + ")";
             }
         }
     }

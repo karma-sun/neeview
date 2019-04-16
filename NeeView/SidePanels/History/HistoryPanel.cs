@@ -18,6 +18,17 @@ namespace NeeView
     /// </summary>
     public class HistoryPanel : BindableBase, IPanel
     {
+        private HistoryListView _view;
+
+        public HistoryPanel(HistoryList model)
+        {
+            _view = new HistoryListView(model);
+
+            Icon = App.Current.MainWindow.Resources["pic_history_24px"] as ImageSource;
+            IconMargin = new Thickness(7, 8, 9, 8);
+            //IconMargin = new Thickness(8);
+        }
+
         public string TypeCode => nameof(HistoryPanel);
 
         public ImageSource Icon { get; private set; }
@@ -26,7 +37,6 @@ namespace NeeView
 
         public string IconTips => Properties.Resources.HistoryName;
 
-        private HistoryListView _view;
         public FrameworkElement View => _view;
 
         public bool IsVisibleLock => false;
@@ -34,14 +44,9 @@ namespace NeeView
         public PanelPlace DefaultPlace => PanelPlace.Left;
 
 
-        //
-        public HistoryPanel(HistoryList model)
+        public void Refresh()
         {
-            _view = new HistoryListView(model);
-
-            Icon = App.Current.MainWindow.Resources["pic_history_24px"] as ImageSource;
-            IconMargin = new Thickness(7, 8, 9, 8);
-            //IconMargin = new Thickness(8);
+            _view.Refresh();
         }
     }
 

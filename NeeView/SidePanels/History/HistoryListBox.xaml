@@ -12,6 +12,7 @@
     <UserControl.Resources>
 
         <local:BooleanToTextWrappingConverter x:Key="BooleanToTextWrappingConverter"/>
+        <local:ArchiveEntryToDecoratePlaceNameConverter x:Key="ArchiveEntryToDecoratePlaceNameConverter"/>
 
         <Style x:Key="NameStyle" TargetType="TextBlock" >
             <Setter Property="Text" Value="{Binding Name}"/>
@@ -60,7 +61,7 @@
                     <DockPanel>
                         <local:PanelListContentImage Thumbnail="{Binding Thumbnail}"/>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock x:Name="Place" Style="{StaticResource NoteTextStyle}" Text="{Binding ArchivePage.Entry.RootArchiverName}" />
+                            <TextBlock x:Name="Place" Style="{StaticResource NoteTextStyle}" Text="{Binding ArchivePage.Entry, Converter={StaticResource ArchiveEntryToDecoratePlaceNameConverter}}" />
                             <TextBlock x:Name="FileNameTextBlock" Style="{StaticResource ContentNameStyle}"/>
                         </StackPanel>
                     </DockPanel>

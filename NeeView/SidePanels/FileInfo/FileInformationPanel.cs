@@ -35,5 +35,10 @@ namespace NeeView
             Icon = App.Current.MainWindow.Resources["pic_info_24px"] as ImageSource;
             IconMargin = new Thickness(9);
         }
+
+        public void Refresh()
+        {
+            // nop.
+        }
     }
 }

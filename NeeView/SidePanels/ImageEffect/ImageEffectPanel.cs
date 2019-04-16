@@ -17,6 +17,16 @@ namespace NeeView
     /// </summary>
     public class ImageEffectPanel : BindableBase, IPanel
     {
+        private ImageEffectView _view;
+
+        public ImageEffectPanel(ImageEffect model, ImageFilter imageFilter)
+        {
+            _view = new ImageEffectView(model, imageFilter);
+
+            Icon = App.Current.MainWindow.Resources["pic_toy_24px"] as ImageSource;
+            IconMargin = new Thickness(8);
+        }
+
         public string TypeCode => nameof(ImageEffectPanel);
 
         public ImageSource Icon { get; private set; }
@@ -25,20 +35,16 @@ namespace NeeView
 
         public string IconTips => Properties.Resources.EffectName;
 
-        public FrameworkElement View { get; private set; }
+        public FrameworkElement View => _view;
 
         public bool IsVisibleLock => false;
 
         public PanelPlace DefaultPlace => PanelPlace.Right;
 
 
-        //
-        public ImageEffectPanel(ImageEffect model, ImageFilter imageFilter)
+        public void Refresh()
         {
-            View = new ImageEffectView(model, imageFilter);
-
-            Icon = App.Current.MainWindow.Resources["pic_toy_24px"] as ImageSource;
-            IconMargin = new Thickness(8);
+            // nop.
         }
     }
 }

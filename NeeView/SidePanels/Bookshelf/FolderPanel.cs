@@ -10,6 +10,16 @@ namespace NeeView
 {
     public class FolderPanel : BindableBase, IPanel
     {
+        private FolderPanelView _view;
+
+        public FolderPanel(FolderPanelModel folderPanel, FolderList folderList, PageList pageList)
+        {
+            _view = new FolderPanelView(folderPanel, folderList, pageList);
+
+            Icon = App.Current.MainWindow.Resources["pic_bookshelf"] as DrawingImage;
+            IconMargin = new Thickness(9);
+        }
+
         public string TypeCode => nameof(FolderPanel);
 
         public ImageSource Icon { get; private set; }
@@ -18,7 +28,6 @@ namespace NeeView
 
         public string IconTips => Properties.Resources.BookshelfName;
 
-        private FolderPanelView _view;
         public FrameworkElement View => _view;
 
         public bool IsVisibleLock => _view.IsVisibleLock;
@@ -26,13 +35,9 @@ namespace NeeView
         public PanelPlace DefaultPlace => PanelPlace.Left;
 
 
-        //
-        public FolderPanel(FolderPanelModel folderPanel, FolderList folderList, PageList pageList)
+        public void Refresh()
         {
-            _view = new FolderPanelView(folderPanel, folderList, pageList);
-
-            Icon = App.Current.MainWindow.Resources["pic_bookshelf"] as DrawingImage;
-            IconMargin = new Thickness(9);
+            _view.Refresh();
         }
     }
 

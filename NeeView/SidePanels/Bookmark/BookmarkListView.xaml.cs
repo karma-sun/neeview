@@ -124,5 +124,10 @@ namespace NeeView
             MoreButton.IsChecked = !MoreButton.IsChecked;
             e.Handled = true;
         }
+
+        public void Refresh()
+        {
+            _vm.FolderListBox?.Refresh();
+        }
     }
 }

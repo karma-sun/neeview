@@ -106,7 +106,7 @@ namespace NeeView
             leftPanels.ForEach(e => _left.Panels.Add(e));
             rightPanels.ForEach(e => _right.Panels.Add(e));
         }
-
+        
         /// <summary>
         /// パネルの追加
         /// </summary>
@@ -249,6 +249,12 @@ namespace NeeView
             {
                 e.Handled = true;
             }
+        }
+
+        public void Refresh()
+        {
+            this.Left.Refresh();
+            this.Right.Refresh();
         }
 
         #endregion

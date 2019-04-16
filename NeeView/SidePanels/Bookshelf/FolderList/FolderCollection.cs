@@ -335,7 +335,7 @@ namespace NeeView
             }
             else
             {
-                foreach (var item in Items.Where(e => e.TargetPath == path))
+                foreach (var item in Items.Where(e => e.EntityPath == path))
                 {
                     item.NotifyIconOverlayChanged();
                 }

@@ -171,7 +171,7 @@ namespace NeeView
         private void ToggleBookmark_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
-            e.CanExecute = item != null && item.IsFileSystem() && !item.TargetPath.SimplePath.StartsWith(Temporary.Current.TempDirectory);
+            e.CanExecute = item != null && item.IsFileSystem() && !item.EntityPath.SimplePath.StartsWith(Temporary.Current.TempDirectory);
         }
 
         /// <summary>
@@ -182,13 +182,13 @@ namespace NeeView
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
             if (item != null)
             {
-                if (BookmarkCollection.Current.Contains(item.TargetPath.SimplePath))
+                if (BookmarkCollection.Current.Contains(item.EntityPath.SimplePath))
                 {
-                    BookmarkCollectionService.Remove(item.TargetPath);
+                    BookmarkCollectionService.Remove(item.EntityPath);
                 }
                 else
                 {
-                    BookmarkCollectionService.Add(item.TargetPath);
+                    BookmarkCollectionService.Add(item.EntityPath);
                 }
             }
         }
@@ -1030,7 +1030,7 @@ namespace NeeView
             {
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuSubfolder, Command = LoadWithRecursiveCommand, IsChecked = item.IsRecursived });
                 contextMenu.Items.Add(new Separator());
-                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.WordBookmark, Command = ToggleBookmarkCommand, IsChecked = BookmarkCollection.Current.Contains(item.TargetPath.SimplePath) });
+                contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.WordBookmark, Command = ToggleBookmarkCommand, IsChecked = BookmarkCollection.Current.Contains(item.EntityPath.SimplePath) });
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuDeleteHistory, Command = RemoveHistoryCommand });
                 contextMenu.Items.Add(new Separator());
                 contextMenu.Items.Add(new MenuItem() { Header = Properties.Resources.BookshelfItemMenuExplorer, Command = OpenExplorerCommand });

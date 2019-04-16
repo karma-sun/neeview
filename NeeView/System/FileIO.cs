@@ -40,7 +40,7 @@ namespace NeeView
             if (info.IsEmpty()) return;
 
             var files = new List<string>();
-            files.Add(info.TargetPath.ToEntityPath().SimplePath);
+            files.Add(info.EntityPath.SimplePath);
             var data = new DataObject();
             data.SetData(DataFormats.FileDrop, files.ToArray());
             data.SetData(DataFormats.UnicodeText, string.Join("\r\n", files));

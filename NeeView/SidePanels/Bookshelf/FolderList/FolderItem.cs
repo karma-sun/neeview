@@ -86,6 +86,7 @@ namespace NeeView
         private string _name;
         private string _dispName;
         private QueryPath _targetPath;
+        private QueryPath _entityPath;
         private bool _isReady;
         private bool _isRecursived;
         private FolderItemIconOverlay _iconOverlay = FolderItemIconOverlay.Uninitialized;
@@ -141,12 +142,17 @@ namespace NeeView
             set { SetProperty(ref _dispName, value); }
         }
 
-
-        // 実体へのパス
+        // 実体へのパス。ショートカットはそのまま
         public QueryPath TargetPath
         {
             get { return _targetPath; }
             set { if (_targetPath != value) { _targetPath = value; RaisePropertyChanged(); } }
+        }
+
+        // ショートカット先を反映した実体パス
+        public QueryPath EntityPath
+        {
+            get { return _entityPath ?? (_entityPath = TargetPath?.ToEntityPath()); }
         }
 
 
@@ -232,7 +238,7 @@ namespace NeeView
         public void UpdateIsRecursived(bool isDefaultRecursive)
         {
             var option = isDefaultRecursive ? BookLoadOption.DefaultRecursive : BookLoadOption.None;
-            var memento = BookHub.Current.GetLastestBookMemento(this.TargetPath.SimplePath, option);
+            var memento = BookHub.Current.GetLastestBookMemento(EntityPath.SimplePath, option);
             this.IsRecursived = memento.IsRecursiveFolder;
         }
 
@@ -242,9 +248,9 @@ namespace NeeView
             {
                 if (IsDisable())
                     _iconOverlay = FolderItemIconOverlay.Disable;
-                else if (BookshelfFolderList.Current.IsVisibleBookmarkMark && BookmarkCollection.Current.Contains(TargetPath.SimplePath))
+                else if (BookshelfFolderList.Current.IsVisibleBookmarkMark && BookmarkCollection.Current.Contains(EntityPath.SimplePath))
                     _iconOverlay = FolderItemIconOverlay.Star;
-                else if (BookshelfFolderList.Current.IsVisibleHistoryMark && BookHistoryCollection.Current.Contains(TargetPath.SimplePath))
+                else if (BookshelfFolderList.Current.IsVisibleHistoryMark && BookHistoryCollection.Current.Contains(EntityPath.SimplePath))
                     _iconOverlay = FolderItemIconOverlay.Checked;
                 else
                     _iconOverlay = FolderItemIconOverlay.None;
@@ -272,7 +278,7 @@ namespace NeeView
                 return true;
             }
 
-            var archiveType = ArchiverManager.Current.GetSupportedType(TargetPath.SimplePath, false);
+            var archiveType = ArchiverManager.Current.GetSupportedType(EntityPath.SimplePath, false);
             if (IsFileSystem() && BookHub.Current.ArchiveRecursiveMode != ArchiveEntryCollectionMode.IncludeSubArchives && archiveType.IsRecursiveSupported())
             {
                 return true;

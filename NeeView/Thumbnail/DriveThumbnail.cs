@@ -1,6 +1,7 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Threading;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -38,16 +39,21 @@ namespace NeeView
                     image =>
                     {
                         _bitmapSource = image;
+                        DriveIconUtility.SetDriveIconCache(_path, _bitmapSource);
                         RaisePropertyChanged("");
                     });
             }
 
-            return _bitmapSource ?? FileIconCollection.Current.CreateDefaultFolderIcon(256.0);
+            return DriveIconUtility.GetDriveIconCache(_path);
         }
+
+
     }
 
     public static class DriveIconUtility
     {
+        private static Dictionary<string, ImageSource> _iconCache = new Dictionary<string, ImageSource>();
+
         /// <summary>
         /// 非同期のドライブアイコン画像生成
         /// </summary>
@@ -65,7 +71,7 @@ namespace NeeView
                         var bitmapSource = FileIconCollection.Current.CreateFileIcon(path, IO.FileIconType.Drive, width, true, false);
                         if (bitmapSource != null)
                         {
-                            bitmapSource?.Freeze();
+                            bitmapSource.Freeze();
                             callback?.Invoke(bitmapSource);
                             return;
                         }
@@ -79,6 +85,24 @@ namespace NeeView
             });
 
             task.Start(SingleThreadedApartment.TaskScheduler); // STA
+        }
+
+
+        public static void SetDriveIconCache(string path, ImageSource bitmapSource)
+        {
+            _iconCache[path] = bitmapSource;
+        }
+
+        public static ImageSource GetDriveIconCache(string path)
+        {
+            if (_iconCache.TryGetValue(path, out ImageSource bitmapSource))
+            {
+                return bitmapSource;
+            }
+            else
+            {
+                return FileIconCollection.Current.CreateDefaultFolderIcon(256.0);
+            }
         }
     }
 }

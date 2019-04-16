@@ -72,7 +72,6 @@ namespace NeeView
         PlaylistShortcut,
         File,
         FileShortcut,
-        ArchiveEntry,
     }
 
     /// <summary>
@@ -87,7 +86,6 @@ namespace NeeView
         private string _name;
         private string _dispName;
         private QueryPath _targetPath;
-        private ArchiveEntry _archiveEntry;
         private bool _isReady;
         private bool _isRecursived;
         private FolderItemIconOverlay _iconOverlay = FolderItemIconOverlay.Uninitialized;
@@ -151,17 +149,6 @@ namespace NeeView
             set { if (_targetPath != value) { _targetPath = value; RaisePropertyChanged(); } }
         }
 
-        /// <summary>
-        /// 実体パスはディレクトリ？
-        /// </summary>
-        public bool IsDirectoryTarget { get; set; }
-
-        // アーカイブエントリ
-        public ArchiveEntry ArchiveEntry
-        {
-            get { return _archiveEntry; }
-            set { if (_archiveEntry != value) { _archiveEntry = value; RaisePropertyChanged(); } }
-        }
 
         // 最終更新日
         public DateTime LastWriteTime { get; set; }
@@ -235,6 +222,9 @@ namespace NeeView
 
         // FolderCollection上のパス
         public QueryPath GetFolderCollectionPath() => _place.ReplacePath(LoosePath.Combine(_place.Path, _name));
+
+        // 推定ディレクトリ
+        public bool IsDirectoryMaybe() => IsDirectory || Length == -1;
 
         /// <summary>
         /// IsRecursived 更新
@@ -390,7 +380,7 @@ namespace NeeView
 
                 case FolderOrder.FileType:
                 case FolderOrder.FileTypeDescending:
-                    return GetLastWriteTimeString() + (IsDirectoryTarget ? Properties.Resources.WordFolder : LoosePath.GetExtension(Name));
+                    return GetLastWriteTimeString() + (IsDirectoryMaybe() ? Properties.Resources.WordFolder : LoosePath.GetExtension(Name));
 
                 case FolderOrder.Path:
                 case FolderOrder.PathDescending:

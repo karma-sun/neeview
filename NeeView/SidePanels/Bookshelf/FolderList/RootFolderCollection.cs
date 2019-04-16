@@ -11,7 +11,7 @@ namespace NeeView
     public class RootFolderCollection : FolderCollection
     {
 
-        public RootFolderCollection(QueryPath path, bool isOverlayEnabled) : base(path, false, isOverlayEnabled)
+        public RootFolderCollection(QueryPath path, bool isOverlayEnabled) : base(path, isOverlayEnabled)
         {
         }
 

@@ -13,7 +13,7 @@ namespace NeeView
     /// </summary>
     public class QuickAccessFolderCollection : FolderCollection, IDisposable
     {
-        public QuickAccessFolderCollection(bool isOverlayEnabled) : base(new QueryPath(QueryScheme.QuickAccess, null), false, isOverlayEnabled)
+        public QuickAccessFolderCollection(bool isOverlayEnabled) : base(new QueryPath(QueryScheme.QuickAccess, null), isOverlayEnabled)
         {
         }
 

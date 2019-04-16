@@ -23,7 +23,7 @@ namespace NeeView
 
         #region Constructors
 
-        public FolderArchiveCollection(QueryPath path, ArchiveEntryCollectionMode mode, bool isActive, bool isOverlayEnabled) : base(path, isActive, isOverlayEnabled)
+        public FolderArchiveCollection(QueryPath path, ArchiveEntryCollectionMode mode, bool isActive, bool isOverlayEnabled) : base(path, isOverlayEnabled)
         {
             _mode = mode;
         }
@@ -36,7 +36,7 @@ namespace NeeView
             }
             catch
             {
-                this.Items = new ObservableCollection<FolderItem>() { CreateFolderItemEmpty(Place) };
+                this.Items = new ObservableCollection<FolderItem>() { _folderItemFactory.CreateFolderItemEmpty() };
                 return;
             }
 
@@ -50,12 +50,12 @@ namespace NeeView
                     entries = await _collection.GetEntriesWhereSubArchivesAsync(token);
                     break;
                 default:
-                    this.Items = new ObservableCollection<FolderItem>() { CreateFolderItemEmpty(Place) };
+                    this.Items = new ObservableCollection<FolderItem>() { _folderItemFactory.CreateFolderItemEmpty() };
                     return;
             }
 
             var items = entries
-                .Select(e => CreateFolderItem(Place, e, _collection.Path))
+                .Select(e => _folderItemFactory.CreateFolderItem(e, _collection.Path))
                 .Where(e => e != null)
                 .ToList();
 
@@ -63,7 +63,7 @@ namespace NeeView
 
             if (!list.Any())
             {
-                list.Add(CreateFolderItemEmpty(Place));
+                list.Add(_folderItemFactory.CreateFolderItemEmpty());
             }
 
             this.Items = new ObservableCollection<FolderItem>(list);
@@ -97,25 +97,6 @@ namespace NeeView
             {
                 return new QueryPath(_collection.GetFolderPlace());
             }
-        }
-
-        /// <summary>
-        /// アーカイブエントリから項目作成
-        /// </summary>
-        public FolderItem CreateFolderItem(QueryPath parent, ArchiveEntry entry, string prefix)
-        {
-            return new FileFolderItem(_isOverlayEnabled)
-            {
-                Type = FolderItemType.ArchiveEntry,
-                ArchiveEntry = entry,
-                Place = parent,
-                Name = entry.SystemPath.Substring(prefix.Length).TrimStart(LoosePath.Separator), // TODO: prefix不要？
-                TargetPath = new QueryPath(entry.SystemPath),
-                LastWriteTime = entry.LastWriteTime,
-                Length = entry.Length,
-                Attributes = FolderItemAttribute.ArchiveEntry,
-                IsReady = true
-            };
         }
 
         #endregion

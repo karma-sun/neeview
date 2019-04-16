@@ -73,12 +73,6 @@ namespace NeeView
             }
         }
 
-        // コンボボックス変更追従用
-        public void RaiseFolderOrderPropertyChanged()
-        {
-            RaisePropertyChanged(nameof(FolderOrder));
-        }
-
         private void Save()
         {
             BookHistoryCollection.Current.SetFolderMemento(Path, CreateMemento());

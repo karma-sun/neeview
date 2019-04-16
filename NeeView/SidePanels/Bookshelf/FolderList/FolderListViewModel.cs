@@ -153,10 +153,17 @@ namespace NeeView
                 if (SetProperty(ref _folderOrderList, value))
                 {
                     // 新しいコンボボックスに追従させる
-                    FolderCollection?.FolderParameter.RaiseFolderOrderPropertyChanged();
+                    RaisePropertyChanged(nameof(FolderOrder));
                 }
             }
         }
+
+        public FolderOrder FolderOrder
+        {
+            get { return FolderCollection != null ? FolderCollection.FolderParameter.FolderOrder : default; }
+            set { if (FolderCollection != null) { FolderCollection.FolderParameter.FolderOrder = value; } }
+        }
+
 
         /// <summary>
         /// MoreMenu property.
@@ -542,6 +549,9 @@ namespace NeeView
         {
             UpdateFolderListBox();
             UpdateFolderOrerList();
+
+            FolderCollection?.FolderParameter.AddPropertyChanged(nameof(FolderParameter.FolderOrder),
+                (s, e_) => RaisePropertyChanged(nameof(FolderOrder)));
         }
 
         public void UpdateFolderListBox()

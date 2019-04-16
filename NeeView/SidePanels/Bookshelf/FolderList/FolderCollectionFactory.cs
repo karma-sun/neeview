@@ -126,7 +126,7 @@ namespace NeeView
         {
             try
             {
-                var collection = new PlaylistFolderCollection(path, isActive, _isOverlayEnabled);
+                var collection = new PlaylistFolderCollection(path, _isOverlayEnabled);
                 await collection.InitializeItemsAsync(token);
                 token.ThrowIfCancellationRequested();
                 return collection;

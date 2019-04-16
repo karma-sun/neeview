@@ -19,15 +19,22 @@ namespace NeeView
     {
         #region Fields
 
-        // ファイルシステム監視
         private FileSystemWatcher _fileSystemWatcher;
+        private FolderCollectionEngine _engine;
+        private bool _isWatchFileSystem;
 
         #endregion
 
         #region Constructors
 
-        public FolderEntryCollection(QueryPath path, bool isActive, bool isOverlayEnabled) : base(path, isActive, isOverlayEnabled)
+        public FolderEntryCollection(QueryPath path, bool isWatchFileSystem, bool isOverlayEnabled) : base(path, isOverlayEnabled)
         {
+            _isWatchFileSystem = isWatchFileSystem;
+
+            if (isWatchFileSystem)
+            {
+                _engine = new FolderCollectionEngine(this);
+            }
         }
 
         public override async Task InitializeItemsAsync(CancellationToken token)
@@ -36,10 +43,10 @@ namespace NeeView
         }
 
         private void InitializeItems()
-        { 
+        {
             if (string.IsNullOrWhiteSpace(Place.SimplePath))
             {
-                this.Items = new ObservableCollection<FolderItem>(DriveInfo.GetDrives().Select(e => CreateFolderItem(Place, e)));
+                this.Items = new ObservableCollection<FolderItem>(DriveInfo.GetDrives().Select(e => _folderItemFactory.CreateFolderItem(e)));
                 return;
             }
             else
@@ -49,7 +56,7 @@ namespace NeeView
                 if (!directory.Exists)
                 {
                     var items = new ObservableCollection<FolderItem>();
-                    items.Add(CreateFolderItemEmpty(Place));
+                    items.Add(_folderItemFactory.CreateFolderItemEmpty());
                     this.Items = items;
                 }
                 else
@@ -58,63 +65,35 @@ namespace NeeView
                     {
                         var fileSystemInfos = directory.GetFileSystemInfos();
 
-                        directory.EnumerateFileSystemInfos();
-
-                        var fileInfos = fileSystemInfos.OfType<FileInfo>();
-                        var directoryInfos = fileSystemInfos.OfType<DirectoryInfo>();
-
-                        var shortcuts = fileInfos
-                            .Where(e => FileShortcut.IsShortcut(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
-                            .Select(e => new FileShortcut(e))
-                            .Where(e => e.IsValid)
-                            .ToList();
-
-                        var directories = directoryInfos
+                        var items = fileSystemInfos
                             .Where(e => (e.Attributes & FileAttributes.Hidden) == 0)
-                            .Select(e => CreateFolderItem(Place, e))
-                            .ToList();
-
-                        var directoryShortcuts = shortcuts
-                            .Where(e => e.Target.Exists && (e.Target.Attributes & FileAttributes.Directory) != 0)
-                            .Select(e => CreateFolderItem(Place, e))
-                            .ToList();
-
-                        var archives = fileInfos
-                            .Where(e => ArchiverManager.Current.IsSupported(e.FullName) && (e.Attributes & FileAttributes.Hidden) == 0)
-                            .Select(e => CreateFolderItem(Place, e))
-                            .ToList();
-
-                        var archiveShortcuts = shortcuts
-                            .Where(e => e.Target.Exists && (e.Target.Attributes & FileAttributes.Directory) == 0 && ArchiverManager.Current.IsSupported(e.TargetPath))
-                            .Select(e => CreateFolderItem(Place, e))
+                            .Select(e => _folderItemFactory.CreateFolderItem(e))
+                            .Where(e => e != null)
                             .ToList();
 
                         // RAR連番フィルター
                         if (BookshelfFolderList.Current.IsMultipleRarFilterEnabled)
                         {
+                            var archives = items.Where(e => e.Type == FolderItemType.File).ToList();
                             var groups = archives.Select(e => new MultipleArchive(e)).GroupBy(e => e.Key);
                             var part0 = groups.Where(e => e.Key == null).Cast<IEnumerable<MultipleArchive>>().FirstOrDefault() ?? Enumerable.Empty<MultipleArchive>();
                             var part1 = groups.Where(e => e.Key != null).Select(g => g.OrderBy(e => e.PartNumber).First());
                             archives = part0.Concat(part1).Select(e => e.FolderItem).ToList();
-                        }
 
-                        var items = directories
-                            .Concat(directoryShortcuts)
-                            .Concat(archives)
-                            .Concat(archiveShortcuts)
-                            .Where(e => e != null);
+                            items = items.Where(e => e.Type != FolderItemType.File).Concat(archives).ToList();
+                        }
 
                         // 除外フィルター
                         if (BookshelfFolderList.Current.ExcludeRegex != null)
                         {
-                            items = items.Where(e => !BookshelfFolderList.Current.ExcludeRegex.IsMatch(e.Name));
+                            items = items.Where(e => !BookshelfFolderList.Current.ExcludeRegex.IsMatch(e.Name)).ToList();
                         }
 
                         var list = Sort(items).ToList();
 
                         if (!list.Any())
                         {
-                            list.Add(CreateFolderItemEmpty(Place));
+                            list.Add(_folderItemFactory.CreateFolderItemEmpty());
                         }
 
                         this.Items = new ObservableCollection<FolderItem>(list);
@@ -122,7 +101,7 @@ namespace NeeView
                     catch (Exception ex)
                     {
                         Debug.WriteLine(ex.Message);
-                        this.Items = new ObservableCollection<FolderItem>() { CreateFolderItemEmpty(Place) };
+                        this.Items = new ObservableCollection<FolderItem>() { _folderItemFactory.CreateFolderItemEmpty() };
                         return;
                     }
                 }
@@ -130,7 +109,7 @@ namespace NeeView
 
             BindingOperations.EnableCollectionSynchronization(this.Items, new object());
 
-            if (_isStartEngine)
+            if (_isWatchFileSystem)
             {
                 // フォルダー監視
                 InitializeWatcher(Place.SimplePath);
@@ -170,6 +149,22 @@ namespace NeeView
                     PartNumber = int.Parse(match.Groups[2].Value);
                 }
             }
+        }
+
+
+        public override void RequestCreate(QueryPath path)
+        {
+            _engine?.RequestCreate(path);
+        }
+
+        public override void RequestDelete(QueryPath path)
+        {
+            _engine?.RequestDelete(path);
+        }
+
+        public override void RequestRename(QueryPath oldPath, QueryPath path)
+        {
+            _engine?.RequestRename(oldPath, path);
         }
 
         /// <summary>
@@ -279,6 +274,11 @@ namespace NeeView
             {
                 if (disposing)
                 {
+                    if (_engine != null)
+                    {
+                        _engine.Dispose();
+                    }
+
                     TerminateWatcher();
                 }
 

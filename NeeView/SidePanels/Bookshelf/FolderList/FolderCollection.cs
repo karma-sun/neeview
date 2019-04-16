@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Media.Imaging;
@@ -10,10 +9,8 @@ using System.Collections.ObjectModel;
 using System.Windows.Data;
 using System.Threading;
 using System.Threading.Tasks;
-
-using Jobs = NeeLaboratory.Threading.Jobs;
-using NeeView.IO;
 using System.Runtime.InteropServices;
+using NeeView.Collections.Generic;
 
 namespace NeeView
 {
@@ -36,8 +33,7 @@ namespace NeeView
     {
         #region Fields
 
-        private Jobs.SingleJobEngine _engine;
-        protected bool _isStartEngine;
+        protected FolderItemFactory _folderItemFactory;
         protected bool _isOverlayEnabled;
         private object _lock = new object();
 
@@ -45,23 +41,16 @@ namespace NeeView
 
         #region Constructors
 
-        protected FolderCollection(QueryPath path, bool isStartEngine, bool isOverlayEnabled)
+        protected FolderCollection(QueryPath path, bool isOverlayEnabled)
         {
+            _folderItemFactory = new FolderItemFactory(path, isOverlayEnabled);
+
             this.Place = path;
             _isOverlayEnabled = isOverlayEnabled;
-            _isStartEngine = isStartEngine;
 
             // HACK: FullPathにする。過去のデータも修正が必要
             this.FolderParameter = new FolderParameter(Place.SimplePath);
             this.FolderParameter.PropertyChanged += (s, e) => ParameterChanged?.Invoke(s, null);
-
-            if (_isStartEngine)
-            {
-                _engine = new Jobs.SingleJobEngine();
-                _engine.Name = "FolderCollectionJobEngine";
-                _engine.JobError += JobEngine_Error;
-                _engine.StartEngine();
-            }
         }
 
         #endregion Constructors
@@ -307,23 +296,13 @@ namespace NeeView
             public int Compare(FolderItem x, FolderItem y)
             {
                 // ディレクトリは種類判定なし
-                if (x.IsDirectory)
+                if (x.IsDirectoryMaybe())
                 {
-                    return y.IsDirectory ? NativeMethods.StrCmpLogicalW(x.Name, y.Name) : 1;
+                    return y.IsDirectoryMaybe() ? NativeMethods.StrCmpLogicalW(x.Name, y.Name) : 1;
                 }
-                if (y.IsDirectory)
+                if (y.IsDirectoryMaybe())
                 {
-                    return x.IsDirectory ? NativeMethods.StrCmpLogicalW(x.Name, y.Name) : -1;
-                }
-
-                // ターゲットディレクトリの場合
-                if (x.IsDirectoryTarget)
-                {
-                    return y.IsDirectoryTarget ? NativeMethods.StrCmpLogicalW(x.Name, y.Name) : 1;
-                }
-                if (y.IsDirectoryTarget)
-                {
-                    return x.IsDirectoryTarget ? NativeMethods.StrCmpLogicalW(x.Name, y.Name) : -1;
+                    return x.IsDirectoryMaybe() ? NativeMethods.StrCmpLogicalW(x.Name, y.Name) : -1;
                 }
 
                 var extX = LoosePath.GetExtension(x.Name);
@@ -364,75 +343,25 @@ namespace NeeView
         }
 
 
-        /// <summary>
-        /// JobEngineで例外発生
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void JobEngine_Error(object sender, Jobs.JobErrorEventArgs e)
+
+        public virtual void RequestCreate(QueryPath path)
         {
-            Debug.WriteLine($"FolderCollection JOB Exception!: {e.Job}: {e.GetException().Message}");
-            e.Handled = true;
+            AddItem(path);
         }
 
-        /// <summary>
-        /// 項目追加
-        /// </summary>
-        /// <param name="path"></param>
-        public void RequestCreate(QueryPath path)
+        public virtual void RequestDelete(QueryPath path)
         {
-            _engine?.Enqueue(new CreateJob(this, path, false));
+            DeleteItem(path);
         }
 
-        /// <summary>
-        /// 項目削除
-        /// </summary>
-        /// <param name="path"></param>
-        public void RequestDelete(QueryPath path)
+        public virtual void RequestRename(QueryPath oldPath, QueryPath path)
         {
-            _engine?.Enqueue(new DeleteJob(this, path, false));
+            RenameItem(oldPath, path);
         }
 
-        /// <summary>
-        /// 項目名変更
-        /// </summary>
-        /// <param name="oldPath"></param>
-        /// <param name="path"></param>
-        public void RequestRename(QueryPath oldPath, QueryPath path)
-        {
-            if (oldPath == path || path == null)
-            {
-                return;
-            }
-
-            _engine?.Enqueue(new RenameJob(this, oldPath, path, false));
-        }
-
-        #region Job.Create
-
-        public class CreateJob : Jobs.IJob
-        {
-            private FolderCollection _target;
-            private QueryPath _path;
-            private bool _verify;
-
-            public CreateJob(FolderCollection target, QueryPath path, bool verify)
-            {
-                _target = target;
-                _path = path;
-                _verify = verify;
-            }
-
-            public async Task ExecuteAsync()
-            {
-                ////Debug.WriteLine($"Create: {_path}");
-                _target.CreateItem(_path);
-                await Task.CompletedTask;
-            }
-        }
 
         //
-        private void CreateItem(QueryPath path)
+        public void AddItem(QueryPath path)
         {
             FolderItem item;
 
@@ -446,16 +375,17 @@ namespace NeeView
             // 既に登録済みの場合は処理しない
             if (item != null) return;
 
-            item = CreateFolderItem(path);
+            // TODO: ファイルシステムパス以外は不正処理になるので対処が必要
+            item = _folderItemFactory.CreateFolderItem(path);
 
             AppDispatcher.Invoke(() =>
             {
-                CreateItem(item);
+                AddItem(item);
             });
         }
 
         //
-        protected void CreateItem(FolderItem item)
+        protected void AddItem(FolderItem item)
         {
             if (item == null) return;
 
@@ -492,33 +422,9 @@ namespace NeeView
             }
         }
 
-        #endregion Job.Create
-
-        #region Job.Delete
-
-        public class DeleteJob : Jobs.IJob
-        {
-            private FolderCollection _target;
-            private QueryPath _path;
-            private bool _verify;
-
-            public DeleteJob(FolderCollection target, QueryPath path, bool verify)
-            {
-                _target = target;
-                _path = path;
-                _verify = verify;
-            }
-
-            public async Task ExecuteAsync()
-            {
-                ////Debug.WriteLine($"Delete: {_path}");
-                _target.DeleteItem(_path);
-                await Task.CompletedTask;
-            }
-        }
 
         // 対象を検索し、削除する
-        private void DeleteItem(QueryPath path)
+        public void DeleteItem(QueryPath path)
         {
             FolderItem item;
 
@@ -549,42 +455,16 @@ namespace NeeView
 
                 if (this.Items.Count == 0)
                 {
-                    this.Items.Add(CreateFolderItemEmpty(Place));
+                    this.Items.Add(_folderItemFactory.CreateFolderItemEmpty());
                 }
             }
 
             CollectionChanged?.Invoke(this, new FolderCollectionChangedEventArgs(CollectionChangeAction.Remove, item));
         }
 
-        #endregion Job.Delete
-
-        #region Job.Rename
-
-        public class RenameJob : Jobs.IJob
-        {
-            private FolderCollection _target;
-            private QueryPath _oldPath;
-            private QueryPath _path;
-            private bool _verify;
-
-            public RenameJob(FolderCollection target, QueryPath oldPath, QueryPath path, bool verify)
-            {
-                _target = target;
-                _oldPath = oldPath;
-                _path = path;
-                _verify = verify;
-            }
-
-            public async Task ExecuteAsync()
-            {
-                ////Debug.WriteLine($"Rename: {_oldPath} => {_path}");
-                _target.RenameItem(_oldPath, _path);
-                await Task.CompletedTask;
-            }
-        }
 
         //
-        private void RenameItem(QueryPath oldPath, QueryPath path)
+        public void RenameItem(QueryPath oldPath, QueryPath path)
         {
             if (oldPath == path) return;
 
@@ -596,7 +476,7 @@ namespace NeeView
             if (item == null)
             {
                 // リストにない項目は追加を試みる
-                CreateItem(path);
+                AddItem(path);
                 return;
             }
 
@@ -615,244 +495,6 @@ namespace NeeView
             item.Name = newName;
         }
 
-        #endregion Job.Rename
-
-        #region Methods.CreateFolderItems
-
-        /// <summary>
-        /// 空のFolderItemを作成
-        /// </summary>
-        /// <returns></returns>
-        protected FolderItem CreateFolderItemEmpty(QueryPath parent)
-        {
-            return new ConstFolderItem(new ResourceThumbnail("ic_noentry", MainWindow.Current), _isOverlayEnabled)
-            {
-                Type = FolderItemType.Empty,
-                Place = parent,
-                Name = ".",
-                TargetPath = parent.ReplacePath(LoosePath.Combine(parent.Path, ".")),
-                DispName = Properties.Resources.NotifyNoFiles,
-                Attributes = FolderItemAttribute.Empty,
-            };
-        }
-
-        /// <summary>
-        /// クエリからFolderItemを作成
-        /// </summary>
-        /// <param name="path">パス</param>
-        /// <returns>FolderItem。生成できなかった場合はnull</returns>
-        protected FolderItem CreateFolderItem(QueryPath path)
-        {
-            if (path.Scheme == QueryScheme.File)
-            {
-                return CreateFolderItem(path.Path);
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        /// <summary>
-        /// パスからFolderItemを作成
-        /// </summary>
-        /// <param name="path">パス</param>
-        /// <returns>FolderItem。生成できなかった場合はnull</returns>
-        protected FolderItem CreateFolderItem(string path)
-        {
-            // directory
-            var directory = new DirectoryInfo(path);
-            if (directory.Exists)
-            {
-                return CreateFolderItem(new QueryPath(path), directory);
-            }
-
-            // file
-            var file = new FileInfo(path);
-            if (file.Exists)
-            {
-                // .lnk
-                if (FileShortcut.IsShortcut(path))
-                {
-                    var shortcut = new FileShortcut(file);
-                    if (shortcut.IsValid)
-                    {
-                        return CreateFolderItem(new QueryPath(path), shortcut);
-                    }
-                }
-                else
-                {
-                    return CreateFolderItem(new QueryPath(path), file);
-                }
-            }
-
-            return null;
-        }
-
-
-        #region DriveReadyMap
-
-        private static Dictionary<string, bool> _driveReadyMap = new Dictionary<string, bool>();
-
-        private static bool IsDriveReady(string driveName)
-        {
-            if (_driveReadyMap.TryGetValue(driveName, out bool isReady))
-            {
-                return isReady;
-            }
-
-            return true;
-        }
-
-        private static void SetDriveReady(string driveName, bool isReady)
-        {
-            _driveReadyMap[driveName] = isReady;
-        }
-
-        #endregion DriveReadyMap
-
-
-        /// <summary>
-        /// DriveInfoからFodlerItem作成
-        /// </summary>
-        protected FolderItem CreateFolderItem(QueryPath parent, DriveInfo e)
-        {
-            if (e != null)
-            {
-                var item = new DriveFolderItem(e, _isOverlayEnabled)
-                {
-                    Place = parent,
-                    Name = e.Name,
-                    TargetPath = new QueryPath(e.Name),
-                    DispName = string.Format("{0} ({1})", e.DriveType.ToDispString(), e.Name.TrimEnd('\\')),
-                    Attributes = FolderItemAttribute.Directory | FolderItemAttribute.Drive,
-                    IsReady = IsDriveReady(e.Name),
-                };
-
-                // IsReadyの取得に時間がかかる場合があるため、非同期で状態を更新
-                Task.Run(() =>
-                {
-                    var isReady = e.IsReady;
-                    SetDriveReady(e.Name, isReady);
-
-                    item.IsReady = isReady;
-
-                    var driveName = isReady && !string.IsNullOrWhiteSpace(e.VolumeLabel) ? e.VolumeLabel : e.DriveType.ToDispString();
-                    item.DispName = string.Format("{0} ({1})", driveName, e.Name.TrimEnd('\\'));
-                });
-
-                return item;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// DirectoryInfoからFolderItem作成
-        /// </summary>
-        protected FolderItem CreateFolderItem(QueryPath parent, DirectoryInfo e)
-        {
-            if (e != null && e.Exists && (e.Attributes & FileAttributes.Hidden) == 0)
-            {
-                return new FileFolderItem(_isOverlayEnabled)
-                {
-                    Type = FolderItemType.Directory,
-                    Place = parent,
-                    Name = e.Name,
-                    TargetPath = new QueryPath(e.FullName),
-                    LastWriteTime = e.LastWriteTime,
-                    Length = -1,
-                    Attributes = FolderItemAttribute.Directory,
-                    IsReady = true
-                };
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// FileInfoからFolderItem作成
-        /// </summary>
-        /// <param name="e"></param>
-        /// <returns></returns>
-        protected FolderItem CreateFolderItem(QueryPath parent, FileInfo e)
-        {
-            var archiveType = ArchiverManager.Current.GetSupportedType(e.FullName);
-
-            if (e != null && e.Exists && archiveType != ArchiverType.None && (e.Attributes & FileAttributes.Hidden) == 0)
-            {
-                var item = new FileFolderItem(_isOverlayEnabled)
-                {
-                    Type = FolderItemType.File,
-                    Place = parent,
-                    Name = e.Name,
-                    TargetPath = new QueryPath(e.FullName),
-                    LastWriteTime = e.LastWriteTime,
-                    Length = e.Length,
-                    IsReady = true
-                };
-
-                if (archiveType == ArchiverType.PlaylistArchiver)
-                {
-                    item.Type = FolderItemType.Playlist;
-                    item.Attributes = FolderItemAttribute.Directory | FolderItemAttribute.Playlist;
-                    item.Length = -1;
-                }
-
-                return item;
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// FileShortcutからFolderItem作成
-        /// </summary>
-        /// <param name="e"></param>
-        /// <returns></returns>
-        protected FolderItem CreateFolderItem(QueryPath parent, FileShortcut e)
-        {
-            if (e == null || !e.IsValid)
-            {
-                return null;
-            }
-
-            FolderItem info = null;
-            FolderItemType type = FolderItemType.FileShortcut;
-
-            if (e != null && e.Source.Exists && (e.Source.Attributes & FileAttributes.Hidden) == 0 && e.Target.Exists)
-            {
-                if (e.Target.Attributes.HasFlag(FileAttributes.Directory))
-                {
-                    info = CreateFolderItem(parent, (DirectoryInfo)e.Target);
-                    type = FolderItemType.DirectoryShortcut;
-                }
-                else
-                {
-                    info = CreateFolderItem(parent, (FileInfo)e.Target);
-                    type = info.Type == FolderItemType.Playlist ? FolderItemType.PlaylistShortcut : FolderItemType.FileShortcut;
-                }
-            }
-
-            if (info != null)
-            {
-                info.Type = type;
-                info.Place = parent;
-                info.Name = Path.GetFileName(e.SourcePath);
-                info.TargetPath = new QueryPath(e.SourcePath);
-                info.Attributes = info.Attributes | FolderItemAttribute.Shortcut;
-            }
-
-            return info;
-        }
-
-        #endregion Methods.CreateFolderItems
 
         #endregion Methods
 
@@ -865,12 +507,6 @@ namespace NeeView
             {
                 if (disposing)
                 {
-                    if (_engine != null)
-                    {
-                        _engine.Dispose();
-                        _engine = null;
-                    }
-
                     if (Items != null)
                     {
                         BindingOperations.DisableCollectionSynchronization(Items);
@@ -890,4 +526,5 @@ namespace NeeView
         }
         #endregion
     }
+
 }

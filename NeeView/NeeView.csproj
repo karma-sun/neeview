@@ -173,6 +173,8 @@
     <Compile Include="BookHub\PlaylistBookLoader.cs" />
     <Compile Include="ExternalApplication\ClipboardUtility.cs" />
     <Compile Include="MainWindow\FirstLoader.cs" />
+    <Compile Include="SidePanels\Bookshelf\FolderList\FolderCollectionEngine.cs" />
+    <Compile Include="SidePanels\Bookshelf\FolderList\FolderItemFactory.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderOrderClass.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\PlaylistFolderCollection.cs" />
     <Compile Include="Susie\SusieContextMementoCollection.cs" />

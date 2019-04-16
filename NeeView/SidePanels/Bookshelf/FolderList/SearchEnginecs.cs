@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.IO.Search;
+using NeeView.IO;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -101,10 +102,10 @@ namespace NeeView
                 }
             }
 
-            // 対応アーカイブ判定
+            // 対応アーカイブ判定。ショートカットもアーカイブの可能性があるため有効とする
             else
             {
-                if (!ArchiverManager.Current.IsSupported(info.Name, false))
+                if ( !ArchiverManager.Current.IsSupported(info.Name, false) && !FileShortcut.IsShortcut(info.Name))
                 {
                     return false;
                 }

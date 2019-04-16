@@ -53,6 +53,10 @@ namespace NeeView.IO
 
         public static bool IsShortcut(string path)
         {
+            if (string.IsNullOrEmpty(path))
+            {
+                return false;
+            }
             if (QuerySchemeExtensions.GetScheme(path) != QueryScheme.File)
             {
                 return false;

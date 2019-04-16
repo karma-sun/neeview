@@ -19,18 +19,18 @@ namespace NeeView
 
         // Constructors
 
-        public BookmarkFolderCollection(QueryPath path, bool isOverlayEnabled) : base(path, false, isOverlayEnabled)
+        public BookmarkFolderCollection(QueryPath path, bool isOverlayEnabled) : base(path, isOverlayEnabled)
         {
         }
 
         public override async Task InitializeItemsAsync(CancellationToken token)
-        { 
+        {
             await Task.Yield();
 
             _bookmarkPlace = BookmarkCollection.Current.FindNode(Place.FullPath) ?? new TreeListNode<IBookmarkEntry>();
 
             var items = _bookmarkPlace.Children
-                .Select(e => CreateFolderItem(Place, e))
+                .Select(e => CreateFolderItem(e))
                 .Where(e => e != null)
                 .ToList();
 
@@ -38,7 +38,7 @@ namespace NeeView
 
             if (!list.Any())
             {
-                list.Add(CreateFolderItemEmpty(Place));
+                list.Add(_folderItemFactory.CreateFolderItemEmpty());
             }
 
             this.Items = new ObservableCollection<FolderItem>(list);
@@ -68,8 +68,8 @@ namespace NeeView
                         var item = Items.FirstOrDefault(i => e.Item == i.Source);
                         if (item == null)
                         {
-                            item = CreateFolderItem(Place, e.Item);
-                            CreateItem(item);
+                            item = CreateFolderItem(e.Item);
+                            AddItem(item);
                         }
                     }
                     break;
@@ -109,50 +109,52 @@ namespace NeeView
         }
 
 
-        public FolderItem CreateFolderItem(QueryPath parent, TreeListNode<IBookmarkEntry> node)
+        private FolderItem CreateFolderItem(TreeListNode<IBookmarkEntry> node)
         {
-            var scheme = QueryScheme.Bookmark.ToSchemeString();
-
-            switch (node.Value)
+            if (node.Value is BookmarkFolder)
             {
-                case BookmarkFolder folder:
-                    return new ConstFolderItem(new FolderThumbnail(), _isOverlayEnabled)
-                    {
-                        Source = node,
-                        Type = FolderItemType.Directory,
-                        Place = parent,
-                        Name = folder.Name,
-                        TargetPath = node.CreateQuery(),
-                        Length = -1,
-                        Attributes = FolderItemAttribute.Directory | FolderItemAttribute.Bookmark,
-                        IsReady = true
-                    };
-
-                case Bookmark bookmark:
-
-                    var archiveEntry = ArchiveEntry.Create(bookmark.Place);
-
-                    return new FileFolderItem(_isOverlayEnabled)
-                    {
-                        Source = node,
-                        Type = FolderItemType.File,
-                        Place = parent,
-                        TargetPath = new QueryPath(bookmark.Place),
-                        IsDirectoryTarget = bookmark.Unit.Memento.IsDirectorty,
-                        Name = bookmark.Name,
-                        ArchiveEntry = archiveEntry,
-                        LastWriteTime = archiveEntry.LastWriteTime,
-                        EntryTime = bookmark.EntryTime,
-                        Length = archiveEntry.Length,
-                        Attributes = FolderItemAttribute.Bookmark,
-                        IsReady = true
-                    };
-
-                default:
-                    return null;
+                return CreateFolderItemBookmarkFolder(node);
+            }
+            else if (node.Value is Bookmark)
+            {
+                return CreateFolderItemBookmark(node);
+            }
+            else
+            {
+                return null;
             }
         }
 
+        private FolderItem CreateFolderItemBookmarkFolder(TreeListNode<IBookmarkEntry> node)
+        {
+            if (!(node?.Value is BookmarkFolder folder)) return null;
+
+            return new ConstFolderItem(new FolderThumbnail(), _isOverlayEnabled)
+            {
+                Source = node,
+                Type = FolderItemType.Directory,
+                Place = Place,
+                Name = folder.Name,
+                TargetPath = node.CreateQuery(),
+                Length = -1,
+                Attributes = FolderItemAttribute.Directory | FolderItemAttribute.Bookmark,
+                IsReady = true
+            };
+        }
+
+        private FolderItem CreateFolderItemBookmark(TreeListNode<IBookmarkEntry> node)
+        {
+            if (!(node?.Value is Bookmark bookmark)) return null;
+
+            // TODO: 書庫内パスの対応
+            var archiveEntry = ArchiveEntry.Create(bookmark.Place);
+
+            var item = _folderItemFactory.CreateFolderItem(archiveEntry, null);
+            item.Source = node;
+            item.Attributes |= FolderItemAttribute.Bookmark;
+            item.EntryTime = bookmark.EntryTime;
+            return item;
+        }
 
         #region IDisposable Support
 

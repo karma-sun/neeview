@@ -18,27 +18,36 @@ namespace NeeView
     {
         // Fields
 
-        /// <summary>
-        /// 検索結果
-        /// </summary>
         private NeeLaboratory.IO.Search.SearchResultWatcher _searchResult;
+        private FolderCollectionEngine _engine;
+        private bool _isWatchSearchResult;
 
 
         // Constructors
-        public FolderSearchCollection(QueryPath path, NeeLaboratory.IO.Search.SearchResultWatcher searchResult, bool isActive, bool isOverlayEnabled) : base(path, isActive, isOverlayEnabled)
+
+        public FolderSearchCollection(QueryPath path, NeeLaboratory.IO.Search.SearchResultWatcher searchResult, bool isWatchSearchResult, bool isOverlayEnabled) : base(path, isOverlayEnabled)
         {
             if (searchResult == null) throw new ArgumentNullException(nameof(searchResult));
             Debug.Assert(path.Search == searchResult.Keyword);
 
             _searchResult = searchResult;
-        }
+            _isWatchSearchResult = isWatchSearchResult;
 
+            if (_isWatchSearchResult)
+            {
+                _engine = new FolderCollectionEngine(this);
+            }
+        }
         public override async Task InitializeItemsAsync(CancellationToken token)
         {
-            await Task.Yield();
+            await Task.Run(() => InitializeItems(token));
+        }
 
+
+        public void InitializeItems(CancellationToken token)
+        {
             var items = _searchResult.Items
-                .Select(e => CreateFolderItem(Place, e))
+                .Select(e => CreateFolderItem(e))
                 .Where(e => e != null)
                 .ToList();
 
@@ -46,13 +55,16 @@ namespace NeeView
 
             if (!list.Any())
             {
-                list.Add(CreateFolderItemEmpty(Place));
+                list.Add(_folderItemFactory.CreateFolderItemEmpty());
             }
 
             this.Items = new ObservableCollection<FolderItem>(list);
             BindingOperations.EnableCollectionSynchronization(this.Items, new object());
 
-            _searchResult.SearchResultChanged += SearchResult_NodeChanged;
+            if (_isWatchSearchResult)
+            {
+                _searchResult.SearchResultChanged += SearchResult_NodeChanged;
+            }
         }
 
 
@@ -61,11 +73,21 @@ namespace NeeView
 
         #region Methods
 
-        /// <summary>
-        /// 検索結果変更
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        public override void RequestCreate(QueryPath path)
+        {
+            _engine?.RequestCreate(path);
+        }
+
+        public override void RequestDelete(QueryPath path)
+        {
+            _engine?.RequestDelete(path);
+        }
+
+        public override void RequestRename(QueryPath oldPath, QueryPath path)
+        {
+            _engine?.RequestRename(oldPath, path);
+        }
+
         private void SearchResult_NodeChanged(object sender, NeeLaboratory.IO.Search.SearchResultChangedEventArgs e)
         {
             switch (e.Action)
@@ -84,67 +106,75 @@ namespace NeeView
             }
         }
 
+
         /// <summary>
         /// 検索結果からFolderItem作成
         /// </summary>
-        /// <param name="nodeContent"></param>
-        /// <returns></returns>
-        public FolderItem CreateFolderItem(QueryPath parent, NeeLaboratory.IO.Search.NodeContent nodeContent)
+        private FolderItem CreateFolderItem(NeeLaboratory.IO.Search.NodeContent nodeContent)
         {
             if (nodeContent.FileInfo.IsDirectory)
             {
-                return new FileFolderItem(_isOverlayEnabled)
-                {
-                    Type = FolderItemType.Directory,
-                    Place = parent,
-                    Name = Path.GetFileName(nodeContent.Path),
-                    TargetPath = new QueryPath(nodeContent.Path),
-                    LastWriteTime = nodeContent.FileInfo.LastWriteTime,
-                    Length = -1,
-                    Attributes = FolderItemAttribute.Directory,
-                    IsReady = true
-                };
+                return CreateFolderItemDirectory(nodeContent);
             }
             else
             {
-                if (FileShortcut.IsShortcut(nodeContent.Path))
-                {
-                    var shortcut = new FileShortcut(nodeContent.Path);
-                    if (shortcut.Target.Exists && (shortcut.Target.Attributes.HasFlag(FileAttributes.Directory) || ArchiverManager.Current.IsSupported(shortcut.TargetPath)))
-                    {
-                        return CreateFolderItem(parent, shortcut);
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-                else if (ArchiverManager.Current.IsSupported(nodeContent.Path))
-                {
-                    // TODO: PlayListのことを考慮せよ
-                    return new FileFolderItem(_isOverlayEnabled)
-                    {
-                        Type = FolderItemType.File,
-                        Place = parent,
-                        Name = Path.GetFileName(nodeContent.Path),
-                        TargetPath = new QueryPath(nodeContent.Path),
-                        LastWriteTime = nodeContent.FileInfo.LastWriteTime,
-                        Length = nodeContent.FileInfo.Size,
-                        IsReady = true
-                    };
-                }
-                else
-                {
-                    return null;
-                }
+                return CreateFolderItemFile(nodeContent);
             }
+        }
+
+        private FolderItem CreateFolderItemDirectory(NeeLaboratory.IO.Search.NodeContent nodeContent)
+        {
+            return new FileFolderItem(_isOverlayEnabled)
+            {
+                Type = FolderItemType.Directory,
+                Place = Place,
+                Name = Path.GetFileName(nodeContent.Path),
+                TargetPath = new QueryPath(nodeContent.Path),
+                LastWriteTime = nodeContent.FileInfo.LastWriteTime,
+                Length = -1,
+                Attributes = FolderItemAttribute.Directory,
+                IsReady = true
+            };
+        }
+
+        private FolderItem CreateFolderItemFile(NeeLaboratory.IO.Search.NodeContent nodeContent)
+        {
+            if (FileShortcut.IsShortcut(nodeContent.Path))
+            {
+                var shortcut = new FileShortcut(nodeContent.Path);
+                return _folderItemFactory.CreateFolderItem(shortcut);
+            }
+
+            var archiveType = ArchiverManager.Current.GetSupportedType(nodeContent.Path);
+            if (archiveType != ArchiverType.None)
+            {
+                var item = new FileFolderItem(_isOverlayEnabled)
+                {
+                    Type = FolderItemType.File,
+                    Place = Place,
+                    Name = Path.GetFileName(nodeContent.Path),
+                    TargetPath = new QueryPath(nodeContent.Path),
+                    LastWriteTime = nodeContent.FileInfo.LastWriteTime,
+                    Length = nodeContent.FileInfo.Size,
+                    IsReady = true
+                };
+                if (archiveType == ArchiverType.PlaylistArchiver)
+                {
+                    item.Type = FolderItemType.Playlist;
+                    item.Attributes = FolderItemAttribute.Directory | FolderItemAttribute.Playlist;
+                    item.Length = -1;
+                }
+                return item;
+            }
+
+            return null;
         }
 
         #endregion
 
         #region IDisposable Support
 
-        private bool _disposedValue = false; // 重複する呼び出しを検出するには
+        private bool _disposedValue = false;
 
         protected override void Dispose(bool disposing)
         {
@@ -152,6 +182,11 @@ namespace NeeView
             {
                 if (disposing)
                 {
+                    if (_engine != null)
+                    {
+                        _engine.Dispose();
+                    }
+
                     if (_searchResult != null)
                     {
                         _searchResult.Dispose();

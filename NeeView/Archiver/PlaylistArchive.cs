@@ -87,9 +87,9 @@ namespace NeeView
 
             ArchiveEntry entry = new ArchiveEntry()
             {
-                Id = id,
                 IsValid = true,
                 Archiver = this,
+                Id = id,
                 RawEntryName = LoosePath.GetFileName(path),
                 Link = path,
                 Instance = innterEntry,

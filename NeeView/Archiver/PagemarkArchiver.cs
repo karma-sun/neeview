@@ -50,71 +50,63 @@ namespace NeeView
                 return new List<ArchiveEntry>();
             }
 
-            int prefixLen = Path.Length;
             var list = new List<ArchiveEntry>();
-
-            foreach (var child in node.Where(e => e.Value is Pagemark))
+            foreach (var pagemark in node.Select(e => e.Value).OfType<Pagemark>())
             {
-                var pagemark = (Pagemark)child.Value;
+                token.ThrowIfCancellationRequested();
 
-                list.Add(new ArchiveEntry()
+                try
                 {
-                    IsValid = true,
-                    Archiver = this,
-                    Id = list.Count,
-                    Instance = child,
-                    RawEntryName = LoosePath.Combine(LoosePath.GetFileName(pagemark.Place), pagemark.DispName),
-                    Length = 0,
-                    LastWriteTime = default,
-                });
+                    var entry = await CreateEntryAsync(pagemark, list.Count, token);
+                    list.Add(entry);
+                }
+                catch (OperationCanceledException)
+                {
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
             }
 
-            await Task.CompletedTask;
             return list;
         }
 
+        private async Task<ArchiveEntry> CreateEntryAsync(Pagemark pagemark, int id, CancellationToken token)
+        {
+            var innerEntry = await ArchiveEntryUtility.CreateAsync(pagemark.FullName, token);
+
+            return new ArchiveEntry()
+            {
+                IsValid = true,
+                Archiver = this,
+                Id = id,
+                RawEntryName = LoosePath.Combine(LoosePath.GetFileName(pagemark.Place), pagemark.DispName),
+                Link = pagemark.FullName,
+                Instance = innerEntry,
+                Length = innerEntry.Length,
+                LastWriteTime = innerEntry.LastWriteTime,
+            };
+        }
 
         // ストリームを開く
         protected override Stream OpenStreamInner(ArchiveEntry entry)
         {
-            if (entry.Instance is TreeListNode<IPagemarkEntry> node && node.Value is Pagemark pagemark)
-            {
-                // NOTE: 非同期関数をResult待ちしているので要注意
-                var entry_ = ArchiveEntryUtility.CreateAsync(pagemark.FullName, CancellationToken.None).Result;
-                {
-                    var mem = new MemoryStream();
-                    entry_.OpenEntry().CopyTo(mem);
-                    mem.Seek(0, SeekOrigin.Begin);
-                    return mem;
-                }
-            }
-
-            return null;
+            return ((ArchiveEntry)entry.Instance).OpenEntry();
         }
 
         // 実在ファイルパス取得
         public override string GetFileSystemPath(ArchiveEntry entry)
         {
-            if (entry.Instance is TreeListNode<IPagemarkEntry> node && node.Value is Pagemark pagemark)
-            {
-                return ArchiveEntryUtility.GetExistEntryName(pagemark.FullName);
-            }
-
-            return null;
+            return ((ArchiveEntry)entry.Instance).GetFileSystemPath();
         }
 
         // ファイルパス取得
         // HACK: async化
         protected override void ExtractToFileInner(ArchiveEntry entry, string exportFileName, bool isOverwrite)
         {
-            if (entry.Instance is TreeListNode<IPagemarkEntry> node && node.Value is Pagemark pagemark)
-            {
-                // TODO: なんだこれ？
-                var entry_ = Task.Run(() => ArchiveEntryUtility.CreateAsync(pagemark.FullName, CancellationToken.None).Result).Result;
-                {
-                    entry_.ExtractToFile(exportFileName, isOverwrite);
-                }
-            }
+            ((ArchiveEntry)entry.Instance).ExtractToFile(exportFileName, isOverwrite);
         }
     }
 }

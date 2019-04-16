@@ -18,7 +18,7 @@ namespace NeeView.Setting
                 new SettingPageEnvironmentDetail(),
                 new SettingPageEnvironmentSetup(),
                 new SettingPageEnvironmentSaveData(),
-                new SettingPageEnvironmentLocation(),
+                ///new SettingPageEnvironmentLocation(),
                 new SettingPageEnvironmentMemoryAndPerformance(),
             };
         }
@@ -98,6 +98,10 @@ namespace NeeView.Setting
                         Visibility = new VisibilityPropertyValue(Config.Current.IsAppxPackage ? Visibility.Collapsed : Visibility.Visible)
                     }),
 
+                new SettingItemSection(Properties.Resources.SettingPageGeneralLocationTypes, Properties.Resources.SettingPageGeneralLocationTypesTips,
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.TemporaryDirectory))) { IsStretch = true },
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.CacheDirectory))) { IsStretch = true }),
+
                 new SettingItemSection(Properties.Resources.SettingPageGeneralSaveDataRemove,
                     new SettingItemButton(Properties.Resources.SettingItemRemove, RemoveAllData) { IsContentOnly = true })
                 {
@@ -127,19 +131,6 @@ namespace NeeView.Setting
         }
 
         #endregion
-    }
-
-    public class SettingPageEnvironmentLocation : SettingPage
-    {
-        public SettingPageEnvironmentLocation() : base(Properties.Resources.SettingPageGeneralLocation)
-        {
-            this.Items = new List<SettingItem>
-            {
-                new SettingItemSection(Properties.Resources.SettingPageGeneralLocationTypes, Properties.Resources.SettingPageGeneralLocationTypesTips,
-                new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.TemporaryDirectory))) { IsStretch = true },
-                new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.CacheDirectory))) { IsStretch = true }),
-            };
-        }
     }
 
     public class SettingPageEnvironmentMemoryAndPerformance : SettingPage

@@ -235,7 +235,7 @@ namespace NeeView
                 }
                 else
                 {
-                    ImageSize = $"{info.OriginalSize.Width} x {info.OriginalSize.Height}" + (info.IsLimited ? "*" : "") + (_model.IsVisibleBitsPerPixel ? $" ({info.BitsPerPixel}bit)" : "");
+                    ImageSize = $"{(int)info.OriginalSize.Width} x {(int)info.OriginalSize.Height}" + (info.IsLimited ? "*" : "") + (_model.IsVisibleBitsPerPixel ? $" ({info.BitsPerPixel}bit)" : "");
                 }
 
                 // ファイルサイズ表示

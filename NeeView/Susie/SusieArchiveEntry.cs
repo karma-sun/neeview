@@ -2,19 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace NeeView.Susie
 {
-    [Serializable]
-    public class SpiException : ApplicationException
-    {
-        public SpiException(string msg, SusiePlugin spi) : base($"[{System.IO.Path.GetFileName(spi.FileName)}] {msg}")
-        {
-        }
-    }
-
-
     /// <summary>
     /// Susie アーカイブエントリ
     /// </summary>
@@ -88,7 +78,6 @@ namespace NeeView.Susie
             return DateTime.FromFileTime(win32FileTime);
         }
     }
-
 
     /// <summary>
     /// Susie アーカイブエントリ リスト

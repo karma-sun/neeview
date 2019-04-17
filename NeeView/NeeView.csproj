@@ -178,6 +178,9 @@
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderOrderClass.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\PlaylistFolderCollection.cs" />
     <Compile Include="Susie\SusieContextMementoCollection.cs" />
+    <Compile Include="Susie\SusieException.cs" />
+    <Compile Include="Susie\SusiePluginCollection.cs" />
+    <Compile Include="Susie\SusieUtility.cs" />
     <Compile Include="ViewContent\ViewContentSourceCollectionChangedEventArgs.cs" />
     <Compile Include="ContentCanvas\KeyPressWatcher.cs" />
     <Compile Include="System\AppDispatcher.cs" />
@@ -898,7 +901,6 @@
     </Compile>
     <Compile Include="Archiver\SusieArchiver.cs" />
     <Compile Include="Susie\SusieContext.cs" />
-    <Compile Include="Susie\Susie.cs" />
     <Compile Include="Susie\SusieArchiveEntry.cs" />
     <Compile Include="Susie\SusiePlugin.cs" />
     <Compile Include="Susie\SusiePluginApi.cs" />

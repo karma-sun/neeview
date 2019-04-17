@@ -52,7 +52,7 @@ namespace NeeView.Susie
         private IntPtr Open(string fileName)
         {
             Close();
-            this.hModule = NeeView.Susie.NativeMethods.LoadLibrary(fileName);
+            this.hModule = NativeMethods.LoadLibrary(fileName);
             return hModule;
         }
 
@@ -64,11 +64,11 @@ namespace NeeView.Susie
             if (hModule != IntPtr.Zero)
             {
                 _apiDelegateList.Clear();
-                NeeView.Susie.NativeMethods.FreeLibrary(this.hModule);
+                NativeMethods.FreeLibrary(this.hModule);
                 hModule = IntPtr.Zero;
 
                 // 浮動小数点演算プロセッサのリセット
-                NeeView.NVInterop.NVFpReset();
+                NVInterop.NVFpReset();
             }
         }
 
@@ -120,7 +120,7 @@ namespace NeeView.Susie
         {
             if (hModule == null) throw new InvalidOperationException();
 
-            IntPtr add = NeeView.Susie.NativeMethods.GetProcAddress(this.hModule, name);
+            IntPtr add = NativeMethods.GetProcAddress(this.hModule, name);
             return (add != IntPtr.Zero);
         }
 
@@ -135,7 +135,7 @@ namespace NeeView.Susie
         {
             if (!_apiDelegateList.ContainsKey(typeof(T)))
             {
-                IntPtr add = NeeView.Susie.NativeMethods.GetProcAddress(this.hModule, procName);
+                IntPtr add = NativeMethods.GetProcAddress(this.hModule, procName);
                 if (add == IntPtr.Zero) throw new NotSupportedException("not support " + procName);
                 _apiDelegateList.Add(typeof(T), Marshal.GetDelegateForFunctionPointer<T>(add));
             }
@@ -260,15 +260,20 @@ namespace NeeView.Susie
                 {
                     var list = new List<ArchiveFileInfoRaw>();
 
-                    IntPtr p = NeeView.Susie.NativeMethods.LocalLock(hInfo);
+                    var structSize = _is64bitPlugin
+                        ? Marshal.SizeOf<ArchiveFileInfoRawX64>()
+                        : Marshal.SizeOf<ArchiveFileInfoRaw>();
+
+                    IntPtr p = NativeMethods.LocalLock(hInfo);
                     while (true)
                     {
                         ArchiveFileInfoRaw fileInfo = _is64bitPlugin
                             ? Marshal.PtrToStructure<ArchiveFileInfoRawX64>(p).ToArchiveFileInfoRaw()
                             : Marshal.PtrToStructure<ArchiveFileInfoRaw>(p);
-                        if (String.IsNullOrEmpty(fileInfo.method)) break;
+
+                        if (string.IsNullOrEmpty(fileInfo.method)) break;
                         list.Add(fileInfo);
-                        p += Marshal.SizeOf<ArchiveFileInfoRaw>();
+                        p += structSize;
                     }
 
                     return list;
@@ -276,8 +281,8 @@ namespace NeeView.Susie
             }
             finally
             {
-                NeeView.Susie.NativeMethods.LocalUnlock(hInfo);
-                NeeView.Susie.NativeMethods.LocalFree(hInfo);
+                NativeMethods.LocalUnlock(hInfo);
+                NativeMethods.LocalFree(hInfo);
             }
 
             return null;
@@ -306,8 +311,8 @@ namespace NeeView.Susie
                 int ret = getFile(file, (int)entry.position, out hBuff, 0x0100, ProgressCallbackDummy, 0); // 0x0100 > File To Memory
                 if (ret == 0)
                 {
-                    IntPtr pBuff = NeeView.Susie.NativeMethods.LocalLock(hBuff);
-                    var buffSize = (int)NeeView.Susie.NativeMethods.LocalSize(hBuff);
+                    IntPtr pBuff = NativeMethods.LocalLock(hBuff);
+                    var buffSize = (int)NativeMethods.LocalSize(hBuff);
                     if (buffSize == 0) throw new ApplicationException("Memory error.");
                     if (buffSize != (int)entry.filesize)
                     {
@@ -321,8 +326,8 @@ namespace NeeView.Susie
             }
             finally
             {
-                NeeView.Susie.NativeMethods.LocalUnlock(hBuff);
-                NeeView.Susie.NativeMethods.LocalFree(hBuff);
+                NativeMethods.LocalUnlock(hBuff);
+                NativeMethods.LocalFree(hBuff);
             }
         }
 
@@ -367,20 +372,20 @@ namespace NeeView.Susie
                 int ret = getPicture(buff, buff.Length, 0x01, out pHBInfo, out pHBm, ProgressCallbackDummy, 0);
                 if (ret == 0)
                 {
-                    IntPtr pBInfo = NeeView.Susie.NativeMethods.LocalLock(pHBInfo);
-                    int pBInfoSize = (int)NeeView.Susie.NativeMethods.LocalSize(pHBInfo);
-                    IntPtr pBm = NeeView.Susie.NativeMethods.LocalLock(pHBm);
-                    int pBmSize = (int)NeeView.Susie.NativeMethods.LocalSize(pHBm);
+                    IntPtr pBInfo = NativeMethods.LocalLock(pHBInfo);
+                    int pBInfoSize = (int)NativeMethods.LocalSize(pHBInfo);
+                    IntPtr pBm = NativeMethods.LocalLock(pHBm);
+                    int pBmSize = (int)NativeMethods.LocalSize(pHBm);
                     return CraeteBitmapImage(pBInfo, pBInfoSize, pBm, pBmSize);
                 }
                 return null;
             }
             finally
             {
-                NeeView.Susie.NativeMethods.LocalUnlock(pHBInfo);
-                NeeView.Susie.NativeMethods.LocalUnlock(pHBm);
-                NeeView.Susie.NativeMethods.LocalFree(pHBInfo);
-                NeeView.Susie.NativeMethods.LocalFree(pHBm);
+                NativeMethods.LocalUnlock(pHBInfo);
+                NativeMethods.LocalUnlock(pHBm);
+                NativeMethods.LocalFree(pHBInfo);
+                NativeMethods.LocalFree(pHBm);
             }
         }
 
@@ -402,20 +407,20 @@ namespace NeeView.Susie
                 int ret = getPicture(filename, 0, 0x00, out pHBInfo, out pHBm, ProgressCallbackDummy, 0);
                 if (ret == 0)
                 {
-                    IntPtr pBInfo = NeeView.Susie.NativeMethods.LocalLock(pHBInfo);
-                    int pBInfoSize = (int)NeeView.Susie.NativeMethods.LocalSize(pHBInfo);
-                    IntPtr pBm = NeeView.Susie.NativeMethods.LocalLock(pHBm);
-                    int pBmSize = (int)NeeView.Susie.NativeMethods.LocalSize(pHBm);
+                    IntPtr pBInfo = NativeMethods.LocalLock(pHBInfo);
+                    int pBInfoSize = (int)NativeMethods.LocalSize(pHBInfo);
+                    IntPtr pBm = NativeMethods.LocalLock(pHBm);
+                    int pBmSize = (int)NativeMethods.LocalSize(pHBm);
                     return CraeteBitmapImage(pBInfo, pBInfoSize, pBm, pBmSize);
                 }
                 return null;
             }
             finally
             {
-                NeeView.Susie.NativeMethods.LocalUnlock(pHBInfo);
-                NeeView.Susie.NativeMethods.LocalUnlock(pHBm);
-                NeeView.Susie.NativeMethods.LocalFree(pHBInfo);
-                NeeView.Susie.NativeMethods.LocalFree(pHBm);
+                NativeMethods.LocalUnlock(pHBInfo);
+                NativeMethods.LocalUnlock(pHBm);
+                NativeMethods.LocalFree(pHBInfo);
+                NativeMethods.LocalFree(pHBm);
             }
         }
 

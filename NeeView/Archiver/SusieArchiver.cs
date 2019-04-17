@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Susie;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -16,7 +17,7 @@ namespace NeeView
     {
         #region Fields
 
-        private Susie.SusiePlugin _susiePlugin;
+        private SusiePlugin _susiePlugin;
         private object _lock = new object();
 
         #endregion
@@ -43,11 +44,11 @@ namespace NeeView
         }
 
         // 対応プラグイン取得
-        public Susie.SusiePlugin GetPlugin()
+        public SusiePlugin GetPlugin()
         {
             if (_susiePlugin == null)
             {
-                _susiePlugin = SusieContext.Current.Susie?.GetArchivePlugin(Path, true);
+                _susiePlugin = SusieContext.Current.PluginCollection?.GetArchivePlugin(Path, true);
             }
             return _susiePlugin;
         }
@@ -154,7 +155,7 @@ namespace NeeView
                 }
 
                 // 失敗したら：メモリ展開からのファイル保存を行う
-                catch (Susie.SpiException e)
+                catch (SusieException e)
                 {
                     Debug.WriteLine(e.Message);
                 }

@@ -1,5 +1,5 @@
-﻿//using NeeLaboratory.Windows.Input;
-using NeeView.Data;
+﻿using NeeView.Data;
+using NeeView.Susie;
 using NeeView.Windows.Property;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -496,8 +496,8 @@ namespace NeeView.Setting
     /// </summary>
     public class SettingItemSusiePlugin : SettingItem
     {
-        private Susie.SusiePluginType _pluginType;
-        public SettingItemSusiePlugin(Susie.SusiePluginType pluginType) : base(null)
+        private SusiePluginType _pluginType;
+        public SettingItemSusiePlugin(SusiePluginType pluginType) : base(null)
         {
             _pluginType = pluginType;
         }

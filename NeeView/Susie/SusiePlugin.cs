@@ -2,6 +2,7 @@
 using NeeLaboratory.Windows.Input;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -34,11 +35,15 @@ namespace NeeView.Susie
         private SusiePluginApi _module;
         private bool _isCacheEnabled;
 
+        private bool _isEnabled = true;
+        private bool _isPreExtract;
+        private FileTypeCollection _extensions = new FileTypeCollection();
+
+
         // 一連の処理をロックするときに使用
         public object GlobalLock = new object();
 
         // 有効/無効
-        private bool _isEnabled = true;
         public bool IsEnabled
         {
             get { return _isEnabled; }
@@ -46,7 +51,6 @@ namespace NeeView.Susie
         }
 
         // 事前展開。AMプラグインのみ有効
-        private bool _isPreExtract;
         public bool IsPreExtract
         {
             get { return _isPreExtract; }
@@ -111,7 +115,6 @@ namespace NeeView.Susie
         public FileTypeCollection DefaultExtensions { get; } = new FileTypeCollection();
 
         // 対応拡張子
-        private FileTypeCollection _extensions = new FileTypeCollection();
         public FileTypeCollection Extensions
         {
             get { return _extensions; }
@@ -142,42 +145,6 @@ namespace NeeView.Susie
             }
         }
 
-
-        #region Commands
-
-        private RelayCommand<Window> _openConfigurationDlg;
-        public RelayCommand<Window> OpenConfigurationDlg
-        {
-            get { return _openConfigurationDlg = _openConfigurationDlg ?? new RelayCommand<Window>(OpenConfigurationDlg_Executed); }
-        }
-
-        public void OpenConfigurationDlg_Executed(Window owner)
-        {
-            int result = 0;
-
-            try
-            {
-                result = ConfigurationDlg(owner);
-            }
-            catch
-            {
-                result = -1;
-            }
-
-            // 設定ウィンドウが呼び出せなかった場合はアバウト画面でお茶を濁す
-            if (result < 0)
-            {
-                try
-                {
-                    AboutDlg(owner);
-                }
-                catch
-                {
-                }
-            }
-        }
-
-        #endregion
 
         // 文字列変換
         public override string ToString()
@@ -386,6 +353,36 @@ namespace NeeView.Susie
 
 
         /// <summary>
+        /// 設定ダイアログもしくは情報ダイアログを開く
+        /// </summary>
+        public void OpenConfigulationDialog(Window owner)
+        {
+            int result;
+            try
+            {
+                result = ConfigurationDlg(owner);
+            }
+            catch
+            {
+                result = -1;
+            }
+
+            // 設定ウィンドウが呼び出せなかった場合は情報画面でお茶を濁す
+            if (result < 0)
+            {
+                try
+                {
+                    AboutDlg(owner);
+                }
+                catch
+                {
+                }
+            }
+        }
+
+
+
+        /// <summary>
         /// プラグイン対応判定
         /// </summary>
         /// <param name="fileName">ファイル名</param>
@@ -546,7 +543,7 @@ namespace NeeView.Susie
         {
             if (_isDisposed)
             {
-                throw new SpiException("Susie plugin already disposed", this);
+                throw new SusieException("Susie plugin already disposed", this);
             }
 
             lock (_lock)
@@ -555,7 +552,7 @@ namespace NeeView.Susie
                 {
                     var api = BeginSection();
                     var buff = api.GetFile(archiveFileName, info);
-                    if (buff == null) throw new SpiException("Susie extraction failed (Type.M)", this);
+                    if (buff == null) throw new SusieException("Susie extraction failed (Type.M)", this);
                     return buff;
                 }
                 finally
@@ -573,7 +570,7 @@ namespace NeeView.Susie
         {
             if (_isDisposed)
             {
-                throw new SpiException("Susie plugin already disposed", this);
+                throw new SusieException("Susie plugin already disposed", this);
             }
 
             lock (_lock)
@@ -582,7 +579,7 @@ namespace NeeView.Susie
                 {
                     var api = BeginSection();
                     int ret = api.GetFile(archiveFileName, info, extractFolder);
-                    if (ret != 0) throw new SpiException("Susie extraction failed (Type.F)", this);
+                    if (ret != 0) throw new SusieException("Susie extraction failed (Type.F)", this);
                 }
                 finally
                 {
@@ -618,8 +615,8 @@ namespace NeeView.Susie
         [DataContract]
         public class Memento
         {
-            [DataMember]
-            public bool IsEnabled { get; set; }
+            [DataMember, DefaultValue(true)]
+            public bool IsEnabled { get; set; } = true;
 
             [DataMember(EmitDefaultValue = false)]
             public bool IsPreExtract { get; set; }

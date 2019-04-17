@@ -55,6 +55,11 @@ namespace NeeView.Text
             return !Items.Any();
         }
 
+        public void Clear()
+        {
+            Items = new List<string>();
+        }
+
         public bool Contains(string item)
         {
             item = ValidateItem(item);

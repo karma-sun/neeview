@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -12,10 +11,7 @@ using System.Windows.Media.Imaging;
 
 namespace NeeView.Susie
 {
-    /// <summary>
-    /// for Susie Plugin
-    /// </summary>
-    public class Susie : INotifyPropertyChanged
+    public class SusiePluginCollection : INotifyPropertyChanged, IDisposable
     {
         #region PropertyChanged
 
@@ -34,23 +30,22 @@ namespace NeeView.Susie
         #endregion
 
 
-        // レジストリに登録されているSusiePluginパスの取得
-        private static bool s_susiePluginInstallPathInitialized;
-        private static string s_susiePluginInstallPath;
-
         private bool _is64bitPlugin;
-        
+        private bool _isPluginCacheEnabled;
+        private ObservableCollection<SusiePlugin> _AMPluginList = new ObservableCollection<SusiePlugin>();
+        private ObservableCollection<SusiePlugin> _INPluginList = new ObservableCollection<SusiePlugin>();
 
-        public Susie(bool is64bitPlugin)
+
+        public SusiePluginCollection(bool is64bitPlugin, bool isPluginCacheEnabled)
         {
             _is64bitPlugin = is64bitPlugin;
+            _isPluginCacheEnabled = isPluginCacheEnabled;
         }
 
 
         /// <summary>
         /// 書庫プラグインリスト
         /// </summary>
-        private ObservableCollection<SusiePlugin> _AMPluginList = new ObservableCollection<SusiePlugin>();
         public ObservableCollection<SusiePlugin> AMPluginList
         {
             get { return _AMPluginList; }
@@ -60,7 +55,6 @@ namespace NeeView.Susie
         /// <summary>
         /// 画像プラグインリスト
         /// </summary>
-        private ObservableCollection<SusiePlugin> _INPluginList = new ObservableCollection<SusiePlugin>();
         public ObservableCollection<SusiePlugin> INPluginList
         {
             get { return _INPluginList; }
@@ -78,59 +72,56 @@ namespace NeeView.Susie
         }
 
 
-        public static string GetSusiePluginInstallPath()
-        {
-            if (!s_susiePluginInstallPathInitialized)
-            {
-                try
-                {
-                    RegistryKey regkey = Registry.CurrentUser.OpenSubKey(@"Software\Takechin\Susie\Plug-in", false);
-                    s_susiePluginInstallPath = (string)regkey?.GetValue("Path") ?? "";
-                }
-                catch
-                {
-                }
-                s_susiePluginInstallPathInitialized = true;
-            }
+        #region IDisposable Support
+        private bool _disposedValue = false;
 
-            return s_susiePluginInstallPath;
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    foreach (var plugin in PluginCollection)
+                    {
+                        plugin.Dispose();
+                    }
+                    INPluginList.Clear();
+                    AMPluginList.Clear();
+                }
+
+                _disposedValue = true;
+            }
         }
 
-
-        // プラグインロード
-        public void Load(IEnumerable<string> spiFiles, bool isPluginCacheEnabled)
+        public void Dispose()
         {
-            if (spiFiles == null) return;
+            Dispose(true);
+        }
+        #endregion
 
-            // 既存のプラグインから残すものを抽出
-            var inPluginList = INPluginList.Where(e => spiFiles.Contains(e.FileName)).ToList();
-            var amPluginList = AMPluginList.Where(e => spiFiles.Contains(e.FileName)).ToList();
+        public void Initialize(string spiFolder)
+        {
+            if (string.IsNullOrWhiteSpace(spiFolder)) return;
+            if (!Directory.Exists(spiFolder)) return;
 
-            // 削除するプラグイン
-            var removes = PluginCollection.Where(e => !(inPluginList.Contains(e) || amPluginList.Contains(e)));
-            foreach (var spi in removes)
-            {
-                spi.Dispose();
-            }
+            var searchPattern = _is64bitPlugin ? "*.sph" : "*.spi";
+            var spiFiles = Directory.GetFiles(spiFolder, searchPattern);
 
-            // 新しいプラグイン追加
+            var plugins = new List<SusiePlugin>();
             foreach (var fileName in spiFiles)
             {
                 var spi = SusiePlugin.Create(fileName, _is64bitPlugin);
                 if (spi != null)
                 {
-                    spi.IsCacheEnabled = isPluginCacheEnabled;
-                    if (spi.PluginType == SusiePluginType.Image && !inPluginList.Any(e => e.FileName == fileName))
+                    spi.IsCacheEnabled = _isPluginCacheEnabled;
+                    if (spi.PluginType == SusiePluginType.None)
                     {
-                        inPluginList.Add(spi);
-                    }
-                    else if (spi.PluginType == SusiePluginType.Archive && !amPluginList.Any(e => e.FileName == fileName))
-                    {
-                        amPluginList.Add(spi);
+                        Debug.WriteLine("no support SPI (wrong API version): " + Path.GetFileName(fileName));
+                        spi.Dispose();
                     }
                     else
                     {
-                        Debug.WriteLine("no support SPI (wrong API version): " + Path.GetFileName(fileName));
+                        plugins.Add(spi);
                     }
                 }
                 else
@@ -139,19 +130,42 @@ namespace NeeView.Susie
                 }
             }
 
-            var comparar = new MyComparer(spiFiles);
-            INPluginList = new ObservableCollection<SusiePlugin>(inPluginList.OrderBy(e => e, comparar));
-            AMPluginList = new ObservableCollection<SusiePlugin>(amPluginList.OrderBy(e => e, comparar));
+            INPluginList = new ObservableCollection<SusiePlugin>(plugins.Where(e => e.PluginType == SusiePluginType.Image));
+            AMPluginList = new ObservableCollection<SusiePlugin>(plugins.Where(e => e.PluginType == SusiePluginType.Archive));
+        }
+
+        // プラグイン設定の保存
+        public Dictionary<string, SusiePlugin.Memento> StorePlugins()
+        {
+            return PluginCollection.ToDictionary(e => e.FileName, e => e.CreateMemento());
+        }
+
+        // プラグイン設定の復元
+        public void RestorePlugins(Dictionary<string, SusiePlugin.Memento> map)
+        {
+            if (map == null) return;
+
+            foreach (var plugin in PluginCollection)
+            {
+                if (map.TryGetValue(plugin.FileName, out SusiePlugin.Memento memento))
+                {
+                    plugin.Restore(memento);
+                }
+            }
+
+            var comparar = new PluginOrderComparer(map.Keys);
+            INPluginList = new ObservableCollection<SusiePlugin>(INPluginList.OrderBy(e => e, comparar));
+            AMPluginList = new ObservableCollection<SusiePlugin>(AMPluginList.OrderBy(e => e, comparar));
         }
 
         /// <summary>
-        /// 予約順にSPIを並び替えるためコンペア 
+        /// 予約順にSPIを並び替えるためのコンペア 
         /// </summary>
-        class MyComparer : IComparer<SusiePlugin>
+        class PluginOrderComparer : IComparer<SusiePlugin>
         {
             private List<string> _order;
 
-            public MyComparer(IEnumerable<string> order)
+            public PluginOrderComparer(IEnumerable<string> order)
             {
                 _order = order.ToList();
             }
@@ -167,9 +181,10 @@ namespace NeeView.Susie
         // プラグインキャッシュ設定を変更
         public void SetPluginCahceEnabled(bool isPluginCacheEnabled)
         {
+            _isPluginCacheEnabled = isPluginCacheEnabled;
             foreach (var spi in PluginCollection)
             {
-                spi.IsCacheEnabled = isPluginCacheEnabled;
+                spi.IsCacheEnabled = _isPluginCacheEnabled;
             }
         }
 

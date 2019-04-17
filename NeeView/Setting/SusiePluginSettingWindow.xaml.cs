@@ -90,7 +90,7 @@ namespace NeeView.Setting
 
         public void OpenConfigDialog(Window owner)
         {
-            _spi.OpenConfigurationDlg_Executed(owner);
+            _spi.OpenConfigulationDialog(owner);
         }
     }
 

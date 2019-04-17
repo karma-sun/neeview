@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.Windows.Input;
+using NeeView.Susie;
 using NeeView.Windows;
 using System;
 using System.Collections.Generic;
@@ -43,7 +44,7 @@ namespace NeeView.Setting
 
         #region Fields
 
-        private Susie.SusiePluginType _pluginType;
+        private SusiePluginType _pluginType;
 
         #endregion
 
@@ -56,7 +57,7 @@ namespace NeeView.Setting
         }
 
         //
-        public SettingItemSusiePluginControl(Susie.SusiePluginType pluginType)
+        public SettingItemSusiePluginControl(SusiePluginType pluginType)
         {
             InitializeComponent();
 
@@ -64,9 +65,9 @@ namespace NeeView.Setting
 
             _pluginType = pluginType;
 
-            var binding = new Binding(pluginType == Susie.SusiePluginType.Image ? nameof(Susie.Susie.INPluginList) : nameof(Susie.Susie.AMPluginList))
+            var binding = new Binding(nameof(SusieContext.PluginCollection) + "." + (pluginType == SusiePluginType.Image ? nameof(SusiePluginCollection.INPluginList) : nameof(SusiePluginCollection.AMPluginList)))
             {
-                Source = SusieContext.Current.Susie
+                Source = SusieContext.Current
             };
             BindingOperations.SetBinding(this.PluginList, ListBox.ItemsSourceProperty, binding);
             BindingOperations.SetBinding(this.PluginList, ListBox.TagProperty, binding);
@@ -85,17 +86,17 @@ namespace NeeView.Setting
 
         private bool CanOpenConfigDialog()
         {
-            var item = this.PluginList.SelectedItem as Susie.SusiePlugin;
+            var item = this.PluginList.SelectedItem as SusiePlugin;
             return item != null;
         }
 
         private void OpenConfigDialog_Executed()
         {
-            var item = this.PluginList.SelectedItem as Susie.SusiePlugin;
+            var item = this.PluginList.SelectedItem as SusiePlugin;
             OpenConfigDialog(item);
         }
 
-        private void OpenConfigDialog(Susie.SusiePlugin spi)
+        private void OpenConfigDialog(SusiePlugin spi)
         {
             if (spi == null) return;
 
@@ -119,7 +120,7 @@ namespace NeeView.Setting
         private void MoveUpCommand_Executed()
         {
             var index = this.PluginList.SelectedIndex;
-            var collection = this.PluginList.Tag as ObservableCollection<Susie.SusiePlugin>;
+            var collection = this.PluginList.Tag as ObservableCollection<SusiePlugin>;
             if (index > 0)
             {
                 collection.Move(index, index - 1);
@@ -137,7 +138,7 @@ namespace NeeView.Setting
         private void MoveDownCommand_Executed()
         {
             var index = this.PluginList.SelectedIndex;
-            var collection = this.PluginList.Tag as ObservableCollection<Susie.SusiePlugin>;
+            var collection = this.PluginList.Tag as ObservableCollection<SusiePlugin>;
             if (index >= 0 && index < collection.Count - 1)
             {
                 collection.Move(index, index + 1);
@@ -158,10 +159,10 @@ namespace NeeView.Setting
         // プラグインリスト：ドロップ
         private void PluginListView_Drop(object sender, DragEventArgs e)
         {
-            var list = (sender as ListBox).Tag as ObservableCollection<Susie.SusiePlugin>;
+            var list = (sender as ListBox).Tag as ObservableCollection<SusiePlugin>;
             if (list != null)
             {
-                ListBoxDragSortExtension.Drop<Susie.SusiePlugin>(sender, e, "SusiePlugin", list);
+                ListBoxDragSortExtension.Drop<SusiePlugin>(sender, e, "SusiePlugin", list);
             }
         }
 
@@ -175,7 +176,7 @@ namespace NeeView.Setting
         // 項目ダブルクリック
         private void ListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var item = (sender as ListBoxItem)?.DataContext as Susie.SusiePlugin;
+            var item = (sender as ListBoxItem)?.DataContext as SusiePlugin;
             OpenConfigDialog(item);
         }
 
@@ -187,7 +188,7 @@ namespace NeeView.Setting
 
         private void UpdateExtensions()
         {
-            if (_pluginType == Susie.SusiePluginType.Image)
+            if (_pluginType == SusiePluginType.Image)
             {
                 SusieContext.Current.UpdateImageExtensions();
             }

@@ -53,8 +53,8 @@ namespace NeeView
         {
             try
             {
-                if (!SusieContext.IsSupportedSusie || !SusieContext.Current.IsEnableSusie) return null;
-                var plugin = SusieContext.Current.Susie?.GetImagePlugin("dummy", buff, false);
+                if (!SusieContext.Current.IsEnabled) return null;
+                var plugin = SusieContext.Current.PluginCollection?.GetImagePlugin("dummy", buff, false);
                 return plugin?.Extensions.Items.ToArray();
             }
             catch (Exception e)

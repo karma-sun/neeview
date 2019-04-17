@@ -505,7 +505,7 @@ namespace NeeView
                     SevenZipArchiverProfile.Current.IsEnabled = false;
                     PdfArchiverProfile.Current.IsEnabled = false;
                     MediaArchiverProfile.Current.IsEnabled = false;
-                    SusieContext.Current.IsEnableSusie = false;
+                    SusieContext.Current.IsEnabled = false;
                 }
             }
 

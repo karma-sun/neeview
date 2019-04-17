@@ -47,7 +47,7 @@ namespace NeeView
 
             SusiePlugin susiePlugin = null;
 
-            var bytes = SusieContext.Current.Susie?.GetPicture(entry.RawEntryName, buff, !entry.IsIgnoreFileExtension, out susiePlugin);
+            var bytes = SusieContext.Current.PluginCollection?.GetPicture(entry.RawEntryName, buff, !entry.IsIgnoreFileExtension, out susiePlugin);
             if (bytes == null)
             {
                 throw new SusieIOException();
@@ -62,7 +62,7 @@ namespace NeeView
         {
             SusiePlugin susiePlugin = null;
 
-            var bytes = SusieContext.Current.Susie?.GetPictureFromFile(fileName, !entry.IsIgnoreFileExtension, out susiePlugin);
+            var bytes = SusieContext.Current.PluginCollection?.GetPictureFromFile(fileName, !entry.IsIgnoreFileExtension, out susiePlugin);
             if (bytes == null)
             {
                 throw new SusieIOException();

@@ -264,7 +264,7 @@ namespace NeeView
 
                 SevenZipArchiverProfile.Current.X86DllPath = this.loader_archiver_7z_dllpath;
                 SevenZipArchiverProfile.Current.X64DllPath = this.loader_archiver_7z_dllpath_x64;
-                SevenZipArchiverProfile.Current.SupportFileTypes.FromString(this.loader_archiver_7z_supprtfiletypes);
+                SevenZipArchiverProfile.Current.SupportFileTypes.OneLine = this.loader_archiver_7z_supprtfiletypes;
                 SevenZipArchiverProfile.Current.SupportFileTypes.Add(".cbr");
                 SevenZipArchiverProfile.Current.SupportFileTypes.Add(".cbz");
 
@@ -279,7 +279,7 @@ namespace NeeView
                 BookProfile.Current.IsPrioritizePageMove = this.book_is_prioritize_pagemove;
                 BookProfile.Current.IsMultiplePageMove = this.book_allow_multiple_pagemove;
                 BookProfile.Current.WideRatio = this.view_image_wideratio;
-                BookProfile.Current.Excludes.FromString(this.loader_archiver_exclude);
+                BookProfile.Current.Excludes.OneLine = this.loader_archiver_exclude;
 
                 MouseInput.Current.Normal.LongButtonDownTime = this.input_longbuttondown_time;
 

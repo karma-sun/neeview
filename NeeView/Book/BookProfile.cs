@@ -239,7 +239,7 @@ namespace NeeView
             memento.IsMultiplePageMove = this.IsMultiplePageMove;
             memento.PreLoadSize = this.PreLoadSize;
             memento.WideRatio = this.WideRatio;
-            memento.ExcludePath = this.Excludes.ToString();
+            memento.ExcludePath = this.Excludes.OneLine;
             memento.IsEnableAnimatedGif = this.IsEnableAnimatedGif;
             memento.BookPageCollectMode = this.BookPageCollectMode;
             memento.IsLoadingPageVisible = this.IsLoadingPageVisible;
@@ -256,7 +256,7 @@ namespace NeeView
             this.IsMultiplePageMove = memento.IsMultiplePageMove;
             this.PreLoadSize = memento.PreLoadSize;
             this.WideRatio = memento.WideRatio;
-            this.Excludes.FromString(memento.ExcludePath);
+            this.Excludes.OneLine = memento.ExcludePath;
             this.IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
             this.BookPageCollectMode = memento.BookPageCollectMode;
             this.IsLoadingPageVisible = memento.IsLoadingPageVisible;

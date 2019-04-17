@@ -38,7 +38,7 @@ namespace NeeView
                 list.AddRange(pair.Value.Split(','));
             }
 
-            _defaultExtensoins.FromCollection(list);
+            _defaultExtensoins.Restore(list);
         }
 
         // 標準対応拡張子取得

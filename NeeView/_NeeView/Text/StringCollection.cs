@@ -1,70 +1,99 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace NeeView.Text
 {
+
     /// <summary>
     /// 文字列コレクション
     /// </summary>
-    public class StringCollection : ObservableCollection<string>
+    [DataContract]
+    public class StringCollection
     {
-        //
         public StringCollection()
         {
+            Items = new List<string>();
         }
 
-        //
         public StringCollection(string items)
         {
-            FromString(items);
+            Restore(items);
         }
 
-        //
-        public StringCollection(IEnumerable<string> items) : base(items)
+        public StringCollection(IEnumerable<string> items)
         {
+            Restore(items);
         }
 
-        //
-        public new virtual string Add(string item)
+
+        [DataMember]
+        public bool IsSorted { get; set; } = true;
+
+        [DataMember]
+        public bool IsDistinction { get; set; } = true;
+
+        [DataMember]
+        public bool IsNullable { get; set; } = false;
+
+        // immutable
+        [DataMember]
+        public List<string> Items { get; private set; }
+
+
+        [DataMember(EmitDefaultValue = false)]
+        public string OneLine
         {
-            base.Add(item);
+            get { return Items.Count > 0 ? string.Join(";", Items) : null; }
+            set { Restore(value); }
+        }
+
+
+        public bool IsEmpty()
+        {
+            return !Items.Any();
+        }
+
+        public bool Contains(string item)
+        {
+            item = ValidateItem(item);
+            return Items.Contains(item);
+        }
+
+        public string Add(string item)
+        {
+            item = ValidateItem(item);
+            AddRange(new List<string>() { item });
             return item;
         }
 
-        //
-        public new virtual bool Remove(string item)
+        public void AddRange(IEnumerable<string> items)
         {
-            return base.Remove(item);
+            Items = ValidateCollection(Items.Concat(items));
         }
 
-        //
-        public void Sort()
+        public void Remove(string item)
         {
-            FromCollection(this.OrderBy(e => e).ToList());
+            RemoveRange(new List<string>() { item });
         }
 
-        //
-        public void FromCollection(IEnumerable<string> items)
+        public void RemoveRange(IEnumerable<string> items)
         {
-            Clear();
+            Items = Items.Except(ValidateCollection(items)).ToList();
+        }
 
-            if (items != null)
-            {
-                foreach (var item in items)
-                {
-                    Add(item);
-                }
-            }
+        public void Restore(IEnumerable<string> items)
+        {
+            Items = ValidateCollection(items);
         }
 
         /// <summary>
         /// セミコロン区切りの文字列を分解してコレクションにする
         /// </summary>
-        /// <param name="items"></param>
-        public void FromString(string items)
+        public void Restore(string items)
         {
-            FromCollection(items?.Split(';').Select(e => e.Trim()).OrderBy(e => e));
+            Items = ValidateCollection(items?.Split(';').Select(e => e.Trim()));
         }
 
         /// <summary>
@@ -73,8 +102,39 @@ namespace NeeView.Text
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Join(";", this);
+            return OneLine;
         }
+
+        /// <summary>
+        /// 項目のフォーマット
+        /// </summary>
+        public virtual string ValidateItem(string items)
+        {
+            return items;
+        }
+
+        private List<string> ValidateCollection(IEnumerable<string> items)
+        {
+            if (items == null) return new List<string>();
+
+            var collection = items;
+
+            if (!IsNullable)
+            {
+                collection = collection.Where(e => !string.IsNullOrEmpty(e));
+            }
+            if (IsDistinction)
+            {
+                collection = collection.Distinct();
+            }
+            if (IsSorted)
+            {
+                collection = collection.OrderBy(e => e);
+            }
+
+            return collection.ToList();
+        }
+
     }
 
 }

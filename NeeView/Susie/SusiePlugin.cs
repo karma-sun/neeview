@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -68,18 +69,11 @@ namespace NeeView.Susie
         public string PluginVersion { get; private set; }
 
         // 詳細テキスト
-        public string DetailText { get { return $"{Name} ( {string.Join(" ", Extensions)} )"; } }
+        public string DetailText { get { return $"{Name} ( {string.Join(" ", Extensions.Items)} )"; } }
 
         // 設定ダイアログの有無
         public bool HasConfigurationDlg { get; private set; }
 
-        // サポートするファイルの種類
-        public class SupportFileType
-        {
-            public string Extension; // ファイルの種類の拡張子
-            public string Note; // ファイルの種類の情報
-        }
-        public List<SupportFileType> SupportFileTypeList { get; private set; }
 
         // プラグインの種類
         public SusiePluginType PluginType
@@ -98,10 +92,6 @@ namespace NeeView.Susie
             }
         }
 
-        // サポートするファイルの拡張子リスト
-        public List<string> Extensions { get; private set; }
-
-
         // プラグインDLLをキャッシュする?
         public bool IsCacheEnabled
         {
@@ -117,13 +107,45 @@ namespace NeeView.Susie
         }
 
 
+        // 標準拡張子
+        public FileTypeCollection DefaultExtensions { get; } = new FileTypeCollection();
+
+        // 対応拡張子
+        private FileTypeCollection _extensions = new FileTypeCollection();
+        public FileTypeCollection Extensions
+        {
+            get { return _extensions; }
+            set { SetProperty(ref _extensions, value); }
+        }
+
+       /// <summary>
+       /// ユーザー定義拡張子。設定保存用
+       /// </summary>
+        public string UserExtensions
+        {
+            get
+            {
+                var oneline = _extensions.OneLine;
+                return (oneline != DefaultExtensions.OneLine) ? oneline : null;
+            }
+
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    ResetExtensions();
+                }
+                else
+                {
+                    Extensions.Restore(value);
+                }
+            }
+        }
+
+
         #region Commands
 
         private RelayCommand<Window> _openConfigurationDlg;
-
-        /// <summary>
-        /// コンフィグダイアログを表示するコマンド
-        /// </summary>
         public RelayCommand<Window> OpenConfigurationDlg
         {
             get { return _openConfigurationDlg = _openConfigurationDlg ?? new RelayCommand<Window>(OpenConfigurationDlg_Executed); }
@@ -157,8 +179,6 @@ namespace NeeView.Susie
 
         #endregion
 
-
-
         // 文字列変換
         public override string ToString()
         {
@@ -174,6 +194,43 @@ namespace NeeView.Susie
         {
             var spi = new SusiePlugin();
             return spi.Initialize(fileName, is64bitPlugin) ? spi : null;
+        }
+
+        /// <summary>
+        /// 対応拡張子を標準に戻す
+        /// </summary>
+        public void ResetExtensions()
+        {
+            Extensions.Restore(DefaultExtensions.Items);
+        }
+
+        /// <summary>
+        /// 標準拡張子の設定
+        /// </summary>
+        private void SetDefaultExtensions(FileTypeCollection extensions)
+        {
+            var adds = extensions.Items.Except(DefaultExtensions.Items).ToList();
+            var removes = DefaultExtensions.Items.Except(extensions.Items).ToList();
+
+            DefaultExtensions.Restore(extensions.Items);
+
+            if (_extensions.IsEmpty())
+            {
+                _extensions.Restore(DefaultExtensions.Items);
+            }
+            else
+            {
+                _extensions.AddRange(adds);
+                _extensions.RemoveRange(removes);
+            }
+        }
+
+        /// <summary>
+        /// 詳細テキストを更新する
+        /// </summary>
+        public void RaiseDetailTextPropertyChanged()
+        {
+            RaisePropertyChanged(nameof(DetailText));
         }
 
 
@@ -198,39 +255,13 @@ namespace NeeView.Susie
                         PluginVersion = Path.GetFileName(fileName);
                     }
 
-                    SupportFileTypeList = new List<SupportFileType>();
-                    while (true)
-                    {
-                        int index = SupportFileTypeList.Count() * 2 + 2;
-                        var fileType = new SupportFileType()
-                        {
-                            Extension = api.GetPluginInfo(index + 0),
-                            Note = api.GetPluginInfo(index + 1)
-                        };
-                        if (fileType.Extension == null || fileType.Note == null) break;
-                        SupportFileTypeList.Add(fileType);
-                    }
+                    UpdateDefaultExtensions(api);
 
                     HasConfigurationDlg = api.IsExistFunction("ConfigurationDlg");
                 }
 
                 FileName = fileName;
                 Is64bitPlugin = is64bitPlugin;
-
-
-                // create extensions
-                Extensions = new List<string>();
-                foreach (var supportType in this.SupportFileTypeList)
-                {
-                    foreach (var filter in supportType.Extension.Split(';', ',')) // ifjpeg2k.spi用に","を追加
-                    {
-                        string extension = filter.TrimStart('*').ToLower().Trim();
-                        if (!string.IsNullOrEmpty(extension))
-                        {
-                            Extensions.Add(extension);
-                        }
-                    }
-                }
 
                 return true;
             }
@@ -239,6 +270,30 @@ namespace NeeView.Susie
                 Debug.WriteLine(e.Message);
                 return false;
             }
+        }
+
+        /// <summary>
+        /// 標準拡張子の更新
+        /// </summary>
+        /// <param name="api"></param>
+        private void UpdateDefaultExtensions(SusiePluginApi api)
+        {
+            var extensions = new List<string>();
+            for (int index = 2; ; index += 2)
+            {
+                // 拡張子フィルター
+                var filter = api.GetPluginInfo(index + 0);
+                // 拡張子フィルターの説明（未使用）
+                var extensionsNote = api.GetPluginInfo(index + 1);
+
+                if (filter == null) break;
+
+                // ifjpeg2k.spi用に区切り記号に","を追加
+                // ワイルド拡張子は無効
+                extensions.AddRange(filter.Split(';', ',').Select(e => e.TrimStart('*').ToLower().Trim()).Where(e => e != ".*"));
+            }
+
+            SetDefaultExtensions(new FileTypeCollection(extensions));
         }
 
 
@@ -317,7 +372,9 @@ namespace NeeView.Susie
                 {
                     var api = BeginSection();
                     IntPtr hwnd = parent != null ? new WindowInteropHelper(parent).Handle : IntPtr.Zero;
-                    return api.ConfigurationDlg(hwnd, 1);
+                    var result = api.ConfigurationDlg(hwnd, 1);
+                    UpdateDefaultExtensions(api);
+                    return result;
                 }
                 finally
                 {
@@ -555,5 +612,47 @@ namespace NeeView.Susie
             Dispose(true);
         }
         #endregion
+
+        #region Memento
+
+        [DataContract]
+        public class Memento
+        {
+            [DataMember]
+            public bool IsEnabled { get; set; }
+
+            [DataMember(EmitDefaultValue = false)]
+            public bool IsPreExtract { get; set; }
+
+            [DataMember(EmitDefaultValue = false)]
+            public string UserExtensions { get; set; }
+
+
+            [OnDeserializing]
+            private void Deserializing(StreamingContext c)
+            {
+                this.InitializePropertyDefaultValues();
+            }
+        }
+
+        public Memento CreateMemento()
+        {
+            var memento = new Memento();
+            memento.IsEnabled = this.IsEnabled;
+            memento.IsPreExtract = this.IsPreExtract;
+            memento.UserExtensions = this.UserExtensions;
+            return memento;
+        }
+
+        public void Restore(Memento memento)
+        {
+            if (memento == null) return;
+            this.IsEnabled = memento.IsEnabled;
+            this.IsPreExtract = memento.IsPreExtract;
+            this.UserExtensions = memento.UserExtensions;
+        }
+
+        #endregion
     }
+
 }

@@ -44,7 +44,7 @@ namespace NeeView
             var memento = new Memento();
 
             memento.IsEnabled = this.IsEnabled;
-            memento.SupportFileTypes = this.SupportFileTypes.ToString();
+            memento.SupportFileTypes = this.SupportFileTypes.OneLine;
 
             return memento;
         }
@@ -55,7 +55,7 @@ namespace NeeView
             if (memento == null) return;
 
             this.IsEnabled = memento.IsEnabled;
-            this.SupportFileTypes.FromString(memento.SupportFileTypes.ToString());
+            this.SupportFileTypes.OneLine = memento.SupportFileTypes;
         }
 
         #endregion

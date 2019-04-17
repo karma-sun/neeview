@@ -59,7 +59,7 @@ namespace NeeView.Setting
         }
 
         public string Name => _spi.Name;
-        public string Extensions => string.Join(" ", _spi.Extensions);
+
         public string Version => _spi.PluginVersion;
 
         public bool IsArchiver => _spi.PluginType == SusiePluginType.Archive;
@@ -75,6 +75,15 @@ namespace NeeView.Setting
             get { return _spi.IsPreExtract; }
             set { _spi.IsPreExtract = value; }
         }
+
+        public FileTypeCollection DefaultExtensions => _spi.DefaultExtensions;
+
+        public FileTypeCollection Extensions
+        {
+            get { return _spi.Extensions; }
+            set { _spi.Extensions = value; }
+        }
+
 
         public bool CanOpenConfigDialog => _spi.HasConfigurationDlg;
 

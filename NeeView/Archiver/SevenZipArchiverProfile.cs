@@ -82,7 +82,7 @@ namespace NeeView
             memento.IsEnabled = this.IsEnabled;
             memento.X86DllPath = this.X86DllPath;
             memento.X64DllPath = this.X64DllPath;
-            memento.SupportFileTypes = this.SupportFileTypes.ToString();
+            memento.SupportFileTypes = this.SupportFileTypes.OneLine;
             memento.PreExtractSolidSize = this.PreExtractSolidSize;
             memento.IsPreExtractToMemory = this.IsPreExtractToMemory;
             return memento;
@@ -95,7 +95,7 @@ namespace NeeView
             this.IsEnabled = memento.IsEnabled;
             this.X86DllPath = memento.X86DllPath;
             this.X64DllPath = memento.X64DllPath;
-            this.SupportFileTypes.FromString(memento.SupportFileTypes);
+            this.SupportFileTypes.OneLine = memento.SupportFileTypes;
             this.PreExtractSolidSize = memento.PreExtractSolidSize;
             this.IsPreExtractToMemory = memento.IsPreExtractToMemory;
 

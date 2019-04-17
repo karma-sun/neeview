@@ -103,6 +103,9 @@ namespace NeeView.Setting
             dialog.Owner = Window.GetWindow(this);
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             dialog.ShowDialog();
+
+            spi.RaiseDetailTextPropertyChanged();
+            UpdateExtensions();
         }
 
 
@@ -179,7 +182,11 @@ namespace NeeView.Setting
         // 有効/無効チェックボックス
         private void CheckBox_Changed(object sender, RoutedEventArgs e)
         {
-            // 対応拡張子の更新
+            UpdateExtensions();
+        }
+
+        private void UpdateExtensions()
+        {
             if (_pluginType == Susie.SusiePluginType.Image)
             {
                 SusieContext.Current.UpdateImageExtensions();

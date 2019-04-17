@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:NeeView.Setting"
         xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
-        Title="{Binding Name}" Width="400" SizeToContent="Height">
+        Style="{StaticResource ToolWindowStyle}"
+        Title="{Binding Name}" Width="600" Height="600">
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
@@ -25,27 +26,37 @@
     <Grid>
         <DockPanel>
 
-            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,0,10,5">
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,5,10,5">
                 <Button x:Name="CloseButton" Content="{x:Static properties:Resources.WordOK}" Click="CloseButton_Click"/>
             </StackPanel>
 
-            <StackPanel Margin="10,10,10,0">
-                <TextBlock Text="{Binding Version}" TextWrapping="Wrap" FontWeight="Bold" Margin="0,5,0,10"/>
-                <TextBlock Text="{Binding Extensions}" TextWrapping="Wrap" />
-                <Button x:Name="ConfigButton" HorizontalAlignment="Right" Click="ConfigButton_Click"
-                        Visibility="{Binding CanOpenConfigDialog, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <DockPanel Margin="10">
 
-                    <StackPanel Orientation="Horizontal">
-                        <Image Source="{StaticResource ic_setting_24px}" Width="14" Height="14"/>
-                        <TextBlock Text="{x:Static properties:Resources.WordConfig}" Margin="5,0"/>
-                    </StackPanel>
-                </Button>
+                <DockPanel DockPanel.Dock="Top" Background="#EEE">
 
-                <StackPanel Margin="0,15,0,0">
+                    <TextBlock DockPanel.Dock="Top" Text="{Binding Name}" TextWrapping="Wrap" FontWeight="Bold" Margin="10,10,10,0" />
+
+                    <TextBlock DockPanel.Dock="Top" Text="{Binding Version}" TextWrapping="Wrap" Margin="10,10,10,0" MinHeight="50"/>
+
+                    <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Right" LastChildFill="False">
+                        <Button x:Name="ConfigButton" DockPanel.Dock="Right" Click="ConfigButton_Click" Margin="10"
+                                Visibility="{Binding CanOpenConfigDialog, Converter={StaticResource BooleanToVisibilityConverter}}">
+                            <StackPanel Orientation="Horizontal">
+                                <Image Source="{StaticResource ic_setting_24px}" Width="14" Height="14"/>
+                                <TextBlock Text="{x:Static properties:Resources.WordConfig}" Margin="5,0"/>
+                            </StackPanel>
+                        </Button>
+                    </DockPanel>
+                </DockPanel>
+
+                <StackPanel DockPanel.Dock="Top" Margin="0,15,0,5">
                     <CheckBox Content="{x:Static properties:Resources.ParamSusiePluginIsEnabled}" IsChecked="{Binding IsEnabled}"/>
                     <CheckBox Content="{x:Static properties:Resources.ParamSusiePluginIsPreExtract}" IsChecked="{Binding IsPreExtract}" Visibility="{Binding IsArchiver, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 </StackPanel>
-            </StackPanel>
+
+                <TextBlock DockPanel.Dock="Top" Text="{x:Static properties:Resources.WordExtension}" FontWeight="Bold" Margin="0,15,0,5"/>
+                <local:SettingItemCollectionControl Collection="{Binding Extensions}" DefaultCollection="{Binding DefaultExtensions}" IsHeightLocked="False"/>
+            </DockPanel>
         </DockPanel>
     </Grid>
 </Window>

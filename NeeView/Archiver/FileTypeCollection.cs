@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Serialization;
 using NeeView.Text;
 
 namespace NeeView
@@ -6,6 +8,7 @@ namespace NeeView
     /// <summary>
     /// ファイル拡張子コレクション
     /// </summary>
+    [DataContract]
     public class FileTypeCollection : StringCollection
     {
         public FileTypeCollection()
@@ -20,22 +23,14 @@ namespace NeeView
         {
         }
 
-        public override string Add(string token)
+        public override string ValidateItem(string item)
         {
-            var ext = token?.Trim().TrimStart('.').ToLower();
-            if (string.IsNullOrWhiteSpace(ext))
-            {
-                return null;
-            }
+            return "." + item.Trim().TrimStart('.').ToLower();
+        }
 
-            ext = "." + ext;
-            if (Contains(ext))
-            {
-                return ext;
-            }
-
-            base.Add(ext);
-            return ext;
+        public FileTypeCollection Clone()
+        {
+            return (FileTypeCollection)MemberwiseClone();
         }
     }
 }

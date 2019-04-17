@@ -25,7 +25,7 @@ namespace NeeView
 
         public override string ValidateItem(string item)
         {
-            return "." + item.Trim().TrimStart('.').ToLower();
+            return string.IsNullOrWhiteSpace(item) ? null : "." + item.Trim().TrimStart('.').ToLower();
         }
 
         public FileTypeCollection Clone()

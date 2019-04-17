@@ -40,6 +40,6 @@
                 </Button.Style>
             </Button>
         </DockPanel>
-        <ListBox x:Name="CollectionListBox" ItemsSource="{Binding Items}"/>
+        <ListBox x:Name="CollectionListBox" ItemsSource="{Binding Items}" PreviewKeyDown="CollectionListBox_PreviewKeyDown" />
     </DockPanel>
 </UserControl>

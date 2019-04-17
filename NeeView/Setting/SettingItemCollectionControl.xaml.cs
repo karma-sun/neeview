@@ -146,9 +146,17 @@ namespace NeeView.Setting
                 return;
             }
 
+            var index = Collection.Items.IndexOf(item);
+
             Collection.Remove(item);
             RaisePropertyChanged(nameof(Items));
             this.CollectionListBox.Items.Refresh();
+
+            index = Math.Min(index, Collection.Items.Count - 1);
+            if (index >= 0)
+            {
+                this.CollectionListBox.SelectedIndex = index;
+            }
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)
@@ -158,6 +166,15 @@ namespace NeeView.Setting
             Collection.Restore(DefaultCollection.Items);
             RaisePropertyChanged(nameof(Items));
             this.CollectionListBox.Items.Refresh();
+        }
+
+        private void CollectionListBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                RemoveButton_Click(sender, e);
+                e.Handled = true;
+            }
         }
     }
 }

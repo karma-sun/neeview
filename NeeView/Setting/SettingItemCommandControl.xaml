@@ -188,7 +188,7 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
 
-                            <GridViewColumn Header="{x:Static properties:Resources.ControlCommandListHeaderTouch}">
+                            <GridViewColumn Header="{x:Static properties:Resources.ControlCommandListHeaderDescription}">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <TextBlock Text="{Binding Command.Note, Mode=OneTime}" />

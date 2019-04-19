@@ -126,6 +126,9 @@
   <data name="ArchiveFormatMedia" xml:space="preserve">
     <value>Media</value>
   </data>
+  <data name="ArchiveFormatPagemark" xml:space="preserve">
+    <value>Pagemark</value>
+  </data>
   <data name="ArchiveFormatPdf" xml:space="preserve">
     <value>PDF</value>
   </data>
@@ -141,23 +144,83 @@
   <data name="BookAddressInfoPage" xml:space="preserve">
     <value>{0} page</value>
   </data>
-  <data name="BookmarkItemMenuDelete" xml:space="preserve">
-    <value>_Remove bookmark</value>
-  </data>
-  <data name="BookmarkItemMenuDeleteFolder" xml:space="preserve">
-    <value>_Delete folder</value>
-  </data>
-  <data name="BookmarkItemMenuRename" xml:space="preserve">
-    <value>Rena_me</value>
+  <data name="BookAddressInfoPagemark" xml:space="preserve">
+    <value>This is pagemark address.</value>
   </data>
   <data name="BookmarkListAddTips" xml:space="preserve">
     <value>Add bookmark</value>
   </data>
-  <data name="BookmarkMenuDeleteInvalid" xml:space="preserve">
-    <value>Remove invalid bookmark</value>
+  <data name="BookmarkListMoreMenuSyncBookshelf" xml:space="preserve">
+    <value>Sync bookshelf</value>
   </data>
   <data name="BookmarkName" xml:space="preserve">
     <value>Bookmark</value>
+  </data>
+  <data name="BookshelfBackTips" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="BookshelfHomeMenuSet" xml:space="preserve">
+    <value>Set this place home</value>
+  </data>
+  <data name="BookshelfHomeTips" xml:space="preserve">
+    <value>Go to Home</value>
+  </data>
+  <data name="BookshelfItemMenuCopy" xml:space="preserve">
+    <value>_Copy</value>
+  </data>
+  <data name="BookshelfItemMenuDelete" xml:space="preserve">
+    <value>_Delete</value>
+  </data>
+  <data name="BookshelfItemMenuDeleteBookmark" xml:space="preserve">
+    <value>Remove bookmark</value>
+  </data>
+  <data name="BookshelfItemMenuDeleteHistory" xml:space="preserve">
+    <value>Remove history</value>
+  </data>
+  <data name="BookshelfItemMenuExplorer" xml:space="preserve">
+    <value>Open in explorer</value>
+  </data>
+  <data name="BookshelfItemMenuOpen" xml:space="preserve">
+    <value>Open</value>
+  </data>
+  <data name="BookshelfItemMenuRename" xml:space="preserve">
+    <value>Rena_me</value>
+  </data>
+  <data name="BookshelfItemMenuSubfolder" xml:space="preserve">
+    <value>Load subfolder</value>
+  </data>
+  <data name="BookshelfMoreMenuAddQuickAccess" xml:space="preserve">
+    <value>Add this place to quick access</value>
+  </data>
+  <data name="BookshelfMoreMenuClearHistory" xml:space="preserve">
+    <value>Delete all history of this place</value>
+  </data>
+  <data name="BookshelfMoreMenuExportPlaylist" xml:space="preserve">
+    <value>Save playlist...</value>
+  </data>
+  <data name="BookshelfMoreMenuSearchIncludeSubdirectories" xml:space="preserve">
+    <value>Include subdirectories</value>
+  </data>
+  <data name="BookshelfMoreMenuSearchIncremental" xml:space="preserve">
+    <value>Incremental search</value>
+  </data>
+  <data name="BookshelfMoreMenuSubfolder" xml:space="preserve">
+    <value>Load subfolders at this location</value>
+  </data>
+  <data name="BookshelfName" xml:space="preserve">
+    <value>Bookshelf</value>
+  </data>
+  <data name="BookshelfNextTips" xml:space="preserve">
+    <value>PC</value>
+  </data>
+  <data name="BookshelfSubFolderTips" xml:space="preserve">
+    <value>Load subfolder</value>
+  </data>
+  <data name="BookshelfSyncTips" xml:space="preserve">
+    <value>Move to current book place</value>
+  </data>
+  <data name="BookshelfUpTips" xml:space="preserve">
+    <value>Up</value>
   </data>
   <data name="CommandCancelFullScreen" xml:space="preserve">
     <value>Full screen OFF</value>
@@ -264,9 +327,6 @@
   <data name="CommandFocusFolderSearchBoxNote" xml:space="preserve">
     <value>Focus search box. The bookshelf is displayed.</value>
   </data>
-  <data name="CommandGroupBackground" xml:space="preserve">
-    <value>Background</value>
-  </data>
   <data name="CommandGroupBookmark" xml:space="preserve">
     <value>Bookmark</value>
   </data>
@@ -330,11 +390,14 @@
   <data name="CommandHelpMainMenuNote" xml:space="preserve">
     <value>Display the main menu help on the browser.</value>
   </data>
-  <data name="CommandHelpOnline" xml:space="preserve">
-    <value>Online Help</value>
+  <data name="CommandHelpSearchOption" xml:space="preserve">
+    <value>Search options help</value>
   </data>
-  <data name="CommandHelpOnlineNote" xml:space="preserve">
-    <value>Display online help.</value>
+  <data name="CommandHelpSearchOptionMenu" xml:space="preserve">
+    <value>Search options help</value>
+  </data>
+  <data name="CommandHelpSearchOptionNote" xml:space="preserve">
+    <value>Display the search options help on the browser.</value>
   </data>
   <data name="CommandImportBackup" xml:space="preserve">
     <value>Import settings</value>
@@ -390,29 +453,35 @@
   <data name="CommandLoupeScaleUpNote" xml:space="preserve">
     <value>Expands the magnifying power of the loupe. It functions only when using a loupe.</value>
   </data>
-  <data name="CommandMovePageWithCursor" xml:space="preserve">
-    <value>Move the page forward and backward with mouse position dependency</value>
+  <data name="CommandMoveToChildBook" xml:space="preserve">
+    <value>Go to child</value>
   </data>
-  <data name="CommandMovePageWithCursorNext" xml:space="preserve">
-    <value>Next</value>
+  <data name="CommandMoveToChildBookNote" xml:space="preserve">
+    <value>When the page is a book, open that book.</value>
   </data>
-  <data name="CommandMovePageWithCursorNote" xml:space="preserve">
-    <value>The moving direction is determined by the mouse cursor position. If the cursor is on the left side of the window, go to the next page and if there is a cursor to the right, it will return to the previous page.</value>
+  <data name="CommandMoveToParentBook" xml:space="preserve">
+    <value>Go to parent</value>
   </data>
-  <data name="CommandMovePageWithCursorPrev" xml:space="preserve">
-    <value>Back</value>
+  <data name="CommandMoveToParentBookNote" xml:space="preserve">
+    <value>Open the upper hierarchy as a book.</value>
   </data>
-  <data name="CommandNextBookmark" xml:space="preserve">
-    <value>Next bookmark</value>
+  <data name="CommandNextBookHistory" xml:space="preserve">
+    <value>Go next</value>
   </data>
-  <data name="CommandNextBookmarkNote" xml:space="preserve">
-    <value>Move to the previous book in bookmark list order.</value>
+  <data name="CommandNextBookHistoryNote" xml:space="preserve">
+    <value>Open a next open book.</value>
   </data>
   <data name="CommandNextFolder" xml:space="preserve">
     <value>Next Book</value>
   </data>
   <data name="CommandNextFolderNote" xml:space="preserve">
     <value>Load the next book on the bookshelf.</value>
+  </data>
+  <data name="CommandNextFolderPage" xml:space="preserve">
+    <value>Next folder</value>
+  </data>
+  <data name="CommandNextFolderPageNote" xml:space="preserve">
+    <value>Move to the first page of the next folder of the book. Valid only in name order.</value>
   </data>
   <data name="CommandNextHistory" xml:space="preserve">
     <value>Next History</value>
@@ -507,17 +576,23 @@
   <data name="CommandPasteNote" xml:space="preserve">
     <value>Paste clipboard files and images.</value>
   </data>
-  <data name="CommandPrevBookmark" xml:space="preserve">
-    <value>Prev bookmark</value>
+  <data name="CommandPrevBookHistory" xml:space="preserve">
+    <value>Go back</value>
   </data>
-  <data name="CommandPrevBookmarkNote" xml:space="preserve">
-    <value>Move to the previous book in bookmark list order.</value>
+  <data name="CommandPrevBookHistoryNote" xml:space="preserve">
+    <value>Open a previously open book.</value>
   </data>
   <data name="CommandPrevFolder" xml:space="preserve">
     <value>Prev Book</value>
   </data>
   <data name="CommandPrevFolderNote" xml:space="preserve">
     <value>Load the previous book on the bookshelf.</value>
+  </data>
+  <data name="CommandPrevFolderPage" xml:space="preserve">
+    <value>Prev folder</value>
+  </data>
+  <data name="CommandPrevFolderPageNote" xml:space="preserve">
+    <value>Move to the first page of the previous folder of the book. Valid only in name order.</value>
   </data>
   <data name="CommandPrevHistory" xml:space="preserve">
     <value>Prev History</value>
@@ -576,6 +651,12 @@
   <data name="CommandReLoadNote" xml:space="preserve">
     <value>Reload the book</value>
   </data>
+  <data name="CommandReloadUserSetting" xml:space="preserve">
+    <value>Reload settings</value>
+  </data>
+  <data name="CommandReloadUserSettingNote" xml:space="preserve">
+    <value>Reload the settings.</value>
+  </data>
   <data name="CommandSetBackgroundAuto" xml:space="preserve">
     <value>Image colored background</value>
   </data>
@@ -591,14 +672,14 @@
   <data name="CommandSetBackgroundCheck" xml:space="preserve">
     <value>White checkered background</value>
   </data>
-  <data name="CommandSetBackgroundCheckNote" xml:space="preserve">
-    <value>Make the background a white checkered pattern.</value>
-  </data>
   <data name="CommandSetBackgroundCheckDark" xml:space="preserve">
     <value>Black checkered background</value>
   </data>
   <data name="CommandSetBackgroundCheckDarkNote" xml:space="preserve">
     <value>Make the background a black checkered pattern.</value>
+  </data>
+  <data name="CommandSetBackgroundCheckNote" xml:space="preserve">
+    <value>Make the background a white checkered pattern.</value>
   </data>
   <data name="CommandSetBackgroundCustom" xml:space="preserve">
     <value>Custom Background</value>
@@ -630,6 +711,18 @@
   <data name="CommandSetDefaultPageSettingNote" xml:space="preserve">
     <value>Restore the default page setting.</value>
   </data>
+  <data name="CommandSetFolderOrderByEntryTimeA" xml:space="preserve">
+    <value>Book EntryTime Ascending</value>
+  </data>
+  <data name="CommandSetFolderOrderByEntryTimeANote" xml:space="preserve">
+    <value>Set the order of books in ascending order by entry time.</value>
+  </data>
+  <data name="CommandSetFolderOrderByEntryTimeD" xml:space="preserve">
+    <value>Book EntryTime Descending</value>
+  </data>
+  <data name="CommandSetFolderOrderByEntryTimeDNote" xml:space="preserve">
+    <value>Set the order of books in descending order by entry time.</value>
+  </data>
   <data name="CommandSetFolderOrderByFileNameA" xml:space="preserve">
     <value>Book Name Ascending</value>
   </data>
@@ -641,6 +734,30 @@
   </data>
   <data name="CommandSetFolderOrderByFileNameDNote" xml:space="preserve">
     <value>Set the order of books in descending order by name.</value>
+  </data>
+  <data name="CommandSetFolderOrderByFileTypeA" xml:space="preserve">
+    <value>Book FileType Ascending</value>
+  </data>
+  <data name="CommandSetFolderOrderByFileTypeANote" xml:space="preserve">
+    <value>Set the order of books in ascending order by file type.</value>
+  </data>
+  <data name="CommandSetFolderOrderByFileTypeD" xml:space="preserve">
+    <value>Book FileType Descending</value>
+  </data>
+  <data name="CommandSetFolderOrderByFileTypeDNote" xml:space="preserve">
+    <value>Set the order of books in descending order by file type.</value>
+  </data>
+  <data name="CommandSetFolderOrderByPathA" xml:space="preserve">
+    <value>Book Path Ascending</value>
+  </data>
+  <data name="CommandSetFolderOrderByPathANote" xml:space="preserve">
+    <value>Set the order of books in ascending order by full path.</value>
+  </data>
+  <data name="CommandSetFolderOrderByPathD" xml:space="preserve">
+    <value>Book Path Descending</value>
+  </data>
+  <data name="CommandSetFolderOrderByPathDNote" xml:space="preserve">
+    <value>Set the order of books in descending order by full path.</value>
   </data>
   <data name="CommandSetFolderOrderByRandom" xml:space="preserve">
     <value>Book Shuffle</value>
@@ -761,6 +878,12 @@
   </data>
   <data name="CommandSetStretchModeUniformToFillNote" xml:space="preserve">
     <value>Scale up or down to fit the window size either vertically or horizontally. The image will be larger than the window size.</value>
+  </data>
+  <data name="CommandSetStretchModeUniformToHorizontal" xml:space="preserve">
+    <value>Fit width to window</value>
+  </data>
+  <data name="CommandSetStretchModeUniformToHorizontalNote" xml:space="preserve">
+    <value>Scales to fit the width of the image to the width of the window.</value>
   </data>
   <data name="CommandSetStretchModeUniformToSize" xml:space="preserve">
     <value>Fit to window area size</value>
@@ -1047,6 +1170,21 @@
   <data name="CommandToggleMediaPlayNote" xml:space="preserve">
     <value>Toggle between playing and stopping the movie.</value>
   </data>
+  <data name="CommandTogglePageListPlacement" xml:space="preserve">
+    <value>Switch placement of page list</value>
+  </data>
+  <data name="CommandTogglePageListPlacementBookshelf" xml:space="preserve">
+    <value>Place page list on bookshelf</value>
+  </data>
+  <data name="CommandTogglePageListPlacementMenu" xml:space="preserve">
+    <value>Page list placement</value>
+  </data>
+  <data name="CommandTogglePageListPlacementNote" xml:space="preserve">
+    <value>Switch placement of page list between bookshelf and side panel</value>
+  </data>
+  <data name="CommandTogglePageListPlacementPanel" xml:space="preserve">
+    <value>Place page list on side panel</value>
+  </data>
   <data name="CommandTogglePagemark" xml:space="preserve">
     <value>Toggle pagemark</value>
   </data>
@@ -1188,6 +1326,21 @@
   <data name="CommandToggleVisibleBookmarkListOn" xml:space="preserve">
     <value>Bookmark list</value>
   </data>
+  <data name="CommandToggleVisibleBookshelf" xml:space="preserve">
+    <value>Toggle bookshelf</value>
+  </data>
+  <data name="CommandToggleVisibleBookshelfMenu" xml:space="preserve">
+    <value>Bookshelf</value>
+  </data>
+  <data name="CommandToggleVisibleBookshelfNote" xml:space="preserve">
+    <value>Toggle visible / hide of the bookshelf panel.</value>
+  </data>
+  <data name="CommandToggleVisibleBookshelfOff" xml:space="preserve">
+    <value>Bookshelf OFF</value>
+  </data>
+  <data name="CommandToggleVisibleBookshelfOn" xml:space="preserve">
+    <value>Bookshelf</value>
+  </data>
   <data name="CommandToggleVisibleEffectInfo" xml:space="preserve">
     <value>Toggle effect panel</value>
   </data>
@@ -1217,21 +1370,6 @@
   </data>
   <data name="CommandToggleVisibleFileInfoOn" xml:space="preserve">
     <value>File information</value>
-  </data>
-  <data name="CommandToggleVisibleBookshelf" xml:space="preserve">
-    <value>Toggle bookshelf</value>
-  </data>
-  <data name="CommandToggleVisibleBookshelfMenu" xml:space="preserve">
-    <value>Bookshelf</value>
-  </data>
-  <data name="CommandToggleVisibleBookshelfNote" xml:space="preserve">
-    <value>Toggle visible / hide of the bookshelf panel.</value>
-  </data>
-  <data name="CommandToggleVisibleBookshelfOff" xml:space="preserve">
-    <value>Bookshelf OFF</value>
-  </data>
-  <data name="CommandToggleVisibleBookshelfOn" xml:space="preserve">
-    <value>Bookshelf</value>
   </data>
   <data name="CommandToggleVisibleFoldersTree" xml:space="preserve">
     <value>Toggle Folders tree</value>
@@ -1485,14 +1623,17 @@
   <data name="ControlAddressBarNext" xml:space="preserve">
     <value>Next</value>
   </data>
-  <data name="ControlAddressBarUp" xml:space="preserve">
-    <value>Up</value>
-  </data>
   <data name="ControlAddressBarReLoad" xml:space="preserve">
     <value>Reload</value>
   </data>
+  <data name="ControlAddressBarUp" xml:space="preserve">
+    <value>Up</value>
+  </data>
   <data name="ControlCommandListHeaderCommand" xml:space="preserve">
     <value>Command</value>
+  </data>
+  <data name="ControlCommandListHeaderDescription" xml:space="preserve">
+    <value>Description</value>
   </data>
   <data name="ControlCommandListHeaderDisplay" xml:space="preserve">
     <value>Visible</value>
@@ -1750,15 +1891,6 @@ Please substitute gesture for flick operation. </value>
   <data name="DialogBookmarkError" xml:space="preserve">
     <value>Temporary folders can not be bookmarked</value>
   </data>
-  <data name="DialogBookmarkErrorTitle" xml:space="preserve">
-    <value>Can not bookmark</value>
-  </data>
-  <data name="DialogBookmarkFolderDelete" xml:space="preserve">
-    <value>The {0} bookmarks included are also deleted.</value>
-  </data>
-  <data name="DialogBookmarkFolderDeleteTitle" xml:space="preserve">
-    <value>Delete the bookmark folder "{0}"</value>
-  </data>
   <data name="DialogBootErrorTitle" xml:space="preserve">
     <value>NeeView Startup error</value>
   </data>
@@ -1915,14 +2047,8 @@ Is it OK? </value>
   <data name="DialogPagemarkError" xml:space="preserve">
     <value>Temporary folders can not be pagemarked</value>
   </data>
-  <data name="DialogPagemarkErrorTitle" xml:space="preserve">
-    <value>Can not pagemark</value>
-  </data>
   <data name="DialogPagemarkFolderDelete" xml:space="preserve">
     <value>The {0} pagemarks included are also deleted.</value>
-  </data>
-  <data name="DialogPagemarkFolderDeleteTitle" xml:space="preserve">
-    <value>Delete the pagemark folder "{0}"</value>
   </data>
   <data name="DialogQuickAccessTempError" xml:space="preserve">
     <value>Temporary folders can not be added to quick access.</value>
@@ -1957,11 +2083,23 @@ Is it OK? </value>
   <data name="EffectResizeUnsharp" xml:space="preserve">
     <value>Unsharp mask</value>
   </data>
+  <data name="EnumArchiveEntryCollectionModeCurrentDirectory" xml:space="preserve">
+    <value>Expand for each directory</value>
+  </data>
+  <data name="EnumArchiveEntryCollectionModeIncludeSubArchives" xml:space="preserve">
+    <value>Expand all</value>
+  </data>
+  <data name="EnumArchiveEntryCollectionModeIncludeSubDirectories" xml:space="preserve">
+    <value>Expand by compressed file unit</value>
+  </data>
   <data name="EnumArchiveOptionTypeNone" xml:space="preserve">
     <value>Do not execute</value>
   </data>
   <data name="EnumArchiveOptionTypeSendArchiveFile" xml:space="preserve">
     <value>Pass the compressed file</value>
+  </data>
+  <data name="EnumArchiveOptionTypeSendArchivePath" xml:space="preserve">
+    <value>Compressed file + filename</value>
   </data>
   <data name="EnumArchiveOptionTypeSendExtractFile" xml:space="preserve">
     <value>Pass the output file (temporary file)</value>
@@ -1983,6 +2121,27 @@ Is it OK? </value>
   </data>
   <data name="EnumBackgroundStyleWhite" xml:space="preserve">
     <value>White background</value>
+  </data>
+  <data name="EnumBookPageCollectModeAll" xml:space="preserve">
+    <value>All files</value>
+  </data>
+  <data name="EnumBookPageCollectModeImage" xml:space="preserve">
+    <value>Image files</value>
+  </data>
+  <data name="EnumBookPageCollectModeImageAndBook" xml:space="preserve">
+    <value>Image files and folders</value>
+  </data>
+  <data name="EnumBookSettingSelectModeContinue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="EnumBookSettingSelectModeDefault" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="EnumBookSettingSelectModeRestoreOrContinue" xml:space="preserve">
+    <value>Restore, else continue</value>
+  </data>
+  <data name="EnumBookSettingSelectModeRestoreOrDefault" xml:space="preserve">
+    <value>Restore, else default</value>
   </data>
   <data name="EnumBrushTypeImageFill" xml:space="preserve">
     <value>Enlarge and display the image</value>
@@ -2077,17 +2236,29 @@ Is it OK? </value>
   <data name="EnumExternalProgramTypeProtocol" xml:space="preserve">
     <value>Protocol</value>
   </data>
-  <data name="EnumFolderIconLayoutDefault" xml:space="preserve">
-    <value>Default</value>
+  <data name="EnumFolderOrderEntryTime" xml:space="preserve">
+    <value>Entry↑</value>
   </data>
-  <data name="EnumFolderIconLayoutExplorer" xml:space="preserve">
-    <value>Explorer style</value>
+  <data name="EnumFolderOrderEntryTimeDescending" xml:space="preserve">
+    <value>Entry↓</value>
   </data>
   <data name="EnumFolderOrderFileName" xml:space="preserve">
     <value>Name↑</value>
   </data>
   <data name="EnumFolderOrderFileNameDescending" xml:space="preserve">
     <value>Name↓</value>
+  </data>
+  <data name="EnumFolderOrderFileType" xml:space="preserve">
+    <value>Type↑</value>
+  </data>
+  <data name="EnumFolderOrderFileTypeDescending" xml:space="preserve">
+    <value>Type↓</value>
+  </data>
+  <data name="EnumFolderOrderPath" xml:space="preserve">
+    <value>Path↑</value>
+  </data>
+  <data name="EnumFolderOrderPathDescending" xml:space="preserve">
+    <value>Path↓</value>
   </data>
   <data name="EnumFolderOrderRandom" xml:space="preserve">
     <value>Shuffle</value>
@@ -2230,11 +2401,23 @@ Is it OK? </value>
   <data name="EnumPageStretchModeUniformToFill" xml:space="preserve">
     <value>Extend it to fill the window</value>
   </data>
+  <data name="EnumPageStretchModeUniformToHorizontal" xml:space="preserve">
+    <value>Fit width to window</value>
+  </data>
   <data name="EnumPageStretchModeUniformToSize" xml:space="preserve">
     <value>Fit the area size to the window</value>
   </data>
   <data name="EnumPageStretchModeUniformToVertical" xml:space="preserve">
     <value>Fit height to window</value>
+  </data>
+  <data name="EnumPanelListItemImageShapeBookShape" xml:space="preserve">
+    <value>Book shape</value>
+  </data>
+  <data name="EnumPanelListItemImageShapeOriginal" xml:space="preserve">
+    <value>Original</value>
+  </data>
+  <data name="EnumPanelListItemImageShapeSquare" xml:space="preserve">
+    <value>Square</value>
   </data>
   <data name="EnumPreLoadModeAutoPreLoad" xml:space="preserve">
     <value>Automatic prefetching</value>
@@ -2308,9 +2491,6 @@ Is it OK? </value>
   <data name="EnumVerticalAlignmentTop" xml:space="preserve">
     <value>Top</value>
   </data>
-  <data name="EnumWindowChromeFrameLine" xml:space="preserve">
-    <value>Frame border</value>
-  </data>
   <data name="EnumWindowChromeFrameNone" xml:space="preserve">
     <value>None</value>
   </data>
@@ -2319,6 +2499,21 @@ Is it OK? </value>
   </data>
   <data name="ExceptionCannotDeleteData" xml:space="preserve">
     <value>It is not an AppData folder, so it will not be deleted.</value>
+  </data>
+  <data name="ExceptionCritical" xml:space="preserve">
+    <value>An error occurred. Quit the application.</value>
+  </data>
+  <data name="ExceptionCriticalCopy" xml:space="preserve">
+    <value>Copy to clipboard</value>
+  </data>
+  <data name="ExceptionCriticalLogPath" xml:space="preserve">
+    <value>Details of the error are saved in &lt;a href="{0}"&gt;{0}&lt;/a&gt;</value>
+  </data>
+  <data name="ExceptionCriticalMessage" xml:space="preserve">
+    <value>Error details:</value>
+  </data>
+  <data name="ExceptionCriticalTitle" xml:space="preserve">
+    <value>NeeView - Error</value>
   </data>
   <data name="ExceptionFileNotFound" xml:space="preserve">
     <value>File not found "{0}"</value>
@@ -2390,72 +2585,6 @@ Is it OK? </value>
   <data name="FolderInfoOpenFolder" xml:space="preserve">
     <value>Open Folder</value>
   </data>
-  <data name="BookshelfBackTips" xml:space="preserve">
-    <value>Back</value>
-  </data>
-  <data name="BookshelfHomeMenuSet" xml:space="preserve">
-    <value>Set this place home</value>
-  </data>
-  <data name="BookshelfHomeTips" xml:space="preserve">
-    <value>Go to Home</value>
-  </data>
-  <data name="BookshelfItemMenuCopy" xml:space="preserve">
-    <value>_Copy</value>
-  </data>
-  <data name="BookshelfItemMenuDelete" xml:space="preserve">
-    <value>_Delete</value>
-  </data>
-  <data name="BookshelfItemMenuDeleteBookmark" xml:space="preserve">
-    <value>Remove bookmark</value>
-  </data>
-  <data name="BookshelfItemMenuExplorer" xml:space="preserve">
-    <value>Open in explorer</value>
-  </data>
-  <data name="BookshelfItemMenuOpen" xml:space="preserve">
-    <value>Open</value>
-  </data>
-  <data name="BookshelfItemMenuRename" xml:space="preserve">
-    <value>Rena_me</value>
-  </data>
-  <data name="BookshelfItemMenuSubfolder" xml:space="preserve">
-    <value>Load subfolder</value>
-  </data>
-  <data name="BookshelfMoreMenuAddQuickAccess" xml:space="preserve">
-    <value>Add this place to quick access</value>
-  </data>
-  <data name="BookshelfMoreMenuClearHistory" xml:space="preserve">
-    <value>Delete all history of this place</value>
-  </data>
-  <data name="BookshelfMoreMenuPageList" xml:space="preserve">
-    <value>Page list</value>
-  </data>
-  <data name="BookshelfMoreMenuSearchBox" xml:space="preserve">
-    <value>Search box</value>
-  </data>
-  <data name="BookshelfMoreMenuSubfolder" xml:space="preserve">
-    <value>Load subfolders at this location</value>
-  </data>
-  <data name="BookshelfName" xml:space="preserve">
-    <value>Bookshelf</value>
-  </data>
-  <data name="BookshelfNextTips" xml:space="preserve">
-    <value>PC</value>
-  </data>
-  <data name="BookshelfSubFolderTips" xml:space="preserve">
-    <value>Load subfolder</value>
-  </data>
-  <data name="BookshelfSyncTips" xml:space="preserve">
-    <value>Move to current book place</value>
-  </data>
-  <data name="BookshelfTitlePlace" xml:space="preserve">
-    <value>Location</value>
-  </data>
-  <data name="BookshelfTitleSearch" xml:space="preserve">
-    <value>Find</value>
-  </data>
-  <data name="BookshelfUpTips" xml:space="preserve">
-    <value>Up</value>
-  </data>
   <data name="FolderTreeLayoutLeft" xml:space="preserve">
     <value>Place to the left</value>
   </data>
@@ -2483,6 +2612,9 @@ Is it OK? </value>
   <data name="FolderTreeMenuRemoveQuickAccess" xml:space="preserve">
     <value>Remove from quick access</value>
   </data>
+  <data name="HelpChangeLogFile" xml:space="preserve">
+    <value>CHANGELOG.html</value>
+  </data>
   <data name="HelpCommandMessage" xml:space="preserve">
     <value>Commands to which no operation is assigned can be used by setting with "Edit commands".</value>
   </data>
@@ -2491,9 +2623,6 @@ Is it OK? </value>
   </data>
   <data name="HelpReadMeFile" xml:space="preserve">
     <value>README.html</value>
-  </data>
-  <data name="HelpChangeLogFile" xml:space="preserve">
-    <value>CHANGELOG.html</value>
   </data>
   <data name="HistoryItemMenuDelete" xml:space="preserve">
     <value>_Remove history</value>
@@ -2525,8 +2654,14 @@ Is it OK? </value>
   <data name="MenuTreeBookmark" xml:space="preserve">
     <value>_Bookmark</value>
   </data>
+  <data name="MenuTreeDebug" xml:space="preserve">
+    <value>_Debug</value>
+  </data>
   <data name="MenuTreeFile" xml:space="preserve">
     <value>_File</value>
+  </data>
+  <data name="MenuTreeHelp" xml:space="preserve">
+    <value>_Help</value>
   </data>
   <data name="MenuTreeHistory" xml:space="preserve">
     <value>Open from the list of recent books</value>
@@ -2540,29 +2675,27 @@ Is it OK? </value>
   <data name="MenuTreeOption" xml:space="preserve">
     <value>_Option</value>
   </data>
-  <data name="MenuTreeHelp" xml:space="preserve">
-    <value>_Help</value>
-  </data>
   <data name="MenuTreePage" xml:space="preserve">
     <value>_Page</value>
   </data>
   <data name="MenuTreeView" xml:space="preserve">
     <value>_View</value>
   </data>
-  <data name="MenuTreeDebug" xml:space="preserve">
-    <value>_Debug</value>
-  </data>
-  <data name="NotifyBookmarkNextFailed" xml:space="preserve">
-    <value>No next bookmark</value>
-  </data>
-  <data name="NotifyBookmarkPrevFailed" xml:space="preserve">
-    <value>No previous bookmark</value>
-  </data>
   <data name="NotifyBookNextFailed" xml:space="preserve">
     <value>No next book</value>
   </data>
+  <data name="NotifyBookOperationPageLoop" xml:space="preserve">
+    <value>Looped.</value>
+  </data>
   <data name="NotifyBookPrevFailed" xml:space="preserve">
     <value>No previous book</value>
+  </data>
+  <data name="NotifyCacheErrorDirectoryNotFound" xml:space="preserve">
+    <value>Folder not found. ({0})
+Initialize the cache location.</value>
+  </data>
+  <data name="NotifyCacheErrorTitle" xml:space="preserve">
+    <value>Cache error</value>
   </data>
   <data name="NotifyCannotDisplay" xml:space="preserve">
     <value>No pages</value>
@@ -2585,6 +2718,9 @@ Is it OK? </value>
   <data name="NotifyDropContent" xml:space="preserve">
     <value>Dropped content</value>
   </data>
+  <data name="NotifyFirstFolderPage" xml:space="preserve">
+    <value>First folder</value>
+  </data>
   <data name="NotifyFirstPage" xml:space="preserve">
     <value>First page</value>
   </data>
@@ -2606,11 +2742,15 @@ Is it OK? </value>
   <data name="NotifyHistoryTerminal" xml:space="preserve">
     <value>There is no history older than this</value>
   </data>
+  <data name="NotifyInvalidFileNameChars" xml:space="preserve">
+    <value>The following characters can not be used in the file name:
+\ / : * ? " &lt; &gt; |</value>
+  </data>
   <data name="NotifyJumpPageLabel" xml:space="preserve">
     <value>Page number ({0} - {1})</value>
   </data>
-  <data name="NotifyJumpTimeLabel" xml:space="preserve">
-    <value>Time ({0} - {1})</value>
+  <data name="NotifyLastFolderPage" xml:space="preserve">
+    <value>Last folder</value>
   </data>
   <data name="NotifyLastPage" xml:space="preserve">
     <value>Last page</value>
@@ -2666,6 +2806,19 @@ Is it OK? </value>
   <data name="NotifyPlayFailed" xml:space="preserve">
     <value>Play failed</value>
   </data>
+  <data name="NotifyRemoveUnlinkedPagemark" xml:space="preserve">
+    <value>{0} pagemarks deleted.</value>
+  </data>
+  <data name="NotifySearchKeywordOptionError" xml:space="preserve">
+    <value>Illegal option: {0}</value>
+  </data>
+  <data name="NotifyTemporaryErrorDirectoryNotFound" xml:space="preserve">
+    <value>Folder not found. ({0})
+Initialize the temporary location.</value>
+  </data>
+  <data name="NotifyTemporaryErrorTitle" xml:space="preserve">
+    <value>Temporary error</value>
+  </data>
   <data name="OptionErrorArgument" xml:space="preserve">
     <value>{0} is an unsupported argument type.</value>
   </data>
@@ -2681,8 +2834,8 @@ Is it OK? </value>
   <data name="OptionErrorFileNotFound" xml:space="preserve">
     <value>Specified configuration file does not exist</value>
   </data>
-  <data name="OptionBookshelf" xml:space="preserve">
-    <value>Open Bookshelf for the location. You can specify a search keyword by adding "?search="</value>
+  <data name="OptionFolderList" xml:space="preserve">
+    <value>Specify the bookshelf location.</value>
   </data>
   <data name="OptionIsBlank" xml:space="preserve">
     <value>Start up without opening the image file</value>
@@ -2704,9 +2857,6 @@ Is it OK? </value>
   </data>
   <data name="OptionIsVersion" xml:space="preserve">
     <value>Display version information</value>
-  </data>
-  <data name="OptionFolderList" xml:space="preserve">
-    <value>Specify the bookshelf location.</value>
   </data>
   <data name="OptionSettingFilename" xml:space="preserve">
     <value>Specify the path of the setting file (UserSetting.xml)</value>
@@ -2732,11 +2882,26 @@ Is it OK? </value>
   <data name="PagemarkListAddTips" xml:space="preserve">
     <value>Add pagemark</value>
   </data>
+  <data name="PagemarkMenuCurrentBook" xml:space="preserve">
+    <value>Current book only</value>
+  </data>
   <data name="PagemarkMenuDeleteInvalid" xml:space="preserve">
     <value>Remove invalid pagemark</value>
   </data>
+  <data name="PagemarkMenuOpenAsBook" xml:space="preserve">
+    <value>Open as a book</value>
+  </data>
+  <data name="PagemarkMenuSortPath" xml:space="preserve">
+    <value>Path order</value>
+  </data>
   <data name="PagemarkName" xml:space="preserve">
     <value>Pagemark</value>
+  </data>
+  <data name="ParamArchiveRecursiveMode" xml:space="preserve">
+    <value>Compressed file handling</value>
+  </data>
+  <data name="ParamArchiveRecursiveModeTips" xml:space="preserve">
+    <value>Extended range when opening compressed file</value>
   </data>
   <data name="ParamArchiverMediaIsEnabled" xml:space="preserve">
     <value>Use video</value>
@@ -2798,17 +2963,23 @@ Is it OK? </value>
   <data name="ParamBookFilterSortMode" xml:space="preserve">
     <value>Order of pages</value>
   </data>
+  <data name="ParamBookIsAllFileAnImage" xml:space="preserve">
+    <value>A file whose extension is unknown is regarded as an image file</value>
+  </data>
+  <data name="ParamBookIsAllFileAnImageTips" xml:space="preserve">
+    <value>This function works when "@ParamBookPageCollectMode" is "@EnumBookPageCollectModeAll".</value>
+  </data>
   <data name="ParamBookIsEnableAnimatedGif" xml:space="preserve">
     <value>Play animated GIF</value>
   </data>
   <data name="ParamBookIsEnableAnimatedGifTips" xml:space="preserve">
     <value>Perform animated GIF playback. Memory consumption problems may occur with long GIFs.</value>
   </data>
-  <data name="ParamBookIsEnableNoSupportFile" xml:space="preserve">
-    <value>Include unsupported files on page</value>
+  <data name="ParamBookIsLoadingPageVisible" xml:space="preserve">
+    <value>Display the current page until the next page loads</value>
   </data>
-  <data name="ParamBookIsEnableNoSupportFileTips" xml:space="preserve">
-    <value>Supported files and folders outside the extension are also displayed as pages.</value>
+  <data name="ParamBookIsLoadingPageVisibleTips" xml:space="preserve">
+    <value>You can save memory by turning it off.</value>
   </data>
   <data name="ParamBookIsMultiplePageMove" xml:space="preserve">
     <value>Accept duplication of page movement commands</value>
@@ -2840,35 +3011,71 @@ Is it OK? </value>
   <data name="ParamBookIsSupportedWidePage" xml:space="preserve">
     <value>Landscape page is regarded as 2 pages</value>
   </data>
-  <data name="ParamBookLoadingPageView" xml:space="preserve">
-    <value>How to display loading page</value>
+  <data name="ParamBookmarkFilePath" xml:space="preserve">
+    <value>Bookmark list file location</value>
   </data>
-  <data name="ParamBookLoadingPageViewTips" xml:space="preserve">
-    <value>Specify what to display before the page loading is complete. "@EnumLoadingPageViewPreImage" consumes the most memory.</value>
+  <data name="ParamBookOperationNotifyPageLoop" xml:space="preserve">
+    <value>Notify page loop</value>
   </data>
   <data name="ParamBookOperationPageEndAction" xml:space="preserve">
     <value>Behavior when trying to move past the end of the page</value>
   </data>
+  <data name="ParamBookPage" xml:space="preserve">
+    <value>Page position</value>
+  </data>
+  <data name="ParamBookPageCollectMode" xml:space="preserve">
+    <value>File type to be page</value>
+  </data>
+  <data name="ParamBookPageCollectModeTips" xml:space="preserve">
+    <value>If you make a folder a page, you can open the folder from that page.</value>
+  </data>
   <data name="ParamBookPageMode" xml:space="preserve">
     <value>Page Size Mode</value>
   </data>
-  <data name="ParamBookPreloadLimitSize" xml:space="preserve">
-    <value>Image size for automatic prefetching judgment</value>
+  <data name="ParamBookshelfExcludePattern" xml:space="preserve">
+    <value>Filename pattern to exclude from display</value>
   </data>
-  <data name="ParamBookPreloadLimitSizeTips" xml:space="preserve">
-    <value>Used in automatic prefetching mode. Prefetching is disabled for images larger than this area. In the case of 2 page display, it is judged by the total area of ​​2 pages.</value>
+  <data name="ParamBookshelfExcludePatternTips" xml:space="preserve">
+    <value>It is specified with .NET regular expression. Capital letters and lower case letters are not distinguished.</value>
   </data>
-  <data name="ParamBookPreLoadMode" xml:space="preserve">
-    <value>Prefetching</value>
+  <data name="ParamBookshelfHome" xml:space="preserve">
+    <value>Home location</value>
   </data>
-  <data name="ParamBookPreLoadModeTips" xml:space="preserve">
-    <value>Prefetching conserves memory to hold previous and next pages. If you select "@EnumPreLoadModeAutoPreLoad", you can switch prefetch enable / disable according to image size. "@EnumPreLoadModePreLoadNoUnload" is the mode that consumes the most memory that does not discard the loaded image.</value>
+  <data name="ParamBookshelfIsCloseBookWhenMove" xml:space="preserve">
+    <value>Close the book when changing the location</value>
   </data>
-  <data name="ParamBookSettingIsUseBookMementoDefault" xml:space="preserve">
-    <value>Apply default page settings to items that will not be restored when opening a workbook</value>
+  <data name="ParamBookshelfIsCruise" xml:space="preserve">
+    <value>Enable Folder Cruise</value>
   </data>
-  <data name="ParamBookSettingIsUseBookMementoDefaultTips" xml:space="preserve">
-    <value>When set to OFF, the previous set value is inherited.</value>
+  <data name="ParamBookshelfIsCruiseTips" xml:space="preserve">
+    <value>Move the folder including the parent and child of the folder. It does not apply when the bookshelf is a search result.</value>
+  </data>
+  <data name="ParamBookshelfIsInsertItem" xml:space="preserve">
+    <value>Insert additional file at sort position</value>
+  </data>
+  <data name="ParamBookshelfIsInsertItemTips" xml:space="preserve">
+    <value>The bookshelf reflects information in real time. If this setting is ON, inserts the added file in the current sort order position. When set to OFF, it is added to the end of the list.</value>
+  </data>
+  <data name="ParamBookshelfIsMultipleRarFilterEnabled" xml:space="preserve">
+    <value>Filter RAR split files from display</value>
+  </data>
+  <data name="ParamBookshelfIsMultipleRarFilterEnabledTips" xml:space="preserve">
+    <value>For an RAR split file called .part[number].rar, only the file with the smallest number is displayed in the list.</value>
+  </data>
+  <data name="ParamBookshelfIsSyncFolderTree" xml:space="preserve">
+    <value>Synchronize Folders tree with sync button</value>
+  </data>
+  <data name="ParamBookshelfIsVisibleBookmarkMark" xml:space="preserve">
+    <value>Display bookmark symbols</value>
+  </data>
+  <data name="ParamBookshelfIsVisibleBookmarkMarkTips" xml:space="preserve">
+    <value>★ mark is displayed in the bookmarked book.</value>
+  </data>
+  <data name="ParamBookshelfIsVisibleHistoryMark" xml:space="preserve">
+    <value>Display history symbol</value>
+  </data>
+  <data name="ParamBookshelfIsVisibleHistoryMarkTips" xml:space="preserve">
+    <value>A check mark is displayed in the book remaining in the history.</value>
   </data>
   <data name="ParamBookSortMode" xml:space="preserve">
     <value>Order of pages</value>
@@ -2879,14 +3086,23 @@ Is it OK? </value>
   <data name="ParamBookWideRatioTips" xml:space="preserve">
     <value>It is used in "Split landscape page".</value>
   </data>
-  <data name="ParamBookIsAllFileAnImage" xml:space="preserve">
-    <value>A file whose extension is unknown is regarded as an image file</value>
+  <data name="ParamCacheDirectory" xml:space="preserve">
+    <value>Cache location</value>
   </data>
-  <data name="ParamBookIsAllFileAnImageTips" xml:space="preserve">
-    <value>This function works when "@ParamBookPageCollectMode" is "@EnumBookPageCollectModeAll".</value>
+  <data name="ParamCacheDirectoryTips" xml:space="preserve">
+    <value>This is the storage location of the thumbnail cache (Cache.db).</value>
+  </data>
+  <data name="ParamCacheMemorySize" xml:space="preserve">
+    <value>Book cache memory size (MB)</value>
+  </data>
+  <data name="ParamCacheMemorySizeTips" xml:space="preserve">
+    <value>Once the page has been read, it is stored in memory to speed up redisplay. This value is a guideline, and memory may be used beyond this value. Note that too large a value can make the system unstable.</value>
   </data>
   <data name="ParamClipboardArchiveOption" xml:space="preserve">
     <value>For compressed files</value>
+  </data>
+  <data name="ParamClipboardArchiveSeparater" xml:space="preserve">
+    <value>Delimiter between compressed file and filename</value>
   </data>
   <data name="ParamClipboardMultiPageOption" xml:space="preserve">
     <value>For 2 pages</value>
@@ -3017,6 +3233,9 @@ Is it OK? </value>
   <data name="ParamDownloadPathTips" xml:space="preserve">
     <value>It is a storage place of the image dropped by the browser etc. If not specified, temporary folder is used.</value>
   </data>
+  <data name="ParamDragActionElements" xml:space="preserve">
+    <value>Drag action settings</value>
+  </data>
   <data name="ParamDragTransformAngleFrequency" xml:space="preserve">
     <value>Rotating Snap</value>
   </data>
@@ -3068,6 +3287,15 @@ Is it OK? </value>
   <data name="ParamEffectSaturation" xml:space="preserve">
     <value>Saturation</value>
   </data>
+  <data name="ParameterCursorHideReleaseDistance" xml:space="preserve">
+    <value>Move distance to redisplay</value>
+  </data>
+  <data name="ParameterCursorHideTime" xml:space="preserve">
+    <value>Hide time (sec)</value>
+  </data>
+  <data name="ParameterIsCursorHideReleaseAction" xml:space="preserve">
+    <value>Redisplay with mouse button operation</value>
+  </data>
   <data name="ParamExportImageIsEnableExportFolder" xml:space="preserve">
     <value>Remember previously saved folder</value>
   </data>
@@ -3079,6 +3307,9 @@ Is it OK? </value>
   </data>
   <data name="ParamExternalArchiveOption" xml:space="preserve">
     <value>For compressed files</value>
+  </data>
+  <data name="ParamExternalArchiveSeparater" xml:space="preserve">
+    <value>Delimiter between compressed file and filename</value>
   </data>
   <data name="ParamExternalCommand" xml:space="preserve">
     <value>Program</value>
@@ -3134,54 +3365,6 @@ Is it OK? </value>
   <data name="ParamFilmStripThumbnailSize" xml:space="preserve">
     <value>Page thumbnail size</value>
   </data>
-  <data name="ParamBookshelfExcludePattern" xml:space="preserve">
-    <value>Filename pattern to exclude from display</value>
-  </data>
-  <data name="ParamBookshelfExcludePatternTips" xml:space="preserve">
-    <value>It is specified with .NET regular expression. Capital letters and lower case letters are not distinguished.</value>
-  </data>
-  <data name="ParamBookshelfFolderIconLayout" xml:space="preserve">
-    <value>File icon layout</value>
-  </data>
-  <data name="ParamBookshelfHome" xml:space="preserve">
-    <value>Home location</value>
-  </data>
-  <data name="ParamBookshelfIsCloseBookWhenMove" xml:space="preserve">
-    <value>Close the book when changing the location</value>
-  </data>
-  <data name="ParamBookshelfIsCruise" xml:space="preserve">
-    <value>Enable Folder Cruise</value>
-  </data>
-  <data name="ParamBookshelfIsCruiseTips" xml:space="preserve">
-    <value>Move the folder including the parent and child of the folder. It does not apply when the bookshelf is a search result.</value>
-  </data>
-  <data name="ParamBookshelfIsInsertItem" xml:space="preserve">
-    <value>Insert additional file at sort position</value>
-  </data>
-  <data name="ParamBookshelfIsInsertItemTips" xml:space="preserve">
-    <value>The bookshelf reflects information in real time. If this setting is ON, inserts the added file in the current sort order position. When set to OFF, it is added to the end of the list.</value>
-  </data>
-  <data name="ParamBookshelfIsMultipleRarFilterEnabled" xml:space="preserve">
-    <value>Filter RAR split files from display</value>
-  </data>
-  <data name="ParamBookshelfIsMultipleRarFilterEnabledTips" xml:space="preserve">
-    <value>For an RAR split file called .part[number].rar, only the file with the smallest number is displayed in the list.</value>
-  </data>
-  <data name="ParamBookshelfIsSyncFolderTree" xml:space="preserve">
-    <value>Synchronize Folders tree with sync button</value>
-  </data>
-  <data name="ParamBookshelfIsVisibleBookmarkMark" xml:space="preserve">
-    <value>Display bookmark symbols</value>
-  </data>
-  <data name="ParamBookshelfIsVisibleBookmarkMarkTips" xml:space="preserve">
-    <value>★ mark is displayed in the bookmarked book.</value>
-  </data>
-  <data name="ParamBookshelfIsVisibleHistoryMark" xml:space="preserve">
-    <value>Display history symbol</value>
-  </data>
-  <data name="ParamBookshelfIsVisibleHistoryMarkTips" xml:space="preserve">
-    <value>A check mark is displayed in the book remaining in the history.</value>
-  </data>
   <data name="ParamFolderTreeLayout" xml:space="preserve">
     <value>Folder tree layout</value>
   </data>
@@ -3202,6 +3385,9 @@ Is it OK? </value>
   </data>
   <data name="ParamHistoryEntryPageCountTips" xml:space="preserve">
     <value>Register in history with page movement operation more than this count or last page display.</value>
+  </data>
+  <data name="ParamHistoryFilePath" xml:space="preserve">
+    <value>History list file location</value>
   </data>
   <data name="ParamHistoryIsKeepFolderStatus" xml:space="preserve">
     <value>Save information such as the last open place, the order of each folder, etc.</value>
@@ -3254,12 +3440,6 @@ Is it OK? </value>
   <data name="ParamIsAccessKeyEnabledTips" xml:space="preserve">
     <value>If it is set to OFF, system operation by Alt key will be invalid and malfunction will be eliminated when used with command shortcut. However Alt+F4 is always active.</value>
   </data>
-  <data name="ParamIsArchiveRecursive" xml:space="preserve">
-    <value>Expand all recursive compressed files</value>
-  </data>
-  <data name="ParamIsArchiveRecursiveTips" xml:space="preserve">
-    <value>If it is set to OFF, the included compressed file will be handled as subfolder.</value>
-  </data>
   <data name="ParamIsAutoGC" xml:space="preserve">
     <value>System manages memory</value>
   </data>
@@ -3271,12 +3451,6 @@ Is it OK? </value>
   </data>
   <data name="ParamIsAutoRecursive" xml:space="preserve">
     <value>Load a subfolder if there is no page and only one subfolder exists</value>
-  </data>
-  <data name="ParamIsAutoRecursiveWithAllFiles" xml:space="preserve">
-    <value>Determine including out-of-page files</value>
-  </data>
-  <data name="ParamIsAutoRecursiveWithAllFilesTips" xml:space="preserve">
-    <value>Automatic judgment will not be performed if there are files other than files to become pages</value>
   </data>
   <data name="ParamIsCancelSlideByMouseMove" xml:space="preserve">
     <value>Reset display interval with mouse move</value>
@@ -3296,8 +3470,17 @@ Is it OK? </value>
   <data name="ParamIsConfirmRecursiveTips" xml:space="preserve">
     <value>If there is no page that can be displayed when the book is opened, and a subfolder exists, a dialog is displayed asking whether to load the subfolder.</value>
   </data>
+  <data name="ParamIsCursorHideEnabled" xml:space="preserve">
+    <value>Enable auto hide</value>
+  </data>
   <data name="ParamIsFileOperationEnabled" xml:space="preserve">
     <value>File operation enabled</value>
+  </data>
+  <data name="ParamIsForceUpdateHistory" xml:space="preserve">
+    <value>Even if you open a book from history, it updates the last browsing date</value>
+  </data>
+  <data name="ParamIsHamburgerMenu" xml:space="preserve">
+    <value>Use the hamburger menu</value>
   </data>
   <data name="ParamIsHidePageSliderInFullscreen" xml:space="preserve">
     <value>Automatically hide the slider when it is full screen</value>
@@ -3365,6 +3548,15 @@ Is it OK? </value>
   <data name="ParamIsSlideShowByLoopTips" xml:space="preserve">
     <value>After playing to the last page, it will return to the first page.</value>
   </data>
+  <data name="ParamIsSplashScreenEnabled" xml:space="preserve">
+    <value>Splash screen</value>
+  </data>
+  <data name="ParamIsSyncUserSetting" xml:space="preserve">
+    <value>Synchronize settings</value>
+  </data>
+  <data name="ParamIsSyncUserSettingTips" xml:space="preserve">
+    <value>When multi-booting, all NeeView settings are updated when closing the setting window.</value>
+  </data>
   <data name="ParamIsUncHistoryEnabled" xml:space="preserve">
     <value>Save UNC path in history</value>
   </data>
@@ -3389,6 +3581,45 @@ Is it OK? </value>
   <data name="ParamLanguageTips" xml:space="preserve">
     <value>* It is applied from the next startup.</value>
   </data>
+  <data name="ParamListItemBannerImageWidth" xml:space="preserve">
+    <value>Banner size</value>
+  </data>
+  <data name="ParamListItemBannerImageWidthTips" xml:space="preserve">
+    <value>The width of the image in banner style. The vertical width is 1/4 of the horizontal width. Since thumbnail images are diverted, the larger the size, the rough the image.</value>
+  </data>
+  <data name="ParamListItemBannerIsTextWrapped" xml:space="preserve">
+    <value>Wrap name in banner style</value>
+  </data>
+  <data name="ParamListItemContentImagePopup" xml:space="preserve">
+    <value>Icon popup</value>
+  </data>
+  <data name="ParamListItemContentImagePopupTips" xml:space="preserve">
+    <value>When placing the cursor on the icon, a large image will be displayed in the popup.</value>
+  </data>
+  <data name="ParamListItemContentImageShape" xml:space="preserve">
+    <value>Shape of Icon</value>
+  </data>
+  <data name="ParamListItemContentImageWidth" xml:space="preserve">
+    <value>Icon size</value>
+  </data>
+  <data name="ParamListItemContentImageWidthTips" xml:space="preserve">
+    <value>The width of the image in content style.</value>
+  </data>
+  <data name="ParamListItemContentIsDecoratePlace" xml:space="preserve">
+    <value>Format path display of supplemental text</value>
+  </data>
+  <data name="ParamListItemContentIsDecoratePlaceTips" xml:space="preserve">
+    <value>Format as "AAA (C:\BBB\CCC)".</value>
+  </data>
+  <data name="ParamListItemContentIsTextWrapped" xml:space="preserve">
+    <value>Wrap name in content style</value>
+  </data>
+  <data name="ParamListItemContentNoteOpacity" xml:space="preserve">
+    <value>Supplemental text transparency in content style.</value>
+  </data>
+  <data name="ParamListItemContentNoteOpacityTips" xml:space="preserve">
+    <value>Transparency of supplemental text in content style.</value>
+  </data>
   <data name="ParamListItemFolderTreeFontSize" xml:space="preserve">
     <value>Font size of folder tree</value>
   </data>
@@ -3397,6 +3628,21 @@ Is it OK? </value>
   </data>
   <data name="ParamListItemFontSize" xml:space="preserve">
     <value>Font size of list items</value>
+  </data>
+  <data name="ParamListItemThumbnailImageShape" xml:space="preserve">
+    <value>Shape of thumbnail</value>
+  </data>
+  <data name="ParamListItemThumbnailImageWidth" xml:space="preserve">
+    <value>Thumbnail size</value>
+  </data>
+  <data name="ParamListItemThumbnailImageWidthTips" xml:space="preserve">
+    <value>The width of the image in thumbnail style.</value>
+  </data>
+  <data name="ParamListItemThumbnailIsTextWrapped" xml:space="preserve">
+    <value>Wrap name in thumbnail style</value>
+  </data>
+  <data name="ParamListItemThumbnailNameVisibled" xml:space="preserve">
+    <value>Display the name when thumbnail style.</value>
   </data>
   <data name="ParamLoupeDefaultScale" xml:space="preserve">
     <value>Loupe standard magnification</value>
@@ -3440,11 +3686,17 @@ Is it OK? </value>
   <data name="ParamLoupeSpeed" xml:space="preserve">
     <value>Loupe Speed</value>
   </data>
+  <data name="ParamMenuColor" xml:space="preserve">
+    <value>Menu color</value>
+  </data>
   <data name="ParamMouseGestureMinimumDistance" xml:space="preserve">
     <value>Mouse gesture stroke (pixel)</value>
   </data>
   <data name="ParamMouseGestureMinimumDistanceTips" xml:space="preserve">
     <value>By moving this distance, it is judged as a gesture stroke.</value>
+  </data>
+  <data name="ParamMouseIsDragEnabled" xml:space="preserve">
+    <value>Use mouse drag</value>
   </data>
   <data name="ParamMouseIsGestureEnabled" xml:space="preserve">
     <value>Use mouse gesture</value>
@@ -3467,17 +3719,29 @@ Is it OK? </value>
   <data name="ParamMouseLongButtonRepeatTimeTips" xml:space="preserve">
     <value>Repeat time with repeat input.</value>
   </data>
+  <data name="ParamMouseMinimumDragDistance" xml:space="preserve">
+    <value>Drag starting distance (pixel)</value>
+  </data>
+  <data name="ParamMouseMinimumDragDistanceTips" xml:space="preserve">
+    <value>First moving distance to become a drag or gesture</value>
+  </data>
   <data name="ParamPageBackgroundColor" xml:space="preserve">
     <value>Transparent image background color</value>
+  </data>
+  <data name="ParamPageListPlacementInBookshelf" xml:space="preserve">
+    <value>Place page list on bookshelf</value>
+  </data>
+  <data name="ParamPageListPlacementInBookshelfTips" xml:space="preserve">
+    <value>When turned OFF, it becomes a side panel.</value>
+  </data>
+  <data name="ParamPagemarkFilePath" xml:space="preserve">
+    <value>Pagemark list file location</value>
   </data>
   <data name="ParamPageSeconds" xml:space="preserve">
     <value>Change time in page movement (seconds)</value>
   </data>
   <data name="ParamPanelColor" xml:space="preserve">
     <value>Theme color</value>
-  </data>
-  <data name="ParamMenuColor" xml:space="preserve">
-    <value>Menu color</value>
   </data>
   <data name="ParamPictureCustomHeight" xml:space="preserve">
     <value>Height</value>
@@ -3490,6 +3754,12 @@ Is it OK? </value>
   </data>
   <data name="ParamPictureProfileExtensions" xml:space="preserve">
     <value>Image file extensions</value>
+  </data>
+  <data name="ParamPictureProfileIsAspectRatioEnabled" xml:space="preserve">
+    <value>Apply image resolution information</value>
+  </data>
+  <data name="ParamPictureProfileIsAspectRatioEnabledTips" xml:space="preserve">
+    <value>Display with the aspect ratio set for the image.</value>
   </data>
   <data name="ParamPictureProfileIsLimitSourceSize" xml:space="preserve">
     <value>Load image size limit</value>
@@ -3506,6 +3776,12 @@ Is it OK? </value>
   <data name="ParamPictureProfileMaximumSizeTips" xml:space="preserve">
     <value>This is the maximum image size enlarged by the resize filter.</value>
   </data>
+  <data name="ParamPreLoadSize" xml:space="preserve">
+    <value>Read ahead page size</value>
+  </data>
+  <data name="ParamPreLoadSizeTips" xml:space="preserve">
+    <value>Read ahead within the cache memory size.</value>
+  </data>
   <data name="ParamSeCannotMove" xml:space="preserve">
     <value>Sound when not able to move</value>
   </data>
@@ -3515,20 +3791,11 @@ Is it OK? </value>
   <data name="ParamSevenZipArchiverIsPreExtract" xml:space="preserve">
     <value>Pre Extract</value>
   </data>
-  <data name="ParamSevenZipArchiverIsPreExtractTips" xml:space="preserve">
-    <value>When you browse books, you can speed up page feed by pre-extracting everything to a temporary folder. When OFF, pre-extraction is performed only for solid compressed files.</value>
-  </data>
   <data name="ParamSevenZipArchiverIsPreExtractToMemory" xml:space="preserve">
     <value>In the case of a solid compressed file, expand it in memory in advance</value>
   </data>
   <data name="ParamSevenZipArchiverIsPreExtractToMemoryTips" xml:space="preserve">
     <value>It speeds up by expanding not in temporary files but in memory. The memory consumed is secured separately from the book cache memory.</value>
-  </data>
-  <data name="ParamSevenZipArchiverLockTime" xml:space="preserve">
-    <value>Time to lock file (sec)</value>
-  </data>
-  <data name="ParamSevenZipArchiverLockTimeTips" xml:space="preserve">
-    <value>If you do not have access at this time, unlock it. -1 holds the lock.</value>
   </data>
   <data name="ParamSevenZipArchiverPreExtractSolidSize" xml:space="preserve">
     <value>Maximum solid compressed file extraction size to be extracted in advance (MB)</value>
@@ -3600,8 +3867,56 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="ParamSusieIsFirstOrderSusieImage" xml:space="preserve">
     <value>Prioritize Susie plugin in image display</value>
   </data>
+  <data name="ParamSusieIsPluginCacheEnabled" xml:space="preserve">
+    <value>Cache the plugin</value>
+  </data>
+  <data name="ParamSusieIsPluginCacheEnabledTips" xml:space="preserve">
+    <value>If it is unstable, it may stabilize when it is OFF.</value>
+  </data>
+  <data name="ParamSusiePluginIsEnabled" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="ParamSusiePluginIsPreExtract" xml:space="preserve">
+    <value>Pre extract</value>
+  </data>
   <data name="ParamSusiePluginPath" xml:space="preserve">
     <value>Plugin folder</value>
+  </data>
+  <data name="ParamTemporaryDirectory" xml:space="preserve">
+    <value>Temporary location</value>
+  </data>
+  <data name="ParamTemporaryDirectoryTips" xml:space="preserve">
+    <value>It is used for pre-extraction and recursive compression files.</value>
+  </data>
+  <data name="ParamThumbnailBookCapacity" xml:space="preserve">
+    <value>Book Thumbnail Capacity</value>
+  </data>
+  <data name="ParamThumbnailBookCapacityTips" xml:space="preserve">
+    <value>The number of book thumbnails held in memory.</value>
+  </data>
+  <data name="ParamThumbnailFormat" xml:space="preserve">
+    <value>Thumbnail image format</value>
+  </data>
+  <data name="ParamThumbnailFormatTips" xml:space="preserve">
+    <value>Png is high quality but consumes more memory than Jpeg.</value>
+  </data>
+  <data name="ParamThumbnailIsCacheEnabled" xml:space="preserve">
+    <value>Use thumbnail cache</value>
+  </data>
+  <data name="ParamThumbnailIsCacheEnabledTips" xml:space="preserve">
+    <value>Cache the book thumbnail.</value>
+  </data>
+  <data name="ParamThumbnailPageCapacity" xml:space="preserve">
+    <value>Page Thumbnail Capacity</value>
+  </data>
+  <data name="ParamThumbnailPageCapacityTips" xml:space="preserve">
+    <value>The number of page thumbnails held in memory. When the book is closed everything is destroyed.</value>
+  </data>
+  <data name="ParamThumbnailQuality" xml:space="preserve">
+    <value>Thumbnail quality</value>
+  </data>
+  <data name="ParamThumbnailQualityTips" xml:space="preserve">
+    <value>Quality when the thumbnail image format is Jpeg.</value>
   </data>
   <data name="ParamTouchDragAction" xml:space="preserve">
     <value>Single touch drag operation</value>
@@ -3717,9 +4032,6 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="SettingPageBookGeneral" xml:space="preserve">
     <value>Book General</value>
   </data>
-  <data name="SettingPageBookGeneralAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
   <data name="SettingPageBookGeneralGeneral" xml:space="preserve">
     <value>General</value>
   </data>
@@ -3734,6 +4046,12 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   </data>
   <data name="SettingPageBookMovePage" xml:space="preserve">
     <value>Move pages</value>
+  </data>
+  <data name="SettingPageBookPageSetting" xml:space="preserve">
+    <value>Page settings</value>
+  </data>
+  <data name="SettingPageBookPageSettingTips" xml:space="preserve">
+    <value>The left item is the default value, and the right item is the behavior when the book is opened.</value>
   </data>
   <data name="SettingPageBookSubFolder" xml:space="preserve">
     <value>Subfolder</value>
@@ -3767,6 +4085,9 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   </data>
   <data name="SettingPageContextMenuEdit" xml:space="preserve">
     <value>Edit context menu</value>
+  </data>
+  <data name="SettingPageEnvironmentMemoryAndPerformance" xml:space="preserve">
+    <value>Memory &amp; Performance</value>
   </data>
   <data name="SettingPageExternal" xml:space="preserve">
     <value>External</value>
@@ -3819,6 +4140,15 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="SettingPageGeneralDetailLanguage" xml:space="preserve">
     <value>Language</value>
   </data>
+  <data name="SettingPageGeneralLocation" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="SettingPageGeneralLocationTypes" xml:space="preserve">
+    <value>Location</value>
+  </data>
+  <data name="SettingPageGeneralLocationTypesTips" xml:space="preserve">
+    <value>* It is applied from the next startup.</value>
+  </data>
   <data name="SettingPageGeneralSaveData" xml:space="preserve">
     <value>Save data</value>
   </data>
@@ -3827,6 +4157,9 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   </data>
   <data name="SettingPageGeneralSaveDataTypes" xml:space="preserve">
     <value>Save data</value>
+  </data>
+  <data name="SettingPageGeneralSaveDataTypesTips" xml:space="preserve">
+    <value>* The file location will be applied the next time you start up. Please use export, import to take over data.</value>
   </data>
   <data name="SettingPageHistory" xml:space="preserve">
     <value>History</value>
@@ -3837,14 +4170,14 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="SettingPageHistoryGeneralAdvance" xml:space="preserve">
     <value>Advanced Setting</value>
   </data>
+  <data name="SettingPageHistoryGeneralBookshelf" xml:space="preserve">
+    <value>Bookshelf</value>
+  </data>
   <data name="SettingPageHistoryGeneralDelete" xml:space="preserve">
     <value>Delete history</value>
   </data>
   <data name="SettingPageHistoryGeneralDeleteButton" xml:space="preserve">
     <value>Delete history</value>
-  </data>
-  <data name="SettingPageHistoryGeneralBookshelf" xml:space="preserve">
-    <value>Bookshelf</value>
   </data>
   <data name="SettingPageHistoryGeneralGeneral" xml:space="preserve">
     <value>General</value>
@@ -3885,14 +4218,17 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="SettingPageManipurateMouse" xml:space="preserve">
     <value>Mouse operation</value>
   </data>
-  <data name="SettingPageManipurateMouseAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
   <data name="SettingPageManipurateMouseDrag" xml:space="preserve">
     <value>Mouse drag</value>
   </data>
   <data name="SettingPageManipurateMouseHold" xml:space="preserve">
     <value>Mouse long press</value>
+  </data>
+  <data name="SettingPageManipurateMouseVisibility" xml:space="preserve">
+    <value>Cursor auto hide</value>
+  </data>
+  <data name="SettingPageManipurateMouseVisibilityTips" xml:space="preserve">
+    <value>If you do not operate the mouse for a certain time, the cursor will be hidden.</value>
   </data>
   <data name="SettingPageManipurateTouch" xml:space="preserve">
     <value>Touch operation</value>
@@ -3902,45 +4238,6 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   </data>
   <data name="SettingPageManipurateTouchGeneral" xml:space="preserve">
     <value>General</value>
-  </data>
-  <data name="SettingPagePage" xml:space="preserve">
-    <value>Page</value>
-  </data>
-  <data name="SettingPagePageDefault" xml:space="preserve">
-    <value>Default page setting</value>
-  </data>
-  <data name="SettingPagePageDefaultSetting" xml:space="preserve">
-    <value>Default page setting</value>
-  </data>
-  <data name="SettingPagePageDefaultSettingTips" xml:space="preserve">
-    <value>This is the setting used in "Initialize page settings".</value>
-  </data>
-  <data name="SettingPagePageRecovery" xml:space="preserve">
-    <value>Restore</value>
-  </data>
-  <data name="SettingPagePageRecoveryItems" xml:space="preserve">
-    <value>Restore from history, bookmark page setting</value>
-  </data>
-  <data name="SettingPagePageRecoveryItemsTips" xml:space="preserve">
-    <value>In the case of a book that has been opened, we restore the settings from the previous information. For items not to be restored, default page setting or previous setting is used.</value>
-  </data>
-  <data name="SettingPagePageRecoveryUseDefault" xml:space="preserve">
-    <value>Use default page settings</value>
-  </data>
-  <data name="SettingPagePanelEffect" xml:space="preserve">
-    <value>Effect panel</value>
-  </data>
-  <data name="SettingPagePanelEffectAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
-  <data name="SettingPagePanelEffectVisual" xml:space="preserve">
-    <value>Display</value>
-  </data>
-  <data name="SettingPagePanelFileInfo" xml:space="preserve">
-    <value>File information panel</value>
-  </data>
-  <data name="SettingPagePanelFileInfoVisual" xml:space="preserve">
-    <value>Display</value>
   </data>
   <data name="SettingPagePanelBookshelf" xml:space="preserve">
     <value>Bookshelf</value>
@@ -3957,6 +4254,21 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="SettingPagePanelBookshelfVisual" xml:space="preserve">
     <value>Display</value>
   </data>
+  <data name="SettingPagePanelEffect" xml:space="preserve">
+    <value>Effect panel</value>
+  </data>
+  <data name="SettingPagePanelEffectAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
+  <data name="SettingPagePanelEffectVisual" xml:space="preserve">
+    <value>Display</value>
+  </data>
+  <data name="SettingPagePanelFileInfo" xml:space="preserve">
+    <value>File information panel</value>
+  </data>
+  <data name="SettingPagePanelFileInfoVisual" xml:space="preserve">
+    <value>Display</value>
+  </data>
   <data name="SettingPagePanelGeneral" xml:space="preserve">
     <value>Side panels</value>
   </data>
@@ -3969,6 +4281,9 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="SettingPagePanelGeneralVisual" xml:space="preserve">
     <value>Display</value>
   </data>
+  <data name="SettingPagePanelListItem" xml:space="preserve">
+    <value>Panel list item</value>
+  </data>
   <data name="SettingPageSusie" xml:space="preserve">
     <value>Susie</value>
   </data>
@@ -3978,8 +4293,17 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="SettingPageSusieGeneral" xml:space="preserve">
     <value>General Susie</value>
   </data>
+  <data name="SettingPageSusieGeneralAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
   <data name="SettingPageSusieGeneralGeneral" xml:space="preserve">
     <value>General</value>
+  </data>
+  <data name="SettingPageSusieGeneralGeneralTips" xml:space="preserve">
+    <value>It supports Susie plug-in (.spi).</value>
+  </data>
+  <data name="SettingPageSusieGeneralGeneralTipsX64" xml:space="preserve">
+    <value>It supports Susie plug-in (.sph) for 64bit.</value>
   </data>
   <data name="SettingPageSusieGeneralPriority" xml:space="preserve">
     <value>Priority</value>
@@ -4082,6 +4406,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="TokenFormat" xml:space="preserve">
     <value>"{0}"</value>
   </data>
+  <data name="Ver320" xml:space="preserve">
+    <value>NeeVew 32.0 </value>
+  </data>
+  <data name="Ver320Note" xml:space="preserve">
+    <value>· The bookmark list was integrated with the folder list and it became a bookshelf.
+· The folder of the pagemark list is now automatically created.</value>
+  </data>
   <data name="WindowAboutTitle" xml:space="preserve">
     <value>About</value>
   </data>
@@ -4090,6 +4421,9 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="WordAdd" xml:space="preserve">
     <value>Add</value>
+  </data>
+  <data name="WordAllPagemark" xml:space="preserve">
+    <value>All pagemark</value>
   </data>
   <data name="WordBookmark" xml:space="preserve">
     <value>Bookmark</value>
@@ -4112,8 +4446,14 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordCommand" xml:space="preserve">
     <value>Command</value>
   </data>
+  <data name="WordConfig" xml:space="preserve">
+    <value>Config</value>
+  </data>
   <data name="WordDaysAgo" xml:space="preserve">
     <value>{0} days ago</value>
+  </data>
+  <data name="WordDefaultPagemark" xml:space="preserve">
+    <value>Default pagemark</value>
   </data>
   <data name="WordDegree" xml:space="preserve">
     <value>degree</value>
@@ -4141,6 +4481,9 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="WordFile" xml:space="preserve">
     <value>File</value>
+  </data>
+  <data name="WordFirstPage" xml:space="preserve">
+    <value>First page</value>
   </data>
   <data name="WordFixedDrive" xml:space="preserve">
     <value>Local disk</value>
@@ -4192,6 +4535,9 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="WordOn" xml:space="preserve">
     <value>On</value>
+  </data>
+  <data name="WordOpen" xml:space="preserve">
+    <value>Open</value>
   </data>
   <data name="WordOpenStore" xml:space="preserve">
     <value>Open Microsoft Store</value>
@@ -4279,552 +4625,5 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="WordYes" xml:space="preserve">
     <value>Yes</value>
-  </data>
-  <data name="ParamListItemBannerImageWidth" xml:space="preserve">
-    <value>Banner size</value>
-  </data>
-  <data name="ParamListItemBannerImageWidthTips" xml:space="preserve">
-    <value>The width of the image in banner style. The vertical width is 1/4 of the horizontal width. Since thumbnail images are diverted, the larger the size, the rough the image.</value>
-  </data>
-  <data name="ParamThumbnailBookCapacity" xml:space="preserve">
-    <value>Book Thumbnail Capacity</value>
-  </data>
-  <data name="ParamThumbnailBookCapacityTips" xml:space="preserve">
-    <value>The number of book thumbnails held in memory.</value>
-  </data>
-  <data name="ParamThumbnailFormat" xml:space="preserve">
-    <value>Thumbnail image format</value>
-  </data>
-  <data name="ParamThumbnailFormatTips" xml:space="preserve">
-    <value>Png is high quality but consumes more memory than Jpeg.</value>
-  </data>
-  <data name="ParamThumbnailIsCacheEnabled" xml:space="preserve">
-    <value>Use thumbnail cache</value>
-  </data>
-  <data name="ParamThumbnailIsCacheEnabledTips" xml:space="preserve">
-    <value>Cache the book thumbnail.</value>
-  </data>
-  <data name="ParamListItemContentImagePopup" xml:space="preserve">
-    <value>Icon popup</value>
-  </data>
-  <data name="ParamListItemContentImagePopupTips" xml:space="preserve">
-    <value>When placing the cursor on the icon, a large image will be displayed in the popup.</value>
-  </data>
-  <data name="ParamListItemThumbnailNameVisibled" xml:space="preserve">
-    <value>Display the name when thumbnail style.</value>
-  </data>
-  <data name="ParamThumbnailPageCapacity" xml:space="preserve">
-    <value>Page Thumbnail Capacity</value>
-  </data>
-  <data name="ParamThumbnailPageCapacityTips" xml:space="preserve">
-    <value>The number of page thumbnails held in memory. When the book is closed everything is destroyed.</value>
-  </data>
-  <data name="ParamThumbnailQuality" xml:space="preserve">
-    <value>Thumbnail quality</value>
-  </data>
-  <data name="ParamThumbnailQualityTips" xml:space="preserve">
-    <value>Quality when the thumbnail image format is Jpeg.</value>
-  </data>
-  <data name="ParamListItemContentImageWidth" xml:space="preserve">
-    <value>Icon size</value>
-  </data>
-  <data name="ParamListItemContentImageWidthTips" xml:space="preserve">
-    <value>The width of the image in content style.</value>
-  </data>
-  <data name="ParamListItemThumbnailImageWidth" xml:space="preserve">
-    <value>Thumbnail size</value>
-  </data>
-  <data name="ParamListItemThumbnailImageWidthTips" xml:space="preserve">
-    <value>The width of the image in thumbnail style.</value>
-  </data>
-  <data name="ParamListItemContentIsTextWrapped" xml:space="preserve">
-    <value>Wrap name in content style</value>
-  </data>
-  <data name="ParamListItemContentNoteOpacity" xml:space="preserve">
-    <value>Supplemental text transparency in content style.</value>
-  </data>
-  <data name="ParamListItemContentNoteOpacityTips" xml:space="preserve">
-    <value>Transparency of supplemental text in content style.</value>
-  </data>
-  <data name="ParamListItemBannerIsTextWrapped" xml:space="preserve">
-    <value>Wrap name in banner style</value>
-  </data>
-  <data name="ParamListItemThumbnailIsTextWrapped" xml:space="preserve">
-    <value>Wrap name in thumbnail style</value>
-  </data>
-  <data name="SettingPagePanelListItem" xml:space="preserve">
-    <value>Panel list item</value>
-  </data>
-  <data name="EnumPanelListItemImageShapeOriginal" xml:space="preserve">
-    <value>Original</value>
-  </data>
-  <data name="EnumPanelListItemImageShapeSquare" xml:space="preserve">
-    <value>Square</value>
-  </data>
-  <data name="EnumPanelListItemImageShapeBookShape" xml:space="preserve">
-    <value>Book shape</value>
-  </data>
-  <data name="ParamListItemContentImageShape" xml:space="preserve">
-    <value>Shape of Icon</value>
-  </data>
-  <data name="ParamListItemThumbnailImageShape" xml:space="preserve">
-    <value>Shape of thumbnail</value>
-  </data>
-  <data name="WordOpen" xml:space="preserve">
-    <value>Open</value>
-  </data>
-  <data name="WordDefaultPagemark" xml:space="preserve">
-    <value>Default pagemark</value>
-  </data>
-  <data name="FolderTreeMenuDeleteInvalidPagemark" xml:space="preserve">
-    <value>Remove invalid pagemark</value>
-  </data>
-  <data name="PagemarkMenuCurrentBook" xml:space="preserve">
-    <value>Current book only</value>
-  </data>
-  <data name="WordAllPagemark" xml:space="preserve">
-    <value>All pagemark</value>
-  </data>
-  <data name="NotifyRemoveUnlinkedPagemark" xml:space="preserve">
-    <value>{0} pagemarks deleted.</value>
-  </data>
-  <data name="BookAddressInfoPagemark" xml:space="preserve">
-    <value>This is pagemark address.</value>
-  </data>
-  <data name="ArchiveFormatPagemark" xml:space="preserve">
-    <value>Pagemark</value>
-  </data>
-  <data name="PagemarkMenuOpenAsBook" xml:space="preserve">
-    <value>Open as a book</value>
-  </data>
-  <data name="ParamPageListPlacementInBookshelf" xml:space="preserve">
-    <value>Place page list on bookshelf</value>
-  </data>
-  <data name="ParamPageListPlacementInBookshelfTips" xml:space="preserve">
-    <value>When turned OFF, it becomes a side panel.</value>
-  </data>
-  <data name="Ver320" xml:space="preserve">
-    <value>NeeVew 32.0 </value>
-  </data>
-  <data name="Ver320Note" xml:space="preserve">
-    <value>· The bookmark list was integrated with the folder list and it became a bookshelf.
-· The folder of the pagemark list is now automatically created.</value>
-  </data>
-  <data name="CommandTogglePageListPlacement" xml:space="preserve">
-    <value>Switch placement of page list</value>
-  </data>
-  <data name="CommandTogglePageListPlacementNote" xml:space="preserve">
-    <value>Switch placement of page list between bookshelf and side panel</value>
-  </data>
-  <data name="CommandTogglePageListPlacementPanel" xml:space="preserve">
-    <value>Place page list on side panel</value>
-  </data>
-  <data name="CommandTogglePageListPlacementBookshelf" xml:space="preserve">
-    <value>Place page list on bookshelf</value>
-  </data>
-  <data name="CommandTogglePageListPlacementMenu" xml:space="preserve">
-    <value>Page list placement</value>
-  </data>
-  <data name="ParamIsSplashScreenEnabled" xml:space="preserve">
-    <value>Splash screen</value>
-  </data>
-  <data name="ParamSusieIsPluginCacheEnabled" xml:space="preserve">
-    <value>Cache the plugin</value>
-  </data>
-  <data name="ParamSusieIsPluginCacheEnabledTips" xml:space="preserve">
-    <value>If it is unstable, it may stabilize when it is OFF.</value>
-  </data>
-  <data name="ParamSusieIsPreExtract" xml:space="preserve">
-    <value>Pre Extract</value>
-  </data>
-  <data name="ParamSusieIsPreExtractTips" xml:space="preserve">
-    <value>Extract the file from the compressed file to the temporary folder to speed up the access.</value>
-  </data>
-  <data name="SettingPageSusieGeneralAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
-  <data name="WordConfig" xml:space="preserve">
-    <value>Config</value>
-  </data>
-  <data name="ParamSusiePluginIsEnabled" xml:space="preserve">
-    <value>Enable</value>
-  </data>
-  <data name="ParamSusiePluginIsPreExtract" xml:space="preserve">
-    <value>Pre extract</value>
-  </data>
-  <data name="ParamIsSyncUserSetting" xml:space="preserve">
-    <value>Synchronize settings</value>
-  </data>
-  <data name="ParamIsSyncUserSettingTips" xml:space="preserve">
-    <value>When multi-booting, all NeeView settings are updated when closing the setting window.</value>
-  </data>
-  <data name="CommandReloadUserSetting" xml:space="preserve">
-    <value>Reload settings</value>
-  </data>
-  <data name="CommandReloadUserSettingNote" xml:space="preserve">
-    <value>Reload the settings.</value>
-  </data>
-  <data name="SettingPageGeneralLocation" xml:space="preserve">
-    <value>Location</value>
-  </data>
-  <data name="SettingPageGeneralLocationTypes" xml:space="preserve">
-    <value>Location</value>
-  </data>
-  <data name="ParamTemporaryDirectory" xml:space="preserve">
-    <value>Temporary location</value>
-  </data>
-  <data name="ParamTemporaryDirectoryTips" xml:space="preserve">
-    <value>It is used for pre-extraction and recursive compression files.</value>
-  </data>
-  <data name="SettingPageGeneralLocationTypesTips" xml:space="preserve">
-    <value>* It is applied from the next startup.</value>
-  </data>
-  <data name="NotifyCacheErrorTitle" xml:space="preserve">
-    <value>Cache error</value>
-  </data>
-  <data name="NotifyCacheErrorDirectoryNotFound" xml:space="preserve">
-    <value>Folder not found. ({0})
-Initialize the cache location.</value>
-  </data>
-  <data name="ParamCacheDirectory" xml:space="preserve">
-    <value>Cache location</value>
-  </data>
-  <data name="ParamCacheDirectoryTips" xml:space="preserve">
-    <value>This is the storage location of the thumbnail cache (Cache.db).</value>
-  </data>
-  <data name="NotifyTemporaryErrorTitle" xml:space="preserve">
-    <value>Temporary error</value>
-  </data>
-  <data name="NotifyTemporaryErrorDirectoryNotFound" xml:space="preserve">
-    <value>Folder not found. ({0})
-Initialize the temporary location.</value>
-  </data>
-  <data name="ParamHistoryFilePath" xml:space="preserve">
-    <value>History list file location</value>
-  </data>
-  <data name="ParamBookmarkFilePath" xml:space="preserve">
-    <value>Bookmark list file location</value>
-  </data>
-  <data name="ParamPagemarkFilePath" xml:space="preserve">
-    <value>Pagemark list file location</value>
-  </data>
-  <data name="SettingPageGeneralSaveDataTypesTips" xml:space="preserve">
-    <value>* The file location will be applied the next time you start up. Please use export, import to take over data.</value>
-  </data>
-  <data name="NotifyInvalidFileNameChars" xml:space="preserve">
-    <value>The following characters can not be used in the file name:
-\ / : * ? " &lt; &gt; |</value>
-  </data>
-  <data name="EnumArchiveOptionTypeSendArchivePath" xml:space="preserve">
-    <value>Compressed file + filename</value>
-  </data>
-  <data name="ParamClipboardArchiveSeparater" xml:space="preserve">
-    <value>Delimiter between compressed file and filename</value>
-  </data>
-  <data name="ParamExternalArchiveSeparater" xml:space="preserve">
-    <value>Delimiter between compressed file and filename</value>
-  </data>
-  <data name="NotifyBookOperationPageLoop" xml:space="preserve">
-    <value>Looped.</value>
-  </data>
-  <data name="ParamBookOperationNotifyPageLoop" xml:space="preserve">
-    <value>Notify page loop</value>
-  </data>
-  <data name="BookmarkListMoreMenuSyncBookshelf" xml:space="preserve">
-    <value>Sync bookshelf</value>
-  </data>
-  <data name="EnumFolderOrderEntryTime" xml:space="preserve">
-    <value>Entry↑</value>
-  </data>
-  <data name="EnumFolderOrderEntryTimeDescending" xml:space="preserve">
-    <value>Entry↓</value>
-  </data>
-  <data name="CommandSetFolderOrderByEntryTimeA" xml:space="preserve">
-    <value>Book EntryTime Ascending</value>
-  </data>
-  <data name="CommandSetFolderOrderByEntryTimeANote" xml:space="preserve">
-    <value>Set the order of books in ascending order by entry time.</value>
-  </data>
-  <data name="CommandSetFolderOrderByEntryTimeD" xml:space="preserve">
-    <value>Book EntryTime Descending</value>
-  </data>
-  <data name="CommandSetFolderOrderByEntryTimeDNote" xml:space="preserve">
-    <value>Set the order of books in descending order by entry time.</value>
-  </data>
-  <data name="CommandSetFolderOrderByPathA" xml:space="preserve">
-    <value>Book Path Ascending</value>
-  </data>
-  <data name="CommandSetFolderOrderByPathANote" xml:space="preserve">
-    <value>Set the order of books in ascending order by full path.</value>
-  </data>
-  <data name="CommandSetFolderOrderByPathD" xml:space="preserve">
-    <value>Book Path Descending</value>
-  </data>
-  <data name="CommandSetFolderOrderByPathDNote" xml:space="preserve">
-    <value>Set the order of books in descending order by full path.</value>
-  </data>
-  <data name="CommandSetFolderOrderByFileTypeA" xml:space="preserve">
-    <value>Book FileType Ascending</value>
-  </data>
-  <data name="CommandSetFolderOrderByFileTypeANote" xml:space="preserve">
-    <value>Set the order of books in ascending order by file type.</value>
-  </data>
-  <data name="CommandSetFolderOrderByFileTypeD" xml:space="preserve">
-    <value>Book FileType Descending</value>
-  </data>
-  <data name="CommandSetFolderOrderByFileTypeDNote" xml:space="preserve">
-    <value>Set the order of books in descending order by file type.</value>
-  </data>
-  <data name="EnumFolderOrderPath" xml:space="preserve">
-    <value>Path↑</value>
-  </data>
-  <data name="EnumFolderOrderPathDescending" xml:space="preserve">
-    <value>Path↓</value>
-  </data>
-  <data name="EnumFolderOrderFileType" xml:space="preserve">
-    <value>Type↑</value>
-  </data>
-  <data name="EnumFolderOrderFileTypeDescending" xml:space="preserve">
-    <value>Type↓</value>
-  </data>
-  <data name="SettingPageManipurateMouseVisibility" xml:space="preserve">
-    <value>Cursor auto hide</value>
-  </data>
-  <data name="SettingPageManipurateMouseVisibilityTips" xml:space="preserve">
-    <value>If you do not operate the mouse for a certain time, the cursor will be hidden.</value>
-  </data>
-  <data name="ParamIsCursorHideEnabled" xml:space="preserve">
-    <value>Enable auto hide</value>
-  </data>
-  <data name="ParameterCursorHideTime" xml:space="preserve">
-    <value>Hide time (sec)</value>
-  </data>
-  <data name="ParameterIsCursorHideReleaseAction" xml:space="preserve">
-    <value>Redisplay with mouse button operation</value>
-  </data>
-  <data name="ParameterCursorHideReleaseDistance" xml:space="preserve">
-    <value>Move distance to redisplay</value>
-  </data>
-  <data name="BookshelfMoreMenuSearchSetting" xml:space="preserve">
-    <value>Search settings</value>
-  </data>
-  <data name="BookshelfMoreMenuSearchIncremental" xml:space="preserve">
-    <value>Incremental search</value>
-  </data>
-  <data name="BookshelfMoreMenuSearchIncludeSubdirectories" xml:space="preserve">
-    <value>Include subdirectories</value>
-  </data>
-  <data name="BookshelfMoreMenuSearchRegularExpression" xml:space="preserve">
-    <value>Regular expression</value>
-  </data>
-  <data name="SettingPageManipurateMouseGesture" xml:space="preserve">
-    <value>Mouse gesture</value>
-  </data>
-  <data name="SettingPageManipurateMouseDragCommon" xml:space="preserve">
-    <value>Common setting of drag and gesture</value>
-  </data>
-  <data name="ParamMouseIsDragEnabled" xml:space="preserve">
-    <value>Use mouse drag</value>
-  </data>
-  <data name="ParamMouseMinimumDragDistance" xml:space="preserve">
-    <value>Drag starting distance (pixel)</value>
-  </data>
-  <data name="ParamMouseMinimumDragDistanceTips" xml:space="preserve">
-    <value>First moving distance to become a drag or gesture</value>
-  </data>
-  <data name="ParamDragActionElements" xml:space="preserve">
-    <value>Drag action settings</value>
-  </data>
-  <data name="CommandHelpSearchOption" xml:space="preserve">
-    <value>Search options help</value>
-  </data>
-  <data name="CommandHelpSearchOptionMenu" xml:space="preserve">
-    <value>Search options help</value>
-  </data>
-  <data name="CommandHelpSearchOptionNote" xml:space="preserve">
-    <value>Display the search options help on the browser.</value>
-  </data>
-  <data name="NotifySearchKeywordOptionError" xml:space="preserve">
-    <value>Illegal option: {0}</value>
-  </data>
-  <data name="BookshelfItemMenuDeleteHistory" xml:space="preserve">
-    <value>Remove history</value>
-  </data>
-  <data name="BookshelfItemMenuAddBookmark" xml:space="preserve">
-    <value>Add bookmark</value>
-  </data>
-  <data name="EnumPageStretchModeUniformToHorizontal" xml:space="preserve">
-    <value>Fit width to window</value>
-  </data>
-  <data name="CommandSetStretchModeUniformToHorizontal" xml:space="preserve">
-    <value>Fit width to window</value>
-  </data>
-  <data name="CommandSetStretchModeUniformToHorizontalNote" xml:space="preserve">
-    <value>Scales to fit the width of the image to the width of the window.</value>
-  </data>
-  <data name="ParamIsForceUpdateHistory" xml:space="preserve">
-    <value>Even if you open a book from history, it updates the last browsing date</value>
-  </data>
-  <data name="ExceptionCritical" xml:space="preserve">
-    <value>An error occurred. Quit the application.</value>
-  </data>
-  <data name="ExceptionCriticalTitle" xml:space="preserve">
-    <value>NeeView - Error</value>
-  </data>
-  <data name="ExceptionCriticalMessage" xml:space="preserve">
-    <value>Error details:</value>
-  </data>
-  <data name="ExceptionCriticalCopy" xml:space="preserve">
-    <value>Copy to clipboard</value>
-  </data>
-  <data name="ExceptionCriticalLogPath" xml:space="preserve">
-    <value>Details of the error are saved in &lt;a href="{0}"&gt;{0}&lt;/a&gt;</value>
-  </data>
-  <data name="ParamArchiveRecursiveMode" xml:space="preserve">
-    <value>Compressed file handling</value>
-  </data>
-  <data name="ParamArchiveRecursiveModeTips" xml:space="preserve">
-    <value>Extended range when opening compressed file</value>
-  </data>
-  <data name="EnumArchiveEntryCollectionModeCurrentDirectory" xml:space="preserve">
-    <value>Expand for each directory</value>
-  </data>
-  <data name="EnumArchiveEntryCollectionModeIncludeSubDirectories" xml:space="preserve">
-    <value>Expand by compressed file unit</value>
-  </data>
-  <data name="EnumArchiveEntryCollectionModeIncludeSubArchives" xml:space="preserve">
-    <value>Expand all</value>
-  </data>
-  <data name="CommandPrevBookHistory" xml:space="preserve">
-    <value>Go back</value>
-  </data>
-  <data name="CommandPrevBookHistoryNote" xml:space="preserve">
-    <value>Open a previously open book.</value>
-  </data>
-  <data name="CommandNextBookHistory" xml:space="preserve">
-    <value>Go next</value>
-  </data>
-  <data name="CommandNextBookHistoryNote" xml:space="preserve">
-    <value>Open a next open book.</value>
-  </data>
-  <data name="CommandMoveToParentBook" xml:space="preserve">
-    <value>Go to parent</value>
-  </data>
-  <data name="CommandMoveToParentBookNote" xml:space="preserve">
-    <value>Open the upper hierarchy as a book.</value>
-  </data>
-  <data name="CommandMoveToChildBook" xml:space="preserve">
-    <value>Go to child</value>
-  </data>
-  <data name="CommandMoveToChildBookNote" xml:space="preserve">
-    <value>When the page is a book, open that book.</value>
-  </data>
-  <data name="EnumBookPageCollectModeImage" xml:space="preserve">
-    <value>Image files</value>
-  </data>
-  <data name="EnumBookPageCollectModeImageAndBook" xml:space="preserve">
-    <value>Image files and folders</value>
-  </data>
-  <data name="EnumBookPageCollectModeAll" xml:space="preserve">
-    <value>All files</value>
-  </data>
-  <data name="ParamBookPageCollectMode" xml:space="preserve">
-    <value>File type to be page</value>
-  </data>
-  <data name="ParamBookPageCollectModeTips" xml:space="preserve">
-    <value>If you make a folder a page, you can open the folder from that page.</value>
-  </data>
-  <data name="ParamCacheMemorySize" xml:space="preserve">
-    <value>Book cache memory size (MB)</value>
-  </data>
-  <data name="ParamCacheMemorySizeTips" xml:space="preserve">
-    <value>Once the page has been read, it is stored in memory to speed up redisplay. This value is a guideline, and memory may be used beyond this value. Note that too large a value can make the system unstable.</value>
-  </data>
-  <data name="ParamPreLoadSize" xml:space="preserve">
-    <value>Read ahead page size</value>
-  </data>
-  <data name="ParamPreLoadSizeTips" xml:space="preserve">
-    <value>Read ahead within the cache memory size.</value>
-  </data>
-  <data name="ParamIsHamburgerMenu" xml:space="preserve">
-    <value>Use the hamburger menu</value>
-  </data>
-  <data name="ParamBookIsLoadingPageVisible" xml:space="preserve">
-    <value>Display the current page until the next page loads</value>
-  </data>
-  <data name="ParamBookIsLoadingPageVisibleTips" xml:space="preserve">
-    <value>You can save memory by turning it off.</value>
-  </data>
-  <data name="SettingPageEnvironmentMemoryAndPerformance" xml:space="preserve">
-    <value>Memory &amp; Performance</value>
-  </data>
-  <data name="PagemarkMenuSortPath" xml:space="preserve">
-    <value>Path order</value>
-  </data>
-  <data name="ParamPictureProfileIsAspectRatioEnabled" xml:space="preserve">
-    <value>Apply image resolution information</value>
-  </data>
-  <data name="ParamPictureProfileIsAspectRatioEnabledTips" xml:space="preserve">
-    <value>Display with the aspect ratio set for the image.</value>
-  </data>
-  <data name="SettingPageSusieGeneralGeneralTipsX64" xml:space="preserve">
-    <value>It supports Susie plug-in (.sph) for 64bit.</value>
-  </data>
-  <data name="SettingPageSusieGeneralGeneralTips" xml:space="preserve">
-    <value>It supports Susie plug-in (.spi).</value>
-  </data>
-  <data name="BookshelfMoreMenuExportPlaylist" xml:space="preserve">
-    <value>Save playlist...</value>
-  </data>
-  <data name="ParamListItemContentIsDecoratePlace" xml:space="preserve">
-    <value>Format path display of supplemental text</value>
-  </data>
-  <data name="ParamListItemContentIsDecoratePlaceTips" xml:space="preserve">
-    <value>Format as "AAA (C:\BBB\CCC)".</value>
-  </data>
-  <data name="EnumBookSettingSelectModeDefault" xml:space="preserve">
-    <value>Default</value>
-  </data>
-  <data name="EnumBookSettingSelectModeContinue" xml:space="preserve">
-    <value>Continue</value>
-  </data>
-  <data name="EnumBookSettingSelectModeRestoreOrDefault" xml:space="preserve">
-    <value>Restore, else default</value>
-  </data>
-  <data name="EnumBookSettingSelectModeRestoreOrContinue" xml:space="preserve">
-    <value>Restore, else continue</value>
-  </data>
-  <data name="ParamBookPage" xml:space="preserve">
-    <value>Page position</value>
-  </data>
-  <data name="SettingPageBookPageSetting" xml:space="preserve">
-    <value>Page settings</value>
-  </data>
-  <data name="SettingPageBookPageSettingTips" xml:space="preserve">
-    <value>The left item is the default value, and the right item is the behavior when the book is opened.</value>
-  </data>
-  <data name="WordFirstPage" xml:space="preserve">
-    <value>First page</value>
-  </data>
-  <data name="CommandPrevFolderPage" xml:space="preserve">
-    <value>Prev folder</value>
-  </data>
-  <data name="CommandPrevFolderPageNote" xml:space="preserve">
-    <value>Move to the first page of the previous folder of the book. Valid only in name order.</value>
-  </data>
-  <data name="CommandNextFolderPage" xml:space="preserve">
-    <value>Next folder</value>
-  </data>
-  <data name="CommandNextFolderPageNote" xml:space="preserve">
-    <value>Move to the first page of the next folder of the book. Valid only in name order.</value>
-  </data>
-  <data name="NotifyFirstFolderPage" xml:space="preserve">
-    <value>First folder</value>
-  </data>
-  <data name="NotifyLastFolderPage" xml:space="preserve">
-    <value>Last folder</value>
-  </data>
-  <data name="ControlCommandListHeaderDescription" xml:space="preserve">
-    <value>Description</value>
   </data>
 </root>

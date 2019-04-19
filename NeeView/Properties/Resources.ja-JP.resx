@@ -126,6 +126,9 @@
   <data name="ArchiveFormatMedia" xml:space="preserve">
     <value>メディア形式</value>
   </data>
+  <data name="ArchiveFormatPagemark" xml:space="preserve">
+    <value>ページマーク形式</value>
+  </data>
   <data name="ArchiveFormatPdf" xml:space="preserve">
     <value>PDF形式</value>
   </data>
@@ -141,23 +144,83 @@
   <data name="BookAddressInfoPage" xml:space="preserve">
     <value>{0} ページ</value>
   </data>
-  <data name="BookmarkItemMenuDelete" xml:space="preserve">
-    <value>ブックマークをはずす(_R)</value>
-  </data>
-  <data name="BookmarkItemMenuDeleteFolder" xml:space="preserve">
-    <value>フォルダーを削除(_D)</value>
-  </data>
-  <data name="BookmarkItemMenuRename" xml:space="preserve">
-    <value>名前の変更(_M)</value>
+  <data name="BookAddressInfoPagemark" xml:space="preserve">
+    <value>ページマークアドレスです</value>
   </data>
   <data name="BookmarkListAddTips" xml:space="preserve">
     <value>ブックマークを追加</value>
   </data>
-  <data name="BookmarkMenuDeleteInvalid" xml:space="preserve">
-    <value>無効なブックマークを削除</value>
+  <data name="BookmarkListMoreMenuSyncBookshelf" xml:space="preserve">
+    <value>本棚と同期する</value>
   </data>
   <data name="BookmarkName" xml:space="preserve">
     <value>ブックマーク</value>
+  </data>
+  <data name="BookshelfBackTips" xml:space="preserve">
+    <value>戻る</value>
+  </data>
+  <data name="BookshelfHomeMenuSet" xml:space="preserve">
+    <value>この場所をホームに設定する</value>
+  </data>
+  <data name="BookshelfHomeTips" xml:space="preserve">
+    <value>ホームに移動</value>
+  </data>
+  <data name="BookshelfItemMenuCopy" xml:space="preserve">
+    <value>コピー(_C)</value>
+  </data>
+  <data name="BookshelfItemMenuDelete" xml:space="preserve">
+    <value>削除(_D)</value>
+  </data>
+  <data name="BookshelfItemMenuDeleteBookmark" xml:space="preserve">
+    <value>ブックマークから外す</value>
+  </data>
+  <data name="BookshelfItemMenuDeleteHistory" xml:space="preserve">
+    <value>履歴から削除</value>
+  </data>
+  <data name="BookshelfItemMenuExplorer" xml:space="preserve">
+    <value>エクスプローラーで開く</value>
+  </data>
+  <data name="BookshelfItemMenuOpen" xml:space="preserve">
+    <value>開く</value>
+  </data>
+  <data name="BookshelfItemMenuRename" xml:space="preserve">
+    <value>名前の変更(_M)</value>
+  </data>
+  <data name="BookshelfItemMenuSubfolder" xml:space="preserve">
+    <value>サブフォルダーを読み込む</value>
+  </data>
+  <data name="BookshelfMoreMenuAddQuickAccess" xml:space="preserve">
+    <value>この場所をクイックアクセスに追加</value>
+  </data>
+  <data name="BookshelfMoreMenuClearHistory" xml:space="preserve">
+    <value>この場所の履歴をすべて削除</value>
+  </data>
+  <data name="BookshelfMoreMenuExportPlaylist" xml:space="preserve">
+    <value>プレイリストを保存...</value>
+  </data>
+  <data name="BookshelfMoreMenuSearchIncludeSubdirectories" xml:space="preserve">
+    <value>サブフォルダーを含める</value>
+  </data>
+  <data name="BookshelfMoreMenuSearchIncremental" xml:space="preserve">
+    <value>インクリメンタルサーチ</value>
+  </data>
+  <data name="BookshelfMoreMenuSubfolder" xml:space="preserve">
+    <value>この場所ではサブフォルダーを読み込む</value>
+  </data>
+  <data name="BookshelfName" xml:space="preserve">
+    <value>本棚</value>
+  </data>
+  <data name="BookshelfNextTips" xml:space="preserve">
+    <value>進む</value>
+  </data>
+  <data name="BookshelfSubFolderTips" xml:space="preserve">
+    <value>サブフォルダーを読み込む</value>
+  </data>
+  <data name="BookshelfSyncTips" xml:space="preserve">
+    <value>表示中のブックのある場所に移動</value>
+  </data>
+  <data name="BookshelfUpTips" xml:space="preserve">
+    <value>上に移動</value>
   </data>
   <data name="CommandCancelFullScreen" xml:space="preserve">
     <value>フルスクリーン解除</value>
@@ -264,9 +327,6 @@
   <data name="CommandFocusFolderSearchBoxNote" xml:space="preserve">
     <value>検索ボックスにフォーカスを移します。本棚は表示状態になります。</value>
   </data>
-  <data name="CommandGroupBackground" xml:space="preserve">
-    <value>背景</value>
-  </data>
   <data name="CommandGroupBookmark" xml:space="preserve">
     <value>ブックマーク</value>
   </data>
@@ -330,11 +390,14 @@
   <data name="CommandHelpMainMenuNote" xml:space="preserve">
     <value>メインメニューのヘルプをブラウザで表示します。</value>
   </data>
-  <data name="CommandHelpOnline" xml:space="preserve">
-    <value>オンラインヘルプ</value>
+  <data name="CommandHelpSearchOption" xml:space="preserve">
+    <value>検索オプションヘルプ</value>
   </data>
-  <data name="CommandHelpOnlineNote" xml:space="preserve">
-    <value>オンラインヘルプを表示します。</value>
+  <data name="CommandHelpSearchOptionMenu" xml:space="preserve">
+    <value>検索オプションヘルプ</value>
+  </data>
+  <data name="CommandHelpSearchOptionNote" xml:space="preserve">
+    <value>検索オプションのヘルプをブラウザーで開きます。</value>
   </data>
   <data name="CommandImportBackup" xml:space="preserve">
     <value>全設定をインポート</value>
@@ -390,29 +453,35 @@
   <data name="CommandLoupeScaleUpNote" xml:space="preserve">
     <value>ルーペ倍率を拡大します。ルーペ使用時のみ機能します。</value>
   </data>
-  <data name="CommandMovePageWithCursor" xml:space="preserve">
-    <value>マウス位置依存でページを前後させる</value>
+  <data name="CommandMoveToChildBook" xml:space="preserve">
+    <value>このブックを開く</value>
   </data>
-  <data name="CommandMovePageWithCursorNext" xml:space="preserve">
-    <value>次のページ</value>
+  <data name="CommandMoveToChildBookNote" xml:space="preserve">
+    <value>ページがブックであるとき、そのブックを開きます。</value>
   </data>
-  <data name="CommandMovePageWithCursorNote" xml:space="preserve">
-    <value>マウスカーソル位置によって移動方向が決まります。 ウィンドウ左にカーソルがあるときは次のページへ進み、右にカーソルがあるときは前のページに戻ります。</value>
+  <data name="CommandMoveToParentBook" xml:space="preserve">
+    <value>親のブックを開く</value>
   </data>
-  <data name="CommandMovePageWithCursorPrev" xml:space="preserve">
-    <value>前のページ</value>
+  <data name="CommandMoveToParentBookNote" xml:space="preserve">
+    <value>上の階層をブックとして開きます。</value>
   </data>
-  <data name="CommandNextBookmark" xml:space="preserve">
-    <value>次のブックマークへ移動</value>
+  <data name="CommandNextBookHistory" xml:space="preserve">
+    <value>次のブックに進む</value>
   </data>
-  <data name="CommandNextBookmarkNote" xml:space="preserve">
-    <value>ブックマークリスト順で次のブックに移動します。</value>
+  <data name="CommandNextBookHistoryNote" xml:space="preserve">
+    <value>次に開いていたブックを開きます。</value>
   </data>
   <data name="CommandNextFolder" xml:space="preserve">
     <value>次のブックへ移動</value>
   </data>
   <data name="CommandNextFolderNote" xml:space="preserve">
     <value>本棚上での次のブックを読み込みます。</value>
+  </data>
+  <data name="CommandNextFolderPage" xml:space="preserve">
+    <value>次のフォルダーに移動</value>
+  </data>
+  <data name="CommandNextFolderPageNote" xml:space="preserve">
+    <value>ブック内の次のフォルダーの先頭ページに移動します。名前順の並びでのみ有効です。</value>
   </data>
   <data name="CommandNextHistory" xml:space="preserve">
     <value>次の履歴へ進む</value>
@@ -507,17 +576,23 @@
   <data name="CommandPasteNote" xml:space="preserve">
     <value>クリップボードのファイルや画像を貼り付けます。</value>
   </data>
-  <data name="CommandPrevBookmark" xml:space="preserve">
-    <value>前のブックマークに移動</value>
+  <data name="CommandPrevBookHistory" xml:space="preserve">
+    <value>前のブックに戻る</value>
   </data>
-  <data name="CommandPrevBookmarkNote" xml:space="preserve">
-    <value>ブックマークリスト順で前のブックに移動します。</value>
+  <data name="CommandPrevBookHistoryNote" xml:space="preserve">
+    <value>前に開いていたブックを開きます。</value>
   </data>
   <data name="CommandPrevFolder" xml:space="preserve">
     <value>前のブックに移動</value>
   </data>
   <data name="CommandPrevFolderNote" xml:space="preserve">
     <value>本棚上での前のブックを読み込みます。</value>
+  </data>
+  <data name="CommandPrevFolderPage" xml:space="preserve">
+    <value>前のフォルダーに移動</value>
+  </data>
+  <data name="CommandPrevFolderPageNote" xml:space="preserve">
+    <value>ブック内の前のフォルダーの先頭ページに移動します。名前順の並びでのみ有効です。</value>
   </data>
   <data name="CommandPrevHistory" xml:space="preserve">
     <value>前の履歴に戻る</value>
@@ -576,6 +651,12 @@
   <data name="CommandReLoadNote" xml:space="preserve">
     <value>ブックを再読み込みします。</value>
   </data>
+  <data name="CommandReloadUserSetting" xml:space="preserve">
+    <value>設定の再読込</value>
+  </data>
+  <data name="CommandReloadUserSettingNote" xml:space="preserve">
+    <value>設定を再読み込みします。</value>
+  </data>
   <data name="CommandSetBackgroundAuto" xml:space="preserve">
     <value>背景を画像に合わせた色にする</value>
   </data>
@@ -591,14 +672,14 @@
   <data name="CommandSetBackgroundCheck" xml:space="preserve">
     <value>背景を白チェック模様にする</value>
   </data>
-  <data name="CommandSetBackgroundCheckNote" xml:space="preserve">
-    <value>背景を白チェック模様にします。</value>
-  </data>
   <data name="CommandSetBackgroundCheckDark" xml:space="preserve">
     <value>背景を黒チェック模様にする</value>
   </data>
   <data name="CommandSetBackgroundCheckDarkNote" xml:space="preserve">
     <value>背景を黒チェック模様にします。</value>
+  </data>
+  <data name="CommandSetBackgroundCheckNote" xml:space="preserve">
+    <value>背景を白チェック模様にします。</value>
   </data>
   <data name="CommandSetBackgroundCustom" xml:space="preserve">
     <value>背景をカスタム背景にする</value>
@@ -630,6 +711,18 @@
   <data name="CommandSetDefaultPageSettingNote" xml:space="preserve">
     <value>既定のページ設定に戻します。</value>
   </data>
+  <data name="CommandSetFolderOrderByEntryTimeA" xml:space="preserve">
+    <value>ブック列は登録昇順</value>
+  </data>
+  <data name="CommandSetFolderOrderByEntryTimeANote" xml:space="preserve">
+    <value>ブックの並びを登録順(昇順)にします。</value>
+  </data>
+  <data name="CommandSetFolderOrderByEntryTimeD" xml:space="preserve">
+    <value>ブック列は登録降順</value>
+  </data>
+  <data name="CommandSetFolderOrderByEntryTimeDNote" xml:space="preserve">
+    <value>ブックの並びを登録順(降順)にします。</value>
+  </data>
   <data name="CommandSetFolderOrderByFileNameA" xml:space="preserve">
     <value>ブック列はファイル名順昇順</value>
   </data>
@@ -641,6 +734,30 @@
   </data>
   <data name="CommandSetFolderOrderByFileNameDNote" xml:space="preserve">
     <value>ブックの並びを名前順(降順)にします。</value>
+  </data>
+  <data name="CommandSetFolderOrderByFileTypeA" xml:space="preserve">
+    <value>ブック列は種類昇順</value>
+  </data>
+  <data name="CommandSetFolderOrderByFileTypeANote" xml:space="preserve">
+    <value>ブックの並びをファイルの種類順(昇順)にします。</value>
+  </data>
+  <data name="CommandSetFolderOrderByFileTypeD" xml:space="preserve">
+    <value>ブック列は種類降順</value>
+  </data>
+  <data name="CommandSetFolderOrderByFileTypeDNote" xml:space="preserve">
+    <value>ブックの並びをファイルの種類順(降順)にします。</value>
+  </data>
+  <data name="CommandSetFolderOrderByPathA" xml:space="preserve">
+    <value>ブック列はパス昇順</value>
+  </data>
+  <data name="CommandSetFolderOrderByPathANote" xml:space="preserve">
+    <value>ブックの並びをパス順(昇順)にします。</value>
+  </data>
+  <data name="CommandSetFolderOrderByPathD" xml:space="preserve">
+    <value>ブック列はパス降順</value>
+  </data>
+  <data name="CommandSetFolderOrderByPathDNote" xml:space="preserve">
+    <value>ブックの並びをパス順(降順)にします。</value>
   </data>
   <data name="CommandSetFolderOrderByRandom" xml:space="preserve">
     <value>ブック列はシャッフル</value>
@@ -761,6 +878,12 @@
   </data>
   <data name="CommandSetStretchModeUniformToFillNote" xml:space="preserve">
     <value>縦横どちらかをウィンドウサイズに合わせるように拡大縮小します。画像はウィンドウサイズより大きくなります。</value>
+  </data>
+  <data name="CommandSetStretchModeUniformToHorizontal" xml:space="preserve">
+    <value>幅をウィンドウに合わせる</value>
+  </data>
+  <data name="CommandSetStretchModeUniformToHorizontalNote" xml:space="preserve">
+    <value>ウィンドウの幅に画像の幅を合わせるように拡大縮小します。</value>
   </data>
   <data name="CommandSetStretchModeUniformToSize" xml:space="preserve">
     <value>面積をウィンドウに合わせる</value>
@@ -1047,6 +1170,21 @@
   <data name="CommandToggleMediaPlayNote" xml:space="preserve">
     <value>動画の再生と停止を切り替えます。</value>
   </data>
+  <data name="CommandTogglePageListPlacement" xml:space="preserve">
+    <value>ページリストの配置切り替え</value>
+  </data>
+  <data name="CommandTogglePageListPlacementBookshelf" xml:space="preserve">
+    <value>ページリストを本棚に配置</value>
+  </data>
+  <data name="CommandTogglePageListPlacementMenu" xml:space="preserve">
+    <value>ページリストの配置</value>
+  </data>
+  <data name="CommandTogglePageListPlacementNote" xml:space="preserve">
+    <value>ページリストの配置を本棚とサイドパネルで切り替える</value>
+  </data>
+  <data name="CommandTogglePageListPlacementPanel" xml:space="preserve">
+    <value>ページリストをサイドパネルに配置</value>
+  </data>
   <data name="CommandTogglePagemark" xml:space="preserve">
     <value>ページマーク登録/解除</value>
   </data>
@@ -1188,6 +1326,21 @@
   <data name="CommandToggleVisibleBookmarkListOn" xml:space="preserve">
     <value>ブックマークリストを表示する</value>
   </data>
+  <data name="CommandToggleVisibleBookshelf" xml:space="preserve">
+    <value>本棚の表示ON/OFF</value>
+  </data>
+  <data name="CommandToggleVisibleBookshelfMenu" xml:space="preserve">
+    <value>本棚</value>
+  </data>
+  <data name="CommandToggleVisibleBookshelfNote" xml:space="preserve">
+    <value>本棚パネルの表示/非表示を切り替えます。</value>
+  </data>
+  <data name="CommandToggleVisibleBookshelfOff" xml:space="preserve">
+    <value>本棚を消す</value>
+  </data>
+  <data name="CommandToggleVisibleBookshelfOn" xml:space="preserve">
+    <value>本棚を表示する</value>
+  </data>
   <data name="CommandToggleVisibleEffectInfo" xml:space="preserve">
     <value>エフェクトパネルの表示ON/OFF</value>
   </data>
@@ -1217,21 +1370,6 @@
   </data>
   <data name="CommandToggleVisibleFileInfoOn" xml:space="preserve">
     <value>ファイル情報を表示する</value>
-  </data>
-  <data name="CommandToggleVisibleBookshelf" xml:space="preserve">
-    <value>本棚の表示ON/OFF</value>
-  </data>
-  <data name="CommandToggleVisibleBookshelfMenu" xml:space="preserve">
-    <value>本棚</value>
-  </data>
-  <data name="CommandToggleVisibleBookshelfNote" xml:space="preserve">
-    <value>本棚パネルの表示/非表示を切り替えます。</value>
-  </data>
-  <data name="CommandToggleVisibleBookshelfOff" xml:space="preserve">
-    <value>本棚を消す</value>
-  </data>
-  <data name="CommandToggleVisibleBookshelfOn" xml:space="preserve">
-    <value>本棚を表示する</value>
   </data>
   <data name="CommandToggleVisibleFoldersTree" xml:space="preserve">
     <value>フォルダーツリーの表示ON/OFF</value>
@@ -1485,14 +1623,17 @@
   <data name="ControlAddressBarNext" xml:space="preserve">
     <value>進む</value>
   </data>
-  <data name="ControlAddressBarUp" xml:space="preserve">
-    <value>上へ</value>
-  </data>
   <data name="ControlAddressBarReLoad" xml:space="preserve">
     <value>再読込</value>
   </data>
+  <data name="ControlAddressBarUp" xml:space="preserve">
+    <value>上へ</value>
+  </data>
   <data name="ControlCommandListHeaderCommand" xml:space="preserve">
     <value>コマンド</value>
+  </data>
+  <data name="ControlCommandListHeaderDescription" xml:space="preserve">
+    <value>説明</value>
   </data>
   <data name="ControlCommandListHeaderDisplay" xml:space="preserve">
     <value>表示</value>
@@ -1750,15 +1891,6 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="DialogBookmarkError" xml:space="preserve">
     <value>一時フォルダーはブックマークできません</value>
   </data>
-  <data name="DialogBookmarkErrorTitle" xml:space="preserve">
-    <value>ブックマークできません</value>
-  </data>
-  <data name="DialogBookmarkFolderDelete" xml:space="preserve">
-    <value>含まれる {0} 個のブックマークを削除しました。</value>
-  </data>
-  <data name="DialogBookmarkFolderDeleteTitle" xml:space="preserve">
-    <value>ブックマークフォルダー「{0}」を削除します</value>
-  </data>
   <data name="DialogBootErrorTitle" xml:space="preserve">
     <value>NeeView 起動エラー</value>
   </data>
@@ -1915,14 +2047,8 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="DialogPagemarkError" xml:space="preserve">
     <value>一時フォルダーはページマークできません</value>
   </data>
-  <data name="DialogPagemarkErrorTitle" xml:space="preserve">
-    <value>ページマークできません</value>
-  </data>
   <data name="DialogPagemarkFolderDelete" xml:space="preserve">
     <value>含まれる {0} 個のページマークを削除しました。</value>
-  </data>
-  <data name="DialogPagemarkFolderDeleteTitle" xml:space="preserve">
-    <value>ページマークフォルダー「{0}」を削除します</value>
   </data>
   <data name="DialogQuickAccessTempError" xml:space="preserve">
     <value>一時フォルダーはクイックアクセスに追加できません</value>
@@ -1957,11 +2083,23 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="EffectResizeUnsharp" xml:space="preserve">
     <value>アンシャープマスク</value>
   </data>
+  <data name="EnumArchiveEntryCollectionModeCurrentDirectory" xml:space="preserve">
+    <value>ディレクトリ単位で展開</value>
+  </data>
+  <data name="EnumArchiveEntryCollectionModeIncludeSubArchives" xml:space="preserve">
+    <value>すべて展開</value>
+  </data>
+  <data name="EnumArchiveEntryCollectionModeIncludeSubDirectories" xml:space="preserve">
+    <value>圧縮ファイル単位で展開</value>
+  </data>
   <data name="EnumArchiveOptionTypeNone" xml:space="preserve">
     <value>実行しない</value>
   </data>
   <data name="EnumArchiveOptionTypeSendArchiveFile" xml:space="preserve">
     <value>圧縮ファイルを渡す</value>
+  </data>
+  <data name="EnumArchiveOptionTypeSendArchivePath" xml:space="preserve">
+    <value>圧縮ファイル＋ファイル名</value>
   </data>
   <data name="EnumArchiveOptionTypeSendExtractFile" xml:space="preserve">
     <value>出力したファイルを渡す(一時ファイル)</value>
@@ -1983,6 +2121,27 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="EnumBackgroundStyleWhite" xml:space="preserve">
     <value>背景を白色にする</value>
+  </data>
+  <data name="EnumBookPageCollectModeAll" xml:space="preserve">
+    <value>すべてのファイル</value>
+  </data>
+  <data name="EnumBookPageCollectModeImage" xml:space="preserve">
+    <value>画像</value>
+  </data>
+  <data name="EnumBookPageCollectModeImageAndBook" xml:space="preserve">
+    <value>画像とフォルダー</value>
+  </data>
+  <data name="EnumBookSettingSelectModeContinue" xml:space="preserve">
+    <value>継続</value>
+  </data>
+  <data name="EnumBookSettingSelectModeDefault" xml:space="preserve">
+    <value>既定</value>
+  </data>
+  <data name="EnumBookSettingSelectModeRestoreOrContinue" xml:space="preserve">
+    <value>復元、できなければ継続</value>
+  </data>
+  <data name="EnumBookSettingSelectModeRestoreOrDefault" xml:space="preserve">
+    <value>復元、できなければ既定</value>
   </data>
   <data name="EnumBrushTypeImageFill" xml:space="preserve">
     <value>画像を拡大して表示</value>
@@ -2077,17 +2236,29 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="EnumExternalProgramTypeProtocol" xml:space="preserve">
     <value>プロトコル</value>
   </data>
-  <data name="EnumFolderIconLayoutDefault" xml:space="preserve">
-    <value>標準</value>
+  <data name="EnumFolderOrderEntryTime" xml:space="preserve">
+    <value>登録↑</value>
   </data>
-  <data name="EnumFolderIconLayoutExplorer" xml:space="preserve">
-    <value>エクスプローラー風</value>
+  <data name="EnumFolderOrderEntryTimeDescending" xml:space="preserve">
+    <value>登録↓</value>
   </data>
   <data name="EnumFolderOrderFileName" xml:space="preserve">
     <value>名前↑</value>
   </data>
   <data name="EnumFolderOrderFileNameDescending" xml:space="preserve">
     <value>名前↓</value>
+  </data>
+  <data name="EnumFolderOrderFileType" xml:space="preserve">
+    <value>種類↑</value>
+  </data>
+  <data name="EnumFolderOrderFileTypeDescending" xml:space="preserve">
+    <value>種類↓</value>
+  </data>
+  <data name="EnumFolderOrderPath" xml:space="preserve">
+    <value>パス↑</value>
+  </data>
+  <data name="EnumFolderOrderPathDescending" xml:space="preserve">
+    <value>パス↓</value>
   </data>
   <data name="EnumFolderOrderRandom" xml:space="preserve">
     <value>シャッフル</value>
@@ -2230,11 +2401,23 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="EnumPageStretchModeUniformToFill" xml:space="preserve">
     <value>ウィンドウいっぱいに広げる</value>
   </data>
+  <data name="EnumPageStretchModeUniformToHorizontal" xml:space="preserve">
+    <value>幅をウィンドウに合わせる</value>
+  </data>
   <data name="EnumPageStretchModeUniformToSize" xml:space="preserve">
     <value>面積をウィンドウに合わせる</value>
   </data>
   <data name="EnumPageStretchModeUniformToVertical" xml:space="preserve">
     <value>高さをウィンドウに合わせる</value>
+  </data>
+  <data name="EnumPanelListItemImageShapeBookShape" xml:space="preserve">
+    <value>本の形</value>
+  </data>
+  <data name="EnumPanelListItemImageShapeOriginal" xml:space="preserve">
+    <value>そのまま</value>
+  </data>
+  <data name="EnumPanelListItemImageShapeSquare" xml:space="preserve">
+    <value>正方形</value>
   </data>
   <data name="EnumPreLoadModeAutoPreLoad" xml:space="preserve">
     <value>自動先読み</value>
@@ -2308,9 +2491,6 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="EnumVerticalAlignmentTop" xml:space="preserve">
     <value>上詰め</value>
   </data>
-  <data name="EnumWindowChromeFrameLine" xml:space="preserve">
-    <value>枠線</value>
-  </data>
   <data name="EnumWindowChromeFrameNone" xml:space="preserve">
     <value>なし</value>
   </data>
@@ -2319,6 +2499,21 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="ExceptionCannotDeleteData" xml:space="preserve">
     <value>AppDataフォルダではないため、削除を行いません。</value>
+  </data>
+  <data name="ExceptionCritical" xml:space="preserve">
+    <value>エラーが発生しました。アプリを終了します。</value>
+  </data>
+  <data name="ExceptionCriticalCopy" xml:space="preserve">
+    <value>クリップボードにコピー</value>
+  </data>
+  <data name="ExceptionCriticalLogPath" xml:space="preserve">
+    <value>&lt;a href="{0}"&gt;{0}&lt;/a&gt; にエラーの詳細が出力されています。</value>
+  </data>
+  <data name="ExceptionCriticalMessage" xml:space="preserve">
+    <value>エラーの詳細:</value>
+  </data>
+  <data name="ExceptionCriticalTitle" xml:space="preserve">
+    <value>NeeView - エラー</value>
   </data>
   <data name="ExceptionFileNotFound" xml:space="preserve">
     <value>"{0}" が見つかりません</value>
@@ -2390,72 +2585,6 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="FolderInfoOpenFolder" xml:space="preserve">
     <value>フォルダーを開く</value>
   </data>
-  <data name="BookshelfBackTips" xml:space="preserve">
-    <value>戻る</value>
-  </data>
-  <data name="BookshelfHomeMenuSet" xml:space="preserve">
-    <value>この場所をホームに設定する</value>
-  </data>
-  <data name="BookshelfHomeTips" xml:space="preserve">
-    <value>ホームに移動</value>
-  </data>
-  <data name="BookshelfItemMenuCopy" xml:space="preserve">
-    <value>コピー(_C)</value>
-  </data>
-  <data name="BookshelfItemMenuDelete" xml:space="preserve">
-    <value>削除(_D)</value>
-  </data>
-  <data name="BookshelfItemMenuDeleteBookmark" xml:space="preserve">
-    <value>ブックマークから外す</value>
-  </data>
-  <data name="BookshelfItemMenuExplorer" xml:space="preserve">
-    <value>エクスプローラーで開く</value>
-  </data>
-  <data name="BookshelfItemMenuOpen" xml:space="preserve">
-    <value>開く</value>
-  </data>
-  <data name="BookshelfItemMenuRename" xml:space="preserve">
-    <value>名前の変更(_M)</value>
-  </data>
-  <data name="BookshelfItemMenuSubfolder" xml:space="preserve">
-    <value>サブフォルダーを読み込む</value>
-  </data>
-  <data name="BookshelfMoreMenuAddQuickAccess" xml:space="preserve">
-    <value>この場所をクイックアクセスに追加</value>
-  </data>
-  <data name="BookshelfMoreMenuClearHistory" xml:space="preserve">
-    <value>この場所の履歴をすべて削除</value>
-  </data>
-  <data name="BookshelfMoreMenuPageList" xml:space="preserve">
-    <value>ページリスト</value>
-  </data>
-  <data name="BookshelfMoreMenuSearchBox" xml:space="preserve">
-    <value>検索ボックス</value>
-  </data>
-  <data name="BookshelfMoreMenuSubfolder" xml:space="preserve">
-    <value>この場所ではサブフォルダーを読み込む</value>
-  </data>
-  <data name="BookshelfName" xml:space="preserve">
-    <value>本棚</value>
-  </data>
-  <data name="BookshelfNextTips" xml:space="preserve">
-    <value>進む</value>
-  </data>
-  <data name="BookshelfSubFolderTips" xml:space="preserve">
-    <value>サブフォルダーを読み込む</value>
-  </data>
-  <data name="BookshelfSyncTips" xml:space="preserve">
-    <value>表示中のブックのある場所に移動</value>
-  </data>
-  <data name="BookshelfTitlePlace" xml:space="preserve">
-    <value>場所</value>
-  </data>
-  <data name="BookshelfTitleSearch" xml:space="preserve">
-    <value>検索</value>
-  </data>
-  <data name="BookshelfUpTips" xml:space="preserve">
-    <value>上に移動</value>
-  </data>
   <data name="FolderTreeLayoutLeft" xml:space="preserve">
     <value>左に配置</value>
   </data>
@@ -2483,6 +2612,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="FolderTreeMenuRemoveQuickAccess" xml:space="preserve">
     <value>クイックアクセスから外す</value>
   </data>
+  <data name="HelpChangeLogFile" xml:space="preserve">
+    <value>CHANGELOG.ja-jp.html</value>
+  </data>
   <data name="HelpCommandMessage" xml:space="preserve">
     <value>操作が割り当てられていないコマンドは「コマンド設定」で設定することで使用可能です。</value>
   </data>
@@ -2491,9 +2623,6 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="HelpReadMeFile" xml:space="preserve">
     <value>README.ja-jp.html</value>
-  </data>
-  <data name="HelpChangeLogFile" xml:space="preserve">
-    <value>CHANGELOG.ja-jp.html</value>
   </data>
   <data name="HistoryItemMenuDelete" xml:space="preserve">
     <value>履歴から削除(_D)</value>
@@ -2525,8 +2654,14 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="MenuTreeBookmark" xml:space="preserve">
     <value>ブックマーク(_B)</value>
   </data>
+  <data name="MenuTreeDebug" xml:space="preserve">
+    <value>デバッグ(_D)</value>
+  </data>
   <data name="MenuTreeFile" xml:space="preserve">
     <value>ファイル(_F)</value>
+  </data>
+  <data name="MenuTreeHelp" xml:space="preserve">
+    <value>ヘルプ(_H)</value>
   </data>
   <data name="MenuTreeHistory" xml:space="preserve">
     <value>最近使ったブックの一覧から開きます</value>
@@ -2540,29 +2675,27 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="MenuTreeOption" xml:space="preserve">
     <value>オプション(_O)</value>
   </data>
-  <data name="MenuTreeHelp" xml:space="preserve">
-    <value>ヘルプ(_H)</value>
-  </data>
   <data name="MenuTreePage" xml:space="preserve">
     <value>ページ(_P)</value>
   </data>
   <data name="MenuTreeView" xml:space="preserve">
     <value>表示(_V)</value>
   </data>
-  <data name="MenuTreeDebug" xml:space="preserve">
-    <value>デバッグ(_D)</value>
-  </data>
-  <data name="NotifyBookmarkNextFailed" xml:space="preserve">
-    <value>次のブックマークはありません</value>
-  </data>
-  <data name="NotifyBookmarkPrevFailed" xml:space="preserve">
-    <value>前のブックマークはありません</value>
-  </data>
   <data name="NotifyBookNextFailed" xml:space="preserve">
     <value>次のブックはありません</value>
   </data>
+  <data name="NotifyBookOperationPageLoop" xml:space="preserve">
+    <value>ループしました</value>
+  </data>
   <data name="NotifyBookPrevFailed" xml:space="preserve">
     <value>前のブックはありません</value>
+  </data>
+  <data name="NotifyCacheErrorDirectoryNotFound" xml:space="preserve">
+    <value>フォルダーが見つかりません。({0})
+キャッシュの場所を初期化します。</value>
+  </data>
+  <data name="NotifyCacheErrorTitle" xml:space="preserve">
+    <value>キャッシュエラー</value>
   </data>
   <data name="NotifyCannotDisplay" xml:space="preserve">
     <value>表示できません</value>
@@ -2585,6 +2718,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="NotifyDropContent" xml:space="preserve">
     <value>ドロップされたコンテンツ</value>
   </data>
+  <data name="NotifyFirstFolderPage" xml:space="preserve">
+    <value>最初のフォルダーです</value>
+  </data>
   <data name="NotifyFirstPage" xml:space="preserve">
     <value>最初のページです</value>
   </data>
@@ -2606,11 +2742,15 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="NotifyHistoryTerminal" xml:space="preserve">
     <value>これより古い履歴はありません</value>
   </data>
+  <data name="NotifyInvalidFileNameChars" xml:space="preserve">
+    <value>ファイル名には次の文字は使えません:
+\ / : * ? " &lt; &gt; |</value>
+  </data>
   <data name="NotifyJumpPageLabel" xml:space="preserve">
     <value>ページ番号 ({0} - {1})</value>
   </data>
-  <data name="NotifyJumpTimeLabel" xml:space="preserve">
-    <value>時間 ({0} - {1})</value>
+  <data name="NotifyLastFolderPage" xml:space="preserve">
+    <value>最後のフォルダーです</value>
   </data>
   <data name="NotifyLastPage" xml:space="preserve">
     <value>最後のページです</value>
@@ -2666,6 +2806,19 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="NotifyPlayFailed" xml:space="preserve">
     <value>再生エラー</value>
   </data>
+  <data name="NotifyRemoveUnlinkedPagemark" xml:space="preserve">
+    <value>{0} 個のページマークを削除しました。</value>
+  </data>
+  <data name="NotifySearchKeywordOptionError" xml:space="preserve">
+    <value>不正オプション: {0}</value>
+  </data>
+  <data name="NotifyTemporaryErrorDirectoryNotFound" xml:space="preserve">
+    <value>フォルダーが見つかりません。({0})
+一時フォルダーの場所を初期化します。</value>
+  </data>
+  <data name="NotifyTemporaryErrorTitle" xml:space="preserve">
+    <value>一時フォルダーエラー</value>
+  </data>
   <data name="OptionErrorArgument" xml:space="preserve">
     <value>{0} はサポート外の引数型です。</value>
   </data>
@@ -2681,8 +2834,8 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="OptionErrorFileNotFound" xml:space="preserve">
     <value>指定された設定ファイルが存在しません。</value>
   </data>
-  <data name="OptionBookshelf" xml:space="preserve">
-    <value>指定された場所の本棚を開きます。"?search="を追加することで検索キーワードも指定できます</value>
+  <data name="OptionFolderList" xml:space="preserve">
+    <value>本棚の場所を指定します</value>
   </data>
   <data name="OptionIsBlank" xml:space="preserve">
     <value>画像ファイルを開かずに起動します</value>
@@ -2704,9 +2857,6 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="OptionIsVersion" xml:space="preserve">
     <value>バージョン情報を表示します</value>
-  </data>
-  <data name="OptionFolderList" xml:space="preserve">
-    <value>本棚の場所を指定します</value>
   </data>
   <data name="OptionSettingFilename" xml:space="preserve">
     <value>設定ファイル(UserSetting.xml)のパスを指定します</value>
@@ -2732,11 +2882,26 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="PagemarkListAddTips" xml:space="preserve">
     <value>ページマークを追加</value>
   </data>
+  <data name="PagemarkMenuCurrentBook" xml:space="preserve">
+    <value>現在のブックのみ</value>
+  </data>
   <data name="PagemarkMenuDeleteInvalid" xml:space="preserve">
     <value>無効なページマークを削除</value>
   </data>
+  <data name="PagemarkMenuOpenAsBook" xml:space="preserve">
+    <value>ブックとして開く</value>
+  </data>
+  <data name="PagemarkMenuSortPath" xml:space="preserve">
+    <value>パス順</value>
+  </data>
   <data name="PagemarkName" xml:space="preserve">
     <value>ページマーク</value>
+  </data>
+  <data name="ParamArchiveRecursiveMode" xml:space="preserve">
+    <value>圧縮ファイルの扱い</value>
+  </data>
+  <data name="ParamArchiveRecursiveModeTips" xml:space="preserve">
+    <value>圧縮ファイルをブックとして開くときの展開範囲</value>
   </data>
   <data name="ParamArchiverMediaIsEnabled" xml:space="preserve">
     <value>動画を使用する</value>
@@ -2798,17 +2963,23 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamBookFilterSortMode" xml:space="preserve">
     <value>ページの並び順</value>
   </data>
+  <data name="ParamBookIsAllFileAnImage" xml:space="preserve">
+    <value>拡張子が不明なファイルを画像ファイルとみなす</value>
+  </data>
+  <data name="ParamBookIsAllFileAnImageTips" xml:space="preserve">
+    <value>「@ParamBookPageCollectMode」が「@EnumBookPageCollectModeAll」のときに機能します。</value>
+  </data>
   <data name="ParamBookIsEnableAnimatedGif" xml:space="preserve">
     <value>アニメーションGIFを再生する</value>
   </data>
   <data name="ParamBookIsEnableAnimatedGifTips" xml:space="preserve">
     <value>アニメーションGIF再生を行います。長時間のGIFでメモリ消費の問題が発生する可能性があります。</value>
   </data>
-  <data name="ParamBookIsEnableNoSupportFile" xml:space="preserve">
-    <value>サポート外ファイルもページに含める</value>
+  <data name="ParamBookIsLoadingPageVisible" xml:space="preserve">
+    <value>次のページ読み込み完了まで現在のページを表示する</value>
   </data>
-  <data name="ParamBookIsEnableNoSupportFileTips" xml:space="preserve">
-    <value>対応拡張子外のファイルやフォルダーもページとして表示します。</value>
+  <data name="ParamBookIsLoadingPageVisibleTips" xml:space="preserve">
+    <value>OFFにすることでメモリ節約になります。</value>
   </data>
   <data name="ParamBookIsMultiplePageMove" xml:space="preserve">
     <value>ページ移動コマンドの重複許可</value>
@@ -2840,35 +3011,71 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamBookIsSupportedWidePage" xml:space="preserve">
     <value>横長ページを2ページとみなす</value>
   </data>
-  <data name="ParamBookLoadingPageView" xml:space="preserve">
-    <value>読み込み中ページの表示方法</value>
+  <data name="ParamBookmarkFilePath" xml:space="preserve">
+    <value>ブックマークリストの保存場所</value>
   </data>
-  <data name="ParamBookLoadingPageViewTips" xml:space="preserve">
-    <value>ページの読み込みが完了するまでに表示するものを指定します。「@EnumLoadingPageViewPreImage」が一番メモリを消費します。</value>
+  <data name="ParamBookOperationNotifyPageLoop" xml:space="preserve">
+    <value>ページのループを通知する</value>
   </data>
   <data name="ParamBookOperationPageEndAction" xml:space="preserve">
     <value>ページの終端を超えて移動しようとした時の挙動</value>
   </data>
+  <data name="ParamBookPage" xml:space="preserve">
+    <value>ページ位置</value>
+  </data>
+  <data name="ParamBookPageCollectMode" xml:space="preserve">
+    <value>ページになるファイルの種類</value>
+  </data>
+  <data name="ParamBookPageCollectModeTips" xml:space="preserve">
+    <value>フォルダーをページにすると、そのページからフォルダーを開くことができるようになります。</value>
+  </data>
   <data name="ParamBookPageMode" xml:space="preserve">
     <value>ページ表示</value>
   </data>
-  <data name="ParamBookPreloadLimitSize" xml:space="preserve">
-    <value>自動先読み判定用画像サイズ</value>
+  <data name="ParamBookshelfExcludePattern" xml:space="preserve">
+    <value>表示から除外するファイル名のパターン</value>
   </data>
-  <data name="ParamBookPreloadLimitSizeTips" xml:space="preserve">
-    <value>自動先読みモードで使用します。この面積より大きい画像で先読みが無効になります。2ページ表示の場合は2ページの合計面積で判定されます。</value>
+  <data name="ParamBookshelfExcludePatternTips" xml:space="preserve">
+    <value>.NETの正規表現で指定します。大文字小文字は区別されません。</value>
   </data>
-  <data name="ParamBookPreLoadMode" xml:space="preserve">
-    <value>先読み</value>
+  <data name="ParamBookshelfHome" xml:space="preserve">
+    <value>ホームの場所</value>
   </data>
-  <data name="ParamBookPreLoadModeTips" xml:space="preserve">
-    <value>先読みは前後のページを保持するためメモリを消費します。「@EnumPreLoadModeAutoPreLoad」にすると画像サイズに応じで先読み有効無効を切り替えます。「@EnumPreLoadModePreLoadNoUnload」は読み込んだ画像を破棄しない最もメモリを消費するモードです。</value>
+  <data name="ParamBookshelfIsCloseBookWhenMove" xml:space="preserve">
+    <value>場所を変更したときにブックを閉じる</value>
   </data>
-  <data name="ParamBookSettingIsUseBookMementoDefault" xml:space="preserve">
-    <value>ブックを開くときに復元されない項目には既定のページ設定を適用する</value>
+  <data name="ParamBookshelfIsCruise" xml:space="preserve">
+    <value>ブック移動を巡回移動にする</value>
   </data>
-  <data name="ParamBookSettingIsUseBookMementoDefaultTips" xml:space="preserve">
-    <value>OFFにすると直前の設定値を引き継ぎます。</value>
+  <data name="ParamBookshelfIsCruiseTips" xml:space="preserve">
+    <value>フォルダーの親子を含めた移動を行います。本棚が検索結果である場合には適用されません。</value>
+  </data>
+  <data name="ParamBookshelfIsInsertItem" xml:space="preserve">
+    <value>追加ファイルはソート位置に挿入する</value>
+  </data>
+  <data name="ParamBookshelfIsInsertItemTips" xml:space="preserve">
+    <value>本棚はリアルタイムに情報を反映します。この設定がONの場合、追加されたファイルを現在のソート順位置に挿入します。OFFにするとリストの終端に追加します。</value>
+  </data>
+  <data name="ParamBookshelfIsMultipleRarFilterEnabled" xml:space="preserve">
+    <value>表示からRAR分割ファイルをフィルター</value>
+  </data>
+  <data name="ParamBookshelfIsMultipleRarFilterEnabledTips" xml:space="preserve">
+    <value>.part[数字].rar というRAR分割ファイルの場合に、数字が一番小さいファイルのみをリストに表示します。</value>
+  </data>
+  <data name="ParamBookshelfIsSyncFolderTree" xml:space="preserve">
+    <value>同期ボタンでフォルダーツリーを同期する</value>
+  </data>
+  <data name="ParamBookshelfIsVisibleBookmarkMark" xml:space="preserve">
+    <value>ブックマーク記号を表示する</value>
+  </data>
+  <data name="ParamBookshelfIsVisibleBookmarkMarkTips" xml:space="preserve">
+    <value>ブックマークされているブックに★マークを表示します。</value>
+  </data>
+  <data name="ParamBookshelfIsVisibleHistoryMark" xml:space="preserve">
+    <value>履歴記号を表示する</value>
+  </data>
+  <data name="ParamBookshelfIsVisibleHistoryMarkTips" xml:space="preserve">
+    <value>履歴に残っているブックにチェックマークを表示します。</value>
   </data>
   <data name="ParamBookSortMode" xml:space="preserve">
     <value>ページの並び順</value>
@@ -2879,14 +3086,23 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamBookWideRatioTips" xml:space="preserve">
     <value>「横長ページを分割する」で使用されます。</value>
   </data>
-  <data name="ParamBookIsAllFileAnImage" xml:space="preserve">
-    <value>拡張子が不明なファイルを画像ファイルとみなす</value>
+  <data name="ParamCacheDirectory" xml:space="preserve">
+    <value>キャッシュフォルダーの場所</value>
   </data>
-  <data name="ParamBookIsAllFileAnImageTips" xml:space="preserve">
-    <value>「@ParamBookPageCollectMode」が「@EnumBookPageCollectModeAll」のときに機能します。</value>
+  <data name="ParamCacheDirectoryTips" xml:space="preserve">
+    <value>サムネイルキャッシュ(Cache.db)の保存場所です。</value>
+  </data>
+  <data name="ParamCacheMemorySize" xml:space="preserve">
+    <value>ブックのキャッシュメモリサイズ(MB)</value>
+  </data>
+  <data name="ParamCacheMemorySizeTips" xml:space="preserve">
+    <value>一度読み込んだページをメモリに保持して再表示時を高速化します。この値は目安であり、この値を超えてメモリが使用されることがあります。大きすぎる値はシステムを不安定にする可能性があるので注意してください。</value>
   </data>
   <data name="ParamClipboardArchiveOption" xml:space="preserve">
     <value>圧縮ファイルの場合</value>
+  </data>
+  <data name="ParamClipboardArchiveSeparater" xml:space="preserve">
+    <value>ファイル名との区切り文字</value>
   </data>
   <data name="ParamClipboardMultiPageOption" xml:space="preserve">
     <value>2ページの場合</value>
@@ -3017,6 +3233,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamDownloadPathTips" xml:space="preserve">
     <value>ブラウザ等がらドロップした画像の保存場所です。指定がない場合は一時フォルダーが使用されます。</value>
   </data>
+  <data name="ParamDragActionElements" xml:space="preserve">
+    <value>ドラッグ操作設定</value>
+  </data>
   <data name="ParamDragTransformAngleFrequency" xml:space="preserve">
     <value>回転スナップ</value>
   </data>
@@ -3068,6 +3287,15 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamEffectSaturation" xml:space="preserve">
     <value>彩度</value>
   </data>
+  <data name="ParameterCursorHideReleaseDistance" xml:space="preserve">
+    <value>再表示する移動距離</value>
+  </data>
+  <data name="ParameterCursorHideTime" xml:space="preserve">
+    <value>非表示にするまでの時間(秒)</value>
+  </data>
+  <data name="ParameterIsCursorHideReleaseAction" xml:space="preserve">
+    <value>マウスボタン操作で再表示する</value>
+  </data>
   <data name="ParamExportImageIsEnableExportFolder" xml:space="preserve">
     <value>前回保存したフォルダーを記憶する</value>
   </data>
@@ -3079,6 +3307,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="ParamExternalArchiveOption" xml:space="preserve">
     <value>圧縮ファイルの場合</value>
+  </data>
+  <data name="ParamExternalArchiveSeparater" xml:space="preserve">
+    <value>ファイル名との区切り文字</value>
   </data>
   <data name="ParamExternalCommand" xml:space="preserve">
     <value>プログラム</value>
@@ -3134,54 +3365,6 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamFilmStripThumbnailSize" xml:space="preserve">
     <value>ページサムネイルサイズ</value>
   </data>
-  <data name="ParamBookshelfExcludePattern" xml:space="preserve">
-    <value>表示から除外するファイル名のパターン</value>
-  </data>
-  <data name="ParamBookshelfExcludePatternTips" xml:space="preserve">
-    <value>.NETの正規表現で指定します。大文字小文字は区別されません。</value>
-  </data>
-  <data name="ParamBookshelfFolderIconLayout" xml:space="preserve">
-    <value>ファイルアイコンのレイアウト</value>
-  </data>
-  <data name="ParamBookshelfHome" xml:space="preserve">
-    <value>ホームの場所</value>
-  </data>
-  <data name="ParamBookshelfIsCloseBookWhenMove" xml:space="preserve">
-    <value>場所を変更したときにブックを閉じる</value>
-  </data>
-  <data name="ParamBookshelfIsCruise" xml:space="preserve">
-    <value>ブック移動を巡回移動にする</value>
-  </data>
-  <data name="ParamBookshelfIsCruiseTips" xml:space="preserve">
-    <value>フォルダーの親子を含めた移動を行います。本棚が検索結果である場合には適用されません。</value>
-  </data>
-  <data name="ParamBookshelfIsInsertItem" xml:space="preserve">
-    <value>追加ファイルはソート位置に挿入する</value>
-  </data>
-  <data name="ParamBookshelfIsInsertItemTips" xml:space="preserve">
-    <value>本棚はリアルタイムに情報を反映します。この設定がONの場合、追加されたファイルを現在のソート順位置に挿入します。OFFにするとリストの終端に追加します。</value>
-  </data>
-  <data name="ParamBookshelfIsMultipleRarFilterEnabled" xml:space="preserve">
-    <value>表示からRAR分割ファイルをフィルター</value>
-  </data>
-  <data name="ParamBookshelfIsMultipleRarFilterEnabledTips" xml:space="preserve">
-    <value>.part[数字].rar というRAR分割ファイルの場合に、数字が一番小さいファイルのみをリストに表示します。</value>
-  </data>
-  <data name="ParamBookshelfIsSyncFolderTree" xml:space="preserve">
-    <value>同期ボタンでフォルダーツリーを同期する</value>
-  </data>
-  <data name="ParamBookshelfIsVisibleBookmarkMark" xml:space="preserve">
-    <value>ブックマーク記号を表示する</value>
-  </data>
-  <data name="ParamBookshelfIsVisibleBookmarkMarkTips" xml:space="preserve">
-    <value>ブックマークされているブックに★マークを表示します。</value>
-  </data>
-  <data name="ParamBookshelfIsVisibleHistoryMark" xml:space="preserve">
-    <value>履歴記号を表示する</value>
-  </data>
-  <data name="ParamBookshelfIsVisibleHistoryMarkTips" xml:space="preserve">
-    <value>履歴に残っているブックにチェックマークを表示します。</value>
-  </data>
   <data name="ParamFolderTreeLayout" xml:space="preserve">
     <value>フォルダーツリーの配置</value>
   </data>
@@ -3202,6 +3385,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="ParamHistoryEntryPageCountTips" xml:space="preserve">
     <value>この回数以上のページ移動操作、もしくは最終ページ表示で履歴に登録します。</value>
+  </data>
+  <data name="ParamHistoryFilePath" xml:space="preserve">
+    <value>履歴リストの保存場所</value>
   </data>
   <data name="ParamHistoryIsKeepFolderStatus" xml:space="preserve">
     <value>最後に開いていた場所、各フォルダーの並び順等の情報を保存する</value>
@@ -3254,12 +3440,6 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamIsAccessKeyEnabledTips" xml:space="preserve">
     <value>OFFにすると、Altキーによるシステム操作が無効になりコマンドのショートカットで使用したときの誤動作がなくなります。ただしAlt+F4は常に有効です。</value>
   </data>
-  <data name="ParamIsArchiveRecursive" xml:space="preserve">
-    <value>多重圧縮ファイルをすべて展開する</value>
-  </data>
-  <data name="ParamIsArchiveRecursiveTips" xml:space="preserve">
-    <value>OFFにすると含まれる圧縮ファイルはサブフォルダー扱いになります。</value>
-  </data>
   <data name="ParamIsAutoGC" xml:space="preserve">
     <value>メモリ開放をシステムに任せる</value>
   </data>
@@ -3271,12 +3451,6 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="ParamIsAutoRecursive" xml:space="preserve">
     <value>ページがなくサブフォルダーが１つだけ存在する場合にサブフォルダーを読み込む</value>
-  </data>
-  <data name="ParamIsAutoRecursiveWithAllFiles" xml:space="preserve">
-    <value>ページ外ファイルも含めて判定する</value>
-  </data>
-  <data name="ParamIsAutoRecursiveWithAllFilesTips" xml:space="preserve">
-    <value>ページとなるファイル以外が存在する場合は自動判定を行いません</value>
   </data>
   <data name="ParamIsCancelSlideByMouseMove" xml:space="preserve">
     <value>マウス移動で表示間隔リセット</value>
@@ -3296,8 +3470,17 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamIsConfirmRecursiveTips" xml:space="preserve">
     <value>ブックを開いた時に表示可能なページがなく、かつサブフォルダーが存在する場合にサブフォルダーも読み込むかを問い合わせるダイアログを表示します。</value>
   </data>
+  <data name="ParamIsCursorHideEnabled" xml:space="preserve">
+    <value>自動非表示の有効化</value>
+  </data>
   <data name="ParamIsFileOperationEnabled" xml:space="preserve">
     <value>ファイル操作有効</value>
+  </data>
+  <data name="ParamIsForceUpdateHistory" xml:space="preserve">
+    <value>履歴からブックを開いたときでも最終閲覧日を更新する</value>
+  </data>
+  <data name="ParamIsHamburgerMenu" xml:space="preserve">
+    <value>ハンバーガーメニューを使う</value>
   </data>
   <data name="ParamIsHidePageSliderInFullscreen" xml:space="preserve">
     <value>フルスクリーンのときにスライダーを自動的に隠す</value>
@@ -3365,6 +3548,15 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamIsSlideShowByLoopTips" xml:space="preserve">
     <value>最終ページまで再生したら先頭ページに戻ります。</value>
   </data>
+  <data name="ParamIsSplashScreenEnabled" xml:space="preserve">
+    <value>スプラッシュスクリーン</value>
+  </data>
+  <data name="ParamIsSyncUserSetting" xml:space="preserve">
+    <value>設定を同期する</value>
+  </data>
+  <data name="ParamIsSyncUserSettingTips" xml:space="preserve">
+    <value>多重起動しているとき、設定ウィンドウを閉じたときに他のNeeViewの設定も更新します。</value>
+  </data>
   <data name="ParamIsUncHistoryEnabled" xml:space="preserve">
     <value>UNCパスを履歴に保存する</value>
   </data>
@@ -3389,6 +3581,45 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamLanguageTips" xml:space="preserve">
     <value>※次の起動から適用されます。</value>
   </data>
+  <data name="ParamListItemBannerImageWidth" xml:space="preserve">
+    <value>バナーサイズ</value>
+  </data>
+  <data name="ParamListItemBannerImageWidthTips" xml:space="preserve">
+    <value>バナー表示の画像の横幅です。縦幅は横幅の1/4になります。サムネイル画像を流用しているため大きいサイズほど画像が荒くなります。</value>
+  </data>
+  <data name="ParamListItemBannerIsTextWrapped" xml:space="preserve">
+    <value>バナー表示の名前を折り返して表示する</value>
+  </data>
+  <data name="ParamListItemContentImagePopup" xml:space="preserve">
+    <value>アイコンのポップアップ</value>
+  </data>
+  <data name="ParamListItemContentImagePopupTips" xml:space="preserve">
+    <value>アイコンにカーソルを合わせるとポップアップで大きめの画像が表示されます。</value>
+  </data>
+  <data name="ParamListItemContentImageShape" xml:space="preserve">
+    <value>アイコンの形</value>
+  </data>
+  <data name="ParamListItemContentImageWidth" xml:space="preserve">
+    <value>アイコンサイズ</value>
+  </data>
+  <data name="ParamListItemContentImageWidthTips" xml:space="preserve">
+    <value>コンテンツ表示の画像サイズです。</value>
+  </data>
+  <data name="ParamListItemContentIsDecoratePlace" xml:space="preserve">
+    <value>補足テキストのパス表示を整形する</value>
+  </data>
+  <data name="ParamListItemContentIsDecoratePlaceTips" xml:space="preserve">
+    <value>"AAA (C:\BBB\CCC)" のように整形します。</value>
+  </data>
+  <data name="ParamListItemContentIsTextWrapped" xml:space="preserve">
+    <value>コンテンツ表示の名前を折り返して表示する</value>
+  </data>
+  <data name="ParamListItemContentNoteOpacity" xml:space="preserve">
+    <value>コンテンツ表示の補足テキストの透明度</value>
+  </data>
+  <data name="ParamListItemContentNoteOpacityTips" xml:space="preserve">
+    <value>コンテンツ表示での補足テキストの透明度です。</value>
+  </data>
   <data name="ParamListItemFolderTreeFontSize" xml:space="preserve">
     <value>フォルダーツリーのフォントサイズ</value>
   </data>
@@ -3397,6 +3628,21 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="ParamListItemFontSize" xml:space="preserve">
     <value>リスト項目のフォントサイズ</value>
+  </data>
+  <data name="ParamListItemThumbnailImageShape" xml:space="preserve">
+    <value>サムネイルの形</value>
+  </data>
+  <data name="ParamListItemThumbnailImageWidth" xml:space="preserve">
+    <value>サムネイルサイズ</value>
+  </data>
+  <data name="ParamListItemThumbnailImageWidthTips" xml:space="preserve">
+    <value>サムネイル表示の画像サイズです。</value>
+  </data>
+  <data name="ParamListItemThumbnailIsTextWrapped" xml:space="preserve">
+    <value>サムネイル表示の名前を折り返して表示する</value>
+  </data>
+  <data name="ParamListItemThumbnailNameVisibled" xml:space="preserve">
+    <value>サムネイルに名前を表示する</value>
   </data>
   <data name="ParamLoupeDefaultScale" xml:space="preserve">
     <value>ルーペ標準倍率</value>
@@ -3440,11 +3686,17 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamLoupeSpeed" xml:space="preserve">
     <value>ルーペ移動速度</value>
   </data>
+  <data name="ParamMenuColor" xml:space="preserve">
+    <value>メニューカラー</value>
+  </data>
   <data name="ParamMouseGestureMinimumDistance" xml:space="preserve">
     <value>マウスジェスチャーのストローク(pixel)</value>
   </data>
   <data name="ParamMouseGestureMinimumDistanceTips" xml:space="preserve">
     <value>この距離の移動でジェスチャーストロークと判断されます。</value>
+  </data>
+  <data name="ParamMouseIsDragEnabled" xml:space="preserve">
+    <value>マウスドラッグ有効</value>
   </data>
   <data name="ParamMouseIsGestureEnabled" xml:space="preserve">
     <value>マウスジェスチャー有効</value>
@@ -3467,17 +3719,29 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamMouseLongButtonRepeatTimeTips" xml:space="preserve">
     <value>リピート入力でのリピート時間です。</value>
   </data>
+  <data name="ParamMouseMinimumDragDistance" xml:space="preserve">
+    <value>ドラッグ開始距離(pixel)</value>
+  </data>
+  <data name="ParamMouseMinimumDragDistanceTips" xml:space="preserve">
+    <value>ドラッグやジェスチャーになる最初の移動距離</value>
+  </data>
   <data name="ParamPageBackgroundColor" xml:space="preserve">
     <value>透過画像の背景色</value>
+  </data>
+  <data name="ParamPageListPlacementInBookshelf" xml:space="preserve">
+    <value>ページリストを本棚に配置</value>
+  </data>
+  <data name="ParamPageListPlacementInBookshelfTips" xml:space="preserve">
+    <value>OFFにするとサイドパネルになります。</value>
+  </data>
+  <data name="ParamPagemarkFilePath" xml:space="preserve">
+    <value>ページマークリストの保存場所</value>
   </data>
   <data name="ParamPageSeconds" xml:space="preserve">
     <value>ページ移動での変化時間(秒)</value>
   </data>
   <data name="ParamPanelColor" xml:space="preserve">
     <value>テーマカラー</value>
-  </data>
-  <data name="ParamMenuColor" xml:space="preserve">
-    <value>メニューカラー</value>
   </data>
   <data name="ParamPictureCustomHeight" xml:space="preserve">
     <value>縦幅</value>
@@ -3490,6 +3754,12 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="ParamPictureProfileExtensions" xml:space="preserve">
     <value>画像ファイルの拡張子</value>
+  </data>
+  <data name="ParamPictureProfileIsAspectRatioEnabled" xml:space="preserve">
+    <value>画像の解像度情報を適用する</value>
+  </data>
+  <data name="ParamPictureProfileIsAspectRatioEnabledTips" xml:space="preserve">
+    <value>画像に設定されているアスペクト比で表示します。</value>
   </data>
   <data name="ParamPictureProfileIsLimitSourceSize" xml:space="preserve">
     <value>読み込み画像サイズ制限</value>
@@ -3506,6 +3776,12 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamPictureProfileMaximumSizeTips" xml:space="preserve">
     <value>リサイズフィルターで拡大される最大画像サイズです。</value>
   </data>
+  <data name="ParamPreLoadSize" xml:space="preserve">
+    <value>先読みページ数</value>
+  </data>
+  <data name="ParamPreLoadSizeTips" xml:space="preserve">
+    <value>キャッシュメモリサイズの範囲内で先読みを行います。</value>
+  </data>
   <data name="ParamSeCannotMove" xml:space="preserve">
     <value>移動できなかったときの効果音</value>
   </data>
@@ -3515,20 +3791,11 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamSevenZipArchiverIsPreExtract" xml:space="preserve">
     <value>全て事前展開する</value>
   </data>
-  <data name="ParamSevenZipArchiverIsPreExtractTips" xml:space="preserve">
-    <value>ブックを閲覧する時に一時フォルダーに全て事前展開することでページ送りを高速化します。OFFにするとソリッド圧縮ファイルの場合のみ事前展開を行います。</value>
-  </data>
   <data name="ParamSevenZipArchiverIsPreExtractToMemory" xml:space="preserve">
     <value>ソリッド圧縮ファイルの事前展開先をメモリにする</value>
   </data>
   <data name="ParamSevenZipArchiverIsPreExtractToMemoryTips" xml:space="preserve">
     <value>一時ファイルでなくメモリ上に展開することで高速化します。消費するメモリはブックのキャッシュメモリとは別に確保されます。</value>
-  </data>
-  <data name="ParamSevenZipArchiverLockTime" xml:space="preserve">
-    <value>ファイルをロックする時間(秒)</value>
-  </data>
-  <data name="ParamSevenZipArchiverLockTimeTips" xml:space="preserve">
-    <value>この時間アクセスがなければロックを解除します。-1でロックを保持したままになります。</value>
   </data>
   <data name="ParamSevenZipArchiverPreExtractSolidSize" xml:space="preserve">
     <value>ソリッド圧縮ファイルを事前展開する最大展開サイズ(MB)</value>
@@ -3600,8 +3867,56 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   <data name="ParamSusieIsFirstOrderSusieImage" xml:space="preserve">
     <value>画像表示でSusieプラグインを優先する</value>
   </data>
+  <data name="ParamSusieIsPluginCacheEnabled" xml:space="preserve">
+    <value>プラグインをキャッシュする</value>
+  </data>
+  <data name="ParamSusieIsPluginCacheEnabledTips" xml:space="preserve">
+    <value>不安定な場合、OFFにすると安定する可能性があります。</value>
+  </data>
+  <data name="ParamSusiePluginIsEnabled" xml:space="preserve">
+    <value>プラグイン有効</value>
+  </data>
+  <data name="ParamSusiePluginIsPreExtract" xml:space="preserve">
+    <value>書庫を事前展開する</value>
+  </data>
   <data name="ParamSusiePluginPath" xml:space="preserve">
     <value>プラグインフォルダー</value>
+  </data>
+  <data name="ParamTemporaryDirectory" xml:space="preserve">
+    <value>一時フォルダーの場所</value>
+  </data>
+  <data name="ParamTemporaryDirectoryTips" xml:space="preserve">
+    <value>多重圧縮ファイルの展開や事前展開に使用されます。</value>
+  </data>
+  <data name="ParamThumbnailBookCapacity" xml:space="preserve">
+    <value>ブックサムネイル容量</value>
+  </data>
+  <data name="ParamThumbnailBookCapacityTips" xml:space="preserve">
+    <value>メモリに保持されるブックサムネイル数です。</value>
+  </data>
+  <data name="ParamThumbnailFormat" xml:space="preserve">
+    <value>サムネイル画像フォーマット</value>
+  </data>
+  <data name="ParamThumbnailFormatTips" xml:space="preserve">
+    <value>Pngは高品質ですが、Jpegより多くのメモリを消費します。</value>
+  </data>
+  <data name="ParamThumbnailIsCacheEnabled" xml:space="preserve">
+    <value>サムネイルキャッシュを使用する</value>
+  </data>
+  <data name="ParamThumbnailIsCacheEnabledTips" xml:space="preserve">
+    <value>ブックサムネイルをキャッシュします。</value>
+  </data>
+  <data name="ParamThumbnailPageCapacity" xml:space="preserve">
+    <value>ページサムネイル容量</value>
+  </data>
+  <data name="ParamThumbnailPageCapacityTips" xml:space="preserve">
+    <value>メモリに保持されるページサムネイル数です。ブックを閉じると全て破棄されます。</value>
+  </data>
+  <data name="ParamThumbnailQuality" xml:space="preserve">
+    <value>サムネイル品質</value>
+  </data>
+  <data name="ParamThumbnailQualityTips" xml:space="preserve">
+    <value>サムネイル画像フォーマットがJpegの場合の品質です。</value>
   </data>
   <data name="ParamTouchDragAction" xml:space="preserve">
     <value>シングルタッチのドラッグ操作</value>
@@ -3717,9 +4032,6 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   <data name="SettingPageBookGeneral" xml:space="preserve">
     <value>ブック全般</value>
   </data>
-  <data name="SettingPageBookGeneralAdvance" xml:space="preserve">
-    <value>詳細設定</value>
-  </data>
   <data name="SettingPageBookGeneralGeneral" xml:space="preserve">
     <value>全般</value>
   </data>
@@ -3734,6 +4046,12 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   </data>
   <data name="SettingPageBookMovePage" xml:space="preserve">
     <value>ページ移動</value>
+  </data>
+  <data name="SettingPageBookPageSetting" xml:space="preserve">
+    <value>ページ設定</value>
+  </data>
+  <data name="SettingPageBookPageSettingTips" xml:space="preserve">
+    <value>左の項目は既定値、右の項目はブックを開いたときの動作です。</value>
   </data>
   <data name="SettingPageBookSubFolder" xml:space="preserve">
     <value>サブフォルダー</value>
@@ -3767,6 +4085,9 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   </data>
   <data name="SettingPageContextMenuEdit" xml:space="preserve">
     <value>コンテキストメニュー設定</value>
+  </data>
+  <data name="SettingPageEnvironmentMemoryAndPerformance" xml:space="preserve">
+    <value>メモリとパフォーマンス</value>
   </data>
   <data name="SettingPageExternal" xml:space="preserve">
     <value>外部連携</value>
@@ -3819,6 +4140,15 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   <data name="SettingPageGeneralDetailLanguage" xml:space="preserve">
     <value>言語</value>
   </data>
+  <data name="SettingPageGeneralLocation" xml:space="preserve">
+    <value>場所</value>
+  </data>
+  <data name="SettingPageGeneralLocationTypes" xml:space="preserve">
+    <value>場所</value>
+  </data>
+  <data name="SettingPageGeneralLocationTypesTips" xml:space="preserve">
+    <value>※次の起動から適用されます。</value>
+  </data>
   <data name="SettingPageGeneralSaveData" xml:space="preserve">
     <value>保存データ</value>
   </data>
@@ -3827,6 +4157,9 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   </data>
   <data name="SettingPageGeneralSaveDataTypes" xml:space="preserve">
     <value>保存データ</value>
+  </data>
+  <data name="SettingPageGeneralSaveDataTypesTips" xml:space="preserve">
+    <value>※保存場所は次の起動から適用されます。データの引継ぎにはエクスポート、インポートを活用してください。</value>
   </data>
   <data name="SettingPageHistory" xml:space="preserve">
     <value>履歴</value>
@@ -3837,14 +4170,14 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   <data name="SettingPageHistoryGeneralAdvance" xml:space="preserve">
     <value>詳細設定</value>
   </data>
+  <data name="SettingPageHistoryGeneralBookshelf" xml:space="preserve">
+    <value>本棚</value>
+  </data>
   <data name="SettingPageHistoryGeneralDelete" xml:space="preserve">
     <value>履歴削除</value>
   </data>
   <data name="SettingPageHistoryGeneralDeleteButton" xml:space="preserve">
     <value>履歴を削除する</value>
-  </data>
-  <data name="SettingPageHistoryGeneralBookshelf" xml:space="preserve">
-    <value>本棚</value>
   </data>
   <data name="SettingPageHistoryGeneralGeneral" xml:space="preserve">
     <value>全般</value>
@@ -3885,14 +4218,17 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   <data name="SettingPageManipurateMouse" xml:space="preserve">
     <value>マウス操作</value>
   </data>
-  <data name="SettingPageManipurateMouseAdvance" xml:space="preserve">
-    <value>詳細設定</value>
-  </data>
   <data name="SettingPageManipurateMouseDrag" xml:space="preserve">
     <value>マウスドラッグ操作</value>
   </data>
   <data name="SettingPageManipurateMouseHold" xml:space="preserve">
     <value>マウス長押し操作</value>
+  </data>
+  <data name="SettingPageManipurateMouseVisibility" xml:space="preserve">
+    <value>カーソルの自動非表示</value>
+  </data>
+  <data name="SettingPageManipurateMouseVisibilityTips" xml:space="preserve">
+    <value>一定時間マウス操作をしない場合カーソルを非表示にします。</value>
   </data>
   <data name="SettingPageManipurateTouch" xml:space="preserve">
     <value>タッチ操作</value>
@@ -3902,45 +4238,6 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   </data>
   <data name="SettingPageManipurateTouchGeneral" xml:space="preserve">
     <value>全般</value>
-  </data>
-  <data name="SettingPagePage" xml:space="preserve">
-    <value>ページ設定</value>
-  </data>
-  <data name="SettingPagePageDefault" xml:space="preserve">
-    <value>既定のページ設定</value>
-  </data>
-  <data name="SettingPagePageDefaultSetting" xml:space="preserve">
-    <value>既定のページ設定</value>
-  </data>
-  <data name="SettingPagePageDefaultSettingTips" xml:space="preserve">
-    <value>「ページ設定の初期化」で使用される設定です。</value>
-  </data>
-  <data name="SettingPagePageRecovery" xml:space="preserve">
-    <value>復元項目</value>
-  </data>
-  <data name="SettingPagePageRecoveryItems" xml:space="preserve">
-    <value>履歴、ブックマークから復元するページ設定項目</value>
-  </data>
-  <data name="SettingPagePageRecoveryItemsTips" xml:space="preserve">
-    <value>開いたことがあるブックの場合、前回の情報から設定の復元をします。復元しない項目は既定のページ設定もしくは直前の設定が使用されます。</value>
-  </data>
-  <data name="SettingPagePageRecoveryUseDefault" xml:space="preserve">
-    <value>既定のページ設定の使用</value>
-  </data>
-  <data name="SettingPagePanelEffect" xml:space="preserve">
-    <value>エフェクトパネル</value>
-  </data>
-  <data name="SettingPagePanelEffectAdvance" xml:space="preserve">
-    <value>詳細設定</value>
-  </data>
-  <data name="SettingPagePanelEffectVisual" xml:space="preserve">
-    <value>表示</value>
-  </data>
-  <data name="SettingPagePanelFileInfo" xml:space="preserve">
-    <value>ファイル情報パネル</value>
-  </data>
-  <data name="SettingPagePanelFileInfoVisual" xml:space="preserve">
-    <value>表示</value>
   </data>
   <data name="SettingPagePanelBookshelf" xml:space="preserve">
     <value>本棚</value>
@@ -3957,6 +4254,21 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   <data name="SettingPagePanelBookshelfVisual" xml:space="preserve">
     <value>表示</value>
   </data>
+  <data name="SettingPagePanelEffect" xml:space="preserve">
+    <value>エフェクトパネル</value>
+  </data>
+  <data name="SettingPagePanelEffectAdvance" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
+  <data name="SettingPagePanelEffectVisual" xml:space="preserve">
+    <value>表示</value>
+  </data>
+  <data name="SettingPagePanelFileInfo" xml:space="preserve">
+    <value>ファイル情報パネル</value>
+  </data>
+  <data name="SettingPagePanelFileInfoVisual" xml:space="preserve">
+    <value>表示</value>
+  </data>
   <data name="SettingPagePanelGeneral" xml:space="preserve">
     <value>サイドパネル全般</value>
   </data>
@@ -3969,6 +4281,9 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   <data name="SettingPagePanelGeneralVisual" xml:space="preserve">
     <value>表示</value>
   </data>
+  <data name="SettingPagePanelListItem" xml:space="preserve">
+    <value>パネルリスト項目</value>
+  </data>
   <data name="SettingPageSusie" xml:space="preserve">
     <value>Susie</value>
   </data>
@@ -3978,8 +4293,17 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   <data name="SettingPageSusieGeneral" xml:space="preserve">
     <value>Susie全般</value>
   </data>
+  <data name="SettingPageSusieGeneralAdvance" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
   <data name="SettingPageSusieGeneralGeneral" xml:space="preserve">
     <value>全般</value>
+  </data>
+  <data name="SettingPageSusieGeneralGeneralTips" xml:space="preserve">
+    <value>Susieプラグイン(.spi)に対応しています。</value>
+  </data>
+  <data name="SettingPageSusieGeneralGeneralTipsX64" xml:space="preserve">
+    <value>64bit用Susieプラグイン(.sph)に対応しています。</value>
   </data>
   <data name="SettingPageSusieGeneralPriority" xml:space="preserve">
     <value>優先設定</value>
@@ -4082,6 +4406,13 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="TokenFormat" xml:space="preserve">
     <value>「{0}」</value>
   </data>
+  <data name="Ver320" xml:space="preserve">
+    <value>NeeView 32.0</value>
+  </data>
+  <data name="Ver320Note" xml:space="preserve">
+    <value>・ブックマークリストはフォルダーリストと統合され、本棚になりました。
+・ページマークリストのフォルダーは自動作成されるようになりました。</value>
+  </data>
   <data name="WindowAboutTitle" xml:space="preserve">
     <value>このアプリについて</value>
   </data>
@@ -4090,6 +4421,9 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="WordAdd" xml:space="preserve">
     <value>追加</value>
+  </data>
+  <data name="WordAllPagemark" xml:space="preserve">
+    <value>すべてのページマーク</value>
   </data>
   <data name="WordBookmark" xml:space="preserve">
     <value>ブックマーク</value>
@@ -4112,8 +4446,14 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordCommand" xml:space="preserve">
     <value>コマンド</value>
   </data>
+  <data name="WordConfig" xml:space="preserve">
+    <value>設定</value>
+  </data>
   <data name="WordDaysAgo" xml:space="preserve">
     <value>{0}日前まで</value>
+  </data>
+  <data name="WordDefaultPagemark" xml:space="preserve">
+    <value>規定のページマーク</value>
   </data>
   <data name="WordDegree" xml:space="preserve">
     <value>度</value>
@@ -4141,6 +4481,9 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="WordFile" xml:space="preserve">
     <value>ファイル</value>
+  </data>
+  <data name="WordFirstPage" xml:space="preserve">
+    <value>最初のページ</value>
   </data>
   <data name="WordFixedDrive" xml:space="preserve">
     <value>ローカルディスク</value>
@@ -4192,6 +4535,9 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="WordOn" xml:space="preserve">
     <value>オン</value>
+  </data>
+  <data name="WordOpen" xml:space="preserve">
+    <value>開く</value>
   </data>
   <data name="WordOpenStore" xml:space="preserve">
     <value>Microsoft Store を開く</value>
@@ -4279,552 +4625,5 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="WordYes" xml:space="preserve">
     <value>はい</value>
-  </data>
-  <data name="ParamListItemBannerImageWidth" xml:space="preserve">
-    <value>バナーサイズ</value>
-  </data>
-  <data name="ParamListItemBannerImageWidthTips" xml:space="preserve">
-    <value>バナー表示の画像の横幅です。縦幅は横幅の1/4になります。サムネイル画像を流用しているため大きいサイズほど画像が荒くなります。</value>
-  </data>
-  <data name="ParamThumbnailBookCapacity" xml:space="preserve">
-    <value>ブックサムネイル容量</value>
-  </data>
-  <data name="ParamThumbnailBookCapacityTips" xml:space="preserve">
-    <value>メモリに保持されるブックサムネイル数です。</value>
-  </data>
-  <data name="ParamThumbnailFormat" xml:space="preserve">
-    <value>サムネイル画像フォーマット</value>
-  </data>
-  <data name="ParamThumbnailFormatTips" xml:space="preserve">
-    <value>Pngは高品質ですが、Jpegより多くのメモリを消費します。</value>
-  </data>
-  <data name="ParamThumbnailIsCacheEnabled" xml:space="preserve">
-    <value>サムネイルキャッシュを使用する</value>
-  </data>
-  <data name="ParamThumbnailIsCacheEnabledTips" xml:space="preserve">
-    <value>ブックサムネイルをキャッシュします。</value>
-  </data>
-  <data name="ParamListItemContentImagePopup" xml:space="preserve">
-    <value>アイコンのポップアップ</value>
-  </data>
-  <data name="ParamListItemContentImagePopupTips" xml:space="preserve">
-    <value>アイコンにカーソルを合わせるとポップアップで大きめの画像が表示されます。</value>
-  </data>
-  <data name="ParamListItemThumbnailNameVisibled" xml:space="preserve">
-    <value>サムネイルに名前を表示する</value>
-  </data>
-  <data name="ParamThumbnailPageCapacity" xml:space="preserve">
-    <value>ページサムネイル容量</value>
-  </data>
-  <data name="ParamThumbnailPageCapacityTips" xml:space="preserve">
-    <value>メモリに保持されるページサムネイル数です。ブックを閉じると全て破棄されます。</value>
-  </data>
-  <data name="ParamThumbnailQuality" xml:space="preserve">
-    <value>サムネイル品質</value>
-  </data>
-  <data name="ParamThumbnailQualityTips" xml:space="preserve">
-    <value>サムネイル画像フォーマットがJpegの場合の品質です。</value>
-  </data>
-  <data name="ParamListItemContentImageWidth" xml:space="preserve">
-    <value>アイコンサイズ</value>
-  </data>
-  <data name="ParamListItemContentImageWidthTips" xml:space="preserve">
-    <value>コンテンツ表示の画像サイズです。</value>
-  </data>
-  <data name="ParamListItemThumbnailImageWidth" xml:space="preserve">
-    <value>サムネイルサイズ</value>
-  </data>
-  <data name="ParamListItemThumbnailImageWidthTips" xml:space="preserve">
-    <value>サムネイル表示の画像サイズです。</value>
-  </data>
-  <data name="ParamListItemContentIsTextWrapped" xml:space="preserve">
-    <value>コンテンツ表示の名前を折り返して表示する</value>
-  </data>
-  <data name="ParamListItemContentNoteOpacity" xml:space="preserve">
-    <value>コンテンツ表示の補足テキストの透明度</value>
-  </data>
-  <data name="ParamListItemContentNoteOpacityTips" xml:space="preserve">
-    <value>コンテンツ表示での補足テキストの透明度です。</value>
-  </data>
-  <data name="ParamListItemBannerIsTextWrapped" xml:space="preserve">
-    <value>バナー表示の名前を折り返して表示する</value>
-  </data>
-  <data name="ParamListItemThumbnailIsTextWrapped" xml:space="preserve">
-    <value>サムネイル表示の名前を折り返して表示する</value>
-  </data>
-  <data name="SettingPagePanelListItem" xml:space="preserve">
-    <value>パネルリスト項目</value>
-  </data>
-  <data name="EnumPanelListItemImageShapeOriginal" xml:space="preserve">
-    <value>そのまま</value>
-  </data>
-  <data name="EnumPanelListItemImageShapeSquare" xml:space="preserve">
-    <value>正方形</value>
-  </data>
-  <data name="EnumPanelListItemImageShapeBookShape" xml:space="preserve">
-    <value>本の形</value>
-  </data>
-  <data name="ParamListItemContentImageShape" xml:space="preserve">
-    <value>アイコンの形</value>
-  </data>
-  <data name="ParamListItemThumbnailImageShape" xml:space="preserve">
-    <value>サムネイルの形</value>
-  </data>
-  <data name="WordOpen" xml:space="preserve">
-    <value>開く</value>
-  </data>
-  <data name="WordDefaultPagemark" xml:space="preserve">
-    <value>規定のページマーク</value>
-  </data>
-  <data name="FolderTreeMenuDeleteInvalidPagemark" xml:space="preserve">
-    <value>無効なページマークを削除</value>
-  </data>
-  <data name="PagemarkMenuCurrentBook" xml:space="preserve">
-    <value>現在のブックのみ</value>
-  </data>
-  <data name="WordAllPagemark" xml:space="preserve">
-    <value>すべてのページマーク</value>
-  </data>
-  <data name="NotifyRemoveUnlinkedPagemark" xml:space="preserve">
-    <value>{0} 個のページマークを削除しました。</value>
-  </data>
-  <data name="BookAddressInfoPagemark" xml:space="preserve">
-    <value>ページマークアドレスです</value>
-  </data>
-  <data name="ArchiveFormatPagemark" xml:space="preserve">
-    <value>ページマーク形式</value>
-  </data>
-  <data name="PagemarkMenuOpenAsBook" xml:space="preserve">
-    <value>ブックとして開く</value>
-  </data>
-  <data name="ParamPageListPlacementInBookshelf" xml:space="preserve">
-    <value>ページリストを本棚に配置</value>
-  </data>
-  <data name="ParamPageListPlacementInBookshelfTips" xml:space="preserve">
-    <value>OFFにするとサイドパネルになります。</value>
-  </data>
-  <data name="Ver320" xml:space="preserve">
-    <value>NeeView 32.0</value>
-  </data>
-  <data name="Ver320Note" xml:space="preserve">
-    <value>・ブックマークリストはフォルダーリストと統合され、本棚になりました。
-・ページマークリストのフォルダーは自動作成されるようになりました。</value>
-  </data>
-  <data name="CommandTogglePageListPlacement" xml:space="preserve">
-    <value>ページリストの配置切り替え</value>
-  </data>
-  <data name="CommandTogglePageListPlacementNote" xml:space="preserve">
-    <value>ページリストの配置を本棚とサイドパネルで切り替える</value>
-  </data>
-  <data name="CommandTogglePageListPlacementPanel" xml:space="preserve">
-    <value>ページリストをサイドパネルに配置</value>
-  </data>
-  <data name="CommandTogglePageListPlacementBookshelf" xml:space="preserve">
-    <value>ページリストを本棚に配置</value>
-  </data>
-  <data name="CommandTogglePageListPlacementMenu" xml:space="preserve">
-    <value>ページリストの配置</value>
-  </data>
-  <data name="ParamIsSplashScreenEnabled" xml:space="preserve">
-    <value>スプラッシュスクリーン</value>
-  </data>
-  <data name="ParamSusieIsPluginCacheEnabled" xml:space="preserve">
-    <value>プラグインをキャッシュする</value>
-  </data>
-  <data name="ParamSusieIsPluginCacheEnabledTips" xml:space="preserve">
-    <value>不安定な場合、OFFにすると安定する可能性があります。</value>
-  </data>
-  <data name="ParamSusieIsPreExtract" xml:space="preserve">
-    <value>書庫を事前展開する</value>
-  </data>
-  <data name="ParamSusieIsPreExtractTips" xml:space="preserve">
-    <value>書庫を一時フォルダーに展開してアクセスを高速化します。</value>
-  </data>
-  <data name="SettingPageSusieGeneralAdvance" xml:space="preserve">
-    <value>詳細設定</value>
-  </data>
-  <data name="WordConfig" xml:space="preserve">
-    <value>設定</value>
-  </data>
-  <data name="ParamSusiePluginIsEnabled" xml:space="preserve">
-    <value>プラグイン有効</value>
-  </data>
-  <data name="ParamSusiePluginIsPreExtract" xml:space="preserve">
-    <value>書庫を事前展開する</value>
-  </data>
-  <data name="ParamIsSyncUserSetting" xml:space="preserve">
-    <value>設定を同期する</value>
-  </data>
-  <data name="ParamIsSyncUserSettingTips" xml:space="preserve">
-    <value>多重起動しているとき、設定ウィンドウを閉じたときに他のNeeViewの設定も更新します。</value>
-  </data>
-  <data name="CommandReloadUserSetting" xml:space="preserve">
-    <value>設定の再読込</value>
-  </data>
-  <data name="CommandReloadUserSettingNote" xml:space="preserve">
-    <value>設定を再読み込みします。</value>
-  </data>
-  <data name="SettingPageGeneralLocation" xml:space="preserve">
-    <value>場所</value>
-  </data>
-  <data name="SettingPageGeneralLocationTypes" xml:space="preserve">
-    <value>場所</value>
-  </data>
-  <data name="ParamTemporaryDirectory" xml:space="preserve">
-    <value>一時フォルダーの場所</value>
-  </data>
-  <data name="ParamTemporaryDirectoryTips" xml:space="preserve">
-    <value>多重圧縮ファイルの展開や事前展開に使用されます。</value>
-  </data>
-  <data name="SettingPageGeneralLocationTypesTips" xml:space="preserve">
-    <value>※次の起動から適用されます。</value>
-  </data>
-  <data name="NotifyCacheErrorTitle" xml:space="preserve">
-    <value>キャッシュエラー</value>
-  </data>
-  <data name="NotifyCacheErrorDirectoryNotFound" xml:space="preserve">
-    <value>フォルダーが見つかりません。({0})
-キャッシュの場所を初期化します。</value>
-  </data>
-  <data name="ParamCacheDirectory" xml:space="preserve">
-    <value>キャッシュフォルダーの場所</value>
-  </data>
-  <data name="ParamCacheDirectoryTips" xml:space="preserve">
-    <value>サムネイルキャッシュ(Cache.db)の保存場所です。</value>
-  </data>
-  <data name="NotifyTemporaryErrorTitle" xml:space="preserve">
-    <value>一時フォルダーエラー</value>
-  </data>
-  <data name="NotifyTemporaryErrorDirectoryNotFound" xml:space="preserve">
-    <value>フォルダーが見つかりません。({0})
-一時フォルダーの場所を初期化します。</value>
-  </data>
-  <data name="ParamHistoryFilePath" xml:space="preserve">
-    <value>履歴リストの保存場所</value>
-  </data>
-  <data name="ParamBookmarkFilePath" xml:space="preserve">
-    <value>ブックマークリストの保存場所</value>
-  </data>
-  <data name="ParamPagemarkFilePath" xml:space="preserve">
-    <value>ページマークリストの保存場所</value>
-  </data>
-  <data name="SettingPageGeneralSaveDataTypesTips" xml:space="preserve">
-    <value>※保存場所は次の起動から適用されます。データの引継ぎにはエクスポート、インポートを活用してください。</value>
-  </data>
-  <data name="NotifyInvalidFileNameChars" xml:space="preserve">
-    <value>ファイル名には次の文字は使えません:
-\ / : * ? " &lt; &gt; |</value>
-  </data>
-  <data name="EnumArchiveOptionTypeSendArchivePath" xml:space="preserve">
-    <value>圧縮ファイル＋ファイル名</value>
-  </data>
-  <data name="ParamClipboardArchiveSeparater" xml:space="preserve">
-    <value>ファイル名との区切り文字</value>
-  </data>
-  <data name="ParamExternalArchiveSeparater" xml:space="preserve">
-    <value>ファイル名との区切り文字</value>
-  </data>
-  <data name="NotifyBookOperationPageLoop" xml:space="preserve">
-    <value>ループしました</value>
-  </data>
-  <data name="ParamBookOperationNotifyPageLoop" xml:space="preserve">
-    <value>ページのループを通知する</value>
-  </data>
-  <data name="BookmarkListMoreMenuSyncBookshelf" xml:space="preserve">
-    <value>本棚と同期する</value>
-  </data>
-  <data name="EnumFolderOrderEntryTime" xml:space="preserve">
-    <value>登録↑</value>
-  </data>
-  <data name="EnumFolderOrderEntryTimeDescending" xml:space="preserve">
-    <value>登録↓</value>
-  </data>
-  <data name="CommandSetFolderOrderByEntryTimeA" xml:space="preserve">
-    <value>ブック列は登録昇順</value>
-  </data>
-  <data name="CommandSetFolderOrderByEntryTimeANote" xml:space="preserve">
-    <value>ブックの並びを登録順(昇順)にします。</value>
-  </data>
-  <data name="CommandSetFolderOrderByEntryTimeD" xml:space="preserve">
-    <value>ブック列は登録降順</value>
-  </data>
-  <data name="CommandSetFolderOrderByEntryTimeDNote" xml:space="preserve">
-    <value>ブックの並びを登録順(降順)にします。</value>
-  </data>
-  <data name="CommandSetFolderOrderByPathA" xml:space="preserve">
-    <value>ブック列はパス昇順</value>
-  </data>
-  <data name="CommandSetFolderOrderByPathANote" xml:space="preserve">
-    <value>ブックの並びをパス順(昇順)にします。</value>
-  </data>
-  <data name="CommandSetFolderOrderByPathD" xml:space="preserve">
-    <value>ブック列はパス降順</value>
-  </data>
-  <data name="CommandSetFolderOrderByPathDNote" xml:space="preserve">
-    <value>ブックの並びをパス順(降順)にします。</value>
-  </data>
-  <data name="CommandSetFolderOrderByFileTypeA" xml:space="preserve">
-    <value>ブック列は種類昇順</value>
-  </data>
-  <data name="CommandSetFolderOrderByFileTypeANote" xml:space="preserve">
-    <value>ブックの並びをファイルの種類順(昇順)にします。</value>
-  </data>
-  <data name="CommandSetFolderOrderByFileTypeD" xml:space="preserve">
-    <value>ブック列は種類降順</value>
-  </data>
-  <data name="CommandSetFolderOrderByFileTypeDNote" xml:space="preserve">
-    <value>ブックの並びをファイルの種類順(降順)にします。</value>
-  </data>
-  <data name="EnumFolderOrderPath" xml:space="preserve">
-    <value>パス↑</value>
-  </data>
-  <data name="EnumFolderOrderPathDescending" xml:space="preserve">
-    <value>パス↓</value>
-  </data>
-  <data name="EnumFolderOrderFileType" xml:space="preserve">
-    <value>種類↑</value>
-  </data>
-  <data name="EnumFolderOrderFileTypeDescending" xml:space="preserve">
-    <value>種類↓</value>
-  </data>
-  <data name="SettingPageManipurateMouseVisibility" xml:space="preserve">
-    <value>カーソルの自動非表示</value>
-  </data>
-  <data name="SettingPageManipurateMouseVisibilityTips" xml:space="preserve">
-    <value>一定時間マウス操作をしない場合カーソルを非表示にします。</value>
-  </data>
-  <data name="ParamIsCursorHideEnabled" xml:space="preserve">
-    <value>自動非表示の有効化</value>
-  </data>
-  <data name="ParameterCursorHideTime" xml:space="preserve">
-    <value>非表示にするまでの時間(秒)</value>
-  </data>
-  <data name="ParameterIsCursorHideReleaseAction" xml:space="preserve">
-    <value>マウスボタン操作で再表示する</value>
-  </data>
-  <data name="ParameterCursorHideReleaseDistance" xml:space="preserve">
-    <value>再表示する移動距離</value>
-  </data>
-  <data name="BookshelfMoreMenuSearchSetting" xml:space="preserve">
-    <value>検索設定</value>
-  </data>
-  <data name="BookshelfMoreMenuSearchIncremental" xml:space="preserve">
-    <value>インクリメンタルサーチ</value>
-  </data>
-  <data name="BookshelfMoreMenuSearchIncludeSubdirectories" xml:space="preserve">
-    <value>サブフォルダーを含める</value>
-  </data>
-  <data name="BookshelfMoreMenuSearchRegularExpression" xml:space="preserve">
-    <value>正規表現</value>
-  </data>
-  <data name="SettingPageManipurateMouseGesture" xml:space="preserve">
-    <value>マウスジェスチャー</value>
-  </data>
-  <data name="SettingPageManipurateMouseDragCommon" xml:space="preserve">
-    <value>ドラッグ、ジェスチャー共通</value>
-  </data>
-  <data name="ParamMouseIsDragEnabled" xml:space="preserve">
-    <value>マウスドラッグ有効</value>
-  </data>
-  <data name="ParamMouseMinimumDragDistance" xml:space="preserve">
-    <value>ドラッグ開始距離(pixel)</value>
-  </data>
-  <data name="ParamMouseMinimumDragDistanceTips" xml:space="preserve">
-    <value>ドラッグやジェスチャーになる最初の移動距離</value>
-  </data>
-  <data name="ParamDragActionElements" xml:space="preserve">
-    <value>ドラッグ操作設定</value>
-  </data>
-  <data name="CommandHelpSearchOption" xml:space="preserve">
-    <value>検索オプションヘルプ</value>
-  </data>
-  <data name="CommandHelpSearchOptionMenu" xml:space="preserve">
-    <value>検索オプションヘルプ</value>
-  </data>
-  <data name="CommandHelpSearchOptionNote" xml:space="preserve">
-    <value>検索オプションのヘルプをブラウザーで開きます。</value>
-  </data>
-  <data name="NotifySearchKeywordOptionError" xml:space="preserve">
-    <value>不正オプション: {0}</value>
-  </data>
-  <data name="BookshelfItemMenuDeleteHistory" xml:space="preserve">
-    <value>履歴から削除</value>
-  </data>
-  <data name="BookshelfItemMenuAddBookmark" xml:space="preserve">
-    <value>ブックマークに登録</value>
-  </data>
-  <data name="EnumPageStretchModeUniformToHorizontal" xml:space="preserve">
-    <value>幅をウィンドウに合わせる</value>
-  </data>
-  <data name="CommandSetStretchModeUniformToHorizontal" xml:space="preserve">
-    <value>幅をウィンドウに合わせる</value>
-  </data>
-  <data name="CommandSetStretchModeUniformToHorizontalNote" xml:space="preserve">
-    <value>ウィンドウの幅に画像の幅を合わせるように拡大縮小します。</value>
-  </data>
-  <data name="ParamIsForceUpdateHistory" xml:space="preserve">
-    <value>履歴からブックを開いたときでも最終閲覧日を更新する</value>
-  </data>
-  <data name="ExceptionCritical" xml:space="preserve">
-    <value>エラーが発生しました。アプリを終了します。</value>
-  </data>
-  <data name="ExceptionCriticalTitle" xml:space="preserve">
-    <value>NeeView - エラー</value>
-  </data>
-  <data name="ExceptionCriticalMessage" xml:space="preserve">
-    <value>エラーの詳細:</value>
-  </data>
-  <data name="ExceptionCriticalCopy" xml:space="preserve">
-    <value>クリップボードにコピー</value>
-  </data>
-  <data name="ExceptionCriticalLogPath" xml:space="preserve">
-    <value>&lt;a href="{0}"&gt;{0}&lt;/a&gt; にエラーの詳細が出力されています。</value>
-  </data>
-  <data name="ParamArchiveRecursiveMode" xml:space="preserve">
-    <value>圧縮ファイルの扱い</value>
-  </data>
-  <data name="ParamArchiveRecursiveModeTips" xml:space="preserve">
-    <value>圧縮ファイルをブックとして開くときの展開範囲</value>
-  </data>
-  <data name="EnumArchiveEntryCollectionModeCurrentDirectory" xml:space="preserve">
-    <value>ディレクトリ単位で展開</value>
-  </data>
-  <data name="EnumArchiveEntryCollectionModeIncludeSubDirectories" xml:space="preserve">
-    <value>圧縮ファイル単位で展開</value>
-  </data>
-  <data name="EnumArchiveEntryCollectionModeIncludeSubArchives" xml:space="preserve">
-    <value>すべて展開</value>
-  </data>
-  <data name="CommandPrevBookHistory" xml:space="preserve">
-    <value>前のブックに戻る</value>
-  </data>
-  <data name="CommandPrevBookHistoryNote" xml:space="preserve">
-    <value>前に開いていたブックを開きます。</value>
-  </data>
-  <data name="CommandNextBookHistory" xml:space="preserve">
-    <value>次のブックに進む</value>
-  </data>
-  <data name="CommandNextBookHistoryNote" xml:space="preserve">
-    <value>次に開いていたブックを開きます。</value>
-  </data>
-  <data name="CommandMoveToParentBook" xml:space="preserve">
-    <value>親のブックを開く</value>
-  </data>
-  <data name="CommandMoveToParentBookNote" xml:space="preserve">
-    <value>上の階層をブックとして開きます。</value>
-  </data>
-  <data name="CommandMoveToChildBook" xml:space="preserve">
-    <value>このブックを開く</value>
-  </data>
-  <data name="CommandMoveToChildBookNote" xml:space="preserve">
-    <value>ページがブックであるとき、そのブックを開きます。</value>
-  </data>
-  <data name="EnumBookPageCollectModeImage" xml:space="preserve">
-    <value>画像</value>
-  </data>
-  <data name="EnumBookPageCollectModeImageAndBook" xml:space="preserve">
-    <value>画像とフォルダー</value>
-  </data>
-  <data name="EnumBookPageCollectModeAll" xml:space="preserve">
-    <value>すべてのファイル</value>
-  </data>
-  <data name="ParamBookPageCollectMode" xml:space="preserve">
-    <value>ページになるファイルの種類</value>
-  </data>
-  <data name="ParamBookPageCollectModeTips" xml:space="preserve">
-    <value>フォルダーをページにすると、そのページからフォルダーを開くことができるようになります。</value>
-  </data>
-  <data name="ParamCacheMemorySize" xml:space="preserve">
-    <value>ブックのキャッシュメモリサイズ(MB)</value>
-  </data>
-  <data name="ParamCacheMemorySizeTips" xml:space="preserve">
-    <value>一度読み込んだページをメモリに保持して再表示時を高速化します。この値は目安であり、この値を超えてメモリが使用されることがあります。大きすぎる値はシステムを不安定にする可能性があるので注意してください。</value>
-  </data>
-  <data name="ParamPreLoadSize" xml:space="preserve">
-    <value>先読みページ数</value>
-  </data>
-  <data name="ParamPreLoadSizeTips" xml:space="preserve">
-    <value>キャッシュメモリサイズの範囲内で先読みを行います。</value>
-  </data>
-  <data name="ParamIsHamburgerMenu" xml:space="preserve">
-    <value>ハンバーガーメニューを使う</value>
-  </data>
-  <data name="ParamBookIsLoadingPageVisible" xml:space="preserve">
-    <value>次のページ読み込み完了まで現在のページを表示する</value>
-  </data>
-  <data name="ParamBookIsLoadingPageVisibleTips" xml:space="preserve">
-    <value>OFFにすることでメモリ節約になります。</value>
-  </data>
-  <data name="SettingPageEnvironmentMemoryAndPerformance" xml:space="preserve">
-    <value>メモリとパフォーマンス</value>
-  </data>
-  <data name="PagemarkMenuSortPath" xml:space="preserve">
-    <value>パス順</value>
-  </data>
-  <data name="ParamPictureProfileIsAspectRatioEnabled" xml:space="preserve">
-    <value>画像の解像度情報を適用する</value>
-  </data>
-  <data name="ParamPictureProfileIsAspectRatioEnabledTips" xml:space="preserve">
-    <value>画像に設定されているアスペクト比で表示します。</value>
-  </data>
-  <data name="SettingPageSusieGeneralGeneralTipsX64" xml:space="preserve">
-    <value>64bit用Susieプラグイン(.sph)に対応しています。</value>
-  </data>
-  <data name="SettingPageSusieGeneralGeneralTips" xml:space="preserve">
-    <value>Susieプラグイン(.spi)に対応しています。</value>
-  </data>
-  <data name="BookshelfMoreMenuExportPlaylist" xml:space="preserve">
-    <value>プレイリストを保存...</value>
-  </data>
-  <data name="ParamListItemContentIsDecoratePlace" xml:space="preserve">
-    <value>補足テキストのパス表示を整形する</value>
-  </data>
-  <data name="ParamListItemContentIsDecoratePlaceTips" xml:space="preserve">
-    <value>"AAA (C:\BBB\CCC)" のように整形します。</value>
-  </data>
-  <data name="EnumBookSettingSelectModeDefault" xml:space="preserve">
-    <value>既定</value>
-  </data>
-  <data name="EnumBookSettingSelectModeContinue" xml:space="preserve">
-    <value>継続</value>
-  </data>
-  <data name="EnumBookSettingSelectModeRestoreOrDefault" xml:space="preserve">
-    <value>復元、できなければ既定</value>
-  </data>
-  <data name="EnumBookSettingSelectModeRestoreOrContinue" xml:space="preserve">
-    <value>復元、できなければ継続</value>
-  </data>
-  <data name="ParamBookPage" xml:space="preserve">
-    <value>ページ位置</value>
-  </data>
-  <data name="SettingPageBookPageSetting" xml:space="preserve">
-    <value>ページ設定</value>
-  </data>
-  <data name="SettingPageBookPageSettingTips" xml:space="preserve">
-    <value>左の項目は既定値、右の項目はブックを開いたときの動作です。</value>
-  </data>
-  <data name="WordFirstPage" xml:space="preserve">
-    <value>最初のページ</value>
-  </data>
-  <data name="CommandPrevFolderPage" xml:space="preserve">
-    <value>前のフォルダーに移動</value>
-  </data>
-  <data name="CommandPrevFolderPageNote" xml:space="preserve">
-    <value>ブック内の前のフォルダーの先頭ページに移動します。名前順の並びでのみ有効です。</value>
-  </data>
-  <data name="CommandNextFolderPage" xml:space="preserve">
-    <value>次のフォルダーに移動</value>
-  </data>
-  <data name="CommandNextFolderPageNote" xml:space="preserve">
-    <value>ブック内の次のフォルダーの先頭ページに移動します。名前順の並びでのみ有効です。</value>
-  </data>
-  <data name="NotifyFirstFolderPage" xml:space="preserve">
-    <value>最初のフォルダーです</value>
-  </data>
-  <data name="NotifyLastFolderPage" xml:space="preserve">
-    <value>最後のフォルダーです</value>
-  </data>
-  <data name="ControlCommandListHeaderDescription" xml:space="preserve">
-    <value>説明</value>
   </data>
 </root>

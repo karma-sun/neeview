@@ -75,6 +75,24 @@ namespace NeeView
             RequestMovePosition(this, +s);
         }
 
+        // 前のフォルダーに戻る
+        public int PrevFolderPage()
+        {
+            var index = _book.Pages.GetPrevFolderIndex(_viewer.GetViewPageIndex());
+            if (index < 0) return -1;
+            RequestSetPosition(this, new PagePosition(index, 0), 1);
+            return index;
+        }
+
+        // 前のフォルダーへ進む
+        public int NextFolderPage()
+        {
+            var index = _book.Pages.GetNextFolderIndex(_viewer.GetViewPageIndex());
+            if (index < 0) return -1;
+            RequestSetPosition(this, new PagePosition(index, 0), 1);
+            return index;
+        }
+
         // 最初のページに移動
         public void FirstPage()
         {

@@ -163,7 +163,7 @@ namespace NeeView
         }
 
         // 表示ページ番号
-        public int GetViewPageindex() => _viewPageCollection.Range.Min.Index;
+        public int GetViewPageIndex() => _viewPageCollection.Range.Min.Index;
 
         // 表示ページ
         public Page GetViewPage() => _book.Pages.GetPage(_viewPageCollection.Range.Min.Index);

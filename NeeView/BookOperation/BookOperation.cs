@@ -404,7 +404,7 @@ namespace NeeView
                 try
                 {
                     var pages = Book.Viewer.GetViewPages();
-                    int index = Book.Viewer.GetViewPageindex() + 1;
+                    int index = Book.Viewer.GetViewPageIndex() + 1;
                     string name = $"{Path.GetFileNameWithoutExtension(Book.Address)}_{index:000}-{index + pages.Count - 1:000}.png";
                     var exporter = new Exporter();
                     exporter.Initialize(pages, Book.Viewer.BookReadOrder, name);
@@ -640,6 +640,54 @@ namespace NeeView
             }
         }
 
+
+        // 前のフォルダーに移動
+        public void PrevFolderPage(bool isShowMessage)
+        {
+            if (this.Book == null) return;
+
+            if (this.Book.IsMedia)
+            {
+            }
+            else
+            {
+                var index = this.Book.Control.PrevFolderPage();
+                ShowMoveFolderPageMessage(index, Properties.Resources.NotifyFirstFolderPage, isShowMessage);
+            }
+        }
+
+        // 次のフォルダーに移動
+        public void NextFolderPage(bool isShowMessage)
+        {
+            if (this.Book == null) return;
+
+            if (this.Book.IsMedia)
+            {
+            }
+            else
+            {
+                var index = this.Book.Control.NextFolderPage();
+                ShowMoveFolderPageMessage(index, Properties.Resources.NotifyLastFolderPage, isShowMessage);
+            }
+        }
+
+        private void ShowMoveFolderPageMessage(int index, string termianteMessage, bool isShowMessage)
+        {
+            if (index < 0)
+            {
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, termianteMessage);
+            }
+            else if (isShowMessage)
+            {
+                var directory = this.Book.Pages[index].GetSmartDirectoryName();
+                if (string.IsNullOrEmpty(directory))
+                {
+                    directory = "(Root)";
+                }
+                InfoMessage.Current.SetMessage(InfoMessageType.Notify, directory);
+            }
+        }
+
         // ページを指定して移動
         public void JumpPage()
         {
@@ -647,7 +695,7 @@ namespace NeeView
 
             var dialogModel = new PageSelecteDialogModel()
             {
-                Value = this.Book.Viewer.GetViewPageindex() + 1,
+                Value = this.Book.Viewer.GetViewPageIndex() + 1,
                 Min = 1,
                 Max = this.Book.Pages.Count
             };

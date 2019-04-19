@@ -100,6 +100,9 @@ namespace NeeView
         // ページ名：フルネーム
         public string EntryFullName => Entry?.EntryFullName.Substring(BookPrefix.Length);
 
+        // ページ名：スマートパス
+        public string EntrySmartName => Prefix == null ? EntryFullName : EntryFullName.Substring(Prefix.Length);
+
         // ページ名：システムパス
         public string SystemPath => Entry?.SystemPath;
 
@@ -256,7 +259,12 @@ namespace NeeView
         // ページ名：プレフィックスを除いたフルパス
         public string GetSmartFullName()
         {
-            return (Prefix == null ? EntryFullName : EntryFullName.Substring(Prefix.Length)).Replace('\\', '/').Replace("/", " > ");
+            return EntrySmartName.Replace("\\", " > ");
+        }
+
+        public string GetSmartDirectoryName()
+        {
+            return LoosePath.GetDirectoryName(EntrySmartName).Replace("\\", " > ");
         }
 
         // ファイルの場所を取得

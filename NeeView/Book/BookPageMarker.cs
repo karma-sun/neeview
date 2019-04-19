@@ -76,7 +76,7 @@ namespace NeeView
             if (isLoop) return true;
 
             var list = Markers.OrderBy(e => e.Index).ToList();
-            var index = _viewer.GetViewPageindex();
+            var index = _viewer.GetViewPageIndex();
 
             return direction > 0
                 ? list.Last().Index > index
@@ -115,7 +115,7 @@ namespace NeeView
 
             if (list.Count == 0) return null;
 
-            var index = _viewer.GetViewPageindex();
+            var index = _viewer.GetViewPageIndex();
 
             var target =
                 direction > 0

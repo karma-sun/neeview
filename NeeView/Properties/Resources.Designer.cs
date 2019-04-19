@@ -1321,6 +1321,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Next folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandNextFolderPage {
+            get {
+                return ResourceManager.GetString("CommandNextFolderPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move to the first page of the next folder of the book. Valid only in name order. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandNextFolderPageNote {
+            get {
+                return ResourceManager.GetString("CommandNextFolderPageNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Next History に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandNextHistory {
@@ -1650,6 +1668,24 @@ namespace NeeView.Properties {
         public static string CommandPrevFolderNote {
             get {
                 return ResourceManager.GetString("CommandPrevFolderNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Prev folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandPrevFolderPage {
+            get {
+                return ResourceManager.GetString("CommandPrevFolderPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move to the first page of the previous folder of the book. Valid only in name order. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandPrevFolderPageNote {
+            get {
+                return ResourceManager.GetString("CommandPrevFolderPageNote", resourceCulture);
             }
         }
         
@@ -2014,7 +2050,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Set the order of books in ascending order by entry time. Bookmark list only. に類似しているローカライズされた文字列を検索します。
+        ///   Set the order of books in ascending order by entry time. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetFolderOrderByEntryTimeANote {
             get {
@@ -2032,7 +2068,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Set the order of books in descending order by entry time. Bookmark list only. に類似しているローカライズされた文字列を検索します。
+        ///   Set the order of books in descending order by entry time. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetFolderOrderByEntryTimeDNote {
             get {
@@ -2122,7 +2158,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Set the order of books in ascending order by full path. Bookmark list only. に類似しているローカライズされた文字列を検索します。
+        ///   Set the order of books in ascending order by full path. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetFolderOrderByPathANote {
             get {
@@ -2140,7 +2176,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Set the order of books in descending order by full path. Bookmark list only. に類似しているローカライズされた文字列を検索します。
+        ///   Set the order of books in descending order by full path. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandSetFolderOrderByPathDNote {
             get {
@@ -4764,6 +4800,15 @@ namespace NeeView.Properties {
         public static string ControlCommandListHeaderCommand {
             get {
                 return ResourceManager.GetString("ControlCommandListHeaderCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Description に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlCommandListHeaderDescription {
+            get {
+                return ResourceManager.GetString("ControlCommandListHeaderDescription", resourceCulture);
             }
         }
         
@@ -8074,6 +8119,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   First folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyFirstFolderPage {
+            get {
+                return ResourceManager.GetString("NotifyFirstFolderPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   First page に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string NotifyFirstPage {
@@ -8161,6 +8215,15 @@ namespace NeeView.Properties {
         public static string NotifyJumpTimeLabel {
             get {
                 return ResourceManager.GetString("NotifyJumpTimeLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Last folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifyLastFolderPage {
+            get {
+                return ResourceManager.GetString("NotifyLastFolderPage", resourceCulture);
             }
         }
         

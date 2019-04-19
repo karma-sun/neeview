@@ -260,7 +260,10 @@ namespace NeeView
             if (command.IsShowMessage)
             {
                 string message = command.ExecuteMessage(param.Parameter);
-                InfoMessage.Current.SetMessage(InfoMessageType.Command, message);
+                if (message != null)
+                {
+                    InfoMessage.Current.SetMessage(InfoMessageType.Command, message);
+                }
             }
 
             // 実行

@@ -283,5 +283,56 @@ namespace NeeView
         }
 
         #endregion
+
+        #region フォルダーの先頭ページを取得
+
+        public int GetNextFolderIndex(int start)
+        {
+            if (Pages.Count == 0 || !SortMode.IsFileNameCategory() || start < 0)
+            {
+                return -1;
+            }
+
+            string currentFolder = LoosePath.GetDirectoryName(Pages[start].EntryFullName);
+
+            for (int index = start + 1; index < Pages.Count; ++index)
+            {
+                var folder = LoosePath.GetDirectoryName(Pages[index].EntryFullName);
+                if (currentFolder != folder)
+                {
+                    return index;
+                }
+            }
+
+            return -1;
+        }
+
+        public int GetPrevFolderIndex(int start)
+        {
+            if (Pages.Count == 0 || !SortMode.IsFileNameCategory() || start < 0)
+            {
+                return -1;
+            }
+
+            if (start == 0)
+            {
+                return -1;
+            }
+
+            string currentFolder = LoosePath.GetDirectoryName(Pages[start - 1].EntryFullName);
+
+            for (int index = start - 1; index > 0; --index)
+            {
+                var folder = LoosePath.GetDirectoryName(Pages[index - 1].EntryFullName);
+                if (currentFolder != folder)
+                {
+                    return index;
+                }
+            }
+
+            return 0;
+        }
+
+        #endregion
     }
 }

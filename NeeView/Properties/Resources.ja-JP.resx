@@ -4543,25 +4543,25 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>ブック列は登録昇順</value>
   </data>
   <data name="CommandSetFolderOrderByEntryTimeANote" xml:space="preserve">
-    <value>ブックの並びを登録順(昇順)にします。ブックマークリスト専用。</value>
+    <value>ブックの並びを登録順(昇順)にします。</value>
   </data>
   <data name="CommandSetFolderOrderByEntryTimeD" xml:space="preserve">
     <value>ブック列は登録降順</value>
   </data>
   <data name="CommandSetFolderOrderByEntryTimeDNote" xml:space="preserve">
-    <value>ブックの並びを登録順(降順)にします。ブックマークリスト専用。</value>
+    <value>ブックの並びを登録順(降順)にします。</value>
   </data>
   <data name="CommandSetFolderOrderByPathA" xml:space="preserve">
     <value>ブック列はパス昇順</value>
   </data>
   <data name="CommandSetFolderOrderByPathANote" xml:space="preserve">
-    <value>ブックの並びをパス順(昇順)にします。ブックマークリスト専用。</value>
+    <value>ブックの並びをパス順(昇順)にします。</value>
   </data>
   <data name="CommandSetFolderOrderByPathD" xml:space="preserve">
     <value>ブック列はパス降順</value>
   </data>
   <data name="CommandSetFolderOrderByPathDNote" xml:space="preserve">
-    <value>ブックの並びをパス順(降順)にします。ブックマークリスト専用。</value>
+    <value>ブックの並びをパス順(降順)にします。</value>
   </data>
   <data name="CommandSetFolderOrderByFileTypeA" xml:space="preserve">
     <value>ブック列は種類昇順</value>
@@ -4805,5 +4805,26 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="WordFirstPage" xml:space="preserve">
     <value>最初のページ</value>
+  </data>
+  <data name="CommandPrevFolderPage" xml:space="preserve">
+    <value>前のフォルダーに移動</value>
+  </data>
+  <data name="CommandPrevFolderPageNote" xml:space="preserve">
+    <value>ブック内の前のフォルダーの先頭ページに移動します。名前順の並びでのみ有効です。</value>
+  </data>
+  <data name="CommandNextFolderPage" xml:space="preserve">
+    <value>次のフォルダーに移動</value>
+  </data>
+  <data name="CommandNextFolderPageNote" xml:space="preserve">
+    <value>ブック内の次のフォルダーの先頭ページに移動します。名前順の並びでのみ有効です。</value>
+  </data>
+  <data name="NotifyFirstFolderPage" xml:space="preserve">
+    <value>最初のフォルダーです</value>
+  </data>
+  <data name="NotifyLastFolderPage" xml:space="preserve">
+    <value>最後のフォルダーです</value>
+  </data>
+  <data name="ControlCommandListHeaderDescription" xml:space="preserve">
+    <value>説明</value>
   </data>
 </root>

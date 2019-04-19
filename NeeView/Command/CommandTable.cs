@@ -1329,7 +1329,6 @@ namespace NeeView
                 _elements[CommandType.JumpPage] = element;
             }
 
-
             // PrevSizePage
             {
                 var element = new CommandElement();
@@ -1342,7 +1341,6 @@ namespace NeeView
                 element.PairPartner = CommandType.NextSizePage;
                 _elements[CommandType.PrevSizePage] = element;
             }
-
             // NextSizePage
             {
                 var element = new CommandElement();
@@ -1354,6 +1352,32 @@ namespace NeeView
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.PrevSizePage };
                 element.PairPartner = CommandType.PrevSizePage;
                 _elements[CommandType.NextSizePage] = element;
+            }
+
+
+            // PrevFolderPage
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupMove;
+                element.Text = Properties.Resources.CommandPrevFolderPage;
+                element.Note = Properties.Resources.CommandPrevFolderPageNote;
+                element.IsShowMessage = true;
+                element.Execute = (s, e) => BookOperation.Current.PrevFolderPage(element.IsShowMessage);
+                element.ExecuteMessage = e => null;
+                element.PairPartner = CommandType.NextFolderPage;
+                _elements[CommandType.PrevFolderPage] = element;
+            }
+            // NextFolderPage
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupMove;
+                element.Text = Properties.Resources.CommandNextFolderPage;
+                element.Note = Properties.Resources.CommandNextFolderPageNote;
+                element.IsShowMessage = true;
+                element.Execute = (s, e) => BookOperation.Current.NextFolderPage(element.IsShowMessage);
+                element.ExecuteMessage = e => null;
+                element.PairPartner = CommandType.PrevFolderPage;
+                _elements[CommandType.NextFolderPage] = element;
             }
 
             // FirstPage

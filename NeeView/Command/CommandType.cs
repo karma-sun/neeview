@@ -77,6 +77,10 @@ namespace NeeView
         [EnumMember]
         NextSizePage,
         [EnumMember]
+        PrevFolderPage,
+        [EnumMember]
+        NextFolderPage,
+        [EnumMember]
         FirstPage,
         [EnumMember]
         LastPage,

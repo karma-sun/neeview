@@ -37,5 +37,10 @@ namespace NeeView
         {
             return (PageSortMode)(((int)mode + 1) % Enum.GetNames(typeof(PageSortMode)).Length);
         }
+
+        public static bool IsFileNameCategory(this PageSortMode mode)
+        {
+            return mode == PageSortMode.FileName || mode == PageSortMode.FileNameDescending;
+        }
     }
 }

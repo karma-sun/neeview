@@ -102,11 +102,11 @@ namespace NeeView.Setting
                         Content1 = Properties.Resources.WordFirstPage,
                     },
                     new SettingItemMultiProperty(
-                            PropertyMemberElement.Create(BookSettingPresenter.Current.DefaultSetting, nameof(BookSetting.PageMode)),
-                            PropertyMemberElement.Create(BookSettingPresenter.Current.Generater, nameof(BookSettingGenerater.PageMode))),
-                    new SettingItemMultiProperty(
                             PropertyMemberElement.Create(BookSettingPresenter.Current.DefaultSetting, nameof(BookSetting.SortMode)),
                             PropertyMemberElement.Create(BookSettingPresenter.Current.Generater, nameof(BookSettingGenerater.SortMode))),
+                    new SettingItemMultiProperty(
+                            PropertyMemberElement.Create(BookSettingPresenter.Current.DefaultSetting, nameof(BookSetting.PageMode)),
+                            PropertyMemberElement.Create(BookSettingPresenter.Current.Generater, nameof(BookSettingGenerater.PageMode))),
                     new SettingItemMultiProperty(
                             PropertyMemberElement.Create(BookSettingPresenter.Current.DefaultSetting, nameof(BookSetting.BookReadOrder)),
                             PropertyMemberElement.Create(BookSettingPresenter.Current.Generater, nameof(BookSettingGenerater.BookReadOrder))),

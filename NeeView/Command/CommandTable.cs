@@ -1656,8 +1656,8 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandTogglePageMode;
                 element.Note = Properties.Resources.CommandTogglePageModeNote;
                 element.CanExecute = () => true;
-                element.Execute = (s, e) => BookSetting.Current.TogglePageMode();
-                element.ExecuteMessage = e => BookSetting.Current.BookMemento.PageMode.GetToggle().ToAliasName();
+                element.Execute = (s, e) => BookSettingPresenter.Current.TogglePageMode();
+                element.ExecuteMessage = e => BookSettingPresenter.Current.LatestSetting.PageMode.GetToggle().ToAliasName();
                 element.IsShowMessage = true;
                 _elements[CommandType.TogglePageMode] = element;
             }
@@ -1669,7 +1669,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandSetPageMode1Note;
                 element.ShortCutKey = "Ctrl+1";
                 element.MouseGesture = "RU";
-                element.Execute = (s, e) => BookSetting.Current.SetPageMode(PageMode.SinglePage);
+                element.Execute = (s, e) => BookSettingPresenter.Current.SetPageMode(PageMode.SinglePage);
                 element.CreateIsCheckedBinding = () => BindingGenerator.PageMode(PageMode.SinglePage);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetPageMode1] = element;
@@ -1682,7 +1682,7 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandSetPageMode2Note;
                 element.ShortCutKey = "Ctrl+2";
                 element.MouseGesture = "RD";
-                element.Execute = (s, e) => BookSetting.Current.SetPageMode(PageMode.WidePage);
+                element.Execute = (s, e) => BookSettingPresenter.Current.SetPageMode(PageMode.WidePage);
                 element.CreateIsCheckedBinding = () => BindingGenerator.PageMode(PageMode.WidePage);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetPageMode2] = element;
@@ -1694,8 +1694,8 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandToggleBookReadOrder;
                 element.Note = Properties.Resources.CommandToggleBookReadOrderNote;
                 element.CanExecute = () => true;
-                element.Execute = (s, e) => BookSetting.Current.ToggleBookReadOrder();
-                element.ExecuteMessage = e => BookSetting.Current.BookMemento.BookReadOrder.GetToggle().ToAliasName();
+                element.Execute = (s, e) => BookSettingPresenter.Current.ToggleBookReadOrder();
+                element.ExecuteMessage = e => BookSettingPresenter.Current.LatestSetting.BookReadOrder.GetToggle().ToAliasName();
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleBookReadOrder] = element;
             }
@@ -1705,7 +1705,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandSetBookReadOrderRight;
                 element.Note = Properties.Resources.CommandSetBookReadOrderRightNote;
-                element.Execute = (s, e) => BookSetting.Current.SetBookReadOrder(PageReadOrder.RightToLeft);
+                element.Execute = (s, e) => BookSettingPresenter.Current.SetBookReadOrder(PageReadOrder.RightToLeft);
                 element.CreateIsCheckedBinding = () => BindingGenerator.BookReadOrder(PageReadOrder.RightToLeft);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetBookReadOrderRight] = element;
@@ -1716,7 +1716,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandSetBookReadOrderLeft;
                 element.Note = Properties.Resources.CommandSetBookReadOrderLeftNote;
-                element.Execute = (s, e) => BookSetting.Current.SetBookReadOrder(PageReadOrder.LeftToRight);
+                element.Execute = (s, e) => BookSettingPresenter.Current.SetBookReadOrder(PageReadOrder.LeftToRight);
                 element.CreateIsCheckedBinding = () => BindingGenerator.BookReadOrder(PageReadOrder.LeftToRight);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetBookReadOrderLeft] = element;
@@ -1728,10 +1728,10 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandToggleIsSupportedDividePage;
                 element.Note = Properties.Resources.CommandToggleIsSupportedDividePageNote;
-                element.Execute = (s, e) => BookSetting.Current.ToggleIsSupportedDividePage();
-                element.ExecuteMessage = e => BookSetting.Current.BookMemento.IsSupportedDividePage ? Properties.Resources.CommandToggleIsSupportedDividePageOff : Properties.Resources.CommandToggleIsSupportedDividePageOn;
-                element.CanExecute = () => BookSetting.Current.CanPageModeSubSetting(PageMode.SinglePage);
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(BookSetting.Current.BookMemento.IsSupportedDividePage));
+                element.Execute = (s, e) => BookSettingPresenter.Current.ToggleIsSupportedDividePage();
+                element.ExecuteMessage = e => BookSettingPresenter.Current.LatestSetting.IsSupportedDividePage ? Properties.Resources.CommandToggleIsSupportedDividePageOff : Properties.Resources.CommandToggleIsSupportedDividePageOn;
+                element.CanExecute = () => BookSettingPresenter.Current.CanPageModeSubSetting(PageMode.SinglePage);
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(BookSettingPresenter.Current.LatestSetting.IsSupportedDividePage));
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleIsSupportedDividePage] = element;
             }
@@ -1742,10 +1742,10 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandToggleIsSupportedWidePage;
                 element.Note = Properties.Resources.CommandToggleIsSupportedWidePageNote;
-                element.Execute = (s, e) => BookSetting.Current.ToggleIsSupportedWidePage();
-                element.ExecuteMessage = e => BookSetting.Current.BookMemento.IsSupportedWidePage ? Properties.Resources.CommandToggleIsSupportedWidePageOff : Properties.Resources.CommandToggleIsSupportedWidePageOn;
-                element.CanExecute = () => BookSetting.Current.CanPageModeSubSetting(PageMode.WidePage);
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(BookSetting.Current.BookMemento.IsSupportedWidePage));
+                element.Execute = (s, e) => BookSettingPresenter.Current.ToggleIsSupportedWidePage();
+                element.ExecuteMessage = e => BookSettingPresenter.Current.LatestSetting.IsSupportedWidePage ? Properties.Resources.CommandToggleIsSupportedWidePageOff : Properties.Resources.CommandToggleIsSupportedWidePageOn;
+                element.CanExecute = () => BookSettingPresenter.Current.CanPageModeSubSetting(PageMode.WidePage);
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(BookSettingPresenter.Current.LatestSetting.IsSupportedWidePage));
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleIsSupportedWidePage] = element;
             }
@@ -1755,10 +1755,10 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandToggleIsSupportedSingleFirstPage;
                 element.Note = Properties.Resources.CommandToggleIsSupportedSingleFirstPageNote;
-                element.Execute = (s, e) => BookSetting.Current.ToggleIsSupportedSingleFirstPage();
-                element.ExecuteMessage = e => BookSetting.Current.BookMemento.IsSupportedSingleFirstPage ? Properties.Resources.CommandToggleIsSupportedSingleFirstPageOff : Properties.Resources.CommandToggleIsSupportedSingleFirstPageOn;
-                element.CanExecute = () => BookSetting.Current.CanPageModeSubSetting(PageMode.WidePage);
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(BookSetting.Current.BookMemento.IsSupportedSingleFirstPage));
+                element.Execute = (s, e) => BookSettingPresenter.Current.ToggleIsSupportedSingleFirstPage();
+                element.ExecuteMessage = e => BookSettingPresenter.Current.LatestSetting.IsSupportedSingleFirstPage ? Properties.Resources.CommandToggleIsSupportedSingleFirstPageOff : Properties.Resources.CommandToggleIsSupportedSingleFirstPageOn;
+                element.CanExecute = () => BookSettingPresenter.Current.CanPageModeSubSetting(PageMode.WidePage);
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(BookSettingPresenter.Current.LatestSetting.IsSupportedSingleFirstPage));
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleIsSupportedSingleFirstPage] = element;
             }
@@ -1768,10 +1768,10 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandToggleIsSupportedSingleLastPage;
                 element.Note = Properties.Resources.CommandToggleIsSupportedSingleLastPageNote;
-                element.Execute = (s, e) => BookSetting.Current.ToggleIsSupportedSingleLastPage();
-                element.ExecuteMessage = e => BookSetting.Current.BookMemento.IsSupportedSingleLastPage ? Properties.Resources.CommandToggleIsSupportedSingleLastPageOff : Properties.Resources.CommandToggleIsSupportedSingleLastPageOn;
-                element.CanExecute = () => BookSetting.Current.CanPageModeSubSetting(PageMode.WidePage);
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(BookSetting.Current.BookMemento.IsSupportedSingleLastPage));
+                element.Execute = (s, e) => BookSettingPresenter.Current.ToggleIsSupportedSingleLastPage();
+                element.ExecuteMessage = e => BookSettingPresenter.Current.LatestSetting.IsSupportedSingleLastPage ? Properties.Resources.CommandToggleIsSupportedSingleLastPageOff : Properties.Resources.CommandToggleIsSupportedSingleLastPageOn;
+                element.CanExecute = () => BookSettingPresenter.Current.CanPageModeSubSetting(PageMode.WidePage);
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(BookSettingPresenter.Current.LatestSetting.IsSupportedSingleLastPage));
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleIsSupportedSingleLastPage] = element;
             }
@@ -1782,9 +1782,9 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandToggleIsRecursiveFolder;
                 element.Note = Properties.Resources.CommandToggleIsRecursiveFolderNote;
-                element.Execute = (s, e) => BookSetting.Current.ToggleIsRecursiveFolder();
-                element.ExecuteMessage = e => BookSetting.Current.BookMemento.IsRecursiveFolder ? Properties.Resources.CommandToggleIsRecursiveFolderOff : Properties.Resources.CommandToggleIsRecursiveFolderOn;
-                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(BookSetting.Current.BookMemento.IsRecursiveFolder));
+                element.Execute = (s, e) => BookSettingPresenter.Current.ToggleIsRecursiveFolder();
+                element.ExecuteMessage = e => BookSettingPresenter.Current.LatestSetting.IsRecursiveFolder ? Properties.Resources.CommandToggleIsRecursiveFolderOff : Properties.Resources.CommandToggleIsRecursiveFolderOn;
+                element.CreateIsCheckedBinding = () => BindingGenerator.BindingBookSetting(nameof(BookSettingPresenter.Current.LatestSetting.IsRecursiveFolder));
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleIsRecursiveFolder] = element;
             }
@@ -1796,8 +1796,8 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandToggleSortMode;
                 element.Note = Properties.Resources.CommandToggleSortModeNote;
                 element.CanExecute = () => true;
-                element.Execute = (s, e) => BookSetting.Current.ToggleSortMode();
-                element.ExecuteMessage = e => BookSetting.Current.BookMemento.SortMode.GetToggle().ToAliasName();
+                element.Execute = (s, e) => BookSettingPresenter.Current.ToggleSortMode();
+                element.ExecuteMessage = e => BookSettingPresenter.Current.LatestSetting.SortMode.GetToggle().ToAliasName();
                 element.IsShowMessage = true;
                 _elements[CommandType.ToggleSortMode] = element;
             }
@@ -1807,7 +1807,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageOrder;
                 element.Text = Properties.Resources.CommandSetSortModeFileName;
                 element.Note = Properties.Resources.CommandSetSortModeFileNameNote;
-                element.Execute = (s, e) => BookSetting.Current.SetSortMode(PageSortMode.FileName);
+                element.Execute = (s, e) => BookSettingPresenter.Current.SetSortMode(PageSortMode.FileName);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.FileName);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetSortModeFileName] = element;
@@ -1818,7 +1818,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageOrder;
                 element.Text = Properties.Resources.CommandSetSortModeFileNameDescending;
                 element.Note = Properties.Resources.CommandSetSortModeFileNameDescendingNote;
-                element.Execute = (s, e) => BookSetting.Current.SetSortMode(PageSortMode.FileNameDescending);
+                element.Execute = (s, e) => BookSettingPresenter.Current.SetSortMode(PageSortMode.FileNameDescending);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.FileNameDescending);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetSortModeFileNameDescending] = element;
@@ -1829,7 +1829,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageOrder;
                 element.Text = Properties.Resources.CommandSetSortModeTimeStamp;
                 element.Note = Properties.Resources.CommandSetSortModeTimeStampNote;
-                element.Execute = (s, e) => BookSetting.Current.SetSortMode(PageSortMode.TimeStamp);
+                element.Execute = (s, e) => BookSettingPresenter.Current.SetSortMode(PageSortMode.TimeStamp);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.TimeStamp);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetSortModeTimeStamp] = element;
@@ -1840,7 +1840,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageOrder;
                 element.Text = Properties.Resources.CommandSetSortModeTimeStampDescending;
                 element.Note = Properties.Resources.CommandSetSortModeTimeStampDescendingNote;
-                element.Execute = (s, e) => BookSetting.Current.SetSortMode(PageSortMode.TimeStampDescending);
+                element.Execute = (s, e) => BookSettingPresenter.Current.SetSortMode(PageSortMode.TimeStampDescending);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.TimeStampDescending);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetSortModeTimeStampDescending] = element;
@@ -1851,7 +1851,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageOrder;
                 element.Text = Properties.Resources.CommandSetSortModeSize;
                 element.Note = Properties.Resources.CommandSetSortModeSizeNote;
-                element.Execute = (s, e) => BookSetting.Current.SetSortMode(PageSortMode.Size);
+                element.Execute = (s, e) => BookSettingPresenter.Current.SetSortMode(PageSortMode.Size);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.Size);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetSortModeSize] = element;
@@ -1862,7 +1862,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageOrder;
                 element.Text = Properties.Resources.CommandSetSortModeSizeDescending;
                 element.Note = Properties.Resources.CommandSetSortModeSizeDescendingNote;
-                element.Execute = (s, e) => BookSetting.Current.SetSortMode(PageSortMode.SizeDescending);
+                element.Execute = (s, e) => BookSettingPresenter.Current.SetSortMode(PageSortMode.SizeDescending);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.SizeDescending);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetSortModeSizeDescending] = element;
@@ -1873,7 +1873,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageOrder;
                 element.Text = Properties.Resources.CommandSetSortModeRandom;
                 element.Note = Properties.Resources.CommandSetSortModeRandomNote;
-                element.Execute = (s, e) => BookSetting.Current.SetSortMode(PageSortMode.Random);
+                element.Execute = (s, e) => BookSettingPresenter.Current.SetSortMode(PageSortMode.Random);
                 element.CreateIsCheckedBinding = () => BindingGenerator.SortMode(PageSortMode.Random);
                 element.IsShowMessage = true;
                 _elements[CommandType.SetSortModeRandom] = element;
@@ -1885,7 +1885,7 @@ namespace NeeView
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandSetDefaultPageSetting;
                 element.Note = Properties.Resources.CommandSetDefaultPageSettingNote;
-                element.Execute = (s, e) => BookSetting.Current.SetDefaultPageSetting();
+                element.Execute = (s, e) => BookSettingPresenter.Current.SetDefaultPageSetting();
                 element.IsShowMessage = true;
                 _elements[CommandType.SetDefaultPageSetting] = element;
             }
@@ -2382,7 +2382,7 @@ namespace NeeView
                 {
                     foreach (var element in Elements.Values)
                     {
-                        if (element.ShortCutKey.Contains("Escape"))
+                        if (element.ShortCutKey != null && element.ShortCutKey.Contains("Escape"))
                         {
                             var keys = element.ShortCutKey
                                 .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)

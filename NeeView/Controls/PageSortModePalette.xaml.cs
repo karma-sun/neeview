@@ -86,7 +86,7 @@ namespace NeeView
 
         public void Decide(PageSortMode mode)
         {
-            BookSetting.Current.SetSortMode(mode);
+            BookSettingPresenter.Current.SetSortMode(mode);
         }
     }
 }

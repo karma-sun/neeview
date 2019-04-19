@@ -263,7 +263,12 @@ namespace NeeView
 
             BookHistoryCollection.Current.HistoryChanged += BookHistoryCollection_HistoryChanged;
 
-            BookmarkCollection.Current.BookmarkChanged += (s, e) => BookmarkChanged?.Invoke(s, e);
+            BookmarkCollection.Current.BookmarkChanged +=
+                (s, e) => BookmarkChanged?.Invoke(s, e);
+
+            BookSettingPresenter.Current.SettingChanged +=
+                (s, e) => Book?.Restore(BookSettingPresenter.Current.LatestSetting.ToBookMemento());
+
 
             // command engine
             _commandEngine = new BookHubCommandEngine();
@@ -397,7 +402,13 @@ namespace NeeView
         public bool IsLoading
         {
             get { return _isLoading; }
-            set { SetProperty(ref _isLoading, value); }
+            set
+            {
+                if (SetProperty(ref _isLoading, value))
+                {
+                    BookSettingPresenter.Current.IsLocked = _isLoading;
+                }
+            }
         }
 
         public bool IsBusy => _commandEngine.Count > 0;
@@ -691,8 +702,7 @@ namespace NeeView
                 }
 
                 // 本の設定
-                var memory = BookSetting.Current.CreateLastestBookMemento(address.Address.SimplePath, lastBookMemento);
-                var setting = BookSetting.Current.GetSetting(address.Address.SimplePath, memory, args.Option);
+                var setting = CreateOpenBookMemento(address.Address.SimplePath, lastBookMemento, args.Option);
 
                 address.EntryName = address.EntryName ?? LoosePath.NormalizeSeparator(setting.Page);
                 place = address.SystemPath;
@@ -716,8 +726,8 @@ namespace NeeView
                     // ビュー初期化
                     CommandTable.Current[CommandType.ViewReset].Execute(this, null);
 
-                    // 本の設定を退避
-                    BookSetting.Current.RaiseSettingChanged();
+                    // 本の設定を更新
+                    BookSettingPresenter.Current.SetLatestSetting(BookSetting.FromBookMement(BookUnit?.Book.CreateMemento()));
 
                     // 本の変更通知
                     lock (_lock)
@@ -833,7 +843,7 @@ namespace NeeView
         {
             try
             {
-                var memento = ((option & BookLoadOption.ReLoad) == BookLoadOption.ReLoad) ? BookSetting.Current.BookMemento : setting;
+                var memento = ((option & BookLoadOption.ReLoad) == BookLoadOption.ReLoad) ? BookSettingPresenter.Current.LatestSetting.ToBookMemento() : setting;
 
                 var bookSetting = new BookCreateSetting()
                 {
@@ -925,9 +935,6 @@ namespace NeeView
                 throw;
             }
 
-            // 本の設定を退避
-            BookSetting.Current.BookMemento = this.Book.CreateMemento();
-
             Address = BookUnit?.Book.Address;
             BookHistoryCollection.Current.LastAddress = Address;
         }
@@ -994,11 +1001,59 @@ namespace NeeView
             }
         }
 
-        // 設定の読込
-        private Book.Memento LoadBookMemento(string place)
+        // ブック設定の作成
+        // 開いているブックならばその設定を取得する
+        public Book.Memento CreateBookMemento(string place)
         {
-            var unit = BookMementoCollection.Current.GetValid(place);
-            return unit?.Memento;
+            if (place == null) throw new ArgumentNullException();
+
+            var memento = CreateBookMemento();
+            if (memento == null || memento.Place != place)
+            {
+                memento = BookSettingPresenter.Current.DefaultSetting.ToBookMemento();
+                memento.Place = place;
+            }
+            return memento;
+        }
+
+        /// <summary>
+        /// 最新の設定を取得
+        /// </summary>
+        /// <param name="place">場所</param>
+        /// <param name="lastest">現在の情報</param>
+        private Book.Memento CreateLastestBookMemento(string place, Book.Memento lastest)
+        {
+            Book.Memento memento = null;
+
+            if (lastest?.Place == place)
+            {
+                memento = lastest.Clone();
+            }
+            else
+            {
+                var unit = BookMementoCollection.Current.GetValid(place);
+                if (unit != null)
+                {
+                    memento = unit.Memento.Clone();
+                }
+            }
+
+            return memento;
+        }
+
+        private Book.Memento CreateOpenBookMemento(string place, Book.Memento lastest, BookLoadOption option)
+        {
+            var memory = CreateLastestBookMemento(place, lastest);
+            Debug.Assert(memory == null || memory.Place == place);
+
+            if (memory != null && option.HasFlag(BookLoadOption.Resume))
+            {
+                return memory.Clone();
+            }
+            else
+            {
+                return BookSettingPresenter.Current.GetSetting(BookSetting.FromBookMement(memory), option.HasFlag(BookLoadOption.DefaultRecursive)).ToBookMemento();
+            }
         }
 
         //設定の保存
@@ -1054,16 +1109,8 @@ namespace NeeView
         /// <returns></returns>
         public Book.Memento GetLastestBookMemento(string address, BookLoadOption option)
         {
-            if (address != null)
-            {
-                var bookMemento = this.Book?.Address == address ? this.Book.CreateMemento() : null;
-                var memory = BookSetting.Current.CreateLastestBookMemento(address, bookMemento);
-                return BookSetting.Current.GetSetting(address, memory, option);
-            }
-            else
-            {
-                return BookSetting.Current.GetSetting(null, null, option);
-            }
+            var latest = (address != null && this.Book?.Address == address) ? this.Book?.CreateMemento() : null;
+            return CreateOpenBookMemento(address, latest, option);
         }
 
         // 履歴登録可
@@ -1268,12 +1315,8 @@ namespace NeeView
             // compatible before ver.23
             if (memento._Version < Config.GenerateProductVersionNumber(1, 23, 0))
             {
-                ////対応が難しいため設定を引き継がない
-                ////ArchiverManager.Current.IsEnabled = memento.IsSupportArchiveFile;
-
                 BookProfile.Current.IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
                 BookProfile.Current.BookPageCollectMode = memento.IsEnableNoSupportFile ? BookPageCollectMode.All : BookPageCollectMode.ImageAndBook;
-                BookSetting.Current.IsUseBookMementoDefault = memento.IsUseBookMementoDefault;
 
                 BookOperation.Current.PageEndAction = memento.PageEndAction;
 
@@ -1284,18 +1327,6 @@ namespace NeeView
                 if (memento.ClipboardUtility != null)
                 {
                     BookOperation.Current.ClipboardUtility = memento.ClipboardUtility.Clone();
-                }
-                if (memento.BookMemento != null)
-                {
-                    BookSetting.Current.BookMemento = memento.BookMemento.Clone();
-                }
-                if (memento.BookMementoDefault != null)
-                {
-                    BookSetting.Current.BookMementoDefault = memento.BookMementoDefault.Clone();
-                }
-                if (memento.HistoryMementoFilter != null)
-                {
-                    BookSetting.Current.HistoryMementoFilter = memento.HistoryMementoFilter;
                 }
 
                 BookshelfFolderList.Current.Home = memento.Home;

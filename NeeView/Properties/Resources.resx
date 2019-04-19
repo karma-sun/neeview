@@ -4782,4 +4782,28 @@ Initialize the temporary location.</value>
   <data name="ParamListItemContentIsDecoratePlaceTips" xml:space="preserve">
     <value>Format as "AAA (C:\BBB\CCC)".</value>
   </data>
+  <data name="EnumBookSettingSelectModeDefault" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="EnumBookSettingSelectModeContinue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="EnumBookSettingSelectModeRestoreOrDefault" xml:space="preserve">
+    <value>Restore, else default</value>
+  </data>
+  <data name="EnumBookSettingSelectModeRestoreOrContinue" xml:space="preserve">
+    <value>Restore, else continue</value>
+  </data>
+  <data name="ParamBookPage" xml:space="preserve">
+    <value>Page position</value>
+  </data>
+  <data name="SettingPageBookPageSetting" xml:space="preserve">
+    <value>Page settings</value>
+  </data>
+  <data name="SettingPageBookPageSettingTips" xml:space="preserve">
+    <value>The left item is the default value, and the right item is the behavior when the book is opened.</value>
+  </data>
+  <data name="WordFirstPage" xml:space="preserve">
+    <value>First page</value>
+  </data>
 </root>

@@ -43,7 +43,6 @@ namespace NeeView.Setting
             _pages.Add(new SettingPageVisual());
             _pages.Add(new SettingPageManipurate());
             _pages.Add(new SettingPageBook());
-            _pages.Add(new SettingPagePage());
             _pages.Add(new SettingPageHistory());
             _pages.Add(new SettingPageExternal());
 

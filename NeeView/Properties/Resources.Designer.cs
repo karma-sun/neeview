@@ -6263,6 +6263,42 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Continue に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumBookSettingSelectModeContinue {
+            get {
+                return ResourceManager.GetString("EnumBookSettingSelectModeContinue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Default に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumBookSettingSelectModeDefault {
+            get {
+                return ResourceManager.GetString("EnumBookSettingSelectModeDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Restore, else continue に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumBookSettingSelectModeRestoreOrContinue {
+            get {
+                return ResourceManager.GetString("EnumBookSettingSelectModeRestoreOrContinue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Restore, else default に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumBookSettingSelectModeRestoreOrDefault {
+            get {
+                return ResourceManager.GetString("EnumBookSettingSelectModeRestoreOrDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Enlarge and display the image に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumBrushTypeImageFill {
@@ -8972,6 +9008,15 @@ namespace NeeView.Properties {
         public static string ParamBookOperationPageEndAction {
             get {
                 return ResourceManager.GetString("ParamBookOperationPageEndAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Page position に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookPage {
+            get {
+                return ResourceManager.GetString("ParamBookPage", resourceCulture);
             }
         }
         
@@ -12199,6 +12244,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Page settings に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageBookPageSetting {
+            get {
+                return ResourceManager.GetString("SettingPageBookPageSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The left item is the default value, and the right item is the behavior when the book is opened. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageBookPageSettingTips {
+            get {
+                return ResourceManager.GetString("SettingPageBookPageSettingTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Subfolder に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageBookSubFolder {
@@ -13550,6 +13613,15 @@ namespace NeeView.Properties {
         public static string WordFile {
             get {
                 return ResourceManager.GetString("WordFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   First page に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordFirstPage {
+            get {
+                return ResourceManager.GetString("WordFirstPage", resourceCulture);
             }
         }
         

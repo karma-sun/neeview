@@ -311,6 +311,33 @@ namespace NeeView.Setting
     }
 
     /// <summary>
+    /// 複数の PropertyMemberElement を設定項目としたもの
+    /// </summary>
+    public class SettingItemMultiProperty : SettingItem
+    {
+        private PropertyMemberElement _element1;
+        private PropertyMemberElement _element2;
+
+        public SettingItemMultiProperty(PropertyMemberElement element1, PropertyMemberElement element2) : base(element1?.ToString())
+        {
+            Debug.Assert(element1 != null);
+            Debug.Assert(element2 != null);
+            _element1 = element1;
+            _element2 = element2;
+        }
+
+        public object Content1 { get; set; }
+        public object Content2 { get; set; }
+
+        protected override UIElement CreateContentInner()
+        {
+            var content1 = Content1 ?? _element1.TypeValue;
+            var content2 = Content2 ?? _element2.TypeValue;
+            return new SettingItemMultiControl(_element1.Name, _element1.Tips ?? this.Tips, content1, content2);
+        }
+    }
+
+    /// <summary>
     /// PropertyMemberElement を補足設定項目としたもの
     /// </summary>
     public class SettingItemSubProperty : SettingItem

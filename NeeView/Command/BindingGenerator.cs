@@ -28,7 +28,7 @@ namespace NeeView
         //
         public static Binding BindingBookSetting(string path)
         {
-            return new Binding(nameof(BookSetting.BookMemento) + "." + path) { Source = BookSetting.Current };
+            return new Binding(nameof(BookSettingPresenter.LatestSetting) + "." + path) { Source = BookSettingPresenter.Current };
         }
 
 

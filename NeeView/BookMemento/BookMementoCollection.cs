@@ -22,7 +22,7 @@ namespace NeeView
             }
             else
             {
-                return Set(BookMementoUnit.Create(BookSetting.Current.CreateBookMemento(place)));
+                return Set(BookMementoUnit.Create(BookHub.Current.CreateBookMemento(place)));
             }
         }
 

@@ -58,7 +58,7 @@ namespace NeeView
         public PageSortMode PageSortMode
         {
             get { return _pageSortMode; }
-            set { _pageSortMode = value; BookSetting.Current.SetSortMode(value); }
+            set { _pageSortMode = value; BookSettingPresenter.Current.SetSortMode(value); }
         }
 
         public PageList Model
@@ -141,7 +141,7 @@ namespace NeeView
 
         private void RefreshPageSortMode()
         {
-            _pageSortMode = BookSetting.Current.BookMemento.SortMode;
+            _pageSortMode = BookSettingPresenter.Current.LatestSetting.SortMode;
             RaisePropertyChanged(nameof(PageSortMode));
         }
 

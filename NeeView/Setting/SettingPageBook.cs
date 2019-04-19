@@ -16,6 +16,7 @@ namespace NeeView.Setting
                 new SettingPageBookGeneral(),
                 new SettingPageBookSubFolder(),
                 new SettingPageBookVisual(),
+                new SettingPageBookPageSetting(),
                 new SettingPageBookMove(),
             };
         }
@@ -86,4 +87,48 @@ namespace NeeView.Setting
             };
         }
     }
+
+    public class SettingPageBookPageSetting : SettingPage
+    {
+        public SettingPageBookPageSetting() : base(Properties.Resources.SettingPageBookPageSetting)
+        {
+            this.Items = new List<SettingItem>
+            {
+                new SettingItemSection(Properties.Resources.SettingPageBookPageSetting, Properties.Resources.SettingPageBookPageSettingTips,
+                    new SettingItemMultiProperty(
+                            PropertyMemberElement.Create(BookSettingPresenter.Current.DefaultSetting, nameof(BookSetting.Page)),
+                            PropertyMemberElement.Create(BookSettingPresenter.Current.Generater, nameof(BookSettingGenerater.Page)))
+                    {
+                        Content1 = Properties.Resources.WordFirstPage,
+                    },
+                    new SettingItemMultiProperty(
+                            PropertyMemberElement.Create(BookSettingPresenter.Current.DefaultSetting, nameof(BookSetting.PageMode)),
+                            PropertyMemberElement.Create(BookSettingPresenter.Current.Generater, nameof(BookSettingGenerater.PageMode))),
+                    new SettingItemMultiProperty(
+                            PropertyMemberElement.Create(BookSettingPresenter.Current.DefaultSetting, nameof(BookSetting.SortMode)),
+                            PropertyMemberElement.Create(BookSettingPresenter.Current.Generater, nameof(BookSettingGenerater.SortMode))),
+                    new SettingItemMultiProperty(
+                            PropertyMemberElement.Create(BookSettingPresenter.Current.DefaultSetting, nameof(BookSetting.BookReadOrder)),
+                            PropertyMemberElement.Create(BookSettingPresenter.Current.Generater, nameof(BookSettingGenerater.BookReadOrder))),
+                    new SettingItemMultiProperty(
+                            PropertyMemberElement.Create(BookSettingPresenter.Current.DefaultSetting, nameof(BookSetting.IsSupportedDividePage)),
+                            PropertyMemberElement.Create(BookSettingPresenter.Current.Generater, nameof(BookSettingGenerater.IsSupportedDividePage))),
+                    new SettingItemMultiProperty(
+                            PropertyMemberElement.Create(BookSettingPresenter.Current.DefaultSetting, nameof(BookSetting.IsSupportedWidePage)),
+                            PropertyMemberElement.Create(BookSettingPresenter.Current.Generater, nameof(BookSettingGenerater.IsSupportedWidePage))),
+                    new SettingItemMultiProperty(
+                            PropertyMemberElement.Create(BookSettingPresenter.Current.DefaultSetting, nameof(BookSetting.IsSupportedSingleFirstPage)),
+                            PropertyMemberElement.Create(BookSettingPresenter.Current.Generater, nameof(BookSettingGenerater.IsSupportedSingleFirstPage))),
+                    new SettingItemMultiProperty(
+                            PropertyMemberElement.Create(BookSettingPresenter.Current.DefaultSetting, nameof(BookSetting.IsSupportedSingleLastPage)),
+                            PropertyMemberElement.Create(BookSettingPresenter.Current.Generater, nameof(BookSettingGenerater.IsSupportedSingleLastPage))),
+                    new SettingItemMultiProperty(
+                            PropertyMemberElement.Create(BookSettingPresenter.Current.DefaultSetting, nameof(BookSetting.IsRecursiveFolder)),
+                            PropertyMemberElement.Create(BookSettingPresenter.Current.Generater, nameof(BookSettingGenerater.IsRecursiveFolder)))),
+ 
+            };
+        }
+
+    }
+
 }

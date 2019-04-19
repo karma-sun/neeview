@@ -170,9 +170,18 @@
     </ApplicationDefinition>
     <Compile Include="Archiver\Playlist.cs" />
     <Compile Include="Archiver\PlaylistArchive.cs" />
+    <Compile Include="BookSetting\BookSettingEventArgs.cs" />
+    <Compile Include="BookSetting\BookSettingGenerater.cs" />
+    <Compile Include="BookSetting\BookSettingKey.cs" />
+    <Compile Include="BookSetting\BookSettingPresenter.cs" />
+    <Compile Include="Obsolete\BookSettingPresenterLegacy.cs" />
+    <Compile Include="BookSetting\BookSettingSelectMode.cs" />
     <Compile Include="BookHub\PlaylistBookLoader.cs" />
     <Compile Include="ExternalApplication\ClipboardUtility.cs" />
     <Compile Include="MainWindow\FirstLoader.cs" />
+    <Compile Include="Setting\SettingItemMultiControl.xaml.cs">
+      <DependentUpon>SettingItemMultiControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderCollectionEngine.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderItemFactory.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderOrderClass.cs" />
@@ -424,7 +433,6 @@
     <Compile Include="Setting\SettingPageEnvironment.cs" />
     <Compile Include="Setting\SettingPageExternal.cs" />
     <Compile Include="Setting\SettingPageManipurate.cs" />
-    <Compile Include="Setting\SettingPagePage.cs" />
     <Compile Include="Setting\SettingPageSusie.cs" />
     <Compile Include="Setting\SettingPageVisual.cs" />
     <Compile Include="Setting\ContextMenuSettingViewModel.cs" />
@@ -514,7 +522,7 @@
     <Compile Include="Picture\PictureStream.cs" />
     <Compile Include="Book\BookProfile.cs" />
     <Compile Include="BookHistory\BookHistoryCommand.cs" />
-    <Compile Include="BookHub\BookSetting.cs" />
+    <Compile Include="BookSetting\BookSetting.cs" />
     <Compile Include="ContentCanvas\ContentCanvasBrush.cs" />
     <Compile Include="MouseInput\DragTransformControl.cs" />
     <Compile Include="MouseInput\LoupeTransform.cs" />
@@ -976,6 +984,10 @@
     <Page Include="Controls\PageSortModePalette.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Setting\SettingItemMultiControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Toast\ToastCard.xaml">
       <SubType>Designer</SubType>

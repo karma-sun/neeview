@@ -421,7 +421,7 @@ namespace NeeView
             // ルーペでない場合は初期化
             if (!MouseInput.Current.IsLoupeMode)
             {
-                _dragTransformControl.SetMouseDragSetting(pageDirection, viewOrigin, BookSetting.Current.BookMemento.BookReadOrder);
+                _dragTransformControl.SetMouseDragSetting(pageDirection, viewOrigin, BookSettingPresenter.Current.LatestSetting.BookReadOrder);
 
                 // リセット
                 var angle = _isAutoRotate ? GetAutoRotateAngle() : double.NaN;

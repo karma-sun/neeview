@@ -501,7 +501,7 @@ namespace NeeView
         {
             var parameter = (ScrollPageCommandParameter)CommandTable.Current[CommandType.PrevScrollPage].Parameter;
 
-            int bookReadDirection = (BookSetting.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
+            int bookReadDirection = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
             bool isScrolled = MouseInput.Current.IsLoupeMode ? false : DragTransformControl.Current.ScrollN(-1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation, parameter.Scroll / 100.0);
 
             if (!isScrolled)
@@ -509,7 +509,7 @@ namespace NeeView
                 var span = DateTime.Now - _scrollPageTime;
                 if (!parameter.IsStop || _scrollPageMargin < span.TotalMilliseconds)
                 {
-                    ContentCanvas.Current.NextViewOrigin = (BookSetting.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightBottom : DragViewOrigin.LeftBottom;
+                    ContentCanvas.Current.NextViewOrigin = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightBottom : DragViewOrigin.LeftBottom;
                     BookOperation.Current.PrevPage();
                     return;
                 }
@@ -526,7 +526,7 @@ namespace NeeView
         {
             var parameter = (ScrollPageCommandParameter)CommandTable.Current[CommandType.NextScrollPage].Parameter;
 
-            int bookReadDirection = (BookSetting.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
+            int bookReadDirection = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
             bool isScrolled = MouseInput.Current.IsLoupeMode ? false : DragTransformControl.Current.ScrollN(+1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation, parameter.Scroll / 100.0);
 
             if (!isScrolled)
@@ -534,7 +534,7 @@ namespace NeeView
                 var span = DateTime.Now - _scrollPageTime;
                 if (!parameter.IsStop || _scrollPageMargin < span.TotalMilliseconds)
                 {
-                    ContentCanvas.Current.NextViewOrigin = (BookSetting.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightTop : DragViewOrigin.LeftTop;
+                    ContentCanvas.Current.NextViewOrigin = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? DragViewOrigin.RightTop : DragViewOrigin.LeftTop;
                     BookOperation.Current.NextPage();
                     return;
                 }

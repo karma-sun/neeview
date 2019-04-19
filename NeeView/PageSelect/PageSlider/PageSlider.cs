@@ -56,7 +56,7 @@ namespace NeeView
         {
             this.PageMarkers = new PageMarkers(BookOperation.Current);
 
-            BookSetting.Current.SettingChanged += (s, e) => UpdateIsSliderDirectionReversed();
+            BookSettingPresenter.Current.SettingChanged += (s, e) => UpdateIsSliderDirectionReversed();
 
             ThumbnailList.Current.IsSliderDirectionReversed = this.IsSliderDirectionReversed;
 
@@ -164,7 +164,7 @@ namespace NeeView
                     IsSliderDirectionReversed = true;
                     break;
                 case SliderDirection.SyncBookReadDirection:
-                    IsSliderDirectionReversed = BookSetting.Current.BookMemento.BookReadOrder == PageReadOrder.RightToLeft;
+                    IsSliderDirectionReversed = BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft;
                     break;
             }
         }

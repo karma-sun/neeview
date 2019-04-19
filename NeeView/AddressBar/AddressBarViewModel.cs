@@ -17,7 +17,7 @@ namespace NeeView
         {
             _model = model;
 
-            NeeView.BookSetting.Current.SettingChanged +=
+            NeeView.BookSettingPresenter.Current.SettingChanged +=
                (s, e) => RaisePropertyChanged(nameof(BookSetting));
         }
 
@@ -40,7 +40,7 @@ namespace NeeView
 
         public Book.Memento BookSetting
         {
-            get { return NeeView.BookSetting.Current.BookMemento; }
+            get { return NeeView.BookSettingPresenter.Current.LatestSetting.ToBookMemento(); }
         }
 
         internal List<KeyValuePair<int, QueryPath>> GetHistory(int direction, int size)

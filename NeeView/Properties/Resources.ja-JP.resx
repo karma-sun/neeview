@@ -4782,4 +4782,28 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamListItemContentIsDecoratePlaceTips" xml:space="preserve">
     <value>"AAA (C:\BBB\CCC)" のように整形します。</value>
   </data>
+  <data name="EnumBookSettingSelectModeDefault" xml:space="preserve">
+    <value>既定</value>
+  </data>
+  <data name="EnumBookSettingSelectModeContinue" xml:space="preserve">
+    <value>継続</value>
+  </data>
+  <data name="EnumBookSettingSelectModeRestoreOrDefault" xml:space="preserve">
+    <value>復元、できなければ既定</value>
+  </data>
+  <data name="EnumBookSettingSelectModeRestoreOrContinue" xml:space="preserve">
+    <value>復元、できなければ継続</value>
+  </data>
+  <data name="ParamBookPage" xml:space="preserve">
+    <value>ページ位置</value>
+  </data>
+  <data name="SettingPageBookPageSetting" xml:space="preserve">
+    <value>ページ設定</value>
+  </data>
+  <data name="SettingPageBookPageSettingTips" xml:space="preserve">
+    <value>左の項目は既定値、右の項目はブックを開いたときの動作です。</value>
+  </data>
+  <data name="WordFirstPage" xml:space="preserve">
+    <value>最初のページ</value>
+  </data>
 </root>

@@ -58,7 +58,7 @@ namespace NeeView
             [DataMember]
             public BookOperation.Memento BookOperation { get; set; }
             [DataMember]
-            public BookSetting.Memento BookSetting { get; set; }
+            public BookSettingPresenter.Memento BookSettingPresenter { get; set; }
             [DataMember]
             public ThemeProfile.Memento ThemeProfile { get; set; }
             [DataMember]
@@ -95,8 +95,6 @@ namespace NeeView
             public PageListPlacementService.Memento PageListPlacementService { get; set; }
             [DataMember]
             public FolderPanelModel.Memento FolderPanel { get; set; }
-            [Obsolete, DataMember(EmitDefaultValue = false)]
-            public FolderListLegacy.Memento FolderList { get; set; }
             [DataMember]
             public BookshelfFolderList.Memento BookshelfFolderList { get; set; }
             [DataMember]
@@ -118,7 +116,10 @@ namespace NeeView
 
             [Obsolete, DataMember(EmitDefaultValue = false)]
             public RoutedCommandTable.Memento RoutedCommandTable { get; set; }
-
+            [Obsolete, DataMember(EmitDefaultValue = false)]
+            public FolderListLegacy.Memento FolderList { get; set; }
+            [Obsolete, DataMember(Name = "BookSetting", EmitDefaultValue = false)]
+            public BookSettingPresenterLegacy.Memento BookSettingPresenterLegacy { get; set; }
 
             [OnDeserialized]
             private void Deserialized(StreamingContext c)
@@ -128,13 +129,16 @@ namespace NeeView
                 {
                     BookshelfFolderList = FolderListLegacy.ConvertFrom(FolderList);
                 }
-                if (ThemeProfile == null)
+
+                if (_Version < Config.GenerateProductVersionNumber(34, 0, 0))
                 {
-                    ThemeProfile = NeeView.ThemeProfile.Current.CreateMemento();
-                    ThemeProfile.PanelColor = MainWindowModel.PanelColor;
+                    if (BookSettingPresenterLegacy != null)
+                    {
+                        BookSettingPresenter = BookSettingPresenterLegacy.ToBookSettingPresenter();
+                    }
                 }
 #pragma warning restore CS0612
-            }
+                }
         }
 
         public Memento CreateMemento()
@@ -160,7 +164,7 @@ namespace NeeView
             memento.BookProfile = BookProfile.Current.CreateMemento();
             memento.BookHub = BookHub.Current.CreateMemento();
             memento.BookOperation = BookOperation.Current.CreateMemento();
-            memento.BookSetting = BookSetting.Current.CreateMemento();
+            memento.BookSettingPresenter = BookSettingPresenter.Current.CreateMemento();
             memento.ThemeProfile = ThemeProfile.Current.CreateMemento();
             memento.MainWindowModel = MainWindowModel.Current.CreateMemento();
             memento.ContentCanvas = ContentCanvas.Current.CreateMemento();
@@ -210,7 +214,7 @@ namespace NeeView
             BookProfile.Current.Restore(memento.BookProfile);
             BookHub.Current.Restore(memento.BookHub);
             BookOperation.Current.Restore(memento.BookOperation);
-            BookSetting.Current.Restore(memento.BookSetting);
+            BookSettingPresenter.Current.Restore(memento.BookSettingPresenter);
             ThemeProfile.Current.Restore(memento.ThemeProfile);
             MainWindowModel.Current.Restore(memento.MainWindowModel);
             ContentCanvas.Current.Restore(memento.ContentCanvas);

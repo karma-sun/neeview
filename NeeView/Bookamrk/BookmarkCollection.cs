@@ -491,8 +491,7 @@ namespace NeeView
             [DataMember]
             public QuickAccessCollection.Memento QuickAccess { get; set; }
 
-            [Obsolete]
-            [DataMember(Name = "Items", EmitDefaultValue = false)]
+            [Obsolete, DataMember(Name = "Items", EmitDefaultValue = false)]
             public List<Book.Memento> OldBooks { get; set; } // no used (ver.31)
 
             private void Constructor()

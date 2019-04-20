@@ -314,7 +314,9 @@ namespace NeeView
                 MouseInput.Current.Loupe.IsLoupeCenter = memento.IsLoupeCenter;
                 LoupeTransform.Current.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
                 DragTransformControl.Current.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
-                DragTransformControl.Current.IsControlCenterImage = memento.IsControlCenterImage;
+                DragTransformControl.Current.DragControlRotateCenter = memento.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
+                DragTransformControl.Current.DragControlScaleCenter = memento.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
+                DragTransformControl.Current.DragControlFlipCenter = memento.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
                 DragTransformControl.Current.IsKeepAngle = memento.IsKeepAngle;
                 DragTransformControl.Current.IsKeepFlip = memento.IsKeepFlip;
                 DragTransformControl.Current.IsKeepScale = memento.IsKeepScale;

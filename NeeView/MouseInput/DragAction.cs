@@ -28,6 +28,9 @@ namespace NeeView
         [AliasName("@EnumDragActionTypeAngle")]
         Angle,
 
+        [AliasName("@EnumDragActionTypeAngleSlider")]
+        AngleSlider,
+
         [AliasName("@EnumDragActionTypeScale")]
         Scale,
 

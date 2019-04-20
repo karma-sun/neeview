@@ -4626,4 +4626,25 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordYes" xml:space="preserve">
     <value>はい</value>
   </data>
+  <data name="EnumDragControlCenterView" xml:space="preserve">
+    <value>表示の中心</value>
+  </data>
+  <data name="EnumDragControlCenterTarget" xml:space="preserve">
+    <value>画像の中心</value>
+  </data>
+  <data name="EnumDragControlCenterCursor" xml:space="preserve">
+    <value>カーソル位置</value>
+  </data>
+  <data name="ParamDragTransformIsControRotatelCenter" xml:space="preserve">
+    <value>回転の中心</value>
+  </data>
+  <data name="ParamDragTransformIsControlScaleCenter" xml:space="preserve">
+    <value>拡大縮小の中心</value>
+  </data>
+  <data name="ParamDragTransformIsControlFlipCenter" xml:space="preserve">
+    <value>反転の中心</value>
+  </data>
+  <data name="EnumDragActionTypeAngleSlider" xml:space="preserve">
+    <value>回転(スライド式)</value>
+  </data>
 </root>

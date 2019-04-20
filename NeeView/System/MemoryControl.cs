@@ -131,30 +131,5 @@ namespace NeeView
             Book.Default?.BookMemoryService.CleanupDeep();
             GarbageCollect(true);
         }
-
-        #region Memento
-        [DataContract]
-        public class Memento
-        {
-            [Obsolete]
-            [DataMember(EmitDefaultValue = false)]
-            public bool IsAutoGC { get; set; }
-        }
-
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            ////memento.IsAutoGC = this.IsAutoGC;
-            return memento;
-        }
-
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            ////this.IsAutoGC = memento.IsAutoGC;
-        }
-
-        #endregion
-
     }
 }

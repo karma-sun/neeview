@@ -185,7 +185,7 @@ namespace NeeView
         {
             if (!force && state == _state) return;
             ////Debug.WriteLine($"#MouseState: {state}");
-            
+
             var inputOld = _current;
             var inputNew = _mouseInputCollection[state];
 
@@ -348,30 +348,33 @@ namespace NeeView
             [DataMember]
             public MouseInputLoupe.Memento Loupe { get; set; }
             [DataMember]
-            public MouseInputDrag.Memento Drag { get; set; }
-            [DataMember]
             public MouseInputGesture.Memento Gesture { get; set; }
+
+            #region Obsolete
+            [Obsolete, DataMember(EmitDefaultValue = false)]
+            public MouseInputDrag.Memento Drag { get; set; }
+            #endregion
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
             memento.Normal = this.Normal.CreateMemento();
             memento.Loupe = this.Loupe.CreateMemento();
-            memento.Drag = this.Drag.CreateMemento();
             memento.Gesture = this.Gesture.CreateMemento();
             return memento;
         }
 
-        //
         public void Restore(Memento memento)
         {
             if (memento == null) return;
             this.Normal.Restore(memento.Normal);
             this.Loupe.Restore(memento.Loupe);
-            this.Drag.Restore(memento.Drag);
             this.Gesture.Restore(memento.Gesture);
+
+#pragma warning disable CS0612
+            this.Drag.Restore(memento.Drag);
+#pragma warning restore CS0612
         }
         #endregion
 

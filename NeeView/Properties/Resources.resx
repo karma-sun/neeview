@@ -4626,4 +4626,25 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordYes" xml:space="preserve">
     <value>Yes</value>
   </data>
+  <data name="EnumDragControlCenterView" xml:space="preserve">
+    <value>View center</value>
+  </data>
+  <data name="EnumDragControlCenterTarget" xml:space="preserve">
+    <value>Image center</value>
+  </data>
+  <data name="EnumDragControlCenterCursor" xml:space="preserve">
+    <value>Cursor position</value>
+  </data>
+  <data name="ParamDragTransformIsControRotatelCenter" xml:space="preserve">
+    <value>Center of rotation</value>
+  </data>
+  <data name="ParamDragTransformIsControlScaleCenter" xml:space="preserve">
+    <value>Center of scaling</value>
+  </data>
+  <data name="ParamDragTransformIsControlFlipCenter" xml:space="preserve">
+    <value>Center of flip</value>
+  </data>
+  <data name="EnumDragActionTypeAngleSlider" xml:space="preserve">
+    <value>Rotation (horizontal slide)</value>
+  </data>
 </root>

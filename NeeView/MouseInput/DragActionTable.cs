@@ -58,6 +58,10 @@ namespace NeeView
                     DragKey = new DragKey("Shift+LeftButton"),
                     Exec = (s, e) => _drag.DragAngle(s, e),
                 },
+                [DragActionType.AngleSlider] = new DragAction
+                {
+                    Exec = (s, e) => _drag.DragAngleSlider(s, e),
+                },
                 [DragActionType.Scale] = new DragAction
                 {
                     Exec = (s, e) => _drag.DragScale(s, e),

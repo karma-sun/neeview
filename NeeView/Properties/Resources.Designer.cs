@@ -6155,6 +6155,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Rotation (horizontal slide) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumDragActionTypeAngleSlider {
+            get {
+                return ResourceManager.GetString("EnumDragActionTypeAngleSlider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Flip horizontal に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumDragActionTypeFlipHorizontal {
@@ -6232,6 +6241,33 @@ namespace NeeView.Properties {
         public static string EnumDragActionTypeWindowMove {
             get {
                 return ResourceManager.GetString("EnumDragActionTypeWindowMove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cursor position に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumDragControlCenterCursor {
+            get {
+                return ResourceManager.GetString("EnumDragControlCenterCursor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Image center に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumDragControlCenterTarget {
+            get {
+                return ResourceManager.GetString("EnumDragControlCenterTarget", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   View center に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumDragControlCenterView {
+            get {
+                return ResourceManager.GetString("EnumDragControlCenterView", resourceCulture);
             }
         }
         
@@ -9395,6 +9431,33 @@ namespace NeeView.Properties {
         public static string ParamDragTransformIsControlCenterImageTips {
             get {
                 return ResourceManager.GetString("ParamDragTransformIsControlCenterImageTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Center of flip に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamDragTransformIsControlFlipCenter {
+            get {
+                return ResourceManager.GetString("ParamDragTransformIsControlFlipCenter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Center of scaling に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamDragTransformIsControlScaleCenter {
+            get {
+                return ResourceManager.GetString("ParamDragTransformIsControlScaleCenter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Center of rotation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamDragTransformIsControRotatelCenter {
+            get {
+                return ResourceManager.GetString("ParamDragTransformIsControRotatelCenter", resourceCulture);
             }
         }
         

@@ -407,8 +407,7 @@ namespace NeeView
             [Obsolete, DataMember(Order = 8, EmitDefaultValue = false)]
             public Dictionary<string, FolderOrder> FolderOrders { get; set; } // no used (ver.22)
 
-            [Obsolete]
-            [DataMember(Name = "History", EmitDefaultValue = false)]
+            [Obsolete, DataMember(Name = "History", EmitDefaultValue = false)]
             public List<Book.Memento> OldBooks { get; set; } // no used (ver.31)
 
             //

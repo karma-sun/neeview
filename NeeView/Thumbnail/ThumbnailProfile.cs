@@ -192,16 +192,13 @@ namespace NeeView
             public int BookCapacity { get; set; }
 
 
-            [Obsolete]
-            [DataMember(EmitDefaultValue = false)]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public int ThumbnailWidth { get; set; }
 
-            [Obsolete]
-            [DataMember(EmitDefaultValue = false)]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public int BannerWidth { get; set; }
 
-            [Obsolete]
-            [DataMember(EmitDefaultValue = false)]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsThumbnailPopup { get; set; }
 
 

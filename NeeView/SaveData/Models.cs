@@ -26,8 +26,6 @@ namespace NeeView
             public int _Version { get; set; }
 
             [DataMember]
-            public MemoryControl.Memento MemoryControl { get; set; }
-            [DataMember]
             public FileIOProfile.Memento FileIOProfile { get; set; }
             [DataMember]
             public JobEngine.Memento JobEngine { get; set; }
@@ -147,7 +145,6 @@ namespace NeeView
 
             memento._Version = Config.Current.ProductVersionNumber;
 
-            memento.MemoryControl = MemoryControl.Current.CreateMemento();
             memento.FileIOProfile = FileIOProfile.Current.CreateMemento();
             memento.JobEngine = JobEngine.Current.CreateMemento();
             memento.SoundPlayerService = SoundPlayerService.Current.CreateMemento();
@@ -197,7 +194,6 @@ namespace NeeView
         public void Resore(Memento memento)
         {
             if (memento == null) return;
-            MemoryControl.Current.Restore(memento.MemoryControl);
             FileIOProfile.Current.Restore(memento.FileIOProfile);
             JobEngine.Current.Restore(memento.JobEngine);
             SoundPlayerService.Current.Restore(memento.SoundPlayerService);

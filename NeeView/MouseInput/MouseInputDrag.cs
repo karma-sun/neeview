@@ -7,9 +7,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 
-// TODO: 整備
-// TODO: 関数が大きすぎる？細分化を検討
-
 namespace NeeView
 {
     /// <summary>
@@ -19,7 +16,6 @@ namespace NeeView
     {
         DragTransformControl _drag;
 
-        //
         public MouseInputDrag(MouseInputContext context) : base(context)
         {
             _drag = DragTransformControl.Current; // ##
@@ -62,7 +58,6 @@ namespace NeeView
             }
         }
 
-        //
         public override void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
             // コマンド実行
@@ -75,16 +70,15 @@ namespace NeeView
             }
         }
 
-        //
         public override void OnMouseMove(object sender, MouseEventArgs e)
         {
             _drag.UpdateState(CreateMouseButtonBits(e), Keyboard.Modifiers, e.GetPosition(_context.Sender));
         }
 
 
-        #region Memento
+        #region Obsolete
 
-        [DataContract]
+        [Obsolete, DataContract]
         public class Memento
         {
             [Obsolete, DataMember(EmitDefaultValue = false)]
@@ -101,31 +95,28 @@ namespace NeeView
             public bool IsViewStartPositionCenter { get; set; }
         }
 
-        //
+        [Obsolete]
         public Memento CreateMemento()
         {
             return null;
         }
 
-#pragma warning disable CS0612
-
-        //
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
 
             var _drag = DragTransformControl.Current;
             _drag.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
-            _drag.IsControlCenterImage = memento.IsControlCenterImage;
+            _drag.DragControlRotateCenter = memento.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
+            _drag.DragControlScaleCenter = memento.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
+            _drag.DragControlFlipCenter = memento.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
             _drag.IsKeepScale = memento.IsKeepScale;
             _drag.IsKeepAngle = memento.IsKeepAngle;
             _drag.IsKeepFlip = memento.IsKeepFlip;
             _drag.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
         }
 
-#pragma warning restore CS0612
-
         #endregion
-
     }
 }

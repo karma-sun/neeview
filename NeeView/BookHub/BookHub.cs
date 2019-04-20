@@ -1168,7 +1168,7 @@ namespace NeeView
 
             #region Obslete
 
-            [Obsolete, DataMember(Order = 22)]
+            [Obsolete, DataMember(Order = 22, EmitDefaultValue = false)]
             public bool IsAutoRecursiveWithAllFiles { get; set; } // no used (ver.34)
 
             [Obsolete, DataMember(EmitDefaultValue = false)]

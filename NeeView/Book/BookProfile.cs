@@ -191,7 +191,7 @@ namespace NeeView
             [DataMember, DefaultValue(true)]
             public bool IsEnableAnimatedGif { get; set; }
 
-            [Obsolete, DataMember]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsEnableNoSupportFile { get; set; }
 
             [DataMember, DefaultValue(BookPageCollectMode.ImageAndBook)]

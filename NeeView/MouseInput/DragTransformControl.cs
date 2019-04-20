@@ -13,11 +13,26 @@ using System.Windows.Media;
 
 namespace NeeView
 {
+    public static class PointExtensions
+    {
+        // 開発用：座標表示
+        public static string ToIntString(this Point point)
+        {
+            return $"({(int)point.X},{(int)point.Y})";
+        }
+    }
+
     // 回転、拡大操作の中心
     public enum DragControlCenter
     {
-        View, // ビューエリアの中心
-        Target, // コンテンツの中心
+        [AliasName("@EnumDragControlCenterView")]
+        View,
+
+        [AliasName("@EnumDragControlCenterTarget")]
+        Target,
+
+        [AliasName("@EnumDragControlCenterCursor")]
+        Cursor,
     }
 
     // 値変化の原因
@@ -35,7 +50,6 @@ namespace NeeView
     // 変化通知イベントの引数
     public class TransformEventArgs : EventArgs
     {
-        //
         public TransformEventArgs(TransformActionType actionType)
         {
             this.ActionType = actionType;
@@ -102,6 +116,15 @@ namespace NeeView
             _sender = MainWindow.Current.MainView;
             _target = MainWindow.Current.MainContentShadow;
             _transform = DragTransform.Current;
+
+            _sender.SizeChanged += Sender_SizeChanged;
+            Sender_SizeChanged(this, null);
+        }
+
+        private void Sender_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            _coordCenter = new Vector(_sender.ActualWidth * 0.5, _sender.ActualHeight * 0.5);
+            Debug.WriteLine($"CoordCenter: { ((Point)_coordCenter).ToIntString()}");
         }
 
         #endregion
@@ -112,9 +135,17 @@ namespace NeeView
         [PropertyMember("@ParamDragTransformIsOriginalScaleShowMessage", Tips = "@ParamDragTransformIsOriginalScaleShowMessageTips")]
         public bool IsOriginalScaleShowMessage { get; set; }
 
-        // 回転、拡縮をコンテンツの中心基準にする
-        [PropertyMember("@ParamDragTransformIsControlCenterImage", Tips = "@ParamDragTransformIsControlCenterImageTips")]
-        public bool IsControlCenterImage { get; set; }
+        // 回転の中心
+        [PropertyMember("@ParamDragTransformIsControRotatelCenter")]
+        public DragControlCenter DragControlRotateCenter { get; set; }
+
+        // 拡大の中心
+        [PropertyMember("@ParamDragTransformIsControlScaleCenter")]
+        public DragControlCenter DragControlScaleCenter { get; set; }
+
+        // 反転の中心
+        [PropertyMember("@ParamDragTransformIsControlFlipCenter")]
+        public DragControlCenter DragControlFlipCenter { get; set; }
 
         // 拡大率キープ
         [PropertyMember("@ParamDragTransformIsKeepScale")]
@@ -142,18 +173,8 @@ namespace NeeView
 
         #region StateMachine
 
-
         private bool _isMouseButtonDown;
 
-        /// <summary>
-        /// ドラッグ開始座標
-        /// </summary>
-        private Point _startPoint;
-
-
-        /// <summary>
-        /// 
-        /// </summary>
         public void ResetState()
         {
             _isMouseButtonDown = false;
@@ -178,8 +199,6 @@ namespace NeeView
             }
         }
 
-
-        //
         private void StateIdle(MouseButtonBits buttons, ModifierKeys keys, Point point)
         {
             if (buttons != MouseButtonBits.None)
@@ -189,7 +208,6 @@ namespace NeeView
             }
         }
 
-        //
         private void StateDrag(MouseButtonBits buttons, ModifierKeys keys, Point point)
         {
             if (buttons == MouseButtonBits.None)
@@ -214,7 +232,9 @@ namespace NeeView
             }
 
             // exec action
-            _action?.Exec?.Invoke(_startPoint, point);
+            _endPoint = GetCenterCoordVector(point);
+            _action?.Exec?.Invoke(_startPoint, _endPoint);
+
         }
 
         #endregion
@@ -224,8 +244,6 @@ namespace NeeView
         // ドラッグでビュー操作設定の更新
         public void SetMouseDragSetting(int direction, DragViewOrigin origin, PageReadOrder order)
         {
-            this.DragControlCenter = this.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
-
             if (origin == DragViewOrigin.None)
             {
                 origin = this.IsViewStartPositionCenter
@@ -648,8 +666,7 @@ namespace NeeView
         // 拡大コマンド
         public void ScaleUp(double scaleDelta, bool isSnap, double originalScale)
         {
-            _baseScale = _transform.Scale;
-            _basePosition = _transform.Position;
+            InitializeDragParameter(Mouse.GetPosition(_sender));
 
             var scale = _baseScale * (1.0 + scaleDelta);
 
@@ -679,8 +696,7 @@ namespace NeeView
         // 縮小コマンド
         public void ScaleDown(double scaleDelta, bool isSnap, double originalScale)
         {
-            _baseScale = _transform.Scale;
-            _basePosition = _transform.Position;
+            InitializeDragParameter(Mouse.GetPosition(_sender));
 
             var scale = _baseScale / (1.0 + scaleDelta);
 
@@ -712,8 +728,7 @@ namespace NeeView
         // 回転コマンド
         public void Rotate(double angle)
         {
-            _baseAngle = _transform.Angle;
-            _basePosition = _transform.Position;
+            InitializeDragParameter(Mouse.GetPosition(_sender));
             DoRotate(NormalizeLoopRange(_baseAngle + angle, -180, 180));
         }
         #endregion
@@ -722,62 +737,92 @@ namespace NeeView
         // 反転コマンド
         public void ToggleFlipHorizontal()
         {
+            InitializeDragParameter(Mouse.GetPosition(_sender));
             DoFlipHorizontal(!_transform.IsFlipHorizontal);
         }
 
         // 反転コマンド
         public void FlipHorizontal(bool isFlip)
         {
+            InitializeDragParameter(Mouse.GetPosition(_sender));
             DoFlipHorizontal(isFlip);
         }
 
         // 反転コマンド
         public void ToggleFlipVertical()
         {
+            InitializeDragParameter(Mouse.GetPosition(_sender));
             DoFlipVertical(!_transform.IsFlipVertical);
         }
 
         // 反転コマンド
         public void FlipVertical(bool isFlip)
         {
+            InitializeDragParameter(Mouse.GetPosition(_sender));
             DoFlipVertical(isFlip);
         }
         #endregion
 
         #region Actions
 
+        // Sender座標系でのCenter座標系の基準位置
+        private Vector _coordCenter;
+
+        private Point _startPoint;
+        private Point _endPoint;
+        private Point _rotateCenter;
+        private Point _scaleCenter;
+        private Point _flipCenter;
+
         // ドラッグアクション
         private DragAction _action;
+
+        /// <summary>
+        /// Senderの座標をCenter座標系に変換する
+        /// </summary>
+        private Point GetCenterCoordVector(Point pointInSender)
+        {
+            return pointInSender - _coordCenter;
+        }
 
         // ドラッグパラメータ初期化
         private void InitializeDragParameter(Point pos)
         {
-            _startPoint = pos;
-            _baseFlipPoint = _startPoint;
-            var windowDiff = PointToLogicalScreen(_window, new Point(0, 0)) - new Point(_window.Left, _window.Top);
-            _startPointFromWindow = _sender.TranslatePoint(_startPoint, _window) + windowDiff;
+            _startPoint = GetCenterCoordVector(pos);
 
-            if (DragControlCenter == DragControlCenter.View)
-            {
-                _center = new Point(_sender.ActualWidth * 0.5, _sender.ActualHeight * 0.5);
-            }
-            else
-            {
-                _center = _target.TranslatePoint(new Point(_target.ActualWidth * _target.RenderTransformOrigin.X, _target.ActualHeight * _target.RenderTransformOrigin.Y), _sender);
-            }
+            InitializeWindowDragPosition();
+
+            _rotateCenter = GetCenterPosition(DragControlRotateCenter);
+            _scaleCenter = GetCenterPosition(DragControlScaleCenter);
+            _flipCenter = GetCenterPosition(DragControlFlipCenter);
 
             _basePosition = _transform.Position;
             _baseAngle = _transform.Angle;
             _baseScale = _transform.Scale;
+
+            ////Debug.WriteLine($"cur:{PointToString(_startPoint)}, pos:{PointToString(_basePosition)}, scale:{_baseScale}, center:{PointToString(_rotateCenter)}");
         }
 
-        /// <summary>
-        /// 操作の中心座標
-        /// </summary>
-        private Point _center;
+        private void InitializeWindowDragPosition()
+        {
+            var windowDiff = PointToLogicalScreen(_window, new Point(0, 0)) - new Point(_window.Left, _window.Top);
+            _startPointFromWindow = _sender.TranslatePoint(_startPoint, _window) + windowDiff;
+        }
 
-
-
+        private Point GetCenterPosition(DragControlCenter dragControlCenter)
+        {
+            switch (dragControlCenter)
+            {
+                case DragControlCenter.View:
+                    return new Point(0, 0);
+                case DragControlCenter.Target:
+                    return _transform.Position;
+                case DragControlCenter.Cursor:
+                    return _startPoint;
+                default:
+                    throw new NotImplementedException();
+            }
+        }
 
         // 移動制限更新
         // ビューエリアサイズを超える場合、制限をOFFにする
@@ -807,7 +852,6 @@ namespace NeeView
 
         #region Drag Move
 
-        //
         private Point _basePosition;
 
         // 移動
@@ -831,7 +875,7 @@ namespace NeeView
         private void DragMoveEx(Point start, Point end, double scale)
         {
             var pos0 = _transform.Position;
-            var pos1 = (end - _startPoint) * scale + _basePosition;
+            var pos1 = (end - start) * scale + _basePosition;
             var move = pos1 - pos0;
 
             DoMove(move);
@@ -868,19 +912,30 @@ namespace NeeView
 
         #region Drag Angle
 
-        // 回転、拡縮の中心
-        public DragControlCenter DragControlCenter { get; set; } = DragControlCenter.View;
-
         private double _baseAngle;
 
         // 回転
         public void DragAngle(Point start, Point end)
         {
-            var v0 = start - _center;
-            var v1 = end - _center;
+            var v0 = start - _rotateCenter;
+            var v1 = end - _rotateCenter;
+
+            // 回転の基準となるベクトルが得られるまで処理を進めない
+            const double minLength = 10.0;
+            if (v0.Length < minLength)
+            {
+                _startPoint = end;
+                return;
+            }
 
             double angle = NormalizeLoopRange(_baseAngle + Vector.AngleBetween(v0, v1), -180, 180);
 
+            DoRotate(angle);
+        }
+
+        public void DragAngleSlider(Point start, Point end)
+        {
+            var angle = NormalizeLoopRange(_baseAngle + (start.X - end.X) * 0.5, -180, 180);
             DoRotate(angle);
         }
 
@@ -894,11 +949,8 @@ namespace NeeView
 
             _transform.SetAngle(angle, TransformActionType.Angle);
 
-            if (DragControlCenter == DragControlCenter.View)
-            {
-                RotateTransform m = new RotateTransform(_transform.Angle - _baseAngle);
-                _transform.Position = m.Transform(_basePosition);
-            }
+            RotateTransform m = new RotateTransform(_transform.Angle - _baseAngle);
+            _transform.Position = _rotateCenter + (Vector)m.Transform((Point)(_basePosition - _rotateCenter));
         }
 
         // 角度の正規化
@@ -924,23 +976,19 @@ namespace NeeView
 
         #region Drag Scale
 
-        // 拡縮スナップ。0で無効;
-        public double SnapScale { get; set; } = 0;
-
         private double _baseScale;
 
+        // 拡縮スナップ。0で無効;
+        public double SnapScale { get; set; } = 0;
 
         // 拡縮
         public void DragScale(Point start, Point end)
         {
-            var v0 = start - _center;
-            var v1 = end - _center;
-
+            var v0 = start - _scaleCenter;
+            var v1 = end - _scaleCenter;
             var scale1 = v1.Length / v0.Length * _baseScale;
-
             DoScale(scale1);
         }
-
 
         // 拡縮
         public void DragScaleSlider(Point start, Point end)
@@ -948,8 +996,6 @@ namespace NeeView
             var scale1 = System.Math.Pow(2, (end.X - start.X) * 0.01) * _baseScale;
             DoScale(scale1);
         }
-
-
 
         // 拡縮実行
         private void DoScale(double scale)
@@ -961,34 +1007,29 @@ namespace NeeView
 
             _transform.SetScale(scale, TransformActionType.Scale);
 
-            if (DragControlCenter == DragControlCenter.View)
-            {
-                var rate = _transform.Scale / _baseScale;
-                _transform.Position = new Point(_basePosition.X * rate, _basePosition.Y * rate);
-            }
+            var pos0 = _scaleCenter;
+            var rate = _transform.Scale / _baseScale;
+            _transform.Position = pos0 + (_basePosition - pos0) * rate;
         }
 
         #endregion
 
         #region Drag Flip
 
-        //
-        private Point _baseFlipPoint;
-
-        // 反転
+        // 左右反転
         public void DragFlipHorizontal(Point start, Point end)
         {
             const double margin = 16;
 
-            if (_baseFlipPoint.X + margin < end.X)
+            if (start.X + margin < end.X)
             {
                 DoFlipHorizontal(true);
-                _baseFlipPoint.X = end.X - margin;
+                start.X = end.X - margin;
             }
-            else if (_baseFlipPoint.X - margin > end.X)
+            else if (start.X - margin > end.X)
             {
                 DoFlipHorizontal(false);
-                _baseFlipPoint.X = end.X + margin;
+                start.X = end.X + margin;
             }
         }
 
@@ -1005,28 +1046,25 @@ namespace NeeView
                 _transform.SetAngle(angle, TransformActionType.FlipHorizontal);
 
                 // 座標を反転
-                if (DragControlCenter == DragControlCenter.View)
-                {
-                    _transform.Position = new Point(-_transform.Position.X, _transform.Position.Y);
-                }
+                _transform.Position = new Point(_flipCenter.X * 2.0 - _transform.Position.X, _transform.Position.Y);
             }
         }
 
 
-        // 反転
+        // 上下反転
         public void DragFlipVertical(Point start, Point end)
         {
             const double margin = 16;
 
-            if (_baseFlipPoint.Y + margin < end.Y)
+            if (start.Y + margin < end.Y)
             {
                 DoFlipVertical(true);
-                _baseFlipPoint.Y = end.Y - margin;
+                start.Y = end.Y - margin;
             }
-            else if (_baseFlipPoint.Y - margin > end.Y)
+            else if (start.Y - margin > end.Y)
             {
                 DoFlipVertical(false);
-                _baseFlipPoint.Y = end.Y + margin;
+                start.Y = end.Y + margin;
             }
         }
 
@@ -1042,10 +1080,7 @@ namespace NeeView
                 _transform.SetAngle(angle, TransformActionType.FlipVertical);
 
                 // 座標を反転
-                if (DragControlCenter == DragControlCenter.View)
-                {
-                    _transform.Position = new Point(_transform.Position.X, -_transform.Position.Y);
-                }
+                _transform.Position = new Point(_transform.Position.X, _flipCenter.Y * 2.0 - _transform.Position.Y);
             }
         }
 
@@ -1081,16 +1116,16 @@ namespace NeeView
 
         #endregion
 
-
         #region Memento
 
         [DataContract]
         public class Memento
         {
             [DataMember]
-            public bool IsOriginalScaleShowMessage { get; set; }
+            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+
             [DataMember]
-            public bool IsControlCenterImage { get; set; }
+            public bool IsOriginalScaleShowMessage { get; set; }
             [DataMember]
             public bool IsKeepScale { get; set; }
             [DataMember]
@@ -1099,16 +1134,41 @@ namespace NeeView
             public bool IsKeepFlip { get; set; }
             [DataMember]
             public bool IsViewStartPositionCenter { get; set; }
+            [DataMember]
+            public DragControlCenter DragControlRotateCenter { get; set; }
+            [DataMember]
+            public DragControlCenter DragControlScaleCenter { get; set; }
+            [DataMember]
+            public DragControlCenter DragControlFlipCenter { get; set; }
+
+            [Obsolete, DataMember(EmitDefaultValue = false)]
+            public bool IsControlCenterImage { get; set; }
+
+
+#pragma warning disable CS0612
+            [OnDeserialized]
+            private void Deserialized(StreamingContext c)
+            {
+                // before 34.0
+                if (_Version < Config.GenerateProductVersionNumber(34, 0, 0))
+                {
+                    var center = IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
+                    DragControlRotateCenter = center;
+                    DragControlScaleCenter = center;
+                    DragControlFlipCenter = center;
+                }
+            }
+#pragma warning restore CS0612
         }
 
-
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
 
             memento.IsOriginalScaleShowMessage = this.IsOriginalScaleShowMessage;
-            memento.IsControlCenterImage = this.IsControlCenterImage;
+            memento.DragControlRotateCenter = this.DragControlRotateCenter;
+            memento.DragControlScaleCenter = this.DragControlScaleCenter;
+            memento.DragControlFlipCenter = this.DragControlFlipCenter;
             memento.IsKeepScale = this.IsKeepScale;
             memento.IsKeepAngle = this.IsKeepAngle;
             memento.IsKeepFlip = this.IsKeepFlip;
@@ -1117,13 +1177,14 @@ namespace NeeView
             return memento;
         }
 
-        //
         public void Restore(Memento memento)
         {
             if (memento == null) return;
 
             this.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
-            this.IsControlCenterImage = memento.IsControlCenterImage;
+            this.DragControlRotateCenter = memento.DragControlRotateCenter;
+            this.DragControlScaleCenter = memento.DragControlScaleCenter;
+            this.DragControlFlipCenter = memento.DragControlFlipCenter;
             this.IsKeepScale = memento.IsKeepScale;
             this.IsKeepAngle = memento.IsKeepAngle;
             this.IsKeepFlip = memento.IsKeepFlip;

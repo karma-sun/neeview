@@ -244,7 +244,6 @@ namespace NeeView
             {
                 App.Current.IsNetworkEnabled = this.network_enabled;
                 App.Current.IsIgnoreImageDpi = this.dpi_image_ignore;
-                App.Current.IsDisableSave = this.userdata_save_disable;
                 App.Current.AutoHideDelayTime = this.panel_autohide_delaytime;
                 App.Current.WindowChromeFrame = this.window_chrome_frame == WindowChromeFrameV1.None ? WindowChromeFrame.None : WindowChromeFrame.WindowFrame;
                 App.Current.IsOpenLastBook = this.bootup_lastfolder;

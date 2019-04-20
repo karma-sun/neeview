@@ -98,9 +98,6 @@ namespace NeeView
         [PropertyMember("@ParamIsRestoreSecondWindow", Tips = "@ParamIsRestoreSecondWindowTips")]
         public bool IsRestoreSecondWindow { get; set; } = true;
 
-        [Obsolete]
-        public bool IsDisableSave { get; set; }
-
         // 履歴データの保存
         [PropertyMember("@ParamIsSaveHistory")]
         public bool IsSaveHistory
@@ -233,8 +230,7 @@ namespace NeeView
             [DataMember, DefaultValue(true)]
             public bool IsNetworkEnabled { get; set; }
 
-            [Obsolete]
-            [DataMember(EmitDefaultValue = false)]
+            [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsDisableSave { get; set; }
 
             [DataMember, DefaultValue(true)]
@@ -258,15 +254,13 @@ namespace NeeView
             [DataMember, DefaultValue(true)]
             public bool IsIgnoreImageDpi { get; set; }
 
-            [Obsolete]
-            [DataMember(EmitDefaultValue = false), DefaultValue(false)]
+            [Obsolete, DataMember(EmitDefaultValue = false), DefaultValue(false)]
             public bool IsIgnoreWindowDpi { get; set; }
 
             [DataMember, DefaultValue(true)]
             public bool IsRestoreSecondWindow { get; set; }
 
-            [Obsolete]
-            [DataMember(Name = "WindowChromeFrame", EmitDefaultValue = false)]
+            [Obsolete, DataMember(Name = "WindowChromeFrame", EmitDefaultValue = false)]
             public WindowChromeFrameV1 WindowChromeFrameV1 { get; set; }
 
             [DataMember(Name = "WindowChromeFrameV2"), DefaultValue(WindowChromeFrame.WindowFrame)]

@@ -235,8 +235,7 @@ namespace NeeView
             [DataMember]
             public int _Version { get; set; } = Config.Current.ProductVersionNumber;
 
-            [Obsolete]
-            [DataMember(Name = "Background", EmitDefaultValue = false)]
+            [Obsolete, DataMember(Name = "Background", EmitDefaultValue = false)]
             public BackgroundStyleV1 BackgroundV1 { get; set; }
 
             [DataMember(Name = "BackgroundV2")]

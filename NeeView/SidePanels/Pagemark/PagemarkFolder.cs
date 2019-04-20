@@ -11,8 +11,7 @@ namespace NeeView
         private string _place;
 
         
-        [Obsolete]
-        [DataMember(Name="Name", EmitDefaultValue =false)]
+        [Obsolete, DataMember(Name="Name", EmitDefaultValue =false)]
         private string ObsoleteName
         {
             get { return null; }

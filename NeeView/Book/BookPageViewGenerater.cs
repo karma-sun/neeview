@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeLaboratory.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -11,7 +12,7 @@ namespace NeeView
     /// <summary>
     /// ViewPageCollection Generate Process
     /// </summary>
-    public class BookPageViewGenerater : IDisposable
+    public class BookPageViewGenerater : BindableBase, IDisposable
     {
         private BookSource _book;
         private BookPageViewSetting _setting;
@@ -26,6 +27,8 @@ namespace NeeView
         private CancellationTokenSource _cancellationTokenSource;
         private object _lock = new object();
         private SemaphoreSlim _semaphore;
+        private bool _isBusy = true;
+
 
         public BookPageViewGenerater(BookSource book, BookPageViewSetting setting, object sender, PageRange viewPageRange, PageRange aheadPageRange)
         {
@@ -51,16 +54,24 @@ namespace NeeView
         public event EventHandler<ViewContentSourceCollectionChangedEventArgs> NextContentsChanged;
 
 
+        public bool IsBusy
+        {
+            get { return _isBusy; }
+            set { SetProperty(ref _isBusy, value); }
+        }
+
+
         #region IDisposable Support
         private bool _disposedValue = false;
 
-        [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId ="_semaphore")]
+        [SuppressMessage("Microsoft.Usage", "CA2213:DisposableFieldsShouldBeDisposed", MessageId = "_semaphore")]
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposedValue)
             {
                 if (disposing)
                 {
+                    ResetPropertyChanged();
                     ViewContentsChanged = null;
                     NextContentsChanged = null;
                     _cancellationTokenSource.Cancel();
@@ -96,6 +107,10 @@ namespace NeeView
             {
                 ////Debug.WriteLine($"> RunUpdateViewContents: {ex.Message}");
             }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         private async Task UpdateNextContentsAsync(CancellationToken token)
@@ -115,7 +130,7 @@ namespace NeeView
                         collection = CreateViewPageCollection(_nextRange);
 
                         // if out of range, return;
-                        if (!_contentRange.IsContains(new PagePosition(collection.Range.Last.Index, 0)))
+                        if (collection.Collection.Count == 0 || !_contentRange.IsContains(new PagePosition(collection.Range.Last.Index, 0)))
                         {
                             return;
                         }

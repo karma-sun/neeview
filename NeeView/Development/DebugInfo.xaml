@@ -14,6 +14,14 @@
     </UserControl.Resources>
 
     <DockPanel x:Name="Root" Background="White">
+
+        <DockPanel DockPanel.Dock="Top">
+            <local:DebugBusyFlag Label="JobEngine" IsBusy="{Binding JobEngine.IsBusy}" Margin="0,5"/>
+            <local:DebugBusyFlag Label="BookHub" IsBusy="{Binding BookHub.IsLoading}" Margin="0,5"/>
+            <local:DebugBusyFlag Label="Book" IsBusy="{Binding BookOperation.IsBusy}" Margin="0,5"/>
+            <local:DebugBusyFlag Label="ContentRebuild" IsBusy="{Binding ContentRebuild.IsBusy}" Margin="0,5"/>
+        </DockPanel>
+
         <TextBlock DockPanel.Dock="Top" Text="{Binding CursorPointRoot}"/>
         <TextBlock DockPanel.Dock="Top" Text="{Binding Message}"/>
         <TextBlock DockPanel.Dock="Top" Text="{Binding DragTransform.Position, Converter={StaticResource PointToDispStringConverter}}"/>

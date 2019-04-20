@@ -87,6 +87,10 @@ namespace NeeView
 
         public JobEngine JobEngine => JobEngine.Current;
         public DragTransform DragTransform => DragTransform.Current;
+        public BookOperation BookOperation => BookOperation.Current;
+        public BookHub BookHub => BookHub.Current;
+        public ContentRebuild ContentRebuild => ContentRebuild.Current;
+
 
         // 開発用：コンテンツ座標
         private Point _contentPosition;

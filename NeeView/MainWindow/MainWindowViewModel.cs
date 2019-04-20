@@ -191,20 +191,18 @@ namespace NeeView
             SlideShow.Current.AddPropertyChanged(nameof(SlideShow.IsPlayingSlideShow),
                 (s, e) => RaisePropertyChanged(nameof(WindowIcon)));
 
-            // JobEngine Busy
-            JobEngine.Current.AddPropertyChanged(nameof(JobEngine.IsBusy),
-                (s, e) => UpdateBusyVisibility());
-
             ContentRebuild.Current.AddPropertyChanged(nameof(ContentRebuild.IsBusy),
                 (s, e) => UpdateBusyVisibility());
 
-            BookOperation.Current.AddPropertyChanged(nameof(ContentRebuild.IsBusy),
+            BookOperation.Current.AddPropertyChanged(nameof(BookOperation.IsBusy),
+                (s, e) => UpdateBusyVisibility());
+
+            BookHub.Current.AddPropertyChanged(nameof(BookHub.IsLoading),
                 (s, e) => UpdateBusyVisibility());
 
             BookHub.Current.BookChanged +=
                 (s, e) => CommandManager.InvalidateRequerySuggested();
 
-            //
             Config.Current.LocalApplicationDataRemoved +=
                 (s, e) =>
                 {
@@ -221,10 +219,11 @@ namespace NeeView
             }
         }
 
-        //
+        // 処理中表示の更新
         private void UpdateBusyVisibility()
         {
-            this.BusyVisibility = _model.IsVisibleBusy && (BookOperation.Current.IsBusy || JobEngine.Current.IsBusy || ContentRebuild.Current.IsBusy) && !SlideShow.Current.IsPlayingSlideShow ? Visibility.Visible : Visibility.Collapsed;
+            ////Debug.WriteLine($"IsBusy: {BookHub.Current.IsLoading}, {BookOperation.Current.IsBusy}, {ContentRebuild.Current.IsBusy}");
+            this.BusyVisibility = _model.IsVisibleBusy && (BookHub.Current.IsLoading || BookOperation.Current.IsBusy || ContentRebuild.Current.IsBusy) && !SlideShow.Current.IsPlayingSlideShow ? Visibility.Visible : Visibility.Collapsed;
         }
 
         /// <summary>

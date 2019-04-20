@@ -109,7 +109,10 @@ namespace NeeView
 
         public bool IsValid => Book != null;
 
-        public bool IsBusy => Book != null ? Book.Viewer.IsBusy : false;
+        public bool IsBusy
+        {
+            get { return Book != null ? Book.Viewer.IsBusy : false; }
+        }
 
         public ObservableCollection<Page> PageList
         {

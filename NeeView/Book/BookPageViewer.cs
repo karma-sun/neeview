@@ -13,10 +13,9 @@ namespace NeeView
         private BookSource _book;
         private BookPageViewSetting _setting;
 
-        
+
         // 表示ページコンテキスト
         private volatile ViewContentSourceCollection _viewPageCollection = new ViewContentSourceCollection();
-
 
         // リソースを保持しておくページ
         private List<Page> _keepPages = new List<Page>();
@@ -33,6 +32,9 @@ namespace NeeView
         // コンテンツ生成
         private BookPageViewGenerater _contentGenerater;
 
+        // 処理中フラグ
+        private bool _isBusy;
+
 
         public BookPageViewer(BookSource book, BookMemoryService memoryService, BookPageViewSetting setting)
         {
@@ -46,7 +48,7 @@ namespace NeeView
             }
 
             _ahead = new BookAhead(_bookMemoryService);
-            _ahead.AddPropertyChanged(nameof(BookAhead.IsBusy), (s, e) => RaisePropertyChanged(nameof(IsBusy)));
+            _ahead.AddPropertyChanged(nameof(BookAhead.IsBusy), (s, e) => UpdateIsBusy());
         }
 
 
@@ -108,7 +110,12 @@ namespace NeeView
         }
 
 
-        public bool IsBusy => _ahead.IsBusy;
+        // 処理中フラグ
+        public bool IsBusy
+        {
+            get { return _isBusy; }
+            set { SetProperty(ref _isBusy, value); }
+        }
 
 
         // 表示されるページ番号(スライダー用)
@@ -155,6 +162,12 @@ namespace NeeView
         #endregion
 
         #region Methods
+
+        // 処理中フラグ更新
+        private void UpdateIsBusy()
+        {
+            IsBusy = _ahead.IsBusy || (_contentGenerater != null ? _contentGenerater.IsBusy : false);
+        }
 
         // 動画用：外部から終端イベントを発行
         public void RaisePageTerminatedEvent(int direction)
@@ -273,12 +286,14 @@ namespace NeeView
             };
             _contentGenerater.NextContentsChanged += (s, e) =>
                 NextContentsChanged?.Invoke(s, e);
-
+            _contentGenerater.AddPropertyChanged(nameof(_contentGenerater.IsBusy), (s, e) =>
+                UpdateIsBusy());
 
             _bookMemoryService.SetReference(viewPages.First().Index);
             _jobClient.Order(viewPages);
             _ahead.Order(aheadPages);
 
+            UpdateIsBusy();
 
             using (var loadWaitCancellation = new CancellationTokenSource())
             using (var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token, loadWaitCancellation.Token))

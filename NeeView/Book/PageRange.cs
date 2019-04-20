@@ -124,21 +124,22 @@ namespace NeeView
 
         #region Medhods
 
-        //
         public override string ToString()
         {
             return $"{Position},{Last}";
         }
 
-        //
         public bool IsEmpty()
         {
             return Position.IsEmpty();
         }
 
-        //
         public bool IsContains(PagePosition position)
         {
+            if (position.IsEmpty())
+            {
+                return false;
+            }
             if (this.Direction > 0)
             {
                 return this.Position <= position && position <= this.Last;
@@ -149,33 +150,32 @@ namespace NeeView
             }
         }
 
-        //
         public PageRange Add(PagePosition position)
         {
-            if (IsContains(position))
+            if (position.IsEmpty() || IsContains(position))
             {
                 return this;
             }
-            else
-            {
-                return new PageRange(new List<PagePosition>() { Position, Last, position }, Direction);
-            }
+
+            return new PageRange(new List<PagePosition>() { Position, Last, position }, Direction);
         }
 
-        //
         public PageRange Add(PageRange other)
         {
+            if (other.IsEmpty())
+            {
+                return this;
+            }
+
             var points = new List<PagePosition> { this.Min, this.Max, other.Min, other.Max };
             return new PageRange(points, this.Direction);
         }
 
-        //
         public PagePosition Next()
         {
             return Next(this.Direction);
         }
 
-        //
         public PagePosition Next(int direction)
         {
             if (direction != 1 && direction != -1) throw new ArgumentOutOfRangeException(nameof(direction));
@@ -184,7 +184,6 @@ namespace NeeView
             return pos + direction;
         }
 
-        //
         public PagePosition Move(int delta)
         {
             int direction = delta < 0 ? -1 : 1;

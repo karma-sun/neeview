@@ -343,7 +343,6 @@ namespace NeeView
         }
 
 
-
         public virtual void RequestCreate(QueryPath path)
         {
             AddItem(path);
@@ -360,31 +359,32 @@ namespace NeeView
         }
 
 
-        //
-        public void AddItem(QueryPath path)
+        private FolderItem FindItem(QueryPath path)
         {
-            FolderItem item;
-
-            // FolderInfoを作成し、追加
             lock (_lock)
             {
-                // 対象を検索
-                item = this.Items.FirstOrDefault(i => i.TargetPath == path);
+                return this.Items.FirstOrDefault(e => e.TargetPath == path);
             }
-
-            // 既に登録済みの場合は処理しない
-            if (item != null) return;
-
-            // TODO: ファイルシステムパス以外は不正処理になるので対処が必要
-            item = _folderItemFactory.CreateFolderItem(path);
-
-            AppDispatcher.Invoke(() =>
-            {
-                AddItem(item);
-            });
         }
 
-        //
+        // HACK: 本来はFolderCollectionの種類に応じて挙動を変える必要がある。いまのところファイルシステム系以外で呼ばれないため実装していない。
+        protected virtual FolderItem CreateItem(QueryPath path)
+        {
+            return _folderItemFactory.CreateFolderItem(path);
+        }
+
+
+        public void AddItem(QueryPath path)
+        {
+            var item = FindItem(path);
+            if (item != null) return;
+
+            item = CreateItem(path);
+            if (item == null) return;
+
+            AppDispatcher.Invoke(() => AddItem(item));
+        }
+
         protected void AddItem(FolderItem item)
         {
             if (item == null) return;
@@ -423,26 +423,14 @@ namespace NeeView
         }
 
 
-        // 対象を検索し、削除する
         public void DeleteItem(QueryPath path)
         {
-            FolderItem item;
-
-            lock (_lock)
-            {
-                item = this.Items.FirstOrDefault(i => i.TargetPath == path);
-            }
-
-            // 既に存在しない場合は処理しない
+            var item = FindItem(path);
             if (item == null) return;
 
-            AppDispatcher.Invoke(() =>
-            {
-                DeleteItem(item);
-            });
+            AppDispatcher.Invoke(() => DeleteItem(item));
         }
 
-        //
         protected void DeleteItem(FolderItem item)
         {
             if (item == null) return;
@@ -463,16 +451,11 @@ namespace NeeView
         }
 
 
-        //
         public void RenameItem(QueryPath oldPath, QueryPath path)
         {
             if (oldPath == path) return;
 
-            FolderItem item;
-            lock (_lock)
-            {
-                item = this.Items.FirstOrDefault(i => i.TargetPath == oldPath);
-            }
+            var item = FindItem(oldPath);
             if (item == null)
             {
                 // リストにない項目は追加を試みる
@@ -480,21 +463,16 @@ namespace NeeView
                 return;
             }
 
-            // ディレクトリの名前が変更されていないかチェック
-            if (LoosePath.GetDirectoryName(path.FullPath) != LoosePath.GetDirectoryName(item.TargetPath.FullPath))
-            {
-                throw new ArgumentException("remame exception: difference place");
-            }
-
-            RenameItem(item, path.FileName);
+            RenameItem(item, path);
         }
 
-        //
-        protected void RenameItem(FolderItem item, string newName)
+        public void RenameItem(FolderItem item, QueryPath path)
         {
-            item.Name = newName;
-        }
+            if (item == null) return;
 
+            item.TargetPath = path;
+            item.Name = path.FileName;
+        }
 
         #endregion Methods
 

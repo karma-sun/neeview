@@ -138,7 +138,7 @@ namespace NeeView
         // 表示名
         public string DispName
         {
-            get { return _dispName ?? (IsShortcut || IsPlaylist ? System.IO.Path.GetFileNameWithoutExtension(_name) : _name); }
+            get { return _dispName ?? (IsHideExtension() ? System.IO.Path.GetFileNameWithoutExtension(_name) : _name); }
             set { SetProperty(ref _dispName, value); }
         }
 
@@ -231,6 +231,9 @@ namespace NeeView
 
         // 推定ディレクトリ
         public bool IsDirectoryMaybe() => IsDirectory || Length == -1;
+
+        // 拡張子の非表示
+        public bool IsHideExtension() => IsShortcut || IsPlaylist;
 
         /// <summary>
         /// IsRecursived 更新

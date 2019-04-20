@@ -91,7 +91,14 @@ namespace NeeView
                         var item = Items.FirstOrDefault(i => e.Item == i.Source);
                         if (item != null)
                         {
-                            RenameItem(item, e.Item.Value.Name);
+                            if (e.Item.Value is BookmarkFolder bookmarkFlder)
+                            {
+                                RenameItem(item, e.Item.CreateQuery());
+                            }
+                            else if (e.Item.Value is Bookmark bookmark)
+                            {
+                                RenameItem(item, new QueryPath(bookmark.Place));
+                            }
                         }
                     }
                     break;
@@ -142,17 +149,56 @@ namespace NeeView
             };
         }
 
+        private FileSystemInfo GetFileSystemInfo(string path)
+        {
+            try
+            {
+                var directoryInfo = new DirectoryInfo(path);
+                if (directoryInfo.Exists)
+                {
+                    return directoryInfo;
+                }
+                var fileInfo = new FileInfo(path);
+                if (fileInfo.Exists)
+                {
+                    return fileInfo;
+                }
+            }
+            catch
+            {
+                // アーカイブパス等、ファイル名に使用できない文字が含まれている場合がある
+            }
+            return null;
+        }
+
         private FolderItem CreateFolderItemBookmark(TreeListNode<IBookmarkEntry> node)
         {
             if (!(node?.Value is Bookmark bookmark)) return null;
 
-            // TODO: 書庫内パスの対応
-            var archiveEntry = ArchiveEntry.Create(bookmark.Place);
+            var item = new FileFolderItem(_isOverlayEnabled)
+            {
+                Source = node,
+                Type = FolderItemType.File,
+                Place = Place,
+                Name = bookmark.Name,
+                TargetPath = new QueryPath(bookmark.Place),
+                Attributes = FolderItemAttribute.Bookmark,
+                EntryTime = bookmark.EntryTime,
+                IsReady = true
+            };
 
-            var item = _folderItemFactory.CreateFolderItem(archiveEntry, null);
-            item.Source = node;
-            item.Attributes |= FolderItemAttribute.Bookmark;
-            item.EntryTime = bookmark.EntryTime;
+            switch (GetFileSystemInfo(bookmark.Place))
+            {
+                case DirectoryInfo directoryInfo:
+                    item.Length = -1;
+                    item.LastWriteTime = directoryInfo.LastWriteTime;
+                    break;
+                case FileInfo fileInfo:
+                    item.Length = fileInfo.Length;
+                    item.LastWriteTime = fileInfo.LastWriteTime;
+                    break;
+            }
+
             return item;
         }
 

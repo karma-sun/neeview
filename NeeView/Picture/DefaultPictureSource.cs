@@ -33,7 +33,7 @@ namespace NeeView
 
             var pictureInfo = new PictureInfo(ArchiveEntry);
 
-            var rawDataResult = CreateRawData(false, token);
+            var rawDataResult = CreateRawData(token);
             _rawData = rawDataResult.rawData;
 
             using (var stream = CreateStream(token))
@@ -78,13 +78,11 @@ namespace NeeView
 
             token.ThrowIfCancellationRequested();
 
-            _rawData = CompressRawData(_rawData);
-
             return this.PictureInfo;
         }
 
 
-        private (byte[] rawData, string decoder) CreateRawData(bool isCompressed, CancellationToken token)
+        private (byte[] rawData, string decoder) CreateRawData(CancellationToken token)
         {
             var ms = new MemoryStream();
             using (var namedStream = _pictureStream.Create(ArchiveEntry))
@@ -106,37 +104,8 @@ namespace NeeView
 
                 // ArchiveEntryのデータがメモリ上に存在するならば、それをRawDataとして参照する
                 var rawData = (ArchiveEntry.Data as byte[]) ?? ms.ToArray();
-                if (isCompressed)
-                {
-                    rawData = CompressRawData(rawData);
-                }
 
                 return (rawData, namedStream.Name);
-            }
-        }
-
-        // RawData: メモリ圧縮のためにBMPはPNGに変換 
-        private byte[] CompressRawData(byte[] source)
-        {
-            if (source == null || _createOptions.HasFlag(PictureSourceCreateOptions.IgnoreCompress)) return source;
-            if (source[0] != 'B' || source[1] != 'M') return source;
-
-            try
-            {
-                ////Debug.WriteLine($"Compress BMP to PNG.");
-                using (var inStream = new MemoryStream(source))
-                using (var outStream = new MemoryStream())
-                {
-                    var encoder = new PngBitmapEncoder();
-                    encoder.Frames.Add(BitmapFrame.Create(inStream));
-                    encoder.Save(outStream);
-                    return outStream.ToArray();
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                return source;
             }
         }
 
@@ -144,7 +113,7 @@ namespace NeeView
         {
             if (_rawData == null)
             {
-                _rawData = CreateRawData(true, token).rawData;
+                _rawData = CreateRawData(token).rawData;
             }
 
             return new MemoryStream(_rawData);

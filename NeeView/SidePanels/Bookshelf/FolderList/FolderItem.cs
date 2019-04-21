@@ -230,7 +230,7 @@ namespace NeeView
         public QueryPath GetFolderCollectionPath() => _place.ReplacePath(LoosePath.Combine(_place.Path, _name));
 
         // 推定ディレクトリ
-        public bool IsDirectoryMaybe() => IsDirectory || Length == -1;
+        public bool IsDirectoryMaybe() => IsDirectory || IsPlaylist || Length == -1;
 
         // 拡張子の非表示
         public bool IsHideExtension() => IsShortcut || IsPlaylist;
@@ -276,7 +276,7 @@ namespace NeeView
         /// </summary>
         public bool CanOpenFolder()
         {
-            if (IsDirectory)
+            if (IsDirectory || IsPlaylist)
             {
                 return true;
             }

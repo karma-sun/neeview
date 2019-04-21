@@ -115,7 +115,8 @@ namespace NeeView
         [PropertyMember("@ParamCacheMemorySize", Tips = "@ParamCacheMemorySizeTips")]
         public int CacheMemorySize
         {
-            get { return _cacheMemorySize; }
+            // 64bit,32bit共用のため、設定時、取得時に最大メモリ制限をしている
+            get { return Math.Min(_cacheMemorySize, _maxCacheMemorySize); }
             set { SetProperty(ref _cacheMemorySize, Math.Min(value, _maxCacheMemorySize)); }
         }
 
@@ -131,10 +132,10 @@ namespace NeeView
             // -2GB or half size
             max = Math.Max(max - 2 * 1024, max / 2);
 
-            // if 32bit, limit 3GB
+            // if 32bit, limit 2GB
             if (!Config.IsX64)
             {
-                max = Math.Min(max, 3 * 1024);
+                max = Math.Min(max, 2 * 1024);
             }
 
             return max;
@@ -244,7 +245,7 @@ namespace NeeView
             memento.BookPageCollectMode = this.BookPageCollectMode;
             memento.IsLoadingPageVisible = this.IsLoadingPageVisible;
             memento.IsAllFileAnImage = this.IsAllFileAnImage;
-            memento.CacheMemorySize = this.CacheMemorySize;
+            memento.CacheMemorySize = _cacheMemorySize;
             return memento;
         }
 
@@ -261,7 +262,7 @@ namespace NeeView
             this.BookPageCollectMode = memento.BookPageCollectMode;
             this.IsLoadingPageVisible = memento.IsLoadingPageVisible;
             this.IsAllFileAnImage = memento.IsAllFileAnImage;
-            this.CacheMemorySize = memento.CacheMemorySize;
+            _cacheMemorySize = memento.CacheMemorySize;
         }
         #endregion
 

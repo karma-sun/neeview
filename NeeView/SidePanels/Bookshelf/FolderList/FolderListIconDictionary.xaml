@@ -128,4 +128,18 @@
             </GeometryDrawing>
         </DrawingImage.Drawing>
     </DrawingImage>
+
+    <DrawingImage x:Key="ic_playlist">
+        <DrawingImage.Drawing>
+            <GeometryDrawing>
+                <GeometryDrawing.Pen>
+                    <Pen Brush="{DynamicResource NVForeground}" Thickness="1.25"></Pen>
+                </GeometryDrawing.Pen>
+                <GeometryDrawing.Geometry>
+                    <PathGeometry FillRule="Nonzero" Figures="M0,0 L5,0 0,5Z  M6,3 16,3 M0,8 16,8 M0,13 16,13"/>
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
 </ResourceDictionary>

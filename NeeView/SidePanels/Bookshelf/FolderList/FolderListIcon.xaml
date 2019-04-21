@@ -43,21 +43,17 @@
 
         <DrawingImage x:Key="fic_playlist">
             <DrawingImage.Drawing>
-                <DrawingGroup Opacity="1">
-                    <DrawingGroup.Children>
-                        <GeometryDrawing>
-                            <GeometryDrawing.Pen>
-                                <Pen Brush="{DynamicResource NVForeground}" Thickness="1.25"></Pen>
-                            </GeometryDrawing.Pen>
-                            <GeometryDrawing.Geometry>
-                                <PathGeometry FillRule="Nonzero" Figures="M0,0 L0,18"/>
-                            </GeometryDrawing.Geometry>
-                        </GeometryDrawing>
-                    </DrawingGroup.Children>
-                </DrawingGroup>
+                <GeometryDrawing>
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="{DynamicResource NVForeground}" Thickness="1.25"></Pen>
+                    </GeometryDrawing.Pen>
+                    <GeometryDrawing.Geometry>
+                        <PathGeometry FillRule="Nonzero" Figures="M0,0 L5,0 0,5Z  M6,3 16,3 M0,8 16,8 M0,13 16,13"/>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
             </DrawingImage.Drawing>
         </DrawingImage>
-
+        
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         <local:FolderItemIconOverlayToVisibilityConverter x:Key="FolderItemIconOverlayToVisibilityConverter"/>
         <local:FolderItemIconOverlayToImageSourceConverter x:Key="FolderItemIconOverlayToImageSourceConverter"/>
@@ -74,8 +70,8 @@
             <Grid Width="18" Height="18" Margin="2,0,0,0" Visibility="{Binding IsShortcut, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Image Source="{StaticResource fic_arrow_forward_24px}" Width="10" Height="10" Margin="0,2,4,2"/>
             </Grid>
-            <Grid Width="18" Height="18" Margin="2,0,0,0" Visibility="{Binding IsPlaylist, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Image Source="{StaticResource fic_playlist}" Width="18" Height="18" Margin="0,0,8,0"/>
+            <Grid Width="18" Height="18" Margin="2,0,0,2" Visibility="{Binding IsPlaylist, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <Image Source="{StaticResource fic_playlist}" Width="16" Height="16" Margin="0,0,0,0"/>
             </Grid>
         </Grid>
 

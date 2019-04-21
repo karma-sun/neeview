@@ -339,6 +339,10 @@ namespace NeeView
                 {
                     return MainWindow.Current.Resources["ic_search_24px"] as ImageSource;
                 }
+                else if (path.Scheme == QueryScheme.File && PlaylistArchive.IsSupportExtension(path.SimplePath))
+                {
+                    return MainWindow.Current.Resources["ic_playlist"] as ImageSource;
+                }
             }
 
             return FileIconCollection.Current.CreateDefaultFolderIcon(16.0);

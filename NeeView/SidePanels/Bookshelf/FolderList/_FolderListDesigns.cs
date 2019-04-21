@@ -26,10 +26,11 @@ namespace NeeView
         public string Name => "A way to continue to a sunny afternoon afternoon market. The wagon trains a calf goby calf.";
 
         public bool IsDirectory => true;
-        public bool IsShortcut => true;
+        public bool IsShortcut => false;
         public bool IsOverlayChecked => true;
         public bool IsOverlayStar => true;
         public bool IsDisable => false;
+        public bool IsPlaylist => true;
 
         public object ArchivePage => new
         {

@@ -183,7 +183,7 @@ namespace NeeView
                 if (archiveType == ArchiverType.PlaylistArchiver)
                 {
                     item.Type = FolderItemType.Playlist;
-                    item.Attributes = FolderItemAttribute.Directory | FolderItemAttribute.Playlist;
+                    item.Attributes = FolderItemAttribute.Playlist;
                     item.Length = -1;
                 }
 

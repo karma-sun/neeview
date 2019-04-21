@@ -34,6 +34,7 @@ namespace NeeView
                 var storeSelector = this.IsUseBookMementoDefault ? BookSettingSelectMode.RestoreOrDefault : BookSettingSelectMode.RestoreOrContinue;
                 memento.Generater.Page = (this.HistoryMementoFilter.Page ? storeSelector : defaultSelecor).ToPageSelectMode();
                 memento.Generater.PageMode = this.HistoryMementoFilter.PageMode ? storeSelector : defaultSelecor;
+                memento.Generater.BookReadOrder = this.HistoryMementoFilter.BookReadOrder ? storeSelector : defaultSelecor;
                 memento.Generater.IsSupportedDividePage = this.HistoryMementoFilter.IsSupportedDividePage ? storeSelector : defaultSelecor;
                 memento.Generater.IsSupportedSingleFirstPage = this.HistoryMementoFilter.IsSupportedSingleFirstPage ? storeSelector : defaultSelecor;
                 memento.Generater.IsSupportedSingleLastPage = this.HistoryMementoFilter.IsSupportedSingleLastPage ? storeSelector : defaultSelecor;

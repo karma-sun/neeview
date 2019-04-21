@@ -18,14 +18,16 @@ namespace NeeView
         {
             if (_content.Entry == null)
             {
+                var query = new QueryPath(_content.SourcePath);
+                query = query.ToEntityPath();
                 try
                 {
-                    _content.SetEntry(await ArchiveEntryUtility.CreateAsync(_content.SourcePath, token));
+                    _content.SetEntry(await ArchiveEntryUtility.CreateAsync(query.SimplePath, token));
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine($"ArchiveContent.Entry: {ex.Message}");
-                    _content.SetEntry(ArchiveEntry.Create(_content.SourcePath));
+                    _content.SetEntry(ArchiveEntry.Create(query.SimplePath));
                     _content.Thumbnail.Initialize(null);
                 }
             }

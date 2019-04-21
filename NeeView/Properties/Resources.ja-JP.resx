@@ -415,7 +415,7 @@
     <value>ページ番号を指定して移動します。</value>
   </data>
   <data name="CommandLastPage" xml:space="preserve">
-    <value>最後のページへ移動</value>
+    <value>最後のページに移動</value>
   </data>
   <data name="CommandLastPageNote" xml:space="preserve">
     <value>終端ページに移動します。</value>
@@ -472,7 +472,7 @@
     <value>次に開いていたブックを開きます。</value>
   </data>
   <data name="CommandNextFolder" xml:space="preserve">
-    <value>次のブックへ移動</value>
+    <value>次のブックに移動</value>
   </data>
   <data name="CommandNextFolderNote" xml:space="preserve">
     <value>本棚上での次のブックを読み込みます。</value>
@@ -484,7 +484,7 @@
     <value>ブック内の次のフォルダーの先頭ページに移動します。名前順の並びでのみ有効です。</value>
   </data>
   <data name="CommandNextHistory" xml:space="preserve">
-    <value>次の履歴へ進む</value>
+    <value>次の履歴に進む</value>
   </data>
   <data name="CommandNextHistoryNote" xml:space="preserve">
     <value>次の新しい履歴のブックを読み込みます。</value>
@@ -496,25 +496,25 @@
     <value>1ページだけ次方向に移動します。</value>
   </data>
   <data name="CommandNextPage" xml:space="preserve">
-    <value>次のページへ進む</value>
+    <value>次のページに進む</value>
   </data>
   <data name="CommandNextPagemark" xml:space="preserve">
-    <value>次のページマークへ移動</value>
+    <value>次のページマークに移動</value>
   </data>
   <data name="CommandNextPagemarkInBook" xml:space="preserve">
-    <value>ブック内の次のページマークへ移動</value>
+    <value>ブック内の次のページマークに移動</value>
   </data>
   <data name="CommandNextPagemarkInBookNote" xml:space="preserve">
-    <value>現在のブック内で次のページマークへ移動します。</value>
+    <value>現在のブック内で次のページマークに移動します。</value>
   </data>
   <data name="CommandNextPagemarkNote" xml:space="preserve">
-    <value>次のページマークへ移動します。</value>
+    <value>次のページマークに移動します。</value>
   </data>
   <data name="CommandNextPageNote" xml:space="preserve">
     <value>ページ次方向に移動します。2ページ表示の場合は2ページ分移動します。</value>
   </data>
   <data name="CommandNextScrollPage" xml:space="preserve">
-    <value>スクロール＋次のページへ進む</value>
+    <value>スクロール＋次のページに進む</value>
   </data>
   <data name="CommandNextScrollPageNote" xml:space="preserve">
     <value>ページ次方向に画像をスクロールさせます。スクロールできない場合は次ページに移動します。ルーペ使用時はページ移動のみ行います。</value>

@@ -95,7 +95,7 @@ namespace NeeView
         }
 
         // Susie プラグインキャッシュ有効フラグ
-        [PropertyMember("@ParamSusieIsPluginCacheEnabled")]
+        [PropertyMember("@ParamSusieIsPluginCacheEnabled", Tips = "@ParamSusieIsPluginCacheEnabledTips")]
         public bool IsPluginCacheEnabled
         {
             get { return _isPluginCacheEnabled; }
@@ -169,7 +169,7 @@ namespace NeeView
         // 最新のプラグイン設定を取得
         private Dictionary<string, SusiePlugin.Memento> GetLatestPluginSettings()
         {
-            return  _pluginCollection?.StorePlugins() ??  PluginSettings;
+            return _pluginCollection?.StorePlugins() ?? PluginSettings;
         }
 
         // Susie画像プラグインのサポート拡張子を更新

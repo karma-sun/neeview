@@ -106,6 +106,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Playlist に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ArchiveFormatPlaylist {
+            get {
+                return ResourceManager.GetString("ArchiveFormatPlaylist", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Unknown format に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ArchiveFormatUnknown {
@@ -13352,6 +13361,15 @@ namespace NeeView.Properties {
         public static string WordPlay {
             get {
                 return ResourceManager.GetString("WordPlay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Playlist に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordPlaylist {
+            get {
+                return ResourceManager.GetString("WordPlaylist", resourceCulture);
             }
         }
         

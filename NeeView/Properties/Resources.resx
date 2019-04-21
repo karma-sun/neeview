@@ -4647,4 +4647,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="EnumDragActionTypeAngleSlider" xml:space="preserve">
     <value>Rotation (horizontal slide)</value>
   </data>
+  <data name="ArchiveFormatPlaylist" xml:space="preserve">
+    <value>Playlist</value>
+  </data>
+  <data name="WordPlaylist" xml:space="preserve">
+    <value>Playlist</value>
+  </data>
 </root>

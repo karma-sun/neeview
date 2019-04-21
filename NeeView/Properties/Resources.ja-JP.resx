@@ -4647,4 +4647,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="EnumDragActionTypeAngleSlider" xml:space="preserve">
     <value>回転(スライド式)</value>
   </data>
+  <data name="ArchiveFormatPlaylist" xml:space="preserve">
+    <value>プレイリスト形式</value>
+  </data>
+  <data name="WordPlaylist" xml:space="preserve">
+    <value>プレイリスト</value>
+  </data>
 </root>

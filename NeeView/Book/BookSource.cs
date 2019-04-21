@@ -104,6 +104,8 @@ namespace NeeView
                     return inner + Properties.Resources.ArchiveFormatMedia + $"({extension})";
                 case ArchiverType.PagemarkArchiver:
                     return Properties.Resources.ArchiveFormatPagemark;
+                case ArchiverType.PlaylistArchiver:
+                    return Properties.Resources.ArchiveFormatPlaylist;
                 default:
                     return Properties.Resources.ArchiveFormatUnknown;
             }

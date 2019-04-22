@@ -99,7 +99,8 @@
 
     <DockPanel UseLayoutRounding="True">
 
-        <TreeView x:Name="IndexTree" DockPanel.Dock="Left" Width="250" ItemsSource="{Binding Model.Pages}" BorderThickness="0" Margin="20,20,0,20" ItemContainerStyle="{StaticResource NVTreeViewItemWide}">
+        <TreeView x:Name="IndexTree" DockPanel.Dock="Left" Width="250" ItemsSource="{Binding Model.Pages}" BorderThickness="0" Margin="20,20,0,20" ItemContainerStyle="{StaticResource NVTreeViewItemWide}"
+                  SelectedItemChanged="IndexTree_SelectedItemChanged">
             <TreeView.Resources>
                 <Style TargetType="TreeViewItem">
                     <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}" />
@@ -115,7 +116,7 @@
 
         <TextBlock DockPanel.Dock="Top" Text="{Binding ElementName=IndexTree, Path=SelectedItem.DispPage.Header}" FontSize="32" Margin="20"/>
 
-        <ContentControl x:Name="PageContent" Content="{Binding ElementName=IndexTree, Path=SelectedItem.DispPage.Content}" IsTabStop="False" FocusVisualStyle="{x:Null}" />
+        <ContentControl x:Name="PageContent" Content="{Binding ElementName=IndexTree, Path=SelectedItem.DispPage.Content}" IsTabStop="False" FocusVisualStyle="{x:Null}"/>
 
     </DockPanel>
 </Window>

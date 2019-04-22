@@ -80,6 +80,11 @@ namespace NeeView.Setting
         {
             this.PageContent.Focus();
         }
+
+        private void IndexTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            _vm.Model.SetSelectedPage(this.IndexTree.SelectedItem as SettingPage);
+        }
     }
 
     public class BooleanToSwitchStringConverter : IValueConverter

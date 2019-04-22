@@ -15,6 +15,9 @@ namespace NeeView
         private BookshelfFolderList() : base(true, true)
         {
             ApplicationDisposer.Current.Add(this);
+
+            FileIOProfile.Current.AddPropertyChanged(nameof(FileIOProfile.IsHiddenFileVisibled),
+                async (s, e) => await RefreshAsync(true, true));
         }
 
         #region Memento

@@ -4683,4 +4683,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="CommandToggleIsAutoRotateLeftOn" xml:space="preserve">
     <value>自動左回転ON</value>
   </data>
+  <data name="ParamIsHiddenFileVisibled" xml:space="preserve">
+    <value>隠しファイルを表示する</value>
+  </data>
 </root>

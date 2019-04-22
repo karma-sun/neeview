@@ -66,7 +66,7 @@ namespace NeeView
                         var fileSystemInfos = directory.GetFileSystemInfos();
 
                         var items = fileSystemInfos
-                            .Where(e => (e.Attributes & FileAttributes.Hidden) == 0)
+                            .Where(e => FileIOProfile.Current.IsFileValid(e.Attributes))
                             .Select(e => _folderItemFactory.CreateFolderItem(e))
                             .Where(e => e != null)
                             .ToList();

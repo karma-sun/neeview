@@ -290,6 +290,7 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(PageListPlacementService.Current, nameof(PageListPlacementService.IsPlacedInBookshelf))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.IsCloseBookWhenMove))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.IsInsertItem))),
+                    new SettingItemProperty(PropertyMemberElement.Create(FileIOProfile.Current, nameof(FileIOProfile.IsHiddenFileVisibled))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.IsMultipleRarFilterEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookshelfFolderList.Current, nameof(FolderList.ExcludePattern))) { IsStretch = true }),
             };

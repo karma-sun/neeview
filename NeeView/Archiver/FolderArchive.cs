@@ -55,7 +55,7 @@ namespace NeeView
             {
                 token.ThrowIfCancellationRequested();
 
-                if ((info.Attributes & FileAttributes.Hidden) != 0)
+                if (!FileIOProfile.Current.IsFileValid(info.Attributes))
                 {
                     continue;
                 }

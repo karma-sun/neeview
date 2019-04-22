@@ -4683,4 +4683,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="CommandToggleIsAutoRotateLeftOn" xml:space="preserve">
     <value>Auto left rotate</value>
   </data>
+  <data name="ParamIsHiddenFileVisibled" xml:space="preserve">
+    <value>Show hidden files</value>
+  </data>
 </root>

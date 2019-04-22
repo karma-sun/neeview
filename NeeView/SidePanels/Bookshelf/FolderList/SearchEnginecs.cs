@@ -18,11 +18,6 @@ namespace NeeView
         #region Fields
 
         /// <summary>
-        /// インデックスフィルタ用無効属性
-        /// </summary>
-        private static FileAttributes _ignoreAttributes = FileAttributes.ReparsePoint | FileAttributes.Hidden | FileAttributes.System | FileAttributes.Temporary;
-
-        /// <summary>
         /// インデックスフィルタ用無効パス
         /// </summary>
         private static List<string> _ignores = new List<string>()
@@ -77,7 +72,12 @@ namespace NeeView
         private static bool NodeFilter(FileSystemInfo info)
         {
             // 属性フィルター
-            if ((info.Attributes & _ignoreAttributes) != 0)
+            if ((info.Attributes & (FileAttributes.ReparsePoint | FileAttributes.System | FileAttributes.Temporary)) != 0)
+            {
+                return false;
+            }
+
+            if ((info.Attributes & FileAttributes.Hidden) != 0 && !FileIOProfile.Current.IsHiddenFileVisibled)
             {
                 return false;
             }
@@ -105,7 +105,7 @@ namespace NeeView
             // 対応アーカイブ判定。ショートカットもアーカイブの可能性があるため有効とする
             else
             {
-                if ( !ArchiverManager.Current.IsSupported(info.Name, false) && !FileShortcut.IsShortcut(info.Name))
+                if (!ArchiverManager.Current.IsSupported(info.Name, false) && !FileShortcut.IsShortcut(info.Name))
                 {
                     return false;
                 }

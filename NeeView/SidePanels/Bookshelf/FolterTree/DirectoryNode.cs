@@ -72,7 +72,7 @@ namespace NeeView
             try
             {
                 Children = new ObservableCollection<FolderTreeNodeBase>(directory.GetDirectories()
-                    .Where(e => (e.Attributes & FileAttributes.Hidden) == 0)
+                    .Where(e => FileIOProfile.Current.IsFileValid(e.Attributes))
                     .OrderBy(e => e.Name, new NameComparer())
                     .Select(e => new DirectoryNode(e.Name, this)));
 

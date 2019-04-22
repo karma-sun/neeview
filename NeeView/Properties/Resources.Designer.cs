@@ -10272,6 +10272,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Show hidden files に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsHiddenFileVisibled {
+            get {
+                return ResourceManager.GetString("ParamIsHiddenFileVisibled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Automatically hide the slider when it is full screen に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsHidePageSliderInFullscreen {

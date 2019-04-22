@@ -772,12 +772,16 @@ namespace NeeView
         /// <summary>
         /// フォルダーリスト更新
         /// </summary>
-        /// <param name="force">必要が無い場合も更新する</param>
-        public async Task RefreshAsync(bool force)
+        public async Task RefreshAsync(bool force, bool resetSearchEngine)
         {
             if (_folderCollection == null) return;
 
             _isDarty = force || _folderCollection.IsDarty();
+
+            if (resetSearchEngine)
+            {
+                FolderCollectionFactory.SearchEngine.Reset();
+            }
 
             await SetPlaceAsync(Place, null, FolderSetPlaceOption.UpdateHistory);
         }
@@ -1053,7 +1057,7 @@ namespace NeeView
                 var collection = await CreateFolderCollectionAsync(path, isForce, token);
                 if (collection != null && !token.IsCancellationRequested)
                 {
-                    collection.ParameterChanged += async (s, e) => await RefreshAsync(true);
+                    collection.ParameterChanged += async (s, e) => await RefreshAsync(true, false);
                     return collection;
                 }
                 else

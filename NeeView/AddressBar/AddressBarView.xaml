@@ -10,6 +10,7 @@
 
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <local:BooleanToVisibilityConverter x:Key="BooleanToInverseVisibilityConverter" True="Collapsed" False="Visible"/>
         <local:SortModeToStringConverter x:Key="SortModeToStringConverter"/>
         <local:SortModeToVisibilityConverter x:Key="SortModeToVisibilityConverter"/>
 
@@ -26,6 +27,7 @@
         <local:PanelColorToImageSourceConverter x:Key="IconArrowForwardSelector" Dark="{StaticResource ic_arrow_forward_24px_dark}" Light="{StaticResource ic_arrow_forward_24px_light}" />
         <local:PanelColorToImageSourceConverter x:Key="IconArrowUpSelector" Dark="{StaticResource ic_arrow_up_24px_dark}" Light="{StaticResource ic_arrow_up_24px_light}" />
         <local:PanelColorToImageSourceConverter x:Key="IconRefreshSelector" Dark="{StaticResource ic_refresh_24px_dark}" Light="{StaticResource ic_refresh_24px_light}" />
+        <local:PanelColorToImageSourceConverter x:Key="IconCloseSelector" Dark="{StaticResource ic_close_24px_dark}" Light="{StaticResource ic_close_24px_light}" />
         <local:PanelColorToImageSourceConverter x:Key="IconLooksOneSelector" Dark="{StaticResource ic_looks_one_24px_dark}" Light="{StaticResource ic_looks_one_24px_light}" />
         <local:PanelColorToImageSourceConverter x:Key="IconLooksTwoSelector" Dark="{StaticResource ic_looks_two_24px_dark}" Light="{StaticResource ic_looks_two_24px_light}" />
         <local:PanelColorToImageSourceConverter x:Key="IconLeftToRightSelector" Dark="{StaticResource ic_left_to_right_24px_dark}" Light="{StaticResource ic_left_to_right_24px_light}" />
@@ -125,10 +127,19 @@
                                     ToolTip="{x:Static properties:Resources.ControlAddressBarUp}">
                 <Image Source="{Binding ThemeProfile.MenuColor, Converter={StaticResource IconArrowUpSelector}}" Width="16" Height="16"/>
             </Button>
-            <Button Command="{Binding BookCommands[ReLoad]}" Style="{StaticResource AddressIconButton}"
-                                    ToolTip="{x:Static properties:Resources.ControlAddressBarReLoad}">
-                <Image Source="{Binding ThemeProfile.MenuColor, Converter={StaticResource IconRefreshSelector}}" Width="16" Height="16" />
-            </Button>
+
+            <Grid>
+                <Button Command="{Binding BookCommands[ReLoad]}" Style="{StaticResource AddressIconButton}"
+                        Visibility="{Binding IsLoading, Converter={StaticResource BooleanToInverseVisibilityConverter}}"
+                        ToolTip="{x:Static properties:Resources.ControlAddressBarReLoad}">
+                    <Image Source="{Binding ThemeProfile.MenuColor, Converter={StaticResource IconRefreshSelector}}" Width="16" Height="16" />
+                </Button>
+                <Button Command="{Binding BookCommands[Unload]}" Style="{StaticResource AddressIconButton}"
+                        Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        ToolTip="{x:Static properties:Resources.ControlAddressBarUnload}">
+                    <Image Source="{Binding ThemeProfile.MenuColor, Converter={StaticResource IconCloseSelector}}" Width="16" Height="16" />
+                </Button>
+            </Grid>
 
             <Border x:Name="AddressTextBoxBase" BorderThickness="1" BorderBrush="#6888" MinHeight="26" Margin="10,0">
                 <DockPanel>

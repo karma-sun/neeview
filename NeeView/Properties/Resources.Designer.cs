@@ -4687,6 +4687,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Close に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlAddressBarUnload {
+            get {
+                return ResourceManager.GetString("ControlAddressBarUnload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Up に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ControlAddressBarUp {

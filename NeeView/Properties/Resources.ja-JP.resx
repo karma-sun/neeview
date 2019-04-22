@@ -4686,4 +4686,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamIsHiddenFileVisibled" xml:space="preserve">
     <value>隠しファイルを表示する</value>
   </data>
+  <data name="ControlAddressBarUnload" xml:space="preserve">
+    <value>閉じる</value>
+  </data>
 </root>

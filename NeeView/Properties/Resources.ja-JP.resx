@@ -4689,4 +4689,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ControlAddressBarUnload" xml:space="preserve">
     <value>閉じる</value>
   </data>
+  <data name="DialogExportPlaylistFailedTitle" xml:space="preserve">
+    <value>プレイリストの保存に失敗しました</value>
+  </data>
 </root>

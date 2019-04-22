@@ -5631,6 +5631,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Failed to save playlist に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogExportPlaylistFailedTitle {
+            get {
+                return ResourceManager.GetString("DialogExportPlaylistFailedTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Export all settings に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DialogExportTitle {

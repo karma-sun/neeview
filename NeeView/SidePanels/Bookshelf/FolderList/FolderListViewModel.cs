@@ -337,8 +337,8 @@ namespace NeeView
 
                 bool CanExecute()
                 {
-                    // ソート可能ならば保存可能とする
-                    return _model.IsFolderOrderEnabled && !_model.FolderCollection.IsEmpty();
+                    // プレイリスト、もしくはソート可能ならば保存可能とする
+                    return _model.FolderCollection is PlaylistFolderCollection || (_model.IsFolderOrderEnabled && !_model.FolderCollection.IsEmpty());
                 }
 
                 void Execute()
@@ -351,8 +351,22 @@ namespace NeeView
                     dialog.Filter = "NeeView Playlist|*" + PlaylistArchive.Extension + "|All|*.*";
                     if (dialog.ShowDialog(MainWindow.Current) == true)
                     {
-                        var playlist = new Playlist(_model.FolderCollection.Items.Where(e => e.TargetPath.Scheme == QueryScheme.File).Select(e => e.TargetPath.SimplePath));
-                        PlaylistFile.Save(dialog.FileName, playlist, true);
+                        try
+                        {
+                            if (_model.FolderCollection is PlaylistFolderCollection playlistFolderCollection)
+                            {
+                                System.IO.File.Copy(playlistFolderCollection.Place.SimplePath, dialog.FileName, true);
+                            }
+                            else
+                            {
+                                var playlist = new Playlist(_model.FolderCollection.Items.Where(e => e.TargetPath.Scheme == QueryScheme.File).Select(e => e.TargetPath.SimplePath));
+                                PlaylistFile.Save(dialog.FileName, playlist, true);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            new MessageDialog(ex.Message, Properties.Resources.DialogExportPlaylistFailedTitle).ShowDialog();
+                        }
                     }
                 }
             }

@@ -4689,4 +4689,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ControlAddressBarUnload" xml:space="preserve">
     <value>Close</value>
   </data>
+  <data name="DialogExportPlaylistFailedTitle" xml:space="preserve">
+    <value>Failed to save playlist</value>
+  </data>
 </root>

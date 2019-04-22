@@ -335,8 +335,12 @@ namespace NeeView
         ViewRotateLeft,
         [EnumMember]
         ViewRotateRight,
+        [Obsolete, EnumMember]
+        ToggleIsAutoRotate, // 欠番
         [EnumMember]
-        ToggleIsAutoRotate,
+        ToggleIsAutoRotateLeft,
+        [EnumMember]
+        ToggleIsAutoRotateRight,
         [EnumMember]
         ToggleViewFlipHorizontal,
         [EnumMember]

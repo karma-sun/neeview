@@ -325,7 +325,7 @@ namespace NeeView
                 ContentCanvas.Current.StretchMode = memento.StretchMode;
                 ContentCanvas.Current.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
                 ContentCanvas.Current.ContentsSpace = memento.ContentsSpace;
-                ContentCanvas.Current.IsAutoRotate = memento.IsAutoRotate;
+                ContentCanvas.Current.IsAutoRotateRight = memento.IsAutoRotate;
 
                 ContentCanvasBrush.Current.CustomBackground = memento.CustomBackground;
                 ContentCanvasBrush.Current.Background = memento.Background;

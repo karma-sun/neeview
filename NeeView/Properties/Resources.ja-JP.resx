@@ -4653,4 +4653,34 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordPlaylist" xml:space="preserve">
     <value>プレイリスト</value>
   </data>
+  <data name="CommandToggleIsAutoRotateRight" xml:space="preserve">
+    <value>自動右回転ON/OFF</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateRightMenu" xml:space="preserve">
+    <value>自動右回転</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateRightNote" xml:space="preserve">
+    <value>ページ表示時、縦長画像を90度右回転します。ウィンドウが縦長の場合、横長画像を90度回転します。</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateRightOff" xml:space="preserve">
+    <value>自動右回転OFF</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateRightOn" xml:space="preserve">
+    <value>自動右回転ON</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateLeft" xml:space="preserve">
+    <value>自動左回転ON/OFF</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateLeftMenu" xml:space="preserve">
+    <value>自動左回転</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateLeftNote" xml:space="preserve">
+    <value>ページ表示時、縦長画像を90度左回転します。ウィンドウが縦長の場合、横長画像を90度回転します。</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateLeftOff" xml:space="preserve">
+    <value>自動左回転OFF</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateLeftOn" xml:space="preserve">
+    <value>自動左回転ON</value>
+  </data>
 </root>

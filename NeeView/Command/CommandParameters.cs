@@ -306,21 +306,4 @@ namespace NeeView
         }
     }
 
-    /// <summary>
-    /// 自動回転用設定
-    /// </summary>
-    [DataContract]
-    public class AutoRotateCommandParameter : CommandParameter
-    {
-        [PropertyMember("@ParamCommandParameterAutoRotateOrientation")]
-        public AutoRotateType AutoRotateType { get; set; }
-
-        // 保存用
-        [DataMember(Name = "AutoRotateType")]
-        public string AutoRotateTypeString
-        {
-            get { return AutoRotateType.ToString(); }
-            set { AutoRotateType = (AutoRotateType)Enum.Parse(typeof(AutoRotateType), value); }
-        }
-    }
 }

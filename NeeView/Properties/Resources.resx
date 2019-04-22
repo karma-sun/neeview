@@ -4653,4 +4653,34 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordPlaylist" xml:space="preserve">
     <value>Playlist</value>
   </data>
+  <data name="CommandToggleIsAutoRotateRight" xml:space="preserve">
+    <value>Toggle auto rithg rotation</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateRightMenu" xml:space="preserve">
+    <value>Auto right rotate</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateRightNote" xml:space="preserve">
+    <value>When displaying the page, right rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees.</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateRightOff" xml:space="preserve">
+    <value>Auto right rotate OFF</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateRightOn" xml:space="preserve">
+    <value>Auto right rotate</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateLeft" xml:space="preserve">
+    <value>Toggle auto left rotation</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateLeftMenu" xml:space="preserve">
+    <value>Auto left rotate</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateLeftNote" xml:space="preserve">
+    <value>When displaying the page, left rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees.</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateLeftOff" xml:space="preserve">
+    <value>Auto left rotate OFF</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateLeftOn" xml:space="preserve">
+    <value>Auto left rotate</value>
+  </data>
 </root>

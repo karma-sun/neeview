@@ -2905,6 +2905,51 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Toggle auto left rotation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleIsAutoRotateLeft {
+            get {
+                return ResourceManager.GetString("CommandToggleIsAutoRotateLeft", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto left rotate に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleIsAutoRotateLeftMenu {
+            get {
+                return ResourceManager.GetString("CommandToggleIsAutoRotateLeftMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   When displaying the page, left rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleIsAutoRotateLeftNote {
+            get {
+                return ResourceManager.GetString("CommandToggleIsAutoRotateLeftNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto left rotate OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleIsAutoRotateLeftOff {
+            get {
+                return ResourceManager.GetString("CommandToggleIsAutoRotateLeftOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto left rotate に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleIsAutoRotateLeftOn {
+            get {
+                return ResourceManager.GetString("CommandToggleIsAutoRotateLeftOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Auto rotate に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleIsAutoRotateMenu {
@@ -2937,6 +2982,51 @@ namespace NeeView.Properties {
         public static string CommandToggleIsAutoRotateOn {
             get {
                 return ResourceManager.GetString("CommandToggleIsAutoRotateOn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Toggle auto rithg rotation に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleIsAutoRotateRight {
+            get {
+                return ResourceManager.GetString("CommandToggleIsAutoRotateRight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto right rotate に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleIsAutoRotateRightMenu {
+            get {
+                return ResourceManager.GetString("CommandToggleIsAutoRotateRightMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   When displaying the page, right rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleIsAutoRotateRightNote {
+            get {
+                return ResourceManager.GetString("CommandToggleIsAutoRotateRightNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto right rotate OFF に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleIsAutoRotateRightOff {
+            get {
+                return ResourceManager.GetString("CommandToggleIsAutoRotateRightOff", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto right rotate に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleIsAutoRotateRightOn {
+            get {
+                return ResourceManager.GetString("CommandToggleIsAutoRotateRightOn", resourceCulture);
             }
         }
         

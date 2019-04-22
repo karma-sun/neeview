@@ -43,7 +43,7 @@ namespace NeeView
 
         private PageStretchMode StretchMode => _contentCanvas.StretchMode;
         private double ContentsSpace => _contentCanvas.ContentsSpace;
-        private bool IsAutoRotate => _contentCanvas.IsAutoRotate;
+        private AutoRotateType AutoRotateType => _contentCanvas.AutoRotateType;
         private Size ViewSize => _contentCanvas.ViewSize;
 
         #endregion
@@ -91,19 +91,13 @@ namespace NeeView
         /// <returns></returns>
         public double GetAutoRotateAngle(List<Size> source)
         {
-            var parameter = (AutoRotateCommandParameter)CommandTable.Current[CommandType.ToggleIsAutoRotate].Parameter;
-
-            double angle = this.IsAutoRotateCondition(source)
-                        ? parameter.AutoRotateType == AutoRotateType.Left ? -90.0 : 90.0
-                        : 0.0;
-
-            return angle;
+            return this.IsAutoRotateCondition(source) ? AutoRotateType.ToAngle() : 0.0;
         }
 
         //
         private bool IsAutoRotateCondition(List<Size> source)
         {
-            if (!IsAutoRotate) return false;
+            if (AutoRotateType == AutoRotateType.None) return false;
 
             var margin = 0.1;
             var viewRatio = GetViewAreaAspectRatio();

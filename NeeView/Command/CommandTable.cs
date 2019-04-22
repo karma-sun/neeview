@@ -1145,21 +1145,34 @@ namespace NeeView
                 _elements[CommandType.ViewRotateRight] = element;
             }
 
-
-            // ToggleIsAutoRotate
+            // ToggleIsAutoRotateLeft
             {
                 var element = new CommandElement();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
-                element.Text = Properties.Resources.CommandToggleIsAutoRotate;
-                element.MenuText = Properties.Resources.CommandToggleIsAutoRotateMenu;
-                element.Note = Properties.Resources.CommandToggleIsAutoRotateNote;
-                element.Execute = (s, e) => ContentCanvas.Current.ToggleAutoRotate();
-                element.ExecuteMessage = e => ContentCanvas.Current.IsAutoRotate ? Properties.Resources.CommandToggleIsAutoRotateOff : Properties.Resources.CommandToggleIsAutoRotateOn;
-                element.CreateIsCheckedBinding = () => new Binding(nameof(ContentCanvas.IsAutoRotate)) { Source = ContentCanvas.Current };
-                element.DefaultParameter = new AutoRotateCommandParameter();
+                element.Text = Properties.Resources.CommandToggleIsAutoRotateLeft;
+                element.MenuText = Properties.Resources.CommandToggleIsAutoRotateLeftMenu;
+                element.Note = Properties.Resources.CommandToggleIsAutoRotateLeftNote;
+                element.Execute = (s, e) => ContentCanvas.Current.IsAutoRotateLeft = !ContentCanvas.Current.IsAutoRotateLeft;
+                element.ExecuteMessage = e => ContentCanvas.Current.IsAutoRotateLeft ? Properties.Resources.CommandToggleIsAutoRotateLeftOff : Properties.Resources.CommandToggleIsAutoRotateLeftOn;
+                element.CreateIsCheckedBinding = () => new Binding(nameof(ContentCanvas.IsAutoRotateLeft)) { Source = ContentCanvas.Current };
                 element.IsShowMessage = true;
-                _elements[CommandType.ToggleIsAutoRotate] = element;
+                _elements[CommandType.ToggleIsAutoRotateLeft] = element;
             }
+
+            // ToggleIsAutoRotateRight
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupViewManipulation;
+                element.Text = Properties.Resources.CommandToggleIsAutoRotateRight;
+                element.MenuText = Properties.Resources.CommandToggleIsAutoRotateRightMenu;
+                element.Note = Properties.Resources.CommandToggleIsAutoRotateRightNote;
+                element.Execute = (s, e) => ContentCanvas.Current.IsAutoRotateRight = !ContentCanvas.Current.IsAutoRotateRight;
+                element.ExecuteMessage = e => ContentCanvas.Current.IsAutoRotateRight ? Properties.Resources.CommandToggleIsAutoRotateRightOff : Properties.Resources.CommandToggleIsAutoRotateRightOn;
+                element.CreateIsCheckedBinding = () => new Binding(nameof(ContentCanvas.IsAutoRotateRight)) { Source = ContentCanvas.Current };
+                element.IsShowMessage = true;
+                _elements[CommandType.ToggleIsAutoRotateRight] = element;
+            }
+
 
             // ToggleViewFlipHorizontal
             {
@@ -2362,7 +2375,6 @@ namespace NeeView
                     Elements = _elementsV1;
                     _elementsV1 = null;
                 }
-#pragma warning restore CS0612
 
                 if (_elementsV2 != null)
                 {
@@ -2394,6 +2406,20 @@ namespace NeeView
                     }
                     _elementsV2 = null;
                 }
+
+                // before 34.0
+                if (_Version < Config.GenerateProductVersionNumber(34, 0, 0))
+                {
+                    // 自動回転のショートカットキーをなるべく継承
+                    if (Elements.TryGetValue(CommandType.ToggleIsAutoRotate, out var element))
+                    {
+                        CommandType commandType = element.Parameter is null ? CommandType.ToggleIsAutoRotateRight : CommandType.ToggleIsAutoRotateLeft;
+                        Elements[commandType] = element.Clone();
+                        Elements[commandType].IsShowMessage = true;
+                        Elements[commandType].Parameter = null;
+                    }
+                }
+#pragma warning restore CS0612
 
                 // remove obsolete
                 foreach (var key in CommandTypeExtensions.IgnoreCommandTypes)

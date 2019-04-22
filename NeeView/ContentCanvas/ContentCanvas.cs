@@ -23,8 +23,26 @@ namespace NeeView
     // 自動回転タイプ
     public enum AutoRotateType
     {
-        Right,
+        None,
         Left,
+        Right,
+    }
+
+    public static class AutoRotateTypeExtensions
+    {
+        public static double ToAngle(this AutoRotateType self)
+        {
+            switch(self)
+            {
+                default:
+                case AutoRotateType.None:
+                    return 0.0;
+                case AutoRotateType.Left:
+                    return -90.0;
+                case AutoRotateType.Right:
+                    return 90.0;
+            }
+        }
     }
 
     /// <summary>
@@ -108,21 +126,51 @@ namespace NeeView
             set { _emptyPageMessage = value; RaisePropertyChanged(); }
         }
 
-        /// <summary>
-        /// IsAutoRotate property.
-        /// </summary>
-        private bool _isAutoRotate;
-        public bool IsAutoRotate
+        // 自動回転左/右
+        private AutoRotateType _autoRotate;
+        public AutoRotateType AutoRotateType
         {
-            get { return _isAutoRotate; }
+            get { return _autoRotate; }
             set
             {
-                if (_isAutoRotate != value)
+                if (SetProperty(ref _autoRotate, value))
                 {
-                    _isAutoRotate = value;
-                    RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(IsAutoRotateLeft));
+                    RaisePropertyChanged(nameof(IsAutoRotateRight));
                     UpdateContentSize(GetAutoRotateAngle());
                     ResetTransform(true);
+                }
+            }
+        }
+
+        public bool IsAutoRotateLeft
+        {
+            get { return AutoRotateType == AutoRotateType.Left; }
+            set
+            {
+                if (value)
+                {
+                    AutoRotateType = AutoRotateType.Left;
+                }
+                else if (AutoRotateType == AutoRotateType.Left)
+                {
+                    AutoRotateType = AutoRotateType.None;
+                }
+            }
+        }
+
+        public bool IsAutoRotateRight
+        {
+            get { return AutoRotateType == AutoRotateType.Right; }
+            set
+            {
+                if (value)
+                {
+                    AutoRotateType = AutoRotateType.Right;
+                }
+                else if (AutoRotateType == AutoRotateType.Right)
+                {
+                    AutoRotateType = AutoRotateType.None;
                 }
             }
         }
@@ -424,7 +472,7 @@ namespace NeeView
                 _dragTransformControl.SetMouseDragSetting(pageDirection, viewOrigin, BookSettingPresenter.Current.LatestSetting.BookReadOrder);
 
                 // リセット
-                var angle = _isAutoRotate ? GetAutoRotateAngle() : double.NaN;
+                var angle = _autoRotate != AutoRotateType.None ? GetAutoRotateAngle() : double.NaN;
                 _dragTransformControl.Reset(isForce, angle);
             }
         }
@@ -582,20 +630,16 @@ namespace NeeView
             return StretchMode;
         }
 
-
-        //
         public void SetStretchMode(PageStretchMode mode, bool isToggle)
         {
             StretchMode = GetFixedStretchMode(mode, isToggle);
         }
 
-        //
         public bool TestStretchMode(PageStretchMode mode, bool isToggle)
         {
             return mode == GetFixedStretchMode(mode, isToggle);
         }
 
-        //
         private PageStretchMode GetFixedStretchMode(PageStretchMode mode, bool isToggle)
         {
             if (isToggle && StretchMode == mode)
@@ -612,13 +656,6 @@ namespace NeeView
 
         #region 回転コマンド
 
-        //
-        public bool ToggleAutoRotate()
-        {
-            return IsAutoRotate = !IsAutoRotate;
-        }
-
-        //
         public void ViewRotateLeft(ViewRotateCommandParameter parameter)
         {
             if (parameter.IsStretch) _dragTransformControl.ResetDefault();
@@ -631,7 +668,6 @@ namespace NeeView
             }
         }
 
-        //
         public void ViewRotateRight(ViewRotateCommandParameter parameter)
         {
             if (parameter.IsStretch) _dragTransformControl.ResetDefault();
@@ -648,19 +684,16 @@ namespace NeeView
 
         #region クリップボード関連
 
-        //
         private BitmapSource CurrentBitmapSource
         {
             get { return (this.MainContent?.Content as BitmapContent)?.BitmapSource; }
         }
 
-        //
         public bool CanCopyImageToClipboard()
         {
             return CurrentBitmapSource != null;
         }
 
-        // クリップボードに画像をコピー
         public void CopyImageToClipboard()
         {
             try
@@ -794,25 +827,48 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
+            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+
+            [DataMember]
             public PageStretchMode StretchMode { get; set; }
+
             [DataMember]
             public bool IsEnabledNearestNeighbor { get; set; }
+
             [DataMember]
             public double ContentsSpace { get; set; }
+
             [DataMember]
-            public bool IsAutoRotate { get; set; }
+            public AutoRotateType AutoRotateType { get; set; }
+
             [DataMember]
             public GridLine.Memento GridLine { get; set; }
+
+
+            [Obsolete, DataMember(EmitDefaultValue = false)]
+            public bool IsAutoRotate { get; set; }
+
+
+            [OnDeserialized]
+            private void Deserialized(StreamingContext c)
+            {
+#pragma warning disable CS0612
+                // before 34.0
+                if (_Version < Config.GenerateProductVersionNumber(34, 0, 0))
+                {
+                    AutoRotateType = IsAutoRotate ? AutoRotateType.Right : AutoRotateType.None;
+                }
+#pragma warning restore CS0612
+            }
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
             memento.StretchMode = this.StretchMode;
             memento.IsEnabledNearestNeighbor = this.IsEnabledNearestNeighbor;
             memento.ContentsSpace = this.ContentsSpace;
-            memento.IsAutoRotate = this.IsAutoRotate;
+            memento.AutoRotateType = this.AutoRotateType;
             memento.GridLine = this.GridLine.CreateMemento();
             return memento;
         }
@@ -824,11 +880,8 @@ namespace NeeView
             this.StretchMode = memento.StretchMode;
             this.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
             this.ContentsSpace = memento.ContentsSpace;
-            this.IsAutoRotate = memento.IsAutoRotate;
+            this.AutoRotateType = memento.AutoRotateType;
             this.GridLine.Restore(memento.GridLine);
-
-            //ResetTransform(true); // 不要？
-            //UpdateContentSize(); // 不要？
         }
 
         #endregion

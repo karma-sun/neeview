@@ -12,6 +12,7 @@ namespace NeeView
 
         private BookSettingPresenter()
         {
+            SettingChanged += (s, e) => RaisePropertyChanged(nameof(LatestSetting));
         }
 
 

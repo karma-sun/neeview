@@ -1109,8 +1109,12 @@ namespace NeeView
         /// <returns></returns>
         public Book.Memento GetLastestBookMemento(string address, BookLoadOption option)
         {
-            var latest = (address != null && this.Book?.Address == address) ? this.Book?.CreateMemento() : null;
-            return CreateOpenBookMemento(address, latest, option);
+            var current = (address != null && this.Book?.Address == address) ? this.Book?.CreateMemento() : null;
+            if (current != null)
+            {
+                return current;
+            }
+            return CreateOpenBookMemento(address, null, option);
         }
 
         // 履歴登録可

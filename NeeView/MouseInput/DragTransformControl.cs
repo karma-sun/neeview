@@ -848,6 +848,13 @@ namespace NeeView
             }
         }
 
+        // 移動制限解除
+        private void UnlockMove()
+        {
+            _lockMoveX = false;
+            _lockMoveY = false;
+        }
+
         #endregion
 
         #region Drag Move
@@ -951,6 +958,8 @@ namespace NeeView
 
             RotateTransform m = new RotateTransform(_transform.Angle - _baseAngle);
             _transform.Position = _rotateCenter + (Vector)m.Transform((Point)(_basePosition - _rotateCenter));
+
+            UnlockMove();
         }
 
         // 角度の正規化
@@ -1010,6 +1019,8 @@ namespace NeeView
             var pos0 = _scaleCenter;
             var rate = _transform.Scale / _baseScale;
             _transform.Position = pos0 + (_basePosition - pos0) * rate;
+
+            UnlockMove();
         }
 
         #endregion
@@ -1047,6 +1058,8 @@ namespace NeeView
 
                 // 座標を反転
                 _transform.Position = new Point(_flipCenter.X * 2.0 - _transform.Position.X, _transform.Position.Y);
+
+                UnlockMove();
             }
         }
 

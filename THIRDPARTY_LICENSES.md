@@ -65,7 +65,7 @@ DLL: System.Buffers.dll, etc...
 
 * Copyright (c) .NET Foundation and Contributors
 * URL: [.NET](https://dot.net)
-* License[MIT License](https://github.com/dotnet/corefx/blob/master/LICENSE.TXT)
+* License: [MIT License](https://github.com/dotnet/corefx/blob/master/LICENSE.TXT)
 
 ### Icon Fonts
 

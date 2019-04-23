@@ -80,7 +80,7 @@ namespace NeeView
             var result = new FixedContentSize();
             result.ContentAngle = angle;
             result.ContentsMargin = new Thickness(offsetWidth, 0, 0, 0);
-            result.ContentSizeList = sizes.Select(e => new Size(e.Width / dpi.DpiScaleX, e.Height / dpi.DpiScaleY)).ToList();
+            result.ContentSizeList = sizes.Select(e => e.IsEmpty ? SizeExtensions.Zero : new Size(e.Width / dpi.DpiScaleX, e.Height / dpi.DpiScaleY)).ToList();
             return result;
         }
 

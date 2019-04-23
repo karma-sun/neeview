@@ -21,6 +21,30 @@
                 <Component Id="cmp22E98BAC13DC44B2B85FDBE34D094DB9" Guid="*">
                     <File Id="filCA34950CA2B657862525DB2E7CFF70F5" KeyPath="yes" Source="$(var.LibrariesDir)\SevenZipSharpNE.dll" />
                 </Component>
+                <Component Id="cmpECD2AD4D4B9E9BDDA8424BEEAC3CCA0F" Guid="*">
+                    <File Id="filBB9A910CAE65488EE8065D8962FF478D" KeyPath="yes" Source="$(var.LibrariesDir)\SharpVectors.Converters.Wpf.dll" />
+                </Component>
+                <Component Id="cmp06588C7E9C9443490D14241ED271D5C0" Guid="*">
+                    <File Id="filE096BF624926F5CF0BC8FFEEF61418C9" KeyPath="yes" Source="$(var.LibrariesDir)\SharpVectors.Core.dll" />
+                </Component>
+                <Component Id="cmpB56B970B724FBEEF1B82D50F5D13AD9B" Guid="*">
+                    <File Id="filA3D9049FFEE84D5C88605B00B1EDF430" KeyPath="yes" Source="$(var.LibrariesDir)\SharpVectors.Css.dll" />
+                </Component>
+                <Component Id="cmpD96BB87402A503E155B504FFFB4468BF" Guid="*">
+                    <File Id="filF33D763FF8DCA2C599DC11E338E72E72" KeyPath="yes" Source="$(var.LibrariesDir)\SharpVectors.Dom.dll" />
+                </Component>
+                <Component Id="cmp29AED470125094493296A3DC0C9E56EE" Guid="*">
+                    <File Id="fil736C92CAFC1C0BCA97D04DD61C009806" KeyPath="yes" Source="$(var.LibrariesDir)\SharpVectors.Model.dll" />
+                </Component>
+                <Component Id="cmpB92EA2DE6C479A54825275447DFBB98E" Guid="*">
+                    <File Id="fil7E8127E5AC2BAFFD71DCBF7CA1BDE0B6" KeyPath="yes" Source="$(var.LibrariesDir)\SharpVectors.Rendering.Gdi.dll" />
+                </Component>
+                <Component Id="cmp502D7244065F45E37F677A30D29A4D26" Guid="*">
+                    <File Id="fil928A3AC0B49FF1EAF500108455A017D4" KeyPath="yes" Source="$(var.LibrariesDir)\SharpVectors.Rendering.Wpf.dll" />
+                </Component>
+                <Component Id="cmpE473ED87055187ABAC9B0465FBBE823A" Guid="*">
+                    <File Id="fil8AD33A60155C43C6BFF1F0FD5124273C" KeyPath="yes" Source="$(var.LibrariesDir)\SharpVectors.Runtime.Wpf.dll" />
+                </Component>
                 <Component Id="cmpB71736D52F6C6C28DC09A1D54BF9C7BA" Guid="*">
                     <File Id="fil5614F01B74C840F8D8A0B4AD0D0533AD" KeyPath="yes" Source="$(var.LibrariesDir)\System.Buffers.dll" />
                 </Component>
@@ -86,6 +110,14 @@
             <ComponentRef Id="cmpF4ED074744A7D85B596FAD97C2A1E278" />
             <ComponentRef Id="cmp82078E57D47AAEC0771A6750ECCC33BC" />
             <ComponentRef Id="cmp22E98BAC13DC44B2B85FDBE34D094DB9" />
+            <ComponentRef Id="cmpECD2AD4D4B9E9BDDA8424BEEAC3CCA0F" />
+            <ComponentRef Id="cmp06588C7E9C9443490D14241ED271D5C0" />
+            <ComponentRef Id="cmpB56B970B724FBEEF1B82D50F5D13AD9B" />
+            <ComponentRef Id="cmpD96BB87402A503E155B504FFFB4468BF" />
+            <ComponentRef Id="cmp29AED470125094493296A3DC0C9E56EE" />
+            <ComponentRef Id="cmpB92EA2DE6C479A54825275447DFBB98E" />
+            <ComponentRef Id="cmp502D7244065F45E37F677A30D29A4D26" />
+            <ComponentRef Id="cmpE473ED87055187ABAC9B0465FBBE823A" />
             <ComponentRef Id="cmpB71736D52F6C6C28DC09A1D54BF9C7BA" />
             <ComponentRef Id="cmp3DCCEA2975E18FD4C2DA5E81BF1C60B0" />
             <ComponentRef Id="cmp6201B94C484932AF1231EF41617BC1F9" />

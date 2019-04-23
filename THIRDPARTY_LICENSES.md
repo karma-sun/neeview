@@ -55,9 +55,9 @@ DLL: PdfiumViewer.dll
 
 DLL: PhotoSauce.MagicScaler.dll
 
-* Copyright (c) 2015-2017 Clinton Ingram
+* Copyright (c) 2015-2019 Clinton Ingram
 * URL: [PhotoSauce](http://photosauce.net/)
-* License: [Apache License 2.0](https://github.com/saucecontrol/PhotoSauce/blob/master/license)
+* License: [MS-PL](https://github.com/saucecontrol/PhotoSauce/blob/master/license)
 
 ### .NET corefx
 
@@ -78,4 +78,12 @@ ICON: pushpin, etc...
 ### VirtualizingStackPanel
 
 * URL: [uhimaniavwp](https://archive.codeplex.com/?p=uhimaniavwp)
-* License: [Ms-PL](https://opensource.org/licenses/MS-PL)
+* License: [MS-PL](https://opensource.org/licenses/MS-PL)
+
+### SharpVectors
+
+ DLL: SharpVectors.*.dll
+
+* Copyright (c) 2010 - 2018, Elinam LLC All rights reserved.
+* URL: [SharpVectors](https://github.com/ElinamLLC/SharpVectors)
+* License: [3-Clause BSD License](https://github.com/ElinamLLC/SharpVectors/blob/master/License.md)

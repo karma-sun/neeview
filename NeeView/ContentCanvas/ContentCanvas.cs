@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Effects;
+using NeeView.Media.Imaging;
 using NeeView.Properties;
 using NeeView.Windows.Property;
 using System;

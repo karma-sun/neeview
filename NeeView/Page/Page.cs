@@ -187,6 +187,7 @@ namespace NeeView
                 if (disposing)
                 {
                     Loaded = null;
+                    ResetPropertyChanged();
                     _contentLoader.Dispose();
                     _content.Dispose();
                 }

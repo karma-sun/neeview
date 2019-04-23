@@ -15,7 +15,7 @@
     </UserControl.Resources>
     <Grid>
         <StackPanel>
-            <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" Height="200">
+            <ScrollViewer x:Name="ExtensionsView" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" Height="200">
                 <ItemsControl ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Collection.Items}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>

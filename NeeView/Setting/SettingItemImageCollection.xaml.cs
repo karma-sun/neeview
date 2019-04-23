@@ -21,10 +21,18 @@ namespace NeeView.Setting
     /// </summary>
     public partial class SettingItemImageCollection : UserControl
     {
+        private bool _isStoreHelpEnabled = true;
+
         public SettingItemImageCollection()
         {
             InitializeComponent();
             this.DataContext = this;
+        }
+
+        public SettingItemImageCollection(double height, bool isStoreHelpEnabled) : this()
+        {
+            this.ExtensionsView.Height = height;
+            _isStoreHelpEnabled = isStoreHelpEnabled;
         }
 
         #region Dependency Properties
@@ -56,7 +64,7 @@ namespace NeeView.Setting
             if (Collection == null) return;
 
             bool hasHeic = Collection.Contains(".heic");
-            this.HeifHelp.Visibility = !hasHeic && Config.Current.IsWindows10() ? Visibility.Visible : Visibility.Collapsed;
+            this.HeifHelp.Visibility = _isStoreHelpEnabled && !hasHeic && Config.Current.IsWindows10() ? Visibility.Visible : Visibility.Collapsed;
         }
 
 

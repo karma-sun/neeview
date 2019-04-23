@@ -12,17 +12,17 @@ namespace NeeView
 {
     public class DefaultPictureSource : PictureSource
     {
-        private static PictureStream _pictureStream = new PictureStream();
         private static BitmapFactory _bitmapFactory = new BitmapFactory();
-        private byte[] _rawData;
+        private PictureNamedStreamSource _streamSource;
 
         public DefaultPictureSource(ArchiveEntry entry, PictureInfo pictureInfo, PictureSourceCreateOptions createOptions) : base(entry, pictureInfo, createOptions)
         {
+            _streamSource = new PictureNamedStreamSource(entry);
         }
 
         public override long GetMemorySize()
         {
-            return _rawData != null ? _rawData.Length : 0;
+            return _streamSource.GetMemorySize();
         }
 
         [SuppressMessage("Microsoft.Usage", "CA2202:DoNotDisposeObjectsMultipleTimes")]
@@ -34,10 +34,9 @@ namespace NeeView
 
             var pictureInfo = new PictureInfo(ArchiveEntry);
 
-            var rawDataResult = CreateRawData(token);
-            _rawData = rawDataResult.rawData;
+            _streamSource.Initialize(token);
 
-            using (var stream = CreateStream(token))
+            using (var stream = _streamSource.CreateStream(token))
             {
                 token.ThrowIfCancellationRequested();
 
@@ -54,7 +53,7 @@ namespace NeeView
                     var size = (PictureProfile.Current.IsLimitSourceSize && !maxSize.IsContains(originalSize)) ? originalSize.Uniformed(maxSize) : Size.Empty;
                     pictureInfo.Size = size.IsEmpty ? originalSize : size;
 
-                    pictureInfo.Decoder = rawDataResult.decoder ?? ".Net BitmapImage";
+                    pictureInfo.Decoder = _streamSource.Decoder ?? ".Net BitmapImage";
                     pictureInfo.BitsPerPixel = bitmapInfo.BitsPerPixel;
                     pictureInfo.Exif = bitmapInfo.Exif;
                     pictureInfo.AspectRatio = bitmapInfo.AspectRatio;
@@ -82,48 +81,10 @@ namespace NeeView
             return this.PictureInfo;
         }
 
-
-        private (byte[] rawData, string decoder) CreateRawData(CancellationToken token)
-        {
-            var ms = new MemoryStream();
-            using (var namedStream = _pictureStream.Create(ArchiveEntry))
-            {
-                try
-                {
-                    namedStream.Stream.CopyToAsync(ms, 81920, token).Wait();
-                }
-                catch (AggregateException ex)
-                {
-                    token.ThrowIfCancellationRequested();
-                    throw ex.InnerException;
-                }
-                catch
-                {
-                    token.ThrowIfCancellationRequested();
-                    throw;
-                }
-
-                // ArchiveEntryのデータがメモリ上に存在するならば、それをRawDataとして参照する
-                var rawData = (ArchiveEntry.Data as byte[]) ?? ms.ToArray();
-
-                return (rawData, namedStream.Name);
-            }
-        }
-
-        private Stream CreateStream(CancellationToken token)
-        {
-            if (_rawData == null)
-            {
-                _rawData = CreateRawData(token).rawData;
-            }
-
-            return new MemoryStream(_rawData);
-        }
-
         [SuppressMessage("Microsoft.Usage", "CA2202:DoNotDisposeObjectsMultipleTimes")]
         public override ImageSource CreateImageSource(Size size, BitmapCreateSetting setting, CancellationToken token)
         {
-            using (var stream = CreateStream(token))
+            using (var stream = _streamSource.CreateStream(token))
             {
                 var streamCanceller = new StreamCanceller(stream, token);
                 try
@@ -160,7 +121,7 @@ namespace NeeView
         [SuppressMessage("Microsoft.Usage", "CA2202:DoNotDisposeObjectsMultipleTimes")]
         public override byte[] CreateImage(Size size, BitmapCreateSetting setting, BitmapImageFormat format, int quality, CancellationToken token)
         {
-            using (var stream = CreateStream(token))
+            using (var stream = _streamSource.CreateStream(token))
             {
                 var streamCanceller = new StreamCanceller(stream, token);
                 try
@@ -199,7 +160,7 @@ namespace NeeView
             }
             else
             {
-                using (var stream = CreateStream(token))
+                using (var stream = _streamSource.CreateStream(token))
                 {
                     var bitmapInfo = BitmapInfo.Create(stream);
                     size = bitmapInfo.IsTranspose ? bitmapInfo.GetPixelSize().Transpose() : bitmapInfo.GetPixelSize();
@@ -224,4 +185,5 @@ namespace NeeView
         }
 
     }
+
 }

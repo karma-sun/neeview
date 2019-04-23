@@ -11,7 +11,7 @@ namespace NeeView
         #region Fields
 
         private FileTypeCollection _defaultExtensoins = new FileTypeCollection();
-        private FileTypeCollection _susieExtensions = SusieContext.Current.ImageExtensions;
+        private FileTypeCollection _svgExtensions = new FileTypeCollection(".svg");
 
         #endregion
 
@@ -25,6 +25,11 @@ namespace NeeView
         #endregion
 
         public FileTypeCollection DefaultExtensions => _defaultExtensoins;
+
+        public FileTypeCollection SusieExtensions => SusieContext.Current.ImageExtensions;
+
+        public FileTypeCollection SvgExtensions => _svgExtensions;
+
 
         #region Methods
 
@@ -65,37 +70,6 @@ namespace NeeView
             }
 
             return dictionary;
-        }
-
-        // サポートしている拡張子か
-        public bool IsSupported(string fileName)
-        {
-            string ext = LoosePath.GetExtension(fileName);
-
-            if (_defaultExtensoins.Contains(ext)) return true;
-
-            if (SusieContext.Current.IsEnabled)
-            {
-                if (_susieExtensions.Contains(ext)) return true;
-            }
-
-            return false;
-        }
-
-        // サポートしている拡張子か (標準)
-        public bool IsDefaultSupported(string fileName)
-        {
-            string ext = LoosePath.GetExtension(fileName);
-            return _defaultExtensoins.Contains(ext);
-        }
-
-        // サポートしている拡張子か (Susie)
-        public bool IsSusieSupported(string fileName)
-        {
-            if (!SusieContext.Current.IsEnabled) return false;
-
-            string ext = LoosePath.GetExtension(fileName);
-            return _susieExtensions.Contains(ext);
         }
 
         #endregion

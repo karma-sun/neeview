@@ -8,26 +8,28 @@ using System.Windows;
 
 namespace NeeView
 {
-    //
     public class PictureProfile : BindableBase
     {
         static PictureProfile() => Current = new PictureProfile();
         public static PictureProfile Current { get; }
 
+
         public static readonly Uri HEIFImageExtensions = new Uri(@"ms-windows-store://pdp/?ProductId=9pmmsr1cgpwg");
 
-
-        // Fields
 
         // 有効ファイル拡張子
         private PictureFileExtension _fileExtension = new PictureFileExtension();
 
+        private Size _MaximumSize = new Size(4096, 4096);
+        private bool _isResizeFilterEnabled = false;
+        private bool _isMagicScaleSimdEnabled = true;
+        private PictureCustomSize _customSize;
+        private bool _isAspectRatioEnabled;
 
-        // Constructors
 
         private PictureProfile()
         {
-            _CustomSize = new PictureCustomSize()
+            _customSize = new PictureCustomSize()
             {
                 IsEnabled = false,
                 IsUniformed = false,
@@ -36,11 +38,11 @@ namespace NeeView
         }
 
 
-        // Properties
-
         [PropertyMember("@ParamPictureProfileExtensions")]
         public FileTypeCollection SupportFileTypes => _fileExtension.DefaultExtensions;
 
+        [PropertyMember("@ParamPictureProfileSvgExtensions")]
+        public FileTypeCollection SvgFileTypes => _fileExtension.SvgExtensions;
 
         // 読み込みデータのサイズ制限適用フラグ
         [PropertyMember("@ParamPictureProfileIsLimitSourceSize", Tips = "@ParamPictureProfileIsLimitSourceSizeTips")]
@@ -49,7 +51,6 @@ namespace NeeView
         // 画像処理の最大サイズ
         // リサイズフィルターで使用される。
         // IsLimitSourceSize フラグがONのときには、読み込みサイズにもこの制限が適用される
-        private Size _MaximumSize = new Size(4096, 4096);
         [PropertyMember("@ParamPictureProfileMaximumSize", Tips = "@ParamPictureProfileMaximumSizeTips")]
         public Size MaximumSize
         {
@@ -61,75 +62,92 @@ namespace NeeView
             }
         }
 
-        /// <summary>
-        /// IsResizeEnabled property.
-        /// </summary>
-        private bool _isResizeFilterEnabled = false;
         public bool IsResizeFilterEnabled
         {
             get { return _isResizeFilterEnabled; }
             set { if (_isResizeFilterEnabled != value) { _isResizeFilterEnabled = value; RaisePropertyChanged(); } }
         }
 
-        /// <summary>
-        /// CustomSize property.
-        /// </summary>
-        private PictureCustomSize _CustomSize;
         public PictureCustomSize CustomSize
         {
-            get { return _CustomSize; }
-            set { if (_CustomSize != value) { _CustomSize = value; RaisePropertyChanged(); } }
+            get { return _customSize; }
+            set { if (_customSize != value) { _customSize = value; RaisePropertyChanged(); } }
         }
 
-        /// <summary>
-        /// IsMagicScaleSimdEnabled property.
-        /// </summary>
-        private bool _IsMagicScaleSimdEnabled = true;
         [PropertyMember("@ParamPictureProfileIsMagicScaleSimdEnabled")]
         public bool IsMagicScaleSimdEnabled
         {
-            get { return _IsMagicScaleSimdEnabled; }
+            get { return _isMagicScaleSimdEnabled; }
             set
             {
-                if (_IsMagicScaleSimdEnabled != value)
+                if (_isMagicScaleSimdEnabled != value)
                 {
-                    _IsMagicScaleSimdEnabled = value;
-                    MagicScalerBitmapFactory.EnabmeSimd = _IsMagicScaleSimdEnabled;
+                    _isMagicScaleSimdEnabled = value;
+                    MagicScalerBitmapFactory.EnabmeSimd = _isMagicScaleSimdEnabled;
                     RaisePropertyChanged();
                 }
             }
         }
 
         // 画像の解像度情報を表示に反映する
-        private bool _IsAspectRatioEnabled;
         [PropertyMember("@ParamPictureProfileIsAspectRatioEnabled", Tips = "@ParamPictureProfileIsAspectRatioEnabledTips")]
         public bool IsAspectRatioEnabled
         {
-            get { return _IsAspectRatioEnabled; }
-            set { SetProperty(ref _IsAspectRatioEnabled, value); }
+            get { return _isAspectRatioEnabled; }
+            set { SetProperty(ref _isAspectRatioEnabled, value); }
         }
 
+        // support SVG
+        [PropertyMember("@ParamPictureProfileIsSvgEnabled", Tips = "@ParamPictureProfileIsSvgEnabledTips")]
+        public bool IsSvgEnabled { get; set; } = true;
 
 
-        // Methods
 
         // 対応拡張子判定 (ALL)
         public bool IsSupported(string fileName)
         {
-            return _fileExtension.IsSupported(fileName);
+            string ext = LoosePath.GetExtension(fileName);
+
+            if (_fileExtension.DefaultExtensions.Contains(ext)) return true;
+
+            if (SusieContext.Current.IsEnabled)
+            {
+                if (_fileExtension.SusieExtensions.Contains(ext)) return true;
+            }
+
+            if (IsSvgEnabled)
+            {
+                if (_fileExtension.SvgExtensions.Contains(ext)) return true;
+            }
+
+            return false;
         }
 
         // 対応拡張子判定 (標準)
         public bool IsDefaultSupported(string fileName)
         {
-            return _fileExtension.IsDefaultSupported(fileName);
+            string ext = LoosePath.GetExtension(fileName);
+            return _fileExtension.DefaultExtensions.Contains(ext);
         }
 
         // 対応拡張子判定 (Susie)
         public bool IsSusieSupported(string fileName)
         {
-            return _fileExtension.IsSusieSupported(fileName);
+            if (!SusieContext.Current.IsEnabled) return false;
+
+            string ext = LoosePath.GetExtension(fileName);
+            return _fileExtension.SusieExtensions.Contains(ext);
         }
+
+        // 対応拡張子判定 (Svg)
+        public bool IsSvgSupported(string fileName)
+        {
+            if (!IsSvgEnabled) return false;
+
+            string ext = LoosePath.GetExtension(fileName);
+            return _fileExtension.SvgExtensions.Contains(ext);
+        }
+
 
         // 最大サイズ内におさまるサイズを返す
         public Size CreateFixedSize(Size size)
@@ -163,28 +181,17 @@ namespace NeeView
             [DataMember]
             public bool IsAspectRatioEnabled { get; set; }
 
-            #region Constructors
+            [DataMember, DefaultValue(true)]
+            public bool IsSvgEnabled { get; set; }
 
-            public Memento()
-            {
-                Constructor();
-            }
 
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
             {
-                Constructor();
+                this.InitializePropertyDefaultValues();
             }
-
-            private void Constructor()
-            {
-                IsMagicScaleSimdEnabled = true;
-            }
-
-            #endregion
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -194,10 +201,10 @@ namespace NeeView
             memento.CustomSize = this.CustomSize.CreateMemento();
             memento.IsMagicScaleSimdEnabled = this.IsMagicScaleSimdEnabled;
             memento.IsAspectRatioEnabled = this.IsAspectRatioEnabled;
+            memento.IsSvgEnabled = this.IsSvgEnabled;
             return memento;
         }
 
-        //
         public void Restore(Memento memento)
         {
             if (memento == null) return;
@@ -207,6 +214,7 @@ namespace NeeView
             this.CustomSize.Restore(memento.CustomSize);
             this.IsMagicScaleSimdEnabled = memento.IsMagicScaleSimdEnabled;
             this.IsAspectRatioEnabled = memento.IsAspectRatioEnabled;
+            this.IsSvgEnabled = memento.IsSvgEnabled;
         }
         #endregion
 

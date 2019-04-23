@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Media.Imaging;
 using System;
 using System.Diagnostics;
 using System.Threading;
@@ -172,31 +173,4 @@ namespace NeeView
         #endregion
     }
 
-
-    public static class ImageSourceExtensions
-    {
-        public static int GetPixelWidth(this ImageSource imageSource)
-        {
-            if (imageSource is BitmapSource bitmapSource)
-            {
-                return bitmapSource.PixelWidth;
-            }
-            else
-            {
-                return (int)imageSource.Width;
-            }
-        }
-
-        public static int GetPixelHeight(this ImageSource imageSource)
-        {
-            if (imageSource is BitmapSource bitmapSource)
-            {
-                return bitmapSource.PixelHeight;
-            }
-            else
-            {
-                return (int)imageSource.Height;
-            }
-        }
-    }
 }

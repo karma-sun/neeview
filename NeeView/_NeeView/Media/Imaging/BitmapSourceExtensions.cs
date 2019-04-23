@@ -32,17 +32,14 @@ namespace NeeView.Media.Imaging
         }
 
         /// <summary>
-        /// サムネイル作成
+        /// サムネイル作成  (STA)
         /// </summary>
-        /// <param name="source"></param>
-        /// <param name="maxSize"></param>
-        /// <returns></returns>
-        public static BitmapSource CreateThumbnail(this BitmapSource source, Size maxSize)
+        public static BitmapSource CreateThumbnail(this ImageSource source, Size maxSize)
         {
             if (source == null) return null;
 
-            double width = source.PixelWidth;
-            double height = source.PixelHeight;
+            double width = source.GetPixelWidth();
+            double height = source.GetPixelHeight();
 
             // maxSize.Height が nan のときはバナー
             bool isBanner = double.IsNaN(maxSize.Height);
@@ -60,48 +57,43 @@ namespace NeeView.Media.Imaging
                 if (height < 2.0) height = 2.0;
             }
 
-            RenderTargetBitmap bmp = null;
-
             if (App.Current == null) return null;
 
-            AppDispatcher.Invoke(() =>
+            var canvas = new Canvas();
+            canvas.Width = width;
+            canvas.Height = height;
+
+            var image = new Image();
+            image.Source = source;
+            image.Width = width;
+            image.Height = height;
+            image.Stretch = Stretch.Fill;
+
+            double bannerHeight = (int)(width * 0.25);
+            if (isBanner && bannerHeight < height)
             {
-                var canvas = new Canvas();
-                canvas.Width = width;
-                canvas.Height = height;
+                canvas.Height = bannerHeight;
 
-                var image = new Image();
-                image.Source = source;
-                image.Width = width;
-                image.Height = height;
-                image.Stretch = Stretch.Fill;
+                double top = -(int)(height * 0.3 - bannerHeight * 0.5);
+                if (top < -height) top = -height;
+                if (top > 0) top = 0;
+                Canvas.SetTop(image, top);
+            }
 
-                double bannerHeight = (int)(width * 0.25);
-                if (isBanner && bannerHeight < height)
-                {
-                    canvas.Height = bannerHeight;
+            RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.HighQuality);
+            image.UseLayoutRounding = true;
 
-                    double top = -(int)(height * 0.3 - bannerHeight * 0.5);
-                    if (top < -height) top = -height;
-                    if (top > 0) top = 0;
-                    Canvas.SetTop(image, top);
-                }
+            canvas.Children.Add(image);
 
-                RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.HighQuality);
-                image.UseLayoutRounding = true;
+            // ビューツリー外でも正常にレンダリングするようにする処理
+            canvas.Measure(new Size(canvas.Width, canvas.Height));
+            canvas.Arrange(new Rect(new Size(canvas.Width, canvas.Height)));
+            canvas.UpdateLayout();
 
-                canvas.Children.Add(image);
-
-                // ビューツリー外でも正常にレンダリングするようにする処理
-                canvas.Measure(new Size(canvas.Width, canvas.Height));
-                canvas.Arrange(new Rect(new Size(canvas.Width, canvas.Height)));
-                canvas.UpdateLayout();
-
-                double dpi = 96.0;
-                bmp = new RenderTargetBitmap((int)canvas.Width, (int)canvas.Height, dpi, dpi, PixelFormats.Pbgra32);
-                bmp.Render(canvas);
-                bmp.Freeze();
-            });
+            double dpi = 96.0;
+            RenderTargetBitmap bmp = new RenderTargetBitmap((int)canvas.Width, (int)canvas.Height, dpi, dpi, PixelFormats.Pbgra32);
+            bmp.Render(canvas);
+            bmp.Freeze();
 
             return bmp;
         }
@@ -115,12 +107,12 @@ namespace NeeView.Media.Imaging
         /// <param name="source"></param>
         /// <param name="maxSize"></param>
         /// <returns></returns>
-        public static BitmapSource CreateThumbnailByDrawingVisual(this BitmapSource source, Size maxSize)
+        public static BitmapSource CreateThumbnailByDrawingVisual(this ImageSource source, Size maxSize)
         {
             if (source == null) return null;
 
-            double width = source.PixelWidth;
-            double height = source.PixelHeight;
+            double width = source.GetPixelWidth();
+            double height = source.GetPixelHeight();
 
             var scaleX = width > maxSize.Width ? maxSize.Width / width : 1.0;
             var scaleY = height > maxSize.Height ? maxSize.Height / height : 1.0;
@@ -150,8 +142,32 @@ namespace NeeView.Media.Imaging
 
             return bmp;
         }
+    }
 
+    public static class ImageSourceExtensions
+    {
+        public static int GetPixelWidth(this ImageSource imageSource)
+        {
+            if (imageSource is BitmapSource bitmapSource)
+            {
+                return bitmapSource.PixelWidth;
+            }
+            else
+            {
+                return (int)imageSource.Width;
+            }
+        }
 
-
+        public static int GetPixelHeight(this ImageSource imageSource)
+        {
+            if (imageSource is BitmapSource bitmapSource)
+            {
+                return bitmapSource.PixelHeight;
+            }
+            else
+            {
+                return (int)imageSource.Height;
+            }
+        }
     }
 }

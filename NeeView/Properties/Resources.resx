@@ -4692,4 +4692,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="DialogExportPlaylistFailedTitle" xml:space="preserve">
     <value>Failed to save playlist</value>
   </data>
+  <data name="ParamPictureProfileSvgExtensions" xml:space="preserve">
+    <value>SVG file extensions</value>
+  </data>
+  <data name="ParamPictureProfileIsSvgEnabled" xml:space="preserve">
+    <value>Enable SVG file</value>
+  </data>
+  <data name="ParamPictureProfileIsSvgEnabledTips" xml:space="preserve">
+    <value>Open an SVG file as a page. Please turn off when you want to display SVG with Susie plug-in.</value>
+  </data>
 </root>

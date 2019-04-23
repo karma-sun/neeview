@@ -11163,6 +11163,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Enable SVG file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPictureProfileIsSvgEnabled {
+            get {
+                return ResourceManager.GetString("ParamPictureProfileIsSvgEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open an SVG file as a page. Please turn off when you want to display SVG with Susie plug-in. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPictureProfileIsSvgEnabledTips {
+            get {
+                return ResourceManager.GetString("ParamPictureProfileIsSvgEnabledTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Maximum image size に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamPictureProfileMaximumSize {
@@ -11177,6 +11195,15 @@ namespace NeeView.Properties {
         public static string ParamPictureProfileMaximumSizeTips {
             get {
                 return ResourceManager.GetString("ParamPictureProfileMaximumSizeTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   SVG file extensions に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPictureProfileSvgExtensions {
+            get {
+                return ResourceManager.GetString("ParamPictureProfileSvgExtensions", resourceCulture);
             }
         }
         

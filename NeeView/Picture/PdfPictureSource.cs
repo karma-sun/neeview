@@ -9,8 +9,6 @@ namespace NeeView
 {
     public class PdfPictureSource : PictureSource
     {
-        private MagicScalerBitmapFactory _magicScaler = new MagicScalerBitmapFactory();
-
         private PdfArchiver _pdfArchive;
 
         public PdfPictureSource(ArchiveEntry entry, PictureInfo pictureInfo, PictureSourceCreateOptions createOptions) : base(entry, pictureInfo, createOptions)

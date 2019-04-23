@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace NeeView
@@ -39,9 +40,9 @@ namespace NeeView
         public abstract PictureInfo CreatePictureInfo(CancellationToken token);
 
         /// <summary>
-        /// BitmaSource作成。メインコンテンツ用
+        /// ImageSource作成。メインコンテンツ用
         /// </summary>
-        public abstract BitmapSource CreateBitmapSource(Size size, BitmapCreateSetting setting, CancellationToken token);
+        public abstract ImageSource CreateImageSource(Size size, BitmapCreateSetting setting, CancellationToken token);
 
         /// <summary>
         /// 画像データ作成

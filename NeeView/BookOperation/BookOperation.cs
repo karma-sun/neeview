@@ -392,8 +392,8 @@ namespace NeeView
             var pages = Book?.Viewer.GetViewPages();
             if (pages == null || pages.Count == 0) return false;
 
-            var bitmapSource = pages[0].GetContentBitmapSource();
-            if (bitmapSource == null) return false;
+            var imageSource = pages[0].GetContentImageSource();
+            if (imageSource == null) return false;
 
             return true;
         }

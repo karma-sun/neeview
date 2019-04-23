@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace NeeView
@@ -69,11 +70,11 @@ namespace NeeView
         /// <summary>
         /// Thumbnail
         /// </summary>
-        private BitmapSource _bitmapSource;
-        public BitmapSource BitmapSource
+        private ImageSource _imageSource;
+        public ImageSource ImageSource
         {
-            get { return _bitmapSource; }
-            set { SetProperty(ref _bitmapSource, value); }
+            get { return _imageSource; }
+            set { SetProperty(ref _imageSource, value); }
         }
 
         private double _ThumbnailWidth;
@@ -218,9 +219,9 @@ namespace NeeView
                 _isDarty = false;
 
                 // サムネイル設定
-                BitmapSource = bitmapContent?.BitmapSource;
+                ImageSource = bitmapContent?.ImageSource;
 
-                if (BitmapSource != null)
+                if (ImageSource != null)
                 {
                     var length = bitmapContent.Size.Width > bitmapContent.Size.Height ? bitmapContent.Size.Width : bitmapContent.Size.Height;
                     var rate = ThumbnailMaxSize / length;
@@ -269,7 +270,7 @@ namespace NeeView
             {
                 //Debug.WriteLine($"FileInfo: null");
 
-                BitmapSource = null;
+                ImageSource = null;
                 ImageSize = null;
                 FileSize = null;
                 ShotInfo = null;

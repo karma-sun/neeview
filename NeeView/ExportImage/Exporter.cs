@@ -159,7 +159,7 @@ namespace NeeView
 
                 // visual
                 var image = new Image();
-                image.Source = pages[0].GetContentBitmapSource();
+                image.Source = pages[0].GetContentImageSource();
                 if (image.Source == null) throw new ArgumentException("pages[0] don't hage BitmapSource", "pages");
                 image.Width = SingleImage.Page.Width;
                 image.Height = SingleImage.Page.Height;
@@ -190,7 +190,7 @@ namespace NeeView
                 foreach (var page in sortedPages)
                 {
                     var image = new Image();
-                    image.Source = page.GetContentBitmapSource();
+                    image.Source = page.GetContentImageSource();
                     if (image.Source == null) throw new ArgumentException("any pages don't hage BitmapSource", "pages");
                     image.Width = page.Width * (maxHeight / page.Height);
                     image.Height = maxHeight;

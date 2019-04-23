@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace NeeView
@@ -52,11 +53,11 @@ namespace NeeView
         /// <summary>
         /// 表示する画像
         /// </summary>
-        private BitmapSource _bitmapSource;
-        public BitmapSource BitmapSource
+        private ImageSource _imageSource;
+        public ImageSource ImageSource
         {
-            get { return _bitmapSource; }
-            set { if (_bitmapSource != value) { _bitmapSource = value; RaisePropertyChanged(); } }
+            get { return _imageSource; }
+            set { if (_imageSource != value) { _imageSource = value; RaisePropertyChanged(); } }
         }
 
         #endregion
@@ -65,7 +66,16 @@ namespace NeeView
 
         public long GetMemorySize()
         {
-            return _bitmapSource != null ? (long)_bitmapSource.Format.BitsPerPixel * _bitmapSource.PixelWidth * _bitmapSource.PixelHeight / 8 : 0L;
+            if (_imageSource == null) return 0L;
+
+            if (_imageSource is BitmapSource bitmapSource)
+            {
+                return (long)bitmapSource.Format.BitsPerPixel * bitmapSource.PixelWidth * bitmapSource.PixelHeight / 8;
+            }
+            else
+            {
+                return 1024 * 1024;
+            }
         }
 
         // 画像生成に影響する設定のハッシュ値取得
@@ -74,10 +84,10 @@ namespace NeeView
             return ImageFilter.Current.GetHashCode() ^ PictureProfile.Current.CustomSize.GetHashCodde();
         }
 
-        // Bitmapが同じサイズであるか判定
-        private bool IsEqualBitmapSizeMaybe(Size size, bool keepAspectRatio)
+        // Imageが同じサイズであるか判定
+        private bool IsEqualImageSizeMaybe(Size size, bool keepAspectRatio)
         {
-            if (this.BitmapSource == null) return false;
+            if (this.ImageSource == null) return false;
 
             size = size.IsEmpty ? this.PictureInfo.Size : size;
 
@@ -85,19 +95,19 @@ namespace NeeView
             if (keepAspectRatio)
             {
                 // アスペクト比固定のため、PixelHeightのみで判定
-                return Math.Abs(size.Height - this.BitmapSource.PixelHeight) < margin;
+                return Math.Abs(size.Height - this.ImageSource.GetPixelHeight()) < margin;
             }
             else
             {
-                return Math.Abs(size.Height - this.BitmapSource.PixelHeight) < margin && Math.Abs(size.Width - this.BitmapSource.PixelWidth) < margin;
+                return Math.Abs(size.Height - this.ImageSource.GetPixelHeight()) < margin && Math.Abs(size.Width - this.ImageSource.GetPixelWidth()) < margin;
             }
         }
 
         /// <summary>
-        /// BitmapSource生成。
+        /// ImageSource生成。
         /// サイズを指定し、必要であれば作り直す。不要であればなにもしない。
         /// </summary>
-        public bool CreateBitmapSource(Size size, CancellationToken token)
+        public bool CreateImageSource(Size size, CancellationToken token)
         {
             size = size.IsEmpty ? this.PictureInfo.Size : size;
             size = PictureSource.FixedSize(size);
@@ -114,7 +124,7 @@ namespace NeeView
 
             int filterHashCode = GetEnvironmentoHashCode();
             bool isDartyResizeParameter = _resizeHashCode != filterHashCode;
-            if (!isDartyResizeParameter && IsEqualBitmapSizeMaybe(size, keepAspectRatio))
+            if (!isDartyResizeParameter && IsEqualImageSizeMaybe(size, keepAspectRatio))
             {
                 return false;
             }
@@ -123,8 +133,8 @@ namespace NeeView
             ////Debug.WriteLine($"Resize: {isDartyResizeParameter}: {nowSize.Truncate()} -> {size.Truncate()}");
             ////Debug.WriteLine($"BMP: {this.PictureInfo.Size} -> {size}");
 
-            var bitmap = CreateBitmapSource(size, keepAspectRatio, token);
-            if (bitmap == null)
+            var image = CreateImageSource(size, keepAspectRatio, token);
+            if (image == null)
             {
                 return false;
             }
@@ -134,13 +144,13 @@ namespace NeeView
             lock (_lock)
             {
                 _resizeHashCode = filterHashCode;
-                this.BitmapSource = bitmap;
+                this.ImageSource = image;
             }
 
             return true;
         }
 
-        private BitmapSource CreateBitmapSource(Size size, bool keepAspectRatio, CancellationToken token)
+        private ImageSource CreateImageSource(Size size, bool keepAspectRatio, CancellationToken token)
         {
             token.ThrowIfCancellationRequested();
 
@@ -156,11 +166,37 @@ namespace NeeView
                 }
             }
 
-            return MemoryControl.Current.RetryFuncWithMemoryCleanup(() => PictureSource.CreateBitmapSource(size, setting, token));
+            return MemoryControl.Current.RetryFuncWithMemoryCleanup(() => PictureSource.CreateImageSource(size, setting, token));
         }
 
         #endregion
     }
 
 
+    public static class ImageSourceExtensions
+    {
+        public static int GetPixelWidth(this ImageSource imageSource)
+        {
+            if (imageSource is BitmapSource bitmapSource)
+            {
+                return bitmapSource.PixelWidth;
+            }
+            else
+            {
+                return (int)imageSource.Width;
+            }
+        }
+
+        public static int GetPixelHeight(this ImageSource imageSource)
+        {
+            if (imageSource is BitmapSource bitmapSource)
+            {
+                return bitmapSource.PixelHeight;
+            }
+            else
+            {
+                return (int)imageSource.Height;
+            }
+        }
+    }
 }

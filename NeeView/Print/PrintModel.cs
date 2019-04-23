@@ -312,8 +312,8 @@ namespace NeeView
             brush.TileMode = TileMode.None;
 
             var rectangle = new Rectangle();
-            rectangle.Width = _context.RawImage.PixelWidth;
-            rectangle.Height = _context.RawImage.PixelHeight;
+            rectangle.Width = _context.RawImage.GetPixelWidth();
+            rectangle.Height = _context.RawImage.GetPixelHeight();
             rectangle.Fill = brush;
             RenderOptions.SetBitmapScalingMode(rectangle, IsDotScale ? BitmapScalingMode.NearestNeighbor : BitmapScalingMode.HighQuality);
 

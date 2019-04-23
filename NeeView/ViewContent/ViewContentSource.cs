@@ -134,11 +134,11 @@ namespace NeeView
         /// <summary>
         /// ViewBoxを適用したBitmapのサイズを取得.
         /// </summary>
-        /// <param name="bitmap"></param>
+        /// <param name="image"></param>
         /// <returns></returns>
-        public Size GetViewBitmapSize(BitmapSource bitmap)
+        public Size GetViewBitmapSize(ImageSource image)
         {
-            return new Size(Math.Truncate(bitmap.PixelWidth * GetViewBox().Width + 0.1), bitmap.PixelHeight);
+            return new Size(Math.Truncate(image.GetPixelWidth() * GetViewBox().Width + 0.1), image.GetPixelHeight());
         }
 
 

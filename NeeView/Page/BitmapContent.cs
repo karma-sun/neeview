@@ -30,8 +30,8 @@ namespace NeeView
         // picture
         public Picture Picture { get; protected set; }
 
-        // bitmap source
-        public BitmapSource BitmapSource => Picture?.BitmapSource;
+        // image source
+        public ImageSource ImageSource => Picture?.ImageSource;
 
         // bitmap color
         public Color Color => PictureInfo != null ? PictureInfo.Color : Colors.Black;
@@ -44,7 +44,7 @@ namespace NeeView
         /// </summary>
         public override bool IsLoaded => Picture != null || PageMessage != null;
 
-        public override bool IsViewReady => BitmapSource != null || PageMessage != null;
+        public override bool IsViewReady => ImageSource != null || PageMessage != null;
 
         public override bool CanResize => true;
 

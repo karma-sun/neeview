@@ -244,10 +244,10 @@ namespace NeeView
         }
 
 
-        // BitmapSource取得
-        public BitmapSource GetContentBitmapSource()
+        // ImageSource取得
+        public ImageSource GetContentImageSource()
         {
-            return (_content as BitmapContent)?.BitmapSource;
+            return (_content as BitmapContent)?.ImageSource;
         }
 
         // ページ名：ソート用分割

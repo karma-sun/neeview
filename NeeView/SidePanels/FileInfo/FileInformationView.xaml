@@ -28,7 +28,7 @@
                 <!-- Thumbnail -->
                 <Grid x:Name="GroupThumbnail" Width="96" Height="96" HorizontalAlignment="Left">
                     <Image x:Name="Thumbnail" Width="{Binding ThumbnailWidth}" Height="{Binding ThumbnailHeight}" HorizontalAlignment="Left" VerticalAlignment="Bottom"
-                           Source="{Binding BitmapSource}"
+                           Source="{Binding ImageSource}"
                            UseLayoutRounding="True"
                            RenderOptions.BitmapScalingMode="HighQuality" Stretch="Fill">
                         <Image.Effect>

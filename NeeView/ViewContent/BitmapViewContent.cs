@@ -22,7 +22,7 @@ namespace NeeView
         private Rectangle _scaleRectangle;
         private Rectangle _pixeledRectangle;
 
-        private BitmapSource _viewBitmap;
+        private ImageSource _viewImage;
 
         #endregion
 
@@ -39,7 +39,7 @@ namespace NeeView
         //
         public void Initialize()
         {
-            Debug.Assert(this.Content is BitmapContent bitmapContent_ && bitmapContent_.BitmapSource != null);
+            Debug.Assert(this.Content is BitmapContent bitmapContent_ && bitmapContent_.ImageSource != null);
 
             // binding parameter
             var parameter = CreateBindingParameter();
@@ -55,15 +55,15 @@ namespace NeeView
         //
         protected FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter)
         {
-            return CreateView(source, parameter, GetPicture()?.BitmapSource);
+            return CreateView(source, parameter, GetPicture()?.ImageSource);
         }
 
         //
-        protected FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter, BitmapSource bitmap)
+        protected FrameworkElement CreateView(ViewContentSource source, ViewContentParameters parameter, ImageSource image)
         {
-            if (bitmap == null)
+            if (image == null)
             {
-                _viewBitmap = null;
+                _viewImage = null;
                 _scaleRectangle = null;
                 _pixeledRectangle = null;
                 return null;
@@ -73,12 +73,12 @@ namespace NeeView
             grid.SetBinding(Grid.BackgroundProperty, parameter.PageBackgroundBrush);
             grid.UseLayoutRounding = true;
 
-            _viewBitmap = bitmap;
+            _viewImage = image;
 
             // scale bitmap
             {
                 var rectangle = new Rectangle();
-                rectangle.Fill = source.CreatePageImageBrush(bitmap, true);
+                rectangle.Fill = source.CreatePageImageBrush(image, true);
                 rectangle.SetBinding(RenderOptions.BitmapScalingModeProperty, parameter.BitmapScalingMode);
                 rectangle.UseLayoutRounding = true;
                 rectangle.SnapsToDevicePixels = true;
@@ -94,12 +94,12 @@ namespace NeeView
                 canvas.UseLayoutRounding = true;
 
                 var rectangle = new Rectangle();
-                rectangle.Fill = source.CreatePageImageBrush(bitmap, true);
+                rectangle.Fill = source.CreatePageImageBrush(image, true);
                 RenderOptions.SetBitmapScalingMode(rectangle, BitmapScalingMode.NearestNeighbor);
                 rectangle.UseLayoutRounding = true;
                 rectangle.SnapsToDevicePixels = true;
 
-                var viewSize = source.GetViewBitmapSize(bitmap);
+                var viewSize = source.GetViewBitmapSize(image);
                 rectangle.Width = viewSize.Width;
                 rectangle.Height = viewSize.Height;
 
@@ -148,16 +148,16 @@ namespace NeeView
         }
 
         //
-        public BitmapSource GetViewBitmap()
+        public ImageSource GetViewImage()
         {
-            return _viewBitmap;
+            return _viewImage;
         }
 
         //
         public bool IsDarty()
         {
-            var pictureBitmap = GetPicture()?.BitmapSource;
-            return _viewBitmap != pictureBitmap;
+            var image = GetPicture()?.ImageSource;
+            return _viewImage != image;
         }
 
 
@@ -193,7 +193,7 @@ namespace NeeView
                 try
                 {
                     var picture = ((BitmapContent)this.Content)?.Picture;
-                    picture?.CreateBitmapSource(size, CancellationToken.None);
+                    picture?.CreateImageSource(size, CancellationToken.None);
 
                     // ##
                     this.Source.Page.DebugRaiseContentPropertyChanged();

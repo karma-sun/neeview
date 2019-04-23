@@ -5,6 +5,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace NeeView
@@ -120,7 +121,7 @@ namespace NeeView
         }
 
         [SuppressMessage("Microsoft.Usage", "CA2202:DoNotDisposeObjectsMultipleTimes")]
-        public override BitmapSource CreateBitmapSource(Size size, BitmapCreateSetting setting, CancellationToken token)
+        public override ImageSource CreateImageSource(Size size, BitmapCreateSetting setting, CancellationToken token)
         {
             using (var stream = CreateStream(token))
             {

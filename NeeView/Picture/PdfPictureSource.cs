@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace NeeView
@@ -32,7 +33,7 @@ namespace NeeView
             return PictureInfo;
         }
 
-        public override BitmapSource CreateBitmapSource(Size size, BitmapCreateSetting setting, CancellationToken token)
+        public override ImageSource CreateImageSource(Size size, BitmapCreateSetting setting, CancellationToken token)
         {
             size = size.IsEmpty ? _pdfArchive.GetRenderSize(ArchiveEntry) : size;
             var bitmapSource = _pdfArchive.CraeteBitmapSource(ArchiveEntry, size).ToBitmapSource();

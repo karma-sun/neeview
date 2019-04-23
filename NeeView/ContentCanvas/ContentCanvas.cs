@@ -32,7 +32,7 @@ namespace NeeView
     {
         public static double ToAngle(this AutoRotateType self)
         {
-            switch(self)
+            switch (self)
             {
                 default:
                 case AutoRotateType.None:
@@ -437,7 +437,7 @@ namespace NeeView
                 {
                     if (content.PageMessage == null && content.CanResize && content is BitmapContent bitmapContent)
                     {
-                        var resized = bitmapContent.Picture?.CreateBitmapSource(bitmapContent.GetRenderSize(size1), token);
+                        var resized = bitmapContent.Picture?.CreateImageSource(bitmapContent.GetRenderSize(size1), token);
                         if (resized == true)
                         {
                             viewPageCollection.Collection[i].Page.DebugRaiseContentPropertyChanged();
@@ -561,11 +561,11 @@ namespace NeeView
                     var bitmapContent = content as BitmapViewContent;
                     if (bitmapContent == null) continue;
 
-                    var bitmap = bitmapContent.GetViewBitmap();
-                    if (bitmap == null) continue;
+                    var image = bitmapContent.GetViewImage();
+                    if (image == null) continue;
 
-                    var pixelHeight = bitmap.PixelHeight;
-                    var pixelWidth = bitmap.PixelWidth;
+                    var pixelHeight = image.GetPixelHeight();
+                    var pixelWidth = image.GetPixelWidth();
                     var viewHeight = content.Height * finalScale;
                     var viewWidth = content.Width * finalScale;
 
@@ -684,23 +684,23 @@ namespace NeeView
 
         #region クリップボード関連
 
-        private BitmapSource CurrentBitmapSource
+        private ImageSource CurrentImageSource
         {
-            get { return (this.MainContent?.Content as BitmapContent)?.BitmapSource; }
+            get { return (this.MainContent?.Content as BitmapContent)?.ImageSource; }
         }
 
         public bool CanCopyImageToClipboard()
         {
-            return CurrentBitmapSource != null;
+            return CurrentImageSource is BitmapSource;
         }
 
         public void CopyImageToClipboard()
         {
             try
             {
-                if (CanCopyImageToClipboard())
+                if (CanCopyImageToClipboard() && CurrentImageSource is BitmapSource bitmapSource)
                 {
-                    ClipboardUtility.CopyImage(CurrentBitmapSource);
+                    ClipboardUtility.CopyImage(bitmapSource);
                 }
             }
             catch (Exception e)

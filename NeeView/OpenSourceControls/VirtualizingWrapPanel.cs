@@ -248,7 +248,7 @@ namespace OpenSourceControls
 
             // 配置幅調整用スケール
             // NOTE: セルサイズが同じ場合のみ正しい値になる
-            layoutScaleX = lastChildSize.Width > 0.0 && availableSize.Width > lastChildSize.Width  ? Math.Max(availableSize.Width / (lastChildSize.Width * Math.Floor(availableSize.Width / lastChildSize.Width)), 1.0) : 1.0;
+            layoutScaleX = lastChildSize.Width > 0.0 && availableSize.Width > lastChildSize.Width ? Math.Max(availableSize.Width / (lastChildSize.Width * Math.Floor(availableSize.Width / lastChildSize.Width)), 1.0) : 1.0;
 
             ////sw.Stop();
             ////Debug.WriteLine($"MeasureOverride: {sw.ElapsedMilliseconds}ms");
@@ -294,6 +294,11 @@ namespace OpenSourceControls
             /// </summary>
             private int currentGenerateIndex;
 
+            /// <summary>
+            /// Dispose用
+            /// </summary>
+            private bool disposedValue = false;
+
             #endregion
 
             #region _ctor
@@ -311,12 +316,38 @@ namespace OpenSourceControls
                 this.generator = owner.ItemContainerGenerator;
             }
 
+            #endregion
+
+            #region IDisposable Support
+
+            /// <summary>
+            /// アイテムの生成を終了する。
+            /// </summary>
+            protected virtual void Dispose(bool disposing)
+            {
+                if (!this.disposedValue)
+                {
+                    if (disposing)
+                    {
+                        // nop.
+                    }
+
+                    if (this.generatorTracker != null)
+                    {
+                        this.generatorTracker.Dispose();
+                        this.generatorTracker = null;
+                    }
+
+                    this.disposedValue = true;
+                }
+            }
+
             /// <summary>
             /// <see cref="ChildGenerator"/> のインスタンスを破棄する。
             /// </summary>
             ~ChildGenerator()
             {
-                this.Dispose();
+                Dispose(false);
             }
 
             /// <summary>
@@ -324,10 +355,9 @@ namespace OpenSourceControls
             /// </summary>
             public void Dispose()
             {
-                if (this.generatorTracker != null)
-                    this.generatorTracker.Dispose();
+                Dispose(true);
+                GC.SuppressFinalize(this);
             }
-
             #endregion
 
             #region GetOrCreateChild

@@ -54,6 +54,7 @@ namespace NeeView
                         var reader = new FileSvgReader(settings);
                         drawing = reader.Read(stream);
                     }
+                    drawing.Freeze();
 
                     var image = new DrawingImage();
                     image.Drawing = drawing;

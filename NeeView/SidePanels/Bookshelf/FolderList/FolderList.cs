@@ -618,7 +618,7 @@ namespace NeeView
             {
                 SearchKeywordErrorMessage = string.Format(Properties.Resources.NotifySearchKeywordOptionError, ex.Option);
             }
-            catch (SearchKeywordDateTimeException ex)
+            catch (SearchKeywordDateTimeException)
             {
                 SearchKeywordErrorMessage = Properties.Resources.NotifySearchKeywordDateTimeError;
             }

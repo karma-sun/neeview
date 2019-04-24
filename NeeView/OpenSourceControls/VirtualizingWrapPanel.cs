@@ -335,7 +335,6 @@ namespace OpenSourceControls
                     if (this.generatorTracker != null)
                     {
                         this.generatorTracker.Dispose();
-                        this.generatorTracker = null;
                     }
 
                     this.disposedValue = true;

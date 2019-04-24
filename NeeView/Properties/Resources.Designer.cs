@@ -8246,6 +8246,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Illegal date-time format に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string NotifySearchKeywordDateTimeError {
+            get {
+                return ResourceManager.GetString("NotifySearchKeywordDateTimeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Illegal option: {0} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string NotifySearchKeywordOptionError {

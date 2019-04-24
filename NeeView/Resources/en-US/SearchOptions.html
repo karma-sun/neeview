@@ -101,6 +101,9 @@ blockquote {
     <tr><td>/m1, /word</td><td>WordMatch</td><td>Since we identify words by kind of letters, accuracy is not very good.</td></tr>
     <tr><td>/m2</td><td>Standard (default)</td><td></td></tr>
     <tr><td>/re</td><td>RegularExpression</td><td><a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference">.NE Regular Expression</a></td></tr>
+    <tr><td>/ire</td><td>RegularExpression / IgnoreCase</td><td>Perform regular expression search without case sensitivity.</td></tr>
+    <tr><td>/since</td><td>DateTime / Since</td><td>After specified date</td></tr>
+    <tr><td>/until</td><td>DateTime / Until</td><td>Before specified date</td></tr>
 </table>
     
 In case of Standard search or WordMatch search, it becomes ambiguous search as follows.
@@ -113,6 +116,18 @@ In case of Standard search or WordMatch search, it becomes ambiguous search as f
     <li>UNICODE normalization (NFKC).</li>
 </ul>
 
+<h3>DateTime format</h3>
+
+<p>
+    Normally, it is specified in the form "2019-04-01".
+    Because <a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/parsing-datetime">.NET date and time parsing</a> is used, you can specify other formats.<br/>
+    NOTE: The date designation "2019-04-01" is interpreted as "2019-04-01 00:00:00", so "/until 2019-04-01" does not include April 1.
+</p>
+
+<p>
+    In addition, "n days ago" is represented by specifying only integers.<br/>
+    "/since 5" means "within 5 days from the current time".
+</p>
 
 <h2>Example of use</h2>
 
@@ -131,6 +146,10 @@ ExactMatch search for "ABC DEF"
 "DEF" NOT-WordMatch search for "ABC" Standard search results
 
 <blockquote>ABC /not /word DEF</blockquote>
+
+Search for files updated in April 2019
+
+<blockquote>/since 2019-04-01 /until 2019-05-01</blockquote>
 
 </body>
 </html>

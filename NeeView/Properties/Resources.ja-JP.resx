@@ -4701,4 +4701,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamPictureProfileIsSvgEnabledTips" xml:space="preserve">
     <value>SVGファイルをページとして開きます。SusieプラグインでSVGを表示したいときはOFFにしてください。</value>
   </data>
+  <data name="NotifySearchKeywordDateTimeError" xml:space="preserve">
+    <value>不正な日時形式</value>
+  </data>
 </root>

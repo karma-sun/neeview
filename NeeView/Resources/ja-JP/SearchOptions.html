@@ -101,8 +101,12 @@ blockquote {
     <tr><td>/m1, /word</td><td>単語一致</td><td> 文字の種類で単語を識別しているので精度はあまりよくない</td></tr>
     <tr><td>/m2</td><td>標準 (デフォルト)</td><td></td></tr>
     <tr><td>/re</td><td>正規表現</td><td><a href="https://docs.microsoft.com/ja-jp/dotnet/standard/base-types/regular-expression-language-quick-reference">.NETの正規表現</a></td></tr>
+    <tr><td>/ire</td><td>正規表現・大文字小文字無効</td><td>大文字と小文字を区別しない正規表現検索を行う</td></tr>
+    <tr><td>/since</td><td>日時指定・以後</td><td>指定日時以後</td></tr>
+    <tr><td>/until</td><td>日時指定・以前</td><td>指定日時以前</td></tr>
 </table>
-    
+
+
 標準検索または単語一致検索の場合、以下のような曖昧検索になります。
 
 <ul>
@@ -113,6 +117,20 @@ blockquote {
     <li>UNICODE正規化(NFKC)を使用しています。(例："㌫" と "パーセント" は区別されない)</li>
 </ul>
 
+
+<h3>日時指定フォーマット</h3>
+
+<p>
+    通常は "2019-04-01" といった形式で指定します。
+    <a href="https://docs.microsoft.com/ja-jp/dotnet/standard/base-types/parsing-datetime">.NETの日時変換</a>を使用しているため、それ以外の形式でも指定可能です。<br/>
+    注意点として、"2019-04-01" という日にちの指定は "2019-04-01 00:00:00" と解釈されるため、"/until 2019-04-01" では4月1日は含まれません。<br/>
+</p>
+
+<p>
+    また、整数のみを指定することで「ｎ日前」を表します。<br/>
+    "/since 5" は「今の時刻から５日以内」という意味になります。
+</p>
+    
 
 <h2>使用例</h2>
 
@@ -131,6 +149,10 @@ blockquote {
 "ABC"標準検索結果に対する、"DEF"NOT単語検索
 
 <blockquote>ABC /not /word DEF</blockquote>
+
+2019年4月に更新されたファイルの検索
+
+<blockquote>/since 2019-04-01 /until 2019-05-01</blockquote>
 
 </body>
 </html>

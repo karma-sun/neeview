@@ -4701,4 +4701,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamPictureProfileIsSvgEnabledTips" xml:space="preserve">
     <value>Open an SVG file as a page. Please turn off when you want to display SVG with Susie plug-in.</value>
   </data>
+  <data name="NotifySearchKeywordDateTimeError" xml:space="preserve">
+    <value>Illegal date-time format</value>
+  </data>
 </root>

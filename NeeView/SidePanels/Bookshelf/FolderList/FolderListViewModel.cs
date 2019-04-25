@@ -306,7 +306,8 @@ namespace NeeView
         //
         private void ClearSearch_Executed()
         {
-            _model.SearchKeyword = "";
+            _model.InputKeyword = "";
+            _model.SetSearchKeywordAndSearch("");
         }
 
         private RelayCommand _AddQuickAccess;

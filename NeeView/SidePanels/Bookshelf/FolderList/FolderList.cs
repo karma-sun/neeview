@@ -3,6 +3,7 @@ using NeeLaboratory.IO.Search;
 using NeeView.Collections;
 using NeeView.Collections.Generic;
 using NeeView.Windows.Controls;
+using NeeView.Windows.Data;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
@@ -47,9 +48,9 @@ namespace NeeView
             this.Index = index;
         }
 
-        public QueryPath Path { get; set; }
+        public QueryPath Path { get; private set; }
         ////public QueryPath TargetPath { get; set; }
-        public int Index { get; set; }
+        public int Index { get; private set; }
     }
 
 
@@ -77,6 +78,11 @@ namespace NeeView
         /// </summary>
         private FolderSearchEngine _searchEngine;
 
+        /// <summary>
+        /// 検索キーワード
+        /// </summary>
+        private DelayValue<string> _searchKeyword;
+
         private CancellationTokenSource _updateFolderCancellationTokenSource;
         private CancellationTokenSource _cruiseFolderCancellationTokenSource;
 
@@ -90,6 +96,19 @@ namespace NeeView
 
             _searchEngine = new FolderSearchEngine();
             FolderCollectionFactory = new FolderCollectionFactory(_searchEngine, isOverlayEnabled);
+
+            _searchKeyword = new DelayValue<string>();
+            _searchKeyword.ValueChanged += (s, e) =>
+            {
+                if (IsIncrementalSearchEnabled)
+                {
+                    RequestSearchPlace(false);
+                }
+                else
+                {
+                    UpdateSearchKeywordErrorMessage();
+                }
+            };
 
             if (isSyncBookHub)
             {
@@ -332,27 +351,19 @@ namespace NeeView
         /// </summary>
         public bool IsIncrementalSearchEnabled { get; set; } = true;
 
+
         /// <summary>
-        /// 検索キーワード
+        /// 入力キーワード
         /// </summary>
-        private string _searchKeyword;
-        public string SearchKeyword
+        private string _inputKeyword;
+        public string InputKeyword
         {
-            get { return _searchKeyword; }
+            get { return _inputKeyword; }
             set
             {
-                if (_searchKeyword != value)
+                if (SetProperty(ref _inputKeyword, value))
                 {
-                    _searchKeyword = value;
-                    RaisePropertyChanged();
-                    if (IsIncrementalSearchEnabled)
-                    {
-                        RequestSearchPlace(false);
-                    }
-                    else
-                    {
-                        UpdateSearchKeywordErrorMessage();
-                    }
+                    SetSearchKeywordDelay(_inputKeyword);
                 }
             }
         }
@@ -514,6 +525,31 @@ namespace NeeView
         #endregion
 
         #region Methods
+
+        // 検索キーワード即時反映
+        public void SetSearchKeyword(string keyword)
+        {
+            _searchKeyword.SetValue(keyword, 0, true);
+        }
+
+        // 検索キーワード遅延反映
+        public void SetSearchKeywordDelay(string keyword)
+        {
+            _searchKeyword.SetValue(keyword, 500);
+        }
+
+        public void SetSearchKeywordAndSearch(string keyword)
+        {
+            SetSearchKeyword(keyword);
+
+            // 検索を重複させないための処置
+            if (!IsIncrementalSearchEnabled)
+            {
+                RequestSearchPlace(false);
+            }
+
+            UpdateSearchHistory();
+        }
 
         private void RaiseCollectionChanged()
         {
@@ -745,8 +781,9 @@ namespace NeeView
                     if (Place.Search != GetFixedSearchKeyword())
                     {
                         UpdateSearchHistory();
-                        _searchKeyword = Place.Search;
-                        RaisePropertyChanged(nameof(SearchKeyword));
+                        // 入力文字のみ更新
+                        _inputKeyword = Place.Search;
+                        RaisePropertyChanged(nameof(InputKeyword));
                     }
 
                     PlaceChanged?.Invoke(this, null);
@@ -906,7 +943,7 @@ namespace NeeView
         /// </summary>
         private string GetFixedSearchKeyword()
         {
-            return _searchKeyword?.Trim();
+            return _searchKeyword.Value?.Trim();
         }
 
         /// <summary>

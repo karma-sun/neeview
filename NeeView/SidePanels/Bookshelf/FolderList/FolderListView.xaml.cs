@@ -190,7 +190,7 @@ namespace NeeView
 
             if (e.Key == Key.Enter)
             {
-                _vm.Model.RequestSearchPlace(false);
+                _vm.Model.SetSearchKeywordAndSearch(this.SearchBox.Text);
             }
         }
 
@@ -307,6 +307,14 @@ namespace NeeView
         }
 
         #endregion
+
+        private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (e.OriginalSource is TextBox textBox)
+            {
+                _vm.Model.SetSearchKeywordDelay(textBox.Text);
+            }
+        }
     }
 
 

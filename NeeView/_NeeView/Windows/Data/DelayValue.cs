@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Threading;
 
@@ -49,7 +50,7 @@ namespace NeeView.Windows.Data
         /// 値が反映されたときのイベント
         /// </summary>
         public event EventHandler ValueChanged;
-        
+
         #endregion
 
         #region Properties
@@ -60,7 +61,7 @@ namespace NeeView.Windows.Data
         public T Value
         {
             get { return _value; }
-            set { SetValue(value, 0); }
+            set { SetValue(value, 0, true); }
         }
         #endregion
 
@@ -75,7 +76,7 @@ namespace NeeView.Windows.Data
         /// <param name="isForce">同じ値でも実行する</param>
         public void SetValue(T value, double ms = 0.0, bool isForce = false)
         {
-            if (!isForce && _delayValue.Equals(value)) return;
+            if (!isForce && EqualityComparer<T>.Default.Equals(_delayValue, value)) return;
 
             _delayValue = value;
 
@@ -97,7 +98,7 @@ namespace NeeView.Windows.Data
         {
             _timer.Stop();
 
-            if (!_delayValue.Equals(_value))
+            if (!EqualityComparer<T>.Default.Equals(_delayValue, _value))
             {
                 _value = _delayValue;
                 ValueChanged?.Invoke(this, null);

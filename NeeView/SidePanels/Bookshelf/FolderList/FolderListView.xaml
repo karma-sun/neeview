@@ -255,7 +255,8 @@
                             </ContextMenu>
                         </Button.ContextMenu>
                     </Button>
-                    <ComboBox x:Name="SearchBox" Text="{Binding Model.SearchKeyword, Delay=500, UpdateSourceTrigger=PropertyChanged}" TabIndex="1"
+                    <ComboBox x:Name="SearchBox" Text="{Binding Model.InputKeyword, UpdateSourceTrigger=PropertyChanged}" TabIndex="1"
+                              TextBoxBase.TextChanged="SearchBox_TextChanged"
                               Style="{StaticResource NVComboBoxEditable}"
                               IsKeyboardFocusWithinChanged="SearchBox_IsKeyboardFocusWithinChanged"
                               Foreground="{DynamicResource NVForeground}" Background="{DynamicResource NVBaseBrush}"

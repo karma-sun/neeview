@@ -132,6 +132,9 @@
   <data name="ArchiveFormatPdf" xml:space="preserve">
     <value>PDF</value>
   </data>
+  <data name="ArchiveFormatPlaylist" xml:space="preserve">
+    <value>Playlist</value>
+  </data>
   <data name="ArchiveFormatUnknown" xml:space="preserve">
     <value>Unknown format</value>
   </data>
@@ -1062,17 +1065,35 @@
   <data name="CommandToggleIsAutoRotate" xml:space="preserve">
     <value>Toggle auto rotation</value>
   </data>
-  <data name="CommandToggleIsAutoRotateMenu" xml:space="preserve">
-    <value>Auto rotate</value>
+  <data name="CommandToggleIsAutoRotateLeft" xml:space="preserve">
+    <value>Toggle auto left rotation</value>
   </data>
-  <data name="CommandToggleIsAutoRotateNote" xml:space="preserve">
-    <value>When displaying the page, rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees.</value>
+  <data name="CommandToggleIsAutoRotateLeftMenu" xml:space="preserve">
+    <value>Auto left rotate</value>
   </data>
-  <data name="CommandToggleIsAutoRotateOff" xml:space="preserve">
-    <value>Auto rotate OFF</value>
+  <data name="CommandToggleIsAutoRotateLeftNote" xml:space="preserve">
+    <value>When displaying the page, left rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees.</value>
   </data>
-  <data name="CommandToggleIsAutoRotateOn" xml:space="preserve">
-    <value>Auto rotate</value>
+  <data name="CommandToggleIsAutoRotateLeftOff" xml:space="preserve">
+    <value>Auto left rotate OFF</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateLeftOn" xml:space="preserve">
+    <value>Auto left rotate</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateRight" xml:space="preserve">
+    <value>Toggle auto rithg rotation</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateRightMenu" xml:space="preserve">
+    <value>Auto right rotate</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateRightNote" xml:space="preserve">
+    <value>When displaying the page, right rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees.</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateRightOff" xml:space="preserve">
+    <value>Auto right rotate OFF</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateRightOn" xml:space="preserve">
+    <value>Auto right rotate</value>
   </data>
   <data name="CommandToggleIsEnabledNearestNeighbor" xml:space="preserve">
     <value>Toggle keep dot</value>
@@ -1626,6 +1647,9 @@
   <data name="ControlAddressBarReLoad" xml:space="preserve">
     <value>Reload</value>
   </data>
+  <data name="ControlAddressBarUnload" xml:space="preserve">
+    <value>Close</value>
+  </data>
   <data name="ControlAddressBarUp" xml:space="preserve">
     <value>Up</value>
   </data>
@@ -1949,6 +1973,9 @@ The following data will be deleted
   <data name="DialogExportErrorTitle" xml:space="preserve">
     <value>Export failed</value>
   </data>
+  <data name="DialogExportPlaylistFailedTitle" xml:space="preserve">
+    <value>Failed to save playlist</value>
+  </data>
   <data name="DialogExportTitle" xml:space="preserve">
     <value>Export all settings</value>
   </data>
@@ -2161,6 +2188,9 @@ Is it OK? </value>
   <data name="EnumDragActionTypeAngle" xml:space="preserve">
     <value>Rotation</value>
   </data>
+  <data name="EnumDragActionTypeAngleSlider" xml:space="preserve">
+    <value>Rotation (horizontal slide)</value>
+  </data>
   <data name="EnumDragActionTypeFlipHorizontal" xml:space="preserve">
     <value>Flip horizontal</value>
   </data>
@@ -2187,6 +2217,15 @@ Is it OK? </value>
   </data>
   <data name="EnumDragActionTypeWindowMove" xml:space="preserve">
     <value>Move window</value>
+  </data>
+  <data name="EnumDragControlCenterCursor" xml:space="preserve">
+    <value>Cursor position</value>
+  </data>
+  <data name="EnumDragControlCenterTarget" xml:space="preserve">
+    <value>Image center</value>
+  </data>
+  <data name="EnumDragControlCenterView" xml:space="preserve">
+    <value>View center</value>
   </data>
   <data name="EnumEffectTypeBloom" xml:space="preserve">
     <value>Bloom</value>
@@ -2809,6 +2848,9 @@ Initialize the cache location.</value>
   <data name="NotifyRemoveUnlinkedPagemark" xml:space="preserve">
     <value>{0} pagemarks deleted.</value>
   </data>
+  <data name="NotifySearchKeywordDateTimeError" xml:space="preserve">
+    <value>Illegal date-time format</value>
+  </data>
   <data name="NotifySearchKeywordOptionError" xml:space="preserve">
     <value>Illegal option: {0}</value>
   </data>
@@ -3119,9 +3161,6 @@ Initialize the temporary location.</value>
   <data name="ParamCommandIsReversePageMoveWheelTips" xml:space="preserve">
     <value>You can select correspondence only for wheel operation.</value>
   </data>
-  <data name="ParamCommandParameterAutoRotateOrientation" xml:space="preserve">
-    <value>Direction of rotation</value>
-  </data>
   <data name="ParamCommandParameterMovePagemarkIncludeTerminal" xml:space="preserve">
     <value>Include the first and last pages</value>
   </data>
@@ -3239,11 +3278,14 @@ Initialize the temporary location.</value>
   <data name="ParamDragTransformAngleFrequency" xml:space="preserve">
     <value>Rotating Snap</value>
   </data>
-  <data name="ParamDragTransformIsControlCenterImage" xml:space="preserve">
-    <value>Rotate, scaling, and invert the criteria as the center of the image</value>
+  <data name="ParamDragTransformIsControlFlipCenter" xml:space="preserve">
+    <value>Center of flip</value>
   </data>
-  <data name="ParamDragTransformIsControlCenterImageTips" xml:space="preserve">
-    <value>When set to OFF, the center of the display is used as the reference.</value>
+  <data name="ParamDragTransformIsControlScaleCenter" xml:space="preserve">
+    <value>Center of scaling</value>
+  </data>
+  <data name="ParamDragTransformIsControRotatelCenter" xml:space="preserve">
+    <value>Center of rotation</value>
   </data>
   <data name="ParamDragTransformIsKeepAngle" xml:space="preserve">
     <value>Keeping rotation even if you change the page</value>
@@ -3481,6 +3523,9 @@ Initialize the temporary location.</value>
   </data>
   <data name="ParamIsHamburgerMenu" xml:space="preserve">
     <value>Use the hamburger menu</value>
+  </data>
+  <data name="ParamIsHiddenFileVisibled" xml:space="preserve">
+    <value>Show hidden files</value>
   </data>
   <data name="ParamIsHidePageSliderInFullscreen" xml:space="preserve">
     <value>Automatically hide the slider when it is full screen</value>
@@ -3770,11 +3815,20 @@ Initialize the temporary location.</value>
   <data name="ParamPictureProfileIsMagicScaleSimdEnabled" xml:space="preserve">
     <value>Use SIMD for resize filtering</value>
   </data>
+  <data name="ParamPictureProfileIsSvgEnabled" xml:space="preserve">
+    <value>Enable SVG file</value>
+  </data>
+  <data name="ParamPictureProfileIsSvgEnabledTips" xml:space="preserve">
+    <value>Open an SVG file as a page. Please turn off when you want to display SVG with Susie plug-in.</value>
+  </data>
   <data name="ParamPictureProfileMaximumSize" xml:space="preserve">
     <value>Maximum image size</value>
   </data>
   <data name="ParamPictureProfileMaximumSizeTips" xml:space="preserve">
     <value>This is the maximum image size enlarged by the resize filter.</value>
+  </data>
+  <data name="ParamPictureProfileSvgExtensions" xml:space="preserve">
+    <value>SVG file extensions</value>
   </data>
   <data name="ParamPreLoadSize" xml:space="preserve">
     <value>Read ahead page size</value>
@@ -4350,9 +4404,6 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="SettingPageVisualSlider" xml:space="preserve">
     <value>Slider</value>
   </data>
-  <data name="SettingPageVisualSliderSlider" xml:space="preserve">
-    <value>Slider</value>
-  </data>
   <data name="SettingPageVisualSliderVisual" xml:space="preserve">
     <value>Visual</value>
   </data>
@@ -4376,9 +4427,6 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   </data>
   <data name="SettingPageVisualThumbnailCacheClearTips" xml:space="preserve">
     <value>Clear thumbnail cache</value>
-  </data>
-  <data name="SettingPageVisualThumbnailPanel" xml:space="preserve">
-    <value>List item thumbnail</value>
   </data>
   <data name="SettingPageVisualWindowTitile" xml:space="preserve">
     <value>Window title</value>
@@ -4554,6 +4602,9 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordPlay" xml:space="preserve">
     <value>Play</value>
   </data>
+  <data name="WordPlaylist" xml:space="preserve">
+    <value>Playlist</value>
+  </data>
   <data name="WordQuickAccess" xml:space="preserve">
     <value>Quick access</value>
   </data>
@@ -4625,83 +4676,5 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="WordYes" xml:space="preserve">
     <value>Yes</value>
-  </data>
-  <data name="EnumDragControlCenterView" xml:space="preserve">
-    <value>View center</value>
-  </data>
-  <data name="EnumDragControlCenterTarget" xml:space="preserve">
-    <value>Image center</value>
-  </data>
-  <data name="EnumDragControlCenterCursor" xml:space="preserve">
-    <value>Cursor position</value>
-  </data>
-  <data name="ParamDragTransformIsControRotatelCenter" xml:space="preserve">
-    <value>Center of rotation</value>
-  </data>
-  <data name="ParamDragTransformIsControlScaleCenter" xml:space="preserve">
-    <value>Center of scaling</value>
-  </data>
-  <data name="ParamDragTransformIsControlFlipCenter" xml:space="preserve">
-    <value>Center of flip</value>
-  </data>
-  <data name="EnumDragActionTypeAngleSlider" xml:space="preserve">
-    <value>Rotation (horizontal slide)</value>
-  </data>
-  <data name="ArchiveFormatPlaylist" xml:space="preserve">
-    <value>Playlist</value>
-  </data>
-  <data name="WordPlaylist" xml:space="preserve">
-    <value>Playlist</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateRight" xml:space="preserve">
-    <value>Toggle auto rithg rotation</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateRightMenu" xml:space="preserve">
-    <value>Auto right rotate</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateRightNote" xml:space="preserve">
-    <value>When displaying the page, right rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees.</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateRightOff" xml:space="preserve">
-    <value>Auto right rotate OFF</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateRightOn" xml:space="preserve">
-    <value>Auto right rotate</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateLeft" xml:space="preserve">
-    <value>Toggle auto left rotation</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateLeftMenu" xml:space="preserve">
-    <value>Auto left rotate</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateLeftNote" xml:space="preserve">
-    <value>When displaying the page, left rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees.</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateLeftOff" xml:space="preserve">
-    <value>Auto left rotate OFF</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateLeftOn" xml:space="preserve">
-    <value>Auto left rotate</value>
-  </data>
-  <data name="ParamIsHiddenFileVisibled" xml:space="preserve">
-    <value>Show hidden files</value>
-  </data>
-  <data name="ControlAddressBarUnload" xml:space="preserve">
-    <value>Close</value>
-  </data>
-  <data name="DialogExportPlaylistFailedTitle" xml:space="preserve">
-    <value>Failed to save playlist</value>
-  </data>
-  <data name="ParamPictureProfileSvgExtensions" xml:space="preserve">
-    <value>SVG file extensions</value>
-  </data>
-  <data name="ParamPictureProfileIsSvgEnabled" xml:space="preserve">
-    <value>Enable SVG file</value>
-  </data>
-  <data name="ParamPictureProfileIsSvgEnabledTips" xml:space="preserve">
-    <value>Open an SVG file as a page. Please turn off when you want to display SVG with Susie plug-in.</value>
-  </data>
-  <data name="NotifySearchKeywordDateTimeError" xml:space="preserve">
-    <value>Illegal date-time format</value>
   </data>
 </root>

@@ -1115,7 +1115,7 @@ namespace NeeView
                 var element = new CommandElement();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandViewScaleDown;
-                element.Note = Properties.Resources.CommandViewScaleDown;
+                element.Note = Properties.Resources.CommandViewScaleDownNote;
                 element.ShortCutKey = "RightButton+WheelDown";
                 element.IsShowMessage = false;
                 element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.ViewScaleUp };

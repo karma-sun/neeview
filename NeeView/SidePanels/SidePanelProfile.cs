@@ -199,7 +199,7 @@ namespace NeeView
 
 
 
-        [PropertyRange("@ParamListItemContentImageWidth", 0, 256, TickFrequency = 8, Format = "{0}×{0}")]
+        [PropertyRange("@ParamListItemContentImageWidth", 0, 256, TickFrequency = 8, Format = "{0}×{0}", Tips = "@ParamListItemContentImageWidthTips")]
         public int ContentItemImageWidth
         {
             get { return _contentItemProfile.ImageWidth; }
@@ -227,7 +227,7 @@ namespace NeeView
             set { _contentItemProfile.IsTextWrapped = value; }
         }
 
-        [PropertyRange("@ParamListItemContentNoteOpacity", 0.0, 1.0)]
+        [PropertyRange("@ParamListItemContentNoteOpacity", 0.0, 1.0, Tips = "@ParamListItemContentNoteOpacityTips")]
         public double ContentItemNoteOpacity
         {
             get { return _contentItemProfile.NoteOpacity; }
@@ -257,7 +257,7 @@ namespace NeeView
         }
 
 
-        [PropertyRange("@ParamListItemThumbnailImageWidth", 64, 256, TickFrequency = 8, Format = "{0}×{0}")]
+        [PropertyRange("@ParamListItemThumbnailImageWidth", 64, 256, TickFrequency = 8, Format = "{0}×{0}", Tips = "@ParamListItemThumbnailImageWidthTips")]
         public int ThumbnailItemImageWidth
         {
             get { return _thumbnailItemProfile.ImageWidth; }

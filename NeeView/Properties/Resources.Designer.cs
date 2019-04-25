@@ -2950,42 +2950,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Auto rotate に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsAutoRotateMenu {
-            get {
-                return ResourceManager.GetString("CommandToggleIsAutoRotateMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   When displaying the page, rotate the portrait image 90 degrees. If the window is portrait, rotate horizontally long image by 90 degrees. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsAutoRotateNote {
-            get {
-                return ResourceManager.GetString("CommandToggleIsAutoRotateNote", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Auto rotate OFF に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsAutoRotateOff {
-            get {
-                return ResourceManager.GetString("CommandToggleIsAutoRotateOff", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Auto rotate に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandToggleIsAutoRotateOn {
-            get {
-                return ResourceManager.GetString("CommandToggleIsAutoRotateOn", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Toggle auto rithg rotation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleIsAutoRotateRight {
@@ -9183,15 +9147,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Direction of rotation に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamCommandParameterAutoRotateOrientation {
-            get {
-                return ResourceManager.GetString("ParamCommandParameterAutoRotateOrientation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Include the first and last pages に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamCommandParameterMovePagemarkIncludeTerminal {
@@ -9539,24 +9494,6 @@ namespace NeeView.Properties {
         public static string ParamDragTransformAngleFrequency {
             get {
                 return ResourceManager.GetString("ParamDragTransformAngleFrequency", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Rotate, scaling, and invert the criteria as the center of the image に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamDragTransformIsControlCenterImage {
-            get {
-                return ResourceManager.GetString("ParamDragTransformIsControlCenterImage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   When set to OFF, the center of the display is used as the reference. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamDragTransformIsControlCenterImageTips {
-            get {
-                return ResourceManager.GetString("ParamDragTransformIsControlCenterImageTips", resourceCulture);
             }
         }
         
@@ -12937,15 +12874,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Slider に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string SettingPageVisualSliderSlider {
-            get {
-                return ResourceManager.GetString("SettingPageVisualSliderSlider", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Visual に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageVisualSliderVisual {
@@ -13014,15 +12942,6 @@ namespace NeeView.Properties {
         public static string SettingPageVisualThumbnailCacheClearTips {
             get {
                 return ResourceManager.GetString("SettingPageVisualThumbnailCacheClearTips", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   List item thumbnail に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string SettingPageVisualThumbnailPanel {
-            get {
-                return ResourceManager.GetString("SettingPageVisualThumbnailPanel", resourceCulture);
             }
         }
         

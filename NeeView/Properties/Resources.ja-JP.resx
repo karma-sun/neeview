@@ -132,6 +132,9 @@
   <data name="ArchiveFormatPdf" xml:space="preserve">
     <value>PDF形式</value>
   </data>
+  <data name="ArchiveFormatPlaylist" xml:space="preserve">
+    <value>プレイリスト形式</value>
+  </data>
   <data name="ArchiveFormatUnknown" xml:space="preserve">
     <value>未知の形式</value>
   </data>
@@ -1062,17 +1065,35 @@
   <data name="CommandToggleIsAutoRotate" xml:space="preserve">
     <value>自動回転ON/OFF</value>
   </data>
-  <data name="CommandToggleIsAutoRotateMenu" xml:space="preserve">
-    <value>自動回転</value>
+  <data name="CommandToggleIsAutoRotateLeft" xml:space="preserve">
+    <value>自動左回転ON/OFF</value>
   </data>
-  <data name="CommandToggleIsAutoRotateNote" xml:space="preserve">
-    <value>ページ表示時、縦長画像を90度回転します。ウィンドウが縦長の場合、横長画像を90度回転します。</value>
+  <data name="CommandToggleIsAutoRotateLeftMenu" xml:space="preserve">
+    <value>自動左回転</value>
   </data>
-  <data name="CommandToggleIsAutoRotateOff" xml:space="preserve">
-    <value>自動回転OFF</value>
+  <data name="CommandToggleIsAutoRotateLeftNote" xml:space="preserve">
+    <value>ページ表示時、縦長画像を90度左回転します。ウィンドウが縦長の場合、横長画像を90度回転します。</value>
   </data>
-  <data name="CommandToggleIsAutoRotateOn" xml:space="preserve">
-    <value>自動回転ON</value>
+  <data name="CommandToggleIsAutoRotateLeftOff" xml:space="preserve">
+    <value>自動左回転OFF</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateLeftOn" xml:space="preserve">
+    <value>自動左回転ON</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateRight" xml:space="preserve">
+    <value>自動右回転ON/OFF</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateRightMenu" xml:space="preserve">
+    <value>自動右回転</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateRightNote" xml:space="preserve">
+    <value>ページ表示時、縦長画像を90度右回転します。ウィンドウが縦長の場合、横長画像を90度回転します。</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateRightOff" xml:space="preserve">
+    <value>自動右回転OFF</value>
+  </data>
+  <data name="CommandToggleIsAutoRotateRightOn" xml:space="preserve">
+    <value>自動右回転ON</value>
   </data>
   <data name="CommandToggleIsEnabledNearestNeighbor" xml:space="preserve">
     <value>ドットのまま拡大ON/OFF</value>
@@ -1626,6 +1647,9 @@
   <data name="ControlAddressBarReLoad" xml:space="preserve">
     <value>再読込</value>
   </data>
+  <data name="ControlAddressBarUnload" xml:space="preserve">
+    <value>閉じる</value>
+  </data>
   <data name="ControlAddressBarUp" xml:space="preserve">
     <value>上へ</value>
   </data>
@@ -1949,6 +1973,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="DialogExportErrorTitle" xml:space="preserve">
     <value>エクスポートに失敗しました</value>
   </data>
+  <data name="DialogExportPlaylistFailedTitle" xml:space="preserve">
+    <value>プレイリストの保存に失敗しました</value>
+  </data>
   <data name="DialogExportTitle" xml:space="preserve">
     <value>全設定をエクスポート</value>
   </data>
@@ -2161,6 +2188,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="EnumDragActionTypeAngle" xml:space="preserve">
     <value>回転</value>
   </data>
+  <data name="EnumDragActionTypeAngleSlider" xml:space="preserve">
+    <value>回転(スライド式)</value>
+  </data>
   <data name="EnumDragActionTypeFlipHorizontal" xml:space="preserve">
     <value>左右反転</value>
   </data>
@@ -2187,6 +2217,15 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="EnumDragActionTypeWindowMove" xml:space="preserve">
     <value>ウィンドウ移動</value>
+  </data>
+  <data name="EnumDragControlCenterCursor" xml:space="preserve">
+    <value>カーソル位置</value>
+  </data>
+  <data name="EnumDragControlCenterTarget" xml:space="preserve">
+    <value>画像の中心</value>
+  </data>
+  <data name="EnumDragControlCenterView" xml:space="preserve">
+    <value>表示の中心</value>
   </data>
   <data name="EnumEffectTypeBloom" xml:space="preserve">
     <value>ブルーム</value>
@@ -2809,6 +2848,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="NotifyRemoveUnlinkedPagemark" xml:space="preserve">
     <value>{0} 個のページマークを削除しました。</value>
   </data>
+  <data name="NotifySearchKeywordDateTimeError" xml:space="preserve">
+    <value>不正な日時形式</value>
+  </data>
   <data name="NotifySearchKeywordOptionError" xml:space="preserve">
     <value>不正オプション: {0}</value>
   </data>
@@ -3119,9 +3161,6 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamCommandIsReversePageMoveWheelTips" xml:space="preserve">
     <value>ホイール操作のみ対応の選択ができます。</value>
   </data>
-  <data name="ParamCommandParameterAutoRotateOrientation" xml:space="preserve">
-    <value>回転方向</value>
-  </data>
   <data name="ParamCommandParameterMovePagemarkIncludeTerminal" xml:space="preserve">
     <value>最初と最後のページを含める</value>
   </data>
@@ -3239,11 +3278,14 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamDragTransformAngleFrequency" xml:space="preserve">
     <value>回転スナップ</value>
   </data>
-  <data name="ParamDragTransformIsControlCenterImage" xml:space="preserve">
-    <value>回転、拡大縮小、反転の基準を画像の中心にする</value>
+  <data name="ParamDragTransformIsControlFlipCenter" xml:space="preserve">
+    <value>反転の中心</value>
   </data>
-  <data name="ParamDragTransformIsControlCenterImageTips" xml:space="preserve">
-    <value>OFFにすると表示の中心を基準にします。</value>
+  <data name="ParamDragTransformIsControlScaleCenter" xml:space="preserve">
+    <value>拡大縮小の中心</value>
+  </data>
+  <data name="ParamDragTransformIsControRotatelCenter" xml:space="preserve">
+    <value>回転の中心</value>
   </data>
   <data name="ParamDragTransformIsKeepAngle" xml:space="preserve">
     <value>ページを変更しても回転を維持する</value>
@@ -3481,6 +3523,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="ParamIsHamburgerMenu" xml:space="preserve">
     <value>ハンバーガーメニューを使う</value>
+  </data>
+  <data name="ParamIsHiddenFileVisibled" xml:space="preserve">
+    <value>隠しファイルを表示する</value>
   </data>
   <data name="ParamIsHidePageSliderInFullscreen" xml:space="preserve">
     <value>フルスクリーンのときにスライダーを自動的に隠す</value>
@@ -3770,11 +3815,20 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamPictureProfileIsMagicScaleSimdEnabled" xml:space="preserve">
     <value>リサイズフィルター処理にSIMDを使用する</value>
   </data>
+  <data name="ParamPictureProfileIsSvgEnabled" xml:space="preserve">
+    <value>SVGファイルを有効にする</value>
+  </data>
+  <data name="ParamPictureProfileIsSvgEnabledTips" xml:space="preserve">
+    <value>SVGファイルをページとして開きます。SusieプラグインでSVGを表示したいときはOFFにしてください。</value>
+  </data>
   <data name="ParamPictureProfileMaximumSize" xml:space="preserve">
     <value>最大画像サイズ</value>
   </data>
   <data name="ParamPictureProfileMaximumSizeTips" xml:space="preserve">
     <value>リサイズフィルターで拡大される最大画像サイズです。</value>
+  </data>
+  <data name="ParamPictureProfileSvgExtensions" xml:space="preserve">
+    <value>SVGファイルの拡張子</value>
   </data>
   <data name="ParamPreLoadSize" xml:space="preserve">
     <value>先読みページ数</value>
@@ -4350,9 +4404,6 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   <data name="SettingPageVisualSlider" xml:space="preserve">
     <value>スライダー</value>
   </data>
-  <data name="SettingPageVisualSliderSlider" xml:space="preserve">
-    <value>スライダー</value>
-  </data>
   <data name="SettingPageVisualSliderVisual" xml:space="preserve">
     <value>表示</value>
   </data>
@@ -4376,9 +4427,6 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   </data>
   <data name="SettingPageVisualThumbnailCacheClearTips" xml:space="preserve">
     <value>サムネイルキャッシュを削除する</value>
-  </data>
-  <data name="SettingPageVisualThumbnailPanel" xml:space="preserve">
-    <value>リスト項目のサムネイル</value>
   </data>
   <data name="SettingPageVisualWindowTitile" xml:space="preserve">
     <value>ウィンドウタイトル</value>
@@ -4554,6 +4602,9 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordPlay" xml:space="preserve">
     <value>再生</value>
   </data>
+  <data name="WordPlaylist" xml:space="preserve">
+    <value>プレイリスト</value>
+  </data>
   <data name="WordQuickAccess" xml:space="preserve">
     <value>クイックアクセス</value>
   </data>
@@ -4625,83 +4676,5 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="WordYes" xml:space="preserve">
     <value>はい</value>
-  </data>
-  <data name="EnumDragControlCenterView" xml:space="preserve">
-    <value>表示の中心</value>
-  </data>
-  <data name="EnumDragControlCenterTarget" xml:space="preserve">
-    <value>画像の中心</value>
-  </data>
-  <data name="EnumDragControlCenterCursor" xml:space="preserve">
-    <value>カーソル位置</value>
-  </data>
-  <data name="ParamDragTransformIsControRotatelCenter" xml:space="preserve">
-    <value>回転の中心</value>
-  </data>
-  <data name="ParamDragTransformIsControlScaleCenter" xml:space="preserve">
-    <value>拡大縮小の中心</value>
-  </data>
-  <data name="ParamDragTransformIsControlFlipCenter" xml:space="preserve">
-    <value>反転の中心</value>
-  </data>
-  <data name="EnumDragActionTypeAngleSlider" xml:space="preserve">
-    <value>回転(スライド式)</value>
-  </data>
-  <data name="ArchiveFormatPlaylist" xml:space="preserve">
-    <value>プレイリスト形式</value>
-  </data>
-  <data name="WordPlaylist" xml:space="preserve">
-    <value>プレイリスト</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateRight" xml:space="preserve">
-    <value>自動右回転ON/OFF</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateRightMenu" xml:space="preserve">
-    <value>自動右回転</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateRightNote" xml:space="preserve">
-    <value>ページ表示時、縦長画像を90度右回転します。ウィンドウが縦長の場合、横長画像を90度回転します。</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateRightOff" xml:space="preserve">
-    <value>自動右回転OFF</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateRightOn" xml:space="preserve">
-    <value>自動右回転ON</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateLeft" xml:space="preserve">
-    <value>自動左回転ON/OFF</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateLeftMenu" xml:space="preserve">
-    <value>自動左回転</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateLeftNote" xml:space="preserve">
-    <value>ページ表示時、縦長画像を90度左回転します。ウィンドウが縦長の場合、横長画像を90度回転します。</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateLeftOff" xml:space="preserve">
-    <value>自動左回転OFF</value>
-  </data>
-  <data name="CommandToggleIsAutoRotateLeftOn" xml:space="preserve">
-    <value>自動左回転ON</value>
-  </data>
-  <data name="ParamIsHiddenFileVisibled" xml:space="preserve">
-    <value>隠しファイルを表示する</value>
-  </data>
-  <data name="ControlAddressBarUnload" xml:space="preserve">
-    <value>閉じる</value>
-  </data>
-  <data name="DialogExportPlaylistFailedTitle" xml:space="preserve">
-    <value>プレイリストの保存に失敗しました</value>
-  </data>
-  <data name="ParamPictureProfileSvgExtensions" xml:space="preserve">
-    <value>SVGファイルの拡張子</value>
-  </data>
-  <data name="ParamPictureProfileIsSvgEnabled" xml:space="preserve">
-    <value>SVGファイルを有効にする</value>
-  </data>
-  <data name="ParamPictureProfileIsSvgEnabledTips" xml:space="preserve">
-    <value>SVGファイルをページとして開きます。SusieプラグインでSVGを表示したいときはOFFにしてください。</value>
-  </data>
-  <data name="NotifySearchKeywordDateTimeError" xml:space="preserve">
-    <value>不正な日時形式</value>
   </data>
 </root>

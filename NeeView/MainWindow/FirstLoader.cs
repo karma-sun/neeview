@@ -10,6 +10,8 @@ namespace NeeView
         private string _bookPath;
         private string _folderPath;
         private bool _isFolderLink;
+        private BookLoadOption _bookLoadOptions;
+
 
         public void Load()
         {
@@ -44,6 +46,9 @@ namespace NeeView
                 path = BookHistoryCollection.Current.LastAddress;
                 if (path != null)
                 {
+                    _bookPath = path;
+                    _bookLoadOptions = BookLoadOption.Resume | BookLoadOption.IsBook;
+
                     if (_folderPath == null && BookHistoryCollection.Current.LastFolder != null)
                     {
                         // 前回開いていたフォルダーがブックマークであった場合、なるべくそのフォルダーをひらく
@@ -52,28 +57,23 @@ namespace NeeView
                             var node = BookmarkCollection.Current.FindNode(BookHistoryCollection.Current.LastFolder);
                             if (node != null && node.Select(e => e.Value).OfType<Bookmark>().Any(e => e.Place == path))
                             {
-                                _bookPath = path;
                                 _folderPath = BookHistoryCollection.Current.LastFolder;
                                 _isFolderLink = true;
                                 return;
                             }
                         }
-
                         // 前回開いていたフォルダーがプレイリストあった場合、なるべくそのフォルダーを開く
                         if (PlaylistArchive.IsSupportExtension(BookHistoryCollection.Current.LastFolder))
                         {
                             var playlist = PlaylistFile.Load(BookHistoryCollection.Current.LastFolder);
                             if (playlist.Items.Contains(path))
                             {
-                                _bookPath = path;
                                 _folderPath = BookHistoryCollection.Current.LastFolder;
                                 _isFolderLink = true;
                                 return;
                             }
                         }
                     }
-
-                    _bookPath = path;
                     return;
                 }
             }
@@ -106,7 +106,7 @@ namespace NeeView
         {
             if (_bookPath != null)
             {
-                BookHub.Current.RequestLoad(_bookPath, null, BookLoadOption.Resume | BookLoadOption.IsBook, _folderPath == null);
+                BookHub.Current.RequestLoad(_bookPath, null, _bookLoadOptions, _folderPath == null);
             }
         }
 

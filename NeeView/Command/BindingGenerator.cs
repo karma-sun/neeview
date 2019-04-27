@@ -8,115 +8,79 @@ using System.Windows.Data;
 
 namespace NeeView
 {
-    //
     public static class BindingGenerator
     {
-        private static StretchModeToBooleanConverter s_stretchModeToBooleanConverter = new StretchModeToBooleanConverter();
-        private static PageModeToBooleanConverter s_pageModeToBooleanConverter = new PageModeToBooleanConverter();
-        private static BookReadOrderToBooleanConverter s_bookReadOrderToBooleanConverter = new BookReadOrderToBooleanConverter();
-        private static BackgroundStyleToBooleanConverter s_backgroundStyleToBooleanConverter = new BackgroundStyleToBooleanConverter();
-        private static FolderOrderToBooleanConverter s_folderOrderToBooleanConverter = new FolderOrderToBooleanConverter();
-        private static SortModeToBooleanConverter s_sortModeToBooleanConverter = new SortModeToBooleanConverter();
-        private static AnytToFalseConverter _anyToFalseConverter = new AnytToFalseConverter();
+        private static readonly StretchModeToBooleanConverter _stretchModeToBooleanConverter = new StretchModeToBooleanConverter();
+        private static readonly PageModeToBooleanConverter _pageModeToBooleanConverter = new PageModeToBooleanConverter();
+        private static readonly BookReadOrderToBooleanConverter _bookReadOrderToBooleanConverter = new BookReadOrderToBooleanConverter();
+        private static readonly BackgroundStyleToBooleanConverter _backgroundStyleToBooleanConverter = new BackgroundStyleToBooleanConverter();
+        private static readonly FolderOrderToBooleanConverter _folderOrderToBooleanConverter = new FolderOrderToBooleanConverter();
+        private static readonly SortModeToBooleanConverter _sortModeToBooleanConverter = new SortModeToBooleanConverter();
+        private static readonly AnytToFalseConverter _anyToFalseConverter = new AnytToFalseConverter();
 
-        //
         public static Binding BindingBookHub(string path)
         {
             return new Binding(path) { Source = BookHub.Current };
         }
 
-        //
         public static Binding BindingBookSetting(string path)
         {
             return new Binding(nameof(BookSettingPresenter.LatestSetting) + "." + path) { Source = BookSettingPresenter.Current };
         }
 
-
-
-        //
         public static Binding StretchMode(PageStretchMode mode)
         {
             return new Binding(nameof(ContentCanvas.StretchMode))
             {
-                Converter = s_stretchModeToBooleanConverter,
+                Converter = _stretchModeToBooleanConverter,
                 ConverterParameter = mode.ToString(),
                 Source = ContentCanvas.Current
             };
         }
 
-        //
         public static Binding Background(BackgroundStyle mode)
         {
             return new Binding(nameof(ContentCanvasBrush.Background))
             {
-                Converter = s_backgroundStyleToBooleanConverter,
+                Converter = _backgroundStyleToBooleanConverter,
                 ConverterParameter = mode.ToString(),
                 Source = ContentCanvasBrush.Current
             };
         }
 
-
-        //
         public static Binding FolderOrder(FolderOrder mode)
         {
-            // TODO: 現状機能していない。FolderListから取得できるようにする
-            return new Binding(nameof(FolderList.FolderOrder))
+            return new Binding(nameof(BookshelfFolderList.FolderOrder))
             {
-                ////Converter = s_folderOrderToBooleanConverter,
-                Converter = _anyToFalseConverter,
+                Converter = _folderOrderToBooleanConverter,
                 ConverterParameter = mode.ToString(),
                 Mode = BindingMode.OneWay,
                 Source = BookshelfFolderList.Current
             };
         }
 
-
-        //
         public static Binding PageMode(PageMode mode)
         {
             var binding = BindingBookSetting(nameof(Book.Memento.PageMode));
-            binding.Converter = s_pageModeToBooleanConverter;
+            binding.Converter = _pageModeToBooleanConverter;
             binding.ConverterParameter = mode.ToString();
             return binding;
         }
 
-        //
         public static Binding BookReadOrder(PageReadOrder mode)
         {
             var binding = BindingBookSetting(nameof(Book.Memento.BookReadOrder));
-            binding.Converter = s_bookReadOrderToBooleanConverter;
+            binding.Converter = _bookReadOrderToBooleanConverter;
             binding.ConverterParameter = mode.ToString();
             return binding;
         }
 
-        //
         public static Binding SortMode(PageSortMode mode)
         {
             var binding = BindingBookSetting(nameof(Book.Memento.SortMode));
-            binding.Converter = s_sortModeToBooleanConverter;
+            binding.Converter = _sortModeToBooleanConverter;
             binding.ConverterParameter = mode.ToString();
             return binding;
-        }
-
-
-        //
-        public static Binding IsFlipHorizontal()
-        {
-            return new Binding("IsFlipHorizontal")
-            {
-                Source = MouseInput.Current.Drag,
-                Mode = BindingMode.OneWay
-            };
-        }
-
-        //
-        public static Binding IsFlipVertical()
-        {
-            return new Binding("IsFlipVertical")
-            {
-                Source = MouseInput.Current.Drag,
-                Mode = BindingMode.OneWay
-            };
         }
     }
 }

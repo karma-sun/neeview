@@ -1181,7 +1181,7 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandToggleViewFlipHorizontal;
                 element.Note = Properties.Resources.CommandToggleViewFlipHorizontalNote;
                 element.IsShowMessage = false;
-                element.CreateIsCheckedBinding = () => BindingGenerator.IsFlipHorizontal();
+                element.CreateIsCheckedBinding = () => new Binding(nameof(DragTransform.IsFlipHorizontal)) { Source = DragTransform.Current, Mode = BindingMode.OneWay };
                 element.Execute = (s, e) => DragTransformControl.Current.ToggleFlipHorizontal();
                 _elements[CommandType.ToggleViewFlipHorizontal] = element;
             }
@@ -1214,7 +1214,7 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandToggleViewFlipVertical;
                 element.Note = Properties.Resources.CommandToggleViewFlipVerticalNote;
                 element.IsShowMessage = false;
-                element.CreateIsCheckedBinding = () => BindingGenerator.IsFlipVertical();
+                element.CreateIsCheckedBinding = () => new Binding(nameof(DragTransform.IsFlipVertical)) { Source = DragTransform.Current, Mode = BindingMode.OneWay };
                 element.Execute = (s, e) => DragTransformControl.Current.ToggleFlipVertical();
                 _elements[CommandType.ToggleViewFlipVertical] = element;
             }

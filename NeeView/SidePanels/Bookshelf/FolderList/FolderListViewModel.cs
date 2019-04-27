@@ -148,14 +148,7 @@ namespace NeeView
         public Dictionary<FolderOrder, string> FolderOrderList
         {
             get { return _folderOrderList; }
-            set
-            {
-                if (SetProperty(ref _folderOrderList, value))
-                {
-                    // 新しいコンボボックスに追従させる
-                    RaisePropertyChanged(nameof(FolderOrder));
-                }
-            }
+            set { SetProperty(ref _folderOrderList, value); }
         }
 
         public FolderOrder FolderOrder
@@ -565,8 +558,6 @@ namespace NeeView
             UpdateFolderListBox();
             UpdateFolderOrerList();
 
-            FolderCollection?.FolderParameter.AddPropertyChanged(nameof(FolderParameter.FolderOrder),
-                (s, e_) => RaisePropertyChanged(nameof(FolderOrder)));
         }
 
         public void UpdateFolderListBox()
@@ -580,6 +571,7 @@ namespace NeeView
         public void UpdateFolderOrerList()
         {
             FolderOrderList = FolderCollection.FolderOrderClass.GetFolderOrderMap();
+            RaisePropertyChanged(nameof(FolderOrder));
         }
 
         /// <summary>
@@ -614,6 +606,6 @@ namespace NeeView
             }
         }
 
-        #endregion Methods
+#endregion Methods
     }
 }

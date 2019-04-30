@@ -101,7 +101,7 @@ namespace NeeView
                 window.Topmost = temp;
 
                 // パスの指定があれば開く
-                if (command.Args != null)
+                if (command.Args != null && command.Args[0] != null)
                 {
                     PlaylistBookLoader.Load(command.Args, true);
                 }

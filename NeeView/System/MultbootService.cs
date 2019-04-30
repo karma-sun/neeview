@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -49,21 +50,33 @@ namespace NeeView
         {
             var processName = currentProcess.ProcessName;
 
+            for (int retry = 0; retry < 2; ++retry)
+            {
 #if DEBUG
-            var processes = Process.GetProcessesByName(processName)
-                .Concat(Process.GetProcessesByName(Path.GetFileNameWithoutExtension(currentProcess.ProcessName)))
-                .ToList();
+                var processes = Process.GetProcessesByName(processName)
+                    .Concat(Process.GetProcessesByName(Path.GetFileNameWithoutExtension(currentProcess.ProcessName)))
+                    .ToList();
 #else
-            var processes = Process.GetProcessesByName(processName)
-                .ToList();
+                var processes = Process.GetProcessesByName(processName)
+                    .ToList();
 #endif
+                try
+                {
+                    // 自身以外の最も新しいプロセスをターゲットにする
+                    var serverProcess = processes
+                        .OrderByDescending((p) => p.StartTime)
+                        .FirstOrDefault((p) => p.Id != currentProcess.Id);
 
-            // 自身以外の最も新しいプロセスをターゲットにする
-            var serverProcess = processes
-                .OrderByDescending((p) => p.StartTime)
-                .FirstOrDefault((p) => p.Id != currentProcess.Id);
+                    return serverProcess;
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                    Thread.Sleep(500);
+                }
+            }
 
-            return serverProcess;
+            return null;
         }
 
         /// <summary>

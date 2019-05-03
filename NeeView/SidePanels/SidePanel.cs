@@ -133,6 +133,7 @@ namespace NeeView
         {
             RaisePropertyChanged(nameof(IsVisibleFolderList));
             RaisePropertyChanged(nameof(IsVisibleHistoryList));
+            RaisePropertyChanged(nameof(IsVisibleBookmarkList));
             RaisePropertyChanged(nameof(IsVisiblePagemarkList));
             RaisePropertyChanged(nameof(IsVisiblePageList));
             RaisePropertyChanged(nameof(IsVisibleFileInfo));

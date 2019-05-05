@@ -7,12 +7,9 @@
 ## 開発環境
 
 * Windows 10 Pro 64bit
-* VisualStudio 2017 Community  
+* VisualStudio 2019
     - .Net デスクトップ開発
-        - (追加) .Net Framework 4.7.2 開発ツール
     - C++によるデスクトップ開発
-    - 個別のコンポーネント
-        - Blend for Visual Studio SDK for .NET
 
 ## Gitリポジトリからのプロジェクト取得
 

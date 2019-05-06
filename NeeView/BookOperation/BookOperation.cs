@@ -439,7 +439,7 @@ namespace NeeView
         #region BookCommand : ページ操作
 
         // ページ終端を超えて移動しようとするときの処理
-        private async void Book_PageTerminated(object sender, PageTerminatedEventArgs e)
+        private void Book_PageTerminated(object sender, PageTerminatedEventArgs e)
         {
             // TODO ここでSlideShowを参照しているが、引数で渡すべきでは？
             if (SlideShow.Current.IsPlayingSlideShow && SlideShow.Current.IsSlideShowByLoop)

@@ -464,14 +464,17 @@ namespace NeeView
             }
             else if (this.PageEndAction == PageEndAction.NextFolder)
             {
-                if (e.Direction < 0)
+                AppDispatcher.Invoke(async () =>
                 {
-                    await BookshelfFolderList.Current.PrevFolder(BookLoadOption.LastPage);
-                }
-                else
-                {
-                    await BookshelfFolderList.Current.NextFolder(BookLoadOption.FirstPage);
-                }
+                    if (e.Direction < 0)
+                    {
+                        await BookshelfFolderList.Current.PrevFolder(BookLoadOption.LastPage);
+                    }
+                    else
+                    {
+                        await BookshelfFolderList.Current.NextFolder(BookLoadOption.FirstPage);
+                    }
+                });
             }
             else
             {

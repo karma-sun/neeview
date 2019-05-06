@@ -2,6 +2,15 @@
 
 ----
 
+## 34.1
+(2019-05-07)
+
+### Bug fixes
+
+- Fixed a bug that caused an error when moving a book by page feed.
+
+----
+
 ## 34.0
 (2019-05-06)
 

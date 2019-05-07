@@ -535,6 +535,13 @@ namespace NeeView
             Debug.WriteLine($"MainWndow.Loaded: {sw.ElapsedMilliseconds}ms");
         }
 
+        // HookProc登録
+        // NOTE: このオーバーライド形式でないとWindowChromeの反映がおかしくなる
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+            WindowShape.Current.SetHook();
+        }
 
         // ウィンドウコンテンツ表示開始
         private void MainWindow_ContentRendered(object sender, EventArgs e)

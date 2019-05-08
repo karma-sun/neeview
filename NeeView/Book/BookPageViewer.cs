@@ -294,13 +294,15 @@ namespace NeeView
             _ahead.Order(aheadPages);
 
             UpdateIsBusy();
+            _contentGenerater.UpdateNextContents();
 
             using (var loadWaitCancellation = new CancellationTokenSource())
             using (var linkedTokenSource = CancellationTokenSource.CreateLinkedTokenSource(token, loadWaitCancellation.Token))
             {
                 // wait load (max 5sec.)
                 var timeout = BookProfile.Current.CanPrioritizePageMove() ? 100 : 5000;
-                await _jobClient.WaitAsync(viewPages, timeout, linkedTokenSource.Token);
+                await _contentGenerater.WaitVisibleAsync(timeout, linkedTokenSource.Token);
+
                 loadWaitCancellation.Cancel();
             }
 

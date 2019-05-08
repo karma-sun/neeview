@@ -28,7 +28,7 @@ namespace NeeView
         private object _lock = new object();
         private SemaphoreSlim _semaphore;
         private bool _isBusy = true;
-
+        private ManualResetEventSlim _visibleEvent = new ManualResetEventSlim();
 
         public BookPageViewGenerater(BookSource book, BookPageViewSetting setting, object sender, PageRange viewPageRange, PageRange aheadPageRange)
         {
@@ -183,6 +183,13 @@ namespace NeeView
 
             var args = new ViewContentSourceCollectionChangedEventArgs(collection) { IsForceResize = true, CancellationToken = token };
             ViewContentsChanged?.Invoke(sender, args);
+
+            _visibleEvent.Set();
+        }
+
+        public async Task WaitVisibleAsync(int millisecondsTimeout, CancellationToken token)
+        {
+            await Task.Run(() => _visibleEvent.Wait(millisecondsTimeout, token));
         }
 
 

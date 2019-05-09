@@ -10,6 +10,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Interop;
 using System.Windows.Shell;
 
 namespace NeeView
@@ -250,6 +251,7 @@ namespace NeeView
                 {
                     _windowChrome = value;
                     WindowChrome.SetWindowChrome(_window, _windowChrome);
+                    SetHook();
                     RaisePropertyChanged();
                 }
             }
@@ -607,6 +609,34 @@ namespace NeeView
             SetWindowState(_state);
             UpdateWindowBorderThickness();
             RaisePropertyChanged(null);
+        }
+
+        public void SetHook()
+        {
+            HwndSource hwnd = (HwndSource)PresentationSource.FromVisual(_window);
+            if (hwnd == null) return;
+            Debug.WriteLine($"SetHook {hwnd.Handle}");
+            hwnd.RemoveHook(HookProc);
+            hwnd.AddHook(HookProc);
+        }
+
+        private IntPtr HookProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            if (msg == 0x0084 /*WM_NCHITTEST*/ )
+            {
+                // This prevents a crash in WindowChromeWorker._HandleNCHitTest
+                try
+                {
+                    var x = lParam.ToInt32();
+                    ////DebugInfo.Current?.SetMessage($"{x:#,0}");
+                    ////Debug.WriteLine($"{x:#,0}");
+                }
+                catch (OverflowException)
+                {
+                    handled = true;
+                }
+            }
+            return IntPtr.Zero;
         }
 
         #endregion

@@ -143,11 +143,12 @@ namespace NeeView
 
                         // update next range.
                         _nextRange = GetNextRange(collection.Range);
-                        _contentCount++;
                     }
 
                     token.ThrowIfCancellationRequested();
                     NextContentsChanged?.Invoke(_sender, new ViewContentSourceCollectionChangedEventArgs(collection) { CancellationToken = token });
+
+                    Interlocked.Increment(ref _contentCount);
 
                     if (_contentCount == 1)
                     {
@@ -178,8 +179,8 @@ namespace NeeView
 
         private void UpdateViewContentsInner(object sender, ViewContentSourceCollection collection, CancellationToken token)
         {
-            var page = collection.Collection[0].Page;
-            ////Debug.WriteLine($"UpdateViewContentsInner: {page.EntryName}, {page.Content.IsAllLoaded}");
+            var source = collection.Collection[0];
+            Debug.WriteLine($"UpdateViewContentsInner: Name={source.Page.EntryName}, Type={source.GetContentType()}");
 
             var args = new ViewContentSourceCollectionChangedEventArgs(collection) { IsForceResize = true, CancellationToken = token };
             ViewContentsChanged?.Invoke(sender, args);

@@ -63,7 +63,11 @@ namespace NeeView
         {
             if (e.Page != _page) return;
 
-            if (_bookMemoryService.IsFull) return;
+            if (_bookMemoryService.IsFull)
+            {
+                IsBusy = false;
+                return;
+            }
 
             IsBusy = LoadNext();
         }

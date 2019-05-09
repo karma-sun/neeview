@@ -117,8 +117,12 @@ namespace NeeView
         {
             while (true)
             {
+                IsBusy = false;
+
                 token.ThrowIfCancellationRequested();
                 await _semaphore.WaitAsync(token);
+
+                IsBusy = true;
 
                 while (true)
                 {
@@ -179,8 +183,8 @@ namespace NeeView
 
         private void UpdateViewContentsInner(object sender, ViewContentSourceCollection collection, CancellationToken token)
         {
-            var source = collection.Collection[0];
-            Debug.WriteLine($"UpdateViewContentsInner: Name={source.Page.EntryName}, Type={source.GetContentType()}");
+            ////var source = collection.Collection[0];
+            ////Debug.WriteLine($"UpdateViewContentsInner: Name={source.Page.EntryName}, Type={source.GetContentType()}");
 
             var args = new ViewContentSourceCollectionChangedEventArgs(collection) { IsForceResize = true, CancellationToken = token };
             ViewContentsChanged?.Invoke(sender, args);

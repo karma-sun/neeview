@@ -14,7 +14,7 @@ namespace NeeView
 
         public long TotalSize => _contentPool.TotalSize + _pictureSourcePool.TotalSize;
 
-        public bool IsFull => TotalSize > LimitSize;
+        public bool IsFull => TotalSize >= LimitSize;
 
 
         public void SetReference(int index)

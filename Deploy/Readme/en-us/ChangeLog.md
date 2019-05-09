@@ -2,10 +2,19 @@
 
 ----
 
+## 34.2
+(2019-05-11)
+
+- Fixed a bug that the mark does not disappear while loading the page.
+- Fixed a bug that the initial position when moving to the previous page is in the upper corner with N-shaped scrolling.
+- Fixed a bug that the window size can not be changed when the title bar is hidden.
+- Fixed a bug that page move priority OFF does not work when resize filter is ON.
+- Fixed a bug that caused an error when hiding the title bar in the sub display.
+
+----
+
 ## 34.1
 (2019-05-07)
-
-### Bug fixes
 
 - Fixed a bug that caused an error when moving a book by page feed.
 

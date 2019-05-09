@@ -106,7 +106,7 @@
     <Border BorderThickness="{Binding WindowShape.WindowBorderThickness}" BorderBrush="Gray">
 
         <!-- 製品表示領域 -->
-        <Grid x:Name="Root" UseLayoutRounding="True" WindowChrome.IsHitTestVisibleInChrome="{Binding Model.CanHideMenu}">
+        <Grid x:Name="Root" UseLayoutRounding="True" WindowChrome.IsHitTestVisibleInChrome="False">
             <Grid x:Name="RootBottom" VerticalAlignment="Bottom" />
 
             <!-- Main Layer -->

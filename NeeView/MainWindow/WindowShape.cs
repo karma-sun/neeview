@@ -121,6 +121,7 @@ namespace NeeView
             _chrome = new WindowChrome();
             _chrome.CornerRadius = new CornerRadius();
             _chrome.UseAeroCaptionButtons = false;
+            _chrome.CaptionHeight = 0;
 
             // Windows7以前の場合、フルスクリーン解除時にタスクバーを手前にする処理を追加
             _isWindows7 = Config.Current.IsWindows7();

@@ -26,7 +26,7 @@
         </ContentControl>
         
         <DockPanel x:Name="MenuBarArea" LastChildFill="True" Margin="0,0,0,2">
-            <local:WindowCaptionButtons x:Name="WindowCaptionButtons" VerticalAlignment="Top" DockPanel.Dock="Right" WindowChrome.IsHitTestVisibleInChrome="True"
+            <local:WindowCaptionButtons x:Name="WindowCaptionButtons" VerticalAlignment="Top" DockPanel.Dock="Right" WindowChrome.IsHitTestVisibleInChrome="False"
                                         Foreground="{Binding Foreground, ElementName=ForegroundColorResource}">
                 <local:WindowCaptionButtons.Style>
                     <Style TargetType="local:WindowCaptionButtons">
@@ -47,7 +47,7 @@
             </Grid>
 
             <DockPanel x:Name="MenuArea" VerticalAlignment="Bottom">
-                <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="True"
+                <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="False"
                                 Foreground="{Binding Foreground, ElementName=ForegroundColorResource}">
                 </ContentControl>
                 <TextBlock x:Name="MenuTitle" Text="{Binding WindowTitle.Title}" VerticalAlignment="Center" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" Margin="5,0"

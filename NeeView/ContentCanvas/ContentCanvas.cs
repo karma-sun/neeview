@@ -367,9 +367,13 @@ namespace NeeView
                 MouseInput.Current.IsLoupeMode = false;
             }
 
-            // 座標初期化
-            ResetTransform(false, e != null ? e.ViewPageCollection.Range.Direction : 0, NextViewOrigin);
-            NextViewOrigin = DragViewOrigin.None;
+            // リザーブコンテンツでなければ座標初期化
+            bool isReserveContent = e?.ViewPageCollection?.Collection?.Any(x => x.GetContentType() == ViewContentType.Reserve) ?? false;
+            if (!isReserveContent)
+            {
+                ResetTransform(false, e != null ? e.ViewPageCollection.Range.Direction : 0, NextViewOrigin);
+                NextViewOrigin = DragViewOrigin.None;
+            }
 
             ContentChanged?.Invoke(this, null);
 

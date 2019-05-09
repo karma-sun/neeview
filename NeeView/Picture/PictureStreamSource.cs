@@ -36,27 +36,35 @@ namespace NeeView
             }
         }
 
+
+        private void CopyStream(Stream inputStream, Stream outputStream, int bufferSize, CancellationToken token)
+        {
+            token.ThrowIfCancellationRequested();
+
+            var buffer = new byte[bufferSize];
+
+            int bytesRead;
+            while ((bytesRead = inputStream.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                outputStream.Write(buffer, 0, bytesRead);
+                token.ThrowIfCancellationRequested();
+            }
+        }
+
         protected void InitializeCore(Stream stream, CancellationToken token)
         {
-            using (var ms = new MemoryStream())
+            // ストリームをRawDataとして保持。ArchiveEntryのデータがメモリ上に存在するならばそれを参照する
+            if (_entry.Data is byte[] bytes)
             {
-                try
+                _rawData = bytes;
+            }
+            else
+            {
+                using (var ms = new MemoryStream())
                 {
-                    stream.CopyToAsync(ms, 81920, token).Wait();
+                    CopyStream(stream, ms, 81920, token);
+                    _rawData = ms.ToArray();
                 }
-                catch (AggregateException ex)
-                {
-                    token.ThrowIfCancellationRequested();
-                    throw ex.InnerException;
-                }
-                catch
-                {
-                    token.ThrowIfCancellationRequested();
-                    throw;
-                }
-
-                // ストリームをRawDataとして保持。ArchiveEntryのデータがメモリ上に存在するならばそれを参照する
-                _rawData = (_entry.Data as byte[]) ?? ms.ToArray();
             }
         }
 
@@ -94,4 +102,6 @@ namespace NeeView
             }
         }
     }
+
+
 }

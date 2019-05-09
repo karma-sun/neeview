@@ -216,10 +216,16 @@ namespace NeeView
         /// </summary>
         public async Task LoadContentAsync(CancellationToken token)
         {
-            token.ThrowIfCancellationRequested();
-
-            await _contentLoader.LoadContentAsync(token);
-            RaisePropertyChanged(nameof(ContentAccessor));
+            try
+            {
+                token.ThrowIfCancellationRequested();
+                await _contentLoader.LoadContentAsync(token);
+                RaisePropertyChanged(nameof(ContentAccessor));
+            }
+            catch
+            {
+                // nop.
+            }
         }
 
         /// <summary>
@@ -239,9 +245,15 @@ namespace NeeView
         /// </summary>
         public async Task LoadThumbnailAsync(CancellationToken token)
         {
-            token.ThrowIfCancellationRequested();
-
-            await _contentLoader.LoadThumbnailAsync(token);
+            try
+            {
+                token.ThrowIfCancellationRequested();
+                await _contentLoader.LoadThumbnailAsync(token);
+            }
+            catch
+            {
+                // nop.
+            }
         }
 
 

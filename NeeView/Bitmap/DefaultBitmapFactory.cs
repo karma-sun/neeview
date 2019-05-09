@@ -21,6 +21,10 @@ namespace NeeView
             {
                 return Create(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad, size, info, token);
             }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
             catch (OutOfMemoryException)
             {
                 throw;

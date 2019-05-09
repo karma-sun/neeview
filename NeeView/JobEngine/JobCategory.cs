@@ -44,13 +44,7 @@ namespace NeeView
 
             public void Execute(CancellationToken token)
             {
-                try
-                {
-                    _page.LoadContentAsync(token).Wait();
-                }
-                catch
-                {
-                }
+                _page.LoadContentAsync(token).Wait();
             }
         }
 

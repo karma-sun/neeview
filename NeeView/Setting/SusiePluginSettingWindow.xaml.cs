@@ -27,6 +27,13 @@ namespace NeeView.Setting
         public SusiePluginSettingWindow()
         {
             InitializeComponent();
+
+            this.Closed += SusiePluginSettingWindow_Closed;
+        }
+
+        private void SusiePluginSettingWindow_Closed(object sender, EventArgs e)
+        {
+            _vm.Flush();
         }
 
         public SusiePluginSettingWindow(SusiePlugin spi) : this()
@@ -56,6 +63,8 @@ namespace NeeView.Setting
         public SusiePluginSettingWindowViewModel(SusiePlugin spi)
         {
             _spi = spi;
+            DefaultExtensions = new FileTypeCollection(_spi.DefaultExtensions);
+            Extensions = new FileTypeCollection(_spi.Extensions);
         }
 
         public string Name => _spi.Name;
@@ -76,14 +85,9 @@ namespace NeeView.Setting
             set { _spi.IsPreExtract = value; }
         }
 
-        public FileTypeCollection DefaultExtensions => _spi.DefaultExtensions;
+        public FileTypeCollection DefaultExtensions { get; set; }
 
-        public FileTypeCollection Extensions
-        {
-            get { return _spi.Extensions; }
-            set { _spi.Extensions = value; }
-        }
-
+        public FileTypeCollection Extensions { get; set; }
 
         public bool CanOpenConfigDialog => _spi.HasConfigurationDlg;
 
@@ -91,6 +95,11 @@ namespace NeeView.Setting
         public void OpenConfigDialog(Window owner)
         {
             _spi.OpenConfigulationDialog(owner);
+        }
+
+        public void Flush()
+        {
+            _spi.UserExtensions = new FileExtensionCollection(Extensions.OneLine);
         }
     }
 

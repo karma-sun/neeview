@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows.Media.Imaging;
 
 
@@ -55,7 +56,7 @@ namespace NeeView
             {
                 if (!SusieContext.Current.IsEnabled) return null;
                 var plugin = SusieContext.Current.PluginCollection?.GetImagePlugin("dummy", buff, false);
-                return plugin?.Extensions.Items.ToArray();
+                return plugin?.Extensions.ToArray();
             }
             catch (Exception e)
             {

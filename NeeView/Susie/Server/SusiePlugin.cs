@@ -16,17 +16,6 @@ using System.Windows.Media.Imaging;
 namespace NeeView.Susie
 {
     /// <summary>
-    /// Susieプラグインの種類
-    /// </summary>
-    public enum SusiePluginType
-    {
-        None,
-        Image,
-        Archive,
-    }
-
-
-    /// <summary>
     /// Susie Plugin Accessor
     /// </summary>
     public class SusiePlugin : BindableBase, IDisposable
@@ -37,7 +26,7 @@ namespace NeeView.Susie
 
         private bool _isEnabled = true;
         private bool _isPreExtract;
-        private FileTypeCollection _extensions = new FileTypeCollection();
+        private FileExtensionCollection _userExtensions;
 
 
         // 一連の処理をロックするときに使用
@@ -73,7 +62,7 @@ namespace NeeView.Susie
         public string PluginVersion { get; private set; }
 
         // 詳細テキスト
-        public string DetailText { get { return $"{Name} ( {string.Join(" ", Extensions.Items)} )"; } }
+        public string DetailText { get { return $"{Name} ( {string.Join(" ", Extensions)} )"; } }
 
         // 設定ダイアログの有無
         public bool HasConfigurationDlg { get; private set; }
@@ -112,18 +101,38 @@ namespace NeeView.Susie
 
 
         // 標準拡張子
-        public FileTypeCollection DefaultExtensions { get; } = new FileTypeCollection();
-
-        // 対応拡張子
-        public FileTypeCollection Extensions
+        public FileExtensionCollection DefaultExtensions { get; set; } = new FileExtensionCollection();
+        public FileExtensionCollection UserExtensions
         {
-            get { return _extensions; }
-            set { SetProperty(ref _extensions, value); }
+            get { return _userExtensions; }
+            set
+            {
+                if (value != null && !value.IsEmpty() && !value.Equals(DefaultExtensions))
+                {
+                    _userExtensions = value;
+                }
+                else
+                {
+                    _userExtensions = null;
+                }
+            }
         }
 
-       /// <summary>
-       /// ユーザー定義拡張子。設定保存用
-       /// </summary>
+
+
+        // 対応拡張子
+        public FileExtensionCollection Extensions
+        {
+            get { return UserExtensions ?? DefaultExtensions; }
+            ////get { return _extensions; }
+            ////set { SetProperty(ref _extensions, value); }
+        }
+
+
+#if false
+        /// <summary>
+        /// ユーザー定義拡張子。設定保存用
+        /// </summary>
         public string UserExtensions
         {
             get
@@ -144,6 +153,7 @@ namespace NeeView.Susie
                 }
             }
         }
+#endif
 
 
         // 文字列変換
@@ -168,9 +178,11 @@ namespace NeeView.Susie
         /// </summary>
         public void ResetExtensions()
         {
-            Extensions.Restore(DefaultExtensions.Items);
+            ////Extensions.Restore(DefaultExtensions.Items);
+            UserExtensions = null;
         }
 
+#if false
         /// <summary>
         /// 標準拡張子の設定
         /// </summary>
@@ -191,6 +203,7 @@ namespace NeeView.Susie
                 _extensions.RemoveRange(removes);
             }
         }
+#endif
 
         /// <summary>
         /// 詳細テキストを更新する
@@ -260,7 +273,8 @@ namespace NeeView.Susie
                 extensions.AddRange(filter.Split(';', ',').Select(e => e.TrimStart('*').ToLower().Trim()).Where(e => e != ".*"));
             }
 
-            SetDefaultExtensions(new FileTypeCollection(extensions));
+            ////SetDefaultExtensions(new FileTypeCollection(extensions));
+            DefaultExtensions = new FileExtensionCollection(extensions);
         }
 
 
@@ -637,7 +651,7 @@ namespace NeeView.Susie
             var memento = new Memento();
             memento.IsEnabled = this.IsEnabled;
             memento.IsPreExtract = this.IsPreExtract;
-            memento.UserExtensions = this.UserExtensions;
+            memento.UserExtensions = this.UserExtensions?.ToOneLine();
             return memento;
         }
 
@@ -646,10 +660,32 @@ namespace NeeView.Susie
             if (memento == null) return;
             this.IsEnabled = memento.IsEnabled;
             this.IsPreExtract = memento.IsPreExtract;
-            this.UserExtensions = memento.UserExtensions;
+            this.UserExtensions = memento.UserExtensions != null ? new FileExtensionCollection(memento.UserExtensions) : null;
         }
 
         #endregion
+
+
+        /*
+        public SusiePluginInfo CreatePluginInfo()
+        {
+            var info = new SusiePluginInfo();
+
+            info.FileName = this.FileName;
+            info.Name = this.Name;
+            info.ApiVersion = this.ApiVersion;
+            info.PluginVersion = this.PluginVersion;
+            info.PluginType = this.PluginType;
+            info.DetailText = this.DetailText;
+            info.HasConfigurationDlg = this.HasConfigurationDlg;
+            info.IsEnabled = this.IsEnabled;
+            info.IsPreExtract = this.IsPreExtract;
+            info.DefaultExtension = this.DefaultExtensions;
+            info.UserExtension = this.UserExtensions;
+
+            return info;
+        }
+        */
     }
 
 }

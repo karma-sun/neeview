@@ -12,6 +12,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace NeeView
 {
     public class SusieContext : BindableBase
@@ -177,7 +178,7 @@ namespace NeeView
         {
             var extensions = _pluginCollection?.INPluginList
                 .Where(e => e.IsEnabled)
-                .SelectMany(e => e.Extensions.Items);
+                .SelectMany(e => e.Extensions);
 
             ImageExtensions.Restore(extensions);
 
@@ -189,7 +190,7 @@ namespace NeeView
         {
             var extensions = _pluginCollection?.AMPluginList
                 .Where(e => e.IsEnabled)
-                .SelectMany(e => e.Extensions.Items);
+                .SelectMany(e => e.Extensions);
 
             ArchiveExtensions.Restore(extensions);
 
@@ -280,35 +281,5 @@ namespace NeeView
         }
 
         #endregion
-    }
-
-
-    /// <summary>
-    /// プラグイン単位の設定 (Obsolete)
-    /// </summary>
-    [Obsolete, DataContract]
-    public class SusiePluginSetting
-    {
-        public SusiePluginSetting(bool isEnable, bool isPreExtract)
-        {
-            this.IsEnabled = isEnable;
-            this.IsPreExtract = isPreExtract;
-        }
-
-        [DataMember]
-        public bool IsEnabled { get; set; }
-
-        [DataMember(EmitDefaultValue = false)]
-        public bool IsPreExtract { get; set; }
-
-
-        public SusiePlugin.Memento ToPluginMemento()
-        {
-            return new SusiePlugin.Memento()
-            {
-                IsEnabled = IsEnabled,
-                IsPreExtract = IsPreExtract,
-            };
-        }
     }
 }

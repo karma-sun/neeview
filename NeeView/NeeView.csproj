@@ -198,6 +198,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Archiver\FileExtensionCollection.cs" />
     <Compile Include="Archiver\Playlist.cs" />
     <Compile Include="Archiver\PlaylistArchive.cs" />
     <Compile Include="BookSetting\BookSettingEventArgs.cs" />
@@ -222,9 +223,18 @@
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderItemFactory.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderOrderClass.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\PlaylistFolderCollection.cs" />
-    <Compile Include="Susie\SusieContextMementoCollection.cs" />
+    <Compile Include="Susie\Client\SusiePluginClient.cs" />
+    <Compile Include="Susie\Obsolete\SusiePluginSetting.cs" />
+    <Compile Include="Susie\Common\IRemoteSusiePlugin.cs" />
+    <Compile Include="Susie\Common\SusieArchiveEntry.cs" />
+    <Compile Include="Susie\Common\SusiePicture.cs" />
+    <Compile Include="Susie\Common\SusiePluginInfo.cs" />
+    <Compile Include="Susie\Common\SusiePluginServerSetting.cs" />
+    <Compile Include="Susie\Common\SusiePluginSetting.cs" />
+    <Compile Include="Susie\Client\SusieContextMementoCollection.cs" />
     <Compile Include="Susie\SusieException.cs" />
-    <Compile Include="Susie\SusiePluginCollection.cs" />
+    <Compile Include="Susie\Server\SusiePluginCollection.cs" />
+    <Compile Include="Susie\Common\SusiePluginType.cs" />
     <Compile Include="Susie\SusieUtility.cs" />
     <Compile Include="ViewContent\ViewContentSourceCollectionChangedEventArgs.cs" />
     <Compile Include="ContentCanvas\KeyPressWatcher.cs" />
@@ -511,7 +521,7 @@
     <Compile Include="Setting\MouseGestureSettingViewModel.cs" />
     <Compile Include="SidePanels\Pagemark\Pagemark.cs" />
     <Compile Include="System\SoundPlayerService.cs" />
-    <Compile Include="Susie\NativeMethods.cs" />
+    <Compile Include="Susie\Server\NativeMethods.cs" />
     <Compile Include="TouchInput\TouchInputEmulator.cs" />
     <Compile Include="SaveData\UserSetting.cs" />
     <Compile Include="ViewContent\MediaViewContent.cs" />
@@ -944,10 +954,10 @@
       <DependentUpon>SaveWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Archiver\SusieArchiver.cs" />
-    <Compile Include="Susie\SusieContext.cs" />
-    <Compile Include="Susie\SusieArchiveEntry.cs" />
-    <Compile Include="Susie\SusiePlugin.cs" />
-    <Compile Include="Susie\SusiePluginApi.cs" />
+    <Compile Include="Susie\Client\SusieContext.cs" />
+    <Compile Include="Susie\Server\SusieArchiveEntry.cs" />
+    <Compile Include="Susie\Server\SusiePlugin.cs" />
+    <Compile Include="Susie\Server\SusiePluginApi.cs" />
     <Compile Include="System\Temporary.cs" />
     <Compile Include="System\TrashBox.cs" />
     <Compile Include="VersionWindow\VersionWindow.xaml.cs">

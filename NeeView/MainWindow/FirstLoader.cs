@@ -65,12 +65,19 @@ namespace NeeView
                         // 前回開いていたフォルダーがプレイリストあった場合、なるべくそのフォルダーを開く
                         if (PlaylistArchive.IsSupportExtension(BookHistoryCollection.Current.LastFolder))
                         {
-                            var playlist = PlaylistFile.Load(BookHistoryCollection.Current.LastFolder);
-                            if (playlist.Items.Contains(path))
+                            try
                             {
-                                _folderPath = BookHistoryCollection.Current.LastFolder;
-                                _isFolderLink = true;
-                                return;
+                                var playlist = PlaylistFile.Load(BookHistoryCollection.Current.LastFolder);
+                                if (playlist.Items.Contains(path))
+                                {
+                                    _folderPath = BookHistoryCollection.Current.LastFolder;
+                                    _isFolderLink = true;
+                                    return;
+                                }
+                            }
+                            catch
+                            {
+                                // nop.
                             }
                         }
                     }

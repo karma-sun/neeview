@@ -2,6 +2,13 @@
 
 ----
 
+## 34.3
+(2019-05-18)
+
+- Fixed a bug that crashed when the last open playlist is deleted.
+
+----
+
 ## 34.2
 (2019-05-11)
 

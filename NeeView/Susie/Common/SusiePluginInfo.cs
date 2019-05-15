@@ -14,9 +14,19 @@ namespace NeeView.Susie
         public bool HasConfigurationDlg { get; set; }
         public bool IsEnabled { get; set; }
         public bool IsPreExtract { get; set; }
-        public FileTypeCollection DefaultExtension { get; set; }
-        public FileTypeCollection UserExtension { get; set; }
+        public FileExtensionCollection DefaultExtension { get; set; }
+        public FileExtensionCollection UserExtension { get; set; }
 
-        public FileTypeCollection Extensions => UserExtension ?? DefaultExtension;
+        public FileExtensionCollection Extensions => UserExtension ?? DefaultExtension;
+
+        public SusiePluginSetting ToSusiePluginSetting()
+        {
+            var setting = new SusiePluginSetting();
+            setting.Name = Name;
+            setting.IsEnabled = IsEnabled;
+            setting.IsPreExtract = IsPreExtract;
+            setting.UserExtensions = UserExtension?.ToOneLine();
+            return setting;
+        }
     }
 }

@@ -24,9 +24,6 @@ namespace NeeView
         [DataMember(Order = 1)]
         public SusieContext.Memento SusieMemento { get; set; }
 
-        [DataMember(Order = 1)]
-        public SusieContext.Memento SusieMementoX64 { get; set; }
-
         [DataMember(Order = 9998)]
         public CommandTable.Memento CommandMememto { set; get; }
 
@@ -62,10 +59,6 @@ namespace NeeView
 
         [Obsolete, DataMember(Order = 17, EmitDefaultValue = false)]
         public ImageEffect.Memento ImageEffectMemento { get; set; } // no used (ver.22)
-
-        // ver.31より廃止
-        ////[Obsolete, DataMember(Order = 9999, EmitDefaultValue = false)]
-        ////public BookHistoryCollection.Memento BookHistoryMemento { set; get; } // no used
 
         #endregion
 

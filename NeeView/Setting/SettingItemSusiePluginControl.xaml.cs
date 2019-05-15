@@ -26,9 +26,17 @@ namespace NeeView.Setting
     /// </summary>
     public partial class SettingItemSusiePluginControl : UserControl, INotifyPropertyChanged
     {
-        #region PropertyChanged
+        #region INotifyPropertyChanged Support
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        protected bool SetProperty<T>(ref T storage, T value, [System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            if (object.Equals(storage, value)) return false;
+            storage = value;
+            this.RaisePropertyChanged(propertyName);
+            return true;
+        }
 
         protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = null)
         {
@@ -50,13 +58,11 @@ namespace NeeView.Setting
 
         #region Constructors
 
-        //
         public SettingItemSusiePluginControl()
         {
             InitializeComponent();
         }
 
-        //
         public SettingItemSusiePluginControl(SusiePluginType pluginType)
         {
             InitializeComponent();
@@ -65,19 +71,22 @@ namespace NeeView.Setting
 
             _pluginType = pluginType;
 
-            var binding = new Binding(nameof(SusieContext.PluginCollection) + "." + (pluginType == SusiePluginType.Image ? nameof(SusiePluginCollection.INPluginList) : nameof(SusiePluginCollection.AMPluginList)))
-            {
-                Source = SusieContext.Current
-            };
-            BindingOperations.SetBinding(this.PluginList, ListBox.ItemsSourceProperty, binding);
-            BindingOperations.SetBinding(this.PluginList, ListBox.TagProperty, binding);
+            Plugins = new ObservableCollection<SusiePluginInfo>(SusieContext.Current.Client?.GetPlugins(null).Where(e => e.PluginType == pluginType));
         }
 
         #endregion
 
+
+        private ObservableCollection<SusiePluginInfo> _plugins;
+        public ObservableCollection<SusiePluginInfo> Plugins
+        {
+            get { return _plugins; }
+            set { SetProperty(ref _plugins, value); }
+        }
+
+
         #region Commands
 
-        //
         private RelayCommand _configCommand;
         public RelayCommand ConfigCommand
         {
@@ -86,17 +95,17 @@ namespace NeeView.Setting
 
         private bool CanOpenConfigDialog()
         {
-            var item = this.PluginList.SelectedItem as SusiePlugin;
+            var item = this.PluginList.SelectedItem as SusiePluginInfo;
             return item != null;
         }
 
         private void OpenConfigDialog_Executed()
         {
-            var item = this.PluginList.SelectedItem as SusiePlugin;
+            var item = this.PluginList.SelectedItem as SusiePluginInfo;
             OpenConfigDialog(item);
         }
 
-        private void OpenConfigDialog(SusiePlugin spi)
+        private void OpenConfigDialog(SusiePluginInfo spi)
         {
             if (spi == null) return;
 
@@ -105,12 +114,12 @@ namespace NeeView.Setting
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             dialog.ShowDialog();
 
-            spi.RaiseDetailTextPropertyChanged();
+            // TODO: 情報更新
+            Debug.WriteLine($"TODO: imprement RaiseDetailTextPropertyChanged()");
             UpdateExtensions();
         }
 
 
-        //
         private RelayCommand _moveUpCommand;
         public RelayCommand MoveUpCommand
         {
@@ -120,7 +129,7 @@ namespace NeeView.Setting
         private void MoveUpCommand_Executed()
         {
             var index = this.PluginList.SelectedIndex;
-            var collection = this.PluginList.Tag as ObservableCollection<SusiePlugin>;
+            var collection = this.PluginList.Tag as ObservableCollection<SusiePluginInfo>;
             if (index > 0)
             {
                 collection.Move(index, index - 1);
@@ -128,7 +137,6 @@ namespace NeeView.Setting
             }
         }
 
-        //
         private RelayCommand _moveDownCommand;
         public RelayCommand MoveDownCommand
         {
@@ -138,7 +146,7 @@ namespace NeeView.Setting
         private void MoveDownCommand_Executed()
         {
             var index = this.PluginList.SelectedIndex;
-            var collection = this.PluginList.Tag as ObservableCollection<SusiePlugin>;
+            var collection = this.PluginList.Tag as ObservableCollection<SusiePluginInfo>;
             if (index >= 0 && index < collection.Count - 1)
             {
                 collection.Move(index, index + 1);
@@ -159,10 +167,10 @@ namespace NeeView.Setting
         // プラグインリスト：ドロップ
         private void PluginListView_Drop(object sender, DragEventArgs e)
         {
-            var list = (sender as ListBox).Tag as ObservableCollection<SusiePlugin>;
+            var list = (sender as ListBox).Tag as ObservableCollection<SusiePluginInfo>;
             if (list != null)
             {
-                ListBoxDragSortExtension.Drop<SusiePlugin>(sender, e, "SusiePlugin", list);
+                ListBoxDragSortExtension.Drop<SusiePluginInfo>(sender, e, "SusiePlugin", list);
             }
         }
 
@@ -176,7 +184,7 @@ namespace NeeView.Setting
         // 項目ダブルクリック
         private void ListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var item = (sender as ListBoxItem)?.DataContext as SusiePlugin;
+            var item = (sender as ListBoxItem)?.DataContext as SusiePluginInfo;
             OpenConfigDialog(item);
         }
 
@@ -188,6 +196,7 @@ namespace NeeView.Setting
 
         private void UpdateExtensions()
         {
+            Debug.WriteLine($"TODO: Update plugin extensions");
             if (_pluginType == SusiePluginType.Image)
             {
                 SusieContext.Current.UpdateImageExtensions();

@@ -3,6 +3,7 @@ using NeeLaboratory.Windows.Input;
 using NeeView.Susie;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -36,7 +38,7 @@ namespace NeeView.Setting
             _vm.Flush();
         }
 
-        public SusiePluginSettingWindow(SusiePlugin spi) : this()
+        public SusiePluginSettingWindow(SusiePluginInfo spi) : this()
         {
             _vm = new SusiePluginSettingWindowViewModel(spi);
             this.DataContext = _vm;
@@ -58,12 +60,12 @@ namespace NeeView.Setting
     /// </summary>
     public class SusiePluginSettingWindowViewModel : BindableBase
     {
-        private SusiePlugin _spi;
+        private SusiePluginInfo _spi;
 
-        public SusiePluginSettingWindowViewModel(SusiePlugin spi)
+        public SusiePluginSettingWindowViewModel(SusiePluginInfo spi)
         {
             _spi = spi;
-            DefaultExtensions = new FileTypeCollection(_spi.DefaultExtensions);
+            DefaultExtensions = new FileTypeCollection(_spi.DefaultExtension);
             Extensions = new FileTypeCollection(_spi.Extensions);
         }
 
@@ -94,12 +96,14 @@ namespace NeeView.Setting
 
         public void OpenConfigDialog(Window owner)
         {
-            _spi.OpenConfigulationDialog(owner);
+            var handle = new WindowInteropHelper(owner).Handle;
+            SusieContext.Current.Client.ShowConfigulationDlg(_spi.Name, handle.ToInt32());
         }
 
         public void Flush()
         {
-            _spi.UserExtensions = new FileExtensionCollection(Extensions.OneLine);
+            _spi.UserExtension = new FileExtensionCollection(Extensions.OneLine);
+            Debug.WriteLine($"TODO: Flush UserExtension");
         }
     }
 

@@ -337,6 +337,25 @@ namespace NeeView.Susie
             }
         }
 
+        public int AboutDlg(IntPtr hwnd)
+        {
+            if (FileName == null) throw new InvalidOperationException();
+
+            lock (_lock)
+            {
+                try
+                {
+                    var api = BeginSection();
+                    ////IntPtr hwnd = parent != null ? new WindowInteropHelper(parent).Handle : IntPtr.Zero;
+                    return api.ConfigurationDlg(hwnd, 0);
+                }
+                finally
+                {
+                    EndSection();
+                    UnloadModule();
+                }
+            }
+        }
 
         /// <summary>
         /// 設定ダイアログを開く
@@ -365,7 +384,27 @@ namespace NeeView.Susie
             }
         }
 
+        public int ConfigurationDlg(IntPtr hwnd)
+        {
+            if (FileName == null) throw new InvalidOperationException();
 
+            lock (_lock)
+            {
+                try
+                {
+                    var api = BeginSection();
+                    ////IntPtr hwnd = parent != null ? new WindowInteropHelper(parent).Handle : IntPtr.Zero;
+                    var result = api.ConfigurationDlg(hwnd, 1);
+                    UpdateDefaultExtensions(api);
+                    return result;
+                }
+                finally
+                {
+                    EndSection();
+                    UnloadModule();
+                }
+            }
+        }
         /// <summary>
         /// 設定ダイアログもしくは情報ダイアログを開く
         /// </summary>
@@ -387,6 +426,32 @@ namespace NeeView.Susie
                 try
                 {
                     AboutDlg(owner);
+                }
+                catch
+                {
+                }
+            }
+        }
+
+
+        public void OpenConfigulationDialog(IntPtr hWnd)
+        {
+            int result;
+            try
+            {
+                result = ConfigurationDlg(hWnd);
+            }
+            catch
+            {
+                result = -1;
+            }
+
+            // 設定ウィンドウが呼び出せなかった場合は情報画面でお茶を濁す
+            if (result < 0)
+            {
+                try
+                {
+                    AboutDlg(hWnd);
                 }
                 catch
                 {
@@ -626,7 +691,7 @@ namespace NeeView.Susie
 
         #region Memento
 
-        [DataContract]
+        [Obsolete, DataContract]
         public class Memento
         {
             [DataMember, DefaultValue(true)]
@@ -643,6 +708,16 @@ namespace NeeView.Susie
             private void Deserializing(StreamingContext c)
             {
                 this.InitializePropertyDefaultValues();
+            }
+
+            public SusiePluginSetting ToSusiePluginSetting(string name)
+            {
+                var setting = new SusiePluginSetting();
+                setting.Name = name;
+                setting.IsEnabled = this.IsEnabled;
+                setting.IsPreExtract = this.IsPreExtract;
+                setting.UserExtensions = this.UserExtensions;
+                return setting;
             }
         }
 
@@ -666,8 +741,7 @@ namespace NeeView.Susie
         #endregion
 
 
-        /*
-        public SusiePluginInfo CreatePluginInfo()
+        public SusiePluginInfo ToSusiePluginInfo()
         {
             var info = new SusiePluginInfo();
 
@@ -685,7 +759,6 @@ namespace NeeView.Susie
 
             return info;
         }
-        */
     }
 
 }

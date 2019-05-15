@@ -45,30 +45,26 @@ namespace NeeView
                 }
             }
 
-            SusiePlugin susiePlugin = null;
-
-            var bytes = SusieContext.Current.PluginCollection?.GetPicture(entry.RawEntryName, buff, !entry.IsIgnoreFileExtension, out susiePlugin);
-            if (bytes == null)
+            var result = SusieContext.Current.Client?.GetPicture(entry.RawEntryName, buff, !entry.IsIgnoreFileExtension);
+            if (result == null || result.BitmapData == null)
             {
                 throw new SusieIOException();
             }
 
-            return new NamedStream(new MemoryStream(bytes), susiePlugin?.ToString());
+            return new NamedStream(new MemoryStream(result.BitmapData), result.PluginName);
         }
 
 
         // Bitmap読み込み(ファイル版)
         private NamedStream Create(string fileName, ArchiveEntry entry)
         {
-            SusiePlugin susiePlugin = null;
-
-            var bytes = SusieContext.Current.PluginCollection?.GetPictureFromFile(fileName, !entry.IsIgnoreFileExtension, out susiePlugin);
-            if (bytes == null)
+            var result = SusieContext.Current.Client?.GetPicture(fileName, null, !entry.IsIgnoreFileExtension);
+            if (result == null || result.BitmapData == null)
             {
                 throw new SusieIOException();
             }
 
-            return new NamedStream(new MemoryStream(bytes), susiePlugin?.ToString());
+            return new NamedStream(new MemoryStream(result.BitmapData), result.PluginName);
         }
     }
 

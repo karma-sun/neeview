@@ -43,6 +43,10 @@ namespace NeeView.Susie
         }
 
 
+        public bool IsPluginCacheEnabled => _isPluginCacheEnabled;
+
+        public string PluginFolder { get; set; }
+
         /// <summary>
         /// 書庫プラグインリスト
         /// </summary>
@@ -101,8 +105,12 @@ namespace NeeView.Susie
 
         public void Initialize(string spiFolder)
         {
+            PluginFolder = spiFolder;
+
+            // TODO: この判定はおかしい。ちゃんと例外にして処理したほうがよさそう。
             if (string.IsNullOrWhiteSpace(spiFolder)) return;
             if (!Directory.Exists(spiFolder)) return;
+
 
             var searchPattern = _is64bitPlugin ? "*.sph" : "*.spi";
             var spiFiles = Directory.GetFiles(spiFolder, searchPattern);
@@ -194,6 +202,11 @@ namespace NeeView.Susie
             return PluginCollection.FirstOrDefault(e => e.FileName == fileName);
         }
 
+        // ロード済プラグイン取得
+        public SusiePlugin GetPluginFromName(string name)
+        {
+            return PluginCollection.FirstOrDefault(e => e.Name == name);
+        }
 
         // 対応アーカイブプラグイン取得
         public SusiePlugin GetArchivePlugin(string fileName, bool isCheckExtension)

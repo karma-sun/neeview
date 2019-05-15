@@ -58,7 +58,6 @@ namespace NeeView
 
             var susieMemento = SusieContextMementoCollection.Current.CreateMemento();
             setting.SusieMemento = susieMemento.SusieContextX86;
-            setting.SusieMementoX64 = susieMemento.SusieContextX64;
 
             setting.CommandMememto = CommandTable.Current.CreateMemento();
             setting.DragActionMemento = DragActionTable.Current.CreateMemento();
@@ -76,7 +75,6 @@ namespace NeeView
 
             var susieMemento = new SusieContextMementoCollection.Memento();
             susieMemento.SusieContextX86 = setting.SusieMemento;
-            susieMemento.SusieContextX64 = setting.SusieMementoX64;
             SusieContextMementoCollection.Current.Restore(susieMemento);
 
             CommandTable.Current.Restore(setting.CommandMememto, false);

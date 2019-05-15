@@ -1,10 +1,20 @@
-﻿namespace NeeView.Susie
+﻿using System.Runtime.Serialization;
+
+namespace NeeView.Susie
 {
+    [DataContract]
     public class SusiePluginSetting
     {
+        [DataMember]
         public string Name { get; set; }
+
+        [DataMember]
         public bool IsEnabled { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
         public bool IsPreExtract { get; set; }
+
+        [DataMember(EmitDefaultValue = false)]
         public string UserExtensions { get; set; }
     }
 }

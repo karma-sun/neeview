@@ -14,13 +14,15 @@
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
+        <!--
         <CollectionViewSource x:Key="PluginSource" Source="{Binding SusiePluginList}">
             <CollectionViewSource.GroupDescriptions>
                 <PropertyGroupDescription PropertyName="ApiVersion" />
             </CollectionViewSource.GroupDescriptions>
         </CollectionViewSource>
+        -->
 
-        <DataTemplate DataType="{x:Type susie:SusiePlugin}" x:Key="SusiePlugin">
+        <DataTemplate DataType="{x:Type susie:SusiePluginInfo}" x:Key="SusiePlugin">
             <StackPanel Orientation="Horizontal">
                 <i:Interaction.Behaviors>
                     <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="SusiePlugin" DragDropData="{Binding}" Target="{Binding ElementName=PluginList}" />
@@ -80,7 +82,7 @@
             <Button x:Name="DownButton" Content="{x:Static properties:Resources.ControlSusiePluginListDown}" Command="{Binding MoveDownCommand}"/>
         </StackPanel>
 
-        <ListBox x:Name="PluginList" MinHeight="64" MinWidth="64" ItemsSource="{Binding SusiePluginCollection}" Tag="{Binding SusiePluginCollection}" SelectionChanged="PluginList_SelectionChanged">
+        <ListBox x:Name="PluginList" MinHeight="64" MinWidth="64" ItemsSource="{Binding Plugins}" Tag="{Binding Plugins}" SelectionChanged="PluginList_SelectionChanged">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <EventSetter Event="MouseDoubleClick" Handler="ListBoxItem_MouseDoubleClick"/>

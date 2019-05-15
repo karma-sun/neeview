@@ -11,7 +11,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-
+using NeeView.Susie.Client;
 
 namespace NeeView
 {
@@ -20,34 +20,26 @@ namespace NeeView
         static SusieContext() => Current = new SusieContext();
         public static SusieContext Current { get; }
 
-        private SusiePluginCollection _pluginCollection;
-        public bool _isEnabled;
-        public string _susiePluginPath = "";
-        public bool _isFirstOrderSusieImage;
-        public bool _isFirstOrderSusieArchive;
-        private bool _isPluginCacheEnabled = true;
+        private bool _isEnabled;
+        private bool _isFirstOrderSusieImage;
+        private bool _isFirstOrderSusieArchive;
+
+
+        private SusiePluginClient _client;
+        private SusiePluginServerSetting _serverSetting;
 
 
         private SusieContext()
         {
+            _serverSetting = new SusiePluginServerSetting();
         }
 
 
         #region Properties
 
-        /// <summary>
-        /// 64bit support?
-        /// </summary>
-        public static bool Is64bitPlugin { get; } = Environment.Is64BitProcess;
-
-        /// <summary>
-        /// Susie Plugin Collection
-        /// </summary>
-        public SusiePluginCollection PluginCollection
-        {
-            get { return _pluginCollection; }
-            set { SetProperty(ref _pluginCollection, value); }
-        }
+        // 直接参照はよろしくない
+        [Obsolete]
+        public SusiePluginClient Client => _client;
 
         /// <summary>
         /// Susie 有効/無効設定
@@ -69,11 +61,12 @@ namespace NeeView
         [PropertyPath("@ParamSusiePluginPath", FileDialogType = FileDialogType.Directory)]
         public string SusiePluginPath
         {
-            get { return _susiePluginPath; }
+            get { return _serverSetting.PluginFolder; }
             set
             {
-                if (SetProperty(ref _susiePluginPath, value))
+                if (_serverSetting.PluginFolder != value)
                 {
+                    _serverSetting.PluginFolder = value;
                     UpdateSusiePluginCollection();
                 }
             }
@@ -99,20 +92,16 @@ namespace NeeView
         [PropertyMember("@ParamSusieIsPluginCacheEnabled", Tips = "@ParamSusieIsPluginCacheEnabledTips")]
         public bool IsPluginCacheEnabled
         {
-            get { return _isPluginCacheEnabled; }
+            get { return _serverSetting.IsPluginCacheEnabled; }
             set
             {
-                if (SetProperty(ref _isPluginCacheEnabled, value))
+                if (_serverSetting.IsPluginCacheEnabled != value)
                 {
-                    _pluginCollection?.SetPluginCahceEnabled(_isPluginCacheEnabled);
+                    _serverSetting.IsPluginCacheEnabled = value;
+                    Debug.WriteLine($"TODO: キャッシュ有効/無効の反映。キャッシュの仕組み自体見直しても良いね");
                 }
             }
         }
-
-        /// <summary>
-        /// プラグイン設定
-        /// </summary>
-        public Dictionary<string, SusiePlugin.Memento> PluginSettings { get; private set; }
 
         /// <summary>
         /// 対応画像ファイル拡張子
@@ -131,7 +120,7 @@ namespace NeeView
         // PluginCollectionのOpen/Close
         private void UpdateSusiePluginCollection()
         {
-            if (_isEnabled && Directory.Exists(_susiePluginPath))
+            if (_isEnabled && Directory.Exists(SusiePluginPath))
             {
                 OpenSusiePluginCollection();
             }
@@ -145,9 +134,8 @@ namespace NeeView
         {
             CloseSusiePluginCollection();
 
-            PluginCollection = new SusiePluginCollection(Is64bitPlugin, _isPluginCacheEnabled);
-            PluginCollection.Initialize(_susiePluginPath);
-            PluginCollection.RestorePlugins(PluginSettings);
+            _client = new SusiePluginClient();
+            _client.SetServerSetting(_serverSetting);
 
             UpdateImageExtensions();
             UpdateArchiveExtensions();
@@ -155,29 +143,27 @@ namespace NeeView
 
         private void CloseSusiePluginCollection()
         {
-            if (PluginCollection == null) return;
+            if (_client == null) return;
 
-            // store plugin settings
-            PluginSettings = PluginCollection.StorePlugins();
-
-            PluginCollection.Dispose();
-            PluginCollection = null;
+            _serverSetting = _client.GetServerSetting();
+            _client.Dispose();
+            _client = null;
 
             UpdateImageExtensions();
             UpdateArchiveExtensions();
         }
 
         // 最新のプラグイン設定を取得
-        private Dictionary<string, SusiePlugin.Memento> GetLatestPluginSettings()
+        private SusiePluginServerSetting GetLatestServerSettings()
         {
-            return _pluginCollection?.StorePlugins() ?? PluginSettings;
+            return _client?.GetServerSetting() ?? _serverSetting;
         }
 
         // Susie画像プラグインのサポート拡張子を更新
         public void UpdateImageExtensions()
         {
-            var extensions = _pluginCollection?.INPluginList
-                .Where(e => e.IsEnabled)
+            var extensions = _client.GetPlugins(null)
+                .Where(e => e.PluginType == SusiePluginType.Image && e.IsEnabled)
                 .SelectMany(e => e.Extensions);
 
             ImageExtensions.Restore(extensions);
@@ -188,8 +174,8 @@ namespace NeeView
         // Susies書庫プラグインのサポート拡張子を更新
         public void UpdateArchiveExtensions()
         {
-            var extensions = _pluginCollection?.AMPluginList
-                .Where(e => e.IsEnabled)
+            var extensions = _client.GetPlugins(null)
+                .Where(e => e.PluginType == SusiePluginType.Archive && e.IsEnabled)
                 .SelectMany(e => e.Extensions);
 
             ArchiveExtensions.Restore(extensions);
@@ -211,13 +197,19 @@ namespace NeeView
             public bool IsEnableSusie { get; set; }
 
             [DataMember]
-            public string SusiePluginPath { get; set; }
-
-            [DataMember]
             public bool IsFirstOrderSusieImage { get; set; }
 
             [DataMember]
             public bool IsFirstOrderSusieArchive { get; set; }
+
+            [DataMember]
+            public SusiePluginServerSetting SusiePluginServerSetting { get; set; }
+
+
+            #region Obsolete
+
+            [Obsolete, DataMember]
+            public string SusiePluginPath { get; set; }
 
             [Obsolete, DataMember(Name = "SpiFiles", EmitDefaultValue = false)]
             public Dictionary<string, bool> SpiFilesV1 { get; set; } // ver 33.0
@@ -225,11 +217,15 @@ namespace NeeView
             [Obsolete, DataMember(Name = "SpiFilesV2", EmitDefaultValue = false)]
             public Dictionary<string, SusiePluginSetting> SpiFilesV2 { get; set; } // ver 34.0 
 
-            [DataMember]
-            public Dictionary<string, SusiePlugin.Memento> SusiePlugins { get; set; }
+            [Obsolete, DataMember(Name = "SusiePlugins", EmitDefaultValue = false)]
+            public Dictionary<string, SusiePlugin.Memento> SpiFilesV3 { get; set; } // ver 35.0
 
-            [DataMember, DefaultValue(true)]
+            [Obsolete, DataMember, DefaultValue(true)]
             public bool IsPluginCacheEnabled { get; set; }
+
+            #endregion Obsolete
+
+
 
 
             [OnDeserializing]
@@ -249,8 +245,18 @@ namespace NeeView
 
                 if (_Version < Config.GenerateProductVersionNumber(34, 0, 0) && SpiFilesV2 != null)
                 {
-                    SusiePlugins = SpiFilesV2
+                    SpiFilesV3 = SpiFilesV2
                         .ToDictionary(e => e.Key, e => e.Value.ToPluginMemento());
+                }
+
+                if (_Version < Config.GenerateProductVersionNumber(35, 0, 0) && SpiFilesV3 != null)
+                {
+                    SusiePluginServerSetting = new SusiePluginServerSetting();
+                    SusiePluginServerSetting.IsPluginCacheEnabled = IsPluginCacheEnabled;
+                    SusiePluginServerSetting.PluginFolder = SusiePluginPath;
+                    SusiePluginServerSetting.PluginSettings = SpiFilesV3
+                        .Select(e => e.Value.ToSusiePluginSetting(LoosePath.GetFileName(e.Key)))
+                        .ToList();
                 }
 #pragma warning restore CS0612
             }
@@ -262,9 +268,7 @@ namespace NeeView
             memento.IsEnableSusie = this.IsEnabled;
             memento.IsFirstOrderSusieImage = this.IsFirstOrderSusieImage;
             memento.IsFirstOrderSusieArchive = this.IsFirstOrderSusieArchive;
-            memento.SusiePluginPath = this.SusiePluginPath;
-            memento.SusiePlugins = GetLatestPluginSettings();
-            memento.IsPluginCacheEnabled = this.IsPluginCacheEnabled;
+            memento.SusiePluginServerSetting = GetLatestServerSettings();
             return memento;
         }
 
@@ -274,9 +278,7 @@ namespace NeeView
 
             this.IsFirstOrderSusieImage = memento.IsFirstOrderSusieImage;
             this.IsFirstOrderSusieArchive = memento.IsFirstOrderSusieArchive;
-            this.IsPluginCacheEnabled = memento.IsPluginCacheEnabled;
-            this.PluginSettings = memento.SusiePlugins;
-            this.SusiePluginPath = memento.SusiePluginPath;
+            _serverSetting = memento.SusiePluginServerSetting;
             this.IsEnabled = memento.IsEnableSusie;
         }
 

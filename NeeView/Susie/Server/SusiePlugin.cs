@@ -527,6 +527,11 @@ namespace NeeView.Susie
         /// </summary>
         public byte[] LoadArchiveEntry(string archiveFileName, ArchiveFileInfoRaw info)
         {
+            return LoadArchiveEntry(archiveFileName, (int)info.position);
+        }
+
+        public byte[] LoadArchiveEntry(string archiveFileName, int position)
+        {
             if (_isDisposed)
             {
                 throw new SusieException("Susie plugin already disposed", this);
@@ -537,7 +542,7 @@ namespace NeeView.Susie
                 try
                 {
                     var api = BeginSection();
-                    var buff = api.GetFile(archiveFileName, info);
+                    var buff = api.GetFile(archiveFileName, position);
                     if (buff == null) throw new SusieException("Susie extraction failed (Type.M)", this);
                     return buff;
                 }
@@ -554,6 +559,11 @@ namespace NeeView.Susie
         /// <param name="extractFolder"></param>
         public void ExtracArchiveEntrytToFolder(string archiveFileName, ArchiveFileInfoRaw info, string extractFolder)
         {
+            ExtracArchiveEntrytToFolder(archiveFileName, (int)info.position, extractFolder);
+        }
+
+        public void ExtracArchiveEntrytToFolder(string archiveFileName, int position, string extractFolder)
+        {
             if (_isDisposed)
             {
                 throw new SusieException("Susie plugin already disposed", this);
@@ -564,7 +574,7 @@ namespace NeeView.Susie
                 try
                 {
                     var api = BeginSection();
-                    int ret = api.GetFile(archiveFileName, info, extractFolder);
+                    int ret = api.GetFile(archiveFileName, position, extractFolder);
                     if (ret != 0) throw new SusieException("Susie extraction failed (Type.F)", this);
                 }
                 finally

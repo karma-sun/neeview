@@ -17,7 +17,7 @@ namespace NeeView
     {
         #region Fields
 
-        private SusiePlugin _susiePlugin;
+        private SusiePluginInfo _susiePlugin;
         private object _lock = new object();
 
         #endregion
@@ -44,11 +44,11 @@ namespace NeeView
         }
 
         // 対応プラグイン取得
-        public SusiePlugin GetPlugin()
+        public SusiePluginInfo GetPlugin()
         {
             if (_susiePlugin == null)
             {
-                _susiePlugin = SusieContext.Current.Client.PluginCollection?.GetArchivePlugin(Path, true);
+                _susiePlugin = SusieContext.Current.Client.GetArchivePlugin(Path, null, true);
             }
             return _susiePlugin;
         }
@@ -61,7 +61,7 @@ namespace NeeView
             var plugin = GetPlugin();
             if (plugin == null) throw new NotSupportedException($"not archive: {Path}");
 
-            var infoCollection = plugin.GetArchiveInfo(Path);
+            var infoCollection = SusieContext.Current.Client.GetArchiveEntry(plugin.Name, Path);
             if (infoCollection == null) throw new NotSupportedException();
 
             var list = new List<ArchiveEntry>();
@@ -113,8 +113,8 @@ namespace NeeView
 
             lock (_lock)
             {
-                var info = (Susie.ArchiveEntry)entry.Instance;
-                byte[] buffer = info.Load();
+                var info = (SusieArchiveEntry)entry.Instance;
+                byte[] buffer = SusieContext.Current.Client.LoadArchiveEntry(_susiePlugin.Name, Path, info.Position);
                 return new MemoryStream(buffer, 0, buffer.Length, false, true);
             }
         }
@@ -125,7 +125,7 @@ namespace NeeView
         {
             if (entry.Id < 0) throw new ApplicationException("Cannot open this entry: " + entry.EntryName);
 
-            var info = (Susie.ArchiveEntry)entry.Instance;
+            var info = (SusieArchiveEntry)entry.Instance;
 
             // 16MB以上のエントリは直接ファイル出力を試みる
             if (entry.Length > 16 * 1024 * 1024)
@@ -139,7 +139,7 @@ namespace NeeView
                     Directory.CreateDirectory(tempDirectory);
 
                     // 注意：失敗することがよくある
-                    info.ExtractToFolder(tempDirectory);
+                    SusieContext.Current.Client.ExtracArchiveEntrytToFolder(_susiePlugin.Name, Path, info.Position, tempDirectory);
 
                     // 上書き時は移動前に削除
                     if (isOverwrite && File.Exists(extractFileName))
@@ -171,7 +171,15 @@ namespace NeeView
             }
 
             // メモリ展開からのファイル保存
-            info.ExtractToFile(extractFileName);
+            {
+                byte[] buffer = SusieContext.Current.Client.LoadArchiveEntry(_susiePlugin.Name, Path, info.Position);
+                using (var ms = new System.IO.MemoryStream(buffer, false))
+                using (var stream = new System.IO.FileStream(extractFileName, System.IO.FileMode.Create))
+                {
+                    ms.WriteTo(stream);
+                }
+                GC.Collect();
+            }
         }
 
         /// <summary>

@@ -77,6 +77,21 @@ namespace NeeView.Susie
             long win32FileTime = 10000000 * (long)time_t + 116444736000000000;
             return DateTime.FromFileTime(win32FileTime);
         }
+
+
+        public SusieArchiveEntry ToSusieArchiveEntry()
+        {
+            var entry = new SusieArchiveEntry();
+
+            entry.Position = (int)_info.position;
+            entry.Path = this.Path;
+            entry.FileName = this.FileName;
+            entry.IsDirectory = this.IsDirectory;
+            entry.FileSize = this.FileSize;
+            entry.TimeStamp = this.TimeStamp;
+
+            return entry;
+        }
     }
 
     /// <summary>

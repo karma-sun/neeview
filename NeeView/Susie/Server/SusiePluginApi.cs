@@ -291,22 +291,28 @@ namespace NeeView.Susie
         /// <returns>出力されたバッファ。失敗した場合はnull</returns>
         public byte[] GetFile(string file, ArchiveFileInfoRaw entry)
         {
+            var buf = GetFile(file, (int)entry.position);
+            if (buf.Length != (int)entry.filesize)
+            {
+                Debug.WriteLine($"SusieWarning: illigal ArchiveFile size: request={entry.filesize}, real={buf.Length}");
+            }
+            return buf;
+        }
+
+        public byte[] GetFile(string file, int position)
+        {
             if (hModule == null) throw new InvalidOperationException();
             var getFile = GetApiDelegate<GetFileFromFileHandler>("GetFile");
 
             IntPtr hBuff = IntPtr.Zero;
             try
             {
-                int ret = getFile(file, (int)entry.position, out hBuff, 0x0100, ProgressCallbackDummy, 0); // 0x0100 > File To Memory
+                int ret = getFile(file, position, out hBuff, 0x0100, ProgressCallbackDummy, 0); // 0x0100 > File To Memory
                 if (ret == 0)
                 {
                     IntPtr pBuff = NativeMethods.LocalLock(hBuff);
                     var buffSize = (int)NativeMethods.LocalSize(hBuff);
                     if (buffSize == 0) throw new ApplicationException("Memory error.");
-                    if (buffSize != (int)entry.filesize)
-                    {
-                        Debug.WriteLine($"SusieWarning: illigal ArchiveFile size: request={entry.filesize}, real={buffSize}");
-                    }
                     byte[] buf = new byte[buffSize];
                     Marshal.Copy(pBuff, buf, (int)0, (int)buffSize);
                     return buf;
@@ -329,10 +335,15 @@ namespace NeeView.Susie
         /// <returns>成功した場合は0</returns>
         public int GetFile(string file, ArchiveFileInfoRaw entry, string extractFolder)
         {
+            return GetFile(file, (int)entry.position, extractFolder);
+        }
+
+        public int GetFile(string file, int position, string extractFolder)
+        {
             if (hModule == null) throw new InvalidOperationException();
             var getFile = GetApiDelegate<GetFileFromFileToFileHandler>("GetFile");
 
-            return getFile(file, (int)entry.position, extractFolder, 0x0000, ProgressCallbackDummy, 0); // 0x0000 > File To File
+            return getFile(file, position, extractFolder, 0x0000, ProgressCallbackDummy, 0); // 0x0000 > File To File
         }
 
         #endregion

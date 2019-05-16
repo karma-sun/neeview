@@ -96,7 +96,7 @@ namespace NeeView.Susie
         /// <param name="fileName">書庫ファイル名</param>
         /// <param name="position">エントリーID</param>
         /// <returns>データ</returns>
-        byte[] LoadArchiveEntry(string pluginName, string fileName, uint position);
+        byte[] LoadArchiveEntry(string pluginName, string fileName, int position);
 
         /// <summary>
         /// 書庫エントリーファイル出力
@@ -105,6 +105,6 @@ namespace NeeView.Susie
         /// <param name="fileName">書庫ファイル名</param>
         /// <param name="position">エントリーID</param>
         /// <param name="extractFolder">出力先フォルダー</param>
-        void ExtracArchiveEntrytToFolder(string pluginName, string fileName, uint position, string extractFolder);
+        void ExtracArchiveEntrytToFolder(string pluginName, string fileName, int position, string extractFolder);
     }
 }

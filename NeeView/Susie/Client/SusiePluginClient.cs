@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace NeeView.Susie.Client
@@ -12,10 +13,6 @@ namespace NeeView.Susie.Client
         {
 
         }
-
-        [Obsolete]
-        public SusiePluginCollection PluginCollection => _pluginCollection;
-
 
         #region IDisposable Support
         private bool _disposedValue = false;
@@ -39,24 +36,51 @@ namespace NeeView.Susie.Client
         #endregion
 
 
-        public void ExtracArchiveEntrytToFolder(string pluginName, string fileName, uint position, string extractFolder)
+        public void ExtracArchiveEntrytToFolder(string pluginName, string fileName, int position, string extractFolder)
         {
-            throw new System.NotImplementedException();
+            var plugin = _pluginCollection.AMPluginList.FirstOrDefault(e => e.Name == pluginName);
+            if (plugin == null) throw new SusieIOException($"Cannot find plugin: {pluginName}");
+
+            plugin.ExtracArchiveEntrytToFolder(fileName, position, extractFolder);
         }
 
         public List<SusieArchiveEntry> GetArchiveEntry(string pluginName, string fileName)
         {
-            throw new System.NotImplementedException();
+            var plugin = _pluginCollection.AMPluginList.FirstOrDefault(e => e.Name == pluginName);
+            if (plugin == null) throw new SusieIOException($"Cannot find plugin: {pluginName}");
+
+            var collection = plugin.GetArchiveInfo(fileName);
+            return collection.Select(e => e.ToSusieArchiveEntry()).ToList();
         }
 
         public SusiePluginInfo GetArchivePlugin(string fileName, byte[] buff, bool isCheckExtension)
         {
-            throw new System.NotImplementedException();
+            // buff==nullのときの処理。ヘッダ2KBを読み込む
+            if (buff == null)
+            {
+                buff = new byte[4096];
+                using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+                {
+                    fs.Read(buff, 0, 2048);
+                }
+            }
+
+            var plugin = _pluginCollection.GetArchivePlugin(fileName, buff, isCheckExtension);
+            return plugin.ToSusiePluginInfo();
         }
 
         public SusiePluginInfo GetImagePlugin(string fileName, byte[] buff, bool isCheckExtension)
         {
-            // TODO: buff==nullのときの処理。ヘッダ2KBを読み込む
+            // buff==nullのときの処理。ヘッダ2KBを読み込む
+            if (buff == null)
+            {
+                buff = new byte[4096];
+                using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
+                {
+                    fs.Read(buff, 0, 2048);
+                }
+            }
+
             var plugin = _pluginCollection.GetImagePlugin(fileName, buff, isCheckExtension);
             return plugin.ToSusiePluginInfo();
         }
@@ -101,9 +125,12 @@ namespace NeeView.Susie.Client
             return setting;
         }
 
-        public byte[] LoadArchiveEntry(string pluginName, string fileName, uint position)
+        public byte[] LoadArchiveEntry(string pluginName, string fileName, int position)
         {
-            throw new System.NotImplementedException();
+            var plugin = _pluginCollection.AMPluginList.FirstOrDefault(e => e.Name == pluginName);
+            if (plugin == null) throw new SusieIOException($"Cannot find plugin: {pluginName}");
+
+            return plugin.LoadArchiveEntry(fileName, position);
         }
 
         public void SetPluginCahceEnabled(bool isCacheEnabled)

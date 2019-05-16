@@ -4,6 +4,9 @@ namespace NeeView.Susie
 {
     public class SusieArchiveEntry
     {
+        public int Position { get; set; }
+
+        public string Path { get; set; }
         public string FileName { get; set; }
 
         // ディレクトリ？

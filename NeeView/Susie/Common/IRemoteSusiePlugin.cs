@@ -42,6 +42,12 @@ namespace NeeView.Susie
         void SetPlugins(List<SusiePluginSetting> settings);
 
         /// <summary>
+        /// プラグインの並び順設定
+        /// </summary>
+        /// <param name="order">プラグイン名リスト</param>
+        void SetPluginOrder(List<string> order);
+
+        /// <summary>
         /// 画像プラグイン情報取得
         /// </summary>
         /// <param name="fileName">画像ファイル名</param>

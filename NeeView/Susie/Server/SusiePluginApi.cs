@@ -22,13 +22,9 @@ namespace NeeView.Susie
         // APIデリゲートリスト
         private Dictionary<Type, object> _apiDelegateList = new Dictionary<Type, object>();
 
-        // 64bitプラグイン(.sph)
-        private bool _is64bitPlugin;
 
-
-        private SusiePluginApi(bool is64bitPlugin)
+        private SusiePluginApi()
         {
-            _is64bitPlugin = is64bitPlugin;
         }
 
         /// <summary>
@@ -36,9 +32,9 @@ namespace NeeView.Susie
         /// </summary>
         /// <param name="fileName">spiファイル名</param>
         /// <returns>プラグインインターフェイス</returns>
-        public static SusiePluginApi Create(string fileName, bool is64bitPlugin)
+        public static SusiePluginApi Create(string fileName)
         {
-            var lib = new SusiePluginApi(is64bitPlugin);
+            var lib = new SusiePluginApi();
             lib.Open(fileName);
             if (lib == null) throw new ArgumentException("not support " + fileName);
             return lib;
@@ -259,18 +255,11 @@ namespace NeeView.Susie
                 if (ret == 0)
                 {
                     var list = new List<ArchiveFileInfoRaw>();
-
-                    var structSize = _is64bitPlugin
-                        ? Marshal.SizeOf<ArchiveFileInfoRawX64>()
-                        : Marshal.SizeOf<ArchiveFileInfoRaw>();
-
+                    var structSize = Marshal.SizeOf<ArchiveFileInfoRaw>();
                     IntPtr p = NativeMethods.LocalLock(hInfo);
                     while (true)
                     {
-                        ArchiveFileInfoRaw fileInfo = _is64bitPlugin
-                            ? Marshal.PtrToStructure<ArchiveFileInfoRawX64>(p).ToArchiveFileInfoRaw()
-                            : Marshal.PtrToStructure<ArchiveFileInfoRaw>(p);
-
+                        ArchiveFileInfoRaw fileInfo = Marshal.PtrToStructure<ArchiveFileInfoRaw>(p);
                         if (string.IsNullOrEmpty(fileInfo.method)) break;
                         list.Add(fileInfo);
                         p += structSize;
@@ -505,57 +494,6 @@ namespace NeeView.Susie
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 200)]
         public string filename; // ファイルネーム
         public uint crc; // CRC 
-    }
-
-    /// <summary>
-    /// アーカイブエントリ情報(Raw) 64bit
-    /// </summary>
-    [StructLayout(LayoutKind.Sequential, Pack = 1, CharSet = CharSet.Ansi)]
-    public struct ArchiveFileInfoRawX64
-    {
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 8)]
-        public string method; // 圧縮法の種類
-        public ulong position; // ファイル上での位置
-        public ulong compsize; // 圧縮されたサイズ
-        public ulong filesize; // 元のファイルサイズ
-        public ulong timestamp; // ファイルの更新日時
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 200)]
-        public string path; // 相対パス
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 200)]
-        public string filename; // ファイルネーム
-        public ulong crc; // CRC 
-    }
-
-    public static class ArchiveFileInfoRawExtensions
-    {
-        public static ArchiveFileInfoRaw ToArchiveFileInfoRaw(this ArchiveFileInfoRawX64 self)
-        {
-            // NOTE: 有効な値の範囲は32bitまで
-            var info = new ArchiveFileInfoRaw();
-            info.method = self.method;
-            info.position = (uint)self.position;
-            info.compsize = (uint)self.compsize;
-            info.filesize = (uint)self.filesize;
-            info.timestamp = (uint)self.timestamp;
-            info.path = self.path;
-            info.filename = self.filename;
-            info.crc = (uint)self.crc; // ビットが切り捨てられているので無意味な値になっている。未使用につき現状維持
-            return info;
-        }
-
-        public static ArchiveFileInfoRawX64 ToArchiveFileInfoRawX64(this ArchiveFileInfoRaw self)
-        {
-            var info = new ArchiveFileInfoRawX64();
-            info.method = self.method;
-            info.position = self.position;
-            info.compsize = self.compsize;
-            info.filesize = self.filesize;
-            info.timestamp = self.timestamp;
-            info.path = self.path;
-            info.filename = self.filename;
-            info.crc = self.crc;
-            return info;
-        }
     }
 
 }

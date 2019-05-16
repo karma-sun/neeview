@@ -81,6 +81,12 @@ namespace NeeView.Setting
             set { _spi.IsEnabled = value; }
         }
 
+        public bool IsCacheEnabled
+        {
+            get { return _spi.IsCacheEnabled; }
+            set { _spi.IsCacheEnabled = value; }
+        }
+
         public bool IsPreExtract
         {
             get { return _spi.IsPreExtract; }

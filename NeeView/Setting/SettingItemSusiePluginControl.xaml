@@ -82,7 +82,7 @@
             <Button x:Name="DownButton" Content="{x:Static properties:Resources.ControlSusiePluginListDown}" Command="{Binding MoveDownCommand}"/>
         </StackPanel>
 
-        <ListBox x:Name="PluginList" MinHeight="64" MinWidth="64" ItemsSource="{Binding Plugins}" Tag="{Binding Plugins}" SelectionChanged="PluginList_SelectionChanged">
+        <ListBox x:Name="PluginList" MinHeight="64" MinWidth="64" SelectionChanged="PluginList_SelectionChanged">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <EventSetter Event="MouseDoubleClick" Handler="ListBoxItem_MouseDoubleClick"/>

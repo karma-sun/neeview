@@ -11443,6 +11443,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Cache plugin に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamSusiePluginIsCacheEnabled {
+            get {
+                return ResourceManager.GetString("ParamSusiePluginIsCacheEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Enable に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamSusiePluginIsEnabled {

@@ -94,9 +94,8 @@ namespace NeeView.Susie.Client
 
             var setting = new SusiePluginServerSetting();
             setting.PluginFolder = _pluginCollection.PluginFolder;
-            setting.IsPluginCacheEnabled = _pluginCollection.IsPluginCacheEnabled;
-            setting.PluginSettings = _pluginCollection.StorePlugins()
-                .Select(e => e.Value.ToSusiePluginSetting(LoosePath.GetFileName(e.Key)))
+            setting.PluginSettings = _pluginCollection.PluginCollection
+                .Select(e => e.ToSusiePluginSetting())
                 .ToList();
 
             return setting;
@@ -119,25 +118,22 @@ namespace NeeView.Susie.Client
 
         public void SetPlugins(List<SusiePluginSetting> settings)
         {
-            throw new System.NotImplementedException();
+            if (settings == null) return;
+            _pluginCollection.SetPluginSetting(settings);
         }
+
+        public void SetPluginOrder(List<string> order)
+        {
+            _pluginCollection.SortPlugins(order);
+        }
+
 
         public void SetServerSetting(SusiePluginServerSetting setting)
         {
-            _pluginCollection = new SusiePluginCollection(false, setting.IsPluginCacheEnabled);
+            _pluginCollection = new SusiePluginCollection();
             _pluginCollection.Initialize(setting.PluginFolder);
-            _pluginCollection.RestorePlugins(setting.PluginSettings.ToDictionary(e => LoosePath.Combine(setting.PluginFolder, e.Name), e => ToPluginMemento(e)));
-
-#pragma warning disable CS0612
-            SusiePlugin.Memento ToPluginMemento(SusiePluginSetting element)
-            {
-                var memento = new SusiePlugin.Memento();
-                memento.IsEnabled = element.IsEnabled;
-                memento.IsPreExtract = element.IsPreExtract;
-                memento.UserExtensions = element.UserExtensions;
-                return memento;
-            }
-#pragma warning restore CS0612
+            _pluginCollection.SetPluginSetting(setting.PluginSettings);
+            _pluginCollection.SortPlugins(setting.PluginSettings.Select(e => e.Name).ToList());
         }
 
         public void ShowConfigulationDlg(string pluginName, int hwnd)

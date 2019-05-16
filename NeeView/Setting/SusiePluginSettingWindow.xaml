@@ -51,6 +51,7 @@
 
                 <StackPanel DockPanel.Dock="Top" Margin="0,15,0,5">
                     <CheckBox Content="{x:Static properties:Resources.ParamSusiePluginIsEnabled}" IsChecked="{Binding IsEnabled}"/>
+                    <CheckBox Content="{x:Static properties:Resources.ParamSusiePluginIsCacheEnabled}" IsChecked="{Binding IsCacheEnabled}"/>
                     <CheckBox Content="{x:Static properties:Resources.ParamSusiePluginIsPreExtract}" IsChecked="{Binding IsPreExtract}" Visibility="{Binding IsArchiver, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 </StackPanel>
 

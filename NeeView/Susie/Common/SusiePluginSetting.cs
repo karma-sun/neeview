@@ -11,6 +11,9 @@ namespace NeeView.Susie
         [DataMember]
         public bool IsEnabled { get; set; }
 
+        [DataMember]
+        public bool IsCacheEnabled { get; set; }
+
         [DataMember(EmitDefaultValue = false)]
         public bool IsPreExtract { get; set; }
 

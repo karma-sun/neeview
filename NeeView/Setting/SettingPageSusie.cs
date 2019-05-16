@@ -42,12 +42,6 @@ namespace NeeView.Setting
                 {
                     IsEnabled = new IsEnabledPropertyValue(SusieContext.Current, nameof(SusieContext.IsEnabled))
                 },
-
-                new SettingItemSection(Properties.Resources.SettingPageSusieGeneralAdvance,
-                    new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.IsPluginCacheEnabled))))
-                {
-                    IsEnabled = new IsEnabledPropertyValue(SusieContext.Current, nameof(SusieContext.IsEnabled))
-                },
             };
         }
     }

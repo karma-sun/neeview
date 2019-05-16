@@ -22,9 +22,9 @@ namespace NeeView.Susie
     {
         private object _lock = new object();
         private SusiePluginApi _module;
-        private bool _isCacheEnabled;
 
         private bool _isEnabled = true;
+        private bool _isCacheEnabled = true;
         private bool _isPreExtract;
         private FileExtensionCollection _userExtensions;
 
@@ -45,9 +45,6 @@ namespace NeeView.Susie
             get { return _isPreExtract; }
             set { SetProperty(ref _isPreExtract, value); }
         }
-
-        // 64bitプラグイン(.sph)
-        public bool Is64bitPlugin { get; private set; }
 
         // プラグインファイルのパス
         public string FileName { get; private set; }
@@ -118,43 +115,11 @@ namespace NeeView.Susie
             }
         }
 
-
-
         // 対応拡張子
         public FileExtensionCollection Extensions
         {
             get { return UserExtensions ?? DefaultExtensions; }
-            ////get { return _extensions; }
-            ////set { SetProperty(ref _extensions, value); }
         }
-
-
-#if false
-        /// <summary>
-        /// ユーザー定義拡張子。設定保存用
-        /// </summary>
-        public string UserExtensions
-        {
-            get
-            {
-                var oneline = _extensions.OneLine;
-                return (oneline != DefaultExtensions.OneLine) ? oneline : null;
-            }
-
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    ResetExtensions();
-                }
-                else
-                {
-                    Extensions.Restore(value);
-                }
-            }
-        }
-#endif
-
 
         // 文字列変換
         public override string ToString()
@@ -167,10 +132,10 @@ namespace NeeView.Susie
         /// </summary>
         /// <param name="fileName">プラグインファイルのパス</param>
         /// <returns>プラグイン。失敗したらnullを返す</returns>
-        public static SusiePlugin Create(string fileName, bool is64bitPlugin)
+        public static SusiePlugin Create(string fileName)
         {
             var spi = new SusiePlugin();
-            return spi.Initialize(fileName, is64bitPlugin) ? spi : null;
+            return spi.Initialize(fileName) ? spi : null;
         }
 
         /// <summary>
@@ -178,32 +143,8 @@ namespace NeeView.Susie
         /// </summary>
         public void ResetExtensions()
         {
-            ////Extensions.Restore(DefaultExtensions.Items);
             UserExtensions = null;
         }
-
-#if false
-        /// <summary>
-        /// 標準拡張子の設定
-        /// </summary>
-        private void SetDefaultExtensions(FileTypeCollection extensions)
-        {
-            var adds = extensions.Items.Except(DefaultExtensions.Items).ToList();
-            var removes = DefaultExtensions.Items.Except(extensions.Items).ToList();
-
-            DefaultExtensions.Restore(extensions.Items);
-
-            if (_extensions.IsEmpty())
-            {
-                _extensions.Restore(DefaultExtensions.Items);
-            }
-            else
-            {
-                _extensions.AddRange(adds);
-                _extensions.RemoveRange(removes);
-            }
-        }
-#endif
 
         /// <summary>
         /// 詳細テキストを更新する
@@ -219,13 +160,13 @@ namespace NeeView.Susie
         /// </summary>
         /// <param name="fileName">プラグインファイルのパス</param>
         /// <returns>成功したらtrue</returns>
-        public bool Initialize(string fileName, bool is64bitPlugin)
+        public bool Initialize(string fileName)
         {
             if (FileName != null) throw new InvalidOperationException();
 
             try
             {
-                using (var api = SusiePluginApi.Create(fileName, is64bitPlugin))
+                using (var api = SusiePluginApi.Create(fileName))
                 {
                     ApiVersion = api.GetPluginInfo(0);
                     PluginVersion = api.GetPluginInfo(1);
@@ -241,7 +182,6 @@ namespace NeeView.Susie
                 }
 
                 FileName = fileName;
-                Is64bitPlugin = is64bitPlugin;
 
                 return true;
             }
@@ -273,7 +213,6 @@ namespace NeeView.Susie
                 extensions.AddRange(filter.Split(';', ',').Select(e => e.TrimStart('*').ToLower().Trim()).Where(e => e != ".*"));
             }
 
-            ////SetDefaultExtensions(new FileTypeCollection(extensions));
             DefaultExtensions = new FileExtensionCollection(extensions);
         }
 
@@ -285,7 +224,7 @@ namespace NeeView.Susie
 
             if (_module == null)
             {
-                _module = SusiePluginApi.Create(FileName, Is64bitPlugin);
+                _module = SusiePluginApi.Create(FileName);
             }
 
             return _module;
@@ -319,22 +258,8 @@ namespace NeeView.Susie
         /// <returns>成功した場合は0</returns>
         public int AboutDlg(Window parent)
         {
-            if (FileName == null) throw new InvalidOperationException();
-
-            lock (_lock)
-            {
-                try
-                {
-                    var api = BeginSection();
-                    IntPtr hwnd = parent != null ? new WindowInteropHelper(parent).Handle : IntPtr.Zero;
-                    return api.ConfigurationDlg(hwnd, 0);
-                }
-                finally
-                {
-                    EndSection();
-                    UnloadModule();
-                }
-            }
+            IntPtr hwnd = parent != null ? new WindowInteropHelper(parent).Handle : IntPtr.Zero;
+            return AboutDlg(hwnd);
         }
 
         public int AboutDlg(IntPtr hwnd)
@@ -346,7 +271,6 @@ namespace NeeView.Susie
                 try
                 {
                     var api = BeginSection();
-                    ////IntPtr hwnd = parent != null ? new WindowInteropHelper(parent).Handle : IntPtr.Zero;
                     return api.ConfigurationDlg(hwnd, 0);
                 }
                 finally
@@ -364,24 +288,8 @@ namespace NeeView.Susie
         /// <returns>成功した場合は0</returns>
         public int ConfigurationDlg(Window parent)
         {
-            if (FileName == null) throw new InvalidOperationException();
-
-            lock (_lock)
-            {
-                try
-                {
-                    var api = BeginSection();
-                    IntPtr hwnd = parent != null ? new WindowInteropHelper(parent).Handle : IntPtr.Zero;
-                    var result = api.ConfigurationDlg(hwnd, 1);
-                    UpdateDefaultExtensions(api);
-                    return result;
-                }
-                finally
-                {
-                    EndSection();
-                    UnloadModule();
-                }
-            }
+            IntPtr hwnd = parent != null ? new WindowInteropHelper(parent).Handle : IntPtr.Zero;
+            return ConfigurationDlg(hwnd);
         }
 
         public int ConfigurationDlg(IntPtr hwnd)
@@ -393,7 +301,6 @@ namespace NeeView.Susie
                 try
                 {
                     var api = BeginSection();
-                    ////IntPtr hwnd = parent != null ? new WindowInteropHelper(parent).Handle : IntPtr.Zero;
                     var result = api.ConfigurationDlg(hwnd, 1);
                     UpdateDefaultExtensions(api);
                     return result;
@@ -710,17 +617,20 @@ namespace NeeView.Susie
                 this.InitializePropertyDefaultValues();
             }
 
-            public SusiePluginSetting ToSusiePluginSetting(string name)
+            [Obsolete]
+            public SusiePluginSetting ToSusiePluginSetting(string name, bool isCacheEnabled)
             {
                 var setting = new SusiePluginSetting();
                 setting.Name = name;
                 setting.IsEnabled = this.IsEnabled;
+                setting.IsCacheEnabled = isCacheEnabled;
                 setting.IsPreExtract = this.IsPreExtract;
                 setting.UserExtensions = this.UserExtensions;
                 return setting;
             }
         }
 
+        [Obsolete]
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -730,6 +640,7 @@ namespace NeeView.Susie
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
@@ -740,6 +651,14 @@ namespace NeeView.Susie
 
         #endregion
 
+        public void Restore(SusiePluginSetting setting)
+        {
+            if (setting == null) return;
+            this.IsEnabled = setting.IsEnabled;
+            this.IsCacheEnabled = setting.IsCacheEnabled;
+            this.IsPreExtract = setting.IsPreExtract;
+            this.UserExtensions = setting.UserExtensions != null ? new FileExtensionCollection(setting.UserExtensions) : null;
+        }
 
         public SusiePluginInfo ToSusiePluginInfo()
         {
@@ -753,11 +672,23 @@ namespace NeeView.Susie
             info.DetailText = this.DetailText;
             info.HasConfigurationDlg = this.HasConfigurationDlg;
             info.IsEnabled = this.IsEnabled;
+            info.IsCacheEnabled = this.IsCacheEnabled;
             info.IsPreExtract = this.IsPreExtract;
             info.DefaultExtension = this.DefaultExtensions;
             info.UserExtension = this.UserExtensions;
 
             return info;
+        }
+
+        public SusiePluginSetting ToSusiePluginSetting()
+        {
+            var setting = new SusiePluginSetting();
+            setting.Name = this.Name;
+            setting.IsEnabled = this.IsEnabled;
+            setting.IsCacheEnabled = this.IsCacheEnabled;
+            setting.IsPreExtract = this.IsPreExtract;
+            setting.UserExtensions = this.UserExtensions?.ToOneLine();
+            return setting;
         }
     }
 

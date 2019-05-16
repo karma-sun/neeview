@@ -30,20 +30,14 @@ namespace NeeView.Susie
         #endregion
 
 
-        private bool _is64bitPlugin;
-        private bool _isPluginCacheEnabled;
         private ObservableCollection<SusiePlugin> _AMPluginList = new ObservableCollection<SusiePlugin>();
         private ObservableCollection<SusiePlugin> _INPluginList = new ObservableCollection<SusiePlugin>();
 
 
-        public SusiePluginCollection(bool is64bitPlugin, bool isPluginCacheEnabled)
+        public SusiePluginCollection()
         {
-            _is64bitPlugin = is64bitPlugin;
-            _isPluginCacheEnabled = isPluginCacheEnabled;
         }
 
-
-        public bool IsPluginCacheEnabled => _isPluginCacheEnabled;
 
         public string PluginFolder { get; set; }
 
@@ -112,16 +106,14 @@ namespace NeeView.Susie
             if (!Directory.Exists(spiFolder)) return;
 
 
-            var searchPattern = _is64bitPlugin ? "*.sph" : "*.spi";
-            var spiFiles = Directory.GetFiles(spiFolder, searchPattern);
+            var spiFiles = Directory.GetFiles(spiFolder, "*.spi");
 
             var plugins = new List<SusiePlugin>();
             foreach (var fileName in spiFiles)
             {
-                var spi = SusiePlugin.Create(fileName, _is64bitPlugin);
+                var spi = SusiePlugin.Create(fileName);
                 if (spi != null)
                 {
-                    spi.IsCacheEnabled = _isPluginCacheEnabled;
                     if (spi.PluginType == SusiePluginType.None)
                     {
                         Debug.WriteLine("no support SPI (wrong API version): " + Path.GetFileName(fileName));
@@ -142,29 +134,30 @@ namespace NeeView.Susie
             AMPluginList = new ObservableCollection<SusiePlugin>(plugins.Where(e => e.PluginType == SusiePluginType.Archive));
         }
 
-        // プラグイン設定の保存
-        public Dictionary<string, SusiePlugin.Memento> StorePlugins()
-        {
-            return PluginCollection.ToDictionary(e => e.FileName, e => e.CreateMemento());
-        }
 
-        // プラグイン設定の復元
-        public void RestorePlugins(Dictionary<string, SusiePlugin.Memento> map)
+        public void SetPluginSetting(List<SusiePluginSetting> settings)
         {
-            if (map == null) return;
+            if (settings == null) return;
 
             foreach (var plugin in PluginCollection)
             {
-                if (map.TryGetValue(plugin.FileName, out SusiePlugin.Memento memento))
+                var setting = settings.FirstOrDefault(e => e.Name == plugin.Name);
+                if (setting != null)
                 {
-                    plugin.Restore(memento);
+                    plugin.Restore(setting);
                 }
             }
+        }
 
-            var comparar = new PluginOrderComparer(map.Keys);
+        public void SortPlugins(List<string> orders)
+        {
+            if (orders == null) return;
+
+            var comparar = new PluginOrderComparer(orders);
             INPluginList = new ObservableCollection<SusiePlugin>(INPluginList.OrderBy(e => e, comparar));
             AMPluginList = new ObservableCollection<SusiePlugin>(AMPluginList.OrderBy(e => e, comparar));
         }
+
 
         /// <summary>
         /// 予約順にSPIを並び替えるためのコンペア 
@@ -173,26 +166,16 @@ namespace NeeView.Susie
         {
             private List<string> _order;
 
-            public PluginOrderComparer(IEnumerable<string> order)
+            public PluginOrderComparer(List<string> order)
             {
-                _order = order.ToList();
+                _order = order;
             }
 
             public int Compare(SusiePlugin spiX, SusiePlugin spiY)
             {
-                int indexX = _order.IndexOf(spiX.FileName);
-                int indexY = _order.IndexOf(spiY.FileName);
+                int indexX = _order.IndexOf(spiX.Name);
+                int indexY = _order.IndexOf(spiY.Name);
                 return indexX - indexY;
-            }
-        }
-
-        // プラグインキャッシュ設定を変更
-        public void SetPluginCahceEnabled(bool isPluginCacheEnabled)
-        {
-            _isPluginCacheEnabled = isPluginCacheEnabled;
-            foreach (var spi in PluginCollection)
-            {
-                spi.IsCacheEnabled = _isPluginCacheEnabled;
             }
         }
 

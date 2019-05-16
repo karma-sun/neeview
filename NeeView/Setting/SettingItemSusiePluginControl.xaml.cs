@@ -71,19 +71,12 @@ namespace NeeView.Setting
 
             _pluginType = pluginType;
 
-            Plugins = new ObservableCollection<SusiePluginInfo>(SusieContext.Current.Client?.GetPlugins(null).Where(e => e.PluginType == pluginType));
+            var binding = new Binding(pluginType == SusiePluginType.Image ? nameof(SusieContext.INPlugins) : nameof(SusieContext.AMPlugins)) { Source = SusieContext.Current, Mode = BindingMode.OneWay };
+            this.PluginList.SetBinding(ListBox.ItemsSourceProperty, binding);
+            this.PluginList.SetBinding(ListBox.TagProperty, binding);
         }
 
         #endregion
-
-
-        private ObservableCollection<SusiePluginInfo> _plugins;
-        public ObservableCollection<SusiePluginInfo> Plugins
-        {
-            get { return _plugins; }
-            set { SetProperty(ref _plugins, value); }
-        }
-
 
         #region Commands
 
@@ -114,8 +107,8 @@ namespace NeeView.Setting
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             dialog.ShowDialog();
 
-            // TODO: 情報更新
-            Debug.WriteLine($"TODO: imprement RaiseDetailTextPropertyChanged()");
+            SusieContext.Current.FlushSusiePluginSetting(spi.Name);
+            SusieContext.Current.UpdateSusiePlugin(spi.Name);
             UpdateExtensions();
         }
 
@@ -191,12 +184,13 @@ namespace NeeView.Setting
         // 有効/無効チェックボックス
         private void CheckBox_Changed(object sender, RoutedEventArgs e)
         {
+            var item = (sender as CheckBox)?.DataContext as SusiePluginInfo;
+            SusieContext.Current.FlushSusiePluginSetting(item.Name);
             UpdateExtensions();
         }
 
         private void UpdateExtensions()
         {
-            Debug.WriteLine($"TODO: Update plugin extensions");
             if (_pluginType == SusiePluginType.Image)
             {
                 SusieContext.Current.UpdateImageExtensions();

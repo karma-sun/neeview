@@ -65,7 +65,7 @@ namespace NeeView
             [ArchiverType.ZipArchiver] = ZipArchiverProfile.Current.SupportFileTypes,
             [ArchiverType.PdfArchiver] = new FileTypeCollection(".pdf"),
             [ArchiverType.MediaArchiver] = MediaArchiverProfile.Current.SupportFileTypes,
-            [ArchiverType.SusieArchiver] = SusieContext.Current.ArchiveExtensions,
+            [ArchiverType.SusieArchiver] = SusiePluginManager.Current.ArchiveExtensions,
             [ArchiverType.PlaylistArchiver] = new FileTypeCollection(PlaylistArchive.Extension),
         };
 
@@ -92,9 +92,9 @@ namespace NeeView
                 (s, e) => UpdateOrderList());
             MediaArchiverProfile.Current.AddPropertyChanged(nameof(MediaArchiverProfile.IsEnabled),
                 (s, e) => UpdateOrderList());
-            SusieContext.Current.AddPropertyChanged(nameof(SusieContext.IsEnabled),
+            SusiePluginManager.Current.AddPropertyChanged(nameof(SusiePluginManager.IsEnabled),
                 (s, e) => UpdateOrderList());
-            SusieContext.Current.AddPropertyChanged(nameof(SusieContext.IsFirstOrderSusieArchive),
+            SusiePluginManager.Current.AddPropertyChanged(nameof(SusiePluginManager.IsFirstOrderSusieArchive),
                 (s, e) => UpdateOrderList());
 
             // 検索順初期化
@@ -181,9 +181,9 @@ namespace NeeView
                 order.Add(ArchiverType.MediaArchiver);
             }
 
-            if (SusieContext.Current.IsEnabled)
+            if (SusiePluginManager.Current.IsEnabled)
             {
-                if (SusieContext.Current.IsFirstOrderSusieArchive)
+                if (SusiePluginManager.Current.IsFirstOrderSusieArchive)
                 {
                     order.Insert(0, ArchiverType.SusieArchiver);
                 }
@@ -505,7 +505,7 @@ namespace NeeView
                     SevenZipArchiverProfile.Current.IsEnabled = false;
                     PdfArchiverProfile.Current.IsEnabled = false;
                     MediaArchiverProfile.Current.IsEnabled = false;
-                    SusieContext.Current.IsEnabled = false;
+                    SusiePluginManager.Current.IsEnabled = false;
                 }
             }
 

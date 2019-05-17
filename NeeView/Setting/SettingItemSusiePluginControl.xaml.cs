@@ -71,7 +71,7 @@ namespace NeeView.Setting
 
             _pluginType = pluginType;
 
-            var binding = new Binding(pluginType == SusiePluginType.Image ? nameof(SusieContext.INPlugins) : nameof(SusieContext.AMPlugins)) { Source = SusieContext.Current, Mode = BindingMode.OneWay };
+            var binding = new Binding(pluginType == SusiePluginType.Image ? nameof(SusiePluginManager.INPlugins) : nameof(SusiePluginManager.AMPlugins)) { Source = SusiePluginManager.Current, Mode = BindingMode.OneWay };
             this.PluginList.SetBinding(ListBox.ItemsSourceProperty, binding);
             this.PluginList.SetBinding(ListBox.TagProperty, binding);
         }
@@ -107,8 +107,8 @@ namespace NeeView.Setting
             dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             dialog.ShowDialog();
 
-            SusieContext.Current.FlushSusiePluginSetting(spi.Name);
-            SusieContext.Current.UpdateSusiePlugin(spi.Name);
+            SusiePluginManager.Current.FlushSusiePluginSetting(spi.Name);
+            SusiePluginManager.Current.UpdateSusiePlugin(spi.Name);
             UpdateExtensions();
         }
 
@@ -185,7 +185,7 @@ namespace NeeView.Setting
         private void CheckBox_Changed(object sender, RoutedEventArgs e)
         {
             var item = (sender as CheckBox)?.DataContext as SusiePluginInfo;
-            SusieContext.Current.FlushSusiePluginSetting(item.Name);
+            SusiePluginManager.Current.FlushSusiePluginSetting(item.Name);
             UpdateExtensions();
         }
 
@@ -193,11 +193,11 @@ namespace NeeView.Setting
         {
             if (_pluginType == SusiePluginType.Image)
             {
-                SusieContext.Current.UpdateImageExtensions();
+                SusiePluginManager.Current.UpdateImageExtensions();
             }
             else
             {
-                SusieContext.Current.UpdateArchiveExtensions();
+                SusiePluginManager.Current.UpdateArchiveExtensions();
             }
         }
 

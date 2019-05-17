@@ -29,18 +29,18 @@ namespace NeeView.Setting
             {
                 new SettingItemSection(Properties.Resources.SettingPageSusieGeneralGeneral,
                     Properties.Resources.SettingPageSusieGeneralGeneralTips,
-                    new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.IsEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.SusiePluginPath)))
+                    new SettingItemProperty(PropertyMemberElement.Create(SusiePluginManager.Current, nameof(SusiePluginManager.IsEnabled))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SusiePluginManager.Current, nameof(SusiePluginManager.SusiePluginPath)))
                     {
                         IsStretch = true,
-                        IsEnabled = new IsEnabledPropertyValue(SusieContext.Current, nameof(SusieContext.IsEnabled)),
+                        IsEnabled = new IsEnabledPropertyValue(SusiePluginManager.Current, nameof(SusiePluginManager.IsEnabled)),
                     }),
 
                 new SettingItemSection(Properties.Resources.SettingPageSusieGeneralPriority,
-                    new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.IsFirstOrderSusieImage))),
-                    new SettingItemProperty(PropertyMemberElement.Create(SusieContext.Current, nameof(SusieContext.IsFirstOrderSusieArchive))))
+                    new SettingItemProperty(PropertyMemberElement.Create(SusiePluginManager.Current, nameof(SusiePluginManager.IsFirstOrderSusieImage))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SusiePluginManager.Current, nameof(SusiePluginManager.IsFirstOrderSusieArchive))))
                 {
-                    IsEnabled = new IsEnabledPropertyValue(SusieContext.Current, nameof(SusieContext.IsEnabled))
+                    IsEnabled = new IsEnabledPropertyValue(SusiePluginManager.Current, nameof(SusiePluginManager.IsEnabled))
                 },
             };
         }
@@ -57,7 +57,7 @@ namespace NeeView.Setting
                 new SettingItemGroup(
                     new SettingItemSusiePlugin(SusiePluginType.Image))
                 {
-                    IsEnabled = new IsEnabledPropertyValue(SusieContext.Current, nameof(SusieContext.IsEnabled)),
+                    IsEnabled = new IsEnabledPropertyValue(SusiePluginManager.Current, nameof(SusiePluginManager.IsEnabled)),
                 },
             };
         }
@@ -74,7 +74,7 @@ namespace NeeView.Setting
                 new SettingItemGroup(
                     new SettingItemSusiePlugin(SusiePluginType.Archive))
                 {
-                    IsEnabled = new IsEnabledPropertyValue(SusieContext.Current, nameof(SusieContext.IsEnabled)),
+                    IsEnabled = new IsEnabledPropertyValue(SusiePluginManager.Current, nameof(SusiePluginManager.IsEnabled)),
                 }
             };
         }

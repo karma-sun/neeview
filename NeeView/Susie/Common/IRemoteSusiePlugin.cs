@@ -33,13 +33,13 @@ namespace NeeView.Susie
         /// プラグイン情報取得
         /// </summary>
         /// <param name="pluginNames">取得するプラグイン名。nullの場合、全プラグイン情報を取得</param>
-        List<SusiePluginInfo> GetPlugins(List<string> pluginNames);
+        List<SusiePluginInfo> GetPlugin(List<string> pluginNames);
 
         /// <summary>
         /// プラグイン情報設定
         /// </summary>
         /// <param name="settings">プラグイン設定</param>
-        void SetPlugins(List<SusiePluginSetting> settings);
+        void SetPlugin(List<SusiePluginSetting> settings);
 
         /// <summary>
         /// プラグインの並び順設定
@@ -75,11 +75,12 @@ namespace NeeView.Susie
         /// <summary>
         /// 画像取得
         /// </summary>
+        /// <param name="pluginName">画像プラグイン名</param>
         /// <param name="fileName">画像ファイル名</param>
         /// <param name="buff">画像データ。nullの場合はファイルから読みk無</param>
         /// <param name="isCheckExtension">プラグインに設定されている拡張子でも判定を行う</param>
         /// <returns>Bitmap画像データ</returns>
-        SusiePicture GetPicture(string fileName, byte[] buff, bool isCheckExtension);
+        SusieImage GetImage(string pluginName, string fileName, byte[] buff, bool isCheckExtension);
 
         /// <summary>
         /// 書庫エントリー取得
@@ -96,7 +97,7 @@ namespace NeeView.Susie
         /// <param name="fileName">書庫ファイル名</param>
         /// <param name="position">エントリーID</param>
         /// <returns>データ</returns>
-        byte[] LoadArchiveEntry(string pluginName, string fileName, int position);
+        byte[] ExtractArchiveEntry(string pluginName, string fileName, int position);
 
         /// <summary>
         /// 書庫エントリーファイル出力

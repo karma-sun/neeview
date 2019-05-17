@@ -26,7 +26,7 @@ namespace NeeView
 
         public FileTypeCollection DefaultExtensions => _defaultExtensoins;
 
-        public FileTypeCollection SusieExtensions => SusieContext.Current.ImageExtensions;
+        public FileTypeCollection SusieExtensions => SusiePluginManager.Current.ImageExtensions;
 
         public FileTypeCollection SvgExtensions => _svgExtensions;
 

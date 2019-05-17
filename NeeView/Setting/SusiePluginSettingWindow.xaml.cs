@@ -102,8 +102,7 @@ namespace NeeView.Setting
 
         public void OpenConfigDialog(Window owner)
         {
-            var handle = new WindowInteropHelper(owner).Handle;
-            SusieContext.Current.Client.ShowConfigulationDlg(_spi.Name, handle.ToInt32());
+            SusiePluginManager.Current.ShowPluginConfigulationDialog(_spi.Name, owner);
         }
 
         public void Flush()

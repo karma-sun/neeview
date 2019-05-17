@@ -85,25 +85,26 @@ namespace NeeView.Susie.Client
             return plugin.ToSusiePluginInfo();
         }
 
-        public SusiePicture GetPicture(string fileName, byte[] buff, bool isCheckExtension)
+        public SusieImage GetImage(string pluginName, string fileName, byte[] buff, bool isCheckExtension)
         {
+            // TODO: pluginName
             if (buff != null)
             {
-                var result = new SusiePicture();
+                var result = new SusieImage();
                 result.BitmapData = _pluginCollection.GetPicture(fileName, buff, isCheckExtension, out var susiePlugin);
                 result.PluginName = susiePlugin.ToString();
                 return result;
             }
             else
             {
-                var result = new SusiePicture();
+                var result = new SusieImage();
                 result.BitmapData = _pluginCollection.GetPictureFromFile(fileName, isCheckExtension, out var susiePlugin);
                 result.PluginName = susiePlugin.ToString();
                 return result;
             }
         }
 
-        public List<SusiePluginInfo> GetPlugins(List<string> pluginNames)
+        public List<SusiePluginInfo> GetPlugin(List<string> pluginNames)
         {
             var plugins = pluginNames != null
                 ? pluginNames.Select(e => _pluginCollection.PluginCollection.FirstOrDefault(x => x.Name == e))
@@ -125,7 +126,7 @@ namespace NeeView.Susie.Client
             return setting;
         }
 
-        public byte[] LoadArchiveEntry(string pluginName, string fileName, int position)
+        public byte[] ExtractArchiveEntry(string pluginName, string fileName, int position)
         {
             var plugin = _pluginCollection.AMPluginList.FirstOrDefault(e => e.Name == pluginName);
             if (plugin == null) throw new SusieIOException($"Cannot find plugin: {pluginName}");
@@ -143,7 +144,7 @@ namespace NeeView.Susie.Client
             throw new System.NotImplementedException();
         }
 
-        public void SetPlugins(List<SusiePluginSetting> settings)
+        public void SetPlugin(List<SusiePluginSetting> settings)
         {
             if (settings == null) return;
             _pluginCollection.SetPluginSetting(settings);

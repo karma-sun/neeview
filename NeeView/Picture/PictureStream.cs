@@ -67,9 +67,9 @@ namespace NeeView
         // コンストラクタ
         public PictureStream()
         {
-            SusieContext.Current.AddPropertyChanged(nameof(SusieContext.IsEnabled),
+            SusiePluginManager.Current.AddPropertyChanged(nameof(SusiePluginManager.IsEnabled),
                 (s, e) => UpdateOrderList());
-            SusieContext.Current.AddPropertyChanged(nameof(SusieContext.IsFirstOrderSusieImage),
+            SusiePluginManager.Current.AddPropertyChanged(nameof(SusiePluginManager.IsFirstOrderSusieImage),
                 (s, e) => UpdateOrderList());
 
             UpdateOrderList();
@@ -82,7 +82,7 @@ namespace NeeView
         // 適用する画像ストリームの順番を更新
         private void UpdateOrderList()
         {
-            var susieProfile = SusieContext.Current;
+            var susieProfile = SusiePluginManager.Current;
 
             if (!susieProfile.IsEnabled)
             {

@@ -223,15 +223,17 @@
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderItemFactory.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderOrderClass.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\PlaylistFolderCollection.cs" />
+    <Compile Include="Susie\Client\SusieArchivePluginAccessor.cs" />
+    <Compile Include="Susie\Client\SusieImagePluginAccessor.cs" />
     <Compile Include="Susie\Client\SusiePluginClient.cs" />
+    <Compile Include="Susie\Client\SusiePluginManager.cs" />
+    <Compile Include="Susie\Common\SusieImage.cs" />
     <Compile Include="Susie\Obsolete\SusiePluginSetting.cs" />
     <Compile Include="Susie\Common\IRemoteSusiePlugin.cs" />
     <Compile Include="Susie\Common\SusieArchiveEntry.cs" />
-    <Compile Include="Susie\Common\SusiePicture.cs" />
     <Compile Include="Susie\Common\SusiePluginInfo.cs" />
     <Compile Include="Susie\Common\SusiePluginServerSetting.cs" />
     <Compile Include="Susie\Common\SusiePluginSetting.cs" />
-    <Compile Include="Susie\Client\SusieContextMementoCollection.cs" />
     <Compile Include="Susie\SusieException.cs" />
     <Compile Include="Susie\Server\SusiePluginCollection.cs" />
     <Compile Include="Susie\Common\SusiePluginType.cs" />
@@ -954,7 +956,6 @@
       <DependentUpon>SaveWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Archiver\SusieArchiver.cs" />
-    <Compile Include="Susie\Client\SusieContext.cs" />
     <Compile Include="Susie\Server\SusieArchiveEntry.cs" />
     <Compile Include="Susie\Server\SusiePlugin.cs" />
     <Compile Include="Susie\Server\SusiePluginApi.cs" />

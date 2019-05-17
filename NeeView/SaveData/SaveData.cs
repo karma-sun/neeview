@@ -56,9 +56,7 @@ namespace NeeView
             App.Current.WindowChromeFrame = WindowShape.Current.WindowChromeFrame;
             setting.App = App.Current.CreateMemento();
 
-            var susieMemento = SusieContextMementoCollection.Current.CreateMemento();
-            setting.SusieMemento = susieMemento.SusieContextX86;
-
+            setting.SusieMemento = SusiePluginManager.Current.CreateMemento();
             setting.CommandMememto = CommandTable.Current.CreateMemento();
             setting.DragActionMemento = DragActionTable.Current.CreateMemento();
 
@@ -73,10 +71,7 @@ namespace NeeView
             App.Current.Restore(setting.App);
             WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
 
-            var susieMemento = new SusieContextMementoCollection.Memento();
-            susieMemento.SusieContextX86 = setting.SusieMemento;
-            SusieContextMementoCollection.Current.Restore(susieMemento);
-
+            SusiePluginManager.Current.Restore(setting.SusieMemento);
             CommandTable.Current.Restore(setting.CommandMememto, false);
             DragActionTable.Current.Restore(setting.DragActionMemento);
 

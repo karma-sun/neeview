@@ -45,7 +45,8 @@ namespace NeeView
                 }
             }
 
-            var result = SusieContext.Current.Client?.GetPicture(entry.RawEntryName, buff, !entry.IsIgnoreFileExtension);
+            var accessor = SusiePluginManager.Current.GetImagePluginAccessor();
+            var result = accessor.GetPicture(entry.RawEntryName, buff, !entry.IsIgnoreFileExtension);
             if (result == null || result.BitmapData == null)
             {
                 throw new SusieIOException();
@@ -58,7 +59,8 @@ namespace NeeView
         // Bitmap読み込み(ファイル版)
         private NamedStream Create(string fileName, ArchiveEntry entry)
         {
-            var result = SusieContext.Current.Client?.GetPicture(fileName, null, !entry.IsIgnoreFileExtension);
+            var accessor = SusiePluginManager.Current.GetImagePluginAccessor();
+            var result = accessor.GetPicture(fileName, null, !entry.IsIgnoreFileExtension);
             if (result == null || result.BitmapData == null)
             {
                 throw new SusieIOException();

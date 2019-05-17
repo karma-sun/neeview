@@ -17,7 +17,7 @@ namespace NeeView
     {
         #region Fields
 
-        private SusiePluginInfo _susiePlugin;
+        private SusieArchivePluginAccessor _susiePlugin;
         private object _lock = new object();
 
         #endregion
@@ -34,7 +34,7 @@ namespace NeeView
 
         public override string ToString()
         {
-            return _susiePlugin.Name ?? "(none)";
+            return _susiePlugin.Plugin.Name ?? "(none)";
         }
 
         // サポート判定
@@ -44,11 +44,11 @@ namespace NeeView
         }
 
         // 対応プラグイン取得
-        public SusiePluginInfo GetPlugin()
+        public SusieArchivePluginAccessor GetPlugin()
         {
             if (_susiePlugin == null)
             {
-                _susiePlugin = SusieContext.Current.Client.GetArchivePlugin(Path, null, true);
+                _susiePlugin = SusiePluginManager.Current.GetArchivePluginAccessor(Path, null, true);
             }
             return _susiePlugin;
         }
@@ -61,7 +61,7 @@ namespace NeeView
             var plugin = GetPlugin();
             if (plugin == null) throw new NotSupportedException($"not archive: {Path}");
 
-            var infoCollection = SusieContext.Current.Client.GetArchiveEntry(plugin.Name, Path);
+            var infoCollection = plugin.GetArchiveEntry(Path);
             if (infoCollection == null) throw new NotSupportedException();
 
             var list = new List<ArchiveEntry>();
@@ -114,7 +114,8 @@ namespace NeeView
             lock (_lock)
             {
                 var info = (SusieArchiveEntry)entry.Instance;
-                byte[] buffer = SusieContext.Current.Client.LoadArchiveEntry(_susiePlugin.Name, Path, info.Position);
+                var plugin = GetPlugin();
+                byte[] buffer = plugin.ExtractArchiveEntry(Path, info.Position);
                 return new MemoryStream(buffer, 0, buffer.Length, false, true);
             }
         }
@@ -126,6 +127,7 @@ namespace NeeView
             if (entry.Id < 0) throw new ApplicationException("Cannot open this entry: " + entry.EntryName);
 
             var info = (SusieArchiveEntry)entry.Instance;
+            var plugin = GetPlugin();
 
             // 16MB以上のエントリは直接ファイル出力を試みる
             if (entry.Length > 16 * 1024 * 1024)
@@ -139,7 +141,7 @@ namespace NeeView
                     Directory.CreateDirectory(tempDirectory);
 
                     // 注意：失敗することがよくある
-                    SusieContext.Current.Client.ExtracArchiveEntrytToFolder(_susiePlugin.Name, Path, info.Position, tempDirectory);
+                    plugin.ExtracArchiveEntrytToFolder(Path, info.Position, tempDirectory);
 
                     // 上書き時は移動前に削除
                     if (isOverwrite && File.Exists(extractFileName))
@@ -172,7 +174,7 @@ namespace NeeView
 
             // メモリ展開からのファイル保存
             {
-                byte[] buffer = SusieContext.Current.Client.LoadArchiveEntry(_susiePlugin.Name, Path, info.Position);
+                byte[] buffer = plugin.ExtractArchiveEntry(Path, info.Position);
                 using (var ms = new System.IO.MemoryStream(buffer, false))
                 using (var stream = new System.IO.FileStream(extractFileName, System.IO.FileMode.Create))
                 {
@@ -190,8 +192,8 @@ namespace NeeView
             await Task.CompletedTask;
 
             // NOTE: Susieプラグインの場合、サイズに関係なくプラグインに設定されたフラグでのみ判定
-            var spi = GetPlugin();
-            return spi != null ? spi.IsPreExtract : false;
+            var plugin = GetPlugin();
+            return plugin != null ? plugin.Plugin.IsPreExtract : false;
         }
 
         #endregion

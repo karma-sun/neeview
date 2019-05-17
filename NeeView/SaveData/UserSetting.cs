@@ -22,7 +22,7 @@ namespace NeeView
         public int _Version { get; set; } = Config.Current.ProductVersionNumber;
 
         [DataMember(Order = 1)]
-        public SusieContext.Memento SusieMemento { get; set; }
+        public SusiePluginManager.Memento SusieMemento { get; set; }
 
         [DataMember(Order = 9998)]
         public CommandTable.Memento CommandMememto { set; get; }

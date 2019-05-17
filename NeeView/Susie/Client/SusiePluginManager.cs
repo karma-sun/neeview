@@ -14,13 +14,15 @@ using System.Threading.Tasks;
 using NeeView.Susie.Client;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.Windows;
+using System.Windows.Interop;
 
 namespace NeeView
 {
-    public class SusieContext : BindableBase
+    public class SusiePluginManager : BindableBase
     {
-        static SusieContext() => Current = new SusieContext();
-        public static SusieContext Current { get; }
+        static SusiePluginManager() => Current = new SusiePluginManager();
+        public static SusiePluginManager Current { get; }
 
         private bool _isEnabled;
         private bool _isFirstOrderSusieImage;
@@ -30,7 +32,7 @@ namespace NeeView
         private SusiePluginClient _client;
         private SusiePluginServerSetting _serverSetting;
 
-        private SusieContext()
+        private SusiePluginManager()
         {
             _serverSetting = new SusiePluginServerSetting();
 
@@ -40,11 +42,6 @@ namespace NeeView
 
 
         #region Properties
-
-        // 直接参照はよろしくない
-        [Obsolete]
-        public SusiePluginClient Client => _client;
-
 
 
         private ObservableCollection<SusiePluginInfo> _INPlugins;
@@ -164,7 +161,7 @@ namespace NeeView
             _client = new SusiePluginClient();
             _client.SetServerSetting(_serverSetting);
 
-            var plugins = _client.GetPlugins(null);
+            var plugins = _client.GetPlugin(null);
             INPlugins = new ObservableCollection<SusiePluginInfo>(plugins.Where(e => e.PluginType == SusiePluginType.Image));
             INPlugins.CollectionChanged += Plugins_CollectionChanged;
             AMPlugins = new ObservableCollection<SusiePluginInfo>(plugins.Where(e => e.PluginType == SusiePluginType.Archive));
@@ -224,13 +221,13 @@ namespace NeeView
             var info = Plugins.FirstOrDefault(e => e.Name == name);
             if (info != null)
             {
-                _client.SetPlugins(new List<Susie.SusiePluginSetting>() { info.ToSusiePluginSetting() });
+                _client.SetPlugin(new List<Susie.SusiePluginSetting>() { info.ToSusiePluginSetting() });
             }
         }
 
         public void UpdateSusiePlugin(string name)
         {
-            var plugins = _client.GetPlugins(new List<string>() { name });
+            var plugins = _client.GetPlugin(new List<string>() { name });
             if (plugins != null && plugins.Count == 1)
             {
                 var collection = plugins[0].PluginType == SusiePluginType.Image ? INPlugins : AMPlugins;
@@ -245,6 +242,29 @@ namespace NeeView
         public void FlushSusiePluginOrder()
         {
             _client.SetPluginOrder(Plugins.Select(e => e.Name).ToList());
+        }
+
+        public SusieImagePluginAccessor GetImagePluginAccessor()
+        {
+            return new SusieImagePluginAccessor(_client, null);
+        }
+
+        public SusieImagePluginAccessor GetImagePluginAccessor(string fileName, byte[] buff, bool isCheckExtension)
+        {
+            var plugin = _client.GetImagePlugin(fileName, buff, isCheckExtension);
+            return new SusieImagePluginAccessor(_client, plugin);
+        }
+
+        public SusieArchivePluginAccessor GetArchivePluginAccessor(string fileName, byte[] buff, bool isCheckExtension)
+        {
+            var plugin = _client.GetArchivePlugin(fileName, buff, isCheckExtension);
+            return new SusieArchivePluginAccessor(_client, plugin);
+        }
+
+        public void ShowPluginConfigulationDialog(string pluginName, Window owner)
+        {
+            var handle = new WindowInteropHelper(owner).Handle;
+            _client. ShowConfigulationDlg(pluginName, handle.ToInt32());
         }
 
         #endregion
@@ -288,8 +308,6 @@ namespace NeeView
             public bool IsPluginCacheEnabled { get; set; }
 
             #endregion Obsolete
-
-
 
 
             [OnDeserializing]

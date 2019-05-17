@@ -1,6 +1,6 @@
 ﻿namespace NeeView.Susie
 {
-    public class SusiePicture
+    public class SusieImage
     {
         public string PluginName { get; set; }
         public byte[] BitmapData { get; set; }

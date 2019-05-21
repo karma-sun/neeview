@@ -1501,11 +1501,7 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if "$(PlatformName)" == "x86" (
-     powershell -ExecutionPolicy RemoteSigned -File "$(SolutionDir)Tools\EditBinLLA.ps1" "$(TargetPath)"
-)
-
-if "$(ConfigurationName)" == "Remote" (
+    <PostBuildEvent>if "$(ConfigurationName)" == "Remote" (
     powershell -ExecutionPolicy RemoteSigned -File "$(SolutionDir)Tools\RemoteCopy.ps1" "$(ProjectDir)$(OutDir)\"
 )
 </PostBuildEvent>

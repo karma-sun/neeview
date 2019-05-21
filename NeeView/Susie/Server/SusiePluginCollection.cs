@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
@@ -11,53 +10,24 @@ using System.Windows.Media.Imaging;
 
 namespace NeeView.Susie
 {
-    public class SusiePluginCollection : INotifyPropertyChanged, IDisposable
+    public class SusiePluginCollection : IDisposable
     {
-        #region PropertyChanged
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-        public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
-        {
-            PropertyChanged += (s, e) => { if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName) handler?.Invoke(s, e); };
-        }
-
-        #endregion
-
-
-        private ObservableCollection<SusiePlugin> _AMPluginList = new ObservableCollection<SusiePlugin>();
-        private ObservableCollection<SusiePlugin> _INPluginList = new ObservableCollection<SusiePlugin>();
-
-
         public SusiePluginCollection()
         {
         }
 
 
-        public string PluginFolder { get; set; }
+        public string PluginFolder { get; private set; }
 
         /// <summary>
         /// 書庫プラグインリスト
         /// </summary>
-        public ObservableCollection<SusiePlugin> AMPluginList
-        {
-            get { return _AMPluginList; }
-            set { if (_AMPluginList != value) { _AMPluginList = value; RaisePropertyChanged(); } }
-        }
+        public List<SusiePlugin> AMPluginList { get; private set; } = new List<SusiePlugin>();
 
         /// <summary>
         /// 画像プラグインリスト
         /// </summary>
-        public ObservableCollection<SusiePlugin> INPluginList
-        {
-            get { return _INPluginList; }
-            set { if (_INPluginList != value) { _INPluginList = value; RaisePropertyChanged(); } }
-        }
+        public List<SusiePlugin> INPluginList { get; private set; } = new List<SusiePlugin>();
 
         // すべてのプラグインのEnumerator
         public IEnumerable<SusiePlugin> PluginCollection
@@ -130,8 +100,8 @@ namespace NeeView.Susie
                 }
             }
 
-            INPluginList = new ObservableCollection<SusiePlugin>(plugins.Where(e => e.PluginType == SusiePluginType.Image));
-            AMPluginList = new ObservableCollection<SusiePlugin>(plugins.Where(e => e.PluginType == SusiePluginType.Archive));
+            INPluginList = new List<SusiePlugin>(plugins.Where(e => e.PluginType == SusiePluginType.Image));
+            AMPluginList = new List<SusiePlugin>(plugins.Where(e => e.PluginType == SusiePluginType.Archive));
         }
 
 
@@ -154,8 +124,8 @@ namespace NeeView.Susie
             if (orders == null) return;
 
             var comparar = new PluginOrderComparer(orders);
-            INPluginList = new ObservableCollection<SusiePlugin>(INPluginList.OrderBy(e => e, comparar));
-            AMPluginList = new ObservableCollection<SusiePlugin>(AMPluginList.OrderBy(e => e, comparar));
+            INPluginList = new List<SusiePlugin>(INPluginList.OrderBy(e => e, comparar));
+            AMPluginList = new List<SusiePlugin>(AMPluginList.OrderBy(e => e, comparar));
         }
 
 
@@ -179,71 +149,35 @@ namespace NeeView.Susie
             }
         }
 
-        // ロード済プラグイン取得
-        public SusiePlugin GetPlugin(string fileName)
-        {
-            return PluginCollection.FirstOrDefault(e => e.FileName == fileName);
-        }
 
-        // ロード済プラグイン取得
+        // 名前でプラグイン取得
         public SusiePlugin GetPluginFromName(string name)
         {
             return PluginCollection.FirstOrDefault(e => e.Name == name);
         }
 
         // 対応アーカイブプラグイン取得
-        public SusiePlugin GetArchivePlugin(string fileName, bool isCheckExtension)
-        {
-            // 先頭の一部をメモリに読み込む
-            var head = new byte[4096]; // バッファに余裕をもたせる
-            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
-            {
-                fs.Read(head, 0, 2048);
-            }
-
-            return GetArchivePlugin(fileName, head, isCheckExtension);
-        }
-
-
-        // 対応アーカイブプラグイン取得(メモリ版)
         public SusiePlugin GetArchivePlugin(string fileName, byte[] buff, bool isCheckExtension)
         {
-            foreach (var plugin in AMPluginList)
-            {
-                try
-                {
-                    if (plugin.IsSupported(fileName, buff, isCheckExtension))
-                    {
-                        return plugin;
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.Message);
-                }
-            }
-            return null;
+            return GetPlugin(AMPluginList, fileName, buff, isCheckExtension);
         }
 
 
         // 対応画像プラグイン取得
-        public SusiePlugin GetImagePlugin(string fileName, bool isCheckExtension)
-        {
-            // 先頭の一部をメモリに読み込む
-            var head = new byte[4096]; // バッファに余裕をもたせる
-            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
-            {
-                fs.Read(head, 0, 2048);
-            }
-
-            return GetImagePlugin(fileName, head, isCheckExtension);
-        }
-
-
-        // 対応画像プラグイン取得(メモリ版)
         public SusiePlugin GetImagePlugin(string fileName, byte[] buff, bool isCheckExtension)
         {
-            foreach (var plugin in INPluginList)
+            return GetPlugin(INPluginList, fileName, buff, isCheckExtension);
+        }
+
+        /// <summary>
+        /// 対応プラグインを取得
+        /// </summary>
+        public SusiePlugin GetPlugin(List<SusiePlugin> plugins, string fileName, byte[] buff, bool isCheckExtension)
+        {
+            plugins = plugins ?? PluginCollection.ToList();
+            buff = buff ?? LoadHead(fileName);
+
+            foreach (var plugin in plugins)
             {
                 try
                 {
@@ -261,36 +195,31 @@ namespace NeeView.Susie
         }
 
 
-        /// <summary>
-        /// 画像取得 (メモリ版)
-        /// </summary>
-        /// <param name="fileName">フォーマット判定に使用される。ファイルアクセスはされません</param>
-        /// <param name="buff">画像データ</param>
-        /// <returns>Bitmap</returns>
-        public byte[] GetPicture(string fileName, byte[] buff, bool isCheckExtension)
-        {
-            SusiePlugin spiDummy;
-            return GetPicture(fileName, buff, isCheckExtension, out spiDummy);
-        }
 
         /// <summary>
-        /// 画像取得 (メモリ版)
+        /// 画像取得
         /// </summary>
-        /// <param name="fileName">フォーマット判定に使用される。ファイルアクセスはされません</param>
-        /// <param name="buff">画像データ</param>
-        /// <param name="spi">使用されたプラグイン</param>
-        /// <returns>Bitmap</returns>
-        public byte[] GetPicture(string fileName, byte[] buff, bool isCheckExtension, out SusiePlugin spi)
+        /// <param name="plugins">仕様プラグイン。nullですべてのプラグインから取得を試みる</param>
+        /// <param name="fileName">ファイル名</param>
+        /// <param name="buff">ファイル実体。指定されていればこのメモリから画像生成する</param>
+        /// <param name="isCheckExtension">拡張子判定を行う？</param>
+        public SusieImage GetImage(List<SusiePlugin> plugins, string fileName, byte[] buff, bool isCheckExtension)
         {
-            foreach (var plugin in INPluginList)
+            plugins = plugins ?? INPluginList;
+
+            var fromFile = buff is null;
+            buff = buff ?? LoadHead(fileName);
+
+            foreach (var plugin in plugins.Where(e => e.IsEnabled))
             {
                 try
                 {
-                    var bitmapImage = plugin.GetPicture(fileName, buff, isCheckExtension);
+                    var bitmapImage = fromFile
+                        ? plugin.GetPictureFromFile(fileName, buff, isCheckExtension)
+                        : plugin.GetPicture(fileName, buff, isCheckExtension);
                     if (bitmapImage != null)
                     {
-                        spi = plugin;
-                        return bitmapImage;
+                        return new SusieImage(plugin.Name, bitmapImage);
                     }
                 }
                 catch (Exception e)
@@ -298,55 +227,22 @@ namespace NeeView.Susie
                     Debug.WriteLine(e.Message);
                 }
             }
-            spi = null;
+
             return null;
         }
 
 
         /// <summary>
-        /// 画像取得 (ファイル版)
+        /// 判定用にファイル先頭を読み込む
         /// </summary>
-        /// <param name="fileName">ファイルパス</param>
-        /// <returns>Bitmap</returns>
-        public byte[] GetPictureFromFile(string fileName, bool isCheckExtension)
+        private byte[] LoadHead(string fileName)
         {
-            SusiePlugin spiDummy;
-            return GetPictureFromFile(fileName, isCheckExtension, out spiDummy);
-        }
-
-        /// <summary>
-        /// 画像取得 (ファイル版)
-        /// </summary>
-        /// <param name="fileName">ファイルパス</param>
-        /// <param name="spi">使用されたプラグイン</param>
-        /// <returns>Bitmap</returns>
-        public byte[] GetPictureFromFile(string fileName, bool isCheckExtension, out SusiePlugin spi)
-        {
-            // 先頭の一部をメモリに読み込む
-            var head = new byte[4096];
+            var buff = new byte[2048];
             using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
             {
-                fs.Read(head, 0, 2048);
+                fs.Read(buff, 0, 2048);
             }
-
-            foreach (var plugin in INPluginList)
-            {
-                try
-                {
-                    var bitmapImage = plugin.GetPictureFromFile(fileName, head, isCheckExtension);
-                    if (bitmapImage != null)
-                    {
-                        spi = plugin;
-                        return bitmapImage;
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine(e.Message);
-                }
-            }
-            spi = null;
-            return null;
+            return buff;
         }
     }
 }

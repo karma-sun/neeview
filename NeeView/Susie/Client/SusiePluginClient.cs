@@ -87,27 +87,21 @@ namespace NeeView.Susie.Client
 
         public SusieImage GetImage(string pluginName, string fileName, byte[] buff, bool isCheckExtension)
         {
-            // TODO: pluginName
-            if (buff != null)
+            var plugins = _pluginCollection.INPluginList;
+            if (pluginName != null)
             {
-                var result = new SusieImage();
-                result.BitmapData = _pluginCollection.GetPicture(fileName, buff, isCheckExtension, out var susiePlugin);
-                result.PluginName = susiePlugin.ToString();
-                return result;
+                var plugin = _pluginCollection.INPluginList.FirstOrDefault(e => e.Name == pluginName);
+                if (plugin == null) throw new SusieIOException($"Cannot find plugin: {pluginName}");
+                plugins = new List<SusiePlugin>() { plugin };
             }
-            else
-            {
-                var result = new SusieImage();
-                result.BitmapData = _pluginCollection.GetPictureFromFile(fileName, isCheckExtension, out var susiePlugin);
-                result.PluginName = susiePlugin.ToString();
-                return result;
-            }
+
+            return _pluginCollection.GetImage(plugins, fileName, buff, isCheckExtension);
         }
 
         public List<SusiePluginInfo> GetPlugin(List<string> pluginNames)
         {
             var plugins = pluginNames != null
-                ? pluginNames.Select(e => _pluginCollection.PluginCollection.FirstOrDefault(x => x.Name == e))
+                ? pluginNames.Select(e => _pluginCollection.GetPluginFromName(e))
                 : _pluginCollection.PluginCollection;
 
             return plugins.Select(e => e.ToSusiePluginInfo()).ToList();

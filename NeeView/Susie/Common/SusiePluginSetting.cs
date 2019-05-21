@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Runtime.Serialization;
 
 namespace NeeView.Susie
 {
@@ -19,5 +20,15 @@ namespace NeeView.Susie
 
         [DataMember(EmitDefaultValue = false)]
         public string UserExtensions { get; set; }
+
+        public SusiePluginInfo ToSusiePluginInfo()
+        {
+            var info = new SusiePluginInfo();
+            info.Name = Name;
+            info.IsEnabled = IsEnabled;
+            info.IsCacheEnabled = IsCacheEnabled;
+            info.UserExtension = new FileExtensionCollection(UserExtensions);
+            return info;
+        }
     }
 }

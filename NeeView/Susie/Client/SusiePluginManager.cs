@@ -28,42 +28,46 @@ namespace NeeView
         private bool _isFirstOrderSusieImage;
         private bool _isFirstOrderSusieArchive;
 
-
         private SusiePluginClient _client;
-        private SusiePluginServerSetting _serverSetting;
+        private string _susiePluginPath;
+
+        private List<SusiePluginInfo> _unauthorizedPlugins;
+        private ObservableCollection<SusiePluginInfo> _INPlugins;
+        private ObservableCollection<SusiePluginInfo> _AMPlugins;
 
         private SusiePluginManager()
         {
-            _serverSetting = new SusiePluginServerSetting();
-
-            INPlugins = new ObservableCollection<SusiePluginInfo>();
-            AMPlugins = new ObservableCollection<SusiePluginInfo>();
+            _unauthorizedPlugins = new List<SusiePluginInfo>();
+            _INPlugins = new ObservableCollection<SusiePluginInfo>();
+            _AMPlugins = new ObservableCollection<SusiePluginInfo>();
         }
 
 
         #region Properties
 
+        public List<SusiePluginInfo> UnauthorizedPlugins
+        {
+            get { return _unauthorizedPlugins; }
+            private set { _unauthorizedPlugins = value ?? new List<SusiePluginInfo>(); }
+        }
 
-        private ObservableCollection<SusiePluginInfo> _INPlugins;
         public ObservableCollection<SusiePluginInfo> INPlugins
         {
             get { return _INPlugins; }
-            set { SetProperty(ref _INPlugins, value); }
+            private set { SetProperty(ref _INPlugins, value); }
         }
 
-
-        private ObservableCollection<SusiePluginInfo> _AMPlugins;
         public ObservableCollection<SusiePluginInfo> AMPlugins
         {
             get { return _AMPlugins; }
-            set { SetProperty(ref _AMPlugins, value); }
+            private set { SetProperty(ref _AMPlugins, value); }
         }
-
 
         public IEnumerable<SusiePluginInfo> Plugins
         {
             get
             {
+                foreach (var plugin in UnauthorizedPlugins) yield return plugin;
                 foreach (var plugin in INPlugins) yield return plugin;
                 foreach (var plugin in AMPlugins) yield return plugin;
             }
@@ -90,13 +94,13 @@ namespace NeeView
         [PropertyPath("@ParamSusiePluginPath", FileDialogType = FileDialogType.Directory)]
         public string SusiePluginPath
         {
-            get { return _serverSetting.PluginFolder; }
+            get { return _susiePluginPath; }
             set
             {
-                if (_serverSetting.PluginFolder != value)
+                if (_susiePluginPath != value)
                 {
                     CloseSusiePluginCollection();
-                    _serverSetting.PluginFolder = value;
+                    _susiePluginPath = value;
                     UpdateSusiePluginCollection();
                 }
             }
@@ -144,7 +148,7 @@ namespace NeeView
         // PluginCollectionのOpen/Close
         private void UpdateSusiePluginCollection()
         {
-            if (_isEnabled && Directory.Exists(SusiePluginPath))
+            if (_isEnabled && Directory.Exists(_susiePluginPath))
             {
                 OpenSusiePluginCollection();
             }
@@ -159,9 +163,12 @@ namespace NeeView
             CloseSusiePluginCollection();
 
             _client = new SusiePluginClient();
-            _client.SetServerSetting(_serverSetting);
+
+            var settings = Plugins.Select(e => e.ToSusiePluginSetting()).ToList();
+            _client.Initialize(_susiePluginPath, settings);
 
             var plugins = _client.GetPlugin(null);
+            UnauthorizedPlugins = new List<SusiePluginInfo>();
             INPlugins = new ObservableCollection<SusiePluginInfo>(plugins.Where(e => e.PluginType == SusiePluginType.Image));
             INPlugins.CollectionChanged += Plugins_CollectionChanged;
             AMPlugins = new ObservableCollection<SusiePluginInfo>(plugins.Where(e => e.PluginType == SusiePluginType.Archive));
@@ -175,10 +182,10 @@ namespace NeeView
         {
             if (_client == null) return;
 
-            _serverSetting = _client.GetServerSetting();
             _client.Dispose();
             _client = null;
 
+            UnauthorizedPlugins = Plugins.ToList();
             INPlugins = new ObservableCollection<SusiePluginInfo>();
             AMPlugins = new ObservableCollection<SusiePluginInfo>();
 
@@ -186,11 +193,6 @@ namespace NeeView
             UpdateArchiveExtensions();
         }
 
-        // 最新のプラグイン設定を取得
-        private SusiePluginServerSetting GetLatestServerSettings()
-        {
-            return _client?.GetServerSetting() ?? _serverSetting;
-        }
 
         // Susie画像プラグインのサポート拡張子を更新
         public void UpdateImageExtensions()
@@ -218,11 +220,12 @@ namespace NeeView
 
         public void FlushSusiePluginSetting(string name)
         {
-            var info = Plugins.FirstOrDefault(e => e.Name == name);
-            if (info != null)
-            {
-                _client.SetPlugin(new List<Susie.SusiePluginSetting>() { info.ToSusiePluginSetting() });
-            }
+            var settings = Plugins
+                .Where(e => e.Name == name)
+                .Select(e => e.ToSusiePluginSetting())
+                .ToList();
+
+            _client.SetPlugin(settings);
         }
 
         public void UpdateSusiePlugin(string name)
@@ -264,7 +267,7 @@ namespace NeeView
         public void ShowPluginConfigulationDialog(string pluginName, Window owner)
         {
             var handle = new WindowInteropHelper(owner).Handle;
-            _client. ShowConfigulationDlg(pluginName, handle.ToInt32());
+            _client.ShowConfigulationDlg(pluginName, handle.ToInt32());
         }
 
         #endregion
@@ -281,19 +284,20 @@ namespace NeeView
             public bool IsEnableSusie { get; set; }
 
             [DataMember]
+            public string SusiePluginPath { get; set; }
+
+            [DataMember]
             public bool IsFirstOrderSusieImage { get; set; }
 
             [DataMember]
             public bool IsFirstOrderSusieArchive { get; set; }
 
-            [DataMember]
-            public SusiePluginServerSetting SusiePluginServerSetting { get; set; }
-
+            [DataMember(EmitDefaultValue = false)]
+            public List<Susie.SusiePluginSetting> Plugins { get; set; }
 
             #region Obsolete
 
-            [Obsolete, DataMember]
-            public string SusiePluginPath { get; set; }
+
 
             [Obsolete, DataMember(Name = "SpiFiles", EmitDefaultValue = false)]
             public Dictionary<string, bool> SpiFilesV1 { get; set; } // ver 33.0
@@ -333,9 +337,7 @@ namespace NeeView
 
                 if (_Version < Config.GenerateProductVersionNumber(35, 0, 0) && SpiFilesV3 != null)
                 {
-                    SusiePluginServerSetting = new SusiePluginServerSetting();
-                    SusiePluginServerSetting.PluginFolder = SusiePluginPath;
-                    SusiePluginServerSetting.PluginSettings = SpiFilesV3
+                    Plugins = SpiFilesV3
                         .Select(e => e.Value.ToSusiePluginSetting(LoosePath.GetFileName(e.Key), IsPluginCacheEnabled))
                         .ToList();
                 }
@@ -349,7 +351,8 @@ namespace NeeView
             memento.IsEnableSusie = this.IsEnabled;
             memento.IsFirstOrderSusieImage = this.IsFirstOrderSusieImage;
             memento.IsFirstOrderSusieArchive = this.IsFirstOrderSusieArchive;
-            memento.SusiePluginServerSetting = GetLatestServerSettings();
+            memento.SusiePluginPath = this.SusiePluginPath;
+            memento.Plugins = this.Plugins.Select(e => e.ToSusiePluginSetting()).ToList();
             return memento;
         }
 
@@ -357,9 +360,11 @@ namespace NeeView
         {
             if (memento == null) return;
 
+            this.IsEnabled = false; // NOTE: 設定最後にIsEnabledを確定することにより更新タイミングを制御する
             this.IsFirstOrderSusieImage = memento.IsFirstOrderSusieImage;
             this.IsFirstOrderSusieArchive = memento.IsFirstOrderSusieArchive;
-            _serverSetting = memento.SusiePluginServerSetting;
+            this.UnauthorizedPlugins = memento.Plugins?.Select(e => e.ToSusiePluginInfo()).ToList();
+            this.SusiePluginPath = memento.SusiePluginPath;
             this.IsEnabled = memento.IsEnableSusie;
         }
 

@@ -8,14 +8,9 @@ namespace NeeView.Susie
     public interface IRemoteSusiePlugin
     {
         /// <summary>
-        /// サーバー設定初期化
+        /// 初期化
         /// </summary>
-        void SetServerSetting(SusiePluginServerSetting setting);
-
-        /// <summary>
-        /// サーバー設定取得
-        /// </summary>
-        SusiePluginServerSetting GetServerSetting();
+        void Initialize(string pluginFolder, List<SusiePluginSetting> settings);
 
 
         /// <summary>

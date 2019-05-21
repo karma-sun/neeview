@@ -232,7 +232,6 @@
     <Compile Include="Susie\Common\IRemoteSusiePlugin.cs" />
     <Compile Include="Susie\Common\SusieArchiveEntry.cs" />
     <Compile Include="Susie\Common\SusiePluginInfo.cs" />
-    <Compile Include="Susie\Common\SusiePluginServerSetting.cs" />
     <Compile Include="Susie\Common\SusiePluginSetting.cs" />
     <Compile Include="Susie\SusieException.cs" />
     <Compile Include="Susie\Server\SusiePluginCollection.cs" />

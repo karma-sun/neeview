@@ -113,18 +113,6 @@ namespace NeeView.Susie.Client
             return plugins.Select(e => e.ToSusiePluginInfo()).ToList();
         }
 
-        public SusiePluginServerSetting GetServerSetting()
-        {
-            if (_pluginCollection == null) return null;
-
-            var setting = new SusiePluginServerSetting();
-            setting.PluginFolder = _pluginCollection.PluginFolder;
-            setting.PluginSettings = _pluginCollection.PluginCollection
-                .Select(e => e.ToSusiePluginSetting())
-                .ToList();
-
-            return setting;
-        }
 
         public byte[] ExtractArchiveEntry(string pluginName, string fileName, int position)
         {
@@ -146,22 +134,23 @@ namespace NeeView.Susie.Client
 
         public void SetPlugin(List<SusiePluginSetting> settings)
         {
-            if (settings == null) return;
+            if (settings == null || !settings.Any()) return;
             _pluginCollection.SetPluginSetting(settings);
         }
 
         public void SetPluginOrder(List<string> order)
         {
+            if (order == null || !order.Any()) return;
             _pluginCollection.SortPlugins(order);
         }
 
 
-        public void SetServerSetting(SusiePluginServerSetting setting)
+        public void Initialize(string pluginFolder, List<SusiePluginSetting> settings)
         {
             _pluginCollection = new SusiePluginCollection();
-            _pluginCollection.Initialize(setting.PluginFolder);
-            _pluginCollection.SetPluginSetting(setting.PluginSettings);
-            _pluginCollection.SortPlugins(setting.PluginSettings.Select(e => e.Name).ToList());
+            _pluginCollection.Initialize(pluginFolder);
+            _pluginCollection.SetPluginSetting(settings);
+            _pluginCollection.SortPlugins(settings.Select(e => e.Name).ToList());
         }
 
         public void ShowConfigulationDlg(string pluginName, int hwnd)

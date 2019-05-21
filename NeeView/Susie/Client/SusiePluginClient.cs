@@ -76,7 +76,7 @@ namespace NeeView.Susie.Client
 
         public byte[] ExtractArchiveEntry(string pluginName, string fileName, int position)
         {
-            return ExtractArchiveEntry(pluginName, fileName, position);
+            return _server.ExtractArchiveEntry(pluginName, fileName, position);
         }
 
 

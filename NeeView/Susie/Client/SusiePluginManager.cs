@@ -308,7 +308,7 @@ namespace NeeView
             [Obsolete, DataMember(Name = "SusiePlugins", EmitDefaultValue = false)]
             public Dictionary<string, SusiePlugin.Memento> SpiFilesV3 { get; set; } // ver 35.0
 
-            [Obsolete, DataMember, DefaultValue(true)]
+            [Obsolete, DataMember(EmitDefaultValue = false), DefaultValue(true)]
             public bool IsPluginCacheEnabled { get; set; }
 
             #endregion Obsolete

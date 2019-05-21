@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NeeView.Susie
+namespace NeeView.Susie.Server
 {
     /// <summary>
     /// Susie アーカイブエントリ

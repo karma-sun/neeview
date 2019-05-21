@@ -61,17 +61,17 @@ namespace NeeView
             var plugin = GetPlugin();
             if (plugin == null) throw new NotSupportedException($"not archive: {Path}");
 
-            var infoCollection = plugin.GetArchiveEntry(Path);
-            if (infoCollection == null) throw new NotSupportedException();
+            var entries = plugin.GetArchiveEntries(Path);
+            if (entries == null) throw new NotSupportedException();
 
             var list = new List<ArchiveEntry>();
             var directories = new List<ArchiveEntry>();
 
-            for (int id = 0; id < infoCollection.Count; ++id)
+            for (int id = 0; id < entries.Count; ++id)
             {
                 token.ThrowIfCancellationRequested();
 
-                var entry = infoCollection[id];
+                var entry = entries[id];
 
                 var archiveEntry = new ArchiveEntry()
                 {

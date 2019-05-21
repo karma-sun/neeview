@@ -12,18 +12,6 @@ namespace NeeView.Susie
         /// </summary>
         void Initialize(string pluginFolder, List<SusiePluginSetting> settings);
 
-
-        /// <summary>
-        /// プラグインフォルダー設定。プラグインは初期化される
-        /// </summary>
-        void SetPluginFolder(string pluginFolder);
-
-        /// <summary>
-        /// プラグインをキャッシュするかを設定
-        /// TODO: プラグイン個別での設定も？事前解凍中は開放させたくない
-        /// </summary>
-        void SetPluginCahceEnabled(bool isCacheEnabled);
-
         /// <summary>
         /// プラグイン情報取得
         /// </summary>
@@ -83,7 +71,7 @@ namespace NeeView.Susie
         /// <param name="pluginName">書庫プラグイン名</param>
         /// <param name="fileName">書庫ファイル名</param>
         /// <returns>書庫エントリー一覧</returns>
-        List<SusieArchiveEntry> GetArchiveEntry(string pluginName, string fileName);
+        List<SusieArchiveEntry> GetArchiveEntries(string pluginName, string fileName);
 
         /// <summary>
         /// 書庫エントリーファイル取得

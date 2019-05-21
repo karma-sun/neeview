@@ -13,19 +13,16 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 
-namespace NeeView.Susie
+namespace NeeView.Susie.Server
 {
     /// <summary>
     /// Susie Plugin Accessor
     /// </summary>
-    public class SusiePlugin : BindableBase, IDisposable
+    public class SusiePlugin : IDisposable
     {
         private object _lock = new object();
         private SusiePluginApi _module;
-
-        private bool _isEnabled = true;
         private bool _isCacheEnabled = true;
-        private bool _isPreExtract;
         private FileExtensionCollection _userExtensions;
 
 
@@ -33,18 +30,10 @@ namespace NeeView.Susie
         public object GlobalLock = new object();
 
         // 有効/無効
-        public bool IsEnabled
-        {
-            get { return _isEnabled; }
-            set { SetProperty(ref _isEnabled, value); }
-        }
+        public bool IsEnabled { get; set; } = true;
 
         // 事前展開。AMプラグインのみ有効
-        public bool IsPreExtract
-        {
-            get { return _isPreExtract; }
-            set { SetProperty(ref _isPreExtract, value); }
-        }
+        public bool IsPreExtract { get; set; }
 
         // プラグインファイルのパス
         public string FileName { get; private set; }
@@ -145,15 +134,6 @@ namespace NeeView.Susie
         {
             UserExtensions = null;
         }
-
-        /// <summary>
-        /// 詳細テキストを更新する
-        /// </summary>
-        public void RaiseDetailTextPropertyChanged()
-        {
-            RaisePropertyChanged(nameof(DetailText));
-        }
-
 
         /// <summary>
         /// 初期化
@@ -402,7 +382,7 @@ namespace NeeView.Susie
         /// </summary>
         /// <param name="fileName">アーカイブファイル名</param>
         /// <returns></returns>
-        public ArchiveEntryCollection GetArchiveInfo(string fileName)
+        public ArchiveEntryCollection GetArchiveEntryCollection(string fileName)
         {
             lock (_lock)
             {
@@ -426,7 +406,7 @@ namespace NeeView.Susie
         /// </summary>
         /// <param name="fileName">アーカイブファイル名</param>
         /// <returns>アーカイブ情報。失敗した場合はnull</returns>
-        public ArchiveEntryCollection GetArchiveInfo(string fileName, byte[] head)
+        public ArchiveEntryCollection GetArchiveEntryCollection(string fileName, byte[] head)
         {
             if (FileName == null) throw new InvalidOperationException();
             if (!IsEnabled) return null;
@@ -534,7 +514,7 @@ namespace NeeView.Susie
         {
             if (_isDisposed)
             {
-                throw new SusieException("Susie plugin already disposed", this);
+                throw new SusieException("Susie plugin already disposed", this.Name);
             }
 
             lock (_lock)
@@ -543,7 +523,7 @@ namespace NeeView.Susie
                 {
                     var api = BeginSection();
                     var buff = api.GetFile(archiveFileName, position);
-                    if (buff == null) throw new SusieException("Susie extraction failed (Type.M)", this);
+                    if (buff == null) throw new SusieException("Susie extraction failed (Type.M)", this.Name);
                     return buff;
                 }
                 finally
@@ -566,7 +546,7 @@ namespace NeeView.Susie
         {
             if (_isDisposed)
             {
-                throw new SusieException("Susie plugin already disposed", this);
+                throw new SusieException("Susie plugin already disposed", this.Name);
             }
 
             lock (_lock)
@@ -575,7 +555,7 @@ namespace NeeView.Susie
                 {
                     var api = BeginSection();
                     int ret = api.GetFile(archiveFileName, position, extractFolder);
-                    if (ret != 0) throw new SusieException("Susie extraction failed (Type.F)", this);
+                    if (ret != 0) throw new SusieException("Susie extraction failed (Type.F)", this.Name);
                 }
                 finally
                 {
@@ -606,60 +586,6 @@ namespace NeeView.Susie
         }
         #endregion
 
-        #region Memento
-
-        [Obsolete, DataContract]
-        public class Memento
-        {
-            [DataMember, DefaultValue(true)]
-            public bool IsEnabled { get; set; } = true;
-
-            [DataMember(EmitDefaultValue = false)]
-            public bool IsPreExtract { get; set; }
-
-            [DataMember(EmitDefaultValue = false)]
-            public string UserExtensions { get; set; }
-
-
-            [OnDeserializing]
-            private void Deserializing(StreamingContext c)
-            {
-                this.InitializePropertyDefaultValues();
-            }
-
-            [Obsolete]
-            public SusiePluginSetting ToSusiePluginSetting(string name, bool isCacheEnabled)
-            {
-                var setting = new SusiePluginSetting();
-                setting.Name = name;
-                setting.IsEnabled = this.IsEnabled;
-                setting.IsCacheEnabled = isCacheEnabled;
-                setting.IsPreExtract = this.IsPreExtract;
-                setting.UserExtensions = this.UserExtensions;
-                return setting;
-            }
-        }
-
-        [Obsolete]
-        public Memento CreateMemento()
-        {
-            var memento = new Memento();
-            memento.IsEnabled = this.IsEnabled;
-            memento.IsPreExtract = this.IsPreExtract;
-            memento.UserExtensions = this.UserExtensions?.ToOneLine();
-            return memento;
-        }
-
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-            this.IsEnabled = memento.IsEnabled;
-            this.IsPreExtract = memento.IsPreExtract;
-            this.UserExtensions = memento.UserExtensions != null ? new FileExtensionCollection(memento.UserExtensions) : null;
-        }
-
-        #endregion
 
         public void Restore(SusiePluginSetting setting)
         {

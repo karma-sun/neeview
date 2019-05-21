@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Susie.Server;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,11 +8,10 @@ namespace NeeView.Susie.Client
 {
     public class SusiePluginClient : IRemoteSusiePlugin, IDisposable
     {
-        private SusiePluginCollection _pluginCollection;
+        private SusiePluginServer _server;
 
         public SusiePluginClient()
         {
-
         }
 
         #region IDisposable Support
@@ -23,7 +23,8 @@ namespace NeeView.Susie.Client
             {
                 if (disposing)
                 {
-                    _pluginCollection?.Dispose();
+                    _server?.Dispose();
+                    _server = null;
                 }
                 _disposedValue = true;
             }
@@ -36,121 +37,63 @@ namespace NeeView.Susie.Client
         #endregion
 
 
-        public void ExtracArchiveEntrytToFolder(string pluginName, string fileName, int position, string extractFolder)
+        public void Initialize(string pluginFolder, List<SusiePluginSetting> settings)
         {
-            var plugin = _pluginCollection.AMPluginList.FirstOrDefault(e => e.Name == pluginName);
-            if (plugin == null) throw new SusieIOException($"Cannot find plugin: {pluginName}");
-
-            plugin.ExtracArchiveEntrytToFolder(fileName, position, extractFolder);
+            _server = new SusiePluginServer();
+            _server.Initialize(pluginFolder, settings);
         }
 
-        public List<SusieArchiveEntry> GetArchiveEntry(string pluginName, string fileName)
+        public void ExtracArchiveEntrytToFolder(string pluginName, string fileName, int position, string extractFolder)
         {
-            var plugin = _pluginCollection.AMPluginList.FirstOrDefault(e => e.Name == pluginName);
-            if (plugin == null) throw new SusieIOException($"Cannot find plugin: {pluginName}");
+            _server.ExtracArchiveEntrytToFolder(pluginName, fileName, position, extractFolder);
+        }
 
-            var collection = plugin.GetArchiveInfo(fileName);
-            return collection.Select(e => e.ToSusieArchiveEntry()).ToList();
+        public List<SusieArchiveEntry> GetArchiveEntries(string pluginName, string fileName)
+        {
+            return _server.GetArchiveEntries(pluginName, fileName);
         }
 
         public SusiePluginInfo GetArchivePlugin(string fileName, byte[] buff, bool isCheckExtension)
         {
-            // buff==nullのときの処理。ヘッダ2KBを読み込む
-            if (buff == null)
-            {
-                buff = new byte[4096];
-                using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
-                {
-                    fs.Read(buff, 0, 2048);
-                }
-            }
-
-            var plugin = _pluginCollection.GetArchivePlugin(fileName, buff, isCheckExtension);
-            return plugin.ToSusiePluginInfo();
+            return _server.GetArchivePlugin(fileName, buff, isCheckExtension);
         }
 
         public SusiePluginInfo GetImagePlugin(string fileName, byte[] buff, bool isCheckExtension)
         {
-            // buff==nullのときの処理。ヘッダ2KBを読み込む
-            if (buff == null)
-            {
-                buff = new byte[4096];
-                using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
-                {
-                    fs.Read(buff, 0, 2048);
-                }
-            }
-
-            var plugin = _pluginCollection.GetImagePlugin(fileName, buff, isCheckExtension);
-            return plugin.ToSusiePluginInfo();
+            return _server.GetImagePlugin(fileName, buff, isCheckExtension);
         }
 
         public SusieImage GetImage(string pluginName, string fileName, byte[] buff, bool isCheckExtension)
         {
-            var plugins = _pluginCollection.INPluginList;
-            if (pluginName != null)
-            {
-                var plugin = _pluginCollection.INPluginList.FirstOrDefault(e => e.Name == pluginName);
-                if (plugin == null) throw new SusieIOException($"Cannot find plugin: {pluginName}");
-                plugins = new List<SusiePlugin>() { plugin };
-            }
-
-            return _pluginCollection.GetImage(plugins, fileName, buff, isCheckExtension);
+            return _server.GetImage(pluginName, fileName, buff, isCheckExtension);
         }
 
         public List<SusiePluginInfo> GetPlugin(List<string> pluginNames)
         {
-            var plugins = pluginNames != null
-                ? pluginNames.Select(e => _pluginCollection.GetPluginFromName(e))
-                : _pluginCollection.PluginCollection;
-
-            return plugins.Select(e => e.ToSusiePluginInfo()).ToList();
+            return _server.GetPlugin(pluginNames);
         }
 
 
         public byte[] ExtractArchiveEntry(string pluginName, string fileName, int position)
         {
-            var plugin = _pluginCollection.AMPluginList.FirstOrDefault(e => e.Name == pluginName);
-            if (plugin == null) throw new SusieIOException($"Cannot find plugin: {pluginName}");
-
-            return plugin.LoadArchiveEntry(fileName, position);
+            return ExtractArchiveEntry(pluginName, fileName, position);
         }
 
-        public void SetPluginCahceEnabled(bool isCacheEnabled)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void SetPluginFolder(string pluginFolder)
-        {
-            throw new System.NotImplementedException();
-        }
 
         public void SetPlugin(List<SusiePluginSetting> settings)
         {
-            if (settings == null || !settings.Any()) return;
-            _pluginCollection.SetPluginSetting(settings);
+            _server.SetPlugin(settings);
         }
 
         public void SetPluginOrder(List<string> order)
         {
-            if (order == null || !order.Any()) return;
-            _pluginCollection.SortPlugins(order);
+            _server.SetPluginOrder(order);
         }
 
-
-        public void Initialize(string pluginFolder, List<SusiePluginSetting> settings)
-        {
-            _pluginCollection = new SusiePluginCollection();
-            _pluginCollection.Initialize(pluginFolder);
-            _pluginCollection.SetPluginSetting(settings);
-            _pluginCollection.SortPlugins(settings.Select(e => e.Name).ToList());
-        }
 
         public void ShowConfigulationDlg(string pluginName, int hwnd)
         {
-            var plugin = _pluginCollection.GetPluginFromName(pluginName);
-            plugin.OpenConfigulationDialog(new IntPtr(hwnd));
+            _server.ShowConfigulationDlg(pluginName, hwnd);
         }
     }
 }

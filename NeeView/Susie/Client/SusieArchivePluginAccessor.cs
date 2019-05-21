@@ -20,9 +20,9 @@ namespace NeeView
         public SusiePluginInfo Plugin { get; }
 
 
-        public List<SusieArchiveEntry> GetArchiveEntry(string fileName)
+        public List<SusieArchiveEntry> GetArchiveEntries(string fileName)
         {
-            return _client.GetArchiveEntry(Plugin?.Name, fileName);
+            return _client.GetArchiveEntries(Plugin?.Name, fileName);
         }
 
         public byte[] ExtractArchiveEntry(string fileName, int position)

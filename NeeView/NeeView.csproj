@@ -225,9 +225,11 @@
     <Compile Include="SidePanels\Bookshelf\FolderList\PlaylistFolderCollection.cs" />
     <Compile Include="Susie\Client\SusieArchivePluginAccessor.cs" />
     <Compile Include="Susie\Client\SusieImagePluginAccessor.cs" />
+    <Compile Include="Susie\Server\SusiePluginServer.cs" />
     <Compile Include="Susie\Client\SusiePluginClient.cs" />
     <Compile Include="Susie\Client\SusiePluginManager.cs" />
     <Compile Include="Susie\Common\SusieImage.cs" />
+    <Compile Include="Susie\Obsolete\SusiePlugin.cs" />
     <Compile Include="Susie\Obsolete\SusiePluginSetting.cs" />
     <Compile Include="Susie\Common\IRemoteSusiePlugin.cs" />
     <Compile Include="Susie\Common\SusieArchiveEntry.cs" />

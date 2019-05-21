@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
-namespace NeeView.Susie
+namespace NeeView.Susie.Server
 {
     public class SusiePluginCollection : IDisposable
     {

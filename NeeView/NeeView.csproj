@@ -198,7 +198,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Archiver\FileExtensionCollection.cs" />
     <Compile Include="Archiver\Playlist.cs" />
     <Compile Include="Archiver\PlaylistArchive.cs" />
     <Compile Include="BookSetting\BookSettingEventArgs.cs" />
@@ -225,19 +224,12 @@
     <Compile Include="SidePanels\Bookshelf\FolderList\PlaylistFolderCollection.cs" />
     <Compile Include="Susie\Client\SusieArchivePluginAccessor.cs" />
     <Compile Include="Susie\Client\SusieImagePluginAccessor.cs" />
-    <Compile Include="Susie\Server\SusiePluginServer.cs" />
     <Compile Include="Susie\Client\SusiePluginClient.cs" />
     <Compile Include="Susie\Client\SusiePluginManager.cs" />
-    <Compile Include="Susie\Common\SusieImage.cs" />
     <Compile Include="Susie\Obsolete\SusiePlugin.cs" />
     <Compile Include="Susie\Obsolete\SusiePluginSetting.cs" />
-    <Compile Include="Susie\Common\IRemoteSusiePlugin.cs" />
-    <Compile Include="Susie\Common\SusieArchiveEntry.cs" />
-    <Compile Include="Susie\Common\SusiePluginInfo.cs" />
-    <Compile Include="Susie\Common\SusiePluginSetting.cs" />
-    <Compile Include="Susie\SusieException.cs" />
-    <Compile Include="Susie\Server\SusiePluginCollection.cs" />
-    <Compile Include="Susie\Common\SusiePluginType.cs" />
+    <Compile Include="Susie\SimpleClientTest.cs" />
+    <Compile Include="Susie\SubProcess.cs" />
     <Compile Include="Susie\SusieUtility.cs" />
     <Compile Include="ViewContent\ViewContentSourceCollectionChangedEventArgs.cs" />
     <Compile Include="ContentCanvas\KeyPressWatcher.cs" />
@@ -524,12 +516,10 @@
     <Compile Include="Setting\MouseGestureSettingViewModel.cs" />
     <Compile Include="SidePanels\Pagemark\Pagemark.cs" />
     <Compile Include="System\SoundPlayerService.cs" />
-    <Compile Include="Susie\Server\NativeMethods.cs" />
     <Compile Include="TouchInput\TouchInputEmulator.cs" />
     <Compile Include="SaveData\UserSetting.cs" />
     <Compile Include="ViewContent\MediaViewContent.cs" />
     <Compile Include="_NeeView\IO\FileIcon.cs" />
-    <Compile Include="_NeeView\NVInterop.cs" />
     <Compile Include="_NeeView\Runtime\Serialization\WebEnum.cs" />
     <Compile Include="_NeeLaboratory\ComponentModel\ObjectExtensions.cs" />
     <Compile Include="_NeeView\AliasNameAttribute.cs" />
@@ -957,9 +947,6 @@
       <DependentUpon>SaveWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Archiver\SusieArchiver.cs" />
-    <Compile Include="Susie\Server\SusieArchiveEntry.cs" />
-    <Compile Include="Susie\Server\SusiePlugin.cs" />
-    <Compile Include="Susie\Server\SusiePluginApi.cs" />
     <Compile Include="System\Temporary.cs" />
     <Compile Include="System\TrashBox.cs" />
     <Compile Include="VersionWindow\VersionWindow.xaml.cs">
@@ -1443,6 +1430,18 @@
       <Project>{f8053574-48a7-4d8d-a55e-63c26d01e519}</Project>
       <Name>NeeLaboratory.IO.Search</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NeeLaboratory\NeeLaboratory.csproj">
+      <Project>{843632a2-0f10-4b48-9995-3959346bfc04}</Project>
+      <Name>NeeLaboratory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NeeView.Native\NeeView.Native.csproj">
+      <Project>{60ae1312-877c-43b7-8259-57ed078c7536}</Project>
+      <Name>NeeView.Native</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NeeView.Susie\NeeView.Susie.csproj">
+      <Project>{9523f921-b956-4eb4-b599-1c41b64fff0d}</Project>
+      <Name>NeeView.Susie</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SevenZipSharp\SevenZip\SevenZip.csproj">
       <Project>{4960dd14-3431-47ec-b9d9-9d2730a98dc3}</Project>
       <Name>SevenZip</Name>
@@ -1456,12 +1455,6 @@
     <Resource Include="Resources\SplashScreenS.png" />
     <Resource Include="Resources\en-US\SearchOptions.html" />
     <Resource Include="Resources\ja-JP\SearchOptions.html" />
-    <Content Include="x64\NeeView.Interop.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="x86\NeeView.Interop.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Resource Include="Resources\Media.png" />
     <Resource Include="Resources\AppS.ico" />
     <Resource Include="Resources\Empty.png" />

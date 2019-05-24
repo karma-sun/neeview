@@ -3,17 +3,17 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace NeeView
+namespace NeeView.Native
 {
     /// <summary>
     /// for NeeView.Interop.dll
     /// </summary>
-    internal class NVInterop
+    public class Interop
     {
         private class NativeMethods
         {
             [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
-            private static extern IntPtr LoadLibrary(string lpFileName);
+            public static extern IntPtr LoadLibrary(string lpFileName);
 
             [DllImport("NeeView.Interop.dll", CharSet = CharSet.Unicode)]
             [return: MarshalAs(UnmanagedType.I1)]
@@ -25,23 +25,13 @@ namespace NeeView
             [DllImport("NeeView.Interop.dll")]
             public static extern void NVFpReset();
 
+#if false
             static NativeMethods()
             {
-                TryLoadNativeLibrary(Config.Current.LibrariesPath);
+                ///TryLoadNativeLibrary(Config.Current.LibrariesPath);
+                TryLoadNativeLibrary(null);
             }
-
-            private static bool TryLoadNativeLibrary(string path)
-            {
-                if (path == null)
-                {
-                    return false;
-                }
-
-                path = Path.Combine(path, IntPtr.Size == 4 ? "x86" : "x64");
-                path = Path.Combine(path, "NeeView.Interop.dll");
-
-                return File.Exists(path) && LoadLibrary(path) != IntPtr.Zero;
-            }
+#endif
 
 #if false // FPU設定のテスト用
             [DllImport("msvcrt.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -62,6 +52,19 @@ namespace NeeView
                 _controlfp(EM_INEXACT | EM_ZERODIVIDE | EM_OVERFLOW | EM_OVERFLOW | EM_DENORMAL | EM_INVALID, _MCW_EM);
             }
 #endif
+        }
+
+        public static bool TryLoadNativeLibrary(string path)
+        {
+            if (path == null)
+            {
+                return false;
+            }
+
+            path = Path.Combine(path, IntPtr.Size == 4 ? "x86" : "x64");
+            path = Path.Combine(path, "NeeView.Interop.dll");
+
+            return File.Exists(path) && NativeMethods.LoadLibrary(path) != IntPtr.Zero;
         }
 
         public static bool NVGetImageCodecInfo(uint index, StringBuilder friendryName, StringBuilder fileExtensions)

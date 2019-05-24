@@ -52,7 +52,7 @@ namespace NeeView
                 throw new SusieIOException();
             }
 
-            return new NamedStream(new MemoryStream(result.BitmapData), result.PluginName);
+            return new NamedStream(new MemoryStream(result.BitmapData), result.Plugin.Name);
         }
 
 
@@ -66,7 +66,7 @@ namespace NeeView
                 throw new SusieIOException();
             }
 
-            return new NamedStream(new MemoryStream(result.BitmapData), result.PluginName);
+            return new NamedStream(new MemoryStream(result.BitmapData), result.Plugin.Name);
         }
     }
 

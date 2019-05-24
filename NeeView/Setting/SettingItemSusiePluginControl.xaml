@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:local="clr-namespace:NeeView.Setting"
-             xmlns:susie="clr-namespace:NeeView.Susie"
+             xmlns:susie="clr-namespace:NeeView.Susie;assembly=NeeView.Susie"
              xmlns:nw="clr-namespace:NeeView.Windows"
              xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 

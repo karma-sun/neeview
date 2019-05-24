@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Native;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace NeeView.Setting
 
         public SettingWindow()
         {
-            NVInterop.NVFpReset();
+            Interop.NVFpReset();
 
             InitializeComponent();
         }

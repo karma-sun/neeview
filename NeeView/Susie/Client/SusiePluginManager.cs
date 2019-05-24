@@ -16,6 +16,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Interop;
+using System.Threading;
 
 namespace NeeView
 {
@@ -23,6 +24,8 @@ namespace NeeView
     {
         static SusiePluginManager() => Current = new SusiePluginManager();
         public static SusiePluginManager Current { get; }
+
+        private SusiePluginRemoteClient _remote;
 
         private bool _isEnabled;
         private bool _isFirstOrderSusieImage;
@@ -162,7 +165,13 @@ namespace NeeView
         {
             CloseSusiePluginCollection();
 
-            _client = new SusiePluginClient();
+            if (_remote == null)
+            {
+                _remote = new SusiePluginRemoteClient();
+                _remote.Connect();
+            }
+
+            _client = new SusiePluginClient(_remote);
 
             var settings = Plugins.Select(e => e.ToSusiePluginSetting()).ToList();
             _client.Initialize(_susiePluginPath, settings);

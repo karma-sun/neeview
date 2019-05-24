@@ -1,4 +1,5 @@
 ﻿using NeeView.Data;
+using NeeView.Native;
 using NeeView.Threading;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,7 @@ namespace NeeView
         /// </summary>
         public MainWindow()
         {
-            NVInterop.NVFpReset();
+            Interop.NVFpReset();
 
             InitializeComponent();
         }

@@ -1,4 +1,5 @@
 ﻿using NeeView.Effects;
+using NeeView.Native;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,7 +27,7 @@ namespace NeeView
 
         public void Initialize()
         { 
-            NVInterop.NVFpReset();
+            Interop.NVFpReset();
 
             var leftPanels = new List<IPanel>();
             var rightPanels = new List<IPanel>();

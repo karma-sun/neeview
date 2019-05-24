@@ -17,6 +17,7 @@ using System.Text.RegularExpressions;
 using NeeLaboratory.ComponentModel;
 using System.Windows.Markup;
 using System.Net.Http;
+using NeeView.Native;
 
 namespace NeeView
 {
@@ -29,7 +30,7 @@ namespace NeeView
 
         public VersionWindow()
         {
-            NVInterop.NVFpReset();
+            Interop.NVFpReset();
 
             InitializeComponent();
 

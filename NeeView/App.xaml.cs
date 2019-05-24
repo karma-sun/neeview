@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NeeLaboratory.Diagnostics;
+using NeeView.Native;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
@@ -28,6 +30,9 @@ namespace NeeView
 
         public static new App Current { get; private set; }
 
+
+        private static ProcessJobObject _processJobObject;
+
         private bool _isSplashScreenVisibled;
 
         // 多重起動盛業
@@ -36,6 +41,8 @@ namespace NeeView
         // プロセス間セマフォ
         private const string _semaphoreLabel = "NeeView.s0001";
         private Semaphore _semaphore;
+
+
 
         #region Properties
 
@@ -99,7 +106,7 @@ namespace NeeView
             var mainWindow = new MainWindow();
             mainWindow.Initialize();
 
-            NVInterop.NVFpReset();
+            Interop.NVFpReset();
             mainWindow.Show();
 
             MessageDialog.IsShowInTaskBar = false;
@@ -112,6 +119,11 @@ namespace NeeView
         /// </summary>
         private async Task InitializeAsync(StartupEventArgs e)
         {
+            _processJobObject = new ProcessJobObject();
+            _processJobObject.AddProcess(Process.GetCurrentProcess().Handle);
+
+            Interop.TryLoadNativeLibrary(Config.Current.LibrariesPath);
+
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
             // コマンドライン引数処理

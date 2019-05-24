@@ -1,6 +1,4 @@
-﻿using NeeLaboratory.ComponentModel;
-using NeeLaboratory.Windows.Input;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -10,8 +8,6 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Interop;
-using System.Windows.Media.Imaging;
 
 namespace NeeView.Susie.Server
 {
@@ -236,11 +232,13 @@ namespace NeeView.Susie.Server
         /// </summary>
         /// <param name="parent">親ウィンドウ</param>
         /// <returns>成功した場合は0</returns>
+#if false
         public int AboutDlg(Window parent)
         {
             IntPtr hwnd = parent != null ? new WindowInteropHelper(parent).Handle : IntPtr.Zero;
             return AboutDlg(hwnd);
         }
+#endif
 
         public int AboutDlg(IntPtr hwnd)
         {
@@ -261,16 +259,19 @@ namespace NeeView.Susie.Server
             }
         }
 
+
         /// <summary>
         /// 設定ダイアログを開く
         /// </summary>
         /// <param name="parent">親ウィンドウ</param>
         /// <returns>成功した場合は0</returns>
+#if false
         public int ConfigurationDlg(Window parent)
         {
             IntPtr hwnd = parent != null ? new WindowInteropHelper(parent).Handle : IntPtr.Zero;
             return ConfigurationDlg(hwnd);
         }
+#endif
 
         public int ConfigurationDlg(IntPtr hwnd)
         {
@@ -292,9 +293,11 @@ namespace NeeView.Susie.Server
                 }
             }
         }
+
         /// <summary>
         /// 設定ダイアログもしくは情報ダイアログを開く
         /// </summary>
+#if false
         public void OpenConfigulationDialog(Window owner)
         {
             int result;
@@ -319,7 +322,7 @@ namespace NeeView.Susie.Server
                 }
             }
         }
-
+#endif
 
         public void OpenConfigulationDialog(IntPtr hWnd)
         {

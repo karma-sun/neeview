@@ -89,6 +89,6 @@ namespace NeeView.Susie
         /// <param name="fileName">書庫ファイル名</param>
         /// <param name="position">エントリーID</param>
         /// <param name="extractFolder">出力先フォルダー</param>
-        void ExtracArchiveEntrytToFolder(string pluginName, string fileName, int position, string extractFolder);
+        void ExtractArchiveEntryToFolder(string pluginName, string fileName, int position, string extractFolder);
     }
 }

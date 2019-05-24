@@ -6,13 +6,13 @@
         {
         }
 
-        public SusieImage(string pluginName, byte[] bitmapData)
+        public SusieImage(SusiePluginInfo plugin, byte[] bitmapData)
         {
-            PluginName = pluginName;
+            Plugin = plugin;
             BitmapData = bitmapData;
         }
 
-        public string PluginName { get; set; }
+        public SusiePluginInfo Plugin { get; set; }
         public byte[] BitmapData { get; set; }
     }
 }

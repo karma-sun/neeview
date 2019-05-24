@@ -33,7 +33,7 @@ namespace NeeView
 
         public void ExtracArchiveEntrytToFolder(string fileName, int position, string extractFolder)
         {
-            _client.ExtracArchiveEntrytToFolder(Plugin?.Name, fileName, position, extractFolder);
+            _client.ExtractArchiveEntryToFolder(Plugin?.Name, fileName, position, extractFolder);
         }
 
     }

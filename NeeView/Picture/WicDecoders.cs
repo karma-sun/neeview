@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NeeView.Native;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,7 @@ namespace NeeView
 
             var friendlyName = new StringBuilder(1024);
             var fileExtensions = new StringBuilder(1024);
-            for (uint i = 0; NVInterop.NVGetImageCodecInfo(i, friendlyName, fileExtensions); ++i)
+            for (uint i = 0; Interop.NVGetImageCodecInfo(i, friendlyName, fileExtensions); ++i)
             {
                 ////Debug.WriteLine($"{friendryName}: {fileExtensions}");
                 var key = friendlyName.ToString();
@@ -34,8 +35,8 @@ namespace NeeView
                     collection.Add(key, fileExtensions.ToString().ToLower());
                 }
             }
-            NVInterop.NVCloseImageCodecInfo();
-            NVInterop.NVFpReset();
+            Interop.NVCloseImageCodecInfo();
+            Interop.NVFpReset();
 
             return collection;
         }

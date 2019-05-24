@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
 
 namespace NeeView.Susie.Server
 {
@@ -219,7 +218,7 @@ namespace NeeView.Susie.Server
                         : plugin.GetPicture(fileName, buff, isCheckExtension);
                     if (bitmapImage != null)
                     {
-                        return new SusieImage(plugin.Name, bitmapImage);
+                        return new SusieImage(plugin.ToSusiePluginInfo(), bitmapImage);
                     }
                 }
                 catch (Exception e)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeView.Native;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -6,7 +7,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
 
 namespace NeeView.Susie.Server
 {
@@ -64,7 +64,7 @@ namespace NeeView.Susie.Server
                 hModule = IntPtr.Zero;
 
                 // 浮動小数点演算プロセッサのリセット
-                NVInterop.NVFpReset();
+                Interop.NVFpReset();
             }
         }
 

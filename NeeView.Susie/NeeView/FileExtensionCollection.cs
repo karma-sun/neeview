@@ -2,14 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace NeeView
 {
     /// <summary>
     /// ファイル拡張子コレクション (immutable)
     /// </summary>
+    [DataContract]
     public class FileExtensionCollection : IEnumerable<string>, IEquatable<FileExtensionCollection>
     {
+        [DataMember]
         private List<string> _items;
 
         public FileExtensionCollection()

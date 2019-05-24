@@ -46,10 +46,10 @@ namespace NeeView.Susie.Server
         }
 
 
-        public void ExtracArchiveEntrytToFolder(string pluginName, string fileName, int position, string extractFolder)
+        public void ExtractArchiveEntryToFolder(string pluginName, string fileName, int position, string extractFolder)
         {
             var plugin = _pluginCollection.AMPluginList.FirstOrDefault(e => e.Name == pluginName);
-            if (plugin == null) throw new SusieIOException($"Cannot find plugin: {pluginName}");
+            if (plugin == null) throw new SusieException($"Cannot find plugin", pluginName);
 
             plugin.ExtracArchiveEntrytToFolder(fileName, position, extractFolder);
         }
@@ -57,7 +57,7 @@ namespace NeeView.Susie.Server
         public List<SusieArchiveEntry> GetArchiveEntries(string pluginName, string fileName)
         {
             var plugin = _pluginCollection.AMPluginList.FirstOrDefault(e => e.Name == pluginName);
-            if (plugin == null) throw new SusieIOException($"Cannot find plugin: {pluginName}");
+            if (plugin == null) throw new SusieException($"Cannot find plugin", pluginName);
 
             var collection = plugin.GetArchiveEntryCollection(fileName);
             return collection.Select(e => e.ToSusieArchiveEntry()).ToList();
@@ -101,7 +101,7 @@ namespace NeeView.Susie.Server
             if (pluginName != null)
             {
                 var plugin = _pluginCollection.INPluginList.FirstOrDefault(e => e.Name == pluginName);
-                if (plugin == null) throw new SusieIOException($"Cannot find plugin: {pluginName}");
+                if (plugin == null) throw new SusieException($"Cannot find plugin", pluginName);
                 plugins = new List<Server.SusiePlugin>() { plugin };
             }
 
@@ -121,7 +121,7 @@ namespace NeeView.Susie.Server
         public byte[] ExtractArchiveEntry(string pluginName, string fileName, int position)
         {
             var plugin = _pluginCollection.AMPluginList.FirstOrDefault(e => e.Name == pluginName);
-            if (plugin == null) throw new SusieIOException($"Cannot find plugin: {pluginName}");
+            if (plugin == null) throw new SusieException("Cannot find plugin", pluginName);
 
             return plugin.LoadArchiveEntry(fileName, position);
         }

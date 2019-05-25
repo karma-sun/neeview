@@ -117,52 +117,6 @@ function Replace-Content
 	$file_contents | Out-File -Encoding UTF8 $filepath
 }
 
-#--------------------
-# set AssemblyInfo.cs
-function Set-AssemblyVersion($projectFile, $assemblyInfoFile, $title, $version)
-{
-	$content = Get-Content $projectFile
-	$content = $content -replace "<AssemblyName>.+</AssemblyName>", "<AssemblyName>$title</AssemblyName>"
-	$content | Out-File -Encoding UTF8 $projectFile
-
-    $content = Get-Content $assemblyInfoFile
-    $content = $content -replace "AssemblyTitle\(.+\)", "AssemblyTitle(`"$title`")"
-    $content = $content -replace "AssemblyProduct\(.+\)", "AssemblyProduct(`"$title`")"
-    $content = $content -replace "AssemblyVersion\(.+\)", "AssemblyVersion(`"$version`")"
-    $content = $content -replace "AssemblyFileVersion\(.+\)", "AssemblyFileVersion(`"$version`")"
-	$content | Out-File -Encoding UTF8 $assemblyInfoFile
-}
-
-
-#
-$tempProjectFile = [System.IO.Path]::GetTempFileName()
-$tempAssemblyInfoFile = [System.IO.Path]::GetTempFileName()
-
-#--------------------
-# store AssemblyInfo.cs
-function Save-AssemblyInfo($projectFile, $assemblyInfoFile)
-{
-	Write-Host "Store: Copy-Item $projectFile $tempProjectFile"
-	Copy-Item $projectFile $tempProjectFile
-
-	Write-Host "Store: Copy-Item $assemblyInfoFile $tempAssemblyInfoFile"
-	Copy-Item $assemblyInfoFile $tempAssemblyInfoFile
-}
-
-#--------------------
-# reset AssemblyInfo.cs
-function Restore-AssemblyInfo($projectFile, $assemblyInfoFile)
-{
-	Write-Host "Restore: Move-Item $tempProjectFile $projectFile -Force"
-	Move-Item $tempProjectFile $projectFile -Force
-
-	Write-Host "Restore: Move-Item $tempAssemblyInfoFile $assemblyInfoFile -Force"
-	Move-Item $tempAssemblyInfoFile $assemblyInfoFile -Force
-}
-
-
-
-
 
 #-----------------------
 # variables
@@ -170,27 +124,14 @@ $scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path
 $solutionDir = Convert-Path "$scriptPath\.."
 $solution = "$solutionDir\$product.sln"
 $projectDir = "$solutionDir\$product"
-$projectFile = "$projectDir\$product.csproj"
-$productx86Dir = "$projectDir\bin\x86\$config"
-$productX64Dir = "$projectDir\bin\$config"
+$productDir = "$projectDir\bin\$config"
 $assemblyInfoFile = "$projectDir\Properties\AssemblyInfo.cs"
-$productX86 = $product + "S"
-$productX64 = $product
 
 #----------------------
 # build
-function Build-Project($arch, $assemblyVersion)
+function Build-Project($assemblyVersion)
 {
-	if ($arch -eq "x86")
-	{
-		$platform = "x86"
-		Set-AssemblyVersion $projectFile $assemblyInfoFile "${product}S" $assemblyVersion
-	}
-	else
-	{
-		$platform = "Any CPU"
-		Set-AssemblyVersion $projectFile $assemblyInfoFile "${product}" $assemblyVersion
-	}
+	$platform = "Any CPU"
 
 	$vswhere = "$solutionDir\Tools\vswhere.exe"
 
@@ -217,11 +158,15 @@ function New-Package($productName, $productDir, $packageDir)
 	$temp = New-Item $packageLibraryDir -ItemType Directory
 
 	# copy
-	Copy-Item "$productDir\*.exe" $packageDir
+	Copy-Item "$productDir\$productName.exe" $packageDir
 	Copy-Item "$productDir\*.dll" $packageLibraryDir
 
 	# custom config
 	New-ConfigForZip $productDir "$productName.exe.config" $packageDir
+
+	# copy NeeView.Susie.Server
+	Copy-Item "$productDir\NeeView.Susie.Server.exe" $packageLibraryDir
+	Copy-Item "$productDir\NeeView.Susie.Server.exe.config" $packageLibraryDir
 
 	# copy language dll
 	$langs = "ja-JP","x64","x86"
@@ -230,9 +175,7 @@ function New-Package($productName, $productDir, $packageDir)
 		Copy-Item "$productDir\$lang" $packageLibraryDir -Recurse
 	}
 
-	#------------------------
 	# generate README.html
-
 	New-Readme $packageDir "en-us" ".zip"
 	New-Readme $packageDir "ja-jp" ".zip"
 }
@@ -323,12 +266,6 @@ function New-Readme($packageDir, $culture, $target)
 # archive to ZIP
 function New-Zip
 {
-	Copy-Item $packageX64Dir $packageDir -Recurse
-
-	Copy-Item "$packageX86Dir\*.exe" $packageDir
-	Copy-Item "$packageX86Dir\*.exe.config" $packageDir
-	Copy-Item "$packageX86Dir\Libraries\ja-JP\NeeViewS.resources.dll" "$packageDir\Libraries\ja-JP"
-
 	Compress-Archive $packageDir -DestinationPath $packageZip
 }
 
@@ -453,7 +390,6 @@ function New-PackageAppend($packageDir)
 
 	# configure customize
 	New-ConfigForMsi $packageDir "${product}.exe.config" $packageAppendDir
-	New-ConfigForMsi $packageDir "${product}S.exe.config" $packageAppendDir
 
 	# icons
 	Copy-Item "$projectDir\Resources\App.ico" $packageAppendDir
@@ -546,8 +482,8 @@ function New-Msi($packageDir, $packageMsi)
 function New-AppxReady
 {
 	# update assembly
-	Copy-Item $packageX64Dir $packageAppxProduct -Recurse -Force
-	New-ConfigForAppx $packageX64Dir "${product}.exe.config" $packageAppxProduct
+	Copy-Item $packageDir $packageAppxProduct -Recurse -Force
+	New-ConfigForAppx $packageDir "${product}.exe.config" $packageAppxProduct
 
 	# generate README.html
 	New-Readme $packageAppxProduct "en-us" ".appx"
@@ -612,7 +548,6 @@ function New-DevPackage($devPackageDir, $devPackage, $target)
 	# update assembly
 	Copy-Item $packageDir $devPackageDir -Recurse
 	New-ConfigForDevPackage $packageDir "${product}.exe.config" $target $devPackageDir
-	New-ConfigForDevPackage $packageDir "${product}S.exe.config" $target $devPackageDir
 
 	# generate README.html
 	New-Readme $devPackageDir "en-us" $target
@@ -634,14 +569,6 @@ function Remove-BuildObjects
 	if (Test-Path $packageAppendDir)
 	{
 		Remove-Item $packageAppendDir -Recurse -Force
-	}
-	if (Test-Path $packageX86Dir)
-	{
-		Remove-Item $packageX86Dir -Recurse -Force
-	}
-	if (Test-Path $packageX64Dir)
-	{
-		Remove-Item $packageX64Dir -Recurse -Force
 	}
 	if (Test-Path $packageCanaryDir)
 	{
@@ -701,8 +628,6 @@ $assemblyVersion = "$version.$buildCount.0"
 
 $packageDir = "$product$version"
 $packageAppendDir = $packageDir + ".append"
-$packageX86Dir = "$product${version}-x86"
-$packageX64Dir = "$product${version}-x64"
 $packageZip = "${product}${version}.zip"
 $packageMsi = "${product}${version}.msi"
 $packageWixpdb = "${product}${version}.wixpdb"
@@ -724,15 +649,11 @@ if (-not $continue)
 	
 	# build
 	Write-Host "`n[Build] ...`n" -fore Cyan
-	Save-AssemblyInfo $projectFile $assemblyInfoFile
-	Build-Project "x86" $assemblyVersion
-	Build-Project "x64" $assemblyVersion
-	Restore-AssemblyInfo  $projectFile $assemblyInfoFile
+	Build-Project $assemblyVersion
 
 	#
 	Write-Host "`n[Package] ...`n" -fore Cyan
-	New-Package $productX86 $productX86Dir $packageX86Dir
-	New-Package $productX64 $productX64Dir $packageX64Dir
+	New-Package $product $productDir $packageDir
 }
 
 #

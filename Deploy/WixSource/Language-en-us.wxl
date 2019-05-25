@@ -3,6 +3,4 @@
     <String Id="language">1033</String>
     <String Id="codepage">1252</String>
     <String Id="downgradeErrorMessage">A new version of NeeView has already been installed.</String>
-    <String Id="neeViewFeatureDescription">It is the standard version of NeeView executable file. Susie plugin can not be used. It operates at 64 bit on 64 bit OS.</String>
-    <String Id="neeViewSFeatureDescription">This is the NeeView executable file for Susie plug-in version. It works with 32 bit.</String>
 </WixLocalization>

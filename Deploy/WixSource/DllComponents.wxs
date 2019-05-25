@@ -12,6 +12,18 @@
                 <Component Id="cmp87D07992B45DF95EF217072DE38194C1" Guid="*">
                     <File Id="fil4E8BF4475BC058DBDCBE1C3E7894F656" KeyPath="yes" Source="$(var.LibrariesDir)\NeeLaboratory.IO.Search.dll" />
                 </Component>
+                <Component Id="cmp05B3CA9AD0E9753C701E1E7030975200" Guid="*">
+                    <File Id="fil64F231A6BAB7FE53952BC4E95E2D069E" KeyPath="yes" Source="$(var.LibrariesDir)\NeeLaboratory.Remote.dll" />
+                </Component>
+                <Component Id="cmp13285942DBE347DFB93EF31D850FD9FB" Guid="*">
+                    <File Id="filC7975CFA1BA190CB0E0E8D221E30E530" KeyPath="yes" Source="$(var.LibrariesDir)\NeeView.Susie.dll" />
+                </Component>
+                <Component Id="cmpDB23B6E132EF3A66A4A8829FC9A51EAC" Guid="*">
+                    <File Id="fil0844809C0426F45A8E42C4AFE23C8C98" KeyPath="yes" Source="$(var.LibrariesDir)\NeeView.Susie.Server.exe" />
+                </Component>
+                <Component Id="cmp941D9118EACF328AAE9ACCFD74F5D2AA" Guid="*">
+                    <File Id="filA8D864DF4950D76E1A3E1AE6E7C70A13" KeyPath="yes" Source="$(var.LibrariesDir)\NeeView.Susie.Server.exe.config" />
+                </Component>
                 <Component Id="cmpF4ED074744A7D85B596FAD97C2A1E278" Guid="*">
                     <File Id="fil2CEC097441F2CB33524309037DC5BB13" KeyPath="yes" Source="$(var.LibrariesDir)\PdfiumViewer.dll" />
                 </Component>
@@ -67,9 +79,6 @@
                     <Component Id="cmp9AC34FFE315750C746B9E441DD4DE751" Guid="*">
                         <File Id="fil3A6EE1EE320DC44669A8C644D3B8438E" KeyPath="yes" Source="$(var.LibrariesDir)\ja-JP\NeeView.resources.dll" />
                     </Component>
-                    <Component Id="cmp471FE19C21E9117DE5B221F5A056F836" Guid="*">
-                        <File Id="fil0105543F6C78D804A6AC1CFA641515B9" KeyPath="yes" Source="$(var.LibrariesDir)\ja-JP\NeeViewS.resources.dll" />
-                    </Component>
                 </Directory>
                 <Directory Id="dir0BA8EEA8E3E5FDC60EBDCD6CA689EF1F" Name="x64">
                     <Component Id="cmp9D4AE8C031DF1FC733C87DF95334A165" Guid="*">
@@ -107,6 +116,10 @@
             <ComponentRef Id="cmpB5253615D3A409D93E9B0F5C0792727C" />
             <ComponentRef Id="cmpE88A5217E6CBA6AA7D4C8E2EF756AA30" />
             <ComponentRef Id="cmp87D07992B45DF95EF217072DE38194C1" />
+            <ComponentRef Id="cmp05B3CA9AD0E9753C701E1E7030975200" />
+            <ComponentRef Id="cmp13285942DBE347DFB93EF31D850FD9FB" />
+            <ComponentRef Id="cmpDB23B6E132EF3A66A4A8829FC9A51EAC" />
+            <ComponentRef Id="cmp941D9118EACF328AAE9ACCFD74F5D2AA" />
             <ComponentRef Id="cmpF4ED074744A7D85B596FAD97C2A1E278" />
             <ComponentRef Id="cmp82078E57D47AAEC0771A6750ECCC33BC" />
             <ComponentRef Id="cmp22E98BAC13DC44B2B85FDBE34D094DB9" />
@@ -125,7 +138,6 @@
             <ComponentRef Id="cmp469E88A102148B8BD5667462EE59FECD" />
             <ComponentRef Id="cmp497DB98CF2661AD5E3F644E55989373D" />
             <ComponentRef Id="cmp9AC34FFE315750C746B9E441DD4DE751" />
-            <ComponentRef Id="cmp471FE19C21E9117DE5B221F5A056F836" />
             <ComponentRef Id="cmp9D4AE8C031DF1FC733C87DF95334A165" />
             <ComponentRef Id="cmp466461CEC1F96678E1C583154DA61F62" />
             <ComponentRef Id="cmp60F5CE1CFAD8CEB5380872C62BECCD6A" />

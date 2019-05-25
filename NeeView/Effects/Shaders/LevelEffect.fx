@@ -1,8 +1,3 @@
-// Copyright (c) 2016 Mitsuhiro Ito (nee)
-//
-// This software is released under the MIT License.
-// http://opensource.org/licenses/mit-license.php
-
 sampler2D input : register(S0);
 float black : register(C0);
 float white : register(C1);

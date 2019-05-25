@@ -85,7 +85,7 @@ namespace NeeView.Susie.Server
                 {
                     if (spi.PluginType == SusiePluginType.None)
                     {
-                        Debug.WriteLine("no support SPI (wrong API version): " + Path.GetFileName(fileName));
+                        Trace.WriteLine("SusiePluginCollection.Initialize: no support SPI (wrong API version): " + Path.GetFileName(fileName));
                         spi.Dispose();
                     }
                     else
@@ -95,7 +95,7 @@ namespace NeeView.Susie.Server
                 }
                 else
                 {
-                    Debug.WriteLine("no support SPI (Exception): " + Path.GetFileName(fileName));
+                    Trace.WriteLine("SusiePluginCollection.Initialize: no support SPI (Exception): " + Path.GetFileName(fileName));
                 }
             }
 
@@ -185,9 +185,9 @@ namespace NeeView.Susie.Server
                         return plugin;
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    Debug.WriteLine(e.Message);
+                    Trace.WriteLine($"SusiePluginCollection.GetPlugin: Excepion: {ex.Message}");
                 }
             }
             return null;
@@ -221,9 +221,9 @@ namespace NeeView.Susie.Server
                         return new SusieImage(plugin.ToSusiePluginInfo(), bitmapImage);
                     }
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    Debug.WriteLine(e.Message);
+                    Trace.WriteLine($"SusiePluginCollection.GetImage: Exception: {ex.Message}");
                 }
             }
 

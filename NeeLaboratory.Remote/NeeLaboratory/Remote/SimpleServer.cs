@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NeeLaboratory.Runtime.Remote
+namespace NeeLaboratory.Remote
 {
     public class SimpleServer
     {
@@ -40,39 +40,38 @@ namespace NeeLaboratory.Runtime.Remote
 
         public void ServerProcessTurn()
         {
-            Console.WriteLine($"Server: Start");
+            Trace.WriteLine($"Server: Open");
             using (NamedPipeServerStream pipeServer = new NamedPipeServerStream(_name, PipeDirection.InOut))
             {
-                Console.WriteLine($"Server: Wait for connect...");
+                Trace.WriteLine($"Server: Wait for connect...");
                 pipeServer.WaitForConnection();
 
                 using (var stream = new ChunkStream(pipeServer, true))
                 {
-                    // read
                     var command = stream.ReadChunkArray();
-                    Console.WriteLine($"Server: Call.Recv: ChunkCount={command.Count}");
-
-                    // execute
                     var result = CommandExecute(command);
-
-                    // write
-                    Console.WriteLine($"Server: Result: ChunkCount={result.Count}");
                     stream.WriteChunkArray(result);
                 }
             }
 
-            Console.WriteLine($"Server: Closed");
+            Trace.WriteLine($"Server: Closed");
         }
 
         private List<Chunk> CommandExecute(List<Chunk> command)
         {
             try
             {
-                return _recievers[command[0].Id].Invoke(command);
+                Trace.WriteLine($"Server: Execute: ChunkCount={command.Count} CommandId={command[0].Id}");
+                var result = _recievers[command[0].Id].Invoke(command);
+                Trace.WriteLine($"Server: Result: ChunkCount={result.Count}");
+                return result;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                Trace.WriteLine($"Server: Execute.Exception: " + ex.Message);
+                Trace.Indent();
+                Trace.WriteLine(ex);
+                Trace.Unindent();
                 return new List<Chunk>() { new Chunk(-1, DefaultSerializer.Serialize(ex.Message)) };
             }
         }

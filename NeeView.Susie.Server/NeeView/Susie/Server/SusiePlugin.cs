@@ -161,9 +161,9 @@ namespace NeeView.Susie.Server
 
                 return true;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Debug.WriteLine(e.Message);
+                Trace.WriteLine($"SusiePlugin.Initialze: FileName={fileName}: {ex.Message}");
                 return false;
             }
         }
@@ -209,6 +209,9 @@ namespace NeeView.Susie.Server
         // API使用終了
         private void EndSection()
         {
+            // reset FPU
+            NativeMethods._fpreset();
+
             if (IsCacheEnabled)
             {
                 return;

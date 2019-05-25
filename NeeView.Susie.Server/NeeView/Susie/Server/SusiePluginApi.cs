@@ -1,5 +1,4 @@
-﻿using NeeView.Native;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -16,6 +15,8 @@ namespace NeeView.Susie.Server
     /// </summary>
     public class SusiePluginApi : IDisposable
     {
+
+
         // DLLハンドル
         public IntPtr hModule { get; private set; } = IntPtr.Zero;
 
@@ -62,9 +63,6 @@ namespace NeeView.Susie.Server
                 _apiDelegateList.Clear();
                 NativeMethods.FreeLibrary(this.hModule);
                 hModule = IntPtr.Zero;
-
-                // 浮動小数点演算プロセッサのリセット
-                Interop.NVFpReset();
             }
         }
 
@@ -289,15 +287,17 @@ namespace NeeView.Susie.Server
         /// <param name="file">アーカイブファイル名</param>
         /// <param name="entry">アーカイブエントリ名</param>
         /// <returns>出力されたバッファ。失敗した場合はnull</returns>
+#if false
         public byte[] GetFile(string file, ArchiveFileInfoRaw entry)
         {
             var buf = GetFile(file, (int)entry.position);
             if (buf.Length != (int)entry.filesize)
             {
-                Debug.WriteLine($"SusieWarning: illigal ArchiveFile size: request={entry.filesize}, real={buf.Length}");
+                Trace.WriteLine($"SusiePluginApu.GetFile: illigal ArchiveFile size: request={entry.filesize}, real={buf.Length}");
             }
             return buf;
         }
+#endif
 
         public byte[] GetFile(string file, int position)
         {
@@ -333,10 +333,12 @@ namespace NeeView.Susie.Server
         /// <param name="entry">アーカイブエントリ名</param>
         /// <param name="extractFolder">出力フォルダー</param>
         /// <returns>成功した場合は0</returns>
+#if false
         public int GetFile(string file, ArchiveFileInfoRaw entry, string extractFolder)
         {
             return GetFile(file, (int)entry.position, extractFolder);
         }
+#endif
 
         public int GetFile(string file, int position, string extractFolder)
         {
@@ -444,7 +446,7 @@ namespace NeeView.Susie.Server
             int infoSizeReal = pBInfoSize;
             if (infoSizeReal < infoSize)
             {
-                Debug.WriteLine($"SusieWarning: illigal pBInfo size: request={infoSize}, real={infoSizeReal}");
+                Trace.WriteLine($"SusiePluginApi.CraeteBitmapImage: illigal pBInfo size: request={infoSize}, real={infoSizeReal}");
                 infoSize = infoSizeReal;
                 if (infoSize <= 0) throw new ApplicationException("Memory error.");
             }
@@ -454,7 +456,7 @@ namespace NeeView.Susie.Server
             int dataSizeReal = pBmSize;
             if (dataSizeReal < dataSize)
             {
-                Debug.WriteLine($"SusieWarning: illigal pBm size: request={dataSize}, real={dataSizeReal}");
+                Trace.WriteLine($"SusiePluginApi.CraeteBitmapImage: illigal pBm size: request={dataSize}, real={dataSizeReal}");
                 dataSize = dataSizeReal;
                 if (dataSize <= 0) throw new ApplicationException("Memory error.");
             }

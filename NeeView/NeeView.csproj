@@ -65,28 +65,6 @@
   <PropertyGroup>
     <ApplicationManifest>App.manifest</ApplicationManifest>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SUSIE;NEEVIEW_S</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
-    <OutputPath>bin\x86\Release\</OutputPath>
-    <Optimize>true</Optimize>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
-    <DefineConstants>SUSIE;NEEVIEW_S</DefineConstants>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Remote|AnyCPU'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Remote\</OutputPath>
@@ -96,17 +74,6 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
-    <LangVersion>latest</LangVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Remote|x86'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x86\Remote\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SUSIE;NEEVIEW_S</DefineConstants>
-    <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
-    <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>true</Prefer32Bit>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
@@ -207,6 +174,7 @@
     <Compile Include="Development\DebugBusyFlag.xaml.cs">
       <DependentUpon>DebugBusyFlag.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Native\NVInterop.cs" />
     <Compile Include="Obsolete\BookSettingPresenterLegacy.cs" />
     <Compile Include="BookSetting\BookSettingSelectMode.cs" />
     <Compile Include="BookHub\PlaylistBookLoader.cs" />
@@ -228,7 +196,6 @@
     <Compile Include="Susie\Client\SusiePluginManager.cs" />
     <Compile Include="Susie\Obsolete\SusiePlugin.cs" />
     <Compile Include="Susie\Obsolete\SusiePluginSetting.cs" />
-    <Compile Include="Susie\SimpleClientTest.cs" />
     <Compile Include="Susie\SubProcess.cs" />
     <Compile Include="Susie\SusieUtility.cs" />
     <Compile Include="ViewContent\ViewContentSourceCollectionChangedEventArgs.cs" />
@@ -350,6 +317,7 @@
     <Compile Include="ViewContent\ArchiveViewContent.cs" />
     <Compile Include="ViewContent\ViewContentSource.cs" />
     <Compile Include="ViewContent\ViewContentSourceCollection.cs" />
+    <Compile Include="_NeeLaboratory\Diagnostics\Log.cs" />
     <Compile Include="_NeeView\Collections\Generic\ObjectPool.cs" />
     <Compile Include="ViewContent\ReserveViewContent.cs" />
     <Compile Include="ViewContent\ViewContentControl.cs" />
@@ -582,7 +550,6 @@
     <Compile Include="_NeeLaboratory\IO\PathUtility.cs" />
     <Compile Include="_NeeLaboratory\IO\FileSystem.cs" />
     <Compile Include="_NeeLaboratory\IEngine.cs" />
-    <Compile Include="_NeeLaboratory\Diagnostics\Log.cs" />
     <Compile Include="_NeeLaboratory\Threading\Jobs\IJob.cs" />
     <Compile Include="_NeeLaboratory\Threading\Jobs\SingleJobEngine.cs" />
     <Compile Include="_NeeLaboratory\Threading\Jobs\JobBase.cs" />
@@ -1430,13 +1397,9 @@
       <Project>{f8053574-48a7-4d8d-a55e-63c26d01e519}</Project>
       <Name>NeeLaboratory.IO.Search</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NeeLaboratory\NeeLaboratory.csproj">
+    <ProjectReference Include="..\NeeLaboratory.Remote\NeeLaboratory.Remote.csproj">
       <Project>{843632a2-0f10-4b48-9995-3959346bfc04}</Project>
-      <Name>NeeLaboratory</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NeeView.Native\NeeView.Native.csproj">
-      <Project>{60ae1312-877c-43b7-8259-57ed078c7536}</Project>
-      <Name>NeeView.Native</Name>
+      <Name>NeeLaboratory.Remote</Name>
     </ProjectReference>
     <ProjectReference Include="..\NeeView.Susie\NeeView.Susie.csproj">
       <Project>{9523f921-b956-4eb4-b599-1c41b64fff0d}</Project>
@@ -1451,6 +1414,12 @@
     <Content Include="Effects\Shaders\ColorSelectEffect.fx" />
     <Content Include="Effects\Shaders\HsvEffect.fx" />
     <Content Include="Effects\Shaders\LevelEffect.fx" />
+    <Content Include="x64\NeeView.Interop.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="x86\NeeView.Interop.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resources\SplashScreen.png" />
     <Resource Include="Resources\SplashScreenS.png" />
     <Resource Include="Resources\en-US\SearchOptions.html" />

@@ -43,6 +43,9 @@ namespace NeeView.Susie.Server
             string shortPath = shortPathBuffer.ToString();
             return shortPath;
         }
+
+        [DllImport("msvcrt.dll")]
+        public static extern void _fpreset();
     }
 
 

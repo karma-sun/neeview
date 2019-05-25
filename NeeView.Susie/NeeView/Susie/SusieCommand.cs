@@ -29,7 +29,6 @@ namespace NeeView.Susie
         public const int ExtractArchiveEntry = 0x000A;
         public const int ExtractArchiveEntryToFolder = 0x000B;
 
-        public const int Echo = 0x8001;
         public const int Error = -1;
     }
 

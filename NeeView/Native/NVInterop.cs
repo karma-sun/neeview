@@ -25,14 +25,6 @@ namespace NeeView.Native
             [DllImport("NeeView.Interop.dll")]
             public static extern void NVFpReset();
 
-#if false
-            static NativeMethods()
-            {
-                ///TryLoadNativeLibrary(Config.Current.LibrariesPath);
-                TryLoadNativeLibrary(null);
-            }
-#endif
-
 #if false // FPU設定のテスト用
             [DllImport("msvcrt.dll", CallingConvention = CallingConvention.Cdecl)]
             public extern static uint _controlfp(uint newcw, uint mask);

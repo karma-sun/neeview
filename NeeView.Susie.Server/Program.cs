@@ -1,6 +1,6 @@
-﻿using NeeView.Native;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -25,22 +25,16 @@ namespace NeeView.Susie.Server
 
         static void Main(string[] args)
         {
+            Trace.WriteLine("");
+            Trace.WriteLine($"---------------- {DateTime.Now}");
 
-            // DLL 検索パスから現在の作業ディレクトリ (CWD) を削除
+            // INFO: DLL 検索パスから現在の作業ディレクトリ (CWD) を削除
             NativeMethods.SetDllDirectory("");
 
-            Interop.TryLoadNativeLibrary(".");
-
-
-            Console.WriteLine($"I'm Server.");
-
-
-            
             // TODO:
             new SusiePluginRemoteServer().Run();
 
-            Console.WriteLine($"DONE.");
-
+            Trace.WriteLine($"Shutdown.");
             ////NativeMethods.MessageBoxW(0, "This exe file is SusiePlugin server for NeeView. Don't run it.", "Caption", 0);
         }
     }

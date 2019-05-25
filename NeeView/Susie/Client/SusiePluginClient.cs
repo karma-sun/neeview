@@ -1,5 +1,5 @@
 ﻿using NeeLaboratory;
-using NeeLaboratory.Runtime.Remote;
+using NeeLaboratory.Remote;
 using NeeLaboratory.Runtime.Serialization;
 using System;
 using System.Collections.Generic;
@@ -49,8 +49,14 @@ namespace NeeView.Susie.Client
         {
             if (_subProcess != null) return;
 
-            // TODO: Libraryパスの反映
-            _subProcess = new SubProcess(@"NeeView.Susie.Server.exe");
+            var subProcessFileName = System.IO.Path.Combine(Config.Current.LibrariesPath, "NeeView.Susie.Server.exe");
+
+            if (!File.Exists(subProcessFileName))
+            {
+                throw new FileNotFoundException($"File not found: {subProcessFileName}");
+            }
+
+            _subProcess = new SubProcess(subProcessFileName);
             _subProcess.Start();
 
             var name = SusiePluginRemote.CreateServerName(_subProcess.Process);
@@ -73,7 +79,8 @@ namespace NeeView.Susie.Client
 
         public async Task<List<Chunk>> CallAsync(List<Chunk> args, CancellationToken token)
         {
-            if (_client == null) throw new InvalidOperationException();
+            if (_client == null) throw new InvalidOperationException("Not connect.");
+            if (!_subProcess.IsActive) throw new InvalidOperationException("SubProcess already closed.");
 
             RETRY:
             try
@@ -272,7 +279,7 @@ namespace NeeView.Susie.Client
         }
 
 
-  
+
 
 
     }

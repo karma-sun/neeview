@@ -194,9 +194,10 @@
     <Compile Include="Susie\Client\SusieImagePluginAccessor.cs" />
     <Compile Include="Susie\Client\SusiePluginClient.cs" />
     <Compile Include="Susie\Client\SusiePluginManager.cs" />
+    <Compile Include="Susie\Client\SusiePluginRemoteClient.cs" />
     <Compile Include="Susie\Obsolete\SusiePlugin.cs" />
     <Compile Include="Susie\Obsolete\SusiePluginSetting.cs" />
-    <Compile Include="Susie\SubProcess.cs" />
+    <Compile Include="System\SubProcess.cs" />
     <Compile Include="Susie\SusieUtility.cs" />
     <Compile Include="ViewContent\ViewContentSourceCollectionChangedEventArgs.cs" />
     <Compile Include="ContentCanvas\KeyPressWatcher.cs" />

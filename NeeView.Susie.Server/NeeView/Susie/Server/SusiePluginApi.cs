@@ -15,8 +15,6 @@ namespace NeeView.Susie.Server
     /// </summary>
     public class SusiePluginApi : IDisposable
     {
-
-
         // DLLハンドル
         public IntPtr hModule { get; private set; } = IntPtr.Zero;
 
@@ -285,20 +283,8 @@ namespace NeeView.Susie.Server
         /// アーカイブエントリ取得(メモリ版)
         /// </summary>
         /// <param name="file">アーカイブファイル名</param>
-        /// <param name="entry">アーカイブエントリ名</param>
+        /// <param name="position">アーカイブエントリ位置</param>
         /// <returns>出力されたバッファ。失敗した場合はnull</returns>
-#if false
-        public byte[] GetFile(string file, ArchiveFileInfoRaw entry)
-        {
-            var buf = GetFile(file, (int)entry.position);
-            if (buf.Length != (int)entry.filesize)
-            {
-                Trace.WriteLine($"SusiePluginApu.GetFile: illigal ArchiveFile size: request={entry.filesize}, real={buf.Length}");
-            }
-            return buf;
-        }
-#endif
-
         public byte[] GetFile(string file, int position)
         {
             if (hModule == null) throw new InvalidOperationException();
@@ -312,7 +298,7 @@ namespace NeeView.Susie.Server
                 {
                     IntPtr pBuff = NativeMethods.LocalLock(hBuff);
                     var buffSize = (int)NativeMethods.LocalSize(hBuff);
-                    if (buffSize == 0) throw new ApplicationException("Memory error.");
+                    if (buffSize == 0) throw new SusieException("Memory error.");
                     byte[] buf = new byte[buffSize];
                     Marshal.Copy(pBuff, buf, (int)0, (int)buffSize);
                     return buf;
@@ -330,16 +316,9 @@ namespace NeeView.Susie.Server
         /// アーカイブエントリ取得(ファイル版)
         /// </summary>
         /// <param name="file">アーカイブファイル名</param>
-        /// <param name="entry">アーカイブエントリ名</param>
+        /// <param name="position">アーカイブエントリ位置</param>
         /// <param name="extractFolder">出力フォルダー</param>
         /// <returns>成功した場合は0</returns>
-#if false
-        public int GetFile(string file, ArchiveFileInfoRaw entry, string extractFolder)
-        {
-            return GetFile(file, (int)entry.position, extractFolder);
-        }
-#endif
-
         public int GetFile(string file, int position, string extractFolder)
         {
             if (hModule == null) throw new InvalidOperationException();
@@ -432,7 +411,7 @@ namespace NeeView.Susie.Server
         {
             if (pBInfoSize == 0 || pBmSize == 0)
             {
-                throw new ApplicationException("Memory error.");
+                throw new SusieException("Memory error.");
             }
 
             var bi = Marshal.PtrToStructure<BitmapInfoHeader>(pBInfo);
@@ -448,7 +427,7 @@ namespace NeeView.Susie.Server
             {
                 Trace.WriteLine($"SusiePluginApi.CraeteBitmapImage: illigal pBInfo size: request={infoSize}, real={infoSizeReal}");
                 infoSize = infoSizeReal;
-                if (infoSize <= 0) throw new ApplicationException("Memory error.");
+                if (infoSize <= 0) throw new SusieException("Memory error.");
             }
             Marshal.Copy(pBInfo, mem, Marshal.SizeOf(bf), infoSize);
 
@@ -458,7 +437,7 @@ namespace NeeView.Susie.Server
             {
                 Trace.WriteLine($"SusiePluginApi.CraeteBitmapImage: illigal pBm size: request={dataSize}, real={dataSizeReal}");
                 dataSize = dataSizeReal;
-                if (dataSize <= 0) throw new ApplicationException("Memory error.");
+                if (dataSize <= 0) throw new SusieException("Memory error.");
             }
             Marshal.Copy(pBm, mem, (int)bf.bfOffBits, dataSize);
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeLaboratory.Collections.Specialized;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -7,7 +8,6 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace NeeView.Susie.Server
 {
@@ -397,7 +397,7 @@ namespace NeeView.Susie.Server
                     var api = BeginSection();
                     string shortPath = NativeMethods.GetShortPathName(fileName);
                     var entries = api.GetArchiveInfo(shortPath);
-                    if (entries == null) throw new ApplicationException($"{this.Name}: Failed to read archive information.");
+                    if (entries == null) throw new SusieException($"{this.Name}: Failed to read archive information.");
                     return new ArchiveEntryCollection(this, fileName, entries);
                 }
                 finally
@@ -428,7 +428,7 @@ namespace NeeView.Susie.Server
                     string shortPath = NativeMethods.GetShortPathName(fileName);
                     if (!api.IsSupported(shortPath, head)) return null;
                     var entries = api.GetArchiveInfo(shortPath);
-                    if (entries == null) throw new ApplicationException($"{this.Name}: Failed to read archive information.");
+                    if (entries == null) throw new SusieException($"{this.Name}: Failed to read archive information.");
                     return new ArchiveEntryCollection(this, fileName, entries);
                 }
                 finally
@@ -501,7 +501,6 @@ namespace NeeView.Susie.Server
             }
         }
 
-        //
         private static string GetExtension(string s)
         {
             return "." + s.Split('.').Last().ToLower();

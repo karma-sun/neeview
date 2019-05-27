@@ -6,12 +6,16 @@ namespace NeeView
     public class SubProcess : IDisposable
     {
         private string _filename;
+        private string _args;
         private Process _process;
 
-        public SubProcess(string path)
+        public SubProcess(string path, string args)
         {
             _filename = path;
+            _args = args;
         }
+
+        public event EventHandler Exited;
 
         public Process Process => _process;
 
@@ -21,9 +25,12 @@ namespace NeeView
 
             var psInfo = new ProcessStartInfo();
             psInfo.FileName = _filename;
-            //psInfo.CreateNoWindow = true; // コンソール・ウィンドウを開かない
-            //psInfo.UseShellExecute = false; // シェル機能を使用しない
+            psInfo.Arguments = _args;
+            psInfo.CreateNoWindow = true;
+            psInfo.UseShellExecute = false;
+
             _process = Process.Start(psInfo);
+            _process.Exited += (s, e) => Exited?.Invoke(s, e);
         }
 
         public bool IsActive => _process != null && !_process.HasExited;
@@ -59,7 +66,5 @@ namespace NeeView
             GC.SuppressFinalize(this);
         }
         #endregion
-
-
     }
 }

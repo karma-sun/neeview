@@ -65,6 +65,7 @@ namespace NeeView.Susie.Server
         private List<Chunk> Initialize(List<Chunk> command)
         {
             var args = DeserializeChunk<SusiePluginCommandInitialize>(command[0]);
+            Trace.WriteLine($"Remote.Initialize: {args.PluginFolder}, {args.Settings}");
             _process.Initialize(args.PluginFolder, args.Settings);
             return CreateResultIsSuccess(SusiePluginCommandId.Initialize, true);
         }
@@ -72,6 +73,7 @@ namespace NeeView.Susie.Server
         private List<Chunk> GetPlugin(List<Chunk> command)
         {
             var args = DeserializeChunk<SusiePluginCommandGetPlugin>(command[0]);
+            Trace.WriteLine($"Remote.GetPlugin: {args.PluginNames}");
             var pluginInfos =  _process.GetPlugin(args.PluginNames);
             return CreateResult(SusiePluginCommandId.GetPlugin, new SusiePluginCommandGetPluginResult(pluginInfos));
         }
@@ -79,6 +81,7 @@ namespace NeeView.Susie.Server
         private List<Chunk> SetPlugin(List<Chunk> command)
         {
             var args = DeserializeChunk<SusiePluginCommandSetPlugin>(command[0]);
+            Trace.WriteLine($"Remote.SetPlugin: {args.Settings}");
             _process.SetPlugin(args.Settings);
             return CreateResultIsSuccess(SusiePluginCommandId.SetPlugin, true);
         }
@@ -86,6 +89,7 @@ namespace NeeView.Susie.Server
         private List<Chunk> SetPluginOrder(List<Chunk> command)
         {
             var args = DeserializeChunk<SusiePluginCommandSetPluginOrder>(command[0]);
+            Trace.WriteLine($"Remote.SetPluginOrder: {args.Order}");
             _process.SetPluginOrder(args.Order);
             return CreateResultIsSuccess(SusiePluginCommandId.SetPluginOrder, true);
         }
@@ -93,6 +97,7 @@ namespace NeeView.Susie.Server
         private List<Chunk> ShowConfigulationDlg(List<Chunk> command)
         {
             var args = DeserializeChunk<SusiePluginCommandShowConfigulationDlg>(command[0]);
+            Trace.WriteLine($"Remote.ShowConfigulationDlg: {args.PluginName}");
             _process.ShowConfigulationDlg(args.PluginName, args.HWnd);
             return CreateResultIsSuccess(SusiePluginCommandId.ShowConfigulationDlg, true);
         }
@@ -101,6 +106,7 @@ namespace NeeView.Susie.Server
         private List<Chunk> GetArchivePlugin(List<Chunk> command)
         {
             var args = DeserializeChunk<SusiePluginCommandGetArchivePlugin>(command[0]);
+            Trace.WriteLine($"Remote.GetArchivePlugin: {args.FileName}");
             var buff = command[1].Data;
             var pluginInfo = _process.GetArchivePlugin(args.FileName, buff, args.IsCheckExtension);
             return CreateResult(SusiePluginCommandId.GetArchivePlugin, new SusiePluginCommandGetArchivePluginResult(pluginInfo));
@@ -109,6 +115,7 @@ namespace NeeView.Susie.Server
         private List<Chunk> GetImagePlugin(List<Chunk> command)
         {
             var args = DeserializeChunk<SusiePluginCommandGetImagePlugin>(command[0]);
+            Trace.WriteLine($"Remote.GetImagePlugin: {args.FileName}");
             var buff = command[1].Data;
             var pluginInfo = _process.GetImagePlugin(args.FileName, buff, args.IsCheckExtension);
             return CreateResult(SusiePluginCommandId.GetImagePlugin, new SusiePluginCommandGetImagePluginResult(pluginInfo));
@@ -117,6 +124,7 @@ namespace NeeView.Susie.Server
         private List<Chunk> GetImage(List<Chunk> command)
         {
             var args = DeserializeChunk<SusiePluginCommandGetImage>(command[0]);
+            Trace.WriteLine($"Remote.GetImage: {args.FileName}");
             var buff = command[1].Data;
             var susieImage = _process.GetImage(args.PluginName, args.FileName, buff, args.IsCheckExtension);
             var result =  CreateResult(SusiePluginCommandId.GetImage, new SusiePluginCommandGetImageResult(susieImage.Plugin));
@@ -128,6 +136,7 @@ namespace NeeView.Susie.Server
         private List<Chunk> GetArchiveEntries(List<Chunk> command)
         {
             var args = DeserializeChunk<SusiePluginCommandGetArchiveEntries>(command[0]);
+            Trace.WriteLine($"Remote.GetArchiveEntries: {args.FileName}");
             var entries = _process.GetArchiveEntries(args.PluginName, args.FileName);
             return CreateResult(SusiePluginCommandId.GetArchiveEntries, new SusiePluginCommandGetArchiveEntriesResult(entries));
         }
@@ -135,6 +144,7 @@ namespace NeeView.Susie.Server
         private List<Chunk> ExtractArchiveEntry(List<Chunk> command)
         {
             var args = DeserializeChunk<SusiePluginCommandExtractArchiveEntry>(command[0]);
+            Trace.WriteLine($"Remote.ExtractArchiveEntry: {args.FileName}, {args.Position}");
             var buff = _process.ExtractArchiveEntry(args.PluginName, args.FileName, args.Position);
             return new List<Chunk>() { new Chunk(SusiePluginCommandId.ExtractArchiveEntry, buff) };
         }
@@ -142,6 +152,7 @@ namespace NeeView.Susie.Server
         private List<Chunk> ExtractArchiveEntryToFolder(List<Chunk> command)
         {
             var args = DeserializeChunk<SusiePluginCommandExtractArchiveEntryToFolder>(command[0]);
+            Trace.WriteLine($"Remote.ExtractArchiveEntryToFolder: {args.FileName}, {args.Position}, {args.ExtractFolder}");
             _process.ExtractArchiveEntryToFolder(args.PluginName, args.FileName, args.Position, args.ExtractFolder);
             return CreateResultIsSuccess(SusiePluginCommandId.ExtractArchiveEntryToFolder, true);
         }

@@ -68,12 +68,10 @@ namespace NeeView.Susie.Server
 
         public void Initialize(string spiFolder)
         {
+            if (string.IsNullOrWhiteSpace(spiFolder)) throw new ArgumentException();
+            if (!Directory.Exists(spiFolder)) throw new DirectoryNotFoundException($"Directory not found: {spiFolder}");
+
             PluginFolder = spiFolder;
-
-            // TODO: この判定はおかしい。ちゃんと例外にして処理したほうがよさそう。
-            if (string.IsNullOrWhiteSpace(spiFolder)) return;
-            if (!Directory.Exists(spiFolder)) return;
-
 
             var spiFiles = Directory.GetFiles(spiFolder, "*.spi");
 

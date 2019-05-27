@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace NeeView
+namespace NeeLaboratory.Collections.Specialized
 {
     /// <summary>
     /// ファイル拡張子コレクション (immutable)

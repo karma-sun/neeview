@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeeLaboratory.Collections.Specialized;
+using System;
 using System.Runtime.Serialization;
 
 namespace NeeView.Susie

@@ -39,6 +39,8 @@ namespace NeeView.Susie.Server
 
         public void Initialize(string pluginFolder, List<SusiePluginSetting> settings)
         {
+            _pluginCollection?.Dispose();
+
             _pluginCollection = new SusiePluginCollection();
             _pluginCollection.Initialize(pluginFolder);
             _pluginCollection.SetPluginSetting(settings);

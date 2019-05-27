@@ -43,6 +43,8 @@ namespace NeeView
             _unauthorizedPlugins = new List<SusiePluginInfo>();
             _INPlugins = new ObservableCollection<SusiePluginInfo>();
             _AMPlugins = new ObservableCollection<SusiePluginInfo>();
+
+            _remote = new SusiePluginRemoteClient();
         }
 
 
@@ -161,18 +163,19 @@ namespace NeeView
             }
         }
 
+
         private void OpenSusiePluginCollection()
         {
             CloseSusiePluginCollection();
 
-            if (_remote == null)
-            {
-                _remote = new SusiePluginRemoteClient();
-                _remote.Connect();
-            }
-
             _client = new SusiePluginClient(_remote);
+            _client.SetRecoveryAction(Initialize);
 
+            Initialize();
+        }
+
+        private void Initialize()
+        {
             var settings = Plugins.Select(e => e.ToSusiePluginSetting()).ToList();
             _client.Initialize(_susiePluginPath, settings);
 
@@ -191,7 +194,6 @@ namespace NeeView
         {
             if (_client == null) return;
 
-            _client.Dispose();
             _client = null;
 
             UnauthorizedPlugins = Plugins.ToList();
@@ -305,8 +307,6 @@ namespace NeeView
             public List<Susie.SusiePluginSetting> Plugins { get; set; }
 
             #region Obsolete
-
-
 
             [Obsolete, DataMember(Name = "SpiFiles", EmitDefaultValue = false)]
             public Dictionary<string, bool> SpiFilesV1 { get; set; } // ver 33.0

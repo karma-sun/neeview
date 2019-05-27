@@ -40,10 +40,10 @@ namespace NeeLaboratory.Remote
 
         public void ServerProcessTurn()
         {
-            Trace.WriteLine($"Server: Open");
+            ////Trace.WriteLine($"Server: Open");
             using (NamedPipeServerStream pipeServer = new NamedPipeServerStream(_name, PipeDirection.InOut))
             {
-                Trace.WriteLine($"Server: Wait for connect...");
+                ////Trace.WriteLine($"Server: Wait for connect...");
                 pipeServer.WaitForConnection();
 
                 using (var stream = new ChunkStream(pipeServer, true))
@@ -54,16 +54,16 @@ namespace NeeLaboratory.Remote
                 }
             }
 
-            Trace.WriteLine($"Server: Closed");
+            ////Trace.WriteLine($"Server: Closed");
         }
 
         private List<Chunk> CommandExecute(List<Chunk> command)
         {
             try
             {
-                Trace.WriteLine($"Server: Execute: ChunkCount={command.Count} CommandId={command[0].Id}");
+                ////Trace.WriteLine($"Server: Execute: ChunkCount={command.Count} CommandId={command[0].Id}");
                 var result = _recievers[command[0].Id].Invoke(command);
-                Trace.WriteLine($"Server: Result: ChunkCount={result.Count}");
+                ////Trace.WriteLine($"Server: Result: ChunkCount={result.Count}");
                 return result;
             }
             catch (Exception ex)

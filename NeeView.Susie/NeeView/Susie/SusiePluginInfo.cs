@@ -1,5 +1,4 @@
-﻿using NeeView;
-using NeeView.Susie;
+﻿using NeeLaboratory.Collections.Specialized;
 using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;

@@ -16,9 +16,6 @@ namespace NeeView.Susie.Server
         {
             [DllImport("kernel32", CharSet = CharSet.Unicode, SetLastError = true)]
             public static extern bool SetDllDirectory(string lpPathName);
-
-            [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-            public static extern int MessageBoxW(int hWnd, string text, string caption, uint type);
         }
 
         #endregion
@@ -28,15 +25,18 @@ namespace NeeView.Susie.Server
             Trace.WriteLine("");
             Trace.WriteLine($"---------------- {DateTime.Now}");
 
+            if (args.Length != 1 || args[0] != SusiePluginRemote.BootKeyword)
+            {
+                Trace.WriteLine("BootKeyword does not match.");
+                return;
+            }
+
             // INFO: DLL 検索パスから現在の作業ディレクトリ (CWD) を削除
             NativeMethods.SetDllDirectory("");
 
-            // TODO:
             new SusiePluginRemoteServer().Run();
 
             Trace.WriteLine($"Shutdown.");
-            ////NativeMethods.MessageBoxW(0, "This exe file is SusiePlugin server for NeeView. Don't run it.", "Caption", 0);
         }
     }
-
 }

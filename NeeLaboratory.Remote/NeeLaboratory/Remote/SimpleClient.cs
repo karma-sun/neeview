@@ -15,6 +15,7 @@ namespace NeeLaboratory.Remote
     public class SimpleClient
     {
         private string _serverPipeName;
+        private SemaphoreSlim _semaphore = new SemaphoreSlim(1);
 
 
         public SimpleClient(string serverPipeName)
@@ -24,29 +25,37 @@ namespace NeeLaboratory.Remote
 
         public async Task<List<Chunk>> CallAsync(List<Chunk> args, CancellationToken token)
         {
-            Console.WriteLine($"Client: Start");
-            using (var pipeClient = new NamedPipeClientStream(".", _serverPipeName, PipeDirection.InOut))
+            _semaphore.Wait();
+            try
             {
-                Console.WriteLine($"Client: Connect {_serverPipeName} ...");
-                await pipeClient.ConnectAsync(3000, token);
-
-                using (var stream = new ChunkStream(pipeClient, true))
+                ////Debug.WriteLine($"Client: Start");
+                using (var pipeClient = new NamedPipeClientStream(".", _serverPipeName, PipeDirection.InOut))
                 {
-                    // call
-                    Console.WriteLine($"Client: Call: {args[0].Id}");
-                    stream.WriteChunkArray(args);
+                    ////Debug.WriteLine($"Client: Connect {_serverPipeName} ...");
+                    await pipeClient.ConnectAsync(5000, token);
 
-                    // result
-                    var result = await stream.ReadChunkArrayAsync(token);
-                    Console.WriteLine($"Client: Result.Recv: {result[0].Id}");
-
-                    if (result[0].Id < 0)
+                    using (var stream = new ChunkStream(pipeClient, true))
                     {
-                        throw new IOException(DefaultSerializer.Deserialize<string>(result[0].Data));
-                    }
+                        // call
+                        ////Debug.WriteLine($"Client: Call: {args[0].Id}");
+                        stream.WriteChunkArray(args);
 
-                    return result;
+                        // result
+                        var result = await stream.ReadChunkArrayAsync(token);
+                        ////Debug.WriteLine($"Client: Result.Recv: {result[0].Id}");
+
+                        if (result[0].Id < 0)
+                        {
+                            throw new IOException(DefaultSerializer.Deserialize<string>(result[0].Data));
+                        }
+
+                        return result;
+                    }
                 }
+            }
+            finally
+            {
+                _semaphore.Release();
             }
         }
     }

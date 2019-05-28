@@ -82,8 +82,16 @@ ICON: pushpin, etc...
 
 ### SharpVectors
 
- DLL: SharpVectors.*.dll
+DLL: SharpVectors.*.dll
 
 * Copyright (c) 2010 - 2018, Elinam LLC All rights reserved.
 * URL: [SharpVectors](https://github.com/ElinamLLC/SharpVectors)
 * License: [3-Clause BSD License](https://github.com/ElinamLLC/SharpVectors/blob/master/License.md)
+
+### ProcessJobObject
+
+Code-in:
+
+* Copyright (c) Microsoft Corporation. All rights reserved.
+* URL: [VSTest](https://github.com/microsoft/vstest)
+* License: [MIT License](https://github.com/microsoft/vstest/blob/master/LICENSE)

@@ -30,9 +30,6 @@ namespace NeeView
 
         public static new App Current { get; private set; }
 
-
-        private static ProcessJobObject _processJobObject;
-
         private bool _isSplashScreenVisibled;
 
         // 多重起動盛業
@@ -119,9 +116,6 @@ namespace NeeView
         /// </summary>
         private async Task InitializeAsync(StartupEventArgs e)
         {
-            _processJobObject = new ProcessJobObject();
-            _processJobObject.AddProcess(Process.GetCurrentProcess().Handle);
-
             Interop.TryLoadNativeLibrary(Config.Current.LibrariesPath);
 
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;

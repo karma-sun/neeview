@@ -1,10 +1,18 @@
-﻿using System;
+﻿using NeeLaboratory.Diagnostics;
+using System;
 using System.Diagnostics;
 
 namespace NeeView
 {
     public class SubProcess : IDisposable
     {
+        private static ProcessJobObject _processJobObject;
+
+        static SubProcess()
+        {
+            _processJobObject = new ProcessJobObject();
+        }
+
         private string _filename;
         private string _args;
         private Process _process;
@@ -30,6 +38,7 @@ namespace NeeView
             psInfo.UseShellExecute = false;
 
             _process = Process.Start(psInfo);
+            _processJobObject.AddProcess(_process.Handle);
             _process.Exited += (s, e) => Exited?.Invoke(s, e);
         }
 

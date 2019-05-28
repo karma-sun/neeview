@@ -105,6 +105,8 @@ namespace NeeView
 
         public override byte[] CreateImage(Size size, BitmapCreateSetting setting, BitmapImageFormat format, int quality, CancellationToken token)
         {
+            if (size.IsEmptyOrZero()) throw new ArgumentOutOfRangeException(nameof(size));
+
             Initialize(token);
 
             BitmapSource bitmap = null;

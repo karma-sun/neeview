@@ -53,10 +53,9 @@ namespace NeeView
 
         protected void InitializeCore(Stream stream, CancellationToken token)
         {
-            // ストリームをRawDataとして保持。ArchiveEntryのデータがメモリ上に存在するならばそれを参照する
-            if (_entry.Data is byte[] bytes)
+            if (stream is MemoryStream memoryStream)
             {
-                _rawData = bytes;
+                _rawData = memoryStream.GetBuffer();
             }
             else
             {

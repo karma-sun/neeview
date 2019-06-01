@@ -249,7 +249,7 @@ namespace NeeView
 
             if (entry.Data is byte[] rawData)
             {
-                return new MemoryStream(rawData);
+                return new MemoryStream(rawData, 0, rawData.Length, false, true);
             }
             if (entry.Data is string fileName)
             {

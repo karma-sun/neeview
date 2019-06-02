@@ -141,8 +141,6 @@ namespace NeeView
                     this.State = WindowStateEx.Maximized;
                     break;
             }
-
-            _window.StateChanged += Window_StateChanged;
         }
 
         #endregion
@@ -304,6 +302,14 @@ namespace NeeView
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// ウィンドウ状態イベントの初期設定
+        /// </summary>
+        public void InitializeStateChangeAction()
+        {
+            _window.StateChanged += Window_StateChanged;
+        }
 
         /// <summary>
         /// ウィンドウ状態イベント処理

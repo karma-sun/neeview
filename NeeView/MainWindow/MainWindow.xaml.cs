@@ -172,8 +172,6 @@ namespace NeeView
             // 開発用初期化
             Debug_Initialize();
 
-            InitializeWindowShape();
-
             Debug.WriteLine($"MainWindow.Initialize: {sw.ElapsedMilliseconds}ms");
         }
 
@@ -540,8 +538,12 @@ namespace NeeView
         // NOTE: このオーバーライド形式でないとWindowChromeの反映がおかしくなる
         protected override void OnSourceInitialized(EventArgs e)
         {
+            InitializeWindowShape();
+
             base.OnSourceInitialized(e);
+
             WindowShape.Current.SetHook();
+            WindowShape.Current.InitializeStateChangeAction();
         }
 
         // ウィンドウコンテンツ表示開始

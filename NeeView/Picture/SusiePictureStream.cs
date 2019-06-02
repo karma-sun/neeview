@@ -41,7 +41,7 @@ namespace NeeView
                 using (var ms = new MemoryStream())
                 {
                     stream.CopyTo(ms);
-                    buff = ms.GetBuffer();
+                    buff = ms.ToArray();
                 }
             }
 
@@ -52,7 +52,7 @@ namespace NeeView
                 throw new SusieIOException();
             }
 
-            return new NamedStream(new MemoryStream(result.BitmapData), result.Plugin.Name);
+            return new NamedStream(new MemoryStream(result.BitmapData, 0, result.BitmapData.Length, false, true), result.Plugin.Name);
         }
 
 
@@ -66,7 +66,7 @@ namespace NeeView
                 throw new SusieIOException();
             }
 
-            return new NamedStream(new MemoryStream(result.BitmapData), result.Plugin.Name);
+            return new NamedStream(new MemoryStream(result.BitmapData, 0, result.BitmapData.Length, false, true), result.Plugin.Name);
         }
     }
 

@@ -143,8 +143,8 @@ namespace NeeView
         // 有効判定
         public bool IsValid => (View != null);
 
-        // 表示スケール(%)
-        public double Scale => Width / Source.Size.Width;
+        // 表示スケール
+        public double Scale => Source != null ? Width / Source.Size.Width : 1.0;
 
         //
         public bool IgnoreReserver { get; set; }

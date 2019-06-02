@@ -38,6 +38,9 @@
     <!-- The application icon displayed on the control panel -->
     <Property Id='ARPPRODUCTICON'>App.ico</Property>
 
+    <InstallExecuteSequence>
+      <RemoveShortcuts>Installed AND NOT UPGRADINGPRODUCTCODE</RemoveShortcuts>
+    </InstallExecuteSequence>
   </Product>
 
   <Fragment>
@@ -93,6 +96,7 @@
         <RemoveFolder Id="AppStartMenuDir" On="uninstall" />
       </Component>
     </DirectoryRef>
+
 
   </Fragment>
 </Wix>

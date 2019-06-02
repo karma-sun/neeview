@@ -150,7 +150,7 @@ namespace NeeView
                     }
 
                     token.ThrowIfCancellationRequested();
-                    NextContentsChanged?.Invoke(_sender, new ViewContentSourceCollectionChangedEventArgs(collection) { CancellationToken = token });
+                    NextContentsChanged?.Invoke(_sender, new ViewContentSourceCollectionChangedEventArgs(collection) { IsForceResize = (_contentCount == 0), CancellationToken = token });
 
                     Interlocked.Increment(ref _contentCount);
 

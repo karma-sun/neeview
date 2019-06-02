@@ -145,6 +145,7 @@ namespace NeeView
                 if (_bookHub.Address == path)
                 {
                     await _bookHub.RequestUnload(true).WaitAsync();
+                    ArchiverManager.Current.UnlockAllArchives();
                 }
 
                 // ゴミ箱に捨てる

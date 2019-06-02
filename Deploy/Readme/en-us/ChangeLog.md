@@ -1,6 +1,17 @@
 # NeeView <VERSION/> - ChangeLog
 
 ----
+## 34.4
+(2019-06-08)
+
+- Fixed a bug that does not restore in maximized state in sub display.
+- Fixed a bug that the load does not end if you switch the book in the loupe mode when the resize filter is enabled.
+- Fixed a bug that caused a crash in the image scaling operation when the image is not open.
+- Fixed a bug that could cause Susie plug-in image reading to fail when solid compressed file pre-memory expansion is enabled.
+- Fixed a bug that sometimes fails to delete a book file.
+- Measures for the phenomenon that the task bar shortcut is invalidated by updating with the MSI installer. It works from the next update.
+
+----
 
 ## 34.3
 (2019-05-18)

@@ -10,6 +10,7 @@
 - Fixed a bug that caused a crash in the image scaling operation when the image is not open.
 - Fixed a bug that could cause Susie plug-in image reading to fail when solid compressed file pre-memory expansion is enabled.
 - Fixed a bug that sometimes fails to delete a book file.
+- Fixed a bug that the application can not be switched with Windows + number keys at full screen.
 - Measures for the phenomenon that the task bar shortcut is invalidated by updating with the MSI installer. It works from the next update.
 
 ----

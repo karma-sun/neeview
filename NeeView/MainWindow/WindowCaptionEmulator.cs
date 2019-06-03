@@ -94,7 +94,7 @@ namespace NeeView
         private void Target_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (!IsEnabled) return;
-            if (!MenuBar.Current.IsCaptionEmulateInFullScreen && _window.ResizeMode == ResizeMode.NoResize) return;
+            if (!MenuBar.Current.IsCaptionEmulateInFullScreen && WindowShape.Current.IsFullScreen) return;
 
             if (e.ClickCount == 2)
             {

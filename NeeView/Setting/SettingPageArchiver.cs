@@ -15,9 +15,7 @@ namespace NeeView.Setting
                 new SettingPageArchiverSevenZip(),
                 new SettingPageArchivePdf(),
                 new SettingPageArchiveMedia(),
-#if SUSIE
-                new SettingPageSusie(),
-#endif
+
             };
         }
     }

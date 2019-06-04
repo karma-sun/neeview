@@ -3492,7 +3492,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>スライドショーの再生を開始する</value>
   </data>
   <data name="ParamIsAutoRecursive" xml:space="preserve">
-    <value>ページがなくサブフォルダーが１つだけ存在する場合にサブフォルダーを読み込む</value>
+    <value>ページがなくサブフォルダーが１つだけ存在する場合にサブフォルダーを自動的に読み込む</value>
   </data>
   <data name="ParamIsCancelSlideByMouseMove" xml:space="preserve">
     <value>マウス移動で表示間隔リセット</value>

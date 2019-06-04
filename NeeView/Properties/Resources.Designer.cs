@@ -10137,7 +10137,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Load a subfolder if there is no page and only one subfolder exists に類似しているローカライズされた文字列を検索します。
+        ///   Automatically load subfolder when there is no page and only one subfolder exists に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsAutoRecursive {
             get {
@@ -10173,7 +10173,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Enable the title bar operation (double click and drag) on ​​the menu at full screen. &quot; に類似しているローカライズされた文字列を検索します。
+        ///   Enable the title bar operation (double click and drag) on ​​the menu at full screen. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsCaptionEmulateInFullScreenTips {
             get {

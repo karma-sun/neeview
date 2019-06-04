@@ -14,7 +14,6 @@ namespace NeeView.Setting
             this.Children = new List<SettingPage>
             {
                 new SettingPageBookGeneral(),
-                new SettingPageBookSubFolder(),
                 new SettingPageBookVisual(),
                 new SettingPageBookPageSetting(),
                 new SettingPageBookMove(),
@@ -34,21 +33,6 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsOpenbookAtCurrentPlace))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.Excludes)), new SettingItemCollectionControl() { Collection = BookProfile.Current.Excludes, AddDialogHeader=Properties.Resources.WordExcludePath }),
                     new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.WideRatio)))),
-            };
-        }
-    }
-
-    public class SettingPageBookSubFolder : SettingPage
-    {
-        public SettingPageBookSubFolder() : base(Properties.Resources.SettingPageBookSubFolder)
-        {
-            this.Items = new List<SettingItem>
-            {
-                new SettingItemSection(Properties.Resources.SettingPageBookSubFolderConfirm,
-                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsConfirmRecursive)))),
-
-                new SettingItemSection(Properties.Resources.SettingPageBookSubFolderAuto,
-                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsAutoRecursive)))),
             };
         }
     }
@@ -125,7 +109,10 @@ namespace NeeView.Setting
                     new SettingItemMultiProperty(
                             PropertyMemberElement.Create(BookSettingPresenter.Current.DefaultSetting, nameof(BookSetting.IsRecursiveFolder)),
                             PropertyMemberElement.Create(BookSettingPresenter.Current.Generater, nameof(BookSettingGenerater.IsRecursiveFolder)))),
- 
+
+                new SettingItemSection(Properties.Resources.SettingPageBookSubFolder,
+                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsConfirmRecursive))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsAutoRecursive)))),
             };
         }
 

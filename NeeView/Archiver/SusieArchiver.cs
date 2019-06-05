@@ -115,7 +115,7 @@ namespace NeeView
             {
                 var info = (Susie.ArchiveEntry)entry.Instance;
                 byte[] buffer = info.Load();
-                return new MemoryStream(buffer, 0, buffer.Length, false, true);
+                return new MemoryStream(buffer);
             }
         }
 

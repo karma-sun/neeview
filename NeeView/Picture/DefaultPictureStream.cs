@@ -9,7 +9,7 @@
         {
             if (!entry.IsIgnoreFileExtension && !PictureProfile.Current.IsDefaultSupported(entry.Link ?? entry.EntryName)) return null;
 
-            return new NamedStream(entry.OpenEntry(), null);
+            return new NamedStream(entry.OpenEntry(), null, entry.GetRawData());
         }
     }
 }

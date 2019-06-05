@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 
@@ -32,7 +33,7 @@ namespace NeeView
 
             using (var stream = _entry.OpenEntry())
             {
-                InitializeCore(stream, token);
+                InitializeCore(stream, _entry.GetRawData(), token);
             }
         }
 
@@ -51,14 +52,16 @@ namespace NeeView
             }
         }
 
-        protected void InitializeCore(Stream stream, CancellationToken token)
+        protected void InitializeCore(Stream stream, byte[] rawData, CancellationToken token)
         {
-            if (stream is MemoryStream memoryStream)
+            if (rawData != null)
             {
-                _rawData = memoryStream.GetBuffer();
+                ////Debug.WriteLine($"PictureStreamSource: {_entry.EntryLastName} from RawData");
+                _rawData = rawData;
             }
             else
             {
+                ////Debug.WriteLine($"PictureStreamSource: {_entry.EntryLastName} from Stream");
                 using (var ms = new MemoryStream())
                 {
                     CopyStream(stream, ms, 81920, token);
@@ -96,7 +99,7 @@ namespace NeeView
 
             using (var namedStream = _pictureStream.Create(this.ArchiveEntry))
             {
-                InitializeCore(namedStream.Stream, token);
+                InitializeCore(namedStream.Stream, namedStream.RawData, token);
                 Decoder = namedStream.Name;
             }
         }

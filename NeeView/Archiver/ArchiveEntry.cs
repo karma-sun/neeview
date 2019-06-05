@@ -173,6 +173,15 @@ namespace NeeView
         #region Methods
 
         /// <summary>
+        /// エントリデータを先読みデータとして返す
+        /// </summary>
+        /// <returns></returns>
+        public byte[] GetRawData()
+        {
+            return Data as byte[];
+        }
+
+        /// <summary>
         /// ファイルシステムでのパスを返す
         /// </summary>
         /// <returns>パス。圧縮ファイルの場合はnull</returns>

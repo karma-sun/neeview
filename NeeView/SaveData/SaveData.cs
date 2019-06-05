@@ -120,6 +120,7 @@ namespace NeeView
         public void RestoreSettingWindowShape(UserSetting setting)
         {
             if (setting == null) return;
+            if (setting.WindowShape == null) return;
 
             // ウィンドウ状態をのぞく設定を反映
             var memento = setting.WindowShape.Clone();

@@ -1,5 +1,6 @@
 ﻿using NeeView.Susie;
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace NeeView
@@ -32,12 +33,15 @@ namespace NeeView
         private NamedStream Create(Stream stream, ArchiveEntry entry)
         {
             byte[] buff;
-            if (stream is MemoryStream)
+            var rawData = entry.GetRawData();
+            if (rawData != null)
             {
-                buff = ((MemoryStream)stream).GetBuffer();
+                ////Debug.WriteLine($"SusiePictureStream: {entry.EntryLastName} from RawData");
+                buff = rawData;
             }
             else
             {
+                ////Debug.WriteLine($"SusiePictureStream: {entry.EntryLastName} from Stream");
                 using (var ms = new MemoryStream())
                 {
                     stream.CopyTo(ms);
@@ -52,7 +56,7 @@ namespace NeeView
                 throw new SusieIOException();
             }
 
-            return new NamedStream(new MemoryStream(result.BitmapData, 0, result.BitmapData.Length, false, true), result.Plugin.Name);
+            return new NamedStream(new MemoryStream(result.BitmapData), result.Plugin.Name, result.BitmapData);
         }
 
 
@@ -66,7 +70,7 @@ namespace NeeView
                 throw new SusieIOException();
             }
 
-            return new NamedStream(new MemoryStream(result.BitmapData, 0, result.BitmapData.Length, false, true), result.Plugin.Name);
+            return new NamedStream(new MemoryStream(result.BitmapData), result.Plugin.Name, result.BitmapData);
         }
     }
 

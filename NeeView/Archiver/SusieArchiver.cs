@@ -116,7 +116,7 @@ namespace NeeView
                 var info = (SusieArchiveEntry)entry.Instance;
                 var plugin = GetPlugin();
                 byte[] buffer = plugin.ExtractArchiveEntry(Path, info.Position);
-                return new MemoryStream(buffer, 0, buffer.Length, false, true);
+                return new MemoryStream(buffer);
             }
         }
 

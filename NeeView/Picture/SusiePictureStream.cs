@@ -1,5 +1,6 @@
 ﻿using NeeView.Susie;
 using System;
+using System.Diagnostics;
 using System.IO;
 
 namespace NeeView
@@ -32,12 +33,15 @@ namespace NeeView
         private NamedStream Create(Stream stream, ArchiveEntry entry)
         {
             byte[] buff;
-            if (stream is MemoryStream)
+            var rawData = entry.GetRawData();
+            if (rawData != null)
             {
-                buff = ((MemoryStream)stream).GetBuffer();
+                ////Debug.WriteLine($"SusiePictureStream: {entry.EntryLastName} from RawData");
+                buff = rawData;
             }
             else
             {
+                ////Debug.WriteLine($"SusiePictureStream: {entry.EntryLastName} from Stream");
                 using (var ms = new MemoryStream())
                 {
                     stream.CopyTo(ms);
@@ -47,13 +51,13 @@ namespace NeeView
 
             SusiePlugin susiePlugin = null;
 
-            var bytes = SusieContext.Current.PluginCollection?.GetPicture(entry.RawEntryName, buff, !entry.IsIgnoreFileExtension, out susiePlugin);
-            if (bytes == null)
+            var bitmapRawData = SusieContext.Current.PluginCollection?.GetPicture(entry.RawEntryName, buff, !entry.IsIgnoreFileExtension, out susiePlugin);
+            if (bitmapRawData == null)
             {
                 throw new SusieIOException();
             }
 
-            return new NamedStream(new MemoryStream(bytes, 0, bytes.Length, false, true), susiePlugin?.ToString());
+            return new NamedStream(new MemoryStream(bitmapRawData), susiePlugin?.ToString(), bitmapRawData);
         }
 
 
@@ -62,13 +66,13 @@ namespace NeeView
         {
             SusiePlugin susiePlugin = null;
 
-            var bytes = SusieContext.Current.PluginCollection?.GetPictureFromFile(fileName, !entry.IsIgnoreFileExtension, out susiePlugin);
-            if (bytes == null)
+            var bitmapRawData = SusieContext.Current.PluginCollection?.GetPictureFromFile(fileName, !entry.IsIgnoreFileExtension, out susiePlugin);
+            if (bitmapRawData == null)
             {
                 throw new SusieIOException();
             }
 
-            return new NamedStream(new MemoryStream(bytes, 0, bytes.Length, false, true), susiePlugin?.ToString());
+            return new NamedStream(new MemoryStream(bitmapRawData), susiePlugin?.ToString(), bitmapRawData);
         }
     }
 

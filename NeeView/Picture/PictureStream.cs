@@ -18,11 +18,13 @@ namespace NeeView
     {
         public Stream Stream { get; set; }
         public string Name { get; set; }
+        public byte[] RawData { get; set; }
 
-        public NamedStream(Stream stream, string name)
+        public NamedStream(Stream stream, string name, byte[] rawData)
         {
             this.Stream = stream;
             this.Name = name;
+            this.RawData = rawData;
         }
 
         public void Dispose()

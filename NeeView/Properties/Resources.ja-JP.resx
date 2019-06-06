@@ -4680,4 +4680,13 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamSusiePluginIsCacheEnabled" xml:space="preserve">
     <value>プラグインをキャッシュする</value>
   </data>
+  <data name="ParamIsSortFileFirst" xml:space="preserve">
+    <value>ファイル優先でページをソートする</value>
+  </data>
+  <data name="ParamIsSortFileFirstTips" xml:space="preserve">
+    <value>ファイルをフォルダーより先に並べます。</value>
+  </data>
+  <data name="SettingPageBookPageSettingAdvance" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
 </root>

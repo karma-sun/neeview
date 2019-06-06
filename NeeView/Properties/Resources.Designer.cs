@@ -10443,6 +10443,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Sort pages by file first に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsSortFileFirst {
+            get {
+                return ResourceManager.GetString("ParamIsSortFileFirst", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Arrange files before folders. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsSortFileFirstTips {
+            get {
+                return ResourceManager.GetString("ParamIsSortFileFirstTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Splash screen に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsSplashScreenEnabled {
@@ -11979,6 +11997,15 @@ namespace NeeView.Properties {
         public static string SettingPageBookPageSetting {
             get {
                 return ResourceManager.GetString("SettingPageBookPageSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Advanced Setting に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageBookPageSettingAdvance {
+            get {
+                return ResourceManager.GetString("SettingPageBookPageSettingAdvance", resourceCulture);
             }
         }
         

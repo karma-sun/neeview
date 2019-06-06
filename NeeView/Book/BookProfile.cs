@@ -120,6 +120,10 @@ namespace NeeView
             set { SetProperty(ref _cacheMemorySize, Math.Min(value, _maxCacheMemorySize)); }
         }
 
+        // ファイル並び順、ファイル優先
+        [PropertyMember("@ParamIsSortFileFirst", Tips = "@ParamIsSortFileFirstTips")]
+        public bool IsSortFileFirst { get; set; }
+
         #endregion
 
         /// <summary>
@@ -204,12 +208,14 @@ namespace NeeView
             [DataMember, DefaultValue(true)]
             public bool IsLoadingPageVisible { get; set; }
 
-
             [DataMember]
             public bool IsAllFileAnImage { get; set; }
 
             [DataMember, DefaultValue(100)]
             public int CacheMemorySize { get; set; }
+
+            [DataMember]
+            public bool IsSortFileFirst { get; set; }
 
 
             [OnDeserializing]
@@ -246,6 +252,7 @@ namespace NeeView
             memento.IsLoadingPageVisible = this.IsLoadingPageVisible;
             memento.IsAllFileAnImage = this.IsAllFileAnImage;
             memento.CacheMemorySize = _cacheMemorySize;
+            memento.IsSortFileFirst = this.IsSortFileFirst;
             return memento;
         }
 
@@ -263,6 +270,7 @@ namespace NeeView
             this.IsLoadingPageVisible = memento.IsLoadingPageVisible;
             this.IsAllFileAnImage = memento.IsAllFileAnImage;
             _cacheMemorySize = memento.CacheMemorySize;
+            this.IsSortFileFirst = memento.IsSortFileFirst;
         }
         #endregion
 

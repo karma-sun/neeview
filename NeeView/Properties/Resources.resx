@@ -4680,4 +4680,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamSusiePluginIsCacheEnabled" xml:space="preserve">
     <value>Cache plugin</value>
   </data>
+  <data name="ParamIsSortFileFirst" xml:space="preserve">
+    <value>Sort pages by file first</value>
+  </data>
+  <data name="ParamIsSortFileFirstTips" xml:space="preserve">
+    <value>Arrange files before folders.</value>
+  </data>
+  <data name="SettingPageBookPageSettingAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
+  </data>
 </root>

@@ -113,6 +113,9 @@ namespace NeeView.Setting
                 new SettingItemSection(Properties.Resources.SettingPageBookSubFolder,
                     new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsConfirmRecursive))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookHub.Current, nameof(BookHub.IsAutoRecursive)))),
+
+                new SettingItemSection(Properties.Resources.SettingPageBookPageSettingAdvance,
+                    new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.IsSortFileFirst)))),
             };
         }
 

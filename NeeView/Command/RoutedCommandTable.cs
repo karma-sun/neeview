@@ -278,8 +278,14 @@ namespace NeeView
                 var command = CommandTable.Current[commandType];
                 if (command.PairPartner != CommandType.None)
                 {
-                    ////Debug.WriteLine($"SwapCommand: {commandType} to {command.PairPartner}");
-                    return command.PairPartner;
+                    if (command.Parameter is ReversibleCommandParameter reversibleCommandParameter)
+                    {
+                        return reversibleCommandParameter.IsReverse ? command.PairPartner : commandType;
+                    }
+                    else
+                    {
+                        return command.PairPartner;
+                    }
                 }
                 else
                 {

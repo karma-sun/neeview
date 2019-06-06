@@ -66,10 +66,27 @@ namespace NeeView
     }
 
 
+
+    // 操作反転パラメータ基底
+    [DataContract]
+    public class ReversibleCommandParameter : CommandParameter
+    {
+        [DataMember]
+        [PropertyMember("@ParamCommandParameterIsReverse", Tips = "@ParamCommandParameterIsReverseTips")]
+        public bool IsReverse { get; set; } = true;
+
+        [OnDeserializing]
+        private void OnDeserializing(StreamingContext context)
+        {
+            IsReverse = true;
+        }
+    }
+
+
     /// <summary>
     /// 指定ページ数移動コマンド用パラメータ
     /// </summary>
-    public class MoveSizePageCommandParameter : CommandParameter
+    public class MoveSizePageCommandParameter : ReversibleCommandParameter
     {
         [PropertyMember("@ParamCommandParameterMoveSize")]
         public int Size
@@ -271,7 +288,7 @@ namespace NeeView
     /// スクロール＋ページ移動用パラメータ
     /// </summary>
     [DataContract]
-    public class ScrollPageCommandParameter : CommandParameter
+    public class ScrollPageCommandParameter : ReversibleCommandParameter
     {
         [DataMember]
         [PropertyMember("@ParamCommandParameterScrollPageN", Tips = "@ParamCommandParameterScrollPageNTips")]
@@ -295,7 +312,7 @@ namespace NeeView
         private int _scroll;
 
         [DataMember]
-        [PropertyMember("@ParamCommandParameterScrollPageStop", Tips = "@ParamCommandParameterScrollPageStopTips" )]
+        [PropertyMember("@ParamCommandParameterScrollPageStop", Tips = "@ParamCommandParameterScrollPageStopTips")]
         public bool IsStop { get; set; }
 
 

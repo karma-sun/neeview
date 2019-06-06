@@ -1261,6 +1261,7 @@ namespace NeeView
                 element.MouseGesture = "R";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => BookOperation.Current.PrevPage();
+                element.DefaultParameter = new ReversibleCommandParameter();
                 element.PairPartner = CommandType.NextPage;
                 _elements[CommandType.PrevPage] = element;
             }
@@ -1275,6 +1276,7 @@ namespace NeeView
                 element.MouseGesture = "L";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => BookOperation.Current.NextPage();
+                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.PrevPage };
                 element.PairPartner = CommandType.PrevPage;
                 _elements[CommandType.NextPage] = element;
             }
@@ -1287,6 +1289,7 @@ namespace NeeView
                 element.MouseGesture = "LR";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => BookOperation.Current.PrevOnePage();
+                element.DefaultParameter = new ReversibleCommandParameter();
                 element.PairPartner = CommandType.NextOnePage;
                 _elements[CommandType.PrevOnePage] = element;
             }
@@ -1299,6 +1302,7 @@ namespace NeeView
                 element.MouseGesture = "RL";
                 element.IsShowMessage = false;
                 element.Execute = (s, e) => BookOperation.Current.NextOnePage();
+                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.PrevOnePage };
                 element.PairPartner = CommandType.PrevOnePage;
                 _elements[CommandType.NextOnePage] = element;
             }
@@ -1377,6 +1381,7 @@ namespace NeeView
                 element.IsShowMessage = true;
                 element.Execute = (s, e) => BookOperation.Current.PrevFolderPage(element.IsShowMessage);
                 element.ExecuteMessage = e => null;
+                element.DefaultParameter = new ReversibleCommandParameter();
                 element.PairPartner = CommandType.NextFolderPage;
                 _elements[CommandType.PrevFolderPage] = element;
             }
@@ -1389,6 +1394,7 @@ namespace NeeView
                 element.IsShowMessage = true;
                 element.Execute = (s, e) => BookOperation.Current.NextFolderPage(element.IsShowMessage);
                 element.ExecuteMessage = e => null;
+                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.PrevFolderPage };
                 element.PairPartner = CommandType.PrevFolderPage;
                 _elements[CommandType.NextFolderPage] = element;
             }
@@ -1403,6 +1409,7 @@ namespace NeeView
                 element.MouseGesture = "UR";
                 element.Execute = (s, e) => BookOperation.Current.FirstPage();
                 element.IsShowMessage = true;
+                element.DefaultParameter = new ReversibleCommandParameter();
                 element.PairPartner = CommandType.LastPage;
                 _elements[CommandType.FirstPage] = element;
             }
@@ -1416,6 +1423,7 @@ namespace NeeView
                 element.MouseGesture = "UL";
                 element.Execute = (s, e) => BookOperation.Current.LastPage();
                 element.IsShowMessage = true;
+                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.FirstPage };
                 element.PairPartner = CommandType.FirstPage;
                 _elements[CommandType.LastPage] = element;
             }

@@ -88,7 +88,7 @@ namespace NeeView
             set { SetParameter(value); }
         }
 
-        //        
+        // コマンドパラメータ存在？
         public bool HasParameter => DefaultParameter != null;
 
         /// <summary>
@@ -189,32 +189,27 @@ namespace NeeView
             [Obsolete, DataMember(Order = 2, EmitDefaultValue = false)]
             public bool IsToggled { get; set; }
 
-            //
             private void Constructor()
             {
             }
 
-            //
             public Memento()
             {
                 Constructor();
             }
 
-            //
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
             {
                 Constructor();
             }
 
-            //
             public Memento Clone()
             {
                 return (Memento)MemberwiseClone();
             }
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -236,12 +231,10 @@ namespace NeeView
             return memento;
         }
 
-        //
         public void Restore(Memento memento)
         {
             if (memento == null) return;
 
-            //
             ShortCutKey = memento.ShortCutKey?.TrimStart(',');
             TouchGesture = memento.TouchGesture ?? this.TouchGesture; // compatible before ver.24
             MouseGesture = memento.MouseGesture;
@@ -251,9 +244,11 @@ namespace NeeView
             IsToggled = memento.IsToggled;
 #pragma warning restore CS0612
 
-            if (HasParameter && memento.Parameter != null)
+            if (HasParameter)
             {
-                Parameter = (CommandParameter)Json.Deserialize(memento.Parameter, DefaultParameter.GetType());
+                Parameter = memento.Parameter != null
+                    ? (CommandParameter)Json.Deserialize(memento.Parameter, DefaultParameter.GetType())
+                    : null;
             }
         }
 

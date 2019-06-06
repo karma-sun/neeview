@@ -3153,7 +3153,7 @@ Initialize the temporary location.</value>
     <value>Swap movement direction of page movement command according to slider direction</value>
   </data>
   <data name="ParamCommandIsReversePageMoveTips" xml:space="preserve">
-    <value>When the slider is from left to right, reverse the page moving direction.</value>
+    <value>When the slider is from left to right, reverse the page moving direction. The setting of the command to work is set by "@ParamCommandParameterIsReverse" of the command parameter.</value>
   </data>
   <data name="ParamCommandIsReversePageMoveWheel" xml:space="preserve">
     <value>Replace when operating wheel</value>
@@ -4688,5 +4688,11 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="SettingPageBookPageSettingAdvance" xml:space="preserve">
     <value>Advanced Setting</value>
+  </data>
+  <data name="ParamCommandParameterIsReverse" xml:space="preserve">
+    <value>Enable operation swap by slider direction</value>
+  </data>
+  <data name="ParamCommandParameterIsReverseTips" xml:space="preserve">
+    <value>Allows the operation replacement by changing the slider direction.</value>
   </data>
 </root>

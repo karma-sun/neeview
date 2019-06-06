@@ -9120,7 +9120,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   When the slider is from left to right, reverse the page moving direction. に類似しているローカライズされた文字列を検索します。
+        ///   When the slider is from left to right, reverse the page moving direction. The setting of the command to work is set by &quot;@ParamCommandParameterIsReverse&quot; of the command parameter. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamCommandIsReversePageMoveTips {
             get {
@@ -9143,6 +9143,24 @@ namespace NeeView.Properties {
         public static string ParamCommandIsReversePageMoveWheelTips {
             get {
                 return ResourceManager.GetString("ParamCommandIsReversePageMoveWheelTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Enable operation swap by slider direction に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterIsReverse {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterIsReverse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Allows the operation replacement by changing the slider direction. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterIsReverseTips {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterIsReverseTips", resourceCulture);
             }
         }
         

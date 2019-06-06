@@ -3153,7 +3153,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>スライダー方向によってページ移動コマンドの移動方向を入れ替える</value>
   </data>
   <data name="ParamCommandIsReversePageMoveTips" xml:space="preserve">
-    <value>スライダーが左から右方向のときにページ移動方向を逆にします。</value>
+    <value>スライダーが左から右方向のときにページ移動方向を逆にします。機能するコマンドの設定はコマンドパラメータの「@ParamCommandParameterIsReverse」で設定します。</value>
   </data>
   <data name="ParamCommandIsReversePageMoveWheel" xml:space="preserve">
     <value>ホイール操作のときに入れ替える</value>
@@ -4688,5 +4688,11 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="SettingPageBookPageSettingAdvance" xml:space="preserve">
     <value>詳細設定</value>
+  </data>
+  <data name="ParamCommandParameterIsReverse" xml:space="preserve">
+    <value>スライダー方向による操作入れ替え許可</value>
+  </data>
+  <data name="ParamCommandParameterIsReverseTips" xml:space="preserve">
+    <value>スライダー方向の変更による操作入れ替えを許可します。</value>
   </data>
 </root>

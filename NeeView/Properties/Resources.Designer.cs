@@ -8976,6 +8976,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   After deleting the viewing book, open the next book に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamBookshelfIsOpenNextBookWhenRemove {
+            get {
+                return ResourceManager.GetString("ParamBookshelfIsOpenNextBookWhenRemove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Synchronize Folders tree with sync button に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamBookshelfIsSyncFolderTree {

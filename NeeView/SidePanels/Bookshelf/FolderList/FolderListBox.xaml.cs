@@ -336,7 +336,7 @@ namespace NeeView
                 if (removed)
                 {
                     _vm.FolderCollection?.RequestDelete(item.TargetPath);
-                    if (isCurrentBook)
+                    if (isCurrentBook && _vm.FolderList.IsOpenNextBookWhenRemove)
                     {
                         if (this.ListBox.SelectedItem is FolderItem currentItem)
                         {
@@ -416,7 +416,7 @@ namespace NeeView
                         }
                         else if (ev.OldValue != ev.NewValue)
                         {
-                            var newName = item.IsHideExtension() ? ev.NewValue + System.IO.Path.GetExtension(item.Name)  : ev.NewValue;
+                            var newName = item.IsHideExtension() ? ev.NewValue + System.IO.Path.GetExtension(item.Name) : ev.NewValue;
                             //Debug.WriteLine($"{ev.OldValue} => {newName}");
                             var src = item.TargetPath;
                             var dst = await FileIO.Current.RenameAsync(item, newName);

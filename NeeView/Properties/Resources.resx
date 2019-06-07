@@ -4695,4 +4695,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamCommandParameterIsReverseTips" xml:space="preserve">
     <value>Allows the operation replacement by changing the slider direction.</value>
   </data>
+  <data name="ParamBookshelfIsOpenNextBookWhenRemove" xml:space="preserve">
+    <value>After deleting the viewing book, open the next book</value>
+  </data>
 </root>

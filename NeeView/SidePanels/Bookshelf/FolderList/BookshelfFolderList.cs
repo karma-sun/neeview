@@ -58,6 +58,8 @@ namespace NeeView
             [DataMember, DefaultValue(true)]
             public bool IsSearchIncludeSubdirectories { get; set; }
 
+            [DataMember, DefaultValue(true)]
+            public bool IsOpenNextBookWhenRemove { get; set; }
 
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
@@ -81,6 +83,7 @@ namespace NeeView
             memento.IsCloseBookWhenMove = this.IsCloseBookWhenMove;
             memento.IsIncrementalSearchEnabled = this.IsIncrementalSearchEnabled;
             memento.IsSearchIncludeSubdirectories = this.IsSearchIncludeSubdirectories;
+            memento.IsOpenNextBookWhenRemove = this.IsOpenNextBookWhenRemove;
 
             return memento;
         }
@@ -100,6 +103,7 @@ namespace NeeView
             this.IsCloseBookWhenMove = memento.IsCloseBookWhenMove;
             this.IsIncrementalSearchEnabled = memento.IsIncrementalSearchEnabled;
             this.IsSearchIncludeSubdirectories = memento.IsSearchIncludeSubdirectories;
+            this.IsOpenNextBookWhenRemove = memento.IsOpenNextBookWhenRemove;
         }
 
         #endregion

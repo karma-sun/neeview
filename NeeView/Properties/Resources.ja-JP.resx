@@ -4695,4 +4695,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamCommandParameterIsReverseTips" xml:space="preserve">
     <value>スライダー方向の変更による操作入れ替えを許可します。</value>
   </data>
+  <data name="ParamBookshelfIsOpenNextBookWhenRemove" xml:space="preserve">
+    <value>閲覧中のブックを削除したときに次のブックを開く</value>
+  </data>
 </root>

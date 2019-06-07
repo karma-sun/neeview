@@ -250,6 +250,9 @@ namespace NeeView
         [PropertyMember("@ParamBookshelfIsCloseBookWhenMove")]
         public bool IsCloseBookWhenMove { get; set; }
 
+        [PropertyMember("@ParamBookshelfIsOpenNextBookWhenRemove")]
+        public bool IsOpenNextBookWhenRemove { get; set; } = true;
+
         [PropertyMember("@ParamBookshelfIsSyncFolderTree")]
         public bool IsSyncFolderTree { get; set; }
 

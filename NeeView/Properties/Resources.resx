@@ -4698,4 +4698,16 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamBookshelfIsOpenNextBookWhenRemove" xml:space="preserve">
     <value>After deleting the viewing book, open the next book</value>
   </data>
+  <data name="CommandToggleStretchAllowEnlarge" xml:space="preserve">
+    <value>Allow enlarge</value>
+  </data>
+  <data name="CommandToggleStretchAllowEnlargeNote" xml:space="preserve">
+    <value>Allow enlarge on view stretch.</value>
+  </data>
+  <data name="CommandToggleStretchAllowReduce" xml:space="preserve">
+    <value>Allow reduce</value>
+  </data>
+  <data name="CommandToggleStretchAllowReduceNote" xml:space="preserve">
+    <value>Allow reduce on view stretch.</value>
+  </data>
 </root>

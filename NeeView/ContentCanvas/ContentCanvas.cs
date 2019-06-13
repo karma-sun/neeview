@@ -207,6 +207,39 @@ namespace NeeView
             }
         }
 
+        // スケールモード・拡大許可
+        private bool _allowEnlarge = true;
+        public bool AllowEnlarge
+        {
+            get { return _allowEnlarge; }
+            set
+            {
+                if (SetProperty(ref _allowEnlarge, value))
+                {
+                    UpdateContentSize();
+                    ResetTransform(true);
+                }
+            }
+        }
+
+        // スケールモード・縮小許可
+        private bool _allowReduce = true;
+        public bool AllowReduce
+        {
+            get { return _allowReduce; }
+            set
+            {
+                if (SetProperty(ref _allowReduce, value))
+                {
+                    UpdateContentSize();
+                    ResetTransform(true);
+                }
+            }
+        }
+
+
+
+
         // ビューエリアサイズ
         public Size ViewSize { get; private set; }
 
@@ -834,8 +867,18 @@ namespace NeeView
             [DataMember]
             public int _Version { get; set; } = Config.Current.ProductVersionNumber;
 
-            [DataMember]
+            [Obsolete, DataMember(Name = "StretchMode", EmitDefaultValue = false)]
+            public PageStretchModeV1 StretchModeV1 { get; set; }
+
+            [DataMember(Name = "StretchModeV2")]
             public PageStretchMode StretchMode { get; set; }
+
+
+            [DataMember, DefaultValue(true)]
+            public bool AllowEnlarge { get; set; }
+
+            [DataMember, DefaultValue(true)]
+            public bool AllowReduce { get; set; }
 
             [DataMember]
             public bool IsEnabledNearestNeighbor { get; set; }
@@ -854,6 +897,12 @@ namespace NeeView
             public bool IsAutoRotate { get; set; }
 
 
+            [OnDeserializing]
+            private void Deserializing(StreamingContext c)
+            {
+                this.InitializePropertyDefaultValues();
+            }
+
             [OnDeserialized]
             private void Deserialized(StreamingContext c)
             {
@@ -863,6 +912,12 @@ namespace NeeView
                 {
                     AutoRotateType = IsAutoRotate ? AutoRotateType.Right : AutoRotateType.None;
                 }
+
+                // before 35.0
+                if (_Version < Config.GenerateProductVersionNumber(35, 0, 0))
+                {
+                    StretchMode = StretchModeV1.ToPageStretchMode();
+                }
 #pragma warning restore CS0612
             }
         }
@@ -871,6 +926,8 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.StretchMode = this.StretchMode;
+            memento.AllowEnlarge = this.AllowEnlarge;
+            memento.AllowReduce = this.AllowReduce;
             memento.IsEnabledNearestNeighbor = this.IsEnabledNearestNeighbor;
             memento.ContentsSpace = this.ContentsSpace;
             memento.AutoRotateType = this.AutoRotateType;
@@ -883,6 +940,8 @@ namespace NeeView
         {
             if (memento == null) return;
             this.StretchMode = memento.StretchMode;
+            this.AllowEnlarge = memento.AllowEnlarge;
+            this.AllowReduce = memento.AllowReduce;
             this.IsEnabledNearestNeighbor = memento.IsEnabledNearestNeighbor;
             this.ContentsSpace = memento.ContentsSpace;
             this.AutoRotateType = memento.AutoRotateType;

@@ -484,32 +484,6 @@ namespace NeeView
                 element.IsShowMessage = true;
                 _elements[CommandType.SetStretchModeNone] = element;
             }
-            // SetStretchModeInside
-            {
-                var element = new CommandElement();
-                element.Group = Properties.Resources.CommandGroupImageScale;
-                element.Text = Properties.Resources.CommandSetStretchModeInside;
-                element.Note = Properties.Resources.CommandSetStretchModeInsideNote;
-                element.Execute = (s, e) => ContentCanvas.Current.SetStretchMode(PageStretchMode.Inside, ((StretchModeCommandParameter)element.Parameter).IsToggle);
-                element.ExecuteMessage = e => element.Text + (ContentCanvas.Current.TestStretchMode(PageStretchMode.Inside, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
-                element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.Inside);
-                element.DefaultParameter = new StretchModeCommandParameter();
-                element.IsShowMessage = true;
-                _elements[CommandType.SetStretchModeInside] = element;
-            }
-            // SetStretchModeOutside
-            {
-                var element = new CommandElement();
-                element.Group = Properties.Resources.CommandGroupImageScale;
-                element.Text = Properties.Resources.CommandSetStretchModeOutside;
-                element.Note = Properties.Resources.CommandSetStretchModeOutsideNote;
-                element.Execute = (s, e) => ContentCanvas.Current.SetStretchMode(PageStretchMode.Outside, ((StretchModeCommandParameter)element.Parameter).IsToggle);
-                element.ExecuteMessage = e => element.Text + (ContentCanvas.Current.TestStretchMode(PageStretchMode.Outside, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
-                element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.Outside);
-                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
-                element.IsShowMessage = true;
-                _elements[CommandType.SetStretchModeOutside] = element;
-            }
             // SetStretchModeUniform
             {
                 var element = new CommandElement();
@@ -519,7 +493,7 @@ namespace NeeView
                 element.Execute = (s, e) => ContentCanvas.Current.SetStretchMode(PageStretchMode.Uniform, ((StretchModeCommandParameter)element.Parameter).IsToggle);
                 element.ExecuteMessage = e => element.Text + (ContentCanvas.Current.TestStretchMode(PageStretchMode.Uniform, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.Uniform);
-                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
+                element.DefaultParameter = new StretchModeCommandParameter();
                 element.IsShowMessage = true;
                 _elements[CommandType.SetStretchModeUniform] = element;
             }
@@ -532,7 +506,7 @@ namespace NeeView
                 element.Execute = (s, e) => ContentCanvas.Current.SetStretchMode(PageStretchMode.UniformToFill, ((StretchModeCommandParameter)element.Parameter).IsToggle);
                 element.ExecuteMessage = e => element.Text + (ContentCanvas.Current.TestStretchMode(PageStretchMode.UniformToFill, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToFill);
-                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
+                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeUniform };
                 element.IsShowMessage = true;
                 _elements[CommandType.SetStretchModeUniformToFill] = element;
             }
@@ -545,7 +519,7 @@ namespace NeeView
                 element.Execute = (s, e) => ContentCanvas.Current.SetStretchMode(PageStretchMode.UniformToSize, ((StretchModeCommandParameter)element.Parameter).IsToggle);
                 element.ExecuteMessage = e => element.Text + (ContentCanvas.Current.TestStretchMode(PageStretchMode.UniformToSize, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToSize);
-                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
+                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeUniform };
                 element.IsShowMessage = true;
                 _elements[CommandType.SetStretchModeUniformToSize] = element;
             }
@@ -558,7 +532,7 @@ namespace NeeView
                 element.Execute = (s, e) => ContentCanvas.Current.SetStretchMode(PageStretchMode.UniformToVertical, ((StretchModeCommandParameter)element.Parameter).IsToggle);
                 element.ExecuteMessage = e => element.Text + (ContentCanvas.Current.TestStretchMode(PageStretchMode.UniformToVertical, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToVertical);
-                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
+                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeUniform };
                 element.IsShowMessage = true;
                 _elements[CommandType.SetStretchModeUniformToVertical] = element;
             }
@@ -571,9 +545,34 @@ namespace NeeView
                 element.Execute = (s, e) => ContentCanvas.Current.SetStretchMode(PageStretchMode.UniformToHorizontal, ((StretchModeCommandParameter)element.Parameter).IsToggle);
                 element.ExecuteMessage = e => element.Text + (ContentCanvas.Current.TestStretchMode(PageStretchMode.UniformToHorizontal, ((StretchModeCommandParameter)element.Parameter).IsToggle) ? "" : " OFF");
                 element.CreateIsCheckedBinding = () => BindingGenerator.StretchMode(PageStretchMode.UniformToHorizontal);
-                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeInside };
+                element.DefaultParameter = new ShareCommandParameter() { CommandType = CommandType.SetStretchModeUniform };
                 element.IsShowMessage = true;
                 _elements[CommandType.SetStretchModeUniformToHorizontal] = element;
+            }
+
+            // ToggleStretchAllowEnlarge
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupImageScale;
+                element.Text = Properties.Resources.CommandToggleStretchAllowEnlarge;
+                element.Note = Properties.Resources.CommandToggleStretchAllowEnlargeNote;
+                element.Execute = (s, e) => ContentCanvas.Current.AllowEnlarge = !ContentCanvas.Current.AllowEnlarge;
+                element.ExecuteMessage = e => element.Text + (ContentCanvas.Current.AllowEnlarge ? " OFF" : " ");
+                element.CreateIsCheckedBinding = () => new Binding(nameof(ContentCanvas.Current.AllowEnlarge)) { Source = ContentCanvas.Current };
+                element.IsShowMessage = true;
+                _elements[CommandType.ToggleStretchAllowEnlarge] = element;
+            }
+            // ToggleStretchAllowReduce
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupImageScale;
+                element.Text = Properties.Resources.CommandToggleStretchAllowReduce;
+                element.Note = Properties.Resources.CommandToggleStretchAllowReduceNote;
+                element.Execute = (s, e) => ContentCanvas.Current.AllowReduce = !ContentCanvas.Current.AllowReduce;
+                element.ExecuteMessage = e => element.Text + (ContentCanvas.Current.AllowReduce ? " OFF" : "");
+                element.CreateIsCheckedBinding = () => new Binding(nameof(ContentCanvas.Current.AllowReduce)) { Source = ContentCanvas.Current };
+                element.IsShowMessage = true;
+                _elements[CommandType.ToggleStretchAllowReduce] = element;
             }
 
             // ToggleIsEnabledNearestNeighbor
@@ -2427,6 +2426,16 @@ namespace NeeView
                         Elements[commandType].Parameter = null;
                     }
                 }
+
+                // before 35.0
+                if (_Version < Config.GenerateProductVersionNumber(35, 0, 0))
+                {
+                    // ストレッチコマンドパラメータ継承
+                    if (Elements.TryGetValue(CommandType.SetStretchModeInside, out var element))
+                    {
+                        Elements[CommandType.SetStretchModeUniform].Parameter = element.Parameter;
+                    }
+                }
 #pragma warning restore CS0612
 
                 // remove obsolete
@@ -2511,8 +2520,6 @@ namespace NeeView
                 Dictionary<PageStretchMode, CommandType> _CommandTable = new Dictionary<PageStretchMode, CommandType>
                 {
                     [PageStretchMode.None] = CommandType.SetStretchModeNone,
-                    [PageStretchMode.Inside] = CommandType.SetStretchModeInside,
-                    [PageStretchMode.Outside] = CommandType.SetStretchModeOutside,
                     [PageStretchMode.Uniform] = CommandType.SetStretchModeUniform,
                     [PageStretchMode.UniformToFill] = CommandType.SetStretchModeUniformToFill,
                     [PageStretchMode.UniformToSize] = CommandType.SetStretchModeUniformToSize,

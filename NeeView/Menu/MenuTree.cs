@@ -496,13 +496,14 @@ namespace NeeView
                     new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeImage, Children = new ObservableCollection<MenuTree>()
                     {
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeNone },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeInside },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeOutside },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeUniform },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeUniformToFill },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeUniformToSize },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeUniformToVertical },
                         new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeUniformToHorizontal },
+                        new MenuTree(MenuElementType.Separator),
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleStretchAllowEnlarge },
+                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleStretchAllowReduce },
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleIsEnabledNearestNeighbor },
                         new MenuTree(MenuElementType.Separator),

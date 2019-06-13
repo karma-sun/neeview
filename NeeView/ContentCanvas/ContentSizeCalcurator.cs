@@ -45,6 +45,8 @@ namespace NeeView
         private double ContentsSpace => _contentCanvas.ContentsSpace;
         private AutoRotateType AutoRotateType => _contentCanvas.AutoRotateType;
         private Size ViewSize => _contentCanvas.ViewSize;
+        private bool AllowEnlarge => _contentCanvas.AllowEnlarge;
+        private bool AllowReduce => _contentCanvas.AllowReduce;
 
         #endregion
 
@@ -225,14 +227,14 @@ namespace NeeView
             double rateW = width / content.Width;
             double rateH = height / content.Height;
 
-            // 拡大はしない
-            if (this.StretchMode == PageStretchMode.Inside)
+            // 拡大制限
+            if (!AllowEnlarge)
             {
                 if (rateW > 1.0) rateW = 1.0;
                 if (rateH > 1.0) rateH = 1.0;
             }
-            // 縮小はしない
-            else if (this.StretchMode == PageStretchMode.Outside)
+            // 縮小制限
+            if (!AllowReduce)
             {
                 if (rateW < 1.0) rateW = 1.0;
                 if (rateH < 1.0) rateH = 1.0;
@@ -244,6 +246,8 @@ namespace NeeView
                 var viewSize = width * height;
                 var contentSize = content.Width * content.Height;
                 var rate = Math.Sqrt(viewSize / contentSize);
+                if (rate > 1.0 && !AllowEnlarge) rate = 1.0;
+                if (rate < 1.0 && !AllowReduce) rate = 1.0;
                 rate0 *= rate;
                 rate1 *= rate;
             }

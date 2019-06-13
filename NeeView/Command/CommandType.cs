@@ -216,10 +216,10 @@ namespace NeeView
         ToggleStretchModeReverse,
         [EnumMember]
         SetStretchModeNone,
-        [EnumMember]
-        SetStretchModeInside,
-        [EnumMember]
-        SetStretchModeOutside,
+        [Obsolete, EnumMember]
+        SetStretchModeInside, // 欠番
+        [Obsolete, EnumMember]
+        SetStretchModeOutside, // 欠番
         [EnumMember]
         SetStretchModeUniform,
         [EnumMember]
@@ -230,6 +230,11 @@ namespace NeeView
         SetStretchModeUniformToVertical,
         [EnumMember]
         SetStretchModeUniformToHorizontal,
+
+        [EnumMember]
+        ToggleStretchAllowEnlarge,
+        [EnumMember]
+        ToggleStretchAllowReduce,
 
         [EnumMember]
         ToggleIsEnabledNearestNeighbor,

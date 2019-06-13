@@ -3544,6 +3544,42 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Allow enlarge に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleStretchAllowEnlarge {
+            get {
+                return ResourceManager.GetString("CommandToggleStretchAllowEnlarge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Allow enlarge on view stretch. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleStretchAllowEnlargeNote {
+            get {
+                return ResourceManager.GetString("CommandToggleStretchAllowEnlargeNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Allow reduce に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleStretchAllowReduce {
+            get {
+                return ResourceManager.GetString("CommandToggleStretchAllowReduce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Allow reduce on view stretch. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleStretchAllowReduceNote {
+            get {
+                return ResourceManager.GetString("CommandToggleStretchAllowReduceNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Switch view stretch に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandToggleStretchMode {

@@ -118,22 +118,6 @@ namespace NeeView
         }
 
         [DataMember]
-        [PropertyMember("@EnumPageStretchModeInside")]
-        public bool IsEnableInside
-        {
-            get { return StretchModes[PageStretchMode.Inside]; }
-            set { StretchModes[PageStretchMode.Inside] = value; }
-        }
-
-        [DataMember]
-        [PropertyMember("@EnumPageStretchModeOutside")]
-        public bool IsEnableOutside
-        {
-            get { return StretchModes[PageStretchMode.Outside]; }
-            set { StretchModes[PageStretchMode.Outside] = value; }
-        }
-
-        [DataMember]
         [PropertyMember("@EnumPageStretchModeUniform")]
         public bool IsEnableUniform
         {

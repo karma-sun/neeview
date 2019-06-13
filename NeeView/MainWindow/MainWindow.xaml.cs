@@ -534,8 +534,7 @@ namespace NeeView
             Debug.WriteLine($"MainWndow.Loaded: {sw.ElapsedMilliseconds}ms");
         }
 
-        // HookProc登録
-        // NOTE: このオーバーライド形式でないとWindowChromeの反映がおかしくなる
+        // NOTE: このオーバーライド形式でないとSetHookでのWindowChromeの反映がおかしくなる
         protected override void OnSourceInitialized(EventArgs e)
         {
             InitializeWindowShape();
@@ -543,13 +542,14 @@ namespace NeeView
             base.OnSourceInitialized(e);
 
             WindowShape.Current.SetHook();
-            WindowShape.Current.InitializeStateChangeAction();
         }
 
         // ウィンドウコンテンツ表示開始
         private void MainWindow_ContentRendered(object sender, EventArgs e)
         {
             Debug.WriteLine($"App.ContentRendered: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
+
+            WindowShape.Current.InitializeStateChangeAction();
 
             // version 32.0 information
             ////if (App.Current.SettingVersion != 0 && App.Current.SettingVersion < Config.Current.ProductVersionNumber && Config.Current.ProductVersionNumber == Config.GenerateProductVersionNumber(32, 0, 0))

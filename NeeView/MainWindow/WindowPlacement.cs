@@ -121,12 +121,12 @@ namespace NeeView
 
         public double Width { get; set; } = 640.0;
         public double Height { get; set; } = 480.0;
+        public bool IsMaximized { get; set; }
 
         #endregion
 
         #region Methods
 
-        //
         private void Window_SourceInitialized(object sender, EventArgs e)
         {
             if (this.Placement.HasValue)
@@ -135,7 +135,7 @@ namespace NeeView
                 var placement = this.Placement.Value;
                 placement.length = Marshal.SizeOf(typeof(WINDOWPLACEMENT));
                 placement.flags = 0;
-                placement.showCmd = (placement.showCmd == SW.SHOWMINIMIZED) ? SW.SHOWNORMAL : placement.showCmd;
+                placement.showCmd = IsMaximized ? SW.SHOWMAXIMIZED : SW.SHOWNORMAL;
 
                 placement.normalPosition.Right = placement.normalPosition.Left + (int)(this.Width * Config.Current.Dpi.DpiScaleX + 0.5);
                 placement.normalPosition.Bottom = placement.normalPosition.Top + (int)(this.Height * Config.Current.Dpi.DpiScaleY + 0.5);
@@ -145,13 +145,11 @@ namespace NeeView
             }
         }
 
-        //
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             StorePlacement();
         }
 
-        //
         public void StorePlacement()
         {
             var hwnd = new WindowInteropHelper(_window).Handle;
@@ -181,7 +179,6 @@ namespace NeeView
             public double Height { get; set; }
         }
 
-        //
         public Memento CreateMemento()
         {
             StorePlacement();
@@ -194,7 +191,6 @@ namespace NeeView
             return memento;
         }
 
-        //
         public void Restore(Memento memento)
         {
             if (memento == null) return;

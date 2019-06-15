@@ -32,7 +32,8 @@ namespace NeeLaboratory.Remote
                 using (var pipeClient = new NamedPipeClientStream(".", _serverPipeName, PipeDirection.InOut))
                 {
                     ////Debug.WriteLine($"Client: Connect {_serverPipeName} ...");
-                    await pipeClient.ConnectAsync(5000, token);
+                    // NOTE: Connect timeout: 30s
+                    await pipeClient.ConnectAsync(30000, token);
 
                     using (var stream = new ChunkStream(pipeClient, true))
                     {

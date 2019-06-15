@@ -124,7 +124,7 @@ namespace NeeView
         private void Sender_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             _coordCenter = new Vector(_sender.ActualWidth * 0.5, _sender.ActualHeight * 0.5);
-            Debug.WriteLine($"CoordCenter: { ((Point)_coordCenter).ToIntString()}");
+            ////Debug.WriteLine($"CoordCenter: { ((Point)_coordCenter).ToIntString()}");
         }
 
         #endregion

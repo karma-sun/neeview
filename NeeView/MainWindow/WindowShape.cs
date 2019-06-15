@@ -632,7 +632,7 @@ namespace NeeView
                 try
                 {
                     var x = lParam.ToInt32();
-                    ////DebugInfo.Current?.SetMessage($"{x:#,0}");
+                    ////DebugInfo.Current?.SetMessage($"WM_NCHITTEST.LPARAM: {x:#,0}");
                     ////Debug.WriteLine($"{x:#,0}");
                 }
                 catch (OverflowException)

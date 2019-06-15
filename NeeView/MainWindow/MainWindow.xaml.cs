@@ -44,7 +44,7 @@ namespace NeeView
         /// </summary>
         public void Initialize()
         {
-            var sw = Stopwatch.StartNew();
+            Debug.WriteLine($"App.MainWndow.Initialize: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
 
             Current = this;
 
@@ -172,7 +172,7 @@ namespace NeeView
             // 開発用初期化
             Debug_Initialize();
 
-            Debug.WriteLine($"MainWindow.Initialize: {sw.ElapsedMilliseconds}ms");
+            Debug.WriteLine($"App.MainWndow.Initialize.Done: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
         }
 
         /// <summary>
@@ -522,10 +522,23 @@ namespace NeeView
         }
 
 
+        // ウィンドウソース初期化後イベント
+        private void MainWindow_SourceInitialized(object sender, EventArgs e)
+        {
+            Debug.WriteLine($"App.MainWndow.SourceInitialized: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
+
+            WindowShape.Current.SetHook();
+
+            // NOTE: Chromeの変更を行った場合、Loadedイベントが発生する
+            InitializeWindowShape();
+
+            Debug.WriteLine($"App.MainWndow.SourceInitialized.Done: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
+        }
+
         // ウィンドウ表示開始
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            var sw = Stopwatch.StartNew();
+            Debug.WriteLine($"App.MainWndow.Loaded: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
 
             // 一瞬手前に表示
             WindowShape.Current.OneTopmost();
@@ -538,31 +551,23 @@ namespace NeeView
 
             _vm.Loaded();
 
-            Debug.WriteLine($"MainWndow.Loaded: {sw.ElapsedMilliseconds}ms");
-        }
-
-        // NOTE: このオーバーライド形式でないとSetHookでのWindowChromeの反映がおかしくなる
-        protected override void OnSourceInitialized(EventArgs e)
-        {
-            InitializeWindowShape();
-
-            base.OnSourceInitialized(e);
-
-            WindowShape.Current.SetHook();
+            Debug.WriteLine($"App.MainWndow.Loaded.Done: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
         }
 
         // ウィンドウコンテンツ表示開始
         private void MainWindow_ContentRendered(object sender, EventArgs e)
         {
-            Debug.WriteLine($"App.ContentRendered: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
+            Debug.WriteLine($"App.MainWndow.ContentRendered: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
 
             WindowShape.Current.InitializeStateChangeAction();
 
-            // version 32.0 information
+            // version information
             ////if (App.Current.SettingVersion != 0 && App.Current.SettingVersion < Config.Current.ProductVersionNumber && Config.Current.ProductVersionNumber == Config.GenerateProductVersionNumber(32, 0, 0))
             ////{
             ////    ToastService.Current.Show(new Toast(Properties.Resources.Ver320Note, Properties.Resources.Ver320, ToastIcon.Information, TimeSpan.FromSeconds(15.0)));
             ////}
+
+            Debug.WriteLine($"App.MainWndow.ContentRendered.Done: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
         }
 
         // ウィンドウアクティブ
@@ -788,9 +793,9 @@ namespace NeeView
             //Environment.Exit(0);
         }
 
-        #endregion
+#endregion
 
-        #region メニューエリア、ステータスエリアマウスオーバー監視
+#region メニューエリア、ステータスエリアマウスオーバー監視
 
         public bool _isDockMenuMouseOver;
         public bool _isLayerMenuMuseOver;
@@ -856,9 +861,9 @@ namespace NeeView
             UpdateStatusAreaMouseOver();
         }
 
-        #endregion
+#endregion
 
-        #region レイアウト管理
+#region レイアウト管理
 
         private bool _isDartyMenuAreaLayout;
         private bool _isDartyPageSliderLayout;
@@ -1028,9 +1033,9 @@ namespace NeeView
             this.ThumbnailListArea.DartyThumbnailList();
         }
 
-        #endregion
+#endregion
 
-        #region レイヤー表示状態
+#region レイヤー表示状態
 
         // 初期化
         private void InitializeLayerVisibility()
@@ -1152,9 +1157,9 @@ namespace NeeView
         }
 
 
-        #endregion
+#endregion
 
-        #region [開発用]
+#region [開発用]
 
         public MainWindowViewModel ViewModel => _vm;
 
@@ -1165,7 +1170,7 @@ namespace NeeView
             DebugGesture.Initialize();
         }
 
-        #endregion
+#endregion
     }
 
 }

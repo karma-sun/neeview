@@ -27,6 +27,10 @@
       <ComponentRef Id="AppStartMenuDirComponent" />
     </Feature>
 
+    <Property Id="INSTALLFOLDER">
+      <RegistrySearch Id='InstallDirRegistry' Type='raw' Root='HKLM' Key='Software\NeeLaboratory\NeeView' Name='InstallDir'/>
+    </Property>
+
     <!-- UI -->
     <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
     <UIRef Id="WixUI_InstallDirEx" />
@@ -69,6 +73,9 @@
       <Component>
         <File Source="$(var.AppendDir)NeeView.exe.config" KeyPath="yes" />
       </Component>
+      <Component>
+        <RegistryValue Root="HKLM" Key="Software\NeeLaboratory\NeeView" Name="InstallDir" Type="string" Value="[INSTALLFOLDER]" KeyPath="yes"/>
+     </Component>
     </ComponentGroup>
 
     <ComponentGroup Id="DocumentComponents" Directory="INSTALLFOLDER">
@@ -96,7 +103,6 @@
         <RemoveFolder Id="AppStartMenuDir" On="uninstall" />
       </Component>
     </DirectoryRef>
-
 
   </Fragment>
 </Wix>

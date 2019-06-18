@@ -4,31 +4,53 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
-             xmlns:system="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance local:Thumbnail_Design, IsDesignTimeCreatable=True}"
              d:DesignHeight="256" d:DesignWidth="256">
 
     <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-        <local:BooleanToVisibilityConverter x:Key="InvertBooleanToVisibilityConverter" True="Collapsed" False="Visible"/>
         <local:ImageSourceToThumbnailConverter x:Key="ImageSourceToThumbnailConverter"/>
+        <local:BooleanToValueConverter x:Key="BooleanToValueConverter" />
+        <local:BooleanToStretchConverter x:Key="BooleanToStretchConverter" />
+        <local:BrushesSelectConverter x:Key="BrushesSelectConverter" />
     </UserControl.Resources>
 
     <Grid x:Name="Root"
-          Width="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=BannerItemProfile.ImageWidth}"
-          Height="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=BannerItemProfile.ImageHeightQuarter}">
-        <Rectangle Visibility="{Binding Thumbnail.IsNormalImage, Converter={StaticResource BooleanToVisibilityConverter}}">
+          Width="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=BannerItemProfile.ShapeWidth}"
+          Height="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=BannerItemProfile.ShapeHeight}">
+
+        <Grid.Background>
+            <MultiBinding Converter="{StaticResource BrushesSelectConverter}">
+                <Binding Path="Thumbnail.Background" />
+                <Binding Source="{x:Static local:SidePanelProfile.Current}" Path="BannerItemProfile.Background" />
+            </MultiBinding>
+        </Grid.Background>
+
+        <Rectangle HorizontalAlignment="Center" VerticalAlignment="Bottom" RenderOptions.BitmapScalingMode="HighQuality" UseLayoutRounding="True"
+                Width="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=BannerItemProfile.ShapeWidth}"
+                Height="{Binding Source={x:Static local:SidePanelProfile.Current}, Path=BannerItemProfile.ShapeHeight}">
             <Rectangle.Fill>
-                <VisualBrush Stretch="UniformToFill" Viewbox="0,0,1,0.6" >
-                    <VisualBrush.Visual>
-                        <Image Source="{Binding Thumbnail.ImageSource, Converter={StaticResource ImageSourceToThumbnailConverter}}"/>
-                    </VisualBrush.Visual>
-                </VisualBrush>
+                <ImageBrush ImageSource="{Binding Thumbnail.ImageSource, Converter={StaticResource ImageSourceToThumbnailConverter}}">
+                    <ImageBrush.Stretch>
+                        <MultiBinding Converter="{StaticResource BooleanToStretchConverter}">
+                            <Binding Path="Thumbnail.IsNormalImage" />
+                            <Binding Source="{x:Static local:SidePanelProfile.Current}" Path="BannerItemProfile.ImageStretch" />
+                        </MultiBinding>
+                    </ImageBrush.Stretch>
+                    <ImageBrush.Viewbox>
+                        <MultiBinding Converter="{StaticResource BooleanToValueConverter}">
+                            <Binding Path="Thumbnail.IsNormalImage" />
+                            <Binding Source="{x:Static local:SidePanelProfile.Current}" Path="BannerItemProfile.Viewbox" />
+                        </MultiBinding>
+                    </ImageBrush.Viewbox>
+                    <ImageBrush.AlignmentY>
+                        <MultiBinding Converter="{StaticResource BooleanToValueConverter}">
+                            <Binding Path="Thumbnail.IsNormalImage" />
+                            <Binding Source="{x:Static local:SidePanelProfile.Current}" Path="BannerItemProfile.AlignmentY" />
+                        </MultiBinding>
+                    </ImageBrush.AlignmentY>
+                </ImageBrush>
             </Rectangle.Fill>
         </Rectangle>
-        <Grid Visibility="{Binding Thumbnail.IsNormalImage, Converter={StaticResource InvertBooleanToVisibilityConverter}}" Background="{Binding Thumbnail.Background}">
-            <Image Source="{Binding Thumbnail.ImageSource, Converter={StaticResource ImageSourceToThumbnailConverter}}" HorizontalAlignment="Left" OpacityMask="#FF3A3A3A"/>
-        </Grid>
     </Grid>
 </UserControl>

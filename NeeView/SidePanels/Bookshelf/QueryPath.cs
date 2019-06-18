@@ -44,6 +44,15 @@ namespace NeeView
             [QueryScheme.QuickAccess] = MainWindow.Current.Resources["ic_lightning"] as ImageSource,
         };
 
+        static readonly Dictionary<QueryScheme, ImageSource> _thumbnailImageMap = new Dictionary<QueryScheme, ImageSource>()
+        {
+            [QueryScheme.File] = MainWindow.Current.Resources["ic_desktop_windows_24px_t"] as ImageSource,
+            [QueryScheme.Root] = MainWindow.Current.Resources["ic_bookshelf"] as ImageSource,
+            [QueryScheme.Bookmark] = MainWindow.Current.Resources["ic_grade_24px_t"] as ImageSource,
+            [QueryScheme.Pagemark] = MainWindow.Current.Resources["ic_bookmark_24px_t"] as ImageSource,
+            [QueryScheme.QuickAccess] = MainWindow.Current.Resources["ic_lightning"] as ImageSource,
+        };
+
         public static string ToSchemeString(this QueryScheme scheme)
         {
             return _map[scheme];
@@ -57,6 +66,11 @@ namespace NeeView
         public static ImageSource ToImage(this QueryScheme scheme)
         {
             return _imageMap[scheme];
+        }
+
+        public static ImageSource ToThumbnailImage(this QueryScheme scheme)
+        {
+            return _thumbnailImageMap[scheme];
         }
 
         public static bool IsMatch(this QueryScheme scheme, string path)

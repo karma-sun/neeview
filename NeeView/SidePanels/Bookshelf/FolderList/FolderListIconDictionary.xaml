@@ -1,50 +1,49 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:NeeView">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:local="clr-namespace:NeeView">
 
     <!-- Material design icons by Google -->
     <!-- http://www.google.com/design/spec/style/icons.html#icons-system-icons -->
 
     <DrawingImage x:Key="ic_desktop_windows_24px">
         <DrawingImage.Drawing>
-            <DrawingGroup Opacity="1">
-                <DrawingGroup.Children>
-                    <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}">
-                        <GeometryDrawing.Geometry>
-                            <PathGeometry FillRule="Nonzero" Figures="M21,2L3,2C1.9,2,1,2.9,1,4L1,16C1,17.1,1.9,18,3,18L10,18 10,20 8,20 8,22 16,22 16,20 14,20 14,18 21,18C22.1,18,23,17.1,23,16L23,4C23,2.9,22.1,2,21,2z M21,16L3,16 3,4 21,4 21,16z" />
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                </DrawingGroup.Children>
-            </DrawingGroup>
+            <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}">
+                <GeometryDrawing.Geometry>
+                    <PathGeometry FillRule="Nonzero"
+                            Figures="M21,2L3,2C1.9,2,1,2.9,1,4L1,16C1,17.1,1.9,18,3,18L10,18 10,20 8,20 8,22 16,22 16,20 14,20 14,18 21,18C22.1,18,23,17.1,23,16L23,4C23,2.9,22.1,2,21,2z M21,16L3,16 3,4 21,4 21,16z" />
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
+        </DrawingImage.Drawing>
+    </DrawingImage>
+
+    <DrawingImage x:Key="ic_desktop_windows_24px_t">
+        <DrawingImage.Drawing>
+            <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}">
+                <GeometryDrawing.Geometry>
+                    <PathGeometry FillRule="Nonzero"
+                            Figures="M-1,-2 M25,24 M21,2L3,2C1.9,2,1,2.9,1,4L1,16C1,17.1,1.9,18,3,18L10,18 10,20 8,20 8,22 16,22 16,20 14,20 14,18 21,18C22.1,18,23,17.1,23,16L23,4C23,2.9,22.1,2,21,2z M21,16L3,16 3,4 21,4 21,16z" />
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <DrawingImage x:Key="ic_search_24px">
         <DrawingImage.Drawing>
-            <DrawingGroup Opacity="1">
-                <DrawingGroup.Children>
-                    <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}">
-                        <GeometryDrawing.Geometry>
-                            <PathGeometry FillRule="Nonzero" Figures="M9.5,5C7.01000022888184,5 5,7.01000022888184 5,9.5 5,11.9899997711182 7.01000022888184,14 9.5,14 11.9899997711182,14 14,11.9899997711182 14,9.5 14,7.01000022888184 11.9899997711182,5 9.5,5z M9.5,2.99999976158142C13.0900001525879,3 16,5.90999984741211 16,9.5 16,11.1099996566772 15.4099998474121,12.5900001525879 14.4300003051758,13.7299995422363L14.710000038147,14 15.5,14 20.4899997711182,19 19,20.4899997711182 14,15.5 14,14.710000038147 13.7299995422363,14.4300003051758C12.5900001525879,15.4099998474121 11.1099996566772,16 9.5,16 5.90999984741211,16 3,13.0900001525879 2.99999976158142,9.5 3,5.90999984741211 5.90999984741211,3 9.5,2.99999976158142z" />
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                </DrawingGroup.Children>
-            </DrawingGroup>
+            <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}">
+                <GeometryDrawing.Geometry>
+                    <PathGeometry FillRule="Nonzero"
+                            Figures="M9.5,5C7.01000022888184,5 5,7.01000022888184 5,9.5 5,11.9899997711182 7.01000022888184,14 9.5,14 11.9899997711182,14 14,11.9899997711182 14,9.5 14,7.01000022888184 11.9899997711182,5 9.5,5z M9.5,2.99999976158142C13.0900001525879,3 16,5.90999984741211 16,9.5 16,11.1099996566772 15.4099998474121,12.5900001525879 14.4300003051758,13.7299995422363L14.710000038147,14 15.5,14 20.4899997711182,19 19,20.4899997711182 14,15.5 14,14.710000038147 13.7299995422363,14.4300003051758C12.5900001525879,15.4099998474121 11.1099996566772,16 9.5,16 5.90999984741211,16 3,13.0900001525879 2.99999976158142,9.5 3,5.90999984741211 5.90999984741211,3 9.5,2.99999976158142z" />
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
         </DrawingImage.Drawing>
     </DrawingImage>
 
     <!-- https://www.onlinewebfonts.com/icon/35498 -->
     <DrawingImage x:Key="ic_lightning">
         <DrawingImage.Drawing>
-            <DrawingGroup Opacity="1">
-                <DrawingGroup.Children>
-                    <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}">
-                        <GeometryDrawing.Geometry>
-                            <PathGeometry FillRule="Nonzero" Figures="M749.5,10L189,567.2L396.9,567.2L237.1,990L811,432.7L603.1,432.7z" />
-                        </GeometryDrawing.Geometry>
-                    </GeometryDrawing>
-                </DrawingGroup.Children>
-            </DrawingGroup>
+            <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}">
+                <GeometryDrawing.Geometry>
+                    <PathGeometry FillRule="Nonzero" Figures="M749.5,10L189,567.2L396.9,567.2L237.1,990L811,432.7L603.1,432.7z" />
+                </GeometryDrawing.Geometry>
+            </GeometryDrawing>
         </DrawingImage.Drawing>
     </DrawingImage>
 
@@ -55,17 +54,20 @@
                 <DrawingGroup.Children>
                     <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}">
                         <GeometryDrawing.Geometry>
-                            <PathGeometry FillRule="Nonzero" Figures="M213.3,949.9C213.3,969.1,197.7,984.7,178.5,984.7L44.8,984.7C25.6,984.7,10,969.1,10,949.9L10,251.9C10,232.7,25.6,217.1,44.8,217.1L178.5,217.1C197.7,217.1,213.3,232.7,213.3,251.9L213.3,949.9 213.3,949.9z" />
+                            <PathGeometry FillRule="Nonzero"
+                                    Figures="M213.3,949.9C213.3,969.1,197.7,984.7,178.5,984.7L44.8,984.7C25.6,984.7,10,969.1,10,949.9L10,251.9C10,232.7,25.6,217.1,44.8,217.1L178.5,217.1C197.7,217.1,213.3,232.7,213.3,251.9L213.3,949.9 213.3,949.9z" />
                         </GeometryDrawing.Geometry>
                     </GeometryDrawing>
                     <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}">
                         <GeometryDrawing.Geometry>
-                            <PathGeometry FillRule="Nonzero" Figures="M479.5,949.9C479.5,969.1,463.9,984.7,444.7,984.7L294.1,984.7C274.9,984.7,259.3,969.1,259.3,949.9L259.3,50.1C259.3,30.9,274.9,15.3,294.1,15.3L444.7,15.3C463.9,15.3,479.5,30.9,479.5,50.1L479.5,949.9z" />
+                            <PathGeometry FillRule="Nonzero"
+                                    Figures="M479.5,949.9C479.5,969.1,463.9,984.7,444.7,984.7L294.1,984.7C274.9,984.7,259.3,969.1,259.3,949.9L259.3,50.1C259.3,30.9,274.9,15.3,294.1,15.3L444.7,15.3C463.9,15.3,479.5,30.9,479.5,50.1L479.5,949.9z" />
                         </GeometryDrawing.Geometry>
                     </GeometryDrawing>
                     <GeometryDrawing Brush="{DynamicResource NVForeground}" Pen="{x:Null}">
                         <GeometryDrawing.Geometry>
-                            <PathGeometry FillRule="Nonzero" Figures="M987.9,894.9C994.5,912.9,985.2,932.9,967.2,939.5L849.3,982.6C831.3,989.2,811.3,979.9,804.7,961.9L526,199C519.4,181,528.7,161,546.7,154.4L664.6,111.3C682.6,104.7,702.6,114,709.2,132L987.9,894.9z" />
+                            <PathGeometry FillRule="Nonzero"
+                                    Figures="M987.9,894.9C994.5,912.9,985.2,932.9,967.2,939.5L849.3,982.6C831.3,989.2,811.3,979.9,804.7,961.9L526,199C519.4,181,528.7,161,546.7,154.4L664.6,111.3C682.6,104.7,702.6,114,709.2,132L987.9,894.9z" />
                         </GeometryDrawing.Geometry>
                     </GeometryDrawing>
                 </DrawingGroup.Children>
@@ -80,12 +82,14 @@
                 <DrawingGroup.Children>
                     <GeometryDrawing Brush="{DynamicResource NVSuppresstBrush}" Pen="{x:Null}">
                         <GeometryDrawing.Geometry>
-                            <PathGeometry FillRule="Nonzero" Figures="M1834,4989.1C1707.6,4943.2 1558.3,4786.2 1520,4657.9 1502.8,4600.5 1489.4,4539.2 1489.4,4518.1 1489.4,4499 1173.5,2827.5 788.7,803.900000000001 141.5,-2598.3 89.8,-2883.6 101.3,-3008 122.4,-3230.1 200.9,-3729.8 256.4,-3971 350.2,-4390.3 463.2,-4687 555.1,-4750.2 593.4,-4777 1028,-4780.8 4995,-4780.8 9310.4,-4780.8 9392.7,-4780.8 9438.7,-4744.4 9584.2,-4629.5 9768,-3955.6 9859.9,-3201.3L9900.1,-2875.8 9197.4,802C8812.6,2825.7 8496.7,4497.1 8496.7,4518.2 8496.7,4627.3 8433.5,4761.3 8337.8,4859 8157.8,5037.1 8466.1,5021.7 4985.4,5019.8 2243.7,5019.7 1910.6,5015.9 1834,4989.1z M8146.3,901.5C8140.6,886.2 8134.8,891.9 8134.8,913 8132.9,934.1 8138.6,945.5 8144.4,937.9 8150.1,932.2 8152,914.9 8146.3,901.5z M8672.8,-2180.9C8768.5,-2209.6 8906.4,-2330.2 8961.9,-2433.6 9002.1,-2510.2 9004,-2533.1 9009.8,-3163 9013.6,-3601.4 9007.9,-3838.8 8994.5,-3890.5 8962,-4009.2 8860.5,-4131.7 8743.7,-4196.8L8640.3,-4254.2 4993,-4254.2 1345.8,-4254.2 1242.4,-4196.8C1129.4,-4135.5 1050.9,-4039.8 1001.2,-3911.5 974.4,-3842.6 970.6,-3741.1 976.3,-3172.5 982,-2536.9 984,-2508.1 1024.2,-2435.4 1077.8,-2333.9 1173.5,-2245.8 1278.8,-2198 1365,-2159.7 1386,-2157.8 4981.5,-2157.8 7698.3,-2157.9 8615.3,-2163.7 8672.8,-2180.9z" />
+                            <PathGeometry FillRule="Nonzero"
+                                    Figures="M1834,4989.1C1707.6,4943.2 1558.3,4786.2 1520,4657.9 1502.8,4600.5 1489.4,4539.2 1489.4,4518.1 1489.4,4499 1173.5,2827.5 788.7,803.900000000001 141.5,-2598.3 89.8,-2883.6 101.3,-3008 122.4,-3230.1 200.9,-3729.8 256.4,-3971 350.2,-4390.3 463.2,-4687 555.1,-4750.2 593.4,-4777 1028,-4780.8 4995,-4780.8 9310.4,-4780.8 9392.7,-4780.8 9438.7,-4744.4 9584.2,-4629.5 9768,-3955.6 9859.9,-3201.3L9900.1,-2875.8 9197.4,802C8812.6,2825.7 8496.7,4497.1 8496.7,4518.2 8496.7,4627.3 8433.5,4761.3 8337.8,4859 8157.8,5037.1 8466.1,5021.7 4985.4,5019.8 2243.7,5019.7 1910.6,5015.9 1834,4989.1z M8146.3,901.5C8140.6,886.2 8134.8,891.9 8134.8,913 8132.9,934.1 8138.6,945.5 8144.4,937.9 8150.1,932.2 8152,914.9 8146.3,901.5z M8672.8,-2180.9C8768.5,-2209.6 8906.4,-2330.2 8961.9,-2433.6 9002.1,-2510.2 9004,-2533.1 9009.8,-3163 9013.6,-3601.4 9007.9,-3838.8 8994.5,-3890.5 8962,-4009.2 8860.5,-4131.7 8743.7,-4196.8L8640.3,-4254.2 4993,-4254.2 1345.8,-4254.2 1242.4,-4196.8C1129.4,-4135.5 1050.9,-4039.8 1001.2,-3911.5 974.4,-3842.6 970.6,-3741.1 976.3,-3172.5 982,-2536.9 984,-2508.1 1024.2,-2435.4 1077.8,-2333.9 1173.5,-2245.8 1278.8,-2198 1365,-2159.7 1386,-2157.8 4981.5,-2157.8 7698.3,-2157.9 8615.3,-2163.7 8672.8,-2180.9z" />
                         </GeometryDrawing.Geometry>
                     </GeometryDrawing>
                     <GeometryDrawing Brush="{DynamicResource NVSuppresstBrush}" Pen="{x:Null}">
                         <GeometryDrawing.Geometry>
-                            <PathGeometry FillRule="Nonzero" Figures="M7908.9,-3078.8C7874.4,-3099.9 7836.1,-3149.6 7817,-3195.6 7704,-3478.9 8075.5,-3689.5 8265,-3448.3 8353.1,-3335.3 8322.4,-3151.5 8199.9,-3076.9 8119.5,-3027.1 7989.3,-3027.1 7908.9,-3078.8z" />
+                            <PathGeometry FillRule="Nonzero"
+                                    Figures="M7908.9,-3078.8C7874.4,-3099.9 7836.1,-3149.6 7817,-3195.6 7704,-3478.9 8075.5,-3689.5 8265,-3448.3 8353.1,-3335.3 8322.4,-3151.5 8199.9,-3076.9 8119.5,-3027.1 7989.3,-3027.1 7908.9,-3078.8z" />
                         </GeometryDrawing.Geometry>
                     </GeometryDrawing>
                 </DrawingGroup.Children>
@@ -109,7 +113,8 @@
                 <DrawingGroup.Children>
                     <GeometryDrawing Brush="{DynamicResource NVSuppresstBrush}" Pen="{x:Null}">
                         <GeometryDrawing.Geometry>
-                            <PathGeometry FillRule="Nonzero" Figures="M500,10C229.4,10 10,229.4 10,500 10,770.6 229.4,990 500,990 770.6,990 990,770.6 990,500 990,229.4 770.6,10 500,10z M71.3,500C71.3,392.5,111.3,294.5,176.9,219.2L781.2,823.5C705.7,889.3 607.6,929.7 500,929.7 263.6,929.7 71.3,736.4 71.3,500z M824.3,780L220.1,175.9C295.3,110.9 393,71.3 500,71.3 736.4,71.3 928.8,263.7 928.8,500.1 928.8,606.8 889.2,704.7 824.3,780z" />
+                            <PathGeometry FillRule="Nonzero"
+                                    Figures="M-100,-100 M1100,1100 M500,10C229.4,10 10,229.4 10,500 10,770.6 229.4,990 500,990 770.6,990 990,770.6 990,500 990,229.4 770.6,10 500,10z M71.3,500C71.3,392.5,111.3,294.5,176.9,219.2L781.2,823.5C705.7,889.3 607.6,929.7 500,929.7 263.6,929.7 71.3,736.4 71.3,500z M824.3,780L220.1,175.9C295.3,110.9 393,71.3 500,71.3 736.4,71.3 928.8,263.7 928.8,500.1 928.8,606.8 889.2,704.7 824.3,780z" />
                         </GeometryDrawing.Geometry>
                     </GeometryDrawing>
                 </DrawingGroup.Children>
@@ -136,7 +141,7 @@
                     <Pen Brush="{DynamicResource NVForeground}" Thickness="1.25"></Pen>
                 </GeometryDrawing.Pen>
                 <GeometryDrawing.Geometry>
-                    <PathGeometry FillRule="Nonzero" Figures="M0,0 L5,0 0,5Z  M6,3 16,3 M0,8 16,8 M0,13 16,13"/>
+                    <PathGeometry FillRule="Nonzero" Figures="M0,0 L5,0 0,5Z  M6,3 16,3 M0,8 16,8 M0,13 16,13" />
                 </GeometryDrawing.Geometry>
             </GeometryDrawing>
         </DrawingImage.Drawing>

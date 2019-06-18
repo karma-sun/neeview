@@ -19,7 +19,7 @@ namespace NeeView
         {
             _defaultNormalItemProfile = new PanelListItemProfile(PanelListItemImageShape.Square, 0, false, true, false, 0.0);
             _defaultContentItemProfile = new PanelListItemProfile(PanelListItemImageShape.Square, 64, true, true, false, 0.5);
-            _defaultBannerItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 200, false, true, false, 0.0);
+            _defaultBannerItemProfile = new PanelListItemProfile(PanelListItemImageShape.Banner, 200, false, true, false, 0.0);
             _defaultThumbnailItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 128, false, true, true, 0.0);
             Current = new SidePanelProfile();
         }
@@ -199,11 +199,11 @@ namespace NeeView
 
 
 
-        [PropertyRange("@ParamListItemContentImageWidth", 0, 256, TickFrequency = 8, Format = "{0}×{0}", Tips = "@ParamListItemContentImageWidthTips")]
+        [PropertyRange("@ParamListItemContentImageWidth", 0, 512, TickFrequency = 8, IsEditable = true, Tips = "@ParamListItemContentImageWidthTips")]
         public int ContentItemImageWidth
         {
             get { return _contentItemProfile.ImageWidth; }
-            set { _contentItemProfile.ImageWidth = MathUtility.Clamp(value, 0, 256); }
+            set { _contentItemProfile.ImageWidth = MathUtility.Clamp(value, 0, 512); }
         }
 
         [PropertyMember("@ParamListItemContentImageShape")]
@@ -242,7 +242,7 @@ namespace NeeView
         }
 
 
-        [PropertyRange("@ParamListItemBannerImageWidth", 0, 512, TickFrequency = 8, Tips = "@ParamListItemBannerImageWidthTips")]
+        [PropertyRange("@ParamListItemBannerImageWidth", 0, 512, TickFrequency = 8, IsEditable = true, Tips = "@ParamListItemBannerImageWidthTips")]
         public int BannerItemImageWidth
         {
             get { return _bannerItemProfile.ImageWidth; }
@@ -257,11 +257,11 @@ namespace NeeView
         }
 
 
-        [PropertyRange("@ParamListItemThumbnailImageWidth", 64, 256, TickFrequency = 8, Format = "{0}×{0}", Tips = "@ParamListItemThumbnailImageWidthTips")]
+        [PropertyRange("@ParamListItemThumbnailImageWidth", 64, 512, TickFrequency = 8, IsEditable = true, Tips = "@ParamListItemThumbnailImageWidthTips")]
         public int ThumbnailItemImageWidth
         {
             get { return _thumbnailItemProfile.ImageWidth; }
-            set { _thumbnailItemProfile.ImageWidth = MathUtility.Clamp(value, 64, 256); }
+            set { _thumbnailItemProfile.ImageWidth = MathUtility.Clamp(value, 64, 512); }
         }
 
         [PropertyMember("@ParamListItemThumbnailImageShape")]
@@ -383,6 +383,15 @@ namespace NeeView
             private void Deserializing(StreamingContext c)
             {
                 this.InitializePropertyDefaultValues();
+            }
+
+            [OnDeserialized]
+            private void Deserialized(StreamingContext c)
+            {
+                if (BannerItemProfile != null)
+                {
+                    BannerItemProfile.ImageShape = PanelListItemImageShape.Banner;
+                }
             }
         }
 

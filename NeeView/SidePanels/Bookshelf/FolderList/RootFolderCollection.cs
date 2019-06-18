@@ -37,7 +37,7 @@ namespace NeeView
 
         private FolderItem CreateFolderItem(QueryPath parent, QueryScheme scheme)
         {
-            return new ConstFolderItem(new ConstThumbnail(() => scheme.ToImage()), _isOverlayEnabled)
+            return new ConstFolderItem(new ConstThumbnail(() => scheme.ToThumbnailImage()), _isOverlayEnabled)
             {
                 Source = scheme,
                 Type = FolderItemType.Directory,

@@ -190,6 +190,7 @@
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderItemFactory.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderOrderClass.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\PlaylistFolderCollection.cs" />
+    <Compile Include="SidePanels\PanelListImageConverters.cs" />
     <Compile Include="Susie\Client\SusieArchivePluginAccessor.cs" />
     <Compile Include="Susie\Client\SusieImagePluginAccessor.cs" />
     <Compile Include="Susie\Client\SusiePluginClient.cs" />

@@ -2458,6 +2458,9 @@ Is it OK? </value>
   <data name="EnumPanelListItemImageShapeSquare" xml:space="preserve">
     <value>Square</value>
   </data>
+  <data name="EnumPanelListItemImageShapeBanner" xml:space="preserve">
+    <value>Banner</value>
+  </data>
   <data name="EnumPreLoadModeAutoPreLoad" xml:space="preserve">
     <value>Automatic prefetching</value>
   </data>
@@ -3630,7 +3633,7 @@ Initialize the temporary location.</value>
     <value>Banner size</value>
   </data>
   <data name="ParamListItemBannerImageWidthTips" xml:space="preserve">
-    <value>The width of the image in banner style. The vertical width is 1/4 of the horizontal width. Since thumbnail images are diverted, the larger the size, the rough the image.</value>
+    <value>The width of the image in banner style. The vertical width is 1/4 of the horizontal width. If it exceeds 256, the image will be rough.</value>
   </data>
   <data name="ParamListItemBannerIsTextWrapped" xml:space="preserve">
     <value>Wrap name in banner style</value>
@@ -3648,7 +3651,7 @@ Initialize the temporary location.</value>
     <value>Icon size</value>
   </data>
   <data name="ParamListItemContentImageWidthTips" xml:space="preserve">
-    <value>The width of the image in content style.</value>
+    <value>The width of the image in content style. If it exceeds 256, the image will be rough.</value>
   </data>
   <data name="ParamListItemContentIsDecoratePlace" xml:space="preserve">
     <value>Format path display of supplemental text</value>
@@ -3681,7 +3684,7 @@ Initialize the temporary location.</value>
     <value>Thumbnail size</value>
   </data>
   <data name="ParamListItemThumbnailImageWidthTips" xml:space="preserve">
-    <value>The width of the image in thumbnail style.</value>
+    <value>The width of the image in thumbnail style. If it exceeds 256, the image will be rough.</value>
   </data>
   <data name="ParamListItemThumbnailIsTextWrapped" xml:space="preserve">
     <value>Wrap name in thumbnail style</value>

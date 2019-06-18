@@ -7055,6 +7055,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Banner に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumPanelListItemImageShapeBanner {
+            get {
+                return ResourceManager.GetString("EnumPanelListItemImageShapeBanner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Book shape に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumPanelListItemImageShapeBookShape {
@@ -10632,7 +10641,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   The width of the image in banner style. The vertical width is 1/4 of the horizontal width. Since thumbnail images are diverted, the larger the size, the rough the image. に類似しているローカライズされた文字列を検索します。
+        ///   The width of the image in banner style. The vertical width is 1/4 of the horizontal width. If it exceeds 256, the image will be rough. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamListItemBannerImageWidthTips {
             get {
@@ -10686,7 +10695,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   The width of the image in content style. に類似しているローカライズされた文字列を検索します。
+        ///   The width of the image in content style. If it exceeds 256, the image will be rough. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamListItemContentImageWidthTips {
             get {
@@ -10785,7 +10794,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   The width of the image in thumbnail style. に類似しているローカライズされた文字列を検索します。
+        ///   The width of the image in thumbnail style. If it exceeds 256, the image will be rough. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamListItemThumbnailImageWidthTips {
             get {

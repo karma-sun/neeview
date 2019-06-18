@@ -18,6 +18,9 @@ namespace NeeView
 
         [AliasName("@EnumPanelListItemImageShapeBookShape")]
         BookShape,
+
+        [AliasName("@EnumPanelListItemImageShapeBanner")]
+        Banner,
     }
 
     /// <summary>
@@ -26,6 +29,10 @@ namespace NeeView
     [DataContract]
     public class PanelListItemProfile : BindableBase
     {
+        private static Rect _rectDefault = new Rect(0, 0, 1, 1);
+        private static Rect _rectBanner = new Rect(0, 0, 1, 0.6);
+        private static SolidColorBrush _brushBanner = new SolidColorBrush(Color.FromArgb(0x20, 0x99, 0x99, 0x99));
+
         private PanelListItemImageShape _imageShape;
         private int _imageWidth;
         private bool _isImagePopupEnabled;
@@ -57,11 +64,10 @@ namespace NeeView
             get { return _imageShape; }
             set
             {
-                if (SetProperty(ref _imageShape, value))
+                if (_imageShape != value)
                 {
-                    RaisePropertyChanged(nameof(ShapeWidth));
-                    RaisePropertyChanged(nameof(ShapeHeight));
-                    RaisePropertyChanged(nameof(ImageStretch));
+                    _imageShape = value;
+                    RaisePropertyChanged(null);
                 }
             }
         }
@@ -76,7 +82,6 @@ namespace NeeView
                 {
                     RaisePropertyChanged(nameof(ShapeWidth));
                     RaisePropertyChanged(nameof(ShapeHeight));
-                    RaisePropertyChanged(nameof(ImageHeightQuarter));
                 }
             }
         }
@@ -97,15 +102,58 @@ namespace NeeView
 
         public int ShapeHeight
         {
-            get { return _imageWidth; }
+            get
+            {
+                switch (_imageShape)
+                {
+                    default:
+                        return _imageWidth;
+                    case PanelListItemImageShape.Banner:
+                        return _imageWidth / 4;
+                }
+            }
         }
 
-        /// <summary>
-        /// バナー用縦幅
-        /// </summary>
-        public int ImageHeightQuarter
+        public Rect Viewbox
         {
-            get { return _imageWidth / 4; }
+            get
+            {
+                switch (_imageShape)
+                {
+                    default:
+                        return _rectDefault;
+                    case PanelListItemImageShape.Banner:
+                        return _rectBanner;
+                }
+            }
+        }
+
+        public AlignmentY AlignmentY
+        {
+            get
+            {
+                switch (_imageShape)
+                {
+                    default:
+                        return AlignmentY.Top;
+                    case PanelListItemImageShape.Banner:
+                        return AlignmentY.Center;
+                }
+            }
+        }
+
+        public Brush Background
+        {
+            get
+            {
+                switch (_imageShape)
+                {
+                    default:
+                        return null;
+                    case PanelListItemImageShape.Banner:
+                        return _brushBanner;
+                }
+            }
         }
 
         public Stretch ImageStretch

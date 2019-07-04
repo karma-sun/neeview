@@ -174,7 +174,7 @@
     <Compile Include="Development\DebugBusyFlag.xaml.cs">
       <DependentUpon>DebugBusyFlag.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Native\NVInterop.cs" />
+    <Compile Include="NeeView\Native\NVInterop.cs" />
     <Compile Include="Obsolete\BookSettingPresenterLegacy.cs" />
     <Compile Include="BookSetting\BookSettingSelectMode.cs" />
     <Compile Include="BookHub\PlaylistBookLoader.cs" />
@@ -320,7 +320,7 @@
     <Compile Include="ViewContent\ViewContentSource.cs" />
     <Compile Include="ViewContent\ViewContentSourceCollection.cs" />
     <Compile Include="NeeLaboratory\Diagnostics\Log.cs" />
-    <Compile Include="Collections\Generic\ObjectPool.cs" />
+    <Compile Include="NeeView\Collections\Generic\ObjectPool.cs" />
     <Compile Include="ViewContent\ReserveViewContent.cs" />
     <Compile Include="ViewContent\ViewContentControl.cs" />
     <Compile Include="NeeLaboratory\IO\RemoteCommand.cs" />
@@ -337,8 +337,8 @@
     <Compile Include="SidePanels\PageList\PageListPlacementService.cs" />
     <Compile Include="NeeLaboratory\IO\RemoteCommandClient.cs" />
     <Compile Include="NeeLaboratory\IO\RemoteCommandServer.cs" />
-    <Compile Include="Collections\IHasName.cs" />
-    <Compile Include="IO\DriveTypeExtension.cs" />
+    <Compile Include="NeeView\Collections\IHasName.cs" />
+    <Compile Include="NeeView\IO\DriveTypeExtension.cs" />
     <Compile Include="Thumbnail\ConstThumbnail.cs" />
     <Compile Include="Setting\SettingItemImageCollection.xaml.cs">
       <DependentUpon>SettingItemImageCollection.xaml</DependentUpon>
@@ -396,7 +396,7 @@
     <Compile Include="ContentCanvas\GridLine.cs" />
     <Compile Include="InputGesture\ImeKeyUtility.cs" />
     <Compile Include="System\Language.cs" />
-    <Compile Include="Collections\Generic\LinkedDicionary.cs" />
+    <Compile Include="NeeView\Collections\Generic\LinkedDicionary.cs" />
     <Compile Include="Page\MediaContent.cs" />
     <Compile Include="Setting\SettingItemSubControl.xaml.cs">
       <DependentUpon>SettingItemSubControl.xaml</DependentUpon>
@@ -413,8 +413,8 @@
     <Compile Include="Styles\TreeViewItemHelper.cs" />
     <Compile Include="SidePanels\Pagemark\VirtualCollection.cs" />
     <Compile Include="System\WindowMessage.cs" />
-    <Compile Include="Collections\IHasValue.cs" />
-    <Compile Include="Collections\Generic\TreeListNode.cs" />
+    <Compile Include="NeeView\Collections\IHasValue.cs" />
+    <Compile Include="NeeView\Collections\Generic\TreeListNode.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderCollectionFactory.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderNode.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderSearchEngine.cs" />
@@ -489,8 +489,8 @@
     <Compile Include="TouchInput\TouchInputEmulator.cs" />
     <Compile Include="SaveData\UserSetting.cs" />
     <Compile Include="ViewContent\MediaViewContent.cs" />
-    <Compile Include="IO\FileIcon.cs" />
-    <Compile Include="Runtime\Serialization\WebEnum.cs" />
+    <Compile Include="NeeView\IO\FileIcon.cs" />
+    <Compile Include="NeeView\Runtime\Serialization\WebEnum.cs" />
     <Compile Include="NeeLaboratory\ComponentModel\ObjectExtensions.cs" />
     <Compile Include="System\AliasNameAttribute.cs" />
     <Compile Include="App.Exception.cs" />
@@ -637,8 +637,8 @@
     <Compile Include="SaveData\SaveData.cs" />
     <Compile Include="MouseInput\MouseInputContext.cs" />
     <Compile Include="BookOperation\BookOperation.cs" />
-    <Compile Include="Text\HtmlString.cs" />
-    <Compile Include="Threading\DelayVisibility.cs" />
+    <Compile Include="NeeView\Text\HtmlString.cs" />
+    <Compile Include="NeeView\Threading\DelayVisibility.cs" />
     <Compile Include="SidePanels\PageList\PageListBox.xaml.cs">
       <DependentUpon>PageListBox.xaml</DependentUpon>
     </Compile>
@@ -701,7 +701,7 @@
       <DependentUpon>ThumbnailListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="PageSelect\FilmStrip\ThumbnailListViewModel.cs" />
-    <Compile Include="Text\StringCollection.cs" />
+    <Compile Include="NeeView\Text\StringCollection.cs" />
     <Compile Include="InfoMessage\TinyInfoMessage.cs" />
     <Compile Include="InfoMessage\TinyInfoMessageView.xaml.cs">
       <DependentUpon>TinyInfoMessageView.xaml</DependentUpon>
@@ -730,9 +730,9 @@
     <Compile Include="MainWindow\WindowTitle.cs" />
     <Compile Include="NeeLaboratory\Threading\Jobs\JobErrorEventArgs.cs" />
     <Compile Include="NeeLaboratory\Threading\Jobs\JobException.cs" />
-    <Compile Include="Data\OptionMap.cs" />
-    <Compile Include="Data\OptionMemberAttribute.cs" />
-    <Compile Include="Data\OptionValuesAttribute.cs" />
+    <Compile Include="NeeView\Data\OptionMap.cs" />
+    <Compile Include="NeeView\Data\OptionMemberAttribute.cs" />
+    <Compile Include="NeeView\Data\OptionValuesAttribute.cs" />
     <Compile Include="NeeLaboratory\Windows\Input\RelayCommand.cs" />
     <Compile Include="OpenSourceControls\DockPanelSplitter.cs" />
     <Compile Include="OpenSourceControls\ComboColorPicker.xaml.cs">
@@ -741,7 +741,7 @@
     <Compile Include="Setting\CommandResetWindow.xaml.cs">
       <DependentUpon>CommandResetWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Threading\DelayAction.cs" />
+    <Compile Include="NeeView\Threading\DelayAction.cs" />
     <Compile Include="Command\CommandParameters.cs" />
     <Compile Include="Development\DebugInfo.xaml.cs">
       <DependentUpon>DebugInfo.xaml</DependentUpon>
@@ -749,31 +749,31 @@
     <Compile Include="Development\DebugPageList.xaml.cs">
       <DependentUpon>DebugPageList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Effects\BloomEffectUnit.cs" />
-    <Compile Include="Effects\ColorSelectEffect.cs" />
-    <Compile Include="Effects\HsvEffect.cs" />
-    <Compile Include="Effects\ColorSelectEffectUnit.cs" />
-    <Compile Include="Effects\HsvEffectUnit.cs" />
-    <Compile Include="Effects\LevelEffectUnit.cs" />
-    <Compile Include="Effects\LevelEffect.cs" />
-    <Compile Include="Effects\Tools.cs" />
-    <Compile Include="Effects\ColorToneEffectUnit.cs" />
-    <Compile Include="Effects\EffectUnit.cs" />
-    <Compile Include="Effects\EmbossedEffect.cs" />
-    <Compile Include="Effects\MagnifyEffecttUnit.cs" />
-    <Compile Include="Effects\SwirlEffectUnit.cs" />
-    <Compile Include="Effects\RippleEffectUnit.cs" />
-    <Compile Include="Effects\SharpenEffectUnit.cs" />
-    <Compile Include="Effects\MonochromeEffectUnit.cs" />
-    <Compile Include="Effects\BlurEffectUnit.cs" />
-    <Compile Include="Effects\PixelateEffectUnit.cs" />
-    <Compile Include="Effects\ImageEffect.cs" />
-    <Compile Include="Effects\EffectType.cs" />
+    <Compile Include="NeeView\Effects\BloomEffectUnit.cs" />
+    <Compile Include="NeeView\Effects\ColorSelectEffect.cs" />
+    <Compile Include="NeeView\Effects\HsvEffect.cs" />
+    <Compile Include="NeeView\Effects\ColorSelectEffectUnit.cs" />
+    <Compile Include="NeeView\Effects\HsvEffectUnit.cs" />
+    <Compile Include="NeeView\Effects\LevelEffectUnit.cs" />
+    <Compile Include="NeeView\Effects\LevelEffect.cs" />
+    <Compile Include="NeeView\Effects\Tools.cs" />
+    <Compile Include="NeeView\Effects\ColorToneEffectUnit.cs" />
+    <Compile Include="NeeView\Effects\EffectUnit.cs" />
+    <Compile Include="NeeView\Effects\EmbossedEffect.cs" />
+    <Compile Include="NeeView\Effects\MagnifyEffecttUnit.cs" />
+    <Compile Include="NeeView\Effects\SwirlEffectUnit.cs" />
+    <Compile Include="NeeView\Effects\RippleEffectUnit.cs" />
+    <Compile Include="NeeView\Effects\SharpenEffectUnit.cs" />
+    <Compile Include="NeeView\Effects\MonochromeEffectUnit.cs" />
+    <Compile Include="NeeView\Effects\BlurEffectUnit.cs" />
+    <Compile Include="NeeView\Effects\PixelateEffectUnit.cs" />
+    <Compile Include="NeeView\Effects\ImageEffect.cs" />
+    <Compile Include="NeeView\Effects\EffectType.cs" />
     <Compile Include="Archiver\EntrySort.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderItem.cs" />
     <Compile Include="SidePanels\Bookshelf\FolderList\FolderListViewModel.cs" />
     <Compile Include="SidePanels\PanelListItemStyle.cs" />
-    <Compile Include="Collections\HistoryCollection.cs" />
+    <Compile Include="NeeView\Collections\HistoryCollection.cs" />
     <Compile Include="RenameControl\RenameControl.xaml.cs">
       <DependentUpon>RenameControl.xaml</DependentUpon>
     </Compile>
@@ -810,24 +810,24 @@
       <DependentUpon>PrintWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Print\PrintWindowViewModel.cs" />
-    <Compile Include="Text\SizeString.cs" />
+    <Compile Include="NeeView\Text\SizeString.cs" />
     <Compile Include="System\NativeMethods.cs" />
-    <Compile Include="Threading\SingleThreadedApartment.cs" />
-    <Compile Include="Threading\Tasks\TaskUtils.cs" />
-    <Compile Include="Collections\Generic\EnumerableExtensions.cs" />
-    <Compile Include="IO\FileShortcut.cs" />
+    <Compile Include="NeeView\Threading\SingleThreadedApartment.cs" />
+    <Compile Include="NeeView\Threading\Tasks\TaskUtils.cs" />
+    <Compile Include="NeeView\Collections\Generic\EnumerableExtensions.cs" />
+    <Compile Include="NeeView\IO\FileShortcut.cs" />
     <Compile Include="System\ResourceService.cs" />
-    <Compile Include="Windows\ConainerDragStartBehavior.cs" />
-    <Compile Include="Windows\Controls\TextBoxWithMessage.xaml.cs">
+    <Compile Include="NeeView\Windows\ConainerDragStartBehavior.cs" />
+    <Compile Include="NeeView\Windows\Controls\TextBoxWithMessage.xaml.cs">
       <DependentUpon>TextBoxWithMessage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\DragDropGoast.cs" />
-    <Compile Include="Windows\DragDropHelper.cs" />
-    <Compile Include="Windows\DragStartEventArgs.cs" />
-    <Compile Include="Windows\DropInfo.cs" />
-    <Compile Include="Windows\Property\PropertyValueTemplateSelector.cs" />
-    <Compile Include="Windows\VectorExtensions.cs" />
-    <Compile Include="Data\IndexValue.cs" />
+    <Compile Include="NeeView\Windows\DragDropGoast.cs" />
+    <Compile Include="NeeView\Windows\DragDropHelper.cs" />
+    <Compile Include="NeeView\Windows\DragStartEventArgs.cs" />
+    <Compile Include="NeeView\Windows\DropInfo.cs" />
+    <Compile Include="NeeView\Windows\Property\PropertyValueTemplateSelector.cs" />
+    <Compile Include="NeeView\Windows\VectorExtensions.cs" />
+    <Compile Include="NeeView\Data\IndexValue.cs" />
     <Compile Include="NeeLaboratory\Windows\Media\VisualTreeUtility.cs" />
     <Compile Include="PageSelect\PageSlider\SliderTextBox.xaml.cs">
       <DependentUpon>SliderTextBox.xaml</DependentUpon>
@@ -864,12 +864,12 @@
     <Compile Include="Setting\RenameWindow.xaml.cs">
       <DependentUpon>RenameWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Text\ReplaceString.cs" />
-    <Compile Include="Drawing\DrawingExtensions.cs" />
-    <Compile Include="Media\Imaging\BitmapSourceExtensions.cs" />
-    <Compile Include="Data\Json.cs" />
+    <Compile Include="NeeView\Text\ReplaceString.cs" />
+    <Compile Include="NeeView\Drawing\DrawingExtensions.cs" />
+    <Compile Include="NeeView\Media\Imaging\BitmapSourceExtensions.cs" />
+    <Compile Include="NeeView\Data\Json.cs" />
     <Compile Include="System\ContentDropReciever.cs" />
-    <Compile Include="IO\FileContents.cs" />
+    <Compile Include="NeeView\IO\FileContents.cs" />
     <Compile Include="ContentCanvas\BackgroundStyle.cs" />
     <Compile Include="MouseInput\DragAction.cs" />
     <Compile Include="Bitmap\ExifAccessor.cs" />
@@ -902,7 +902,7 @@
     <Compile Include="InputGesture\InputGestureConverter.cs" />
     <Compile Include="InputGesture\KeyExGesture.cs" />
     <Compile Include="Menu\MenuExtensions.cs" />
-    <Compile Include="Data\ObjectExtensions.cs" />
+    <Compile Include="NeeView\Data\ObjectExtensions.cs" />
     <Compile Include="JobEngine\JobEngine.cs" />
     <Compile Include="InputGesture\MouseExGesture.cs" />
     <Compile Include="InputGesture\MouseWheelGesture.cs" />
@@ -923,18 +923,18 @@
     </Compile>
     <Compile Include="ViewContent\ViewContent.cs" />
     <Compile Include="Archiver\ZipArchiver.cs" />
-    <Compile Include="IO\WshShell.cs" />
-    <Compile Include="Windows\Controls\ColorPicker.xaml.cs">
+    <Compile Include="NeeView\IO\WshShell.cs" />
+    <Compile Include="NeeView\Windows\Controls\ColorPicker.xaml.cs">
       <DependentUpon>ColorPicker.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Controls\DropDownMenuBehavior.cs" />
-    <Compile Include="Windows\Controls\FileNameBox.xaml.cs">
+    <Compile Include="NeeView\Windows\Controls\DropDownMenuBehavior.cs" />
+    <Compile Include="NeeView\Windows\Controls\FileNameBox.xaml.cs">
       <DependentUpon>FileNameBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Controls\SizeInspector.xaml.cs">
+    <Compile Include="NeeView\Windows\Controls\SizeInspector.xaml.cs">
       <DependentUpon>SizeInspector.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Controls\PointInspector.xaml.cs">
+    <Compile Include="NeeView\Windows\Controls\PointInspector.xaml.cs">
       <DependentUpon>PointInspector.xaml</DependentUpon>
     </Compile>
     <Compile Include="SidePanels\IPanel.cs" />
@@ -944,31 +944,31 @@
     <Compile Include="SidePanels\SidePanelFrameModel.cs" />
     <Compile Include="SidePanels\SidePanelFrameViewModel.cs" />
     <Compile Include="SidePanels\SidePanelViewModel.cs" />
-    <Compile Include="Windows\Controls\ToggleSwitch.xaml.cs">
+    <Compile Include="NeeView\Windows\Controls\ToggleSwitch.xaml.cs">
       <DependentUpon>ToggleSwitch.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\CursorInfo.cs" />
+    <Compile Include="NeeView\Windows\CursorInfo.cs" />
     <Compile Include="NeeLaboratory\ComponentModel\BindableBase.cs" />
-    <Compile Include="Windows\Data\Converters.cs" />
-    <Compile Include="Windows\Data\DelayValue.cs" />
-    <Compile Include="Windows\DragAdorner.cs" />
-    <Compile Include="Windows\DragStartBehaviour.cs" />
-    <Compile Include="Windows\DropAcceptBehaviour.cs" />
-    <Compile Include="Windows\IgnoreMouseWheelBehavior.cs" />
-    <Compile Include="Windows\ListBoxDragSortExtensions.cs" />
-    <Compile Include="Windows\Media\HVSColor.cs" />
-    <Compile Include="Windows\Property\IValueSetter.cs" />
-    <Compile Include="Windows\Property\PropertyControl.xaml.cs">
+    <Compile Include="NeeView\Windows\Data\Converters.cs" />
+    <Compile Include="NeeView\Windows\Data\DelayValue.cs" />
+    <Compile Include="NeeView\Windows\DragAdorner.cs" />
+    <Compile Include="NeeView\Windows\DragStartBehaviour.cs" />
+    <Compile Include="NeeView\Windows\DropAcceptBehaviour.cs" />
+    <Compile Include="NeeView\Windows\IgnoreMouseWheelBehavior.cs" />
+    <Compile Include="NeeView\Windows\ListBoxDragSortExtensions.cs" />
+    <Compile Include="NeeView\Windows\Media\HVSColor.cs" />
+    <Compile Include="NeeView\Windows\Property\IValueSetter.cs" />
+    <Compile Include="NeeView\Windows\Property\PropertyControl.xaml.cs">
       <DependentUpon>PropertyControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Property\PropertyDocument.cs" />
-    <Compile Include="Windows\Property\PropertyElement.cs" />
-    <Compile Include="Windows\Property\PropertyInspector.xaml.cs">
+    <Compile Include="NeeView\Windows\Property\PropertyDocument.cs" />
+    <Compile Include="NeeView\Windows\Property\PropertyElement.cs" />
+    <Compile Include="NeeView\Windows\Property\PropertyInspector.xaml.cs">
       <DependentUpon>PropertyInspector.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Windows\Property\PropertyMemberAttribute.cs" />
-    <Compile Include="Windows\Property\PropertyValue.cs" />
-    <Compile Include="Windows\StyleInteraction.cs" />
+    <Compile Include="NeeView\Windows\Property\PropertyMemberAttribute.cs" />
+    <Compile Include="NeeView\Windows\Property\PropertyValue.cs" />
+    <Compile Include="NeeView\Windows\StyleInteraction.cs" />
     <Page Include="Controls\CriticalErrorDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1305,23 +1305,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Windows\Controls\ColorPicker.xaml">
+    <Page Include="NeeView\Windows\Controls\ColorPicker.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Windows\Controls\TextBoxWithMessage.xaml">
+    <Page Include="NeeView\Windows\Controls\TextBoxWithMessage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Windows\Controls\FileNameBox.xaml">
+    <Page Include="NeeView\Windows\Controls\FileNameBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Windows\Controls\SizeInspector.xaml">
+    <Page Include="NeeView\Windows\Controls\SizeInspector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Windows\Controls\PointInspector.xaml">
+    <Page Include="NeeView\Windows\Controls\PointInspector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1329,19 +1329,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Windows\Controls\ToggleSwitch.xaml">
+    <Page Include="NeeView\Windows\Controls\ToggleSwitch.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Windows\Property\PropertyControl.xaml">
+    <Page Include="NeeView\Windows\Property\PropertyControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Windows\Property\PropertyInspector.xaml">
+    <Page Include="NeeView\Windows\Property\PropertyInspector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Windows\Property\PropertyValueTemplateDictionary.xaml">
+    <Page Include="NeeView\Windows\Property\PropertyValueTemplateDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1371,10 +1371,10 @@
     <None Include="App.manifest">
       <SubType>Designer</SubType>
     </None>
-    <Resource Include="Effects\Shaders\LevelEffect.ps" />
-    <Resource Include="Effects\Shaders\ColorSelectEffect.ps" />
-    <None Include="Effects\Shaders\FxCompile.ps1" />
-    <Resource Include="Effects\Shaders\HsvEffect.ps" />
+    <Resource Include="NeeView\Effects\Shaders\LevelEffect.ps" />
+    <Resource Include="NeeView\Effects\Shaders\ColorSelectEffect.ps" />
+    <None Include="NeeView\Effects\Shaders\FxCompile.ps1" />
+    <Resource Include="NeeView\Effects\Shaders\HsvEffect.ps" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -1413,9 +1413,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Effects\Shaders\ColorSelectEffect.fx" />
-    <Content Include="Effects\Shaders\HsvEffect.fx" />
-    <Content Include="Effects\Shaders\LevelEffect.fx" />
+    <Content Include="NeeView\Effects\Shaders\ColorSelectEffect.fx" />
+    <Content Include="NeeView\Effects\Shaders\HsvEffect.fx" />
+    <Content Include="NeeView\Effects\Shaders\LevelEffect.fx" />
     <Content Include="x64\NeeView.Interop.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

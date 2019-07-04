@@ -10,7 +10,7 @@ namespace NeeView.Effects
     {
         private static PixelShader s_pixelShader = new PixelShader()
         {
-            UriSource = Tools.MakePackUri(typeof(LevelEffect).Assembly, "Effects/Shaders/LevelEffect.ps")
+            UriSource = Tools.MakePackUri(typeof(LevelEffect).Assembly, "NeeView/Effects/Shaders/LevelEffect.ps")
         };
 
         public LevelEffect()

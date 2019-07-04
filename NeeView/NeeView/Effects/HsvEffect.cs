@@ -10,7 +10,7 @@ namespace NeeView.Effects
     {
         private static PixelShader s_pixelShader = new PixelShader()
         {
-            UriSource = Tools.MakePackUri(typeof(HsvEffect).Assembly, "Effects/Shaders/HsvEffect.ps")
+            UriSource = Tools.MakePackUri(typeof(HsvEffect).Assembly, "NeeView/Effects/Shaders/HsvEffect.ps")
         };
 
         public HsvEffect()

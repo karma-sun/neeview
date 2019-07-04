@@ -10,7 +10,7 @@ namespace NeeView.Effects
     {
         private static PixelShader s_pixelShader = new PixelShader()
         {
-            UriSource = Tools.MakePackUri(typeof(ColorSelectEffect).Assembly, "Effects/Shaders/ColorSelectEffect.ps")
+            UriSource = Tools.MakePackUri(typeof(ColorSelectEffect).Assembly, "NeeView/Effects/Shaders/ColorSelectEffect.ps")
         };
 
         public ColorSelectEffect()

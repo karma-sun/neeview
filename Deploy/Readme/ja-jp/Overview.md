@@ -21,8 +21,8 @@
   * スライドショー機能
   * マルチスレッド、先読み対応
   * Webブラウザからの画像ドロップ
-<SUSIE/>
-
+  * Susieプラグイン対応(UNICODEファイル名可)
+ 
   詳細は以下のページを参照してください。
   
   * [NeeViewプロジェクト Wiki](https://bitbucket.org/neelabo/neeview/wiki/)

@@ -192,7 +192,6 @@ function New-Readme($packageDir, $culture, $target)
 	$temp = New-Item $readmeDir -ItemType Directory 
 
 	Copy-Item "$readmeSource\Overview.md" $readmeDir
-	Copy-Item "$readmeSource\Susie.md" $readmeDir
 	Copy-Item "$readmeSource\Canary.md" $readmeDir
 	Copy-Item "$readmeSource\Emvironment.md" $readmeDir
 	Copy-Item "$readmeSource\Contact.md" $readmeDir
@@ -211,12 +210,6 @@ function New-Readme($packageDir, $culture, $target)
 		Copy-Item "$readmeSource\ChangeLog.md" $readmeDir
 	}
 
-	$susie = ""
-	if ($target -ne ".appx")
-	{
-		$susie = Get-Content -Path "$readmeDir/Susie.md" -Raw -Encoding UTF8
-	}
-
 	$postfix = $version
 	$announce = ""
 	if ($target -eq ".canary")
@@ -228,7 +221,6 @@ function New-Readme($packageDir, $culture, $target)
 	# edit README.md
 	Replace-Content "$readmeDir\Overview.md" "<VERSION/>" "$postfix"
 	Replace-Content "$readmeDir\Overview.md" "<ANNOUNCE/>" "$announce"
-	Replace-Content "$readmeDir\Overview.md" "<SUSIE/>" "$susie"
 	Replace-Content "$readmeDir\Emvironment.md" "<VERSION/>" "$postfix"
 	Replace-Content "$readmeDir\Contact.md" "<VERSION/>" "$postfix"
 	Replace-Content "$readmeDir\ChangeLog.md" "<VERSION/>" "$postfix"

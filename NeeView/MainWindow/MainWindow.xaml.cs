@@ -793,9 +793,9 @@ namespace NeeView
             //Environment.Exit(0);
         }
 
-#endregion
+        #endregion
 
-#region メニューエリア、ステータスエリアマウスオーバー監視
+        #region メニューエリア、ステータスエリアマウスオーバー監視
 
         public bool _isDockMenuMouseOver;
         public bool _isLayerMenuMuseOver;
@@ -861,9 +861,9 @@ namespace NeeView
             UpdateStatusAreaMouseOver();
         }
 
-#endregion
+        #endregion
 
-#region レイアウト管理
+        #region レイアウト管理
 
         private bool _isDartyMenuAreaLayout;
         private bool _isDartyPageSliderLayout;
@@ -1033,9 +1033,9 @@ namespace NeeView
             this.ThumbnailListArea.DartyThumbnailList();
         }
 
-#endregion
+        #endregion
 
-#region レイヤー表示状態
+        #region レイヤー表示状態
 
         // 初期化
         private void InitializeLayerVisibility()
@@ -1157,9 +1157,9 @@ namespace NeeView
         }
 
 
-#endregion
+        #endregion
 
-#region [開発用]
+        #region [開発用]
 
         public MainWindowViewModel ViewModel => _vm;
 
@@ -1170,7 +1170,7 @@ namespace NeeView
             DebugGesture.Initialize();
         }
 
-#endregion
+        #endregion
     }
 
 }

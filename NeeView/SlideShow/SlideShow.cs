@@ -48,7 +48,9 @@ namespace NeeView
             BookOperation.Current.ViewContentsChanged +=
                 (s, e) => ResetTimer();
 
-            //
+            MainWindow.Current.PreviewKeyDown +=
+                (s, e) => ResetTimer();
+
             MouseInput.Current.MouseMoved +=
                 (s, e) => { if (this.IsCancelSlideByMouseMove) ResetTimer(); };
 

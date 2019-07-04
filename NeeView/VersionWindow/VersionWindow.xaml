@@ -34,12 +34,6 @@
                 </Hyperlink>
             </TextBlock>
 
-            <TextBlock HorizontalAlignment="Center" Style="{StaticResource LinkedTextBlock}" IsEnabled="{Binding IsNetworkEnabled}">
-                <Hyperlink NavigateUri="{Binding ChangeLogUri}">
-                    <TextBlock Text="{x:Static properties:Resources.ControlAboutChangeLog}"/>
-                </Hyperlink>
-            </TextBlock>
-
             <TextBlock HorizontalAlignment="Right" Style="{StaticResource LinkedTextBlock}" IsEnabled="{Binding IsNetworkEnabled}">
                 <Hyperlink NavigateUri="{Binding ProjectUri}">
                     <TextBlock Text="{x:Static properties:Resources.ControlAboutProject}"/>

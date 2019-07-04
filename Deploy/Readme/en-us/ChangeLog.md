@@ -1,21 +1,19 @@
-# NeeView <VERSION/> - ChangeLog
+## ChangeLog
 
-----
-
-## 35.0
+### 35.0
 (2019-07-13)
 
-### Standard support for Susie plugins (.spi)
+#### Standard support for Susie plugins (.spi)
 
 * The standard NeeView now supports Susie plugins (.spi). It also works on 64bit OS. NeeViewS was abolished along with this.
 * Support for the .sph plugin has been discontinued.
 
-### Bug fixes
+#### Bug fixes
 
 * Fixed a bug that can not be read when the folder name is full-width space.
 * Fixed a bug related to full screen state restoration.
 
-### Other
+#### Other
 
 * Added "Allow enlarge" and "Allow reduce" settings separately from the display scale. Along with this, the setting "Fit to window if large(small)" is abolished.
 * Cancel slide show timer by key operation.

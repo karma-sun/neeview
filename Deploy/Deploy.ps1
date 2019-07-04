@@ -93,8 +93,8 @@ function Get-GitLogMarkdown($title)
 	$date = $result[1]
     $logs = $result[2]
 
-	"# $title"
-	"## $header"
+	"## $title"
+	"### $header"
 	"($date)"
 	""
 	$logs | ForEach-Object { "- $_" }
@@ -203,7 +203,7 @@ function New-Readme($packageDir, $culture, $target)
 
 	if ($target -eq ".canary")
 	{
-		Get-GitLogMarkdown "NeeView <VERSION/> - ChangeLog" | Set-Content -Encoding UTF8 "$readmeDir/ChangeLog.md"
+		Get-GitLogMarkdown "NeeView <VERSION/> - ChangeLog" | Set-Content -Encoding UTF8 "$readmeDir\ChangeLog.md"
 	}
 	else
 	{
@@ -228,12 +228,10 @@ function New-Readme($packageDir, $culture, $target)
 	$readmeHtml = "README.html"
 	$readmeEnvironment = ""
 	$readmeLicenseAppendix = ""
-	$changeLogHtml = "CHANGELOG.html"
 
 	if (-not ($culture -eq "en-us"))
 	{
 		$readmeHtml = "README.$culture.html"
-		$changeLogHtml = "CHANGELOG.$culture.html"
 	}
 
 	if ($culture -eq "ja-jp")
@@ -247,8 +245,7 @@ function New-Readme($packageDir, $culture, $target)
 	}
 
 	# markdown to html by pandoc
-	pandoc -s -t html5 -o "$packageDir\$readmeHtml" -H "Readme\Style.html" "$readmeDir\Overview.md" $readmeEnvironment "$readmeDir\Contact.md" "$readmeDir\LICENSE.md" $readmeLicenseAppendix "$readmeDir\THIRDPARTY_LICENSES.md" "$readmeDir\NeeLaboratory.IO.Search_THIRDPARTY_LICENSES.md"
-	pandoc -s -t html5 -o "$packageDir\$changeLogHtml" -H "Readme\Style.html" "$readmeDir\ChangeLog.md"
+	pandoc -s -t html5 -o "$packageDir\$readmeHtml" -H "Readme\Style.html" "$readmeDir\Overview.md" $readmeEnvironment "$readmeDir\Contact.md" "$readmeDir\LICENSE.md" $readmeLicenseAppendix "$readmeDir\THIRDPARTY_LICENSES.md" "$readmeDir\NeeLaboratory.IO.Search_THIRDPARTY_LICENSES.md" "$readmeDir\ChangeLog.md"
 
 	Remove-Item $readmeDir -Recurse
 }

@@ -1624,7 +1624,7 @@
     <value>NeeView is the latest version</value>
   </data>
   <data name="ControlAboutLicense" xml:space="preserve">
-    <value>License Info</value>
+    <value>License Info / Change Log</value>
   </data>
   <data name="ControlAboutNew" xml:space="preserve">
     <value>A new version has been released</value>

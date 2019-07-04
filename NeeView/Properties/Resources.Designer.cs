@@ -4615,7 +4615,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   License Info に類似しているローカライズされた文字列を検索します。
+        ///   License Info / Change Log に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ControlAboutLicense {
             get {

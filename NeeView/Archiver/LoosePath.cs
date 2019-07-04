@@ -12,8 +12,16 @@ namespace NeeView
     /// </summary>
     public static class LoosePath
     {
-        public static char[] Separator = new char[] { '\\', '/' };
+        public static readonly char[] Separator = new char[] { '\\', '/' };
 
+        public static readonly char[] AsciiSpaces = new char[] {
+            '\u0009',  // CHARACTER TABULATION
+            '\u000A',  // LINE FEED
+            '\u000B',  // LINE TABULATION
+            '\u000C',  // FORM FEED
+            '\u000D',  // CARRIAGE RETURN
+            '\u0020',  // SPACE
+        };
 
         /// <summary>
         /// 末尾のセパレート記号を削除。

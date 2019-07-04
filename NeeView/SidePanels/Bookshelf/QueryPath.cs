@@ -222,7 +222,7 @@ namespace NeeView
                 return null;
             }
 
-            var s = LoosePath.NormalizeSeparator(source).Trim().TrimEnd('\\');
+            var s = LoosePath.NormalizeSeparator(source).Trim(LoosePath.AsciiSpaces).TrimEnd('\\');
 
             if (scheme == QueryScheme.File)
             {

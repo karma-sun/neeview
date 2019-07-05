@@ -55,7 +55,7 @@ namespace NeeView
                 {
                 }
 
-                if (!_process.HasExited)
+                if (_process != null && !_process.HasExited)
                 {
                     _process.Kill();
                 }

@@ -84,7 +84,7 @@ namespace NeeView
             // DLL 検索パスから現在の作業ディレクトリ (CWD) を削除
             NativeMethods.SetDllDirectory("");
 
-#if TRACE
+#if TRACE_LOG
             var nowTime = DateTime.Now;
             var traceLogFilename = $"Trace{nowTime.ToString("yyMMdHHmmss")}.log";
             StreamWriter sw = new StreamWriter(traceLogFilename) { AutoFlush = true };

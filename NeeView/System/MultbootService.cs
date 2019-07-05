@@ -63,10 +63,9 @@ namespace NeeView
 
                 try
                 {
-                    // 自身以外の最も新しいプロセスをターゲットにする
+                    // 自身以外のプロセスをターゲットにする
                     var serverProcess = processes
-                        .OrderByDescending((p) => p.StartTime)
-                        .FirstOrDefault((p) => p.Id != currentProcess.Id);
+                        .LastOrDefault((p) => p.Id != currentProcess.Id);
 
                     if (serverProcess == null)
                     {

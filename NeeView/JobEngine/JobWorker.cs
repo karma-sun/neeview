@@ -120,6 +120,10 @@ namespace NeeView
             {
                 Debug.WriteLine($"JOB TASK CANCELED.");
             }
+            catch (ObjectDisposedException)
+            {
+                Debug.WriteLine($"JOB TASK DISPOSED.");
+            }
         }
 
         // ワーカータスクメイン
@@ -132,6 +136,8 @@ namespace NeeView
 
                 lock (_scheduler.Lock)
                 {
+                    ThrowIfDisposed();
+
                     // ジョブ取り出し
                     int priority = IsPrimary ? 10 : 0;
                     job = _scheduler.FetchNextJob(priority);
@@ -193,6 +199,11 @@ namespace NeeView
 
         #region IDisposable Support
         private bool _disposedValue = false;
+
+        private void ThrowIfDisposed()
+        {
+            if (_disposedValue) throw new ObjectDisposedException(nameof(JobWorker));
+        }
 
         protected virtual void Dispose(bool disposing)
         {

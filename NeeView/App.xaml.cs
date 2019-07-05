@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -83,6 +84,14 @@ namespace NeeView
             // DLL 検索パスから現在の作業ディレクトリ (CWD) を削除
             NativeMethods.SetDllDirectory("");
 
+#if TRACE
+            var traceLogName = $"Trace{DateTime.Now.ToString("yyMMddhhmmss")}.log";
+            StreamWriter sw = new StreamWriter(traceLogName) { AutoFlush = true };
+            TextWriterTraceListener twtl = new TextWriterTraceListener(TextWriter.Synchronized(sw), "MyListener");
+            Trace.Listeners.Add(twtl);
+            Trace.WriteLine($"Trace: {traceLogName}");
+#endif
+
             // 未処理例外ハンドル
             InitializeUnhandledException();
 
@@ -92,12 +101,12 @@ namespace NeeView
             }
             catch (OperationCanceledException ex)
             {
-                Debug.WriteLine("InitializeCancelException: " + ex.Message);
+                Trace.WriteLine("InitializeCancelException: " + ex.Message);
                 Shutdown();
                 return;
             }
 
-            Debug.WriteLine($"App.Initialized: {Stopwatch.ElapsedMilliseconds}ms");
+            Trace.WriteLine($"App.Initialized: {Stopwatch.ElapsedMilliseconds}ms");
 
             // メインウィンドウ起動
             var mainWindow = new MainWindow();
@@ -169,6 +178,7 @@ namespace NeeView
             }
 
             // 多重起動制限になる場合、サーバーにパスを送って終了
+            Trace.WriteLine($"CanStart: {CanStart()}: IsServerExists={_multiBootService.IsServerExists}, IsNewWindow={Option.IsNewWindow}, IsMultiBootEnabled={IsMultiBootEnabled}");
             if (!CanStart())
             {
                 await _multiBootService.RemoteLoadAsAsync(Option.Values);

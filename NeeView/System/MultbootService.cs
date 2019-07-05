@@ -49,11 +49,17 @@ namespace NeeView
         private Process GetServerProcess(Process currentProcess)
         {
             var processName = currentProcess.ProcessName;
+            Trace.WriteLine($"GetServerProcess: CurrentProcess: ProcessName={processName}, Id={currentProcess.Id}");
 
             for (int retry = 0; retry < 2; ++retry)
             {
                 var processes = Process.GetProcessesByName(processName)
                     .ToList();
+
+                foreach (var p in processes)
+                {
+                    Trace.WriteLine($"GetServerProcess: FindProcess: ProcessName={p.ProcessName}, Id={p.Id}");
+                }
 
                 try
                 {
@@ -62,15 +68,25 @@ namespace NeeView
                         .OrderByDescending((p) => p.StartTime)
                         .FirstOrDefault((p) => p.Id != currentProcess.Id);
 
+                    if (serverProcess == null)
+                    {
+                        Trace.WriteLine($"GetServerProcess: ServerProcess not found.");
+                    }
+                    else
+                    {
+                        Trace.WriteLine($"GetServerProcess: ServerProcess: ProcessName={serverProcess.ProcessName}, Id={serverProcess.Id}");
+                    }
+
                     return serverProcess;
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine(ex.Message);
+                    Trace.WriteLine(ex.Message);
                     Thread.Sleep(500);
                 }
             }
 
+            Trace.WriteLine($"GetServerProcess: ServerProcess not found from exception.");
             return null;
         }
 

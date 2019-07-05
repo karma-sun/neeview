@@ -85,11 +85,12 @@ namespace NeeView
             NativeMethods.SetDllDirectory("");
 
 #if TRACE
-            var traceLogName = $"Trace{DateTime.Now.ToString("yyMMddhhmmss")}.log";
-            StreamWriter sw = new StreamWriter(traceLogName) { AutoFlush = true };
+            var nowTime = DateTime.Now;
+            var traceLogFilename = $"Trace{nowTime.ToString("yyMMdHHmmss")}.log";
+            StreamWriter sw = new StreamWriter(traceLogFilename) { AutoFlush = true };
             TextWriterTraceListener twtl = new TextWriterTraceListener(TextWriter.Synchronized(sw), "MyListener");
             Trace.Listeners.Add(twtl);
-            Trace.WriteLine($"Trace: {traceLogName}");
+            Trace.WriteLine($"Trace: Start ({nowTime})");
 #endif
 
             // 未処理例外ハンドル

@@ -52,14 +52,9 @@ namespace NeeView
 
             for (int retry = 0; retry < 2; ++retry)
             {
-#if DEBUG
-                var processes = Process.GetProcessesByName(processName)
-                    .Concat(Process.GetProcessesByName(Path.GetFileNameWithoutExtension(currentProcess.ProcessName)))
-                    .ToList();
-#else
                 var processes = Process.GetProcessesByName(processName)
                     .ToList();
-#endif
+
                 try
                 {
                     // 自身以外の最も新しいプロセスをターゲットにする

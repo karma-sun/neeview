@@ -198,7 +198,7 @@ namespace NeeView
         }
 
         #region IDisposable Support
-        private bool _disposedValue = false;
+        private volatile bool _disposedValue = false;
 
         private void ThrowIfDisposed()
         {

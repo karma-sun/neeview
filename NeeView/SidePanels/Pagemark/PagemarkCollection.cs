@@ -59,7 +59,10 @@ namespace NeeView
             {
                 if (SetProperty(ref _pagemarkOrder, value))
                 {
-                    Sort();
+                    if (Sort())
+                    {
+                        PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Replace));
+                    }
                 }
             }
         }
@@ -235,12 +238,12 @@ namespace NeeView
         }
 
 
-        private void Sort()
+        private bool Sort()
         {
-            if (_items == null) return;
+            if (_items == null) return false;
 
             _items.Sort(CreateComparer(_pagemarkOrder));
-            PagemarkChanged?.Invoke(this, new PagemarkCollectionChangedEventArgs(EntryCollectionChangedAction.Replace));
+            return true;
         }
 
         private IComparer<TreeListNode<IPagemarkEntry>> CreateComparer(PagemarkOrder order, TreeListNode<IPagemarkEntry> parent)

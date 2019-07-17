@@ -354,7 +354,16 @@ namespace NeeView
                 this.WindowBorderThickness = default;
             }
 
-            _window.BorderThickness = (_windowChrome != null && _window.WindowState == WindowState.Maximized) ? new Thickness(8.0) : default;
+            if (_windowChrome != null && _window.WindowState == WindowState.Maximized)
+            {
+                var x = 8.0 / Config.Current.RawDpi.DpiScaleX;
+                var y = 8.0 / Config.Current.RawDpi.DpiScaleY;
+                _window.BorderThickness = new Thickness(x, y, x, y);
+            }
+            else
+            {
+                _window.BorderThickness = default;
+            }
         }
 
         //

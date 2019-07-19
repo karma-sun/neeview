@@ -1,5 +1,13 @@
 ## ChangeLog
 
+### 35.1
+(2019-07-20)
+
+#### Bug fixes
+
+* Fixed a bug that there may be gaps when maximizing windows.
+* Fixed a bug that page marks are not reflected well at multiple startup.
+
 ### 35.0
 (2019-07-13)
 

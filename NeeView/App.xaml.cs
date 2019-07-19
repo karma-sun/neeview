@@ -298,6 +298,7 @@ namespace NeeView
         /// </summary>
         private void Application_SessionEnding(object sender, SessionEndingCancelEventArgs e)
         {
+            DisableUnhandledException();
             DisableExceptionDialog();
 
             ApplicationDisposer.Current.Dispose();

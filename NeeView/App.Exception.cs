@@ -39,6 +39,11 @@ namespace NeeView
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
         }
 
+        public void DisableUnhandledException()
+        {
+            AppDomain.CurrentDomain.UnhandledException -= CurrentDomain_UnhandledException;
+        }
+
         /// <summary>
         /// 未処理例外の処理
         /// </summary>

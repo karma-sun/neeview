@@ -768,6 +768,8 @@ namespace NeeView
         //
         private void MainWindow_Closed(object sender, EventArgs e)
         {
+            App.Current.DisableUnhandledException();
+
             ContentCanvas.Current.Dispose();
             ApplicationDisposer.Current.Dispose();
 

@@ -202,14 +202,21 @@ namespace NeeView
 
             var customMemento = memento.Clone();
 
-            if (App.Current.Option.IsResetPlacement == SwitchOption.on || !App.Current.IsSaveWindowPlacement)
+            if (App.Current.Option.IsResetPlacement == SwitchOption.on)
             {
                 customMemento.State = WindowStateEx.Normal;
             }
-
-            if (customMemento.State == WindowStateEx.FullScreen)
+            else if (customMemento.State == WindowStateEx.FullScreen)
             {
                 customMemento.State = App.Current.IsSaveFullScreen ? WindowStateEx.FullScreen : WindowStateEx.Normal;
+            }
+            else if (customMemento.State == WindowStateEx.Minimized)
+            {
+                customMemento.State = WindowStateEx.Normal;
+            }
+            else if (!App.Current.IsSaveWindowPlacement)
+            {
+                customMemento.State = WindowStateEx.Normal;
             }
 
             // セカンドプロセスはウィンドウ形状を継承しない

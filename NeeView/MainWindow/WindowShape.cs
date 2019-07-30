@@ -108,6 +108,7 @@ namespace NeeView
         private WindowStateEx _state;
         private bool _IsEnabled;
         private bool _isProcessing;
+        private double _maximizeWindowGapWidth = 8.0;
 
         #endregion
 
@@ -299,6 +300,19 @@ namespace NeeView
             }
         }
 
+        [PropertyRange("@ParamWindowShapeMaximizeWindowGapWidth", 0, 16, TickFrequency = 1, IsEditable = true, Tips = "@ParamWindowShapeMaximizeWindowGapWidthTips"), DefaultValue(8.0)]
+        public double MaximizeWindowGapWidth
+        {
+            get { return _maximizeWindowGapWidth; }
+            set
+            {
+                if (SetProperty(ref _maximizeWindowGapWidth, value))
+                {
+                    UpdateWindowBorderThickness();
+                }
+            }
+        }
+
         #endregion
 
         #region Methods
@@ -356,8 +370,8 @@ namespace NeeView
 
             if (_windowChrome != null && _window.WindowState == WindowState.Maximized)
             {
-                var x = 8.0 / Config.Current.RawDpi.DpiScaleX;
-                var y = 8.0 / Config.Current.RawDpi.DpiScaleY;
+                var x = _maximizeWindowGapWidth / Config.Current.RawDpi.DpiScaleX;
+                var y = _maximizeWindowGapWidth / Config.Current.RawDpi.DpiScaleY;
                 _window.BorderThickness = new Thickness(x, y, x, y);
             }
             else
@@ -403,6 +417,7 @@ namespace NeeView
         {
             switch (state)
             {
+                default:
                 case WindowStateEx.Normal:
                     ToNormal();
                     break;
@@ -661,7 +676,7 @@ namespace NeeView
             [DataMember]
             public WindowStateEx State { get; set; }
 
-            [DataMember]
+            [DataMember, DefaultValue(true)]
             public bool IsCaptionVisible { get; set; }
 
             [DataMember]
@@ -670,7 +685,16 @@ namespace NeeView
             [DataMember]
             public bool IsFullScreenWithTaskBar { get; set; }
 
-            //
+            [DataMember, DefaultValue(8.0)]
+            public double MaximizeWindowGapWidth { get; set; }
+
+
+            [OnDeserializing]
+            private void Deserializing(StreamingContext c)
+            {
+                this.InitializePropertyDefaultValues();
+            }
+
             public Memento Clone()
             {
                 return (Memento)this.MemberwiseClone();
@@ -697,6 +721,7 @@ namespace NeeView
             memento.IsCaptionVisible = this.IsCaptionVisible;
             memento.IsTopMost = this.IsTopmost;
             memento.IsFullScreenWithTaskBar = this.IsFullScreenWithTaskBar;
+            memento.MaximizeWindowGapWidth = this.MaximizeWindowGapWidth;
 
             return memento;
         }
@@ -710,6 +735,7 @@ namespace NeeView
             _isCaptionVisible = memento.IsCaptionVisible;
             _state = memento.State;
             _isFullScreenWithTaskBar = memento.IsFullScreenWithTaskBar;
+            _maximizeWindowGapWidth = memento.MaximizeWindowGapWidth;
         }
 
         #endregion

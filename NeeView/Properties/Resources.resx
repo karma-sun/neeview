@@ -4713,4 +4713,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="CommandToggleStretchAllowReduceNote" xml:space="preserve">
     <value>Allow reduce on view stretch.</value>
   </data>
+  <data name="ParamWindowShapeMaximizeWindowGapWidth" xml:space="preserve">
+    <value>Gap adjustment of window maximization with title bar hidden</value>
+  </data>
+  <data name="ParamWindowShapeMaximizeWindowGapWidthTips" xml:space="preserve">
+    <value>If there is a gap in maximizing the window with the title bar hidden, adjust with this value.</value>
+  </data>
 </root>

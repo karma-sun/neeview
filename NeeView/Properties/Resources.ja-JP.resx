@@ -4713,4 +4713,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="CommandToggleStretchAllowReduceNote" xml:space="preserve">
     <value>表示サイズの適用で縮小を許可</value>
   </data>
+  <data name="ParamWindowShapeMaximizeWindowGapWidth" xml:space="preserve">
+    <value>タイトルバー非表示でのウィンドウ最大化のギャップ調整</value>
+  </data>
+  <data name="ParamWindowShapeMaximizeWindowGapWidthTips" xml:space="preserve">
+    <value>タイトルバーを非表示にしたときのウィンドウ最大化で隙間ができる場合の調整用です。</value>
+  </data>
 </root>

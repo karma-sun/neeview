@@ -11812,6 +11812,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Gap adjustment of window maximization with title bar hidden に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamWindowShapeMaximizeWindowGapWidth {
+            get {
+                return ResourceManager.GetString("ParamWindowShapeMaximizeWindowGapWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   If there is a gap in maximizing the window with the title bar hidden, adjust with this value. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamWindowShapeMaximizeWindowGapWidthTips {
+            get {
+                return ResourceManager.GetString("ParamWindowShapeMaximizeWindowGapWidthTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   For 1 page に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamWindowTitleFormat1 {

@@ -10,6 +10,7 @@
         mc:Ignorable="d"
         x:Name="RootWindow"
         Style="{StaticResource DefaultWindowStyle}"
+        BorderBrush="Black"
         Title="{Binding WindowTitle.Title}" Icon="{Binding WindowIcon}" Height="768" Width="1024" MinHeight="50" MinWidth="150"
         SourceInitialized="MainWindow_SourceInitialized"
         Loaded="MainWindow_Loaded"

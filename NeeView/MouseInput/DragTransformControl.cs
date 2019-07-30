@@ -995,6 +995,15 @@ namespace NeeView
         {
             var v0 = start - _scaleCenter;
             var v1 = end - _scaleCenter;
+
+            // 拡縮の基準となるベクトルが得られるまで処理を進めない
+            const double minLength = 32.0;
+            if (v0.Length < minLength)
+            {
+                _startPoint = end;
+                return;
+            }
+
             var scale1 = v1.Length / v0.Length * _baseScale;
             DoScale(scale1);
         }

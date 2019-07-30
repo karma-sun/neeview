@@ -14,7 +14,7 @@ namespace NeeView
         public string Message
         {
             get { return _Message; }
-            set { if (_Message != value) { _Message = value; RaisePropertyChanged(); } }
+            set { _Message = value; }
         }
 
         private string _Message;
@@ -39,6 +39,7 @@ namespace NeeView
         public void SetMessage(string message)
         {
             this.Message = message;
+            RaisePropertyChanged(nameof(Message));
         }
     }
 }

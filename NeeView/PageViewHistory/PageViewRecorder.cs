@@ -64,6 +64,19 @@ namespace NeeView
         #region IDisposable Support
         public void Dispose()
         {
+            lock (_lock)
+            {
+                if (_writer != null)
+                {
+                    _writer.Write(DateTime.Now.ToString("O"));
+                    _writer.Write('\t');
+                    _writer.Write("[Exit] ");
+                    _writer.Write(Config.Current.ApplicationName);
+                    _writer.Write(' ');
+                    _writer.Write(Config.Current.DispVersion);
+                    _writer.WriteLine();
+                }
+            }
             CloseWriter();
         }
 

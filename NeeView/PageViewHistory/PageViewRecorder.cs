@@ -43,9 +43,7 @@ namespace NeeView
 
         #region Properties
 
-        /// <summary>
-        /// 何回ページを切り替えたら履歴登録するか
-        /// </summary>
+        // 履歴を保存するか
         [PropertyMember("@ParamIsRecordPageView")]
         public bool IsRecordPageView
         {
@@ -150,7 +148,7 @@ namespace NeeView
                     }
                     catch (IOException err)
                     {
-                        Debug.WriteLine("[Error] " + err.Message);
+                        Debug.WriteLine("[Error] {0}", err.Message);
                         ToastService.Current.Show(new Toast(Resources.DialogPageViewRecordWriteError, null, ToastIcon.Error));
                     }
                 }

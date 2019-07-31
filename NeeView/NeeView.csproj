@@ -180,6 +180,7 @@
     <Compile Include="BookHub\PlaylistBookLoader.cs" />
     <Compile Include="ExternalApplication\ClipboardUtility.cs" />
     <Compile Include="MainWindow\FirstLoader.cs" />
+    <Compile Include="PageViewHistory\PageViewRecorder.cs" />
     <Compile Include="Picture\PictureSourceFactory.cs" />
     <Compile Include="Picture\PictureStreamSource.cs" />
     <Compile Include="Picture\SvgPictureSource.cs" />

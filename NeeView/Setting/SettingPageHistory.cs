@@ -14,6 +14,7 @@ namespace NeeView.Setting
             this.Children = new List<SettingPage>
             {
                 new SettingPageHistoryGeneral(),
+                new SettingPageHistoryPageView(),
             };
         }
     }
@@ -158,5 +159,18 @@ namespace NeeView.Setting
         }
 
         #endregion
+    }
+
+    public class SettingPageHistoryPageView : SettingPage
+    {
+        public SettingPageHistoryPageView() : base(Properties.Resources.SettingPageHistoryPageView)
+        {
+            this.Items = new List<SettingItem>
+            {
+                new SettingItemSection(Properties.Resources.SettingPageHistoryPageViewRecord,
+                    new SettingItemProperty(PropertyMemberElement.Create(PageViewRecorder.Current, nameof(PageViewRecorder.IsRecordPageView))),
+                    new SettingItemProperty(PropertyMemberElement.Create(PageViewRecorder.Current, nameof(PageViewRecorder.PageViewRecordPath)))),
+            };
+        }
     }
 }

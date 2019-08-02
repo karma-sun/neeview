@@ -32,7 +32,6 @@ namespace NeeView
 
         private PageViewRecorder()
         {
-            BookHub.Current.ViewContentsChanged += OnViewContentsChanged;
             this.PropertyChanged += OnPropertyChanged;
 
             // アプリ終了前の開放予約
@@ -84,6 +83,7 @@ namespace NeeView
         {
             lock (_lock)
             {
+                BookHub.Current.ViewContentsChanged -= OnViewContentsChanged;
                 try
                 {
                     _writer?.Close();
@@ -164,6 +164,7 @@ namespace NeeView
                         Debug.WriteLine("[Error] {0}", err.Message);
                         ToastService.Current.Show(new Toast(Resources.DialogPageViewRecordWriteError, null, ToastIcon.Error));
                     }
+                    BookHub.Current.ViewContentsChanged += OnViewContentsChanged;
                 }
             });
         }

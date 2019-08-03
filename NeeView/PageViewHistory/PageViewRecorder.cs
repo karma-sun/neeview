@@ -102,18 +102,7 @@ namespace NeeView
                     _writeBuffer.AppendLine();
                 }
 
-                try
-                {
-                    byte[] bytes = Encoding.UTF8.GetBytes(_writeBuffer.ToString());
-                    _file.Seek(0L, SeekOrigin.End);
-                    _file.Write(bytes, 0, bytes.Length);
-                    _file.Flush();
-                }
-                catch (IOException err)
-                {
-                    Debug.WriteLine("[Error] {0}", err.Message);
-                    ToastService.Current.Show(new Toast(Resources.DialogPageViewRecordWriteError, null, ToastIcon.Error));
-                }
+                WriteString(_writeBuffer.ToString());
             }
         }
 
@@ -143,18 +132,23 @@ namespace NeeView
                 _writeBuffer.Append(_viewedBookName);
                 _writeBuffer.AppendLine();
 
-                try
-                {
-                    byte[] bytes = Encoding.UTF8.GetBytes(_writeBuffer.ToString());
-                    _file.Seek(0L, SeekOrigin.End);
-                    _file.Write(bytes, 0, bytes.Length);
-                    _file.Flush();
-                }
-                catch (IOException err)
-                {
-                    Debug.WriteLine("[Error] {0}", err.Message);
-                    ToastService.Current.Show(new Toast(Resources.DialogPageViewRecordWriteError, null, ToastIcon.Error));
-                }
+                WriteString(_writeBuffer.ToString());
+            }
+        }
+
+        private void WriteString(string text)
+        {
+            try
+            {
+                var bytes = Encoding.UTF8.GetBytes(text);
+                _file.Seek(0L, SeekOrigin.End);
+                _file.Write(bytes, 0, bytes.Length);
+                _file.Flush();
+            }
+            catch (IOException err)
+            {
+                Debug.WriteLine("[Error] {0}", err.Message);
+                ToastService.Current.Show(new Toast(Resources.DialogPageViewRecordWriteError, null, ToastIcon.Error));
             }
         }
 

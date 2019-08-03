@@ -76,9 +76,9 @@ namespace NeeView
                     return;
                 }
 
+                _writeBuffer.Clear();
                 foreach (var page in _viewedPages)
                 {
-                    _writeBuffer.Clear();
                     _writeBuffer.Append(_viewedPagesDateTime.ToString("O"));
                     _writeBuffer.Append('\t');
                     switch (page.PageType)

@@ -212,18 +212,21 @@ namespace NeeView
         {
             var now = DateTime.Now;
             var book = BookHub.Current.Book;
-            if (book == null)
-            {
-                return;
-            }
 
             AppDispatcher.Invoke(() =>
             {
                 WriteBookViewedRecord(now);
 
                 _viewedBookDateTime = now;
+
+                if (book == null)
+                {
+                    _viewedBookAddress = null;
+                    return;
+                }
+
                 _viewedBookAddress = book.Address;
-                if (book?.NotFoundStartPage != null && book.Pages.Count > 0)
+                if (book.NotFoundStartPage != null && book.Pages.Count > 0)
                 {
                     _viewedBookName = string.Format(Resources.NotifyCannotOpen, LoosePath.GetFileName(book.NotFoundStartPage));
                 }

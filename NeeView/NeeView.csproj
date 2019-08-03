@@ -198,6 +198,7 @@
     <Compile Include="Susie\Client\SusiePluginRemoteClient.cs" />
     <Compile Include="Susie\Obsolete\SusiePlugin.cs" />
     <Compile Include="Susie\Obsolete\SusiePluginSetting.cs" />
+    <Compile Include="System\ExplorerContextMenu.cs" />
     <Compile Include="System\SubProcess.cs" />
     <Compile Include="Susie\SusieUtility.cs" />
     <Compile Include="ViewContent\ViewContentSourceCollectionChangedEventArgs.cs" />

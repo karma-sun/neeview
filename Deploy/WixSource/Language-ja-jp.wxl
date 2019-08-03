@@ -3,4 +3,5 @@
     <String Id="language">1041</String>
     <String Id="codepage">932</String>
     <String Id="downgradeErrorMessage">新しいバージョンのNeeViewが既にインストール済です。</String>
+    <String Id="openInNeeView">NeeViewで開く(&amp;V)</String>
 </WixLocalization>

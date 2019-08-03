@@ -62,6 +62,12 @@ namespace NeeView.Setting
                     {
                         Visibility = new VisibilityPropertyValue(Config.Current.IsAppxPackage ? Visibility.Collapsed : Visibility.Visible)
                     }),
+
+                new SettingItemSection(Properties.Resources.SettingPageGeneralDetailExplorer,
+                    new SettingItemProperty(PropertyMemberElement.Create(ExplorerContextMenu.Current, nameof(ExplorerContextMenu.IsEnabled))))
+                {
+                    Visibility = new VisibilityPropertyValue(Config.Current.IsZipPackage ? Visibility.Visible : Visibility.Collapsed)
+                },
             };
         }
     }

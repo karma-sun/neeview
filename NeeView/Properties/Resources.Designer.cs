@@ -10281,6 +10281,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Register in the Explorer context menu. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsExplorerContextMenuEnabled {
+            get {
+                return ResourceManager.GetString("ParamIsExplorerContextMenuEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Add &quot;Open in NeeView&quot; to the Explorer context menu. This feature uses the registry. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsExplorerContextMenuEnabledTips {
+            get {
+                return ResourceManager.GetString("ParamIsExplorerContextMenuEnabledTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   File operation enabled に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsFileOperationEnabled {
@@ -12361,6 +12379,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Explorer に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageGeneralDetailExplorer {
+            get {
+                return ResourceManager.GetString("SettingPageGeneralDetailExplorer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Language に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string SettingPageGeneralDetailLanguage {
@@ -13514,6 +13541,15 @@ namespace NeeView.Properties {
         public static string WordOpen {
             get {
                 return ResourceManager.GetString("WordOpen", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open in Nee&amp;View に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordOpenInNeeView {
+            get {
+                return ResourceManager.GetString("WordOpenInNeeView", resourceCulture);
             }
         }
         

@@ -4719,4 +4719,16 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamWindowShapeMaximizeWindowGapWidthTips" xml:space="preserve">
     <value>タイトルバーを非表示にしたときのウィンドウ最大化で隙間ができる場合の調整用です。</value>
   </data>
+  <data name="WordOpenInNeeView" xml:space="preserve">
+    <value>NeeViewで開く(&amp;V)</value>
+  </data>
+  <data name="ParamIsExplorerContextMenuEnabled" xml:space="preserve">
+    <value>エクスプローラーのコンテキストメニューに登録</value>
+  </data>
+  <data name="ParamIsExplorerContextMenuEnabledTips" xml:space="preserve">
+    <value>エクスプローラーのコンテキストメニューに「NeeViewで開く」を追加します。この機能はレジストリを使用します。</value>
+  </data>
+  <data name="SettingPageGeneralDetailExplorer" xml:space="preserve">
+    <value>エクスプローラー</value>
+  </data>
 </root>

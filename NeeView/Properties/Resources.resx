@@ -4719,4 +4719,16 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamWindowShapeMaximizeWindowGapWidthTips" xml:space="preserve">
     <value>If there is a gap in maximizing the window with the title bar hidden, adjust with this value.</value>
   </data>
+  <data name="WordOpenInNeeView" xml:space="preserve">
+    <value>Open in Nee&amp;View</value>
+  </data>
+  <data name="ParamIsExplorerContextMenuEnabled" xml:space="preserve">
+    <value>Register in the Explorer context menu.</value>
+  </data>
+  <data name="ParamIsExplorerContextMenuEnabledTips" xml:space="preserve">
+    <value>Add "Open in NeeView" to the Explorer context menu. This feature uses the registry.</value>
+  </data>
+  <data name="SettingPageGeneralDetailExplorer" xml:space="preserve">
+    <value>Explorer</value>
+  </data>
 </root>

@@ -12,7 +12,8 @@
   Installation is unnecessary. After unpacking the zip, just run `NeeView.exe`.
   User data such as setting files etc. are also saved in the same place.  
 
-  Uninstalling just deletes the file. Registry is not used.
+  Uninstallation basically only removes files. 
+  Please note only if you registered in the Explorer context menu in the settings. This feature uses the registry, and can be removed from the registry by turning it off in settings.
 
 ### Installer version
 

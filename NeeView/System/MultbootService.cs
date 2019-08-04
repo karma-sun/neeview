@@ -29,10 +29,10 @@ namespace NeeView
         private Process _serverProcess;
 
 
-        public MultbootService()
+        public MultbootService(bool isCreateNew)
         {
             _currentProcess = Process.GetCurrentProcess();
-            _serverProcess = GetServerProcess(_currentProcess);
+            _serverProcess = isCreateNew ? null : GetServerProcess(_currentProcess);
 
             RemoteCommandService.Current.AddReciever("LoadAs", LoadAs);
         }

@@ -141,13 +141,10 @@ namespace NeeView
             }
 
             // プロセス間セマフォ取得
-            if (!Semaphore.TryOpenExisting(_semaphoreLabel, out _semaphore))
-            {
-                _semaphore = new Semaphore(1, 1, _semaphoreLabel);
-            }
+            _semaphore = new Semaphore(1, 1, _semaphoreLabel, out bool isCreateNew);
 
             // 多重起動サービス起動
-            _multiBootService = new MultbootService();
+            _multiBootService = new MultbootService(isCreateNew);
 
             // セカンドプロセス判定
             Config.Current.IsSecondProcess = _multiBootService.IsServerExists;

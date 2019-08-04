@@ -78,9 +78,10 @@ function Get-GitLog()
     $branch = Invoke-Expression "git rev-parse --abbrev-ref HEAD"
     $descrive = Invoke-Expression "git describe --abbrev=0 --tags"
 	$date = Invoke-Expression 'git log -1 --pretty=format:"%ad" --date=iso'
-	$result = Invoke-Expression "git log $descrive..head --encoding=Shift_JIS --pretty=format:`"%s`""
+	$result = Invoke-Expression "git log $descrive..head --encoding=Shift_JIS --pretty=format:`"%ae %s`""
+	$result = $result | Where-Object {$_ -match "^nee.laboratory"} | ForEach-Object {$_ -replace "^[\w\.@]+ ",""}
 	$result = $result | Where-Object { -not ($_ -match '^m.rge|^開発用|\(dev\)|^-|^\.\.') } 
-	
+
     return "[${branch}] $descrive to head", $date, $result
 }
 

@@ -140,6 +140,7 @@ namespace NeeView
         {
             try
             {
+                App.Current.SemaphoreWait();
                 var bytes = Encoding.UTF8.GetBytes(text);
                 _file.Seek(0L, SeekOrigin.End);
                 _file.Write(bytes, 0, bytes.Length);
@@ -149,6 +150,10 @@ namespace NeeView
             {
                 Debug.WriteLine("[Error] {0}", err.Message);
                 ToastService.Current.Show(new Toast(Resources.DialogPageViewRecordWriteError, null, ToastIcon.Error));
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
             }
         }
 
@@ -213,29 +218,25 @@ namespace NeeView
             var now = DateTime.Now;
             var book = BookHub.Current.Book;
 
-            AppDispatcher.Invoke(() =>
+            WriteBookViewedRecord(now);
+
+            _viewedBookDateTime = now;
+
+            if (book == null)
             {
-                WriteBookViewedRecord(now);
+                _viewedBookAddress = null;
+                return;
+            }
 
-                _viewedBookDateTime = now;
-
-                if (book == null)
-                {
-                    _viewedBookAddress = null;
-                    return;
-                }
-
-                _viewedBookAddress = book.Address;
-                if (book.NotFoundStartPage != null && book.Pages.Count > 0)
-                {
-                    _viewedBookName = string.Format(Resources.NotifyCannotOpen, LoosePath.GetFileName(book.NotFoundStartPage));
-                }
-                else
-                {
-                    _viewedBookName = LoosePath.GetFileName(book.Address);
-                }
-
-            });
+            _viewedBookAddress = book.Address;
+            if (book.NotFoundStartPage != null && book.Pages.Count > 0)
+            {
+                _viewedBookName = string.Format(Resources.NotifyCannotOpen, LoosePath.GetFileName(book.NotFoundStartPage));
+            }
+            else
+            {
+                _viewedBookName = LoosePath.GetFileName(book.Address);
+            }
         }
 
         private void OnViewContentsChanged(object sender, ViewContentSourceCollectionChangedEventArgs e)
@@ -243,32 +244,26 @@ namespace NeeView
             var now = DateTime.Now;
             var viewedPages = e?.ViewPageCollection?.Collection.Where(x => x != null).Select(x => x.Page).ToList() ?? new List<Page>();
 
-            AppDispatcher.Invoke(() =>
-            {
-                WritePageViewedRecord(now);
-                _viewedPagesDateTime = now;
-                _viewedPages = viewedPages;
-            });
+            WritePageViewedRecord(now);
+            _viewedPagesDateTime = now;
+            _viewedPages = viewedPages;
         }
 
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            AppDispatcher.Invoke(() =>
+            CloseFile();
+
+            if (!IsRecordPageView)
             {
-                CloseFile();
+                return;
+            }
 
-                if (!IsRecordPageView)
-                {
-                    return;
-                }
+            if (String.IsNullOrEmpty(PageViewRecordPath))
+            {
+                return;
+            }
 
-                if (String.IsNullOrEmpty(PageViewRecordPath))
-                {
-                    return;
-                }
-
-                OpenFile();
-            });
+            OpenFile();
         }
 
         #endregion Callback Methods

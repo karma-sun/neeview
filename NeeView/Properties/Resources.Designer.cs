@@ -5939,7 +5939,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Could not write Page view record to path {0} に類似しているローカライズされた文字列を検索します。
+        ///   Could not write Page view record に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DialogPageViewRecordWriteError {
             get {

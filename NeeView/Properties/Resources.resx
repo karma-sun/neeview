@@ -1278,6 +1278,18 @@
   <data name="CommandToggleSortModeNote" xml:space="preserve">
     <value>Switch the order of the pages in order.</value>
   </data>
+  <data name="CommandToggleStretchAllowEnlarge" xml:space="preserve">
+    <value>Allow enlarge</value>
+  </data>
+  <data name="CommandToggleStretchAllowEnlargeNote" xml:space="preserve">
+    <value>Allow enlarge on view stretch.</value>
+  </data>
+  <data name="CommandToggleStretchAllowReduce" xml:space="preserve">
+    <value>Allow reduce</value>
+  </data>
+  <data name="CommandToggleStretchAllowReduceNote" xml:space="preserve">
+    <value>Allow reduce on view stretch.</value>
+  </data>
   <data name="CommandToggleStretchMode" xml:space="preserve">
     <value>Switch view stretch</value>
   </data>
@@ -2071,14 +2083,14 @@ Is it OK? </value>
   <data name="DialogOpenSettingFolderErrorTitle" xml:space="preserve">
     <value>This command can not be used</value>
   </data>
-  <data name="DialogPageViewRecordWriteError" xml:space="preserve">
-    <value>Could not write Page view record</value>
-  </data>
   <data name="DialogPagemarkError" xml:space="preserve">
     <value>Temporary folders can not be pagemarked</value>
   </data>
   <data name="DialogPagemarkFolderDelete" xml:space="preserve">
     <value>The {0} pagemarks included are also deleted.</value>
+  </data>
+  <data name="DialogPageViewRecordWriteError" xml:space="preserve">
+    <value>Could not write Page view record</value>
   </data>
   <data name="DialogQuickAccessTempError" xml:space="preserve">
     <value>Temporary folders can not be added to quick access.</value>
@@ -2452,6 +2464,9 @@ Is it OK? </value>
   <data name="EnumPageStretchModeUniformToVertical" xml:space="preserve">
     <value>Fit height to window</value>
   </data>
+  <data name="EnumPanelListItemImageShapeBanner" xml:space="preserve">
+    <value>Banner</value>
+  </data>
   <data name="EnumPanelListItemImageShapeBookShape" xml:space="preserve">
     <value>Book shape</value>
   </data>
@@ -2460,9 +2475,6 @@ Is it OK? </value>
   </data>
   <data name="EnumPanelListItemImageShapeSquare" xml:space="preserve">
     <value>Square</value>
-  </data>
-  <data name="EnumPanelListItemImageShapeBanner" xml:space="preserve">
-    <value>Banner</value>
   </data>
   <data name="EnumPreLoadModeAutoPreLoad" xml:space="preserve">
     <value>Automatic prefetching</value>
@@ -3110,6 +3122,9 @@ Initialize the temporary location.</value>
   <data name="ParamBookshelfIsMultipleRarFilterEnabledTips" xml:space="preserve">
     <value>For an RAR split file called .part[number].rar, only the file with the smallest number is displayed in the list.</value>
   </data>
+  <data name="ParamBookshelfIsOpenNextBookWhenRemove" xml:space="preserve">
+    <value>After deleting the viewing book, open the next book</value>
+  </data>
   <data name="ParamBookshelfIsSyncFolderTree" xml:space="preserve">
     <value>Synchronize Folders tree with sync button</value>
   </data>
@@ -3166,6 +3181,12 @@ Initialize the temporary location.</value>
   </data>
   <data name="ParamCommandIsReversePageMoveWheelTips" xml:space="preserve">
     <value>You can select correspondence only for wheel operation.</value>
+  </data>
+  <data name="ParamCommandParameterIsReverse" xml:space="preserve">
+    <value>Enable operation swap by slider direction</value>
+  </data>
+  <data name="ParamCommandParameterIsReverseTips" xml:space="preserve">
+    <value>Allows the operation replacement by changing the slider direction.</value>
   </data>
   <data name="ParamCommandParameterMovePagemarkIncludeTerminal" xml:space="preserve">
     <value>Include the first and last pages</value>
@@ -3521,6 +3542,12 @@ Initialize the temporary location.</value>
   <data name="ParamIsCursorHideEnabled" xml:space="preserve">
     <value>Enable auto hide</value>
   </data>
+  <data name="ParamIsExplorerContextMenuEnabled" xml:space="preserve">
+    <value>Register in the Explorer context menu.</value>
+  </data>
+  <data name="ParamIsExplorerContextMenuEnabledTips" xml:space="preserve">
+    <value>Add "Open in NeeView" to the Explorer context menu. This feature uses the registry.</value>
+  </data>
   <data name="ParamIsFileOperationEnabled" xml:space="preserve">
     <value>File operation enabled</value>
   </data>
@@ -3563,6 +3590,9 @@ Initialize the temporary location.</value>
   <data name="ParamIsOpenLastBook" xml:space="preserve">
     <value>Restore an open book</value>
   </data>
+  <data name="ParamIsRecordPageView" xml:space="preserve">
+    <value>Save page view recods</value>
+  </data>
   <data name="ParamIsRemoveConfirmed" xml:space="preserve">
     <value>Display confirmation dialog at file deletion</value>
   </data>
@@ -3598,6 +3628,12 @@ Initialize the temporary location.</value>
   </data>
   <data name="ParamIsSlideShowByLoopTips" xml:space="preserve">
     <value>After playing to the last page, it will return to the first page.</value>
+  </data>
+  <data name="ParamIsSortFileFirst" xml:space="preserve">
+    <value>Sort pages by file first</value>
+  </data>
+  <data name="ParamIsSortFileFirstTips" xml:space="preserve">
+    <value>Arrange files before folders.</value>
   </data>
   <data name="ParamIsSplashScreenEnabled" xml:space="preserve">
     <value>Splash screen</value>
@@ -3791,6 +3827,9 @@ Initialize the temporary location.</value>
   <data name="ParamPageSeconds" xml:space="preserve">
     <value>Change time in page movement (seconds)</value>
   </data>
+  <data name="ParamPageViewRecordPath" xml:space="preserve">
+    <value>Page view recording path</value>
+  </data>
   <data name="ParamPanelColor" xml:space="preserve">
     <value>Theme color</value>
   </data>
@@ -3933,6 +3972,9 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="ParamSusieIsPluginCacheEnabledTips" xml:space="preserve">
     <value>If it is unstable, it may stabilize when it is OFF.</value>
   </data>
+  <data name="ParamSusiePluginIsCacheEnabled" xml:space="preserve">
+    <value>Cache plugin</value>
+  </data>
   <data name="ParamSusiePluginIsEnabled" xml:space="preserve">
     <value>Enable</value>
   </data>
@@ -4023,6 +4065,12 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="ParamWindowShapeIsFullScreenWithTaskBar" xml:space="preserve">
     <value>Do not cover the task bar area at full screen</value>
   </data>
+  <data name="ParamWindowShapeMaximizeWindowGapWidth" xml:space="preserve">
+    <value>Gap adjustment of window maximization with title bar hidden</value>
+  </data>
+  <data name="ParamWindowShapeMaximizeWindowGapWidthTips" xml:space="preserve">
+    <value>If there is a gap in maximizing the window with the title bar hidden, adjust with this value.</value>
+  </data>
   <data name="ParamWindowTitleFormat1" xml:space="preserve">
     <value>For 1 page</value>
   </data>
@@ -4109,6 +4157,9 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   </data>
   <data name="SettingPageBookPageSetting" xml:space="preserve">
     <value>Page settings</value>
+  </data>
+  <data name="SettingPageBookPageSettingAdvance" xml:space="preserve">
+    <value>Advanced Setting</value>
   </data>
   <data name="SettingPageBookPageSettingTips" xml:space="preserve">
     <value>The left item is the default value, and the right item is the behavior when the book is opened.</value>
@@ -4197,6 +4248,9 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   <data name="SettingPageGeneralDetailDetail" xml:space="preserve">
     <value>Advanced Setting</value>
   </data>
+  <data name="SettingPageGeneralDetailExplorer" xml:space="preserve">
+    <value>Explorer</value>
+  </data>
   <data name="SettingPageGeneralDetailLanguage" xml:space="preserve">
     <value>Language</value>
   </data>
@@ -4247,6 +4301,12 @@ The Susie archive does not determine this size, but only pre-extraction in the p
   </data>
   <data name="SettingPageHistoryGeneralLimitTips" xml:space="preserve">
     <value>Sets the maximum number of history saved in the history file. The history during application operation is not limited.</value>
+  </data>
+  <data name="SettingPageHistoryPageView" xml:space="preserve">
+    <value>Page view</value>
+  </data>
+  <data name="SettingPageHistoryPageViewRecord" xml:space="preserve">
+    <value>Page view recording</value>
   </data>
   <data name="SettingPageImage" xml:space="preserve">
     <value>Image</value>
@@ -4593,6 +4653,9 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordOpen" xml:space="preserve">
     <value>Open</value>
   </data>
+  <data name="WordOpenInNeeView" xml:space="preserve">
+    <value>Open in Nee&amp;View</value>
+  </data>
   <data name="WordOpenStore" xml:space="preserve">
     <value>Open Microsoft Store</value>
   </data>
@@ -4682,68 +4745,5 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="WordYes" xml:space="preserve">
     <value>Yes</value>
-  </data>
-  <data name="ParamSusiePluginIsCacheEnabled" xml:space="preserve">
-    <value>Cache plugin</value>
-  </data>
-  <data name="ParamIsSortFileFirst" xml:space="preserve">
-    <value>Sort pages by file first</value>
-  </data>
-  <data name="ParamIsSortFileFirstTips" xml:space="preserve">
-    <value>Arrange files before folders.</value>
-  </data>
-  <data name="SettingPageBookPageSettingAdvance" xml:space="preserve">
-    <value>Advanced Setting</value>
-  </data>
-  <data name="ParamCommandParameterIsReverse" xml:space="preserve">
-    <value>Enable operation swap by slider direction</value>
-  </data>
-  <data name="ParamCommandParameterIsReverseTips" xml:space="preserve">
-    <value>Allows the operation replacement by changing the slider direction.</value>
-  </data>
-  <data name="ParamBookshelfIsOpenNextBookWhenRemove" xml:space="preserve">
-    <value>After deleting the viewing book, open the next book</value>
-  </data>
-  <data name="CommandToggleStretchAllowEnlarge" xml:space="preserve">
-    <value>Allow enlarge</value>
-  </data>
-  <data name="CommandToggleStretchAllowEnlargeNote" xml:space="preserve">
-    <value>Allow enlarge on view stretch.</value>
-  </data>
-  <data name="CommandToggleStretchAllowReduce" xml:space="preserve">
-    <value>Allow reduce</value>
-  </data>
-  <data name="CommandToggleStretchAllowReduceNote" xml:space="preserve">
-    <value>Allow reduce on view stretch.</value>
-  </data>
-  <data name="ParamWindowShapeMaximizeWindowGapWidth" xml:space="preserve">
-    <value>Gap adjustment of window maximization with title bar hidden</value>
-  </data>
-  <data name="ParamWindowShapeMaximizeWindowGapWidthTips" xml:space="preserve">
-    <value>If there is a gap in maximizing the window with the title bar hidden, adjust with this value.</value>
-  </data>
-  <data name="WordOpenInNeeView" xml:space="preserve">
-    <value>Open in Nee&amp;View</value>
-  </data>
-  <data name="ParamIsExplorerContextMenuEnabled" xml:space="preserve">
-    <value>Register in the Explorer context menu.</value>
-  </data>
-  <data name="ParamIsExplorerContextMenuEnabledTips" xml:space="preserve">
-    <value>Add "Open in NeeView" to the Explorer context menu. This feature uses the registry.</value>
-  </data>
-  <data name="SettingPageGeneralDetailExplorer" xml:space="preserve">
-    <value>Explorer</value>
-  </data>
-  <data name="ParamIsRecordPageView" xml:space="preserve">
-    <value>Save page view recods</value>
-  </data>
-  <data name="ParamPageViewRecordPath" xml:space="preserve">
-    <value>Page view recording path</value>
-  </data>
-  <data name="SettingPageHistoryPageViewRecord" xml:space="preserve">
-    <value>Page view recording</value>
-  </data>
-  <data name="SettingPageHistoryPageView" xml:space="preserve">
-    <value>Page view</value>
   </data>
 </root>

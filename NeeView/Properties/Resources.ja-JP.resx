@@ -1278,6 +1278,18 @@
   <data name="CommandToggleSortModeNote" xml:space="preserve">
     <value>ページの並び順を順番に切り替えます。</value>
   </data>
+  <data name="CommandToggleStretchAllowEnlarge" xml:space="preserve">
+    <value>拡大を許可</value>
+  </data>
+  <data name="CommandToggleStretchAllowEnlargeNote" xml:space="preserve">
+    <value>表示サイズの適用で拡大を許可</value>
+  </data>
+  <data name="CommandToggleStretchAllowReduce" xml:space="preserve">
+    <value>縮小を許可</value>
+  </data>
+  <data name="CommandToggleStretchAllowReduceNote" xml:space="preserve">
+    <value>表示サイズの適用で縮小を許可</value>
+  </data>
   <data name="CommandToggleStretchMode" xml:space="preserve">
     <value>表示サイズを切り替える</value>
   </data>
@@ -2071,14 +2083,14 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="DialogOpenSettingFolderErrorTitle" xml:space="preserve">
     <value>このコマンドは使用できません</value>
   </data>
-  <data name="DialogPageViewRecordWriteError" xml:space="preserve">
-    <value>ページ表示履歴を書き込めませんでした</value>
-  </data>
   <data name="DialogPagemarkError" xml:space="preserve">
     <value>一時フォルダーはページマークできません</value>
   </data>
   <data name="DialogPagemarkFolderDelete" xml:space="preserve">
     <value>含まれる {0} 個のページマークを削除しました。</value>
+  </data>
+  <data name="DialogPageViewRecordWriteError" xml:space="preserve">
+    <value>ページ表示履歴を書き込めませんでした</value>
   </data>
   <data name="DialogQuickAccessTempError" xml:space="preserve">
     <value>一時フォルダーはクイックアクセスに追加できません</value>
@@ -2452,6 +2464,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="EnumPageStretchModeUniformToVertical" xml:space="preserve">
     <value>高さをウィンドウに合わせる</value>
   </data>
+  <data name="EnumPanelListItemImageShapeBanner" xml:space="preserve">
+    <value>バナー</value>
+  </data>
   <data name="EnumPanelListItemImageShapeBookShape" xml:space="preserve">
     <value>本の形</value>
   </data>
@@ -2460,9 +2475,6 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="EnumPanelListItemImageShapeSquare" xml:space="preserve">
     <value>正方形</value>
-  </data>
-  <data name="EnumPanelListItemImageShapeBanner" xml:space="preserve">
-    <value>バナー</value>
   </data>
   <data name="EnumPreLoadModeAutoPreLoad" xml:space="preserve">
     <value>自動先読み</value>
@@ -3110,6 +3122,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamBookshelfIsMultipleRarFilterEnabledTips" xml:space="preserve">
     <value>.part[数字].rar というRAR分割ファイルの場合に、数字が一番小さいファイルのみをリストに表示します。</value>
   </data>
+  <data name="ParamBookshelfIsOpenNextBookWhenRemove" xml:space="preserve">
+    <value>閲覧中のブックを削除したときに次のブックを開く</value>
+  </data>
   <data name="ParamBookshelfIsSyncFolderTree" xml:space="preserve">
     <value>同期ボタンでフォルダーツリーを同期する</value>
   </data>
@@ -3166,6 +3181,12 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="ParamCommandIsReversePageMoveWheelTips" xml:space="preserve">
     <value>ホイール操作のみ対応の選択ができます。</value>
+  </data>
+  <data name="ParamCommandParameterIsReverse" xml:space="preserve">
+    <value>スライダー方向による操作入れ替え許可</value>
+  </data>
+  <data name="ParamCommandParameterIsReverseTips" xml:space="preserve">
+    <value>スライダー方向の変更による操作入れ替えを許可します。</value>
   </data>
   <data name="ParamCommandParameterMovePagemarkIncludeTerminal" xml:space="preserve">
     <value>最初と最後のページを含める</value>
@@ -3449,12 +3470,6 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamHistoryLimitSpan" xml:space="preserve">
     <value>保存期間</value>
   </data>
-  <data name="ParamIsRecordPageView" xml:space="preserve">
-    <value>ページ表示履歴をファイルに保存する</value>
-  </data>
-  <data name="ParamPageViewRecordPath" xml:space="preserve">
-    <value>ページ表示履歴保存場所</value>
-  </data>
   <data name="ParamImageEffectIsHsvMode" xml:space="preserve">
     <value>色設定をHSVで行う</value>
   </data>
@@ -3527,6 +3542,12 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamIsCursorHideEnabled" xml:space="preserve">
     <value>自動非表示の有効化</value>
   </data>
+  <data name="ParamIsExplorerContextMenuEnabled" xml:space="preserve">
+    <value>エクスプローラーのコンテキストメニューに登録</value>
+  </data>
+  <data name="ParamIsExplorerContextMenuEnabledTips" xml:space="preserve">
+    <value>エクスプローラーのコンテキストメニューに「NeeViewで開く」を追加します。この機能はレジストリを使用します。</value>
+  </data>
   <data name="ParamIsFileOperationEnabled" xml:space="preserve">
     <value>ファイル操作有効</value>
   </data>
@@ -3569,6 +3590,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamIsOpenLastBook" xml:space="preserve">
     <value>開いていたブックを復元する</value>
   </data>
+  <data name="ParamIsRecordPageView" xml:space="preserve">
+    <value>ページ表示履歴をファイルに保存する</value>
+  </data>
   <data name="ParamIsRemoveConfirmed" xml:space="preserve">
     <value>ファイル削除時に確認ダイアログを表示する</value>
   </data>
@@ -3604,6 +3628,12 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="ParamIsSlideShowByLoopTips" xml:space="preserve">
     <value>最終ページまで再生したら先頭ページに戻ります。</value>
+  </data>
+  <data name="ParamIsSortFileFirst" xml:space="preserve">
+    <value>ファイル優先でページをソートする</value>
+  </data>
+  <data name="ParamIsSortFileFirstTips" xml:space="preserve">
+    <value>ファイルをフォルダーより先に並べます。</value>
   </data>
   <data name="ParamIsSplashScreenEnabled" xml:space="preserve">
     <value>スプラッシュスクリーン</value>
@@ -3797,6 +3827,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamPageSeconds" xml:space="preserve">
     <value>ページ移動での変化時間(秒)</value>
   </data>
+  <data name="ParamPageViewRecordPath" xml:space="preserve">
+    <value>ページ表示履歴保存場所</value>
+  </data>
   <data name="ParamPanelColor" xml:space="preserve">
     <value>テーマカラー</value>
   </data>
@@ -3939,6 +3972,9 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   <data name="ParamSusieIsPluginCacheEnabledTips" xml:space="preserve">
     <value>不安定な場合、OFFにすると安定する可能性があります。</value>
   </data>
+  <data name="ParamSusiePluginIsCacheEnabled" xml:space="preserve">
+    <value>プラグインをキャッシュする</value>
+  </data>
   <data name="ParamSusiePluginIsEnabled" xml:space="preserve">
     <value>プラグイン有効</value>
   </data>
@@ -4029,6 +4065,12 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   <data name="ParamWindowShapeIsFullScreenWithTaskBar" xml:space="preserve">
     <value>フルスクリーンのときにタスクバー領域を覆わない</value>
   </data>
+  <data name="ParamWindowShapeMaximizeWindowGapWidth" xml:space="preserve">
+    <value>タイトルバー非表示でのウィンドウ最大化のギャップ調整</value>
+  </data>
+  <data name="ParamWindowShapeMaximizeWindowGapWidthTips" xml:space="preserve">
+    <value>タイトルバーを非表示にしたときのウィンドウ最大化で隙間ができる場合の調整用です。</value>
+  </data>
   <data name="ParamWindowTitleFormat1" xml:space="preserve">
     <value>1ページ用</value>
   </data>
@@ -4116,6 +4158,9 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   <data name="SettingPageBookPageSetting" xml:space="preserve">
     <value>ページ設定</value>
   </data>
+  <data name="SettingPageBookPageSettingAdvance" xml:space="preserve">
+    <value>詳細設定</value>
+  </data>
   <data name="SettingPageBookPageSettingTips" xml:space="preserve">
     <value>左の項目は既定値、右の項目はブックを開いたときの動作です。</value>
   </data>
@@ -4202,6 +4247,9 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   </data>
   <data name="SettingPageGeneralDetailDetail" xml:space="preserve">
     <value>詳細設定</value>
+  </data>
+  <data name="SettingPageGeneralDetailExplorer" xml:space="preserve">
+    <value>エクスプローラー</value>
   </data>
   <data name="SettingPageGeneralDetailLanguage" xml:space="preserve">
     <value>言語</value>
@@ -4605,6 +4653,9 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordOpen" xml:space="preserve">
     <value>開く</value>
   </data>
+  <data name="WordOpenInNeeView" xml:space="preserve">
+    <value>NeeViewで開く(&amp;V)</value>
+  </data>
   <data name="WordOpenStore" xml:space="preserve">
     <value>Microsoft Store を開く</value>
   </data>
@@ -4694,56 +4745,5 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="WordYes" xml:space="preserve">
     <value>はい</value>
-  </data>
-  <data name="ParamSusiePluginIsCacheEnabled" xml:space="preserve">
-    <value>プラグインをキャッシュする</value>
-  </data>
-  <data name="ParamIsSortFileFirst" xml:space="preserve">
-    <value>ファイル優先でページをソートする</value>
-  </data>
-  <data name="ParamIsSortFileFirstTips" xml:space="preserve">
-    <value>ファイルをフォルダーより先に並べます。</value>
-  </data>
-  <data name="SettingPageBookPageSettingAdvance" xml:space="preserve">
-    <value>詳細設定</value>
-  </data>
-  <data name="ParamCommandParameterIsReverse" xml:space="preserve">
-    <value>スライダー方向による操作入れ替え許可</value>
-  </data>
-  <data name="ParamCommandParameterIsReverseTips" xml:space="preserve">
-    <value>スライダー方向の変更による操作入れ替えを許可します。</value>
-  </data>
-  <data name="ParamBookshelfIsOpenNextBookWhenRemove" xml:space="preserve">
-    <value>閲覧中のブックを削除したときに次のブックを開く</value>
-  </data>
-  <data name="CommandToggleStretchAllowEnlarge" xml:space="preserve">
-    <value>拡大を許可</value>
-  </data>
-  <data name="CommandToggleStretchAllowEnlargeNote" xml:space="preserve">
-    <value>表示サイズの適用で拡大を許可</value>
-  </data>
-  <data name="CommandToggleStretchAllowReduce" xml:space="preserve">
-    <value>縮小を許可</value>
-  </data>
-  <data name="CommandToggleStretchAllowReduceNote" xml:space="preserve">
-    <value>表示サイズの適用で縮小を許可</value>
-  </data>
-  <data name="ParamWindowShapeMaximizeWindowGapWidth" xml:space="preserve">
-    <value>タイトルバー非表示でのウィンドウ最大化のギャップ調整</value>
-  </data>
-  <data name="ParamWindowShapeMaximizeWindowGapWidthTips" xml:space="preserve">
-    <value>タイトルバーを非表示にしたときのウィンドウ最大化で隙間ができる場合の調整用です。</value>
-  </data>
-  <data name="WordOpenInNeeView" xml:space="preserve">
-    <value>NeeViewで開く(&amp;V)</value>
-  </data>
-  <data name="ParamIsExplorerContextMenuEnabled" xml:space="preserve">
-    <value>エクスプローラーのコンテキストメニューに登録</value>
-  </data>
-  <data name="ParamIsExplorerContextMenuEnabledTips" xml:space="preserve">
-    <value>エクスプローラーのコンテキストメニューに「NeeViewで開く」を追加します。この機能はレジストリを使用します。</value>
-  </data>
-  <data name="SettingPageGeneralDetailExplorer" xml:space="preserve">
-    <value>エクスプローラー</value>
   </data>
 </root>

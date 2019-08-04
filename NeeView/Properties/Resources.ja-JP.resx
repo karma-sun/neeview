@@ -2071,6 +2071,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="DialogOpenSettingFolderErrorTitle" xml:space="preserve">
     <value>このコマンドは使用できません</value>
   </data>
+  <data name="DialogPageViewRecordWriteError" xml:space="preserve">
+    <value>ページ表示履歴を書き込めませんでした</value>
+  </data>
   <data name="DialogPagemarkError" xml:space="preserve">
     <value>一時フォルダーはページマークできません</value>
   </data>
@@ -3446,6 +3449,12 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamHistoryLimitSpan" xml:space="preserve">
     <value>保存期間</value>
   </data>
+  <data name="ParamIsRecordPageView" xml:space="preserve">
+    <value>ページ表示履歴をファイルに保存する</value>
+  </data>
+  <data name="ParamPageViewRecordPath" xml:space="preserve">
+    <value>ページ表示履歴保存場所</value>
+  </data>
   <data name="ParamImageEffectIsHsvMode" xml:space="preserve">
     <value>色設定をHSVで行う</value>
   </data>
@@ -4244,6 +4253,12 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
   </data>
   <data name="SettingPageHistoryGeneralLimitTips" xml:space="preserve">
     <value>履歴ファイルに保存される履歴数上限を設定します。アプリ動作中の履歴は制限されません。</value>
+  </data>
+  <data name="SettingPageHistoryPageView" xml:space="preserve">
+    <value>ページ表示</value>
+  </data>
+  <data name="SettingPageHistoryPageViewRecord" xml:space="preserve">
+    <value>ページ表示履歴</value>
   </data>
   <data name="SettingPageImage" xml:space="preserve">
     <value>画像</value>

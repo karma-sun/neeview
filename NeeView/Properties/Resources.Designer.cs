@@ -5939,6 +5939,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Could not write Page view record to path {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogPageViewRecordWriteError {
+            get {
+                return ResourceManager.GetString("DialogPageViewRecordWriteError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Temporary folders can not be added to quick access. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DialogQuickAccessTempError {
@@ -10425,6 +10434,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Save page view recods に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsRecordPageView {
+            get {
+                return ResourceManager.GetString("ParamIsRecordPageView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Display confirmation dialog at file deletion に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsRemoveConfirmed {
@@ -11123,6 +11141,15 @@ namespace NeeView.Properties {
         public static string ParamPageSeconds {
             get {
                 return ResourceManager.GetString("ParamPageSeconds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Page view recording path に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamPageViewRecordPath {
+            get {
+                return ResourceManager.GetString("ParamPageViewRecordPath", resourceCulture);
             }
         }
         
@@ -12537,6 +12564,24 @@ namespace NeeView.Properties {
         public static string SettingPageHistoryGeneralLimitTips {
             get {
                 return ResourceManager.GetString("SettingPageHistoryGeneralLimitTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Page view に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageHistoryPageView {
+            get {
+                return ResourceManager.GetString("SettingPageHistoryPageView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Page view recording に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageHistoryPageViewRecord {
+            get {
+                return ResourceManager.GetString("SettingPageHistoryPageViewRecord", resourceCulture);
             }
         }
         

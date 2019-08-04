@@ -2071,6 +2071,9 @@ Is it OK? </value>
   <data name="DialogOpenSettingFolderErrorTitle" xml:space="preserve">
     <value>This command can not be used</value>
   </data>
+  <data name="DialogPageViewRecordWriteError" xml:space="preserve">
+    <value>Could not write Page view record</value>
+  </data>
   <data name="DialogPagemarkError" xml:space="preserve">
     <value>Temporary folders can not be pagemarked</value>
   </data>
@@ -4730,5 +4733,17 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="SettingPageGeneralDetailExplorer" xml:space="preserve">
     <value>Explorer</value>
+  </data>
+  <data name="ParamIsRecordPageView" xml:space="preserve">
+    <value>Save page view recods</value>
+  </data>
+  <data name="ParamPageViewRecordPath" xml:space="preserve">
+    <value>Page view recording path</value>
+  </data>
+  <data name="SettingPageHistoryPageViewRecord" xml:space="preserve">
+    <value>Page view recording</value>
+  </data>
+  <data name="SettingPageHistoryPageView" xml:space="preserve">
+    <value>Page view</value>
   </data>
 </root>

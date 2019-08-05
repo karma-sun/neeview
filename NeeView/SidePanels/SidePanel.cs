@@ -185,15 +185,14 @@ namespace NeeView
         {
             ToggleSelectedPanel(FolderListPanel, byMenu);
             RaisePanelPropertyChanged();
-            if (!IsVisibleFolderList)
-            {
-                ResetFocus?.Invoke(this, null);
-            }
 
-            // フォーカス要求
             if (IsVisibleFolderList)
             {
                 BookshelfFolderList.Current.FocusAtOnce();
+            }
+            else
+            {
+                ResetFocus?.Invoke(this, null);
             }
 
             return IsVisibleFolderList;
@@ -230,10 +229,16 @@ namespace NeeView
             {
                 ToggleSelectedPanel(PageListPanel, byMenu);
                 RaisePanelPropertyChanged();
-                if (!IsVisiblePageList)
+
+                if (IsVisiblePageList)
+                {
+                    PageList.Current.FocusAtOnce();
+                }
+                else
                 {
                     ResetFocus?.Invoke(this, null);
                 }
+
                 return IsVisiblePageList;
             }
 

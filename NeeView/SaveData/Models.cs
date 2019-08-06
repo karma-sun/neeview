@@ -111,6 +111,8 @@ namespace NeeView
             public ImageEffect.Memento ImageEffect { get; set; }
             [DataMember]
             public SidePanelFrameModel.Memento SidePanel { get; set; }
+            [DataMember]
+            public PageViewRecorder.Memento PageViewRecorder { get; set; }
 
             [Obsolete, DataMember(EmitDefaultValue = false)]
             public RoutedCommandTable.Memento RoutedCommandTable { get; set; }
@@ -188,6 +190,7 @@ namespace NeeView
             memento.FileInformation = FileInformation.Current.CreateMemento();
             memento.ImageEffect = ImageEffect.Current.CreateMemento();
             memento.SidePanel = SidePanel.Current.CreateMemento();
+            memento.PageViewRecorder = PageViewRecorder.Current.CreateMemento();
             return memento;
         }
 
@@ -237,6 +240,7 @@ namespace NeeView
             FileInformation.Current.Restore(memento.FileInformation);
             ImageEffect.Current.Restore(memento.ImageEffect);
             SidePanel.Current.Restore(memento.SidePanel);
+            PageViewRecorder.Current.Restore(memento.PageViewRecorder);
         }
 
         public void ResoreCompatible(Memento memento)

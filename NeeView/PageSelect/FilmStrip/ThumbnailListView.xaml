@@ -18,6 +18,7 @@
                              TargetUpdated="ThumbnailListBox_TargetUpdated"
                              UseLayoutRounding="True"
                              ScrollViewer.ScrollChanged="ThumbnailList_ScrollChanged"
+                             PreviewKeyDown="ThumbnailListBox_PreviewKeyDown"
                              KeyDown="ThumbnailListBox_KeyDown"
                              IsMouseCapturedChanged="ThumbnailListBox_IsMouseCapturedChanged"
                              IsVisibleChanged="ThumbnailListBox_IsVisibleChanged"

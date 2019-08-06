@@ -62,6 +62,11 @@ namespace NeeView
             _model.FlushSelectedIndex();
         }
 
+        internal void ResetDelayHide()
+        {
+            _model.ResetDelayHide();
+        }
+
         #endregion
     }
 }

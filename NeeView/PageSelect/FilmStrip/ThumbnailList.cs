@@ -13,6 +13,17 @@ using System.Windows.Input;
 
 namespace NeeView
 {
+
+    public class VisibleEventArgs : EventArgs
+    {
+        public VisibleEventArgs(bool isFocus)
+        {
+            IsFocus = isFocus;
+        }
+
+        public bool IsFocus { get; }
+    }
+
     /// <summary>
     /// ThumbnailList : Model
     /// </summary>
@@ -59,10 +70,16 @@ namespace NeeView
         public event EventHandler BookChanging;
         public event EventHandler<BookChangedEventArgs> BookChanged;
         public event EventHandler<ViewItemsChangedEventArgs> ViewItemsChanged;
+        public event EventHandler<VisibleEventArgs> VisibleEvent;
+        public event EventHandler ResetDelayHideEvent;
 
         #endregion
 
         #region Properties
+
+        public bool IsVisible { get; set; }
+
+        public bool IsFocusAtOnce { get; set; }
 
         /// <summary>
         /// フィルムストリップ表示
@@ -70,7 +87,14 @@ namespace NeeView
         public bool IsEnableThumbnailList
         {
             get { return _isEnableThumbnailList; }
-            set { if (_isEnableThumbnailList != value) { _isEnableThumbnailList = value; RaisePropertyChanged(); } }
+            set
+            {
+                if (_isEnableThumbnailList != value)
+                {
+                    _isEnableThumbnailList = value;
+                    RaisePropertyChanged();
+                }
+            }
         }
 
         /// <summary>
@@ -237,6 +261,11 @@ namespace NeeView
             this.ViewItems = contents.Where(i => i != null).Select(i => i.Page).OrderBy(i => i.Index).ToList();
         }
 
+        public void ResetDelayHide()
+        {
+            ResetDelayHideEvent?.Invoke(this, null);
+        }
+
         private int GetIndexWithDirectionReverse(int value)
         {
             return Math.Max(-1, IsSliderDirectionReversed ? PageSelector.Current.MaxIndex - value : value);
@@ -276,9 +305,17 @@ namespace NeeView
             RaisePropertyChanged(nameof(SelectedIndex));
         }
 
-        public bool ToggleVisibleThumbnailList()
+        public bool ToggleVisibleThumbnailList(ToggleVisibleThumbnailListCommandParameter parameter, bool byMenu)
         {
-            return IsEnableThumbnailList = !IsEnableThumbnailList;
+            IsEnableThumbnailList = byMenu ? !IsEnableThumbnailList : !IsVisible;
+
+            if (IsEnableThumbnailList && !IsVisible)
+            {
+                var isFocus = parameter != null ? parameter.IsFocus : false;
+                VisibleEvent?.Invoke(this, new VisibleEventArgs(isFocus));
+            }
+
+            return IsEnableThumbnailList;
         }
 
         public bool ToggleHideThumbnailList()
@@ -355,6 +392,11 @@ namespace NeeView
             {
                 e.Handled = true;
             }
+        }
+
+        public void FocusAtOnce()
+        {
+            IsFocusAtOnce = true;
         }
 
         #endregion

@@ -4746,4 +4746,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="WordYes" xml:space="preserve">
     <value>Yes</value>
   </data>
+  <data name="ParamCommandParameterThumbnailListFocus" xml:space="preserve">
+    <value>Get focus when displaying panel</value>
+  </data>
 </root>

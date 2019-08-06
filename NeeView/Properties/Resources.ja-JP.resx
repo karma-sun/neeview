@@ -4746,4 +4746,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="WordYes" xml:space="preserve">
     <value>はい</value>
   </data>
+  <data name="ParamCommandParameterThumbnailListFocus" xml:space="preserve">
+    <value>パネル表示するときにフォーカスを取得する</value>
+  </data>
 </root>

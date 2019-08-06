@@ -348,6 +348,11 @@ namespace NeeView
             }
         }
 
+        private void ThumbnailListBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            _vm.ResetDelayHide();
+        }
+
         // リストボックスのカーソルキーによる不意のスクロール抑制
         private void ThumbnailListBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
@@ -370,11 +375,38 @@ namespace NeeView
         }
 
 
-        private void ThumbnailListBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        private async void ThumbnailListBox_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             ////if (!(bool)e.NewValue) return;
             LoadThumbnailList(+1);
+
+            if ((bool)e.NewValue == true)
+            {
+                await Task.Yield();
+
+                if (_vm.Model.IsFocusAtOnce)
+                {
+                    _vm.Model.IsFocusAtOnce = false;
+                    FocusSelectedItem();
+                }
+            }
         }
+
+        public void FocusSelectedItem()
+        {
+            if (this.ThumbnailListBox.SelectedIndex < 0) this.ThumbnailListBox.SelectedIndex = 0;
+            if (this.ThumbnailListBox.SelectedIndex < 0) return;
+
+            // 選択項目が表示されるようにスクロール
+            this.ThumbnailListBox.ScrollIntoView(this.ThumbnailListBox.SelectedItem);
+
+            if (this.ThumbnailListBox.IsLoaded)
+            {
+                ListBoxItem lbi = (ListBoxItem)(this.ThumbnailListBox.ItemContainerGenerator.ContainerFromIndex(this.ThumbnailListBox.SelectedIndex));
+                lbi?.Focus();
+            }
+        }
+
 
         private void ThumbnailListBox_MouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -411,6 +443,8 @@ namespace NeeView
                 BookOperation.Current.JumpPage(page);
             }
         }
+
+
 
         #endregion
 

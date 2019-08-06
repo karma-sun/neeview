@@ -101,6 +101,12 @@ namespace NeeView
             ThumbnailList.Current.AddPropertyChanged(nameof(ThumbnailList.IsHideThumbnailList),
                 (s, e) => DartyThumbnailListLayout());
 
+            ThumbnailList.Current.VisibleEvent +=
+                ThumbnailList_Visible;
+
+            ThumbnailList.Current.ResetDelayHideEvent +=
+                ThumbnailList_ResetDelayHide;
+
             SidePanel.Current.ResetFocus +=
                 (s, e) => ResetFocus();
 
@@ -174,6 +180,8 @@ namespace NeeView
 
             Debug.WriteLine($"App.MainWndow.Initialize.Done: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
         }
+
+
 
         /// <summary>
         /// Window座標初期化
@@ -1040,6 +1048,24 @@ namespace NeeView
             // フィルムストリップ
             this.ThumbnailListArea.Visibility = ThumbnailList.Current.IsEnableThumbnailList && !ContentCanvas.Current.IsMediaContent ? Visibility.Visible : Visibility.Collapsed;
             this.ThumbnailListArea.DartyThumbnailList();
+
+            ThumbnailList.Current.IsVisible = this.ThumbnailListArea.IsVisible;
+        }
+
+        private void ThumbnailList_Visible(object sender, VisibleEventArgs e)
+        {
+            if (e.IsFocus)
+            {
+                ThumbnailList.Current.FocusAtOnce();
+            }
+            StatusLayerVisibility.Set(Visibility.Visible);
+            UpdateStatusLayerVisibility();
+        }
+
+        private void ThumbnailList_ResetDelayHide(object sender, EventArgs e)
+        {
+            StatusLayerVisibility.Set(Visibility.Visible);
+            UpdateStatusLayerVisibility();
         }
 
         #endregion
@@ -1132,6 +1158,7 @@ namespace NeeView
                 {
                     this.ThumbnailListArea.UpdateThumbnailList();
                 }
+                ThumbnailList.Current.IsVisible = this.ThumbnailListArea.IsVisible;
             };
 
             App.Current.AddPropertyChanged(nameof(App.AutoHideDelayTime), (s, e) =>
@@ -1164,7 +1191,6 @@ namespace NeeView
                 StatusLayerVisibility.Set(isVisible ? Visibility.Visible : Visibility.Collapsed);
             }
         }
-
 
         #endregion
 

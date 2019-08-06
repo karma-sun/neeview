@@ -9471,6 +9471,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Get focus when displaying panel に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterThumbnailListFocus {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterThumbnailListFocus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Switchable mode に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamCommandParameterToggleStretchAllowTitle {

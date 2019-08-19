@@ -135,9 +135,9 @@ namespace NeeView
         /// <summary>
         /// Visibility更新
         /// </summary>
-        public void UpdateVisibility(bool now = false)
+        public void UpdateVisibility(bool now = false, bool isForce = false)
         {
-            SetVisibility(CanVisible(), now, false);
+            SetVisibility(CanVisible(), now, isForce);
         }
 
         //

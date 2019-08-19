@@ -4747,6 +4747,15 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>はい</value>
   </data>
   <data name="ParamCommandParameterThumbnailListFocus" xml:space="preserve">
-    <value>パネル表示するときにフォーカスを取得する</value>
+    <value>パネルを表示するときにフォーカスを取得する</value>
+  </data>
+  <data name="CommandFocusMainView" xml:space="preserve">
+    <value>メインビューにフォーカスを移す</value>
+  </data>
+  <data name="CommandFocusMainViewMenu" xml:space="preserve">
+    <value>メインビュー</value>
+  </data>
+  <data name="CommandFocusMainViewNote" xml:space="preserve">
+    <value>メインビューにフォーカスを移します。</value>
   </data>
 </root>

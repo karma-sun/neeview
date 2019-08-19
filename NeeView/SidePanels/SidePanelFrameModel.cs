@@ -49,12 +49,13 @@ namespace NeeView
         /// </summary>
         public event EventHandler<SelectedPanelChangedEventArgs> SelectedPanelChanged;
 
-
         /// <summary>
         /// パネル内容更新イベント.
         /// 自動非表示時間のリセットに使用される.
         /// </summary>
         public event EventHandler ContentChanged;
+
+        public event EventHandler GotFocusMainView;
 
         #endregion
 
@@ -255,6 +256,11 @@ namespace NeeView
         {
             this.Left.Refresh();
             this.Right.Refresh();
+        }
+
+        public void RaiseGotFocusMainView()
+        {
+            GotFocusMainView?.Invoke(this, null);
         }
 
         #endregion

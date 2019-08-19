@@ -175,6 +175,8 @@ namespace NeeView
         FocusFolderSearchBox,
         [EnumMember]
         FocusBookmarkList,
+        [EnumMember]
+        FocusMainView,
 
         [EnumMember]
         TogglePageListPlacement,

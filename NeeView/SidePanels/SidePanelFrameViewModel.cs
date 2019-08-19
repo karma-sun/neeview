@@ -138,6 +138,7 @@ namespace NeeView
             _model = model;
             _model.PropertyChanged += Model_PropertyChanged;
             _model.ContentChanged  += (s, e) => ResetDelayHide();
+            _model.GotFocusMainView += Model_GotFocusMainView;
 
             Left = new LeftPanelViewModel(_model.Left, leftItemsControl);
             Left.PropertyChanged += Left_PropertyChanged;
@@ -146,6 +147,12 @@ namespace NeeView
             Right = new RightPanelViewModel(_model.Right, rightItemsControl);
             Right.PropertyChanged += Right_PropertyChanged;
             Right.PanelDroped += Right_PanelDroped;
+        }
+
+        private void Model_GotFocusMainView(object sender, EventArgs e)
+        {
+            this.Left.UpdateVisibility(true, true);
+            this.Right.UpdateVisibility(true, true);
         }
 
         /// <summary>

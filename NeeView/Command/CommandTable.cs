@@ -915,6 +915,18 @@ namespace NeeView
                 element.CanExecute = () => true;
                 _elements[CommandType.FocusBookmarkList] = element;
             }
+            // FocusMainView
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupPanel;
+                element.Text = Properties.Resources.CommandFocusMainView;
+                element.MenuText = Properties.Resources.CommandFocusMainViewMenu;
+                element.Note = Properties.Resources.CommandFocusMainViewNote;
+                element.IsShowMessage = false;
+                element.Execute = (s, e) => SidePanel.Current.FocusMainView(e.Parameter is MenuCommandTag);
+                element.CanExecute = () => true;
+                _elements[CommandType.FocusMainView] = element;
+            }
 
             // TogglePageListPlacement
             {

@@ -700,6 +700,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Focus on main view に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandFocusMainView {
+            get {
+                return ResourceManager.GetString("CommandFocusMainView", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Main view に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandFocusMainViewMenu {
+            get {
+                return ResourceManager.GetString("CommandFocusMainViewMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Move focus to the main view. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandFocusMainViewNote {
+            get {
+                return ResourceManager.GetString("CommandFocusMainViewNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Bookmark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandGroupBookmark {

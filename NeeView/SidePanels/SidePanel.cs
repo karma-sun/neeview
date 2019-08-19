@@ -26,7 +26,7 @@ namespace NeeView
         }
 
         public void Initialize()
-        { 
+        {
             Interop.NVFpReset();
 
             var leftPanels = new List<IPanel>();
@@ -264,6 +264,12 @@ namespace NeeView
         }
 
 
+        public void FocusMainView(bool byMenu)
+        {
+            ResetFocus?.Invoke(this, null);
+            RaiseGotFocusMainView();
+        }
+
         //
         public bool FocusBookmarkList(bool byMenu)
         {
@@ -283,7 +289,6 @@ namespace NeeView
 
             return IsVisibleFolderList;
         }
-
 
         /// <summary>
         /// 検索ボックス表示状態

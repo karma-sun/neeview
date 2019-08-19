@@ -4749,4 +4749,13 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamCommandParameterThumbnailListFocus" xml:space="preserve">
     <value>Get focus when displaying panel</value>
   </data>
+  <data name="CommandFocusMainView" xml:space="preserve">
+    <value>Focus on main view</value>
+  </data>
+  <data name="CommandFocusMainViewMenu" xml:space="preserve">
+    <value>Main view</value>
+  </data>
+  <data name="CommandFocusMainViewNote" xml:space="preserve">
+    <value>Move focus to the main view.</value>
+  </data>
 </root>

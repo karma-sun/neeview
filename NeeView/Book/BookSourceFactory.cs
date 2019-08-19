@@ -88,7 +88,7 @@ namespace NeeView
                 {
                     page = new Page(bookPrefix, new PdfContent(entry));
                 }
-                else if (BookProfile.Current.IsEnableAnimatedGif && LoosePath.GetExtension(entry.EntryName) == ".gif")
+                else if (BookProfile.Current.IsEnableAnimatedGif && LoosePath.GetExtension(entry.Link ?? entry.EntryName) == ".gif")
                 {
                     page = new Page(bookPrefix, new AnimatedContent(entry));
                 }
@@ -104,7 +104,7 @@ namespace NeeView
             }
             else
             {
-                var type = entry.IsDirectory ? ArchiverType.FolderArchive : ArchiverManager.Current.GetSupportedType(entry.EntryName);
+                var type = entry.IsDirectory ? ArchiverType.FolderArchive : ArchiverManager.Current.GetSupportedType(entry.Link ?? entry.EntryName);
                 switch (type)
                 {
                     case ArchiverType.None:

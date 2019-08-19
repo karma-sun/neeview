@@ -251,7 +251,7 @@ namespace NeeView
         {
             if (this.Archiver is FolderArchive || this.Archiver is MediaArchiver || IsFileSystem)
             {
-                return new FileProxy(GetFileSystemPath());
+                return new FileProxy(Link ?? GetFileSystemPath());
             }
             else
             {

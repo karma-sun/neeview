@@ -1,6 +1,7 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
 using System;
+using System.ComponentModel;
 using System.Runtime.Serialization;
 using System.Windows.Media;
 
@@ -28,6 +29,8 @@ namespace NeeView
         [PropertyMember("@ParamPageSeconds")]
         public double PageSeconds { get; set; } = 10.0;
 
+        [PropertyMember("@ParamMediaStartDelaySeconds")]
+        public double MediaStartDelaySeconds { get; set; } = 0.5;
 
         public void RiaseContentChanged(object sender, MediaPlayerChanged e)
         {
@@ -51,6 +54,9 @@ namespace NeeView
 
             [DataMember]
             public double PageSeconds { get; set; }
+
+            [DataMember, DefaultValue(0.5d)]
+            public double MediaStartDelaySeconds { get; set; }
         }
 
         //
@@ -62,6 +68,7 @@ namespace NeeView
             memento.Volume = this.Volume;
             memento.IsRepeat = this.IsRepeat;
             memento.PageSeconds = this.PageSeconds;
+            memento.MediaStartDelaySeconds = this.MediaStartDelaySeconds;
 
             return memento;
         }
@@ -75,6 +82,7 @@ namespace NeeView
             this.Volume = memento.Volume;
             this.IsRepeat = memento.IsRepeat;
             this.PageSeconds = memento.PageSeconds;
+            this.MediaStartDelaySeconds = memento.MediaStartDelaySeconds;
         }
 
         #endregion

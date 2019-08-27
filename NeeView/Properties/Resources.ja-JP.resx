@@ -4728,4 +4728,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="CommandToggleStretchAllowReduceNote" xml:space="preserve">
     <value>表示サイズの適用で縮小を許可</value>
   </data>
+  <data name="ParamMediaStartDelaySeconds" xml:space="preserve">
+    <value>再生開始遅延 (秒) 0を指定すると画面がちらつくことがあります。</value>
+  </data>
 </root>

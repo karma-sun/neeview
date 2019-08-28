@@ -55,8 +55,14 @@ namespace NeeView
             [DataMember]
             public double PageSeconds { get; set; }
 
-            [DataMember, DefaultValue(0.5d)]
+            [DataMember]
             public double MediaStartDelaySeconds { get; set; }
+
+            [OnDeserializing]
+            public void defaultDeserializing(StreamingContext sc)
+            {
+                this.MediaStartDelaySeconds = 0.5;
+            }
         }
 
         //

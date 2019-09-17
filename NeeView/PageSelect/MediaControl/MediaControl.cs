@@ -29,7 +29,7 @@ namespace NeeView
         [PropertyMember("@ParamPageSeconds")]
         public double PageSeconds { get; set; } = 10.0;
 
-        [PropertyMember("@ParamMediaStartDelaySeconds")]
+        [PropertyMember("@ParamMediaStartDelaySeconds", Tips = "@ParamMediaStartDelaySecondsTips")]
         public double MediaStartDelaySeconds { get; set; } = 0.5;
 
         public void RiaseContentChanged(object sender, MediaPlayerChanged e)
@@ -55,13 +55,13 @@ namespace NeeView
             [DataMember]
             public double PageSeconds { get; set; }
 
-            [DataMember]
+            [DataMember, DefaultValue(0.5)]
             public double MediaStartDelaySeconds { get; set; }
 
             [OnDeserializing]
-            public void defaultDeserializing(StreamingContext sc)
+            public void Deserializing(StreamingContext c)
             {
-                this.MediaStartDelaySeconds = 0.5;
+                this.InitializePropertyDefaultValues();
             }
         }
 

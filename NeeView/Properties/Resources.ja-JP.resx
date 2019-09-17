@@ -330,6 +330,15 @@
   <data name="CommandFocusFolderSearchBoxNote" xml:space="preserve">
     <value>検索ボックスにフォーカスを移します。本棚は表示状態になります。</value>
   </data>
+  <data name="CommandFocusMainView" xml:space="preserve">
+    <value>メインビューにフォーカスを移す</value>
+  </data>
+  <data name="CommandFocusMainViewMenu" xml:space="preserve">
+    <value>メインビュー</value>
+  </data>
+  <data name="CommandFocusMainViewNote" xml:space="preserve">
+    <value>メインビューにフォーカスを移します。</value>
+  </data>
   <data name="CommandGroupBookmark" xml:space="preserve">
     <value>ブックマーク</value>
   </data>
@@ -3269,6 +3278,9 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   <data name="ParamCommandParameterStretchModeIsToggleTips" xml:space="preserve">
     <value>既に指定のスケールモードの場合はオリジナルサイズにします</value>
   </data>
+  <data name="ParamCommandParameterThumbnailListFocus" xml:space="preserve">
+    <value>パネルを表示するときにフォーカスを取得する</value>
+  </data>
   <data name="ParamCommandParameterToggleStretchAllowTitle" xml:space="preserve">
     <value>切り替え可能なモード</value>
   </data>
@@ -3772,6 +3784,12 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
   </data>
   <data name="ParamLoupeSpeed" xml:space="preserve">
     <value>ルーペ移動速度</value>
+  </data>
+  <data name="ParamMediaStartDelaySeconds" xml:space="preserve">
+    <value>再生開始遅延 (秒)</value>
+  </data>
+  <data name="ParamMediaStartDelaySecondsTips" xml:space="preserve">
+    <value>0を指定すると画面がちらつくことがあります。</value>
   </data>
   <data name="ParamMenuColor" xml:space="preserve">
     <value>メニューカラー</value>
@@ -4745,20 +4763,5 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="WordYes" xml:space="preserve">
     <value>はい</value>
-  </data>
-  <data name="ParamCommandParameterThumbnailListFocus" xml:space="preserve">
-    <value>パネルを表示するときにフォーカスを取得する</value>
-  </data>
-  <data name="CommandFocusMainView" xml:space="preserve">
-    <value>メインビューにフォーカスを移す</value>
-  </data>
-  <data name="CommandFocusMainViewMenu" xml:space="preserve">
-    <value>メインビュー</value>
-  </data>
-  <data name="CommandFocusMainViewNote" xml:space="preserve">
-    <value>メインビューにフォーカスを移します。</value>
-  </data>
-  <data name="ParamMediaStartDelaySeconds" xml:space="preserve">
-    <value>再生開始遅延 (秒) 0を指定すると画面がちらつくことがあります。</value>
   </data>
 </root>

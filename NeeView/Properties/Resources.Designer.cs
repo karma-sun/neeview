@@ -47,7 +47,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   すべてについて、現在のスレッドの CurrentUICulture プロパティをオーバーライドします
+        ///   厳密に型指定されたこのリソース クラスを使用して、すべての検索リソースに対し、
         ///   現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -11019,11 +11019,20 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Play start delay (seconds). If 0 is specified, the contents may flicker. に類似しているローカライズされた文字列を検索します。
+        ///   Play start delay (seconds) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamMediaStartDelaySeconds {
             get {
                 return ResourceManager.GetString("ParamMediaStartDelaySeconds", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   If 0 is specified, the contents may flicker. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMediaStartDelaySecondsTips {
+            get {
+                return ResourceManager.GetString("ParamMediaStartDelaySecondsTips", resourceCulture);
             }
         }
         

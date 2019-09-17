@@ -114,7 +114,9 @@ namespace NeeView.Setting
 
                 new SettingItemSection(Properties.Resources.SettingPageArchiveMediaAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(MediaArchiverProfile.Current, nameof(MediaArchiverProfile.SupportFileTypes)), new SettingItemCollectionControl() { Collection = MediaArchiverProfile.Current.SupportFileTypes, AddDialogHeader = Properties.Resources.WordExtension }),
-                    new SettingItemProperty(PropertyMemberElement.Create(MediaControl.Current, nameof(MediaControl.PageSeconds))))
+                    new SettingItemProperty(PropertyMemberElement.Create(MediaControl.Current, nameof(MediaControl.PageSeconds))),
+                    new SettingItemProperty(PropertyMemberElement.Create(MediaControl.Current, nameof(MediaControl.MediaStartDelaySeconds)))
+                    )
                 {
                     IsEnabled = new IsEnabledPropertyValue(MediaArchiverProfile.Current, nameof(MediaArchiverProfile.IsEnabled)),
                 }

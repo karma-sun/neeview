@@ -4728,4 +4728,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="SettingPageHistoryPageView" xml:space="preserve">
     <value>Page view</value>
   </data>
+  <data name="ParamMediaStartDelaySeconds" xml:space="preserve">
+    <value>Play start delay (seconds). If 0 is specified, the contents may flicker.</value>
+  </data>
 </root>

@@ -327,9 +327,17 @@ namespace NeeView
             else
             {
                 // 最初からの開始
-                // 画面がちらつくことがあるので、少し待ってから再生開始
-                _delay = 500;
-                _timer.Tick += DispatcherTimer_StartTick;
+                _delay = MediaControl.Current.MediaStartDelaySeconds * 1000;
+                if (_delay <= 0.0)
+                {
+                    // 画面のちらつきを許容してすぐに再生する
+                    Play();
+                }
+                else
+                {
+                    // 画面がちらつくことがあるので、少し待ってから再生開始
+                    _timer.Tick += DispatcherTimer_StartTick;
+                }
             }
         }
 
@@ -433,11 +441,17 @@ namespace NeeView
             if (_disposed) return;
             if (!_duration.HasTimeSpan) return;
 
-            _delay = 500;
-            UpdateVolume();
-
-            _player.Pause();
-            this.Position = position;
+            _delay = MediaControl.Current.MediaStartDelaySeconds * 1000;
+            if (_delay <= 0.0)
+            {
+                this.Position = position;
+            }
+            else
+            {
+                UpdateVolume();
+                _player.Pause();
+                this.Position = position;
+            }
         }
 
         // 移動による遅延再生処理用

@@ -47,7 +47,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   厳密に型指定されたこのリソース クラスを使用して、すべての検索リソースに対し、
+        ///   すべてについて、現在のスレッドの CurrentUICulture プロパティをオーバーライドします
         ///   現在のスレッドの CurrentUICulture プロパティをオーバーライドします。
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
@@ -5939,7 +5939,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Could not write Page view record to path {0} に類似しているローカライズされた文字列を検索します。
+        ///   Could not write Page view record に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string DialogPageViewRecordWriteError {
             get {
@@ -10961,6 +10961,15 @@ namespace NeeView.Properties {
         public static string ParamLoupeSpeed {
             get {
                 return ResourceManager.GetString("ParamLoupeSpeed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Play start delay (seconds). If 0 is specified, the contents may flicker. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamMediaStartDelaySeconds {
+            get {
+                return ResourceManager.GetString("ParamMediaStartDelaySeconds", resourceCulture);
             }
         }
         

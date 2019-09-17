@@ -4758,4 +4758,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="CommandFocusMainViewNote" xml:space="preserve">
     <value>Move focus to the main view.</value>
   </data>
+  <data name="ParamMediaStartDelaySeconds" xml:space="preserve">
+    <value>Play start delay (seconds). If 0 is specified, the contents may flicker.</value>
+  </data>
 </root>

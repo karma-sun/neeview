@@ -4504,7 +4504,7 @@ The Susie archive does not determine this size, but only pre-extraction in the p
     <value>Advanced Setting</value>
   </data>
   <data name="SettingPageVisualThumbnailCache" xml:space="preserve">
-    <value>Cacge</value>
+    <value>Cache</value>
   </data>
   <data name="SettingPageVisualThumbnailCacheClear" xml:space="preserve">
     <value>Clear cache</value>

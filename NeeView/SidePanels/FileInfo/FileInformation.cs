@@ -20,7 +20,6 @@ namespace NeeView
 
         #region Fields
 
-        private bool _IsUseExifDateTime;
         private bool _IsVisibleBitsPerPixel;
         private bool _IsVisibleLoader;
         private bool _IsVisibleFilePath;
@@ -39,13 +38,6 @@ namespace NeeView
         #endregion
 
         #region Properties
-
-        [PropertyMember("@ParamFileInformationIsUseExifDateTime", Tips = "@ParamFileInformationIsUseExifDateTimeTips")]
-        public bool IsUseExifDateTime
-        {
-            get { return _IsUseExifDateTime; }
-            set { if (_IsUseExifDateTime != value) { _IsUseExifDateTime = value; RaisePropertyChanged(); } }
-        }
 
         [PropertyMember("@ParamFileInformationIsVisibleBitsPerPixel")]
         public bool IsVisibleBitsPerPixel
@@ -95,8 +87,6 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public bool IsUseExifDateTime { get; set; }
-            [DataMember]
             public bool IsVisibleBitsPerPixel { get; set; }
             [DataMember]
             public bool IsVisibleLoader { get; set; }
@@ -108,7 +98,6 @@ namespace NeeView
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.IsUseExifDateTime = this.IsUseExifDateTime;
             memento.IsVisibleBitsPerPixel = this.IsVisibleBitsPerPixel;
             memento.IsVisibleLoader = this.IsVisibleLoader;
             memento.IsVisibleFilePath = this.IsVisibleFilePath;
@@ -119,7 +108,6 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            IsUseExifDateTime = memento.IsUseExifDateTime;
             IsVisibleBitsPerPixel = memento.IsVisibleBitsPerPixel;
             IsVisibleLoader = memento.IsVisibleLoader;
             IsVisibleFilePath = memento.IsVisibleFilePath;

@@ -269,7 +269,6 @@ namespace NeeView
             {
                 if (memento.FileInfoSetting != null)
                 {
-                    FileInformation.Current.IsUseExifDateTime = memento.FileInfoSetting.IsUseExifDateTime;
                     FileInformation.Current.IsVisibleBitsPerPixel = memento.FileInfoSetting.IsVisibleBitsPerPixel;
                     FileInformation.Current.IsVisibleLoader = memento.FileInfoSetting.IsVisibleLoader;
                 }

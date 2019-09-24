@@ -7506,7 +7506,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Date に類似しているローカライズされた文字列を検索します。
+        ///   File date に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string FolderInfoDate {
             get {
@@ -7520,6 +7520,15 @@ namespace NeeView.Properties {
         public static string FolderInfoDateFormat {
             get {
                 return ResourceManager.GetString("FolderInfoDateFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Date taken に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FolderInfoDateTimeOriginal {
+            get {
+                return ResourceManager.GetString("FolderInfoDateTimeOriginal", resourceCulture);
             }
         }
         

@@ -2613,7 +2613,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>アーカイバー</value>
   </data>
   <data name="FolderInfoDate" xml:space="preserve">
-    <value>日付</value>
+    <value>ファイル日付</value>
   </data>
   <data name="FolderInfoDateFormat" xml:space="preserve">
     <value>yyyy年M月d日 dddd H:mm</value>
@@ -4763,5 +4763,8 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="WordYes" xml:space="preserve">
     <value>はい</value>
+  </data>
+  <data name="FolderInfoDateTimeOriginal" xml:space="preserve">
+    <value>撮影日時</value>
   </data>
 </root>

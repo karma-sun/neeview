@@ -130,5 +130,11 @@ namespace NeeView
 
         // レンズの焦点距離（mm）
         public Fraction FocalLength => GetExifParamRational("/app1/ifd/exif/subifd:{uint=37386}");
+
+        // 原画像データの生成日時
+        public string DateTimeOriginal => GetExifParamString("/app1/ifd/exif/subifd:{uint=36867}");
+
+        // デジタルデータの作成日時
+        public string DateTimeDigitized => GetExifParamString("/app1/ifd/exif/subifd:{uint=36868}");
     }
 }

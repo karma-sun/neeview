@@ -44,6 +44,7 @@
                 <local:FileInfoItem x:Name="ItemFileSize" Header="{x:Static properties:Resources.FolderInfoFileSize}" Text="{Binding FileSize}"/>
                 <local:FileInfoItem x:Name="ItemSize" Header="{x:Static properties:Resources.FolderInfoImageSize}" Text="{Binding ImageSize}"/>
 
+                <local:FileInfoItem x:Name="ItemDateTimeOriginal" Header="{x:Static properties:Resources.FolderInfoDateTimeOriginal}" Text="{Binding DateTimeOriginal}" />
                 <local:FileInfoItem x:Name="ItemShotInfo" Header="{x:Static properties:Resources.FolderInfoInfo}" Text="{Binding ShotInfo}" />
                 <local:FileInfoItem x:Name="ItemISOSpeedRatings" Header="{x:Static properties:Resources.FolderInfoISO}" Text="{Binding ISOSpeedRatings}"/>
                 <local:FileInfoItem x:Name="ItemModel" Header="{x:Static properties:Resources.FolderInfoDevice}" Text="{Binding CameraModel}"/>

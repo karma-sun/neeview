@@ -21,18 +21,8 @@ namespace NeeView
 
             var exif = new ExifAccessor(metadata);
 
-            var dateTime = exif.DateTime;
-            if (!string.IsNullOrEmpty(dateTime))
-            {
-                try
-                {
-                    var tokens = dateTime.Split(' ');
-                    var newDateTime = tokens[0].Replace(':', '/') + " " + tokens[1];
-                    LastWriteTime = DateTime.Parse(newDateTime);
-                }
-                catch { }
-            }
-
+            DateTime = ExifDateFormatToDateTime(exif.DateTime);
+            DateTimeOriginal = ExifDateFormatToDateTime(exif.DateTimeOriginal);
             Maker = exif.Maker;
             Model = exif.Model;
             ISOSpeedRatings = exif.ISOSpeedRatings;
@@ -62,13 +52,33 @@ namespace NeeView
         public int ISOSpeedRatings { get; set; }
         public string Maker { get; set; }
         public string Model { get; set; }
-        public DateTime LastWriteTime { get; set; }
-
+        public DateTime DateTime { get; set; }
+        public DateTime DateTimeOriginal { get; set; }
         public Fraction ExposureTime { get; set; }
         public Fraction FNumber { get; set; }
         public Fraction FocalLength { get; set; }
 
         #endregion
 
+
+        #region Methods
+
+        private DateTime ExifDateFormatToDateTime(string src)
+        {
+            if (!string.IsNullOrEmpty(src))
+            {
+                try
+                {
+                    var tokens = src.Split(' ');
+                    var newDateTime = tokens[0].Replace(':', '/') + " " + tokens[1];
+                    return DateTime.Parse(newDateTime);
+                }
+                catch { }
+            }
+
+            return default;
+        }
+
+        #endregion
     }
 }

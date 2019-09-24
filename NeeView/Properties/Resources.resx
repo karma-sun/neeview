@@ -2613,7 +2613,7 @@ Is it OK? </value>
     <value>Archiver</value>
   </data>
   <data name="FolderInfoDate" xml:space="preserve">
-    <value>Date</value>
+    <value>File date</value>
   </data>
   <data name="FolderInfoDateFormat" xml:space="preserve">
     <value>yyyy-MM-dd dddd H:mm</value>
@@ -4763,5 +4763,8 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="WordYes" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="FolderInfoDateTimeOriginal" xml:space="preserve">
+    <value>Date taken</value>
   </data>
 </root>

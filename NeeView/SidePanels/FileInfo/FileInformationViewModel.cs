@@ -45,7 +45,6 @@ namespace NeeView
             {
                 case null:
                 case nameof(_model.ViewContent):
-                case nameof(_model.IsUseExifDateTime):
                 case nameof(_model.IsVisibleBitsPerPixel):
                 case nameof(_model.IsVisibleLoader):
                     _isDarty = true;
@@ -164,6 +163,15 @@ namespace NeeView
             set { if (_LastWriteTime != value) { _LastWriteTime = value; RaisePropertyChanged(); } }
         }
 
+
+        private string _dateTimeOriginal;
+        public string DateTimeOriginal
+        {
+            get { return _dateTimeOriginal; }
+            set { SetProperty(ref _dateTimeOriginal, value); }
+        }
+
+
         /// <summary>
         /// LoaderVisibility property.
         /// </summary>
@@ -254,11 +262,17 @@ namespace NeeView
                 // EXIF: Model
                 CameraModel = exif?.Model;
 
-                // 更新日
-                DateTime lastWriteTime = (_model.IsUseExifDateTime && exif != null)
-                    ? exif.LastWriteTime
-                    : info.LastWriteTime;
-                LastWriteTime = lastWriteTime.ToString(NeeView.Properties.Resources.FolderInfoDateFormat);
+                // ファイル更新日時
+                if (info.LastWriteTime != default)
+                {
+                    LastWriteTime = info.LastWriteTime.ToString(NeeView.Properties.Resources.FolderInfoDateFormat);
+                }
+
+                // 撮影日
+                if (exif != null && exif.DateTimeOriginal != default)
+                {
+                    DateTimeOriginal = exif.DateTimeOriginal.ToString(NeeView.Properties.Resources.FolderInfoDateFormat);
+                }
 
                 // アーカイバー
                 Archiver = info.Archiver;
@@ -277,6 +291,7 @@ namespace NeeView
                 ISOSpeedRatings = null;
                 CameraModel = null;
                 LastWriteTime = null;
+                DateTimeOriginal = null;
                 Archiver = null;
                 Decoder = null;
             }

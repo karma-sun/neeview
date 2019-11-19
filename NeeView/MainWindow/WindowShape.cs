@@ -480,6 +480,7 @@ namespace NeeView
             //Debug.WriteLine("ToNormal");
             BeginEdit();
 
+            _window.ResizeMode = ResizeMode.CanResize;
             _window.WindowStyle = WindowStyle.SingleBorderWindow;
             _window.WindowState = WindowState.Normal;
 
@@ -550,6 +551,7 @@ namespace NeeView
 
             _window.Topmost = false;
             _window.WindowStyle = WindowStyle.SingleBorderWindow;
+            _window.ResizeMode = ResizeMode.CanResize;
             _window.WindowState = WindowState.Maximized;
             _window.Topmost = _isTopmost;
         }
@@ -581,6 +583,7 @@ namespace NeeView
 
         private void ToFullScreenInner()
         {
+            _window.ResizeMode = ResizeMode.CanMinimize;
             if (_window.WindowState == WindowState.Maximized) _window.WindowState = WindowState.Normal;
             _window.WindowStyle = WindowStyle.None;
             _window.WindowState = WindowState.Maximized;

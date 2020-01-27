@@ -1,0 +1,11 @@
+Expression Blend SDK for .NET 4
+=====================================================
+The following list is a list of files available with the Microsoft Expression Blend SDK for .NET 4 software for redistribution under the Expression Blend SDK for .NET 4 license.
+
+Subject to the license terms for the software, you may redistribute the files contained in the following directories unmodified as a part of your programs:
+
+_____________________________________________________________
+
+Libraries
+Templates
+{Program Files}\MSBuild\Microsoft\Expression\Blend\.NETFramework\v4.0\

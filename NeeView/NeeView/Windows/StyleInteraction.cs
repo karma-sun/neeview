@@ -8,8 +8,10 @@ using System.Threading.Tasks;
 
 namespace NeeView.Windows
 {
+    using Microsoft.Xaml.Behaviors;
     using System.Windows;
-    using System.Windows.Interactivity;
+    using TriggerAction = Microsoft.Xaml.Behaviors.TriggerAction;
+    using TriggerBase = Microsoft.Xaml.Behaviors.TriggerBase;
 
     /// <summary>
     /// StyleでBehaviorを設定するために使用するコレクション
@@ -25,7 +27,7 @@ namespace NeeView.Windows
     /// <summary>
     /// StyleでTriggerを設定するためのコレクション
     /// </summary>
-    public class StyleTriggerCollection : FreezableCollection<System.Windows.Interactivity.TriggerBase>
+    public class StyleTriggerCollection : FreezableCollection<TriggerBase>
     {
         protected override Freezable CreateInstanceCore()
         {
@@ -92,10 +94,10 @@ namespace NeeView.Windows
                    foreach (var styleTrigger in styleTriggers)
                    {
                        // TriggerとActionのCloneを作成して追加する
-                       var clone = (System.Windows.Interactivity.TriggerBase)styleTrigger.Clone();
+                       var clone = (TriggerBase)styleTrigger.Clone();
                        foreach (var action in styleTrigger.Actions)
                        {
-                           clone.Actions.Add((System.Windows.Interactivity.TriggerAction)action.Clone());
+                           clone.Actions.Add((TriggerAction)action.Clone());
                        }
 
                        triggers.Add(clone);

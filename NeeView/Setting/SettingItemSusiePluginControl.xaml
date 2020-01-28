@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:NeeView.Setting"
              xmlns:susie="clr-namespace:NeeView.Susie;assembly=NeeView.Susie"
              xmlns:nw="clr-namespace:NeeView.Windows"
@@ -24,9 +24,9 @@
 
         <DataTemplate DataType="{x:Type susie:SusiePluginInfo}" x:Key="SusiePlugin">
             <StackPanel Orientation="Horizontal">
-                <i:Interaction.Behaviors>
+                <b:Interaction.Behaviors>
                     <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="SusiePlugin" DragDropData="{Binding}" Target="{Binding ElementName=PluginList}" />
-                </i:Interaction.Behaviors>
+                </b:Interaction.Behaviors>
                 <CheckBox VerticalAlignment="Center" IsChecked="{Binding IsEnabled}" Checked="CheckBox_Changed" Unchecked="CheckBox_Changed"/>
                 <Grid Width="20" VerticalAlignment="Center" Margin="2">
                     <Image Width="14" Height="14" Source="{StaticResource ic_setting_24px}" Visibility="{Binding HasConfigurationDlg, Converter={StaticResource BooleanToVisibilityConverter}}"/>

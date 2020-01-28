@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:NeeView.Setting"
              xmlns:nv="clr-namespace:NeeView"
              xmlns:properties="clr-namespace:NeeView.Properties"
@@ -21,9 +21,9 @@
                 </DockPanel>
 
                 <ListView x:Name="DragActionListView" BorderThickness="0" ItemsSource="{Binding DragActionCollection}" SelectionChanged="DragActionListView_SelectionChanged">
-                    <i:Interaction.Behaviors>
+                    <b:Interaction.Behaviors>
                         <nv:IgnoreMouseWheelBehavior />
-                    </i:Interaction.Behaviors>
+                    </b:Interaction.Behaviors>
 
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">

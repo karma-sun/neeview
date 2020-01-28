@@ -6,8 +6,8 @@
                 <Component Id="cmpB5253615D3A409D93E9B0F5C0792727C" Guid="*">
                     <File Id="fil070F313B4772A6FE929C82891BF65F14" KeyPath="yes" Source="$(var.LibrariesDir)\Microsoft.Expression.Effects.dll" />
                 </Component>
-                <Component Id="cmpE88A5217E6CBA6AA7D4C8E2EF756AA30" Guid="*">
-                    <File Id="filFEA99228133615CB13248AB49E72DBE6" KeyPath="yes" Source="$(var.LibrariesDir)\Microsoft.Expression.Interactions.dll" />
+                <Component Id="cmpE97A5E87B83AFC450723829E6A99CE36" Guid="*">
+                    <File Id="filEDABDAEC3DA98CCD41B1FAE4890F73B6" KeyPath="yes" Source="$(var.LibrariesDir)\Microsoft.Xaml.Behaviors.dll" />
                 </Component>
                 <Component Id="cmp87D07992B45DF95EF217072DE38194C1" Guid="*">
                     <File Id="fil4E8BF4475BC058DBDCBE1C3E7894F656" KeyPath="yes" Source="$(var.LibrariesDir)\NeeLaboratory.IO.Search.dll" />
@@ -72,9 +72,6 @@
                 <Component Id="cmp469E88A102148B8BD5667462EE59FECD" Guid="*">
                     <File Id="fil501514B310BCDCAE4E40EE64F78E4500" KeyPath="yes" Source="$(var.LibrariesDir)\System.Runtime.CompilerServices.Unsafe.dll" />
                 </Component>
-                <Component Id="cmp497DB98CF2661AD5E3F644E55989373D" Guid="*">
-                    <File Id="filF73C8B9A095B60D8A23CB5231D88364D" KeyPath="yes" Source="$(var.LibrariesDir)\System.Windows.Interactivity.dll" />
-                </Component>
                 <Directory Id="dirFE0CDB84362EC844D704BA7868A472C8" Name="ja-JP">
                     <Component Id="cmp9AC34FFE315750C746B9E441DD4DE751" Guid="*">
                         <File Id="fil3A6EE1EE320DC44669A8C644D3B8438E" KeyPath="yes" Source="$(var.LibrariesDir)\ja-JP\NeeView.resources.dll" />
@@ -114,7 +111,7 @@
     <Fragment>
         <ComponentGroup Id="DllComponents">
             <ComponentRef Id="cmpB5253615D3A409D93E9B0F5C0792727C" />
-            <ComponentRef Id="cmpE88A5217E6CBA6AA7D4C8E2EF756AA30" />
+            <ComponentRef Id="cmpE97A5E87B83AFC450723829E6A99CE36" />
             <ComponentRef Id="cmp87D07992B45DF95EF217072DE38194C1" />
             <ComponentRef Id="cmp05B3CA9AD0E9753C701E1E7030975200" />
             <ComponentRef Id="cmp13285942DBE347DFB93EF31D850FD9FB" />
@@ -136,7 +133,6 @@
             <ComponentRef Id="cmp6201B94C484932AF1231EF41617BC1F9" />
             <ComponentRef Id="cmpE8FAEF65B0E2CD298FD9F28330592354" />
             <ComponentRef Id="cmp469E88A102148B8BD5667462EE59FECD" />
-            <ComponentRef Id="cmp497DB98CF2661AD5E3F644E55989373D" />
             <ComponentRef Id="cmp9AC34FFE315750C746B9E441DD4DE751" />
             <ComponentRef Id="cmp9D4AE8C031DF1FC733C87DF95334A165" />
             <ComponentRef Id="cmp466461CEC1F96678E1C583154DA61F62" />

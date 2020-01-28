@@ -1,5 +1,6 @@
 ﻿// from https://github.com/takanemu/WPFDragAndDropSample
 
+using Microsoft.Xaml.Behaviors;
 using NeeLaboratory.Windows.Media;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Interactivity;
 using System.Windows.Media;
 
 

@@ -4,17 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
     <Grid x:Name="Root" Visibility="{Binding VM.Visibility}">
-        <i:Interaction.Triggers>
-            <ei:PropertyChangedTrigger Binding="{Binding VM.ChangeCount, Mode=OneWay}" >
+        <b:Interaction.Triggers>
+            <b:PropertyChangedTrigger Binding="{Binding VM.ChangeCount, Mode=OneWay}" >
                 <local:AutoFadeTriggerAction DispTime="{Binding VM.DispTime}" />
-            </ei:PropertyChangedTrigger>
-        </i:Interaction.Triggers>
+            </b:PropertyChangedTrigger>
+        </b:Interaction.Triggers>
         
         <TextBlock x:Name="TinyInfoTextBlock" Text="{Binding VM.Model.Message}" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="White" Background="#88000000" Padding="20,5" IsHitTestVisible="False">
         </TextBlock>

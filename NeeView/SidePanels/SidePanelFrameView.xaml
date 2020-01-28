@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:NeeView"
              xmlns:osc="clr-namespace:OpenSourceControls"
              xmlns:nw="clr-namespace:NeeView.Windows"
@@ -65,10 +65,10 @@
                 <Grid Background="Transparent">
                     <Image Source="{Binding Icon}" Margin="{Binding IconMargin}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Grid>
-                <i:Interaction.Behaviors>
+                <b:Interaction.Behaviors>
                     <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:SidePanelViewModel.DragDropFormat}" DragDropData="{Binding}"
                                           DragBegin="DragStartBehavior_DragBegin" DragEnd="DragStartBehavior_DragEnd"/>
-                </i:Interaction.Behaviors>
+                </b:Interaction.Behaviors>
             </Button>
         </DataTemplate>
 
@@ -77,10 +77,10 @@
                 <Grid Background="Transparent">
                     <Image Source="{Binding Icon}" Margin="{Binding IconMargin}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Grid>
-                <i:Interaction.Behaviors>
+                <b:Interaction.Behaviors>
                     <nw:DragStartBehavior AllowedEffects="Move" DragDropFormat="{x:Static local:SidePanelViewModel.DragDropFormat}" DragDropData="{Binding}"
                                           DragBegin="DragStartBehavior_DragBegin" DragEnd="DragStartBehavior_DragEnd"/>
-                </i:Interaction.Behaviors>
+                </b:Interaction.Behaviors>
             </Button>
         </DataTemplate>
 
@@ -138,9 +138,9 @@
                 <Grid x:Name="LeftIconGrid" Style="{StaticResource PanelIconGridStyle}" Visibility="{Binding VM.Left.Visibility}" AllowDrop="True"
                       MouseLeftButtonUp="LeftIconGrid_MouseLeftButtonUp">
 
-                    <i:Interaction.Behaviors>
+                    <b:Interaction.Behaviors>
                         <nw:DragAcceptBehavior Description="{Binding VM.Left.Description}" />
-                    </i:Interaction.Behaviors>
+                    </b:Interaction.Behaviors>
 
                     <Grid Margin="0,32,0,0">
                         <ItemsControl x:Name="LeftIconList" Style="{StaticResource PanelIconItemsControlStyle}"
@@ -156,9 +156,9 @@
                 <Grid x:Name="RightIconGrid" Style="{StaticResource PanelIconGridStyle}" Visibility="{Binding VM.Right.Visibility}" AllowDrop="True"
                       MouseLeftButtonUp="RightIconGrid_MouseLeftButtonUp">
 
-                    <i:Interaction.Behaviors>
+                    <b:Interaction.Behaviors>
                         <nw:DragAcceptBehavior Description="{Binding VM.Right.Description}" />
-                    </i:Interaction.Behaviors>
+                    </b:Interaction.Behaviors>
 
                     <Grid Margin="0,32,0,0">
                         <ItemsControl x:Name="RightIconList" Style="{StaticResource PanelIconItemsControlStyle}"

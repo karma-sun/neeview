@@ -75,10 +75,9 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Expression.Effects, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Expression.Effects, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Expression.Blend.NETFramework\Libraries\Microsoft.Expression.Effects.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>Expression.Blend.NETFramework\Microsoft.Expression.Effects.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="ReachFramework" />
@@ -1363,6 +1362,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Expression.Blend.NETFramework\Microsoft.Expression.Effects.dll" />
     <Content Include="NeeView\Effects\Shaders\ColorSelectEffect.fx" />
     <Content Include="NeeView\Effects\Shaders\HsvEffect.fx" />
     <Content Include="NeeView\Effects\Shaders\LevelEffect.fx" />
@@ -1413,8 +1413,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Expression.Blend.Sdk.WPF">
-      <Version>1.0.1</Version>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
+      <Version>1.1.19</Version>
     </PackageReference>
     <PackageReference Include="PdfiumViewer">
       <Version>2.13.0</Version>

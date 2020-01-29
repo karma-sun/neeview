@@ -1,79 +1,30 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E551AF04-F038-4CCF-B82B-6015D395CC89}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>NeeView.Susie.Server</RootNamespace>
-    <AssemblyName>NeeView.Susie.Server</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <Deterministic>true</Deterministic>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\NeeView\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\NeeView\bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
-  <PropertyGroup>
+    <TargetFramework>net472</TargetFramework>
     <ApplicationIcon>App.ico</ApplicationIcon>
+    <Product>NeeView SusiePlugin Server</Product>
+    <Version>36.0.0</Version>
+    <Authors>NeeLaboratory</Authors>
+    <Copyright>Copyright © 2016-2020 Ito Mitsuhiro (nee)</Copyright>
   </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <OutputPath>..\NeeView\bin\Debug\</OutputPath>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>..\NeeView\bin\Release\</OutputPath>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
+    <ProjectReference Include="..\NeeLaboratory.Remote\NeeLaboratory.Remote.csproj" />
+    <ProjectReference Include="..\NeeView.Susie\NeeView.Susie.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="NeeView\Susie\Server\NativeMethods.cs" />
-    <Compile Include="NeeView\Susie\Server\SusiePluginRemoteServer.cs" />
-    <Compile Include="NeeView\Susie\Server\SusieArchiveEntry.cs" />
-    <Compile Include="NeeView\Susie\Server\SusiePlugin.cs" />
-    <Compile Include="NeeView\Susie\Server\SusiePluginApi.cs" />
-    <Compile Include="NeeView\Susie\Server\SusiePluginCollection.cs" />
-    <Compile Include="NeeView\Susie\Server\SusiePluginServer.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NeeLaboratory.Remote\NeeLaboratory.Remote.csproj">
-      <Project>{843632a2-0f10-4b48-9995-3959346bfc04}</Project>
-      <Name>NeeLaboratory.Remote</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NeeView.Susie\NeeView.Susie.csproj">
-      <Project>{9523f921-b956-4eb4-b599-1c41b64fff0d}</Project>
-      <Name>NeeView.Susie</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="App.ico" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+
 </Project>
+

@@ -17,7 +17,8 @@ $ErrorActionPreference = "stop"
 
 #
 $product = 'NeeView'
-$config = 'Release'
+$configuration = 'Release'
+$framework = 'net472'
 
 #
 $Win10SDK = "C:\Program Files (x86)\Windows Kits\10\bin\10.0.17763.0\x64"
@@ -38,17 +39,15 @@ function Get-FileVersion($fileName)
 
 #---------------------
 # get base vsersion
-function Get-Version($assemblyInfoFile)
+function Get-Version($projectFile)
 {
-    $content = Get-Content $assemblyInfoFile
-    foreach($line in $content)
-    {
-        if ($line -match 'AssemblyVersion\("(\d+.\d+).\d+.\d+"\)')
-        {
-            return $Matches[1]
-        }
-    }
-
+	$xml = [xml](Get-Content $projectFile)
+	$version = [String]$xml.Project.PropertyGroup.Version;
+	if ($version -match '(\d+\.\d+)\.\d+')
+	{
+		return $Matches[1]
+	}
+	
     throw "Cannot get Version."
 }
 
@@ -125,8 +124,8 @@ $scriptPath = Split-Path -Parent $MyInvocation.MyCommand.Path
 $solutionDir = Convert-Path "$scriptPath\.."
 $solution = "$solutionDir\$product.sln"
 $projectDir = "$solutionDir\$product"
-$productDir = "$projectDir\bin\$config"
-$assemblyInfoFile = "$projectDir\Properties\AssemblyInfo.cs"
+$productDir = "$projectDir\bin\$configuration\$framework"
+$project = "$projectDir\$product.csproj"
 
 #----------------------
 # build
@@ -138,7 +137,7 @@ function Build-Project($assemblyVersion)
 
     $vspath = & $vswhere -property installationPath -latest
     $msbuild = "$vspath\MSBuild\Current\Bin\MSBuild.exe"
-	& $msbuild $solution /p:Configuration=$config /p:Platform=$platform /t:Clean,Build
+	& $msbuild $solution /p:Configuration=$configuration /p:Platform=$platform /t:Clean,Build
 	if ($? -ne $true)
 	{
 		throw "build error"
@@ -611,7 +610,7 @@ function Remove-BuildObjects
 #======================
 
 # versions
-$version = Get-Version $assemblyInfoFile
+$version = Get-Version $project
 $buildCount = Get-BuildCount
 $buildVersion = "$version.$buildCount"
 $assemblyVersion = "$version.$buildCount.0"

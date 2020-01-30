@@ -475,7 +475,9 @@ namespace NeeView
                 {
                     if (content.PageMessage == null && content.CanResize && content is BitmapContent bitmapContent)
                     {
-                        var resized = bitmapContent.Picture?.CreateImageSource(bitmapContent.GetRenderSize(size1), token);
+                        var dpiScaleX = Config.Current.RawDpi.DpiScaleX;
+                        var dispSize = new Size(size1.Width * dpiScaleX, size1.Height * dpiScaleX);
+                        var resized = bitmapContent.Picture?.CreateImageSource(bitmapContent.GetRenderSize(dispSize), token);
                         if (resized == true)
                         {
                             viewPageCollection.Collection[i].Page.DebugRaiseContentPropertyChanged();

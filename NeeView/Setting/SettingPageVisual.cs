@@ -321,9 +321,6 @@ namespace NeeView.Setting
             {
                 new SettingItemSection(Properties.Resources.SettingPagePanelEffectVisual,
                     new SettingItemProperty(PropertyMemberElement.Create(ImageEffect.Current, nameof(ImageEffect.IsHsvMode)))),
-
-                new SettingItemSection(Properties.Resources.SettingPagePanelEffectAdvance,
-                    new SettingItemProperty(PropertyMemberElement.Create(PictureProfile.Current, nameof(PictureProfile.IsMagicScaleSimdEnabled)))),
             };
         }
     }

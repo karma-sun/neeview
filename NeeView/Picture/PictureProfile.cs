@@ -22,7 +22,6 @@ namespace NeeView
 
         private Size _MaximumSize = new Size(4096, 4096);
         private bool _isResizeFilterEnabled = false;
-        private bool _isMagicScaleSimdEnabled = true;
         private PictureCustomSize _customSize;
         private bool _isAspectRatioEnabled;
 
@@ -72,21 +71,6 @@ namespace NeeView
         {
             get { return _customSize; }
             set { if (_customSize != value) { _customSize = value; RaisePropertyChanged(); } }
-        }
-
-        [PropertyMember("@ParamPictureProfileIsMagicScaleSimdEnabled")]
-        public bool IsMagicScaleSimdEnabled
-        {
-            get { return _isMagicScaleSimdEnabled; }
-            set
-            {
-                if (_isMagicScaleSimdEnabled != value)
-                {
-                    _isMagicScaleSimdEnabled = value;
-                    MagicScalerBitmapFactory.EnabmeSimd = _isMagicScaleSimdEnabled;
-                    RaisePropertyChanged();
-                }
-            }
         }
 
         // 画像の解像度情報を表示に反映する
@@ -175,9 +159,6 @@ namespace NeeView
             [DataMember]
             public PictureCustomSize.Memento CustomSize { get; set; }
 
-            [DataMember, DefaultValue(true)]
-            public bool IsMagicScaleSimdEnabled { get; set; }
-
             [DataMember]
             public bool IsAspectRatioEnabled { get; set; }
 
@@ -199,7 +180,6 @@ namespace NeeView
             memento.Maximum = this.MaximumSize;
             memento.IsResizeFilterEnabled = this.IsResizeFilterEnabled;
             memento.CustomSize = this.CustomSize.CreateMemento();
-            memento.IsMagicScaleSimdEnabled = this.IsMagicScaleSimdEnabled;
             memento.IsAspectRatioEnabled = this.IsAspectRatioEnabled;
             memento.IsSvgEnabled = this.IsSvgEnabled;
             return memento;
@@ -212,7 +192,6 @@ namespace NeeView
             this.MaximumSize = memento.Maximum;
             this.IsResizeFilterEnabled = memento.IsResizeFilterEnabled;
             this.CustomSize.Restore(memento.CustomSize);
-            this.IsMagicScaleSimdEnabled = memento.IsMagicScaleSimdEnabled;
             this.IsAspectRatioEnabled = memento.IsAspectRatioEnabled;
             this.IsSvgEnabled = memento.IsSvgEnabled;
         }

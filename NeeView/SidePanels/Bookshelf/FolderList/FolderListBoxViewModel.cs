@@ -142,5 +142,12 @@ namespace NeeView
         {
             _folderList.IsVisibleChanged(isVisible);
         }
+
+        public async Task RemoveAsync(FolderItem item)
+        {
+            if (item == null) return;
+
+            await Model.RemoveAsync(item);
+        }
     }
 }

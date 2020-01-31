@@ -314,7 +314,15 @@ namespace NeeView
         {
             if (CanDeleteBook())
             {
-                await FileIO.Current.RemoveAsync(Book.Address, Resources.DialogFileDeleteBookTitle);
+                var item = BookshelfFolderList.Current.FolderListBoxModel.FindFolderItem(Book.Address);
+                if (item != null)
+                {
+                    await BookshelfFolderList.Current.FolderListBoxModel.RemoveAsync(item);
+                }
+                else
+                {
+                    await FileIO.Current.RemoveAsync(Book.Address, Resources.DialogFileDeleteBookTitle);
+                }
             }
         }
 

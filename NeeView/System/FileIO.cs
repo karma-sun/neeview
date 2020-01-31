@@ -69,8 +69,19 @@ namespace NeeView
             return isRemoved;
         }
 
-        // ファイルを削除
+        // ファイルを削除 確認と削除
         public async Task<bool> RemoveAsync(string path, string title = null, Func<Task<FrameworkElement>> createThumbnailAsync = null)
+        {
+            if (path == null) return false;
+
+            var confirm = await RemoveConfirmAsync(path, title, createThumbnailAsync);
+            if (confirm == false) return false;
+
+            return await RemoveAsyncInner(path);
+        }
+
+        // ファイルを削除 確認
+        public async Task<bool> RemoveConfirmAsync(string path, string title = null, Func<Task<FrameworkElement>> createThumbnailAsync = null)
         {
             if (path == null) return false;
 
@@ -119,7 +130,6 @@ namespace NeeView
                 textblock.Margin = new Thickness(0, 0, 0, 2);
                 dockPanel.Children.Add(textblock);
 
-                //
                 var dialog = new MessageDialog(dockPanel, title ?? string.Format(Resources.DialogFileDeleteTitle, typeName));
                 dialog.Commands.Add(UICommands.Delete);
                 dialog.Commands.Add(UICommands.Cancel);
@@ -128,7 +138,7 @@ namespace NeeView
                 if (answer != UICommands.Delete) return false;
             }
 
-            return await RemoveAsyncInner(path);
+            return true;
         }
 
         // ファイルを削除 コア

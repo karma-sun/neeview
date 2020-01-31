@@ -325,26 +325,7 @@ namespace NeeView
                 return;
             }
 
-            if (item.Attributes.HasFlag(FolderItemAttribute.Bookmark))
-            {
-                _vm.Model.RemoveBookmark(item);
-            }
-            else if (item.IsFileSystem())
-            {
-                bool isCurrentBook = BookHub.Current.Address == item.TargetPath.SimplePath;
-                var removed = await FileIO.Current.RemoveAsync(item.TargetPath.SimplePath, Properties.Resources.DialogFileDeleteBookTitle);
-                if (removed)
-                {
-                    _vm.FolderCollection?.RequestDelete(item.TargetPath);
-                    if (isCurrentBook && _vm.FolderList.IsOpenNextBookWhenRemove)
-                    {
-                        if (this.ListBox.SelectedItem is FolderItem currentItem)
-                        {
-                            _vm.Model.LoadBook(currentItem);
-                        }
-                    }
-                }
-            }
+            await _vm.RemoveAsync(item);
         }
 
 
@@ -521,9 +502,9 @@ namespace NeeView
             _vm.Model.AddBookmark();
         }
 
-        #endregion
+#endregion
 
-        #region DragDrop
+#region DragDrop
 
         private void DragStartBehavior_DragBegin(object sender, Windows.DragStartEventArgs e)
         {
@@ -719,9 +700,9 @@ namespace NeeView
             return element;
         }
 
-        #endregion
+#endregion
 
-        #region Methods
+#region Methods
 
         /// <summary>
         /// フォーカス取得
@@ -1047,7 +1028,7 @@ namespace NeeView
         }
 
 
-        #endregion
+#endregion
     }
 
     public class FolderItemToNoteConverter : IMultiValueConverter

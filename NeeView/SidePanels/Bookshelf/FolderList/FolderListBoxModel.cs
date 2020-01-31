@@ -1,6 +1,7 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Collections;
 using NeeView.Collections.Generic;
+using NeeView.Properties;
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
@@ -320,7 +321,7 @@ namespace NeeView
             if (this.FolderCollection == null) return default;
 
             var orders = FolderCollection.FolderOrderClass.GetFolderOrderMap().Keys;
-            var now =  this.FolderCollection.FolderParameter.FolderOrder;
+            var now = this.FolderCollection.FolderParameter.FolderOrder;
             var index = orders.IndexOf(now);
             return orders.ElementAt((index + 1) % orders.Count);
         }
@@ -430,6 +431,43 @@ namespace NeeView
             }
 
             return isRemoved;
+        }
+
+        public FolderItem FindFolderItem(string address)
+        {
+            var path = new QueryPath(address);
+            var select = this.FolderCollection.Items.FirstOrDefault(e => e.TargetPath == path);
+
+            return select;
+        }
+
+        public async Task RemoveAsync(FolderItem item)
+        {
+            if (item == null) return;
+
+            if (item.Attributes.HasFlag(FolderItemAttribute.Bookmark))
+            {
+                RemoveBookmark(item);
+            }
+            else if (item.IsFileSystem())
+            {
+                var index = item == SelectedItem ? GetFolderItemIndex(item) : -1;
+                bool isCurrentBook = BookHub.Current.Address == item.TargetPath.SimplePath;
+                var removed = await FileIO.Current.RemoveAsync(item.TargetPath.SimplePath, Properties.Resources.DialogFileDeleteBookTitle);
+                if (removed)
+                {
+                    FolderCollection?.RequestDelete(item.TargetPath);
+                    if (isCurrentBook && BookshelfFolderList.Current.IsOpenNextBookWhenRemove)
+                    {
+                        var next = NeeLaboratory.MathUtility.Clamp(index, -1, this.FolderCollection.Items.Count - 1);
+                        if (!FolderCollection.IsEmpty() && next >= 0)
+                        {
+                            SelectedItem = this.FolderCollection[next];
+                            LoadBook(SelectedItem);
+                        }
+                    }
+                }
+            }
         }
 
     }

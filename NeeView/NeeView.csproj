@@ -7,12 +7,15 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ApplicationManifest>App.manifest</ApplicationManifest>
     <ApplicationIcon>Resources\App.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Version>36.0.0</Version>
     <Authors>NeeLaboratory</Authors>
     <Copyright>Copyright © 2016-2020 Ito Mitsuhiro (nee)</Copyright>
     <Description>Image viewer</Description>
   </PropertyGroup>
-  
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DefineConstants>TRACE;DEBUG;SUSIE</DefineConstants>

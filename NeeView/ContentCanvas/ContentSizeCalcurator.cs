@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
@@ -168,6 +169,9 @@ namespace NeeView
         // ストレッチモードに合わせて各コンテンツのスケールを計算する
         private Size[] CalcContentSize(List<Size> source, double width, double height, double angle)
         {
+            if (width < 1.0) width = 1.0;
+            if (height < 1.0) height = 1.0;
+
             var c0 = source[0];
             var c1 = source[1];
 

@@ -1029,7 +1029,8 @@ namespace NeeView
             int index = _folderListBoxModel.GetFolderItemIndex(item);
 
             await SetPlaceAsync(_folderCollection.Place, new FolderItemPosition(item.TargetPath, index), FolderSetPlaceOption.UpdateHistory);
-            BookHub.Current.RequestLoad(item.TargetPath.SimplePath, null, options | BookLoadOption.IsBook, false);
+            RequestLoad(item, null, options, false);
+
             return true;
         }
 
@@ -1057,8 +1058,7 @@ namespace NeeView
                 if (next.Content == null) return false;
 
                 await SetPlaceAsync(new QueryPath(next.Place), new FolderItemPosition(next.Content.TargetPath), FolderSetPlaceOption.UpdateHistory);
-                BookHub.Current.RequestLoad(next.Content.TargetPath.SimplePath, null, options | BookLoadOption.IsBook, false);
-
+                RequestLoad(next.Content, null, options, false);
                 return true;
             }
             catch (OperationCanceledException)
@@ -1078,6 +1078,12 @@ namespace NeeView
         public void CancelMoveCruiseFolder()
         {
             _cruiseFolderCancellationTokenSource?.Cancel();
+        }
+
+        private void RequestLoad(FolderItem item, string start, BookLoadOption option, bool isRefreshFolderList)
+        {
+            var additionalOption = BookLoadOption.IsBook | (item.CanRemove() ? BookLoadOption.None : BookLoadOption.Undeliteable);
+            BookHub.Current.RequestLoad(item.TargetPath.SimplePath, start, option | additionalOption, isRefreshFolderList);
         }
 
         #endregion MoveFolder

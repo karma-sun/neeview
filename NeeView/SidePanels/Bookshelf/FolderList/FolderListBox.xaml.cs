@@ -286,29 +286,7 @@ namespace NeeView
         public void Remove_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             var item = (sender as ListBox)?.SelectedItem as FolderItem;
-            e.CanExecute = CanRemoveExecute(item);
-        }
-
-        private bool CanRemoveExecute(FolderItem item)
-        {
-            if (item == null || !item.IsEditable)
-            {
-                return false;
-            }
-            else if (_vm.FolderCollection is PlaylistFolderCollection)
-            {
-                return false;
-            }
-            else if (item.IsFileSystem())
-            {
-                return FileIOProfile.Current.IsEnabled;
-            }
-            else if (item.Attributes.HasFlag(FolderItemAttribute.Bookmark))
-            {
-                return true;
-            }
-
-            return false;
+            e.CanExecute = item != null && item.CanRemove();
         }
 
 

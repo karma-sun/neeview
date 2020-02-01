@@ -282,7 +282,8 @@ namespace NeeView
                 return;
             }
 
-            BookHub.Current.RequestLoad(query.SimplePath, null, option | BookLoadOption.IsBook, _isSyncBookshelfEnabled);
+            var additionalOption = BookLoadOption.IsBook | (item.CanRemove() ? BookLoadOption.None : BookLoadOption.Undeliteable);
+            BookHub.Current.RequestLoad(query.SimplePath, null, option | additionalOption, _isSyncBookshelfEnabled);
         }
 
         /// <summary>
@@ -445,14 +446,15 @@ namespace NeeView
         {
             if (item == null) return;
 
+            var index = item == SelectedItem ? GetFolderItemIndex(item) : -1;
+            bool isCurrentBook = BookHub.Current.Address == item.TargetPath.SimplePath;
+
             if (item.Attributes.HasFlag(FolderItemAttribute.Bookmark))
             {
                 RemoveBookmark(item);
             }
             else if (item.IsFileSystem())
             {
-                var index = item == SelectedItem ? GetFolderItemIndex(item) : -1;
-                bool isCurrentBook = BookHub.Current.Address == item.TargetPath.SimplePath;
                 var removed = await FileIO.Current.RemoveAsync(item.TargetPath.SimplePath, Properties.Resources.DialogFileDeleteBookTitle);
                 if (removed)
                 {

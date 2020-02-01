@@ -17,15 +17,19 @@ namespace NeeView
         private BookPageViewer _viewer;
         private BookPageMarker _marker;
         private BookController _controller;
+        private string _sourceAddress;
+        private BookLoadOption _loadOption;
 
-        public Book(BookSource source, Book.Memento memento)
+        public Book(BookSource source, QueryPath sourceAddress, Book.Memento memento, BookLoadOption option)
         {
             Book.Default = this;
 
             _source = source;
+            _sourceAddress = sourceAddress.SimplePath;
             _viewer = new BookPageViewer(_source, _bookMemoryService, CreateBookViewerCreateSetting(memento));
             _marker = new BookPageMarker(_source, _viewer);
             _controller = new BookController(_source, _viewer, _marker);
+            _loadOption = option;
         }
 
         public BookSource Source => _source;
@@ -36,8 +40,10 @@ namespace NeeView
         public BookMemoryService BookMemoryService => _bookMemoryService;
 
         public string Address => _source.Address;
+        public string SourceAddress => _sourceAddress;
         public bool IsMedia => _source.IsMedia;
         public bool IsPagemarkFolder => _source.IsPagemarkFolder;
+        public BookLoadOption LoadOption => _loadOption;
 
 
         // 見つからなかった開始ページ名。通知用。
@@ -214,12 +220,17 @@ namespace NeeView
         /// キャッシュ無効
         /// </summary>
         public bool IsIgnoreCache { get; set; }
+
+        /// <summary>
+        /// ロード設定フラグ
+        /// </summary>
+        public BookLoadOption LoadOption { get; set; }
     }
 
 
     public static class BookFactory
     {
-        public static async Task<Book> CreateAsync(QueryPath address, BookCreateSetting setting, Book.Memento memento, CancellationToken token)
+        public static async Task<Book> CreateAsync(QueryPath address, QueryPath sourceAddress, BookCreateSetting setting, Book.Memento memento, CancellationToken token)
         {
             var factory = new BookSourceFactory();
             var bookSource = await factory.CreateAsync(address, setting, token);
@@ -232,7 +243,7 @@ namespace NeeView
                 }
             }
 
-            var book = new Book(bookSource, memento);
+            var book = new Book(bookSource, sourceAddress, memento, setting.LoadOption);
 
             // ## Start() で行いたい
             book.SetStartPage(setting.StartPage);

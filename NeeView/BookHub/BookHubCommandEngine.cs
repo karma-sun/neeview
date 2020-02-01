@@ -39,6 +39,7 @@ namespace NeeView
     public class BookHubCommandLoadArgs : BookHubCommandArgs
     {
         public string Path { get; set; }
+        public string SourcePath { get; set; }
         public string StartEntry { get; set; }
         public BookLoadOption Option { get; set; }
         public bool IsRefreshFolderList { get; set; }

@@ -306,7 +306,7 @@ namespace NeeView
         // 現在表示しているブックの削除可能？
         public bool CanDeleteBook()
         {
-            return FileIOProfile.Current.IsEnabled && Book != null && (File.Exists(Book.Address) || Directory.Exists(Book.Address));
+            return FileIOProfile.Current.IsEnabled && Book != null && (Book.LoadOption & BookLoadOption.Undeliteable) == 0 && (File.Exists(Book.SourceAddress) || Directory.Exists(Book.SourceAddress));
         }
 
         // 現在表示しているブックを削除する
@@ -314,14 +314,14 @@ namespace NeeView
         {
             if (CanDeleteBook())
             {
-                var item = BookshelfFolderList.Current.FolderListBoxModel.FindFolderItem(Book.Address);
+                var item = BookshelfFolderList.Current.FolderListBoxModel.FindFolderItem(Book.SourceAddress);
                 if (item != null)
                 {
                     await BookshelfFolderList.Current.FolderListBoxModel.RemoveAsync(item);
                 }
                 else
                 {
-                    await FileIO.Current.RemoveAsync(Book.Address, Resources.DialogFileDeleteBookTitle);
+                    await FileIO.Current.RemoveAsync(Book.SourceAddress, Resources.DialogFileDeleteBookTitle);
                 }
             }
         }

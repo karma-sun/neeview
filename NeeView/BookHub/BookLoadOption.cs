@@ -75,6 +75,11 @@ namespace NeeView
         /// アーカイブキャッシュ無効
         /// </summary>
         IgnoreCache = 0x1000,
+
+        /// <summary>
+        /// 削除不可
+        /// </summary>
+        Undeliteable = 0x2000,
     };
 
 

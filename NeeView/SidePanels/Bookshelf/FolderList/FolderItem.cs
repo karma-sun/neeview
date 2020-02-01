@@ -290,6 +290,28 @@ namespace NeeView
             return false;
         }
 
+        /// <summary>
+        /// ファイルシステムから削除可能？
+        /// </summary>
+        /// <returns></returns>
+        public bool CanRemove()
+        {
+            if (!IsEditable)
+            {
+                return false;
+            }
+            else if (IsFileSystem())
+            {
+                return FileIOProfile.Current.IsEnabled;
+            }
+            else if (Attributes.HasFlag(FolderItemAttribute.Bookmark))
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public virtual string GetNote(FolderOrder order)
         {
             return null;

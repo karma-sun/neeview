@@ -534,7 +534,7 @@ namespace NeeView
             if (path == null) return null;
 
             path = LoosePath.NormalizeSeparator(path);
-
+            var sourcePath = path;
             if (FileShortcut.IsShortcut(path) && (System.IO.File.Exists(path) || System.IO.Directory.Exists(path)))
             {
                 var shortcut = new FileShortcut(path);
@@ -559,6 +559,7 @@ namespace NeeView
             var command = new BookHubCommandLoad(this, new BookHubCommandLoadArgs()
             {
                 Path = path,
+                SourcePath = sourcePath,
                 StartEntry = start,
                 Option = option,
                 IsRefreshFolderList = isRefreshFolderList
@@ -690,7 +691,7 @@ namespace NeeView
             try
             {
                 // address
-                var address = await BookAddress.CreateAsync(new QueryPath(args.Path), args.StartEntry, this.ArchiveRecursiveMode, args.Option, token);
+                var address = await BookAddress.CreateAsync(new QueryPath(args.Path), new QueryPath(args.SourcePath), args.StartEntry, this.ArchiveRecursiveMode, args.Option, token);
 
                 // Now Loading ON
                 NotifyLoading(args.Path);
@@ -853,15 +854,16 @@ namespace NeeView
                     BookPageCollectMode = BookProfile.Current.BookPageCollectMode,
                     SortMode = memento.SortMode,
                     IsIgnoreCache = option.HasFlag(BookLoadOption.IgnoreCache),
+                    LoadOption = option,
                 };
 
-                var book = await BookFactory.CreateAsync(address.Address, bookSetting, memento, token);
+                var book = await BookFactory.CreateAsync(address.Address, address.SourceAddress, bookSetting, memento, token);
 
                 // auto recursive
                 if (IsAutoRecursive && !book.Source.IsRecursiveFolder && book.Source.SubFolderCount == 1)
                 {
                     bookSetting.IsRecursiveFolder = true;
-                    book = await BookFactory.CreateAsync(address.Address, bookSetting, memento, token);
+                    book = await BookFactory.CreateAsync(address.Address, address.SourceAddress, bookSetting, memento, token);
                 }
 
                 _historyEntry = false;

@@ -46,6 +46,11 @@ namespace NeeView
         /// </summary>
         public string SystemPath => LoosePath.Combine(Address.SimplePath, EntryName);
 
+        /// <summary>
+        /// ソースアドレス。ショートカットファイルとか
+        /// </summary>
+        public QueryPath SourceAddress { get; set; }
+
         #endregion
 
         #region Methods
@@ -58,10 +63,10 @@ namespace NeeView
         /// <param name="option"></param>
         /// <param name="token">キャンセルトークン</param>
         /// <returns>生成したインスタンス</returns>
-        public static async Task<BookAddress> CreateAsync(QueryPath query, string entryName, ArchiveEntryCollectionMode mode, BookLoadOption option, CancellationToken token)
+        public static async Task<BookAddress> CreateAsync(QueryPath query, QueryPath sourceQuery, string entryName, ArchiveEntryCollectionMode mode, BookLoadOption option, CancellationToken token)
         {
             var address = new BookAddress();
-            await address.ConstructAsync(query, entryName, mode, option, token);
+            await address.ConstructAsync(query, sourceQuery, entryName, mode, option, token);
             return address;
         }
 
@@ -69,8 +74,10 @@ namespace NeeView
         /// 初期化。
         /// アーカイブ展開等を含むため、非同期処理。
         /// </summary>
-        private async Task ConstructAsync(QueryPath query, string entryName, ArchiveEntryCollectionMode mode, BookLoadOption option, CancellationToken token)
+        private async Task ConstructAsync(QueryPath query, QueryPath sourceQuery, string entryName, ArchiveEntryCollectionMode mode, BookLoadOption option, CancellationToken token)
         {
+            this.SourceAddress = sourceQuery ?? query;
+
             // ページマークはそのまま
             if (query.Scheme == QueryScheme.Pagemark)
             {

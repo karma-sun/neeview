@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -17,6 +18,12 @@ namespace NeeView
     /// </summary>
     public class FileIO
     {
+        private class NativeMethods
+        {
+            [DllImport("kernel32", SetLastError = true, CharSet = CharSet.Unicode)]
+            public static extern bool MoveFile(string lpExistingFileName, string lpNewFileName);
+        }
+
         public static FileIO Current { get; } = new FileIO();
 
         //
@@ -147,7 +154,7 @@ namespace NeeView
             var _bookHub = BookHub.Current;
             int retryCount = 1;
 
-            Retry:
+        Retry:
 
             try
             {
@@ -310,7 +317,7 @@ namespace NeeView
             var _bookHub = BookHub.Current;
             int retryCount = 1;
 
-            Retry:
+        Retry:
 
             try
             {
@@ -326,13 +333,25 @@ namespace NeeView
                 }
 
                 // rename
-                if (System.IO.Directory.Exists(src))
+                try
                 {
-                    System.IO.Directory.Move(src, dst);
+                    if (System.IO.Directory.Exists(src))
+                    {
+                        System.IO.Directory.Move(src, dst);
+                    }
+                    else if (System.IO.File.Exists(src))
+                    {
+                        System.IO.File.Move(src, dst);
+                    }
+                    else
+                    {
+                        throw new FileNotFoundException();
+                    }
                 }
-                else
+                catch (IOException) when (string.Compare(src, dst, true) == 0)
                 {
-                    System.IO.File.Move(src, dst);
+                    // 大文字小文字の違いだけである場合はWIN32APIで処理する
+                    NativeMethods.MoveFile(src, dst);
                 }
 
 
@@ -345,7 +364,7 @@ namespace NeeView
                         _bookHub.RequestLoad(dst, null, BookLoadOption.Resume | BookLoadOption.IsBook, false);
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
                 }

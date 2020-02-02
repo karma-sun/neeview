@@ -563,6 +563,7 @@ namespace NeeView
 
             // WinProc登録
             WindowMessage.Current.Initialize(this);
+            TabletModeWatcher.Current.Initialize(this);
 
             _vm.Loaded();
 

@@ -610,7 +610,7 @@ namespace NeeView
             }
             else if (!isFullScreen && _state == WindowStateEx.FullScreen)
             {
-                if (_lastState == WindowStateEx.Maximized)
+                if (_lastState == WindowStateEx.Maximized || TabletModeWatcher.Current.IsTabletMode)
                 {
                     ToMaximized();
                 }
@@ -664,9 +664,9 @@ namespace NeeView
             return IntPtr.Zero;
         }
 
-#endregion
+        #endregion
 
-#region Memento
+        #region Memento
         [DataContract]
         public class Memento
         {
@@ -735,7 +735,7 @@ namespace NeeView
             _maximizeWindowGapWidth = memento.MaximizeWindowGapWidth;
         }
 
-#endregion
+        #endregion
     }
 
 }

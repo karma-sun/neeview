@@ -558,12 +558,6 @@ namespace NeeView
 
         private void ToMaximizeInner()
         {
-            // NOTE: タイトルバー非表示時に最大化すると右に隙間ができてしまう対策
-            if (!IsCaptionVisible && !_isWindows7)
-            {
-                _window.WindowState = WindowState.Normal;
-            }
-
             _window.Topmost = false;
             _window.WindowStyle = WindowStyle.SingleBorderWindow;
             _window.ResizeMode = ResizeMode.CanResize;
@@ -670,9 +664,9 @@ namespace NeeView
             return IntPtr.Zero;
         }
 
-        #endregion
+#endregion
 
-        #region Memento
+#region Memento
         [DataContract]
         public class Memento
         {
@@ -741,7 +735,7 @@ namespace NeeView
             _maximizeWindowGapWidth = memento.MaximizeWindowGapWidth;
         }
 
-        #endregion
+#endregion
     }
 
 }

@@ -728,6 +728,12 @@ namespace NeeView
         // 回転コマンド
         public void Rotate(double angle)
         {
+            // スナップ値を下限にする
+            if (Math.Abs(angle) < _transform.AngleFrequency)
+            {
+                angle = _transform.AngleFrequency * Math.Sign(angle);
+            }
+
             InitializeDragParameter(Mouse.GetPosition(_sender));
             DoRotate(NormalizeLoopRange(_baseAngle + angle, -180, 180));
         }

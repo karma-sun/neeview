@@ -15,7 +15,7 @@ namespace NeeView
 
 
         // 表示ページコンテキスト
-        private volatile ViewContentSourceCollection _viewPageCollection = new ViewContentSourceCollection();
+        private ViewContentSourceCollection _viewPageCollection = new ViewContentSourceCollection();
 
         // リソースを保持しておくページ
         private List<Page> _keepPages = new List<Page>();
@@ -280,7 +280,7 @@ namespace NeeView
             _contentGenerater = new BookPageViewGenerater(_book, _setting, sender, viewPageRange, aheadPageRange);
             _contentGenerater.ViewContentsChanged += (s, e) =>
             {
-                _viewPageCollection = e.ViewPageCollection;
+                Interlocked.Exchange(ref _viewPageCollection, e.ViewPageCollection);
                 this.DisplayIndex = e.ViewPageCollection.Range.Min.Index;
                 ViewContentsChanged?.Invoke(s, e);
             };

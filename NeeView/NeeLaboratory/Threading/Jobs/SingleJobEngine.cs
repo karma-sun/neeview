@@ -128,11 +128,19 @@ namespace NeeLaboratory.Threading.Jobs
         /// </summary>
         public IEnumerable<IJob> AllJobs()
         {
-            if (_currentJob != null)
+            var jobs = new List<IJob>();
+
+            lock (_lock)
             {
-                yield return _currentJob;
+                var job = _currentJob;
+                if (job != null)
+                {
+                    jobs.Add(job);
+                }
+                jobs.AddRange(_queue);
             }
-            foreach (var job in _queue)
+
+            foreach(var job in jobs)
             {
                 yield return job;
             }
@@ -214,11 +222,11 @@ namespace NeeLaboratory.Threading.Jobs
                         {
                             if (_queue.Count <= 0)
                             {
-                                _currentJob = null;
+                                Interlocked.Exchange(ref _currentJob, null);
                                 _readyQueue.Reset();
                                 break;
                             }
-                            _currentJob = _queue.Dequeue();
+                            Interlocked.Exchange(ref _currentJob, _queue.Dequeue());
                         }
 
                         try
@@ -236,7 +244,7 @@ namespace NeeLaboratory.Threading.Jobs
                             HandleJobException(ex, _currentJob);
                         }
 
-                        _currentJob = null;
+                        Interlocked.Exchange(ref _currentJob, null);
                     }
                 }
             }
@@ -245,7 +253,7 @@ namespace NeeLaboratory.Threading.Jobs
             }
             finally
             {
-                _currentJob = null;
+                Interlocked.Exchange(ref _currentJob, null);
             }
         }
 

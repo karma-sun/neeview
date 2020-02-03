@@ -198,16 +198,16 @@ namespace NeeView
         }
 
         #region IDisposable Support
-        private volatile bool _disposedValue = false;
+        private int _disposedValue;
 
         private void ThrowIfDisposed()
         {
-            if (_disposedValue) throw new ObjectDisposedException(nameof(JobWorker));
+            if (_disposedValue != 0) throw new ObjectDisposedException(nameof(JobWorker));
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!_disposedValue)
+            if (Interlocked.Exchange(ref _disposedValue, 1) == 0)
             {
                 if (disposing)
                 {
@@ -227,8 +227,6 @@ namespace NeeView
                         _event.Dispose();
                     }
                 }
-
-                _disposedValue = true;
             }
         }
 

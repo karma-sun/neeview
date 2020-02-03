@@ -35,7 +35,7 @@ namespace NeeView
         /// ArchivePage Property.
         /// サムネイル用
         /// </summary>
-        private volatile Page _archivePage;
+        private Page _archivePage;
         public Page ArchivePage
         {
             get

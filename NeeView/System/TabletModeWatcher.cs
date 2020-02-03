@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
@@ -19,7 +20,7 @@ namespace NeeView
 
         private Window _window;
         private bool _isTabletMode = false;
-        private volatile bool _isDarty = true;
+        private int _dartyValue;
 
         public TabletModeWatcher()
         {
@@ -39,7 +40,7 @@ namespace NeeView
         {
             get
             {
-                if (_isDarty) UpdateTabletMode();
+                if (_dartyValue != 0) UpdateTabletMode();
                 return _isTabletMode;
             }
         }
@@ -47,6 +48,8 @@ namespace NeeView
 
         private void UpdateTabletMode()
         {
+            Interlocked.Exchange(ref _dartyValue, 0);
+
             RegistryKey regKey = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\ImmersiveShell");
             if (regKey != null)
             {
@@ -54,7 +57,7 @@ namespace NeeView
                 regKey.Close();
             }
 
-            _isDarty = false;
+            Debug.WriteLine($"TabletMode: {_isTabletMode}");
         }
 
         // ウィンドウプロシージャ
@@ -75,7 +78,7 @@ namespace NeeView
             string str = Marshal.PtrToStringAuto(lParam);
             if (str == "UserInteractionMode")
             {
-                _isDarty = true;
+                Interlocked.Exchange(ref _dartyValue, 1);
             }
         }
     }

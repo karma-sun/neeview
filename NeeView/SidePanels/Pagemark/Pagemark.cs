@@ -85,7 +85,7 @@ namespace NeeView
             }
         }
 
-        private volatile Page _archivePage;
+        private Page _archivePage;
         public Page ArchivePage
         {
             get

@@ -57,11 +57,6 @@ namespace NeeView
         /// </summary>
         private bool _isFreezed;
 
-        /// <summary>
-        /// サムネイル更新回数
-        /// </summary>
-        private volatile int _thumbnailRequestCount;
-
         private MouseWheelDelta _mouseWheelDelta = new MouseWheelDelta();
 
         #endregion
@@ -284,7 +279,6 @@ namespace NeeView
                 return;
             }
 
-            _thumbnailRequestCount++;
             _vm.RequestThumbnail(start, count, 2, direction);
         }
 

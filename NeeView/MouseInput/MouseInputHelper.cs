@@ -14,8 +14,6 @@ namespace NeeView
         #region MouseCapture Helper
         // MouseCaptureのラップ。開発用
 
-        //private static volatile int _mouseCaptureSerial = 0;
-
         [Conditional("DEBUG")]
         public static void DumpMouseCaptureState()
         {

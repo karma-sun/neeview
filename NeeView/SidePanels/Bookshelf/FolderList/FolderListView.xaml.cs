@@ -12,6 +12,7 @@ using System.Windows.Data;
 using System.Globalization;
 using System.Windows.Media;
 using NeeView.Windows;
+using System.Threading;
 
 namespace NeeView
 {
@@ -22,7 +23,7 @@ namespace NeeView
     {
         #region Fields
 
-        private volatile bool _requestSearchBoxFocus;
+        private int _requestSearchBoxFocusValue;
 
         private FolderListViewModel _vm;
 
@@ -80,9 +81,8 @@ namespace NeeView
         {
             if (!_vm.Model.IsFolderSearchBoxVisible) return;
 
-            if (!_requestSearchBoxFocus)
+            if (Interlocked.Exchange(ref _requestSearchBoxFocusValue, 1) == 0)
             {
-                _requestSearchBoxFocus = true;
                 var task = FocustSearchBoxAsync(); // 非同期
             }
         }
@@ -119,7 +119,7 @@ namespace NeeView
         private async Task FocustSearchBoxAsync()
         {
             // 表示が間に合わない場合があるので繰り返しトライする
-            while (_requestSearchBoxFocus && _vm.Model.IsFolderSearchBoxVisible)
+            while (_vm.Model.IsFolderSearchBoxVisible)
             {
                 var searchBox = this.SearchBox;
                 if (searchBox != null && searchBox.IsLoaded && searchBox.IsVisible && this.IsVisible)
@@ -134,10 +134,9 @@ namespace NeeView
                 await Task.Delay(100);
             }
 
-            _requestSearchBoxFocus = false;
+            Interlocked.Exchange(ref _requestSearchBoxFocusValue, 0);
             //Debug.WriteLine($"Focus: done.");
         }
-
 
 
         /// <summary>

@@ -239,7 +239,7 @@ namespace NeeView
         private BookHubCommandEngine _commandEngine;
         private bool _historyEntry;
         private bool _historyRemoved;
-        private volatile int _requestLoadCount;
+        private int _requestLoadCount;
         private object _lock = new object();
 
         #endregion Fields
@@ -554,7 +554,7 @@ namespace NeeView
 
             Address = path;
 
-            _requestLoadCount++;
+            Interlocked.Increment(ref _requestLoadCount);
 
             var command = new BookHubCommandLoad(this, new BookHubCommandLoadArgs()
             {

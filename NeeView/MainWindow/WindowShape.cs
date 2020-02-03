@@ -123,6 +123,7 @@ namespace NeeView
             _chrome.CornerRadius = new CornerRadius();
             _chrome.UseAeroCaptionButtons = false;
             _chrome.CaptionHeight = 0;
+            _chrome.GlassFrameThickness = new Thickness(1);
 
             // Windows7以前の場合、フルスクリーン解除時にタスクバーを手前にする処理を追加
             _isWindows7 = Config.Current.IsWindows7();
@@ -499,7 +500,7 @@ namespace NeeView
             _window.WindowStyle = WindowStyle.SingleBorderWindow;
             _window.WindowState = WindowState.Normal;
 
-            this.WindowChrome = IsCaptionVisible ? null : _chrome;
+            SetWindowChrome(true);
             UpdateWindowBorderThickness();
 
             RecoveryTaskBar();
@@ -549,7 +550,7 @@ namespace NeeView
 
             ToMaximizeInner();
 
-            this.WindowChrome = IsCaptionVisible ? null : _chrome;
+            SetWindowChrome(false);
             UpdateWindowBorderThickness();
 
             UpdateState(WindowStateEx.Maximized);
@@ -576,12 +577,12 @@ namespace NeeView
             if (_isFullScreenWithTaskBar)
             {
                 ToMaximizeInner();
-                this.WindowChrome = _chrome;
+                SetWindowChrome(false);
             }
             else
             {
                 ToFullScreenInner();
-                this.WindowChrome = null;
+                ResetWindowChrome();
             }
 
             UpdateWindowBorderThickness();
@@ -622,13 +623,45 @@ namespace NeeView
         }
 
         /// <summary>
+        /// WindowChromeの適用
+        /// </summary>
+        /// <param name="isGlassFrameEnabled">GlassFrameの有効設定</param>
+        private void SetWindowChrome(bool isGlassFrameEnabled)
+        {
+            if (IsCaptionVisible)
+            {
+                this.WindowChrome = null;
+            }
+            else
+            {
+                if (isGlassFrameEnabled && _windowChromeFrame != WindowChromeFrame.None)
+                {
+                    _chrome.GlassFrameThickness = new Thickness(1);
+                }
+                else
+                {
+                    _chrome.GlassFrameThickness = new Thickness(0);
+                }
+
+                this.WindowChrome = _chrome;
+            }
+        }
+
+        /// <summary>
+        /// WindowChromeの解除
+        /// </summary>
+        private void ResetWindowChrome()
+        {
+            this.WindowChrome = null;
+        }
+
+        /// <summary>
         /// 状態を最新にする
         /// </summary>
         public void Refresh()
         {
             if (!this.IsEnabled) return;
 
-            _chrome.GlassFrameThickness = _windowChromeFrame == WindowChromeFrame.None ? new Thickness(0) : new Thickness(1);
             _window.Topmost = IsTopmost;
             _isFullScreen = _state == WindowStateEx.FullScreen;
             SetWindowState(_state);

@@ -227,3 +227,4 @@ Deploy/*.appx
 !/NeeView/x64/
 !/NeeView/x86/
 Thumbs.db
+launchSettings.json

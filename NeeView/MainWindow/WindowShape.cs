@@ -718,6 +718,9 @@ namespace NeeView
             [DataMember, DefaultValue(8.0)]
             public double MaximizeWindowGapWidth { get; set; }
 
+            [DataMember]
+            public WindowStateEx LastState { get; set; }
+
 
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
@@ -748,6 +751,7 @@ namespace NeeView
             var memento = new Memento();
 
             memento.State = this.State;
+            memento.LastState = _lastState;
             memento.IsCaptionVisible = this.IsCaptionVisible;
             memento.IsTopMost = this.IsTopmost;
             memento.IsFullScreenWithTaskBar = this.IsFullScreenWithTaskBar;
@@ -764,6 +768,7 @@ namespace NeeView
             _isTopmost = memento.IsTopMost;
             _isCaptionVisible = memento.IsCaptionVisible;
             _state = memento.State;
+            _lastState = memento.LastState;
             _isFullScreenWithTaskBar = memento.IsFullScreenWithTaskBar;
             _maximizeWindowGapWidth = memento.MaximizeWindowGapWidth;
         }

@@ -548,7 +548,7 @@ namespace NeeView
             InitializeWindowShape();
 
             // NOTE: Loadedイベント処理後に実行される可能性がある。
-            WindowPlacement.Current.IsMinimizeStart = WindowShape.Current.State == WindowStateEx.Maximized && WindowShape.Current.IsCaptionVisible;
+            WindowPlacement.Current.IsMinimizeStart = WindowShape.Current.State == WindowStateEx.Maximized && WindowShape.Current.IsCaptionVisible && Config.Current.IsWindows10();
 
             Debug.WriteLine($"App.MainWndow.SourceInitialized.Done: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
         }

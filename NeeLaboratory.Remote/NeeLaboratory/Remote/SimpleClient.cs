@@ -25,38 +25,56 @@ namespace NeeLaboratory.Remote
 
         public async Task<List<Chunk>> CallAsync(List<Chunk> args, CancellationToken token)
         {
+            // セマフォで排他処理。通信は同時に１つだけ
             _semaphore.Wait();
             try
             {
-                ////Debug.WriteLine($"Client: Start");
-                using (var pipeClient = new NamedPipeClientStream(".", _serverPipeName, PipeDirection.InOut))
+                // 接続１秒タイムアウトで１０回リトライ
+                for (int retry = 0; retry < 10; ++retry)
                 {
-                    ////Debug.WriteLine($"Client: Connect {_serverPipeName} ...");
-                    // NOTE: Connect timeout: 30s
-                    await pipeClient.ConnectAsync(30000, token);
-
-                    using (var stream = new ChunkStream(pipeClient, true))
+                    try
                     {
-                        // call
-                        ////Debug.WriteLine($"Client: Call: {args[0].Id}");
-                        stream.WriteChunkArray(args);
-
-                        // result
-                        var result = await stream.ReadChunkArrayAsync(token);
-                        ////Debug.WriteLine($"Client: Result.Recv: {result[0].Id}");
-
-                        if (result[0].Id < 0)
-                        {
-                            throw new IOException(DefaultSerializer.Deserialize<string>(result[0].Data));
-                        }
-
-                        return result;
+                        return await CallInnerAsync(args, 1000, token);
+                    }
+                    catch (TimeoutException)
+                    {
+                        Debug.WriteLine($"Client: Connect {_serverPipeName} timeout. Retry!");
                     }
                 }
+
+                throw new TimeoutException();
             }
             finally
             {
                 _semaphore.Release();
+            }
+        }
+
+        public async Task<List<Chunk>> CallInnerAsync(List<Chunk> args, int timeout, CancellationToken token)
+        {
+            ////Debug.WriteLine($"Client: Start");
+            using (var pipeClient = new NamedPipeClientStream(".", _serverPipeName, PipeDirection.InOut))
+            {
+                ////Debug.WriteLine($"Client: Connect {_serverPipeName} ...");
+                await pipeClient.ConnectAsync(timeout, token);
+
+                using (var stream = new ChunkStream(pipeClient, true))
+                {
+                    // call
+                    ////Debug.WriteLine($"Client: Call: {args[0].Id}");
+                    stream.WriteChunkArray(args);
+
+                    // result
+                    var result = await stream.ReadChunkArrayAsync(token);
+                    ////Debug.WriteLine($"Client: Result.Recv: {result[0].Id}");
+
+                    if (result[0].Id < 0)
+                    {
+                        throw new IOException(DefaultSerializer.Deserialize<string>(result[0].Data));
+                    }
+
+                    return result;
+                }
             }
         }
     }

@@ -5984,6 +5984,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Connection to Susie failed. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogSusieConnectError {
+            get {
+                return ResourceManager.GetString("DialogSusieConnectError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Custom Size に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EffectCustomSize {

@@ -81,7 +81,7 @@ namespace NeeView.Susie.Client
         {
             if (!IsConnected)
             {
-                throw new SusieException("Disconnected from SusiePlugin Server.");
+                throw new InvalidOperationException("Disconnected from SusiePlugin Server.");
             }
 
             using (var linkedCancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(_cancellationTokenSource.Token, token))

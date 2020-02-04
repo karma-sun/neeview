@@ -27,6 +27,8 @@ namespace NeeView
 
         public Process Process => _process;
 
+        public bool IsActive => _process != null && !_process.HasExited;
+
         public void Start()
         {
             if (IsActive) return;
@@ -40,9 +42,8 @@ namespace NeeView
             _process = Process.Start(psInfo);
             _processJobObject.AddProcess(_process.Handle);
             _process.Exited += (s, e) => Exited?.Invoke(s, e);
+            _process.EnableRaisingEvents = true;
         }
-
-        public bool IsActive => _process != null && !_process.HasExited;
 
         #region IDisposable Support
         private bool _disposedValue = false;
@@ -55,8 +56,11 @@ namespace NeeView
                 {
                 }
 
+                Exited = null;
+
                 if (_process != null && !_process.HasExited)
                 {
+                    _process.EnableRaisingEvents = false;
                     _process.Kill();
                 }
 

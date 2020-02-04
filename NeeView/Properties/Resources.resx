@@ -4767,4 +4767,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="FolderInfoDateTimeOriginal" xml:space="preserve">
     <value>Date taken</value>
   </data>
+  <data name="DialogSusieConnectError" xml:space="preserve">
+    <value>Connection to Susie failed.</value>
+  </data>
 </root>

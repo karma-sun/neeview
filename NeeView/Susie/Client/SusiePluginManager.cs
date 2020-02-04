@@ -17,6 +17,7 @@ using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Interop;
 using System.Threading;
+using NeeView.Properties;
 
 namespace NeeView
 {
@@ -171,7 +172,14 @@ namespace NeeView
             _client = new SusiePluginClient(_remote);
             _client.SetRecoveryAction(Initialize);
 
-            Initialize();
+            try
+            {
+                Initialize();
+            }
+            catch (Exception)
+            {
+                ToastService.Current.Show(new Toast(Resources.DialogSusieConnectError, null, ToastIcon.Error));
+            }
         }
 
         private void Initialize()

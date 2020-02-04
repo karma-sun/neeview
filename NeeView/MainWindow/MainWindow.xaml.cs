@@ -544,8 +544,11 @@ namespace NeeView
 
             WindowShape.Current.SetHook();
 
-            // NOTE: Chromeの変更を行った場合、Loadedイベントが発生する
+            // NOTE: Chromeの変更を行った場合、Loadedイベントが発生する。WindowPlacementの処理順番に注意
             InitializeWindowShape();
+
+            // NOTE: Loadedイベント処理後に実行される可能性がある。
+            WindowPlacement.Current.IsMinimizeStart = WindowShape.Current.State == WindowStateEx.Maximized && WindowShape.Current.IsCaptionVisible;
 
             Debug.WriteLine($"App.MainWndow.SourceInitialized.Done: {App.Current.Stopwatch.ElapsedMilliseconds}ms");
         }

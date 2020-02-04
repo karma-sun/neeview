@@ -101,7 +101,6 @@ namespace NeeView
         #region Fields
 
         private Window _window;
-        private WindowState _minimizeStartWindowState;
 
         #endregion
 
@@ -111,7 +110,6 @@ namespace NeeView
         {
             _window = MainWindow.Current;
             _window.SourceInitialized += Window_SourceInitialized;
-            _window.Loaded += Window_Loaded;
             _window.Closing += Window_Closing;
         }
 
@@ -125,11 +123,6 @@ namespace NeeView
         public double Height { get; set; } = 480.0;
         public bool IsMaximized { get; set; }
 
-        /// <summary>
-        /// ウィンドウ最小化状態から始める。ウィンドウ最大化で開始したときのフラッシュ抑制用
-        /// </summary>
-        public bool IsMinimizeStart { get; set; }
-
         #endregion
 
         #region Methods
@@ -137,11 +130,6 @@ namespace NeeView
         private void Window_SourceInitialized(object sender, EventArgs e)
         {
             SetPlacement();
-        }
-
-        private void Window_Loaded(object sender, EventArgs e)
-        {
-            RecoveryMinimizeStart();
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
@@ -163,30 +151,7 @@ namespace NeeView
                 placement.normalPosition.Bottom = placement.normalPosition.Top + (int)(this.Height * Config.Current.Dpi.DpiScaleY + 0.5);
                 //Debug.WriteLine($">>>> Restore.WIDTH: {placement.normalPosition.Right - placement.normalPosition.Left}, DPI: {Config.Current.Dpi.DpiScaleX}");
 
-                if (IsMinimizeStart)
-                {
-                    _minimizeStartWindowState = placement.showCmd == SW.SHOWMAXIMIZED ? WindowState.Maximized : WindowState.Normal;
-                    placement.showCmd = SW.MINIMIZE;
-                }
-
                 NativeMethods.SetWindowPlacement(hwnd, ref placement);
-            }
-            else
-            {
-                if (IsMinimizeStart)
-                {
-                    _minimizeStartWindowState = _window.WindowState;
-                    _window.WindowState = WindowState.Minimized;
-                }
-            }
-        }
-
-        private void RecoveryMinimizeStart()
-        {
-            if (IsMinimizeStart)
-            {
-                IsMinimizeStart = false;
-                _window.WindowState = _minimizeStartWindowState;
             }
         }
 

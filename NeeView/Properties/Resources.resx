@@ -2994,7 +2994,7 @@ Initialize the temporary location.</value>
     <value>PDF file extension</value>
   </data>
   <data name="ParamAutoHideDelayTime" xml:space="preserve">
-    <value>Time (in seconds) until panel and menu disappear automatically</value>
+    <value>Time to hide auto-hide panel (seconds)</value>
   </data>
   <data name="ParamBookBookReadOrder" xml:space="preserve">
     <value>Book Orientation</value>
@@ -4769,5 +4769,35 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="DialogSusieConnectError" xml:space="preserve">
     <value>Connection to Susie failed.</value>
+  </data>
+  <data name="AutoHideFocusLockMode" xml:space="preserve">
+    <value>Auto-hide panel focus mode</value>
+  </data>
+  <data name="AutoHideFocusLockModeTips" xml:space="preserve">
+    <value>It is not hidden when it has focus.</value>
+  </data>
+  <data name="IsAutoHideKeyDownDelay" xml:space="preserve">
+    <value>Auto-hide panel key input display continued</value>
+  </data>
+  <data name="IsAutoHideKeyDownDelayTips" xml:space="preserve">
+    <value>Postpone the action to hide when key input.</value>
+  </data>
+  <data name="EnumAutoHideFocusLockModeNone" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="EnumAutoHideFocusLockModeLogicalFocusLock" xml:space="preserve">
+    <value>Panel</value>
+  </data>
+  <data name="EnumAutoHideFocusLockModeLogicalTextBoxFocusLock" xml:space="preserve">
+    <value>TextBox</value>
+  </data>
+  <data name="EnumAutoHideFocusLockModeFocusLock" xml:space="preserve">
+    <value>Window and Panel</value>
+  </data>
+  <data name="EnumAutoHideFocusLockModeTextBxFocusLock" xml:space="preserve">
+    <value>Window and TextBox</value>
+  </data>
+  <data name="SettingPageVisualGeneralAutoHide" xml:space="preserve">
+    <value>Auto-hide panel</value>
   </data>
 </root>

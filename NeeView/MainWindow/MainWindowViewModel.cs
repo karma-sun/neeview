@@ -147,17 +147,23 @@ namespace NeeView
         public ContentCanvas ContentCanvas => ContentCanvas.Current;
         public LoupeTransform LoupeTransform => LoupeTransform.Current;
         public ToastService ToastService => ToastService.Current;
+        public App App => App.Current;
 
-        /// <summary>
-        /// Model property.
-        /// </summary>
+
+        private MainWindowModel _model;
         public MainWindowModel Model
         {
             get { return _model; }
             set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
         }
 
-        private MainWindowModel _model;
+        public bool CanHideThumbnailList
+        {
+            get
+            {
+                return ThumbnailList.CanHideThumbnailList && !Model.CanHidePageSlider;
+            }
+        }
 
 
         /// <summary>
@@ -178,7 +184,11 @@ namespace NeeView
                 (s, e) => UpdateSidePanelMargin());
 
             _model.AddPropertyChanged(nameof(_model.CanHidePageSlider),
-                (s, e) => UpdateSidePanelMargin());
+                (s, e) =>
+                {
+                    UpdateSidePanelMargin();
+                    RaisePropertyChanged(nameof(CanHideThumbnailList));
+                });
 
             _model.AddPropertyChanged(nameof(_model.CanHidePanel),
                 (s, e) => UpdateSidePanelMargin());
@@ -199,6 +209,9 @@ namespace NeeView
 
             BookHub.Current.AddPropertyChanged(nameof(BookHub.IsLoading),
                 (s, e) => UpdateBusyVisibility());
+
+            ThumbnailList.Current.AddPropertyChanged(nameof(CanHideThumbnailList),
+                (s, e) => RaisePropertyChanged(nameof(CanHideThumbnailList)));
 
             BookHub.Current.BookChanged +=
                 (s, e) => CommandManager.InvalidateRequerySuggested();

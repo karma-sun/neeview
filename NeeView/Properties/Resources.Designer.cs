@@ -124,6 +124,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Auto-hide panel focus mode に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AutoHideFocusLockMode {
+            get {
+                return ResourceManager.GetString("AutoHideFocusLockMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   It is not hidden when it has focus. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string AutoHideFocusLockModeTips {
+            get {
+                return ResourceManager.GetString("AutoHideFocusLockModeTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   This is bookmark address. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string BookAddressInfoBookmark {
@@ -6146,6 +6164,51 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Window and Panel に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumAutoHideFocusLockModeFocusLock {
+            get {
+                return ResourceManager.GetString("EnumAutoHideFocusLockModeFocusLock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Panel に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumAutoHideFocusLockModeLogicalFocusLock {
+            get {
+                return ResourceManager.GetString("EnumAutoHideFocusLockModeLogicalFocusLock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   TextBox に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumAutoHideFocusLockModeLogicalTextBoxFocusLock {
+            get {
+                return ResourceManager.GetString("EnumAutoHideFocusLockModeLogicalTextBoxFocusLock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   None に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumAutoHideFocusLockModeNone {
+            get {
+                return ResourceManager.GetString("EnumAutoHideFocusLockModeNone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Window and TextBox に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumAutoHideFocusLockModeTextBxFocusLock {
+            get {
+                return ResourceManager.GetString("EnumAutoHideFocusLockModeTextBxFocusLock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Image colored background に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumBackgroundStyleAuto {
@@ -7794,6 +7857,24 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Auto-hide panel key input display continued に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string IsAutoHideKeyDownDelay {
+            get {
+                return ResourceManager.GetString("IsAutoHideKeyDownDelay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Postpone the action to hide when key input. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string IsAutoHideKeyDownDelayTips {
+            get {
+                return ResourceManager.GetString("IsAutoHideKeyDownDelayTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Loupe に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string LongButtonDownModeLoupe {
@@ -8661,7 +8742,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Time (in seconds) until panel and menu disappear automatically に類似しているローカライズされた文字列を検索します。
+        ///   Time to hide auto-hide panel (seconds) に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamAutoHideDelayTime {
             get {
@@ -13086,6 +13167,15 @@ namespace NeeView.Properties {
         public static string SettingPageVisualGeneralAdvance {
             get {
                 return ResourceManager.GetString("SettingPageVisualGeneralAdvance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Auto-hide panel に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageVisualGeneralAutoHide {
+            get {
+                return ResourceManager.GetString("SettingPageVisualGeneralAutoHide", resourceCulture);
             }
         }
         

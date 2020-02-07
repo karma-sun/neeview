@@ -57,7 +57,8 @@ namespace NeeView
         private string _bookmarkFilePath;
         private bool _isSavePagemark = true;
         private string _pagemarkFilePath;
-
+        private AutoHideFocusLockMode _autoHideFocusLockMode = AutoHideFocusLockMode.LogicalTextBoxFocusLock;
+        private bool _isAutoHideKeyDownDelay = true;
 
         #endregion
 
@@ -151,7 +152,29 @@ namespace NeeView
         public double AutoHideDelayTime
         {
             get { return _autoHideDelayTime; }
-            set { if (_autoHideDelayTime != value) { _autoHideDelayTime = value; RaisePropertyChanged(); } }
+            set { if (SetProperty(ref _autoHideDelayTime, value)) { RaisePropertyChanged(nameof(AutoHideDelayTimeMillisecond)); } }
+        }
+
+        // パネルやメニューが自動的に消えるまでの時間(ミリ秒)
+        public double AutoHideDelayTimeMillisecond
+        {
+            get { return _autoHideDelayTime * 1000.0; }
+        }
+
+        // パネル自動非表示のフォーカス挙動モード
+        [PropertyMember("@AutoHideFocusLockMode", Tips = "@AutoHideFocusLockModeTips")]
+        public AutoHideFocusLockMode AutoHideFocusLockMode
+        {
+            get { return _autoHideFocusLockMode; }
+            set { SetProperty(ref _autoHideFocusLockMode, value); }
+        }
+
+        // パネル自動非表示のキー入力遅延
+        [PropertyMember("@IsAutoHideKeyDownDelay", Tips = "@IsAutoHideKeyDownDelayTips")]
+        public bool IsAutoHideKeyDownDelay
+        {
+            get { return _isAutoHideKeyDownDelay; }
+            set { SetProperty(ref _isAutoHideKeyDownDelay, value); }
         }
 
         // ウィンドウクローム枠
@@ -296,6 +319,11 @@ namespace NeeView
             [DataMember(EmitDefaultValue = false)]
             public string CacheDirectoryOld { get; set; }
 
+            [DataMember, DefaultValue(AutoHideFocusLockMode.LogicalTextBoxFocusLock)]
+            public AutoHideFocusLockMode AutoHideFocusLockMode { get; set; }
+
+            [DataMember, DefaultValue(true)]
+            public bool IsAutoHideKeyDownDelay { get; set; }
 
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
@@ -358,6 +386,8 @@ namespace NeeView
             memento.TemporaryDirectory = _temporaryDirectory;
             memento.CacheDirectory = _cacheDirectory;
             memento.CacheDirectoryOld = _cacheDirectoryOld;
+            memento.AutoHideFocusLockMode = this.AutoHideFocusLockMode;
+            memento.IsAutoHideKeyDownDelay = this.IsAutoHideKeyDownDelay;
             return memento;
         }
 
@@ -399,6 +429,8 @@ namespace NeeView
             this.TemporaryDirectory = memento.TemporaryDirectory;
             this.CacheDirectory = memento.CacheDirectory;
             ////this.CacheDirectoryOld = memento.CacheDirectoryOld; // RestoreOnce()で反映
+            this.AutoHideFocusLockMode = memento.AutoHideFocusLockMode;
+            this.IsAutoHideKeyDownDelay = memento.IsAutoHideKeyDownDelay;
         }
 
 #pragma warning disable CS0612

@@ -71,7 +71,6 @@ namespace NeeView
         public event EventHandler<BookChangedEventArgs> BookChanged;
         public event EventHandler<ViewItemsChangedEventArgs> ViewItemsChanged;
         public event EventHandler<VisibleEventArgs> VisibleEvent;
-        public event EventHandler ResetDelayHideEvent;
 
         #endregion
 
@@ -89,10 +88,9 @@ namespace NeeView
             get { return _isEnableThumbnailList; }
             set
             {
-                if (_isEnableThumbnailList != value)
+                if (SetProperty(ref _isEnableThumbnailList, value))
                 {
-                    _isEnableThumbnailList = value;
-                    RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(CanHideThumbnailList));
                 }
             }
         }
@@ -103,7 +101,13 @@ namespace NeeView
         public bool IsHideThumbnailList
         {
             get { return _isHideThumbnailList; }
-            set { if (_isHideThumbnailList != value) { _isHideThumbnailList = value; RaisePropertyChanged(); } }
+            set
+            {
+                if (SetProperty(ref _isHideThumbnailList, value))
+                {
+                    RaisePropertyChanged(nameof(CanHideThumbnailList));
+                }
+            }
         }
 
         /// <summary>
@@ -259,11 +263,6 @@ namespace NeeView
             if (contents == null) return;
 
             this.ViewItems = contents.Where(i => i != null).Select(i => i.Page).OrderBy(i => i.Index).ToList();
-        }
-
-        public void ResetDelayHide()
-        {
-            ResetDelayHideEvent?.Invoke(this, null);
         }
 
         private int GetIndexWithDirectionReverse(int value)

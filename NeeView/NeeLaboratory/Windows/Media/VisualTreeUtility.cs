@@ -264,6 +264,30 @@ namespace NeeLaboratory.Windows.Media
             return null;
         }
 
+
+        /// <summary>
+        /// 指定した親に属しているか判定する
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj"></param>
+        /// <param name="target"></param>
+        /// <returns></returns>
+        public static bool HasParentElement(DependencyObject obj, DependencyObject target)
+        {
+            var element = obj;
+            while (element != null)
+            {
+                element = VisualTreeHelper.GetParent(element);
+                if (element == target)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
         /// <summary>
         /// DependencyObject から、型、名前を指定してコントロールを取得する
         /// </summary>

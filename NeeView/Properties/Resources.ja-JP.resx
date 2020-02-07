@@ -2994,7 +2994,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>PDFファイルの拡張子</value>
   </data>
   <data name="ParamAutoHideDelayTime" xml:space="preserve">
-    <value>パネルやメニューが自動的に消えるまでの時間(秒)</value>
+    <value>自動非表示パネルを非表示にする時間（秒）</value>
   </data>
   <data name="ParamBookBookReadOrder" xml:space="preserve">
     <value>本を開く方向</value>
@@ -4769,5 +4769,35 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="DialogSusieConnectError" xml:space="preserve">
     <value>Susieとの接続に失敗しました。</value>
+  </data>
+  <data name="AutoHideFocusLockMode" xml:space="preserve">
+    <value>自動非表示パネルのフォーカスモード</value>
+  </data>
+  <data name="AutoHideFocusLockModeTips" xml:space="preserve">
+    <value>フォーカスがあるときには非表示になりません。</value>
+  </data>
+  <data name="IsAutoHideKeyDownDelay" xml:space="preserve">
+    <value>自動非表示パネルのキー入力表示継続</value>
+  </data>
+  <data name="IsAutoHideKeyDownDelayTips" xml:space="preserve">
+    <value>キー入力されたら非表示にする動作を延期します。</value>
+  </data>
+  <data name="EnumAutoHideFocusLockModeNone" xml:space="preserve">
+    <value>なし</value>
+  </data>
+  <data name="EnumAutoHideFocusLockModeLogicalFocusLock" xml:space="preserve">
+    <value>パネル</value>
+  </data>
+  <data name="EnumAutoHideFocusLockModeLogicalTextBoxFocusLock" xml:space="preserve">
+    <value>テキストボックス</value>
+  </data>
+  <data name="EnumAutoHideFocusLockModeFocusLock" xml:space="preserve">
+    <value>ウィンドウとパネル</value>
+  </data>
+  <data name="EnumAutoHideFocusLockModeTextBxFocusLock" xml:space="preserve">
+    <value>ウィンドウとテキストボックス</value>
+  </data>
+  <data name="SettingPageVisualGeneralAutoHide" xml:space="preserve">
+    <value>自動非表示パネル</value>
   </data>
 </root>

@@ -344,7 +344,6 @@ namespace NeeView
 
         private void ThumbnailListBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            _vm.ResetDelayHide();
         }
 
         // リストボックスのカーソルキーによる不意のスクロール抑制

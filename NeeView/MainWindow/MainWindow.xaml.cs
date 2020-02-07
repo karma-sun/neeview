@@ -82,9 +82,6 @@ namespace NeeView
             InitializeCommand();
             InitializeCommandBindings();
 
-            // レイヤー表示管理初期化
-            InitializeLayerVisibility();
-
             //
             MainWindowModel.Current.AddPropertyChanged(nameof(MainWindowModel.IsHideMenu),
                 (s, e) => DartyMenuAreaLayout());
@@ -92,8 +89,8 @@ namespace NeeView
             MainWindowModel.Current.AddPropertyChanged(nameof(MainWindowModel.CanHidePageSlider),
                 (s, e) => DartyPageSliderLayout());
 
-            MainWindowModel.Current.AddPropertyChanged(nameof(MainWindowModel.IsPanelVisibleLocked),
-                (s, e) => UpdateControlsVisibility());
+            ////MainWindowModel.Current.AddPropertyChanged(nameof(MainWindowModel.IsPanelVisibleLocked),
+            ////    (s, e) => UpdateControlsVisibility());
 
             ThumbnailList.Current.AddPropertyChanged(nameof(ThumbnailList.IsEnableThumbnailList),
                 (s, e) => DartyThumbnailListLayout());
@@ -104,17 +101,14 @@ namespace NeeView
             ThumbnailList.Current.VisibleEvent +=
                 ThumbnailList_Visible;
 
-            ThumbnailList.Current.ResetDelayHideEvent +=
-                ThumbnailList_ResetDelayHide;
-
             SidePanel.Current.ResetFocus +=
                 (s, e) => ResetFocus();
 
             ContentCanvas.Current.AddPropertyChanged(nameof(ContentCanvas.IsMediaContent),
                 (s, e) => DartyPageSliderLayout());
 
-            this.AddressBar.IsAddressTextBoxFocusedChanged +=
-                (s, e) => UpdateMenuLayerVisibility();
+            ////this.AddressBar.IsAddressTextBoxFocusedChanged +=
+            ////    (s, e) => UpdateMenuLayerVisibility();
 
             WindowShape.Current.AddPropertyChanged(nameof(WindowShape.IsFullScreen),
                 (s, e) => FullScreenChanged());
@@ -725,8 +719,6 @@ namespace NeeView
         //
         private void MainWindow_MouseLeave(object sender, MouseEventArgs e)
         {
-            // パネル表示状態更新
-            UpdateControlsVisibility();
         }
 
 
@@ -955,8 +947,7 @@ namespace NeeView
         private void LayoutFrame()
         {
             UpdateMenuAreaLayout();
-            UpdatePageSliderLayout();
-            UpdateThumbnailListLayout();
+            UpdateStatusAreaLayout();
         }
 
         /// <summary>
@@ -980,11 +971,16 @@ namespace NeeView
                 this.DockMenuSocket.Content = null;
                 this.LayerMenuSocket.Content = this.MenuArea; ;
             }
-
-            // メニューレイヤー
-            MenuLayerVisibility.SetDelayVisibility(Visibility.Collapsed, 0);
         }
 
+        /// <summary>
+        /// ステータスエリアレイアウト更新。
+        /// </summary>
+        private void UpdateStatusAreaLayout()
+        {
+            UpdatePageSliderLayout();
+            UpdateThumbnailListLayout();
+        }
 
         /// <summary>
         /// ページスライダーレイアウト更新。
@@ -1001,11 +997,13 @@ namespace NeeView
             {
                 this.LayerPageSliderSocket.Content = null;
                 this.DockPageSliderSocket.Content = this.SliderArea;
+                this.LayerStatusAreaPadding.Visibility = Visibility.Visible;
             }
             else
             {
                 this.DockPageSliderSocket.Content = null;
                 this.LayerPageSliderSocket.Content = this.SliderArea;
+                this.LayerStatusAreaPadding.Visibility = Visibility.Collapsed;
             }
 
             // visibility
@@ -1019,9 +1017,6 @@ namespace NeeView
                 this.MediaControlView.Visibility = Visibility.Collapsed;
                 this.PageSliderView.Visibility = Visibility.Visible;
             }
-
-            // ステータスレイヤー
-            StatusLayerVisibility.SetDelayVisibility(Visibility.Collapsed, 0);
         }
 
         /// <summary>
@@ -1059,141 +1054,11 @@ namespace NeeView
             {
                 ThumbnailList.Current.FocusAtOnce();
             }
-            StatusLayerVisibility.Set(Visibility.Visible);
-            UpdateStatusLayerVisibility();
-        }
-
-        private void ThumbnailList_ResetDelayHide(object sender, EventArgs e)
-        {
-            StatusLayerVisibility.Set(Visibility.Visible);
-            UpdateStatusLayerVisibility();
         }
 
         #endregion
 
-        #region レイヤー表示状態
 
-        // 初期化
-        private void InitializeLayerVisibility()
-        {
-            InitializeMenuLayerVisibility();
-            InitializeStatusLayerVisibility();
-
-            this.Root.MouseMove += Root_MouseMove;
-        }
-
-
-        // ViewAreaでのマウス移動
-        private void Root_MouseMove(object sender, MouseEventArgs e)
-        {
-            UpdateControlsVisibility();
-        }
-
-        /// <summary>
-        /// レイヤーの表示状態更新
-        /// </summary>
-        private void UpdateControlsVisibility()
-        {
-            UpdateMenuLayerVisibility();
-            UpdateStatusLayerVisibility();
-        }
-
-        /// <summary>
-        /// メニューレイヤー表示状態
-        /// </summary>
-        public DelayVisibility MenuLayerVisibility { get; set; }
-
-        /// <summary>
-        /// メニューレイヤーの表示状態管理初期化
-        /// </summary>
-        private void InitializeMenuLayerVisibility()
-        {
-            this.MenuLayerVisibility = new DelayVisibility() { DefaultDelayTime = App.Current.AutoHideDelayTime };
-            this.MenuLayerVisibility.Changed += (s, e) =>
-            {
-                this.LayerMenuSocket.Visibility = MenuLayerVisibility.Visibility;
-            };
-
-            App.Current.AddPropertyChanged(nameof(App.AutoHideDelayTime), (s, e) =>
-            {
-                MenuLayerVisibility.DefaultDelayTime = App.Current.AutoHideDelayTime;
-            });
-        }
-
-        /// <summary>
-        /// メニューレイヤーの表示状態更新
-        /// </summary>
-        private void UpdateMenuLayerVisibility()
-        {
-            const double visibleMargin = 16;
-
-            if (MainWindowModel.Current.CanHideMenu && !_vm.Model.IsPanelVisibleLocked)
-            {
-                var point = Mouse.GetPosition(this.Root);
-                bool isVisible = this.AddressBar.AddressTextBox.IsFocused || this.LayerMenuSocket.IsMouseOver || point.Y < (MenuLayerVisibility.Visibility == Visibility.Visible ? this.LayerMenuSocket.ActualHeight : 0) + visibleMargin && this.IsMouseOver;
-                MenuLayerVisibility.Set(isVisible ? Visibility.Visible : Visibility.Collapsed);
-            }
-            else
-            {
-                MenuLayerVisibility.Set(Visibility.Visible);
-            }
-        }
-
-
-
-        /// <summary>
-        /// ステータスレイヤー表示状態
-        /// </summary>
-        public DelayVisibility StatusLayerVisibility { get; set; }
-
-        /// <summary>
-        /// ステータスレイヤーの表示状態管理初期化
-        /// </summary>
-        private void InitializeStatusLayerVisibility()
-        {
-            this.StatusLayerVisibility = new DelayVisibility() { DefaultDelayTime = App.Current.AutoHideDelayTime };
-            this.StatusLayerVisibility.Changed += (s, e) =>
-            {
-                this.LayerStatusArea.Visibility = StatusLayerVisibility.Visibility;
-                if (StatusLayerVisibility.Visibility == Visibility.Visible && this.ThumbnailListArea.IsVisible)
-                {
-                    this.ThumbnailListArea.UpdateThumbnailList();
-                }
-                ThumbnailList.Current.IsVisible = this.ThumbnailListArea.IsVisible;
-            };
-
-            App.Current.AddPropertyChanged(nameof(App.AutoHideDelayTime), (s, e) =>
-            {
-                StatusLayerVisibility.DefaultDelayTime = App.Current.AutoHideDelayTime;
-            });
-        }
-
-        /// <summary>
-        /// ステータスレイヤーの表示状態更新
-        /// </summary>
-        private void UpdateStatusLayerVisibility()
-        {
-            const double visibleMargin = 15;
-
-            if (_vm.Model.IsPanelVisibleLocked)
-            {
-                StatusLayerVisibility.Set(Visibility.Visible);
-            }
-            else if (this.LayerStatusArea.Visibility == Visibility.Visible)
-            {
-                var point = Mouse.GetPosition(this.LayerStatusArea);
-                bool isVisible = this.LayerStatusArea.IsFocused || this.LayerStatusArea.IsMouseOver || point.Y > -visibleMargin && this.IsMouseOver;
-                StatusLayerVisibility.Set(isVisible ? Visibility.Visible : Visibility.Collapsed);
-            }
-            else
-            {
-                var point = Mouse.GetPosition(this.RootBottom);
-                bool isVisible = point.Y > -30.0 && this.IsMouseOver;
-                StatusLayerVisibility.Set(isVisible ? Visibility.Visible : Visibility.Collapsed);
-            }
-        }
-
-        #endregion
 
         #region [開発用]
 

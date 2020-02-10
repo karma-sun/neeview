@@ -1,9 +1,9 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Media;
 
 namespace NeeView
 {
-    //
     public enum PanelPlace
     {
         Left,
@@ -15,6 +15,11 @@ namespace NeeView
     /// </summary>
     public interface IPanel
     {
+        /// <summary>
+        /// IsVisibleLock変更イベント
+        /// </summary>
+        event EventHandler IsVisibleLockChanged;
+
         /// <summary>
         /// 識別名
         /// </summary>

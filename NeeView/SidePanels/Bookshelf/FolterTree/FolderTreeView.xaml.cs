@@ -74,9 +74,25 @@ namespace NeeView
 
         #endregion
 
+
+        public event EventHandler IsRenamingChanged;
+
+
         #region Properties
 
-        public bool IsRenaming { get; private set; }
+        private bool _isRenaming;
+        public bool IsRenaming
+        {
+            get { return _isRenaming; }
+            private set
+            {
+                if (_isRenaming != value)
+                {
+                    _isRenaming = value;
+                    IsRenamingChanged?.Invoke(this, null);
+                }
+            }
+        }
 
         #endregion Properties
 

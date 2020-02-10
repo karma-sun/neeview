@@ -19,10 +19,13 @@ namespace NeeView
         public PagemarkPanel(PagemarkList model)
         {
             _view = new PagemarkListView(model);
+            _view.IsVisibleLockChanged += (s, e) => IsVisibleLockChanged?.Invoke(s, e);
 
             Icon = App.Current.MainWindow.Resources["pic_bookmark_24px"] as ImageSource;
             IconMargin = new Thickness(10);
         }
+
+        public event EventHandler IsVisibleLockChanged;
 
         public string TypeCode => nameof(PagemarkPanel);
 
@@ -34,7 +37,7 @@ namespace NeeView
 
         public FrameworkElement View => _view;
 
-        public bool IsVisibleLock => _view.IsBusy;
+        public bool IsVisibleLock => _view.IsVisibleLock;
 
         public PanelPlace DefaultPlace => PanelPlace.Right;
 

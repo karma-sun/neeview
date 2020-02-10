@@ -10,6 +10,7 @@ using NeeView.Windows;
 using NeeView.Windows.Data;
 using NeeLaboratory.Windows.Input;
 using NeeLaboratory.ComponentModel;
+using NeeLaboratory.Windows.Media;
 
 namespace NeeView
 {
@@ -21,10 +22,6 @@ namespace NeeView
     {
         public static string DragDropFormat = $"{Config.Current.ProcessId}.PanelContent";
 
-        private bool _isForceVisibled;
-
-
-        // Constructors
 
         public SidePanelViewModel(SidePanelGroup panel, ItemsControl itemsControl)
         {
@@ -35,30 +32,23 @@ namespace NeeView
 
             Panel.SelectedPanelChanged += (s, e) =>
             {
-                _visibility.SetValue(Visibility.Visible, 0.0);
-                UpdateVisibility();
-
+                RaisePropertyChanged(nameof(PanelVisibility));
+                AutoHideDescription.VisibleOnce();
                 SelectedPanelChanged?.Invoke(s, e);
             };
 
-            _visibility = new DelayValue<Visibility>(Visibility.Collapsed);
-            _visibility.ValueChanged += (s, e) =>
+            AutoHideDescription = new SidePanelAutoHideDescription(this);
+            AutoHideDescription.VisibilityChanged += (s, e) =>
             {
-                RaisePropertyChanged(nameof(Visibility));
-                RaisePropertyChanged(nameof(PanelVisibility));
-                Panel.IsVisible = Visibility == Visibility.Visible;
+                Visibility = e.Visibility;
             };
-
-            UpdateVisibility();
         }
 
-
-        // Events
 
         public event EventHandler<SelectedPanelChangedEventArgs> SelectedPanelChanged;
 
 
-        // Prototypes.
+        public SidePanelAutoHideDescription AutoHideDescription { get; }
 
         public double Width
         {
@@ -79,94 +69,70 @@ namespace NeeView
             set { if (_maxWidth != value) { _maxWidth = value; RaisePropertyChanged(); } }
         }
 
-
         private bool _isDragged;
         public bool IsDragged
         {
             get { return _isDragged; }
-            set { if (_isDragged != value) { _isDragged = value; RaisePropertyChanged(); UpdateVisibility(); } }
-        }
-
-        private bool _isNearCursor;
-        public bool IsNearCursor
-        {
-            get { return _isNearCursor; }
-            set { if (_isNearCursor != value) { _isNearCursor = value; RaisePropertyChanged(); UpdateVisibility(); } }
+            set
+            {
+                if (SetProperty(ref _isDragged, value))
+                {
+                    RaisePropertyChanged(nameof(IsVisibleLocked));
+                }
+            }
         }
 
         private bool _isAutoHide;
         public bool IsAutoHide
         {
             get { return _isAutoHide; }
-            set { if (_isAutoHide != value) { _isAutoHide = value; RaisePropertyChanged(); UpdateVisibility(true); } }
+            set { if (_isAutoHide != value) { _isAutoHide = value; RaisePropertyChanged(); } }
         }
 
-
-        private bool _isVisibleLocked;
+        // VisibleLock 条件
+        // - v サイドバーアイコンドラッグ中
+        // - パネルからのロック要求(項目名変更、コンテキストメニュー、ドラッグ等)
         public bool IsVisibleLocked
         {
-            get { return _isVisibleLocked; }
-            set { if (_isVisibleLocked != value) { _isVisibleLocked = value; RaisePropertyChanged(); UpdateForceVisibled(); } }
+            get
+            {
+                return IsDragged || Panel.IsVisibleLocked;
+            }
         }
 
-
-        private DelayValue<Visibility> _visibility;
+        /// <summary>
+        /// パネルの表示状態。自動非表示機能により変化
+        /// </summary>
+        private Visibility _visibility;
         public Visibility Visibility
         {
-            get { return _visibility.Value; }
+            get { return _visibility; }
+            private set
+            {
+                if (SetProperty(ref _visibility, value))
+                {
+                    RaisePropertyChanged(nameof(PanelVisibility));
+                }
+
+                Panel.IsVisible = Visibility == Visibility.Visible;
+            }
         }
 
-
-        public Visibility PanelVisibility => Visibility == Visibility.Visible && this.Panel.SelectedPanel != null ? Visibility.Visible : Visibility.Collapsed;
+        /// <summary>
+        /// サイドバーを含むパネル全体の表示状態。
+        /// </summary>
+        public Visibility PanelVisibility
+        {
+            get
+            {
+                return Visibility == Visibility.Visible && this.Panel.SelectedPanel != null ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
 
         // Model
         public SidePanelGroup Panel { get; private set; }
 
 
-
-        // Methods
-
-        public void UpdateForceVisibled()
-        {
-            _isForceVisibled = _isVisibleLocked || (this.Panel.SelectedPanel != null && this.Panel.SelectedPanel.IsVisibleLock);
-            UpdateVisibility();
-        }
-
-        /// <summary>
-        /// Visibility更新
-        /// </summary>
-        public void UpdateVisibility(bool now = false, bool isForce = false)
-        {
-            SetVisibility(CanVisible(), now, isForce);
-        }
-
-        //
-        private bool CanVisible()
-        {
-            return _isForceVisibled || _isDragged || (Panel.Panels.Any() ? _isAutoHide ? _isNearCursor : true : false);
-        }
-
-        //
-        private void SetVisibility(bool isVisible, bool now, bool isForce)
-        {
-            if (isVisible)
-            {
-                _visibility.SetValue(Visibility.Visible, 0.0, isForce);
-            }
-            else
-            {
-                _visibility.SetValue(Visibility.Collapsed, now ? 0.0 : App.Current.AutoHideDelayTime * 1000.0, isForce);
-            }
-        }
-
-        /// <summary>
-        /// 遅延非表示の場合に遅延時間をリセットする。
-        /// キー入力等での表示更新遅延時間のリセットに使用
-        /// </summary>
-        public void ResetDelayHide()
-        {
-            if (!CanVisible()) SetVisibility(false, false, true);
-        }
 
         /// <summary>
         /// モデルのプロパティ変更イベント処理
@@ -183,9 +149,11 @@ namespace NeeView
                 case nameof(Panel.Width):
                     RaisePropertyChanged(nameof(Width));
                     break;
+                case nameof(Panel.IsVisibleLocked):
+                    RaisePropertyChanged(nameof(IsVisibleLocked));
+                    break;
             }
         }
-
 
         #region Commands
 
@@ -201,7 +169,6 @@ namespace NeeView
         }
 
         #endregion
-
 
         #region DropAccept
 
@@ -333,46 +300,30 @@ namespace NeeView
         public int Index { get; set; }
     }
 
-
     /// <summary>
-    /// 左パネル ViewModel
+    /// SidePanel用AutoHideBehavior補足
     /// </summary>
-    public class LeftPanelViewModel : SidePanelViewModel
+    public class SidePanelAutoHideDescription : AutoHideDescription
     {
-        public LeftPanelViewModel(SidePanelGroup panel, ItemsControl itemsControl) : base(panel, itemsControl)
+        private SidePanelViewModel _self;
+
+        public SidePanelAutoHideDescription(SidePanelViewModel self)
         {
+            _self = self;
         }
 
-        /// <summary>
-        /// 表示更新処理
-        /// </summary>
-        /// <param name="point"></param>
-        /// <param name="limit"></param>
-        internal void UpdateVisibility(Point point, Point limit, bool isMouseOverTarget)
+        public override bool IsVisibleLocked()
         {
-            this.IsNearCursor = point.X < limit.X + SidePanelProfile.Current.HitTestMargin && !MainWindowModel.Current.IsFontAreaMouseOver && isMouseOverTarget;
-            UpdateForceVisibled();
+            var targetElement = ContextMenuWatcher.TargetElement;
+            if (targetElement != null)
+            {
+                return VisualTreeUtility.HasParentElement(targetElement, _self.Panel.SelectedPanel?.View);
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 
-    /// <summary>
-    /// 右パネル ViewMdoel
-    /// </summary>
-    public class RightPanelViewModel : SidePanelViewModel
-    {
-        public RightPanelViewModel(SidePanelGroup panel, ItemsControl itemsControl) : base(panel, itemsControl)
-        {
-        }
-
-        /// <summary>
-        /// 表示更新処理
-        /// </summary>
-        /// <param name="point"></param>
-        /// <param name="limit"></param>
-        internal void UpdateVisibility(Point point, Point limit, bool isMouseOverTarget)
-        {
-            this.IsNearCursor = point.X > limit.X - SidePanelProfile.Current.HitTestMargin && !MainWindowModel.Current.IsFontAreaMouseOver && isMouseOverTarget;
-            UpdateForceVisibled();
-        }
-    }
 }

@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Threading;
 
+// TODO: 遅延処理を停止するための終了処理が必要。Disposableにするべきか？
+// TODO: WPF非依存にするため、Timers.Timeに変更する？
+
 namespace NeeView.Windows.Data
 {
     /// <summary>
     /// 値の遅延反映
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class DelayValue<T> where T : IComparable
+    public class DelayValue<T>
     {
         #region Fields
 
@@ -69,13 +71,15 @@ namespace NeeView.Windows.Data
 
         /// <summary>
         /// 遅延値設定
-        /// TODO: isForceの意味が？
         /// </summary>
         /// <param name="value">目的値</param>
         /// <param name="ms">反映遅延時間</param>
         /// <param name="isForce">同じ値でも実行する</param>
         public void SetValue(T value, double ms = 0.0, bool isForce = false)
         {
+            // TODO: isForceの意味が？
+            // TODO: 同じ値が設定された場合はより短い遅延時間を採用する
+
             if (!isForce && EqualityComparer<T>.Default.Equals(_delayValue, value)) return;
 
             _delayValue = value;

@@ -29,6 +29,10 @@ namespace NeeView
             //IconMargin = new Thickness(8);
         }
 
+#pragma warning disable CS0067
+        public event EventHandler IsVisibleLockChanged;
+#pragma warning restore CS0067
+
         public string TypeCode => nameof(HistoryPanel);
 
         public ImageSource Icon { get; private set; }

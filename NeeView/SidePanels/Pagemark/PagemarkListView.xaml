@@ -31,9 +31,9 @@
     </UserControl.Resources>
 
 
-    <DockPanel x:Name="DockPanel" Margin="0,5,0,0">
+    <DockPanel x:Name="DockPanel" Background="Transparent">
 
-        <StackPanel DockPanel.Dock="Top" Margin="5">
+        <StackPanel DockPanel.Dock="Top" Margin="5,10,5,5">
             <StackPanel Margin="5" Orientation="Horizontal">
                 <Image Source="{StaticResource ic_bookmark_24px}" Width="14" Height="14" VerticalAlignment="Center" Margin="0,0,2,0"/>
                 <TextBlock Text="{x:Static properties:Resources.PagemarkName}" Foreground="Gray" VerticalAlignment="Center"/>
@@ -42,7 +42,7 @@
                 <TextBlock Text="{Binding Model.PlaceDispString}" ToolTip="{Binding Model.PlaceDispString}" Margin="5,0" HorizontalAlignment="Right" VerticalAlignment="Center"/>
             </DockPanel>
             <DockPanel LastChildFill="False" KeyboardNavigation.TabNavigation="Local">
-                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Height ="30" Width="30" MouseRightButtonUp="MoreButton_MouseRightButtonUp"
+                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Height ="30" Width="30" MouseRightButtonUp="MoreButton_MouseRightButtonUp" Checked="MoreButton_Checked"
                               nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}" TabIndex="2">
                     <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
                 </ToggleButton>

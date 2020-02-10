@@ -31,7 +31,6 @@ namespace NeeView
 
         #endregion
 
-
         #region Constructors
 
         public FolderListView()
@@ -42,8 +41,10 @@ namespace NeeView
         public FolderListView(FolderList model) : this()
         {
             this.FolderTree.Model = new BookshelfFolderTreeModel(model);
+            this.FolderTree.IsRenamingChanged += (s, e) => IsRenamingChanged?.Invoke(s, e);
 
             _vm = new FolderListViewModel(model);
+            _vm.AddPropertyChanged(nameof(_vm.IsRenaming), (s, e) => IsRenamingChanged?.Invoke(s, e));
             this.DockPanel.DataContext = _vm;
 
             model.SearchBoxFocus += FolderList_SearchBoxFocus;
@@ -53,8 +54,10 @@ namespace NeeView
 
         #endregion
 
+        public event EventHandler IsRenamingChanged;
 
-        public bool IsRenaming => _vm.Model.IsRenaming || this.FolderTree.IsRenaming;
+
+        public bool IsRenaming => _vm.IsRenaming || this.FolderTree.IsRenaming;
 
         public bool IsSearchBoxFocused => this.SearchBox.IsKeyboardFocusWithin;
 
@@ -206,9 +209,6 @@ namespace NeeView
             // リストのフォーカス更新を停止
             _vm.SetListFocusEnabled(!this.SearchBox.IsKeyboardFocusWithin);
 
-            // パネル表示状態を更新
-            SidePanelFrameView.Current?.UpdateVisibility();
-
             // フォーカス解除で履歴登録
             if (!this.SearchBox.IsKeyboardFocusWithin)
             {
@@ -231,6 +231,7 @@ namespace NeeView
         private void MoreButton_Checked(object sender, RoutedEventArgs e)
         {
             _vm.UpdateMoreMenu();
+            ContextMenuWatcher.SetTargetElement(this);
         }
 
         private void MoreButton_MouseRightButtonUp(object sender, MouseButtonEventArgs e)

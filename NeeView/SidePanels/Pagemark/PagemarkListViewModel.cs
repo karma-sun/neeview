@@ -54,11 +54,18 @@ namespace NeeView
                     _listBoxContent?.Dispose();
                     _listBoxContent = value;
                     RaisePropertyChanged();
+                    RaisePropertyChanged(nameof(IsVisibleLock));
                 }
             }
         }
 
-        public bool IsBusy => _listBoxContent != null ? _listBoxContent.IsRenaming : false;
+        public bool IsVisibleLock
+        {
+            get
+            {
+                return _listBoxContent != null ? _listBoxContent.IsVisibleLock : false;
+            }
+        }
 
 
         #region MoreMenu
@@ -208,6 +215,7 @@ namespace NeeView
         private void UpdateListBoxContent()
         {
             ListBoxContent = new PagemarkListBox(new PagemarkListBoxViewModel(Model.ListBox));
+            ListBoxContent.IsVisibleLockChanged += (s, e) => RaisePropertyChanged(nameof(IsVisibleLock));
         }
 
 

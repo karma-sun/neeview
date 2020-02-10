@@ -35,11 +35,14 @@ namespace NeeView
             this.Root.DataContext = _vm;
 
             _folderListView = new FolderListView(folderList);
+            _folderListView.IsRenamingChanged += (s, e) => IsVisibleLockChanged?.Invoke(s, e);
             this.FolderList.Content = _folderListView;
 
             PageListPlacementService.Current.Update();
         }
 
+
+        public event EventHandler IsVisibleLockChanged;
 
 
         public bool IsVisibleLock => _folderListView.IsRenaming || _folderListView.IsSearchBoxFocused;

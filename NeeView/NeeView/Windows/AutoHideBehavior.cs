@@ -23,13 +23,13 @@ namespace NeeView
 
         [AliasName("@EnumAutoHideFocusLockModeLogicalFocusLock")]
         LogicalFocusLock,
-        
+
         [AliasName("@EnumAutoHideFocusLockModeLogicalTextBoxFocusLock")]
         LogicalTextBoxFocusLock,
 
         [AliasName("@EnumAutoHideFocusLockModeFocusLock")]
         FocusLock,
-        
+
         [AliasName("@EnumAutoHideFocusLockModeTextBxFocusLock")]
         TextBoxFocusLock,
     }
@@ -73,6 +73,19 @@ namespace NeeView
         }
 
 
+        /// <summary>
+        /// 追加のマウス判定領域
+        /// </summary>
+        public FrameworkElement SubTarget
+        {
+            get { return (FrameworkElement)GetValue(SubTargetProperty); }
+            set { SetValue(SubTargetProperty, value); }
+        }
+
+        public static readonly DependencyProperty SubTargetProperty =
+            DependencyProperty.Register("SubTarget", typeof(FrameworkElement), typeof(AutoHideBehavior), new PropertyMetadata(null));
+
+
         public Dock Dock
         {
             get { return (Dock)GetValue(DockProperty); }
@@ -96,8 +109,8 @@ namespace NeeView
         {
             if (d is AutoHideBehavior control)
             {
-                var controlName = control.AssociatedObject.Name ?? control.AssociatedObject.ToString();
-                Debug.WriteLine($"{controlName}.AutoHideBehavior.IsEnabled: {control.IsEnabled}");
+                ////var controlName = control.AssociatedObject.Name ?? control.AssociatedObject.ToString();
+                ////Debug.WriteLine($"{controlName}.AutoHideBehavior.IsEnabled: {control.IsEnabled}");
                 control.UpdateVisibility(UpdateVisibilityOption.All);
             }
         }
@@ -185,14 +198,39 @@ namespace NeeView
             DependencyProperty.Register("IsKeyDownDelayEnabled", typeof(bool), typeof(AutoHideBehavior), new PropertyMetadata(true));
 
 
+        public AutoHideDescription Description
+        {
+            get { return (AutoHideDescription)GetValue(DescriptionProperty); }
+            set { SetValue(DescriptionProperty, value); }
+        }
+
+        public static readonly DependencyProperty DescriptionProperty =
+            DependencyProperty.Register("Description", typeof(AutoHideDescription), typeof(AutoHideBehavior), new PropertyMetadata(null, OnDescriptionPropertyChanged));
+
+        private static void OnDescriptionPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is AutoHideBehavior control)
+            {
+                if (e.OldValue is AutoHideDescription description)
+                {
+                    description.VisibleOnceCall -= control.Description_VisibleOnce;
+                }
+                if (control.Description != null)
+                {
+                    control.Description.VisibleOnceCall += control.Description_VisibleOnce;
+                }
+            }
+        }
+
         #endregion DependencyProperties
 
 
+        private Window _window;
         private DelayValue<Visibility> _delayVisibility;
         private bool _isAttached;
         private bool _isMouseOver;
         private bool _isFocusLock;
-        
+
 
         protected override void OnAttached()
         {
@@ -202,13 +240,13 @@ namespace NeeView
 
             _delayVisibility = new DelayValue<Visibility>(this.AssociatedObject.Visibility);
             _delayVisibility.ValueChanged += DelayVisibility_ValueChanged;
+            this.Description?.RaiseVisibilityChanged(this, new VisibillityChangedEventArgs(_delayVisibility.Value));
 
             this.AssociatedObject.IsKeyboardFocusWithinChanged += AssociatedObject_IsKeyboardFocusWithinChanged;
             this.AssociatedObject.GotFocus += AssociatedObject_GotFocus;
             this.AssociatedObject.LostFocus += AssociatedObject_LostFocus;
             this.AssociatedObject.PreviewKeyDown += AssociatedObject_PreviewKeyDown;
-            this.Screen.MouseMove += Screen_MouseMove;
-            this.Screen.MouseLeave += Screen_MouseLeave;
+            this.AssociatedObject.Loaded += AssociatedObject_Loaded;
 
             _isAttached = true;
             UpdateVisibility(UpdateVisibilityOption.All);
@@ -226,22 +264,30 @@ namespace NeeView
             this.AssociatedObject.GotFocus -= AssociatedObject_GotFocus;
             this.AssociatedObject.LostFocus -= AssociatedObject_LostFocus;
             this.AssociatedObject.PreviewKeyDown += AssociatedObject_PreviewKeyDown;
-            this.Screen.MouseMove -= Screen_MouseMove;
-            this.Screen.MouseLeave -= Screen_MouseLeave;
+            this.AssociatedObject.Unloaded += AssociatedObject_Unloaded;
 
             BindingOperations.ClearBinding(this.AssociatedObject, FrameworkElement.VisibilityProperty);
         }
 
+        private void AssociatedObject_Loaded(object sender, RoutedEventArgs e)
+        {
+            _window = Window.GetWindow(this.AssociatedObject);
+            _window.MouseMove += Screen_MouseMove;
+            _window.MouseLeave += Screen_MouseLeave;
+        }
+
+        private void AssociatedObject_Unloaded(object sender, RoutedEventArgs e)
+        {
+            _window.MouseMove -= Screen_MouseMove;
+            _window.MouseLeave -= Screen_MouseLeave;
+            _window = null;
+        }
 
         private void DelayVisibility_ValueChanged(object sender, EventArgs e)
         {
-            if (this.AssociatedObject.Visibility != _delayVisibility.Value)
-            {
-                var controlName = this.AssociatedObject.Name ?? this.AssociatedObject.ToString();
-                Debug.WriteLine($"{controlName}.Visibility: {_delayVisibility.Value}");
-            }
-
-            this.AssociatedObject.Visibility = _delayVisibility.Value;
+            var visibility = _delayVisibility.Value;
+            this.AssociatedObject.Visibility = visibility;
+            this.Description?.RaiseVisibilityChanged(this, new VisibillityChangedEventArgs(visibility));
         }
 
         private void AssociatedObject_IsKeyboardFocusWithinChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -286,6 +332,10 @@ namespace NeeView
             UpdateVisibility(UpdateVisibilityOption.UpdateMouseOver);
         }
 
+        private void Description_VisibleOnce(object sender, EventArgs e)
+        {
+            VisibleOnce();
+        }
 
         /// <summary>
         /// 表示更新用フラグ
@@ -338,12 +388,17 @@ namespace NeeView
                     return false;
                 }
 
-                if (!this.Screen.IsMouseOver)
+                if (_window?.IsMouseOver != true)
                 {
                     return false;
                 }
 
                 if (this.AssociatedObject.IsMouseOver)
+                {
+                    return true;
+                }
+
+                if (this.SubTarget != null && this.SubTarget.IsMouseOver)
                 {
                     return true;
                 }
@@ -405,10 +460,9 @@ namespace NeeView
             }
         }
 
-
         private bool CanVisible()
         {
-            return !this.IsEnabled || this.IsVisibleLocked || _isMouseOver || _isFocusLock;
+            return !this.IsEnabled || this.IsVisibleLocked || _isMouseOver || _isFocusLock || Description?.IsVisibleLocked() == true;
         }
 
         private void SetVisibility(bool isVisible, bool now, bool isForce)
@@ -423,10 +477,20 @@ namespace NeeView
             }
         }
 
+
+        public void VisibleOnce()
+        {
+            if (!_isAttached) return;
+            if (!IsEnabled) return;
+
+            SetVisibility(true, true, true);
+            UpdateVisibility();
+        }
+
         /// <summary>
         /// 遅延時間を延長する
         /// </summary>
-        public void ResetDelayTime()
+        public void HiddenOnce()
         {
             if (!_isAttached) return;
             if (!IsEnabled) return;
@@ -448,6 +512,53 @@ namespace NeeView
 
             return behavior;
         }
+    }
 
+
+    /// <summary>
+    /// VisibilityChangedイベントの引数
+    /// </summary>
+    public class VisibillityChangedEventArgs : EventArgs
+    {
+        public VisibillityChangedEventArgs(Visibility visibility)
+        {
+            Visibility = visibility;
+        }
+
+        public Visibility Visibility { get; set; }
+    }
+
+
+    /// <summary>
+    /// AutoHideBehavor補足
+    /// </summary>
+    public class AutoHideDescription
+    {
+        public event EventHandler<VisibillityChangedEventArgs> VisibilityChanged;
+        public event EventHandler VisibleOnceCall;
+
+        /// <summary>
+        /// 表示ロック追加フラグ
+        /// </summary>
+        public virtual bool IsVisibleLocked()
+        {
+            return false;
+        }
+
+        /// <summary>
+        /// VisublityChangedイベント発行用。AutoHideBehaviorから呼ばれる
+        /// </summary>
+        public void RaiseVisibilityChanged(object sender, VisibillityChangedEventArgs args)
+        {
+            VisibilityChanged?.Invoke(sender, args);
+        }
+
+        /// <summary>
+        /// 一度だけ表示させる命令をBehaviorに送る
+        /// </summary>
+        public void VisibleOnce()
+        {
+            VisibleOnceCall?.Invoke(this, null);
+        }
     }
 }

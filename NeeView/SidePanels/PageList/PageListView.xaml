@@ -14,7 +14,7 @@
         <local:BooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" True="Collapsed" False="Visible"/>
     </UserControl.Resources>
 
-    <DockPanel x:Name="DockPanel" Margin="0,0,0,5">
+    <DockPanel x:Name="DockPanel" Background="Transparent">
 
         <StackPanel DockPanel.Dock="Top" Margin="5,0,5,2">
 
@@ -26,7 +26,7 @@
             </StackPanel>
 
             <DockPanel KeyboardNavigation.TabNavigation ="Local" >
-                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Width="30" MouseRightButtonUp="MoreButton_MouseRightButtonUp"
+                <ToggleButton x:Name="MoreButton" DockPanel.Dock="Right" Style="{StaticResource IconToggleButton}" Width="30" MouseRightButtonUp="MoreButton_MouseRightButtonUp" Checked="MoreButton_Checked"
                               nwc:DropDownMenuBehavior.DropDownMenu="{Binding MoreMenu}" TabIndex="2">
                     <Image Source="{StaticResource ic_more_24px_b}" Width="16" Height="16"/>
                 </ToggleButton>
@@ -43,7 +43,7 @@
             </DockPanel>
         </StackPanel>
 
-        <ContentControl Content="{Binding ListBoxView}" Focusable="False"/>
+        <ContentControl Content="{Binding ListBoxView}" Focusable="False" Margin="0,0,0,5"/>
 
     </DockPanel>
 

@@ -13,6 +13,18 @@ namespace NeeView
 {
     public class FileInformationPanel : BindableBase, IPanel
     {
+        public FileInformationPanel(FileInformation model)
+        {
+            View = new FileInformationView(model);
+
+            Icon = App.Current.MainWindow.Resources["pic_info_24px"] as ImageSource;
+            IconMargin = new Thickness(9);
+        }
+
+#pragma warning disable CS0067
+        public event EventHandler IsVisibleLockChanged;
+#pragma warning restore CS0067
+
         public string TypeCode => nameof(FileInformationPanel);
 
         public ImageSource Icon { get; private set; }
@@ -27,14 +39,6 @@ namespace NeeView
 
         public PanelPlace DefaultPlace => PanelPlace.Right;
 
-        //
-        public FileInformationPanel(FileInformation model)
-        {
-            View = new FileInformationView(model);
-
-            Icon = App.Current.MainWindow.Resources["pic_info_24px"] as ImageSource;
-            IconMargin = new Thickness(9);
-        }
 
         public void Refresh()
         {

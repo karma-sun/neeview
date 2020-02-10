@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-
+using NeeLaboratory.ComponentModel;
 using NeeView.Windows;
 
 namespace NeeView
@@ -12,38 +12,35 @@ namespace NeeView
     /// <summary>
     /// SidePanelFrame ViewModel
     /// </summary>
-    public class SidePanelFrameViewModel : INotifyPropertyChanged
+    public class SidePanelFrameViewModel : BindableBase
     {
-        /// <summary>
-        /// PanelVisibility Changed
-        /// </summary>
+        public SidePanelFrameViewModel(SidePanelFrameModel model, ItemsControl leftItemsControl, ItemsControl rightItemsControl)
+        {
+            if (model == null) return;
+
+            _model = model;
+            _model.PropertyChanged += Model_PropertyChanged;
+
+            Left = new SidePanelViewModel(_model.Left, leftItemsControl);
+            Left.PropertyChanged += Left_PropertyChanged;
+            Left.PanelDroped += Left_PanelDroped;
+
+            Right = new SidePanelViewModel(_model.Right, rightItemsControl);
+            Right.PropertyChanged += Right_PropertyChanged;
+            Right.PanelDroped += Right_PanelDroped;
+        }
+        
+
         public event EventHandler PanelVisibilityChanged;
 
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
 
-        //
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
-
-
-        /// <summary>
-        /// IsSideVarVisible property.
-        /// </summary>
         public bool IsSideBarVisible
         {
             get { return _model != null ? _model.IsSideBarVisible : true; }
             set { if (_model.IsSideBarVisible != value) { _model.IsSideBarVisible = value; RaisePropertyChanged(); } }
         }
 
-
-        /// <summary>
-        /// Width property.
-        /// </summary>
+        private double _width;
         public double Width
         {
             get { return _width; }
@@ -58,9 +55,6 @@ namespace NeeView
                 }
             }
         }
-
-        //
-        private double _width;
 
         /// <summary>
         /// 左パネルの最大幅更新
@@ -77,11 +71,8 @@ namespace NeeView
         {
             Right.MaxWidth = _width - Left.Width;
         }
-
-
-        /// <summary>
-        /// IsAutoHide property.
-        /// </summary>
+        
+        private bool _isAutoHide;
         public bool IsAutoHide
         {
             get { return _isAutoHide; }
@@ -98,78 +89,29 @@ namespace NeeView
             }
         }
 
-        private bool _isAutoHide;
-
-
-
-
-        /// <summary>
-        /// Model property.
-        /// </summary>
+        private SidePanelFrameModel _model;
         public SidePanelFrameModel Model
         {
             get { return _model; }
             set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
         }
 
-        //
-        private SidePanelFrameModel _model;
+        public SidePanelViewModel Left { get; private set; }
 
+        public SidePanelViewModel Right { get; private set; }
 
-        /// <summary>
-        /// LeftPanel
-        /// </summary>
-        public LeftPanelViewModel Left { get; private set; }
+        public App App => App.Current;
 
-        /// <summary>
-        /// RightPanel
-        /// </summary>
-        public RightPanelViewModel Right { get; private set; }
-
-
-        /// <summary>
-        /// コンストラクター
-        /// </summary>
-        /// <param name="model"></param>
-        public SidePanelFrameViewModel(SidePanelFrameModel model, ItemsControl leftItemsControl, ItemsControl rightItemsControl)
-        {
-            if (model == null) return;
-
-            _model = model;
-            _model.PropertyChanged += Model_PropertyChanged;
-            _model.ContentChanged  += (s, e) => ResetDelayHide();
-            _model.GotFocusMainView += Model_GotFocusMainView;
-
-            Left = new LeftPanelViewModel(_model.Left, leftItemsControl);
-            Left.PropertyChanged += Left_PropertyChanged;
-            Left.PanelDroped += Left_PanelDroped;
-
-            Right = new RightPanelViewModel(_model.Right, rightItemsControl);
-            Right.PropertyChanged += Right_PropertyChanged;
-            Right.PanelDroped += Right_PanelDroped;
-        }
-
-        private void Model_GotFocusMainView(object sender, EventArgs e)
-        {
-            this.Left.UpdateVisibility(true, true);
-            this.Right.UpdateVisibility(true, true);
-        }
 
         /// <summary>
         /// モデルのプロパティ変更イベント処理
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Model_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
                 case nameof(Model.IsSideBarVisible):
                     RaisePropertyChanged(nameof(IsSideBarVisible));
-                    break;
-                case nameof(Model.IsVisibleLocked):
-                    this.Left.IsVisibleLocked = Model.IsVisibleLocked;
-                    this.Right.IsVisibleLocked = Model.IsVisibleLocked;
                     break;
             }
         }
@@ -226,8 +168,6 @@ namespace NeeView
         /// <summary>
         /// 右パネルのプロパティ変更イベント処理
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Right_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -244,8 +184,6 @@ namespace NeeView
         /// <summary>
         /// 左パネルのプロパティ変更イベント処理
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Left_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
@@ -258,29 +196,5 @@ namespace NeeView
                     break;
             }
         }
-
-        /// <summary>
-        /// 表示状態更新.
-        /// 自動表示/非表示の処理
-        /// </summary>
-        /// <param name="point">カーソル位置</param>
-        /// <param name="left">左パネル右端</param>
-        /// <param name="right">右パネル左端</param>
-        internal void UpdateVisibility(Point point, Point left, Point right, bool isMouseOverTarget)
-        {
-            Left?.UpdateVisibility(point, left, isMouseOverTarget);
-            Right?.UpdateVisibility(point, right, isMouseOverTarget);
-        }
-
-
-        /// <summary>
-        /// 自動非表示時間リセット
-        /// </summary>
-        private void ResetDelayHide()
-        {
-            this.Left?.ResetDelayHide();
-            this.Right?.ResetDelayHide();
-        }
-
     }
 }

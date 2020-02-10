@@ -37,8 +37,10 @@ namespace NeeView
         public BookmarkListView(FolderList model) : this()
         {
             this.FolderTree.Model = new FolderTreeModel(model, FolderTreeCategory.BookmarkFolder);
+            this.FolderTree.IsRenamingChanged += (s, e) => IsVisibleLockChanged?.Invoke(s, e);
 
             _vm = new BookmarkListViewModel(model);
+            _vm.AddPropertyChanged(nameof(_vm.IsRenaming), (s, e) => IsVisibleLockChanged?.Invoke(s, e));
             this.DockPanel.DataContext = _vm;
 
             model.FolderTreeFocus += FolderList_FolderTreeFocus;
@@ -47,8 +49,10 @@ namespace NeeView
 
         #endregion
 
+        public event EventHandler IsVisibleLockChanged;
 
-        public bool IsRenaming => _vm.Model.IsRenaming || this.FolderTree.IsRenaming;
+
+        public bool IsVisibleLock => _vm.Model.IsRenaming || this.FolderTree.IsRenaming;
 
 
         /// <summary>
@@ -117,6 +121,7 @@ namespace NeeView
         private void MoreButton_Checked(object sender, RoutedEventArgs e)
         {
             _vm.UpdateMoreMenu();
+            ContextMenuWatcher.SetTargetElement((UIElement)sender);
         }
 
         private void MoreButton_MouseRightButtonUp(object sender, MouseButtonEventArgs e)

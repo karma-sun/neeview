@@ -68,6 +68,14 @@ namespace NeeView
 
             this.Loaded += FolderListBox_Loaded;
             this.Unloaded += FolderListBox_Unloaded;
+
+            if (_vm.FolderCollection is BookmarkFolderCollection)
+            {
+                var menu = new ContextMenu();
+                menu.Items.Add(new MenuItem() { Header = Properties.Resources.FolderTreeMenuAddBookmark, Command = AddBookmarkCommand });
+                menu.Items.Add(new MenuItem() { Header = Properties.Resources.WordNewFolder, Command = NewFolderCommand });
+                this.ListBox.ContextMenu = menu;
+            }
         }
 
         private void FolderListBox_Loaded(object sender, RoutedEventArgs e)
@@ -480,9 +488,9 @@ namespace NeeView
             _vm.Model.AddBookmark();
         }
 
-#endregion
+        #endregion
 
-#region DragDrop
+        #region DragDrop
 
         private void DragStartBehavior_DragBegin(object sender, Windows.DragStartEventArgs e)
         {
@@ -678,9 +686,9 @@ namespace NeeView
             return element;
         }
 
-#endregion
+        #endregion
 
-#region Methods
+        #region Methods
 
         /// <summary>
         /// フォーカス取得
@@ -779,18 +787,6 @@ namespace NeeView
                 _vm.IsVisibleChanged(true);
                 await Task.Yield();
                 FocusSelectedItem(false);
-            }
-        }
-
-        private void FolderList_ContextMenuOpening(object sender, ContextMenuEventArgs e)
-        {
-            var items = this.ListBox.ContextMenu.Items;
-            items.Clear();
-
-            if (_vm.FolderCollection is BookmarkFolderCollection)
-            {
-                items.Add(new MenuItem() { Header = Properties.Resources.FolderTreeMenuAddBookmark, Command = AddBookmarkCommand });
-                items.Add(new MenuItem() { Header = Properties.Resources.WordNewFolder, Command = NewFolderCommand });
             }
         }
 
@@ -1006,7 +1002,7 @@ namespace NeeView
         }
 
 
-#endregion
+        #endregion
     }
 
     public class FolderItemToNoteConverter : IMultiValueConverter

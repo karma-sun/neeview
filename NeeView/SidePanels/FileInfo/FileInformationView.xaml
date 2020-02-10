@@ -16,7 +16,7 @@
 
     </UserControl.Resources>
 
-    <Grid>
+    <Grid Background="Transparent">
         <ScrollViewer x:Name="ScrollView" Style="{StaticResource DarkScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False" IsVisibleChanged="Root_IsVisibleChanged" CanContentScroll="False">
             <StackPanel  Margin="5,10">
                 <StackPanel.Resources>

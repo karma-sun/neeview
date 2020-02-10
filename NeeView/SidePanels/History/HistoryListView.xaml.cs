@@ -42,6 +42,11 @@ namespace NeeView
             e.Handled = true;
         }
 
+        private void MoreButton_Checked(object sender, RoutedEventArgs e)
+        {
+            ContextMenuWatcher.SetTargetElement((UIElement)sender);
+        }
+
         public void Refresh()
         {
             _vm.ListBoxContent?.Refresh();

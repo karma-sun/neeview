@@ -23,35 +23,31 @@ namespace NeeView
     {
         public static SidePanelFrameView Current { get; private set; }
 
-        /// <summary>
-        /// PropertyChanged event. 
-        /// </summary>
+        #region INotifyPropertyChanged Support
+
         public event PropertyChangedEventHandler PropertyChanged;
 
-        //
-        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = "")
+        protected bool SetProperty<T>(ref T storage, T value, [System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
+        {
+            if (object.Equals(storage, value)) return false;
+            storage = value;
+            this.RaisePropertyChanged(propertyName);
+            return true;
+        }
+
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
-        /// <summary>
-        /// refresh properties
-        /// </summary>
-        public void Refresh()
+        public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
         {
-            RaisePropertyChanged(null);
+            PropertyChanged += (s, e) => { if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName) handler?.Invoke(s, e); };
         }
 
-        /// <summary>
-        /// サイドバーの幅
-        /// </summary>
-        public double PanelIconGridWidth => 50.0;
+        #endregion
 
-        /// <summary>
-        /// スプリッターの幅
-        /// </summary>
-        public double SplitterWidth => 8.0;
-
+        #region DependencyProperties
 
         /// <summary>
         /// パネル背景
@@ -62,7 +58,6 @@ namespace NeeView
             set { SetValue(PanelBackgroundProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for PanelBackground.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PanelBackgroundProperty =
             DependencyProperty.Register("PanelBackground", typeof(Brush), typeof(SidePanelFrameView), new PropertyMetadata(Brushes.DarkGray));
 
@@ -76,7 +71,6 @@ namespace NeeView
             set { SetValue(IconBackgroundProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for IconBackground.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IconBackgroundProperty =
             DependencyProperty.Register("IconBackground", typeof(Brush), typeof(SidePanelFrameView), new PropertyMetadata(Brushes.Gray));
 
@@ -90,7 +84,6 @@ namespace NeeView
             set { SetValue(IconForegroundProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for IconForeground.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IconForegroundProperty =
             DependencyProperty.Register("IconForeground", typeof(Brush), typeof(SidePanelFrameView), new PropertyMetadata(null));
 
@@ -104,10 +97,8 @@ namespace NeeView
             set { SetValue(PanelMarginProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for PanelMargin.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PanelMarginProperty =
             DependencyProperty.Register("PanelMargin", typeof(Thickness), typeof(SidePanelFrameView), new PropertyMetadata(null));
-
 
 
         /// <summary>
@@ -119,11 +110,9 @@ namespace NeeView
             set { SetValue(IsAutoHideProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for IsAutoHide.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty IsAutoHideProperty =
             DependencyProperty.Register("IsAutoHide", typeof(bool), typeof(SidePanelFrameView), new PropertyMetadata(false, IsAutoHide_Changed));
 
-        //
         private static void IsAutoHide_Changed(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is SidePanelFrameView control)
@@ -132,32 +121,6 @@ namespace NeeView
             }
         }
 
-
-        /// <summary>
-        /// このコントロールからマウス移動イベントを取得する
-        /// </summary>
-        public FrameworkElement MouseTarget
-        {
-            get { return (FrameworkElement)GetValue(MouseTargetProperty); }
-            set { SetValue(MouseTargetProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for MouseTarget.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty MouseTargetProperty =
-            DependencyProperty.Register("MouseTarget", typeof(FrameworkElement), typeof(SidePanelFrameView), new PropertyMetadata(null, MouseTargetPropertyChanged));
-
-        //
-        private static void MouseTargetPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is SidePanelFrameView control)
-            {
-                if (control.MouseTarget != null)
-                {
-                    control.MouseTarget.MouseMove += control.Target_MouseMove;
-                    control.MouseTarget.MouseLeave += control.Target_MouseLeave;
-                }
-            }
-        }
 
         /// <summary>
         /// SidePanelFrameModel を Sourceとして指定する。
@@ -169,7 +132,6 @@ namespace NeeView
             set { SetValue(SourceProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Model.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SourceProperty =
             DependencyProperty.Register("Source", typeof(SidePanelFrameModel), typeof(SidePanelFrameView), new PropertyMetadata(null, SourcePropertyChanged));
 
@@ -182,42 +144,59 @@ namespace NeeView
         }
 
 
-        //
-        public SidePanelProfile Profile => SidePanelProfile.Current;
+        /// <summary>
+        /// CanvasWidth property.
+        /// </summary>
+        public double CanvasWidth
+        {
+            get { return (double)GetValue(CanvasWidthProperty); }
+            set { SetValue(CanvasWidthProperty, value); }
+        }
+
+        public static readonly DependencyProperty CanvasWidthProperty =
+            DependencyProperty.Register("CanvasWidth", typeof(double), typeof(SidePanelFrameView), new PropertyMetadata(0.0));
 
 
         /// <summary>
-        /// VM property.
+        /// CanvasHeight property.
         /// </summary>
-        public SidePanelFrameViewModel VM
+        public double CanvasHeight
         {
-            get { return _vm; }
-            private set { if (_vm != value) { _vm = value; RaisePropertyChanged(); } }
+            get { return (double)GetValue(CanvasHeightProperty); }
+            set { SetValue(CanvasHeightProperty, value); }
         }
 
-        //
-        private SidePanelFrameViewModel _vm;
-
-        //
-        private void InitializeViewModel(SidePanelFrameModel model)
-        {
-            if (model == null) return;
-
-            this.VM = new SidePanelFrameViewModel(model, this.LeftIconList, this.RightIconList);
-            this.VM.PanelVisibilityChanged += (s, e) => UpdateCanvas();
-            UpdateWidth();
-            UpdateAutoHide();
-        }
+        public static readonly DependencyProperty CanvasHeightProperty =
+            DependencyProperty.Register("CanvasHeight", typeof(double), typeof(SidePanelFrameView), new PropertyMetadata(0.0));
 
 
         /// <summary>
-        /// AutoHide 状態更新
+        /// CanvasLeft property.
         /// </summary>
-        private void UpdateAutoHide()
+        public double CanvasLeft
         {
-            if (_vm == null) return;
-            _vm.IsAutoHide = IsAutoHide;
+            get { return (double)GetValue(CanvasLeftProperty); }
+            set { SetValue(CanvasLeftProperty, value); }
         }
+
+        public static readonly DependencyProperty CanvasLeftProperty =
+            DependencyProperty.Register("CanvasLeft", typeof(double), typeof(SidePanelFrameView), new PropertyMetadata(0.0));
+
+
+        /// <summary>
+        /// CanvasTop property.
+        /// </summary>
+        public double CanvasTop
+        {
+            get { return (double)GetValue(CanvasTopProperty); }
+            set { SetValue(CanvasTopProperty, value); }
+        }
+
+        public static readonly DependencyProperty CanvasTopProperty =
+            DependencyProperty.Register("CanvasTop", typeof(double), typeof(SidePanelFrameView), new PropertyMetadata(0.0));
+
+
+        #endregion DependencyProperties
 
 
         /// <summary>
@@ -233,118 +212,49 @@ namespace NeeView
             this.Root.DataContext = this;
         }
 
-        private void Target_MouseMove(object sender, MouseEventArgs e)
+
+        /// <summary>
+        /// サイドバーの幅
+        /// </summary>
+        public double PanelIconGridWidth => 50.0;
+
+        /// <summary>
+        /// スプリッターの幅
+        /// </summary>
+        public double SplitterWidth => 8.0;
+
+        public SidePanelProfile Profile => SidePanelProfile.Current;
+
+        private SidePanelFrameViewModel _vm;
+        public SidePanelFrameViewModel VM
         {
-            var element = (UIElement)sender;
-            UpdateVisibility(element, e.GetPosition(this.Root));
+            get { return _vm; }
+            private set { if (_vm != value) { _vm = value; RaisePropertyChanged(); } }
         }
 
-        private void Target_MouseLeave(object sender, MouseEventArgs e)
+
+        private void InitializeViewModel(SidePanelFrameModel model)
         {
-            var element = (UIElement)sender;
-            UpdateVisibility(element, e.GetPosition(this.Root));
+            if (model == null) return;
+
+            this.VM = new SidePanelFrameViewModel(model, this.LeftIconList, this.RightIconList);
+            this.VM.PanelVisibilityChanged += (s, e) => UpdateCanvas();
+            UpdateWidth();
+            UpdateAutoHide();
         }
 
         /// <summary>
-        /// パネル表示更新
+        /// AutoHide 更新
         /// </summary>
-        public void UpdateVisibility()
-        {
-            UpdateVisibility(MouseTarget, Mouse.GetPosition(this.Root));
-        }
-
-        /// <summary>
-        /// パネル表示更新
-        /// </summary>
-        /// <param name="point">マウス座標</param>
-        private void UpdateVisibility(UIElement element, Point point)
+        private void UpdateAutoHide()
         {
             if (_vm == null) return;
-
-            var left = this.Viewport.TranslatePoint(new Point(0, 0), this.Root);
-            var right = this.Viewport.TranslatePoint(new Point(this.Viewport.ActualWidth, 0), this.Root);
-
-            _vm.UpdateVisibility(point, left, right, element.IsMouseOver);
+            _vm.IsAutoHide = IsAutoHide;
         }
-
-        /// <summary>
-        /// 表示コンテンツ (未使用)
-        /// </summary>
-        public FrameworkElement ViewContent
-        {
-            get { return (FrameworkElement)GetValue(ViewContentProperty); }
-            set { SetValue(ViewContentProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for ViewContent.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty ViewContentProperty =
-            DependencyProperty.Register("ViewContent", typeof(FrameworkElement), typeof(SidePanelFrameView), new PropertyMetadata(null));
-
-
-
-        /// <summary>
-        /// CanvasWidth property.
-        /// </summary>
-        public double CanvasWidth
-        {
-            get { return (double)GetValue(CanvasWidthProperty); }
-            set { SetValue(CanvasWidthProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for CanvasWidth.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CanvasWidthProperty =
-            DependencyProperty.Register("CanvasWidth", typeof(double), typeof(SidePanelFrameView), new PropertyMetadata(0.0));
-
-
-
-        /// <summary>
-        /// CanvasHeight property.
-        /// </summary>
-        public double CanvasHeight
-        {
-            get { return (double)GetValue(CanvasHeightProperty); }
-            set { SetValue(CanvasHeightProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for CanvasHeight.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CanvasHeightProperty =
-            DependencyProperty.Register("CanvasHeight", typeof(double), typeof(SidePanelFrameView), new PropertyMetadata(0.0));
-
-
-        /// <summary>
-        /// CanvasLeft property.
-        /// </summary>
-        public double CanvasLeft
-        {
-            get { return (double)GetValue(CanvasLeftProperty); }
-            set { SetValue(CanvasLeftProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for CanvasLeft.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CanvasLeftProperty =
-            DependencyProperty.Register("CanvasLeft", typeof(double), typeof(SidePanelFrameView), new PropertyMetadata(0.0));
-
-
-
-        /// <summary>
-        /// CanvasTop property.
-        /// </summary>
-        public double CanvasTop
-        {
-            get { return (double)GetValue(CanvasTopProperty); }
-            set { SetValue(CanvasTopProperty, value); }
-        }
-
-        // Using a DependencyProperty as the backing store for CanvasTop.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty CanvasTopProperty =
-            DependencyProperty.Register("CanvasTop", typeof(double), typeof(SidePanelFrameView), new PropertyMetadata(0.0));
-
 
         /// <summary>
         /// 領域サイズ変更イベント処理
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void Root_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             UpdateWidth();
@@ -394,18 +304,6 @@ namespace NeeView
                 CanvasWidth = rect.Width;
                 CanvasHeight = rect.Height;
             }
-        }
-
-        //
-        private void LeftPanel_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            _vm.Left.ResetDelayHide();
-        }
-
-        //
-        private void RightPanel_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            _vm.Right.ResetDelayHide();
         }
 
         private void LeftIconGrid_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)

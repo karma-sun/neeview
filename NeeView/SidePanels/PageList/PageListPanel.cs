@@ -28,6 +28,10 @@ namespace NeeView
             IconMargin = new Thickness(9);
         }
 
+#pragma warning disable CS0067
+        public event EventHandler IsVisibleLockChanged;
+#pragma warning restore CS0067
+
         public string TypeCode => nameof(PageListPanel);
 
         public ImageSource Icon { get; private set; }

@@ -53,19 +53,32 @@ namespace NeeView
             {
                 if (_selectedPanel != value)
                 {
+                    if (_selectedPanel != null)
+                    {
+                        _selectedPanel.IsVisibleLockChanged -= SelectedPanel_IsVisibleLockChanged;
+                    }
+
                     _selectedPanel = value;
                     RaisePropertyChanged();
 
                     if (_selectedPanel != null)
                     {
+                        _selectedPanel.IsVisibleLockChanged += SelectedPanel_IsVisibleLockChanged;
                         _lastSelectedPane = _selectedPanel;
                     }
 
                 }
                 // 本棚の各要素を表示する用途のため、変更にかかわらず通知
                 SelectedPanelChanged?.Invoke(this, new SelectedPanelChangedEventArgs(_selectedPanel));
+
+                void SelectedPanel_IsVisibleLockChanged(object sender, EventArgs e)
+                {
+                    RaisePropertyChanged(nameof(IsVisibleLocked));
+                }
             }
         }
+
+        public bool IsVisibleLocked => _selectedPanel?.IsVisibleLock == true;
 
         /// <summary>
         /// 最新の有効な選択パネル
@@ -87,10 +100,9 @@ namespace NeeView
         }
 
         /// <summary>
-        /// パネル自体の表示状態。
-        /// ビューから更新される
+        /// パネル自体の表示状態。自動非表示機能等で変化する
         /// </summary>
-        public bool IsVisible { get; set; }
+        public bool IsVisible { get; set; } = true;
 
 
         /// <summary>
@@ -209,7 +221,7 @@ namespace NeeView
 
         public void Refresh()
         {
-            foreach(var panel in Panels)
+            foreach (var panel in Panels)
             {
                 panel.Refresh();
             }

@@ -12,7 +12,6 @@ namespace NeeView.Windows
 {
     /// <summary>
     /// ViewModelとBehaviorの橋渡し処理
-    /// <see cref="http://b.starwing.net/?p=131"/>
     /// </summary>
     public sealed class DropAcceptDescription
     {
@@ -48,7 +47,6 @@ namespace NeeView.Windows
     
     /// <summary>
     /// ドロップ対象オブジェクト用ビヘイビア
-    /// <see cref="http://b.starwing.net/?p=131"/>
     /// </summary>
     public class DragAcceptBehavior : Behavior<FrameworkElement>
     {
@@ -110,8 +108,6 @@ namespace NeeView.Windows
         /// <summary>
         /// ドロップ処理
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void DropHandler(object sender, DragEventArgs e)
         {
             var desc = this.Description;

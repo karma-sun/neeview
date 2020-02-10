@@ -274,6 +274,8 @@ namespace NeeLaboratory.Windows.Media
         /// <returns></returns>
         public static bool HasParentElement(DependencyObject obj, DependencyObject target)
         {
+            if (target == null) return false;
+
             var element = obj;
             while (element != null)
             {

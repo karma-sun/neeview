@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Controls;
+using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.Serialization;
@@ -15,10 +16,13 @@ namespace NeeView
         public FolderPanel(FolderPanelModel folderPanel, FolderList folderList, PageList pageList)
         {
             _view = new FolderPanelView(folderPanel, folderList, pageList);
+            _view.IsVisibleLockChanged += (s, e) => IsVisibleLockChanged?.Invoke(s, e);
 
             Icon = App.Current.MainWindow.Resources["pic_bookshelf"] as DrawingImage;
             IconMargin = new Thickness(9);
         }
+
+        public event EventHandler IsVisibleLockChanged;
 
         public string TypeCode => nameof(FolderPanel);
 

@@ -97,8 +97,6 @@ namespace NeeView
             set { if (_MoreMenu != value) { _MoreMenu = value; RaisePropertyChanged(); } }
         }
 
-        public bool IsRenaming => _model.IsRenaming;
-
         #endregion Properties
 
         #region Commands
@@ -286,9 +284,6 @@ namespace NeeView
             {
                 case nameof(_model.PanelListItemStyle):
                     UpdateFolderListBox();
-                    break;
-                case nameof(_model.IsRenaming):
-                    RaisePropertyChanged(nameof(IsRenaming));
                     break;
             }
         }

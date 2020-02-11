@@ -16,13 +16,14 @@ namespace NeeView
         public BookmarkPanel(FolderList folderList)
         {
             _view = new BookmarkListView(folderList);
-            _view.IsVisibleLockChanged += (s, e) => IsVisibleLockChanged?.Invoke(s, e);
 
             Icon = App.Current.MainWindow.Resources["pic_star_24px"] as DrawingImage;
             IconMargin = new Thickness(9);
         }
 
+#pragma warning disable CS0067
         public event EventHandler IsVisibleLockChanged;
+#pragma warning restore CS0067
 
         public string TypeCode => nameof(BookmarkPanel);
 
@@ -34,7 +35,7 @@ namespace NeeView
 
         public FrameworkElement View => _view;
 
-        public bool IsVisibleLock => _view.IsVisibleLock;
+        public bool IsVisibleLock => false;
 
         public PanelPlace DefaultPlace => PanelPlace.Right;
 

@@ -44,13 +44,6 @@ namespace NeeView
         // サムネイルが表示されている？
         public bool IsThumbnailVisibled => _folderList.IsThumbnailVisibled;
 
-        public bool IsRenaming
-        {
-            get => _folderList.IsRenaming;
-            set => _folderList.IsRenaming = value;
-        }
-
-
         #region RelayCommands
 
         /// <summary>

@@ -21,9 +21,28 @@ namespace NeeView
     /// </summary>
     public partial class RenameManager : UserControl
     {
+        public static RenameManager Current { get; private set; }
+
         public RenameManager()
         {
             InitializeComponent();
+            Current = this;
+        }
+
+        public UIElement RenameElement
+        {
+            get
+            {
+                if (this.Root.Children != null && this.Root.Children.Count > 0)
+                {
+                    var renameControl = (RenameControl)this.Root.Children[0];
+                    return renameControl.Target;
+                }
+                else
+                {
+                    return null;
+                }
+            }
         }
 
         public void Open(RenameControl rename)

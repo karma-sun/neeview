@@ -74,25 +74,7 @@ namespace NeeView
 
         #endregion
 
-
-        public event EventHandler IsRenamingChanged;
-
-
         #region Properties
-
-        private bool _isRenaming;
-        public bool IsRenaming
-        {
-            get { return _isRenaming; }
-            private set
-            {
-                if (_isRenaming != value)
-                {
-                    _isRenaming = value;
-                    IsRenamingChanged?.Invoke(this, null);
-                }
-            }
-        }
 
         #endregion Properties
 
@@ -299,11 +281,9 @@ namespace NeeView
                 };
                 rename.Close += (s, ev) =>
                 {
-                    IsRenaming = false;
                 };
 
                 MainWindow.Current.RenameManager.Open(rename);
-                IsRenaming = true;
             }
         }
 

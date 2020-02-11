@@ -326,6 +326,12 @@ namespace NeeView
                 return VisualTreeUtility.HasParentElement(dragElement, _self.Panel.SelectedPanel?.View);
             }
 
+            var renameElement = RenameManager.Current.RenameElement;
+            if (renameElement != null)
+            {
+                return VisualTreeUtility.HasParentElement(renameElement, _self.Panel.SelectedPanel?.View);
+            }
+
             return false;
         }
     }

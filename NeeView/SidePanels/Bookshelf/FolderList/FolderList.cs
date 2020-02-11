@@ -312,13 +312,6 @@ namespace NeeView
             private set { SetProperty(ref _folderListBoxModel, value); }
         }
 
-        private bool _isRenaming;
-        public bool IsRenaming
-        {
-            get { return _isRenaming; }
-            set { SetProperty(ref _isRenaming, value); }
-        }
-
         /// <summary>
         /// 検索リスト？
         /// </summary>

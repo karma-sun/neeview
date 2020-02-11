@@ -41,10 +41,8 @@ namespace NeeView
         public FolderListView(FolderList model) : this()
         {
             this.FolderTree.Model = new BookshelfFolderTreeModel(model);
-            this.FolderTree.IsRenamingChanged += (s, e) => IsRenamingChanged?.Invoke(s, e);
 
             _vm = new FolderListViewModel(model);
-            _vm.AddPropertyChanged(nameof(_vm.IsRenaming), (s, e) => IsRenamingChanged?.Invoke(s, e));
             this.DockPanel.DataContext = _vm;
 
             model.SearchBoxFocus += FolderList_SearchBoxFocus;
@@ -53,14 +51,6 @@ namespace NeeView
         }
 
         #endregion
-
-        public event EventHandler IsRenamingChanged;
-
-
-        public bool IsRenaming => _vm.IsRenaming || this.FolderTree.IsRenaming;
-
-        public bool IsSearchBoxFocused => this.SearchBox.IsKeyboardFocusWithin;
-
 
         /// <summary>
         /// フォルダーツリーへのフォーカス要求

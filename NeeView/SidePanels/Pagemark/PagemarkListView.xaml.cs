@@ -33,15 +33,8 @@ namespace NeeView
         public PagemarkListView(PagemarkList model) : this()
         {
             _vm = new PagemarkListViewModel(model);
-            _vm.AddPropertyChanged(nameof(_vm.IsVisibleLock), (s, e) => IsVisibleLockChanged?.Invoke(this, null));
             this.DockPanel.DataContext = _vm;
         }
-
-
-        public event EventHandler IsVisibleLockChanged;
-
-
-        public bool IsVisibleLock => _vm != null ? _vm.IsVisibleLock : false;
 
 
         private void MoreButton_MouseRightButtonUp(object sender, MouseButtonEventArgs e)

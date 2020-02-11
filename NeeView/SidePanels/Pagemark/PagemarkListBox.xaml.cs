@@ -91,26 +91,6 @@ namespace NeeView
 
         #endregion
 
-
-        public event EventHandler IsVisibleLockChanged;
-
-
-        // Properties
-
-        private bool _isVisibleLock;
-        public bool IsVisibleLock
-        {
-            get { return _isVisibleLock; }
-            private set
-            {
-                if (_isVisibleLock != value)
-                {
-                    _isVisibleLock = value;
-                    IsVisibleLockChanged?.Invoke(this, null);
-                }
-            }
-        }
-
         #region Commands
 
         private static void InitializeCommandStatic()
@@ -197,11 +177,9 @@ namespace NeeView
                     };
                     rename.Close += (s, ev) =>
                     {
-                        IsVisibleLock = false;
                     };
 
                     ((MainWindow)Application.Current.MainWindow).RenameManager.Open(rename);
-                    IsVisibleLock = true;
                 }
             }
         }

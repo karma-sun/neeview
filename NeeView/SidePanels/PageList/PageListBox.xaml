@@ -237,7 +237,7 @@
                 <EventSetter Event="MouseDoubleClick" Handler="PageListItem_MouseDoubleClick"/>
                 <EventSetter Event="KeyDown" Handler="PageListItem_KeyDown"/>
                 <Setter Property="Padding" Value="2,0"/>
-                <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
+                <Setter Property="FocusVisualStyle" Value="{StaticResource NVListItemFocusVisual}"/>
                 <Setter Property="ContextMenu">
                     <Setter.Value>
                         <ContextMenu>

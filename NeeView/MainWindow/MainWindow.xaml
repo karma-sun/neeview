@@ -148,7 +148,7 @@
                                     <Grid x:Name="MainViewCanvas" Effect="{Binding ImageEffect.Effect}">
 
                                         <!-- メインビュー コンテンツ表示領域 -->
-                                        <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" FocusVisualStyle="{x:Null}" ClipToBounds="True"
+                                        <Grid x:Name="MainView" Background="Transparent" SizeChanged="MainView_SizeChanged" Focusable="True" KeyboardNavigation.IsTabStop="False" FocusVisualStyle="{x:Null}" ClipToBounds="True"
                                                 DataContext="{Binding ContentCanvas}" AllowDrop="True">
                                             <!-- Pages -->
                                             <!-- NOTE: 時々操作が奪われしてまう原因の可能性その2 IsHitTestVisible -->
@@ -174,7 +174,7 @@
                                                             <ContentControl x:Name="Content0" Content="{Binding Contents[0].View}" Width="{Binding Contents[0].Width}"
                                                                     Height="{Binding Contents[0].Height}" Focusable="False" Margin="{Binding ContentsMargin}" />
                                                         </StackPanel>
-                                                        <ContentControl Content="{Binding GridLine.Content}" />
+                                                        <ContentControl Content="{Binding GridLine.Content}" FocusVisualStyle="{StaticResource NVFocusVisual}"/>
                                                     </Grid>
                                                 </ContentControl>
                                             </Canvas>

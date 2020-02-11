@@ -15,7 +15,7 @@
 
     <Grid x:Name="Root" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" Background="{Binding ThemeProfile.MenuColor, Converter={StaticResource BackgroundSelector}}" MinHeight="0">
         
-        <ContentControl x:Name="ForegroundColorResource" IsHitTestVisible="False" HorizontalAlignment="Left" VerticalAlignment="Top">
+        <ContentControl x:Name="ForegroundColorResource" IsHitTestVisible="False" HorizontalAlignment="Left" VerticalAlignment="Top" Focusable="False">
             <ContentControl.Foreground>
                 <MultiBinding Converter="{StaticResource ForegroundSelector}">
                     <Binding Path="ThemeProfile.MenuColor"/>

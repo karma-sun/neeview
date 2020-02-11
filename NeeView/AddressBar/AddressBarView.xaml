@@ -170,9 +170,20 @@
                             <Image Source="{Binding ThemeProfile.MenuColor, Converter={StaticResource IconInfoOutlineSelector}}" Width="16"/>
                         </Button>
                         <TextBox x:Name="AddressTextBox" Text="{Binding Model.Address}" BorderThickness="0" VerticalAlignment="Center"
-                                 Background="{Binding ThemeProfile.MenuColor, Converter={StaticResource BackgroundSelector}}"
-                                 Foreground="{Binding ThemeProfile.MenuColor, Converter={StaticResource ForegroundSelector}}"
-                                 KeyDown="AddressTextBox_KeyDown"/>
+                                Background="{Binding ThemeProfile.MenuColor, Converter={StaticResource BackgroundSelector}}"
+                                Foreground="{Binding ThemeProfile.MenuColor, Converter={StaticResource ForegroundSelector}}" KeyDown="AddressTextBox_KeyDown">
+                            <TextBox.FocusVisualStyle>
+                                <Style>
+                                    <Setter Property="Control.Template">
+                                        <Setter.Value>
+                                            <ControlTemplate>
+                                                <Rectangle Margin="-2" StrokeThickness="1" Stroke="#FF1188DD" SnapsToDevicePixels="true" />
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </TextBox.FocusVisualStyle>
+                        </TextBox>
                     </DockPanel>
 
                 </DockPanel>

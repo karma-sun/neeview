@@ -23,8 +23,8 @@
     <DataTemplate DataType="{x:Type local:PropertyValue_IntegerRange}">
         <DockPanel>
             <TextBox DockPanel.Dock="Right" Text="{Binding Value}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0"/>
-            <Slider Value="{Binding Value}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}" SmallChange="{Binding Range.SmallChange}" LargeChange="{Binding Range.LargeChange}" 
-                        TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
+            <Slider Value="{Binding Value}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}" SmallChange="{Binding Range.SmallChange}" LargeChange="{Binding Range.LargeChange}"
+                    TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center" FocusVisualStyle="{StaticResource NVSliderFocusVisual}"/>
         </DockPanel>
     </DataTemplate>
 
@@ -35,16 +35,16 @@
     <DataTemplate DataType="{x:Type local:PropertyValue_DoubleRange}">
         <DockPanel>
             <TextBox DockPanel.Dock="Right" Text="{Binding Value}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0"/>
-            <Slider Value="{Binding Value}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}" SmallChange="{Binding Range.SmallChange}" LargeChange="{Binding Range.LargeChange}" 
-                        TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
+            <Slider Value="{Binding Value}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}" SmallChange="{Binding Range.SmallChange}" LargeChange="{Binding Range.LargeChange}"
+                    TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center" FocusVisualStyle="{StaticResource NVSliderFocusVisual}" />
         </DockPanel>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type local:PropertyValue_Percent}">
         <DockPanel>
             <TextBox DockPanel.Dock="Right" Text="{Binding Percent, StringFormat={}{0}%}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0"/>
-            <Slider Value="{Binding Percent}" Minimum="0" Maximum="100" SmallChange="5" LargeChange="20" 
-                        TickFrequency="1" IsSnapToTickEnabled="True" VerticalAlignment="Center"/>
+            <Slider Value="{Binding Percent}" Minimum="0" Maximum="100" SmallChange="5" LargeChange="20" TickFrequency="1" IsSnapToTickEnabled="True" VerticalAlignment="Center"
+                    FocusVisualStyle="{StaticResource NVSliderFocusVisual}" />
         </DockPanel>
     </DataTemplate>
 
@@ -72,7 +72,7 @@
 
 
     <DataTemplate x:Key="PropertyValue_Boolean_ToggleSwitch">
-        <nlc:ToggleSwitch IsChecked="{Binding Value}" Height="20" HorizontalAlignment="Right" VerticalAlignment="Center" Fill="{DynamicResource NVBackground}" Stroke="{DynamicResource NVForeground}" CheckedBrush="{DynamicResource NVButtonForeground}"/>
+        <nlc:ToggleSwitch IsChecked="{Binding Value}" Height="30" HorizontalAlignment="Right" VerticalAlignment="Center" Fill="{DynamicResource NVBackground}" Stroke="{DynamicResource NVForeground}" CheckedBrush="{DynamicResource NVButtonForeground}"/>
     </DataTemplate>
 
     <DataTemplate x:Key="PropertyValue_Color_ComboColorPicker">

@@ -29,12 +29,31 @@
         <Setter Property="Control.Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Rectangle StrokeThickness="1" Stroke="#881188DD" SnapsToDevicePixels="true" />
+                    <Rectangle StrokeThickness="1" Stroke="#FF1188DD" SnapsToDevicePixels="true" />
+                </ControlTemplate>  
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="NVListItemFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle StrokeThickness="1" Stroke="#FF1188DD" SnapsToDevicePixels="true" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
+    <Style x:Key="NVSliderFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle Margin="-2" StrokeThickness="1" Stroke="#FF1188DD" SnapsToDevicePixels="true" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 
     <Style x:Key="ScrollBarLineButton" TargetType="{x:Type RepeatButton}">

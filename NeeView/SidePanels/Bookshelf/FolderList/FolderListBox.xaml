@@ -193,7 +193,7 @@
                     <EventSetter Event="PreviewMouseUp" Handler="FolderListItem_MouseUp"/>
                     <EventSetter Event="PreviewMouseMove" Handler="FolderListItem_MouseMove"/>
                     <EventSetter Event="ContextMenuOpening" Handler="FolderListItem_ContextMenuOpening"/>
-                    <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}"/>
+                    <Setter Property="FocusVisualStyle" Value="{StaticResource NVListItemFocusVisual}"/>
                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
                     <Setter Property="VerticalAlignment" Value="Center"/>
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

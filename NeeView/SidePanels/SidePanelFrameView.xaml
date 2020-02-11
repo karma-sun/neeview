@@ -8,16 +8,6 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <nwd:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter" />
 
-        <Style x:Key="NVFocusVisual">
-            <Setter Property="Control.Template">
-                <Setter.Value>
-                    <ControlTemplate>
-                        <Rectangle StrokeThickness="1" Stroke="#881188DD" SnapsToDevicePixels="true" />
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
         <Style x:Key="PanelIconButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}" />
             <Setter Property="Width" Value="36" />

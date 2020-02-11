@@ -19,9 +19,10 @@ namespace NeeView.Windows
 {
     /// <summary>
     /// ドラッグ対象オブジェクト用ビヘイビア
+    /// <para>
+    /// ListBoxの項目などのドラッグには <see cref="ContainerDragStartBehavior{TItem}">ContainerDragStartBehavior</see> を使用する
+    /// </para>
     /// </summary>
-    /// <remarks>http://b.starwing.net/?p=131</remarks>
-    [Obsolete("ContainerDragStartBehavior系を使用する")]
     public class DragStartBehavior : Behavior<FrameworkElement>
     {
         private Point _origin;
@@ -40,6 +41,15 @@ namespace NeeView.Windows
         /// ドラッグ終了イベント
         /// </summary>
         public event EventHandler DragEnd;
+
+
+        /// <summary>
+        /// DoDragDropのフック
+        /// </summary>
+        /// <remarks>
+        /// saticなオブジェクトになることがあるので標準のプロパティにしている
+        /// </remarks>
+        public IDragDropHook DragDropHook { get; set; }
 
 
         /// <summary>
@@ -193,12 +203,18 @@ namespace NeeView.Windows
                         var layer = AdornerLayer.GetAdornerLayer(root);
                         _dragGhost = new DragAdorner(root, (UIElement)sender, 0.5, _dragStartPos);
                         layer.Add(_dragGhost);
+
+                        DragDropHook?.BeginDragDrop(sender, this.AssociatedObject, args.Data, args.AllowedEffects);
                         DragDrop.DoDragDrop(this.AssociatedObject, args.Data, args.AllowedEffects);
+                        DragDropHook?.EndDragDrop(sender, this.AssociatedObject, args.Data, args.AllowedEffects);
+
                         layer.Remove(_dragGhost);
                     }
                     else
                     {
+                        DragDropHook?.BeginDragDrop(sender, this.AssociatedObject, args.Data, args.AllowedEffects);
                         DragDrop.DoDragDrop(this.AssociatedObject, args.Data, args.AllowedEffects);
+                        DragDropHook?.EndDragDrop(sender, this.AssociatedObject, args.Data, args.AllowedEffects);
                     }
                 }
 
@@ -298,7 +314,7 @@ namespace NeeView.Windows
             }
 
             var point = root.TranslatePoint(cursor, container);
-            double offset = VirtualizingPanel.GetScrollUnit(container) == ScrollUnit.Pixel ?_dragGhost != null ? _dragGhost.ActualHeight * 0.5 : 20.0 : 1.0;
+            double offset = VirtualizingPanel.GetScrollUnit(container) == ScrollUnit.Pixel ? _dragGhost != null ? _dragGhost.ActualHeight * 0.5 : 20.0 : 1.0;
 
             if (point.Y < 0.0)
             {

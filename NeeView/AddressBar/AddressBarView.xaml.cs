@@ -162,9 +162,11 @@ namespace NeeView
                 }
 
                 var data = new DataObject(new QueryPath(_vm.Model.Address));
-               
+
                 _goast.Attach(element, new Point(24, 24));
+                DragDropWatcher.SetDragElement(sender, element);
                 DragDrop.DoDragDrop(element, data, DragDropEffects.Copy);
+                DragDropWatcher.SetDragElement(sender, null);
                 _goast.Detach();
             }
         }
@@ -174,8 +176,16 @@ namespace NeeView
             _goast.QueryContinueDrag(sender, e);
         }
 
+        private void Popup_Opened(object sender, EventArgs e)
+        {
+            PopupWatcher.SetPopupElement(sender, (UIElement)sender);
+        }
+
+        private void Popup_Closed(object sender, EventArgs e)
+        {
+            PopupWatcher.SetPopupElement(sender, null);
+        }
+
         #endregion
-
-
     }
 }

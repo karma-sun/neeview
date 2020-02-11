@@ -319,10 +319,14 @@ namespace NeeView
             {
                 return VisualTreeUtility.HasParentElement(targetElement, _self.Panel.SelectedPanel?.View);
             }
-            else
+
+            var dragElement = DragDropWatcher.DragElement;
+            if (dragElement != null)
             {
-                return false;
+                return VisualTreeUtility.HasParentElement(dragElement, _self.Panel.SelectedPanel?.View);
             }
+
+            return false;
         }
     }
 

@@ -94,7 +94,7 @@
                         <local:PageSortModeIcon PageSortMode="{Binding BookSetting.SortMode}" MenuColor="{Binding ThemeProfile.MenuColor}"/>
                     </Grid>
                 </Button>
-                <Popup x:Name="PageSortModePopup" PlacementTarget="{Binding ElementName=PageSortModeButton}" StaysOpen="False" AllowsTransparency="True">
+                <Popup x:Name="PageSortModePopup" PlacementTarget="{Binding ElementName=PageSortModeButton}" StaysOpen="False" AllowsTransparency="True" Opened="Popup_Opened" Closed="Popup_Closed">
                     <Grid Margin="5">
                         <Grid.Effect>
                             <DropShadowEffect Opacity="0.5" ShadowDepth="2"/>
@@ -180,7 +180,7 @@
 
         </DockPanel>
 
-        <Popup x:Name="BookPopup" PlacementTarget="{Binding ElementName=BookButton}" StaysOpen="False" AllowsTransparency="True">
+        <Popup x:Name="BookPopup" PlacementTarget="{Binding ElementName=BookButton}" StaysOpen="False" AllowsTransparency="True" Opened="Popup_Opened" Closed="Popup_Closed">
             <Grid Margin="5">
                 <Grid.Effect>
                     <DropShadowEffect Opacity="0.5" ShadowDepth="2"/>

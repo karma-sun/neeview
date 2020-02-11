@@ -268,7 +268,7 @@
             <ContentControl x:Name="LayerMenuSocket" VerticalAlignment="Top" Visibility="Collapsed" Focusable="False" MouseEnter="LayerMenuSocket_MouseEnter" MouseLeave="LayerMenuSocket_MouseLeave">
                 <behaviors:Interaction.Behaviors>
                     <local:AutoHideBehavior Name="MenuBar" Screen="{Binding ElementName=Root}" Dock="Top" IsEnabled="{Binding Model.CanHideMenu}" DelayTime="{Binding App.AutoHideDelayTimeMillisecond}"
-                            FocusLockMode="{Binding App.AutoHideFocusLockMode}" IsKeyDownDelayEnabled="{Binding App.IsAutoHideKeyDownDelay}" />
+                            FocusLockMode="{Binding App.AutoHideFocusLockMode}" IsKeyDownDelayEnabled="{Binding App.IsAutoHideKeyDownDelay}" Description="{Binding MenuAutoHideDescription}" />
                 </behaviors:Interaction.Behaviors>
             </ContentControl>
 

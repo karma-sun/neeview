@@ -43,6 +43,15 @@ namespace NeeView.Windows
 
 
         /// <summary>
+        /// DoDragDropのフック
+        /// </summary>
+        /// <remarks>
+        /// saticなオブジェクトになることがあるので標準のプロパティにしている
+        /// </remarks>
+        public IDragDropHook DragDropHook { get; set; }
+
+
+        /// <summary>
         /// ドラッグアンドドロップ操作の効果
         /// </summary>
         public DragDropEffects AllowedEffects
@@ -92,7 +101,7 @@ namespace NeeView.Windows
         public static readonly DependencyProperty IsAutoScrollProperty =
             DependencyProperty.Register("IsAutoScroll", typeof(bool), typeof(ContainerDragStartBehavior<TItem>), new PropertyMetadata(false));
 
-
+        
 
         /// <summary>
         /// 初期化
@@ -178,12 +187,18 @@ namespace NeeView.Windows
                     var layer = AdornerLayer.GetAdornerLayer(root);
                     _dragGhost = new DragAdorner(root, _adornerVisual, 0.5, _dragStartPos);
                     layer.Add(_dragGhost);
+
+                    DragDropHook?.BeginDragDrop(sender, this.AssociatedObject, args.Data, args.AllowedEffects);
                     DragDrop.DoDragDrop(this.AssociatedObject, args.Data, args.AllowedEffects);
+                    DragDropHook?.EndDragDrop(sender, this.AssociatedObject, args.Data, args.AllowedEffects);
+
                     layer.Remove(_dragGhost);
                 }
                 else
                 {
+                    DragDropHook?.BeginDragDrop(sender, this.AssociatedObject, args.Data, args.AllowedEffects);
                     DragDrop.DoDragDrop(this.AssociatedObject, args.Data, args.AllowedEffects);
+                    DragDropHook?.EndDragDrop(sender, this.AssociatedObject, args.Data, args.AllowedEffects);
                 }
                 _isButtonDown = false;
                 e.Handled = true;

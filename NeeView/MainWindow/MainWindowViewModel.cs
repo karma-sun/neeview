@@ -165,12 +165,19 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// Menu用AutoHideBehavior補足
+        /// </summary>
+        public BasicAutoHideDescription MenuAutoHideDescription { get; }
+
 
         /// <summary>
         /// コンストラクター
         /// </summary>
         public MainWindowViewModel(MainWindowModel model)
         {
+            MenuAutoHideDescription = new BasicAutoHideDescription(MainWindow.Current.LayerMenuSocket);
+
             // icon
             InitializeWindowIcons();
 

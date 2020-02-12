@@ -611,7 +611,7 @@ namespace NeeView
 
                     var diff = Math.Abs(pixelHeight - viewHeight) + Math.Abs(pixelWidth - viewWidth);
                     var diffAngle = Math.Abs(_dragTransform.Angle % 90.0);
-                    if (Config.Current.IsDpiSquare && diff < 1.1 && diffAngle < 0.1)
+                    if (Config.Current.IsDpiSquare && diff < 2.2 && diffAngle < 0.1)
                     {
                         content.BitmapScalingMode = BitmapScalingMode.NearestNeighbor;
                         content.SetViewMode(ContentViewMode.Pixeled, finalScale);

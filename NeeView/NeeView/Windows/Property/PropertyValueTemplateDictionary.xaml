@@ -21,10 +21,10 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type local:PropertyValue_IntegerRange}">
-        <DockPanel>
-            <TextBox DockPanel.Dock="Right" Text="{Binding Value}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0"/>
+        <DockPanel KeyboardNavigation.TabNavigation="Local">
+            <TextBox DockPanel.Dock="Right" Text="{Binding Value}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0" TabIndex="2"/>
             <Slider Value="{Binding Value}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}" SmallChange="{Binding Range.SmallChange}" LargeChange="{Binding Range.LargeChange}"
-                    TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center" FocusVisualStyle="{StaticResource NVSliderFocusVisual}"/>
+                    TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center" FocusVisualStyle="{StaticResource NVSliderFocusVisual}" TabIndex="1"/>
         </DockPanel>
     </DataTemplate>
 
@@ -33,18 +33,18 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type local:PropertyValue_DoubleRange}">
-        <DockPanel>
-            <TextBox DockPanel.Dock="Right" Text="{Binding Value}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0"/>
+        <DockPanel KeyboardNavigation.TabNavigation="Local">
+            <TextBox DockPanel.Dock="Right" Text="{Binding Value}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0" TabIndex="2"/>
             <Slider Value="{Binding Value}" Minimum="{Binding Range.Minimum}" Maximum="{Binding Range.Maximum}" SmallChange="{Binding Range.SmallChange}" LargeChange="{Binding Range.LargeChange}"
-                    TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center" FocusVisualStyle="{StaticResource NVSliderFocusVisual}" />
+                    TickFrequency="{Binding Range.TickFrequency}" IsSnapToTickEnabled="True" VerticalAlignment="Center" FocusVisualStyle="{StaticResource NVSliderFocusVisual}" TabIndex="1"/>
         </DockPanel>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type local:PropertyValue_Percent}">
-        <DockPanel>
-            <TextBox DockPanel.Dock="Right" Text="{Binding Percent, StringFormat={}{0}%}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0"/>
+        <DockPanel KeyboardNavigation.TabNavigation="Local">
+            <TextBox DockPanel.Dock="Right" Text="{Binding Percent, StringFormat={}{0}%}" Width="70" VerticalAlignment="Center" Margin="5,0,0,0" TabIndex="2"/>
             <Slider Value="{Binding Percent}" Minimum="0" Maximum="100" SmallChange="5" LargeChange="20" TickFrequency="1" IsSnapToTickEnabled="True" VerticalAlignment="Center"
-                    FocusVisualStyle="{StaticResource NVSliderFocusVisual}" />
+                    FocusVisualStyle="{StaticResource NVSliderFocusVisual}" TabIndex="1" />
         </DockPanel>
     </DataTemplate>
 
@@ -76,9 +76,9 @@
     </DataTemplate>
 
     <DataTemplate x:Key="PropertyValue_Color_ComboColorPicker">
-        <DockPanel>
-            <TextBox DockPanel.Dock="Right" Text="{Binding Value}" MinWidth="100" BorderThickness="1" VerticalContentAlignment="Center"/>
-            <osc:ComboColorPicker SelectedColor="{Binding Value, Mode=TwoWay}"/>
+        <DockPanel KeyboardNavigation.TabNavigation="Local">
+            <TextBox DockPanel.Dock="Right" Text="{Binding Value}" MinWidth="100" BorderThickness="1" VerticalContentAlignment="Center" TabIndex="2"/>
+            <osc:ComboColorPicker SelectedColor="{Binding Value, Mode=TwoWay}" TabIndex="1"/>
         </DockPanel>
     </DataTemplate>
 

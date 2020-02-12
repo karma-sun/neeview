@@ -19,6 +19,6 @@
     </UserControl.Resources>
     <ComboBox Name="ColorList1"
               SelectedValue="{Binding ElementName=ThisColorPicker, Path=SelectedColor}" 
-              SnapsToDevicePixels="True">
+              SnapsToDevicePixels="True" TabIndex="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Path=TabIndex}">
     </ComboBox>
 </UserControl>

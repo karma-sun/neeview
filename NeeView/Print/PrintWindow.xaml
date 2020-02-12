@@ -7,15 +7,18 @@
         xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}"
-        Background="{DynamicResource NVBackground}"
         Foreground="{DynamicResource NVForeground}"
+        Background="{DynamicResource NVBackground}"
         Title="{x:Static properties:Resources.ControlPrintTitle}" Height="600" Width="800" ResizeMode="CanResizeWithGrip">
     
     <Window.Resources>
-        <Style x:Key="TextButton" TargetType="Button">
-            <Setter Property="MinWidth" Value="100"/>
-            <Setter Property="Padding" Value="10,5"/>
-            <Setter Property="Margin" Value="10,10,0,0"/>
+        <Style x:Key="TextButton" TargetType="Button" BasedOn="{StaticResource NVDialogButtonStyle}">
+            <Setter Property="Margin" Value="10,10,0,0" />
+        </Style>
+        
+        <Style x:Key="TextButtonMain" TargetType="Button" BasedOn="{StaticResource TextButton}">
+            <Setter Property="Foreground" Value="{StaticResource NVDialogButtonForeground}" />
+            <Setter Property="Background" Value="{StaticResource NVDialogButtonBackground}" />
         </Style>
 
         <Style x:Key="Header" TargetType="TextBlock">
@@ -28,6 +31,7 @@
         </Style>
 
         <Style x:Key="BodyCheckBox" TargetType="CheckBox">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" /> 
             <Setter Property="Foreground" Value="{DynamicResource NVForeground}"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
@@ -63,51 +67,54 @@
     <Grid>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="250"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="250" />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
             <!-- panel -->
-            <DockPanel Grid.Column="0" Margin="10">
+            <DockPanel Grid.Column="0" Margin="10,10,20,10">
 
                 <StackPanel DockPanel.Dock="Top" Style="{StaticResource ItemStack}">
                     <TextBlock Style="{StaticResource Header}" Text="{x:Static properties:Resources.ControlPrintPrinter}"/>
-                    <Button Style="{StaticResource IconButton}" Command="{Binding PrintDialogCommand}" Foreground="{StaticResource NVButtonForeground}" HorizontalContentAlignment="Left">
-                        <TextBlock Text="{Binding Model.PrintQueue.FullName}" MinWidth="50" TextTrimming="CharacterEllipsis" />
+                    <Button Style="{StaticResource IconButton}" Command="{Binding PrintDialogCommand}" Foreground="{StaticResource NVButtonForeground}" HorizontalContentAlignment="Left" TabIndex="1">
+                        <TextBlock Text="{Binding Model.PrintQueue.FullName}" MinWidth="50" TextTrimming="CharacterEllipsis" Margin="2"/>
                     </Button>
                 </StackPanel>
 
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Style="{StaticResource TextButton}" Content="{x:Static properties:Resources.ControlPrintButtonPrint}" Command="{Binding PrintCommand}"/>
-                    <Button Style="{StaticResource TextButton}" Content="{x:Static properties:Resources.WordCancel}" Command="{Binding CancelCommand}"/>
+                    <Button Style="{StaticResource TextButtonMain}" Content="{x:Static properties:Resources.ControlPrintButtonPrint}" Command="{Binding PrintCommand}" TabIndex="3"/>
+                    <Button Style="{StaticResource TextButton}" Content="{x:Static properties:Resources.WordCancel}" Command="{Binding CancelCommand}" TabIndex="3"/>
                 </StackPanel>
+                        
                 <ScrollViewer Style="{StaticResource DarkScrollViewer}" VerticalScrollBarVisibility="Auto">
                     <StackPanel>
 
                         <DockPanel Style="{StaticResource ItemDock}">
-                            <ComboBox DockPanel.Dock="Right" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" ItemsSource="{Binding Model.PageOrientationList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.PageOrientation}"/>
+                            <ComboBox DockPanel.Dock="Right" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" ItemsSource="{Binding Model.PageOrientationList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.PageOrientation}" TabIndex="2"/>
                             <TextBlock Style="{StaticResource Header}" Text="{x:Static properties:Resources.ControlPrintOrientation}"/>
                         </DockPanel>
 
                         <StackPanel Style="{StaticResource ItemStack}">
                             <TextBlock Style="{StaticResource Header}"  Text="{x:Static properties:Resources.ControlPrintContent}"/>
-                            <ComboBox HorizontalAlignment="Right" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" ItemsSource="{Binding Model.PrintModeList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.PrintMode}"/>
+                            <ComboBox HorizontalAlignment="Right" Style="{StaticResource NVComboBox}" Foreground="{StaticResource NVButtonForeground}" ItemsSource="{Binding Model.PrintModeList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.PrintMode}" TabIndex="2"/>
                         </StackPanel>
 
-                        <StackPanel Style="{StaticResource ItemStack}" Margin="20,0,0,5">
-                            <CheckBox Style="{StaticResource BodyCheckBox}" Content="{x:Static properties:Resources.ControlPrintBackground}" IsChecked="{Binding Model.IsBackground}"/>
-                            <CheckBox Style="{StaticResource BodyCheckBox}" Content="{x:Static properties:Resources.ControlPrintKeepDot}" IsChecked="{Binding Model.IsDotScale}"/>
+                        <StackPanel Style="{StaticResource ItemStack}" Margin="20,0,5,5">
+                            <CheckBox Style="{StaticResource BodyCheckBox}" Content="{x:Static properties:Resources.ControlPrintBackground}" IsChecked="{Binding Model.IsBackground}"
+                                    FocusVisualStyle="{StaticResource NVBorderFocusVisual}" TabIndex="2"/>
+                            <CheckBox Style="{StaticResource BodyCheckBox}" Content="{x:Static properties:Resources.ControlPrintKeepDot}" IsChecked="{Binding Model.IsDotScale}"
+                                    FocusVisualStyle="{StaticResource NVBorderFocusVisual}" TabIndex="2"/>
                         </StackPanel>
 
                         <Border BorderBrush="{DynamicResource NVDefaultBrush}" BorderThickness="0,0,0,0" Margin="0,10,0,0" UseLayoutRounding="True">
                             <StackPanel>
                                 <StackPanel Style="{StaticResource ItemStack}">
                                     <DockPanel>
-                                        <ComboBox DockPanel.Dock="Right" Style="{StaticResource BodyComboBox}" ItemsSource="{Binding Model.HorizontalAlignmentList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.HorizontalAlignment}"/>
+                                        <ComboBox DockPanel.Dock="Right" Style="{StaticResource BodyComboBox}" ItemsSource="{Binding Model.HorizontalAlignmentList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.HorizontalAlignment}" TabIndex="2"/>
                                         <TextBlock Style="{StaticResource Header}" Text="{x:Static properties:Resources.ControlPrintHorizontal}"/>
                                     </DockPanel>
                                     <DockPanel>
-                                        <ComboBox DockPanel.Dock="Right" Style="{StaticResource BodyComboBox}" ItemsSource="{Binding Model.VerticalAlignmentList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.VerticalAlignment}"/>
+                                        <ComboBox DockPanel.Dock="Right" Style="{StaticResource BodyComboBox}" ItemsSource="{Binding Model.VerticalAlignmentList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Model.VerticalAlignment}" TabIndex="2"/>
                                         <TextBlock Style="{StaticResource Header}" Text="{x:Static properties:Resources.ControlPrintVertival}"/>
                                     </DockPanel>
                                 </StackPanel>
@@ -116,19 +123,19 @@
                                     <UniformGrid Columns="2" Rows="2" Margin="20,0,0,0">
                                         <DockPanel>
                                             <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.WordLeft}"/>
-                                            <TextBox Text="{Binding Model.Margin.Left}" Margin="2"/>
+                                            <TextBox Text="{Binding Model.Margin.Left}" Margin="2" TabIndex="2"/>
                                         </DockPanel>
                                         <DockPanel>
                                             <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.WordRight}"/>
-                                            <TextBox Text="{Binding Model.Margin.Right}" Margin="2"/>
+                                            <TextBox Text="{Binding Model.Margin.Right}" Margin="2" TabIndex="2"/>
                                         </DockPanel>
                                         <DockPanel>
                                             <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.WordUp}"/>
-                                            <TextBox Text="{Binding Model.Margin.Top}" Margin="2"/>
+                                            <TextBox Text="{Binding Model.Margin.Top}" Margin="2" TabIndex="2"/>
                                         </DockPanel>
                                         <DockPanel>
                                             <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.WordDown}"/>
-                                            <TextBox Text="{Binding Model.Margin.Bottom}" Margin="2" />
+                                            <TextBox Text="{Binding Model.Margin.Bottom}" Margin="2" TabIndex="2"/>
                                         </DockPanel>
                                     </UniformGrid>
 
@@ -137,11 +144,11 @@
                                         <UniformGrid Columns="2" Margin="20,0,0,0">
                                             <DockPanel>
                                                 <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.ControlPrintColumn}"/>
-                                                <TextBox Text="{Binding Model.Columns}" Margin="2"/>
+                                                <TextBox Text="{Binding Model.Columns}" Margin="2" TabIndex="2"/>
                                             </DockPanel>
                                             <DockPanel>
                                                 <TextBlock Style="{StaticResource BoxHeader}" Text="{x:Static properties:Resources.ControlPrintRow}" />
-                                                <TextBox Text="{Binding Model.Rows}" Margin="2"/>
+                                                <TextBox Text="{Binding Model.Rows}" Margin="2" TabIndex="2"/>
                                             </DockPanel>
                                         </UniformGrid>
                                     </StackPanel>
@@ -154,10 +161,10 @@
             </DockPanel>
 
             <!-- splitter -->
-            <GridSplitter Grid.Column="0" Width="10" HorizontalAlignment="Right" Background="{DynamicResource NVBackground}"/>
+            <GridSplitter Grid.Column="0" Width="10" HorizontalAlignment="Right" Background="{DynamicResource NVBackground}" FocusVisualStyle="{StaticResource NVFocusVisual}" IsTabStop="False"/>
 
             <!-- Preview -->
-            <Grid Grid.Column="1" Background="White">
+            <Grid Grid.Column="1" Background="#FEEE">
                 <Grid>
                     <Grid.Effect>
                         <DropShadowEffect Opacity="0.5" RenderingBias="Quality" ShadowDepth="2"/>

@@ -168,6 +168,8 @@ namespace NeeView.Windows.Controls
         //
         private void BaseGrid_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            this.Focus();
+
             MouseInputHelper.CaptureMouse(this, this.Root);
 
             _startPos = e.GetPosition(this.Root);

@@ -174,7 +174,7 @@
                                                             <ContentControl x:Name="Content0" Content="{Binding Contents[0].View}" Width="{Binding Contents[0].Width}"
                                                                     Height="{Binding Contents[0].Height}" Focusable="False" Margin="{Binding ContentsMargin}" />
                                                         </StackPanel>
-                                                        <ContentControl Content="{Binding GridLine.Content}" FocusVisualStyle="{StaticResource NVFocusVisual}"/>
+                                                        <ContentControl Content="{Binding GridLine.Content}" Focusable="False"/>
                                                     </Grid>
                                                 </ContentControl>
                                             </Canvas>

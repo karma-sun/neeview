@@ -403,8 +403,10 @@ namespace NeeView
                     };
                     rename.Close += (s, ev) =>
                     {
+                        _vm.IsRenaming = false;
                     };
 
+                    _vm.IsRenaming = true;
                     ((MainWindow)Application.Current.MainWindow).RenameManager.Open(rename);
                 }
             }

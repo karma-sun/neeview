@@ -1,13 +1,16 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeLaboratory.Windows.Media;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -56,26 +59,81 @@ namespace NeeView
 
             _vm = new PageSortMdePaletteViewModel();
             this.Root.DataContext = _vm;
+
+            this.Loaded += (s, e) => this.Items.Focus();
         }
 
 
-        public bool IsOpen
+        public event EventHandler SelfClosed;
+
+
+        public Popup ParentPopup
         {
-            get { return (bool)GetValue(IsOpenProperty); }
-            set { SetValue(IsOpenProperty, value); }
+            get { return (Popup)GetValue(ParentPopupProperty); }
+            set { SetValue(ParentPopupProperty, value); }
         }
 
-        public static readonly DependencyProperty IsOpenProperty =
-            DependencyProperty.Register("IsOpen", typeof(bool), typeof(PageSortModePalette), new PropertyMetadata(false));
+        public static readonly DependencyProperty ParentPopupProperty =
+            DependencyProperty.Register("ParentPopup", typeof(Popup), typeof(PageSortModePalette), new PropertyMetadata(null));
 
 
-        private void ListBoxItem_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if ((sender as ListBoxItem)?.Content is PageSortMode select)
+            var select = (PageSortMode)((Button)sender).Tag;
+            _vm.Decide(select);
+            Close();
+        }
+
+        private void Root_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
             {
-                _vm.Decide(select);
-                this.IsOpen = false;
+                case Key.Escape:
+                    Close();
+                    e.Handled = true;
+                    break;
+
+                case Key.Left:
+                    MoveFocus(FocusNavigationDirection.Left);
+                    e.Handled = true;
+                    break;
+
+                case Key.Up:
+                    MoveFocus(FocusNavigationDirection.Previous);
+                    e.Handled = true;
+                    break;
+
+                case Key.Right:
+                    MoveFocus(FocusNavigationDirection.Right);
+                    e.Handled = true;
+                    break;
+
+                case Key.Down:
+                    MoveFocus(FocusNavigationDirection.Next);
+                    e.Handled = true;
+                    break;
             }
+        }
+
+        private void Close()
+        {
+            SelfClosed?.Invoke(this, null);
+
+            if (ParentPopup != null)
+            {
+                ParentPopup.IsOpen = false;
+            }
+        }
+
+        private void MoveFocus(FocusNavigationDirection direction)
+        {
+            var element = FocusManager.GetFocusedElement(Window.GetWindow(this)) as UIElement;
+            if (element == null)
+            {
+                element = this.Items;
+            }
+
+            element.MoveFocus(new TraversalRequest(direction));
         }
     }
 
@@ -89,4 +147,5 @@ namespace NeeView
             BookSettingPresenter.Current.SetSortMode(mode);
         }
     }
+
 }

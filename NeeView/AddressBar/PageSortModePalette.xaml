@@ -1,0 +1,36 @@
+﻿<UserControl x:Class="NeeView.PageSortModePalette"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NeeView"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="400">
+    
+    <Grid x:Name="Root" Background="White" PreviewKeyDown="Root_PreviewKeyDown">
+
+        <Grid.Resources>
+            <Style TargetType="Button" BasedOn="{StaticResource IconButton}" />
+        </Grid.Resources>
+
+        <ItemsControl x:Name="Items" ItemsSource="{Binding PageSortModeList}" Margin="5" Height="64" IsTabStop="False" FocusVisualStyle="{x:Null}">
+
+            <ItemsControl.Resources>
+                <local:SortModeToStringConverter x:Key="SortModeToStringConverter" />
+                <DataTemplate DataType="{x:Type local:PageSortMode}">
+                    <Button ToolTip="{Binding Converter={StaticResource SortModeToStringConverter}}" Click="Button_Click" Tag="{Binding}" Margin="0">
+                        <local:PageSortModeIcon PageSortMode="{Binding}" Margin="8" />
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.Resources>
+
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Vertical" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+        </ItemsControl>
+        
+    </Grid>
+</UserControl>

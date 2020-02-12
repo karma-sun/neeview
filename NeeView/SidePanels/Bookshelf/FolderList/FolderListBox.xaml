@@ -31,7 +31,7 @@
             <Setter Property="ToolTip" Value="{Binding Detail}"/>
             <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ListBox}, Path=DataContext.FolderList.IsRenaming}" Value="True">
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=ListBox}, Path=DataContext.IsRenaming}" Value="True">
                     <Setter Property="ToolTipService.IsEnabled" Value="False"/>
                     <Setter Property="ToolTip" Value="{x:Null}"/>
                 </DataTrigger>
@@ -71,7 +71,7 @@
             <Setter Property="ToolTip" Value="{Binding Detail}"/>
             <Setter Property="ToolTipService.InitialShowDelay" Value="1000"/>
             <Style.Triggers>
-                <DataTrigger Binding="{Binding Source={x:Static local:BookshelfFolderList.Current}, Path=IsRenaming}" Value="True">
+                <DataTrigger Binding="{Binding Source={RelativeSource FindAncestor, AncestorType=ListBox}, Path=DataContext.IsRenaming}" Value="True">
                     <Setter Property="ToolTip" Value="{x:Null}"/>
                     <Setter Property="ToolTipService.IsEnabled" Value="False"/>
                 </DataTrigger>

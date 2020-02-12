@@ -23,13 +23,30 @@ namespace NeeView
     {
         public static string DragDropFormat = $"{Config.Current.ProcessId}.BookAddress";
 
+
+        private AddressBarViewModel _vm;
+        private UIElement _popupClosedFocusElement;
+
+        
+        public AddressBarView()
+        {
+            InitializeComponent();
+
+            this.AddressTextBox.IsKeyboardFocusedChanged += AddressTextBox_IsKeyboardFocusedChanged;
+        }
+
+
+        public event DependencyPropertyChangedEventHandler IsAddressTextBoxFocusedChanged;
+
+
+        #region DependencyProperties
+
         public AddressBar Source
         {
             get { return (AddressBar)GetValue(SourceProperty); }
             set { SetValue(SourceProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Source.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SourceProperty =
             DependencyProperty.Register("Source", typeof(AddressBar), typeof(AddressBarView), new PropertyMetadata(null, Source_Changed));
 
@@ -38,32 +55,17 @@ namespace NeeView
             (d as AddressBarView)?.Initialize();
         }
 
+        #endregion
 
-        //
-        public event DependencyPropertyChangedEventHandler IsAddressTextBoxFocusedChanged;
-
-        /// <summary>
-        /// constructor
-        /// </summary>
-        public AddressBarView()
+        public void Initialize()
         {
-            InitializeComponent();
-
-            this.AddressTextBox.IsKeyboardFocusedChanged += AddressTextBox_IsKeyboardFocusedChanged;
+            _vm = new AddressBarViewModel(this.Source);
+            this.Root.DataContext = _vm;
         }
 
         private void AddressTextBox_IsKeyboardFocusedChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             IsAddressTextBoxFocusedChanged?.Invoke(sender, e);
-        }
-
-        private AddressBarViewModel _vm;
-
-        //
-        public void Initialize()
-        {
-            _vm = new AddressBarViewModel(this.Source);
-            this.Root.DataContext = _vm;
         }
 
         // アドレスバー入力
@@ -82,8 +84,6 @@ namespace NeeView
         /// <summary>
         /// 履歴戻るボタンコンテキストメニュー開始前イベント処理
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void PrevHistoryButton_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             var menu = (sender as FrameworkElement)?.ContextMenu;
@@ -94,8 +94,6 @@ namespace NeeView
         /// <summary>
         /// 履歴進むボタンコンテキストメニュー開始前イベント処理
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void NextHistoryButton_ContextMenuOpening(object sender, ContextMenuEventArgs e)
         {
             var menu = (sender as FrameworkElement)?.ContextMenu;
@@ -111,6 +109,27 @@ namespace NeeView
         private void BookButton_Click(object sender, RoutedEventArgs e)
         {
             this.BookPopup.IsOpen = true;
+        }
+        private void Popup_Opened(object sender, EventArgs e)
+        {
+            PopupWatcher.SetPopupElement(sender, (UIElement)sender);
+            _popupClosedFocusElement = null;
+        }
+
+        private void Popup_Closed(object sender, EventArgs e)
+        {
+            PopupWatcher.SetPopupElement(sender, null);
+            _popupClosedFocusElement?.Focus();
+        }
+
+        private void PageSortModePopup_SelfClosed(object sender, EventArgs e)
+        {
+            _popupClosedFocusElement = this.PageSortModeButton;
+        }
+
+        private void BookPopup_SelfClosed(object sender, EventArgs e)
+        {
+            _popupClosedFocusElement = this.BookButton;
         }
 
         #region DragDrop
@@ -174,16 +193,6 @@ namespace NeeView
         private void BookButton_QueryContinueDrag(object sender, QueryContinueDragEventArgs e)
         {
             _goast.QueryContinueDrag(sender, e);
-        }
-
-        private void Popup_Opened(object sender, EventArgs e)
-        {
-            PopupWatcher.SetPopupElement(sender, (UIElement)sender);
-        }
-
-        private void Popup_Closed(object sender, EventArgs e)
-        {
-            PopupWatcher.SetPopupElement(sender, null);
         }
 
         #endregion

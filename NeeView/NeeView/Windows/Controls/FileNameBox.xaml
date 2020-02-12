@@ -29,7 +29,7 @@
                 </Style>
             </TextBlock.Style>
         </TextBlock>
-        <Button x:Name="ButtonOpenDialog" Content="..." Width="20" Height="{Binding ElementName=PathTextBox, Path=ActualHeight}" Click="ButtonOpenDialog_Click" HorizontalAlignment="Right"/>
+        <Button x:Name="ButtonOpenDialog" Content="..." Width="20" Height="{Binding ElementName=PathTextBox, Path=ActualHeight}" Click="ButtonOpenDialog_Click" HorizontalAlignment="Right" FocusVisualStyle="{StaticResource NVBorderFocusVisual}"/>
       
     </Grid>
 

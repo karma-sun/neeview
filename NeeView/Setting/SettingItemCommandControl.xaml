@@ -97,7 +97,7 @@
                             <GridViewColumn Header="{x:Static properties:Resources.ControlCommandListHeaderShortcut}" Width="180">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <ItemsControl ItemsSource="{Binding ShortCuts}"  ToolTip="{Binding ShortCutNote}" Background="Transparent" Tag="@shortcut">
+                                        <ItemsControl ItemsSource="{Binding ShortCuts}"  ToolTip="{Binding ShortCutNote}" Background="Transparent" Tag="@shortcut" IsTabStop="False">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
                                                     <StackPanel Orientation="Horizontal"/>
@@ -156,7 +156,7 @@
                             <GridViewColumn Header="{x:Static properties:Resources.ControlCommandListHeaderTouch}" Width="120">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <ItemsControl ItemsSource="{Binding TouchGestures}"  ToolTip="{Binding TouchGestureNote}" Background="Transparent" Tag="@touch">
+                                        <ItemsControl ItemsSource="{Binding TouchGestures}"  ToolTip="{Binding TouchGestureNote}" Background="Transparent" Tag="@touch" IsTabStop="False">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
                                                     <StackPanel Orientation="Horizontal" />

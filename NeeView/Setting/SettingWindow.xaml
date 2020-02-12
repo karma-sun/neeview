@@ -52,11 +52,11 @@
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type nvp:PropertyValue_IntegerRange}">
-                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource RangeValueDataTemplate}"/>
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource RangeValueDataTemplate}" IsTabStop="False"/>
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type nvp:PropertyValue_DoubleRange}">
-                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource RangeValueDataTemplate}"/>
+                <ContentControl Content="{Binding}" ContentTemplate="{StaticResource RangeValueDataTemplate}" IsTabStop="False"/>
             </DataTemplate>
 
             <DataTemplate DataType="{x:Type nvp:PropertyValue_Percent}">
@@ -92,6 +92,18 @@
                 <Setter Property="Fill" Value="{DynamicResource NVBackground}"/>
                 <Setter Property="Stroke" Value="{DynamicResource NVForeground}"/>
                 <Setter Property="CheckedBrush" Value="{DynamicResource NVButtonForeground}"/>
+            </Style>
+
+            <Style TargetType="Button">
+                <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
+            </Style>
+
+            <Style TargetType="ComboBox">
+                <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
+            </Style>
+
+            <Style TargetType="CheckBox">
+                <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
             </Style>
 
         </ResourceDictionary>

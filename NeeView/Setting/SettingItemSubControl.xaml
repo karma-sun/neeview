@@ -19,7 +19,7 @@
         </Style>
 
         <DataTemplate DataType="{x:Type nvp:PropertyValue_Boolean}">
-            <CheckBox IsChecked="{Binding Value}"  Content="{Binding Name}"  VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+            <CheckBox IsChecked="{Binding Value}"  Content="{Binding Name}"  VerticalAlignment="Center" VerticalContentAlignment="Center" FocusVisualStyle="{StaticResource NVBorderFocusVisual}"/>
         </DataTemplate>
 
     </UserControl.Resources>

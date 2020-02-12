@@ -7,15 +7,16 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
-    <DockPanel x:Name="Root" Height="150">
+    <DockPanel x:Name="Root" Height="150" KeyboardNavigation.TabNavigation="Local">
         <DockPanel.Resources>
             <Style TargetType="Button">
                 <Setter Property="Padding" Value="20,5"/>
                 <Setter Property="Margin" Value="5"/>
+                <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
             </Style>
         </DockPanel.Resources>
         <DockPanel DockPanel.Dock="Bottom" LastChildFill="False">
-            <Button x:Name="RemoveButton" DockPanel.Dock="Right" Content="Remove" Click="RemoveButton_Click">
+            <Button x:Name="RemoveButton" DockPanel.Dock="Right" Content="Remove" Click="RemoveButton_Click" TabIndex="4">
                 <Button.Style>
                     <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                         <Style.Triggers>
@@ -26,8 +27,8 @@
                     </Style>
                 </Button.Style>
             </Button>
-            <Button x:Name="AddButton" DockPanel.Dock="Right" Content="Add..." Click="AddButton_Click" />
-            <Button x:Name="ResetButton" Content="Reset" Click="ResetButton_Click">
+            <Button x:Name="AddButton" DockPanel.Dock="Right" Content="Add..." Click="AddButton_Click" TabIndex="3"/>
+            <Button x:Name="ResetButton" Content="Reset" Click="ResetButton_Click" TabIndex="2">
                 <Button.Style>
                     <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
                         <Setter Property="Visibility" Value="Visible"/>
@@ -40,6 +41,14 @@
                 </Button.Style>
             </Button>
         </DockPanel>
-        <ListBox x:Name="CollectionListBox" ItemsSource="{Binding Items}" PreviewKeyDown="CollectionListBox_PreviewKeyDown" />
+
+        <ListBox x:Name="CollectionListBox" ItemsSource="{Binding Items}" PreviewKeyDown="CollectionListBox_PreviewKeyDown" TabIndex="1">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}" />
+                </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
+
     </DockPanel>
 </UserControl>

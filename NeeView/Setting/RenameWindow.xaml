@@ -14,17 +14,18 @@
             <Setter Property="Width" Value="80"/>
             <Setter Property="Height" Value="30"/>
             <Setter Property="Margin" Value="5"/>
+            <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
         </Style>
     </Window.Resources>
     <DockPanel Margin="5" >
 
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" FlowDirection="RightToLeft">
-            <Button x:Name="CancelButton" Content="{x:Static properties:Resources.WordCancel}" Click="CancelButton_Click"/>
-            <Button x:Name="OKButton" Content="{x:Static properties:Resources.WordOK}" Click="OKButton_Click"/>
-            <Button x:Name="ResetButton" Content="{x:Static properties:Resources.WordReset}" Click="ResetButton_Click"/>
+            <Button x:Name="CancelButton" Content="{x:Static properties:Resources.WordCancel}" Click="CancelButton_Click" TabIndex="4"/>
+            <Button x:Name="OKButton" Content="{x:Static properties:Resources.WordOK}" Click="OKButton_Click" TabIndex="3"/>
+            <Button x:Name="ResetButton" Content="{x:Static properties:Resources.WordReset}" Click="ResetButton_Click" TabIndex="2"/>
         </StackPanel>
         <Grid Margin="5">
-            <TextBox VerticalAlignment="Center" x:Name="NameTextBox" Text="{Binding Text, Mode=TwoWay}"/>
+            <TextBox VerticalAlignment="Center" x:Name="NameTextBox" Text="{Binding Text, Mode=TwoWay}" TabIndex="1"/>
         </Grid>
 
     </DockPanel>

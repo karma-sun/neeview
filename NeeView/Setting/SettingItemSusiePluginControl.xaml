@@ -42,7 +42,7 @@
                         </Style>
                     </TextBlock.Style>
                 </TextBlock>
-            </StackPanel>
+            </StackPanel>               
         </DataTemplate>
 
         <Style TargetType="ListBox">
@@ -57,10 +57,16 @@
             <EventSetter Event="Drop" Handler="PluginListView_Drop"/>
         </Style>
 
+
+        <Style TargetType="CheckBox">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
+        </Style>
+
         <Style TargetType="Button">
             <Setter Property="Margin" Value="5,2"/>
             <Setter Property="Padding" Value="10,5"/>
             <Setter Property="Width" Value="80"/>
+            <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
         </Style>
 
     </UserControl.Resources>
@@ -77,15 +83,16 @@
                     </Style.Triggers>
                 </Style>
             </StackPanel.Resources>
-            <Button x:Name="ConfigButton" Content="{x:Static properties:Resources.ControlSusiePluginListConfig}" Command="{Binding ConfigCommand}"/>
-            <Button x:Name="UpButton" Content="{x:Static properties:Resources.ControlSusiePluginListUp}" Command="{Binding MoveUpCommand}"/>
-            <Button x:Name="DownButton" Content="{x:Static properties:Resources.ControlSusiePluginListDown}" Command="{Binding MoveDownCommand}"/>
+            <Button x:Name="ConfigButton" Content="{x:Static properties:Resources.ControlSusiePluginListConfig}" Command="{Binding ConfigCommand}" TabIndex="2"/>
+            <Button x:Name="UpButton" Content="{x:Static properties:Resources.ControlSusiePluginListUp}" Command="{Binding MoveUpCommand}" TabIndex="3"/>
+            <Button x:Name="DownButton" Content="{x:Static properties:Resources.ControlSusiePluginListDown}" Command="{Binding MoveDownCommand}" TabIndex="4"/>
         </StackPanel>
 
-        <ListBox x:Name="PluginList" MinHeight="64" MinWidth="64" SelectionChanged="PluginList_SelectionChanged">
+        <ListBox x:Name="PluginList" MinHeight="64" MinWidth="64" SelectionChanged="PluginList_SelectionChanged" TabIndex="1">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <EventSetter Event="MouseDoubleClick" Handler="ListBoxItem_MouseDoubleClick"/>
+                    <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}" />
                 </Style>
             </ListBox.ItemContainerStyle>
         </ListBox>

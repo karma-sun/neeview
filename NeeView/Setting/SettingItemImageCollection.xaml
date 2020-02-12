@@ -15,8 +15,8 @@
     </UserControl.Resources>
     <Grid>
         <StackPanel>
-            <ScrollViewer x:Name="ExtensionsView" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" Height="200">
-                <ItemsControl ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Collection.Items}">
+            <ScrollViewer x:Name="ExtensionsView" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto" Height="200" >
+                <ItemsControl ItemsSource="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=Collection.Items}" IsTabStop="False">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel Orientation="Vertical" ItemWidth="100" />
@@ -27,7 +27,7 @@
             <TextBlock x:Name="HeifHelp" Margin="0,10">
                 <Run Text="{x:Static properties:Resources.NotifyHeifHelp}"/>
                 <LineBreak/>
-                <Hyperlink x:Name="OpenStore" IsEnabled="{Binding App.IsNetworkEnabled}" NavigateUri="{x:Static nv:PictureProfile.HEIFImageExtensions}"><Run Text="{x:Static properties:Resources.WordOpenStore}"/></Hyperlink>
+                <Hyperlink x:Name="OpenStore" IsEnabled="{Binding App.IsNetworkEnabled}" NavigateUri="{x:Static nv:PictureProfile.HEIFImageExtensions}" KeyboardNavigation.IsTabStop="False"><Run Text="{x:Static properties:Resources.WordOpenStore}"/></Hyperlink>
             </TextBlock>
         </StackPanel>
     </Grid>

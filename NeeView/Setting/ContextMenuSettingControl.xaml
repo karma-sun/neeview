@@ -31,6 +31,7 @@
             </Style.Triggers>
         </Style>
 
+
         <HierarchicalDataTemplate x:Key="treeViewTemplate" ItemsSource="{Binding Path=Children}">
             <Grid>
                 <Separator Style="{StaticResource TreeViewItemSeparatorStyle}"/>
@@ -46,6 +47,7 @@
                 <DockPanel Margin="5,5,10,10">
                     <DockPanel.Resources>
                         <Style TargetType="Button">
+                            <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />                         
                             <Setter Property="Margin" Value="10,2,0,2"/>
                             <Setter Property="Padding" Value="10,5"/>
                             <Setter Property="Width" Value="100"/>
@@ -57,20 +59,20 @@
 
                     <DockPanel DockPanel.Dock="Top">
                         <StackPanel DockPanel.Dock="Right">
-                            <Button x:Name="AddButton" Content="{x:Static properties:Resources.WordAdd}" Command="{x:Static local:ContextMenuSettingControl.AddCommand}"/>
+                            <Button x:Name="AddButton" Content="{x:Static properties:Resources.WordAdd}" Command="{x:Static local:ContextMenuSettingControl.AddCommand}" TabIndex="2"/>
                         </StackPanel>
-                        <ComboBox x:Name="SourceComboBox" VerticalAlignment="Center" ItemsSource="{Binding SourceElementList}" DisplayMemberPath="DefaultLongLabel" />
+                        <ComboBox x:Name="SourceComboBox" VerticalAlignment="Center" ItemsSource="{Binding SourceElementList}" DisplayMemberPath="DefaultLongLabel" TabIndex="1"/>
                     </DockPanel>
                     <DockPanel Margin="0,5,0,0">
                         <DockPanel DockPanel.Dock="Right" LastChildFill="False">
-                            <Button DockPanel.Dock="Top" x:Name="RemoveButton" Content="{x:Static properties:Resources.WordRemove}" Command="{x:Static local:ContextMenuSettingControl.RemoveCommand}"/>
-                            <Button DockPanel.Dock="Top" x:Name="MoveUpButton" Content="{x:Static properties:Resources.WordToUp}" Command="{x:Static local:ContextMenuSettingControl.MoveUpCommand}"/>
-                            <Button DockPanel.Dock="Top" x:Name="MoveDownButton" Content="{x:Static properties:Resources.WordToDown}" Command="{x:Static local:ContextMenuSettingControl.MoveDownCommand}"/>
-                            <Button DockPanel.Dock="Top" x:Name="RenameButton" Content="{x:Static properties:Resources.WordRename}" Command="{x:Static local:ContextMenuSettingControl.RenameCommand}"/>
+                            <Button DockPanel.Dock="Top" x:Name="RemoveButton" Content="{x:Static properties:Resources.WordRemove}" Command="{x:Static local:ContextMenuSettingControl.RemoveCommand}" TabIndex="11"/>
+                            <Button DockPanel.Dock="Top" x:Name="MoveUpButton" Content="{x:Static properties:Resources.WordToUp}" Command="{x:Static local:ContextMenuSettingControl.MoveUpCommand}" TabIndex="12"/>
+                            <Button DockPanel.Dock="Top" x:Name="MoveDownButton" Content="{x:Static properties:Resources.WordToDown}" Command="{x:Static local:ContextMenuSettingControl.MoveDownCommand}" TabIndex="13"/>
+                            <Button DockPanel.Dock="Top" x:Name="RenameButton" Content="{x:Static properties:Resources.WordRename}" Command="{x:Static local:ContextMenuSettingControl.RenameCommand}" TabIndex="14"/>
 
-                            <Button DockPanel.Dock="Bottom" x:Name="ResetButton" Content="{x:Static properties:Resources.WordReset}" Click="ResetButton_Click"/>
+                            <Button DockPanel.Dock="Bottom" x:Name="ResetButton" Content="{x:Static properties:Resources.WordReset}" Click="ResetButton_Click" TabIndex="15"/>
                         </DockPanel>
-                            <TreeView x:Name="ContextMenuTreeView" BorderBrush="LightGray" ItemContainerStyle="{StaticResource NVTreeViewItemWide}"
+                            <TreeView x:Name="ContextMenuTreeView" BorderBrush="LightGray" ItemContainerStyle="{StaticResource NVTreeViewItemWide}" FocusVisualStyle="{StaticResource NVFocusVisual}" TabIndex="10"
                                       HorizontalContentAlignment="Stretch" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                       ItemsSource="{Binding Root.Children}" ItemTemplate="{StaticResource treeViewTemplate}" Padding="5" >
                             </TreeView>

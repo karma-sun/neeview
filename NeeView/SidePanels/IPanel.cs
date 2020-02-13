@@ -59,5 +59,10 @@ namespace NeeView
         /// 表示更新
         /// </summary>
         void Refresh();
+
+        /// <summary>
+        /// パネルにフォーカスを移す
+        /// </summary>
+        void Focus();
     }
 }

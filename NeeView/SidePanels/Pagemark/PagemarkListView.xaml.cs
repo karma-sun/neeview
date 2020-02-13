@@ -53,6 +53,11 @@ namespace NeeView
             _vm.ListBoxContent?.Refresh();
         }
 
+        public void FocusAtOnce()
+        {
+            _vm.ListBoxContent?.FocusAtOnce();
+        }
+
         #region IDisposable Support
         private bool _disposedValue = false;
 

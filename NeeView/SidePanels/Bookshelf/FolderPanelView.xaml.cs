@@ -55,5 +55,11 @@ namespace NeeView
         {
             _folderListView.Refresh();
         }
+
+        public void FocusAtOnce()
+        {
+            _folderListView.FocusAtOnce();
+        }
+
     }
 }

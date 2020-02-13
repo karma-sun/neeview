@@ -47,6 +47,11 @@ namespace NeeView
         {
             ContextMenuWatcher.SetTargetElement((UIElement)sender);
         }
+
+        internal void FocusAtOnce()
+        {
+            _vm.Model.FocusAtOnce();
+        }
     }
 
     public enum PageNameFormat

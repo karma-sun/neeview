@@ -51,6 +51,11 @@ namespace NeeView
         {
             _vm.ListBoxContent?.Refresh();
         }
+
+        public void FocusAtOnce()
+        {
+            _vm.ListBoxContent?.FocusAtOnce();
+        }
     }
 
 }

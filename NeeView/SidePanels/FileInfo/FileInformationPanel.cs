@@ -13,9 +13,11 @@ namespace NeeView
 {
     public class FileInformationPanel : BindableBase, IPanel
     {
+        private FileInformationView _view;
+
         public FileInformationPanel(FileInformation model)
         {
-            View = new FileInformationView(model);
+            _view = new FileInformationView(model);
 
             Icon = App.Current.MainWindow.Resources["pic_info_24px"] as ImageSource;
             IconMargin = new Thickness(9);
@@ -33,7 +35,7 @@ namespace NeeView
 
         public string IconTips => Properties.Resources.FileInfoName;
 
-        public FrameworkElement View { get; private set; }
+        public FrameworkElement View => _view;
 
         public bool IsVisibleLock => false;
 
@@ -43,6 +45,11 @@ namespace NeeView
         public void Refresh()
         {
             // nop.
+        }
+
+        public void Focus()
+        {
+            _view.FocusAtOnce();
         }
     }
 }

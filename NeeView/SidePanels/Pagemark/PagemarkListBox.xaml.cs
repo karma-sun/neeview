@@ -47,6 +47,7 @@ namespace NeeView
         private PagemarkListBoxViewModel _vm;
         private PagemarkListVertualCollection _virtualCollection;
         private PageThumbnailJobClient _jobClient;
+        private bool _focusRequest;
 
         #endregion
 
@@ -308,7 +309,11 @@ namespace NeeView
 
                 await Task.Yield();
                 ScrollIntoView();
-                this.TreeView.Focus();
+                if (_focusRequest)
+                {
+                    _focusRequest = false;
+                    this.TreeView.Focus();
+                }
             }
             else
             {
@@ -317,6 +322,7 @@ namespace NeeView
 
             _virtualCollection.CleanUp();
         }
+
 
         private void TreeView_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
@@ -422,6 +428,15 @@ namespace NeeView
         public void Refresh()
         {
             this.TreeView.Items.Refresh();
+        }
+
+        public void FocusAtOnce()
+        {
+            bool focused = this.TreeView.Focus();
+            if (!focused)
+            {
+                _focusRequest = true;
+            }
         }
 
         #endregion

@@ -235,6 +235,11 @@ namespace NeeView
             _vm.FolderListBox?.Refresh();
         }
 
+        public void FocusAtOnce()
+        {
+            _vm.Model.FocusAtOnce();
+        }
+
 
         #region DragDrop
 

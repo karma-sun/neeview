@@ -50,5 +50,10 @@ namespace NeeView
         {
             // nop.
         }
+
+        public void Focus()
+        {
+            _view.FocusAtOnce();
+        }
     }
 }

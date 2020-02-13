@@ -41,7 +41,7 @@
         <TextBlock Style="{StaticResource Title}" Text="{Binding Header}"/>
         <Grid>
             <TextBox Foreground="{Binding Foreground}" x:Name="Body" Style="{StaticResource Body}" Text="{Binding Text}"
-                     TextWrapping="Wrap" BorderThickness="0" Padding="0" Focusable="True" IsReadOnly="True" IsTabStop="False" MaxHeight="200">
+                     TextWrapping="Wrap" BorderThickness="0" Padding="0" Focusable="True" IsReadOnly="True" IsTabStop="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsTabStop}" MaxHeight="200">
                 <TextBox.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="{x:Static properties:Resources.FolderInfoMenuCopy}" Command="ApplicationCommands.Copy" />

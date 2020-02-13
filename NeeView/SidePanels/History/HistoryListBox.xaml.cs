@@ -28,6 +28,7 @@ namespace NeeView
         private ListBoxThumbnailLoader _thumbnailLoader;
         private bool _storeFocus;
         private PageThumbnailJobClient _jobClient;
+        private bool _focusRequest;
 
         #endregion
 
@@ -162,19 +163,35 @@ namespace NeeView
         }
 
         // フォーカス
-        public void FocusSelectedItem()
+        public bool FocusSelectedItem(bool focus)
         {
-            if (this.ListBox.SelectedIndex < 0) return;
+            if (this.ListBox.SelectedIndex < 0) return false;
 
             this.ListBox.ScrollIntoView(this.ListBox.SelectedItem);
 
-            ListBoxItem lbi = (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(this.ListBox.SelectedIndex));
-            lbi?.Focus();
+            if (focus)
+            {
+                ListBoxItem lbi = (ListBoxItem)(this.ListBox.ItemContainerGenerator.ContainerFromIndex(this.ListBox.SelectedIndex));
+                return lbi?.Focus() ?? false;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public void Refresh()
         {
             this.ListBox.Items.Refresh();
+        }
+
+        public void FocusAtOnce()
+        {
+            var focused = FocusSelectedItem(true);
+            if (!focused)
+            {
+                _focusRequest = true;
+            }
         }
 
         #endregion
@@ -223,10 +240,12 @@ namespace NeeView
             {
                 _vm.UpdateItems();
                 this.ListBox.UpdateLayout();
-                if (this.ListBox.SelectedIndex < 0) this.ListBox.SelectedIndex = 0;
-
+                
                 await Task.Yield();
-                FocusSelectedItem();
+                
+                if (this.ListBox.SelectedIndex < 0) this.ListBox.SelectedIndex = 0;
+                FocusSelectedItem(_focusRequest);
+                _focusRequest = false;
             }
         }
 
@@ -249,7 +268,7 @@ namespace NeeView
 
     }
 
-    public class ArchiveEntryToDecoratePlaceNameConverter :IValueConverter
+    public class ArchiveEntryToDecoratePlaceNameConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

@@ -7,8 +7,8 @@
              xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="300" MinWidth="100"
-             Foreground="{DynamicResource NVForeground}"
-             >
+             Focusable="True"
+             Foreground="{DynamicResource NVForeground}">
 
     <UserControl.Resources>
 
@@ -17,7 +17,7 @@
     </UserControl.Resources>
 
     <Grid Background="Transparent">
-        <ScrollViewer x:Name="ScrollView" Style="{StaticResource DarkScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False" IsVisibleChanged="Root_IsVisibleChanged" CanContentScroll="False">
+        <ScrollViewer x:Name="ScrollView" Style="{StaticResource DarkScrollViewer}" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Focusable="False" IsVisibleChanged="ScrollView_IsVisibleChanged" CanContentScroll="False" >
             <StackPanel  Margin="5,10">
                 <StackPanel.Resources>
                     <Style TargetType="local:FileInfoItem">
@@ -38,8 +38,8 @@
                 </Grid>
 
                 <!-- Parameters -->
-                <local:FileInfoItem x:Name="ItemFileName" Header="{x:Static properties:Resources.FolderInfoFileName}" Text="{Binding Model.ViewContent.FileName}"/>
-                <local:FileInfoItem x:Name="ItemFilePath" Header="{x:Static properties:Resources.FolderInfoFilePath}" Text="{Binding FullPath}" Visibility="{Binding Model.IsVisibleFilePath, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                <local:FileInfoItem x:Name="ItemFileName" Header="{x:Static properties:Resources.FolderInfoFileName}" Text="{Binding Model.ViewContent.FileName}" IsTabStop="True"/>
+                <local:FileInfoItem x:Name="ItemFilePath" Header="{x:Static properties:Resources.FolderInfoFilePath}" Text="{Binding FullPath}" IsTabStop="True" Visibility="{Binding Model.IsVisibleFilePath, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                 <local:FileInfoItem x:Name="ItemLastWriteTime" Header="{x:Static properties:Resources.FolderInfoDate}" Text="{Binding LastWriteTime}"/>
                 <local:FileInfoItem x:Name="ItemFileSize" Header="{x:Static properties:Resources.FolderInfoFileSize}" Text="{Binding FileSize}"/>
                 <local:FileInfoItem x:Name="ItemSize" Header="{x:Static properties:Resources.FolderInfoImageSize}" Text="{Binding ImageSize}"/>

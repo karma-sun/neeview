@@ -93,10 +93,6 @@ namespace NeeView
         private void SidePanel_SelectedPanelChanged(object sender, SelectedPanelChangedEventArgs e)
         {
             RaisePanelPropertyChanged();
-            if (e != null && e.SelectedPanel == null)
-            {
-                ResetFocus?.Invoke(this, null);
-            }
         }
 
         /// <summary>
@@ -152,7 +148,6 @@ namespace NeeView
         {
             ToggleSelectedPanel(FileInfoPanel, byMenu);
             RaisePanelPropertyChanged();
-            ResetFocus?.Invoke(this, null);
             return IsVisibleFileInfo;
         }
 
@@ -168,7 +163,6 @@ namespace NeeView
         {
             ToggleSelectedPanel(ImageEffectPanel, byMenu);
             RaisePanelPropertyChanged();
-            ResetFocus?.Invoke(this, null);
             return IsVisibleEffectInfo;
         }
 
@@ -180,21 +174,10 @@ namespace NeeView
             set { SetSelectedPanel(FolderListPanel, value); RaisePanelPropertyChanged(); }
         }
 
-        //
         public bool ToggleVisibleFolderList(bool byMenu)
         {
             ToggleSelectedPanel(FolderListPanel, byMenu);
             RaisePanelPropertyChanged();
-
-            if (IsVisibleFolderList)
-            {
-                BookshelfFolderList.Current.FocusAtOnce();
-            }
-            else
-            {
-                ResetFocus?.Invoke(this, null);
-            }
-
             return IsVisibleFolderList;
         }
 
@@ -229,16 +212,6 @@ namespace NeeView
             {
                 ToggleSelectedPanel(PageListPanel, byMenu);
                 RaisePanelPropertyChanged();
-
-                if (IsVisiblePageList)
-                {
-                    PageList.Current.FocusAtOnce();
-                }
-                else
-                {
-                    ResetFocus?.Invoke(this, null);
-                }
-
                 return IsVisiblePageList;
             }
 
@@ -343,15 +316,10 @@ namespace NeeView
             set { SetSelectedPanel(HistoryPanel, value); RaisePanelPropertyChanged(); }
         }
 
-        //
         public bool ToggleVisibleHistoryList(bool byMenu)
         {
             ToggleSelectedPanel(HistoryPanel, byMenu);
             RaisePanelPropertyChanged();
-            if (!IsVisibleHistoryList)
-            {
-                ResetFocus?.Invoke(this, null);
-            }
             return IsVisibleHistoryList;
         }
 
@@ -362,15 +330,10 @@ namespace NeeView
             set { SetSelectedPanel(BookmarkPanel, value); RaisePanelPropertyChanged(); }
         }
 
-        //
         public bool ToggleVisibleBookmarkList(bool byMenu)
         {
             ToggleSelectedPanel(BookmarkPanel, byMenu);
             RaisePanelPropertyChanged();
-            if (!IsVisibleBookmarkList)
-            {
-                ResetFocus?.Invoke(this, null);
-            }
             return IsVisibleBookmarkList;
         }
 
@@ -381,15 +344,10 @@ namespace NeeView
             set { SetSelectedPanel(PagemarkPanel, value); RaisePanelPropertyChanged(); }
         }
 
-        //
         public bool ToggleVisiblePagemarkList(bool byMenu)
         {
             ToggleSelectedPanel(PagemarkPanel, byMenu);
             RaisePanelPropertyChanged();
-            if (!IsVisiblePagemarkList)
-            {
-                ResetFocus?.Invoke(this, null);
-            }
             return IsVisiblePagemarkList;
         }
 

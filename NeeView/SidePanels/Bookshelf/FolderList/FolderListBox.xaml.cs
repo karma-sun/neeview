@@ -774,10 +774,8 @@ namespace NeeView
             ((MainWindow)App.Current.MainWindow).RenameManager.Stop();
         }
 
-        //
         private void FolderList_Loaded(object sender, RoutedEventArgs e)
         {
-            FocusSelectedItem(false);
         }
 
         private async void FolderList_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -785,6 +783,7 @@ namespace NeeView
             if ((bool)e.NewValue == true)
             {
                 _vm.IsVisibleChanged(true);
+                // NOTE: ListBoxItemの表示を確定？
                 await Task.Yield();
                 FocusSelectedItem(false);
             }

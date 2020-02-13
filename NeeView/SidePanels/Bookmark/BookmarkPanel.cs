@@ -44,6 +44,11 @@ namespace NeeView
         {
             _view.Refresh();
         }
+
+        public void Focus()
+        {
+            _view.FocusAtOnce();
+        }
     }
 
 }

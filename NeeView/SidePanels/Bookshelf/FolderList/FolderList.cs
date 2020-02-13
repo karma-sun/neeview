@@ -749,10 +749,14 @@ namespace NeeView
                 var collection = await CreateFolderCollectionAsync(path, true);
                 if (collection != null)
                 {
+                    // NOTE: Focus要求フラグのみ引き継ぐ
+                    bool isFocusAtOnce = this.FolderListBoxModel != null && this.FolderListBoxModel.IsFocusAtOnce;
+
                     this.FolderCollection = collection;
                     this.FolderListBoxModel = new FolderListBoxModel(this.FolderCollection);
                     this.FolderListBoxModel.IsSyncBookshelfEnabled = _isSyncBookshelfEnabled;
                     this.FolderListBoxModel.SetSelectedItem(select, options.HasFlag(FolderSetPlaceOption.Focus));
+                    this.FolderListBoxModel.IsFocusAtOnce = isFocusAtOnce;
                     if (options.HasFlag(FolderSetPlaceOption.Focus))
                     {
                         FocusAtOnce();

@@ -217,6 +217,11 @@ namespace NeeView
             {
                 this.Right.ToggleSelectedPanel(panel, force);
             }
+
+            if (IsSelectedPanel(panel))
+            {
+                panel.Focus();
+            }
         }
 
         /// <summary>

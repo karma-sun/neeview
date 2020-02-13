@@ -19,27 +19,27 @@ using System.Windows.Shapes;
 
 namespace NeeView
 {
-    /// <summary>
-    /// ImageEffectView.xaml の相互作用ロジック
-    /// </summary>
     public partial class ImageEffectView : UserControl
     {
         private ImageEffectViewModel _vm;
+        private bool _isFocusRequest;
 
-        // コンストラクタ
+
         public ImageEffectView()
         {
             InitializeComponent();
         }
 
-        //
         public ImageEffectView(ImageEffect model, ImageFilter imageFilter) : this()
         {
             InitializeComponent();
 
             _vm = new ImageEffectViewModel(model, imageFilter);
             this.DataContext = _vm;
+
+            this.IsVisibleChanged += ImageEffectView_IsVisibleChanged;
         }
+
 
         // 単キーのショートカット無効
         private void Control_KeyDown_IgnoreSingleKeyGesture(object sender, KeyEventArgs e)
@@ -47,6 +47,14 @@ namespace NeeView
             KeyExGesture.AllowSingleKey = false;
         }
 
+        private void ImageEffectView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (_isFocusRequest && this.IsVisible)
+            {
+                this.Focus();
+                _isFocusRequest = false;
+            }
+        }
 
         // フィルターパラメータリセット
         private void Reset(object sender, RoutedEventArgs e)
@@ -54,6 +62,15 @@ namespace NeeView
             _vm.ResetValue();
 
             this.inspectorF.Refresh();
+        }
+
+        public void FocusAtOnce()
+        {
+            var focused = this.Focus();
+            if (!focused)
+            {
+                _isFocusRequest = true;
+            }
         }
     }
 }

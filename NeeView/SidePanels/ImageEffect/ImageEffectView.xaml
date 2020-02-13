@@ -9,6 +9,7 @@
              xmlns:properties="clr-namespace:NeeView.Properties"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="300" MinWidth="200" 
+             Focusable="True"
              Foreground="{DynamicResource NVForeground}">
 
     <UserControl.Resources>

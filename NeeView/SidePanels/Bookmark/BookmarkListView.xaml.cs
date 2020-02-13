@@ -15,9 +15,6 @@ using NeeView.Windows;
 
 namespace NeeView
 {
-    /// <summary>
-    /// BookmarkListView.xaml の相互作用ロジック
-    /// </summary>
     public partial class BookmarkListView : UserControl
     {
         #region Fields
@@ -51,8 +48,6 @@ namespace NeeView
         /// <summary>
         /// フォルダーツリーへのフォーカス要求
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void FolderList_FolderTreeFocus(object sender, System.IO.ErrorEventArgs e)
         {
             if (!_vm.Model.IsFolderTreeVisible) return;
@@ -84,7 +79,6 @@ namespace NeeView
             }
         }
 
-        //
         private void BookmarkListView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
         }
@@ -126,6 +120,11 @@ namespace NeeView
         public void Refresh()
         {
             _vm.FolderListBox?.Refresh();
+        }
+
+        public void FocusAtOnce()
+        {
+            _vm.Model.FocusAtOnce();
         }
     }
 }

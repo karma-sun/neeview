@@ -21,27 +21,47 @@ namespace NeeView
     public partial class FileInformationView : UserControl
     {
         private FileInformationViewModel _vm;
+        private bool _isFocusRequest;
 
-        //
+
         public FileInformationView()
         {
             InitializeComponent();
         }
 
-        //
         public FileInformationView(FileInformation model) : this()
         {
             _vm = new FileInformationViewModel(model);
             this.DataContext = _vm;
 
+            this.IsVisibleChanged += FileInformationView_IsVisibleChanged;
+
             // タッチスクロール操作の終端挙動抑制
             this.ScrollView.ManipulationBoundaryFeedback += SidePanel.Current.ScrollViewer_ManipulationBoundaryFeedback;
         }
 
-        //
-        private void Root_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+
+        private void FileInformationView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (_isFocusRequest && this.IsVisible)
+            {
+                this.Focus();
+                _isFocusRequest = false;
+            }
+        }
+        
+        private void ScrollView_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
             _vm.IsVisible = (bool)e.NewValue;
+        }
+
+        public void FocusAtOnce()
+        {
+            var focused = this.Focus();
+            if (!focused)
+            {
+                _isFocusRequest = true;
+            }
         }
     }
 }

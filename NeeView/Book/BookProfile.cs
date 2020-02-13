@@ -90,9 +90,9 @@ namespace NeeView
         public double WideRatio { get; set; } = 1.0;
 
         /// <summary>
-        /// 除外パス
+        /// 除外フォルダー
         /// </summary>
-        [PropertyMember("@ParamBookExcludes", Tips = "@ParamBookExcludesTips")]
+        [PropertyMember("@ParamBookExcludes")]
         public StringCollection Excludes { get; set; } = new StringCollection("__MACOSX;.DS_Store");
 
         // GIFアニメ有効
@@ -164,7 +164,7 @@ namespace NeeView
         // 除外パス判定
         public bool IsExcludedPath(string path)
         {
-            return path.Split('/', '\\').Any(e => this.Excludes.Contains(e));
+            return path.Split('/', '\\').Any(e => this.Excludes.ConainsOrdinalIgnoreCase(e));
         }
 
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -66,6 +67,12 @@ namespace NeeView.Text
             return Items.Contains(item);
         }
 
+        public bool ConainsOrdinalIgnoreCase(string item)
+        {
+            item = ValidateItem(item);
+            return Items.Contains(item, StringComparer.OrdinalIgnoreCase);
+        }
+        
         public string Add(string item)
         {
             item = ValidateItem(item);

@@ -8760,20 +8760,11 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Page exclusion path に類似しているローカライズされた文字列を検索します。
+        ///   Excluded folders に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamBookExcludes {
             get {
                 return ResourceManager.GetString("ParamBookExcludes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   It is invalid for &quot;@ParamBookIsEnableNoSupportFile&quot; setting. に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string ParamBookExcludesTips {
-            get {
-                return ResourceManager.GetString("ParamBookExcludesTips", resourceCulture);
             }
         }
         

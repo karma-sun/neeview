@@ -3000,10 +3000,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>本を開く方向</value>
   </data>
   <data name="ParamBookExcludes" xml:space="preserve">
-    <value>ページ除外パス</value>
-  </data>
-  <data name="ParamBookExcludesTips" xml:space="preserve">
-    <value>「@ParamBookIsEnableNoSupportFile」設定では無効です。</value>
+    <value>除外フォルダー</value>
   </data>
   <data name="ParamBookFilterBookReadOrder" xml:space="preserve">
     <value>右開き/左開き</value>

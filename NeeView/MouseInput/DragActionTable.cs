@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -16,7 +17,7 @@ namespace NeeView
         public static DragActionTable Current { get; }
 
         private static Memento s_defaultMemento;
-        
+
         // 初期設定取得
         public static Memento CreateDefaultMemento()
         {
@@ -90,7 +91,12 @@ namespace NeeView
             };
 
             s_defaultMemento = CreateMemento();
+
+            MouseInput.Current.Normal.AddPropertyChanged(nameof(MouseInputNormal.IsGestureEnabled), MouseInputNormal_IsGestureEnabledChanged);
         }
+
+
+        public event EventHandler GestureDragActionChanged;
 
 
         // コマンドリスト
@@ -122,6 +128,18 @@ namespace NeeView
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
+        }
+
+
+        private void MouseInputNormal_IsGestureEnabledChanged(object sender, PropertyChangedEventArgs e)
+        {
+            UpdateGestureDragAction();
+        }
+
+        public void UpdateGestureDragAction()
+        {
+            _elements[DragActionType.Gesture].DragKey = MouseInput.Current.Normal.IsGestureEnabled ? new DragKey("RightButton") : new DragKey();
+            GestureDragActionChanged?.Invoke(this, null);
         }
 
         // コマンドターゲット設定
@@ -217,6 +235,6 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
     }
 }

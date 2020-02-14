@@ -41,6 +41,16 @@ namespace NeeView.Setting
         // ドラッグ一覧専用パラメータ
         public class DragActionParam : BindableBase
         {
+            public DragActionParam()
+            {
+            }
+
+            public DragActionParam(DragActionType key, DragAction dragAction)
+            {
+                Key = key;
+                DragAction = dragAction;
+            }
+
             public DragActionType Key { get; set; }
             public DragAction DragAction { get; set; }
             public string Header => Key.ToAliasName();
@@ -49,13 +59,11 @@ namespace NeeView.Setting
         // コマンド一覧
         public ObservableCollection<DragActionParam> DragActionCollection { get; set; }
 
-        //
         private Window GetOwner()
         {
             return Window.GetWindow(this);
         }
 
-        //
         private void UpdateDragActionList()
         {
             DragActionCollection.Clear();
@@ -71,15 +79,30 @@ namespace NeeView.Setting
             }
 
             this.DragActionListView.Items.Refresh();
+
+            this.Loaded += SettingMouseDragControl_Loaded;
+            this.Unloaded += SettingMouseDragControl_Unloaded;
         }
 
-        //
+        private void SettingMouseDragControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            DragActionTable.Current.GestureDragActionChanged += DragActionTable_GestureDragActionChanged;
+        }
+
+        private void SettingMouseDragControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            DragActionTable.Current.GestureDragActionChanged -= DragActionTable_GestureDragActionChanged;
+        }
+
+        private void DragActionTable_GestureDragActionChanged(object sender, EventArgs e)
+        {
+            this.DragActionListView.Items.Refresh();
+        }
+
         private void DragActionListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            // nop.
         }
 
-        //
         private void DragActionListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             ListViewItem targetItem = (ListViewItem)sender;
@@ -88,14 +111,12 @@ namespace NeeView.Setting
             OpenDragActionSettingDialog(value);
         }
 
-        //
         private void DragActionSettingButton_Click(object sender, RoutedEventArgs e)
         {
             var value = (DragActionParam)this.DragActionListView.SelectedValue;
             OpenDragActionSettingDialog(value);
         }
 
-        //
         private void OpenDragActionSettingDialog(DragActionParam value)
         {
             if (value.DragAction.IsLocked)
@@ -118,7 +139,6 @@ namespace NeeView.Setting
             }
         }
 
-        //
         private void ResetDragActionSettingButton_Click(object sender, RoutedEventArgs e)
         {
             var dialog = new MessageDialog(Properties.Resources.DialogDragActionReset, Properties.Resources.DialogDragActionResetTitle);
@@ -131,6 +151,7 @@ namespace NeeView.Setting
             {
                 var memento = DragActionTable.CreateDefaultMemento();
                 DragActionTable.Current.Restore(memento);
+                DragActionTable.Current.UpdateGestureDragAction();
 
                 this.DragActionListView.Items.Refresh();
             }

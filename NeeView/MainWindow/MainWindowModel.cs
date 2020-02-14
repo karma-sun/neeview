@@ -120,6 +120,8 @@ namespace NeeView
 
         public event EventHandler Rendering;
 
+        public event EventHandler FocusMainViewCall;
+
         #endregion
 
         #region Properties
@@ -651,6 +653,19 @@ namespace NeeView
             {
                 return !PageSlider.Current.IsSliderDirectionReversed;
             }
+        }
+
+        /// <summary>
+        /// メインビューにフォーカスを移す
+        /// </summary>
+        public void FocusMainView(FocusMainViewCommandParameter parameter, bool byMenu)
+        {
+            if (parameter.NeedClosePanels)
+            {
+                SidePanel.Current.CloseAllPanels();
+            }
+            
+            FocusMainViewCall?.Invoke(this, null);
         }
 
         #endregion

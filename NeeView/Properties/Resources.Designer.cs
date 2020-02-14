@@ -9327,6 +9327,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Close all panels に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterFocusMainViewClosePanels {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterFocusMainViewClosePanels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Enable operation swap by slider direction に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamCommandParameterIsReverse {

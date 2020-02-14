@@ -27,7 +27,7 @@ namespace NeeView
         private MainWindowViewModel _vm;
 
 
-#region コンストラクターと初期化処理
+        #region コンストラクターと初期化処理
 
         /// <summary>
         /// コンストラクター
@@ -70,6 +70,8 @@ namespace NeeView
             _vm = new MainWindowViewModel(MainWindowModel.Current);
             this.DataContext = _vm;
 
+            _vm.FocusMainViewCall += (s, e) => this.MainView.Focus();
+
             // 各コントロールとモデルを関連付け
             this.PageSliderView.Source = PageSlider.Current;
             this.PageSliderView.FocusTo = this.MainView;
@@ -102,9 +104,6 @@ namespace NeeView
 
             ThumbnailList.Current.VisibleEvent +=
                 ThumbnailList_Visible;
-
-            SidePanel.Current.ResetFocus +=
-                (s, e) => ResetFocus();
 
             ContentCanvas.Current.AddPropertyChanged(nameof(ContentCanvas.IsMediaContent),
                 (s, e) => DartyPageSliderLayout());
@@ -250,9 +249,9 @@ namespace NeeView
             windowShape.IsEnabled = true;
         }
 
-#endregion
+        #endregion
 
-#region コマンドバインディング
+        #region コマンドバインディング
 
         // MainWindow依存コマンド登録
         public void InitializeCommand()
@@ -350,9 +349,9 @@ namespace NeeView
             e.CanExecute = !NowLoading.Current.IsDispNowLoading;
         }
 
-#endregion
+        #endregion
 
-#region タイマーによる非アクティブ監視
+        #region タイマーによる非アクティブ監視
 
         // タイマーディスパッチ
         private DispatcherTimer _nonActiveTimer;
@@ -470,9 +469,9 @@ namespace NeeView
             return this.MainView.Cursor != Cursors.None || MouseInput.Current.IsLoupeMode;
         }
 
-#endregion
+        #endregion
 
-#region ウィンドウ状態コマンド
+        #region ウィンドウ状態コマンド
 
         /// <summary>
         /// ウィンドウ最小化コマンド
@@ -514,9 +513,9 @@ namespace NeeView
             SystemCommands.CloseWindow(this);
         }
 
-#endregion
+        #endregion
 
-#region ウィンドウイベント処理
+        #region ウィンドウイベント処理
 
 
         /// <summary>
@@ -805,9 +804,9 @@ namespace NeeView
             //Environment.Exit(0);
         }
 
-#endregion
+        #endregion
 
-#region メニューエリア、ステータスエリアマウスオーバー監視
+        #region メニューエリア、ステータスエリアマウスオーバー監視
 
         public bool _isDockMenuMouseOver;
         public bool _isLayerMenuMuseOver;
@@ -873,9 +872,9 @@ namespace NeeView
             UpdateStatusAreaMouseOver();
         }
 
-#endregion
+        #endregion
 
-#region レイアウト管理
+        #region レイアウト管理
 
         private bool _isDartyMenuAreaLayout;
         private bool _isDartyPageSliderLayout;
@@ -891,21 +890,9 @@ namespace NeeView
             // フルスクリーン解除でフォーカスが表示されたパネルに移動してしまう現象を回避
             if (!WindowShape.Current.IsFullScreen && MainWindowModel.Current.IsHidePanelInFullscreen)
             {
-                ResetFocus();
+                this.MainView.Focus();
             }
         }
-
-        /// <summary>
-        /// MainViewにフォーカスを移動する
-        /// </summary>
-        private void ResetFocus()
-        {
-            AppDispatcher.BeginInvoke(() =>
-            {
-                this.MainView.Focus();
-            });
-        }
-
 
         /// <summary>
         /// レイアウト更新要求
@@ -1058,11 +1045,11 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
 
 
-#region [開発用]
+        #region [開発用]
 
         public MainWindowViewModel ViewModel => _vm;
 
@@ -1073,7 +1060,7 @@ namespace NeeView
             DebugGesture.Initialize();
         }
 
-#endregion
+        #endregion
     }
 
 }

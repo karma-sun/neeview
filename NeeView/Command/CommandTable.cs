@@ -922,8 +922,9 @@ namespace NeeView
                 element.Text = Properties.Resources.CommandFocusMainView;
                 element.MenuText = Properties.Resources.CommandFocusMainViewMenu;
                 element.Note = Properties.Resources.CommandFocusMainViewNote;
-                element.IsShowMessage = false;
-                element.Execute = (s, e) => SidePanel.Current.FocusMainView(e.Parameter is MenuCommandTag);
+                element.IsShowMessage = false; 
+                element.Execute = (s, e) => MainWindowModel.Current.FocusMainView((FocusMainViewCommandParameter)element.Parameter, e.Parameter is MenuCommandTag);
+                element.DefaultParameter = new FocusMainViewCommandParameter() { NeedClosePanels = false };
                 element.CanExecute = () => true;
                 _elements[CommandType.FocusMainView] = element;
             }

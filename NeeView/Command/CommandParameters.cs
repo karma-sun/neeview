@@ -315,4 +315,13 @@ namespace NeeView
         [PropertyMember("@ParamCommandParameterThumbnailListFocus")]
         public bool IsFocus { get; set; }
     }
+
+
+    [DataContract]
+    public class FocusMainViewCommandParameter : CommandParameter
+    {
+        [DataMember]
+        [PropertyMember("@ParamCommandParameterFocusMainViewClosePanels")]
+        public bool NeedClosePanels { get; set; }
+    }
 }

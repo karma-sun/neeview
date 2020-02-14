@@ -55,8 +55,6 @@ namespace NeeView
         /// </summary>
         public event EventHandler ContentChanged;
 
-        public event EventHandler GotFocusMainView;
-
         #endregion
 
         #region Properties
@@ -263,9 +261,10 @@ namespace NeeView
             this.Right.Refresh();
         }
 
-        public void RaiseGotFocusMainView()
+        public void CloseAllPanels()
         {
-            GotFocusMainView?.Invoke(this, null);
+            this.Left.ToggleSelectedPanel(null, true);
+            this.Right.ToggleSelectedPanel(null, true);
         }
 
         #endregion

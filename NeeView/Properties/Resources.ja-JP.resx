@@ -4797,4 +4797,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="SettingPageVisualGeneralAutoHide" xml:space="preserve">
     <value>自動非表示パネル</value>
   </data>
+  <data name="ParamCommandParameterFocusMainViewClosePanels" xml:space="preserve">
+    <value>全てのパネルを閉じる</value>
+  </data>
 </root>

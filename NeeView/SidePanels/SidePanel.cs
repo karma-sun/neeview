@@ -68,10 +68,6 @@ namespace NeeView
         }
 
 
-        // フォーカス初期化要求
-        // TODO: イベント名は原因であって期待する結果ではよくない
-        public event EventHandler ResetFocus;
-
         // 各種類のパネルインスタンス
         public FolderPanel FolderListPanel { get; private set; }
         public HistoryPanel HistoryPanel { get; private set; }
@@ -236,14 +232,6 @@ namespace NeeView
             }
         }
 
-
-        public void FocusMainView(bool byMenu)
-        {
-            ResetFocus?.Invoke(this, null);
-            RaiseGotFocusMainView();
-        }
-
-        //
         public bool FocusBookmarkList(bool byMenu)
         {
             // フォルダーツリーは「ブックマークリスト」を選択した状態にする

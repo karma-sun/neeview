@@ -4797,4 +4797,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="SettingPageVisualGeneralAutoHide" xml:space="preserve">
     <value>Auto-hide panel</value>
   </data>
+  <data name="ParamCommandParameterFocusMainViewClosePanels" xml:space="preserve">
+    <value>Close all panels</value>
+  </data>
 </root>

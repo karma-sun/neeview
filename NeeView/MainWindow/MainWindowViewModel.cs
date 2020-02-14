@@ -118,8 +118,85 @@ namespace NeeView
         #endregion
 
 
-        public bool IsClosing { get; set; }
+        /// <summary>
+        /// コンストラクター
+        /// </summary>
+        public MainWindowViewModel(MainWindowModel model)
+        {
+            MenuAutoHideDescription = new BasicAutoHideDescription(MainWindow.Current.LayerMenuSocket);
 
+            // icon
+            InitializeWindowIcons();
+
+            // mainwindow model
+            _model = model;
+
+            _model.AddPropertyChanged(nameof(_model.ContextMenuSetting),
+                (s, e) => UpdateContextMenu());
+
+            _model.AddPropertyChanged(nameof(_model.CanHideMenu),
+                (s, e) => UpdateSidePanelMargin());
+
+            _model.AddPropertyChanged(nameof(_model.CanHidePageSlider),
+                (s, e) =>
+                {
+                    UpdateSidePanelMargin();
+                    RaisePropertyChanged(nameof(CanHideThumbnailList));
+                });
+
+            _model.AddPropertyChanged(nameof(_model.CanHidePanel),
+                (s, e) => UpdateSidePanelMargin());
+
+            _model.FocusMainViewCall += Model_FocusMainViewCall;
+
+            // 初期化
+            UpdateContextMenu();
+
+
+            // SlideShow link to WindowIcon
+            SlideShow.Current.AddPropertyChanged(nameof(SlideShow.IsPlayingSlideShow),
+                (s, e) => RaisePropertyChanged(nameof(WindowIcon)));
+
+            ContentRebuild.Current.AddPropertyChanged(nameof(ContentRebuild.IsBusy),
+                (s, e) => UpdateBusyVisibility());
+
+            BookOperation.Current.AddPropertyChanged(nameof(BookOperation.IsBusy),
+                (s, e) => UpdateBusyVisibility());
+
+            BookHub.Current.AddPropertyChanged(nameof(BookHub.IsLoading),
+                (s, e) => UpdateBusyVisibility());
+
+            ThumbnailList.Current.AddPropertyChanged(nameof(CanHideThumbnailList),
+                (s, e) => RaisePropertyChanged(nameof(CanHideThumbnailList)));
+
+            BookHub.Current.BookChanged +=
+                (s, e) => CommandManager.InvalidateRequerySuggested();
+
+            Config.Current.LocalApplicationDataRemoved +=
+                (s, e) =>
+                {
+                    SaveData.Current.IsEnableSave = false; // 保存禁止
+                    App.Current.MainWindow.Close();
+                };
+
+
+            // TODO: アプリの初期化処理で行うべき
+            // ダウンロードフォルダー生成
+            if (!System.IO.Directory.Exists(Temporary.Current.TempDownloadDirectory))
+            {
+                System.IO.Directory.CreateDirectory(Temporary.Current.TempDownloadDirectory);
+            }
+        }
+
+        private void Model_FocusMainViewCall(object sender, EventArgs e)
+        {
+            FocusMainViewCall?.Invoke(sender, e);
+        }
+
+        public event EventHandler FocusMainViewCall;
+
+
+        public bool IsClosing { get; set; }
 
         /// <summary>
         /// BusyVisibility property.
@@ -171,73 +248,6 @@ namespace NeeView
         public BasicAutoHideDescription MenuAutoHideDescription { get; }
 
 
-        /// <summary>
-        /// コンストラクター
-        /// </summary>
-        public MainWindowViewModel(MainWindowModel model)
-        {
-            MenuAutoHideDescription = new BasicAutoHideDescription(MainWindow.Current.LayerMenuSocket);
-
-            // icon
-            InitializeWindowIcons();
-
-            // mainwindow model
-            _model = model;
-
-            _model.AddPropertyChanged(nameof(_model.ContextMenuSetting),
-                (s, e) => UpdateContextMenu());
-
-            _model.AddPropertyChanged(nameof(_model.CanHideMenu),
-                (s, e) => UpdateSidePanelMargin());
-
-            _model.AddPropertyChanged(nameof(_model.CanHidePageSlider),
-                (s, e) =>
-                {
-                    UpdateSidePanelMargin();
-                    RaisePropertyChanged(nameof(CanHideThumbnailList));
-                });
-
-            _model.AddPropertyChanged(nameof(_model.CanHidePanel),
-                (s, e) => UpdateSidePanelMargin());
-
-            // 初期化
-            UpdateContextMenu();
-
-
-            // SlideShow link to WindowIcon
-            SlideShow.Current.AddPropertyChanged(nameof(SlideShow.IsPlayingSlideShow),
-                (s, e) => RaisePropertyChanged(nameof(WindowIcon)));
-
-            ContentRebuild.Current.AddPropertyChanged(nameof(ContentRebuild.IsBusy),
-                (s, e) => UpdateBusyVisibility());
-
-            BookOperation.Current.AddPropertyChanged(nameof(BookOperation.IsBusy),
-                (s, e) => UpdateBusyVisibility());
-
-            BookHub.Current.AddPropertyChanged(nameof(BookHub.IsLoading),
-                (s, e) => UpdateBusyVisibility());
-
-            ThumbnailList.Current.AddPropertyChanged(nameof(CanHideThumbnailList),
-                (s, e) => RaisePropertyChanged(nameof(CanHideThumbnailList)));
-
-            BookHub.Current.BookChanged +=
-                (s, e) => CommandManager.InvalidateRequerySuggested();
-
-            Config.Current.LocalApplicationDataRemoved +=
-                (s, e) =>
-                {
-                    SaveData.Current.IsEnableSave = false; // 保存禁止
-                    App.Current.MainWindow.Close();
-                };
-
-
-            // TODO: アプリの初期化処理で行うべき
-            // ダウンロードフォルダー生成
-            if (!System.IO.Directory.Exists(Temporary.Current.TempDownloadDirectory))
-            {
-                System.IO.Directory.CreateDirectory(Temporary.Current.TempDownloadDirectory);
-            }
-        }
 
         // 処理中表示の更新
         private void UpdateBusyVisibility()

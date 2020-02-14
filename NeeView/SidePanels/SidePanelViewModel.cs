@@ -33,7 +33,10 @@ namespace NeeView
             Panel.SelectedPanelChanged += (s, e) =>
             {
                 RaisePropertyChanged(nameof(PanelVisibility));
-                AutoHideDescription.VisibleOnce();
+                if (e.SelectedPanel != null)
+                {
+                    AutoHideDescription.VisibleOnce();
+                }
                 SelectedPanelChanged?.Invoke(s, e);
             };
 

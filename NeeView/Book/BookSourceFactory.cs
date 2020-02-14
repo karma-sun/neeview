@@ -16,9 +16,12 @@ namespace NeeView
             var archiveEntryCollection = CreateArchiveEntryCollection(address.SimplePath, setting.IsRecursiveFolder, setting.ArchiveRecursiveMode, setting.IsIgnoreCache);
             var pages = await CreatePageCollection(archiveEntryCollection, setting.BookPageCollectMode, token);
 
+            // 再起判定は通常のディレクトリーのみ適用
+            var canAutoRecursive = System.IO.Directory.Exists(address.SimplePath);
+            
             // 再帰判定用サブフォルダー数カウント
             int subFolderCount = 0;
-            if (archiveEntryCollection.Mode != ArchiveEntryCollectionMode.IncludeSubArchives && pages.Where(e => e.PageType == PageType.File).Count() == 0)
+            if (canAutoRecursive && archiveEntryCollection.Mode != ArchiveEntryCollectionMode.IncludeSubArchives && pages.Where(e => e.PageType == PageType.File).Count() == 0)
             {
                 var entries = await archiveEntryCollection.GetEntriesWhereBookAsync(token);
                 subFolderCount = entries.Count;

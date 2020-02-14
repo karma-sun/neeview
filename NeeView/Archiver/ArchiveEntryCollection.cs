@@ -104,7 +104,7 @@ namespace NeeView
             }
             else
             {
-                if (rootEntry.IsArchive())
+                if (rootEntry.IsArchive() || rootEntry.IsMedia())
                 {
                     rootArchiver = await ArchiverManager.Current.CreateArchiverAsync(rootEntry, _ignoreCache, token);
                     rootArchiverPath = "";

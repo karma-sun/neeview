@@ -309,6 +309,13 @@ namespace NeeView
             return !IsFileSystem && IsDirectory;
         }
 
+        /// <summary>
+        /// メディア？
+        /// </summary>
+        public bool IsMedia()
+        {
+            return !this.IsDirectory && ArchiverManager.Current.GetSupportedType(this.EntryLastName) == ArchiverType.MediaArchiver;
+        }
 
         /// <summary>
         /// このエントリが画像であるか拡張子から判定。

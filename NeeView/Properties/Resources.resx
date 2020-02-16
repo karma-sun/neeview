@@ -3467,8 +3467,14 @@ Initialize the temporary location.</value>
   <data name="ParamHistoryFilePath" xml:space="preserve">
     <value>History list file location</value>
   </data>
+  <data name="ParamHistoryIsKeepLastFolder" xml:space="preserve">
+    <value>Restore bookshelf location</value>
+  </data>
+  <data name="ParamHistoryIsKeepLastFolderTips" xml:space="preserve">
+    <value>The location of the bookshelf if you do not open the book at startup.</value>
+  </data>
   <data name="ParamHistoryIsKeepFolderStatus" xml:space="preserve">
-    <value>Save information such as the last open place, the order of each folder, etc.</value>
+    <value>Save folder state</value>
   </data>
   <data name="ParamHistoryIsKeepSearchHistory" xml:space="preserve">
     <value>Save search history</value>

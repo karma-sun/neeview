@@ -10173,11 +10173,29 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Save information such as the last open place, the order of each folder, etc. に類似しているローカライズされた文字列を検索します。
+        ///   Save folder state に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamHistoryIsKeepFolderStatus {
             get {
                 return ResourceManager.GetString("ParamHistoryIsKeepFolderStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Restore bookshelf location に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamHistoryIsKeepLastFolder {
+            get {
+                return ResourceManager.GetString("ParamHistoryIsKeepLastFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The location of the bookshelf if you do not open the book at startup. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamHistoryIsKeepLastFolderTips {
+            get {
+                return ResourceManager.GetString("ParamHistoryIsKeepLastFolderTips", resourceCulture);
             }
         }
         

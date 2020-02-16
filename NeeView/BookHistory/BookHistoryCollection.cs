@@ -53,6 +53,10 @@ namespace NeeView
         [PropertyMember("@ParamHistoryLimitSpan")]
         public TimeSpan LimitSpan { get; set; }
 
+        // 最後に開いたフォルダーの場所記憶
+        [PropertyMember("@ParamHistoryIsKeepLastFolder", Tips = "@ParamHistoryIsKeepLastFolderTips")]
+        public bool IsKeepLastFolder { get; set; } = true;
+
         // フォルダーリストの情報記憶
         [PropertyMember("@ParamHistoryIsKeepFolderStatus")]
         public bool IsKeepFolderStatus { get; set; } = true;
@@ -392,6 +396,9 @@ namespace NeeView
             public bool IsKeepFolderStatus { get; set; }
 
             [DataMember]
+            public bool IsKeepLastFolder { get; set; }
+
+            [DataMember]
             public Dictionary<string, FolderParameter.Memento> Folders { get; set; }
 
             [DataMember]
@@ -417,6 +424,7 @@ namespace NeeView
                 Books = new List<Book.Memento>();
                 LimitSize = -1;
                 IsKeepFolderStatus = true;
+                IsKeepLastFolder = true;
                 IsKeepSearchHistory = true;
             }
 
@@ -453,6 +461,10 @@ namespace NeeView
                     }
 
                     OldBooks = null;
+                }
+                if (_Version < Config.GenerateProductVersionNumber(36, 0, 0))
+                {
+                    IsKeepLastFolder = IsKeepFolderStatus;
                 }
 #pragma warning restore CS0612
             }
@@ -548,6 +560,7 @@ namespace NeeView
             memento.LimitSize = this.LimitSize;
             memento.LimitSpan = this.LimitSpan;
             memento.IsKeepFolderStatus = IsKeepFolderStatus;
+            memento.IsKeepLastFolder = IsKeepLastFolder;
             memento.LastAddress = App.Current.IsOpenLastBook ? this.LastAddress : null;
             memento.IsKeepSearchHistory = IsKeepSearchHistory;
             memento.SearchHistory = this.SearchHistory.Any() ? this.SearchHistory.ToList() : null;
@@ -566,10 +579,13 @@ namespace NeeView
                     memento.LastAddress = null;
                 }
 
+                if (!memento.IsKeepLastFolder)
+                {
+                    memento.LastFolder = null;
+                }
                 if (!memento.IsKeepFolderStatus)
                 {
                     memento.Folders = null;
-                    memento.LastFolder = null;
                 }
 
                 if (!memento.IsKeepSearchHistory)
@@ -595,6 +611,7 @@ namespace NeeView
             this.LimitSize = memento.LimitSize;
             this.LimitSpan = memento.LimitSpan;
             this.IsKeepFolderStatus = memento.IsKeepFolderStatus;
+            this.IsKeepLastFolder = memento.IsKeepLastFolder;
             this.IsKeepSearchHistory = memento.IsKeepSearchHistory;
 
             if (this.IsKeepSearchHistory)

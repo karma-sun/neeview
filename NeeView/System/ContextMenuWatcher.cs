@@ -65,7 +65,7 @@ namespace NeeView
         {
             if (!_isInitialized) throw new InvalidOperationException();
 
-            _targetElement.SetValue(element);
+            _targetElement.SetValue(element, 0.0);
             _targetElement.SetValue(null, 500.0); // keep 500ms.
         }
 

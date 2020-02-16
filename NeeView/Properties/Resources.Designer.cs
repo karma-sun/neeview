@@ -8751,6 +8751,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Time to display auto-hide panel (seconds) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamAutoHideDelayVisibleTime {
+            get {
+                return ResourceManager.GetString("ParamAutoHideDelayVisibleTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Book Orientation に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamBookBookReadOrder {

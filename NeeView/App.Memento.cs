@@ -48,6 +48,7 @@ namespace NeeView
         private bool _isSettingBackup;
         private bool _isSaveWindowPlacement = true;
         private double _autoHideDelayTime = 1.0;
+        private double _autoHideDelayVisibleTime = 0.0;
         private string _temporaryDirectory;
         private string _cacheDirectory;
         private string _cacheDirectoryOld;
@@ -160,6 +161,22 @@ namespace NeeView
         {
             get { return _autoHideDelayTime * 1000.0; }
         }
+
+
+        // パネルやメニューが自動的に消えるまでの時間(秒)
+        [PropertyMember("@ParamAutoHideDelayVisibleTime")]
+        public double AutoHideDelayVisibleTime
+        {
+            get { return _autoHideDelayVisibleTime; }
+            set { if (SetProperty(ref _autoHideDelayVisibleTime, value)) { RaisePropertyChanged(nameof(AutoHideDelayVisibleTimeMillisecond)); } }
+        }
+
+        // パネルやメニューが自動的に消えるまでの時間(ミリ秒)
+        public double AutoHideDelayVisibleTimeMillisecond
+        {
+            get { return _autoHideDelayVisibleTime * 1000.0; }
+        }
+
 
         // パネル自動非表示のフォーカス挙動モード
         [PropertyMember("@AutoHideFocusLockMode", Tips = "@AutoHideFocusLockModeTips")]
@@ -292,6 +309,9 @@ namespace NeeView
             [DataMember, DefaultValue(1.0)]
             public double AutoHideDelayTime { get; set; }
 
+            [DataMember, DefaultValue(0.0)]
+            public double AutoHideDelayVisibleTime { get; set; }
+
             [DataMember, DefaultValue(false)]
             public bool IsOpenLastBook { get; set; }
 
@@ -375,6 +395,7 @@ namespace NeeView
             memento.IsSavePagemark = this.IsSavePagemark;
             memento.PagemarkFilePath = _pagemarkFilePath;
             memento.AutoHideDelayTime = this.AutoHideDelayTime;
+            memento.AutoHideDelayVisibleTime = this.AutoHideDelayVisibleTime;
             memento.WindowChromeFrame = this.WindowChromeFrame;
             memento.IsOpenLastBook = this.IsOpenLastBook;
             memento.DownloadPath = this.DownloadPath;
@@ -418,6 +439,7 @@ namespace NeeView
             this.IsSavePagemark = memento.IsSavePagemark;
             this.PagemarkFilePath = memento.PagemarkFilePath;
             this.AutoHideDelayTime = memento.AutoHideDelayTime;
+            this.AutoHideDelayVisibleTime = memento.AutoHideDelayVisibleTime;
             this.WindowChromeFrame = memento.WindowChromeFrame;
             this.IsOpenLastBook = memento.IsOpenLastBook;
             this.DownloadPath = memento.DownloadPath;

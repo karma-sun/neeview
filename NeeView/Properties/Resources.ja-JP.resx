@@ -2994,7 +2994,10 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>PDFファイルの拡張子</value>
   </data>
   <data name="ParamAutoHideDelayTime" xml:space="preserve">
-    <value>自動非表示パネルを非表示にする時間（秒）</value>
+    <value>自動非表示パネルを隠すまでの時間（秒）</value>
+  </data>
+  <data name="ParamAutoHideDelayVisibleTime" xml:space="preserve">
+    <value>自動非表示パネルを表示するまでの時間（秒）</value>
   </data>
   <data name="ParamBookBookReadOrder" xml:space="preserve">
     <value>本を開く方向</value>

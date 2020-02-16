@@ -525,7 +525,7 @@ namespace NeeView
         // 検索キーワード即時反映
         public void SetSearchKeyword(string keyword)
         {
-            _searchKeyword.SetValue(keyword, 0, true);
+            _searchKeyword.SetValue(keyword, 0, DelayValueOverwriteOption.Force);
         }
 
         // 検索キーワード遅延反映

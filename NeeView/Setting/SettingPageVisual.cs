@@ -47,6 +47,7 @@ namespace NeeView.Setting
                 new SettingItemSection(Properties.Resources.SettingPageVisualGeneralAutoHide,
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.AutoHideFocusLockMode))),
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsAutoHideKeyDownDelay))),
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.AutoHideDelayVisibleTime))),
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.AutoHideDelayTime)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageVisualGeneralAdvance,

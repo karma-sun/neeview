@@ -150,7 +150,8 @@
                     <ContentControl x:Name="LeftPanelContent" Content="{Binding VM.Left.Panel.SelectedPanel.View}" Margin="{Binding PanelMargin}" IsTabStop="False" Focusable="False">
                         <behaviors:Interaction.Behaviors>
                             <local:AutoHideBehavior Name="LeftPanel" Screen="{Binding ElementName=Screen}" SubTarget="{Binding ElementName=LeftPanelSplitter}" Dock="Left" HitTestMargin="32"
-                                    IsEnabled="{Binding VM.Left.IsAutoHide}" DelayTime="{Binding VM.App.AutoHideDelayTimeMillisecond}" FocusLockMode="{Binding VM.App.AutoHideFocusLockMode}"
+                                    IsEnabled="{Binding VM.Left.IsAutoHide}" DelayTime="{Binding VM.App.AutoHideDelayTimeMillisecond}"
+                                    DelayVisibleTime="{Binding VM.App.AutoHideDelayVisibleTimeMillisecond}" FocusLockMode="{Binding VM.App.AutoHideFocusLockMode}"
                                     IsKeyDownDelayEnabled="{Binding VM.App.IsAutoHideKeyDownDelay}" Description="{Binding VM.Left.AutoHideDescription}"
                                     IsVisibleLocked="{Binding VM.Left.IsVisibleLocked}" />
                         </behaviors:Interaction.Behaviors>
@@ -165,7 +166,8 @@
                     <ContentControl x:Name="RightPanelContent" Content="{Binding VM.Right.Panel.SelectedPanel.View}" Margin="{Binding PanelMargin}" IsTabStop="False" Focusable="False">
                         <behaviors:Interaction.Behaviors>
                             <local:AutoHideBehavior Name="RightPanel" Screen="{Binding ElementName=Screen}" SubTarget="{Binding ElementName=RightPanelSplitter}" Dock="Right" HitTestMargin="32"
-                                    IsEnabled="{Binding VM.Right.IsAutoHide}" DelayTime="{Binding VM.App.AutoHideDelayTimeMillisecond}" FocusLockMode="{Binding VM.App.AutoHideFocusLockMode}"
+                                    IsEnabled="{Binding VM.Right.IsAutoHide}" DelayTime="{Binding VM.App.AutoHideDelayTimeMillisecond}"
+                                    DelayVisibleTime="{Binding VM.App.AutoHideDelayVisibleTimeMillisecond}" FocusLockMode="{Binding VM.App.AutoHideFocusLockMode}"
                                     IsKeyDownDelayEnabled="{Binding VM.App.IsAutoHideKeyDownDelay}" Description="{Binding VM.Right.AutoHideDescription}"
                                     IsVisibleLocked="{Binding VM.Right.IsVisibleLocked}" />
                         </behaviors:Interaction.Behaviors>

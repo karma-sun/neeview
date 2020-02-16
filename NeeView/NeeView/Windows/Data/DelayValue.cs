@@ -63,7 +63,7 @@ namespace NeeView.Windows.Data
         public T Value
         {
             get { return _value; }
-            set { SetValue(value, 0, true); }
+            set { SetValue(value, 0, DelayValueOverwriteOption.Force); }
         }
         #endregion
 
@@ -74,13 +74,28 @@ namespace NeeView.Windows.Data
         /// </summary>
         /// <param name="value">目的値</param>
         /// <param name="ms">反映遅延時間</param>
-        /// <param name="isForce">同じ値でも実行する</param>
-        public void SetValue(T value, double ms = 0.0, bool isForce = false)
+        /// <param name="overwriteOption">遅延実行中の上書き判定</param>
+        public void SetValue(T value, double ms, DelayValueOverwriteOption overwriteOption = DelayValueOverwriteOption.None)
         {
-            // TODO: isForceの意味が？
-            // TODO: 同じ値が設定された場合はより短い遅延時間を採用する
+            if (EqualityComparer<T>.Default.Equals(_delayValue, value))
+            {
+                switch (overwriteOption)
+                {
+                    case DelayValueOverwriteOption.None:
+                        return;
 
-            if (!isForce && EqualityComparer<T>.Default.Equals(_delayValue, value)) return;
+                    case DelayValueOverwriteOption.Force:
+                        break;
+
+                    case DelayValueOverwriteOption.Shorten:
+                        if (_delayTime < DateTime.Now + TimeSpan.FromMilliseconds(ms)) return;
+                        break;
+
+                    case DelayValueOverwriteOption.Extend:
+                        if (_delayTime > DateTime.Now + TimeSpan.FromMilliseconds(ms)) return;
+                        break;
+                }
+            }
 
             _delayValue = value;
 
@@ -133,4 +148,32 @@ namespace NeeView.Windows.Data
 
         #endregion
     }
+
+
+    /// <summary>
+    /// 遅延実行中の上書きオプション
+    /// </summary>
+    public enum DelayValueOverwriteOption
+    {
+        /// <summary>
+        /// 遅延実行中の場合は上書きしない
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// 常に上書き
+        /// </summary>
+        Force,
+
+        /// <summary>
+        /// 遅延時間を縮める方向で適用する
+        /// </summary>
+        Shorten,
+
+        /// <summary>
+        /// 遅延時間を伸ばす方向で適用する
+        /// </summary>
+        Extend,
+    }
+
 }

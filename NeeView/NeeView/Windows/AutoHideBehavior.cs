@@ -109,12 +109,9 @@ namespace NeeView
         {
             if (d is AutoHideBehavior control)
             {
-                ////var controlName = control.AssociatedObject.Name ?? control.AssociatedObject.ToString();
-                ////Debug.WriteLine($"{controlName}.AutoHideBehavior.IsEnabled: {control.IsEnabled}");
                 control.UpdateVisibility(UpdateVisibilityOption.All);
             }
         }
-
 
         public double DelayTime
         {
@@ -132,6 +129,17 @@ namespace NeeView
                 control.UpdateVisibility();
             }
         }
+
+
+        public double DelayVisibleTime
+        {
+            get { return (double)GetValue(DelayVisibleTimeProperty); }
+            set { SetValue(DelayVisibleTimeProperty, value); }
+        }
+
+        public static readonly DependencyProperty DelayVisibleTimeProperty =
+            DependencyProperty.Register("DelayVisibleTime", typeof(double), typeof(AutoHideBehavior), new PropertyMetadata(0.0, OnPropertyChanged));
+
 
         public bool IsVisibleLocked
         {
@@ -316,7 +324,7 @@ namespace NeeView
             // 非表示要求の場合に遅延表示を再発行することで表示状態を延長する
             if (!CanVisible())
             {
-                SetVisibility(false, false, true);
+                SetVisibility(isVisible: false, isVisibleDelay: false, now: false, isForce: true);
             }
         }
 
@@ -371,7 +379,7 @@ namespace NeeView
 
             var now = (options & UpdateVisibilityOption.Now) == UpdateVisibilityOption.Now;
             var isForce = (options & UpdateVisibilityOption.IsForce) == UpdateVisibilityOption.IsForce;
-            SetVisibility(CanVisible(), now, isForce);
+            SetVisibility(CanVisible(), CanVisibleDelay(), now, isForce);
         }
 
         /// <summary>
@@ -462,18 +470,32 @@ namespace NeeView
 
         private bool CanVisible()
         {
-            return !this.IsEnabled || this.IsVisibleLocked || _isMouseOver || _isFocusLock || Description?.IsVisibleLocked() == true;
+            return CanVisibleNow() || CanVisibleDelay();
         }
 
-        private void SetVisibility(bool isVisible, bool now, bool isForce)
+        private bool CanVisibleNow()
+        {
+            return !this.IsEnabled || this.IsVisibleLocked || _isFocusLock || Description?.IsVisibleLocked() == true;
+        }
+
+        private bool CanVisibleDelay()
+        {
+            return this.IsEnabled && _isMouseOver;
+        }
+
+        private void SetVisibility(bool isVisible, bool isVisibleDelay, bool now, bool isForce)
         {
             if (isVisible)
             {
-                _delayVisibility.SetValue(Visibility.Visible, 0.0, isForce);
+                var option = isForce ? DelayValueOverwriteOption.Force : DelayValueOverwriteOption.Shorten;
+                var ms = isVisibleDelay ? DelayVisibleTime : 0.0;
+                _delayVisibility.SetValue(Visibility.Visible, ms, option);
             }
             else
             {
-                _delayVisibility.SetValue(Visibility.Collapsed, now ? 0.0 : this.DelayTime, isForce);
+                var option = isForce ? DelayValueOverwriteOption.Force : DelayValueOverwriteOption.Shorten;
+                var ms = now ? 0.0 : this.DelayTime;
+                _delayVisibility.SetValue(Visibility.Collapsed, ms, option);
             }
         }
 
@@ -483,22 +505,8 @@ namespace NeeView
             if (!_isAttached) return;
             if (!IsEnabled) return;
 
-            SetVisibility(true, true, true);
+            SetVisibility(isVisible: true, isVisibleDelay: false, now: true, isForce: true);
             UpdateVisibility();
-        }
-
-        /// <summary>
-        /// 遅延時間を延長する
-        /// </summary>
-        public void HiddenOnce()
-        {
-            if (!_isAttached) return;
-            if (!IsEnabled) return;
-
-            if (!CanVisible())
-            {
-                SetVisibility(false, false, true);
-            }
         }
 
         /// <summary>

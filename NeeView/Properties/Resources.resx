@@ -2996,6 +2996,9 @@ Initialize the temporary location.</value>
   <data name="ParamAutoHideDelayTime" xml:space="preserve">
     <value>Time to hide auto-hide panel (seconds)</value>
   </data>
+  <data name="ParamAutoHideDelayVisibleTime" xml:space="preserve">
+    <value>Time to display auto-hide panel (seconds)</value>
+  </data>
   <data name="ParamBookBookReadOrder" xml:space="preserve">
     <value>Book Orientation</value>
   </data>

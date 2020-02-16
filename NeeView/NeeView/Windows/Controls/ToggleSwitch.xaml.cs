@@ -229,13 +229,13 @@ namespace NeeView.Windows.Controls
         //
         private void ToggleSwitch_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Space)
+            if (e.Key == Key.Space || e.Key == Key.Enter)
             {
                 IsChecked = !IsChecked;
                 e.Handled = true;
             }
         }
-        
+
         #endregion
     }
 }

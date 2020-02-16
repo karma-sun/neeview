@@ -55,7 +55,7 @@ namespace NeeView
 
         // 最後に開いたフォルダーの場所記憶
         [PropertyMember("@ParamHistoryIsKeepLastFolder", Tips = "@ParamHistoryIsKeepLastFolderTips")]
-        public bool IsKeepLastFolder { get; set; } = true;
+        public bool IsKeepLastFolder { get; set; }
 
         // フォルダーリストの情報記憶
         [PropertyMember("@ParamHistoryIsKeepFolderStatus")]
@@ -424,7 +424,7 @@ namespace NeeView
                 Books = new List<Book.Memento>();
                 LimitSize = -1;
                 IsKeepFolderStatus = true;
-                IsKeepLastFolder = true;
+                IsKeepLastFolder = false;
                 IsKeepSearchHistory = true;
             }
 

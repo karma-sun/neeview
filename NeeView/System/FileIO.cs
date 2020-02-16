@@ -324,13 +324,15 @@ namespace NeeView
                 bool isContinue = false;
                 int requestLoadCount = _bookHub.RequestLoadCount;
 
-                // 開いている本であるならば閉じる
+                // 開いている本であるならば再び開くようにする
                 if (_bookHub.Address == src)
                 {
                     isContinue = true;
                     await _bookHub.RequestUnload(false).WaitAsync();
-                    ArchiverManager.Current.UnlockAllArchives();
                 }
+
+                // 開いている本のロックをはずす
+                ArchiverManager.Current.UnlockAllArchives();
 
                 // rename
                 try

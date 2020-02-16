@@ -14,17 +14,10 @@ namespace NeeView.Setting
         {
             this.Children = new List<SettingPage>
             {
-                new SettingPageSusieGeneral(),
                 new SettingPageSusieINPlugin(),
                 new SettingPageSusieAMPlugin(),
             };
-        }
-    }
 
-    public class SettingPageSusieGeneral : SettingPage
-    {
-        public SettingPageSusieGeneral() : base(Properties.Resources.SettingPageSusieGeneral)
-        {
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageSusieGeneralGeneral,

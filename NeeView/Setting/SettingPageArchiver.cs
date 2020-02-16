@@ -10,20 +10,13 @@ namespace NeeView.Setting
         {
             this.Children = new List<SettingPage>
             {
-                new SettingPageImage(),
                 new SettingPageArchiverZip(),
                 new SettingPageArchiverSevenZip(),
                 new SettingPageArchivePdf(),
                 new SettingPageArchiveMedia(),
 
             };
-        }
-    }
 
-    public class SettingPageImage : SettingPage
-    {
-        public SettingPageImage() : base(Properties.Resources.SettingPageImage)
-        {
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageImageCollection,

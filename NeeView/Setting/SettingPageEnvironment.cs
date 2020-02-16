@@ -15,40 +15,11 @@ namespace NeeView.Setting
         {
             this.Children = new List<SettingPage>
             {
-                new SettingPageEnvironmentDetail(),
                 new SettingPageEnvironmentSetup(),
                 new SettingPageEnvironmentSaveData(),
-                ///new SettingPageEnvironmentLocation(),
                 new SettingPageEnvironmentMemoryAndPerformance(),
             };
-        }
-    }
 
-    public class SettingPageEnvironmentSetup : SettingPage
-    {
-        public SettingPageEnvironmentSetup() : base(Properties.Resources.SettingPageGeneralBoot)
-        {
-            this.Items = new List<SettingItem>
-            {
-                new SettingItemSection(Properties.Resources.SettingPageGeneralBootBoot, Properties.Resources.SettingPageGeneralBootBootTips,
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSplashScreenEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsMultiBootEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveWindowPlacement))),
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveFullScreen))),
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsOpenLastBook))),
-                    new SettingItemProperty(PropertyMemberElement.Create(BookHistoryCollection.Current, nameof(BookHistoryCollection.IsKeepLastFolder))),
-                    new SettingItemProperty(PropertyMemberElement.Create(SlideShow.Current, nameof(SlideShow.IsAutoPlaySlideShow)))),
-
-                new SettingItemSection(Properties.Resources.SettingPageGeneralBootBootDetail, Properties.Resources.SettingPageGeneralBootBootDetailTips,
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsRestoreSecondWindow)))),
-            };
-        }
-    }
-
-    public class SettingPageEnvironmentDetail : SettingPage
-    {
-        public SettingPageEnvironmentDetail() : base(Properties.Resources.SettingPageGeneralDetail)
-        {
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageGeneralDetailLanguage,
@@ -73,6 +44,26 @@ namespace NeeView.Setting
         }
     }
 
+    public class SettingPageEnvironmentSetup : SettingPage
+    {
+        public SettingPageEnvironmentSetup() : base(Properties.Resources.SettingPageGeneralBoot)
+        {
+            this.Items = new List<SettingItem>
+            {
+                new SettingItemSection(Properties.Resources.SettingPageGeneralBootBoot, Properties.Resources.SettingPageGeneralBootBootTips,
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSplashScreenEnabled))),
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsMultiBootEnabled))),
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveWindowPlacement))),
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveFullScreen))),
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsOpenLastBook))),
+                    new SettingItemProperty(PropertyMemberElement.Create(BookHistoryCollection.Current, nameof(BookHistoryCollection.IsKeepLastFolder))),
+                    new SettingItemProperty(PropertyMemberElement.Create(SlideShow.Current, nameof(SlideShow.IsAutoPlaySlideShow)))),
+
+                new SettingItemSection(Properties.Resources.SettingPageGeneralBootBootDetail, Properties.Resources.SettingPageGeneralBootBootDetailTips,
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsRestoreSecondWindow)))),
+            };
+        }
+    }
 
     public class SettingPageEnvironmentSaveData : SettingPage
     {

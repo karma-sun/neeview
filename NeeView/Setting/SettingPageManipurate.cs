@@ -14,18 +14,11 @@ namespace NeeView.Setting
         {
             this.Children = new List<SettingPage>
             {
-                new SettingPageManipurateGeneral(),
                 new SettingPageManipurateMouse(),
                 new SettingPageManipurateTouch(),
                 new SettingPageManipurateLoupe(),
             };
-        }
-    }
 
-    public class SettingPageManipurateGeneral : SettingPage
-    {
-        public SettingPageManipurateGeneral() : base(Properties.Resources.SettingPageManipurateGeneral)
-        {
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageManipurateGeneralViewOperation,
@@ -48,24 +41,17 @@ namespace NeeView.Setting
         /// </summary>
         public class AngleFrequency : IndexDoubleValue
         {
-            private static List<double> _values = new List<double>
-        {
-            0, 5, 10, 15, 20, 30, 45, 60, 90
-        };
+            private static List<double> _values = new List<double> { 0, 5, 10, 15, 20, 30, 45, 60, 90 };
 
-            //
             public AngleFrequency() : base(_values)
             {
             }
 
-            //
             public AngleFrequency(double value) : base(_values)
             {
                 Value = value;
             }
 
-
-            //
             public override string ValueString => Value == 0 ? Properties.Resources.WordStepless : $"{Value} {Properties.Resources.WordDegree}";
         }
     }

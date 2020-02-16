@@ -13,16 +13,9 @@ namespace NeeView.Setting
         {
             this.Children = new List<SettingPage>
             {
-                new SettingPageExternalGeneral(),
                 new SettingPageExternalProgram(),
             };
-        }
-    }
 
-    public class SettingPageExternalGeneral : SettingPage
-    {
-        public SettingPageExternalGeneral() : base(Properties.Resources.SettingPageExternalGeneral)
-        {
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageExternalGeneralCopyToClipboard,
@@ -43,6 +36,7 @@ namespace NeeView.Setting
             };
         }
     }
+
     public class SettingPageExternalProgram : SettingPage
     {
         public SettingPageExternalProgram() : base(Properties.Resources.SettingPageExternalProgram)

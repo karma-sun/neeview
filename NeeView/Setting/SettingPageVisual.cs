@@ -17,7 +17,6 @@ namespace NeeView.Setting
         {
             this.Children = new List<SettingPage>
             {
-                new SettingPageVisualGeneral(),
                 new SettingPageVisualNotify(),
                 new SettingPageVisualWindowTitile(),
                 new SettingPageVisualFilmstrip(),
@@ -30,13 +29,7 @@ namespace NeeView.Setting
                 new SettingPageVisualSlideshow(),
                 new SettingPageVisualThumbnail(),
             };
-        }
-    }
 
-    public class SettingPageVisualGeneral : SettingPage
-    {
-        public SettingPageVisualGeneral() : base(Properties.Resources.SettingPageVisualGeneral)
-        {
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageVisualGeneralTheme,

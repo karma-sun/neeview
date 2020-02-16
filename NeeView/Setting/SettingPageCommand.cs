@@ -13,16 +13,9 @@ namespace NeeView.Setting
         {
             this.Children = new List<SettingPage>
             {
-                new SettingPageCommandGeneral(),
                 new SettingPageCommandMain(),
             };
-        }
-    }
 
-    public class SettingPageCommandGeneral : SettingPage
-    {
-        public SettingPageCommandGeneral() : base(Properties.Resources.SettingPageCommandGeneral)
-        {
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageCommandGeneralAdvance,

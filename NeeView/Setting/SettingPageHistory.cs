@@ -13,16 +13,9 @@ namespace NeeView.Setting
         {
             this.Children = new List<SettingPage>
             {
-                new SettingPageHistoryGeneral(),
                 new SettingPageHistoryPageView(),
             };
-        }
-    }
 
-    public class SettingPageHistoryGeneral : SettingPage
-    {
-        public SettingPageHistoryGeneral() : base(Properties.Resources.SettingPageHistoryGeneral)
-        {
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralGeneral,
@@ -38,11 +31,6 @@ namespace NeeView.Setting
                 new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralDelete,
                     new SettingItemGroup(
                         new SettingItemButton(Properties.Resources.SettingPageHistoryGeneralDeleteButton, RemoveHistory) { IsContentOnly = true })),
-
-#if false
-                new SettingItemSection(Properties.Resources.SettingPageHistoryGeneralAdvance,
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveHistory)))),
-#endif
             };
         }
 
@@ -159,7 +147,7 @@ namespace NeeView.Setting
 
     public class SettingPageHistoryPageView : SettingPage
     {
-        public SettingPageHistoryPageView() : base(Properties.Resources.SettingPageHistoryPageView)
+        public SettingPageHistoryPageView() : base(Properties.Resources.SettingPageHistoryPageViewRecord)
         {
             this.Items = new List<SettingItem>
             {

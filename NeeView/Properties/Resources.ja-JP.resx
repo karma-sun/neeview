@@ -4327,7 +4327,7 @@ Susie書庫はこのサイズで判別せず、プラグインの設定でのみ
     <value>ページ表示</value>
   </data>
   <data name="SettingPageHistoryPageViewRecord" xml:space="preserve">
-    <value>ページ表示履歴</value>
+    <value>ページ表示記録</value>
   </data>
   <data name="SettingPageImage" xml:space="preserve">
     <value>画像</value>

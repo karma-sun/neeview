@@ -10,18 +10,7 @@ namespace NeeView.Setting
     {
         public SettingPageContextMenu() : base(Properties.Resources.SettingPageContextMenu)
         {
-            this.Children = new List<SettingPage>
-            {
-                new SettingPageContextMenuEdit(),
-            };
-        }
-    }
-
-    class SettingPageContextMenuEdit : SettingPage
-    {
-        public SettingPageContextMenuEdit() : base(Properties.Resources.SettingPageContextMenuEdit)
-        {
-            this.IsScrollEnabled = false;
+             this.IsScrollEnabled = false;
 
             this.Items = new List<SettingItem>
             {

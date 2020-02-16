@@ -13,18 +13,11 @@ namespace NeeView.Setting
         {
             this.Children = new List<SettingPage>
             {
-                new SettingPageBookGeneral(),
                 new SettingPageBookVisual(),
                 new SettingPageBookPageSetting(),
                 new SettingPageBookMove(),
             };
-        }
-    }
 
-    public class SettingPageBookGeneral : SettingPage
-    {
-        public SettingPageBookGeneral() : base(Properties.Resources.SettingPageBookGeneral)
-        {
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageBookGeneralGeneral,

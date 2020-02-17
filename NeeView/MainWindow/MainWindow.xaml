@@ -254,6 +254,7 @@
                         <local:SidePanelFrameView x:Name="SidePanelFrame" PanelMargin="{Binding SidePanelMargin, Mode=OneWay}" Visibility="Visible" Source="{Binding SidePanel}"
                                 IsAutoHide="{Binding Model.CanHidePanel}" PanelBackground="{DynamicResource NVBackground}" IconBackground="{DynamicResource NVPanelIconBackground}"
                                 CanvasWidth="{Binding CanvasWidth, Mode=OneWayToSource}" CanvasHeight="{Binding CanvasHeight, Mode=OneWayToSource}"
+                                IsAutoHideMouseEnabled="{Binding IsFrontAreaMouseOver, Converter={StaticResource BooleanReverseConverter}}"
                                 d:IsHidden="True">
                         </local:SidePanelFrameView>
 

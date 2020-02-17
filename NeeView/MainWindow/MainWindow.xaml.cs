@@ -813,7 +813,7 @@ namespace NeeView
 
         private void UpdateMenuAreaMouseOver()
         {
-            _vm.Model.IsMenuAreaMouseOver = _isDockMenuMouseOver || _isLayerMenuMuseOver;
+            _vm.IsMenuAreaMouseOver = _isDockMenuMouseOver || _isLayerMenuMuseOver;
         }
 
         private void DockMenuSocket_MouseEnter(object sender, MouseEventArgs e)
@@ -845,7 +845,7 @@ namespace NeeView
 
         private void UpdateStatusAreaMouseOver()
         {
-            _vm.Model.IsStatusAreaMouseOver = _isDockStatusMouseOver || _isLayeStatusMuseOver;
+            _vm.IsStatusAreaMouseOver = _isDockStatusMouseOver || _isLayeStatusMuseOver;
         }
 
         private void DockStatusArea_MouseEnter(object sender, MouseEventArgs e)

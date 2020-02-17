@@ -313,21 +313,6 @@ namespace NeeView
             set { if (_isVisibleBusy != value) { _isVisibleBusy = value; RaisePropertyChanged(); } }
         }
 
-        /// <summary>
-        /// メニューエリアマウスオーバー
-        /// Viewから更新される
-        /// </summary>
-        public bool IsMenuAreaMouseOver { get; set; }
-
-        /// <summary>
-        /// ステータスエリアマウスオーバー
-        /// Viewから更新される
-        /// </summary>
-        public bool IsStatusAreaMouseOver { get; set; }
-
-        // メニューエリア、ステータスエリアどちらかの上にマウスがある
-        public bool IsFontAreaMouseOver => IsMenuAreaMouseOver || IsStatusAreaMouseOver;
-
         [PropertyMember("@ParamIsAccessKeyEnabled", Tips = "@ParamIsAccessKeyEnabledTips")]
         public bool IsAccessKeyEnabled { get; set; } = true;
 
@@ -354,9 +339,9 @@ namespace NeeView
         [PropertyRange("@ParameterCursorHideReleaseDistance", 0.0, 1000.0, TickFrequency = 1.0, IsEditable = true)]
         public double CursorHideReleaseDistance { get; set; } = 5.0;
 
-        #endregion
+#endregion
 
-        #region Methods
+#region Methods
 
         private void RefreshSliderBrushes()
         {
@@ -668,9 +653,9 @@ namespace NeeView
             FocusMainViewCall?.Invoke(this, null);
         }
 
-        #endregion
+#endregion
 
-        #region Memento
+#region Memento
 
         [DataContract]
         public class Memento
@@ -768,7 +753,7 @@ namespace NeeView
             this.CursorHideReleaseDistance = memento.CursorHideReleaseDistance;
         }
 
-        #endregion
+#endregion
     }
 
 }

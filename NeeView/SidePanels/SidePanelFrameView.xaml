@@ -114,7 +114,8 @@
         <DockPanel>
 
             <Grid DockPanel.Dock="Left" Visibility="{Binding VM.IsSideBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid x:Name="LeftIconGrid" Style="{StaticResource PanelIconGridStyle}" Visibility="{Binding ElementName=LeftPanelContent, Path=Visibility}" AllowDrop="True" MouseLeftButtonUp="LeftIconGrid_MouseLeftButtonUp">
+                <Grid x:Name="LeftIconGrid" Style="{StaticResource PanelIconGridStyle}" Visibility="{Binding ElementName=LeftPanelContent, Path=Visibility}" AllowDrop="True"
+                        MouseLeftButtonUp="LeftIconGrid_MouseLeftButtonUp">
 
                     <b:Interaction.Behaviors>
                         <nw:DragAcceptBehavior Description="{Binding VM.Left.Description}" />
@@ -129,7 +130,8 @@
             </Grid>
 
             <Grid DockPanel.Dock="Right" Visibility="{Binding VM.IsSideBarVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-                <Grid x:Name="RightIconGrid" Style="{StaticResource PanelIconGridStyle}" Visibility="{Binding ElementName=RightPanelContent, Path=Visibility}" AllowDrop="True" MouseLeftButtonUp="RightIconGrid_MouseLeftButtonUp">
+                <Grid x:Name="RightIconGrid" Style="{StaticResource PanelIconGridStyle}" Visibility="{Binding ElementName=RightPanelContent, Path=Visibility}" AllowDrop="True"
+                        MouseLeftButtonUp="RightIconGrid_MouseLeftButtonUp">
 
                     <b:Interaction.Behaviors>
                         <nw:DragAcceptBehavior Description="{Binding VM.Right.Description}" />
@@ -146,14 +148,14 @@
             <DockPanel x:Name="Screen">
 
                 <Grid x:Name="LeftPanel" Style="{StaticResource PanelGridStyle}" DockPanel.Dock="Left" UseLayoutRounding="True" Width="{Binding VM.Left.Width, Mode=TwoWay}"
-                        Visibility="{Binding VM.Left.PanelVisibility}" >
+                        Visibility="{Binding VM.Left.PanelVisibility}">
                     <ContentControl x:Name="LeftPanelContent" Content="{Binding VM.Left.Panel.SelectedPanel.View}" Margin="{Binding PanelMargin}" IsTabStop="False" Focusable="False">
                         <behaviors:Interaction.Behaviors>
                             <local:AutoHideBehavior Name="LeftPanel" Screen="{Binding ElementName=Screen}" SubTarget="{Binding ElementName=LeftPanelSplitter}" Dock="Left" HitTestMargin="32"
                                     IsEnabled="{Binding VM.Left.IsAutoHide}" DelayTime="{Binding VM.App.AutoHideDelayTimeMillisecond}"
                                     DelayVisibleTime="{Binding VM.App.AutoHideDelayVisibleTimeMillisecond}" FocusLockMode="{Binding VM.App.AutoHideFocusLockMode}"
                                     IsKeyDownDelayEnabled="{Binding VM.App.IsAutoHideKeyDownDelay}" Description="{Binding VM.Left.AutoHideDescription}"
-                                    IsVisibleLocked="{Binding VM.Left.IsVisibleLocked}" />
+                                    IsVisibleLocked="{Binding VM.Left.IsVisibleLocked}" IsMouseEnabled="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsAutoHideMouseEnabled}" />
                         </behaviors:Interaction.Behaviors>
                     </ContentControl>
                 </Grid>
@@ -169,7 +171,7 @@
                                     IsEnabled="{Binding VM.Right.IsAutoHide}" DelayTime="{Binding VM.App.AutoHideDelayTimeMillisecond}"
                                     DelayVisibleTime="{Binding VM.App.AutoHideDelayVisibleTimeMillisecond}" FocusLockMode="{Binding VM.App.AutoHideFocusLockMode}"
                                     IsKeyDownDelayEnabled="{Binding VM.App.IsAutoHideKeyDownDelay}" Description="{Binding VM.Right.AutoHideDescription}"
-                                    IsVisibleLocked="{Binding VM.Right.IsVisibleLocked}" />
+                                    IsVisibleLocked="{Binding VM.Right.IsVisibleLocked}" IsMouseEnabled="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsAutoHideMouseEnabled}" />
                         </behaviors:Interaction.Behaviors>
                     </ContentControl>
                 </Grid>

@@ -118,6 +118,12 @@ namespace NeeView
         #endregion
 
 
+        private MainWindowModel _model;
+        private Visibility _busyVisibility = Visibility.Collapsed;
+        private bool _isMenuAreaMouseOver;
+        private bool _isStatusAreaMouseOver;
+
+
         /// <summary>
         /// コンストラクター
         /// </summary>
@@ -188,10 +194,7 @@ namespace NeeView
             }
         }
 
-        private void Model_FocusMainViewCall(object sender, EventArgs e)
-        {
-            FocusMainViewCall?.Invoke(sender, e);
-        }
+
 
         public event EventHandler FocusMainViewCall;
 
@@ -207,9 +210,6 @@ namespace NeeView
             get { return _busyVisibility; }
             set { if (_busyVisibility != value) { _busyVisibility = value; RaisePropertyChanged(); } }
         }
-
-        private Visibility _busyVisibility = Visibility.Collapsed;
-
 
 
         // for Binding
@@ -227,7 +227,6 @@ namespace NeeView
         public App App => App.Current;
 
 
-        private MainWindowModel _model;
         public MainWindowModel Model
         {
             get { return _model; }
@@ -248,6 +247,48 @@ namespace NeeView
         public BasicAutoHideDescription MenuAutoHideDescription { get; }
 
 
+        /// <summary>
+        /// メニューエリアマウスオーバー
+        /// Viewから更新される
+        /// </summary>
+        public bool IsMenuAreaMouseOver
+        {
+            get { return _isMenuAreaMouseOver; }
+            set
+            {
+                if (SetProperty(ref _isMenuAreaMouseOver, value))
+                {
+                    RaisePropertyChanged(nameof(IsFrontAreaMouseOver));
+                }
+            }
+        }
+
+        /// <summary>
+        /// ステータスエリアマウスオーバー
+        /// Viewから更新される
+        /// </summary>
+        public bool IsStatusAreaMouseOver
+        {
+            get { return _isStatusAreaMouseOver; }
+            set
+            {
+                if (SetProperty(ref _isStatusAreaMouseOver, value))
+                {
+                    RaisePropertyChanged(nameof(IsFrontAreaMouseOver));
+                }
+            }
+        }
+
+        /// <summary>
+        /// メニューエリア、ステータスエリアどちらかの上にマウスがある
+        /// </summary>
+        public bool IsFrontAreaMouseOver => IsMenuAreaMouseOver || IsStatusAreaMouseOver;
+
+
+        private void Model_FocusMainViewCall(object sender, EventArgs e)
+        {
+            FocusMainViewCall?.Invoke(sender, e);
+        }
 
         // 処理中表示の更新
         private void UpdateBusyVisibility()

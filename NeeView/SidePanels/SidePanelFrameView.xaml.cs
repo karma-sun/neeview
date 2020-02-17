@@ -121,6 +121,19 @@ namespace NeeView
             }
         }
 
+        /// <summary>
+        /// マウスによる自動非表示の有効/無効
+        /// アドレスバー等の手前のパネルにマウスがあるときは無効にすると言った使い方
+        /// </summary>
+        public bool IsAutoHideMouseEnabled
+        {
+            get { return (bool)GetValue(IsAutoHideMouseEnabledProperty); }
+            set { SetValue(IsAutoHideMouseEnabledProperty, value); }
+        }
+
+        public static readonly DependencyProperty IsAutoHideMouseEnabledProperty =
+            DependencyProperty.Register("IsAutoHideMouseEnabled", typeof(bool), typeof(SidePanelFrameView), new PropertyMetadata(true));
+
 
         /// <summary>
         /// SidePanelFrameModel を Sourceとして指定する。

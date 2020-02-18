@@ -107,6 +107,18 @@ namespace NeeView
             e.Handled = true;
         }
 
+        private void OpenBookButton_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            // NOTE: ページ送りでフォーカスが外れるため、キーボードの対応は保留
+#if false
+            if (e.Key == Key.Enter || e.Key == Key.Space)
+            {
+                OpenBook();
+                e.Handled = true;
+            }
+#endif
+        }
+
         private void OpenBook()
         {
             BookHub.Current.RequestLoad(_content.Entry.SystemPath, null, BookLoadOption.IsBook | BookLoadOption.SkipSamePlace, true);

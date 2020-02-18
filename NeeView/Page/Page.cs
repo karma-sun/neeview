@@ -243,16 +243,18 @@ namespace NeeView
         /// <summary>
         /// サムネイル読み込み
         /// </summary>
-        public async Task LoadThumbnailAsync(CancellationToken token)
+        public async Task<ImageSource> LoadThumbnailAsync(CancellationToken token)
         {
             try
             {
                 token.ThrowIfCancellationRequested();
                 await _contentLoader.LoadThumbnailAsync(token);
+                return this.Thumbnail?.ImageSource;
             }
             catch
             {
                 // nop.
+                return null;
             }
         }
 

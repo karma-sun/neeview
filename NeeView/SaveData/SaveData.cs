@@ -97,11 +97,6 @@ namespace NeeView
                 ImageEffect.Current.Restore(setting.ImageEffectMemento);
             }
 
-            if (setting.ExporterMemento != null)
-            {
-                Exporter.RestoreCompatible(setting.ExporterMemento);
-            }
-
             // Preference.Compatible
             if (setting.PreferenceMemento != null)
             {

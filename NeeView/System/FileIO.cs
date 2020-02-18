@@ -7,9 +7,13 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Effects;
+
+// TODO: 要整備。表示やフロー等も含まれてしまっている。依存関係が強すぎる
 
 namespace NeeView
 {
@@ -72,8 +76,26 @@ namespace NeeView
         {
             if (page == null) return false;
 
-            bool isRemoved = await RemoveAsync(page.GetFilePlace(), Resources.DialogFileDeletePageTitle, async () => await new PageVisual(page).CreateVisualContentAsync(new System.Windows.Size(64, 64), true));
+            bool isRemoved = await RemoveAsync(page.GetFilePlace(), Resources.DialogFileDeletePageTitle, async () => await CreatePageVisualAsync(page));
             return isRemoved;
+        }
+
+        private async Task<Image> CreatePageVisualAsync(Page page)
+        {
+            var imageSource = await page.LoadThumbnailAsync(CancellationToken.None);
+
+            var image = new Image();
+            image.Source = imageSource;
+            image.Effect = new DropShadowEffect()
+            {
+                Opacity = 0.5,
+                ShadowDepth = 2,
+                RenderingBias = RenderingBias.Quality
+            };
+            image.MaxWidth = 64;
+            image.MaxHeight = 64;
+
+            return image;
         }
 
         // ファイルを削除 確認と削除

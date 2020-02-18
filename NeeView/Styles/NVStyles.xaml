@@ -1068,7 +1068,7 @@
     <Style x:Key="NVDialogButtonStyle" TargetType="Button">
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="MinWidth" Value="100"/>
-        <Setter Property="Height" Value="40" />
+        <Setter Property="MinHeight" Value="40" />
         <Setter Property="Padding" Value="20,10"/>
         <Setter Property="Margin" Value="20,0,0,0"/>
 
@@ -1079,7 +1079,7 @@
                     <Border x:Name="root" BorderBrush="Transparent" Background="{TemplateBinding Background}" BorderThickness="2">
                         <Grid>
                             <Rectangle x:Name="fill" Fill="Transparent"/>
-                            <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <ContentPresenter x:Name="contentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Margin="{TemplateBinding Padding}" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>

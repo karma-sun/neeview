@@ -72,6 +72,22 @@ namespace NeeView
             return s.Substring(place.Length).TrimStart(Separator);
         }
 
+        public static string GetFileNameWithoutExtension(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return "";
+            var filename = GetFileName(s);
+            var ext = GetExtension(s);
+            if (string.IsNullOrEmpty(ext))
+            {
+                return filename;
+            }
+            else
+            {
+                return filename.Substring(0, filename.Length - ext.Length);
+            }
+        }
+
+
         //
         public static string GetPathRoot(string s)
         {

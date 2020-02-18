@@ -51,9 +51,6 @@ namespace NeeView
         [Obsolete, DataMember(Order = 1, EmitDefaultValue = false)]
         public MainWindowVM.Memento ViewMemento { set; get; } // no used (ver.23)
 
-        [Obsolete, DataMember(Order = 4, EmitDefaultValue = false)]
-        public Exporter.Memento ExporterMemento { set; get; }
-
         [Obsolete, DataMember(Order = 14, EmitDefaultValue = false)]
         public Preference.Memento PreferenceMemento { set; get; }
 

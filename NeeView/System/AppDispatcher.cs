@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace NeeView
@@ -22,6 +23,22 @@ namespace NeeView
             ////Debug.WriteLine($"App.Dispatcher.Invoke: {sourceFile}({sourceLine}):  {sw.ElapsedMilliseconds}ms");
 #else
             App.Current.Dispatcher.Invoke(action);
+#endif
+        }
+
+        public static async Task InvokeAsync(Action action)
+        {
+            if (Application.Current == null) return;
+
+#if DEBUG
+            var callStack = new StackFrame(1, true);
+            var sourceFile = System.IO.Path.GetFileName(callStack.GetFileName());
+            int sourceLine = callStack.GetFileLineNumber();
+            var sw = Stopwatch.StartNew();
+            await App.Current.Dispatcher.InvokeAsync(action);
+            ////Debug.WriteLine($"App.Dispatcher.Invoke: {sourceFile}({sourceLine}):  {sw.ElapsedMilliseconds}ms");
+#else
+            await App.Current.Dispatcher.InvokeAsync(action);
 #endif
         }
 

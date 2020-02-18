@@ -1,0 +1,82 @@
+﻿<Window x:Class="NeeView.ExportImageWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:NeeView"
+        xmlns:properties="clr-namespace:NeeView.Properties" mc:Ignorable="d" Style="{StaticResource ToolWindowStyle}" Foreground="{DynamicResource NVForeground}"
+        Background="{DynamicResource NVBackground}" Title="{x:Static properties:Resources.ControlSaveTitle}" Height="400" Width="640">
+
+    <Window.Resources>
+
+        <Style x:Key="TextButton" TargetType="Button" BasedOn="{StaticResource NVDialogButtonStyle}">
+            <Setter Property="Margin" Value="10,10,0,0" />
+            <Setter Property="MaxWidth" Value="512" />
+        </Style>
+
+        <Style x:Key="TextButtonMain" TargetType="Button" BasedOn="{StaticResource TextButton}">
+            <Setter Property="Foreground" Value="{StaticResource NVDialogButtonForeground}" />
+            <Setter Property="Background" Value="{StaticResource NVDialogButtonBackground}" />
+        </Style>
+        
+        <Style x:Key="ItemStack" TargetType="StackPanel">
+            <Setter Property="Margin" Value="0,5" />
+        </Style>
+        
+        <Style x:Key="Header" TargetType="TextBlock">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+        </Style>
+
+        <Style x:Key="Body" TargetType="TextBlock">
+            <Setter Property="Background" Value="Transparent" />
+        </Style>
+
+        <Style x:Key="BodyCheckBox" TargetType="CheckBox">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
+            <Setter Property="Foreground" Value="{DynamicResource NVForeground}" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+
+        <Style x:Key="BodyComboBox" TargetType="ComboBox" BasedOn="{StaticResource NVComboBox}">
+            <Setter Property="Foreground" Value="{StaticResource NVButtonForeground}" />
+        </Style>
+
+    </Window.Resources>
+
+    <DockPanel>
+
+        <DockPanel MinWidth="256">
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
+                <Button x:Name="SaveButton" Style="{StaticResource TextButtonMain}" Content="{x:Static properties:Resources.ControlSaveSaveAs}" Click="SaveButton_Click" />
+                <Button x:Name="CancelButton" Style="{StaticResource TextButton}" Content="{x:Static properties:Resources.WordCancel}" Click="CancelButton_Click" />
+            </StackPanel>
+            <StackPanel Margin="10">
+                <StackPanel Style="{StaticResource ItemStack}">
+                    <TextBlock Style="{StaticResource Header}" Text="{x:Static properties:Resources.ControlSaveExportMode}" />
+                    <ComboBox Style="{StaticResource BodyComboBox}" ItemsSource="{Binding ExportImageModeList}" DisplayMemberPath="Value" SelectedValuePath="Key" SelectedValue="{Binding Mode}"
+                            TabIndex="1" />
+                    <CheckBox Content="{x:Static properties:Resources.ControlSaveWithBackground}" IsChecked="{Binding HasBackground}" Margin="20,10,0,0" TabIndex="1"
+                            FocusVisualStyle="{StaticResource NVBorderFocusVisual}">
+                        <CheckBox.Style>
+                            <Style TargetType="CheckBox" BasedOn="{StaticResource BodyCheckBox}">
+                                <Setter Property="Visibility" Value="Hidden" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Mode}" Value="{x:Static local:ExportImageMode.View}">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </CheckBox.Style>
+                    </CheckBox>
+                </StackPanel>
+            </StackPanel>
+        </DockPanel>
+
+        <Grid x:Name="Base" Background="#EEE">
+            <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Viewbox Width="256" MaxHeight="256" Margin="10" HorizontalAlignment="Center">
+                    <ContentControl Content="{Binding Preview}" HorizontalAlignment="Center" VerticalAlignment="Center" Focusable="False" IsTabStop="False" />
+                </Viewbox>
+                <TextBlock Text="{Binding ImageFormatNote}" Margin="10" HorizontalAlignment="Center" Foreground="Gray" />
+            </StackPanel>
+        </Grid>
+
+    </DockPanel>
+</Window>

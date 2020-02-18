@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NeeLaboratory;
 using NeeView.Data;
+using NeeView.Windows.Controls;
 using NeeView.Windows.Property;
 
 namespace NeeView
@@ -323,5 +324,39 @@ namespace NeeView
         [DataMember]
         [PropertyMember("@ParamCommandParameterFocusMainViewClosePanels")]
         public bool NeedClosePanels { get; set; }
+    }
+
+
+    [DataContract]
+    public class ExportImageDialogCommandParameter : CommandParameter
+    {
+        [DataMember, PropertyPath("@ParamCommandParameterExportDefaultFolder", Tips = "ParamCommandParameterExportDefaultFolderTips", FileDialogType = FileDialogType.Directory)]
+        public string ExportFolder { get; set; }
+
+        [DataMember, PropertyRange("@ParamCommandParameterExportImageQualityLevel", 5, 100, TickFrequency = 5, Tips = "@ParamCommandParameterExportImageQualityLevelTips")]
+        public int QualityLevel { get; set; } = 80;
+    }
+
+
+    [DataContract]
+    public class ExportImageCommandParameter : CommandParameter
+    {
+        [DataMember, PropertyMember("@ParamCommandParameterExportMode")]
+        public ExportImageMode Mode { get; set; }
+
+        [DataMember, PropertyMember("@ParamCommandParameterExportHasBackground")]
+        public bool HasBackground { get; set; }
+
+        [DataMember, PropertyPath("@ParamCommandParameterExportFolder", FileDialogType = FileDialogType.Directory)]
+        public string ExportFolder { get; set; }
+
+        [DataMember, PropertyMember("@ParamCommandParameterExportFileNameMode")]
+        public ExportImageFileNameMode FileNameMode { get; set; }
+
+        [DataMember, PropertyMember("@ParamCommandParameterExportFileFormat", Tips = "@ParamCommandParameterExportFileFormat")]
+        public ExportImageFormat FileFormat { get; set; }
+
+        [DataMember, PropertyRange("@ParamCommandParameterExportImageQualityLevel", 5, 100, TickFrequency = 5, Tips = "@ParamCommandParameterExportImageQualityLevelTips")]
+        public int QualityLevel { get; set; } = 80;
     }
 }

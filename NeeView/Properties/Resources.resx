@@ -288,9 +288,6 @@
   <data name="CommandDeleteFileNote" xml:space="preserve">
     <value>Delete the file. It can not be deleted for compressed files.</value>
   </data>
-  <data name="CommandExport" xml:space="preserve">
-    <value>Save as</value>
-  </data>
   <data name="CommandExportBackup" xml:space="preserve">
     <value>Export settings</value>
   </data>
@@ -300,11 +297,23 @@
   <data name="CommandExportBackupNote" xml:space="preserve">
     <value>Create backups of settings, history, bookmarks, page marks. The thumbnail cache is not backed up.</value>
   </data>
-  <data name="CommandExportMenu" xml:space="preserve">
+  <data name="CommandExportImageDialog" xml:space="preserve">
+    <value>Save as</value>
+  </data>
+  <data name="CommandExportImageDialogMenu" xml:space="preserve">
     <value>_Save as...</value>
   </data>
-  <data name="CommandExportNote" xml:space="preserve">
+  <data name="CommandExportImageDialogNote" xml:space="preserve">
     <value>Save the image to a file.</value>
+  </data>
+  <data name="CommandExportImage" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="CommandExportImageMenu" xml:space="preserve">
+    <value>_Save</value>
+  </data>
+  <data name="CommandExportImageNote" xml:space="preserve">
+    <value>Save the image to a file. The storage folder is specified by a command parameter.</value>
   </data>
   <data name="CommandFirstPage" xml:space="preserve">
     <value>First page</value>
@@ -4808,5 +4817,56 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="ParamCommandParameterFocusMainViewClosePanels" xml:space="preserve">
     <value>Close all panels</value>
+  </data>
+  <data name="DialogExportImageSuccess" xml:space="preserve">
+    <value>{0} saved.</value>
+  </data>
+  <data name="EnumExportImageModeOrigin" xml:space="preserve">
+    <value>Save as original file</value>
+  </data>
+  <data name="EnumExportImageModeView" xml:space="preserve">
+    <value>Save display</value>
+  </data>
+  <data name="EnumExportImageFileNameModeOriginal" xml:space="preserve">
+    <value>Original file name</value>
+  </data>
+  <data name="EnumExportImageFileNameModeBookPageNumber" xml:space="preserve">
+    <value>Book name + page number</value>
+  </data>
+  <data name="EnumExportImageFileNameModeDeault" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="ParamCommandParameterExportMode" xml:space="preserve">
+    <value>Output image type</value>
+  </data>
+  <data name="ParamCommandParameterExportHasBackground" xml:space="preserve">
+    <value>Include background</value>
+  </data>
+  <data name="ParamCommandParameterExportFolder" xml:space="preserve">
+    <value>Output folder</value>
+  </data>
+  <data name="ParamCommandParameterExportFileNameMode" xml:space="preserve">
+    <value>Output file name</value>
+  </data>
+  <data name="ParamCommandParameterExportImageQualityLevel" xml:space="preserve">
+    <value>JPEG quality</value>
+  </data>
+  <data name="ParamCommandParameterExportImageQualityLevelTips" xml:space="preserve">
+    <value>It is used only when conversion is required.</value>
+  </data>
+  <data name="ParamCommandParameterExportDefaultFolder" xml:space="preserve">
+    <value>Default output folder</value>
+  </data>
+  <data name="ParamCommandParameterExportDefaultFolderTips" xml:space="preserve">
+    <value>Output folder at startup. During startup, it follows the changed storage location.</value>
+  </data>
+  <data name="ParamCommandParameterExportFileFormat" xml:space="preserve">
+    <value>Output file format</value>
+  </data>
+  <data name="ParamCommandParameterExportFileFormatTips" xml:space="preserve">
+    <value>Used when "@ParamCommandParameterExportMode" is "@EnumExportImageModeView".</value>
+  </data>
+  <data name="ControlSaveExportMode" xml:space="preserve">
+    <value>Output image type</value>
   </data>
 </root>

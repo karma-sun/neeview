@@ -33,8 +33,13 @@ namespace NeeView
         OpenApplication,
         [EnumMember]
         OpenFilePlace,
+        
+        // NOTE: ExportImageDialog にしたい
         [EnumMember]
-        Export,
+        Export, 
+        [EnumMember]
+        ExportImage,
+        
         [EnumMember]
         Print,
         [EnumMember]

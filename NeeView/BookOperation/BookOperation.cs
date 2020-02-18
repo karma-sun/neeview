@@ -35,6 +35,7 @@ namespace NeeView
         private ObservableCollection<Page> _pageList;
         private ExternalApplication _ExternalApplication = new ExternalApplication();
         private ClipboardUtility _ClipboardUtility = new ClipboardUtility();
+        private ExportImageProceduralDialog _exportImageProceduralDialog;
 
         #endregion
 
@@ -406,32 +407,17 @@ namespace NeeView
             return true;
         }
 
-        // ファイルに保存する
+
+        // ファイルに保存する (ダイアログ)
         // TODO: OutOfMemory対策
-        public void Export()
+        public void ExportDialog(ExportImageDialogCommandParameter parameter)
         {
             if (CanExport())
             {
                 try
                 {
-                    var pages = Book.Viewer.GetViewPages();
-                    int index = Book.Viewer.GetViewPageIndex() + 1;
-                    string name = $"{Path.GetFileNameWithoutExtension(Book.Address)}_{index:000}-{index + pages.Count - 1:000}.png";
-                    var exporter = new Exporter();
-                    exporter.Initialize(pages, Book.Viewer.BookReadOrder, name);
-                    exporter.Background = ContentCanvasBrush.Current.CreateBackgroundBrush();
-                    exporter.BackgroundFront = ContentCanvasBrush.Current.CreateBackgroundFrontBrush(new DpiScale(1, 1));
-                    if (exporter.ShowDialog() == true)
-                    {
-                        try
-                        {
-                            exporter.Export();
-                        }
-                        catch (Exception e)
-                        {
-                            new MessageDialog($"{Resources.WordCause}: {e.Message}", Resources.DialogExportErrorTitle).ShowDialog();
-                        }
-                    }
+                    _exportImageProceduralDialog = _exportImageProceduralDialog ?? new ExportImageProceduralDialog();
+                    _exportImageProceduralDialog.Show(parameter);
                 }
                 catch (Exception e)
                 {
@@ -441,6 +427,23 @@ namespace NeeView
             }
         }
 
+        // ファイルに保存する
+        public void Export(ExportImageCommandParameter parameter)
+        {
+            if (CanExport())
+            {
+                try
+                {
+                    var process = new ExportImageProcedure();
+                    process.Execute(parameter);
+                }
+                catch (Exception e)
+                {
+                    new MessageDialog($"{Resources.DialogImageExportError}\n{Resources.WordCause}: {e.Message}", Resources.DialogImageExportErrorTitle).ShowDialog();
+                    return;
+                }
+            }
+        }
 
         #endregion
 

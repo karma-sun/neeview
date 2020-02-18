@@ -288,9 +288,6 @@
   <data name="CommandDeleteFileNote" xml:space="preserve">
     <value>ファイルを削除します。圧縮ファイルの場合は削除できません。 </value>
   </data>
-  <data name="CommandExport" xml:space="preserve">
-    <value>名前をつけてファイルに保存</value>
-  </data>
   <data name="CommandExportBackup" xml:space="preserve">
     <value>全設定をエクスポート</value>
   </data>
@@ -300,11 +297,23 @@
   <data name="CommandExportBackupNote" xml:space="preserve">
     <value>設定、履歴、ブックマーク、ページマークのバックアップを作成します。サムネイルキャッシュはバックアップされません。</value>
   </data>
-  <data name="CommandExportMenu" xml:space="preserve">
+  <data name="CommandExportImageDialog" xml:space="preserve">
+    <value>名前をつけてファイルに保存</value>
+  </data>
+  <data name="CommandExportImageDialogMenu" xml:space="preserve">
     <value>保存(_S)...</value>
   </data>
-  <data name="CommandExportNote" xml:space="preserve">
+  <data name="CommandExportImageDialogNote" xml:space="preserve">
     <value>画像をファイルに保存します。</value>
+  </data>
+  <data name="CommandExportImage" xml:space="preserve">
+    <value>ファイルに保存</value>
+  </data>
+  <data name="CommandExportImageMenu" xml:space="preserve">
+    <value>保存(_S)</value>
+  </data>
+  <data name="CommandExportImageNote" xml:space="preserve">
+    <value>画像をファイルに保存します。保存フォルダーはコマンドパラメーターで指定します。</value>
   </data>
   <data name="CommandFirstPage" xml:space="preserve">
     <value>最初のページに移動</value>
@@ -1910,7 +1919,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>元ファイルのまま保存</value>
   </data>
   <data name="ControlSaveSaveAs" xml:space="preserve">
-    <value>名前をつけて保存...</value>
+    <value>保存...</value>
   </data>
   <data name="ControlSaveTitle" xml:space="preserve">
     <value>画像を保存</value>
@@ -3183,7 +3192,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>スライダー方向によってページ移動コマンドの移動方向を入れ替える</value>
   </data>
   <data name="ParamCommandIsReversePageMoveTips" xml:space="preserve">
-    <value>スライダーが左から右方向のときにページ移動方向を逆にします。機能するコマンドの設定はコマンドパラメータの「@ParamCommandParameterIsReverse」で設定します。</value>
+    <value>スライダーが左から右方向のときにページ移動方向を逆にします。機能するコマンドの設定はコマンドパラメーターの「@ParamCommandParameterIsReverse」で設定します。</value>
   </data>
   <data name="ParamCommandIsReversePageMoveWheel" xml:space="preserve">
     <value>ホイール操作のときに入れ替える</value>
@@ -3270,7 +3279,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>短時間で連続で実行された時はページ移動を行いません。</value>
   </data>
   <data name="ParamCommandParameterShare" xml:space="preserve">
-    <value>パラメータ共有</value>
+    <value>パラメーター共有</value>
   </data>
   <data name="ParamCommandParameterStretchModeIsToggle" xml:space="preserve">
     <value>オリジナルサイズとの切り替え</value>
@@ -3291,7 +3300,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>ループ設定</value>
   </data>
   <data name="ParamCommandShare" xml:space="preserve">
-    <value>「{0}」と共通のパラメータです。</value>
+    <value>「{0}」と共通のパラメーターです。</value>
   </data>
   <data name="ParamContentCanvasContentsSpace" xml:space="preserve">
     <value>2ページ間の距離</value>
@@ -3492,7 +3501,7 @@ Centerがコマンドに割り当てられていない場合はその下のエ�
     <value>色設定をHSVで行う</value>
   </data>
   <data name="ParamImageEffectIsHsvModeTips" xml:space="preserve">
-    <value>色パラメータの設定をHSV(色相、彩度、輝度)で設定します。OFFにするとRGBでの設定になります。</value>
+    <value>色パラメーターの設定をHSV(色相、彩度、輝度)で設定します。OFFにするとRGBでの設定になります。</value>
   </data>
   <data name="ParamImageFilterAmount" xml:space="preserve">
     <value>適応量</value>
@@ -4808,5 +4817,56 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="ParamCommandParameterFocusMainViewClosePanels" xml:space="preserve">
     <value>全てのパネルを閉じる</value>
+  </data>
+  <data name="DialogExportImageSuccess" xml:space="preserve">
+    <value>{0} を保存しました。</value>
+  </data>
+  <data name="EnumExportImageModeOrigin" xml:space="preserve">
+    <value>元ファイルのまま保存</value>
+  </data>
+  <data name="EnumExportImageModeView" xml:space="preserve">
+    <value>表示を保存</value>
+  </data>
+  <data name="EnumExportImageFileNameModeOriginal" xml:space="preserve">
+    <value>元ファイルのまま</value>
+  </data>
+  <data name="EnumExportImageFileNameModeBookPageNumber" xml:space="preserve">
+    <value>ブック名＋ページ番号</value>
+  </data>
+  <data name="EnumExportImageFileNameModeDeault" xml:space="preserve">
+    <value>標準</value>
+  </data>
+  <data name="ParamCommandParameterExportMode" xml:space="preserve">
+    <value>出力画像の種類</value>
+  </data>
+  <data name="ParamCommandParameterExportHasBackground" xml:space="preserve">
+    <value>背景を含める</value>
+  </data>
+  <data name="ParamCommandParameterExportFolder" xml:space="preserve">
+    <value>出力フォルダー</value>
+  </data>
+  <data name="ParamCommandParameterExportFileNameMode" xml:space="preserve">
+    <value>出力ファイル名</value>
+  </data>
+  <data name="ParamCommandParameterExportImageQualityLevel" xml:space="preserve">
+    <value>JPEG品質</value>
+  </data>
+  <data name="ParamCommandParameterExportImageQualityLevelTips" xml:space="preserve">
+    <value>変換が必要な場合にのみ使用されます。</value>
+  </data>
+  <data name="ParamCommandParameterExportDefaultFolder" xml:space="preserve">
+    <value>既定の出力フォルダー</value>
+  </data>
+  <data name="ParamCommandParameterExportDefaultFolderTips" xml:space="preserve">
+    <value>起動時の出力フォルダーです。起動中は変更された保存先に追従します。</value>
+  </data>
+  <data name="ParamCommandParameterExportFileFormat" xml:space="preserve">
+    <value>出力ファイルフォーマット</value>
+  </data>
+  <data name="ParamCommandParameterExportFileFormatTips" xml:space="preserve">
+    <value>「@ParamCommandParameterExportMode」が「@EnumExportImageModeView」の場合に使用されます。</value>
+  </data>
+  <data name="ControlSaveExportMode" xml:space="preserve">
+    <value>出力画像の種類</value>
   </data>
 </root>

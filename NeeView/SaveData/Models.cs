@@ -46,8 +46,6 @@ namespace NeeView
             [DataMember]
             public ThumbnailProfile.Memento ThumbnailProfile { get; set; }
             [DataMember]
-            public ExporterProfile.Memento ExporterProfile { get; set; }
-            [DataMember]
             public InfoMessage.Memento InfoMessage { get; set; }
             [DataMember]
             public BookProfile.Memento BookProfile { get; set; }
@@ -158,7 +156,6 @@ namespace NeeView
             memento.MediaArchiverProfile = MediaArchiverProfile.Current.CreateMemento();
             memento.ArchiverManager = ArchiverManager.Current.CreateMemento();
             memento.ThumbnailProfile = ThumbnailProfile.Current.CreateMemento();
-            memento.ExporterProfile = ExporterProfile.Current.CreateMemento();
             memento.InfoMessage = InfoMessage.Current.CreateMemento();
             memento.BookProfile = BookProfile.Current.CreateMemento();
             memento.BookHub = BookHub.Current.CreateMemento();
@@ -208,7 +205,6 @@ namespace NeeView
             MediaArchiverProfile.Current.Restore(memento.MediaArchiverProfile);
             ArchiverManager.Current.Restore(memento.ArchiverManager);
             ThumbnailProfile.Current.Restore(memento.ThumbnailProfile);
-            ExporterProfile.Current.Restore(memento.ExporterProfile);
             InfoMessage.Current.Restore(memento.InfoMessage);
             BookProfile.Current.Restore(memento.BookProfile);
             BookHub.Current.Restore(memento.BookHub);

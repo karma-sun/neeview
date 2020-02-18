@@ -592,15 +592,6 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Save as に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string CommandExport {
-            get {
-                return ResourceManager.GetString("CommandExport", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Export settings に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandExportBackup {
@@ -628,20 +619,56 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Save に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandExportImage {
+            get {
+                return ResourceManager.GetString("CommandExportImage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save as に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandExportImageDialog {
+            get {
+                return ResourceManager.GetString("CommandExportImageDialog", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   _Save as... に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CommandExportMenu {
+        public static string CommandExportImageDialogMenu {
             get {
-                return ResourceManager.GetString("CommandExportMenu", resourceCulture);
+                return ResourceManager.GetString("CommandExportImageDialogMenu", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Save the image to a file. に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string CommandExportNote {
+        public static string CommandExportImageDialogNote {
             get {
-                return ResourceManager.GetString("CommandExportNote", resourceCulture);
+                return ResourceManager.GetString("CommandExportImageDialogNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   _Save に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandExportImageMenu {
+            get {
+                return ResourceManager.GetString("CommandExportImageMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save the image to a file. The storage folder is specified by a command parameter. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandExportImageNote {
+            get {
+                return ResourceManager.GetString("CommandExportImageNote", resourceCulture);
             }
         }
         
@@ -5426,6 +5453,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Output image type に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlSaveExportMode {
+            get {
+                return ResourceManager.GetString("ControlSaveExportMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Save original file に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ControlSaveOriginal {
@@ -5672,6 +5708,15 @@ namespace NeeView.Properties {
         public static string DialogExportErrorTitle {
             get {
                 return ResourceManager.GetString("DialogExportErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   {0} saved. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogExportImageSuccess {
+            get {
+                return ResourceManager.GetString("DialogExportImageSuccess", resourceCulture);
             }
         }
         
@@ -6619,6 +6664,51 @@ namespace NeeView.Properties {
         public static string EnumEffectTypeSwirl {
             get {
                 return ResourceManager.GetString("EnumEffectTypeSwirl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Book name + page number に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumExportImageFileNameModeBookPageNumber {
+            get {
+                return ResourceManager.GetString("EnumExportImageFileNameModeBookPageNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Default に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumExportImageFileNameModeDeault {
+            get {
+                return ResourceManager.GetString("EnumExportImageFileNameModeDeault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Original file name に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumExportImageFileNameModeOriginal {
+            get {
+                return ResourceManager.GetString("EnumExportImageFileNameModeOriginal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save as original file に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumExportImageModeOrigin {
+            get {
+                return ResourceManager.GetString("EnumExportImageModeOrigin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Save display に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string EnumExportImageModeView {
+            get {
+                return ResourceManager.GetString("EnumExportImageModeView", resourceCulture);
             }
         }
         
@@ -9332,6 +9422,96 @@ namespace NeeView.Properties {
         public static string ParamCommandIsReversePageMoveWheelTips {
             get {
                 return ResourceManager.GetString("ParamCommandIsReversePageMoveWheelTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Default output folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterExportDefaultFolder {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterExportDefaultFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Output folder at startup. During startup, it follows the changed storage location. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterExportDefaultFolderTips {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterExportDefaultFolderTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Output file format に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterExportFileFormat {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterExportFileFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Used when &quot;@ParamCommandParameterExportMode&quot; is &quot;@EnumExportImageModeView&quot;. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterExportFileFormatTips {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterExportFileFormatTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Output file name に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterExportFileNameMode {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterExportFileNameMode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Output folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterExportFolder {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterExportFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Include background に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterExportHasBackground {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterExportHasBackground", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   JPEG quality に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterExportImageQualityLevel {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterExportImageQualityLevel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   It is used only when conversion is required. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterExportImageQualityLevelTips {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterExportImageQualityLevelTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Output image type に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamCommandParameterExportMode {
+            get {
+                return ResourceManager.GetString("ParamCommandParameterExportMode", resourceCulture);
             }
         }
         

@@ -335,15 +335,31 @@ namespace NeeView
             {
                 var element = new CommandElement();
                 element.Group = Properties.Resources.CommandGroupFile;
-                element.Text = Properties.Resources.CommandExport;
-                element.MenuText = Properties.Resources.CommandExportMenu;
-                element.Note = Properties.Resources.CommandExportNote;
+                element.Text = Properties.Resources.CommandExportImageDialog;
+                element.MenuText = Properties.Resources.CommandExportImageDialogMenu;
+                element.Note = Properties.Resources.CommandExportImageDialogNote;
                 element.ShortCutKey = "Ctrl+S";
-                element.Execute = (s, e) => BookOperation.Current.Export();
+                element.Execute = (s, e) => BookOperation.Current.ExportDialog((ExportImageDialogCommandParameter)element.Parameter);
                 element.CanExecute = () => BookOperation.Current.CanExport();
+                element.DefaultParameter = new ExportImageDialogCommandParameter();
                 element.IsShowMessage = false;
                 _elements[CommandType.Export] = element;
             }
+            // ExportImage
+            {
+                var element = new CommandElement();
+                element.Group = Properties.Resources.CommandGroupFile;
+                element.Text = Properties.Resources.CommandExportImage;
+                element.MenuText = Properties.Resources.CommandExportImageMenu;
+                element.Note = Properties.Resources.CommandExportImageNote;
+                element.Execute = (s, e) => BookOperation.Current.Export((ExportImageCommandParameter)element.Parameter);
+                element.CanExecute = () => BookOperation.Current.CanExport();
+                element.DefaultParameter = new ExportImageCommandParameter();
+                element.ShortCutKey = "Shift+Ctrl+S";
+                element.IsShowMessage = true;
+                _elements[CommandType.ExportImage] = element;
+            }
+
             // Print
             {
                 var element = new CommandElement();
@@ -2450,6 +2466,7 @@ namespace NeeView
                         Elements[CommandType.SetStretchModeUniform].Parameter = element.Parameter;
                     }
                 }
+
 #pragma warning restore CS0612
 
                 // remove obsolete

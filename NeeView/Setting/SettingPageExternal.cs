@@ -29,10 +29,6 @@ namespace NeeView.Setting
 
                 new SettingItemSection(Properties.Resources.SettingPageExternalGeneralFromBrowser,
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.DownloadPath))) { IsStretch = true }),
-
-                new SettingItemSection(Properties.Resources.SettingPageExternalGeneralSave, Properties.Resources.SettingPageExternalGeneralSaveTips,
-                    new SettingItemProperty(PropertyMemberElement.Create(ExporterProfile.Current, nameof(ExporterProfile.IsEnableExportFolder))),
-                    new SettingItemProperty(PropertyMemberElement.Create(ExporterProfile.Current, nameof(ExporterProfile.QualityLevel)))),
             };
         }
     }

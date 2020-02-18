@@ -144,6 +144,12 @@ namespace NeeView
                 case Key.Escape:
                     text += "+" + "Esc";
                     break;
+                case Key.PageUp:
+                    text += "+" + "PageUp";
+                    break;
+                case Key.PageDown:
+                    text += "+" + "PageDown";
+                    break;
                 default:
                     text += "+" + keyExGesture.Key.ToString();
                     break;

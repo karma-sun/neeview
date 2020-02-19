@@ -181,6 +181,15 @@ namespace NeeView.Setting
             OpenConfigDialog(item);
         }
 
+        private void ListBoxItem_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                var item = (sender as ListBoxItem)?.DataContext as SusiePluginInfo;
+                OpenConfigDialog(item);
+            }
+        }
+
         // 有効/無効チェックボックス
         private void CheckBox_Changed(object sender, RoutedEventArgs e)
         {
@@ -202,5 +211,6 @@ namespace NeeView.Setting
         }
 
         #endregion
+
     }
 }

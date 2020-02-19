@@ -11,16 +11,16 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid x:Name="Root">
         <Border BorderBrush="LightGray" BorderThickness="1" Margin="5">
-            <DockPanel Margin="2">
+            <DockPanel Margin="2" KeyboardNavigation.TabNavigation="Local">
 
                 <DockPanel DockPanel.Dock="Bottom">
                     <Grid DockPanel.Dock="Top">
-                        <Button x:Name="ResetDragSettingButton" Content="{x:Static properties:Resources.ControlEditMouseDragReset}" MinWidth="120" Height="30" Margin="8" Padding="5,0" HorizontalAlignment="Right" Click="ResetDragActionSettingButton_Click"/>
+                        <Button x:Name="ResetDragSettingButton" Content="{x:Static properties:Resources.ControlEditMouseDragReset}" MinWidth="120" Height="30" Margin="8" Padding="5,0" HorizontalAlignment="Right" Click="ResetDragActionSettingButton_Click" TabIndex="10"/>
                     </Grid>
 
                 </DockPanel>
 
-                <ListView x:Name="DragActionListView" BorderThickness="0" ItemsSource="{Binding DragActionCollection}" SelectionChanged="DragActionListView_SelectionChanged">
+                <ListView x:Name="DragActionListView" BorderThickness="0" ItemsSource="{Binding DragActionCollection}" SelectionChanged="DragActionListView_SelectionChanged" TabIndex="1">
                     <b:Interaction.Behaviors>
                         <nv:IgnoreMouseWheelBehavior />
                     </b:Interaction.Behaviors>
@@ -28,6 +28,7 @@
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <EventSetter Event="MouseDoubleClick" Handler="DragActionListViewItem_MouseDoubleClick"/>
+                            <EventSetter Event="KeyDown" Handler="DragActionListViewItem_KeyDown" />
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding DragAction.IsLocked}" Value="True">
                                     <Setter Property="IsEnabled" Value="False"/>

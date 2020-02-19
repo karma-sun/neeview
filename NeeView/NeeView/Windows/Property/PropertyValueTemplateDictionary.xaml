@@ -9,7 +9,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type local:PropertyValue_Boolean}">
-        <CheckBox IsChecked="{Binding Value}"/>
+        <CheckBox IsChecked="{Binding Value}" FocusVisualStyle="{StaticResource NVBorderFocusVisual}"/>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type local:PropertyValue_String}">

@@ -12,16 +12,17 @@
     <Grid>
         <Grid.Resources>
             <Style x:Key="ButtonStyle" TargetType="Button">
-                <Setter Property="Height" Value="28"/>
+                <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
                 <Setter Property="MinWidth" Value="80"/>
                 <Setter Property="Margin" Value="5" />
+                <Setter Property="Padding" Value="10,5" />
             </Style>
         </Grid.Resources>
 
         <DockPanel Margin="5">
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0">
-                <Button Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordOK}" Command="{Binding OkCommand}" CommandParameter="{Binding ElementName=MyWindow}"/>
-                <Button Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordCancel}" Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=MyWindow}"/>
+                <Button x:Name="OkButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordOK}" Command="{Binding OkCommand}" CommandParameter="{Binding ElementName=MyWindow}"/>
+                <Button x:Name="CancelButton" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordCancel}" Command="{Binding CancelCommand}" CommandParameter="{Binding ElementName=MyWindow}"/>
             </StackPanel>
             <DockPanel Margin="0">
                 <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="10">
@@ -30,7 +31,7 @@
                 </StackPanel>
                 <GroupBox Header="{x:Static properties:Resources.ControlCommandResetTypeTitle}" Margin="5">
                     <StackPanel Margin="5">
-                        <ComboBox Margin="5" ItemsSource="{Binding InputScemeList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding InputSceme}"/>
+                        <ComboBox Margin="5" ItemsSource="{Binding InputScemeList}" SelectedValuePath="Key" DisplayMemberPath="Value" SelectedValue="{Binding InputSceme}" FocusVisualStyle="{StaticResource NVBorderFocusVisual}"/>
                         <TextBlock Margin="5" Text="{Binding InputScemeNote}" TextWrapping="Wrap"/>
                     </StackPanel>
                 </GroupBox>

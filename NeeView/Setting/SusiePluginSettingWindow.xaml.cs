@@ -31,12 +31,29 @@ namespace NeeView.Setting
         {
             InitializeComponent();
 
+            this.Loaded += SusiePluginSettingWindow_Loaded;
             this.Closed += SusiePluginSettingWindow_Closed;
+            this.KeyDown += SusiePluginSettingWindow_KeyDown;
+        }
+
+
+        private void SusiePluginSettingWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.CloseButton.Focus();
         }
 
         private void SusiePluginSettingWindow_Closed(object sender, EventArgs e)
         {
             _vm.Flush();
+        }
+
+        private void SusiePluginSettingWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                this.Close();
+                e.Handled = true;
+            }
         }
 
         public SusiePluginSettingWindow(SusiePluginInfo spi) : this()

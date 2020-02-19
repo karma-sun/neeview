@@ -92,6 +92,7 @@
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
                     <EventSetter Event="MouseDoubleClick" Handler="ListBoxItem_MouseDoubleClick"/>
+                    <EventSetter Event="KeyDown" Handler="ListBoxItem_KeyDown" />
                     <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}" />
                 </Style>
             </ListBox.ItemContainerStyle>

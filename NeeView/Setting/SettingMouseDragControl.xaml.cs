@@ -111,6 +111,20 @@ namespace NeeView.Setting
             OpenDragActionSettingDialog(value);
         }
 
+
+        private void DragActionListViewItem_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ListViewItem targetItem = (ListViewItem)sender;
+
+                var value = (DragActionParam)targetItem.DataContext;
+                OpenDragActionSettingDialog(value);
+
+                e.Handled = true;
+            }
+        }
+
         private void DragActionSettingButton_Click(object sender, RoutedEventArgs e)
         {
             var value = (DragActionParam)this.DragActionListView.SelectedValue;
@@ -156,5 +170,6 @@ namespace NeeView.Setting
                 this.DragActionListView.Items.Refresh();
             }
         }
+
     }
 }

@@ -27,6 +27,16 @@ namespace NeeView.Setting
             this.CancelButton.Content = Properties.Resources.WordCancel;
 
             this.Loaded += AddParameterDialog_Loaded;
+            this.KeyDown += AddParameterDialog_KeyDown;
+        }
+
+        private void AddParameterDialog_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                this.Close();
+                e.Handled = true;
+            }
         }
 
         #region DependencyProperties

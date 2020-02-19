@@ -11,12 +11,25 @@
         UseLayoutRounding="True"
         FontSize="14"
         Title="EditCommandWindow" Height="480" Width="640">
+    
+    <Window.Resources>
+        <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
+            <Setter Property="Padding" Value="10,5" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="MinWidth" Value="80" />
+        </Style>
+        <Style TargetType="TabItem">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource NVInnerFocusVisual}" />
+        </Style>
+    </Window.Resources>
+
     <DockPanel Margin="5">
-        <DockPanel DockPanel.Dock="Bottom" LastChildFill="False">
-            <Button x:Name="ButtonCancel" DockPanel.Dock="Right" Content="{x:Static properties:Resources.WordCancel}" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom" Padding="10,0" MinWidth="75" Height="28" Click="ButtonCancel_Click"/>
-            <Button x:Name="ButtonOk" DockPanel.Dock="Right" Content="{x:Static properties:Resources.WordOK}" HorizontalAlignment="Right" Margin="5" VerticalAlignment="Bottom" Padding="10,0" MinWidth="75" Height="28" Click="ButtonOk_Click"/>
-        </DockPanel>
-        <TabControl Margin="5">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button x:Name="ButtonOk" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordOK}" Click="ButtonOk_Click"/>
+            <Button x:Name="ButtonCancel" Style="{StaticResource ButtonStyle}" Content="{x:Static properties:Resources.WordCancel}" Click="ButtonCancel_Click"/>
+        </StackPanel>
+        <TabControl x:Name="TabControl" Margin="5" TabIndex="1" KeyboardNavigation.TabNavigation="Local">
             <TabItem x:Name="GeneralTab">
                 <TabItem.Header>
                     <Grid MinWidth="60" MinHeight="30">
@@ -24,7 +37,8 @@
                     </Grid>
                 </TabItem.Header>
                 <DockPanel Margin="10,20">
-                    <CheckBox DockPanel.Dock="Top" Content="{x:Static properties:Resources.ControlEditCommandVisible}" IsChecked="{Binding IsShowMessage}"/>
+                    <CheckBox DockPanel.Dock="Top" Content="{x:Static properties:Resources.ControlEditCommandVisible}" IsChecked="{Binding IsShowMessage}"
+                            FocusVisualStyle="{StaticResource NVBorderFocusVisual}" />
                     <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom">
                         <TextBlock Text="{x:Static properties:Resources.ControlEditCommandDescription}" FontWeight="Bold"/>
                         <TextBlock Text="{Binding Note}" Padding="10" TextWrapping="Wrap"/>

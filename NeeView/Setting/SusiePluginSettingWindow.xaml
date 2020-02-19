@@ -13,12 +13,14 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
 
         <Style TargetType="{x:Type Button}">
-            <Setter Property="MinWidth" Value="75"/>
+            <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
+            <Setter Property="MinWidth" Value="80" />
             <Setter Property="MinHeight" Value="28"/>
             <Setter Property="Margin" Value="5"/>
-            <Setter Property="Padding" Value="10,0"/>
+            <Setter Property="Padding" Value="10,5"/>
         </Style>
         <Style TargetType="{x:Type CheckBox}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
             <Setter Property="Margin" Value="0,2"/>
         </Style>
     </Window.Resources>
@@ -27,7 +29,7 @@
         <DockPanel>
 
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,5,10,5">
-                <Button x:Name="CloseButton" Content="{x:Static properties:Resources.WordOK}" Click="CloseButton_Click"/>
+                <Button x:Name="CloseButton" Content="{x:Static properties:Resources.WordOK}" Click="CloseButton_Click" TabIndex="10"/>
             </StackPanel>
 
             <DockPanel Margin="10">
@@ -40,7 +42,7 @@
 
                     <DockPanel DockPanel.Dock="Top" HorizontalAlignment="Right" LastChildFill="False">
                         <Button x:Name="ConfigButton" DockPanel.Dock="Right" Click="ConfigButton_Click" Margin="10"
-                                Visibility="{Binding CanOpenConfigDialog, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                Visibility="{Binding CanOpenConfigDialog, Converter={StaticResource BooleanToVisibilityConverter}}" TabIndex="1">
                             <StackPanel Orientation="Horizontal">
                                 <Image Source="{StaticResource ic_setting_24px}" Width="14" Height="14"/>
                                 <TextBlock Text="{x:Static properties:Resources.WordConfig}" Margin="5,0"/>
@@ -50,13 +52,14 @@
                 </DockPanel>
 
                 <StackPanel DockPanel.Dock="Top" Margin="0,15,0,5">
-                    <CheckBox Content="{x:Static properties:Resources.ParamSusiePluginIsEnabled}" IsChecked="{Binding IsEnabled}"/>
-                    <CheckBox Content="{x:Static properties:Resources.ParamSusiePluginIsCacheEnabled}" IsChecked="{Binding IsCacheEnabled}"/>
-                    <CheckBox Content="{x:Static properties:Resources.ParamSusiePluginIsPreExtract}" IsChecked="{Binding IsPreExtract}" Visibility="{Binding IsArchiver, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    <CheckBox Content="{x:Static properties:Resources.ParamSusiePluginIsEnabled}" IsChecked="{Binding IsEnabled}" FocusVisualStyle="{StaticResource NVBorderFocusVisual}" TabIndex="1"/>
+                    <CheckBox Content="{x:Static properties:Resources.ParamSusiePluginIsCacheEnabled}" IsChecked="{Binding IsCacheEnabled}" FocusVisualStyle="{StaticResource NVBorderFocusVisual}" TabIndex="1"/>
+                    <CheckBox Content="{x:Static properties:Resources.ParamSusiePluginIsPreExtract}" IsChecked="{Binding IsPreExtract}" TabIndex="1"
+                            Visibility="{Binding IsArchiver, Converter={StaticResource BooleanToVisibilityConverter}}" FocusVisualStyle="{StaticResource NVBorderFocusVisual}" />
                 </StackPanel>
 
                 <TextBlock DockPanel.Dock="Top" Text="{x:Static properties:Resources.WordExtension}" FontWeight="Bold" Margin="0,15,0,5"/>
-                <local:SettingItemCollectionControl Collection="{Binding Extensions}" DefaultCollection="{Binding DefaultExtensions}" IsHeightLocked="False"/>
+                <local:SettingItemCollectionControl Collection="{Binding Extensions}" DefaultCollection="{Binding DefaultExtensions}" IsHeightLocked="False" TabIndex="1" KeyboardNavigation.TabNavigation="Local"/>
             </DockPanel>
         </DockPanel>
     </Grid>

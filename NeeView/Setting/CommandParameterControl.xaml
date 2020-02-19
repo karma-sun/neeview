@@ -12,16 +12,24 @@
 
         <Grid.Resources>
             <Style x:Key="NormalButtonStyle" TargetType="Button">
+                <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
                 <Setter Property="Margin" Value="5"/>
                 <Setter Property="Padding" Value="20,5"/>
                 <Setter Property="MinWidth" Value="100"/>
                 <Setter Property="Height" Value="30"/>
             </Style>
+                <Style TargetType="CheckBox">
+                <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
+            </Style>
+            <Style TargetType="ComboBox">
+                <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
+            </Style>
         </Grid.Resources>
 
         <DockPanel x:Name="MainPanel" Margin="5">
+
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Style="{StaticResource NormalButtonStyle}" Content="{x:Static properties:Resources.WordReset}"  Click="ButtonReset_Click"/>
+                <Button Style="{StaticResource NormalButtonStyle}" Content="{x:Static properties:Resources.WordReset}" Click="ButtonReset_Click" TabIndex="2" />
             </StackPanel>
             
             <TextBlock DockPanel.Dock="Top" Text="{Binding Note}" Foreground="Crimson" Margin="0,5">
@@ -37,7 +45,7 @@
             </TextBlock>
 
             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <nlp:PropertyInspector x:Name="Inspector" Document="{Binding PropertyDocument}" Margin="5"
+                <nlp:PropertyInspector x:Name="Inspector" Document="{Binding PropertyDocument}" Margin="5" TabIndex="1" KeyboardNavigation.TabNavigation="Local"
                                        IsResetButtonVisible="False" ColumnRate="0.5"/>
             </ScrollViewer>
 

@@ -301,6 +301,21 @@ namespace NeeView.Setting
             EditCommand(item.Key, tab);
         }
 
+        private void ListViewItem_KeyDown(object sender, KeyEventArgs e)
+        {
+            var item = ((ListViewItem)sender).Content as CommandParam;
+            if (item == null)
+            {
+                return;
+            }
+
+            if (e.Key == Key.Enter)
+            {
+                EditCommand(item.Key, EditCommandWindowTab.Default);
+                e.Handled = true;
+            }
+        }
+
         /// <summary>
         /// ビジュアルツリーの親に定義されている文字列タグを取得。
         /// </summary>

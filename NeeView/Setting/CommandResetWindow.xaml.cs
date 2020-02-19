@@ -33,6 +33,23 @@ namespace NeeView.Setting
 
             _vm = new CommandResetWindowViewModel();
             this.DataContext = _vm;
+
+            this.Loaded += CommandResetWindow_Loaded;
+            this.KeyDown += CommandResetWindow_KeyDown;
+        }
+
+        private void CommandResetWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                this.Close();
+                e.Handled = true;
+            }
+        }
+
+        private void CommandResetWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.OkButton.Focus();
         }
 
         /// <summary>

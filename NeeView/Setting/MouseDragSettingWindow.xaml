@@ -7,18 +7,34 @@
         xmlns:properties="clr-namespace:NeeView.Properties"
         mc:Ignorable="d"
         Style="{StaticResource ToolWindowStyle}"
-        Title="{x:Static properties:Resources.ControlEditDragTitle}" Height="280" Width="500">
+        Title="{x:Static properties:Resources.ControlEditDragTitle}" Height="300" Width="400">
+
+    <Window.Resources>
+
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
+            <Setter Property="MinWidth" Value="80" />
+            <Setter Property="MinHeight" Value="28" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Padding" Value="10,5" />
+        </Style>
+
+    </Window.Resources>
 
     <Grid>
-        <DockPanel Margin="10,10,10,55">
-            <DockPanel DockPanel.Dock="Bottom">
+        <DockPanel Margin="10">
+
+            <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button x:Name="OkButton" Content="{x:Static properties:Resources.WordOK}" Click="OkButton_Click" TabIndex="10" />
+                <Button x:Name="CancelButton" Content="{x:Static properties:Resources.WordCancel}" Click="CancelButton_Click" TabIndex="10" />
+            </StackPanel>
+
+            <DockPanel DockPanel.Dock="Bottom" Margin="0,0,0,5">
                 <TextBlock Text="{x:Static properties:Resources.ControlEditDragNew}" VerticalAlignment="Center" MinWidth="90"/>
 
-                <Button DockPanel.Dock="Right" VerticalAlignment="Center" Margin="2"  Content="{x:Static properties:Resources.WordClear}" Padding="10,2" Command="{Binding ClearCommand}">
-                </Button>
+                <Button DockPanel.Dock="Right" Margin="5,0,5,0" Padding="10,0" VerticalAlignment="Center" Content="{x:Static properties:Resources.WordClear}" Command="{Binding ClearCommand}" TabIndex="4"/>
 
                 <DockPanel ToolTip="{Binding DragToken.OverlapsText}">
-
                     <Image Source="{StaticResource ic_warning_48px}" Width="12" Margin="0,0,2,2" VerticalAlignment="Center">
                         <Image.Style>
                             <Style TargetType="Image">
@@ -30,21 +46,20 @@
                             </Style>
                         </Image.Style>
                     </Image>
-
-                    <TextBox x:Name="GestureText" Margin="2" IsReadOnly="True" VerticalAlignment="Center"
-                         Text="{Binding DragToken.Gesture}"/>
+                    <TextBox x:Name="GestureText" Margin="2" IsReadOnly="True" VerticalAlignment="Center" 
+                             Text="{Binding DragToken.Gesture}" IsTabStop="False"/>
                 </DockPanel>
-
             </DockPanel>
-            <DockPanel DockPanel.Dock="Bottom">
+            
+            <DockPanel DockPanel.Dock="Bottom" Margin="0,5,0,0">
                 <TextBlock Text="{x:Static properties:Resources.ControlEditDragOld}"  VerticalAlignment="Center" MinWidth="90"/>
-                <Grid Width="12" Margin="0,0,2,2"/>
-                <TextBox DockPanel.Dock="Bottom" x:Name="OldGestureText" Margin="2" VerticalAlignment="Center" IsReadOnly="True" IsHitTestVisible="False" BorderBrush="Transparent"
+                <Grid x:Name="Dummy" Width="12" Margin="0,0,2,2" />
+                <TextBox DockPanel.Dock="Bottom" x:Name="OldGestureText" Margin="0" VerticalAlignment="Center" IsReadOnly="True" IsHitTestVisible="False" BorderBrush="Transparent" IsTabStop="False"
                            Text="{Binding OriginalDrag}" />
             </DockPanel>
 
             <Grid DockPanel.Dock="Top">
-                <ToggleButton HorizontalAlignment="Right" x:Name="WindowHelp" Margin="0" Width="20" Height="20" Style="{StaticResource IconToggleButton}">
+                <ToggleButton HorizontalAlignment="Right" x:Name="WindowHelp" Margin="0" Width="20" Height="20" Style="{StaticResource IconToggleButton}" TabIndex="1">
                     <Image Width="14" Height="14" Source="{StaticResource ic_help_24px}"/>
                 </ToggleButton>
             </Grid>
@@ -55,12 +70,9 @@
                 </Border>
             </Popup>
 
-
-            <Grid x:Name="GestureBox" Margin="2" Background="AliceBlue">
+            <Grid x:Name="GestureBox" Margin="2" Background="AliceBlue" Focusable="True" FocusVisualStyle="{StaticResource NVFocusVisual}">
                 <TextBlock Text="{x:Static properties:Resources.ControlEditDragInput}" VerticalAlignment="Center" TextAlignment="Center" Foreground="Gray"/>
             </Grid>
         </DockPanel>
-        <Button x:Name="OkButton" Content="{x:Static properties:Resources.WordOK}" Width="80" Height="28" Margin="0,0,95,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="OkButton_Click"/>
-        <Button x:Name="CancelButton" Content="{x:Static properties:Resources.WordCancel}" Width="80" Height="28" Margin="0,0,10,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="CancelButton_Click"/>
     </Grid>
 </Window>

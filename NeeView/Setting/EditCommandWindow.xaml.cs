@@ -54,11 +54,10 @@ namespace NeeView.Setting
         {
             InitializeComponent();
             this.DataContext = this;
+
+            this.Loaded += EditCommandWindow_Loaded;
         }
 
-        /// <summary>
-        /// IsShowMessage property.
-        /// </summary>
         private bool _isShowMessage;
         public bool IsShowMessage
         {
@@ -68,6 +67,12 @@ namespace NeeView.Setting
 
         public string Note { get; private set; }
 
+
+        private void EditCommandWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            var tabItem = this.TabControl.ItemContainerGenerator.ContainerFromItem(this.TabControl.SelectedItem) as TabItem;
+            tabItem?.Focus();
+        }
 
         public void Initialize(CommandType key,  EditCommandWindowTab start = EditCommandWindowTab.Default)
         {

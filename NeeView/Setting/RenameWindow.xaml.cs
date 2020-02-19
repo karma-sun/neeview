@@ -58,6 +58,24 @@ namespace NeeView.Setting
 
             InitializeComponent();
             this.DataContext = this;
+
+            this.Loaded += RenameWindow_Loaded;
+            this.KeyDown += RenameWindow_KeyDown;
+        }
+
+        private void RenameWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.NameTextBox.SelectAll();
+            this.NameTextBox.Focus();
+        }
+
+        private void RenameWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                this.Close();
+                e.Handled = true;
+            }
         }
 
         private void ResetButton_Click(object sender, RoutedEventArgs e)

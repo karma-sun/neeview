@@ -27,10 +27,26 @@ namespace NeeView.Setting
         public MouseDragSettingWindow()
         {
             InitializeComponent();
+
+            this.Loaded += MouseDragSettingWindow_Loaded;
+            this.KeyDown += MouseDragSettingWindow_KeyDown;
         }
 
 
-        //
+        private void MouseDragSettingWindow_Loaded(object sender, RoutedEventArgs e)
+        {   
+            this.OkButton.Focus();
+        }
+
+        private void MouseDragSettingWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                this.Close();
+                e.Handled = true;
+            }
+        }
+
         public void Initialize(DragActionType key)
         {
             _memento = DragActionTable.Current.CreateMemento();
@@ -45,7 +61,6 @@ namespace NeeView.Setting
             this.InputBindings.Add(new KeyBinding(new RelayCommand(Close), new KeyGesture(Key.Escape)));
         }
 
-        //
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
             _vm.Decide();
@@ -55,7 +70,6 @@ namespace NeeView.Setting
             this.Close();
         }
 
-        //
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();

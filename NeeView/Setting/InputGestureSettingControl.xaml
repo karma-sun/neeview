@@ -10,6 +10,9 @@
              d:DesignHeight="300" d:DesignWidth="460">
 
     <UserControl.Resources>
+        <Style x:Key="ButtonBase" TargetType="Button">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource NVBorderFocusVisual}" />
+        </Style>
         <Style x:Key="InputBox" TargetType="TextBox">
             <Setter Property="IsReadOnly" Value="True"/>
             <Setter Property="Background" Value="AliceBlue"/>
@@ -29,60 +32,13 @@
                 <ColumnDefinition Width="64*"/>
             </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="1">
-                <ListBox x:Name="InputGestureList" ItemsSource="{Binding GestureTokens}" Margin="10,10,10,45">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal" ToolTip="{Binding OverlapsText}">
-                                <Image Source="{StaticResource ic_warning_48px}" Width="12" VerticalAlignment="Center">
-                                    <Image.Style>
-                                        <Style TargetType="Image">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding OverlapsText, Converter={StaticResource IsNullConverter}}" Value="True">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Image.Style>
-                                </Image>
-                                <TextBlock Text="{Binding Gesture}" VerticalAlignment="Center" Margin="2,0"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-
-                <Button x:Name="ConflictButton" Content="{x:Static properties:Resources.ControlEditShortcutButtonConflict}" HorizontalAlignment="Right" Margin="10,10,105,10" Padding="10,0" MinWidth="85" Height="30" VerticalAlignment="Bottom" Click="ConflictButton_Click">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=InputGestureList, Path=SelectedValue.OverlapsText}" Value="{x:Null}" >
-                                    <Setter Property="IsEnabled" Value="False"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-
-                <Button x:Name="DeleteButton" Content="{x:Static properties:Resources.WordRemove}" HorizontalAlignment="Right" Margin="10,0,10,10" Padding="10,0" MinWidth="85" Height="30" VerticalAlignment="Bottom" Click="DeleteButton_Click">
-                    <Button.Style>
-                        <Style TargetType="Button">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=InputGestureList, Path=SelectedValue}" Value="{x:Null}" >
-                                    <Setter Property="IsEnabled" Value="False"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Button.Style>
-                </Button>
-            </Grid>
-
             <StackPanel Grid.Column="0">
 
                 <StackPanel VerticalAlignment="Top">
                     <TextBlock x:Name="textBlock" Margin="10" TextWrapping="Wrap" Text="{x:Static properties:Resources.ControlEditShortcutLabelShortcut}" VerticalAlignment="Top" />
                     <Grid Height="40" VerticalAlignment="Top" Margin="10,0" >
-                        <TextBox x:Name="KeyGestureBox" Style="{StaticResource InputBox}" PreviewKeyDown="KeyGestureBox_PreviewKeyDown" >
-                        </TextBox>
+                        <TextBox x:Name="KeyGestureBox" Style="{StaticResource InputBox}" PreviewKeyDown="KeyGestureBox_PreviewKeyDown" IsTabStop="False"/>
+
                         <TextBlock x:Name="KeyGestureText"  VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False" Foreground="#222"/>
                         <TextBlock Text="{x:Static properties:Resources.ControlEditShortcutInputShortcut}" Foreground="Gray" VerticalAlignment="Center" HorizontalAlignment="Center" Focusable="False" IsHitTestVisible="False">
                             <TextBlock.Style>
@@ -99,7 +55,7 @@
                     </Grid>
                     <Button x:Name="AddKeyGestureButton" Content="{x:Static properties:Resources.WordAdd}" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Top" Padding="10,0" MinWidth="76" Height="30" Click="AddKeyGestureButton_Click" >
                         <Button.Style>
-                            <Style TargetType="Button">
+                            <Style TargetType="Button" BasedOn="{StaticResource ButtonBase}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding ElementName=KeyGestureText, Path=Text}" Value="">
                                         <Setter Property="IsEnabled" Value="False"/>
@@ -145,7 +101,7 @@
 
                     <Button x:Name="AddMouseGestureButton" Content="{x:Static properties:Resources.WordAdd}" HorizontalAlignment="Right" Margin="10" Padding="10,0" Height="30" MinWidth="76" Click="AddMouseGestureButton_Click" >
                         <Button.Style>
-                            <Style TargetType="Button">
+                            <Style TargetType="Button" BasedOn="{StaticResource ButtonBase}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding ElementName=MouseGestureText, Path=Text}" Value="">
                                         <Setter Property="IsEnabled" Value="False"/>
@@ -156,6 +112,54 @@
                     </Button>
                 </StackPanel>
             </StackPanel>
+            
+            <Grid Grid.Column="1">
+                <ListBox x:Name="InputGestureList" ItemsSource="{Binding GestureTokens}" Margin="10,10,10,45" FocusVisualStyle="{StaticResource NVBorderFocusVisual}">      
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" ToolTip="{Binding OverlapsText}">
+                                <Image Source="{StaticResource ic_warning_48px}" Width="12" VerticalAlignment="Center">
+                                    <Image.Style>
+                                        <Style TargetType="Image">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding OverlapsText, Converter={StaticResource IsNullConverter}}" Value="True">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+                                <TextBlock Text="{Binding Gesture}" VerticalAlignment="Center" Margin="2,0"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+                <Button x:Name="ConflictButton" Content="{x:Static properties:Resources.ControlEditShortcutButtonConflict}" HorizontalAlignment="Right" Margin="10,10,105,10" Padding="10,0" MinWidth="85" Height="30" VerticalAlignment="Bottom" Click="ConflictButton_Click">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource ButtonBase}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=InputGestureList, Path=SelectedValue.OverlapsText}" Value="{x:Null}" >
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button x:Name="DeleteButton" Content="{x:Static properties:Resources.WordRemove}" HorizontalAlignment="Right" Margin="10,0,10,10" Padding="10,0" MinWidth="85" Height="30" VerticalAlignment="Bottom" Click="DeleteButton_Click">
+                    <Button.Style>
+                        <Style TargetType="Button" BasedOn="{StaticResource ButtonBase}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=InputGestureList, Path=SelectedValue}" Value="{x:Null}" >
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </Grid>
+
         </Grid>
     </Border>
 

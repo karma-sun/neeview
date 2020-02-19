@@ -41,10 +41,12 @@ namespace NeeView.Setting
             Current = this;
             this.Closing += SettingWindow_Closing;
             this.Closed += (s, e) => Current = null;
+            this.KeyDown += SettingWindow_KeyDown;
 
             _vm = new SettingWindowViewModel(model);
             this.DataContext = _vm;
         }
+
 
         /// <summary>
         /// 設定画面を閉じる時にデータ保存するフラグ
@@ -60,14 +62,22 @@ namespace NeeView.Setting
             Close();
         }
 
-        //
+
+        private void SettingWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                this.Close();
+                e.Handled = true;
+            }
+        }
+
         private void SettingWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             // 設定を閉じるとメインウィンドウが背後に隠れてしまう現象を抑制
             MainWindow.Current?.Activate();
         }
 
-        //
         private void SettingWindow_Closed(object sender, EventArgs e)
         {
             if (this.AllowSave)

@@ -128,25 +128,30 @@ namespace NeeView
             ExportFolder = System.IO.Path.GetDirectoryName(path);
         }
 
-        public string CreateFileName(ExportImageFileNameMode fileNameMode)
+        public string CreateFileName(ExportImageFileNameMode fileNameMode, ExportImageFormat format)
         {
             var nameMode = fileNameMode == ExportImageFileNameMode.Default
                 ? _mode == ExportImageMode.Original ? ExportImageFileNameMode.Original : ExportImageFileNameMode.BookPageNumber
                 : fileNameMode;
 
-            string filename;
             if (nameMode == ExportImageFileNameMode.Original)
             {
-                filename = LoosePath.ValidFileName(_source.Pages[0].EntryLastName);
+                return LoosePath.ValidFileName(_source.Pages[0].EntryLastName);
             }
             else
             {
-                var bookName = LoosePath.ValidFileName(LoosePath.GetFileNameWithoutExtension(_source.BookAddress));
-                var indexLabel = (_source.Pages.Count > 1) ? $"{_source.Pages[0].Index:000}-{_source.Pages[1].Index:000}" : $"{_source.Pages[0].Index:000}";
-                filename = $"{bookName}_{indexLabel}.png";
-            }
+                var bookName = LoosePath.GetFileNameWithoutExtension(_source.BookAddress);
 
-            return filename;
+                var indexLabel = _mode != ExportImageMode.Original && _source.Pages.Count > 1
+                    ? $"{_source.Pages[0].Index:000}-{_source.Pages[1].Index:000}"
+                    : $"{_source.Pages[0].Index:000}";
+                
+                var extension = _mode == ExportImageMode.Original
+                    ? LoosePath.GetExtension(_source.Pages[0].EntryLastName).ToLower()
+                    : format == ExportImageFormat.Png ? ".png" : ".jpg";
+
+                return LoosePath.ValidFileName($"{bookName}_{indexLabel}{extension}");
+            }
         }
     }
 }

@@ -30,6 +30,24 @@ namespace NeeView
         {
             _vm = vm;
             this.DataContext = _vm;
+
+            this.Loaded += ExportImageWindow_Loaded;
+            this.KeyDown += ExportImageWindow_KeyDown;
+        }
+
+
+        private void ExportImageWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.SaveButton.Focus();
+        }
+
+        private void ExportImageWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                this.Close();
+                e.Handled = true;
+            }
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)

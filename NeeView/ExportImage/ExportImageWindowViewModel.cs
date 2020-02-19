@@ -78,7 +78,7 @@ namespace NeeView
         {
             var dialog = new ExportImageSeveFileDialog();
             dialog.InitialDirectory = _model.ExportFolder;
-            dialog.FileName = _model.CreateFileName(ExportImageFileNameMode.Default);
+            dialog.FileName = _model.CreateFileName(ExportImageFileNameMode.Default, ExportImageFormat.Png);
             dialog.CanSelectFormat = _model.Mode == ExportImageMode.View;
 
             var result = dialog.ShowDialog(owner);

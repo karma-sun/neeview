@@ -43,14 +43,28 @@ namespace NeeView
 
             _vm.Close += ViewModel_Close;
 
+            this.Loaded += PrintWindow_Loaded;
             this.Closed += PrintWindow_Closed;
+            this.KeyDown += PrintWindow_KeyDown;
+        }
+
+        private void PrintWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.PrintButton.Focus();
+        }
+
+        private void PrintWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                this.Close();
+                e.Handled = true;
+            }
         }
 
         /// <summary>
         /// ウィンドウ終了イベント処理
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void PrintWindow_Closed(object sender, EventArgs e)
         {
             _vm.Closed();
@@ -59,8 +73,6 @@ namespace NeeView
         /// <summary>
         /// ウィンドウ終了リクエスト処理
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void ViewModel_Close(object sender, PrintWindowCloseEventArgs e)
         {
             this.DialogResult = e.Result;

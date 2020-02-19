@@ -82,8 +82,8 @@
                 </StackPanel>
 
                 <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Style="{StaticResource TextButtonMain}" Content="{x:Static properties:Resources.ControlPrintButtonPrint}" Command="{Binding PrintCommand}" TabIndex="3"/>
-                    <Button Style="{StaticResource TextButton}" Content="{x:Static properties:Resources.WordCancel}" Command="{Binding CancelCommand}" TabIndex="3"/>
+                    <Button x:Name="PrintButton" Style="{StaticResource TextButtonMain}" Content="{x:Static properties:Resources.ControlPrintButtonPrint}" Command="{Binding PrintCommand}" TabIndex="3"/>
+                    <Button x:Name="CancelButton" Style="{StaticResource TextButton}" Content="{x:Static properties:Resources.WordCancel}" Command="{Binding CancelCommand}" TabIndex="3"/>
                 </StackPanel>
                         
                 <ScrollViewer Style="{StaticResource DarkScrollViewer}" VerticalScrollBarVisibility="Auto">

@@ -22,8 +22,7 @@ namespace NeeView
             exporter.HasBackground = parameter.HasBackground;
             exporter.QualityLevel = parameter.QualityLevel;
 
-            string filename = exporter.CreateFileName(parameter.FileNameMode);
-            filename = System.IO.Path.ChangeExtension(filename, parameter.FileFormat == ExportImageFormat.Png ? ".png" : ".jpg");
+            string filename = exporter.CreateFileName(parameter.FileNameMode, parameter.FileFormat);
             bool isOverweite;
 
             if (string.IsNullOrWhiteSpace(parameter.ExportFolder))

@@ -70,7 +70,7 @@
                 </Border>
             </Popup>
 
-            <Grid x:Name="GestureBox" Margin="2" Background="AliceBlue" Focusable="True" FocusVisualStyle="{StaticResource NVFocusVisual}">
+            <Grid x:Name="GestureBox" Margin="2" Background="AliceBlue" Focusable="False" FocusVisualStyle="{StaticResource NVFocusVisual}">
                 <TextBlock Text="{x:Static properties:Resources.ControlEditDragInput}" VerticalAlignment="Center" TextAlignment="Center" Foreground="Gray"/>
             </Grid>
         </DockPanel>

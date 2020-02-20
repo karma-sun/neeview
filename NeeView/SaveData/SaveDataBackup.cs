@@ -204,6 +204,7 @@ namespace NeeView
                 }
             }
 
+            MainWindowModel.Current.CloseCommandParameterDialog();
             bool recoverySettingWindow = MainWindowModel.Current.CloseSettingWindow();
 
             // 適用

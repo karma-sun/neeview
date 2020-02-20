@@ -3,6 +3,7 @@ using NeeLaboratory;
 using NeeLaboratory.ComponentModel;
 using NeeLaboratory.Windows.Input;
 using NeeView.Properties;
+using NeeView.Setting;
 using NeeView.Windows.Property;
 using System;
 using System.ComponentModel;
@@ -82,6 +83,8 @@ namespace NeeView
 
         private bool _isCursorHideEnabled = true;
         private double _cursorHideTime = 2.0;
+
+        private volatile EditCommandWindow _editCommandWindow;
 
         #endregion
 
@@ -339,9 +342,9 @@ namespace NeeView
         [PropertyRange("@ParameterCursorHideReleaseDistance", 0.0, 1000.0, TickFrequency = 1.0, IsEditable = true)]
         public double CursorHideReleaseDistance { get; set; } = 5.0;
 
-#endregion
+        #endregion
 
-#region Methods
+        #region Methods
 
         private void RefreshSliderBrushes()
         {
@@ -567,6 +570,36 @@ namespace NeeView
             }
         }
 
+        // コマンド設定を開く
+        public void OpenCommandParameterDialog(CommandType command)
+        {
+            var dialog = new EditCommandWindow();
+            dialog.Initialize(command, EditCommandWindowTab.Default);
+            dialog.Owner = App.Current.MainWindow;
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+
+            try
+            {
+                _editCommandWindow = dialog;
+                if (_editCommandWindow.ShowDialog() == true)
+                {
+                    // 設定の同期
+                    WindowShape.Current.CreateSnapMemento();
+                    SaveDataSync.Current.SaveUserSetting(App.Current.IsSyncUserSetting);
+                }
+            }
+            finally
+            {
+                _editCommandWindow = null;
+            }
+        }
+
+        public void CloseCommandParameterDialog()
+        {
+            _editCommandWindow?.Close();
+            _editCommandWindow = null;
+        }
+
 
         // バージョン情報を表示する
         public void OpenVersionWindow()
@@ -649,13 +682,13 @@ namespace NeeView
             {
                 SidePanel.Current.CloseAllPanels();
             }
-            
+
             FocusMainViewCall?.Invoke(this, null);
         }
 
-#endregion
+        #endregion
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento
@@ -753,7 +786,7 @@ namespace NeeView
             this.CursorHideReleaseDistance = memento.CursorHideReleaseDistance;
         }
 
-#endregion
+        #endregion
     }
 
 }

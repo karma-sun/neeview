@@ -163,6 +163,7 @@ namespace NeeView
         public void LoadUserSetting()
         {
             Setting.SettingWindow.Current?.Cancel();
+            MainWindowModel.Current.CloseCommandParameterDialog();
 
             try
             {

@@ -296,12 +296,24 @@ namespace NeeView
                     {
                         var item = new MenuItem();
                         item.Header = this.Label;
+                        item.Tag = this.Command;
                         item.Command = RoutedCommandTable.Current.Commands[this.Command];
                         item.CommandParameter = MenuCommandTag.Tag; // コマンドがメニューからであることをパラメータで伝えてみる
                         if (CommandTable.Current[this.Command].CreateIsCheckedBinding != null)
                         {
                             item.SetBinding(MenuItem.IsCheckedProperty, CommandTable.Current[this.Command].CreateIsCheckedBinding());
                         }
+
+                        //  右クリックでコマンドパラメーターの設定ウィンドウを開く
+                        item.MouseRightButtonUp += (s, e) =>
+                        {
+                            if (s is MenuItem menuItem && menuItem.Tag is CommandType command)
+                            {
+                                e.Handled = true;
+                                MainWindowModel.Current.OpenCommandParameterDialog(command);
+                            }
+                        };
+
                         return item;
                     }
 

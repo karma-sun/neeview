@@ -594,7 +594,10 @@ namespace NeeView
         private void ToFullScreenInner()
         {
             _window.ResizeMode = ResizeMode.CanMinimize;
-            if (_window.WindowState == WindowState.Maximized) _window.WindowState = WindowState.Normal;
+            if (_window.WindowState == WindowState.Maximized && _window.WindowStyle != WindowStyle.None)
+            {
+                _window.WindowState = WindowState.Normal;
+            }
             _window.WindowStyle = WindowStyle.None;
             _window.WindowState = WindowState.Maximized;
         }

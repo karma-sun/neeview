@@ -38,7 +38,7 @@ namespace NeeLaboratory.IO
             {
                 // NOTE: 自プロセスは除外
                 var currentProcess = Process.GetCurrentProcess();
-                var processes = Process.GetProcesses().Where(e => e.ProcessName.StartsWith(_processName) && e.Id != currentProcess.Id);
+                var processes = Process.GetProcesses().Where(e => e.ProcessName == _processName && e.Id != currentProcess.Id);
 
                 if (delivery.Type == RemoteCommandDeliveryType.Custom)
                 {

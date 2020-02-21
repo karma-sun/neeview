@@ -54,8 +54,9 @@ namespace NeeView
         {
             InitializeComponent();
             this.Root.DataContext = this;
-            this.Root.SizeChanged += Root_SizeChanged;
+            this.TextBlock.SizeChanged += TextBlock_SizeChanged;
         }
+
 
         public event EventHandler ValueChanged;
 
@@ -88,12 +89,13 @@ namespace NeeView
 
         #endregion
 
-        private void Root_SizeChanged(object sender, SizeChangedEventArgs e)
+
+        private void TextBlock_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             var control = (FrameworkElement)sender;
             if (e.WidthChanged && e.NewSize.Width > control.MinWidth)
             {
-                control.MinWidth = e.NewSize.Width;
+                SetWidth(e.NewSize.Width);
             }
         }
 
@@ -113,10 +115,18 @@ namespace NeeView
         private void Update()
         {
             int length = (int)Math.Log10(this.Target.Maximum) + 1;
-            this.Root.MinWidth = (length * 2 + 1) * 7 + 20;
+            var width = (length * 2 + 1) * 7 + 20;
+            SetWidth(width);
 
             UpdateDispText();
         }
+
+        private void SetWidth(double width)
+        {
+            this.TextBlock.MinWidth = width;
+            this.TextBox.Width = width;
+        }
+
 
         private void UpdateDispText()
         {
@@ -187,6 +197,15 @@ namespace NeeView
         {
             if (double.TryParse((string)value, out double result))
             {
+                if (result > int.MaxValue)
+                {
+                    result = int.MaxValue;
+                }
+                else if (result < 1)
+                {
+                    result = 1;
+                }
+
                 return result - 1;
             }
             else

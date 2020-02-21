@@ -571,13 +571,12 @@ namespace NeeView
         }
 
         // コマンド設定を開く
-        public void OpenCommandParameterDialog(CommandType command, Point pos)
+        public void OpenCommandParameterDialog(CommandType command)
         {
             var dialog = new EditCommandWindow();
             dialog.Initialize(command, EditCommandWindowTab.Default);
             dialog.Owner = App.Current.MainWindow;
-            dialog.Left = dialog.Owner.Left + pos.X;
-            dialog.Top = dialog.Owner.Top + pos.Y;
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
 
             try
             {

@@ -310,8 +310,7 @@ namespace NeeView
                             if (s is MenuItem menuItem && menuItem.Tag is CommandType command)
                             {
                                 e.Handled = true;
-                                var pos = menuItem.TranslatePoint(new Point(0, 0), Window.GetWindow(menuItem));
-                                MainWindowModel.Current.OpenCommandParameterDialog(command, pos);
+                                MainWindowModel.Current.OpenCommandParameterDialog(command);
                             }
                         };
 

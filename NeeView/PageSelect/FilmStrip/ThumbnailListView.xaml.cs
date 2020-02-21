@@ -20,7 +20,7 @@ namespace NeeView
     /// <summary>
     /// ThumbnailListView.xaml の相互作用ロジック
     /// </summary>
-    public partial class ThumbnailListView : UserControl
+    public partial class ThumbnailListView : UserControl, IVisibleElement
     {
         #region DependencyProperties
 
@@ -74,6 +74,8 @@ namespace NeeView
 
         private void Initialize()
         {
+            this.Source.VisibleElement = this;
+
             _vm = new ThumbnailListViewModel(this.Source);
             _vm.Model.BookChanging += ThumbnailList_BookChanging;
             _vm.Model.BookChanged += ThumbnailList_BookChanged;

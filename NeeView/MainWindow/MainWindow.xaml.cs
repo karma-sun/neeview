@@ -26,7 +26,7 @@ namespace NeeView
 
         private MainWindowViewModel _vm;
 
-
+   
         #region コンストラクターと初期化処理
 
         /// <summary>
@@ -1033,12 +1033,13 @@ namespace NeeView
             // フィルムストリップ
             this.ThumbnailListArea.Visibility = ThumbnailList.Current.IsEnableThumbnailList && !ContentCanvas.Current.IsMediaContent ? Visibility.Visible : Visibility.Collapsed;
             this.ThumbnailListArea.DartyThumbnailList();
-
-            ThumbnailList.Current.IsVisible = this.ThumbnailListArea.IsVisible;
         }
 
         private void ThumbnailList_Visible(object sender, VisibleEventArgs e)
         {
+            _vm.StatusAutoHideDescrption.VisibleOnce();
+            _vm.ThumbnailListusAutoHideDescrption.VisibleOnce();
+
             if (e.IsFocus)
             {
                 ThumbnailList.Current.FocusAtOnce();

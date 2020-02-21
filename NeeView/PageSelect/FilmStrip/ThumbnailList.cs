@@ -24,6 +24,12 @@ namespace NeeView
         public bool IsFocus { get; }
     }
 
+    public interface IVisibleElement
+    {
+        bool IsVisible { get; }
+    }
+
+
     /// <summary>
     /// ThumbnailList : Model
     /// </summary>
@@ -76,7 +82,9 @@ namespace NeeView
 
         #region Properties
 
-        public bool IsVisible { get; set; }
+        public IVisibleElement VisibleElement { get; set; }
+
+        public bool IsVisible => VisibleElement?.IsVisible == true;
 
         public bool IsFocusAtOnce { get; set; }
 
@@ -304,14 +312,13 @@ namespace NeeView
             RaisePropertyChanged(nameof(SelectedIndex));
         }
 
-        public bool ToggleVisibleThumbnailList(ToggleVisibleThumbnailListCommandParameter parameter, bool byMenu)
+        public bool ToggleVisibleThumbnailList(bool byMenu)
         {
             IsEnableThumbnailList = byMenu ? !IsEnableThumbnailList : !IsVisible;
 
             if (IsEnableThumbnailList && !IsVisible)
             {
-                var isFocus = parameter != null ? parameter.IsFocus : false;
-                VisibleEvent?.Invoke(this, new VisibleEventArgs(isFocus));
+                VisibleEvent?.Invoke(this, new VisibleEventArgs(true));
             }
 
             return IsEnableThumbnailList;

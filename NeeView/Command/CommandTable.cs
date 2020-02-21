@@ -969,9 +969,8 @@ namespace NeeView
                 element.Note = Properties.Resources.CommandToggleVisibleThumbnailListNote;
                 element.IsShowMessage = false;
                 element.ExecuteMessage = e => ThumbnailList.Current.IsVisible ? Properties.Resources.CommandToggleVisibleThumbnailListOff : Properties.Resources.CommandToggleVisibleThumbnailListOn;
-                element.Execute = (s, e) => ThumbnailList.Current.ToggleVisibleThumbnailList((ToggleVisibleThumbnailListCommandParameter)element.Parameter, e.Parameter is MenuCommandTag);
+                element.Execute = (s, e) => ThumbnailList.Current.ToggleVisibleThumbnailList(e.Parameter is MenuCommandTag);
                 element.CanExecute = () => true;
-                element.DefaultParameter = new ToggleVisibleThumbnailListCommandParameter() { IsFocus = false };
                 element.CreateIsCheckedBinding = () => new Binding(nameof(ThumbnailList.Current.IsEnableThumbnailList)) { Source = ThumbnailList.Current };
                 _elements[CommandType.ToggleVisibleThumbnailList] = element;
             }

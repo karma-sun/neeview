@@ -277,7 +277,8 @@
             <DockPanel x:Name="LayerStatusArea" VerticalAlignment="Bottom" Visibility="Visible" MouseEnter="LayerStatusArea_MouseEnter" MouseLeave="LayerStatusArea_MouseLeave">
                 <behaviors:Interaction.Behaviors>
                     <local:AutoHideBehavior Screen="{Binding ElementName=Root}" Dock="Bottom" IsEnabled="{Binding Model.CanHidePageSlider}" DelayTime="{Binding App.AutoHideDelayTimeMillisecond}"
-                            DelayVisibleTime="{Binding App.AutoHideDelayVisibleTimeMillisecond}" FocusLockMode="{Binding App.AutoHideFocusLockMode}" IsKeyDownDelayEnabled="{Binding App.IsAutoHideKeyDownDelay}" />
+                            DelayVisibleTime="{Binding App.AutoHideDelayVisibleTimeMillisecond}" FocusLockMode="{Binding App.AutoHideFocusLockMode}"
+                            IsKeyDownDelayEnabled="{Binding App.IsAutoHideKeyDownDelay}" Description="{Binding StatusAutoHideDescrption}" />
                 </behaviors:Interaction.Behaviors>
                 <Grid x:Name="LayerStatusAreaPadding" DockPanel.Dock="Bottom" Height="{Binding ElementName=SliderArea, Path=ActualHeight}" />
                 <Grid DockPanel.Dock="Bottom" Background="{Binding Model.SliderBackground}">
@@ -297,7 +298,8 @@
                         <behaviors:Interaction.Behaviors>
                             <local:AutoHideBehavior Screen="{Binding ElementName=Root}" Dock="Bottom" IsEnabled="{Binding CanHideThumbnailList}" DelayTime="{Binding App.AutoHideDelayTimeMillisecond}"
                                     DelayVisibleTime="{Binding App.AutoHideDelayVisibleTimeMillisecond}" HitTestMargin="{Binding ElementName=SliderArea, Path=ActualHeight, Converter={StaticResource AutoHideMarginOffsetConverter}}"
-                                    FocusLockMode="{Binding App.AutoHideFocusLockMode}" IsKeyDownDelayEnabled="{Binding App.IsAutoHideKeyDownDelay}" />
+                                    FocusLockMode="{Binding App.AutoHideFocusLockMode}" IsKeyDownDelayEnabled="{Binding App.IsAutoHideKeyDownDelay}"
+                                    Description="{Binding ThumbnailListusAutoHideDescrption}" />
                         </behaviors:Interaction.Behaviors>
                     </ContentControl>
                 </Grid>

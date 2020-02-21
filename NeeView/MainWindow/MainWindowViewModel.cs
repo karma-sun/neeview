@@ -130,6 +130,8 @@ namespace NeeView
         public MainWindowViewModel(MainWindowModel model)
         {
             MenuAutoHideDescription = new BasicAutoHideDescription(MainWindow.Current.LayerMenuSocket);
+            StatusAutoHideDescrption = new BasicAutoHideDescription(MainWindow.Current.LayerStatusArea);
+            ThumbnailListusAutoHideDescrption = new BasicAutoHideDescription(MainWindow.Current.LayerThumbnailListSocket);
 
             // icon
             InitializeWindowIcons();
@@ -246,6 +248,12 @@ namespace NeeView
         /// </summary>
         public BasicAutoHideDescription MenuAutoHideDescription { get; }
 
+        /// <summary>
+        /// FilmStrep, Slider 用 AutoHideBehavior 補足
+        /// </summary>
+        public BasicAutoHideDescription StatusAutoHideDescrption { get; }
+
+        public BasicAutoHideDescription ThumbnailListusAutoHideDescrption { get; }
 
         /// <summary>
         /// メニューエリアマウスオーバー

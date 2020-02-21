@@ -310,15 +310,6 @@ namespace NeeView
 
 
     [DataContract]
-    public class ToggleVisibleThumbnailListCommandParameter : CommandParameter
-    {
-        [DataMember]
-        [PropertyMember("@ParamCommandParameterThumbnailListFocus")]
-        public bool IsFocus { get; set; }
-    }
-
-
-    [DataContract]
     public class FocusMainViewCommandParameter : CommandParameter
     {
         [DataMember]

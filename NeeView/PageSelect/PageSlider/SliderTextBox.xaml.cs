@@ -140,6 +140,11 @@ namespace NeeView
             this.TextBox.Focus();
         }
 
+        private void SliderTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            this.TextBox.Visibility = Visibility.Visible;
+            this.TextBox.Focus();
+        }
 
         private void SliderTextBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -159,11 +164,18 @@ namespace NeeView
 
         private void TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Return)
+            switch (e.Key)
             {
-                UpdateSource();
-                this.TextBox.SelectAll();
-                e.Handled = true;
+                case Key.Escape:
+                    MainWindowModel.Current.FocusMainView();
+                    e.Handled = true;
+                    break;
+
+                case Key.Return:
+                    UpdateSource();
+                    this.TextBox.SelectAll();
+                    e.Handled = true;
+                    break;
             }
         }
 

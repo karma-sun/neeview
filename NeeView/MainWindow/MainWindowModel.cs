@@ -674,7 +674,7 @@ namespace NeeView
         }
 
         /// <summary>
-        /// メインビューにフォーカスを移す
+        /// メインビューにフォーカスを移す。コマンド用
         /// </summary>
         public void FocusMainView(FocusMainViewCommandParameter parameter, bool byMenu)
         {
@@ -683,6 +683,14 @@ namespace NeeView
                 SidePanel.Current.CloseAllPanels();
             }
 
+            FocusMainViewCall?.Invoke(this, null);
+        }
+
+        /// <summary>
+        /// メインビューにフォーカスを移す
+        /// </summary>
+        public void FocusMainView()
+        {
             FocusMainViewCall?.Invoke(this, null);
         }
 

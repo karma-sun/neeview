@@ -8,17 +8,21 @@
              FontFamily="Arial"
              d:DesignHeight="300" d:DesignWidth="300">
 
-    <Grid x:Name="Root" MouseLeftButtonDown="SliderTextBox_MouseLeftButtonDown" IsHitTestVisible="True">
+    <Grid x:Name="Root" IsHitTestVisible="True" Focusable="True" MouseLeftButtonDown="SliderTextBox_MouseLeftButtonDown" GotFocus="SliderTextBox_GotFocus">
         <Grid.Resources>
             <local:SliderValueConverter x:Key="SliderValueConverter"/>
         </Grid.Resources>
         <Grid.Style>
             <Style TargetType="Grid">
                 <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="KeyboardNavigation.IsTabStop" Value="True" />
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
                         <Setter Property="Background" Value="#8888"/>
                     </Trigger>
+                    <DataTrigger Binding="{Binding ElementName=TextBox, Path=IsFocused}" Value="True">
+                        <Setter Property="KeyboardNavigation.IsTabStop" Value="False" />
+                    </DataTrigger>
                 </Style.Triggers>
             </Style>
         </Grid.Style>

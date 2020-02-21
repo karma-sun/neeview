@@ -38,7 +38,7 @@ namespace NeeView.Setting
                 new SettingItemSection(Properties.Resources.SettingPageGeneralDetailExplorer,
                     new SettingItemProperty(PropertyMemberElement.Create(ExplorerContextMenu.Current, nameof(ExplorerContextMenu.IsEnabled))))
                 {
-                    Visibility = new VisibilityPropertyValue(Config.Current.IsZipPackage | Config.Current.IsCanaryPackage ? Visibility.Visible : Visibility.Collapsed)
+                    Visibility = new VisibilityPropertyValue(Config.Current.IsZipLikePackage ? Visibility.Visible : Visibility.Collapsed)
                 },
             };
         }

@@ -341,6 +341,9 @@ namespace NeeView
         public bool IsAppxPackage => this.PackageType == ".appx";
         public bool IsCanaryPackage => this.PackageType == ".canary";
         public bool IsBetaPackage => this.PackageType == ".beta";
+        
+        public bool IsZipLikePackage => IsZipPackage || IsCanaryPackage || IsBetaPackage;
+
 
         // 全ユーザデータ削除
         private bool RemoveApplicationDataCore()

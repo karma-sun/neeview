@@ -5,8 +5,8 @@
 DLL: 7z.dll
 
 * Copyright (C) 1999-2018 Igor Pavlov.
-* URL: [7-Zip](http://www.7-zip.org/)
-* License: [GNU LGPL + BSD 3-clause License + unRAR restriction](http://www.7-zip.org/license.txt)
+* URL: [7-Zip](https://www.7-zip.org/)
+* License: [GNU LGPL + BSD 3-clause License + unRAR restriction](https://www.7-zip.org/license.txt)
 
 ### SevenZipSharp
 
@@ -24,8 +24,8 @@ DLL: SevenZipSharpNE.dll
 ICON: ic_help_24px, etc...
 
 * Google (C)
-* URL: [Icons - Style - Google design guidelines](http://www.google.com/design/spec/style/icons.html#icons-system-icons)
-* License: [CC BY 4.0](http://creativecommons.org/licenses/by/4.0/)
+* URL: [Icons - Style - Google design guidelines](https://www.google.com/design/spec/style/icons.html#icons-system-icons)
+* License: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
 
 ### WPFDragAndDropSample
 
@@ -55,9 +55,9 @@ DLL: PdfiumViewer.dll
 
 DLL: PhotoSauce.MagicScaler.dll
 
-* Copyright (c) 2015-2019 Clinton Ingram
-* URL: [PhotoSauce](http://photosauce.net/)
-* License: [MS-PL](https://github.com/saucecontrol/PhotoSauce/blob/master/license)
+* Copyright (c) 2015-2020 Clinton Ingram and Contributors
+* URL: [PhotoSauce](https://photosauce.net/) [(GitHub)](https://github.com/saucecontrol/PhotoSauce)
+* License: [MIT License](https://github.com/saucecontrol/PhotoSauce/blob/master/license)
 
 ### .NET corefx
 
@@ -72,8 +72,8 @@ DLL: System.Buffers.dll, etc...
 ICON: pushpin, etc...
 
 * OnlineWebFonts.COM (C)
-* URL: [Icon Fonts](http://www.onlinewebfonts.com/icon)
-* License: [CC BY 3.0](http://creativecommons.org/licenses/by/3.0/)
+* URL: [Icon Fonts](https://www.onlinewebfonts.com/icon)
+* License: [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/)
 
 ### VirtualizingStackPanel
 
@@ -95,3 +95,11 @@ Code-in:
 * Copyright (c) Microsoft Corporation. All rights reserved.
 * URL: [VSTest](https://github.com/microsoft/vstest)
 * License: [MIT License](https://github.com/microsoft/vstest/blob/master/LICENSE)
+
+### Microsoft.Xaml.Behaviors.Wpf
+
+DLL: Microsoft.Xaml.Behaviors.dll
+
+* Copyright (c) 2010 - 2018, Elinam LLC All rights reserved.
+* URL: [XamlBehaviors for WPF](https://github.com/Microsoft/XamlBehaviorsWpf)
+* License: [MIT License](https://github.com/microsoft/XamlBehaviorsWpf/blob/master/LICENSE)

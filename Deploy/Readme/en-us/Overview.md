@@ -21,7 +21,7 @@
   * Slide show
   * Multi threading, preload
   * Image drop from web browser
-  * Susie plugin support (UNICODE filename available)
+  * Susie plugin support
 
   For details, refer to the following page.
   

@@ -6704,7 +6704,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Save display に類似しているローカライズされた文字列を検索します。
+        ///   Save view に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string EnumExportImageModeView {
             get {

@@ -4825,7 +4825,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Save as original file</value>
   </data>
   <data name="EnumExportImageModeView" xml:space="preserve">
-    <value>Save display</value>
+    <value>Save view</value>
   </data>
   <data name="EnumExportImageFileNameModeOriginal" xml:space="preserve">
     <value>Original file name</value>

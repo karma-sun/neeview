@@ -30,7 +30,8 @@
 - Automatic recursion judgment is performed only for normal folders.
 - Moved bookshelf-related settings for "History" to the "Bookshelf" page. Separated the "Restore bookshelf location" setting and added it to the "Launch" page.
 - Since the parent of the tree item in the setting window and the first child are the same, only the parent page is displayed.
-- New "Save As" command. Output the image as it is displayed by reflecting the enlargement rotation etc. by "Save display". 
+- New "Save As" command. Output the image as it is displayed by reflecting the enlargement rotation etc. by "Save view". 
+- Changed Susie connection timeout from 30 seconds to 1 second and retry 10 times.
 - Updated various libraries.
 
 #### Fixed
@@ -45,8 +46,7 @@
 - Fixed a bug that could cause abnormal termination when setting the distance between two pages.
 - Fixed a bug that window may not be maximized when releasing full screen in tablet mode.
 - Fixed a bug that command rotation is not possible when the rotation snap value is large.
-- Corrected the phenomenon that the next window may stick out when the window is maximized on multiple monitors.
-- Changed Susie server connection timeout from 30 seconds to 1 second and retry 10 times.
+- Corrected the phenomenon that the next window may stick out when the window is maximized on multi display.
 - Fixed a bug that window was not active when trying to start multiple with no arguments with multiple startup disabled.
 - Fixed a bug that the menu notation of the shortcut key PageDown is Next.
 - Suppress extra window state changes when trying to set full screen again.

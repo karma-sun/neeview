@@ -93,11 +93,6 @@ namespace NeeView
         /// </summary>
         private WindowStateEx _lastState;
 
-        /// <summary>
-        /// Windows7?
-        /// </summary>
-        private bool _isWindows7;
-
         private WindowChromeFrame _windowChromeFrame = WindowChromeFrame.WindowFrame;
         private Thickness _windowBorderThickness;
         private bool _isCaptionVisible = true;
@@ -125,10 +120,6 @@ namespace NeeView
             _chrome.CaptionHeight = 0;
             _chrome.GlassFrameThickness = new Thickness(1);
 
-            // Windows7以前の場合、フルスクリーン解除時にタスクバーを手前にする処理を追加
-            _isWindows7 = Config.Current.IsWindows7();
-
-            //
             _isTopmost = _window.Topmost;
 
             switch (_window.WindowState)
@@ -358,7 +349,7 @@ namespace NeeView
         //
         public void UpdateWindowBorderThickness()
         {
-            if (_isWindows7 && _windowChromeFrame == WindowChromeFrame.WindowFrame && this.WindowChrome != null && _window.WindowState != WindowState.Maximized)
+            if (Config.Current.IsWindows7 && _windowChromeFrame == WindowChromeFrame.WindowFrame && this.WindowChrome != null && _window.WindowState != WindowState.Maximized)
             {
                 var x = 1.0 / Config.Current.RawDpi.DpiScaleX;
                 var y = 1.0 / Config.Current.RawDpi.DpiScaleY;
@@ -476,7 +467,7 @@ namespace NeeView
         /// </summary>
         private void RecoveryTaskBar()
         {
-            if (!_isWindows7 || _state != WindowStateEx.FullScreen) return;
+            if (!Config.Current.IsWindows7 || _state != WindowStateEx.FullScreen) return;
 
             ////Debug.WriteLine("Recovery TaskBar");
 
@@ -593,7 +584,12 @@ namespace NeeView
 
         private void ToFullScreenInner()
         {
-            _window.ResizeMode = ResizeMode.CanMinimize;
+            // NOTE: Windows7やタブレットモードでフルスクリーンでもタスクバーが隠れないことがある現象の対処。Windowsショートカットでのモニタ間移動の障害になるため用途を限定する
+            if (Config.Current.IsWindows7 || TabletModeWatcher.Current.IsTabletMode)
+            {
+                _window.ResizeMode = ResizeMode.CanMinimize;
+            }
+
             if (_window.WindowState == WindowState.Maximized && _window.WindowStyle != WindowStyle.None)
             {
                 _window.WindowState = WindowState.Normal;

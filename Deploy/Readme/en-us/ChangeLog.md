@@ -6,7 +6,8 @@
 #### New
 
 - Added gap adjustment setting when maximizing window. (Setting > Visual > Gap adjustment of window maximization with tite bar hidden)
-- Added setting to add Explorer's context menu "Open with NeeView". In the installer version, it is set automatically at the time of installation. (Setting > General > Register in the Explorer context menu)
+- Added setting to add Explorer's context menu "Open with NeeView".  (Setting > General > Register in the Explorer context menu)
+  - In the installer version, it is set automatically at the time of installation. Store app version is not supported.
 - Added "Focus on main view" command.
 - Added page display log output function. (Setting > Page view recording)
 - Added confirmation dialog when deleting files that are too large for the recycle bin.

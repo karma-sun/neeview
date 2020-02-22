@@ -64,6 +64,7 @@
             <local:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter" />
             <local:BooleanReverseConverter x:Key="BooleanReverseConverter" />
             <local:DoubleOffsetConverter x:Key="AutoHideMarginOffsetConverter" Offset="16" />
+            <local:DoubleSumConverter x:Key="DoubleSumConverter" />
 
 
             <!-- MenuItem History -->
@@ -269,7 +270,8 @@
             <ContentControl x:Name="LayerMenuSocket" VerticalAlignment="Top" Visibility="Collapsed" Focusable="False" MouseEnter="LayerMenuSocket_MouseEnter" MouseLeave="LayerMenuSocket_MouseLeave">
                 <behaviors:Interaction.Behaviors>
                     <local:AutoHideBehavior Name="MenuBar" Screen="{Binding ElementName=Root}" Dock="Top" IsEnabled="{Binding Model.CanHideMenu}" DelayTime="{Binding App.AutoHideDelayTimeMillisecond}"
-                            DelayVisibleTime="{Binding App.AutoHideDelayVisibleTimeMillisecond}" FocusLockMode="{Binding App.AutoHideFocusLockMode}" IsKeyDownDelayEnabled="{Binding App.IsAutoHideKeyDownDelay}" Description="{Binding MenuAutoHideDescription}" />
+                            DelayVisibleTime="{Binding App.AutoHideDelayVisibleTimeMillisecond}" FocusLockMode="{Binding App.AutoHideFocusLockMode}"
+                            IsKeyDownDelayEnabled="{Binding App.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding App.AutoHideHitTestMargin}" Description="{Binding MenuAutoHideDescription}" />
                 </behaviors:Interaction.Behaviors>
             </ContentControl>
 
@@ -278,7 +280,7 @@
                 <behaviors:Interaction.Behaviors>
                     <local:AutoHideBehavior Screen="{Binding ElementName=Root}" Dock="Bottom" IsEnabled="{Binding Model.CanHidePageSlider}" DelayTime="{Binding App.AutoHideDelayTimeMillisecond}"
                             DelayVisibleTime="{Binding App.AutoHideDelayVisibleTimeMillisecond}" FocusLockMode="{Binding App.AutoHideFocusLockMode}"
-                            IsKeyDownDelayEnabled="{Binding App.IsAutoHideKeyDownDelay}" Description="{Binding StatusAutoHideDescrption}" />
+                            IsKeyDownDelayEnabled="{Binding App.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding App.AutoHideHitTestMargin}" Description="{Binding StatusAutoHideDescrption}" />
                 </behaviors:Interaction.Behaviors>
                 <Grid x:Name="LayerStatusAreaPadding" DockPanel.Dock="Bottom" Height="{Binding ElementName=SliderArea, Path=ActualHeight}" />
                 <Grid DockPanel.Dock="Bottom" Background="{Binding Model.SliderBackground}">
@@ -297,9 +299,16 @@
                     <ContentControl x:Name="LayerThumbnailListSocket" IsTabStop="False">
                         <behaviors:Interaction.Behaviors>
                             <local:AutoHideBehavior Screen="{Binding ElementName=Root}" Dock="Bottom" IsEnabled="{Binding CanHideThumbnailList}" DelayTime="{Binding App.AutoHideDelayTimeMillisecond}"
-                                    DelayVisibleTime="{Binding App.AutoHideDelayVisibleTimeMillisecond}" HitTestMargin="{Binding ElementName=SliderArea, Path=ActualHeight, Converter={StaticResource AutoHideMarginOffsetConverter}}"
+                                    DelayVisibleTime="{Binding App.AutoHideDelayVisibleTimeMillisecond}"
                                     FocusLockMode="{Binding App.AutoHideFocusLockMode}" IsKeyDownDelayEnabled="{Binding App.IsAutoHideKeyDownDelay}"
-                                    Description="{Binding ThumbnailListusAutoHideDescrption}" />
+                                    Description="{Binding ThumbnailListusAutoHideDescrption}">
+                                <local:AutoHideBehavior.HitTestMargin>
+                                    <MultiBinding Converter="{StaticResource DoubleSumConverter}">
+                                        <Binding ElementName="SliderArea" Path="ActualHeight" />
+                                        <Binding Path="App.AutoHideHitTestMargin" />
+                                    </MultiBinding>
+                                </local:AutoHideBehavior.HitTestMargin>
+                            </local:AutoHideBehavior>
                         </behaviors:Interaction.Behaviors>
                     </ContentControl>
                 </Grid>

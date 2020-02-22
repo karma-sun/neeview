@@ -61,9 +61,6 @@ namespace NeeView
         [PropertyMember("@ParamSidePanelIsLeftRightKeyEnabled", Tips = "@ParamSidePanelIsLeftRightKeyEnabledTips")]
         public bool IsLeftRightKeyEnabled { get; set; } = true;
 
-        [PropertyMember("@ParamSidePanelHitTestMargin")]
-        public double HitTestMargin { get; set; } = 32.0;
-
         [PropertyPercent("@ParamSidePanelOpacity", Tips = "@ParamSidePanelOpacityTips")]
         public double Opacity
         {
@@ -351,9 +348,6 @@ namespace NeeView
             [DataMember, DefaultValue(true)]
             public bool IsLeftRightKeyEnabled { get; set; }
 
-            [DataMember, DefaultValue(32.0)]
-            public double HitTestMargin { get; set; }
-
             [DataMember, DefaultValue(1.0)]
             public double Opacity { get; set; }
 
@@ -401,7 +395,6 @@ namespace NeeView
             var memento = new Memento();
 
             memento.IsLeftRightKeyEnabled = this.IsLeftRightKeyEnabled;
-            memento.HitTestMargin = this.HitTestMargin;
             memento.Opacity = this.Opacity;
             memento.FontName = this.FontName;
             memento.FontSize = this.FontSize;
@@ -420,7 +413,6 @@ namespace NeeView
             if (memento == null) return;
 
             this.IsLeftRightKeyEnabled = memento.IsLeftRightKeyEnabled;
-            this.HitTestMargin = memento.HitTestMargin;
             this.Opacity = memento.Opacity;
             this.FontName = memento.FontName;
             this.FontSize = memento.FontSize;

@@ -48,7 +48,8 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.AutoHideFocusLockMode))),
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsAutoHideKeyDownDelay))),
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.AutoHideDelayVisibleTime))),
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.AutoHideDelayTime)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.AutoHideDelayTime))),
+                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.AutoHideHitTestMargin)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageVisualGeneralAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(MenuBar.Current, nameof(MenuBar.IsHamburgerMenu))),
@@ -229,9 +230,6 @@ namespace NeeView.Setting
                 new SettingItemSection(Properties.Resources.SettingPagePanelGeneralOperation,
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.IsLeftRightKeyEnabled))),
                     new SettingItemProperty(PropertyMemberElement.Create(SidePanel.Current, nameof(SidePanel.IsManipulationBoundaryFeedbackEnabled)))),
-
-                new SettingItemSection(Properties.Resources.SettingPagePanelGeneralAdvance,
-                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.HitTestMargin)))),
             };
         }
     }

@@ -60,6 +60,7 @@ namespace NeeView
         private string _pagemarkFilePath;
         private AutoHideFocusLockMode _autoHideFocusLockMode = AutoHideFocusLockMode.LogicalTextBoxFocusLock;
         private bool _isAutoHideKeyDownDelay = true;
+        private double _autoHideHitTestMargin = 32.0;
 
         #endregion
 
@@ -192,6 +193,14 @@ namespace NeeView
         {
             get { return _isAutoHideKeyDownDelay; }
             set { SetProperty(ref _isAutoHideKeyDownDelay, value); }
+        }
+
+        // パネル自動非表示の表示判定マージン
+        [PropertyMember("@ParamSidePanelHitTestMargin")]
+        public double AutoHideHitTestMargin
+        {
+            get { return _autoHideHitTestMargin; }
+            set { SetProperty(ref _autoHideHitTestMargin, value); }
         }
 
         // ウィンドウクローム枠
@@ -345,6 +354,9 @@ namespace NeeView
             [DataMember, DefaultValue(true)]
             public bool IsAutoHideKeyDownDelay { get; set; }
 
+            [DataMember, DefaultValue(32.0)]
+            public double AutoHideHitTestMargin { get; set; }
+
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
             {
@@ -409,6 +421,7 @@ namespace NeeView
             memento.CacheDirectoryOld = _cacheDirectoryOld;
             memento.AutoHideFocusLockMode = this.AutoHideFocusLockMode;
             memento.IsAutoHideKeyDownDelay = this.IsAutoHideKeyDownDelay;
+            memento.AutoHideHitTestMargin = this.AutoHideHitTestMargin;
             return memento;
         }
 
@@ -453,6 +466,7 @@ namespace NeeView
             ////this.CacheDirectoryOld = memento.CacheDirectoryOld; // RestoreOnce()で反映
             this.AutoHideFocusLockMode = memento.AutoHideFocusLockMode;
             this.IsAutoHideKeyDownDelay = memento.IsAutoHideKeyDownDelay;
+            this.AutoHideHitTestMargin = memento.AutoHideHitTestMargin;
         }
 
 #pragma warning disable CS0612

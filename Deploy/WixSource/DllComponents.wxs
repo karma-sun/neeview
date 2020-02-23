@@ -3,6 +3,9 @@
     <Fragment>
         <DirectoryRef Id="INSTALLFOLDER">
             <Directory Id="dir20FF26C963FCD8D5721868ED67B27FFF" Name="Libraries">
+                <Component Id="cmp62FFE1C97E2F1B1B5BB7600AD40AC45F" Guid="*">
+                    <File Id="fil6697420C3A3FA3E7B26D723BA7645023" KeyPath="yes" Source="$(var.LibrariesDir)\Interop.IWshRuntimeLibrary.dll" />
+                </Component>
                 <Component Id="cmpB5253615D3A409D93E9B0F5C0792727C" Guid="*">
                     <File Id="fil070F313B4772A6FE929C82891BF65F14" KeyPath="yes" Source="$(var.LibrariesDir)\Microsoft.Expression.Effects.dll" />
                 </Component>
@@ -110,6 +113,7 @@
     </Fragment>
     <Fragment>
         <ComponentGroup Id="DllComponents">
+            <ComponentRef Id="cmp62FFE1C97E2F1B1B5BB7600AD40AC45F" />
             <ComponentRef Id="cmpB5253615D3A409D93E9B0F5C0792727C" />
             <ComponentRef Id="cmpE97A5E87B83AFC450723829E6A99CE36" />
             <ComponentRef Id="cmp87D07992B45DF95EF217072DE38194C1" />

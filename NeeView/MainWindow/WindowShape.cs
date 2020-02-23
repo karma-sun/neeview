@@ -572,8 +572,8 @@ namespace NeeView
             }
             else
             {
-                ToFullScreenInner();
                 ResetWindowChrome();
+                ToFullScreenInner();
             }
 
             UpdateWindowBorderThickness();

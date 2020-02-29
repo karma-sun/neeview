@@ -172,7 +172,7 @@ namespace NeeView.Susie.Server
         public SusiePlugin GetPlugin(List<SusiePlugin> plugins, string fileName, byte[] buff, bool isCheckExtension)
         {
             plugins = plugins ?? PluginCollection.ToList();
-            buff = buff ?? LoadHead(fileName);
+            buff = buff ?? SusiePlugin.LoadHead(fileName);
 
             foreach (var plugin in plugins)
             {
@@ -205,7 +205,7 @@ namespace NeeView.Susie.Server
             plugins = plugins ?? INPluginList;
 
             var fromFile = buff is null;
-            buff = buff ?? LoadHead(fileName);
+            buff = buff ?? SusiePlugin.LoadHead(fileName);
 
             foreach (var plugin in plugins.Where(e => e.IsEnabled))
             {
@@ -226,20 +226,6 @@ namespace NeeView.Susie.Server
             }
 
             return null;
-        }
-
-
-        /// <summary>
-        /// 判定用にファイル先頭を読み込む
-        /// </summary>
-        private byte[] LoadHead(string fileName)
-        {
-            var buff = new byte[2048];
-            using (FileStream fs = new FileStream(fileName, FileMode.Open, FileAccess.Read))
-            {
-                fs.Read(buff, 0, 2048);
-            }
-            return buff;
         }
     }
 }

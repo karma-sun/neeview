@@ -373,7 +373,7 @@ namespace NeeView.Susie.Server
                 try
                 {
                     var api = BeginSection();
-                    string shortPath = NativeMethods.GetShortPathName(fileName);
+                    string shortPath = GetLegacyPathName(fileName);
                     return api.IsSupported(shortPath, head);
                 }
                 finally
@@ -395,7 +395,7 @@ namespace NeeView.Susie.Server
                 try
                 {
                     var api = BeginSection();
-                    string shortPath = NativeMethods.GetShortPathName(fileName);
+                    string shortPath = GetLegacyPathName(fileName);
                     var entries = api.GetArchiveInfo(shortPath);
                     if (entries == null) throw new SusieException($"{this.Name}: Failed to read archive information.");
                     return new ArchiveEntryCollection(this, fileName, entries);
@@ -425,7 +425,7 @@ namespace NeeView.Susie.Server
                 try
                 {
                     var api = BeginSection();
-                    string shortPath = NativeMethods.GetShortPathName(fileName);
+                    string shortPath = GetLegacyPathName(fileName);
                     if (!api.IsSupported(shortPath, head)) return null;
                     var entries = api.GetArchiveInfo(shortPath);
                     if (entries == null) throw new SusieException($"{this.Name}: Failed to read archive information.");
@@ -459,7 +459,7 @@ namespace NeeView.Susie.Server
                 try
                 {
                     var api = BeginSection();
-                    // string shortPath = Win32Api.GetShortPathName(fileName);
+                    // string shortPath = GetLegacyPathName(fileName);
                     if (!api.IsSupported(fileName, buff)) return null;
                     return api.GetPicture(buff);
                 }
@@ -490,7 +490,7 @@ namespace NeeView.Susie.Server
                 try
                 {
                     var api = BeginSection();
-                    string shortPath = NativeMethods.GetShortPathName(fileName);
+                    string shortPath = GetLegacyPathName(fileName);
                     if (!api.IsSupported(shortPath, head)) return null;
                     return api.GetPicture(shortPath);
                 }
@@ -630,6 +630,51 @@ namespace NeeView.Susie.Server
             setting.IsPreExtract = this.IsPreExtract;
             setting.UserExtensions = this.UserExtensions?.ToOneLine();
             return setting;
+        }
+
+
+        /// <summary>
+        /// Susieプラグインがアクセス可能な形のパスに変換
+        /// </summary>
+        private static string GetLegacyPathName(string source)
+        {
+            var path = source;
+
+            // WoW64回避
+            if (Environment.Is64BitOperatingSystem)
+            {
+                var windir = Environment.GetEnvironmentVariable("WINDIR") ?? @"C:\Windows";
+                var system32dir = Path.Combine(windir, "System32") + "\\";
+
+                if (source.StartsWith(system32dir, StringComparison.OrdinalIgnoreCase))
+                {
+                    path = Path.Combine(windir, "Sysnative") + "\\" + path.Substring(system32dir.Length);
+                    return path;
+
+                    // NOTE: System32、Sysnative は特殊なフォルダーのためか GetShortPathName が正常に動作しない
+                }
+            }
+
+            // ショートパス名に変換
+            // NOTE: ドライブの設定によっては非対応
+            path = NativeMethods.GetShortPathName(path);
+
+            return path;
+        }
+
+        /// <summary>
+        /// 判定用にファイル先頭を読み込む
+        /// </summary>
+        public static byte[] LoadHead(string fileName)
+        {
+            var path = GetLegacyPathName(fileName);
+
+            var buff = new byte[2048];
+            using (FileStream fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+            {
+                fs.Read(buff, 0, 2048);
+            }
+            return buff;
         }
     }
 

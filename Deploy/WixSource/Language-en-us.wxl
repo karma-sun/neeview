@@ -4,4 +4,5 @@
     <String Id="codepage">1252</String>
     <String Id="downgradeErrorMessage">A new version of NeeView has already been installed.</String>
     <String Id="openInNeeView">Open in Nee&amp;View</String>
+    <String Id="contextMenuFeatureDescription">Add "Open in NeeView" to the context menu.</String>
 </WixLocalization>

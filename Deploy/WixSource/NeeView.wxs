@@ -20,12 +20,14 @@
 
     <MediaTemplate EmbedCab="yes" CompressionLevel="high"/>
 
-    <Feature Id="ProductFeature" Title="NeeView System" Level="1" AllowAdvertise="no" Absent="disallow" Display="expand" ConfigurableDirectory="INSTALLFOLDER">
+    <Feature Id="ProductFeature" Title="NeeView" Level="1" AllowAdvertise="no" Absent="disallow" Display="expand" ConfigurableDirectory="INSTALLFOLDER">
       <ComponentGroupRef Id="NeeViewComponents" />
       <ComponentGroupRef Id="DllComponents"/>
       <ComponentGroupRef Id="DocumentComponents" />
-      <ComponentGroupRef Id="RegistoryComponents" />
       <ComponentRef Id="AppStartMenuDirComponent" />
+      <Feature Id="ContextMenuFeature" Title="ContextMenu" Description="!(loc.contextMenuFeatureDescription)" Level="1" AllowAdvertise="no" >
+        <ComponentGroupRef Id="RegistoryComponents" />
+      </Feature>
     </Feature>
 
     <Property Id="INSTALLFOLDER">
@@ -33,8 +35,7 @@
     </Property>
 
     <!-- UI -->
-    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
-    <UIRef Id="WixUI_InstallDirEx" />
+    <UIRef Id="WixUI_MondoEx" />
     <UIRef Id="WixUI_ErrorProgressText" />
 
     <!-- Disable advertise shortcuts -->

@@ -187,15 +187,17 @@ namespace NeeView
                     ArchiverManager.Current.UnlockAllArchives();
                 }
 
+                var dialogOption = FileIOProfile.Current.IsRemoveExplorerDialogEnabled ? Microsoft.VisualBasic.FileIO.UIOption.AllDialogs : Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs;
+
                 // ゴミ箱に捨てる
                 bool isDirectory = System.IO.Directory.Exists(path);
                 if (isDirectory)
                 {
-                    Microsoft.VisualBasic.FileIO.FileSystem.DeleteDirectory(path, Microsoft.VisualBasic.FileIO.UIOption.AllDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                    Microsoft.VisualBasic.FileIO.FileSystem.DeleteDirectory(path, dialogOption, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
                 }
                 else
                 {
-                    Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(path, Microsoft.VisualBasic.FileIO.UIOption.AllDialogs, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                    Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(path, dialogOption, Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
                 }
 
                 return true;

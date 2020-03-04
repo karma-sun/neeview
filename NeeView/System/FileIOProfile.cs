@@ -23,6 +23,9 @@ namespace NeeView
         [PropertyMember("@ParamIsRemoveConfirmed")]
         public bool IsRemoveConfirmed { get; set; } = true;
 
+        [PropertyMember("@ParamIsRemoveExplorerDialogEnabled", Tips = "@ParamIsRemoveExplorerDialogEnabledTips")]
+        public bool IsRemoveExplorerDialogEnabled { get; set; } = false;
+
         [PropertyMember("@ParamIsFileOperationEnabled")]
         public bool IsEnabled
         {
@@ -54,6 +57,9 @@ namespace NeeView
             [DataMember, DefaultValue(true)]
             public bool IsRemoveConfirmed { get; set; }
 
+            [DataMember, DefaultValue(false)]
+            public bool IsRemoveExplorerDialogEnabled { get; set; }
+
             [DataMember, DefaultValue(true)]
             public bool IsEnabled { get; set; }
 
@@ -72,6 +78,7 @@ namespace NeeView
         {
             var memento = new Memento();
             memento.IsRemoveConfirmed = this.IsRemoveConfirmed;
+            memento.IsRemoveExplorerDialogEnabled = this.IsRemoveExplorerDialogEnabled;
             memento.IsEnabled = this.IsEnabled;
             memento.IsHiddenFileVisibled = this.IsHiddenFileVisibled;
             return memento;
@@ -81,6 +88,7 @@ namespace NeeView
         {
             if (memento == null) return;
             this.IsRemoveConfirmed = memento.IsRemoveConfirmed;
+            this.IsRemoveExplorerDialogEnabled = memento.IsRemoveExplorerDialogEnabled;
             this.IsEnabled = memento.IsEnabled;
             this.IsHiddenFileVisibled = memento.IsHiddenFileVisibled;
         }

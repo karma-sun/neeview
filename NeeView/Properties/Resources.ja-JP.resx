@@ -4869,4 +4869,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ControlSaveExportMode" xml:space="preserve">
     <value>出力画像の種類</value>
   </data>
+  <data name="ParamIsRemoveExplorerDialogEnabled" xml:space="preserve">
+    <value>ファイル削除時にエクスプローラーの確認ダイアログを表示する</value>
+  </data>
+  <data name="ParamIsRemoveExplorerDialogEnabledTips" xml:space="preserve">
+    <value>エクスプローラーから削除したときと同じ挙動になります。ごみ箱に入らないファイルを削除するときに確認ダイアログが表示されますが、ごみ箱のプロパティの「削除の確認メッセージを表示する」がチェックされている場合は余計にダイアログが表示されることになります。</value>
+  </data>
 </root>

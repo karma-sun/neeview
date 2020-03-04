@@ -3621,7 +3621,7 @@ Initialize the temporary location.</value>
     <value>Save page view recods</value>
   </data>
   <data name="ParamIsRemoveConfirmed" xml:space="preserve">
-    <value>Display confirmation dialog at file deletion</value>
+    <value>Show confirmation dialog when deleting files</value>
   </data>
   <data name="ParamIsRestoreSecondWindow" xml:space="preserve">
     <value>Restore the second window coordinates</value>
@@ -4868,5 +4868,11 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="ControlSaveExportMode" xml:space="preserve">
     <value>Output image type</value>
+  </data>
+  <data name="ParamIsRemoveExplorerDialogEnabled" xml:space="preserve">
+    <value>Show Explorer confirmation dialog when deleting files</value>
+  </data>
+  <data name="ParamIsRemoveExplorerDialogEnabledTips" xml:space="preserve">
+    <value>The behavior is the same as when deleted from Explorer. If you delete a file that does not fit in the Recycle Bin, a confirmation dialog will appear. However, if you turn on "Display delete confirmation dialog" in the Recycle Bin properties, an additional dialog will appear.</value>
   </data>
 </root>

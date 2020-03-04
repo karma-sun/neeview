@@ -10785,11 +10785,29 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Display confirmation dialog at file deletion に類似しているローカライズされた文字列を検索します。
+        ///   Show confirmation dialog when deleting files に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsRemoveConfirmed {
             get {
                 return ResourceManager.GetString("ParamIsRemoveConfirmed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Show Explorer confirmation dialog when deleting files に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsRemoveExplorerDialogEnabled {
+            get {
+                return ResourceManager.GetString("ParamIsRemoveExplorerDialogEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   The behavior is the same as when deleted from Explorer. If you delete a file that does not fit in the Recycle Bin, a confirmation dialog will appear. However, if you turn on &quot;Display delete confirmation dialog&quot; in the Recycle Bin properties, an additional dialog will appear. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsRemoveExplorerDialogEnabledTips {
+            get {
+                return ResourceManager.GetString("ParamIsRemoveExplorerDialogEnabledTips", resourceCulture);
             }
         }
         

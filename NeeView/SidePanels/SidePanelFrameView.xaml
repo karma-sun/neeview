@@ -7,6 +7,7 @@
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <nwd:NullableToVisibilityConverter x:Key="NullableToVisibilityConverter" />
+        <local:MultiBooleanOrConverter x:Key="MultiBooleanOrConverter" />
 
         <Style x:Key="PanelIconButtonStyle" TargetType="{x:Type Button}">
             <Setter Property="FocusVisualStyle" Value="{StaticResource NVFocusVisual}" />
@@ -154,8 +155,15 @@
                             <local:AutoHideBehavior Name="LeftPanel" Screen="{Binding ElementName=Screen}" SubTarget="{Binding ElementName=LeftPanelSplitter}" Dock="Left"
                                     IsEnabled="{Binding VM.Left.IsAutoHide}" DelayTime="{Binding VM.App.AutoHideDelayTimeMillisecond}"
                                     DelayVisibleTime="{Binding VM.App.AutoHideDelayVisibleTimeMillisecond}" FocusLockMode="{Binding VM.App.AutoHideFocusLockMode}"
-                                    IsKeyDownDelayEnabled="{Binding VM.App.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding VM.App.AutoHideHitTestMargin}" Description="{Binding VM.Left.AutoHideDescription}"
-                                    IsVisibleLocked="{Binding VM.Left.IsVisibleLocked}" IsMouseEnabled="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsAutoHideMouseEnabled}" />
+                                    IsKeyDownDelayEnabled="{Binding VM.App.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding VM.App.AutoHideHitTestMargin}"
+                                    Description="{Binding VM.Left.AutoHideDescription}" IsMouseEnabled="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsAutoHideMouseEnabled}">
+                                <local:AutoHideBehavior.IsVisibleLocked>
+                                    <MultiBinding Converter="{StaticResource MultiBooleanOrConverter}">
+                                        <Binding Path="VM.Model.IsVisibleLocked" />
+                                        <Binding Path="VM.Left.IsVisibleLocked" />
+                                    </MultiBinding>
+                                </local:AutoHideBehavior.IsVisibleLocked>
+                            </local:AutoHideBehavior>
                         </behaviors:Interaction.Behaviors>
                     </ContentControl>
                 </Grid>
@@ -170,8 +178,16 @@
                             <local:AutoHideBehavior Name="RightPanel" Screen="{Binding ElementName=Screen}" SubTarget="{Binding ElementName=RightPanelSplitter}" Dock="Right"
                                     IsEnabled="{Binding VM.Right.IsAutoHide}" DelayTime="{Binding VM.App.AutoHideDelayTimeMillisecond}"
                                     DelayVisibleTime="{Binding VM.App.AutoHideDelayVisibleTimeMillisecond}" FocusLockMode="{Binding VM.App.AutoHideFocusLockMode}"
-                                    IsKeyDownDelayEnabled="{Binding VM.App.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding VM.App.AutoHideHitTestMargin}" Description="{Binding VM.Right.AutoHideDescription}"
-                                    IsVisibleLocked="{Binding VM.Right.IsVisibleLocked}" IsMouseEnabled="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsAutoHideMouseEnabled}" />
+                                    IsKeyDownDelayEnabled="{Binding VM.App.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding VM.App.AutoHideHitTestMargin}"
+                                    Description="{Binding VM.Right.AutoHideDescription}"
+                                    IsMouseEnabled="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsAutoHideMouseEnabled}">
+                                <local:AutoHideBehavior.IsVisibleLocked>
+                                    <MultiBinding Converter="{StaticResource MultiBooleanOrConverter}">
+                                        <Binding Path="VM.Model.IsVisibleLocked" />
+                                        <Binding Path="VM.Right.IsVisibleLocked" />
+                                    </MultiBinding>
+                                </local:AutoHideBehavior.IsVisibleLocked>
+                            </local:AutoHideBehavior>
                         </behaviors:Interaction.Behaviors>
                     </ContentControl>
                 </Grid>

@@ -255,7 +255,7 @@
                         <local:SidePanelFrameView x:Name="SidePanelFrame" PanelMargin="{Binding SidePanelMargin, Mode=OneWay}" Visibility="Visible" Source="{Binding SidePanel}"
                                 IsAutoHide="{Binding Model.CanHidePanel}" PanelBackground="{DynamicResource NVBackground}" IconBackground="{DynamicResource NVPanelIconBackground}"
                                 CanvasWidth="{Binding CanvasWidth, Mode=OneWayToSource}" CanvasHeight="{Binding CanvasHeight, Mode=OneWayToSource}"
-                                IsAutoHideMouseEnabled="{Binding IsFrontAreaMouseOver, Converter={StaticResource BooleanReverseConverter}}"
+                                IsAutoHideMouseEnabled="{Binding IsFrontAreaMouseOver, Converter={StaticResource BooleanReverseConverter}}" 
                                 d:IsHidden="True">
                         </local:SidePanelFrameView>
 
@@ -271,6 +271,7 @@
                 <behaviors:Interaction.Behaviors>
                     <local:AutoHideBehavior Name="MenuBar" Screen="{Binding ElementName=Root}" Dock="Top" IsEnabled="{Binding Model.CanHideMenu}" DelayTime="{Binding App.AutoHideDelayTimeMillisecond}"
                             DelayVisibleTime="{Binding App.AutoHideDelayVisibleTimeMillisecond}" FocusLockMode="{Binding App.AutoHideFocusLockMode}"
+                            IsVisibleLocked="{Binding Model.IsPanelVisibleLocked}"
                             IsKeyDownDelayEnabled="{Binding App.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding App.AutoHideHitTestMargin}" Description="{Binding MenuAutoHideDescription}" />
                 </behaviors:Interaction.Behaviors>
             </ContentControl>
@@ -280,7 +281,8 @@
                 <behaviors:Interaction.Behaviors>
                     <local:AutoHideBehavior Screen="{Binding ElementName=Root}" Dock="Bottom" IsEnabled="{Binding Model.CanHidePageSlider}" DelayTime="{Binding App.AutoHideDelayTimeMillisecond}"
                             DelayVisibleTime="{Binding App.AutoHideDelayVisibleTimeMillisecond}" FocusLockMode="{Binding App.AutoHideFocusLockMode}"
-                            IsKeyDownDelayEnabled="{Binding App.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding App.AutoHideHitTestMargin}" Description="{Binding StatusAutoHideDescrption}" />
+                            IsKeyDownDelayEnabled="{Binding App.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding App.AutoHideHitTestMargin}" Description="{Binding StatusAutoHideDescrption}"
+                            IsVisibleLocked="{Binding Model.IsPanelVisibleLocked}"/>
                 </behaviors:Interaction.Behaviors>
                 <Grid x:Name="LayerStatusAreaPadding" DockPanel.Dock="Bottom" Height="{Binding ElementName=SliderArea, Path=ActualHeight}" />
                 <Grid DockPanel.Dock="Bottom" Background="{Binding Model.SliderBackground}">
@@ -299,9 +301,9 @@
                     <ContentControl x:Name="LayerThumbnailListSocket" IsTabStop="False">
                         <behaviors:Interaction.Behaviors>
                             <local:AutoHideBehavior Screen="{Binding ElementName=Root}" Dock="Bottom" IsEnabled="{Binding CanHideThumbnailList}" DelayTime="{Binding App.AutoHideDelayTimeMillisecond}"
-                                    DelayVisibleTime="{Binding App.AutoHideDelayVisibleTimeMillisecond}"
-                                    FocusLockMode="{Binding App.AutoHideFocusLockMode}" IsKeyDownDelayEnabled="{Binding App.IsAutoHideKeyDownDelay}"
-                                    Description="{Binding ThumbnailListusAutoHideDescrption}">
+                                    DelayVisibleTime="{Binding App.AutoHideDelayVisibleTimeMillisecond}" FocusLockMode="{Binding App.AutoHideFocusLockMode}"
+                                    IsKeyDownDelayEnabled="{Binding App.IsAutoHideKeyDownDelay}" Description="{Binding ThumbnailListusAutoHideDescrption}"
+                                    IsVisibleLocked="{Binding Model.IsPanelVisibleLocked}">
                                 <local:AutoHideBehavior.HitTestMargin>
                                     <MultiBinding Converter="{StaticResource DoubleSumConverter}">
                                         <Binding ElementName="SliderArea" Path="ActualHeight" />

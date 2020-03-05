@@ -17,6 +17,7 @@ namespace NeeView
         private MenuBar _model;
         private Menu _mainMenu;
         private WindowCaptionEmulator _windowCaptionEmulator;
+        private bool _isHighContrast = SystemParameters.HighContrast;
 
 #if DEBUG
         private DebugMenu _debugMenu = new DebugMenu();
@@ -30,6 +31,14 @@ namespace NeeView
 
             InitializeMainMenu();
             InitializeWindowCaptionEmulator(control);
+
+            SystemParameters.StaticPropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(SystemParameters.HighContrast))
+                {
+                    IsHighContrast = SystemParameters.HighContrast;
+                }
+            };
         }
 
 
@@ -58,6 +67,12 @@ namespace NeeView
 
         public WindowTitle WindowTitle => WindowTitle.Current;
 
+        public bool IsHighContrast
+        {
+            get { return _isHighContrast; }
+            set { SetProperty(ref _isHighContrast, value); }
+        }
+
 
         private void InitializeWindowCaptionEmulator(FrameworkElement control)
         {
@@ -74,13 +89,18 @@ namespace NeeView
 
         private void InitializeMainMenu()
         {
-            this.MainMenu = CreateMainMenu(new SolidColorBrush(Color.FromRgb(0x22, 0x22, 0x22)));
+            var style = new Style(typeof(MenuItem));
+            var dataTrigger = new DataTrigger() { Binding = new Binding(nameof(IsHighContrast)), Value = false };
+            dataTrigger.Setters.Add(new Setter(MenuItem.ForegroundProperty, SystemColors.ControlTextBrush));
+            style.Triggers.Add(dataTrigger);
+
+            this.MainMenu = CreateMainMenu(style);
 
             BindingOperations.SetBinding(MainMenu, Menu.BackgroundProperty, new Binding(nameof(Menu.Background)) { ElementName = "MainMenuJoint" });
             BindingOperations.SetBinding(MainMenu, Menu.ForegroundProperty, new Binding(nameof(Menu.Foreground)) { ElementName = "MainMenuJoint" });
         }
 
-        private Menu CreateMainMenu(Brush foreground)
+        private Menu CreateMainMenu(Style style)
         {
             var items = _model.MainMenuSource.CreateMenuItems();
 #if DEBUG
@@ -112,7 +132,7 @@ namespace NeeView
                 menu.Items.Add(topMenu);
             }
             else
-            { 
+            {
                 menu.Margin = new Thickness(0, 0, 40, 0);
                 foreach (var item in items)
                 {
@@ -121,11 +141,14 @@ namespace NeeView
             }
 
             // サブメニューのColorを固定にする
-            foreach (MenuItem item in menu.Items)
+            if (style != null)
             {
-                foreach (MenuItem subItem in item.Items.OfType<MenuItem>())
+                foreach (MenuItem item in menu.Items)
                 {
-                    subItem.Foreground = foreground;
+                    foreach (MenuItem subItem in item.Items.OfType<MenuItem>())
+                    {
+                        subItem.Style = style;
+                    }
                 }
             }
 

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NeeView"
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="300">
+        d:DesignHeight="50" d:DesignWidth="300">
     <UserControl.Resources>
         <local:PanelColorToBrushConverter x:Key="BackgroundSelector" Dark="{StaticResource NVMenuBackgroundDark}" Light="{StaticResource NVMenuBackgroundLight}"/>
         <local:PanelColorTobrushMultiConverter x:Key="ForegroundSelector" Dark="{StaticResource NVMenuForegroundDark}" Light="{StaticResource NVMenuForegroundLight}"/>
@@ -13,21 +13,42 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     </UserControl.Resources>
 
-    <Grid x:Name="Root" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" Background="{Binding ThemeProfile.MenuColor, Converter={StaticResource BackgroundSelector}}" MinHeight="0">
-        
+    <Grid x:Name="Root" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" MinHeight="0">
+        <Grid.Style>
+            <Style TargetType="Grid">
+                <Setter Property="Background" Value="{Binding ThemeProfile.MenuColor, Converter={StaticResource BackgroundSelector}}" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsHighContrast}" Value="True">
+                        <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Style>
+
         <ContentControl x:Name="ForegroundColorResource" IsHitTestVisible="False" HorizontalAlignment="Left" VerticalAlignment="Top" Focusable="False">
-            <ContentControl.Foreground>
-                <MultiBinding Converter="{StaticResource ForegroundSelector}">
-                    <Binding Path="ThemeProfile.MenuColor"/>
-                    <Binding Path="IsActive" RelativeSource="{RelativeSource AncestorType=Window}"/>
-                    <Binding Path="IsUnactiveEnabled" RelativeSource="{RelativeSource  AncestorType=local:MenuBarView}"/>
-                </MultiBinding>
-            </ContentControl.Foreground>
+            <ContentControl.Style>
+                <Style TargetType="ContentControl">
+                    <Setter Property="Foreground">
+                        <Setter.Value>
+                            <MultiBinding Converter="{StaticResource ForegroundSelector}">
+                                <Binding Path="ThemeProfile.MenuColor" />
+                                <Binding Path="IsActive" RelativeSource="{RelativeSource AncestorType=Window}" />
+                                <Binding Path="IsUnactiveEnabled" RelativeSource="{RelativeSource  AncestorType=local:MenuBarView}" />
+                            </MultiBinding>
+                        </Setter.Value>
+                    </Setter>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsHighContrast}" Value="True">
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
         </ContentControl>
-        
+
         <DockPanel x:Name="MenuBarArea" LastChildFill="True" Margin="0,0,0,2">
             <local:WindowCaptionButtons x:Name="WindowCaptionButtons" VerticalAlignment="Top" DockPanel.Dock="Right" WindowChrome.IsHitTestVisibleInChrome="False"
-                                        Foreground="{Binding Foreground, ElementName=ForegroundColorResource}">
+                    Foreground="{Binding Foreground, ElementName=ForegroundColorResource}">
                 <local:WindowCaptionButtons.Style>
                     <Style TargetType="local:WindowCaptionButtons">
                         <Setter Property="Height" Value="28"/>
@@ -48,12 +69,12 @@
 
             <DockPanel x:Name="MenuArea" VerticalAlignment="Bottom">
                 <ContentControl x:Name="MainMenuJoint" Content="{Binding MainMenu}" IsTabStop="False" VerticalAlignment="Center" WindowChrome.IsHitTestVisibleInChrome="False"
-                                Foreground="{Binding Foreground, ElementName=ForegroundColorResource}">
+                        Foreground="{Binding Foreground, ElementName=ForegroundColorResource}">
                 </ContentControl>
                 <TextBlock x:Name="MenuTitle" Text="{Binding WindowTitle.Title}" VerticalAlignment="Center" HorizontalAlignment="Left" TextTrimming="CharacterEllipsis" Margin="5,0"
-                           FontSize="{x:Static SystemFonts.MessageFontSize}"
-                           Visibility="{Binding WindowCaptionEmulator.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
-                           Foreground="{Binding Foreground, ElementName=ForegroundColorResource}">
+                        FontSize="{x:Static SystemFonts.MessageFontSize}"
+                        Visibility="{Binding WindowCaptionEmulator.IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}"
+                        Foreground="{Binding Foreground, ElementName=ForegroundColorResource}">
                 </TextBlock>
             </DockPanel>
 

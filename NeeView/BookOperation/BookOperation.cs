@@ -750,10 +750,8 @@ namespace NeeView
         }
 
         // 動画再生ON/OFF
-        public bool ToggleMediaPlay(object sender, ExecutedRoutedEventArgs e)
+        public bool ToggleMediaPlay()
         {
-            if (e.Handled) return false;
-
             if (this.Book != null && this.Book.IsMedia)
             {
                 if (MediaPlayerOperator.Current.IsPlaying)
@@ -764,7 +762,6 @@ namespace NeeView
                 {
                     MediaPlayerOperator.Current.Play();
                 }
-                e.Handled = true;
                 return true;
             }
             else

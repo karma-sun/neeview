@@ -9,10 +9,10 @@ namespace NeeView
         {
         }
 
-        public void Execute(object sender, ExecutedRoutedEventArgs e)
+        public void Execute()
         {
             var point = Mouse.GetPosition(_context.Sender);
-            ExecuteTouchGesture(sender, e, point);
+            ExecuteTouchGesture(point);
         }
 
         public override void OnStylusDown(object sender, StylusDownEventArgs e)

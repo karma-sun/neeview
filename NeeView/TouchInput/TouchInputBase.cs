@@ -136,25 +136,26 @@ namespace NeeView
         protected void ExecuteTouchGesture(object sender, StylusEventArgs e)
         {
             var point = e.GetPosition(_context.Sender);
-            ExecuteTouchGesture(sender, e, point);
+            ExecuteTouchGesture(point);
         }
 
         //
-        protected void ExecuteTouchGesture(object sender, RoutedEventArgs e, Point point)
+        protected void ExecuteTouchGesture(Point point)
         {
             var xRate = point.X / _context.Sender.ActualWidth;
             var yRate = point.Y / _context.Sender.ActualHeight;
-
+            
             // TouchCenter を優先的に判定
             if (TouchGesture.TouchCenter.IsTouched(xRate, yRate))
             {
-                TouchGestureChanged?.Invoke(this, new TouchGestureEventArgs(e, TouchGesture.TouchCenter));
-                if (e.Handled) return;
+                var arg = new TouchGestureEventArgs(TouchGesture.TouchCenter);
+                TouchGestureChanged?.Invoke(this, arg);
+                if (arg.Handled) return;
             }
 
             // TouchLeft / Right
             var gesture = TouchGestureExtensions.GetTouchGestureLast(xRate, yRate);
-            TouchGestureChanged?.Invoke(this, new TouchGestureEventArgs(e, gesture));
+            TouchGestureChanged?.Invoke(this, new TouchGestureEventArgs(gesture));
         }
     }
 }

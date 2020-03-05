@@ -110,10 +110,10 @@ namespace NeeView
                     {
                         if (command.Key == CommandType.TouchEmulate) return;
 
-                        if (!x.RoutedEventArgs.Handled && x.Gesture == gesture)
+                        if (!x.Handled && x.Gesture == gesture)
                         {
                             command.Value.Execute(null, MainWindow.Current);
-                            x.RoutedEventArgs.Handled = true;
+                            x.Handled = true;
                         }
                     };
                 }
@@ -267,7 +267,8 @@ namespace NeeView
             }
 
             // 実行
-            command.Execute(e.Source, e);
+            var option = (e.Parameter is MenuCommandTag) ? CommandOption.ByMenu : CommandOption.None;
+            command.Execute(e.Source, option);
         }
 
         // スライダー方向によって移動コマンドを入れ替える

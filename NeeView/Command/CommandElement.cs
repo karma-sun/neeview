@@ -10,6 +10,13 @@ using System.Windows.Input;
 
 namespace NeeView
 {
+    [Flags]
+    public enum CommandOption
+    {
+        None = 0,
+        ByMenu = 0x0001,
+    }
+
     /// <summary>
     /// コマンド設定
     /// </summary>
@@ -42,7 +49,7 @@ namespace NeeView
         public bool IsShowMessage { get; set; }
 
         // コマンド本体
-        public Action<object, ExecutedRoutedEventArgs> Execute { get; set; }
+        public Action<object, CommandOption> Execute { get; set; }
 
         // コマンド実行時表示デリゲート
         public Func<object, string> ExecuteMessage { get; set; }

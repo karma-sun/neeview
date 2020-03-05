@@ -6,16 +6,15 @@ namespace NeeView
 {
     public class TouchGestureEventArgs : EventArgs
     {
-        public RoutedEventArgs RoutedEventArgs { get; set; }
         public TouchGesture Gesture { get; set; }
+        public bool Handled { get; set; }
 
         public TouchGestureEventArgs()
         {
         }
 
-        public TouchGestureEventArgs(RoutedEventArgs e, TouchGesture gesture)
+        public TouchGestureEventArgs(TouchGesture gesture)
         {
-            this.RoutedEventArgs = e;
             this.Gesture = gesture;
         }
     }

@@ -26,7 +26,7 @@ namespace NeeView
 
         private MainWindowViewModel _vm;
 
-   
+
         #region コンストラクターと初期化処理
 
         /// <summary>
@@ -323,15 +323,9 @@ namespace NeeView
             }
         }
 
-        // ロード中のコマンドを無効にする CanExecute
-        private void CanExecute(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = !NowLoading.Current.IsDispNowLoading;
-        }
+        #endregion
 
-#endregion
-
-#region タイマーによる非アクティブ監視
+        #region タイマーによる非アクティブ監視
 
         // タイマーディスパッチ
         private DispatcherTimer _nonActiveTimer;
@@ -449,9 +443,9 @@ namespace NeeView
             return this.MainView.Cursor != Cursors.None || MouseInput.Current.IsLoupeMode;
         }
 
-#endregion
+        #endregion
 
-#region ウィンドウ状態コマンド
+        #region ウィンドウ状態コマンド
 
         /// <summary>
         /// ウィンドウ最小化コマンド
@@ -493,9 +487,9 @@ namespace NeeView
             SystemCommands.CloseWindow(this);
         }
 
-#endregion
+        #endregion
 
-#region ウィンドウイベント処理
+        #region ウィンドウイベント処理
 
 
         /// <summary>
@@ -784,9 +778,9 @@ namespace NeeView
             //Environment.Exit(0);
         }
 
-#endregion
+        #endregion
 
-#region メニューエリア、ステータスエリアマウスオーバー監視
+        #region メニューエリア、ステータスエリアマウスオーバー監視
 
         public bool _isDockMenuMouseOver;
         public bool _isLayerMenuMuseOver;
@@ -852,9 +846,9 @@ namespace NeeView
             UpdateStatusAreaMouseOver();
         }
 
-#endregion
+        #endregion
 
-#region レイアウト管理
+        #region レイアウト管理
 
         private bool _isDartyMenuAreaLayout;
         private bool _isDartyPageSliderLayout;
@@ -1026,11 +1020,11 @@ namespace NeeView
             }
         }
 
-#endregion
+        #endregion
 
 
 
-#region [開発用]
+        #region [開発用]
 
         public MainWindowViewModel ViewModel => _vm;
 
@@ -1041,7 +1035,7 @@ namespace NeeView
             DebugGesture.Initialize();
         }
 
-#endregion
+        #endregion
     }
 
 }

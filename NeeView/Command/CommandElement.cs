@@ -563,6 +563,11 @@ namespace NeeView
             this.IsShowMessage = true;
         }
 
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             BookHistoryCollection.Current.Clear();
@@ -607,6 +612,11 @@ namespace NeeView
             return ContentCanvas.Current.GetToggleStretchMode((ToggleStretchModeCommandParameter)param).ToAliasName();
         }
 
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             ContentCanvas.Current.StretchMode = ContentCanvas.Current.GetToggleStretchMode((ToggleStretchModeCommandParameter)param);
@@ -632,6 +642,11 @@ namespace NeeView
             return ContentCanvas.Current.GetToggleStretchModeReverse((ToggleStretchModeCommandParameter)param).ToAliasName();
         }
 
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             ContentCanvas.Current.StretchMode = ContentCanvas.Current.GetToggleStretchModeReverse((ToggleStretchModeCommandParameter)param);
@@ -651,6 +666,11 @@ namespace NeeView
         public override Binding CreateIsCheckedBinding()
         {
             return BindingGenerator.StretchMode(PageStretchMode.None);
+        }
+
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
         }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
@@ -679,6 +699,11 @@ namespace NeeView
         public override string ExecuteMessage(CommandParameter param, CommandOption option = CommandOption.None)
         {
             return this.Text + (ContentCanvas.Current.TestStretchMode(PageStretchMode.Uniform, ((StretchModeCommandParameter)param).IsToggle) ? "" : " OFF");
+        }
+
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
         }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
@@ -710,6 +735,11 @@ namespace NeeView
             return this.Text + (ContentCanvas.Current.TestStretchMode(PageStretchMode.UniformToFill, ((StretchModeCommandParameter)param).IsToggle) ? "" : " OFF");
         }
 
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             ContentCanvas.Current.SetStretchMode(PageStretchMode.UniformToFill, ((StretchModeCommandParameter)param).IsToggle);
@@ -737,6 +767,11 @@ namespace NeeView
         public override string ExecuteMessage(CommandParameter param, CommandOption option = CommandOption.None)
         {
             return this.Text + (ContentCanvas.Current.TestStretchMode(PageStretchMode.UniformToSize, ((StretchModeCommandParameter)param).IsToggle) ? "" : " OFF");
+        }
+
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
         }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
@@ -769,6 +804,11 @@ namespace NeeView
             return this.Text + (ContentCanvas.Current.TestStretchMode(PageStretchMode.UniformToVertical, ((StretchModeCommandParameter)param).IsToggle) ? "" : " OFF");
         }
 
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             ContentCanvas.Current.SetStretchMode(PageStretchMode.UniformToVertical, ((StretchModeCommandParameter)param).IsToggle);
@@ -798,6 +838,11 @@ namespace NeeView
             return this.Text + (ContentCanvas.Current.TestStretchMode(PageStretchMode.UniformToHorizontal, ((StretchModeCommandParameter)param).IsToggle) ? "" : " OFF");
         }
 
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             ContentCanvas.Current.SetStretchMode(PageStretchMode.UniformToHorizontal, ((StretchModeCommandParameter)param).IsToggle);
@@ -823,6 +868,11 @@ namespace NeeView
         public override string ExecuteMessage(CommandParameter param, CommandOption option = CommandOption.None)
         {
             return this.Text + (ContentCanvas.Current.AllowEnlarge ? " OFF" : " ");
+        }
+
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
         }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
@@ -852,6 +902,11 @@ namespace NeeView
             return this.Text + (ContentCanvas.Current.AllowReduce ? " OFF" : "");
         }
 
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             ContentCanvas.Current.AllowReduce = !ContentCanvas.Current.AllowReduce;
@@ -878,6 +933,11 @@ namespace NeeView
         public override string ExecuteMessage(CommandParameter param, CommandOption option = CommandOption.None)
         {
             return ContentCanvas.Current.IsEnabledNearestNeighbor ? Properties.Resources.CommandToggleIsEnabledNearestNeighborOff : Properties.Resources.CommandToggleIsEnabledNearestNeighborOn;
+        }
+
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
         }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
@@ -1934,6 +1994,11 @@ namespace NeeView
         {
             return ContentCanvas.Current.IsAutoRotateLeft ? Properties.Resources.CommandToggleIsAutoRotateLeftOff : Properties.Resources.CommandToggleIsAutoRotateLeftOn;
         }
+        
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
@@ -1961,6 +2026,11 @@ namespace NeeView
         public override string ExecuteMessage(CommandParameter param, CommandOption option = CommandOption.None)
         {
             return ContentCanvas.Current.IsAutoRotateRight ? Properties.Resources.CommandToggleIsAutoRotateRightOff : Properties.Resources.CommandToggleIsAutoRotateRightOn;
+        }
+        
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
         }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
@@ -2115,6 +2185,11 @@ namespace NeeView
             this.ParameterSource = new CommandParameterSource(new ReversibleCommandParameter());
         }
 
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             BookOperation.Current.PrevPage();
@@ -2139,6 +2214,11 @@ namespace NeeView
             this.ParameterSource = new CommandParameterSource(new ReversibleCommandParameter());
         }
 
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             BookOperation.Current.NextPage();
@@ -2158,6 +2238,11 @@ namespace NeeView
             this.PairPartner = CommandType.NextOnePage;
 
             this.ParameterSource = new CommandParameterSource(new ReversibleCommandParameter());
+        }
+
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
         }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
@@ -2182,6 +2267,11 @@ namespace NeeView
             this.ParameterSource = new CommandParameterSource(new ReversibleCommandParameter());
         }
 
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             BookOperation.Current.NextOnePage();
@@ -2201,6 +2291,11 @@ namespace NeeView
             this.PairPartner = CommandType.NextScrollPage;
 
             this.ParameterSource = new CommandParameterSource(new ScrollPageCommandParameter() { IsNScroll = true, IsAnimation = true, Margin = 50, Scroll = 100 });
+        }
+
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
         }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
@@ -2225,6 +2320,11 @@ namespace NeeView
             this.ParameterSource = new CommandParameterSource(new ScrollPageCommandParameter() { IsNScroll = true, IsAnimation = true, Margin = 50, Scroll = 100 });
         }
 
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             MainWindowModel.Current.NextScrollPage();
@@ -2240,6 +2340,11 @@ namespace NeeView
             this.Text = Properties.Resources.CommandJumpPage;
             this.Note = Properties.Resources.CommandJumpPageNote;
             this.IsShowMessage = false;
+        }
+
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
         }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
@@ -2262,6 +2367,11 @@ namespace NeeView
             this.ParameterSource = new CommandParameterSource(new MoveSizePageCommandParameter() { Size = 10 });
         }
 
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             BookOperation.Current.PrevSizePage(((MoveSizePageCommandParameter)param).Size);
@@ -2281,6 +2391,11 @@ namespace NeeView
 
             // PrevSizePage
             this.ParameterSource = new CommandParameterSource(new MoveSizePageCommandParameter() { Size = 10 });
+        }
+
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
         }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
@@ -2306,6 +2421,11 @@ namespace NeeView
         public override string ExecuteMessage(CommandParameter param, CommandOption option = CommandOption.None)
         {
             return null;
+        }
+
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
         }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
@@ -2334,6 +2454,11 @@ namespace NeeView
             return null;
         }
 
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             BookOperation.Current.NextFolderPage(this.IsShowMessage);
@@ -2354,6 +2479,11 @@ namespace NeeView
             this.PairPartner = CommandType.LastPage;
 
             this.ParameterSource = new CommandParameterSource(new ReversibleCommandParameter());
+        }
+
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
         }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
@@ -2379,6 +2509,11 @@ namespace NeeView
             this.ParameterSource = new CommandParameterSource(new ReversibleCommandParameter());
         }
 
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             BookOperation.Current.LastPage();
@@ -2398,6 +2533,11 @@ namespace NeeView
             this.IsShowMessage = false;
         }
 
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             var async = BookshelfFolderList.Current.PrevFolder();
@@ -2415,6 +2555,11 @@ namespace NeeView
             this.ShortCutKey = "Down";
             this.MouseGesture = "LD";
             this.IsShowMessage = false;
+        }
+
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
         }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
@@ -2930,6 +3075,12 @@ namespace NeeView
         {
             return BindingGenerator.PageMode(PageMode.SinglePage);
         }
+
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             BookSettingPresenter.Current.SetPageMode(PageMode.SinglePage);
@@ -2954,6 +3105,11 @@ namespace NeeView
             return BindingGenerator.PageMode(PageMode.WidePage);
         }
 
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             BookSettingPresenter.Current.SetPageMode(PageMode.WidePage);
@@ -2974,6 +3130,11 @@ namespace NeeView
         public override string ExecuteMessage(CommandParameter param, CommandOption option = CommandOption.None)
         {
             return BookSettingPresenter.Current.LatestSetting.BookReadOrder.GetToggle().ToAliasName();
+        }
+
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
         }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
@@ -2998,6 +3159,11 @@ namespace NeeView
             return BindingGenerator.BookReadOrder(PageReadOrder.RightToLeft);
         }
 
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             BookSettingPresenter.Current.SetBookReadOrder(PageReadOrder.RightToLeft);
@@ -3018,6 +3184,11 @@ namespace NeeView
         public override Binding CreateIsCheckedBinding()
         {
             return BindingGenerator.BookReadOrder(PageReadOrder.LeftToRight);
+        }
+
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
         }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
@@ -3196,6 +3367,11 @@ namespace NeeView
             return BookSettingPresenter.Current.LatestSetting.SortMode.GetToggle().ToAliasName();
         }
 
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             BookSettingPresenter.Current.ToggleSortMode();
@@ -3216,6 +3392,11 @@ namespace NeeView
         public override Binding CreateIsCheckedBinding()
         {
             return BindingGenerator.SortMode(PageSortMode.FileName);
+        }
+        
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
         }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
@@ -3240,6 +3421,11 @@ namespace NeeView
             return BindingGenerator.SortMode(PageSortMode.FileNameDescending);
         }
 
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             BookSettingPresenter.Current.SetSortMode(PageSortMode.FileNameDescending);
@@ -3260,6 +3446,11 @@ namespace NeeView
         public override Binding CreateIsCheckedBinding()
         {
             return BindingGenerator.SortMode(PageSortMode.TimeStamp);
+        }
+
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
         }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
@@ -3283,7 +3474,12 @@ namespace NeeView
         {
             return BindingGenerator.SortMode(PageSortMode.TimeStampDescending);
         }
-
+        
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+        
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             BookSettingPresenter.Current.SetSortMode(PageSortMode.TimeStampDescending);
@@ -3305,6 +3501,12 @@ namespace NeeView
         {
             return BindingGenerator.SortMode(PageSortMode.Size);
         }
+
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             BookSettingPresenter.Current.SetSortMode(PageSortMode.Size);
@@ -3325,6 +3527,11 @@ namespace NeeView
         public override Binding CreateIsCheckedBinding()
         {
             return BindingGenerator.SortMode(PageSortMode.SizeDescending);
+        }
+
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
         }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
@@ -3349,6 +3556,11 @@ namespace NeeView
             return BindingGenerator.SortMode(PageSortMode.Random);
         }
 
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             BookSettingPresenter.Current.SetSortMode(PageSortMode.Random);
@@ -3363,6 +3575,11 @@ namespace NeeView
             this.Text = Properties.Resources.CommandSetDefaultPageSetting;
             this.Note = Properties.Resources.CommandSetDefaultPageSettingNote;
             this.IsShowMessage = true;
+        }
+
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
         }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
@@ -3449,6 +3666,11 @@ namespace NeeView
             this.IsShowMessage = false;
         }
 
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             PagemarkList.Current.PrevPagemark();
@@ -3464,6 +3686,11 @@ namespace NeeView
             this.Text = Properties.Resources.CommandNextPagemark;
             this.Note = Properties.Resources.CommandNextPagemarkNote;
             this.IsShowMessage = false;
+        }
+
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
         }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
@@ -3487,7 +3714,6 @@ namespace NeeView
 
         public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
         {
-            // TODO: parameterを引数で渡す
             return BookOperation.Current.CanPrevPagemarkInPlace((MovePagemarkCommandParameter)param);
         }
 
@@ -3513,7 +3739,6 @@ namespace NeeView
 
         public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
         {
-            // TODO: parameterを引数で渡す
             return BookOperation.Current.CanNextPagemarkInPlace((MovePagemarkCommandParameter)param);
         }
 
@@ -3545,6 +3770,11 @@ namespace NeeView
             return PictureProfile.Current.CustomSize.IsEnabled ? Properties.Resources.CommandToggleCustomSizeOff : Properties.Resources.CommandToggleCustomSizeOn;
         }
 
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
+
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
             PictureProfile.Current.CustomSize.IsEnabled = !PictureProfile.Current.CustomSize.IsEnabled;
@@ -3572,6 +3802,11 @@ namespace NeeView
         public override string ExecuteMessage(CommandParameter param, CommandOption option = CommandOption.None)
         {
             return PictureProfile.Current.IsResizeFilterEnabled ? Properties.Resources.CommandToggleResizeFilterOff : Properties.Resources.CommandToggleResizeFilterOn;
+        }
+
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
         }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
@@ -3920,6 +4155,11 @@ namespace NeeView
             this.Note = Properties.Resources.CommandExportBackupNote;
             this.IsShowMessage = false;
         }
+        
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
@@ -3938,6 +4178,11 @@ namespace NeeView
             this.Note = Properties.Resources.CommandImportBackupNote;
             this.IsShowMessage = false;
         }
+        
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
+        }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
@@ -3954,6 +4199,11 @@ namespace NeeView
             this.Text = Properties.Resources.CommandReloadUserSetting;
             this.Note = Properties.Resources.CommandReloadUserSettingNote;
             this.IsShowMessage = false;
+        }
+        
+        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            return !NowLoading.Current.IsDispNowLoading;
         }
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)

@@ -250,16 +250,18 @@ namespace NeeView
 
         // コマンド実行 
         // CommandTableを純粋なコマンド定義のみにするため、コマンド実行に伴う処理はここで定義している
-        public void Execute(object sender, ExecutedRoutedEventArgs e, CommandType type)
+        public void Execute(CommandType type, object parameter)
         {
-            var param = CommandParameterArgs.Create(e.Parameter) ?? CommandParameterArgs.Null;
-            var allowFlip = param.AllowFlip && param.Parameter != MenuCommandTag.Tag; // メニューからの操作ではページ方向によるコマンドの入れ替えをしない
+            bool allowFlip = (parameter is CommandParameterArgs args)
+                ? args.AllowFlip
+                : (parameter != MenuCommandTag.Tag);
+            
             var command = CommandTable.Current[GetFixedCommandType(type, allowFlip)];
 
             // 通知
             if (command.IsShowMessage)
             {
-                string message = command.ExecuteMessage(param.Parameter);
+                string message = command.ExecuteMessage(0);
                 if (message != null)
                 {
                     InfoMessage.Current.SetMessage(InfoMessageType.Command, message);
@@ -267,8 +269,8 @@ namespace NeeView
             }
 
             // 実行
-            var option = (e.Parameter is MenuCommandTag) ? CommandOption.ByMenu : CommandOption.None;
-            command.Execute(e.Source, option);
+            var option = (parameter is MenuCommandTag) ? CommandOption.ByMenu : CommandOption.None;
+            command.Execute(0, option);
         }
 
         // スライダー方向によって移動コマンドを入れ替える
@@ -345,13 +347,13 @@ namespace NeeView
     {
         public CommandParameterArgs(object param)
         {
-            Parameter = param;
+            ////Parameter = param;
             AllowFlip = true;
         }
 
         public CommandParameterArgs(object param, bool allowRecursive)
         {
-            Parameter = param;
+            ////Parameter = param;
             AllowFlip = allowRecursive;
         }
 
@@ -359,12 +361,12 @@ namespace NeeView
         /// <summary>
         /// 標準パラメータ
         /// </summary>
-        public static CommandParameterArgs Null { get; } = new CommandParameterArgs(null);
+        ////public static CommandParameterArgs Null { get; } = new CommandParameterArgs(null);
 
         /// <summary>
         /// パラメータ本体
         /// </summary>
-        public object Parameter { get; set; }
+        ////public object Parameter { get; set; }
 
         /// <summary>
         /// スライダー方向でのコマンド入れ替え許可

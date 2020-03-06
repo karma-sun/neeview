@@ -49,10 +49,10 @@ namespace NeeView
         public bool IsShowMessage { get; set; }
 
         // コマンド本体
-        public Action<object, CommandOption> Execute { get; set; }
+        public Action<int, CommandOption> Execute { get; set; }
 
         // コマンド実行時表示デリゲート
-        public Func<object, string> ExecuteMessage { get; set; }
+        public Func<int, string> ExecuteMessage { get; set; }
 
         // コマンド実行可能判定
         public Func<bool> CanExecute { get; set; }
@@ -107,7 +107,7 @@ namespace NeeView
         {
             if (_parameterRaw == null && DefaultParameter != null)
             {
-                _parameterRaw = DefaultParameter.Clone();
+                _parameterRaw = (CommandParameter)DefaultParameter.Clone();
             }
 
             if (isRaw)
@@ -227,8 +227,9 @@ namespace NeeView
 
             if (HasParameter && !DefaultParameter.IsReadOnly())
             {
-                var original = DefaultParameter.ToJson();
-                var current = Parameter.ToJson();
+                var type = DefaultParameter.GetType();
+                var original = Json.Serialize(DefaultParameter, type);
+                var current = Json.Serialize(Parameter, type);
                 if (original != current)
                 {
                     memento.Parameter = current;

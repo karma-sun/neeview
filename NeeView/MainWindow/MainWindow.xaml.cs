@@ -253,6 +253,11 @@ namespace NeeView
 
         #region コマンドバインディング
 
+        public void Print()
+        {
+            ContentCanvas.Current.Print(this, this.PageContents, this.MainContent.RenderTransform, this.MainView.ActualWidth, this.MainView.ActualHeight);
+        }
+
         // MainWindow依存コマンド登録
         public void InitializeCommand()
         {
@@ -310,7 +315,7 @@ namespace NeeView
         }
 
         // コマンド：コンテキストメニューを開く
-        private void OpenContextMenu()
+        public void OpenContextMenu()
         {
             if (this.MainViewPanel.ContextMenu != null)
             {
@@ -332,12 +337,12 @@ namespace NeeView
             {
                 if (commandTable[type].CanExecute != null)
                 {
-                    this.CommandBindings.Add(new CommandBinding(commands[type], (sender, e) => RoutedCommandTable.Current.Execute(sender, e, type),
+                    this.CommandBindings.Add(new CommandBinding(commands[type], (sender, e) => RoutedCommandTable.Current.Execute(type, e.Parameter),
                         (sender, e) => e.CanExecute = commandTable[type].CanExecute()));
                 }
                 else
                 {
-                    this.CommandBindings.Add(new CommandBinding(commands[type], (sender, e) => RoutedCommandTable.Current.Execute(sender, e, type),
+                    this.CommandBindings.Add(new CommandBinding(commands[type], (sender, e) => RoutedCommandTable.Current.Execute(type, e.Parameter),
                         CanExecute));
                 }
             }
@@ -596,7 +601,7 @@ namespace NeeView
         }
 
         // ウィンドウ最大化(Toggle)
-        private void MainWindow_Maximize()
+        public void MainWindow_Maximize()
         {
             if (this.WindowState != WindowState.Maximized)
             {
@@ -609,7 +614,7 @@ namespace NeeView
         }
 
         // ウィンドウ最小化
-        private void MainWindow_Minimize()
+        public void MainWindow_Minimize()
         {
             SystemCommands.MinimizeWindow(this);
         }

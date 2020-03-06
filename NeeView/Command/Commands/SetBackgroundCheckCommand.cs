@@ -1,0 +1,26 @@
+﻿using System.Windows.Data;
+
+
+namespace NeeView
+{
+    public class SetBackgroundCheckCommand : CommandElement
+    {
+        public SetBackgroundCheckCommand() : base(CommandType.SetBackgroundCheck)
+        {
+            this.Group = Properties.Resources.CommandGroupEffect;
+            this.Text = Properties.Resources.CommandSetBackgroundCheck;
+            this.Note = Properties.Resources.CommandSetBackgroundCheckNote;
+            this.IsShowMessage = true;
+        }
+
+        public override Binding CreateIsCheckedBinding()
+        {
+            return BindingGenerator.Background(BackgroundStyle.Check);
+        }
+
+        public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
+        {
+            ContentCanvasBrush.Current.Background = BackgroundStyle.Check;
+        }
+    }
+}

@@ -8,6 +8,7 @@
 
 - In the installer version, you can select to add a Explorer's context menu during installation.
 - Added setting of Explorer confirmation dialog when deleting files, because deletion confirmation dialog may be displayed twice. (Setting > General > Show Explorer confirmation dialog when deleting files)
+- Removed focus visual when TAB moved to information panel and effect panel.
 
 #### Fixed
 

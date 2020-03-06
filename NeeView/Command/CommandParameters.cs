@@ -46,36 +46,6 @@ namespace NeeView
         #endregion
     }
 
-    /// <summary>
-    /// コマンド間パラメータ共有用特殊パラメータ
-    /// </summary>
-    public class ShareCommandParameter : CommandParameter
-    {
-        [PropertyMember("@ParamCommandParameterShare")]
-        public CommandType CommandType { get; set; }
-
-        //
-        public override bool IsReadOnly()
-        {
-            return true;
-        }
-
-        /// <summary>
-        /// 実際に適用されるパラメータ
-        /// </summary>
-        public override CommandParameter Entity()
-        {
-            return CommandTable.Current?[CommandType].Parameter;
-        }
-
-        public override bool MemberwiseEquals(CommandParameter other)
-        {
-            var target = other as ShareCommandParameter;
-            if (target == null) return false;
-            return this == target || (this.CommandType == target.CommandType);
-        }
-    }
-
 
 
     // 操作反転パラメータ基底

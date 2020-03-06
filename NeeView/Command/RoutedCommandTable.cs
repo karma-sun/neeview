@@ -270,7 +270,7 @@ namespace NeeView
 
             // 実行
             var option = (parameter is MenuCommandTag) ? CommandOption.ByMenu : CommandOption.None;
-            command.Execute(0, option);
+            command.Execute(option);
         }
 
         // スライダー方向によって移動コマンドを入れ替える

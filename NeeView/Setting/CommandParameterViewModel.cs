@@ -14,7 +14,6 @@ namespace NeeView.Setting
         private PropertyDocument _propertyDocument;
 
 
-        //
         public PropertyDocument PropertyDocument
         {
             get { return _propertyDocument; }
@@ -30,21 +29,18 @@ namespace NeeView.Setting
             _sources = memento.Elements;
             _key = key;
 
-            _defaultParameter = CommandTable.Current[key].DefaultParameter;
-
-            if (_defaultParameter is ShareCommandParameter share)
+            if (CommandTable.Current[_key].Share != null)
             {
-                _key = share.CommandType;
-                _defaultParameter = CommandTable.Current[_key].DefaultParameter;
-
+                _key = CommandTable.Current[_key].Share.CommandType;
                 this.Note = string.Format(Properties.Resources.ParamCommandShare, _key.ToDispString());
             }
+
+            _defaultParameter = CommandTable.Current[_key].ParameterSource.GetDefault();
 
             if (_defaultParameter == null)
             {
                 return;
             }
-
 
             var parameter = _sources[_key].Parameter != null
                 ? (CommandParameter)Json.Deserialize(_sources[_key].Parameter, _defaultParameter.GetType())

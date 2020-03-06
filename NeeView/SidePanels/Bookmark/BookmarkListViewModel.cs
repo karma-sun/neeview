@@ -184,7 +184,7 @@ namespace NeeView
         }
 
         #endregion Commands
-        
+
         #region MoreMenu
 
         private void InitializeMoreMenu()
@@ -234,9 +234,9 @@ namespace NeeView
             item.Header = header;
             item.Command = RoutedCommandTable.Current.Commands[command];
             item.CommandParameter = MenuCommandTag.Tag; // コマンドがメニューからであることをパラメータで伝えてみる
-            if (CommandTable.Current[command].CreateIsCheckedBinding != null)
+            var binding = CommandTable.Current[command].CreateIsCheckedBinding();
+            if (binding != null)
             {
-                var binding = CommandTable.Current[command].CreateIsCheckedBinding();
                 item.SetBinding(MenuItem.IsCheckedProperty, binding);
             }
 

@@ -299,9 +299,10 @@ namespace NeeView
                         item.Tag = this.Command;
                         item.Command = RoutedCommandTable.Current.Commands[this.Command];
                         item.CommandParameter = MenuCommandTag.Tag; // コマンドがメニューからであることをパラメータで伝えてみる
-                        if (CommandTable.Current[this.Command].CreateIsCheckedBinding != null)
+                        var binding = CommandTable.Current[this.Command].CreateIsCheckedBinding();
+                        if (binding != null)
                         {
-                            item.SetBinding(MenuItem.IsCheckedProperty, CommandTable.Current[this.Command].CreateIsCheckedBinding());
+                            item.SetBinding(MenuItem.IsCheckedProperty, binding);
                         }
 
                         //  右クリックでコマンドパラメーターの設定ウィンドウを開く

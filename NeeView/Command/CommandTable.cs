@@ -126,7 +126,6 @@ namespace NeeView
 
         #region Methods
 
-        //
         public bool TryGetValue(CommandType key, out CommandElement command)
         {
             return _elements.TryGetValue(key, out command);
@@ -259,10 +258,175 @@ namespace NeeView
             // コマンドの設定定義
             _elements = new Dictionary<CommandType, CommandElement>();
 
+            _elements[CommandType.None] = new NoneCommand();
+            _elements[CommandType.OpenSettingWindow] = new OpenSettingWindowCommand();
+            _elements[CommandType.OpenSettingFilesFolder] = new OpenSettingFilesFolderCommand();
+            _elements[CommandType.OpenVersionWindow] = new OpenVersionWindowCommand();
+            _elements[CommandType.CloseApplication] = new CloseApplicationCommand();
+            _elements[CommandType.LoadAs] = new LoadAsCommand();
+            _elements[CommandType.ReLoad] = new ReLoadCommand();
+            _elements[CommandType.Unload] = new UnloadCommand();
+            _elements[CommandType.OpenApplication] = new OpenApplicationCommand();
+            _elements[CommandType.OpenFilePlace] = new OpenFilePlaceCommand();
+            _elements[CommandType.Export] = new ExportCommand();
+            _elements[CommandType.ExportImage] = new ExportImageCommand();
+            _elements[CommandType.Print] = new PrintCommand();
+            _elements[CommandType.DeleteFile] = new DeleteFileCommand();
+            _elements[CommandType.DeleteBook] = new DeleteBookCommand();
+            _elements[CommandType.CopyFile] = new CopyFileCommand();
+            _elements[CommandType.CopyImage] = new CopyImageCommand();
+            _elements[CommandType.Paste] = new PasteCommand();
+            _elements[CommandType.OpenContextMenu] = new OpenContextMenuCommand();
+            _elements[CommandType.ClearHistory] = new ClearHistoryCommand();
+            _elements[CommandType.ClearHistoryInPlace] = new ClearHistoryInPlaceCommand();
+            _elements[CommandType.PrevPage] = new PrevPageCommand();
+            _elements[CommandType.NextPage] = new NextPageCommand().SetShare(_elements[CommandType.PrevPage]);
+            _elements[CommandType.PrevOnePage] = new PrevOnePageCommand();
+            _elements[CommandType.NextOnePage] = new NextOnePageCommand().SetShare(_elements[CommandType.PrevOnePage]);
+            _elements[CommandType.PrevScrollPage] = new PrevScrollPageCommand();
+            _elements[CommandType.NextScrollPage] = new NextScrollPageCommand().SetShare(_elements[CommandType.PrevScrollPage]);
+            _elements[CommandType.JumpPage] = new JumpPageCommand();
+            _elements[CommandType.PrevSizePage] = new PrevSizePageCommand();
+            _elements[CommandType.NextSizePage] = new NextSizePageCommand().SetShare(_elements[CommandType.PrevSizePage]);
+            _elements[CommandType.PrevFolderPage] = new PrevFolderPageCommand();
+            _elements[CommandType.NextFolderPage] = new NextFolderPageCommand().SetShare(_elements[CommandType.PrevFolderPage]);
+            _elements[CommandType.FirstPage] = new FirstPageCommand();
+            _elements[CommandType.LastPage] = new LastPageCommand().SetShare(_elements[CommandType.FirstPage]);
+            _elements[CommandType.ToggleMediaPlay] = new ToggleMediaPlayCommand();
+            _elements[CommandType.PrevFolder] = new PrevFolderCommand();
+            _elements[CommandType.NextFolder] = new NextFolderCommand();
+            _elements[CommandType.PrevHistory] = new PrevHistoryCommand();
+            _elements[CommandType.NextHistory] = new NextHistoryCommand();
+            _elements[CommandType.PrevBookHistory] = new PrevBookHistoryCommand();
+            _elements[CommandType.NextBookHistory] = new NextBookHistoryCommand();
+            _elements[CommandType.MoveToParentBook] = new MoveToParentBookCommand();
+            _elements[CommandType.MoveToChildBook] = new MoveToChildBookCommand();
+            _elements[CommandType.ToggleFolderOrder] = new ToggleFolderOrderCommand();
+            _elements[CommandType.SetFolderOrderByFileNameA] = new SetFolderOrderByFileNameACommand();
+            _elements[CommandType.SetFolderOrderByFileNameD] = new SetFolderOrderByFileNameDCommand();
+            _elements[CommandType.SetFolderOrderByPathA] = new SetFolderOrderByPathACommand();
+            _elements[CommandType.SetFolderOrderByPathD] = new SetFolderOrderByPathDCommand();
+            _elements[CommandType.SetFolderOrderByFileTypeA] = new SetFolderOrderByFileTypeACommand();
+            _elements[CommandType.SetFolderOrderByFileTypeD] = new SetFolderOrderByFileTypeDCommand();
+            _elements[CommandType.SetFolderOrderByTimeStampA] = new SetFolderOrderByTimeStampACommand();
+            _elements[CommandType.SetFolderOrderByTimeStampD] = new SetFolderOrderByTimeStampDCommand();
+            _elements[CommandType.SetFolderOrderByEntryTimeA] = new SetFolderOrderByEntryTimeACommand();
+            _elements[CommandType.SetFolderOrderByEntryTimeD] = new SetFolderOrderByEntryTimeDCommand();
+            _elements[CommandType.SetFolderOrderBySizeA] = new SetFolderOrderBySizeACommand();
+            _elements[CommandType.SetFolderOrderBySizeD] = new SetFolderOrderBySizeDCommand();
+            _elements[CommandType.SetFolderOrderByRandom] = new SetFolderOrderByRandomCommand();
+            _elements[CommandType.ToggleTopmost] = new ToggleTopmostCommand();
+            _elements[CommandType.ToggleHideMenu] = new ToggleHideMenuCommand();
+            _elements[CommandType.ToggleHidePageSlider] = new ToggleHidePageSliderCommand();
+            _elements[CommandType.ToggleHidePanel] = new ToggleHidePanelCommand();
+            _elements[CommandType.ToggleVisibleTitleBar] = new ToggleVisibleTitleBarCommand();
+            _elements[CommandType.ToggleVisibleAddressBar] = new ToggleVisibleAddressBarCommand();
+            _elements[CommandType.ToggleVisibleSideBar] = new ToggleVisibleSideBarCommand();
+            _elements[CommandType.ToggleVisibleFileInfo] = new ToggleVisibleFileInfoCommand();
+            _elements[CommandType.ToggleVisibleEffectInfo] = new ToggleVisibleEffectInfoCommand();
+            _elements[CommandType.ToggleVisibleBookshelf] = new ToggleVisibleBookshelfCommand();
+            _elements[CommandType.ToggleVisibleBookmarkList] = new ToggleVisibleBookmarkListCommand();
+            _elements[CommandType.ToggleVisiblePagemarkList] = new ToggleVisiblePagemarkListCommand();
+            _elements[CommandType.ToggleVisibleHistoryList] = new ToggleVisibleHistoryListCommand();
+            _elements[CommandType.ToggleVisiblePageList] = new ToggleVisiblePageListCommand();
+            _elements[CommandType.ToggleVisibleFoldersTree] = new ToggleVisibleFoldersTreeCommand();
+            _elements[CommandType.FocusFolderSearchBox] = new FocusFolderSearchBoxCommand();
+            _elements[CommandType.FocusBookmarkList] = new FocusBookmarkListCommand();
+            _elements[CommandType.FocusMainView] = new FocusMainViewCommand();
+            _elements[CommandType.TogglePageListPlacement] = new TogglePageListPlacementCommand();
+            _elements[CommandType.ToggleVisibleThumbnailList] = new ToggleVisibleThumbnailListCommand();
+            _elements[CommandType.ToggleHideThumbnailList] = new ToggleHideThumbnailListCommand();
+            _elements[CommandType.ToggleFullScreen] = new ToggleFullScreenCommand();
+            _elements[CommandType.SetFullScreen] = new SetFullScreenCommand();
+            _elements[CommandType.CancelFullScreen] = new CancelFullScreenCommand();
+            _elements[CommandType.ToggleWindowMinimize] = new ToggleWindowMinimizeCommand();
+            _elements[CommandType.ToggleWindowMaximize] = new ToggleWindowMaximizeCommand();
+            _elements[CommandType.ShowHiddenPanels] = new ShowHiddenPanelsCommand();
+            _elements[CommandType.ToggleSlideShow] = new ToggleSlideShowCommand();
+            _elements[CommandType.ToggleStretchMode] = new ToggleStretchModeCommand();
+            _elements[CommandType.ToggleStretchModeReverse] = new ToggleStretchModeReverseCommand().SetShare(_elements[CommandType.ToggleStretchMode]);
+            _elements[CommandType.SetStretchModeNone] = new SetStretchModeNoneCommand();
+            _elements[CommandType.SetStretchModeUniform] = new SetStretchModeUniformCommand();
+            _elements[CommandType.SetStretchModeUniformToFill] = new SetStretchModeUniformToFillCommand().SetShare(_elements[CommandType.SetStretchModeUniform]);
+            _elements[CommandType.SetStretchModeUniformToSize] = new SetStretchModeUniformToSizeCommand().SetShare(_elements[CommandType.SetStretchModeUniform]);
+            _elements[CommandType.SetStretchModeUniformToVertical] = new SetStretchModeUniformToVerticalCommand().SetShare(_elements[CommandType.SetStretchModeUniform]);
+            _elements[CommandType.SetStretchModeUniformToHorizontal] = new SetStretchModeUniformToHorizontalCommand().SetShare(_elements[CommandType.SetStretchModeUniform]);
+            _elements[CommandType.ToggleStretchAllowEnlarge] = new ToggleStretchAllowEnlargeCommand();
+            _elements[CommandType.ToggleStretchAllowReduce] = new ToggleStretchAllowReduceCommand();
+            _elements[CommandType.ToggleIsEnabledNearestNeighbor] = new ToggleIsEnabledNearestNeighborCommand();
+            _elements[CommandType.ToggleBackground] = new ToggleBackgroundCommand();
+            _elements[CommandType.SetBackgroundBlack] = new SetBackgroundBlackCommand();
+            _elements[CommandType.SetBackgroundWhite] = new SetBackgroundWhiteCommand();
+            _elements[CommandType.SetBackgroundAuto] = new SetBackgroundAutoCommand();
+            _elements[CommandType.SetBackgroundCheck] = new SetBackgroundCheckCommand();
+            _elements[CommandType.SetBackgroundCheckDark] = new SetBackgroundCheckDarkCommand();
+            _elements[CommandType.SetBackgroundCustom] = new SetBackgroundCustomCommand();
+            _elements[CommandType.TogglePageMode] = new TogglePageModeCommand();
+            _elements[CommandType.SetPageMode1] = new SetPageMode1Command();
+            _elements[CommandType.SetPageMode2] = new SetPageMode2Command();
+            _elements[CommandType.ToggleBookReadOrder] = new ToggleBookReadOrderCommand();
+            _elements[CommandType.SetBookReadOrderRight] = new SetBookReadOrderRightCommand();
+            _elements[CommandType.SetBookReadOrderLeft] = new SetBookReadOrderLeftCommand();
+            _elements[CommandType.ToggleIsSupportedDividePage] = new ToggleIsSupportedDividePageCommand();
+            _elements[CommandType.ToggleIsSupportedWidePage] = new ToggleIsSupportedWidePageCommand();
+            _elements[CommandType.ToggleIsSupportedSingleFirstPage] = new ToggleIsSupportedSingleFirstPageCommand();
+            _elements[CommandType.ToggleIsSupportedSingleLastPage] = new ToggleIsSupportedSingleLastPageCommand();
+            _elements[CommandType.ToggleIsRecursiveFolder] = new ToggleIsRecursiveFolderCommand();
+            _elements[CommandType.ToggleSortMode] = new ToggleSortModeCommand();
+            _elements[CommandType.SetSortModeFileName] = new SetSortModeFileNameCommand();
+            _elements[CommandType.SetSortModeFileNameDescending] = new SetSortModeFileNameDescendingCommand();
+            _elements[CommandType.SetSortModeTimeStamp] = new SetSortModeTimeStampCommand();
+            _elements[CommandType.SetSortModeTimeStampDescending] = new SetSortModeTimeStampDescendingCommand();
+            _elements[CommandType.SetSortModeSize] = new SetSortModeSizeCommand();
+            _elements[CommandType.SetSortModeSizeDescending] = new SetSortModeSizeDescendingCommand();
+            _elements[CommandType.SetSortModeRandom] = new SetSortModeRandomCommand();
+            _elements[CommandType.SetDefaultPageSetting] = new SetDefaultPageSettingCommand();
+            _elements[CommandType.ToggleBookmark] = new ToggleBookmarkCommand();
+            _elements[CommandType.TogglePagemark] = new TogglePagemarkCommand();
+            _elements[CommandType.PrevPagemark] = new PrevPagemarkCommand();
+            _elements[CommandType.NextPagemark] = new NextPagemarkCommand();
+            _elements[CommandType.PrevPagemarkInBook] = new PrevPagemarkInBookCommand();
+            _elements[CommandType.NextPagemarkInBook] = new NextPagemarkInBookCommand().SetShare(_elements[CommandType.PrevPagemarkInBook]);
+            _elements[CommandType.ViewScrollUp] = new ViewScrollUpCommand();
+            _elements[CommandType.ViewScrollDown] = new ViewScrollDownCommand().SetShare(_elements[CommandType.ViewScrollUp]);
+            _elements[CommandType.ViewScrollLeft] = new ViewScrollLeftCommand().SetShare(_elements[CommandType.ViewScrollUp]);
+            _elements[CommandType.ViewScrollRight] = new ViewScrollRightCommand().SetShare(_elements[CommandType.ViewScrollUp]);
+            _elements[CommandType.ViewScaleUp] = new ViewScaleUpCommand();
+            _elements[CommandType.ViewScaleDown] = new ViewScaleDownCommand().SetShare(_elements[CommandType.ViewScaleUp]);
+            _elements[CommandType.ViewRotateLeft] = new ViewRotateLeftCommand();
+            _elements[CommandType.ViewRotateRight] = new ViewRotateRightCommand().SetShare(_elements[CommandType.ViewRotateLeft]);
+            _elements[CommandType.ToggleIsAutoRotateLeft] = new ToggleIsAutoRotateLeftCommand();
+            _elements[CommandType.ToggleIsAutoRotateRight] = new ToggleIsAutoRotateRightCommand();
+            _elements[CommandType.ToggleViewFlipHorizontal] = new ToggleViewFlipHorizontalCommand();
+            _elements[CommandType.ViewFlipHorizontalOn] = new ViewFlipHorizontalOnCommand();
+            _elements[CommandType.ViewFlipHorizontalOff] = new ViewFlipHorizontalOffCommand();
+            _elements[CommandType.ToggleViewFlipVertical] = new ToggleViewFlipVerticalCommand();
+            _elements[CommandType.ViewFlipVerticalOn] = new ViewFlipVerticalOnCommand();
+            _elements[CommandType.ViewFlipVerticalOff] = new ViewFlipVerticalOffCommand();
+            _elements[CommandType.ViewReset] = new ViewResetCommand();
+            _elements[CommandType.ToggleCustomSize] = new ToggleCustomSizeCommand();
+            _elements[CommandType.ToggleResizeFilter] = new ToggleResizeFilterCommand();
+            _elements[CommandType.ToggleGrid] = new ToggleGridCommand();
+            _elements[CommandType.ToggleEffect] = new ToggleEffectCommand();
+            _elements[CommandType.ToggleIsLoupe] = new ToggleIsLoupeCommand();
+            _elements[CommandType.LoupeOn] = new LoupeOnCommand();
+            _elements[CommandType.LoupeOff] = new LoupeOffCommand();
+            _elements[CommandType.LoupeScaleUp] = new LoupeScaleUpCommand();
+            _elements[CommandType.LoupeScaleDown] = new LoupeScaleDownCommand();
+            _elements[CommandType.TogglePermitFileCommand] = new TogglePermitFileCommandCommand();
+            _elements[CommandType.HelpCommandList] = new HelpCommandListCommand();
+            _elements[CommandType.HelpMainMenu] = new HelpMainMenuCommand();
+            _elements[CommandType.HelpSearchOption] = new HelpSearchOptionCommand();
+            _elements[CommandType.ExportBackup] = new ExportBackupCommand();
+            _elements[CommandType.ImportBackup] = new ImportBackupCommand();
+            _elements[CommandType.ReloadUserSetting] = new ReloadUserSettingCommand();
+            _elements[CommandType.TouchEmulate] = new TouchEmulateCommand();
+
+#if false
             // None
             // 欠番
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = "(none)";
                 element.Text = "(none)";
                 element.Execute = (s, e) => { return; };
@@ -272,7 +436,7 @@ namespace NeeView
 
             // LoadAs
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupFile;
                 element.Text = Properties.Resources.CommandLoadAs;
                 element.MenuText = Properties.Resources.CommandLoadAsMenu;
@@ -285,7 +449,7 @@ namespace NeeView
 
             // ReLoad
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupFile;
                 element.Text = Properties.Resources.CommandReLoad;
                 element.Note = Properties.Resources.CommandReLoadNote;
@@ -298,7 +462,7 @@ namespace NeeView
 
             // Unload
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupFile;
                 element.Text = Properties.Resources.CommandUnload;
                 element.MenuText = Properties.Resources.CommandUnloadMenu;
@@ -311,7 +475,7 @@ namespace NeeView
 
             // OpenApplication
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupFile;
                 element.Text = Properties.Resources.CommandOpenApplication;
                 element.Note = Properties.Resources.CommandOpenApplicationNote;
@@ -322,7 +486,7 @@ namespace NeeView
             }
             // OpenFilePlace
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupFile;
                 element.Text = Properties.Resources.CommandOpenFilePlace;
                 element.Note = Properties.Resources.CommandOpenFilePlaceNote;
@@ -333,7 +497,7 @@ namespace NeeView
             }
             // Export
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupFile;
                 element.Text = Properties.Resources.CommandExportImageDialog;
                 element.MenuText = Properties.Resources.CommandExportImageDialogMenu;
@@ -347,7 +511,7 @@ namespace NeeView
             }
             // ExportImage
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupFile;
                 element.Text = Properties.Resources.CommandExportImage;
                 element.MenuText = Properties.Resources.CommandExportImageMenu;
@@ -362,7 +526,7 @@ namespace NeeView
 
             // Print
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupFile;
                 element.Text = Properties.Resources.CommandPrint;
                 element.MenuText = Properties.Resources.CommandPrintMenu;
@@ -375,7 +539,7 @@ namespace NeeView
             }
             // DeleteFile
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupFile;
                 element.Text = Properties.Resources.CommandDeleteFile;
                 element.MenuText = Properties.Resources.CommandDeleteFileMenu;
@@ -388,7 +552,7 @@ namespace NeeView
             }
             // DeleteBook
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupFile;
                 element.Text = Properties.Resources.CommandDeleteBook;
                 element.MenuText = Properties.Resources.CommandDeleteBookMenu;
@@ -400,7 +564,7 @@ namespace NeeView
             }
             // CopyFile
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupFile;
                 element.Text = Properties.Resources.CommandCopyFile;
                 element.MenuText = Properties.Resources.CommandCopyFileMenu;
@@ -413,7 +577,7 @@ namespace NeeView
             }
             // CopyImage
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupFile;
                 element.Text = Properties.Resources.CommandCopyImage;
                 element.MenuText = Properties.Resources.CommandCopyImageMenu;
@@ -426,7 +590,7 @@ namespace NeeView
             }
             // Paste
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupFile;
                 element.Text = Properties.Resources.CommandPaste;
                 element.MenuText = Properties.Resources.CommandPasteMenu;
@@ -441,7 +605,7 @@ namespace NeeView
 
             // ClearHistory
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupFile;
                 element.Text = Properties.Resources.CommandClearHistory;
                 element.Note = Properties.Resources.CommandClearHistoryNote;
@@ -452,7 +616,7 @@ namespace NeeView
 
             // ClearHistoryInPlace
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupFile;
                 element.Text = Properties.Resources.CommandClearHistoryInPlace;
                 element.Note = Properties.Resources.CommandClearHistoryInPlaceNote;
@@ -465,7 +629,7 @@ namespace NeeView
 
             // ToggleStretchMode
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupImageScale;
                 element.Text = Properties.Resources.CommandToggleStretchMode;
                 element.Note = Properties.Resources.CommandToggleStretchModeNote;
@@ -478,7 +642,7 @@ namespace NeeView
             }
             // ToggleStretchModeReverse
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupImageScale;
                 element.Text = Properties.Resources.CommandToggleStretchModeReverse;
                 element.Note = Properties.Resources.CommandToggleStretchModeReverseNote;
@@ -491,7 +655,7 @@ namespace NeeView
             }
             // SetStretchModeNone
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupImageScale;
                 element.Text = Properties.Resources.CommandSetStretchModeNone;
                 element.Note = Properties.Resources.CommandSetStretchModeNoneNote;
@@ -502,7 +666,7 @@ namespace NeeView
             }
             // SetStretchModeUniform
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupImageScale;
                 element.Text = Properties.Resources.CommandSetStretchModeUniform;
                 element.Note = Properties.Resources.CommandSetStretchModeUniformNote;
@@ -515,7 +679,7 @@ namespace NeeView
             }
             // SetStretchModeUniformToFill
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupImageScale;
                 element.Text = Properties.Resources.CommandSetStretchModeUniformToFill;
                 element.Note = Properties.Resources.CommandSetStretchModeUniformToFillNote;
@@ -528,7 +692,7 @@ namespace NeeView
             }
             // SetStretchModeUniformToSize
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupImageScale;
                 element.Text = Properties.Resources.CommandSetStretchModeUniformToSize;
                 element.Note = Properties.Resources.CommandSetStretchModeUniformToSizeNote;
@@ -541,7 +705,7 @@ namespace NeeView
             }
             // SetStretchModeUniformToVertical
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupImageScale;
                 element.Text = Properties.Resources.CommandSetStretchModeUniformToVertical;
                 element.Note = Properties.Resources.CommandSetStretchModeUniformToVerticalNote;
@@ -554,7 +718,7 @@ namespace NeeView
             }
             // SetStretchModeUniformToHorizontal
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupImageScale;
                 element.Text = Properties.Resources.CommandSetStretchModeUniformToHorizontal;
                 element.Note = Properties.Resources.CommandSetStretchModeUniformToHorizontalNote;
@@ -568,7 +732,7 @@ namespace NeeView
 
             // ToggleStretchAllowEnlarge
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupImageScale;
                 element.Text = Properties.Resources.CommandToggleStretchAllowEnlarge;
                 element.Note = Properties.Resources.CommandToggleStretchAllowEnlargeNote;
@@ -580,7 +744,7 @@ namespace NeeView
             }
             // ToggleStretchAllowReduce
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupImageScale;
                 element.Text = Properties.Resources.CommandToggleStretchAllowReduce;
                 element.Note = Properties.Resources.CommandToggleStretchAllowReduceNote;
@@ -593,7 +757,7 @@ namespace NeeView
 
             // ToggleIsEnabledNearestNeighbor
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupEffect;
                 element.Text = Properties.Resources.CommandToggleIsEnabledNearestNeighbor;
                 element.MenuText = Properties.Resources.CommandToggleIsEnabledNearestNeighborMenu;
@@ -607,7 +771,7 @@ namespace NeeView
 
             // ToggleBackground
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupEffect;
                 element.Text = Properties.Resources.CommandToggleBackground;
                 element.Note = Properties.Resources.CommandToggleBackgroundNote;
@@ -619,7 +783,7 @@ namespace NeeView
 
             // SetBackgroundBlack
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupEffect;
                 element.Text = Properties.Resources.CommandSetBackgroundBlack;
                 element.Note = Properties.Resources.CommandSetBackgroundBlackNote;
@@ -631,7 +795,7 @@ namespace NeeView
 
             // SetBackgroundWhite
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupEffect;
                 element.Text = Properties.Resources.CommandSetBackgroundWhite;
                 element.Note = Properties.Resources.CommandSetBackgroundWhiteNote;
@@ -643,7 +807,7 @@ namespace NeeView
 
             // SetBackgroundAuto
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupEffect;
                 element.Text = Properties.Resources.CommandSetBackgroundAuto;
                 element.Note = Properties.Resources.CommandSetBackgroundAutoNote;
@@ -655,7 +819,7 @@ namespace NeeView
 
             // SetBackgroundCheck
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupEffect;
                 element.Text = Properties.Resources.CommandSetBackgroundCheck;
                 element.Note = Properties.Resources.CommandSetBackgroundCheckNote;
@@ -666,7 +830,7 @@ namespace NeeView
             }
             // SetBackgroundCheckDark
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupEffect;
                 element.Text = Properties.Resources.CommandSetBackgroundCheckDark;
                 element.Note = Properties.Resources.CommandSetBackgroundCheckDarkNote;
@@ -678,7 +842,7 @@ namespace NeeView
 
             // SetBackgroundCustom
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupEffect;
                 element.Text = Properties.Resources.CommandSetBackgroundCustom;
                 element.Note = Properties.Resources.CommandSetBackgroundCustomNote;
@@ -690,7 +854,7 @@ namespace NeeView
 
             // ToggleTopmost
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupWindow;
                 element.Text = Properties.Resources.CommandToggleTopmost;
                 element.MenuText = Properties.Resources.CommandToggleTopmostMenu;
@@ -704,7 +868,7 @@ namespace NeeView
             }
             // ToggleHideMenu
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupWindow;
                 element.Text = Properties.Resources.CommandToggleHideMenu;
                 element.MenuText = Properties.Resources.CommandToggleHideMenuMenu;
@@ -718,7 +882,7 @@ namespace NeeView
             }
             // ToggleHidePageSlider
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupWindow;
                 element.Text = Properties.Resources.CommandToggleHidePageSlider;
                 element.MenuText = Properties.Resources.CommandToggleHidePageSliderMenu;
@@ -732,7 +896,7 @@ namespace NeeView
             }
             // ToggleHidePanel
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupWindow;
                 element.Text = Properties.Resources.CommandToggleHidePanel;
                 element.MenuText = Properties.Resources.CommandToggleHidePanelMenu;
@@ -748,7 +912,7 @@ namespace NeeView
 
             // ToggleVisibleTitleBar
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupWindow;
                 element.Text = Properties.Resources.CommandToggleVisibleTitleBar;
                 element.MenuText = Properties.Resources.CommandToggleVisibleTitleBarMenu;
@@ -762,7 +926,7 @@ namespace NeeView
             }
             // ToggleVisibleAddressBar
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupWindow;
                 element.Text = Properties.Resources.CommandToggleVisibleAddressBar;
                 element.MenuText = Properties.Resources.CommandToggleVisibleAddressBarMenu;
@@ -776,7 +940,7 @@ namespace NeeView
             }
             // ToggleVisibleSideBar
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupWindow;
                 element.Text = Properties.Resources.CommandToggleVisibleSideBar;
                 element.MenuText = Properties.Resources.CommandToggleVisibleSideBarMenu;
@@ -790,7 +954,7 @@ namespace NeeView
             }
             // ToggleVisibleFileInfo
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPanel;
                 element.Text = Properties.Resources.CommandToggleVisibleFileInfo;
                 element.MenuText = Properties.Resources.CommandToggleVisibleFileInfoMenu;
@@ -805,7 +969,7 @@ namespace NeeView
             }
             // ToggleVisibleEffectInfo
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPanel;
                 element.Text = Properties.Resources.CommandToggleVisibleEffectInfo;
                 element.MenuText = Properties.Resources.CommandToggleVisibleEffectInfoMenu;
@@ -820,7 +984,7 @@ namespace NeeView
             }
             // ToggleVisibleBookshelf
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPanel;
                 element.Text = Properties.Resources.CommandToggleVisibleBookshelf;
                 element.MenuText = Properties.Resources.CommandToggleVisibleBookshelfMenu;
@@ -835,7 +999,7 @@ namespace NeeView
             }
             // ToggleVisibleBookmarkList
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPanel;
                 element.Text = Properties.Resources.CommandToggleVisibleBookmarkList;
                 element.MenuText = Properties.Resources.CommandToggleVisibleBookmarkListMenu;
@@ -850,7 +1014,7 @@ namespace NeeView
             }
             // ToggleVisiblePagemarkList
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPanel;
                 element.Text = Properties.Resources.CommandToggleVisiblePagemarkList;
                 element.MenuText = Properties.Resources.CommandToggleVisiblePagemarkListMenu;
@@ -865,7 +1029,7 @@ namespace NeeView
             }
             // ToggleVisibleHistoryList
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPanel;
                 element.Text = Properties.Resources.CommandToggleVisibleHistoryList;
                 element.MenuText = Properties.Resources.CommandToggleVisibleHistoryListMenu;
@@ -880,7 +1044,7 @@ namespace NeeView
             }
             // ToggleVisiblePageList
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPanel;
                 element.Text = Properties.Resources.CommandToggleVisiblePageList;
                 element.MenuText = Properties.Resources.CommandToggleVisiblePageListMenu;
@@ -895,7 +1059,7 @@ namespace NeeView
             }
             // ToggleVisibleFoldersTree
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPanel;
                 element.Text = Properties.Resources.CommandToggleVisibleFoldersTree;
                 element.MenuText = Properties.Resources.CommandToggleVisibleFoldersTreeMenu;
@@ -909,7 +1073,7 @@ namespace NeeView
             }
             // FocusFolderSearchBox
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPanel;
                 element.Text = Properties.Resources.CommandFocusFolderSearchBox;
                 element.MenuText = Properties.Resources.CommandFocusFolderSearchBoxMenu;
@@ -921,7 +1085,7 @@ namespace NeeView
             }
             // FocusBookmarkList
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPanel;
                 element.Text = Properties.Resources.CommandFocusBookmarkList;
                 element.MenuText = Properties.Resources.CommandFocusBookmarkListMenu;
@@ -933,7 +1097,7 @@ namespace NeeView
             }
             // FocusMainView
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPanel;
                 element.Text = Properties.Resources.CommandFocusMainView;
                 element.MenuText = Properties.Resources.CommandFocusMainViewMenu;
@@ -947,7 +1111,7 @@ namespace NeeView
 
             // TogglePageListPlacement
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPanel;
                 element.Text = Properties.Resources.CommandTogglePageListPlacement;
                 element.MenuText = Properties.Resources.CommandTogglePageListPlacementMenu;
@@ -962,7 +1126,7 @@ namespace NeeView
 
             // ToggleVisibleThumbnailList
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupFilmStrip;
                 element.Text = Properties.Resources.CommandToggleVisibleThumbnailList;
                 element.MenuText = Properties.Resources.CommandToggleVisibleThumbnailListMenu;
@@ -976,7 +1140,7 @@ namespace NeeView
             }
             // ToggleHideThumbnailList
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupFilmStrip;
                 element.Text = Properties.Resources.CommandToggleHideThumbnailList;
                 element.MenuText = Properties.Resources.CommandToggleHideThumbnailListMenu;
@@ -992,7 +1156,7 @@ namespace NeeView
 
             // ToggleFullScreen
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupWindow;
                 element.Text = Properties.Resources.CommandToggleFullScreen;
                 element.MenuText = Properties.Resources.CommandToggleFullScreenMenu;
@@ -1008,7 +1172,7 @@ namespace NeeView
             }
             // SetFullScreen
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupWindow;
                 element.Text = Properties.Resources.CommandSetFullScreen;
                 element.Note = Properties.Resources.CommandSetFullScreenNote;
@@ -1019,7 +1183,7 @@ namespace NeeView
             }
             // CancelFullScreen
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupWindow;
                 element.Text = Properties.Resources.CommandCancelFullScreen;
                 element.Note = Properties.Resources.CommandCancelFullScreenNote;
@@ -1031,7 +1195,7 @@ namespace NeeView
 
             // ToggleWindowMinimize
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupWindow;
                 element.Text = Properties.Resources.CommandToggleWindowMinimize;
                 element.MenuText = Properties.Resources.CommandToggleWindowMinimizeMenu;
@@ -1043,7 +1207,7 @@ namespace NeeView
 
             // ToggleWindowMaximize
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupWindow;
                 element.Text = Properties.Resources.CommandToggleWindowMaximize;
                 element.MenuText = Properties.Resources.CommandToggleWindowMaximizeMenu;
@@ -1055,7 +1219,7 @@ namespace NeeView
 
             // ShowHiddenPanels
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupWindow;
                 element.Text = Properties.Resources.CommandShowHiddenPanels;
                 element.MenuText = Properties.Resources.CommandShowHiddenPanelsMenu;
@@ -1070,7 +1234,7 @@ namespace NeeView
 
             // ToggleSlideShow
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandToggleSlideShow;
                 element.MenuText = Properties.Resources.CommandToggleSlideShowMenu;
@@ -1084,7 +1248,7 @@ namespace NeeView
             }
             // ViewScrollUp
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandViewScrollUp;
                 element.Note = Properties.Resources.CommandViewScrollUpNote;
@@ -1095,7 +1259,7 @@ namespace NeeView
             }
             // ViewScrollDown
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandViewScrollDown;
                 element.Note = Properties.Resources.CommandViewScrollDownNote;
@@ -1106,7 +1270,7 @@ namespace NeeView
             }
             // ViewScrollLeft
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandViewScrollLeft;
                 element.Note = Properties.Resources.CommandViewScrollLeftNote;
@@ -1117,7 +1281,7 @@ namespace NeeView
             }
             // ViewScrollRight
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandViewScrollRight;
                 element.Note = Properties.Resources.CommandViewScrollRightNote;
@@ -1128,7 +1292,7 @@ namespace NeeView
             }
             // ViewScaleUp
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandViewScaleUp;
                 element.Note = Properties.Resources.CommandViewScaleUpNote;
@@ -1140,7 +1304,7 @@ namespace NeeView
             }
             // ViewScaleDown
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandViewScaleDown;
                 element.Note = Properties.Resources.CommandViewScaleDownNote;
@@ -1152,7 +1316,7 @@ namespace NeeView
             }
             // ViewRotateLeft
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandViewRotateLeft;
                 element.Note = Properties.Resources.CommandViewRotateLeftNote;
@@ -1163,7 +1327,7 @@ namespace NeeView
             }
             // ViewRotateRight
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandViewRotateRight;
                 element.Note = Properties.Resources.CommandViewRotateRightNote;
@@ -1175,7 +1339,7 @@ namespace NeeView
 
             // ToggleIsAutoRotateLeft
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandToggleIsAutoRotateLeft;
                 element.MenuText = Properties.Resources.CommandToggleIsAutoRotateLeftMenu;
@@ -1189,7 +1353,7 @@ namespace NeeView
 
             // ToggleIsAutoRotateRight
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandToggleIsAutoRotateRight;
                 element.MenuText = Properties.Resources.CommandToggleIsAutoRotateRightMenu;
@@ -1204,7 +1368,7 @@ namespace NeeView
 
             // ToggleViewFlipHorizontal
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandToggleViewFlipHorizontal;
                 element.Note = Properties.Resources.CommandToggleViewFlipHorizontalNote;
@@ -1215,7 +1379,7 @@ namespace NeeView
             }
             // ViewFlipHorizontalOn
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandViewFlipHorizontalOn;
                 element.Note = Properties.Resources.CommandViewFlipHorizontalOnNote;
@@ -1225,7 +1389,7 @@ namespace NeeView
             }
             // ViewFlipHorizontalOff
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandViewFlipHorizontalOff;
                 element.Note = Properties.Resources.CommandViewFlipHorizontalOffNote;
@@ -1237,7 +1401,7 @@ namespace NeeView
 
             // ToggleViewFlipVertical
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandToggleViewFlipVertical;
                 element.Note = Properties.Resources.CommandToggleViewFlipVerticalNote;
@@ -1248,7 +1412,7 @@ namespace NeeView
             }
             // ViewFlipVerticalOn
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandViewFlipVerticalOn;
                 element.Note = Properties.Resources.CommandViewFlipVerticalOnNote;
@@ -1258,7 +1422,7 @@ namespace NeeView
             }
             // ViewFlipVerticalOff
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandViewFlipVerticalOff;
                 element.Note = Properties.Resources.CommandViewFlipVerticalOffNote;
@@ -1269,7 +1433,7 @@ namespace NeeView
 
             // ViewReset
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandViewReset;
                 element.Note = Properties.Resources.CommandViewResetNote;
@@ -1280,7 +1444,7 @@ namespace NeeView
 
             // PrevPage
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupMove;
                 element.Text = Properties.Resources.CommandPrevPage;
                 element.Note = Properties.Resources.CommandPrevPageNote;
@@ -1295,7 +1459,7 @@ namespace NeeView
             }
             // NextPage
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupMove;
                 element.Text = Properties.Resources.CommandNextPage;
                 element.Note = Properties.Resources.CommandNextPageNote;
@@ -1310,7 +1474,7 @@ namespace NeeView
             }
             // PrevOnePage
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupMove;
                 element.Text = Properties.Resources.CommandPrevOnePage;
                 element.Note = Properties.Resources.CommandPrevOnePageNote;
@@ -1323,7 +1487,7 @@ namespace NeeView
             }
             // NextOnePage
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupMove;
                 element.Text = Properties.Resources.CommandNextOnePage;
                 element.Note = Properties.Resources.CommandNextOnePageNote;
@@ -1338,7 +1502,7 @@ namespace NeeView
 
             // PrevScrollPage
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupMove;
                 element.Text = Properties.Resources.CommandPrevScrollPage;
                 element.Note = Properties.Resources.CommandPrevScrollPageNote;
@@ -1351,7 +1515,7 @@ namespace NeeView
             }
             // NextScrollPage
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupMove;
                 element.Text = Properties.Resources.CommandNextScrollPage;
                 element.Note = Properties.Resources.CommandNextScrollPageNote;
@@ -1365,7 +1529,7 @@ namespace NeeView
 
             // JumpPage
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupMove;
                 element.Text = Properties.Resources.CommandJumpPage;
                 element.Note = Properties.Resources.CommandJumpPageNote;
@@ -1376,7 +1540,7 @@ namespace NeeView
 
             // PrevSizePage
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupMove;
                 element.Text = Properties.Resources.CommandPrevSizePage;
                 element.Note = Properties.Resources.CommandPrevSizePageNote;
@@ -1388,7 +1552,7 @@ namespace NeeView
             }
             // NextSizePage
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupMove;
                 element.Text = Properties.Resources.CommandNextSizePage;
                 element.Note = Properties.Resources.CommandNextSizePageNote;
@@ -1402,7 +1566,7 @@ namespace NeeView
 
             // PrevFolderPage
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupMove;
                 element.Text = Properties.Resources.CommandPrevFolderPage;
                 element.Note = Properties.Resources.CommandPrevFolderPageNote;
@@ -1415,7 +1579,7 @@ namespace NeeView
             }
             // NextFolderPage
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupMove;
                 element.Text = Properties.Resources.CommandNextFolderPage;
                 element.Note = Properties.Resources.CommandNextFolderPageNote;
@@ -1429,7 +1593,7 @@ namespace NeeView
 
             // FirstPage
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupMove;
                 element.Text = Properties.Resources.CommandFirstPage;
                 element.Note = Properties.Resources.CommandFirstPageNote;
@@ -1443,7 +1607,7 @@ namespace NeeView
             }
             // LastPage
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupMove;
                 element.Text = Properties.Resources.CommandLastPage;
                 element.Note = Properties.Resources.CommandLastPageNote;
@@ -1457,7 +1621,7 @@ namespace NeeView
             }
             // PrevFolder
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupMove;
                 element.Text = Properties.Resources.CommandPrevFolder;
                 element.Note = Properties.Resources.CommandPrevFolderNote;
@@ -1469,7 +1633,7 @@ namespace NeeView
             }
             // NextFolder
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupMove;
                 element.Text = Properties.Resources.CommandNextFolder;
                 element.Note = Properties.Resources.CommandNextFolderNote;
@@ -1481,7 +1645,7 @@ namespace NeeView
             }
             // PrevHistory
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupMove;
                 element.Text = Properties.Resources.CommandPrevHistory;
                 element.Note = Properties.Resources.CommandPrevHistoryNote;
@@ -1493,7 +1657,7 @@ namespace NeeView
             }
             // NextHistory
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupMove;
                 element.Text = Properties.Resources.CommandNextHistory;
                 element.Note = Properties.Resources.CommandNextHistoryNote;
@@ -1507,7 +1671,7 @@ namespace NeeView
 
             // PrevBookHistory
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupMove;
                 element.Text = Properties.Resources.CommandPrevBookHistory;
                 element.Note = Properties.Resources.CommandPrevBookHistoryNote;
@@ -1519,7 +1683,7 @@ namespace NeeView
             }
             // NextBookHistory
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupMove;
                 element.Text = Properties.Resources.CommandNextBookHistory;
                 element.Note = Properties.Resources.CommandNextBookHistoryNote;
@@ -1531,7 +1695,7 @@ namespace NeeView
             }
             // MoveToParentBook
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupMove;
                 element.Text = Properties.Resources.CommandMoveToParentBook;
                 element.Note = Properties.Resources.CommandMoveToParentBookNote;
@@ -1543,7 +1707,7 @@ namespace NeeView
             }
             // MoveToChildBook
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupMove;
                 element.Text = Properties.Resources.CommandMoveToChildBook;
                 element.Note = Properties.Resources.CommandMoveToChildBookNote;
@@ -1557,7 +1721,7 @@ namespace NeeView
 
             // ToggleMediaPlay
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupVideo;
                 element.Text = Properties.Resources.CommandToggleMediaPlay;
                 element.Note = Properties.Resources.CommandToggleMediaPlayNote;
@@ -1569,7 +1733,7 @@ namespace NeeView
 
             // ToggleFolderOrder
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandToggleFolderOrder;
                 element.Note = Properties.Resources.CommandToggleFolderOrderNote;
@@ -1580,7 +1744,7 @@ namespace NeeView
             }
             // SetFolderOrderByFileNameA
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderByFileNameA;
                 element.Note = Properties.Resources.CommandSetFolderOrderByFileNameANote;
@@ -1591,7 +1755,7 @@ namespace NeeView
             }
             // SetFolderOrderByFileNameD
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderByFileNameD;
                 element.Note = Properties.Resources.CommandSetFolderOrderByFileNameDNote;
@@ -1602,7 +1766,7 @@ namespace NeeView
             }
             // SetFolderOrderByPathA
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderByPathA;
                 element.Note = Properties.Resources.CommandSetFolderOrderByPathANote;
@@ -1613,7 +1777,7 @@ namespace NeeView
             }
             // SetFolderOrderByPathD
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderByPathD;
                 element.Note = Properties.Resources.CommandSetFolderOrderByPathDNote;
@@ -1624,7 +1788,7 @@ namespace NeeView
             }
             // SetFolderOrderByFileTypeA
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderByFileTypeA;
                 element.Note = Properties.Resources.CommandSetFolderOrderByFileTypeANote;
@@ -1635,7 +1799,7 @@ namespace NeeView
             }
             // SetFolderOrderByFileTypeD
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderByFileTypeD;
                 element.Note = Properties.Resources.CommandSetFolderOrderByFileTypeDNote;
@@ -1646,7 +1810,7 @@ namespace NeeView
             }
             // SetFolderOrderByTimeStampA
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderByTimeStampA;
                 element.Note = Properties.Resources.CommandSetFolderOrderByTimeStampANote;
@@ -1657,7 +1821,7 @@ namespace NeeView
             }
             // SetFolderOrderByTimeStampD
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderByTimeStampD;
                 element.Note = Properties.Resources.CommandSetFolderOrderByTimeStampDNote;
@@ -1668,7 +1832,7 @@ namespace NeeView
             }
             // SetFolderOrderByEntryTimeA
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderByEntryTimeA;
                 element.Note = Properties.Resources.CommandSetFolderOrderByEntryTimeANote;
@@ -1679,7 +1843,7 @@ namespace NeeView
             }
             // SetFolderOrderByEntryTimeD
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderByEntryTimeD;
                 element.Note = Properties.Resources.CommandSetFolderOrderByEntryTimeDNote;
@@ -1690,7 +1854,7 @@ namespace NeeView
             }
             // SetFolderOrderBySizeA
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderBySizeA;
                 element.Note = Properties.Resources.CommandSetFolderOrderBySizeANote;
@@ -1701,7 +1865,7 @@ namespace NeeView
             }
             // SetFolderOrderBySizeD
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderBySizeD;
                 element.Note = Properties.Resources.CommandSetFolderOrderBySizeDNote;
@@ -1712,7 +1876,7 @@ namespace NeeView
             }
             // SetFolderOrderByRandom
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupBookOrder;
                 element.Text = Properties.Resources.CommandSetFolderOrderByRandom;
                 element.Note = Properties.Resources.CommandSetFolderOrderByRandomNote;
@@ -1724,7 +1888,7 @@ namespace NeeView
 
             // TogglePageMode
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandTogglePageMode;
                 element.Note = Properties.Resources.CommandTogglePageModeNote;
@@ -1736,7 +1900,7 @@ namespace NeeView
             }
             // SetPageMode1
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandSetPageMode1;
                 element.Note = Properties.Resources.CommandSetPageMode1Note;
@@ -1749,7 +1913,7 @@ namespace NeeView
             }
             // SetPageMode2
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandSetPageMode2;
                 element.Note = Properties.Resources.CommandSetPageMode2Note;
@@ -1762,7 +1926,7 @@ namespace NeeView
             }
             // ToggleBookReadOrder
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandToggleBookReadOrder;
                 element.Note = Properties.Resources.CommandToggleBookReadOrderNote;
@@ -1774,7 +1938,7 @@ namespace NeeView
             }
             // SetBookReadOrderRight
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandSetBookReadOrderRight;
                 element.Note = Properties.Resources.CommandSetBookReadOrderRightNote;
@@ -1785,7 +1949,7 @@ namespace NeeView
             }
             // SetBookReadOrderLeft
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandSetBookReadOrderLeft;
                 element.Note = Properties.Resources.CommandSetBookReadOrderLeftNote;
@@ -1797,7 +1961,7 @@ namespace NeeView
 
             // ToggleIsSupportedDividePage
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandToggleIsSupportedDividePage;
                 element.Note = Properties.Resources.CommandToggleIsSupportedDividePageNote;
@@ -1811,7 +1975,7 @@ namespace NeeView
 
             // ToggleIsSupportedWidePage
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandToggleIsSupportedWidePage;
                 element.Note = Properties.Resources.CommandToggleIsSupportedWidePageNote;
@@ -1824,7 +1988,7 @@ namespace NeeView
             }
             // ToggleIsSupportedSingleFirstPage
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandToggleIsSupportedSingleFirstPage;
                 element.Note = Properties.Resources.CommandToggleIsSupportedSingleFirstPageNote;
@@ -1837,7 +2001,7 @@ namespace NeeView
             }
             // ToggleIsSupportedSingleLastPage
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandToggleIsSupportedSingleLastPage;
                 element.Note = Properties.Resources.CommandToggleIsSupportedSingleLastPageNote;
@@ -1851,7 +2015,7 @@ namespace NeeView
 
             // ToggleIsRecursiveFolder
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandToggleIsRecursiveFolder;
                 element.Note = Properties.Resources.CommandToggleIsRecursiveFolderNote;
@@ -1864,7 +2028,7 @@ namespace NeeView
 
             // ToggleSortMode
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPageOrder;
                 element.Text = Properties.Resources.CommandToggleSortMode;
                 element.Note = Properties.Resources.CommandToggleSortModeNote;
@@ -1876,7 +2040,7 @@ namespace NeeView
             }
             // SetSortModeFileName
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPageOrder;
                 element.Text = Properties.Resources.CommandSetSortModeFileName;
                 element.Note = Properties.Resources.CommandSetSortModeFileNameNote;
@@ -1887,7 +2051,7 @@ namespace NeeView
             }
             // SetSortModeFileNameDescending
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPageOrder;
                 element.Text = Properties.Resources.CommandSetSortModeFileNameDescending;
                 element.Note = Properties.Resources.CommandSetSortModeFileNameDescendingNote;
@@ -1898,7 +2062,7 @@ namespace NeeView
             }
             // SetSortModeTimeStamp
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPageOrder;
                 element.Text = Properties.Resources.CommandSetSortModeTimeStamp;
                 element.Note = Properties.Resources.CommandSetSortModeTimeStampNote;
@@ -1909,7 +2073,7 @@ namespace NeeView
             }
             // SetSortModeTimeStampDescending
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPageOrder;
                 element.Text = Properties.Resources.CommandSetSortModeTimeStampDescending;
                 element.Note = Properties.Resources.CommandSetSortModeTimeStampDescendingNote;
@@ -1920,7 +2084,7 @@ namespace NeeView
             }
             // SetSortModeSize
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPageOrder;
                 element.Text = Properties.Resources.CommandSetSortModeSize;
                 element.Note = Properties.Resources.CommandSetSortModeSizeNote;
@@ -1931,7 +2095,7 @@ namespace NeeView
             }
             // SetSortModeSizeDescending
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPageOrder;
                 element.Text = Properties.Resources.CommandSetSortModeSizeDescending;
                 element.Note = Properties.Resources.CommandSetSortModeSizeDescendingNote;
@@ -1942,7 +2106,7 @@ namespace NeeView
             }
             // SetSortModeRandom
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPageOrder;
                 element.Text = Properties.Resources.CommandSetSortModeRandom;
                 element.Note = Properties.Resources.CommandSetSortModeRandomNote;
@@ -1954,7 +2118,7 @@ namespace NeeView
 
             // SetDefaultPageSetting
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPageSetting;
                 element.Text = Properties.Resources.CommandSetDefaultPageSetting;
                 element.Note = Properties.Resources.CommandSetDefaultPageSettingNote;
@@ -1966,7 +2130,7 @@ namespace NeeView
 
             // ToggleBookmark
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupBookmark;
                 element.Text = Properties.Resources.CommandToggleBookmark;
                 element.MenuText = Properties.Resources.CommandToggleBookmarkMenu;
@@ -1982,7 +2146,7 @@ namespace NeeView
 
             // TogglePagemark
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPagemark;
                 element.Text = Properties.Resources.CommandTogglePagemark;
                 element.MenuText = Properties.Resources.CommandTogglePagemarkMenu;
@@ -1998,7 +2162,7 @@ namespace NeeView
 
             // PrevPagemark
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPagemark;
                 element.Text = Properties.Resources.CommandPrevPagemark;
                 element.Note = Properties.Resources.CommandPrevPagemarkNote;
@@ -2008,7 +2172,7 @@ namespace NeeView
             }
             // NextPagemark
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPagemark;
                 element.Text = Properties.Resources.CommandNextPagemark;
                 element.Note = Properties.Resources.CommandNextPagemarkNote;
@@ -2019,7 +2183,7 @@ namespace NeeView
 
             // PrevPagemarkInBook
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPagemark;
                 element.Text = Properties.Resources.CommandPrevPagemarkInBook;
                 element.Note = Properties.Resources.CommandPrevPagemarkInBookNote;
@@ -2031,7 +2195,7 @@ namespace NeeView
             }
             // NextPagemarkInBook
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupPagemark;
                 element.Text = Properties.Resources.CommandNextPagemarkInBook;
                 element.Note = Properties.Resources.CommandNextPagemarkInBookNote;
@@ -2045,7 +2209,7 @@ namespace NeeView
 
             // ToggleCustomSize
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupImageScale;
                 element.Text = Properties.Resources.CommandToggleCustomSize;
                 element.MenuText = Properties.Resources.CommandToggleCustomSizeMenu;
@@ -2061,7 +2225,7 @@ namespace NeeView
 
             // ToggleResizeFilter
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupEffect;
                 element.Text = Properties.Resources.CommandToggleResizeFilter;
                 element.MenuText = Properties.Resources.CommandToggleResizeFilterMenu;
@@ -2077,7 +2241,7 @@ namespace NeeView
 
             // ToggleGrid
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupEffect;
                 element.Text = Properties.Resources.CommandToggleGrid;
                 element.MenuText = Properties.Resources.CommandToggleGridMenu;
@@ -2091,7 +2255,7 @@ namespace NeeView
 
             // ToggleEffect
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupEffect;
                 element.Text = Properties.Resources.CommandToggleEffect;
                 element.MenuText = Properties.Resources.CommandToggleEffectMenu;
@@ -2108,7 +2272,7 @@ namespace NeeView
 
             // ToggleIsLoupe
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandToggleIsLoupe;
                 element.MenuText = Properties.Resources.CommandToggleIsLoupeMenu;
@@ -2123,7 +2287,7 @@ namespace NeeView
 
             // LoupeOn
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandLoupeOn;
                 element.Note = Properties.Resources.CommandLoupeOnNote;
@@ -2135,7 +2299,7 @@ namespace NeeView
 
             // LoupeOff
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandLoupeOff;
                 element.Note = Properties.Resources.CommandLoupeOffNote;
@@ -2147,7 +2311,7 @@ namespace NeeView
 
             // LoupeScaleUp
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandLoupeScaleUp;
                 element.Note = Properties.Resources.CommandLoupeScaleUpNote;
@@ -2159,7 +2323,7 @@ namespace NeeView
 
             // LoupeScaleDown
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupViewManipulation;
                 element.Text = Properties.Resources.CommandLoupeScaleDown;
                 element.Note = Properties.Resources.CommandLoupeScaleDownNote;
@@ -2171,7 +2335,7 @@ namespace NeeView
 
             // OpenSettingWindow
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupOther;
                 element.Text = Properties.Resources.CommandOpenSettingWindow;
                 element.MenuText = Properties.Resources.CommandOpenSettingWindowMenu;
@@ -2182,7 +2346,7 @@ namespace NeeView
             }
             // OpenSettingFilesFolder
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupOther;
                 element.Text = Properties.Resources.CommandOpenSettingFilesFolder;
                 element.Note = Properties.Resources.CommandOpenSettingFilesFolderNote;
@@ -2193,7 +2357,7 @@ namespace NeeView
 
             // OpenVersionWindow
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupOther;
                 element.Text = Properties.Resources.CommandOpenVersionWindow;
                 element.MenuText = Properties.Resources.CommandOpenVersionWindowMenu;
@@ -2204,7 +2368,7 @@ namespace NeeView
             }
             // CloseApplication
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupOther;
                 element.Text = Properties.Resources.CommandCloseApplication;
                 element.MenuText = Properties.Resources.CommandCloseApplicationMenu;
@@ -2217,7 +2381,7 @@ namespace NeeView
 
             // TogglePermitFileCommand
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupOther;
                 element.Text = Properties.Resources.CommandTogglePermitFileCommand;
                 element.MenuText = Properties.Resources.CommandTogglePermitFileCommandMenu;
@@ -2233,7 +2397,7 @@ namespace NeeView
 
             // HelpCommandList
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupOther;
                 element.Text = Properties.Resources.CommandHelpCommandList;
                 element.MenuText = Properties.Resources.CommandHelpCommandListMenu;
@@ -2245,7 +2409,7 @@ namespace NeeView
             }
             // HelpMainMenu
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupOther;
                 element.Text = Properties.Resources.CommandHelpMainMenu;
                 element.MenuText = Properties.Resources.CommandHelpMainMenuMenu;
@@ -2257,7 +2421,7 @@ namespace NeeView
             }
             // HelpSearchOption
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupOther;
                 element.Text = Properties.Resources.CommandHelpSearchOption;
                 element.MenuText = Properties.Resources.CommandHelpSearchOptionMenu;
@@ -2270,7 +2434,7 @@ namespace NeeView
 
             // OpenContextMenu
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupOther;
                 element.Text = Properties.Resources.CommandOpenContextMenu;
                 element.Note = Properties.Resources.CommandOpenContextMenuNote;
@@ -2282,7 +2446,7 @@ namespace NeeView
 
             // ExportBackup
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupOther;
                 element.Text = Properties.Resources.CommandExportBackup;
                 element.MenuText = Properties.Resources.CommandExportBackupMenu;
@@ -2294,7 +2458,7 @@ namespace NeeView
 
             // ImportBackup
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupOther;
                 element.Text = Properties.Resources.CommandImportBackup;
                 element.MenuText = Properties.Resources.CommandImportBackupMenu;
@@ -2306,7 +2470,7 @@ namespace NeeView
 
             // ReloadUserSetting
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupOther;
                 element.Text = Properties.Resources.CommandReloadUserSetting;
                 element.Note = Properties.Resources.CommandReloadUserSettingNote;
@@ -2317,7 +2481,7 @@ namespace NeeView
 
             // TouchEmulate
             {
-                var element = new CommandElement();
+                var element = new CommandElementLegacy();
                 element.Group = Properties.Resources.CommandGroupOther;
                 element.Text = Properties.Resources.CommandTouchEmulate;
                 element.Note = Properties.Resources.CommandTouchEmulateNote;
@@ -2325,16 +2489,13 @@ namespace NeeView
                 element.IsShowMessage = false;
                 _elements[CommandType.TouchEmulate] = element;
             }
+#endif
 
 
             // 無効な命令にダミー設定
             foreach (var ignore in CommandTypeExtensions.IgnoreCommandTypes)
             {
-                var element = new CommandElement();
-                element.Group = "(none)";
-                element.Text = "(none)";
-                element.Execute = (s, e) => { return; };
-                _elements[ignore] = element;
+                _elements[ignore] = new NoneCommand();
             }
 
             // 検証
@@ -2539,29 +2700,6 @@ namespace NeeView
 
             this.IsReversePageMove = memento.IsReversePageMove;
             this.IsReversePageMoveWheel = memento.IsReversePageMoveWheel;
-
-
-#pragma warning disable CS0612
-            // ToggleStrechModeの復元(1.14互換用)
-            if (_elements[CommandType.ToggleStretchMode].IsToggled)
-            {
-                var flags = ((ToggleStretchModeCommandParameter)_elements[CommandType.ToggleStretchMode].Parameter).StretchModes;
-
-                Dictionary<PageStretchMode, CommandType> _CommandTable = new Dictionary<PageStretchMode, CommandType>
-                {
-                    [PageStretchMode.None] = CommandType.SetStretchModeNone,
-                    [PageStretchMode.Uniform] = CommandType.SetStretchModeUniform,
-                    [PageStretchMode.UniformToFill] = CommandType.SetStretchModeUniformToFill,
-                    [PageStretchMode.UniformToSize] = CommandType.SetStretchModeUniformToSize,
-                    [PageStretchMode.UniformToVertical] = CommandType.SetStretchModeUniformToVertical,
-                };
-
-                foreach (var item in _CommandTable)
-                {
-                    flags[item.Key] = _elements[item.Value].IsToggled;
-                }
-            }
-#pragma warning restore CS0612
 
             // compatible before ver.29
             if (memento._Version < Config.GenerateProductVersionNumber(1, 29, 0))

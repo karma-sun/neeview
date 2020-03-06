@@ -24,6 +24,23 @@ namespace NeeView
             _share = share;
         }
 
+        
+        public CommandParameterSource Share => _share;
+
+
+        public CommandParameter GetDefault()
+        {
+            if (_share != null)
+            {
+                return _share.GetDefault();
+            }
+            else
+            {
+                return _defaultParameter;
+            }
+        }
+
+
         public CommandParameter Get()
         {
             if (_share != null)

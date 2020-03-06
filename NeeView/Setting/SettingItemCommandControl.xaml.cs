@@ -106,14 +106,13 @@ namespace NeeView.Setting
                     Command = command,
                 };
 
-                if (command.HasParameter)
+                if (command.ParameterSource != null)
                 {
                     item.HasParameter = true;
-
-                    var share = command.DefaultParameter as ShareCommandParameter;
-                    if (share != null)
+                    
+                    if (command.Share != null)
                     {
-                        item.ParameterShareCommandType = share.CommandType;
+                        item.ParameterShareCommandType = command.Share.CommandType;
                     }
                 }
 

@@ -8,6 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="300" MinWidth="100"
              Focusable="True"
+             FocusVisualStyle="{x:Null}"
              Foreground="{DynamicResource NVForeground}">
 
     <UserControl.Resources>

@@ -1,5 +1,22 @@
 ## ChangeLog
 
+
+### 36.1
+(2020-03-07)
+
+#### Changed
+
+- In the installer version, you can select to add a Explorer's context menu during installation.
+- Added setting of Explorer confirmation dialog when deleting files, because deletion confirmation dialog may be displayed twice. (Setting > General > Show Explorer confirmation dialog when deleting files)
+- Removed focus visual when TAB moved to information panel and effect panel.
+
+#### Fixed
+
+- Fixed a bug that "Show panels" command did not work.
+- Fixed a bug that menu could not be read in high contrast mode.
+
+----
+
 ### 36.0
 (2020-02-29)
 

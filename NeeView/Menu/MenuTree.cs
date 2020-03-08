@@ -70,7 +70,7 @@ namespace NeeView
         [DataMember]
         public MenuElementType MenuElementType { get; set; }
 
-        [DataMember(Name = "Command")]
+        [DataMember(Name = "Command", EmitDefaultValue = false)]
         public string CommandName { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
@@ -83,6 +83,15 @@ namespace NeeView
         public MenuTree(MenuElementType type)
         {
             MenuElementType = type;
+        }
+
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext context)
+        {
+            if (MenuElementType != MenuElementType.Command)
+            {
+                CommandName = null;
+            }
         }
 
 

@@ -133,7 +133,7 @@ namespace NeeView
         // NODE: 応急処置
         public bool ContainsKey(string key)
         {
-            return _elements.ContainsKey(key);
+            return key != null && _elements.ContainsKey(key);
         }
 
         public bool TryGetValue(string key, out CommandElement command)

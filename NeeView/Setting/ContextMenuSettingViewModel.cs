@@ -27,7 +27,7 @@ namespace NeeView.Setting
             var list = CommandTable.Current.Keys
                .GroupBy(e => CommandTable.Current[e].Group)
                .SelectMany(g => g)
-               .Select(e => new MenuTree() { MenuElementType = MenuElementType.Command, Command = e })
+               .Select(e => new MenuTree() { MenuElementType = MenuElementType.Command, CommandName = e })
                .ToList();
 
             list.Insert(0, new MenuTree() { MenuElementType = MenuElementType.Group });

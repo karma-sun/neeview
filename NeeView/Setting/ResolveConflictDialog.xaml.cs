@@ -53,14 +53,14 @@ namespace NeeView.Setting
     /// </summary>
     public class ConflictItem
     {
-        public string Command { get; set; }
+        public string CommandName { get; set; }
         public bool IsChecked { get; set; }
 
-        public string Name => Command.ToCommand().Text;
+        public string Text => CommandName.ToCommand().Text;
 
-        public ConflictItem(string commandType, bool isChecked)
+        public ConflictItem(string cmmandName, bool isChecked)
         {
-            Command = commandType;
+            CommandName = cmmandName;
             IsChecked = isChecked;
         }
     }

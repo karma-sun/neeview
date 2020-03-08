@@ -167,8 +167,8 @@ namespace NeeView.Setting
                 {
                     if (!conflictItem.IsChecked)
                     {
-                        var newGesture = string.Join(",", _sources[conflictItem.Command].ShortCutKey.Split(',').Where(i => i != item.Gesture));
-                        _sources[conflictItem.Command].ShortCutKey = string.IsNullOrEmpty(newGesture) ? null : newGesture;
+                        var newGesture = string.Join(",", _sources[conflictItem.CommandName].ShortCutKey.Split(',').Where(i => i != item.Gesture));
+                        _sources[conflictItem.CommandName].ShortCutKey = string.IsNullOrEmpty(newGesture) ? null : newGesture;
                     }
                 }
                 UpdateGestures();

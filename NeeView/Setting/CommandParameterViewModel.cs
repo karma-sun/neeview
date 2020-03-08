@@ -31,7 +31,7 @@ namespace NeeView.Setting
 
             if (CommandTable.Current[_key].Share != null)
             {
-                _key = CommandTable.Current[_key].Share.CommandType;
+                _key = CommandTable.Current[_key].Share.Name;
                 this.Note = string.Format(Properties.Resources.ParamCommandShare, _key.ToCommand().Text);
             }
 

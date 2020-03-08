@@ -12,7 +12,7 @@
 
     <Window.Resources>
         <DataTemplate DataType="{x:Type local:ConflictItem}">
-            <RadioButton Content="{Binding Name}" IsChecked="{Binding IsChecked}" GroupName="SelectGroup" Margin="5"/>
+            <RadioButton Content="{Binding Text}" IsChecked="{Binding IsChecked}" GroupName="SelectGroup" Margin="5"/>
         </DataTemplate>
     </Window.Resources>
 

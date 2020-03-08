@@ -17,12 +17,12 @@ namespace NeeView
 
         private string _menuText;
 
-        public CommandElement(string commandType)
+        public CommandElement(string name)
         {
-            CommandType = commandType;
+            Name = name;
         }
 
-        public string CommandType { get; private set; }
+        public string Name { get; private set; }
 
         // コマンドのグループ
         public string Group { get; set; }

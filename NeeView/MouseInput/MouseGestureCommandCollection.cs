@@ -99,15 +99,15 @@ namespace NeeView
         {
             var gesture = sequence.ToDispString();
 
-            var commandType = GetCommand(sequence);
-            var commandName = RoutedCommandTable.Current.GetFixedRoutedCommand(commandType, true)?.Text;
+            var commandName = GetCommand(sequence);
+            var commandText = RoutedCommandTable.Current.GetFixedRoutedCommand(commandName, true)?.Text;
 
-            if (string.IsNullOrEmpty(gesture) && string.IsNullOrEmpty(commandName)) return;
+            if (string.IsNullOrEmpty(gesture) && string.IsNullOrEmpty(commandText)) return;
 
             InfoMessage.Current.SetMessage(
                 InfoMessageType.Gesture,
-                ((commandName != null) ? commandName + "\n" : "") + gesture,
-                gesture + ((commandName != null) ? " " + commandName : ""));
+                ((commandText != null) ? commandText + "\n" : "") + gesture,
+                gesture + ((commandText != null) ? " " + commandText : ""));
         }
 
     }

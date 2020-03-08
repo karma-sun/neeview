@@ -60,9 +60,9 @@ namespace NeeView.Setting
             public string TouchGestureNote { get; set; }
             public ObservableCollection<GestureElement> TouchGestures { get; set; } = new ObservableCollection<GestureElement>();
             public bool HasParameter { get; set; }
-            public string ParameterShareCommandType { get; set; }
-            public bool IsShareParameter => !string.IsNullOrEmpty(ParameterShareCommandType);
-            public string ShareTips => string.Format(Properties.Resources.ControlCommandListShare, ParameterShareCommandType?.ToCommand().Text);
+            public string ParameterShareCommandName { get; set; }
+            public bool IsShareParameter => !string.IsNullOrEmpty(ParameterShareCommandName);
+            public string ShareTips => string.Format(Properties.Resources.ControlCommandListShare, ParameterShareCommandName?.ToCommand().Text);
         }
 
         // コマンド一覧
@@ -110,7 +110,7 @@ namespace NeeView.Setting
                     
                     if (command.Share != null)
                     {
-                        item.ParameterShareCommandType = command.Share.CommandType;
+                        item.ParameterShareCommandName = command.Share.Name;
                     }
                 }
 

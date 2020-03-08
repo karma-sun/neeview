@@ -178,9 +178,9 @@ namespace NeeView
         }
 
         // .. あまりかわらん
-        public T Parameter<T>(string commandType) where T : class
+        public T Parameter<T>(string commandName) where T : class
         {
-            return _elements[commandType].Parameter as T;
+            return _elements[commandName].Parameter as T;
         }
 
 
@@ -449,7 +449,7 @@ namespace NeeView
                 new TouchEmulateCommand("TouchEmulate"),
             };
 
-            _elements = list.ToDictionary(e => e.CommandType);
+            _elements = list.ToDictionary(e => e.Name);
 
             // share
             _elements["NextPage"].SetShare(_elements["PrevPage"]);
@@ -575,10 +575,10 @@ namespace NeeView
                     // 自動回転のショートカットキーをなるべく継承
                     if (Elements.TryGetValue("ToggleIsAutoRotate", out var element))
                     {
-                        var commandType = element.Parameter is null ? "ToggleIsAutoRotateRight" : "ToggleIsAutoRotateLeft";
-                        Elements[commandType] = element.Clone();
-                        Elements[commandType].IsShowMessage = true;
-                        Elements[commandType].Parameter = null;
+                        var commandName = element.Parameter is null ? "ToggleIsAutoRotateRight" : "ToggleIsAutoRotateLeft";
+                        Elements[commandName] = element.Clone();
+                        Elements[commandName].IsShowMessage = true;
+                        Elements[commandName].Parameter = null;
                     }
                 }
 

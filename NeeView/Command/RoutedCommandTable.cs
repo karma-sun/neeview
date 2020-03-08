@@ -250,13 +250,13 @@ namespace NeeView
 
         // コマンド実行 
         // CommandTableを純粋なコマンド定義のみにするため、コマンド実行に伴う処理はここで定義している
-        public void Execute(string type, object parameter)
+        public void Execute(string name, object parameter)
         {
             bool allowFlip = (parameter is CommandParameterArgs args)
                 ? args.AllowFlip
                 : (parameter != MenuCommandTag.Tag);
 
-            var command = CommandTable.Current[GetFixedCommandType(type, allowFlip)];
+            var command = CommandTable.Current[GetFixedCommandName(name, allowFlip)];
 
             // 通知
             if (command.IsShowMessage)
@@ -274,16 +274,16 @@ namespace NeeView
         }
 
         // スライダー方向によって移動コマンドを入れ替える
-        public string GetFixedCommandType(string commandType, bool allowFlip)
+        public string GetFixedCommandName(string name, bool allowFlip)
         {
             if (allowFlip && CommandTable.Current.IsReversePageMove && MainWindowModel.Current.IsLeftToRightSlider())
             {
-                var command = CommandTable.Current[commandType];
+                var command = CommandTable.Current[name];
                 if (command.PairPartner != null)
                 {
                     if (command.Parameter is ReversibleCommandParameter reversibleCommandParameter)
                     {
-                        return reversibleCommandParameter.IsReverse ? command.PairPartner : commandType;
+                        return reversibleCommandParameter.IsReverse ? command.PairPartner : name;
                     }
                     else
                     {
@@ -292,24 +292,24 @@ namespace NeeView
                 }
                 else
                 {
-                    return commandType;
+                    return name;
                 }
             }
             else
             {
-                return commandType;
+                return name;
             }
         }
 
-        public CommandElement GetFixedCommandElement(string commandType, bool allowRecursive)
+        public CommandElement GetFixedCommandElement(string commandName, bool allowRecursive)
         {
-            CommandTable.Current.TryGetValue(GetFixedCommandType(commandType, allowRecursive), out CommandElement command);
+            CommandTable.Current.TryGetValue(GetFixedCommandName(commandName, allowRecursive), out CommandElement command);
             return command;
         }
 
-        public RoutedUICommand GetFixedRoutedCommand(string commandType, bool allowRecursive)
+        public RoutedUICommand GetFixedRoutedCommand(string commandName, bool allowRecursive)
         {
-            this.Commands.TryGetValue(GetFixedCommandType(commandType, allowRecursive), out RoutedUICommand command);
+            this.Commands.TryGetValue(GetFixedCommandName(commandName, allowRecursive), out RoutedUICommand command);
             return command;
         }
 

@@ -476,20 +476,15 @@ namespace NeeView
             DefaultMemento = CreateMemento();
         }
 
-#endregion
+        #endregion
 
-#region Memento
+        #region Memento
 
         [DataContract]
         public class Memento
         {
             [DataMember]
             public int _Version { get; set; } = Config.Current.ProductVersionNumber;
-
-            // V2: Enum型キーは前方互換性に難があるため、文字列化して保存する
-
-            [Obsolete, DataMember(Name = "Elements", EmitDefaultValue = false)]
-            private Dictionary<CommandType, CommandElement.Memento> _elementsV1;
 
             [DataMember, DefaultValue(true)]
             public bool IsReversePageMove { get; set; }
@@ -499,6 +494,10 @@ namespace NeeView
 
             [DataMember(Name = "ElementsV2")]
             public Dictionary<string, CommandElement.Memento> Elements { get; set; } = new Dictionary<string, CommandElement.Memento>();
+
+
+            [Obsolete, DataMember(Name = "Elements", EmitDefaultValue = false)]
+            private Dictionary<CommandType, CommandElement.Memento> _elementsV1;
 
 
             [OnSerializing]
@@ -521,8 +520,16 @@ namespace NeeView
                     Elements = _elementsV1.ToDictionary(e => e.Key.ToString(), e => e.Value);
                     _elementsV1 = null;
                 }
+#pragma warning restore CS0612
 
                 Elements = Elements ?? new Dictionary<string, CommandElement.Memento>();
+
+                // before ver.29
+                if (_Version < Config.GenerateProductVersionNumber(1, 29, 0))
+                {
+                    // ver.29以前はデフォルトOFF
+                    IsReversePageMove = false;
+                }
 
                 // before 32.0
                 if (_Version < Config.GenerateProductVersionNumber(32, 0, 0))
@@ -541,6 +548,24 @@ namespace NeeView
                     if (Elements.TryGetValue("ToggleVisibleFolderList", out CommandElement.Memento toggleVisibleFolderList))
                     {
                         Elements["ToggleVisibleBookshelf"] = toggleVisibleFolderList;
+                    }
+                }
+
+                // before 33.2
+                if (_Version <= Config.GenerateProductVersionNumber(33, 2, 0))
+                {
+                    // change shortcut "Escape" to "Esc"
+                    foreach (var element in Elements.Values)
+                    {
+                        if (element.ShortCutKey != null && element.ShortCutKey.Contains("Escape"))
+                        {
+                            var keys = element.ShortCutKey
+                                .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                .Select(e => e.Replace("Escape", "Esc"))
+                                .Distinct();
+
+                            element.ShortCutKey = string.Join(",", keys);
+                        }
                     }
                 }
 
@@ -564,25 +589,6 @@ namespace NeeView
                     if (Elements.TryGetValue("SetStretchModeInside", out var element))
                     {
                         Elements["SetStretchModeUniform"].Parameter = element.Parameter;
-                    }
-                }
-
-#pragma warning restore CS0612
-
-                // change shortcut "Escape" to "Esc"
-                if (_Version <= Config.GenerateProductVersionNumber(33, 2, 0))
-                {
-                    foreach (var element in Elements.Values)
-                    {
-                        if (element.ShortCutKey != null && element.ShortCutKey.Contains("Escape"))
-                        {
-                            var keys = element.ShortCutKey
-                                .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
-                                .Select(e => e.Replace("Escape", "Esc"))
-                                .Distinct();
-
-                            element.ShortCutKey = string.Join(",", keys);
-                        }
                     }
                 }
             }
@@ -630,15 +636,8 @@ namespace NeeView
 
             this.IsReversePageMove = memento.IsReversePageMove;
             this.IsReversePageMoveWheel = memento.IsReversePageMoveWheel;
-
-            // compatible before ver.29
-            if (memento._Version < Config.GenerateProductVersionNumber(1, 29, 0))
-            {
-                // ver.29以前はデフォルトOFF
-                this.IsReversePageMove = false;
-            }
         }
 
-#endregion
+        #endregion
     }
 }

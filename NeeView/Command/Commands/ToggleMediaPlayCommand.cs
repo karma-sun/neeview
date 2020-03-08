@@ -2,7 +2,7 @@
 {
     public class ToggleMediaPlayCommand : CommandElement
     {
-        public ToggleMediaPlayCommand() : base(CommandType.ToggleMediaPlay)
+        public ToggleMediaPlayCommand() : base("ToggleMediaPlay")
         {
             this.Group = Properties.Resources.CommandGroupVideo;
             this.Text = Properties.Resources.CommandToggleMediaPlay;

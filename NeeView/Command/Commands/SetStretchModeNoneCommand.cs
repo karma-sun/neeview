@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class SetStretchModeNoneCommand : CommandElement
     {
-        public SetStretchModeNoneCommand() : base(CommandType.SetStretchModeNone)
+        public SetStretchModeNoneCommand() : base("SetStretchModeNone")
         {
             this.Group = Properties.Resources.CommandGroupImageScale;
             this.Text = Properties.Resources.CommandSetStretchModeNone;

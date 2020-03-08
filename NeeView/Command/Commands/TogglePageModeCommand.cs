@@ -2,7 +2,7 @@
 {
     public class TogglePageModeCommand : CommandElement
     {
-        public TogglePageModeCommand() : base(CommandType.TogglePageMode)
+        public TogglePageModeCommand() : base("TogglePageMode")
         {
             this.Group = Properties.Resources.CommandGroupPageSetting;
             this.Text = Properties.Resources.CommandTogglePageMode;

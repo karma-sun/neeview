@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleCustomSizeCommand : CommandElement
     {
-        public ToggleCustomSizeCommand() : base(CommandType.ToggleCustomSize)
+        public ToggleCustomSizeCommand() : base("ToggleCustomSize")
         {
             this.Group = Properties.Resources.CommandGroupImageScale;
             this.Text = Properties.Resources.CommandToggleCustomSize;

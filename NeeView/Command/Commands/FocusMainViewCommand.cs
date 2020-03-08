@@ -2,7 +2,7 @@
 {
     public class FocusMainViewCommand : CommandElement
     {
-        public FocusMainViewCommand() : base(CommandType.FocusMainView)
+        public FocusMainViewCommand() : base("FocusMainView")
         {
             this.Group = Properties.Resources.CommandGroupPanel;
             this.Text = Properties.Resources.CommandFocusMainView;

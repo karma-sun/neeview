@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleStretchAllowEnlargeCommand : CommandElement
     {
-        public ToggleStretchAllowEnlargeCommand() : base(CommandType.ToggleStretchAllowEnlarge)
+        public ToggleStretchAllowEnlargeCommand() : base("ToggleStretchAllowEnlarge")
         {
             this.Group = Properties.Resources.CommandGroupImageScale;
             this.Text = Properties.Resources.CommandToggleStretchAllowEnlarge;

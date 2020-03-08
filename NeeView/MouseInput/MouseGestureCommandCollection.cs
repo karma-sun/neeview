@@ -17,14 +17,14 @@ namespace NeeView
         /// <summary>
         /// シーケンスとコマンドの対応辞書
         /// </summary>
-        private Dictionary<string, CommandType> _commands;
+        private Dictionary<string, string> _commands;
 
         /// <summary>
         /// コンストラクター
         /// </summary>
         public MouseGestureCommandCollection()
         {
-            _commands = new Dictionary<string, CommandType>();
+            _commands = new Dictionary<string, string>();
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace NeeView
         /// </summary>
         /// <param name="gestureText"></param>
         /// <param name="command"></param>
-        public void Add(string gestureText, CommandType command)
+        public void Add(string gestureText, string command)
         {
             _commands[gestureText] = command;
         }
@@ -50,9 +50,9 @@ namespace NeeView
         /// </summary>
         /// <param name="gesture"></param>
         /// <returns></returns>
-        public CommandType GetCommand(MouseGestureSequence gesture)
+        public string GetCommand(MouseGestureSequence gesture)
         {
-            if (gesture == null || gesture.Count == 0) return CommandType.None;
+            if (gesture == null || gesture.Count == 0) return string.Empty;
 
             string key = gesture.ToString();
 
@@ -62,7 +62,7 @@ namespace NeeView
             }
             else
             {
-                return CommandType.None;
+                return string.Empty;
             }
         }
 
@@ -100,7 +100,7 @@ namespace NeeView
             var gesture = sequence.ToDispString();
 
             var commandType = GetCommand(sequence);
-            var commandName = commandType.IsDisable() ? null : RoutedCommandTable.Current.GetFixedRoutedCommand(commandType, true)?.Text;
+            var commandName = RoutedCommandTable.Current.GetFixedRoutedCommand(commandType, true)?.Text;
 
             if (string.IsNullOrEmpty(gesture) && string.IsNullOrEmpty(commandName)) return;
 

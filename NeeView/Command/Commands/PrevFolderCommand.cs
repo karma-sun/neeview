@@ -2,7 +2,7 @@
 {
     public class PrevFolderCommand : CommandElement
     {
-        public PrevFolderCommand() : base(CommandType.PrevFolder)
+        public PrevFolderCommand() : base("PrevFolder")
         {
             this.Group = Properties.Resources.CommandGroupMove;
             this.Text = Properties.Resources.CommandPrevFolder;

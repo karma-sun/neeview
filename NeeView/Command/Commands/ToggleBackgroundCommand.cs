@@ -2,7 +2,7 @@
 {
     public class ToggleBackgroundCommand : CommandElement
     {
-        public ToggleBackgroundCommand() : base(CommandType.ToggleBackground)
+        public ToggleBackgroundCommand() : base("ToggleBackground")
         {
             this.Group = Properties.Resources.CommandGroupEffect;
             this.Text = Properties.Resources.CommandToggleBackground;

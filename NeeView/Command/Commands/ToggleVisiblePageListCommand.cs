@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleVisiblePageListCommand : CommandElement
     {
-        public ToggleVisiblePageListCommand() : base(CommandType.ToggleVisiblePageList)
+        public ToggleVisiblePageListCommand() : base("ToggleVisiblePageList")
         {
             this.Group = Properties.Resources.CommandGroupPanel;
             this.Text = Properties.Resources.CommandToggleVisiblePageList;

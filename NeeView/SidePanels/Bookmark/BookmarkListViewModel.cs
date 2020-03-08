@@ -228,7 +228,7 @@ namespace NeeView
             return item;
         }
 
-        private MenuItem CreateCommandMenuItem(string header, CommandType command, FolderPanelModel source)
+        private MenuItem CreateCommandMenuItem(string header, string command, FolderPanelModel source)
         {
             var item = new MenuItem();
             item.Header = header;

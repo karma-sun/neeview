@@ -48,8 +48,8 @@ namespace NeeView.Setting
         #endregion
 
         private CommandTable.Memento _memento;
-        private CommandType _key;
-        
+        private string _key;
+
         public EditCommandWindow()
         {
             InitializeComponent();
@@ -74,24 +74,22 @@ namespace NeeView.Setting
             tabItem?.Focus();
         }
 
-        public void Initialize(CommandType key,  EditCommandWindowTab start = EditCommandWindowTab.Default)
+        public void Initialize(string key, EditCommandWindowTab start = EditCommandWindowTab.Default)
         {
             _memento = CommandTable.Current.CreateMemento();
             _key = key;
 
-            this.Title = $"{key.ToDispString()} - {Properties.Resources.ControlEditCommandTitle}";
+            this.Title = $"{key.ToCommand().Text} - {Properties.Resources.ControlEditCommandTitle}";
 
             this.Note = CommandTable.Current[key].Note;
             this.IsShowMessage = _memento.Elements[key].IsShowMessage;
-
-            key.ToDispLongString();
 
             this.InputGesture.Initialize(_memento, key);
             this.MouseGesture.Initialize(_memento, key);
             this.InputTouch.Initialize(_memento, key);
             this.Parameter.Initialize(_memento, key);
 
-            switch(start)
+            switch (start)
             {
                 case EditCommandWindowTab.General:
                     this.GeneralTab.IsSelected = true;

@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleResizeFilterCommand : CommandElement
     {
-        public ToggleResizeFilterCommand() : base(CommandType.ToggleResizeFilter)
+        public ToggleResizeFilterCommand() : base("ToggleResizeFilter")
         {
             this.Group = Properties.Resources.CommandGroupEffect;
             this.Text = Properties.Resources.CommandToggleResizeFilter;

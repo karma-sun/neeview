@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleVisibleFoldersTreeCommand : CommandElement
     {
-        public ToggleVisibleFoldersTreeCommand() : base(CommandType.ToggleVisibleFoldersTree)
+        public ToggleVisibleFoldersTreeCommand() : base("ToggleVisibleFoldersTree")
         {
             this.Group = Properties.Resources.CommandGroupPanel;
             this.Text = Properties.Resources.CommandToggleVisibleFoldersTree;

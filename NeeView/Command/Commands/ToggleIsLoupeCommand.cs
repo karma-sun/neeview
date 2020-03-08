@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleIsLoupeCommand : CommandElement
     {
-        public ToggleIsLoupeCommand() : base(CommandType.ToggleIsLoupe)
+        public ToggleIsLoupeCommand() : base("ToggleIsLoupe")
         {
             this.Group = Properties.Resources.CommandGroupViewManipulation;
             this.Text = Properties.Resources.CommandToggleIsLoupe;

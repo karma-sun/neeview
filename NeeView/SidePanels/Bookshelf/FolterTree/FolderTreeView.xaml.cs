@@ -580,7 +580,7 @@ namespace NeeView
         }
 
         //
-        private MenuItem CreateMenuItem(string header, CommandType command, object source)
+        private MenuItem CreateMenuItem(string header, string command, object source)
         {
             var item = new MenuItem();
             item.Header = header;

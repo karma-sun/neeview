@@ -11,13 +11,11 @@ namespace NeeView.Setting
     /// </summary>
     public class MouseGestureSettingViewModel : BindableBase
     {
-        private Dictionary<CommandType, CommandElement.Memento> _sources;
-        private CommandType _key;
+        private Dictionary<string, CommandElement.Memento> _sources;
+        private string _key;
 
-        //
         private TouchInputForGestureEditor _touchGesture;
 
-        //
         private MouseInputForGestureEditor _mouseGesture;
 
         /// <summary>
@@ -51,7 +49,7 @@ namespace NeeView.Setting
         /// </summary>
         /// <param name="context"></param>
         /// <param name="gestureSender"></param>
-        public MouseGestureSettingViewModel(CommandTable.Memento memento, CommandType key, FrameworkElement gestureSender)
+        public MouseGestureSettingViewModel(CommandTable.Memento memento, string key, FrameworkElement gestureSender)
         {
             _sources = memento.Elements;
             _key = key;
@@ -97,7 +95,7 @@ namespace NeeView.Setting
 
                 if (token.Conflicts.Count > 0)
                 {
-                    token.OverlapsText = string.Format(Properties.Resources.NotifyConflict, ResourceService.Join(token.Conflicts.Select(i => i.ToDispString())));
+                    token.OverlapsText = string.Format(Properties.Resources.NotifyConflict, ResourceService.Join(token.Conflicts.Select(i => i.ToCommand().Text)));
                 }
             }
 

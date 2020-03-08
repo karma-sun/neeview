@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class SetPageMode1Command : CommandElement
     {
-        public SetPageMode1Command() : base(CommandType.SetPageMode1)
+        public SetPageMode1Command() : base("SetPageMode1")
         {
             this.Group = Properties.Resources.CommandGroupPageSetting;
             this.Text = Properties.Resources.CommandSetPageMode1;

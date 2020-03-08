@@ -53,14 +53,12 @@ namespace NeeView.Setting
     /// </summary>
     public class ConflictItem
     {
-        public CommandType Command { get; set; }
+        public string Command { get; set; }
         public bool IsChecked { get; set; }
 
-        //
-        public string Name => Command.ToDispString();
+        public string Name => Command.ToCommand().Text;
 
-        //
-        public ConflictItem(CommandType commandType, bool isChecked)
+        public ConflictItem(string commandType, bool isChecked)
         {
             Command = commandType;
             IsChecked = isChecked;
@@ -75,7 +73,7 @@ namespace NeeView.Setting
         private ResolveConflictDialogContext _context;
 
         // window title
-        public string Title => $"{_context.Command.ToDispString()} - {Properties.Resources.ControlResolveConflictTitle}";
+        public string Title => $"{_context.Command.ToCommand().Text} - {Properties.Resources.ControlResolveConflictTitle}";
 
         ////public string Gesture => _context.Gesture;
         public string Note => string.Format(Properties.Resources.ControlResolveConflictNote, _context.Gesture);
@@ -94,7 +92,7 @@ namespace NeeView.Setting
     /// </summary>
     public class ResolveConflictDialogContext
     {
-        public CommandType Command { get; set; }
+        public string Command { get; set; }
         public string Gesture { get; set; }
         public List<ConflictItem> Conflicts { get; set; }
 
@@ -104,7 +102,7 @@ namespace NeeView.Setting
         /// <param name="command">currrent command</param>
         /// <param name="gesture">conflict gesture</param>
         /// <param name="commands">conflict commands</param>
-        public ResolveConflictDialogContext(string gesture, List<CommandType> commands, CommandType command)
+        public ResolveConflictDialogContext(string gesture, List<string> commands, string command)
         {
             Command = command;
             Gesture = gesture;

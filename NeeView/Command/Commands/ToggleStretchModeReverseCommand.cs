@@ -2,7 +2,7 @@
 {
     public class ToggleStretchModeReverseCommand : CommandElement
     {
-        public ToggleStretchModeReverseCommand() : base(CommandType.ToggleStretchModeReverse)
+        public ToggleStretchModeReverseCommand() : base("ToggleStretchModeReverse")
         {
             this.Group = Properties.Resources.CommandGroupImageScale;
             this.Text = Properties.Resources.CommandToggleStretchModeReverse;
@@ -10,7 +10,7 @@
             this.ShortCutKey = "LeftButton+WheelUp";
             this.IsShowMessage = true;
 
-            // CommandType.ToggleStretchMode
+            // "ToggleStretchMode"
             this.ParameterSource = new CommandParameterSource(new ToggleStretchModeCommandParameter() { IsLoop = true });
         }
 

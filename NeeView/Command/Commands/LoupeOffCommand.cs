@@ -2,7 +2,7 @@
 {
     public class LoupeOffCommand : CommandElement
     {
-        public LoupeOffCommand() : base(CommandType.LoupeOff)
+        public LoupeOffCommand() : base("LoupeOff")
         {
             this.Group = Properties.Resources.CommandGroupViewManipulation;
             this.Text = Properties.Resources.CommandLoupeOff;

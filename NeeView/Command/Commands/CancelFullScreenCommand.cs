@@ -2,7 +2,7 @@
 {
     public class CancelFullScreenCommand : CommandElement
     {
-        public CancelFullScreenCommand() : base(CommandType.CancelFullScreen)
+        public CancelFullScreenCommand() : base("CancelFullScreen")
         {
             this.Group = Properties.Resources.CommandGroupWindow;
             this.Text = Properties.Resources.CommandCancelFullScreen;

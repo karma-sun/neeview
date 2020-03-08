@@ -2,7 +2,7 @@
 {
     public class LoupeScaleDownCommand : CommandElement
     {
-        public LoupeScaleDownCommand() : base(CommandType.LoupeScaleDown)
+        public LoupeScaleDownCommand() : base("LoupeScaleDown")
         {
             this.Group = Properties.Resources.CommandGroupViewManipulation;
             this.Text = Properties.Resources.CommandLoupeScaleDown;

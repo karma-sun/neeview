@@ -2,7 +2,7 @@
 {
     public class UnloadCommand : CommandElement
     {
-        public UnloadCommand() : base(CommandType.Unload)
+        public UnloadCommand() : base("Unload")
         {
             this.Group = Properties.Resources.CommandGroupFile;
             this.Text = Properties.Resources.CommandUnload;

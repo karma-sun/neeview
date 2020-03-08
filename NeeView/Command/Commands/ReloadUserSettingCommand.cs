@@ -2,7 +2,7 @@
 {
     public class ReloadUserSettingCommand : CommandElement
     {
-        public ReloadUserSettingCommand() : base(CommandType.ReloadUserSetting)
+        public ReloadUserSettingCommand() : base("ReloadUserSetting")
         {
             this.Group = Properties.Resources.CommandGroupOther;
             this.Text = Properties.Resources.CommandReloadUserSetting;

@@ -2,7 +2,7 @@
 {
     public class SetFullScreenCommand : CommandElement
     {
-        public SetFullScreenCommand() : base(CommandType.SetFullScreen)
+        public SetFullScreenCommand() : base("SetFullScreen")
         {
             this.Group = Properties.Resources.CommandGroupWindow;
             this.Text = Properties.Resources.CommandSetFullScreen;

@@ -12,20 +12,25 @@ namespace NeeView
     [DataContract]
     public abstract class CommandElement
     {
+        public static CommandElement None { get; } = new NoneCommand();
+
+
         private string _menuText;
 
-        public CommandElement(CommandType commandType)
+        public CommandElement(string commandType)
         {
             CommandType = commandType;
         }
 
-        public CommandType CommandType { get; private set; }
+        public string CommandType { get; private set; }
 
         // コマンドのグループ
         public string Group { get; set; }
 
         // コマンド表示名
         public string Text { get; set; }
+
+        public string LongText => Group + "/" + Text;
 
         public string MenuText
         {
@@ -50,7 +55,8 @@ namespace NeeView
         public bool IsShowMessage { get; set; }
 
         // ペアコマンド
-        public CommandType PairPartner { get; set; }
+        // TODO: CommandElementを直接指定
+        public string PairPartner { get; set; }
 
         public CommandParameterSource ParameterSource { get; set; }
 

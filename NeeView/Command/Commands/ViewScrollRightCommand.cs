@@ -2,7 +2,7 @@
 {
     public class ViewScrollRightCommand : CommandElement
     {
-        public ViewScrollRightCommand() : base(CommandType.ViewScrollRight)
+        public ViewScrollRightCommand() : base("ViewScrollRight")
         {
             this.Group = Properties.Resources.CommandGroupViewManipulation;
             this.Text = Properties.Resources.CommandViewScrollRight;

@@ -2,13 +2,13 @@
 {
     public class NextFolderPageCommand : CommandElement
     {
-        public NextFolderPageCommand() : base(CommandType.NextFolderPage)
+        public NextFolderPageCommand() : base("NextFolderPage")
         {
             this.Group = Properties.Resources.CommandGroupMove;
             this.Text = Properties.Resources.CommandNextFolderPage;
             this.Note = Properties.Resources.CommandNextFolderPageNote;
             this.IsShowMessage = true;
-            this.PairPartner = CommandType.PrevFolderPage;
+            this.PairPartner = "PrevFolderPage";
 
             // PrevFolderPage
             this.ParameterSource = new CommandParameterSource(new ReversibleCommandParameter());

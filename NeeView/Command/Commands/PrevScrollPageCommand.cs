@@ -2,14 +2,14 @@
 {
     public class PrevScrollPageCommand : CommandElement
     {
-        public PrevScrollPageCommand() : base(CommandType.PrevScrollPage)
+        public PrevScrollPageCommand() : base("PrevScrollPage")
         {
             this.Group = Properties.Resources.CommandGroupMove;
             this.Text = Properties.Resources.CommandPrevScrollPage;
             this.Note = Properties.Resources.CommandPrevScrollPageNote;
             this.ShortCutKey = "WheelUp";
             this.IsShowMessage = false;
-            this.PairPartner = CommandType.NextScrollPage;
+            this.PairPartner = "NextScrollPage";
 
             this.ParameterSource = new CommandParameterSource(new ScrollPageCommandParameter() { IsNScroll = true, IsAnimation = true, Margin = 50, Scroll = 100 });
         }

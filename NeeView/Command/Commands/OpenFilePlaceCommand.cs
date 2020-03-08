@@ -2,7 +2,7 @@
 {
     public class OpenFilePlaceCommand : CommandElement
     {
-        public OpenFilePlaceCommand() : base(CommandType.OpenFilePlace)
+        public OpenFilePlaceCommand() : base("OpenFilePlace")
         {
             this.Group = Properties.Resources.CommandGroupFile;
             this.Text = Properties.Resources.CommandOpenFilePlace;

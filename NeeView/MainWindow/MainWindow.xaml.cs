@@ -315,7 +315,7 @@ namespace NeeView
             var commands = RoutedCommandTable.Current.Commands;
 
             // コマンドバインド作成
-            foreach (CommandType type in Enum.GetValues(typeof(CommandType)))
+            foreach (var type in commandTable.Keys)
             {
                 this.CommandBindings.Add(new CommandBinding(commands[type],
                     (sender, e) => RoutedCommandTable.Current.Execute(type, e.Parameter),

@@ -2,7 +2,7 @@
 {
     public class HelpSearchOptionCommand : CommandElement
     {
-        public HelpSearchOptionCommand() : base(CommandType.HelpSearchOption)
+        public HelpSearchOptionCommand() : base("HelpSearchOption")
         {
             this.Group = Properties.Resources.CommandGroupOther;
             this.Text = Properties.Resources.CommandHelpSearchOption;

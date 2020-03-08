@@ -37,9 +37,9 @@ namespace NeeView
         private RoutedCommandTable()
         {
             // RoutedCommand作成
-            foreach (CommandType type in Enum.GetValues(typeof(CommandType)))
+            foreach (var command in CommandTable.Current)
             {
-                Commands.Add(type, new RoutedUICommand(CommandTable.Current[type].Text, type.ToString(), typeof(MainWindow)));
+                Commands.Add(command.Key, new RoutedUICommand(command.Value.Text, command.Key, typeof(MainWindow)));
             }
 
             // コマンド変更でショートカット変更
@@ -67,7 +67,7 @@ namespace NeeView
         /// <summary>
         /// コマンド辞書
         /// </summary>
-        public Dictionary<CommandType, RoutedUICommand> Commands { get; set; } = new Dictionary<CommandType, RoutedUICommand>();
+        public Dictionary<string, RoutedUICommand> Commands { get; set; } = new Dictionary<string, RoutedUICommand>();
 
         #endregion
 
@@ -108,7 +108,7 @@ namespace NeeView
                 {
                     touch.TouchGestureChanged += (s, x) =>
                     {
-                        if (command.Key == CommandType.TouchEmulate) return;
+                        if (command.Key == "TouchEmulate") return;
 
                         if (!x.Handled && x.Gesture == gesture)
                         {
@@ -250,12 +250,12 @@ namespace NeeView
 
         // コマンド実行 
         // CommandTableを純粋なコマンド定義のみにするため、コマンド実行に伴う処理はここで定義している
-        public void Execute(CommandType type, object parameter)
+        public void Execute(string type, object parameter)
         {
             bool allowFlip = (parameter is CommandParameterArgs args)
                 ? args.AllowFlip
                 : (parameter != MenuCommandTag.Tag);
-            
+
             var command = CommandTable.Current[GetFixedCommandType(type, allowFlip)];
 
             // 通知
@@ -274,12 +274,12 @@ namespace NeeView
         }
 
         // スライダー方向によって移動コマンドを入れ替える
-        public CommandType GetFixedCommandType(CommandType commandType, bool allowFlip)
+        public string GetFixedCommandType(string commandType, bool allowFlip)
         {
             if (allowFlip && CommandTable.Current.IsReversePageMove && MainWindowModel.Current.IsLeftToRightSlider())
             {
                 var command = CommandTable.Current[commandType];
-                if (command.PairPartner != CommandType.None)
+                if (command.PairPartner != null)
                 {
                     if (command.Parameter is ReversibleCommandParameter reversibleCommandParameter)
                     {
@@ -301,15 +301,13 @@ namespace NeeView
             }
         }
 
-        //
-        public CommandElement GetFixedCommandElement(CommandType commandType, bool allowRecursive)
+        public CommandElement GetFixedCommandElement(string commandType, bool allowRecursive)
         {
             CommandTable.Current.TryGetValue(GetFixedCommandType(commandType, allowRecursive), out CommandElement command);
             return command;
         }
 
-        //
-        public RoutedUICommand GetFixedRoutedCommand(CommandType commandType, bool allowRecursive)
+        public RoutedUICommand GetFixedRoutedCommand(string commandType, bool allowRecursive)
         {
             this.Commands.TryGetValue(GetFixedCommandType(commandType, allowRecursive), out RoutedUICommand command);
             return command;

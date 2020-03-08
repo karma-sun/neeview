@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class SetSortModeFileNameCommand : CommandElement
     {
-        public SetSortModeFileNameCommand() : base(CommandType.SetSortModeFileName)
+        public SetSortModeFileNameCommand() : base("SetSortModeFileName")
         {
             this.Group = Properties.Resources.CommandGroupPageOrder;
             this.Text = Properties.Resources.CommandSetSortModeFileName;

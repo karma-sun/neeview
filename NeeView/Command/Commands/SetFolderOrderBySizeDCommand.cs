@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class SetFolderOrderBySizeDCommand : CommandElement
     {
-        public SetFolderOrderBySizeDCommand() : base(CommandType.SetFolderOrderBySizeD)
+        public SetFolderOrderBySizeDCommand() : base("SetFolderOrderBySizeD")
         {
             this.Group = Properties.Resources.CommandGroupBookOrder;
             this.Text = Properties.Resources.CommandSetFolderOrderBySizeD;

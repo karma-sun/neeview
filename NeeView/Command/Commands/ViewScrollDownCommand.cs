@@ -2,7 +2,7 @@
 {
     public class ViewScrollDownCommand : CommandElement
     {
-        public ViewScrollDownCommand() : base(CommandType.ViewScrollDown)
+        public ViewScrollDownCommand() : base("ViewScrollDown")
         {
             this.Group = Properties.Resources.CommandGroupViewManipulation;
             this.Text = Properties.Resources.CommandViewScrollDown;

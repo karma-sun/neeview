@@ -410,9 +410,9 @@ namespace NeeView
 
 
 
-        public ICommand ToggleVisiblePageList => RoutedCommandTable.Current.Commands[CommandType.ToggleVisiblePageList];
+        public ICommand ToggleVisiblePageList => RoutedCommandTable.Current.Commands["ToggleVisiblePageList"];
 
-        public ICommand ToggleVisibleFoldersTree => RoutedCommandTable.Current.Commands[CommandType.ToggleVisibleFoldersTree];
+        public ICommand ToggleVisibleFoldersTree => RoutedCommandTable.Current.Commands["ToggleVisibleFoldersTree"];
 
         #endregion Commands
 
@@ -437,7 +437,7 @@ namespace NeeView
             items.Add(new Separator());
             items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuExportPlaylist, ExportPlaylist));
             items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuAddQuickAccess, AddQuickAccess));
-            items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuClearHistory, CommandType.ClearHistoryInPlace, FolderPanelModel.Current));
+            items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuClearHistory, "ClearHistoryInPlace", FolderPanelModel.Current));
 
             switch (_model.FolderCollection)
             {
@@ -490,7 +490,7 @@ namespace NeeView
         }
 
         //
-        private MenuItem CreateCommandMenuItem(string header, CommandType command, FolderPanelModel source)
+        private MenuItem CreateCommandMenuItem(string header, string command, FolderPanelModel source)
         {
             var item = new MenuItem();
             item.Header = header;

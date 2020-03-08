@@ -2,7 +2,7 @@
 {
     public class PrevPageCommand : CommandElement
     {
-        public PrevPageCommand() : base(CommandType.PrevPage)
+        public PrevPageCommand() : base("PrevPage")
         {
             this.Group = Properties.Resources.CommandGroupMove;
             this.Text = Properties.Resources.CommandPrevPage;
@@ -11,7 +11,7 @@
             this.TouchGesture = "TouchR1,TouchR2";
             this.MouseGesture = "R";
             this.IsShowMessage = false;
-            this.PairPartner = CommandType.NextPage;
+            this.PairPartner = "NextPage";
 
             this.ParameterSource = new CommandParameterSource(new ReversibleCommandParameter());
         }

@@ -2,7 +2,7 @@
 {
     public class ReLoadCommand : CommandElement
     {
-        public ReLoadCommand() : base(CommandType.ReLoad)
+        public ReLoadCommand() : base("ReLoad")
         {
             this.Group = Properties.Resources.CommandGroupFile;
             this.Text = Properties.Resources.CommandReLoad;

@@ -2,7 +2,7 @@
 {
     public class PasteCommand : CommandElement
     {
-        public PasteCommand() : base(CommandType.Paste)
+        public PasteCommand() : base("Paste")
         {
             this.Group = Properties.Resources.CommandGroupFile;
             this.Text = Properties.Resources.CommandPaste;

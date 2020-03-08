@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class SetSortModeSizeCommand : CommandElement
     {
-        public SetSortModeSizeCommand() : base(CommandType.SetSortModeSize)
+        public SetSortModeSizeCommand() : base("SetSortModeSize")
         {
             this.Group = Properties.Resources.CommandGroupPageOrder;
             this.Text = Properties.Resources.CommandSetSortModeSize;

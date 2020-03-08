@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleTopmostCommand : CommandElement
     {
-        public ToggleTopmostCommand() : base(CommandType.ToggleTopmost)
+        public ToggleTopmostCommand() : base("ToggleTopmost")
         {
             this.Group = Properties.Resources.CommandGroupWindow;
             this.Text = Properties.Resources.CommandToggleTopmost;

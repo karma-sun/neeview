@@ -2,7 +2,7 @@
 {
     public class ViewScrollUpCommand : CommandElement
     {
-        public ViewScrollUpCommand() : base(CommandType.ViewScrollUp)
+        public ViewScrollUpCommand() : base("ViewScrollUp")
         {
             this.Group = Properties.Resources.CommandGroupViewManipulation;
             this.Text = Properties.Resources.CommandViewScrollUp;

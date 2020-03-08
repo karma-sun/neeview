@@ -2,7 +2,7 @@
 {
     public class JumpPageCommand : CommandElement
     {
-        public JumpPageCommand() : base(CommandType.JumpPage)
+        public JumpPageCommand() : base("JumpPage")
         {
             this.Group = Properties.Resources.CommandGroupMove;
             this.Text = Properties.Resources.CommandJumpPage;

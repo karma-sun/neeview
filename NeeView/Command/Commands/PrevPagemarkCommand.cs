@@ -2,7 +2,7 @@
 {
     public class PrevPagemarkCommand : CommandElement
     {
-        public PrevPagemarkCommand() : base(CommandType.PrevPagemark)
+        public PrevPagemarkCommand() : base("PrevPagemark")
         {
             this.Group = Properties.Resources.CommandGroupPagemark;
             this.Text = Properties.Resources.CommandPrevPagemark;

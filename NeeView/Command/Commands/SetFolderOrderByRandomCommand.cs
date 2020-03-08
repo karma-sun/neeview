@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class SetFolderOrderByRandomCommand : CommandElement
     {
-        public SetFolderOrderByRandomCommand() : base(CommandType.SetFolderOrderByRandom)
+        public SetFolderOrderByRandomCommand() : base("SetFolderOrderByRandom")
         {
             this.Group = Properties.Resources.CommandGroupBookOrder;
             this.Text = Properties.Resources.CommandSetFolderOrderByRandom;

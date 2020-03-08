@@ -2,7 +2,7 @@
 {
     public class PrintCommand : CommandElement
     {
-        public PrintCommand() : base(CommandType.Print)
+        public PrintCommand() : base("Print")
         {
             this.Group = Properties.Resources.CommandGroupFile;
             this.Text = Properties.Resources.CommandPrint;

@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleIsRecursiveFolderCommand : CommandElement
     {
-        public ToggleIsRecursiveFolderCommand() : base(CommandType.ToggleIsRecursiveFolder)
+        public ToggleIsRecursiveFolderCommand() : base("ToggleIsRecursiveFolder")
         {
             this.Group = Properties.Resources.CommandGroupPageSetting;
             this.Text = Properties.Resources.CommandToggleIsRecursiveFolder;

@@ -489,7 +489,7 @@ namespace NeeView
         /// </summary>
         public void PrevScrollPage()
         {
-            var parameter = (ScrollPageCommandParameter)CommandTable.Current[CommandType.PrevScrollPage].Parameter;
+            var parameter = (ScrollPageCommandParameter)CommandTable.Current["PrevScrollPage"].Parameter;
 
             int bookReadDirection = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
             bool isScrolled = MouseInput.Current.IsLoupeMode ? false : DragTransformControl.Current.ScrollN(-1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation, parameter.Scroll / 100.0);
@@ -514,7 +514,7 @@ namespace NeeView
         /// </summary>
         public void NextScrollPage()
         {
-            var parameter = (ScrollPageCommandParameter)CommandTable.Current[CommandType.NextScrollPage].Parameter;
+            var parameter = (ScrollPageCommandParameter)CommandTable.Current["NextScrollPage"].Parameter;
 
             int bookReadDirection = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
             bool isScrolled = MouseInput.Current.IsLoupeMode ? false : DragTransformControl.Current.ScrollN(+1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation, parameter.Scroll / 100.0);
@@ -571,7 +571,7 @@ namespace NeeView
         }
 
         // コマンド設定を開く
-        public void OpenCommandParameterDialog(CommandType command)
+        public void OpenCommandParameterDialog(string command)
         {
             var dialog = new EditCommandWindow();
             dialog.Initialize(command, EditCommandWindowTab.Default);

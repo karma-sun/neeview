@@ -2,7 +2,7 @@
 {
     public class ViewFlipHorizontalOffCommand : CommandElement
     {
-        public ViewFlipHorizontalOffCommand() : base(CommandType.ViewFlipHorizontalOff)
+        public ViewFlipHorizontalOffCommand() : base("ViewFlipHorizontalOff")
         {
             this.Group = Properties.Resources.CommandGroupViewManipulation;
             this.Text = Properties.Resources.CommandViewFlipHorizontalOff;

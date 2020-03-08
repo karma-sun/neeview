@@ -6,7 +6,7 @@ namespace NeeView
 {
     public class ToggleEffectCommand : CommandElement
     {
-        public ToggleEffectCommand() : base(CommandType.ToggleEffect)
+        public ToggleEffectCommand() : base("ToggleEffect")
         {
             this.Group = Properties.Resources.CommandGroupEffect;
             this.Text = Properties.Resources.CommandToggleEffect;

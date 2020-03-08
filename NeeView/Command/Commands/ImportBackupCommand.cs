@@ -2,7 +2,7 @@
 {
     public class ImportBackupCommand : CommandElement
     {
-        public ImportBackupCommand() : base(CommandType.ImportBackup)
+        public ImportBackupCommand() : base("ImportBackup")
         {
             this.Group = Properties.Resources.CommandGroupOther;
             this.Text = Properties.Resources.CommandImportBackup;

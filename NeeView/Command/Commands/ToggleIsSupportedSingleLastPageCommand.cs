@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleIsSupportedSingleLastPageCommand : CommandElement
     {
-        public ToggleIsSupportedSingleLastPageCommand() : base(CommandType.ToggleIsSupportedSingleLastPage)
+        public ToggleIsSupportedSingleLastPageCommand() : base("ToggleIsSupportedSingleLastPage")
         {
             this.Group = Properties.Resources.CommandGroupPageSetting;
             this.Text = Properties.Resources.CommandToggleIsSupportedSingleLastPage;

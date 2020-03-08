@@ -39,7 +39,7 @@ namespace NeeView.Setting
             InitializeComponent();
         }
 
-        public void Initialize(CommandTable.Memento memento, CommandType key)
+        public void Initialize(CommandTable.Memento memento, string key)
         {
             InitializeComponent();
 

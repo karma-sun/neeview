@@ -2,7 +2,7 @@
 {
     public class CloseApplicationCommand : CommandElement
     {
-        public CloseApplicationCommand() : base(CommandType.CloseApplication)
+        public CloseApplicationCommand() : base("CloseApplication")
         {
             this.Group = Properties.Resources.CommandGroupOther;
             this.Text = Properties.Resources.CommandCloseApplication;

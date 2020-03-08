@@ -2,13 +2,13 @@
 {
     public class PrevSizePageCommand : CommandElement
     {
-        public PrevSizePageCommand() : base(CommandType.PrevSizePage)
+        public PrevSizePageCommand() : base("PrevSizePage")
         {
             this.Group = Properties.Resources.CommandGroupMove;
             this.Text = Properties.Resources.CommandPrevSizePage;
             this.Note = Properties.Resources.CommandPrevSizePageNote;
             this.IsShowMessage = false;
-            this.PairPartner = CommandType.NextSizePage;
+            this.PairPartner = "NextSizePage";
 
             this.ParameterSource = new CommandParameterSource(new MoveSizePageCommandParameter() { Size = 10 });
         }

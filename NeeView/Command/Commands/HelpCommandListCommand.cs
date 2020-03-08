@@ -2,7 +2,7 @@
 {
     public class HelpCommandListCommand : CommandElement
     {
-        public HelpCommandListCommand() : base(CommandType.HelpCommandList)
+        public HelpCommandListCommand() : base("HelpCommandList")
         {
             this.Group = Properties.Resources.CommandGroupOther;
             this.Text = Properties.Resources.CommandHelpCommandList;

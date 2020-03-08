@@ -2,14 +2,14 @@
 {
     public class NextOnePageCommand : CommandElement
     {
-        public NextOnePageCommand() : base(CommandType.NextOnePage)
+        public NextOnePageCommand() : base("NextOnePage")
         {
             this.Group = Properties.Resources.CommandGroupMove;
             this.Text = Properties.Resources.CommandNextOnePage;
             this.Note = Properties.Resources.CommandNextOnePageNote;
             this.MouseGesture = "RL";
             this.IsShowMessage = false;
-            this.PairPartner = CommandType.PrevOnePage;
+            this.PairPartner = "PrevOnePage";
 
             // PrevOnePage
             this.ParameterSource = new CommandParameterSource(new ReversibleCommandParameter());

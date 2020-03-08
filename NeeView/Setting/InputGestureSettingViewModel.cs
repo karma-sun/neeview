@@ -18,7 +18,7 @@ namespace NeeView.Setting
         public string Gesture { get; set; }
 
         // 競合しているコマンド群
-        public List<CommandType> Conflicts { get; set; }
+        public List<string> Conflicts { get; set; }
 
         // 競合メッセージ
         public string OverlapsText { get; set; }
@@ -34,10 +34,10 @@ namespace NeeView.Setting
     public class InputGestureSettingViewModel : BindableBase
     {
         // すべてのコマンドのショートカット
-        private Dictionary<CommandType, CommandElement.Memento> _sources;
+        private Dictionary<string, CommandElement.Memento> _sources;
 
         // 編集するコマンド
-        public CommandType Command { get; set; }
+        public string Command { get; set; }
 
         /// <summary>
         /// ショートカットテキストのリスト
@@ -55,11 +55,11 @@ namespace NeeView.Setting
         /// <summary>
         /// constructor
         /// </summary>
-        public InputGestureSettingViewModel(CommandTable.Memento memento, CommandType command)
+        public InputGestureSettingViewModel(CommandTable.Memento memento, string command)
         {
             _sources = memento.Elements;
             Command = command;
-            Header = $"{Command.ToDispString()} - {Properties.Resources.ControlEditShortcutTitle}";
+            Header = $"{Command.ToCommand().Text} - {Properties.Resources.ControlEditShortcutTitle}";
 
             UpdateGestures();
         }
@@ -99,7 +99,7 @@ namespace NeeView.Setting
             if (overlaps.Count > 0)
             {
                 element.Conflicts = overlaps;
-                element.OverlapsText = string.Format(Properties.Resources.NotifyConflict, ResourceService.Join(overlaps.Select(e => e.ToDispString())));
+                element.OverlapsText = string.Format(Properties.Resources.NotifyConflict, ResourceService.Join(overlaps.Select(e => e.ToCommand().Text)));
             }
 
             return element;
@@ -151,7 +151,7 @@ namespace NeeView.Setting
         {
             Flush();
 
-            var conflicts = new List<CommandType>(item.Conflicts);
+            var conflicts = new List<string>(item.Conflicts);
             conflicts.Insert(0, Command);
             var context = new ResolveConflictDialogContext(item.Gesture, conflicts, Command);
 

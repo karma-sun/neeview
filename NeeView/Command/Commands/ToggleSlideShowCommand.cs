@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleSlideShowCommand : CommandElement
     {
-        public ToggleSlideShowCommand() : base(CommandType.ToggleSlideShow)
+        public ToggleSlideShowCommand() : base("ToggleSlideShow")
         {
             this.Group = Properties.Resources.CommandGroupViewManipulation;
             this.Text = Properties.Resources.CommandToggleSlideShow;

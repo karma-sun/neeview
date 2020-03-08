@@ -2,7 +2,7 @@
 {
     public class ClearHistoryCommand : CommandElement
     {
-        public ClearHistoryCommand() : base(CommandType.ClearHistory)
+        public ClearHistoryCommand() : base("ClearHistory")
         {
             this.Group = Properties.Resources.CommandGroupFile;
             this.Text = Properties.Resources.CommandClearHistory;

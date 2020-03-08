@@ -2,7 +2,7 @@
 {
     public class NextPagemarkInBookCommand : CommandElement
     {
-        public NextPagemarkInBookCommand() : base(CommandType.NextPagemarkInBook)
+        public NextPagemarkInBookCommand() : base("NextPagemarkInBook")
         {
             this.Group = Properties.Resources.CommandGroupPagemark;
             this.Text = Properties.Resources.CommandNextPagemarkInBook;

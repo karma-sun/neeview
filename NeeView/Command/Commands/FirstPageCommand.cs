@@ -2,7 +2,7 @@
 {
     public class FirstPageCommand : CommandElement
     {
-        public FirstPageCommand() : base(CommandType.FirstPage)
+        public FirstPageCommand() : base("FirstPage")
         {
             this.Group = Properties.Resources.CommandGroupMove;
             this.Text = Properties.Resources.CommandFirstPage;
@@ -10,7 +10,7 @@
             this.ShortCutKey = "Ctrl+Right";
             this.MouseGesture = "UR";
             this.IsShowMessage = true;
-            this.PairPartner = CommandType.LastPage;
+            this.PairPartner = "LastPage";
 
             this.ParameterSource = new CommandParameterSource(new ReversibleCommandParameter());
         }

@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleVisibleAddressBarCommand : CommandElement
     {
-        public ToggleVisibleAddressBarCommand() : base(CommandType.ToggleVisibleAddressBar)
+        public ToggleVisibleAddressBarCommand() : base("ToggleVisibleAddressBar")
         {
             this.Group = Properties.Resources.CommandGroupWindow;
             this.Text = Properties.Resources.CommandToggleVisibleAddressBar;

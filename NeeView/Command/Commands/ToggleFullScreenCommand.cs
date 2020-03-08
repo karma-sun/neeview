@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleFullScreenCommand : CommandElement
     {
-        public ToggleFullScreenCommand() : base(CommandType.ToggleFullScreen)
+        public ToggleFullScreenCommand() : base("ToggleFullScreen")
         {
             this.Group = Properties.Resources.CommandGroupWindow;
             this.Text = Properties.Resources.CommandToggleFullScreen;

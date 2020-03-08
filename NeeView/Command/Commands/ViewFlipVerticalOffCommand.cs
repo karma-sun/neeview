@@ -2,7 +2,7 @@
 {
     public class ViewFlipVerticalOffCommand : CommandElement
     {
-        public ViewFlipVerticalOffCommand() : base(CommandType.ViewFlipVerticalOff)
+        public ViewFlipVerticalOffCommand() : base("ViewFlipVerticalOff")
         {
             this.Group = Properties.Resources.CommandGroupViewManipulation;
             this.Text = Properties.Resources.CommandViewFlipVerticalOff;

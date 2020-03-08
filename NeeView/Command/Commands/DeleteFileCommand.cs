@@ -2,7 +2,7 @@
 {
     public class DeleteFileCommand : CommandElement
     {
-        public DeleteFileCommand() : base(CommandType.DeleteFile)
+        public DeleteFileCommand() : base("DeleteFile")
         {
             this.Group = Properties.Resources.CommandGroupFile;
             this.Text = Properties.Resources.CommandDeleteFile;

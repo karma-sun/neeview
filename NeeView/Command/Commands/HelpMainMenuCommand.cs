@@ -2,7 +2,7 @@
 {
     public class HelpMainMenuCommand : CommandElement
     {
-        public HelpMainMenuCommand() : base(CommandType.HelpMainMenu)
+        public HelpMainMenuCommand() : base("HelpMainMenu")
         {
             this.Group = Properties.Resources.CommandGroupOther;
             this.Text = Properties.Resources.CommandHelpMainMenu;

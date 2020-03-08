@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleVisibleBookmarkListCommand : CommandElement
     {
-        public ToggleVisibleBookmarkListCommand() : base(CommandType.ToggleVisibleBookmarkList)
+        public ToggleVisibleBookmarkListCommand() : base("ToggleVisibleBookmarkList")
         {
             this.Group = Properties.Resources.CommandGroupPanel;
             this.Text = Properties.Resources.CommandToggleVisibleBookmarkList;

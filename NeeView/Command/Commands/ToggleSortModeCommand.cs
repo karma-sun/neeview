@@ -2,7 +2,7 @@
 {
     public class ToggleSortModeCommand : CommandElement
     {
-        public ToggleSortModeCommand() : base(CommandType.ToggleSortMode)
+        public ToggleSortModeCommand() : base("ToggleSortMode")
         {
             this.Group = Properties.Resources.CommandGroupPageOrder;
             this.Text = Properties.Resources.CommandToggleSortMode;

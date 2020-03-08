@@ -2,7 +2,7 @@
 {
     public class NoneCommand : CommandElement
     {
-        public NoneCommand() : base(CommandType.None)
+        public NoneCommand() : base("")
         {
             this.Group = "(none)";
             this.Text = "(none)";

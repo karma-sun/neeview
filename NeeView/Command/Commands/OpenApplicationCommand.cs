@@ -2,7 +2,7 @@
 {
     public class OpenApplicationCommand : CommandElement
     {
-        public OpenApplicationCommand() : base(CommandType.OpenApplication)
+        public OpenApplicationCommand() : base("OpenApplication")
         {
             this.Group = Properties.Resources.CommandGroupFile;
             this.Text = Properties.Resources.CommandOpenApplication;

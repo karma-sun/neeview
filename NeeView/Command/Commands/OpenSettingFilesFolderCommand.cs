@@ -2,7 +2,7 @@
 {
     public class OpenSettingFilesFolderCommand : CommandElement
     {
-        public OpenSettingFilesFolderCommand() : base(CommandType.OpenSettingFilesFolder)
+        public OpenSettingFilesFolderCommand() : base("OpenSettingFilesFolder")
         {
             this.Group = Properties.Resources.CommandGroupOther;
             this.Text = Properties.Resources.CommandOpenSettingFilesFolder;

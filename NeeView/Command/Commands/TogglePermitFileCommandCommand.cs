@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class TogglePermitFileCommandCommand : CommandElement
     {
-        public TogglePermitFileCommandCommand() : base(CommandType.TogglePermitFileCommand)
+        public TogglePermitFileCommandCommand() : base("TogglePermitFileCommand")
         {
             this.Group = Properties.Resources.CommandGroupOther;
             this.Text = Properties.Resources.CommandTogglePermitFileCommand;

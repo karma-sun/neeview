@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleVisibleEffectInfoCommand : CommandElement
     {
-        public ToggleVisibleEffectInfoCommand() : base(CommandType.ToggleVisibleEffectInfo)
+        public ToggleVisibleEffectInfoCommand() : base("ToggleVisibleEffectInfo")
         {
             this.Group = Properties.Resources.CommandGroupPanel;
             this.Text = Properties.Resources.CommandToggleVisibleEffectInfo;

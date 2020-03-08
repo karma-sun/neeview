@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleIsSupportedWidePageCommand : CommandElement
     {
-        public ToggleIsSupportedWidePageCommand() : base(CommandType.ToggleIsSupportedWidePage)
+        public ToggleIsSupportedWidePageCommand() : base("ToggleIsSupportedWidePage")
         {
             this.Group = Properties.Resources.CommandGroupPageSetting;
             this.Text = Properties.Resources.CommandToggleIsSupportedWidePage;

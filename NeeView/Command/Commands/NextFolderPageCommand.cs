@@ -2,7 +2,7 @@
 {
     public class NextFolderPageCommand : CommandElement
     {
-        public NextFolderPageCommand() : base("NextFolderPage")
+        public NextFolderPageCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupMove;
             this.Text = Properties.Resources.CommandNextFolderPage;

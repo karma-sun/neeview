@@ -46,9 +46,8 @@ namespace NeeView
         static CommandTable() => Current = new CommandTable();
         public static CommandTable Current { get; }
 
-        #region Fields
 
-        private static Memento s_defaultMemento;
+        #region Fields
 
         private Dictionary<string, CommandElement> _elements;
         private bool _isReversePageMove = true;
@@ -87,6 +86,8 @@ namespace NeeView
             }
             set { _elements[key] = value; }
         }
+
+        public Memento DefaultMemento { get; private set; }
 
 
         [PropertyMember("@ParamCommandIsReversePageMove", Tips = "@ParamCommandIsReversePageMoveTips")]
@@ -147,7 +148,7 @@ namespace NeeView
         /// <returns></returns>
         public static Memento CreateDefaultMemento(InputSceme type)
         {
-            var memento = s_defaultMemento.Clone();
+            var memento = CommandTable.Current.DefaultMemento.Clone();
 
             // Type.M
             switch (type)
@@ -264,174 +265,197 @@ namespace NeeView
         /// </summary>
         private void InitializeCommandTable()
         {
-            // コマンドの設定定義
-            _elements = new Dictionary<string, CommandElement>();
+            var list = new List<CommandElement>()
+            {
+                new OpenSettingWindowCommand("OpenSettingWindow"),
+                new OpenSettingFilesFolderCommand("OpenSettingFilesFolder"),
+                new OpenVersionWindowCommand("OpenVersionWindow"),
+                new CloseApplicationCommand("CloseApplication"),
+                new LoadAsCommand("LoadAs"),
+                new ReLoadCommand("ReLoad"),
+                new UnloadCommand("Unload"),
+                new OpenApplicationCommand("OpenApplication"),
+                new OpenFilePlaceCommand("OpenFilePlace"),
+                new ExportCommand("Export"),
+                new ExportImageCommand("ExportImage"),
+                new PrintCommand("Print"),
+                new DeleteFileCommand("DeleteFile"),
+                new DeleteBookCommand("DeleteBook"),
+                new CopyFileCommand("CopyFile"),
+                new CopyImageCommand("CopyImage"),
+                new PasteCommand("Paste"),
+                new OpenContextMenuCommand("OpenContextMenu"),
+                new ClearHistoryCommand("ClearHistory"),
+                new ClearHistoryInPlaceCommand("ClearHistoryInPlace"),
+                new PrevPageCommand("PrevPage"),
+                new NextPageCommand("NextPage"),
+                new PrevOnePageCommand("PrevOnePage"),
+                new NextOnePageCommand("NextOnePage"),
+                new PrevScrollPageCommand("PrevScrollPage"),
+                new NextScrollPageCommand("NextScrollPage"),
+                new JumpPageCommand("JumpPage"),
+                new PrevSizePageCommand("PrevSizePage"),
+                new NextSizePageCommand("NextSizePage"),
+                new PrevFolderPageCommand("PrevFolderPage"),
+                new NextFolderPageCommand("NextFolderPage"),
+                new FirstPageCommand("FirstPage"),
+                new LastPageCommand("LastPage"),
+                new ToggleMediaPlayCommand("ToggleMediaPlay"),
+                new PrevFolderCommand("PrevFolder"),
+                new NextFolderCommand("NextFolder"),
+                new PrevHistoryCommand("PrevHistory"),
+                new NextHistoryCommand("NextHistory"),
+                new PrevBookHistoryCommand("PrevBookHistory"),
+                new NextBookHistoryCommand("NextBookHistory"),
+                new MoveToParentBookCommand("MoveToParentBook"),
+                new MoveToChildBookCommand("MoveToChildBook"),
+                new ToggleFolderOrderCommand("ToggleFolderOrder"),
+                new SetFolderOrderByFileNameACommand("SetFolderOrderByFileNameA"),
+                new SetFolderOrderByFileNameDCommand("SetFolderOrderByFileNameD"),
+                new SetFolderOrderByPathACommand("SetFolderOrderByPathA"),
+                new SetFolderOrderByPathDCommand("SetFolderOrderByPathD"),
+                new SetFolderOrderByFileTypeACommand("SetFolderOrderByFileTypeA"),
+                new SetFolderOrderByFileTypeDCommand("SetFolderOrderByFileTypeD"),
+                new SetFolderOrderByTimeStampACommand("SetFolderOrderByTimeStampA"),
+                new SetFolderOrderByTimeStampDCommand("SetFolderOrderByTimeStampD"),
+                new SetFolderOrderByEntryTimeACommand("SetFolderOrderByEntryTimeA"),
+                new SetFolderOrderByEntryTimeDCommand("SetFolderOrderByEntryTimeD"),
+                new SetFolderOrderBySizeACommand("SetFolderOrderBySizeA"),
+                new SetFolderOrderBySizeDCommand("SetFolderOrderBySizeD"),
+                new SetFolderOrderByRandomCommand("SetFolderOrderByRandom"),
+                new ToggleTopmostCommand("ToggleTopmost"),
+                new ToggleHideMenuCommand("ToggleHideMenu"),
+                new ToggleHidePageSliderCommand("ToggleHidePageSlider"),
+                new ToggleHidePanelCommand("ToggleHidePanel"),
+                new ToggleVisibleTitleBarCommand("ToggleVisibleTitleBar"),
+                new ToggleVisibleAddressBarCommand("ToggleVisibleAddressBar"),
+                new ToggleVisibleSideBarCommand("ToggleVisibleSideBar"),
+                new ToggleVisibleFileInfoCommand("ToggleVisibleFileInfo"),
+                new ToggleVisibleEffectInfoCommand("ToggleVisibleEffectInfo"),
+                new ToggleVisibleBookshelfCommand("ToggleVisibleBookshelf"),
+                new ToggleVisibleBookmarkListCommand("ToggleVisibleBookmarkList"),
+                new ToggleVisiblePagemarkListCommand("ToggleVisiblePagemarkList"),
+                new ToggleVisibleHistoryListCommand("ToggleVisibleHistoryList"),
+                new ToggleVisiblePageListCommand("ToggleVisiblePageList"),
+                new ToggleVisibleFoldersTreeCommand("ToggleVisibleFoldersTree"),
+                new FocusFolderSearchBoxCommand("FocusFolderSearchBox"),
+                new FocusBookmarkListCommand("FocusBookmarkList"),
+                new FocusMainViewCommand("FocusMainView"),
+                new TogglePageListPlacementCommand("TogglePageListPlacement"),
+                new ToggleVisibleThumbnailListCommand("ToggleVisibleThumbnailList"),
+                new ToggleHideThumbnailListCommand("ToggleHideThumbnailList"),
+                new ToggleFullScreenCommand("ToggleFullScreen"),
+                new SetFullScreenCommand("SetFullScreen"),
+                new CancelFullScreenCommand("CancelFullScreen"),
+                new ToggleWindowMinimizeCommand("ToggleWindowMinimize"),
+                new ToggleWindowMaximizeCommand("ToggleWindowMaximize"),
+                new ShowHiddenPanelsCommand("ShowHiddenPanels"),
+                new ToggleSlideShowCommand("ToggleSlideShow"),
+                new ToggleStretchModeCommand("ToggleStretchMode"),
+                new ToggleStretchModeReverseCommand("ToggleStretchModeReverse"),
+                new SetStretchModeNoneCommand("SetStretchModeNone"),
+                new SetStretchModeUniformCommand("SetStretchModeUniform"),
+                new SetStretchModeUniformToFillCommand("SetStretchModeUniformToFill"),
+                new SetStretchModeUniformToSizeCommand("SetStretchModeUniformToSize"),
+                new SetStretchModeUniformToVerticalCommand("SetStretchModeUniformToVertical"),
+                new SetStretchModeUniformToHorizontalCommand("SetStretchModeUniformToHorizontal"),
+                new ToggleStretchAllowEnlargeCommand("ToggleStretchAllowEnlarge"),
+                new ToggleStretchAllowReduceCommand("ToggleStretchAllowReduce"),
+                new ToggleIsEnabledNearestNeighborCommand("ToggleIsEnabledNearestNeighbor"),
+                new ToggleBackgroundCommand("ToggleBackground"),
+                new SetBackgroundBlackCommand("SetBackgroundBlack"),
+                new SetBackgroundWhiteCommand("SetBackgroundWhite"),
+                new SetBackgroundAutoCommand("SetBackgroundAuto"),
+                new SetBackgroundCheckCommand("SetBackgroundCheck"),
+                new SetBackgroundCheckDarkCommand("SetBackgroundCheckDark"),
+                new SetBackgroundCustomCommand("SetBackgroundCustom"),
+                new TogglePageModeCommand("TogglePageMode"),
+                new SetPageMode1Command("SetPageMode1"),
+                new SetPageMode2Command("SetPageMode2"),
+                new ToggleBookReadOrderCommand("ToggleBookReadOrder"),
+                new SetBookReadOrderRightCommand("SetBookReadOrderRight"),
+                new SetBookReadOrderLeftCommand("SetBookReadOrderLeft"),
+                new ToggleIsSupportedDividePageCommand("ToggleIsSupportedDividePage"),
+                new ToggleIsSupportedWidePageCommand("ToggleIsSupportedWidePage"),
+                new ToggleIsSupportedSingleFirstPageCommand("ToggleIsSupportedSingleFirstPage"),
+                new ToggleIsSupportedSingleLastPageCommand("ToggleIsSupportedSingleLastPage"),
+                new ToggleIsRecursiveFolderCommand("ToggleIsRecursiveFolder"),
+                new ToggleSortModeCommand("ToggleSortMode"),
+                new SetSortModeFileNameCommand("SetSortModeFileName"),
+                new SetSortModeFileNameDescendingCommand("SetSortModeFileNameDescending"),
+                new SetSortModeTimeStampCommand("SetSortModeTimeStamp"),
+                new SetSortModeTimeStampDescendingCommand("SetSortModeTimeStampDescending"),
+                new SetSortModeSizeCommand("SetSortModeSize"),
+                new SetSortModeSizeDescendingCommand("SetSortModeSizeDescending"),
+                new SetSortModeRandomCommand("SetSortModeRandom"),
+                new SetDefaultPageSettingCommand("SetDefaultPageSetting"),
+                new ToggleBookmarkCommand("ToggleBookmark"),
+                new TogglePagemarkCommand("TogglePagemark"),
+                new PrevPagemarkCommand("PrevPagemark"),
+                new NextPagemarkCommand("NextPagemark"),
+                new PrevPagemarkInBookCommand("PrevPagemarkInBook"),
+                new NextPagemarkInBookCommand("NextPagemarkInBook"),
+                new ViewScrollUpCommand("ViewScrollUp"),
+                new ViewScrollDownCommand("ViewScrollDown"),
+                new ViewScrollLeftCommand("ViewScrollLeft"),
+                new ViewScrollRightCommand("ViewScrollRight"),
+                new ViewScaleUpCommand("ViewScaleUp"),
+                new ViewScaleDownCommand("ViewScaleDown"),
+                new ViewRotateLeftCommand("ViewRotateLeft"),
+                new ViewRotateRightCommand("ViewRotateRight"),
+                new ToggleIsAutoRotateLeftCommand("ToggleIsAutoRotateLeft"),
+                new ToggleIsAutoRotateRightCommand("ToggleIsAutoRotateRight"),
+                new ToggleViewFlipHorizontalCommand("ToggleViewFlipHorizontal"),
+                new ViewFlipHorizontalOnCommand("ViewFlipHorizontalOn"),
+                new ViewFlipHorizontalOffCommand("ViewFlipHorizontalOff"),
+                new ToggleViewFlipVerticalCommand("ToggleViewFlipVertical"),
+                new ViewFlipVerticalOnCommand("ViewFlipVerticalOn"),
+                new ViewFlipVerticalOffCommand("ViewFlipVerticalOff"),
+                new ViewResetCommand("ViewReset"),
+                new ToggleCustomSizeCommand("ToggleCustomSize"),
+                new ToggleResizeFilterCommand("ToggleResizeFilter"),
+                new ToggleGridCommand("ToggleGrid"),
+                new ToggleEffectCommand("ToggleEffect"),
+                new ToggleIsLoupeCommand("ToggleIsLoupe"),
+                new LoupeOnCommand("LoupeOn"),
+                new LoupeOffCommand("LoupeOff"),
+                new LoupeScaleUpCommand("LoupeScaleUp"),
+                new LoupeScaleDownCommand("LoupeScaleDown"),
+                new TogglePermitFileCommandCommand("TogglePermitFileCommand"),
+                new HelpCommandListCommand("HelpCommandList"),
+                new HelpMainMenuCommand("HelpMainMenu"),
+                new HelpSearchOptionCommand("HelpSearchOption"),
+                new ExportBackupCommand("ExportBackup"),
+                new ImportBackupCommand("ImportBackup"),
+                new ReloadUserSettingCommand("ReloadUserSetting"),
+                new TouchEmulateCommand("TouchEmulate"),
+            };
 
-            _elements["OpenSettingWindow"] = new OpenSettingWindowCommand();
-            _elements["OpenSettingFilesFolder"] = new OpenSettingFilesFolderCommand();
-            _elements["OpenVersionWindow"] = new OpenVersionWindowCommand();
-            _elements["CloseApplication"] = new CloseApplicationCommand();
-            _elements["LoadAs"] = new LoadAsCommand();
-            _elements["ReLoad"] = new ReLoadCommand();
-            _elements["Unload"] = new UnloadCommand();
-            _elements["OpenApplication"] = new OpenApplicationCommand();
-            _elements["OpenFilePlace"] = new OpenFilePlaceCommand();
-            _elements["Export"] = new ExportCommand();
-            _elements["ExportImage"] = new ExportImageCommand();
-            _elements["Print"] = new PrintCommand();
-            _elements["DeleteFile"] = new DeleteFileCommand();
-            _elements["DeleteBook"] = new DeleteBookCommand();
-            _elements["CopyFile"] = new CopyFileCommand();
-            _elements["CopyImage"] = new CopyImageCommand();
-            _elements["Paste"] = new PasteCommand();
-            _elements["OpenContextMenu"] = new OpenContextMenuCommand();
-            _elements["ClearHistory"] = new ClearHistoryCommand();
-            _elements["ClearHistoryInPlace"] = new ClearHistoryInPlaceCommand();
-            _elements["PrevPage"] = new PrevPageCommand();
-            _elements["NextPage"] = new NextPageCommand().SetShare(_elements["PrevPage"]);
-            _elements["PrevOnePage"] = new PrevOnePageCommand();
-            _elements["NextOnePage"] = new NextOnePageCommand().SetShare(_elements["PrevOnePage"]);
-            _elements["PrevScrollPage"] = new PrevScrollPageCommand();
-            _elements["NextScrollPage"] = new NextScrollPageCommand().SetShare(_elements["PrevScrollPage"]);
-            _elements["JumpPage"] = new JumpPageCommand();
-            _elements["PrevSizePage"] = new PrevSizePageCommand();
-            _elements["NextSizePage"] = new NextSizePageCommand().SetShare(_elements["PrevSizePage"]);
-            _elements["PrevFolderPage"] = new PrevFolderPageCommand();
-            _elements["NextFolderPage"] = new NextFolderPageCommand().SetShare(_elements["PrevFolderPage"]);
-            _elements["FirstPage"] = new FirstPageCommand();
-            _elements["LastPage"] = new LastPageCommand().SetShare(_elements["FirstPage"]);
-            _elements["ToggleMediaPlay"] = new ToggleMediaPlayCommand();
-            _elements["PrevFolder"] = new PrevFolderCommand();
-            _elements["NextFolder"] = new NextFolderCommand();
-            _elements["PrevHistory"] = new PrevHistoryCommand();
-            _elements["NextHistory"] = new NextHistoryCommand();
-            _elements["PrevBookHistory"] = new PrevBookHistoryCommand();
-            _elements["NextBookHistory"] = new NextBookHistoryCommand();
-            _elements["MoveToParentBook"] = new MoveToParentBookCommand();
-            _elements["MoveToChildBook"] = new MoveToChildBookCommand();
-            _elements["ToggleFolderOrder"] = new ToggleFolderOrderCommand();
-            _elements["SetFolderOrderByFileNameA"] = new SetFolderOrderByFileNameACommand();
-            _elements["SetFolderOrderByFileNameD"] = new SetFolderOrderByFileNameDCommand();
-            _elements["SetFolderOrderByPathA"] = new SetFolderOrderByPathACommand();
-            _elements["SetFolderOrderByPathD"] = new SetFolderOrderByPathDCommand();
-            _elements["SetFolderOrderByFileTypeA"] = new SetFolderOrderByFileTypeACommand();
-            _elements["SetFolderOrderByFileTypeD"] = new SetFolderOrderByFileTypeDCommand();
-            _elements["SetFolderOrderByTimeStampA"] = new SetFolderOrderByTimeStampACommand();
-            _elements["SetFolderOrderByTimeStampD"] = new SetFolderOrderByTimeStampDCommand();
-            _elements["SetFolderOrderByEntryTimeA"] = new SetFolderOrderByEntryTimeACommand();
-            _elements["SetFolderOrderByEntryTimeD"] = new SetFolderOrderByEntryTimeDCommand();
-            _elements["SetFolderOrderBySizeA"] = new SetFolderOrderBySizeACommand();
-            _elements["SetFolderOrderBySizeD"] = new SetFolderOrderBySizeDCommand();
-            _elements["SetFolderOrderByRandom"] = new SetFolderOrderByRandomCommand();
-            _elements["ToggleTopmost"] = new ToggleTopmostCommand();
-            _elements["ToggleHideMenu"] = new ToggleHideMenuCommand();
-            _elements["ToggleHidePageSlider"] = new ToggleHidePageSliderCommand();
-            _elements["ToggleHidePanel"] = new ToggleHidePanelCommand();
-            _elements["ToggleVisibleTitleBar"] = new ToggleVisibleTitleBarCommand();
-            _elements["ToggleVisibleAddressBar"] = new ToggleVisibleAddressBarCommand();
-            _elements["ToggleVisibleSideBar"] = new ToggleVisibleSideBarCommand();
-            _elements["ToggleVisibleFileInfo"] = new ToggleVisibleFileInfoCommand();
-            _elements["ToggleVisibleEffectInfo"] = new ToggleVisibleEffectInfoCommand();
-            _elements["ToggleVisibleBookshelf"] = new ToggleVisibleBookshelfCommand();
-            _elements["ToggleVisibleBookmarkList"] = new ToggleVisibleBookmarkListCommand();
-            _elements["ToggleVisiblePagemarkList"] = new ToggleVisiblePagemarkListCommand();
-            _elements["ToggleVisibleHistoryList"] = new ToggleVisibleHistoryListCommand();
-            _elements["ToggleVisiblePageList"] = new ToggleVisiblePageListCommand();
-            _elements["ToggleVisibleFoldersTree"] = new ToggleVisibleFoldersTreeCommand();
-            _elements["FocusFolderSearchBox"] = new FocusFolderSearchBoxCommand();
-            _elements["FocusBookmarkList"] = new FocusBookmarkListCommand();
-            _elements["FocusMainView"] = new FocusMainViewCommand();
-            _elements["TogglePageListPlacement"] = new TogglePageListPlacementCommand();
-            _elements["ToggleVisibleThumbnailList"] = new ToggleVisibleThumbnailListCommand();
-            _elements["ToggleHideThumbnailList"] = new ToggleHideThumbnailListCommand();
-            _elements["ToggleFullScreen"] = new ToggleFullScreenCommand();
-            _elements["SetFullScreen"] = new SetFullScreenCommand();
-            _elements["CancelFullScreen"] = new CancelFullScreenCommand();
-            _elements["ToggleWindowMinimize"] = new ToggleWindowMinimizeCommand();
-            _elements["ToggleWindowMaximize"] = new ToggleWindowMaximizeCommand();
-            _elements["ShowHiddenPanels"] = new ShowHiddenPanelsCommand();
-            _elements["ToggleSlideShow"] = new ToggleSlideShowCommand();
-            _elements["ToggleStretchMode"] = new ToggleStretchModeCommand();
-            _elements["ToggleStretchModeReverse"] = new ToggleStretchModeReverseCommand().SetShare(_elements["ToggleStretchMode"]);
-            _elements["SetStretchModeNone"] = new SetStretchModeNoneCommand();
-            _elements["SetStretchModeUniform"] = new SetStretchModeUniformCommand();
-            _elements["SetStretchModeUniformToFill"] = new SetStretchModeUniformToFillCommand().SetShare(_elements["SetStretchModeUniform"]);
-            _elements["SetStretchModeUniformToSize"] = new SetStretchModeUniformToSizeCommand().SetShare(_elements["SetStretchModeUniform"]);
-            _elements["SetStretchModeUniformToVertical"] = new SetStretchModeUniformToVerticalCommand().SetShare(_elements["SetStretchModeUniform"]);
-            _elements["SetStretchModeUniformToHorizontal"] = new SetStretchModeUniformToHorizontalCommand().SetShare(_elements["SetStretchModeUniform"]);
-            _elements["ToggleStretchAllowEnlarge"] = new ToggleStretchAllowEnlargeCommand();
-            _elements["ToggleStretchAllowReduce"] = new ToggleStretchAllowReduceCommand();
-            _elements["ToggleIsEnabledNearestNeighbor"] = new ToggleIsEnabledNearestNeighborCommand();
-            _elements["ToggleBackground"] = new ToggleBackgroundCommand();
-            _elements["SetBackgroundBlack"] = new SetBackgroundBlackCommand();
-            _elements["SetBackgroundWhite"] = new SetBackgroundWhiteCommand();
-            _elements["SetBackgroundAuto"] = new SetBackgroundAutoCommand();
-            _elements["SetBackgroundCheck"] = new SetBackgroundCheckCommand();
-            _elements["SetBackgroundCheckDark"] = new SetBackgroundCheckDarkCommand();
-            _elements["SetBackgroundCustom"] = new SetBackgroundCustomCommand();
-            _elements["TogglePageMode"] = new TogglePageModeCommand();
-            _elements["SetPageMode1"] = new SetPageMode1Command();
-            _elements["SetPageMode2"] = new SetPageMode2Command();
-            _elements["ToggleBookReadOrder"] = new ToggleBookReadOrderCommand();
-            _elements["SetBookReadOrderRight"] = new SetBookReadOrderRightCommand();
-            _elements["SetBookReadOrderLeft"] = new SetBookReadOrderLeftCommand();
-            _elements["ToggleIsSupportedDividePage"] = new ToggleIsSupportedDividePageCommand();
-            _elements["ToggleIsSupportedWidePage"] = new ToggleIsSupportedWidePageCommand();
-            _elements["ToggleIsSupportedSingleFirstPage"] = new ToggleIsSupportedSingleFirstPageCommand();
-            _elements["ToggleIsSupportedSingleLastPage"] = new ToggleIsSupportedSingleLastPageCommand();
-            _elements["ToggleIsRecursiveFolder"] = new ToggleIsRecursiveFolderCommand();
-            _elements["ToggleSortMode"] = new ToggleSortModeCommand();
-            _elements["SetSortModeFileName"] = new SetSortModeFileNameCommand();
-            _elements["SetSortModeFileNameDescending"] = new SetSortModeFileNameDescendingCommand();
-            _elements["SetSortModeTimeStamp"] = new SetSortModeTimeStampCommand();
-            _elements["SetSortModeTimeStampDescending"] = new SetSortModeTimeStampDescendingCommand();
-            _elements["SetSortModeSize"] = new SetSortModeSizeCommand();
-            _elements["SetSortModeSizeDescending"] = new SetSortModeSizeDescendingCommand();
-            _elements["SetSortModeRandom"] = new SetSortModeRandomCommand();
-            _elements["SetDefaultPageSetting"] = new SetDefaultPageSettingCommand();
-            _elements["ToggleBookmark"] = new ToggleBookmarkCommand();
-            _elements["TogglePagemark"] = new TogglePagemarkCommand();
-            _elements["PrevPagemark"] = new PrevPagemarkCommand();
-            _elements["NextPagemark"] = new NextPagemarkCommand();
-            _elements["PrevPagemarkInBook"] = new PrevPagemarkInBookCommand();
-            _elements["NextPagemarkInBook"] = new NextPagemarkInBookCommand().SetShare(_elements["PrevPagemarkInBook"]);
-            _elements["ViewScrollUp"] = new ViewScrollUpCommand();
-            _elements["ViewScrollDown"] = new ViewScrollDownCommand().SetShare(_elements["ViewScrollUp"]);
-            _elements["ViewScrollLeft"] = new ViewScrollLeftCommand().SetShare(_elements["ViewScrollUp"]);
-            _elements["ViewScrollRight"] = new ViewScrollRightCommand().SetShare(_elements["ViewScrollUp"]);
-            _elements["ViewScaleUp"] = new ViewScaleUpCommand();
-            _elements["ViewScaleDown"] = new ViewScaleDownCommand().SetShare(_elements["ViewScaleUp"]);
-            _elements["ViewRotateLeft"] = new ViewRotateLeftCommand();
-            _elements["ViewRotateRight"] = new ViewRotateRightCommand().SetShare(_elements["ViewRotateLeft"]);
-            _elements["ToggleIsAutoRotateLeft"] = new ToggleIsAutoRotateLeftCommand();
-            _elements["ToggleIsAutoRotateRight"] = new ToggleIsAutoRotateRightCommand();
-            _elements["ToggleViewFlipHorizontal"] = new ToggleViewFlipHorizontalCommand();
-            _elements["ViewFlipHorizontalOn"] = new ViewFlipHorizontalOnCommand();
-            _elements["ViewFlipHorizontalOff"] = new ViewFlipHorizontalOffCommand();
-            _elements["ToggleViewFlipVertical"] = new ToggleViewFlipVerticalCommand();
-            _elements["ViewFlipVerticalOn"] = new ViewFlipVerticalOnCommand();
-            _elements["ViewFlipVerticalOff"] = new ViewFlipVerticalOffCommand();
-            _elements["ViewReset"] = new ViewResetCommand();
-            _elements["ToggleCustomSize"] = new ToggleCustomSizeCommand();
-            _elements["ToggleResizeFilter"] = new ToggleResizeFilterCommand();
-            _elements["ToggleGrid"] = new ToggleGridCommand();
-            _elements["ToggleEffect"] = new ToggleEffectCommand();
-            _elements["ToggleIsLoupe"] = new ToggleIsLoupeCommand();
-            _elements["LoupeOn"] = new LoupeOnCommand();
-            _elements["LoupeOff"] = new LoupeOffCommand();
-            _elements["LoupeScaleUp"] = new LoupeScaleUpCommand();
-            _elements["LoupeScaleDown"] = new LoupeScaleDownCommand();
-            _elements["TogglePermitFileCommand"] = new TogglePermitFileCommandCommand();
-            _elements["HelpCommandList"] = new HelpCommandListCommand();
-            _elements["HelpMainMenu"] = new HelpMainMenuCommand();
-            _elements["HelpSearchOption"] = new HelpSearchOptionCommand();
-            _elements["ExportBackup"] = new ExportBackupCommand();
-            _elements["ImportBackup"] = new ImportBackupCommand();
-            _elements["ReloadUserSetting"] = new ReloadUserSettingCommand();
-            _elements["TouchEmulate"] = new TouchEmulateCommand();
+            _elements = list.ToDictionary(e => e.CommandType);
+
+            // share
+            _elements["NextPage"].SetShare(_elements["PrevPage"]);
+            _elements["NextOnePage"].SetShare(_elements["PrevOnePage"]);
+            _elements["NextScrollPage"].SetShare(_elements["PrevScrollPage"]);
+            _elements["NextSizePage"].SetShare(_elements["PrevSizePage"]);
+            _elements["NextFolderPage"].SetShare(_elements["PrevFolderPage"]);
+            _elements["LastPage"].SetShare(_elements["FirstPage"]);
+            _elements["ToggleStretchModeReverse"].SetShare(_elements["ToggleStretchMode"]);
+            _elements["SetStretchModeUniformToFill"].SetShare(_elements["SetStretchModeUniform"]);
+            _elements["SetStretchModeUniformToSize"].SetShare(_elements["SetStretchModeUniform"]);
+            _elements["SetStretchModeUniformToVertical"].SetShare(_elements["SetStretchModeUniform"]);
+            _elements["SetStretchModeUniformToHorizontal"].SetShare(_elements["SetStretchModeUniform"]);
+            _elements["NextPagemarkInBook"].SetShare(_elements["PrevPagemarkInBook"]);
+            _elements["ViewScrollDown"].SetShare(_elements["ViewScrollUp"]);
+            _elements["ViewScrollLeft"].SetShare(_elements["ViewScrollUp"]);
+            _elements["ViewScrollRight"].SetShare(_elements["ViewScrollUp"]);
+            _elements["ViewScaleDown"].SetShare(_elements["ViewScaleUp"]);
+            _elements["ViewRotateRight"].SetShare(_elements["ViewRotateLeft"]);
+
+            // TODO: pair...
 
             // デフォルト設定として記憶
-            s_defaultMemento = CreateMemento();
+            DefaultMemento = CreateMemento();
         }
 
         #endregion

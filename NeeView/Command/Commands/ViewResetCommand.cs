@@ -2,7 +2,7 @@
 {
     public class ViewResetCommand : CommandElement
     {
-        public ViewResetCommand() : base("ViewReset")
+        public ViewResetCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupViewManipulation;
             this.Text = Properties.Resources.CommandViewReset;

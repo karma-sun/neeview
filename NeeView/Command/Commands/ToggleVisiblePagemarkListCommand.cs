@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleVisiblePagemarkListCommand : CommandElement
     {
-        public ToggleVisiblePagemarkListCommand() : base("ToggleVisiblePagemarkList")
+        public ToggleVisiblePagemarkListCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupPanel;
             this.Text = Properties.Resources.CommandToggleVisiblePagemarkList;

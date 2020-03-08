@@ -2,7 +2,7 @@
 {
     public class CopyImageCommand : CommandElement
     {
-        public CopyImageCommand() : base("CopyImage")
+        public CopyImageCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupFile;
             this.Text = Properties.Resources.CommandCopyImage;

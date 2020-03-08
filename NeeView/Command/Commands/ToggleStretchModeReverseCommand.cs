@@ -2,7 +2,7 @@
 {
     public class ToggleStretchModeReverseCommand : CommandElement
     {
-        public ToggleStretchModeReverseCommand() : base("ToggleStretchModeReverse")
+        public ToggleStretchModeReverseCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupImageScale;
             this.Text = Properties.Resources.CommandToggleStretchModeReverse;

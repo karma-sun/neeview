@@ -2,7 +2,7 @@
 {
     public class ShowHiddenPanelsCommand : CommandElement
     {
-        public ShowHiddenPanelsCommand() : base("ShowHiddenPanels")
+        public ShowHiddenPanelsCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupWindow;
             this.Text = Properties.Resources.CommandShowHiddenPanels;

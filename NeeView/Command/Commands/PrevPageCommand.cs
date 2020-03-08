@@ -2,7 +2,7 @@
 {
     public class PrevPageCommand : CommandElement
     {
-        public PrevPageCommand() : base("PrevPage")
+        public PrevPageCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupMove;
             this.Text = Properties.Resources.CommandPrevPage;

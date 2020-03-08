@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleBookmarkCommand : CommandElement
     {
-        public ToggleBookmarkCommand() : base("ToggleBookmark")
+        public ToggleBookmarkCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupBookmark;
             this.Text = Properties.Resources.CommandToggleBookmark;

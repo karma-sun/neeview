@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleGridCommand : CommandElement
     {
-        public ToggleGridCommand() : base("ToggleGrid")
+        public ToggleGridCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupEffect;
             this.Text = Properties.Resources.CommandToggleGrid;

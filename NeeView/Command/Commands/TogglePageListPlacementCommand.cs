@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class TogglePageListPlacementCommand : CommandElement
     {
-        public TogglePageListPlacementCommand() : base("TogglePageListPlacement")
+        public TogglePageListPlacementCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupPanel;
             this.Text = Properties.Resources.CommandTogglePageListPlacement;

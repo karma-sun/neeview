@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleVisibleHistoryListCommand : CommandElement
     {
-        public ToggleVisibleHistoryListCommand() : base("ToggleVisibleHistoryList")
+        public ToggleVisibleHistoryListCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupPanel;
             this.Text = Properties.Resources.CommandToggleVisibleHistoryList;

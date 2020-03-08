@@ -2,7 +2,7 @@
 {
     public class MoveToChildBookCommand : CommandElement
     {
-        public MoveToChildBookCommand() : base("MoveToChildBook")
+        public MoveToChildBookCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupMove;
             this.Text = Properties.Resources.CommandMoveToChildBook;

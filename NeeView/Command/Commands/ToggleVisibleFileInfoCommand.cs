@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleVisibleFileInfoCommand : CommandElement
     {
-        public ToggleVisibleFileInfoCommand() : base("ToggleVisibleFileInfo")
+        public ToggleVisibleFileInfoCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupPanel;
             this.Text = Properties.Resources.CommandToggleVisibleFileInfo;

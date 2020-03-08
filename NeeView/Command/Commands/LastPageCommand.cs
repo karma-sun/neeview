@@ -2,7 +2,7 @@
 {
     public class LastPageCommand : CommandElement
     {
-        public LastPageCommand() : base("LastPage")
+        public LastPageCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupMove;
             this.Text = Properties.Resources.CommandLastPage;

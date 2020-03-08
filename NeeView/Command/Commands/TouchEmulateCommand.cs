@@ -2,7 +2,7 @@
 {
     public class TouchEmulateCommand : CommandElement
     {
-        public TouchEmulateCommand() : base("TouchEmulate")
+        public TouchEmulateCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupOther;
             this.Text = Properties.Resources.CommandTouchEmulate;

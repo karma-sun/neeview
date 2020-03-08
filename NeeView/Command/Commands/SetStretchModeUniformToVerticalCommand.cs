@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class SetStretchModeUniformToVerticalCommand : CommandElement
     {
-        public SetStretchModeUniformToVerticalCommand() : base("SetStretchModeUniformToVertical")
+        public SetStretchModeUniformToVerticalCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupImageScale;
             this.Text = Properties.Resources.CommandSetStretchModeUniformToVertical;

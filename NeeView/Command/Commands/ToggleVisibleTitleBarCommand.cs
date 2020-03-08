@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleVisibleTitleBarCommand : CommandElement
     {
-        public ToggleVisibleTitleBarCommand() : base("ToggleVisibleTitleBar")
+        public ToggleVisibleTitleBarCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupWindow;
             this.Text = Properties.Resources.CommandToggleVisibleTitleBar;

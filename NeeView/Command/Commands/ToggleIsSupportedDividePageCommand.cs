@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleIsSupportedDividePageCommand : CommandElement
     {
-        public ToggleIsSupportedDividePageCommand() : base("ToggleIsSupportedDividePage")
+        public ToggleIsSupportedDividePageCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupPageSetting;
             this.Text = Properties.Resources.CommandToggleIsSupportedDividePage;

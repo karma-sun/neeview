@@ -2,7 +2,7 @@
 {
     public class FirstPageCommand : CommandElement
     {
-        public FirstPageCommand() : base("FirstPage")
+        public FirstPageCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupMove;
             this.Text = Properties.Resources.CommandFirstPage;

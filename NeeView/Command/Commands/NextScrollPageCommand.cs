@@ -2,7 +2,7 @@
 {
     public class NextScrollPageCommand : CommandElement
     {
-        public NextScrollPageCommand() : base("NextScrollPage")
+        public NextScrollPageCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupMove;
             this.Text = Properties.Resources.CommandNextScrollPage;

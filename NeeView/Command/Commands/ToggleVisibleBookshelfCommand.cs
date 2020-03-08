@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleVisibleBookshelfCommand : CommandElement
     {
-        public ToggleVisibleBookshelfCommand() : base("ToggleVisibleBookshelf")
+        public ToggleVisibleBookshelfCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupPanel;
             this.Text = Properties.Resources.CommandToggleVisibleBookshelf;

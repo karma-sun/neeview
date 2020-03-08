@@ -2,7 +2,7 @@
 {
     public class FocusBookmarkListCommand : CommandElement
     {
-        public FocusBookmarkListCommand() : base("FocusBookmarkList")
+        public FocusBookmarkListCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupPanel;
             this.Text = Properties.Resources.CommandFocusBookmarkList;

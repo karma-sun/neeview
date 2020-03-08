@@ -2,7 +2,7 @@
 {
     public class LoadAsCommand : CommandElement
     {
-        public LoadAsCommand() : base("LoadAs")
+        public LoadAsCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupFile;
             this.Text = Properties.Resources.CommandLoadAs;

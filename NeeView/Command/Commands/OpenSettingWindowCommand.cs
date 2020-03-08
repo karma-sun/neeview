@@ -2,7 +2,7 @@
 {
     public class OpenSettingWindowCommand : CommandElement
     {
-        public OpenSettingWindowCommand() : base("OpenSettingWindow")
+        public OpenSettingWindowCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupOther;
             this.Text = Properties.Resources.CommandOpenSettingWindow;

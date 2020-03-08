@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleViewFlipVerticalCommand : CommandElement
     {
-        public ToggleViewFlipVerticalCommand() : base("ToggleViewFlipVertical")
+        public ToggleViewFlipVerticalCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupViewManipulation;
             this.Text = Properties.Resources.CommandToggleViewFlipVertical;

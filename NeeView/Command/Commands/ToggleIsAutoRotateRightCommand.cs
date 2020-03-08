@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleIsAutoRotateRightCommand : CommandElement
     {
-        public ToggleIsAutoRotateRightCommand() : base("ToggleIsAutoRotateRight")
+        public ToggleIsAutoRotateRightCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupViewManipulation;
             this.Text = Properties.Resources.CommandToggleIsAutoRotateRight;

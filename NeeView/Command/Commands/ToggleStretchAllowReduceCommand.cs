@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleStretchAllowReduceCommand : CommandElement
     {
-        public ToggleStretchAllowReduceCommand() : base("ToggleStretchAllowReduce")
+        public ToggleStretchAllowReduceCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupImageScale;
             this.Text = Properties.Resources.CommandToggleStretchAllowReduce;

@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class TogglePagemarkCommand : CommandElement
     {
-        public TogglePagemarkCommand() : base("TogglePagemark")
+        public TogglePagemarkCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupPagemark;
             this.Text = Properties.Resources.CommandTogglePagemark;

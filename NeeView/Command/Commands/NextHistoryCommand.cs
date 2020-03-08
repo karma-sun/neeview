@@ -2,7 +2,7 @@
 {
     public class NextHistoryCommand : CommandElement
     {
-        public NextHistoryCommand() : base("NextHistory")
+        public NextHistoryCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupMove;
             this.Text = Properties.Resources.CommandNextHistory;

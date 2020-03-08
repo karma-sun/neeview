@@ -2,7 +2,7 @@
 {
     public class ExportImageCommand : CommandElement
     {
-        public ExportImageCommand() : base("ExportImage")
+        public ExportImageCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupFile;
             this.Text = Properties.Resources.CommandExportImage;

@@ -2,7 +2,7 @@
 {
     public class ExportBackupCommand : CommandElement
     {
-        public ExportBackupCommand() : base("ExportBackup")
+        public ExportBackupCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupOther;
             this.Text = Properties.Resources.CommandExportBackup;

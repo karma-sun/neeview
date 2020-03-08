@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleHidePanelCommand : CommandElement
     {
-        public ToggleHidePanelCommand() : base("ToggleHidePanel")
+        public ToggleHidePanelCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupWindow;
             this.Text = Properties.Resources.CommandToggleHidePanel;

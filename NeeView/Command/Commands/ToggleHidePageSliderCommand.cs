@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleHidePageSliderCommand : CommandElement
     {
-        public ToggleHidePageSliderCommand() : base("ToggleHidePageSlider")
+        public ToggleHidePageSliderCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupWindow;
             this.Text = Properties.Resources.CommandToggleHidePageSlider;

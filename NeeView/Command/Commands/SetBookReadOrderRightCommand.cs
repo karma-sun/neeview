@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class SetBookReadOrderRightCommand : CommandElement
     {
-        public SetBookReadOrderRightCommand() : base("SetBookReadOrderRight")
+        public SetBookReadOrderRightCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupPageSetting;
             this.Text = Properties.Resources.CommandSetBookReadOrderRight;

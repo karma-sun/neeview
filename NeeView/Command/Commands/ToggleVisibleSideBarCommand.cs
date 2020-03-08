@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleVisibleSideBarCommand : CommandElement
     {
-        public ToggleVisibleSideBarCommand() : base("ToggleVisibleSideBar")
+        public ToggleVisibleSideBarCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupWindow;
             this.Text = Properties.Resources.CommandToggleVisibleSideBar;

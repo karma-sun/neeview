@@ -2,7 +2,7 @@
 {
     public class OpenVersionWindowCommand : CommandElement
     {
-        public OpenVersionWindowCommand() : base("OpenVersionWindow")
+        public OpenVersionWindowCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupOther;
             this.Text = Properties.Resources.CommandOpenVersionWindow;

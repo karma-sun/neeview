@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleIsEnabledNearestNeighborCommand : CommandElement
     {
-        public ToggleIsEnabledNearestNeighborCommand() : base("ToggleIsEnabledNearestNeighbor")
+        public ToggleIsEnabledNearestNeighborCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupEffect;
             this.Text = Properties.Resources.CommandToggleIsEnabledNearestNeighbor;

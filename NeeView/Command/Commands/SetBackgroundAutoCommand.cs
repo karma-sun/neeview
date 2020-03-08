@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class SetBackgroundAutoCommand : CommandElement
     {
-        public SetBackgroundAutoCommand() : base("SetBackgroundAuto")
+        public SetBackgroundAutoCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupEffect;
             this.Text = Properties.Resources.CommandSetBackgroundAuto;

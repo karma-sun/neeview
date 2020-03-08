@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class ToggleVisibleThumbnailListCommand : CommandElement
     {
-        public ToggleVisibleThumbnailListCommand() : base("ToggleVisibleThumbnailList")
+        public ToggleVisibleThumbnailListCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupFilmStrip;
             this.Text = Properties.Resources.CommandToggleVisibleThumbnailList;

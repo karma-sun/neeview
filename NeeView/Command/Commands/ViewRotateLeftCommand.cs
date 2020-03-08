@@ -2,7 +2,7 @@
 {
     public class ViewRotateLeftCommand : CommandElement
     {
-        public ViewRotateLeftCommand() : base("ViewRotateLeft")
+        public ViewRotateLeftCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupViewManipulation;
             this.Text = Properties.Resources.CommandViewRotateLeft;

@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class SetBackgroundCustomCommand : CommandElement
     {
-        public SetBackgroundCustomCommand() : base("SetBackgroundCustom")
+        public SetBackgroundCustomCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupEffect;
             this.Text = Properties.Resources.CommandSetBackgroundCustom;

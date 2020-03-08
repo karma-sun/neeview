@@ -2,7 +2,7 @@
 {
     public class ViewScaleDownCommand : CommandElement
     {
-        public ViewScaleDownCommand() : base("ViewScaleDown")
+        public ViewScaleDownCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupViewManipulation;
             this.Text = Properties.Resources.CommandViewScaleDown;

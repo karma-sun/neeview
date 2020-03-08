@@ -5,7 +5,7 @@ namespace NeeView
 {
     public class SetFolderOrderByFileTypeDCommand : CommandElement
     {
-        public SetFolderOrderByFileTypeDCommand() : base("SetFolderOrderByFileTypeD")
+        public SetFolderOrderByFileTypeDCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupBookOrder;
             this.Text = Properties.Resources.CommandSetFolderOrderByFileTypeD;

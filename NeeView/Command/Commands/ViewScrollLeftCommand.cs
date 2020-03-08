@@ -2,7 +2,7 @@
 {
     public class ViewScrollLeftCommand : CommandElement
     {
-        public ViewScrollLeftCommand() : base("ViewScrollLeft")
+        public ViewScrollLeftCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupViewManipulation;
             this.Text = Properties.Resources.CommandViewScrollLeft;

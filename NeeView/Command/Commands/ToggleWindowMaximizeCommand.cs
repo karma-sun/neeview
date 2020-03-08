@@ -2,7 +2,7 @@
 {
     public class ToggleWindowMaximizeCommand : CommandElement
     {
-        public ToggleWindowMaximizeCommand() : base("ToggleWindowMaximize")
+        public ToggleWindowMaximizeCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupWindow;
             this.Text = Properties.Resources.CommandToggleWindowMaximize;

@@ -2,7 +2,7 @@
 {
     public class NextPageCommand : CommandElement
     {
-        public NextPageCommand() : base("NextPage")
+        public NextPageCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupMove;
             this.Text = Properties.Resources.CommandNextPage;

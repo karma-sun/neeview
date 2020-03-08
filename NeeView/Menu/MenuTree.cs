@@ -160,7 +160,7 @@ namespace NeeView
                     {
                         removes.Add(child);
                     }
-                    else if (child.MenuElementType == MenuElementType.Command)
+                    else if (child.MenuElementType == MenuElementType.Command && !CommandTable.Current.ContainsKey(child.CommandName))
                     {
                         removes.Add(child);
                     }

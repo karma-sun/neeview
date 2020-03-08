@@ -21,7 +21,7 @@
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
-            MainWindowModel.Current.PrevScrollPage();
+            MainWindowModel.Current.PrevScrollPage((ScrollPageCommandParameter)param);
         }
     }
 }

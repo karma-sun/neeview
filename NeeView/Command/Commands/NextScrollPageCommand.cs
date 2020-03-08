@@ -22,7 +22,7 @@
 
         public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
         {
-            MainWindowModel.Current.NextScrollPage();
+            MainWindowModel.Current.NextScrollPage((ScrollPageCommandParameter)param);
         }
     }
 }

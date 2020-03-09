@@ -20,12 +20,12 @@ namespace NeeView
             return new Binding(nameof(SidePanel.IsVisibleBookmarkList)) { Source = SidePanel.Current };
         }
 
-        public override string ExecuteMessage(CommandParameter param, CommandOption option = CommandOption.None)
+        public override string ExecuteMessage(CommandParameter param, object arg, CommandOption option)
         {
             return SidePanel.Current.IsVisibleBookmarkList ? Properties.Resources.CommandToggleVisibleBookmarkListOff : Properties.Resources.CommandToggleVisibleBookmarkListOn;
         }
 
-        public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
             SidePanel.Current.ToggleVisibleBookmarkList(option.HasFlag(CommandOption.ByMenu));
         }

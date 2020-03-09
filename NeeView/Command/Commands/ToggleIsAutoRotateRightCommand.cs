@@ -19,17 +19,17 @@ namespace NeeView
             return new Binding(nameof(ContentCanvas.IsAutoRotateRight)) { Source = ContentCanvas.Current };
         }
 
-        public override string ExecuteMessage(CommandParameter param, CommandOption option = CommandOption.None)
+        public override string ExecuteMessage(CommandParameter param, object arg, CommandOption option)
         {
             return ContentCanvas.Current.IsAutoRotateRight ? Properties.Resources.CommandToggleIsAutoRotateRightOff : Properties.Resources.CommandToggleIsAutoRotateRightOn;
         }
         
-        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override bool CanExecute(CommandParameter param, object arg, CommandOption option)
         {
             return !NowLoading.Current.IsDispNowLoading;
         }
 
-        public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
             ContentCanvas.Current.IsAutoRotateRight = !ContentCanvas.Current.IsAutoRotateRight;
         }

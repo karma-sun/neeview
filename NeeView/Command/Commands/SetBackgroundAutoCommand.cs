@@ -18,7 +18,7 @@ namespace NeeView
             return BindingGenerator.Background(BackgroundStyle.Auto);
         }
 
-        public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
             ContentCanvasBrush.Current.Background = BackgroundStyle.Auto;
         }

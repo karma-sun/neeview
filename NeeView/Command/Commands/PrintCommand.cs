@@ -12,12 +12,12 @@
             this.IsShowMessage = false;
         }
 
-        public override bool CanExecute(CommandParameter param, CommandOption option)
+        public override bool CanExecute(CommandParameter param, object arg, CommandOption option)
         {
             return ContentCanvas.Current.CanPrint();
         }
 
-        public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
             // TODO: Viewを直接呼び出さないようにする
             MainWindow.Current.Print();

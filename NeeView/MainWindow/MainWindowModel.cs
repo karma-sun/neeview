@@ -452,19 +452,24 @@ namespace NeeView
 
 
         // ダイアログでファイル選択して画像を読み込む
-        public void LoadAs()
+        public void LoadAs(string path)
         {
-            var dialog = new OpenFileDialog();
-            dialog.InitialDirectory = GetDefaultFolder();
+            if (path == null)
+            {
+                var dialog = new OpenFileDialog();
+                dialog.InitialDirectory = GetDefaultFolder();
 
-            if (dialog.ShowDialog(App.Current.MainWindow) == true)
-            {
-                BookHub.Current.RequestLoad(dialog.FileName, null, BookLoadOption.None, true);
+                if (dialog.ShowDialog(App.Current.MainWindow) == true)
+                {
+                    path = dialog.FileName;
+                }
+                else
+                {
+                    return;
+                }
             }
-            else
-            {
-                return;
-            }
+
+            BookHub.Current.RequestLoad(path, null, BookLoadOption.None, true);
         }
 
 

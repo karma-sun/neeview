@@ -19,12 +19,12 @@ namespace NeeView
             return new Binding(nameof(MainWindowModel.Current.IsVisibleAddressBar)) { Source = MainWindowModel.Current };
         }
 
-        public override string ExecuteMessage(CommandParameter param, CommandOption option = CommandOption.None)
+        public override string ExecuteMessage(CommandParameter param, object arg, CommandOption option)
         {
             return MainWindowModel.Current.IsVisibleAddressBar ? Properties.Resources.CommandToggleVisibleAddressBarOff : Properties.Resources.CommandToggleVisibleAddressBarOn;
         }
 
-        public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
             MainWindowModel.Current.ToggleVisibleAddressBar();
         }

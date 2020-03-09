@@ -18,7 +18,7 @@ namespace NeeView
             return new Binding(nameof(DragTransform.IsFlipHorizontal)) { Source = DragTransform.Current, Mode = BindingMode.OneWay };
         }
 
-        public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
             DragTransformControl.Current.ToggleFlipHorizontal();
         }

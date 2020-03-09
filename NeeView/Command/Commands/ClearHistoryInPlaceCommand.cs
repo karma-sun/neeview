@@ -10,12 +10,12 @@
             this.IsShowMessage = true;
         }
 
-        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override bool CanExecute(CommandParameter param, object arg, CommandOption option)
         {
             return BookshelfFolderList.Current.Place != null;
         }
 
-        public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
             BookshelfFolderList.Current.ClearHistory();
         }

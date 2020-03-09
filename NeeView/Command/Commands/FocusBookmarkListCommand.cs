@@ -10,7 +10,7 @@
             this.Note = Properties.Resources.CommandFocusBookmarkListNote;
             this.IsShowMessage = false;
         }
-        public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
             SidePanel.Current.FocusBookmarkList(option.HasFlag(CommandOption.ByMenu));
         }

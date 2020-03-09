@@ -14,12 +14,12 @@
             this.ParameterSource = new CommandParameterSource(new MoveSizePageCommandParameter() { Size = 10 });
         }
 
-        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override bool CanExecute(CommandParameter param, object arg, CommandOption option)
         {
             return !NowLoading.Current.IsDispNowLoading;
         }
 
-        public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
             BookOperation.Current.NextSizePage(((MoveSizePageCommandParameter)param).Size);
         }

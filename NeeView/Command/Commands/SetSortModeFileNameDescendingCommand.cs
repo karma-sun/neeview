@@ -18,12 +18,12 @@ namespace NeeView
             return BindingGenerator.SortMode(PageSortMode.FileNameDescending);
         }
 
-        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override bool CanExecute(CommandParameter param, object arg, CommandOption option)
         {
             return !NowLoading.Current.IsDispNowLoading;
         }
 
-        public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
             BookSettingPresenter.Current.SetSortMode(PageSortMode.FileNameDescending);
         }

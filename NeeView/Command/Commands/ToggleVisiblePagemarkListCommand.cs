@@ -20,12 +20,12 @@ namespace NeeView
             return new Binding(nameof(SidePanel.IsVisiblePagemarkList)) { Source = SidePanel.Current };
         }
 
-        public override string ExecuteMessage(CommandParameter param, CommandOption option = CommandOption.None)
+        public override string ExecuteMessage(CommandParameter param, object arg, CommandOption option)
         {
             return SidePanel.Current.IsVisiblePagemarkList ? Properties.Resources.CommandToggleVisiblePagemarkListOff : Properties.Resources.CommandToggleVisiblePagemarkListOn;
         }
 
-        public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
             SidePanel.Current.ToggleVisiblePagemarkList(option.HasFlag(CommandOption.ByMenu));
         }

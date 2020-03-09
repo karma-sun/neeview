@@ -83,33 +83,33 @@ namespace NeeView
         }
 
         // コマンド実行時表示デリゲート
-        public virtual string ExecuteMessage(CommandParameter param, CommandOption option = CommandOption.None)
+        public virtual string ExecuteMessage(CommandParameter param, object arg, CommandOption option )
         {
             return Text;
         }
 
-        public string ExecuteMessage(CommandOption option = CommandOption.None)
+        public string ExecuteMessage(object arg, CommandOption option )
         {
-            return ExecuteMessage(this.Parameter, option);
+            return ExecuteMessage(this.Parameter, arg, option);
         }
 
         // コマンド実行可能判定
-        public virtual bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        public virtual bool CanExecute(CommandParameter param, object arg, CommandOption option )
         {
             return true;
         }
 
-        public bool CanExecute(CommandOption option = CommandOption.None)
+        public bool CanExecute(object arg, CommandOption option )
         {
-            return CanExecute(this.Parameter, option);
+            return CanExecute(this.Parameter, arg, option);
         }
 
         // コマンド実行
-        public abstract void Execute(CommandParameter param, CommandOption option = CommandOption.None);
+        public abstract void Execute(CommandParameter param, object arg, CommandOption option );
 
-        public void Execute(CommandOption option = CommandOption.None)
+        public void Execute(object arg, CommandOption option )
         {
-            Execute(this.Parameter, option);
+            Execute(this.Parameter, arg, option);
         }
 
         public CommandParameter CreateOverwriteCommandParameter(IDictionary<string, object> args)

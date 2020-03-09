@@ -21,12 +21,12 @@ namespace NeeView
             return new Binding(nameof(ImageEffect.Current.IsEnabled)) { Mode = BindingMode.OneWay, Source = ImageEffect.Current };
         }
 
-        public override string ExecuteMessage(CommandParameter param, CommandOption option = CommandOption.None)
+        public override string ExecuteMessage(CommandParameter param, object arg, CommandOption option)
         {
             return ImageEffect.Current.IsEnabled ? Properties.Resources.CommandToggleEffectOff : Properties.Resources.CommandToggleEffectOn;
         }
 
-        public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
             ImageEffect.Current.IsEnabled = !ImageEffect.Current.IsEnabled;
         }

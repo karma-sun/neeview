@@ -12,9 +12,9 @@
             this.IsShowMessage = false;
         }
 
-        public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
-            MainWindowModel.Current.LoadAs();
+            MainWindowModel.Current.LoadAs(arg as string);
         }
     }
 }

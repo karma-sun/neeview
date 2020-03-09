@@ -20,12 +20,12 @@ namespace NeeView
             return new Binding(nameof(SidePanel.IsVisibleHistoryList)) { Source = SidePanel.Current };
         }
 
-        public override string ExecuteMessage(CommandParameter param, CommandOption option = CommandOption.None)
+        public override string ExecuteMessage(CommandParameter param, object arg, CommandOption option)
         {
             return SidePanel.Current.IsVisibleHistoryList ? Properties.Resources.CommandToggleVisibleHistoryListOff : Properties.Resources.CommandToggleVisibleHistoryListOn;
         }
 
-        public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
             SidePanel.Current.ToggleVisibleHistoryList(option.HasFlag(CommandOption.ByMenu));
         }

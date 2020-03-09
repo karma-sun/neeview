@@ -7,24 +7,42 @@ namespace NeeView
     public class CommandAccessor
     {
         private CommandElement _command;
+        private IDictionary<string, object> _patch;
 
         public CommandAccessor(CommandElement command)
         {
             _command = command;
         }
 
-        public bool Execute(IDictionary<string, object> args = null)
+        public bool Execute(object arg = null)
         {
-            var param = _command.CreateOverwriteCommandParameter(args);
-            if (_command.CanExecute(param))
+            var param = _command.CreateOverwriteCommandParameter(_patch);
+            if (_command.CanExecute(param, arg, CommandOption.None))
             {
-                _command.Execute(param);
+                _command.Execute(param, arg, CommandOption.None);
                 return true;
             }
             else
             {
                 return false;
             }
+        }
+
+        public CommandAccessor Patch(IDictionary<string, object> patch)
+        {
+            if (_patch == null)
+            {
+                _patch = patch;
+            }
+            else
+            {
+                foreach(var pair in patch)
+                {
+                    _patch[pair.Key] = pair.Value;
+                }
+            }
+
+            return this;
         }
     }
 

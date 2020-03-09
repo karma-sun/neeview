@@ -20,7 +20,7 @@ namespace NeeView
             this.Text = name;
         }
 
-        public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
             var commandHost = new CommandHost(CommandTable.Current);
             var commandEngine = new JavascriptEngine(commandHost);

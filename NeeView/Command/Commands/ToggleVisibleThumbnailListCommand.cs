@@ -19,12 +19,12 @@ namespace NeeView
             return new Binding(nameof(ThumbnailList.Current.IsEnableThumbnailList)) { Source = ThumbnailList.Current };
         }
 
-        public override string ExecuteMessage(CommandParameter param, CommandOption option = CommandOption.None)
+        public override string ExecuteMessage(CommandParameter param, object arg, CommandOption option)
         {
             return ThumbnailList.Current.IsVisible ? Properties.Resources.CommandToggleVisibleThumbnailListOff : Properties.Resources.CommandToggleVisibleThumbnailListOn;
         }
 
-        public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
             ThumbnailList.Current.ToggleVisibleThumbnailList(option.HasFlag(CommandOption.ByMenu));
         }

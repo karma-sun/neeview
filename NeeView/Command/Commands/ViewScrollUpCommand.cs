@@ -11,7 +11,7 @@
             
             this.ParameterSource = new CommandParameterSource(new ViewScrollCommandParameter() { Scroll = 25, AllowCrossScroll = true });
         }
-        public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
             DragTransformControl.Current.ScrollUp((ViewScrollCommandParameter)param);
         }

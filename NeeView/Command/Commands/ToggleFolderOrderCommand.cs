@@ -10,12 +10,12 @@
             this.IsShowMessage = true;
         }
 
-        public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
             BookshelfFolderList.Current.ToggleFolderOrder();
         }
 
-        public override string ExecuteMessage(CommandParameter param, CommandOption option = CommandOption.None)
+        public override string ExecuteMessage(CommandParameter param, object arg, CommandOption option)
         {
             return BookshelfFolderList.Current.GetNextFolderOrder().ToAliasName();
         }

@@ -10,12 +10,12 @@
             this.IsShowMessage = true;
         }
 
-        public override string ExecuteMessage(CommandParameter param, CommandOption option = CommandOption.None)
+        public override string ExecuteMessage(CommandParameter param, object arg, CommandOption option)
         {
             return ContentCanvasBrush.Current.Background.GetToggle().ToAliasName();
         }
 
-        public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
             ContentCanvasBrush.Current.Background = ContentCanvasBrush.Current.Background.GetToggle();
         }

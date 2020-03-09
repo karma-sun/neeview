@@ -261,7 +261,7 @@ namespace NeeView
             // 通知
             if (command.IsShowMessage)
             {
-                string message = command.ExecuteMessage(0);
+                string message = command.ExecuteMessage(null, CommandOption.None);
                 if (message != null)
                 {
                     InfoMessage.Current.SetMessage(InfoMessageType.Command, message);
@@ -270,7 +270,7 @@ namespace NeeView
 
             // 実行
             var option = (parameter is MenuCommandTag) ? CommandOption.ByMenu : CommandOption.None;
-            command.Execute(option);
+            command.Execute(null, option);
         }
 
         // スライダー方向によって移動コマンドを入れ替える

@@ -12,12 +12,12 @@
             this.IsShowMessage = false;
         }
 
-        public override bool CanExecute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override bool CanExecute(CommandParameter param, object arg, CommandOption option)
         {
             return ContentDropManager.Current.CanLoadFromClipboard();
         }
 
-        public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
             ContentDropManager.Current.LoadFromClipboard();
         }

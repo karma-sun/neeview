@@ -11,12 +11,12 @@
             this.IsShowMessage = false;
         }
 
-        public override bool CanExecute(CommandParameter param, CommandOption option)
+        public override bool CanExecute(CommandParameter param, object arg, CommandOption option)
         {
             return BookOperation.Current.CanDeleteBook();
         }
 
-        public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
             BookOperation.Current.DeleteBook();
         }

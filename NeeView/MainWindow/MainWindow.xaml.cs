@@ -319,7 +319,7 @@ namespace NeeView
             {
                 this.CommandBindings.Add(new CommandBinding(commands[type],
                     (sender, e) => RoutedCommandTable.Current.Execute(type, e.Parameter),
-                    (sender, e) => e.CanExecute = commandTable[type].CanExecute()));
+                    (sender, e) => e.CanExecute = commandTable[type].CanExecute(null, CommandOption.None)));
             }
         }
 

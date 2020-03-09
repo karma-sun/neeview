@@ -14,12 +14,12 @@
             this.ParameterSource = new CommandParameterSource(new ExportImageCommandParameter());
         }
 
-        public override bool CanExecute(CommandParameter param, CommandOption option)
+        public override bool CanExecute(CommandParameter param, object arg, CommandOption option)
         {
             return BookOperation.Current.CanExport();
         }
 
-        public override void Execute(CommandParameter param, CommandOption option = CommandOption.None)
+        public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
             BookOperation.Current.Export((ExportImageCommandParameter)param);
         }

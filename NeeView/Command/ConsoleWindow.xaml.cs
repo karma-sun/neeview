@@ -30,26 +30,32 @@ namespace NeeView
             this.Closed += (s, e) => Current = null;
 
             this.Console.Loaded += (s, e) => ((UIElement)s).Focus();
-            this.Console.ConsoleHost = new ConsoleHost();
+            this.Console.ConsoleHost = new ConsoleHost(this);
         }
     }
 
     public class ConsoleHost : IConsoleHost
     {
+        private Window _owner;
         private JavascriptEngine _engine;
 
-        public ConsoleHost()
+        public ConsoleHost(Window owner)
         {
+            _owner = owner;
+
             var host = new CommandHost(CommandTable.Current);
 
             _engine = new JavascriptEngine(host);
             _engine.CurrentPath = CommandTable.Current.ScriptFolder;
-            _engine.LogAction = e => Output?.Invoke(this, new ConsoleHostOutputEventArgs(e));
+            _engine.LogAction = e => Output?.Invoke(this, new ConsoleHostOutputEventArgs(e?.ToString()));
         }
-
 
         public event EventHandler<ConsoleHostOutputEventArgs> Output;
 
+        public void Close()
+        {
+            _owner.Close();
+        }
 
         public string Execute(string input)
         {

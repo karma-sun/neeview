@@ -1402,6 +1402,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Open console... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandOpenConsoleMenu {
+            get {
+                return ResourceManager.GetString("CommandOpenConsoleMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Open the script console. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandOpenConsoleNote {

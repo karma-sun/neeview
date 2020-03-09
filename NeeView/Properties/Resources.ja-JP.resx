@@ -4881,6 +4881,9 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="CommandOpenConsole" xml:space="preserve">
     <value>コンソールを開く</value>
   </data>
+  <data name="CommandOpenConsoleMenu" xml:space="preserve">
+    <value>コンソールを開く...</value>
+  </data>
   <data name="CommandOpenConsoleNote" xml:space="preserve">
     <value>スクリプト用コンソールを開きます。</value>
   </data>

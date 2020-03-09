@@ -4881,6 +4881,9 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="CommandOpenConsole" xml:space="preserve">
     <value>Open console</value>
   </data>
+  <data name="CommandOpenConsoleMenu" xml:space="preserve">
+    <value>Open console...</value>
+  </data>
   <data name="CommandOpenConsoleNote" xml:space="preserve">
     <value>Open the script console.</value>
   </data>

@@ -86,7 +86,7 @@ namespace NeeView
 
                 void Log(object sender, ConsoleHostOutputEventArgs args)
                 {
-                    control.ConsoleOutput.Add(args.Output?.ToString() ?? "");
+                    control.ConsoleOutput.Add(args.Output ?? string.Empty);
                 }
             }
         }
@@ -100,7 +100,7 @@ namespace NeeView
         public static readonly DependencyProperty PromptProperty =
             DependencyProperty.Register("Prompt", typeof(string), typeof(ConsoleEmulator), new PropertyMetadata("> "));
 
-        
+
         public string FirstMessage
         {
             get { return (string)GetValue(FirstMessageProperty); }
@@ -206,14 +206,18 @@ namespace NeeView
                 return;
             }
 
-            if (input.Trim() == "cls")
+            switch (input.Trim())
             {
-                ConsoleOutput.Clear();
-            }
-            else if (ConsoleHost != null)
-            {
-                var result = ConsoleHost.Execute(input);
-                ConsoleOutput.Add(result);
+                case "cls":
+                    ConsoleOutput.Clear();
+                    break;
+                case "exit":
+                    ConsoleHost?.Close();
+                    break;
+                default:
+                    var result = ConsoleHost?.Execute(input);
+                    ConsoleOutput.Add(result);
+                    break;
             }
 
             _history.Add(input);
@@ -224,17 +228,19 @@ namespace NeeView
 
     public class ConsoleHostOutputEventArgs : EventArgs
     {
-        public ConsoleHostOutputEventArgs(object output)
+        public ConsoleHostOutputEventArgs(string output)
         {
             Output = output;
         }
 
-        public object Output { get; set; }
+        public string Output { get; set; }
     }
 
     public interface IConsoleHost
     {
         event EventHandler<ConsoleHostOutputEventArgs> Output;
+
+        void Close();
 
         string Execute(string input);
     }

@@ -6,6 +6,7 @@
         {
             this.Group = Properties.Resources.CommandGroupScript;
             this.Text = Properties.Resources.CommandOpenConsole;
+            this.MenuText = Properties.Resources.CommandOpenConsoleMenu;
             this.Note = Properties.Resources.CommandOpenConsoleNote;
             this.IsShowMessage = false;
         }

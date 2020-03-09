@@ -4875,4 +4875,13 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamIsRemoveExplorerDialogEnabledTips" xml:space="preserve">
     <value>エクスプローラーから削除したときと同じ挙動になります。ごみ箱に入らないファイルを削除するときに確認ダイアログが表示されますが、ごみ箱のプロパティの「削除の確認メッセージを表示する」がチェックされている場合は余計にダイアログが表示されることになります。</value>
   </data>
+  <data name="CommandGroupScript" xml:space="preserve">
+    <value>スクリプト</value>
+  </data>
+  <data name="CommandOpenConsole" xml:space="preserve">
+    <value>コンソールを開く</value>
+  </data>
+  <data name="CommandOpenConsoleNote" xml:space="preserve">
+    <value>スクリプト用コンソールを開きます。</value>
+  </data>
 </root>

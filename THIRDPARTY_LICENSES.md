@@ -103,3 +103,11 @@ DLL: Microsoft.Xaml.Behaviors.dll
 * Copyright (c) 2010 - 2018, Elinam LLC All rights reserved.
 * URL: [XamlBehaviors for WPF](https://github.com/Microsoft/XamlBehaviorsWpf)
 * License: [MIT License](https://github.com/microsoft/XamlBehaviorsWpf/blob/master/LICENSE)
+
+### Jint
+
+DLL: Jint.dll, Esprima.dll
+
+* Copyright (c) 2013, Sebastien Ros All rights reserved.
+* URL: [Jint]https://github.com/sebastienros/jint
+* License: [BSD 2-Clause License](https://github.com/sebastienros/jint/blob/dev/LICENSE.txt)

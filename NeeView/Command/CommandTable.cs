@@ -223,7 +223,6 @@ namespace NeeView
                 groups[command.Group].Add(command);
             }
 
-
             // 
             Directory.CreateDirectory(Temporary.Current.TempSystemDirectory);
             string fileName = System.IO.Path.Combine(Temporary.Current.TempSystemDirectory, "CommandList.html");
@@ -447,6 +446,8 @@ namespace NeeView
                 new ImportBackupCommand("ImportBackup"),
                 new ReloadUserSettingCommand("ReloadUserSetting"),
                 new TouchEmulateCommand("TouchEmulate"),
+
+                new OpenConsoleCommand("OpenConsole"),
             };
 
             _elements = list.ToDictionary(e => e.Name);
@@ -474,6 +475,44 @@ namespace NeeView
 
             // デフォルト設定として記憶
             DefaultMemento = CreateMemento();
+
+            InitializeScriptCommand();
+        }
+
+        #endregion
+
+        #region Script
+
+        public string ScriptFolder { get; set; } = "Scripts";
+
+        public void InitializeScriptCommand()
+        {
+            var oldies = _elements.Keys
+                .Where(e => e.StartsWith(ScriptCommand.Prefix))
+                .ToList();
+
+            var newers = new List<string>();
+
+            try
+            {
+                newers = Directory.GetFiles(ScriptFolder, "*" + ScriptCommand.Extension)
+                    .Select(e => ScriptCommand.Prefix + Path.GetFileNameWithoutExtension(e))
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+            foreach (var name in oldies.Except(newers))
+            {
+                _elements.Remove(name);
+            }
+
+            foreach (var name in newers.Except(oldies))
+            {
+                _elements.Add(name, new ScriptCommand(name));
+            }
         }
 
         #endregion

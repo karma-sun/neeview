@@ -880,6 +880,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Scripts に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandGroupScript {
+            get {
+                return ResourceManager.GetString("CommandGroupScript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Video に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandGroupVideo {
@@ -1380,6 +1389,24 @@ namespace NeeView.Properties {
         public static string CommandOpenApplicationNote {
             get {
                 return ResourceManager.GetString("CommandOpenApplicationNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open console に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandOpenConsole {
+            get {
+                return ResourceManager.GetString("CommandOpenConsole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open the script console. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandOpenConsoleNote {
+            get {
+                return ResourceManager.GetString("CommandOpenConsoleNote", resourceCulture);
             }
         }
         

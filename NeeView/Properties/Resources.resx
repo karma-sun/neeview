@@ -4887,4 +4887,16 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="CommandOpenConsoleNote" xml:space="preserve">
     <value>Open the script console.</value>
   </data>
+  <data name="SettingPageCommandScipt" xml:space="preserve">
+    <value>Scripts</value>
+  </data>
+  <data name="ParamIsScriptFolderEnabled" xml:space="preserve">
+    <value>Use scripts</value>
+  </data>
+  <data name="ParamScriptFolder" xml:space="preserve">
+    <value>Scripts folder</value>
+  </data>
+  <data name="ParamScriptFolderTips" xml:space="preserve">
+    <value>Use the scripts in this folder.</value>
+  </data>
 </root>

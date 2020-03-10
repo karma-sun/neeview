@@ -36,6 +36,9 @@ namespace NeeView.Setting
     /// </summary>
     public partial class SettingItemCommandControl : UserControl
     {
+        private int _commandTableChangeCount;
+
+
         public SettingItemCommandControl()
         {
             InitializeComponent();
@@ -44,8 +47,9 @@ namespace NeeView.Setting
             // 初期化
             CommandCollection = new ObservableCollection<CommandParam>();
             UpdateCommandList();
-        }
 
+            this.Loaded += SettingItemCommandControl_Loaded;
+        }
 
 
         // コマンド一覧用パラメータ
@@ -69,8 +73,13 @@ namespace NeeView.Setting
         public ObservableCollection<CommandParam> CommandCollection { get; set; }
 
 
-
-
+        private void SettingItemCommandControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (_commandTableChangeCount != CommandTable.Current.ChangeCount)
+            {
+                UpdateCommandList();
+            }
+        }
 
         // 全コマンド初期化ボタン処理
         private void ResetGestureSettingButton_Click(object sender, RoutedEventArgs e)
@@ -82,10 +91,10 @@ namespace NeeView.Setting
 
             if (result == true)
             {
+                CommandTable.Current.ClearScriptCommand();
                 CommandTable.Current.Restore(dialog.CreateCommandMemento(), false);
 
                 UpdateCommandList();
-                this.CommandListView.Items.Refresh();
             }
         }
 
@@ -93,6 +102,8 @@ namespace NeeView.Setting
         // コマンド一覧 更新
         private void UpdateCommandList()
         {
+            _commandTableChangeCount = CommandTable.Current.ChangeCount;
+
             CommandCollection.Clear();
             foreach (var element in CommandTable.Current)
             {

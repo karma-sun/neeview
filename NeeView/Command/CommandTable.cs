@@ -61,6 +61,8 @@ namespace NeeView
         private CommandTable()
         {
             InitializeCommandTable();
+
+            Changed += (s, e) => ChangeCount++;
         }
 
         #endregion
@@ -87,8 +89,8 @@ namespace NeeView
             set { _elements[key] = value; }
         }
 
-        public Memento DefaultMemento { get; private set; }
 
+        public Memento DefaultMemento { get; private set; }
 
         [PropertyMember("@ParamCommandIsReversePageMove", Tips = "@ParamCommandIsReversePageMoveTips")]
         public bool IsReversePageMove
@@ -103,6 +105,8 @@ namespace NeeView
             get { return _isReversePageMoveWheel; }
             set { if (_isReversePageMoveWheel != value) { _isReversePageMoveWheel = value; RaisePropertyChanged(); } }
         }
+
+        public int ChangeCount { get; private set; }
 
         #endregion
 
@@ -475,18 +479,63 @@ namespace NeeView
 
             // デフォルト設定として記憶
             DefaultMemento = CreateMemento();
-
-            InitializeScriptCommand();
         }
 
         #endregion
 
-        #region Script
+        #region Scripts
 
-        public string ScriptFolder { get; set; } = "Scripts";
+        private readonly string _defaultScriptFolder = "Scripts";
+        private bool _isScriptFolderEnabled;
+        private string _scriptFolder;
+        private bool _isScriptFolderDarty = true;
 
-        public void InitializeScriptCommand()
+
+        [PropertyMember("@ParamIsScriptFolderEnabled")]
+        public bool IsScriptFolderEnabled
         {
+            get { return _isScriptFolderEnabled; }
+            set
+            {
+                if (SetProperty(ref _isScriptFolderEnabled, value))
+                {
+                    UpdateScriptCommand(true);
+                    Changed?.Invoke(this, new CommandChangedEventArgs(false));
+                }
+            }
+        }
+
+        [PropertyPath("@ParamScriptFolder", Tips = "@ParamScriptFolderTips", FileDialogType = Windows.Controls.FileDialogType.Directory)]
+        public string ScriptFolder
+        {
+            get { return _scriptFolder ?? _defaultScriptFolder; }
+            set
+            {
+                var path = value?.Trim();
+                if (string.IsNullOrEmpty(path) || path == _defaultScriptFolder)
+                {
+                    path = null;
+                }
+
+                if (SetProperty(ref _scriptFolder, path))
+                {
+                    UpdateScriptCommand(true);
+                    Changed?.Invoke(this, new CommandChangedEventArgs(false));
+                }
+            }
+        }
+
+        public bool UpdateScriptCommand(bool isForce = false)
+        {
+            if (!_isScriptFolderDarty && !isForce) return false;
+            _isScriptFolderDarty = false;
+
+            if (!_isScriptFolderEnabled)
+            {
+                ClearScriptCommand();
+                return true;
+            }
+
             var oldies = _elements.Keys
                 .Where(e => e.StartsWith(ScriptCommand.Prefix))
                 .ToList();
@@ -513,6 +562,22 @@ namespace NeeView
             {
                 _elements.Add(name, new ScriptCommand(name));
             }
+
+            return true;
+        }
+
+        public void ClearScriptCommand()
+        {
+            var oldies = _elements.Keys
+                .Where(e => e.StartsWith(ScriptCommand.Prefix))
+                .ToList();
+
+            foreach (var name in oldies)
+            {
+                _elements.Remove(name);
+            }
+
+            _isScriptFolderDarty = true;
         }
 
         #endregion
@@ -534,6 +599,11 @@ namespace NeeView
             [DataMember(Name = "ElementsV2")]
             public Dictionary<string, CommandElement.Memento> Elements { get; set; } = new Dictionary<string, CommandElement.Memento>();
 
+            [DataMember]
+            public bool IsScriptFolderEnabled { get; set; }
+
+            [DataMember(EmitDefaultValue = false)]
+            public string ScriptFolder { get; set; }
 
             [Obsolete, DataMember(Name = "Elements", EmitDefaultValue = false)]
             private Dictionary<CommandType, CommandElement.Memento> _elementsV1;
@@ -651,6 +721,8 @@ namespace NeeView
 
             memento.IsReversePageMove = this.IsReversePageMove;
             memento.IsReversePageMoveWheel = this.IsReversePageMoveWheel;
+            memento.IsScriptFolderEnabled = _isScriptFolderEnabled;
+            memento.ScriptFolder = _scriptFolder;
 
             return memento;
         }
@@ -658,6 +730,7 @@ namespace NeeView
         public void Restore(Memento memento, bool onHold)
         {
             RestoreInner(memento);
+            UpdateScriptCommand();
             Changed?.Invoke(this, new CommandChangedEventArgs(onHold));
         }
 
@@ -675,6 +748,8 @@ namespace NeeView
 
             this.IsReversePageMove = memento.IsReversePageMove;
             this.IsReversePageMoveWheel = memento.IsReversePageMoveWheel;
+            _isScriptFolderEnabled = memento.IsScriptFolderEnabled;
+            _scriptFolder = memento.ScriptFolder;
         }
 
         #endregion

@@ -10911,6 +10911,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Use scripts に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamIsScriptFolderEnabled {
+            get {
+                return ResourceManager.GetString("ParamIsScriptFolderEnabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Make a backup of the user setting file に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ParamIsSettingBackup {
@@ -11717,6 +11726,24 @@ namespace NeeView.Properties {
         public static string ParamPreLoadSizeTips {
             get {
                 return ResourceManager.GetString("ParamPreLoadSizeTips", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scripts folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamScriptFolder {
+            get {
+                return ResourceManager.GetString("ParamScriptFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Use the scripts in this folder. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ParamScriptFolderTips {
+            get {
+                return ResourceManager.GetString("ParamScriptFolderTips", resourceCulture);
             }
         }
         
@@ -12645,6 +12672,15 @@ namespace NeeView.Properties {
         public static string SettingPageCommandMain {
             get {
                 return ResourceManager.GetString("SettingPageCommandMain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scripts に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string SettingPageCommandScipt {
+            get {
+                return ResourceManager.GetString("SettingPageCommandScipt", resourceCulture);
             }
         }
         

@@ -118,6 +118,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="Scripts\OnBookLoaded.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Scripts\Sample.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

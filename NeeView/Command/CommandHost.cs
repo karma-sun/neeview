@@ -4,6 +4,24 @@ using System.Linq;
 
 namespace NeeView
 {
+    /// <summary>
+    /// 本の状態
+    /// </summary>
+    public class BookAccessor
+    {
+        public string Address => Book()?.Address;
+
+        public bool IsMedia => Book()?.IsMedia == true;
+
+        public bool IsNew => Book()?.IsNew == true;
+
+        private Book Book() => BookOperation.Current.Book;
+    }
+
+
+    /// <summary>
+    /// コマンドアクセス
+    /// </summary>
     public class CommandAccessor
     {
         private CommandElement _command;
@@ -36,7 +54,7 @@ namespace NeeView
             }
             else
             {
-                foreach(var pair in patch)
+                foreach (var pair in patch)
                 {
                     _patch[pair.Key] = pair.Value;
                 }
@@ -55,6 +73,9 @@ namespace NeeView
         {
             _commandTable = commandTable;
         }
+
+
+        public BookAccessor Book { get; } = new BookAccessor();
 
         public CommandAccessor Command(string name)
         {

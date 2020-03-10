@@ -688,6 +688,8 @@ namespace NeeView
                 _bookHubToast = null;
             }
 
+            bool isNew = true;
+
             try
             {
                 // address
@@ -716,6 +718,8 @@ namespace NeeView
                 {
                     AppDispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncEventArgs() { Path = address.Address.SimplePath, Parent = address.Place.SimplePath, isKeepPlace = false }));
                 }
+
+                isNew = BookMementoCollection.Current.GetValid(address.Address.SimplePath) == null;
 
                 // Load本体
                 await LoadAsyncCore(address, args.Option, setting, token);
@@ -804,6 +808,13 @@ namespace NeeView
                 NotifyLoading(null);
 
                 ////DebugTimer.Check("Done.");
+            }
+
+            // Script fook
+            if (BookUnit != null)
+            {
+                BookUnit.Book.IsNew = isNew;
+                CommandTable.Current.TryExecute("Script.OnBookLoaded", null, CommandOption.None);
             }
         }
 

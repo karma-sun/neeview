@@ -188,6 +188,20 @@ namespace NeeView
         }
 
 
+        public bool TryExecute(string commandName, object arg, CommandOption option)
+        {
+            if (TryGetValue(commandName, out CommandElement command))
+            {
+                if (command.CanExecute(arg, option))
+                {
+                    command.Execute(arg, option);
+                }
+            }
+
+            return false;
+        }
+
+
         // ショートカット重複チェック
         public List<string> GetOverlapShortCut(string shortcut)
         {

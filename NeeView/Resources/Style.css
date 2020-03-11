@@ -35,12 +35,13 @@ h3 {
 
 p {
     text-align: left;
-    padding-left: 1em;
 }
 
 code {
     background-color: #EEEEEE;
     padding: 0px 10px;
+    display: block;
+    border: 1px solid #CCC;
     font-family: "メイリオ", Meiryo;
 }
 

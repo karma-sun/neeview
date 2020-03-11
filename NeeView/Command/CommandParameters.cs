@@ -382,7 +382,7 @@ namespace NeeView
     [DataContract]
     public class ExportImageDialogCommandParameter : CommandParameter
     {
-        [DataMember, PropertyPath("@ParamCommandParameterExportDefaultFolder", Tips = "ParamCommandParameterExportDefaultFolderTips", FileDialogType = FileDialogType.Directory)]
+        [DataMember, PropertyPath("@ParamCommandParameterExportDefaultFolder", Tips = "@ParamCommandParameterExportDefaultFolderTips", FileDialogType = FileDialogType.Directory)]
         public string ExportFolder { get; set; }
 
         [DataMember, PropertyRange("@ParamCommandParameterExportImageQualityLevel", 5, 100, TickFrequency = 5, Tips = "@ParamCommandParameterExportImageQualityLevelTips")]

@@ -4899,4 +4899,34 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ParamScriptFolderTips" xml:space="preserve">
     <value>Use the scripts in this folder.</value>
   </data>
+  <data name="WordCommandName" xml:space="preserve">
+    <value>Command name</value>
+  </data>
+  <data name="WordArgument" xml:space="preserve">
+    <value>Argument</value>
+  </data>
+  <data name="WordCommandParameter" xml:space="preserve">
+    <value>Command parameter</value>
+  </data>
+  <data name="CommandJumpPageArgument" xml:space="preserve">
+    <value>Page number</value>
+  </data>
+  <data name="CommandLoadAsArgument" xml:space="preserve">
+    <value>File or folder path</value>
+  </data>
+  <data name="CommandHelpScript" xml:space="preserve">
+    <value>Script manual</value>
+  </data>
+  <data name="CommandHelpScriptMenu" xml:space="preserve">
+    <value>Script manual</value>
+  </data>
+  <data name="CommandHelpScriptNote" xml:space="preserve">
+    <value>Displays the script manual in the browser.</value>
+  </data>
+  <data name="CommandScriptOnBookLoadedNote" xml:space="preserve">
+    <value>Executes when the book is opened.</value>
+  </data>
+  <data name="WordPeriod" xml:space="preserve">
+    <value>.</value>
+  </data>
 </root>

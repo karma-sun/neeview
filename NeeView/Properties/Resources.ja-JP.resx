@@ -4899,4 +4899,34 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamScriptFolderTips" xml:space="preserve">
     <value>このフォルダーのスクリプトを使用します。</value>
   </data>
+  <data name="WordCommandName" xml:space="preserve">
+    <value>コマンド名</value>
+  </data>
+  <data name="WordArgument" xml:space="preserve">
+    <value>引数</value>
+  </data>
+  <data name="WordCommandParameter" xml:space="preserve">
+    <value>コマンドパラメーター</value>
+  </data>
+  <data name="CommandJumpPageArgument" xml:space="preserve">
+    <value>ベージ番号</value>
+  </data>
+  <data name="CommandLoadAsArgument" xml:space="preserve">
+    <value>ファイルやフォルダーのパス</value>
+  </data>
+  <data name="CommandHelpScript" xml:space="preserve">
+    <value>スクリプトマニュアルを表示する</value>
+  </data>
+  <data name="CommandHelpScriptMenu" xml:space="preserve">
+    <value>スクリプトマニュアル</value>
+  </data>
+  <data name="CommandHelpScriptNote" xml:space="preserve">
+    <value>スクリプトマニュアルをブラウザで表示します。</value>
+  </data>
+  <data name="CommandScriptOnBookLoadedNote" xml:space="preserve">
+    <value>ブックを開いたときに実行されます。</value>
+  </data>
+  <data name="WordPeriod" xml:space="preserve">
+    <value>。</value>
+  </data>
 </root>

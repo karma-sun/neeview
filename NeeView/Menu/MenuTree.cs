@@ -595,6 +595,7 @@ namespace NeeView
                     {
                         new MenuTree(MenuElementType.Command) { CommandName = "HelpMainMenu" },
                         new MenuTree(MenuElementType.Command) { CommandName = "HelpCommandList" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "HelpScript" },
                         new MenuTree(MenuElementType.Command) { CommandName = "HelpSearchOption" },
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { CommandName = "OpenVersionWindow" },

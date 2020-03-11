@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
@@ -310,6 +311,7 @@ namespace NeeView
                 new TogglePermitFileCommandCommand("TogglePermitFileCommand"),
 
                 new HelpCommandListCommand("HelpCommandList"),
+                new HelpScriptCommand("HelpScript"),
                 new HelpMainMenuCommand("HelpMainMenu"),
                 new HelpSearchOptionCommand("HelpSearchOption"),
                 new OpenContextMenuCommand("OpenContextMenu"),
@@ -429,7 +431,7 @@ namespace NeeView
 
             return false;
         }
-        
+
         /// <summary>
         /// 入力ジェスチャーが変更されていたらテーブル更新イベントを発行する
         /// </summary>
@@ -446,7 +448,7 @@ namespace NeeView
         /// </summary>
         public void ClearInputGestureDarty()
         {
-            foreach(var command in _elements.Values)
+            foreach (var command in _elements.Values)
             {
                 command.IsInputGestureDarty = false;
             }
@@ -523,6 +525,139 @@ namespace NeeView
 
             System.Diagnostics.Process.Start(fileName);
         }
+
+
+
+        // スクリプト用リファレンス
+        public void OpenScriptHelp()
+        {
+            // グループ分け
+            var groups = new Dictionary<string, List<CommandElement>>();
+            foreach (var command in _elements.Values)
+            {
+                if (command.Group == "(none)") continue;
+
+                if (!groups.ContainsKey(command.Group))
+                {
+                    groups.Add(command.Group, new List<CommandElement>());
+                }
+
+                groups[command.Group].Add(command);
+            }
+
+            Directory.CreateDirectory(Temporary.Current.TempSystemDirectory);
+            string fileName = System.IO.Path.Combine(Temporary.Current.TempSystemDirectory, "CommandList.html");
+
+            using (var writer = new System.IO.StreamWriter(fileName, false))
+            {
+                writer.WriteLine(HtmlHelpUtility.CraeteHeader("NeeView Script Manual"));
+                writer.WriteLine($"<body>");
+
+                {
+                    Uri fileUri = new Uri("/Resources/ja-JP/ScriptManual.html", UriKind.Relative);
+                    StreamResourceInfo info = System.Windows.Application.GetResourceStream(fileUri);
+                    using (StreamReader sr = new StreamReader(info.Stream))
+                    {
+                        writer.WriteLine(sr.ReadToEnd());
+                    }
+                }
+
+                var executeMethodArgTypes = new Type[] { typeof(CommandParameter), typeof(object), typeof(CommandOption) };
+
+                // グループごとに出力
+                foreach (var pair in groups)
+                {
+                    writer.WriteLine($"<h3>{pair.Key}</h3>");
+                    writer.WriteLine("<table>");
+
+                    writer.WriteLine($"<th>{Properties.Resources.WordCommand}<th>{Properties.Resources.WordCommandName}<th>{Properties.Resources.WordArgument}<th>{Properties.Resources.WordCommandParameter}<th>{Properties.Resources.WordDescription}<tr>");
+                    foreach (var command in pair.Value)
+                    {
+                        string argument = "";
+                        {
+                            var type = command.GetType();
+                            var info = type.GetMethod(nameof(command.Execute), executeMethodArgTypes);
+                            var attribute = (MethodArgumentAttribute)Attribute.GetCustomAttributes(info, typeof(MethodArgumentAttribute)).FirstOrDefault();
+                            if (attribute != null)
+                            {
+                                argument = TypeToString(attribute.Type) + "<br/>" + ResourceService.GetString(attribute.Note);
+                            }
+                        }
+
+                        string properties = "";
+                        if (command.Parameter != null)
+                        {
+                            var type = command.Parameter.GetType();
+                            var title = "";
+                            var enums = "";
+
+                            if (command.Share != null)
+                            {
+                                properties = "<p style=\"color:red\">" + string.Format(Properties.Resources.ParamCommandShare, command.Share.Name) + "</p>";
+                            }
+
+                            foreach (PropertyInfo info in type.GetProperties())
+                            {
+                                var attribute = (PropertyMemberAttribute)Attribute.GetCustomAttributes(info, typeof(PropertyMemberAttribute)).FirstOrDefault();
+                                if (attribute != null)
+                                {
+                                    if (attribute.Title != null)
+                                    {
+                                        title = ResourceService.GetString(attribute.Title) + " / ";
+                                    }
+
+                                    if (info.PropertyType.IsEnum)
+                                    {
+                                        enums = string.Join(" / ", info.PropertyType.VisibledAliasNameDictionary().Select(e => $"{Convert.ToInt32(e.Key)}: {e.Value}")) + "<br/>";
+                                    }
+
+                                    var text = title + ResourceService.GetString(attribute.Name).TrimEnd(Properties.Resources.WordPeriod.ToArray()) + Properties.Resources.WordPeriod + (attribute.Tips != null ? " " + ResourceService.GetString(attribute.Tips) : "");
+
+                                    properties = properties + $"<dt><b>{info.Name}</b>: {TypeToString(info.PropertyType)}</dt><dd>{enums + text}<dd/>";
+                                }
+                            }
+                            if (!string.IsNullOrEmpty(properties))
+                            {
+                                properties = "<dl>" + properties + "</dl>";
+                            }
+                        }
+
+                        writer.WriteLine($"<td>{command.Text}<td><b>{command.Name}</b><td>{argument}<td>{properties}<td>{command.Note}<tr>");
+                    }
+                    writer.WriteLine("</table>");
+                }
+                writer.WriteLine("</body>");
+
+                writer.WriteLine(HtmlHelpUtility.CreateFooter());
+            }
+
+            System.Diagnostics.Process.Start(fileName);
+        }
+
+        private string TypeToString(Type type)
+        {
+            /*
+            if (type.IsEnum)
+            {
+                return $"enum ({type.Name})";
+            }
+            */
+
+            switch (Type.GetTypeCode(type))
+            {
+                case TypeCode.Boolean:
+                    return "bool";
+                case TypeCode.Int32:
+                    return "int";
+                case TypeCode.Double:
+                    return "double";
+                case TypeCode.String:
+                    return "string";
+            }
+
+            return "???";
+        }
+
 
         #endregion
 

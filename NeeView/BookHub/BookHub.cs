@@ -814,7 +814,7 @@ namespace NeeView
             if (BookUnit != null)
             {
                 BookUnit.Book.IsNew = isNew;
-                var commandName = "Script.OnBookLoaded";
+                var commandName = ScriptCommand.Prefix + ScriptCommand.EventOnBookLoaded;
                 if (CommandTable.Current.ContainsKey(commandName))
                 {
                     AppDispatcher.Invoke(() => CommandTable.Current.TryExecute(commandName, null, CommandOption.None));

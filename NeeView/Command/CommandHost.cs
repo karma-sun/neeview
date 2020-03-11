@@ -38,19 +38,19 @@ namespace NeeView
             ToastService.Current.Show(new Toast(message));
         }
 
-        public bool ShowDialog(string message, string title, string commands = "OK")
+        public bool ShowDialog(string title, string message = "", int commands = 0)
         {
             var dialog = new MessageDialog(message, title);
 
             switch (commands)
             {
-                case "YesNo":
-                    dialog.Commands.Add(UICommands.Yes);
-                    dialog.Commands.Add(UICommands.No);
-                    break;
-                case "OKCancel":
+                case 1:
                     dialog.Commands.Add(UICommands.OK);
                     dialog.Commands.Add(UICommands.Cancel);
+                    break;
+                case 2:
+                    dialog.Commands.Add(UICommands.Yes);
+                    dialog.Commands.Add(UICommands.No);
                     break;
             }
 

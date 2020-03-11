@@ -30,6 +30,7 @@
     <None Remove="NeeView\Effects\Shaders\ColorSelectEffect.ps" />
     <None Remove="NeeView\Effects\Shaders\HsvEffect.ps" />
     <None Remove="NeeView\Effects\Shaders\LevelEffect.ps" />
+    <None Remove="Resources\ja-JP\ScriptManual.html" />
   </ItemGroup>
   
   <ItemGroup>
@@ -99,6 +100,7 @@
 
   <ItemGroup>
     <Resource Include="Resources\App.ico" />
+    <Resource Include="Resources\ja-JP\ScriptManual.html" />
     <Resource Include="Resources\Style.css" />
     <Resource Include="Resources\Play.ico" />
     <Resource Include="Resources\SplashScreen.png" />
@@ -118,6 +120,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
     <None Update="Scripts\OnBookLoaded.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

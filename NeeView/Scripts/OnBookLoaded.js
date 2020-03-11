@@ -17,7 +17,6 @@ if (nv.Book.IsNew) {
 if (nv.Book.IsMedia) {
     // 動画時はクリックで再生/停止、ダブルクリックで最大化
     nv.Command("ToggleMediaPlay").ShortCutKey = "LeftClick"
-    nv.Command("ToggleFullScreen").ShortCutKey = "F11"
     nv.Command("Script.MovieDoubleClick").ShortCutKey = "LeftDoubleClick" // TODO: ダブルクリック処理の整備
     nv.Command("NextPage").ShortCutKey = "Left"
 }
@@ -25,6 +24,5 @@ else {
     // 通常時は標準設定に戻す
     nv.Command("ToggleMediaPlay").ShortCutKey = null
     nv.Command("Script.MovieDoubleClick").ShortCutKey = null
-    nv.Command("ToggleFullScreen").ShortCutKey = "F11,LeftDoubleClick"
     nv.Command("NextPage").ShortCutKey = "Left,LeftClick"
 }

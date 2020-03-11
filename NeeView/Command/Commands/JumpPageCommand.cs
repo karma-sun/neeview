@@ -15,9 +15,10 @@
             return !NowLoading.Current.IsDispNowLoading;
         }
 
+        [MethodArgument(typeof(int), "@CommandJumpPageArgument")]
         public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
-            BookOperation.Current.JumpPage();
+            BookOperation.Current.JumpPage(arg as int?);
         }
     }
 }

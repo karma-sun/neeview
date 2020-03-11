@@ -970,6 +970,33 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Script manual に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandHelpScript {
+            get {
+                return ResourceManager.GetString("CommandHelpScript", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Script manual に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandHelpScriptMenu {
+            get {
+                return ResourceManager.GetString("CommandHelpScriptMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Displays the script manual in the browser. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandHelpScriptNote {
+            get {
+                return ResourceManager.GetString("CommandHelpScriptNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Search options help に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandHelpSearchOption {
@@ -1033,6 +1060,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Page number に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandJumpPageArgument {
+            get {
+                return ResourceManager.GetString("CommandJumpPageArgument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Enter the page number and move. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandJumpPageNote {
@@ -1065,6 +1101,15 @@ namespace NeeView.Properties {
         public static string CommandLoadAs {
             get {
                 return ResourceManager.GetString("CommandLoadAs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   File or folder path に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandLoadAsArgument {
+            get {
+                return ResourceManager.GetString("CommandLoadAsArgument", resourceCulture);
             }
         }
         
@@ -1794,6 +1839,15 @@ namespace NeeView.Properties {
         public static string CommandReloadUserSettingNote {
             get {
                 return ResourceManager.GetString("CommandReloadUserSettingNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Executes when the book is opened. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandScriptOnBookLoadedNote {
+            get {
+                return ResourceManager.GetString("CommandScriptOnBookLoadedNote", resourceCulture);
             }
         }
         
@@ -13707,6 +13761,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Argument に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordArgument {
+            get {
+                return ResourceManager.GetString("WordArgument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Bookmark に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WordBookmark {
@@ -13766,6 +13829,24 @@ namespace NeeView.Properties {
         public static string WordCommand {
             get {
                 return ResourceManager.GetString("WordCommand", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Command name に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordCommandName {
+            get {
+                return ResourceManager.GetString("WordCommandName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Command parameter に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordCommandParameter {
+            get {
+                return ResourceManager.GetString("WordCommandParameter", resourceCulture);
             }
         }
         
@@ -14090,6 +14171,15 @@ namespace NeeView.Properties {
         public static string WordPagemark {
             get {
                 return ResourceManager.GetString("WordPagemark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   . に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordPeriod {
+            get {
+                return ResourceManager.GetString("WordPeriod", resourceCulture);
             }
         }
         

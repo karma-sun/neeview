@@ -34,6 +34,11 @@ namespace NeeView
             catch (Exception ex)
             {
                 commandEngine.Log(ex.Message);
+                ToastService.Current.Show(new Toast(ex.Message, $"Script error in {_filename}", ToastIcon.Error));
+            }
+            finally
+            {
+                CommandTable.Current.FlushInputGesture();
             }
         }
     }

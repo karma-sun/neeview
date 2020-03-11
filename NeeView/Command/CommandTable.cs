@@ -62,7 +62,7 @@ namespace NeeView
         {
             InitializeCommandTable();
 
-            Changed += (s, e) => ChangeCount++;
+            Changed += CommandTable_Changed;
         }
 
         #endregion
@@ -125,152 +125,6 @@ namespace NeeView
         IEnumerator IEnumerable.GetEnumerator()
         {
             return this.GetEnumerator();
-        }
-
-        #endregion
-
-        #region Methods
-
-        // NODE: 応急処置
-        public IEnumerable<string> Keys => _elements.Keys;
-
-        // NODE: 応急処置
-        public bool ContainsKey(string key)
-        {
-            return key != null && _elements.ContainsKey(key);
-        }
-
-        public bool TryGetValue(string key, out CommandElement command)
-        {
-            return _elements.TryGetValue(key, out command);
-        }
-
-        /// <summary>
-        /// 初期設定生成
-        /// </summary>
-        /// <param name="type">入力スキーム</param>
-        /// <returns></returns>
-        public static Memento CreateDefaultMemento(InputSceme type)
-        {
-            var memento = CommandTable.Current.DefaultMemento.Clone();
-
-            // Type.M
-            switch (type)
-            {
-                case InputSceme.TypeA: // default
-                    break;
-
-                case InputSceme.TypeB: // wheel page, right click contextmenu
-                    memento.Elements["NextScrollPage"].ShortCutKey = null;
-                    memento.Elements["PrevScrollPage"].ShortCutKey = null;
-                    memento.Elements["NextPage"].ShortCutKey = "Left,WheelDown";
-                    memento.Elements["PrevPage"].ShortCutKey = "Right,WheelUp";
-                    memento.Elements["OpenContextMenu"].ShortCutKey = "RightClick";
-                    break;
-
-                case InputSceme.TypeC: // click page
-                    memento.Elements["NextScrollPage"].ShortCutKey = null;
-                    memento.Elements["PrevScrollPage"].ShortCutKey = null;
-                    memento.Elements["NextPage"].ShortCutKey = "Left,LeftClick";
-                    memento.Elements["PrevPage"].ShortCutKey = "Right,RightClick";
-                    memento.Elements["ViewScrollUp"].ShortCutKey = "WheelUp";
-                    memento.Elements["ViewScrollDown"].ShortCutKey = "WheelDown";
-                    break;
-            }
-
-            return memento;
-        }
-
-        // .. あまりかわらん
-        public T Parameter<T>(string commandName) where T : class
-        {
-            return _elements[commandName].Parameter as T;
-        }
-
-
-        public bool TryExecute(string commandName, object arg, CommandOption option)
-        {
-            if (TryGetValue(commandName, out CommandElement command))
-            {
-                if (command.CanExecute(arg, option))
-                {
-                    command.Execute(arg, option);
-                }
-            }
-
-            return false;
-        }
-
-
-        // ショートカット重複チェック
-        public List<string> GetOverlapShortCut(string shortcut)
-        {
-            var overlaps = _elements
-                .Where(e => !string.IsNullOrEmpty(e.Value.ShortCutKey) && e.Value.ShortCutKey.Split(',').Contains(shortcut))
-                .Select(e => e.Key)
-                .ToList();
-
-            return overlaps;
-        }
-
-        // マウスジェスチャー重複チェック
-        public List<string> GetOverlapMouseGesture(string gesture)
-        {
-            var overlaps = _elements
-                .Where(e => !string.IsNullOrEmpty(e.Value.MouseGesture) && e.Value.MouseGesture.Split(',').Contains(gesture))
-                .Select(e => e.Key)
-                .ToList();
-
-            return overlaps;
-        }
-
-        // コマンドリストをブラウザで開く
-        public void OpenCommandListHelp()
-        {
-            // グループ分け
-            var groups = new Dictionary<string, List<CommandElement>>();
-            foreach (var command in _elements.Values)
-            {
-                if (command.Group == "(none)") continue;
-
-                if (!groups.ContainsKey(command.Group))
-                {
-                    groups.Add(command.Group, new List<CommandElement>());
-                }
-
-                groups[command.Group].Add(command);
-            }
-
-            // 
-            Directory.CreateDirectory(Temporary.Current.TempSystemDirectory);
-            string fileName = System.IO.Path.Combine(Temporary.Current.TempSystemDirectory, "CommandList.html");
-
-            //
-            using (var writer = new System.IO.StreamWriter(fileName, false))
-            {
-                writer.WriteLine(HtmlHelpUtility.CraeteHeader("NeeView Command List"));
-                writer.WriteLine($"<body><h1>{Properties.Resources.HelpCommandTitle}</h1>");
-
-                writer.WriteLine($"<p>{Properties.Resources.HelpCommandMessage}</p>");
-
-                // グループごとに出力
-                foreach (var pair in groups)
-                {
-                    writer.WriteLine($"<h3>{pair.Key}</h3>");
-                    writer.WriteLine("<table>");
-                    writer.WriteLine($"<th>{Properties.Resources.WordCommand}<th>{Properties.Resources.WordShortcut}<th>{Properties.Resources.WordGesture}<th>{Properties.Resources.WordTouch}<th>{Properties.Resources.WordDescription}<tr>");
-                    foreach (var command in pair.Value)
-                    {
-                        writer.WriteLine($"<td>{command.Text}<td>{command.ShortCutKey}<td>{new MouseGestureSequence(command.MouseGesture).ToDispString()}<td>{command.TouchGesture}<td>{command.Note}<tr>");
-                    }
-                    writer.WriteLine("</table>");
-                }
-                writer.WriteLine("</body>");
-
-                writer.WriteLine(HtmlHelpUtility.CreateFooter());
-            }
-
-            System.Diagnostics.Process.Start(fileName);
         }
 
         #endregion
@@ -496,6 +350,182 @@ namespace NeeView
         }
 
         #endregion
+
+        #region Methods
+
+        // NODE: 応急処置
+        public IEnumerable<string> Keys => _elements.Keys;
+
+        // NODE: 応急処置
+        public bool ContainsKey(string key)
+        {
+            return key != null && _elements.ContainsKey(key);
+        }
+
+        public bool TryGetValue(string key, out CommandElement command)
+        {
+            return _elements.TryGetValue(key, out command);
+        }
+
+        private void CommandTable_Changed(object sender, CommandChangedEventArgs e)
+        {
+            ChangeCount++;
+            ClearInputGestureDarty();
+        }
+
+
+        /// <summary>
+        /// 初期設定生成
+        /// </summary>
+        /// <param name="type">入力スキーム</param>
+        /// <returns></returns>
+        public static Memento CreateDefaultMemento(InputSceme type)
+        {
+            var memento = CommandTable.Current.DefaultMemento.Clone();
+
+            // Type.M
+            switch (type)
+            {
+                case InputSceme.TypeA: // default
+                    break;
+
+                case InputSceme.TypeB: // wheel page, right click contextmenu
+                    memento.Elements["NextScrollPage"].ShortCutKey = null;
+                    memento.Elements["PrevScrollPage"].ShortCutKey = null;
+                    memento.Elements["NextPage"].ShortCutKey = "Left,WheelDown";
+                    memento.Elements["PrevPage"].ShortCutKey = "Right,WheelUp";
+                    memento.Elements["OpenContextMenu"].ShortCutKey = "RightClick";
+                    break;
+
+                case InputSceme.TypeC: // click page
+                    memento.Elements["NextScrollPage"].ShortCutKey = null;
+                    memento.Elements["PrevScrollPage"].ShortCutKey = null;
+                    memento.Elements["NextPage"].ShortCutKey = "Left,LeftClick";
+                    memento.Elements["PrevPage"].ShortCutKey = "Right,RightClick";
+                    memento.Elements["ViewScrollUp"].ShortCutKey = "WheelUp";
+                    memento.Elements["ViewScrollDown"].ShortCutKey = "WheelDown";
+                    break;
+            }
+
+            return memento;
+        }
+
+        // .. あまりかわらん
+        public T Parameter<T>(string commandName) where T : class
+        {
+            return _elements[commandName].Parameter as T;
+        }
+
+
+        public bool TryExecute(string commandName, object arg, CommandOption option)
+        {
+            if (TryGetValue(commandName, out CommandElement command))
+            {
+                if (command.CanExecute(arg, option))
+                {
+                    command.Execute(arg, option);
+                }
+            }
+
+            return false;
+        }
+        
+        /// <summary>
+        /// 入力ジェスチャーが変更されていたらテーブル更新イベントを発行する
+        /// </summary>
+        public void FlushInputGesture()
+        {
+            if (_elements.Values.Any(e => e.IsInputGestureDarty))
+            {
+                Changed?.Invoke(this, new CommandChangedEventArgs(false));
+            }
+        }
+
+        /// <summary>
+        /// 入力ジェスチャー変更フラグをクリア
+        /// </summary>
+        public void ClearInputGestureDarty()
+        {
+            foreach(var command in _elements.Values)
+            {
+                command.IsInputGestureDarty = false;
+            }
+        }
+
+
+        // ショートカット重複チェック
+        public List<string> GetOverlapShortCut(string shortcut)
+        {
+            var overlaps = _elements
+                .Where(e => !string.IsNullOrEmpty(e.Value.ShortCutKey) && e.Value.ShortCutKey.Split(',').Contains(shortcut))
+                .Select(e => e.Key)
+                .ToList();
+
+            return overlaps;
+        }
+
+        // マウスジェスチャー重複チェック
+        public List<string> GetOverlapMouseGesture(string gesture)
+        {
+            var overlaps = _elements
+                .Where(e => !string.IsNullOrEmpty(e.Value.MouseGesture) && e.Value.MouseGesture.Split(',').Contains(gesture))
+                .Select(e => e.Key)
+                .ToList();
+
+            return overlaps;
+        }
+
+        // コマンドリストをブラウザで開く
+        public void OpenCommandListHelp()
+        {
+            // グループ分け
+            var groups = new Dictionary<string, List<CommandElement>>();
+            foreach (var command in _elements.Values)
+            {
+                if (command.Group == "(none)") continue;
+
+                if (!groups.ContainsKey(command.Group))
+                {
+                    groups.Add(command.Group, new List<CommandElement>());
+                }
+
+                groups[command.Group].Add(command);
+            }
+
+            // 
+            Directory.CreateDirectory(Temporary.Current.TempSystemDirectory);
+            string fileName = System.IO.Path.Combine(Temporary.Current.TempSystemDirectory, "CommandList.html");
+
+            //
+            using (var writer = new System.IO.StreamWriter(fileName, false))
+            {
+                writer.WriteLine(HtmlHelpUtility.CraeteHeader("NeeView Command List"));
+                writer.WriteLine($"<body><h1>{Properties.Resources.HelpCommandTitle}</h1>");
+
+                writer.WriteLine($"<p>{Properties.Resources.HelpCommandMessage}</p>");
+
+                // グループごとに出力
+                foreach (var pair in groups)
+                {
+                    writer.WriteLine($"<h3>{pair.Key}</h3>");
+                    writer.WriteLine("<table>");
+                    writer.WriteLine($"<th>{Properties.Resources.WordCommand}<th>{Properties.Resources.WordShortcut}<th>{Properties.Resources.WordGesture}<th>{Properties.Resources.WordTouch}<th>{Properties.Resources.WordDescription}<tr>");
+                    foreach (var command in pair.Value)
+                    {
+                        writer.WriteLine($"<td>{command.Text}<td>{command.ShortCutKey}<td>{new MouseGestureSequence(command.MouseGesture).ToDispString()}<td>{command.TouchGesture}<td>{command.Note}<tr>");
+                    }
+                    writer.WriteLine("</table>");
+                }
+                writer.WriteLine("</body>");
+
+                writer.WriteLine(HtmlHelpUtility.CreateFooter());
+            }
+
+            System.Diagnostics.Process.Start(fileName);
+        }
+
+        #endregion
+
 
         #region Scripts
 

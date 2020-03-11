@@ -121,6 +121,9 @@
     <None Update="Scripts\OnBookLoaded.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Scripts\MovieDoubleClick.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Scripts\Sample.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

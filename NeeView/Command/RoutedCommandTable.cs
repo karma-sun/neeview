@@ -90,11 +90,37 @@ namespace NeeView
             _isDarty = true;
         }
 
+        // Update RoutedCommand
+        // スクリプトコマンドは変動する可能性がある
+        public void UpdateRoutedCommand()
+        {
+            var oldies = Commands.Keys
+                .Where(e => e.StartsWith(ScriptCommand.Prefix))
+                .ToList();
+
+            var newers = CommandTable.Current.Keys
+                .Where(e => e.StartsWith(ScriptCommand.Prefix))
+                .ToList();
+
+            foreach (var name in oldies.Except(newers))
+            {
+                Commands.Remove(name);
+            }
+
+            foreach (var name in newers.Except(oldies))
+            {
+                var command = CommandTable.Current[name];
+                Commands.Add(name, new RoutedUICommand(command.Text, name, typeof(MainWindow)));
+            }
+        }
+
         // InputGesture設定
         public void InitializeInputGestures()
         {
             if (!_isDarty) return;
             _isDarty = false;
+
+            UpdateRoutedCommand();
 
             // Touch
             var touch = TouchInput.Current;
@@ -278,8 +304,8 @@ namespace NeeView
         {
             if (allowFlip && CommandTable.Current.IsReversePageMove && MainWindowModel.Current.IsLeftToRightSlider())
             {
-                var command = CommandTable.Current[name];
-                if (command.PairPartner != null)
+                CommandTable.Current.TryGetValue(name, out var command);
+                if (command != null && command.PairPartner != null)
                 {
                     if (command.Parameter is ReversibleCommandParameter reversibleCommandParameter)
                     {

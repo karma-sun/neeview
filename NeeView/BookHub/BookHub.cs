@@ -814,7 +814,11 @@ namespace NeeView
             if (BookUnit != null)
             {
                 BookUnit.Book.IsNew = isNew;
-                CommandTable.Current.TryExecute("Script.OnBookLoaded", null, CommandOption.None);
+                var commandName = "Script.OnBookLoaded";
+                if (CommandTable.Current.ContainsKey(commandName))
+                {
+                    AppDispatcher.Invoke(() => CommandTable.Current.TryExecute(commandName, null, CommandOption.None));
+                }
             }
         }
 

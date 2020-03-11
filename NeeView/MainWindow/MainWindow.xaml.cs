@@ -72,6 +72,10 @@ namespace NeeView
 
             _vm.FocusMainViewCall += (s, e) => this.MainView.Focus();
 
+            // コマンド初期化
+            InitializeCommand();
+            InitializeCommandBindings();
+
             // 各コントロールとモデルを関連付け
             this.PageSliderView.Source = PageSlider.Current;
             this.PageSliderView.FocusTo = this.MainView;
@@ -81,10 +85,6 @@ namespace NeeView
             this.MenuBar.Source = NeeView.MenuBar.Current;
             this.NowLoadingView.Source = NowLoading.Current;
 
-
-            // コマンド初期化
-            InitializeCommand();
-            InitializeCommandBindings();
 
             //
             MainWindowModel.Current.AddPropertyChanged(nameof(MainWindowModel.IsHideMenu),
@@ -253,6 +253,8 @@ namespace NeeView
 
         #region コマンドバインディング
 
+        private Dictionary<string, CommandBinding> _commandBindings;
+
         public void Print()
         {
             ContentCanvas.Current.Print(this, this.PageContents, this.MainContent.RenderTransform, this.MainView.ActualWidth, this.MainView.ActualHeight);
@@ -311,15 +313,49 @@ namespace NeeView
         // RoutedCommand バインディング
         public void InitializeCommandBindings()
         {
-            var commandTable = CommandTable.Current;
-            var commands = RoutedCommandTable.Current.Commands;
+            _commandBindings = new Dictionary<string, CommandBinding>();
 
-            // コマンドバインド作成
-            foreach (var type in commandTable.Keys)
+            foreach (var name in CommandTable.Current.Keys)
             {
-                this.CommandBindings.Add(new CommandBinding(commands[type],
-                    (sender, e) => RoutedCommandTable.Current.Execute(type, e.Parameter),
-                    (sender, e) => e.CanExecute = commandTable[type].CanExecute(null, CommandOption.None)));
+                var binding = CreateCommandBinding(name);
+                _commandBindings.Add(name, binding);
+                this.CommandBindings.Add(binding);
+            }
+
+            RoutedCommandTable.Current.Changed += RefresuCommandBindings;
+        }
+
+        private CommandBinding CreateCommandBinding(string commandName)
+        {
+            var binding = new CommandBinding(RoutedCommandTable.Current.Commands[commandName],
+                (sender, e) => RoutedCommandTable.Current.Execute(commandName, e.Parameter),
+                (sender, e) => e.CanExecute = CommandTable.Current[commandName].CanExecute(null, CommandOption.None));
+
+            return binding;
+        }
+
+        private void RefresuCommandBindings(object sender, EventArgs _)
+        {
+            var oldies = _commandBindings.Keys
+                .Where(e => e.StartsWith(ScriptCommand.Prefix))
+                .ToList();
+
+            var newers = CommandTable.Current.Keys
+                .Where(e => e.StartsWith(ScriptCommand.Prefix))
+                .ToList();
+
+            foreach (var name in oldies.Except(newers))
+            {
+                var binding = _commandBindings[name];
+                _commandBindings.Remove(name);
+                this.CommandBindings.Remove(binding);
+            }
+
+            foreach (var name in newers.Except(oldies))
+            {
+                var binding = CreateCommandBinding(name);
+                _commandBindings.Add(name, binding);
+                this.CommandBindings.Add(binding);
             }
         }
 

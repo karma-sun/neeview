@@ -68,6 +68,10 @@ namespace NeeView
             {
                 return ex.Message;
             }
+            finally
+            {
+                CommandTable.Current.FlushInputGesture();
+            }
         }
     }
 }

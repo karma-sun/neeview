@@ -7,8 +7,6 @@ using System.Windows.Input;
 
 namespace NeeView
 {
-
-
     [DataContract]
     public abstract class CommandElement
     {
@@ -16,6 +14,10 @@ namespace NeeView
 
 
         private string _menuText;
+        private string _shortCutKey;
+        private string _touchGesture;
+        private string _mouseGesture;
+
 
         public CommandElement(string name)
         {
@@ -42,14 +44,53 @@ namespace NeeView
         public string Note { get; set; }
 
 
+        /// <summary>
+        /// 入力情報が変更されたフラグ。
+        /// コマンドバインディングの更新判定に使用される。
+        /// </summary>
+        public bool IsInputGestureDarty { get; set; }
+
         // ショートカットキー
-        public string ShortCutKey { get; set; }
+        public string ShortCutKey
+        {
+            get { return _shortCutKey; }
+            set
+            {
+                if (_shortCutKey != value)
+                {
+                    _shortCutKey = value;
+                    IsInputGestureDarty = true;
+                }
+            }
+        }
 
         // タッチ
-        public string TouchGesture { get; set; }
+        public string TouchGesture
+        {
+            get { return _touchGesture; }
+            set
+            {
+                if (_touchGesture != value)
+                {
+                    _touchGesture = value;
+                    IsInputGestureDarty = true;
+                }
+            }
+        }
 
         // マウスジェスチャー
-        public string MouseGesture { get; set; }
+        public string MouseGesture
+        {
+            get { return _mouseGesture; }
+            set
+            {
+                if (_mouseGesture != value)
+                {
+                    _mouseGesture = value;
+                    IsInputGestureDarty = true;
+                }
+            }
+        }
 
         // コマンド実行時の通知フラグ
         public bool IsShowMessage { get; set; }

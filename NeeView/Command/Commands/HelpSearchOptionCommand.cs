@@ -10,7 +10,7 @@
             this.Note = Properties.Resources.CommandHelpSearchOptionNote;
             this.IsShowMessage = false;
         }
-        public override void Execute(CommandParameter param, object arg, CommandOption option)
+        public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
             MenuBar.Current.OpenSearchOptionHelp();
         }

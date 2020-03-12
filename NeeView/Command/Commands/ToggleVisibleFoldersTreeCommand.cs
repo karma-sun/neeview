@@ -19,12 +19,12 @@ namespace NeeView
             return new Binding(nameof(BookshelfFolderList.Current.IsFolderTreeVisible)) { Source = BookshelfFolderList.Current, Mode = BindingMode.OneWay };
         }
 
-        public override string ExecuteMessage(CommandParameter param, object arg, CommandOption option)
+        public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
             return SidePanel.Current.IsVisibleFolderTree ? Properties.Resources.CommandToggleVisibleFoldersTreeOff : Properties.Resources.CommandToggleVisibleFoldersTreeOn;
         }
 
-        public override void Execute(CommandParameter param, object arg, CommandOption option)
+        public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
             SidePanel.Current.ToggleVisibleFolderTree(option.HasFlag(CommandOption.ByMenu));
         }

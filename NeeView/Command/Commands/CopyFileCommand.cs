@@ -12,12 +12,12 @@
             this.IsShowMessage = true;
         }
 
-        public override bool CanExecute(CommandParameter param, object arg, CommandOption option)
+        public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
         {
             return BookOperation.Current.CanOpenFilePlace();
         }
 
-        public override void Execute(CommandParameter param, object arg, CommandOption option)
+        public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
             BookOperation.Current.CopyToClipboard();
         }

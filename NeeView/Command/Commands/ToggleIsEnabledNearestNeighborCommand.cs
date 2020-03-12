@@ -19,17 +19,17 @@ namespace NeeView
             return new Binding(nameof(ContentCanvas.Current.IsEnabledNearestNeighbor)) { Source = ContentCanvas.Current };
         }
 
-        public override string ExecuteMessage(CommandParameter param, object arg, CommandOption option)
+        public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
             return ContentCanvas.Current.IsEnabledNearestNeighbor ? Properties.Resources.CommandToggleIsEnabledNearestNeighborOff : Properties.Resources.CommandToggleIsEnabledNearestNeighborOn;
         }
 
-        public override bool CanExecute(CommandParameter param, object arg, CommandOption option)
+        public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
         {
             return !NowLoading.Current.IsDispNowLoading;
         }
 
-        public override void Execute(CommandParameter param, object arg, CommandOption option)
+        public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
             ContentCanvas.Current.IsEnabledNearestNeighbor = !ContentCanvas.Current.IsEnabledNearestNeighbor;
         }

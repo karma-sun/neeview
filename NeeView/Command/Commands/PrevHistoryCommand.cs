@@ -11,12 +11,12 @@
             this.IsShowMessage = false;
         }
 
-        public override bool CanExecute(CommandParameter param, object arg, CommandOption option)
+        public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
         {
             return BookHistoryCommand.Current.CanPrevHistory();
         }
 
-        public override void Execute(CommandParameter param, object arg, CommandOption option)
+        public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
             BookHistoryCommand.Current.PrevHistory();
         }

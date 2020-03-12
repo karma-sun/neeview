@@ -18,17 +18,17 @@ namespace NeeView
             return BindingGenerator.BindingBookSetting(nameof(BookSettingPresenter.Current.LatestSetting.IsSupportedSingleLastPage));
         }
 
-        public override string ExecuteMessage(CommandParameter param, object arg, CommandOption option)
+        public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
             return BookSettingPresenter.Current.LatestSetting.IsSupportedSingleLastPage ? Properties.Resources.CommandToggleIsSupportedSingleLastPageOff : Properties.Resources.CommandToggleIsSupportedSingleLastPageOn;
         }
 
-        public override bool CanExecute(CommandParameter param, object arg, CommandOption option)
+        public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
         {
             return BookSettingPresenter.Current.CanPageModeSubSetting(PageMode.WidePage);
         }
 
-        public override void Execute(CommandParameter param, object arg, CommandOption option)
+        public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
             BookSettingPresenter.Current.ToggleIsSupportedSingleLastPage();
         }

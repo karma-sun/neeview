@@ -13,7 +13,7 @@
             this.ParameterSource = new CommandParameterSource(new ViewScrollCommandParameter() { Scroll = 25, AllowCrossScroll = true });
         }
 
-        public override void Execute(CommandParameter param, object arg, CommandOption option)
+        public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
             DragTransformControl.Current.ScrollDown((ViewScrollCommandParameter)param);
         }

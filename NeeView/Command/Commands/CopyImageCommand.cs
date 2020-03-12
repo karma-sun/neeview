@@ -12,12 +12,12 @@
             this.IsShowMessage = true;
         }
 
-        public override bool CanExecute(CommandParameter param, object arg, CommandOption option)
+        public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
         {
             return ContentCanvas.Current.CanCopyImageToClipboard();
         }
 
-        public override void Execute(CommandParameter param, object arg, CommandOption option)
+        public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
             ContentCanvas.Current.CopyImageToClipboard();
         }

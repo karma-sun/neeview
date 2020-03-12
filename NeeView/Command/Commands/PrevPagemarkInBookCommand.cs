@@ -12,12 +12,12 @@
             this.ParameterSource = new CommandParameterSource(new MovePagemarkCommandParameter());
         }
 
-        public override bool CanExecute(CommandParameter param, object arg, CommandOption option)
+        public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
         {
             return BookOperation.Current.CanPrevPagemarkInPlace((MovePagemarkCommandParameter)param);
         }
 
-        public override void Execute(CommandParameter param, object arg, CommandOption option)
+        public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
             BookOperation.Current.PrevPagemarkInPlace((MovePagemarkCommandParameter)param);
         }

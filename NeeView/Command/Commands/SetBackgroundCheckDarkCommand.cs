@@ -18,7 +18,7 @@ namespace NeeView
             return BindingGenerator.Background(BackgroundStyle.CheckDark);
         }
 
-        public override void Execute(CommandParameter param, object arg, CommandOption option)
+        public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
             ContentCanvasBrush.Current.Background = BackgroundStyle.CheckDark;
         }

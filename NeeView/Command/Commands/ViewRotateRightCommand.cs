@@ -13,7 +13,7 @@
             this.ParameterSource = new CommandParameterSource(new ViewRotateCommandParameter() { Angle = 45 });
         }
 
-        public override void Execute(CommandParameter param, object arg, CommandOption option)
+        public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
             ContentCanvas.Current.ViewRotateRight((ViewRotateCommandParameter)param);
         }

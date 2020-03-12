@@ -19,12 +19,12 @@ namespace NeeView
             return new Binding(nameof(SidePanel.IsSideBarVisible)) { Source = SidePanel.Current };
         }
 
-        public override string ExecuteMessage(CommandParameter param, object arg, CommandOption option)
+        public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
             return SidePanel.Current.IsSideBarVisible ? Properties.Resources.CommandToggleVisibleSideBarOff : Properties.Resources.CommandToggleVisibleSideBarOn;
         }
 
-        public override void Execute(CommandParameter param, object arg, CommandOption option)
+        public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
             SidePanel.Current.IsSideBarVisible = !SidePanel.Current.IsSideBarVisible;
         }

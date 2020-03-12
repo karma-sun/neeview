@@ -420,13 +420,14 @@ namespace NeeView
         }
 
 
-        public bool TryExecute(string commandName, object arg, CommandOption option)
+        public bool TryExecute(string commandName, object[] args, CommandOption option)
         {
             if (TryGetValue(commandName, out CommandElement command))
             {
-                if (command.CanExecute(arg, option))
+                args = args ?? new object[] { };
+                if (command.CanExecute(args, option))
                 {
-                    command.Execute(arg, option);
+                    command.Execute(args, option);
                 }
             }
 

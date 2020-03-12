@@ -10,12 +10,12 @@
             this.IsShowMessage = true;
         }
 
-        public override string ExecuteMessage(CommandParameter param, object arg, CommandOption option)
+        public override string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
             return BookSettingPresenter.Current.LatestSetting.PageMode.GetToggle().ToAliasName();
         }
 
-        public override void Execute(CommandParameter param, object arg, CommandOption option)
+        public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
             BookSettingPresenter.Current.TogglePageMode();
         }

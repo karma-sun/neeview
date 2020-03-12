@@ -13,9 +13,10 @@
         }
 
         [MethodArgument(typeof(string), "@CommandLoadAsArgument")]
-        public override void Execute(CommandParameter param, object arg, CommandOption option)
+        public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            MainWindowModel.Current.LoadAs(arg as string);
+            var path = args.Length > 0 ? args[0] as string : null;
+            MainWindowModel.Current.LoadAs(path);
         }
     }
 }

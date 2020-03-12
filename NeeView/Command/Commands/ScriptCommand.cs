@@ -32,7 +32,7 @@ namespace NeeView
             }
         }
 
-        public override void Execute(CommandParameter param, object arg, CommandOption option)
+        public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
             var commandHost = new CommandHost(CommandTable.Current);
             var commandEngine = new JavascriptEngine(commandHost);

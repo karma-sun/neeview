@@ -39,12 +39,12 @@ namespace NeeView
         }
 
 
-        public bool Execute(object arg = null)
+        public bool Execute(params object[] args)
         {
             var param = _command.CreateOverwriteCommandParameter(_patch);
-            if (_command.CanExecute(param, arg, CommandOption.None))
+            if (_command.CanExecute(param, args, CommandOption.None))
             {
-                _command.Execute(param, arg, CommandOption.None);
+                _command.Execute(param, args, CommandOption.None);
                 return true;
             }
             else

@@ -1,4 +1,6 @@
-﻿namespace NeeView
+﻿using System;
+
+namespace NeeView
 {
     public class JumpPageCommand : CommandElement
     {
@@ -10,15 +12,16 @@
             this.IsShowMessage = false;
         }
 
-        public override bool CanExecute(CommandParameter param, object arg, CommandOption option)
+        public override bool CanExecute(CommandParameter param, object[] args, CommandOption option)
         {
             return !NowLoading.Current.IsDispNowLoading;
         }
 
         [MethodArgument(typeof(int), "@CommandJumpPageArgument")]
-        public override void Execute(CommandParameter param, object arg, CommandOption option)
+        public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            BookOperation.Current.JumpPage(arg as int?);
+            var number = args.Length > 0 ? (int?)Convert.ToInt32(args[0]) : null;
+            BookOperation.Current.JumpPage(number);
         }
     }
 }

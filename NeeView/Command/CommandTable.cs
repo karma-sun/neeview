@@ -142,9 +142,9 @@ namespace NeeView
                 new LoadAsCommand("LoadAs"),
                 new ReLoadCommand("ReLoad"),
                 new UnloadCommand("Unload"),
-                new OpenApplicationCommand("OpenApplication"),
-                new OpenFilePlaceCommand("OpenFilePlace"),
-                new ExportCommand("Export"),
+                new OpenExternalAppCommand("OpenExternalApp"),
+                new OpenExplorerCommand("OpenExplorer"),
+                new ExportImageAsCommand("ExportImageAs"),
                 new ExportImageCommand("ExportImage"),
                 new PrintCommand("Print"),
                 new DeleteFileCommand("DeleteFile"),
@@ -239,8 +239,8 @@ namespace NeeView
                 new NextFolderPageCommand("NextFolderPage"),
                 new FirstPageCommand("FirstPage"),
                 new LastPageCommand("LastPage"),
-                new PrevFolderCommand("PrevFolder"),
-                new NextFolderCommand("NextFolder"),
+                new PrevBookCommand("PrevBook"),
+                new NextBookCommand("NextBook"),
                 new PrevHistoryCommand("PrevHistory"),
                 new NextHistoryCommand("NextHistory"),
 
@@ -265,8 +265,8 @@ namespace NeeView
                 new SetFolderOrderBySizeDCommand("SetFolderOrderBySizeD"),
                 new SetFolderOrderByRandomCommand("SetFolderOrderByRandom"),
                 new TogglePageModeCommand("TogglePageMode"),
-                new SetPageMode1Command("SetPageMode1"),
-                new SetPageMode2Command("SetPageMode2"),
+                new SetPageModeOneCommand("SetPageModeOne"),
+                new SetPageModeTwoCommand("SetPageModeTwo"),
                 new ToggleBookReadOrderCommand("ToggleBookReadOrder"),
                 new SetBookReadOrderRightCommand("SetBookReadOrderRight"),
                 new SetBookReadOrderLeftCommand("SetBookReadOrderLeft"),
@@ -879,6 +879,28 @@ namespace NeeView
                         Elements["SetStretchModeUniform"].Parameter = element.Parameter;
                     }
                 }
+
+                // before 37.0
+                if (_Version < Config.GenerateProductVersionNumber(37, 0, 0))
+                {
+                    Rename("OpenApplicaion", "OpenExternalApp");
+                    Rename("OpenFilePlace", "OpenExplorer");
+                    Rename("Export", "ExportImageAs");
+                    Rename("PrevFolder", "PrevBook");
+                    Rename("NextFolder", "NextBook");
+                    Rename("SetPageMode1", "SetPageModeOne");
+                    Rename("SetPageMode2", "SetPageModeTwo");
+                }
+
+                // コマンド名変更
+                void Rename(string oldName, string newName)
+                {
+                    if (Elements.TryGetValue(oldName, out var element))
+                    {
+                        Elements[newName] = element;
+                        // NOTE: 未登録コマンドは適用されないので古いコマンドの削除の必要はない
+                    }
+                }
             }
 
             public Memento Clone()
@@ -909,7 +931,7 @@ namespace NeeView
         public void Restore(Memento memento, bool onHold)
         {
             RestoreInner(memento);
-            UpdateScriptCommand();
+            ////UpdateScriptCommand();
             Changed?.Invoke(this, new CommandChangedEventArgs(onHold));
         }
 
@@ -917,18 +939,24 @@ namespace NeeView
         {
             if (memento == null) return;
 
+            this.IsReversePageMove = memento.IsReversePageMove;
+            this.IsReversePageMoveWheel = memento.IsReversePageMoveWheel;
+            _isScriptFolderEnabled = memento.IsScriptFolderEnabled;
+            _scriptFolder = memento.ScriptFolder;
+
+            UpdateScriptCommand();
+
             foreach (var pair in memento.Elements)
             {
                 if (_elements.ContainsKey(pair.Key))
                 {
                     _elements[pair.Key].Restore(pair.Value);
                 }
+                else
+                {
+                    Debug.WriteLine($"Warning: No such command '{pair.Key}'");
+                }
             }
-
-            this.IsReversePageMove = memento.IsReversePageMove;
-            this.IsReversePageMoveWheel = memento.IsReversePageMoveWheel;
-            _isScriptFolderEnabled = memento.IsScriptFolderEnabled;
-            _scriptFolder = memento.ScriptFolder;
         }
 
         #endregion

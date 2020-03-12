@@ -1,12 +1,12 @@
 ﻿namespace NeeView
 {
-    public class OpenFilePlaceCommand : CommandElement
+    public class OpenExternalAppCommand : CommandElement
     {
-        public OpenFilePlaceCommand(string name) : base(name)
+        public OpenExternalAppCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupFile;
-            this.Text = Properties.Resources.CommandOpenFilePlace;
-            this.Note = Properties.Resources.CommandOpenFilePlaceNote;
+            this.Text = Properties.Resources.CommandOpenApplication;
+            this.Note = Properties.Resources.CommandOpenApplicationNote;
             this.IsShowMessage = false;
         }
 
@@ -17,7 +17,7 @@
 
         public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
-            BookOperation.Current.OpenFilePlace();
+            BookOperation.Current.OpenApplication();
         }
     }
 }

@@ -3,21 +3,21 @@
 
 namespace NeeView
 {
-    public class SetPageMode1Command : CommandElement
+    public class SetPageModeTwoCommand : CommandElement
     {
-        public SetPageMode1Command(string name) : base(name)
+        public SetPageModeTwoCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupPageSetting;
-            this.Text = Properties.Resources.CommandSetPageMode1;
-            this.Note = Properties.Resources.CommandSetPageMode1Note;
-            this.ShortCutKey = "Ctrl+1";
-            this.MouseGesture = "RU";
+            this.Text = Properties.Resources.CommandSetPageMode2;
+            this.Note = Properties.Resources.CommandSetPageMode2Note;
+            this.ShortCutKey = "Ctrl+2";
+            this.MouseGesture = "RD";
             this.IsShowMessage = true;
         }
 
         public override Binding CreateIsCheckedBinding()
         {
-            return BindingGenerator.PageMode(PageMode.SinglePage);
+            return BindingGenerator.PageMode(PageMode.WidePage);
         }
 
         public override bool CanExecute(CommandParameter param, object arg, CommandOption option)
@@ -27,7 +27,7 @@ namespace NeeView
 
         public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
-            BookSettingPresenter.Current.SetPageMode(PageMode.SinglePage);
+            BookSettingPresenter.Current.SetPageMode(PageMode.WidePage);
         }
     }
 }

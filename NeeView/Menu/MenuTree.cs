@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -43,7 +44,7 @@ namespace NeeView
     /// 
     /// </summary>
     [DataContract]
-    public class MenuTree : BindableBase
+    public class MenuTree : BindableBase, IEnumerable<MenuTree>
     {
         #region Property: IsExpanded
         private bool _isExpanded;
@@ -468,12 +469,12 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { CommandName = "Unload" },
                         new MenuTree(MenuElementType.History),
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { CommandName = "OpenApplication" },
-                        new MenuTree(MenuElementType.Command) { CommandName = "OpenFilePlace" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "OpenExternalApp" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "OpenExplorer" },
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { CommandName = "CopyFile" },
                         new MenuTree(MenuElementType.Command) { CommandName = "Paste" },
-                        new MenuTree(MenuElementType.Command) { CommandName = "Export" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ExportImageAs" },
                         new MenuTree(MenuElementType.Command) { CommandName = "Print" },
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { CommandName = "DeleteFile" },
@@ -540,13 +541,13 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { CommandName = "FirstPage" },
                         new MenuTree(MenuElementType.Command) { CommandName = "LastPage" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { CommandName = "PrevFolder" },
-                        new MenuTree(MenuElementType.Command) { CommandName = "NextFolder" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "PrevBook" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "NextBook" },
                     }},
                     new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreePage, Children = new ObservableCollection<MenuTree>()
                     {
-                        new MenuTree(MenuElementType.Command) { CommandName = "SetPageMode1" },
-                        new MenuTree(MenuElementType.Command) { CommandName = "SetPageMode2" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetPageModeOne" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetPageModeTwo" },
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { CommandName = "SetBookReadOrderRight" },
                         new MenuTree(MenuElementType.Command) { CommandName = "SetBookReadOrderLeft" },
@@ -639,5 +640,30 @@ namespace NeeView
                 this.Children.Remove(item);
             }
         }
+
+        #region IEnumerable support
+
+        public IEnumerator<MenuTree> GetEnumerator()
+        {
+            yield return this;
+
+            if (Children != null)
+            {
+                foreach (var child in Children)
+                {
+                    foreach (var subChild in child)
+                    {
+                        yield return subChild;
+                    }
+                }
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        #endregion
     }
 }

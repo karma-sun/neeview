@@ -1,8 +1,8 @@
 ﻿namespace NeeView
 {
-    public class ExportCommand : CommandElement
+    public class ExportImageAsCommand : CommandElement
     {
-        public ExportCommand(string name) : base(name)
+        public ExportImageAsCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupFile;
             this.Text = Properties.Resources.CommandExportImageDialog;

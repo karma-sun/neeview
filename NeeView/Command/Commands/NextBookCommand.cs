@@ -1,14 +1,14 @@
 ﻿namespace NeeView
 {
-    public class PrevFolderCommand : CommandElement
+    public class NextBookCommand : CommandElement
     {
-        public PrevFolderCommand(string name) : base(name)
+        public NextBookCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupMove;
-            this.Text = Properties.Resources.CommandPrevFolder;
-            this.Note = Properties.Resources.CommandPrevFolderNote;
-            this.ShortCutKey = "Up";
-            this.MouseGesture = "LU";
+            this.Text = Properties.Resources.CommandNextFolder;
+            this.Note = Properties.Resources.CommandNextFolderNote;
+            this.ShortCutKey = "Down";
+            this.MouseGesture = "LD";
             this.IsShowMessage = false;
         }
 
@@ -19,7 +19,7 @@
 
         public override void Execute(CommandParameter param, object arg, CommandOption option)
         {
-            var async = BookshelfFolderList.Current.PrevFolder();
+            var async = BookshelfFolderList.Current.NextFolder();
         }
     }
 }

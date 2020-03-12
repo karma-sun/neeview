@@ -84,7 +84,7 @@ namespace NeeView.Setting
                 {
                     var overlaps = _sources
                         .Where(i => i.Key != _key && i.Value.TouchGesture.Split(',').Contains(key))
-                        .Select(e => e.Key.ToCommand().LongText)
+                        .Select(e => CommandTable.Current.GetElement(e.Key).LongText)
                         .ToList();
 
                     if (overlaps.Count > 0)

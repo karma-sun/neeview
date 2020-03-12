@@ -66,7 +66,7 @@ namespace NeeView.Setting
             public bool HasParameter { get; set; }
             public string ParameterShareCommandName { get; set; }
             public bool IsShareParameter => !string.IsNullOrEmpty(ParameterShareCommandName);
-            public string ShareTips => string.Format(Properties.Resources.ControlCommandListShare, ParameterShareCommandName?.ToCommand().Text);
+            public string ShareTips => string.Format(Properties.Resources.ControlCommandListShare, CommandTable.Current.GetElement(ParameterShareCommandName).Text);
         }
 
         // コマンド一覧
@@ -149,7 +149,7 @@ namespace NeeView.Setting
                     {
                         var overlaps = CommandCollection
                             .Where(e => !string.IsNullOrEmpty(e.Command.ShortCutKey) && e.Key != item.Key && e.Command.ShortCutKey.Split(',').Contains(key))
-                            .Select(e => e.Key.ToCommand().Text)
+                            .Select(e => CommandTable.Current.GetElement(e.Key).Text)
                             .ToList();
 
                         if (overlaps.Count > 0)
@@ -189,7 +189,7 @@ namespace NeeView.Setting
                 {
                     var overlaps = CommandCollection
                         .Where(e => e.Key != item.Key && e.Command.MouseGesture == item.Command.MouseGesture)
-                        .Select(e => e.Key.ToCommand().Text)
+                        .Select(e => CommandTable.Current.GetElement(e.Key).Text)
                         .ToList();
 
                     var element = new GestureElement();
@@ -223,7 +223,7 @@ namespace NeeView.Setting
                     {
                         var overlaps = CommandCollection
                             .Where(e => !string.IsNullOrEmpty(e.Command.TouchGesture) && e.Key != item.Key && e.Command.TouchGesture.Split(',').Contains(key))
-                            .Select(e => e.Key.ToCommand().Text)
+                            .Select(e => CommandTable.Current.GetElement(e.Key).Text)
                             .ToList();
 
                         if (overlaps.Count > 0)

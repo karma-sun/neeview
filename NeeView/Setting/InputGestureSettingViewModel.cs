@@ -59,7 +59,7 @@ namespace NeeView.Setting
         {
             _sources = memento.Elements;
             Command = command;
-            Header = $"{Command.ToCommand().Text} - {Properties.Resources.ControlEditShortcutTitle}";
+            Header = $"{CommandTable.Current.GetElement(Command).Text} - {Properties.Resources.ControlEditShortcutTitle}";
 
             UpdateGestures();
         }
@@ -99,7 +99,7 @@ namespace NeeView.Setting
             if (overlaps.Count > 0)
             {
                 element.Conflicts = overlaps;
-                element.OverlapsText = string.Format(Properties.Resources.NotifyConflict, ResourceService.Join(overlaps.Select(e => e.ToCommand().Text)));
+                element.OverlapsText = string.Format(Properties.Resources.NotifyConflict, ResourceService.Join(overlaps.Select(e => CommandTable.Current.GetElement(e).Text)));
             }
 
             return element;

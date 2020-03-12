@@ -56,7 +56,7 @@ namespace NeeView.Setting
         public string CommandName { get; set; }
         public bool IsChecked { get; set; }
 
-        public string Text => CommandName.ToCommand().Text;
+        public string Text => CommandTable.Current.GetElement(CommandName).Text;
 
         public ConflictItem(string cmmandName, bool isChecked)
         {
@@ -73,7 +73,7 @@ namespace NeeView.Setting
         private ResolveConflictDialogContext _context;
 
         // window title
-        public string Title => $"{_context.Command.ToCommand().Text} - {Properties.Resources.ControlResolveConflictTitle}";
+        public string Title => $"{CommandTable.Current.GetElement(_context.Command).Text} - {Properties.Resources.ControlResolveConflictTitle}";
 
         ////public string Gesture => _context.Gesture;
         public string Note => string.Format(Properties.Resources.ControlResolveConflictNote, _context.Gesture);

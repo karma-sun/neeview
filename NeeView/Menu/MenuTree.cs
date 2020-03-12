@@ -118,7 +118,7 @@ namespace NeeView
                     case MenuElementType.None:
                         return $"({MenuElementType.ToAliasName()})";
                     case MenuElementType.Command:
-                        return CommandName.ToCommand().LongText;
+                        return CommandTable.Current.GetElement(CommandName).LongText;
                 }
             }
         }
@@ -135,7 +135,7 @@ namespace NeeView
                     case MenuElementType.None:
                         return $"({MenuElementType.ToAliasName()})";
                     case MenuElementType.Command:
-                        return CommandName.ToCommand().MenuText;
+                        return CommandTable.Current.GetElement(CommandName).MenuText;
                 }
             }
         }
@@ -299,7 +299,7 @@ namespace NeeView
                         item.Tag = this.CommandName;
                         item.Command = RoutedCommandTable.Current.Commands[this.CommandName];
                         item.CommandParameter = MenuCommandTag.Tag; // コマンドがメニューからであることをパラメータで伝えてみる
-                        var binding = CommandTable.Current[this.CommandName].CreateIsCheckedBinding();
+                        var binding = CommandTable.Current.GetElement(this.CommandName).CreateIsCheckedBinding();
                         if (binding != null)
                         {
                             item.SetBinding(MenuItem.IsCheckedProperty, binding);
@@ -422,7 +422,7 @@ namespace NeeView
                     case MenuElementType.Group:
                         return "";
                     case MenuElementType.Command:
-                        return CommandTable.Current[CommandName].Note;
+                        return CommandTable.Current.GetElement(CommandName).Note;
                     case MenuElementType.History:
                         return Properties.Resources.MenuTreeHistory;
                     case MenuElementType.Separator:

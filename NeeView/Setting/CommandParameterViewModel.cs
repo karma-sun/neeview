@@ -29,13 +29,13 @@ namespace NeeView.Setting
             _sources = memento.Elements;
             _key = key;
 
-            if (CommandTable.Current[_key].Share != null)
+            if (CommandTable.Current.GetElement(_key).Share != null)
             {
-                _key = CommandTable.Current[_key].Share.Name;
-                this.Note = string.Format(Properties.Resources.ParamCommandShare, _key.ToCommand().Text);
+                _key = CommandTable.Current.GetElement(_key).Share.Name;
+                this.Note = string.Format(Properties.Resources.ParamCommandShare, CommandTable.Current.GetElement(_key).Text);
             }
 
-            _defaultParameter = CommandTable.Current[_key].ParameterSource?.GetDefault();
+            _defaultParameter = CommandTable.Current.GetElement(_key).ParameterSource?.GetDefault();
             if (_defaultParameter == null)
             {
                 return;

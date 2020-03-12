@@ -80,18 +80,6 @@ namespace NeeView
 
         #region Properties
 
-        // インテグザ
-        public CommandElement this[string key]
-        {
-            get
-            {
-                if (!_elements.ContainsKey(key)) throw new ArgumentOutOfRangeException(key.ToString());
-                return _elements[key];
-            }
-            set { _elements[key] = value; }
-        }
-
-
         public Memento DefaultMemento { get; private set; }
 
         [PropertyMember("@ParamCommandIsReversePageMove", Tips = "@ParamCommandIsReversePageMoveTips")]
@@ -368,6 +356,18 @@ namespace NeeView
         public bool TryGetValue(string key, out CommandElement command)
         {
             return _elements.TryGetValue(key, out command);
+        }
+
+        public CommandElement GetElement(string key)
+        {
+            if (TryGetValue(key, out CommandElement command))
+            {
+                return command;
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException(key);
+            }
         }
 
         private void CommandTable_Changed(object sender, CommandChangedEventArgs e)

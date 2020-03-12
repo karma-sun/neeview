@@ -79,9 +79,9 @@ namespace NeeView.Setting
             _memento = CommandTable.Current.CreateMemento();
             _key = key;
 
-            this.Title = $"{key.ToCommand().Text} - {Properties.Resources.ControlEditCommandTitle}";
+            this.Title = $"{CommandTable.Current.GetElement(key).Text} - {Properties.Resources.ControlEditCommandTitle}";
 
-            this.Note = CommandTable.Current[key].Note;
+            this.Note = CommandTable.Current.GetElement(key).Note;
             this.IsShowMessage = _memento.Elements[key].IsShowMessage;
 
             this.InputGesture.Initialize(_memento, key);

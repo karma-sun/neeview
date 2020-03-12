@@ -109,7 +109,7 @@ namespace NeeView
 
             foreach (var name in newers.Except(oldies))
             {
-                var command = CommandTable.Current[name];
+                var command = CommandTable.Current.GetElement(name) ?? throw new InvalidOperationException();
                 Commands.Add(name, new RoutedUICommand(command.Text, name, typeof(MainWindow)));
             }
         }
@@ -129,7 +129,7 @@ namespace NeeView
 
             foreach (var command in this.Commands)
             {
-                var touchGestures = CommandTable.Current[command.Key].GetTouchGestureCollection();
+                var touchGestures = CommandTable.Current.GetElement(command.Key).GetTouchGestureCollection();
                 foreach (var gesture in touchGestures)
                 {
                     touch.TouchGestureChanged += (s, x) =>
@@ -159,7 +159,7 @@ namespace NeeView
             foreach (var command in this.Commands)
             {
                 command.Value.InputGestures.Clear();
-                var inputGestures = CommandTable.Current[command.Key].GetInputGestureCollection();
+                var inputGestures = CommandTable.Current.GetElement(command.Key).GetInputGestureCollection();
                 foreach (var gesture in inputGestures)
                 {
                     if (gesture is MouseGesture mouseClick)
@@ -185,7 +185,7 @@ namespace NeeView
                 }
 
                 // mouse gesture
-                var mouseGesture = CommandTable.Current[command.Key].MouseGesture;
+                var mouseGesture = CommandTable.Current.GetElement(command.Key).MouseGesture;
                 if (mouseGesture != null)
                 {
                     MouseGestureCommandCollection.Current.Add(mouseGesture, command.Key);
@@ -212,7 +212,7 @@ namespace NeeView
 
             foreach (var command in this.Commands)
             {
-                var inputGestures = CommandTable.Current[command.Key].GetInputGestureCollection();
+                var inputGestures = CommandTable.Current.GetElement(command.Key).GetInputGestureCollection();
                 foreach (var gesture in inputGestures)
                 {
                     switch (gesture)
@@ -282,7 +282,7 @@ namespace NeeView
                 ? args.AllowFlip
                 : (parameter != MenuCommandTag.Tag);
 
-            var command = CommandTable.Current[GetFixedCommandName(name, allowFlip)];
+            var command = CommandTable.Current.GetElement(GetFixedCommandName(name, allowFlip));
 
             // 通知
             if (command.IsShowMessage)

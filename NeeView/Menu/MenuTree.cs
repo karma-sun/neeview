@@ -588,6 +588,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { CommandName = "ExportBackup"},
                         new MenuTree(MenuElementType.Command) { CommandName = "ImportBackup"},
                         new MenuTree(MenuElementType.Command) { CommandName = "OpenSettingFilesFolder" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "OpenScriptsFolder" },
                         new MenuTree(MenuElementType.Command) { CommandName = "OpenConsole" },
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { CommandName = "TogglePermitFileCommand"},

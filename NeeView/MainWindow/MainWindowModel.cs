@@ -450,28 +450,22 @@ namespace NeeView
         }
 
 
-
         // ダイアログでファイル選択して画像を読み込む
-        public void LoadAs(string path)
+        public void LoadAs()
         {
-            if (path == null)
+            var dialog = new OpenFileDialog();
+            dialog.InitialDirectory = GetDefaultFolder();
+
+            if (dialog.ShowDialog(App.Current.MainWindow) == true)
             {
-                var dialog = new OpenFileDialog();
-                dialog.InitialDirectory = GetDefaultFolder();
-
-                if (dialog.ShowDialog(App.Current.MainWindow) == true)
-                {
-                    path = dialog.FileName;
-                }
-                else
-                {
-                    return;
-                }
+                LoadAs(dialog.FileName);
             }
-
-            BookHub.Current.RequestLoad(path, null, BookLoadOption.None, true);
         }
 
+        public void LoadAs(string path)
+        {
+            BookHub.Current.RequestLoad(path, null, BookLoadOption.None, true);
+        }
 
         // ファイルを開く基準となるフォルダーを取得
         private string GetDefaultFolder()
@@ -636,6 +630,21 @@ namespace NeeView
             }
 
             Process.Start("explorer.exe", $"\"{Config.Current.LocalApplicationDataPath}\"");
+        }
+
+        // スクリプトファイルの場所を開く
+        public void OpenScriptsFolder()
+        {
+            var path = CommandTable.Current.ScriptFolder;
+
+            try
+            {
+                Process.Start("explorer.exe", $"\"{path}\"");
+            }
+            catch (Exception ex)
+            {
+                new MessageDialog(ex.Message, Resources.DialogOpenScriptsFolderErrorTitle).ShowDialog();
+            }
         }
 
         // オンラインヘルプ

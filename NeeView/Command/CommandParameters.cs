@@ -43,6 +43,23 @@ namespace NeeView
             return this;
         }
 
+        public object ToDictionary()
+        {
+            var dictionary = new Dictionary<string, object>();
+            var type = this.GetType();
+
+            foreach (PropertyInfo info in type.GetProperties())
+            {
+                var attribute = (PropertyMemberAttribute)Attribute.GetCustomAttributes(info, typeof(PropertyMemberAttribute)).FirstOrDefault();
+                if (attribute != null)
+                {
+                    dictionary.Add(info.Name, info.GetValue(this));
+                }
+            }
+
+            return dictionary;
+        }
+
         #endregion
     }
 

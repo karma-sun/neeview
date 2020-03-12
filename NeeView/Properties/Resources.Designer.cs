@@ -1060,7 +1060,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Page number に類似しているローカライズされた文字列を検索します。
+        ///   number: int|Page number に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandJumpPageArgument {
             get {
@@ -1105,7 +1105,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   File or folder path に類似しているローカライズされた文字列を検索します。
+        ///   path: string|File or folder path に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandLoadAsArgument {
             get {
@@ -1497,6 +1497,24 @@ namespace NeeView.Properties {
         public static string CommandOpenFilePlaceNote {
             get {
                 return ResourceManager.GetString("CommandOpenFilePlaceNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open scripts folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandOpenSecriptsFolder {
+            get {
+                return ResourceManager.GetString("CommandOpenSecriptsFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Open the scripts folder with Explorer. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandOpenSecriptsFolderNote {
+            get {
+                return ResourceManager.GetString("CommandOpenSecriptsFolderNote", resourceCulture);
             }
         }
         
@@ -2604,6 +2622,15 @@ namespace NeeView.Properties {
         public static string CommandShowHiddenPanelsNote {
             get {
                 return ResourceManager.GetString("CommandShowHiddenPanelsNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   switch: bool|ON/OFF. Toggle if omitted. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandToggleArgument {
+            get {
+                return ResourceManager.GetString("CommandToggleArgument", resourceCulture);
             }
         }
         
@@ -6088,6 +6115,15 @@ namespace NeeView.Properties {
         public static string DialogOpenApplicationErrorTitle {
             get {
                 return ResourceManager.GetString("DialogOpenApplicationErrorTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Cannot open scripts folder に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string DialogOpenScriptsFolderErrorTitle {
+            get {
+                return ResourceManager.GetString("DialogOpenScriptsFolderErrorTitle", resourceCulture);
             }
         }
         

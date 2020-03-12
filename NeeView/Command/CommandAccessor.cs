@@ -30,7 +30,7 @@ namespace NeeView
         public string MouseGesture
         {
             get { return _command.MouseGesture; }
-            set { _command.MouseGesture = value.Replace("←", "L").Replace("↑", "U").Replace("→", "R").Replace("↓", "L").Replace("Click","C"); }
+            set { _command.MouseGesture = value.Replace("←", "L").Replace("↑", "U").Replace("→", "R").Replace("↓", "L").Replace("Click", "C"); }
         }
 
         public CommandParameter Parameter

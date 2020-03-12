@@ -294,6 +294,7 @@ namespace NeeView
                 new LoupeScaleDownCommand("LoupeScaleDown"),
                 new OpenSettingWindowCommand("OpenSettingWindow"),
                 new OpenSettingFilesFolderCommand("OpenSettingFilesFolder"),
+                new OpenScriptsFolderCommand("OpenScriptsFolder"),
                 new OpenVersionWindowCommand("OpenVersionWindow"),
                 new CloseApplicationCommand("CloseApplication"),
 
@@ -557,7 +558,7 @@ namespace NeeView
 
                 WriteResource(writer, "/Resources/ja-JP/ScriptManual.html");
 
-                var executeMethodArgTypes = new Type[] { typeof(CommandParameter), typeof(object), typeof(CommandOption) };
+                var executeMethodArgTypes = new Type[] { typeof(CommandParameter), typeof(object[]), typeof(CommandOption) };
 
                 // グループごとに出力
                 foreach (var pair in groups)
@@ -575,7 +576,16 @@ namespace NeeView
                             var attribute = (MethodArgumentAttribute)Attribute.GetCustomAttributes(info, typeof(MethodArgumentAttribute)).FirstOrDefault();
                             if (attribute != null)
                             {
-                                argument = TypeToString(attribute.Type) + "<br/>" + ResourceService.GetString(attribute.Note);
+                                var tokens = ResourceService.GetString(attribute.Note).Split('|');
+                                int index = 0;
+                                argument += "<dl>";
+                                while (index < tokens.Length )
+                                {
+                                    var dt = tokens.ElementAtOrDefault(index++);
+                                    var dd = tokens.ElementAtOrDefault(index++);
+                                    argument += $"<dt>{dt}</dt><dd>{dd}</dd>";
+                                }
+                                argument += "</dl>";
                             }
                         }
 

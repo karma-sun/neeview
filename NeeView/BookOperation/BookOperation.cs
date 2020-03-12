@@ -705,17 +705,20 @@ namespace NeeView
             }
         }
 
+
         // ページを指定して移動
-        public void JumpPage(int? number)
+        public void JumpPage(int number)
         {
             if (this.Book == null || this.Book.IsMedia) return;
 
-            if (number != null)
-            {
-                var page = this.Book.Pages.GetPage((int)number - 1);
-                this.Book.Control.JumpPage(page);
-                return;
-            }
+            var page = this.Book.Pages.GetPage(number - 1);
+            this.Book.Control.JumpPage(page);
+        }
+
+        // ページを指定して移動
+        public void JumpPage()
+        {
+            if (this.Book == null || this.Book.IsMedia) return;
 
             var dialogModel = new PageSelecteDialogModel()
             {

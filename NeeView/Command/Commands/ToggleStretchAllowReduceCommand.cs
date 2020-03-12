@@ -1,4 +1,5 @@
-﻿using System.Windows.Data;
+﻿using System;
+using System.Windows.Data;
 
 
 namespace NeeView
@@ -28,9 +29,17 @@ namespace NeeView
             return !NowLoading.Current.IsDispNowLoading;
         }
 
+        [MethodArgument("@CommandToggleArgument")]
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            ContentCanvas.Current.AllowReduce = !ContentCanvas.Current.AllowReduce;
+            if (args.Length > 0)
+            {
+                ContentCanvas.Current.AllowReduce = Convert.ToBoolean(args[0]);
+            }
+            else
+            {
+                ContentCanvas.Current.AllowReduce = !ContentCanvas.Current.AllowReduce;
+            }
         }
     }
 }

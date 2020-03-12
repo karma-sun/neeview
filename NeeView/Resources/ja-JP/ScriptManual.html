@@ -40,7 +40,7 @@ NeeView専用コマンドの使用方法を説明します。
         <dt>message: string</dt><dd>出力メッセージ</dd>
     </dl>
 </p>
-<h2>include(path)</h2>
+<h2>include(path): object</h2>
 <p>
     スクリプトを読み込んで実行します。
 </p>
@@ -50,6 +50,10 @@ NeeView専用コマンドの使用方法を説明します。
         <dt>path: string</dt><dd>スクリプトのパス。相対パスは現在のスクリプトの場所が基準になります。</dd>
     </dl>
 </p>
+<h4>戻り値</h4>
+<dl>
+    <dt>object</dt><dd>スクリプトの実行結果</dd>
+</dl>
 <h4>使用例</h4>
 <p>
     <pre><code>
@@ -91,12 +95,10 @@ NeeView専用コマンドの使用方法を説明します。
         }
     </code></pre>
 </p>
-<h2>nv.Book()</h2>
-ブック情報のアクセサを取得します。
-<h4>戻り値</h4>
-<dl>
-    <dt>BookAccessor</dt><dd>ブックアクセサ。ブックが開かれていない場合はnull。</dd>
-</dl>
+<h2>nv.Book: BookAccessor</h2>
+<p>
+    ブックアクセサ。ブックが開かれていない場合はnull。
+</p>
 <h3>BookAccessor</h3>
 ブック情報をプロパティとして保持しています。
 <dl>
@@ -108,7 +110,7 @@ NeeView専用コマンドの使用方法を説明します。
 <p>
     <pre><code>
         // ブック名をトースト表示
-        nv.ShowToast(nv.Book().Address)
+        nv.ShowToast(nv.Book.Address)
     </code></pre>
 </p>
 <h2>nv.Command(commandName)</h2>
@@ -118,12 +120,11 @@ NeeView専用コマンドの使用方法を説明します。
 <dl>
     <dt>commandName: string</dt><dd>コマンド名</dd>
 </dl>
-
 <h4>戻り値</h4>
 <dl>
     <dt>CommandAccessor</dt><dd>コマンドアクセサ。コマンドが見つからない場合はnull。</dd>
 </dl>
-<h3>CommandAccessor.Parameter</h3>
+<h3>CommandAccessor.Parameter: json</h3>
 コマンドパラメーターの取得、設定ができます。設定は恒久的なものです。
 <h4>使用例</h4>
 <p>
@@ -132,7 +133,7 @@ NeeView専用コマンドの使用方法を説明します。
         nv.Command("ViewRotateLeft").Parameter.Angle = 45
     </code></pre>
 </p>
-<h3>CommandAccessor.ShortCutKey</h3>
+<h3>CommandAccessor.ShortCutKey: string</h3>
 コマンドのショートカットの取得、設定ができます。
 
 <h4>使用例</h4>
@@ -142,7 +143,7 @@ NeeView専用コマンドの使用方法を説明します。
         nv.Command("ViewRotateLeft").ShourtCutKey = "Ctrl+A"
     </code></pre>
 </p>
-<h3>CommandAccessor.MouseGesture</h3>
+<h3>CommandAccessor.MouseGesture: string</h3>
 <p>
     マウスジェスチャーの取得、設定ができます。
 </p>
@@ -161,7 +162,7 @@ NeeView専用コマンドの使用方法を説明します。
     // ViewRotateLeft のマウスジェスチャーに ↑←↓ を設定
     nv.Command("ViewRotateLeft").MouseGesture = "ULD"
 </code></pre>
-<h3>CommandAccessor.TouchGesture</h3>
+<h3>CommandAccessor.TouchGesture: string</h3>
 <p>
     タッチ操作の取得、設定ができます。
 </p>
@@ -172,7 +173,7 @@ NeeView専用コマンドの使用方法を説明します。
         nv.Command("ViewRotateLeft").TouchGesture = "TouchCenter"
     </code></pre>
 </p>
-<h3>CommandAccessor.Execute(arg)</h3>
+<h3>CommandAccessor.Execute(args...)</h3>
 <p>
     コマンドを実行します。
 </p>
@@ -182,7 +183,11 @@ NeeView専用コマンドの使用方法を説明します。
 </p>    
 <h4>引数</h4>
 <dl>
-    <dt>arg: object</dt><dd>コマンド引数。コマンドによって内容は異なります。(省略可)</dd>
+    <dt>args: object[]</dt><dd>コマンド引数。コマンドによって内容は異なります。可変長引数です。(省略可)</dd>
+</dl>
+<h4>戻り値</h4>
+<dl>
+    <dt>bool</dt><dd>コマンドが発行できたか。ロード中などにコマンドが発行できないことがある。コマンド自体の成否は判別しない。</dd>
 </dl>
 <h4>使用例</h4>
 <p>
@@ -208,7 +213,7 @@ NeeView専用コマンドの使用方法を説明します。
 <p>
     <pre><code>
         // 5度指定で左回転を実行
-        nv.Command("ViewRotateLeft").Patch({Angle: 5}).Execute()
+        nv.Command("ViewRotateLeft").Patch({"Angle": 5}).Execute()
     </code></pre>
 </p>
 

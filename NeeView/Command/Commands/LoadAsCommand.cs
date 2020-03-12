@@ -1,4 +1,6 @@
-﻿namespace NeeView
+﻿using System;
+
+namespace NeeView
 {
     public class LoadAsCommand : CommandElement
     {
@@ -12,11 +14,18 @@
             this.IsShowMessage = false;
         }
 
-        [MethodArgument(typeof(string), "@CommandLoadAsArgument")]
+        [MethodArgument("@CommandLoadAsArgument")]
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
             var path = args.Length > 0 ? args[0] as string : null;
-            MainWindowModel.Current.LoadAs(path);
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                MainWindowModel.Current.LoadAs();
+            }
+            else
+            {
+                MainWindowModel.Current.LoadAs(path);
+            }
         }
     }
 }

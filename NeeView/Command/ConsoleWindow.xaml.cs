@@ -47,7 +47,7 @@ namespace NeeView
 
             _engine = new JavascriptEngine(host);
             _engine.CurrentPath = CommandTable.Current.ScriptFolder;
-            _engine.LogAction = e => Output?.Invoke(this, new ConsoleHostOutputEventArgs(e?.ToString()));
+            _engine.LogAction = e => Output?.Invoke(this, new ConsoleHostOutputEventArgs(ToJavascriptString(e)));
         }
 
         public event EventHandler<ConsoleHostOutputEventArgs> Output;
@@ -62,7 +62,7 @@ namespace NeeView
             try
             {
                 var result = _engine.Execute(input);
-                return result?.ToString();
+                return ToJavascriptString(result);
             }
             catch (Exception ex)
             {
@@ -71,6 +71,42 @@ namespace NeeView
             finally
             {
                 CommandTable.Current.FlushInputGesture();
+            }
+        }
+
+        private static string ToJavascriptString(object source)
+        {
+            if (source is null)
+            {
+                return "null";
+            }
+            else if (source is Enum enm)
+            {
+                return Convert.ToInt32(enm).ToString();
+            }
+            else if (source is bool boolean)
+            {
+                return boolean ? "true" : "false";
+            }
+            else if (source is string str)
+            {
+                return "\"" + str + "\"";
+            }
+            else if (source is object[] objects)
+            {
+                return "[" + string.Join(", ", objects.Select(e => ToJavascriptString(e))) + "]";
+            }
+            else if (source is IDictionary<string, object> dic)
+            {
+                return "{" + string.Join(", ", dic.Select(e => "\"" + e.Key + "\": " + ToJavascriptString(e.Value))) + "}";
+            }
+            else if (source is CommandParameter param)
+            {
+                return ToJavascriptString(param.ToDictionary());
+            }
+            else
+            {
+                return source?.ToString();
             }
         }
     }

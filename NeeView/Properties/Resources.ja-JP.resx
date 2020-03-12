@@ -4909,10 +4909,10 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>コマンドパラメーター</value>
   </data>
   <data name="CommandJumpPageArgument" xml:space="preserve">
-    <value>ベージ番号</value>
+    <value>number: int|ベージ番号</value>
   </data>
   <data name="CommandLoadAsArgument" xml:space="preserve">
-    <value>ファイルやフォルダーのパス</value>
+    <value>path: string|ファイルやフォルダーのパス</value>
   </data>
   <data name="CommandHelpScript" xml:space="preserve">
     <value>スクリプトのヘルプを表示する</value>
@@ -4931,5 +4931,17 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   </data>
   <data name="CommandScriptNote" xml:space="preserve">
     <value>スクリプト。</value>
+  </data>
+  <data name="CommandToggleArgument" xml:space="preserve">
+    <value>switch: bool|ON/OFF。省略した場合は切り替え。</value>
+  </data>
+  <data name="DialogOpenScriptsFolderErrorTitle" xml:space="preserve">
+    <value>スクリプトフォルダーが開けません</value>
+  </data>
+  <data name="CommandOpenSecriptsFolder" xml:space="preserve">
+    <value>スクリプトフォルダーを開く</value>
+  </data>
+  <data name="CommandOpenSecriptsFolderNote" xml:space="preserve">
+    <value>スクリプトフォルダーをエクスプローラーで開きます。</value>
   </data>
 </root>

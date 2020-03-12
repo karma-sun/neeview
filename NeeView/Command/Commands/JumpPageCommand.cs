@@ -17,11 +17,18 @@ namespace NeeView
             return !NowLoading.Current.IsDispNowLoading;
         }
 
-        [MethodArgument(typeof(int), "@CommandJumpPageArgument")]
+        [MethodArgument("@CommandJumpPageArgument")]
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            var number = args.Length > 0 ? (int?)Convert.ToInt32(args[0]) : null;
-            BookOperation.Current.JumpPage(number);
+            if (args.Length > 0)
+            {
+                var number = Convert.ToInt32(args[0]);
+                BookOperation.Current.JumpPage(number);
+            }
+            else
+            {
+                BookOperation.Current.JumpPage();
+            }
         }
     }
 }

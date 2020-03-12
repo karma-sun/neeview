@@ -4909,10 +4909,10 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>Command parameter</value>
   </data>
   <data name="CommandJumpPageArgument" xml:space="preserve">
-    <value>Page number</value>
+    <value>number: int|Page number</value>
   </data>
   <data name="CommandLoadAsArgument" xml:space="preserve">
-    <value>File or folder path</value>
+    <value>path: string|File or folder path</value>
   </data>
   <data name="CommandHelpScript" xml:space="preserve">
     <value>Script Help</value>
@@ -4931,5 +4931,17 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   </data>
   <data name="CommandScriptNote" xml:space="preserve">
     <value>Script.</value>
+  </data>
+  <data name="CommandToggleArgument" xml:space="preserve">
+    <value>switch: bool|ON/OFF. Toggle if omitted.</value>
+  </data>
+  <data name="DialogOpenScriptsFolderErrorTitle" xml:space="preserve">
+    <value>Cannot open scripts folder</value>
+  </data>
+  <data name="CommandOpenSecriptsFolder" xml:space="preserve">
+    <value>Open scripts folder</value>
+  </data>
+  <data name="CommandOpenSecriptsFolderNote" xml:space="preserve">
+    <value>Open the scripts folder with Explorer.</value>
   </data>
 </root>

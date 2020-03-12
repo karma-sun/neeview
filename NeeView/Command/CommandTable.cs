@@ -62,6 +62,7 @@ namespace NeeView
         private CommandTable()
         {
             InitializeCommandTable();
+            CreateDefaultScriptFolder();
 
             Changed += CommandTable_Changed;
         }
@@ -553,14 +554,7 @@ namespace NeeView
                 writer.WriteLine(HtmlHelpUtility.CraeteHeader("NeeView Script Manual"));
                 writer.WriteLine($"<body>");
 
-                {
-                    Uri fileUri = new Uri("/Resources/ja-JP/ScriptManual.html", UriKind.Relative);
-                    StreamResourceInfo info = System.Windows.Application.GetResourceStream(fileUri);
-                    using (StreamReader sr = new StreamReader(info.Stream))
-                    {
-                        writer.WriteLine(sr.ReadToEnd());
-                    }
-                }
+                WriteResource(writer, "/Resources/ja-JP/ScriptManual.html");
 
                 var executeMethodArgTypes = new Type[] { typeof(CommandParameter), typeof(object), typeof(CommandOption) };
 
@@ -626,23 +620,31 @@ namespace NeeView
                     }
                     writer.WriteLine("</table>");
                 }
+
+                WriteResource(writer, "/Resources/ja-JP/ScriptManualExample.html");
+
                 writer.WriteLine("</body>");
 
                 writer.WriteLine(HtmlHelpUtility.CreateFooter());
             }
 
             System.Diagnostics.Process.Start(fileName);
+
+            void WriteResource(StreamWriter writer, string resourcPath)
+            {
+                Uri fileUri = new Uri(resourcPath, UriKind.Relative);
+                StreamResourceInfo info = System.Windows.Application.GetResourceStream(fileUri);
+                using (StreamReader sr = new StreamReader(info.Stream))
+                {
+                    writer.WriteLine(sr.ReadToEnd());
+                }
+            }
         }
+
+
 
         private string TypeToString(Type type)
         {
-            /*
-            if (type.IsEnum)
-            {
-                return $"enum ({type.Name})";
-            }
-            */
-
             switch (Type.GetTypeCode(type))
             {
                 case TypeCode.Boolean:
@@ -664,11 +666,43 @@ namespace NeeView
 
         #region Scripts
 
-        private readonly string _defaultScriptFolder = "Scripts";
+        private readonly string _defaultScriptFolderName = "Scripts";
         private bool _isScriptFolderEnabled;
         private string _scriptFolder;
         private bool _isScriptFolderDarty = true;
 
+        public string GetDefaultScriptFolder()
+        {
+            if (Config.Current.IsZipLikePackage)
+            {
+                return Path.Combine(Config.Current.LocalApplicationDataPath, _defaultScriptFolderName);
+            }
+            else
+            {
+                return Path.Combine(Config.Current.GetMyDocumentPath(false), _defaultScriptFolderName);
+            }
+        }
+
+        public void CreateDefaultScriptFolder()
+        {
+            var path = GetDefaultScriptFolder();
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+
+                try
+                {
+                    // サンプルスクリプトを生成
+                    var filename = "Sample.nvjs";
+                    var source = Path.Combine(Config.Current.AssemblyLocation, _defaultScriptFolderName, filename);
+                    File.Copy(source, Path.Combine(path, filename));
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
+        }
 
         [PropertyMember("@ParamIsScriptFolderEnabled")]
         public bool IsScriptFolderEnabled
@@ -678,6 +712,7 @@ namespace NeeView
             {
                 if (SetProperty(ref _isScriptFolderEnabled, value))
                 {
+
                     UpdateScriptCommand(true);
                     Changed?.Invoke(this, new CommandChangedEventArgs(false));
                 }
@@ -687,11 +722,11 @@ namespace NeeView
         [PropertyPath("@ParamScriptFolder", Tips = "@ParamScriptFolderTips", FileDialogType = Windows.Controls.FileDialogType.Directory)]
         public string ScriptFolder
         {
-            get { return _scriptFolder ?? _defaultScriptFolder; }
+            get { return _scriptFolder ?? GetDefaultScriptFolder(); }
             set
             {
                 var path = value?.Trim();
-                if (string.IsNullOrEmpty(path) || path == _defaultScriptFolder)
+                if (string.IsNullOrEmpty(path) || path == GetDefaultScriptFolder())
                 {
                     path = null;
                 }
@@ -931,7 +966,6 @@ namespace NeeView
         public void Restore(Memento memento, bool onHold)
         {
             RestoreInner(memento);
-            ////UpdateScriptCommand();
             Changed?.Invoke(this, new CommandChangedEventArgs(onHold));
         }
 

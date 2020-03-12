@@ -31,6 +31,7 @@
     <None Remove="NeeView\Effects\Shaders\HsvEffect.ps" />
     <None Remove="NeeView\Effects\Shaders\LevelEffect.ps" />
     <None Remove="Resources\ja-JP\ScriptManual.html" />
+    <None Remove="Resources\ja-JP\ScriptManualExample.html" />
   </ItemGroup>
   
   <ItemGroup>
@@ -100,6 +101,7 @@
 
   <ItemGroup>
     <Resource Include="Resources\App.ico" />
+    <Resource Include="Resources\ja-JP\ScriptManualExample.html" />
     <Resource Include="Resources\ja-JP\ScriptManual.html" />
     <Resource Include="Resources\Style.css" />
     <Resource Include="Resources\Play.ico" />
@@ -132,13 +134,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Update="Scripts\OnBookLoaded.js">
+    <None Update="Scripts\OnBookLoaded.nvjs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Scripts\MovieDoubleClick.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Scripts\Sample.js">
+    <None Update="Scripts\Sample.nvjs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace NeeView
 {
@@ -37,7 +38,7 @@ namespace NeeView
         public object ExecureFile(string path)
         {
             var fullpath = GetFullPath(path);
-            string script = File.ReadAllText(fullpath);
+            string script = File.ReadAllText(fullpath, Encoding.UTF8);
 
             var oldPath = CurrentPath;
             try

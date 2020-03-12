@@ -4915,18 +4915,21 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
     <value>ファイルやフォルダーのパス</value>
   </data>
   <data name="CommandHelpScript" xml:space="preserve">
-    <value>スクリプトマニュアルを表示する</value>
+    <value>スクリプトのヘルプを表示する</value>
   </data>
   <data name="CommandHelpScriptMenu" xml:space="preserve">
-    <value>スクリプトマニュアル</value>
+    <value>スクリプトヘルプ</value>
   </data>
   <data name="CommandHelpScriptNote" xml:space="preserve">
     <value>スクリプトマニュアルをブラウザで表示します。</value>
   </data>
   <data name="CommandScriptOnBookLoadedNote" xml:space="preserve">
-    <value>ブックを開いたときに実行されます。</value>
+    <value>スクリプト。ブックを開いたときに実行されます。</value>
   </data>
   <data name="WordPeriod" xml:space="preserve">
     <value>。</value>
+  </data>
+  <data name="CommandScriptNote" xml:space="preserve">
+    <value>スクリプト。</value>
   </data>
 </root>

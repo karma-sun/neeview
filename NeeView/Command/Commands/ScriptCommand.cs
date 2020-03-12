@@ -8,7 +8,7 @@ namespace NeeView
     public class ScriptCommand : CommandElement
     {
         public static string Prefix => "Script.";
-        public static string Extension => ".js";
+        public static string Extension => ".nvjs";
         public static string EventOnBookLoaded => "OnBookLoaded";
 
 
@@ -20,11 +20,15 @@ namespace NeeView
             _scriptName = name.Substring(Prefix.Length);
 
             this.Group = Properties.Resources.CommandGroupScript;
-            this.Text = name;
+            this.Text = _scriptName;
 
             if (_scriptName == EventOnBookLoaded)
             {
                 this.Note = Properties.Resources.CommandScriptOnBookLoadedNote;
+            }
+            else
+            {
+                this.Note = Properties.Resources.CommandScriptNote;
             }
         }
 

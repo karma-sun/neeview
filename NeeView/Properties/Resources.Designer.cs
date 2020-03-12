@@ -970,7 +970,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Script manual に類似しているローカライズされた文字列を検索します。
+        ///   Script Help に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandHelpScript {
             get {
@@ -979,7 +979,7 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Script manual に類似しているローカライズされた文字列を検索します。
+        ///   Script Help に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandHelpScriptMenu {
             get {
@@ -1843,7 +1843,16 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
-        ///   Executes when the book is opened. に類似しているローカライズされた文字列を検索します。
+        ///   Script. に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string CommandScriptNote {
+            get {
+                return ResourceManager.GetString("CommandScriptNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Scrpit. Executes when the book is opened. に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string CommandScriptOnBookLoadedNote {
             get {

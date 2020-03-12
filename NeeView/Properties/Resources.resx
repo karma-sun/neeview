@@ -4915,18 +4915,21 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
     <value>File or folder path</value>
   </data>
   <data name="CommandHelpScript" xml:space="preserve">
-    <value>Script manual</value>
+    <value>Script Help</value>
   </data>
   <data name="CommandHelpScriptMenu" xml:space="preserve">
-    <value>Script manual</value>
+    <value>Script Help</value>
   </data>
   <data name="CommandHelpScriptNote" xml:space="preserve">
     <value>Displays the script manual in the browser.</value>
   </data>
   <data name="CommandScriptOnBookLoadedNote" xml:space="preserve">
-    <value>Executes when the book is opened.</value>
+    <value>Scrpit. Executes when the book is opened.</value>
   </data>
   <data name="WordPeriod" xml:space="preserve">
     <value>.</value>
+  </data>
+  <data name="CommandScriptNote" xml:space="preserve">
+    <value>Script.</value>
   </data>
 </root>

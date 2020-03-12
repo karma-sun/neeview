@@ -1,248 +1,215 @@
 
-    <h1>NeeView スクリプトマニュアル</h1>
-    
-    <h2> 概要 </h2>
-    <p>
-        スクリプトでコマンドを拡張します。複数のコマンドをまとめて実行したり、コマンドパラメーターを変更した別のコマンドとして実行することができます。
-    </p>
-    <p>
-        スクリプト機能はデフォルトでは無効になっています。設定の「コマンド」ページで設定して有効にします。
-        指定フォルダーにスクリプトが配置されているとそのスクリプトがコマンドリストに追加されてコマンドとして使用可能になります。
-    </p>
-    <p>
-        スクリプトは Javascript (ECMA 5.1) で記述します。
-    </p>
+<h1>NeeView スクリプトマニュアル</h1>
 
-    <h2>イベントスクリプト</h2>
-    <p>
-        特定の名前のスクリプトファイルは自動的に実行されます。
-        
-        <dl>
-            <dt>OnBookLoaded.js</dt><dd>ブックを開いたときに実行されます。</dd>
-        </dl>
-    </p>
-
-    <h2> コンソール</h2>
-
-    <p>
-        スクリプトのテストをするためのコンソールです。メニューの「オプション」>「コンソールを開く」で開きます。
-    </p>
-
-    <p>&nbsp;</p>
-
-    <h1> スクリプトリファレンス </h1>
-
-    NeeView専用コマンドの使用方法を説明します。
-
-    <h2>log(message)</h2>
-
-    <p>
-        コンソールにメッセージを出力します。コンソールからスクリプトを実行したときのみ機能します。スクリプトテスト用です。
-    </p>
-
-    <h4>引数</h4>
-    <p>
-        <dl>
-            <dt>message: string</dt><dd>出力メッセージ</dd>
-        </dl>
-    </p>
-
-    <h2>include(path)</h2>
-    <p>
-        スクリプトを読み込んで実行します。
-    </p>
-
-    <h4>引数</h4>
-    <p>
-        <dl>
-            <dt>path: string</dt><dd>スクリプトのパス。相対パスは現在のスクリプトの場所が基準になります。</dd>
-        </dl>
-    </p>
-
-    <h4>使用例</h4>
-    <p>
-        <pre><code>
-            // Sample.js を読み込んで実行
-            include("Sample.js")
-        </code></pre>
-    </p>
-
-    <h2>nv.ShowMessage(message)</h2>
-
-    画面にメッセージを表示します。
-    
-    <h4>引数</h4>
+<h2> 概要 </h2>
+<p>
+    スクリプトでコマンドを拡張します。複数のコマンドをまとめて実行したり、コマンドパラメーターを変更した別のコマンドとして実行することができます。
+</p>
+<p>
+    スクリプト機能はデフォルトでは無効になっています。設定の「コマンド」ページで設定して有効にします。
+    指定フォルダーにスクリプトが配置されているとそのスクリプトがコマンドリストに追加されてコマンドとして使用可能になります。
+</p>
+<p>
+    スクリプトは Javascript (ECMA 5.1) で記述します。
+    <ul>
+        <li>ファイル拡張子は .nvjs です。</li>
+        <li>ファイルフォーマットは UTF8 です。BOMなしを推奨します。</li>
+    </ul>
+</p>
+<h2>イベントスクリプト</h2>
+<p>
+    特定の名前のスクリプトファイルは自動的に実行されます。
+    <dl>
+        <dt>OnBookLoaded.nvjs</dt><dd>ブックを開いたときに実行されます。</dd>
+    </dl>
+</p>
+<h2> コンソール</h2>
+<p>
+    スクリプトのテストをするためのコンソールです。メニューの「オプション > コンソールを開く」で開きます。
+</p>
+<p>&nbsp;</p>
+<h1> スクリプトリファレンス </h1>
+NeeView専用コマンドの使用方法を説明します。
+<h2>log(message)</h2>
+<p>
+    コンソールにメッセージを出力します。コンソールからスクリプトを実行したときのみ機能します。スクリプトテスト用です。
+</p>
+<h4>引数</h4>
+<p>
     <dl>
         <dt>message: string</dt><dd>出力メッセージ</dd>
     </dl>
-
-    <h2>nv.ShowToast(message)</h2>
-
-    メッセージをトースト表示します。
-
-    <h4>引数</h4>
+</p>
+<h2>include(path)</h2>
+<p>
+    スクリプトを読み込んで実行します。
+</p>
+<h4>引数</h4>
+<p>
     <dl>
-        <dt>message: string</dt><dd>出力メッセージ</dd>
+        <dt>path: string</dt><dd>スクリプトのパス。相対パスは現在のスクリプトの場所が基準になります。</dd>
     </dl>
+</p>
+<h4>使用例</h4>
+<p>
+    <pre><code>
+        // Sample.nvjs を読み込んで実行
+        include("Sample.nvjs")
+    </code></pre>
+</p>
+<h2>nv.ShowMessage(message)</h2>
+画面にメッセージを表示します。
 
-    <h2>nv.ShowDialog(title, message, commands)</h2>
-
-    ダイアログを表示します。
-
-    <h4>引数</h4>
-    <dl>
-        <dt>title: string</dt><dd>主文</dd>
-        <dt>message: string</dt><dd>メッセージ (省略可)</dd>
-        <dt>commands: int</dt><dd>0: OK / 1: OKCancel / 2: YesNo<br/>ボタンの種類 (省略可)</dd>
-    </dl>
-
-    <h4>戻り値</h4>
-    <dl>
-        <dt>bool</dt><dd>肯定的選択("OK"もしくは"Yes")の場合はTrue、それ以外はFalseを返す。</dd>
-    </dl>
-
-    <h4>例</h4>
-
+<h4>引数</h4>
+<dl>
+    <dt>message: string</dt><dd>出力メッセージ</dd>
+</dl>
+<h2>nv.ShowToast(message)</h2>
+メッセージをトースト表示します。
+<h4>引数</h4>
+<dl>
+    <dt>message: string</dt><dd>出力メッセージ</dd>
+</dl>
+<h2>nv.ShowDialog(title, message, commands)</h2>
+ダイアログを表示します。
+<h4>引数</h4>
+<dl>
+    <dt>title: string</dt><dd>主文</dd>
+    <dt>message: string</dt><dd>メッセージ (省略可)</dd>
+    <dt>commands: int</dt><dd>0: OK / 1: OKCancel / 2: YesNo<br/>ボタンの種類 (省略可)</dd>
+</dl>
+<h4>戻り値</h4>
+<dl>
+    <dt>bool</dt><dd>肯定的選択("OK"もしくは"Yes")の場合はTrue、それ以外はFalseを返す。</dd>
+</dl>
+<h4>例</h4>
+<p>
     <pre><code>
         isYes = nv.ShowDialog("Is this a pen?", "I think it's a pen, really?", "YesNo")
         if (isYes) {
             nv.ShowDialog("Good.")
         }
     </code></pre>
-
-    <h2>nv.Book()</h2>
-
-    ブック情報のアクセサを取得します。
-
-    <h4>戻り値</h4>
-    <dl>
-        <dt>BookAccessor</dt><dd>ブックアクセサ。ブックが開かれていない場合はnull。</dd>
-    </dl>
-
-    <h3>BookAccessor.*</h3>
-
-    ブック情報をプロパティとして保持しています。
-
-    <dl>
-        <dt>Address: string</dt><dd>ブックのパス</dd>
-        <dt>IsMedua: bool</dt><dd>動画であるかどうか</dd>
-        <dt>IsNew: bool</dt><dd>履歴のない新しく開かれたブックであるか</dd>
-    </dl>
-
-    <h4>使用例</h4>
-    
+</p>
+<h2>nv.Book()</h2>
+ブック情報のアクセサを取得します。
+<h4>戻り値</h4>
+<dl>
+    <dt>BookAccessor</dt><dd>ブックアクセサ。ブックが開かれていない場合はnull。</dd>
+</dl>
+<h3>BookAccessor</h3>
+ブック情報をプロパティとして保持しています。
+<dl>
+    <dt>Address: string</dt><dd>ブックのパス</dd>
+    <dt>IsMedua: bool</dt><dd>動画であるかどうか</dd>
+    <dt>IsNew: bool</dt><dd>履歴のない新しく開かれたブックであるか</dd>
+</dl>
+<h4>使用例</h4>
+<p>
     <pre><code>
         // ブック名をトースト表示
         nv.ShowToast(nv.Book().Address)
     </code></pre>
+</p>
+<h2>nv.Command(commandName)</h2>
+コマンドのアクセサを取得します。
+コマンドは 設定 > コマンド設定 で表示されるコマンドと同じものです。詳細は後述する「コマンド一覧」を参照してください。
+<h4>引数</h4>
+<dl>
+    <dt>commandName: string</dt><dd>コマンド名</dd>
+</dl>
 
-    <h2>nv.Command(commandName)</h2>
-
-    コマンドのアクセサを取得します。
-    コマンドは 設定 > コマンド設定 で表示されるコマンドと同じものです。詳細は後述する「コマンド一覧」を参照してください。
-
-    <h4>引数</h4>
-    <dl>
-        <dt>commandName: string</dt><dd>コマンド名</dd>
-    </dl>
-    
-    <h4>戻り値</h4>
-    <dl>
-        <dt>CommandAccessor</dt><dd>コマンドアクセサ。コマンドが見つからない場合はnull。</dd>
-    </dl>
-
-    <h3>CommandAccessor.Parameter</h3>
-
-    コマンドパラメーターの取得、設定ができます。設定は恒久的なものです。
-
-    <h4>使用例</h4>
+<h4>戻り値</h4>
+<dl>
+    <dt>CommandAccessor</dt><dd>コマンドアクセサ。コマンドが見つからない場合はnull。</dd>
+</dl>
+<h3>CommandAccessor.Parameter</h3>
+コマンドパラメーターの取得、設定ができます。設定は恒久的なものです。
+<h4>使用例</h4>
+<p>
     <pre><code>
         // ViewRotateLeft コマンドの回転量を45度に変更
         nv.Command("ViewRotateLeft").Parameter.Angle = 45
     </code></pre>
+</p>
+<h3>CommandAccessor.ShortCutKey</h3>
+コマンドのショートカットの取得、設定ができます。
 
-    <h3>CommandAccessor.ShortCutKey</h3>
-
-    コマンドのショートカットの取得、設定ができます。
-    
-    <h4>使用例</h4>
+<h4>使用例</h4>
+<p>
     <pre><code>
         // ViewRotateLeft のショートカットに Ctrl+A を設定
         nv.Command("ViewRotateLeft").ShourtCutKey = "Ctrl+A"
     </code></pre>
-
-    <h3>CommandAccessor.MouseGesture</h3>
-    <p>
-        マウスジェスチャーの取得、設定ができます。
-    </p>
-    <p>
-        ジェスチャーキーは次のようにアルファベットで指定します。
-  
-        <ul>
-            <li>← ... L</li>
-            <li>↑ ... U</li>
-            <li>→ ... R</li>
-            <li>↓ ... D</li>
-            <li>Click ... C</li>
-        </ul>
-    </p>
-    
-    <h4>使用例</h4>
-    <pre><code>
-        // ViewRotateLeft のマウスジェスチャーに ↑←↓ を設定
-        nv.Command("ViewRotateLeft").MouseGesture = "ULD"
-    </code></pre>
-
-    <h3>CommandAccessor.TouchGesture</h3>
-    <p>
-        タッチ操作の取得、設定ができます。
-    </p>
-
-    <h4>使用例</h4>
+</p>
+<h3>CommandAccessor.MouseGesture</h3>
+<p>
+    マウスジェスチャーの取得、設定ができます。
+</p>
+<p>
+    ジェスチャーキーは次のようにアルファベットで指定します。
+    <ul>
+        <li>← ... L</li>
+        <li>↑ ... U</li>
+        <li>→ ... R</li>
+        <li>↓ ... D</li>
+        <li>Click ... C</li>
+    </ul>
+</p>
+<h4>使用例</h4>
+<pre><code>
+    // ViewRotateLeft のマウスジェスチャーに ↑←↓ を設定
+    nv.Command("ViewRotateLeft").MouseGesture = "ULD"
+</code></pre>
+<h3>CommandAccessor.TouchGesture</h3>
+<p>
+    タッチ操作の取得、設定ができます。
+</p>
+<h4>使用例</h4>
+<p>
     <pre><code>
         // ViewRotateLeft のタッチ操作に TouchCenter を設定
         nv.Command("ViewRotateLeft").TouchGesture = "TouchCenter"
     </code></pre>
-
-
-    <h3>CommandAccessor.Execute(arg)</h3>
-    <p>
-        コマンドを実行します。
-    </p>
-    <p>
-        引数を指定可能なコマンドがあります。
-        これらは通常はダイアログが表示されるコマンドで引数を指定することでユーザーの選択を省略するといった用途に使用できます。
-    </p>    
-    <h4>引数</h4>
-    <dl>
-        <dt>arg: object</dt><dd>コマンド引数。コマンドによって内容は異なります。(省略可)</dd>
-    </dl>
-
-    <h4>使用例</h4>
+</p>
+<h3>CommandAccessor.Execute(arg)</h3>
+<p>
+    コマンドを実行します。
+</p>
+<p>
+    引数を指定可能なコマンドがあります。
+    これらは通常はダイアログが表示されるコマンドで引数を指定することでユーザーの選択を省略するといった用途に使用できます。
+</p>    
+<h4>引数</h4>
+<dl>
+    <dt>arg: object</dt><dd>コマンド引数。コマンドによって内容は異なります。(省略可)</dd>
+</dl>
+<h4>使用例</h4>
+<p>
     <pre><code>
         // C:\\Foo\\Bar.zip を開く
         nv.Command("LoadAs").Execute("C:\\Foo\\Bar.zip")
     </code></pre>
+</p>
+<h3>CommandAccessor.Patch(patch)</h3>
+<p>
+    一時的にコマンドパラーメーターを変更します。
+</p>
+<h4>引数</h4>
+<dl>
+    <dt>patch: json</dt><dd>一時的に上書きするコマンドパラメーターをJSON形式で指定します。</dd>
+</dl>
 
-    <h3>CommandAccessor.Patch(patch)</h3>
-    <p>
-        一時的にコマンドパラーメーターを変更します。
-    </p>
-
-    <h4>引数</h4>
-    <dl>
-        <dt>patch: json</dt><dd>一時的に上書きするコマンドパラメーターをJSON形式で指定します。</dd>
-    </dl>
-    
-    <h4>戻り値</h4>
-    <dl>
-        <dt>CommandAccessor</dt><dd>自身のコマンドアクセサをそのまま返す</dd>
-    </dl>
-
-    <h4>使用例</h4>
+<h4>戻り値</h4>
+<dl>
+    <dt>CommandAccessor</dt><dd>自身のコマンドアクセサをそのまま返す</dd>
+</dl>
+<h4>使用例</h4>
+<p>
     <pre><code>
         // 5度指定で左回転を実行
         nv.Command("ViewRotateLeft").Patch({Angle: 5}).Execute()
     </code></pre>
+</p>
 
-    <h2>コマンド一覧</h3>
+<h2>コマンド一覧</h2>

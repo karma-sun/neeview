@@ -4,7 +4,7 @@
     {
         public OpenConsoleCommand(string name) : base(name)
         {
-            this.Group = Properties.Resources.CommandGroupScript;
+            this.Group = Properties.Resources.CommandGroupOther;
             this.Text = Properties.Resources.CommandOpenConsole;
             this.MenuText = Properties.Resources.CommandOpenConsoleMenu;
             this.Note = Properties.Resources.CommandOpenConsoleNote;

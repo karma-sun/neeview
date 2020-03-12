@@ -1,0 +1,4 @@
+// script sample
+
+nv.ShowDialog("Hello, World!")
+

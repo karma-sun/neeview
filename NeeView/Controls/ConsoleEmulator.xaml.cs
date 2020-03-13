@@ -44,9 +44,9 @@ namespace NeeView
 
         #endregion
 
+        public readonly static RoutedCommand ClearScreenCommand = new RoutedCommand("ClearScreen", typeof(ConsoleEmulator), new InputGestureCollection(new List<InputGesture>() { new KeyGesture(Key.L, ModifierKeys.Control) }));
 
         private string _consoleInput = string.Empty;
-        private ObservableCollection<string> _consoleOutput = new ObservableCollection<string>();
         private List<string> _history = new List<string>();
         private int _historyIndex;
 
@@ -57,8 +57,12 @@ namespace NeeView
             Scroller.DataContext = this;
 
             this.Loaded += ConsoleEmulator_Loaded;
-            this.GotFocus += ConsoleEmulator_GotFocus;
+            this.MouseDown += RootPanel_MouseDown;
+            this.OutputBlock.PreviewKeyDown += OutputBlock_PreviewKeyDown;
+            this.InputBlock.Loaded += InputBlock_Loaded;
             this.InputBlock.PreviewKeyDown += InputBlock_PreviewKeyDown;
+
+            this.CommandBindings.Add(new CommandBinding(ClearScreenCommand, ClearScreen, (s, e) => e.CanExecute = true));
         }
 
 
@@ -86,7 +90,7 @@ namespace NeeView
 
                 void Log(object sender, ConsoleHostOutputEventArgs args)
                 {
-                    control.ConsoleOutput.Add(args.Output ?? string.Empty);
+                    control.WriteLine(args.Output ?? string.Empty);
                 }
             }
         }
@@ -117,25 +121,36 @@ namespace NeeView
             set => SetProperty(ref _consoleInput, value);
         }
 
-        public ObservableCollection<string> ConsoleOutput
-        {
-            get => _consoleOutput;
-            set => SetProperty(ref _consoleOutput, value);
-        }
-
-
-        private void ConsoleEmulator_GotFocus(object sender, RoutedEventArgs e)
-        {
-            InputBlock.Focus();
-        }
 
         private void ConsoleEmulator_Loaded(object sender, RoutedEventArgs e)
         {
             if (FirstMessage != null)
             {
-                ConsoleOutput.Add(FirstMessage);
+                WriteLine(FirstMessage);
             }
         }
+
+        private void RootPanel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            this.InputBlock.Focus();
+            e.Handled = true;
+        }
+
+
+        private void OutputBlock_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                FocusToInputBlock();
+                e.Handled = true;
+            }
+        }
+
+        private void InputBlock_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.InputBlock.Focus();
+        }
+
 
         private void InputBlock_PreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -168,6 +183,30 @@ namespace NeeView
             this.InputBlock.Select(InputBlock.Text.Length, 0);
         }
 
+        private void ClearScreen(object sender, ExecutedRoutedEventArgs e)
+        {
+            this.OutputBlock.Clear();
+            this.OutputBlock.Visibility = Visibility.Collapsed;
+            this.InputBlock.Text = ConsoleInput = string.Empty;
+            this.InputBlock.Focus();
+        }
+
+        private void WriteLine(string text)
+        {
+            //if (string.IsNullOrEmpty(text)) return;
+
+            if (string.IsNullOrEmpty(this.OutputBlock.Text))
+            {
+                this.OutputBlock.AppendText(text);
+            }
+            else
+            {
+                this.OutputBlock.AppendText("\r\n" + text);
+            }
+
+            this.OutputBlock.Visibility = Visibility.Visible;
+        }
+
         private void PreviewHistory()
         {
             if (_historyIndex > 0)
@@ -198,7 +237,7 @@ namespace NeeView
         {
             var input = ConsoleInput;
 
-            ConsoleOutput.Add(Prompt + ConsoleInput);
+            WriteLine(Prompt + ConsoleInput);
             ConsoleInput = string.Empty;
 
             if (string.IsNullOrWhiteSpace(input))
@@ -209,14 +248,14 @@ namespace NeeView
             switch (input.Trim())
             {
                 case "cls":
-                    ConsoleOutput.Clear();
+                    ClearScreen(this, null);
                     break;
                 case "exit":
                     ConsoleHost?.Close();
                     break;
                 default:
                     var result = ConsoleHost?.Execute(input);
-                    ConsoleOutput.Add(result);
+                    WriteLine(result);
                     break;
             }
 

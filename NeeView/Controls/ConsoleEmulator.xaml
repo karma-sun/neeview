@@ -12,18 +12,12 @@
             <Setter Property="BorderThickness" Value="0" />
         </Style>
     </UserControl.Resources>
-    <ScrollViewer x:Name="Scroller" Margin="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible" Background="Black">
-        <StackPanel>
-            <ItemsControl ItemsSource="{Binding ConsoleOutput, Mode=OneWay}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Path=.}" Style="{StaticResource ConsoleTextBlockStyle}"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+    <ScrollViewer x:Name="Scroller" Margin="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible">
+        <StackPanel x:Name="RootPanel" Background="Black">
+            <TextBox x:Name="OutputBlock" Style="{StaticResource ConsoleTextBoxStyle}" Margin="0,0,0,0" IsReadOnly="True" Background="Black" IsTabStop="False" Visibility="Collapsed" />
             <DockPanel>
-                <TextBlock Text="{Binding Prompt}" Style="{StaticResource ConsoleTextBlockStyle}" />
-                <TextBox x:Name="InputBlock" Text="{Binding ConsoleInput, Mode=TwoWay}" BorderThickness="0" Margin="-2,0,0,0" Style="{StaticResource ConsoleTextBoxStyle}"/>
+                <TextBlock Text="{Binding Prompt}" Style="{StaticResource ConsoleTextBlockStyle}" Margin="2,0,0,0" />
+                <TextBox x:Name="InputBlock" Text="{Binding ConsoleInput, Mode=TwoWay}" Margin="-2,0,0,0" Style="{StaticResource ConsoleTextBoxStyle}" />
             </DockPanel>
         </StackPanel>
     </ScrollViewer>

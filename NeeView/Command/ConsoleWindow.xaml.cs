@@ -24,12 +24,8 @@ namespace NeeView
         public ConsoleWindow()
         {
             InitializeComponent();
-
             Current = this;
-
             this.Closed += (s, e) => Current = null;
-
-            this.Console.Loaded += (s, e) => ((UIElement)s).Focus();
             this.Console.ConsoleHost = new ConsoleHost(this);
         }
     }
@@ -47,7 +43,7 @@ namespace NeeView
 
             _engine = new JavascriptEngine(host);
             _engine.CurrentPath = CommandTable.Current.ScriptFolder;
-            _engine.LogAction = e => Output?.Invoke(this, new ConsoleHostOutputEventArgs(ToJavascriptString(e)));
+            _engine.LogAction = e => Output?.Invoke(this, new ConsoleHostOutputEventArgs(ToJavascriptString(e, false)));
         }
 
         public event EventHandler<ConsoleHostOutputEventArgs> Output;
@@ -62,7 +58,7 @@ namespace NeeView
             try
             {
                 var result = _engine.Execute(input);
-                return ToJavascriptString(result);
+                return ToJavascriptString(result, false);
             }
             catch (Exception ex)
             {
@@ -74,7 +70,7 @@ namespace NeeView
             }
         }
 
-        private static string ToJavascriptString(object source)
+        private static string ToJavascriptString(object source, bool isNest)
         {
             if (source is null)
             {
@@ -90,19 +86,19 @@ namespace NeeView
             }
             else if (source is string str)
             {
-                return "\"" + str + "\"";
+                return isNest ? "\"" + str + "\"" : str;
             }
             else if (source is object[] objects)
             {
-                return "[" + string.Join(", ", objects.Select(e => ToJavascriptString(e))) + "]";
+                return "[" + string.Join(", ", objects.Select(e => ToJavascriptString(e, true))) + "]";
             }
             else if (source is IDictionary<string, object> dic)
             {
-                return "{" + string.Join(", ", dic.Select(e => "\"" + e.Key + "\": " + ToJavascriptString(e.Value))) + "}";
+                return "{" + string.Join(", ", dic.Select(e => "\"" + e.Key + "\": " + ToJavascriptString(e.Value, true))) + "}";
             }
             else if (source is CommandParameter param)
             {
-                return ToJavascriptString(param.ToDictionary());
+                return ToJavascriptString(param.ToDictionary(), true);
             }
             else
             {

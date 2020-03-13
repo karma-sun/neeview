@@ -7,6 +7,6 @@
         mc:Ignorable="d"
         Title="NeeView Console" Height="450" Width="800">
     <Grid>
-        <local:ConsoleEmulator x:Name="Console" Prompt="&gt; " />
+        <local:ConsoleEmulator x:Name="Console" Prompt="&gt; " FirstMessage="NeeView script console&#xD;&#xA;" />
     </Grid>
 </Window>

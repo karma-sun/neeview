@@ -5,7 +5,7 @@
   <pre><code>
     // 新しく開いたブックのパスに"English"が含まれていたら左開き、それ以外は右開きにする
     if (nv.Book.IsNew) {
-      if (nv.Book.Address.match(/English/) != null) {
+      if (nv.Book.Path.match(/English/) != null) {
         nv.Command("SetBookReadOrderLeft").Execute()
       }
       else {

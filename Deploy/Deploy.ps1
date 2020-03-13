@@ -160,6 +160,7 @@ function New-Package($productName, $productDir, $packageDir)
 	# copy
 	Copy-Item "$productDir\$productName.exe" $packageDir
 	Copy-Item "$productDir\*.dll" $packageLibraryDir
+	Copy-Item "$productDir\Scripts\" $packageDir -Recurse
 
 	# custom config
 	New-ConfigForZip $productDir "$productName.exe.config" $packageDir

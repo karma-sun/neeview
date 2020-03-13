@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -518,7 +519,7 @@ namespace NeeView
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleStretchAllowEnlarge" },
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleStretchAllowReduce" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleIsEnabledNearestNeighbor" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleNearestNeighbor" },
                         new MenuTree(MenuElementType.Separator),
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleIsAutoRotateLeft" },
                         new MenuTree(MenuElementType.Command) { CommandName = "ToggleIsAutoRotateRight" },
@@ -611,7 +612,21 @@ namespace NeeView
                 tree.RemoveCommand("OpenSettingFilesFolder");
             }
 
+            CheckCommandEntry(tree);
+
             return tree;
+        }
+
+        [Conditional("DEBUG")]
+        private static void CheckCommandEntry(MenuTree tree)
+        {
+            foreach(var node in tree)
+            {
+                if( node.MenuElementType == MenuElementType.Command)
+                {
+                    Debug.Assert(CommandTable.Current.ContainsKey(node.CommandName));
+                }
+            }
         }
 
         private void RemoveCommand(string commandName)

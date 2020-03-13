@@ -4,9 +4,9 @@ using System.Windows.Data;
 
 namespace NeeView
 {
-    public class ToggleIsEnabledNearestNeighborCommand : CommandElement
+    public class ToggleNearestNeighborCommand : CommandElement
     {
-        public ToggleIsEnabledNearestNeighborCommand(string name) : base(name)
+        public ToggleNearestNeighborCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupEffect;
             this.Text = Properties.Resources.CommandToggleIsEnabledNearestNeighbor;

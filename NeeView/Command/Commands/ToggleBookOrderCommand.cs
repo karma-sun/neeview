@@ -1,8 +1,8 @@
 ﻿namespace NeeView
 {
-    public class ToggleFolderOrderCommand : CommandElement
+    public class ToggleBookOrderCommand : CommandElement
     {
-        public ToggleFolderOrderCommand(string name) : base(name)
+        public ToggleBookOrderCommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupBookOrder;
             this.Text = Properties.Resources.CommandToggleFolderOrder;

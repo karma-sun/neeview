@@ -3,9 +3,9 @@
 
 namespace NeeView
 {
-    public class SetFolderOrderByEntryTimeACommand : CommandElement
+    public class SetBookOrderByEntryTimeACommand : CommandElement
     {
-        public SetFolderOrderByEntryTimeACommand(string name) : base(name)
+        public SetBookOrderByEntryTimeACommand(string name) : base(name)
         {
             this.Group = Properties.Resources.CommandGroupBookOrder;
             this.Text = Properties.Resources.CommandSetFolderOrderByEntryTimeA;

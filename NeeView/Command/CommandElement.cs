@@ -12,6 +12,7 @@ namespace NeeView
     {
         public static CommandElement None { get; } = new NoneCommand();
 
+        public static object[] EmptyArgs { get; } = new object[] { };
 
         private string _menuText;
         private string _shortCutKey;
@@ -131,6 +132,7 @@ namespace NeeView
 
         public string ExecuteMessage(object[] args, CommandOption option )
         {
+            if (args == null) throw new ArgumentNullException(nameof(args));
             return ExecuteMessage(this.Parameter, args, option);
         }
 
@@ -142,6 +144,7 @@ namespace NeeView
 
         public bool CanExecute(object[] args, CommandOption option )
         {
+            if (args == null) throw new ArgumentNullException(nameof(args));
             return CanExecute(this.Parameter, args, option);
         }
 
@@ -150,6 +153,7 @@ namespace NeeView
 
         public void Execute(object[] args, CommandOption option )
         {
+            if (args == null) throw new ArgumentNullException(nameof(args));
             Execute(this.Parameter, args, option);
         }
 

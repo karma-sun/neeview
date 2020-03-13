@@ -71,22 +71,11 @@ namespace NeeView
             // before 37.0
             if (_Version < Config.GenerateProductVersionNumber(37, 0, 0))
             {
-                var renameMap = new Dictionary<string, string>()
-                {
-                    ["OpenApplicaion"] = "OpenExternalApp",
-                    ["OpenFilePlace"] = "OpenExplorer",
-                    ["Export"] = "ExportImageAs",
-                    ["PrevFolder"] = "PrevBook",
-                    ["NextFolder"] = "NextBook",
-                    ["SetPageMode1"] = "SetPageModeOne",
-                    ["SetPageMode2"] = "SetPageModeTwo",
-                };
-
                 foreach (var node in _sourceTree)
                 {
                     if (node.MenuElementType == MenuElementType.Command)
                     {
-                        if (renameMap.TryGetValue(node.CommandName, out string newName))
+                        if (CommandTable.Memento.RenameMap_37_0_0.TryGetValue(node.CommandName, out string newName))
                         {
                             node.CommandName = newName;
                         }

@@ -729,7 +729,7 @@ namespace NeeView
                 AppDispatcher.Invoke(() =>
                 {
                     // ビュー初期化
-                    CommandTable.Current.GetElement("ViewReset").Execute(null, CommandOption.None);
+                    CommandTable.Current.GetElement("ViewReset").Execute(CommandElement.EmptyArgs, CommandOption.None);
 
                     // 本の設定を更新
                     BookSettingPresenter.Current.SetLatestSetting(BookSetting.FromBookMement(BookUnit?.Book.CreateMemento()));

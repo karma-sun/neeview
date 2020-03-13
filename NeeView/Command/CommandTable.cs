@@ -155,7 +155,7 @@ namespace NeeView
                 new SetStretchModeUniformToHorizontalCommand("SetStretchModeUniformToHorizontal"),
                 new ToggleStretchAllowEnlargeCommand("ToggleStretchAllowEnlarge"),
                 new ToggleStretchAllowReduceCommand("ToggleStretchAllowReduce"),
-                new ToggleIsEnabledNearestNeighborCommand("ToggleIsEnabledNearestNeighbor"),
+                new ToggleNearestNeighborCommand("ToggleNearestNeighbor"),
                 new ToggleBackgroundCommand("ToggleBackground"),
                 new SetBackgroundBlackCommand("SetBackgroundBlack"),
                 new SetBackgroundWhiteCommand("SetBackgroundWhite"),
@@ -239,20 +239,20 @@ namespace NeeView
                 new MoveToChildBookCommand("MoveToChildBook"),
 
                 new ToggleMediaPlayCommand("ToggleMediaPlay"),
-                new ToggleFolderOrderCommand("ToggleFolderOrder"),
-                new SetFolderOrderByFileNameACommand("SetFolderOrderByFileNameA"),
-                new SetFolderOrderByFileNameDCommand("SetFolderOrderByFileNameD"),
-                new SetFolderOrderByPathACommand("SetFolderOrderByPathA"),
-                new SetFolderOrderByPathDCommand("SetFolderOrderByPathD"),
-                new SetFolderOrderByFileTypeACommand("SetFolderOrderByFileTypeA"),
-                new SetFolderOrderByFileTypeDCommand("SetFolderOrderByFileTypeD"),
-                new SetFolderOrderByTimeStampACommand("SetFolderOrderByTimeStampA"),
-                new SetFolderOrderByTimeStampDCommand("SetFolderOrderByTimeStampD"),
-                new SetFolderOrderByEntryTimeACommand("SetFolderOrderByEntryTimeA"),
-                new SetFolderOrderByEntryTimeDCommand("SetFolderOrderByEntryTimeD"),
-                new SetFolderOrderBySizeACommand("SetFolderOrderBySizeA"),
-                new SetFolderOrderBySizeDCommand("SetFolderOrderBySizeD"),
-                new SetFolderOrderByRandomCommand("SetFolderOrderByRandom"),
+                new ToggleBookOrderCommand("ToggleBookOrder"),
+                new SetBookOrderByFileNameACommand("SetBookOrderByFileNameA"),
+                new SetBookOrderByFileNameDCommand("SetBookOrderByFileNameD"),
+                new SetBookOrderByPathACommand("SetBookOrderByPathA"),
+                new SetBookOrderByPathDCommand("SetBookOrderByPathD"),
+                new SetBookOrderByFileTypeACommand("SetBookOrderByFileTypeA"),
+                new SetBookOrderByFileTypeDCommand("SetBookOrderByFileTypeD"),
+                new SetBookOrderByTimeStampACommand("SetBookOrderByTimeStampA"),
+                new SetBookOrderByTimeStampDCommand("SetBookOrderByTimeStampD"),
+                new SetBookOrderByEntryTimeACommand("SetBookOrderByEntryTimeA"),
+                new SetBookOrderByEntryTimeDCommand("SetBookOrderByEntryTimeD"),
+                new SetBookOrderBySizeACommand("SetBookOrderBySizeA"),
+                new SetBookOrderBySizeDCommand("SetBookOrderBySizeD"),
+                new SetBookOrderByRandomCommand("SetBookOrderByRandom"),
                 new TogglePageModeCommand("TogglePageMode"),
                 new SetPageModeOneCommand("SetPageModeOne"),
                 new SetPageModeTwoCommand("SetPageModeTwo"),
@@ -425,7 +425,7 @@ namespace NeeView
         {
             if (TryGetValue(commandName, out CommandElement command))
             {
-                args = args ?? new object[] { };
+                args = args ?? CommandElement.EmptyArgs;
                 if (command.CanExecute(args, option))
                 {
                     command.Execute(args, option);
@@ -812,6 +812,32 @@ namespace NeeView
         [DataContract]
         public class Memento
         {
+            public static Dictionary<string, string> RenameMap_37_0_0 = new Dictionary<string, string>()
+            {
+                ["OpenApplicaion"] = "OpenExternalApp",
+                ["OpenFilePlace"] = "OpenExplorer",
+                ["Export"] = "ExportImageAs",
+                ["PrevFolder"] = "PrevBook",
+                ["NextFolder"] = "NextBook",
+                ["SetPageMode1"] = "SetPageModeOne",
+                ["SetPageMode2"] = "SetPageModeTwo",
+                ["ToggleIsEnabledNearestNeighbor"] = "ToggleNearestNeighbor",
+                ["ToggleFolderOrder"] = "ToggleBookOrder",
+                ["SetFolderOrderByFileNameA"] = "SetBookOrderByFileNameA",
+                ["SetFolderOrderByFileNameD"] = "SetBookOrderByFileNameD",
+                ["SetFolderOrderByPathA"] = "SetBookOrderByPathA",
+                ["SetFolderOrderByPathD"] = "SetBookOrderByPathD",
+                ["SetFolderOrderByFileTypeA"] = "SetBookOrderByFileTypeA",
+                ["SetFolderOrderByFileTypeD"] = "SetBookOrderByFileTypeD",
+                ["SetFolderOrderByTimeStampA"] = "SetBookOrderByTimeStampA",
+                ["SetFolderOrderByTimeStampD"] = "SetBookOrderByTimeStampD",
+                ["SetFolderOrderByEntryTimeA"] = "SetBookOrderByEntryTimeA",
+                ["SetFolderOrderByEntryTimeD"] = "SetBookOrderByEntryTimeD",
+                ["SetFolderOrderBySizeA"] = "SetBookOrderBySizeA",
+                ["SetFolderOrderBySizeD"] = "SetBookOrderBySizeD",
+                ["SetFolderOrderByRandom"] = "SetBookOrderByRandom",
+            };
+
             [DataMember]
             public int _Version { get; set; } = Config.Current.ProductVersionNumber;
 
@@ -929,13 +955,10 @@ namespace NeeView
                 // before 37.0
                 if (_Version < Config.GenerateProductVersionNumber(37, 0, 0))
                 {
-                    Rename("OpenApplicaion", "OpenExternalApp");
-                    Rename("OpenFilePlace", "OpenExplorer");
-                    Rename("Export", "ExportImageAs");
-                    Rename("PrevFolder", "PrevBook");
-                    Rename("NextFolder", "NextBook");
-                    Rename("SetPageMode1", "SetPageModeOne");
-                    Rename("SetPageMode2", "SetPageModeTwo");
+                    foreach(var pair in RenameMap_37_0_0)
+                    {
+                        Rename(pair.Key, pair.Value);
+                    }
                 }
 
                 // コマンド名変更

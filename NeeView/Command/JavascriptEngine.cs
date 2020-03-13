@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 
@@ -16,6 +17,7 @@ namespace NeeView
 
             _engine = new Jint.Engine();
             _engine.SetValue("log", (Action<object>)Log);
+            _engine.SetValue("system", (Action<string, string>)SystemCall);
             _engine.SetValue("include", (Func<string, object>)ExecureFile);
             _engine.SetValue("nv", _commandHost);
         }
@@ -24,9 +26,19 @@ namespace NeeView
 
         public Action<object> LogAction { get; set; } = Console.WriteLine;
 
+
         public void Log(object log)
         {
             LogAction?.Invoke(log);
+        }
+
+        public void SystemCall(string filename, string args = null)
+        {
+            var startInfo = new ProcessStartInfo();
+            startInfo.UseShellExecute = true;
+            startInfo.FileName = filename;
+            startInfo.Arguments = args;
+            Process.Start(startInfo);
         }
 
         public object Execute(string script)
@@ -61,7 +73,6 @@ namespace NeeView
         {
             return _engine.GetValue(name).ToObject();
         }
-
 
         private string GetFullPath(string path)
         {

@@ -1,4 +1,5 @@
-﻿using System.Windows.Data;
+﻿using System;
+using System.Windows.Data;
 
 
 namespace NeeView
@@ -25,9 +26,17 @@ namespace NeeView
             return SidePanel.Current.IsVisiblePagemarkList ? Properties.Resources.CommandToggleVisiblePagemarkListOff : Properties.Resources.CommandToggleVisiblePagemarkListOn;
         }
 
+        [MethodArgument("@CommandToggleArgument")]
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            SidePanel.Current.ToggleVisiblePagemarkList(option.HasFlag(CommandOption.ByMenu));
+            if (args.Length > 0)
+            {
+                SidePanel.Current.IsVisiblePagemarkList = Convert.ToBoolean(args[0]);
+            }
+            else
+            {
+                SidePanel.Current.ToggleVisiblePagemarkList(option.HasFlag(CommandOption.ByMenu));
+            }
         }
     }
 }

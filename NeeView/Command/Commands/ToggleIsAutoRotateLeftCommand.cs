@@ -1,4 +1,5 @@
-﻿using System.Windows.Data;
+﻿using System;
+using System.Windows.Data;
 
 
 namespace NeeView
@@ -29,9 +30,17 @@ namespace NeeView
             return !NowLoading.Current.IsDispNowLoading;
         }
 
+        [MethodArgument("@CommandToggleArgument")]
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            ContentCanvas.Current.IsAutoRotateLeft = !ContentCanvas.Current.IsAutoRotateLeft;
+            if (args.Length > 0)
+            {
+                ContentCanvas.Current.IsAutoRotateLeft = Convert.ToBoolean(args[0]);
+            }
+            else
+            {
+                ContentCanvas.Current.IsAutoRotateLeft = !ContentCanvas.Current.IsAutoRotateLeft;
+            }
         }
     }
 }

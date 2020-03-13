@@ -1,4 +1,5 @@
-﻿using System.Windows.Data;
+﻿using System;
+using System.Windows.Data;
 
 
 namespace NeeView
@@ -23,9 +24,17 @@ namespace NeeView
             return MouseInput.Current.IsLoupeMode ? Properties.Resources.CommandToggleIsLoupeOff : Properties.Resources.CommandToggleIsLoupeOn;
         }
 
+        [MethodArgument("@CommandToggleArgument")]
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            MouseInput.Current.IsLoupeMode = !MouseInput.Current.IsLoupeMode;
+            if (args.Length > 0)
+            {
+                MouseInput.Current.IsLoupeMode = Convert.ToBoolean(args[0]);
+            }
+            else
+            {
+                MouseInput.Current.IsLoupeMode = !MouseInput.Current.IsLoupeMode;
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Windows.Data;
+﻿using System;
+using System.Windows.Data;
 
 
 namespace NeeView
@@ -29,9 +30,17 @@ namespace NeeView
             return ThumbnailList.Current.IsEnableThumbnailList;
         }
 
+        [MethodArgument("@CommandToggleArgument")]
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            ThumbnailList.Current.ToggleHideThumbnailList();
+            if (args.Length > 0)
+            {
+                ThumbnailList.Current.IsHideThumbnailList = Convert.ToBoolean(args[0]);
+            }
+            else
+            {
+                ThumbnailList.Current.ToggleHideThumbnailList();
+            }
         }
     }
 }

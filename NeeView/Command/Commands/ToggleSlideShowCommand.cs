@@ -1,4 +1,5 @@
-﻿using System.Windows.Data;
+﻿using System;
+using System.Windows.Data;
 
 
 namespace NeeView
@@ -25,9 +26,17 @@ namespace NeeView
             return SlideShow.Current.IsPlayingSlideShow ? Properties.Resources.CommandToggleSlideShowOff : Properties.Resources.CommandToggleSlideShowOn;
         }
 
+        [MethodArgument("@CommandToggleArgument")]
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            SlideShow.Current.ToggleSlideShow();
+            if (args.Length > 0)
+            {
+                SlideShow.Current.IsPlayingSlideShow = Convert.ToBoolean(args[0]);
+            }
+            else
+            {
+                SlideShow.Current.TogglePlayingSlideShow();
+            }
         }
     }
 }

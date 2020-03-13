@@ -1,4 +1,5 @@
-﻿using System.Windows.Data;
+﻿using System;
+using System.Windows.Data;
 
 
 namespace NeeView
@@ -23,9 +24,17 @@ namespace NeeView
             return BookSettingPresenter.Current.LatestSetting.IsRecursiveFolder ? Properties.Resources.CommandToggleIsRecursiveFolderOff : Properties.Resources.CommandToggleIsRecursiveFolderOn;
         }
 
+        [MethodArgument("@CommandToggleArgument")]
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            BookSettingPresenter.Current.ToggleIsRecursiveFolder();
+            if (args.Length > 0)
+            {
+                BookSettingPresenter.Current.SetIsRecursiveFolder(Convert.ToBoolean(args[0]));
+            }
+            else
+            {
+                BookSettingPresenter.Current.ToggleIsRecursiveFolder();
+            }
         }
     }
 }

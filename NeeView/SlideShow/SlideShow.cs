@@ -133,7 +133,7 @@ namespace NeeView
         /// <summary>
         /// スライドショー再生/停止切り替え
         /// </summary>
-        public void ToggleSlideShow()
+        public void TogglePlayingSlideShow()
         {
             this.IsPlayingSlideShow = !this.IsPlayingSlideShow;
         }

@@ -99,7 +99,7 @@ namespace NeeView
 
         public void AddPagemark()
         {
-            var pagemark = BookOperation.Current.AddPagemark();
+            var pagemark = BookOperation.Current.SetPagemark(true);
             if (pagemark != null)
             {
                 ListBox.SetSelectedItem(pagemark.Place, pagemark.EntryName);

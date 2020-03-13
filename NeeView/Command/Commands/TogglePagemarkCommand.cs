@@ -1,4 +1,5 @@
-﻿using System.Windows.Data;
+﻿using System;
+using System.Windows.Data;
 
 
 namespace NeeView
@@ -30,9 +31,17 @@ namespace NeeView
             return BookOperation.Current.CanPagemark();
         }
 
+        [MethodArgument("@CommandToggleArgument")]
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            BookOperation.Current.TogglePagemark();
+            if (args.Length > 0)
+            {
+                BookOperation.Current.SetPagemark(Convert.ToBoolean(args[0]));
+            }
+            else
+            {
+                BookOperation.Current.TogglePagemark();
+            }
         }
     }
 }

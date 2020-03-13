@@ -1,4 +1,5 @@
-﻿using System.Windows.Data;
+﻿using System;
+using System.Windows.Data;
 
 
 namespace NeeView
@@ -28,10 +29,18 @@ namespace NeeView
         {
             return BookOperation.Current.CanBookmark();
         }
-
+        
+        [MethodArgument("@CommandToggleArgument")]
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            BookOperation.Current.ToggleBookmark();
+            if (args.Length > 0)
+            {
+                BookOperation.Current.SetBookmark(Convert.ToBoolean(args[0]));
+            }
+            else
+            {
+                BookOperation.Current.ToggleBookmark();
+            }
         }
     }
 }

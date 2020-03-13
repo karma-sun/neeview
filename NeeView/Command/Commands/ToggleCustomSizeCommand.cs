@@ -1,4 +1,5 @@
-﻿using System.Windows.Data;
+﻿using System;
+using System.Windows.Data;
 
 
 namespace NeeView
@@ -29,9 +30,17 @@ namespace NeeView
             return !NowLoading.Current.IsDispNowLoading;
         }
 
+        [MethodArgument("@CommandToggleArgument")]
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            PictureProfile.Current.CustomSize.IsEnabled = !PictureProfile.Current.CustomSize.IsEnabled;
+            if (args.Length > 0)
+            {
+                PictureProfile.Current.CustomSize.IsEnabled = Convert.ToBoolean(args[0]);
+            }
+            else
+            {
+                PictureProfile.Current.CustomSize.IsEnabled = !PictureProfile.Current.CustomSize.IsEnabled;
+            }
         }
     }
 }

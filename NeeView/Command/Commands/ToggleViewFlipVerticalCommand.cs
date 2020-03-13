@@ -1,4 +1,5 @@
-﻿using System.Windows.Data;
+﻿using System;
+using System.Windows.Data;
 
 
 namespace NeeView
@@ -18,9 +19,17 @@ namespace NeeView
             return new Binding(nameof(DragTransform.IsFlipVertical)) { Source = DragTransform.Current, Mode = BindingMode.OneWay };
         }
 
+        [MethodArgument("@CommandToggleArgument")]
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            DragTransformControl.Current.ToggleFlipVertical();
+            if (args.Length > 0)
+            {
+                DragTransformControl.Current.FlipVertical(Convert.ToBoolean(args[0]));
+            }
+            else
+            { 
+                DragTransformControl.Current.ToggleFlipVertical();
+            }
         }
     }
 }

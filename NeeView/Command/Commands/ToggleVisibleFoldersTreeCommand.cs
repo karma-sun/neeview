@@ -1,4 +1,5 @@
-﻿using System.Windows.Data;
+﻿using System;
+using System.Windows.Data;
 
 
 namespace NeeView
@@ -24,9 +25,17 @@ namespace NeeView
             return SidePanel.Current.IsVisibleFolderTree ? Properties.Resources.CommandToggleVisibleFoldersTreeOff : Properties.Resources.CommandToggleVisibleFoldersTreeOn;
         }
 
+        [MethodArgument("@CommandToggleArgument")]
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            SidePanel.Current.ToggleVisibleFolderTree(option.HasFlag(CommandOption.ByMenu));
+            if (args.Length > 0)
+            {
+                SidePanel.Current.IsVisibleFolderTree = Convert.ToBoolean(args[0]);
+            }
+            else
+            {
+                SidePanel.Current.ToggleVisibleFolderTree(option.HasFlag(CommandOption.ByMenu));
+            }
         }
     }
 }

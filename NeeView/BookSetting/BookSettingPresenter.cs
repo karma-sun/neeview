@@ -65,73 +65,112 @@ namespace NeeView
         public void SetPageMode(PageMode mode)
         {
             if (IsLocked) return;
-            LatestSetting.PageMode = mode;
-            SettingChanged?.Invoke(this, new BookSettingEventArgs(BookSettingKey.PageMode));
+            if (LatestSetting.PageMode != mode)
+            {
+                LatestSetting.PageMode = mode;
+                SettingChanged?.Invoke(this, new BookSettingEventArgs(BookSettingKey.PageMode));
+            }
         }
 
-        // 単ページ/見開き表示トグル
         public void TogglePageMode()
         {
-            if (IsLocked) return;
-            LatestSetting.PageMode = LatestSetting.PageMode.GetToggle();
-            SettingChanged?.Invoke(this, new BookSettingEventArgs(BookSettingKey.PageMode));
+            SetPageMode(LatestSetting.PageMode.GetToggle());
         }
 
         // 見開き方向設定
         public void SetBookReadOrder(PageReadOrder order)
         {
             if (IsLocked) return;
-            LatestSetting.BookReadOrder = order;
-            SettingChanged?.Invoke(this, new BookSettingEventArgs(BookSettingKey.BookReadOrder));
+            if (LatestSetting.BookReadOrder != order)
+            {
+                LatestSetting.BookReadOrder = order;
+                SettingChanged?.Invoke(this, new BookSettingEventArgs(BookSettingKey.BookReadOrder));
+            }
         }
 
-        // 見開き方向変更
         public void ToggleBookReadOrder()
         {
-            if (IsLocked) return;
-            LatestSetting.BookReadOrder = LatestSetting.BookReadOrder.GetToggle();
-            SettingChanged?.Invoke(this, new BookSettingEventArgs(BookSettingKey.BookReadOrder));
+            SetBookReadOrder(LatestSetting.BookReadOrder.GetToggle());
         }
 
         // 先頭ページの単ページ表示ON/OFF 
-        public void ToggleIsSupportedSingleFirstPage()
+        public void SetIsSupportedSingleFirstPage(bool value)
         {
             if (IsLocked) return;
-            LatestSetting.IsSupportedSingleFirstPage = !LatestSetting.IsSupportedSingleFirstPage;
-            SettingChanged?.Invoke(this, new BookSettingEventArgs(BookSettingKey.IsSupportedSingleFirstPage));
+            if (LatestSetting.IsSupportedSingleFirstPage != value)
+            {
+                LatestSetting.IsSupportedSingleFirstPage = value;
+                SettingChanged?.Invoke(this, new BookSettingEventArgs(BookSettingKey.IsSupportedSingleFirstPage));
+            }
+        }
+
+        public void ToggleIsSupportedSingleFirstPage()
+        {
+            SetIsSupportedSingleFirstPage(!LatestSetting.IsSupportedSingleFirstPage);
         }
 
         // 最終ページの単ページ表示ON/OFF 
-        public void ToggleIsSupportedSingleLastPage()
+        public void SetIsSupportedSingleLastPage(bool value)
         {
             if (IsLocked) return;
-            LatestSetting.IsSupportedSingleLastPage = !LatestSetting.IsSupportedSingleLastPage;
-            SettingChanged?.Invoke(this, new BookSettingEventArgs(BookSettingKey.IsSupportedSingleLastPage));
+            if (LatestSetting.IsSupportedSingleLastPage != value)
+            {
+                LatestSetting.IsSupportedSingleLastPage = value;
+                SettingChanged?.Invoke(this, new BookSettingEventArgs(BookSettingKey.IsSupportedSingleLastPage));
+            }
+        }
 
+        public void ToggleIsSupportedSingleLastPage()
+        {
+            SetIsSupportedSingleLastPage(!LatestSetting.IsSupportedSingleLastPage);
         }
 
         // 横長ページの分割ON/OFF
-        public void ToggleIsSupportedDividePage()
+        public void SetIsSupportedDividePage(bool value)
         {
             if (IsLocked) return;
-            LatestSetting.IsSupportedDividePage = !LatestSetting.IsSupportedDividePage;
-            SettingChanged?.Invoke(this, new BookSettingEventArgs(BookSettingKey.IsSupportedDividePage));
+            if (LatestSetting.IsSupportedDividePage != value)
+            {
+                LatestSetting.IsSupportedDividePage = value;
+                SettingChanged?.Invoke(this, new BookSettingEventArgs(BookSettingKey.IsSupportedDividePage));
+            }
+        }
+
+        public void ToggleIsSupportedDividePage()
+        {
+            SetIsSupportedDividePage(!LatestSetting.IsSupportedDividePage);
         }
 
         // 横長ページの見開き判定ON/OFF
-        public void ToggleIsSupportedWidePage()
+        public void SetIsSupportedWidePage(bool value)
         {
             if (IsLocked) return;
-            LatestSetting.IsSupportedWidePage = !LatestSetting.IsSupportedWidePage;
-            SettingChanged?.Invoke(this, new BookSettingEventArgs(BookSettingKey.IsSupportedWidePage));
+            if (LatestSetting.IsSupportedWidePage != value)
+            {
+                LatestSetting.IsSupportedWidePage = value;
+                SettingChanged?.Invoke(this, new BookSettingEventArgs(BookSettingKey.IsSupportedWidePage));
+            }
+        }
+
+        public void ToggleIsSupportedWidePage()
+        {
+            SetIsSupportedWidePage(!LatestSetting.IsSupportedWidePage);
         }
 
         // フォルダー再帰読み込みON/OFF
-        public void ToggleIsRecursiveFolder()
+        public void SetIsRecursiveFolder(bool value)
         {
             if (IsLocked) return;
-            LatestSetting.IsRecursiveFolder = !LatestSetting.IsRecursiveFolder;
-            SettingChanged?.Invoke(this, new BookSettingEventArgs(BookSettingKey.IsRecursiveFolder));
+            if (LatestSetting.IsRecursiveFolder != value)
+            {
+                LatestSetting.IsRecursiveFolder = value;
+                SettingChanged?.Invoke(this, new BookSettingEventArgs(BookSettingKey.IsRecursiveFolder));
+            }
+        }
+
+        public void ToggleIsRecursiveFolder()
+        {
+            SetIsRecursiveFolder(!LatestSetting.IsRecursiveFolder);
         }
 
         // ページ並び設定切り替え
@@ -156,8 +195,6 @@ namespace NeeView
             if (IsLocked) return;
             SetLatestSetting(DefaultSetting);
         }
-
-
 
         #endregion
 

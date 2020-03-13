@@ -1,4 +1,5 @@
-﻿using System.Windows.Data;
+﻿using System;
+using System.Windows.Data;
 
 
 namespace NeeView
@@ -24,9 +25,17 @@ namespace NeeView
             return FileIOProfile.Current.IsEnabled ? Properties.Resources.CommandTogglePermitFileCommandOff : Properties.Resources.CommandTogglePermitFileCommandOn;
         }
 
+        [MethodArgument("@CommandToggleArgument")]
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            FileIOProfile.Current.IsEnabled = !FileIOProfile.Current.IsEnabled;
+            if (args.Length > 0)
+            {
+                FileIOProfile.Current.IsEnabled = Convert.ToBoolean(args[0]);
+            }
+            else
+            {
+                FileIOProfile.Current.IsEnabled = !FileIOProfile.Current.IsEnabled;
+            }
         }
     }
 }

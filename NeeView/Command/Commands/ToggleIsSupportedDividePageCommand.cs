@@ -1,4 +1,5 @@
-﻿using System.Windows.Data;
+﻿using System;
+using System.Windows.Data;
 
 
 namespace NeeView
@@ -28,9 +29,17 @@ namespace NeeView
             return BookSettingPresenter.Current.CanPageModeSubSetting(PageMode.SinglePage);
         }
 
+        [MethodArgument("@CommandToggleArgument")]
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            BookSettingPresenter.Current.ToggleIsSupportedDividePage();
+            if (args.Length > 0)
+            {
+                BookSettingPresenter.Current.SetIsSupportedDividePage(Convert.ToBoolean(args[0]));
+            }
+            else
+            {
+                BookSettingPresenter.Current.ToggleIsSupportedDividePage();
+            }
         }
     }
 }

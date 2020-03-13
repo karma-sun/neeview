@@ -1,4 +1,5 @@
 ﻿using NeeView.Effects;
+using System;
 using System.Windows.Data;
 
 
@@ -26,9 +27,17 @@ namespace NeeView
             return ImageEffect.Current.IsEnabled ? Properties.Resources.CommandToggleEffectOff : Properties.Resources.CommandToggleEffectOn;
         }
 
+        [MethodArgument("@CommandToggleArgument")]
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            ImageEffect.Current.IsEnabled = !ImageEffect.Current.IsEnabled;
+            if (args.Length > 0)
+            {
+                ImageEffect.Current.IsEnabled = Convert.ToBoolean(args[0]);
+            }
+            else
+            {
+                ImageEffect.Current.IsEnabled = !ImageEffect.Current.IsEnabled;
+            }
         }
     }
 }

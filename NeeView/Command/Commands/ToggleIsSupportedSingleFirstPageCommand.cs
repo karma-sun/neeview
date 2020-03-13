@@ -1,4 +1,5 @@
-﻿using System.Windows.Data;
+﻿using System;
+using System.Windows.Data;
 
 
 namespace NeeView
@@ -28,9 +29,17 @@ namespace NeeView
             return BookSettingPresenter.Current.CanPageModeSubSetting(PageMode.WidePage);
         }
 
+        [MethodArgument("@CommandToggleArgument")]
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            BookSettingPresenter.Current.ToggleIsSupportedSingleFirstPage();
+            if (args.Length > 0)
+            {
+                BookSettingPresenter.Current.SetIsSupportedSingleFirstPage(Convert.ToBoolean(args[0]));
+            }
+            else
+            {
+                BookSettingPresenter.Current.ToggleIsSupportedSingleFirstPage();
+            }
         }
     }
 }

@@ -312,9 +312,9 @@ namespace NeeView
             RaisePropertyChanged(nameof(SelectedIndex));
         }
 
-        public bool ToggleVisibleThumbnailList(bool byMenu)
+        public bool SetVisibleThumbnailList(bool isVisible)
         {
-            IsEnableThumbnailList = byMenu ? !IsEnableThumbnailList : !IsVisible;
+            IsEnableThumbnailList = isVisible;
 
             if (IsEnableThumbnailList && !IsVisible)
             {
@@ -322,6 +322,12 @@ namespace NeeView
             }
 
             return IsEnableThumbnailList;
+        }
+
+        public bool ToggleVisibleThumbnailList(bool byMenu)
+        {
+            bool isVisible = byMenu ? !IsEnableThumbnailList : !IsVisible;
+            return SetVisibleThumbnailList(isVisible);
         }
 
         public bool ToggleHideThumbnailList()

@@ -268,7 +268,11 @@ namespace NeeView
         /// <summary>
         /// フォルダーツリー表示状態
         /// </summary>
-        public bool IsVisibleFolderTree => BookshelfFolderList.Current.IsFolderTreeVisible && IsVisibleFolderList;
+        public bool IsVisibleFolderTree
+        { 
+            get { return BookshelfFolderList.Current.IsFolderTreeVisible && IsVisibleFolderList; }
+            set { SetVisibleFolderTree(false, value); }
+        }
 
         /// <summary>
         /// フォルダーツリー表示状態切替

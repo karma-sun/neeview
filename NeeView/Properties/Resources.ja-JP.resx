@@ -4875,4 +4875,73 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="ParamIsRemoveExplorerDialogEnabledTips" xml:space="preserve">
     <value>エクスプローラーから削除したときと同じ挙動になります。ごみ箱に入らないファイルを削除するときに確認ダイアログが表示されますが、ごみ箱のプロパティの「削除の確認メッセージを表示する」がチェックされている場合は余計にダイアログが表示されることになります。</value>
   </data>
+  <data name="CommandGroupScript" xml:space="preserve">
+    <value>スクリプト</value>
+  </data>
+  <data name="CommandOpenConsole" xml:space="preserve">
+    <value>コンソールを開く</value>
+  </data>
+  <data name="CommandOpenConsoleMenu" xml:space="preserve">
+    <value>コンソールを開く(_C)...</value>
+  </data>
+  <data name="CommandOpenConsoleNote" xml:space="preserve">
+    <value>スクリプト用コンソールを開きます。</value>
+  </data>
+  <data name="SettingPageCommandScipt" xml:space="preserve">
+    <value>スクリプト</value>
+  </data>
+  <data name="ParamIsScriptFolderEnabled" xml:space="preserve">
+    <value>スクリプトを使用する</value>
+  </data>
+  <data name="ParamScriptFolder" xml:space="preserve">
+    <value>スクリプトフォルダー</value>
+  </data>
+  <data name="ParamScriptFolderTips" xml:space="preserve">
+    <value>このフォルダーのスクリプトを使用します。</value>
+  </data>
+  <data name="WordCommandName" xml:space="preserve">
+    <value>コマンド名</value>
+  </data>
+  <data name="WordArgument" xml:space="preserve">
+    <value>引数</value>
+  </data>
+  <data name="WordCommandParameter" xml:space="preserve">
+    <value>コマンドパラメーター</value>
+  </data>
+  <data name="CommandJumpPageArgument" xml:space="preserve">
+    <value>number: int|ベージ番号</value>
+  </data>
+  <data name="CommandLoadAsArgument" xml:space="preserve">
+    <value>path: string|ファイルやフォルダーのパス</value>
+  </data>
+  <data name="CommandHelpScript" xml:space="preserve">
+    <value>スクリプトのヘルプを表示する</value>
+  </data>
+  <data name="CommandHelpScriptMenu" xml:space="preserve">
+    <value>スクリプトヘルプ</value>
+  </data>
+  <data name="CommandHelpScriptNote" xml:space="preserve">
+    <value>スクリプトマニュアルをブラウザで表示します。</value>
+  </data>
+  <data name="CommandScriptOnBookLoadedNote" xml:space="preserve">
+    <value>スクリプト。ブックを開いたときに実行されます。</value>
+  </data>
+  <data name="WordPeriod" xml:space="preserve">
+    <value>。</value>
+  </data>
+  <data name="CommandScriptNote" xml:space="preserve">
+    <value>スクリプト。</value>
+  </data>
+  <data name="CommandToggleArgument" xml:space="preserve">
+    <value>switch: bool|ON/OFF。省略した場合は切り替え。</value>
+  </data>
+  <data name="DialogOpenScriptsFolderErrorTitle" xml:space="preserve">
+    <value>スクリプトフォルダーが開けません</value>
+  </data>
+  <data name="CommandOpenSecriptsFolder" xml:space="preserve">
+    <value>スクリプトフォルダーを開く</value>
+  </data>
+  <data name="CommandOpenSecriptsFolderNote" xml:space="preserve">
+    <value>スクリプトフォルダーをエクスプローラーで開きます。</value>
+  </data>
 </root>

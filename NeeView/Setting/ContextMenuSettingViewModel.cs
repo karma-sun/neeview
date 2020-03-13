@@ -16,7 +16,7 @@ namespace NeeView.Setting
         }
 
         public List<MenuTree> SourceElementList { get; set; }
-        
+
 
         private ContextMenuSetting _contextMenuSetting;
 
@@ -24,12 +24,10 @@ namespace NeeView.Setting
         {
             if (CommandTable.Current == null) return;
 
-            var list = Enum.GetValues(typeof(CommandType))
-               .OfType<CommandType>()
-               .Where(e => !e.IsDisable())
-               .GroupBy(e => CommandTable.Current[e].Group)
+            var list = CommandTable.Current.Keys
+               .GroupBy(e => CommandTable.Current.GetElement(e).Group)
                .SelectMany(g => g)
-               .Select(e => new MenuTree() { MenuElementType = MenuElementType.Command, Command = e })
+               .Select(e => new MenuTree() { MenuElementType = MenuElementType.Command, CommandName = e })
                .ToList();
 
             list.Insert(0, new MenuTree() { MenuElementType = MenuElementType.Group });

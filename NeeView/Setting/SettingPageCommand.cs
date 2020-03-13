@@ -25,6 +25,12 @@ namespace NeeView.Setting
                     {
                         IsEnabled = new IsEnabledPropertyValue(CommandTable.Current, nameof(CommandTable.IsReversePageMove)),
                     }),
+                new SettingItemSection(Properties.Resources.SettingPageCommandScipt,
+                    new SettingItemProperty(PropertyMemberElement.Create(CommandTable.Current, nameof(CommandTable.IsScriptFolderEnabled))),
+                    new SettingItemProperty(PropertyMemberElement.Create(CommandTable.Current, nameof(CommandTable.ScriptFolder)))
+                    {
+                        IsEnabled = new IsEnabledPropertyValue(CommandTable.Current, nameof(CommandTable.IsScriptFolderEnabled)),
+                    }),
             };
         }
     }

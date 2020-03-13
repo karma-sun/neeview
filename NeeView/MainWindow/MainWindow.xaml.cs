@@ -26,7 +26,7 @@ namespace NeeView
 
         private MainWindowViewModel _vm;
 
-   
+
         #region コンストラクターと初期化処理
 
         /// <summary>
@@ -72,6 +72,10 @@ namespace NeeView
 
             _vm.FocusMainViewCall += (s, e) => this.MainView.Focus();
 
+            // コマンド初期化
+            InitializeCommand();
+            InitializeCommandBindings();
+
             // 各コントロールとモデルを関連付け
             this.PageSliderView.Source = PageSlider.Current;
             this.PageSliderView.FocusTo = this.MainView;
@@ -81,10 +85,6 @@ namespace NeeView
             this.MenuBar.Source = NeeView.MenuBar.Current;
             this.NowLoadingView.Source = NowLoading.Current;
 
-
-            // コマンド初期化
-            InitializeCommand();
-            InitializeCommandBindings();
 
             //
             MainWindowModel.Current.AddPropertyChanged(nameof(MainWindowModel.IsHideMenu),
@@ -253,27 +253,16 @@ namespace NeeView
 
         #region コマンドバインディング
 
+        private Dictionary<string, CommandBinding> _commandBindings;
+
+        public void Print()
+        {
+            ContentCanvas.Current.Print(this, this.PageContents, this.MainContent.RenderTransform, this.MainView.ActualWidth, this.MainView.ActualHeight);
+        }
+
         // MainWindow依存コマンド登録
         public void InitializeCommand()
         {
-            var commandTable = CommandTable.Current;
-
-            // MainWindow:View依存コマンド登録
-            commandTable[CommandType.CloseApplication].Execute =
-                (s, e) => this.Close();
-            commandTable[CommandType.ToggleWindowMinimize].Execute =
-                (s, e) => MainWindow_Minimize();
-            commandTable[CommandType.ToggleWindowMaximize].Execute =
-                (s, e) => MainWindow_Maximize();
-
-            // print
-            commandTable[CommandType.Print].Execute =
-                (s, e) => ContentCanvas.Current.Print(this, this.PageContents, this.MainContent.RenderTransform, this.MainView.ActualWidth, this.MainView.ActualHeight);
-
-            // context menu
-            commandTable[CommandType.OpenContextMenu].Execute =
-                (s, e) => OpenContextMenu();
-
             //  コマンド実行後処理
             RoutedCommandTable.Current.CommandExecuted += RoutedCommand_CommandExecuted;
         }
@@ -310,7 +299,7 @@ namespace NeeView
         }
 
         // コマンド：コンテキストメニューを開く
-        private void OpenContextMenu()
+        public void OpenContextMenu()
         {
             if (this.MainViewPanel.ContextMenu != null)
             {
@@ -324,29 +313,50 @@ namespace NeeView
         // RoutedCommand バインディング
         public void InitializeCommandBindings()
         {
-            var commandTable = CommandTable.Current;
-            var commands = RoutedCommandTable.Current.Commands;
+            _commandBindings = new Dictionary<string, CommandBinding>();
 
-            // コマンドバインド作成
-            foreach (CommandType type in Enum.GetValues(typeof(CommandType)))
+            foreach (var name in CommandTable.Current.Keys)
             {
-                if (commandTable[type].CanExecute != null)
-                {
-                    this.CommandBindings.Add(new CommandBinding(commands[type], (sender, e) => RoutedCommandTable.Current.Execute(sender, e, type),
-                        (sender, e) => e.CanExecute = commandTable[type].CanExecute()));
-                }
-                else
-                {
-                    this.CommandBindings.Add(new CommandBinding(commands[type], (sender, e) => RoutedCommandTable.Current.Execute(sender, e, type),
-                        CanExecute));
-                }
+                var binding = CreateCommandBinding(name);
+                _commandBindings.Add(name, binding);
+                this.CommandBindings.Add(binding);
             }
+
+            RoutedCommandTable.Current.Changed += RefresuCommandBindings;
         }
 
-        // ロード中のコマンドを無効にする CanExecute
-        private void CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        private CommandBinding CreateCommandBinding(string commandName)
         {
-            e.CanExecute = !NowLoading.Current.IsDispNowLoading;
+            var binding = new CommandBinding(RoutedCommandTable.Current.Commands[commandName],
+                (sender, e) => RoutedCommandTable.Current.Execute(commandName, e.Parameter),
+                (sender, e) => e.CanExecute = CommandTable.Current.GetElement(commandName).CanExecute(CommandElement.EmptyArgs, CommandOption.None));
+
+            return binding;
+        }
+
+        private void RefresuCommandBindings(object sender, EventArgs _)
+        {
+            var oldies = _commandBindings.Keys
+                .Where(e => e.StartsWith(ScriptCommand.Prefix))
+                .ToList();
+
+            var newers = CommandTable.Current.Keys
+                .Where(e => e.StartsWith(ScriptCommand.Prefix))
+                .ToList();
+
+            foreach (var name in oldies.Except(newers))
+            {
+                var binding = _commandBindings[name];
+                _commandBindings.Remove(name);
+                this.CommandBindings.Remove(binding);
+            }
+
+            foreach (var name in newers.Except(oldies))
+            {
+                var binding = CreateCommandBinding(name);
+                _commandBindings.Add(name, binding);
+                this.CommandBindings.Add(binding);
+            }
         }
 
         #endregion
@@ -596,7 +606,7 @@ namespace NeeView
         }
 
         // ウィンドウ最大化(Toggle)
-        private void MainWindow_Maximize()
+        public void MainWindow_Maximize()
         {
             if (this.WindowState != WindowState.Maximized)
             {
@@ -609,7 +619,7 @@ namespace NeeView
         }
 
         // ウィンドウ最小化
-        private void MainWindow_Minimize()
+        public void MainWindow_Minimize()
         {
             SystemCommands.MinimizeWindow(this);
         }

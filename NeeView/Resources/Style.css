@@ -12,7 +12,7 @@ h1 {
     color: #ffffff;
     padding-top: 10px;
     padding-bottom: 10px;
-    width: 600px;
+    min-width: 800px;
 }
 
 h2 {
@@ -21,7 +21,6 @@ h2 {
     padding-top: 2px;
     padding-left: 10px;
     border-left: 8px solid #444444;
-    width: 600px;
 }
 
 h3 {
@@ -30,17 +29,17 @@ h3 {
     padding-top: 2px;
     padding-left: 10px;
     border-left: 8px solid #AAAAAA;
-    width: 600px;
 }
 
 p {
     text-align: left;
-    padding-left: 1em;
 }
 
 code {
     background-color: #EEEEEE;
     padding: 0px 10px;
+    display: block;
+    border: 1px solid #CCC;
     font-family: "メイリオ", Meiryo;
 }
 

@@ -410,9 +410,9 @@ namespace NeeView
 
 
 
-        public ICommand ToggleVisiblePageList => RoutedCommandTable.Current.Commands[CommandType.ToggleVisiblePageList];
+        public ICommand ToggleVisiblePageList => RoutedCommandTable.Current.Commands["ToggleVisiblePageList"];
 
-        public ICommand ToggleVisibleFoldersTree => RoutedCommandTable.Current.Commands[CommandType.ToggleVisibleFoldersTree];
+        public ICommand ToggleVisibleFoldersTree => RoutedCommandTable.Current.Commands["ToggleVisibleFoldersTree"];
 
         #endregion Commands
 
@@ -437,7 +437,7 @@ namespace NeeView
             items.Add(new Separator());
             items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuExportPlaylist, ExportPlaylist));
             items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuAddQuickAccess, AddQuickAccess));
-            items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuClearHistory, CommandType.ClearHistoryInPlace, FolderPanelModel.Current));
+            items.Add(CreateCommandMenuItem(Properties.Resources.BookshelfMoreMenuClearHistory, "ClearHistoryInPlace", FolderPanelModel.Current));
 
             switch (_model.FolderCollection)
             {
@@ -490,15 +490,15 @@ namespace NeeView
         }
 
         //
-        private MenuItem CreateCommandMenuItem(string header, CommandType command, FolderPanelModel source)
+        private MenuItem CreateCommandMenuItem(string header, string command, FolderPanelModel source)
         {
             var item = new MenuItem();
             item.Header = header;
             item.Command = RoutedCommandTable.Current.Commands[command];
             item.CommandParameter = MenuCommandTag.Tag; // コマンドがメニューからであることをパラメータで伝えてみる
-            if (CommandTable.Current[command].CreateIsCheckedBinding != null)
+            var binding = CommandTable.Current.GetElement(command).CreateIsCheckedBinding();
+            if (binding != null)
             {
-                var binding = CommandTable.Current[command].CreateIsCheckedBinding();
                 item.SetBinding(MenuItem.IsCheckedProperty, binding);
             }
 
@@ -606,6 +606,6 @@ namespace NeeView
             }
         }
 
-#endregion Methods
+        #endregion Methods
     }
 }

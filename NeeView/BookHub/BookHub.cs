@@ -688,6 +688,8 @@ namespace NeeView
                 _bookHubToast = null;
             }
 
+            bool isNew = true;
+
             try
             {
                 // address
@@ -717,6 +719,8 @@ namespace NeeView
                     AppDispatcher.Invoke(() => FolderListSync?.Invoke(this, new FolderListSyncEventArgs() { Path = address.Address.SimplePath, Parent = address.Place.SimplePath, isKeepPlace = false }));
                 }
 
+                isNew = BookMementoCollection.Current.GetValid(address.Address.SimplePath) == null;
+
                 // Load本体
                 await LoadAsyncCore(address, args.Option, setting, token);
 
@@ -725,7 +729,7 @@ namespace NeeView
                 AppDispatcher.Invoke(() =>
                 {
                     // ビュー初期化
-                    CommandTable.Current[CommandType.ViewReset].Execute(this, CommandOption.None);
+                    CommandTable.Current.GetElement("ViewReset").Execute(CommandElement.EmptyArgs, CommandOption.None);
 
                     // 本の設定を更新
                     BookSettingPresenter.Current.SetLatestSetting(BookSetting.FromBookMement(BookUnit?.Book.CreateMemento()));
@@ -804,6 +808,17 @@ namespace NeeView
                 NotifyLoading(null);
 
                 ////DebugTimer.Check("Done.");
+            }
+
+            // Script fook
+            if (BookUnit != null)
+            {
+                BookUnit.Book.IsNew = isNew;
+                var commandName = ScriptCommand.Prefix + ScriptCommand.EventOnBookLoaded;
+                if (CommandTable.Current.ContainsKey(commandName))
+                {
+                    AppDispatcher.Invoke(() => CommandTable.Current.TryExecute(commandName, null, CommandOption.None));
+                }
             }
         }
 

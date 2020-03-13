@@ -25,8 +25,7 @@ namespace NeeView.Setting
             InitializeComponent();
         }
 
-        //
-        public void Initialize(CommandTable.Memento memento, CommandType key)
+        public void Initialize(CommandTable.Memento memento, string key)
         {
             InitializeComponent();
 
@@ -36,13 +35,11 @@ namespace NeeView.Setting
             DataContext = _vm;
         }
 
-        //
         public void Flush()
         {
             _vm?.Flush();
         }
 
-        //
         private void GestureBox_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             var width = this.GestureBox.ActualWidth;

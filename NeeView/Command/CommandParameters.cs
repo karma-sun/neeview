@@ -17,53 +17,50 @@ namespace NeeView
     /// コマンドパラメータ（基底）
     /// </summary>
     [DataContract]
-    public class CommandParameter
+    public abstract class CommandParameter : ICloneable
     {
-        public CommandParameter Clone()
+        public object Clone()
         {
-            return (CommandParameter)Json.Clone(this, this.GetType());
+            return MemberwiseClone();
         }
 
-        public string ToJson()
-        {
-            return Json.Serialize(this, this.GetType());
-        }
+        public abstract bool MemberwiseEquals(CommandParameter other);
 
+
+        #region Legacy
+
+        // 共有制御用 (Obsolete)
         public virtual bool IsReadOnly()
         {
             return false;
         }
 
         /// <summary>
-        /// 実際に適用されるパラメータ
+        /// 実際に適用されるパラメータ (Obsolete)
         /// </summary>
         public virtual CommandParameter Entity()
         {
             return this;
         }
-    }
 
-    /// <summary>
-    /// コマンド間パラメータ共有用特殊パラメータ
-    /// </summary>
-    public class ShareCommandParameter : CommandParameter
-    {
-        [PropertyMember("@ParamCommandParameterShare")]
-        public CommandType CommandType { get; set; }
-
-        //
-        public override bool IsReadOnly()
+        public object ToDictionary()
         {
-            return true;
+            var dictionary = new Dictionary<string, object>();
+            var type = this.GetType();
+
+            foreach (PropertyInfo info in type.GetProperties())
+            {
+                var attribute = (PropertyMemberAttribute)Attribute.GetCustomAttributes(info, typeof(PropertyMemberAttribute)).FirstOrDefault();
+                if (attribute != null)
+                {
+                    dictionary.Add(info.Name, info.GetValue(this));
+                }
+            }
+
+            return dictionary;
         }
 
-        /// <summary>
-        /// 実際に適用されるパラメータ
-        /// </summary>
-        public override CommandParameter Entity()
-        {
-            return CommandTable.Current?[CommandType].Parameter;
-        }
+        #endregion
     }
 
 
@@ -81,6 +78,13 @@ namespace NeeView
         {
             IsReverse = true;
         }
+
+        public override bool MemberwiseEquals(CommandParameter other)
+        {
+            var target = other as ReversibleCommandParameter;
+            if (target == null) return false;
+            return this == target || (this.IsReverse == target.IsReverse);
+        }
     }
 
 
@@ -96,6 +100,13 @@ namespace NeeView
             set { _size = MathUtility.Clamp(value, 0, 1000); }
         }
         private int _size;
+
+        public override bool MemberwiseEquals(CommandParameter other)
+        {
+            var target = other as MoveSizePageCommandParameter;
+            if (target == null) return false;
+            return this == target || (this.Size == target.Size);
+        }
     }
 
     /// <summary>
@@ -158,7 +169,6 @@ namespace NeeView
             set { StretchModes[PageStretchMode.UniformToHorizontal] = value; }
         }
 
-        //
         private Dictionary<PageStretchMode, bool> _strechModes;
         public Dictionary<PageStretchMode, bool> StretchModes
         {
@@ -171,6 +181,20 @@ namespace NeeView
                 return _strechModes;
             }
         }
+
+        public override bool MemberwiseEquals(CommandParameter other)
+        {
+            var target = other as ToggleStretchModeCommandParameter;
+            if (target == null) return false;
+            return this == target || (
+                this.IsLoop == target.IsLoop &&
+                this.IsEnableNone == target.IsEnableNone &&
+                this.IsEnableUniform == target.IsEnableUniform &&
+                this.IsEnableUniformToFill == target.IsEnableUniformToFill &&
+                this.IsEnableUniformToSize == target.IsEnableUniformToSize &&
+                this.IsEnableUniformToVertical == target.IsEnableUniformToVertical &&
+                this.IsEnableUniformToHorizontal == target.IsEnableUniformToHorizontal);
+        }
     }
 
 
@@ -182,6 +206,13 @@ namespace NeeView
         // 属性に説明文
         [PropertyMember("@ParamCommandParameterStretchModeIsToggle", Tips = "@ParamCommandParameterStretchModeIsToggleTips")]
         public bool IsToggle { get; set; }
+
+        public override bool MemberwiseEquals(CommandParameter other)
+        {
+            var target = other as StretchModeCommandParameter;
+            if (target == null) return false;
+            return this == target || (this.IsToggle == target.IsToggle);
+        }
     }
 
     /// <summary>
@@ -209,6 +240,13 @@ namespace NeeView
         {
             this.AllowCrossScroll = true;
         }
+
+        public override bool MemberwiseEquals(CommandParameter other)
+        {
+            var target = other as ViewScrollCommandParameter;
+            if (target == null) return false;
+            return this == target || (this.Scroll == target.Scroll && this.AllowCrossScroll == target.AllowCrossScroll);
+        }
     }
 
 
@@ -235,6 +273,13 @@ namespace NeeView
         {
             this.IsSnapDefaultScale = true;
         }
+
+        public override bool MemberwiseEquals(CommandParameter other)
+        {
+            var target = other as ViewScaleCommandParameter;
+            if (target == null) return false;
+            return this == target || (this.Scale == target.Scale && this.IsSnapDefaultScale == target.IsSnapDefaultScale);
+        }
     }
 
     /// <summary>
@@ -254,6 +299,13 @@ namespace NeeView
         // 属性に説明文
         [PropertyMember("@ParamCommandParameterRotateIsStretch", Tips = "@ParamCommandParameterRotateIsStretchTips")]
         public bool IsStretch { get; set; }
+
+        public override bool MemberwiseEquals(CommandParameter other)
+        {
+            var target = other as ViewRotateCommandParameter;
+            if (target == null) return false;
+            return this == target || (this.Angle == target.Angle && this.IsStretch == target.IsStretch);
+        }
     }
 
 
@@ -267,6 +319,13 @@ namespace NeeView
 
         [PropertyMember("@ParamCommandParameterMovePagemarkIncludeTerminal")]
         public bool IsIncludeTerminal { get; set; }
+
+        public override bool MemberwiseEquals(CommandParameter other)
+        {
+            var target = other as MovePagemarkCommandParameter;
+            if (target == null) return false;
+            return this == target || (this.IsLoop == target.IsLoop && this.IsIncludeTerminal == target.IsIncludeTerminal);
+        }
     }
 
     /// <summary>
@@ -306,6 +365,18 @@ namespace NeeView
         {
             _scroll = 100;
         }
+
+        public override bool MemberwiseEquals(CommandParameter other)
+        {
+            var target = other as ScrollPageCommandParameter;
+            if (target == null) return false;
+            return this == target || (
+                this.IsNScroll == target.IsNScroll &&
+                this.IsAnimation == target.IsAnimation &&
+                this.Margin == target.Margin &&
+                this.Scroll == target.Scroll &&
+                this.IsStop == target.IsStop);
+        }
     }
 
 
@@ -315,17 +386,31 @@ namespace NeeView
         [DataMember]
         [PropertyMember("@ParamCommandParameterFocusMainViewClosePanels")]
         public bool NeedClosePanels { get; set; }
+
+        public override bool MemberwiseEquals(CommandParameter other)
+        {
+            var target = other as FocusMainViewCommandParameter;
+            if (target == null) return false;
+            return this == target || (this.NeedClosePanels == target.NeedClosePanels);
+        }
     }
 
 
     [DataContract]
     public class ExportImageDialogCommandParameter : CommandParameter
     {
-        [DataMember, PropertyPath("@ParamCommandParameterExportDefaultFolder", Tips = "ParamCommandParameterExportDefaultFolderTips", FileDialogType = FileDialogType.Directory)]
+        [DataMember, PropertyPath("@ParamCommandParameterExportDefaultFolder", Tips = "@ParamCommandParameterExportDefaultFolderTips", FileDialogType = FileDialogType.Directory)]
         public string ExportFolder { get; set; }
 
         [DataMember, PropertyRange("@ParamCommandParameterExportImageQualityLevel", 5, 100, TickFrequency = 5, Tips = "@ParamCommandParameterExportImageQualityLevelTips")]
         public int QualityLevel { get; set; } = 80;
+
+        public override bool MemberwiseEquals(CommandParameter other)
+        {
+            var target = other as ExportImageDialogCommandParameter;
+            if (target == null) return false;
+            return this == target || (this.ExportFolder == target.ExportFolder && this.QualityLevel == target.QualityLevel);
+        }
     }
 
 
@@ -349,5 +434,18 @@ namespace NeeView
 
         [DataMember, PropertyRange("@ParamCommandParameterExportImageQualityLevel", 5, 100, TickFrequency = 5, Tips = "@ParamCommandParameterExportImageQualityLevelTips")]
         public int QualityLevel { get; set; } = 80;
+
+        public override bool MemberwiseEquals(CommandParameter other)
+        {
+            var target = other as ExportImageCommandParameter;
+            if (target == null) return false;
+            return this == target || (
+                this.Mode == target.Mode &&
+                this.HasBackground == target.HasBackground &&
+                this.ExportFolder == target.ExportFolder &&
+                this.FileNameMode == target.FileNameMode &&
+                this.FileFormat == target.FileFormat &&
+                this.QualityLevel == target.QualityLevel);
+        }
     }
 }

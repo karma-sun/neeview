@@ -37,9 +37,9 @@ namespace NeeView
         private RoutedCommandTable()
         {
             // RoutedCommand作成
-            foreach (CommandType type in Enum.GetValues(typeof(CommandType)))
+            foreach (var command in CommandTable.Current)
             {
-                Commands.Add(type, new RoutedUICommand(CommandTable.Current[type].Text, type.ToString(), typeof(MainWindow)));
+                Commands.Add(command.Key, new RoutedUICommand(command.Value.Text, command.Key, typeof(MainWindow)));
             }
 
             // コマンド変更でショートカット変更
@@ -67,7 +67,7 @@ namespace NeeView
         /// <summary>
         /// コマンド辞書
         /// </summary>
-        public Dictionary<CommandType, RoutedUICommand> Commands { get; set; } = new Dictionary<CommandType, RoutedUICommand>();
+        public Dictionary<string, RoutedUICommand> Commands { get; set; } = new Dictionary<string, RoutedUICommand>();
 
         #endregion
 
@@ -90,11 +90,37 @@ namespace NeeView
             _isDarty = true;
         }
 
+        // Update RoutedCommand
+        // スクリプトコマンドは変動する可能性がある
+        public void UpdateRoutedCommand()
+        {
+            var oldies = Commands.Keys
+                .Where(e => e.StartsWith(ScriptCommand.Prefix))
+                .ToList();
+
+            var newers = CommandTable.Current.Keys
+                .Where(e => e.StartsWith(ScriptCommand.Prefix))
+                .ToList();
+
+            foreach (var name in oldies.Except(newers))
+            {
+                Commands.Remove(name);
+            }
+
+            foreach (var name in newers.Except(oldies))
+            {
+                var command = CommandTable.Current.GetElement(name) ?? throw new InvalidOperationException();
+                Commands.Add(name, new RoutedUICommand(command.Text, name, typeof(MainWindow)));
+            }
+        }
+
         // InputGesture設定
         public void InitializeInputGestures()
         {
             if (!_isDarty) return;
             _isDarty = false;
+
+            UpdateRoutedCommand();
 
             // Touch
             var touch = TouchInput.Current;
@@ -103,12 +129,12 @@ namespace NeeView
 
             foreach (var command in this.Commands)
             {
-                var touchGestures = CommandTable.Current[command.Key].GetTouchGestureCollection();
+                var touchGestures = CommandTable.Current.GetElement(command.Key).GetTouchGestureCollection();
                 foreach (var gesture in touchGestures)
                 {
                     touch.TouchGestureChanged += (s, x) =>
                     {
-                        if (command.Key == CommandType.TouchEmulate) return;
+                        if (command.Key == "TouchEmulate") return;
 
                         if (!x.Handled && x.Gesture == gesture)
                         {
@@ -133,7 +159,7 @@ namespace NeeView
             foreach (var command in this.Commands)
             {
                 command.Value.InputGestures.Clear();
-                var inputGestures = CommandTable.Current[command.Key].GetInputGestureCollection();
+                var inputGestures = CommandTable.Current.GetElement(command.Key).GetInputGestureCollection();
                 foreach (var gesture in inputGestures)
                 {
                     if (gesture is MouseGesture mouseClick)
@@ -159,7 +185,7 @@ namespace NeeView
                 }
 
                 // mouse gesture
-                var mouseGesture = CommandTable.Current[command.Key].MouseGesture;
+                var mouseGesture = CommandTable.Current.GetElement(command.Key).MouseGesture;
                 if (mouseGesture != null)
                 {
                     MouseGestureCommandCollection.Current.Add(mouseGesture, command.Key);
@@ -186,7 +212,7 @@ namespace NeeView
 
             foreach (var command in this.Commands)
             {
-                var inputGestures = CommandTable.Current[command.Key].GetInputGestureCollection();
+                var inputGestures = CommandTable.Current.GetElement(command.Key).GetInputGestureCollection();
                 foreach (var gesture in inputGestures)
                 {
                     switch (gesture)
@@ -250,16 +276,18 @@ namespace NeeView
 
         // コマンド実行 
         // CommandTableを純粋なコマンド定義のみにするため、コマンド実行に伴う処理はここで定義している
-        public void Execute(object sender, ExecutedRoutedEventArgs e, CommandType type)
+        public void Execute(string name, object parameter)
         {
-            var param = CommandParameterArgs.Create(e.Parameter) ?? CommandParameterArgs.Null;
-            var allowFlip = param.AllowFlip && param.Parameter != MenuCommandTag.Tag; // メニューからの操作ではページ方向によるコマンドの入れ替えをしない
-            var command = CommandTable.Current[GetFixedCommandType(type, allowFlip)];
+            bool allowFlip = (parameter is CommandParameterArgs args)
+                ? args.AllowFlip
+                : (parameter != MenuCommandTag.Tag);
+
+            var command = CommandTable.Current.GetElement(GetFixedCommandName(name, allowFlip));
 
             // 通知
             if (command.IsShowMessage)
             {
-                string message = command.ExecuteMessage(param.Parameter);
+                string message = command.ExecuteMessage(CommandElement.EmptyArgs, CommandOption.None);
                 if (message != null)
                 {
                     InfoMessage.Current.SetMessage(InfoMessageType.Command, message);
@@ -267,21 +295,21 @@ namespace NeeView
             }
 
             // 実行
-            var option = (e.Parameter is MenuCommandTag) ? CommandOption.ByMenu : CommandOption.None;
-            command.Execute(e.Source, option);
+            var option = (parameter is MenuCommandTag) ? CommandOption.ByMenu : CommandOption.None;
+            command.Execute(CommandElement.EmptyArgs, option);
         }
 
         // スライダー方向によって移動コマンドを入れ替える
-        public CommandType GetFixedCommandType(CommandType commandType, bool allowFlip)
+        public string GetFixedCommandName(string name, bool allowFlip)
         {
             if (allowFlip && CommandTable.Current.IsReversePageMove && MainWindowModel.Current.IsLeftToRightSlider())
             {
-                var command = CommandTable.Current[commandType];
-                if (command.PairPartner != CommandType.None)
+                CommandTable.Current.TryGetValue(name, out var command);
+                if (command != null && command.PairPartner != null)
                 {
                     if (command.Parameter is ReversibleCommandParameter reversibleCommandParameter)
                     {
-                        return reversibleCommandParameter.IsReverse ? command.PairPartner : commandType;
+                        return reversibleCommandParameter.IsReverse ? command.PairPartner : name;
                     }
                     else
                     {
@@ -290,26 +318,24 @@ namespace NeeView
                 }
                 else
                 {
-                    return commandType;
+                    return name;
                 }
             }
             else
             {
-                return commandType;
+                return name;
             }
         }
 
-        //
-        public CommandElement GetFixedCommandElement(CommandType commandType, bool allowRecursive)
+        public CommandElement GetFixedCommandElement(string commandName, bool allowRecursive)
         {
-            CommandTable.Current.TryGetValue(GetFixedCommandType(commandType, allowRecursive), out CommandElement command);
+            CommandTable.Current.TryGetValue(GetFixedCommandName(commandName, allowRecursive), out CommandElement command);
             return command;
         }
 
-        //
-        public RoutedUICommand GetFixedRoutedCommand(CommandType commandType, bool allowRecursive)
+        public RoutedUICommand GetFixedRoutedCommand(string commandName, bool allowRecursive)
         {
-            this.Commands.TryGetValue(GetFixedCommandType(commandType, allowRecursive), out RoutedUICommand command);
+            this.Commands.TryGetValue(GetFixedCommandName(commandName, allowRecursive), out RoutedUICommand command);
             return command;
         }
 
@@ -345,13 +371,13 @@ namespace NeeView
     {
         public CommandParameterArgs(object param)
         {
-            Parameter = param;
+            ////Parameter = param;
             AllowFlip = true;
         }
 
         public CommandParameterArgs(object param, bool allowRecursive)
         {
-            Parameter = param;
+            ////Parameter = param;
             AllowFlip = allowRecursive;
         }
 
@@ -359,12 +385,12 @@ namespace NeeView
         /// <summary>
         /// 標準パラメータ
         /// </summary>
-        public static CommandParameterArgs Null { get; } = new CommandParameterArgs(null);
+        ////public static CommandParameterArgs Null { get; } = new CommandParameterArgs(null);
 
         /// <summary>
         /// パラメータ本体
         /// </summary>
-        public object Parameter { get; set; }
+        ////public object Parameter { get; set; }
 
         /// <summary>
         /// スライダー方向でのコマンド入れ替え許可

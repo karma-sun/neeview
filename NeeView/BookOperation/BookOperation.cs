@@ -705,6 +705,16 @@ namespace NeeView
             }
         }
 
+
+        // ページを指定して移動
+        public void JumpPage(int number)
+        {
+            if (this.Book == null || this.Book.IsMedia) return;
+
+            var page = this.Book.Pages.GetPage(number - 1);
+            this.Book.Control.JumpPage(page);
+        }
+
         // ページを指定して移動
         public void JumpPage()
         {
@@ -786,18 +796,14 @@ namespace NeeView
             return (Book != null);
         }
 
-        // ブックマーク切り替え
-        public void ToggleBookmark()
+        // ブックマーク設定
+        public void SetBookmark(bool isBookmark)
         {
             if (CanBookmark())
             {
                 var query = new QueryPath(Book.Address);
 
-                if (IsBookmark)
-                {
-                    BookmarkCollectionService.Remove(query);
-                }
-                else
+                if (isBookmark)
                 {
                     // ignore temporary directory
                     if (Book.Address.StartsWith(Temporary.Current.TempDirectory))
@@ -808,8 +814,21 @@ namespace NeeView
 
                     BookmarkCollectionService.Add(query);
                 }
+                else
+                {
+                    BookmarkCollectionService.Remove(query);
+                }
 
                 RaisePropertyChanged(nameof(IsBookmark));
+            }
+        }
+
+        // ブックマーク切り替え
+        public void ToggleBookmark()
+        {
+            if (CanBookmark())
+            {
+                SetBookmark(!IsBookmark);
             }
         }
 
@@ -942,19 +961,34 @@ namespace NeeView
             return this.Book != null && !this.Book.IsMedia && !this.Book.IsPagemarkFolder;
         }
 
+        // マーカー設定
+        public Pagemark SetPagemark(bool isPagemark)
+        {
+            if (!_isEnabled || this.Book == null || this.Book.IsMedia || this.Book.IsPagemarkFolder) return null;
+
+            var address = Book.Address;
+            var entryName = Book.Viewer.GetViewPage()?.EntryFullName;
+            
+            if (isPagemark)
+            {
+                return AddPagemark(address, entryName); ////, page.Length, page.LastWriteTime);
+            }
+            else
+            {
+                RemovePagemark(address, entryName);
+                return null;
+            }
+        }
+
         // マーカー切り替え
         public Pagemark TogglePagemark()
         {
             if (!_isEnabled || this.Book == null || this.Book.IsMedia || this.Book.IsPagemarkFolder) return null;
 
             var address = Book.Address;
-            var page = Book.Viewer.GetViewPage();
-            if (page == null)
-            {
-                return null;
-            }
-            var entryName = page.EntryFullName;
+            var entryName = Book.Viewer.GetViewPage()?.EntryFullName;
             var node = PagemarkCollection.Current.FindNode(address, entryName);
+
             if (node == null)
             {
                 return AddPagemark(address, entryName); ////, page.Length, page.LastWriteTime);
@@ -966,23 +1000,11 @@ namespace NeeView
             }
         }
 
-        //
-        public Pagemark AddPagemark()
+        private Pagemark AddPagemark(string place, string entryName)
         {
-            if (!_isEnabled || this.Book == null || this.Book.IsMedia || this.Book.IsPagemarkFolder) return null;
+            if (place == null) return null;
+            if (entryName == null) return null;
 
-            var address = Book.Address;
-            var page = Book.Viewer.GetViewPage();
-            if (page == null)
-            {
-                return null;
-            }
-            return AddPagemark(address, page.EntryFullName);
-        }
-
-        //
-        public Pagemark AddPagemark(string place, string entryName)
-        {
             // ignore temporary directory
             if (place.StartsWith(Temporary.Current.TempDirectory))
             {
@@ -1024,8 +1046,11 @@ namespace NeeView
         #endregion
 
         // マーカー削除
-        public bool RemovePagemark(string place, string entryName)
+        private bool RemovePagemark(string place, string entryName)
         {
+            if (place == null) return false;
+            if (entryName == null) return false;
+
             var node = PagemarkCollection.Current.FindNode(place, entryName);
             if (node != null)
             {

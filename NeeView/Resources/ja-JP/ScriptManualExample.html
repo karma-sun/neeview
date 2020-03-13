@@ -1,0 +1,32 @@
+<h2>使用例</h2>
+
+<h4>OnBookLoaded.nvjs</h4>
+<p>
+  <pre><code>
+    // 新しく開いたブックのパスに"English"が含まれていたら左開き、それ以外は右開きにする
+    if (nv.Book.IsNew) {
+      if (nv.Book.Path.match(/English/) != null) {
+        nv.Command("SetBookReadOrderLeft").Execute()
+      }
+      else {
+        nv.Command("SetBookReadOrderRight").Execute()
+      }
+    }
+  </code></pre>
+</p>
+
+<p>
+  <pre><code>
+    // 例：動画ファイルのときに操作方法を変更する
+    if (nv.Book.IsMedia) {
+      // 動画時はクリックで再生/停止
+      nv.Command("ToggleMediaPlay").ShortCutKey = "LeftClick"
+      nv.Command("NextPage").ShortCutKey = "Left"
+    }
+    else {
+      // 通常時は標準設定に戻す
+      nv.Command("ToggleMediaPlay").ShortCutKey = null
+      nv.Command("NextPage").ShortCutKey = "Left,LeftClick"
+    }
+  </code></pre>
+</p>

@@ -7,14 +7,13 @@ namespace NeeView.Setting
 {
     public class CommandParameterViewModel : BindableBase
     {
-        private Dictionary<CommandType, CommandElement.Memento> _sources;
-        private CommandType _key;
+        private Dictionary<string, CommandElement.Memento> _sources;
+        private string _key;
 
         private CommandParameter _defaultParameter;
         private PropertyDocument _propertyDocument;
 
 
-        //
         public PropertyDocument PropertyDocument
         {
             get { return _propertyDocument; }
@@ -25,26 +24,22 @@ namespace NeeView.Setting
 
 
 
-        public CommandParameterViewModel(CommandTable.Memento memento, CommandType key)
+        public CommandParameterViewModel(CommandTable.Memento memento, string key)
         {
             _sources = memento.Elements;
             _key = key;
 
-            _defaultParameter = CommandTable.Current[key].DefaultParameter;
-
-            if (_defaultParameter is ShareCommandParameter share)
+            if (CommandTable.Current.GetElement(_key).Share != null)
             {
-                _key = share.CommandType;
-                _defaultParameter = CommandTable.Current[_key].DefaultParameter;
-
-                this.Note = string.Format(Properties.Resources.ParamCommandShare, _key.ToDispString());
+                _key = CommandTable.Current.GetElement(_key).Share.Name;
+                this.Note = string.Format(Properties.Resources.ParamCommandShare, CommandTable.Current.GetElement(_key).Text);
             }
 
+            _defaultParameter = CommandTable.Current.GetElement(_key).ParameterSource?.GetDefault();
             if (_defaultParameter == null)
             {
                 return;
             }
-
 
             var parameter = _sources[_key].Parameter != null
                 ? (CommandParameter)Json.Deserialize(_sources[_key].Parameter, _defaultParameter.GetType())

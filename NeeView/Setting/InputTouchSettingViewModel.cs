@@ -13,8 +13,8 @@ namespace NeeView.Setting
     /// </summary>
     public class InputTouchSettingViewModel : BindableBase
     {
-        private Dictionary<CommandType, CommandElement.Memento> _sources;
-        private CommandType _key;
+        private Dictionary<string, CommandElement.Memento> _sources;
+        private string _key;
 
         /// <summary>
         /// GestureElements property.
@@ -27,7 +27,6 @@ namespace NeeView.Setting
 
         private ObservableCollection<GestureElement> _gestureToken = new ObservableCollection<GestureElement>();
 
-        //
         /// <summary>
         /// GestoreTokenNote property.
         /// </summary>
@@ -40,7 +39,6 @@ namespace NeeView.Setting
         private string _gestureTokenNote;
 
 
-        //
         public TouchAreaMap TouchAreaMap { get; set; }
 
 
@@ -49,7 +47,7 @@ namespace NeeView.Setting
         /// </summary>
         /// <param name="context"></param>
         /// <param name="gestureSender"></param>
-        public InputTouchSettingViewModel(CommandTable.Memento memento, CommandType key, FrameworkElement gestureSender)
+        public InputTouchSettingViewModel(CommandTable.Memento memento, string key, FrameworkElement gestureSender)
         {
             _sources = memento.Elements;
             _key = key;
@@ -86,7 +84,7 @@ namespace NeeView.Setting
                 {
                     var overlaps = _sources
                         .Where(i => i.Key != _key && i.Value.TouchGesture.Split(',').Contains(key))
-                        .Select(e => e.Key.ToDispLongString())
+                        .Select(e => CommandTable.Current.GetElement(e.Key).LongText)
                         .ToList();
 
                     if (overlaps.Count > 0)

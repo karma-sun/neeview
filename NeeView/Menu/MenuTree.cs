@@ -1,8 +1,10 @@
 ﻿using NeeLaboratory.ComponentModel;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
@@ -43,7 +45,7 @@ namespace NeeView
     /// 
     /// </summary>
     [DataContract]
-    public class MenuTree : BindableBase
+    public class MenuTree : BindableBase, IEnumerable<MenuTree>
     {
         #region Property: IsExpanded
         private bool _isExpanded;
@@ -66,22 +68,12 @@ namespace NeeView
 
         [DataMember(EmitDefaultValue = false)]
         public string Name { get; set; }
+
         [DataMember]
         public MenuElementType MenuElementType { get; set; }
 
-        [DataMember(Name = "Command")]
-        public string CommandString
-        {
-            get { return Command.ToString(); }
-            set
-            {
-                if (Enum.TryParse(value, out CommandType command))
-                {
-                    Command = command;
-                }
-            }
-        }
-        public CommandType Command { get; set; }
+        [DataMember(Name = "Command", EmitDefaultValue = false)]
+        public string CommandName { get; set; }
 
         [DataMember(EmitDefaultValue = false)]
         public ObservableCollection<MenuTree> Children { get; set; }
@@ -93,6 +85,15 @@ namespace NeeView
         public MenuTree(MenuElementType type)
         {
             MenuElementType = type;
+        }
+
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext context)
+        {
+            if (MenuElementType != MenuElementType.Command)
+            {
+                CommandName = null;
+            }
         }
 
 
@@ -118,7 +119,7 @@ namespace NeeView
                     case MenuElementType.None:
                         return $"({MenuElementType.ToAliasName()})";
                     case MenuElementType.Command:
-                        return Command.ToDispLongString();
+                        return CommandTable.Current.GetElement(CommandName).LongText;
                 }
             }
         }
@@ -135,7 +136,7 @@ namespace NeeView
                     case MenuElementType.None:
                         return $"({MenuElementType.ToAliasName()})";
                     case MenuElementType.Command:
-                        return Command.ToMenuString();
+                        return CommandTable.Current.GetElement(CommandName).MenuText;
                 }
             }
         }
@@ -170,7 +171,7 @@ namespace NeeView
                     {
                         removes.Add(child);
                     }
-                    else if (child.MenuElementType == MenuElementType.Command && child.Command.IsDisable())
+                    else if (child.MenuElementType == MenuElementType.Command && !CommandTable.Current.ContainsKey(child.CommandName))
                     {
                         removes.Add(child);
                     }
@@ -196,7 +197,7 @@ namespace NeeView
         {
             var element = new MenuTree();
             element.MenuElementType = source.MenuElementType;
-            element.Command = source.Command;
+            element.CommandName = source.CommandName;
             if (element.MenuElementType == MenuElementType.Group)
             {
                 element.Children = new ObservableCollection<MenuTree>();
@@ -271,7 +272,7 @@ namespace NeeView
         {
             if (this.MenuElementType != target.MenuElementType) return false;
             if (this.Label != target.Label) return false;
-            if (this.Command != target.Command) return false;
+            if (this.CommandName != target.CommandName) return false;
             if (this.Children != null && target.Children != null)
             {
                 if (this.Children.Count != target.Children.Count) return false;
@@ -296,18 +297,19 @@ namespace NeeView
                     {
                         var item = new MenuItem();
                         item.Header = this.Label;
-                        item.Tag = this.Command;
-                        item.Command = RoutedCommandTable.Current.Commands[this.Command];
+                        item.Tag = this.CommandName;
+                        item.Command = RoutedCommandTable.Current.Commands[this.CommandName];
                         item.CommandParameter = MenuCommandTag.Tag; // コマンドがメニューからであることをパラメータで伝えてみる
-                        if (CommandTable.Current[this.Command].CreateIsCheckedBinding != null)
+                        var binding = CommandTable.Current.GetElement(this.CommandName).CreateIsCheckedBinding();
+                        if (binding != null)
                         {
-                            item.SetBinding(MenuItem.IsCheckedProperty, CommandTable.Current[this.Command].CreateIsCheckedBinding());
+                            item.SetBinding(MenuItem.IsCheckedProperty, binding);
                         }
 
                         //  右クリックでコマンドパラメーターの設定ウィンドウを開く
                         item.MouseRightButtonUp += (s, e) =>
                         {
-                            if (s is MenuItem menuItem && menuItem.Tag is CommandType command)
+                            if (s is MenuItem menuItem && menuItem.Tag is string command)
                             {
                                 e.Handled = true;
                                 MainWindowModel.Current.OpenCommandParameterDialog(command);
@@ -370,7 +372,7 @@ namespace NeeView
         public Menu CreateMenu()
         {
             var menu = new Menu();
-            foreach(var element in CreateMenuItems())
+            foreach (var element in CreateMenuItems())
             {
                 menu.Items.Add(element);
             }
@@ -421,7 +423,7 @@ namespace NeeView
                     case MenuElementType.Group:
                         return "";
                     case MenuElementType.Command:
-                        return CommandTable.Current[Command].Note;
+                        return CommandTable.Current.GetElement(CommandName).Note;
                     case MenuElementType.History:
                         return Properties.Resources.MenuTreeHistory;
                     case MenuElementType.Separator:
@@ -464,139 +466,142 @@ namespace NeeView
                 {
                     new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeFile, Children = new ObservableCollection<MenuTree>()
                     {
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.LoadAs },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.Unload },
+                        new MenuTree(MenuElementType.Command) { CommandName = "LoadAs" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "Unload" },
                         new MenuTree(MenuElementType.History),
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.OpenApplication },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.OpenFilePlace },
+                        new MenuTree(MenuElementType.Command) { CommandName = "OpenExternalApp" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "OpenExplorer" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.CopyFile },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.Paste },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.Export },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.Print },
+                        new MenuTree(MenuElementType.Command) { CommandName = "CopyFile" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "Paste" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ExportImageAs" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "Print" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.DeleteFile },
+                        new MenuTree(MenuElementType.Command) { CommandName = "DeleteFile" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.CloseApplication },
+                        new MenuTree(MenuElementType.Command) { CommandName = "CloseApplication" },
                     }},
                     new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeView, Children = new ObservableCollection<MenuTree>()
                     {
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleBookshelf },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisiblePageList },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleBookmarkList },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisiblePagemarkList },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleHistoryList },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleFileInfo },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleEffectInfo },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleHidePanel },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisibleBookshelf" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisiblePageList" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisibleBookmarkList" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisiblePagemarkList" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisibleHistoryList" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisibleFileInfo" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisibleEffectInfo" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleHidePanel" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleThumbnailList },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleHideThumbnailList },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisibleThumbnailList" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleHideThumbnailList" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleTitleBar },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleAddressBar },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleVisibleSideBar },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleHideMenu },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleHidePageSlider },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisibleTitleBar" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisibleAddressBar" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleVisibleSideBar" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleHideMenu" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleHidePageSlider" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleTopmost },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleFullScreen },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleTopmost" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleFullScreen" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleSlideShow },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleSlideShow" },
                     }},
                     new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeImage, Children = new ObservableCollection<MenuTree>()
                     {
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeNone },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeUniform },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeUniformToFill },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeUniformToSize },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeUniformToVertical },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetStretchModeUniformToHorizontal },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetStretchModeNone" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetStretchModeUniform" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetStretchModeUniformToFill" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetStretchModeUniformToSize" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetStretchModeUniformToVertical" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetStretchModeUniformToHorizontal" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleStretchAllowEnlarge },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleStretchAllowReduce },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleStretchAllowEnlarge" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleStretchAllowReduce" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleIsEnabledNearestNeighbor },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleNearestNeighbor" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleIsAutoRotateLeft },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleIsAutoRotateRight },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleIsAutoRotateLeft" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleIsAutoRotateRight" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetBackgroundBlack },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetBackgroundWhite },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetBackgroundAuto },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetBackgroundCheck },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetBackgroundCheckDark },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetBackgroundCustom },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetBackgroundBlack" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetBackgroundWhite" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetBackgroundAuto" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetBackgroundCheck" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetBackgroundCheckDark" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetBackgroundCustom" },
                     }},
                     new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeJump, Children = new ObservableCollection<MenuTree>()
                     {
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.PrevPage },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.NextPage },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.PrevOnePage },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.NextOnePage },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.PrevSizePage },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.NextSizePage },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.FirstPage },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.LastPage },
+                        new MenuTree(MenuElementType.Command) { CommandName = "PrevPage" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "NextPage" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "PrevOnePage" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "NextOnePage" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "PrevSizePage" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "NextSizePage" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "FirstPage" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "LastPage" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.PrevFolder },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.NextFolder },
+                        new MenuTree(MenuElementType.Command) { CommandName = "PrevBook" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "NextBook" },
                     }},
                     new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreePage, Children = new ObservableCollection<MenuTree>()
                     {
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetPageMode1 },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetPageMode2 },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetPageModeOne" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetPageModeTwo" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetBookReadOrderRight },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetBookReadOrderLeft },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetBookReadOrderRight" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetBookReadOrderLeft" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleIsSupportedDividePage },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleIsSupportedDividePage" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleIsSupportedWidePage },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleIsSupportedSingleFirstPage },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleIsSupportedSingleLastPage },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleIsSupportedWidePage" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleIsSupportedSingleFirstPage" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleIsSupportedSingleLastPage" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleIsRecursiveFolder },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleIsRecursiveFolder" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetSortModeFileName },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetSortModeFileNameDescending },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetSortModeTimeStamp },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetSortModeTimeStampDescending },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetSortModeSize },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetSortModeSizeDescending },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetSortModeRandom },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetSortModeFileName" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetSortModeFileNameDescending" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetSortModeTimeStamp" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetSortModeTimeStampDescending" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetSortModeSize" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetSortModeSizeDescending" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetSortModeRandom" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.SetDefaultPageSetting },
+                        new MenuTree(MenuElementType.Command) { CommandName = "SetDefaultPageSetting" },
                     }},
                     new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeBookmark, Children = new ObservableCollection<MenuTree>()
                     {
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ToggleBookmark },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ToggleBookmark" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.TogglePagemark },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.PrevPagemark},
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.NextPagemark },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.PrevPagemarkInBook},
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.NextPagemarkInBook },
+                        new MenuTree(MenuElementType.Command) { CommandName = "TogglePagemark" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "PrevPagemark"},
+                        new MenuTree(MenuElementType.Command) { CommandName = "NextPagemark" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "PrevPagemarkInBook"},
+                        new MenuTree(MenuElementType.Command) { CommandName = "NextPagemarkInBook" },
                     }},
                     new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeOption, Children = new ObservableCollection<MenuTree>()
                     {
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.OpenSettingWindow },
+                        new MenuTree(MenuElementType.Command) { CommandName = "OpenSettingWindow" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ReloadUserSetting },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ExportBackup},
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.ImportBackup},
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.OpenSettingFilesFolder },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ReloadUserSetting" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "ExportBackup"},
+                        new MenuTree(MenuElementType.Command) { CommandName = "ImportBackup"},
+                        new MenuTree(MenuElementType.Command) { CommandName = "OpenSettingFilesFolder" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "OpenScriptsFolder" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "OpenConsole" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.TogglePermitFileCommand},
+                        new MenuTree(MenuElementType.Command) { CommandName = "TogglePermitFileCommand"},
                     }},
                     new MenuTree(MenuElementType.Group) { Name=Properties.Resources.MenuTreeHelp, Children = new ObservableCollection<MenuTree>()
                     {
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.HelpMainMenu },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.HelpCommandList },
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.HelpSearchOption },
+                        new MenuTree(MenuElementType.Command) { CommandName = "HelpMainMenu" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "HelpCommandList" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "HelpScript" },
+                        new MenuTree(MenuElementType.Command) { CommandName = "HelpSearchOption" },
                         new MenuTree(MenuElementType.Separator),
-                        new MenuTree(MenuElementType.Command) { Command = CommandType.OpenVersionWindow },
+                        new MenuTree(MenuElementType.Command) { CommandName = "OpenVersionWindow" },
                     }},
                 }
             };
@@ -604,14 +609,27 @@ namespace NeeView
             // Appxは設定ファイル閲覧が無意味
             if (Config.Current.IsAppxPackage)
             {
-                tree.RemoveCommand(CommandType.OpenSettingFilesFolder);
+                tree.RemoveCommand("OpenSettingFilesFolder");
             }
+
+            CheckCommandEntry(tree);
 
             return tree;
         }
 
-        //
-        private void RemoveCommand(CommandType commandType)
+        [Conditional("DEBUG")]
+        private static void CheckCommandEntry(MenuTree tree)
+        {
+            foreach(var node in tree)
+            {
+                if( node.MenuElementType == MenuElementType.Command)
+                {
+                    Debug.Assert(CommandTable.Current.ContainsKey(node.CommandName));
+                }
+            }
+        }
+
+        private void RemoveCommand(string commandName)
         {
             if (this.Children == null) return;
 
@@ -622,10 +640,10 @@ namespace NeeView
                 switch (item.MenuElementType)
                 {
                     case MenuElementType.Group:
-                        item.RemoveCommand(commandType);
+                        item.RemoveCommand(commandName);
                         break;
                     case MenuElementType.Command:
-                        if (item.Command == commandType)
+                        if (item.CommandName == commandName)
                         {
                             removes.Add(item);
                         }
@@ -638,5 +656,30 @@ namespace NeeView
                 this.Children.Remove(item);
             }
         }
+
+        #region IEnumerable support
+
+        public IEnumerator<MenuTree> GetEnumerator()
+        {
+            yield return this;
+
+            if (Children != null)
+            {
+                foreach (var child in Children)
+                {
+                    foreach (var subChild in child)
+                    {
+                        yield return subChild;
+                    }
+                }
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        #endregion
     }
 }

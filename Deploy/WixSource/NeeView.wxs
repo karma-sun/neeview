@@ -24,6 +24,7 @@
       <ComponentGroupRef Id="NeeViewComponents" />
       <ComponentGroupRef Id="DllComponents"/>
       <ComponentGroupRef Id="DocumentComponents" />
+      <ComponentGroupRef Id="ScriptsComponents" />
       <ComponentRef Id="AppStartMenuDirComponent" />
       <Feature Id="ContextMenuFeature" Title="ContextMenu" Description="!(loc.contextMenuFeatureDescription)" Level="1" AllowAdvertise="no" >
         <ComponentGroupRef Id="RegistoryComponents" />
@@ -53,7 +54,9 @@
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
         <Directory Id="PFCompanyFolder" Name="NeeLaboratory">
-          <Directory Id="INSTALLFOLDER" Name="$(var.ExeName)" />
+          <Directory Id="INSTALLFOLDER" Name="$(var.ExeName)">
+            <Directory Id="ScriptsFolder" Name="Scripts"/>
+          </Directory>
         </Directory>
       </Directory>
       <Directory Id="ProgramMenuFolder">
@@ -86,6 +89,12 @@
       </Component>
       <Component>
         <File Source="$(var.ContentDir)README.ja-jp.html" KeyPath="yes"/>
+      </Component>
+    </ComponentGroup>
+
+    <ComponentGroup Id="ScriptsComponents" Directory="ScriptsFolder">
+      <Component Guid="*">
+        <File Source="$(var.ContentDir)Scripts\Sample.nvjs" KeyPath="yes"/>
       </Component>
     </ComponentGroup>
 

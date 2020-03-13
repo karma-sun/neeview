@@ -450,7 +450,6 @@ namespace NeeView
         }
 
 
-
         // ダイアログでファイル選択して画像を読み込む
         public void LoadAs()
         {
@@ -459,14 +458,14 @@ namespace NeeView
 
             if (dialog.ShowDialog(App.Current.MainWindow) == true)
             {
-                BookHub.Current.RequestLoad(dialog.FileName, null, BookLoadOption.None, true);
-            }
-            else
-            {
-                return;
+                LoadAs(dialog.FileName);
             }
         }
 
+        public void LoadAs(string path)
+        {
+            BookHub.Current.RequestLoad(path, null, BookLoadOption.None, true);
+        }
 
         // ファイルを開く基準となるフォルダーを取得
         private string GetDefaultFolder()
@@ -487,10 +486,8 @@ namespace NeeView
         /// スクロール＋前のページに戻る。
         /// ルーペ使用時はページ移動のみ行う。
         /// </summary>
-        public void PrevScrollPage()
+        public void PrevScrollPage(ScrollPageCommandParameter parameter)
         {
-            var parameter = (ScrollPageCommandParameter)CommandTable.Current[CommandType.PrevScrollPage].Parameter;
-
             int bookReadDirection = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
             bool isScrolled = MouseInput.Current.IsLoupeMode ? false : DragTransformControl.Current.ScrollN(-1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation, parameter.Scroll / 100.0);
 
@@ -512,10 +509,8 @@ namespace NeeView
         /// スクロール＋次のページに進む。
         /// ルーペ使用時はページ移動のみ行う。
         /// </summary>
-        public void NextScrollPage()
+        public void NextScrollPage(ScrollPageCommandParameter parameter)
         {
-            var parameter = (ScrollPageCommandParameter)CommandTable.Current[CommandType.NextScrollPage].Parameter;
-
             int bookReadDirection = (BookSettingPresenter.Current.LatestSetting.BookReadOrder == PageReadOrder.RightToLeft) ? 1 : -1;
             bool isScrolled = MouseInput.Current.IsLoupeMode ? false : DragTransformControl.Current.ScrollN(+1, bookReadDirection, parameter.IsNScroll, parameter.Margin, parameter.IsAnimation, parameter.Scroll / 100.0);
 
@@ -571,7 +566,7 @@ namespace NeeView
         }
 
         // コマンド設定を開く
-        public void OpenCommandParameterDialog(CommandType command)
+        public void OpenCommandParameterDialog(string command)
         {
             var dialog = new EditCommandWindow();
             dialog.Initialize(command, EditCommandWindowTab.Default);
@@ -600,6 +595,20 @@ namespace NeeView
             _editCommandWindow = null;
         }
 
+        // コンソール設定ウィンドウを開く
+        public void OpenConsoleWindow()
+        {
+            if (ConsoleWindow.Current != null)
+            {
+                ConsoleWindow.Current.Activate();
+                return;
+            }
+
+            var dialog = new ConsoleWindow();
+            dialog.Owner = App.Current.MainWindow;
+            dialog.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            dialog.Show();
+        }
 
         // バージョン情報を表示する
         public void OpenVersionWindow()
@@ -621,6 +630,21 @@ namespace NeeView
             }
 
             Process.Start("explorer.exe", $"\"{Config.Current.LocalApplicationDataPath}\"");
+        }
+
+        // スクリプトファイルの場所を開く
+        public void OpenScriptsFolder()
+        {
+            var path = CommandTable.Current.ScriptFolder;
+
+            try
+            {
+                Process.Start("explorer.exe", $"\"{path}\"");
+            }
+            catch (Exception ex)
+            {
+                new MessageDialog(ex.Message, Resources.DialogOpenScriptsFolderErrorTitle).ShowDialog();
+            }
         }
 
         // オンラインヘルプ

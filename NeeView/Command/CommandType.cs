@@ -6,9 +6,9 @@ using System.Runtime.Serialization;
 namespace NeeView
 {
     /// <summary>
-    /// コマンドの種類
+    /// コマンドの種類 (37.0 で廃止)
     /// </summary>
-    [DataContract]
+    [Obsolete, DataContract]
     public enum CommandType
     {
         [EnumMember]
@@ -414,42 +414,5 @@ namespace NeeView
         [EnumMember]
         TouchEmulate,
 
-    }
-
-    public static class CommandTypeExtensions
-    {
-        static CommandTypeExtensions()
-        {
-            IgnoreCommandTypes = Enum.GetValues(typeof(CommandType))
-                .Cast<CommandType>()
-                .Where(e => typeof(CommandType).GetField(e.ToString()).GetCustomAttributes(typeof(ObsoleteAttribute), false).Length > 0)
-                .ToList();
-        }
-
-        // 無効なコマンドID
-        public static readonly List<CommandType> IgnoreCommandTypes;
-
-        // HACK: 判定法整備。テーブル化？
-        // HACK: 欠番ID自体を消去する?
-        public static bool IsDisable(this CommandType type)
-        {
-            return (type == CommandType.None || IgnoreCommandTypes.Contains(type));
-        }
-
-        public static string ToDispString(this CommandType type)
-        {
-            return CommandTable.Current[type].Text;
-        }
-
-        public static string ToDispLongString(this CommandType type)
-        {
-            var command = CommandTable.Current[type];
-            return command.Group + "/" + command.Text;
-        }
-
-        public static string ToMenuString(this CommandType type)
-        {
-            return CommandTable.Current[type].MenuText;
-        }
     }
 }

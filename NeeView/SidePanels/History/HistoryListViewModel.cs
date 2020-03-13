@@ -19,7 +19,7 @@ namespace NeeView
     /// <summary>
     /// 
     /// </summary>
-    public class HistoryListViewModel : BindableBase 
+    public class HistoryListViewModel : BindableBase
     {
         //
         private CancellationTokenSource _removeUnlinkedCommandCancellationToken;
@@ -93,15 +93,15 @@ namespace NeeView
 
 
         //
-        private MenuItem CreateCommandMenuItem(string header, CommandType command, object source)
+        private MenuItem CreateCommandMenuItem(string header, string command, object source)
         {
             var item = new MenuItem();
             item.Header = header;
             item.Command = RoutedCommandTable.Current.Commands[command];
             item.CommandParameter = MenuCommandTag.Tag; // コマンドがメニューからであることをパラメータで伝えてみる
-            if (CommandTable.Current[command].CreateIsCheckedBinding != null)
+            var binding = CommandTable.Current.GetElement(command).CreateIsCheckedBinding();
+            if (binding != null)
             {
-                var binding = CommandTable.Current[command].CreateIsCheckedBinding();
                 binding.Source = source;
                 item.SetBinding(MenuItem.IsCheckedProperty, binding);
             }

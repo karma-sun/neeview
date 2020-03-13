@@ -45,6 +45,8 @@ namespace NeeView
         public bool IsPagemarkFolder => _source.IsPagemarkFolder;
         public BookLoadOption LoadOption => _loadOption;
 
+        // はじめて開く本
+        public bool IsNew { get; set; }
 
         // 見つからなかった開始ページ名。通知用。
         // TODO: 不要？

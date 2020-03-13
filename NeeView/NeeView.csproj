@@ -30,6 +30,8 @@
     <None Remove="NeeView\Effects\Shaders\ColorSelectEffect.ps" />
     <None Remove="NeeView\Effects\Shaders\HsvEffect.ps" />
     <None Remove="NeeView\Effects\Shaders\LevelEffect.ps" />
+    <None Remove="Resources\ja-JP\ScriptManual.html" />
+    <None Remove="Resources\ja-JP\ScriptManualExample.html" />
   </ItemGroup>
   
   <ItemGroup>
@@ -44,6 +46,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Jint" Version="3.0.0-beta-1715" />
     <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf">
       <Version>1.1.19</Version>
     </PackageReference>
@@ -98,6 +101,8 @@
 
   <ItemGroup>
     <Resource Include="Resources\App.ico" />
+    <Resource Include="Resources\ja-JP\ScriptManualExample.html" />
+    <Resource Include="Resources\ja-JP\ScriptManual.html" />
     <Resource Include="Resources\Style.css" />
     <Resource Include="Resources\Play.ico" />
     <Resource Include="Resources\SplashScreen.png" />
@@ -114,6 +119,27 @@
     <Content Include="x86\NeeView.Interop.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="Scripts\OnBookLoaded.nvjs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Scripts\Sample.nvjs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   
 </Project>

@@ -24,14 +24,12 @@ namespace NeeView.Setting
             InitializeComponent();
         }
 
-        //
-        public void Initialize(CommandTable.Memento memento, CommandType key)
+        public void Initialize(CommandTable.Memento memento, string key)
         {
             _vm = new MouseGestureSettingViewModel(memento, key, this.GestureBox);
             this.DataContext = _vm;
         }
 
-        //
         public void Flush()
         {
             _vm?.Flush();

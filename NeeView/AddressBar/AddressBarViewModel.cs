@@ -42,7 +42,7 @@ namespace NeeView
 
         public bool IsLoading => _isLoading.Value;
 
-        public Dictionary<CommandType, RoutedUICommand> BookCommands
+        public Dictionary<string, RoutedUICommand> BookCommands
         {
             get { return RoutedCommandTable.Current.Commands; }
         }

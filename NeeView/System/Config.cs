@@ -249,12 +249,29 @@ namespace NeeView
             }
         }
 
+
+        /// <summary>
+        /// マイドキュメントのアプリ専用フォルダー
+        /// </summary>
+        /// <param name="createFolder"></param>
+        /// <returns></returns>
+        public string GetMyDocumentPath(bool createFolder)
+        {
+            string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), CompanyName, SolutionName);
+
+            if (createFolder && !Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+            }
+            return path;
+        }
+
         /// <summary>
         /// フォルダーパス生成(特殊フォルダー用)
         /// </summary>
         /// <param name="folder"></param>
         /// <returns></returns>
-        private string GetFileSystemPath(Environment.SpecialFolder folder, bool createFolder)
+        public string GetFileSystemPath(Environment.SpecialFolder folder, bool createFolder)
         {
             string path = System.IO.Path.Combine(Environment.GetFolderPath(folder), CompanyName, SolutionName);
 

@@ -63,7 +63,7 @@ namespace NeeView
 
         public ThemeProfile ThemeProfile => ThemeProfile.Current;
 
-        public Dictionary<CommandType, RoutedUICommand> BookCommands => RoutedCommandTable.Current.Commands;
+        public Dictionary<string, RoutedUICommand> BookCommands => RoutedCommandTable.Current.Commands;
 
         public WindowTitle WindowTitle => WindowTitle.Current;
 

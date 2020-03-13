@@ -1,141 +1,192 @@
-﻿using NeeView.Data;
+﻿using NeeLaboratory.ComponentModel;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace NeeView
 {
-    [Flags]
-    public enum CommandOption
+    [DataContract]
+    public abstract class CommandElement
     {
-        None = 0,
-        ByMenu = 0x0001,
-    }
+        public static CommandElement None { get; } = new NoneCommand();
 
-    /// <summary>
-    /// コマンド設定
-    /// </summary>
-    public class CommandElement
-    {
+        public static object[] EmptyArgs { get; } = new object[] { };
+
+        private string _menuText;
+        private string _shortCutKey;
+        private string _touchGesture;
+        private string _mouseGesture;
+
+
+        public CommandElement(string name)
+        {
+            Name = name;
+        }
+
+        public string Name { get; private set; }
+
         // コマンドのグループ
         public string Group { get; set; }
 
         // コマンド表示名
         public string Text { get; set; }
 
-        // メニュー表示名
-        private string _menuText;
+        public string LongText => Group + "/" + Text;
+
         public string MenuText
         {
             get { return _menuText ?? Text; }
             set { _menuText = value; }
         }
 
+        // コマンド説明
+        public string Note { get; set; }
+
+
+        /// <summary>
+        /// 入力情報が変更されたフラグ。
+        /// コマンドバインディングの更新判定に使用される。
+        /// </summary>
+        public bool IsInputGestureDarty { get; set; }
+
         // ショートカットキー
-        public string ShortCutKey { get; set; }
+        public string ShortCutKey
+        {
+            get { return _shortCutKey; }
+            set
+            {
+                if (_shortCutKey != value)
+                {
+                    _shortCutKey = value;
+                    IsInputGestureDarty = true;
+                }
+            }
+        }
 
         // タッチ
-        public string TouchGesture { get; set; }
+        public string TouchGesture
+        {
+            get { return _touchGesture; }
+            set
+            {
+                if (_touchGesture != value)
+                {
+                    _touchGesture = value;
+                    IsInputGestureDarty = true;
+                }
+            }
+        }
 
         // マウスジェスチャー
-        public string MouseGesture { get; set; }
+        public string MouseGesture
+        {
+            get { return _mouseGesture; }
+            set
+            {
+                if (_mouseGesture != value)
+                {
+                    _mouseGesture = value;
+                    IsInputGestureDarty = true;
+                }
+            }
+        }
 
         // コマンド実行時の通知フラグ
         public bool IsShowMessage { get; set; }
 
-        // コマンド本体
-        public Action<object, CommandOption> Execute { get; set; }
-
-        // コマンド実行時表示デリゲート
-        public Func<object, string> ExecuteMessage { get; set; }
-
-        // コマンド実行可能判定
-        public Func<bool> CanExecute { get; set; }
-
-        // フラグバインディング
-        public Func<System.Windows.Data.Binding> CreateIsCheckedBinding { get; set; }
-
         // ペアコマンド
-        public CommandType PairPartner { get; set; }
+        // TODO: CommandElementを直接指定
+        public string PairPartner { get; set; }
 
+        public CommandParameterSource ParameterSource { get; set; }
 
-        // トグル候補
-        [Obsolete]
-        public bool IsToggled { get; set; }
-
-        // コマンド説明
-        public string Note { get; set; }
-
-        //
-        private static Regex _tipsRegex = new Regex(@"<[\w/]+>", RegexOptions.Compiled);
-
-
-        // コマンドパラメータ標準
-        public CommandParameter DefaultParameter { get; set; }
-
-        // コマンドパラメータ
-        private CommandParameter _parameterRaw;
-
-        // コマンドパラメータ(Raw)
-        public CommandParameter ParameterRaw
-        {
-            get { return GetParameter(true); }
-        }
-
-        // コマンドパラメータ
-        // 共有解決したパラメータ。通常はこちらを使用します
         public CommandParameter Parameter
         {
-            get { return GetParameter(false); }
-            set { SetParameter(value); }
+            get => ParameterSource?.Get();
+            set => ParameterSource?.Set(value);
         }
 
-        // コマンドパラメータ存在？
-        public bool HasParameter => DefaultParameter != null;
+        public CommandElement Share { get; private set; }
 
-        /// <summary>
-        /// パラメータ取得
-        /// </summary>
-        /// <param name="isRaw"></param>
-        /// <returns></returns>
-        public CommandParameter GetParameter(bool isRaw)
+        public CommandElement SetShare(CommandElement share)
         {
-            if (_parameterRaw == null && DefaultParameter != null)
-            {
-                _parameterRaw = DefaultParameter.Clone();
-            }
-
-            if (isRaw)
-            {
-                return _parameterRaw;
-            }
-            else
-            {
-                return _parameterRaw?.Entity();
-            }
+            Share = share;
+            ParameterSource = new CommandParameterSource(share.ParameterSource);
+            return this;
         }
 
-        /// <summary>
-        /// パラメータ設定
-        /// </summary>
-        /// <param name="value"></param>
-        private void SetParameter(CommandParameter value)
+
+        // フラグバインディング 
+        public virtual Binding CreateIsCheckedBinding()
         {
-            if (!DefaultParameter.IsReadOnly())
-            {
-                _parameterRaw = value;
-            }
+            return null;
         }
 
-        // constructor
-        public CommandElement()
+        // コマンド実行時表示デリゲート
+        public virtual string ExecuteMessage(CommandParameter param, object[] args, CommandOption option )
         {
-            ExecuteMessage = e => Text;
+            return Text;
+        }
+
+        public string ExecuteMessage(object[] args, CommandOption option )
+        {
+            if (args == null) throw new ArgumentNullException(nameof(args));
+            return ExecuteMessage(this.Parameter, args, option);
+        }
+
+        // コマンド実行可能判定
+        public virtual bool CanExecute(CommandParameter param, object[] args, CommandOption option )
+        {
+            return true;
+        }
+
+        public bool CanExecute(object[] args, CommandOption option )
+        {
+            if (args == null) throw new ArgumentNullException(nameof(args));
+            return CanExecute(this.Parameter, args, option);
+        }
+
+        // コマンド実行
+        public abstract void Execute(CommandParameter param, object[] args, CommandOption option );
+
+        public void Execute(object[] args, CommandOption option )
+        {
+            if (args == null) throw new ArgumentNullException(nameof(args));
+            Execute(this.Parameter, args, option);
+        }
+
+        public CommandParameter CreateOverwriteCommandParameter(IDictionary<string, object> args)
+        {
+            return CreateOverwriteCommandParameter(this.Parameter, args);
+        }
+
+        public static CommandParameter CreateOverwriteCommandParameter(CommandParameter source, IDictionary<string, object> args)
+        {
+            if (source == null) return null;
+
+            var clone = (CommandParameter)source.Clone();
+            if (args == null) return clone;
+
+            var type = source.GetType();
+
+            foreach (var arg in args)
+            {
+                var property = type.GetProperty(arg.Key);
+                if (property == null) throw new ArgumentException($"Property '{arg.Key}' is not supported.");
+
+                try
+                {
+                    property.SetValue(clone, Convert.ChangeType(arg.Value, property.PropertyType));
+                }
+                catch (Exception ex)
+                {
+                    throw new ArgumentException($"Property '{arg.Key}' value is invalid. {ex.Message}", ex);
+                }
+            }
+
+            return clone;
         }
 
         // ショートカットキー を InputGestureのコレクションに変換
@@ -175,7 +226,6 @@ namespace NeeView
             return list;
         }
 
-
         #region Memento
 
         [DataContract]
@@ -189,26 +239,15 @@ namespace NeeView
             public string MouseGesture { get; set; }
             [DataMember]
             public bool IsShowMessage { get; set; }
+
+
             [DataMember(Order = 15, EmitDefaultValue = false)]
             public string Parameter { get; set; }
-
-            // no used
-            [Obsolete, DataMember(Order = 2, EmitDefaultValue = false)]
-            public bool IsToggled { get; set; }
-
-            private void Constructor()
-            {
-            }
-
-            public Memento()
-            {
-                Constructor();
-            }
 
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
             {
-                Constructor();
+                this.InitializePropertyDefaultValues();
             }
 
             public Memento Clone()
@@ -220,20 +259,13 @@ namespace NeeView
         public Memento CreateMemento()
         {
             var memento = new Memento();
+
             memento.ShortCutKey = ShortCutKey ?? "";
             memento.TouchGesture = TouchGesture ?? "";
             memento.MouseGesture = MouseGesture ?? "";
             memento.IsShowMessage = IsShowMessage;
 
-            if (HasParameter && !DefaultParameter.IsReadOnly())
-            {
-                var original = DefaultParameter.ToJson();
-                var current = Parameter.ToJson();
-                if (original != current)
-                {
-                    memento.Parameter = current;
-                }
-            }
+            memento.Parameter = ParameterSource?.Store();
 
             return memento;
         }
@@ -247,18 +279,10 @@ namespace NeeView
             MouseGesture = memento.MouseGesture;
             IsShowMessage = memento.IsShowMessage;
 
-#pragma warning disable CS0612
-            IsToggled = memento.IsToggled;
-#pragma warning restore CS0612
-
-            if (HasParameter)
-            {
-                Parameter = memento.Parameter != null
-                    ? (CommandParameter)Json.Deserialize(memento.Parameter, DefaultParameter.GetType())
-                    : null;
-            }
+            ParameterSource?.Restore(memento.Parameter);
         }
 
         #endregion
     }
 }
+

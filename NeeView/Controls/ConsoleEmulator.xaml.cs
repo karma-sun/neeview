@@ -57,7 +57,7 @@ namespace NeeView
             Scroller.DataContext = this;
 
             this.Loaded += ConsoleEmulator_Loaded;
-            this.MouseDown += RootPanel_MouseDown;
+            this.RootPanel.MouseDown += RootPanel_MouseDown;
             this.OutputBlock.PreviewKeyDown += OutputBlock_PreviewKeyDown;
             this.InputBlock.Loaded += InputBlock_Loaded;
             this.InputBlock.PreviewKeyDown += InputBlock_PreviewKeyDown;

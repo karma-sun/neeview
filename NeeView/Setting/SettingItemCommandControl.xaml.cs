@@ -79,7 +79,7 @@ namespace NeeView.Setting
 
         private int _commandTableChangeCount;
         private ObservableCollection<CommandItem> _commandItems;
-        private string _searchKeyword;
+        private string _searchKeyword = string.Empty;
         private List<string> _searchKeywordTokens = new List<string>();
 
 
@@ -104,7 +104,13 @@ namespace NeeView.Setting
         public string SearchKeyword
         {
             get { return _searchKeyword; }
-            set { SetProperty(ref _searchKeyword, value); }
+            set
+            {
+                if (SetProperty(ref _searchKeyword, value))
+                {
+                    Search();
+                }
+            }
         }
 
 
@@ -395,20 +401,25 @@ namespace NeeView.Setting
         {
             if (e.Key == Key.Enter)
             {
-                Search();
+                SearchBox_UpdateSource();
                 e.Handled = true;
             }
         }
 
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
-            Search();
+            SearchBox_UpdateSource();
         }
 
         private void ClearSearchButton_Click(object sender, RoutedEventArgs e)
         {
             this.SearchKeyword = string.Empty;
-            Search();
+        }
+
+        private void SearchBox_UpdateSource()
+        {
+            BindingExpression be = this.SearchBox.GetBindingExpression(TextBox.TextProperty);
+            be.UpdateSource();
         }
 
         private void Search()

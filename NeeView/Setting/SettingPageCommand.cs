@@ -30,6 +30,7 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(CommandTable.Current, nameof(CommandTable.ScriptFolder)))
                     {
                         IsEnabled = new IsEnabledPropertyValue(CommandTable.Current, nameof(CommandTable.IsScriptFolderEnabled)),
+                        IsStretch = true,
                     }),
             };
         }

@@ -1,17 +1,17 @@
-<h2>使用例</h2>
+<hr/>
 
-<h4>Use .NET Class sample</h4>
+<h2>スクリプトの例</h2>
+
+<h3>OSバージョンを表示 (.NETのクラスの使用例)</h3>
 <p>
   <pre><code>
-    // get OS version
     nv.ShowToast(System.Environment.OSVersion.VersionString)
   </code></pre>
 </p>
 
-<h4>OnBookLoaded.nvjs sample</h4>
+<h3>新しく開いたブックのパスに"English"が含まれていたら左開き、それ以外は右開きにする</h3>
 <p>
-  <pre><code>
-    // 新しく開いたブックのパスに"English"が含まれていたら左開き、それ以外は右開きにする
+  <pre>OnBookLoaded.nvjs<code>
     if (nv.Book.IsNew) {
       if (nv.Book.Path.match(/English/) != null) {
         nv.Command("SetBookReadOrderLeft").Execute()
@@ -23,18 +23,28 @@
   </code></pre>
 </p>
 
+<h3>動画ファイルを開いたときに操作方法を変更する</h3>
 <p>
-  <pre><code>
-    // 例：動画ファイルのときに操作方法を変更する
+  <pre>OnBookLoaded.nvjs<code>
     if (nv.Book.IsMedia) {
-      // 動画時はクリックで再生/停止
+      // 動画：クリックで再生/停止、ダブルクリックでフルスクリーンの切り替え
       nv.Command("ToggleMediaPlay").ShortCutKey = "LeftClick"
+      nv.Command("Script.ToggleFullScreenAndMediaPlay").ShortCutKey = "LeftDoubleClick"
       nv.Command("NextPage").ShortCutKey = "Left"
     }
     else {
-      // 通常時は標準設定に戻す
+      // 通常：標準設定
       nv.Command("ToggleMediaPlay").ShortCutKey = null
+      nv.Command("Script.ToggleFullScreenAndMediaPlay").ShortCutKey = null
       nv.Command("NextPage").ShortCutKey = "Left,LeftClick"
     }
+  </code></pre>
+</p>
+
+<p>
+  <pre>ToggleFullScreenAndMediaPlay.nvjs<code>
+    // フルスクリーンと動画再生を同時に切り替え
+    nv.Command("ToggleFullScreen").Execute()
+    nv.Command("ToggleMediaPlay").Execute()
   </code></pre>
 </p>

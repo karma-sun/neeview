@@ -10,7 +10,7 @@
 
     <ul>
         <li>スクリプトは Javascript (ECMA 5.1) で記述します。</li>
-        <li>スクリプトエンジンに [Jint](https://github.com/sebastienros/jint) を使用しており、.NETのクラスを使用できます。</li>
+        <li>スクリプトエンジンに <a href="https://github.com/sebastienros/jint">Jint</a> を使用しており、.NETのクラスを使用できます。</li>
         <li>ファイル拡張子は .nvjs です。</li>
         <li>文字コードはUTF8です。BOM無し推奨です。</li>
     </ul>
@@ -35,35 +35,22 @@
     </dl>
 </p>
 
-<h2> コンソール</h2>
+<h2>コンソール</h2>
 <p>
     スクリプトのテストをするためのコンソールです。メニューの「オプション > コンソールを開く」で開きます。
 </p>
+<h4>コンソール専用コマンド</h4>
+<dl>
+    <dt>cls</dt><dd>画面のクリア(Ctrl+L)</dd>
+    <dt>exit</dt><dd>コンソールを閉じる</dd>
+    <dt>help, ?</dt><dd>スクリプトヘルプを開く</dd>
+</dl>
+
 <p>&nbsp;</p>
 
 <h1> スクリプトリファレンス </h1>
-NeeView専用コマンドの使用方法を説明します。
-<h2>log(message)</h2>
 <p>
-    コンソールにメッセージを出力します。コンソールからスクリプトを実行したときのみ機能します。スクリプトテスト用です。
-</p>
-<h4>引数</h4>
-<p>
-    <dl>
-        <dt>message: string</dt><dd>出力メッセージ</dd>
-    </dl>
-</p>
-
-<h2>system(filename, args)</h2>
-<p>
-    外部アプリを実行します。
-</p>
-<h4>引数</h4>
-<p>
-    <dl>
-        <dt>filename: string</dt><dd>実行ファイルのパス。URLやファイルパスを指定した場合は関連付けられたアプリが実行されます。</dd>
-        <dt>args: string</dt><dd>実行ファイルの引数 (省略可)</dd>
-    </dl>
+    NeeView専用コマンドの使用方法を説明します。
 </p>
 
 <h2>include(path)</h2>
@@ -88,19 +75,45 @@ NeeView専用コマンドの使用方法を説明します。
     </code></pre>
 </p>
 
+<h2>log(message)</h2>
+<p>
+    コンソールにメッセージを出力します。コンソールからスクリプトを実行したときのみ機能します。スクリプトテスト用です。
+</p>
+<h4>引数</h4>
+<p>
+    <dl>
+        <dt>message: string</dt><dd>出力メッセージ</dd>
+    </dl>
+</p>
+
+<h2>system(filename, args)</h2>
+<p>
+    外部アプリを実行します。
+</p>
+<h4>引数</h4>
+<p>
+    <dl>
+        <dt>filename: string</dt><dd>実行ファイルのパス。URLやファイルパスを指定した場合は関連付けられたアプリが実行されます。</dd>
+        <dt>args: string</dt><dd>実行ファイルの引数 (省略可)</dd>
+    </dl>
+</p>
+
+<hr/>
+
 <h2>nv.ShowMessage(message)</h2>
 画面にメッセージを表示します。
-
 <h4>引数</h4>
 <dl>
     <dt>message: string</dt><dd>出力メッセージ</dd>
 </dl>
+
 <h2>nv.ShowToast(message)</h2>
 メッセージをトースト表示します。
 <h4>引数</h4>
 <dl>
     <dt>message: string</dt><dd>出力メッセージ</dd>
 </dl>
+
 <h2>nv.ShowDialog(title, message, commands)</h2>
 ダイアログを表示します。
 <h4>引数</h4>
@@ -122,6 +135,25 @@ NeeView専用コマンドの使用方法を説明します。
         }
     </code></pre>
 </p>
+
+<hr/>
+
+<h2>nv.Values</h2>
+<p>
+    値の保存のためのオブジェクトです。このオブジェクトに保存された値はアプリ起動中保持されます。
+</p>
+
+<h4>使用例</h4>
+<p>
+    <pre><code>
+        // 値の保存
+        nv.Values["Test"] = "Hello!"
+        // 次の書き方でも同じ
+        nv.Values.Test = "Hello!"
+    </code></pre>
+</p>
+
+<hr/>
 
 <h2>nv.Book</h2>
 <p>
@@ -151,7 +183,7 @@ NeeView専用コマンドの使用方法を説明します。
 </p>
 <h4>引数</h4>
 <dl>
-    <dt>page: int</dt><dd>ページ番号(1-)。表示に合わせているため、1スタートである点に注意してください。</dd>
+    <dt>page: int</dt><dd>ページ番号(1-n)。表示に合わせているため、1スタートである点に注意してください。</dd>
 </dl>
 <h4>戻り値</h4>
 <dl>
@@ -189,6 +221,8 @@ NeeView専用コマンドの使用方法を説明します。
         nv.ShowToast(nv.Book.ViewPage(0).Path)
     </code></pre>
 </p>
+
+<hr/>
 
 <h2>nv.Command(commandName)</h2>
 コマンドのアクセサを取得します。
@@ -235,10 +269,12 @@ NeeView専用コマンドの使用方法を説明します。
     </ul>
 </p>
 <h4>使用例</h4>
-<pre><code>
-    // ViewRotateLeft のマウスジェスチャーに ↑←↓ を設定
-    nv.Command("ViewRotateLeft").MouseGesture = "ULD"
-</code></pre>
+<p>
+    <pre><code>
+        // ViewRotateLeft のマウスジェスチャーに ↑←↓ を設定
+        nv.Command("ViewRotateLeft").MouseGesture = "ULD"
+    </code></pre>
+</p>
 <h3>CommandAccessor.TouchGesture: string</h3>
 <p>
     タッチ操作の取得、設定ができます。

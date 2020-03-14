@@ -35,12 +35,20 @@ p {
     text-align: left;
 }
 
+pre {
+    font-family: "メイリオ", Meiryo;
+}
+
 code {
     background-color: #EEEEEE;
     padding: 0px 10px;
     display: block;
     border: 1px solid #CCC;
     font-family: "メイリオ", Meiryo;
+}
+
+hr {
+    margin: 50px 0px;
 }
 
 table {

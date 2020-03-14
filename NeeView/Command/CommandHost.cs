@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NeeView
 {
     public class CommandHost
     {
+        private static Dictionary<string, object> _values = new Dictionary<string, object>();
+
         private CommandTable _commandTable;
 
         public CommandHost(CommandTable commandTable)
@@ -12,6 +15,7 @@ namespace NeeView
             _commandTable = commandTable;
         }
 
+        public Dictionary<string, object> Values => _values;
 
         public BookAccessor Book { get; } = new BookAccessor();
 

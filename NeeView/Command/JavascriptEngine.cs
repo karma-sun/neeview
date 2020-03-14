@@ -15,7 +15,7 @@ namespace NeeView
         {
             _commandHost = commandHost;
 
-            _engine = new Jint.Engine();
+            _engine = new Jint.Engine(config => config.AllowClr());
             _engine.SetValue("log", (Action<object>)Log);
             _engine.SetValue("system", (Action<string, string>)SystemCall);
             _engine.SetValue("include", (Func<string, object>)ExecureFile);

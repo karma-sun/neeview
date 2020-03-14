@@ -125,33 +125,33 @@ namespace NeeView
         }
 
         // コマンド実行時表示デリゲート
-        public virtual string ExecuteMessage(CommandParameter param, object[] args, CommandOption option )
+        public virtual string ExecuteMessage(CommandParameter param, object[] args, CommandOption option)
         {
             return Text;
         }
 
-        public string ExecuteMessage(object[] args, CommandOption option )
+        public string ExecuteMessage(object[] args, CommandOption option)
         {
             if (args == null) throw new ArgumentNullException(nameof(args));
             return ExecuteMessage(this.Parameter, args, option);
         }
 
         // コマンド実行可能判定
-        public virtual bool CanExecute(CommandParameter param, object[] args, CommandOption option )
+        public virtual bool CanExecute(CommandParameter param, object[] args, CommandOption option)
         {
             return true;
         }
 
-        public bool CanExecute(object[] args, CommandOption option )
+        public bool CanExecute(object[] args, CommandOption option)
         {
             if (args == null) throw new ArgumentNullException(nameof(args));
             return CanExecute(this.Parameter, args, option);
         }
 
         // コマンド実行
-        public abstract void Execute(CommandParameter param, object[] args, CommandOption option );
+        public abstract void Execute(CommandParameter param, object[] args, CommandOption option);
 
-        public void Execute(object[] args, CommandOption option )
+        public void Execute(object[] args, CommandOption option)
         {
             if (args == null) throw new ArgumentNullException(nameof(args));
             Execute(this.Parameter, args, option);
@@ -224,6 +224,12 @@ namespace NeeView
             }
 
             return list;
+        }
+
+        // 検索用文字列を取得
+        public string GetSearchText()
+        {
+            return string.Join(",", new string[] { this.Group, this.Text, this.MenuText, this.Note, this.ShortCutKey, this.MouseGesture, new MouseGestureSequence(this.MouseGesture).ToDispString(), this.TouchGesture });
         }
 
         #region Memento

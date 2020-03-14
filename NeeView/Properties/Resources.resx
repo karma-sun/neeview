@@ -4944,4 +4944,7 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="CommandOpenSecriptsFolderNote" xml:space="preserve">
     <value>Open the scripts folder with Explorer.</value>
   </data>
+  <data name="ControlCommandListHeaderGroup" xml:space="preserve">
+    <value>Group</value>
+  </data>
 </root>

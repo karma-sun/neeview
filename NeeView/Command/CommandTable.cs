@@ -314,7 +314,10 @@ namespace NeeView
                 new OpenConsoleCommand("OpenConsole"),
             };
 
-            _elements = list.ToDictionary(e => e.Name);
+            // グループで並び替えてから辞書化
+            _elements = list
+                .GroupBy(e => e.Group).SelectMany(e => e)
+                .ToDictionary(e => e.Name);
 
             // share
             _elements["NextPage"].SetShare(_elements["PrevPage"]);

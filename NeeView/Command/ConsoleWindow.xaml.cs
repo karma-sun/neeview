@@ -48,25 +48,33 @@ namespace NeeView
 
         public event EventHandler<ConsoleHostOutputEventArgs> Output;
 
-        public void Close()
-        {
-            _owner.Close();
-        }
-
         public string Execute(string input)
         {
-            try
+            switch (input.Trim())
             {
-                var result = _engine.Execute(input);
-                return ToJavascriptString(result, false);
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
-            }
-            finally
-            {
-                CommandTable.Current.FlushInputGesture();
+                case "?":
+                case "help":
+                    CommandTable.Current.OpenScriptHelp();
+                    return null;
+
+                case "exit":
+                    _owner.Close();
+                    return null;
+
+                default:
+                    try
+                    {
+                        var result = _engine.Execute(input);
+                        return ToJavascriptString(result, false);
+                    }
+                    catch (Exception ex)
+                    {
+                        return ex.Message;
+                    }
+                    finally
+                    {
+                        CommandTable.Current.FlushInputGesture();
+                    }
             }
         }
 

@@ -1,12 +1,9 @@
 ﻿// from https://stackoverflow.com/questions/14948171/how-to-emulate-a-console-in-wpf
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
 using System.Windows;
-using System.Windows.Automation.Peers;
-using System.Windows.Automation.Provider;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -250,9 +247,7 @@ namespace NeeView
                 case "cls":
                     ClearScreen(this, null);
                     break;
-                case "exit":
-                    ConsoleHost?.Close();
-                    break;
+
                 default:
                     var result = ConsoleHost?.Execute(input);
                     WriteLine(result);
@@ -278,8 +273,6 @@ namespace NeeView
     public interface IConsoleHost
     {
         event EventHandler<ConsoleHostOutputEventArgs> Output;
-
-        void Close();
 
         string Execute(string input);
     }

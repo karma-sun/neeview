@@ -5,6 +5,7 @@ using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -34,30 +35,37 @@ namespace NeeView.Setting
     /// <summary>
     /// SettingItemCommandControl.xaml の相互作用ロジック
     /// </summary>
-    public partial class SettingItemCommandControl : UserControl
+    public partial class SettingItemCommandControl : UserControl, INotifyPropertyChanged
     {
-        private int _commandTableChangeCount;
+        #region INotifyPropertyChanged Support
 
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        public SettingItemCommandControl()
+        protected bool SetProperty<T>(ref T storage, T value, [System.Runtime.CompilerServices.CallerMemberName] string propertyName = null)
         {
-            InitializeComponent();
-            this.Root.DataContext = this;
-
-            // 初期化
-            CommandCollection = new ObservableCollection<CommandParam>();
-            UpdateCommandList();
-
-            this.Loaded += SettingItemCommandControl_Loaded;
+            if (object.Equals(storage, value)) return false;
+            storage = value;
+            this.RaisePropertyChanged(propertyName);
+            return true;
         }
 
-
-        // コマンド一覧用パラメータ
-        public class CommandParam : BindableBase
+        protected void RaisePropertyChanged([System.Runtime.CompilerServices.CallerMemberName] string name = null)
         {
-            public CommandElement Command { get; set; }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
 
+        public void AddPropertyChanged(string propertyName, PropertyChangedEventHandler handler)
+        {
+            PropertyChanged += (s, e) => { if (string.IsNullOrEmpty(e.PropertyName) || e.PropertyName == propertyName) handler?.Invoke(s, e); };
+        }
+
+        #endregion
+
+        // コマンド項目
+        public class CommandItem : BindableBase
+        {
             public string Key { get; set; }
+            public CommandElement Command { get; set; }
             public string ShortCutNote { get; set; }
             public ObservableCollection<GestureElement> ShortCuts { get; set; } = new ObservableCollection<GestureElement>();
             public GestureElement MouseGestureElement { get; set; }
@@ -66,12 +74,53 @@ namespace NeeView.Setting
             public bool HasParameter { get; set; }
             public string ParameterShareCommandName { get; set; }
             public bool IsShareParameter => !string.IsNullOrEmpty(ParameterShareCommandName);
-            public string ShareTips => string.Format(Properties.Resources.ControlCommandListShare, CommandTable.Current.GetElement(ParameterShareCommandName).Text);
+            public string ShareTips => ParameterShareCommandName != null ? string.Format(Properties.Resources.ControlCommandListShare, CommandTable.Current.GetElement(ParameterShareCommandName).Text) : null;
         }
 
-        // コマンド一覧
-        public ObservableCollection<CommandParam> CommandCollection { get; set; }
+        private int _commandTableChangeCount;
+        private ObservableCollection<CommandItem> _commandItems;
+        private string _searchKeyword;
+        private List<string> _searchKeywordTokens = new List<string>();
 
+
+        public SettingItemCommandControl()
+        {
+            InitializeComponent();
+            this.Root.DataContext = this;
+
+            // 初期化
+            _commandItems = new ObservableCollection<CommandItem>();
+            UpdateCommandList();
+
+            ItemsViewSource = new CollectionViewSource() { Source = _commandItems };
+            ItemsViewSource.Filter += ItemsViewSource_Filter;
+
+            this.Loaded += SettingItemCommandControl_Loaded;
+        }
+
+
+        public CollectionViewSource ItemsViewSource { get; set; }
+
+        public string SearchKeyword
+        {
+            get { return _searchKeyword; }
+            set { SetProperty(ref _searchKeyword, value); }
+        }
+
+
+        private void ItemsViewSource_Filter(object sender, FilterEventArgs eventArgs)
+        {
+            if (_searchKeywordTokens.Count <= 0)
+            {
+                eventArgs.Accepted = true;
+            }
+            else
+            {
+                var item = (CommandItem)eventArgs.Item;
+                var text = NeeLaboratory.IO.Search.Node.ToNormalisedWord(item.Command.GetSearchText(), true);
+                eventArgs.Accepted = _searchKeywordTokens.All(e => text.IndexOf(e) >= 0);
+            }
+        }
 
         private void SettingItemCommandControl_Loaded(object sender, RoutedEventArgs e)
         {
@@ -79,6 +128,9 @@ namespace NeeView.Setting
             {
                 UpdateCommandList();
             }
+
+            this.SearchKeyword = string.Empty;
+            Search();
         }
 
         // 全コマンド初期化ボタン処理
@@ -98,18 +150,17 @@ namespace NeeView.Setting
             }
         }
 
-
         // コマンド一覧 更新
         private void UpdateCommandList()
         {
             _commandTableChangeCount = CommandTable.Current.ChangeCount;
 
-            CommandCollection.Clear();
+            _commandItems.Clear();
             foreach (var element in CommandTable.Current)
             {
                 var command = element.Value;
 
-                var item = new CommandParam()
+                var item = new CommandItem()
                 {
                     Key = element.Key,
                     Command = command,
@@ -118,14 +169,14 @@ namespace NeeView.Setting
                 if (command.ParameterSource != null)
                 {
                     item.HasParameter = true;
-                    
+
                     if (command.Share != null)
                     {
                         item.ParameterShareCommandName = command.Share.Name;
                     }
                 }
 
-                CommandCollection.Add(item);
+                _commandItems.Add(item);
             }
 
             UpdateCommandListShortCut();
@@ -138,7 +189,7 @@ namespace NeeView.Setting
         // コマンド一覧 ショートカット更新
         private void UpdateCommandListShortCut()
         {
-            foreach (var item in CommandCollection)
+            foreach (var item in _commandItems)
             {
                 item.ShortCutNote = null;
 
@@ -147,7 +198,7 @@ namespace NeeView.Setting
                     var shortcuts = new ObservableCollection<GestureElement>();
                     foreach (var key in item.Command.ShortCutKey.Split(','))
                     {
-                        var overlaps = CommandCollection
+                        var overlaps = _commandItems
                             .Where(e => !string.IsNullOrEmpty(e.Command.ShortCutKey) && e.Key != item.Key && e.Command.ShortCutKey.Split(',').Contains(key))
                             .Select(e => CommandTable.Current.GetElement(e.Key).Text)
                             .ToList();
@@ -183,11 +234,11 @@ namespace NeeView.Setting
         // コマンド一覧 マウスジェスチャー更新
         private void UpdateCommandListMouseGesture()
         {
-            foreach (var item in CommandCollection)
+            foreach (var item in _commandItems)
             {
                 if (!string.IsNullOrEmpty(item.Command.MouseGesture))
                 {
-                    var overlaps = CommandCollection
+                    var overlaps = _commandItems
                         .Where(e => e.Key != item.Key && e.Command.MouseGesture == item.Command.MouseGesture)
                         .Select(e => CommandTable.Current.GetElement(e.Key).Text)
                         .ToList();
@@ -212,7 +263,7 @@ namespace NeeView.Setting
         // コマンド一覧 タッチ更新
         private void UpdateCommandListTouchGesture()
         {
-            foreach (var item in CommandCollection)
+            foreach (var item in _commandItems)
             {
                 item.TouchGestureNote = null;
 
@@ -221,7 +272,7 @@ namespace NeeView.Setting
                     var elements = new ObservableCollection<GestureElement>();
                     foreach (var key in item.Command.TouchGesture.Split(','))
                     {
-                        var overlaps = CommandCollection
+                        var overlaps = _commandItems
                             .Where(e => !string.IsNullOrEmpty(e.Command.TouchGesture) && e.Key != item.Key && e.Command.TouchGesture.Split(',').Contains(key))
                             .Select(e => CommandTable.Current.GetElement(e.Key).Text)
                             .ToList();
@@ -255,15 +306,12 @@ namespace NeeView.Setting
         }
 
 
-
-        //
         private void EditCommandParameterButton_Clock(object sender, RoutedEventArgs e)
         {
-            var command = (sender as Button)?.Tag as CommandParam;
+            var command = (sender as Button)?.Tag as CommandItem;
             EditCommand(command.Key, EditCommandWindowTab.Parameter);
         }
 
-        //
         private void EditCommand(string key, EditCommandWindowTab tab)
         {
             var dialog = new EditCommandWindow();
@@ -276,10 +324,9 @@ namespace NeeView.Setting
             }
         }
 
-        //
         private void ListViewItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var item = ((ListViewItem)sender).Content as CommandParam;
+            var item = ((ListViewItem)sender).Content as CommandItem;
             if (item == null)
             {
                 return;
@@ -311,7 +358,7 @@ namespace NeeView.Setting
 
         private void ListViewItem_KeyDown(object sender, KeyEventArgs e)
         {
-            var item = ((ListViewItem)sender).Content as CommandParam;
+            var item = ((ListViewItem)sender).Content as CommandItem;
             if (item == null)
             {
                 return;
@@ -343,5 +390,35 @@ namespace NeeView.Setting
             return null;
         }
 
+
+        private void SearchBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                Search();
+                e.Handled = true;
+            }
+        }
+
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            Search();
+        }
+
+        private void ClearSearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.SearchKeyword = string.Empty;
+            Search();
+        }
+
+        private void Search()
+        {
+            _searchKeywordTokens = this.SearchKeyword.Split(' ')
+                .Select(e => NeeLaboratory.IO.Search.Node.ToNormalisedWord(e.Trim(), true))
+                .Where(e => !string.IsNullOrEmpty(e))
+                .ToList();
+
+            ItemsViewSource.View.Refresh();
+        }
     }
 }

@@ -4948,6 +4948,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Group に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ControlCommandListHeaderGroup {
+            get {
+                return ResourceManager.GetString("ControlCommandListHeaderGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Shortcut に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string ControlCommandListHeaderShortcut {

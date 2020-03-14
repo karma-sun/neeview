@@ -4944,4 +4944,7 @@ $Name は2ページ表示時には主となるページ(ページ番号の小さ
   <data name="CommandOpenSecriptsFolderNote" xml:space="preserve">
     <value>スクリプトフォルダーをエクスプローラーで開きます。</value>
   </data>
+  <data name="ControlCommandListHeaderGroup" xml:space="preserve">
+    <value>グループ</value>
+  </data>
 </root>

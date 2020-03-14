@@ -1,49 +1,52 @@
-﻿<UserControl x:Class="NeeView.Setting.SettingItemCommandControl"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:NeeView.Setting"
-             xmlns:nv="clr-namespace:NeeView"
-             xmlns:properties="clr-namespace:NeeView.Properties"
-             mc:Ignorable="d" 
-             d:DesignHeight="480" d:DesignWidth="640">
+﻿<UserControl x:Class="NeeView.Setting.SettingItemCommandControl" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:NeeView.Setting"
+        xmlns:nv="clr-namespace:NeeView" xmlns:properties="clr-namespace:NeeView.Properties" mc:Ignorable="d" d:DesignHeight="480" d:DesignWidth="640">
     <Grid x:Name="Root">
         <Grid.Resources>
-            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-            <nv:MouseGestureToDispTextConverter x:Key="MouseGestureToDispTextConverter"/>
-            <CollectionViewSource x:Key="CommandSource" Source="{Binding CommandCollection}">
-                <CollectionViewSource.GroupDescriptions>
-                    <PropertyGroupDescription PropertyName="Command.Group" />
-                </CollectionViewSource.GroupDescriptions>
-            </CollectionViewSource>
-
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <nv:MouseGestureToDispTextConverter x:Key="MouseGestureToDispTextConverter" />
         </Grid.Resources>
 
         <DockPanel>
 
+            <Grid DockPanel.Dock="Top" HorizontalAlignment="Right" Margin="0,0,5,5">
+                <Grid.Resources>
+                    <Style x:Key="ButtonStyle" TargetType="Button" BasedOn="{StaticResource IconButton}">
+                        <Setter Property="Width" Value="24" />
+                        <Setter Property="Height" Value="24" />
+                        <Setter Property="Margin" Value="0,2" />
+                    </Style>
+                </Grid.Resources>
+                <TextBox x:Name="SearchBox" Width="300" Text="{Binding SearchKeyword, UpdateSourceTrigger=PropertyChanged}" PreviewKeyDown="SearchBox_PreviewKeyDown" Padding="5,0,55,0"
+                        VerticalContentAlignment="Center" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="2,0">
+                    <Button x:Name="SearchButton" DockPanel.Dock="Right" VerticalAlignment="Center" Style="{StaticResource ButtonStyle}" Click="SearchButton_Click">
+                        <Image Source="{StaticResource ic_search_24px_b}" Width="16" Height="16" />
+                    </Button>
+                    <Button x:Name="ClearSearchButton" DockPanel.Dock="Right" VerticalAlignment="Center" Style="{StaticResource ButtonStyle}" Click="ClearSearchButton_Click">
+                        <Image Source="{StaticResource ic_clear_24px_b}" Width="12" Height="12" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+
             <DockPanel DockPanel.Dock="Bottom" LastChildFill="False">
-                <Button x:Name="ResetGestureSettingButton" DockPanel.Dock="Right" Content="{x:Static properties:Resources.ControlCommandListResetButton}" MinWidth="100" Margin="0,10,10,10" Padding="10,5" VerticalAlignment="Bottom" Click="ResetGestureSettingButton_Click" TabIndex="2"/>
+                <Button x:Name="ResetGestureSettingButton" DockPanel.Dock="Right" Content="{x:Static properties:Resources.ControlCommandListResetButton}" MinWidth="100" Margin="0,10,10,10"
+                        Padding="10,5" VerticalAlignment="Bottom" Click="ResetGestureSettingButton_Click" TabIndex="2" />
             </DockPanel>
 
             <Border BorderThickness="0" BorderBrush="LightGray">
-                <ListView x:Name="CommandListView" ItemsSource="{Binding Source={StaticResource CommandSource}}"
-                              BorderThickness="0" TabIndex="1"
-                              VirtualizingStackPanel.IsVirtualizing="True"
-                              VirtualizingStackPanel.ScrollUnit="Pixel"
-                              VirtualizingStackPanel.VirtualizationMode="Recycling">
+                <ListView x:Name="CommandListView" ItemsSource="{Binding ItemsViewSource.View}" BorderThickness="0" TabIndex="1"
+                        VirtualizingStackPanel.IsVirtualizing="True" VirtualizingStackPanel.ScrollUnit="Item" VirtualizingStackPanel.VirtualizationMode="Standard">
                     <ListView.Resources>
                         <DataTemplate x:Key="listGroupTemplate">
                             <TextBlock Text="{Binding Name}" FontWeight="Bold" Margin="0,8,0,4" />
                         </DataTemplate>
                     </ListView.Resources>
-                    <ListView.GroupStyle>
-                        <GroupStyle HeaderTemplate="{StaticResource listGroupTemplate}"/>
-                    </ListView.GroupStyle>
+
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
-                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                            <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick" />
                             <EventSetter Event="KeyDown" Handler="ListViewItem_KeyDown" />
                         </Style>
                     </ListView.ItemContainerStyle>
@@ -51,7 +54,9 @@
                     <ListView.View>
                         <GridView>
 
-                            <GridViewColumn Header="{x:Static properties:Resources.ControlCommandListHeaderCommand}" Width="200" >
+                            <GridViewColumn Header="{x:Static properties:Resources.ControlCommandListHeaderGroup}" DisplayMemberBinding="{Binding Command.Group}" Width="120" />
+
+                            <GridViewColumn Header="{x:Static properties:Resources.ControlCommandListHeaderCommand}" Width="200">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <DockPanel>
@@ -61,19 +66,19 @@
                                                         <Style TargetType="Button" BasedOn="{StaticResource IconButton}">
                                                             <Style.Triggers>
                                                                 <DataTrigger Binding="{Binding HasParameter}" Value="False">
-                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
                                                                 </DataTrigger>
                                                                 <DataTrigger Binding="{Binding IsShareParameter}" Value="True">
-                                                                    <Setter Property="IsEnabled" Value="False"/>
+                                                                    <Setter Property="IsEnabled" Value="False" />
                                                                     <Setter Property="ToolTip" Value="{Binding ShareTips}" />
                                                                 </DataTrigger>
                                                             </Style.Triggers>
                                                         </Style>
                                                     </Button.Style>
-                                                    <Image Width="14" Height="14" Source="{StaticResource ic_setting_24px}"/>
+                                                    <Image Width="14" Height="14" Source="{StaticResource ic_setting_24px}" />
                                                 </Button>
                                             </Grid>
-                                            <TextBlock Text="{Binding Command.Text}" TextTrimming="CharacterEllipsis" Margin="2,0"/>
+                                            <TextBlock Text="{Binding Command.Text}" TextTrimming="CharacterEllipsis" Margin="2,0" />
                                         </DockPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -81,15 +86,11 @@
 
                             <GridViewColumn>
                                 <GridViewColumn.Header>
-                                    <TextBlock Text="{x:Static properties:Resources.ControlCommandListHeaderDisplay}" ToolTip="{x:Static properties:Resources.ControlCommandListHeaderDisplayTips}"/>
+                                    <TextBlock Text="{x:Static properties:Resources.ControlCommandListHeaderDisplay}" ToolTip="{x:Static properties:Resources.ControlCommandListHeaderDisplayTips}" />
                                 </GridViewColumn.Header>
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="✓" Visibility="{Binding Command.IsShowMessage, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                        <!--
-                                        <Image Width="16" Source="{StaticResource ic_done_24x_black}" Visibility="{Binding Command.IsShowMessage, Converter={StaticResource BooleanToVisibilityConverter}}"/>
-                                        <CheckBox IsChecked="{Binding Command.IsShowMessage}" />
-                                        -->
+                                        <TextBlock Text="✓" Visibility="{Binding Command.IsShowMessage, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -98,66 +99,7 @@
                             <GridViewColumn Header="{x:Static properties:Resources.ControlCommandListHeaderShortcut}" Width="180">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <ItemsControl ItemsSource="{Binding ShortCuts}"  ToolTip="{Binding ShortCutNote}" Background="Transparent" Tag="@shortcut" IsTabStop="False">
-                                            <ItemsControl.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <StackPanel Orientation="Horizontal"/>
-                                                </ItemsPanelTemplate>
-                                            </ItemsControl.ItemsPanel>
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <StackPanel Orientation="Horizontal">
-                                                        <Image Source="{StaticResource ic_warning_48px}" Width="12" Margin="0,0,2,0" VerticalAlignment="Center">
-                                                            <Image.Style>
-                                                                <Style TargetType="Image">
-                                                                    <Style.Triggers>
-                                                                        <DataTrigger Binding="{Binding Path=IsConflict}" Value="False">
-                                                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                                                        </DataTrigger>
-                                                                    </Style.Triggers>
-                                                                </Style>
-                                                            </Image.Style>
-                                                        </Image>
-                                                        <StackPanel Orientation="Horizontal" Margin="0,0,2,0" VerticalAlignment="Center">
-                                                            <TextBlock Text="{Binding Gesture}"/>
-                                                            <TextBlock Text="{Binding Splitter}"/>
-                                                        </StackPanel>
-                                                    </StackPanel>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
-                            <GridViewColumn Header="{x:Static properties:Resources.ControlCommandListHeaderGesture}" Width="100">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal" ToolTip="{Binding MouseGestureElement.Note}"  Background="Transparent" Tag="@gesture">
-                                            <Image Source="{StaticResource ic_warning_48px}" Width="12" Margin="0,0,2,2" VerticalAlignment="Center">
-                                                <Image.Style>
-                                                    <Style TargetType="Image">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding Path=MouseGestureElement.IsConflict}" Value="False">
-                                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </Image.Style>
-                                            </Image>
-
-                                            <TextBlock Text="{Binding MouseGestureElement.Gesture, Converter={StaticResource MouseGestureToDispTextConverter}}"
-                                                           TextTrimming="CharacterEllipsis" FontFamily="Meiryo"
-                                                           Margin="0,0,2,0" VerticalAlignment="Center"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-
-                            <GridViewColumn Header="{x:Static properties:Resources.ControlCommandListHeaderTouch}" Width="120">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <ItemsControl ItemsSource="{Binding TouchGestures}"  ToolTip="{Binding TouchGestureNote}" Background="Transparent" Tag="@touch" IsTabStop="False">
+                                        <ItemsControl ItemsSource="{Binding ShortCuts}" ToolTip="{Binding ShortCutNote}" Background="Transparent" Tag="@shortcut" IsTabStop="False">
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
                                                     <StackPanel Orientation="Horizontal" />
@@ -171,15 +113,73 @@
                                                                 <Style TargetType="Image">
                                                                     <Style.Triggers>
                                                                         <DataTrigger Binding="{Binding Path=IsConflict}" Value="False">
-                                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                                            <Setter Property="Visibility" Value="Collapsed" />
                                                                         </DataTrigger>
                                                                     </Style.Triggers>
                                                                 </Style>
                                                             </Image.Style>
                                                         </Image>
                                                         <StackPanel Orientation="Horizontal" Margin="0,0,2,0" VerticalAlignment="Center">
-                                                            <TextBlock Text="{Binding Gesture}"/>
-                                                            <TextBlock Text="{Binding Splitter}"/>
+                                                            <TextBlock Text="{Binding Gesture}" />
+                                                            <TextBlock Text="{Binding Splitter}" />
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="{x:Static properties:Resources.ControlCommandListHeaderGesture}" Width="100">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal" ToolTip="{Binding MouseGestureElement.Note}" Background="Transparent" Tag="@gesture">
+                                            <Image Source="{StaticResource ic_warning_48px}" Width="12" Margin="0,0,2,2" VerticalAlignment="Center">
+                                                <Image.Style>
+                                                    <Style TargetType="Image">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Path=MouseGestureElement.IsConflict}" Value="False">
+                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Image.Style>
+                                            </Image>
+
+                                            <TextBlock Text="{Binding MouseGestureElement.Gesture, Converter={StaticResource MouseGestureToDispTextConverter}}" TextTrimming="CharacterEllipsis"
+                                                    FontFamily="Meiryo" Margin="0,0,2,0" VerticalAlignment="Center" />
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <GridViewColumn Header="{x:Static properties:Resources.ControlCommandListHeaderTouch}" Width="120">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ItemsControl ItemsSource="{Binding TouchGestures}" ToolTip="{Binding TouchGestureNote}" Background="Transparent" Tag="@touch" IsTabStop="False">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Image Source="{StaticResource ic_warning_48px}" Width="12" Margin="0,0,2,0" VerticalAlignment="Center">
+                                                            <Image.Style>
+                                                                <Style TargetType="Image">
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Path=IsConflict}" Value="False">
+                                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Image.Style>
+                                                        </Image>
+                                                        <StackPanel Orientation="Horizontal" Margin="0,0,2,0" VerticalAlignment="Center">
+                                                            <TextBlock Text="{Binding Gesture}" />
+                                                            <TextBlock Text="{Binding Splitter}" />
                                                         </StackPanel>
                                                     </StackPanel>
                                                 </DataTemplate>
@@ -201,6 +201,7 @@
                     </ListView.View>
                 </ListView>
             </Border>
+            
         </DockPanel>
 
     </Grid>

@@ -157,24 +157,32 @@
 
 <h2>nv.Book</h2>
 <p>
-    現在開いているブック
+    ブック情報へのアクセサを取得
 </p>
 <h4>戻り値</h4>
 <dl>
-    <dt>BookAccessor</dt><dd>ブックアクセサ。取得できなかった場合はnullを返す。</dd>
+    <dt>BookAccessor</dt><dd>ブックアクセサ</dd>
 </dl>
 
-<h2>BookAccessor</h2>
+<h2>[Type] BookAccessor</h2>
 <p>
-    ブックアクセサ。ブック情報をプロパティとして保持しています。
+    ブックアクセサ
 </p>
 <h4>プロパティ</h4>
 <dl>
-    <dt>Path: string</dt><dd>ブックのパス</dd>
-    <dt>IsMedua: bool</dt><dd>動画であるかどうか</dd>
-    <dt>IsNew: bool</dt><dd>履歴のない新しく開かれたブックであるか</dd>
-    <dt>PageSize: int</dt><dd>ブックのページ数</dd>
-    <dt>ViewPageSize: int</dt><dd>表示されているページ数</dd>
+    <dt>Path: string</dt><dd>現在のブックのパス。ブックが開かれていない場合はnull</dd>
+    <dt>IsMedua: bool</dt><dd>現在のブックが動画であるかどうか</dd>
+    <dt>IsNew: bool</dt><dd>現在のブックが履歴のない新しく開かれたブックであるか</dd>
+    <dt>PageSize: int</dt><dd>現在のブックのページ数</dd>
+    <dt>ViewPageSize: int</dt><dd>現在表示されているページ数</dd>
+    <dt>Config.ViewPageSize: int</dt><dd>表示するページ数</dd>
+    <dt>Config.BookReadOrder: string</dt><dd>左開き/右開き [ LeftToRight, RightToLeft ]</dd>
+    <dt>Config.IsSupportedDividePage: bool</dt><dd>横長ページを分割する	</dd>
+    <dt>Config.IsSupportedSingleFirstPage: bool</dt><dd>最初のページを単独表示</dd>
+    <dt>Config.IsSupportedSingleLastPage: bool</dt><dd>最後のページを単独表示</dd>
+    <dt>Config.IsSupportedWidePage: bool</dt><dd>横長ページを2ページとみなす</dd>
+    <dt>Config.IsRecursiveFolder: bool</dt><dd>サブフォルダーを読み込む</dd>
+    <dt>Config.SortMode: string</dt><dd>並び替え順 [ FileName, FileNameDescending, ...]</dd>
 </dl>
 
 <h3>BookAccessor.Page(number)</h3>
@@ -203,7 +211,7 @@
     <dt>PageAccessor</dt><dd>ページアクセサ。取得できなかった場合はnullを返す。</dd>
 </dl>
 
-<h2>PageAccessor</h2>
+<h2>[Type] PageAccessor</h2>
 <p>
     ページアクセサ。ページ情報をプロパティとして保持しています。
 </p>
@@ -235,6 +243,12 @@
 <dl>
     <dt>CommandAccessor</dt><dd>コマンドアクセサ。コマンドが見つからない場合はnull。</dd>
 </dl>
+
+<h2>[Type] CommandAccessor</h2>
+<p>
+    コマンドアクセサ
+</p>
+
 <h3>CommandAccessor.Parameter: json</h3>
 コマンドパラメーターの取得、設定ができます。設定は恒久的なものです。
 <h4>使用例</h4>

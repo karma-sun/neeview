@@ -8,17 +8,19 @@ namespace NeeView
     /// </summary>
     public class BookAccessor
     {
-        public string Path => Book()?.Address;
+        public string Path => BookOperation.Current.Book?.Address;
 
-        public bool IsMedia => Book()?.IsMedia == true;
+        public bool IsMedia => BookOperation.Current.Book?.IsMedia == true;
 
-        public bool IsNew => Book()?.IsNew == true;
+        public bool IsNew => BookOperation.Current.Book?.IsNew == true;
+
+        public BookConfigAccessor Config { get; } = new BookConfigAccessor();
 
         public int PageSize
         {
             get
             {
-                var book = Book();
+                var book = BookOperation.Current.Book;
                 return (book != null) ? book.Pages.Count : 0;
             }
         }
@@ -27,7 +29,7 @@ namespace NeeView
         {
             get
             {
-                var book = Book();
+                var book = BookOperation.Current.Book;
                 return (book != null) ? book.Viewer.ViewPageCollection.Collection.Count : 0;
             }
         }
@@ -35,7 +37,7 @@ namespace NeeView
         // NOTE: index is 1 start
         public PageAccessor Page(int index)
         {
-            var book = Book();
+            var book = BookOperation.Current.Book;
             if (book != null)
             {
                 var id = book.Pages.ClampPageNumber(index - 1);
@@ -49,7 +51,7 @@ namespace NeeView
 
         public PageAccessor ViewPage(int index)
         {
-            var book = Book();
+            var book = BookOperation.Current.Book;
             if (book != null)
             {
                 if (index >= 0 && index < book.Viewer.ViewPageCollection.Collection.Count)
@@ -59,22 +61,5 @@ namespace NeeView
             }
             return null;
         }
-
-        private Book Book() => BookOperation.Current.Book;
-    }
-
-    public class PageAccessor
-    {
-        private Page _page;
-
-        public PageAccessor(Page page)
-        {
-            _page = page;
-        }
-
-        public string Path => _page.SystemPath;
-
-        public double Width => _page.Size.Width;
-        public double Height => _page.Size.Height;
     }
 }

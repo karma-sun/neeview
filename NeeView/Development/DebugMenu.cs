@@ -100,13 +100,13 @@ namespace NeeView
         // 開発用コマンド：アプリケーションデータフォルダーを開く
         private void MenuItemDevApplicationDataFolder_Click(object sender, RoutedEventArgs e)
         {
-            DebugOpenFolder(Config.Current.LocalApplicationDataPath);
+            DebugOpenFolder(Environment.LocalApplicationDataPath);
         }
 
         // 開発用コマンド：カレントフォルダーを開く
         private void MenuItemDevCurrentFolder_Click(object sender, RoutedEventArgs e)
         {
-            DebugOpenFolder(Environment.CurrentDirectory);
+            DebugOpenFolder(System.Environment.CurrentDirectory);
         }
 
 

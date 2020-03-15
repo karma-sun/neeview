@@ -49,7 +49,7 @@ namespace NeeView.Susie.Client
         {
             if (_subProcess != null) return;
 
-            var subProcessFileName = System.IO.Path.Combine(Config.Current.LibrariesPath, "NeeView.Susie.Server.exe");
+            var subProcessFileName = System.IO.Path.Combine(Environment.LibrariesPath, "NeeView.Susie.Server.exe");
 
             if (!File.Exists(subProcessFileName))
             {

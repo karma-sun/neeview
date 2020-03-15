@@ -63,12 +63,12 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.SupportFileTypes)), new SettingItemCollectionControl() { Collection = SevenZipArchiverProfile.Current.SupportFileTypes, AddDialogHeader = Properties.Resources.WordExtension }),
                     new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.X86DllPath)))
                     {
-                        Visibility = new VisibilityPropertyValue(Config.IsX64 ? Visibility.Collapsed : Visibility.Visible),
+                        Visibility = new VisibilityPropertyValue(Environment.IsX64 ? Visibility.Collapsed : Visibility.Visible),
                         IsStretch = true,
                     },
                     new SettingItemProperty(PropertyMemberElement.Create(SevenZipArchiverProfile.Current, nameof(SevenZipArchiverProfile.X64DllPath)))
                     {
-                        Visibility = new VisibilityPropertyValue(Config.IsX64 ? Visibility.Visible : Visibility.Collapsed),
+                        Visibility = new VisibilityPropertyValue(Environment.IsX64 ? Visibility.Visible : Visibility.Collapsed),
                         IsStretch = true
                     })
                 {

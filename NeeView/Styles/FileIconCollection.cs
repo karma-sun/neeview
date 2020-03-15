@@ -96,7 +96,7 @@ namespace NeeView
         public BitmapSource CreateFileIcon(string filename, FileIconType iconType, double width, bool allowJumbo, bool useCache)
         {
             var collection = CreateFileIconCollection(filename, iconType, allowJumbo, useCache);
-            return collection?.GetBitmapSource(width * Config.Current.RawDpi.DpiScaleX);
+            return collection?.GetBitmapSource(width * Environment.RawDpi.DpiScaleX);
         }
 
 

@@ -30,7 +30,7 @@ namespace NeeView
             _server.Called += Reciever;
             _server.Start();
 
-            _client = new RemoteCommandClient(Config.Current.SolutionName);
+            _client = new RemoteCommandClient(Environment.SolutionName);
 
             // アプリ終了前の開放予約
             ApplicationDisposer.Current.Add(this);

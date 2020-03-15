@@ -64,7 +64,7 @@ namespace NeeView.Setting
             if (Collection == null) return;
 
             bool hasHeic = Collection.Contains(".heic");
-            this.HeifHelp.Visibility = _isStoreHelpEnabled && !hasHeic && Config.Current.IsWindows10 ? Visibility.Visible : Visibility.Collapsed;
+            this.HeifHelp.Visibility = _isStoreHelpEnabled && !hasHeic && Environment.IsWindows10 ? Visibility.Visible : Visibility.Collapsed;
         }
 
 

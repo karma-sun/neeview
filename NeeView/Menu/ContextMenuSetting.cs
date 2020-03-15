@@ -20,7 +20,7 @@ namespace NeeView
         private MenuTree _sourceTree;
 
         [DataMember]
-        public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+        public int _Version { get; set; } = Environment.ProductVersionNumber;
 
         public ContextMenu ContextMenu
         {
@@ -69,7 +69,7 @@ namespace NeeView
             if (_sourceTree == null) return;
 
             // before 37.0
-            if (_Version < Config.GenerateProductVersionNumber(37, 0, 0))
+            if (_Version < Environment.GenerateProductVersionNumber(37, 0, 0))
             {
                 foreach (var node in _sourceTree)
                 {

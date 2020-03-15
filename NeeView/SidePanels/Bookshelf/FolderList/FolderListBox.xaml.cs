@@ -29,7 +29,7 @@ namespace NeeView
     {
         #region Fields
 
-        public static string DragDropFormat = $"{Config.Current.ProcessId}.FolderListBox";
+        public static string DragDropFormat = $"{Environment.ProcessId}.FolderListBox";
 
         private FolderListBoxViewModel _vm;
         private ListBoxThumbnailLoader _thumbnailLoader;

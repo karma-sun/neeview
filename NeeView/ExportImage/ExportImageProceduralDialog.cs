@@ -25,7 +25,7 @@ namespace NeeView
             var source = ExportImageSource.Create();
 
             var exporter = new ExportImage(source);
-            exporter.ExportFolder = string.IsNullOrWhiteSpace(ExportFolder) ? System.Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) : ExportFolder;
+            exporter.ExportFolder = string.IsNullOrWhiteSpace(ExportFolder) ? System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures) : ExportFolder;
             exporter.Mode = Mode;
             exporter.HasBackground = HasBackground;
             exporter.QualityLevel = parameter.QualityLevel;

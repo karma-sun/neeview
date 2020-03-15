@@ -442,13 +442,13 @@ namespace NeeView
             [OnDeserialized]
             private void Deserialized(StreamingContext c)
             {
-                if (_Version < Config.GenerateProductVersionNumber(1, 19, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(1, 19, 0))
                 {
                     if (LimitSize == 0) LimitSize = -1;
                 }
 
 #pragma warning disable CS0612
-                if (_Version < Config.GenerateProductVersionNumber(31, 0, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(31, 0, 0))
                 {
                     Items = OldBooks != null
                         ? OldBooks.Select(e => new BookHistory() { Place = e.Place, LastAccessTime = e.LastAccessTime }).ToList()
@@ -462,7 +462,7 @@ namespace NeeView
 
                     OldBooks = null;
                 }
-                if (_Version < Config.GenerateProductVersionNumber(36, 0, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(36, 0, 0))
                 {
                     IsKeepLastFolder = IsKeepFolderStatus;
                 }
@@ -553,7 +553,7 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento._Version = Config.Current.ProductVersionNumber;
+            memento._Version = Environment.ProductVersionNumber;
 
             memento.Folders = _folders;
             memento.LastFolder = this.LastFolder;

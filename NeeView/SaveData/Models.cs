@@ -128,7 +128,7 @@ namespace NeeView
                     BookshelfFolderList = FolderListLegacy.ConvertFrom(FolderList);
                 }
 
-                if (_Version < Config.GenerateProductVersionNumber(34, 0, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(34, 0, 0))
                 {
                     if (BookSettingPresenterLegacy != null)
                     {
@@ -143,7 +143,7 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento._Version = Config.Current.ProductVersionNumber;
+            memento._Version = Environment.ProductVersionNumber;
 
             memento.FileIOProfile = FileIOProfile.Current.CreateMemento();
             memento.JobEngine = JobEngine.Current.CreateMemento();
@@ -247,7 +247,7 @@ namespace NeeView
 
 #pragma warning disable CS0612
             // compatible before ver.23
-            if (memento._Version < Config.GenerateProductVersionNumber(1, 23, 0))
+            if (memento._Version < Environment.GenerateProductVersionNumber(1, 23, 0))
             {
                 RoutedCommandTable.Current.RestoreCompatible(memento.RoutedCommandTable);
             }

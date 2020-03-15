@@ -101,7 +101,7 @@ namespace NeeView
             {
                 // NOTE: 救済措置。取得に失敗した時はカレントディレクトリに移動
                 Debug.WriteLine($"Cannot open: {ex.Message}");
-                collection = new FolderEntryCollection(new QueryPath(Environment.CurrentDirectory), isActive, _isOverlayEnabled);
+                collection = new FolderEntryCollection(new QueryPath(System.Environment.CurrentDirectory), isActive, _isOverlayEnabled);
                 await collection.InitializeItemsAsync(token);
             }
 

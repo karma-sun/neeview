@@ -28,10 +28,10 @@ namespace NeeView
         public void ExportBackup()
         {
             var dialog = new SaveFileDialog();
-            dialog.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            dialog.InitialDirectory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
             dialog.OverwritePrompt = true;
             dialog.AddExtension = true;
-            dialog.FileName = $"NeeView{Config.Current.DispVersion}-{DateTime.Now.ToString("yyyyMMdd")}";
+            dialog.FileName = $"NeeView{Environment.DispVersion}-{DateTime.Now.ToString("yyyyMMdd")}";
             dialog.DefaultExt = backupDialogDefaultExt;
             dialog.Filter = backupDialogFilder;
             dialog.Title = Resources.DialogExportTitle;
@@ -102,7 +102,7 @@ namespace NeeView
         public void ImportBackup()
         {
             var dialog = new OpenFileDialog();
-            dialog.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            dialog.InitialDirectory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
             dialog.AddExtension = true;
             dialog.DefaultExt = backupDialogDefaultExt;
             dialog.Filter = backupDialogFilder;

@@ -120,7 +120,7 @@ namespace NeeView
             if (_keyPressWatcher.IsPressed) return;
 
             bool isSuccessed = true;
-            var dpiScaleX = Config.Current.RawDpi.DpiScaleX;
+            var dpiScaleX = Environment.RawDpi.DpiScaleX;
             var scale = DragTransform.Current.Scale * LoupeTransform.Current.FixedScale * dpiScaleX;
             foreach (var viewConent in ContentCanvas.Current.CloneContents.Where(e => e.IsValid))
             {

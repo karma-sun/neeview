@@ -687,13 +687,13 @@ namespace NeeView
 
         public string GetDefaultScriptFolder()
         {
-            if (Config.Current.IsZipLikePackage)
+            if (Environment.IsZipLikePackage)
             {
-                return Path.Combine(Config.Current.LocalApplicationDataPath, _defaultScriptFolderName);
+                return Path.Combine(Environment.LocalApplicationDataPath, _defaultScriptFolderName);
             }
             else
             {
-                return Path.Combine(Config.Current.GetMyDocumentPath(false), _defaultScriptFolderName);
+                return Path.Combine(Environment.GetMyDocumentPath(false), _defaultScriptFolderName);
             }
         }
 
@@ -708,7 +708,7 @@ namespace NeeView
                 {
                     // サンプルスクリプトを生成
                     var filename = "Sample.nvjs";
-                    var source = Path.Combine(Config.Current.AssemblyLocation, _defaultScriptFolderName, filename);
+                    var source = Path.Combine(Environment.AssemblyLocation, _defaultScriptFolderName, filename);
                     File.Copy(source, Path.Combine(path, filename));
                 }
                 catch (Exception ex)
@@ -842,7 +842,7 @@ namespace NeeView
             };
 
             [DataMember]
-            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+            public int _Version { get; set; } = Environment.ProductVersionNumber;
 
             [DataMember, DefaultValue(true)]
             public bool IsReversePageMove { get; set; }
@@ -888,14 +888,14 @@ namespace NeeView
                 Elements = Elements ?? new Dictionary<string, CommandElement.Memento>();
 
                 // before ver.29
-                if (_Version < Config.GenerateProductVersionNumber(1, 29, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(1, 29, 0))
                 {
                     // ver.29以前はデフォルトOFF
                     IsReversePageMove = false;
                 }
 
                 // before 32.0
-                if (_Version < Config.GenerateProductVersionNumber(32, 0, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(32, 0, 0))
                 {
                     // 新しいコマンドに設定を引き継ぐ
                     if (Elements.TryGetValue("ToggleVisibleFolderSearchBox", out CommandElement.Memento toggleVisibleFolderSearchBox))
@@ -915,7 +915,7 @@ namespace NeeView
                 }
 
                 // before 33.2
-                if (_Version <= Config.GenerateProductVersionNumber(33, 2, 0))
+                if (_Version <= Environment.GenerateProductVersionNumber(33, 2, 0))
                 {
                     // change shortcut "Escape" to "Esc"
                     foreach (var element in Elements.Values)
@@ -933,7 +933,7 @@ namespace NeeView
                 }
 
                 // before 34.0
-                if (_Version < Config.GenerateProductVersionNumber(34, 0, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(34, 0, 0))
                 {
                     // 自動回転のショートカットキーをなるべく継承
                     if (Elements.TryGetValue("ToggleIsAutoRotate", out var element))
@@ -946,7 +946,7 @@ namespace NeeView
                 }
 
                 // before 35.0
-                if (_Version < Config.GenerateProductVersionNumber(35, 0, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(35, 0, 0))
                 {
                     // ストレッチコマンドパラメータ継承
                     if (Elements.TryGetValue("SetStretchModeInside", out var element))
@@ -956,7 +956,7 @@ namespace NeeView
                 }
 
                 // before 37.0
-                if (_Version < Config.GenerateProductVersionNumber(37, 0, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(37, 0, 0))
                 {
                     foreach(var pair in RenameMap_37_0_0)
                     {

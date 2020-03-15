@@ -275,7 +275,7 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+            public int _Version { get; set; } = Environment.ProductVersionNumber;
 
             [DataMember, DefaultValue(true)]
             public bool IsSideBarVisible { get; set; }
@@ -366,7 +366,7 @@ namespace NeeView
             if (memento == null) return;
 
             // compatible before ver.32
-            if (memento._Version < Config.GenerateProductVersionNumber(32, 0, 0))
+            if (memento._Version < Environment.GenerateProductVersionNumber(32, 0, 0))
             {
                 SidePanelProfile.Current.FontName = memento.FontName;
                 SidePanelProfile.Current.FontSize = memento.FontSize > 0.0 ? memento.FontSize : 15.0;

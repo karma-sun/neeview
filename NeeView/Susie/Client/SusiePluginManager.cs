@@ -297,7 +297,7 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+            public int _Version { get; set; } = Environment.ProductVersionNumber;
 
             [DataMember]
             public bool IsEnableSusie { get; set; }
@@ -341,18 +341,18 @@ namespace NeeView
             private void Deserialized(StreamingContext c)
             {
 #pragma warning disable CS0612
-                if (_Version < Config.GenerateProductVersionNumber(33, 0, 0) && SpiFilesV1 != null)
+                if (_Version < Environment.GenerateProductVersionNumber(33, 0, 0) && SpiFilesV1 != null)
                 {
                     SpiFilesV2 = SpiFilesV1.ToDictionary(e => e.Key, e => new SusiePluginSetting(e.Value, false));
                 }
 
-                if (_Version < Config.GenerateProductVersionNumber(34, 0, 0) && SpiFilesV2 != null)
+                if (_Version < Environment.GenerateProductVersionNumber(34, 0, 0) && SpiFilesV2 != null)
                 {
                     SpiFilesV3 = SpiFilesV2
                         .ToDictionary(e => e.Key, e => e.Value.ToPluginMemento());
                 }
 
-                if (_Version < Config.GenerateProductVersionNumber(35, 0, 0) && SpiFilesV3 != null)
+                if (_Version < Environment.GenerateProductVersionNumber(35, 0, 0) && SpiFilesV3 != null)
                 {
                     Plugins = SpiFilesV3
                         .Select(e => e.Value.ToSusiePluginSetting(LoosePath.GetFileName(e.Key), IsPluginCacheEnabled))

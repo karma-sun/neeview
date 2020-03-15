@@ -174,7 +174,7 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+            public int _Version { get; set; } = Environment.ProductVersionNumber;
 
             [DataMember, DefaultValue(BitmapImageFormat.Jpeg)]
             public BitmapImageFormat Format { get; set; } = BitmapImageFormat.Jpeg;
@@ -250,7 +250,7 @@ namespace NeeView
             if (memento == null) return;
 
             // compatible before ver.32
-            if (memento._Version < Config.GenerateProductVersionNumber(32, 0, 0))
+            if (memento._Version < Environment.GenerateProductVersionNumber(32, 0, 0))
             {
                 SidePanelProfile.Current.ContentItemImageWidth = memento.ThumbnailWidth > 0 ? memento.ThumbnailWidth : 64;
                 SidePanelProfile.Current.BannerItemImageWidth = memento.BannerWidth > 0 ? memento.BannerWidth : 200;

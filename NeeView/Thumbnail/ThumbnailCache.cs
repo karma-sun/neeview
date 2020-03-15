@@ -102,14 +102,14 @@ namespace NeeView
         /// <param name="path"></param>
         public string SetDirectory(string path)
         {
-            CacheFolderPath = path ?? Config.Current.LocalApplicationDataPath;
+            CacheFolderPath = path ?? Environment.LocalApplicationDataPath;
 
-            if (path != Config.Current.LocalApplicationDataPath)
+            if (path != Environment.LocalApplicationDataPath)
             {
                 if (!Directory.Exists(path))
                 {
                     ToastService.Current.Show(new Toast(string.Format(Properties.Resources.NotifyCacheErrorDirectoryNotFound, path), Properties.Resources.NotifyCacheErrorTitle, ToastIcon.Error));
-                    CacheFolderPath = Config.Current.LocalApplicationDataPath;
+                    CacheFolderPath = Environment.LocalApplicationDataPath;
                 }
             }
 
@@ -123,7 +123,7 @@ namespace NeeView
         /// </summary>
         public void MoveDirectory(string sourcePath)
         {
-            var sourceFileName = Path.Combine(sourcePath ?? Config.Current.LocalApplicationDataPath, FileName);
+            var sourceFileName = Path.Combine(sourcePath ?? Environment.LocalApplicationDataPath, FileName);
 
             if (_filename == sourceFileName)
             {

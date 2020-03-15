@@ -19,7 +19,7 @@ namespace NeeView
     public class UserSetting
     {
         [DataMember]
-        public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+        public int _Version { get; set; } = Environment.ProductVersionNumber;
 
         [DataMember(Order = 1)]
         public SusiePluginManager.Memento SusieMemento { get; set; }

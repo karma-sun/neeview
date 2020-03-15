@@ -70,7 +70,7 @@ namespace NeeView
 
             ////_rootPagemarkFolder = new RootPagemarkFolderNode(_root);
 
-            Config.Current.DpiChanged += Config_DpiChanged;
+            Environment.DpiChanged += Config_DpiChanged;
         }
 
 

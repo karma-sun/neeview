@@ -320,7 +320,7 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+            public int _Version { get; set; } = Environment.ProductVersionNumber;
 
             [DataMember]
             public bool IsLoupeCenter { get; set; }
@@ -398,7 +398,7 @@ namespace NeeView
 #pragma warning disable CS0612
 
             // compatible before ver.26
-            if (memento._Version < Config.GenerateProductVersionNumber(1, 26, 0))
+            if (memento._Version < Environment.GenerateProductVersionNumber(1, 26, 0))
             {
                 _loupe.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
             }

@@ -468,7 +468,7 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+            public int _Version { get; set; } = Environment.ProductVersionNumber;
 
             [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsEnabled { get; set; }
@@ -497,7 +497,7 @@ namespace NeeView
 #pragma warning disable CS0612
 
             // compatible before ver.29
-            if (memento._Version < Config.GenerateProductVersionNumber(1, 29, 0))
+            if (memento._Version < Environment.GenerateProductVersionNumber(1, 29, 0))
             {
                 if (!memento.IsEnabled)
                 {

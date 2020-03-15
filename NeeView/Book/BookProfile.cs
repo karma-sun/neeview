@@ -131,13 +131,13 @@ namespace NeeView
         /// </summary>
         private int GetMaxCacheMemorySize()
         {
-            int max = (int)(Config.GetTotalPhysicalMemory() / 1024 / 1024);
+            int max = (int)(Environment.GetTotalPhysicalMemory() / 1024 / 1024);
 
             // -2GB or half size
             max = Math.Max(max - 2 * 1024, max / 2);
 
             // if 32bit, limit 2GB
-            if (!Config.IsX64)
+            if (!Environment.IsX64)
             {
                 max = Math.Min(max, 2 * 1024);
             }
@@ -173,7 +173,7 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+            public int _Version { get; set; } = Environment.ProductVersionNumber;
 
             [DataMember, DefaultValue(true)]
             public bool IsPrioritizePageMove { get; set; }
@@ -228,7 +228,7 @@ namespace NeeView
             private void OnDeserialized(StreamingContext c)
             {
 #pragma warning disable CS0612
-                if (_Version < Config.GenerateProductVersionNumber(34, 0, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(34, 0, 0))
                 {
                     BookPageCollectMode = IsEnableNoSupportFile ? BookPageCollectMode.All : BookPageCollectMode.ImageAndBook;
                     PreLoadSize = PreLoadMode == PreLoadMode.None ? 0 : 2;

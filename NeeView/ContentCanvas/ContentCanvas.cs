@@ -319,7 +319,7 @@ namespace NeeView
         }
 
         // メインコンテンツのオリジナル表示スケール
-        public double MainContentScale => MainContent != null ? MainContent.Scale * Config.Current.Dpi.DpiScaleX : 0.0;
+        public double MainContentScale => MainContent != null ? MainContent.Scale * Environment.Dpi.DpiScaleX : 0.0;
 
         //
         public GridLine GridLine { get; private set; } = new GridLine();
@@ -475,7 +475,7 @@ namespace NeeView
                 {
                     if (content.PageMessage == null && content.CanResize && content is BitmapContent bitmapContent)
                     {
-                        var dpiScaleX = Config.Current.RawDpi.DpiScaleX;
+                        var dpiScaleX = Environment.RawDpi.DpiScaleX;
                         var dispSize = new Size(size1.Width * dpiScaleX, size1.Height * dpiScaleX);
                         var resized = bitmapContent.Picture?.CreateImageSource(bitmapContent.GetRenderSize(dispSize), token);
                         if (resized == true)
@@ -590,7 +590,7 @@ namespace NeeView
         // コンテンツスケーリングモードを更新
         public void UpdateContentScalingMode(ViewContent target = null)
         {
-            double finalScale = _dragTransform.Scale * LoupeTransform.Current.FixedScale * Config.Current.RawDpi.DpiScaleX;
+            double finalScale = _dragTransform.Scale * LoupeTransform.Current.FixedScale * Environment.RawDpi.DpiScaleX;
 
             foreach (var content in CloneContents)
             {
@@ -611,7 +611,7 @@ namespace NeeView
 
                     var diff = Math.Abs(pixelHeight - viewHeight) + Math.Abs(pixelWidth - viewWidth);
                     var diffAngle = Math.Abs(_dragTransform.Angle % 90.0);
-                    if (Config.Current.IsDpiSquare && diff < 2.2 && diffAngle < 0.1)
+                    if (Environment.IsDpiSquare && diff < 2.2 && diffAngle < 0.1)
                     {
                         content.BitmapScalingMode = BitmapScalingMode.NearestNeighbor;
                         content.SetViewMode(ContentViewMode.Pixeled, finalScale);
@@ -867,7 +867,7 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+            public int _Version { get; set; } = Environment.ProductVersionNumber;
 
             [Obsolete, DataMember(Name = "StretchMode", EmitDefaultValue = false)]
             public PageStretchModeV1 StretchModeV1 { get; set; }
@@ -910,13 +910,13 @@ namespace NeeView
             {
 #pragma warning disable CS0612
                 // before 34.0
-                if (_Version < Config.GenerateProductVersionNumber(34, 0, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(34, 0, 0))
                 {
                     AutoRotateType = IsAutoRotate ? AutoRotateType.Right : AutoRotateType.None;
                 }
 
                 // before 35.0
-                if (_Version < Config.GenerateProductVersionNumber(35, 0, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(35, 0, 0))
                 {
                     StretchMode = StretchModeV1.ToPageStretchMode();
                 }

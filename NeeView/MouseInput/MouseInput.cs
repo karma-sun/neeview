@@ -317,7 +317,7 @@ namespace NeeView
             {
                 case TransformActionType.Scale:
                     string scaleText = DragTransformControl.Current.IsOriginalScaleShowMessage && mainContent != null && mainContent.IsValid
-                        ? $"{(int)(transform.Scale * mainContent.Scale * Config.Current.Dpi.DpiScaleX * 100 + 0.1)}%"
+                        ? $"{(int)(transform.Scale * mainContent.Scale * Environment.Dpi.DpiScaleX * 100 + 0.1)}%"
                         : $"{(int)(transform.Scale * 100.0 + 0.1)}%";
                     infoMessage.SetMessage(InfoMessageType.ViewTransform, scaleText);
                     break;

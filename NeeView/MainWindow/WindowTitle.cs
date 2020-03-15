@@ -66,7 +66,7 @@ namespace NeeView
             DragTransform.Current.AddPropertyChanged(nameof(DragTransform.Scale), DragTransform_ScaleChanged);
 
             // Window title
-            _defaultWindowTitle = $"{Config.Current.ApplicationName} {Config.Current.DispVersion}";
+            _defaultWindowTitle = $"{Environment.ApplicationName} {Environment.DispVersion}";
 #if DEBUG
             _defaultWindowTitle += " [Debug]";
 #endif
@@ -310,7 +310,7 @@ namespace NeeView
 
             if ((mask & (WindowTitleMask.Page | WindowTitleMask.View)) != 0)
             {
-                var _Dpi = Config.Current.Dpi;
+                var _Dpi = Environment.Dpi;
 
                 string scale0 = Contents[0].IsValid ? $"{(int)(_viewScale * Contents[0].Scale * _Dpi.DpiScaleX * 100 + 0.1)}%" : "";
                 string scale1 = Contents[1].IsValid ? $"{(int)(_viewScale * Contents[1].Scale * _Dpi.DpiScaleX * 100 + 0.1)}%" : "";
@@ -330,7 +330,7 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+            public int _Version { get; set; } = Environment.ProductVersionNumber;
 
             [DataMember(EmitDefaultValue = false)]
             public string WindowTitleFormat1 { get; set; }
@@ -346,7 +346,7 @@ namespace NeeView
             private void Deserialized(StreamingContext c)
             {
                 // before 34.0
-                if (_Version < Config.GenerateProductVersionNumber(34, 0, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(34, 0, 0))
                 {
                     const string WindowTitleFormat1Default = "$Book($Page/$PageMax) - $FullName";
                     const string WindowTitleFormat2Default = "$Book($Page/$PageMax) - $FullNameL | $NameR";

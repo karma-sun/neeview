@@ -20,7 +20,7 @@ namespace NeeView
         /// Properties
         /// </summary>
 
-        public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+        public int _Version { get; set; } = Environment.ProductVersionNumber;
 
         [DataMember, DefaultValue(true)]
         [PropertyMember]
@@ -191,7 +191,7 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+            public int _Version { get; set; } = Environment.ProductVersionNumber;
 
             [DataMember]
             public Dictionary<string, string> Items { get; set; } = new Dictionary<string, string>();
@@ -240,7 +240,7 @@ namespace NeeView
         public void RestoreCompatibleApp()
         {
             // compatible before ver.23
-            if (_Version < Config.GenerateProductVersionNumber(1, 23, 0))
+            if (_Version < Environment.GenerateProductVersionNumber(1, 23, 0))
             {
                 App.Current.IsNetworkEnabled = this.network_enabled;
                 App.Current.IsIgnoreImageDpi = this.dpi_image_ignore;
@@ -254,7 +254,7 @@ namespace NeeView
         public void RestoreCompatible()
         {
             // compatible before ver.23
-            if (_Version < Config.GenerateProductVersionNumber(1, 23, 0))
+            if (_Version < Environment.GenerateProductVersionNumber(1, 23, 0))
             {
                 FileIOProfile.Current.IsRemoveConfirmed = this.file_remove_confirm;
                 FileIOProfile.Current.IsEnabled = this.file_permit_command;

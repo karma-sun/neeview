@@ -349,10 +349,10 @@ namespace NeeView
         //
         public void UpdateWindowBorderThickness()
         {
-            if (Config.Current.IsWindows7 && _windowChromeFrame == WindowChromeFrame.WindowFrame && this.WindowChrome != null && _window.WindowState != WindowState.Maximized)
+            if (Environment.IsWindows7 && _windowChromeFrame == WindowChromeFrame.WindowFrame && this.WindowChrome != null && _window.WindowState != WindowState.Maximized)
             {
-                var x = 1.0 / Config.Current.RawDpi.DpiScaleX;
-                var y = 1.0 / Config.Current.RawDpi.DpiScaleY;
+                var x = 1.0 / Environment.RawDpi.DpiScaleX;
+                var y = 1.0 / Environment.RawDpi.DpiScaleY;
                 this.WindowBorderThickness = new Thickness(x, y, x, y);
             }
             else
@@ -362,8 +362,8 @@ namespace NeeView
 
             if (_windowChrome != null && _window.WindowState == WindowState.Maximized)
             {
-                var x = _maximizeWindowGapWidth / Config.Current.RawDpi.DpiScaleX;
-                var y = _maximizeWindowGapWidth / Config.Current.RawDpi.DpiScaleY;
+                var x = _maximizeWindowGapWidth / Environment.RawDpi.DpiScaleX;
+                var y = _maximizeWindowGapWidth / Environment.RawDpi.DpiScaleY;
                 _window.BorderThickness = new Thickness(x, y, x, y);
             }
             else
@@ -467,7 +467,7 @@ namespace NeeView
         /// </summary>
         private void RecoveryTaskBar()
         {
-            if (!Config.Current.IsWindows7 || _state != WindowStateEx.FullScreen) return;
+            if (!Environment.IsWindows7 || _state != WindowStateEx.FullScreen) return;
 
             ////Debug.WriteLine("Recovery TaskBar");
 
@@ -585,7 +585,7 @@ namespace NeeView
         private void ToFullScreenInner()
         {
             // NOTE: Windows7やタブレットモードでフルスクリーンでもタスクバーが隠れないことがある現象の対処。Windowsショートカットでのモニタ間移動の障害になるため用途を限定する
-            if (Config.Current.IsWindows7 || TabletModeWatcher.Current.IsTabletMode)
+            if (Environment.IsWindows7 || TabletModeWatcher.Current.IsTabletMode)
             {
                 _window.ResizeMode = ResizeMode.CanMinimize;
             }

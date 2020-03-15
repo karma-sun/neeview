@@ -24,7 +24,7 @@ namespace NeeView
     /// </summary>
     public partial class PageListBox : UserControl, IPageListPanel, IDisposable
     {
-        public static string DragDropFormat = $"{Config.Current.ProcessId}.PageListBox";
+        public static string DragDropFormat = $"{Environment.ProcessId}.PageListBox";
 
         private PageListBoxViewModel _vm;
         private ListBoxThumbnailLoader _thumbnailLoader;

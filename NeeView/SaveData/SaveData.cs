@@ -27,9 +27,9 @@ namespace NeeView
         public const string BookmarkFileName = "Bookmark.xml";
         public const string PagemarkFileName = "Pagemark.xml";
 
-        public static string DefaultHistoryFilePath => Path.Combine(Config.Current.LocalApplicationDataPath, HistoryFileName);
-        public static string DefaultBookmarkFilePath => Path.Combine(Config.Current.LocalApplicationDataPath, BookmarkFileName);
-        public static string DefaultPagemarkFilePath => Path.Combine(Config.Current.LocalApplicationDataPath, PagemarkFileName);
+        public static string DefaultHistoryFilePath => Path.Combine(Environment.LocalApplicationDataPath, HistoryFileName);
+        public static string DefaultBookmarkFilePath => Path.Combine(Environment.LocalApplicationDataPath, BookmarkFileName);
+        public static string DefaultPagemarkFilePath => Path.Combine(Environment.LocalApplicationDataPath, PagemarkFileName);
 
         public string UserSettingFilePath => App.Current.Option.SettingFilename;
         public string HistoryFilePath { get; private set; }
@@ -218,7 +218,7 @@ namespace NeeView
             // 旧ファイル名の変更
             try
             {
-                var oldPagemarkFileName = Path.Combine(Config.Current.LocalApplicationDataPath, "Pagekmark.xml");
+                var oldPagemarkFileName = Path.Combine(Environment.LocalApplicationDataPath, "Pagekmark.xml");
                 if (!File.Exists(PagemarkFilePath) && File.Exists(oldPagemarkFileName))
                 {
                     File.Move(oldPagemarkFileName, PagemarkFilePath);

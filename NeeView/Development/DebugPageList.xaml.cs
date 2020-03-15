@@ -42,7 +42,7 @@ namespace NeeView
             this.PageListView.Items.Refresh();
 
             long totalMemory = GC.GetTotalMemory(true);
-            long workingSet = Environment.WorkingSet;
+            long workingSet = System.Environment.WorkingSet;
             Debug.WriteLine($"WorkingSet: {totalMemory:#,0}");
             Debug.WriteLine($"WorkingSet: {workingSet:#,0}");
         }

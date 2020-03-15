@@ -17,11 +17,11 @@ namespace NeeView
         {
             if (value is int v0)
             {
-                return (double)v0 / Config.Current.Dpi.DpiScaleX;
+                return (double)v0 / Environment.Dpi.DpiScaleX;
             }
             else if (value is double v1)
             {
-                return v1 / Config.Current.Dpi.DpiScaleX;
+                return v1 / Environment.Dpi.DpiScaleX;
             }
             else
             {

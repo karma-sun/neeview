@@ -443,7 +443,7 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+            public int _Version { get; set; } = Environment.ProductVersionNumber;
 
             [DataMember]
             public TreeListNode<IPagemarkEntry> Nodes { get; set; }
@@ -482,7 +482,7 @@ namespace NeeView
             private void Deserialized(StreamingContext c)
             {
 #pragma warning disable CS0612
-                if (_Version < Config.GenerateProductVersionNumber(31, 0, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(31, 0, 0))
                 {
                     Nodes = new TreeListNode<IPagemarkEntry>();
                     foreach (var mark in Marks ?? new List<Pagemark>())
@@ -502,7 +502,7 @@ namespace NeeView
 #pragma warning restore CS0612
 
                 // 新しいフォーマットに変換
-                if (_Version < Config.GenerateProductVersionNumber(32, 0, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(32, 0, 0))
                 {
                     Nodes = ConvertToBookUnitFormat(Nodes);
                 }

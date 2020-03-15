@@ -21,7 +21,7 @@ namespace NeeView
     /// </summary>
     public partial class AddressBarView : UserControl
     {
-        public static string DragDropFormat = $"{Config.Current.ProcessId}.BookAddress";
+        public static string DragDropFormat = $"{Environment.ProcessId}.BookAddress";
 
 
         private AddressBarViewModel _vm;

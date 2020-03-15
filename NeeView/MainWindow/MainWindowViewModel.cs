@@ -180,7 +180,7 @@ namespace NeeView
             BookHub.Current.BookChanged +=
                 (s, e) => CommandManager.InvalidateRequerySuggested();
 
-            Config.Current.LocalApplicationDataRemoved +=
+            Environment.LocalApplicationDataRemoved +=
                 (s, e) =>
                 {
                     SaveData.Current.IsEnableSave = false; // 保存禁止

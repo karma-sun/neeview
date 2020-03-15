@@ -17,15 +17,17 @@ namespace NeeView
     /// <summary>
     /// アプリ全体の設定
     /// </summary>
-    public class Config
+    public static class Environment
     {
-        static Config() => Current = new Config();
-        public static Config Current { get; }
+        private static string _localApplicationDataPath;
+        private static string _librariesPath;
+        private static string _packageType;
+        private static bool? _isUseLocalApplicationDataFolder;
 
 
-        private Config()
+        static Environment()
         {
-            this.ProcessId = Process.GetCurrentProcess().Id;
+            ProcessId = Process.GetCurrentProcess().Id;
 
             var assembly = Assembly.GetEntryAssembly();
             ValidateProductInfo(assembly);
@@ -37,38 +39,41 @@ namespace NeeView
             }
         }
 
-        public event EventHandler DpiChanged;
+
+        public static event EventHandler DpiChanged;
+        public static event EventHandler LocalApplicationDataRemoved;
+
 
         /// <summary>
         /// DPI(アプリ値)
         /// </summary>
-        public DpiScale Dpi => App.Current.IsIgnoreImageDpi ? RawDpi : OneDpi;
+        public static DpiScale Dpi => App.Current.IsIgnoreImageDpi ? RawDpi : OneDpi;
 
         /// <summary>
         /// DPI(システム値)
         /// </summary>
-        public DpiScale RawDpi { get; private set; } = new DpiScale(1, 1);
+        public static DpiScale RawDpi { get; private set; } = new DpiScale(1, 1);
 
         /// <summary>
         /// 等倍DPI値
         /// </summary>
-        public DpiScale OneDpi { get; private set; } = new DpiScale(1, 1);
+        public static DpiScale OneDpi { get; private set; } = new DpiScale(1, 1);
 
         /// <summary>
         /// DPIのXY比率が等しい？
         /// </summary>
-        public bool IsDpiSquare => Dpi.DpiScaleX == Dpi.DpiScaleY;
+        public static bool IsDpiSquare => Dpi.DpiScaleX == Dpi.DpiScaleY;
 
         /// <summary>
         /// DPI設定
         /// </summary>
         /// <param name="dpi"></param>
-        public bool SetDip(DpiScale dpi)
+        public static bool SetDip(DpiScale dpi)
         {
             if (RawDpi.DpiScaleX != dpi.DpiScaleX || RawDpi.DpiScaleY != dpi.DpiScaleY)
             {
                 RawDpi = dpi;
-                DpiChanged?.Invoke(this, null);
+                DpiChanged?.Invoke(null, null);
                 return true;
             }
             else
@@ -77,9 +82,8 @@ namespace NeeView
             }
         }
 
-
         // Windows7?
-        public bool IsWindows7
+        public static bool IsWindows7
         {
             get
             {
@@ -89,7 +93,7 @@ namespace NeeView
         }
 
         // Windows10?
-        public bool IsWindows10
+        public static bool IsWindows10
         {
             get
             {
@@ -98,56 +102,55 @@ namespace NeeView
             }
         }
 
-
         /// <summary>
         /// プロセスID
         /// </summary>
-        public int ProcessId { get; private set; }
+        public static int ProcessId { get; private set; }
 
         /// <summary>
         /// マルチ起動での2番目以降のプロセス
         /// </summary>
-        public bool IsSecondProcess { get; set; }
+        public static bool IsSecondProcess { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        public string AssemblyLocation { get; private set; }
+        public static string AssemblyLocation { get; private set; }
 
         /// <summary>
         /// 会社名
         /// </summary>
-        public string CompanyName { get; private set; }
+        public static string CompanyName { get; private set; }
 
         /// <summary>
         /// ソリューション名
         /// </summary>
-        public string SolutionName => "NeeView";
+        public static string SolutionName => "NeeView";
 
         /// <summary>
         /// タイトル名
         /// </summary>
-        public string AssemblyTitle { get; private set; }
+        public static string AssemblyTitle { get; private set; }
 
         /// <summary>
         /// プロダクト名
         /// </summary>
-        public string AssemblyProduct { get; private set; }
+        public static string AssemblyProduct { get; private set; }
 
         /// <summary>
         /// アプリ名
         /// </summary>
-        public string ApplicationName => AssemblyTitle;
+        public static string ApplicationName => AssemblyTitle;
 
         /// <summary>
         /// プロダクトバージョン
         /// </summary>
-        public string ProductVersion { get; private set; }
+        public static string ProductVersion { get; private set; }
 
         /// <summary>
         /// 表示用バージョン
         /// </summary>
-        public string DispVersion
+        public static string DispVersion
         {
             get
             {
@@ -169,7 +172,97 @@ namespace NeeView
         /// <summary>
         /// プロダクトバージョン(int)
         /// </summary>
-        public int ProductVersionNumber { get; private set; }
+        public static int ProductVersionNumber { get; private set; }
+
+        /// <summary>
+        /// ユーザデータフォルダー
+        /// </summary>
+        public static string LocalApplicationDataPath
+        {
+            get
+            {
+                if (_localApplicationDataPath == null)
+                {
+                    // configファイルの設定で LocalApplicationData を使用するかを判定。インストール版用
+                    if (IsUseLocalApplicationDataFolder)
+                    {
+                        _localApplicationDataPath = GetFileSystemPath(System.Environment.SpecialFolder.LocalApplicationData, true);
+                    }
+                    else
+                    {
+                        _localApplicationDataPath = AssemblyLocation;
+                    }
+                }
+                return _localApplicationDataPath;
+            }
+        }
+
+        /// <summary>
+        /// ライブラリーパス
+        /// </summary>
+        public static string LibrariesPath
+        {
+            get
+            {
+                if (_librariesPath == null)
+                {
+                    _librariesPath = Path.GetFullPath(Path.Combine(AssemblyLocation, ConfigurationManager.AppSettings["LibrariesPath"]));
+                }
+                return _librariesPath;
+            }
+        }
+
+        /// <summary>
+        /// ライブラリーパス(Platform別)
+        /// </summary>
+        public static string LibrariesPlatformPath
+        {
+            get { return Path.Combine(LibrariesPath, IsX64 ? "x64" : "x86"); }
+        }
+
+        /// <summary>
+        /// x86/x64判定
+        /// </summary>
+        public static bool IsX64
+        {
+            get { return IntPtr.Size == 8; }
+        }
+
+        // データ保存にアプリケーションデータフォルダーを使用するか
+        public static bool IsUseLocalApplicationDataFolder
+        {
+            get
+            {
+                if (_isUseLocalApplicationDataFolder == null)
+                {
+                    _isUseLocalApplicationDataFolder = ConfigurationManager.AppSettings["UseLocalApplicationData"] == "True";
+                }
+                return (bool)_isUseLocalApplicationDataFolder;
+            }
+        }
+
+        // パッケージの種類(拡張子)
+        public static string PackageType
+        {
+            get
+            {
+                if (_packageType == null)
+                {
+                    _packageType = ConfigurationManager.AppSettings["PackageType"];
+                    ////if (_packageType != ".msi") _packageType = ".zip";
+                }
+                return _packageType;
+            }
+        }
+
+        public static bool IsZipPackage => PackageType == ".zip";
+        public static bool IsMsiPackage => PackageType == ".msi";
+        public static bool IsAppxPackage => PackageType == ".appx";
+        public static bool IsCanaryPackage => PackageType == ".canary";
+        public static bool IsBetaPackage => PackageType == ".beta";
+
+        public static bool IsZipLikePackage => IsZipPackage || IsCanaryPackage || IsBetaPackage;
+
 
         // ※ build は未使用
         public static int GenerateProductVersionNumber(int major, int minor, int build)
@@ -200,7 +293,7 @@ namespace NeeView
         /// アセンブリ情報収集
         /// </summary>
         /// <param name="asm"></param>
-        private void ValidateProductInfo(Assembly asm)
+        private static void ValidateProductInfo(Assembly asm)
         {
             // パス
             AssemblyLocation = Path.GetDirectoryName(asm.Location);
@@ -224,40 +317,14 @@ namespace NeeView
             ProductVersionNumber = GenerateProductVersionNumber(version.Major, version.Minor, 0);
         }
 
-
-        /// <summary>
-        /// ユーザデータフォルダー
-        /// </summary>
-        private string _localApplicationDataPath;
-        public string LocalApplicationDataPath
-        {
-            get
-            {
-                if (_localApplicationDataPath == null)
-                {
-                    // configファイルの設定で LocalApplicationData を使用するかを判定。インストール版用
-                    if (IsUseLocalApplicationDataFolder)
-                    {
-                        _localApplicationDataPath = GetFileSystemPath(Environment.SpecialFolder.LocalApplicationData, true);
-                    }
-                    else
-                    {
-                        _localApplicationDataPath = AssemblyLocation;
-                    }
-                }
-                return _localApplicationDataPath;
-            }
-        }
-
-
         /// <summary>
         /// マイドキュメントのアプリ専用フォルダー
         /// </summary>
         /// <param name="createFolder"></param>
         /// <returns></returns>
-        public string GetMyDocumentPath(bool createFolder)
+        public static string GetMyDocumentPath(bool createFolder)
         {
-            string path = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), CompanyName, SolutionName);
+            string path = System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments), CompanyName, SolutionName);
 
             if (createFolder && !Directory.Exists(path))
             {
@@ -271,11 +338,11 @@ namespace NeeView
         /// </summary>
         /// <param name="folder"></param>
         /// <returns></returns>
-        public string GetFileSystemPath(Environment.SpecialFolder folder, bool createFolder)
+        public static string GetFileSystemPath(System.Environment.SpecialFolder folder, bool createFolder)
         {
-            string path = System.IO.Path.Combine(Environment.GetFolderPath(folder), CompanyName, SolutionName);
+            string path = System.IO.Path.Combine(System.Environment.GetFolderPath(folder), CompanyName, SolutionName);
 
-            if (this.IsAppxPackage)
+            if (IsAppxPackage)
             {
                 path += ".a"; // 既存の設定を一切引き継がない
             }
@@ -287,9 +354,9 @@ namespace NeeView
             return path;
         }
 
-        private string GetFileSystemCompanyPath(Environment.SpecialFolder folder, bool createFolder)
+        private static string GetFileSystemCompanyPath(System.Environment.SpecialFolder folder, bool createFolder)
         {
-            string path = System.IO.Path.Combine(Environment.GetFolderPath(folder), CompanyName);
+            string path = System.IO.Path.Combine(System.Environment.GetFolderPath(folder), CompanyName);
             if (createFolder && !Directory.Exists(path))
             {
                 Directory.CreateDirectory(path);
@@ -297,107 +364,8 @@ namespace NeeView
             return path;
         }
 
-
-        /// <summary>
-        /// ライブラリーパス
-        /// </summary>
-        private string _librariesPath;
-        public string LibrariesPath
-        {
-            get
-            {
-                if (_librariesPath == null)
-                {
-                    _librariesPath = Path.GetFullPath(Path.Combine(AssemblyLocation, ConfigurationManager.AppSettings["LibrariesPath"]));
-                }
-                return _librariesPath;
-            }
-        }
-
-        /// <summary>
-        /// ライブラリーパス(Platform別)
-        /// </summary>
-        public string LibrariesPlatformPath
-        {
-            get { return Path.Combine(LibrariesPath, IsX64 ? "x64" : "x86"); }
-        }
-
-        /// <summary>
-        /// x86/x64判定
-        /// </summary>
-        public static bool IsX64
-        {
-            get { return IntPtr.Size == 8; }
-        }
-
-        // データ保存にアプリケーションデータフォルダーを使用するか
-        private bool? _isUseLocalApplicationDataFolder;
-        public bool IsUseLocalApplicationDataFolder
-        {
-            get
-            {
-                if (_isUseLocalApplicationDataFolder == null)
-                {
-                    _isUseLocalApplicationDataFolder = ConfigurationManager.AppSettings["UseLocalApplicationData"] == "True";
-                }
-                return (bool)_isUseLocalApplicationDataFolder;
-            }
-        }
-
-        // パッケージの種類(拡張子)
-        private string _packageType;
-        public string PackageType
-        {
-            get
-            {
-                if (_packageType == null)
-                {
-                    _packageType = ConfigurationManager.AppSettings["PackageType"];
-                    ////if (_packageType != ".msi") _packageType = ".zip";
-                }
-                return _packageType;
-            }
-        }
-
-        public bool IsZipPackage => this.PackageType == ".zip";
-        public bool IsMsiPackage => this.PackageType == ".msi";
-        public bool IsAppxPackage => this.PackageType == ".appx";
-        public bool IsCanaryPackage => this.PackageType == ".canary";
-        public bool IsBetaPackage => this.PackageType == ".beta";
-        
-        public bool IsZipLikePackage => IsZipPackage || IsCanaryPackage || IsBetaPackage;
-
-
         // 全ユーザデータ削除
-        private bool RemoveApplicationDataCore()
-        {
-            // LocalApplicationDataフォルダーを使用している場合のみ
-            if (!IsUseLocalApplicationDataFolder)
-            {
-                throw new ApplicationException(Properties.Resources.ExceptionCannotDeleteData);
-            }
-
-            Debug.WriteLine("RemoveAllApplicationData ...");
-
-            var productFolder = GetFileSystemPath(Environment.SpecialFolder.LocalApplicationData, false);
-            Directory.Delete(LocalApplicationDataPath, true);
-            System.Threading.Thread.Sleep(500);
-
-            var companyFolder = GetFileSystemCompanyPath(Environment.SpecialFolder.LocalApplicationData, false);
-            if (Directory.GetFileSystemEntries(companyFolder).Length == 0)
-            {
-                Directory.Delete(companyFolder);
-            }
-
-            Debug.WriteLine("RemoveAllApplicationData done.");
-            return true;
-        }
-
-        //
-        public event EventHandler LocalApplicationDataRemoved;
-
-        //
-        public void RemoveApplicationData(Window owner)
+        public static void RemoveApplicationData(Window owner)
         {
             var dialog = new MessageDialog(Resources.DialogDeleteApplicationData, Resources.DialogDeleteApplicationDataTitle);
             dialog.Commands.Add(UICommands.Delete);
@@ -411,16 +379,40 @@ namespace NeeView
 
                 try
                 {
-                    this.RemoveApplicationDataCore();
+                    RemoveApplicationDataCore();
                     new MessageDialog(Resources.DialogDeleteApplicationDataComplete, Resources.DialogDeleteApplicationDataCompleteTitle).ShowDialog(owner);
-
-                    LocalApplicationDataRemoved?.Invoke(this, null);
+                    LocalApplicationDataRemoved?.Invoke(null, null);
                 }
                 catch (Exception ex)
                 {
                     new MessageDialog(ex.Message, Resources.DialogDeleteApplicationDataErrorTitle).ShowDialog(owner);
                 }
             }
+        }
+
+        // 全ユーザデータ削除
+        private static bool RemoveApplicationDataCore()
+        {
+            // LocalApplicationDataフォルダーを使用している場合のみ
+            if (!IsUseLocalApplicationDataFolder)
+            {
+                throw new ApplicationException(Properties.Resources.ExceptionCannotDeleteData);
+            }
+
+            Debug.WriteLine("RemoveAllApplicationData ...");
+
+            var productFolder = GetFileSystemPath(System.Environment.SpecialFolder.LocalApplicationData, false);
+            Directory.Delete(LocalApplicationDataPath, true);
+            System.Threading.Thread.Sleep(500);
+
+            var companyFolder = GetFileSystemCompanyPath(System.Environment.SpecialFolder.LocalApplicationData, false);
+            if (Directory.GetFileSystemEntries(companyFolder).Length == 0)
+            {
+                Directory.Delete(companyFolder);
+            }
+
+            Debug.WriteLine("RemoveAllApplicationData done.");
+            return true;
         }
     }
 }

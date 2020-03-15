@@ -147,8 +147,8 @@ namespace NeeView
                 placement.flags = 0;
                 placement.showCmd = IsMaximized ? SW.SHOWMAXIMIZED : SW.SHOWNORMAL;
 
-                placement.normalPosition.Right = placement.normalPosition.Left + (int)(this.Width * Config.Current.Dpi.DpiScaleX + 0.5);
-                placement.normalPosition.Bottom = placement.normalPosition.Top + (int)(this.Height * Config.Current.Dpi.DpiScaleY + 0.5);
+                placement.normalPosition.Right = placement.normalPosition.Left + (int)(this.Width * Environment.Dpi.DpiScaleX + 0.5);
+                placement.normalPosition.Bottom = placement.normalPosition.Top + (int)(this.Height * Environment.Dpi.DpiScaleY + 0.5);
                 //Debug.WriteLine($">>>> Restore.WIDTH: {placement.normalPosition.Right - placement.normalPosition.Left}, DPI: {Config.Current.Dpi.DpiScaleX}");
 
                 NativeMethods.SetWindowPlacement(hwnd, ref placement);
@@ -162,8 +162,8 @@ namespace NeeView
 
             NativeMethods.GetWindowPlacement(hwnd, out WINDOWPLACEMENT placement);
 
-            this.Width = (placement.normalPosition.Right - placement.normalPosition.Left) / Config.Current.Dpi.DpiScaleX;
-            this.Height = (placement.normalPosition.Bottom - placement.normalPosition.Top) / Config.Current.Dpi.DpiScaleY;
+            this.Width = (placement.normalPosition.Right - placement.normalPosition.Left) / Environment.Dpi.DpiScaleX;
+            this.Height = (placement.normalPosition.Bottom - placement.normalPosition.Top) / Environment.Dpi.DpiScaleY;
             //Debug.WriteLine($">>>> Store.WIDTH: {placement.normalPosition.Right - placement.normalPosition.Left}, DPI: {Config.Current.Dpi.DpiScaleX}");
 
             this.Placement = placement;

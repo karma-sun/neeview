@@ -1136,7 +1136,7 @@ namespace NeeView
         {
             var pos = visual.PointToScreen(point); // デバイス座標
 
-            var dpi = Config.Current.Dpi;
+            var dpi = Environment.Dpi;
             pos.X = pos.X / dpi.DpiScaleX;
             pos.Y = pos.Y / dpi.DpiScaleY;
             return pos;
@@ -1150,7 +1150,7 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+            public int _Version { get; set; } = Environment.ProductVersionNumber;
 
             [DataMember]
             public bool IsOriginalScaleShowMessage { get; set; }
@@ -1178,7 +1178,7 @@ namespace NeeView
             private void Deserialized(StreamingContext c)
             {
                 // before 34.0
-                if (_Version < Config.GenerateProductVersionNumber(34, 0, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(34, 0, 0))
                 {
                     var center = IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
                     DragControlRotateCenter = center;

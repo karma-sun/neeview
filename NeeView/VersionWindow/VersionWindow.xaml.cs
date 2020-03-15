@@ -58,8 +58,8 @@ namespace NeeView
     /// </summary>
     public class VersionWindowVM : BindableBase
     {
-        public string ApplicationName => Config.Current.ApplicationName;
-        public string DispVersion => Config.Current.DispVersion + $" ({(Config.IsX64 ? "64bit" : "32bit")})";
+        public string ApplicationName => Environment.ApplicationName;
+        public string DispVersion => Environment.DispVersion + $" ({(Environment.IsX64 ? "64bit" : "32bit")})";
         public string LicenseUri { get; private set; }
         public string ProjectUri => "https://bitbucket.org/neelabo/neeview/";
         public bool IsNetworkEnabled => App.Current.IsNetworkEnabled;
@@ -73,7 +73,7 @@ namespace NeeView
         //
         public VersionWindowVM()
         {
-            LicenseUri = "file://" + Config.Current.AssemblyLocation.Replace('\\', '/').TrimEnd('/') + $"/{Properties.Resources.HelpReadMeFile}";
+            LicenseUri = "file://" + Environment.AssemblyLocation.Replace('\\', '/').TrimEnd('/') + $"/{Properties.Resources.HelpReadMeFile}";
 
 #if NEEVIEW_S
             this.Icon = ResourceBitmapUtility.GetIconBitmapFrame("/Resources/AppS.ico", 256);
@@ -97,7 +97,7 @@ namespace NeeView
         public string DownloadUri => "https://bitbucket.org/neelabo/neeview/downloads";
 #endif
 
-        public bool IsEnabled => App.Current.IsNetworkEnabled && !Config.Current.IsAppxPackage && !Config.Current.IsCanaryPackage && !Config.Current.IsBetaPackage;
+        public bool IsEnabled => App.Current.IsNetworkEnabled && !Environment.IsAppxPackage && !Environment.IsCanaryPackage && !Environment.IsBetaPackage;
 
         public int CurrentVersion { get; set; }
         public int LastVersion { get; set; }
@@ -122,7 +122,7 @@ namespace NeeView
         {
             var assembly = System.Reflection.Assembly.GetExecutingAssembly();
             var ver = FileVersionInfo.GetVersionInfo(assembly.Location);
-            CurrentVersion = Config.GenerateProductVersionNumber(ver.FileMajorPart, ver.FileMinorPart, 0);
+            CurrentVersion = Environment.GenerateProductVersionNumber(ver.FileMajorPart, ver.FileMinorPart, 0);
 
 #if DEBUG
             // for Debug
@@ -140,7 +140,7 @@ namespace NeeView
                 // チェック開始
                 LastVersion = 0; // CurrentVersion;
                 Message = Properties.Resources.ControlAboutChecking;
-                Task.Run(() => CheckVersion(Config.Current.PackageType));
+                Task.Run(() => CheckVersion(Environment.PackageType));
             }
         }
 
@@ -168,7 +168,7 @@ namespace NeeView
                     {
                         var major = int.Parse(match.Groups["major"].Value);
                         var minor = int.Parse(match.Groups["minor"].Value);
-                        var version = Config.GenerateProductVersionNumber(major, minor, 0);
+                        var version = Environment.GenerateProductVersionNumber(major, minor, 0);
                         Debug.WriteLine($"NeeView {major}.{minor} - {version:x8}: {match.Groups["arch"]?.Value}");
                         if (LastVersion < version) LastVersion = version;
                     }

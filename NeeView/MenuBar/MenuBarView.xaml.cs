@@ -33,13 +33,13 @@ namespace NeeView
         {
             InitializeComponent();
 
-            if (Config.Current.IsCanaryPackage)
+            if (Environment.IsCanaryPackage)
             {
                 this.Watermark.Visibility = Visibility.Visible;
                 this.Watermark.Background = Brushes.Orange;
                 this.WatermarkText.Text = "Canary";
             }
-            else if (Config.Current.IsBetaPackage)
+            else if (Environment.IsBetaPackage)
             {
                 this.Watermark.Visibility = Visibility.Visible;
                 this.Watermark.Background = Brushes.Purple;

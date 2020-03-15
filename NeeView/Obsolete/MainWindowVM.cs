@@ -218,7 +218,7 @@ namespace NeeView
 
             public Memento()
             {
-                _Version = Config.Current.ProductVersionNumber;
+                _Version = Environment.ProductVersionNumber;
                 Constructor();
             }
 
@@ -231,25 +231,25 @@ namespace NeeView
             [OnDeserialized]
             private void Deserialized(StreamingContext c)
             {
-                if (_Version < Config.GenerateProductVersionNumber(1, 16, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(1, 16, 0))
                 {
                     SliderDirection = IsSliderDirectionReversed ? SliderDirection.RightToLeft : SliderDirection.LeftToRight;
                 }
                 IsSliderDirectionReversed = false;
 
-                if (_Version < Config.GenerateProductVersionNumber(1, 17, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(1, 17, 0))
                 {
                     IsHidePageSlider = IsHideMenu;
                     IsHideMenu = false;
                 }
 
-                if (_Version < Config.GenerateProductVersionNumber(1, 19, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(1, 19, 0))
                 {
                     AngleFrequency = IsAngleSnap ? 45 : 0;
                 }
                 IsAngleSnap = false;
 
-                if (_Version < Config.GenerateProductVersionNumber(1, 21, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(1, 21, 0))
                 {
                     SliderIndexLayout = IsSliderWithIndex ? SliderIndexLayout.Right : SliderIndexLayout.None;
                 }
@@ -265,7 +265,7 @@ namespace NeeView
             if (memento == null) return;
 
             // compatible before ver.22
-            if (memento._Version < Config.GenerateProductVersionNumber(1, 22, 0))
+            if (memento._Version < Environment.GenerateProductVersionNumber(1, 22, 0))
             {
                 if (memento.FileInfoSetting != null)
                 {
@@ -286,7 +286,7 @@ namespace NeeView
             }
 
             // compatible before ver.23
-            if (memento._Version < Config.GenerateProductVersionNumber(1, 23, 0))
+            if (memento._Version < Environment.GenerateProductVersionNumber(1, 23, 0))
             {
                 ThemeProfile.Current.PanelColor = memento.PanelColor;
                 MainWindowModel.Current.ContextMenuSetting = memento.ContextMenuSetting;

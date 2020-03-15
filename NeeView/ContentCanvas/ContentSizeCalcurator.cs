@@ -72,7 +72,7 @@ namespace NeeView
         /// <returns></returns>
         public FixedContentSize GetFixedContentSize(List<Size> source, double angle)
         {
-            var dpi = Config.Current.Dpi;
+            var dpi = Environment.Dpi;
 
             // 2ページ表示時は重なり補正を行う
             double offsetWidth = (source[0].Width > 0.5 && source[1].Width > 0.5) ? ContentsSpace / dpi.DpiScaleX : 0.0;

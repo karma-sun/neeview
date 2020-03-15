@@ -163,7 +163,7 @@ namespace NeeView
         public void UpdateBackgroundBrush()
         {
             BackgroundBrush = CreateBackgroundBrush();
-            BackgroundFrontBrush = CreateBackgroundFrontBrush(Config.Current.Dpi);
+            BackgroundFrontBrush = CreateBackgroundFrontBrush(Environment.Dpi);
         }
 
 
@@ -233,7 +233,7 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+            public int _Version { get; set; } = Environment.ProductVersionNumber;
 
             [Obsolete, DataMember(Name = "Background", EmitDefaultValue = false)]
             public BackgroundStyleV1 BackgroundV1 { get; set; }
@@ -259,7 +259,7 @@ namespace NeeView
             {
 #pragma warning disable CS0612
                 // before 34.0
-                if (_Version < Config.GenerateProductVersionNumber(34, 0, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(34, 0, 0))
                 {
                     if (Enum.TryParse(BackgroundV1.ToString(), out BackgroundStyle value))
                     {

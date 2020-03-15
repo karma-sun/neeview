@@ -278,7 +278,7 @@ namespace NeeView
         public class Memento : BindableBase
         {
             [DataMember]
-            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+            public int _Version { get; set; } = Environment.ProductVersionNumber;
 
             [DataMember, DefaultValue(false)]
             public bool IsRecordPageView { get; set; }
@@ -292,7 +292,7 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento._Version = Config.Current.ProductVersionNumber;
+            memento._Version = Environment.ProductVersionNumber;
 
             memento.IsRecordPageView = IsRecordPageView;
             memento.PageViewRecordPath = PageViewRecordPath;

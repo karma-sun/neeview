@@ -623,13 +623,13 @@ namespace NeeView
         // 設定ファイルの場所を開く
         public void OpenSettingFilesFolder()
         {
-            if (Config.Current.IsAppxPackage)
+            if (Environment.IsAppxPackage)
             {
                 new MessageDialog(Resources.DialogOpenSettingFolderError, Resources.DialogOpenSettingFolderErrorTitle).ShowDialog();
                 return;
             }
 
-            Process.Start("explorer.exe", $"\"{Config.Current.LocalApplicationDataPath}\"");
+            Process.Start("explorer.exe", $"\"{Environment.LocalApplicationDataPath}\"");
         }
 
         // スクリプトファイルの場所を開く

@@ -126,7 +126,7 @@ namespace NeeView
         /// </summary>
         private async Task InitializeAsync(StartupEventArgs e)
         {
-            Interop.TryLoadNativeLibrary(Config.Current.LibrariesPath);
+            Interop.TryLoadNativeLibrary(Environment.LibrariesPath);
 
             this.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
@@ -147,7 +147,7 @@ namespace NeeView
             _multiBootService = new MultbootService(isCreateNew);
 
             // セカンドプロセス判定
-            Config.Current.IsSecondProcess = _multiBootService.IsServerExists;
+            Environment.IsSecondProcess = _multiBootService.IsServerExists;
 
             Debug.WriteLine($"App.UserSettingLoading: {Stopwatch.ElapsedMilliseconds}ms");
 

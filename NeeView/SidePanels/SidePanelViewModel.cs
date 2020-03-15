@@ -20,7 +20,7 @@ namespace NeeView
     /// </summary>
     public class SidePanelViewModel : BindableBase
     {
-        public static string DragDropFormat = $"{Config.Current.ProcessId}.PanelContent";
+        public static string DragDropFormat = $"{Environment.ProcessId}.PanelContent";
 
 
         public SidePanelViewModel(SidePanelGroup panel, ItemsControl itemsControl)

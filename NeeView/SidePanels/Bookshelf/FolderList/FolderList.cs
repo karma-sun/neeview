@@ -619,7 +619,7 @@ namespace NeeView
             }
 
             // 救済措置
-            return new QueryPath(Environment.CurrentDirectory);
+            return new QueryPath(System.Environment.CurrentDirectory);
         }
 
         /// <summary>

@@ -187,7 +187,7 @@ namespace NeeView
             if (App.Current.Option.IsResetPlacement == SwitchOption.on || !App.Current.IsSaveWindowPlacement) return;
 
             // セカンドプロセスはウィンドウ形状を継承しない
-            if (Config.Current.IsSecondProcess && !App.Current.IsRestoreSecondWindow) return;
+            if (Environment.IsSecondProcess && !App.Current.IsRestoreSecondWindow) return;
 
             WindowPlacement.Current.IsMaximized = WindowShape.Current.SnapMemento != null
                 ? WindowShape.Current.SnapMemento.State == WindowStateEx.Maximized || WindowShape.Current.SnapMemento.State == WindowStateEx.FullScreen
@@ -223,7 +223,7 @@ namespace NeeView
             }
 
             // セカンドプロセスはウィンドウ形状を継承しない
-            if (Config.Current.IsSecondProcess && !App.Current.IsRestoreSecondWindow)
+            if (Environment.IsSecondProcess && !App.Current.IsRestoreSecondWindow)
             {
                 customMemento.State = WindowStateEx.Normal;
             }
@@ -740,7 +740,7 @@ namespace NeeView
         /// <param name="e"></param>
         private void MainWindow_DpiChanged(object sender, DpiChangedEventArgs e)
         {
-            var isChanged = Config.Current.SetDip(e.NewDpi);
+            var isChanged = Environment.SetDip(e.NewDpi);
             if (!isChanged) return;
 
             //

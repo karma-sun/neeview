@@ -778,7 +778,7 @@ namespace NeeView
                 }
 
                 // for .heic / .heif
-                if (ex is NotSupportedFileTypeException exc && (exc.Extension == ".heic" || exc.Extension == ".heif") && Config.Current.IsWindows10)
+                if (ex is NotSupportedFileTypeException exc && (exc.Extension == ".heic" || exc.Extension == ".heif") && Environment.IsWindows10)
                 {
                     _bookHubToast = new Toast(Properties.Resources.NotifyHeifHelp, null, ToastIcon.Information, App.Current.IsNetworkEnabled ? Properties.Resources.WordOpenStore : null, () =>
                      {
@@ -1164,7 +1164,7 @@ namespace NeeView
         public class Memento : BindableBase
         {
             [DataMember]
-            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+            public int _Version { get; set; } = Environment.ProductVersionNumber;
 
             [DataMember(Order = 6)]
             public bool IsConfirmRecursive { get; set; }
@@ -1266,7 +1266,7 @@ namespace NeeView
             private void Deserialized(StreamingContext c)
             {
                 // before 1.19
-                if (_Version < Config.GenerateProductVersionNumber(1, 19, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(1, 19, 0))
                 {
                     PageEndAction = IsEnabledAutoNextFolder ? PageEndAction.NextFolder : PageEndAction.None;
                     PreLoadMode = AllowPagePreLoad ? PreLoadMode.AutoPreLoad : PreLoadMode.None;
@@ -1275,7 +1275,7 @@ namespace NeeView
                 AllowPagePreLoad = false;
 
                 // before 34.0
-                if (_Version < Config.GenerateProductVersionNumber(34, 0, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(34, 0, 0))
                 {
                     ArchiveRecursveMode = IsArchiveRecursive ? ArchiveEntryCollectionMode.IncludeSubArchives : ArchiveEntryCollectionMode.IncludeSubDirectories;
                 }
@@ -1290,7 +1290,7 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento._Version = Config.Current.ProductVersionNumber;
+            memento._Version = Environment.ProductVersionNumber;
 
             memento.IsConfirmRecursive = IsConfirmRecursive;
             memento.IsAutoRecursive = IsAutoRecursive;
@@ -1326,7 +1326,7 @@ namespace NeeView
             if (memento == null) return;
 
             // compatible before ver.22
-            if (memento._Version < Config.GenerateProductVersionNumber(1, 22, 0))
+            if (memento._Version < Environment.GenerateProductVersionNumber(1, 22, 0))
             {
                 SlideShow.Current.IsSlideShowByLoop = memento.IsSlideShowByLoop;
                 SlideShow.Current.SlideShowInterval = memento.SlideShowInterval;
@@ -1334,7 +1334,7 @@ namespace NeeView
             }
 
             // compatible before ver.23
-            if (memento._Version < Config.GenerateProductVersionNumber(1, 23, 0))
+            if (memento._Version < Environment.GenerateProductVersionNumber(1, 23, 0))
             {
                 BookProfile.Current.IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
                 BookProfile.Current.BookPageCollectMode = memento.IsEnableNoSupportFile ? BookPageCollectMode.All : BookPageCollectMode.ImageAndBook;

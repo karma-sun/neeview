@@ -35,7 +35,7 @@ namespace NeeView
         {
             InitializeScheduler();
 
-            _maxWorkerSize = Math.Max(4, Environment.ProcessorCount);
+            _maxWorkerSize = Math.Max(4, System.Environment.ProcessorCount);
 
             Workers = new JobWorker[_maxWorkerSize];
 

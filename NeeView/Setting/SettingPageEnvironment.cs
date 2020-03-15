@@ -33,13 +33,13 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(MenuBar.Current, nameof(MenuBar.IsCaptionEmulateInFullScreen))),
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsNetworkEnabled)))
                     {
-                        Visibility = new VisibilityPropertyValue(Config.Current.IsAppxPackage ? Visibility.Collapsed : Visibility.Visible)
+                        Visibility = new VisibilityPropertyValue(Environment.IsAppxPackage ? Visibility.Collapsed : Visibility.Visible)
                     }),
 
                 new SettingItemSection(Properties.Resources.SettingPageGeneralDetailExplorer,
                     new SettingItemProperty(PropertyMemberElement.Create(ExplorerContextMenu.Current, nameof(ExplorerContextMenu.IsEnabled))))
                 {
-                    Visibility = new VisibilityPropertyValue(Config.Current.IsZipLikePackage ? Visibility.Visible : Visibility.Collapsed)
+                    Visibility = new VisibilityPropertyValue(Environment.IsZipLikePackage ? Visibility.Visible : Visibility.Collapsed)
                 },
             };
         }
@@ -94,7 +94,7 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSyncUserSetting))),
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSettingBackup)))
                     {
-                        Visibility = new VisibilityPropertyValue(Config.Current.IsAppxPackage ? Visibility.Collapsed : Visibility.Visible)
+                        Visibility = new VisibilityPropertyValue(Environment.IsAppxPackage ? Visibility.Collapsed : Visibility.Visible)
                     }),
 
                 new SettingItemSection(Properties.Resources.SettingPageGeneralLocationTypes, Properties.Resources.SettingPageGeneralLocationTypesTips,
@@ -126,7 +126,7 @@ namespace NeeView.Setting
         private void RemoveAllData_Executed(UIElement element)
         {
             var window = element != null ? Window.GetWindow(element) : null;
-            Config.Current.RemoveApplicationData(window);
+            Environment.RemoveApplicationData(window);
         }
 
         #endregion

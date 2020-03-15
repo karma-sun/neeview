@@ -89,7 +89,7 @@ namespace NeeView
         [PropertyMember("@ParamIsNetworkEnabled", Tips = "@ParamIsNetworkEnabledTips")]
         public bool IsNetworkEnabled
         {
-            get { return _isNetworkEnalbe || Config.Current.IsAppxPackage; } // Appxは強制ON
+            get { return _isNetworkEnalbe || Environment.IsAppxPackage; } // Appxは強制ON
             set { if (_isNetworkEnalbe != value) { _isNetworkEnalbe = value; RaisePropertyChanged(); } }
         }
 
@@ -219,7 +219,7 @@ namespace NeeView
         [PropertyMember("@ParamIsSettingBackup", Tips = "@ParamIsSettingBackupTips")]
         public bool IsSettingBackup
         {
-            get { return _isSettingBackup || Config.Current.IsAppxPackage; }  // Appxは強制ON
+            get { return _isSettingBackup || Environment.IsAppxPackage; }  // Appxは強制ON
             set { _isSettingBackup = value; }
         }
 
@@ -247,15 +247,15 @@ namespace NeeView
         [PropertyPath("@ParamCacheDirectory", Tips = "@ParamCacheDirectoryTips", FileDialogType = FileDialogType.Directory)]
         public string CacheDirectory
         {
-            get => _cacheDirectory ?? Config.Current.LocalApplicationDataPath;
-            set => _cacheDirectory = string.IsNullOrWhiteSpace(value) || value == Config.Current.LocalApplicationDataPath ? null : value;
+            get => _cacheDirectory ?? Environment.LocalApplicationDataPath;
+            set => _cacheDirectory = string.IsNullOrWhiteSpace(value) || value == Environment.LocalApplicationDataPath ? null : value;
         }
 
         // サムネイルキャッシュの場所 (変更前)
         public string CacheDirectoryOld
         {
-            get => _cacheDirectoryOld ?? Config.Current.LocalApplicationDataPath;
-            set => _cacheDirectoryOld = string.IsNullOrWhiteSpace(value) || value == Config.Current.LocalApplicationDataPath ? null : value;
+            get => _cacheDirectoryOld ?? Environment.LocalApplicationDataPath;
+            set => _cacheDirectoryOld = string.IsNullOrWhiteSpace(value) || value == Environment.LocalApplicationDataPath ? null : value;
         }
 
         #endregion
@@ -265,7 +265,7 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+            public int _Version { get; set; } = Environment.ProductVersionNumber;
 
             [DataMember, DefaultValue(false)]
             public bool IsMultiBootEnabled { get; set; }
@@ -371,7 +371,7 @@ namespace NeeView
             private void Deserialized(StreamingContext c)
             {
                 // before ver.30
-                if (_Version < Config.GenerateProductVersionNumber(30, 0, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(30, 0, 0))
                 {
                     if (IsDisableSave)
                     {
@@ -382,7 +382,7 @@ namespace NeeView
                 }
 
                 // before ver.34
-                if (_Version < Config.GenerateProductVersionNumber(34, 0, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(34, 0, 0))
                 {
                     WindowChromeFrame = WindowChromeFrameV1 == WindowChromeFrameV1.None ? WindowChromeFrame.None : WindowChromeFrame.WindowFrame;
                 }
@@ -474,7 +474,7 @@ namespace NeeView
         public void RestoreCompatible(UserSetting setting)
         {
             // compatible before ver.23
-            if (setting._Version < Config.GenerateProductVersionNumber(1, 23, 0))
+            if (setting._Version < Environment.GenerateProductVersionNumber(1, 23, 0))
             {
                 if (setting.ViewMemento != null)
                 {

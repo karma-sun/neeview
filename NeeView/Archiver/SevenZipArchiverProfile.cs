@@ -48,7 +48,7 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+            public int _Version { get; set; } = Environment.ProductVersionNumber;
 
             [DataMember, DefaultValue(true)]
             public bool IsEnabled { get; set; }
@@ -100,14 +100,14 @@ namespace NeeView
             this.IsPreExtractToMemory = memento.IsPreExtractToMemory;
 
             // compatible before ver.25
-            if (memento._Version < Config.GenerateProductVersionNumber(1, 25, 0))
+            if (memento._Version < Environment.GenerateProductVersionNumber(1, 25, 0))
             {
                 this.SupportFileTypes.Add(".cbr");
                 this.SupportFileTypes.Add(".cbz");
             }
 
             // compatible before ver.29
-            if (memento._Version < Config.GenerateProductVersionNumber(1, 29, 0))
+            if (memento._Version < Environment.GenerateProductVersionNumber(1, 29, 0))
             {
                 // .zipファイル展開を優先するため、標準の圧縮ファイル展開機能を無効にする
                 if (this.SupportFileTypes.Contains(".zip"))

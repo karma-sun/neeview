@@ -29,7 +29,7 @@ namespace NeeView
     /// </summary>
     public partial class FolderTreeView : UserControl
     {
-        public static string DragDropFormat = $"{Config.Current.ProcessId}.TreeViewItem";
+        public static string DragDropFormat = $"{Environment.ProcessId}.TreeViewItem";
 
         private CancellationTokenSource _removeUnlinkedCommandCancellationTokenSource;
         private FolderTreeViewModel _vm;

@@ -68,15 +68,15 @@ namespace NeeView
                 string errorLog;
                 using (var writer = new StringWriter())
                 {
-                    writer.WriteLine("OS Version: " + System.Environment.OSVersion + (Config.IsX64 ? " (64bit)" : " (32bit)"));
-                    writer.WriteLine("NeeView Version: " + Config.Current.DispVersion + $" ({Config.Current.PackageType})");
+                    writer.WriteLine("OS Version: " + System.Environment.OSVersion + (Environment.IsX64 ? " (64bit)" : " (32bit)"));
+                    writer.WriteLine("NeeView Version: " + Environment.DispVersion + $" ({Environment.PackageType})");
                     writer.WriteLine("");
 
                     WriteException(exception, writer);
                     errorLog = writer.ToString();
                 }
 
-                var errorLogFileName = System.IO.Path.Combine(Config.Current.LocalApplicationDataPath, "ErrorLog.txt");
+                var errorLogFileName = System.IO.Path.Combine(Environment.LocalApplicationDataPath, "ErrorLog.txt");
                 using (var writer = new StreamWriter(new FileStream(errorLogFileName, FileMode.Create, FileAccess.Write)))
                 {
                     writer.Write(errorLog);

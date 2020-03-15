@@ -480,7 +480,7 @@ namespace NeeView
         public class Memento
         {
             [DataMember]
-            public int _Version { get; set; } = Config.Current.ProductVersionNumber;
+            public int _Version { get; set; } = Environment.ProductVersionNumber;
 
             [DataMember]
             public TreeListNode<IBookmarkEntry> Nodes { get; set; }
@@ -516,7 +516,7 @@ namespace NeeView
             private void Deserialized(StreamingContext c)
             {
 #pragma warning disable CS0612
-                if (_Version < Config.GenerateProductVersionNumber(31, 0, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(31, 0, 0))
                 {
                     Nodes = new TreeListNode<IBookmarkEntry>();
                     foreach (var book in OldBooks)
@@ -533,7 +533,7 @@ namespace NeeView
                     OldBooks = null;
                 }
 
-                if (_Version < Config.GenerateProductVersionNumber(33, 0, 0))
+                if (_Version < Environment.GenerateProductVersionNumber(33, 0, 0))
                 {
                     foreach (var book in Books)
                     {
@@ -605,7 +605,7 @@ namespace NeeView
         {
             QuickAccessCollection.Current.Restore(memento.QuickAccess);
 
-            if (memento._Version < Config.GenerateProductVersionNumber(32, 0, 0))
+            if (memento._Version < Environment.GenerateProductVersionNumber(32, 0, 0))
             {
                 ValidateFolderName(memento.Nodes);
             }

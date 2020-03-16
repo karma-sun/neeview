@@ -52,11 +52,13 @@ namespace NeeView
         [PropertyMember("@ParamThumbnailIsCacheEnabled", Tips = "@ParamThumbnailIsCacheEnabledTips")]
         public bool IsCacheEnabled { get; set; } = true;
 
+#if false
         [PropertyMember("@ParamThumbnailPageCapacity", Tips = "@ParamThumbnailPageCapacityTips")]
         public int PageCapacity { get; set; } = 1000;
 
         [PropertyMember("@ParamThumbnailBookCapacity", Tips = "@ParamThumbnailBookCapacityTips")]
         public int BookCapacity { get; set; } = 200;
+#endif
 
 #if false
         private int _bannerWidth = 200;
@@ -216,8 +218,8 @@ namespace NeeView
             memento.Format = this.Format;
             memento.Quality = this.Quality;
             memento.IsCacheEnabled = this.IsCacheEnabled;
-            memento.PageCapacity = this.PageCapacity;
-            memento.BookCapacity = this.BookCapacity;
+            ////memento.PageCapacity = this.PageCapacity;
+            ////memento.BookCapacity = this.BookCapacity;
             ////memento.ThumbnailWidth = this.ThumbnailWidth;
             ////memento.BannerWidth = this.BannerWidth;
             ////memento.TileWidth = this.TileWidth;
@@ -233,8 +235,8 @@ namespace NeeView
             this.Format = memento.Format;
             this.Quality = memento.Quality;
             this.IsCacheEnabled = memento.IsCacheEnabled;
-            this.PageCapacity = memento.PageCapacity;
-            this.BookCapacity = memento.BookCapacity;
+            Config.Current.Performance.ThumbnailPageCapacity = memento.PageCapacity;
+            Config.Current.Performance.ThumbnailBookCapacity = memento.BookCapacity;
             ////this.ThumbnailWidth = memento.ThumbnailWidth;
             ////this.BannerWidth = memento.BannerWidth;
             ////this.TileWidth = memento.TileWidth;

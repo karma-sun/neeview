@@ -43,6 +43,11 @@ namespace NeeView
         public App.Memento App { get; set; }
 
 
+        // 新しい保存データ形式のテスト。一時的なものです。
+        [DataMember]
+        public ConfigAccessor.Memento Config { get; set; }
+
+
         #region Obsolete
 
         [Obsolete, DataMember(Order = 1, EmitDefaultValue = false)]

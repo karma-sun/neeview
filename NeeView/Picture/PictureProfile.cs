@@ -43,6 +43,7 @@ namespace NeeView
         [PropertyMember("@ParamPictureProfileSvgExtensions")]
         public FileTypeCollection SvgFileTypes => _fileExtension.SvgExtensions;
 
+#if false
         // 読み込みデータのサイズ制限適用フラグ
         [PropertyMember("@ParamPictureProfileIsLimitSourceSize", Tips = "@ParamPictureProfileIsLimitSourceSizeTips")]
         public bool IsLimitSourceSize { get; set; }
@@ -60,6 +61,7 @@ namespace NeeView
                 if (_MaximumSize != size) { _MaximumSize = size; RaisePropertyChanged(); }
             }
         }
+#endif
 
         public bool IsResizeFilterEnabled
         {
@@ -138,7 +140,7 @@ namespace NeeView
         {
             if (size.IsEmpty) return size;
 
-            return size.Limit(this.MaximumSize);
+            return size.Limit(Config.Current.Performance.MaximumSize);
         }
 
 
@@ -176,8 +178,8 @@ namespace NeeView
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.IsLimitSourceSize = this.IsLimitSourceSize;
-            memento.Maximum = this.MaximumSize;
+            ////memento.IsLimitSourceSize = Config.Current.Performance.IsLimitSourceSize;
+            ////memento.Maximum = Config.Current.Performance.MaximumSize;
             memento.IsResizeFilterEnabled = this.IsResizeFilterEnabled;
             memento.CustomSize = this.CustomSize.CreateMemento();
             memento.IsAspectRatioEnabled = this.IsAspectRatioEnabled;
@@ -188,8 +190,8 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.IsLimitSourceSize = memento.IsLimitSourceSize;
-            this.MaximumSize = memento.Maximum;
+            Config.Current.Performance.IsLimitSourceSize = memento.IsLimitSourceSize;
+            Config.Current.Performance.MaximumSize = memento.Maximum;
             this.IsResizeFilterEnabled = memento.IsResizeFilterEnabled;
             this.CustomSize.Restore(memento.CustomSize);
             this.IsAspectRatioEnabled = memento.IsAspectRatioEnabled;

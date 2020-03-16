@@ -35,7 +35,15 @@ namespace NeeView
         {
             InitializeScheduler();
 
-            _maxWorkerSize = Math.Max(4, System.Environment.ProcessorCount);
+            _maxWorkerSize = Config.Current.Performance.GetMaxJobWorkerSzie();
+            _workerSize = Config.Current.Performance.JobWorkerSize;
+
+            Config.Current.Performance.AddPropertyChanged(nameof(PerformanceConfig.JobWorkerSize), (s, e) =>
+            {
+                _workerSize = Config.Current.Performance.JobWorkerSize;
+                ChangeWorkerSize(_workerSize);
+            });
+
 
             Workers = new JobWorker[_maxWorkerSize];
 
@@ -52,6 +60,7 @@ namespace NeeView
             set { if (_isBusy != value) { _isBusy = value; RaisePropertyChanged(); } }
         }
 
+#if false
         [PropertyMember("@ParamJobEngineWorkerSize", Tips = "@ParamJobEngineWorkerSizeTips")]
         public int WorkerSize
         {
@@ -67,6 +76,7 @@ namespace NeeView
                 }
             }
         }
+#endif
 
         public JobWorker[] Workers { get; set; }
 
@@ -187,7 +197,7 @@ namespace NeeView
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.WorkerSize = this.WorkerSize;
+            ////memento.WorkerSize = Config.Current.Performance.JobWorkerSize;
             return memento;
         }
 
@@ -195,7 +205,7 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.WorkerSize = memento.WorkerSize;
+            Config.Current.Performance.JobWorkerSize = memento.WorkerSize;
         }
         #endregion
     }

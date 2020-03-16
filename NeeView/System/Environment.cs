@@ -15,7 +15,7 @@ using System.Xml.Linq;
 namespace NeeView
 {
     /// <summary>
-    /// アプリ全体の設定
+    /// アプリの環境
     /// </summary>
     public static class Environment
     {

@@ -51,14 +51,14 @@ namespace NeeView
         static BookProfile() => Current = new BookProfile();
         public static BookProfile Current { get; }
 
-        private int _cacheMemorySize = 100;
-        private int _maxCacheMemorySize;
+        ////private int _cacheMemorySize = 100;
+        ////private int _maxCacheMemorySize;
 
         #region Constructors
 
         private BookProfile()
         {
-            _maxCacheMemorySize = GetMaxCacheMemorySize();
+            ////_maxCacheMemorySize = GetMaxCacheMemorySize();
         }
 
         #endregion
@@ -77,11 +77,13 @@ namespace NeeView
         [PropertyMember("@ParamBookIsMultiplePageMove", Tips = "@ParamBookIsMultiplePageMoveTips")]
         public bool IsMultiplePageMove { get; set; } = true;
 
+#if false
         /// <summary>
         /// 先読みページ数
         /// </summary>
         [PropertyMember("@ParamPreLoadSize", Tips = "@ParamPreLoadSizeTips")]
         public int PreLoadSize { get; set; } = 2;
+#endif
 
         /// <summary>
         /// 横長画像判定用比率
@@ -99,6 +101,7 @@ namespace NeeView
         [PropertyMember("@ParamBookIsEnableAnimatedGif", Tips = "@ParamBookIsEnableAnimatedGifTips")]
         public bool IsEnableAnimatedGif { get; set; } = true;
 
+#if false
         // ページ収集モード
         [PropertyMember("@ParamBookPageCollectMode", Tips = "@ParamBookPageCollectModeTips")]
         public BookPageCollectMode BookPageCollectMode { get; set; } = BookPageCollectMode.ImageAndBook;
@@ -106,11 +109,13 @@ namespace NeeView
         // ページ読み込み中表示
         [PropertyMember("@ParamBookIsLoadingPageVisible", Tips = "@ParamBookIsLoadingPageVisibleTips")]
         public bool IsLoadingPageVisible { get; set; } = true;
+#endif
 
         // サポート外ファイル有効のときに、すべてのファイルを画像とみなす
         [PropertyMember("@ParamBookIsAllFileAnImage", Tips = "@ParamBookIsAllFileAnImageTips")]
         public bool IsAllFileAnImage { get; set; }
 
+#if false
         // キャッシュメモリサイズ (MB)
         [PropertyMember("@ParamCacheMemorySize", Tips = "@ParamCacheMemorySizeTips")]
         public int CacheMemorySize
@@ -119,6 +124,7 @@ namespace NeeView
             get { return Math.Min(_cacheMemorySize, _maxCacheMemorySize); }
             set { SetProperty(ref _cacheMemorySize, Math.Min(value, _maxCacheMemorySize)); }
         }
+#endif
 
         // ファイル並び順、ファイル優先
         [PropertyMember("@ParamIsSortFileFirst", Tips = "@ParamIsSortFileFirstTips")]
@@ -126,6 +132,7 @@ namespace NeeView
 
         #endregion
 
+#if false
         /// <summary>
         /// 最大キャッシュメモリサイズ計算
         /// </summary>
@@ -144,6 +151,7 @@ namespace NeeView
 
             return max;
         }
+#endif
 
         /// <summary>
         /// ページ移動優先設定
@@ -244,14 +252,14 @@ namespace NeeView
             var memento = new Memento();
             memento.IsPrioritizePageMove = this.IsPrioritizePageMove;
             memento.IsMultiplePageMove = this.IsMultiplePageMove;
-            memento.PreLoadSize = this.PreLoadSize;
+            ////memento.PreLoadSize = this.PreLoadSize;
             memento.WideRatio = this.WideRatio;
             memento.ExcludePath = this.Excludes.OneLine;
             memento.IsEnableAnimatedGif = this.IsEnableAnimatedGif;
-            memento.BookPageCollectMode = this.BookPageCollectMode;
-            memento.IsLoadingPageVisible = this.IsLoadingPageVisible;
+            ////memento.BookPageCollectMode = this.BookPageCollectMode;
+            ////memento.IsLoadingPageVisible = this.IsLoadingPageVisible;
             memento.IsAllFileAnImage = this.IsAllFileAnImage;
-            memento.CacheMemorySize = _cacheMemorySize;
+            ////memento.CacheMemorySize = _cacheMemorySize;
             memento.IsSortFileFirst = this.IsSortFileFirst;
             return memento;
         }
@@ -262,14 +270,14 @@ namespace NeeView
             if (memento == null) return;
             this.IsPrioritizePageMove = memento.IsPrioritizePageMove;
             this.IsMultiplePageMove = memento.IsMultiplePageMove;
-            this.PreLoadSize = memento.PreLoadSize;
+            Config.Current.Performance.PreLoadSize = memento.PreLoadSize;
             this.WideRatio = memento.WideRatio;
             this.Excludes.OneLine = memento.ExcludePath;
             this.IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
-            this.BookPageCollectMode = memento.BookPageCollectMode;
-            this.IsLoadingPageVisible = memento.IsLoadingPageVisible;
+            Config.Current.System.BookPageCollectMode = memento.BookPageCollectMode;
+            Config.Current.Performance.IsLoadingPageVisible = memento.IsLoadingPageVisible;
             this.IsAllFileAnImage = memento.IsAllFileAnImage;
-            _cacheMemorySize = memento.CacheMemorySize;
+            Config.Current.Performance.CacheMemorySize = memento.CacheMemorySize;
             this.IsSortFileFirst = memento.IsSortFileFirst;
         }
         #endregion

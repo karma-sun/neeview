@@ -259,7 +259,7 @@ namespace NeeView
                 FileIOProfile.Current.IsRemoveConfirmed = this.file_remove_confirm;
                 FileIOProfile.Current.IsEnabled = this.file_permit_command;
 
-                JobEngine.Current.WorkerSize = this.loader_thread_size;
+                Config.Current.Performance.JobWorkerSize = this.loader_thread_size;
 
                 SevenZipArchiverProfile.Current.X86DllPath = this.loader_archiver_7z_dllpath;
                 SevenZipArchiverProfile.Current.X64DllPath = this.loader_archiver_7z_dllpath_x64;
@@ -269,8 +269,8 @@ namespace NeeView
 
                 ThumbnailProfile.Current.Quality = this.thumbnail_quality;
                 ThumbnailProfile.Current.IsCacheEnabled = this.thumbnail_cache;
-                ThumbnailProfile.Current.PageCapacity = this.thumbnail_book_capacity;
-                ThumbnailProfile.Current.BookCapacity = this.thumbnail_folder_capacity;
+                Config.Current.Performance.ThumbnailPageCapacity = this.thumbnail_book_capacity;
+                Config.Current.Performance.ThumbnailBookCapacity = this.thumbnail_folder_capacity;
                 SidePanelProfile.Current.BannerItemImageWidth = this.banner_width;
 
                 MainWindowModel.Current.IsOpenbookAtCurrentPlace = this.openbook_begin_current;

@@ -17,8 +17,6 @@ namespace NeeView.Data
         /// <summary>
         /// シリアライズ
         /// </summary>
-        /// <param name="element"></param>
-        /// <returns></returns>
         public static string Serialize(object element, Type type)
         {
             var serializer = new DataContractJsonSerializer(type);
@@ -34,8 +32,6 @@ namespace NeeView.Data
         /// <summary>
         /// シリアライズ
         /// </summary>
-        /// <param name="json"></param>
-        /// <returns></returns>
         public static string Serialize<T>(T element) where T : class
         {
             var serializer = new DataContractJsonSerializer(typeof(T));
@@ -47,13 +43,44 @@ namespace NeeView.Data
             }
         }
 
+        /// <summary>
+        /// シリアライズ (詳細)
+        /// </summary>
+        public static string Serialize<T>(T element, DataContractJsonSerializerSettings settings, bool indent) where T : class
+        {
+            using (var stream = new System.IO.MemoryStream())
+            {
+                using (var writer = JsonReaderWriterFactory.CreateJsonWriter(stream, Encoding.UTF8, true, indent))
+                {
+                    var serializer = new DataContractJsonSerializer(typeof(T), settings);
+                    serializer.WriteObject(writer, element);
+                }
+
+                return Encoding.UTF8.GetString(stream.ToArray());
+            }
+        }
+
+        /// <summary>
+        /// シリアライズ (詳細)
+        /// </summary>
+        public static byte[] SerializeRaw<T>(T element, DataContractJsonSerializerSettings settings, bool indent) where T : class
+        {
+            using (var stream = new System.IO.MemoryStream())
+            {
+                using (var writer = JsonReaderWriterFactory.CreateJsonWriter(stream, Encoding.UTF8, true, indent))
+                {
+                    var serializer = new DataContractJsonSerializer(typeof(T), settings);
+                    serializer.WriteObject(writer, element);
+                }
+
+                return stream.ToArray();
+            }
+        }
+
 
         /// <summary>
         /// デシリアライズ
         /// </summary>
-        /// <param name="stream"></param>
-        /// <param name="type"></param>
-        /// <returns></returns>
         public static object Deserialize(System.IO.Stream stream, Type type)
         {
             var serializer = new DataContractJsonSerializer(type);
@@ -63,8 +90,6 @@ namespace NeeView.Data
         /// <summary>
         /// デシリアライズ
         /// </summary>
-        /// <param name="json"></param>
-        /// <returns></returns>
         public static object Deserialize(string json, Type type)
         {
             using (var stream = new System.IO.MemoryStream(Encoding.UTF8.GetBytes(json)))
@@ -73,12 +98,20 @@ namespace NeeView.Data
             }
         }
 
+        /// <summary>
+        /// デシリアライズ
+        /// </summary>
+        public static object Deserialize(byte[] json, Type type)
+        {
+            using (var stream = new System.IO.MemoryStream(json))
+            {
+                return Deserialize(stream, type);
+            }
+        }
 
         /// <summary>
         /// デシリアライズ
         /// </summary>
-        /// <param name="json"></param>
-        /// <returns></returns>
         public static T Deserialize<T>(System.IO.Stream stream) where T : class
         {
             var serializer = new DataContractJsonSerializer(typeof(T));
@@ -88,8 +121,6 @@ namespace NeeView.Data
         /// <summary>
         /// デシリアライズ
         /// </summary>
-        /// <param name="json"></param>
-        /// <returns></returns>
         public static T Deserialize<T>(string json) where T : class
         {
             using (var stream = new System.IO.MemoryStream(Encoding.UTF8.GetBytes(json)))
@@ -101,8 +132,6 @@ namespace NeeView.Data
         /// <summary>
         /// デシリアライズ
         /// </summary>
-        /// <param name="json"></param>
-        /// <returns></returns>
         public static T Deserialize<T>(byte[] json) where T : class
         {
             using (var stream = new System.IO.MemoryStream(json))
@@ -117,8 +146,6 @@ namespace NeeView.Data
         /// <summary>
         /// シリアライズ(GZip)
         /// </summary>
-        /// <param name="json"></param>
-        /// <returns></returns>
         public static byte[] SerializeGZip<T>(T element) where T : class
         {
             // 入力用ストリーム
@@ -206,75 +233,5 @@ namespace NeeView.Data
             return Deserialize<T>(Serialize(source));
         }
 
-
-        #region JSON formatter
-
-        //
-        private const string INDENT_STRING = "    ";
-
-        /// <summary>
-        /// Jsonのフォーマット (開発用)
-        /// http://stackoverflow.com/questions/4580397/json-formatter-in-c/19534474
-        /// </summary>
-        public static string Format(string json)
-        {
-            var indent = 0;
-            var quoted = false;
-            var sb = new StringBuilder();
-            for (var i = 0; i < json.Length; i++)
-            {
-                var ch = json[i];
-                switch (ch)
-                {
-                    case '{':
-                    case '[':
-                        sb.Append(ch);
-                        if (!quoted)
-                        {
-                            sb.AppendLine();
-                            Enumerable.Range(0, ++indent).ForEach(item => sb.Append(INDENT_STRING));
-                        }
-                        break;
-                    case '}':
-                    case ']':
-                        if (!quoted)
-                        {
-                            sb.AppendLine();
-                            Enumerable.Range(0, --indent).ForEach(item => sb.Append(INDENT_STRING));
-                        }
-                        sb.Append(ch);
-                        break;
-                    case '"':
-                        sb.Append(ch);
-                        bool escaped = false;
-                        var index = i;
-                        while (index > 0 && json[--index] == '\\')
-                            escaped = !escaped;
-                        if (!escaped)
-                            quoted = !quoted;
-                        break;
-                    case ',':
-                        sb.Append(ch);
-                        if (!quoted)
-                        {
-                            sb.AppendLine();
-                            Enumerable.Range(0, indent).ForEach(item => sb.Append(INDENT_STRING));
-                        }
-                        break;
-                    case ':':
-                        sb.Append(ch);
-                        if (!quoted)
-                            sb.Append(" ");
-                        break;
-                    default:
-                        sb.Append(ch);
-                        break;
-                }
-            }
-            return sb.ToString();
-        }
     }
-
-
-    #endregion
 }

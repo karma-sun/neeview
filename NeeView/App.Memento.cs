@@ -223,9 +223,11 @@ namespace NeeView
             set { _isSettingBackup = value; }
         }
 
+#if false
         // 言語
         [PropertyMember("@ParamLanguage", Tips = "@ParamLanguageTips")]
         public Language Language { get; set; } = LanguageExtensions.GetLanguage(CultureInfo.CurrentCulture.Name);
+#endif
 
         // スプラッシュスクリーン
         [PropertyMember("@ParamIsSplashScreenEnabled")]
@@ -258,9 +260,9 @@ namespace NeeView
             set => _cacheDirectoryOld = string.IsNullOrWhiteSpace(value) || value == Environment.LocalApplicationDataPath ? null : value;
         }
 
-        #endregion
+#endregion
 
-        #region Memento
+#region Memento
         [DataContract]
         public class Memento
         {
@@ -413,7 +415,7 @@ namespace NeeView
             memento.DownloadPath = this.DownloadPath;
             memento.IsRestoreSecondWindow = this.IsRestoreSecondWindow;
             memento.IsSettingBackup = this.IsSettingBackup;
-            memento.Language = this.Language;
+            ////memento.Language = this.Language;
             memento.IsSplashScreenEnabled = this.IsSplashScreenEnabled;
             memento.IsSyncUserSetting = this.IsSyncUserSetting;
             memento.TemporaryDirectory = _temporaryDirectory;
@@ -458,7 +460,7 @@ namespace NeeView
             this.DownloadPath = memento.DownloadPath;
             this.IsRestoreSecondWindow = memento.IsRestoreSecondWindow;
             this.IsSettingBackup = memento.IsSettingBackup;
-            this.Language = memento.Language;
+            Config.Current.System.Language = memento.Language;
             this.IsSplashScreenEnabled = memento.IsSplashScreenEnabled;
             this.IsSyncUserSetting = memento.IsSyncUserSetting;
             this.TemporaryDirectory = memento.TemporaryDirectory;
@@ -495,7 +497,7 @@ namespace NeeView
 
 #pragma warning restore CS0612
 
-        #endregion
+#endregion
 
     }
 }

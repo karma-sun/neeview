@@ -165,7 +165,7 @@ namespace NeeView
             ShowSplashScreen();
 
             // 言語適用
-            NeeView.Properties.Resources.Culture = CultureInfo.GetCultureInfo(Language.GetCultureName());
+            NeeView.Properties.Resources.Culture = CultureInfo.GetCultureInfo(Config.Current.System.Language.GetCultureName());
 
             // バージョン表示
             if (this.Option.IsVersion)

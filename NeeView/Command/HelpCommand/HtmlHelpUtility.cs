@@ -11,7 +11,7 @@ namespace NeeView
     {
         public static string GetSearchHelp()
         {
-            Uri fileUri = new Uri($"/Resources/{App.Current.Language.GetCultureName()}/SearchOptions.html", UriKind.Relative);
+            Uri fileUri = new Uri($"/Resources/{Config.Current.System.Language.GetCultureName()}/SearchOptions.html", UriKind.Relative);
             StreamResourceInfo info = System.Windows.Application.GetResourceStream(fileUri);
             using (StreamReader sr = new StreamReader(info.Stream))
             {

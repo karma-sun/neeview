@@ -362,7 +362,7 @@ namespace NeeView
 
             var entries = await GetEntriesAsync(token);
             var extractSize = entries.Select(e => e.Length).Sum();
-            return extractSize / (1024 * 1024) < SevenZipArchiverProfile.Current.PreExtractSolidSize;
+            return extractSize / (1024 * 1024) < Config.Current.Performance.PreExtractSolidSize;
         }
 
         /// <summary>
@@ -370,7 +370,7 @@ namespace NeeView
         /// </summary>
         public override async Task PreExtractInnerAsync(string directory, CancellationToken token)
         {
-            if (SevenZipArchiverProfile.Current.IsPreExtractToMemory)
+            if (Config.Current.Performance.IsPreExtractToMemory)
             {
                 await PreExtractMemoryAsync(token);
             }

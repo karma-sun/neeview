@@ -233,7 +233,7 @@ namespace NeeView
         private Toast _bookHubToast;
         private bool _isLoading;
         private bool _isAutoRecursive = false;
-        private ArchiveEntryCollectionMode _archiveRecursiveMode = ArchiveEntryCollectionMode.IncludeSubArchives;
+        ////private ArchiveEntryCollectionMode _archiveRecursiveMode = ArchiveEntryCollectionMode.IncludeSubArchives;
         private BookUnit _bookUnit;
         private string _address;
         private BookHubCommandEngine _commandEngine;
@@ -334,6 +334,7 @@ namespace NeeView
             set { SetProperty(ref _isAutoRecursive, value); }
         }
 
+#if false
         /// <summary>
         /// アーカイブの展開モード
         /// </summary>
@@ -343,6 +344,7 @@ namespace NeeView
             get { return _archiveRecursiveMode; }
             set { SetProperty(ref _archiveRecursiveMode, value); }
         }
+#endif
 
         /// <summary>
         /// アーカイブ内アーカイブの履歴保存
@@ -419,9 +421,9 @@ namespace NeeView
         /// </summary>
         public int RequestLoadCount => _requestLoadCount;
 
-        #endregion Properties
+#endregion Properties
 
-        #region IDisposable Support
+#region IDisposable Support
         private bool _disposedValue = false;
 
         void Dispose(bool disposing)
@@ -460,9 +462,9 @@ namespace NeeView
         {
             Dispose(true);
         }
-        #endregion
+#endregion
 
-        #region Callback Methods
+#region Callback Methods
 
         private void BookHistoryCollection_HistoryChanged(object sender, BookMementoCollectionChangedArgs e)
         {
@@ -515,9 +517,9 @@ namespace NeeView
             NextContentsChanged?.Invoke(sender, e);
         }
 
-        #endregion Callback Methods
+#endregion Callback Methods
 
-        #region Requests
+#region Requests
 
         /// <summary>
         /// リクエスト：フォルダーを開く
@@ -643,9 +645,9 @@ namespace NeeView
             }
         }
 
-        #endregion Requests
+#endregion Requests
 
-        #region BookHubCommand.Load
+#region BookHubCommand.Load
 
         // ロード中状態更新
         private void NotifyLoading(string path)
@@ -693,7 +695,7 @@ namespace NeeView
             try
             {
                 // address
-                var address = await BookAddress.CreateAsync(new QueryPath(args.Path), new QueryPath(args.SourcePath), args.StartEntry, this.ArchiveRecursiveMode, args.Option, token);
+                var address = await BookAddress.CreateAsync(new QueryPath(args.Path), new QueryPath(args.SourcePath), args.StartEntry, Config.Current.System.ArchiveRecursiveMode, args.Option, token);
 
                 // Now Loading ON
                 NotifyLoading(args.Path);
@@ -865,8 +867,8 @@ namespace NeeView
                 {
                     StartPage = BookLoadOptionHelper.CreateBookStartPage(address.EntryName, option),
                     IsRecursiveFolder = BookLoadOptionHelper.CreateIsRecursiveFolder(memento.IsRecursiveFolder, option),
-                    ArchiveRecursiveMode = ArchiveRecursiveMode,
-                    BookPageCollectMode = BookProfile.Current.BookPageCollectMode,
+                    ArchiveRecursiveMode = Config.Current.System.ArchiveRecursiveMode,
+                    BookPageCollectMode = Config.Current.System.BookPageCollectMode,
                     SortMode = memento.SortMode,
                     IsIgnoreCache = option.HasFlag(BookLoadOption.IgnoreCache),
                     LoadOption = option,
@@ -957,9 +959,9 @@ namespace NeeView
         }
 
 
-        #endregion BookHubCommand.Load
+#endregion BookHubCommand.Load
 
-        #region BookHubCommand.Unload
+#region BookHubCommand.Unload
 
         /// <summary>
         /// 本の開放
@@ -1005,9 +1007,9 @@ namespace NeeView
             }
         }
 
-        #endregion BookHubCommand.Unload
+#endregion BookHubCommand.Unload
 
-        #region BookMemento Control
+#region BookMemento Control
 
         //現在開いているブックの設定作成
         public Book.Memento CreateBookMemento()
@@ -1152,10 +1154,10 @@ namespace NeeView
                 && (IsUncHistoryEnabled || !LoosePath.IsUnc(Book.Address));
         }
 
-        #endregion BookMemento Control
+#endregion BookMemento Control
 
 
-        #region Memento
+#region Memento
 
         /// <summary>
         /// BookHub Memento
@@ -1187,7 +1189,7 @@ namespace NeeView
             [DataMember, DefaultValue(ArchiveEntryCollectionMode.IncludeSubArchives)]
             public ArchiveEntryCollectionMode ArchiveRecursveMode { get; set; }
 
-            #region Obslete
+#region Obslete
 
             [Obsolete, DataMember(Order = 22, EmitDefaultValue = false)]
             public bool IsAutoRecursiveWithAllFiles { get; set; } // no used (ver.34)
@@ -1252,7 +1254,7 @@ namespace NeeView
             [Obsolete, DataMember(Order = 20, EmitDefaultValue = false)]
             public string Home { get; set; } // no used (ver.23)
 
-            #endregion
+#endregion
 
             [OnDeserializing]
             private void Deserializing(StreamingContext c)
@@ -1298,7 +1300,7 @@ namespace NeeView
             memento.IsInnerArchiveHistoryEnabled = IsInnerArchiveHistoryEnabled;
             memento.IsUncHistoryEnabled = IsUncHistoryEnabled;
             memento.IsForceUpdateHistory = IsForceUpdateHistory;
-            memento.ArchiveRecursveMode = ArchiveRecursiveMode;
+            ////memento.ArchiveRecursveMode = ArchiveRecursiveMode;
 
             return memento;
         }
@@ -1314,7 +1316,7 @@ namespace NeeView
             IsInnerArchiveHistoryEnabled = memento.IsInnerArchiveHistoryEnabled;
             IsUncHistoryEnabled = memento.IsUncHistoryEnabled;
             IsForceUpdateHistory = memento.IsForceUpdateHistory;
-            ArchiveRecursiveMode = memento.ArchiveRecursveMode;
+            Config.Current.System.ArchiveRecursiveMode = memento.ArchiveRecursveMode;
 
         }
 
@@ -1337,7 +1339,7 @@ namespace NeeView
             if (memento._Version < Environment.GenerateProductVersionNumber(1, 23, 0))
             {
                 BookProfile.Current.IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
-                BookProfile.Current.BookPageCollectMode = memento.IsEnableNoSupportFile ? BookPageCollectMode.All : BookPageCollectMode.ImageAndBook;
+                Config.Current.System.BookPageCollectMode = memento.IsEnableNoSupportFile ? BookPageCollectMode.All : BookPageCollectMode.ImageAndBook;
 
                 BookOperation.Current.PageEndAction = memento.PageEndAction;
 
@@ -1358,7 +1360,7 @@ namespace NeeView
 #pragma warning restore CS0612
 
 
-        #endregion
+#endregion
     }
 }
 

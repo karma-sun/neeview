@@ -145,7 +145,7 @@ namespace NeeView
         {
             try
             {
-                var collection = new FolderArchiveCollection(path, BookHub.Current.ArchiveRecursiveMode, isActive, _isOverlayEnabled);
+                var collection = new FolderArchiveCollection(path, Config.Current.System.ArchiveRecursiveMode, isActive, _isOverlayEnabled);
                 await collection.InitializeItemsAsync(token);
                 token.ThrowIfCancellationRequested();
                 return collection;

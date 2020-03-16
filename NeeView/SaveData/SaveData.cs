@@ -62,6 +62,8 @@ namespace NeeView
 
             setting.Memento = _models.CreateMemento();
 
+            setting.Config = new ConfigAccessor(Config.Current).CreateMemento();
+
             return setting;
         }
 
@@ -76,6 +78,9 @@ namespace NeeView
             DragActionTable.Current.Restore(setting.DragActionMemento);
 
             _models.Resore(setting.Memento);
+
+            new ConfigAccessor(Config.Current).Restore(setting.Config);
+
 
 #pragma warning disable CS0612
 

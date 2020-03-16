@@ -59,8 +59,8 @@ namespace NeeView
             get
             {
                 return new Size(
-                    Math.Min(_renderSize.Width, PictureProfile.Current.MaximumSize.Width),
-                    Math.Min(_renderSize.Height, PictureProfile.Current.MaximumSize.Height));
+                    Math.Min(_renderSize.Width, Config.Current.Performance.MaximumSize.Width),
+                    Math.Min(_renderSize.Height, Config.Current.Performance.MaximumSize.Height));
             }
         }
 
@@ -79,9 +79,9 @@ namespace NeeView
             {
                 size = size.Uniformed(this.SizeLimitedRenderSize);
             }
-            else if (!PictureProfile.Current.MaximumSize.IsContains(size))
+            else if (!Config.Current.Performance.MaximumSize.IsContains(size))
             {
-                size = size.Uniformed(PictureProfile.Current.MaximumSize);
+                size = size.Uniformed(Config.Current.Performance.MaximumSize);
             }
 
             return size;

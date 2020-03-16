@@ -52,7 +52,7 @@ namespace NeeView
         public static ViewContent Create(ViewContentSource source, ViewContent oldViewContent)
         {
             ViewContent viewContent = oldViewContent;
-            if (!BookProfile.Current.IsLoadingPageVisible || oldViewContent?.View is null)
+            if (!Config.Current.Performance.IsLoadingPageVisible || oldViewContent?.View is null)
             {
                  var newViewContent = new ReserveViewContent(source, oldViewContent);
                 newViewContent.Initialize();

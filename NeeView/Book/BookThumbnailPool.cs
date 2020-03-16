@@ -22,6 +22,6 @@ namespace NeeView
             }
         }
 
-        public override int Limit => ThumbnailProfile.Current.BookCapacity;
+        public override int Limit => Config.Current.Performance.ThumbnailBookCapacity;
     }
 }

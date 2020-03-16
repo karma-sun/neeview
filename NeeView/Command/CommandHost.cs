@@ -17,6 +17,8 @@ namespace NeeView
 
         public Dictionary<string, object> Values => _values;
 
+        public Config Config => Config.Current;
+
         public BookAccessor Book { get; } = new BookAccessor();
 
 

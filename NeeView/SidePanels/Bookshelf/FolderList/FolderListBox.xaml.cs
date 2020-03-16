@@ -234,7 +234,7 @@ namespace NeeView
 
             e.CanExecute = item == null || item.Attributes.AnyFlag(FolderItemAttribute.Drive | FolderItemAttribute.Empty)
                 ? false
-                : BookHub.Current.ArchiveRecursiveMode == ArchiveEntryCollectionMode.IncludeSubArchives
+                : Config.Current.System.ArchiveRecursiveMode == ArchiveEntryCollectionMode.IncludeSubArchives
                     ? item.Attributes.HasFlag(FolderItemAttribute.Directory)
                     : ArchiverManager.Current.GetSupportedType(item.TargetPath.SimplePath).IsRecursiveSupported();
         }

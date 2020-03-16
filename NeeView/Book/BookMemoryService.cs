@@ -10,7 +10,7 @@ namespace NeeView
         private PageContentPool _contentPool = new PageContentPool();
         private PictureSourcePool _pictureSourcePool = new PictureSourcePool();
 
-        public long LimitSize => (long)BookProfile.Current.CacheMemorySize * 1024 * 1024;
+        public long LimitSize => (long)Config.Current.Performance.CacheMemorySize * 1024 * 1024;
 
         public long TotalSize => _contentPool.TotalSize + _pictureSourcePool.TotalSize;
 

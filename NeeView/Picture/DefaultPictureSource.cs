@@ -49,8 +49,8 @@ namespace NeeView
                     var originalSize = bitmapInfo.IsTranspose ? bitmapInfo.GetPixelSize().Transpose() : bitmapInfo.GetPixelSize();
                     pictureInfo.OriginalSize = originalSize;
 
-                    var maxSize = bitmapInfo.IsTranspose ? PictureProfile.Current.MaximumSize.Transpose() : PictureProfile.Current.MaximumSize;
-                    var size = (PictureProfile.Current.IsLimitSourceSize && !maxSize.IsContains(originalSize)) ? originalSize.Uniformed(maxSize) : Size.Empty;
+                    var maxSize = bitmapInfo.IsTranspose ? Config.Current.Performance.MaximumSize.Transpose() : Config.Current.Performance.MaximumSize;
+                    var size = (Config.Current.Performance.IsLimitSourceSize && !maxSize.IsContains(originalSize)) ? originalSize.Uniformed(maxSize) : Size.Empty;
                     pictureInfo.Size = size.IsEmpty ? originalSize : size;
 
                     pictureInfo.Decoder = _streamSource.Decoder ?? ".Net BitmapImage";
@@ -178,8 +178,8 @@ namespace NeeView
         {
             Debug.Assert(PictureInfo != null);
 
-            var maxWixth = Math.Max(this.PictureInfo.Size.Width, PictureProfile.Current.MaximumSize.Width);
-            var maxHeight = Math.Max(this.PictureInfo.Size.Height, PictureProfile.Current.MaximumSize.Height);
+            var maxWixth = Math.Max(this.PictureInfo.Size.Width, Config.Current.Performance.MaximumSize.Width);
+            var maxHeight = Math.Max(this.PictureInfo.Size.Height, Config.Current.Performance.MaximumSize.Height);
             var maxSize = new Size(maxWixth, maxHeight);
             return size.Limit(maxSize);
         }

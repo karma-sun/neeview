@@ -34,6 +34,7 @@ namespace NeeView
         [PropertyMember("@ParamSevenZipArchiverSupportFileTypes")]
         public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".7z;.cb7;.cbr;.cbz;.lzh;.rar;.zip");
 
+#if false
         // 事前展開サイズ上限
         [PropertyMember("@ParamSevenZipArchiverPreExtractSolidSize", Tips = "@ParamSevenZipArchiverPreExtractSolidSizeTips")]
         public int PreExtractSolidSize { get; set; } = 1000;
@@ -41,7 +42,7 @@ namespace NeeView
         // 事前展開先をメモリにする
         [PropertyMember("@ParamSevenZipArchiverIsPreExtractToMemory", Tips = "@ParamSevenZipArchiverIsPreExtractToMemoryTips")]
         public bool IsPreExtractToMemory { get; set; }
-
+#endif
 
         #region Memento
         [DataContract]
@@ -83,8 +84,8 @@ namespace NeeView
             memento.X86DllPath = this.X86DllPath;
             memento.X64DllPath = this.X64DllPath;
             memento.SupportFileTypes = this.SupportFileTypes.OneLine;
-            memento.PreExtractSolidSize = this.PreExtractSolidSize;
-            memento.IsPreExtractToMemory = this.IsPreExtractToMemory;
+            ////memento.PreExtractSolidSize = this.PreExtractSolidSize;
+            ////memento.IsPreExtractToMemory = this.IsPreExtractToMemory;
             return memento;
         }
 
@@ -96,8 +97,8 @@ namespace NeeView
             this.X86DllPath = memento.X86DllPath;
             this.X64DllPath = memento.X64DllPath;
             this.SupportFileTypes.OneLine = memento.SupportFileTypes;
-            this.PreExtractSolidSize = memento.PreExtractSolidSize;
-            this.IsPreExtractToMemory = memento.IsPreExtractToMemory;
+            Config.Current.Performance.PreExtractSolidSize = memento.PreExtractSolidSize;
+            Config.Current.Performance.IsPreExtractToMemory = memento.IsPreExtractToMemory;
 
             // compatible before ver.25
             if (memento._Version < Environment.GenerateProductVersionNumber(1, 25, 0))

@@ -187,7 +187,7 @@ namespace NeeView
         // 先読み許可フラグ
         private bool AllowPreLoad()
         {
-            return BookProfile.Current.PreLoadSize > 0;
+            return Config.Current.Performance.PreLoadSize > 0;
         }
 
         // 表示ページ再読込
@@ -337,14 +337,14 @@ namespace NeeView
         /// </summary>
         private PageRange CreateAheadPageRange(PageRange source)
         {
-            if (!AllowPreLoad() || BookProfile.Current.PreLoadSize < 1)
+            if (!AllowPreLoad() || Config.Current.Performance.PreLoadSize < 1)
             {
                 return PageRange.Empty;
             }
 
             int index = source.Next().Index;
             var pos0 = new PagePosition(index, 0);
-            var pos1 = new PagePosition(_book.Pages.ClampPageNumber(index + (BookProfile.Current.PreLoadSize - 1) * source.Direction), 0);
+            var pos1 = new PagePosition(_book.Pages.ClampPageNumber(index + (Config.Current.Performance.PreLoadSize - 1) * source.Direction), 0);
             var range = _book.Pages.IsValidPosition(pos0) ? new PageRange(pos0, pos1) : PageRange.Empty;
 
             return range;

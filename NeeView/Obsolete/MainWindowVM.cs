@@ -282,7 +282,7 @@ namespace NeeView
 
                 WindowShape.Current.IsTopmost = memento.IsTopmost;
                 WindowShape.Current.IsCaptionVisible = memento.IsVisibleTitleBar;
-                App.Current.IsOpenLastBook = memento.IsLoadLastFolder;
+                Config.Current.StartUp.IsOpenLastBook = memento.IsLoadLastFolder;
             }
 
             // compatible before ver.23

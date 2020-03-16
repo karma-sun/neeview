@@ -62,7 +62,7 @@ namespace NeeView
         public string DispVersion => Environment.DispVersion + $" ({(Environment.IsX64 ? "64bit" : "32bit")})";
         public string LicenseUri { get; private set; }
         public string ProjectUri => "https://bitbucket.org/neelabo/neeview/";
-        public bool IsNetworkEnabled => App.Current.IsNetworkEnabled;
+        public bool IsNetworkEnabled => Config.Current.System.IsNetworkEnabled;
         public bool IsCheckerEnabled => Checker.IsEnabled;
 
         public BitmapFrame Icon { get; set; }
@@ -97,7 +97,7 @@ namespace NeeView
         public string DownloadUri => "https://bitbucket.org/neelabo/neeview/downloads";
 #endif
 
-        public bool IsEnabled => App.Current.IsNetworkEnabled && !Environment.IsAppxPackage && !Environment.IsCanaryPackage && !Environment.IsBetaPackage;
+        public bool IsEnabled => Config.Current.System.IsNetworkEnabled && !Environment.IsAppxPackage && !Environment.IsCanaryPackage && !Environment.IsBetaPackage;
 
         public int CurrentVersion { get; set; }
         public int LastVersion { get; set; }

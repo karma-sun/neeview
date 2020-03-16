@@ -113,7 +113,7 @@ namespace NeeView
                                 {
                                     if (bool.TryParse(xr.Value, out bool isMultiBootEnabled))
                                     {
-                                        NeeView.App.Current.IsMultiBootEnabled = isMultiBootEnabled;
+                                        NeeView.Config.Current.StartUp.IsMultiBootEnabled = isMultiBootEnabled;
                                         Debug.WriteLine($"IsMultiBootEnabled: {isMultiBootEnabled}");
                                     }
                                 }
@@ -126,7 +126,7 @@ namespace NeeView
                                 {
                                     if (bool.TryParse(xr.Value, out bool isSplashScreenEnabled))
                                     {
-                                        NeeView.App.Current.IsSplashScreenEnabled = isSplashScreenEnabled;
+                                        NeeView.Config.Current.StartUp.IsSplashScreenEnabled = isSplashScreenEnabled;
                                         Debug.WriteLine($"IsSplashScreenEnabled: {isSplashScreenEnabled}");
                                     }
                                 }

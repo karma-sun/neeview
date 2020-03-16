@@ -242,11 +242,11 @@ namespace NeeView
             // compatible before ver.23
             if (_Version < Environment.GenerateProductVersionNumber(1, 23, 0))
             {
-                App.Current.IsNetworkEnabled = this.network_enabled;
+                Config.Current.System.IsNetworkEnabled = this.network_enabled;
                 App.Current.IsIgnoreImageDpi = this.dpi_image_ignore;
                 App.Current.AutoHideDelayTime = this.panel_autohide_delaytime;
                 App.Current.WindowChromeFrame = this.window_chrome_frame == WindowChromeFrameV1.None ? WindowChromeFrame.None : WindowChromeFrame.WindowFrame;
-                App.Current.IsOpenLastBook = this.bootup_lastfolder;
+                Config.Current.StartUp.IsOpenLastBook = this.bootup_lastfolder;
             }
         }
 
@@ -256,7 +256,7 @@ namespace NeeView
             // compatible before ver.23
             if (_Version < Environment.GenerateProductVersionNumber(1, 23, 0))
             {
-                FileIOProfile.Current.IsRemoveConfirmed = this.file_remove_confirm;
+                Config.Current.System.IsRemoveConfirmed = this.file_remove_confirm;
                 FileIOProfile.Current.IsEnabled = this.file_permit_command;
 
                 Config.Current.Performance.JobWorkerSize = this.loader_thread_size;

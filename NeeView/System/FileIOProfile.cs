@@ -20,11 +20,13 @@ namespace NeeView
         }
 
 
+#if false
         [PropertyMember("@ParamIsRemoveConfirmed")]
         public bool IsRemoveConfirmed { get; set; } = true;
 
         [PropertyMember("@ParamIsRemoveExplorerDialogEnabled", Tips = "@ParamIsRemoveExplorerDialogEnabledTips")]
         public bool IsRemoveExplorerDialogEnabled { get; set; } = false;
+#endif
 
         [PropertyMember("@ParamIsFileOperationEnabled")]
         public bool IsEnabled
@@ -77,8 +79,8 @@ namespace NeeView
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.IsRemoveConfirmed = this.IsRemoveConfirmed;
-            memento.IsRemoveExplorerDialogEnabled = this.IsRemoveExplorerDialogEnabled;
+            ////memento.IsRemoveConfirmed = this.IsRemoveConfirmed;
+            ////memento.IsRemoveExplorerDialogEnabled = this.IsRemoveExplorerDialogEnabled;
             memento.IsEnabled = this.IsEnabled;
             memento.IsHiddenFileVisibled = this.IsHiddenFileVisibled;
             return memento;
@@ -87,8 +89,8 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.IsRemoveConfirmed = memento.IsRemoveConfirmed;
-            this.IsRemoveExplorerDialogEnabled = memento.IsRemoveExplorerDialogEnabled;
+            Config.Current.System.IsRemoveConfirmed = memento.IsRemoveConfirmed;
+            Config.Current.System.IsRemoveExplorerDialogEnabled = memento.IsRemoveExplorerDialogEnabled;
             this.IsEnabled = memento.IsEnabled;
             this.IsHiddenFileVisibled = memento.IsHiddenFileVisibled;
         }

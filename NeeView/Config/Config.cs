@@ -1,9 +1,8 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Data;
-using NeeView.Windows.Property;
 using System;
+using System.Collections;
 using System.Diagnostics;
-using System.Globalization;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
@@ -119,6 +118,9 @@ namespace NeeView
         public SystemConfig System { get; set; }
 
         [DataMember]
+        public StartUpConfig StartUp { get; set; }
+
+        [DataMember]
         public PerformanceConfig Performance { get; set; }
 
 
@@ -126,6 +128,7 @@ namespace NeeView
         {
             _Version = Environment.ProductVersionNumber;
             System = new SystemConfig();
+            StartUp = new StartUpConfig();
             Performance = new PerformanceConfig();
         }
 
@@ -139,79 +142,6 @@ namespace NeeView
         private void OnDeserialized(StreamingContext c)
         {
             // データの互換性保持はここで行う？
-        }
-    }
-
-
-    [DataContract]
-    public class SystemConfig : BindableBase
-    {
-        private ArchiveEntryCollectionMode _archiveRecursiveMode;
-
-
-        public SystemConfig()
-        {
-            Constructor();
-        }
-
-        /// <summary>
-        /// 言語
-        /// </summary>
-        [IgnoreDataMember]
-        [PropertyMember("@ParamLanguage", Tips = "@ParamLanguageTips")]
-        public Language Language { get; set; }
-
-        [DataMember(Name = nameof(Language))]
-        public string LanguageString
-        {
-            get { return Language.ToString(); }
-            set { Language = value.ToEnum<Language>(); }
-        }
-
-        [IgnoreDataMember]
-        [PropertyMember("@ParamArchiveRecursiveMode", Tips = "@ParamArchiveRecursiveModeTips")]
-        public ArchiveEntryCollectionMode ArchiveRecursiveMode
-        {
-            get { return _archiveRecursiveMode; }
-            set { SetProperty(ref _archiveRecursiveMode, value); }
-        }
-
-        [DataMember(Name = nameof(ArchiveRecursiveMode))]
-        public string ArchiveRecursiveModeString
-        {
-            get { return ArchiveRecursiveMode.ToString(); }
-            set { ArchiveRecursiveMode = value.ToEnum<ArchiveEntryCollectionMode>(); }
-        }
-
-        // ページ収集モード
-        [IgnoreDataMember]
-        [PropertyMember("@ParamBookPageCollectMode", Tips = "@ParamBookPageCollectModeTips")]
-        public BookPageCollectMode BookPageCollectMode { get; set; } 
-
-        [DataMember(Name = nameof(BookPageCollectMode))]
-        public string BookPageCollectModeString
-        {
-            get { return BookPageCollectMode.ToString(); }
-            set { BookPageCollectMode = value.ToEnum<BookPageCollectMode>(); }
-        }
-
-
-        private void Constructor()
-        {
-            Language = LanguageExtensions.GetLanguage(CultureInfo.CurrentCulture.Name);
-            ArchiveRecursiveMode = ArchiveEntryCollectionMode.IncludeSubArchives;
-            BookPageCollectMode = BookPageCollectMode.ImageAndBook;
-        }
-
-        [OnDeserializing]
-        private void OnDeserializing(StreamingContext c)
-        {
-            Constructor();
-        }
-
-        [OnDeserialized]
-        private void OnDeserialized(StreamingContext c)
-        {
         }
     }
 

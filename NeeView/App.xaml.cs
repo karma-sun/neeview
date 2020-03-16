@@ -176,7 +176,7 @@ namespace NeeView
             }
 
             // 多重起動制限になる場合、サーバーにパスを送って終了
-            Trace.WriteLine($"CanStart: {CanStart()}: IsServerExists={_multiBootService.IsServerExists}, IsNewWindow={Option.IsNewWindow}, IsMultiBootEnabled={IsMultiBootEnabled}");
+            Trace.WriteLine($"CanStart: {CanStart()}: IsServerExists={_multiBootService.IsServerExists}, IsNewWindow={Option.IsNewWindow}, IsMultiBootEnabled={Config.Current.StartUp.IsMultiBootEnabled}");
             if (!CanStart())
             {
                 await _multiBootService.RemoteLoadAsAsync(Option.Values);
@@ -242,7 +242,7 @@ namespace NeeView
         /// </summary>
         public void ShowSplashScreen()
         {
-            if (IsSplashScreenEnabled && CanStart())
+            if (Config.Current.StartUp.IsSplashScreenEnabled && CanStart())
             {
                 if (_isSplashScreenVisibled) return;
                 _isSplashScreenVisibled = true;
@@ -262,7 +262,7 @@ namespace NeeView
         /// </summary>
         private bool CanStart()
         {
-            return !_multiBootService.IsServerExists || (Option.IsNewWindow != null ? Option.IsNewWindow == SwitchOption.on : IsMultiBootEnabled);
+            return !_multiBootService.IsServerExists || (Option.IsNewWindow != null ? Option.IsNewWindow == SwitchOption.on : Config.Current.StartUp.IsMultiBootEnabled);
         }
 
         /// <summary>

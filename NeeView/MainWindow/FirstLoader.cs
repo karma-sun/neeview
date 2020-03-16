@@ -41,7 +41,7 @@ namespace NeeView
             }
 
             // 最後に開いたブックを復元する
-            if (App.Current.IsOpenLastBook)
+            if (Config.Current.StartUp.IsOpenLastBook)
             {
                 path = BookHistoryCollection.Current.LastAddress;
                 if (path != null)

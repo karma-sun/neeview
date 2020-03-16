@@ -782,7 +782,7 @@ namespace NeeView
                 // for .heic / .heif
                 if (ex is NotSupportedFileTypeException exc && (exc.Extension == ".heic" || exc.Extension == ".heif") && Environment.IsWindows10)
                 {
-                    _bookHubToast = new Toast(Properties.Resources.NotifyHeifHelp, null, ToastIcon.Information, App.Current.IsNetworkEnabled ? Properties.Resources.WordOpenStore : null, () =>
+                    _bookHubToast = new Toast(Properties.Resources.NotifyHeifHelp, null, ToastIcon.Information, Config.Current.System.IsNetworkEnabled ? Properties.Resources.WordOpenStore : null, () =>
                      {
                          System.Diagnostics.Process.Start(PictureProfile.HEIFImageExtensions.OriginalString);
                      });

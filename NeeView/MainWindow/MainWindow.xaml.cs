@@ -184,7 +184,7 @@ namespace NeeView
         private void InitializeWindowPlacement(WindowPlacement.Memento memento)
         {
             // 座標を復元しない
-            if (App.Current.Option.IsResetPlacement == SwitchOption.on || !App.Current.IsSaveWindowPlacement) return;
+            if (App.Current.Option.IsResetPlacement == SwitchOption.on || !Config.Current.StartUp.IsRestoreWindowPlacement) return;
 
             // セカンドプロセスはウィンドウ形状を継承しない
             if (Environment.IsSecondProcess && !App.Current.IsRestoreSecondWindow) return;
@@ -211,13 +211,13 @@ namespace NeeView
             }
             else if (customMemento.State == WindowStateEx.FullScreen)
             {
-                customMemento.State = App.Current.IsSaveFullScreen ? WindowStateEx.FullScreen : WindowStateEx.Normal;
+                customMemento.State = Config.Current.StartUp.IsRestoreFullScreen ? WindowStateEx.FullScreen : WindowStateEx.Normal;
             }
             else if (customMemento.State == WindowStateEx.Minimized)
             {
                 customMemento.State = WindowStateEx.Normal;
             }
-            else if (!App.Current.IsSaveWindowPlacement)
+            else if (!Config.Current.StartUp.IsRestoreWindowPlacement)
             {
                 customMemento.State = WindowStateEx.Normal;
             }

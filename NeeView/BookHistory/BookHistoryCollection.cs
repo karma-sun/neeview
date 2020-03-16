@@ -53,9 +53,11 @@ namespace NeeView
         [PropertyMember("@ParamHistoryLimitSpan")]
         public TimeSpan LimitSpan { get; set; }
 
+#if false
         // 最後に開いたフォルダーの場所記憶
         [PropertyMember("@ParamHistoryIsKeepLastFolder", Tips = "@ParamHistoryIsKeepLastFolderTips")]
         public bool IsKeepLastFolder { get; set; }
+#endif
 
         // フォルダーリストの情報記憶
         [PropertyMember("@ParamHistoryIsKeepFolderStatus")]
@@ -560,8 +562,8 @@ namespace NeeView
             memento.LimitSize = this.LimitSize;
             memento.LimitSpan = this.LimitSpan;
             memento.IsKeepFolderStatus = IsKeepFolderStatus;
-            memento.IsKeepLastFolder = IsKeepLastFolder;
-            memento.LastAddress = App.Current.IsOpenLastBook ? this.LastAddress : null;
+            ////memento.IsKeepLastFolder = IsKeepLastFolder;
+            memento.LastAddress = Config.Current.StartUp.IsOpenLastBook ? this.LastAddress : null;
             memento.IsKeepSearchHistory = IsKeepSearchHistory;
             memento.SearchHistory = this.SearchHistory.Any() ? this.SearchHistory.ToList() : null;
 
@@ -611,7 +613,7 @@ namespace NeeView
             this.LimitSize = memento.LimitSize;
             this.LimitSpan = memento.LimitSpan;
             this.IsKeepFolderStatus = memento.IsKeepFolderStatus;
-            this.IsKeepLastFolder = memento.IsKeepLastFolder;
+            Config.Current.StartUp.IsKeepLastFolder = memento.IsKeepLastFolder;
             this.IsKeepSearchHistory = memento.IsKeepSearchHistory;
 
             if (this.IsKeepSearchHistory)

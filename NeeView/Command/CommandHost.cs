@@ -13,11 +13,15 @@ namespace NeeView
         public CommandHost(CommandTable commandTable)
         {
             _commandTable = commandTable;
+
+            Config = new PropertyMap(NeeView.Config.Current);
+            ((PropertyMap)Config[nameof(NeeView.Config.System)]).AddProperty(ExplorerContextMenu.Current, nameof(ExplorerContextMenu.IsEnabled), "IsExplorerContextMenuEnabled");
+
         }
 
         public Dictionary<string, object> Values => _values;
 
-        public Config Config => Config.Current;
+        public PropertyMap Config { get; } = new PropertyMap(NeeView.Config.Current);
 
         public BookAccessor Book { get; } = new BookAccessor();
 

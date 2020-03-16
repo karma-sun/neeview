@@ -44,9 +44,9 @@ namespace NeeView
 
         #region Fields
 
-        private bool _isNetworkEnalbe = true;
+        ////private bool _isNetworkEnalbe = true;
         private bool _isSettingBackup;
-        private bool _isSaveWindowPlacement = true;
+        ////private bool _isSaveWindowPlacement = true;
         private double _autoHideDelayTime = 1.0;
         private double _autoHideDelayVisibleTime = 0.0;
         private string _temporaryDirectory;
@@ -69,6 +69,7 @@ namespace NeeView
         // 適用した設定データのバージョン
         public int SettingVersion { get; set; }
 
+#if false
         // 多重起動を許可する
         [PropertyMember("@ParamIsMultiBootEnabled")]
         public bool IsMultiBootEnabled { get; set; }
@@ -92,6 +93,7 @@ namespace NeeView
             get { return _isNetworkEnalbe || Environment.IsAppxPackage; } // Appxは強制ON
             set { if (_isNetworkEnalbe != value) { _isNetworkEnalbe = value; RaisePropertyChanged(); } }
         }
+#endif
 
         // 画像のDPI非対応
         [PropertyMember("@ParamIsIgnoreImageDpi", Tips = "@ParamIsIgnoreImageDpiTips")]
@@ -207,9 +209,11 @@ namespace NeeView
         [PropertyMember("@ParamWindowChromeFrame")]
         public WindowChromeFrame WindowChromeFrame { get; set; } = WindowChromeFrame.WindowFrame;
 
+#if false
         // 前回開いていたブックを開く
         [PropertyMember("@ParamIsOpenLastBook")]
         public bool IsOpenLastBook { get; set; }
+#endif
 
         // ダウンロードファイル置き場
         [DefaultValue("")]
@@ -227,11 +231,11 @@ namespace NeeView
         // 言語
         [PropertyMember("@ParamLanguage", Tips = "@ParamLanguageTips")]
         public Language Language { get; set; } = LanguageExtensions.GetLanguage(CultureInfo.CurrentCulture.Name);
-#endif
 
         // スプラッシュスクリーン
         [PropertyMember("@ParamIsSplashScreenEnabled")]
         public bool IsSplashScreenEnabled { get; set; } = true;
+#endif
 
         // 設定データの同期
         [PropertyMember("@ParamIsSyncUserSetting", Tips = "@ParamIsSyncUserSettingTips")]
@@ -260,9 +264,9 @@ namespace NeeView
             set => _cacheDirectoryOld = string.IsNullOrWhiteSpace(value) || value == Environment.LocalApplicationDataPath ? null : value;
         }
 
-#endregion
+        #endregion
 
-#region Memento
+        #region Memento
         [DataContract]
         public class Memento
         {
@@ -397,10 +401,10 @@ namespace NeeView
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.IsMultiBootEnabled = this.IsMultiBootEnabled;
-            memento.IsSaveFullScreen = this.IsSaveFullScreen;
-            memento.IsSaveWindowPlacement = this.IsSaveWindowPlacement;
-            memento.IsNetworkEnabled = this.IsNetworkEnabled;
+            ////memento.IsMultiBootEnabled = this.IsMultiBootEnabled;
+            ////memento.IsSaveFullScreen = this.IsSaveFullScreen;
+            ////memento.IsSaveWindowPlacement = this.IsSaveWindowPlacement;
+            ////memento.IsNetworkEnabled = this.IsNetworkEnabled;
             memento.IsIgnoreImageDpi = this.IsIgnoreImageDpi;
             memento.IsSaveHistory = this.IsSaveHistory;
             memento.HistoryFilePath = _historyFilePath;
@@ -411,12 +415,12 @@ namespace NeeView
             memento.AutoHideDelayTime = this.AutoHideDelayTime;
             memento.AutoHideDelayVisibleTime = this.AutoHideDelayVisibleTime;
             memento.WindowChromeFrame = this.WindowChromeFrame;
-            memento.IsOpenLastBook = this.IsOpenLastBook;
+            ////memento.IsOpenLastBook = this.IsOpenLastBook;
             memento.DownloadPath = this.DownloadPath;
             memento.IsRestoreSecondWindow = this.IsRestoreSecondWindow;
             memento.IsSettingBackup = this.IsSettingBackup;
             ////memento.Language = this.Language;
-            memento.IsSplashScreenEnabled = this.IsSplashScreenEnabled;
+            ////memento.IsSplashScreenEnabled = this.IsSplashScreenEnabled;
             memento.IsSyncUserSetting = this.IsSyncUserSetting;
             memento.TemporaryDirectory = _temporaryDirectory;
             memento.CacheDirectory = _cacheDirectory;
@@ -442,10 +446,10 @@ namespace NeeView
 
             this.SettingVersion = memento._Version;
 
-            this.IsMultiBootEnabled = memento.IsMultiBootEnabled;
-            this.IsSaveFullScreen = memento.IsSaveFullScreen;
-            this.IsSaveWindowPlacement = memento.IsSaveWindowPlacement;
-            this.IsNetworkEnabled = memento.IsNetworkEnabled;
+            Config.Current.StartUp.IsMultiBootEnabled = memento.IsMultiBootEnabled;
+            Config.Current.StartUp.IsRestoreFullScreen = memento.IsSaveFullScreen;
+            Config.Current.StartUp.IsRestoreWindowPlacement = memento.IsSaveWindowPlacement;
+            Config.Current.System.IsNetworkEnabled = memento.IsNetworkEnabled;
             this.IsIgnoreImageDpi = memento.IsIgnoreImageDpi;
             this.IsSaveHistory = memento.IsSaveHistory;
             this.HistoryFilePath = memento.HistoryFilePath;
@@ -456,12 +460,12 @@ namespace NeeView
             this.AutoHideDelayTime = memento.AutoHideDelayTime;
             this.AutoHideDelayVisibleTime = memento.AutoHideDelayVisibleTime;
             this.WindowChromeFrame = memento.WindowChromeFrame;
-            this.IsOpenLastBook = memento.IsOpenLastBook;
+            Config.Current.StartUp.IsOpenLastBook = memento.IsOpenLastBook;
             this.DownloadPath = memento.DownloadPath;
             this.IsRestoreSecondWindow = memento.IsRestoreSecondWindow;
             this.IsSettingBackup = memento.IsSettingBackup;
             Config.Current.System.Language = memento.Language;
-            this.IsSplashScreenEnabled = memento.IsSplashScreenEnabled;
+            Config.Current.StartUp.IsSplashScreenEnabled = memento.IsSplashScreenEnabled;
             this.IsSyncUserSetting = memento.IsSyncUserSetting;
             this.TemporaryDirectory = memento.TemporaryDirectory;
             this.CacheDirectory = memento.CacheDirectory;
@@ -480,9 +484,9 @@ namespace NeeView
             {
                 if (setting.ViewMemento != null)
                 {
-                    this.IsMultiBootEnabled = !setting.ViewMemento.IsDisableMultiBoot;
-                    this.IsSaveFullScreen = setting.ViewMemento.IsSaveFullScreen;
-                    this.IsSaveWindowPlacement = setting.ViewMemento.IsSaveWindowPlacement;
+                    Config.Current.StartUp.IsMultiBootEnabled = !setting.ViewMemento.IsDisableMultiBoot;
+                    Config.Current.StartUp.IsRestoreFullScreen = setting.ViewMemento.IsSaveFullScreen;
+                    Config.Current.StartUp.IsRestoreWindowPlacement = setting.ViewMemento.IsSaveWindowPlacement;
                 }
             }
 
@@ -497,7 +501,7 @@ namespace NeeView
 
 #pragma warning restore CS0612
 
-#endregion
+        #endregion
 
     }
 }

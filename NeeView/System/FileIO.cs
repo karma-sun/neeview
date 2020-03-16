@@ -118,7 +118,7 @@ namespace NeeView
             bool isDirectory = System.IO.Directory.Exists(path);
             if (!isFile && !isDirectory) return false;
 
-            if (FileIOProfile.Current.IsRemoveConfirmed)
+            if (Config.Current.System.IsRemoveConfirmed)
             {
                 string typeName = isDirectory ? Resources.WordFolder : Resources.WordFile;
 
@@ -187,7 +187,7 @@ namespace NeeView
                     ArchiverManager.Current.UnlockAllArchives();
                 }
 
-                var dialogOption = FileIOProfile.Current.IsRemoveExplorerDialogEnabled ? Microsoft.VisualBasic.FileIO.UIOption.AllDialogs : Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs;
+                var dialogOption = Config.Current.System.IsRemoveExplorerDialogEnabled ? Microsoft.VisualBasic.FileIO.UIOption.AllDialogs : Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs;
 
                 // ゴミ箱に捨てる
                 bool isDirectory = System.IO.Directory.Exists(path);

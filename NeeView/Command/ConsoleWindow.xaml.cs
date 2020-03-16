@@ -69,12 +69,24 @@ namespace NeeView
                     }
                     catch (Exception ex)
                     {
-                        return ex.Message;
+                        return GetExceptionMessage(ex);
                     }
                     finally
                     {
                         CommandTable.Current.FlushInputGesture();
                     }
+            }
+
+            string GetExceptionMessage(Exception ex)
+            {
+                if (ex.InnerException != null)
+                {
+                    return ex.Message + " " + GetExceptionMessage(ex.InnerException);
+                }
+                else
+                {
+                    return ex.Message;
+                }
             }
         }
 

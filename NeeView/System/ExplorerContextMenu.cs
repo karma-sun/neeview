@@ -2,6 +2,7 @@
 using NeeView.Windows.Property;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -33,10 +34,13 @@ namespace NeeView
         public ExplorerContextMenu()
         {
             _root = Registry.CurrentUser.OpenSubKey(@"Software\Classes", true);
+
             _isEnabled = Exists();
         }
 
-
+        /// <summary>
+        /// Explorer ContextMenu 登録状態。セーブデータには保存されない。
+        /// </summary>
         [PropertyMember("@ParamIsExplorerContextMenuEnabled", Tips = "@ParamIsExplorerContextMenuEnabledTips")]
         public bool IsEnabled
         {

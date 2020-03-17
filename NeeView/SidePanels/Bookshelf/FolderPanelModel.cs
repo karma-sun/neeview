@@ -99,7 +99,7 @@ namespace NeeView
 
         #region Memento
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember]
             public bool IsVisiblePanelList { get; set; }
@@ -110,7 +110,6 @@ namespace NeeView
             public string GridLength2 { get; set; }
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -123,7 +122,6 @@ namespace NeeView
             return memento;
         }
 
-        //
         public void Restore(Memento memento)
         {
             if (memento == null) return;

@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 namespace NeeView.Susie
 {
     /// <summary>
-    /// プラグイン設定(Obsolete)
+    /// プラグイン設定(Obsolete ver 35.0)
     /// </summary>
     [Obsolete]
     public class SusiePlugin
@@ -25,7 +25,7 @@ namespace NeeView.Susie
 
 
             [OnDeserializing]
-            private void Deserializing(StreamingContext c)
+            private void OnDeserializing(StreamingContext c)
             {
                 this.InitializePropertyDefaultValues();
             }

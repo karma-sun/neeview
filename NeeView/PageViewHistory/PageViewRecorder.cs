@@ -275,7 +275,7 @@ namespace NeeView
         /// PageViewRecorder Memento
         /// </summary>
         [DataContract]
-        public class Memento : BindableBase
+        public class Memento : BindableBase, IMemento
         {
             [DataMember]
             public int _Version { get; set; } = Environment.ProductVersionNumber;

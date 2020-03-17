@@ -343,7 +343,7 @@ namespace NeeView
         #region Memento
 
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember, DefaultValue(true)]
             public bool IsLeftRightKeyEnabled { get; set; }
@@ -374,13 +374,13 @@ namespace NeeView
 
 
             [OnDeserializing]
-            private void Deserializing(StreamingContext c)
+            private void OnDeserializing(StreamingContext c)
             {
                 this.InitializePropertyDefaultValues();
             }
 
             [OnDeserialized]
-            private void Deserialized(StreamingContext c)
+            private void OnDeserialized(StreamingContext c)
             {
                 if (BannerItemProfile != null)
                 {
@@ -389,7 +389,6 @@ namespace NeeView
             }
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -407,7 +406,6 @@ namespace NeeView
             return memento;
         }
 
-        //
         public void Restore(Memento memento)
         {
             if (memento == null) return;

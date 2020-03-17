@@ -20,7 +20,7 @@ namespace NeeView
     {
         #region Memento
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember]
             public int _Version { get; set; }
@@ -41,8 +41,6 @@ namespace NeeView
             public PdfArchiverProfile.Memento PdfArchiverProfile { get; set; }
             [DataMember]
             public MediaArchiverProfile.Memento MediaArchiverProfile { get; set; }
-            [DataMember]
-            public ArchiverManager.Memento ArchiverManager { get; set; }
             [DataMember]
             public ThumbnailProfile.Memento ThumbnailProfile { get; set; }
             [DataMember]
@@ -113,30 +111,59 @@ namespace NeeView
             public PageViewRecorder.Memento PageViewRecorder { get; set; }
 
             [Obsolete, DataMember(EmitDefaultValue = false)]
-            public RoutedCommandTable.Memento RoutedCommandTable { get; set; }
-            [Obsolete, DataMember(EmitDefaultValue = false)]
             public FolderListLegacy.Memento FolderList { get; set; }
             [Obsolete, DataMember(Name = "BookSetting", EmitDefaultValue = false)]
             public BookSettingPresenterLegacy.Memento BookSettingPresenterLegacy { get; set; }
 
             [OnDeserialized]
-            private void Deserialized(StreamingContext c)
+            private void OnDeserialized(StreamingContext c)
             {
 #pragma warning disable CS0612
+
+                // before ver.32
+                if (_Version < Environment.GenerateProductVersionNumber(32, 0, 0))
+                {
+                    SidePanelProfile.ContentItemProfile.ImageWidth = ThumbnailProfile.ThumbnailWidth > 0 ? ThumbnailProfile.ThumbnailWidth : 64;
+                    SidePanelProfile.BannerItemProfile.ImageWidth = ThumbnailProfile.BannerWidth > 0 ? ThumbnailProfile.BannerWidth : 200;
+                    SidePanelProfile.ContentItemProfile.IsImagePopupEnabled = ThumbnailProfile.IsThumbnailPopup;
+
+                    SidePanelProfile.FontName = SidePanel.FontName;
+                    SidePanelProfile.FontSize = SidePanel.FontSize > 0.0 ? SidePanel.FontSize : 15.0;
+                    SidePanelProfile.FolderTreeFontSize = SidePanel.FolderTreeFontSize > 0.0 ? SidePanel.FolderTreeFontSize : 12.0;
+                    SidePanelProfile.ContentItemProfile.IsTextWrapped = SidePanel.IsTextWrapped;
+                    SidePanelProfile.ContentItemProfile.NoteOpacity = SidePanel.NoteOpacity;
+                    SidePanelProfile.BannerItemProfile.IsTextWrapped = SidePanel.IsTextWrapped;
+                    SidePanelProfile.ThumbnailItemProfile.IsTextWrapped = SidePanel.IsTextWrapped;
+                }
+
+                // before 33.0
                 if (BookshelfFolderList == null && FolderList != null)
                 {
                     BookshelfFolderList = FolderListLegacy.ConvertFrom(FolderList);
                 }
 
+                // before 34.0
                 if (_Version < Environment.GenerateProductVersionNumber(34, 0, 0))
                 {
                     if (BookSettingPresenterLegacy != null)
                     {
                         BookSettingPresenter = BookSettingPresenterLegacy.ToBookSettingPresenter();
                     }
+
+                    if (MouseInput.Drag != null)
+                    {
+                        DragTransformControl.IsOriginalScaleShowMessage = MouseInput.Drag.IsOriginalScaleShowMessage;
+                        DragTransformControl.DragControlRotateCenter = MouseInput.Drag.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
+                        DragTransformControl.DragControlScaleCenter = MouseInput.Drag.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
+                        DragTransformControl.DragControlFlipCenter = MouseInput.Drag.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
+                        DragTransformControl.IsKeepScale = MouseInput.Drag.IsKeepScale;
+                        DragTransformControl.IsKeepAngle = MouseInput.Drag.IsKeepAngle;
+                        DragTransformControl.IsKeepFlip = MouseInput.Drag.IsKeepFlip;
+                        DragTransformControl.IsViewStartPositionCenter = MouseInput.Drag.IsViewStartPositionCenter;
+                    }
                 }
 #pragma warning restore CS0612
-                }
+            }
         }
 
         public Memento CreateMemento()
@@ -154,7 +181,6 @@ namespace NeeView
             memento.SevenZipArchiverProfile = SevenZipArchiverProfile.Current.CreateMemento();
             memento.PdfArchiverProfile = PdfArchiverProfile.Current.CreateMemento();
             memento.MediaArchiverProfile = MediaArchiverProfile.Current.CreateMemento();
-            memento.ArchiverManager = ArchiverManager.Current.CreateMemento();
             memento.ThumbnailProfile = ThumbnailProfile.Current.CreateMemento();
             memento.InfoMessage = InfoMessage.Current.CreateMemento();
             memento.BookProfile = BookProfile.Current.CreateMemento();
@@ -203,7 +229,6 @@ namespace NeeView
             SevenZipArchiverProfile.Current.Restore(memento.SevenZipArchiverProfile);
             PdfArchiverProfile.Current.Restore(memento.PdfArchiverProfile);
             MediaArchiverProfile.Current.Restore(memento.MediaArchiverProfile);
-            ArchiverManager.Current.Restore(memento.ArchiverManager);
             ThumbnailProfile.Current.Restore(memento.ThumbnailProfile);
             InfoMessage.Current.Restore(memento.InfoMessage);
             BookProfile.Current.Restore(memento.BookProfile);
@@ -237,24 +262,6 @@ namespace NeeView
             ImageEffect.Current.Restore(memento.ImageEffect);
             SidePanel.Current.Restore(memento.SidePanel);
             PageViewRecorder.Current.Restore(memento.PageViewRecorder);
-        }
-
-        public void ResoreCompatible(Memento memento)
-        {
-            if (memento == null) return;
-
-            BookHub.Current.RestoreCompatible(memento.BookHub);
-
-#pragma warning disable CS0612
-            // compatible before ver.23
-            if (memento._Version < Environment.GenerateProductVersionNumber(1, 23, 0))
-            {
-                RoutedCommandTable.Current.RestoreCompatible(memento.RoutedCommandTable);
-            }
-#pragma warning restore CS0612
-
-            ThumbnailProfile.Current.RestoreCompatible(memento.ThumbnailProfile);
-            SidePanel.Current.RestoreCompatible(memento.SidePanel);
         }
 
         #endregion

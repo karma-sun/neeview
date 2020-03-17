@@ -59,13 +59,13 @@ namespace NeeView
         #region Memento
 
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember(EmitDefaultValue = false)]
             public List<QuickAccess> Items { get; set; }
 
             [OnDeserializing]
-            private void Deserializing(StreamingContext c)
+            private void OnDeserializing(StreamingContext c)
             {
                 this.InitializePropertyDefaultValues();
             }

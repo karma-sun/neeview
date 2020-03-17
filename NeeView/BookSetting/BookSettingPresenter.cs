@@ -201,7 +201,7 @@ namespace NeeView
         #region Memento
 
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember]
             public BookSetting DefaultSetting { get; set; }
@@ -214,13 +214,13 @@ namespace NeeView
 
 
             [OnDeserializing]
-            private void Deserializing(StreamingContext c)
+            private void OnDeserializing(StreamingContext c)
             {
                 this.InitializePropertyDefaultValues();
             }
 
             [OnDeserialized]
-            private void Deserialized(StreamingContext c)
+            private void OnDeserialized(StreamingContext c)
             {
             }
         }

@@ -159,7 +159,6 @@ namespace NeeView
             // restore
             RestoreOnce(setting.App);
             Restore(setting.App);
-            RestoreCompatible(setting);
 
             // スプラッシュスクリーン(予備)
             ShowSplashScreen();

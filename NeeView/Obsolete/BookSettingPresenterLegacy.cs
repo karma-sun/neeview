@@ -4,12 +4,13 @@ using System.Runtime.Serialization;
 
 namespace NeeView
 {
+    // ver 34.0 obsolete.
     [Obsolete]
     public class BookSettingPresenterLegacy : BindableBase
     {
         #region Memento
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember]
             public Book.Memento BookMemento { get; set; }

@@ -1425,7 +1425,7 @@ namespace NeeView
         #region Memento
 
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember]
             public PanelListItemStyle PanelListItemStyle { get; set; }
@@ -1446,13 +1446,12 @@ namespace NeeView
             public bool IsSyncFolderTree { get; set; }
 
             [OnDeserializing]
-            private void Deserializing(StreamingContext c)
+            private void OnDeserializing(StreamingContext c)
             {
                 this.InitializePropertyDefaultValues();
             }
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -1466,7 +1465,6 @@ namespace NeeView
             return memento;
         }
 
-        //
         public void Restore(Memento memento)
         {
             if (memento == null) return;

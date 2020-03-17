@@ -251,7 +251,7 @@ namespace NeeView
             public string Parameter { get; set; }
 
             [OnDeserializing]
-            private void Deserializing(StreamingContext c)
+            private void OnDeserializing(StreamingContext c)
             {
                 this.InitializePropertyDefaultValues();
             }

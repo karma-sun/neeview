@@ -54,7 +54,7 @@ namespace NeeView
 
         #region Memento
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember, DefaultValue(true)]
             public bool IsRemoveConfirmed { get; set; }
@@ -70,17 +70,29 @@ namespace NeeView
 
 
             [OnDeserializing]
-            private void Deserializing(StreamingContext c)
+            private void OnDeserializing(StreamingContext c)
             {
                 this.InitializePropertyDefaultValues();
+            }
+
+            [OnDeserialized]
+            public void OnDeserialized(StreamingContext c)
+            {
+                throw new System.NotImplementedException();
+            }
+
+            public void RestoreConfig()
+            {
+                Config.Current.System.IsRemoveConfirmed = IsRemoveConfirmed;
+                Config.Current.System.IsRemoveExplorerDialogEnabled = IsRemoveExplorerDialogEnabled;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            ////memento.IsRemoveConfirmed = this.IsRemoveConfirmed;
-            ////memento.IsRemoveExplorerDialogEnabled = this.IsRemoveExplorerDialogEnabled;
+            memento.IsRemoveConfirmed = Config.Current.System.IsRemoveConfirmed;
+            memento.IsRemoveExplorerDialogEnabled = Config.Current.System.IsRemoveExplorerDialogEnabled;
             memento.IsEnabled = this.IsEnabled;
             memento.IsHiddenFileVisibled = this.IsHiddenFileVisibled;
             return memento;
@@ -89,8 +101,8 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            Config.Current.System.IsRemoveConfirmed = memento.IsRemoveConfirmed;
-            Config.Current.System.IsRemoveExplorerDialogEnabled = memento.IsRemoveExplorerDialogEnabled;
+            ////this.IsRemoveConfirmed = memento.IsRemoveConfirmed;
+            ////this.IsRemoveExplorerDialogEnabled = memento.IsRemoveExplorerDialogEnabled;
             this.IsEnabled = memento.IsEnabled;
             this.IsHiddenFileVisibled = memento.IsHiddenFileVisibled;
         }

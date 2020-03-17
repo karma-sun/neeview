@@ -506,14 +506,14 @@ namespace NeeView
             }
 
             [OnDeserializing]
-            private void Deserializing(StreamingContext c)
+            private void OnDeserializing(StreamingContext c)
             {
                 Constructor();
             }
 
 
             [OnDeserialized]
-            private void Deserialized(StreamingContext c)
+            private void OnDeserialized(StreamingContext c)
             {
 #pragma warning disable CS0612
                 if (_Version < Environment.GenerateProductVersionNumber(31, 0, 0))

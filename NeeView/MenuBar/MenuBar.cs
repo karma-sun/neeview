@@ -146,7 +146,7 @@ namespace NeeView
 
         #region Memento
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember, DefaultValue(false)]
             public bool CaptionEmulateInFullScreen { get; set; }

@@ -859,9 +859,6 @@ namespace NeeView
             [DataMember(EmitDefaultValue = false)]
             public string ScriptFolder { get; set; }
 
-            [Obsolete, DataMember(Name = "Elements", EmitDefaultValue = false)]
-            private Dictionary<CommandType, CommandElement.Memento> _elementsV1;
-
 
             [OnSerializing]
             private void OnSerializing(StreamingContext context)
@@ -877,22 +874,7 @@ namespace NeeView
             [OnDeserialized]
             private void OnDeserialized(StreamingContext context)
             {
-#pragma warning disable CS0612
-                if (_elementsV1 != null)
-                {
-                    Elements = _elementsV1.ToDictionary(e => e.Key.ToString(), e => e.Value);
-                    _elementsV1 = null;
-                }
-#pragma warning restore CS0612
-
                 Elements = Elements ?? new Dictionary<string, CommandElement.Memento>();
-
-                // before ver.29
-                if (_Version < Environment.GenerateProductVersionNumber(1, 29, 0))
-                {
-                    // ver.29以前はデフォルトOFF
-                    IsReversePageMove = false;
-                }
 
                 // before 32.0
                 if (_Version < Environment.GenerateProductVersionNumber(32, 0, 0))

@@ -46,7 +46,7 @@ namespace NeeView
 
         #region Memento
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember]
             public int _Version { get; set; } = Environment.ProductVersionNumber;
@@ -69,14 +69,25 @@ namespace NeeView
             [DataMember]
             public bool IsPreExtractToMemory { get; set; }
 
+
             [OnDeserializing]
-            private void Deserializing(StreamingContext context)
+            private void OnDeserializing(StreamingContext context)
             {
                 this.InitializePropertyDefaultValues();
             }
+
+            [OnDeserialized]
+            private void OnDeserialized(StreamingContext context)
+            {
+            }
+
+            public void RestoreConfig()
+            {
+                Config.Current.Performance.PreExtractSolidSize = PreExtractSolidSize;
+                Config.Current.Performance.IsPreExtractToMemory = IsPreExtractToMemory;
+            }
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -84,12 +95,11 @@ namespace NeeView
             memento.X86DllPath = this.X86DllPath;
             memento.X64DllPath = this.X64DllPath;
             memento.SupportFileTypes = this.SupportFileTypes.OneLine;
-            ////memento.PreExtractSolidSize = this.PreExtractSolidSize;
-            ////memento.IsPreExtractToMemory = this.IsPreExtractToMemory;
+            memento.PreExtractSolidSize = Config.Current.Performance.PreExtractSolidSize;
+            memento.IsPreExtractToMemory = Config.Current.Performance.IsPreExtractToMemory;
             return memento;
         }
-
-        //
+        
         public void Restore(Memento memento)
         {
             if (memento == null) return;
@@ -97,28 +107,8 @@ namespace NeeView
             this.X86DllPath = memento.X86DllPath;
             this.X64DllPath = memento.X64DllPath;
             this.SupportFileTypes.OneLine = memento.SupportFileTypes;
-            Config.Current.Performance.PreExtractSolidSize = memento.PreExtractSolidSize;
-            Config.Current.Performance.IsPreExtractToMemory = memento.IsPreExtractToMemory;
-
-            // compatible before ver.25
-            if (memento._Version < Environment.GenerateProductVersionNumber(1, 25, 0))
-            {
-                this.SupportFileTypes.Add(".cbr");
-                this.SupportFileTypes.Add(".cbz");
-            }
-
-            // compatible before ver.29
-            if (memento._Version < Environment.GenerateProductVersionNumber(1, 29, 0))
-            {
-                // .zipファイル展開を優先するため、標準の圧縮ファイル展開機能を無効にする
-                if (this.SupportFileTypes.Contains(".zip"))
-                {
-                    ZipArchiverProfile.Current.IsEnabled = false;
-                }
-
-                this.SupportFileTypes.Add(".cb7");
-                this.SupportFileTypes.Add(".zip");
-            }
+            ////this.PreExtractSolidSize = memento.PreExtractSolidSize;
+            ////this.IsPreExtractToMemory = memento.IsPreExtractToMemory;
         }
         #endregion
 

@@ -80,40 +80,6 @@ namespace NeeView
             _models.Resore(setting.Memento);
 
             new ConfigAccessor(Config.Current).Restore(setting.Config);
-
-
-#pragma warning disable CS0612
-
-            // 互換設定反映
-
-            if (setting.ViewMemento != null)
-            {
-                MainWindowVM.RestoreCompatible(setting.ViewMemento);
-            }
-
-            if (setting.BookHubMemento != null)
-            {
-                BookHub.Current.Restore(setting.BookHubMemento);
-                BookHub.Current.RestoreCompatible(setting.BookHubMemento);
-            }
-
-            if (setting.ImageEffectMemento != null)
-            {
-                ImageEffect.Current.Restore(setting.ImageEffectMemento);
-            }
-
-            // Preference.Compatible
-            if (setting.PreferenceMemento != null)
-            {
-                var preference = new Preference();
-                preference.Restore(setting.PreferenceMemento);
-                preference.RestoreCompatible();
-            }
-
-            // Model.Compatible
-            _models.ResoreCompatible(setting.Memento);
-
-#pragma warning restore CS0612
         }
 
         // アプリ設定のシェイプを反映

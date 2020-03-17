@@ -78,6 +78,7 @@ namespace NeeView
 
         #region Obsolete
 
+        // before ver 34.0
         [Obsolete, DataContract]
         public class Memento
         {
@@ -93,28 +94,6 @@ namespace NeeView
             public bool IsKeepFlip { get; set; }
             [Obsolete, DataMember(EmitDefaultValue = false)]
             public bool IsViewStartPositionCenter { get; set; }
-        }
-
-        [Obsolete]
-        public Memento CreateMemento()
-        {
-            return null;
-        }
-
-        [Obsolete]
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-
-            var _drag = DragTransformControl.Current;
-            _drag.IsOriginalScaleShowMessage = memento.IsOriginalScaleShowMessage;
-            _drag.DragControlRotateCenter = memento.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
-            _drag.DragControlScaleCenter = memento.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
-            _drag.DragControlFlipCenter = memento.IsControlCenterImage ? DragControlCenter.Target : DragControlCenter.View;
-            _drag.IsKeepScale = memento.IsKeepScale;
-            _drag.IsKeepAngle = memento.IsKeepAngle;
-            _drag.IsKeepFlip = memento.IsKeepFlip;
-            _drag.IsViewStartPositionCenter = memento.IsViewStartPositionCenter;
         }
 
         #endregion

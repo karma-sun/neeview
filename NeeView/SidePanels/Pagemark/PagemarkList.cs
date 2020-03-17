@@ -114,7 +114,7 @@ namespace NeeView
 
         #region Memento
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember]
             public PanelListItemStyle PanelListItemStyle { get; set; }

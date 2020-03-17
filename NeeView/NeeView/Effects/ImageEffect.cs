@@ -121,13 +121,10 @@ namespace NeeView.Effects
         #region Memento
 
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember]
             public EffectType EffectType { get; set; }
-
-            [Obsolete, DataMember(EmitDefaultValue = false)]
-            public bool IsRecoveryEffectType { get; set; }
 
             [DataMember]
             public Dictionary<EffectType, string> Effects { get; set; }
@@ -137,9 +134,18 @@ namespace NeeView.Effects
 
             [DataMember]
             public bool IsEnabled { get; set; }
+
+            [OnDeserialized]
+            private void OnDeserialized(StreamingContext context)
+            {
+                // 補正
+                if (EffectType == EffectType.None)
+                {
+                    EffectType = EffectType.Level;
+                }
+            }
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -160,7 +166,6 @@ namespace NeeView.Effects
             return memento;
         }
 
-        //
         public void Restore(Memento memento)
         {
             if (memento == null) return;
@@ -179,22 +184,6 @@ namespace NeeView.Effects
                     }
                 }
             }
-
-#pragma warning disable CS0612
-
-            // 互換性
-            if (memento.IsRecoveryEffectType && memento.EffectType != EffectType.None)
-            {
-                this.IsEnabled = true;
-            }
-
-            // 補正
-            if (this.EffectType == EffectType.None)
-            {
-                this.EffectType = EffectType.Level;
-            }
-
-#pragma warning restore CS0612
         }
         #endregion
     }

@@ -374,7 +374,7 @@ namespace NeeView
         /// 履歴Memento
         /// </summary>
         [DataContract(Name = "BookHistory.Memento")]
-        public class Memento : BindableBase
+        public class Memento : BindableBase, IMemento
         {
             [DataMember]
             public int _Version { get; set; }
@@ -436,20 +436,16 @@ namespace NeeView
             }
 
             [OnDeserializing]
-            private void Deserializing(StreamingContext c)
+            private void OnDeserializing(StreamingContext c)
             {
                 Constructor();
             }
 
             [OnDeserialized]
-            private void Deserialized(StreamingContext c)
+            private void OnDeserialized(StreamingContext c)
             {
-                if (_Version < Environment.GenerateProductVersionNumber(1, 19, 0))
-                {
-                    if (LimitSize == 0) LimitSize = -1;
-                }
-
 #pragma warning disable CS0612
+                // before v31
                 if (_Version < Environment.GenerateProductVersionNumber(31, 0, 0))
                 {
                     Items = OldBooks != null
@@ -464,6 +460,8 @@ namespace NeeView
 
                     OldBooks = null;
                 }
+
+                // before 36
                 if (_Version < Environment.GenerateProductVersionNumber(36, 0, 0))
                 {
                     IsKeepLastFolder = IsKeepFolderStatus;
@@ -548,6 +546,11 @@ namespace NeeView
                     Books = bookMap.Values.ToList();
                 }
             }
+
+            public void RestoreConfig()
+            {
+                Config.Current.StartUp.IsKeepLastFolder = IsKeepLastFolder;
+            }
         }
 
         // memento作成
@@ -562,7 +565,7 @@ namespace NeeView
             memento.LimitSize = this.LimitSize;
             memento.LimitSpan = this.LimitSpan;
             memento.IsKeepFolderStatus = IsKeepFolderStatus;
-            ////memento.IsKeepLastFolder = IsKeepLastFolder;
+            memento.IsKeepLastFolder = Config.Current.StartUp.IsKeepLastFolder;
             memento.LastAddress = Config.Current.StartUp.IsOpenLastBook ? this.LastAddress : null;
             memento.IsKeepSearchHistory = IsKeepSearchHistory;
             memento.SearchHistory = this.SearchHistory.Any() ? this.SearchHistory.ToList() : null;
@@ -607,13 +610,15 @@ namespace NeeView
         // memento適用
         public void Restore(Memento memento, bool fromLoad)
         {
+            if (memento == null) return;
+
             this.LastFolder = memento.LastFolder;
             this.LastAddress = memento.LastAddress;
             _folders = memento.Folders ?? _folders;
             this.LimitSize = memento.LimitSize;
             this.LimitSpan = memento.LimitSpan;
             this.IsKeepFolderStatus = memento.IsKeepFolderStatus;
-            Config.Current.StartUp.IsKeepLastFolder = memento.IsKeepLastFolder;
+            ////this.IsKeepLastFolder = memento.IsKeepLastFolder;
             this.IsKeepSearchHistory = memento.IsKeepSearchHistory;
 
             if (this.IsKeepSearchHistory)
@@ -622,14 +627,6 @@ namespace NeeView
             }
 
             this.Load(fromLoad ? Limit(memento.Items, LimitSize, LimitSpan) : memento.Items, memento.Books);
-
-#pragma warning disable CS0612
-            // ver.22
-            if (memento.FolderOrders != null)
-            {
-                _folders = memento.FolderOrders.ToDictionary(e => e.Key, e => new FolderParameter.Memento() { FolderOrder = e.Value });
-            }
-#pragma warning restore CS0612
         }
 
 

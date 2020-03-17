@@ -227,11 +227,10 @@ namespace NeeView
             }
         }
 
-        //
         #region Memento
 
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember]
             public List<string> PanelTypeCodes { get; set; }
@@ -243,10 +242,6 @@ namespace NeeView
             public double Width { get; set; }
         }
 
-        /// <summary>
-        /// Memento作成
-        /// </summary>
-        /// <returns></returns>
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -258,11 +253,6 @@ namespace NeeView
             return memento;
         }
 
-        /// <summary>
-        /// Memento適用
-        /// </summary>
-        /// <param name="memento"></param>
-        /// <param name="panels"></param>
         public void Restore(Memento memento, List<IPanel> panels)
         {
             if (memento == null) return;

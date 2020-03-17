@@ -415,7 +415,7 @@ namespace NeeView
 
         #region Memento
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember]
             public bool IsEnableThumbnailList { get; set; }
@@ -433,7 +433,7 @@ namespace NeeView
             public bool IsSelectedCenter { get; set; }
 
             [OnDeserializing]
-            private void Deserializing(StreamingContext c)
+            private void OnDeserializing(StreamingContext c)
             {
                 this.IsManipulationBoundaryFeedbackEnabled = true;
             }

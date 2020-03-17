@@ -297,7 +297,7 @@ namespace NeeView
 
         #region Memento
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember(Name = "LongLeftButtonDownMode")]
             public LongButtonDownMode LongButtonDownMode { get; set; }
@@ -322,13 +322,12 @@ namespace NeeView
 
 
             [OnDeserializing]
-            private void Deserializing(StreamingContext c)
+            private void OnDeserializing(StreamingContext c)
             {
                 this.InitializePropertyDefaultValues();
             }
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -342,7 +341,6 @@ namespace NeeView
             return memento;
         }
 
-        //
         public void Restore(Memento memento)
         {
             if (memento == null) return;

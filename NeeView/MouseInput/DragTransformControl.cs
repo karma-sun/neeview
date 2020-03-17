@@ -1147,7 +1147,7 @@ namespace NeeView
         #region Memento
 
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember]
             public int _Version { get; set; } = Environment.ProductVersionNumber;
@@ -1175,7 +1175,7 @@ namespace NeeView
 
 #pragma warning disable CS0612
             [OnDeserialized]
-            private void Deserialized(StreamingContext c)
+            private void OnDeserialized(StreamingContext c)
             {
                 // before 34.0
                 if (_Version < Environment.GenerateProductVersionNumber(34, 0, 0))

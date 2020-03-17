@@ -394,7 +394,7 @@ namespace NeeView
 
         #region Memento
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember, DefaultValue(80.0)]
             public double MinimumManipulationRadius { get; set; }
@@ -408,8 +408,7 @@ namespace NeeView
             [DataMember]
             public bool IsScaleEnabled { get; set; }
         }
-
-        //
+        
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -420,7 +419,6 @@ namespace NeeView
             return memento;
         }
 
-        //
         public void Restore(Memento memento)
         {
             if (memento == null) return;

@@ -101,7 +101,7 @@ namespace NeeView
         #region Memento
 
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember, DefaultValue(PanelColor.Dark)]
             public PanelColor PanelColor { get; set; }
@@ -110,7 +110,7 @@ namespace NeeView
             public PanelColor MenuColor { get; set; }
 
             [OnDeserializing]
-            private void Deserializing(StreamingContext c)
+            private void OnDeserializing(StreamingContext c)
             {
                 this.InitializePropertyDefaultValues();
             }

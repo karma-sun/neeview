@@ -173,7 +173,7 @@ namespace NeeView
 
         #region Memento
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember]
             public int _Version { get; set; } = Environment.ProductVersionNumber;
@@ -194,75 +194,49 @@ namespace NeeView
             public int BookCapacity { get; set; }
 
 
-            [Obsolete, DataMember(EmitDefaultValue = false)]
+            [Obsolete, DataMember(EmitDefaultValue = false)] // ver.32
             public int ThumbnailWidth { get; set; }
 
-            [Obsolete, DataMember(EmitDefaultValue = false)]
+            [Obsolete, DataMember(EmitDefaultValue = false)] // ver.32
             public int BannerWidth { get; set; }
 
-            [Obsolete, DataMember(EmitDefaultValue = false)]
+            [Obsolete, DataMember(EmitDefaultValue = false)] // ver.32
             public bool IsThumbnailPopup { get; set; }
 
 
             [OnDeserializing]
-            private void Deserializing(StreamingContext context)
+            private void OnDeserializing(StreamingContext context)
             {
                 this.InitializePropertyDefaultValues();
             }
+
+            public void RestoreConfig()
+            {
+                Config.Current.Performance.ThumbnailPageCapacity = PageCapacity;
+                Config.Current.Performance.ThumbnailBookCapacity = BookCapacity;
+            }
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
             memento.Format = this.Format;
             memento.Quality = this.Quality;
             memento.IsCacheEnabled = this.IsCacheEnabled;
-            ////memento.PageCapacity = this.PageCapacity;
-            ////memento.BookCapacity = this.BookCapacity;
-            ////memento.ThumbnailWidth = this.ThumbnailWidth;
-            ////memento.BannerWidth = this.BannerWidth;
-            ////memento.TileWidth = this.TileWidth;
-            ////memento.IsThumbnailPopup = this.IsThumbnailPopup;
-            ////memento.IsTileNameVisibled = this.IsTileNameVisibled;
+            memento.PageCapacity = Config.Current.Performance.ThumbnailPageCapacity;
+            memento.BookCapacity = Config.Current.Performance.ThumbnailBookCapacity;
             return memento;
         }
 
-        //
         public void Restore(Memento memento)
         {
             if (memento == null) return;
             this.Format = memento.Format;
             this.Quality = memento.Quality;
             this.IsCacheEnabled = memento.IsCacheEnabled;
-            Config.Current.Performance.ThumbnailPageCapacity = memento.PageCapacity;
-            Config.Current.Performance.ThumbnailBookCapacity = memento.BookCapacity;
-            ////this.ThumbnailWidth = memento.ThumbnailWidth;
-            ////this.BannerWidth = memento.BannerWidth;
-            ////this.TileWidth = memento.TileWidth;
-            ////this.IsThumbnailPopup = memento.IsThumbnailPopup;
-            ////this.IsTileNameVisibled = memento.IsTileNameVisibled;
+            ////this.PageCapacity = memento.PageCapacity;
+            ////this.lBookCapacity = memento.BookCapacity;
         }
-
-
-#pragma warning disable CS0612
-
-        public void RestoreCompatible(Memento memento)
-        {
-            if (memento == null) return;
-
-            // compatible before ver.32
-            if (memento._Version < Environment.GenerateProductVersionNumber(32, 0, 0))
-            {
-                SidePanelProfile.Current.ContentItemImageWidth = memento.ThumbnailWidth > 0 ? memento.ThumbnailWidth : 64;
-                SidePanelProfile.Current.BannerItemImageWidth = memento.BannerWidth > 0 ? memento.BannerWidth : 200;
-                SidePanelProfile.Current.ContentItemIsImagePopupEnabled = memento.IsThumbnailPopup;
-
-                SidePanelProfile.Current.ValidatePanelListItemProfile();
-            }
-        }
-
-#pragma warning restore CS0612
 
         #endregion
 

@@ -341,7 +341,7 @@ namespace NeeView
 
         #region Memento
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember]
             public MouseInputNormal.Memento Normal { get; set; }
@@ -351,7 +351,7 @@ namespace NeeView
             public MouseInputGesture.Memento Gesture { get; set; }
 
             #region Obsolete
-            [Obsolete, DataMember(EmitDefaultValue = false)]
+            [Obsolete, DataMember(EmitDefaultValue = false)] // ver 34.0
             public MouseInputDrag.Memento Drag { get; set; }
             #endregion
         }
@@ -371,10 +371,6 @@ namespace NeeView
             this.Normal.Restore(memento.Normal);
             this.Loupe.Restore(memento.Loupe);
             this.Gesture.Restore(memento.Gesture);
-
-#pragma warning disable CS0612
-            this.Drag.Restore(memento.Drag);
-#pragma warning restore CS0612
         }
         #endregion
 

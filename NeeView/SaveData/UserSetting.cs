@@ -43,26 +43,9 @@ namespace NeeView
         public App.Memento App { get; set; }
 
 
-        // 新しい保存データ形式のテスト。一時的なものです。
+        // 新しい保存データ形式のテスト。一時的なものです。 // ##
         [DataMember]
         public ConfigAccessor.Memento Config { get; set; }
-
-
-        #region Obsolete
-
-        [Obsolete, DataMember(Order = 1, EmitDefaultValue = false)]
-        public BookHub.Memento BookHubMemento { set; get; }
-
-        [Obsolete, DataMember(Order = 1, EmitDefaultValue = false)]
-        public MainWindowVM.Memento ViewMemento { set; get; } // no used (ver.23)
-
-        [Obsolete, DataMember(Order = 14, EmitDefaultValue = false)]
-        public Preference.Memento PreferenceMemento { set; get; }
-
-        [Obsolete, DataMember(Order = 17, EmitDefaultValue = false)]
-        public ImageEffect.Memento ImageEffectMemento { get; set; } // no used (ver.22)
-
-        #endregion
 
 
         // ファイルに保存
@@ -153,5 +136,22 @@ namespace NeeView
                 return setting;
             }
         }
+
+        public void RestoreConfig()
+        {
+            App.RestoreConfig();
+            
+            // TODO: すべてのRestoreConfigの呼び出し
+            // TODO: App最初のUserSetting読み込みでのRestoreConfig呼び出し
+        }
+    }
+
+
+    public interface IMemento
+    {
+        ////[OnDeserialized]
+        ////void OnDeserialized(StreamingContext c);
+
+        ////void RestoreConfig();
     }
 }

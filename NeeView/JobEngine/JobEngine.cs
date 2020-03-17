@@ -187,25 +187,28 @@ namespace NeeView
 
         #region Memento
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember, DefaultValue(2)]
             public int WorkerSize { get; set; }
+
+            public void RestoreConfig()
+            {
+                Config.Current.Performance.JobWorkerSize = WorkerSize;
+            }
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            ////memento.WorkerSize = Config.Current.Performance.JobWorkerSize;
+            memento.WorkerSize = Config.Current.Performance.JobWorkerSize;
             return memento;
         }
 
-        //
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            Config.Current.Performance.JobWorkerSize = memento.WorkerSize;
+            ////Config.Current.Performance.JobWorkerSize = memento.WorkerSize;
         }
         #endregion
     }

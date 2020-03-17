@@ -178,7 +178,7 @@ namespace NeeView
 
         #region Memento
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember]
             public int _Version { get; set; } = Environment.ProductVersionNumber;
@@ -244,6 +244,14 @@ namespace NeeView
                 }
 #pragma warning restore CS0612
             }
+
+            public void RestoreConfig()
+            {
+                Config.Current.Performance.PreLoadSize = PreLoadSize;
+                Config.Current.System.BookPageCollectMode = BookPageCollectMode;
+                Config.Current.Performance.IsLoadingPageVisible = IsLoadingPageVisible;
+                Config.Current.Performance.CacheMemorySize = CacheMemorySize;
+            }
         }
 
         //
@@ -252,14 +260,14 @@ namespace NeeView
             var memento = new Memento();
             memento.IsPrioritizePageMove = this.IsPrioritizePageMove;
             memento.IsMultiplePageMove = this.IsMultiplePageMove;
-            ////memento.PreLoadSize = this.PreLoadSize;
+            memento.PreLoadSize = Config.Current.Performance.PreLoadSize;
             memento.WideRatio = this.WideRatio;
             memento.ExcludePath = this.Excludes.OneLine;
             memento.IsEnableAnimatedGif = this.IsEnableAnimatedGif;
-            ////memento.BookPageCollectMode = this.BookPageCollectMode;
-            ////memento.IsLoadingPageVisible = this.IsLoadingPageVisible;
+            memento.BookPageCollectMode = Config.Current.System.BookPageCollectMode;
+            memento.IsLoadingPageVisible = Config.Current.Performance.IsLoadingPageVisible;
             memento.IsAllFileAnImage = this.IsAllFileAnImage;
-            ////memento.CacheMemorySize = _cacheMemorySize;
+            memento.CacheMemorySize = Config.Current.Performance.CacheMemorySize;
             memento.IsSortFileFirst = this.IsSortFileFirst;
             return memento;
         }
@@ -270,14 +278,14 @@ namespace NeeView
             if (memento == null) return;
             this.IsPrioritizePageMove = memento.IsPrioritizePageMove;
             this.IsMultiplePageMove = memento.IsMultiplePageMove;
-            Config.Current.Performance.PreLoadSize = memento.PreLoadSize;
+            ////this.PreLoadSize = memento.PreLoadSize;
             this.WideRatio = memento.WideRatio;
             this.Excludes.OneLine = memento.ExcludePath;
             this.IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
-            Config.Current.System.BookPageCollectMode = memento.BookPageCollectMode;
-            Config.Current.Performance.IsLoadingPageVisible = memento.IsLoadingPageVisible;
+            ////this.BookPageCollectMode = memento.BookPageCollectMode;
+            ////this.IsLoadingPageVisible = memento.IsLoadingPageVisible;
             this.IsAllFileAnImage = memento.IsAllFileAnImage;
-            Config.Current.Performance.CacheMemorySize = memento.CacheMemorySize;
+            ////this.CacheMemorySize = memento.CacheMemorySize;
             this.IsSortFileFirst = memento.IsSortFileFirst;
         }
         #endregion

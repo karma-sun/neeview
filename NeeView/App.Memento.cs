@@ -268,7 +268,7 @@ namespace NeeView
 
         #region Memento
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember]
             public int _Version { get; set; } = Environment.ProductVersionNumber;
@@ -363,8 +363,9 @@ namespace NeeView
             [DataMember, DefaultValue(32.0)]
             public double AutoHideHitTestMargin { get; set; }
 
+
             [OnDeserializing]
-            private void Deserializing(StreamingContext c)
+            private void OnDeserializing(StreamingContext c)
             {
                 this.InitializePropertyDefaultValues();
 
@@ -374,19 +375,8 @@ namespace NeeView
 #pragma warning disable CS0612
 
             [OnDeserialized]
-            private void Deserialized(StreamingContext c)
+            public void OnDeserialized(StreamingContext c)
             {
-                // before ver.30
-                if (_Version < Environment.GenerateProductVersionNumber(30, 0, 0))
-                {
-                    if (IsDisableSave)
-                    {
-                        IsSaveHistory = false;
-                        IsSaveBookmark = false;
-                        IsSavePagemark = false;
-                    }
-                }
-
                 // before ver.34
                 if (_Version < Environment.GenerateProductVersionNumber(34, 0, 0))
                 {
@@ -395,16 +385,27 @@ namespace NeeView
             }
 
 #pragma warning restore CS0612
+
+            public void RestoreConfig()
+            {
+                // ver 37.0
+                Config.Current.StartUp.IsMultiBootEnabled = IsMultiBootEnabled;
+                Config.Current.StartUp.IsRestoreFullScreen = IsSaveFullScreen;
+                Config.Current.StartUp.IsRestoreWindowPlacement = IsSaveWindowPlacement;
+                Config.Current.System.IsNetworkEnabled = IsNetworkEnabled;
+                Config.Current.StartUp.IsOpenLastBook = IsOpenLastBook;
+                Config.Current.System.Language = Language;
+                Config.Current.StartUp.IsSplashScreenEnabled = IsSplashScreenEnabled;
+            }
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            ////memento.IsMultiBootEnabled = this.IsMultiBootEnabled;
-            ////memento.IsSaveFullScreen = this.IsSaveFullScreen;
-            ////memento.IsSaveWindowPlacement = this.IsSaveWindowPlacement;
-            ////memento.IsNetworkEnabled = this.IsNetworkEnabled;
+            memento.IsMultiBootEnabled = Config.Current.StartUp.IsMultiBootEnabled;
+            memento.IsSaveFullScreen = Config.Current.StartUp.IsRestoreFullScreen;
+            memento.IsSaveWindowPlacement = Config.Current.StartUp.IsRestoreWindowPlacement;
+            memento.IsNetworkEnabled = Config.Current.System.IsNetworkEnabled;
             memento.IsIgnoreImageDpi = this.IsIgnoreImageDpi;
             memento.IsSaveHistory = this.IsSaveHistory;
             memento.HistoryFilePath = _historyFilePath;
@@ -415,12 +416,12 @@ namespace NeeView
             memento.AutoHideDelayTime = this.AutoHideDelayTime;
             memento.AutoHideDelayVisibleTime = this.AutoHideDelayVisibleTime;
             memento.WindowChromeFrame = this.WindowChromeFrame;
-            ////memento.IsOpenLastBook = this.IsOpenLastBook;
+            memento.IsOpenLastBook = Config.Current.StartUp.IsOpenLastBook;
             memento.DownloadPath = this.DownloadPath;
             memento.IsRestoreSecondWindow = this.IsRestoreSecondWindow;
             memento.IsSettingBackup = this.IsSettingBackup;
-            ////memento.Language = this.Language;
-            ////memento.IsSplashScreenEnabled = this.IsSplashScreenEnabled;
+            memento.Language = Config.Current.System.Language;
+            memento.IsSplashScreenEnabled = Config.Current.StartUp.IsSplashScreenEnabled;
             memento.IsSyncUserSetting = this.IsSyncUserSetting;
             memento.TemporaryDirectory = _temporaryDirectory;
             memento.CacheDirectory = _cacheDirectory;
@@ -445,11 +446,10 @@ namespace NeeView
             if (memento == null) return;
 
             this.SettingVersion = memento._Version;
-
-            Config.Current.StartUp.IsMultiBootEnabled = memento.IsMultiBootEnabled;
-            Config.Current.StartUp.IsRestoreFullScreen = memento.IsSaveFullScreen;
-            Config.Current.StartUp.IsRestoreWindowPlacement = memento.IsSaveWindowPlacement;
-            Config.Current.System.IsNetworkEnabled = memento.IsNetworkEnabled;
+            ////this.IsMultiBootEnabled = memento.IsMultiBootEnabled;
+            ////this.IsSaveFullScreen = memento.IsSaveFullScreen;
+            ////this.IsSaveWindowPlacement = memento.IsSaveWindowPlacement;
+            ////this.IsNetworkEnabled = memento.IsNetworkEnabled;
             this.IsIgnoreImageDpi = memento.IsIgnoreImageDpi;
             this.IsSaveHistory = memento.IsSaveHistory;
             this.HistoryFilePath = memento.HistoryFilePath;
@@ -460,12 +460,12 @@ namespace NeeView
             this.AutoHideDelayTime = memento.AutoHideDelayTime;
             this.AutoHideDelayVisibleTime = memento.AutoHideDelayVisibleTime;
             this.WindowChromeFrame = memento.WindowChromeFrame;
-            Config.Current.StartUp.IsOpenLastBook = memento.IsOpenLastBook;
+            ////this.IsOpenLastBook = memento.IsOpenLastBook;
             this.DownloadPath = memento.DownloadPath;
             this.IsRestoreSecondWindow = memento.IsRestoreSecondWindow;
             this.IsSettingBackup = memento.IsSettingBackup;
-            Config.Current.System.Language = memento.Language;
-            Config.Current.StartUp.IsSplashScreenEnabled = memento.IsSplashScreenEnabled;
+            ////this.Language = memento.Language;
+            ////this.IsSplashScreenEnabled = memento.IsSplashScreenEnabled;
             this.IsSyncUserSetting = memento.IsSyncUserSetting;
             this.TemporaryDirectory = memento.TemporaryDirectory;
             this.CacheDirectory = memento.CacheDirectory;
@@ -475,33 +475,6 @@ namespace NeeView
             this.AutoHideHitTestMargin = memento.AutoHideHitTestMargin;
         }
 
-#pragma warning disable CS0612
-
-        public void RestoreCompatible(UserSetting setting)
-        {
-            // compatible before ver.23
-            if (setting._Version < Environment.GenerateProductVersionNumber(1, 23, 0))
-            {
-                if (setting.ViewMemento != null)
-                {
-                    Config.Current.StartUp.IsMultiBootEnabled = !setting.ViewMemento.IsDisableMultiBoot;
-                    Config.Current.StartUp.IsRestoreFullScreen = setting.ViewMemento.IsSaveFullScreen;
-                    Config.Current.StartUp.IsRestoreWindowPlacement = setting.ViewMemento.IsSaveWindowPlacement;
-                }
-            }
-
-            // Preferenceの復元 (APP)
-            if (setting.PreferenceMemento != null)
-            {
-                var preference = new Preference();
-                preference.Restore(setting.PreferenceMemento);
-                preference.RestoreCompatibleApp();
-            }
-        }
-
-#pragma warning restore CS0612
-
         #endregion
-
     }
 }

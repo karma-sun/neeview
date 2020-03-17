@@ -88,38 +88,33 @@ namespace NeeView
         #region Memento
 
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember]
             public string Key { get; set; }
 
-            //
             private void Constructor()
             {
                 Key = "";
             }
 
-            //
             public Memento()
             {
                 Constructor();
             }
 
-            //
             [OnDeserializing]
-            private void Deserializing(StreamingContext c)
+            private void OnDeserializing(StreamingContext c)
             {
                 Constructor();
             }
 
-            //
             public Memento Clone()
             {
                 return (Memento)MemberwiseClone();
             }
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -127,7 +122,6 @@ namespace NeeView
             return memento;
         }
 
-        //
         public void Restore(Memento element)
         {
             DragKey = new DragKey(element.Key);

@@ -421,9 +421,9 @@ namespace NeeView
         /// </summary>
         public int RequestLoadCount => _requestLoadCount;
 
-#endregion Properties
+        #endregion Properties
 
-#region IDisposable Support
+        #region IDisposable Support
         private bool _disposedValue = false;
 
         void Dispose(bool disposing)
@@ -462,9 +462,9 @@ namespace NeeView
         {
             Dispose(true);
         }
-#endregion
+        #endregion
 
-#region Callback Methods
+        #region Callback Methods
 
         private void BookHistoryCollection_HistoryChanged(object sender, BookMementoCollectionChangedArgs e)
         {
@@ -517,9 +517,9 @@ namespace NeeView
             NextContentsChanged?.Invoke(sender, e);
         }
 
-#endregion Callback Methods
+        #endregion Callback Methods
 
-#region Requests
+        #region Requests
 
         /// <summary>
         /// リクエスト：フォルダーを開く
@@ -645,9 +645,9 @@ namespace NeeView
             }
         }
 
-#endregion Requests
+        #endregion Requests
 
-#region BookHubCommand.Load
+        #region BookHubCommand.Load
 
         // ロード中状態更新
         private void NotifyLoading(string path)
@@ -959,9 +959,9 @@ namespace NeeView
         }
 
 
-#endregion BookHubCommand.Load
+        #endregion BookHubCommand.Load
 
-#region BookHubCommand.Unload
+        #region BookHubCommand.Unload
 
         /// <summary>
         /// 本の開放
@@ -1007,9 +1007,9 @@ namespace NeeView
             }
         }
 
-#endregion BookHubCommand.Unload
+        #endregion BookHubCommand.Unload
 
-#region BookMemento Control
+        #region BookMemento Control
 
         //現在開いているブックの設定作成
         public Book.Memento CreateBookMemento()
@@ -1154,16 +1154,16 @@ namespace NeeView
                 && (IsUncHistoryEnabled || !LoosePath.IsUnc(Book.Address));
         }
 
-#endregion BookMemento Control
+        #endregion BookMemento Control
 
 
-#region Memento
+        #region Memento
 
         /// <summary>
         /// BookHub Memento
         /// </summary>
         [DataContract]
-        public class Memento : BindableBase
+        public class Memento : BindableBase, IMemento
         {
             [DataMember]
             public int _Version { get; set; } = Environment.ProductVersionNumber;
@@ -1189,7 +1189,7 @@ namespace NeeView
             [DataMember, DefaultValue(ArchiveEntryCollectionMode.IncludeSubArchives)]
             public ArchiveEntryCollectionMode ArchiveRecursveMode { get; set; }
 
-#region Obslete
+            #region Obslete
 
             [Obsolete, DataMember(Order = 22, EmitDefaultValue = false)]
             public bool IsAutoRecursiveWithAllFiles { get; set; } // no used (ver.34)
@@ -1254,10 +1254,10 @@ namespace NeeView
             [Obsolete, DataMember(Order = 20, EmitDefaultValue = false)]
             public string Home { get; set; } // no used (ver.23)
 
-#endregion
+            #endregion
 
             [OnDeserializing]
-            private void Deserializing(StreamingContext c)
+            private void OnDeserializing(StreamingContext c)
             {
                 this.InitializePropertyDefaultValues();
             }
@@ -1265,17 +1265,8 @@ namespace NeeView
 #pragma warning disable CS0612
 
             [OnDeserialized]
-            private void Deserialized(StreamingContext c)
+            private void OnDeserialized(StreamingContext c)
             {
-                // before 1.19
-                if (_Version < Environment.GenerateProductVersionNumber(1, 19, 0))
-                {
-                    PageEndAction = IsEnabledAutoNextFolder ? PageEndAction.NextFolder : PageEndAction.None;
-                    PreLoadMode = AllowPagePreLoad ? PreLoadMode.AutoPreLoad : PreLoadMode.None;
-                }
-                IsEnabledAutoNextFolder = false;
-                AllowPagePreLoad = false;
-
                 // before 34.0
                 if (_Version < Environment.GenerateProductVersionNumber(34, 0, 0))
                 {
@@ -1285,6 +1276,10 @@ namespace NeeView
 
 #pragma warning restore CS0612
 
+            public void RestoreConfig()
+            {
+                Config.Current.System.ArchiveRecursiveMode = ArchiveRecursveMode;
+            }
         }
 
         // memento作成
@@ -1300,7 +1295,7 @@ namespace NeeView
             memento.IsInnerArchiveHistoryEnabled = IsInnerArchiveHistoryEnabled;
             memento.IsUncHistoryEnabled = IsUncHistoryEnabled;
             memento.IsForceUpdateHistory = IsForceUpdateHistory;
-            ////memento.ArchiveRecursveMode = ArchiveRecursiveMode;
+            memento.ArchiveRecursveMode = Config.Current.System.ArchiveRecursiveMode;
 
             return memento;
         }
@@ -1316,51 +1311,10 @@ namespace NeeView
             IsInnerArchiveHistoryEnabled = memento.IsInnerArchiveHistoryEnabled;
             IsUncHistoryEnabled = memento.IsUncHistoryEnabled;
             IsForceUpdateHistory = memento.IsForceUpdateHistory;
-            Config.Current.System.ArchiveRecursiveMode = memento.ArchiveRecursveMode;
-
+            ////this.ArchiveRecursiveMode = memento.ArchiveRecursveMode;
         }
 
-
-#pragma warning disable CS0612
-
-        public void RestoreCompatible(Memento memento)
-        {
-            if (memento == null) return;
-
-            // compatible before ver.22
-            if (memento._Version < Environment.GenerateProductVersionNumber(1, 22, 0))
-            {
-                SlideShow.Current.IsSlideShowByLoop = memento.IsSlideShowByLoop;
-                SlideShow.Current.SlideShowInterval = memento.SlideShowInterval;
-                SlideShow.Current.IsCancelSlideByMouseMove = memento.IsCancelSlideByMouseMove;
-            }
-
-            // compatible before ver.23
-            if (memento._Version < Environment.GenerateProductVersionNumber(1, 23, 0))
-            {
-                BookProfile.Current.IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
-                Config.Current.System.BookPageCollectMode = memento.IsEnableNoSupportFile ? BookPageCollectMode.All : BookPageCollectMode.ImageAndBook;
-
-                BookOperation.Current.PageEndAction = memento.PageEndAction;
-
-                if (memento.ExternalApplication != null)
-                {
-                    BookOperation.Current.ExternalApplication = memento.ExternalApplication.Clone();
-                }
-                if (memento.ClipboardUtility != null)
-                {
-                    BookOperation.Current.ClipboardUtility = memento.ClipboardUtility.Clone();
-                }
-
-                BookshelfFolderList.Current.Home = memento.Home;
-            }
-        }
-
-
-#pragma warning restore CS0612
-
-
-#endregion
+        #endregion
     }
 }
 

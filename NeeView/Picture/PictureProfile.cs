@@ -147,7 +147,7 @@ namespace NeeView
         #region Memento
 
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember, DefaultValue(false)]
             public bool IsLimitSourceSize { get; set; }
@@ -169,17 +169,23 @@ namespace NeeView
 
 
             [OnDeserializing]
-            private void Deserializing(StreamingContext c)
+            private void OnDeserializing(StreamingContext c)
             {
                 this.InitializePropertyDefaultValues();
+            }
+
+            public void RestoreConfig()
+            {
+                Config.Current.Performance.IsLimitSourceSize = IsLimitSourceSize;
+                Config.Current.Performance.MaximumSize = Maximum;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            ////memento.IsLimitSourceSize = Config.Current.Performance.IsLimitSourceSize;
-            ////memento.Maximum = Config.Current.Performance.MaximumSize;
+            memento.IsLimitSourceSize = Config.Current.Performance.IsLimitSourceSize;
+            memento.Maximum = Config.Current.Performance.MaximumSize;
             memento.IsResizeFilterEnabled = this.IsResizeFilterEnabled;
             memento.CustomSize = this.CustomSize.CreateMemento();
             memento.IsAspectRatioEnabled = this.IsAspectRatioEnabled;
@@ -190,8 +196,8 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            Config.Current.Performance.IsLimitSourceSize = memento.IsLimitSourceSize;
-            Config.Current.Performance.MaximumSize = memento.Maximum;
+            ////this.IsLimitSourceSize = memento.IsLimitSourceSize;
+            ////this.MaximumSize = memento.Maximum;
             this.IsResizeFilterEnabled = memento.IsResizeFilterEnabled;
             this.CustomSize.Restore(memento.CustomSize);
             this.IsAspectRatioEnabled = memento.IsAspectRatioEnabled;

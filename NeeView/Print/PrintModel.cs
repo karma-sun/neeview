@@ -579,12 +579,15 @@ namespace NeeView
 
         #region Memento
 
-        /// <summary>
-        /// Memento
-        /// </summary>
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
+            public Memento()
+            {
+                Constructor();
+            }
+
+
             [DataMember]
             public PageOrientation PageOrientation { get; set; }
 
@@ -612,9 +615,7 @@ namespace NeeView
             [DataMember]
             public Margin Margin { get; set; }
 
-            /// <summary>
-            /// 初期化
-            /// </summary>
+
             private void Constructor()
             {
                 PageOrientation = PageOrientation.Portrait;
@@ -624,38 +625,18 @@ namespace NeeView
                 Margin = new Margin();
             }
 
-            /// <summary>
-            /// コンストラクター
-            /// </summary>
-            public Memento()
-            {
-                Constructor();
-            }
-
-            /// <summary>
-            /// デシリアイズ前処理
-            /// </summary>
-            /// <param name="c"></param>
             [OnDeserializing]
-            private void Deserializing(StreamingContext c)
+            private void OnDeserializing(StreamingContext c)
             {
                 Constructor();
             }
 
-            /// <summary>
-            /// デシリアイズ後処理
-            /// </summary>
-            /// <param name="c"></param>
             [OnDeserialized]
-            private void Deserialized(StreamingContext c)
+            private void OnDeserialized(StreamingContext c)
             {
             }
         }
 
-        /// <summary>
-        /// memento作成
-        /// </summary>
-        /// <returns></returns>
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -673,10 +654,6 @@ namespace NeeView
             return memento;
         }
 
-        /// <summary>
-        /// memento反映
-        /// </summary>
-        /// <param name="memento"></param>
         public void Restore(Memento memento)
         {
             if (memento == null) return;

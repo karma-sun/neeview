@@ -66,13 +66,13 @@ namespace NeeView
         #region Memento
 
         [DataContract]
-        public class Memento
+        public class Memento 
         {
             [DataMember]
             public Config Config { get; set; }
 
             [OnDeserializing]
-            private void Deserializing(StreamingContext c)
+            private void OnDeserializing(StreamingContext c)
             {
             }
         }

@@ -340,28 +340,6 @@ namespace NeeView
         }
 
         #endregion
-
-        #region Memento
-        // compatible before ver.23
-        [Obsolete, DataContract]
-        public class Memento
-        {
-            [Obsolete, DataMember(EmitDefaultValue = false)]
-            public ShowMessageStyle CommandShowMessageStyle { get; set; }
-        }
-
-#pragma warning disable CS0612
-
-        public void RestoreCompatible(Memento memento)
-        {
-            if (memento == null) return;
-            InfoMessage.Current.CommandShowMessageStyle = memento.CommandShowMessageStyle;
-        }
-
-#pragma warning restore CS0612
-
-
-        #endregion
     }
 
     /// <summary>

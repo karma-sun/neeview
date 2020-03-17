@@ -105,7 +105,7 @@ namespace NeeView
             leftPanels.ForEach(e => _left.Panels.Add(e));
             rightPanels.ForEach(e => _right.Panels.Add(e));
         }
-        
+
         /// <summary>
         /// パネルの追加
         /// </summary>
@@ -272,7 +272,7 @@ namespace NeeView
         #region Memento
 
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember]
             public int _Version { get; set; } = Environment.ProductVersionNumber;
@@ -289,7 +289,7 @@ namespace NeeView
             [DataMember]
             public SidePanelGroup.Memento Right { get; set; }
 
-
+            #region Obsolete
             [Obsolete, DataMember(EmitDefaultValue = false)]
             public string FontName { get; set; } // ver 32.0
 
@@ -304,6 +304,7 @@ namespace NeeView
 
             [Obsolete, DataMember(EmitDefaultValue = false)]
             public double NoteOpacity { get; set; } // ver 32.0
+            #endregion
 
 
             [OnDeserializing]
@@ -313,10 +314,6 @@ namespace NeeView
             }
         }
 
-        /// <summary>
-        /// Memento作成
-        /// </summary>
-        /// <returns></returns>
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -329,11 +326,6 @@ namespace NeeView
             return memento;
         }
 
-
-        /// <summary>
-        /// Memento適用
-        /// </summary>
-        /// <param name="memento"></param>
         public void Restore(Memento memento)
         {
             if (memento == null) return;
@@ -358,29 +350,6 @@ namespace NeeView
             // 情報更新
             SelectedPanelChanged?.Invoke(this, null);
         }
-
-#pragma warning disable CS0612
-
-        public void RestoreCompatible(Memento memento)
-        {
-            if (memento == null) return;
-
-            // compatible before ver.32
-            if (memento._Version < Environment.GenerateProductVersionNumber(32, 0, 0))
-            {
-                SidePanelProfile.Current.FontName = memento.FontName;
-                SidePanelProfile.Current.FontSize = memento.FontSize > 0.0 ? memento.FontSize : 15.0;
-                SidePanelProfile.Current.FolderTreeFontSize = memento.FolderTreeFontSize > 0.0 ? memento.FolderTreeFontSize : 12.0;
-                SidePanelProfile.Current.ContentItemIsTextWrapped = memento.IsTextWrapped;
-                SidePanelProfile.Current.ContentItemNoteOpacity = memento.NoteOpacity;
-                SidePanelProfile.Current.BannerItemIsTextWrapped = memento.IsTextWrapped;
-                SidePanelProfile.Current.ThumbnailItemIsTextWrapped = memento.IsTextWrapped;
-
-                SidePanelProfile.Current.ValidatePanelListItemProfile();
-            }
-        }
-
-#pragma warning restore CS0612
 
         #endregion
     }

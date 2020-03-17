@@ -462,56 +462,5 @@ namespace NeeView
         }
 
         #endregion
-
-        #region Memento
-        [DataContract]
-        public class Memento
-        {
-            [DataMember]
-            public int _Version { get; set; } = Environment.ProductVersionNumber;
-
-            [Obsolete, DataMember(EmitDefaultValue = false)]
-            public bool IsEnabled { get; set; }
-
-
-            [OnDeserializing]
-            private void OnDeserializing(StreamingContext context)
-            {
-                this.InitializePropertyDefaultValues();
-            }
-        }
-
-        //
-        public Memento CreateMemento()
-        {
-            return null;
-            ////var memento = new Memento();
-            ////return memento;
-        }
-
-        //
-        public void Restore(Memento memento)
-        {
-            if (memento == null) return;
-
-#pragma warning disable CS0612
-
-            // compatible before ver.29
-            if (memento._Version < Environment.GenerateProductVersionNumber(1, 29, 0))
-            {
-                if (!memento.IsEnabled)
-                {
-                    ZipArchiverProfile.Current.IsEnabled = false;
-                    SevenZipArchiverProfile.Current.IsEnabled = false;
-                    PdfArchiverProfile.Current.IsEnabled = false;
-                    MediaArchiverProfile.Current.IsEnabled = false;
-                    SusiePluginManager.Current.IsEnabled = false;
-                }
-            }
-
-#pragma warning restore CS0612
-        }
-
-        #endregion
     }
 }

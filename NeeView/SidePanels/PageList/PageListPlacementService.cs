@@ -61,7 +61,7 @@ namespace NeeView
         #region Memento
 
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember, DefaultValue(true)]
             public bool IsPlacedInBookshelf { get; set; }

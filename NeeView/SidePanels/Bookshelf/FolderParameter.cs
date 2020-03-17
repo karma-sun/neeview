@@ -88,11 +88,8 @@ namespace NeeView
         #region Memento
 
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
-            [Obsolete, DataMember(Name = "FolderOrder", EmitDefaultValue = false)]
-            private FolderOrderV1 _folderOrderV1;
-
             [DataMember(Name = "FolderOrderV2")]
             public FolderOrder FolderOrder { get; set; }
 
@@ -107,13 +104,6 @@ namespace NeeView
             [OnDeserialized]
             private void OnDeserialized(StreamingContext context)
             {
-#pragma warning disable CS0612
-                if (_folderOrderV1 != default(FolderOrderV1))
-                {
-                    FolderOrder = _folderOrderV1.ToV2();
-                    _folderOrderV1 = default(FolderOrderV1);
-                }
-#pragma warning restore CS0612
             }
         }
 

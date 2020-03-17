@@ -327,7 +327,7 @@ namespace NeeView
         #region Memento
 
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember]
             public int _Version { get; set; } = Environment.ProductVersionNumber;
@@ -343,7 +343,7 @@ namespace NeeView
 
 
             [OnDeserialized]
-            private void Deserialized(StreamingContext c)
+            private void OnDeserialized(StreamingContext c)
             {
                 // before 34.0
                 if (_Version < Environment.GenerateProductVersionNumber(34, 0, 0))
@@ -369,7 +369,6 @@ namespace NeeView
 
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -379,7 +378,6 @@ namespace NeeView
             return memento;
         }
 
-        //
         public void Restore(Memento memento)
         {
             if (memento == null) return;

@@ -252,8 +252,13 @@ namespace NeeView
 
         #region Memento
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
+            public Memento()
+            {
+                Constructor();
+            }
+
             [DataMember]
             public bool IsEnabled { get; set; }
             [DataMember]
@@ -263,14 +268,19 @@ namespace NeeView
             [DataMember]
             public TouchInputDrag.Memento Drag { get; set; }
 
-            [OnDeserializing]
-            private void Deserializing(StreamingContext c)
+
+            private void Constructor()
             {
                 this.IsEnabled = true;
             }
+
+            [OnDeserializing]
+            private void OnDeserializing(StreamingContext c)
+            {
+                Constructor();
+            }
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -281,7 +291,6 @@ namespace NeeView
             return memento;
         }
 
-        //
         public void Restore(Memento memento)
         {
             if (memento == null) return;

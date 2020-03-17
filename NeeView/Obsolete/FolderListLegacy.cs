@@ -12,7 +12,7 @@ namespace NeeView
     public static class FolderListLegacy
     {
         [DataContract]
-        public class Memento
+        public class Memento 
         {
             [DataMember]
             public PanelListItemStyle PanelListItemStyle { get; set; }

@@ -317,16 +317,13 @@ namespace NeeView
 
         #region Memento
         [DataContract]
-        public class Memento
+        public class Memento : IMemento
         {
             [DataMember]
             public int _Version { get; set; } = Environment.ProductVersionNumber;
 
             [DataMember]
             public bool IsLoupeCenter { get; set; }
-
-            [Obsolete, DataMember(EmitDefaultValue = false)]
-            public bool IsVisibleLoupeInfo { get; set; }
 
             [DataMember, DefaultValue(2.0)]
             public double DefaultScale { get; set; }
@@ -356,13 +353,12 @@ namespace NeeView
             public bool IsEscapeKeyEnabled { get; set; }
 
             [OnDeserializing]
-            private void Deserializing(StreamingContext c)
+            private void OnDeserializing(StreamingContext c)
             {
                 this.InitializePropertyDefaultValues();
             }
         }
 
-        //
         public Memento CreateMemento()
         {
             var memento = new Memento();
@@ -380,7 +376,6 @@ namespace NeeView
             return memento;
         }
 
-        //
         public void Restore(Memento memento)
         {
             if (memento == null) return;
@@ -394,17 +389,6 @@ namespace NeeView
             this.IsWheelScalingEnabled = memento.IsWheelScalingEnabled;
             this.Speed = memento.Speed;
             this.IsEscapeKeyEnabled = memento.IsEscapeKeyEnabled;
-
-#pragma warning disable CS0612
-
-            // compatible before ver.26
-            if (memento._Version < Environment.GenerateProductVersionNumber(1, 26, 0))
-            {
-                _loupe.IsVisibleLoupeInfo = memento.IsVisibleLoupeInfo;
-            }
-
-#pragma warning restore CS0612
-
         }
         #endregion
     }

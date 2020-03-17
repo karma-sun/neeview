@@ -5,69 +5,36 @@ using System.Runtime.Serialization;
 
 namespace NeeView
 {
-    [DataContract]
     public class SystemConfig : BindableBase
     {
-        private ArchiveEntryCollectionMode _archiveRecursiveMode;
-        private bool _isNetworkEnalbe;
+        private ArchiveEntryCollectionMode _archiveRecursiveMode = ArchiveEntryCollectionMode.IncludeSubArchives;
+        private bool _isNetworkEnalbe = true;
 
-
-        public SystemConfig()
-        {
-            Constructor();
-        }
 
         /// <summary>
         /// 言語
         /// </summary>
-        [IgnoreDataMember]
         [PropertyMember("@ParamLanguage", Tips = "@ParamLanguageTips")]
-        public Language Language { get; set; }
+        public Language Language { get; set; } = LanguageExtensions.GetLanguage(CultureInfo.CurrentCulture.Name);
 
-        [DataMember(Name = nameof(Language))]
-        public string LanguageString
-        {
-            get { return Language.ToString(); }
-            set { Language = value.ToEnum<Language>(); }
-        }
-
-        [IgnoreDataMember]
         [PropertyMember("@ParamArchiveRecursiveMode", Tips = "@ParamArchiveRecursiveModeTips")]
-        public ArchiveEntryCollectionMode ArchiveRecursiveMode
+        public ArchiveEntryCollectionMode ArchiveRecursiveMode 
         {
             get { return _archiveRecursiveMode; }
             set { SetProperty(ref _archiveRecursiveMode, value); }
         }
 
-        [DataMember(Name = nameof(ArchiveRecursiveMode))]
-        public string ArchiveRecursiveModeString
-        {
-            get { return ArchiveRecursiveMode.ToString(); }
-            set { ArchiveRecursiveMode = value.ToEnum<ArchiveEntryCollectionMode>(); }
-        }
-
         // ページ収集モード
-        [IgnoreDataMember]
         [PropertyMember("@ParamBookPageCollectMode", Tips = "@ParamBookPageCollectModeTips")]
-        public BookPageCollectMode BookPageCollectMode { get; set; } 
+        public BookPageCollectMode BookPageCollectMode { get; set; } = BookPageCollectMode.ImageAndBook;
 
-        [DataMember(Name = nameof(BookPageCollectMode))]
-        public string BookPageCollectModeString
-        {
-            get { return BookPageCollectMode.ToString(); }
-            set { BookPageCollectMode = value.ToEnum<BookPageCollectMode>(); }
-        }
-
-        [DataMember]
         [PropertyMember("@ParamIsRemoveConfirmed")]
-        public bool IsRemoveConfirmed { get; set; }
+        public bool IsRemoveConfirmed { get; set; } = true;
 
-        [DataMember]
         [PropertyMember("@ParamIsRemoveExplorerDialogEnabled", Tips = "@ParamIsRemoveExplorerDialogEnabledTips")]
         public bool IsRemoveExplorerDialogEnabled { get; set; }
 
         // ネットワークアクセス許可
-        [DataMember]
         [PropertyMember("@ParamIsNetworkEnabled", Tips = "@ParamIsNetworkEnabledTips")]
         public bool IsNetworkEnabled
         {
@@ -76,24 +43,5 @@ namespace NeeView
         }
 
 
-        private void Constructor()
-        {
-            Language = LanguageExtensions.GetLanguage(CultureInfo.CurrentCulture.Name);
-            ArchiveRecursiveMode = ArchiveEntryCollectionMode.IncludeSubArchives;
-            BookPageCollectMode = BookPageCollectMode.ImageAndBook;
-            IsRemoveConfirmed = true;
-            IsNetworkEnabled = true;
-        }
-
-        [OnDeserializing]
-        private void OnDeserializing(StreamingContext c)
-        {
-            Constructor();
-        }
-
-        [OnDeserialized]
-        private void OnDeserialized(StreamingContext c)
-        {
-        }
     }
 }

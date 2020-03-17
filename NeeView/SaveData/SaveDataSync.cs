@@ -108,6 +108,7 @@ namespace NeeView
         {
             Debug.WriteLine($"Save UserSetting");
             SaveData.Current.SaveUserSetting();
+            SaveData.Current.SaveConfig();
             if (sync)
             {
                 RemoteCommandService.Current.Send(new RemoteCommand("LoadUserSetting"), RemoteCommandDelivery.All);

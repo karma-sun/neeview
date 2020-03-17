@@ -71,6 +71,7 @@
     <PackageReference Include="System.Data.SQLite.Core">
       <Version>1.0.112</Version>
     </PackageReference>
+    <PackageReference Include="System.Text.Json" Version="4.7.1" />
   </ItemGroup>
 
   <ItemGroup>

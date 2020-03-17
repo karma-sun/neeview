@@ -43,11 +43,6 @@ namespace NeeView
         public App.Memento App { get; set; }
 
 
-        // 新しい保存データ形式のテスト。一時的なものです。 // ##
-        [DataMember]
-        public ConfigAccessor.Memento Config { get; set; }
-
-
         // ファイルに保存
         public void Save(string path)
         {
@@ -139,13 +134,13 @@ namespace NeeView
 
         public void RestoreConfig()
         {
-            App.RestoreConfig();
-            WindowPlacement.RestoreConfig();
-            WindowShape.RestoreConfig();
-            Memento.RestoreConfig();
-            SusieMemento.RestoreConfig();
-            CommandMememto.RestoreConfig();
-            DragActionMemento.RestoreConfig();
+            App?.RestoreConfig();
+            WindowPlacement?.RestoreConfig();
+            WindowShape?.RestoreConfig();
+            Memento?.RestoreConfig();
+            SusieMemento?.RestoreConfig();
+            CommandMememto?.RestoreConfig();
+            DragActionMemento?.RestoreConfig();
         }
     }
 

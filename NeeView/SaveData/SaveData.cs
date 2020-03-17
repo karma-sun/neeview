@@ -62,8 +62,6 @@ namespace NeeView
 
             setting.Memento = _models.CreateMemento();
 
-            setting.Config = new ConfigAccessor(Config.Current).CreateMemento();
-
             return setting;
         }
 
@@ -78,8 +76,6 @@ namespace NeeView
             DragActionTable.Current.Restore(setting.DragActionMemento);
 
             _models.Resore(setting.Memento);
-
-            ////new ConfigAccessor(Config.Current).Restore(setting.Config);
         }
 
         // アプリ設定のシェイプを反映
@@ -96,6 +92,23 @@ namespace NeeView
         }
 
         #region Load
+
+        /// <summary>
+        /// 設定の読み込み(仮)
+        /// </summary>
+        public Config LoadConfig()
+        {
+            try
+            {
+                App.Current.SemaphoreWait();
+                var config = SafetyLoad(ConfigAccessor.Load, Path.ChangeExtension(App.Current.Option.SettingFilename, ".json"), Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+                return config;
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
+            }
+        }
 
         /// <summary>
         /// 設定の読み込み
@@ -261,6 +274,29 @@ namespace NeeView
         #endregion
 
         #region Save
+
+        /// <summary>
+        /// 設定の保存(仮)
+        /// </summary>
+        public void SaveConfig()
+        {
+            if (!IsEnableSave) return;
+
+            try
+            {
+                App.Current.SemaphoreWait();
+                SafetySave(new ConfigAccessor(Config.Current).Save
+                    , Path.ChangeExtension(App.Current.Option.SettingFilename, ".json")
+                    , App.Current.IsSettingBackup);
+            }
+            catch
+            {
+            }
+            finally
+            {
+                App.Current.SemaphoreRelease();
+            }
+        }
 
         public void SaveUserSetting()
         {

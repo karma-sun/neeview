@@ -56,6 +56,8 @@ namespace NeeView
             this.Loaded += ConsoleEmulator_Loaded;
             this.RootPanel.MouseDown += RootPanel_MouseDown;
             this.OutputBlock.PreviewKeyDown += OutputBlock_PreviewKeyDown;
+            this.OutputBlock.PreviewMouseLeftButtonUp += OutputBlock_PreviewMouseButtonUp;
+            this.OutputBlock.PreviewMouseRightButtonUp += OutputBlock_PreviewMouseButtonUp;
             this.InputBlock.Loaded += InputBlock_Loaded;
             this.InputBlock.PreviewKeyDown += InputBlock_PreviewKeyDown;
 
@@ -137,6 +139,15 @@ namespace NeeView
         private void OutputBlock_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
+            {
+                FocusToInputBlock();
+                e.Handled = true;
+            }
+        }
+
+        private void OutputBlock_PreviewMouseButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (this.OutputBlock.SelectionLength == 0)
             {
                 FocusToInputBlock();
                 e.Handled = true;

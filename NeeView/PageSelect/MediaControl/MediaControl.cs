@@ -58,10 +58,15 @@ namespace NeeView
             [DataMember, DefaultValue(0.5)]
             public double MediaStartDelaySeconds { get; set; }
 
+
             [OnDeserializing]
             public void Deserializing(StreamingContext c)
             {
                 this.InitializePropertyDefaultValues();
+            }
+
+            public void RestoreConfig()
+            {
             }
         }
 

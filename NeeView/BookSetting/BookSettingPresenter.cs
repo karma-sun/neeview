@@ -223,6 +223,11 @@ namespace NeeView
             private void OnDeserialized(StreamingContext c)
             {
             }
+
+            public void RestoreConfig()
+            {
+                // TODO:
+            }
         }
 
         public Memento CreateMemento()

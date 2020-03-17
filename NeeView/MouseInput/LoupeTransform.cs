@@ -192,6 +192,10 @@ namespace NeeView
         {
             [DataMember]
             public bool IsVisibleLoupeInfo { get; set; }
+
+            public void RestoreConfig()
+            {
+            }
         }
 
         public Memento CreateMemento()

@@ -387,6 +387,11 @@ namespace NeeView
                     BannerItemProfile.ImageShape = PanelListItemImageShape.Banner;
                 }
             }
+
+            public void RestoreConfig()
+            {
+                // TODO: PanelListItemProfile
+            }
         }
 
         public Memento CreateMemento()

@@ -255,6 +255,10 @@ namespace NeeView
             public bool IsLimitMove { get; set; }
             [DataMember]
             public double AngleFrequency { get; set; }
+
+            public void RestoreConfig()
+            {
+            }
         }
 
         public Memento CreateMemento()

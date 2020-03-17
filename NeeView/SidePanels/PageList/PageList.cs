@@ -117,6 +117,10 @@ namespace NeeView
 
             [DataMember]
             public PageNameFormat Format { get; set; }
+
+            public void RestoreConfig()
+            {
+            }
         }
 
         public Memento CreateMemento()

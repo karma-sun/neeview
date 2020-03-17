@@ -279,6 +279,13 @@ namespace NeeView
             {
                 Constructor();
             }
+
+            public void RestoreConfig()
+            {
+                Normal.RestoreConfig();
+                Gesture.RestoreConfig();
+                Drag.RestoreConfig();
+            }
         }
 
         public Memento CreateMemento()

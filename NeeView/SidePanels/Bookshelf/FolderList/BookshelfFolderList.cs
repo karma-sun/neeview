@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
@@ -65,6 +66,11 @@ namespace NeeView
             private void Deserializing(StreamingContext c)
             {
                 this.InitializePropertyDefaultValues();
+            }
+
+            public void RestoreConfig()
+            {
+                FolderList.RestoreConfig(this);
             }
         }
 

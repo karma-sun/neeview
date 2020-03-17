@@ -153,6 +153,10 @@ namespace NeeView
 
             [DataMember]
             public bool IsHamburgerMenu { get; set; }
+
+            public void RestoreConfig()
+            {
+            }
         }
 
         public Memento CreateMemento()

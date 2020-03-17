@@ -50,6 +50,10 @@ namespace NeeView
         {
             [DataMember]
             public PanelListItemStyle PanelListItemStyle { get; set; }
+
+            public void RestoreConfig()
+            {
+            }
         }
 
         public Memento CreateMemento()

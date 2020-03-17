@@ -78,7 +78,6 @@ namespace NeeView
             [OnDeserialized]
             public void OnDeserialized(StreamingContext c)
             {
-                throw new System.NotImplementedException();
             }
 
             public void RestoreConfig()

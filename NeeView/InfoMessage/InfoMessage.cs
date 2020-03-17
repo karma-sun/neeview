@@ -144,6 +144,10 @@ namespace NeeView
             {
                 this.InitializePropertyDefaultValues();
             }
+
+            public void RestoreConfig()
+            {
+            }
         }
 
         public Memento CreateMemento()

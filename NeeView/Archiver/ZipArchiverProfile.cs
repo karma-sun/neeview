@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
+using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
@@ -38,6 +39,10 @@ namespace NeeView
 
             [DataMember, DefaultValue(".zip")]
             public string SupportFileTypes { get; set; }
+
+            public void RestoreConfig()
+            {
+            }
         }
 
         public Memento CreateMemento()

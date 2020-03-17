@@ -203,6 +203,10 @@ namespace NeeView
                 }
                 return memento;
             }
+
+            public void RestoreConfig()
+            {
+            }
         }
 
         public Memento CreateMemento()

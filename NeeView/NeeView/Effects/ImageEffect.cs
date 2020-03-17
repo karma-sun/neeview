@@ -135,6 +135,7 @@ namespace NeeView.Effects
             [DataMember]
             public bool IsEnabled { get; set; }
 
+
             [OnDeserialized]
             private void OnDeserialized(StreamingContext context)
             {
@@ -143,6 +144,10 @@ namespace NeeView.Effects
                 {
                     EffectType = EffectType.Level;
                 }
+            }
+
+            public void RestoreConfig()
+            {
             }
         }
 

@@ -354,6 +354,14 @@ namespace NeeView
             [Obsolete, DataMember(EmitDefaultValue = false)] // ver 34.0
             public MouseInputDrag.Memento Drag { get; set; }
             #endregion
+
+
+            public void RestoreConfig()
+            {
+                Normal.RestoreConfig();
+                Loupe.RestoreConfig();
+                Gesture.RestoreConfig();
+            }
         }
 
         public Memento CreateMemento()

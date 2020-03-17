@@ -94,14 +94,12 @@ namespace NeeView
         #region Memento
         // インスタンスごと差し替えると問題があるため、Memento形式にする
 
-        //
         public UnsharpMaskProfile CreateMemento()
         {
             var memento = (UnsharpMaskProfile)this.MemberwiseClone();
             return memento;
         }
 
-        //
         public void Restore(UnsharpMaskProfile memento)
         {
             if (memento == null) return;
@@ -242,6 +240,11 @@ namespace NeeView
             public bool Sharpen { get; set; }
             [DataMember]
             public UnsharpMaskProfile UnsharpMaskProfile { get; set; }
+
+            public void RestoreConfig()
+            {
+                // TODO: UnsharpMaskProfile のあつかい
+            }
         }
 
         public Memento CreateMemento()

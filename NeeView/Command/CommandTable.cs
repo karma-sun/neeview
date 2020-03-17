@@ -957,12 +957,18 @@ namespace NeeView
                 }
             }
 
+            public void RestoreConfig()
+            {
+                // コマンド本体は可変のためConfigに向かない。フラグのみConfigに対応
+            }
+
             public Memento Clone()
             {
                 var memento = (Memento)this.MemberwiseClone();
                 memento.Elements = this.Elements.ToDictionary(e => e.Key, e => e.Value.Clone());
                 return memento;
             }
+
         }
 
         public Memento CreateMemento()

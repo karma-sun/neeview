@@ -54,6 +54,10 @@ namespace NeeView
         {
             [DataMember]
             public string SeCannotMove { get; set; }
+
+            public void RestoreConfig()
+            {
+            }
         }
 
         public Memento CreateMemento()

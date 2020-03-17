@@ -432,10 +432,15 @@ namespace NeeView
             [DataMember]
             public bool IsSelectedCenter { get; set; }
 
+
             [OnDeserializing]
             private void OnDeserializing(StreamingContext c)
             {
                 this.IsManipulationBoundaryFeedbackEnabled = true;
+            }
+
+            public void RestoreConfig()
+            {
             }
         }
 

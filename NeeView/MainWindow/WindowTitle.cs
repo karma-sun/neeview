@@ -367,6 +367,9 @@ namespace NeeView
                 }
             }
 
+            public void RestoreConfig()
+            {
+            }
         }
 
         public Memento CreateMemento()

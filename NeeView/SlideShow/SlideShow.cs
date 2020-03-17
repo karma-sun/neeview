@@ -254,6 +254,11 @@ namespace NeeView
 
             [DataMember, DefaultValue(false)]
             public bool IsAutoPlaySlideShow { get; set; }
+
+
+            public void RestoreConfig()
+            {
+            }
         }
 
         public Memento CreateMemento()

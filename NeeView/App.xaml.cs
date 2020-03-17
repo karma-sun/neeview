@@ -154,6 +154,11 @@ namespace NeeView
             // 設定ファイルの先行読み込み
             var setting = SaveData.Current.LoasUserSettingTemp();
 
+            // Configに反映
+            new ConfigAccessor(Config.Current).Restore(setting.Config);
+            // Config.互換性 (v.37)
+            setting.RestoreConfig();
+
             Debug.WriteLine($"App.UserSettingLoaded: {Stopwatch.ElapsedMilliseconds}ms");
 
             // restore

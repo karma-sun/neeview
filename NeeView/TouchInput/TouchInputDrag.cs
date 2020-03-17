@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.Serialization;
 using System.Windows;
@@ -94,6 +95,10 @@ namespace NeeView
             [DataMember]
             public TouchDragManipulation.Memento Manipulation { get; set; }
 
+            public void RestoreConfig()
+            {
+                Manipulation.RestoreConfig();
+            }
         }
 
         public Memento CreateMemento()

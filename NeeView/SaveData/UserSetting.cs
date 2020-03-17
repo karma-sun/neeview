@@ -140,9 +140,12 @@ namespace NeeView
         public void RestoreConfig()
         {
             App.RestoreConfig();
-            
-            // TODO: すべてのRestoreConfigの呼び出し
-            // TODO: App最初のUserSetting読み込みでのRestoreConfig呼び出し
+            WindowPlacement.RestoreConfig();
+            WindowShape.RestoreConfig();
+            Memento.RestoreConfig();
+            SusieMemento.RestoreConfig();
+            CommandMememto.RestoreConfig();
+            DragActionMemento.RestoreConfig();
         }
     }
 

@@ -312,6 +312,13 @@ namespace NeeView
             {
                 this.InitializePropertyDefaultValues();
             }
+
+            public void RestoreConfig()
+            {
+                // TODO: Left, Right の処理は？
+                // Left.Restore(Config.Current.Layout.SidePanel.Left)
+                // Right.Restore(Config.Current.Layout.SidePanel.Right) とか
+            }
         }
 
         public Memento CreateMemento()

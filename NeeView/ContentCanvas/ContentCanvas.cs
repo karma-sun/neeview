@@ -922,6 +922,11 @@ namespace NeeView
                 }
 #pragma warning restore CS0612
             }
+
+            public void RestoreConfig()
+            {
+                // TODO: GridLine
+            }
         }
 
         public Memento CreateMemento()

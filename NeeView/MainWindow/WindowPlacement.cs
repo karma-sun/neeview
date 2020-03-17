@@ -178,10 +178,15 @@ namespace NeeView
         {
             [DataMember]
             public WINDOWPLACEMENT? Placement { get; set; }
+
             [DataMember]
             public double Width { get; set; }
             [DataMember]
             public double Height { get; set; }
+
+            public void RestoreConfig()
+            {
+            }
         }
 
         public Memento CreateMemento()

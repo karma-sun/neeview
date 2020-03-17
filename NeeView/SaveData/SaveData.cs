@@ -79,7 +79,7 @@ namespace NeeView
 
             _models.Resore(setting.Memento);
 
-            new ConfigAccessor(Config.Current).Restore(setting.Config);
+            ////new ConfigAccessor(Config.Current).Restore(setting.Config);
         }
 
         // アプリ設定のシェイプを反映

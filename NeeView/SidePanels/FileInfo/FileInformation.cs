@@ -92,6 +92,10 @@ namespace NeeView
             public bool IsVisibleLoader { get; set; }
             [DataMember]
             public bool IsVisibleFilePath { get; set; }
+
+            public void RestoreConfig()
+            {
+            }
         }
 
         public Memento CreateMemento()

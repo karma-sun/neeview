@@ -407,6 +407,11 @@ namespace NeeView
 
             [DataMember]
             public bool IsScaleEnabled { get; set; }
+
+
+            public void RestoreConfig()
+            {
+            }
         }
         
         public Memento CreateMemento()

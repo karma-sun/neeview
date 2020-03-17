@@ -1172,6 +1172,11 @@ namespace NeeView
 
             [DataMember]
             public bool IsNotifyPageLoop { get; set; }
+
+            public void RestoreConfig()
+            {
+                // TODO: ExternalApplicationの扱い
+            }
         }
 
         public Memento CreateMemento()

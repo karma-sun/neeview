@@ -108,19 +108,20 @@ namespace NeeView
                 this.InitializePropertyDefaultValues();
             }
 
-#pragma warning disable CS0612
-
             [OnDeserialized]
             private void OnDeserialized(StreamingContext c)
             {
+#pragma warning disable CS0612
                 if (this.RenderSize == default(Size))
                 {
                     this.RenderSize = this.RenderMaxSize;
                 }
+#pragma warning restore CS0612
             }
 
-#pragma warning restore CS0612
-
+            public void RestoreConfig()
+            {
+            }
         }
 
         public Memento CreateMemento()

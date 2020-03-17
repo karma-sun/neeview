@@ -761,11 +761,18 @@ namespace NeeView
             [Obsolete, DataMember(EmitDefaultValue = false)]
             public PanelColor PanelColor { get; set; } // no used v34.0. moved to ThumbnailProfile.
 
+
             [OnDeserializing]
             private void OnDeserializing(StreamingContext c)
             {
                 this.InitializePropertyDefaultValues();
             }
+
+            public void RestoreConfig()
+            {
+                // TODO: ContextMenuSetting
+            }
+
         }
 
         public Memento CreateMemento()

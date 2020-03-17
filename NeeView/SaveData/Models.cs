@@ -164,6 +164,52 @@ namespace NeeView
                 }
 #pragma warning restore CS0612
             }
+
+            public void RestoreConfig()
+            {
+                FileIOProfile.RestoreConfig();
+                JobEngine.RestoreConfig();
+                SoundPlayerService.RestoreConfig();
+                PictureProfile.RestoreConfig();
+                ImageFilter.RestoreConfig();
+                ZipArchiverProfile.RestoreConfig();
+                SevenZipArchiverProfile.RestoreConfig();
+                PdfArchiverProfile.RestoreConfig();
+                MediaArchiverProfile.RestoreConfig();
+                ThumbnailProfile.RestoreConfig();
+                InfoMessage.RestoreConfig();
+                BookProfile.RestoreConfig();
+                BookHub.RestoreConfig();
+                BookOperation.RestoreConfig();
+                BookSettingPresenter.RestoreConfig();
+                ThemeProfile.RestoreConfig();
+                MainWindowModel.RestoreConfig();
+                ContentCanvas.RestoreConfig();
+                ContentCanvasBrush.RestoreConfig();
+                DragTransform.RestoreConfig();
+                DragTransformControl.RestoreConfig();
+                LoupeTransform.RestoreConfig();
+                MouseInput.RestoreConfig();
+                TouchInput.RestoreConfig();
+                SlideShow.RestoreConfig();
+                WindowTitle.RestoreConfig();
+                PageSlider.RestoreConfig();
+                MediaControl.RestoreConfig();
+                ThumbnailList.RestoreConfig();
+                MenuBar.RestoreConfig();
+                SidePanelProfile.RestoreConfig();
+                PageListPlacementService.RestoreConfig();
+                FolderPanel.RestoreConfig();
+                BookshelfFolderList.RestoreConfig();
+                BookmarkFolderList.RestoreConfig();
+                PageList.RestoreConfig();
+                HistoryList.RestoreConfig();
+                PagemarkList.RestoreConfig();
+                FileInformation.RestoreConfig();
+                ImageEffect.RestoreConfig();
+                SidePanel.RestoreConfig();
+                PageViewRecorder.RestoreConfig();
+            }
         }
 
         public Memento CreateMemento()

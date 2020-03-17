@@ -360,6 +360,11 @@ namespace NeeView
                 }
 #pragma warning restore CS0612
             }
+
+            public void RestoreConfig()
+            {
+                // Pluginsは可変のためConfigに向かない。フラグのみConfigに対応
+            }
         }
 
         public Memento CreateMemento()

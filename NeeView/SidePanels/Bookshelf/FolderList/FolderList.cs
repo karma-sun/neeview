@@ -1450,6 +1450,24 @@ namespace NeeView
             {
                 this.InitializePropertyDefaultValues();
             }
+
+            public void RestoreConfig(object memento)
+            {
+                // NOTE: 複数のインスタンスから使用されているので区別できるようにする
+                var type = memento.GetType();
+                if (type == typeof(BookshelfFolderList.Memento))
+                {
+                    // TODO: 
+                }
+                else if (type == typeof(BookmarkFolderList.Memento))
+                {
+                    // TODO:
+                }
+                else
+                {
+                    throw new NotSupportedException();
+                }
+            }
         }
 
         public Memento CreateMemento()

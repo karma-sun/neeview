@@ -731,6 +731,11 @@ namespace NeeView
             {
                 return (Memento)this.MemberwiseClone();
             }
+
+            public void RestoreConfig()
+            {
+                // TODO:
+            }
         }
 
         // Memento一時保存

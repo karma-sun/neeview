@@ -352,10 +352,15 @@ namespace NeeView
             [DataMember, DefaultValue(true)]
             public bool IsEscapeKeyEnabled { get; set; }
 
+
             [OnDeserializing]
             private void OnDeserializing(StreamingContext c)
             {
                 this.InitializePropertyDefaultValues();
+            }
+
+            public void RestoreConfig()
+            {
             }
         }
 

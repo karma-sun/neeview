@@ -108,6 +108,11 @@ namespace NeeView
             public string GridLength0 { get; set; }
             [DataMember]
             public string GridLength2 { get; set; }
+
+
+            public void RestoreConfig()
+            {
+            }
         }
 
         public Memento CreateMemento()

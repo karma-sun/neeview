@@ -1173,10 +1173,10 @@ namespace NeeView
             public bool IsControlCenterImage { get; set; }
 
 
-#pragma warning disable CS0612
             [OnDeserialized]
             private void OnDeserialized(StreamingContext c)
             {
+#pragma warning disable CS0612
                 // before 34.0
                 if (_Version < Environment.GenerateProductVersionNumber(34, 0, 0))
                 {
@@ -1185,8 +1185,12 @@ namespace NeeView
                     DragControlScaleCenter = center;
                     DragControlFlipCenter = center;
                 }
-            }
 #pragma warning restore CS0612
+            }
+
+            public void RestoreConfig()
+            {
+            }
         }
 
         public Memento CreateMemento()

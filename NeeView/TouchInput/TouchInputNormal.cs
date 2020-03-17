@@ -167,6 +167,10 @@ namespace NeeView
             public TouchAction DragAction { get; set; }
             [DataMember]
             public TouchAction HoldAction { get; set; }
+
+            public void RestoreConfig()
+            {
+            }
         }
 
         public Memento CreateMemento()

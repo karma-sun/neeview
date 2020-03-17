@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Windows;
@@ -18,18 +19,15 @@ namespace NeeView
         public PropertyMap(object source)
         {
             _source = source;
-
             var type = _source.GetType();
-            var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
 
             _items = new Dictionary<string, object>();
-            foreach (var property in properties)
+            foreach (var property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
             {
-                ////var attribute = (DataMemberAttribute)property.GetCustomAttribute(typeof(DataMemberAttribute));
-                ////if (attribute == null) continue;
+                if (property.GetCustomAttribute(typeof(PropertyMapIgnore)) != null) continue;
 
-                ////var key = attribute.Name ?? property.Name;
-                var key = property.Name;
+                var nameAttribute = (PropertyMapName)property.GetCustomAttribute(typeof(PropertyMapName));
+                var key = nameAttribute?.Name ?? property.Name;
 
                 if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
                 {
@@ -57,9 +55,9 @@ namespace NeeView
         {
             get
             {
-                if (_items[key] is PropertyMapItem dataMember)
+                if (_items[key] is IPropertyMapItem item)
                 {
-                    return dataMember.GetValue();
+                    return item.GetValue();
                 }
                 else
                 {
@@ -68,9 +66,9 @@ namespace NeeView
             }
             set
             {
-                if (_items[key] is PropertyMapItem dataMember)
+                if (_items[key] is IPropertyMapItem item)
                 {
-                    dataMember.SetValue(value);
+                    item.SetValue(value);
                 }
                 else
                 {
@@ -93,48 +91,80 @@ namespace NeeView
     }
 
 
-
-    public class PropertyMapItem
+    [AttributeUsage(AttributeTargets.Property)]
+    public class PropertyMapIgnore : Attribute
     {
-        public PropertyMapItem(object source, PropertyInfo property)
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
+    public class PropertyMapName : Attribute
+    {
+        public string Name;
+
+        public PropertyMapName()
         {
-            Source = source;
-            Property = property;
         }
 
-        public object Source { get; private set; }
-
-        public PropertyInfo Property { get; private set; }
-
-        public virtual object GetValue()
+        public PropertyMapName(string name)
         {
-            return Property.GetValue(Source);
-        }
-
-        public virtual void SetValue(object value)
-        {
-            
-            Property.SetValue(Source, Convert.ChangeType(value, Property.PropertyType));
+            Name = name;
         }
     }
 
-    public class PropertyMapEnumItem : PropertyMapItem
+
+    public interface IPropertyMapItem
     {
-        public PropertyMapEnumItem(object source, PropertyInfo property) : base(source, property)
+        object GetValue();
+        void SetValue(object value);
+    }
+
+    public class PropertyMapItem : IPropertyMapItem
+    {
+        private object _source;
+        private PropertyInfo _property;
+
+        public PropertyMapItem(object source, PropertyInfo property)
         {
-            if (!Property.PropertyType.IsEnum) throw new ArgumentException();
-        }
-        
-        public override object GetValue()
-        {
-            return Property.GetValue(Source)?.ToString();
+            _source = source;
+            _property = property;
         }
 
-        public override void SetValue(object value)
+        public object GetValue()
+        {
+            return _property.GetValue(_source);
+        }
+
+        public void SetValue(object value)
+        {
+            
+            _property.SetValue(_source, Convert.ChangeType(value, _property.PropertyType));
+        }
+    }
+
+    public class PropertyMapEnumItem : IPropertyMapItem
+    {
+        private object _source;
+        private PropertyInfo _property;
+
+        public PropertyMapEnumItem(object source, PropertyInfo property)
+        {
+            if (!property.PropertyType.IsEnum) throw new ArgumentException();
+
+            _source = source;
+            _property = property;
+
+        }
+        
+        public object GetValue()
+        {
+            return _property.GetValue(_source)?.ToString();
+        }
+
+        public void SetValue(object value)
         {
             if (value is string s)
             {
-                Property.SetValue(Source, Enum.Parse(Property.PropertyType, s));
+                _property.SetValue(_source, Enum.Parse(_property.PropertyType, s));
             }
             else
             {
@@ -144,23 +174,29 @@ namespace NeeView
     }
 
 
-    public class PropertyMapSizeItem : PropertyMapItem
+    public class PropertyMapSizeItem : IPropertyMapItem
     {
-        public PropertyMapSizeItem(object source, PropertyInfo property) : base(source, property)
+        private object _source;
+        private PropertyInfo _property;
+
+        public PropertyMapSizeItem(object source, PropertyInfo property)
         {
-            if (Property.PropertyType != typeof(Size)) throw new ArgumentException();
+            if (property.PropertyType != typeof(Size)) throw new ArgumentException();
+
+            _source = source;
+            _property = property;
         }
 
-        public override object GetValue()
+        public object GetValue()
         {
-            return Property.GetValue(Source)?.ToString();
+            return _property.GetValue(_source)?.ToString();
         }
 
-        public override void SetValue(object value)
+        public void SetValue(object value)
         {
             if (value is string s)
             {
-                Property.SetValue(Source, (Size)new SizeConverter().ConvertFrom(s));
+                _property.SetValue(_source, (Size)new SizeConverter().ConvertFrom(s));
             }
             else
             {

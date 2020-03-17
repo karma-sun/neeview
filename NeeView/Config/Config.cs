@@ -9,6 +9,7 @@ namespace NeeView
         public static Config Current { get; } = new Config();
 
 
+        [PropertyMapIgnore]
         public int _Version { get; set; } = Environment.ProductVersionNumber;
 
         public SystemConfig System { get; set; } = new SystemConfig();

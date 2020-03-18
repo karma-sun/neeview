@@ -150,7 +150,7 @@ namespace NeeView.Setting
             if (result == true)
             {
                 CommandTable.Current.ClearScriptCommand();
-                CommandTable.Current.Restore(dialog.CreateCommandMemento(), false);
+                CommandTable.Current.RestoreCommandCollection(dialog.CreateCommandMemento());
 
                 UpdateCommandList();
             }

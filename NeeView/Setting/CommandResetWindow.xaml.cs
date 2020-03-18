@@ -56,7 +56,7 @@ namespace NeeView.Setting
         /// 現在の設定でコマンドテーブルを生成
         /// </summary>
         /// <returns></returns>
-        public CommandTable.Memento CreateCommandMemento()
+        public CommandTable.CommandCollection CreateCommandMemento()
         {
             return CommandTable.CreateDefaultMemento(_vm.InputSceme);
         }

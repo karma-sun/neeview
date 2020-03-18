@@ -82,8 +82,8 @@ namespace NeeView
 
         #region Properties
 
-        public Memento DefaultMemento { get; private set; }
-
+        public CommandCollection DefaultMemento { get; private set; }
+        
 #if false
         [PropertyMember("@ParamCommandIsReversePageMove", Tips = "@ParamCommandIsReversePageMoveTips")]
         public bool IsReversePageMove
@@ -345,7 +345,7 @@ namespace NeeView
             // TODO: pair...
 
             // デフォルト設定として記憶
-            DefaultMemento = CreateMemento();
+            DefaultMemento = CreateCommandCollectionMemento();
         }
 
         #endregion
@@ -390,7 +390,7 @@ namespace NeeView
         /// </summary>
         /// <param name="type">入力スキーム</param>
         /// <returns></returns>
-        public static Memento CreateDefaultMemento(InputSceme type)
+        public static CommandCollection CreateDefaultMemento(InputSceme type)
         {
             var memento = CommandTable.Current.DefaultMemento.Clone();
 
@@ -401,20 +401,20 @@ namespace NeeView
                     break;
 
                 case InputSceme.TypeB: // wheel page, right click contextmenu
-                    memento.Elements["NextScrollPage"].ShortCutKey = null;
-                    memento.Elements["PrevScrollPage"].ShortCutKey = null;
-                    memento.Elements["NextPage"].ShortCutKey = "Left,WheelDown";
-                    memento.Elements["PrevPage"].ShortCutKey = "Right,WheelUp";
-                    memento.Elements["OpenContextMenu"].ShortCutKey = "RightClick";
+                    memento.Items["NextScrollPage"].ShortCutKey = null;
+                    memento.Items["PrevScrollPage"].ShortCutKey = null;
+                    memento.Items["NextPage"].ShortCutKey = "Left,WheelDown";
+                    memento.Items["PrevPage"].ShortCutKey = "Right,WheelUp";
+                    memento.Items["OpenContextMenu"].ShortCutKey = "RightClick";
                     break;
 
                 case InputSceme.TypeC: // click page
-                    memento.Elements["NextScrollPage"].ShortCutKey = null;
-                    memento.Elements["PrevScrollPage"].ShortCutKey = null;
-                    memento.Elements["NextPage"].ShortCutKey = "Left,LeftClick";
-                    memento.Elements["PrevPage"].ShortCutKey = "Right,RightClick";
-                    memento.Elements["ViewScrollUp"].ShortCutKey = "WheelUp";
-                    memento.Elements["ViewScrollDown"].ShortCutKey = "WheelDown";
+                    memento.Items["NextScrollPage"].ShortCutKey = null;
+                    memento.Items["PrevScrollPage"].ShortCutKey = null;
+                    memento.Items["NextPage"].ShortCutKey = "Left,LeftClick";
+                    memento.Items["PrevPage"].ShortCutKey = "Right,RightClick";
+                    memento.Items["ViewScrollUp"].ShortCutKey = "WheelUp";
+                    memento.Items["ViewScrollDown"].ShortCutKey = "WheelDown";
                     break;
             }
 
@@ -698,7 +698,8 @@ namespace NeeView
 
         private void ScriptConfigChanged(object sender, PropertyChangedEventArgs e)
         {
-            UpdateScriptCommand(true);
+            _isScriptFolderDarty = true;
+            UpdateScriptCommand();
             Changed?.Invoke(this, new CommandChangedEventArgs(false));
         }
 
@@ -772,9 +773,9 @@ namespace NeeView
         }
 #endif
 
-        public bool UpdateScriptCommand(bool isForce = false)
+        public bool UpdateScriptCommand()
         {
-            if (!_isScriptFolderDarty && !isForce) return false;
+            if (!_isScriptFolderDarty) return false;
             _isScriptFolderDarty = false;
 
             if (!Config.Current.Script.IsScriptFolderEnabled)
@@ -1051,6 +1052,13 @@ namespace NeeView
         public class CommandCollection
         {
             public IDictionary<string, CommandElement.Memento> Items { get; set; }
+
+            public CommandCollection Clone()
+            {
+                var memento = (CommandCollection)this.MemberwiseClone();
+                memento.Items = this.Items.ToDictionary(e => e.Key, e => e.Value.Clone());
+                return memento;
+            }
         }
 
         public CommandCollection CreateCommandCollectionMemento()
@@ -1078,6 +1086,8 @@ namespace NeeView
                     Debug.WriteLine($"Warning: No such command '{pair.Key}'");
                 }
             }
+
+            Changed?.Invoke(this, new CommandChangedEventArgs(false));
         }
 
         #endregion

@@ -267,7 +267,7 @@ namespace NeeView
             if (turn == 0) return;
 
             // Debug.WriteLine($"WheelCommand: {turn}({arg.Delta})");
-            var param = new CommandParameterArgs(null, CommandTable.Current.IsReversePageMoveWheel);
+            var param = new CommandParameterArgs(null, Config.Current.Command.IsReversePageMoveWheel);
             for (int i = 0; i < turn; i++)
             {
                 command.Execute(param, MainWindow.Current);
@@ -302,7 +302,7 @@ namespace NeeView
         // スライダー方向によって移動コマンドを入れ替える
         public string GetFixedCommandName(string name, bool allowFlip)
         {
-            if (allowFlip && CommandTable.Current.IsReversePageMove && MainWindowModel.Current.IsLeftToRightSlider())
+            if (allowFlip && Config.Current.Command.IsReversePageMove && MainWindowModel.Current.IsLeftToRightSlider())
             {
                 CommandTable.Current.TryGetValue(name, out var command);
                 if (command != null && command.PairPartner != null)

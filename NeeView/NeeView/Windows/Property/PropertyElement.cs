@@ -42,6 +42,7 @@ namespace NeeView.Windows.Property
         public object Default { get; set; }
         public bool IsObsolete { get; set; }
         public string EmptyMessage { get; set; }
+        public string EmptyValue { get; set; }
 
         private PropertyInfo _info;
 
@@ -253,6 +254,17 @@ namespace NeeView.Windows.Property
             Debugger.Break();
             return null;
         }
+
+        public static PropertyMemberElement Create(object source, string name, string emptyValue)
+        {
+            var element = Create(source, name);
+            if (element != null)
+            {
+                element.EmptyValue = emptyValue;
+            }
+            return element;
+        }
+
 
         /// <summary>
         /// PropertyMember属性取得

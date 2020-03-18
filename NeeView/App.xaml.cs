@@ -151,13 +151,13 @@ namespace NeeView
 
             Debug.WriteLine($"App.UserSettingLoading: {Stopwatch.ElapsedMilliseconds}ms");
 
-            // 設定ファイルの先行読み込み
-            var setting = SaveData.Current.LoasUserSettingTemp();
+            // 設定ファイル(V2)の読み込み (V2)
+            var settingV2 = SaveData.Current.LoadConfig();
+            Config.Current.Merge(settingV2.Config);
 
-            // Config
-            var config = SaveData.Current.LoadConfig();
-            new ConfigAccessor(Config.Current).OverwriteProperties(config);
-            // Config.互換性 (v.37)
+            // 設定ファイル(V1)の先行読み込み
+            var setting = SaveData.Current.LoasUserSettingTemp();
+            // 設定ファイル(V1)をConfigに適用 (互換性処理)
             setting.RestoreConfig();
 
             Debug.WriteLine($"App.UserSettingLoaded: {Stopwatch.ElapsedMilliseconds}ms");
@@ -193,6 +193,9 @@ namespace NeeView
 
             // キャッシュの場所
             InitializeCacheDirectory();
+
+            // コマンド設定反映
+            CommandTable.Current.RestoreCommandCollection(settingV2.CommandCollection);
         }
 
         /// <summary>

@@ -96,12 +96,12 @@ namespace NeeView
         /// <summary>
         /// 設定の読み込み(仮)
         /// </summary>
-        public Config LoadConfig()
+        public UserSettingV2 LoadConfig()
         {
             try
             {
                 App.Current.SemaphoreWait();
-                var config = SafetyLoad(ConfigAccessor.Load, Path.ChangeExtension(App.Current.Option.SettingFilename, ".json"), Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+                var config = SafetyLoad(UserSettingV2Accessor.Load, Path.ChangeExtension(App.Current.Option.SettingFilename, ".json"), Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
                 return config;
             }
             finally
@@ -285,7 +285,7 @@ namespace NeeView
             try
             {
                 App.Current.SemaphoreWait();
-                SafetySave(new ConfigAccessor(Config.Current).Save
+                SafetySave(new UserSettingV2Accessor().Save
                     , Path.ChangeExtension(App.Current.Option.SettingFilename, ".json")
                     , App.Current.IsSettingBackup);
             }

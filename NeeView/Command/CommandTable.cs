@@ -51,8 +51,8 @@ namespace NeeView
         #region Fields
 
         private Dictionary<string, CommandElement> _elements;
-        private bool _isReversePageMove = true;
-        private bool _isReversePageMoveWheel;
+        ////private bool _isReversePageMove = true;
+        ////private bool _isReversePageMoveWheel;
 
         #endregion
 
@@ -65,6 +65,8 @@ namespace NeeView
             CreateDefaultScriptFolder();
 
             Changed += CommandTable_Changed;
+
+            InitializeScripts();
         }
 
         #endregion
@@ -82,6 +84,7 @@ namespace NeeView
 
         public Memento DefaultMemento { get; private set; }
 
+#if false
         [PropertyMember("@ParamCommandIsReversePageMove", Tips = "@ParamCommandIsReversePageMoveTips")]
         public bool IsReversePageMove
         {
@@ -95,6 +98,7 @@ namespace NeeView
             get { return _isReversePageMoveWheel; }
             set { if (_isReversePageMoveWheel != value) { _isReversePageMoveWheel = value; RaisePropertyChanged(); } }
         }
+#endif
 
         public int ChangeCount { get; private set; }
 
@@ -582,7 +586,7 @@ namespace NeeView
                                 var tokens = ResourceService.GetString(attribute.Note).Split('|');
                                 int index = 0;
                                 argument += "<dl>";
-                                while (index < tokens.Length )
+                                while (index < tokens.Length)
                                 {
                                     var dt = tokens.ElementAtOrDefault(index++);
                                     var dd = tokens.ElementAtOrDefault(index++);
@@ -680,11 +684,46 @@ namespace NeeView
 
         #region Scripts
 
-        private readonly string _defaultScriptFolderName = "Scripts";
-        private bool _isScriptFolderEnabled;
-        private string _scriptFolder;
+        ////private readonly string _defaultScriptFolderName = "Scripts";
+        ////private bool _isScriptFolderEnabled;
+        ////private string _scriptFolder;
         private bool _isScriptFolderDarty = true;
 
+
+        private void InitializeScripts()
+        {
+            Config.Current.Script.AddPropertyChanged(nameof(ScriptConfig.IsScriptFolderEnabled), ScriptConfigChanged);
+            Config.Current.Script.AddPropertyChanged(nameof(ScriptConfig.ScriptFolder), ScriptConfigChanged);
+        }
+
+        private void ScriptConfigChanged(object sender, PropertyChangedEventArgs e)
+        {
+            UpdateScriptCommand(true);
+            Changed?.Invoke(this, new CommandChangedEventArgs(false));
+        }
+
+        public void CreateDefaultScriptFolder()
+        {
+            var path = Config.Current.Script.GetDefaultScriptFolder();
+            if (!Directory.Exists(path))
+            {
+                Directory.CreateDirectory(path);
+
+                try
+                {
+                    // サンプルスクリプトを生成
+                    var filename = "Sample.nvjs";
+                    var source = Path.Combine(Environment.AssemblyLocation, Config.Current.Script.DefaultScriptFolderName, filename);
+                    File.Copy(source, Path.Combine(path, filename));
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
+        }
+
+#if false
         public string GetDefaultScriptFolder()
         {
             if (Environment.IsZipLikePackage)
@@ -694,27 +733,6 @@ namespace NeeView
             else
             {
                 return Path.Combine(Environment.GetMyDocumentPath(false), _defaultScriptFolderName);
-            }
-        }
-
-        public void CreateDefaultScriptFolder()
-        {
-            var path = GetDefaultScriptFolder();
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
-
-                try
-                {
-                    // サンプルスクリプトを生成
-                    var filename = "Sample.nvjs";
-                    var source = Path.Combine(Environment.AssemblyLocation, _defaultScriptFolderName, filename);
-                    File.Copy(source, Path.Combine(path, filename));
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                }
             }
         }
 
@@ -752,13 +770,14 @@ namespace NeeView
                 }
             }
         }
+#endif
 
         public bool UpdateScriptCommand(bool isForce = false)
         {
             if (!_isScriptFolderDarty && !isForce) return false;
             _isScriptFolderDarty = false;
 
-            if (!_isScriptFolderEnabled)
+            if (!Config.Current.Script.IsScriptFolderEnabled)
             {
                 ClearScriptCommand();
                 return true;
@@ -772,7 +791,7 @@ namespace NeeView
 
             try
             {
-                newers = Directory.GetFiles(ScriptFolder, "*" + ScriptCommand.Extension)
+                newers = Directory.GetFiles(Config.Current.Script.GetCurrentScriptFolder(), "*" + ScriptCommand.Extension)
                     .Select(e => ScriptCommand.Prefix + Path.GetFileNameWithoutExtension(e))
                     .ToList();
             }
@@ -940,7 +959,7 @@ namespace NeeView
                 // before 37.0
                 if (_Version < Environment.GenerateProductVersionNumber(37, 0, 0))
                 {
-                    foreach(var pair in RenameMap_37_0_0)
+                    foreach (var pair in RenameMap_37_0_0)
                     {
                         Rename(pair.Key, pair.Value);
                     }
@@ -959,7 +978,10 @@ namespace NeeView
 
             public void RestoreConfig()
             {
-                // コマンド本体は可変のためConfigに向かない。フラグのみConfigに対応
+                Config.Current.Command.IsReversePageMove = IsReversePageMove;
+                Config.Current.Command.IsReversePageMoveWheel = IsReversePageMoveWheel;
+                Config.Current.Script.IsScriptFolderEnabled = IsScriptFolderEnabled;
+                Config.Current.Script.ScriptFolder = ScriptFolder;
             }
 
             public Memento Clone()
@@ -980,10 +1002,10 @@ namespace NeeView
                 memento.Elements.Add(pair.Key, pair.Value.CreateMemento());
             }
 
-            memento.IsReversePageMove = this.IsReversePageMove;
-            memento.IsReversePageMoveWheel = this.IsReversePageMoveWheel;
-            memento.IsScriptFolderEnabled = _isScriptFolderEnabled;
-            memento.ScriptFolder = _scriptFolder;
+            memento.IsReversePageMove = Config.Current.Command.IsReversePageMove;
+            memento.IsReversePageMoveWheel = Config.Current.Command.IsReversePageMoveWheel;
+            memento.IsScriptFolderEnabled = Config.Current.Script.IsScriptFolderEnabled;
+            memento.ScriptFolder = Config.Current.Script.ScriptFolder;
 
             return memento;
         }
@@ -998,10 +1020,10 @@ namespace NeeView
         {
             if (memento == null) return;
 
-            this.IsReversePageMove = memento.IsReversePageMove;
-            this.IsReversePageMoveWheel = memento.IsReversePageMoveWheel;
-            _isScriptFolderEnabled = memento.IsScriptFolderEnabled;
-            _scriptFolder = memento.ScriptFolder;
+            Config.Current.Command.IsReversePageMove = memento.IsReversePageMove;
+            Config.Current.Command.IsReversePageMoveWheel = memento.IsReversePageMoveWheel;
+            Config.Current.Script.IsScriptFolderEnabled = memento.IsScriptFolderEnabled;
+            Config.Current.Script.ScriptFolder = memento.ScriptFolder;
 
             UpdateScriptCommand();
 
@@ -1019,5 +1041,47 @@ namespace NeeView
         }
 
         #endregion
+
+
+        #region Memento CommandCollection
+
+        /// <summary>
+        /// 設定V2ではこのデータを保存する
+        /// </summary>
+        public class CommandCollection
+        {
+            public IDictionary<string, CommandElement.Memento> Items { get; set; }
+        }
+
+        public CommandCollection CreateCommandCollectionMemento()
+        {
+            return new CommandCollection()
+            {
+                Items = _elements.ToDictionary(e => e.Key, e => e.Value.CreateMemento())
+            };
+        }
+
+        public void RestoreCommandCollection(CommandCollection collection)
+        {
+            if (collection == null) return;
+
+            UpdateScriptCommand();
+
+            foreach (var pair in collection.Items)
+            {
+                if (_elements.ContainsKey(pair.Key))
+                {
+                    _elements[pair.Key].Restore(pair.Value);
+                }
+                else
+                {
+                    Debug.WriteLine($"Warning: No such command '{pair.Key}'");
+                }
+            }
+        }
+
+        #endregion
+
+
     }
 }

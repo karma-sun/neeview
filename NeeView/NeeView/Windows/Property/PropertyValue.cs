@@ -45,9 +45,20 @@ namespace NeeView.Windows.Property
 
         public T Value
         {
-            get { return (T)Setter.GetValue(); }
-            set { Setter.SetValue(value); }
+            get => GetValue();
+            set => SetValue(value);
         }
+
+        public virtual T GetValue()
+        {
+            return (T)Setter.GetValue();
+        }
+
+        public virtual void SetValue(object value)
+        {
+            Setter.SetValue(value);
+        }
+        
 
         public override string GetValueString()
         {
@@ -84,6 +95,19 @@ namespace NeeView.Windows.Property
         public PropertyValue_String(PropertyMemberElement setter) : base(setter)
         {
             EmptyMessage = setter.EmptyMessage;
+        }
+
+        public override string GetValue()
+        {
+            var value = base.GetValue();
+            if (Setter.EmptyValue != null && string.IsNullOrEmpty(value))
+            {
+                return Setter.EmptyValue; 
+            }
+            else
+            {
+                return value;
+            }
         }
 
         public override void SetValueFromString(string value)

@@ -138,6 +138,11 @@ namespace NeeView
         public static string AssemblyProduct { get; private set; }
 
         /// <summary>
+        /// プロダクトバージョン
+        /// </summary>
+        public static Version AssemblyVersion { get; private set; }
+
+        /// <summary>
         /// アプリ名
         /// </summary>
         public static string ApplicationName => AssemblyTitle;
@@ -310,11 +315,10 @@ namespace NeeView
             AssemblyProductAttribute productAttribute = Attribute.GetCustomAttribute(asm, typeof(AssemblyProductAttribute)) as AssemblyProductAttribute;
             AssemblyProduct = productAttribute.Product;
 
-
             // バージョンの取得
-            var version = asm.GetName().Version;
-            ProductVersion = $"{version.Major}.{version.Minor}";
-            ProductVersionNumber = GenerateProductVersionNumber(version.Major, version.Minor, 0);
+            AssemblyVersion = asm.GetName().Version;
+            ProductVersion = $"{AssemblyVersion.Major}.{AssemblyVersion.Minor}";
+            ProductVersionNumber = GenerateProductVersionNumber(AssemblyVersion.Major, AssemblyVersion.Minor, 0);
         }
 
         /// <summary>

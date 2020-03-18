@@ -20,16 +20,16 @@ namespace NeeView.Setting
             {
                 new SettingItemSection(Properties.Resources.SettingPageCommandGeneralAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsAccessKeyEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(CommandTable.Current, nameof(CommandTable.IsReversePageMove))),
-                    new SettingItemSubProperty(PropertyMemberElement.Create(CommandTable.Current, nameof(CommandTable.IsReversePageMoveWheel)))
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Command, nameof(CommandConfig.IsReversePageMove))),
+                    new SettingItemSubProperty(PropertyMemberElement.Create(Config.Current.Command, nameof(CommandConfig.IsReversePageMoveWheel)))
                     {
-                        IsEnabled = new IsEnabledPropertyValue(CommandTable.Current, nameof(CommandTable.IsReversePageMove)),
+                        IsEnabled = new IsEnabledPropertyValue(Config.Current.Command, nameof(CommandConfig.IsReversePageMove)),
                     }),
                 new SettingItemSection(Properties.Resources.SettingPageCommandScipt,
-                    new SettingItemProperty(PropertyMemberElement.Create(CommandTable.Current, nameof(CommandTable.IsScriptFolderEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(CommandTable.Current, nameof(CommandTable.ScriptFolder)))
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Script, nameof(ScriptConfig.IsScriptFolderEnabled))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Script, nameof(ScriptConfig.ScriptFolder), Config.Current.Script.GetDefaultScriptFolder()))
                     {
-                        IsEnabled = new IsEnabledPropertyValue(CommandTable.Current, nameof(CommandTable.IsScriptFolderEnabled)),
+                        IsEnabled = new IsEnabledPropertyValue(Config.Current.Script, nameof(ScriptConfig.IsScriptFolderEnabled)),
                         IsStretch = true,
                     }),
             };

@@ -1,6 +1,7 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace NeeView
 {

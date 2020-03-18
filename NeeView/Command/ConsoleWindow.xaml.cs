@@ -42,7 +42,7 @@ namespace NeeView
             var host = new CommandHost(CommandTable.Current);
 
             _engine = new JavascriptEngine(host);
-            _engine.CurrentPath = CommandTable.Current.ScriptFolder;
+            _engine.CurrentPath = Config.Current.Script.GetCurrentScriptFolder();
             _engine.LogAction = e => Output?.Invoke(this, new ConsoleHostOutputEventArgs(ToJavascriptString(e, false)));
         }
 

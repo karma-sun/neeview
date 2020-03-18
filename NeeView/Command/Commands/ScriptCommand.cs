@@ -41,7 +41,7 @@ namespace NeeView
             var filename = _scriptName + Extension;
             try
             {
-                var path = Path.Combine(CommandTable.Current.ScriptFolder ?? "", filename);
+                var path = Path.Combine(Config.Current.Script.GetCurrentScriptFolder(), filename);
                 commandEngine.ExecureFile(path);
             }
             catch (Exception ex)

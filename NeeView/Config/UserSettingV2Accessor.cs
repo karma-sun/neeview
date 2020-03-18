@@ -1,5 +1,6 @@
 ﻿using NeeView.Data;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
@@ -14,20 +15,61 @@ using System.Windows.Media;
 
 namespace NeeView
 {
-    public class ConfigAccessor
+    public class UserSettingV2
     {
-        private Config _config;
-
-        public ConfigAccessor(Config source)
+        public UserSettingV2()
         {
-            _config = source;
         }
 
+        public FormatVersion Format { get; set; }
+
+        public Config Config { get; set; }
+
+        public CommandTable.CommandCollection CommandCollection { get; set; }
+    }
+
+
+
+    public class UserSettingV2Accessor
+    {
+        public UserSettingV2 CreateUserSetting()
+        {
+            // TODO: 情報の確定。ウィンドウ座標の保存とか
+            // :
+
+            return new UserSettingV2()
+            {
+                Format = new FormatVersion(Environment.SolutionName, Environment.AssemblyVersion.Major, Environment.AssemblyVersion.Minor, 0),
+                Config = Config.Current,
+                CommandCollection = CommandTable.Current.CreateCommandCollectionMemento(),
+            };
+        }
+
+        public void Save(string path)
+        {
+            Save(path, CreateUserSetting());
+        }
+
+        public void Save(string path, UserSettingV2 setting)
+        {
+            var json = JsonSerializer.SerializeToUtf8Bytes(setting, GetSerializerOptions());
+            File.WriteAllBytes(path, json);
+        }
+
+
+        public static UserSettingV2 Load(string path)
+        {
+            var json = File.ReadAllBytes(path);
+            return JsonSerializer.Deserialize<UserSettingV2>(new ReadOnlySpan<byte>(json), GetSerializerOptions());
+
+            // TODO: 互換性処理をここで？
+        }
 
         private static JsonSerializerOptions GetSerializerOptions()
         {
             var options = new JsonSerializerOptions();
-            options.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All);
+
+            options.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
             options.WriteIndented = true;
             options.IgnoreReadOnlyProperties = true;
             options.Converters.Add(new JsonEnumFuzzyConverter());
@@ -35,82 +77,8 @@ namespace NeeView
             options.Converters.Add(new JsonSizeConverter());
             return options;
         }
-
-        public void Save(string path)
-        {
-#if true
-            var jsonString = JsonSerializer.Serialize(_config, GetSerializerOptions());
-            File.WriteAllText(path, jsonString);
-#else
-            var json = JsonSerializer.SerializeToUtf8Bytes(_config, GetSerializerOptions());
-            using (var fs = File.Create(path))
-            {
-                fs.Write(json, 0, json.Length);
-            }
-#endif
-        }
-
-
-        public static Config Load(string path)
-        {
-            var jsonString = File.ReadAllText(path);
-            return JsonSerializer.Deserialize<Config>(jsonString, GetSerializerOptions());
-        }
-
-
-        public byte[] Serialize()
-        {
-            return Json.SerializeRaw(_config, null, true);
-        }
-
-        public void RestoreSerialized(byte[] memento)
-        {
-            var source = Json.Deserialize<Config>(memento);
-
-            // TODO: Version互換性
-
-            OverwriteProperties(source, _config);
-        }
-
-
-        public void OverwriteProperties(Config src)
-        {
-            OverwriteProperties(src, _config);
-        }
-
-        /// <summary>
-        /// 他のインスタンスへプロパティを上書き
-        /// </summary>
-        /// <param name="src"></param>
-        /// <param name="dst"></param>
-        private static void OverwriteProperties(object src, object dst)
-        {
-            var type = src.GetType();
-            if (type != dst.GetType()) throw new InvalidOperationException();
-
-            var properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach (var property in properties)
-            {
-                // NOTE: DataMember
-                ////var attribute = property.GetCustomAttribute(typeof(DataMemberAttribute));
-                ////if (attribute == null) continue;
-                ///
-                if (property.Name == "_Version")
-                {
-                    continue;
-                }
-
-                if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
-                {
-                    OverwriteProperties(property.GetValue(src), property.GetValue(dst));
-                }
-                else
-                {
-                    property.GetSetMethod()?.Invoke(dst, new object[] { property.GetValue(src) });
-                }
-            }
-        }
     }
+
 
 
 

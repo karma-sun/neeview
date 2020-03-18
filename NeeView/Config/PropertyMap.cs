@@ -137,7 +137,7 @@ namespace NeeView
         public void SetValue(object value)
         {
             
-            _property.SetValue(_source, Convert.ChangeType(value, _property.PropertyType));
+            _property.SetValue(_source, value != null ? Convert.ChangeType(value, _property.PropertyType) : null);
         }
     }
 

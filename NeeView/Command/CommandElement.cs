@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using System.Windows.Data;
 using System.Windows.Input;
 
@@ -289,6 +290,54 @@ namespace NeeView
         }
 
         #endregion
+
+        #region MementoV2
+
+        /// <summary>
+        /// 設定V2用
+        /// </summary>
+        public class MementoV2 : ICloneable
+        {
+            public string ShortCutKey { get; set; }
+            public string TouchGesture { get; set; }
+            public string MouseGesture { get; set; }
+            public bool IsShowMessage { get; set; }
+            public CommandParameter Parameter { get; set; }
+
+
+            public object Clone()
+            {
+                var clone =  (MementoV2)MemberwiseClone();
+                clone.Parameter = (CommandParameter)this.Parameter.Clone();
+                return clone;
+            }
+        }
+
+        public MementoV2 CreateMementoV2()
+        {
+            var memento = new MementoV2();
+
+            memento.ShortCutKey = ShortCutKey ?? string.Empty;
+            memento.TouchGesture = TouchGesture ?? string.Empty;
+            memento.MouseGesture = MouseGesture ?? string.Empty;
+            memento.IsShowMessage = IsShowMessage;
+            memento.Parameter = (CommandParameter)ParameterSource?.GetRaw()?.Clone();
+            return memento;
+        }
+
+        public void RestoreV2(MementoV2 memento)
+        {
+            if (memento == null) return;
+
+            ShortCutKey = memento.ShortCutKey?.TrimStart(',');
+            TouchGesture = memento.TouchGesture;
+            MouseGesture = memento.MouseGesture;
+            IsShowMessage = memento.IsShowMessage;
+            ParameterSource?.Set(memento.Parameter);
+        }
+
+        #endregion
+
     }
 }
 

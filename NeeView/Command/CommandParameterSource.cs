@@ -28,6 +28,11 @@ namespace NeeView
         public CommandParameterSource Share => _share;
 
 
+        public CommandParameter GetRaw()
+        {
+            return _parameter;
+        }
+
         public CommandParameter GetDefault()
         {
             if (_share != null)
@@ -39,7 +44,6 @@ namespace NeeView
                 return _defaultParameter;
             }
         }
-
 
         public CommandParameter Get()
         {
@@ -61,8 +65,14 @@ namespace NeeView
             }
             else
             {
-                if (_defaultParameter == null) return;
-                _parameter = _defaultParameter.MemberwiseEquals(value) ? null : value;
+                if (_defaultParameter == null || value == null || value.GetType() != _defaultParameter.GetType())
+                {
+                    _parameter = null;
+                }
+                else
+                {
+                    _parameter = _defaultParameter.MemberwiseEquals(value) ? null : value;
+                }
             }
         }
 

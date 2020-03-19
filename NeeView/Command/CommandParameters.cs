@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
 using System.Text;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using NeeLaboratory;
 using NeeView.Data;
@@ -17,6 +21,7 @@ namespace NeeView
     /// コマンドパラメータ（基底）
     /// </summary>
     [DataContract]
+    [JsonConverter(typeof(JsonCommandParameterConverter))]
     public abstract class CommandParameter : ICloneable
     {
         public object Clone()
@@ -62,6 +67,101 @@ namespace NeeView
 
         #endregion
     }
+
+
+    public sealed class JsonCommandParameterConverter : JsonConverter<CommandParameter>
+    {
+        public static Type[] KnownTypes { get; set; } = new Type[]
+        {
+            typeof(ReversibleCommandParameter),
+            typeof(MoveSizePageCommandParameter),
+            typeof(ToggleStretchModeCommandParameter),
+            typeof(StretchModeCommandParameter),
+            typeof(ViewScrollCommandParameter),
+            typeof(ViewScaleCommandParameter),
+            typeof(ViewRotateCommandParameter),
+            typeof(MovePagemarkCommandParameter),
+            typeof(ScrollPageCommandParameter),
+            typeof(FocusMainViewCommandParameter),
+            typeof(ExportImageDialogCommandParameter),
+            typeof(ExportImageCommandParameter),
+        };
+
+        public static JsonSerializerOptions GetSerializerOptions()
+        {
+            var options = new JsonSerializerOptions();
+            options.Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
+            options.WriteIndented = false;
+            options.IgnoreReadOnlyProperties = false;
+            options.IgnoreNullValues = false;
+            return options;
+        }
+
+        public override CommandParameter Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            if (reader.TokenType != JsonTokenType.StartObject)
+            {
+                throw new JsonException();
+            }
+
+            if (!reader.Read() || reader.TokenType != JsonTokenType.PropertyName || reader.GetString() != "Type")
+            {
+                throw new JsonException();
+            }
+
+            if (!reader.Read() || reader.TokenType != JsonTokenType.String)
+            {
+                throw new JsonException();
+            }
+            var typeString = reader.GetString();
+
+            Type type = KnownTypes.FirstOrDefault(e => e.Name == typeString);
+
+            if (!reader.Read() || reader.GetString() != "Value")
+            {
+                throw new JsonException();
+            }
+            if (!reader.Read() || reader.TokenType != JsonTokenType.StartObject)
+            {
+                throw new JsonException();
+            }
+
+            object instance;
+            if (type != null)
+            {
+                instance = JsonSerializer.Deserialize(ref reader, type, options);
+            }
+            else
+            {
+                Debug.WriteLine($"Nor support type: {typeString}");
+                reader.Skip();
+                instance = null;
+            }
+
+            if (!reader.Read() || reader.TokenType != JsonTokenType.EndObject)
+            {
+                throw new JsonException();
+            }
+
+            return (CommandParameter)instance;
+        }
+
+        public override void Write(Utf8JsonWriter writer, CommandParameter value, JsonSerializerOptions options)
+        {
+            writer.WriteStartObject();
+
+            var type = value.GetType();
+            writer.WriteString("Type", type.Name);
+            writer.WritePropertyName("Value");
+            JsonSerializer.Serialize(writer, value, type, options);
+
+            writer.WriteEndObject();
+        }
+
+
+    }
+
+
 
 
 
@@ -170,6 +270,8 @@ namespace NeeView
         }
 
         private Dictionary<PageStretchMode, bool> _strechModes;
+
+        [JsonIgnore]
         public Dictionary<PageStretchMode, bool> StretchModes
         {
             get
@@ -186,8 +288,7 @@ namespace NeeView
         {
             var target = other as ToggleStretchModeCommandParameter;
             if (target == null) return false;
-            return this == target || (
-                this.IsLoop == target.IsLoop &&
+            return this == target || (this.IsLoop == target.IsLoop &&
                 this.IsEnableNone == target.IsEnableNone &&
                 this.IsEnableUniform == target.IsEnableUniform &&
                 this.IsEnableUniformToFill == target.IsEnableUniformToFill &&
@@ -370,8 +471,7 @@ namespace NeeView
         {
             var target = other as ScrollPageCommandParameter;
             if (target == null) return false;
-            return this == target || (
-                this.IsNScroll == target.IsNScroll &&
+            return this == target || (this.IsNScroll == target.IsNScroll &&
                 this.IsAnimation == target.IsAnimation &&
                 this.Margin == target.Margin &&
                 this.Scroll == target.Scroll &&
@@ -439,8 +539,7 @@ namespace NeeView
         {
             var target = other as ExportImageCommandParameter;
             if (target == null) return false;
-            return this == target || (
-                this.Mode == target.Mode &&
+            return this == target || (this.Mode == target.Mode &&
                 this.HasBackground == target.HasBackground &&
                 this.ExportFolder == target.ExportFolder &&
                 this.FileNameMode == target.FileNameMode &&

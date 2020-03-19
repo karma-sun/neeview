@@ -1051,12 +1051,12 @@ namespace NeeView
         /// </summary>
         public class CommandCollection
         {
-            public IDictionary<string, CommandElement.Memento> Items { get; set; }
+            public Dictionary<string, CommandElement.MementoV2> Items { get; set; }
 
             public CommandCollection Clone()
             {
                 var memento = (CommandCollection)this.MemberwiseClone();
-                memento.Items = this.Items.ToDictionary(e => e.Key, e => e.Value.Clone());
+                memento.Items = this.Items.ToDictionary(e => e.Key, e => (CommandElement.MementoV2)e.Value.Clone());
                 return memento;
             }
         }
@@ -1065,7 +1065,7 @@ namespace NeeView
         {
             return new CommandCollection()
             {
-                Items = _elements.ToDictionary(e => e.Key, e => e.Value.CreateMemento())
+                Items = _elements.ToDictionary(e => e.Key, e => e.Value.CreateMementoV2())
             };
         }
 
@@ -1079,7 +1079,7 @@ namespace NeeView
             {
                 if (_elements.ContainsKey(pair.Key))
                 {
-                    _elements[pair.Key].Restore(pair.Value);
+                    _elements[pair.Key].RestoreV2(pair.Value);
                 }
                 else
                 {

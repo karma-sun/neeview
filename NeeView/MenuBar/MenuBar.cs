@@ -34,7 +34,7 @@ namespace NeeView
             BookHistoryCollection.Current.HistoryChanged +=
                 (s, e) =>
                 {
-                    switch(e.HistoryChangedType)
+                    switch (e.HistoryChangedType)
                     {
                         case BookMementoCollectionChangedType.Clear:
                         case BookMementoCollectionChangedType.Load:
@@ -47,9 +47,10 @@ namespace NeeView
 
         public event EventHandler CommandGestureChanged;
 
-
+#if false
         [PropertyMember("@ParamIsCaptionEmulateInFullScreen", Tips = "@ParamIsCaptionEmulateInFullScreenTips")]
         public bool IsCaptionEmulateInFullScreen { get; set; }
+#endif
 
         /// <summary>
         /// ハンバーガーメニューにする
@@ -156,13 +157,14 @@ namespace NeeView
 
             public void RestoreConfig()
             {
+                Config.Current.Layout.Window.IsCaptionEmulateInFullScreen = CaptionEmulateInFullScreen;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.CaptionEmulateInFullScreen = this.IsCaptionEmulateInFullScreen;
+            memento.CaptionEmulateInFullScreen = Config.Current.Layout.Window.IsCaptionEmulateInFullScreen;
             memento.IsHamburgerMenu = this.IsHamburgerMenu;
             return memento;
         }
@@ -170,7 +172,7 @@ namespace NeeView
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.IsCaptionEmulateInFullScreen = memento.CaptionEmulateInFullScreen;
+            //// this.IsCaptionEmulateInFullScreen = memento.CaptionEmulateInFullScreen;
             this.IsHamburgerMenu = memento.IsHamburgerMenu;
         }
         #endregion

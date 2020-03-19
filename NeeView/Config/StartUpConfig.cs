@@ -19,6 +19,10 @@ namespace NeeView
         [PropertyMember("@ParamIsSaveWindowPlacement")]
         public bool IsRestoreWindowPlacement { get; set; } = true;
 
+        // 複数ウィンドウの座標復元
+        [PropertyMember("@ParamIsRestoreSecondWindow", Tips = "@ParamIsRestoreSecondWindowTips")]
+        public bool IsRestoreSecondWindowPlacement { get; set; } = true;
+
         // フルスクリーン状態を復元する
         [PropertyMember("@ParamIsSaveFullScreen")]
         public bool IsRestoreFullScreen { get; set; }

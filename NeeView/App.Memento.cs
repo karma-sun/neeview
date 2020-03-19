@@ -93,15 +93,16 @@ namespace NeeView
             get { return _isNetworkEnalbe || Environment.IsAppxPackage; } // Appxは強制ON
             set { if (_isNetworkEnalbe != value) { _isNetworkEnalbe = value; RaisePropertyChanged(); } }
         }
+
+        // 複数ウィンドウの座標復元
+        [PropertyMember("@ParamIsRestoreSecondWindow", Tips = "@ParamIsRestoreSecondWindowTips")]
+        public bool IsRestoreSecondWindow { get; set; } = true;
 #endif
 
         // 画像のDPI非対応
         [PropertyMember("@ParamIsIgnoreImageDpi", Tips = "@ParamIsIgnoreImageDpiTips")]
         public bool IsIgnoreImageDpi { get; set; } = true;
 
-        // 複数ウィンドウの座標復元
-        [PropertyMember("@ParamIsRestoreSecondWindow", Tips = "@ParamIsRestoreSecondWindowTips")]
-        public bool IsRestoreSecondWindow { get; set; } = true;
 
         // 履歴データの保存
         [PropertyMember("@ParamIsSaveHistory")]
@@ -392,10 +393,12 @@ namespace NeeView
                 Config.Current.StartUp.IsMultiBootEnabled = IsMultiBootEnabled;
                 Config.Current.StartUp.IsRestoreFullScreen = IsSaveFullScreen;
                 Config.Current.StartUp.IsRestoreWindowPlacement = IsSaveWindowPlacement;
+                Config.Current.StartUp.IsRestoreSecondWindowPlacement = IsRestoreSecondWindow;
                 Config.Current.System.IsNetworkEnabled = IsNetworkEnabled;
                 Config.Current.StartUp.IsOpenLastBook = IsOpenLastBook;
                 Config.Current.System.Language = Language;
                 Config.Current.StartUp.IsSplashScreenEnabled = IsSplashScreenEnabled;
+
             }
         }
 
@@ -418,7 +421,7 @@ namespace NeeView
             memento.WindowChromeFrame = this.WindowChromeFrame;
             memento.IsOpenLastBook = Config.Current.StartUp.IsOpenLastBook;
             memento.DownloadPath = this.DownloadPath;
-            memento.IsRestoreSecondWindow = this.IsRestoreSecondWindow;
+            memento.IsRestoreSecondWindow = Config.Current.StartUp.IsRestoreSecondWindowPlacement;
             memento.IsSettingBackup = this.IsSettingBackup;
             memento.Language = Config.Current.System.Language;
             memento.IsSplashScreenEnabled = Config.Current.StartUp.IsSplashScreenEnabled;
@@ -462,7 +465,7 @@ namespace NeeView
             this.WindowChromeFrame = memento.WindowChromeFrame;
             ////this.IsOpenLastBook = memento.IsOpenLastBook;
             this.DownloadPath = memento.DownloadPath;
-            this.IsRestoreSecondWindow = memento.IsRestoreSecondWindow;
+            ////this.IsRestoreSecondWindow = memento.IsRestoreSecondWindow;
             this.IsSettingBackup = memento.IsSettingBackup;
             ////this.Language = memento.Language;
             ////this.IsSplashScreenEnabled = memento.IsSplashScreenEnabled;

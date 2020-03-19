@@ -1021,10 +1021,10 @@ namespace NeeView
         {
             if (memento == null) return;
 
-            Config.Current.Command.IsReversePageMove = memento.IsReversePageMove;
-            Config.Current.Command.IsReversePageMoveWheel = memento.IsReversePageMoveWheel;
-            Config.Current.Script.IsScriptFolderEnabled = memento.IsScriptFolderEnabled;
-            Config.Current.Script.ScriptFolder = memento.ScriptFolder;
+            ////Config.Current.Command.IsReversePageMove = memento.IsReversePageMove;
+            ////Config.Current.Command.IsReversePageMoveWheel = memento.IsReversePageMoveWheel;
+            ////Config.Current.Script.IsScriptFolderEnabled = memento.IsScriptFolderEnabled;
+            ////Config.Current.Script.ScriptFolder = memento.ScriptFolder;
 
             UpdateScriptCommand();
 

@@ -187,7 +187,7 @@ namespace NeeView
             if (App.Current.Option.IsResetPlacement == SwitchOption.on || !Config.Current.StartUp.IsRestoreWindowPlacement) return;
 
             // セカンドプロセスはウィンドウ形状を継承しない
-            if (Environment.IsSecondProcess && !App.Current.IsRestoreSecondWindow) return;
+            if (Environment.IsSecondProcess && !Config.Current.StartUp.IsRestoreSecondWindowPlacement) return;
 
             WindowPlacement.Current.IsMaximized = WindowShape.Current.SnapMemento != null
                 ? WindowShape.Current.SnapMemento.State == WindowStateEx.Maximized || WindowShape.Current.SnapMemento.State == WindowStateEx.FullScreen
@@ -223,7 +223,7 @@ namespace NeeView
             }
 
             // セカンドプロセスはウィンドウ形状を継承しない
-            if (Environment.IsSecondProcess && !App.Current.IsRestoreSecondWindow)
+            if (Environment.IsSecondProcess && !Config.Current.StartUp.IsRestoreSecondWindowPlacement)
             {
                 customMemento.State = WindowStateEx.Normal;
             }

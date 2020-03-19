@@ -25,7 +25,7 @@ namespace NeeView.Setting
             InitializeComponent();
         }
 
-        public void Initialize(CommandTable.Memento memento, string key)
+        public void Initialize(CommandTable.CommandCollection memento, string key)
         {
             InitializeComponent();
 

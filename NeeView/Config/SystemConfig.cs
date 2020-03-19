@@ -18,7 +18,7 @@ namespace NeeView
         public Language Language { get; set; } = LanguageExtensions.GetLanguage(CultureInfo.CurrentCulture.Name);
 
         [PropertyMember("@ParamArchiveRecursiveMode", Tips = "@ParamArchiveRecursiveModeTips")]
-        public ArchiveEntryCollectionMode ArchiveRecursiveMode 
+        public ArchiveEntryCollectionMode ArchiveRecursiveMode
         {
             get { return _archiveRecursiveMode; }
             set { SetProperty(ref _archiveRecursiveMode, value); }
@@ -41,7 +41,6 @@ namespace NeeView
             get { return _isNetworkEnalbe || Environment.IsAppxPackage; } // Appxは強制ON
             set { SetProperty(ref _isNetworkEnalbe, value); }
         }
-
-
     }
+
 }

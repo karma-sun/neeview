@@ -98,12 +98,13 @@ namespace NeeView
         private bool _IsSlideShowByLoop = true;
 
 
+#if false
         /// <summary>
         /// 起動時の自動開始
         /// </summary>
         [PropertyMember("@ParamIsAutoPlaySlideShow")]
         public bool IsAutoPlaySlideShow { get; set; }
-
+#endif
 
         /// <summary>
         /// スライドショー再生状態
@@ -258,6 +259,7 @@ namespace NeeView
 
             public void RestoreConfig()
             {
+                Config.Current.SlideShow.IsAutoPlaySlideShow = IsAutoPlaySlideShow;
             }
         }
 
@@ -267,7 +269,7 @@ namespace NeeView
             memento.SlideShowInterval = this.SlideShowInterval;
             memento.IsCancelSlideByMouseMove = this.IsCancelSlideByMouseMove;
             memento.IsSlideShowByLoop = this.IsSlideShowByLoop;
-            memento.IsAutoPlaySlideShow = this.IsAutoPlaySlideShow;
+            memento.IsAutoPlaySlideShow = Config.Current.SlideShow.IsAutoPlaySlideShow;
             return memento;
         }
 
@@ -277,7 +279,7 @@ namespace NeeView
             this.SlideShowInterval = memento.SlideShowInterval;
             this.IsCancelSlideByMouseMove = memento.IsCancelSlideByMouseMove;
             this.IsSlideShowByLoop = memento.IsSlideShowByLoop;
-            this.IsAutoPlaySlideShow = memento.IsAutoPlaySlideShow;
+            ////this.IsAutoPlaySlideShow = memento.IsAutoPlaySlideShow;
         }
 
         #endregion

@@ -11,7 +11,7 @@ namespace NeeView.Setting
     /// </summary>
     public class MouseGestureSettingViewModel : BindableBase
     {
-        private Dictionary<string, CommandElement.Memento> _sources;
+        private Dictionary<string, CommandElement.MementoV2> _sources;
         private string _key;
 
         private TouchInputForGestureEditor _touchGesture;
@@ -49,9 +49,9 @@ namespace NeeView.Setting
         /// </summary>
         /// <param name="context"></param>
         /// <param name="gestureSender"></param>
-        public MouseGestureSettingViewModel(CommandTable.Memento memento, string key, FrameworkElement gestureSender)
+        public MouseGestureSettingViewModel(CommandTable.CommandCollection memento, string key, FrameworkElement gestureSender)
         {
-            _sources = memento.Elements;
+            _sources = memento.Items;
             _key = key;
 
             _touchGesture = new TouchInputForGestureEditor(gestureSender);

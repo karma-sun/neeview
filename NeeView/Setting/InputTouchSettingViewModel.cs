@@ -13,7 +13,7 @@ namespace NeeView.Setting
     /// </summary>
     public class InputTouchSettingViewModel : BindableBase
     {
-        private Dictionary<string, CommandElement.Memento> _sources;
+        private Dictionary<string, CommandElement.MementoV2> _sources;
         private string _key;
 
         /// <summary>
@@ -47,9 +47,9 @@ namespace NeeView.Setting
         /// </summary>
         /// <param name="context"></param>
         /// <param name="gestureSender"></param>
-        public InputTouchSettingViewModel(CommandTable.Memento memento, string key, FrameworkElement gestureSender)
+        public InputTouchSettingViewModel(CommandTable.CommandCollection memento, string key, FrameworkElement gestureSender)
         {
-            _sources = memento.Elements;
+            _sources = memento.Items;
             _key = key;
 
             this.TouchAreaMap = new TouchAreaMap(_sources[_key].TouchGesture);

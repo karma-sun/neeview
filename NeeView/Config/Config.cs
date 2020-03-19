@@ -17,6 +17,10 @@ namespace NeeView
 
         public PerformanceConfig Performance { get; set; } = new PerformanceConfig();
 
+        public LayoutConfig Layout { get; set; } = new LayoutConfig();
+
+        public SlideShowConfig SlideShow { get; set; } = new SlideShowConfig();
+
         public CommandConfig Command { get; set; } = new CommandConfig();
 
         public ScriptConfig Script { get; set; } = new ScriptConfig();
@@ -56,5 +60,4 @@ namespace NeeView
             }
         }
     }
-
 }

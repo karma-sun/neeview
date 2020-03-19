@@ -52,12 +52,12 @@ namespace NeeView
         private string _temporaryDirectory;
         private string _cacheDirectory;
         private string _cacheDirectoryOld;
-        private bool _isSaveHistory = true;
-        private string _historyFilePath;
-        private bool _isSaveBookmark = true;
-        private string _bookmarkFilePath;
-        private bool _isSavePagemark = true;
-        private string _pagemarkFilePath;
+        ////private bool _isSaveHistory = true;
+        ////private string _historyFilePath;
+        ////private bool _isSaveBookmark = true;
+        ////private string _bookmarkFilePath;
+        ////private bool _isSavePagemark = true;
+        ////private string _pagemarkFilePath;
         private AutoHideFocusLockMode _autoHideFocusLockMode = AutoHideFocusLockMode.LogicalTextBoxFocusLock;
         private bool _isAutoHideKeyDownDelay = true;
         private double _autoHideHitTestMargin = 32.0;
@@ -97,12 +97,6 @@ namespace NeeView
         // 複数ウィンドウの座標復元
         [PropertyMember("@ParamIsRestoreSecondWindow", Tips = "@ParamIsRestoreSecondWindowTips")]
         public bool IsRestoreSecondWindow { get; set; } = true;
-#endif
-
-        // 画像のDPI非対応
-        [PropertyMember("@ParamIsIgnoreImageDpi", Tips = "@ParamIsIgnoreImageDpiTips")]
-        public bool IsIgnoreImageDpi { get; set; } = true;
-
 
         // 履歴データの保存
         [PropertyMember("@ParamIsSaveHistory")]
@@ -119,7 +113,6 @@ namespace NeeView
             get => _historyFilePath ?? SaveData.DefaultHistoryFilePath;
             set => _historyFilePath = string.IsNullOrWhiteSpace(value) || value == SaveData.DefaultHistoryFilePath ? null : value;
         }
-
         // ブックマークの保存
         [PropertyMember("@ParamIsSaveBookmark")]
         public bool IsSaveBookmark
@@ -151,6 +144,14 @@ namespace NeeView
             get => _pagemarkFilePath ?? SaveData.DefaultPagemarkFilePath;
             set => _pagemarkFilePath = string.IsNullOrWhiteSpace(value) || value == SaveData.DefaultPagemarkFilePath ? null : value;
         }
+
+#endif
+
+        // 画像のDPI非対応
+        [PropertyMember("@ParamIsIgnoreImageDpi", Tips = "@ParamIsIgnoreImageDpiTips")]
+        public bool IsIgnoreImageDpi { get; set; } = true;
+
+
 
         // パネルやメニューが自動的に消えるまでの時間(秒)
         [PropertyMember("@ParamAutoHideDelayTime")]
@@ -398,7 +399,12 @@ namespace NeeView
                 Config.Current.StartUp.IsOpenLastBook = IsOpenLastBook;
                 Config.Current.System.Language = Language;
                 Config.Current.StartUp.IsSplashScreenEnabled = IsSplashScreenEnabled;
-
+                Config.Current.History.IsSaveHistory = IsSaveHistory;
+                Config.Current.History.HistoryFilePath = HistoryFilePath;
+                Config.Current.Bookmark.IsSaveBookmark = IsSaveBookmark;
+                Config.Current.Bookmark.BookmarkFilePath = BookmarkFilePath;
+                Config.Current.Pagemark.IsSavePagemark = IsSavePagemark;
+                Config.Current.Pagemark.PagemarkFilePath = PagemarkFilePath;
             }
         }
 
@@ -410,12 +416,12 @@ namespace NeeView
             memento.IsSaveWindowPlacement = Config.Current.StartUp.IsRestoreWindowPlacement;
             memento.IsNetworkEnabled = Config.Current.System.IsNetworkEnabled;
             memento.IsIgnoreImageDpi = this.IsIgnoreImageDpi;
-            memento.IsSaveHistory = this.IsSaveHistory;
-            memento.HistoryFilePath = _historyFilePath;
-            memento.IsSaveBookmark = this.IsSaveBookmark;
-            memento.BookmarkFilePath = _bookmarkFilePath;
-            memento.IsSavePagemark = this.IsSavePagemark;
-            memento.PagemarkFilePath = _pagemarkFilePath;
+            memento.IsSaveHistory = Config.Current.History.IsSaveHistory;
+            memento.HistoryFilePath = Config.Current.History.HistoryFilePath;
+            memento.IsSaveBookmark = Config.Current.Bookmark.IsSaveBookmark;
+            memento.BookmarkFilePath = Config.Current.Bookmark.BookmarkFilePath;
+            memento.IsSavePagemark = Config.Current.Pagemark.IsSavePagemark;
+            memento.PagemarkFilePath = Config.Current.Pagemark.PagemarkFilePath;
             memento.AutoHideDelayTime = this.AutoHideDelayTime;
             memento.AutoHideDelayVisibleTime = this.AutoHideDelayVisibleTime;
             memento.WindowChromeFrame = this.WindowChromeFrame;
@@ -454,12 +460,12 @@ namespace NeeView
             ////this.IsSaveWindowPlacement = memento.IsSaveWindowPlacement;
             ////this.IsNetworkEnabled = memento.IsNetworkEnabled;
             this.IsIgnoreImageDpi = memento.IsIgnoreImageDpi;
-            this.IsSaveHistory = memento.IsSaveHistory;
-            this.HistoryFilePath = memento.HistoryFilePath;
-            this.IsSaveBookmark = memento.IsSaveBookmark;
-            this.BookmarkFilePath = memento.BookmarkFilePath;
-            this.IsSavePagemark = memento.IsSavePagemark;
-            this.PagemarkFilePath = memento.PagemarkFilePath;
+            ////this.IsSaveHistory = memento.IsSaveHistory;
+            ////this.HistoryFilePath = memento.HistoryFilePath;
+            ////this.IsSaveBookmark = memento.IsSaveBookmark;
+            ////this.BookmarkFilePath = memento.BookmarkFilePath;
+            ////this.IsSavePagemark = memento.IsSavePagemark;
+            ////this.PagemarkFilePath = memento.PagemarkFilePath;
             this.AutoHideDelayTime = memento.AutoHideDelayTime;
             this.AutoHideDelayVisibleTime = memento.AutoHideDelayVisibleTime;
             this.WindowChromeFrame = memento.WindowChromeFrame;

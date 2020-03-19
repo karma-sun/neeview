@@ -73,23 +73,23 @@ namespace NeeView.Setting
             this.Items = new List<SettingItem>
             {
                 new SettingItemSection(Properties.Resources.SettingPageGeneralSaveDataTypes, Properties.Resources.SettingPageGeneralSaveDataTypesTips,
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveHistory))),
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.HistoryFilePath)))
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.IsSaveHistory))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.History, nameof(HistoryConfig.HistoryFilePath), SaveData.DefaultHistoryFilePath))
                     {
                         IsStretch = true,
-                        IsEnabled = new IsEnabledPropertyValue(App.Current, nameof(App.IsSaveHistory))
+                        IsEnabled = new IsEnabledPropertyValue(Config.Current.History, nameof(HistoryConfig.IsSaveHistory))
                     },
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSaveBookmark))),
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.BookmarkFilePath)))
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookmark, nameof(BookmarkConfig.IsSaveBookmark))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Bookmark, nameof(BookmarkConfig.BookmarkFilePath)))
                     {
                         IsStretch = true,
-                        IsEnabled = new IsEnabledPropertyValue(App.Current, nameof(App.IsSaveBookmark))
+                        IsEnabled = new IsEnabledPropertyValue(Config.Current.Bookmark, nameof(BookmarkConfig.IsSaveBookmark))
                     },
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSavePagemark))),
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.PagemarkFilePath)))
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Pagemark, nameof(PagemarkConfig.IsSavePagemark))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Pagemark, nameof(PagemarkConfig.PagemarkFilePath)))
                     {
                         IsStretch = true,
-                        IsEnabled = new IsEnabledPropertyValue(App.Current, nameof(App.IsSavePagemark))
+                        IsEnabled = new IsEnabledPropertyValue(Config.Current.Pagemark, nameof(PagemarkConfig.IsSavePagemark))
                     },
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSyncUserSetting))),
                     new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSettingBackup)))

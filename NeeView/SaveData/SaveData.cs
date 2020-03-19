@@ -43,9 +43,9 @@ namespace NeeView
 
         public void UpdateLocation()
         {
-            HistoryFilePath = App.Current.HistoryFilePath ?? DefaultHistoryFilePath;
-            BookmarkFilePath = App.Current.BookmarkFilePath ?? DefaultBookmarkFilePath;
-            PagemarkFilePath = App.Current.PagemarkFilePath ?? DefaultPagemarkFilePath;
+            HistoryFilePath = Config.Current.History.HistoryFilePath ?? DefaultHistoryFilePath;
+            BookmarkFilePath = Config.Current.Bookmark.BookmarkFilePath ?? DefaultBookmarkFilePath;
+            PagemarkFilePath = Config.Current.Pagemark.PagemarkFilePath ?? DefaultPagemarkFilePath;
         }
 
         // アプリ設定作成
@@ -337,7 +337,7 @@ namespace NeeView
             try
             {
                 App.Current.SemaphoreWait();
-                if (App.Current.IsSaveHistory)
+                if (Config.Current.History.IsSaveHistory)
                 {
                     var bookHistoryMemento = BookHistoryCollection.Current.CreateMemento(true);
 
@@ -377,7 +377,7 @@ namespace NeeView
         public void SaveBookmark()
         {
             if (!IsEnableSave) return;
-            if (!App.Current.IsSaveBookmark) return;
+            if (!Config.Current.Bookmark.IsSaveBookmark) return;
 
             try
             {
@@ -400,7 +400,7 @@ namespace NeeView
         public void RemoveBookmarkIfNotSave()
         {
             if (!IsEnableSave) return;
-            if (App.Current.IsSaveBookmark) return;
+            if (Config.Current.Bookmark.IsSaveBookmark) return;
 
             try
             {
@@ -422,7 +422,7 @@ namespace NeeView
         public void SavePagemark()
         {
             if (!IsEnableSave) return;
-            if (!App.Current.IsSavePagemark) return;
+            if (!Config.Current.Pagemark.IsSavePagemark) return;
 
             try
             {
@@ -445,7 +445,7 @@ namespace NeeView
         public void RemovePagemarkIfNotSave()
         {
             if (!IsEnableSave) return;
-            if (App.Current.IsSavePagemark) return;
+            if (Config.Current.Pagemark.IsSavePagemark) return;
 
             try
             {

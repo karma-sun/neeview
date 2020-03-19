@@ -17,6 +17,12 @@ namespace NeeView
 
         public PerformanceConfig Performance { get; set; } = new PerformanceConfig();
 
+        public HistoryConfig History { get; set; } = new HistoryConfig();
+
+        public BookmarkConfig Bookmark { get; set; } = new BookmarkConfig();
+
+        public PagemarkConfig Pagemark { get; set; } = new PagemarkConfig();
+
         public LayoutConfig Layout { get; set; } = new LayoutConfig();
 
         public SlideShowConfig SlideShow { get; set; } = new SlideShowConfig();

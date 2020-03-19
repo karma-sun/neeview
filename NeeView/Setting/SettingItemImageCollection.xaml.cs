@@ -56,8 +56,8 @@ namespace NeeView.Setting
 
         #endregion
 
-        public App App => App.Current;
-
+        ////public App App => App.Current;
+        public Config Config => Config.Current;
 
         private void Refresh()
         {

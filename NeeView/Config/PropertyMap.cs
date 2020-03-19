@@ -1,9 +1,13 @@
-﻿using System;
+﻿using NeeView.Windows.Property;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
 using System.Windows;
+using System.Windows.Media;
 
 namespace NeeView
 {
@@ -14,7 +18,7 @@ namespace NeeView
     {
         private object _source;
         private Dictionary<string, object> _items;
-        
+
 
         public PropertyMap(object source)
         {
@@ -55,7 +59,7 @@ namespace NeeView
         {
             get
             {
-                if (_items[key] is IPropertyMapItem item)
+                if (_items[key] is PropertyMapItem item)
                 {
                     return item.GetValue();
                 }
@@ -66,7 +70,7 @@ namespace NeeView
             }
             set
             {
-                if (_items[key] is IPropertyMapItem item)
+                if (_items[key] is PropertyMapItem item)
                 {
                     item.SetValue(value);
                 }
@@ -87,6 +91,33 @@ namespace NeeView
             var type = source.GetType();
             var property = type.GetProperty(propertyName);
             _items.Add(memberName ?? propertyName, new PropertyMapItem(source, property));
+        }
+
+
+        public string CreateHelpHtml(string prefix)
+        {
+            string s = string.Empty;
+
+            foreach (var item in _items)
+            {
+                var name = prefix + "." + item.Key;
+                if (item.Value is PropertyMap subMap)
+                {
+                    s += subMap.CreateHelpHtml(name);
+                }
+                else
+                {
+                    string type = string.Empty;
+                    string description = string.Empty;
+                    if (item.Value is PropertyMapItem valueItem)
+                    {
+                        (type, description) = valueItem.CreateHelpHtml();
+                    }
+                    s += $"<tr><td>{name}</td><td>{type}</td><td>{description}</td></tr>\r\n";
+                }
+            }
+
+            return s;
         }
     }
 
@@ -112,16 +143,11 @@ namespace NeeView
     }
 
 
-    public interface IPropertyMapItem
-    {
-        object GetValue();
-        void SetValue(object value);
-    }
 
-    public class PropertyMapItem : IPropertyMapItem
+    public class PropertyMapItem
     {
-        private object _source;
-        private PropertyInfo _property;
+        protected object _source;
+        protected PropertyInfo _property;
 
         public PropertyMapItem(object source, PropertyInfo property)
         {
@@ -129,38 +155,86 @@ namespace NeeView
             _property = property;
         }
 
-        public object GetValue()
+        public virtual object GetValue()
         {
             return _property.GetValue(_source);
         }
 
-        public void SetValue(object value)
+        public virtual void SetValue(object value)
         {
-            
             _property.SetValue(_source, value != null ? Convert.ChangeType(value, _property.PropertyType) : null);
+        }
+
+        public (string type, string description) CreateHelpHtml()
+        {
+            string typeString;
+            if (_property.PropertyType.IsEnum)
+            {
+                typeString = "<dl>" + string.Join("", _property.PropertyType.VisibledAliasNameDictionary().Select(e => $"<dt>{e.Key}</dt><dd>{e.Value}</dd>")) + "</dl>";
+            }
+            else
+            {
+                typeString = _property.PropertyType.ToManualString();
+            }
+
+            var attribute = _property.GetCustomAttribute<PropertyMemberAttribute>();
+            var description = (attribute != null)
+                ? ResourceService.GetString(attribute.Name) + "<br/>" + ResourceService.GetString(attribute.Tips)
+                : string.Empty;
+            description = new Regex("[\r\n]+").Replace(description, "<br/>");
+
+            return (typeString, description);
         }
     }
 
-    public class PropertyMapEnumItem : IPropertyMapItem
+    public static class TypeExtensions
     {
-        private object _source;
-        private PropertyInfo _property;
+        public static string ToManualString(this Type type)
+        {
+            if (type.IsEnum)
+            {
+                return "enum";
+            }
 
-        public PropertyMapEnumItem(object source, PropertyInfo property)
+            switch (Type.GetTypeCode(type))
+            {
+                case TypeCode.Boolean:
+                    return "bool";
+                case TypeCode.Int32:
+                    return "int";
+                case TypeCode.Double:
+                    return "double";
+                case TypeCode.String:
+                    return "string";
+            }
+
+            if (type == typeof(Size))
+            {
+                return "Size (Width: double, Height: double)";
+            }
+
+            if (type == typeof(Color))
+            {
+                return "Color (#aarrggbb)";
+            }
+
+            return "???";
+        }
+    }
+
+    public class PropertyMapEnumItem : PropertyMapItem
+    {
+        public PropertyMapEnumItem(object source, PropertyInfo property) : base(source, property)
         {
             if (!property.PropertyType.IsEnum) throw new ArgumentException();
-
-            _source = source;
-            _property = property;
-
         }
-        
-        public object GetValue()
+
+        public override object GetValue()
         {
             return _property.GetValue(_source)?.ToString();
         }
 
-        public void SetValue(object value)
+        public override void SetValue(object value)
         {
             if (value is string s)
             {
@@ -174,25 +248,19 @@ namespace NeeView
     }
 
 
-    public class PropertyMapSizeItem : IPropertyMapItem
+    public class PropertyMapSizeItem : PropertyMapItem
     {
-        private object _source;
-        private PropertyInfo _property;
-
-        public PropertyMapSizeItem(object source, PropertyInfo property)
+        public PropertyMapSizeItem(object source, PropertyInfo property) : base(source, property)
         {
             if (property.PropertyType != typeof(Size)) throw new ArgumentException();
-
-            _source = source;
-            _property = property;
         }
 
-        public object GetValue()
+        public override object GetValue()
         {
             return _property.GetValue(_source)?.ToString();
         }
 
-        public void SetValue(object value)
+        public override void SetValue(object value)
         {
             if (value is string s)
             {

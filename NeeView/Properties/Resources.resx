@@ -4947,4 +4947,19 @@ $Name is the main page (the smaller page number) when displaying 2 pages. </valu
   <data name="ControlCommandListHeaderGroup" xml:space="preserve">
     <value>Group</value>
   </data>
+  <data name="WordGroup" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="WordName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="WordType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="WordConfigList" xml:space="preserve">
+    <value>Config list</value>
+  </data>
+  <data name="WordCommandList" xml:space="preserve">
+    <value>Command list</value>
+  </data>
 </root>

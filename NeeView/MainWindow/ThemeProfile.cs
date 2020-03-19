@@ -19,19 +19,25 @@ namespace NeeView
         static ThemeProfile() => Current = new ThemeProfile();
         public static ThemeProfile Current { get; }
 
-        private PanelColor _panelColor = PanelColor.Dark;
-        private PanelColor _menuColor = PanelColor.Light;
+        ////private PanelColor _panelColor = PanelColor.Dark;
+        ////private PanelColor _menuColor = PanelColor.Light;
 
 
         private ThemeProfile()
         {
             RefreshThemeColor();
+
+            Config.Current.Layout.Theme.AddPropertyChanged(nameof(ThemeConfig.PanelColor), (s, e) =>
+            {
+                RefreshThemeColor();
+            });
         }
 
 
         public event EventHandler ThemeColorChanged;
 
 
+#if false
         // テーマカラー
         [PropertyMember("@ParamPanelColor")]
         public PanelColor PanelColor
@@ -55,13 +61,14 @@ namespace NeeView
             get { return _menuColor; }
             set { SetProperty(ref _menuColor, value); }
         }
+#endif
 
 
         public void RefreshThemeColor()
         {
             if (App.Current == null) return;
 
-            if (PanelColor == PanelColor.Dark)
+            if (Config.Current.Layout.Theme.PanelColor == PanelColor.Dark)
             {
                 App.Current.Resources["NVBackgroundFade"] = new SolidColorBrush(Color.FromRgb(0x00, 0x00, 0x00));
                 App.Current.Resources["NVBackground"] = new SolidColorBrush(Color.FromRgb(0x22, 0x22, 0x22));
@@ -117,22 +124,25 @@ namespace NeeView
 
             public void RestoreConfig()
             {
+                Config.Current.Layout.Theme.PanelColor = PanelColor;
+                Config.Current.Layout.Theme.MenuColor = MenuColor;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.PanelColor = this.PanelColor;
-            memento.MenuColor = this.MenuColor;
+            memento.PanelColor = Config.Current.Layout.Theme.PanelColor;
+            memento.MenuColor = Config.Current.Layout.Theme.MenuColor;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.PanelColor = memento.PanelColor;
-            this.MenuColor = memento.MenuColor;
+            ////this.PanelColor = memento.PanelColor;
+            ////this.MenuColor = memento.MenuColor;
         }
 
         #endregion

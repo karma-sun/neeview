@@ -35,10 +35,7 @@ namespace NeeView
             set { if (_model != value) { _model = value; RaisePropertyChanged(); } }
         }
 
-        public ThemeProfile ThemeProfile
-        {
-            get { return ThemeProfile.Current; }
-        }
+        public Config Config => Config.Current;
 
         public bool IsLoading => _isLoading.Value;
 

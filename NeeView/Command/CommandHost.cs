@@ -4,24 +4,23 @@ using System.Linq;
 
 namespace NeeView
 {
+
     public class CommandHost
     {
         private static Dictionary<string, object> _values = new Dictionary<string, object>();
 
         private CommandTable _commandTable;
+        private ConfigMap _configMap;
 
-        public CommandHost(CommandTable commandTable)
+        public CommandHost(CommandTable commandTable, ConfigMap configMap)
         {
             _commandTable = commandTable;
-
-            Config = new PropertyMap(NeeView.Config.Current);
-            ((PropertyMap)Config[nameof(NeeView.Config.System)]).AddProperty(ExplorerContextMenu.Current, nameof(ExplorerContextMenu.IsEnabled), "IsExplorerContextMenuEnabled");
-
+            _configMap = configMap;
         }
 
         public Dictionary<string, object> Values => _values;
 
-        public PropertyMap Config { get; } = new PropertyMap(NeeView.Config.Current);
+        public PropertyMap Config => _configMap.Map;
 
         public BookAccessor Book { get; } = new BookAccessor();
 

@@ -83,7 +83,7 @@ namespace NeeView
         #region Properties
 
         public CommandCollection DefaultMemento { get; private set; }
-        
+
 #if false
         [PropertyMember("@ParamCommandIsReversePageMove", Tips = "@ParamCommandIsReversePageMoveTips")]
         public bool IsReversePageMove
@@ -490,44 +490,21 @@ namespace NeeView
         // コマンドリストをブラウザで開く
         public void OpenCommandListHelp()
         {
-            // グループ分け
-            var groups = new Dictionary<string, List<CommandElement>>();
-            foreach (var command in _elements.Values)
-            {
-                if (command.Group == "(none)") continue;
-
-                if (!groups.ContainsKey(command.Group))
-                {
-                    groups.Add(command.Group, new List<CommandElement>());
-                }
-
-                groups[command.Group].Add(command);
-            }
-
-            // 
             Directory.CreateDirectory(Temporary.Current.TempSystemDirectory);
             string fileName = System.IO.Path.Combine(Temporary.Current.TempSystemDirectory, "CommandList.html");
 
-            //
             using (var writer = new System.IO.StreamWriter(fileName, false))
             {
                 writer.WriteLine(HtmlHelpUtility.CraeteHeader("NeeView Command List"));
                 writer.WriteLine($"<body><h1>{Properties.Resources.HelpCommandTitle}</h1>");
-
                 writer.WriteLine($"<p>{Properties.Resources.HelpCommandMessage}</p>");
-
-                // グループごとに出力
-                foreach (var pair in groups)
+                writer.WriteLine("<table>");
+                writer.WriteLine($"<tr><th>{Properties.Resources.WordGroup}</th><th>{Properties.Resources.WordCommand}</th><th>{Properties.Resources.WordShortcut}</th><th>{Properties.Resources.WordGesture}</th><th>{Properties.Resources.WordTouch}</th><th>{Properties.Resources.WordDescription}</th></tr>");
+                foreach (var command in _elements.Values)
                 {
-                    writer.WriteLine($"<h3>{pair.Key}</h3>");
-                    writer.WriteLine("<table>");
-                    writer.WriteLine($"<th>{Properties.Resources.WordCommand}<th>{Properties.Resources.WordShortcut}<th>{Properties.Resources.WordGesture}<th>{Properties.Resources.WordTouch}<th>{Properties.Resources.WordDescription}<tr>");
-                    foreach (var command in pair.Value)
-                    {
-                        writer.WriteLine($"<td>{command.Text}<td>{command.ShortCutKey}<td>{new MouseGestureSequence(command.MouseGesture).ToDispString()}<td>{command.TouchGesture}<td>{command.Note}<tr>");
-                    }
-                    writer.WriteLine("</table>");
+                    writer.WriteLine($"<tr><td>{command.Group}</td><td>{command.Text}</td><td>{command.ShortCutKey}</td><td>{new MouseGestureSequence(command.MouseGesture).ToDispString()}</td><td>{command.TouchGesture}</td><td>{command.Note}</td></tr>");
                 }
+                writer.WriteLine("</table>");
                 writer.WriteLine("</body>");
 
                 writer.WriteLine(HtmlHelpUtility.CreateFooter());
@@ -541,20 +518,6 @@ namespace NeeView
         // スクリプト用リファレンス
         public void OpenScriptHelp()
         {
-            // グループ分け
-            var groups = new Dictionary<string, List<CommandElement>>();
-            foreach (var command in _elements.Values)
-            {
-                if (command.Group == "(none)") continue;
-
-                if (!groups.ContainsKey(command.Group))
-                {
-                    groups.Add(command.Group, new List<CommandElement>());
-                }
-
-                groups[command.Group].Add(command);
-            }
-
             Directory.CreateDirectory(Temporary.Current.TempSystemDirectory);
             string fileName = System.IO.Path.Combine(Temporary.Current.TempSystemDirectory, "CommandList.html");
 
@@ -567,77 +530,82 @@ namespace NeeView
 
                 var executeMethodArgTypes = new Type[] { typeof(CommandParameter), typeof(object[]), typeof(CommandOption) };
 
-                // グループごとに出力
-                foreach (var pair in groups)
-                {
-                    writer.WriteLine($"<h3>{pair.Key}</h3>");
-                    writer.WriteLine("<table>");
+                // 設定値一覧
+                writer.WriteLine($"<h2>{Properties.Resources.WordConfigList}</h2>");
+                writer.WriteLine("<table>");
+                writer.WriteLine($"<tr><th>{Properties.Resources.WordName}</th><th>{Properties.Resources.WordType}</th><th>{Properties.Resources.WordDescription}</th></th>");
+                writer.WriteLine(ConfigMap.Current.Map.CreateHelpHtml("nv.Config"));
+                writer.WriteLine("</table>");
 
-                    writer.WriteLine($"<th>{Properties.Resources.WordCommand}<th>{Properties.Resources.WordCommandName}<th>{Properties.Resources.WordArgument}<th>{Properties.Resources.WordCommandParameter}<th>{Properties.Resources.WordDescription}<tr>");
-                    foreach (var command in pair.Value)
+                // コマンド一覧
+                writer.WriteLine($"<h2>{Properties.Resources.WordCommandList}</h2>");
+                writer.WriteLine("<table>");
+                writer.WriteLine($"<tr><th>{Properties.Resources.WordGroup}</th><th>{Properties.Resources.WordCommand}</th><th>{Properties.Resources.WordCommandName}</th><th>{Properties.Resources.WordArgument}</th><th>{Properties.Resources.WordCommandParameter}</th><th>{Properties.Resources.WordDescription}</th></tr>");
+                foreach (var command in _elements.Values)
+                {
+                    string argument = "";
                     {
-                        string argument = "";
+                        var type = command.GetType();
+                        var info = type.GetMethod(nameof(command.Execute), executeMethodArgTypes);
+                        var attribute = (MethodArgumentAttribute)Attribute.GetCustomAttributes(info, typeof(MethodArgumentAttribute)).FirstOrDefault();
+                        if (attribute != null)
                         {
-                            var type = command.GetType();
-                            var info = type.GetMethod(nameof(command.Execute), executeMethodArgTypes);
-                            var attribute = (MethodArgumentAttribute)Attribute.GetCustomAttributes(info, typeof(MethodArgumentAttribute)).FirstOrDefault();
+                            var tokens = ResourceService.GetString(attribute.Note).Split('|');
+                            int index = 0;
+                            argument += "<dl>";
+                            while (index < tokens.Length)
+                            {
+                                var dt = tokens.ElementAtOrDefault(index++);
+                                var dd = tokens.ElementAtOrDefault(index++);
+                                argument += $"<dt>{dt}</dt><dd>{dd}</dd>";
+                            }
+                            argument += "</dl>";
+                        }
+                    }
+
+                    string properties = "";
+                    if (command.Parameter != null)
+                    {
+                        var type = command.Parameter.GetType();
+                        var title = "";
+                        var enums = "";
+
+                        if (command.Share != null)
+                        {
+                            properties = "<p style=\"color:red\">" + string.Format(Properties.Resources.ParamCommandShare, command.Share.Name) + "</p>";
+                        }
+
+                        foreach (PropertyInfo info in type.GetProperties())
+                        {
+                            var attribute = (PropertyMemberAttribute)Attribute.GetCustomAttributes(info, typeof(PropertyMemberAttribute)).FirstOrDefault();
                             if (attribute != null)
                             {
-                                var tokens = ResourceService.GetString(attribute.Note).Split('|');
-                                int index = 0;
-                                argument += "<dl>";
-                                while (index < tokens.Length)
+                                if (attribute.Title != null)
                                 {
-                                    var dt = tokens.ElementAtOrDefault(index++);
-                                    var dd = tokens.ElementAtOrDefault(index++);
-                                    argument += $"<dt>{dt}</dt><dd>{dd}</dd>";
+                                    title = ResourceService.GetString(attribute.Title) + " / ";
                                 }
-                                argument += "</dl>";
+
+                                if (info.PropertyType.IsEnum)
+                                {
+                                    enums = string.Join(" / ", info.PropertyType.VisibledAliasNameDictionary().Select(e => $"{Convert.ToInt32(e.Key)}: {e.Value}")) + "<br/>";
+                                }
+
+                                var text = title + ResourceService.GetString(attribute.Name).TrimEnd(Properties.Resources.WordPeriod.ToArray()) + Properties.Resources.WordPeriod + (attribute.Tips != null ? " " + ResourceService.GetString(attribute.Tips) : "");
+
+                                properties = properties + $"<dt><b>{info.Name}</b>: {TypeToString(info.PropertyType)}</dt><dd>{enums + text}<dd/>";
                             }
                         }
-
-                        string properties = "";
-                        if (command.Parameter != null)
+                        if (!string.IsNullOrEmpty(properties))
                         {
-                            var type = command.Parameter.GetType();
-                            var title = "";
-                            var enums = "";
-
-                            if (command.Share != null)
-                            {
-                                properties = "<p style=\"color:red\">" + string.Format(Properties.Resources.ParamCommandShare, command.Share.Name) + "</p>";
-                            }
-
-                            foreach (PropertyInfo info in type.GetProperties())
-                            {
-                                var attribute = (PropertyMemberAttribute)Attribute.GetCustomAttributes(info, typeof(PropertyMemberAttribute)).FirstOrDefault();
-                                if (attribute != null)
-                                {
-                                    if (attribute.Title != null)
-                                    {
-                                        title = ResourceService.GetString(attribute.Title) + " / ";
-                                    }
-
-                                    if (info.PropertyType.IsEnum)
-                                    {
-                                        enums = string.Join(" / ", info.PropertyType.VisibledAliasNameDictionary().Select(e => $"{Convert.ToInt32(e.Key)}: {e.Value}")) + "<br/>";
-                                    }
-
-                                    var text = title + ResourceService.GetString(attribute.Name).TrimEnd(Properties.Resources.WordPeriod.ToArray()) + Properties.Resources.WordPeriod + (attribute.Tips != null ? " " + ResourceService.GetString(attribute.Tips) : "");
-
-                                    properties = properties + $"<dt><b>{info.Name}</b>: {TypeToString(info.PropertyType)}</dt><dd>{enums + text}<dd/>";
-                                }
-                            }
-                            if (!string.IsNullOrEmpty(properties))
-                            {
-                                properties = "<dl>" + properties + "</dl>";
-                            }
+                            properties = "<dl>" + properties + "</dl>";
                         }
-
-                        writer.WriteLine($"<td>{command.Text}<td><b>{command.Name}</b><td>{argument}<td>{properties}<td>{command.Note}<tr>");
                     }
-                    writer.WriteLine("</table>");
+
+                    writer.WriteLine($"<tr><td>{command.Group}</td><td>{command.Text}</td><td><b>{command.Name}</b></td><td>{argument}</td><td>{properties}</td><td>{command.Note}</td></tr>");
                 }
+                writer.WriteLine("</table>");
+
+
 
                 WriteResource(writer, "/Resources/ja-JP/ScriptManualExample.html");
 

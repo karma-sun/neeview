@@ -16,7 +16,7 @@
     <Grid x:Name="Root" KeyDown="Control_KeyDown_IgnoreSingleKeyGesture" MinHeight="0">
         <Grid.Style>
             <Style TargetType="Grid">
-                <Setter Property="Background" Value="{Binding ThemeProfile.MenuColor, Converter={StaticResource BackgroundSelector}}" />
+                <Setter Property="Background" Value="{Binding Config.Layout.Theme.MenuColor, Converter={StaticResource BackgroundSelector}}" />
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding IsHighContrast}" Value="True">
                         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
@@ -31,7 +31,7 @@
                     <Setter Property="Foreground">
                         <Setter.Value>
                             <MultiBinding Converter="{StaticResource ForegroundSelector}">
-                                <Binding Path="ThemeProfile.MenuColor" />
+                                <Binding Path="Config.Layout.Theme.MenuColor" />
                                 <Binding Path="IsActive" RelativeSource="{RelativeSource AncestorType=Window}" />
                                 <Binding Path="IsUnactiveEnabled" RelativeSource="{RelativeSource  AncestorType=local:MenuBarView}" />
                             </MultiBinding>

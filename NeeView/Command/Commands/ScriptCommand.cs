@@ -34,7 +34,7 @@ namespace NeeView
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            var commandHost = new CommandHost(CommandTable.Current);
+            var commandHost = new CommandHost(CommandTable.Current, ConfigMap.Current);
             var commandEngine = new JavascriptEngine(commandHost);
             commandEngine.LogAction = e => Debug.WriteLine(e);
 

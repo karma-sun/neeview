@@ -13887,6 +13887,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Command list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordCommandList {
+            get {
+                return ResourceManager.GetString("WordCommandList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Command name に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WordCommandName {
@@ -13910,6 +13919,15 @@ namespace NeeView.Properties {
         public static string WordConfig {
             get {
                 return ResourceManager.GetString("WordConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Config list に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordConfigList {
+            get {
+                return ResourceManager.GetString("WordConfigList", resourceCulture);
             }
         }
         
@@ -14058,6 +14076,15 @@ namespace NeeView.Properties {
         }
         
         /// <summary>
+        ///   Group に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordGroup {
+            get {
+                return ResourceManager.GetString("WordGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Import に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string WordImport {
@@ -14108,6 +14135,15 @@ namespace NeeView.Properties {
         public static string WordMainMenu {
             get {
                 return ResourceManager.GetString("WordMainMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Name に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordName {
+            get {
+                return ResourceManager.GetString("WordName", resourceCulture);
             }
         }
         
@@ -14450,6 +14486,15 @@ namespace NeeView.Properties {
         public static string WordToUp {
             get {
                 return ResourceManager.GetString("WordToUp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Type に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string WordType {
+            get {
+                return ResourceManager.GetString("WordType", resourceCulture);
             }
         }
         

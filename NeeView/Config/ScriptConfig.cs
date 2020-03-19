@@ -9,7 +9,7 @@ namespace NeeView
         private bool _isScriptFolderEnabled;
         private string _scriptFolder = string.Empty;
 
-
+        [PropertyMapIgnore]
         public string DefaultScriptFolderName => "Scripts";
 
         [PropertyMember("@ParamIsScriptFolderEnabled")]

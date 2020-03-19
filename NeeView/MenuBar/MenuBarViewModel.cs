@@ -61,7 +61,7 @@ namespace NeeView
             set { if (_windowCaptionEmulator != value) { _windowCaptionEmulator = value; RaisePropertyChanged(); } }
         }
 
-        public ThemeProfile ThemeProfile => ThemeProfile.Current;
+        public Config Config => Config.Current;
 
         public Dictionary<string, RoutedUICommand> BookCommands => RoutedCommandTable.Current.Commands;
 
@@ -120,7 +120,7 @@ namespace NeeView
                 image.Width = 18;
                 image.Height = 18;
                 image.Margin = new Thickness(4, 2, 4, 2);
-                image.SetBinding(Image.SourceProperty, new Binding(nameof(ThemeProfile.MenuColor)) { Source = ThemeProfile, Converter = converter });
+                image.SetBinding(Image.SourceProperty, new Binding(nameof(ThemeConfig.MenuColor)) { Source = Config.Current.Layout.Theme, Converter = converter });
                 image.SetBinding(Image.OpacityProperty, new Binding(nameof(Window.IsActive)) { Source = MainWindow.Current, Converter = new BooleanToOpacityConverter() });
 
                 var topMenu = new MenuItem();

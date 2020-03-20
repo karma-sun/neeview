@@ -170,7 +170,7 @@ namespace NeeView
             string typeString;
             if (_property.PropertyType.IsEnum)
             {
-                typeString = "<dl>" + string.Join("", _property.PropertyType.VisibledAliasNameDictionary().Select(e => $"<dt>{e.Key}</dt><dd>{e.Value}</dd>")) + "</dl>";
+                typeString = "<dl>" + string.Join("", _property.PropertyType.VisibledAliasNameDictionary().Select(e => $"<dt>\"{e.Key}\"</dt><dd>{e.Value}</dd>")) + "</dl>";
             }
             else
             {
@@ -210,12 +210,12 @@ namespace NeeView
 
             if (type == typeof(Size))
             {
-                return "Size (Width: double, Height: double)";
+                return "\"width, height\"";
             }
 
             if (type == typeof(Color))
             {
-                return "Color (#aarrggbb)";
+                return "\"#AARRGGBB\"";
             }
 
             return "???";

@@ -27,6 +27,10 @@ namespace NeeView
         {
         }
 
+
+        // テンポラリーフォルダー作成場所(既定)
+        public static string TempRootPathDefault => System.IO.Path.GetTempPath();
+
         // テンポラリーフォルダー作成場所
         public string TempRootPath { get; private set; }
 
@@ -64,13 +68,13 @@ namespace NeeView
             //Process名の取得
             var processName = Process.GetCurrentProcess().ProcessName;
 
-            TempRootPath = path ?? Path.GetTempPath();
-            if (path != Path.GetTempPath())
+            TempRootPath = path ?? TempRootPathDefault;
+            if (TempRootPath != TempRootPathDefault)
             {
-                if (!Directory.Exists(path))
+                if (!Directory.Exists(TempRootPath))
                 {
-                    ToastService.Current.Show(new Toast(string.Format(Properties.Resources.NotifyTemporaryErrorDirectoryNotFound, path), Properties.Resources.NotifyTemporaryErrorTitle, ToastIcon.Error));
-                    TempRootPath = Path.GetTempPath();
+                    ToastService.Current.Show(new Toast(string.Format(Properties.Resources.NotifyTemporaryErrorDirectoryNotFound, TempRootPath), Properties.Resources.NotifyTemporaryErrorTitle, ToastIcon.Error));
+                    TempRootPath = TempRootPathDefault;
                 }
             }
 

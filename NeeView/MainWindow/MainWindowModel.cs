@@ -580,7 +580,7 @@ namespace NeeView
                 {
                     // 設定の同期
                     WindowShape.Current.CreateSnapMemento();
-                    SaveDataSync.Current.SaveUserSetting(App.Current.IsSyncUserSetting);
+                    SaveDataSync.Current.SaveUserSetting(Config.Current.System.IsSyncUserSetting);
                 }
             }
             finally

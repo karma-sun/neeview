@@ -163,7 +163,6 @@ namespace NeeView
             Debug.WriteLine($"App.UserSettingLoaded: {Stopwatch.ElapsedMilliseconds}ms");
 
             // restore
-            RestoreOnce(setting.App);
             Restore(setting.App);
 
             // スプラッシュスクリーン(予備)
@@ -189,32 +188,13 @@ namespace NeeView
             }
 
             // テンポラリーの場所
-            TemporaryDirectory = Temporary.Current.SetDirectory(TemporaryDirectory);
+            Config.Current.System.TemporaryDirectory = Temporary.Current.SetDirectory(Config.Current.System.TemporaryDirectory);
 
             // キャッシュの場所
-            InitializeCacheDirectory();
+            Config.Current.System.CacheDirectory = ThumbnailCache.Current.SetDirectory(Config.Current.System.CacheDirectory);
 
             // コマンド設定反映
             CommandTable.Current.RestoreCommandCollection(settingV2.CommandCollection);
-        }
-
-        /// <summary>
-        /// キャッシュの場所の初期化
-        /// </summary>
-        public void InitializeCacheDirectory()
-        {
-            CacheDirectory = ThumbnailCache.Current.SetDirectory(CacheDirectory);
-            if (CacheDirectory != CacheDirectoryOld)
-            {
-                try
-                {
-                    ThumbnailCache.Current.MoveDirectory(CacheDirectoryOld);
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine(ex.Message);
-                }
-            }
         }
 
         /// <summary>
@@ -222,10 +202,8 @@ namespace NeeView
         /// </summary>
         public void UpdateLocation()
         {
-            TemporaryDirectory = Temporary.Current.TempRootPath;
-
-            CacheDirectory = ThumbnailCache.Current.CacheFolderPath;
-            CacheDirectoryOld = ThumbnailCache.Current.CacheFolderPath;
+            Config.Current.System.TemporaryDirectory = Temporary.Current.TempRootPath;
+            Config.Current.System.CacheDirectory = ThumbnailCache.Current.CacheFolderPath;
         }
 
 
@@ -334,6 +312,6 @@ namespace NeeView
             ThumbnailCache.Current.Dispose();
         }
 
-        #endregion
+#endregion
     }
 }

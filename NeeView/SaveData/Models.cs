@@ -267,7 +267,7 @@ namespace NeeView
         {
             if (memento == null) return;
             FileIOProfile.Current.Restore(memento.FileIOProfile);
-            JobEngine.Current.Restore(memento.JobEngine);
+            ////JobEngine.Current.Restore(memento.JobEngine);
             SoundPlayerService.Current.Restore(memento.SoundPlayerService);
             PictureProfile.Current.Restore(memento.PictureProfile);
             ImageFilter.Current.Restore(memento.ImageFilter);

@@ -205,6 +205,7 @@ namespace NeeView
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;

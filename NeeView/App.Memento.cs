@@ -45,13 +45,13 @@ namespace NeeView
         #region Fields
 
         ////private bool _isNetworkEnalbe = true;
-        private bool _isSettingBackup;
+        ////private bool _isSettingBackup;
         ////private bool _isSaveWindowPlacement = true;
         private double _autoHideDelayTime = 1.0;
         private double _autoHideDelayVisibleTime = 0.0;
-        private string _temporaryDirectory;
-        private string _cacheDirectory;
-        private string _cacheDirectoryOld;
+        ////private string _temporaryDirectory;
+        ////private string _cacheDirectory;
+        ////private string _cacheDirectoryOld;
         ////private bool _isSaveHistory = true;
         ////private string _historyFilePath;
         ////private bool _isSaveBookmark = true;
@@ -222,6 +222,7 @@ namespace NeeView
         [PropertyPath("@ParamDownloadPath", Tips = "@ParamDownloadPathTips", FileDialogType = FileDialogType.Directory)]
         public string DownloadPath { get; set; } = "";
 
+#if false
         [PropertyMember("@ParamIsSettingBackup", Tips = "@ParamIsSettingBackupTips")]
         public bool IsSettingBackup
         {
@@ -229,7 +230,6 @@ namespace NeeView
             set { _isSettingBackup = value; }
         }
 
-#if false
         // 言語
         [PropertyMember("@ParamLanguage", Tips = "@ParamLanguageTips")]
         public Language Language { get; set; } = LanguageExtensions.GetLanguage(CultureInfo.CurrentCulture.Name);
@@ -237,7 +237,6 @@ namespace NeeView
         // スプラッシュスクリーン
         [PropertyMember("@ParamIsSplashScreenEnabled")]
         public bool IsSplashScreenEnabled { get; set; } = true;
-#endif
 
         // 設定データの同期
         [PropertyMember("@ParamIsSyncUserSetting", Tips = "@ParamIsSyncUserSettingTips")]
@@ -265,6 +264,7 @@ namespace NeeView
             get => _cacheDirectoryOld ?? Environment.LocalApplicationDataPath;
             set => _cacheDirectoryOld = string.IsNullOrWhiteSpace(value) || value == Environment.LocalApplicationDataPath ? null : value;
         }
+#endif
 
         #endregion
 
@@ -405,6 +405,11 @@ namespace NeeView
                 Config.Current.Bookmark.BookmarkFilePath = BookmarkFilePath;
                 Config.Current.Pagemark.IsSavePagemark = IsSavePagemark;
                 Config.Current.Pagemark.PagemarkFilePath = PagemarkFilePath;
+                Config.Current.System.IsSettingBackup = IsSettingBackup;
+                Config.Current.System.IsSyncUserSetting = IsSyncUserSetting;
+                Config.Current.System.TemporaryDirectory = TemporaryDirectory;
+                Config.Current.System.CacheDirectory = CacheDirectory;
+                ////Config.Current.System.CacheDirectoryOld = CacheDirectoryOld;
             }
         }
 
@@ -428,28 +433,19 @@ namespace NeeView
             memento.IsOpenLastBook = Config.Current.StartUp.IsOpenLastBook;
             memento.DownloadPath = this.DownloadPath;
             memento.IsRestoreSecondWindow = Config.Current.StartUp.IsRestoreSecondWindowPlacement;
-            memento.IsSettingBackup = this.IsSettingBackup;
+            memento.IsSettingBackup = Config.Current.System.IsSettingBackup;
             memento.Language = Config.Current.System.Language;
             memento.IsSplashScreenEnabled = Config.Current.StartUp.IsSplashScreenEnabled;
-            memento.IsSyncUserSetting = this.IsSyncUserSetting;
-            memento.TemporaryDirectory = _temporaryDirectory;
-            memento.CacheDirectory = _cacheDirectory;
-            memento.CacheDirectoryOld = _cacheDirectoryOld;
+            memento.IsSyncUserSetting = Config.Current.System.IsSyncUserSetting;
+            memento.TemporaryDirectory = Config.Current.System.TemporaryDirectory;
+            memento.CacheDirectory = Config.Current.System.CacheDirectory;
+            memento.CacheDirectoryOld = Config.Current.System.CacheDirectory; //// CacheDirectoryOld廃止(ver.37)
             memento.AutoHideFocusLockMode = this.AutoHideFocusLockMode;
             memento.IsAutoHideKeyDownDelay = this.IsAutoHideKeyDownDelay;
             memento.AutoHideHitTestMargin = this.AutoHideHitTestMargin;
             return memento;
         }
 
-        // 起動直後の１回だけの設定反映
-        public void RestoreOnce(Memento memento)
-        {
-            if (memento == null) return;
-
-            this.CacheDirectoryOld = memento.CacheDirectoryOld;
-        }
-
-        // 通常の設定反映
         public void Restore(Memento memento)
         {
             if (memento == null) return;
@@ -472,12 +468,12 @@ namespace NeeView
             ////this.IsOpenLastBook = memento.IsOpenLastBook;
             this.DownloadPath = memento.DownloadPath;
             ////this.IsRestoreSecondWindow = memento.IsRestoreSecondWindow;
-            this.IsSettingBackup = memento.IsSettingBackup;
+            ////this.IsSettingBackup = memento.IsSettingBackup;
             ////this.Language = memento.Language;
             ////this.IsSplashScreenEnabled = memento.IsSplashScreenEnabled;
-            this.IsSyncUserSetting = memento.IsSyncUserSetting;
-            this.TemporaryDirectory = memento.TemporaryDirectory;
-            this.CacheDirectory = memento.CacheDirectory;
+            ////this.IsSyncUserSetting = memento.IsSyncUserSetting;
+            ////this.TemporaryDirectory = memento.TemporaryDirectory;
+            ////this.CacheDirectory = memento.CacheDirectory;
             ////this.CacheDirectoryOld = memento.CacheDirectoryOld; // RestoreOnce()で反映
             this.AutoHideFocusLockMode = memento.AutoHideFocusLockMode;
             this.IsAutoHideKeyDownDelay = memento.IsAutoHideKeyDownDelay;

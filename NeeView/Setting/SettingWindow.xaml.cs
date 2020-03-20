@@ -83,7 +83,7 @@ namespace NeeView.Setting
             if (this.AllowSave)
             {
                 WindowShape.Current.CreateSnapMemento();
-                SaveDataSync.Current.SaveUserSetting(App.Current.IsSyncUserSetting);
+                SaveDataSync.Current.SaveUserSetting(Config.Current.System.IsSyncUserSetting);
             }
         }
 

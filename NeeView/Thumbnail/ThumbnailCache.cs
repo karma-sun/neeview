@@ -97,40 +97,31 @@ namespace NeeView
         public string CacheFolderPath { get; private set; }
 
         /// <summary>
+        /// キャッシュファイルの場所(既定)
+        /// </summary>
+        public static string CacheFolderPathDefault => Environment.LocalApplicationDataPath;
+
+
+        /// <summary>
         /// キャッシュファイルの場所の指定
         /// </summary>
         /// <param name="path"></param>
         public string SetDirectory(string path)
         {
-            CacheFolderPath = path ?? Environment.LocalApplicationDataPath;
+            CacheFolderPath = path ?? CacheFolderPathDefault;
 
-            if (path != Environment.LocalApplicationDataPath)
+            if (CacheFolderPath != CacheFolderPathDefault)
             {
-                if (!Directory.Exists(path))
+                if (!Directory.Exists(CacheFolderPath))
                 {
-                    ToastService.Current.Show(new Toast(string.Format(Properties.Resources.NotifyCacheErrorDirectoryNotFound, path), Properties.Resources.NotifyCacheErrorTitle, ToastIcon.Error));
-                    CacheFolderPath = Environment.LocalApplicationDataPath;
+                    ToastService.Current.Show(new Toast(string.Format(Properties.Resources.NotifyCacheErrorDirectoryNotFound, CacheFolderPath), Properties.Resources.NotifyCacheErrorTitle, ToastIcon.Error));
+                    CacheFolderPath = CacheFolderPathDefault;
                 }
             }
 
             _filename = Path.Combine(CacheFolderPath, FileName);
 
             return CacheFolderPath;
-        }
-
-        /// <summary>
-        /// キャッシュファイルの場所の変更
-        /// </summary>
-        public void MoveDirectory(string sourcePath)
-        {
-            var sourceFileName = Path.Combine(sourcePath ?? Environment.LocalApplicationDataPath, FileName);
-
-            if (_filename == sourceFileName)
-            {
-                return;
-            }
-
-            File.Move(sourceFileName, _filename);
         }
 
         /// <summary>
@@ -375,7 +366,7 @@ namespace NeeView
             }
         }
 
-        #region IDisposable Support
+#region IDisposable Support
         private bool _disposedValue = false;
 
         protected virtual void Dispose(bool disposing)
@@ -400,6 +391,6 @@ namespace NeeView
         {
             Dispose(true);
         }
-        #endregion
+#endregion
     }
 }

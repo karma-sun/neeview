@@ -1,4 +1,5 @@
 ﻿using NeeLaboratory.ComponentModel;
+using NeeView.Windows.Controls;
 using NeeView.Windows.Property;
 using System.Globalization;
 using System.Runtime.Serialization;
@@ -9,7 +10,9 @@ namespace NeeView
     {
         private ArchiveEntryCollectionMode _archiveRecursiveMode = ArchiveEntryCollectionMode.IncludeSubArchives;
         private bool _isNetworkEnalbe = true;
-
+        private bool _isSettingBackup;
+        private string _temporaryDirectory;
+        private string _cacheDirectory;
 
         /// <summary>
         /// 言語
@@ -40,6 +43,34 @@ namespace NeeView
         {
             get { return _isNetworkEnalbe || Environment.IsAppxPackage; } // Appxは強制ON
             set { SetProperty(ref _isNetworkEnalbe, value); }
+        }
+
+        // 設定データの同期
+        [PropertyMember("@ParamIsSyncUserSetting", Tips = "@ParamIsSyncUserSettingTips")]
+        public bool IsSyncUserSetting { get; set; } = true;
+
+        // 設定データのバックアップ作成
+        [PropertyMember("@ParamIsSettingBackup", Tips = "@ParamIsSettingBackupTips")]
+        public bool IsSettingBackup
+        {
+            get { return _isSettingBackup || Environment.IsAppxPackage; }  // Appxは強制ON
+            set { _isSettingBackup = value; }
+        }
+
+        // テンポラリフォルダーの場所
+        [PropertyPath("@ParamTemporaryDirectory", Tips = "@ParamTemporaryDirectoryTips", FileDialogType = FileDialogType.Directory)]
+        public string TemporaryDirectory
+        {
+            get => _temporaryDirectory;
+            set => _temporaryDirectory = string.IsNullOrWhiteSpace(value) || value == Temporary.TempRootPathDefault ? null : value;
+        }
+
+        // サムネイルキャッシュの場所
+        [PropertyPath("@ParamCacheDirectory", Tips = "@ParamCacheDirectoryTips", FileDialogType = FileDialogType.Directory)]
+        public string CacheDirectory
+        {
+            get => _cacheDirectory;
+            set => _cacheDirectory = string.IsNullOrWhiteSpace(value) || value == ThumbnailCache.CacheFolderPathDefault ? null : value;
         }
     }
 

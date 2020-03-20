@@ -287,7 +287,7 @@ namespace NeeView
                 App.Current.SemaphoreWait();
                 SafetySave(new UserSettingV2Accessor().Save
                     , Path.ChangeExtension(App.Current.Option.SettingFilename, ".json")
-                    , App.Current.IsSettingBackup);
+                    , Config.Current.System.IsSettingBackup);
             }
             catch
             {
@@ -315,7 +315,7 @@ namespace NeeView
             try
             {
                 App.Current.SemaphoreWait();
-                SafetySave(setting.Save, App.Current.Option.SettingFilename, App.Current.IsSettingBackup);
+                SafetySave(setting.Save, App.Current.Option.SettingFilename, Config.Current.System.IsSettingBackup);
             }
             catch
             {

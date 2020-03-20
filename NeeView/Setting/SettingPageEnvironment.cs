@@ -91,15 +91,15 @@ namespace NeeView.Setting
                         IsStretch = true,
                         IsEnabled = new IsEnabledPropertyValue(Config.Current.Pagemark, nameof(PagemarkConfig.IsSavePagemark))
                     },
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSyncUserSetting))),
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsSettingBackup)))
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.IsSyncUserSetting))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.IsSettingBackup)))
                     {
                         Visibility = new VisibilityPropertyValue(Environment.IsAppxPackage ? Visibility.Collapsed : Visibility.Visible)
                     }),
 
                 new SettingItemSection(Properties.Resources.SettingPageGeneralLocationTypes, Properties.Resources.SettingPageGeneralLocationTypesTips,
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.TemporaryDirectory))) { IsStretch = true },
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.CacheDirectory))) { IsStretch = true }),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.TemporaryDirectory), Temporary.TempRootPathDefault)) { IsStretch = true },
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.CacheDirectory), ThumbnailCache.CacheFolderPathDefault)) { IsStretch = true }),
 
                 new SettingItemSection(Properties.Resources.SettingPageGeneralSaveDataRemove,
                     new SettingItemButton(Properties.Resources.SettingItemRemove, RemoveAllData) { IsContentOnly = true })

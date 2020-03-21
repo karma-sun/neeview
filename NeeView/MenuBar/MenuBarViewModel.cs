@@ -80,11 +80,11 @@ namespace NeeView
 
             // window caption emulatr
             this.WindowCaptionEmulator = new WindowCaptionEmulator(Window, control);
-            this.WindowCaptionEmulator.IsEnabled = !WindowShape.Current.IsCaptionVisible || WindowShape.Current.IsFullScreen;
+            this.WindowCaptionEmulator.IsEnabled = !Config.Current.Window.IsCaptionVisible || WindowShape.Current.IsFullScreen;
 
             // IsCaptionVisible か IsFullScreen の変更を監視すべきだが、処理が軽いためプロパティ名の判定をしない
             WindowShape.Current.PropertyChanged +=
-                (s, e) => this.WindowCaptionEmulator.IsEnabled = !WindowShape.Current.IsCaptionVisible || WindowShape.Current.IsFullScreen;
+                (s, e) => this.WindowCaptionEmulator.IsEnabled = !Config.Current.Window.IsCaptionVisible || WindowShape.Current.IsFullScreen;
         }
 
         private void InitializeMainMenu()

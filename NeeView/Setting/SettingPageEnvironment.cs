@@ -30,7 +30,7 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.BookPageCollectMode))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.IsRemoveConfirmed))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.IsRemoveExplorerDialogEnabled))),
-                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Window, nameof(WindowLayoutConfig.IsCaptionEmulateInFullScreen))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Window, nameof(WindowConfig.IsCaptionEmulateInFullScreen))),
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.IsNetworkEnabled)))
                     {
                         Visibility = new VisibilityPropertyValue(Environment.IsAppxPackage ? Visibility.Collapsed : Visibility.Visible)

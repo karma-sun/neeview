@@ -207,11 +207,11 @@ namespace NeeView
             set { SetProperty(ref _autoHideHitTestMargin, value); }
         }
 
+#if false
         // ウィンドウクローム枠
         [PropertyMember("@ParamWindowChromeFrame")]
         public WindowChromeFrame WindowChromeFrame { get; set; } = WindowChromeFrame.WindowFrame;
 
-#if false
         // 前回開いていたブックを開く
         [PropertyMember("@ParamIsOpenLastBook")]
         public bool IsOpenLastBook { get; set; }
@@ -410,6 +410,7 @@ namespace NeeView
                 Config.Current.System.TemporaryDirectory = TemporaryDirectory;
                 Config.Current.System.CacheDirectory = CacheDirectory;
                 ////Config.Current.System.CacheDirectoryOld = CacheDirectoryOld;
+                Config.Current.Window.WindowChromeFrame = WindowChromeFrame;
             }
         }
 
@@ -429,7 +430,7 @@ namespace NeeView
             memento.PagemarkFilePath = Config.Current.Pagemark.PagemarkFilePath;
             memento.AutoHideDelayTime = this.AutoHideDelayTime;
             memento.AutoHideDelayVisibleTime = this.AutoHideDelayVisibleTime;
-            memento.WindowChromeFrame = this.WindowChromeFrame;
+            memento.WindowChromeFrame = Config.Current.Window.WindowChromeFrame;
             memento.IsOpenLastBook = Config.Current.StartUp.IsOpenLastBook;
             memento.DownloadPath = this.DownloadPath;
             memento.IsRestoreSecondWindow = Config.Current.StartUp.IsRestoreSecondWindowPlacement;
@@ -464,7 +465,7 @@ namespace NeeView
             ////this.PagemarkFilePath = memento.PagemarkFilePath;
             this.AutoHideDelayTime = memento.AutoHideDelayTime;
             this.AutoHideDelayVisibleTime = memento.AutoHideDelayVisibleTime;
-            this.WindowChromeFrame = memento.WindowChromeFrame;
+            ////this.WindowChromeFrame = memento.WindowChromeFrame;
             ////this.IsOpenLastBook = memento.IsOpenLastBook;
             this.DownloadPath = memento.DownloadPath;
             ////this.IsRestoreSecondWindow = memento.IsRestoreSecondWindow;

@@ -6,8 +6,6 @@ namespace NeeView
     public class LayoutConfig : BindableBase
     {
         public ThemeConfig Theme { get; set; } = new ThemeConfig();
-
-        public WindowLayoutConfig Window { get; set; } = new WindowLayoutConfig();
     }
 
 
@@ -15,6 +13,7 @@ namespace NeeView
     {
         private PanelColor _panelColor = PanelColor.Dark;
         private PanelColor _menuColor = PanelColor.Light;
+
 
         /// <summary>
         /// テーマカラー：パネル
@@ -35,6 +34,6 @@ namespace NeeView
             get { return _menuColor; }
             set { SetProperty(ref _menuColor, value); }
         }
-    }
 
+    }
 }

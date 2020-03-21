@@ -54,7 +54,7 @@ namespace NeeView
         public void SaveBackupFile(string filename)
         {
             // 保存
-            WindowShape.Current.CreateSnapMemento();
+            ////WindowShape.Current.CreateSnapMemento();
             SaveDataSync.Current.SaveUserSetting(false);
             SaveDataSync.Current.SaveHistory();
             SaveDataSync.Current.SaveBookmark(false);

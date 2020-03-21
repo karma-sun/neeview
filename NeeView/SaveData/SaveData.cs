@@ -53,7 +53,7 @@ namespace NeeView
         {
             var setting = new UserSetting();
 
-            App.Current.WindowChromeFrame = WindowShape.Current.WindowChromeFrame;
+            ////App.Current.WindowChromeFrame = WindowShape.Current.WindowChromeFrame;
             setting.App = App.Current.CreateMemento();
 
             setting.SusieMemento = SusiePluginManager.Current.CreateMemento();
@@ -69,7 +69,7 @@ namespace NeeView
         public void RestoreSetting(UserSetting setting)
         {
             App.Current.Restore(setting.App);
-            WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
+            ////WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
 
             ////SusiePluginManager.Current.Restore(setting.SusieMemento);
             CommandTable.Current.Restore(setting.CommandMememto, false);
@@ -79,16 +79,17 @@ namespace NeeView
         }
 
         // アプリ設定のシェイプを反映
+        [Obsolete]
         public void RestoreSettingWindowShape(UserSetting setting)
         {
             if (setting == null) return;
             if (setting.WindowShape == null) return;
 
             // ウィンドウ状態をのぞく設定を反映
-            var memento = setting.WindowShape.Clone();
-            memento.State = WindowShape.Current.State;
-            WindowShape.Current.Restore(memento);
-            WindowShape.Current.Refresh();
+            ////var memento = setting.WindowShape.Clone();
+            ////memento.State = WindowShape.Current.State;
+            ////WindowShape.Current.Restore(memento);
+            ////WindowShape.Current.Refresh();
         }
 
         #region Load
@@ -98,11 +99,27 @@ namespace NeeView
         /// </summary>
         public UserSettingV2 LoadConfig()
         {
+            App.Current.SemaphoreWait();
+
             try
             {
-                App.Current.SemaphoreWait();
-                var config = SafetyLoad(UserSettingV2Accessor.Load, Path.ChangeExtension(App.Current.Option.SettingFilename, ".json"), Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
-                return config;
+                var v1FileName = Path.ChangeExtension(App.Current.Option.SettingFilename, ".xml");
+                var v2FileName = Path.ChangeExtension(App.Current.Option.SettingFilename, ".json");
+
+                if (File.Exists(v2FileName))
+                {
+                    return SafetyLoad(UserSettingV2Accessor.Load, v2FileName, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+                }
+
+#if false
+                if (File.Exists(v1FileName))
+                {
+                    var settingV1 = SafetyLoad(UserSetting.Load, v1FileName, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
+                    return settingV1.ConvertToV2();
+                }
+#endif
+
+                return new UserSettingV2();
             }
             finally
             {
@@ -154,7 +171,7 @@ namespace NeeView
                 App.Current.SemaphoreWait();
                 var setting = SafetyLoad(UserSetting.Load, App.Current.Option.SettingFilename, Resources.NotifyLoadSettingFailed, Resources.NotifyLoadSettingFailedTitle);
                 RestoreSetting(setting);
-                RestoreSettingWindowShape(setting);
+                ////RestoreSettingWindowShape(setting);
             }
             finally
             {
@@ -306,10 +323,10 @@ namespace NeeView
             var setting = CreateSetting();
 
             // ウィンドウ状態保存
-            setting.WindowShape = WindowShape.Current.SnapMemento;
+            ////setting.WindowShape = WindowShape.Current.SnapMemento;
 
             // ウィンドウ座標保存
-            setting.WindowPlacement = WindowPlacement.Current.CreateMemento();
+            ////setting.WindowPlacement = WindowPlacement.Current.CreateMemento();
 
             // 設定をファイルに保存
             try

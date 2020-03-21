@@ -65,7 +65,7 @@ namespace NeeView
             var json = File.ReadAllBytes(path);
             return JsonSerializer.Deserialize<UserSettingV2>(new ReadOnlySpan<byte>(json), GetSerializerOptions());
 
-            // TODO: 互換性処理をここで？
+            // TODO: v.38以後の互換性処理をここで？
         }
 
         private static JsonSerializerOptions GetSerializerOptions()
@@ -161,4 +161,44 @@ namespace NeeView
         }
     }
 
+
+#if false
+    // Window状態のConfig対応してからだな...
+    public static class UserSettingV1Extensions
+    {
+        public static UserSettingV2 ConvertToV2(this UserSetting setting)
+        {
+            var settingV2 = new UserSettingV2();
+
+            // restore setting
+            //void RestoreSetting(UserSetting setting)
+            {
+                App.Current.Restore(setting.App);
+                
+                WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
+
+                ////SusiePluginManager.Current.Restore(setting.SusieMemento);
+                CommandTable.Current.Restore(setting.CommandMememto, false);
+                DragActionTable.Current.Restore(setting.DragActionMemento);
+
+                _models.Resore(setting.Memento);
+            }
+
+            // TODO: restore window shape
+            void RestoreSettingWindowShape(UserSetting setting_)
+            {
+                if (setting_ == null) return;
+                if (setting_.WindowShape == null) return;
+
+                // ウィンドウ状態をのぞく設定を反映
+                var memento = setting_.WindowShape.Clone();
+                memento.State = WindowShape.Current.State;
+                WindowShape.Current.Restore(memento);
+                WindowShape.Current.Refresh();
+            }
+
+            return settingV2;
+        }
+    }
+#endif
 }

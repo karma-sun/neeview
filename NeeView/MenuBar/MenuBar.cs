@@ -157,14 +157,14 @@ namespace NeeView
 
             public void RestoreConfig()
             {
-                Config.Current.Layout.Window.IsCaptionEmulateInFullScreen = CaptionEmulateInFullScreen;
+                Config.Current.Window.IsCaptionEmulateInFullScreen = CaptionEmulateInFullScreen;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.CaptionEmulateInFullScreen = Config.Current.Layout.Window.IsCaptionEmulateInFullScreen;
+            memento.CaptionEmulateInFullScreen = Config.Current.Window.IsCaptionEmulateInFullScreen;
             memento.IsHamburgerMenu = this.IsHamburgerMenu;
             return memento;
         }

@@ -91,19 +91,19 @@ namespace NeeView
         /// <summary>
         /// 最後の安定状態。フルスクリーン切り替えで使用される
         /// </summary>
-        private WindowStateEx _lastState;
+        ////private WindowStateEx _lastState;
 
-        private WindowChromeFrame _windowChromeFrame = WindowChromeFrame.WindowFrame;
+        ////private WindowChromeFrame _windowChromeFrame = WindowChromeFrame.WindowFrame;
         private Thickness _windowBorderThickness;
-        private bool _isCaptionVisible = true;
-        private bool _isTopmost;
+        ////private bool _isCaptionVisible = true;
+        ////private bool _isTopmost;
         private bool _isFullScreen;
-        private bool _isFullScreenWithTaskBar;
+        ////private bool _isFullScreenWithTaskBar;
         private WindowChrome _windowChrome;
-        private WindowStateEx _state;
+        ////private WindowStateEx _state;
         private bool _IsEnabled;
         private bool _isProcessing;
-        private double _maximizeWindowGapWidth = 8.0;
+        ////private double _maximizeWindowGapWidth = 8.0;
 
         #endregion
 
@@ -120,21 +120,56 @@ namespace NeeView
             _chrome.CaptionHeight = 0;
             _chrome.GlassFrameThickness = new Thickness(1);
 
-            _isTopmost = _window.Topmost;
+            Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.WindowChromeFrame), (s, e) =>
+            {
+                Refresh();
+            });
+
+            Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.IsCaptionVisible), (s, e) =>
+            {
+                Refresh();
+            });
+
+            Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.IsTopmost), (s, e) =>
+            {
+                _window.Topmost = Config.Current.Window.IsTopmost;
+            });
+
+            Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.MaximizeWindowGapWidth), (s, e) =>
+            {
+                UpdateWindowBorderThickness();
+            });
+
+            Config.Current.Window.AddPropertyChanged(nameof(WindowConfig.State), (s, e) =>
+            {
+                this.IsFullScreen = Config.Current.Window.State == WindowStateEx.FullScreen;
+            });
+
+
+            if (_window.Topmost != Config.Current.Window.IsTopmost)
+            {
+                _window.Topmost = Config.Current.Window.IsTopmost;
+            }
+        }
+
+        private void ValidateWindowState()
+        {
+            if (Config.Current.Window.State != WindowStateEx.None) return;
 
             switch (_window.WindowState)
             {
                 case WindowState.Normal:
-                    this.State = WindowStateEx.Normal;
+                    Config.Current.Window.State = WindowStateEx.Normal;
                     break;
                 case WindowState.Minimized:
-                    this.State = WindowStateEx.Minimized;
+                    Config.Current.Window.State = WindowStateEx.Minimized;
                     break;
                 case WindowState.Maximized:
-                    this.State = WindowStateEx.Maximized;
+                    Config.Current.Window.State = WindowStateEx.Maximized;
                     break;
             }
         }
+
 
         #endregion
 
@@ -149,6 +184,7 @@ namespace NeeView
 
         #region Properties
 
+#if false
         /// <summary>
         /// WindowChromeFrame property.
         /// </summary>
@@ -165,6 +201,7 @@ namespace NeeView
                 }
             }
         }
+#endif
 
         /// <summary>
         /// WindowBorderThickness property.
@@ -175,6 +212,7 @@ namespace NeeView
             set { if (_windowBorderThickness != value) { _windowBorderThickness = value; RaisePropertyChanged(); } }
         }
 
+#if false
         /// <summary>
         /// IsCaptionVisible property.
         /// </summary>
@@ -183,12 +221,6 @@ namespace NeeView
             get { return _isCaptionVisible; }
             set { if (_isCaptionVisible != value) { _isCaptionVisible = value; Refresh(); } }
         }
-
-        public bool CanCaptionVisible
-        {
-            get => IsCaptionVisible && !IsFullScreen;
-        }
-
 
         /// <summary>
         /// IsTopmost property.
@@ -206,6 +238,14 @@ namespace NeeView
                 }
             }
         }
+#endif
+
+        public bool CanCaptionVisible
+        {
+            get => Config.Current.Window.IsCaptionVisible && !IsFullScreen;
+        }
+
+
 
         /// <summary>
         /// IsFullScreen property.
@@ -222,13 +262,14 @@ namespace NeeView
             }
         }
 
+#if false
         [PropertyMember("@ParamWindowShapeIsFullScreenWithTaskBar")]
         public bool IsFullScreenWithTaskBar
         {
             get { return _isFullScreenWithTaskBar; }
             set { SetProperty(ref _isFullScreenWithTaskBar, value); }
         }
-
+#endif
 
 
         /// <summary>
@@ -249,6 +290,7 @@ namespace NeeView
             }
         }
 
+#if false
         /// <summary>
         /// State property.
         /// 現在の状態
@@ -266,6 +308,13 @@ namespace NeeView
                 }
             }
         }
+
+        public WindowStateEx LastState
+        {
+            get { return _lastState; }
+            set { _lastState = value; }
+        }
+#endif
 
         /// <summary>
         /// 処理中
@@ -292,6 +341,7 @@ namespace NeeView
             }
         }
 
+#if false
         [PropertyRange("@ParamWindowShapeMaximizeWindowGapWidth", 0, 16, TickFrequency = 1, IsEditable = true, Tips = "@ParamWindowShapeMaximizeWindowGapWidthTips"), DefaultValue(8.0)]
         public double MaximizeWindowGapWidth
         {
@@ -304,6 +354,7 @@ namespace NeeView
                 }
             }
         }
+#endif
 
         #endregion
 
@@ -349,7 +400,7 @@ namespace NeeView
         //
         public void UpdateWindowBorderThickness()
         {
-            if (Environment.IsWindows7 && _windowChromeFrame == WindowChromeFrame.WindowFrame && this.WindowChrome != null && _window.WindowState != WindowState.Maximized)
+            if (Environment.IsWindows7 && Config.Current.Window.WindowChromeFrame == WindowChromeFrame.WindowFrame && this.WindowChrome != null && _window.WindowState != WindowState.Maximized)
             {
                 var x = 1.0 / Environment.RawDpi.DpiScaleX;
                 var y = 1.0 / Environment.RawDpi.DpiScaleY;
@@ -362,8 +413,8 @@ namespace NeeView
 
             if (_windowChrome != null && _window.WindowState == WindowState.Maximized)
             {
-                var x = _maximizeWindowGapWidth / Environment.RawDpi.DpiScaleX;
-                var y = _maximizeWindowGapWidth / Environment.RawDpi.DpiScaleY;
+                var x = Config.Current.Window.MaximizeWindowGapWidth / Environment.RawDpi.DpiScaleX;
+                var y = Config.Current.Window.MaximizeWindowGapWidth / Environment.RawDpi.DpiScaleY;
                 _window.BorderThickness = new Thickness(x, y, x, y);
             }
             else
@@ -375,14 +426,14 @@ namespace NeeView
         //
         public void ToggleCaptionVisible()
         {
-            IsCaptionVisible = !IsCaptionVisible;
+            Config.Current.Window.IsCaptionVisible = !Config.Current.Window.IsCaptionVisible;
         }
 
         //
         public bool ToggleTopmost()
         {
-            IsTopmost = !IsTopmost;
-            return IsTopmost;
+            Config.Current.Window.IsTopmost = !Config.Current.Window.IsTopmost;
+            return Config.Current.Window.IsTopmost;
         }
 
         //
@@ -431,14 +482,14 @@ namespace NeeView
         /// <param name="state"></param>
         private void UpdateState(WindowStateEx state)
         {
-            bool isChanged = this.State != state;
+            bool isChanged = Config.Current.Window.State != state;
 
-            _oldState = this.State;
-            this.State = state;
+            _oldState = Config.Current.Window.State;
+            Config.Current.Window.State = state;
 
             if (state == WindowStateEx.Normal || state == WindowStateEx.Maximized)
             {
-                _lastState = state;
+                Config.Current.Window.LastState = state;
             }
 
             if (isChanged) StateChanged?.Invoke(this, null);
@@ -467,7 +518,7 @@ namespace NeeView
         /// </summary>
         private void RecoveryTaskBar()
         {
-            if (!Environment.IsWindows7 || _state != WindowStateEx.FullScreen) return;
+            if (!Environment.IsWindows7 || Config.Current.Window.State != WindowStateEx.FullScreen) return;
 
             ////Debug.WriteLine("Recovery TaskBar");
 
@@ -521,7 +572,7 @@ namespace NeeView
         private void ToMaximizedMaybe()
         {
             //Debug.WriteLine("ToMaximizedMaybe");
-            if (_state == WindowStateEx.Minimized && _oldState == WindowStateEx.FullScreen)
+            if (Config.Current.Window.State == WindowStateEx.Minimized && _oldState == WindowStateEx.FullScreen)
             {
                 ToFullScreen();
             }
@@ -550,11 +601,13 @@ namespace NeeView
 
         private void ToMaximizeInner()
         {
+            var topmost = _window.Topmost;
+
             _window.Topmost = false;
             _window.WindowStyle = WindowStyle.SingleBorderWindow;
             _window.ResizeMode = ResizeMode.CanResize;
             _window.WindowState = WindowState.Maximized;
-            _window.Topmost = _isTopmost;
+            _window.Topmost = topmost;
         }
 
         /// <summary>
@@ -565,7 +618,7 @@ namespace NeeView
             ////Debug.WriteLine("ToFullScreen");
             BeginEdit();
 
-            if (_isFullScreenWithTaskBar)
+            if (Config.Current.Window.IsFullScreenWithTaskBar)
             {
                 ToMaximizeInner();
                 SetWindowChrome(false);
@@ -604,13 +657,13 @@ namespace NeeView
         /// <param name="isFullScreen"></param>
         public void SetFullScreen(bool isFullScreen)
         {
-            if (isFullScreen && _state != WindowStateEx.FullScreen)
+            if (isFullScreen && Config.Current.Window.State != WindowStateEx.FullScreen)
             {
                 ToFullScreen();
             }
-            else if (!isFullScreen && _state == WindowStateEx.FullScreen)
+            else if (!isFullScreen && Config.Current.Window.State == WindowStateEx.FullScreen)
             {
-                if (_lastState == WindowStateEx.Maximized || TabletModeWatcher.Current.IsTabletMode)
+                if (Config.Current.Window.LastState == WindowStateEx.Maximized || TabletModeWatcher.Current.IsTabletMode)
                 {
                     ToMaximized();
                 }
@@ -627,13 +680,13 @@ namespace NeeView
         /// <param name="isGlassFrameEnabled">GlassFrameの有効設定</param>
         private void SetWindowChrome(bool isGlassFrameEnabled)
         {
-            if (IsCaptionVisible)
+            if (Config.Current.Window.IsCaptionVisible)
             {
                 this.WindowChrome = null;
             }
             else
             {
-                if (isGlassFrameEnabled && _windowChromeFrame != WindowChromeFrame.None)
+                if (isGlassFrameEnabled && Config.Current.Window.WindowChromeFrame != WindowChromeFrame.None)
                 {
                     _chrome.GlassFrameThickness = new Thickness(1);
                 }
@@ -661,9 +714,11 @@ namespace NeeView
         {
             if (!this.IsEnabled) return;
 
-            _window.Topmost = IsTopmost;
-            _isFullScreen = _state == WindowStateEx.FullScreen;
-            SetWindowState(_state);
+            ValidateWindowState();
+
+            _window.Topmost = Config.Current.Window.IsTopmost;
+            _isFullScreen = Config.Current.Window.State == WindowStateEx.FullScreen;
+            SetWindowState(Config.Current.Window.State);
             UpdateWindowBorderThickness();
             RaisePropertyChanged(null);
         }
@@ -734,46 +789,42 @@ namespace NeeView
 
             public void RestoreConfig()
             {
-                // TODO:
+                Config.Current.Window.IsTopmost = IsTopMost;
+                Config.Current.Window.IsCaptionVisible = IsCaptionVisible;
+                Config.Current.Window.IsFullScreenWithTaskBar = IsFullScreenWithTaskBar;
+                Config.Current.Window.MaximizeWindowGapWidth = MaximizeWindowGapWidth;
+                Config.Current.Window.State = State;
+                Config.Current.Window.LastState = LastState;
             }
-        }
-
-        // Memento一時保存
-        public Memento SnapMemento { get; set; }
-
-        /// <summary>
-        /// 現在のMementoを記憶。Window.Closed()ではWindow情報が取得できないため。
-        /// </summary>
-        public void CreateSnapMemento()
-        {
-            this.SnapMemento = CreateMemento();
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
 
-            memento.State = this.State;
-            memento.LastState = _lastState;
-            memento.IsCaptionVisible = this.IsCaptionVisible;
-            memento.IsTopMost = this.IsTopmost;
-            memento.IsFullScreenWithTaskBar = this.IsFullScreenWithTaskBar;
-            memento.MaximizeWindowGapWidth = this.MaximizeWindowGapWidth;
+            memento.State = Config.Current.Window.State;
+            memento.LastState = Config.Current.Window.LastState;
+            memento.IsCaptionVisible = Config.Current.Window.IsCaptionVisible;
+            memento.IsTopMost = Config.Current.Window.IsTopmost;
+            memento.IsFullScreenWithTaskBar = Config.Current.Window.IsFullScreenWithTaskBar;
+            memento.MaximizeWindowGapWidth = Config.Current.Window.MaximizeWindowGapWidth;
 
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
 
-            _isTopmost = memento.IsTopMost;
-            _isCaptionVisible = memento.IsCaptionVisible;
-            _state = memento.State;
-            _lastState = memento.LastState;
-            _isFullScreenWithTaskBar = memento.IsFullScreenWithTaskBar;
-            _maximizeWindowGapWidth = memento.MaximizeWindowGapWidth;
+            ////_isTopmost = memento.IsTopMost;
+            ////_isCaptionVisible = memento.IsCaptionVisible;
+            ////_state = memento.State;
+            ////_lastState = memento.LastState;
+            ////_isFullScreenWithTaskBar = memento.IsFullScreenWithTaskBar;
+            ////_maximizeWindowGapWidth = memento.MaximizeWindowGapWidth;
         }
+
 
         #endregion
     }

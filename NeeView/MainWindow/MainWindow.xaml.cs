@@ -53,8 +53,8 @@ namespace NeeView
             ContextMenuWatcher.Initialize();
 
             // Window状態初期化、復元
-            InitializeWindowShapeSnap(setting.WindowShape);
-            InitializeWindowPlacement(setting.WindowPlacement);
+            InitializeWindowShapeSnap(); //// setting.WindowShape);
+            InitializeWindowPlacement(); //// setting.WindowPlacement);
 
             // 固定画像初期化
             Thumbnail.InitializeBasicImages();
@@ -181,7 +181,7 @@ namespace NeeView
         /// <summary>
         /// Window座標初期化
         /// </summary>
-        private void InitializeWindowPlacement(WindowPlacement.Memento memento)
+        private void InitializeWindowPlacement()
         {
             // 座標を復元しない
             if (App.Current.Option.IsResetPlacement == SwitchOption.on || !Config.Current.StartUp.IsRestoreWindowPlacement) return;
@@ -189,51 +189,58 @@ namespace NeeView
             // セカンドプロセスはウィンドウ形状を継承しない
             if (Environment.IsSecondProcess && !Config.Current.StartUp.IsRestoreSecondWindowPlacement) return;
 
+#if false
             WindowPlacement.Current.IsMaximized = WindowShape.Current.SnapMemento != null
                 ? WindowShape.Current.SnapMemento.State == WindowStateEx.Maximized || WindowShape.Current.SnapMemento.State == WindowStateEx.FullScreen
                 : false;
+#endif
 
-            WindowPlacement.Current.Restore(memento);
+            WindowPlacement.Current.IsMaximized = Config.Current.Window.State == WindowStateEx.Maximized || Config.Current.Window.State == WindowStateEx.FullScreen;
+
+            ////WindowPlacement.Current.Restore(memento);
         }
 
         /// <summary>
-        /// Window状態初期設定
+        /// Window状態初期設定 
+        /// TODO: もっと前に処理できる。起動オプションの反映タイミングぐらい。
         /// </summary>
-        private void InitializeWindowShapeSnap(WindowShape.Memento memento)
+        private void InitializeWindowShapeSnap()
         {
-            if (memento == null) return;
+            ////if (memento == null) return;
+            ////var customMemento = memento.Clone();
 
-            var customMemento = memento.Clone();
+            var state = Config.Current.Window.State;
 
             if (App.Current.Option.IsResetPlacement == SwitchOption.on)
             {
-                customMemento.State = WindowStateEx.Normal;
+                state = WindowStateEx.Normal;
             }
-            else if (customMemento.State == WindowStateEx.FullScreen)
+            else if (state == WindowStateEx.FullScreen)
             {
-                customMemento.State = Config.Current.StartUp.IsRestoreFullScreen ? WindowStateEx.FullScreen : WindowStateEx.Normal;
+                state = Config.Current.StartUp.IsRestoreFullScreen ? WindowStateEx.FullScreen : WindowStateEx.Normal;
             }
-            else if (customMemento.State == WindowStateEx.Minimized)
+            else if (state == WindowStateEx.Minimized)
             {
-                customMemento.State = WindowStateEx.Normal;
+                state = WindowStateEx.Normal;
             }
             else if (!Config.Current.StartUp.IsRestoreWindowPlacement)
             {
-                customMemento.State = WindowStateEx.Normal;
+                state = WindowStateEx.Normal;
             }
 
             // セカンドプロセスはウィンドウ形状を継承しない
             if (Environment.IsSecondProcess && !Config.Current.StartUp.IsRestoreSecondWindowPlacement)
             {
-                customMemento.State = WindowStateEx.Normal;
+                state = WindowStateEx.Normal;
             }
 
             if (App.Current.Option.IsFullScreen == SwitchOption.on)
             {
-                customMemento.State = WindowStateEx.FullScreen;
+                state = WindowStateEx.FullScreen;
             }
 
-            WindowShape.Current.SnapMemento = customMemento;
+            ////WindowShape.Current.SnapMemento = customMemento;
+            Config.Current.Window.State = state;
         }
 
 
@@ -242,11 +249,10 @@ namespace NeeView
         /// </summary>
         private void InitializeWindowShape()
         {
-            var windowShape = WindowShape.Current;
-
-            windowShape.WindowChromeFrame = App.Current.WindowChromeFrame;
-            windowShape.Restore(windowShape.SnapMemento);
-            windowShape.IsEnabled = true;
+            ////var windowShape = WindowShape.Current;
+            ////windowShape.WindowChromeFrame = App.Current.WindowChromeFrame;
+            ////windowShape.Restore(windowShape.SnapMemento);
+            WindowShape.Current.IsEnabled = true;
         }
 
         #endregion
@@ -775,7 +781,7 @@ namespace NeeView
             _vm.IsClosing = true;
 
             // 閉じる前にウィンドウサイズ保存
-            WindowShape.Current.CreateSnapMemento();
+            ////WindowShape.Current.CreateSnapMemento();
 
             // 設定ウィンドウの保存動作を無効化
             if (Setting.SettingWindow.Current != null)

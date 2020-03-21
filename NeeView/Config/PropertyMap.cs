@@ -72,7 +72,10 @@ namespace NeeView
             {
                 if (_items[key] is PropertyMapItem item)
                 {
-                    item.SetValue(value);
+                    if (!item.IsReadOnly)
+                    {
+                        item.SetValue(value);
+                    }
                 }
                 else
                 {
@@ -128,6 +131,11 @@ namespace NeeView
     }
 
     [AttributeUsage(AttributeTargets.Property)]
+    public class PropertyMapReadOnly : Attribute
+    {
+    }
+
+    [AttributeUsage(AttributeTargets.Property)]
     public class PropertyMapName : Attribute
     {
         public string Name;
@@ -148,12 +156,15 @@ namespace NeeView
     {
         protected object _source;
         protected PropertyInfo _property;
-
+         
         public PropertyMapItem(object source, PropertyInfo property)
         {
             _source = source;
             _property = property;
+            IsReadOnly = property.GetCustomAttribute(typeof(PropertyMapReadOnly)) != null;
         }
+
+        public bool IsReadOnly { get; }
 
         public virtual object GetValue()
         {

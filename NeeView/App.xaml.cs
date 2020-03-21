@@ -154,6 +154,7 @@ namespace NeeView
 
             // TODO: 設定ファイルV1の読み込みは設定ファイルV2を新しく作るようにし、直接Config.Currentに書き込まないようにする
             // TODO: ↑設定ファイルV1しかないときの処理とする
+            // TODO: 起動オプションによっては設定値を書き換える
 
             // 設定ファイル(V2)の読み込み (V2)
             var settingV2 = SaveData.Current.LoadConfig();
@@ -297,7 +298,7 @@ namespace NeeView
             ApplicationDisposer.Current.Dispose();
 
             // 設定保存
-            WindowShape.Current.CreateSnapMemento();
+            ////WindowShape.Current.CreateSnapMemento();
             SaveDataSync.Current.Flush();
             SaveDataSync.Current.SaveUserSetting(false);
             SaveDataSync.Current.SaveHistory();

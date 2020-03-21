@@ -30,6 +30,8 @@ namespace NeeView
 
         public PagemarkConfig Pagemark { get; set; } = new PagemarkConfig();
 
+        public WindowConfig Window { get; set; } = new WindowConfig();
+
         public LayoutConfig Layout { get; set; } = new LayoutConfig();
 
         public SlideShowConfig SlideShow { get; set; } = new SlideShowConfig();

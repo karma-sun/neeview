@@ -410,7 +410,7 @@ namespace NeeView
         public void Loaded()
         {
             // Chrome反映
-            WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
+            ////WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
 
             // 設定反映
             SaveData.Current.RestoreSetting(SaveData.Current.UserSettingTemp);
@@ -579,7 +579,7 @@ namespace NeeView
                 if (_editCommandWindow.ShowDialog() == true)
                 {
                     // 設定の同期
-                    WindowShape.Current.CreateSnapMemento();
+                    ////WindowShape.Current.CreateSnapMemento();
                     SaveDataSync.Current.SaveUserSetting(Config.Current.System.IsSyncUserSetting);
                 }
             }

@@ -53,9 +53,9 @@ namespace NeeView.Setting
 
                 new SettingItemSection(Properties.Resources.SettingPageVisualGeneralAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(MenuBar.Current, nameof(MenuBar.IsHamburgerMenu))),
-                    new SettingItemProperty(PropertyMemberElement.Create(WindowShape.Current, nameof(WindowShape.IsFullScreenWithTaskBar))),
-                    new SettingItemProperty(PropertyMemberElement.Create(WindowShape.Current, nameof(WindowShape.WindowChromeFrame))),
-                    new SettingItemProperty(PropertyMemberElement.Create(WindowShape.Current, nameof(WindowShape.MaximizeWindowGapWidth)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Window, nameof(WindowConfig.IsFullScreenWithTaskBar))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Window, nameof(WindowConfig.WindowChromeFrame))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Window, nameof(WindowConfig.MaximizeWindowGapWidth)))),
             };
         }
     }

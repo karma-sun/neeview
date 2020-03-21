@@ -92,9 +92,9 @@ namespace NeeView
                 (s, e) => UpdateOrderList());
             Config.Current.Archive.Media.AddPropertyChanged(nameof(MediaArchiveConfig.IsEnabled),
                 (s, e) => UpdateOrderList());
-            SusiePluginManager.Current.AddPropertyChanged(nameof(SusiePluginManager.IsEnabled),
+            Config.Current.Susie.AddPropertyChanged(nameof(SusieConfig.IsEnabled),
                 (s, e) => UpdateOrderList());
-            SusiePluginManager.Current.AddPropertyChanged(nameof(SusiePluginManager.IsFirstOrderSusieArchive),
+            Config.Current.Susie.AddPropertyChanged(nameof(SusieConfig.IsFirstOrderSusieArchive),
                 (s, e) => UpdateOrderList());
 
             // 検索順初期化
@@ -181,9 +181,9 @@ namespace NeeView
                 order.Add(ArchiverType.MediaArchiver);
             }
 
-            if (SusiePluginManager.Current.IsEnabled)
+            if (Config.Current.Susie.IsEnabled)
             {
-                if (SusiePluginManager.Current.IsFirstOrderSusieArchive)
+                if (Config.Current.Susie.IsFirstOrderSusieArchive)
                 {
                     order.Insert(0, ArchiverType.SusieArchiver);
                 }

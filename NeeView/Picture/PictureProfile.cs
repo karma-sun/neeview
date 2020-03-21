@@ -96,7 +96,7 @@ namespace NeeView
 
             if (_fileExtension.DefaultExtensions.Contains(ext)) return true;
 
-            if (SusiePluginManager.Current.IsEnabled)
+            if (Config.Current.Susie.IsEnabled)
             {
                 if (_fileExtension.SusieExtensions.Contains(ext)) return true;
             }
@@ -119,7 +119,7 @@ namespace NeeView
         // 対応拡張子判定 (Susie)
         public bool IsSusieSupported(string fileName)
         {
-            if (!SusiePluginManager.Current.IsEnabled) return false;
+            if (!Config.Current.Susie.IsEnabled) return false;
 
             string ext = LoosePath.GetExtension(fileName);
             return _fileExtension.SusieExtensions.Contains(ext);

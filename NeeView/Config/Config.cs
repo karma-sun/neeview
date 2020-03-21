@@ -22,6 +22,8 @@ namespace NeeView
 
         public ArchiveConfig Archive { get; set; } = new ArchiveConfig();
 
+        public SusieConfig Susie { get; set; } = new SusieConfig();
+
         public HistoryConfig History { get; set; } = new HistoryConfig();
 
         public BookmarkConfig Bookmark { get; set; } = new BookmarkConfig();

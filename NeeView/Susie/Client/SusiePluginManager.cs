@@ -28,12 +28,12 @@ namespace NeeView
 
         private SusiePluginRemoteClient _remote;
 
-        private bool _isEnabled;
-        private bool _isFirstOrderSusieImage;
-        private bool _isFirstOrderSusieArchive;
+        ////private bool _isEnabled;
+        ////private bool _isFirstOrderSusieImage;
+        ////private bool _isFirstOrderSusieArchive;
+        ////private string _susiePluginPath;
 
         private SusiePluginClient _client;
-        private string _susiePluginPath;
 
         private List<SusiePluginInfo> _unauthorizedPlugins;
         private ObservableCollection<SusiePluginInfo> _INPlugins;
@@ -46,6 +46,21 @@ namespace NeeView
             _AMPlugins = new ObservableCollection<SusiePluginInfo>();
 
             _remote = new SusiePluginRemoteClient();
+
+            Config.Current.Susie.AddPropertyChanged(nameof(SusieConfig.IsEnabled), (s, e) =>
+            {
+                UpdateSusiePluginCollection();
+            });
+
+            Config.Current.Susie.AddPropertyChanging(nameof(SusieConfig.SusiePluginPath), (s, e) =>
+            {
+                CloseSusiePluginCollection();
+            });
+
+            Config.Current.Susie.AddPropertyChanged(nameof(SusieConfig.SusiePluginPath), (s, e) =>
+            {
+                UpdateSusiePluginCollection();
+            });
         }
 
 
@@ -80,6 +95,8 @@ namespace NeeView
         }
 
 
+
+#if false
         /// <summary>
         /// Susie 有効/無効設定
         /// </summary>
@@ -127,6 +144,7 @@ namespace NeeView
             get { return _isFirstOrderSusieArchive; }
             set { if (_isFirstOrderSusieArchive != value) { _isFirstOrderSusieArchive = value; RaisePropertyChanged(); } }
         }
+#endif
 
         /// <summary>
         /// 対応画像ファイル拡張子
@@ -154,7 +172,7 @@ namespace NeeView
         // PluginCollectionのOpen/Close
         private void UpdateSusiePluginCollection()
         {
-            if (_isEnabled && Directory.Exists(_susiePluginPath))
+            if (Config.Current.Susie.IsEnabled && Directory.Exists(Config.Current.Susie.SusiePluginPath))
             {
                 OpenSusiePluginCollection();
             }
@@ -185,7 +203,7 @@ namespace NeeView
         private void Initialize()
         {
             var settings = Plugins.Select(e => e.ToSusiePluginSetting()).ToList();
-            _client.Initialize(_susiePluginPath, settings);
+            _client.Initialize(Config.Current.Susie.SusiePluginPath, settings);
 
             var plugins = _client.GetPlugin(null);
             UnauthorizedPlugins = new List<SusiePluginInfo>();
@@ -364,16 +382,22 @@ namespace NeeView
             public void RestoreConfig()
             {
                 // Pluginsは可変のためConfigに向かない。フラグのみConfigに対応
+
+                Config.Current.Susie.IsEnabled = false; // NOTE: 設定最後にIsEnabledを確定することにより更新タイミングを制御する
+                Config.Current.Susie.IsFirstOrderSusieImage = IsFirstOrderSusieImage;
+                Config.Current.Susie.IsFirstOrderSusieArchive = IsFirstOrderSusieArchive;
+                Config.Current.Susie.SusiePluginPath = SusiePluginPath;
+                Config.Current.Susie.IsEnabled = IsEnableSusie;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.IsEnableSusie = this.IsEnabled;
-            memento.IsFirstOrderSusieImage = this.IsFirstOrderSusieImage;
-            memento.IsFirstOrderSusieArchive = this.IsFirstOrderSusieArchive;
-            memento.SusiePluginPath = this.SusiePluginPath;
+            memento.IsEnableSusie = Config.Current.Susie.IsEnabled;
+            memento.IsFirstOrderSusieImage = Config.Current.Susie.IsFirstOrderSusieImage;
+            memento.IsFirstOrderSusieArchive = Config.Current.Susie.IsFirstOrderSusieArchive;
+            memento.SusiePluginPath = Config.Current.Susie.SusiePluginPath;
             memento.Plugins = this.Plugins.Select(e => e.ToSusiePluginSetting()).ToList();
             return memento;
         }
@@ -382,12 +406,12 @@ namespace NeeView
         {
             if (memento == null) return;
 
-            this.IsEnabled = false; // NOTE: 設定最後にIsEnabledを確定することにより更新タイミングを制御する
-            this.IsFirstOrderSusieImage = memento.IsFirstOrderSusieImage;
-            this.IsFirstOrderSusieArchive = memento.IsFirstOrderSusieArchive;
+            ////this.IsEnabled = false; // NOTE: 設定最後にIsEnabledを確定することにより更新タイミングを制御する
+            ////this.IsFirstOrderSusieImage = memento.IsFirstOrderSusieImage;
+            ////this.IsFirstOrderSusieArchive = memento.IsFirstOrderSusieArchive;
             this.UnauthorizedPlugins = memento.Plugins?.Select(e => e.ToSusiePluginInfo()).ToList();
-            this.SusiePluginPath = memento.SusiePluginPath;
-            this.IsEnabled = memento.IsEnableSusie;
+            ////this.SusiePluginPath = memento.SusiePluginPath;
+            ////this.IsEnabled = memento.IsEnableSusie;
         }
 
         #endregion

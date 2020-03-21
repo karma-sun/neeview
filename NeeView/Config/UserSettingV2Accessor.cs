@@ -25,7 +25,9 @@ namespace NeeView
 
         public Config Config { get; set; }
 
-        public CommandTable.CommandCollection CommandCollection { get; set; }
+        public CommandTable.CommandCollection Commands { get; set; }
+
+        public Dictionary<string, SusiePluginMemento> SusiePlugins { get; set; }
     }
 
 
@@ -41,7 +43,8 @@ namespace NeeView
             {
                 Format = new FormatVersion(Environment.SolutionName, Environment.AssemblyVersion.Major, Environment.AssemblyVersion.Minor, 0),
                 Config = Config.Current,
-                CommandCollection = CommandTable.Current.CreateCommandCollectionMemento(),
+                Commands = CommandTable.Current.CreateCommandCollectionMemento(),
+                SusiePlugins = SusiePluginManager.Current.CreateSusiePluginCollection(),
             };
         }
 

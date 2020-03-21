@@ -71,7 +71,7 @@ namespace NeeView
             App.Current.Restore(setting.App);
             WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
 
-            SusiePluginManager.Current.Restore(setting.SusieMemento);
+            ////SusiePluginManager.Current.Restore(setting.SusieMemento);
             CommandTable.Current.Restore(setting.CommandMememto, false);
             DragActionTable.Current.Restore(setting.DragActionMemento);
 

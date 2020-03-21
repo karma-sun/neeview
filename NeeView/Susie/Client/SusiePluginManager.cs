@@ -18,6 +18,7 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Threading;
 using NeeView.Properties;
+using NeeLaboratory.Collections.Specialized;
 
 namespace NeeView
 {
@@ -170,7 +171,7 @@ namespace NeeView
 
 
         // PluginCollectionのOpen/Close
-        private void UpdateSusiePluginCollection()
+        public void UpdateSusiePluginCollection()
         {
             if (Config.Current.Susie.IsEnabled && Directory.Exists(Config.Current.Susie.SusiePluginPath))
             {
@@ -389,6 +390,11 @@ namespace NeeView
                 Config.Current.Susie.SusiePluginPath = SusiePluginPath;
                 Config.Current.Susie.IsEnabled = IsEnableSusie;
             }
+
+            public Dictionary<string, SusiePluginMemento> CreateSusiePluginCollection()
+            {
+                return Plugins?.ToDictionary(e => e.Name, e => SusiePluginMemento.FromSusiePluginSetting(e));
+            }
         }
 
         public Memento CreateMemento()
@@ -402,6 +408,7 @@ namespace NeeView
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
@@ -409,11 +416,71 @@ namespace NeeView
             ////this.IsEnabled = false; // NOTE: 設定最後にIsEnabledを確定することにより更新タイミングを制御する
             ////this.IsFirstOrderSusieImage = memento.IsFirstOrderSusieImage;
             ////this.IsFirstOrderSusieArchive = memento.IsFirstOrderSusieArchive;
-            this.UnauthorizedPlugins = memento.Plugins?.Select(e => e.ToSusiePluginInfo()).ToList();
+            ////this.UnauthorizedPlugins = memento.Plugins?.Select(e => e.ToSusiePluginInfo()).ToList();
             ////this.SusiePluginPath = memento.SusiePluginPath;
             ////this.IsEnabled = memento.IsEnableSusie;
         }
 
         #endregion
+
+
+        #region MementoV2
+
+        public Dictionary<string, SusiePluginMemento> CreateSusiePluginCollection()
+        {
+            return this.Plugins.ToDictionary(e => e.Name, e => SusiePluginMemento.FromSusiePluginInfo(e));
+        }
+
+        public void RestoreSusiePluginCollection(Dictionary<string, SusiePluginMemento> memento)
+        {
+            if (memento == null) return;
+            this.UnauthorizedPlugins = memento.Select(e => e.Value.ToSusiePluginInfo(e.Key)).ToList();
+        }
+
+        #endregion
+
     }
+
+
+
+    public class SusiePluginMemento
+    {
+        public bool IsEnabled { get; set; }
+
+        public bool IsCacheEnabled { get; set; }
+
+        public bool IsPreExtract { get; set; }
+
+        public string UserExtensions { get; set; }
+
+
+        public static SusiePluginMemento FromSusiePluginInfo(SusiePluginInfo info)
+        {
+            var setting = new SusiePluginMemento();
+            setting.IsEnabled = info.IsEnabled;
+            setting.IsCacheEnabled = info.IsCacheEnabled;
+            setting.UserExtensions = info.UserExtension?.ToOneLine();
+            return setting;
+        }
+
+        public static SusiePluginMemento FromSusiePluginSetting(Susie.SusiePluginSetting setting)
+        {
+            var memento = new SusiePluginMemento();
+            memento.IsEnabled = setting.IsEnabled;
+            memento.IsCacheEnabled = setting.IsCacheEnabled;
+            memento.UserExtensions = setting.UserExtensions;
+            return memento;
+        }
+
+        public SusiePluginInfo ToSusiePluginInfo(string name)
+        {
+            var info = new SusiePluginInfo();
+            info.Name = name;
+            info.IsEnabled = IsEnabled;
+            info.IsCacheEnabled = IsCacheEnabled;
+            info.UserExtension = new FileExtensionCollection(UserExtensions);
+            return info;
+        }
+    }
+
 }

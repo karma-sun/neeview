@@ -151,6 +151,10 @@ namespace NeeView
 
             Debug.WriteLine($"App.UserSettingLoading: {Stopwatch.ElapsedMilliseconds}ms");
 
+
+            // TODO: 設定ファイルV1の読み込みは設定ファイルV2を新しく作るようにし、直接Config.Currentに書き込まないようにする
+            // TODO: ↑設定ファイルV1しかないときの処理とする
+
             // 設定ファイル(V2)の読み込み (V2)
             var settingV2 = SaveData.Current.LoadConfig();
             Config.Current.Merge(settingV2.Config);
@@ -159,6 +163,8 @@ namespace NeeView
             var setting = SaveData.Current.LoasUserSettingTemp();
             // 設定ファイル(V1)をConfigに適用 (互換性処理)
             setting.RestoreConfig();
+            // 設定ファイル(V1)を(V2)に適用 (互換性処理)
+            settingV2.SusiePlugins = setting.SusieMemento?.CreateSusiePluginCollection() ?? new Dictionary<string, SusiePluginMemento>();
 
             Debug.WriteLine($"App.UserSettingLoaded: {Stopwatch.ElapsedMilliseconds}ms");
 
@@ -194,7 +200,11 @@ namespace NeeView
             Config.Current.System.CacheDirectory = ThumbnailCache.Current.SetDirectory(Config.Current.System.CacheDirectory);
 
             // コマンド設定反映
-            CommandTable.Current.RestoreCommandCollection(settingV2.CommandCollection);
+            CommandTable.Current.RestoreCommandCollection(settingV2.Commands);
+
+            // SusiePlugins反映
+            SusiePluginManager.Current.RestoreSusiePluginCollection(settingV2.SusiePlugins);
+            SusiePluginManager.Current.UpdateSusiePluginCollection(); // TODO: 実際の初期化処理(プラグイン読み込みとか)。ウィンドウ表示後にするべきか。
         }
 
         /// <summary>

@@ -11,12 +11,13 @@ namespace NeeView
         public static MediaArchiverProfile Current { get; }
 
 
-        private bool _isEnabled = true;
+        ////private bool _isEnabled = true;
 
         private MediaArchiverProfile()
         {
         }
 
+#if false
         [PropertyMember("@ParamArchiverMediaIsEnabled")]
         public bool IsEnabled
         {
@@ -26,6 +27,7 @@ namespace NeeView
 
         [PropertyMember("@ParamArchiverMediaSupportFileTypes", Tips = "@ParamArchiverMediaSupportFileTypesTips")]
         public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".asf;.avi;.mp4;.mkv;.mov;.wmv");
+#endif
 
         #region Memento
 
@@ -40,6 +42,8 @@ namespace NeeView
 
             public void RestoreConfig()
             {
+                Config.Current.Archive.Media.IsEnabled = IsEnabled;
+                Config.Current.Archive.Media.SupportFileTypes.OneLine = SupportFileTypes;
             }
         }
 
@@ -47,18 +51,19 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento.IsEnabled = this.IsEnabled;
-            memento.SupportFileTypes = this.SupportFileTypes.OneLine;
+            memento.IsEnabled = Config.Current.Archive.Media.IsEnabled;
+            memento.SupportFileTypes = Config.Current.Archive.Media.SupportFileTypes.OneLine;
 
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
 
-            this.IsEnabled = memento.IsEnabled;
-            this.SupportFileTypes.OneLine = memento.SupportFileTypes;
+            ////this.IsEnabled = memento.IsEnabled;
+            ////this.SupportFileTypes.OneLine = memento.SupportFileTypes;
         }
 
         #endregion

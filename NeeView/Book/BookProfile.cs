@@ -97,11 +97,11 @@ namespace NeeView
         [PropertyMember("@ParamBookExcludes")]
         public StringCollection Excludes { get; set; } = new StringCollection("__MACOSX;.DS_Store");
 
+#if false
         // GIFアニメ有効
         [PropertyMember("@ParamBookIsEnableAnimatedGif", Tips = "@ParamBookIsEnableAnimatedGifTips")]
         public bool IsEnableAnimatedGif { get; set; } = true;
 
-#if false
         // ページ収集モード
         [PropertyMember("@ParamBookPageCollectMode", Tips = "@ParamBookPageCollectModeTips")]
         public BookPageCollectMode BookPageCollectMode { get; set; } = BookPageCollectMode.ImageAndBook;
@@ -109,13 +109,11 @@ namespace NeeView
         // ページ読み込み中表示
         [PropertyMember("@ParamBookIsLoadingPageVisible", Tips = "@ParamBookIsLoadingPageVisibleTips")]
         public bool IsLoadingPageVisible { get; set; } = true;
-#endif
 
         // サポート外ファイル有効のときに、すべてのファイルを画像とみなす
         [PropertyMember("@ParamBookIsAllFileAnImage", Tips = "@ParamBookIsAllFileAnImageTips")]
         public bool IsAllFileAnImage { get; set; }
 
-#if false
         // キャッシュメモリサイズ (MB)
         [PropertyMember("@ParamCacheMemorySize", Tips = "@ParamCacheMemorySizeTips")]
         public int CacheMemorySize
@@ -251,6 +249,8 @@ namespace NeeView
                 Config.Current.System.BookPageCollectMode = BookPageCollectMode;
                 Config.Current.Performance.IsLoadingPageVisible = IsLoadingPageVisible;
                 Config.Current.Performance.CacheMemorySize = CacheMemorySize;
+                Config.Current.Image.Standard.IsAnimatedGifEnabled = IsEnableAnimatedGif;
+                Config.Current.Image.Standard.IsAllFileSupported = IsAllFileAnImage;
             }
         }
 
@@ -262,10 +262,10 @@ namespace NeeView
             memento.PreLoadSize = Config.Current.Performance.PreLoadSize;
             memento.WideRatio = this.WideRatio;
             memento.ExcludePath = this.Excludes.OneLine;
-            memento.IsEnableAnimatedGif = this.IsEnableAnimatedGif;
+            memento.IsEnableAnimatedGif = Config.Current.Image.Standard.IsAnimatedGifEnabled;
             memento.BookPageCollectMode = Config.Current.System.BookPageCollectMode;
             memento.IsLoadingPageVisible = Config.Current.Performance.IsLoadingPageVisible;
-            memento.IsAllFileAnImage = this.IsAllFileAnImage;
+            memento.IsAllFileAnImage = Config.Current.Image.Standard.IsAllFileSupported;
             memento.CacheMemorySize = Config.Current.Performance.CacheMemorySize;
             memento.IsSortFileFirst = this.IsSortFileFirst;
             return memento;
@@ -279,10 +279,10 @@ namespace NeeView
             ////this.PreLoadSize = memento.PreLoadSize;
             this.WideRatio = memento.WideRatio;
             this.Excludes.OneLine = memento.ExcludePath;
-            this.IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
+            ////this.IsEnableAnimatedGif = memento.IsEnableAnimatedGif;
             ////this.BookPageCollectMode = memento.BookPageCollectMode;
             ////this.IsLoadingPageVisible = memento.IsLoadingPageVisible;
-            this.IsAllFileAnImage = memento.IsAllFileAnImage;
+            ////this.IsAllFileAnImage = memento.IsAllFileAnImage;
             ////this.CacheMemorySize = memento.CacheMemorySize;
             this.IsSortFileFirst = memento.IsSortFileFirst;
         }

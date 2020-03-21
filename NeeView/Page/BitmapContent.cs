@@ -37,7 +37,7 @@ namespace NeeView
         public Color Color => PictureInfo != null ? PictureInfo.Color : Colors.Black;
 
         // content size
-        public override Size Size => PictureInfo != null ? PictureProfile.Current.IsAspectRatioEnabled ? PictureInfo.AspectSize : PictureInfo.Size : SizeExtensions.Zero;
+        public override Size Size => PictureInfo != null ? Config.Current.Image.Standard.IsAspectRatioEnabled ? PictureInfo.AspectSize : PictureInfo.Size : SizeExtensions.Zero;
 
         /// <summary>
         /// BitmapSourceがあればコンテンツ有効

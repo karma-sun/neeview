@@ -6,7 +6,6 @@ using System.Runtime.Serialization;
 
 namespace NeeView.Text
 {
-
     /// <summary>
     /// 文字列コレクション
     /// </summary>
@@ -30,13 +29,13 @@ namespace NeeView.Text
 
 
         [DataMember]
-        public bool IsSorted { get; set; } = true;
+        public bool IsSorted { get; private set; } = true;
 
         [DataMember]
-        public bool IsDistinction { get; set; } = true;
+        public bool IsDistinction { get; private set; } = true;
 
         [DataMember]
-        public bool IsNullable { get; set; } = false;
+        public bool IsNullable { get; private set; } = false;
 
         // immutable
         [DataMember]

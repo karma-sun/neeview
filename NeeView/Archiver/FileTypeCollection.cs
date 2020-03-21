@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using NeeView.Text;
 
 namespace NeeView
@@ -8,6 +11,8 @@ namespace NeeView
     /// ファイル拡張子コレクション
     /// </summary>
     [DataContract]
+    [PropertyMerge]
+    [JsonConverter(typeof(JsonFileTypeCollectionConverter))]
     public class FileTypeCollection : StringCollection
     {
         public FileTypeCollection()
@@ -30,6 +35,25 @@ namespace NeeView
         public FileTypeCollection Clone()
         {
             return (FileTypeCollection)MemberwiseClone();
+        }
+
+
+        public static FileTypeCollection Parse(string s)
+        {
+            return new FileTypeCollection(s);
+        }
+    }
+
+    public sealed class JsonFileTypeCollectionConverter : JsonConverter<FileTypeCollection>
+    {
+        public override FileTypeCollection Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            return FileTypeCollection.Parse(reader.GetString());
+        }
+
+        public override void Write(Utf8JsonWriter writer, FileTypeCollection value, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(value.ToString());
         }
     }
 }

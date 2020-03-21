@@ -91,7 +91,7 @@ namespace NeeView
                 {
                     page = new Page(bookPrefix, new PdfContent(entry));
                 }
-                else if (BookProfile.Current.IsEnableAnimatedGif && LoosePath.GetExtension(entry.Link ?? entry.EntryName) == ".gif")
+                else if (Config.Current.Image.Standard.IsAnimatedGifEnabled && LoosePath.GetExtension(entry.Link ?? entry.EntryName) == ".gif")
                 {
                     page = new Page(bookPrefix, new AnimatedContent(entry));
                 }
@@ -111,7 +111,7 @@ namespace NeeView
                 switch (type)
                 {
                     case ArchiverType.None:
-                        if (BookProfile.Current.IsAllFileAnImage)
+                        if (Config.Current.Image.Standard.IsAllFileSupported)
                         {
                             entry.IsIgnoreFileExtension = true;
                             page = new Page(bookPrefix, new BitmapContent(entry));

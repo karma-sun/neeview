@@ -12,13 +12,14 @@ namespace NeeView
         public static ZipArchiverProfile Current { get; }
 
 
-        private bool _isEnabled = true;
+        ////private bool _isEnabled = true;
 
 
         private ZipArchiverProfile()
         {
         }
 
+#if false
         [PropertyMember("@ParamZipArchiverIsEnabled")]
         public bool IsEnabled
         {
@@ -28,6 +29,7 @@ namespace NeeView
 
         [PropertyMember("@ParamZipArchiverSupportFileTypes", Tips = "@ParamZipArchiverSupportFileTypesTips")]
         public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".zip");
+#endif
 
         #region Memento
 
@@ -42,6 +44,8 @@ namespace NeeView
 
             public void RestoreConfig()
             {
+                Config.Current.Archive.Zip.IsEnabled = IsEnabled;
+                Config.Current.Archive.Zip.SupportFileTypes.OneLine = SupportFileTypes;
             }
         }
 
@@ -49,18 +53,19 @@ namespace NeeView
         {
             var memento = new Memento();
 
-            memento.IsEnabled = this.IsEnabled;
-            memento.SupportFileTypes = this.SupportFileTypes.OneLine;
+            memento.IsEnabled = Config.Current.Archive.Zip.IsEnabled;
+            memento.SupportFileTypes = Config.Current.Archive.Zip.SupportFileTypes.OneLine;
 
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
 
-            this.IsEnabled = memento.IsEnabled;
-            this.SupportFileTypes.OneLine = memento.SupportFileTypes;
+            ////this.IsEnabled = memento.IsEnabled;
+            ////this.SupportFileTypes.OneLine = memento.SupportFileTypes;
         }
 
         #endregion

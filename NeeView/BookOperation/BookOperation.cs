@@ -528,7 +528,7 @@ namespace NeeView
         {
             if (MediaPlayerOperator.Current == null) return;
 
-            var isTerminated = MediaPlayerOperator.Current.AddPosition(TimeSpan.FromSeconds(delta * MediaControl.Current.PageSeconds));
+            var isTerminated = MediaPlayerOperator.Current.AddPosition(TimeSpan.FromSeconds(delta * Config.Current.Archive.Media.PageSeconds));
 
             if (isTerminated)
             {

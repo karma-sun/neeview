@@ -1,6 +1,7 @@
 ﻿using NeeLaboratory.ComponentModel;
 using System;
 using System.Collections;
+using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.Serialization;
 
@@ -16,6 +17,10 @@ namespace NeeView
         public StartUpConfig StartUp { get; set; } = new StartUpConfig();
 
         public PerformanceConfig Performance { get; set; } = new PerformanceConfig();
+
+        public ImageConfig Image { get; set; } = new ImageConfig();
+
+        public ArchiveConfig Archive { get; set; } = new ArchiveConfig();
 
         public HistoryConfig History { get; set; } = new HistoryConfig();
 
@@ -55,16 +60,30 @@ namespace NeeView
             {
                 if (property.PropertyType.IsClass && property.PropertyType != typeof(string))
                 {
-                    // クラスは再帰的に処理する
-                    Merge(property.GetValue(original), property.GetValue(target));
+                    if (property.PropertyType.GetCustomAttribute(typeof(PropertyMergeAttribute)) != null)
+                    {
+                        // 参照を変更する
+                        property.GetSetMethod(false)?.Invoke(original, new object[] { property.GetValue(target) });
+                    }
+                    else
+                    {
+                        // クラスは再帰的に処理する
+                        Merge(property.GetValue(original), property.GetValue(target));
+                    }
                 }
                 else
                 {
                     // Setterが存在する場合のみ上書き
-                    property.GetSetMethod()?.Invoke(original, new object[] { property.GetValue(target) });
+                    property.GetSetMethod(false)?.Invoke(original, new object[] { property.GetValue(target) });
                 }
             }
         }
 
+    }
+
+    // この属性がクラスに定義されている場合、リファレンスの変更のみとする
+    [AttributeUsage(AttributeTargets.Class)]
+    public class PropertyMergeAttribute : Attribute
+    {
     }
 }

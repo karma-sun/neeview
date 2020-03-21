@@ -61,10 +61,10 @@ namespace NeeView
         /// </summary>
         private Dictionary<ArchiverType, FileTypeCollection> _supprtedFileTypes = new Dictionary<ArchiverType, FileTypeCollection>()
         {
-            [ArchiverType.SevenZipArchiver] = SevenZipArchiverProfile.Current.SupportFileTypes,
-            [ArchiverType.ZipArchiver] = ZipArchiverProfile.Current.SupportFileTypes,
-            [ArchiverType.PdfArchiver] = new FileTypeCollection(".pdf"),
-            [ArchiverType.MediaArchiver] = MediaArchiverProfile.Current.SupportFileTypes,
+            [ArchiverType.SevenZipArchiver] = Config.Current.Archive.SevenZip.SupportFileTypes,
+            [ArchiverType.ZipArchiver] = Config.Current.Archive.Zip.SupportFileTypes,
+            [ArchiverType.PdfArchiver] = Config.Current.Archive.Pdf.SupportFileTypes,
+            [ArchiverType.MediaArchiver] = Config.Current.Archive.Media.SupportFileTypes,
             [ArchiverType.SusieArchiver] = SusiePluginManager.Current.ArchiveExtensions,
             [ArchiverType.PlaylistArchiver] = new FileTypeCollection(PlaylistArchive.Extension),
         };
@@ -84,13 +84,13 @@ namespace NeeView
         /// </summary>
         private ArchiverManager()
         {
-            ZipArchiverProfile.Current.AddPropertyChanged(nameof(ZipArchiverProfile.IsEnabled),
+            Config.Current.Archive.Zip.AddPropertyChanged(nameof(ZipArchiveConfig.IsEnabled),
                 (s, e) => UpdateOrderList());
-            SevenZipArchiverProfile.Current.AddPropertyChanged(nameof(MediaArchiverProfile.IsEnabled),
+            Config.Current.Archive.SevenZip.AddPropertyChanged(nameof(SevenZipArchiveConfig.IsEnabled),
                 (s, e) => UpdateOrderList());
-            PdfArchiverProfile.Current.AddPropertyChanged(nameof(PdfArchiverProfile.IsEnabled),
+            Config.Current.Archive.Pdf.AddPropertyChanged(nameof(PdfArchiveConfig.IsEnabled),
                 (s, e) => UpdateOrderList());
-            MediaArchiverProfile.Current.AddPropertyChanged(nameof(MediaArchiverProfile.IsEnabled),
+            Config.Current.Archive.Media.AddPropertyChanged(nameof(MediaArchiveConfig.IsEnabled),
                 (s, e) => UpdateOrderList());
             SusiePluginManager.Current.AddPropertyChanged(nameof(SusiePluginManager.IsEnabled),
                 (s, e) => UpdateOrderList());
@@ -161,22 +161,22 @@ namespace NeeView
 
             order.Add(ArchiverType.PlaylistArchiver);
 
-            if (ZipArchiverProfile.Current.IsEnabled)
+            if (Config.Current.Archive.Zip.IsEnabled)
             {
                 order.Add(ArchiverType.ZipArchiver);
             }
 
-            if (SevenZipArchiverProfile.Current.IsEnabled)
+            if (Config.Current.Archive.SevenZip.IsEnabled)
             {
                 order.Add(ArchiverType.SevenZipArchiver);
             }
 
-            if (PdfArchiverProfile.Current.IsEnabled)
+            if (Config.Current.Archive.Pdf.IsEnabled)
             {
                 order.Add(ArchiverType.PdfArchiver);
             }
 
-            if (MediaArchiverProfile.Current.IsEnabled)
+            if (Config.Current.Archive.Media.IsEnabled)
             {
                 order.Add(ArchiverType.MediaArchiver);
             }

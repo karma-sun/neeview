@@ -47,7 +47,7 @@ namespace NeeView
 
         public override bool IsSupported()
         {
-            return MediaArchiverProfile.Current.IsEnabled;
+            return Config.Current.Archive.Media.IsEnabled;
         }
 
         protected override Stream OpenStreamInner(ArchiveEntry entry)

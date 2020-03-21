@@ -26,11 +26,13 @@ namespace NeeView
 
         public bool IsRepeat { get; set; }
 
+#if false
         [PropertyMember("@ParamPageSeconds")]
         public double PageSeconds { get; set; } = 10.0;
 
         [PropertyMember("@ParamMediaStartDelaySeconds", Tips = "@ParamMediaStartDelaySecondsTips")]
         public double MediaStartDelaySeconds { get; set; } = 0.5;
+#endif
 
         public void RiaseContentChanged(object sender, MediaPlayerChanged e)
         {
@@ -67,6 +69,8 @@ namespace NeeView
 
             public void RestoreConfig()
             {
+                Config.Current.Archive.Media.PageSeconds = PageSeconds;
+                Config.Current.Archive.Media.MediaStartDelaySeconds = MediaStartDelaySeconds;
             }
         }
 
@@ -77,8 +81,8 @@ namespace NeeView
             memento.IsMuted = this.IsMuted;
             memento.Volume = this.Volume;
             memento.IsRepeat = this.IsRepeat;
-            memento.PageSeconds = this.PageSeconds;
-            memento.MediaStartDelaySeconds = this.MediaStartDelaySeconds;
+            memento.PageSeconds = Config.Current.Archive.Media.PageSeconds;
+            memento.MediaStartDelaySeconds = Config.Current.Archive.Media.MediaStartDelaySeconds;
 
             return memento;
         }
@@ -90,8 +94,8 @@ namespace NeeView
             this.IsMuted = memento.IsMuted;
             this.Volume = memento.Volume;
             this.IsRepeat = memento.IsRepeat;
-            this.PageSeconds = memento.PageSeconds;
-            this.MediaStartDelaySeconds = memento.MediaStartDelaySeconds;
+            ////this.PageSeconds = memento.PageSeconds;
+            ////this.MediaStartDelaySeconds = memento.MediaStartDelaySeconds;
         }
 
         #endregion

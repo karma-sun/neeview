@@ -327,7 +327,7 @@ namespace NeeView
             else
             {
                 // 最初からの開始
-                _delay = MediaControl.Current.MediaStartDelaySeconds * 1000;
+                _delay = Config.Current.Archive.Media.MediaStartDelaySeconds * 1000;
                 if (_delay <= 0.0)
                 {
                     // 画面のちらつきを許容してすぐに再生する
@@ -441,7 +441,7 @@ namespace NeeView
             if (_disposed) return;
             if (!_duration.HasTimeSpan) return;
 
-            _delay = MediaControl.Current.MediaStartDelaySeconds * 1000;
+            _delay = Config.Current.Archive.Media.MediaStartDelaySeconds * 1000;
             if (_delay <= 0.0)
             {
                 this.Position = position;

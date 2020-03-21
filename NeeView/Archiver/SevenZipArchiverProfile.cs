@@ -1,5 +1,6 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Property;
+using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
@@ -12,12 +13,13 @@ namespace NeeView
         public static SevenZipArchiverProfile Current { get; }
 
 
-        private bool _isEnabled = true;
+        ////private bool _isEnabled = true;
 
         private SevenZipArchiverProfile()
         {
         }
 
+#if false
         [PropertyMember("@ParamSevenZipArchiverIsEnabled")]
         public bool IsEnabled
         {
@@ -34,7 +36,7 @@ namespace NeeView
         [PropertyMember("@ParamSevenZipArchiverSupportFileTypes")]
         public FileTypeCollection SupportFileTypes { get; set; } = new FileTypeCollection(".7z;.cb7;.cbr;.cbz;.lzh;.rar;.zip");
 
-#if false
+
         // 事前展開サイズ上限
         [PropertyMember("@ParamSevenZipArchiverPreExtractSolidSize", Tips = "@ParamSevenZipArchiverPreExtractSolidSizeTips")]
         public int PreExtractSolidSize { get; set; } = 1000;
@@ -85,28 +87,33 @@ namespace NeeView
             {
                 Config.Current.Performance.PreExtractSolidSize = PreExtractSolidSize;
                 Config.Current.Performance.IsPreExtractToMemory = IsPreExtractToMemory;
+                Config.Current.Archive.SevenZip.IsEnabled = IsEnabled;
+                Config.Current.Archive.SevenZip.X86DllPath = X86DllPath;
+                Config.Current.Archive.SevenZip.X64DllPath = X64DllPath;
+                Config.Current.Archive.SevenZip.SupportFileTypes.OneLine = SupportFileTypes;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.IsEnabled = this.IsEnabled;
-            memento.X86DllPath = this.X86DllPath;
-            memento.X64DllPath = this.X64DllPath;
-            memento.SupportFileTypes = this.SupportFileTypes.OneLine;
+            memento.IsEnabled = Config.Current.Archive.SevenZip.IsEnabled;
+            memento.X86DllPath = Config.Current.Archive.SevenZip.X86DllPath;
+            memento.X64DllPath = Config.Current.Archive.SevenZip.X64DllPath;
+            memento.SupportFileTypes = Config.Current.Archive.SevenZip.SupportFileTypes.OneLine;
             memento.PreExtractSolidSize = Config.Current.Performance.PreExtractSolidSize;
             memento.IsPreExtractToMemory = Config.Current.Performance.IsPreExtractToMemory;
             return memento;
         }
         
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.IsEnabled = memento.IsEnabled;
-            this.X86DllPath = memento.X86DllPath;
-            this.X64DllPath = memento.X64DllPath;
-            this.SupportFileTypes.OneLine = memento.SupportFileTypes;
+            ////this.IsEnabled = memento.IsEnabled;
+            ////this.X86DllPath = memento.X86DllPath;
+            ////this.X64DllPath = memento.X64DllPath;
+            ////this.SupportFileTypes.OneLine = memento.SupportFileTypes;
             ////this.PreExtractSolidSize = memento.PreExtractSolidSize;
             ////this.IsPreExtractToMemory = memento.IsPreExtractToMemory;
         }

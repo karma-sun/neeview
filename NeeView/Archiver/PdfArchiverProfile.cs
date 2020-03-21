@@ -15,9 +15,8 @@ namespace NeeView
         public static PdfArchiverProfile Current { get; }
 
 
-        private bool _isEnabled = true;
-
-        private Size _renderSize = new Size(1920, 1080);
+        ////private bool _isEnabled = true;
+        ////private Size _renderSize = new Size(1920, 1080);
 
 
         //
@@ -25,7 +24,7 @@ namespace NeeView
         {
         }
 
-
+#if false
         [PropertyMember("@ParamArchiverPdfIsEnabled")]
         public bool IsEnabled
         {
@@ -52,6 +51,7 @@ namespace NeeView
                 }
             }
         }
+#endif
 
         // 最大画像サイズで制限したサイズ
         public Size SizeLimitedRenderSize
@@ -59,8 +59,8 @@ namespace NeeView
             get
             {
                 return new Size(
-                    Math.Min(_renderSize.Width, Config.Current.Performance.MaximumSize.Width),
-                    Math.Min(_renderSize.Height, Config.Current.Performance.MaximumSize.Height));
+                    Math.Min(Config.Current.Archive.Pdf.RenderSize.Width, Config.Current.Performance.MaximumSize.Width),
+                    Math.Min(Config.Current.Archive.Pdf.RenderSize.Height, Config.Current.Performance.MaximumSize.Height));
             }
         }
 
@@ -121,23 +121,26 @@ namespace NeeView
 
             public void RestoreConfig()
             {
+                Config.Current.Archive.Pdf.IsEnabled = IsEnabled;
+                Config.Current.Archive.Pdf.RenderSize = RenderSize;
             }
         }
 
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.IsEnabled = this.IsEnabled;
-            memento.RenderSize = this.RenderSize;
+            memento.IsEnabled = Config.Current.Archive.Pdf.IsEnabled;
+            memento.RenderSize = Config.Current.Archive.Pdf.RenderSize;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
 
-            this.IsEnabled = memento.IsEnabled;
-            this.RenderSize = memento.RenderSize;
+            ////this.IsEnabled = memento.IsEnabled;
+            ////this.RenderSize = memento.RenderSize;
         }
         #endregion
     }

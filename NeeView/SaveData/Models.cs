@@ -271,10 +271,10 @@ namespace NeeView
             SoundPlayerService.Current.Restore(memento.SoundPlayerService);
             PictureProfile.Current.Restore(memento.PictureProfile);
             ImageFilter.Current.Restore(memento.ImageFilter);
-            ZipArchiverProfile.Current.Restore(memento.ZipArchiverProfile);
-            SevenZipArchiverProfile.Current.Restore(memento.SevenZipArchiverProfile);
-            PdfArchiverProfile.Current.Restore(memento.PdfArchiverProfile);
-            MediaArchiverProfile.Current.Restore(memento.MediaArchiverProfile);
+            ////ZipArchiverProfile.Current.Restore(memento.ZipArchiverProfile);
+            ////SevenZipArchiverProfile.Current.Restore(memento.SevenZipArchiverProfile);
+            ////PdfArchiverProfile.Current.Restore(memento.PdfArchiverProfile);
+            ////MediaArchiverProfile.Current.Restore(memento.MediaArchiverProfile);
             ThumbnailProfile.Current.Restore(memento.ThumbnailProfile);
             InfoMessage.Current.Restore(memento.InfoMessage);
             BookProfile.Current.Restore(memento.BookProfile);

@@ -11,88 +11,105 @@ using System.Windows.Input;
 
 namespace NeeView
 {
-    public class DragActionTable : IEnumerable<KeyValuePair<DragActionType, DragAction>>
+    public class DragActionTable : IEnumerable<KeyValuePair<string, DragAction>>
     {
         static DragActionTable() => Current = new DragActionTable();
         public static DragActionTable Current { get; }
 
-        private static Memento s_defaultMemento;
+        private static DragActionCollection s_defaultMemento;
 
         // 初期設定取得
-        public static Memento CreateDefaultMemento()
+        public static DragActionCollection CreateDefaultMemento()
         {
-            return s_defaultMemento.Clone();
+            return (DragActionCollection)s_defaultMemento.Clone();
         }
 
 
         // コマンドリスト
-        private Dictionary<DragActionType, DragAction> _elements;
+        private Dictionary<string, DragAction> _elements;
 
         // コマンドターゲット
         private DragTransformControl _drag;
 
 
+        public const string GestureDragActionName = "Gesture";
+
         // コンストラクタ
         private DragActionTable()
         {
-            _elements = new Dictionary<DragActionType, DragAction>()
+            _elements = new Dictionary<string, DragAction>()
             {
-                [DragActionType.Gesture] = new DragAction
+                [GestureDragActionName] = new DragAction
                 {
+                    Note = Properties.Resources.EnumDragActionTypeGesture,
                     IsLocked = true,
                     DragKey = new DragKey("RightButton"),
                 },
 
-                [DragActionType.Move] = new DragAction
+                ["Move"] = new DragAction
                 {
+                    Note = Properties.Resources.EnumDragActionTypeMove,
                     DragKey = new DragKey("LeftButton"),
                     Exec = (s, e) => _drag.DragMove(s, e),
                     Group = DragActionGroup.Move,
                 },
-                [DragActionType.MoveScale] = new DragAction
+                ["MoveScale"] = new DragAction
                 {
+                    Note = Properties.Resources.EnumDragActionTypeMoveScale,
                     Exec = (s, e) => _drag.DragMoveScale(s, e),
                     Group = DragActionGroup.Move,
                 },
-                [DragActionType.Angle] = new DragAction
+                ["Angle"] = new DragAction
                 {
+                    Note = Properties.Resources.EnumDragActionTypeAngle,
                     DragKey = new DragKey("Shift+LeftButton"),
                     Exec = (s, e) => _drag.DragAngle(s, e),
                 },
-                [DragActionType.AngleSlider] = new DragAction
+                ["AngleSlider"] = new DragAction
                 {
+                    Note = Properties.Resources.EnumDragActionTypeAngleSlider,
                     Exec = (s, e) => _drag.DragAngleSlider(s, e),
                 },
-                [DragActionType.Scale] = new DragAction
+                ["Scale"] = new DragAction
                 {
+                    Note = Properties.Resources.EnumDragActionTypeScale,
                     Exec = (s, e) => _drag.DragScale(s, e),
                 },
-                [DragActionType.ScaleSlider] = new DragAction
+                ["ScaleSlider"] = new DragAction
                 {
+                    Note = Properties.Resources.EnumDragActionTypeScaleSlider,
                     DragKey = new DragKey("Ctrl+LeftButton"),
                     Exec = (s, e) => _drag.DragScaleSlider(s, e),
                 },
-                [DragActionType.FlipHorizontal] = new DragAction
+                ["FlipHorizontal"] = new DragAction
                 {
+                    Note = Properties.Resources.EnumDragActionTypeFlipHorizontal,
                     DragKey = new DragKey("Alt+LeftButton"),
                     Exec = (s, e) => _drag.DragFlipHorizontal(s, e),
                 },
-                [DragActionType.FlipVertical] = new DragAction
+                ["FlipVertical"] = new DragAction
                 {
+                    Note = Properties.Resources.EnumDragActionTypeFlipVertical,
                     Exec = (s, e) => _drag.DragFlipVertical(s, e),
                 },
 
-                [DragActionType.WindowMove] = new DragAction
+                ["WindowMove"] = new DragAction
                 {
+                    Note = Properties.Resources.EnumDragActionTypeWindowMove,
                     DragKey = new DragKey("RightButton+LeftButton"),
                     Exec = (s, e) => _drag.DragWindowMove(s, e),
                 },
 
             };
 
-            s_defaultMemento = CreateMemento();
+            s_defaultMemento = CreateDragActionCollection();
+        }
 
+        // TODO: Configに設定が移動するまでの応急処置
+        public void Initialize()
+        {
             MouseInput.Current.Normal.AddPropertyChanged(nameof(MouseInputNormal.IsGestureEnabled), MouseInputNormal_IsGestureEnabledChanged);
+            MouseInputNormal_IsGestureEnabledChanged(this, null);
         }
 
 
@@ -101,11 +118,11 @@ namespace NeeView
 
         // コマンドリスト
         [PropertyMember("@ParamDragActionElements")]
-        public Dictionary<DragActionType, DragAction> Elements => _elements;
+        public Dictionary<string, DragAction> Elements => _elements;
 
 
         // インテグザ
-        public DragAction this[DragActionType key]
+        public DragAction this[string key]
         {
             get
             {
@@ -116,7 +133,7 @@ namespace NeeView
         }
 
         // Enumerator
-        public IEnumerator<KeyValuePair<DragActionType, DragAction>> GetEnumerator()
+        public IEnumerator<KeyValuePair<string, DragAction>> GetEnumerator()
         {
             foreach (var pair in _elements)
             {
@@ -138,7 +155,7 @@ namespace NeeView
 
         public void UpdateGestureDragAction()
         {
-            _elements[DragActionType.Gesture].DragKey = MouseInput.Current.Normal.IsGestureEnabled ? new DragKey("RightButton") : new DragKey();
+            _elements[GestureDragActionName].DragKey = MouseInput.Current.Normal.IsGestureEnabled ? new DragKey("RightButton") : new DragKey();
             GestureDragActionChanged?.Invoke(this, null);
         }
 
@@ -153,9 +170,9 @@ namespace NeeView
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public DragActionType GetActionType(DragKey key)
+        public string GetActionType(DragKey key)
         {
-            if (!key.IsValid) return DragActionType.None;
+            if (!key.IsValid) return string.Empty;
             return _elements.FirstOrDefault(e => e.Value.DragKey == key).Key;
         }
 
@@ -175,54 +192,47 @@ namespace NeeView
         [DataContract]
         public class Memento : IMemento
         {
-            [DataMember]
+#pragma warning disable CS0612
+            [DataMember(Name = "Elements", EmitDefaultValue = false)]
             public Dictionary<DragActionType, DragAction.Memento> Elements { get; set; } = new Dictionary<DragActionType, DragAction.Memento>();
-
-            public DragAction.Memento this[DragActionType type]
-            {
-                get { return Elements[type]; }
-                set { Elements[type] = value; }
-            }
-
-            public DragActionType GetAcionFromKey(string key)
-            {
-                foreach (var pair in Elements)
-                {
-                    var keys = pair.Value.Key?.Split(',');
-                    if (keys != null && keys.Contains(key)) return pair.Key;
-                }
-                return DragActionType.None;
-            }
-
-            public Memento Clone()
-            {
-                var memento = new Memento();
-                foreach (var pair in Elements)
-                {
-                    memento.Elements.Add(pair.Key, pair.Value.Clone());
-                }
-                return memento;
-            }
+#pragma warning restore CS0612
 
             public void RestoreConfig(Config config)
             {
+            }
+
+            public DragActionCollection CreateDragActionCollectioin()
+            {
+                if (Elements == null) return null;
+
+                var collection = new DragActionCollection();
+                foreach (var element in Elements)
+                {
+                    collection.Add(element.Key.ToString(), element.Value);
+                }
+                return collection;
             }
         }
 
         public Memento CreateMemento()
         {
+#pragma warning disable CS0612
             var memento = new Memento();
-
             foreach (var pair in _elements)
             {
-                memento.Elements.Add(pair.Key, pair.Value.CreateMemento());
+                if (Enum.TryParse<DragActionType>(pair.Key, out var actionType))
+                {
+                    memento.Elements.Add(actionType, pair.Value.CreateMemento());
+                }
             }
-
             return memento;
+#pragma warning restore CS0612
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
+#if false
             if (memento == null) return;
 
             foreach (var pair in memento.Elements)
@@ -232,8 +242,50 @@ namespace NeeView
                     _elements[pair.Key].Restore(pair.Value);
                 }
             }
+#endif
         }
 
         #endregion
+
+
+        public DragActionCollection CreateDragActionCollection()
+        {
+            var collection = new DragActionCollection();
+
+            foreach (var pair in _elements)
+            {
+                collection.Add(pair.Key.ToString(), pair.Value.CreateMemento());
+            }
+
+            return collection;
+        }
+
+        public void RestoreDragActionCollection(DragActionCollection collection)
+        {
+            if (collection == null) return;
+
+            foreach (var pair in collection)
+            {
+                if (_elements.ContainsKey(pair.Key))
+                {
+                    _elements[pair.Key].Restore(pair.Value);
+                }
+            }
+        }
     }
+
+
+    public class DragActionCollection : Dictionary<string, DragAction.Memento>, ICloneable
+    {
+        public object Clone()
+        {
+            var clone = new DragActionCollection();
+            foreach (var pair in this)
+            {
+                clone.Add(pair.Key, pair.Value.Clone());
+            }
+            return clone;
+        }
+    }
+
 }

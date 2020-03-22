@@ -47,7 +47,7 @@ namespace NeeView.Setting
 
         #endregion
 
-        private CommandTable.CommandCollection _memento;
+        private CommandCollection _memento;
         private string _key;
 
         public EditCommandWindow()
@@ -82,7 +82,7 @@ namespace NeeView.Setting
             this.Title = $"{CommandTable.Current.GetElement(key).Text} - {Properties.Resources.ControlEditCommandTitle}";
 
             this.Note = CommandTable.Current.GetElement(key).Note;
-            this.IsShowMessage = _memento.Items[key].IsShowMessage;
+            this.IsShowMessage = _memento[key].IsShowMessage;
 
             this.InputGesture.Initialize(_memento, key);
             this.MouseGesture.Initialize(_memento, key);
@@ -118,7 +118,7 @@ namespace NeeView.Setting
             this.MouseGesture.Flush();
             this.InputTouch.Flush();
             this.Parameter.Flush();
-            _memento.Items[_key].IsShowMessage = this.IsShowMessage;
+            _memento[_key].IsShowMessage = this.IsShowMessage;
 
             CommandTable.Current.RestoreCommandCollection(_memento);
 

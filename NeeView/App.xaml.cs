@@ -205,8 +205,13 @@ namespace NeeView
             // キャッシュの場所
             Config.Current.System.CacheDirectory = ThumbnailCache.Current.SetDirectory(Config.Current.System.CacheDirectory);
 
+
+            // TODO: このあたりの実装はConfig.Margeと同じタイミングが理想
             // コマンド設定反映
             CommandTable.Current.RestoreCommandCollection(settingV2.Commands);
+
+            // ドラッグアクション反映
+            DragActionTable.Current.RestoreDragActionCollection(settingV2.DragActions);
 
             // SusiePlugins反映
             SusiePluginManager.Current.RestoreSusiePluginCollection(settingV2.SusiePlugins);

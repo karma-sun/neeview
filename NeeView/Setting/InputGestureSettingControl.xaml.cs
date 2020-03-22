@@ -29,7 +29,7 @@ namespace NeeView.Setting
         }
 
         //
-        public void Initialize(CommandTable.CommandCollection memento, string key)
+        public void Initialize(CommandCollection memento, string key)
         {
             _vm = new InputGestureSettingViewModel(memento, key);
             this.DataContext = _vm;

@@ -142,9 +142,9 @@ namespace NeeView
             CommandMememto?.RestoreConfig(setting.Config);
             DragActionMemento?.RestoreConfig(setting.Config);
 
-            setting.SusiePlugins = this.SusieMemento?.CreateSusiePluginCollection() ?? new Dictionary<string, SusiePluginMemento>();
-            setting.Commands = this.CommandMememto?.CreateCommandCollection() ?? new CommandTable.CommandCollection();
-            // TODO:DragActionのリスト
+            setting.SusiePlugins = this.SusieMemento?.CreateSusiePluginCollection() ?? new SusiePluginCollection();
+            setting.Commands = this.CommandMememto?.CreateCommandCollection() ?? new CommandCollection();
+            setting.DragActions = this.DragActionMemento?.CreateDragActionCollectioin() ?? new DragActionCollection();
         }
     }
 

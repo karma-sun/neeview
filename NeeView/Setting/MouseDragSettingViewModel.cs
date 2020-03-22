@@ -3,6 +3,7 @@ using NeeLaboratory.Windows.Input;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace NeeView.Setting
@@ -12,8 +13,8 @@ namespace NeeView.Setting
     /// </summary>
     public class MouseDragSettingViewModel : BindableBase
     {
-        private Dictionary<DragActionType, DragAction.Memento> _sources;
-        private DragActionType _key;
+        private DragActionCollection _sources;
+        private string _key;
 
         /// <summary>
         /// Property: DragToken
@@ -44,14 +45,14 @@ namespace NeeView.Setting
         /// <summary>
         /// Constructor
         /// </summary>
-        public MouseDragSettingViewModel(DragActionTable.Memento memento, DragActionType key, FrameworkElement gestureSender)
+        public MouseDragSettingViewModel(DragActionCollection memento, string key, FrameworkElement gestureSender)
         {
-            _sources = memento.Elements;
+            _sources = memento;
             _key = key;
 
             gestureSender.MouseDown += GestureSender_MouseDown;
 
-            OriginalDrag = NewDrag = _sources[_key].Key; // _context.Gesture;
+            OriginalDrag = NewDrag = _sources[_key].MouseButton; // _context.Gesture;
             UpdateGestureToken(NewDrag);
         }
 
@@ -78,13 +79,13 @@ namespace NeeView.Setting
             if (!string.IsNullOrEmpty(token.Gesture))
             {
                 token.Conflicts = _sources 
-                    .Where(i => i.Key != _key && i.Value.Key == token.Gesture)
+                    .Where(i => i.Key != _key && i.Value.MouseButton == token.Gesture)
                     .Select(i => i.Key)
                     .ToList();
 
                 if (token.Conflicts.Count > 0)
                 {
-                    token.OverlapsText = string.Format(Properties.Resources.NotifyConflict, ResourceService.Join(token.Conflicts.Select(i => i.ToAliasName())));
+                    token.OverlapsText = string.Format(Properties.Resources.NotifyConflict, ResourceService.Join(token.Conflicts.Select(i => DragActionTable.Current.Elements[i].Note)));
                 }
             }
 
@@ -97,7 +98,7 @@ namespace NeeView.Setting
         /// </summary>
         public void Decide()
         {
-            _sources[_key].Key = NewDrag;
+            _sources[_key].MouseButton = NewDrag;
         }
 
 
@@ -105,6 +106,10 @@ namespace NeeView.Setting
         /// Command: ClearCommand
         /// </summary>
         private RelayCommand _clearCommand;
+        private DragActionCollection memento;
+        private string key;
+        private Grid gestureBox;
+
         public RelayCommand ClearCommand
         {
             get { return _clearCommand = _clearCommand ?? new RelayCommand(ClearCommand_Executed); }

@@ -55,9 +55,9 @@ namespace NeeView.Setting
         /// <summary>
         /// constructor
         /// </summary>
-        public InputGestureSettingViewModel(CommandTable.CommandCollection memento, string command)
+        public InputGestureSettingViewModel(CommandCollection memento, string command)
         {
-            _sources = memento.Items;
+            _sources = memento;
             Command = command;
             Header = $"{CommandTable.Current.GetElement(Command).Text} - {Properties.Resources.ControlEditShortcutTitle}";
 

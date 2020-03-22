@@ -47,9 +47,9 @@ namespace NeeView.Setting
         /// </summary>
         /// <param name="context"></param>
         /// <param name="gestureSender"></param>
-        public InputTouchSettingViewModel(CommandTable.CommandCollection memento, string key, FrameworkElement gestureSender)
+        public InputTouchSettingViewModel(CommandCollection memento, string key, FrameworkElement gestureSender)
         {
-            _sources = memento.Items;
+            _sources = memento;
             _key = key;
 
             this.TouchAreaMap = new TouchAreaMap(_sources[_key].TouchGesture);

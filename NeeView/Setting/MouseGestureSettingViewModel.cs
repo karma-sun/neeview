@@ -49,9 +49,9 @@ namespace NeeView.Setting
         /// </summary>
         /// <param name="context"></param>
         /// <param name="gestureSender"></param>
-        public MouseGestureSettingViewModel(CommandTable.CommandCollection memento, string key, FrameworkElement gestureSender)
+        public MouseGestureSettingViewModel(CommandCollection memento, string key, FrameworkElement gestureSender)
         {
-            _sources = memento.Items;
+            _sources = memento;
             _key = key;
 
             _touchGesture = new TouchInputForGestureEditor(gestureSender);

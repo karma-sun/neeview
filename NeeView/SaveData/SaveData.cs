@@ -74,7 +74,7 @@ namespace NeeView
 
             ////SusiePluginManager.Current.Restore(setting.SusieMemento);
             ////CommandTable.Current.Restore(setting.CommandMememto, false);
-            DragActionTable.Current.Restore(setting.DragActionMemento);
+            ////DragActionTable.Current.Restore(setting.DragActionMemento);
 
             _models.Resore(setting.Memento);
         }

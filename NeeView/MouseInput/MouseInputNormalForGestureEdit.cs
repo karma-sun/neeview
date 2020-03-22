@@ -99,7 +99,7 @@ namespace NeeView
             if (deltaX > SystemParameters.MinimumHorizontalDragDistance || deltaY > SystemParameters.MinimumVerticalDragDistance)
             {
                 var action = DragActionTable.Current.GetActionType(new DragKey(CreateMouseButtonBits(e), Keyboard.Modifiers));
-                if (action == DragActionType.Gesture)
+                if (action == DragActionTable.GestureDragActionName)
                 {
                     SetState(MouseInputState.Gesture);
                 }

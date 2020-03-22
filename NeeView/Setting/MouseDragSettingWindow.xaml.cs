@@ -21,8 +21,8 @@ namespace NeeView.Setting
     public partial class MouseDragSettingWindow : Window
     {
         private MouseDragSettingViewModel _vm;
-        private DragActionTable.Memento _memento;
-        private DragActionType _key;
+        private DragActionCollection _memento;
+        private string _key;
 
         public MouseDragSettingWindow()
         {
@@ -47,12 +47,13 @@ namespace NeeView.Setting
             }
         }
 
-        public void Initialize(DragActionType key)
+        public void Initialize(string key)
         {
-            _memento = DragActionTable.Current.CreateMemento();
+            _memento = DragActionTable.Current.CreateDragActionCollection();
             _key = key;
 
-            this.Title = $"{_key.ToAliasName()} - {Properties.Resources.ControlEditDragTitle}";
+            var note = DragActionTable.Current.Elements[_key].Note;
+            this.Title = $"{note} - {Properties.Resources.ControlEditDragTitle}";
 
             _vm = new MouseDragSettingViewModel(_memento, _key, this.GestureBox);
             DataContext = _vm;
@@ -64,7 +65,7 @@ namespace NeeView.Setting
         private void OkButton_Click(object sender, RoutedEventArgs e)
         {
             _vm.Decide();
-            DragActionTable.Current.Restore(_memento);
+            DragActionTable.Current.RestoreDragActionCollection(_memento);
 
             this.DialogResult = true;
             this.Close();
@@ -87,7 +88,7 @@ namespace NeeView.Setting
         public string Gesture { get; set; }
 
         // 競合しているコマンド群
-        public List<DragActionType> Conflicts { get; set; }
+        public List<string> Conflicts { get; set; }
 
         // 競合メッセージ
         public string OverlapsText { get; set; }

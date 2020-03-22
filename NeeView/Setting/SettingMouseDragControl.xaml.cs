@@ -45,15 +45,15 @@ namespace NeeView.Setting
             {
             }
 
-            public DragActionParam(DragActionType key, DragAction dragAction)
+            public DragActionParam(string key, DragAction dragAction)
             {
                 Key = key;
                 DragAction = dragAction;
             }
 
-            public DragActionType Key { get; set; }
+            public string Key { get; set; }
             public DragAction DragAction { get; set; }
-            public string Header => Key.ToAliasName();
+            public string Header => DragActionTable.Current.Elements[Key].Note;
         }
 
         // コマンド一覧
@@ -164,7 +164,7 @@ namespace NeeView.Setting
             if (answer == UICommands.Yes)
             {
                 var memento = DragActionTable.CreateDefaultMemento();
-                DragActionTable.Current.Restore(memento);
+                DragActionTable.Current.RestoreDragActionCollection(memento);
                 DragActionTable.Current.UpdateGestureDragAction();
 
                 this.DragActionListView.Items.Refresh();

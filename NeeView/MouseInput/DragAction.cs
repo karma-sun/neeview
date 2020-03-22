@@ -11,6 +11,7 @@ using System.Windows.Input;
 namespace NeeView
 {
     // ドラッグアクションの種類
+    [Obsolete]
     public enum DragActionType
     {
         [AliasName("@EnumDragActionTypeNone")]
@@ -58,6 +59,8 @@ namespace NeeView
     // ドラッグアクション
     public class DragAction
     {
+        public string Note { get; set; }
+
         /// <summary>
         /// IsLocked property.
         /// </summary>
@@ -90,12 +93,12 @@ namespace NeeView
         [DataContract]
         public class Memento : IMemento
         {
-            [DataMember]
-            public string Key { get; set; }
+            [DataMember(Name = "Key")]
+            public string MouseButton { get; set; }
 
             private void Constructor()
             {
-                Key = "";
+                MouseButton = "";
             }
 
             public Memento()
@@ -118,13 +121,13 @@ namespace NeeView
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.Key = DragKey.ToString();
+            memento.MouseButton = DragKey.ToString();
             return memento;
         }
 
         public void Restore(Memento element)
         {
-            DragKey = new DragKey(element.Key);
+            DragKey = new DragKey(element.MouseButton);
         }
 
         #endregion

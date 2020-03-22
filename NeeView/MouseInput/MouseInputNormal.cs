@@ -280,10 +280,10 @@ namespace NeeView
             {
                 // ドラッグ開始。処理をドラッグ系に移行
                 var action = DragActionTable.Current.GetActionType(new DragKey(CreateMouseButtonBits(e), Keyboard.Modifiers));
-                if (action == DragActionType.None)
+                if (string.IsNullOrEmpty(action))
                 {
                 }
-                else if (this.IsGestureEnabled && action == DragActionType.Gesture)
+                else if (this.IsGestureEnabled && action == DragActionTable.GestureDragActionName)
                 {
                     SetState(MouseInputState.Gesture);
                 }

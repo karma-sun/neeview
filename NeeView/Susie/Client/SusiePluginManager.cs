@@ -391,9 +391,16 @@ namespace NeeView
                 config.Susie.IsEnabled = IsEnableSusie;
             }
 
-            public Dictionary<string, SusiePluginMemento> CreateSusiePluginCollection()
+            public SusiePluginCollection CreateSusiePluginCollection()
             {
-                return Plugins?.ToDictionary(e => e.Name, e => SusiePluginMemento.FromSusiePluginSetting(e));
+                if (Plugins == null) return null;
+
+                var collection = new SusiePluginCollection();
+                foreach (var item in this.Plugins)
+                {
+                    collection.Add(item.Name, SusiePluginMemento.FromSusiePluginSetting(item));
+                }
+                return collection;
             }
         }
 
@@ -426,12 +433,17 @@ namespace NeeView
 
         #region MementoV2
 
-        public Dictionary<string, SusiePluginMemento> CreateSusiePluginCollection()
+        public SusiePluginCollection CreateSusiePluginCollection()
         {
-            return this.Plugins.ToDictionary(e => e.Name, e => SusiePluginMemento.FromSusiePluginInfo(e));
+            var collection = new SusiePluginCollection();
+            foreach(var item in this.Plugins)
+            {
+                collection.Add(item.Name, SusiePluginMemento.FromSusiePluginInfo(item));
+            }
+            return collection;
         }
 
-        public void RestoreSusiePluginCollection(Dictionary<string, SusiePluginMemento> memento)
+        public void RestoreSusiePluginCollection(SusiePluginCollection memento)
         {
             if (memento == null) return;
             this.UnauthorizedPlugins = memento.Select(e => e.Value.ToSusiePluginInfo(e.Key)).ToList();
@@ -439,6 +451,10 @@ namespace NeeView
 
         #endregion
 
+    }
+
+    public class SusiePluginCollection : Dictionary<string, SusiePluginMemento>
+    {
     }
 
 

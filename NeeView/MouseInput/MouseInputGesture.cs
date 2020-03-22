@@ -154,11 +154,11 @@ namespace NeeView
             if (_gesture.Sequence.Count > 0) return;
 
             var action = DragActionTable.Current.GetActionType(new DragKey(CreateMouseButtonBits(e), Keyboard.Modifiers));
-            switch(action)
+            switch(action ?? string.Empty)
             {
-                case DragActionType.None:
+                case "":
                     break;
-                case DragActionType.Gesture:
+                case DragActionTable.GestureDragActionName:
                     break;
                 default:
                     SetState(MouseInputState.Drag, e);

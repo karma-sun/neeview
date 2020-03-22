@@ -402,20 +402,20 @@ namespace NeeView
                     break;
 
                 case InputSceme.TypeB: // wheel page, right click contextmenu
-                    memento.Items["NextScrollPage"].ShortCutKey = null;
-                    memento.Items["PrevScrollPage"].ShortCutKey = null;
-                    memento.Items["NextPage"].ShortCutKey = "Left,WheelDown";
-                    memento.Items["PrevPage"].ShortCutKey = "Right,WheelUp";
-                    memento.Items["OpenContextMenu"].ShortCutKey = "RightClick";
+                    memento["NextScrollPage"].ShortCutKey = null;
+                    memento["PrevScrollPage"].ShortCutKey = null;
+                    memento["NextPage"].ShortCutKey = "Left,WheelDown";
+                    memento["PrevPage"].ShortCutKey = "Right,WheelUp";
+                    memento["OpenContextMenu"].ShortCutKey = "RightClick";
                     break;
 
                 case InputSceme.TypeC: // click page
-                    memento.Items["NextScrollPage"].ShortCutKey = null;
-                    memento.Items["PrevScrollPage"].ShortCutKey = null;
-                    memento.Items["NextPage"].ShortCutKey = "Left,LeftClick";
-                    memento.Items["PrevPage"].ShortCutKey = "Right,RightClick";
-                    memento.Items["ViewScrollUp"].ShortCutKey = "WheelUp";
-                    memento.Items["ViewScrollDown"].ShortCutKey = "WheelDown";
+                    memento["NextScrollPage"].ShortCutKey = null;
+                    memento["PrevScrollPage"].ShortCutKey = null;
+                    memento["NextPage"].ShortCutKey = "Left,LeftClick";
+                    memento["PrevPage"].ShortCutKey = "Right,RightClick";
+                    memento["ViewScrollUp"].ShortCutKey = "WheelUp";
+                    memento["ViewScrollDown"].ShortCutKey = "WheelDown";
                     break;
             }
 
@@ -966,7 +966,7 @@ namespace NeeView
                 // TODO: とてもしっくりこないアクセスなのでいい感じに修正する
                 var elements =  CommandTable.Current._elements;
 
-                var collection = new CommandCollection() { Items = new Dictionary<string, CommandElement.MementoV2>() };
+                var collection = new CommandCollection();
                 foreach (var pair in Elements)
                 {
                     if (elements.ContainsKey(pair.Key))
@@ -976,7 +976,7 @@ namespace NeeView
                         var parameterType = elements[pair.Key].ParameterSource?.GetDefault().GetType();
 
                         var value = CreateCommandMementoV2(pair.Value, parameterType);
-                        collection.Items.Add(pair.Key, value);
+                        collection.Add(pair.Key, value);
                     }
                     else
                     {
@@ -1057,27 +1057,16 @@ namespace NeeView
 
         #region Memento CommandCollection
 
-        /// <summary>
-        /// 設定V2ではこのデータを保存する
-        /// </summary>
-        public class CommandCollection
-        {
-            public Dictionary<string, CommandElement.MementoV2> Items { get; set; }
 
-            public CommandCollection Clone()
-            {
-                var memento = (CommandCollection)this.MemberwiseClone();
-                memento.Items = this.Items.ToDictionary(e => e.Key, e => (CommandElement.MementoV2)e.Value.Clone());
-                return memento;
-            }
-        }
 
         public CommandCollection CreateCommandCollectionMemento()
         {
-            return new CommandCollection()
+            var collection = new CommandCollection();
+            foreach (var item in _elements)
             {
-                Items = _elements.ToDictionary(e => e.Key, e => e.Value.CreateMementoV2())
-            };
+                collection.Add(item.Key, item.Value.CreateMementoV2());
+            }
+            return collection;
         }
 
         public void RestoreCommandCollection(CommandCollection collection)
@@ -1086,7 +1075,7 @@ namespace NeeView
 
             UpdateScriptCommand();
 
-            foreach (var pair in collection.Items)
+            foreach (var pair in collection)
             {
                 if (_elements.ContainsKey(pair.Key))
                 {
@@ -1104,5 +1093,21 @@ namespace NeeView
         #endregion
 
 
+    }
+
+    /// <summary>
+    /// 設定V2ではこのデータを保存する
+    /// </summary>
+    public class CommandCollection : Dictionary<string, CommandElement.MementoV2>
+    {
+        public CommandCollection Clone()
+        {
+            var clone = new CommandCollection();
+            foreach (var item in this)
+            {
+                clone.Add(item.Key, (CommandElement.MementoV2)item.Value.Clone());
+            }
+            return clone;
+        }
     }
 }

@@ -24,9 +24,9 @@ namespace NeeView.Setting
 
 
 
-        public CommandParameterViewModel(CommandTable.CommandCollection memento, string key)
+        public CommandParameterViewModel(CommandCollection memento, string key)
         {
-            _sources = memento.Items;
+            _sources = memento;
             _key = key;
 
             if (CommandTable.Current.GetElement(_key).Share != null)

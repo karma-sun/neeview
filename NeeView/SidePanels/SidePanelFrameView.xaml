@@ -153,9 +153,9 @@
                     <ContentControl x:Name="LeftPanelContent" Content="{Binding VM.Left.Panel.SelectedPanel.View}" Margin="{Binding PanelMargin}" IsTabStop="False" Focusable="False">
                         <behaviors:Interaction.Behaviors>
                             <local:AutoHideBehavior Name="LeftPanel" Screen="{Binding ElementName=Screen}" SubTarget="{Binding ElementName=LeftPanelSplitter}" Dock="Left"
-                                    IsEnabled="{Binding VM.Left.IsAutoHide}" DelayTime="{Binding VM.App.AutoHideDelayTimeMillisecond}"
-                                    DelayVisibleTime="{Binding VM.App.AutoHideDelayVisibleTimeMillisecond}" FocusLockMode="{Binding VM.App.AutoHideFocusLockMode}"
-                                    IsKeyDownDelayEnabled="{Binding VM.App.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding VM.App.AutoHideHitTestMargin}"
+                                    IsEnabled="{Binding VM.Left.IsAutoHide}" DelayTime="{Binding VM.AutoHideConfig.AutoHideDelayTime}"
+                                    DelayVisibleTime="{Binding VM.AutoHideConfig.AutoHideDelayVisibleTime}" FocusLockMode="{Binding VM.AutoHideConfig.AutoHideFocusLockMode}"
+                                    IsKeyDownDelayEnabled="{Binding VM.AutoHideConfig.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding VM.AutoHideConfig.AutoHideHitTestMargin}"
                                     Description="{Binding VM.Left.AutoHideDescription}" IsMouseEnabled="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsAutoHideMouseEnabled}">
                                 <local:AutoHideBehavior.IsVisibleLocked>
                                     <MultiBinding Converter="{StaticResource MultiBooleanOrConverter}">
@@ -176,9 +176,9 @@
                     <ContentControl x:Name="RightPanelContent" Content="{Binding VM.Right.Panel.SelectedPanel.View}" Margin="{Binding PanelMargin}" IsTabStop="False" Focusable="False">
                         <behaviors:Interaction.Behaviors>
                             <local:AutoHideBehavior Name="RightPanel" Screen="{Binding ElementName=Screen}" SubTarget="{Binding ElementName=RightPanelSplitter}" Dock="Right"
-                                    IsEnabled="{Binding VM.Right.IsAutoHide}" DelayTime="{Binding VM.App.AutoHideDelayTimeMillisecond}"
-                                    DelayVisibleTime="{Binding VM.App.AutoHideDelayVisibleTimeMillisecond}" FocusLockMode="{Binding VM.App.AutoHideFocusLockMode}"
-                                    IsKeyDownDelayEnabled="{Binding VM.App.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding VM.App.AutoHideHitTestMargin}"
+                                    IsEnabled="{Binding VM.Right.IsAutoHide}" DelayTime="{Binding VM.AutoHideConfig.AutoHideDelayTime}"
+                                    DelayVisibleTime="{Binding VM.AutoHideConfig.AutoHideDelayVisibleTime}" FocusLockMode="{Binding VM.AutoHideConfig.AutoHideFocusLockMode}"
+                                    IsKeyDownDelayEnabled="{Binding VM.AutoHideConfig.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding VM.AutoHideConfig.AutoHideHitTestMargin}"
                                     Description="{Binding VM.Right.AutoHideDescription}"
                                     IsMouseEnabled="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=IsAutoHideMouseEnabled}">
                                 <local:AutoHideBehavior.IsVisibleLocked>

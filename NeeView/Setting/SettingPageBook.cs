@@ -38,7 +38,7 @@ namespace NeeView.Setting
             {
                 new SettingItemSection(Properties.Resources.SettingPageBookVisualVisual,
                     new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsVisibleBusy))),
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsIgnoreImageDpi))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.IsIgnoreImageDpi))),
                     new SettingItemProperty(PropertyMemberElement.Create(ContentCanvas.Current, nameof(ContentCanvas.ContentsSpace)))),
             };
         }

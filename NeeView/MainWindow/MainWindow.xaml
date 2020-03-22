@@ -269,19 +269,19 @@
             <!-- Menu Layer -->
             <ContentControl x:Name="LayerMenuSocket" VerticalAlignment="Top" Visibility="Collapsed" Focusable="False" MouseEnter="LayerMenuSocket_MouseEnter" MouseLeave="LayerMenuSocket_MouseLeave">
                 <behaviors:Interaction.Behaviors>
-                    <local:AutoHideBehavior Name="MenuBar" Screen="{Binding ElementName=Root}" Dock="Top" IsEnabled="{Binding Model.CanHideMenu}" DelayTime="{Binding App.AutoHideDelayTimeMillisecond}"
-                            DelayVisibleTime="{Binding App.AutoHideDelayVisibleTimeMillisecond}" FocusLockMode="{Binding App.AutoHideFocusLockMode}"
-                            IsVisibleLocked="{Binding Model.IsPanelVisibleLocked}"
-                            IsKeyDownDelayEnabled="{Binding App.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding App.AutoHideHitTestMargin}" Description="{Binding MenuAutoHideDescription}" />
+                    <local:AutoHideBehavior Name="MenuBar" Screen="{Binding ElementName=Root}" Dock="Top" IsEnabled="{Binding Model.CanHideMenu}" DelayTime="{Binding AutoHideConfig.AutoHideDelayTime}"
+                            DelayVisibleTime="{Binding AutoHideConfig.AutoHideDelayVisibleTime}" FocusLockMode="{Binding AutoHideConfig.AutoHideFocusLockMode}"
+                            IsVisibleLocked="{Binding Model.IsPanelVisibleLocked}" IsKeyDownDelayEnabled="{Binding AutoHideConfig.IsAutoHideKeyDownDelay}"
+                            HitTestMargin="{Binding AutoHideConfig.AutoHideHitTestMargin}" Description="{Binding MenuAutoHideDescription}" />
                 </behaviors:Interaction.Behaviors>
             </ContentControl>
 
             <!-- Status Layer -->
             <DockPanel x:Name="LayerStatusArea" VerticalAlignment="Bottom" Visibility="Visible" MouseEnter="LayerStatusArea_MouseEnter" MouseLeave="LayerStatusArea_MouseLeave">
                 <behaviors:Interaction.Behaviors>
-                    <local:AutoHideBehavior Screen="{Binding ElementName=Root}" Dock="Bottom" IsEnabled="{Binding Model.CanHidePageSlider}" DelayTime="{Binding App.AutoHideDelayTimeMillisecond}"
-                            DelayVisibleTime="{Binding App.AutoHideDelayVisibleTimeMillisecond}" FocusLockMode="{Binding App.AutoHideFocusLockMode}"
-                            IsKeyDownDelayEnabled="{Binding App.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding App.AutoHideHitTestMargin}" Description="{Binding StatusAutoHideDescrption}"
+                    <local:AutoHideBehavior Screen="{Binding ElementName=Root}" Dock="Bottom" IsEnabled="{Binding Model.CanHidePageSlider}" DelayTime="{Binding AutoHideConfig.AutoHideDelayTime}"
+                            DelayVisibleTime="{Binding AutoHideConfig.AutoHideDelayVisibleTime}" FocusLockMode="{Binding AutoHideConfig.AutoHideFocusLockMode}"
+                            IsKeyDownDelayEnabled="{Binding AutoHideConfig.IsAutoHideKeyDownDelay}" HitTestMargin="{Binding AutoHideConfig.AutoHideHitTestMargin}" Description="{Binding StatusAutoHideDescrption}"
                             IsVisibleLocked="{Binding Model.IsPanelVisibleLocked}"/>
                 </behaviors:Interaction.Behaviors>
                 <Grid x:Name="LayerStatusAreaPadding" DockPanel.Dock="Bottom" Height="{Binding ElementName=SliderArea, Path=ActualHeight}" />
@@ -300,14 +300,14 @@
                     </Grid.Style>
                     <ContentControl x:Name="LayerThumbnailListSocket" IsTabStop="False">
                         <behaviors:Interaction.Behaviors>
-                            <local:AutoHideBehavior Screen="{Binding ElementName=Root}" Dock="Bottom" IsEnabled="{Binding CanHideThumbnailList}" DelayTime="{Binding App.AutoHideDelayTimeMillisecond}"
-                                    DelayVisibleTime="{Binding App.AutoHideDelayVisibleTimeMillisecond}" FocusLockMode="{Binding App.AutoHideFocusLockMode}"
-                                    IsKeyDownDelayEnabled="{Binding App.IsAutoHideKeyDownDelay}" Description="{Binding ThumbnailListusAutoHideDescrption}"
+                            <local:AutoHideBehavior Screen="{Binding ElementName=Root}" Dock="Bottom" IsEnabled="{Binding CanHideThumbnailList}" DelayTime="{Binding AutoHideConfig.AutoHideDelayTime}"
+                                    DelayVisibleTime="{Binding AutoHideConfig.AutoHideDelayVisibleTime}" FocusLockMode="{Binding AutoHideConfig.AutoHideFocusLockMode}"
+                                    IsKeyDownDelayEnabled="{Binding AutoHideConfig.IsAutoHideKeyDownDelay}" Description="{Binding ThumbnailListusAutoHideDescrption}"
                                     IsVisibleLocked="{Binding Model.IsPanelVisibleLocked}">
                                 <local:AutoHideBehavior.HitTestMargin>
                                     <MultiBinding Converter="{StaticResource DoubleSumConverter}">
                                         <Binding ElementName="SliderArea" Path="ActualHeight" />
-                                        <Binding Path="App.AutoHideHitTestMargin" />
+                                        <Binding Path="AutoHideConfig.AutoHideHitTestMargin" />
                                     </MultiBinding>
                                 </local:AutoHideBehavior.HitTestMargin>
                             </local:AutoHideBehavior>

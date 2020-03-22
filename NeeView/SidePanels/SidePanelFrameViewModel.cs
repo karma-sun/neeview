@@ -102,6 +102,7 @@ namespace NeeView
 
         public App App => App.Current;
 
+        public AutoHideConfig AutoHideConfig => Config.Current.Layout.AutoHide;
 
         /// <summary>
         /// モデルのプロパティ変更イベント処理

@@ -47,7 +47,7 @@ namespace NeeView
         /// <summary>
         /// DPI(アプリ値)
         /// </summary>
-        public static DpiScale Dpi => App.Current.IsIgnoreImageDpi ? RawDpi : OneDpi;
+        public static DpiScale Dpi => Config.Current.System.IsIgnoreImageDpi ? RawDpi : OneDpi;
 
         /// <summary>
         /// DPI(システム値)

@@ -227,6 +227,7 @@ namespace NeeView
         public LoupeTransform LoupeTransform => LoupeTransform.Current;
         public ToastService ToastService => ToastService.Current;
         public App App => App.Current;
+        public AutoHideConfig AutoHideConfig => Config.Current.Layout.AutoHide;
 
 
         public MainWindowModel Model

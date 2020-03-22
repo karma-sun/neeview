@@ -69,7 +69,7 @@ namespace NeeView
         // アプリ設定反映
         public void RestoreSetting(UserSetting setting)
         {
-            App.Current.Restore(setting.App);
+            ////App.Current.Restore(setting.App);
             ////WindowShape.Current.WindowChromeFrame = App.Current.WindowChromeFrame;
 
             ////SusiePluginManager.Current.Restore(setting.SusieMemento);

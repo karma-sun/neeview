@@ -28,7 +28,7 @@ namespace NeeView.Setting
                         }),
 
                 new SettingItemSection(Properties.Resources.SettingPageExternalGeneralFromBrowser,
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.DownloadPath))) { IsStretch = true }),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.System, nameof(SystemConfig.DownloadPath))) { IsStretch = true }),
             };
         }
     }

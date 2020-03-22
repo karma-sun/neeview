@@ -1,39 +1,17 @@
 ﻿using NeeLaboratory.ComponentModel;
-using NeeView.Windows.Property;
 
 namespace NeeView
 {
     public class LayoutConfig : BindableBase
     {
         public ThemeConfig Theme { get; set; } = new ThemeConfig();
+
+        public AutoHideConfig AutoHide { get; set; } = new AutoHideConfig();
+
+        public PanelsConfig Panels { get; set; } = new PanelsConfig();
     }
 
-
-    public class ThemeConfig : BindableBase
+    public class PanelsConfig : BindableBase
     {
-        private PanelColor _panelColor = PanelColor.Dark;
-        private PanelColor _menuColor = PanelColor.Light;
-
-
-        /// <summary>
-        /// テーマカラー：パネル
-        /// </summary>
-        [PropertyMember("@ParamPanelColor")]
-        public PanelColor PanelColor
-        {
-            get { return _panelColor; }
-            set { SetProperty(ref _panelColor, value); }
-        }
-
-        /// <summary>
-        /// テーマカラー：メニュー
-        /// </summary>
-        [PropertyMember("@ParamMenuColor")]
-        public PanelColor MenuColor
-        {
-            get { return _menuColor; }
-            set { SetProperty(ref _menuColor, value); }
-        }
-
     }
 }

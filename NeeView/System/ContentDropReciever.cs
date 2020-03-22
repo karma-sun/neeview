@@ -99,7 +99,7 @@ namespace NeeView
 
             try
             {
-                var downloadPath = string.IsNullOrWhiteSpace(App.Current.DownloadPath) ? Temporary.Current.TempDownloadDirectory : App.Current.DownloadPath;
+                var downloadPath = string.IsNullOrWhiteSpace(Config.Current.System.DownloadPath) ? Temporary.Current.TempDownloadDirectory : Config.Current.System.DownloadPath;
                 string path = await DropAsync(this, data, downloadPath, (string message) => NeeView.NowLoading.Current.SetLoading(message));
                 PlaylistBookLoader.Load(path, true);
             }

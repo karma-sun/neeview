@@ -1,6 +1,7 @@
 ﻿using NeeLaboratory.ComponentModel;
 using NeeView.Windows.Controls;
 using NeeView.Windows.Property;
+using System.ComponentModel;
 using System.Globalization;
 using System.Runtime.Serialization;
 
@@ -57,6 +58,10 @@ namespace NeeView
             set { _isSettingBackup = value; }
         }
 
+        // 画像のDPI非対応
+        [PropertyMember("@ParamIsIgnoreImageDpi", Tips = "@ParamIsIgnoreImageDpiTips")]
+        public bool IsIgnoreImageDpi { get; set; } = true;
+
         // テンポラリフォルダーの場所
         [PropertyPath("@ParamTemporaryDirectory", Tips = "@ParamTemporaryDirectoryTips", FileDialogType = FileDialogType.Directory)]
         public string TemporaryDirectory
@@ -72,6 +77,11 @@ namespace NeeView
             get => _cacheDirectory;
             set => _cacheDirectory = string.IsNullOrWhiteSpace(value) || value == ThumbnailCache.CacheFolderPathDefault ? null : value;
         }
+
+        // ダウンロードファイル置き場
+        [DefaultValue("")]
+        [PropertyPath("@ParamDownloadPath", Tips = "@ParamDownloadPathTips", FileDialogType = FileDialogType.Directory)]
+        public string DownloadPath { get; set; } = "";
     }
 
 }

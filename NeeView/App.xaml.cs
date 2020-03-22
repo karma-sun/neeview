@@ -175,7 +175,7 @@ namespace NeeView
             Debug.WriteLine($"App.UserSettingLoaded: {Stopwatch.ElapsedMilliseconds}ms");
 
             // restore
-            Restore(setting.App);
+            ////Restore(setting.App);
 
             // スプラッシュスクリーン(予備)
             ShowSplashScreen();

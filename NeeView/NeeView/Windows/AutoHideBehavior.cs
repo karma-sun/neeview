@@ -120,7 +120,7 @@ namespace NeeView
         }
 
         public static readonly DependencyProperty DelayTimeProperty =
-            DependencyProperty.Register("DelayTime", typeof(double), typeof(AutoHideBehavior), new PropertyMetadata(1000.0, OnPropertyChanged));
+            DependencyProperty.Register("DelayTime", typeof(double), typeof(AutoHideBehavior), new PropertyMetadata(1.0, OnPropertyChanged));
 
         private static void OnPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -488,13 +488,13 @@ namespace NeeView
             if (isVisible)
             {
                 var option = isForce ? DelayValueOverwriteOption.Force : DelayValueOverwriteOption.Shorten;
-                var ms = isVisibleDelay ? DelayVisibleTime : 0.0;
+                var ms = isVisibleDelay ? DelayVisibleTime * 1000.0 : 0.0;
                 _delayVisibility.SetValue(Visibility.Visible, ms, option);
             }
             else
             {
                 var option = isForce ? DelayValueOverwriteOption.Force : DelayValueOverwriteOption.Shorten;
-                var ms = now ? 0.0 : this.DelayTime;
+                var ms = now ? 0.0 : this.DelayTime * 1000.0;
                 _delayVisibility.SetValue(Visibility.Collapsed, ms, option);
             }
         }

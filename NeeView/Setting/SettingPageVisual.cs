@@ -45,11 +45,11 @@ namespace NeeView.Setting
                         new BackgroundSettingControl(ContentCanvasBrush.Current.CustomBackground))),
 
                 new SettingItemSection(Properties.Resources.SettingPageVisualGeneralAutoHide,
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.AutoHideFocusLockMode))),
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.IsAutoHideKeyDownDelay))),
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.AutoHideDelayVisibleTime))),
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.AutoHideDelayTime))),
-                    new SettingItemProperty(PropertyMemberElement.Create(App.Current, nameof(App.AutoHideHitTestMargin)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.AutoHide, nameof(AutoHideConfig.AutoHideFocusLockMode))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.AutoHide, nameof(AutoHideConfig.IsAutoHideKeyDownDelay))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.AutoHide, nameof(AutoHideConfig.AutoHideDelayVisibleTime))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.AutoHide, nameof(AutoHideConfig.AutoHideDelayTime))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.AutoHide, nameof(AutoHideConfig.AutoHideHitTestMargin)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageVisualGeneralAdvance,
                     new SettingItemProperty(PropertyMemberElement.Create(MenuBar.Current, nameof(MenuBar.IsHamburgerMenu))),

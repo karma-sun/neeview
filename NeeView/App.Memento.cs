@@ -47,8 +47,6 @@ namespace NeeView
         ////private bool _isNetworkEnalbe = true;
         ////private bool _isSettingBackup;
         ////private bool _isSaveWindowPlacement = true;
-        private double _autoHideDelayTime = 1.0;
-        private double _autoHideDelayVisibleTime = 0.0;
         ////private string _temporaryDirectory;
         ////private string _cacheDirectory;
         ////private string _cacheDirectoryOld;
@@ -58,18 +56,20 @@ namespace NeeView
         ////private string _bookmarkFilePath;
         ////private bool _isSavePagemark = true;
         ////private string _pagemarkFilePath;
-        private AutoHideFocusLockMode _autoHideFocusLockMode = AutoHideFocusLockMode.LogicalTextBoxFocusLock;
-        private bool _isAutoHideKeyDownDelay = true;
-        private double _autoHideHitTestMargin = 32.0;
+        ////private double _autoHideDelayTime = 1.0;
+        ////private double _autoHideDelayVisibleTime = 0.0;
+        ////private AutoHideFocusLockMode _autoHideFocusLockMode = AutoHideFocusLockMode.LogicalTextBoxFocusLock;
+        ////private bool _isAutoHideKeyDownDelay = true;
+        ////private double _autoHideHitTestMargin = 32.0;
 
         #endregion
 
         #region Properties
 
+#if false
         // 適用した設定データのバージョン
         public int SettingVersion { get; set; }
 
-#if false
         // 多重起動を許可する
         [PropertyMember("@ParamIsMultiBootEnabled")]
         public bool IsMultiBootEnabled { get; set; }
@@ -145,13 +145,9 @@ namespace NeeView
             set => _pagemarkFilePath = string.IsNullOrWhiteSpace(value) || value == SaveData.DefaultPagemarkFilePath ? null : value;
         }
 
-#endif
-
         // 画像のDPI非対応
         [PropertyMember("@ParamIsIgnoreImageDpi", Tips = "@ParamIsIgnoreImageDpiTips")]
         public bool IsIgnoreImageDpi { get; set; } = true;
-
-
 
         // パネルやメニューが自動的に消えるまでの時間(秒)
         [PropertyMember("@ParamAutoHideDelayTime")]
@@ -207,7 +203,6 @@ namespace NeeView
             set { SetProperty(ref _autoHideHitTestMargin, value); }
         }
 
-#if false
         // ウィンドウクローム枠
         [PropertyMember("@ParamWindowChromeFrame")]
         public WindowChromeFrame WindowChromeFrame { get; set; } = WindowChromeFrame.WindowFrame;
@@ -215,14 +210,12 @@ namespace NeeView
         // 前回開いていたブックを開く
         [PropertyMember("@ParamIsOpenLastBook")]
         public bool IsOpenLastBook { get; set; }
-#endif
 
         // ダウンロードファイル置き場
         [DefaultValue("")]
         [PropertyPath("@ParamDownloadPath", Tips = "@ParamDownloadPathTips", FileDialogType = FileDialogType.Directory)]
         public string DownloadPath { get; set; } = "";
 
-#if false
         [PropertyMember("@ParamIsSettingBackup", Tips = "@ParamIsSettingBackupTips")]
         public bool IsSettingBackup
         {
@@ -411,6 +404,13 @@ namespace NeeView
                 config.System.CacheDirectory = CacheDirectory;
                 ////config.System.CacheDirectoryOld = CacheDirectoryOld;
                 config.Window.WindowChromeFrame = WindowChromeFrame;
+                config.System.IsIgnoreImageDpi = IsIgnoreImageDpi;
+                config.Layout.AutoHide.AutoHideDelayTime = AutoHideDelayTime;
+                config.Layout.AutoHide.AutoHideDelayVisibleTime = AutoHideDelayVisibleTime;
+                config.Layout.AutoHide.AutoHideFocusLockMode = AutoHideFocusLockMode;
+                config.Layout.AutoHide.IsAutoHideKeyDownDelay = IsAutoHideKeyDownDelay;
+                config.Layout.AutoHide.AutoHideHitTestMargin = AutoHideHitTestMargin;
+                config.System.DownloadPath = DownloadPath;
             }
         }
 
@@ -421,18 +421,18 @@ namespace NeeView
             memento.IsSaveFullScreen = Config.Current.StartUp.IsRestoreFullScreen;
             memento.IsSaveWindowPlacement = Config.Current.StartUp.IsRestoreWindowPlacement;
             memento.IsNetworkEnabled = Config.Current.System.IsNetworkEnabled;
-            memento.IsIgnoreImageDpi = this.IsIgnoreImageDpi;
+            memento.IsIgnoreImageDpi = Config.Current.System.IsIgnoreImageDpi;
             memento.IsSaveHistory = Config.Current.History.IsSaveHistory;
             memento.HistoryFilePath = Config.Current.History.HistoryFilePath;
             memento.IsSaveBookmark = Config.Current.Bookmark.IsSaveBookmark;
             memento.BookmarkFilePath = Config.Current.Bookmark.BookmarkFilePath;
             memento.IsSavePagemark = Config.Current.Pagemark.IsSavePagemark;
             memento.PagemarkFilePath = Config.Current.Pagemark.PagemarkFilePath;
-            memento.AutoHideDelayTime = this.AutoHideDelayTime;
-            memento.AutoHideDelayVisibleTime = this.AutoHideDelayVisibleTime;
+            memento.AutoHideDelayTime = Config.Current.Layout.AutoHide.AutoHideDelayTime;
+            memento.AutoHideDelayVisibleTime = Config.Current.Layout.AutoHide.AutoHideDelayVisibleTime;
             memento.WindowChromeFrame = Config.Current.Window.WindowChromeFrame;
             memento.IsOpenLastBook = Config.Current.StartUp.IsOpenLastBook;
-            memento.DownloadPath = this.DownloadPath;
+            memento.DownloadPath = Config.Current.System.DownloadPath;
             memento.IsRestoreSecondWindow = Config.Current.StartUp.IsRestoreSecondWindowPlacement;
             memento.IsSettingBackup = Config.Current.System.IsSettingBackup;
             memento.Language = Config.Current.System.Language;
@@ -441,33 +441,32 @@ namespace NeeView
             memento.TemporaryDirectory = Config.Current.System.TemporaryDirectory;
             memento.CacheDirectory = Config.Current.System.CacheDirectory;
             memento.CacheDirectoryOld = Config.Current.System.CacheDirectory; //// CacheDirectoryOld廃止(ver.37)
-            memento.AutoHideFocusLockMode = this.AutoHideFocusLockMode;
-            memento.IsAutoHideKeyDownDelay = this.IsAutoHideKeyDownDelay;
-            memento.AutoHideHitTestMargin = this.AutoHideHitTestMargin;
+            memento.AutoHideFocusLockMode = Config.Current.Layout.AutoHide.AutoHideFocusLockMode;
+            memento.IsAutoHideKeyDownDelay = Config.Current.Layout.AutoHide.IsAutoHideKeyDownDelay;
+            memento.AutoHideHitTestMargin = Config.Current.Layout.AutoHide.AutoHideHitTestMargin;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
 
-            this.SettingVersion = memento._Version;
+            ////this.SettingVersion = memento._Version;
             ////this.IsMultiBootEnabled = memento.IsMultiBootEnabled;
             ////this.IsSaveFullScreen = memento.IsSaveFullScreen;
             ////this.IsSaveWindowPlacement = memento.IsSaveWindowPlacement;
             ////this.IsNetworkEnabled = memento.IsNetworkEnabled;
-            this.IsIgnoreImageDpi = memento.IsIgnoreImageDpi;
+            ////this.IsIgnoreImageDpi = memento.IsIgnoreImageDpi;
             ////this.IsSaveHistory = memento.IsSaveHistory;
             ////this.HistoryFilePath = memento.HistoryFilePath;
             ////this.IsSaveBookmark = memento.IsSaveBookmark;
             ////this.BookmarkFilePath = memento.BookmarkFilePath;
             ////this.IsSavePagemark = memento.IsSavePagemark;
             ////this.PagemarkFilePath = memento.PagemarkFilePath;
-            this.AutoHideDelayTime = memento.AutoHideDelayTime;
-            this.AutoHideDelayVisibleTime = memento.AutoHideDelayVisibleTime;
             ////this.WindowChromeFrame = memento.WindowChromeFrame;
             ////this.IsOpenLastBook = memento.IsOpenLastBook;
-            this.DownloadPath = memento.DownloadPath;
+            ////this.DownloadPath = memento.DownloadPath;
             ////this.IsRestoreSecondWindow = memento.IsRestoreSecondWindow;
             ////this.IsSettingBackup = memento.IsSettingBackup;
             ////this.Language = memento.Language;
@@ -476,9 +475,11 @@ namespace NeeView
             ////this.TemporaryDirectory = memento.TemporaryDirectory;
             ////this.CacheDirectory = memento.CacheDirectory;
             ////this.CacheDirectoryOld = memento.CacheDirectoryOld; // RestoreOnce()で反映
-            this.AutoHideFocusLockMode = memento.AutoHideFocusLockMode;
-            this.IsAutoHideKeyDownDelay = memento.IsAutoHideKeyDownDelay;
-            this.AutoHideHitTestMargin = memento.AutoHideHitTestMargin;
+            ////this.AutoHideDelayTime = memento.AutoHideDelayTime;
+            ////this.AutoHideDelayVisibleTime = memento.AutoHideDelayVisibleTime;
+            ////this.AutoHideFocusLockMode = memento.AutoHideFocusLockMode;
+            ////this.IsAutoHideKeyDownDelay = memento.IsAutoHideKeyDownDelay;
+            ////this.AutoHideHitTestMargin = memento.AutoHideHitTestMargin;
         }
 
         #endregion

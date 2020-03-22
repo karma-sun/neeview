@@ -77,7 +77,7 @@ namespace NeeView
         private DateTime _scrollPageTime;
         private const double _scrollPageMargin = 100.0;
 
-        private double _sliderOpacity = 1.0;
+        ////private double _sliderOpacity = 1.0;
         private SolidColorBrush _sliderBackground;
         private SolidColorBrush _sliderBackgroundGlass;
 
@@ -107,6 +107,11 @@ namespace NeeView
 
             ThemeProfile.Current.ThemeColorChanged += (s, e) => RefreshSliderBrushes();
 
+            Config.Current.Layout.Slider.AddPropertyChanged(nameof(SliderConfig.Opacity), (s, e) =>
+            {
+                RefreshSliderBrushes();
+            });
+
             RefreshCanHidePanel();
             RefreshCanHidePageSlider();
 
@@ -133,6 +138,7 @@ namespace NeeView
         [PropertyMember("@ParamIsOpenbookAtCurrentPlace")]
         public bool IsOpenbookAtCurrentPlace { get; set; }
 
+#if false
         // スライダー透明度
         [PropertyPercent("@ParamSliderOpacity", Tips = "@ParamSliderOpacityTips")]
         public double SliderOpacity
@@ -146,6 +152,7 @@ namespace NeeView
                 }
             }
         }
+#endif
 
         // スライダー背景ブラシ
         public SolidColorBrush SliderBackground
@@ -349,7 +356,7 @@ namespace NeeView
         private void RefreshSliderBrushes()
         {
             var original = (SolidColorBrush)App.Current.Resources["NVBaseBrush"];
-            var glass = CreatePanelBrush(original, _sliderOpacity);
+            var glass = CreatePanelBrush(original, Config.Current.Layout.Slider.Opacity);
 
             SliderBackground = CanHidePageSlider ? glass : original;
             SliderBackgroundGlass = glass;
@@ -771,6 +778,8 @@ namespace NeeView
             public void RestoreConfig(Config config)
             {
                 // TODO: ContextMenuSetting
+
+                config.Layout.Slider.Opacity = SliderOpacity;
             }
 
         }
@@ -790,7 +799,7 @@ namespace NeeView
             memento.IsVisibleBusy = this.IsVisibleBusy;
             memento.IsOpenbookAtCurrentPlace = this.IsOpenbookAtCurrentPlace;
             memento.IsAccessKeyEnabled = this.IsAccessKeyEnabled;
-            memento.SliderOpacity = this.SliderOpacity;
+            memento.SliderOpacity = Config.Current.Layout.Slider.Opacity;
             memento.IsHidePageSliderInFullscreen = this.IsHidePageSliderInFullscreen;
             memento.IsCursorHideEnabled = this.IsCursorHideEnabled;
             memento.CursorHideTime = this.CursorHideTime;
@@ -815,7 +824,7 @@ namespace NeeView
             this.IsVisibleBusy = memento.IsVisibleBusy;
             this.IsOpenbookAtCurrentPlace = memento.IsOpenbookAtCurrentPlace;
             this.IsAccessKeyEnabled = memento.IsAccessKeyEnabled;
-            this.SliderOpacity = memento.SliderOpacity;
+            ////this.SliderOpacity = memento.SliderOpacity;
             this.IsHidePageSliderInFullscreen = memento.IsHidePageSliderInFullscreen;
             this.IsCursorHideEnabled = memento.IsCursorHideEnabled;
             this.CursorHideTime = memento.CursorHideTime;

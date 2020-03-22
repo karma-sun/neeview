@@ -23,6 +23,7 @@ namespace NeeView
             _defaultThumbnailItemProfile = new PanelListItemProfile(PanelListItemImageShape.Original, 128, false, true, true, 0.0);
             Current = new SidePanelProfile();
         }
+
         public static SidePanelProfile Current { get; }
 
         private static PanelListItemProfile _defaultNormalItemProfile;
@@ -31,7 +32,7 @@ namespace NeeView
         private static PanelListItemProfile _defaultThumbnailItemProfile;
 
 
-        private double _opacity = 1.0;
+        ////private double _opacity = 1.0;
         private SolidColorBrush _backgroundBrush;
         private SolidColorBrush _baseBrush;
         private SolidColorBrush _iconBackgroundBrush;
@@ -54,6 +55,11 @@ namespace NeeView
             ThemeProfile.Current.ThemeColorChanged += (s, e) => RefreshBrushes();
             MainWindowModel.Current.CanHidePanelChanged += (s, e) => RefreshBrushes();
 
+            Config.Current.Layout.SidePanels.AddPropertyChanged(nameof(SidePanelsConfig.Opacity), (s, e) =>
+            {
+                RefreshBrushes();
+            });
+
             RefreshBrushes();
         }
 
@@ -61,6 +67,7 @@ namespace NeeView
         [PropertyMember("@ParamSidePanelIsLeftRightKeyEnabled", Tips = "@ParamSidePanelIsLeftRightKeyEnabledTips")]
         public bool IsLeftRightKeyEnabled { get; set; } = true;
 
+#if false
         [PropertyPercent("@ParamSidePanelOpacity", Tips = "@ParamSidePanelOpacityTips")]
         public double Opacity
         {
@@ -73,6 +80,7 @@ namespace NeeView
                 }
             }
         }
+#endif
 
         public SolidColorBrush BackgroundBrush
         {
@@ -291,7 +299,7 @@ namespace NeeView
 
         private void RefreshBrushes()
         {
-            var opacity = MainWindowModel.Current.CanHidePanel ? _opacity : 1.0;
+            var opacity = MainWindowModel.Current.CanHidePanel ? Config.Current.Layout.SidePanels.Opacity : 1.0;
 
             BackgroundBrush = CreatePanelBrush((SolidColorBrush)App.Current.Resources["NVBackground"], opacity);
             BaseBrush = CreatePanelBrush((SolidColorBrush)App.Current.Resources["NVBaseBrush"], opacity);
@@ -391,6 +399,8 @@ namespace NeeView
             public void RestoreConfig(Config config)
             {
                 // TODO: PanelListItemProfile
+
+                config.Layout.SidePanels.Opacity = Opacity;
             }
         }
 
@@ -399,7 +409,7 @@ namespace NeeView
             var memento = new Memento();
 
             memento.IsLeftRightKeyEnabled = this.IsLeftRightKeyEnabled;
-            memento.Opacity = this.Opacity;
+            memento.Opacity = Config.Current.Layout.SidePanels.Opacity;
             memento.FontName = this.FontName;
             memento.FontSize = this.FontSize;
             memento.FolderTreeFontSize = this.FolderTreeFontSize;
@@ -416,7 +426,7 @@ namespace NeeView
             if (memento == null) return;
 
             this.IsLeftRightKeyEnabled = memento.IsLeftRightKeyEnabled;
-            this.Opacity = memento.Opacity;
+            ////this.Opacity = memento.Opacity;
             this.FontName = memento.FontName;
             this.FontSize = memento.FontSize;
             this.FolderTreeFontSize = memento.FolderTreeFontSize;

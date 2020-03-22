@@ -22,7 +22,7 @@ namespace NeeView.Setting
             {
                 new SettingItemSection(Properties.Resources.SettingPageBookGeneralGeneral,
 
-                    new SettingItemProperty(PropertyMemberElement.Create(ContentCanvasBrush.Current, nameof(ContentCanvasBrush.PageBackgroundColor))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Background, nameof(BackgroundConfig.PageBackgroundColor))),
                     new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.IsOpenbookAtCurrentPlace))),
                     new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.Excludes)), new SettingItemCollectionControl() { Collection = BookProfile.Current.Excludes, AddDialogHeader=Properties.Resources.WordExcludePath }),
                     new SettingItemProperty(PropertyMemberElement.Create(BookProfile.Current, nameof(BookProfile.WideRatio)))),

@@ -15,12 +15,12 @@ namespace NeeView
 
         public override Binding CreateIsCheckedBinding()
         {
-            return BindingGenerator.Background(BackgroundStyle.CheckDark);
+            return BindingGenerator.Background(BackgroundType.CheckDark);
         }
 
         public override void Execute(CommandParameter param, object[] args, CommandOption option)
         {
-            ContentCanvasBrush.Current.Background = BackgroundStyle.CheckDark;
+            Config.Current.Layout.Background.BackgroundType = BackgroundType.CheckDark;
         }
     }
 }

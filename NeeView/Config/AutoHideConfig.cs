@@ -16,30 +16,16 @@ namespace NeeView
         public double AutoHideDelayTime
         {
             get { return _autoHideDelayTime; }
-            set { if (SetProperty(ref _autoHideDelayTime, value)) { RaisePropertyChanged(nameof(AutoHideDelayTimeMillisecond)); } }
+            set { SetProperty(ref _autoHideDelayTime, value); }
         }
-
-        // パネルやメニューが自動的に消えるまでの時間(ミリ秒)
-        public double AutoHideDelayTimeMillisecond
-        {
-            get { return _autoHideDelayTime * 1000.0; }
-        }
-
 
         // パネルやメニューが自動的に消えるまでの時間(秒)
         [PropertyMember("@ParamAutoHideDelayVisibleTime")]
         public double AutoHideDelayVisibleTime
         {
             get { return _autoHideDelayVisibleTime; }
-            set { if (SetProperty(ref _autoHideDelayVisibleTime, value)) { RaisePropertyChanged(nameof(AutoHideDelayVisibleTimeMillisecond)); } }
+            set { SetProperty(ref _autoHideDelayVisibleTime, value); }
         }
-
-        // パネルやメニューが自動的に消えるまでの時間(ミリ秒)
-        public double AutoHideDelayVisibleTimeMillisecond
-        {
-            get { return _autoHideDelayVisibleTime * 1000.0; }
-        }
-
 
         // パネル自動非表示のフォーカス挙動モード
         [PropertyMember("@AutoHideFocusLockMode", Tips = "@AutoHideFocusLockModeTips")]

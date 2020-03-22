@@ -284,7 +284,7 @@ namespace NeeView
             ////ThemeProfile.Current.Restore(memento.ThemeProfile);
             MainWindowModel.Current.Restore(memento.MainWindowModel);
             ContentCanvas.Current.Restore(memento.ContentCanvas);
-            ContentCanvasBrush.Current.Restore(memento.ContentCanvasBrush);
+            ////ContentCanvasBrush.Current.Restore(memento.ContentCanvasBrush);
             DragTransform.Current.Restore(memento.DragTransform);
             DragTransformControl.Current.Restore(memento.DragTransformControl);
             LoupeTransform.Current.Restore(memento.LoupeTransform);

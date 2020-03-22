@@ -26,7 +26,7 @@ namespace NeeView
             var type = _source.GetType();
 
             _items = new Dictionary<string, object>();
-            foreach (var property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            foreach (var property in type.GetProperties(BindingFlags.Public | BindingFlags.Instance).OrderBy(e => e.Name))
             {
                 if (property.GetCustomAttribute(typeof(PropertyMapIgnore)) != null) continue;
 

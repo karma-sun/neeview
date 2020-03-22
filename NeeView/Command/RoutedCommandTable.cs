@@ -26,7 +26,7 @@ namespace NeeView
         #region Fields
 
         private Dictionary<Key, bool> _usedKeyMap;
-        private bool _isDarty;
+        private bool _isDarty = true;
         private List<EventHandler<KeyEventArgs>> _imeKeyHandlers = new List<EventHandler<KeyEventArgs>>();
         private MouseWheelDelta _mouseWheelDelta = new MouseWheelDelta();
 
@@ -44,6 +44,8 @@ namespace NeeView
 
             // コマンド変更でショートカット変更
             CommandTable.Current.Changed += CommandTable_Changed;
+
+            InitializeInputGestures();
         }
 
         #endregion

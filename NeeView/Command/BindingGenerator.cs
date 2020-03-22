@@ -38,13 +38,13 @@ namespace NeeView
             };
         }
 
-        public static Binding Background(BackgroundStyle mode)
+        public static Binding Background(BackgroundType mode)
         {
-            return new Binding(nameof(ContentCanvasBrush.Background))
+            return new Binding(nameof(BackgroundConfig.BackgroundType))
             {
                 Converter = _backgroundStyleToBooleanConverter,
                 ConverterParameter = mode.ToString(),
-                Source = ContentCanvasBrush.Current
+                Source = Config.Current.Layout.Background
             };
         }
 

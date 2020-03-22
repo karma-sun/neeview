@@ -4,13 +4,13 @@ using System.Windows.Data;
 namespace NeeView
 {
     // コンバータ：背景フラグ
-    [ValueConversion(typeof(BackgroundStyle), typeof(bool))]
+    [ValueConversion(typeof(BackgroundType), typeof(bool))]
     public class BackgroundStyleToBooleanConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            BackgroundStyle mode0 = (BackgroundStyle)value;
-            BackgroundStyle mode1 = (BackgroundStyle)Enum.Parse(typeof(BackgroundStyle), parameter as string);
+            BackgroundType mode0 = (BackgroundType)value;
+            BackgroundType mode1 = (BackgroundType)Enum.Parse(typeof(BackgroundType), parameter as string);
             return (mode0 == mode1);
         }
 

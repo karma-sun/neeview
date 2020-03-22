@@ -106,10 +106,6 @@ namespace NeeView.Setting
         /// Command: ClearCommand
         /// </summary>
         private RelayCommand _clearCommand;
-        private DragActionCollection memento;
-        private string key;
-        private Grid gestureBox;
-
         public RelayCommand ClearCommand
         {
             get { return _clearCommand = _clearCommand ?? new RelayCommand(ClearCommand_Executed); }

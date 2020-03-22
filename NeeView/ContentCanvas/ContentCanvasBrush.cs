@@ -23,7 +23,37 @@ namespace NeeView
             ContentCanvas.Current.ContentChanged +=
                 (s, e) => UpdateBackgroundBrush();
 
-            this.CustomBackground = new BrushSource();
+            ////this.CustomBackground = new BrushSource();
+
+
+            Config.Current.Layout.Background.AddPropertyChanged(nameof(BackgroundConfig.CustomBackground), (s, e) =>
+            {
+                InitializeCustomBackgroundBrush();
+            });
+
+            Config.Current.Layout.Background.AddPropertyChanged(nameof(BackgroundConfig.BackgroundType), (s, e) =>
+            {
+                UpdateBackgroundBrush();
+            });
+
+            Config.Current.Layout.Background.AddPropertyChanged(nameof(BackgroundConfig.PageBackgroundColor), (s, e) =>
+            {
+                RaisePropertyChanged(nameof(PageBackgroundBrush));
+            });
+
+
+            // Initialize
+            InitializeCustomBackgroundBrush();
+            UpdateBackgroundBrush();
+        }
+
+        private void InitializeCustomBackgroundBrush()
+        {
+            UpdateCustomBackgroundBrush();
+            if (Config.Current.Layout.Background.CustomBackground != null)
+            {
+                Config.Current.Layout.Background.CustomBackground.PropertyChanged += (s, e) => UpdateCustomBackgroundBrush();
+            }
         }
 
 
@@ -35,6 +65,7 @@ namespace NeeView
             set { if (_foregroundBrush != value) { _foregroundBrush = value; RaisePropertyChanged(); } }
         }
 
+#if false
         // ページの背景色。透過画像用
         private Color _pageBackgroundColor = Colors.Transparent;
         [PropertyMember("@ParamPageBackgroundColor")]
@@ -49,10 +80,11 @@ namespace NeeView
                 }
             }
         }
+#endif
 
         public Brush PageBackgroundBrush
         {
-            get { return new SolidColorBrush(_pageBackgroundColor); }
+            get { return new SolidColorBrush(Config.Current.Layout.Background.PageBackgroundColor); }
         }
 
 
@@ -75,6 +107,7 @@ namespace NeeView
         }
 
 
+#if false
         // 背景スタイル
         private BackgroundStyle _background = BackgroundStyle.Black;
         public BackgroundStyle Background
@@ -101,13 +134,14 @@ namespace NeeView
                 }
             }
         }
+#endif
 
         //
         private void UpdateCustomBackgroundBrush()
         {
             _customBackgroundBrush = null;
             _customBackgroundFrontBrush = null;
-            if (Background == BackgroundStyle.Custom)
+            if (Config.Current.Layout.Background.BackgroundType == BackgroundType.Custom)
             {
                 UpdateBackgroundBrush();
             }
@@ -119,7 +153,7 @@ namespace NeeView
         private Brush _customBackgroundBrush;
         public Brush CustomBackgroundBrush
         {
-            get { return _customBackgroundBrush ?? (_customBackgroundBrush = _customBackground?.CreateBackBrush()); }
+            get { return _customBackgroundBrush ?? (_customBackgroundBrush = Config.Current.Layout.Background.CustomBackground?.CreateBackBrush()); }
         }
 
 
@@ -129,7 +163,7 @@ namespace NeeView
         private Brush _customBackgroundFrontBrush;
         public Brush CustomBackgroundFrontBrush
         {
-            get { return _customBackgroundFrontBrush ?? (_customBackgroundFrontBrush = _customBackground?.CreateFrontBrush()); }
+            get { return _customBackgroundFrontBrush ?? (_customBackgroundFrontBrush = Config.Current.Layout.Background.CustomBackground?.CreateFrontBrush()); }
         }
 
         /// <summary>
@@ -173,18 +207,18 @@ namespace NeeView
         /// <returns></returns>
         public Brush CreateBackgroundBrush()
         {
-            switch (this.Background)
+            switch (Config.Current.Layout.Background.BackgroundType)
             {
                 default:
-                case BackgroundStyle.Black:
+                case BackgroundType.Black:
                     return Brushes.Black;
-                case BackgroundStyle.White:
+                case BackgroundType.White:
                     return Brushes.White;
-                case BackgroundStyle.Auto:
+                case BackgroundType.Auto:
                     return new SolidColorBrush(ContentCanvas.Current.GetContentColor());
-                case BackgroundStyle.Check:
+                case BackgroundType.Check:
                     return null;
-                case BackgroundStyle.Custom:
+                case BackgroundType.Custom:
                     return CustomBackgroundBrush;
             }
         }
@@ -196,26 +230,26 @@ namespace NeeView
         /// <returns></returns>
         public Brush CreateBackgroundFrontBrush(DpiScale dpi)
         {
-            switch (this.Background)
+            switch (Config.Current.Layout.Background.BackgroundType)
             {
                 default:
-                case BackgroundStyle.Black:
-                case BackgroundStyle.White:
-                case BackgroundStyle.Auto:
+                case BackgroundType.Black:
+                case BackgroundType.White:
+                case BackgroundType.Auto:
                     return null;
-                case BackgroundStyle.Check:
+                case BackgroundType.Check:
                     {
                         var brush = CheckBackgroundBrush.Clone();
                         brush.Transform = new ScaleTransform(1.0 / dpi.DpiScaleX, 1.0 / dpi.DpiScaleY);
                         return brush;
                     }
-                case BackgroundStyle.CheckDark:
+                case BackgroundType.CheckDark:
                     {
                         var brush = CheckBackgroundBrushDark.Clone();
                         brush.Transform = new ScaleTransform(1.0 / dpi.DpiScaleX, 1.0 / dpi.DpiScaleY);
                         return brush;
                     }
-                case BackgroundStyle.Custom:
+                case BackgroundType.Custom:
                     {
                         var brush = CustomBackgroundFrontBrush?.Clone();
                         // 画像タイルの場合はDPI考慮
@@ -239,7 +273,7 @@ namespace NeeView
             public BackgroundStyleV1 BackgroundV1 { get; set; }
 
             [DataMember(Name = "BackgroundV2")]
-            public BackgroundStyle Background { get; set; }
+            public BackgroundType Background { get; set; }
 
             [DataMember]
             public BrushSource CustomBackground { get; set; }
@@ -261,7 +295,7 @@ namespace NeeView
                 // before 34.0
                 if (_Version < Environment.GenerateProductVersionNumber(34, 0, 0))
                 {
-                    if (Enum.TryParse(BackgroundV1.ToString(), out BackgroundStyle value))
+                    if (Enum.TryParse(BackgroundV1.ToString(), out BackgroundType value))
                     {
                         Background = value;
                     }
@@ -271,6 +305,9 @@ namespace NeeView
 
             public void RestoreConfig(Config config)
             {
+                config.Layout.Background.CustomBackground = CustomBackground;
+                config.Layout.Background.BackgroundType = Background;
+                config.Layout.Background.PageBackgroundColor = PageBackgroundColor;
             }
         }
 
@@ -278,18 +315,19 @@ namespace NeeView
         public Memento CreateMemento()
         {
             var memento = new Memento();
-            memento.CustomBackground = this.CustomBackground;
-            memento.Background = this.Background;
-            memento.PageBackgroundColor = this.PageBackgroundColor;
+            memento.CustomBackground = Config.Current.Layout.Background.CustomBackground;
+            memento.Background = Config.Current.Layout.Background.BackgroundType;
+            memento.PageBackgroundColor = Config.Current.Layout.Background.PageBackgroundColor;
             return memento;
         }
 
+        [Obsolete]
         public void Restore(Memento memento)
         {
             if (memento == null) return;
-            this.CustomBackground = memento.CustomBackground;
-            this.Background = memento.Background;
-            this.PageBackgroundColor = memento.PageBackgroundColor;
+            ////this.CustomBackground = memento.CustomBackground;
+            ////this.Background = memento.Background;
+            ////this.PageBackgroundColor = memento.PageBackgroundColor;
         }
         #endregion
 

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -35,89 +36,48 @@ namespace NeeView
     /// 単色ブラシ、画像タイルブラシ対応
     /// </summary>
     [DataContract]
-    public class BrushSource : BindableBase
+    public class BrushSource : BindableBase, ICloneable
     {
-        /// <summary>
-        /// BackgroundBrushType property.
-        /// </summary>
-        private BrushType _Type;
+        private BrushType _type;
+        private Color _color;
+        private string _imageFileName;
+
+
+        public BrushSource()
+        {
+            _type = BrushType.SolidColor;
+            _color = Colors.LightGray;
+        }
+
+
+        public static Dictionary<BrushType, string> BrushTypeList => AliasNameExtensions.GetAliasNameDictionary<BrushType>();
+
         [DataMember]
         public BrushType Type
         {
-            get { return _Type; }
-            set { if (_Type != value) { _Type = value; RaisePropertyChanged(); } }
+            get { return _type; }
+            set { if (_type != value) { _type = value; RaisePropertyChanged(); } }
         }
 
-        //
-        public static Dictionary<BrushType, string> BrushTypeList => AliasNameExtensions.GetAliasNameDictionary<BrushType>();
-
-        /// <summary>
-        /// Color property.
-        /// </summary>
-        private Color _Color;
         [DataMember]
         public Color Color
         {
-            get { return _Color; }
-            set { if (_Color != value) { _Color = value; RaisePropertyChanged(); } }
+            get { return _color; }
+            set { if (_color != value) { _color = value; RaisePropertyChanged(); } }
         }
 
-        /// <summary>
-        /// ImageFileName property.
-        /// </summary>
-        private string _ImageFileName;
         [DataMember]
         public string ImageFileName
         {
-            get { return _ImageFileName; }
-            set { if (_ImageFileName != value) { _ImageFileName = value; RaisePropertyChanged(); } }
+            get { return _imageFileName; }
+            set { if (_imageFileName != value) { _imageFileName = value; RaisePropertyChanged(); } }
         }
 
-#if false
-        /// <summary>
-        /// Opacity property.
-        /// </summary>
-        private double _Opacity = 1.0;
-        [DataMember]
-        public double Opacity
-        {
-            get { return _Opacity; }
-            set { if (_Opacity != value) { _Opacity = value; RaisePropertyChanged(); } }
-        }
-#endif
-
-        /// <summary>
-        /// Brush property.
-        /// </summary>
-        private Brush _Brush;
-        public Brush Brush
-        {
-            get { return _Brush; }
-            set { if (_Brush != value) { _Brush = value; RaisePropertyChanged(); } }
-        }
-
-        /// <summary>
-        /// コンストラクター
-        /// </summary>
-        public BrushSource()
-        {
-            _Type = BrushType.SolidColor;
-            _Color = Colors.LightGray;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
         public Brush CreateBackBrush()
         {
             return new SolidColorBrush(Color);
         }
 
-        /// <summary>
-        /// ブラシを作成
-        /// </summary>
-        /// <returns></returns>
         public Brush CreateFrontBrush()
         {
             switch (Type)
@@ -133,10 +93,6 @@ namespace NeeView
             }
         }
 
-        /// <summary>
-        /// タイルブラシを作成
-        /// </summary>
-        /// <returns></returns>
         private Brush CreateImageBrush(BrushType type)
         {
             if (string.IsNullOrEmpty(this.ImageFileName))
@@ -183,11 +139,7 @@ namespace NeeView
             }
         }
 
-        /// <summary>
-        /// 複製
-        /// </summary>
-        /// <returns></returns>
-        public BrushSource Clone()
+        public object Clone()
         {
             var clone = (BrushSource)MemberwiseClone();
             clone.ResetPropertyChanged();

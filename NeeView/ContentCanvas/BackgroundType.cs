@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,7 +20,7 @@ namespace NeeView
     /// <summary>
     /// 背景の種類
     /// </summary>
-    public enum BackgroundStyle
+    public enum BackgroundType
     {
         [AliasName("@EnumBackgroundStyleBlack")]
         Black,
@@ -42,9 +43,9 @@ namespace NeeView
 
     public static class BackgroundStyleExceptions
     {
-        public static BackgroundStyle GetToggle(this BackgroundStyle mode)
+        public static BackgroundType GetToggle(this BackgroundType mode)
         {
-            return (BackgroundStyle)(((int)mode + 1) % Enum.GetNames(typeof(BackgroundStyle)).Length);
+            return (BackgroundType)(((int)mode + 1) % Enum.GetNames(typeof(BackgroundType)).Length);
         }
     }
 }

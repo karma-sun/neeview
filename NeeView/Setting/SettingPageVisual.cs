@@ -37,12 +37,12 @@ namespace NeeView.Setting
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Theme, nameof(ThemeConfig.MenuColor)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageVisualGeneralOpacity,
-                    new SettingItemProperty(PropertyMemberElement.Create(SidePanelProfile.Current, nameof(SidePanelProfile.Opacity))),
-                    new SettingItemProperty(PropertyMemberElement.Create(MainWindowModel.Current, nameof(MainWindowModel.SliderOpacity)))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.SidePanels, nameof(SidePanelsConfig.Opacity))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Slider, nameof(SliderConfig.Opacity)))),
 
                 new SettingItemSection(Properties.Resources.SettingPageVisualGeneralBackground,
-                    new SettingItemProperty(PropertyMemberElement.Create(ContentCanvasBrush.Current, nameof(ContentCanvasBrush.CustomBackground)),
-                        new BackgroundSettingControl(ContentCanvasBrush.Current.CustomBackground))),
+                    new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.Background, nameof(BackgroundConfig.CustomBackground)),
+                        new BackgroundSettingControl(Config.Current.Layout.Background.CustomBackground))),
 
                 new SettingItemSection(Properties.Resources.SettingPageVisualGeneralAutoHide,
                     new SettingItemProperty(PropertyMemberElement.Create(Config.Current.Layout.AutoHide, nameof(AutoHideConfig.AutoHideFocusLockMode))),
